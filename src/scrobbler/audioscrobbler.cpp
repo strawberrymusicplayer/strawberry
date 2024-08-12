@@ -19,6 +19,7 @@
 
 #include "config.h"
 
+#include <utility>
 #include <memory>
 
 #include <QList>
@@ -98,8 +99,8 @@ void AudioScrobbler::ReloadSettings() {
 
   settings_->ReloadSettings();
 
-  QList<ScrobblerServicePtr> services = services_.values();
-  for (ScrobblerServicePtr service : services) {
+  const QList<ScrobblerServicePtr> services = services_.values();
+  for (ScrobblerServicePtr service : std::as_const(services)) {
     service->ReloadSettings();
   }
 
@@ -131,7 +132,7 @@ void AudioScrobbler::UpdateNowPlaying(const Song &song) {
 
   qLog(Debug) << "Sending now playing for song" << song.artist() << song.album() << song.title();
 
-  QList<ScrobblerServicePtr> services = GetAll();
+  const QList<ScrobblerServicePtr> services = GetAll();
   for (ScrobblerServicePtr service : services) {
     if (!service->enabled()) continue;
     service->UpdateNowPlaying(song);
@@ -141,7 +142,7 @@ void AudioScrobbler::UpdateNowPlaying(const Song &song) {
 
 void AudioScrobbler::ClearPlaying() {
 
-  QList<ScrobblerServicePtr> services = GetAll();
+  const QList<ScrobblerServicePtr> services = GetAll();
   for (ScrobblerServicePtr service : services) {
     if (!service->enabled()) continue;
     service->ClearPlaying();
@@ -155,7 +156,7 @@ void AudioScrobbler::Scrobble(const Song &song, const qint64 scrobble_point) {
 
   qLog(Debug) << "Scrobbling song" << song.artist() << song.album() << song.title() << "at" << scrobble_point;
 
-  QList<ScrobblerServicePtr> services = GetAll();
+  const QList<ScrobblerServicePtr> services = GetAll();
   for (ScrobblerServicePtr service : services) {
     if (!service->enabled()) continue;
     service->Scrobble(song);
@@ -165,7 +166,7 @@ void AudioScrobbler::Scrobble(const Song &song, const qint64 scrobble_point) {
 
 void AudioScrobbler::Love() {
 
-  QList<ScrobblerServicePtr> services = GetAll();
+  const QList<ScrobblerServicePtr> services = GetAll();
   for (ScrobblerServicePtr service : services) {
     if (!service->enabled() || !service->authenticated()) continue;
     service->Love();
@@ -175,7 +176,7 @@ void AudioScrobbler::Love() {
 
 void AudioScrobbler::Submit() {
 
-  QList<ScrobblerServicePtr> services = GetAll();
+  const QList<ScrobblerServicePtr> services = GetAll();
   for (ScrobblerServicePtr service : services) {
     if (!service->enabled() || !service->authenticated() || service->submitted()) continue;
     service->StartSubmit();
@@ -185,7 +186,7 @@ void AudioScrobbler::Submit() {
 
 void AudioScrobbler::WriteCache() {
 
-  QList<ScrobblerServicePtr> services = GetAll();
+  const QList<ScrobblerServicePtr> services = GetAll();
   for (ScrobblerServicePtr service : services) {
     if (!service->enabled()) continue;
     service->WriteCache();

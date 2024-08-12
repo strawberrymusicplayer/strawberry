@@ -149,7 +149,8 @@ void SmartPlaylistSearchTermWidget::FieldChanged(int index) {
   // Populate the operator combo box
   if (type != current_field_type_) {
     ui_->op->clear();
-    for (const SmartPlaylistSearchTerm::Operator op : SmartPlaylistSearchTerm::OperatorsForType(type)) {
+    const SmartPlaylistSearchTerm::OperatorList operators = SmartPlaylistSearchTerm::OperatorsForType(type);
+    for (const SmartPlaylistSearchTerm::Operator op : operators) {
       const int i = ui_->op->count();
       ui_->op->addItem(SmartPlaylistSearchTerm::OperatorText(type, op));
       ui_->op->setItemData(i, QVariant::fromValue(op));

@@ -21,6 +21,8 @@
 
 #include "config.h"
 
+#include <utility>
+
 #include <QtGlobal>
 #include <QGuiApplication>
 #include <QtConcurrentRun>
@@ -421,7 +423,7 @@ void AlbumCoverChoiceController::ShowCover(const Song &song, const QImage &image
     }
   }
 
-  for (const AlbumCoverLoaderOptions::Type type : cover_types_) {
+  for (const AlbumCoverLoaderOptions::Type type : std::as_const(cover_types_)) {
     switch (type) {
       case AlbumCoverLoaderOptions::Type::Unset:{
         if (song.art_unset()) {
@@ -757,7 +759,8 @@ bool AlbumCoverChoiceController::IsKnownImageExtension(const QString &suffix) {
 
 bool AlbumCoverChoiceController::CanAcceptDrag(const QDragEnterEvent *e) {
 
-  for (const QUrl &url : e->mimeData()->urls()) {
+  const QList<QUrl> urls = e->mimeData()->urls();
+  for (const QUrl &url : urls) {
     const QString suffix = QFileInfo(url.toLocalFile()).suffix().toLower();
     if (IsKnownImageExtension(suffix)) return true;
   }
@@ -767,7 +770,8 @@ bool AlbumCoverChoiceController::CanAcceptDrag(const QDragEnterEvent *e) {
 
 void AlbumCoverChoiceController::SaveCover(Song *song, const QDropEvent *e) {
 
-  for (const QUrl &url : e->mimeData()->urls()) {
+  const QList<QUrl> urls = e->mimeData()->urls();
+  for (const QUrl &url : urls) {
 
     const QString filename = url.toLocalFile();
     const QString suffix = QFileInfo(filename).suffix().toLower();

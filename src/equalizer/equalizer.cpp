@@ -329,7 +329,7 @@ void Equalizer::Save() {
   // Presets
   s.beginWriteArray("presets", static_cast<int>(presets_.count()));
   int i = 0;
-  QStringList presets = presets_.keys();
+  const QStringList presets = presets_.keys();
   for (const QString &name : presets) {
     s.setArrayIndex(i++);
     s.setValue("name", name);

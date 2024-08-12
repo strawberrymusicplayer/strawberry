@@ -209,9 +209,9 @@ void MusixmatchCoverProvider::HandleSearchReply(QNetworkReply *reply, const int 
     return;
   }
 
-  QList<QPair<QString, QSize>> cover_sizes = QList<QPair<QString, QSize>>() << qMakePair(QStringLiteral("coverImage800x800"), QSize(800, 800))
-                                                                            << qMakePair(QStringLiteral("coverImage500x500"), QSize(500, 500))
-                                                                            << qMakePair(QStringLiteral("coverImage350x350"), QSize(350, 350));
+  const QList<QPair<QString, QSize>> cover_sizes = QList<QPair<QString, QSize>>() << qMakePair(QStringLiteral("coverImage800x800"), QSize(800, 800))
+                                                                                  << qMakePair(QStringLiteral("coverImage500x500"), QSize(500, 500))
+                                                                                  << qMakePair(QStringLiteral("coverImage350x350"), QSize(350, 350));
 
   for (const QPair<QString, QSize> &cover_size : cover_sizes) {
     if (!obj_data.contains(cover_size.first)) continue;

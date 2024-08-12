@@ -19,6 +19,8 @@
 
 #include "config.h"
 
+#include <utility>
+
 #include <QObject>
 #include <QList>
 #include <QByteArray>
@@ -470,14 +472,14 @@ void TidalRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_re
     return;
   }
 
-  QJsonArray array_items = value_items.toArray();
+  const QJsonArray array_items = value_items.toArray();
   if (array_items.isEmpty()) {  // Empty array means no results
     ArtistsFinishCheck();
     return;
   }
 
   int artists_received = 0;
-  for (const QJsonValueRef value_item : array_items) {
+  for (const QJsonValue &value_item : array_items) {
 
     ++artists_received;
 
@@ -540,7 +542,7 @@ void TidalRequest::ArtistsFinishCheck(const int limit, const int offset, const i
   if (artists_requests_queue_.isEmpty() && artists_requests_active_ <= 0) {  // Artist query is finished, get all albums for all artists.
 
     // Get artist albums
-    QList<ArtistAlbumsRequest> requests = artist_albums_requests_pending_.values();
+    const QList<ArtistAlbumsRequest> requests = artist_albums_requests_pending_.values();
     for (const ArtistAlbumsRequest &request : requests) {
       AddArtistAlbumsRequest(request.artist);
     }
@@ -652,14 +654,14 @@ void TidalRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_req
     AlbumsFinishCheck(artist_requested);
     return;
   }
-  QJsonArray array_items = value_items.toArray();
+  const QJsonArray array_items = value_items.toArray();
   if (array_items.isEmpty()) {
     AlbumsFinishCheck(artist_requested);
     return;
   }
 
   int albums_received = 0;
-  for (const QJsonValueRef value_item : array_items) {
+  for (const QJsonValue &value_item : array_items) {
 
     ++albums_received;
 
@@ -930,7 +932,7 @@ void TidalRequest::SongsReceived(QNetworkReply *reply, const Artist &artist, con
     return;
   }
 
-  QJsonArray array_items = json_value.toArray();
+  const QJsonArray array_items = json_value.toArray();
   if (array_items.isEmpty()) {
     SongsFinishCheck(artist, album, limit_requested, offset_requested, songs_total, 0);
     return;
@@ -940,7 +942,7 @@ void TidalRequest::SongsReceived(QNetworkReply *reply, const Artist &artist, con
   bool multidisc = false;
   SongList songs;
   int songs_received = 0;
-  for (const QJsonValueRef value_item : array_items) {
+  for (const QJsonValue &value_item : array_items) {
 
     if (!value_item.isObject()) {
       Error(QStringLiteral("Invalid Json reply, track is not a object."));
@@ -966,7 +968,7 @@ void TidalRequest::SongsReceived(QNetworkReply *reply, const Artist &artist, con
     songs << song;
   }
 
-  for (Song song : songs) {
+  for (Song song : std::as_const(songs)) {
     if (compilation) song.set_compilation_detected(true);
     if (!multidisc) song.set_disc(0);
     songs_.insert(song.song_id(), song);

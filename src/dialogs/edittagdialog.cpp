@@ -21,8 +21,9 @@
 
 #include "config.h"
 
-#include <functional>
 #include <algorithm>
+#include <utility>
+#include <functional>
 #include <iterator>
 #include <limits>
 
@@ -152,7 +153,8 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
 
   // An editable field is one that has a label as a buddy.
   // The label is important because it gets turned bold when the field is changed.
-  for (QLabel *label : findChildren<QLabel*>()) {
+  QList<QLabel*> labels = findChildren<QLabel*>();
+  for (QLabel *label : std::as_const(labels)) {
     QWidget *widget = label->buddy();
     if (widget) {
       // Store information about the field
@@ -191,7 +193,8 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
   QPalette summary_label_palette(palette());
   summary_label_palette.setColor(QPalette::WindowText, light ? color.lighter(150) : color.darker(150));
 
-  for (QLabel *label : ui_->tab_summary->findChildren<QLabel*>()) {
+  labels = ui_->tab_summary->findChildren<QLabel*>();
+  for (QLabel *label : std::as_const(labels)) {
     if (label->property("field_label").toBool()) {
       label->setPalette(summary_label_palette);
     }
@@ -453,7 +456,7 @@ void EditTagDialog::SetSongsFinished() {
   }
 
   // Add the filenames to the list
-  for (const Data &tag_data : data_) {
+  for (const Data &tag_data : std::as_const(data_)) {
     ui_->song_list->addItem(tag_data.current_.basefilename());
   }
 
@@ -757,7 +760,7 @@ void EditTagDialog::SelectionChanged() {
 void EditTagDialog::UpdateUI(const QModelIndexList &indexes) {
 
   ignore_edits_ = true;
-  for (const FieldData &field : fields_) {
+  for (const FieldData &field : std::as_const(fields_)) {
     InitFieldValue(field, indexes);
   }
   ignore_edits_ = false;
@@ -926,7 +929,8 @@ void EditTagDialog::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderRes
     }
     Song first_song;
     UpdateCoverAction cover_action = UpdateCoverAction::None;
-    for (const QModelIndex &idx : ui_->song_list->selectionModel()->selectedIndexes()) {
+    const QModelIndexList indexes = ui_->song_list->selectionModel()->selectedIndexes();
+    for (const QModelIndex &idx : indexes) {
       data_[idx.row()].cover_result_ = result.album_cover;
       if (!first_song.is_valid()) {
         first_song = data_[idx.row()].current_;
@@ -967,7 +971,7 @@ void EditTagDialog::FieldValueEdited() {
   QWidget *w = qobject_cast<QWidget*>(sender());
 
   // Find the field
-  for (const FieldData &field : fields_) {
+  for (const FieldData &field : std::as_const(fields_)) {
     if (field.editor_ == w) {
       UpdateFieldValue(field, sel);
       return;
@@ -986,7 +990,7 @@ void EditTagDialog::ResetField() {
   QWidget *w = qobject_cast<QWidget*>(sender());
 
   // Find the field
-  for (const FieldData &field : fields_) {
+  for (const FieldData &field : std::as_const(fields_)) {
     if (field.editor_ == w) {
       ignore_edits_ = true;
       ResetFieldValue(field, sel);

@@ -20,6 +20,7 @@
 #include "config.h"
 
 #include <algorithm>
+#include <utility>
 
 #include <QObject>
 #include <QMimeDatabase>
@@ -122,7 +123,7 @@ void QobuzStreamURLRequest::GetStreamURL() {
 
   QString data_to_sign;
   data_to_sign += QLatin1String("trackgetFileUrl");
-  for (const Param &param : params_to_sign) {
+  for (const Param &param : std::as_const(params_to_sign)) {
     data_to_sign += param.first + param.second;
   }
   data_to_sign += QString::number(timestamp);
@@ -192,7 +193,7 @@ void QobuzStreamURLRequest::StreamURLReceived() {
 
   Song::FileType filetype(Song::FileType::Unknown);
   QMimeDatabase mimedb;
-  QStringList suffixes = mimedb.mimeTypeForName(mimetype).suffixes();
+  const QStringList suffixes = mimedb.mimeTypeForName(mimetype).suffixes();
   for (const QString &suffix : suffixes) {
     filetype = Song::FiletypeByExtension(suffix);
     if (filetype != Song::FileType::Unknown) break;

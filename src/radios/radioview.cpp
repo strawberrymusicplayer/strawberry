@@ -17,6 +17,8 @@
  *
  */
 
+#include <utility>
+
 #include <QWidget>
 #include <QMimeData>
 #include <QDesktopServices>
@@ -154,7 +156,7 @@ void RadioView::Homepage() {
     }
   }
 
-  for (const QUrl &url : urls) {
+  for (const QUrl &url : std::as_const(urls)) {
     QDesktopServices::openUrl(url);
   }
 
@@ -173,7 +175,7 @@ void RadioView::Donate() {
     }
   }
 
-  for (const QUrl &url : urls) {
+  for (const QUrl &url : std::as_const(urls)) {
     QDesktopServices::openUrl(url);
   }
 

@@ -19,6 +19,8 @@
 
 #include "config.h"
 
+#include <utility>
+
 #include <QObject>
 #include <QList>
 #include <QByteArray>
@@ -471,7 +473,7 @@ void QobuzRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_re
     return;
   }
 
-  QJsonArray array_items = value_items.toArray();
+  const QJsonArray array_items = value_items.toArray();
   if (array_items.isEmpty()) {  // Empty array means no results
     if (offset_requested == 0) no_results_ = true;
     ArtistsFinishCheck();
@@ -479,7 +481,7 @@ void QobuzRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_re
   }
 
   int artists_received = 0;
-  for (const QJsonValueRef value_item : array_items) {
+  for (const QJsonValue &value_item : array_items) {
 
     ++artists_received;
 
@@ -542,7 +544,7 @@ void QobuzRequest::ArtistsFinishCheck(const int limit, const int offset, const i
   if (artists_requests_queue_.isEmpty() && artists_requests_active_ <= 0) {  // Artist query is finished, get all albums for all artists.
 
     // Get artist albums
-    QList<ArtistAlbumsRequest> requests = artist_albums_requests_pending_.values();
+    const QList<ArtistAlbumsRequest> requests = artist_albums_requests_pending_.values();
     for (const ArtistAlbumsRequest &request : requests) {
       AddArtistAlbumsRequest(request.artist);
     }
@@ -687,7 +689,7 @@ void QobuzRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_req
     AlbumsFinishCheck(artist_requested);
     return;
   }
-  QJsonArray array_items = value_items.toArray();
+  const QJsonArray array_items = value_items.toArray();
   if (array_items.isEmpty()) {
     if ((query_type_ == Type::FavouriteAlbums || query_type_ == Type::SearchAlbums) && offset_requested == 0) {
       no_results_ = true;
@@ -697,7 +699,7 @@ void QobuzRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_req
   }
 
   int albums_received = 0;
-  for (const QJsonValueRef value_item : array_items) {
+  for (const QJsonValue &value_item : array_items) {
 
     ++albums_received;
 
@@ -982,7 +984,7 @@ void QobuzRequest::SongsReceived(QNetworkReply *reply, const Artist &artist_requ
     return;
   }
 
-  QJsonArray array_items = value_items.toArray();
+  const QJsonArray array_items = value_items.toArray();
   if (array_items.isEmpty()) {
     if ((query_type_ == Type::FavouriteSongs || query_type_ == Type::SearchSongs) && offset_requested == 0) {
       no_results_ = true;
@@ -995,7 +997,7 @@ void QobuzRequest::SongsReceived(QNetworkReply *reply, const Artist &artist_requ
   bool multidisc = false;
   SongList songs;
   int songs_received = 0;
-  for (const QJsonValueRef value_item : array_items) {
+  for (const QJsonValue &value_item : array_items) {
 
     if (!value_item.isObject()) {
       Error(QStringLiteral("Invalid Json reply, track is not a object."));
@@ -1012,7 +1014,7 @@ void QobuzRequest::SongsReceived(QNetworkReply *reply, const Artist &artist_requ
     songs << song;
   }
 
-  for (Song song : songs) {
+  for (Song song : std::as_const(songs)) {
     if (compilation) song.set_compilation_detected(true);
     if (!multidisc) song.set_disc(0);
     songs_.insert(song.song_id(), song);

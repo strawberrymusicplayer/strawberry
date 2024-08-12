@@ -239,7 +239,7 @@ void SubsonicRequest::AlbumsReplyReceived(QNetworkReply *reply, const int offset
     Error(QStringLiteral("Json album is not an array."), json_album);
     AlbumsFinishCheck(offset_requested, size_requested);
   }
-  QJsonArray array_albums = json_album.toArray();
+  const QJsonArray array_albums = json_album.toArray();
 
   if (array_albums.isEmpty()) {
     if (offset_requested == 0) no_results_ = true;
@@ -248,7 +248,7 @@ void SubsonicRequest::AlbumsReplyReceived(QNetworkReply *reply, const int offset
   }
 
   int albums_received = 0;
-  for (const QJsonValueRef value_album : array_albums) {
+  for (const QJsonValue &value_album : array_albums) {
 
     ++albums_received;
 
@@ -425,7 +425,7 @@ void SubsonicRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const QStrin
     SongsFinishCheck();
     return;
   }
-  QJsonArray array_songs = json_song.toArray();
+  const QJsonArray array_songs = json_song.toArray();
 
   qint64 created = 0;
   if (obj_album.contains(QLatin1String("created"))) {
@@ -435,7 +435,7 @@ void SubsonicRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const QStrin
   bool compilation = false;
   bool multidisc = false;
   SongList songs;
-  for (const QJsonValueRef value_song : array_songs) {
+  for (const QJsonValue &value_song : array_songs) {
 
     if (!value_song.isObject()) {
       Error(QStringLiteral("Invalid Json reply, track is not a object."));
@@ -451,7 +451,7 @@ void SubsonicRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const QStrin
     songs << song;
   }
 
-  for (Song song : songs) {
+  for (Song song : std::as_const(songs)) {
     if (compilation) song.set_compilation_detected(true);
     if (!multidisc) {
       song.set_disc(0);
@@ -641,7 +641,7 @@ QString SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_obj, cons
   Song::FileType filetype(Song::FileType::Stream);
   if (!mimetype.isEmpty()) {
     QMimeDatabase mimedb;
-    QStringList suffixes = mimedb.mimeTypeForName(mimetype).suffixes();
+    const QStringList suffixes = mimedb.mimeTypeForName(mimetype).suffixes();
     for (const QString &suffix : suffixes) {
       filetype = Song::FiletypeByExtension(suffix);
       if (filetype != Song::FileType::Unknown) break;

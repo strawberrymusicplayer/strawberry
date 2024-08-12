@@ -20,6 +20,7 @@
 #include "config.h"
 
 #include <algorithm>
+#include <utility>
 
 #include <QObject>
 #include <QByteArray>
@@ -57,7 +58,7 @@ QNetworkReply *QobuzBaseRequest::CreateRequest(const QString &ressource_name, co
   std::sort(params.begin(), params.end());
 
   QUrlQuery url_query;
-  for (const Param &param : params) {
+  for (const Param &param : std::as_const(params)) {
     url_query.addQueryItem(QString::fromLatin1(QUrl::toPercentEncoding(param.first)), QString::fromLatin1(QUrl::toPercentEncoding(param.second)));
   }
 

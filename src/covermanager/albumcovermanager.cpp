@@ -22,6 +22,7 @@
 #include "config.h"
 
 #include <algorithm>
+#include <utility>
 
 #include <QObject>
 #include <QMainWindow>
@@ -351,7 +352,7 @@ void AlbumCoverManager::Reset() {
   QStringList artists(collection_backend_->GetAllArtistsWithAlbums());
   std::stable_sort(artists.begin(), artists.end(), CompareNocase);
 
-  for (const QString &artist : artists) {
+  for (const QString &artist : std::as_const(artists)) {
     if (artist.isEmpty()) continue;
     new QListWidgetItem(artist_icon_, artist, ui_->artists, Specific_Artist);
   }
@@ -388,7 +389,7 @@ void AlbumCoverManager::ArtistChanged(QListWidgetItem *current) {
   // Sort by album name.  The list is already sorted by sqlite but it was done case sensitively.
   std::stable_sort(albums.begin(), albums.end(), CompareAlbumNameNocase);
 
-  for (const CollectionBackend::Album &album_info : albums) {
+  for (const CollectionBackend::Album &album_info : std::as_const(albums)) {
 
     // Don't show songs without an album, obviously
     if (album_info.album.isEmpty()) continue;
@@ -499,7 +500,7 @@ bool AlbumCoverManager::ShouldHide(const AlbumItem &album_item, const QString &f
     return false;
   }
 
-  QStringList query = filter.split(QLatin1Char(' '));
+  const QStringList query = filter.split(QLatin1Char(' '));
   for (const QString &s : query) {
     bool in_text = album_item.text().contains(s, Qt::CaseInsensitive);
     bool in_albumartist = album_item.data(Role_AlbumArtist).toString().contains(s, Qt::CaseInsensitive);
@@ -590,7 +591,7 @@ bool AlbumCoverManager::eventFilter(QObject *obj, QEvent *e) {
     bool some_unset = false;
     bool some_clear = false;
 
-    for (QListWidgetItem *list_widget_item : context_menu_items_) {
+    for (QListWidgetItem *list_widget_item : std::as_const(context_menu_items_)) {
       AlbumItem *album_item = static_cast<AlbumItem*>(list_widget_item);
       if (ItemHasCover(*album_item)) some_with_covers = true;
       if (album_item->data(Role_ArtUnset).toBool()) {
@@ -672,7 +673,7 @@ void AlbumCoverManager::ShowCover() {
 
 void AlbumCoverManager::FetchSingleCover() {
 
-  for (QListWidgetItem *list_widget_item : context_menu_items_) {
+  for (QListWidgetItem *list_widget_item : std::as_const(context_menu_items_)) {
     AlbumItem *album_item = static_cast<AlbumItem*>(list_widget_item);
     quint64 id = cover_fetcher_->FetchAlbumCover(album_item->data(Role_AlbumArtist).toString(), album_item->data(Role_Album).toString(), QString(), false);
     cover_fetching_tasks_[id] = album_item;
@@ -713,7 +714,7 @@ void AlbumCoverManager::SaveCoverToFile() {
 
   // Load the image from disk
   AlbumCoverImageResult result;
-  for (const AlbumCoverLoaderOptions::Type cover_type : cover_types_) {
+  for (const AlbumCoverLoaderOptions::Type cover_type : std::as_const(cover_types_)) {
     switch (cover_type) {
       case AlbumCoverLoaderOptions::Type::Unset:
         return;
@@ -793,7 +794,7 @@ void AlbumCoverManager::SaveImageToAlbums(Song *song, const AlbumCoverImageResul
   // Force the found cover on all of the selected items
   QList<QUrl> urls;
   QList<AlbumItem*> album_items;
-  for (QListWidgetItem *list_widget_item : context_menu_items_) {
+  for (QListWidgetItem *list_widget_item : std::as_const(context_menu_items_)) {
     AlbumItem *album_item = static_cast<AlbumItem*>(list_widget_item);
     switch (album_cover_choice_controller_->get_save_album_cover_type()) {
       case CoverOptions::CoverType::Cache:
@@ -804,7 +805,7 @@ void AlbumCoverManager::SaveImageToAlbums(Song *song, const AlbumCoverImageResul
         break;
       }
       case CoverOptions::CoverType::Embedded:{
-        for (const QUrl &url : album_item->urls) {
+        for (const QUrl &url : std::as_const(album_item->urls)) {
           const bool art_embedded = !result.image_data.isEmpty();
           TagReaderReply *reply = app_->tag_reader_client()->SaveEmbeddedArt(url.toLocalFile(), TagReaderClient::SaveCoverOptions(result.image_data, result.mime_type));
           QObject::connect(reply, &TagReaderReply::Finished, this, [this, reply, album_item, url, art_embedded]() {
@@ -826,7 +827,7 @@ void AlbumCoverManager::UnsetCover() {
   if (context_menu_items_.isEmpty()) return;
 
   // Force the 'none' cover on all of the selected items
-  for (QListWidgetItem *list_widget_item : context_menu_items_) {
+  for (QListWidgetItem *list_widget_item : std::as_const(context_menu_items_)) {
     AlbumItem *album_item = static_cast<AlbumItem*>(list_widget_item);
     album_item->setIcon(icon_nocover_item_);
     album_item->setData(Role_ArtEmbedded, false);
@@ -845,7 +846,7 @@ void AlbumCoverManager::ClearCover() {
   if (context_menu_items_.isEmpty()) return;
 
   // Force the 'none' cover on all of the selected items
-  for (QListWidgetItem *list_widget_item : context_menu_items_) {
+  for (QListWidgetItem *list_widget_item : std::as_const(context_menu_items_)) {
     AlbumItem *album_item = static_cast<AlbumItem*>(list_widget_item);
     album_item->setIcon(icon_nocover_item_);
     album_item->setData(Role_ArtEmbedded, false);
@@ -861,7 +862,7 @@ void AlbumCoverManager::ClearCover() {
 
 void AlbumCoverManager::DeleteCover() {
 
-  for (QListWidgetItem *list_widget_item : context_menu_items_) {
+  for (QListWidgetItem *list_widget_item : std::as_const(context_menu_items_)) {
     AlbumItem *album_item = static_cast<AlbumItem*>(list_widget_item);
     Song song = AlbumItemAsSong(album_item);
     album_cover_choice_controller_->DeleteCover(&song);

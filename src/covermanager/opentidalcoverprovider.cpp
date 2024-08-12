@@ -19,6 +19,8 @@
 
 #include "config.h"
 
+#include <utility>
+
 #include <QtGlobal>
 #include <QObject>
 #include <QList>
@@ -284,7 +286,7 @@ QJsonObject OpenTidalCoverProvider::GetJsonObject(QNetworkReply *reply) {
     }
     QJsonObject json_obj = ExtractJsonObj(data);
     if (json_obj.contains(QLatin1String("errors")) && json_obj[QLatin1String("errors")].isArray()) {
-      QJsonArray array = json_obj[QLatin1String("errors")].toArray();
+      const QJsonArray array = json_obj[QLatin1String("errors")].toArray();
       for (const QJsonValue &value : array) {
         if (!value.isObject()) continue;
         QJsonObject obj = value.toObject();
@@ -367,7 +369,7 @@ void OpenTidalCoverProvider::HandleSearchReply(QNetworkReply *reply, SearchReque
     return;
   }
 
-  QJsonArray array_albums = json_obj[QLatin1String("albums")].toArray();
+  const QJsonArray array_albums = json_obj[QLatin1String("albums")].toArray();
   if (array_albums.isEmpty()) {
     emit SearchFinished(search_request->id, CoverProviderSearchResults());
     return;
@@ -375,7 +377,7 @@ void OpenTidalCoverProvider::HandleSearchReply(QNetworkReply *reply, SearchReque
 
   CoverProviderSearchResults results;
   int i = 0;
-  for (const QJsonValueRef value_album : array_albums) {
+  for (const QJsonValue &value_album : array_albums) {
 
     if (!value_album.isObject()) {
       qLog(Debug) << "OpenTidal: Invalid Json reply: Albums array value is not a object.";
@@ -407,8 +409,8 @@ void OpenTidalCoverProvider::HandleSearchReply(QNetworkReply *reply, SearchReque
     QString artist;
     const QString album = obj_resource[QLatin1String("title")].toString();
 
-    QJsonArray array_artists = obj_resource[QLatin1String("artists")].toArray();
-    for (const QJsonValueRef value_artist : array_artists) {
+    const QJsonArray array_artists = obj_resource[QLatin1String("artists")].toArray();
+    for (const QJsonValue &value_artist : array_artists) {
       if (!value_artist.isObject()) {
         continue;
       }
@@ -420,8 +422,8 @@ void OpenTidalCoverProvider::HandleSearchReply(QNetworkReply *reply, SearchReque
       break;
     }
 
-    QJsonArray array_covers = obj_resource[QLatin1String("imageCover")].toArray();
-    for (const QJsonValueRef value_cover : array_covers) {
+    const QJsonArray array_covers = obj_resource[QLatin1String("imageCover")].toArray();
+    for (const QJsonValue &value_cover : array_covers) {
       if (!value_cover.isObject()) {
         continue;
       }

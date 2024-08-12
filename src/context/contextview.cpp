@@ -19,6 +19,8 @@
 
 #include "config.h"
 
+#include <utility>
+
 #include <QtGlobal>
 #include <QObject>
 #include <QWidget>
@@ -429,10 +431,10 @@ void ContextView::NoSong() {
 
 void ContextView::UpdateFonts() {
 
-  for (QLabel *l : labels_play_all_) {
+  for (QLabel *l : std::as_const(labels_play_all_)) {
     l->setFont(font_normal_);
   }
-  for (QTextEdit *e : textedit_play_) {
+  for (QTextEdit *e : std::as_const(textedit_play_)) {
     e->setFont(font_normal_);
   }
 
@@ -620,11 +622,11 @@ void ContextView::UpdateSong(const Song &song) {
 
 void ContextView::ResetSong() {
 
-  for (QLabel *l : labels_play_data_) {
+  for (QLabel *l : std::as_const(labels_play_data_)) {
     l->clear();
   }
 
-  for (QTextEdit *l : textedit_play_) {
+  for (QTextEdit *l : std::as_const(textedit_play_)) {
     l->clear();
   }
 

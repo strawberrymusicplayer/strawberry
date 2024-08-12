@@ -19,6 +19,7 @@
 
 #include "config.h"
 
+#include <utility>
 #include <memory>
 
 #include <QObject>
@@ -763,7 +764,7 @@ void QobuzService::LoginError(const QString &error, const QVariant &debug) {
   if (!error.isEmpty()) login_errors_ << error;
 
   QString error_html;
-  for (const QString &e : login_errors_) {
+  for (const QString &e : std::as_const(login_errors_)) {
     qLog(Error) << "Qobuz:" << e;
     error_html += e + QStringLiteral("<br />");
   }

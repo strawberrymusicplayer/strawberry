@@ -19,6 +19,8 @@
 
 #include "config.h"
 
+#include <utility>
+
 #include <QtGlobal>
 #include <QWidget>
 #include <QSettings>
@@ -308,7 +310,8 @@ void BackendSettingsPage::Load_Output(QString output, QVariant device) {
   if (output.isEmpty()) output = engine()->DefaultOutput();
 
   ui_->combobox_output->clear();
-  for (const EngineBase::OutputDetails &o : engine()->GetOutputsList()) {
+  const EngineBase::OutputDetailsList outputs = engine()->GetOutputsList();
+  for (const EngineBase::OutputDetails &o : outputs) {
     ui_->combobox_output->addItem(IconLoader::Load(o.iconname), o.description, QVariant::fromValue(o));
   }
   if (ui_->combobox_output->count() > 1) ui_->combobox_output->setEnabled(true);
@@ -370,9 +373,11 @@ void BackendSettingsPage::Load_Device(const QString &output, const QVariant &dev
 #endif
     ui_->combobox_device->addItem(IconLoader::Load(QStringLiteral("soundcard")), QLatin1String(kOutputAutomaticallySelect), QVariant());
 
-  for (DeviceFinder *f : dialog()->app()->device_finders()->ListFinders()) {
+  const QList<DeviceFinder*> device_finders = dialog()->app()->device_finders()->ListFinders();
+  for (DeviceFinder *f : device_finders) {
     if (!f->outputs().contains(output)) continue;
-    for (const EngineDevice &d : f->ListDevices()) {
+    const EngineDeviceList engine_devices = f->ListDevices();
+    for (const EngineDevice &d : engine_devices) {
       devices++;
       ui_->combobox_device->addItem(IconLoader::Load(d.iconname), d.description, d.value);
       if (d.value == device) { df_device = d; }

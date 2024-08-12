@@ -24,6 +24,7 @@
 
 #include "application.h"
 
+#include <utility>
 #include <functional>
 #include <chrono>
 
@@ -257,11 +258,11 @@ Application::~Application() {
 
    qLog(Debug) << "Terminating application";
 
-  for (QThread *thread : threads_) {
+  for (QThread *thread : std::as_const(threads_)) {
     thread->quit();
   }
 
-  for (QThread *thread : threads_) {
+  for (QThread *thread : std::as_const(threads_)) {
     thread->wait();
     thread->deleteLater();
   }

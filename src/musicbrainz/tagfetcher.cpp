@@ -154,4 +154,3 @@ void TagFetcher::TagsFetched(const int index, const MusicBrainzClient::ResultLis
   emit ResultAvailable(original_song, songs_guessed, error);
 
 }
-

@@ -19,6 +19,7 @@
 
 #include "config.h"
 
+#include <utility>
 #include <memory>
 
 #include <QtGlobal>
@@ -202,7 +203,7 @@ void ContextAlbum::DrawSpinner(QPainter *p) {
 
 void ContextAlbum::DrawPreviousCovers(QPainter *p) {
 
-  for (SharedPtr<PreviousCover> previous_cover : previous_covers_) {
+  for (SharedPtr<PreviousCover> previous_cover : std::as_const(previous_covers_)) {
     DrawImage(p, previous_cover->pixmap, previous_cover->opacity);
   }
 
@@ -254,7 +255,7 @@ void ContextAlbum::ScaleCover() {
 
 void ContextAlbum::ScalePreviousCovers() {
 
-  for (SharedPtr<PreviousCover> previous_cover : previous_covers_) {
+  for (SharedPtr<PreviousCover> previous_cover : std::as_const(previous_covers_)) {
     QImage image = ImageUtils::ScaleImage(previous_cover->image, QSize(desired_height_, desired_height_), devicePixelRatioF(), true);
     if (image.isNull()) {
       previous_cover->pixmap = QPixmap();

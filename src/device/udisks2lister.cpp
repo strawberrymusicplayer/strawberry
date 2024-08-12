@@ -21,8 +21,8 @@
 
 #include "config.h"
 
-#include <memory>
 #include <utility>
+#include <memory>
 
 #include <QtGlobal>
 #include <QMutex>
@@ -200,7 +200,7 @@ bool Udisks2Lister::Init() {
     return false;
   }
 
-  QList<QDBusObjectPath> paths = reply.value().keys();
+  const QList<QDBusObjectPath> paths = reply.value().keys();
   for (const QDBusObjectPath &path : paths) {
     PartitionData partition_data = ReadPartitionData(path);
 
@@ -210,7 +210,7 @@ bool Udisks2Lister::Init() {
     }
   }
 
-  QStringList ids = device_data_.keys();
+  const QStringList ids = device_data_.keys();
   for (const QString &id : ids) {
     emit DeviceAdded(id);
   }
@@ -326,7 +326,7 @@ void Udisks2Lister::JobCompleted(const bool success, const QString &message) {
 
   qLog(Debug) << "Pending Job Completed | Path = " << job->path() << " | Mount? = " << mounting_jobs_[jobPath].is_mount << " | Success = " << success;
 
-  for (const auto &mounted_object : mounting_jobs_[jobPath].mounted_partitions) {
+  for (const auto &mounted_object : std::as_const(mounting_jobs_[jobPath].mounted_partitions)) {
     auto partition_data = ReadPartitionData(mounted_object);
     if (partition_data.dbus_path.isEmpty()) continue;
 
@@ -394,7 +394,8 @@ Udisks2Lister::PartitionData Udisks2Lister::ReadPartitionData(const QDBusObjectP
         result.friendly_name = result.label;
       }
 
-      for (const QByteArray &p : filesystem.mountPoints()) {
+      const QList<QByteArray> mountpoints = filesystem.mountPoints();
+      for (const QByteArray &p : mountpoints) {
         const QString mountpoint = QString::fromUtf8(p.data(), static_cast<qint64>(qstrlen(p.data())));
         result.mount_paths.push_back(mountpoint);
       }

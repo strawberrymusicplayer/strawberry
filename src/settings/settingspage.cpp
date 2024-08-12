@@ -56,7 +56,7 @@ void SettingsPage::Init(QWidget *ui_widget) {
   sliders_.clear();
   lineedits_.clear();
 
-  QList<QWidget*> list = ui_widget_->findChildren<QWidget*>(QString(), Qt::FindChildrenRecursively);
+  const QList<QWidget*> list = ui_widget_->findChildren<QWidget*>(QString(), Qt::FindChildrenRecursively);
   for (QWidget *w : list) {
     if (QCheckBox *checkbox = qobject_cast<QCheckBox*>(w)) {
       checkboxes_ << qMakePair(checkbox, checkbox->checkState());

@@ -18,6 +18,7 @@
 
 #include "config.h"
 
+#include <utility>
 #include <memory>
 #include <string>
 
@@ -73,7 +74,7 @@ void TagReaderWorker::DeviceClosed() {
 
 void TagReaderWorker::HandleMessage(const spb::tagreader::Message &message, spb::tagreader::Message &reply) {
 
-  for (shared_ptr<TagReaderBase> reader : tagreaders_) {
+  for (shared_ptr<TagReaderBase> reader : std::as_const(tagreaders_)) {
 
     if (message.has_is_media_file_request()) {
       const QString filename = QString::fromStdString(message.is_media_file_request().filename());

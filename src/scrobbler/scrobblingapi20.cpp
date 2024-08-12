@@ -20,6 +20,7 @@
 #include "config.h"
 
 #include <algorithm>
+#include <utility>
 
 #include <QApplication>
 #include <QDesktopServices>
@@ -279,7 +280,8 @@ void ScrobblingAPI20::RequestSession(const QString &token) {
   session_url_query.addQueryItem(QStringLiteral("method"), QStringLiteral("auth.getSession"));
   session_url_query.addQueryItem(QStringLiteral("token"), token);
   QString data_to_sign;
-  for (const Param &param : session_url_query.queryItems()) {
+  const ParamList params = session_url_query.queryItems();
+  for (const Param &param : params) {
     data_to_sign += param.first + param.second;
   }
   data_to_sign += QLatin1String(kSecret);
@@ -360,7 +362,7 @@ QNetworkReply *ScrobblingAPI20::CreateRequest(const ParamList &request_params) {
 
   QUrlQuery url_query;
   QString data_to_sign;
-  for (const Param &param : params) {
+  for (const Param &param : std::as_const(params)) {
     EncodedParam encoded_param(QUrl::toPercentEncoding(param.first), QUrl::toPercentEncoding(param.second));
     url_query.addQueryItem(QString::fromLatin1(encoded_param.first), QString::fromLatin1(encoded_param.second));
     data_to_sign += param.first + param.second;
@@ -493,7 +495,7 @@ void ScrobblingAPI20::Submit() {
   ParamList params = ParamList() << Param(QStringLiteral("method"), QStringLiteral("track.scrobble"));
 
   int i = 0;
-  ScrobblerCacheItemPtrList all_cache_items = cache_->List();
+  const ScrobblerCacheItemPtrList all_cache_items = cache_->List();
   ScrobblerCacheItemPtrList cache_items_sent;
   for (ScrobblerCacheItemPtr cache_item : all_cache_items) {
     if (cache_item->sent) continue;
@@ -623,7 +625,7 @@ void ScrobblingAPI20::ScrobbleRequestFinished(QNetworkReply *reply, ScrobblerCac
     return;
   }
 
-  for (const QJsonValueRef value : array_scrobble) {
+  for (const QJsonValue &value : std::as_const(array_scrobble)) {
 
     if (!value.isObject()) {
       Error(QStringLiteral("Json scrobbles scrobble array value is not an object."));

@@ -17,6 +17,8 @@
  *
  */
 
+#include <utility>
+
 #include <QCoreApplication>
 #include <QList>
 #include <QString>
@@ -83,7 +85,7 @@ bool GlobalShortcutsBackendKDE::DoRegister() {
     interface_ = new OrgKdeKGlobalAccelInterface(QLatin1String(kKdeService), QLatin1String(kKdePath), QDBusConnection::sessionBus(), this);
   }
 
-  QList<GlobalShortcutsManager::Shortcut> shortcuts = manager_->shortcuts().values();
+  const QList<GlobalShortcutsManager::Shortcut> shortcuts = manager_->shortcuts().values();
   for (const GlobalShortcutsManager::Shortcut &shortcut : shortcuts) {
     RegisterShortcut(shortcut);
   }
@@ -129,7 +131,7 @@ void GlobalShortcutsBackendKDE::DoUnregister() {
 
   qLog(Debug) << "Unregistering";
 
-  QMap<QString, GlobalShortcutsManager::Shortcut> shortcuts = manager_->shortcuts();
+  const QMap<QString, GlobalShortcutsManager::Shortcut> shortcuts = manager_->shortcuts();
   for (const GlobalShortcutsManager::Shortcut &shortcut : shortcuts) {
     if (actions_.contains(shortcut.id)) {
       interface_->unRegister(GetActionId(shortcut.id, shortcut.action));
@@ -214,7 +216,8 @@ QList<QKeySequence> GlobalShortcutsBackendKDE::ToKeySequenceList(const QList<int
 void GlobalShortcutsBackendKDE::GlobalShortcutPressed(const QString &component_unique, const QString &shortcut_unique, qint64) {
 
   if (QCoreApplication::applicationName() == component_unique && actions_.contains(shortcut_unique)) {
-    for (QAction *action : actions_.values(shortcut_unique)) {
+    const QList<QAction*> actions = actions_.values(shortcut_unique);
+    for (QAction *action : actions) {
       qLog(Debug) << "Key" << action->shortcut() << "pressed.";
       if (action->isEnabled()) action->trigger();
     }

@@ -21,6 +21,7 @@
 
 #include "config.h"
 
+#include <utility>
 #include <limits>
 
 #include <QStandardPaths>
@@ -136,7 +137,8 @@ void CollectionSettingsPage::Load() {
   }
 
   ui_->list->model()->removeRows(0, ui_->list->model()->rowCount());
-  for (const QString &path : collection_directory_model_->paths()) {
+  const QStringList paths = collection_directory_model_->paths();
+  for (const QString &path : paths) {
     collectionsettings_directory_model_->AddDirectory(path);
   }
 
@@ -229,13 +231,15 @@ void CollectionSettingsPage::Save() {
 
   s.endGroup();
 
-  for (const CollectionDirectory &dir : collection_directory_model_->directories()) {
+  const QMap<int, CollectionDirectory> dirs = collection_directory_model_->directories();
+  for (const CollectionDirectory &dir : dirs) {
     if (!collectionsettings_directory_model_->paths().contains(dir.path)) {
       collection_backend_->RemoveDirectoryAsync(dir);
     }
   }
 
-  for (const QString &path : collectionsettings_directory_model_->paths()) {
+  const QStringList paths = collectionsettings_directory_model_->paths();
+  for (const QString &path : paths) {
     if (!collection_directory_model_->paths().contains(path)) {
       collection_backend_->AddDirectoryAsync(path);
     }

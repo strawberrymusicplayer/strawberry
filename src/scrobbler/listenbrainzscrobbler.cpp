@@ -20,6 +20,7 @@
 #include "config.h"
 
 #include <algorithm>
+#include <utility>
 
 #include <QCoreApplication>
 #include <QtGlobal>
@@ -289,7 +290,7 @@ void ListenBrainzScrobbler::RequestAccessToken(const QUrl &redirect_url, const Q
   }
 
   QUrlQuery url_query;
-  for (const Param &param : params) {
+  for (const Param &param : std::as_const(params)) {
     url_query.addQueryItem(QString::fromLatin1(QUrl::toPercentEncoding(param.first)), QString::fromLatin1(QUrl::toPercentEncoding(param.second)));
   }
 
@@ -412,7 +413,7 @@ QJsonObject ListenBrainzScrobbler::JsonTrackMetadata(const ScrobbleMetadata &met
   }
   if (!artist_mbids_list.isEmpty()) {
     QJsonArray artist_mbids_array;
-    for (const QString &musicbrainz_artist_id : artist_mbids_list) {
+    for (const QString &musicbrainz_artist_id : std::as_const(artist_mbids_list)) {
       if (!musicbrainz_artist_id.isEmpty() && !artist_mbids_array.contains(musicbrainz_artist_id)) {
         artist_mbids_array.append(musicbrainz_artist_id);
       }
@@ -545,7 +546,7 @@ void ListenBrainzScrobbler::Submit() {
 
   QJsonArray array;
   ScrobblerCacheItemPtrList cache_items_sent;
-  ScrobblerCacheItemPtrList all_cache_items = cache_->List();
+  const ScrobblerCacheItemPtrList all_cache_items = cache_->List();
   for (ScrobblerCacheItemPtr cache_item : all_cache_items) {
     if (cache_item->sent) continue;
     if (cache_item->error && cache_items_sent.count() > 0) break;

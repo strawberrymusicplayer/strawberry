@@ -21,6 +21,8 @@
 
 #include "config.h"
 
+#include <utility>
+
 #include <QtConcurrent>
 #include <QtAlgorithms>
 #include <QList>
@@ -72,7 +74,8 @@ void SongLoaderInserter::Load(Playlist *destination, int row, bool play_now, boo
       songs_ << loader->songs();
     }
     else {
-      for (const QString &error : loader->errors()) {
+      const QStringList errors = loader->errors();
+      for (const QString &error : errors) {
         emit Error(error);
       }
     }
@@ -113,7 +116,8 @@ void SongLoaderInserter::LoadAudioCD(Playlist *destination, int row, bool play_n
     if (loader->errors().isEmpty())
       emit Error(tr("Error while loading audio CD."));
     else {
-      for (const QString &error : loader->errors()) {
+      const QStringList errors = loader->errors();
+      for (const QString &error : errors) {
         emit Error(error);
       }
     }
@@ -129,7 +133,8 @@ void SongLoaderInserter::AudioCDTracksLoadFinished(SongLoader *loader) {
 
   songs_ = loader->songs();
   if (songs_.isEmpty()) {
-    for (const QString &error : loader->errors()) {
+    const QStringList errors = loader->errors();
+    for (const QString &error : errors) {
       emit Error(error);
     }
   }
@@ -177,7 +182,8 @@ void SongLoaderInserter::AsyncLoad() {
     task_manager_->SetTaskProgress(async_load_id, ++async_progress);
 
     if (res == SongLoader::Result::Error) {
-      for (const QString &error : loader->errors()) {
+      const QStringList errors = loader->errors();
+      for (const QString &error : errors) {
         emit Error(error);
       }
       continue;

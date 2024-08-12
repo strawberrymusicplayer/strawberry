@@ -17,6 +17,8 @@
  *
  */
 
+#include <utility>
+
 #include <QObject>
 #include <QString>
 #include <QUrl>
@@ -92,10 +94,10 @@ void SomaFMService::GetChannelsReply(QNetworkReply *reply, const int task_id) {
     emit NewChannels();
     return;
   }
-  QJsonArray array_channels = object[QLatin1String("channels")].toArray();
+  const QJsonArray array_channels = object[QLatin1String("channels")].toArray();
 
   RadioChannelList channels;
-  for (const QJsonValueRef value_channel : array_channels) {
+  for (const QJsonValue &value_channel : array_channels) {
     if (!value_channel.isObject()) continue;
     QJsonObject obj_channel = value_channel.toObject();
     if (!obj_channel.contains(QLatin1String("title")) || !obj_channel.contains(QLatin1String("image"))) {
@@ -103,8 +105,8 @@ void SomaFMService::GetChannelsReply(QNetworkReply *reply, const int task_id) {
     }
     QString name = obj_channel[QLatin1String("title")].toString();
     QString image = obj_channel[QLatin1String("image")].toString();
-    QJsonArray playlists = obj_channel[QLatin1String("playlists")].toArray();
-    for (const QJsonValueRef playlist : playlists) {
+    const QJsonArray playlists = obj_channel[QLatin1String("playlists")].toArray();
+    for (const QJsonValue &playlist : playlists) {
       if (!playlist.isObject()) continue;
       QJsonObject obj_playlist = playlist.toObject();
       if (!obj_playlist.contains(QLatin1String("url")) || !obj_playlist.contains(QLatin1String("quality"))) {
@@ -129,7 +131,7 @@ void SomaFMService::GetChannelsReply(QNetworkReply *reply, const int task_id) {
     emit NewChannels();
   }
   else {
-    for (const RadioChannel &channel : channels) {
+    for (const RadioChannel &channel : std::as_const(channels)) {
       GetStreamUrl(task_id, channel);
     }
   }

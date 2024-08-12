@@ -233,7 +233,7 @@ void TidalStreamURLRequest::StreamURLReceived() {
 
       QString mimetype = json_obj[QLatin1String("mimeType")].toString();
       QMimeDatabase mimedb;
-      QStringList suffixes = mimedb.mimeTypeForName(mimetype).suffixes();
+      const QStringList suffixes = mimedb.mimeTypeForName(mimetype).suffixes();
       for (const QString &suffix : suffixes) {
         filetype = Song::FiletypeByExtension(suffix);
         if (filetype != Song::FileType::Unknown) break;
@@ -253,9 +253,9 @@ void TidalStreamURLRequest::StreamURLReceived() {
       emit StreamURLFailure(id_, media_url_, errors_.first());
       return;
     }
-    QJsonArray json_array_urls = json_urls.toArray();
+    const QJsonArray json_array_urls = json_urls.toArray();
     urls.reserve(json_array_urls.count());
-    for (const QJsonValueRef value : json_array_urls) {
+    for (const QJsonValue &value : json_array_urls) {
       urls << QUrl(value.toString());
     }
   }

@@ -24,7 +24,9 @@
 #include <cstring>
 
 #include <iostream>
+#include <utility>
 #include <memory>
+#include <chrono>
 
 #ifndef _MSC_VER
 #  include <cxxabi.h>
@@ -157,7 +159,8 @@ static void MessageHandler(QtMsgType type, const QMessageLogContext&, const QStr
       break;
   }
 
-  for (const QString &line : message.split(QLatin1Char('\n'))) {
+  const QStringList lines = message.split(QLatin1Char('\n'));
+  for (const QString &line : lines) {
     BufferedDebug d = CreateLogger<BufferedDebug>(level, QStringLiteral("unknown"), -1, nullptr);
     d << line.toLocal8Bit().constData();
     if (d.buf_) {
@@ -193,7 +196,8 @@ void SetLevels(const QString &levels) {
 
   if (!sClassLevels) return;
 
-  for (const QString &item : levels.split(QLatin1Char(','))) {
+  const QStringList items = levels.split(QLatin1Char(','));
+  for (const QString &item : items) {
     const QStringList class_level = item.split(QLatin1Char(':'));
 
     QString class_name;

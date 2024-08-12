@@ -21,6 +21,7 @@
 
 #include "config.h"
 
+#include <utility>
 #include <functional>
 #include <memory>
 
@@ -146,7 +147,7 @@ DeviceManager::DeviceManager(Application *app, QObject *parent)
 
 DeviceManager::~DeviceManager() {
 
-  for (DeviceLister *lister : listers_) {
+  for (DeviceLister *lister : std::as_const(listers_)) {
     lister->ShutDown();
     delete lister;
   }
@@ -163,7 +164,7 @@ void DeviceManager::Exit() {
 
 void DeviceManager::CloseDevices() {
 
-  for (DeviceInfo *info : devices_) {
+  for (DeviceInfo *info : std::as_const(devices_)) {
     if (!info->device_) continue;
     if (wait_for_exit_.contains(&*info->device_)) continue;
     wait_for_exit_ << &*info->device_;
@@ -176,7 +177,7 @@ void DeviceManager::CloseDevices() {
 
 void DeviceManager::CloseListers() {
 
-  for (DeviceLister *lister : listers_) {
+  for (DeviceLister *lister : std::as_const(listers_)) {
     if (wait_for_exit_.contains(lister)) continue;
     wait_for_exit_ << lister;
     QObject::connect(lister, &DeviceLister::ExitFinished, this, &DeviceManager::ListerClosed);
@@ -231,7 +232,7 @@ void DeviceManager::LoadAllDevices() {
 
   Q_ASSERT(QThread::currentThread() != qApp->thread());
 
-  DeviceDatabaseBackend::DeviceList devices = backend_->GetAllDevices();
+  const DeviceDatabaseBackend::DeviceList devices = backend_->GetAllDevices();
   for (const DeviceDatabaseBackend::Device &device : devices) {
     DeviceInfo *info = new DeviceInfo(DeviceInfo::Type::Device, root_);
     info->InitFromDb(device);
@@ -245,7 +246,7 @@ void DeviceManager::LoadAllDevices() {
 
 void DeviceManager::AddDeviceFromDB(DeviceInfo *info) {
 
-  QStringList icon_names = info->icon_name_.split(QLatin1Char(','));
+  const QStringList icon_names = info->icon_name_.split(QLatin1Char(','));
   QVariantList icons;
   icons.reserve(icon_names.count());
   for (const QString &icon_name : icon_names) {
@@ -404,7 +405,7 @@ void DeviceManager::AddLister(DeviceLister *lister) {
 DeviceInfo *DeviceManager::FindDeviceById(const QString &id) const {
 
   for (int i = 0; i < devices_.count(); ++i) {
-    for (const DeviceInfo::Backend &backend : devices_[i]->backends_) {
+    for (const DeviceInfo::Backend &backend : std::as_const(devices_[i]->backends_)) {
       if (backend.unique_id_ == id) return devices_[i];
     }
   }
@@ -418,10 +419,10 @@ DeviceInfo *DeviceManager::FindDeviceByUrl(const QList<QUrl> &urls) const {
   if (urls.isEmpty()) return nullptr;
 
   for (int i = 0; i < devices_.count(); ++i) {
-    for (const DeviceInfo::Backend &backend : devices_[i]->backends_) {
+    for (const DeviceInfo::Backend &backend : std::as_const(devices_[i]->backends_)) {
       if (!backend.lister_) continue;
 
-      QList<QUrl> device_urls = backend.lister_->MakeDeviceUrls(backend.unique_id_);
+      const QList<QUrl> device_urls = backend.lister_->MakeDeviceUrls(backend.unique_id_);
       for (const QUrl &url : device_urls) {
         if (urls.contains(url)) return devices_[i];
       }
@@ -434,7 +435,7 @@ DeviceInfo *DeviceManager::FindDeviceByUrl(const QList<QUrl> &urls) const {
 
 DeviceInfo *DeviceManager::FindEquivalentDevice(DeviceInfo *info) const {
 
-  for (const DeviceInfo::Backend &backend : info->backends_) {
+  for (const DeviceInfo::Backend &backend : std::as_const(info->backends_)) {
     DeviceInfo *match = FindDeviceById(backend.unique_id_);
     if (match) return match;
   }
@@ -588,7 +589,7 @@ SharedPtr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *info) {
   }
 
   // Get the device URLs
-  QList<QUrl> urls = info->BestBackend()->lister_->MakeDeviceUrls(info->BestBackend()->unique_id_);
+  const QList<QUrl> urls = info->BestBackend()->lister_->MakeDeviceUrls(info->BestBackend()->unique_id_);
   if (urls.isEmpty()) return ret;
 
   // Take the first URL that we have a handler for
@@ -844,13 +845,13 @@ void DeviceManager::DeviceTaskStarted(const int id) {
 
 void DeviceManager::TasksChanged() {
 
-  QList<TaskManager::Task> tasks = app_->task_manager()->GetTasks();
+  const QList<TaskManager::Task> tasks = app_->task_manager()->GetTasks();
   QList<QPersistentModelIndex> finished_tasks = active_tasks_.values();
 
   for (const TaskManager::Task &task : tasks) {
     if (!active_tasks_.contains(task.id)) continue;
 
-    QPersistentModelIndex idx = active_tasks_[task.id];
+    const QPersistentModelIndex idx = active_tasks_[task.id];
     if (!idx.isValid()) continue;
 
     DeviceInfo *info = IndexToItem(idx);
@@ -866,7 +867,7 @@ void DeviceManager::TasksChanged() {
 
   }
 
-  for (const QPersistentModelIndex &idx : finished_tasks) {
+  for (const QPersistentModelIndex &idx : std::as_const(finished_tasks)) {
 
     if (!idx.isValid()) continue;
 

@@ -146,9 +146,9 @@ void DiscogsCoverProvider::SendSearchRequest(SharedPtr<DiscogsCoverSearchContext
 
 QNetworkReply *DiscogsCoverProvider::CreateRequest(QUrl url, const ParamList &params_provided) {
 
-  ParamList params = ParamList() << Param(QStringLiteral("key"), QString::fromLatin1(QByteArray::fromBase64(kAccessKeyB64)))
-                                 << Param(QStringLiteral("secret"), QString::fromLatin1(QByteArray::fromBase64(kSecretKeyB64)))
-                                 << params_provided;
+  const ParamList params = ParamList() << Param(QStringLiteral("key"), QString::fromLatin1(QByteArray::fromBase64(kAccessKeyB64)))
+                                       << Param(QStringLiteral("secret"), QString::fromLatin1(QByteArray::fromBase64(kSecretKeyB64)))
+                                       << params_provided;
 
   QUrlQuery url_query;
   QStringList query_items;
@@ -266,8 +266,8 @@ void DiscogsCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id)
     return;
   }
 
-  QJsonArray array_results = value_results.toArray();
-  for (QJsonValueRef value_result : array_results) {
+  const QJsonArray array_results = value_results.toArray();
+  for (const QJsonValue &value_result : array_results) {
 
     if (!value_result.isObject()) {
       Error(QStringLiteral("Invalid Json reply, results value is not a object."));
@@ -371,10 +371,10 @@ void DiscogsCoverProvider::HandleReleaseReply(QNetworkReply *reply, const int se
     EndSearch(search, release.id);
     return;
   }
-  QJsonArray array_artists = value_artists.toArray();
+  const QJsonArray array_artists = value_artists.toArray();
   int i = 0;
   QString artist;
-  for (const QJsonValueRef value_artist : array_artists) {
+  for (const QJsonValue &value_artist : array_artists) {
     if (!value_artist.isObject()) {
       Error(QStringLiteral("Invalid Json reply, atists array value is not a object."));
       continue;
@@ -407,7 +407,7 @@ void DiscogsCoverProvider::HandleReleaseReply(QNetworkReply *reply, const int se
     EndSearch(search, release.id);
     return;
   }
-  QJsonArray array_images = value_images.toArray();
+  const QJsonArray array_images = value_images.toArray();
 
   if (array_images.isEmpty()) {
     Error(QStringLiteral("Invalid Json reply, images array is empty."));
@@ -415,7 +415,7 @@ void DiscogsCoverProvider::HandleReleaseReply(QNetworkReply *reply, const int se
     return;
   }
 
-  for (const QJsonValueRef value_image : array_images) {
+  for (const QJsonValue &value_image : array_images) {
 
     if (!value_image.isObject()) {
       Error(QStringLiteral("Invalid Json reply, images array value is not an object."));

@@ -20,6 +20,7 @@
 #include "config.h"
 
 #include <algorithm>
+#include <utility>
 
 #include <QtGlobal>
 #include <QObject>
@@ -91,7 +92,7 @@ bool QobuzCoverProvider::StartSearch(const QString &artist, const QString &album
   std::sort(params.begin(), params.end());
 
   QUrlQuery url_query;
-  for (const Param &param : params) {
+  for (const Param &param : std::as_const(params)) {
     url_query.addQueryItem(QString::fromLatin1(QUrl::toPercentEncoding(param.first)), QString::fromLatin1(QUrl::toPercentEncoding(param.second)));
   }
 
@@ -209,9 +210,9 @@ void QobuzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
     emit SearchFinished(id, results);
     return;
   }
-  QJsonArray array_items = value_items.toArray();
+  const QJsonArray array_items = value_items.toArray();
 
-  for (const QJsonValueRef value : array_items) {
+  for (const QJsonValue &value : array_items) {
 
     if (!value.isObject()) {
       Error(QStringLiteral("Invalid Json reply, value in items is not a object."));

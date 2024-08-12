@@ -22,9 +22,9 @@
 #include "config.h"
 
 #include <cstdlib>
-#include <memory>
-#include <utility>
 #include <algorithm>
+#include <utility>
+#include <memory>
 #include <functional>
 #include <unordered_map>
 #include <random>
@@ -861,7 +861,7 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, const 
       // Drag from a different playlist
       PlaylistItemPtrList items;
       items.reserve(source_rows.count());
-      for (const int i : source_rows) items << source_playlist->item_at(i);
+      for (const int i : std::as_const(source_rows)) items << source_playlist->item_at(i);
 
       if (items.count() > kUndoItemLimit) {
         // Too big to keep in the undo stack. Also clear the stack because it might have been invalidated.
@@ -874,7 +874,7 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, const 
 
       // Remove the items from the source playlist if it was a move event
       if (action == Qt::MoveAction) {
-        for (const int i : source_rows) {
+        for (const int i : std::as_const(source_rows)) {
           source_playlist->undo_stack()->push(new PlaylistUndoCommands::RemoveItems(source_playlist, i, 1));
         }
       }
@@ -965,7 +965,8 @@ void Playlist::MoveItemsWithoutUndo(const QList<int> &source_rows, int pos) {
   }
 
   // Update persistent indexes
-  for (const QModelIndex &pidx : persistentIndexList()) {
+  const QModelIndexList pidx_list = persistentIndexList();
+  for (const QModelIndex &pidx : pidx_list) {
     const int dest_offset = static_cast<int>(source_rows.indexOf(pidx.row()));
     if (dest_offset != -1) {
       // This index was moved
@@ -1034,7 +1035,8 @@ void Playlist::MoveItemsWithoutUndo(int start, const QList<int> &dest_rows) {
   }
 
   // Update persistent indexes
-  for (const QModelIndex &pidx : persistentIndexList()) {
+  const QModelIndexList pidx_list = persistentIndexList();
+  for (const QModelIndex &pidx : pidx_list) {
     if (pidx.row() >= start && pidx.row() < start + dest_rows.count()) {
       // This index was moved
       const int i = pidx.row() - start;
@@ -1494,7 +1496,8 @@ void Playlist::ReOrderWithoutUndo(const PlaylistItemPtrList &new_items) {
     new_rows[&*new_items[i]] = i;
   }
 
-  for (const QModelIndex &idx : persistentIndexList()) {
+  const QModelIndexList indexes = persistentIndexList();
+  for (const QModelIndex &idx : indexes) {
     const PlaylistItem *item = &*old_items[idx.row()];
     changePersistentIndex(idx, index(new_rows[item], idx.column(), idx.parent()));
   }
@@ -2097,7 +2100,7 @@ void Playlist::TracksAboutToBeDequeued(const QModelIndex&, const int begin, cons
 
 void Playlist::TracksDequeued() {
 
-  for (const QModelIndex &idx : temp_dequeue_change_indexes_) {
+  for (const QModelIndex &idx : std::as_const(temp_dequeue_change_indexes_)) {
     emit dataChanged(idx, idx);
   }
   temp_dequeue_change_indexes_.clear();

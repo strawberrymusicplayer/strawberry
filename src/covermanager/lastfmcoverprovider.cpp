@@ -20,6 +20,7 @@
 #include "config.h"
 
 #include <algorithm>
+#include <utility>
 
 #include <QObject>
 #include <QLocale>
@@ -97,7 +98,7 @@ bool LastFmCoverProvider::StartSearch(const QString &artist, const QString &albu
 
   QUrlQuery url_query;
   QString data_to_sign;
-  for (const Param &param : params) {
+  for (const Param &param : std::as_const(params)) {
     url_query.addQueryItem(QString::fromLatin1(QUrl::toPercentEncoding(param.first)), QString::fromLatin1(QUrl::toPercentEncoding(param.second)));
     data_to_sign += param.first + param.second;
   }
@@ -221,9 +222,9 @@ void LastFmCoverProvider::QueryFinished(QNetworkReply *reply, const int id, cons
     emit SearchFinished(id, results);
     return;
   }
-  QJsonArray array_type = value_type.toArray();
+  const QJsonArray array_type = value_type.toArray();
 
-  for (const QJsonValueRef value : array_type) {
+  for (const QJsonValue &value : array_type) {
 
     if (!value.isObject()) {
       Error(QStringLiteral("Invalid Json reply, value in albummatches/trackmatches array is not a object."));
@@ -245,10 +246,10 @@ void LastFmCoverProvider::QueryFinished(QNetworkReply *reply, const int id, cons
       Error(QStringLiteral("Invalid Json reply, album image is not a array."), json_image);
       continue;
     }
-    QJsonArray array_image = json_image.toArray();
+    const QJsonArray array_image = json_image.toArray();
     QString image_url_use;
-    LastFmImageSize image_size_use(LastFmImageSize::Unknown);
-    for (const QJsonValueRef value_image : array_image) {
+    LastFmImageSize image_size_use = LastFmImageSize::Unknown;
+    for (const QJsonValue value_image : array_image) {
       if (!value_image.isObject()) {
         Error(QStringLiteral("Invalid Json reply, album image value is not an object."));
         continue;

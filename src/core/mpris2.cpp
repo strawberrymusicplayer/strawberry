@@ -22,6 +22,7 @@
 #include "config.h"
 
 #include <algorithm>
+#include <utility>
 #include <cmath>
 
 #include <QApplication>
@@ -141,7 +142,7 @@ Mpris2::Mpris2(Application *app, QObject *parent)
     data_dirs.append(QStringLiteral("/usr/share"));
   }
 
-  for (const QString &data_dir : data_dirs) {
+  for (const QString &data_dir : std::as_const(data_dirs)) {
     const QString desktopfilepath = QStringLiteral("%1/applications/%2.desktop").arg(data_dir, QGuiApplication::desktopFileName());
     if (QFile::exists(desktopfilepath)) {
       desktopfilepath_ = desktopfilepath;
@@ -618,7 +619,7 @@ MprisPlaylistList Mpris2::GetPlaylists(quint32 index, quint32 max_count, const Q
 
   Q_UNUSED(order);
 
-  QList<Playlist*> playlists = app_->playlist_manager()->GetAllPlaylists();
+  const QList<Playlist*> playlists = app_->playlist_manager()->GetAllPlaylists();
   MprisPlaylistList ret;
   ret.reserve(playlists.count());
   for (Playlist *p : playlists) {

@@ -21,6 +21,8 @@
 
 #include "config.h"
 
+#include <utility>
+
 #include <QtGlobal>
 #include <QMetaType>
 #include <QDateTime>
@@ -65,7 +67,7 @@ void CollectionQuery::AddWhere(const QString &column, const QVariant &value, con
     QStringList values = value.toStringList();
     QStringList final_values;
     final_values.reserve(values.count());
-    for (const QString &single_value : values) {
+    for (const QString &single_value : std::as_const(values)) {
       final_values.append(QStringLiteral("?"));
       bound_values_ << single_value;
     }
@@ -134,7 +136,7 @@ bool CollectionQuery::Exec() {
   if (!QSqlQuery::prepare(sql)) return false;
 
   // Bind values
-  for (const QVariant &value : bound_values_) {
+  for (const QVariant &value : std::as_const(bound_values_)) {
     QSqlQuery::addBindValue(value);
   }
 

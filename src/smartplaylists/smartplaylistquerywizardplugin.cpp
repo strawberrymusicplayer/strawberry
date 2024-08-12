@@ -21,6 +21,7 @@
 #include "config.h"
 
 #include <algorithm>
+#include <utility>
 #include <memory>
 
 #include <QWizardPage>
@@ -183,7 +184,7 @@ void SmartPlaylistQueryWizardPlugin::SetGenerator(PlaylistGeneratorPtr g) {
   qDeleteAll(search_page_->terms_);
   search_page_->terms_.clear();
 
-  for (const SmartPlaylistSearchTerm &term : search.terms_) {
+  for (const SmartPlaylistSearchTerm &term : std::as_const(search.terms_)) {
     AddSearchTerm();
     search_page_->terms_.last()->SetTerm(term);
   }
@@ -290,7 +291,7 @@ SmartPlaylistSearch SmartPlaylistQueryWizardPlugin::MakeSearch() const {
   ret.search_type_ = static_cast<SmartPlaylistSearch::SearchType>(search_page_->ui_->type->currentIndex());
 
   // Search terms
-  for (SmartPlaylistSearchTermWidget *widget : search_page_->terms_) {
+  for (SmartPlaylistSearchTermWidget *widget : std::as_const(search_page_->terms_)) {
     SmartPlaylistSearchTerm term = widget->Term();
     if (term.is_valid()) ret.terms_ << term;
   }

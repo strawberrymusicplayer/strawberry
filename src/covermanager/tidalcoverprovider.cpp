@@ -85,9 +85,9 @@ bool TidalCoverProvider::StartSearch(const QString &artist, const QString &album
     }
   }
 
-  ParamList params = ParamList() << Param(QStringLiteral("query"), query)
-                                 << Param(QStringLiteral("limit"), QString::number(kLimit))
-                                 << Param(QStringLiteral("countryCode"), service_->country_code());
+  const ParamList params = ParamList() << Param(QStringLiteral("query"), query)
+                                       << Param(QStringLiteral("limit"), QString::number(kLimit))
+                                       << Param(QStringLiteral("countryCode"), service_->country_code());
 
   QUrlQuery url_query;
   for (const Param &param : params) {
@@ -191,7 +191,7 @@ void TidalCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
     emit SearchFinished(id, CoverProviderSearchResults());
     return;
   }
-  QJsonArray array_items = value_items.toArray();
+  const QJsonArray array_items = value_items.toArray();
   if (array_items.isEmpty()) {
     emit SearchFinished(id, CoverProviderSearchResults());
     return;
@@ -199,7 +199,7 @@ void TidalCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
 
   CoverProviderSearchResults results;
   int i = 0;
-  for (const QJsonValueRef value_item : array_items) {
+  for (const QJsonValue &value_item : array_items) {
 
     if (!value_item.isObject()) {
       Error(QStringLiteral("Invalid Json reply, items array item is not a object."));
@@ -250,9 +250,9 @@ void TidalCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
     cover_result.album = Song::AlbumRemoveDiscMisc(album);
     cover_result.number = ++i;
 
-    QList<QPair<QString, QSize>> cover_sizes = QList<QPair<QString, QSize>>() << qMakePair(QStringLiteral("1280x1280"), QSize(1280, 1280))
-                                                                              << qMakePair(QStringLiteral("750x750"), QSize(750, 750))
-                                                                              << qMakePair(QStringLiteral("640x640"), QSize(640, 640));
+    const QList<QPair<QString, QSize>> cover_sizes = QList<QPair<QString, QSize>>() << qMakePair(QStringLiteral("1280x1280"), QSize(1280, 1280))
+                                                                                    << qMakePair(QStringLiteral("750x750"), QSize(750, 750))
+                                                                                    << qMakePair(QStringLiteral("640x640"), QSize(640, 640));
     for (const QPair<QString, QSize> &cover_size : cover_sizes) {
       QUrl cover_url(QStringLiteral("%1/images/%2/%3.jpg").arg(QLatin1String(TidalService::kResourcesUrl), cover).arg(cover_size.first));
       cover_result.image_url = cover_url;

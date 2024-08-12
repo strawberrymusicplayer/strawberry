@@ -20,6 +20,7 @@
 #include "config.h"
 
 #include <algorithm>
+#include <utility>
 
 #include <QtGlobal>
 #include <QObject>
@@ -214,7 +215,7 @@ void DeezerCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) 
 
   QMap<QUrl, CoverProviderSearchResult> results;
   int i = 0;
-  for (const QJsonValueRef json_value : array_data) {
+  for (const QJsonValue &json_value : std::as_const(array_data)) {
 
     if (!json_value.isObject()) {
       Error(QStringLiteral("Invalid Json reply, data array value is not a object."));
@@ -272,8 +273,8 @@ void DeezerCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) 
     cover_result.album = Song::AlbumRemoveDiscMisc(album);
 
     bool have_cover = false;
-    QList<QPair<QString, QSize>> cover_sizes = QList<QPair<QString, QSize>>() << qMakePair(QStringLiteral("cover_xl"), QSize(1000, 1000))
-                                                                              << qMakePair(QStringLiteral("cover_big"), QSize(500, 500));
+    const QList<QPair<QString, QSize>> cover_sizes = QList<QPair<QString, QSize>>() << qMakePair(QStringLiteral("cover_xl"), QSize(1000, 1000))
+                                                                                    << qMakePair(QStringLiteral("cover_big"), QSize(500, 500));
     for (const QPair<QString, QSize> &cover_size : cover_sizes) {
       if (!obj_album.contains(cover_size.first)) continue;
       QString cover = obj_album[cover_size.first].toString();

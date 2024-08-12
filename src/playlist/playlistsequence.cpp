@@ -21,6 +21,8 @@
 
 #include "config.h"
 
+#include <utility>
+
 #include <QWidget>
 #include <QVariant>
 #include <QIcon>
@@ -113,7 +115,8 @@ void PlaylistSequence::Save() {
 QIcon PlaylistSequence::AddDesaturatedIcon(const QIcon &icon) {
 
   QIcon ret;
-  for (const QSize &size : icon.availableSizes()) {
+  const QList<QSize> sizes = icon.availableSizes();
+  for (const QSize &size : sizes) {
     QPixmap on(icon.pixmap(size));
     QPixmap off(DesaturatedPixmap(on));
 

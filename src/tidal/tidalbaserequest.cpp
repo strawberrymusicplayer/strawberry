@@ -47,8 +47,8 @@ TidalBaseRequest::TidalBaseRequest(TidalService *service, SharedPtr<NetworkAcces
 
 QNetworkReply *TidalBaseRequest::CreateRequest(const QString &ressource_name, const ParamList &params_provided) {
 
-  ParamList params = ParamList() << params_provided
-                                 << Param(QStringLiteral("countryCode"), country_code());
+  const ParamList params = ParamList() << params_provided
+                                       << Param(QStringLiteral("countryCode"), country_code());
 
   QUrlQuery url_query;
   for (const Param &param : params) {

@@ -19,6 +19,7 @@
 
 #include "config.h"
 
+#include <utility>
 #include <memory>
 #include <chrono>
 
@@ -375,7 +376,7 @@ void SpotifyService::RequestAccessToken(const QString &code, const QUrl &redirec
   }
 
   QUrlQuery url_query;
-  for (const Param &param : params) {
+  for (const Param &param : std::as_const(params)) {
     url_query.addQueryItem(QString::fromLatin1(QUrl::toPercentEncoding(param.first)), QString::fromLatin1(QUrl::toPercentEncoding(param.second)));
   }
 
@@ -735,7 +736,7 @@ void SpotifyService::LoginError(const QString &error, const QVariant &debug) {
   if (!error.isEmpty()) login_errors_ << error;
 
   QString error_html;
-  for (const QString &e : login_errors_) {
+  for (const QString &e : std::as_const(login_errors_)) {
     qLog(Error) << "Spotify:" << e;
     error_html += e + QLatin1String("<br />");
   }

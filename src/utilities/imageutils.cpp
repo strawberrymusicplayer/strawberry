@@ -17,6 +17,8 @@
  *
  */
 
+#include <utility>
+
 #include <QByteArray>
 #include <QString>
 #include <QStringList>
@@ -37,7 +39,8 @@ QStringList ImageUtils::kSupportedImageFormats;
 QStringList ImageUtils::SupportedImageMimeTypes() {
 
   if (kSupportedImageMimeTypes.isEmpty()) {
-    for (const QByteArray &mimetype : QImageReader::supportedMimeTypes()) {
+    const QList<QByteArray> supported_mimetypes = QImageReader::supportedMimeTypes();
+    for (const QByteArray &mimetype : supported_mimetypes) {
       kSupportedImageMimeTypes << QString::fromUtf8(mimetype);
     }
   }
@@ -49,7 +52,8 @@ QStringList ImageUtils::SupportedImageMimeTypes() {
 QStringList ImageUtils::SupportedImageFormats() {
 
   if (kSupportedImageFormats.isEmpty()) {
-    for (const QByteArray &filetype : QImageReader::supportedImageFormats()) {
+    const QList<QByteArray> image_formats = QImageReader::supportedImageFormats();
+    for (const QByteArray &filetype : image_formats) {
       kSupportedImageFormats << QString::fromUtf8(filetype);
     }
   }

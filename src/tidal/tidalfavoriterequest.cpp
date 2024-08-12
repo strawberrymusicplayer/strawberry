@@ -134,8 +134,8 @@ void TidalFavoriteRequest::AddFavorites(const FavoriteType type, const SongList 
 
 void TidalFavoriteRequest::AddFavoritesRequest(const FavoriteType type, const QStringList &id_list, const SongList &songs) {
 
-  ParamList params = ParamList() << Param(QStringLiteral("countryCode"), country_code())
-                                 << Param(FavoriteMethod(type), id_list.join(QLatin1Char(',')));
+  const ParamList params = ParamList() << Param(QStringLiteral("countryCode"), country_code())
+                                       << Param(FavoriteMethod(type), id_list.join(QLatin1Char(',')));
 
   QUrlQuery url_query;
   for (const Param &param : params) {
@@ -204,7 +204,7 @@ void TidalFavoriteRequest::RemoveSongs(const SongList &songs) {
 
 void TidalFavoriteRequest::RemoveSongs(const SongMap &songs) {
 
-  SongList songs_list = songs.values();
+  const SongList songs_list = songs.values();
   for (const Song &song : songs_list) {
     RemoveFavoritesRequest(FavoriteType::Songs, song.song_id(), SongList() << song);
   }
@@ -235,7 +235,7 @@ void TidalFavoriteRequest::RemoveFavorites(const FavoriteType type, const SongLi
     }
   }
 
-  QStringList ids = songs_map.uniqueKeys();
+  const QStringList ids = songs_map.uniqueKeys();
   for (const QString &id : ids) {
     RemoveFavoritesRequest(type, id, songs_map.values(id));
   }
@@ -244,7 +244,7 @@ void TidalFavoriteRequest::RemoveFavorites(const FavoriteType type, const SongLi
 
 void TidalFavoriteRequest::RemoveFavoritesRequest(const FavoriteType type, const QString &id, const SongList &songs) {
 
-  ParamList params = ParamList() << Param(QStringLiteral("countryCode"), country_code());
+  const ParamList params = ParamList() << Param(QStringLiteral("countryCode"), country_code());
 
   QUrlQuery url_query;
   for (const Param &param : params) {

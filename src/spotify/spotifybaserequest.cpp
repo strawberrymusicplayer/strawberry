@@ -46,10 +46,8 @@ SpotifyBaseRequest::SpotifyBaseRequest(SpotifyService *service, NetworkAccessMan
 
 QNetworkReply *SpotifyBaseRequest::CreateRequest(const QString &ressource_name, const ParamList &params_provided) {
 
-  ParamList params = ParamList() << params_provided;
-
   QUrlQuery url_query;
-  for (const Param &param : params) {
+  for (const Param &param : params_provided) {
     url_query.addQueryItem(QString::fromLatin1(QUrl::toPercentEncoding(param.first)), QString::fromLatin1(QUrl::toPercentEncoding(param.second)));
   }
 

@@ -19,6 +19,7 @@
 
 #include "config.h"
 
+#include <utility>
 #include <functional>
 #include <chrono>
 #include <memory>
@@ -108,12 +109,12 @@ void ScrobblerCache::ReadCache() {
     qLog(Error) << "Scrobbler cache JSON tracks is not an array.";
     return;
   }
-  QJsonArray json_array = json_tracks.toArray();
+  const QJsonArray json_array = json_tracks.toArray();
   if (json_array.isEmpty()) {
     return;
   }
 
-  for (const QJsonValueRef value : json_array) {
+  for (const QJsonValue &value : json_array) {
     if (!value.isObject()) {
       qLog(Error) << "Scrobbler cache JSON tracks array value is not an object.";
       qLog(Debug) << value;
@@ -203,7 +204,7 @@ void ScrobblerCache::WriteCache() {
   }
 
   QJsonArray array;
-  for (ScrobblerCacheItemPtr cache_item : scrobbler_cache_) {
+  for (ScrobblerCacheItemPtr cache_item : std::as_const(scrobbler_cache_)) {
     QJsonObject object;
     object.insert(QLatin1String("timestamp"), QJsonValue::fromVariant(cache_item->timestamp));
     object.insert(QLatin1String("artist"), QJsonValue::fromVariant(cache_item->metadata.artist));

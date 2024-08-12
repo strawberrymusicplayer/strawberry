@@ -19,6 +19,7 @@
 
 #include "config.h"
 
+#include <utility>
 #include <memory>
 
 #include <QObject>
@@ -189,9 +190,9 @@ void MusixmatchLyricsProvider::HandleSearchReply(QNetworkReply *reply, LyricsSea
     EndSearch(search);
     return;
   }
-  QJsonArray array_tracklist = obj_body[QLatin1String("track_list")].toArray();
+  const QJsonArray array_tracklist = obj_body[QLatin1String("track_list")].toArray();
 
-  for (const QJsonValueRef value_track : array_tracklist) {
+  for (const QJsonValue &value_track : array_tracklist) {
     if (!value_track.isObject()) {
       continue;
     }
@@ -235,7 +236,7 @@ void MusixmatchLyricsProvider::HandleSearchReply(QNetworkReply *reply, LyricsSea
     EndSearch(search);
   }
   else {
-    for (const QUrl &url : search->requests_lyrics_) {
+    for (const QUrl &url : std::as_const(search->requests_lyrics_)) {
       SendLyricsRequest(search, url);
     }
   }

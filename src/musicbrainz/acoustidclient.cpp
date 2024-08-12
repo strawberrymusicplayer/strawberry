@@ -22,6 +22,7 @@
 #include "config.h"
 
 #include <algorithm>
+#include <utility>
 
 #include <QtGlobal>
 #include <QObject>
@@ -161,16 +162,16 @@ void AcoustidClient::RequestFinished(QNetworkReply *reply, const int request_id)
   // -then sort results by number of sources (the results are originally
   //  unsorted but results with more sources are likely to be more accurate)
   // -keep only the ids, as sources where useful only to sort the results
-  QJsonArray json_results = json_object[QLatin1String("results")].toArray();
+  const QJsonArray json_results = json_object[QLatin1String("results")].toArray();
 
   // List of <id, nb of sources> pairs
   QList<IdSource> id_source_list;
 
-  for (const QJsonValueRef v : json_results) {
+  for (const QJsonValue &v : json_results) {
     QJsonObject r = v.toObject();
     if (!r[QLatin1String("recordings")].isUndefined()) {
-      QJsonArray json_recordings = r[QLatin1String("recordings")].toArray();
-      for (const QJsonValueRef recording : json_recordings) {
+      const QJsonArray json_recordings = r[QLatin1String("recordings")].toArray();
+      for (const QJsonValue &recording : json_recordings) {
         QJsonObject o = recording.toObject();
         if (!o[QLatin1String("id")].isUndefined()) {
           id_source_list << IdSource(o[QLatin1String("id")].toString(), o[QLatin1String("sources")].toInt());
@@ -183,11 +184,10 @@ void AcoustidClient::RequestFinished(QNetworkReply *reply, const int request_id)
 
   QStringList id_list;
   id_list.reserve(id_source_list.count());
-  for (const IdSource &is : id_source_list) {
+  for (const IdSource &is : std::as_const(id_source_list)) {
     id_list << is.id_;
   }
 
   emit Finished(request_id, id_list);
 
 }
-

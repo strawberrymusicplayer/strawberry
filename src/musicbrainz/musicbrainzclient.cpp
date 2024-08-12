@@ -22,6 +22,7 @@
 #include "config.h"
 
 #include <algorithm>
+#include <utility>
 
 #include <QObject>
 #include <QSet>
@@ -213,7 +214,7 @@ void MusicBrainzClient::RequestFinished(QNetworkReply *reply, const int id, cons
     ResultList res;
     while (!reader.atEnd()) {
       if (reader.readNext() == QXmlStreamReader::StartElement && reader.name().toString() == QLatin1String("recording")) {
-        ResultList tracks = ParseTrack(&reader);
+        const ResultList tracks = ParseTrack(&reader);
         for (const Result &track : tracks) {
           if (!track.title_.isEmpty()) {
             res << track;
@@ -230,7 +231,7 @@ void MusicBrainzClient::RequestFinished(QNetworkReply *reply, const int id, cons
     ResultList ret;
     QList<PendingResults> result_list_list = pending_results_.take(id);
     std::sort(result_list_list.begin(), result_list_list.end());
-    for (const PendingResults &result_list : result_list_list) {
+    for (const PendingResults &result_list : std::as_const(result_list_list)) {
       ret << result_list.results_;
     }
     emit Finished(id, UniqueResults(ret, UniqueResultsSortOption::KeepOriginalOrder), error);
@@ -292,7 +293,7 @@ void MusicBrainzClient::DiscIdRequestFinished(const QString &discid, QNetworkRep
     if (token == QXmlStreamReader::StartElement && name == QLatin1String("medium")) {
       // Get the medium with a matching discid.
       if (MediumHasDiscid(discid, &reader)) {
-        ResultList tracks = ParseMedium(&reader);
+        const ResultList tracks = ParseMedium(&reader);
         for (const Result &track : tracks) {
           if (!track.title_.isEmpty()) {
             ret << track;
@@ -387,6 +388,7 @@ MusicBrainzClient::Result MusicBrainzClient::ParseTrackFromDisc(QXmlStreamReader
   }
 
   return result;
+
 }
 
 MusicBrainzClient::ResultList MusicBrainzClient::ParseTrack(QXmlStreamReader *reader) {
@@ -426,11 +428,13 @@ MusicBrainzClient::ResultList MusicBrainzClient::ParseTrack(QXmlStreamReader *re
   else {
     std::stable_sort(releases.begin(), releases.end());
     ret.reserve(releases.count());
-    for (const Release &release : releases) {
+    for (const Release &release : std::as_const(releases)) {
       ret << release.CopyAndMergeInto(result);
     }
   }
+
   return ret;
+
 }
 
 // Parse the artist. Multiple artists are joined together with the joinphrase from musicbrainz.

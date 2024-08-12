@@ -19,6 +19,7 @@
 
 #include "config.h"
 
+#include <utility>
 #include <memory>
 
 #include <QObject>
@@ -382,9 +383,9 @@ void GeniusLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id)
     EndSearch(search);
     return;
   }
-  QJsonArray array_hits = obj_response[QLatin1String("hits")].toArray();
+  const QJsonArray array_hits = obj_response[QLatin1String("hits")].toArray();
 
-  for (const QJsonValueRef value_hit : array_hits) {
+  for (const QJsonValue &value_hit : array_hits) {
     if (!value_hit.isObject()) {
       continue;
     }
@@ -491,7 +492,7 @@ void GeniusLyricsProvider::AuthError(const QString &error, const QVariant &debug
 
   if (!error.isEmpty()) login_errors_ << error;
 
-  for (const QString &e : login_errors_) Error(e);
+  for (const QString &e : std::as_const(login_errors_)) Error(e);
   if (debug.isValid()) qLog(Debug) << debug;
 
   emit AuthenticationFailure(login_errors_);

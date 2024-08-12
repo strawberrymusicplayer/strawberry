@@ -21,8 +21,9 @@
 
 #include "config.h"
 
-#include <functional>
 #include <algorithm>
+#include <utility>
+#include <functional>
 #include <memory>
 
 #include <QtGlobal>
@@ -141,7 +142,7 @@ OrganizeDialog::OrganizeDialog(SharedPtr<TaskManager> task_manager, SharedPtr<Co
 
   // Build the insert menu
   QMenu *tag_menu = new QMenu(this);
-  for (const QString &title : tag_titles) {
+  for (const QString &title : std::as_const(tag_titles)) {
     QAction *action = tag_menu->addAction(title);
     QString tag = tags[title];
     QObject::connect(action, &QAction::triggered, this, [this, tag]() { InsertTag(tag); });
@@ -409,7 +410,8 @@ SongList OrganizeDialog::LoadSongsBlocking(const QStringList &filenames) {
     // If it's a directory, add all the files inside.
     if (QFileInfo(filename).isDir()) {
       const QDir dir(filename);
-      for (const QString &entry : dir.entryList(QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot | QDir::Readable)) {
+      const QStringList entries = dir.entryList(QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot | QDir::Readable);
+      for (const QString &entry : entries) {
         filenames_copy << dir.filePath(entry);
       }
       continue;
@@ -535,7 +537,7 @@ void OrganizeDialog::UpdatePreviews() {
   ui_->groupbox_preview->setVisible(has_local_destination);
   ui_->groupbox_naming->setVisible(has_local_destination);
   if (has_local_destination) {
-    for (const Organize::NewSongInfo &song_info : new_songs_info_) {
+    for (const Organize::NewSongInfo &song_info : std::as_const(new_songs_info_)) {
       QString filename = storage->LocalPath() + QLatin1Char('/') + song_info.new_filename_;
       QListWidgetItem *item = new QListWidgetItem(song_info.unique_filename_ ? IconLoader::Load(QStringLiteral("dialog-ok-apply")) : IconLoader::Load(QStringLiteral("dialog-warning")), QDir::toNativeSeparators(filename), ui_->preview);
       ui_->preview->addItem(item);

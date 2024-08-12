@@ -22,6 +22,7 @@
 #include "config.h"
 
 #include <algorithm>
+#include <utility>
 
 #include <QVariant>
 #include <QString>
@@ -80,12 +81,12 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog, QWidget *pa
   // Populate the language combo box.  We do this by looking at all the compiled in translations.
   QDir dir1(QStringLiteral(":/translations/"));
   QDir dir2(QStringLiteral(TRANSLATIONS_DIR));
-  QStringList codes(dir1.entryList(QStringList() << QStringLiteral("*.qm")));
+  QStringList codes = dir1.entryList(QStringList() << QStringLiteral("*.qm"));
   if (dir2.exists()) {
     codes << dir2.entryList(QStringList() << QStringLiteral("*.qm"));
   }
   QRegularExpression lang_re(QStringLiteral("^strawberry_(.*).qm$"));
-  for (const QString &filename : codes) {
+  for (const QString &filename : std::as_const(codes)) {
 
     QRegularExpressionMatch re_match = lang_re.match(filename);
 

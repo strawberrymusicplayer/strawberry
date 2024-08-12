@@ -96,9 +96,9 @@ bool SpotifyCoverProvider::StartSearch(const QString &artist, const QString &alb
     }
   }
 
-  ParamList params = ParamList() << Param(QStringLiteral("q"), query)
-                                 << Param(QStringLiteral("type"), type)
-                                 << Param(QStringLiteral("limit"), QString::number(kLimit));
+  const ParamList params = ParamList() << Param(QStringLiteral("q"), query)
+                                       << Param(QStringLiteral("type"), type)
+                                       << Param(QStringLiteral("limit"), QString::number(kLimit));
 
   QUrlQuery url_query;
   for (const Param &param : params) {
@@ -201,14 +201,14 @@ void SpotifyCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id,
     return;
   }
 
-  QJsonArray array_items = json_obj[QLatin1String("items")].toArray();
+  const QJsonArray array_items = json_obj[QLatin1String("items")].toArray();
   if (array_items.isEmpty()) {
     emit SearchFinished(id, CoverProviderSearchResults());
     return;
   }
 
   CoverProviderSearchResults results;
-  for (const QJsonValueRef value_item : array_items) {
+  for (const QJsonValue &value_item : array_items) {
 
     if (!value_item.isObject()) {
       continue;
@@ -223,19 +223,19 @@ void SpotifyCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id,
     if (!obj_album.contains(QLatin1String("artists")) || !obj_album.contains(QLatin1String("name")) || !obj_album.contains(QLatin1String("images")) || !obj_album[QLatin1String("artists")].isArray() || !obj_album[QLatin1String("images")].isArray()) {
       continue;
     }
-    QJsonArray array_artists = obj_album[QLatin1String("artists")].toArray();
-    QJsonArray array_images = obj_album[QLatin1String("images")].toArray();
+    const QJsonArray array_artists = obj_album[QLatin1String("artists")].toArray();
+    const QJsonArray array_images = obj_album[QLatin1String("images")].toArray();
     QString album = obj_album[QLatin1String("name")].toString();
 
     QStringList artists;
-    for (const QJsonValueRef value_artist : array_artists) {
+    for (const QJsonValue &value_artist : array_artists) {
       if (!value_artist.isObject()) continue;
       QJsonObject obj_artist = value_artist.toObject();
       if (!obj_artist.contains(QLatin1String("name"))) continue;
       artists << obj_artist[QLatin1String("name")].toString();
     }
 
-    for (const QJsonValueRef value_image : array_images) {
+    for (const QJsonValue &value_image : array_images) {
       if (!value_image.isObject()) continue;
       QJsonObject obj_image = value_image.toObject();
       if (!obj_image.contains(QLatin1String("url")) || !obj_image.contains(QLatin1String("width")) || !obj_image.contains(QLatin1String("height"))) continue;

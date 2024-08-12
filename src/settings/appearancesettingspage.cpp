@@ -21,6 +21,8 @@
 
 #include "config.h"
 
+#include <utility>
+
 #include <QApplication>
 #include <QWidget>
 #include <QStyleFactory>
@@ -91,7 +93,8 @@ AppearanceSettingsPage::AppearanceSettingsPage(SettingsDialog *dialog, QWidget *
   setWindowIcon(IconLoader::Load(QStringLiteral("view-media-visualization"), true, 0, 32));
 
   ui_->combobox_style->addItem(QStringLiteral("default"), QStringLiteral("default"));
-  for (const QString &style : QStyleFactory::keys()) {
+  const QStringList styles = QStyleFactory::keys();
+  for (const QString &style : styles) {
     ui_->combobox_style->addItem(style, style);
   }
 

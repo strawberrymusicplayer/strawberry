@@ -629,7 +629,7 @@ void CollectionModel::UpdateSongsInternal(const SongList &songs) {
     }
   }
 
-  for (CollectionItem *item : album_parents) {
+  for (CollectionItem *item : std::as_const(album_parents)) {
     ClearItemPixmapCache(item);
     const QModelIndex idx = ItemToIndex(item);
     if (idx.isValid()) {

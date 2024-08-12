@@ -116,7 +116,7 @@ QNetworkReply *LastFMImport::CreateRequest(const ParamList &request_params) {
   std::sort(params.begin(), params.end());
 
   QUrlQuery url_query;
-  for (const Param &param : params) {
+  for (const Param &param : std::as_const(params)) {
     url_query.addQueryItem(QString::fromLatin1(QUrl::toPercentEncoding(param.first)), QString::fromLatin1(QUrl::toPercentEncoding(param.second)));
   }
 
@@ -351,9 +351,9 @@ void LastFMImport::GetRecentTracksRequestFinished(QNetworkReply *reply, const in
   }
   else {
 
-    QJsonArray array_track = json_obj[QLatin1String("track")].toArray();
+    const QJsonArray array_track = json_obj[QLatin1String("track")].toArray();
 
-    for (const QJsonValueRef value_track : array_track) {
+    for (const QJsonValue &value_track : array_track) {
 
       ++lastplayed_received_;
 

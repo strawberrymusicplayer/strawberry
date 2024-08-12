@@ -23,6 +23,7 @@
 
 #include <cmath>
 #include <algorithm>
+#include <utility>
 
 #include <QObject>
 #include <QCoreApplication>
@@ -73,7 +74,7 @@ AlbumCoverFetcherSearch::~AlbumCoverFetcherSearch() {
 
 void AlbumCoverFetcherSearch::TerminateSearch() {
 
-  QList<int> ids = pending_requests_.keys();
+  const QList<int> ids = pending_requests_.keys();
   for (const int id : ids) {
     pending_requests_.take(id)->CancelSearch(id);
   }
@@ -93,7 +94,7 @@ void AlbumCoverFetcherSearch::Start(SharedPtr<CoverProviders> cover_providers) {
   QList<CoverProvider*> cover_providers_sorted = cover_providers->List();
   std::stable_sort(cover_providers_sorted.begin(), cover_providers_sorted.end(), ProviderCompareOrder);
 
-  for (CoverProvider *provider : cover_providers_sorted) {
+  for (CoverProvider *provider : std::as_const(cover_providers_sorted)) {
 
     if (!provider->is_enabled()) continue;
 
@@ -413,7 +414,7 @@ void AlbumCoverFetcherSearch::Cancel() {
     TerminateSearch();
   }
   else if (!pending_image_loads_.isEmpty()) {
-    QList<QNetworkReply*> replies = pending_image_loads_.keys();
+    const QList<QNetworkReply*> replies = pending_image_loads_.keys();
     for (QNetworkReply *reply : replies) {
       QObject::disconnect(reply, &QNetworkReply::finished, this, nullptr);
       reply->abort();

@@ -86,10 +86,10 @@ void RadioParadiseService::GetChannelsReply(QNetworkReply *reply, const int task
     emit NewChannels();
     return;
   }
-  QJsonArray array_channels = object[QLatin1String("channels")].toArray();
+  const QJsonArray array_channels = object[QLatin1String("channels")].toArray();
 
   RadioChannelList channels;
-  for (const QJsonValueRef value_channel : array_channels) {
+  for (const QJsonValue &value_channel : array_channels) {
     if (!value_channel.isObject()) continue;
     QJsonObject obj_channel = value_channel.toObject();
     if (!obj_channel.contains(QLatin1String("chan_name")) || !obj_channel.contains(QLatin1String("streams"))) {
@@ -100,8 +100,8 @@ void RadioParadiseService::GetChannelsReply(QNetworkReply *reply, const int task
     if (!value_streams.isArray()) {
       continue;
     }
-    QJsonArray array_streams = obj_channel[QLatin1String("streams")].toArray();
-    for (const QJsonValueRef value_stream : array_streams) {
+    const QJsonArray array_streams = obj_channel[QLatin1String("streams")].toArray();
+    for (const QJsonValue &value_stream : array_streams) {
       if (!value_stream.isObject()) continue;
       QJsonObject obj_stream = value_stream.toObject();
       if (!obj_stream.contains(QLatin1String("label")) || !obj_stream.contains(QLatin1String("url"))) {
