@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: strawberrymusicplayer\n"
 "Language-Team: Spanish, Mexico\n"
 "Language: es_MX\n"
-"PO-Revision-Date: 2024-08-11 18:38\n"
+"PO-Revision-Date: 2024-08-23 22:37\n"
 
 #: playlist/playlistlistview.cpp:51
 msgid "\n\n"
@@ -376,7 +376,7 @@ msgstr "&Utilizar configuración de «proxy» del sistema"
 
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:413
 msgid "(This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately)."
-msgstr ""
+msgstr "(Este es el retraso desde que se hace el scrobble de una canción y cuando los scrobbles se envían al servidor. Establecer este tiempo a 0 segundos enviará los scrobbles inmediatamente)."
 
 #: dialogs/edittagdialog.cpp:103
 msgid "(different across multiple songs)"
@@ -740,7 +740,7 @@ msgstr "Tamaño de la cubierta del álbum"
 
 #: ../../build-qt6dev/src/ui_coverssettingspage.h:314
 msgid "Album cover types"
-msgstr ""
+msgstr "Tipos de portada de álbum"
 
 #: ../../build-qt6dev/src/ui_streamingtabsview.h:114
 msgid "Albums"
@@ -857,7 +857,7 @@ msgstr "¿Confirma que quiere eliminar el ajuste predefinido «%1»?"
 
 #: dialogs/edittagdialog.cpp:1338
 msgid "Are you sure you want to reset this song's play statistics?"
-msgstr ""
+msgstr "¿Estás seguro de que deseas reestablecer las estadísticas de reproducción de esta canción?"
 
 #: settings/collectionsettingspage.cpp:339
 msgid "Are you sure you want to write song playcounts and ratings to file for all songs in your collection?"
@@ -1037,7 +1037,7 @@ msgstr "Equilibrio"
 
 #: ../../build-qt6dev/src/ui_qobuzsettingspage.h:298
 msgid "Base64 encoded secret"
-msgstr ""
+msgstr "Secreto codificado en Base64"
 
 #: ../../build-qt6dev/src/ui_notificationssettingspage.h:512
 msgid "Basic Blue"
@@ -1437,7 +1437,7 @@ msgstr "No se pudo crear el elemento «%1» de GStreamer. Asegúrese de tener in
 #: core/songloader.cpp:313
 #, qt-format
 msgid "Could not open CUE file %1 for reading: %2"
-msgstr ""
+msgstr "No se pudo abrir el archivo CUE %1 para la lectura: %2"
 
 #: device/mtpconnection.cpp:75 device/mtpconnection.cpp:109
 msgid "Could not open MTP device."
@@ -1455,43 +1455,43 @@ msgstr "No se pudo abrir el archivo %1"
 #: core/songloader.cpp:281
 #, qt-format
 msgid "Could not open file %1 for reading: %2"
-msgstr ""
+msgstr "No se pudo abrir el archivo %1 para la lectura: %2"
 
 #: core/songloader.cpp:374
 #, qt-format
 msgid "Could not open playlist file %1 for reading: %2"
-msgstr ""
+msgstr "No se pudo abrir el archivo de lista de reproducción %1 para la lectura: %2"
 
 #: covermanager/albumcovermanager.cpp:1065
 #: covermanager/albumcoverchoicecontroller.cpp:827
 #, qt-format
 msgid "Could not save cover to file %1."
-msgstr ""
+msgstr "No se pudo guardar la portada en el archivo %1."
 
 #: playlist/playlist.cpp:442 dialogs/edittagdialog.cpp:1491
 #, qt-format
 msgid "Could not write metadata to %1"
-msgstr ""
+msgstr "No se pudieron escribir los metadatos en %1"
 
 #: playlist/playlist.cpp:439 dialogs/edittagdialog.cpp:1494
 #, qt-format
 msgid "Could not write metadata to %1: %2"
-msgstr ""
+msgstr "No se pudieron escribir los metadatos en %1: %2"
 
 #: core/songloader.cpp:499
 #, qt-format
 msgid "Couldn't create GStreamer fakesink element for %1"
-msgstr ""
+msgstr "No se pudo crear el elemento fakesink de GStreamer para %1"
 
 #: core/songloader.cpp:482
 #, qt-format
 msgid "Couldn't create GStreamer source element for %1"
-msgstr ""
+msgstr "No se pudo crear el elemento source de GStreamer para %1"
 
 #: core/songloader.cpp:492
 #, qt-format
 msgid "Couldn't create GStreamer typefind element for %1"
-msgstr ""
+msgstr "No se pudo crear el elemento typefind de GStreamer para %1"
 
 #: playlist/playlistmanager.cpp:207
 msgid "Couldn't create playlist"
@@ -1510,7 +1510,7 @@ msgstr "No se pudo encontrar un codificador para %1; compruebe que tiene instala
 #: core/songloader.cpp:505
 #, qt-format
 msgid "Couldn't link GStreamer source, typefind and fakesink elements for %1"
-msgstr ""
+msgstr "No se pudieron vincular los elementos source, typefind y fakesink de GStreamer para %1"
 
 #: ../../build-qt6dev/src/ui_albumcovermanager.h:212
 #: ../../build-qt6dev/src/ui_albumcoversearcher.h:102
@@ -1893,7 +1893,7 @@ msgstr "No volver a mostrar este mensaje."
 #: playlistparsers/parserbase.cpp:62
 #, qt-format
 msgid "Don't know how to handle %1"
-msgstr ""
+msgstr "No sé cómo manejar %1"
 
 #: osd/osdbase.cpp:363 ../../build-qt6dev/src/ui_playlistsequence.h:108
 msgid "Don't repeat"
@@ -2055,7 +2055,7 @@ msgstr "Activar botón de borrado de lista de reproducción"
 
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:186
 msgid "Enable playlist toolbar"
-msgstr ""
+msgstr "Activar barra de herramientas de lista de reproducción"
 
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:417
 msgid "Enable scrobbling for the following sources:"
@@ -2075,7 +2075,7 @@ msgstr "Activar control de volumen"
 
 #: globalshortcuts/globalshortcutsmanager.cpp:79
 msgid "Enable/disable scrobbling"
-msgstr ""
+msgstr "Activar/desactivar scrobbling"
 
 #: ../../build-qt6dev/src/ui_moodbarsettingspage.h:98
 msgid "Enabled"
@@ -2165,7 +2165,7 @@ msgstr "Error al conectar al dispositivo MTP %1"
 #: device/mtploader.cpp:77
 #, qt-format
 msgid "Error connecting MTP device %1: %2"
-msgstr ""
+msgstr "Error al conectar el dispositivo MTP %1: %2"
 
 #: organize/organizeerrordialog.cpp:71
 msgid "Error copying songs"
@@ -2464,7 +2464,7 @@ msgstr "Encuentre temas en la colección que coincidan con los criterios que esp
 
 #: musicbrainz/tagfetcher.cpp:80
 msgid "Fingerprinting song"
-msgstr ""
+msgstr "Creando huella digital de la canción"
 
 #: smartplaylists/smartplaylistwizard.cpp:93
 msgid "Finish"
@@ -2859,7 +2859,7 @@ msgstr "Insertar…"
 
 #: dialogs/snapdialog.cpp:77
 msgid "Install strawberry through PPA:"
-msgstr ""
+msgstr "Instalar Strawberry mediante un PPA:"
 
 #: playlist/playlist.cpp:1422
 msgid "Integrated Loudness"
@@ -2936,7 +2936,7 @@ msgstr "Barra lateral grande"
 
 #: playlist/playlist.cpp:1403
 msgid "Last Played"
-msgstr ""
+msgstr "Última reproducción"
 
 #: smartplaylists/smartplaylistsmodel.cpp:90
 #: ../../build-qt6dev/src/ui_lastfmimportdialog.h:150
@@ -4421,7 +4421,7 @@ msgstr "Guardar conteo de reproducciones y valoraciones en los archivos ahora"
 
 #: ../../build-qt6dev/src/ui_collectionsettingspage.h:473
 msgid "Save playcounts to song tags when possible"
-msgstr ""
+msgstr "Guardar número de reproducciones en las etiquetas de las canciones cuando sea posible"
 
 #: playlist/playlistlistcontainer.cpp:91
 msgctxt "Save playlist menu action."
@@ -4455,7 +4455,7 @@ msgstr "Gestor de agrupamientos guardados"
 
 #: playlistparsers/cueparser.cpp:395
 msgid "Saving CUE files is not supported."
-msgstr ""
+msgstr "El guardado de archivos CUE no está soportado."
 
 #: ../../build-qt6dev/src/ui_coverssettingspage.h:317
 msgid "Saving album covers"
@@ -4532,7 +4532,7 @@ msgstr "Términos de búsqueda"
 #: filterparser/filterparser.cpp:468
 #, qt-format
 msgid "Search terms for numerical fields can be prefixed with %1 or %2 to refine the search, e.g.: "
-msgstr ""
+msgstr "Los términos de búsqueda para campos numéricos pueden llevar %1 o %2 como prefijos para refinar la búsqueda. Por ejemplo: "
 
 #: tidal/tidalrequest.cpp:371 tidal/tidalrequest.cpp:385
 #: tidal/tidalrequest.cpp:399 spotify/spotifyrequest.cpp:373
@@ -4668,7 +4668,7 @@ msgstr "Mostrar una notificación &nativa del sistema"
 
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:180
 msgid "Show a glowing animation on the currently playing track"
-msgstr ""
+msgstr "Mostrar una animación resplandeciente en la pista actual en reproducción"
 
 #: ../../build-qt6dev/src/ui_moodbarsettingspage.h:95
 msgid "Show a moodbar in the track progress bar"
@@ -4720,7 +4720,7 @@ msgstr "Mostrar todos los temas"
 
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:179
 msgid "Show bars on the currently playing track"
-msgstr ""
+msgstr "Mostrar barras en la pista actual en reproducción"
 
 #: ../../build-qt6dev/src/ui_scrobblersettingspage.h:415
 msgid "Show dialog for errors"
@@ -4976,7 +4976,7 @@ msgstr "Estándar"
 
 #: playlist/playlisttabbar.cpp:79
 msgid "Star playlist"
-msgstr ""
+msgstr "Marcar lista de reproducción como favorita"
 
 #: core/commandlineoptions.cpp:221
 msgid "Start the playlist currently playing"
@@ -5187,7 +5187,7 @@ msgstr "Etiquetas"
 
 #: ../../build-qt6dev/src/ui_backendsettingspage.h:707
 msgid "Target Level"
-msgstr ""
+msgstr "Nivel objetivo"
 
 #: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:200
 msgid "Target bitrate"
@@ -5461,7 +5461,7 @@ msgstr "No se puede ejecutar la consulta SQL de la colección: %1"
 #: scrobbler/listenbrainzscrobbler.cpp:604
 #, qt-format
 msgid "Unable to scrobble %1 - %2 because of error: %3"
-msgstr ""
+msgstr "No se puede hacer el scrobble %1 - %2 debido al error: %3"
 
 #: playlist/playlistcontainer.cpp:227
 msgid "Undo"
@@ -5487,7 +5487,7 @@ msgstr "Error desconocido"
 
 #: playlist/playlistmanager.cpp:264
 msgid "Unknown file extension for playlist."
-msgstr ""
+msgstr "Extensión de archivo desconocida para la lista de reproducción."
 
 #: playlistparsers/playlistparser.cpp:185
 #: playlistparsers/playlistparser.cpp:230
@@ -5497,7 +5497,7 @@ msgstr "Tipo de vínculo desconocido: %1"
 
 #: playlist/playlistmanager.cpp:264
 msgid "Unknown playlist extension"
-msgstr ""
+msgstr "Extensión de la lista de reproducción desconocida"
 
 #: covermanager/albumcoverchoicecontroller.cpp:110
 msgid "Unset cover"
@@ -5556,7 +5556,7 @@ msgstr "Utilizar atajos de Gnome (GSD) cuando sea posible"
 
 #: ../../build-qt6dev/src/ui_subsonicsettingspage.h:253
 msgid "Use HTTP/2 when possible"
-msgstr ""
+msgstr "Usar HTTP/2 cuando sea posible"
 
 #: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:273
 msgid "Use KDE (KGlobalAccel) shortcuts when available"
