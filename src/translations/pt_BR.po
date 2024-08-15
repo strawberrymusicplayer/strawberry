@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: strawberrymusicplayer\n"
 "Language-Team: Portuguese, Brazilian\n"
 "Language: pt_BR\n"
-"PO-Revision-Date: 2024-07-29 11:14\n"
+"PO-Revision-Date: 2024-08-19 19:10\n"
 
 #: playlist/playlistlistview.cpp:51
 msgid "\n\n"
@@ -106,7 +106,7 @@ msgstr ""
 #: equalizer/equalizerslider.cpp:59
 #, qt-format
 msgid "%1 dB"
-msgstr ""
+msgstr "%1 dB"
 
 #: utilities/timeutils.cpp:67
 #, qt-format
@@ -146,7 +146,7 @@ msgstr ""
 #: device/deviceview.cpp:146
 #, qt-format
 msgid "%1 song%2"
-msgstr ""
+msgstr "%1 música%2"
 
 #: context/contextview.cpp:412
 #, qt-format
@@ -219,11 +219,11 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:653
 msgid "&About Strawberry"
-msgstr ""
+msgstr "&Sobre o Strawberry"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:661
 msgid "&Add file..."
-msgstr ""
+msgstr "&Adicionar arquivo..."
 
 #: playlist/playlistheader.cpp:64
 msgid "&Align text"
@@ -235,11 +235,11 @@ msgstr "&Centro"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:635
 msgid "&Clear playlist"
-msgstr ""
+msgstr "&Limpar lista de reprodução"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:667
 msgid "&Cover Manager"
-msgstr ""
+msgstr "&Gerenciador de capas"
 
 #: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:286
 msgid "&Custom"
@@ -251,11 +251,11 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:700
 msgid "&Do a full collection rescan"
-msgstr ""
+msgstr "&Fazer uma varredura completa da coleção"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:672
 msgid "&Equalizer"
-msgstr ""
+msgstr "&Equalizador"
 
 #: playlist/playlistheader.cpp:103
 #, qt-format
@@ -276,7 +276,7 @@ msgstr "&Esquerda"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:687
 msgid "&Load playlist..."
-msgstr ""
+msgstr "&Carregar lista de reprodução..."
 
 #: playlist/playlistheader.cpp:60
 msgid "&Lock rating"
@@ -292,15 +292,15 @@ msgstr "Música"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:696
 msgid "&Mute"
-msgstr ""
+msgstr "&Mudo"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:679
 msgid "&New playlist"
-msgstr ""
+msgstr "&Nova lista de reprodução"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:622
 msgid "&Next track"
-msgstr ""
+msgstr "&Próxima faixa"
 
 #: ../../build-qt6dev/src/ui_appearancesettingspage.h:529
 msgid "&No background image"
@@ -312,11 +312,11 @@ msgstr "&Nenhum"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:665
 msgid "&Open file..."
-msgstr ""
+msgstr "&Abrir arquivo..."
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:614
 msgid "&Play"
-msgstr ""
+msgstr "&Reproduzir"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:626
 msgid "&Quit"
@@ -340,7 +340,7 @@ msgstr ""
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:649
 msgid "&Settings..."
-msgstr ""
+msgstr "&Configurações..."
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:669
 msgid "&Shuffle mode"
@@ -348,7 +348,7 @@ msgstr "Modo aleatório"
 
 #: ../../build-qt6dev/src/ui_mainwindow.h:618
 msgid "&Stop"
-msgstr ""
+msgstr "&Parar"
 
 #: playlist/playlistheader.cpp:58
 msgid "&Stretch columns to fit window"
@@ -1927,7 +1927,7 @@ msgstr "Clique duplo numa música da lista de reprodução irá..."
 msgid "Double clicking a song will..."
 msgstr "Clique duplo em uma música irá..."
 
-#: playlist/playlisttabbar.cpp:358
+#: playlist/playlisttabbar.cpp:356
 msgid "Double-click here to favorite this playlist so it will be saved and remain accessible through the \"Playlists\" panel on the left side bar"
 msgstr ""
 
@@ -2105,7 +2105,7 @@ msgstr "Insira uma URL para fazer baixar uma capa da Internet:"
 msgid "Enter a filename for exported covers (no extension):"
 msgstr "Digite um nome de arquivo para capas exportadas (sem extensão):"
 
-#: playlist/playlisttabbar.cpp:181
+#: playlist/playlisttabbar.cpp:179
 msgid "Enter a new name for this playlist"
 msgstr "Digite um novo nome para esta lista"
 
@@ -2153,7 +2153,7 @@ msgid "Equivalent to --log-levels *:3"
 msgstr "Equivalente ao --log-levels *:3"
 
 #: core/mainwindow.cpp:2719 core/mainwindow.cpp:2870
-#: collection/collectionview.cpp:715
+#: collection/collectionview.cpp:716
 msgid "Error"
 msgstr "Erro"
 
@@ -2771,7 +2771,7 @@ msgstr "Ícone"
 msgid "Icon sizes"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:733
+#: widgets/fancytabwidget.cpp:387
 msgid "Icons on top"
 msgstr "Ícones acima"
 
@@ -2930,7 +2930,7 @@ msgstr "Salão Grande"
 msgid "Large album cover"
 msgstr "Capa grande de álbum"
 
-#: widgets/fancytabwidget.cpp:729
+#: widgets/fancytabwidget.cpp:383
 msgid "Large sidebar"
 msgstr "Barra lateral grande"
 
@@ -3466,7 +3466,7 @@ msgid "None"
 msgstr "Nenhum"
 
 #: core/mainwindow.cpp:2719 core/mainwindow.cpp:2870
-#: collection/collectionview.cpp:715
+#: collection/collectionview.cpp:716
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Nenhuma das músicas selecionadas estão adequadas para copiar para um dispositivo"
 
@@ -3740,7 +3740,7 @@ msgstr "Artista"
 msgid "Pixel"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:731
+#: widgets/fancytabwidget.cpp:385
 msgid "Plain sidebar"
 msgstr "Barra lateral simples"
 
@@ -3808,7 +3808,7 @@ msgstr "Opções do player"
 #: playlist/playlistcontainer.cpp:342 playlist/playlistlistcontainer.cpp:281
 #: playlist/playlistlistcontainer.cpp:391 playlist/playlistmanager.cpp:112
 #: playlist/playlistmanager.cpp:194 playlist/playlistmanager.cpp:540
-#: playlist/playlisttabbar.cpp:434
+#: playlist/playlisttabbar.cpp:432
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:177
 msgid "Playlist"
 msgstr "Lista de Reprodução"
@@ -4195,7 +4195,7 @@ msgstr ""
 msgid "Remove from playlist"
 msgstr "Remover da lista de reprodução"
 
-#: playlist/playlisttabbar.cpp:229
+#: playlist/playlisttabbar.cpp:227
 msgid "Remove playlist"
 msgstr "Remover lista de reprodução"
 
@@ -4207,7 +4207,7 @@ msgstr "Remover listas de reprodução"
 msgid "Remove problematic characters from filenames"
 msgstr ""
 
-#: playlist/playlisttabbar.cpp:181
+#: playlist/playlisttabbar.cpp:179
 msgid "Rename playlist"
 msgstr "Renomear lista de reprodução"
 
@@ -4884,7 +4884,7 @@ msgstr "Pular faixa"
 msgid "Small album cover"
 msgstr "Capa pequena de álbum"
 
-#: widgets/fancytabwidget.cpp:730
+#: widgets/fancytabwidget.cpp:384
 msgid "Small sidebar"
 msgstr "Barra lateral compacta"
 
@@ -5173,7 +5173,7 @@ msgstr ""
 msgid "Tabbar small mode"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:732
+#: widgets/fancytabwidget.cpp:386
 msgid "Tabs on top"
 msgstr "Mostrar abas no topo"
 
@@ -5319,7 +5319,7 @@ msgstr "Este é um iPod, mas você compilou o Strawberry sem suporte a libgpod"
 msgid "This is the first time you have connected this device.  Strawberry will now scan the device to find music files - this may take some time."
 msgstr "Esta é a primeira vez que você conecta este dispositivo. O Strawberry vai escaneá-lo agora para achar músicas - isso pode levar algum tempo."
 
-#: playlist/playlisttabbar.cpp:241
+#: playlist/playlisttabbar.cpp:239
 msgid "This option can be changed in the \"Behavior\" preferences"
 msgstr "Essa opção pode ser alterada nas preferências de \"Comportamento\""
 
@@ -5713,7 +5713,7 @@ msgstr ""
 msgid "Vorbis"
 msgstr ""
 
-#: playlist/playlisttabbar.cpp:238
+#: playlist/playlisttabbar.cpp:236
 #: ../../build-qt6dev/src/ui_playlistsettingspage.h:181
 msgid "Warn me when closing a playlist tab"
 msgstr "Avisar-me quando fechar uma guia de lista de reprodução"
@@ -5822,7 +5822,7 @@ msgstr "Ontem"
 msgid "You are about to remove %1 playlists from your favorites, are you sure?"
 msgstr "Você está prestes a apagar %1 listas de seus favoritos, tem certeza?"
 
-#: playlist/playlisttabbar.cpp:232
+#: playlist/playlisttabbar.cpp:230
 msgid "You are about to remove a playlist which is not part of your favorite playlists: the playlist will be deleted (this action cannot be undone). \n"
 "Are you sure you want to continue?"
 msgstr "Você está prestes a remover uma lista de reprodução que não é parte de suas listas de reproduções favoritas: a lista de reprodução será removida (esta ação não pode ser desfeita).\n"
