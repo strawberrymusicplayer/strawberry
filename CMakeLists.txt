@@ -92,6 +92,8 @@ if(USE_RPATH)
   set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 endif()
 
+set(QT_NO_SHOW_OLD_QT_WRAP_CPP_WARNING ON)
+
 find_program(CCACHE_EXECUTABLE NAMES ccache)
 if(CCACHE_EXECUTABLE)
   message(STATUS "ccache found: will be used for compilation and linkage")
