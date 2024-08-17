@@ -85,6 +85,8 @@ Player::Player(Application *app, QObject *parent)
       analyzer_(nullptr),
       equalizer_(nullptr),
       timer_save_volume_(new QTimer(this)),
+      playlists_loaded_(false),
+      play_requested_(false),
       stream_change_type_(EngineBase::TrackChangeType::First),
       autoscroll_(Playlist::AutoScroll::Maybe),
       last_state_(EngineBase::State::Empty),
@@ -241,6 +243,80 @@ void Player::SaveVolume() {
   Settings s;
   s.beginGroup(kSettingsGroup);
   s.setValue("volume", volume_);
+  s.endGroup();
+
+}
+
+void Player::SavePlaybackStatus() {
+
+  Settings s;
+
+  s.beginGroup(kSettingsGroup);
+  s.setValue("playback_state", static_cast<int>(app_->player()->GetState()));
+  if (app_->player()->GetState() == EngineBase::State::Playing || app_->player()->GetState() == EngineBase::State::Paused) {
+    s.setValue("playback_playlist", app_->playlist_manager()->active()->id());
+    s.setValue("playback_position", app_->player()->engine()->position_nanosec() / kNsecPerSec);
+  }
+  else {
+    s.setValue("playback_playlist", -1);
+    s.setValue("playback_position", 0);
+  }
+  s.endGroup();
+
+}
+
+void Player::PlaylistsLoaded() {
+
+  playlists_loaded_ = true;
+
+  Settings s;
+
+  s.beginGroup(BehaviourSettingsPage::kSettingsGroup);
+  const bool resume_playback = s.value("resumeplayback", false).toBool();
+  s.endGroup();
+
+  s.beginGroup(Player::kSettingsGroup);
+  const EngineBase::State playback_state = static_cast<EngineBase::State>(s.value("playback_state", static_cast<int>(EngineBase::State::Empty)).toInt());
+  s.endGroup();
+
+  if (resume_playback && (playback_state == EngineBase::State::Playing || playback_state == EngineBase::State::Paused)) {
+    ResumePlayback();
+  }
+  else if (play_requested_) {
+    Play();
+  }
+
+  play_requested_ = false;
+
+}
+
+void Player::ResumePlayback() {
+
+  qLog(Debug) << "Resuming playback";
+
+  Settings s;
+  s.beginGroup(kSettingsGroup);
+  const EngineBase::State playback_state = static_cast<EngineBase::State>(s.value("playback_state", static_cast<int>(EngineBase::State::Empty)).toInt());
+  const int playback_playlist = s.value("playback_playlist", -1).toInt();
+  const int playback_position = s.value("playback_position", 0).toInt();
+  s.endGroup();
+
+  if (playback_playlist == app_->playlist_manager()->current()->id()) {
+    // Set active to current to resume playback on correct playlist.
+    app_->playlist_manager()->SetActiveToCurrent();
+    if (playback_state == EngineBase::State::Playing) {
+      Play(playback_position * kNsecPerSec);
+    }
+    else if (playback_state == EngineBase::State::Paused) {
+      PlayWithPause(playback_position * kNsecPerSec);
+    }
+  }
+
+  // Reset saved playback status so we don't resume again from the same position.
+  s.beginGroup(kSettingsGroup);
+  s.setValue("playback_state", static_cast<int>(EngineBase::State::Empty));
+  s.setValue("playback_playlist", -1);
+  s.setValue("playback_position", 0);
   s.endGroup();
 
 }
@@ -851,6 +927,11 @@ void Player::Mute() {
 void Player::Pause() { engine_->Pause(); }
 
 void Player::Play(const quint64 offset_nanosec) {
+
+  if (!playlists_loaded_) {
+    play_requested_ = true;
+    return;
+  }
 
   switch (GetState()) {
     case EngineBase::State::Playing:

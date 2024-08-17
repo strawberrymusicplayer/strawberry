@@ -238,9 +238,6 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void ToggleSidebar(const bool checked);
   void ToggleSearchCoverAuto(const bool checked);
   void SaveGeometry();
-  void SavePlaybackStatus();
-  void LoadPlaybackStatus();
-  void ResumePlayback();
 
   void Exit();
   void DoExit();

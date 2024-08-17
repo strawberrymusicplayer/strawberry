@@ -622,6 +622,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   QObject::connect(&*app_->player(), &Player::VolumeChanged, ui_->volume, &VolumeSlider::SetValue);
   QObject::connect(&*app_->player(), &Player::ForceShowOSD, this, &MainWindow::ForceShowOSD);
 
+  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::AllPlaylistsLoaded, &*app->player(), &Player::PlaylistsLoaded);
   QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, this, &MainWindow::SongChanged);
   QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, &*app_->player(), &Player::CurrentMetadataChanged);
   QObject::connect(&*app_->playlist_manager(), &PlaylistManager::EditingFinished, this, &MainWindow::PlaylistEditFinished);
@@ -1024,9 +1025,6 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
 
   CommandlineOptionsReceived(options);
 
-  if (!options.contains_play_options()) {
-    LoadPlaybackStatus();
-  }
   if (app_->scrobbler()->enabled() && !app_->scrobbler()->offline()) {
     app_->scrobbler()->Submit();
   }
@@ -1281,8 +1279,8 @@ void MainWindow::RefreshStyleSheet() {
 void MainWindow::SaveSettings() {
 
   SaveGeometry();
-  SavePlaybackStatus();
   app_->player()->SaveVolume();
+  app_->player()->SavePlaybackStatus();
   ui_->tabs->SaveSettings(QLatin1String(kSettingsGroup));
   ui_->playlist->view()->SaveSettings();
   app_->scrobbler()->WriteCache();
@@ -1546,78 +1544,6 @@ void MainWindow::SaveGeometry() {
   settings_.setValue("hidden", hidden_);
   settings_.setValue("geometry", saveGeometry());
   settings_.setValue("splitter_state", ui_->splitter->saveState());
-
-}
-
-void MainWindow::SavePlaybackStatus() {
-
-  Settings s;
-
-  s.beginGroup(Player::kSettingsGroup);
-  s.setValue("playback_state", static_cast<int>(app_->player()->GetState()));
-  if (app_->player()->GetState() == EngineBase::State::Playing || app_->player()->GetState() == EngineBase::State::Paused) {
-    s.setValue("playback_playlist", app_->playlist_manager()->active()->id());
-    s.setValue("playback_position", app_->player()->engine()->position_nanosec() / kNsecPerSec);
-  }
-  else {
-    s.setValue("playback_playlist", -1);
-    s.setValue("playback_position", 0);
-  }
-
-  s.endGroup();
-
-}
-
-void MainWindow::LoadPlaybackStatus() {
-
-  Settings s;
-
-  s.beginGroup(BehaviourSettingsPage::kSettingsGroup);
-  const bool resume_playback = s.value("resumeplayback", false).toBool();
-  s.endGroup();
-
-  s.beginGroup(Player::kSettingsGroup);
-  const EngineBase::State playback_state = static_cast<EngineBase::State>(s.value("playback_state", static_cast<int>(EngineBase::State::Empty)).toInt());
-  s.endGroup();
-
-  if (resume_playback && (playback_state == EngineBase::State::Playing || playback_state == EngineBase::State::Paused)) {
-    SharedPtr<QMetaObject::Connection> connection = make_shared<QMetaObject::Connection>();
-    *connection = QObject::connect(&*app_->playlist_manager(), &PlaylistManager::AllPlaylistsLoaded, this, [this, connection]() {
-      QObject::disconnect(*connection);
-      QTimer::singleShot(400ms, this, &MainWindow::ResumePlayback);
-    });
-  }
-
-}
-
-void MainWindow::ResumePlayback() {
-
-  qLog(Debug) << "Resuming playback";
-
-  Settings s;
-  s.beginGroup(Player::kSettingsGroup);
-  const EngineBase::State playback_state = static_cast<EngineBase::State>(s.value("playback_state", static_cast<int>(EngineBase::State::Empty)).toInt());
-  const int playback_playlist = s.value("playback_playlist", -1).toInt();
-  const int playback_position = s.value("playback_position", 0).toInt();
-  s.endGroup();
-
-  if (playback_playlist == app_->playlist_manager()->current()->id()) {
-    // Set active to current to resume playback on correct playlist.
-    app_->playlist_manager()->SetActiveToCurrent();
-    if (playback_state == EngineBase::State::Playing) {
-      app_->player()->Play(playback_position * kNsecPerSec);
-    }
-    else if (playback_state == EngineBase::State::Paused) {
-      app_->player()->PlayWithPause(playback_position * kNsecPerSec);
-    }
-  }
-
-  // Reset saved playback status so we don't resume again from the same position.
-  s.beginGroup(Player::kSettingsGroup);
-  s.setValue("playback_state", static_cast<int>(EngineBase::State::Empty));
-  s.setValue("playback_playlist", -1);
-  s.setValue("playback_position", 0);
-  s.endGroup();
 
 }
 

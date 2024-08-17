@@ -68,6 +68,9 @@ class PlayerInterface : public QObject {
   virtual void ReloadSettings() = 0;
   virtual void LoadVolume() = 0;
   virtual void SaveVolume() = 0;
+  virtual void SavePlaybackStatus() = 0;
+
+  virtual void PlaylistsLoaded() = 0;
 
   // Manual track change to the specified track
   virtual void PlayAt(const int index, const bool pause, const quint64 offset_nanosec, EngineBase::TrackChangeFlags change, const Playlist::AutoScroll autoscroll, const bool reshuffle, const bool force_inform = false) = 0;
@@ -159,6 +162,8 @@ class Player : public PlayerInterface {
   void ReloadSettings() override;
   void LoadVolume() override;
   void SaveVolume() override;
+  void SavePlaybackStatus() override;
+  void PlaylistsLoaded();
 
   void PlayAt(const int index, const bool pause, const quint64 offset_nanosec, EngineBase::TrackChangeFlags change, const Playlist::AutoScroll autoscroll, const bool reshuffle, const bool force_inform = false) override;
   void PlayPause(const quint64 offset_nanosec = 0, const Playlist::AutoScroll autoscroll = Playlist::AutoScroll::Always) override;
@@ -213,6 +218,8 @@ class Player : public PlayerInterface {
   void HandleLoadResult(const UrlHandler::LoadResult &result);
 
  private:
+  void ResumePlayback();
+
   // Returns true if we were supposed to stop after this track.
   bool HandleStopAfter(const Playlist::AutoScroll autoscroll);
 
@@ -227,6 +234,9 @@ class Player : public PlayerInterface {
   AnalyzerContainer *analyzer_;
   SharedPtr<Equalizer> equalizer_;
   QTimer *timer_save_volume_;
+
+  bool playlists_loaded_;
+  bool play_requested_;
 
   PlaylistItemPtr current_item_;
 
