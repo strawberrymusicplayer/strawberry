@@ -9,10 +9,21 @@ Unreleased:
     * Fixed KDE added keyboard accelerator characters (ampersands) appearing in sidebar (#1400, #1389, #1476).
     * Fixed KDE added keyboard accelerator characters (ampersands) appearing when editing playlist name (#1499).
     * Fixed collection "Search for this" adding prefix without value (#1510).
+    * Fixed play (-p) command line option not working on startup (#1465).
+    * Fixed scan transaction being started when "Update the collection when Strawberry starts" option is unchecked (#1469)
+    * Fixed Spotify bitrate being limited 128kbit/s.
+    * Fixed Spotify returning too many artists and albums.
+    * Fixed loading Spotify songs blocking UI.
+    * Fixed analyzer not being set.
+    * Fixed context top text being updated causing marked text to be unmarked.
+    * Fixed filter search to use filename for songs with empty title.
+    * Fixed missing developer in Appstream appdata file.
+    * Fixed MPRIS2 DesktopEntry to return desktop file entry without ".desktop" (#1516)
     * (macOS) Fixed missing Spotify.
 
   Enhancements:
     * Improved volume adjustment and track seeking using touchpad (#1498).
+    * Added url and filename columns to collection and playlist filter search.
 
 Version 1.1.1 (2024.07.22):
 
