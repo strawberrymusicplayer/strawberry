@@ -133,9 +133,9 @@ QString HtmlLyricsProvider::ParseLyricsFromHTML(const QString &content, const QR
     QRegularExpressionMatch rematch_end_tag;
     int tags = 1;
     do {
-      rematch_start_tag = QRegularExpression(start_tag).match(content, idx);
+      rematch_start_tag = start_tag.match(content, idx);
       const qint64 start_tag_idx = rematch_start_tag.hasMatch() ? rematch_start_tag.capturedStart() : -1;
-      rematch_end_tag = QRegularExpression(end_tag).match(content, idx);
+      rematch_end_tag = end_tag.match(content, idx);
       const qint64 end_tag_idx = rematch_end_tag.hasMatch() ? rematch_end_tag.capturedStart() : -1;
       if (rematch_start_tag.hasMatch() && start_tag_idx <= end_tag_idx) {
         ++tags;
