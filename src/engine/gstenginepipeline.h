@@ -172,7 +172,7 @@ class GstEnginePipeline : public QObject {
   // Static callbacks.  The GstEnginePipeline instance is passed in the last argument.
   static GstPadProbeReturn UpstreamEventsProbeCallback(GstPad *pad, GstPadProbeInfo *info, gpointer self);
   static GstPadProbeReturn BufferProbeCallback(GstPad *pad, GstPadProbeInfo *info, gpointer self);
-  static GstPadProbeReturn PlaybinProbeCallback(GstPad *pad, GstPadProbeInfo *info, gpointer self);
+  static GstPadProbeReturn PadProbeCallback(GstPad *pad, GstPadProbeInfo *info, gpointer self);
   static void ElementAddedCallback(GstBin *bin, GstBin *sub_bin, GstElement *element, gpointer self);
   static void ElementRemovedCallback(GstBin *bin, GstBin *sub_bin, GstElement *element, gpointer self);
   static void PadAddedCallback(GstElement *element, GstPad *pad, gpointer self);
@@ -343,7 +343,7 @@ class GstEnginePipeline : public QObject {
 
   gulong upstream_events_probe_cb_id_;
   gulong buffer_probe_cb_id_;
-  gulong playbin_probe_cb_id_;
+  gulong pad_probe_cb_id_;
   glong element_added_cb_id_;
   glong element_removed_cb_id_;
   glong pad_added_cb_id_;

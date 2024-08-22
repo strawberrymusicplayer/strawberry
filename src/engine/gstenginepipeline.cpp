@@ -141,7 +141,7 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       eventprobe_(nullptr),
       upstream_events_probe_cb_id_(0),
       buffer_probe_cb_id_(0),
-      playbin_probe_cb_id_(0),
+      pad_probe_cb_id_(0),
       element_added_cb_id_(-1),
       element_removed_cb_id_(-1),
       pad_added_cb_id_(-1),
@@ -1131,7 +1131,7 @@ void GstEnginePipeline::PadAddedCallback(GstElement *element, GstPad *pad, gpoin
   gst_pad_set_offset(pad, static_cast<gint64>(running_time));
 
   // Add a probe to the pad so we can update last_playbin_segment_.
-  instance->playbin_probe_cb_id_ = gst_pad_add_probe(pad, static_cast<GstPadProbeType>(GST_PAD_PROBE_TYPE_BUFFER | GST_PAD_PROBE_TYPE_EVENT_DOWNSTREAM | GST_PAD_PROBE_TYPE_EVENT_FLUSH), PlaybinProbeCallback, instance, nullptr);
+  instance->pad_probe_cb_id_ = gst_pad_add_probe(pad, static_cast<GstPadProbeType>(GST_PAD_PROBE_TYPE_BUFFER | GST_PAD_PROBE_TYPE_EVENT_DOWNSTREAM | GST_PAD_PROBE_TYPE_EVENT_FLUSH), PadProbeCallback, instance, nullptr);
 
   instance->pipeline_connected_ = true;
   if (instance->pending_seek_nanosec_ != -1 && instance->pipeline_active_) {
@@ -1141,7 +1141,7 @@ void GstEnginePipeline::PadAddedCallback(GstElement *element, GstPad *pad, gpoin
 
 }
 
-GstPadProbeReturn GstEnginePipeline::PlaybinProbeCallback(GstPad *pad, GstPadProbeInfo *info, gpointer self) {
+GstPadProbeReturn GstEnginePipeline::PadProbeCallback(GstPad *pad, GstPadProbeInfo *info, gpointer self) {
 
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
 
