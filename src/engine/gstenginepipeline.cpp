@@ -87,26 +87,26 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       valid_(false),
       exclusive_mode_(false),
       volume_enabled_(true),
-      stereo_balancer_enabled_(false),
-      eq_enabled_(false),
-      rg_enabled_(false),
       fading_enabled_(false),
+      strict_ssl_enabled_(false),
+      buffer_duration_nanosec_(BackendSettingsPage::kDefaultBufferDuration * kNsecPerMsec),
+      buffer_low_watermark_(BackendSettingsPage::kDefaultBufferLowWatermark),
+      buffer_high_watermark_(BackendSettingsPage::kDefaultBufferHighWatermark),
+      proxy_authentication_(false),
+      channels_enabled_(false),
+      channels_(0),
+      bs2b_enabled_(false),
+      stereo_balancer_enabled_(false),
       stereo_balance_(0.0F),
+      eq_enabled_(false),
       eq_preamp_(0),
+      rg_enabled_(false),
       rg_mode_(0),
       rg_preamp_(0.0),
       rg_fallbackgain_(0.0),
       rg_compression_(true),
       ebur128_loudness_normalization_(false),
-      buffer_duration_nanosec_(BackendSettingsPage::kDefaultBufferDuration * kNsecPerMsec),
-      buffer_low_watermark_(BackendSettingsPage::kDefaultBufferLowWatermark),
-      buffer_high_watermark_(BackendSettingsPage::kDefaultBufferHighWatermark),
-      buffering_(false),
-      proxy_authentication_(false),
-      channels_enabled_(false),
-      channels_(0),
-      bs2b_enabled_(false),
-      strict_ssl_enabled_(false),
+      ebur128_loudness_normalizing_gain_db_(0.0),
       segment_start_(0),
       segment_start_received_(false),
       end_offset_nanosec_(-1),
@@ -121,10 +121,10 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       last_known_position_ns_(0),
       next_uri_set_(false),
       next_uri_reset_(false),
-      ebur128_loudness_normalizing_gain_db_(0.0),
       volume_set_(false),
       volume_internal_(-1.0),
       volume_percent_(100),
+      buffering_(false),
       use_fudge_timer_(false),
       pipeline_(nullptr),
       audiobin_(nullptr),
@@ -398,8 +398,8 @@ bool GstEnginePipeline::InitFromUrl(const QUrl &media_url, const QUrl &stream_ur
   media_url_ = media_url;
   stream_url_ = stream_url;
   gst_url_ = gst_url;
-  ebur128_loudness_normalizing_gain_db_ = ebur128_loudness_normalizing_gain_db;
   end_offset_nanosec_ = end_nanosec;
+  ebur128_loudness_normalizing_gain_db_ = ebur128_loudness_normalizing_gain_db;
 
   guint version_major = 0, version_minor = 0, version_micro = 0, version_nano = 0;
   gst_plugins_base_version(&version_major, &version_minor, &version_micro, &version_nano);
@@ -982,7 +982,9 @@ GstPadProbeReturn GstEnginePipeline::UpstreamEventsProbeCallback(GstPad *pad, Gs
 
 }
 
-void GstEnginePipeline::ElementAddedCallback(GstBin *bin, GstBin*, GstElement *element, gpointer self) {
+void GstEnginePipeline::ElementAddedCallback(GstBin *bin, GstBin *sub_bin, GstElement *element, gpointer self) {
+
+  Q_UNUSED(sub_bin)
 
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
 
@@ -1007,7 +1009,9 @@ void GstEnginePipeline::ElementAddedCallback(GstBin *bin, GstBin*, GstElement *e
 
 }
 
-void GstEnginePipeline::ElementRemovedCallback(GstBin *bin, GstBin*, GstElement *element, gpointer self) {
+void GstEnginePipeline::ElementRemovedCallback(GstBin *bin, GstBin *sub_bin, GstElement *element, gpointer self) {
+
+  Q_UNUSED(sub_bin)
 
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
 
@@ -1303,7 +1307,7 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
 
   QList<GstBufferConsumer*> consumers;
   {
-    QMutexLocker l(&instance->buffer_consumers_mutex_);
+    QMutexLocker l(&instance->mutex_buffer_consumers_);
     consumers = instance->buffer_consumers_;
   }
 
@@ -2048,17 +2052,17 @@ void GstEnginePipeline::timerEvent(QTimerEvent *e) {
 }
 
 void GstEnginePipeline::AddBufferConsumer(GstBufferConsumer *consumer) {
-  QMutexLocker l(&buffer_consumers_mutex_);
+  QMutexLocker l(&mutex_buffer_consumers_);
   buffer_consumers_ << consumer;
 }
 
 void GstEnginePipeline::RemoveBufferConsumer(GstBufferConsumer *consumer) {
-  QMutexLocker l(&buffer_consumers_mutex_);
+  QMutexLocker l(&mutex_buffer_consumers_);
   buffer_consumers_.removeAll(consumer);
 }
 
 void GstEnginePipeline::RemoveAllBufferConsumers() {
-  QMutexLocker l(&buffer_consumers_mutex_);
+  QMutexLocker l(&mutex_buffer_consumers_);
   buffer_consumers_.clear();
 }
 

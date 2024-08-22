@@ -173,8 +173,8 @@ class GstEnginePipeline : public QObject {
   static GstPadProbeReturn UpstreamEventsProbeCallback(GstPad *pad, GstPadProbeInfo *info, gpointer self);
   static GstPadProbeReturn BufferProbeCallback(GstPad *pad, GstPadProbeInfo *info, gpointer self);
   static GstPadProbeReturn PlaybinProbeCallback(GstPad *pad, GstPadProbeInfo *info, gpointer self);
-  static void ElementAddedCallback(GstBin *bin, GstBin*, GstElement *element, gpointer self);
-  static void ElementRemovedCallback(GstBin *bin, GstBin*, GstElement *element, gpointer self);
+  static void ElementAddedCallback(GstBin *bin, GstBin *sub_bin, GstElement *element, gpointer self);
+  static void ElementRemovedCallback(GstBin *bin, GstBin *sub_bin, GstElement *element, gpointer self);
   static void PadAddedCallback(GstElement *element, GstPad *pad, gpointer self);
   static void SourceSetupCallback(GstElement *playbin, GstElement *source, gpointer self);
   static void NotifyVolumeCallback(GstElement *element, GParamSpec *param_spec, gpointer self);
@@ -218,34 +218,13 @@ class GstEnginePipeline : public QObject {
   QVariant device_;
   bool exclusive_mode_;
   bool volume_enabled_;
-  bool stereo_balancer_enabled_;
-  bool eq_enabled_;
-  bool rg_enabled_;
   bool fading_enabled_;
-
-  // Stereo balance:
-  // From -1.0 - 1.0
-  // -1.0 is left, 1.0 is right.
-  float stereo_balance_;
-
-  // Equalizer
-  int eq_preamp_;
-  QList<int> eq_band_gains_;
-
-  // ReplayGain
-  int rg_mode_;
-  double rg_preamp_;
-  double rg_fallbackgain_;
-  bool rg_compression_;
-
-  // EBU R 128 Loudness Normalization
-  bool ebur128_loudness_normalization_;
+  bool strict_ssl_enabled_;
 
   // Buffering
   quint64 buffer_duration_nanosec_;
   double buffer_low_watermark_;
   double buffer_high_watermark_;
-  bool buffering_;
 
   // Proxy
   QString proxy_address_;
@@ -257,21 +236,35 @@ class GstEnginePipeline : public QObject {
   bool channels_enabled_;
   int channels_;
 
-  // Options
+  // bs2b
   bool bs2b_enabled_;
-  bool strict_ssl_enabled_;
+
+  // Stereo balance:
+  // From -1.0 - 1.0
+  // -1.0 is left, 1.0 is right.
+  bool stereo_balancer_enabled_;
+  float stereo_balance_;
+
+  // Equalizer
+  bool eq_enabled_;
+  int eq_preamp_;
+  QList<int> eq_band_gains_;
+
+  // ReplayGain
+  bool rg_enabled_;
+  int rg_mode_;
+  double rg_preamp_;
+  double rg_fallbackgain_;
+  bool rg_compression_;
+
+  // EBU R 128 Loudness Normalization
+  bool ebur128_loudness_normalization_;
 
   // Spotify
 #ifdef HAVE_SPOTIFY
   QString spotify_username_;
   QString spotify_password_;
 #endif
-
-  // These get called when there is a new audio buffer available
-  QList<GstBufferConsumer*> buffer_consumers_;
-  QMutex buffer_consumers_mutex_;
-  qint64 segment_start_;
-  bool segment_start_received_;
 
   // The URL that is currently playing, and the URL that is to be preloaded when the current track is close to finishing.
   QUrl media_url_;
@@ -280,6 +273,13 @@ class GstEnginePipeline : public QObject {
   QUrl next_media_url_;
   QUrl next_stream_url_;
   QByteArray next_gst_url_;
+  double ebur128_loudness_normalizing_gain_db_;
+
+  // These get called when there is a new audio buffer available
+  QList<GstBufferConsumer*> buffer_consumers_;
+  QMutex mutex_buffer_consumers_;
+  qint64 segment_start_;
+  bool segment_start_received_;
 
   // If this is > 0 then the pipeline will be forced to stop when playback goes past this position.
   qint64 end_offset_nanosec_;
@@ -317,10 +317,11 @@ class GstEnginePipeline : public QObject {
   bool next_uri_set_;
   bool next_uri_reset_;
 
-  double ebur128_loudness_normalizing_gain_db_;
   bool volume_set_;
   gdouble volume_internal_;
   uint volume_percent_;
+
+  bool buffering_;
 
   SharedPtr<QTimeLine> fader_;
   QBasicTimer fader_fudge_timer_;
