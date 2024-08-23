@@ -170,7 +170,7 @@ void BlockAnalyzer::analyze(QPainter &p, const Scope &s, const bool new_frame) {
     for (y = 0; scope_[x] < yscale_.at(y); ++y);
 
     // This is opposite to what you'd think, higher than y means the bar is lower than y (physically)
-    if (static_cast<double>(y) > store_.value(x)) {
+    if (static_cast<double>(y) > store_.at(x)) {
       store_[x] += step_;
       y = static_cast<int>(store_.value(x));
     }
