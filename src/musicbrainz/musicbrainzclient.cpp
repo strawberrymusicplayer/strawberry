@@ -131,7 +131,7 @@ void MusicBrainzClient::Cancel(int id) {
 
 void MusicBrainzClient::CancelAll() {
 
-  qDeleteAll(requests_.values());
+  qDeleteAll(requests_);
   requests_.clear();
 
 }
