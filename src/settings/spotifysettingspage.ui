@@ -123,7 +123,7 @@
       <item>
        <widget class="QLabel" name="label_warning_text">
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The GStreamer Spotify plugin is not detected, you will not be able to stream songs from Spotify without it. See: &lt;a href=&quot;https://github.com/strawberrymusicplayer/strawberry/wiki/GStreamer-Spotify-plugin&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;https://github.com/strawberrymusicplayer/strawberry/wiki/GStreamer-Spotify-plugin&lt;/span&gt;&lt;/a&gt; for instructions on how to install the plugin.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The GStreamer Spotify plugin is not detected, you will not be able to stream songs from Spotify without it. See &lt;a href=&quot;https://wiki.strawberrymusicplayer.org/wiki/Installing_GStreamer_Spotify_plugin&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;Wiki&lt;/span&gt;&lt;/a&gt; for instructions on how to install the plugin.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignTop</set>
