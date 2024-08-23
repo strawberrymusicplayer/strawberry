@@ -116,7 +116,7 @@ void DeleteFiles::ProcessSomeFiles() {
   for (; progress_ < n; ++progress_) {
     task_manager_->SetTaskProgress(task_id_, progress_, songs_.count());
 
-    const Song &song = songs_[progress_];
+    const Song song = songs_.value(progress_);
 
     MusicStorage::DeleteJob job;
     job.metadata_ = song;

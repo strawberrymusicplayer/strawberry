@@ -161,7 +161,7 @@ QSqlDatabase Database::Connect() {
   // Attach external databases
   QStringList keys = attached_databases_.keys();
   for (const QString &key : std::as_const(keys)) {
-    QString filename = attached_databases_[key].filename_;
+    QString filename = attached_databases_.value(key).filename_;
 
     if (!injected_database_name_.isNull()) filename = injected_database_name_;
 
@@ -182,7 +182,7 @@ QSqlDatabase Database::Connect() {
   // We might have to initialize the schema in some attached databases now, if they were deleted and don't match up with the main schema version.
   keys = attached_databases_.keys();
   for (const QString &key : std::as_const(keys)) {
-    if (attached_databases_[key].is_temporary_ && attached_databases_[key].schema_.isEmpty()) {
+    if (attached_databases_.value(key).is_temporary_ && attached_databases_.value(key).schema_.isEmpty()) {
       continue;
     }
     // Find out if there are any tables in this database
@@ -258,7 +258,7 @@ void Database::RecreateAttachedDb(const QString &database_name) {
     return;
   }
 
-  const QString filename = attached_databases_[database_name].filename_;
+  const QString filename = attached_databases_.value(database_name).filename_;
 
   QMutexLocker l(&mutex_);
   {

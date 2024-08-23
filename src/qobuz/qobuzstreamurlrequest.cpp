@@ -159,32 +159,32 @@ void QobuzStreamURLRequest::StreamURLReceived() {
       need_login_ = true;
       return;
     }
-    emit StreamURLFailure(id_, media_url_, errors_.first());
+    emit StreamURLFailure(id_, media_url_, errors_.constFirst());
     return;
   }
 
   QJsonObject json_obj = ExtractJsonObj(data);
   if (json_obj.isEmpty()) {
-    emit StreamURLFailure(id_, media_url_, errors_.first());
+    emit StreamURLFailure(id_, media_url_, errors_.constFirst());
     return;
   }
 
   if (!json_obj.contains(QLatin1String("track_id"))) {
     Error(QStringLiteral("Invalid Json reply, stream url is missing track_id."), json_obj);
-    emit StreamURLFailure(id_, media_url_, errors_.first());
+    emit StreamURLFailure(id_, media_url_, errors_.constFirst());
     return;
   }
 
   int track_id = json_obj[QLatin1String("track_id")].toInt();
   if (track_id != song_id_) {
     Error(QStringLiteral("Incorrect track ID returned."), json_obj);
-    emit StreamURLFailure(id_, media_url_, errors_.first());
+    emit StreamURLFailure(id_, media_url_, errors_.constFirst());
     return;
   }
 
   if (!json_obj.contains(QLatin1String("mime_type")) || !json_obj.contains(QLatin1String("url"))) {
     Error(QStringLiteral("Invalid Json reply, stream url is missing url or mime_type."), json_obj);
-    emit StreamURLFailure(id_, media_url_, errors_.first());
+    emit StreamURLFailure(id_, media_url_, errors_.constFirst());
     return;
   }
 
@@ -205,7 +205,7 @@ void QobuzStreamURLRequest::StreamURLReceived() {
 
   if (!url.isValid()) {
     Error(QStringLiteral("Returned stream url is invalid."), json_obj);
-    emit StreamURLFailure(id_, media_url_, errors_.first());
+    emit StreamURLFailure(id_, media_url_, errors_.constFirst());
     return;
   }
 

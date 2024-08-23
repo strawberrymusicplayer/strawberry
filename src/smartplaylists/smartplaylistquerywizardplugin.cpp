@@ -186,7 +186,7 @@ void SmartPlaylistQueryWizardPlugin::SetGenerator(PlaylistGeneratorPtr g) {
 
   for (const SmartPlaylistSearchTerm &term : std::as_const(search.terms_)) {
     AddSearchTerm();
-    search_page_->terms_.last()->SetTerm(term);
+    search_page_->terms_.constLast()->SetTerm(term);
   }
 
   // Sort order

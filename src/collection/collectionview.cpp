@@ -611,7 +611,7 @@ void CollectionView::SearchForThis() {
       CollectionItem *item = app_->collection_model()->IndexToItem(index);
       const CollectionModel::GroupBy group_by = app_->collection_model()->GetGroupBy()[item->container_level];
       while (!item->children.isEmpty()) {
-        item = item->children.first();
+        item = item->children.constFirst();
       }
 
       switch (group_by) {

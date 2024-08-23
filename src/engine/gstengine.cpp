@@ -929,7 +929,7 @@ void GstEngine::PipelineFinished(const int pipeline_id) {
 
   qLog(Debug) << "Pipeline" << pipeline_id << "finished";
 
-  GstEnginePipelinePtr pipeline = old_pipelines_[pipeline_id];
+  GstEnginePipelinePtr pipeline = old_pipelines_.value(pipeline_id);
   old_pipelines_.remove(pipeline_id);
   if (pipeline == fadeout_pause_pipeline_) {
     StopFadeoutPause();

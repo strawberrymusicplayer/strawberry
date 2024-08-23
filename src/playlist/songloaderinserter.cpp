@@ -177,7 +177,7 @@ void SongLoaderInserter::AsyncLoad() {
   task_manager_->SetTaskProgress(async_load_id, async_progress, pending_.count());
   bool first_loaded = false;
   for (int i = 0; i < pending_.count(); ++i) {
-    SongLoader *loader = pending_[i];
+    SongLoader *loader = pending_.value(i);
     SongLoader::Result res = loader->LoadFilenamesBlocking();
     task_manager_->SetTaskProgress(async_load_id, ++async_progress);
 
@@ -208,7 +208,7 @@ void SongLoaderInserter::AsyncLoad() {
   task_manager_->SetTaskProgress(async_load_id, async_progress, songs_.count());
   SongList songs;
   for (int i = 0; i < pending_.count(); ++i) {
-    SongLoader *loader = pending_[i];
+    SongLoader *loader = pending_.value(i);
     if (i != 0) {
       // We already did this earlier for the first song.
       loader->LoadMetadataBlocking();

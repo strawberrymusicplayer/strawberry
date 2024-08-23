@@ -535,8 +535,8 @@ void MergedProxyModel::LayoutChanged() {
   for (QAbstractItemModel *model : models) {
     if (!old_merge_points_.contains(model)) continue;
 
-    const int old_row = old_merge_points_[model].row();
-    const int new_row = merge_points_[model].row();
+    const int old_row = old_merge_points_.value(model).row();
+    const int new_row = merge_points_.value(model).row();
 
     if (old_row != new_row) {
       beginResetModel();

@@ -107,7 +107,7 @@ MoodbarLoader::Result MoodbarLoader::Load(const QUrl &url, const bool has_cue, Q
 
   // Are we in the middle of loading this moodbar already?
   if (requests_.contains(url)) {
-    *async_pipeline = requests_[url];
+    *async_pipeline = requests_.value(url);
     return Result::WillLoadAsync;
   }
 
@@ -173,7 +173,7 @@ void MoodbarLoader::MaybeTakeNextRequest() {
   active_requests_ << url;
 
   qLog(Info) << "Creating moodbar data for" << url.toLocalFile();
-  QMetaObject::invokeMethod(requests_[url], &MoodbarPipeline::Start, Qt::QueuedConnection);
+  QMetaObject::invokeMethod(requests_.value(url), &MoodbarPipeline::Start, Qt::QueuedConnection);
 
 }
 

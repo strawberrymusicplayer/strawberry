@@ -122,7 +122,7 @@ void SmartPlaylistsModel::Init() {
   // How many defaults do we have to write?
   int unwritten_defaults = 0;
   for (int i = version; i < default_smart_playlists_.count(); ++i) {
-    unwritten_defaults += static_cast<int>(default_smart_playlists_[i].count());
+    unwritten_defaults += static_cast<int>(default_smart_playlists_.value(i).count());
   }
 
   // Save the defaults if there are any unwritten ones
@@ -134,7 +134,8 @@ void SmartPlaylistsModel::Init() {
     // Append the new ones
     s.beginWriteArray(collection_backend_->songs_table(), playlist_index + unwritten_defaults);
     for (; version < default_smart_playlists_.count(); ++version) {
-      for (PlaylistGeneratorPtr gen : std::as_const(default_smart_playlists_[version])) {
+      const GeneratorList generators = default_smart_playlists_.value(version);
+      for (PlaylistGeneratorPtr gen : generators) {
         SaveGenerator(&s, playlist_index++, gen);
       }
     }

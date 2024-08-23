@@ -1131,7 +1131,7 @@ void CollectionWatcher::RescanPathsNow() {
     if (stop_or_abort_requested()) break;
     ScanTransaction transaction(this, dir, false, false, mark_songs_unavailable_);
 
-    const QStringList paths = rescan_queue_[dir];
+    const QStringList paths = rescan_queue_.value(dir);
 
     QMap<QString, quint64> subdir_files_count;
     for (const QString &path : paths) {

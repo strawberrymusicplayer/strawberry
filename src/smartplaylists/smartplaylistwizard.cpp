@@ -110,7 +110,7 @@ void SmartPlaylistWizard::SetGenerator(PlaylistGeneratorPtr gen) {
 
   // Find the right type and jump to the start page
   for (int i = 0; i < plugins_.count(); ++i) {
-    if (plugins_[i]->type() == gen->type()) {
+    if (plugins_.value(i)->type() == gen->type()) {
       TypeChanged(i);
       // TODO: Put this back in when the setStartId is removed from the ctor next();
       break;
@@ -130,7 +130,8 @@ void SmartPlaylistWizard::SetGenerator(PlaylistGeneratorPtr gen) {
   finish_page_->ui_->dynamic->setChecked(gen->is_dynamic());
 
   // Tell the plugin to load
-  plugins_[type_index_]->SetGenerator(gen);
+  SmartPlaylistWizardPlugin *plugin = plugins_.value(type_index_);
+  plugin->SetGenerator(gen);
 
 }
 
@@ -158,7 +159,7 @@ void SmartPlaylistWizard::AddPlugin(SmartPlaylistWizardPlugin *plugin) {
 void SmartPlaylistWizard::TypeChanged(const int index) {
 
   type_index_ = index;
-  type_page_->next_id_ = plugins_[type_index_]->start_page();
+  type_page_->next_id_ = plugins_.value(type_index_)->start_page();
 
 }
 
@@ -179,7 +180,7 @@ PlaylistGeneratorPtr SmartPlaylistWizard::CreateGenerator() const {
 void SmartPlaylistWizard::initializePage(const int id) {
 
   if (id == finish_id_) {
-    finish_page_->ui_->dynamic_container->setEnabled(plugins_[type_index_]->is_dynamic());
+    finish_page_->ui_->dynamic_container->setEnabled(plugins_.value(type_index_)->is_dynamic());
   }
   QWizard::initializePage(id);
 

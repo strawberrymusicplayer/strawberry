@@ -174,7 +174,7 @@ void TrackSelectionDialog::UpdateStack() {
   const int row = ui_->song_list->currentRow();
   if (row < 0 || row >= data_.count()) return;
 
-  const Data &tag_data = data_[row];
+  const Data tag_data = data_.value(row);
 
   if (tag_data.pending_) {
     ui_->stack->setCurrentWidget(ui_->loading_page);

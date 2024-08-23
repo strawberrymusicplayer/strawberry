@@ -34,7 +34,7 @@ StreamingServices::StreamingServices(QObject *parent) : QObject(parent) {}
 StreamingServices::~StreamingServices() {
 
   while (!services_.isEmpty()) {
-    StreamingServicePtr service = services_.first();
+    StreamingServicePtr service = services_.value(services_.firstKey());
     RemoveService(service);
   }
 

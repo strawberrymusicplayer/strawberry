@@ -158,7 +158,7 @@ void CollectionFilterWidget::Init(CollectionModel *model, CollectionFilter *filt
 
   const QList<QAction*> actions = filter_max_ages_.keys();
   for (QAction *action : actions) {
-    int filter_max_age = filter_max_ages_[action];
+    const int filter_max_age = filter_max_ages_.value(action);
     QObject::connect(action, &QAction::triggered, this, [this, filter_max_age]() { model_->SetFilterMaxAge(filter_max_age); } );
   }
 

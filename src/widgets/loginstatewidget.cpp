@@ -101,7 +101,7 @@ void LoginStateWidget::SetLoggedIn(const State state, const QString &account_nam
 void LoginStateWidget::FocusLastCredentialField() {
 
   if (!credential_fields_.isEmpty()) {
-    QObject *object = credential_fields_.last();
+    QObject *object = credential_fields_.constLast();
     QWidget *widget = qobject_cast<QWidget*>(object);
     QLineEdit *line_edit = qobject_cast<QLineEdit*>(object);
 

@@ -621,11 +621,11 @@ bool AlbumCoverManager::eventFilter(QObject *obj, QEvent *e) {
 }
 
 Song AlbumCoverManager::GetSingleSelectionAsSong() {
-  return context_menu_items_.size() != 1 ? Song() : AlbumItemAsSong(context_menu_items_[0]);
+  return context_menu_items_.size() != 1 ? Song() : AlbumItemAsSong(context_menu_items_.value(0));
 }
 
 Song AlbumCoverManager::GetFirstSelectedAsSong() {
-  return context_menu_items_.isEmpty() ? Song() : AlbumItemAsSong(context_menu_items_[0]);
+  return context_menu_items_.isEmpty() ? Song() : AlbumItemAsSong(context_menu_items_.value(0));
 }
 
 Song AlbumCoverManager::AlbumItemAsSong(AlbumItem *album_item) {
@@ -646,7 +646,7 @@ Song AlbumCoverManager::AlbumItemAsSong(AlbumItem *album_item) {
   result.set_album(album_item->data(Role_Album).toString());
 
   result.set_filetype(static_cast<Song::FileType>(album_item->data(Role_Filetype).toInt()));
-  result.set_url(album_item->urls.first());
+  result.set_url(album_item->urls.constFirst());
   result.set_cue_path(album_item->data(Role_CuePath).toString());
 
   result.set_art_embedded(album_item->data(Role_ArtEmbedded).toBool());
@@ -1085,7 +1085,7 @@ void AlbumCoverManager::LoadAlbumCoverAsync(AlbumItem *album_item) {
   cover_options.types = cover_types_;
   cover_options.desired_scaled_size = QSize(kThumbnailSize, kThumbnailSize);
   cover_options.device_pixel_ratio = devicePixelRatioF();
-  quint64 cover_load_id = app_->album_cover_loader()->LoadImageAsync(cover_options, album_item->data(Role_ArtEmbedded).toBool(), album_item->data(Role_ArtAutomatic).toUrl(), album_item->data(Role_ArtManual).toUrl(), album_item->data(Role_ArtUnset).toBool(), album_item->urls.first());
+  quint64 cover_load_id = app_->album_cover_loader()->LoadImageAsync(cover_options, album_item->data(Role_ArtEmbedded).toBool(), album_item->data(Role_ArtAutomatic).toUrl(), album_item->data(Role_ArtManual).toUrl(), album_item->data(Role_ArtUnset).toBool(), album_item->urls.constFirst());
   cover_loading_tasks_.insert(cover_load_id, album_item);
 
 }

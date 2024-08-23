@@ -1947,7 +1947,7 @@ void GstEnginePipeline::UpdateEqualizer() {
 
   // Update band gains
   for (int i = 0; i < kEqBandCount; ++i) {
-    float gain = eq_enabled_ ? static_cast<float>(eq_band_gains_[i]) : static_cast<float>(0.0);
+    float gain = eq_enabled_ ? static_cast<float>(eq_band_gains_.value(i)) : static_cast<float>(0.0);
     if (gain < 0) {
       gain *= 0.24F;
     }

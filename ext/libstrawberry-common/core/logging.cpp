@@ -165,7 +165,7 @@ static void MessageHandler(QtMsgType type, const QMessageLogContext&, const QStr
     d << line.toLocal8Bit().constData();
     if (d.buf_) {
       d.buf_->close();
-      fprintf(type == QtCriticalMsg || type == QtFatalMsg ? stderr : stdout, "%s\n", d.buf_->buffer().data());
+      fprintf(type == QtCriticalMsg || type == QtFatalMsg ? stderr : stdout, "%s\n", d.buf_->buffer().constData());
       fflush(type == QtCriticalMsg || type == QtFatalMsg ? stderr : stdout);
     }
   }

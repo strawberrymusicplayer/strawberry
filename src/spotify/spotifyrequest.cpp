@@ -855,7 +855,7 @@ void SpotifyRequest::AlbumsFinishCheck(const Artist &artist, const int limit, co
 
     // Get songs for all the albums.
 
-    for (QMap<QString, AlbumSongsRequest> ::iterator it = album_songs_requests_pending_.begin(); it != album_songs_requests_pending_.end(); ++it) {
+    for (QMap<QString, AlbumSongsRequest> ::const_iterator it = album_songs_requests_pending_.constBegin(); it != album_songs_requests_pending_.constEnd(); ++it) {
       AlbumSongsRequest request = it.value();
       AddAlbumSongsRequest(request.artist, request.album);
     }
@@ -1315,7 +1315,7 @@ void SpotifyRequest::AlbumCoverReceived(QNetworkReply *reply, const QString &alb
   QList<QByteArray> format_list = QImageReader::imageFormatsForMimeType(mimetype.toUtf8());
   char *format = nullptr;
   if (!format_list.isEmpty()) {
-    format = format_list.first().data();
+    format = format_list[0].data();
   }
 
   QImage image;

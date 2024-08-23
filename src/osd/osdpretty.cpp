@@ -251,7 +251,7 @@ void OSDPretty::Load() {
   if (s.contains(QLatin1String("popup_screen"))) {
     popup_screen_name_ = s.value("popup_screen").toString();
     if (screens_.contains(popup_screen_name_)) {
-      popup_screen_ = screens_[popup_screen_name_];
+      popup_screen_ = screens_.value(popup_screen_name_);
     }
     else {
       popup_screen_ = current_screen();

@@ -366,7 +366,7 @@ void StreamingSearchView::timerEvent(QTimerEvent *e) {
   QMap<int, DelayedSearch>::iterator it = delayed_searches_.find(e->timerId());
   if (it != delayed_searches_.end()) {
     SearchAsync(it.value().id_, it.value().query_, it.value().type_);
-    delayed_searches_.erase(it);  // clazy:exclude=strict-iterators
+    delayed_searches_.erase(it);
     return;
   }
 
@@ -517,11 +517,10 @@ void StreamingSearchView::SearchDone(const int service_id, const SongMap &songs,
 
 void StreamingSearchView::CancelSearch(const int id) {
 
-  QMap<int, DelayedSearch>::iterator it;
-  for (it = delayed_searches_.begin(); it != delayed_searches_.end(); ++it) {
+  for (QMap<int, DelayedSearch>::iterator it = delayed_searches_.begin(); it != delayed_searches_.end(); ++it) {
     if (it.value().id_ == id) {
       killTimer(it.key());
-      delayed_searches_.erase(it);  // clazy:exclude=strict-iterators
+      delayed_searches_.erase(it);
       return;
     }
   }
@@ -556,7 +555,7 @@ void StreamingSearchView::SearchError(const int id, const QString &error) {
 void StreamingSearchView::UpdateStatus(const int service_id, const QString &text) {
 
   if (!pending_searches_.contains(service_id)) return;
-  const PendingState state = pending_searches_[service_id];
+  const PendingState state = pending_searches_.value(service_id);
   const int search_id = state.orig_id_;
   if (search_id != last_search_id_) return;
   ui_->progressbar->show();
@@ -567,7 +566,7 @@ void StreamingSearchView::UpdateStatus(const int service_id, const QString &text
 void StreamingSearchView::ProgressSetMaximum(const int service_id, const int max) {
 
   if (!pending_searches_.contains(service_id)) return;
-  const PendingState state = pending_searches_[service_id];
+  const PendingState state = pending_searches_.value(service_id);
   const int search_id = state.orig_id_;
   if (search_id != last_search_id_) return;
   ui_->progressbar->setMaximum(max);
@@ -577,7 +576,7 @@ void StreamingSearchView::ProgressSetMaximum(const int service_id, const int max
 void StreamingSearchView::UpdateProgress(const int service_id, const int progress) {
 
   if (!pending_searches_.contains(service_id)) return;
-  const PendingState state = pending_searches_[service_id];
+  const PendingState state = pending_searches_.value(service_id);
   const int search_id = state.orig_id_;
   if (search_id != last_search_id_) return;
   ui_->progressbar->setValue(progress);

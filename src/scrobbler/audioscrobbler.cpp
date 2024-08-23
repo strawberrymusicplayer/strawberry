@@ -49,7 +49,7 @@ AudioScrobbler::AudioScrobbler(Application *app, QObject *parent)
 AudioScrobbler::~AudioScrobbler() {
 
   while (!services_.isEmpty()) {
-    ScrobblerServicePtr service = services_.first();
+    ScrobblerServicePtr service = services_.value(services_.firstKey());
     RemoveService(service);
   }
 

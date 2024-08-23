@@ -93,7 +93,7 @@ void AlbumCoverLoader::CancelTasks(const QSet<quint64> &ids) {
 
   QMutexLocker l(&mutex_load_image_async_);
   for (QQueue<TaskPtr>::iterator it = tasks_.begin(); it != tasks_.end();) {
-    TaskPtr task = *it;
+    const TaskPtr task = *it;
     if (ids.contains(task->id)) {
       it = tasks_.erase(it);
     }

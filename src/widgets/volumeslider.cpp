@@ -118,7 +118,7 @@ void VolumeSlider::paintEvent(QPaintEvent*) {
 
   p.drawPixmap(0, 0, pixmap_gradient_, 0, 0, offset + padding, 0);
   p.drawPixmap(0, 0, pixmap_inset_);
-  p.drawPixmap(offset - handle_pixmaps_[0].width() / 2 + padding, 0, handle_pixmaps_[anim_count_]);
+  p.drawPixmap(offset - handle_pixmaps_.value(0).width() / 2 + padding, 0, handle_pixmaps_[anim_count_]);
 
   // Draw percentage number
   QStyleOptionViewItem opt;

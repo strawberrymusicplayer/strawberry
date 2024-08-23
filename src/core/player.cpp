@@ -618,7 +618,8 @@ void Player::UnPause() {
       if (time >= 30) {  // Stream URL might be expired.
         qLog(Debug) << "Re-requesting stream URL for" << song.url();
         play_offset_nanosec_ = engine_->position_nanosec();
-        HandleLoadResult(url_handlers_[song.url().scheme()]->StartLoading(song.url()));
+        UrlHandler *url_handler = url_handlers_.value(song.url().scheme());
+        HandleLoadResult(url_handler->StartLoading(song.url()));
         return;
       }
     }
@@ -826,7 +827,8 @@ void Player::PlayAt(const int index, const bool pause, const quint64 offset_nano
     pause_ = pause;
     stream_change_type_ = change;
     autoscroll_ = autoscroll;
-    HandleLoadResult(url_handlers_[url.scheme()]->StartLoading(url));
+    UrlHandler *url_handler = url_handlers_.value(url.scheme());
+    HandleLoadResult(url_handler->StartLoading(url));
   }
   else {
     qLog(Debug) << "Playing song" << current_item_->Metadata().title() << url << "position" << offset_nanosec;
@@ -1003,7 +1005,8 @@ void Player::TrackAboutToEnd() {
   if (url_handlers_.contains(url.scheme())) {
     if (loading_async_.contains(url)) return;
     autoscroll_ = Playlist::AutoScroll::Maybe;
-    UrlHandler::LoadResult result = url_handlers_[url.scheme()]->StartLoading(url);
+    UrlHandler *url_handler = url_handlers_.value(url.scheme());
+    const UrlHandler::LoadResult result = url_handler->StartLoading(url);
     switch (result.type_) {
       case UrlHandler::LoadResult::Type::Error:
         emit Error(result.error_);

@@ -163,7 +163,7 @@ void RadioModel::AddChannels(const RadioChannelList &channels) {
   for (const RadioChannel &channel : channels) {
     RadioItem *container = nullptr;
     if (container_nodes_.contains(channel.source)) {
-      container = container_nodes_[channel.source];
+      container = container_nodes_.value(channel.source);
     }
     else {
       beginInsertRows(ItemToIndex(root_), static_cast<int>(root_->children.count()), static_cast<int>(root_->children.count()));

@@ -548,7 +548,7 @@ void EditTagDialog::InitFieldValue(const FieldData &field, const QModelIndexList
       editor->set_partially();
     }
     else {
-      editor->set_value(data_[sel[0].row()].current_value(field.id_));
+      editor->set_value(data_.value(sel.value(0).row()).current_value(field.id_));
     }
   }
   else if (field.editor_) {
@@ -601,8 +601,9 @@ void EditTagDialog::ResetFieldValue(const FieldData &field, const QModelIndexLis
 
   // Reset each selected song
   for (const QModelIndex &i : sel) {
-    Data &tag_data = data_[i.row()];
+    Data tag_data = data_.value(i.row());
     tag_data.set_value(field.id_, tag_data.original_value(field.id_));
+    data_[i.row()] = tag_data;
   }
 
   // Reset the field
@@ -634,8 +635,8 @@ void EditTagDialog::SelectionChanged() {
     UpdateStatisticsTab(data_[indexes.first().row()].original_);
   }
 
-  const Song &first_song = data_[indexes.first().row()].original_;
-  UpdateCoverAction first_cover_action = data_[indexes.first().row()].cover_action_;
+  const Song first_song = data_.value(indexes.first().row()).original_;
+  const UpdateCoverAction first_cover_action = data_.value(indexes.first().row()).cover_action_;
   bool art_different = false;
   bool action_different = false;
   bool albumartist_enabled = false;
@@ -648,14 +649,14 @@ void EditTagDialog::SelectionChanged() {
   bool comment_enabled = false;
   bool lyrics_enabled = false;
   for (const QModelIndex &idx : indexes) {
-    if (data_[idx.row()].cover_action_ == UpdateCoverAction::None) {
+    if (data_.value(idx.row()).cover_action_ == UpdateCoverAction::None) {
       data_[idx.row()].cover_result_ = AlbumCoverImageResult();
     }
-    const Song &song = data_[idx.row()].original_;
-    if (data_[idx.row()].cover_action_ != first_cover_action || (first_cover_action != UpdateCoverAction::None && data_[idx.row()].cover_result_.image_data != data_[indexes.first().row()].cover_result_.image_data)) {
+    const Song song = data_.value(idx.row()).original_;
+    if (data_.value(idx.row()).cover_action_ != first_cover_action || (first_cover_action != UpdateCoverAction::None && data_[idx.row()].cover_result_.image_data != data_[indexes.first().row()].cover_result_.image_data)) {
       action_different = true;
     }
-    if (data_[idx.row()].cover_action_ != first_cover_action ||
+    if (data_.value(idx.row()).cover_action_ != first_cover_action ||
         song.art_manual() != first_song.art_manual() ||
         song.art_embedded() != first_song.art_embedded() ||
         song.art_automatic() != first_song.art_automatic() ||
@@ -733,7 +734,7 @@ void EditTagDialog::SelectionChanged() {
     cover_options.types = cover_types_;
     cover_options.desired_scaled_size = QSize(kSmallImageSize, kSmallImageSize);
     cover_options.device_pixel_ratio = devicePixelRatioF();
-    if (data_[indexes.first().row()].cover_action_ == UpdateCoverAction::None) {
+    if (data_.value(indexes.first().row()).cover_action_ == UpdateCoverAction::None) {
       tags_cover_art_id_ = app_->album_cover_loader()->LoadImageAsync(cover_options, first_song);
     }
     else {
@@ -933,8 +934,8 @@ void EditTagDialog::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderRes
     for (const QModelIndex &idx : indexes) {
       data_[idx.row()].cover_result_ = result.album_cover;
       if (!first_song.is_valid()) {
-        first_song = data_[idx.row()].current_;
-        cover_action = data_[idx.row()].cover_action_;
+        first_song = data_.value(idx.row()).current_;
+        cover_action = data_.value(idx.row()).cover_action_;
       }
     }
     bool enable_change_art = false;
@@ -1023,7 +1024,7 @@ void EditTagDialog::SaveCoverToFile() {
 
   if (ui_->song_list->selectionModel()->selectedIndexes().isEmpty()) return;
 
-  const Data &first_data = data_[ui_->song_list->selectionModel()->selectedIndexes().first().row()];
+  const Data first_data = data_.value(ui_->song_list->selectionModel()->selectedIndexes().first().row());
   album_cover_choice_controller_->SaveCoverToFileManual(first_data.current_, first_data.cover_result_);
 
 }
@@ -1084,7 +1085,7 @@ void EditTagDialog::DeleteCover() {
 void EditTagDialog::ShowCover() {
 
   if (ui_->song_list->selectionModel()->selectedIndexes().isEmpty()) return;
-  const Data &first_data = data_[ui_->song_list->selectionModel()->selectedIndexes().first().row()];
+  const Data first_data = data_.value(ui_->song_list->selectionModel()->selectedIndexes().first().row());
   album_cover_choice_controller_->ShowCover(first_data.current_, first_data.cover_result_.image);
 
 }
@@ -1094,8 +1095,8 @@ void EditTagDialog::UpdateCover(const UpdateCoverAction cover_action, const Albu
   const QModelIndexList indexes = ui_->song_list->selectionModel()->selectedIndexes();
   if (indexes.isEmpty()) return;
 
-  QString artist = data_[indexes.first().row()].current_.effective_albumartist();
-  QString album = data_[indexes.first().row()].current_.album();
+  QString artist = data_.value(indexes.first().row()).current_.effective_albumartist();
+  QString album = data_.value(indexes.first().row()).current_.album();
 
   for (const QModelIndex &idx : indexes) {
     data_[idx.row()].cover_action_ = cover_action;
@@ -1372,7 +1373,7 @@ void EditTagDialog::FetchTag() {
   SongList songs;
 
   for (const QModelIndex &idx : sel) {
-    Song song = data_[idx.row()].original_;
+    const Song song = data_.value(idx.row()).original_;
     if (!song.is_valid()) {
       continue;
     }
@@ -1429,7 +1430,7 @@ void EditTagDialog::FetchTagSongChosen(const Song &original_song, const Song &ne
 void EditTagDialog::FetchLyrics() {
 
   if (ui_->song_list->selectionModel()->selectedIndexes().isEmpty()) return;
-  const Song &song = data_[ui_->song_list->selectionModel()->selectedIndexes().first().row()].current_;
+  const Song song = data_.value(ui_->song_list->selectionModel()->selectedIndexes().first().row()).current_;
   lyrics_fetcher_->Clear();
   ui_->lyrics->setPlainText(tr("loading..."));
   lyrics_id_ = static_cast<qint64>(lyrics_fetcher_->Search(song.effective_albumartist(), song.artist(), song.album(), song.title()));

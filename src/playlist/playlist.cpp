@@ -620,7 +620,7 @@ int Playlist::next_row(const bool ignore_repeat_track) {
   // Still off the end?  Then just give up
   if (next_virtual_index < 0 || next_virtual_index >= virtual_items_.count()) return -1;
 
-  return virtual_items_[next_virtual_index];
+  return virtual_items_.value(next_virtual_index);
 
 }
 
@@ -651,7 +651,7 @@ int Playlist::previous_row(const bool ignore_repeat_track) {
   // Still off the beginning?  Then just give up
   if (prev_virtual_index < 0) return -1;
 
-  return virtual_items_[prev_virtual_index];
+  return virtual_items_.value(prev_virtual_index);
 
 }
 
@@ -1227,7 +1227,7 @@ void Playlist::UpdateItems(SongList songs) {
     QMutableListIterator<Song> it(songs);
     while (it.hasNext()) {
       const Song &song = it.next();
-      const PlaylistItemPtr &item = items_[i];
+      const PlaylistItemPtr item = items_.value(i);
       if (item->Metadata().url() == song.url() && (item->Metadata().filetype() == Song::FileType::Unknown || item->Metadata().filetype() == Song::FileType::Stream || item->Metadata().filetype() == Song::FileType::CDDA || !item->Metadata().init_from_file())) {
         PlaylistItemPtr new_item;
         if (song.url().isLocalFile()) {
@@ -2315,7 +2315,7 @@ void Playlist::InvalidateDeletedSongs() {
   QList<int> invalidated_rows;
 
   for (int row = 0; row < items_.count(); ++row) {
-    PlaylistItemPtr item = items_[row];
+    PlaylistItemPtr item = items_.value(row);
     Song song = item->Metadata();
 
     if (song.url().isLocalFile()) {
@@ -2349,7 +2349,7 @@ void Playlist::RemoveDeletedSongs() {
   QList<int> rows_to_remove;
 
   for (int row = 0; row < items_.count(); ++row) {
-    PlaylistItemPtr item = items_[row];
+    PlaylistItemPtr item = items_.value(row);
     Song song = item->Metadata();
 
     if (song.url().isLocalFile() && !QFile::exists(song.url().toLocalFile())) {
@@ -2383,7 +2383,7 @@ void Playlist::RemoveDuplicateSongs() {
   std::unordered_map<Song, int, SongSimilarHash, SongSimilarEqual> unique_songs;
 
   for (int row = 0; row < items_.count(); ++row) {
-    PlaylistItemPtr item = items_[row];
+    PlaylistItemPtr item = items_.value(row);
     const Song &song = item->Metadata();
 
     bool found_duplicate = false;
@@ -2416,7 +2416,7 @@ void Playlist::RemoveUnavailableSongs() {
 
   QList<int> rows_to_remove;
   for (int row = 0; row < items_.count(); ++row) {
-    PlaylistItemPtr item = items_[row];
+    PlaylistItemPtr item = items_.value(row);
     const Song &song = item->Metadata();
 
     // Check only local files

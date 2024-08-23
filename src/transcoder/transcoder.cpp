@@ -490,7 +490,7 @@ bool Transcoder::event(QEvent *e) {
     gst_bus_set_sync_handler(gst_pipeline_get_bus(GST_PIPELINE(finished_event->state_->pipeline_)), nullptr, nullptr, nullptr);
 
     // Remove it from the list - this will also destroy the GStreamer pipeline
-    current_jobs_.erase(it);  // clazy:exclude=strict-iterators
+    current_jobs_.erase(it);
 
     // Emit the finished signal
     emit JobComplete(input, output, finished_event->success_);
@@ -525,7 +525,7 @@ void Transcoder::Cancel() {
     }
 
     // Remove the job, this destroys the GStreamer pipeline too
-    it = current_jobs_.erase(it);  // clazy:exclude=strict-iterators
+    it = current_jobs_.erase(it);
   }
 
 }

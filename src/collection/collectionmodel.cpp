@@ -514,7 +514,7 @@ void CollectionModel::AddReAddOrUpdateSongsInternal(const SongList &songs) {
       songs_added << new_song;
       continue;
     }
-    const Song &old_song = song_nodes_[new_song.id()]->metadata;
+    const Song old_song = song_nodes_.value(new_song.id())->metadata;
     bool container_key_changed = false;
     bool has_unique_album_identifier_1 = false;
     bool has_unique_album_identifier_2 = false;
@@ -606,7 +606,7 @@ void CollectionModel::UpdateSongsInternal(const SongList &songs) {
       qLog(Error) << "Song does not exist in model" << new_song.id() << new_song.PrettyTitleWithArtist();
       continue;
     }
-    CollectionItem *item = song_nodes_[new_song.id()];
+    CollectionItem *item = song_nodes_.value(new_song.id());
     const Song &old_song = item->metadata;
     const bool song_title_data_changed = IsSongTitleDataChanged(old_song, new_song);
     const bool art_changed = !old_song.IsArtEqual(new_song);
@@ -648,7 +648,7 @@ void CollectionModel::RemoveSongsInternal(const SongList &songs) {
   for (const Song &song : songs) {
 
     if (song_nodes_.contains(song.id())) {
-      CollectionItem *node = song_nodes_[song.id()];
+      CollectionItem *node = song_nodes_.value(song.id());
 
       if (node->parent != root_) parents << node->parent;
 
@@ -706,7 +706,7 @@ void CollectionModel::RemoveSongsInternal(const SongList &songs) {
     }
 
     // Remove the divider
-    int row = divider_nodes_[divider_key]->row;
+    const int row = divider_nodes_.value(divider_key)->row;
     beginRemoveRows(ItemToIndex(root_), row, row);
     root_->Delete(row);
     endRemoveRows();

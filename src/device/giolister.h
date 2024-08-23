@@ -148,7 +148,7 @@ T GioLister::LockAndGetDeviceInfo(const QString &id, T DeviceInfo::*field) {
   QMutexLocker l(&mutex_);
   if (!devices_.contains(id)) return T();
 
-  return devices_[id].*field;
+  return devices_.value(id).*field;
 }
 
 #endif  // GIOLISTER_H

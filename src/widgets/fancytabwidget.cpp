@@ -278,7 +278,8 @@ void FancyTabWidget::CurrentTabChangedSlot(const int idx) {
 int FancyTabWidget::IndexOfTab(QWidget *widget) {
 
   if (!tabs_.contains(widget)) return -1;
-  return QTabWidget::indexOf(tabs_[widget]->page());
+  QWidget *page = tabs_.value(widget)->page();
+  return QTabWidget::indexOf(page);
 
 }
 

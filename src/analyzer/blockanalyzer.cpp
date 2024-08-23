@@ -167,11 +167,12 @@ void BlockAnalyzer::analyze(QPainter &p, const Scope &s, const bool new_frame) {
 
   for (int x = 0, y = 0; x < static_cast<int>(scope_.size()); ++x) {
     // determine y
-    for (y = 0; scope_[x] < yscale_[y]; ++y);
+    for (y = 0; scope_[x] < yscale_.at(y); ++y);
 
     // This is opposite to what you'd think, higher than y means the bar is lower than y (physically)
-    if (static_cast<double>(y) > store_[x]) {
-      y = static_cast<int>(store_[x] += step_);
+    if (static_cast<double>(y) > store_.value(x)) {
+      store_[x] += step_;
+      y = static_cast<int>(store_.value(x));
     }
     else {
       store_[x] = y;
@@ -179,18 +180,19 @@ void BlockAnalyzer::analyze(QPainter &p, const Scope &s, const bool new_frame) {
 
     // If y is lower than fade_pos_, then the bar has exceeded the height of the fadeout
     // if the fadeout is quite faded now, then display the new one
-    if (y <= fade_pos_[x] /*|| fade_intensity_[x] < kFadeSize / 3*/) {
+    if (y <= fade_pos_.at(x) /*|| fade_intensity_[x] < kFadeSize / 3*/) {
       fade_pos_[x] = y;
       fade_intensity_[x] = kFadeSize;
     }
 
-    if (fade_intensity_[x] > 0) {
-      const int offset = --fade_intensity_[x];
-      const int y2 = y_ + (fade_pos_[x] * (kHeight + 1));
+    if (fade_intensity_.at(x) > 0) {
+      --fade_intensity_[x];
+      const int offset = fade_intensity_.value(x);
+      const int y2 = y_ + (fade_pos_.value(x) * (kHeight + 1));
       canvas_painter.drawPixmap(x * (kWidth + 1), y2, fade_bars_[offset], 0, 0, kWidth, height() - y2);
     }
 
-    if (fade_intensity_[x] == 0) fade_pos_[x] = rows_;
+    if (fade_intensity_.at(x) == 0) fade_pos_[x] = rows_;
 
     // REMEMBER: y is a number from 0 to rows_, 0 means all blocks are glowing, rows_ means none are
     canvas_painter.drawPixmap(x * (kWidth + 1), y * (kHeight + 1) + y_, *bar(), 0, y * (kHeight + 1), bar()->width(), bar()->height());

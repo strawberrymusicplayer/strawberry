@@ -812,7 +812,7 @@ void TidalRequest::AlbumsFinishCheck(const Artist &artist, const int limit, cons
 
     // Get songs for all the albums.
 
-    for (QHash<QString, AlbumSongsRequest>::iterator it = album_songs_requests_pending_.begin(); it != album_songs_requests_pending_.end(); ++it) {
+    for (QHash<QString, AlbumSongsRequest>::const_iterator it = album_songs_requests_pending_.constBegin(); it != album_songs_requests_pending_.constEnd(); ++it) {
       const AlbumSongsRequest &request = it.value();
       AddAlbumSongsRequest(request.artist, request.album);
     }
@@ -1302,7 +1302,7 @@ void TidalRequest::AlbumCoverReceived(QNetworkReply *reply, const QString &album
   QByteArrayList format_list = QImageReader::imageFormatsForMimeType(mimetype.toUtf8());
   char *format = nullptr;
   if (!format_list.isEmpty()) {
-    format = format_list.first().data();
+    format = format_list[0].data();
   }
 
   QImage image;

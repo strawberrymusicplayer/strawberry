@@ -278,17 +278,19 @@ void GlobalShortcutsSettingsPage::OpenMateKeybindingProperties() {
 
 void GlobalShortcutsSettingsPage::SetShortcut(const QString &id, const QKeySequence &key) {
 
-  Shortcut &shortcut = shortcuts_[id];
+  Shortcut shortcut = shortcuts_.value(id);
 
   shortcut.key = key;
   shortcut.item->setText(1, key.toString(QKeySequence::NativeText));
+
+  shortcuts_[id] = shortcut;
 
 }
 
 void GlobalShortcutsSettingsPage::ItemClicked(QTreeWidgetItem *item) {
 
   current_id_ = item->data(0, Qt::UserRole).toString();
-  Shortcut &shortcut = shortcuts_[current_id_];
+  const Shortcut shortcut = shortcuts_.value(current_id_);
 
   // Enable options
   ui_->shortcut_options->setEnabled(true);
@@ -324,7 +326,7 @@ void GlobalShortcutsSettingsPage::ChangeClicked() {
 
   GlobalShortcutsManager *manager = dialog()->global_shortcuts_manager();
   manager->Unregister();
-  QKeySequence key = grabber_->GetKey(shortcuts_[current_id_].s.action->text());
+  QKeySequence key = grabber_->GetKey(shortcuts_.value(current_id_).s.action->text());
   manager->Register();
 
   if (key.isEmpty()) return;

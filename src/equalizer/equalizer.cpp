@@ -185,7 +185,7 @@ void Equalizer::PresetChanged(const QString &name) {
   }
   last_preset_ = name;
 
-  Params &p = presets_[name];
+  const Params p = presets_.value(name);
 
   loading_ = true;
   preamp_->set_value(p.preamp);

@@ -431,7 +431,8 @@ void PlaylistManager::UpdateSummaryText() {
   int selected = 0;
 
   // Get the length of the selected tracks
-  for (const QItemSelectionRange &range : std::as_const(playlists_[current_id()].selection)) {
+  const QItemSelection ranges = playlists_.value(current_id()).selection;
+  for (const QItemSelectionRange &range : ranges) {
     if (!range.isValid()) continue;
 
     selected += range.bottom() - range.top() + 1;

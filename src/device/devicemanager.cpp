@@ -830,7 +830,7 @@ void DeviceManager::DeviceTaskStarted(const int id) {
   if (!device) return;
 
   for (int i = 0; i < devices_.count(); ++i) {
-    DeviceInfo *info = devices_[i];
+    DeviceInfo *info = devices_.value(i);
     if (info->device_ && &*info->device_ == device) {
       QModelIndex index = ItemToIndex(info);
       if (!index.isValid()) continue;
@@ -851,7 +851,7 @@ void DeviceManager::TasksChanged() {
   for (const TaskManager::Task &task : tasks) {
     if (!active_tasks_.contains(task.id)) continue;
 
-    const QPersistentModelIndex idx = active_tasks_[task.id];
+    const QPersistentModelIndex idx = active_tasks_.value(task.id);
     if (!idx.isValid()) continue;
 
     DeviceInfo *info = IndexToItem(idx);

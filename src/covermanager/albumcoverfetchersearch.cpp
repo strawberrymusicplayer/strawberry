@@ -134,7 +134,7 @@ void AlbumCoverFetcherSearch::Start(SharedPtr<CoverProviders> cover_providers) {
 void AlbumCoverFetcherSearch::ProviderSearchResults(const int id, const CoverProviderSearchResults &results) {
 
   if (!pending_requests_.contains(id)) return;
-  CoverProvider *provider = pending_requests_[id];
+  CoverProvider *provider = pending_requests_.value(id);
   ProviderSearchResults(provider, results);
 
 }

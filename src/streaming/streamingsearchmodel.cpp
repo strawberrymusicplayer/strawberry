@@ -258,7 +258,7 @@ QStandardItem *StreamingSearchModel::BuildContainers(const Song &s, QStandardIte
   key->group_[level] = display_text + unique_tag;
   QStandardItem *container = nullptr;
   if (containers_.contains(*key)) {
-    container = containers_[*key];
+    container = containers_.value(*key);
   }
   else {
     container = new QStandardItem(display_text);
