@@ -37,7 +37,7 @@
     <item>
      <widget class="QSplitter" name="splitter">
       <property name="orientation">
-       <enum>Qt::Horizontal</enum>
+       <enum>Qt::Orientation::Horizontal</enum>
       </property>
       <widget class="QWidget" name="sidebar_layout">
        <layout class="QVBoxLayout" name="layout_left">
@@ -77,7 +77,7 @@
           <item>
            <widget class="Line" name="line_6">
             <property name="orientation">
-             <enum>Qt::Vertical</enum>
+             <enum>Qt::Orientation::Vertical</enum>
             </property>
            </widget>
           </item>
@@ -102,7 +102,7 @@
              <item>
               <widget class="QFrame" name="player_controls">
                <property name="frameShape">
-                <enum>QFrame::NoFrame</enum>
+                <enum>QFrame::Shape::NoFrame</enum>
                </property>
                <layout class="QHBoxLayout" name="layout_player_controls">
                 <property name="spacing">
@@ -167,7 +167,7 @@
                    </size>
                   </property>
                   <property name="popupMode">
-                   <enum>QToolButton::MenuButtonPopup</enum>
+                   <enum>QToolButton::ToolButtonPopupMode::MenuButtonPopup</enum>
                   </property>
                   <property name="autoRaise">
                    <bool>true</bool>
@@ -211,7 +211,7 @@
                    <item>
                     <widget class="Line" name="line_love">
                      <property name="orientation">
-                      <enum>Qt::Vertical</enum>
+                      <enum>Qt::Orientation::Vertical</enum>
                      </property>
                     </widget>
                    </item>
@@ -237,7 +237,7 @@
                 <item>
                  <widget class="Line" name="line_buttons">
                   <property name="orientation">
-                   <enum>Qt::Vertical</enum>
+                   <enum>Qt::Orientation::Vertical</enum>
                   </property>
                  </widget>
                 </item>
@@ -260,10 +260,10 @@
                 <item>
                  <spacer name="horizontalSpacer">
                   <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
+                   <enum>Qt::Orientation::Horizontal</enum>
                   </property>
                   <property name="sizeType">
-                   <enum>QSizePolicy::Expanding</enum>
+                   <enum>QSizePolicy::Policy::Expanding</enum>
                   </property>
                   <property name="sizeHint" stdset="0">
                    <size>
@@ -276,7 +276,7 @@
                 <item>
                  <widget class="Line" name="line_volume">
                   <property name="orientation">
-                   <enum>Qt::Vertical</enum>
+                   <enum>Qt::Orientation::Vertical</enum>
                   </property>
                  </widget>
                 </item>
@@ -292,7 +292,7 @@
                    <number>100</number>
                   </property>
                   <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
+                   <enum>Qt::Orientation::Horizontal</enum>
                   </property>
                  </widget>
                 </item>
@@ -326,7 +326,7 @@
                 <item>
                  <widget class="Line" name="status_bar_line">
                   <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
+                   <enum>Qt::Orientation::Horizontal</enum>
                   </property>
                  </widget>
                 </item>
@@ -380,7 +380,7 @@
                        <item>
                         <widget class="QLabel" name="playlist_summary">
                          <property name="alignment">
-                          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                          <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
                          </property>
                         </widget>
                        </item>
@@ -391,7 +391,7 @@
                    <item>
                     <widget class="Line" name="line_5">
                      <property name="orientation">
-                      <enum>Qt::Vertical</enum>
+                      <enum>Qt::Orientation::Vertical</enum>
                      </property>
                     </widget>
                    </item>
@@ -401,7 +401,7 @@
                    <item>
                     <widget class="Line" name="line_2">
                      <property name="orientation">
-                      <enum>Qt::Vertical</enum>
+                      <enum>Qt::Orientation::Vertical</enum>
                      </property>
                     </widget>
                    </item>
@@ -524,7 +524,7 @@
     <addaction name="separator"/>
     <addaction name="action_update_collection"/>
     <addaction name="action_full_collection_scan"/>
-    <addaction name="action_abort_collection_scan"/>
+    <addaction name="action_stop_collection_scan"/>
     <addaction name="separator"/>
     <addaction name="action_settings"/>
     <addaction name="action_import_data_from_last_fm"/>
@@ -580,7 +580,7 @@
     <string>Ctrl+Q</string>
    </property>
    <property name="menuRole">
-    <enum>QAction::QuitRole</enum>
+    <enum>QAction::MenuRole::QuitRole</enum>
    </property>
   </action>
   <action name="action_stop_after_this_track">
@@ -644,7 +644,7 @@
     <string>Ctrl+P</string>
    </property>
    <property name="menuRole">
-    <enum>QAction::PreferencesRole</enum>
+    <enum>QAction::MenuRole::PreferencesRole</enum>
    </property>
   </action>
   <action name="action_about_strawberry">
@@ -659,7 +659,7 @@
     <string>F1</string>
    </property>
    <property name="menuRole">
-    <enum>QAction::AboutRole</enum>
+    <enum>QAction::MenuRole::AboutRole</enum>
    </property>
   </action>
   <action name="action_shuffle">
@@ -785,7 +785,7 @@
     <string>About &amp;Qt</string>
    </property>
    <property name="menuRole">
-    <enum>QAction::AboutQtRole</enum>
+    <enum>QAction::MenuRole::AboutQtRole</enum>
    </property>
   </action>
   <action name="action_mute">
@@ -804,9 +804,12 @@
     <string>&amp;Do a full collection rescan</string>
    </property>
   </action>
-  <action name="action_abort_collection_scan">
+  <action name="action_stop_collection_scan">
    <property name="text">
-    <string>Abort collection scan</string>
+    <string>Stop collection scan</string>
+   </property>
+   <property name="toolTip">
+    <string>Stop collection scan</string>
    </property>
   </action>
   <action name="action_auto_complete_tags">

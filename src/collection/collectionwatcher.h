@@ -33,6 +33,7 @@
 #include <QString>
 #include <QStringList>
 #include <QUrl>
+#include <QMutex>
 
 #include "collectiondirectory.h"
 #include "core/shared_ptr.h"
@@ -64,8 +65,9 @@ class CollectionWatcher : public QObject {
   void SetRescanPausedAsync(const bool pause);
   void ReloadSettingsAsync();
 
-  void Stop() { stop_requested_ = true; }
-  void Abort() { abort_requested_ = true; }
+  void Stop();
+  void CancelStop();
+  void Abort();
 
   void ExitAsync();
 
@@ -178,6 +180,9 @@ class CollectionWatcher : public QObject {
   void RescanSongs(const SongList &songs);
 
  private:
+  bool stop_requested() const;
+  bool abort_requested() const;
+  bool stop_or_abort_requested() const;
   static bool FindSongsByPath(const SongList &songs, const QString &path, SongList *out);
   bool FindSongsByFingerprint(const QString &file, const QString &fingerprint, SongList *out);
   static bool FindSongsByFingerprint(const QString &file, const SongList &songs, const QString &fingerprint, SongList *out);
@@ -231,7 +236,10 @@ class CollectionWatcher : public QObject {
   bool overwrite_playcount_;
   bool overwrite_rating_;
 
+  mutable QMutex mutex_stop_;
   bool stop_requested_;
+
+  mutable QMutex mutex_abort_;
   bool abort_requested_;
 
   QMap<int, CollectionDirectory> watched_dirs_;

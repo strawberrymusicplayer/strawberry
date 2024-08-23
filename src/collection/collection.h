@@ -71,7 +71,7 @@ class SCollection : public QObject {
   void ResumeWatcher();
 
   void FullScan();
-  void AbortScan();
+  void StopScan();
   void Rescan(const SongList &songs);
 
   void IncrementalScan();

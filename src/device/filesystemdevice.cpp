@@ -70,7 +70,7 @@ FilesystemDevice::FilesystemDevice(const QUrl &url, DeviceLister *lister, const 
 
 FilesystemDevice::~FilesystemDevice() {
 
-  watcher_->Stop();
+  watcher_->Abort();
   watcher_->deleteLater();
   watcher_thread_->exit();
   watcher_thread_->wait();

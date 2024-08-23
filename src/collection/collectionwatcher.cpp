@@ -42,6 +42,7 @@
 #include <QStringList>
 #include <QUrl>
 #include <QImage>
+#include <QMutexLocker>
 #include <QSettings>
 
 #include "core/filesystemwatcherinterface.h"
@@ -135,10 +136,51 @@ void CollectionWatcher::Exit() {
 
   Q_ASSERT(QThread::currentThread() == thread());
 
-  Stop();
+  Abort();
   if (backend_) backend_->Close();
   moveToThread(original_thread_);
   emit ExitFinished();
+
+}
+
+void CollectionWatcher::Stop() {
+
+  QMutexLocker l(&mutex_stop_);
+  stop_requested_ = true;
+
+}
+
+void CollectionWatcher::CancelStop() {
+
+  QMutexLocker l(&mutex_stop_);
+  stop_requested_ = false;
+
+}
+
+bool CollectionWatcher::stop_requested() const {
+
+  QMutexLocker l(&mutex_stop_);
+  return stop_requested_;
+
+}
+
+void CollectionWatcher::Abort() {
+
+  QMutexLocker l(&mutex_abort_);
+  abort_requested_ = true;
+
+}
+
+bool CollectionWatcher::abort_requested() const {
+
+  QMutexLocker l(&mutex_abort_);
+  return abort_requested_;
+
+}
+
+bool CollectionWatcher::stop_or_abort_requested() const {
+
+  return stop_requested() || abort_requested();
 
 }
 
@@ -230,7 +272,7 @@ CollectionWatcher::ScanTransaction::ScanTransaction(CollectionWatcher *watcher, 
 CollectionWatcher::ScanTransaction::~ScanTransaction() {
 
   // If we're stopping then don't commit the transaction
-  if (!watcher_->stop_requested_ && !watcher_->abort_requested_) {
+  if (!watcher_->stop_or_abort_requested()) {
     CommitNewOrUpdatedSongs();
   }
 
@@ -407,7 +449,7 @@ CollectionSubdirectoryList CollectionWatcher::ScanTransaction::GetAllSubdirs() {
 
 void CollectionWatcher::AddDirectory(const CollectionDirectory &dir, const CollectionSubdirectoryList &subdirs) {
 
-  stop_requested_ = false;
+  CancelStop();
 
   watched_dirs_[dir.id] = dir;
 
@@ -434,10 +476,10 @@ void CollectionWatcher::AddDirectory(const CollectionDirectory &dir, const Colle
       transaction.SetKnownSubdirs(subdirs);
       transaction.AddToProgressMax(files_count);
       for (const CollectionSubdirectory &subdir : subdirs) {
-        if (stop_requested_ || abort_requested_) break;
+        if (stop_or_abort_requested()) break;
         ScanSubdirectory(subdir.path, subdir, subdir_files_count[subdir.path], &transaction);
       }
-      if (!stop_requested_ && !abort_requested_) {
+      if (!stop_or_abort_requested()) {
         last_scan_time_ = QDateTime::currentSecsSinceEpoch();
       }
     }
@@ -497,7 +539,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const CollectionSu
   QDirIterator it(path, QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot);
   while (it.hasNext()) {
 
-    if (stop_requested_ || abort_requested_) return;
+    if (stop_or_abort_requested()) return;
 
     QString child(it.next());
     QFileInfo child_info(child);
@@ -532,7 +574,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const CollectionSu
     }
   }
 
-  if (stop_requested_ || abort_requested_) return;
+  if (stop_or_abort_requested()) return;
 
   // Ask the database for a list of files in this directory
   SongList songs_in_db = t->FindSongsInSubdirectory(path);
@@ -543,7 +585,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const CollectionSu
   QStringList files_on_disk_copy = files_on_disk;
   for (const QString &file : files_on_disk_copy) {
 
-    if (stop_requested_ || abort_requested_) return;
+    if (stop_or_abort_requested()) return;
 
     // Associated CUE
     QString new_cue = CueParser::FindCueFilename(file);
@@ -745,7 +787,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const CollectionSu
 
   // Recurse into the new subdirs that we found
   for (const CollectionSubdirectory &my_new_subdir : std::as_const(my_new_subdirs)) {
-    if (stop_requested_ || abort_requested_) return;
+    if (stop_or_abort_requested()) return;
     ScanSubdirectory(my_new_subdir.path, my_new_subdir, 0, t, true);
   }
 
@@ -1086,7 +1128,7 @@ void CollectionWatcher::RescanPathsNow() {
 
   const QList<int> dirs = rescan_queue_.keys();
   for (const int dir : dirs) {
-    if (stop_requested_ || abort_requested_) break;
+    if (stop_or_abort_requested()) break;
     ScanTransaction transaction(this, dir, false, false, mark_songs_unavailable_);
 
     const QStringList paths = rescan_queue_[dir];
@@ -1099,7 +1141,7 @@ void CollectionWatcher::RescanPathsNow() {
     }
 
     for (const QString &path : paths) {
-      if (stop_requested_ || abort_requested_) break;
+      if (stop_or_abort_requested()) break;
       CollectionSubdirectory subdir;
       subdir.directory_id = dir;
       subdir.mtime = 0;
@@ -1144,7 +1186,7 @@ QString CollectionWatcher::PickBestArt(const QStringList &art_automatic_list) {
   QString biggest_path;
 
   for (const QString &path : std::as_const(filtered)) {
-    if (stop_requested_ || abort_requested_) break;
+    if (stop_or_abort_requested()) break;
 
     QImage image(path);
     if (image.isNull()) continue;
@@ -1220,11 +1262,11 @@ void CollectionWatcher::FullScanNow() { PerformScan(false, true); }
 
 void CollectionWatcher::PerformScan(const bool incremental, const bool ignore_mtimes) {
 
-  stop_requested_ = false;
+  CancelStop();
 
   for (const CollectionDirectory &dir : std::as_const(watched_dirs_)) {
 
-    if (stop_requested_ || abort_requested_) break;
+    if (stop_or_abort_requested()) break;
 
     ScanTransaction transaction(this, dir.id, incremental, ignore_mtimes, mark_songs_unavailable_);
     CollectionSubdirectoryList subdirs = transaction.GetAllSubdirs();
@@ -1242,7 +1284,7 @@ void CollectionWatcher::PerformScan(const bool incremental, const bool ignore_mt
     transaction.AddToProgressMax(files_count);
 
     for (const CollectionSubdirectory &subdir : std::as_const(subdirs)) {
-      if (stop_requested_ || abort_requested_) break;
+      if (stop_or_abort_requested()) break;
       ScanSubdirectory(subdir.path, subdir, subdir_files_count[subdir.path], &transaction);
     }
 
@@ -1260,7 +1302,7 @@ quint64 CollectionWatcher::FilesCountForPath(ScanTransaction *t, const QString &
   QDirIterator it(path, QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot);
   while (it.hasNext()) {
 
-    if (stop_requested_ || abort_requested_) break;
+    if (stop_or_abort_requested()) break;
 
     QString child = it.next();
     QFileInfo path_info(child);
@@ -1294,7 +1336,7 @@ quint64 CollectionWatcher::FilesCountForSubdirs(ScanTransaction *t, const Collec
 
   quint64 i = 0;
   for (const CollectionSubdirectory &subdir : subdirs) {
-    if (stop_requested_ || abort_requested_) break;
+    if (stop_or_abort_requested()) break;
     const quint64 files_count = FilesCountForPath(t, subdir.path);
     subdir_files_count[subdir.path] = files_count;
     i += files_count;
@@ -1312,17 +1354,17 @@ void CollectionWatcher::RescanSongsAsync(const SongList &songs) {
 
 void CollectionWatcher::RescanSongs(const SongList &songs) {
 
-  stop_requested_ = false;
+  CancelStop();
 
   QStringList scanned_paths;
   for (const Song &song : songs) {
-    if (stop_requested_ || abort_requested_) break;
+    if (stop_or_abort_requested()) break;
     const QString song_path = song.url().toLocalFile().section(QLatin1Char('/'), 0, -2);
     if (scanned_paths.contains(song_path)) continue;
     ScanTransaction transaction(this, song.directory_id(), false, true, mark_songs_unavailable_);
     const CollectionSubdirectoryList subdirs = transaction.GetAllSubdirs();
     for (const CollectionSubdirectory &subdir : subdirs) {
-      if (stop_requested_ || abort_requested_) break;
+      if (stop_or_abort_requested()) break;
       if (subdir.path != song_path) continue;
       qLog(Debug) << "Rescan for directory ID" << song.directory_id() << "directory" << subdir.path;
       quint64 files_count = FilesCountForPath(&transaction, subdir.path);

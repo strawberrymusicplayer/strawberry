@@ -80,7 +80,7 @@ SCollection::SCollection(Application *app, QObject *parent)
 SCollection::~SCollection() {
 
   if (watcher_) {
-    watcher_->Stop();
+    watcher_->Abort();
     watcher_->deleteLater();
   }
   if (watcher_thread_) {
@@ -159,7 +159,7 @@ void SCollection::IncrementalScan() { watcher_->IncrementalScanAsync(); }
 
 void SCollection::FullScan() { watcher_->FullScanAsync(); }
 
-void SCollection::AbortScan() { watcher_->Stop(); }
+void SCollection::StopScan() { watcher_->Stop(); }
 
 void SCollection::Rescan(const SongList &songs) {
 

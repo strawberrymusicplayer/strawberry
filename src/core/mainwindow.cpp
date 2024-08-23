@@ -490,7 +490,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   ui_->action_transcoder->setIcon(IconLoader::Load(QStringLiteral("tools-wizard")));
   ui_->action_update_collection->setIcon(IconLoader::Load(QStringLiteral("view-refresh")));
   ui_->action_full_collection_scan->setIcon(IconLoader::Load(QStringLiteral("view-refresh")));
-  ui_->action_abort_collection_scan->setIcon(IconLoader::Load(QStringLiteral("dialog-error")));
+  ui_->action_stop_collection_scan->setIcon(IconLoader::Load(QStringLiteral("dialog-error")));
   ui_->action_settings->setIcon(IconLoader::Load(QStringLiteral("configure")));
   ui_->action_import_data_from_last_fm->setIcon(IconLoader::Load(QStringLiteral("scrobble")));
   ui_->action_console->setIcon(IconLoader::Load(QStringLiteral("keyboard")));
@@ -556,7 +556,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   QObject::connect(ui_->action_jump, &QAction::triggered, ui_->playlist->view(), &PlaylistView::JumpToCurrentlyPlayingTrack);
   QObject::connect(ui_->action_update_collection, &QAction::triggered, &*app_->collection(), &SCollection::IncrementalScan);
   QObject::connect(ui_->action_full_collection_scan, &QAction::triggered, &*app_->collection(), &SCollection::FullScan);
-  QObject::connect(ui_->action_abort_collection_scan, &QAction::triggered, &*app_->collection(), &SCollection::AbortScan);
+  QObject::connect(ui_->action_stop_collection_scan, &QAction::triggered, &*app_->collection(), &SCollection::StopScan);
 #if defined(HAVE_GSTREAMER)
   QObject::connect(ui_->action_add_files_to_transcoder, &QAction::triggered, this, &MainWindow::AddFilesToTranscoder);
   ui_->action_add_files_to_transcoder->setIcon(IconLoader::Load(QStringLiteral("tools-wizard")));
