@@ -94,7 +94,10 @@ QString CoverUtils::CoverFilePath(const CoverOptions &options, const Song::Sourc
     filename = CoverFilenameFromVariable(options, artist, album);
     filename.remove(QRegularExpression(QLatin1String(kInvalidFatCharactersRegex), QRegularExpression::CaseInsensitiveOption)).remove(QLatin1Char('/')).remove(QLatin1Char('\\'));
     if (options.cover_lowercase) filename = filename.toLower();
-    if (options.cover_replace_spaces) filename.replace(QRegularExpression(QStringLiteral("\\s")), QStringLiteral("-"));
+    if (options.cover_replace_spaces) {
+      static const QRegularExpression regex_whitespaces(QStringLiteral("\\s"));
+      filename.replace(regex_whitespaces, QStringLiteral("-"));
+    }
     if (!extension.isEmpty()) {
       filename.append(QLatin1Char('.'));
       filename.append(extension);

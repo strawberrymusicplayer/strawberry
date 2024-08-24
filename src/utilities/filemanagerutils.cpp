@@ -66,7 +66,8 @@ void OpenInFileManager(const QString &path, const QUrl &url) {
     if (setting.contains(QLatin1String("Exec"))) {
       QString cmd = setting.value(QStringLiteral("Exec")).toString();
       if (cmd.isEmpty()) break;
-      cmd = cmd.remove(QRegularExpression(QStringLiteral("[%][a-zA-Z]*( |$)"), QRegularExpression::CaseInsensitiveOption));
+      static const QRegularExpression regex(QStringLiteral("[%][a-zA-Z]*( |$)"), QRegularExpression::CaseInsensitiveOption);
+      cmd = cmd.remove(regex);
 #  if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
       command_params = cmd.split(QLatin1Char(' '), Qt::SkipEmptyParts);
 #  else

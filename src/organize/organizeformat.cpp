@@ -192,7 +192,10 @@ OrganizeFormat::GetFilenameForSongResult OrganizeFormat::GetFilenameForSong(cons
   }
   filepath = parts_new.join(QLatin1Char('/'));
 
-  if (replace_spaces_) filepath.replace(QRegularExpression(QStringLiteral("\\s")), QStringLiteral("_"));
+  if (replace_spaces_) {
+    static const QRegularExpression regex_whitespaces(QStringLiteral("\\s"));
+    filepath.replace(regex_whitespaces, QStringLiteral("_"));
+  }
 
   if (!extension.isEmpty()) {
     filepath.append(QStringLiteral(".%1").arg(extension));
@@ -308,7 +311,8 @@ QString OrganizeFormat::TagValue(const QString &tag, const Song &song) const {
   else if (tag == QLatin1String("artistinitial")) {
     value = song.effective_albumartist().trimmed();
     if (!value.isEmpty()) {
-      value.replace(QRegularExpression(QStringLiteral("^the\\s+"), QRegularExpression::CaseInsensitiveOption), QLatin1String(""));
+      static const QRegularExpression regex_the(QStringLiteral("^the\\s+"), QRegularExpression::CaseInsensitiveOption);
+      value = value.remove(regex_the);
       value = value[0].toUpper();
     }
   }

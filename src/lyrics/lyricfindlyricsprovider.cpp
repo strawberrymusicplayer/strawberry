@@ -62,9 +62,12 @@ QUrl LyricFindLyricsProvider::Url(const LyricsSearchRequest &request) {
 
 QString LyricFindLyricsProvider::StringFixup(const QString &text) {
 
+  static const QRegularExpression regex_illegal_characters(QStringLiteral("[^\\w0-9_\\- ]"));
+  static const QRegularExpression regex_multiple_whitespaces(QStringLiteral(" {2,}"));
+
   return Utilities::Transliterate(text)
-    .remove(QRegularExpression(QStringLiteral("[^\\w0-9_\\- ]")))
-    .replace(QRegularExpression(QStringLiteral(" {2,}")), QStringLiteral(" "))
+    .remove(regex_illegal_characters)
+    .replace(regex_multiple_whitespaces, QStringLiteral(" "))
     .simplified()
     .replace(QLatin1Char(' '), QLatin1Char('-'))
     .toLower();

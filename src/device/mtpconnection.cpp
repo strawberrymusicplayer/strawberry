@@ -37,7 +37,7 @@ MtpConnection::MtpConnection(const QUrl &url, QObject *parent) : QObject(parent)
 
   QString hostname = url.host();
   // Parse the URL
-  QRegularExpression host_re(QStringLiteral("^usb-(\\d+)-(\\d+)$"));
+  static const QRegularExpression host_re(QStringLiteral("^usb-(\\d+)-(\\d+)$"));
 
   unsigned int bus_location = 0;
   unsigned int device_num = 0;

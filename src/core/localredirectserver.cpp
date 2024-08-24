@@ -129,7 +129,7 @@ void LocalRedirectServer::WriteTemplate() const {
   QString page_data = QString::fromUtf8(page_file.readAll());
   page_file.close();
 
-  QRegularExpression tr_regexp(QStringLiteral("tr\\(\"([^\"]+)\"\\)"));
+  static const QRegularExpression tr_regexp(QStringLiteral("tr\\(\"([^\"]+)\"\\)"));
   qint64 offset = 0;
   forever {
     QRegularExpressionMatch re_match = tr_regexp.match(page_data, offset);

@@ -107,7 +107,7 @@ QString PrettyFutureDate(const QDate date) {
 
 QDateTime ParseRFC822DateTime(const QString &text) {
 
-  QRegularExpression regexp(QStringLiteral("(\\d{1,2}) (\\w{3,12}) (\\d+) (\\d{1,2}):(\\d{1,2}):(\\d{1,2})"));
+  static const QRegularExpression regexp(QStringLiteral("(\\d{1,2}) (\\w{3,12}) (\\d+) (\\d{1,2}):(\\d{1,2}):(\\d{1,2})"));
   QRegularExpressionMatch re_match = regexp.match(text);
   if (!re_match.hasMatch()) {
     return QDateTime();

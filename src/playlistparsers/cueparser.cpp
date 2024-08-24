@@ -309,7 +309,9 @@ QStringList CueParser::SplitCueLine(const QString &line) {
   }
 
   // Let's remove the empty entries while we're at it
-  return re_match.capturedTexts().filter(QRegularExpression(QStringLiteral(".+"))).mid(1, -1).replaceInStrings(QRegularExpression(QStringLiteral("^\"\"$")), QLatin1String(""));
+  static const QRegularExpression regex_entry(QStringLiteral(".+"));
+  static const QRegularExpression regex_exclude(QStringLiteral("^\"\"$"));
+  return re_match.capturedTexts().filter(regex_entry).mid(1, -1).replaceInStrings(regex_exclude, QLatin1String(""));
 
 }
 

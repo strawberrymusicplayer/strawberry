@@ -112,7 +112,7 @@ QString DecodeHtmlEntities(const QString &text) {
 
 QString ReplaceMessage(const QString &message, const Song &song, const QString &newline, const bool html_escaped) {
 
-  QRegularExpression variable_replacer(QStringLiteral("[%][a-z]+[%]"));
+  static const QRegularExpression variable_replacer(QStringLiteral("[%][a-z]+[%]"));
   QString copy(message);
 
   // Replace the first line
@@ -125,7 +125,8 @@ QString ReplaceMessage(const QString &message, const Song &song, const QString &
     pos += match.capturedLength();
   }
 
-  qint64 index_of = copy.indexOf(QRegularExpression(QStringLiteral(" - (>|$)")));
+  static const QRegularExpression regexp(QStringLiteral(" - (>|$)"));
+  qint64 index_of = copy.indexOf(regexp);
   if (index_of >= 0) copy = copy.remove(index_of, 3);
 
   return copy;

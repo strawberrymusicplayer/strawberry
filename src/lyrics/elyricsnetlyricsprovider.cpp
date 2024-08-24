@@ -46,9 +46,12 @@ QUrl ElyricsNetLyricsProvider::Url(const LyricsSearchRequest &request) {
 
 QString ElyricsNetLyricsProvider::StringFixup(const QString &text) {
 
+  static const QRegularExpression regex_illegal_characters(QStringLiteral("[^\\w0-9_,&\\-\\(\\) ]"));
+  static const QRegularExpression regex_duplicate_whitespaces(QStringLiteral(" {2,}"));
+
   return Utilities::Transliterate(text)
-    .replace(QRegularExpression(QStringLiteral("[^\\w0-9_,&\\-\\(\\) ]")), QStringLiteral("_"))
-    .replace(QRegularExpression(QStringLiteral(" {2,}")), QStringLiteral(" "))
+    .replace(regex_illegal_characters, QStringLiteral("_"))
+    .replace(regex_duplicate_whitespaces, QStringLiteral(" "))
     .simplified()
     .replace(QLatin1Char(' '), QLatin1Char('-'))
     .toLower();

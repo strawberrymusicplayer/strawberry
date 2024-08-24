@@ -1163,7 +1163,8 @@ QString CollectionModel::SortText(QString text) {
   else {
     text = text.toLower();
   }
-  text = text.remove(QRegularExpression(QStringLiteral("[^\\w ]"), QRegularExpression::UseUnicodePropertiesOption));
+  static const QRegularExpression regex_not_words(QStringLiteral("[^\\w ]"), QRegularExpression::UseUnicodePropertiesOption);
+  text = text.remove(regex_not_words);
 
   return text;
 

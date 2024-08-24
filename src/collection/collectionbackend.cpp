@@ -1497,7 +1497,8 @@ CollectionBackend::AlbumList CollectionBackend::GetAlbums(const QString &artist,
     album_info.art_embedded = query.Value(6).toBool();
 
     const QString art_automatic = query.Value(7).toString();
-    if (art_automatic.contains(QRegularExpression(QStringLiteral("..+:.*")))) {
+    static const QRegularExpression regex_url_schema(QStringLiteral("..+:.*"));
+    if (art_automatic.contains(regex_url_schema)) {
       album_info.art_automatic = QUrl::fromEncoded(art_automatic.toUtf8());
     }
     else {
@@ -1505,7 +1506,7 @@ CollectionBackend::AlbumList CollectionBackend::GetAlbums(const QString &artist,
     }
 
     const QString art_manual = query.Value(8).toString();
-    if (art_manual.contains(QRegularExpression(QStringLiteral("..+:.*")))) {
+    if (art_manual.contains(regex_url_schema)) {
       album_info.art_manual = QUrl::fromEncoded(art_manual.toUtf8());
     }
     else {

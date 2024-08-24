@@ -156,15 +156,21 @@ QString HtmlLyricsProvider::ParseLyricsFromHTML(const QString &content, const QR
       if (!lyrics.isEmpty()) {
         lyrics.append(QLatin1Char('\n'));
       }
+      static const QRegularExpression regex_html_tag_a(QStringLiteral("<a [^>]*>[^<]*</a>"));
+      static const QRegularExpression regex_html_tag_script(QStringLiteral("<script>[^>]*</script>"));
+      static const QRegularExpression regex_html_tag_div(QStringLiteral("<div [^>]*>×</div>"));
+      static const QRegularExpression regex_html_tag_br(QStringLiteral("<br[^>]*>"));
+      static const QRegularExpression regex_html_tag_p_close(QStringLiteral("</p>"));
+      static const QRegularExpression regex_html_tags(QStringLiteral("<[^>]*>"));
       lyrics.append(content.mid(start_lyrics_idx, end_lyrics_idx - start_lyrics_idx)
                            .remove(QLatin1Char('\r'))
                            .remove(QLatin1Char('\n'))
-                           .remove(QRegularExpression(QStringLiteral("<a [^>]*>[^<]*</a>")))
-                           .remove(QRegularExpression(QStringLiteral("<script>[^>]*</script>")))
-                           .remove(QRegularExpression(QStringLiteral("<div [^>]*>×</div>")))
-                           .replace(QRegularExpression(QStringLiteral("<br[^>]*>")), QStringLiteral("\n"))
-                           .replace(QRegularExpression(QStringLiteral("</p>")), QStringLiteral("\n\n"))
-                           .remove(QRegularExpression(QStringLiteral("<[^>]*>")))
+                           .remove(regex_html_tag_a)
+                           .remove(regex_html_tag_script)
+                           .remove(regex_html_tag_div)
+                           .replace(regex_html_tag_br, QStringLiteral("\n"))
+                           .replace(regex_html_tag_p_close, QStringLiteral("\n\n"))
+                           .remove(regex_html_tags)
                            .trimmed());
     }
     else {

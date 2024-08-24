@@ -240,8 +240,10 @@ void AlbumCoverChoiceController::SaveCoverToFileManual(const Song &song, const A
   }
   initial_file_name = initial_file_name + QLatin1Char('-') + (song.effective_album().isEmpty() ? tr("unknown") : song.effective_album()) + QLatin1String(".jpg");
   initial_file_name = initial_file_name.toLower();
-  initial_file_name.replace(QRegularExpression(QStringLiteral("\\s")), QStringLiteral("-"));
-  initial_file_name.remove(QRegularExpression(QLatin1String(kInvalidFatCharactersRegex), QRegularExpression::CaseInsensitiveOption));
+  static const QRegularExpression regex_whitespaces(QStringLiteral("\\s"));
+  initial_file_name.replace(regex_whitespaces, QStringLiteral("-"));
+  static const QRegularExpression regex_invalid_fat_characters(QLatin1String(kInvalidFatCharactersRegex), QRegularExpression::CaseInsensitiveOption);
+  initial_file_name.remove(regex_invalid_fat_characters);
 
   QString save_filename = QFileDialog::getSaveFileName(this, tr("Save album cover"), GetInitialPathForFileDialog(song, initial_file_name), tr(kSaveImageFileFilter) + QStringLiteral(";;") + tr(kAllFilesFilter));
 

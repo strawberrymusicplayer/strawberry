@@ -436,7 +436,8 @@ void StreamingSearchView::SwapModels() {
 
 QStringList StreamingSearchView::TokenizeQuery(const QString &query) {
 
-  QStringList tokens(query.split(QRegularExpression(QStringLiteral("\\s+"))));
+  static const QRegularExpression regex_whitespaces(QStringLiteral("\\s+"));
+  QStringList tokens = query.split(regex_whitespaces);
 
   for (QStringList::iterator it = tokens.begin(); it != tokens.end(); ++it) {
     (*it).remove(QLatin1Char('('));

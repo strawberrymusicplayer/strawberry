@@ -332,7 +332,8 @@ QString RadioModel::SortText(QString text) {
   else {
     text = text.toLower();
   }
-  text = text.remove(QRegularExpression(QStringLiteral("[^\\w ]"), QRegularExpression::UseUnicodePropertiesOption));
+  static const QRegularExpression regex_words_and_whitespaces(QStringLiteral("[^\\w ]"), QRegularExpression::UseUnicodePropertiesOption);
+  text = text.remove(regex_words_and_whitespaces);
 
   return text;
 

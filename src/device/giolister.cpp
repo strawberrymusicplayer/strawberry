@@ -225,11 +225,13 @@ QList<QUrl> GioLister::MakeDeviceUrls(const QString &id) {
   for (QString uri : std::as_const(uris)) {
 
     // gphoto2 gives invalid hostnames with []:, characters in
-    uri.replace(QRegularExpression(QStringLiteral("//\\[usb:(\\d+),(\\d+)\\]")), QStringLiteral("//usb-\\1-\\2"));
+    static const QRegularExpression regex_url_usb(QStringLiteral("//\\[usb:(\\d+),(\\d+)\\]"));
+    uri.replace(regex_url_usb, QStringLiteral("//usb-\\1-\\2"));
 
     QUrl url;
 
-    if (uri.contains(QRegularExpression(QStringLiteral("..+:.*")))) {
+    static const QRegularExpression regex_url_schema(QStringLiteral("..+:.*"));
+    if (uri.contains(regex_url_schema)) {
       url = QUrl::fromEncoded(uri.toUtf8());
     }
     else {
@@ -243,7 +245,8 @@ QList<QUrl> GioLister::MakeDeviceUrls(const QString &id) {
         url.setScheme(QStringLiteral("ipod"));
       }
 
-      QRegularExpression device_re(QStringLiteral("usb/(\\d+)/(\\d+)"));
+      static const QRegularExpression regex_usb_digit(QStringLiteral("usb/(\\d+)/(\\d+)"));
+      QRegularExpression device_re(regex_usb_digit);
       QRegularExpressionMatch re_match = device_re.match(unix_device);
       if (re_match.hasMatch()) {
         QUrlQuery url_query(url);

@@ -85,7 +85,7 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog, QWidget *pa
   if (dir2.exists()) {
     codes << dir2.entryList(QStringList() << QStringLiteral("*.qm"));
   }
-  QRegularExpression lang_re(QStringLiteral("^strawberry_(.*).qm$"));
+  static const QRegularExpression lang_re(QStringLiteral("^strawberry_(.*).qm$"));
   for (const QString &filename : std::as_const(codes)) {
 
     QRegularExpressionMatch re_match = lang_re.match(filename);

@@ -388,7 +388,8 @@ void Database::ExecSchemaCommandsFromFile(QSqlDatabase &db, const QString &filen
 void Database::ExecSchemaCommands(QSqlDatabase &db, const QString &schema, int schema_version, bool in_transaction) {
 
   // Run each command
-  QStringList commands = schema.split(QRegularExpression(QStringLiteral("; *\n\n")));
+  static const QRegularExpression regex_split_commands(QStringLiteral("; *\n\n"));
+  QStringList commands = schema.split(regex_split_commands);
 
   // We don't want this list to reflect possible DB schema changes, so we initialize it before executing any statements.
   // If no outer transaction is provided the song tables need to be queried before beginning an inner transaction!

@@ -47,9 +47,12 @@ QUrl LetrasLyricsProvider::Url(const LyricsSearchRequest &request) {
 
 QString LetrasLyricsProvider::StringFixup(const QString &text) {
 
+  static const QRegularExpression regex_illegal_characters(QStringLiteral("[^\\w0-9_,&\\-\\(\\) ]"));
+  static const QRegularExpression regex_multiple_whitespaces(QStringLiteral(" {2,}"));
+
   return QString::fromLatin1(QUrl::toPercentEncoding(Utilities::Transliterate(text)
-    .replace(QRegularExpression(QStringLiteral("[^\\w0-9_,&\\-\\(\\) ]")), QStringLiteral("_"))
-    .replace(QRegularExpression(QStringLiteral(" {2,}")), QStringLiteral(" "))
+    .replace(regex_illegal_characters, QStringLiteral("_"))
+    .replace(regex_multiple_whitespaces, QStringLiteral(" "))
     .simplified()
     .replace(QLatin1Char(' '), QLatin1Char('-'))
     .toLower()

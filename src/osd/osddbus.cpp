@@ -145,7 +145,8 @@ void OSDDBus::ShowMessageNative(const QString &summary, const QString &message, 
 
   QVariantMap hints;
   QString summary_stripped = summary;
-  summary_stripped = summary_stripped.remove(QRegularExpression(QStringLiteral("[&\"<>]"))).simplified();
+  static const QRegularExpression regex_illegal_characters(QStringLiteral("[&\"<>]"));
+  summary_stripped = summary_stripped.remove(regex_illegal_characters).simplified();
 
   if (!image.isNull()) {
     if (version_ >= QVersionNumber(1, 2)) {

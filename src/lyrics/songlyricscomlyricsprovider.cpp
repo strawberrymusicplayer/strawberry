@@ -45,13 +45,17 @@ QUrl SongLyricsComLyricsProvider::Url(const LyricsSearchRequest &request) {
 
 QString SongLyricsComLyricsProvider::StringFixup(QString text) {
 
+  static const QRegularExpression regex_illegal_characters(QStringLiteral("[^\\w0-9\\- ]"));
+  static const QRegularExpression regex_multiple_whitespaces(QStringLiteral(" {2,}"));
+  static const QRegularExpression regex_multiple_dashes(QStringLiteral("(-)\\1+"));
+
   return text.replace(QLatin1Char('/'), QLatin1Char('-'))
              .replace(QLatin1Char('\''), QLatin1Char('-'))
-             .remove(QRegularExpression(QStringLiteral("[^\\w0-9\\- ]")))
-             .replace(QRegularExpression(QStringLiteral(" {2,}")), QStringLiteral(" "))
+             .remove(regex_illegal_characters)
+             .replace(regex_multiple_whitespaces, QStringLiteral(" "))
              .simplified()
              .replace(QLatin1Char(' '), QLatin1Char('-'))
-             .replace(QRegularExpression(QStringLiteral("(-)\\1+")), QStringLiteral("-"))
+             .replace(regex_multiple_dashes, QStringLiteral("-"))
              .toLower();
 
 }

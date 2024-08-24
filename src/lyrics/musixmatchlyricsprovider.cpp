@@ -315,7 +315,8 @@ void MusixmatchLyricsProvider::HandleLyricsReply(QNetworkReply *reply, LyricsSea
     return;
   }
 
-  if (content_json.contains(QRegularExpression(QStringLiteral("<[^>]*>")))) {  // Make sure it's not HTML code.
+  static const QRegularExpression regex_html_tag(QStringLiteral("<[^>]*>"));
+  if (content_json.contains(regex_html_tag)) {  // Make sure it's not HTML code.
     EndSearch(search, url);
     return;
   }

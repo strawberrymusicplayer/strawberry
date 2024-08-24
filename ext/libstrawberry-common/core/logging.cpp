@@ -314,8 +314,8 @@ QString CXXDemangle(const QString &mangled_function) {
 QString LinuxDemangle(const QString &symbol);
 QString LinuxDemangle(const QString &symbol) {
 
-  QRegularExpression regex(QStringLiteral("\\(([^+]+)"));
-  QRegularExpressionMatch match = regex.match(symbol);
+  static const QRegularExpression regex_symbol(QStringLiteral("\\(([^+]+)"));
+  QRegularExpressionMatch match = regex_symbol.match(symbol);
   if (!match.hasMatch()) {
     return symbol;
   }

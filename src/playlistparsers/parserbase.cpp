@@ -45,7 +45,8 @@ void ParserBase::LoadSong(const QString &filename_or_url, const qint64 beginning
 
   QString filename = filename_or_url;
 
-  if (filename_or_url.contains(QRegularExpression(QStringLiteral("^[a-z]{2,}:"), QRegularExpression::CaseInsensitiveOption))) {
+  static const QRegularExpression regex_url_schema(QStringLiteral("^[a-z]{2,}:"), QRegularExpression::CaseInsensitiveOption);
+  if (filename_or_url.contains(regex_url_schema)) {
     QUrl url(filename_or_url);
     song->set_source(Song::SourceFromURL(url));
     if (song->source() == Song::Source::LocalFile) {

@@ -46,6 +46,7 @@ QUrl AzLyricsComLyricsProvider::Url(const LyricsSearchRequest &request) {
 
 QString AzLyricsComLyricsProvider::StringFixup(const QString &text) {
 
-  return Utilities::Transliterate(text).remove(QRegularExpression(QStringLiteral("[^\\w0-9\\-]"))).toLower();
+  static const QRegularExpression regex_words_numbers_and_dash(QStringLiteral("[^\\w0-9\\-]"));
+  return Utilities::Transliterate(text).remove(regex_words_numbers_and_dash).toLower();
 
 }

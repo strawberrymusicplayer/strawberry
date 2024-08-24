@@ -27,13 +27,17 @@ const char *MusixmatchProvider::kApiKey = "Y2FhMDRlN2Y4OWE5OTIxYmZlOGMzOWQzOGI3Z
 
 QString MusixmatchProvider::StringFixup(QString text) {
 
+  static const QRegularExpression regex_illegal_characters(QStringLiteral("[^\\w0-9\\- ]"), QRegularExpression::UseUnicodePropertiesOption);
+  static const QRegularExpression regex_duplicate_whitespaces(QStringLiteral(" {2,}"));
+  static const QRegularExpression regex_duplicate_dashes(QStringLiteral("(-)\\1+"));
+
   return text.replace(QLatin1Char('/'), QLatin1Char('-'))
              .replace(QLatin1Char('\''), QLatin1Char('-'))
-             .remove(QRegularExpression(QStringLiteral("[^\\w0-9\\- ]"), QRegularExpression::UseUnicodePropertiesOption))
-             .replace(QRegularExpression(QStringLiteral(" {2,}")), QStringLiteral(" "))
+             .remove(regex_illegal_characters)
+             .replace(regex_duplicate_whitespaces, QStringLiteral(" "))
              .simplified()
              .replace(QLatin1Char(' '), QLatin1Char('-'))
-             .replace(QRegularExpression(QStringLiteral("(-)\\1+")), QStringLiteral("-"))
+             .replace(regex_duplicate_dashes, QStringLiteral("-"))
              .toLower();
 
 }
