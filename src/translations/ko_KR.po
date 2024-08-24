@@ -11,9 +11,8 @@ msgstr ""
 "Project-Id-Version: strawberrymusicplayer\n"
 "Language-Team: Korean\n"
 "Language: ko_KR\n"
-"PO-Revision-Date: 2024-07-29 11:14\n"
+"PO-Revision-Date: 2024-08-24 18:29\n"
 
-#: playlist/playlistlistview.cpp:51
 msgid "\n\n"
 "You can favorite playlists by clicking the star icon next to a playlist name\n\n"
 "Favorited playlists will be saved here"
@@ -21,6081 +20,4314 @@ msgstr "\n\n"
 "재생 목록 왼쪽의 별 모양 아이콘을 클릭해서 즐겨찾기에 추가할 수 있습니다.\n\n"
 "즐겨찾는 재생 목록은 여기에 저장됩니다"
 
-#: settings/globalshortcutssettingspage.cpp:357
 #, qt-format
 msgid " Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in cinnamon-settings-daemon instead."
 msgstr ""
 
-#: settings/globalshortcutssettingspage.cpp:354
 #, qt-format
 msgid " Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in gnome-settings-daemon instead."
 msgstr ""
 
-#: settings/globalshortcutssettingspage.cpp:360
 #, qt-format
 msgid " Shortcuts on %1 are usually used through MATE Settings Daemon and should be configured there instead."
 msgstr ""
 
-#: settings/globalshortcutssettingspage.cpp:351
 #, qt-format
 msgid " Shortcuts on %1 are usually used through MPRIS and KGlobalAccel."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:133
-#: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:201
-#: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:204
-#: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:207
-#: ../../build-qt6dev/src/ui_transcoderoptionsopus.h:77
-#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:220
-#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:223
-#: ../../build-qt6dev/src/ui_transcoderoptionsasf.h:76
-#: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:195
 msgid " kbps"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:689
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:714
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:717
 msgid " ms"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:441
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:446
 msgid " pt"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:356
 msgid " s"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:411
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:486
 msgid " seconds"
 msgstr " 초"
 
-#: ../../build-qt6dev/src/ui_smartplaylistquerysortpage.h:140
 msgid " songs"
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:214 scrobbler/scrobblingapi20.cpp:223
 #, qt-format
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 스크로블러 인증"
 
-#: context/contextview.cpp:419
 #, qt-format
 msgid "%1 album"
 msgstr "앨범 %1개"
 
-#: context/contextview.cpp:420
 #, qt-format
 msgid "%1 albums"
 msgstr "앨범 %1개"
 
-#: context/contextview.cpp:415
 #, qt-format
 msgid "%1 artist"
 msgstr "아티스트 %1명"
 
-#: context/contextview.cpp:416
 #, qt-format
 msgid "%1 artists"
 msgstr "아티스트 %1명"
 
-#: equalizer/equalizerslider.cpp:41 equalizer/equalizerslider.cpp:42
-#: equalizer/equalizerslider.cpp:59
 #, qt-format
 msgid "%1 dB"
 msgstr ""
 
-#: utilities/timeutils.cpp:67
 #, qt-format
 msgid "%1 days"
 msgstr "%1일"
 
-#: utilities/timeutils.cpp:87
 #, qt-format
 msgid "%1 days ago"
 msgstr "%1일 전"
 
-#: settings/coverssettingspage.cpp:247
 #, qt-format
 msgid "%1 does not need authentication."
 msgstr ""
 
-#: settings/coverssettingspage.cpp:242
 #, qt-format
 msgid "%1 needs authentication."
 msgstr ""
 
-#: playlistparsers/playlistparser.cpp:131
 #, qt-format
 msgid "%1 playlists (%2)"
 msgstr "재생 목록 %1개(%2)"
 
-#: playlist/playlistmanager.cpp:447
 #, qt-format
 msgid "%1 selected of"
 msgstr "%1개 선택됨,"
 
-#: context/contextview.cpp:411
 #, qt-format
 msgid "%1 song"
 msgstr "노래 %1곡"
 
-#: device/deviceview.cpp:146
 #, qt-format
 msgid "%1 song%2"
 msgstr "노래 %1곡"
 
-#: context/contextview.cpp:412
 #, qt-format
 msgid "%1 songs"
 msgstr "노래 %1곡"
 
-#: smartplaylists/smartplaylistsearchpreview.cpp:156
 #, qt-format
 msgid "%1 songs found"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchpreview.cpp:153
 #, qt-format
 msgid "%1 songs found (showing %2)"
 msgstr ""
 
-#: utilities/filemanagerutils.cpp:145
 #, qt-format
 msgid "%1 songs in %2 different directories selected, are you sure you want to open them all?"
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:698
 #, qt-format
 msgid "%1 songs selected."
 msgstr ""
 
-#: covermanager/albumcovermanager.cpp:563
 #, qt-format
 msgid "%1 transferred"
 msgstr "%1개 전송됨"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:405
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:466
 msgid "%filename%"
 msgstr ""
 
-#: transcoder/transcodedialog.cpp:315
 #, c-format, qt-plural-format
 msgid "%n failed"
 msgstr "%n개 실패함"
 
-#: transcoder/transcodedialog.cpp:311
 #, c-format, qt-plural-format
 msgid "%n finished"
 msgstr "%n개 완료됨"
 
-#: transcoder/transcodedialog.cpp:307
 #, c-format, qt-plural-format
 msgid "%n remaining"
 msgstr "%n개 남음"
 
-#: playlist/playlistmanager.cpp:453 queue/queue.cpp:255
 #, c-format, qt-plural-format
 msgid "%n track(s)"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:417
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:474
 msgid "%originalyear%"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:413
 msgid "%rating%"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:409
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:470
 msgid "%url%"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:653
 msgid "&About Strawberry"
 msgstr "Strawberry 정보(&A)"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:661
 msgid "&Add file..."
 msgstr "파일 추가(&A)..."
 
-#: playlist/playlistheader.cpp:64
 msgid "&Align text"
 msgstr "텍스트 정렬(&A)"
 
-#: playlist/playlistheader.cpp:67
 msgid "&Center"
 msgstr "가운데(&C)"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:635
 msgid "&Clear playlist"
 msgstr "재생 목록 비우기(&C)"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:667
 msgid "&Cover Manager"
 msgstr "앨범아트 관리자(&C)"
 
-#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:286
 msgid "&Custom"
 msgstr "사용자 정의(&C)"
 
-#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:285
 msgid "&Default"
 msgstr "기본값(&D)"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:700
 msgid "&Do a full collection rescan"
 msgstr "전체 라이브러리 재탐색(&D)"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:672
 msgid "&Equalizer"
 msgstr "이퀄라이저(&E)"
 
-#: playlist/playlistheader.cpp:103
 #, qt-format
 msgid "&Hide %1"
 msgstr "%1 숨기기(&H)"
 
-#: playlist/playlistheader.cpp:57
 msgid "&Hide..."
 msgstr "숨기기(&H)..."
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:675
 msgid "&Jump to the currently playing track"
 msgstr "현재 재생 중인 트랙으로 이동(&J)"
 
-#: playlist/playlistheader.cpp:66
 msgid "&Left"
 msgstr "왼쪽(&L)"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:687
 msgid "&Load playlist..."
 msgstr "재생 목록 불러오기(&L)..."
 
-#: playlist/playlistheader.cpp:60
 msgid "&Lock rating"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:176
 msgid "&Manual proxy configuration"
 msgstr "수동 프록시 설정(&M)"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:732
 msgid "&Music"
 msgstr "음악(&M)"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:696
 msgid "&Mute"
 msgstr "음소거(&M)"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:679
 msgid "&New playlist"
 msgstr "새 재생 목록(&N)"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:622
 msgid "&Next track"
 msgstr "다음 트랙(&N)"
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:529
 msgid "&No background image"
 msgstr "배경 없음(&N)"
 
-#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:284
 msgid "&None"
 msgstr "없음(&N)"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:665
 msgid "&Open file..."
 msgstr "파일 열기(&O)..."
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:614
 msgid "&Play"
 msgstr "재생(&P)"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:626
 msgid "&Quit"
 msgstr "끝내기(&Q)"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:670
 msgid "&Repeat mode"
 msgstr "반복 모드(&R)"
 
-#: playlist/playlistheader.cpp:59
 msgid "&Reset columns to default"
 msgstr "기본값으로 열 초기화(&R)"
 
-#: playlist/playlistheader.cpp:68
 msgid "&Right"
 msgstr "오른쪽(&R)"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:691
 msgid "&Save all playlists..."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:649
 msgid "&Settings..."
 msgstr "설정(&S)..."
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:669
 msgid "&Shuffle mode"
 msgstr "셔플 재생 모드(&S)"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:618
 msgid "&Stop"
 msgstr "정지(&S)"
 
-#: playlist/playlistheader.cpp:58
 msgid "&Stretch columns to fit window"
 msgstr "창 크기에 맞게 열 너비 조정(&S)"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:735
 msgid "&Tools"
 msgstr "도구(&T)"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:673
 msgid "&Transcode Music"
 msgstr "음악 변환(&T)"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:694
 msgid "&Update changed collection folders"
 msgstr "라이브러리 변경 사항 업데이트(&U)"
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:523
 msgid "&Use the system default color"
 msgstr "시스템 기본 색 사용(&U)"
 
-#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:174
 msgid "&Use the system proxy settings"
 msgstr "시스템 프록시 설정 사용(&U)"
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:413
 msgid "(This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately)."
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:103
 msgid "(different across multiple songs)"
 msgstr "(여러 곡마다 다름)"
 
-#: ../../build-qt6dev/src/ui_albumcovermanager.h:223
-#: ../../build-qt6dev/src/ui_albumcovermanager.h:224
 msgid "0"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_trackslider.h:66
-#: ../../build-qt6dev/src/ui_trackslider.h:70
 msgid "0:00:00"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:548
 msgid "0px"
 msgstr ""
 
-#: utilities/timeutils.cpp:67
 msgid "1 day"
 msgstr "1일"
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:550
 msgid "40%"
 msgstr ""
 
-#: smartplaylists/smartplaylistsmodel.cpp:72
 msgid "50 random tracks"
 msgstr "랜덤 곡 50곡"
 
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:272
-msgid "<html><head/><body><p>The GStreamer Spotify plugin is not detected, you will not be able to stream songs from Spotify without it. See: <a href=\"https://github.com/strawberrymusicplayer/strawberry/wiki/GStreamer-Spotify-plugin\"><span style=\" text-decoration: underline; color:#0000ff;\">https://github.com/strawberrymusicplayer/strawberry/wiki/GStreamer-Spotify-plugin</span></a> for instructions on how to install the plugin.</p></body></html>"
+msgid "<html><head/><body><p>The GStreamer Spotify plugin is not detected, you will not be able to stream songs from Spotify without it. See <a href=\"https://wiki.strawberrymusicplayer.org/wiki/Installing_GStreamer_Spotify_plugin\"><span style=\" text-decoration: underline; color:#2980b9;\">Wiki</span></a> for instructions on how to install the plugin.</p></body></html>"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_organizedialog.h:268
 msgid "<p>Tokens start with %, for example: %artist %album %title </p>\n\n"
 "<p>If you surround sections of text that contain a token with curly-braces, that section will be hidden if the token is empty.</p>"
 msgstr "<p>토큰은 %로 시작합니다. 예: %artist %album %title </p>\n\n"
 "<p>토큰을 포함하는 텍스트를 중괄호로 둘러싸면 토큰이 비어 있을 때 해당 부분은 표시되지 않습니다.</p>"
 
-#: smartplaylists/smartplaylistwizard.cpp:88
 msgid "A smart playlist is a dynamic list of songs that come from your collection.  There are different types of smart playlist that offer different ways of selecting songs."
 msgstr "스마트 재생 목록은 조건에 맞는 곡들을 라이브러리에서 찾아 자동으로 생성됩니다. 다양한 스마트 재생 목록과 스마트 재생 목록을 만드는 규칙들이 있습니다."
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:162
 msgid "A song will be included in the playlist if it matches these conditions."
 msgstr "이 조건에 맞는 곡들이 재생 목록에 들어갑니다."
 
-#: ../../build-qt6dev/src/ui_playlistsettingspage.h:191
 msgid "A&utomatic"
 msgstr "자동(&U)"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:430
 msgid "A-Z"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_transcodersettingspage.h:192
 msgid "AAC"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:676
 msgid "ALSA plugin:"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:331
 msgid "API Token"
 msgstr "API 토큰"
 
-#: ../../build-qt6dev/src/ui_transcodersettingspage.h:193
 msgid "ASF (WMA)"
 msgstr "ASF(WMA)"
 
-#: covermanager/albumcovermanager.cpp:148
-#: covermanager/albumcoversearcher.cpp:186
-#: ../../build-qt6dev/src/ui_streamingcollectionviewcontainer.h:139
 msgid "Abort"
 msgstr "중지"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:701
-msgid "Abort collection scan"
-msgstr "라이브러리 검색 중지"
-
-#: ../../build-qt6dev/src/ui_about.h:152
 msgid "About"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:695
 msgid "About &Qt"
 msgstr "Qt 정보(&Q)"
 
-#: dialogs/about.cpp:43
 msgid "About Strawberry"
 msgstr "Strawberry 정보"
 
-#: ../../build-qt6dev/src/ui_playlistsettingspage.h:192
 msgid "Absolu&te"
 msgstr "절대 경로(&T)"
 
-#: playlist/playlistsaveoptionsdialog.cpp:43
 msgid "Absolute"
 msgstr "절대 경로"
 
-#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:282
 msgctxt "Category label"
 msgid "Action"
 msgstr "동작"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:674
 msgid "Add &folder..."
 msgstr "폴더 추가(&F)..."
 
-#: ../../build-qt6dev/src/ui_addstreamdialog.h:76
 msgid "Add Stream"
 msgstr "스트림 추가"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:403
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:464
 msgid "Add a new line if supported by the notification type"
 msgstr "알림 형식이 지원한다면 새로운 줄 추가"
 
-#: ../../build-qt6dev/src/ui_transcodedialog.h:224
 msgid "Add all tracks from a directory and all its subdirectories"
 msgstr "디렉터리와 모든 하위 디렉터리의 트랙을 추가합니다"
 
-#: settings/collectionsettingspage.cpp:252
 msgid "Add directory..."
 msgstr "디렉터리 추가..."
 
-#: core/mainwindow.cpp:2330
 msgid "Add file"
 msgstr "파일 추가"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:711
 msgid "Add file to transcoder"
 msgstr "변환할 파일 추가"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:709
 msgid "Add file(s) to transcoder"
 msgstr "변환할 파일 추가"
 
-#: transcoder/transcodedialog.cpp:329
 msgid "Add files to transcode"
 msgstr "변환할 파일 추가"
 
-#: core/mainwindow.cpp:2356 transcoder/transcodedialog.cpp:421
 msgid "Add folder"
 msgstr "폴더 추가"
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:444
 msgid "Add new folder..."
 msgstr "새로운 폴더 추가..."
 
-#: smartplaylists/smartplaylistsearchtermwidget.cpp:432
 msgid "Add search term"
 msgstr "검색 조건 추가"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:411
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:472
 msgid "Add song URL"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:364
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:422
 msgid "Add song album tag"
 msgstr "앨범 태그 추가"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:370
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:428
 msgid "Add song albumartist tag"
 msgstr "앨범 아티스트 태그 추가"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:361
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:419
 msgid "Add song artist tag"
 msgstr "아티스트 태그 추가"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:376
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:434
 msgid "Add song composer tag"
 msgstr "작곡가 태그 추가"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:385
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:443
 msgid "Add song disc tag"
 msgstr "음악 디스크 태그 추가"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:407
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:468
 msgid "Add song filename"
 msgstr "음악 파일 이름 추가"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:391
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:449
 msgid "Add song genre tag"
 msgstr "장르 태그 추가"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:382
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:440
 msgid "Add song grouping tag"
 msgstr "음악 그룹화 태그 추가"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:394
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:452
 msgid "Add song length tag"
 msgstr "음악 길이 태그 추가"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:419
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:476
 msgid "Add song original year tag"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:379
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:437
 msgid "Add song performer tag"
 msgstr "음악 연주가 태그 추가"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:397
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:455
 msgid "Add song play count"
 msgstr "재생 횟수 추가"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:415
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:461
 msgid "Add song rating"
 msgstr "음악 별점 추가"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:400
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:458
 msgid "Add song skip count"
 msgstr "건너뛴 횟수 추가"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:367
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:425
 msgid "Add song title tag"
 msgstr "제목 태그 추가"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:388
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:446
 msgid "Add song track tag"
 msgstr "트랙 태그 추가"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:373
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:431
 msgid "Add song year tag"
 msgstr "년도 태그 추가"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:713
 msgid "Add stream..."
 msgstr "스트림 추가"
 
-#: streaming/streamingsearchview.cpp:331
 msgid "Add to albums"
 msgstr "앨범에 추가"
 
-#: core/mainwindow.cpp:2132
 msgid "Add to another playlist"
 msgstr "다른 재생 목록에 추가"
 
-#: streaming/streamingsearchview.cpp:328
 msgid "Add to artists"
 msgstr "아티스트에 추가"
 
-#: ../../build-qt6dev/src/ui_albumcovermanager.h:215
 msgid "Add to playlist"
 msgstr "재생 목록에 추가"
 
-#: streaming/streamingsearchview.cpp:334
 msgid "Add to songs"
 msgstr "노래에 추가"
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:344
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:352
 msgid "Add to the queue"
 msgstr "대기열에 추가"
 
-#: ../../build-qt6dev/src/ui_transcodedialog.h:221
 msgid "Add..."
 msgstr "추가..."
 
-#: ../../build-qt6dev/src/ui_collectionfilterwidget.h:99
 msgid "Added this month"
 msgstr "이번 달에 추가됨"
 
-#: ../../build-qt6dev/src/ui_collectionfilterwidget.h:93
 msgid "Added this week"
 msgstr "이번 주에 추가됨"
 
-#: ../../build-qt6dev/src/ui_collectionfilterwidget.h:98
 msgid "Added this year"
 msgstr "올해 추가됨"
 
-#: ../../build-qt6dev/src/ui_collectionfilterwidget.h:92
 msgid "Added today"
 msgstr "오늘 추가됨"
 
-#: ../../build-qt6dev/src/ui_collectionfilterwidget.h:94
-#: ../../build-qt6dev/src/ui_collectionfilterwidget.h:96
 msgid "Added within three months"
 msgstr "3개월 이내에 추가됨"
 
-#: collection/collectionfilterwidget.cpp:316
 msgid "Advanced grouping..."
 msgstr "고급 그룹..."
 
-#: ../../build-qt6dev/src/ui_organizedialog.h:262
 msgid "After copying..."
 msgstr "복사한 후..."
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:533
 msgid "Albu&m cover"
 msgstr "앨범아트(&M)"
 
-#: collection/savedgroupingmanager.cpp:100 playlist/playlist.cpp:1389
-#: organize/organizedialog.cpp:107
-#: ../../build-qt6dev/src/ui_groupbydialog.h:194
-#: ../../build-qt6dev/src/ui_groupbydialog.h:216
-#: ../../build-qt6dev/src/ui_groupbydialog.h:238
-#: ../../build-qt6dev/src/ui_albumcoversearcher.h:108
-#: ../../build-qt6dev/src/ui_albumcoversearcher.h:110
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:433
-#: ../../build-qt6dev/src/ui_edittagdialog.h:921
-#: ../../build-qt6dev/src/ui_trackselectiondialog.h:208
 msgid "Album"
 msgstr "앨범"
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:700
 msgid "Album (ideal loudness for all tracks)"
 msgstr "앨범(모든 트랙에 이상적인 음량)"
 
-#: collection/savedgroupingmanager.cpp:103
-#: ../../build-qt6dev/src/ui_groupbydialog.h:195
-#: ../../build-qt6dev/src/ui_groupbydialog.h:217
-#: ../../build-qt6dev/src/ui_groupbydialog.h:239
 msgid "Album - Disc"
 msgstr "앨범 - 디스크"
 
-#: playlist/playlist.cpp:1396
 msgid "Album Artist"
 msgstr ""
 
-#: collection/savedgroupingmanager.cpp:94 organize/organizedialog.cpp:110
-#: ../../build-qt6dev/src/ui_groupbydialog.h:193
-#: ../../build-qt6dev/src/ui_groupbydialog.h:215
-#: ../../build-qt6dev/src/ui_groupbydialog.h:237
-#: ../../build-qt6dev/src/ui_edittagdialog.h:920
 msgid "Album artist"
 msgstr "앨범 아티스트"
 
-#: dialogs/edittagdialog.cpp:867
 msgid "Album cover editing is only available for collection songs."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:465
 msgid "Album cover pixmap cache"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:344
 msgid "Album cover size"
 msgstr "앨범아트 크기"
 
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:314
 msgid "Album cover types"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_streamingtabsview.h:114
 msgid "Albums"
 msgstr "앨범"
 
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:340
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:277
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:295
 msgid "Albums search limit"
 msgstr "앨범 검색 제한"
 
-#: covermanager/albumcovermanager.cpp:173
 msgid "Albums with covers"
 msgstr "앨범아트가 있는 앨범"
 
-#: covermanager/albumcovermanager.cpp:174
 msgid "Albums without covers"
 msgstr "앨범아트가 없는 앨범"
 
-#: core/mainwindow.cpp:231
 msgid "All Files (*)"
 msgstr "모든 파일 (*)"
 
-#: covermanager/albumcovermanager.cpp:172
 msgid "All albums"
 msgstr "모든 앨범"
 
-#: covermanager/albumcovermanager.cpp:348
 msgid "All artists"
 msgstr "모든 아티스트"
 
-#: covermanager/albumcoverchoicecontroller.cpp:82
 msgid "All files (*)"
 msgstr "모든 파일 (*)"
 
-#: playlistparsers/playlistparser.cpp:113
 #, qt-format
 msgid "All playlists (%1)"
 msgstr "모든 재생 목록(%1)"
 
-#: smartplaylists/smartplaylistsmodel.cpp:115
 msgid "All tracks"
 msgstr "모든 트랙"
 
-#: ../../build-qt6dev/src/ui_organizedialog.h:276
 msgid "Allow extended ASCII characters"
 msgstr "확장 ASCII 글자 허용"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:141
 msgid "Allow mid/side encoding"
 msgstr "미드/사이드 인코딩 적용"
 
-#: ../../build-qt6dev/src/ui_transcodedialog.h:231
 msgid "Alongside the originals"
 msgstr "원본과 함께"
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:334
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:348
 msgid "Always start playing"
 msgstr "항상 재생 시작"
 
-#: device/gpodloader.cpp:81
 msgid "An error occurred loading the iTunes database"
 msgstr "iTunes 데이터베이스를 불러오는 중 오류 발생"
 
-#: moodbar/moodbarrenderer.cpp:168
 msgid "Angry"
 msgstr "화남"
 
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:285
 msgid "App ID"
 msgstr "앱 ID"
 
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:288
 msgid "App Secret"
 msgstr "앱 비밀 값"
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:517
 msgid "Appearance"
 msgstr "모양"
 
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:346
 msgid "Append explicit to album title for explicit albums"
 msgstr ""
 
-#: core/commandlineoptions.cpp:237
 msgid "Append files/URLs to the playlist"
 msgstr "재생 목록에 파일/URL 추가"
 
-#: collection/collectionview.cpp:378
-#: smartplaylists/smartplaylistsviewcontainer.cpp:66
-#: widgets/fileviewlist.cpp:43 streaming/streamingsearchview.cpp:317
-#: streaming/streamingcollectionview.cpp:329 radios/radioview.cpp:69
-#: device/deviceview.cpp:244
 msgid "Append to current playlist"
 msgstr "현재 재생 목록에 추가"
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:341
 msgid "Append to the playlist"
 msgstr "재생 목록에 추가"
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:703
 msgid "Apply compression to prevent clipping"
 msgstr "압축을 적용하여 클리핑 방지"
 
-#: dialogs/deleteconfirmationdialog.cpp:73
 msgid "Are you sure you want to continue?"
 msgstr "계속하시겠습니까?"
 
-#: equalizer/equalizer.cpp:230
 #, qt-format
 msgid "Are you sure you want to delete the \"%1\" preset?"
 msgstr "\"%1\" 사전 설정을 지우시겠습니까?"
 
-#: dialogs/edittagdialog.cpp:1338
 msgid "Are you sure you want to reset this song's play statistics?"
 msgstr ""
 
-#: settings/collectionsettingspage.cpp:339
 msgid "Are you sure you want to write song playcounts and ratings to file for all songs in your collection?"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:890
 msgid "Art Automatic"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:892
 msgid "Art Embedded"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:906
 msgid "Art Manual"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:904
 msgid "Art Unset"
 msgstr ""
 
-#: collection/savedgroupingmanager.cpp:97 playlist/playlist.cpp:1388
-#: organize/organizedialog.cpp:108
-#: ../../build-qt6dev/src/ui_groupbydialog.h:192
-#: ../../build-qt6dev/src/ui_groupbydialog.h:214
-#: ../../build-qt6dev/src/ui_groupbydialog.h:236
-#: ../../build-qt6dev/src/ui_albumcoversearcher.h:104
-#: ../../build-qt6dev/src/ui_albumcoversearcher.h:106
-#: ../../build-qt6dev/src/ui_edittagdialog.h:924
-#: ../../build-qt6dev/src/ui_trackselectiondialog.h:209
 msgid "Artist"
 msgstr "아티스트"
 
-#: organize/organizedialog.cpp:109
 msgid "Artist's initial"
 msgstr "아티스트 이니셜"
 
-#: ../../build-qt6dev/src/ui_streamingtabsview.h:113
 msgid "Artists"
 msgstr "아티스트"
 
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:339
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:276
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:294
 msgid "Artists search limit"
 msgstr "아티스트 검색 제한"
 
-#: ../../build-qt6dev/src/ui_playlistsettingspage.h:194
 msgid "As&k when saving"
 msgstr "저장할 때 묻기(&K)"
 
-#: ../../build-qt6dev/src/ui_transcodedialog.h:228
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:291
 msgid "Audio format"
 msgstr "오디오 형식"
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:694
 msgid "Audio normalization"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:671
 msgid "Audio output"
 msgstr "오디오 출력"
 
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:336
 msgid "Audio quality"
 msgstr "오디오 품질"
 
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:267
 msgid "Authenticate"
 msgstr ""
 
-#: tidal/tidalrequest.cpp:144 spotify/spotifyrequest.cpp:127
-#: qobuz/qobuzservice.cpp:270
 msgid "Authenticating..."
 msgstr "인증 중..."
 
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:311
-#: ../../build-qt6dev/src/ui_lyricssettingspage.h:167
-#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:246
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:328
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:284
 msgid "Authentication"
 msgstr "인증"
 
-#: settings/coverssettingspage.cpp:382 settings/lyricssettingspage.cpp:256
-#: settings/tidalsettingspage.cpp:214 settings/spotifysettingspage.cpp:167
-#: settings/qobuzsettingspage.cpp:177
 msgid "Authentication failed"
 msgstr "인증 실패"
 
-#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:249
 msgid "Authentication method:"
 msgstr ""
 
-#: dialogs/about.cpp:145
 msgid "Author and maintainer"
 msgstr "제작자 및 메인테이너"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:225
 msgid "Auto"
 msgstr "자동"
 
-#: playlist/playlistsaveoptionsdialog.cpp:41
 msgid "Automatic"
 msgstr "자동"
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:446
 msgid "Automatic updating"
 msgstr "자동 업데이트 중"
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:460
 msgid "Automatically open single categories in the collection tree"
 msgstr "한 개의 하위 항목만 있을 때 자동으로 열기"
 
-#: settings/coverssettingspage.cpp:439
 #, qt-format
 msgid "Automatically picked up from album directory (%1)"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:436
 msgid "Automatically search for album cover"
 msgstr "자동으로 앨범아트 찾기"
 
-#: context/contextview.cpp:272
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:437
 msgid "Automatically search for song lyrics"
 msgstr "자동으로 가사 찾기"
 
-#: ../../build-qt6dev/src/ui_playlistsettingspage.h:185
 msgid "Automatically select current playing track"
 msgstr "현재 재생 중인 트랙을 자동으로 선택"
 
-#: ../../build-qt6dev/src/ui_playlistsettingspage.h:189
 msgid "Automatically sort playlist when inserting songs"
 msgstr "곡을 추가하면 자동으로 재생목록 정렬"
 
-#: widgets/freespacebar.cpp:67
 msgid "Available"
 msgstr "사용 가능"
 
-#: filterparser/filterparser.cpp:481
 msgid "Available fields"
 msgstr "사용 가능한 필드"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:221
 msgid "Average bitrate"
 msgstr "평균 비트 전송률"
 
-#: covermanager/coversearchstatisticsdialog.cpp:82
 msgid "Average image size"
 msgstr "평균 그림 크기"
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:670
 msgid "Backend"
 msgstr "백엔드"
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:507
 msgid "Background color"
 msgstr "배경 색상"
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:527
 msgid "Background image"
 msgstr "배경 그림"
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:511
 msgid "Background opacity"
 msgstr "배경 불투명도"
 
-#: core/database.cpp:564
 msgid "Backing up database"
 msgstr "데이터베이스 백업 중"
 
-#: ../../build-qt6dev/src/ui_equalizer.h:177
 msgid "Balance"
 msgstr "균형"
 
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:298
 msgid "Base64 encoded secret"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:512
 msgid "Basic Blue"
 msgstr "기본 파랑"
 
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:266
 msgid "Basic authentication"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:314
 msgid "Behavior"
 msgstr "행동"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsflac.h:79
 msgid "Best"
 msgstr "최고"
 
-#: playlist/playlistview.cpp:224
 msgid "Bit"
 msgstr ""
 
-#: playlist/playlist.cpp:1406
 msgid "Bit Depth"
 msgstr ""
 
-#: context/contextview.cpp:166 collection/savedgroupingmanager.cpp:148
-#: organize/organizedialog.cpp:123
-#: ../../build-qt6dev/src/ui_groupbydialog.h:209
-#: ../../build-qt6dev/src/ui_groupbydialog.h:231
-#: ../../build-qt6dev/src/ui_groupbydialog.h:253
-#: ../../build-qt6dev/src/ui_edittagdialog.h:897
 msgid "Bit depth"
 msgstr "비트 해상도"
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:899
 msgid "Bit rate"
 msgstr "비트 전송률"
 
-#: context/contextview.cpp:167 collection/savedgroupingmanager.cpp:151
-#: playlist/playlist.cpp:1407 ../../build-qt6dev/src/ui_groupbydialog.h:210
-#: ../../build-qt6dev/src/ui_groupbydialog.h:232
-#: ../../build-qt6dev/src/ui_groupbydialog.h:254
-#: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:132
-#: ../../build-qt6dev/src/ui_transcoderoptionsopus.h:76
-#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:218
-#: ../../build-qt6dev/src/ui_transcoderoptionsasf.h:75
-#: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:194
 msgid "Bitrate"
 msgstr "비트 전송률"
 
-#: organize/organizedialog.cpp:121
 msgctxt "Refers to bitrate in file organize dialog."
 msgid "Bitrate"
 msgstr "비트레이트"
 
-#: analyzer/blockanalyzer.cpp:46
 msgid "Block analyzer"
 msgstr "블록 분석기"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:142
 msgid "Block type"
 msgstr "블록 형식"
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:547
 msgid "Blur amount"
 msgstr "블러 정도"
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:501
 msgid "Body"
 msgstr "본문"
 
-#: analyzer/boomanalyzer.cpp:43
 msgid "Boom analyzer"
 msgstr "붐 분석기"
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:540
 msgid "Bottom Left"
 msgstr "왼쪽 아래"
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:541
 msgid "Bottom Right"
 msgstr "오른쪽 아래"
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:535
 msgid "Browse..."
 msgstr "찾아보기..."
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:688
 msgid "Buffer"
 msgstr "버퍼"
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:690
 msgid "Buffer duration"
 msgstr "버퍼 시간"
 
-#: engine/gstengine.cpp:699
 msgid "Buffering"
 msgstr "버퍼링"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:668
 msgid "C&onsole"
 msgstr "콘솔(&O)"
 
-#: core/songloader.cpp:201
 msgid "CD playback is only available with the GStreamer engine."
 msgstr "CD 재생은 GStreamer 엔진에서만 지원합니다."
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:424
 msgid "CDDA"
 msgstr ""
 
-#: playlist/playlist.cpp:1420
 msgid "CUE"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_lastfmimportdialog.h:157
 msgid "Cancel"
 msgstr "취소"
 
-#: tidal/tidalstreamurlrequest.cpp:105 qobuz/qobuzstreamurlrequest.cpp:101
 msgid "Cancelled."
 msgstr "취소됨."
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:916
 msgid "Change art"
 msgstr ""
 
-#: globalshortcuts/globalshortcutsmanager.cpp:78
 msgid "Change repeat mode"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:287
 msgid "Change shortcut..."
 msgstr "단축키 변경..."
 
-#: globalshortcuts/globalshortcutsmanager.cpp:77
 msgid "Change shuffle mode"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:351
 msgid "Change the currently playing song"
 msgstr "지금 재생 중인 음악 변경"
 
-#: core/commandlineoptions.cpp:243
 msgid "Change the language"
 msgstr "언어 변경"
 
-#: core/mainwindow.cpp:821
 msgid "Check for updates..."
 msgstr "업데이트 확인..."
 
-#: smartplaylists/smartplaylistwizard.cpp:94
 msgid "Choose a name for your smart playlist"
 msgstr "스마트 재생 목록 이름을 정하세요"
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:510
 msgid "Choose color..."
 msgstr "색상 선택..."
 
-#: ../../build-qt6dev/src/ui_lastfmimportdialog.h:149
 msgid "Choose data to import from last.fm"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:509
 msgid "Choose font..."
 msgstr "글꼴 선택..."
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:164
 msgid "Choose how the playlist is sorted and how many songs it will contain."
 msgstr "재생목록 정렬 조건과 최대로 들어갈 곡 수를 정하세요."
 
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:308
 msgid "Choose the providers you want to use when searching for covers."
 msgstr "앨범 아트를 검색할 때 가져올 곳을 선택해 주세요."
 
-#: ../../build-qt6dev/src/ui_lyricssettingspage.h:164
 msgid "Choose the providers you want to use when searching for lyrics."
 msgstr "가사를 검색할 때 가져올 곳을 선택해 주세요."
 
-#: equalizer/equalizer.cpp:140
 msgid "Classical"
 msgstr "클래식"
 
-#: widgets/lineedit.cpp:58 transcoder/transcodedialog.cpp:104
-#: ../../build-qt6dev/src/ui_queueview.h:141
 msgid "Clear"
 msgstr "비우기"
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:471
 msgid "Clear Disk Cache"
 msgstr "디스크 캐시 비우기"
 
-#: covermanager/albumcoverchoicecontroller.cpp:112
 msgid "Clear cover"
 msgstr ""
 
-#: core/mainwindow.cpp:2421 ../../build-qt6dev/src/ui_mainwindow.h:637
 msgid "Clear playlist"
 msgstr "재생 목록 비우기"
 
-#: dialogs/about.cpp:163
 msgid "Clementine authors"
 msgstr "Clementine 작성자"
 
-#: dialogs/about.cpp:172
 msgid "Clementine contributors"
 msgstr "Clementine 기여자"
 
-#: collection/collectionview.cpp:338
 msgid "Click here to add some music"
 msgstr "음악을 추가하려면 여기를 클릭하십시오"
 
-#: streaming/streamingcollectionview.cpp:307
 msgid "Click here to retrieve music"
 msgstr "음악을 가져오려면 여기를 클릭하십시오"
 
-#: ../../build-qt6dev/src/ui_trackslider.h:68
 msgid "Click to toggle between remaining time and total time"
 msgstr "남은 시간과 전체 시간을 전환하려면 클릭하십시오"
 
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:330
 msgid "Client ID"
 msgstr "클라이언트 ID"
 
-#: ../../build-qt6dev/src/ui_lastfmimportdialog.h:156
-#: ../../build-qt6dev/src/ui_streamingcollectionviewcontainer.h:138
 msgid "Close"
 msgstr "닫기"
 
-#: playlist/playlisttabbar.cpp:80
 msgid "Close playlist"
 msgstr "재생 목록 닫기"
 
-#: covermanager/albumcovermanager.cpp:261
 msgid "Closing this window will stop searching for album covers."
 msgstr "이 창을 닫으면 앨범아트 검색을 정지합니다."
 
-#: equalizer/equalizer.cpp:141
 msgid "Club"
 msgstr "클럽"
 
-#: core/mainwindow.cpp:386
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:442
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:418
 msgid "Collection"
 msgstr "라이브러리"
 
-#: ../../build-qt6dev/src/ui_collectionfilterwidget.h:90
 msgid "Collection Filter"
 msgstr "라이브러리 필터"
 
-#: ../../build-qt6dev/src/ui_groupbydialog.h:187
 msgid "Collection advanced grouping"
 msgstr "라이브러리 고급 그룹"
 
-#: core/mainwindow.cpp:2988
 msgid "Collection rescan notice"
 msgstr "라이브러리 재탐색 알림"
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:95
 msgid "Collection search"
 msgstr "라이브러리 검색"
 
-#: core/commandlineoptions.cpp:247
 msgid "Comma separated list of class:level, level is 0-3"
 msgstr "쉼표로 구분된 class:level 목록, level은 0-3"
 
-#: playlist/playlist.cpp:1416 smartplaylists/smartplaylistsearchterm.cpp:391
-#: organize/organizedialog.cpp:119
-#: ../../build-qt6dev/src/ui_edittagdialog.h:928
 msgid "Comment"
 msgstr "설명"
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:930
 msgid "Compilation"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:935
 msgid "Complete lyrics automatically"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:926
 msgid "Complete tags automatically"
 msgstr "자동으로 태그 완성"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:702
 msgid "Complete tags automatically..."
 msgstr "자동으로 태그 완성..."
 
-#: collection/savedgroupingmanager.cpp:130 playlist/playlist.cpp:1397
-#: organize/organizedialog.cpp:111
-#: ../../build-qt6dev/src/ui_groupbydialog.h:204
-#: ../../build-qt6dev/src/ui_groupbydialog.h:226
-#: ../../build-qt6dev/src/ui_groupbydialog.h:248
-#: ../../build-qt6dev/src/ui_edittagdialog.h:925
 msgid "Composer"
 msgstr "작곡가"
 
-#: settings/subsonicsettingspage.cpp:131 settings/tidalsettingspage.cpp:152
-#: settings/tidalsettingspage.cpp:159 settings/tidalsettingspage.cpp:163
-#: settings/tidalsettingspage.cpp:167 settings/qobuzsettingspage.cpp:131
-#: settings/qobuzsettingspage.cpp:135 settings/qobuzsettingspage.cpp:139
 msgid "Configuration incomplete"
 msgstr "설정이 불완전함"
 
-#: settings/subsonicsettingspage.cpp:137
 msgid "Configuration incorrect"
 msgstr "설정이 잘못됨"
 
-#: streaming/streamingsearchview.cpp:180 streaming/streamingsearchview.cpp:346
-#: streaming/streamingsongsview.cpp:60 streaming/streamingtabsview.cpp:64
 #, qt-format
 msgid "Configure %1..."
 msgstr "%1 설정..."
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:555
 msgid "Configure buttons"
 msgstr ""
 
-#: core/mainwindow.cpp:691
 msgid "Configure collection..."
 msgstr "라이브러리 설정..."
 
-#: device/devicemanager.cpp:352 device/devicemanager.cpp:353
 msgid "Connect device"
 msgstr "장치 연결"
 
-#: ../../build-qt6dev/src/ui_console.h:76
 msgid "Console"
 msgstr "콘솔"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:196
 msgid "Constant bitrate"
 msgstr "고정 비트 전송률"
 
-#: core/mainwindow.cpp:385 ../../build-qt6dev/src/ui_contextsettingspage.h:359
 msgid "Context"
 msgstr "지금 재생"
 
-#: ../../build-qt6dev/src/ui_playlistsettingspage.h:182
 msgid "Continue to the next item in the playlist if a song is unavailable"
 msgstr "재생 목록에 있는 노래를 사용할 수 없을 때 다음 곡으로 진행"
 
-#: dialogs/about.cpp:154
 msgid "Contributors"
 msgstr "기여자"
 
-#: ../../build-qt6dev/src/ui_deviceproperties.h:381
 msgid "Convert all music"
 msgstr "모든 곡 변환"
 
-#: ../../build-qt6dev/src/ui_deviceproperties.h:380
 msgid "Convert any music that the device can't play"
 msgstr "장치에서 재생할 수 없는 곡 변환"
 
-#: core/mainwindow.cpp:767
 msgid "Copy URL(s)..."
 msgstr "URL 복사"
 
-#: ../../build-qt6dev/src/ui_organizedialog.h:279
 msgid "Copy album cover artwork"
 msgstr "앨범아트 복사"
 
-#: core/mainwindow.cpp:771 widgets/fileviewlist.cpp:47
-#: device/deviceview.cpp:249
 msgid "Copy to collection..."
 msgstr "라이브러리로 복사..."
 
-#: playlist/playlistlistcontainer.cpp:386
 msgid "Copy to device"
 msgstr "디바이스에 복사"
 
-#: core/mainwindow.cpp:774 collection/collectionview.cpp:393
-#: playlist/playlistlistcontainer.cpp:93 widgets/fileviewlist.cpp:49
 msgid "Copy to device..."
 msgstr "장치로 복사..."
 
-#: dialogs/snapdialog.cpp:66
 msgid "Copy your strawberry.conf and strawberry.db from your ~/snap directory to avoid losing configuration before you uninstall the snap:"
 msgstr ""
 
-#: device/gpoddevice.cpp:241
 #, qt-format
 msgid "Could not copy %1 to %2: %3"
 msgstr ""
 
-#: core/filesystemmusicstorage.cpp:98
 #, qt-format
 msgid "Could not copy file %1 to %2."
 msgstr ""
 
-#: transcoder/transcoder.cpp:73
 #, qt-format
 msgid "Could not create the GStreamer element \"%1\" - make sure you have all the required GStreamer plugins installed"
 msgstr "GStreamer 엘리먼트 \"%1\"을(를) 찾을 수 없습니다. 필요한 모든 GStreamer 플러그인 설치 상태를 확인하십시오"
 
-#: core/songloader.cpp:313
 #, qt-format
 msgid "Could not open CUE file %1 for reading: %2"
 msgstr ""
 
-#: device/mtpconnection.cpp:75 device/mtpconnection.cpp:109
 msgid "Could not open MTP device."
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:223
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr "URL을 열 수 없습니다. 웹 브라우저에서 여십시오"
 
-#: playlistparsers/playlistparser.cpp:192
 #, qt-format
 msgid "Could not open file %1"
 msgstr ""
 
-#: core/songloader.cpp:281
 #, qt-format
 msgid "Could not open file %1 for reading: %2"
 msgstr ""
 
-#: core/songloader.cpp:374
 #, qt-format
 msgid "Could not open playlist file %1 for reading: %2"
 msgstr ""
 
-#: covermanager/albumcovermanager.cpp:1065
-#: covermanager/albumcoverchoicecontroller.cpp:827
 #, qt-format
 msgid "Could not save cover to file %1."
 msgstr ""
 
-#: playlist/playlist.cpp:442 dialogs/edittagdialog.cpp:1491
 #, qt-format
 msgid "Could not write metadata to %1"
 msgstr ""
 
-#: playlist/playlist.cpp:439 dialogs/edittagdialog.cpp:1494
 #, qt-format
 msgid "Could not write metadata to %1: %2"
 msgstr ""
 
-#: core/songloader.cpp:499
 #, qt-format
 msgid "Couldn't create GStreamer fakesink element for %1"
 msgstr ""
 
-#: core/songloader.cpp:482
 #, qt-format
 msgid "Couldn't create GStreamer source element for %1"
 msgstr ""
 
-#: core/songloader.cpp:492
 #, qt-format
 msgid "Couldn't create GStreamer typefind element for %1"
 msgstr ""
 
-#: playlist/playlistmanager.cpp:207
 msgid "Couldn't create playlist"
 msgstr "재생 목록을 생성할 수 없음"
 
-#: transcoder/transcoder.cpp:431
 #, qt-format
 msgid "Couldn't find a muxer for %1, check you have the correct GStreamer plugins installed"
 msgstr "%1 먹서를 찾을 수 없습니다. GStreamer 플러그인 설치 상태를 확인하십시오"
 
-#: transcoder/transcoder.cpp:426
 #, qt-format
 msgid "Couldn't find an encoder for %1, check you have the correct GStreamer plugins installed"
 msgstr "%1 인코더를 찾을 수 없습니다. GStreamer 플러그인 설치 상태를 확인하십시오"
 
-#: core/songloader.cpp:505
 #, qt-format
 msgid "Couldn't link GStreamer source, typefind and fakesink elements for %1"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_albumcovermanager.h:212
-#: ../../build-qt6dev/src/ui_albumcoversearcher.h:102
 msgid "Cover Manager"
 msgstr "표지 관리자"
 
-#: dialogs/edittagdialog.cpp:862
 msgid "Cover art not set"
 msgstr "표지 그림을 설정하지 않았음"
 
-#: dialogs/edittagdialog.cpp:878
 msgid "Cover changed: Will be cleared when saved."
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:882
 msgid "Cover changed: Will be deleted when saved."
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:880
 msgid "Cover changed: Will be unset when saved."
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:884
 msgid "Cover changed: Will set new when saved."
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:193
 #, qt-format
 msgid "Cover file %1 is empty."
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:854 dialogs/edittagdialog.cpp:857
 #, qt-format
 msgid "Cover from %1"
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:851
 msgid "Cover from embedded image."
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:848
 msgid "Cover is unset."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:307
 msgid "Cover providers"
 msgstr "앨범 아트 가져오기"
 
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:306
 msgid "Covers"
 msgstr "앨범아트"
 
-#: covermanager/albumcoversearcher.cpp:128
-#: covermanager/coversearchstatisticsdialog.cpp:74
 #, qt-format
 msgid "Covers from %1"
 msgstr "%1의 표지"
 
-#: core/commandlineoptions.cpp:236
 msgid "Create a new playlist with files"
 msgstr "지정한 파일을 포함하는 새 재생 목록 만들기"
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:711
 msgid "Cross-fade when changing tracks automatically"
 msgstr "트랙을 자동으로 바꿀 때 크로스페이드"
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:710
 msgid "Cross-fade when changing tracks manually"
 msgstr "트랙을 직접 바꿀 때 크로스페이드"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:632
 msgid "Ctrl+Alt+V"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_queueview.h:134
 msgid "Ctrl+Down"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:644
 msgid "Ctrl+E"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:659
 msgid "Ctrl+H"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:677
 msgid "Ctrl+J"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:640
-#: ../../build-qt6dev/src/ui_queueview.h:144
 msgid "Ctrl+K"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:698
 msgid "Ctrl+M"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:681
 msgid "Ctrl+N"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:651
 msgid "Ctrl+P"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:628
 msgid "Ctrl+Q"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:685
 msgid "Ctrl+S"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:663
 msgid "Ctrl+Shift+A"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:689
 msgid "Ctrl+Shift+O"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:704
 msgid "Ctrl+T"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_savedgroupingmanager.h:106
-#: ../../build-qt6dev/src/ui_queueview.h:128
 msgid "Ctrl+Up"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:469
 msgid "Current disk cache in use:"
 msgstr "현재 사용중인 디스크 캐시 :"
 
-#: equalizer/equalizer.cpp:139
 msgid "Custom"
 msgstr "사용자 정의"
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:560
 msgid "Custom color"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:534
 msgid "Custom image:"
 msgstr "사용자 정의 이미지:"
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:493
 msgid "Custom message settings"
 msgstr "사용자 정의 메시지 설정"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:421
 msgid "Custom text settings"
 msgstr "사용자 정의 텍스트 설정"
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:514
 msgid "Custom..."
 msgstr "사용자 정의..."
 
-#: device/udisks2lister.cpp:123
 msgid "D-Bus path"
 msgstr "D-Bus 경로"
 
-#: equalizer/equalizer.cpp:142
 msgid "Dance"
 msgstr "댄스"
 
-#: spotify/spotifyrequest.cpp:1371
 msgid "Data missing error"
 msgstr ""
 
-#: core/database.cpp:510
 msgid "Database corruption detected."
 msgstr "데이터베이스가 손상되었습니다."
 
-#: playlist/playlist.cpp:1414
 msgid "Date Created"
 msgstr ""
 
-#: playlist/playlist.cpp:1413
 msgid "Date Modified"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:888
 msgid "Date created"
 msgstr "생성한 날짜"
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:891
 msgid "Date modified"
 msgstr "수정한 날짜"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:453
 msgid "Days"
 msgstr ""
 
-#: core/commandlineoptions.cpp:229
 msgid "Decrease the volume by 4 percent"
 msgstr "4퍼센트만큼 음량 내리기"
 
-#: core/commandlineoptions.cpp:231
 msgid "Decrease the volume by <value> percent"
 msgstr "<value>%만큼 음량 내리기"
 
-#: globalshortcuts/globalshortcutsmanager.cpp:70
 msgid "Decrease volume"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:528
 msgid "Default bac&kground image"
 msgstr "기본 배경 그림(&K)"
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:693
 msgid "Defaults"
 msgstr "기본 설정"
 
-#: playlist/playlistlistcontainer.cpp:90
-#: ../../build-qt6dev/src/ui_playlistlistcontainer.h:131
 msgid "Delete"
 msgstr "삭제"
 
-#: covermanager/albumcoverchoicecontroller.cpp:111
 msgid "Delete cover"
 msgstr ""
 
-#: dialogs/deleteconfirmationdialog.cpp:46 device/deviceview.cpp:429
 msgid "Delete files"
 msgstr "파일 삭제"
 
-#: device/deviceview.cpp:250
 msgid "Delete from device..."
 msgstr "장치에서 삭제..."
 
-#: core/mainwindow.cpp:776 collection/collectionview.cpp:395
-#: widgets/fileviewlist.cpp:50
 msgid "Delete from disk..."
 msgstr "디스크에서 삭제..."
 
-#: equalizer/equalizer.cpp:229 ../../build-qt6dev/src/ui_equalizer.h:172
 msgid "Delete preset"
 msgstr "사전 설정 삭제"
 
-#: smartplaylists/smartplaylistsviewcontainer.cpp:78
-#: ../../build-qt6dev/src/ui_smartplaylistsviewcontainer.h:107
 msgid "Delete smart playlist"
 msgstr "스마트 재생 목록 제거"
 
-#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:259
 msgid "Delete songs"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_organizedialog.h:264
 msgid "Delete the original files"
 msgstr "원본 파일 삭제"
 
-#: core/deletefiles.cpp:59
 msgid "Deleting files"
 msgstr "파일 삭제 중"
 
-#: core/mainwindow.cpp:2047
 msgid "Dequeue selected tracks"
 msgstr "선택한 트랙을 대기열에서 삭제"
 
-#: core/mainwindow.cpp:2046
 msgid "Dequeue track"
 msgstr "대기열에서 트랙 삭제"
 
-#: ../../build-qt6dev/src/ui_organizedialog.h:261
-#: ../../build-qt6dev/src/ui_transcodedialog.h:230
 msgid "Destination"
 msgstr "대상"
 
-#: core/filesystemmusicstorage.cpp:92
 #, qt-format
 msgid "Destination file %1 exists, but not allowed to overwrite"
 msgstr ""
 
-#: core/filesystemmusicstorage.cpp:73
 #, qt-format
 msgid "Destination file %1 exists, but not allowed to overwrite."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_transcodedialog.h:235
 msgid "Details..."
 msgstr "자세히..."
 
-#: device/giolister.cpp:193 ../../build-qt6dev/src/ui_backendsettingspage.h:672
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:422
 msgid "Device"
 msgstr "장치"
 
-#: ../../build-qt6dev/src/ui_deviceproperties.h:370
 msgid "Device Properties"
 msgstr "장치 속성"
 
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:268
 msgid "Device credentials"
 msgstr ""
 
-#: device/deviceview.cpp:241
 msgid "Device properties..."
 msgstr "장치 속성..."
 
-#: core/mainwindow.cpp:393
 msgid "Devices"
 msgstr "장치"
 
-#: dialogs/edittagdialog.cpp:104
 msgid "Different art across multiple songs."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:175
 msgid "Direct internet connection"
 msgstr "직접 인터넷 연결"
 
-#: ../../build-qt6dev/src/ui_transcodedialog.h:219
 msgid "Directory"
 msgstr "디렉터리"
 
-#: playlistparsers/playlistparser.cpp:222
 #, qt-format
 msgid "Directory %1 does not exist."
 msgstr ""
 
-#: dialogs/saveplaylistsdialog.cpp:79
 msgid "Directory does not exist."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:487
 msgid "Disable duration"
 msgstr "비활성화 시간"
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:480
 msgctxt "Refers to a disabled notification type in Notification settings."
 msgid "Disabled"
 msgstr "사용 안 함"
 
-#: collection/savedgroupingmanager.cpp:118 playlist/playlist.cpp:1391
-#: organize/organizedialog.cpp:115
-#: ../../build-qt6dev/src/ui_groupbydialog.h:196
-#: ../../build-qt6dev/src/ui_groupbydialog.h:218
-#: ../../build-qt6dev/src/ui_groupbydialog.h:240
-#: ../../build-qt6dev/src/ui_edittagdialog.h:918
 msgid "Disc"
 msgstr "디스크"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:232
 msgid "Discontinuous transmission"
 msgstr "불연속적인 전송"
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:468
 msgid "Disk Cache Size"
 msgstr "디스크 캐시 크기"
 
-#: collection/collectionfilterwidget.cpp:117
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:459
 msgid "Display options"
 msgstr "옵션 표시"
 
-#: core/commandlineoptions.cpp:241
 msgid "Display the on-screen-display"
 msgstr "OSD 표시"
 
-#: ../../build-qt6dev/src/ui_deviceproperties.h:379
 msgid "Do not convert any music"
 msgstr "어떤 곡도 변환하지 않기"
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:546
 msgid "Do not cut image"
 msgstr "이미지 자르지 않기"
 
-#: ../../build-qt6dev/src/ui_albumcoverexport.h:206
 msgid "Do not overwrite"
 msgstr "덮어쓰지 않기"
 
-#: ../../build-qt6dev/src/ui_messagedialog.h:121
 msgid "Do not show this message again."
 msgstr "메세지 다시 보지 않기"
 
-#: playlistparsers/parserbase.cpp:62
 #, qt-format
 msgid "Don't know how to handle %1"
 msgstr ""
 
-#: osd/osdbase.cpp:363 ../../build-qt6dev/src/ui_playlistsequence.h:108
 msgid "Don't repeat"
 msgstr "반복하지 않기"
 
-#: collection/collectionview.cpp:408
 msgid "Don't show in various artists"
 msgstr "여러 아티스로 표시하지 않기"
 
-#: osd/osdbase.cpp:348 ../../build-qt6dev/src/ui_playlistsequence.h:114
 msgid "Don't shuffle"
 msgstr "섞지 않기"
 
-#: covermanager/albumcovermanager.cpp:262
 msgid "Don't stop!"
 msgstr "멈추지 마세요!"
 
-#: radios/radioview.cpp:85
 msgid "Donate"
 msgstr ""
 
-#: device/deviceview.cpp:139
 msgid "Double click to open"
 msgstr "두 번 클릭해서 열기"
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:350
 msgid "Double clicking a song in the playlist will..."
 msgstr "재생 목록의 노래를 두 번 클릭했을 때..."
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:340
 msgid "Double clicking a song will..."
 msgstr "노래를 두 번 클릭했을 때..."
 
-#: playlist/playlisttabbar.cpp:358
 msgid "Double-click here to favorite this playlist so it will be saved and remain accessible through the \"Playlists\" panel on the left side bar"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:255
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:342
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:279
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:297
 msgid "Download album covers"
 msgstr "앨범아트 다운로드 중"
 
-#: musicbrainz/tagfetcher.cpp:132
 msgid "Downloading metadata"
 msgstr ""
 
-#: settings/notificationssettingspage.cpp:68
 msgid "Drag to reposition"
 msgstr "위치를 바꾸려면 드래그하십시오"
 
-#: ../../build-qt6dev/src/ui_dynamicplaylistcontrols.h:105
 msgid "Dynamic mode is on"
 msgstr "자동 모드가 켜졌습니다"
 
-#: smartplaylists/smartplaylistsmodel.cpp:116
 msgid "Dynamic random mix"
 msgstr "모든 곡 랜덤 믹스"
 
-#: context/contextview.cpp:168
 msgid "EBU R 128 Integrated Loudness"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:705
 msgid "EBU R 128 Loudness Normalization"
 msgstr ""
 
-#: context/contextview.cpp:169
 msgid "EBU R 128 Loudness Range"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:898
 msgid "EBU R 128 integrated loudness"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:907
 msgid "EBU R 128 loudness range"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_smartplaylistsviewcontainer.h:104
 msgid "Edit smart playlist"
 msgstr "스마트 재생 목록 수정"
 
-#: smartplaylists/smartplaylistsviewcontainer.cpp:77
 msgid "Edit smart playlist..."
 msgstr "스마트 재생 목록 수정"
 
-#: core/mainwindow.cpp:2090
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "\"%1\" 태그 편집..."
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:648
 msgid "Edit tag..."
 msgstr "태그 편집..."
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:886
 msgid "Edit track information"
 msgstr "트랙 정보 편집"
 
-#: collection/collectionview.cpp:398 widgets/fileviewlist.cpp:53
-#: ../../build-qt6dev/src/ui_mainwindow.h:642
 msgid "Edit track information..."
 msgstr "트랙 정보 편집..."
 
-#: collection/collectionview.cpp:399
 msgid "Edit tracks information..."
 msgstr "트랙 정보 편집..."
 
-#: settings/coverssettingspage.cpp:442
 #, qt-format
 msgid "Embedded album cover art (%1)"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:917
 msgid "Embedded cover"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:405
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:430
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:433
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:436
-#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:244
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:326
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:265
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:282
 msgid "Enable"
 msgstr "활성화"
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:467
 msgid "Enable Disk Cache"
 msgstr "디스크 캐시 활성화"
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:686
 msgid "Enable HTTP/2 for streaming"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:432
 msgid "Enable Items"
 msgstr "항목 활성화"
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:478
-#: ../../build-qt6dev/src/ui_playlistsettingspage.h:188
 msgid "Enable delete files in the right click context menu"
 msgstr "마우스 우클릭 메뉴로부터 파일 제거 활성화"
 
-#: ../../build-qt6dev/src/ui_equalizer.h:174
 msgid "Enable equalizer"
 msgstr "이퀄라이저 활성화"
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:516
 msgid "Enable fading"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_playlistsettingspage.h:187
 msgid "Enable playlist clear button"
 msgstr "재생 목록 비우기 단추 활성화"
 
-#: ../../build-qt6dev/src/ui_playlistsettingspage.h:186
 msgid "Enable playlist toolbar"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:417
 msgid "Enable scrobbling for the following sources:"
 msgstr "이 소스로부터 스크로블링 켜기"
 
-#: ../../build-qt6dev/src/ui_playlistsettingspage.h:199
 msgid "Enable song metadata inline edition with click"
 msgstr "클릭하여 음악 메타데이터를 바로 편집하려면 활성화"
 
-#: ../../build-qt6dev/src/ui_equalizer.h:175
 msgid "Enable stereo balancer"
 msgstr "스테레오 균형 맞추기 활성화"
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:682
 msgid "Enable volume control"
 msgstr "음량 제어 활성화"
 
-#: globalshortcuts/globalshortcutsmanager.cpp:79
 msgid "Enable/disable scrobbling"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_moodbarsettingspage.h:98
 msgid "Enabled"
 msgstr "활성화"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:233
 msgid "Encoding complexity"
 msgstr "인코딩 복잡도"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:197
 msgid "Encoding engine quality"
 msgstr "인코딩 엔진 품질"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:224
 msgid "Encoding mode"
 msgstr "인코딩 모드"
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:675
 msgid "Engine"
 msgstr "엔진"
 
-#: ../../build-qt6dev/src/ui_coverfromurldialog.h:101
 msgid "Enter a URL to download a cover from the Internet:"
 msgstr "인터넷에서 표지를 다운로드할 URL 입력:"
 
-#: ../../build-qt6dev/src/ui_albumcoverexport.h:202
 msgid "Enter a filename for exported covers (no extension):"
 msgstr "내보낼 표지 파일 이름 입력(확장자 제외):"
 
-#: playlist/playlisttabbar.cpp:181
 msgid "Enter a new name for this playlist"
 msgstr "재생 목록의 새로운 이름 입력"
 
-#: streaming/streamingsearchview.cpp:405
-#: ../../build-qt6dev/src/ui_streamingsearchview.h:232
 msgid "Enter search terms above to find music"
 msgstr "음악을 찾으려면 위에 검색어를 입력하십시오"
 
-#: ../../build-qt6dev/src/ui_collectionfilterwidget.h:102
-#: ../../build-qt6dev/src/ui_albumcovermanager.h:216
 msgid "Enter search terms here"
 msgstr "여기에 검색어 입력"
 
-#: ../../build-qt6dev/src/ui_addstreamdialog.h:77
 msgid "Enter the URL of a stream:"
 msgstr "스트림 URL 입력"
 
-#: playlist/playlistlistcontainer.cpp:216
 msgid "Enter the name of the folder"
 msgstr "폴더 이름 입력"
 
-#: ../../build-qt6dev/src/ui_userpassdialog.h:91
 msgid "Enter username and password"
 msgstr "계정명과 패스워드 입력"
 
-#: settings/scrobblersettingspage.cpp:82
 msgid "Enter your user token from"
 msgstr "다음에 있는 사용자 토큰 입력: "
 
-#: ../../build-qt6dev/src/ui_collectionfilterwidget.h:91
 msgid "Entire collection"
 msgstr "전체 라이브러리"
 
-#: ../../build-qt6dev/src/ui_equalizer.h:166
-#: ../../build-qt6dev/src/ui_equalizerslider.h:95
 msgid "Equalizer"
 msgstr "이퀄라이저"
 
-#: core/commandlineoptions.cpp:245
 msgid "Equivalent to --log-levels *:1"
 msgstr "--log-levels *:1과 동일함"
 
-#: core/commandlineoptions.cpp:246
 msgid "Equivalent to --log-levels *:3"
 msgstr "--log-levels *:3과 동일함"
 
-#: core/mainwindow.cpp:2719 core/mainwindow.cpp:2870
-#: collection/collectionview.cpp:715
 msgid "Error"
 msgstr "오류"
 
-#: device/mtploader.cpp:72
 #, qt-format
 msgid "Error connecting MTP device %1"
 msgstr "MTP 장치 %1 연결 오류"
 
-#: device/mtploader.cpp:77
 #, qt-format
 msgid "Error connecting MTP device %1: %2"
 msgstr ""
 
-#: organize/organizeerrordialog.cpp:71
 msgid "Error copying songs"
 msgstr "노래 복사 오류"
 
-#: organize/organizeerrordialog.cpp:76
 msgid "Error deleting songs"
 msgstr "노래 삭제 오류"
 
-#: transcoder/transcoder.cpp:399
 #, qt-format
 msgid "Error processing %1: %2"
 msgstr "%1 처리 오류: %2"
 
-#: playlist/songloaderinserter.cpp:114
 msgid "Error while loading audio CD."
 msgstr "오디오 CD를 불러오는 중 오류가 발생했습니다."
 
-#: device/cddasongloader.cpp:120 device/cddasongloader.cpp:129
 msgid "Error while querying CDDA tracks."
 msgstr "CDDA 트랙을 로딩하는데 오류가 있습니다."
 
-#: device/cddasongloader.cpp:108
 msgid "Error while setting CDDA device to pause state."
 msgstr "CDDA 디바이스를 일시정지하는데 오류가 있습니다."
 
-#: device/cddasongloader.cpp:100
 msgid "Error while setting CDDA device to ready state."
 msgstr "CDDA 디바이스를 준비하는데 오류가 있습니다."
 
-#: smartplaylists/smartplaylistsmodel.cpp:78
 msgid "Ever played"
 msgstr "재생된 적 있음"
 
-#: widgets/freespacebar.cpp:69
 msgid "Exceeded by"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:712
 msgid "Except between tracks on the same album or in the same CUE sheet"
 msgstr "같은 앨범이나 같은 CUE 시트의 트랙 사이에서는 제외"
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:680
 msgid "Exclusive mode (Experimental)"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_albumcoverexport.h:205
 msgid "Existing covers"
 msgstr "존재하는 표지"
 
-#: ../../build-qt6dev/src/ui_dynamicplaylistcontrols.h:107
 msgid "Expand"
 msgstr "확장"
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:452
 msgid "Expire unavailable songs after"
 msgstr ""
 
-#: widgets/loginstatewidget.cpp:156
 #, qt-format
 msgid "Expires on %1"
 msgstr "만료 일자: %1"
 
-#: ../../build-qt6dev/src/ui_albumcovermanager.h:226
 msgid "Export Covers"
 msgstr "표지 내보내기"
 
-#: ../../build-qt6dev/src/ui_albumcoverexport.h:200
 msgid "Export covers"
 msgstr "표지 내보내기"
 
-#: ../../build-qt6dev/src/ui_albumcoverexport.h:203
 msgid "Export downloaded covers"
 msgstr "다운로드한 표지 내보내기"
 
-#: ../../build-qt6dev/src/ui_albumcoverexport.h:204
 msgid "Export embedded covers"
 msgstr "내장된 표지 내보내기"
 
-#: covermanager/albumcovermanager.cpp:1021
-#: covermanager/albumcovermanager.cpp:1047
 msgid "Export finished"
 msgstr "내보내기 완료"
 
-#: covermanager/albumcovermanager.cpp:1032
 #, qt-format
 msgid "Exported %1 covers out of %2 (%3 skipped)"
 msgstr "앨범아트 %2개 중 %1개 내보냄(%3개 건너뜀)"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:655
 msgid "F1"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:612
 msgid "F5"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:616
 msgid "F6"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:620
 msgid "F7"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:624
 msgid "F8"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_transcodersettingspage.h:187
 msgid "FLAC"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:715
 msgid "Fade out on pause / fade in on resume"
 msgstr "일시 정지 시 페이드 아웃/다시 시작 시 페이드 인"
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:709
 msgid "Fade out when stopping a track"
 msgstr "트랙 정지 시 페이드 아웃"
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:708
 msgid "Fading"
 msgstr "페이드"
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:713
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:716
 msgid "Fading duration"
 msgstr "페이드 시간"
 
-#: core/database.cpp:485 collection/collectionbackend.cpp:118
 #, qt-format
 msgid "Failed SQL query: %1"
 msgstr ""
 
-#: core/filesystemmusicstorage.cpp:57
 #, qt-format
 msgid "Failed to create directory %1."
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:380
-#: covermanager/albumcoverchoicecontroller.cpp:397
 #, qt-format
 msgid "Failed to delete cover file %1: %2"
 msgstr ""
 
-#: core/tagreaderclient.cpp:302
 #, qt-format
 msgid "Failed to load image from data for %1"
 msgstr ""
 
-#: playlistparsers/playlistparser.cpp:245
 #, qt-format
 msgid "Failed to open %1 for writing."
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:185
 #, qt-format
 msgid "Failed to open cover file %1 for reading: %2"
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:263
-#: covermanager/albumcoverchoicecontroller.cpp:688
 #, qt-format
 msgid "Failed to open cover file %1 for writing: %2"
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:682
 #, qt-format
 msgid "Failed to write cover to file %1: %2"
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:278
 #, qt-format
 msgid "Failed writing cover to file %1."
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:269
 #, qt-format
 msgid "Failed writing cover to file %1: %2"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:704
 msgid "Fallback-gain"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsflac.h:78
-#: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:198
 msgid "Fast"
 msgstr "빠름"
 
-#: smartplaylists/smartplaylistsmodel.cpp:102
 msgid "Favourite tracks"
 msgstr "좋아요 표시된 곡"
 
-#: ../../build-qt6dev/src/ui_albumcovermanager.h:225
 msgid "Fetch Missing Covers"
 msgstr "누락된 표지 가져오기"
 
-#: ../../build-qt6dev/src/ui_albumcovermanager.h:213
 msgid "Fetch automatically"
 msgstr "자동으로 가져오기"
 
-#: ../../build-qt6dev/src/ui_coversearchstatisticsdialog.h:72
 msgid "Fetch completed"
 msgstr "가져오기 완료"
 
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:343
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:280
 msgid "Fetch entire albums when searching songs"
 msgstr "곡을 검색할 때 전체 앨범 가져오기"
 
-#: covermanager/coverfromurldialog.cpp:90
-#: covermanager/coverfromurldialog.cpp:100
 msgid "Fetching cover error"
 msgstr "표지 가져오기 오류"
 
-#: core/songloader.cpp:164 core/songloader.cpp:268
 #, qt-format
 msgid "File %1 does not exist."
 msgstr ""
 
-#: core/songloader.cpp:184 core/songloader.cpp:328
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "%1 파일은 올바른 오디오 파일이 아닌 것 같습니다."
 
-#: playlist/playlist.cpp:1409
 msgid "File Name"
 msgstr ""
 
-#: playlist/playlist.cpp:1410
 msgid "File Name (without path)"
 msgstr ""
 
-#: playlist/playlist.cpp:1411
 msgid "File Size"
 msgstr ""
 
-#: playlist/playlist.cpp:1412
 msgid "File Type"
 msgstr ""
 
-#: organize/organizedialog.cpp:124
 msgid "File extension"
 msgstr "파일 확장자"
 
-#: ../../build-qt6dev/src/ui_deviceproperties.h:386
 msgid "File formats"
 msgstr "파일 형식"
 
-#: ../../build-qt6dev/src/ui_playlistsaveoptionsdialog.h:93
 msgid "File paths"
 msgstr "파일 경로"
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:905
 msgid "File size"
 msgstr "파일 크기"
 
-#: collection/savedgroupingmanager.cpp:139
-#: ../../build-qt6dev/src/ui_groupbydialog.h:207
-#: ../../build-qt6dev/src/ui_groupbydialog.h:229
-#: ../../build-qt6dev/src/ui_groupbydialog.h:251
-#: ../../build-qt6dev/src/ui_edittagdialog.h:894
 msgid "File type"
 msgstr "파일 형식"
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:903
-#: ../../build-qt6dev/src/ui_transcodedialog.h:220
 msgid "Filename"
 msgstr "파일 이름"
 
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:322
 msgid "Filename:"
 msgstr "파일 이름:"
 
-#: core/mainwindow.cpp:390
 msgid "Files"
 msgstr "파일"
 
-#: ../../build-qt6dev/src/ui_transcodedialog.h:217
 msgid "Files to transcode"
 msgstr "변환할 파일"
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:556
 msgid "Files, playlists and queue buttons"
 msgstr ""
 
-#: context/contextview.cpp:163
 msgid "Filetype"
 msgstr "파일 형식"
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:98
 msgid "Find songs in your collection that match the criteria you specify."
 msgstr ""
 
-#: musicbrainz/tagfetcher.cpp:80
 msgid "Fingerprinting song"
 msgstr ""
 
-#: smartplaylists/smartplaylistwizard.cpp:93
 msgid "Finish"
 msgstr "완료"
 
-#: collection/savedgroupingmanager.cpp:58
-#: ../../build-qt6dev/src/ui_groupbydialog.h:190
 msgid "First level"
 msgstr "첫 단계"
 
-#: widgets/playingwidget.cpp:106
 msgid "Fit cover to width"
 msgstr "앨범아트를 너비에 맞춤"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:439
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:444
 msgid "Font"
 msgstr "폰트"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:443
 msgid "Font for data and lyrics"
 msgstr "내용과 가사 폰트 설정"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:438
 msgid "Font for headline"
 msgstr "제목 폰트 설정"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:440
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:445
 msgid "Font size"
 msgstr "글자 크기"
 
-#: dialogs/snapdialog.cpp:54
 #, qt-format
 msgid "For Ubuntu there is an official PPA repository available at %1."
 msgstr "우분투용 공식 PPA 저장소는 %1 에서 찾을 수 있습니다."
 
-#: dialogs/snapdialog.cpp:62
 msgid "For a better experience please consider the other options above."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:202
 msgid "Force mono encoding"
 msgstr "모노 인코딩 강제"
 
-#: device/deviceview.cpp:239 device/deviceview.cpp:346
-#: device/deviceview.cpp:349
 msgid "Forget device"
 msgstr "장치 삭제"
 
-#: device/deviceview.cpp:347
 msgid "Forgetting a device will remove it from this list and Strawberry will have to rescan all the songs again next time you connect it."
 msgstr "장치를 삭제하면 이 목록에 표시되지 않고 다음에 장치를 다시 연결했을 때 Strawberry에서 모든 음악을 다시 검색합니다."
 
-#: ../../build-qt6dev/src/ui_collectionviewcontainer.h:55
-#: ../../build-qt6dev/src/ui_playlistcontainer.h:148
-#: ../../build-qt6dev/src/ui_playlistlistcontainer.h:126
-#: ../../build-qt6dev/src/ui_smartplaylistquerysearchpage.h:108
-#: ../../build-qt6dev/src/ui_smartplaylistquerysortpage.h:133
-#: ../../build-qt6dev/src/ui_smartplaylistsearchpreview.h:101
-#: ../../build-qt6dev/src/ui_smartplaylistsearchtermwidget.h:271
-#: ../../build-qt6dev/src/ui_smartplaylistwizardfinishpage.h:79
-#: ../../build-qt6dev/src/ui_trackslider.h:65
-#: ../../build-qt6dev/src/ui_fileview.h:103
-#: ../../build-qt6dev/src/ui_loginstatewidget.h:164
-#: ../../build-qt6dev/src/ui_streamingcollectionviewcontainer.h:136
-#: ../../build-qt6dev/src/ui_radioviewcontainer.h:80
-#: ../../build-qt6dev/src/ui_deviceviewcontainer.h:48
-#: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:131
-#: ../../build-qt6dev/src/ui_transcoderoptionsflac.h:76
-#: ../../build-qt6dev/src/ui_transcoderoptionswavpack.h:46
-#: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:197
-#: ../../build-qt6dev/src/ui_transcoderoptionsopus.h:75
-#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:216
-#: ../../build-qt6dev/src/ui_transcoderoptionsasf.h:74
-#: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:190
 msgid "Form"
 msgstr "폼"
 
-#: collection/savedgroupingmanager.cpp:142
-#: ../../build-qt6dev/src/ui_groupbydialog.h:197
-#: ../../build-qt6dev/src/ui_groupbydialog.h:219
-#: ../../build-qt6dev/src/ui_groupbydialog.h:241
 msgid "Format"
 msgstr "형식"
 
-#: analyzer/analyzercontainer.cpp:69
 msgid "Framerate"
 msgstr "프레임레이트"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:234
 msgid "Frames per buffer"
 msgstr "버퍼당 프레임 수"
 
-#: moodbar/moodbarrenderer.cpp:170
 msgid "Frozen"
 msgstr "얼어붙음"
 
-#: equalizer/equalizer.cpp:143
 msgid "Full Bass"
 msgstr "저음 강화"
 
-#: equalizer/equalizer.cpp:145
 msgid "Full Bass + Treble"
 msgstr "저음+고음 강화"
 
-#: equalizer/equalizer.cpp:144
 msgid "Full Treble"
 msgstr "고음 강화"
 
-#: settings/settingsdialog.cpp:135
 msgid "General"
 msgstr "일반"
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:484
 msgid "General settings"
 msgstr "일반 설정"
 
-#: lyrics/geniuslyricsprovider.cpp:123
 msgid "Genius Authentication"
 msgstr ""
 
-#: collection/savedgroupingmanager.cpp:127 playlist/playlist.cpp:1395
-#: organize/organizedialog.cpp:118
-#: ../../build-qt6dev/src/ui_groupbydialog.h:198
-#: ../../build-qt6dev/src/ui_groupbydialog.h:220
-#: ../../build-qt6dev/src/ui_groupbydialog.h:242
-#: ../../build-qt6dev/src/ui_edittagdialog.h:927
 msgid "Genre"
 msgstr "장르"
 
-#: radios/somafmservice.cpp:72 radios/radioparadiseservice.cpp:66
 #, qt-format
 msgid "Getting %1 channels"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:268
 msgid "Global Shortcuts"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:692
 msgid "Go to next playlist tab"
 msgstr "다음 재생 목록 탭으로 이동"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:693
 msgid "Go to previous playlist tab"
 msgstr "이전 재생 목록 탭으로 이동"
 
-#: ../../build-qt6dev/src/ui_lastfmimportdialog.h:155
 msgid "Go!"
 msgstr ""
 
-#: covermanager/albumcovermanager.cpp:557
-#: covermanager/coversearchstatisticsdialog.cpp:68
-#: ../../build-qt6dev/src/ui_coversearchstatisticsdialog.h:73
 #, qt-format
 msgid "Got %1 covers out of %2 (%3 failed)"
 msgstr "앨범아트 %2개 중 %1개 가져옴(%3개 실패)"
 
-#: ../../build-qt6dev/src/ui_playlistsettingspage.h:183
 msgid "Grey out unavailable songs in playlists on playback"
 msgstr "재생할 때 재생 목록에서 사용할 수 없는 곡을 회색으로 표시"
 
-#: ../../build-qt6dev/src/ui_playlistsettingspage.h:184
 msgid "Grey out unavailable songs in playlists on startup"
 msgstr "시작할 때 재생 목록에서 사용할 수 없는 곡을 회색으로 표시"
 
-#: ../../build-qt6dev/src/ui_groupbydialog.h:189
 msgid "Group Collection by..."
 msgstr "라이브러리 그룹 방식..."
 
-#: collection/collectionfilterwidget.cpp:111
-#: streaming/streamingsearchview.cpp:344
 msgid "Group by"
 msgstr "그룹 방식"
 
-#: collection/collectionfilterwidget.cpp:281
 msgid "Group by Album"
 msgstr "앨범으로 그룹"
 
-#: collection/collectionfilterwidget.cpp:278
 msgid "Group by Album Artist"
 msgstr "앨범 아티스트로 그룹"
 
-#: collection/collectionfilterwidget.cpp:265
 msgid "Group by Album artist/Album"
 msgstr "앨범 아티스트/앨범으로 그룹"
 
-#: collection/collectionfilterwidget.cpp:266
 msgid "Group by Album artist/Album - Disc"
 msgstr "앨범 아티스트/앨범 - 디스크로 그룹"
 
-#: collection/collectionfilterwidget.cpp:267
 msgid "Group by Album artist/Year - Album"
 msgstr "앨범 아티스트/년도 - 앨범으로 그룹"
 
-#: collection/collectionfilterwidget.cpp:268
 msgid "Group by Album artist/Year - Album - Disc"
 msgstr "앨범 아티스트/년도 - 앨범 - 디스크로 그룹"
 
-#: collection/collectionfilterwidget.cpp:279
 msgid "Group by Artist"
 msgstr "아티스트로 그룹"
 
-#: collection/collectionfilterwidget.cpp:270
 msgid "Group by Artist/Album"
 msgstr "아티스트/앨범으로 그룹"
 
-#: collection/collectionfilterwidget.cpp:271
 msgid "Group by Artist/Album - Disc"
 msgstr "아티스트/앨범 - 디스크로 그룹"
 
-#: collection/collectionfilterwidget.cpp:272
 msgid "Group by Artist/Year - Album"
 msgstr "아티스트/년도 - 앨범으로 그룹"
 
-#: collection/collectionfilterwidget.cpp:273
 msgid "Group by Artist/Year - Album - Disc"
 msgstr "아티스트/년도 - 앨범 - 디스크로 그룹"
 
-#: collection/collectionfilterwidget.cpp:282
 msgid "Group by Genre/Album"
 msgstr "장르/앨범으로 그룹"
 
-#: collection/collectionfilterwidget.cpp:275
 msgid "Group by Genre/Album artist/Album"
 msgstr "장르/앨범 아티스트/앨범으로 그룹"
 
-#: collection/collectionfilterwidget.cpp:276
 msgid "Group by Genre/Artist/Album"
 msgstr "장르/아티스트/앨범으로 그룹"
 
-#: collection/savedgroupingmanager.cpp:136 playlist/playlist.cpp:1399
-#: organize/organizedialog.cpp:113
-#: ../../build-qt6dev/src/ui_groupbydialog.h:206
-#: ../../build-qt6dev/src/ui_groupbydialog.h:228
-#: ../../build-qt6dev/src/ui_groupbydialog.h:250
-#: ../../build-qt6dev/src/ui_edittagdialog.h:919
 msgid "Grouping"
 msgstr "그룹"
 
-#: collection/collectionfilterwidget.cpp:339
 msgid "Grouping Name"
 msgstr "그룹 이름"
 
-#: collection/collectionfilterwidget.cpp:339
 msgid "Grouping name:"
 msgstr "그룹 이름:"
 
-#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:177
 msgid "HTTP proxy"
 msgstr "HTTP 프록시"
 
-#: moodbar/moodbarrenderer.cpp:172
 msgid "Happy"
 msgstr "행복함"
 
-#: ../../build-qt6dev/src/ui_deviceproperties.h:373
 msgid "Hardware information"
 msgstr "하드웨어 정보"
 
-#: ../../build-qt6dev/src/ui_deviceproperties.h:374
 msgid "Hardware information is only available while the device is connected."
 msgstr "장치가 연결되어 있는 동안에만 하드웨어 정보를 볼 수 있습니다."
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:734
 msgid "Help"
 msgstr "도움말"
 
-#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:250
 msgid "Hex"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:324
 msgid "Hide the main window"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:200
 msgid "High"
 msgstr "높음"
 
-#: analyzer/analyzercontainer.cpp:84
 #, qt-format
 msgid "High (%1 fps)"
 msgstr "높음(%1 fps)"
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:691
 msgid "High watermark"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:451
 msgid "Hours"
 msgstr ""
 
-#: playlist/playlistview.cpp:223
 msgid "Hz"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_deviceproperties.h:372
 msgid "Icon"
 msgstr "아이콘"
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:551
 msgid "Icon sizes"
 msgstr "아이콘 크기"
 
-#: widgets/fancytabwidget.cpp:733
 msgid "Icons on top"
 msgstr "상단에 아이콘"
 
-#: musicbrainz/tagfetcher.cpp:70 musicbrainz/tagfetcher.cpp:114
 msgid "Identifying song"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_playlistsettingspage.h:197
 msgid "If activated, clicking a selected song in the playlist view will let you edit the tag value directly"
 msgstr "활성화하면 재생 목록에서 선택한 노래를 클릭하여 태그 값을 직접 수정할 수 있습니다."
 
-#: device/devicemanager.cpp:610 device/devicemanager.cpp:618
 msgid "If you continue, this device will work slowly and songs copied to it may not work."
 msgstr "계속 진행하면 이 장치가 느리게 작동하거나 복사된 음악을 재생하지 못할 수도 있습니다."
 
-#: dialogs/about.cpp:126
 msgid "If you like Strawberry and can make use of it, consider sponsoring or donating."
 msgstr "Strawberry가 마음에 들었다면 스폰서쉽과 기부를 할 수 있습니다."
 
-#: covermanager/albumcoverchoicecontroller.cpp:80
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
 msgstr "그림 (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
 
-#: covermanager/albumcoverchoicecontroller.cpp:81
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 msgstr "그림 (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 
-#: ../../build-qt6dev/src/ui_lastfmimportdialog.h:148
 msgid "Import data from last.fm"
 msgstr "last.fm으로부터 데이터 가져오기"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:715
 msgid "Import data from last.fm..."
 msgstr "last.fm으로부터 데이터 가져오기"
 
-#: ../../build-qt6dev/src/ui_transcodedialog.h:226
 msgid "Import..."
 msgstr "가져오기..."
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:685
 msgid "Improve headphone listening of stereo audio records (bs2b)"
 msgstr ""
 
-#: utilities/timeutils.cpp:101
 #, qt-format
 msgid "In %1 days"
 msgstr "%1일 후"
 
-#: utilities/timeutils.cpp:104
 #, qt-format
 msgid "In %1 weeks"
 msgstr "%1주 후"
 
-#: ../../build-qt6dev/src/ui_smartplaylistwizardfinishpage.h:82
 msgid "In dynamic mode new tracks will be chosen and added to the playlist every time a song finishes."
 msgstr "다이나믹 모드일 때는 곡이 끝날 때마다 새 곡이 재생목록에 추가됩니다."
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:492
 msgid "Include album art in the notification"
 msgstr "알림에 앨범 커버 포함"
 
-#: ../../build-qt6dev/src/ui_smartplaylistquerysearchpage.h:112
 msgid "Include all songs"
 msgstr "모든 곡 추가"
 
-#: core/commandlineoptions.cpp:228
 msgid "Increase the volume by 4 percent"
 msgstr "4퍼센트만큼 음량 올리기"
 
-#: core/commandlineoptions.cpp:230
 msgid "Increase the volume by <value> percent"
 msgstr "<value>%만큼 음량 올리기"
 
-#: globalshortcuts/globalshortcutsmanager.cpp:69
 msgid "Increase volume"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_deviceproperties.h:375
 msgid "Information"
 msgstr "정보"
 
-#: ../../build-qt6dev/src/ui_organizedialog.h:272
 msgid "Insert..."
 msgstr "삽입..."
 
-#: dialogs/snapdialog.cpp:77
 msgid "Install strawberry through PPA:"
 msgstr ""
 
-#: playlist/playlist.cpp:1422
 msgid "Integrated Loudness"
 msgstr ""
 
-#: core/database.cpp:493
 msgid "Integrity check"
 msgstr "무결성 검사"
 
-#: osd/osdbase.cpp:368 ../../build-qt6dev/src/ui_playlistsequence.h:113
 msgid "Intro tracks"
 msgstr "인트로 트랙"
 
-#: device/mtpconnection.cpp:57
 #, qt-format
 msgid "Invalid MTP device: %1"
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:257
 msgid "Invalid reply from web browser. Missing token."
 msgstr "웹 브라우저에서 잘못된 응답을 받았습니다. 토큰이 없습니다."
 
-#: dialogs/about.cpp:116
 msgid "It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles."
 msgstr "이 프로그램은 2018년에 음악 컬렉터들과 오디오파일을 위해 Clementine으로부터 포크되었습니다."
 
-#: dialogs/snapdialog.cpp:42
 msgid "It is detected that Strawberry is running as a Snap"
 msgstr "Strawberry가 Snap에서 실행되고 있는 것을 감지하였습니다."
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:337
 msgid "Jump to previous song right away"
 msgstr "바로 이전 곡으로 이동"
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:545
 msgid "Keep aspect ratio"
 msgstr "종횡비 유지"
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:316
 msgid "Keep running in the background when the window is closed"
 msgstr "창을 닫아도 백그라운드에서 계속 실행"
 
-#: ../../build-qt6dev/src/ui_organizedialog.h:263
 msgid "Keep the original files"
 msgstr "원본 파일 유지"
 
-#: core/song.cpp:799
 msgid "LU"
 msgstr ""
 
-#: core/song.cpp:787
 msgid "LUFS"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:327
 msgid "Language"
 msgstr "언어"
 
-#: equalizer/equalizer.cpp:146
 msgid "Laptop/Headphones"
 msgstr "노트북/헤드폰"
 
-#: equalizer/equalizer.cpp:147
 msgid "Large Hall"
 msgstr "거대한 홀"
 
-#: widgets/playingwidget.cpp:103
 msgid "Large album cover"
 msgstr "큰 앨범아트"
 
-#: widgets/fancytabwidget.cpp:729
 msgid "Large sidebar"
 msgstr "큰 사이드바"
 
-#: playlist/playlist.cpp:1403
 msgid "Last Played"
 msgstr ""
 
-#: smartplaylists/smartplaylistsmodel.cpp:90
-#: ../../build-qt6dev/src/ui_lastfmimportdialog.h:150
 msgid "Last played"
 msgstr "마지막 재생"
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:893
 msgctxt "A playlist's tag."
 msgid "Last played"
 msgstr "마지막 재생"
 
-#: dialogs/lastfmimportdialog.cpp:163
 #, qt-format
 msgid "Last played for %1 songs received."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:429
 msgid "Last.fm"
 msgstr ""
 
-#: smartplaylists/smartplaylistsmodel.cpp:108
 msgid "Least favourite tracks"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_equalizer.h:176
 msgid "Left"
 msgstr "왼쪽"
 
-#: context/contextview.cpp:164 playlist/playlist.cpp:1392
-#: organize/organizedialog.cpp:120
-#: ../../build-qt6dev/src/ui_edittagdialog.h:895
 msgid "Length"
 msgstr "길이"
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:432
 msgid "Libre.fm"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_smartplaylistquerysortpage.h:137
 msgid "Limits"
 msgstr ""
 
-#: scrobbler/listenbrainzscrobbler.cpp:193
 msgid "ListenBrainz Authentication"
 msgstr "ListenBrainz 인증"
 
-#: scrobbler/listenbrainzscrobbler.cpp:679
 #, qt-format
 msgid "ListenBrainz error: %1"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:435
 msgid "Listenbrainz"
 msgstr ""
 
-#: equalizer/equalizer.cpp:148
 msgid "Live"
 msgstr "라이브"
 
-#: ../../build-qt6dev/src/ui_albumcovermanager.h:214
 msgid "Load"
 msgstr "불러오기"
 
-#: ../../build-qt6dev/src/ui_coverfromurldialog.h:100
 msgid "Load cover from URL"
 msgstr "URL에서 표지 불러오기"
 
-#: covermanager/albumcoverchoicecontroller.cpp:108
 msgid "Load cover from URL..."
 msgstr "URL에서 표지 불러오기..."
 
-#: covermanager/albumcoverchoicecontroller.cpp:179
-#: covermanager/albumcoverchoicecontroller.cpp:210
 msgid "Load cover from disk"
 msgstr "디스크에서 표지 불러오기"
 
-#: covermanager/albumcoverchoicecontroller.cpp:106
 msgid "Load cover from disk..."
 msgstr "디스크에서 표지 불러오기..."
 
-#: playlist/playlistcontainer.cpp:347
 msgid "Load playlist"
 msgstr "재생 목록 불러오기"
 
-#: device/mtploader.cpp:55
 msgid "Loading MTP device"
 msgstr "MTP 장치 불러오는 중"
 
-#: device/gpodloader.cpp:54
 msgid "Loading iPod database"
 msgstr "iPod 데이터베이스 불러오는 중"
 
-#: smartplaylists/playlistgeneratorinserter.cpp:62
 msgid "Loading smart playlist"
 msgstr "스마트 재생 목록 로딩"
 
-#: playlist/songloaderinserter.cpp:171 dialogs/edittagdialog.cpp:417
 msgid "Loading tracks"
 msgstr "트랙 불러오는 중"
 
-#: playlist/songloaderinserter.cpp:201
 msgid "Loading tracks info"
 msgstr "트랙 정보 불러오는 중"
 
-#: collection/collectionmodel.cpp:209
-#: ../../build-qt6dev/src/ui_smartplaylistsearchpreview.h:103
-#: ../../build-qt6dev/src/ui_organizedialog.h:281
 msgid "Loading..."
 msgstr "불러오는 중..."
 
-#: core/commandlineoptions.cpp:238
 msgid "Loads files/URLs, replacing current playlist"
 msgstr "불러올 파일이나 URL, 현재 재생 목록을 대체함"
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:420
 msgid "Local file"
 msgstr "로컬 파일"
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:431
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:434
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:439
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:313
-#: ../../build-qt6dev/src/ui_lyricssettingspage.h:169
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:334
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:289
 msgid "Login"
 msgstr "로그인"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:138
 msgid "Long term prediction profile (LTP)"
 msgstr "장기 예측 프로필(LTP)"
 
-#: playlist/playlist.cpp:1423
 msgid "Loudness Range"
 msgstr ""
 
-#: globalshortcuts/globalshortcutsmanager.cpp:80
-#: ../../build-qt6dev/src/ui_mainwindow.h:634
 msgid "Love"
 msgstr "좋아요"
 
-#: analyzer/analyzercontainer.cpp:82
 #, qt-format
 msgid "Low (%1 fps)"
 msgstr "낮음(%1 fps)"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:136
 msgid "Low complexity profile (LC)"
 msgstr "낮은 복잡도 프로필(LC)"
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:692
 msgid "Low watermark"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:326
 msgid "Lowercase filename"
 msgstr "소문자 파일 이름"
 
-#: ../../build-qt6dev/src/ui_lyricssettingspage.h:162
-#: ../../build-qt6dev/src/ui_edittagdialog.h:936
 msgid "Lyrics"
 msgstr "가사"
 
-#: ../../build-qt6dev/src/ui_lyricssettingspage.h:163
 msgid "Lyrics providers"
 msgstr "가사 가져오기"
 
-#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:251
 msgid "MD5 token (Recommended)"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_transcodersettingspage.h:194
 msgid "MP3"
 msgstr ""
 
-#: device/mtpconnection.cpp:100
 msgid "MTP device not found."
 msgstr ""
 
-#: device/mtpconnection.cpp:86
 #, qt-format
 msgid "MTP error: %1"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:135
 msgid "Main profile (MAIN)"
 msgstr "메인 프로필(MAIN)"
 
-#: ../../build-qt6dev/src/ui_collectionfilterwidget.h:101
 msgid "Manage saved groupings"
 msgstr "저장한 그룹 관리"
 
-#: settings/coverssettingspage.cpp:433
 #, qt-format
 msgid "Manually unset (%1)"
 msgstr ""
 
-#: device/deviceproperties.cpp:176
 msgid "Manufacturer"
 msgstr "제조사"
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:450
 msgid "Mark disappeared songs unavailable"
 msgstr "사라진 곡을 사용할 수 없는 것으로 표시"
 
-#: ../../build-qt6dev/src/ui_smartplaylistquerysearchpage.h:110
 msgid "Match every search term (AND)"
 msgstr "모든 조건에 맞는 곡 (AND)"
 
-#: ../../build-qt6dev/src/ui_smartplaylistquerysearchpage.h:111
 msgid "Match one or more search terms (OR)"
 msgstr "조건 중 하나라도 맞는 곡 (OR)"
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:543
 msgid "Max cover size"
 msgstr "최대 표지 크기"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:205
 msgid "Maximum bitrate"
 msgstr "최대 비트 전송률"
 
-#: qobuz/qobuzservice.cpp:479
 msgid "Maximum number of login attempts reached."
 msgstr "최대 로그인 시도 횟수에 도달했습니다."
 
-#: analyzer/analyzercontainer.cpp:83
 #, qt-format
 msgid "Medium (%1 fps)"
 msgstr "중간(%1 fps)"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:717
-#: ../../build-qt6dev/src/ui_mainwindow.h:720
-#: ../../build-qt6dev/src/ui_mainwindow.h:723
-#: ../../build-qt6dev/src/ui_mainwindow.h:726
-#: ../../build-qt6dev/src/ui_mainwindow.h:729
-#: ../../build-qt6dev/src/ui_collectionfilterwidget.h:104
-#: ../../build-qt6dev/src/ui_albumcovermanager.h:218
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:423
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:429
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:497
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:503
-#: ../../build-qt6dev/src/ui_edittagdialog.h:914
-#: ../../build-qt6dev/src/ui_streamingsearchview.h:226
 msgid "MenuPopupToolButton"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_messagedialog.h:118
 msgid "Message Dialog"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_playlistsettingspage.h:195
 msgid "Metadata"
 msgstr "메타데이터"
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:539
 msgid "Middle"
 msgstr "중간"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:202
 msgid "Minimum bitrate"
 msgstr "최소 비트 전송률"
 
-#: settings/tidalsettingspage.cpp:159
 msgid "Missing API token."
 msgstr "API 토큰이 없습니다."
 
-#: scrobbler/listenbrainzscrobbler.cpp:630
 #, qt-format
 msgid "Missing MusicBrainz recording ID for %1 %2 %3"
 msgstr ""
 
-#: qobuz/qobuzservice.cpp:722 qobuz/qobuzstreamurlrequest.cpp:82
 msgid "Missing Qobuz app ID or secret."
 msgstr "Qobuz 앱 ID나 비밀 값이 없습니다."
 
-#: qobuz/qobuzservice.cpp:483 qobuz/qobuzservice.cpp:512
-#: qobuz/qobuzservice.cpp:562 qobuz/qobuzservice.cpp:612
-#: qobuz/qobuzservice.cpp:674
 msgid "Missing Qobuz app ID."
 msgstr "Qobuz 앱 ID가 없습니다."
 
-#: qobuz/qobuzservice.cpp:491
 msgid "Missing Qobuz password."
 msgstr "Qobuz 암호가 없습니다."
 
-#: qobuz/qobuzservice.cpp:487
 msgid "Missing Qobuz username."
 msgstr "Qobuz 사용자 이름이 없습니다."
 
-#: subsonic/subsonicurlhandler.cpp:43
 msgid "Missing Subsonic username or password."
 msgstr "Subsonic 사용자 이름이나 암호가 없습니다."
 
-#: tidal/tidalservice.cpp:728 tidal/tidalservice.cpp:783
-#: tidal/tidalservice.cpp:838 tidal/tidalservice.cpp:901
-#: tidal/tidalservice.cpp:964 tidal/tidalstreamurlrequest.cpp:87
 msgid "Missing Tidal API token, username or password."
 msgstr "타이달 API토큰, 계정 혹은 비밀번호가 없습니다."
 
-#: tidal/tidalservice.cpp:689
 msgid "Missing Tidal API token."
 msgstr "Tidal API 토큰이 없습니다."
 
-#: settings/tidalsettingspage.cpp:152
 msgid "Missing Tidal client ID."
 msgstr "Tidal 클라이언트 ID가 없습니다."
 
-#: tidal/tidalservice.cpp:697
 msgid "Missing Tidal password."
 msgstr "Tidal 암호가 없습니다."
 
-#: tidal/tidalservice.cpp:693
 msgid "Missing Tidal username."
 msgstr "Tidal 사용자 이름이 없습니다."
 
-#: settings/qobuzsettingspage.cpp:131
 msgid "Missing app id."
 msgstr "app_id가 없습니다."
 
-#: settings/tidalsettingspage.cpp:167 settings/qobuzsettingspage.cpp:139
 msgid "Missing password."
 msgstr "패스워드가 없습니다."
 
-#: settings/subsonicsettingspage.cpp:131
 msgid "Missing server url, username or password."
 msgstr "서버 URL, 사용자 이름이나 암호가 없습니다."
 
-#: subsonic/subsonicservice.cpp:418
 msgid "Missing username or password."
 msgstr "사용자 이름이나 암호가 없습니다."
 
-#: scrobbler/lastfmimport.cpp:215
 msgid "Missing username, please login to last.fm first!"
 msgstr "계정명이 없습니다. last.fm에 먼저 로그인해주세요."
 
-#: settings/tidalsettingspage.cpp:163 settings/qobuzsettingspage.cpp:135
 msgid "Missing username."
 msgstr "계정명이 없습니다."
 
-#: device/deviceproperties.cpp:175
 msgid "Model"
 msgstr "모델"
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:448
 msgid "Monitor the collection for changes"
 msgstr "라이브러리 변화 감지"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:457
 msgid "Months"
 msgstr ""
 
-#: playlist/playlist.cpp:1418
 msgid "Mood"
 msgstr "무드"
 
-#: ../../build-qt6dev/src/ui_moodbarsettingspage.h:93
-#: ../../build-qt6dev/src/ui_moodbarsettingspage.h:94
 msgid "Moodbar"
 msgstr "무드바"
 
-#: moodbar/moodbarproxystyle.cpp:378
-#: ../../build-qt6dev/src/ui_moodbarsettingspage.h:96
 msgid "Moodbar style"
 msgstr "무드바 스타일"
 
-#: smartplaylists/smartplaylistsmodel.cpp:96
 msgid "Most played"
 msgstr "많이 재생된 곡"
 
-#: device/giolister.cpp:192
 msgid "Mount point"
 msgstr "마운트 지점"
 
-#: device/udisks2lister.cpp:125
 msgid "Mount points"
 msgstr "마운트 지점"
 
-#: ../../build-qt6dev/src/ui_queueview.h:125
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:310
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:316
-#: ../../build-qt6dev/src/ui_lyricssettingspage.h:166
 msgid "Move down"
 msgstr "아래로 이동"
 
-#: core/mainwindow.cpp:772 widgets/fileviewlist.cpp:48
 msgid "Move to collection..."
 msgstr "라이브러리로 이동..."
 
-#: ../../build-qt6dev/src/ui_queueview.h:131
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:309
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:315
-#: ../../build-qt6dev/src/ui_lyricssettingspage.h:165
 msgid "Move up"
 msgstr "위로 이동"
 
-#: filterparser/filterparser.cpp:477
 #, qt-format
 msgid "Multiple search terms can also be combined with \"%1\" (default) and \"%2\", as well as grouped with parentheses. "
 msgstr ""
 
-#: core/mainwindow.cpp:2330 transcoder/transcodedialog.cpp:330
 msgid "Music"
 msgstr "음악"
 
-#: globalshortcuts/globalshortcutsmanager.cpp:71
 msgid "Mute"
 msgstr "음소거"
 
-#: equalizer/equalizer.cpp:211 collection/savedgroupingmanager.cpp:57
-#: ../../build-qt6dev/src/ui_smartplaylistwizardfinishpage.h:80
-#: ../../build-qt6dev/src/ui_deviceproperties.h:371
 msgid "Name"
 msgstr "이름"
 
-#: ../../build-qt6dev/src/ui_organizedialog.h:266
 msgid "Naming options"
 msgstr "이름 짓기 옵션"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:228
 msgid "Narrow band (NB)"
 msgstr "협대역(NB)"
 
-#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:173
 msgid "Network Proxy"
 msgstr "네트워크 프록시"
 
-#: playlist/playlistdelegates.cpp:342 dialogs/edittagdialog.cpp:897
 msgid "Never"
 msgstr "없음"
 
-#: smartplaylists/smartplaylistsmodel.cpp:84
 msgid "Never played"
 msgstr "한번도 재생하지 않은 곡"
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:332
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:346
 msgid "Never start playing"
 msgstr "재생을 시작하지 않음"
 
-#: playlist/playlistlistcontainer.cpp:89 playlist/playlistlistcontainer.cpp:216
-#: ../../build-qt6dev/src/ui_playlistlistcontainer.h:128
 msgid "New folder"
 msgstr "새 폴더"
 
-#: core/mainwindow.cpp:2148
 msgid "New playlist"
 msgstr "새로운 재생 목록"
 
-#: ../../build-qt6dev/src/ui_smartplaylistsviewcontainer.h:101
 msgid "New smart playlist"
 msgstr "새 스마트 재생 목록"
 
-#: smartplaylists/smartplaylistsviewcontainer.cpp:64
 msgid "New smart playlist..."
 msgstr "새 스마트 재생 목록"
 
-#: widgets/freespacebar.cpp:68
 msgid "New songs"
 msgstr "새로운 음악"
 
-#: ../../build-qt6dev/src/ui_dynamicplaylistcontrols.h:106
 msgid "New tracks will be added automatically."
 msgstr "새 곡들이 자동으로 추가됩니다."
 
-#: smartplaylists/smartplaylistsmodel.cpp:65
 msgid "Newest tracks"
 msgstr "새로 추가된 곡"
 
-#: dialogs/edittagdialog.cpp:233 dialogs/trackselectiondialog.cpp:72
 msgid "Next"
 msgstr "다음"
 
-#: globalshortcuts/globalshortcutsmanager.cpp:67
 msgid "Next track"
 msgstr ""
 
-#: utilities/timeutils.cpp:102
 msgid "Next week"
 msgstr "다음 주"
 
-#: dialogs/edittagdialog.cpp:820 dialogs/edittagdialog.cpp:836
 msgid "No"
 msgstr ""
 
-#: analyzer/analyzercontainer.cpp:98
 msgid "No analyzer"
 msgstr "분석기 없음"
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:695
 msgid "No audio normalization"
 msgstr ""
 
-#: covermanager/albumcovermanager.cpp:1022
 msgid "No covers to export."
 msgstr "내보낼 표지가 없습니다."
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:145
 msgid "No long blocks"
 msgstr "긴 블록 없음"
 
-#: tidal/tidalrequest.cpp:1364 spotify/spotifyrequest.cpp:1365
-#: qobuz/qobuzrequest.cpp:1426
 msgid "No match."
 msgstr "일치하는 결과가 없습니다."
 
-#: playlist/playlistcontainer.cpp:441
 msgid "No matches found.  Clear the search box to show the whole playlist again."
 msgstr "일치하는 결과를 찾을 수 없습니다. 검색어를 비우면 전체 재생 목록을 볼 수 있습니다."
 
-#: settings/coverssettingspage.cpp:303 settings/lyricssettingspage.cpp:191
 msgid "No provider selected."
 msgstr "아무 곳도 선택되지 않았습니다."
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:144
 msgid "No short blocks"
 msgstr "짧은 블록 없음"
 
-#: context/contextview.cpp:408
 msgid "No song playing"
 msgstr "재생 중인 곡 없음"
 
-#: collection/savedgroupingmanager.cpp:91 dialogs/edittagdialog.cpp:823
-#: dialogs/edittagdialog.cpp:830 ../../build-qt6dev/src/ui_groupbydialog.h:191
-#: ../../build-qt6dev/src/ui_groupbydialog.h:213
-#: ../../build-qt6dev/src/ui_groupbydialog.h:235
 msgid "None"
 msgstr "없음"
 
-#: core/mainwindow.cpp:2719 core/mainwindow.cpp:2870
-#: collection/collectionview.cpp:715
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "선택한 음악을 장치에 복사하기에 적합하지 않음"
 
-#: moodbar/moodbarrenderer.cpp:166
 msgid "Normal"
 msgstr "일반"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:143
 msgid "Normal block type"
 msgstr "일반 블록 형식"
 
-#: qobuz/qobuzservice.cpp:517 qobuz/qobuzservice.cpp:567
-#: qobuz/qobuzservice.cpp:617
 msgid "Not authenticated with Qobuz."
 msgstr "Qobuz에 인증되지 않았습니다."
 
-#: spotify/spotifyservice.cpp:516 spotify/spotifyservice.cpp:568
-#: spotify/spotifyservice.cpp:620 spotify/spotifyservice.cpp:680
 msgid "Not authenticated with Spotify."
 msgstr ""
 
-#: tidal/tidalservice.cpp:701
 msgid "Not authenticated with Tidal and reached maximum number of login attempts."
 msgstr "Tidal에 인증되지 않았으며 최대 로그인 시도 횟수에 도달했습니다."
 
-#: tidal/tidalservice.cpp:723 tidal/tidalservice.cpp:778
-#: tidal/tidalservice.cpp:833 tidal/tidalservice.cpp:896
-#: tidal/tidalservice.cpp:960 tidal/tidalstreamurlrequest.cpp:83
 msgid "Not authenticated with Tidal."
 msgstr "Tidal에 인증되지 않았습니다."
 
-#: device/deviceview.cpp:131
 msgid "Not connected"
 msgstr "연결되지 않음"
 
-#: dialogs/edittagdialog.cpp:1442
 msgid "Not found."
 msgstr ""
 
-#: device/deviceview.cpp:135
 msgid "Not mounted - double click to mount"
 msgstr "마운트되지 않음 - 마운트하려면 두 번 클릭"
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:479
 msgid "Notification type"
 msgstr "알림 종류"
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:417
 msgid "Notifications"
 msgstr "알림"
 
-#: ../../build-qt6dev/src/ui_albumcoverexport.h:207
 msgid "O&verwrite all"
 msgstr "모두 덮어쓰기(&V)"
 
-#: settings/notificationssettingspage.cpp:68
 msgid "OSD Preview"
 msgstr "OSD 미리 보기"
 
-#: osd/osdbase.cpp:271
 msgid "Off"
 msgstr "꺼짐"
 
-#: dialogs/snapdialog.cpp:58
 #, qt-format
 msgid "Official releases are available for Debian and Ubuntu which also work on most of their derivatives. See %1 for more information."
 msgstr "공식 릴리즈가 데비안, 우분투 혹은 파생 배포판에서 제공됩니다. %1을 참조하십시오."
 
-#: osd/osdbase.cpp:271
 msgid "On"
 msgstr "켜짐"
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:321
 msgid "On startup"
 msgstr "시작할 때"
 
-#: ../../build-qt6dev/src/ui_smartplaylistquerysortpage.h:139
 msgid "Only show the first"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:549
 msgid "Opacity"
 msgstr "불투명도"
 
-#: scrobbler/scrobblingapi20.cpp:214
 msgid "Open URL in web browser?"
 msgstr "웹 브라우저에서 URL을 여시겠습니까?"
 
-#: transcoder/transcodedialog.cpp:346
 msgid "Open a directory to import music from"
 msgstr "음악을 가져올 폴더 선택"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:666
 msgid "Open audio &CD..."
 msgstr "오디오 CD 열기(&C)..."
 
-#: ../../build-qt6dev/src/ui_deviceproperties.h:384
 msgid "Open device"
 msgstr "장치 열기"
 
-#: radios/radioview.cpp:81
 msgid "Open homepage"
 msgstr ""
 
-#: collection/collectionview.cpp:380
-#: smartplaylists/smartplaylistsviewcontainer.cpp:68
-#: widgets/fileviewlist.cpp:45 streaming/streamingsearchview.cpp:319
-#: streaming/streamingcollectionview.cpp:331 radios/radioview.cpp:77
-#: device/deviceview.cpp:246
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:343
 msgid "Open in new playlist"
 msgstr "새 재생 목록에서 열기"
 
-#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:270
-#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:272
-#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:279
 msgid "Open..."
 msgstr "열기..."
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:193
 msgid "Opti&mize for bitrate"
 msgstr "비트 전송률 최적화(&M)"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:191
 msgid "Optimize for &quality"
 msgstr "품질 최적화(&Q)"
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:681
 msgid "Options"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_transcodedialog.h:229
 msgid "Options..."
 msgstr "옵션..."
 
-#: ../../build-qt6dev/src/ui_transcodersettingspage.h:190
 msgid "Opus"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_organizedialog.h:260
 msgid "Organize Files"
 msgstr ""
 
-#: core/mainwindow.cpp:770 collection/collectionview.cpp:391
 msgid "Organize files..."
 msgstr ""
 
-#: organize/organize.cpp:107
 msgid "Organizing files"
 msgstr ""
 
-#: playlist/playlist.cpp:1394
 msgid "Original Year"
 msgstr ""
 
-#: dialogs/trackselectiondialog.cpp:194
 msgid "Original tags"
 msgstr "원본 태그"
 
-#: collection/savedgroupingmanager.cpp:124 organize/organizedialog.cpp:117
-#: ../../build-qt6dev/src/ui_groupbydialog.h:202
-#: ../../build-qt6dev/src/ui_groupbydialog.h:224
-#: ../../build-qt6dev/src/ui_groupbydialog.h:246
 msgid "Original year"
 msgstr "원본 년도"
 
-#: collection/savedgroupingmanager.cpp:112
-#: ../../build-qt6dev/src/ui_groupbydialog.h:203
-#: ../../build-qt6dev/src/ui_groupbydialog.h:225
-#: ../../build-qt6dev/src/ui_groupbydialog.h:247
 msgid "Original year - Album"
 msgstr "원본 년도 - 앨범"
 
-#: collection/savedgroupingmanager.cpp:115
 msgid "Original year - Album - Disc"
 msgstr ""
 
-#: core/commandlineoptions.cpp:241
 msgid "Other options"
 msgstr "기타 옵션"
 
-#: ../../build-qt6dev/src/ui_albumcoverexport.h:201
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:674
 msgid "Output"
 msgstr "출력"
 
-#: ../../build-qt6dev/src/ui_transcodedialog.h:227
 msgid "Output options"
 msgstr "저장 옵션"
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:475
 msgid "Overwrite database playcount when songs are re-read from disk"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:476
 msgid "Overwrite database rating when songs are re-read from disk"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:325
 msgid "Overwrite existing file"
 msgstr "기존 파일 덮어쓰기"
 
-#: ../../build-qt6dev/src/ui_organizedialog.h:278
 msgid "Overwrite existing files"
 msgstr "기존 파일 덮어쓰기"
 
-#: ../../build-qt6dev/src/ui_albumcoverexport.h:208
 msgid "Overwrite s&maller ones only"
 msgstr "더 작은 것만 덮어쓰기(&M)"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:733
 msgid "P&laylist"
 msgstr "재생 목록(&L)"
 
-#: device/udisks2lister.cpp:126
 msgid "Partition label"
 msgstr "파티션 레이블"
 
-#: equalizer/equalizer.cpp:149
 msgid "Party"
 msgstr "파티"
 
-#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:183
-#: ../../build-qt6dev/src/ui_userpassdialog.h:93
-#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:248
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:333
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:270
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:287
 msgid "Password"
 msgstr "암호"
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:902
 msgid "Path"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:323
 msgid "Pattern"
 msgstr ""
 
-#: core/mainwindow.cpp:1415 core/mainwindow.cpp:1947
-#: core/qtsystemtrayicon.cpp:147 globalshortcuts/globalshortcutsmanager.cpp:63
 msgid "Pause"
 msgstr "일시 정지"
 
-#: core/commandlineoptions.cpp:223
 msgid "Pause playback"
 msgstr "재생 일시 정지"
 
-#: osd/osdbase.cpp:212 osd/osdbase.cpp:215
 msgid "Paused"
 msgstr "일시 정지됨"
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:451
 msgid "Perform song EBU R 128 analysis (required for EBU R 128 loudness normalization)"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:706
 msgid "Perform track loudness normalization"
 msgstr ""
 
-#: collection/savedgroupingmanager.cpp:133 playlist/playlist.cpp:1398
-#: organize/organizedialog.cpp:112
-#: ../../build-qt6dev/src/ui_groupbydialog.h:205
-#: ../../build-qt6dev/src/ui_groupbydialog.h:227
-#: ../../build-qt6dev/src/ui_groupbydialog.h:249
-#: ../../build-qt6dev/src/ui_edittagdialog.h:929
 msgid "Performer"
 msgstr "연주가"
 
-#: ../../build-qt6dev/src/ui_albumcoverexport.h:212
 msgid "Pixel"
 msgstr "픽셀"
 
-#: widgets/fancytabwidget.cpp:731
 msgid "Plain sidebar"
 msgstr "일반 사이드바"
 
-#: core/mainwindow.cpp:739 core/mainwindow.cpp:1366 core/mainwindow.cpp:1399
-#: core/mainwindow.cpp:1951 core/qtsystemtrayicon.cpp:160
-#: core/qtsystemtrayicon.cpp:174 globalshortcuts/globalshortcutsmanager.cpp:62
 msgid "Play"
 msgstr "재생"
 
-#: playlist/playlist.cpp:1401
 msgid "Play Count"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:554
 msgid "Play control buttons"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:896
 msgid "Play count"
 msgstr "재생 횟수"
 
-#: ../../build-qt6dev/src/ui_lastfmimportdialog.h:151
 msgid "Play counts"
 msgstr "재생 횟수"
 
-#: core/commandlineoptions.cpp:240
 msgid "Play given playlist"
 msgstr ""
 
-#: core/commandlineoptions.cpp:222
 msgid "Play if stopped, pause if playing"
 msgstr "정지 상태라면 재생, 재생 상태라면 일시 정지"
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:333
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:347
 msgid "Play if there is nothing already playing"
 msgstr "재생 중인 곡이 없다면 재생"
 
-#: smartplaylists/smartplaylistsviewcontainer.cpp:72
 msgid "Play next"
 msgstr "다음 재생"
 
-#: core/commandlineoptions.cpp:239
 msgid "Play the <n>th track in the playlist"
 msgstr "재생 목록의 <n>번째 곡 재생"
 
-#: globalshortcuts/globalshortcutsmanager.cpp:64
 msgid "Play/Pause"
 msgstr ""
 
-#: dialogs/lastfmimportdialog.cpp:160
 #, qt-format
 msgid "Playcounts for %1 songs and last played for %2 songs received."
 msgstr ""
 
-#: dialogs/lastfmimportdialog.cpp:166
 #, qt-format
 msgid "Playcounts for %1 songs received."
 msgstr ""
 
-#: core/commandlineoptions.cpp:220
 msgid "Player options"
 msgstr "재생기 옵션"
 
-#: playlist/playlistcontainer.cpp:342 playlist/playlistlistcontainer.cpp:281
-#: playlist/playlistlistcontainer.cpp:391 playlist/playlistmanager.cpp:112
-#: playlist/playlistmanager.cpp:194 playlist/playlistmanager.cpp:540
-#: playlist/playlisttabbar.cpp:434
-#: ../../build-qt6dev/src/ui_playlistsettingspage.h:177
 msgid "Playlist"
 msgstr "재생 목록"
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:552
 msgid "Playlist buttons"
 msgstr ""
 
-#: osd/osdbase.cpp:279
 msgid "Playlist finished"
 msgstr "재생 목록 끝남"
 
-#: core/mainwindow.cpp:2421
 #, qt-format
 msgid "Playlist has %1 songs, too large to undo, are you sure you want to clear the playlist?"
 msgstr "재생 목록에 %1곡이 있습니다. 실행 취소하기에는 너무 큽니다. 재생 목록을 비우시겠습니까?"
 
-#: playlist/playlistlistcontainer.cpp:386
 msgid "Playlist must be open first."
 msgstr ""
 
-#: core/commandlineoptions.cpp:235
-#: ../../build-qt6dev/src/ui_playlistsaveoptionsdialog.h:92
 msgid "Playlist options"
 msgstr "재생 목록 옵션"
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:558
 msgid "Playlist playing song color"
 msgstr ""
 
-#: smartplaylists/smartplaylistwizard.cpp:87
 msgid "Playlist type"
 msgstr ""
 
-#: core/mainwindow.cpp:388
 msgid "Playlists"
 msgstr "재생 목록"
 
-#: ../data/html/oauthsuccess.html:38
 msgid "Please close your browser and return to Strawberry."
 msgstr "브라우저를 닫고 Strawberry로 돌아오십시오."
 
-#: lyrics/geniuslyricsprovider.cpp:123 scrobbler/listenbrainzscrobbler.cpp:193
-#: spotify/spotifyservice.cpp:295
 msgid "Please open this URL in your browser"
 msgstr "웹 브라우저에서 다음 URL을 여십시오"
 
-#: equalizer/equalizer.cpp:150
 msgid "Pop"
 msgstr "팝"
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:485
 msgid "Popup duration"
 msgstr "팝업 시간"
 
-#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:180
 msgid "Port"
 msgstr "포트"
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:536
 msgid "Position"
 msgstr "위치"
 
-#: equalizer/equalizer.cpp:67
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:702
 msgid "Pre-amp"
 msgstr "프리앰프"
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:414
 msgid "Prefer album artist when sending scrobbles"
 msgstr "스크로블을 보낼 때 앨범 아티스트 선호"
 
-#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:252
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:335
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:273
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:290
 msgid "Preferences"
 msgstr "설정"
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:454
 msgid "Preferred album art filenames (comma separated)"
 msgstr "선호하는 앨범아트 파일 이름(쉼표로 구분)"
 
-#: ../../build-qt6dev/src/ui_deviceproperties.h:382
 msgid "Preferred format"
 msgstr "선호하는 형식"
 
-#: filterparser/filterparser.cpp:460
 msgid "Prefix a search term with a field name to limit the search to that field, e.g.:"
 msgstr ""
 
-#: core/songloader.cpp:151
 msgid "Preload function was not set for blocking operation."
 msgstr "차단하는 작업의 프리로드 함수를 설정하지 않았습니다."
 
-#: ../../build-qt6dev/src/ui_equalizer.h:167
 msgid "Preset:"
 msgstr "사전 설정:"
 
-#: scrobbler/scrobblingapi20.cpp:214
 msgid "Press \"Save\" to copy the URL to clipboard and manually open it in a web browser."
 msgstr "클립보드에 URL을 복사하고 웹 브라우저에서 직접 열려면 \"저장\"을 누르십시오."
 
-#: ../../build-qt6dev/src/ui_globalshortcutgrabber.h:69
 msgid "Press a key"
 msgstr "키를 누르십시오"
 
-#: globalshortcuts/globalshortcutgrabber.cpp:57
-#: ../../build-qt6dev/src/ui_globalshortcutgrabber.h:70
 #, qt-format
 msgid "Press a key combination to use for %1..."
 msgstr "%1에 사용할 단축키를 누르십시오..."
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:336
 msgid "Pressing \"Previous\" in player will..."
 msgstr "재생기에서 \"이전\"을 눌렀을 때..."
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:506
 msgid "Pretty OSD options"
 msgstr "예쁜 OSD 옵션"
 
-#: ../../build-qt6dev/src/ui_smartplaylistsearchpreview.h:102
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:442
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:447
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:495
-#: ../../build-qt6dev/src/ui_organizedialog.h:280
 msgid "Preview"
 msgstr "미리 보기"
 
-#: dialogs/edittagdialog.cpp:232 dialogs/trackselectiondialog.cpp:71
 msgid "Previous"
 msgstr "이전"
 
-#: globalshortcuts/globalshortcutsmanager.cpp:68
-#: ../../build-qt6dev/src/ui_mainwindow.h:610
 msgid "Previous track"
 msgstr "이전 트랙"
 
-#: core/commandlineoptions.cpp:248
 msgid "Print out version information"
 msgstr "버전 정보 표시"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:134
 msgid "Profile"
 msgstr "프로필"
 
-#: ../../build-qt6dev/src/ui_transcodedialog.h:234
 msgid "Progress"
 msgstr "진행"
 
-#: ../../build-qt6dev/src/ui_smartplaylistquerysortpage.h:135
 msgid "Put songs in a random order"
 msgstr ""
 
-#: core/mainwindow.cpp:405
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:423
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:281
 msgid "Qobuz"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:283
 msgid "Qobuz support is not official and requires an API app ID and secret from a registered application to work. We can't help you getting these."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsflac.h:77
-#: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:198
-#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:217
-#: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:192
 msgctxt "Sound quality"
 msgid "Quality"
 msgstr "음질"
 
-#: ../../build-qt6dev/src/ui_deviceproperties.h:385
 msgid "Querying device..."
 msgstr "장치 질의 중..."
 
-#: core/mainwindow.cpp:387
 msgid "Queue"
 msgstr "대기열"
 
-#: core/mainwindow.cpp:2049
 msgid "Queue selected tracks"
 msgstr "선택한 트랙을 대기열에 추가"
 
-#: core/mainwindow.cpp:745 core/mainwindow.cpp:2053
 msgid "Queue selected tracks to play next"
 msgstr "선택한 트랙을 다음에 재생하도록 대기열에 추가"
 
-#: core/mainwindow.cpp:2056 collection/collectionview.cpp:384
-#: streaming/streamingcollectionview.cpp:335
 msgid "Queue to play next"
 msgstr "다음에 재생할 대기열에 추가"
 
-#: core/mainwindow.cpp:2048 collection/collectionview.cpp:383
-#: smartplaylists/smartplaylistsviewcontainer.cpp:71
-#: streaming/streamingsearchview.cpp:322
-#: streaming/streamingcollectionview.cpp:334
 msgid "Queue track"
 msgstr "대기열에 트랙 추가"
 
-#: ../../build-qt6dev/src/ui_queueview.h:123
 msgid "QueueView"
 msgstr "대기열 보기"
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:699
 msgid "Radio (equal loudness for all tracks)"
 msgstr "라디오(모든 트랙을 같은 음량으로)"
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:427
 msgid "Radio Paradise"
 msgstr ""
 
-#: core/mainwindow.cpp:391
 msgid "Radios"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:324
 msgid "Random"
 msgstr ""
 
-#: playlist/playlist.cpp:1419 ../../build-qt6dev/src/ui_edittagdialog.h:932
 msgid "Rating"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_playlistsettingspage.h:193
 msgid "Re&lative"
 msgstr "상대 경로(&L)"
 
-#: covermanager/albumcovermanager.cpp:261
 msgid "Really cancel?"
 msgstr "정말로 취소하시겠습니까?"
 
-#: tidal/tidalstreamurlrequest.cpp:222
 #, qt-format
 msgid "Received URL with %1 encrypted stream from Tidal. Strawberry does not currently support encrypted streams."
 msgstr ""
 
-#: tidal/tidalstreamurlrequest.cpp:275 tidal/tidalstreamurlrequest.cpp:285
 msgid "Received URL with encrypted stream from Tidal. Strawberry does not currently support encrypted streams."
 msgstr ""
 
-#: lyrics/geniuslyricsprovider.cpp:151 scrobbler/listenbrainzscrobbler.cpp:219
-#: spotify/spotifyservice.cpp:344
 msgid "Received invalid reply from web browser."
 msgstr "웹 브라우저에서 잘못된 응답을 받았습니다."
 
-#: scrobbler/scrobblingapi20.cpp:261
 msgid "Received invalid reply from web browser. Try another browser."
 msgstr ""
 
-#: tidal/tidalrequest.cpp:1197 spotify/spotifyrequest.cpp:1200
-#: qobuz/qobuzrequest.cpp:1259
 #, qt-format
 msgid "Receiving album cover for %1 album..."
 msgstr ""
 
-#: tidal/tidalrequest.cpp:1198 spotify/spotifyrequest.cpp:1201
-#: qobuz/qobuzrequest.cpp:1260
 #, qt-format
 msgid "Receiving album covers for %1 albums..."
 msgstr ""
 
-#: tidal/tidalrequest.cpp:550 spotify/spotifyrequest.cpp:557
-#: qobuz/qobuzrequest.cpp:552
 #, qt-format
 msgid "Receiving albums for %1 artist..."
 msgstr ""
 
-#: tidal/tidalrequest.cpp:551 spotify/spotifyrequest.cpp:558
-#: qobuz/qobuzrequest.cpp:553
 #, qt-format
 msgid "Receiving albums for %1 artists..."
 msgstr ""
 
-#: tidal/tidalrequest.cpp:275 spotify/spotifyrequest.cpp:264
-#: qobuz/qobuzrequest.cpp:255
 msgid "Receiving albums..."
 msgstr ""
 
-#: tidal/tidalrequest.cpp:227 spotify/spotifyrequest.cpp:210
-#: qobuz/qobuzrequest.cpp:203
 msgid "Receiving artists..."
 msgstr ""
 
-#: dialogs/lastfmimportdialog.cpp:80
 msgid "Receiving initial data from last.fm..."
 msgstr ""
 
-#: dialogs/lastfmimportdialog.cpp:140
 #, qt-format
 msgid "Receiving last played for %1 songs."
 msgstr ""
 
-#: dialogs/lastfmimportdialog.cpp:137
 #, qt-format
 msgid "Receiving playcount for %1 songs and last played for %2 songs."
 msgstr ""
 
-#: dialogs/lastfmimportdialog.cpp:143
 #, qt-format
 msgid "Receiving playcounts for %1 songs."
 msgstr ""
 
-#: tidal/tidalrequest.cpp:820 spotify/spotifyrequest.cpp:853
-#: qobuz/qobuzrequest.cpp:809
 #, qt-format
 msgid "Receiving songs for %1 album..."
 msgstr ""
 
-#: tidal/tidalrequest.cpp:821 spotify/spotifyrequest.cpp:854
-#: qobuz/qobuzrequest.cpp:810
 #, qt-format
 msgid "Receiving songs for %1 albums..."
 msgstr ""
 
-#: tidal/tidalrequest.cpp:323 spotify/spotifyrequest.cpp:318
-#: qobuz/qobuzrequest.cpp:307
 msgid "Receiving songs..."
 msgstr ""
 
-#: lyrics/geniuslyricsprovider.cpp:195
 msgid "Redirect from Genius is missing query items code or state."
 msgstr ""
 
-#: spotify/spotifyservice.cpp:340
 msgid "Redirect missing token code or state!"
 msgstr ""
 
-#: lyrics/geniuslyricsprovider.cpp:147 scrobbler/listenbrainzscrobbler.cpp:215
 msgid "Redirect missing token code!"
 msgstr "넘겨주기 응답에 토큰 코드가 없습니다!"
 
-#: playlist/playlistcontainer.cpp:228
 msgid "Redo"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_streamingcollectionviewcontainer.h:140
 msgid "Refresh catalogue"
 msgstr "카탈로그 새로 고침"
 
-#: radios/radioview.cpp:89
 msgid "Refresh channels"
 msgstr ""
 
-#: equalizer/equalizer.cpp:151
 msgid "Reggae"
 msgstr "레게"
 
-#: playlist/playlistsaveoptionsdialog.cpp:42
 msgid "Relative"
 msgstr "상대 경로"
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:322
 msgid "Remember from &last time"
 msgstr "마지막으로 사용한 값 기억(&L)"
 
-#: ../../build-qt6dev/src/ui_playlistsaveoptionsdialog.h:97
 msgid "Remember my choice"
 msgstr "내 선택 기억"
 
-#: ../../build-qt6dev/src/ui_savedgroupingmanager.h:103
-#: ../../build-qt6dev/src/ui_queueview.h:137
-#: ../../build-qt6dev/src/ui_transcodedialog.h:222
 msgid "Remove"
 msgstr "삭제"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:707
 msgid "Remove &duplicates from playlist"
 msgstr "재생 목록에서 중복 항목 삭제(&D)"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:708
 msgid "Remove &unavailable tracks from playlist"
 msgstr "재생 목록에서 사용할 수 없는 트랙 삭제(&U)"
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:445
 msgid "Remove folder"
 msgstr "폴더 삭제"
 
-#: streaming/streamingcollectionview.cpp:340
 msgid "Remove from favorites"
 msgstr "즐겨찾기에서 삭제"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:671
 msgid "Remove from playlist"
 msgstr "재생 목록에서 제거"
 
-#: playlist/playlisttabbar.cpp:229
 msgid "Remove playlist"
 msgstr "재생 목록 삭제"
 
-#: playlist/playlistlistcontainer.cpp:437
 msgid "Remove playlists"
 msgstr "재생 목록 삭제"
 
-#: ../../build-qt6dev/src/ui_organizedialog.h:273
 msgid "Remove problematic characters from filenames"
 msgstr ""
 
-#: playlist/playlisttabbar.cpp:181
 msgid "Rename playlist"
 msgstr "재생 목록 이름 바꾸기"
 
-#: playlist/playlisttabbar.cpp:81
 msgid "Rename playlist..."
 msgstr "재생 목록 이름 바꾸기..."
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:646
 msgid "Renumber tracks in this order..."
 msgstr "다음 순서로 트랙 번호 다시 매기기..."
 
-#: ../../build-qt6dev/src/ui_playlistsequence.h:119
 msgid "Repeat"
 msgstr "반복"
 
-#: osd/osdbase.cpp:365 ../../build-qt6dev/src/ui_playlistsequence.h:110
 msgid "Repeat album"
 msgstr "앨범 반복"
 
-#: osd/osdbase.cpp:366 ../../build-qt6dev/src/ui_playlistsequence.h:111
 msgid "Repeat playlist"
 msgstr "재생 목록 반복"
 
-#: osd/osdbase.cpp:364 ../../build-qt6dev/src/ui_playlistsequence.h:109
 msgid "Repeat track"
 msgstr "한 곡 반복"
 
-#: collection/collectionview.cpp:379
-#: smartplaylists/smartplaylistsviewcontainer.cpp:67
-#: widgets/fileviewlist.cpp:44 streaming/streamingsearchview.cpp:318
-#: streaming/streamingcollectionview.cpp:330 radios/radioview.cpp:73
-#: device/deviceview.cpp:245
 msgid "Replace current playlist"
 msgstr "현재 재생 목록 대체"
 
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:327
 msgid "Replace spaces with dashes"
 msgstr "공백을 줄표로 대체"
 
-#: ../../build-qt6dev/src/ui_organizedialog.h:277
 msgid "Replace spaces with underscores"
 msgstr "공백을 밑줄로 대체"
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:342
 msgid "Replace the playlist"
 msgstr "재생 목록 대체"
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:696
 msgid "Replay Gain"
 msgstr "리플레이게인"
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:698
 msgid "Replay Gain mode"
 msgstr "리플레이게인 모드"
 
-#: tidal/tidalservice.cpp:354
 msgid "Reply from Tidal is missing query items."
 msgstr "Tidal 응답에 쿼리 항목이 없습니다."
 
-#: ../../build-qt6dev/src/ui_dynamicplaylistcontrols.h:108
 msgid "Repopulate"
 msgstr "다시 가져오기"
 
-#: collection/collectionview.cpp:404
 msgid "Rescan song(s)"
 msgstr "노래 다시 검색"
 
-#: core/mainwindow.cpp:761
 msgid "Rescan song(s)..."
 msgstr "다시 곡 검색"
 
-#: widgets/lineedit.cpp:68
 msgid "Reset"
 msgstr "초기화"
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:910
 msgid "Reset play counts"
 msgstr "재생 횟수 초기화"
 
-#: dialogs/edittagdialog.cpp:1338
 msgid "Reset song play statistics"
 msgstr ""
 
-#: core/commandlineoptions.cpp:244
 msgid "Resize the window"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:338
 msgid "Restart song, then jump to previous if pressed again"
 msgstr "트랙을 다시 시작하고 다시 누르면 이전 트랙을 재생합니다"
 
-#: core/commandlineoptions.cpp:234
 msgid "Restart the track, or play the previous track if within 8 seconds of start."
 msgstr "트랙을 다시 시작하거나, 재생한 지 8초 이내라면 이전 트랙을 재생합니다."
 
-#: ../../build-qt6dev/src/ui_organizedialog.h:275
 msgid "Restrict characters to ASCII"
 msgstr "ASCII로 글자 제한"
 
-#: ../../build-qt6dev/src/ui_organizedialog.h:274
 msgid "Restrict to characters allowed on FAT filesystems"
 msgstr "FAT 파일 시스템에서 사용할 수 있는 글자로 제한"
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:319
 msgid "Resume playback on start"
 msgstr "시작할 때 재생 다시 시작"
 
-#: subsonic/subsonicrequest.cpp:690
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "앨범 %1개의 앨범아트 가져오는 중..."
 
-#: subsonic/subsonicrequest.cpp:691
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
 msgstr "앨범 %1개의 앨범아트 가져오는 중..."
 
-#: subsonic/subsonicrequest.cpp:127
 msgid "Retrieving albums..."
 msgstr "앨범 가져오는 중..."
 
-#: subsonic/subsonicrequest.cpp:316
 #, qt-format
 msgid "Retrieving songs for %1 album..."
 msgstr "앨범 %1개의 노래 가져오는 중..."
 
-#: subsonic/subsonicrequest.cpp:317
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
 msgstr "앨범 %1개의 노래 가져오는 중..."
 
-#: ../data/html/oauthsuccess.html:5
 msgid "Return to Strawberry"
 msgstr "Strawberry로 되돌아가기"
 
-#: ../../build-qt6dev/src/ui_equalizer.h:178
 msgid "Right"
 msgstr "오른쪽"
 
-#: equalizer/equalizer.cpp:152
 msgid "Rock"
 msgstr "록"
 
-#: ../../build-qt6dev/src/ui_console.h:77
 msgid "Run"
 msgstr "실행"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:657
 msgid "S&huffle playlist"
 msgstr "재생 목록 섞기(&H)"
 
-#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:178
 msgid "SOCKS proxy"
 msgstr "SOCKS 프록시"
 
-#: device/deviceview.cpp:238
 msgid "Safely remove device"
 msgstr "안전하게 장치 제거"
 
-#: ../../build-qt6dev/src/ui_organizedialog.h:282
 msgid "Safely remove the device after copying"
 msgstr "복사 후 안전하게 장치 제거"
 
-#: playlist/playlist.cpp:1405
 msgid "Sample Rate"
 msgstr ""
 
-#: collection/savedgroupingmanager.cpp:145 organize/organizedialog.cpp:122
-#: ../../build-qt6dev/src/ui_groupbydialog.h:208
-#: ../../build-qt6dev/src/ui_groupbydialog.h:230
-#: ../../build-qt6dev/src/ui_groupbydialog.h:252
-#: ../../build-qt6dev/src/ui_edittagdialog.h:901
 msgid "Sample rate"
 msgstr "샘플링 레이트"
 
-#: context/contextview.cpp:165
 msgid "Samplerate"
 msgstr "샘플링 레이트"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:683
 msgid "Save &playlist..."
 msgstr "재생 목록 저장(&P)..."
 
-#: covermanager/albumcoverchoicecontroller.cpp:244
 msgid "Save album cover"
 msgstr "앨범아트 저장"
 
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:321
 msgid "Save album covers as embedded cover"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:319
 msgid "Save album covers in album directory"
 msgstr "앨범아트를 앨범 디렉터리에 저장"
 
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:320
 msgid "Save album covers in cache directory"
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:107
 msgid "Save cover to disk..."
 msgstr "디스크에 표지 저장..."
 
-#: ../../build-qt6dev/src/ui_collectionfilterwidget.h:100
 msgid "Save current grouping"
 msgstr "현재 그룹 저장"
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:477
 msgid "Save playcounts and ratings to files now"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:473
 msgid "Save playcounts to song tags when possible"
 msgstr ""
 
-#: playlist/playlistlistcontainer.cpp:91
 msgctxt "Save playlist menu action."
 msgid "Save playlist"
 msgstr "재생 목록 저장"
 
-#: playlist/playlistmanager.cpp:259
 msgctxt "Title of the playlist save dialog."
 msgid "Save playlist"
 msgstr "재생 목록 저장"
 
-#: playlist/playlisttabbar.cpp:82
 msgid "Save playlist..."
 msgstr "재생 목록 저장..."
 
-#: equalizer/equalizer.cpp:211 ../../build-qt6dev/src/ui_equalizer.h:169
 msgid "Save preset"
 msgstr "사전 설정 저장"
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:474
 msgid "Save ratings to song tags when possible"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_moodbarsettingspage.h:97
 msgid "Save the .mood files directly in the songs folders"
 msgstr "노래 폴더에 .mood 파일 직접 저장"
 
-#: ../../build-qt6dev/src/ui_savedgroupingmanager.h:101
 msgid "Saved Grouping Manager"
 msgstr "그룹 관리자 저장됨"
 
-#: playlistparsers/cueparser.cpp:395
 msgid "Saving CUE files is not supported."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:317
 msgid "Saving album covers"
 msgstr "앨범아트 저장 중"
 
-#: collection/collection.cpp:202
 msgid "Saving playcounts and ratings"
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:312 dialogs/trackselectiondialog.cpp:292
 msgid "Saving tracks"
 msgstr "트랙 저장 중"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:137
 msgid "Scalable sampling rate profile (SSR)"
 msgstr "확장 가능한 샘플링 레이트 프로필(SSR)"
 
-#: ../../build-qt6dev/src/ui_albumcoverexport.h:210
 msgid "Scale size"
 msgstr "크기 조정"
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:404
 msgid "Scrobbler"
 msgstr "스크로블러"
 
-#: scrobbler/scrobblingapi20.cpp:910
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:461
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "스크로블러 %1이(가) 인증되지 않았습니다!"
 
-#: covermanager/albumcoversearcher.cpp:194
-#: covermanager/albumcoversearcher.cpp:212
-#: ../../build-qt6dev/src/ui_albumcoversearcher.h:111
-#: ../../build-qt6dev/src/ui_streamingtabsview.h:116
 msgid "Search"
 msgstr "검색"
 
-#: covermanager/albumcoverchoicecontroller.cpp:117
 msgid "Search automatically"
 msgstr "자동으로 검색"
 
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:337
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:274
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:292
 msgid "Search delay"
 msgstr "검색 지연 시간"
 
-#: covermanager/albumcoverchoicecontroller.cpp:109
 msgid "Search for album covers..."
 msgstr "앨범아트 검색..."
 
-#: collection/collectionview.cpp:388 streaming/streamingsearchview.cpp:340
 msgid "Search for this"
 msgstr "다음 항목 검색"
 
-#: ../../build-qt6dev/src/ui_smartplaylistquerysearchpage.h:109
 msgid "Search mode"
 msgstr "검색 모드"
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:163
 msgid "Search options"
 msgstr "검색 옵션"
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:161
-#: ../../build-qt6dev/src/ui_smartplaylistquerysearchpage.h:114
 msgid "Search terms"
 msgstr "검색 조건"
 
-#: filterparser/filterparser.cpp:468
 #, qt-format
 msgid "Search terms for numerical fields can be prefixed with %1 or %2 to refine the search, e.g.: "
 msgstr ""
 
-#: tidal/tidalrequest.cpp:371 tidal/tidalrequest.cpp:385
-#: tidal/tidalrequest.cpp:399 spotify/spotifyrequest.cpp:373
-#: spotify/spotifyrequest.cpp:387 spotify/spotifyrequest.cpp:401
-#: qobuz/qobuzrequest.cpp:359 qobuz/qobuzrequest.cpp:373
-#: qobuz/qobuzrequest.cpp:387
 msgid "Searching..."
 msgstr "검색 중..."
 
-#: collection/savedgroupingmanager.cpp:59
 msgid "Second Level"
 msgstr "두 번째 단계"
 
-#: ../../build-qt6dev/src/ui_groupbydialog.h:212
 msgid "Second level"
 msgstr "두 번째 단계"
 
-#: globalshortcuts/globalshortcutsmanager.cpp:73
 msgid "Seek backward"
 msgstr ""
 
-#: globalshortcuts/globalshortcutsmanager.cpp:72
 msgid "Seek forward"
 msgstr ""
 
-#: core/commandlineoptions.cpp:233
 msgid "Seek the currently playing track by a relative amount"
 msgstr "현재 재생 중인 트랙을 상대적 양만큼 이동"
 
-#: core/commandlineoptions.cpp:232
 msgid "Seek the currently playing track to an absolute position"
 msgstr "현재 재생 중인 트랙의 절대적 위치로 이동"
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:354
 msgid "Seeking using a keyboard shortcut or mouse wheel"
 msgstr "키보드 단축키 또는 마우스 휠을 사용하여 이동"
 
-#: settings/appearancesettingspage.cpp:301
 msgid "Select background image"
 msgstr "배경 그림 선택"
 
-#: ../../build-qt6dev/src/ui_trackselectiondialog.h:206
 msgid "Select best possible match"
 msgstr "가장 유사한 일치 선택"
 
-#: ../../build-qt6dev/src/ui_saveplaylistsdialog.h:118
 msgid "Select directory for saving playlists"
 msgstr ""
 
-#: dialogs/saveplaylistsdialog.cpp:63
 msgid "Select directory for the playlists"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:561
 msgid "Select playlist playing song color:"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:526
 msgid "Select tabbar color:"
 msgstr "탭 표시줄 색상 선택:"
 
-#: ../../build-qt6dev/src/ui_transcodedialog.h:233
 msgid "Select..."
 msgstr "선택..."
 
-#: ../../build-qt6dev/src/ui_groupbydialog.h:256
 msgid "Separate albums by grouping tag"
 msgstr ""
 
-#: device/udisks2lister.cpp:124
 msgid "Serial number"
 msgstr "일련 번호"
 
-#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:245
 msgid "Server URL"
 msgstr "서버 URL"
 
-#: subsonic/subsonicservice.cpp:413 settings/subsonicsettingspage.cpp:137
 msgid "Server URL is invalid."
 msgstr "서버 URL이 잘못되었습니다."
 
-#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:256
 msgid "Server-side scrobbling"
 msgstr "서버 사이드 스크로블링"
 
-#: core/mainwindow.cpp:2089
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "%1을(를) \"%2\"(으)로 설정..."
 
-#: core/commandlineoptions.cpp:227
 msgid "Set the volume to <value> percent"
 msgstr "음량을 <value> 퍼센트로 설정"
 
-#: settings/coverssettingspage.cpp:436
 #, qt-format
 msgid "Set through album cover search (%1)"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:647
 msgid "Set value for all selected tracks..."
 msgstr "선택한 모든 트랙의 값 설정..."
 
-#: ../../build-qt6dev/src/ui_settingsdialog.h:114
 msgid "Settings"
 msgstr "설정"
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:521
 msgid "Settings require restart."
 msgstr "설정을 적용하려면 재시작이 필요합니다."
 
-#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:281
 msgid "Shortcut"
 msgstr "단축키"
 
-#: settings/globalshortcutssettingspage.cpp:295
-#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:283
 #, qt-format
 msgid "Shortcut for %1"
 msgstr "%1 단축키"
 
-#: collection/collectionfilterwidget.cpp:101
 msgid "Show"
 msgstr "표시"
 
-#: globalshortcuts/globalshortcutsmanager.cpp:75
 msgid "Show OSD"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:481
 msgid "Show a &native desktop notification"
 msgstr "네이티브 데스크톱 알림 표시(&N)"
 
-#: ../../build-qt6dev/src/ui_playlistsettingspage.h:180
 msgid "Show a glowing animation on the currently playing track"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_moodbarsettingspage.h:95
 msgid "Show a moodbar in the track progress bar"
 msgstr "트랙 진행 표시줄에 무드바 표시"
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:489
 msgid "Show a notification when I change the repeat/shuffle mode"
 msgstr "반복/셔플 모드 변경 시 알림 표시"
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:488
 msgid "Show a notification when I change the volume"
 msgstr "음량을 변경할 때 알림 표시"
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:490
 msgid "Show a notification when I pause playback"
 msgstr "재생을 일시 정지할 때 알림 표시"
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:491
 msgid "Show a notification when I resume playback"
 msgstr "재생을 다시 시작할 때 알림 표시"
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:483
 msgid "Show a popup fro&m the system tray"
 msgstr "시스템 트레이에서 팝업 표시(&M)"
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:482
 msgid "Show a pretty OSD"
 msgstr "예쁜 OSD 표시"
 
-#: widgets/playingwidget.cpp:141
 msgid "Show above status bar"
 msgstr "상태 표시줄 위에 표시"
 
-#: context/contextview.cpp:260
 msgid "Show album cover"
 msgstr "앨범아트 보기"
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:462
 msgid "Show album cover art in collection"
 msgstr "앨범 목록에 앨범아트 표시"
 
-#: core/mainwindow.cpp:680
 msgid "Show all songs"
 msgstr "모든 곡 표시"
 
-#: ../../build-qt6dev/src/ui_smartplaylistquerysortpage.h:138
 msgid "Show all the songs"
 msgstr "모든 곡 보기"
 
-#: ../../build-qt6dev/src/ui_playlistsettingspage.h:179
 msgid "Show bars on the currently playing track"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:415
 msgid "Show dialog for errors"
 msgstr "에러 내용 보기"
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:461
 msgid "Show dividers"
 msgstr "구분자 표시"
 
-#: covermanager/albumcoverchoicecontroller.cpp:115
 msgid "Show fullsize..."
 msgstr "전체 크기 표시..."
 
-#: core/mainwindow.cpp:768
 msgid "Show in collection..."
 msgstr "라이브러리에 표시..."
 
-#: utilities/filemanagerutils.cpp:139 utilities/filemanagerutils.cpp:145
 msgid "Show in file browser"
 msgstr "파일 탐색기에 표시"
 
-#: core/mainwindow.cpp:769 collection/collectionview.cpp:400
-#: widgets/fileviewlist.cpp:54
 msgid "Show in file browser..."
 msgstr "파일 탐색기에 표시..."
 
-#: collection/collectionview.cpp:407
 msgid "Show in various artists"
 msgstr "편집 음반으로 표시"
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:409
 msgid "Show love button"
 msgstr "좋아요 단추 표시"
 
-#: moodbar/moodbarproxystyle.cpp:373
 msgid "Show moodbar"
 msgstr "무드바 표시"
 
-#: core/mainwindow.cpp:681
 msgid "Show only duplicates"
 msgstr "복사본만 표시"
 
-#: core/mainwindow.cpp:682
 msgid "Show only untagged"
 msgstr "태그되지 않은 것만 표시"
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:320
 msgid "Show playing widget"
 msgstr "재생 위젯 표시"
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:408
 msgid "Show scrobble button"
 msgstr "스크로블 단추 표시"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:714
 msgid "Show sidebar"
 msgstr "사이드바 표시"
 
-#: context/contextview.cpp:268
 msgid "Show song lyrics"
 msgstr "노래 가사 표시"
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:317
 msgid "Show song progress on system tray icon"
 msgstr "트레이 아이콘에 곡 재생 상황 표시"
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:318
 msgid "Show song progress on taskbar"
 msgstr ""
 
-#: context/contextview.cpp:264
 msgid "Show song technical data"
 msgstr "노래의 기술적 데이터 표시"
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:315
 msgid "Show system tray icon"
 msgstr "시스템 트레이 아이콘 표시"
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:323
 msgid "Show the main window"
 msgstr "메인 창 표시"
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:325
 msgid "Show the main window maximized"
 msgstr "최대화 상태로 실행"
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:326
 msgid "Show the main window minimized"
 msgstr "최소화 상태로 실행"
 
-#: globalshortcuts/globalshortcutsmanager.cpp:74
 msgid "Show/Hide"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_playlistsequence.h:122
 msgid "Shuffle"
 msgstr "셔플 재생"
 
-#: osd/osdbase.cpp:351 ../../build-qt6dev/src/ui_playlistsequence.h:117
 msgid "Shuffle albums"
 msgstr "앨범 셔플"
 
-#: osd/osdbase.cpp:349 ../../build-qt6dev/src/ui_playlistsequence.h:116
 msgid "Shuffle all"
 msgstr "모두 셔플"
 
-#: osd/osdbase.cpp:350 ../../build-qt6dev/src/ui_playlistsequence.h:115
 msgid "Shuffle tracks in this album"
 msgstr "이 앨범에 있는 곡만 셔플"
 
-#: ../../build-qt6dev/src/ui_loginstatewidget.h:166
 msgid "Sign out"
 msgstr "로그아웃"
 
-#: ../../build-qt6dev/src/ui_loginstatewidget.h:168
 msgid "Signing in..."
 msgstr "로그인 중..."
 
-#: ../../build-qt6dev/src/ui_albumcoverexport.h:209
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:466
 msgid "Size"
 msgstr "크기"
 
-#: ../../build-qt6dev/src/ui_albumcoverexport.h:211
 msgid "Size:"
 msgstr "크기:"
 
-#: equalizer/equalizer.cpp:154
 msgid "Ska"
 msgstr "스카"
 
-#: playlist/playlist.cpp:1402
 msgid "Skip Count"
 msgstr ""
 
-#: core/commandlineoptions.cpp:225
 msgid "Skip backwards in playlist"
 msgstr "재생 목록의 이전 곡으로 전환"
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:900
 msgid "Skip count"
 msgstr "건너뛴 횟수"
 
-#: core/commandlineoptions.cpp:226
 msgid "Skip forwards in playlist"
 msgstr "재생 목록의 다음 곡으로 전환"
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:464
 msgid "Skip leading articles (\"the\", \"a\", \"an\") when sorting artist names"
 msgstr ""
 
-#: core/mainwindow.cpp:2062
 msgid "Skip selected tracks"
 msgstr "선택한 트랙 건너뛰기"
 
-#: core/mainwindow.cpp:2061
 msgid "Skip track"
 msgstr "트랙 건너뛰기"
 
-#: widgets/playingwidget.cpp:102
 msgid "Small album cover"
 msgstr "작은 앨범아트"
 
-#: widgets/fancytabwidget.cpp:730
 msgid "Small sidebar"
 msgstr "작은 사이드바"
 
-#: smartplaylists/smartplaylistwizard.cpp:72
 msgid "Smart playlist"
 msgstr "스마트 재생 목록"
 
-#: core/mainwindow.cpp:389
 msgid "Smart playlists"
 msgstr "스마트 재생 목록"
 
-#: equalizer/equalizer.cpp:153
 msgid "Soft"
 msgstr "소프트"
 
-#: equalizer/equalizer.cpp:155
 msgid "Soft Rock"
 msgstr "소프트 록"
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:425
 msgid "SomaFM"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:435
 msgid "Song Lyrics"
 msgstr "노래 가사"
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:449
 msgid "Song fingerprinting and tracking"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:472
 msgid "Song playcounts and ratings"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_streamingtabsview.h:115
 msgid "Songs"
 msgstr "노래"
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:406
 msgid "Songs are scrobbled if they have valid metadata and are longer than 30 seconds, have been playing for at least half its duration or for 4 minutes (whichever occurs earlier)."
 msgstr "곡에 올바른 메타데이터가 있고, 재생 시간이 30초보다 길고, 재생 시간의 절반 이상 재생(최대 4분)되었을 때 스크로블 기록에 추가됩니다."
 
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:341
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:278
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:296
 msgid "Songs search limit"
 msgstr "노래 검색 제한"
 
-#: analyzer/sonogramanalyzer.cpp:31
 msgid "Sonogram"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_trackselectiondialog.h:204
 msgid "Sorry"
 msgstr "죄송합니다"
 
-#: ../../build-qt6dev/src/ui_smartplaylistquerysortpage.h:136
 msgid "Sort songs by"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_smartplaylistquerysortpage.h:134
 msgid "Sorting"
 msgstr ""
 
-#: playlist/playlist.cpp:1417
 msgid "Source"
 msgstr "출처"
 
-#: ../../build-qt6dev/src/ui_transcodersettingspage.h:191
 msgid "Speex"
 msgstr ""
 
-#: core/mainwindow.cpp:1091
 msgid "Sponsoring Strawberry"
 msgstr ""
 
-#: core/mainwindow.cpp:402 ../../build-qt6dev/src/ui_spotifysettingspage.h:264
 msgid "Spotify"
 msgstr ""
 
-#: spotify/spotifyservice.cpp:295
 msgid "Spotify Authentication"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:199
 msgid "Standard"
 msgstr "표준"
 
-#: playlist/playlisttabbar.cpp:79
 msgid "Star playlist"
 msgstr ""
 
-#: core/commandlineoptions.cpp:221
 msgid "Start the playlist currently playing"
 msgstr "현재 재생 중인 재생 목록 시작"
 
-#: transcoder/transcodedialog.cpp:130
 msgid "Start transcoding"
 msgstr "변환 시작"
 
-#: transcoder/transcoder.cpp:407
 #, qt-format
 msgid "Starting %1"
 msgstr "%1 시작 중"
 
-#: globalshortcuts/globalshortcutsmanager.cpp:65
 msgid "Stop"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_playlistsequence.h:112
 msgid "Stop after each track"
 msgstr "각각 트랙이 끝난 후 정지"
 
-#: osd/osdbase.cpp:367
 msgid "Stop after every track"
 msgstr "모든 트랙 이후에 정지"
 
-#: core/mainwindow.cpp:741 ../../build-qt6dev/src/ui_mainwindow.h:630
 msgid "Stop after this track"
 msgstr "현재 트랙 이후 정지"
 
-#: core/commandlineoptions.cpp:223
+msgid "Stop collection scan"
+msgstr ""
+
 msgid "Stop playback"
 msgstr "재생 정지"
 
-#: core/commandlineoptions.cpp:224
 msgid "Stop playback after current track"
 msgstr "현재 트랙 이후에 재생 정지"
 
-#: globalshortcuts/globalshortcutsmanager.cpp:66
 msgid "Stop playing after current track"
 msgstr ""
 
-#: osd/osdbase.cpp:271
 #, qt-format
 msgid "Stop playing after track: %1"
 msgstr "트랙 재생 후 정지: %1"
 
-#: osd/osdbase.cpp:258 osd/osdbase.cpp:261
 msgid "Stopped"
 msgstr "정지됨"
 
-#: ../../build-qt6dev/src/ui_errordialog.h:91
 msgid "Strawberry Error"
 msgstr "Strawberry 오류"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:609
 msgid "Strawberry Music Player"
 msgstr "Strawberry 음악 재생기"
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:513
 msgid "Strawberry Red"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_deviceproperties.h:378
 msgid "Strawberry can automatically convert the music you copy to this device into a format that it can play."
 msgstr "Strawberry는 장치로 곡을 복사할 때 장치에서 재생 가능한 형식으로 자동 변환할 수 있습니다."
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:478
 msgid "Strawberry can show a message when the track changes."
 msgstr "Strawberry에서 재생 중인 곡을 전환할 때 메시지를 표시할 수 있습니다."
 
-#: dialogs/about.cpp:114
 msgid "Strawberry is a music player and music collection organizer."
 msgstr "Strawberry는 음악 재생기 및 음악 라이브러리 관리 도구입니다."
 
-#: core/mainwindow.cpp:1091
 #, qt-format
 msgid "Strawberry is free and open source software. If you like Strawberry, please consider sponsoring the project. For more information about sponsorship see our website %1"
 msgstr ""
 
-#: dialogs/about.cpp:120
 #, qt-format
 msgid "Strawberry is free software released under GPL. The source code is available on %1"
 msgstr "Strawberry는 GPL로 라이선스되는 자유 소프트웨어이고 소스 코드는 %1에서 볼 수 있습니다."
 
-#: dialogs/snapdialog.cpp:30
 msgid "Strawberry is running as a Snap"
 msgstr "Strawberry는 Snap에서 실행되고 있습니다."
 
-#: dialogs/snapdialog.cpp:46
 msgid "Strawberry is slower, and has restrictions when running as a Snap. Accessing the root filesystem (/) will not work. There also might be other restrictions such as accessing certain devices or network shares."
 msgstr ""
 
-#: core/mainwindow.cpp:1068
 msgid "Strawberry running under Rosetta"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_trackselectiondialog.h:205
 msgid "Strawberry was unable to find results for this file"
 msgstr "Strawberry에서 이 파일의 결과를 찾을 수 없습니다"
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:426
 msgid "Stream"
 msgstr "스트림"
 
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:345
 msgid "Stream URL method"
 msgstr "스트림 URL 메서드"
 
-#: settings/settingsdialog.cpp:162
 msgid "Streaming"
 msgstr "스트리밍"
 
-#: ../../build-qt6dev/src/ui_streamingsearchview.h:223
 msgid "Streaming Search View"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_streamingtabsview.h:112
 msgid "Streaming Tabs View"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:544
 msgid "Stretch image to fill playlist"
 msgstr "이미지를 재생 목록 크기로 늘려서 맞춤"
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:416
 msgid "Strip \"remastered\" and similar from album and title"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:518
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:519
 msgid "Style"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:410
 msgid "Submit scrobbles every"
 msgstr "스크로블 제출 주기"
 
-#: core/mainwindow.cpp:396
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:419
-#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:243
 msgid "Subsonic"
 msgstr ""
 
-#: subsonic/subsonicurlhandler.cpp:39
 msgid "Subsonic server URL is invalid."
 msgstr "Subsonic 서버 URL이 잘못되었습니다."
 
-#: ../data/html/oauthsuccess.html:36
 msgid "Success!"
 msgstr "성공!"
 
-#: transcoder/transcoder.cpp:184
 #, qt-format
 msgid "Successfully written %1"
 msgstr "%1 기록 완료"
 
-#: dialogs/trackselectiondialog.cpp:198
 msgid "Suggested tags"
 msgstr "제안된 태그"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:427
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:500
-#: ../../build-qt6dev/src/ui_edittagdialog.h:911
 msgid "Summary"
 msgstr "요약"
 
-#: analyzer/analyzercontainer.cpp:85
 #, qt-format
 msgid "Super high (%1 fps)"
 msgstr "아주 높음(%1 fps)"
 
-#: ../../build-qt6dev/src/ui_deviceproperties.h:376
 msgid "Supported formats"
 msgstr "지원하는 형식"
 
-#: moodbar/moodbarrenderer.cpp:174
 msgid "System colors"
 msgstr "시스템 색상"
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:559
 msgid "System highlight color"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:522
 msgid "Tabbar colors"
 msgstr "탭 표시줄 색상"
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:553
 msgid "Tabbar large mode"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:557
 msgid "Tabbar small mode"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:732
 msgid "Tabs on top"
 msgstr "위쪽에 탭 표시"
 
-#: ../../build-qt6dev/src/ui_trackselectiondialog.h:203
 msgid "Tag fetcher"
 msgstr "태그 가져오기"
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:933
 msgid "Tags"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:707
 msgid "Target Level"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:200
 msgid "Target bitrate"
 msgstr "목표 비트 전송률"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:434
 msgid "Technical Data"
 msgstr "기술적 데이터"
 
-#: equalizer/equalizer.cpp:156
 msgid "Techno"
 msgstr "테크노"
 
-#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:258
 msgid "Test"
 msgstr "테스트"
 
-#: settings/subsonicsettingspage.cpp:170
 msgid "Test failed!"
 msgstr "테스트 실패!"
 
-#: settings/subsonicsettingspage.cpp:161
 msgid "Test successful!"
 msgstr "테스트 성공!"
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:508
 msgid "Text options"
 msgstr "텍스트 옵션"
 
-#: dialogs/about.cpp:181
 msgid "Thanks to"
 msgstr "감사"
 
-#: dialogs/about.cpp:189
 msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr "Amarok과 Clementine 기여자들에게 감사를 전합니다."
 
-#: settings/globalshortcutssettingspage.cpp:263
-#: settings/globalshortcutssettingspage.cpp:273
 #, qt-format
 msgid "The \"%1\" command could not be started."
 msgstr "\"%1\" 명령을 시작할 수 없습니다."
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:531
 msgid "The album cover of the currently playing song"
 msgstr "재생 중인 음악의 앨범아트"
 
-#: dialogs/deleteconfirmationdialog.cpp:60
 msgid "The following files will be deleted from disk:"
 msgstr "이 파일들이 디스크에서 제거됩니다."
 
-#: smartplaylists/smartplaylistsearchtermwidget.cpp:421
 msgid "The second value must be greater than the first one!"
 msgstr "두번째 값은 첫번째보다 커야 합니다."
 
-#: covermanager/coverfromurldialog.cpp:90
 msgid "The site you requested does not exist!"
 msgstr "요청한 사이트가 존재하지 않습니다!"
 
-#: covermanager/coverfromurldialog.cpp:100
 msgid "The site you requested is not an image!"
 msgstr "요청한 사이트는 이미지가 아닙니다!"
 
-#: streaming/streamingcollectionview.cpp:301
 msgid "The streaming collection is empty!"
 msgstr ""
 
-#: core/mainwindow.cpp:2983
 msgid "The version of Strawberry you've just updated to requires a full collection rescan because of the new features listed below:"
 msgstr "Strawberry의 업데이트한 버전에 다음 기능이 추가되어 전체 라이브러리를 재검색해야 합니다:"
 
-#: collection/collectionview.cpp:516
 msgid "There are other songs in this album"
 msgstr "이 앨범에 다른 곡이 있습니다"
 
-#: organize/organizeerrordialog.cpp:72
 msgid "There were problems copying some songs.  The following files could not be copied:"
 msgstr "일부 곡을 복사하는 중 문제가 발생했습니다. 다음 파일을 복사할 수 없습니다: "
 
-#: organize/organizeerrordialog.cpp:77
 msgid "There were problems deleting some songs.  The following files could not be deleted:"
 msgstr "일부 곡을 삭제하는 중 문제가 발생했습니다. 다음 파일을 삭제할 수 없습니다: "
 
-#: device/deviceview.cpp:429
 msgid "These files will be deleted from the device, are you sure you want to continue?"
 msgstr "장치에서 다음 파일을 삭제합니다. 계속 진행하시겠습니까?"
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:443
 msgid "These folders will be scanned for music to make up your collection"
 msgstr "라이브러리를 생성할 때 다음 폴더를 검색합니다"
 
-#: ../../build-qt6dev/src/ui_transcodersettingspage.h:186
 msgid "These settings are used in the \"Transcode Music\" dialog, and when converting music before copying it to a device."
 msgstr "여기에 있는 설정은 \"음악 변환\" 대화 상자에서 사용되며, 장치에 음악을 복사하기 전에 변환할 때에도 사용됩니다."
 
-#: collection/savedgroupingmanager.cpp:60
 msgid "Third Level"
 msgstr "세 번째 단계"
 
-#: ../../build-qt6dev/src/ui_groupbydialog.h:234
 msgid "Third level"
 msgstr "세 번째 단계"
 
-#: ../../build-qt6dev/src/ui_playlistsaveoptionsdialog.h:95
 msgid "This can be changed later through the preferences"
 msgstr "설정에서 나중에 변경할 수 있습니다"
 
-#: ../../build-qt6dev/src/ui_deviceproperties.h:383
 msgid "This device must be connected and opened before Strawberry can see what file formats it supports."
 msgstr "Strawberry에서 이 장치가 지원하는 파일 형식을 파악하려면 장치를 연결하고 열어야 합니다."
 
-#: ../../build-qt6dev/src/ui_deviceproperties.h:377
 msgid "This device supports the following file formats:"
 msgstr "이 장치는 다음 파일 형식을 지원합니다:"
 
-#: device/devicemanager.cpp:608 device/devicemanager.cpp:616
 msgid "This device will not work properly"
 msgstr "이 장치는 올바르게 작동하지 않을 수 있음"
 
-#: device/devicemanager.cpp:609
 msgid "This is an MTP device, but you compiled Strawberry without libmtp support."
 msgstr "이 장치는 MTP 장치이지만 Strawberry를 컴파일할 때 libmtp 지원이 빠졌습니다."
 
-#: device/devicemanager.cpp:617
 msgid "This is an iPod, but you compiled Strawberry without libgpod support."
 msgstr "이 장치는 iPod이지만 Strawberry를 컴파일할 때 libgpod 지원이 빠졌습니다."
 
-#: device/devicemanager.cpp:352
 msgid "This is the first time you have connected this device.  Strawberry will now scan the device to find music files - this may take some time."
 msgstr "이 장치를 처음 연결했습니다. Strawberry에서 장치에 있는 음악 파일을 검색하는 동안 기다려 주십시오."
 
-#: playlist/playlisttabbar.cpp:241
 msgid "This option can be changed in the \"Behavior\" preferences"
 msgstr "이 옵션은 \"행동\" 설정에서 변경할 수 있습니다"
 
-#: device/devicemanager.cpp:632
 #, qt-format
 msgid "This type of device is not supported: %1"
 msgstr "다음 장치의 형식은 지원하지 않습니다: %1"
 
-#: core/mainwindow.cpp:399
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:421
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:325
 msgid "Tidal"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:327
 msgid "Tidal support is not official and requires a API token from a registered application to work. We can't help you getting these."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:355
 msgid "Time step"
 msgstr "시간 간격"
 
-#: playlist/playlist.cpp:1387 organize/organizedialog.cpp:106
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:426
-#: ../../build-qt6dev/src/ui_edittagdialog.h:923
-#: ../../build-qt6dev/src/ui_trackselectiondialog.h:210
 msgid "Title"
 msgstr "제목"
 
-#: utilities/timeutils.cpp:85 utilities/timeutils.cpp:99
 msgid "Today"
 msgstr "오늘"
 
-#: globalshortcuts/globalshortcutsmanager.cpp:76
 msgid "Toggle Pretty OSD"
 msgstr ""
 
-#: core/mainwindow.cpp:742 core/mainwindow.cpp:2050
 msgid "Toggle queue status"
 msgstr "대기열 상태 전환"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:706
 msgid "Toggle scrobbling"
 msgstr "스크로블 전환"
 
-#: core/mainwindow.cpp:748 core/mainwindow.cpp:2063
 msgid "Toggle skip status"
 msgstr "건너뛰기 상태 전환"
 
-#: core/commandlineoptions.cpp:242
 msgid "Toggle visibility for the pretty on-screen-display"
 msgstr "예쁜 OSD 표시 여부 전환"
 
-#: utilities/timeutils.cpp:100
 msgid "Tomorrow"
 msgstr "내일"
 
-#: utilities/filemanagerutils.cpp:139
 msgid "Too many songs selected."
 msgstr "너무 많은 곡을 선택했습니다."
 
-#: ../../build-qt6dev/src/ui_albumcovermanager.h:221
 msgid "Total albums:"
 msgstr "총 앨범 개수:"
 
-#: covermanager/coversearchstatisticsdialog.cpp:83
 msgid "Total bytes transferred"
 msgstr "전송된 총 바이트"
 
-#: covermanager/coversearchstatisticsdialog.cpp:81
 msgid "Total network requests made"
 msgstr "총 네트워크 요청 수"
 
-#: playlist/playlist.cpp:1390 organize/organizedialog.cpp:114
-#: ../../build-qt6dev/src/ui_edittagdialog.h:931
-#: ../../build-qt6dev/src/ui_trackselectiondialog.h:212
 msgid "Track"
 msgstr "트랙"
 
-#: ../../build-qt6dev/src/ui_transcodedialog.h:216
 msgid "Transcode Music"
 msgstr "음악 변환"
 
-#: ../../build-qt6dev/src/ui_transcodelogdialog.h:61
 msgid "Transcoder Log"
 msgstr "변환기 기록"
 
-#: ../../build-qt6dev/src/ui_transcodersettingspage.h:185
 msgid "Transcoding"
 msgstr "변환"
 
-#: transcoder/transcoder.cpp:322
 #, qt-format
 msgid "Transcoding %1 files using %2 threads"
 msgstr "스레드 %2개로 파일 %1개 변환 중"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsdialog.h:51
 msgid "Transcoding options"
 msgstr "변환 옵션"
 
-#: analyzer/turbineanalyzer.cpp:35
 msgid "Turbine"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_dynamicplaylistcontrols.h:109
 msgid "Turn off"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_saveplaylistsdialog.h:120
 msgid "Type"
 msgstr ""
 
-#: device/giolister.cpp:194
 msgid "URI"
 msgstr ""
 
-#: core/commandlineoptions.cpp:219
 msgid "URL(s)"
 msgstr "URL"
 
-#: device/udisks2lister.cpp:127
 msgid "UUID"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:226
 msgid "Ultra wide band (UWB)"
 msgstr "초광대역(UWB)"
 
-#: core/database.cpp:484
 #, qt-format
 msgid "Unable to execute SQL query: %1"
 msgstr ""
 
-#: collection/collectionbackend.cpp:117
 #, qt-format
 msgid "Unable to execute collection SQL query: %1"
 msgstr ""
 
-#: scrobbler/listenbrainzscrobbler.cpp:604
 #, qt-format
 msgid "Unable to scrobble %1 - %2 because of error: %3"
 msgstr ""
 
-#: playlist/playlistcontainer.cpp:227
 msgid "Undo"
 msgstr ""
 
-#: dialogs/snapdialog.cpp:72
 msgid "Uninstall the snap with:"
 msgstr ""
 
-#: core/song.cpp:785 core/song.cpp:797 core/song.cpp:1064
-#: collection/collectionmodel.cpp:1050 collection/collectionmodel.cpp:1405
-#: collection/collectionmodel.cpp:1410 collection/collectionmodel.cpp:1416
-#: collection/savedgroupingmanager.cpp:155 playlist/playlistdelegates.cpp:356
-#: playlist/playlistmanager.cpp:548 playlist/playlistmanager.cpp:549
-#: dialogs/edittagdialog.cpp:774 dialogs/edittagdialog.cpp:803
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:428
 msgid "Unknown"
 msgstr "알 수 없음"
 
-#: subsonic/subsonicrequest.cpp:883 qobuz/qobuzrequest.cpp:1432
 msgid "Unknown error"
 msgstr "알 수 없는 오류"
 
-#: playlist/playlistmanager.cpp:264
 msgid "Unknown file extension for playlist."
 msgstr ""
 
-#: playlistparsers/playlistparser.cpp:185
-#: playlistparsers/playlistparser.cpp:230
 #, qt-format
 msgid "Unknown filetype: %1"
 msgstr ""
 
-#: playlist/playlistmanager.cpp:264
 msgid "Unknown playlist extension"
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:110
 msgid "Unset cover"
 msgstr "표지 설정 해제"
 
-#: core/mainwindow.cpp:2060
 msgid "Unskip selected tracks"
 msgstr "선택한 트랙 건너뛰기 해제"
 
-#: core/mainwindow.cpp:2059
 msgid "Unskip track"
 msgstr "트랙 건너뛰기 해제"
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:447
 msgid "Update the collection when Strawberry starts"
 msgstr "Strawberry 시작 시 라이브러리 업데이트"
 
-#: collection/collectionwatcher.cpp:222
 #, qt-format
 msgid "Updating %1"
 msgstr "%1 업데이트 중"
 
-#: collection/collectionbackend.cpp:738
 #, qt-format
 msgid "Updating %1 database."
 msgstr ""
 
-#: device/deviceview.cpp:126
 #, qt-format
 msgid "Updating %1%..."
 msgstr "%1% 업데이트 중..."
 
-#: collection/collectionwatcher.cpp:219
 msgid "Updating collection"
 msgstr "라이브러리 업데이트 중"
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:683
 msgid "Upmix / downmix to"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:537
 msgid "Upper Left"
 msgstr "왼쪽 위"
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:538
 msgid "Upper Right"
 msgstr "오른쪽 위"
 
-#: core/commandlineoptions.cpp:219
 msgid "Usage"
 msgstr "사용"
 
-#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:269
 msgid "Use Gnome (GSD) shortcuts when available"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:253
 msgid "Use HTTP/2 when possible"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:273
 msgid "Use KDE (KGlobalAccel) shortcuts when available"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:271
 msgid "Use MATE shortcuts when available"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:329
 msgid "Use OAuth"
 msgstr "OAuth 사용"
 
-#: settings/coverssettingspage.cpp:235 settings/coverssettingspage.cpp:352
 msgid "Use Qobuz settings to authenticate."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:697
 msgid "Use Replay Gain metadata if it is available"
 msgstr "사용 가능한 경우 리플레이게인 메타데이터 사용"
 
-#: settings/coverssettingspage.cpp:231 settings/coverssettingspage.cpp:348
 msgid "Use Spotify settings to authenticate."
 msgstr ""
 
-#: settings/coverssettingspage.cpp:227 settings/coverssettingspage.cpp:344
 msgid "Use Tidal settings to authenticate."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:274
 msgid "Use X11 shortcuts when available"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:494
 msgid "Use a custom message for notifications"
 msgstr "알림에 표시할 사용자 정의 메시지 설정"
 
-#: ../../build-qt6dev/src/ui_playlistsettingspage.h:178
 msgid "Use alternating row colors"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:181
 msgid "Use authentication"
 msgstr "인증 사용"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:199
 msgid "Use bitrate management engine"
 msgstr "비트레이트 관리 엔진 사용"
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:524
 msgid "Use custom color"
 msgstr "사용자 정의 색상 사용"
 
-#: ../../build-qt6dev/src/ui_smartplaylistwizardfinishpage.h:81
 msgid "Use dynamic mode"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:525
 msgid "Use gradient background"
 msgstr "그라디언트 배경 사용"
 
-#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:184
 msgid "Use proxy settings for streaming"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:687
 msgid "Use strict SSL mode"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:520
 msgid "Use system theme icons"
 msgstr "시스템 테마 아이콘 사용"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:140
 msgid "Use temporal noise shaping"
 msgstr "시계층 잡음 조절(TNS) 사용"
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:328
 msgid "Use the system default"
 msgstr "시스템 기본값 사용"
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:463
 msgid "Use various artists for compilation albums"
 msgstr ""
 
-#: widgets/freespacebar.cpp:70
 msgid "Used"
 msgstr "사용됨"
 
-#: settings/settingsdialog.cpp:148
 msgid "User interface"
 msgstr "사용자 인터페이스"
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:437
 msgid "User token:"
 msgstr "사용자 토큰:"
 
-#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:182
-#: ../../build-qt6dev/src/ui_userpassdialog.h:92
-#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:247
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:332
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:269
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:286
 msgid "Username"
 msgstr "사용자 이름"
 
-#: settings/globalshortcutssettingspage.cpp:349
 #, qt-format
 msgid "Using X11 shortcuts on %1 is not recommended and can cause keyboard to become unresponsive!"
 msgstr "%1에서 X11 단축키를 사용하는 것은 추천하지 않으며 키보드가 작동하지 않을 수도 있습니다!"
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:331
 msgid "Using the menu to add a song will..."
 msgstr "메뉴에서 음악을 추가했을 때..."
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:230
 msgid "Variable bit rate"
 msgstr "가변 비트 전송률"
 
-#: collection/collectionmodel.cpp:81 playlist/playlistmanager.cpp:560
-#: covermanager/albumcovermanager.cpp:349 streaming/streamingsearchmodel.cpp:93
-#: streaming/streamingsearchmodel.cpp:105
 msgid "Various artists"
 msgstr "편집 음반"
 
-#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:254
 msgid "Verify server certificate"
 msgstr "서버 인증서 확인"
 
-#: dialogs/about.cpp:110
 #, qt-format
 msgid "Version %1"
 msgstr "버전 %1"
 
-#: ../../build-qt6dev/src/ui_albumcovermanager.h:220
 msgid "View"
 msgstr "보기"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:231
 msgid "Voice activity detection"
 msgstr "음성 활동 감지"
 
-#: osd/osdbase.cpp:287
 #, qt-format
 msgid "Volume %1%"
 msgstr "음량 %1%"
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:358
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:359
 msgid "Volume Increment"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_transcodersettingspage.h:189
 msgid "Vorbis"
 msgstr ""
 
-#: playlist/playlisttabbar.cpp:238
-#: ../../build-qt6dev/src/ui_playlistsettingspage.h:181
 msgid "Warn me when closing a playlist tab"
 msgstr "재생 목록 탭을 닫을 때 알리기"
 
-#: ../../build-qt6dev/src/ui_lastfmimportdialog.h:152
 msgid "Warning: Play counts and last played from last.fm will completely replace the same data for the matched songs. Play counts will replace the data based on artist and song title for the same albums! Please backup your database before you start."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_transcodersettingspage.h:188
 msgid "WavPack"
 msgstr ""
 
-#: analyzer/waverubberanalyzer.cpp:24
 msgid "WaveRubber"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:455
 msgid "Weeks"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:456
 msgid "When looking for album art Strawberry will first look for picture files that contain one of these words.\n"
 "If there are no matches then it will use the largest image in the directory."
 msgstr "Strawberry에서 앨범 아트를 찾을 때 다음 단어를 포함하는 그림 파일을 먼저 찾습니다.\n"
 "일치하는 파일이 없으면 디렉터리에 있는 가장 큰 그림을 사용합니다."
 
-#: ../../build-qt6dev/src/ui_playlistsettingspage.h:190
 msgid "When saving a playlist, file paths should be"
 msgstr "재생 목록을 저장할 때 파일 경로 처리 방식"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:227
 msgid "Wide band (WB)"
 msgstr "광대역(WB)"
 
-#: ../../build-qt6dev/src/ui_albumcovermanager.h:222
 msgid "Without cover:"
 msgstr "표지 없음:"
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:407
 msgid "Work in offline mode (Only cache scrobbles)"
 msgstr "오프라인 모드로 작업(스크로블을 캐시에만 추가)"
 
-#: collection/collectionview.cpp:516
 msgid "Would you like to move the other songs on this album to Various Artists as well?"
 msgstr ""
 
-#: core/mainwindow.cpp:2987
 msgid "Would you like to run a full rescan right now?"
 msgstr "지금 전부 다시 검색하시겠습니까?"
 
-#: settings/collectionsettingspage.cpp:339
 msgid "Write all playcounts and ratings to files"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_playlistsettingspage.h:200
 msgid "Write metadata when saving playlists"
 msgstr "재생 목록을 저장할 때 메타데이터 쓰기"
 
-#: device/gpoddevice.cpp:288
 msgid "Writing database failed."
 msgstr ""
 
-#: device/gpoddevice.cpp:284
 #, qt-format
 msgid "Writing database failed: %1"
 msgstr ""
 
-#: collection/savedgroupingmanager.cpp:121 playlist/playlist.cpp:1393
-#: organize/organizedialog.cpp:116
-#: ../../build-qt6dev/src/ui_groupbydialog.h:199
-#: ../../build-qt6dev/src/ui_groupbydialog.h:221
-#: ../../build-qt6dev/src/ui_groupbydialog.h:243
-#: ../../build-qt6dev/src/ui_edittagdialog.h:922
-#: ../../build-qt6dev/src/ui_trackselectiondialog.h:211
 msgid "Year"
 msgstr "년도"
 
-#: collection/savedgroupingmanager.cpp:106
-#: ../../build-qt6dev/src/ui_groupbydialog.h:200
-#: ../../build-qt6dev/src/ui_groupbydialog.h:222
-#: ../../build-qt6dev/src/ui_groupbydialog.h:244
 msgid "Year - Album"
 msgstr "년도 - 앨범"
 
-#: collection/savedgroupingmanager.cpp:109
-#: ../../build-qt6dev/src/ui_groupbydialog.h:201
-#: ../../build-qt6dev/src/ui_groupbydialog.h:223
-#: ../../build-qt6dev/src/ui_groupbydialog.h:245
 msgid "Year - Album - Disc"
 msgstr "년도 - 앨범 - 디스크"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:459
 msgid "Years"
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:820 dialogs/edittagdialog.cpp:836
 msgid "Yes"
 msgstr ""
 
-#: utilities/timeutils.cpp:86
 msgid "Yesterday"
 msgstr "어제"
 
-#: playlist/playlistlistcontainer.cpp:437
 #, qt-format
 msgid "You are about to remove %1 playlists from your favorites, are you sure?"
 msgstr "즐겨찾기에서 재생 목록 %1개를 삭제할 것입니다. 계속 진행하시겠습니까?"
 
-#: playlist/playlisttabbar.cpp:232
 msgid "You are about to remove a playlist which is not part of your favorite playlists: the playlist will be deleted (this action cannot be undone). \n"
 "Are you sure you want to continue?"
 msgstr "즐겨찾는 재생 목록에 없는 재생 목록을 삭제하려고 합니다. 이 작업은 취소할 수 없습니다.\n"
 "계속 진행하시겠습니까?"
 
-#: ../../build-qt6dev/src/ui_loginstatewidget.h:165
 msgid "You are not signed in."
 msgstr "로그인하지 않았습니다."
 
-#: core/mainwindow.cpp:1068
 #, qt-format
 msgid "You are running Strawberry under Rosetta. Running Strawberry under Rosetta is unsupported and known to have issues. You should download Strawberry for the correct CPU architecture from %1"
 msgstr ""
 
-#: widgets/loginstatewidget.cpp:85
 #, qt-format
 msgid "You are signed in as %1."
 msgstr "%1(으)로 로그인했습니다."
 
-#: widgets/loginstatewidget.cpp:84
 msgid "You are signed in."
 msgstr "로그인했습니다."
 
-#: ../../build-qt6dev/src/ui_groupbydialog.h:188
 msgid "You can change the way the songs in the collection are organized."
 msgstr ""
 
-#: dialogs/about.cpp:128
 #, qt-format
 msgid "You can sponsor the author on %1. You can also make a one-time payment through %2."
 msgstr ""
 
-#: core/songloader.cpp:132 core/songloader.cpp:137
 msgid "You need GStreamer for this URL."
 msgstr "이 URL에 접근하려면 GStreamer가 필요합니다."
 
-#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:278
 msgid "You need to launch System Preferences and allow Strawberry to \"<span style=\"font-style:italic\">control your computer</span>\" to use global shortcuts in Strawberry."
 msgstr "시스템 설정을 실행한 다음 Strawberry에서 \"<span style=\" font-style:italic;\">컴퓨터 제어 허용</span>\"을 활성화해야 Strawberry에서 전역 단축키를 사용할 수 있습니다."
 
-#: dialogs/about.cpp:122
 #, qt-format
 msgid "You should have received a copy of the GNU General Public License along with this program.  If not, see %1"
 msgstr "GPL 라이선스가 프로그램과 함께 제공됩니다. 만약 그렇지 않았다면 %1에서 볼 수 있습니다."
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:330
 msgid "You will need to restart Strawberry if you change the language."
 msgstr "언어를 변경한 후에는 Strawberry를 다시 시작해야 합니다."
 
-#: collection/collectionview.cpp:332
 msgid "Your collection is empty!"
 msgstr "라이브러리가 비어 있습니다!"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:430
 msgid "Z-A"
 msgstr ""
 
-#: equalizer/equalizer.cpp:157
 msgid "Zero"
 msgstr "제로"
 
-#: playlist/playlistundocommands.cpp:44
 #, c-format, qt-plural-format
 msgid "add %n songs"
 msgstr "%n곡 추가"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:254
 msgid "after"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_smartplaylistsearchtermwidget.h:273
 msgid "ago"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_streamingsearchview.h:229
 msgid "albums"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_smartplaylistsearchtermwidget.h:272
 msgid "and"
 msgstr ""
 
-#: filterparser/filterparser.cpp:463
 msgid "artist"
 msgstr "아티스트"
 
-#: ../../build-qt6dev/src/ui_streamingsearchview.h:228
 msgid "artists"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:219
 msgid "automatic"
 msgstr "자동"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:256
 msgid "before"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:266
 msgid "between"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:437
 msgid "biggest first"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:684
 msgid "channels"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:274
 msgid "contains"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:453
 msgid "days"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:203
-#: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:206
-#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:222
 msgid "disabled"
 msgstr "사용 안 함"
 
-#: osd/osdbase.cpp:156
 #, qt-format
 msgid "disc %1"
 msgstr "디스크 %1"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:276
 msgid "does not contain"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:290
 msgid "empty"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:280
 msgid "ends with"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:286
 msgid "equals"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:282
 msgid "greater than"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:677
 msgid "hw"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:262
 msgid "in the last"
 msgstr ""
 
-#: context/contextview.cpp:498 context/contextview.cpp:599
-#: playlist/playlistview.cpp:225 dialogs/edittagdialog.cpp:796
 msgid "kbps"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:284
 msgid "less than"
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:1430
 msgid "loading..."
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:434
 msgid "longest first"
 msgstr ""
 
-#: playlist/playlistundocommands.cpp:112
 #, c-format, qt-plural-format
 msgid "move %n songs"
 msgstr "%n곡 이동"
 
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:338
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:275
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:293
 msgid "ms"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:432
 msgid "newest first"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:292
 msgid "not empty"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:288
 msgid "not equals"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:264
 msgid "not in the last"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:260
 msgid "not on"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:432
 msgid "oldest first"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:258
 msgid "on"
 msgstr ""
 
-#: core/commandlineoptions.cpp:219
 msgid "options"
 msgstr "옵션"
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:678
 msgid "p&lughw"
 msgstr "plughw(&L)"
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:679
 msgid "pcm"
 msgstr ""
 
-#: filterparser/filterparser.cpp:471
 msgid "rating"
 msgstr ""
 
-#: playlist/playlistundocommands.cpp:72 playlist/playlistundocommands.cpp:100
 #, c-format, qt-plural-format
 msgid "remove %n songs"
 msgstr "%n곡 삭제"
 
-#: filterparser/filterparser.cpp:465
 #, qt-format
 msgid "searches for all artists containing the word %1. "
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:434
 msgid "shortest first"
 msgstr ""
 
-#: playlist/playlistundocommands.cpp:145
 msgid "shuffle songs"
 msgstr "노래 섞기"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:437
 msgid "smallest first"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_streamingsearchview.h:230
 msgid "songs"
 msgstr ""
 
-#: playlist/playlistundocommands.cpp:137
 msgid "sort songs"
 msgstr "음악 정렬"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:278
 msgid "starts with"
 msgstr ""
 
-#: playlist/playlistdelegates.cpp:223
 msgid "stop"
 msgstr "정지"
 
-#: osd/osdbase.cpp:159
 #, qt-format
 msgid "track %1"
 msgstr "트랙 %1"
 
-#: covermanager/albumcoverchoicecontroller.cpp:239
 msgid "unknown"
 msgstr "알 수 없음"
 
