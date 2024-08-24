@@ -2,7 +2,7 @@
 
 #include <gtest/gtest.h>
 
-#include <QtConcurrent>
+#include <QtConcurrentRun>
 #include <QThreadPool>
 #include <QEventLoop>
 #include <QFutureWatcher>
