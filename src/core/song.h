@@ -138,6 +138,7 @@ class Song {
   static const QStringList kArticles;
 
   static const QStringList kAcceptedExtensions;
+  static const QStringList kRejectedExtensions;
 
   Song(const Source source = Source::Unknown);
   Song(const Song &other);

@@ -235,6 +235,18 @@ const QStringList Song::kAcceptedExtensions = QStringList() << QStringLiteral("w
                                                             << QStringLiteral("spc")
                                                             << QStringLiteral("vgm");
 
+const QStringList Song::kRejectedExtensions = QStringList() << QStringLiteral("tmp")
+                                                            << QStringLiteral("tar")
+                                                            << QStringLiteral("gz")
+                                                            << QStringLiteral("bz2")
+                                                            << QStringLiteral("xz")
+                                                            << QStringLiteral("tbz")
+                                                            << QStringLiteral("tgz")
+                                                            << QStringLiteral("z")
+                                                            << QStringLiteral("zip")
+                                                            << QStringLiteral("rar")
+                                                            << QStringLiteral("wvc");
+
 struct Song::Private : public QSharedData {
 
   explicit Private(Source source = Source::Unknown);
