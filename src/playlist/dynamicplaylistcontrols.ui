@@ -10,21 +10,6 @@
     <height>54</height>
    </rect>
   </property>
-  <property name="styleSheet">
-   <string notr="true">#container {
-    background: rgba(200, 200, 200, 50%);
-    border-radius: 10px;
-    border: 1px solid rgba(200, 200, 200, 75%);
-}
-
-#label1 {
-  font-weight: bold;
-}
-
-#label2 {
-  font-size: 7.5pt;
-}</string>
-  </property>
   <layout class="QVBoxLayout" name="layout_dynamic_playlist_controls">
    <property name="leftMargin">
     <number>0</number>
@@ -41,10 +26,10 @@
    <item>
     <widget class="QFrame" name="container">
      <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
+      <enum>QFrame::Shape::StyledPanel</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
+      <enum>QFrame::Shadow::Raised</enum>
      </property>
      <layout class="QHBoxLayout" name="layout_container">
       <item>

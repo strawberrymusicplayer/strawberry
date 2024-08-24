@@ -1,0 +1,13 @@
+#container {
+  background: %background;
+  border-radius: 10px;
+  border: 1px solid rgba(200, 200, 200, 75%);
+}
+
+#label1 {
+  font-weight: bold;
+}
+
+#label2 {
+  font-size: 7.5pt;
+}
