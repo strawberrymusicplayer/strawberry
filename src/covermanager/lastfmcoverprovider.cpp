@@ -249,7 +249,7 @@ void LastFmCoverProvider::QueryFinished(QNetworkReply *reply, const int id, cons
     const QJsonArray array_image = json_image.toArray();
     QString image_url_use;
     LastFmImageSize image_size_use = LastFmImageSize::Unknown;
-    for (const QJsonValue value_image : array_image) {
+    for (const QJsonValue &value_image : array_image) {
       if (!value_image.isObject()) {
         Error(QStringLiteral("Invalid Json reply, album image value is not an object."));
         continue;

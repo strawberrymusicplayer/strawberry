@@ -185,7 +185,7 @@ void MusicbrainzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int
     const QJsonArray array_artists = json_artists.toArray();
     int i = 0;
     QString artist;
-    for (const QJsonValue value_artist : array_artists) {
+    for (const QJsonValue &value_artist : array_artists) {
       if (!value_artist.isObject()) {
         Error(QStringLiteral("Invalid Json reply, artist is not a object."));
         continue;
