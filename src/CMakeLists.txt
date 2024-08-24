@@ -1017,7 +1017,7 @@ if(HAVE_TRANSLATIONS)
 
   add_pot(POT
     ${CMAKE_CURRENT_SOURCE_DIR}/translations/header
-    ${CMAKE_CURRENT_BINARY_DIR}/translations/translations.pot
+    ${CMAKE_CURRENT_SOURCE_DIR}/translations/translations.pot
     ${SOURCES}
     ${MOC}
     ${UIC}
