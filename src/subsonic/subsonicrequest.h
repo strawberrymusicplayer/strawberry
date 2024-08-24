@@ -86,7 +86,7 @@ class SubsonicRequest : public SubsonicBaseRequest {
  private Q_SLOTS:
   void AlbumsReplyReceived(QNetworkReply *reply, const int offset_requested, const int size_requested);
   void AlbumSongsReplyReceived(QNetworkReply *reply, const QString &artist_id, const QString &album_id, const QString &album_artist);
-  void AlbumCoverReceived(QNetworkReply *reply, const AlbumCoverRequest &request);
+  void AlbumCoverReceived(QNetworkReply *reply, const SubsonicRequest::AlbumCoverRequest &request);
 
  private:
 

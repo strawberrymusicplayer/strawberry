@@ -111,13 +111,13 @@ class TidalRequest : public TidalBaseRequest {
   void ArtistsReplyReceived(QNetworkReply *reply, const int limit_requested, const int offset_requested);
 
   void AlbumsReplyReceived(QNetworkReply *reply, const int limit_requested, const int offset_requested);
-  void AlbumsReceived(QNetworkReply *reply, const Artist &artist_requested, const int limit_requested, const int offset_requested, const bool auto_login);
+  void AlbumsReceived(QNetworkReply *reply, const TidalRequest::Artist &artist_requested, const int limit_requested, const int offset_requested, const bool auto_login);
 
   void SongsReplyReceived(QNetworkReply *reply, const int limit_requested, const int offset_requested);
-  void SongsReceived(QNetworkReply *reply, const Artist &artist, const Album &album, const int limit_requested, const int offset_requested, const bool auto_login = false);
+  void SongsReceived(QNetworkReply *reply, const TidalRequest::Artist &artist, const TidalRequest::Album &album, const int limit_requested, const int offset_requested, const bool auto_login = false);
 
-  void ArtistAlbumsReplyReceived(QNetworkReply *reply, const Artist &artist, const int offset_requested);
-  void AlbumSongsReplyReceived(QNetworkReply *reply, const Artist &artist, const Album &album, const int offset_requested);
+  void ArtistAlbumsReplyReceived(QNetworkReply *reply, const TidalRequest::Artist &artist, const int offset_requested);
+  void AlbumSongsReplyReceived(QNetworkReply *reply, const TidalRequest::Artist &artist, const TidalRequest::Album &album, const int offset_requested);
   void AlbumCoverReceived(QNetworkReply *reply, const QString &album_id, const QUrl &url, const QString &filename);
 
  public Q_SLOTS:

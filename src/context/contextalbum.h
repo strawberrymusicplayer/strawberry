@@ -86,8 +86,8 @@ class ContextAlbum : public QWidget {
   void AutomaticCoverSearchDone();
   void FadeCurrentCover(const qreal value);
   void FadeCurrentCoverFinished();
-  void FadePreviousCover(SharedPtr<PreviousCover> previous_cover);
-  void FadePreviousCoverFinished(SharedPtr<PreviousCover> previous_cover);
+  void FadePreviousCover(SharedPtr<ContextAlbum::PreviousCover> previous_cover);
+  void FadePreviousCoverFinished(SharedPtr<ContextAlbum::PreviousCover> previous_cover);
 
  public Q_SLOTS:
   void SearchCoverInProgress();

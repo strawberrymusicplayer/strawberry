@@ -105,13 +105,13 @@ class SpotifyRequest : public SpotifyBaseRequest {
   void ArtistsReplyReceived(QNetworkReply *reply, const int limit_requested, const int offset_requested);
 
   void AlbumsReplyReceived(QNetworkReply *reply, const int limit_requested, const int offset_requested);
-  void AlbumsReceived(QNetworkReply *reply, const Artist &artist_artist, const int limit_requested, const int offset_requested);
+  void AlbumsReceived(QNetworkReply *reply, const SpotifyRequest::Artist &artist_artist, const int limit_requested, const int offset_requested);
 
   void SongsReplyReceived(QNetworkReply *reply, const int limit_requested, const int offset_requested);
-  void SongsReceived(QNetworkReply *reply, const Artist &artist, const Album &album, const int limit_requested, const int offset_requested);
+  void SongsReceived(QNetworkReply *reply, const SpotifyRequest::Artist &artist, const SpotifyRequest::Album &album, const int limit_requested, const int offset_requested);
 
-  void ArtistAlbumsReplyReceived(QNetworkReply *reply, const Artist &artist, const int offset_requested);
-  void AlbumSongsReplyReceived(QNetworkReply *reply, const Artist &artist, const Album &album, const int offset_requested);
+  void ArtistAlbumsReplyReceived(QNetworkReply *reply, const SpotifyRequest::Artist &artist, const int offset_requested);
+  void AlbumSongsReplyReceived(QNetworkReply *reply, const SpotifyRequest::Artist &artist, const SpotifyRequest::Album &album, const int offset_requested);
   void AlbumCoverReceived(QNetworkReply *reply, const QString &album_id, const QUrl &url, const QString &filename);
 
  private:

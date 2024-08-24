@@ -74,7 +74,7 @@ class OpenTidalCoverProvider : public JsonCoverProvider {
   void FlushRequests();
   void LoginFinished(QNetworkReply *reply);
   void HandleLoginSSLErrors(const QList<QSslError> &ssl_errors);
-  void HandleSearchReply(QNetworkReply *reply, SearchRequestPtr search_request);
+  void HandleSearchReply(QNetworkReply *reply, OpenTidalCoverProvider::SearchRequestPtr search_request);
 
  private:
   QTimer *login_timer_;

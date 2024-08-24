@@ -110,13 +110,13 @@ class QobuzRequest : public QobuzBaseRequest {
   void ArtistsReplyReceived(QNetworkReply *reply, const int limit_requested, const int offset_requested);
 
   void AlbumsReplyReceived(QNetworkReply *reply, const int limit_requested, const int offset_requested);
-  void AlbumsReceived(QNetworkReply *reply, const Artist &artist_requested, const int limit_requested, const int offset_requested);
+  void AlbumsReceived(QNetworkReply *reply, const QobuzRequest::Artist &artist_requested, const int limit_requested, const int offset_requested);
 
   void SongsReplyReceived(QNetworkReply *reply, const int limit_requested, const int offset_requested);
-  void SongsReceived(QNetworkReply *reply, const Artist &artist_requested, const Album &album_requested, const int limit_requested, const int offset_requested);
+  void SongsReceived(QNetworkReply *reply, const QobuzRequest::Artist &artist_requested, const QobuzRequest::Album &album_requested, const int limit_requested, const int offset_requested);
 
-  void ArtistAlbumsReplyReceived(QNetworkReply *reply, const Artist &artist, const int offset_requested);
-  void AlbumSongsReplyReceived(QNetworkReply *reply, const Artist &artist, const Album &album, const int offset_requested);
+  void ArtistAlbumsReplyReceived(QNetworkReply *reply, const QobuzRequest::Artist &artist, const int offset_requested);
+  void AlbumSongsReplyReceived(QNetworkReply *reply, const QobuzRequest::Artist &artist, const QobuzRequest::Album &album, const int offset_requested);
   void AlbumCoverReceived(QNetworkReply *reply, const QUrl &cover_url, const QString &filename);
 
  private:
