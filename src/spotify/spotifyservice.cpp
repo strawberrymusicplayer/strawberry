@@ -449,7 +449,7 @@ void SpotifyService::AccessTokenRequestFinished(QNetworkReply *reply) {
   QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
 
   if (json_error.error != QJsonParseError::NoError) {
-    Error(QStringLiteral("Failed to parse Json data in authentication reply: %1").arg(json_error.errorString()));
+    LoginError(QStringLiteral("Failed to parse Json data in authentication reply: %1").arg(json_error.errorString()));
     return;
   }
 
