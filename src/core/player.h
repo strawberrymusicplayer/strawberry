@@ -163,7 +163,7 @@ class Player : public PlayerInterface {
   void LoadVolume() override;
   void SaveVolume() override;
   void SavePlaybackStatus() override;
-  void PlaylistsLoaded();
+  void PlaylistsLoaded() override;
 
   void PlayAt(const int index, const bool pause, const quint64 offset_nanosec, EngineBase::TrackChangeFlags change, const Playlist::AutoScroll autoscroll, const bool reshuffle, const bool force_inform = false) override;
   void PlayPause(const quint64 offset_nanosec = 0, const Playlist::AutoScroll autoscroll = Playlist::AutoScroll::Always) override;
