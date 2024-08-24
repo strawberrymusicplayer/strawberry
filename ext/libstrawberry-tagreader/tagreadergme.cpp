@@ -229,6 +229,7 @@ TagReaderBase::Result GME::VGM::Read(const QFileInfo &fileinfo, spb::tagreader::
 
   file.seek(static_cast<qint64>(GD3_TAG_PTR + pt));
   QByteArray gd3_version = file.read(4);
+  Q_UNUSED(gd3_version)
 
   file.seek(file.pos() + 4);
   QByteArray gd3_length_bytes = file.read(4);
