@@ -57,6 +57,8 @@ class PlaylistManagerInterface : public QObject {
   virtual int current_id() const = 0;
   virtual int active_id() const = 0;
 
+  virtual QList<int> playlist_ids() const = 0;
+  virtual QString playlist_name(const int id) const = 0;
   virtual Playlist *playlist(const int id) const = 0;
   virtual Playlist *current() const = 0;
   virtual Playlist *active() const = 0;
@@ -149,6 +151,8 @@ class PlaylistManager : public PlaylistManagerInterface {
   int current_id() const override { return current_; }
   int active_id() const override { return active_; }
 
+  QList<int> playlist_ids() const override { return playlists_.keys(); }
+  QString playlist_name(const int id) const override { return playlists_[id].name; }
   Playlist *playlist(const int id) const override { return playlists_[id].p; }
   Playlist *current() const override { return playlist(current_id()); }
   Playlist *active() const override { return playlist(active_id()); }
