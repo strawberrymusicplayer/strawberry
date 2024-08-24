@@ -33,9 +33,8 @@
 #include <QVariant>
 #include <QString>
 #include <QStringList>
-#include <QtDBus>
+#include <QDBusObjectPath>
 #include <QDBusArgument>
-#include <qdbusextratypes.h>
 #include <QJsonObject>
 
 #include "engine/enginebase.h"
