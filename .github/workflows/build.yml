@@ -833,9 +833,14 @@ jobs:
         run: make deploy
 
       - name: Manually Codesign
-        if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false
+        if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && matrix.runner == 'macos-13'
         working-directory: build
-        run: codesign -s 383J84DVB6 -f strawberry.app/Contents/Frameworks/{libsoup-3.0.0.dylib,libnghttp2.14.dylib,libpsl.5.dylib,libpcre2-8.0.dylib,libpcre2-16.0.dylib,libpng16.16.dylib,libzstd.1.dylib,libfreetype.6.dylib} strawberry.app/Contents/Frameworks/png.framework/png strawberry.app
+        run: codesign -s 383J84DVB6 -f strawberry.app/Contents/Frameworks/{libpcre2-8.0.dylib,libpcre2-16.0.dylib,libpng16.16.dylib,libfreetype.6.dylib,libzstd.1.dylib} strawberry.app/Contents/Frameworks/png.framework/png strawberry.app
+
+      - name: Manually Codesign
+        if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && matrix.runner == 'macos-14'
+        working-directory: build
+        run: codesign -s 383J84DVB6 -f strawberry.app/Contents/Frameworks/png.framework/png strawberry.app
 
       - name: Deploy check
         working-directory: build
@@ -993,11 +998,11 @@ jobs:
             echo "upload_path=${{secrets.DOWNLOADS_PATH}}/development_releases/macos" >> $GITHUB_OUTPUT
           fi
 
-      - name: Create server path
-        run: ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} mkdir -p ${{steps.set-upload-path.outputs.upload_path}}
+      #- name: Create server path
+        #run: ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}} mkdir -p ${{steps.set-upload-path.outputs.upload_path}}
 
-      - name: rsync
-        run: rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var build/*.dmg ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{steps.set-upload-path.outputs.upload_path}}/
+      #- name: rsync
+        #run: rsync -e "ssh -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var build/*.dmg ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{steps.set-upload-path.outputs.upload_path}}/
 
 
   build-windows-mingw:
