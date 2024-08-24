@@ -30,7 +30,7 @@ class CollectionModelUpdate {
     Update,
     Remove,
   };
-  explicit CollectionModelUpdate(const Type &_type, const SongList &_songs);
+  explicit CollectionModelUpdate(const Type _type, const SongList &_songs);
   Type type;
   SongList songs;
 };

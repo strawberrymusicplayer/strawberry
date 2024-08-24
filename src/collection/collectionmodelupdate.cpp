@@ -19,5 +19,5 @@
 
 #include "collectionmodelupdate.h"
 
-CollectionModelUpdate::CollectionModelUpdate(const Type &_type, const SongList &_songs)
+CollectionModelUpdate::CollectionModelUpdate(const Type _type, const SongList &_songs)
     : type(_type), songs(_songs) {}
