@@ -44,7 +44,7 @@ macro(add_pot outfiles header pot)
   add_custom_command(
     OUTPUT ${pot}
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    COMMAND ${GETTEXT_XGETTEXT_EXECUTABLE} ${XGETTEXT_OPTIONS} -s -C --omit-header --no-location --output="${CMAKE_CURRENT_BINARY_DIR}/pot.temp" ${add_pot_sources}
+    COMMAND ${GETTEXT_XGETTEXT_EXECUTABLE} ${XGETTEXT_OPTIONS} -C --omit-header --no-location --output="${CMAKE_CURRENT_BINARY_DIR}/pot.temp" ${add_pot_sources}
     COMMAND cat ${header} ${CMAKE_CURRENT_BINARY_DIR}/pot.temp > ${pot}
     DEPENDS ${add_pot_sources} ${header}
   )
