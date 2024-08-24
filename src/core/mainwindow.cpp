@@ -2071,13 +2071,13 @@ void MainWindow::PlaylistRightClick(const QPoint global_pos, const QModelIndex &
     QMenu *add_to_another_menu = new QMenu(tr("Add to another playlist"), this);
     add_to_another_menu->setIcon(IconLoader::Load(QStringLiteral("list-add")));
 
-    const PlaylistBackend::PlaylistList playlists = app_->playlist_backend()->GetAllOpenPlaylists();
-    for (const PlaylistBackend::Playlist &playlist : playlists) {
-      // don't add the current playlist
-      if (playlist.id != app_->playlist_manager()->current()->id()) {
+    const QList<int> playlist_ids = app_->playlist_manager()->playlist_ids();
+    for (const int playlist_id : playlist_ids) {
+      // Don't add the current playlist
+      if (playlist_id != app_->playlist_manager()->current()->id()) {
         QAction *existing_playlist = new QAction(this);
-        existing_playlist->setText(playlist.name);
-        existing_playlist->setData(playlist.id);
+        existing_playlist->setText(app_->playlist_manager()->playlist_name(playlist_id));
+        existing_playlist->setData(playlist_id);
         add_to_another_menu->addAction(existing_playlist);
       }
     }
