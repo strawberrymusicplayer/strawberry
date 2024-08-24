@@ -23,7 +23,7 @@
 
 #include <utility>
 
-#include <QtConcurrent>
+#include <QtConcurrentRun>
 #include <QtAlgorithms>
 #include <QList>
 #include <QUrl>

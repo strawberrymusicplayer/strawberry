@@ -28,7 +28,7 @@
 #include <limits>
 
 #include <QtGlobal>
-#include <QtConcurrent>
+#include <QtConcurrentRun>
 #include <QFuture>
 #include <QFutureWatcher>
 #include <QObject>
@@ -68,6 +68,7 @@
 #include <QAbstractButton>
 #include <QtEvents>
 #include <QSettings>
+#include <QMimeData>
 
 #include "core/application.h"
 #include "core/iconloader.h"

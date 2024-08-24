@@ -27,9 +27,6 @@
 #include <QObject>
 #include <QMainWindow>
 #include <QWidget>
-#include <QtConcurrent>
-#include <QFuture>
-#include <QFutureWatcher>
 #include <QScreen>
 #include <QItemSelectionModel>
 #include <QListWidgetItem>

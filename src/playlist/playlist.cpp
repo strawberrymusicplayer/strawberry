@@ -32,7 +32,7 @@
 
 #include <QObject>
 #include <QCoreApplication>
-#include <QtConcurrent>
+#include <QtConcurrentRun>
 #include <QFuture>
 #include <QFutureWatcher>
 #include <QIODevice>

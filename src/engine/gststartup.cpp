@@ -29,7 +29,7 @@
 #include <QMetaObject>
 #include <QCoreApplication>
 #include <QStandardPaths>
-#include <QtConcurrent>
+#include <QtConcurrentRun>
 #include <QString>
 #include <QDir>
 #include <QFile>

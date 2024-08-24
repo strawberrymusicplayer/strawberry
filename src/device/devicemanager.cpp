@@ -30,7 +30,7 @@
 #include <QObject>
 #include <QMetaObject>
 #include <QThread>
-#include <QtConcurrent>
+#include <QtConcurrentRun>
 #include <QAbstractItemModel>
 #include <QDir>
 #include <QList>

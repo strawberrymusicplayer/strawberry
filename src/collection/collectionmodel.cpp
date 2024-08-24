@@ -27,7 +27,7 @@
 
 #include <QObject>
 #include <QtGlobal>
-#include <QtConcurrent>
+#include <QtConcurrentRun>
 #include <QThread>
 #include <QMutex>
 #include <QFuture>

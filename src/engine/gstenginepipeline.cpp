@@ -41,7 +41,9 @@
 
 #include <QObject>
 #include <QCoreApplication>
-#include <QtConcurrent>
+#include <QtConcurrentRun>
+#include <QFuture>
+#include <QFutureWatcher>
 #include <QMutex>
 #include <QMetaType>
 #include <QByteArray>
@@ -54,6 +56,7 @@
 #include <QEasingCurve>
 #include <QMetaObject>
 #include <QUuid>
+#include <QVersionNumber>
 
 #include "core/logging.h"
 #include "core/signalchecker.h"

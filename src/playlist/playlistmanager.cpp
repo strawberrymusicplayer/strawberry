@@ -26,7 +26,7 @@
 #include <QtGlobal>
 #include <QObject>
 #include <QDialog>
-#include <QtConcurrent>
+#include <QtConcurrentRun>
 #include <QFuture>
 #include <QFutureWatcher>
 #include <QDir>

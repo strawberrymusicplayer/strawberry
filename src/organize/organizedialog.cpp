@@ -28,7 +28,7 @@
 
 #include <QtGlobal>
 #include <QGuiApplication>
-#include <QtConcurrent>
+#include <QtConcurrentRun>
 #include <QFuture>
 #include <QFutureWatcher>
 #include <QAbstractItemModel>
