@@ -61,9 +61,9 @@ bool CollectionFilter::filterAcceptsRow(const int source_row, const QModelIndex 
   }
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-  const size_t hash = qHash(filter_string_);
+  size_t hash = qHash(filter_string_);
 #else
-  const uint hash = qHash(filter_string_);
+  uint hash = qHash(filter_string_);
 #endif
   if (hash != query_hash_) {
     FilterParser p(filter_string_);
