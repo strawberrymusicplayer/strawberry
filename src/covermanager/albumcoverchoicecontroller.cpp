@@ -662,7 +662,7 @@ QUrl AlbumCoverChoiceController::SaveCoverToFileAutomatic(const Song::Source sou
                                                           const AlbumCoverImageResult &result,
                                                           const bool force_overwrite) {
 
-  QString filepath = CoverUtils::CoverFilePath(cover_options_, source, artist, album, album_id, album_dir, result.cover_url, QLatin1String("jpg"));
+  QString filepath = CoverUtils::CoverFilePath(cover_options_, source, artist, album, album_id, album_dir, result.cover_url, QStringLiteral("jpg"));
   if (filepath.isEmpty()) return QUrl();
 
   QFile file(filepath);

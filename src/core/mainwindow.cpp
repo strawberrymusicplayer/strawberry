@@ -400,7 +400,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   ui_->tabs->AddTab(tidal_view_, QStringLiteral("tidal"), IconLoader::Load(QStringLiteral("tidal"), true, 0, 32), tr("Tidal"));
 #endif
 #ifdef HAVE_SPOTIFY
-  ui_->tabs->AddTab(spotify_view_, QLatin1String("spotify"), IconLoader::Load(QStringLiteral("spotify"), true, 0, 32), tr("Spotify"));
+  ui_->tabs->AddTab(spotify_view_, QStringLiteral("spotify"), IconLoader::Load(QStringLiteral("spotify"), true, 0, 32), tr("Spotify"));
 #endif
 #ifdef HAVE_QOBUZ
   ui_->tabs->AddTab(qobuz_view_, QStringLiteral("qobuz"), IconLoader::Load(QStringLiteral("qobuz"), true, 0, 32), tr("Qobuz"));

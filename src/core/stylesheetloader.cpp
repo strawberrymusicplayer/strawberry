@@ -93,26 +93,26 @@ void StyleSheetLoader::UpdateStyleSheet(QWidget *widget, SharedPtr<StyleSheetDat
     stylesheet.replace(QLatin1String("%palette-alternate-base"), QStringLiteral("rgba(%1,%2,%3,%4)").arg(alt.red()).arg(alt.green()).arg(alt.blue()).arg(alt.alpha()));
   }
 
-  ReplaceColor(&stylesheet, QLatin1String("Window"), p, QPalette::Window);
-  ReplaceColor(&stylesheet, QLatin1String("Background"), p, QPalette::Window);
-  ReplaceColor(&stylesheet, QLatin1String("WindowText"), p, QPalette::WindowText);
-  ReplaceColor(&stylesheet, QLatin1String("Base"), p, QPalette::Base);
-  ReplaceColor(&stylesheet, QLatin1String("AlternateBase"), p, QPalette::AlternateBase);
-  ReplaceColor(&stylesheet, QLatin1String("ToolTipBase"), p, QPalette::ToolTipBase);
-  ReplaceColor(&stylesheet, QLatin1String("ToolTipText"), p, QPalette::ToolTipText);
-  ReplaceColor(&stylesheet, QLatin1String("Text"), p, QPalette::Text);
-  ReplaceColor(&stylesheet, QLatin1String("Button"), p, QPalette::Button);
-  ReplaceColor(&stylesheet, QLatin1String("ButtonText"), p, QPalette::ButtonText);
-  ReplaceColor(&stylesheet, QLatin1String("BrightText"), p, QPalette::BrightText);
-  ReplaceColor(&stylesheet, QLatin1String("Light"), p, QPalette::Light);
-  ReplaceColor(&stylesheet, QLatin1String("Midlight"), p, QPalette::Midlight);
-  ReplaceColor(&stylesheet, QLatin1String("Dark"), p, QPalette::Dark);
-  ReplaceColor(&stylesheet, QLatin1String("Mid"), p, QPalette::Mid);
-  ReplaceColor(&stylesheet, QLatin1String("Shadow"), p, QPalette::Shadow);
-  ReplaceColor(&stylesheet, QLatin1String("Highlight"), p, QPalette::Highlight);
-  ReplaceColor(&stylesheet, QLatin1String("HighlightedText"), p, QPalette::HighlightedText);
-  ReplaceColor(&stylesheet, QLatin1String("Link"), p, QPalette::Link);
-  ReplaceColor(&stylesheet, QLatin1String("LinkVisited"), p, QPalette::LinkVisited);
+  ReplaceColor(&stylesheet, QStringLiteral("Window"), p, QPalette::Window);
+  ReplaceColor(&stylesheet, QStringLiteral("Background"), p, QPalette::Window);
+  ReplaceColor(&stylesheet, QStringLiteral("WindowText"), p, QPalette::WindowText);
+  ReplaceColor(&stylesheet, QStringLiteral("Base"), p, QPalette::Base);
+  ReplaceColor(&stylesheet, QStringLiteral("AlternateBase"), p, QPalette::AlternateBase);
+  ReplaceColor(&stylesheet, QStringLiteral("ToolTipBase"), p, QPalette::ToolTipBase);
+  ReplaceColor(&stylesheet, QStringLiteral("ToolTipText"), p, QPalette::ToolTipText);
+  ReplaceColor(&stylesheet, QStringLiteral("Text"), p, QPalette::Text);
+  ReplaceColor(&stylesheet, QStringLiteral("Button"), p, QPalette::Button);
+  ReplaceColor(&stylesheet, QStringLiteral("ButtonText"), p, QPalette::ButtonText);
+  ReplaceColor(&stylesheet, QStringLiteral("BrightText"), p, QPalette::BrightText);
+  ReplaceColor(&stylesheet, QStringLiteral("Light"), p, QPalette::Light);
+  ReplaceColor(&stylesheet, QStringLiteral("Midlight"), p, QPalette::Midlight);
+  ReplaceColor(&stylesheet, QStringLiteral("Dark"), p, QPalette::Dark);
+  ReplaceColor(&stylesheet, QStringLiteral("Mid"), p, QPalette::Mid);
+  ReplaceColor(&stylesheet, QStringLiteral("Shadow"), p, QPalette::Shadow);
+  ReplaceColor(&stylesheet, QStringLiteral("Highlight"), p, QPalette::Highlight);
+  ReplaceColor(&stylesheet, QStringLiteral("HighlightedText"), p, QPalette::HighlightedText);
+  ReplaceColor(&stylesheet, QStringLiteral("Link"), p, QPalette::Link);
+  ReplaceColor(&stylesheet, QStringLiteral("LinkVisited"), p, QPalette::LinkVisited);
 
 #ifdef Q_OS_MACOS
   stylesheet.replace(QLatin1String("macos"), QLatin1String("*"));
