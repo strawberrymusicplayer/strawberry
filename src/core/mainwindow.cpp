@@ -1624,7 +1624,7 @@ void MainWindow::ToggleHide() {
 
 void MainWindow::StopAfterCurrent() {
   app_->playlist_manager()->current()->StopAfter(app_->playlist_manager()->current()->current_row());
-  emit StopAfterToggled(app_->playlist_manager()->active()->stop_after_current());
+  Q_EMIT StopAfterToggled(app_->playlist_manager()->active()->stop_after_current());
 }
 
 void MainWindow::showEvent(QShowEvent *e) {
@@ -2486,7 +2486,7 @@ void MainWindow::CommandlineOptionsReceived(const CommandlineOptions &options) {
     const QList<QUrl> urls = options.urls();
     for (const QUrl &url : urls) {
       if (url.scheme() == QLatin1String("tidal") && url.host() == QLatin1String("login")) {
-        emit AuthorizationUrlReceived(url);
+        Q_EMIT AuthorizationUrlReceived(url);
         return;
       }
     }
@@ -2564,7 +2564,7 @@ bool MainWindow::LoadUrl(const QString &url) {
   }
 #ifdef HAVE_TIDAL
   if (url.startsWith(QLatin1String("tidal://login"))) {
-    emit AuthorizationUrlReceived(QUrl(url));
+    Q_EMIT AuthorizationUrlReceived(QUrl(url));
     return true;
   }
 #endif
@@ -3132,7 +3132,7 @@ void MainWindow::AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult
   song_ = song;
   album_cover_ = result.album_cover;
 
-  emit AlbumCoverReady(song, result.album_cover.image);
+  Q_EMIT AlbumCoverReady(song, result.album_cover.image);
 
   const bool enable_change_art = song.is_collection_song() && !song.effective_albumartist().isEmpty() && !song.album().isEmpty();
   album_cover_choice_controller_->show_cover_action()->setEnabled(result.success && result.type != AlbumCoverLoaderResult::Type::Unset);
@@ -3160,7 +3160,7 @@ void MainWindow::GetCoverAutomatically() {
                       !song_.effective_album().isEmpty();
 
   if (search) {
-    emit SearchCoverInProgress();
+    Q_EMIT SearchCoverInProgress();
     album_cover_choice_controller_->SearchCoverAutomatically(song_);
   }
 

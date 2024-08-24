@@ -235,7 +235,7 @@ void ScrobblingAPI20::Authenticate() {
         server_->deleteLater();
         server_ = nullptr;
       }
-      emit AuthenticationComplete(false);
+      Q_EMIT AuthenticationComplete(false);
       break;
     default:
       break;
@@ -344,7 +344,7 @@ void ScrobblingAPI20::AuthenticateReplyFinished(QNetworkReply *reply) {
   s.setValue("session_key", session_key_);
   s.endGroup();
 
-  emit AuthenticationComplete(true);
+  Q_EMIT AuthenticationComplete(true);
 
   StartSubmit();
 
@@ -460,7 +460,7 @@ void ScrobblingAPI20::Scrobble(const Song &song) {
 
   if (!authenticated()) {
     if (settings_->show_error_dialog()) {
-      emit ErrorMessage(tr("Scrobbler %1 is not authenticated!").arg(name_));
+      Q_EMIT ErrorMessage(tr("Scrobbler %1 is not authenticated!").arg(name_));
     }
     return;
   }
@@ -899,7 +899,7 @@ void ScrobblingAPI20::LoveRequestFinished(QNetworkReply *reply) {
 void ScrobblingAPI20::AuthError(const QString &error) {
 
   qLog(Error) << name_ << error;
-  emit AuthenticationComplete(false, error);
+  Q_EMIT AuthenticationComplete(false, error);
 
 }
 
@@ -909,7 +909,7 @@ void ScrobblingAPI20::Error(const QString &error, const QVariant &debug) {
   if (debug.isValid()) qLog(Debug) << debug;
 
   if (settings_->show_error_dialog()) {
-    emit ErrorMessage(tr("Scrobbler %1 error: %2").arg(name_, error));
+    Q_EMIT ErrorMessage(tr("Scrobbler %1 error: %2").arg(name_, error));
   }
 }
 

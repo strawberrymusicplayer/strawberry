@@ -235,6 +235,6 @@ void CoverExportRunnable::ExportCover() {
 
 }
 
-void CoverExportRunnable::EmitCoverExported() { emit CoverExported(); }
+void CoverExportRunnable::EmitCoverExported() { Q_EMIT CoverExported(); }
 
-void CoverExportRunnable::EmitCoverSkipped() { emit CoverSkipped(); }
+void CoverExportRunnable::EmitCoverSkipped() { Q_EMIT CoverSkipped(); }

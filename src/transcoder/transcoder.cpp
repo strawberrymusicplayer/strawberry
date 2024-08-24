@@ -70,7 +70,7 @@ GstElement *Transcoder::CreateElement(const QString &factory_name, GstElement *b
     SetElementProperties(factory_name, G_OBJECT(ret));
   }
   else {
-    emit LogLine(tr("Could not create the GStreamer element \"%1\" - make sure you have all the required GStreamer plugins installed").arg(factory_name));
+    Q_EMIT LogLine(tr("Could not create the GStreamer element \"%1\" - make sure you have all the required GStreamer plugins installed").arg(factory_name));
   }
 
   return ret;
@@ -96,7 +96,7 @@ GstElement *Transcoder::CreateElementForMimeType(GstElementFactoryListType eleme
 
   // HACK: Force mp4mux because it doesn't set any useful src caps
   if (mime_type == QLatin1String("audio/mp4")) {
-    emit LogLine(QStringLiteral("Using '%1' (rank %2)").arg(QLatin1String("mp4mux")).arg(-1));
+    Q_EMIT LogLine(QStringLiteral("Using '%1' (rank %2)").arg(QLatin1String("mp4mux")).arg(-1));
     return CreateElement(QStringLiteral("mp4mux"), bin);
   }
 
@@ -135,12 +135,12 @@ GstElement *Transcoder::CreateElementForMimeType(GstElementFactoryListType eleme
   std::sort(suitable_elements_.begin(), suitable_elements_.end());
   const SuitableElement &best = suitable_elements_.last();
 
-  emit LogLine(QStringLiteral("Using '%1' (rank %2)").arg(best.name_).arg(best.rank_));
+  Q_EMIT LogLine(QStringLiteral("Using '%1' (rank %2)").arg(best.name_).arg(best.rank_));
 
   if (best.name_ == QLatin1String("lamemp3enc")) {
     // Special case: we need to add xingmux and id3v2mux to the pipeline when using lamemp3enc because it doesn't write the VBR or ID3v2 headers itself.
 
-    emit LogLine(QStringLiteral("Adding xingmux and id3v2mux to the pipeline"));
+    Q_EMIT LogLine(QStringLiteral("Adding xingmux and id3v2mux to the pipeline"));
 
     // Create the bin
     GstElement *mp3bin = gst_bin_new("mp3bin");
@@ -181,7 +181,7 @@ Transcoder::JobFinishedEvent::JobFinishedEvent(JobState *state, bool success)
 void Transcoder::JobState::PostFinished(const bool success) {
 
   if (success) {
-    emit parent_->LogLine(tr("Successfully written %1").arg(QDir::toNativeSeparators(job_.output)));
+    Q_EMIT parent_->LogLine(tr("Successfully written %1").arg(QDir::toNativeSeparators(job_.output)));
   }
 
   QCoreApplication::postEvent(parent_, new Transcoder::JobFinishedEvent(this, success));
@@ -319,7 +319,7 @@ void Transcoder::AddJob(const QString &input, const TranscoderPreset &preset, co
 
 void Transcoder::Start() {
 
-  emit LogLine(tr("Transcoding %1 files using %2 threads").arg(queued_jobs_.count()).arg(max_threads()));
+  Q_EMIT LogLine(tr("Transcoding %1 files using %2 threads").arg(queued_jobs_.count()).arg(max_threads()));
 
   forever {
     StartJobStatus status = MaybeStartNextJob();
@@ -333,7 +333,7 @@ Transcoder::StartJobStatus Transcoder::MaybeStartNextJob() {
   if (current_jobs_.count() >= max_threads()) return StartJobStatus::AllThreadsBusy;
   if (queued_jobs_.isEmpty()) {
     if (current_jobs_.isEmpty()) {
-      emit AllJobsComplete();
+      Q_EMIT AllJobsComplete();
     }
 
     return StartJobStatus::NoMoreJobs;
@@ -344,7 +344,7 @@ Transcoder::StartJobStatus Transcoder::MaybeStartNextJob() {
     return StartJobStatus::StartedSuccessfully;
   }
 
-  emit JobComplete(job.input, job.output, false);
+  Q_EMIT JobComplete(job.input, job.output, false);
   return StartJobStatus::FailedToStart;
 
 }
@@ -396,7 +396,7 @@ void Transcoder::JobState::ReportError(GstMessage *msg) const {
   g_error_free(error);
   g_free(debugs);
 
-  emit parent_->LogLine(tr("Error processing %1: %2").arg(QDir::toNativeSeparators(job_.input), message));
+  Q_EMIT parent_->LogLine(tr("Error processing %1: %2").arg(QDir::toNativeSeparators(job_.input), message));
 
 }
 
@@ -404,7 +404,7 @@ bool Transcoder::StartJob(const Job &job) {
 
   SharedPtr<JobState> state = make_shared<JobState>(job, this);
 
-  emit LogLine(tr("Starting %1").arg(QDir::toNativeSeparators(job.input)));
+  Q_EMIT LogLine(tr("Starting %1").arg(QDir::toNativeSeparators(job.input)));
 
   // Create the pipeline.
   // This should be a scoped_ptr, but scoped_ptr doesn't support custom destructors.
@@ -423,12 +423,12 @@ bool Transcoder::StartJob(const Job &job) {
   if (!src || !decode || !convert || !sink) return false;
 
   if (!codec && !job.preset.codec_mimetype_.isEmpty()) {
-    emit LogLine(tr("Couldn't find an encoder for %1, check you have the correct GStreamer plugins installed").arg(job.preset.codec_mimetype_));
+    Q_EMIT LogLine(tr("Couldn't find an encoder for %1, check you have the correct GStreamer plugins installed").arg(job.preset.codec_mimetype_));
     return false;
   }
 
   if (!muxer && !job.preset.muxer_mimetype_.isEmpty()) {
-    emit LogLine(tr("Couldn't find a muxer for %1, check you have the correct GStreamer plugins installed").arg(job.preset.muxer_mimetype_));
+    Q_EMIT LogLine(tr("Couldn't find a muxer for %1, check you have the correct GStreamer plugins installed").arg(job.preset.muxer_mimetype_));
     return false;
   }
 
@@ -493,7 +493,7 @@ bool Transcoder::event(QEvent *e) {
     current_jobs_.erase(it);
 
     // Emit the finished signal
-    emit JobComplete(input, output, finished_event->success_);
+    Q_EMIT JobComplete(input, output, finished_event->success_);
 
     // Start some more jobs
     MaybeStartNextJob();
@@ -570,7 +570,7 @@ void Transcoder::SetElementProperties(const QString &name, GObject *object) {
       continue;
     }
 
-    emit LogLine(QStringLiteral("Setting %1 property: %2 = %3").arg(name, QString::fromUtf8(property->name), value.toString()));
+    Q_EMIT LogLine(QStringLiteral("Setting %1 property: %2 = %3").arg(name, QString::fromUtf8(property->name), value.toString()));
 
     switch (property->value_type) {
       case G_TYPE_FLOAT:{

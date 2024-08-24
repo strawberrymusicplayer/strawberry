@@ -103,7 +103,7 @@ void CollectionBackend::Exit() {
   Q_ASSERT(QThread::currentThread() == thread());
 
   moveToThread(original_thread_);
-  emit ExitFinished();
+  Q_EMIT ExitFinished();
 
 }
 
@@ -114,8 +114,8 @@ void CollectionBackend::ReportErrors(const CollectionQuery &query) {
     qLog(Error) << "Unable to execute collection SQL query:" << sql_error;
     qLog(Error) << "Failed SQL query:" << query.lastQuery();
     qLog(Error) << "Bound SQL values:" << query.boundValues();
-    emit Error(tr("Unable to execute collection SQL query: %1").arg(sql_error.text()));
-    emit Error(tr("Failed SQL query: %1").arg(query.lastQuery()));
+    Q_EMIT Error(tr("Unable to execute collection SQL query: %1").arg(sql_error.text()));
+    Q_EMIT Error(tr("Failed SQL query: %1").arg(query.lastQuery()));
   }
 
 }
@@ -134,7 +134,7 @@ void CollectionBackend::GetAllSongs(const int id) {
   q.prepare(QStringLiteral("SELECT %1 FROM %2").arg(Song::kRowIdColumnSpec, songs_table_));
   if (!q.exec()) {
     db_->ReportErrors(q);
-    emit GotSongs(SongList(), id);
+    Q_EMIT GotSongs(SongList(), id);
     return;
   }
 
@@ -145,7 +145,7 @@ void CollectionBackend::GetAllSongs(const int id) {
     songs << song;
   }
 
-  emit GotSongs(songs, id);
+  Q_EMIT GotSongs(songs, id);
 
 }
 
@@ -189,7 +189,7 @@ void CollectionBackend::LoadDirectories() {
   QSqlDatabase db(db_->Connect());
 
   for (const CollectionDirectory &dir : dirs) {
-    emit DirectoryAdded(dir, SubdirsInDirectory(dir.id, db));
+    Q_EMIT DirectoryAdded(dir, SubdirsInDirectory(dir.id, db));
   }
 
 }
@@ -317,7 +317,7 @@ void CollectionBackend::UpdateTotalSongCount() {
     return;
   }
 
-  emit TotalSongCountUpdated(q.value(0).toInt());
+  Q_EMIT TotalSongCountUpdated(q.value(0).toInt());
 
 }
 
@@ -337,7 +337,7 @@ void CollectionBackend::UpdateTotalArtistCount() {
     return;
   }
 
-  emit TotalArtistCountUpdated(q.value(0).toInt());
+  Q_EMIT TotalArtistCountUpdated(q.value(0).toInt());
 
 }
 
@@ -357,7 +357,7 @@ void CollectionBackend::UpdateTotalAlbumCount() {
     return;
   }
 
-  emit TotalAlbumCountUpdated(q.value(0).toInt());
+  Q_EMIT TotalAlbumCountUpdated(q.value(0).toInt());
 
 }
 
@@ -395,7 +395,7 @@ void CollectionBackend::AddDirectory(const QString &path) {
   dir.path = path;
   dir.id = q.lastInsertId().toInt();
 
-  emit DirectoryAdded(dir, CollectionSubdirectoryList());
+  Q_EMIT DirectoryAdded(dir, CollectionSubdirectoryList());
 
 }
 
@@ -437,7 +437,7 @@ void CollectionBackend::RemoveDirectory(const CollectionDirectory &dir) {
 
   transaction.Commit();
 
-  emit DirectoryDeleted(dir);
+  Q_EMIT DirectoryDeleted(dir);
 
 }
 
@@ -717,8 +717,8 @@ void CollectionBackend::AddOrUpdateSongs(const SongList &songs) {
 
   transaction.Commit();
 
-  if (!added_songs.isEmpty()) emit SongsAdded(added_songs);
-  if (!changed_songs.isEmpty()) emit SongsChanged(changed_songs);
+  if (!added_songs.isEmpty()) Q_EMIT SongsAdded(added_songs);
+  if (!changed_songs.isEmpty()) Q_EMIT SongsChanged(changed_songs);
 
   UpdateTotalSongCountAsync();
   UpdateTotalArtistCountAsync();
@@ -819,9 +819,9 @@ void CollectionBackend::UpdateSongsBySongID(const SongMap &new_songs) {
 
   transaction.Commit();
 
-  if (!deleted_songs.isEmpty()) emit SongsDeleted(deleted_songs);
-  if (!added_songs.isEmpty()) emit SongsAdded(added_songs);
-  if (!changed_songs.isEmpty()) emit SongsChanged(changed_songs);
+  if (!deleted_songs.isEmpty()) Q_EMIT SongsDeleted(deleted_songs);
+  if (!added_songs.isEmpty()) Q_EMIT SongsAdded(added_songs);
+  if (!changed_songs.isEmpty()) Q_EMIT SongsChanged(changed_songs);
 
   UpdateTotalSongCountAsync();
   UpdateTotalArtistCountAsync();
@@ -867,7 +867,7 @@ void CollectionBackend::DeleteSongs(const SongList &songs) {
 
   transaction.Commit();
 
-  emit SongsDeleted(songs);
+  Q_EMIT SongsDeleted(songs);
 
   UpdateTotalSongCountAsync();
   UpdateTotalArtistCountAsync();
@@ -894,10 +894,10 @@ void CollectionBackend::MarkSongsUnavailable(const SongList &songs, const bool u
   transaction.Commit();
 
   if (unavailable) {
-    emit SongsDeleted(songs);
+    Q_EMIT SongsDeleted(songs);
   }
   else {
-    emit SongsAdded(songs);
+    Q_EMIT SongsAdded(songs);
   }
 
   UpdateTotalSongCountAsync();
@@ -1410,7 +1410,7 @@ void CollectionBackend::CompilationsNeedUpdating() {
   transaction.Commit();
 
   if (!changed_songs.isEmpty()) {
-    emit SongsChanged(changed_songs);
+    Q_EMIT SongsChanged(changed_songs);
   }
 
 }
@@ -1617,7 +1617,7 @@ void CollectionBackend::UpdateEmbeddedAlbumArt(const QString &effective_albumart
   }
 
   if (!songs.isEmpty()) {
-    emit SongsChanged(songs);
+    Q_EMIT SongsChanged(songs);
   }
 
 }
@@ -1663,7 +1663,7 @@ void CollectionBackend::UpdateManualAlbumArt(const QString &effective_albumartis
   }
 
   if (!songs.isEmpty()) {
-    emit SongsChanged(songs);
+    Q_EMIT SongsChanged(songs);
   }
 
 }
@@ -1708,7 +1708,7 @@ void CollectionBackend::UnsetAlbumArt(const QString &effective_albumartist, cons
   }
 
   if (!songs.isEmpty()) {
-    emit SongsChanged(songs);
+    Q_EMIT SongsChanged(songs);
   }
 
 }
@@ -1754,7 +1754,7 @@ void CollectionBackend::ClearAlbumArt(const QString &effective_albumartist, cons
   }
 
   if (!songs.isEmpty()) {
-    emit SongsChanged(songs);
+    Q_EMIT SongsChanged(songs);
   }
 
 }
@@ -1803,7 +1803,7 @@ void CollectionBackend::ForceCompilation(const QString &album, const QStringList
   }
 
   if (!songs.isEmpty()) {
-    emit SongsChanged(songs);
+    Q_EMIT SongsChanged(songs);
   }
 
 }
@@ -1825,7 +1825,7 @@ void CollectionBackend::IncrementPlayCount(const int id) {
   }
 
   Song new_song = GetSongById(id, db);
-  emit SongsStatisticsChanged(SongList() << new_song);
+  Q_EMIT SongsStatisticsChanged(SongList() << new_song);
 
 }
 
@@ -1847,7 +1847,7 @@ void CollectionBackend::IncrementSkipCount(const int id, const float progress) {
   }
 
   Song new_song = GetSongById(id, db);
-  emit SongsStatisticsChanged(SongList() << new_song);
+  Q_EMIT SongsStatisticsChanged(SongList() << new_song);
 
 }
 
@@ -1872,7 +1872,7 @@ void CollectionBackend::ResetPlayStatistics(const QList<int> &id_list, const boo
   const bool success = ResetPlayStatistics(id_str_list);
   if (success) {
     const SongList songs = GetSongsById(id_list);
-    emit SongsStatisticsChanged(songs, save_tags);
+    Q_EMIT SongsStatisticsChanged(songs, save_tags);
   }
 
 }
@@ -1921,7 +1921,7 @@ void CollectionBackend::DeleteAll() {
     t.Commit();
   }
 
-  emit DatabaseReset();
+  Q_EMIT DatabaseReset();
 
 }
 
@@ -2014,7 +2014,7 @@ void CollectionBackend::UpdateLastPlayed(const QString &artist, const QString &a
     }
   }
 
-  emit SongsStatisticsChanged(SongList() << songs);
+  Q_EMIT SongsStatisticsChanged(SongList() << songs);
 
 }
 
@@ -2040,7 +2040,7 @@ void CollectionBackend::UpdatePlayCount(const QString &artist, const QString &ti
     }
   }
 
-  emit SongsStatisticsChanged(SongList() << songs, save_tags);
+  Q_EMIT SongsStatisticsChanged(SongList() << songs, save_tags);
 
 }
 
@@ -2075,7 +2075,7 @@ void CollectionBackend::UpdateSongsRating(const QList<int> &id_list, const float
 
   SongList new_song_list = GetSongsById(id_str_list, db);
 
-  emit SongsRatingChanged(new_song_list, save_tags);
+  Q_EMIT SongsRatingChanged(new_song_list, save_tags);
 
 }
 

@@ -170,30 +170,30 @@ void TidalCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
 
   QByteArray data = GetReplyData(reply);
   if (data.isEmpty()) {
-    emit SearchFinished(id, CoverProviderSearchResults());
+    Q_EMIT SearchFinished(id, CoverProviderSearchResults());
     return;
   }
 
   QJsonObject json_obj = ExtractJsonObj(data);
   if (json_obj.isEmpty()) {
-    emit SearchFinished(id, CoverProviderSearchResults());
+    Q_EMIT SearchFinished(id, CoverProviderSearchResults());
     return;
   }
 
   if (!json_obj.contains(QLatin1String("items"))) {
     Error(QStringLiteral("Json object is missing items."), json_obj);
-    emit SearchFinished(id, CoverProviderSearchResults());
+    Q_EMIT SearchFinished(id, CoverProviderSearchResults());
     return;
   }
   QJsonValue value_items = json_obj[QLatin1String("items")];
 
   if (!value_items.isArray()) {
-    emit SearchFinished(id, CoverProviderSearchResults());
+    Q_EMIT SearchFinished(id, CoverProviderSearchResults());
     return;
   }
   const QJsonArray array_items = value_items.toArray();
   if (array_items.isEmpty()) {
-    emit SearchFinished(id, CoverProviderSearchResults());
+    Q_EMIT SearchFinished(id, CoverProviderSearchResults());
     return;
   }
 
@@ -261,7 +261,7 @@ void TidalCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
     }
 
   }
-  emit SearchFinished(id, results);
+  Q_EMIT SearchFinished(id, results);
 
 }
 

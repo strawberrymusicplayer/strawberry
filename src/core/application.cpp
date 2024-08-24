@@ -343,9 +343,9 @@ void Application::ExitReceived() {
 
 }
 
-void Application::AddError(const QString &message) { emit ErrorAdded(message); }
-void Application::ReloadSettings() { emit SettingsChanged(); }
-void Application::OpenSettingsDialogAtPage(SettingsDialog::Page page) { emit SettingsDialogRequested(page); }
+void Application::AddError(const QString &message) { Q_EMIT ErrorAdded(message); }
+void Application::ReloadSettings() { Q_EMIT SettingsChanged(); }
+void Application::OpenSettingsDialogAtPage(SettingsDialog::Page page) { Q_EMIT SettingsDialogRequested(page); }
 
 SharedPtr<TagReaderClient> Application::tag_reader_client() const { return p_->tag_reader_client_.ptr(); }
 SharedPtr<Database> Application::database() const { return p_->database_.ptr(); }

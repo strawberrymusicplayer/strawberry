@@ -129,7 +129,7 @@ void SpotifySettingsPage::Save() {
 
 void SpotifySettingsPage::LoginClicked() {
 
-  emit Authorize();
+  Q_EMIT Authorize();
 
   ui_->button_login->setEnabled(false);
 

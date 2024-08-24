@@ -116,7 +116,7 @@ void AutoExpandingTreeView::ItemDoubleClicked(const QModelIndex &idx) {
     if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
       mimedata->from_doubleclick_ = true;
     }
-    emit AddToPlaylistSignal(q_mimedata);
+    Q_EMIT AddToPlaylistSignal(q_mimedata);
   }
 
 }
@@ -135,7 +135,7 @@ void AutoExpandingTreeView::mousePressEvent(QMouseEvent *event) {
     if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
       mimedata->enqueue_now_ = true;
     }
-    emit AddToPlaylistSignal(q_mimedata);
+    Q_EMIT AddToPlaylistSignal(q_mimedata);
   }
 
 }
@@ -150,7 +150,7 @@ void AutoExpandingTreeView::mouseDoubleClickEvent(QMouseEvent *event) {
   // If the p_state was the "AnimatingState", then the base class's
   // "mouseDoubleClickEvent" method just did nothing, hence the "doubleClicked" signal is not emitted. So let's do it ourselves.
   if (idx.isValid() && p_state == AnimatingState) {
-    emit doubleClicked(idx);
+    Q_EMIT doubleClicked(idx);
   }
 
 }
@@ -160,7 +160,7 @@ void AutoExpandingTreeView::keyPressEvent(QKeyEvent *e) {
   switch (e->key()) {
     case Qt::Key_Backspace:
     case Qt::Key_Escape:{
-      emit FocusOnFilterSignal(e);
+      Q_EMIT FocusOnFilterSignal(e);
       e->accept();
       break;
     }

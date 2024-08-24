@@ -163,7 +163,7 @@ bool StretchHeaderView::RestoreState(const QByteArray &state) {
     ResizeSections();
   }
 
-  emit StretchEnabledChanged(stretch_enabled_);
+  Q_EMIT StretchEnabledChanged(stretch_enabled_);
 
   return true;
 
@@ -207,7 +207,7 @@ void StretchHeaderView::SetStretchEnabled(const bool enabled) {
     ResizeSections();
   }
 
-  emit StretchEnabledChanged(enabled);
+  Q_EMIT StretchEnabledChanged(enabled);
 
 }
 

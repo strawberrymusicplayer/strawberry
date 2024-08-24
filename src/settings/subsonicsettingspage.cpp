@@ -138,7 +138,7 @@ void SubsonicSettingsPage::TestClicked() {
     return;
   }
 
-  emit Test(server_url, ui_->username->text(), ui_->password->text(), ui_->auth_method_hex->isChecked() ? AuthMethod::Hex : AuthMethod::MD5);
+  Q_EMIT Test(server_url, ui_->username->text(), ui_->password->text(), ui_->auth_method_hex->isChecked() ? AuthMethod::Hex : AuthMethod::MD5);
   ui_->button_test->setEnabled(false);
 
 }

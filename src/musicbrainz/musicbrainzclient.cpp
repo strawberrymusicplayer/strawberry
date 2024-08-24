@@ -234,7 +234,7 @@ void MusicBrainzClient::RequestFinished(QNetworkReply *reply, const int id, cons
     for (const PendingResults &result_list : std::as_const(result_list_list)) {
       ret << result_list.results_;
     }
-    emit Finished(id, UniqueResults(ret, UniqueResultsSortOption::KeepOriginalOrder), error);
+    Q_EMIT Finished(id, UniqueResults(ret, UniqueResultsSortOption::KeepOriginalOrder), error);
   }
 
 }
@@ -252,7 +252,7 @@ void MusicBrainzClient::DiscIdRequestFinished(const QString &discid, QNetworkRep
   QString error;
   QByteArray data = GetReplyData(reply, error);
   if (data.isEmpty()) {
-    emit DiscIdFinished(artist, album, ret, error);
+    Q_EMIT DiscIdFinished(artist, album, ret, error);
     return;
   }
 
@@ -316,7 +316,7 @@ void MusicBrainzClient::DiscIdRequestFinished(const QString &discid, QNetworkRep
     }
   }
 
-  emit DiscIdFinished(artist, album, UniqueResults(ret, UniqueResultsSortOption::SortResults));
+  Q_EMIT DiscIdFinished(artist, album, UniqueResults(ret, UniqueResultsSortOption::SortResults));
 
 }
 

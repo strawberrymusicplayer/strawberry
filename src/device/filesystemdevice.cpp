@@ -113,7 +113,7 @@ void FilesystemDevice::ExitFinished() {
   qLog(Debug) << obj << "successfully exited.";
   wait_for_exit_.removeAll(obj);
   if (wait_for_exit_.isEmpty()) {
-    emit DeviceCloseFinished(unique_id());
+    Q_EMIT DeviceCloseFinished(unique_id());
   }
 
 }

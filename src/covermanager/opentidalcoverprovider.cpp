@@ -358,20 +358,20 @@ void OpenTidalCoverProvider::HandleSearchReply(QNetworkReply *reply, SearchReque
       search_requests_queue_.prepend(search_request);
     }
     else {
-      emit SearchFinished(search_request->id, CoverProviderSearchResults());
+      Q_EMIT SearchFinished(search_request->id, CoverProviderSearchResults());
     }
     return;
   }
 
   if (!json_obj.contains(QLatin1String("albums")) || !json_obj[QLatin1String("albums")].isArray()) {
     qLog(Debug) << "OpenTidal: Json object is missing albums.";
-    emit SearchFinished(search_request->id, CoverProviderSearchResults());
+    Q_EMIT SearchFinished(search_request->id, CoverProviderSearchResults());
     return;
   }
 
   const QJsonArray array_albums = json_obj[QLatin1String("albums")].toArray();
   if (array_albums.isEmpty()) {
-    emit SearchFinished(search_request->id, CoverProviderSearchResults());
+    Q_EMIT SearchFinished(search_request->id, CoverProviderSearchResults());
     return;
   }
 
@@ -446,7 +446,7 @@ void OpenTidalCoverProvider::HandleSearchReply(QNetworkReply *reply, SearchReque
     }
   }
 
-  emit SearchFinished(search_request->id, results);
+  Q_EMIT SearchFinished(search_request->id, results);
 
 }
 
@@ -456,7 +456,7 @@ void OpenTidalCoverProvider::FinishAllSearches() {
 
   while (!search_requests_queue_.isEmpty()) {
     SearchRequestPtr search_request = search_requests_queue_.dequeue();
-    emit SearchFinished(search_request->id, CoverProviderSearchResults());
+    Q_EMIT SearchFinished(search_request->id, CoverProviderSearchResults());
   }
 
 }

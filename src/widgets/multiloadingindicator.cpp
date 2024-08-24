@@ -90,7 +90,7 @@ void MultiLoadingIndicator::UpdateText() {
     text_ += QLatin1String("...");
   }
 
-  emit TaskCountChange(static_cast<int>(tasks.count()));
+  Q_EMIT TaskCountChange(static_cast<int>(tasks.count()));
   update();
   updateGeometry();
 

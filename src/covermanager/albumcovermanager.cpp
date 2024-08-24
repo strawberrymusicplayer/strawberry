@@ -932,7 +932,7 @@ void AlbumCoverManager::AlbumDoubleClicked(const QModelIndex &idx) {
 }
 
 void AlbumCoverManager::AddSelectedToPlaylist() {
-  emit AddToPlaylist(GetMimeDataForAlbums(ui_->albums->selectionModel()->selectedIndexes()));
+  Q_EMIT AddToPlaylist(GetMimeDataForAlbums(ui_->albums->selectionModel()->selectedIndexes()));
 }
 
 void AlbumCoverManager::LoadSelectedToPlaylist() {
@@ -940,7 +940,7 @@ void AlbumCoverManager::LoadSelectedToPlaylist() {
   SongMimeData *mimedata = GetMimeDataForAlbums(ui_->albums->selectionModel()->selectedIndexes());
   if (mimedata) {
     mimedata->clear_first_ = true;
-    emit AddToPlaylist(mimedata);
+    Q_EMIT AddToPlaylist(mimedata);
   }
 
 }
@@ -1060,7 +1060,7 @@ void AlbumCoverManager::SaveEmbeddedCoverFinished(TagReaderReply *reply, AlbumIt
   }
 
   if (!reply->is_successful()) {
-    emit Error(tr("Could not save cover to file %1.").arg(url.toLocalFile()));
+    Q_EMIT Error(tr("Could not save cover to file %1.").arg(url.toLocalFile()));
     return;
   }
 

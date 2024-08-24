@@ -47,7 +47,7 @@ void FavoriteWidget::SetFavorite(const bool favorite) {
   if (favorite_ != favorite) {
     favorite_ = favorite;
     update();
-    emit FavoriteStateChanged(tab_index_, favorite_);
+    Q_EMIT FavoriteStateChanged(tab_index_, favorite_);
   }
 
 }
@@ -85,6 +85,6 @@ void FavoriteWidget::mouseDoubleClickEvent(QMouseEvent*) {
 
   favorite_ = !favorite_;
   update();
-  emit FavoriteStateChanged(tab_index_, favorite_);
+  Q_EMIT FavoriteStateChanged(tab_index_, favorite_);
 
 }

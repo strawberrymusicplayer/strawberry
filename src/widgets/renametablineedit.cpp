@@ -32,7 +32,7 @@ void RenameTabLineEdit::keyPressEvent(QKeyEvent *e) {
 
   if (e->key() == Qt::Key_Escape) {
     e->accept();
-    emit EditingCanceled();
+    Q_EMIT EditingCanceled();
   }
   else {
     QLineEdit::keyPressEvent(e);
@@ -45,7 +45,7 @@ void RenameTabLineEdit::focusOutEvent(QFocusEvent *e) {
   Q_UNUSED(e);
 
   //if the user hasn't explicitly accepted, discard the value
-  emit EditingCanceled();
+  Q_EMIT EditingCanceled();
   //we don't call the default event since it will trigger editingFished()
 
 }

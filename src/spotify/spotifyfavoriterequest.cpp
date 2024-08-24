@@ -171,13 +171,13 @@ void SpotifyFavoriteRequest::AddFavoritesReply(QNetworkReply *reply, const Favor
 
   switch (type) {
     case FavoriteType_Artists:
-      emit ArtistsAdded(songs);
+      Q_EMIT ArtistsAdded(songs);
       break;
     case FavoriteType_Albums:
-      emit AlbumsAdded(songs);
+      Q_EMIT AlbumsAdded(songs);
       break;
     case FavoriteType_Songs:
-      emit SongsAdded(songs);
+      Q_EMIT SongsAdded(songs);
       break;
   }
 
@@ -290,13 +290,13 @@ void SpotifyFavoriteRequest::RemoveFavoritesReply(QNetworkReply *reply, const Fa
 
   switch (type) {
     case FavoriteType_Artists:
-      emit ArtistsRemoved(songs);
+      Q_EMIT ArtistsRemoved(songs);
       break;
     case FavoriteType_Albums:
-      emit AlbumsRemoved(songs);
+      Q_EMIT AlbumsRemoved(songs);
       break;
     case FavoriteType_Songs:
-      emit SongsRemoved(songs);
+      Q_EMIT SongsRemoved(songs);
       break;
   }
 

@@ -311,30 +311,30 @@ void VLCEngine::StateChangedCallback(const libvlc_event_t *e, void *data) {
       const EngineBase::State state = engine->state_;
       engine->state_ = EngineBase::State::Empty;
       if (state == EngineBase::State::Playing) {
-        emit engine->StateChanged(engine->state_);
+        Q_EMIT engine->StateChanged(engine->state_);
       }
       break;
     }
 
     case libvlc_MediaPlayerEncounteredError:
       engine->state_ = EngineBase::State::Error;
-      emit engine->StateChanged(engine->state_);
-      emit engine->FatalError();
+      Q_EMIT engine->StateChanged(engine->state_);
+      Q_EMIT engine->FatalError();
       break;
 
     case libvlc_MediaPlayerPlaying:
       engine->state_ = EngineBase::State::Playing;
-      emit engine->StateChanged(engine->state_);
+      Q_EMIT engine->StateChanged(engine->state_);
       break;
 
     case libvlc_MediaPlayerPaused:
       engine->state_ = EngineBase::State::Paused;
-      emit engine->StateChanged(engine->state_);
+      Q_EMIT engine->StateChanged(engine->state_);
       break;
 
     case libvlc_MediaPlayerEndReached:
       engine->state_ = EngineBase::State::Idle;
-      emit engine->TrackEnded();
+      Q_EMIT engine->TrackEnded();
       break;
   }
 

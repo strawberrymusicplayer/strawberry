@@ -357,7 +357,7 @@ void WorkerPool<HandlerType>::ProcessError(QProcess::ProcessError error) {
       // Failed to start errors are bad - it usually means the worker isn't installed.
       // Don't restart the process, but tell our owner, who will probably want to do something fatal.
       qLog(Error) << "Worker failed to start";
-      emit WorkerFailedToStart();
+      Q_EMIT WorkerFailedToStart();
       break;
 
     default:

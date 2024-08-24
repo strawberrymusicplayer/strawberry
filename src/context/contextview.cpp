@@ -456,7 +456,7 @@ void ContextView::SetSong() {
     widget_album_->hide();
     widget_album_changed = true;
   }
-  if (widget_album_changed) emit AlbumEnabledChanged();
+  if (widget_album_changed) Q_EMIT AlbumEnabledChanged();
 
   if (action_show_data_->isChecked()) {
     widget_play_data_->show();

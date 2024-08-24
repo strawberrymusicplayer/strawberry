@@ -57,7 +57,7 @@ RadioView::~RadioView() { delete menu_; }
 void RadioView::showEvent(QShowEvent*) {
 
   if (!initialized_) {
-    emit GetChannels();
+    Q_EMIT GetChannels();
     initialized_ = true;
   }
 
@@ -108,7 +108,7 @@ void RadioView::AddToPlaylist() {
   const QModelIndexList selected_indexes = selectedIndexes();
   if (selected_indexes.isEmpty()) return;
 
-  emit AddToPlaylistSignal(model()->mimeData(selected_indexes));
+  Q_EMIT AddToPlaylistSignal(model()->mimeData(selected_indexes));
 
 }
 
@@ -122,7 +122,7 @@ void RadioView::ReplacePlaylist() {
     mimedata->clear_first_ = true;
   }
 
-  emit AddToPlaylistSignal(qmimedata);
+  Q_EMIT AddToPlaylistSignal(qmimedata);
 
 }
 
@@ -139,7 +139,7 @@ void RadioView::OpenInNewPlaylist() {
     }
   }
 
-  emit AddToPlaylistSignal(qmimedata);
+  Q_EMIT AddToPlaylistSignal(qmimedata);
 
 }
 

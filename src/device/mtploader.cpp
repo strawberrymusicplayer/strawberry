@@ -53,14 +53,14 @@ bool MtpLoader::Init() { return true; }
 void MtpLoader::LoadDatabase() {
 
   int task_id = task_manager_->StartTask(tr("Loading MTP device"));
-  emit TaskStarted(task_id);
+  Q_EMIT TaskStarted(task_id);
 
   bool success = TryLoad();
 
   moveToThread(original_thread_);
 
   task_manager_->SetTaskFinished(task_id);
-  emit LoadFinished(success, connection_.release());
+  Q_EMIT LoadFinished(success, connection_.release());
 
 }
 
@@ -69,12 +69,12 @@ bool MtpLoader::TryLoad() {
   connection_ = make_unique<MtpConnection>(url_);
 
   if (!connection_) {
-    emit Error(tr("Error connecting MTP device %1").arg(url_.toString()));
+    Q_EMIT Error(tr("Error connecting MTP device %1").arg(url_.toString()));
     return false;
   }
 
   if (!connection_->is_valid()) {
-    emit Error(tr("Error connecting MTP device %1: %2").arg(url_.toString(), connection_->error_text()));
+    Q_EMIT Error(tr("Error connecting MTP device %1: %2").arg(url_.toString(), connection_->error_text()));
     return false;
   }
 

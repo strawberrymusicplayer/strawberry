@@ -132,7 +132,7 @@ void SimpleTreeModel<T>::EndDelete() {
 template<typename T>
 void SimpleTreeModel<T>::EmitDataChanged(T *item) {
   QModelIndex index(ItemToIndex(item));
-  emit dataChanged(index, index);
+  Q_EMIT dataChanged(index, index);
 }
 
 #endif  // SIMPLETREEMODEL_H

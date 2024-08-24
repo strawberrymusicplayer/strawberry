@@ -129,7 +129,7 @@ void GPodDevice::LoadFinished(Itdb_iTunesDB *db, const bool success) {
     ConnectedDevice::Close();
   }
   else {
-    emit DeviceConnectFinished(unique_id_, success);
+    Q_EMIT DeviceConnectFinished(unique_id_, success);
   }
 
 }

@@ -443,7 +443,7 @@ void DiscogsCoverProvider::HandleReleaseReply(QNetworkReply *reply, const int se
     search->results.append(result);
   }
 
-  emit SearchResults(search->id, search->results);
+  Q_EMIT SearchResults(search->id, search->results);
   search->results.clear();
 
   EndSearch(search, release.id);
@@ -457,7 +457,7 @@ void DiscogsCoverProvider::EndSearch(SharedPtr<DiscogsCoverSearchContext> search
   }
   if (search->requests_release_.count() <= 0) {
     requests_search_.remove(search->id);
-    emit SearchFinished(search->id, search->results);
+    Q_EMIT SearchFinished(search->id, search->results);
   }
 
   if (queue_release_requests_.isEmpty() && queue_search_requests_.isEmpty()) {

@@ -263,7 +263,7 @@ void SmartPlaylistQueryWizardPlugin::RemoveSearchTerm() {
 void SmartPlaylistQueryWizardPlugin::UpdateTermPreview() {
 
   SmartPlaylistSearch search = MakeSearch();
-  emit search_page_->completeChanged();
+  Q_EMIT search_page_->completeChanged();
   // When removing last term, update anyway the search
   if (!search.is_valid() && !search_page_->terms_.isEmpty()) return;
 

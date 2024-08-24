@@ -202,7 +202,7 @@ void SmartPlaylistSearchTermWidget::FieldChanged(int index) {
       ui_->value_text->setCompleter(nullptr);
   }
 
-  emit Changed();
+  Q_EMIT Changed();
 
 }
 
@@ -243,7 +243,7 @@ void SmartPlaylistSearchTermWidget::OpChanged(int idx) {
     ui_->value_stack->setCurrentWidget(page);
   }
 
-  emit Changed();
+  Q_EMIT Changed();
 
 }
 
@@ -422,7 +422,7 @@ void SmartPlaylistSearchTermWidget::RelativeValueChanged() {
     QMessageBox::warning(this, QStringLiteral("Strawberry"), tr("The second value must be greater than the first one!"));
   }
   // Emit the signal in any case, so the Next button will be disabled
-  emit Changed();
+  Q_EMIT Changed();
 
 }
 
@@ -502,9 +502,9 @@ void SmartPlaylistSearchTermWidget::Overlay::paintEvent(QPaintEvent*) {
 }
 
 void SmartPlaylistSearchTermWidget::Overlay::mouseReleaseEvent(QMouseEvent*) {
-  emit parent_->Clicked();
+  Q_EMIT parent_->Clicked();
 }
 
 void SmartPlaylistSearchTermWidget::Overlay::keyReleaseEvent(QKeyEvent *e) {
-  if (e->key() == Qt::Key_Space) emit parent_->Clicked();
+  if (e->key() == Qt::Key_Space) Q_EMIT parent_->Clicked();
 }

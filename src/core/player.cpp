@@ -158,7 +158,7 @@ EngineBase::Type Player::CreateEngine(EngineBase::Type enginetype) {
     qFatal("Failed to create engine!");
   }
 
-  emit EngineChanged(use_enginetype);
+  Q_EMIT EngineChanged(use_enginetype);
 
   return use_enginetype;
 
@@ -361,7 +361,7 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
       if (is_current) {
         InvalidSongRequested(result.media_url_);
       }
-      emit Error(result.error_);
+      Q_EMIT Error(result.error_);
       break;
 
     case UrlHandler::LoadResult::Type::NoMoreTracks:
@@ -497,7 +497,7 @@ void Player::NextItem(const EngineBase::TrackChangeFlags change, const Playlist:
   if (i == -1) {
     app_->playlist_manager()->active()->set_current_row(i);
     app_->playlist_manager()->active()->reset_last_played();
-    emit PlaylistFinished();
+    Q_EMIT PlaylistFinished();
     Stop();
     return;
   }
@@ -577,7 +577,7 @@ void Player::PlayPause(const quint64 offset_nanosec, const Playlist::AutoScroll 
   switch (engine_->state()) {
     case EngineBase::State::Paused:
       UnPause();
-      emit Resumed();
+      Q_EMIT Resumed();
       break;
 
     case EngineBase::State::Playing:{
@@ -713,21 +713,21 @@ void Player::EngineStateChanged(const EngineBase::State state) {
     case EngineBase::State::Paused:
       pause_time_ = QDateTime::currentDateTime();
       play_offset_nanosec_ = engine_->position_nanosec();
-      emit Paused();
+      Q_EMIT Paused();
       break;
     case EngineBase::State::Playing:
       pause_time_ = QDateTime();
       play_offset_nanosec_ = 0;
-      emit Playing();
+      Q_EMIT Playing();
       break;
     case EngineBase::State::Error:
-      emit Error();
+      Q_EMIT Error();
       [[fallthrough]];
     case EngineBase::State::Empty:
     case EngineBase::State::Idle:
       pause_time_ = QDateTime();
       play_offset_nanosec_ = 0;
-      emit Stopped();
+      Q_EMIT Stopped();
       break;
   }
 
@@ -747,7 +747,7 @@ void Player::SetVolumeFromSlider(const int value) {
   if (volume != volume_) {
     volume_ = volume;
     engine_->SetVolume(volume);
-    emit VolumeChanged(volume);
+    Q_EMIT VolumeChanged(volume);
     timer_save_volume_->start();
   }
 
@@ -758,7 +758,7 @@ void Player::SetVolumeFromEngine(const uint volume) {
   const uint new_volume = qBound(0U, volume, 100U);
   if (new_volume != volume_) {
     volume_ = new_volume;
-    emit VolumeChanged(new_volume);
+    Q_EMIT VolumeChanged(new_volume);
     timer_save_volume_->start();
   }
 
@@ -770,7 +770,7 @@ void Player::SetVolume(const uint volume) {
   if (new_volume != volume_) {
     volume_ = new_volume;
     engine_->SetVolume(new_volume);
-    emit VolumeChanged(new_volume);
+    Q_EMIT VolumeChanged(new_volume);
     timer_save_volume_->start();
   }
 
@@ -800,7 +800,7 @@ void Player::PlayAt(const int index, const bool pause, const quint64 offset_nano
   play_offset_nanosec_ = offset_nanosec;
 
   if (current_item_ && change & EngineBase::TrackChangeType::Manual && engine_->position_nanosec() != engine_->length_nanosec()) {
-    emit TrackSkipped(current_item_);
+    Q_EMIT TrackSkipped(current_item_);
   }
 
   if (current_item_ && app_->playlist_manager()->active()->has_item_at(index) && current_item_->Metadata().IsOnSameAlbum(app_->playlist_manager()->active()->item_at(index)->Metadata())) {
@@ -859,7 +859,7 @@ void Player::SeekTo(const quint64 seconds) {
   qLog(Debug) << "Track seeked to" << nanosec << "ns - updating scrobble point";
   app_->playlist_manager()->active()->UpdateScrobblePoint(nanosec);
 
-  emit Seeked(nanosec / 1000);
+  Q_EMIT Seeked(nanosec / 1000);
 
   if (seconds == 0) {
     app_->playlist_manager()->active()->InformOfCurrentSongChange(false);
@@ -963,11 +963,11 @@ void Player::PlayWithPause(const quint64 offset_nanosec) {
 }
 
 void Player::ShowOSD() {
-  if (current_item_) emit ForceShowOSD(current_item_->Metadata(), false);
+  if (current_item_) Q_EMIT ForceShowOSD(current_item_->Metadata(), false);
 }
 
 void Player::TogglePrettyOSD() {
-  if (current_item_) emit ForceShowOSD(current_item_->Metadata(), true);
+  if (current_item_) Q_EMIT ForceShowOSD(current_item_->Metadata(), true);
 }
 
 void Player::TrackAboutToEnd() {
@@ -1009,7 +1009,7 @@ void Player::TrackAboutToEnd() {
     const UrlHandler::LoadResult result = url_handler->StartLoading(url);
     switch (result.type_) {
       case UrlHandler::LoadResult::Type::Error:
-        emit Error(result.error_);
+        Q_EMIT Error(result.error_);
         return;
       case UrlHandler::LoadResult::Type::NoMoreTracks:
         return;
@@ -1042,12 +1042,12 @@ void Player::FatalError() {
 }
 
 void Player::ValidSongRequested(const QUrl &url) {
-  emit SongChangeRequestProcessed(url, true);
+  Q_EMIT SongChangeRequestProcessed(url, true);
 }
 
 void Player::InvalidSongRequested(const QUrl &url) {
 
-  if (greyout_) emit SongChangeRequestProcessed(url, false);
+  if (greyout_) Q_EMIT SongChangeRequestProcessed(url, false);
 
   if (!continue_on_error_) {
     FatalError();
@@ -1110,5 +1110,5 @@ void Player::UrlHandlerDestroyed(QObject *object) {
 }
 
 void Player::HandleAuthentication() {
-  emit Authenticated();
+  Q_EMIT Authenticated();
 }

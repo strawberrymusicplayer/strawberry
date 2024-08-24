@@ -195,5 +195,5 @@ void AudioScrobbler::WriteCache() {
 }
 
 void AudioScrobbler::ErrorReceived(const QString &error) {
-  emit ErrorMessage(error);
+  Q_EMIT ErrorMessage(error);
 }

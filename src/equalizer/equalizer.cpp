@@ -291,24 +291,24 @@ void Equalizer::StereoBalancerEnabledChangedSlot(const bool enabled) {
 
   if (!enabled) {
     ui_->stereo_balance_slider->setValue(0);
-    emit StereoBalanceChanged(stereo_balance());
+    Q_EMIT StereoBalanceChanged(stereo_balance());
   }
   ui_->stereo_balance_slider->setEnabled(enabled);
-  emit StereoBalancerEnabledChanged(enabled);
+  Q_EMIT StereoBalancerEnabledChanged(enabled);
   Save();
 
 }
 
 void Equalizer::StereoBalanceSliderChanged(const int) {
 
-  emit StereoBalanceChanged(stereo_balance());
+  Q_EMIT StereoBalanceChanged(stereo_balance());
   Save();
 
 }
 
 void Equalizer::EqualizerEnabledChangedSlot(const bool enabled) {
 
-  emit EqualizerEnabledChanged(enabled);
+  Q_EMIT EqualizerEnabledChanged(enabled);
   ui_->slider_container->setEnabled(enabled);
   Save();
 
@@ -317,7 +317,7 @@ void Equalizer::EqualizerEnabledChangedSlot(const bool enabled) {
 void Equalizer::EqualizerParametersChangedSlot() {
 
   if (loading_) return;
-  emit EqualizerParametersChanged(preamp_value(), gain_values());
+  Q_EMIT EqualizerParametersChanged(preamp_value(), gain_values());
 
 }
 

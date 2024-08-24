@@ -124,8 +124,8 @@ void SubsonicRequest::Reset() {
 
 void SubsonicRequest::GetAlbums() {
 
-  emit UpdateStatus(tr("Retrieving albums..."));
-  emit UpdateProgress(0);
+  Q_EMIT UpdateStatus(tr("Retrieving albums..."));
+  Q_EMIT UpdateProgress(0);
   AddAlbumsRequest();
 
 }
@@ -313,10 +313,10 @@ void SubsonicRequest::AlbumsFinishCheck(const int offset, const int size, const 
     album_songs_requests_pending_.clear();
 
     if (album_songs_requested_ > 0) {
-      if (album_songs_requested_ == 1) emit UpdateStatus(tr("Retrieving songs for %1 album...").arg(album_songs_requested_));
-      else emit UpdateStatus(tr("Retrieving songs for %1 albums...").arg(album_songs_requested_));
-      emit ProgressSetMaximum(album_songs_requested_);
-      emit UpdateProgress(0);
+      if (album_songs_requested_ == 1) Q_EMIT UpdateStatus(tr("Retrieving songs for %1 album...").arg(album_songs_requested_));
+      else Q_EMIT UpdateStatus(tr("Retrieving songs for %1 albums...").arg(album_songs_requested_));
+      Q_EMIT ProgressSetMaximum(album_songs_requested_);
+      Q_EMIT UpdateProgress(0);
     }
   }
 
@@ -362,7 +362,7 @@ void SubsonicRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const QStrin
   --album_songs_requests_active_;
   ++album_songs_received_;
 
-  emit UpdateProgress(album_songs_received_);
+  Q_EMIT UpdateProgress(album_songs_received_);
 
   QByteArray data = GetReplyData(reply);
 
@@ -687,10 +687,10 @@ void SubsonicRequest::GetAlbumCovers() {
   }
   FlushAlbumCoverRequests();
 
-  if (album_covers_requested_ == 1) emit UpdateStatus(tr("Retrieving album cover for %1 album...").arg(album_covers_requested_));
-  else emit UpdateStatus(tr("Retrieving album covers for %1 albums...").arg(album_covers_requested_));
-  emit ProgressSetMaximum(album_covers_requested_);
-  emit UpdateProgress(0);
+  if (album_covers_requested_ == 1) Q_EMIT UpdateStatus(tr("Retrieving album cover for %1 album...").arg(album_covers_requested_));
+  else Q_EMIT UpdateStatus(tr("Retrieving album covers for %1 albums...").arg(album_covers_requested_));
+  Q_EMIT ProgressSetMaximum(album_covers_requested_);
+  Q_EMIT UpdateProgress(0);
 
 }
 
@@ -779,7 +779,7 @@ void SubsonicRequest::AlbumCoverReceived(QNetworkReply *reply, const AlbumCoverR
 
   if (finished_) return;
 
-  emit UpdateProgress(album_covers_received_);
+  Q_EMIT UpdateProgress(album_covers_received_);
 
   if (!album_covers_requests_sent_.contains(request.cover_id)) {
     AlbumCoverFinishCheck();
@@ -876,14 +876,14 @@ void SubsonicRequest::FinishCheck() {
   ) {
     finished_ = true;
     if (no_results_ && songs_.isEmpty()) {
-      emit Results(SongMap(), QString());
+      Q_EMIT Results(SongMap(), QString());
     }
     else {
       if (songs_.isEmpty() && errors_.isEmpty()) {
-        emit Results(songs_, tr("Unknown error"));
+        Q_EMIT Results(songs_, tr("Unknown error"));
       }
       else {
-        emit Results(songs_, ErrorsToHTML(errors_));
+        Q_EMIT Results(songs_, ErrorsToHTML(errors_));
       }
     }
 

@@ -289,7 +289,7 @@ QStringList Mpris2::SupportedMimeTypes() const {
 
 }
 
-void Mpris2::Raise() { emit RaiseMainWindow(); }
+void Mpris2::Raise() { Q_EMIT RaiseMainWindow(); }
 
 void Mpris2::Quit() { QCoreApplication::quit(); }
 
@@ -643,7 +643,7 @@ void Mpris2::PlaylistChangedSlot(Playlist *playlist) {
   mpris_playlist.id = MakePlaylistPath(playlist->id());
   mpris_playlist.name = app_->playlist_manager()->GetPlaylistName(playlist->id());
 
-  emit PlaylistChanged(mpris_playlist);
+  Q_EMIT PlaylistChanged(mpris_playlist);
 
 }
 

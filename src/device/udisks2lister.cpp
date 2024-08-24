@@ -176,7 +176,7 @@ void Udisks2Lister::UnmountDevice(const QString &id) {
     }
 
     device_data_.remove(id);
-    emit DeviceRemoved(id);
+    Q_EMIT DeviceRemoved(id);
   }
 
 }
@@ -184,7 +184,7 @@ void Udisks2Lister::UnmountDevice(const QString &id) {
 void Udisks2Lister::UpdateDeviceFreeSpace(const QString &id) {
   QWriteLocker locker(&device_data_lock_);
   device_data_[id].free_space = Utilities::FileSystemFreeSpace(device_data_.value(id).mount_paths.value(0));
-  emit DeviceChanged(id);
+  Q_EMIT DeviceChanged(id);
 }
 
 bool Udisks2Lister::Init() {
@@ -212,7 +212,7 @@ bool Udisks2Lister::Init() {
 
   const QStringList ids = device_data_.keys();
   for (const QString &id : ids) {
-    emit DeviceAdded(id);
+    Q_EMIT DeviceAdded(id);
   }
 
   QObject::connect(&*udisks2_interface_, &OrgFreedesktopDBusObjectManagerInterface::InterfacesAdded, this, &Udisks2Lister::DBusInterfaceAdded);
@@ -293,7 +293,7 @@ void Udisks2Lister::RemoveDevice(const QDBusObjectPath &device_path) {
   qLog(Debug) << "UDisks2 device removed: " << device_path.path();
   device_data_.remove(id);
 
-  emit DeviceRemoved(id);
+  Q_EMIT DeviceRemoved(id);
 
 }
 
@@ -342,7 +342,7 @@ void Udisks2Lister::HandleFinishedMountJob(const PartitionData &partition_data) 
   QWriteLocker locker(&device_data_lock_);
   device_data_[partition_data.unique_id()] = partition_data;
 
-  emit DeviceAdded(partition_data.unique_id());
+  Q_EMIT DeviceAdded(partition_data.unique_id());
 
 }
 
@@ -362,7 +362,7 @@ void Udisks2Lister::HandleFinishedUnmountJob(const PartitionData &partition_data
   if (!id.isEmpty()) {
     qLog(Debug) << "Partition " << partition_data.dbus_path << " has no more mount points, removing it from device list";
     device_data_.remove(id);
-    emit DeviceRemoved(id);
+    Q_EMIT DeviceRemoved(id);
   }
 
 }

@@ -62,7 +62,7 @@ void TagReaderClient::Exit() {
 
   Q_ASSERT(QThread::currentThread() == thread());
   moveToThread(original_thread_);
-  emit ExitFinished();
+  Q_EMIT ExitFinished();
 
 }
 

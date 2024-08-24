@@ -84,14 +84,14 @@ void SomaFMService::GetChannelsReply(QNetworkReply *reply, const int task_id) {
   QJsonObject object = ExtractJsonObj(reply);
   if (object.isEmpty()) {
     app_->task_manager()->SetTaskFinished(task_id);
-    emit NewChannels();
+    Q_EMIT NewChannels();
     return;
   }
 
   if (!object.contains(QLatin1String("channels")) || !object[QLatin1String("channels")].isArray()) {
     Error(QStringLiteral("Missing JSON channels array."), object);
     app_->task_manager()->SetTaskFinished(task_id);
-    emit NewChannels();
+    Q_EMIT NewChannels();
     return;
   }
   const QJsonArray array_channels = object[QLatin1String("channels")].toArray();
@@ -128,7 +128,7 @@ void SomaFMService::GetChannelsReply(QNetworkReply *reply, const int task_id) {
 
   if (channels.isEmpty()) {
     app_->task_manager()->SetTaskFinished(task_id);
-    emit NewChannels();
+    Q_EMIT NewChannels();
   }
   else {
     for (const RadioChannel &channel : std::as_const(channels)) {
@@ -162,7 +162,7 @@ void SomaFMService::GetStreamUrlsReply(QNetworkReply *reply, const int task_id, 
 
   if (replies_.isEmpty()) {
     app_->task_manager()->SetTaskFinished(task_id);
-    emit NewChannels(channels_);
+    Q_EMIT NewChannels(channels_);
     channels_.clear();
   }
 

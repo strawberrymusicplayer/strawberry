@@ -52,14 +52,14 @@ GPodLoader::~GPodLoader() = default;
 void GPodLoader::LoadDatabase() {
 
   int task_id = task_manager_->StartTask(tr("Loading iPod database"));
-  emit TaskStarted(task_id);
+  Q_EMIT TaskStarted(task_id);
 
   Itdb_iTunesDB *db = TryLoad();
 
   moveToThread(original_thread_);
 
   task_manager_->SetTaskFinished(task_id);
-  emit LoadFinished(db, !abort_);
+  Q_EMIT LoadFinished(db, !abort_);
 
 }
 
@@ -74,11 +74,11 @@ Itdb_iTunesDB *GPodLoader::TryLoad() {
   if (!db) {
     if (error) {
       qLog(Error) << "loading database failed:" << error->message;
-      emit Error(QString::fromUtf8(error->message));
+      Q_EMIT Error(QString::fromUtf8(error->message));
       g_error_free(error);
     }
     else {
-      emit Error(tr("An error occurred loading the iTunes database"));
+      Q_EMIT Error(tr("An error occurred loading the iTunes database"));
     }
 
     return db;

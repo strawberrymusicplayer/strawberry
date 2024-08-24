@@ -105,7 +105,7 @@ void Database::Exit() {
   Q_ASSERT(QThread::currentThread() == thread());
   Close();
   moveToThread(original_thread_);
-  emit ExitFinished();
+  Q_EMIT ExitFinished();
 
 }
 
@@ -482,8 +482,8 @@ void Database::ReportErrors(const SqlQuery &query) {
   if (sql_error.isValid()) {
     qLog(Error) << "Unable to execute SQL query:" << sql_error;
     qLog(Error) << "Failed SQL query:" << query.LastQuery();
-    emit Error(tr("Unable to execute SQL query: %1").arg(sql_error.text()));
-    emit Error(tr("Failed SQL query: %1").arg(query.LastQuery()));
+    Q_EMIT Error(tr("Unable to execute SQL query: %1").arg(sql_error.text()));
+    Q_EMIT Error(tr("Failed SQL query: %1").arg(query.LastQuery()));
   }
 
 }

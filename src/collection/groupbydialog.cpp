@@ -116,7 +116,7 @@ void GroupByDialog::Reset() {
 
 void GroupByDialog::accept() {
 
-  emit Accepted(CollectionModel::Grouping(
+  Q_EMIT Accepted(CollectionModel::Grouping(
       p_->mapping_.get<tag_index>().find(ui_->combobox_first->currentIndex())->group_by,
       p_->mapping_.get<tag_index>().find(ui_->combobox_second->currentIndex())->group_by,
       p_->mapping_.get<tag_index>().find(ui_->combobox_third->currentIndex())->group_by),

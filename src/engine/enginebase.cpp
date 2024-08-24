@@ -152,7 +152,7 @@ bool EngineBase::Play(const QUrl &media_url, const QUrl &stream_url, const bool 
 void EngineBase::UpdateVolume(const uint volume) {
 
   volume_ = volume;
-  emit VolumeChanged(volume);
+  Q_EMIT VolumeChanged(volume);
 
 }
 
@@ -261,7 +261,7 @@ void EngineBase::EmitAboutToFinish() {
 
   about_to_end_emitted_ = true;
 
-  emit TrackAboutToEnd();
+  Q_EMIT TrackAboutToEnd();
 
 }
 

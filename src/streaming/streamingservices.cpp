@@ -84,7 +84,7 @@ void StreamingServices::Exit() {
     QObject::connect(&*service, &StreamingService::ExitFinished, this, &StreamingServices::ExitReceived);
     service->Exit();
   }
-  if (wait_for_exit_.isEmpty()) emit ExitFinished();
+  if (wait_for_exit_.isEmpty()) Q_EMIT ExitFinished();
 
 }
 
@@ -92,6 +92,6 @@ void StreamingServices::ExitReceived() {
 
   StreamingService *service = qobject_cast<StreamingService*>(sender());
   wait_for_exit_.removeAll(service);
-  if (wait_for_exit_.isEmpty()) emit ExitFinished();
+  if (wait_for_exit_.isEmpty()) Q_EMIT ExitFinished();
 
 }

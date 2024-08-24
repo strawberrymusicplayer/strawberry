@@ -338,8 +338,8 @@ void SubsonicService::HandlePingReply(QNetworkReply *reply, const QUrl &url, con
     }
     //int status = obj_error["code"].toInt();
     QString message = obj_error[QLatin1String("message")].toString();
-    emit TestComplete(false, message);
-    emit TestFailure(message);
+    Q_EMIT TestComplete(false, message);
+    Q_EMIT TestFailure(message);
     return;
   }
 
@@ -352,13 +352,13 @@ void SubsonicService::HandlePingReply(QNetworkReply *reply, const QUrl &url, con
   QString message = obj_response[QLatin1String("message")].toString();
 
   if (status == QLatin1String("failed")) {
-    emit TestComplete(false, message);
-    emit TestFailure(message);
+    Q_EMIT TestComplete(false, message);
+    Q_EMIT TestFailure(message);
     return;
   }
   if (status == QLatin1String("ok")) {
-    emit TestComplete(true);
-    emit TestSuccess();
+    Q_EMIT TestComplete(true);
+    Q_EMIT TestSuccess();
     return;
   }
 
@@ -369,15 +369,15 @@ void SubsonicService::HandlePingReply(QNetworkReply *reply, const QUrl &url, con
 void SubsonicService::CheckConfiguration() {
 
   if (server_url_.isEmpty()) {
-    emit TestComplete(false, QStringLiteral("Missing Subsonic server url."));
+    Q_EMIT TestComplete(false, QStringLiteral("Missing Subsonic server url."));
     return;
   }
   if (username_.isEmpty()) {
-    emit TestComplete(false, QStringLiteral("Missing Subsonic username."));
+    Q_EMIT TestComplete(false, QStringLiteral("Missing Subsonic username."));
     return;
   }
   if (password_.isEmpty()) {
-    emit TestComplete(false, QStringLiteral("Missing Subsonic password."));
+    Q_EMIT TestComplete(false, QStringLiteral("Missing Subsonic password."));
     return;
   }
 
@@ -411,12 +411,12 @@ void SubsonicService::ResetSongsRequest() {
 void SubsonicService::GetSongs() {
 
   if (!server_url().isValid()) {
-    emit SongsResults(SongMap(), tr("Server URL is invalid."));
+    Q_EMIT SongsResults(SongMap(), tr("Server URL is invalid."));
     return;
   }
 
   if (username().isEmpty() || password().isEmpty()) {
-    emit SongsResults(SongMap(), tr("Missing username or password."));
+    Q_EMIT SongsResults(SongMap(), tr("Missing username or password."));
     return;
   }
 
@@ -439,7 +439,7 @@ void SubsonicService::DeleteSongs() {
 
 void SubsonicService::SongsResultsReceived(const SongMap &songs, const QString &error) {
 
-  emit SongsResults(songs, error);
+  Q_EMIT SongsResults(songs, error);
 
   ResetSongsRequest();
 
@@ -456,8 +456,8 @@ void SubsonicService::PingError(const QString &error, const QVariant &debug) {
   }
   if (debug.isValid()) qLog(Debug) << debug;
 
-  emit TestFailure(error_html);
-  emit TestComplete(false, error_html);
+  Q_EMIT TestFailure(error_html);
+  Q_EMIT TestComplete(false, error_html);
 
   errors_.clear();
 

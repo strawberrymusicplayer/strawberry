@@ -177,7 +177,7 @@ class PlaylistView : public QTreeView {
 
   void set_background_image_type(AppearanceSettingsPage::BackgroundImageType bg) {
     background_image_type_ = bg;
-    emit BackgroundPropertyChanged();  // clazy:exclude=incorrect-emit
+    Q_EMIT BackgroundPropertyChanged();  // clazy:exclude=incorrect-emit
   }
   // Save image as the background_image_ after applying some modifications (opacity, ...).
   // Should be used instead of modifying background_image_ directly

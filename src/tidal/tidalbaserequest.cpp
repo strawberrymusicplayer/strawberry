@@ -127,7 +127,7 @@ QByteArray TidalBaseRequest::GetReplyData(QNetworkReply *reply, const bool send_
           }
           else {
             qLog(Info) << "Tidal:" << "Attempting to login.";
-            emit RequestLogin();
+            Q_EMIT RequestLogin();
           }
         }
         else {

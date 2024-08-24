@@ -112,7 +112,7 @@ void PlaylistManager::Init(SharedPtr<CollectionBackend> collection_backend, Shar
   // If no playlist exists then make a new one
   if (playlists_.isEmpty()) New(tr("Playlist"));
 
-  emit PlaylistManagerInitialized();
+  Q_EMIT PlaylistManagerInitialized();
 
 }
 
@@ -123,7 +123,7 @@ void PlaylistManager::PlaylistLoaded() {
   QObject::disconnect(playlist, &Playlist::PlaylistLoaded, this, &PlaylistManager::PlaylistLoaded);
   --playlists_loading_;
   if (playlists_loading_ == 0) {
-    emit AllPlaylistsLoaded();
+    Q_EMIT AllPlaylistsLoaded();
   }
 
 }
@@ -165,7 +165,7 @@ Playlist *PlaylistManager::AddPlaylist(const int id, const QString &name, const 
 
   playlists_[id] = Data(ret, name);
 
-  emit PlaylistAdded(id, name, favorite);
+  Q_EMIT PlaylistAdded(id, name, favorite);
 
   if (current_ == -1) {
     SetCurrentPlaylist(id);
@@ -205,7 +205,7 @@ void PlaylistManager::Load(const QString &filename) {
   int id = playlist_backend_->CreatePlaylist(fileinfo.completeBaseName(), QString());
 
   if (id == -1) {
-    emit Error(tr("Couldn't create playlist"));
+    Q_EMIT Error(tr("Couldn't create playlist"));
     return;
   }
 
@@ -292,7 +292,7 @@ void PlaylistManager::Rename(const int id, const QString &new_name) {
   playlist_backend_->RenamePlaylist(id, new_name);
   playlists_[id].name = new_name;
 
-  emit PlaylistRenamed(id, new_name);
+  Q_EMIT PlaylistRenamed(id, new_name);
 
 }
 
@@ -309,7 +309,7 @@ void PlaylistManager::Favorite(const int id, const bool favorite) {
     // while it's not visible in the playlist tabbar either, because it has been closed: delete it.
     playlist_backend_->RemovePlaylist(id);
   }
-  emit PlaylistFavorited(id, favorite);
+  Q_EMIT PlaylistFavorited(id, favorite);
 
 }
 
@@ -332,11 +332,11 @@ bool PlaylistManager::Close(const int id) {
   if (id == current_) SetCurrentPlaylist(next_id);
 
   Data data = playlists_.take(id);
-  emit PlaylistClosed(id);
+  Q_EMIT PlaylistClosed(id);
 
   if (!data.p->is_favorite()) {
     playlist_backend_->RemovePlaylist(id);
-    emit PlaylistDeleted(id);
+    Q_EMIT PlaylistDeleted(id);
   }
   delete data.p;
 
@@ -351,12 +351,12 @@ void PlaylistManager::Delete(const int id) {
   }
 
   playlist_backend_->RemovePlaylist(id);
-  emit PlaylistDeleted(id);
+  Q_EMIT PlaylistDeleted(id);
 
 }
 
 void PlaylistManager::OneOfPlaylistsChanged() {
-  emit PlaylistChanged(qobject_cast<Playlist*>(sender()));
+  Q_EMIT PlaylistChanged(qobject_cast<Playlist*>(sender()));
 }
 
 void PlaylistManager::SetCurrentPlaylist(const int id) {
@@ -369,7 +369,7 @@ void PlaylistManager::SetCurrentPlaylist(const int id) {
   }
 
   current_ = id;
-  emit CurrentChanged(current(), playlists_[id].scroll_position);
+  Q_EMIT CurrentChanged(current(), playlists_[id].scroll_position);
   UpdateSummaryText();
 
 }
@@ -383,7 +383,7 @@ void PlaylistManager::SetActivePlaylist(const int id) {
 
   active_ = id;
 
-  emit ActiveChanged(active());
+  Q_EMIT ActiveChanged(active());
 
 }
 
@@ -458,7 +458,7 @@ void PlaylistManager::UpdateSummaryText() {
     summary += QLatin1String(" - [ ") + Utilities::WordyTimeNanosec(nanoseconds) + QLatin1String(" ]");
   }
 
-  emit SummaryTextChanged(summary);
+  Q_EMIT SummaryTextChanged(summary);
 
 }
 

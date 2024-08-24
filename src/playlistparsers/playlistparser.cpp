@@ -182,14 +182,14 @@ SongList PlaylistParser::LoadFromFile(const QString &filename) const {
   ParserBase *parser = ParserForExtension(Type::Load, fileinfo.suffix());
   if (!parser) {
     qLog(Error) << "Unknown filetype:" << filename;
-    emit Error(tr("Unknown filetype: %1").arg(filename));
+    Q_EMIT Error(tr("Unknown filetype: %1").arg(filename));
     return SongList();
   }
 
   // Open the file
   QFile file(filename);
   if (!file.open(QIODevice::ReadOnly)) {
-    emit Error(tr("Could not open file %1").arg(filename));
+    Q_EMIT Error(tr("Could not open file %1").arg(filename));
     return SongList();
   }
 
@@ -219,7 +219,7 @@ void PlaylistParser::Save(const SongList &songs, const QString &filename, const 
 
   if (!dir.exists()) {
     qLog(Error) << "Directory" << dir.path() << "does not exist";
-    emit Error(tr("Directory %1 does not exist.").arg(dir.path()));
+    Q_EMIT Error(tr("Directory %1 does not exist.").arg(dir.path()));
     return;
   }
 
@@ -227,7 +227,7 @@ void PlaylistParser::Save(const SongList &songs, const QString &filename, const 
   ParserBase *parser = ParserForExtension(Type::Save, fileinfo.suffix());
   if (!parser) {
     qLog(Error) << "Unknown filetype" << filename;
-    emit Error(tr("Unknown filetype: %1").arg(filename));
+    Q_EMIT Error(tr("Unknown filetype: %1").arg(filename));
     return;
   }
 
@@ -242,7 +242,7 @@ void PlaylistParser::Save(const SongList &songs, const QString &filename, const 
   QFile file(fileinfo.absoluteFilePath());
   if (!file.open(QIODevice::WriteOnly)) {
     qLog(Error) << "Failed to open" << filename << "for writing.";
-    emit Error(tr("Failed to open %1 for writing.").arg(filename));
+    Q_EMIT Error(tr("Failed to open %1 for writing.").arg(filename));
     return;
   }
 

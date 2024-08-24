@@ -155,7 +155,7 @@ void Organize::ProcessSomeFiles() {
 
     task_manager_->SetTaskFinished(task_id_);
 
-    emit Finished(files_with_errors_, log_);
+    Q_EMIT Finished(files_with_errors_, log_);
 
     // Move back to the original thread so deleteLater() can get called in the main thread's event loop
     moveToThread(original_thread_);
@@ -263,7 +263,7 @@ void Organize::ProcessSomeFiles() {
         // Notify other aspects of system that song has been invalidated
         QString root = destination_->LocalPath();
         QFileInfo new_file = QFileInfo(root + QLatin1Char('/') + task.song_info_.new_filename_);
-        emit SongPathChanged(song, new_file, destination_->collection_directory_id());
+        Q_EMIT SongPathChanged(song, new_file, destination_->collection_directory_id());
       }
     }
     else {

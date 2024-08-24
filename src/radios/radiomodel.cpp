@@ -320,7 +320,7 @@ void RadioModel::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult
   const QModelIndex idx = ItemToIndex(item);
   if (!idx.isValid()) return;
 
-  emit dataChanged(idx, idx);
+  Q_EMIT dataChanged(idx, idx);
 
 }
 

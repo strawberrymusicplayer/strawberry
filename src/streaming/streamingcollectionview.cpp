@@ -242,7 +242,7 @@ void StreamingCollectionView::TotalSongCountUpdated(int count) {
     unsetCursor();
   }
 
-  emit TotalSongCountUpdated_();
+  Q_EMIT TotalSongCountUpdated_();
 
 }
 
@@ -259,7 +259,7 @@ void StreamingCollectionView::TotalArtistCountUpdated(int count) {
     unsetCursor();
   }
 
-  emit TotalArtistCountUpdated_();
+  Q_EMIT TotalArtistCountUpdated_();
 
 }
 
@@ -276,7 +276,7 @@ void StreamingCollectionView::TotalAlbumCountUpdated(int count) {
     unsetCursor();
   }
 
-  emit TotalAlbumCountUpdated_();
+  Q_EMIT TotalAlbumCountUpdated_();
 
 }
 
@@ -317,7 +317,7 @@ void StreamingCollectionView::mouseReleaseEvent(QMouseEvent *e) {
   QTreeView::mouseReleaseEvent(e);
 
   if (total_song_count_ == 0) {
-    emit GetSongs();
+    Q_EMIT GetSongs();
   }
 
 }
@@ -369,13 +369,13 @@ void StreamingCollectionView::Load() {
   if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
     mimedata->clear_first_ = true;
   }
-  emit AddToPlaylistSignal(q_mimedata);
+  Q_EMIT AddToPlaylistSignal(q_mimedata);
 
 }
 
 void StreamingCollectionView::AddToPlaylist() {
 
-  emit AddToPlaylistSignal(model()->mimeData(selectedIndexes()));
+  Q_EMIT AddToPlaylistSignal(model()->mimeData(selectedIndexes()));
 
 }
 
@@ -385,7 +385,7 @@ void StreamingCollectionView::AddToPlaylistEnqueue() {
   if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
     mimedata->enqueue_now_ = true;
   }
-  emit AddToPlaylistSignal(q_mimedata);
+  Q_EMIT AddToPlaylistSignal(q_mimedata);
 
 }
 
@@ -395,7 +395,7 @@ void StreamingCollectionView::AddToPlaylistEnqueueNext() {
   if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
     mimedata->enqueue_next_now_ = true;
   }
-  emit AddToPlaylistSignal(q_mimedata);
+  Q_EMIT AddToPlaylistSignal(q_mimedata);
 
 }
 
@@ -405,13 +405,13 @@ void StreamingCollectionView::OpenInNewPlaylist() {
   if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
     mimedata->open_in_new_playlist_ = true;
   }
-  emit AddToPlaylistSignal(q_mimedata);
+  Q_EMIT AddToPlaylistSignal(q_mimedata);
 
 }
 
 void StreamingCollectionView::RemoveSelectedSongs() {
 
-  emit RemoveSongs(GetSelectedSongs());
+  Q_EMIT RemoveSongs(GetSelectedSongs());
 
 }
 
@@ -459,7 +459,7 @@ void StreamingCollectionView::FilterReturnPressed() {
 
   if (!currentIndex().isValid()) return;
 
-  emit doubleClicked(currentIndex());
+  Q_EMIT doubleClicked(currentIndex());
 
 }
 

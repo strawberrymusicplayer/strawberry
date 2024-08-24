@@ -83,7 +83,7 @@ void AlbumCoverExporter::AddJobsToPool() {
 void AlbumCoverExporter::CoverExported() {
 
   ++exported_;
-  emit AlbumCoversExportUpdate(exported_, skipped_, all_);
+  Q_EMIT AlbumCoversExportUpdate(exported_, skipped_, all_);
   AddJobsToPool();
 
 }
@@ -91,7 +91,7 @@ void AlbumCoverExporter::CoverExported() {
 void AlbumCoverExporter::CoverSkipped() {
 
   ++skipped_;
-  emit AlbumCoversExportUpdate(exported_, skipped_, all_);
+  Q_EMIT AlbumCoversExportUpdate(exported_, skipped_, all_);
   AddJobsToPool();
 
 }

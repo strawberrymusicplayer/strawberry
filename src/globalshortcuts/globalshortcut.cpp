@@ -165,7 +165,7 @@ void GlobalShortcut::activateShortcut(const quint32 native_key, const quint32 na
 
   GlobalShortcut *gshortcut = internal_shortcuts_.value(hash);
   if (gshortcut && gshortcut != initialized_) {
-    emit gshortcut->activated();
+    Q_EMIT gshortcut->activated();
   }
 
 }

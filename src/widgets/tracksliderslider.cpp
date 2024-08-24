@@ -88,10 +88,10 @@ void TrackSliderSlider::mouseReleaseEvent(QMouseEvent *e) {
 
   QSlider::mouseReleaseEvent(e);
   if (e->button() == Qt::XButton1) {
-    emit Previous();
+    Q_EMIT Previous();
   }
   else if (e->button() == Qt::XButton2) {
-    emit Next();
+    Q_EMIT Next();
   }
   e->accept();
 
@@ -128,10 +128,10 @@ void TrackSliderSlider::wheelEvent(QWheelEvent *e) {
   wheel_accumulator_ = scroll_state % WHEEL_ROTATION_TO_SEEK;
 
   if (steps < 0) {
-    emit SeekBackward();
+    Q_EMIT SeekBackward();
   }
   else if (steps > 0) {
-    emit SeekForward();
+    Q_EMIT SeekForward();
   }
   e->accept();
 
@@ -166,11 +166,11 @@ void TrackSliderSlider::leaveEvent(QEvent *e) {
 void TrackSliderSlider::keyPressEvent(QKeyEvent *event) {
 
   if (event->key() == Qt::Key_Left || event->key() == Qt::Key_Down) {
-    emit SeekBackward();
+    Q_EMIT SeekBackward();
     event->accept();
   }
   else if (event->key() == Qt::Key_Right || event->key() == Qt::Key_Up) {
-    emit SeekForward();
+    Q_EMIT SeekForward();
     event->accept();
   }
   else {

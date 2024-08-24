@@ -207,7 +207,7 @@ void SavedGroupingManager::Remove() {
   }
   UpdateModel();
 
-  emit UpdateGroupByActions();
+  Q_EMIT UpdateGroupByActions();
 
 }
 

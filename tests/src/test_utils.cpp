@@ -79,7 +79,7 @@ TestQObject::TestQObject(QObject *parent)
 }
 
 void TestQObject::Emit() {
-  emit Emitted();
+  Q_EMIT Emitted();
 }
 
 void TestQObject::Invoke() {

@@ -67,7 +67,7 @@ void TagFetcher::StartFetch(const SongList &songs) {
   if (have_fingerprints) {
     for (int i = 0; i < songs_.count(); ++i) {
       const Song song = songs_.value(i);
-      emit Progress(song, tr("Identifying song"));
+      Q_EMIT Progress(song, tr("Identifying song"));
       acoustid_client_->Start(i, song.fingerprint(), static_cast<int>(song.length_nanosec() / kNsecPerMsec));
     }
   }
@@ -77,7 +77,7 @@ void TagFetcher::StartFetch(const SongList &songs) {
     QObject::connect(fingerprint_watcher_, &QFutureWatcher<QString>::resultReadyAt, this, &TagFetcher::FingerprintFound);
     fingerprint_watcher_->setFuture(future);
     for (const Song &song : std::as_const(songs_)) {
-      emit Progress(song, tr("Fingerprinting song"));
+      Q_EMIT Progress(song, tr("Fingerprinting song"));
     }
   }
 
@@ -107,11 +107,11 @@ void TagFetcher::FingerprintFound(const int index) {
   const Song song = songs_.value(index);
 
   if (fingerprint.isEmpty()) {
-    emit ResultAvailable(song, SongList());
+    Q_EMIT ResultAvailable(song, SongList());
     return;
   }
 
-  emit Progress(song, tr("Identifying song"));
+  Q_EMIT Progress(song, tr("Identifying song"));
   acoustid_client_->Start(index, fingerprint, static_cast<int>(song.length_nanosec() / kNsecPerMsec));
 
 }
@@ -125,11 +125,11 @@ void TagFetcher::PuidsFound(const int index, const QStringList &puid_list, const
   const Song song = songs_.value(index);
 
   if (puid_list.isEmpty()) {
-    emit ResultAvailable(song, SongList(), error);
+    Q_EMIT ResultAvailable(song, SongList(), error);
     return;
   }
 
-  emit Progress(song, tr("Downloading metadata"));
+  Q_EMIT Progress(song, tr("Downloading metadata"));
   musicbrainz_client_->Start(index, puid_list);
 
 }
@@ -151,6 +151,6 @@ void TagFetcher::TagsFetched(const int index, const MusicBrainzClient::ResultLis
     songs_guessed << song;
   }
 
-  emit ResultAvailable(original_song, songs_guessed, error);
+  Q_EMIT ResultAvailable(original_song, songs_guessed, error);
 
 }

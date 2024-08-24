@@ -87,7 +87,7 @@ void LocalRedirectServer::incomingConnection(qintptr socket_descriptor) {
     delete tcp_socket;
     close();
     error_ = QLatin1String("Unable to set socket descriptor");
-    emit Finished();
+    Q_EMIT Finished();
     return;
   }
   socket_ = tcp_socket;
@@ -114,7 +114,7 @@ void LocalRedirectServer::ReadyRead() {
     socket_ = nullptr;
     request_url_ = ParseUrlFromRequest(buffer_);
     close();
-    emit Finished();
+    Q_EMIT Finished();
   }
   else {
     QObject::connect(socket_, &QAbstractSocket::readyRead, this, &LocalRedirectServer::ReadyRead);

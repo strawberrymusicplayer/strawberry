@@ -202,8 +202,8 @@ void QobuzRequest::Search(const int query_id, const QString &search_text) {
 
 void QobuzRequest::GetArtists() {
 
-  emit UpdateStatus(query_id_, tr("Receiving artists..."));
-  emit UpdateProgress(query_id_, 0);
+  Q_EMIT UpdateStatus(query_id_, tr("Receiving artists..."));
+  Q_EMIT UpdateProgress(query_id_, 0);
   AddArtistsRequest();
 
 }
@@ -254,8 +254,8 @@ void QobuzRequest::FlushArtistsRequests() {
 
 void QobuzRequest::GetAlbums() {
 
-  emit UpdateStatus(query_id_, tr("Receiving albums..."));
-  emit UpdateProgress(query_id_, 0);
+  Q_EMIT UpdateStatus(query_id_, tr("Receiving albums..."));
+  Q_EMIT UpdateProgress(query_id_, 0);
   AddAlbumsRequest();
 
 }
@@ -306,8 +306,8 @@ void QobuzRequest::FlushAlbumsRequests() {
 
 void QobuzRequest::GetSongs() {
 
-  emit UpdateStatus(query_id_, tr("Receiving songs..."));
-  emit UpdateProgress(query_id_, 0);
+  Q_EMIT UpdateStatus(query_id_, tr("Receiving songs..."));
+  Q_EMIT UpdateProgress(query_id_, 0);
   AddSongsRequest();
 
 }
@@ -358,8 +358,8 @@ void QobuzRequest::FlushSongsRequests() {
 
 void QobuzRequest::ArtistsSearch() {
 
-  emit UpdateStatus(query_id_, tr("Searching..."));
-  emit UpdateProgress(query_id_, 0);
+  Q_EMIT UpdateStatus(query_id_, tr("Searching..."));
+  Q_EMIT UpdateProgress(query_id_, 0);
   AddArtistsSearchRequest();
 
 }
@@ -372,8 +372,8 @@ void QobuzRequest::AddArtistsSearchRequest(const int offset) {
 
 void QobuzRequest::AlbumsSearch() {
 
-  emit UpdateStatus(query_id_, tr("Searching..."));
-  emit UpdateProgress(query_id_, 0);
+  Q_EMIT UpdateStatus(query_id_, tr("Searching..."));
+  Q_EMIT UpdateProgress(query_id_, 0);
   AddAlbumsSearchRequest();
 
 }
@@ -386,8 +386,8 @@ void QobuzRequest::AddAlbumsSearchRequest(const int offset) {
 
 void QobuzRequest::SongsSearch() {
 
-  emit UpdateStatus(query_id_, tr("Searching..."));
-  emit UpdateProgress(query_id_, 0);
+  Q_EMIT UpdateStatus(query_id_, tr("Searching..."));
+  Q_EMIT UpdateProgress(query_id_, 0);
   AddSongsSearchRequest();
 
 }
@@ -464,7 +464,7 @@ void QobuzRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_re
   }
 
   if (offset_requested == 0) {
-    emit UpdateProgress(query_id_, GetProgress(artists_received_, artists_total_));
+    Q_EMIT UpdateProgress(query_id_, GetProgress(artists_received_, artists_total_));
   }
 
   QJsonValue value_items = ExtractItems(obj_artists);
@@ -523,7 +523,7 @@ void QobuzRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_re
   }
   artists_received_ += artists_received;
 
-  if (offset_requested != 0) emit UpdateProgress(query_id_, GetProgress(artists_received_, artists_total_));
+  if (offset_requested != 0) Q_EMIT UpdateProgress(query_id_, GetProgress(artists_received_, artists_total_));
 
   ArtistsFinishCheck(limit_requested, offset, artists_received);
 
@@ -551,9 +551,9 @@ void QobuzRequest::ArtistsFinishCheck(const int limit, const int offset, const i
     artist_albums_requests_pending_.clear();
 
     if (artist_albums_requests_total_ > 0) {
-      if (artist_albums_requests_total_ == 1) emit UpdateStatus(query_id_, tr("Receiving albums for %1 artist...").arg(artist_albums_requests_total_));
-      else emit UpdateStatus(query_id_, tr("Receiving albums for %1 artists...").arg(artist_albums_requests_total_));
-      emit UpdateProgress(query_id_, 0);
+      if (artist_albums_requests_total_ == 1) Q_EMIT UpdateStatus(query_id_, tr("Receiving albums for %1 artist...").arg(artist_albums_requests_total_));
+      else Q_EMIT UpdateStatus(query_id_, tr("Receiving albums for %1 artists...").arg(artist_albums_requests_total_));
+      Q_EMIT UpdateProgress(query_id_, 0);
     }
 
   }
@@ -607,7 +607,7 @@ void QobuzRequest::ArtistAlbumsReplyReceived(QNetworkReply *reply, const Artist 
 
   --artist_albums_requests_active_;
   ++artist_albums_requests_received_;
-  emit UpdateProgress(query_id_, GetProgress(artist_albums_requests_received_, artist_albums_requests_total_));
+  Q_EMIT UpdateProgress(query_id_, GetProgress(artist_albums_requests_received_, artist_albums_requests_total_));
   AlbumsReceived(reply, artist, 0, offset_requested);
 
 }
@@ -759,7 +759,7 @@ void QobuzRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_req
 
   if (query_type_ == Type::FavouriteAlbums || query_type_ == Type::SearchAlbums) {
     albums_received_ += albums_received;
-    emit UpdateProgress(query_id_, GetProgress(albums_received_, albums_total_));
+    Q_EMIT UpdateProgress(query_id_, GetProgress(albums_received_, albums_total_));
   }
 
   AlbumsFinishCheck(artist_requested, limit_requested, offset, albums_total, albums_received);
@@ -808,9 +808,9 @@ void QobuzRequest::AlbumsFinishCheck(const Artist &artist, const int limit, cons
     album_songs_requests_pending_.clear();
 
     if (album_songs_requests_total_ > 0) {
-      if (album_songs_requests_total_ == 1) emit UpdateStatus(query_id_, tr("Receiving songs for %1 album...").arg(album_songs_requests_total_));
-      else emit UpdateStatus(query_id_, tr("Receiving songs for %1 albums...").arg(album_songs_requests_total_));
-      emit UpdateProgress(query_id_, 0);
+      if (album_songs_requests_total_ == 1) Q_EMIT UpdateStatus(query_id_, tr("Receiving songs for %1 album...").arg(album_songs_requests_total_));
+      else Q_EMIT UpdateStatus(query_id_, tr("Receiving songs for %1 albums...").arg(album_songs_requests_total_));
+      Q_EMIT UpdateProgress(query_id_, 0);
     }
   }
 
@@ -863,7 +863,7 @@ void QobuzRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const Artist &a
   --album_songs_requests_active_;
   ++album_songs_requests_received_;
   if (offset_requested == 0) {
-    emit UpdateProgress(query_id_, GetProgress(album_songs_requests_received_, album_songs_requests_total_));
+    Q_EMIT UpdateProgress(query_id_, GetProgress(album_songs_requests_received_, album_songs_requests_total_));
   }
   SongsReceived(reply, artist, album, 0, offset_requested);
 
@@ -1022,7 +1022,7 @@ void QobuzRequest::SongsReceived(QNetworkReply *reply, const Artist &artist_requ
 
   if (query_type_ == Type::FavouriteSongs || query_type_ == Type::SearchSongs) {
     songs_received_ += songs_received;
-    emit UpdateProgress(query_id_, GetProgress(songs_received_, songs_total_));
+    Q_EMIT UpdateProgress(query_id_, GetProgress(songs_received_, songs_total_));
   }
 
   SongsFinishCheck(album_artist, album, limit_requested, offset_requested, songs_total, songs_received);
@@ -1258,9 +1258,9 @@ void QobuzRequest::GetAlbumCovers() {
     AddAlbumCoverRequest(song);
   }
 
-  if (album_covers_requests_total_ == 1) emit UpdateStatus(query_id_, tr("Receiving album cover for %1 album...").arg(album_covers_requests_total_));
-  else emit UpdateStatus(query_id_, tr("Receiving album covers for %1 albums...").arg(album_covers_requests_total_));
-  emit UpdateProgress(query_id_, 0);
+  if (album_covers_requests_total_ == 1) Q_EMIT UpdateStatus(query_id_, tr("Receiving album cover for %1 album...").arg(album_covers_requests_total_));
+  else Q_EMIT UpdateStatus(query_id_, tr("Receiving album covers for %1 albums...").arg(album_covers_requests_total_));
+  Q_EMIT UpdateProgress(query_id_, 0);
 
   StartRequests();
 
@@ -1323,7 +1323,7 @@ void QobuzRequest::AlbumCoverReceived(QNetworkReply *reply, const QUrl &cover_ur
 
   if (finished_) return;
 
-  emit UpdateProgress(query_id_, GetProgress(album_covers_requests_received_, album_covers_requests_total_));
+  Q_EMIT UpdateProgress(query_id_, GetProgress(album_covers_requests_received_, album_covers_requests_total_));
 
   if (!album_covers_requests_sent_.contains(cover_url)) {
     AlbumCoverFinishCheck();
@@ -1425,15 +1425,15 @@ void QobuzRequest::FinishCheck() {
     finished_ = true;
     if (no_results_ && songs_.isEmpty()) {
       if (IsSearch())
-        emit Results(query_id_, SongMap(), tr("No match."));
+        Q_EMIT Results(query_id_, SongMap(), tr("No match."));
       else
-        emit Results(query_id_, SongMap(), QString());
+        Q_EMIT Results(query_id_, SongMap(), QString());
     }
     else {
       if (songs_.isEmpty() && errors_.isEmpty())
-        emit Results(query_id_, songs_, tr("Unknown error"));
+        Q_EMIT Results(query_id_, songs_, tr("Unknown error"));
       else
-        emit Results(query_id_, songs_, ErrorsToHTML(errors_));
+        Q_EMIT Results(query_id_, songs_, ErrorsToHTML(errors_));
     }
   }
 

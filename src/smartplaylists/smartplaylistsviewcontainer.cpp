@@ -146,13 +146,13 @@ void SmartPlaylistsViewContainer::ReplaceCurrentPlaylist() {
   if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
     mimedata->clear_first_ = true;
   }
-  emit AddToPlaylist(q_mimedata);
+  Q_EMIT AddToPlaylist(q_mimedata);
 
 }
 
 void SmartPlaylistsViewContainer::AppendToPlaylist() {
 
-  emit AddToPlaylist(ui_->view->model()->mimeData(ui_->view->selectionModel()->selectedIndexes()));
+  Q_EMIT AddToPlaylist(ui_->view->model()->mimeData(ui_->view->selectionModel()->selectedIndexes()));
 
 }
 
@@ -162,7 +162,7 @@ void SmartPlaylistsViewContainer::OpenInNewPlaylist() {
   if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
     mimedata->open_in_new_playlist_ = true;
   }
-  emit AddToPlaylist(q_mimedata);
+  Q_EMIT AddToPlaylist(q_mimedata);
 
 }
 
@@ -172,7 +172,7 @@ void SmartPlaylistsViewContainer::AddToPlaylistEnqueue() {
   if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
     mimedata->enqueue_now_ = true;
   }
-  emit AddToPlaylist(q_mimedata);
+  Q_EMIT AddToPlaylist(q_mimedata);
 
 }
 
@@ -182,7 +182,7 @@ void SmartPlaylistsViewContainer::AddToPlaylistEnqueueNext() {
   if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
     mimedata->enqueue_next_now_ = true;
   }
-  emit AddToPlaylist(q_mimedata);
+  Q_EMIT AddToPlaylist(q_mimedata);
 
 }
 
@@ -275,6 +275,6 @@ void SmartPlaylistsViewContainer::ItemDoubleClicked(const QModelIndex &idx) {
   if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
     mimedata->from_doubleclick_ = true;
   }
-  emit AddToPlaylist(q_mimedata);
+  Q_EMIT AddToPlaylist(q_mimedata);
 
 }

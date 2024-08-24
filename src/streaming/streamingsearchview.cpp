@@ -619,7 +619,7 @@ MimeData *StreamingSearchView::SelectedMimeData() {
 }
 
 void StreamingSearchView::AddSelectedToPlaylist() {
-  emit AddToPlaylist(SelectedMimeData());
+  Q_EMIT AddToPlaylist(SelectedMimeData());
 }
 
 void StreamingSearchView::LoadSelected() {
@@ -628,7 +628,7 @@ void StreamingSearchView::LoadSelected() {
   if (!mimedata) return;
 
   mimedata->clear_first_ = true;
-  emit AddToPlaylist(mimedata);
+  Q_EMIT AddToPlaylist(mimedata);
 
 }
 
@@ -638,7 +638,7 @@ void StreamingSearchView::AddSelectedToPlaylistEnqueue() {
   if (!mimedata) return;
 
   mimedata->enqueue_now_ = true;
-  emit AddToPlaylist(mimedata);
+  Q_EMIT AddToPlaylist(mimedata);
 
 }
 
@@ -648,7 +648,7 @@ void StreamingSearchView::OpenSelectedInNewPlaylist() {
   if (!mimedata) return;
 
   mimedata->open_in_new_playlist_ = true;
-  emit AddToPlaylist(mimedata);
+  Q_EMIT AddToPlaylist(mimedata);
 
 }
 
@@ -762,7 +762,7 @@ void StreamingSearchView::AddArtists() {
   MimeData *mimedata = SelectedMimeData();
   if (!mimedata) return;
   if (const StreamSongMimeData *streaming_song_data = qobject_cast<const StreamSongMimeData*>(mimedata)) {
-    emit AddArtistsSignal(streaming_song_data->songs);
+    Q_EMIT AddArtistsSignal(streaming_song_data->songs);
   }
 
 }
@@ -772,7 +772,7 @@ void StreamingSearchView::AddAlbums() {
   MimeData *mimedata = SelectedMimeData();
   if (!mimedata) return;
   if (const StreamSongMimeData *streaming_song_data = qobject_cast<const StreamSongMimeData*>(mimedata)) {
-    emit AddAlbumsSignal(streaming_song_data->songs);
+    Q_EMIT AddAlbumsSignal(streaming_song_data->songs);
   }
 
 }
@@ -782,7 +782,7 @@ void StreamingSearchView::AddSongs() {
   MimeData *mimedata = SelectedMimeData();
   if (!mimedata) return;
   if (const StreamSongMimeData *streaming_song_data = qobject_cast<const StreamSongMimeData*>(mimedata)) {
-    emit AddSongsSignal(streaming_song_data->songs);
+    Q_EMIT AddSongsSignal(streaming_song_data->songs);
   }
 
 }

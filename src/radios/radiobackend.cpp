@@ -53,7 +53,7 @@ void RadioBackend::Exit() {
   Q_ASSERT(QThread::currentThread() == thread());
 
   moveToThread(original_thread_);
-  emit ExitFinished();
+  Q_EMIT ExitFinished();
 
 }
 
@@ -80,7 +80,7 @@ void RadioBackend::AddChannels(const RadioChannelList &channels) {
     }
   }
 
-  emit NewChannels(channels);
+  Q_EMIT NewChannels(channels);
 
 }
 
@@ -113,7 +113,7 @@ void RadioBackend::GetChannels() {
     channels << channel;
   }
 
-  emit NewChannels(channels);
+  Q_EMIT NewChannels(channels);
 
 }
 

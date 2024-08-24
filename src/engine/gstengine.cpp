@@ -322,7 +322,7 @@ void GstEngine::Stop(const bool stop_after) {
 
   BufferingFinished();
 
-  emit StateChanged(State::Empty);
+  Q_EMIT StateChanged(State::Empty);
 
 }
 
@@ -344,7 +344,7 @@ void GstEngine::Pause() {
     }
     else {
       current_pipeline_->SetStateAsync(GST_STATE_PAUSED);
-      emit StateChanged(State::Paused);
+      Q_EMIT StateChanged(State::Paused);
       StopTimers();
     }
   }
@@ -367,7 +367,7 @@ void GstEngine::Unpause() {
 
     current_pipeline_->SetStateAsync(GST_STATE_PLAYING);
 
-    emit StateChanged(State::Playing);
+    Q_EMIT StateChanged(State::Playing);
 
     StartTimers();
   }
@@ -598,7 +598,7 @@ void GstEngine::EndOfStreamReached(const int pipeline_id, const bool has_next_tr
     BufferingFinished();
   }
 
-  emit TrackEnded();
+  Q_EMIT TrackEnded();
 
 }
 
@@ -612,7 +612,7 @@ void GstEngine::HandlePipelineError(const int pipeline_id, const int domain, con
   current_pipeline_ = GstEnginePipelinePtr();
 
   BufferingFinished();
-  emit StateChanged(State::Error);
+  Q_EMIT StateChanged(State::Error);
 
   if (
       (domain == static_cast<int>(GST_RESOURCE_ERROR) && (
@@ -622,21 +622,21 @@ void GstEngine::HandlePipelineError(const int pipeline_id, const int domain, con
       ))
       || (domain == static_cast<int>(GST_STREAM_ERROR))
       ) {
-     emit InvalidSongRequested(stream_url_);
+     Q_EMIT InvalidSongRequested(stream_url_);
    }
   else {
-    emit FatalError();
+    Q_EMIT FatalError();
   }
 
-  emit Error(message);
-  emit Error(debugstr);
+  Q_EMIT Error(message);
+  Q_EMIT Error(debugstr);
 
 }
 
 void GstEngine::NewMetaData(const int pipeline_id, const EngineMetadata &engine_metadata) {
 
   if (!current_pipeline_|| current_pipeline_->id() != pipeline_id) return;
-  emit MetaData(engine_metadata);
+  Q_EMIT MetaData(engine_metadata);
 
 }
 
@@ -667,18 +667,18 @@ void GstEngine::FadeoutFinished(const int pipeline_id) {
   fadeout_pipelines_.remove(pipeline_id);
   FinishPipeline(pipeline);
 
-  emit FadeoutFinishedSignal();
+  Q_EMIT FadeoutFinishedSignal();
 
 }
 
 void GstEngine::FadeoutPauseFinished() {
 
   fadeout_pause_pipeline_->SetStateAsync(GST_STATE_PAUSED);
-  emit StateChanged(State::Paused);
+  Q_EMIT StateChanged(State::Paused);
   StopTimers();
   has_faded_out_to_pause_ = true;
   fadeout_pause_pipeline_ = GstEnginePipelinePtr();
-  emit FadeoutFinishedSignal();
+  Q_EMIT FadeoutFinishedSignal();
 
 }
 
@@ -731,10 +731,10 @@ void GstEngine::PlayDone(const GstStateChangeReturn ret, const bool pause, const
     StartTimers();
   }
 
-  emit StateChanged(pause ? State::Paused : State::Playing);
+  Q_EMIT StateChanged(pause ? State::Paused : State::Playing);
 
   // We've successfully started playing a media stream with this url
-  emit ValidSongRequested(stream_url_);
+  Q_EMIT ValidSongRequested(stream_url_);
 
 }
 
@@ -901,9 +901,9 @@ GstEnginePipelinePtr GstEngine::CreatePipeline(const QUrl &media_url, const QUrl
   QString error;
   if (!ret->InitFromUrl(media_url, stream_url, gst_url, end_nanosec, ebur128_loudness_normalizing_gain_db, error)) {
     ret.reset();
-    emit Error(error);
-    emit StateChanged(State::Error);
-    emit FatalError();
+    Q_EMIT Error(error);
+    Q_EMIT StateChanged(State::Error);
+    Q_EMIT FatalError();
   }
 
   return ret;
@@ -1084,7 +1084,7 @@ void GstEngine::StreamDiscovered(GstDiscoverer*, GstDiscovererInfo *info, GError
 
     qLog(Debug) << "Got stream info for" << discovered_url + ":" << Song::TextForFiletype(engine_metadata.filetype);
 
-    emit instance->MetaData(engine_metadata);
+    Q_EMIT instance->MetaData(engine_metadata);
 
   }
   else {

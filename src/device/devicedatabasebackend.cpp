@@ -71,7 +71,7 @@ void DeviceDatabaseBackend::Exit() {
   Q_ASSERT(QThread::currentThread() == thread());
   Close();
   moveToThread(original_thread_);
-  emit ExitFinished();
+  Q_EMIT ExitFinished();
 
 }
 

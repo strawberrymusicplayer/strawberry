@@ -137,7 +137,7 @@ void AcoustidClient::RequestFinished(QNetworkReply *reply, const int request_id)
     else {
       qLog(Error) << QStringLiteral("Acoustid: Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
     }
-    emit Finished(request_id, QStringList());
+    Q_EMIT Finished(request_id, QStringList());
     return;
   }
 
@@ -145,7 +145,7 @@ void AcoustidClient::RequestFinished(QNetworkReply *reply, const int request_id)
   QJsonDocument json_document = QJsonDocument::fromJson(reply->readAll(), &error);
 
   if (error.error != QJsonParseError::NoError) {
-    emit Finished(request_id, QStringList());
+    Q_EMIT Finished(request_id, QStringList());
     return;
   }
 
@@ -153,7 +153,7 @@ void AcoustidClient::RequestFinished(QNetworkReply *reply, const int request_id)
 
   QString status = json_object[QLatin1String("status")].toString();
   if (status != QLatin1String("ok")) {
-    emit Finished(request_id, QStringList(), status);
+    Q_EMIT Finished(request_id, QStringList(), status);
     return;
   }
 
@@ -188,6 +188,6 @@ void AcoustidClient::RequestFinished(QNetworkReply *reply, const int request_id)
     id_list << is.id_;
   }
 
-  emit Finished(request_id, id_list);
+  Q_EMIT Finished(request_id, id_list);
 
 }

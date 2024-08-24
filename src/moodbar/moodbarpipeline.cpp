@@ -100,7 +100,7 @@ void MoodbarPipeline::Start() {
   if (!decodebin || !convert_element_ || !spectrum || !fakesink) {
     gst_object_unref(GST_OBJECT(pipeline_));
     pipeline_ = nullptr;
-    emit Finished(false);
+    Q_EMIT Finished(false);
     return;
   }
 
@@ -109,7 +109,7 @@ void MoodbarPipeline::Start() {
     qLog(Error) << "Failed to link elements";
     gst_object_unref(GST_OBJECT(pipeline_));
     pipeline_ = nullptr;
-    emit Finished(false);
+    Q_EMIT Finished(false);
     return;
   }
 
@@ -222,7 +222,7 @@ void MoodbarPipeline::Stop(const bool success) {
     builder_.reset();
   }
 
-  emit Finished(success);
+  Q_EMIT Finished(success);
 
 }
 

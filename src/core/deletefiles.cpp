@@ -99,7 +99,7 @@ void DeleteFiles::ProcessSomeFiles() {
 
     task_manager_->SetTaskFinished(task_id_);
 
-    emit Finished(songs_with_errors_);
+    Q_EMIT Finished(songs_with_errors_);
 
     // Move back to the original thread so deleteLater() can get called in the main thread's event loop
     moveToThread(original_thread_);

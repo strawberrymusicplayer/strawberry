@@ -221,7 +221,7 @@ void SettingsDialog::accept() {
   for (const PageData &page : pages) {
     page.page_->Accept();
   }
-  emit ReloadSettings();
+  Q_EMIT ReloadSettings();
 
   SaveGeometry();
 
@@ -324,7 +324,7 @@ void SettingsDialog::Save() {
   for (const PageData &page : pages) {
     page.page_->Apply();
   }
-  emit ReloadSettings();
+  Q_EMIT ReloadSettings();
 
 }
 
@@ -337,7 +337,7 @@ void SettingsDialog::DialogButtonClicked(QAbstractButton *button) {
     for (const PageData &page : pages) {
       page.page_->Apply();
     }
-    emit ReloadSettings();
+    Q_EMIT ReloadSettings();
   }
 
 }

@@ -204,7 +204,7 @@ void PlaylistContainer::SetViewModel(Playlist *playlist, const int scroll_positi
   playlist->IgnoreSorting(false);
 
   QObject::connect(view()->selectionModel(), &QItemSelectionModel::selectionChanged, this, &PlaylistContainer::SelectionChanged);
-  emit ViewSelectionModelChanged();
+  Q_EMIT ViewSelectionModelChanged();
 
   // Update filter
   ui_->search_field->setText(playlist->filter()->filter_string());
@@ -236,7 +236,7 @@ void PlaylistContainer::SetViewModel(Playlist *playlist, const int scroll_positi
   ui_->undo->setDefaultAction(undo_);
   ui_->redo->setDefaultAction(redo_);
 
-  emit UndoRedoActionsChanged(undo_, redo_);
+  Q_EMIT UndoRedoActionsChanged(undo_, redo_);
 
 }
 

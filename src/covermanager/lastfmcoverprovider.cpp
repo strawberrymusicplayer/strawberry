@@ -133,13 +133,13 @@ void LastFmCoverProvider::QueryFinished(QNetworkReply *reply, const int id, cons
 
   QByteArray data = GetReplyData(reply);
   if (data.isEmpty()) {
-    emit SearchFinished(id, results);
+    Q_EMIT SearchFinished(id, results);
     return;
   }
 
   QJsonObject json_obj = ExtractJsonObj(data);
   if (json_obj.isEmpty()) {
-    emit SearchFinished(id, results);
+    Q_EMIT SearchFinished(id, results);
     return;
   }
 
@@ -151,25 +151,25 @@ void LastFmCoverProvider::QueryFinished(QNetworkReply *reply, const int id, cons
     int error = json_obj[QLatin1String("error")].toInt();
     QString message = json_obj[QLatin1String("message")].toString();
     Error(QStringLiteral("Error: %1: %2").arg(QString::number(error), message));
-    emit SearchFinished(id, results);
+    Q_EMIT SearchFinished(id, results);
     return;
   }
   else {
     Error(QStringLiteral("Json reply is missing results."), json_obj);
-    emit SearchFinished(id, results);
+    Q_EMIT SearchFinished(id, results);
     return;
   }
 
   if (!value_results.isObject()) {
     Error(QStringLiteral("Json results is not a object."), value_results);
-    emit SearchFinished(id, results);
+    Q_EMIT SearchFinished(id, results);
     return;
   }
 
   QJsonObject obj_results = value_results.toObject();
   if (obj_results.isEmpty()) {
     Error(QStringLiteral("Json results object is empty."), value_results);
-    emit SearchFinished(id, results);
+    Q_EMIT SearchFinished(id, results);
     return;
   }
 
@@ -181,7 +181,7 @@ void LastFmCoverProvider::QueryFinished(QNetworkReply *reply, const int id, cons
     }
     else {
       Error(QStringLiteral("Json results object is missing albummatches."), obj_results);
-      emit SearchFinished(id, results);
+      Q_EMIT SearchFinished(id, results);
       return;
     }
   }
@@ -191,35 +191,35 @@ void LastFmCoverProvider::QueryFinished(QNetworkReply *reply, const int id, cons
     }
     else {
       Error(QStringLiteral("Json results object is missing trackmatches."), obj_results);
-      emit SearchFinished(id, results);
+      Q_EMIT SearchFinished(id, results);
       return;
     }
   }
 
   if (!value_matches.isObject()) {
     Error(QStringLiteral("Json albummatches or trackmatches is not an object."), value_matches);
-    emit SearchFinished(id, results);
+    Q_EMIT SearchFinished(id, results);
     return;
   }
 
   QJsonObject obj_matches = value_matches.toObject();
   if (obj_matches.isEmpty()) {
     Error(QStringLiteral("Json albummatches or trackmatches object is empty."), value_matches);
-    emit SearchFinished(id, results);
+    Q_EMIT SearchFinished(id, results);
     return;
   }
 
   QJsonValue value_type;
   if (!obj_matches.contains(type)) {
     Error(QStringLiteral("Json object is missing %1.").arg(type), obj_matches);
-    emit SearchFinished(id, results);
+    Q_EMIT SearchFinished(id, results);
     return;
   }
   value_type = obj_matches[type];
 
   if (!value_type.isArray()) {
     Error(QStringLiteral("Json album value in albummatches object is not an array."), value_type);
-    emit SearchFinished(id, results);
+    Q_EMIT SearchFinished(id, results);
     return;
   }
   const QJsonArray array_type = value_type.toArray();
@@ -284,7 +284,7 @@ void LastFmCoverProvider::QueryFinished(QNetworkReply *reply, const int id, cons
     cover_result.image_size = QSize(300, 300);
     results << cover_result;
   }
-  emit SearchFinished(id, results);
+  Q_EMIT SearchFinished(id, results);
 
 }
 

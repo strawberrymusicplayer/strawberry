@@ -65,7 +65,7 @@ void CddaDevice::Refresh() {
 void CddaDevice::SongsLoaded(const SongList &songs) {
 
   model_->Reset();
-  emit SongsDiscovered(songs);
+  Q_EMIT SongsDiscovered(songs);
   song_count_ = songs.size();
 
 }

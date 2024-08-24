@@ -225,7 +225,7 @@ void FancyTabWidget::SetMode(const Mode mode) {
   // There appears to be a bug in QTabBar which causes tabSizeHint to be ignored thus the need for this second shot repaint
   QTimer::singleShot(1ms, this, &FancyTabWidget::TabBarUpdateGeometry);
 
-  emit ModeChanged(mode);
+  Q_EMIT ModeChanged(mode);
 
 }
 
@@ -271,7 +271,7 @@ void FancyTabWidget::CurrentTabChangedSlot(const int idx) {
   QLayout *layout = currentPage->layout();
   if (bottom_widget_) layout->addWidget(bottom_widget_);
 
-  emit CurrentTabChanged(idx);
+  Q_EMIT CurrentTabChanged(idx);
 
 }
 

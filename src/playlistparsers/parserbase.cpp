@@ -60,7 +60,7 @@ void ParserBase::LoadSong(const QString &filename_or_url, const qint64 beginning
     }
     else {
       qLog(Error) << "Don't know how to handle" << url;
-      emit Error(tr("Don't know how to handle %1").arg(filename_or_url));
+      Q_EMIT Error(tr("Don't know how to handle %1").arg(filename_or_url));
       return;
     }
   }

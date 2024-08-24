@@ -152,7 +152,7 @@ void TidalSettingsPage::LoginClicked() {
       QMessageBox::critical(this, tr("Configuration incomplete"), tr("Missing Tidal client ID."));
       return;
     }
-    emit Authorize(ui_->client_id->text());
+    Q_EMIT Authorize(ui_->client_id->text());
   }
   else {
     if (ui_->api_token->text().isEmpty()) {
@@ -167,7 +167,7 @@ void TidalSettingsPage::LoginClicked() {
       QMessageBox::critical(this, tr("Configuration incomplete"), tr("Missing password."));
       return;
     }
-    emit Login(ui_->api_token->text(), ui_->username->text(), ui_->password->text());
+    Q_EMIT Login(ui_->api_token->text(), ui_->username->text(), ui_->password->text());
   }
   ui_->button_login->setEnabled(false);
 

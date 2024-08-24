@@ -83,7 +83,7 @@ void DeviceLister::UnmountDeviceAsync(const QString &id) {
 }
 
 void DeviceLister::MountDevice(const QString &id, const int request_id) {
-  emit DeviceMounted(id, request_id, true);
+  Q_EMIT DeviceMounted(id, request_id, true);
 }
 
 void DeviceLister::ExitAsync() {
@@ -96,7 +96,7 @@ void DeviceLister::Exit() {
   if (thread_) {
     moveToThread(original_thread_);
   }
-  emit ExitFinished();
+  Q_EMIT ExitFinished();
 
 }
 

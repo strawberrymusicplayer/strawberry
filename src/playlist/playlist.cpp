@@ -398,7 +398,7 @@ QVariant Playlist::data(const QModelIndex &idx, const int role) const {
 
 #ifdef HAVE_MOODBAR
 void Playlist::MoodbarUpdated(const QModelIndex &idx) {
-  emit dataChanged(idx.sibling(idx.row(), static_cast<int>(Column::Mood)), idx.sibling(idx.row(), static_cast<int>(Column::Mood)));
+  Q_EMIT dataChanged(idx.sibling(idx.row(), static_cast<int>(Column::Mood)), idx.sibling(idx.row(), static_cast<int>(Column::Mood)));
 }
 #endif
 
@@ -436,10 +436,10 @@ void Playlist::SongSaveComplete(TagReaderReply *reply, const QPersistentModelInd
     }
     else {
       if (reply->request_message().write_file_response().has_error()) {
-        emit Error(tr("Could not write metadata to %1: %2").arg(QString::fromStdString(reply->request_message().write_file_request().filename()), QString::fromStdString(reply->request_message().write_file_response().error())));
+        Q_EMIT Error(tr("Could not write metadata to %1: %2").arg(QString::fromStdString(reply->request_message().write_file_request().filename()), QString::fromStdString(reply->request_message().write_file_response().error())));
       }
       else {
-        emit Error(tr("Could not write metadata to %1").arg(QString::fromStdString(reply->request_message().write_file_request().filename())));
+        Q_EMIT Error(tr("Could not write metadata to %1").arg(QString::fromStdString(reply->request_message().write_file_request().filename())));
       }
     }
   }
@@ -473,14 +473,14 @@ void Playlist::ItemReloadComplete(const QPersistentModelIndex &idx, const Song &
       ItemChanged(idx.row(), ChangedColumns(old_metadata, item->Metadata()));
       if (idx.row() == current_row()) {
         if (MinorMetadataChange(old_metadata, item->Metadata())) {
-          emit CurrentSongMetadataChanged(item->Metadata());
+          Q_EMIT CurrentSongMetadataChanged(item->Metadata());
         }
         else {
-          emit CurrentSongChanged(item->Metadata());
+          Q_EMIT CurrentSongChanged(item->Metadata());
         }
       }
       if (metadata_edit) {
-        emit EditingFinished(id_, idx);
+        Q_EMIT EditingFinished(id_, idx);
       }
       ScheduleSaveAsync();
     }
@@ -668,7 +668,7 @@ void Playlist::set_current_row(const int i, const AutoScroll autoscroll, const b
     PlaylistItemPtr next_item = item_at(nextrow);
     if (next_item) {
       next_item->ClearTemporaryMetadata();
-      emit dataChanged(index(nextrow, 0), index(nextrow, ColumnCount - 1));
+      Q_EMIT dataChanged(index(nextrow, 0), index(nextrow, ColumnCount - 1));
     }
   }
 
@@ -685,7 +685,7 @@ void Playlist::set_current_row(const int i, const AutoScroll autoscroll, const b
   }
 
   if (old_current_item_index.isValid()) {
-    emit dataChanged(old_current_item_index, old_current_item_index.sibling(old_current_item_index.row(), ColumnCount - 1));
+    Q_EMIT dataChanged(old_current_item_index, old_current_item_index.sibling(old_current_item_index.row(), ColumnCount - 1));
   }
 
   // Update the virtual index
@@ -710,8 +710,8 @@ void Playlist::set_current_row(const int i, const AutoScroll autoscroll, const b
 
   if (current_item_index_.isValid() && !is_stopping) {
     InformOfCurrentSongChange(false);
-    emit dataChanged(index(current_item_index_.row(), 0), index(current_item_index_.row(), ColumnCount - 1));
-    emit MaybeAutoscroll(autoscroll);
+    Q_EMIT dataChanged(index(current_item_index_.row(), 0), index(current_item_index_.row(), ColumnCount - 1));
+    Q_EMIT MaybeAutoscroll(autoscroll);
   }
 
   // The structure of a dynamic playlist is as follows:
@@ -925,7 +925,7 @@ void Playlist::TurnOnDynamicPlaylist(PlaylistGeneratorPtr gen) {
 
   dynamic_playlist_ = gen;
   ShuffleModeChanged(PlaylistSequence::ShuffleMode::Off);
-  emit DynamicModeChanged(true);
+  Q_EMIT DynamicModeChanged(true);
 
   ScheduleSave();
 
@@ -937,7 +937,7 @@ void Playlist::MoveItemWithoutUndo(const int source, const int dest) {
 
 void Playlist::MoveItemsWithoutUndo(const QList<int> &source_rows, int pos) {
 
-  emit layoutAboutToBeChanged();
+  Q_EMIT layoutAboutToBeChanged();
 
   PlaylistItemPtrList old_items = items_;
   PlaylistItemPtrList moved_items;
@@ -999,7 +999,7 @@ void Playlist::MoveItemsWithoutUndo(const QList<int> &source_rows, int pos) {
     current_virtual_index_ = -1;
   }
 
-  emit layoutChanged();
+  Q_EMIT layoutChanged();
 
   ScheduleSave();
 
@@ -1007,7 +1007,7 @@ void Playlist::MoveItemsWithoutUndo(const QList<int> &source_rows, int pos) {
 
 void Playlist::MoveItemsWithoutUndo(int start, const QList<int> &dest_rows) {
 
-  emit layoutAboutToBeChanged();
+  Q_EMIT layoutAboutToBeChanged();
 
   PlaylistItemPtrList old_items = items_;
   PlaylistItemPtrList moved_items;
@@ -1072,7 +1072,7 @@ void Playlist::MoveItemsWithoutUndo(int start, const QList<int> &dest_rows) {
     current_virtual_index_ = -1;
   }
 
-  emit layoutChanged();
+  Q_EMIT layoutChanged();
 
   ScheduleSave();
 
@@ -1097,7 +1097,7 @@ void Playlist::InsertItems(const PlaylistItemPtrList &itemsIn, const int pos, co
     undo_stack_->push(new PlaylistUndoCommands::InsertItems(this, items, pos, enqueue, enqueue_next));
   }
 
-  if (play_now) emit PlayRequested(index(start, 0), AutoScroll::Maybe);
+  if (play_now) Q_EMIT PlayRequested(index(start, 0), AutoScroll::Maybe);
 
 }
 
@@ -1249,7 +1249,7 @@ void Playlist::UpdateItems(SongList songs) {
           }
         }
         items_[i] = new_item;
-        emit dataChanged(index(i, 0), index(i, ColumnCount - 1));
+        Q_EMIT dataChanged(index(i, 0), index(i, ColumnCount - 1));
         // Also update undo actions
         for (int y = 0; y < undo_stack_->count(); y++) {
           QUndoCommand *undo_action = const_cast<QUndoCommand*>(undo_stack_->command(i));
@@ -1265,7 +1265,7 @@ void Playlist::UpdateItems(SongList songs) {
     }
   }
 
-  emit PlaylistChanged();
+  Q_EMIT PlaylistChanged();
 
   ScheduleSave();
 
@@ -1486,7 +1486,7 @@ void Playlist::sort(const int column_number, const Qt::SortOrder order) {
 
 void Playlist::ReOrderWithoutUndo(const PlaylistItemPtrList &new_items) {
 
-  emit layoutAboutToBeChanged();
+  Q_EMIT layoutAboutToBeChanged();
 
   PlaylistItemPtrList old_items = items_;
   items_ = new_items;
@@ -1518,9 +1518,9 @@ void Playlist::ReOrderWithoutUndo(const PlaylistItemPtrList &new_items) {
     current_virtual_index_ = -1;
   }
 
-  emit layoutChanged();
+  Q_EMIT layoutChanged();
 
-  emit PlaylistChanged();
+  Q_EMIT PlaylistChanged();
 
   ScheduleSave();
 
@@ -1539,7 +1539,7 @@ void Playlist::SetCurrentIsPaused(const bool paused) {
   current_is_paused_ = paused;
 
   if (current_item_index_.isValid()) {
-    emit dataChanged(index(current_item_index_.row(), 0), index(current_item_index_.row(), ColumnCount - 1));
+    Q_EMIT dataChanged(index(current_item_index_.row(), 0), index(current_item_index_.row(), ColumnCount - 1));
   }
 
 }
@@ -1634,7 +1634,7 @@ void Playlist::ItemsLoaded() {
     }
   }
 
-  emit RestoreFinished();
+  Q_EMIT RestoreFinished();
 
   Settings s;
   s.beginGroup(kSettingsGroup);
@@ -1650,7 +1650,7 @@ void Playlist::ItemsLoaded() {
 #endif
   }
 
-  emit PlaylistLoaded();
+  Q_EMIT PlaylistLoaded();
 
 }
 
@@ -1795,10 +1795,10 @@ void Playlist::StopAfter(const int row) {
   }
 
   if (old_stop_after.isValid()) {
-    emit dataChanged(old_stop_after, old_stop_after.sibling(old_stop_after.row(), ColumnCount - 1));
+    Q_EMIT dataChanged(old_stop_after, old_stop_after.sibling(old_stop_after.row(), ColumnCount - 1));
   }
   if (stop_after_.isValid()) {
-    emit dataChanged(stop_after_, stop_after_.sibling(stop_after_.row(), ColumnCount - 1));
+    Q_EMIT dataChanged(stop_after_, stop_after_.sibling(stop_after_.row(), ColumnCount - 1));
   }
 
 }
@@ -2101,10 +2101,10 @@ void Playlist::TracksAboutToBeDequeued(const QModelIndex&, const int begin, cons
 void Playlist::TracksDequeued() {
 
   for (const QModelIndex &idx : std::as_const(temp_dequeue_change_indexes_)) {
-    emit dataChanged(idx, idx);
+    Q_EMIT dataChanged(idx, idx);
   }
   temp_dequeue_change_indexes_.clear();
-  emit QueueChanged();
+  Q_EMIT QueueChanged();
 
 }
 
@@ -2112,7 +2112,7 @@ void Playlist::TracksEnqueued(const QModelIndex&, const int begin, const int end
 
   const QModelIndex &b = queue_->mapToSource(queue_->index(begin, static_cast<int>(Column::Title)));
   const QModelIndex &e = queue_->mapToSource(queue_->index(end, static_cast<int>(Column::Title)));
-  emit dataChanged(b, e);
+  Q_EMIT dataChanged(b, e);
 
 }
 
@@ -2120,7 +2120,7 @@ void Playlist::QueueLayoutChanged() {
 
   for (int i = 0; i < queue_->rowCount(); ++i) {
     const QModelIndex &idx = queue_->mapToSource(queue_->index(i, static_cast<int>(Column::Title)));
-    emit dataChanged(idx, idx);
+    Q_EMIT dataChanged(idx, idx);
   }
 
 }
@@ -2280,14 +2280,14 @@ void Playlist::ItemChanged(const int row, const Columns columns) {
     const QModelIndex idx_column_first = index(row, 0);
     const QModelIndex idx_column_last = index(row, ColumnCount - 1);
     if (idx_column_first.isValid() && idx_column_last.isValid()) {
-      emit dataChanged(index(row, 0), index(row, ColumnCount - 1));
+      Q_EMIT dataChanged(index(row, 0), index(row, ColumnCount - 1));
     }
   }
   else {
     for (const Column &column : columns) {
       const QModelIndex idx = index(row, static_cast<int>(column));
       if (idx.isValid()) {
-        emit dataChanged(idx, idx);
+        Q_EMIT dataChanged(idx, idx);
       }
     }
   }
@@ -2302,10 +2302,10 @@ void Playlist::InformOfCurrentSongChange(const bool minor) {
   }
 
   if (minor) {
-    emit CurrentSongMetadataChanged(metadata);
+    Q_EMIT CurrentSongMetadataChanged(metadata);
   }
   else {
-    emit CurrentSongChanged(metadata);
+    Q_EMIT CurrentSongChanged(metadata);
   }
 
 }
@@ -2465,7 +2465,7 @@ void Playlist::SkipTracks(const QModelIndexList &source_indexes) {
   for (const QModelIndex &source_index : source_indexes) {
     PlaylistItemPtr track_to_skip = item_at(source_index.row());
     track_to_skip->SetShouldSkip(!((track_to_skip)->GetShouldSkip()));
-    emit dataChanged(source_index, source_index);
+    Q_EMIT dataChanged(source_index, source_index);
   }
 
 }
@@ -2521,7 +2521,7 @@ void Playlist::TurnOffDynamicPlaylist() {
     ShuffleModeChanged(ShuffleMode());
   }
 
-  emit DynamicModeChanged(false);
+  Q_EMIT DynamicModeChanged(false);
 
   ScheduleSave();
 

@@ -398,12 +398,12 @@ void DeviceView::Load() {
   if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
     mimedata->clear_first_ = true;
   }
-  emit AddToPlaylistSignal(q_mimedata);
+  Q_EMIT AddToPlaylistSignal(q_mimedata);
 
 }
 
 void DeviceView::AddToPlaylist() {
-  emit AddToPlaylistSignal(model()->mimeData(selectedIndexes()));
+  Q_EMIT AddToPlaylistSignal(model()->mimeData(selectedIndexes()));
 }
 
 void DeviceView::OpenInNewPlaylist() {
@@ -412,7 +412,7 @@ void DeviceView::OpenInNewPlaylist() {
   if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
     mimedata->open_in_new_playlist_ = true;
   }
-  emit AddToPlaylistSignal(q_mimedata);
+  Q_EMIT AddToPlaylistSignal(q_mimedata);
 
 }
 

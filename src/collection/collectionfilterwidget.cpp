@@ -479,12 +479,12 @@ void CollectionFilterWidget::keyReleaseEvent(QKeyEvent *e) {
 
   switch (e->key()) {
     case Qt::Key_Up:
-      emit UpPressed();
+      Q_EMIT UpPressed();
       e->accept();
       break;
 
     case Qt::Key_Down:
-      emit DownPressed();
+      Q_EMIT DownPressed();
       e->accept();
       break;
 

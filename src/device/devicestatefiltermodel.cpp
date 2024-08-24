@@ -44,13 +44,13 @@ bool DeviceStateFilterModel::filterAcceptsRow(int row, const QModelIndex&) const
 
 void DeviceStateFilterModel::ProxyRowCountChanged(const QModelIndex&, const int, const int) {
 
-  emit IsEmptyChanged(rowCount() == 0);
+  Q_EMIT IsEmptyChanged(rowCount() == 0);
 
 }
 
 void DeviceStateFilterModel::ProxyReset() {
 
-  emit IsEmptyChanged(rowCount() == 0);
+  Q_EMIT IsEmptyChanged(rowCount() == 0);
 
 }
 

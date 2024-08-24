@@ -161,7 +161,7 @@ void PlaylistHeader::SetColumnAlignment(QAction *action) {
 
 void PlaylistHeader::ToggleVisible(const int section) {
   SetSectionHidden(section, !isSectionHidden(section));
-  emit SectionVisibilityChanged(section, !isSectionHidden(section));
+  Q_EMIT SectionVisibilityChanged(section, !isSectionHidden(section));
 }
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
@@ -169,7 +169,7 @@ void PlaylistHeader::enterEvent(QEnterEvent*) {
 #else
 void PlaylistHeader::enterEvent(QEvent*) {
 #endif
-  emit MouseEntered();
+  Q_EMIT MouseEntered();
 }
 
 void PlaylistHeader::ResetColumns() {
@@ -177,5 +177,5 @@ void PlaylistHeader::ResetColumns() {
 }
 
 void PlaylistHeader::ToggleRatingEditStatus() {
-  emit SectionRatingLockStatusChanged(action_rating_lock_->isChecked());
+  Q_EMIT SectionRatingLockStatusChanged(action_rating_lock_->isChecked());
 }

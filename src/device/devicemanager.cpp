@@ -202,7 +202,7 @@ void DeviceManager::BackendClosed() {
   QObject::disconnect(obj, nullptr, this, nullptr);
   qLog(Debug) << obj << "successfully closed.";
   wait_for_exit_.removeAll(obj);
-  if (wait_for_exit_.isEmpty()) emit ExitFinished();
+  if (wait_for_exit_.isEmpty()) Q_EMIT ExitFinished();
 
 }
 
@@ -236,7 +236,7 @@ void DeviceManager::LoadAllDevices() {
   for (const DeviceDatabaseBackend::Device &device : devices) {
     DeviceInfo *info = new DeviceInfo(DeviceInfo::Type::Device, root_);
     info->InitFromDb(device);
-    emit DeviceCreatedFromDB(info);
+    Q_EMIT DeviceCreatedFromDB(info);
   }
 
   // This is done in a concurrent thread so close the unique DB connection.
@@ -260,7 +260,7 @@ void DeviceManager::AddDeviceFromDB(DeviceInfo *info) {
     existing->icon_name_ = info->icon_name_;
     existing->icon_ = info->icon_;
     QModelIndex idx = ItemToIndex(existing);
-    if (idx.isValid()) emit dataChanged(idx, idx);
+    if (idx.isValid()) Q_EMIT dataChanged(idx, idx);
     root_->Delete(info->row);
   }
   else {
@@ -460,7 +460,7 @@ void DeviceManager::PhysicalDeviceAdded(const QString &id) {
       }
     }
     QModelIndex idx = ItemToIndex(info);
-    if (idx.isValid()) emit dataChanged(idx, idx);
+    if (idx.isValid()) Q_EMIT dataChanged(idx, idx);
   }
   else {
     // Check if we have another device with the same URL
@@ -476,7 +476,7 @@ void DeviceManager::PhysicalDeviceAdded(const QString &id) {
         info->LoadIcon(lister->DeviceIcons(id), info->friendly_name_);
       }
       QModelIndex idx = ItemToIndex(info);
-      if (idx.isValid()) emit dataChanged(idx, idx);
+      if (idx.isValid()) Q_EMIT dataChanged(idx, idx);
     }
     else {
       // It's a completely new device
@@ -518,9 +518,9 @@ void DeviceManager::PhysicalDeviceRemoved(const QString &id) {
       info->device_->Close();
     }
 
-    if (!info->device_) emit DeviceDisconnected(idx);
+    if (!info->device_) Q_EMIT DeviceDisconnected(idx);
 
-    emit dataChanged(idx, idx);
+    Q_EMIT dataChanged(idx, idx);
   }
   else {
     // If this was the last lister for the device then remove it from the model
@@ -661,7 +661,7 @@ SharedPtr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *info) {
   QModelIndex idx = ItemToIndex(info);
   if (!idx.isValid()) return ret;
 
-  emit dataChanged(idx, idx);
+  Q_EMIT dataChanged(idx, idx);
 
   QObject::connect(&*info->device_, &ConnectedDevice::TaskStarted, this, &DeviceManager::DeviceTaskStarted);
   QObject::connect(&*info->device_, &ConnectedDevice::SongCountUpdated, this, &DeviceManager::DeviceSongCountUpdated);
@@ -681,7 +681,7 @@ void DeviceManager::DeviceConnectFinished(const QString &id, const bool success)
   if (!idx.isValid()) return;
 
   if (success) {
-    emit DeviceConnected(idx);
+    Q_EMIT DeviceConnected(idx);
   }
   else {
     info->device_->Close();
@@ -699,8 +699,8 @@ void DeviceManager::DeviceCloseFinished(const QString &id) {
   QModelIndex idx = ItemToIndex(info);
   if (!idx.isValid()) return;
 
-  emit DeviceDisconnected(idx);
-  emit dataChanged(idx, idx);
+  Q_EMIT DeviceDisconnected(idx);
+  Q_EMIT dataChanged(idx, idx);
 
   if (info->unmount_ && info->BestBackend() && info->BestBackend()->lister_) {
     info->BestBackend()->lister_->UnmountDeviceAsync(info->BestBackend()->unique_id_);
@@ -799,7 +799,7 @@ void DeviceManager::RemoveFromDB(DeviceInfo *info, const QModelIndex &idx) {
 
     info->friendly_name_ = info->BestBackend()->lister_->MakeFriendlyName(id);
     info->LoadIcon(info->BestBackend()->lister_->DeviceIcons(id), info->friendly_name_);
-    emit dataChanged(idx, idx);
+    Q_EMIT dataChanged(idx, idx);
   }
 
 }
@@ -816,7 +816,7 @@ void DeviceManager::SetDeviceOptions(const QModelIndex &idx, const QString &frie
   info->transcode_mode_ = mode;
   info->transcode_format_ = format;
 
-  emit dataChanged(idx, idx);
+  Q_EMIT dataChanged(idx, idx);
 
   if (info->database_id_ != -1) {
     backend_->SetDeviceOptions(info->database_id_, friendly_name, icon_name, mode, format);
@@ -836,7 +836,7 @@ void DeviceManager::DeviceTaskStarted(const int id) {
       if (!index.isValid()) continue;
       active_tasks_[id] = index;
       info->task_percentage_ = 0;
-      emit dataChanged(index, index);
+      Q_EMIT dataChanged(index, index);
       return;
     }
   }
@@ -862,7 +862,7 @@ void DeviceManager::TasksChanged() {
       info->task_percentage_ = 0;
     }
 
-    emit dataChanged(idx, idx);
+    Q_EMIT dataChanged(idx, idx);
     finished_tasks.removeAll(idx);
 
   }
@@ -875,7 +875,7 @@ void DeviceManager::TasksChanged() {
     if (!info) continue;
 
     info->task_percentage_ = -1;
-    emit dataChanged(idx, idx);
+    Q_EMIT dataChanged(idx, idx);
 
     active_tasks_.remove(active_tasks_.key(idx));
   }
@@ -918,7 +918,7 @@ void DeviceManager::DeviceSongCountUpdated(const int count) {
   QModelIndex idx = ItemToIndex(info);
   if (!idx.isValid()) return;
 
-  emit dataChanged(idx, idx);
+  Q_EMIT dataChanged(idx, idx);
 
 }
 

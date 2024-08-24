@@ -105,7 +105,7 @@ void PlaylistListModel::AddRowItem(QStandardItem *item, const QString &parent_pa
 
       playlists_by_id_[id] = item;
       if (dropping_rows_) {
-        emit PlaylistPathChanged(id, parent_path);
+        Q_EMIT PlaylistPathChanged(id, parent_path);
       }
 
       break;
@@ -227,7 +227,7 @@ bool PlaylistListModel::setData(const QModelIndex &idx, const QVariant &value, i
 
   switch (idx.data(Role_Type).toInt()) {
     case Type_Playlist:
-      emit PlaylistRenamed(idx.data(Role_PlaylistId).toInt(), value.toString());
+      Q_EMIT PlaylistRenamed(idx.data(Role_PlaylistId).toInt(), value.toString());
       break;
 
     case Type_Folder:
@@ -247,7 +247,7 @@ void PlaylistListModel::UpdatePathsRecursive(const QModelIndex &parent) {
 
   switch (parent.data(Role_Type).toInt()) {
     case Type_Playlist:
-      emit PlaylistPathChanged(parent.data(Role_PlaylistId).toInt(), ItemPath(itemFromIndex(parent)));
+      Q_EMIT PlaylistPathChanged(parent.data(Role_PlaylistId).toInt(), ItemPath(itemFromIndex(parent)));
       break;
 
     case Type_Folder:

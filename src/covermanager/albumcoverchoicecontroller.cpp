@@ -184,7 +184,7 @@ AlbumCoverImageResult AlbumCoverChoiceController::LoadImageFromFile(Song *song) 
   QFile file(cover_file);
   if (!file.open(QIODevice::ReadOnly)) {
     qLog(Error) << "Failed to open cover file" << cover_file << "for reading:" << file.errorString();
-    emit Error(tr("Failed to open cover file %1 for reading: %2").arg(cover_file, file.errorString()));
+    Q_EMIT Error(tr("Failed to open cover file %1 for reading: %2").arg(cover_file, file.errorString()));
     return AlbumCoverImageResult();
   }
   AlbumCoverImageResult result;
@@ -192,7 +192,7 @@ AlbumCoverImageResult AlbumCoverChoiceController::LoadImageFromFile(Song *song) 
   file.close();
   if (result.image_data.isEmpty()) {
     qLog(Error) << "Cover file" << cover_file << "is empty.";
-    emit Error(tr("Cover file %1 is empty.").arg(cover_file));
+    Q_EMIT Error(tr("Cover file %1 is empty.").arg(cover_file));
     return AlbumCoverImageResult();
   }
 
@@ -264,13 +264,13 @@ void AlbumCoverChoiceController::SaveCoverToFileManual(const Song &song, const A
     QFile file(save_filename);
     if (!file.open(QIODevice::WriteOnly)) {
       qLog(Error) << "Failed to open cover file" << save_filename << "for writing:" << file.errorString();
-      emit Error(tr("Failed to open cover file %1 for writing: %2").arg(save_filename, file.errorString()));
+      Q_EMIT Error(tr("Failed to open cover file %1 for writing: %2").arg(save_filename, file.errorString()));
       file.close();
       return;
     }
     if (file.write(result.image_data) <= 0) {
       qLog(Error) << "Failed writing cover to file" << save_filename << file.errorString();
-      emit Error(tr("Failed writing cover to file %1: %2").arg(save_filename, file.errorString()));
+      Q_EMIT Error(tr("Failed writing cover to file %1: %2").arg(save_filename, file.errorString()));
       file.close();
       return;
     }
@@ -279,7 +279,7 @@ void AlbumCoverChoiceController::SaveCoverToFileManual(const Song &song, const A
   else {
     if (!result.image.save(save_filename)) {
       qLog(Error) << "Failed writing cover to file" << save_filename;
-      emit Error(tr("Failed writing cover to file %1.").arg(save_filename));
+      Q_EMIT Error(tr("Failed writing cover to file %1.").arg(save_filename));
     }
   }
 
@@ -381,7 +381,7 @@ bool AlbumCoverChoiceController::DeleteCover(Song *song, const bool unset) {
       else {
         success = false;
         qLog(Error) << "Failed to delete cover file" << art_automatic << file.errorString();
-        emit Error(tr("Failed to delete cover file %1: %2").arg(art_automatic, file.errorString()));
+        Q_EMIT Error(tr("Failed to delete cover file %1: %2").arg(art_automatic, file.errorString()));
       }
     }
     else song->clear_art_automatic();
@@ -398,7 +398,7 @@ bool AlbumCoverChoiceController::DeleteCover(Song *song, const bool unset) {
       else {
         success = false;
         qLog(Error) << "Failed to delete cover file" << art_manual << file.errorString();
-        emit Error(tr("Failed to delete cover file %1: %2").arg(art_manual, file.errorString()));
+        Q_EMIT Error(tr("Failed to delete cover file %1: %2").arg(art_manual, file.errorString()));
       }
     }
     else song->clear_art_manual();
@@ -539,7 +539,7 @@ void AlbumCoverChoiceController::AlbumCoverFetched(const quint64 id, const Album
     SaveCoverAutomatic(&song, result);
   }
 
-  emit AutomaticCoverSearchDone();
+  Q_EMIT AutomaticCoverSearchDone();
 
 }
 
@@ -683,13 +683,13 @@ QUrl AlbumCoverChoiceController::SaveCoverToFileAutomatic(const Song::Source sou
       }
       else {
         qLog(Error) << "Failed to write cover to file" << file.fileName() << file.errorString();
-        emit Error(tr("Failed to write cover to file %1: %2").arg(file.fileName(), file.errorString()));
+        Q_EMIT Error(tr("Failed to write cover to file %1: %2").arg(file.fileName(), file.errorString()));
       }
       file.close();
     }
     else {
       qLog(Error) << "Failed to open cover file" << file.fileName() << "for writing:" << file.errorString();
-      emit Error(tr("Failed to open cover file %1 for writing: %2").arg(file.fileName(), file.errorString()));
+      Q_EMIT Error(tr("Failed to open cover file %1 for writing: %2").arg(file.fileName(), file.errorString()));
     }
   }
   else {
@@ -830,7 +830,7 @@ void AlbumCoverChoiceController::SaveEmbeddedCoverFinished(TagReaderReply *reply
     SaveArtEmbeddedToSong(&song, art_embedded);
   }
   else {
-    emit Error(tr("Could not save cover to file %1.").arg(song.url().toLocalFile()));
+    Q_EMIT Error(tr("Could not save cover to file %1.").arg(song.url().toLocalFile()));
   }
 
 }

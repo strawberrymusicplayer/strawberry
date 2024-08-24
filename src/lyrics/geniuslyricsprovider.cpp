@@ -311,8 +311,8 @@ void GeniusLyricsProvider::AccessTokenRequestFinished(QNetworkReply *reply) {
 
   qLog(Debug) << "Genius: Authentication was successful.";
 
-  emit AuthenticationComplete(true);
-  emit AuthenticationSuccess();
+  Q_EMIT AuthenticationComplete(true);
+  Q_EMIT AuthenticationSuccess();
 
 }
 
@@ -525,8 +525,8 @@ void GeniusLyricsProvider::AuthError(const QString &error, const QVariant &debug
   for (const QString &e : std::as_const(login_errors_)) Error(e);
   if (debug.isValid()) qLog(Debug) << debug;
 
-  emit AuthenticationFailure(login_errors_);
-  emit AuthenticationComplete(false, login_errors_);
+  Q_EMIT AuthenticationFailure(login_errors_);
+  Q_EMIT AuthenticationComplete(false, login_errors_);
 
   login_errors_.clear();
 
@@ -552,7 +552,7 @@ void GeniusLyricsProvider::EndSearch(GeniusLyricsSearchContextPtr search, const 
     else {
       qLog(Debug) << "GeniusLyrics: Got lyrics for" << search->request.artist << search->request.title;
     }
-    emit SearchFinished(search->id, search->results);
+    Q_EMIT SearchFinished(search->id, search->results);
   }
 
 }

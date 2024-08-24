@@ -358,7 +358,7 @@ void NotificationsSettingsPage::PrepareNotificationPreview() {
   }
 
   // If user changes timeout or other options, that won't be reflected in the preview
-  emit NotificationPreview(notificationType, ui_->notifications_custom_text1->text(), ui_->notifications_custom_text2->text());
+  Q_EMIT NotificationPreview(notificationType, ui_->notifications_custom_text1->text(), ui_->notifications_custom_text2->text());
 
 }
 

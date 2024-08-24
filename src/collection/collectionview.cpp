@@ -273,7 +273,7 @@ void CollectionView::TotalSongCountUpdated(const int count) {
     unsetCursor();
   }
 
-  emit TotalSongCountUpdated_();
+  Q_EMIT TotalSongCountUpdated_();
 
 }
 
@@ -290,7 +290,7 @@ void CollectionView::TotalArtistCountUpdated(const int count) {
     unsetCursor();
   }
 
-  emit TotalArtistCountUpdated_();
+  Q_EMIT TotalArtistCountUpdated_();
 
 }
 
@@ -307,7 +307,7 @@ void CollectionView::TotalAlbumCountUpdated(const int count) {
     unsetCursor();
   }
 
-  emit TotalAlbumCountUpdated_();
+  Q_EMIT TotalAlbumCountUpdated_();
 
 }
 
@@ -348,7 +348,7 @@ void CollectionView::mouseReleaseEvent(QMouseEvent *e) {
   QTreeView::mouseReleaseEvent(e);
 
   if (total_song_count_ == 0) {
-    emit ShowConfigDialog();
+    Q_EMIT ShowConfigDialog();
   }
 
 }
@@ -538,13 +538,13 @@ void CollectionView::Load() {
   if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
     mimedata->clear_first_ = true;
   }
-  emit AddToPlaylistSignal(q_mimedata);
+  Q_EMIT AddToPlaylistSignal(q_mimedata);
 
 }
 
 void CollectionView::AddToPlaylist() {
 
-  emit AddToPlaylistSignal(model()->mimeData(selectedIndexes()));
+  Q_EMIT AddToPlaylistSignal(model()->mimeData(selectedIndexes()));
 
 }
 
@@ -554,7 +554,7 @@ void CollectionView::AddToPlaylistEnqueue() {
   if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
     mimedata->enqueue_now_ = true;
   }
-  emit AddToPlaylistSignal(q_mimedata);
+  Q_EMIT AddToPlaylistSignal(q_mimedata);
 
 }
 
@@ -564,7 +564,7 @@ void CollectionView::AddToPlaylistEnqueueNext() {
   if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
     mimedata->enqueue_next_now_ = true;
   }
-  emit AddToPlaylistSignal(q_mimedata);
+  Q_EMIT AddToPlaylistSignal(q_mimedata);
 
 }
 
@@ -574,7 +574,7 @@ void CollectionView::OpenInNewPlaylist() {
   if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {
     mimedata->open_in_new_playlist_ = true;
   }
-  emit AddToPlaylistSignal(q_mimedata);
+  Q_EMIT AddToPlaylistSignal(q_mimedata);
 
 }
 
@@ -731,7 +731,7 @@ void CollectionView::EditTracks() {
 }
 
 void CollectionView::EditTagError(const QString &message) {
-  emit Error(message);
+  Q_EMIT Error(message);
 }
 
 void CollectionView::RescanSongs() {
@@ -773,7 +773,7 @@ void CollectionView::FilterReturnPressed() {
 
   if (!currentIndex().isValid()) return;
 
-  emit doubleClicked(currentIndex());
+  Q_EMIT doubleClicked(currentIndex());
 }
 
 void CollectionView::ShowInBrowser() const {

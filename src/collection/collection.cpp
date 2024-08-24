@@ -151,7 +151,7 @@ void SCollection::ExitReceived() {
   QObject::disconnect(obj, nullptr, this, nullptr);
   qLog(Debug) << obj << "successfully exited.";
   wait_for_exit_.removeAll(obj);
-  if (wait_for_exit_.isEmpty()) emit ExitFinished();
+  if (wait_for_exit_.isEmpty()) Q_EMIT ExitFinished();
 
 }
 

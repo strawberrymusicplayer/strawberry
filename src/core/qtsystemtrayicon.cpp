@@ -113,11 +113,11 @@ void SystemTrayIcon::Clicked(const QSystemTrayIcon::ActivationReason reason) {
   switch (reason) {
     case QSystemTrayIcon::DoubleClick:
     case QSystemTrayIcon::Trigger:
-      emit ShowHide();
+      Q_EMIT ShowHide();
       break;
 
     case QSystemTrayIcon::MiddleClick:
-      emit PlayPause();
+      Q_EMIT PlayPause();
       break;
 
     default:

@@ -126,7 +126,7 @@ void CurrentAlbumCoverLoader::AlbumCoverReady(const quint64 id, AlbumCoverLoader
     last_song_.set_art_automatic(result.art_automatic_updated);
   }
 
-  emit AlbumCoverLoaded(last_song_, result);
-  emit ThumbnailLoaded(last_song_, thumbnail_url, result.image_scaled);
+  Q_EMIT AlbumCoverLoaded(last_song_, result);
+  Q_EMIT ThumbnailLoaded(last_song_, thumbnail_url, result.image_scaled);
 
 }

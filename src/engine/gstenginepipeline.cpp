@@ -1086,7 +1086,7 @@ void GstEnginePipeline::SourceSetupCallback(GstElement *playbin, GstElement *sou
   if (instance->buffering_) {
     qLog(Debug) << "Buffering finished";
     instance->buffering_ = false;
-    emit instance->BufferingFinished();
+    Q_EMIT instance->BufferingFinished();
     instance->SetStateAsync(GST_STATE_PLAYING);
   }
 
@@ -1106,7 +1106,7 @@ void GstEnginePipeline::NotifyVolumeCallback(GstElement *element, GParamSpec *pa
   const uint volume_percent = static_cast<uint>(qBound(0L, lround(instance->volume_internal_ / 0.01), 100L));
   if (volume_percent != instance->volume_percent_) {
     instance->volume_percent_ = volume_percent;
-    emit instance->VolumeChanged(volume_percent);
+    Q_EMIT instance->VolumeChanged(volume_percent);
   }
 
 }
@@ -1336,11 +1336,11 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
 
       // GstEngine will try to seek to the start of the new section, but we're already there so ignore it.
       instance->ignore_next_seek_ = true;
-      emit instance->EndOfStreamReached(instance->id(), true);
+      Q_EMIT instance->EndOfStreamReached(instance->id(), true);
     }
     else {
       // There's no next song
-      emit instance->EndOfStreamReached(instance->id(), false);
+      Q_EMIT instance->EndOfStreamReached(instance->id(), false);
     }
   }
 
@@ -1362,7 +1362,7 @@ void GstEnginePipeline::AboutToFinishCallback(GstPlayBin *playbin, gpointer self
     instance->SetNextUrl();
   }
 
-  emit instance->AboutToFinish();
+  Q_EMIT instance->AboutToFinish();
 
 }
 
@@ -1374,7 +1374,7 @@ GstBusSyncReply GstEnginePipeline::BusSyncCallback(GstBus *bus, GstMessage *msg,
 
   switch (GST_MESSAGE_TYPE(msg)) {
     case GST_MESSAGE_EOS:
-      emit instance->EndOfStreamReached(instance->id(), false);
+      Q_EMIT instance->EndOfStreamReached(instance->id(), false);
       break;
 
     case GST_MESSAGE_TAG:
@@ -1473,7 +1473,7 @@ void GstEnginePipeline::StreamStartMessageReceived() {
     next_beginning_offset_nanosec_ = 0;
     next_end_offset_nanosec_ = 0;
 
-    emit EndOfStreamReached(id(), true);
+    Q_EMIT EndOfStreamReached(id(), true);
   }
 
 }
@@ -1549,7 +1549,7 @@ void GstEnginePipeline::ErrorMessageReceived(GstMessage *msg) {
   }
 #endif
 
-  emit Error(id(), static_cast<int>(domain), code, message, debugstr);
+  Q_EMIT Error(id(), static_cast<int>(domain), code, message, debugstr);
 
 }
 
@@ -1602,7 +1602,7 @@ void GstEnginePipeline::TagMessageReceived(GstMessage *msg) {
 
   gst_tag_list_unref(taglist);
 
-  emit MetadataFound(id(), engine_metadata);
+  Q_EMIT MetadataFound(id(), engine_metadata);
 
 }
 
@@ -1716,7 +1716,7 @@ void GstEnginePipeline::BufferingMessageReceived(GstMessage *msg) {
   if (percent < 100 && !buffering_) {
     qLog(Debug) << "Buffering started";
     buffering_ = true;
-    emit BufferingStarted();
+    Q_EMIT BufferingStarted();
     if (current_state == GST_STATE_PLAYING) {
       SetStateAsync(GST_STATE_PAUSED);
       if (pending_state_ == GST_STATE_NULL) {
@@ -1727,7 +1727,7 @@ void GstEnginePipeline::BufferingMessageReceived(GstMessage *msg) {
   else if (percent == 100 && buffering_) {
     qLog(Debug) << "Buffering finished";
     buffering_ = false;
-    emit BufferingFinished();
+    Q_EMIT BufferingFinished();
     if (pending_seek_nanosec_ != -1) {
       SeekAsync(pending_seek_nanosec_);
       pending_seek_nanosec_ = -1;
@@ -1738,7 +1738,7 @@ void GstEnginePipeline::BufferingMessageReceived(GstMessage *msg) {
     }
   }
   else if (buffering_) {
-    emit BufferingProgress(percent);
+    Q_EMIT BufferingProgress(percent);
   }
 
 }
@@ -1800,10 +1800,10 @@ void GstEnginePipeline::SetStateAsyncFinished(const GstState state, const GstSta
     case GST_STATE_CHANGE_ASYNC:
     case GST_STATE_CHANGE_NO_PREROLL:
       qLog(Debug) << "Pipeline" << id_ << "state successfully set to" << GstStateText(state);
-      emit SetStateFinished(state_change);
+      Q_EMIT SetStateFinished(state_change);
       if (!finished_ && finish_requested_) {
         finished_ = true;
-        emit Finished();
+        Q_EMIT Finished();
       }
       break;
     case GST_STATE_CHANGE_FAILURE:
@@ -2046,7 +2046,7 @@ void GstEnginePipeline::timerEvent(QTimerEvent *e) {
 
   if (e->timerId() == fader_fudge_timer_.timerId()) {
     fader_fudge_timer_.stop();
-    emit FaderFinished(id_);
+    Q_EMIT FaderFinished(id_);
     return;
   }
 

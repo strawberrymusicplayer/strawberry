@@ -221,7 +221,7 @@ void ContextAlbum::FadeCurrentCover(const qreal value) {
 void ContextAlbum::FadeCurrentCoverFinished() {
 
   if (image_original_ == image_strawberry_) {
-    emit FadeStopFinished();
+    Q_EMIT FadeStopFinished();
   }
 
 }

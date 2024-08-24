@@ -181,7 +181,7 @@ void PlaylistSequence::SetRepeatMode(const RepeatMode mode) {
 
   if (mode != repeat_mode_) {
     repeat_mode_ = mode;
-    emit RepeatModeChanged(mode);
+    Q_EMIT RepeatModeChanged(mode);
   }
 
   Save();
@@ -201,7 +201,7 @@ void PlaylistSequence::SetShuffleMode(const ShuffleMode mode) {
 
   if (mode != shuffle_mode_) {
     shuffle_mode_ = mode;
-    emit ShuffleModeChanged(mode);
+    Q_EMIT ShuffleModeChanged(mode);
   }
 
   Save();

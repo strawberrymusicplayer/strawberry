@@ -117,7 +117,7 @@ void LyricsFetcher::SingleSearchFinished(const quint64 request_id, const LyricsS
 
   LyricsFetcherSearch *search = active_requests_.take(request_id);
   search->deleteLater();
-  emit SearchFinished(request_id, results);
+  Q_EMIT SearchFinished(request_id, results);
 
 }
 
@@ -127,6 +127,6 @@ void LyricsFetcher::SingleLyricsFetched(const quint64 request_id, const QString 
 
   LyricsFetcherSearch *search = active_requests_.take(request_id);
   search->deleteLater();
-  emit LyricsFetched(request_id, provider, lyrics);
+  Q_EMIT LyricsFetched(request_id, provider, lyrics);
 
 }

@@ -217,7 +217,7 @@ void SongLoader::AudioCDTracksLoadFinishedSlot(const SongList &songs, const QStr
 
   songs_ = songs;
   errors_ << error;
-  emit AudioCDTracksLoadFinished();
+  Q_EMIT AudioCDTracksLoadFinished();
 
 }
 
@@ -226,7 +226,7 @@ void SongLoader::AudioCDTracksTagsLoaded(const SongList &songs) {
   CddaSongLoader *cdda_song_loader = qobject_cast<CddaSongLoader*>(sender());
   cdda_song_loader->deleteLater();
   songs_ = songs;
-  emit LoadAudioCDFinished(true);
+  Q_EMIT LoadAudioCDFinished(true);
 
 }
 #endif
@@ -463,7 +463,7 @@ void SongLoader::StopTypefind() {
     AddAsRawStream();
   }
 
-  emit LoadRemoteFinished();
+  Q_EMIT LoadRemoteFinished();
 
 }
 

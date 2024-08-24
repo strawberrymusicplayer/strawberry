@@ -143,7 +143,7 @@ void CddaSongLoader::LoadSongs() {
     song.set_track(track_number);
     songs << song;
   }
-  emit SongsLoaded(songs);
+  Q_EMIT SongsLoaded(songs);
 
 
   gst_tag_register_musicbrainz_tags();
@@ -189,7 +189,7 @@ void CddaSongLoader::LoadSongs() {
     }
     gst_message_unref(msg_toc);
   }
-  emit SongsDurationLoaded(songs);
+  Q_EMIT SongsDurationLoaded(songs);
 
 #ifdef HAVE_MUSICBRAINZ
   // Handle TAG message: generate MusicBrainz DiscId
@@ -241,7 +241,7 @@ void CddaSongLoader::AudioCDTagsLoaded(const QString &artist, const QString &alb
     song.set_url(GetUrlFromTrack(track_number++));
     songs << song;
   }
-  emit SongsMetadataLoaded(songs);
+  Q_EMIT SongsMetadataLoaded(songs);
 
 }
 #endif
@@ -264,6 +264,6 @@ bool CddaSongLoader::HasChanged() {
 void CddaSongLoader::Error(const QString &error) {
 
   qLog(Error) << error;
-  emit SongsDurationLoaded(SongList(), error);
+  Q_EMIT SongsDurationLoaded(SongList(), error);
 
 }

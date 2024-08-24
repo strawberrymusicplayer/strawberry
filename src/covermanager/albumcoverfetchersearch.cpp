@@ -253,14 +253,14 @@ void AlbumCoverFetcherSearch::AllProvidersFinished() {
 
   // If we only wanted to do the search then we're done
   if (request_.search) {
-    emit SearchFinished(request_.id, results_);
+    Q_EMIT SearchFinished(request_.id, results_);
     return;
   }
 
   // No results?
   if (results_.isEmpty()) {
     statistics_.missing_images_++;
-    emit AlbumCoverFetched(request_.id, AlbumCoverImageResult());
+    Q_EMIT AlbumCoverFetched(request_.id, AlbumCoverImageResult());
     return;
   }
 
@@ -402,7 +402,7 @@ void AlbumCoverFetcherSearch::SendBestImage() {
     statistics_.missing_images_++;
   }
 
-  emit AlbumCoverFetched(request_.id, result);
+  Q_EMIT AlbumCoverFetched(request_.id, result);
 
 }
 

@@ -168,13 +168,13 @@ void QobuzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
 
   QByteArray data = GetReplyData(reply);
   if (data.isEmpty()) {
-    emit SearchFinished(id, results);
+    Q_EMIT SearchFinished(id, results);
     return;
   }
 
   QJsonObject json_obj = ExtractJsonObj(data);
   if (json_obj.isEmpty()) {
-    emit SearchFinished(id, results);
+    Q_EMIT SearchFinished(id, results);
     return;
   }
 
@@ -187,27 +187,27 @@ void QobuzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
   }
   else {
     Error(QStringLiteral("Json reply is missing albums and tracks object."), json_obj);
-    emit SearchFinished(id, results);
+    Q_EMIT SearchFinished(id, results);
     return;
   }
 
   if (!value_type.isObject()) {
     Error(QStringLiteral("Json albums or tracks is not a object."), value_type);
-    emit SearchFinished(id, results);
+    Q_EMIT SearchFinished(id, results);
     return;
   }
   QJsonObject obj_type = value_type.toObject();
 
   if (!obj_type.contains(QLatin1String("items"))) {
     Error(QStringLiteral("Json albums or tracks object does not contain items."), obj_type);
-    emit SearchFinished(id, results);
+    Q_EMIT SearchFinished(id, results);
     return;
   }
   QJsonValue value_items = obj_type[QLatin1String("items")];
 
   if (!value_items.isArray()) {
     Error(QStringLiteral("Json albums or track object items is not a array."), value_items);
-    emit SearchFinished(id, results);
+    Q_EMIT SearchFinished(id, results);
     return;
   }
   const QJsonArray array_items = value_items.toArray();
@@ -273,7 +273,7 @@ void QobuzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
     results << cover_result;
 
   }
-  emit SearchFinished(id, results);
+  Q_EMIT SearchFinished(id, results);
 
 }
 

@@ -314,7 +314,7 @@ void GioLister::VolumeAdded(GVolume *volume) {
     devices_[info.unique_id()] = info;
   }
 
-  emit DeviceAdded(info.unique_id());
+  Q_EMIT DeviceAdded(info.unique_id());
 
 }
 
@@ -330,7 +330,7 @@ void GioLister::VolumeRemoved(GVolume *volume) {
     devices_.remove(id);
   }
 
-  emit DeviceRemoved(id);
+  Q_EMIT DeviceRemoved(id);
 }
 
 void GioLister::MountAdded(GMount *mount) {
@@ -370,7 +370,7 @@ void GioLister::MountAdded(GMount *mount) {
       // If the ID has changed (for example, after it's been mounted), we need
       // to remove the old device.
       devices_.remove(old_id);
-      emit DeviceRemoved(old_id);
+      Q_EMIT DeviceRemoved(old_id);
 
       old_id = QString();
     }
@@ -378,10 +378,10 @@ void GioLister::MountAdded(GMount *mount) {
   }
 
   if (old_id.isEmpty()) {
-    emit DeviceAdded(info.unique_id());
+    Q_EMIT DeviceAdded(info.unique_id());
   }
   else {
-    emit DeviceChanged(old_id);
+    Q_EMIT DeviceChanged(old_id);
   }
 
 }
@@ -409,7 +409,7 @@ void GioLister::MountChanged(GMount *mount) {
     devices_[id] = new_info;
   }
 
-  emit DeviceChanged(id);
+  Q_EMIT DeviceChanged(id);
 
 }
 
@@ -424,7 +424,7 @@ void GioLister::MountRemoved(GMount *mount) {
     devices_.remove(id);
   }
 
-  emit DeviceRemoved(id);
+  Q_EMIT DeviceRemoved(id);
 
 }
 
@@ -598,7 +598,7 @@ void GioLister::UpdateDeviceFreeSpace(const QString &id) {
     g_object_unref(root);
   }
 
-  emit DeviceChanged(id);
+  Q_EMIT DeviceChanged(id);
 
 }
 
@@ -613,19 +613,19 @@ void GioLister::MountDevice(const QString &id, const int request_id) {
 
   QMutexLocker l(&mutex_);
   if (!devices_.contains(id)) {
-    emit DeviceMounted(id, request_id, false);
+    Q_EMIT DeviceMounted(id, request_id, false);
     return;
   }
 
   const DeviceInfo device_info = devices_.value(id);
   if (device_info.mount_ptr) {
     // Already mounted
-    emit DeviceMounted(id, request_id, true);
+    Q_EMIT DeviceMounted(id, request_id, true);
     return;
   }
 
   g_volume_mount(device_info.volume_ptr, G_MOUNT_MOUNT_NONE, nullptr, nullptr, VolumeMountFinished, nullptr);
-  emit DeviceMounted(id, request_id, true);
+  Q_EMIT DeviceMounted(id, request_id, true);
 
 }
 

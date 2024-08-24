@@ -82,9 +82,9 @@ void ScrobblerSettings::ReloadSettings() {
     }
   }
 
-  emit ScrobblingEnabledChanged(enabled_);
-  emit ScrobbleButtonVisibilityChanged(scrobble_button_);
-  emit LoveButtonVisibilityChanged(love_button_);
+  Q_EMIT ScrobblingEnabledChanged(enabled_);
+  Q_EMIT ScrobbleButtonVisibilityChanged(scrobble_button_);
+  Q_EMIT LoveButtonVisibilityChanged(love_button_);
 
 }
 
@@ -98,7 +98,7 @@ void ScrobblerSettings::ToggleScrobbling() {
   s.setValue("enabled", enabled_);
   s.endGroup();
 
-  if (enabled_ != enabled_old_) emit ScrobblingEnabledChanged(enabled_);
+  if (enabled_ != enabled_old_) Q_EMIT ScrobblingEnabledChanged(enabled_);
 
 }
 
@@ -112,7 +112,7 @@ void ScrobblerSettings::ToggleOffline() {
   s.setValue("offline", offline_);
   s.endGroup();
 
-  if (offline_ != offline_old_) { emit ScrobblingOfflineChanged(offline_); }
+  if (offline_ != offline_old_) { Q_EMIT ScrobblingOfflineChanged(offline_); }
 
 }
 
@@ -121,5 +121,5 @@ void ScrobblerSettings::ShowConfig() {
 }
 
 void ScrobblerSettings::ErrorReceived(const QString &error) {
-  emit ErrorMessage(error);
+  Q_EMIT ErrorMessage(error);
 }

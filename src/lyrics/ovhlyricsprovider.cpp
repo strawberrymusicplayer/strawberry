@@ -76,19 +76,19 @@ void OVHLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, co
 
   QJsonObject json_obj = ExtractJsonObj(reply);
   if (json_obj.isEmpty()) {
-    emit SearchFinished(id);
+    Q_EMIT SearchFinished(id);
     return;
   }
 
   if (json_obj.contains(QLatin1String("error"))) {
     Error(json_obj[QLatin1String("error")].toString());
     qLog(Debug) << "OVHLyrics: No lyrics for" << request.artist << request.title;
-    emit SearchFinished(id);
+    Q_EMIT SearchFinished(id);
     return;
   }
 
   if (!json_obj.contains(QLatin1String("lyrics"))) {
-    emit SearchFinished(id);
+    Q_EMIT SearchFinished(id);
     return;
   }
 
@@ -97,12 +97,12 @@ void OVHLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, co
 
   if (result.lyrics.isEmpty()) {
     qLog(Debug) << "OVHLyrics: No lyrics for" << request.artist << request.title;
-    emit SearchFinished(id);
+    Q_EMIT SearchFinished(id);
   }
   else {
     result.lyrics = Utilities::DecodeHtmlEntities(result.lyrics);
     qLog(Debug) << "OVHLyrics: Got lyrics for" << request.artist << request.title;
-    emit SearchFinished(id, LyricsSearchResults() << result);
+    Q_EMIT SearchFinished(id, LyricsSearchResults() << result);
  }
 
 }

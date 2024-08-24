@@ -82,13 +82,13 @@ void ChartLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, 
 
   if (reply->error() != QNetworkReply::NoError) {
     Error(QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
-    emit SearchFinished(id);
+    Q_EMIT SearchFinished(id);
     return;
   }
 
   if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
     Error(QStringLiteral("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()));
-    emit SearchFinished(id);
+    Q_EMIT SearchFinished(id);
     return;
   }
 
@@ -134,7 +134,7 @@ void ChartLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, 
     qLog(Debug) << "ChartLyrics: Got lyrics for" << request.artist << request.title;
   }
 
-  emit SearchFinished(id, results);
+  Q_EMIT SearchFinished(id, results);
 
 }
 

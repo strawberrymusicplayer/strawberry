@@ -72,7 +72,7 @@ void AlbumCoverLoader::Exit() {
 
   Q_ASSERT(QThread::currentThread() == thread());
   moveToThread(original_thread_);
-  emit ExitFinished();
+  Q_EMIT ExitFinished();
 
 }
 
@@ -231,7 +231,7 @@ void AlbumCoverLoader::FinishTask(TaskPtr task, const AlbumCoverLoaderResult::Ty
     }
   }
 
-  emit AlbumCoverLoaded(task->id, AlbumCoverLoaderResult(task->success, task->result_type, task->album_cover, image_scaled, task->art_manual_updated, task->art_automatic_updated));
+  Q_EMIT AlbumCoverLoaded(task->id, AlbumCoverLoaderResult(task->success, task->result_type, task->album_cover, image_scaled, task->art_manual_updated, task->art_automatic_updated));
 
 }
 

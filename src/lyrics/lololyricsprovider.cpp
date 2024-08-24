@@ -85,7 +85,7 @@ void LoloLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, c
     failure_reason = QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error());
     if (reply->error() < 200) {
       Error(failure_reason);
-      emit SearchFinished(id);
+      Q_EMIT SearchFinished(id);
       return;
     }
   }
@@ -140,7 +140,7 @@ void LoloLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, c
     qLog(Debug) << "LoloLyrics: Got lyrics for" << request.artist << request.title;
   }
 
-  emit SearchFinished(id, results);
+  Q_EMIT SearchFinished(id, results);
 
 }
 

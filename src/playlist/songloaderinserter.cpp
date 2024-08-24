@@ -76,7 +76,7 @@ void SongLoaderInserter::Load(Playlist *destination, int row, bool play_now, boo
     else {
       const QStringList errors = loader->errors();
       for (const QString &error : errors) {
-        emit Error(error);
+        Q_EMIT Error(error);
       }
     }
     delete loader;
@@ -114,11 +114,11 @@ void SongLoaderInserter::LoadAudioCD(Playlist *destination, int row, bool play_n
   SongLoader::Result ret = loader->LoadAudioCD();
   if (ret == SongLoader::Result::Error) {
     if (loader->errors().isEmpty())
-      emit Error(tr("Error while loading audio CD."));
+      Q_EMIT Error(tr("Error while loading audio CD."));
     else {
       const QStringList errors = loader->errors();
       for (const QString &error : errors) {
-        emit Error(error);
+        Q_EMIT Error(error);
       }
     }
     delete loader;
@@ -135,7 +135,7 @@ void SongLoaderInserter::AudioCDTracksLoadFinished(SongLoader *loader) {
   if (songs_.isEmpty()) {
     const QStringList errors = loader->errors();
     for (const QString &error : errors) {
-      emit Error(error);
+      Q_EMIT Error(error);
     }
   }
   else {
@@ -184,7 +184,7 @@ void SongLoaderInserter::AsyncLoad() {
     if (res == SongLoader::Result::Error) {
       const QStringList errors = loader->errors();
       for (const QString &error : errors) {
-        emit Error(error);
+        Q_EMIT Error(error);
       }
       continue;
     }
@@ -200,7 +200,7 @@ void SongLoaderInserter::AsyncLoad() {
 
   }
   task_manager_->SetTaskFinished(async_load_id);
-  emit PreloadFinished();
+  Q_EMIT PreloadFinished();
 
   // Songs are inserted in playlist, now load them completely.
   async_progress = 0;
@@ -219,7 +219,7 @@ void SongLoaderInserter::AsyncLoad() {
   task_manager_->SetTaskFinished(async_load_id);
 
   // Replace the partially-loaded items by the new ones, fully loaded.
-  emit EffectiveLoadFinished(songs);
+  Q_EMIT EffectiveLoadFinished(songs);
 
   deleteLater();
 

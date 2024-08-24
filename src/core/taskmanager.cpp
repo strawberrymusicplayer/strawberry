@@ -46,7 +46,7 @@ int TaskManager::StartTask(const QString &name) {
     tasks_[t.id] = t;
   }
 
-  emit TasksChanged();
+  Q_EMIT TasksChanged();
   return t.id;
 
 }
@@ -73,8 +73,8 @@ void TaskManager::SetTaskBlocksCollectionScans(const int id) {
     tasks_[id].blocks_collection_scans = true;
   }
 
-  emit TasksChanged();
-  emit PauseCollectionWatchers();
+  Q_EMIT TasksChanged();
+  Q_EMIT PauseCollectionWatchers();
 
 }
 
@@ -90,7 +90,7 @@ void TaskManager::SetTaskProgress(const int id, const quint64 progress, const qu
     tasks_[id] = t;
   }
 
-  emit TasksChanged();
+  Q_EMIT TasksChanged();
 }
 
 void TaskManager::IncreaseTaskProgress(const int id, const quint64 progress, const quint64 max) {
@@ -105,7 +105,7 @@ void TaskManager::IncreaseTaskProgress(const int id, const quint64 progress, con
     tasks_[id] = t;
   }
 
-  emit TasksChanged();
+  Q_EMIT TasksChanged();
 
 }
 
@@ -130,8 +130,8 @@ void TaskManager::SetTaskFinished(const int id) {
     tasks_.remove(id);
   }
 
-  emit TasksChanged();
-  if (resume_collection_watchers) emit ResumeCollectionWatchers();
+  Q_EMIT TasksChanged();
+  if (resume_collection_watchers) Q_EMIT ResumeCollectionWatchers();
 
 }
 

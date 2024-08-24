@@ -309,7 +309,7 @@ void TrackSelectionDialog::accept() {
 
     const Song &new_metadata = tag_data.results_[tag_data.selected_result_];
 
-    emit SongChosen(tag_data.original_song_, new_metadata);
+    Q_EMIT SongChosen(tag_data.original_song_, new_metadata);
   }
 
 }

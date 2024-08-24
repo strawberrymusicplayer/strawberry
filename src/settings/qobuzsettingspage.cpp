@@ -140,7 +140,7 @@ void QobuzSettingsPage::LoginClicked() {
     return;
   }
 
-  emit Login(ui_->app_id->text(), ui_->username->text(), ui_->password->text());
+  Q_EMIT Login(ui_->app_id->text(), ui_->username->text(), ui_->password->text());
   ui_->button_login->setEnabled(false);
 
 }

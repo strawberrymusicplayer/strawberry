@@ -411,7 +411,7 @@ void PlaylistView::RestoreHeaderState() {
 
   header_state_restored_ = true;
 
-  emit ColumnAlignmentChanged(column_alignment_);
+  Q_EMIT ColumnAlignmentChanged(column_alignment_);
 
 }
 
@@ -671,23 +671,23 @@ void PlaylistView::keyPressEvent(QKeyEvent *event) {
     CopyCurrentSongToClipboard();
   }
   else if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return) {
-    if (currentIndex().isValid()) emit PlayItem(currentIndex(), Playlist::AutoScroll::Never);
+    if (currentIndex().isValid()) Q_EMIT PlayItem(currentIndex(), Playlist::AutoScroll::Never);
     event->accept();
   }
   else if (event->modifiers() != Qt::ControlModifier && event->key() == Qt::Key_Space) {
-    emit PlayPause();
+    Q_EMIT PlayPause();
     event->accept();
   }
   else if (event->key() == Qt::Key_Left) {
-    emit SeekBackward();
+    Q_EMIT SeekBackward();
     event->accept();
   }
   else if (event->key() == Qt::Key_Right) {
-    emit SeekForward();
+    Q_EMIT SeekForward();
     event->accept();
   }
   else if (event->modifiers() == Qt::NoModifier && ((event->key() >= Qt::Key_Exclam && event->key() <= Qt::Key_Z) || event->key() == Qt::Key_Backspace || event->key() == Qt::Key_Escape)) {
-    emit FocusOnFilterSignal(event);
+    Q_EMIT FocusOnFilterSignal(event);
     event->accept();
   }
   else {
@@ -697,7 +697,7 @@ void PlaylistView::keyPressEvent(QKeyEvent *event) {
 }
 
 void PlaylistView::contextMenuEvent(QContextMenuEvent *e) {
-  emit RightClicked(e->globalPos(), indexAt(e->pos()));
+  Q_EMIT RightClicked(e->globalPos(), indexAt(e->pos()));
   e->accept();
 }
 
@@ -1271,7 +1271,7 @@ void PlaylistView::ReloadSettings() {
     }
     setProperty("default_background_enabled", background_image_type_ == AppearanceSettingsPage::BackgroundImageType::Default);
     setProperty("strawbs_background_enabled", background_image_type_ == AppearanceSettingsPage::BackgroundImageType::Strawbs);
-    emit BackgroundPropertyChanged();
+    Q_EMIT BackgroundPropertyChanged();
     force_background_redraw_ = true;
   }
 
@@ -1365,7 +1365,7 @@ void PlaylistView::SetColumnAlignment(const int section, const Qt::Alignment ali
   if (section < 0) return;
 
   column_alignment_[section] = alignment;
-  emit ColumnAlignmentChanged(column_alignment_);
+  Q_EMIT ColumnAlignmentChanged(column_alignment_);
   SaveSettings();
 
 }

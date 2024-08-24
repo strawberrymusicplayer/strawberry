@@ -130,13 +130,13 @@ void MusicbrainzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int
 
   QByteArray data = GetReplyData(reply);
   if (data.isEmpty()) {
-    emit SearchFinished(search_id, results);
+    Q_EMIT SearchFinished(search_id, results);
     return;
   }
 
   QJsonObject json_obj = ExtractJsonObj(data);
   if (json_obj.isEmpty()) {
-    emit SearchFinished(search_id, results);
+    Q_EMIT SearchFinished(search_id, results);
     return;
   }
 
@@ -148,20 +148,20 @@ void MusicbrainzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int
     else {
       Error(QStringLiteral("Json reply is missing releases."), json_obj);
     }
-    emit SearchFinished(search_id, results);
+    Q_EMIT SearchFinished(search_id, results);
     return;
   }
   QJsonValue value_releases = json_obj[QLatin1String("releases")];
 
   if (!value_releases.isArray()) {
     Error(QStringLiteral("Json releases is not an array."), value_releases);
-    emit SearchFinished(search_id, results);
+    Q_EMIT SearchFinished(search_id, results);
     return;
   }
   const QJsonArray array_releases = value_releases.toArray();
 
   if (array_releases.isEmpty()) {
-    emit SearchFinished(search_id, results);
+    Q_EMIT SearchFinished(search_id, results);
     return;
   }
 
@@ -222,7 +222,7 @@ void MusicbrainzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int
     cover_result.image_url = url;
     results.append(cover_result);
   }
-  emit SearchFinished(search_id, results);
+  Q_EMIT SearchFinished(search_id, results);
 
 }
 

@@ -188,7 +188,7 @@ void TrackSlider::ValueMaybeChanged(const int value) {
   if (setting_value_) return;
 
   UpdateTimes(static_cast<int>(value / kMsecPerSec));
-  emit ValueChangedSeconds(static_cast<quint64>(value / kMsecPerSec));
+  Q_EMIT ValueChangedSeconds(static_cast<quint64>(value / kMsecPerSec));
 
 }
 

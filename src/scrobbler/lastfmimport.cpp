@@ -386,7 +386,7 @@ void LastFMImport::GetRecentTracksRequestFinished(QNetworkReply *reply, const in
       QString title = obj_track[QLatin1String("name")].toString();
       QDateTime datetime = QDateTime::fromString(date, QStringLiteral("dd MMM yyyy, hh:mm"));
       if (datetime.isValid()) {
-        emit UpdateLastPlayed(artist, album, title, datetime.toSecsSinceEpoch());
+        Q_EMIT UpdateLastPlayed(artist, album, title, datetime.toSecsSinceEpoch());
       }
 
       UpdateProgressCheck();
@@ -545,7 +545,7 @@ void LastFMImport::GetTopTracksRequestFinished(QNetworkReply *reply, const int p
 
       if (playcount <= 0) continue;
 
-      emit UpdatePlayCount(artist, title, playcount, false);
+      Q_EMIT UpdatePlayCount(artist, title, playcount, false);
       UpdateProgressCheck();
 
     }
@@ -565,16 +565,16 @@ void LastFMImport::GetTopTracksRequestFinished(QNetworkReply *reply, const int p
 void LastFMImport::UpdateTotalCheck() {
 
   if ((!playcount_ || playcount_total_ > 0) && (!lastplayed_ || lastplayed_total_ > 0))
-    emit UpdateTotal(lastplayed_total_, playcount_total_);
+    Q_EMIT UpdateTotal(lastplayed_total_, playcount_total_);
 
 }
 
 void LastFMImport::UpdateProgressCheck() {
-  emit UpdateProgress(lastplayed_received_, playcount_received_);
+  Q_EMIT UpdateProgress(lastplayed_received_, playcount_received_);
 }
 
 void LastFMImport::FinishCheck() {
-  if (replies_.isEmpty() && recent_tracks_requests_.isEmpty() && top_tracks_requests_.isEmpty()) emit Finished();
+  if (replies_.isEmpty() && recent_tracks_requests_.isEmpty() && top_tracks_requests_.isEmpty()) Q_EMIT Finished();
 }
 
 void LastFMImport::Error(const QString &error, const QVariant &debug) {
@@ -582,7 +582,7 @@ void LastFMImport::Error(const QString &error, const QVariant &debug) {
   qLog(Error) << error;
   if (debug.isValid()) qLog(Debug) << debug;
 
-  emit FinishedWithError(error);
+  Q_EMIT FinishedWithError(error);
 
   AbortAll();
 

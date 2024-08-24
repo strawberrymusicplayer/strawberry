@@ -232,7 +232,7 @@ void MergedProxyModel::SubModelResetSlot() {
     endInsertRows();
   }
 
-  emit SubModelReset(proxy_parent, submodel);
+  Q_EMIT SubModelReset(proxy_parent, submodel);
 
 }
 
@@ -516,7 +516,7 @@ QAbstractItemModel *MergedProxyModel::GetModel(const QModelIndex &source_index) 
 }
 
 void MergedProxyModel::DataChanged(const QModelIndex &top_left, const QModelIndex &bottom_right) {
-  emit dataChanged(mapFromSource(top_left), mapFromSource(bottom_right));
+  Q_EMIT dataChanged(mapFromSource(top_left), mapFromSource(bottom_right));
 }
 
 void MergedProxyModel::LayoutAboutToBeChanged() {

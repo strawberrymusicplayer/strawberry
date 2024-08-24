@@ -261,7 +261,7 @@ void PlayingWidget::ShowAboveStatusBar(const bool above) {
   s.setValue("above_status_bar", above);
   s.endGroup();
 
-  emit ShowAboveStatusBarChanged(above);
+  Q_EMIT ShowAboveStatusBarChanged(above);
 
 }
 

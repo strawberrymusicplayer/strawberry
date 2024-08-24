@@ -68,7 +68,7 @@ bool PlaylistListView::ItemsSelected() const {
 }
 
 void PlaylistListView::selectionChanged(const QItemSelection&, const QItemSelection&) {
-  emit ItemsSelectedChanged(selectionModel()->selectedRows().count() > 0);
+  Q_EMIT ItemsSelectedChanged(selectionModel()->selectedRows().count() > 0);
 }
 
 void PlaylistListView::dragEnterEvent(QDragEnterEvent *e) {
@@ -121,7 +121,7 @@ void PlaylistListView::timerEvent(QTimerEvent *e) {
   QTreeView::timerEvent(e);
   if (e->timerId() == drag_hover_timer_.timerId()) {
     drag_hover_timer_.stop();
-    emit doubleClicked(currentIndex());
+    Q_EMIT doubleClicked(currentIndex());
   }
 
 }
@@ -132,7 +132,7 @@ void PlaylistListView::dropEvent(QDropEvent *e) {
     if (drag_hover_timer_.isActive()) {
       drag_hover_timer_.stop();
     }
-    emit ItemMimeDataDroppedSignal(currentIndex(), e->mimeData());
+    Q_EMIT ItemMimeDataDroppedSignal(currentIndex(), e->mimeData());
   }
   else  {
     AutoExpandingTreeView::dropEvent(e);

@@ -149,50 +149,50 @@ void FileViewList::LoadSlot() {
 
   MimeData *mimedata = MimeDataFromSelection();
   mimedata->clear_first_ = true;
-  emit AddToPlaylist(mimedata);
+  Q_EMIT AddToPlaylist(mimedata);
 
 }
 
 void FileViewList::AddToPlaylistSlot() {
-  emit AddToPlaylist(MimeDataFromSelection());
+  Q_EMIT AddToPlaylist(MimeDataFromSelection());
 }
 
 void FileViewList::OpenInNewPlaylistSlot() {
 
   MimeData *mimedata = MimeDataFromSelection();
   mimedata->open_in_new_playlist_ = true;
-  emit AddToPlaylist(mimedata);
+  Q_EMIT AddToPlaylist(mimedata);
 
 }
 
 void FileViewList::CopyToCollectionSlot() {
-  emit CopyToCollection(UrlListFromSelection());
+  Q_EMIT CopyToCollection(UrlListFromSelection());
 }
 
 void FileViewList::MoveToCollectionSlot() {
-  emit MoveToCollection(UrlListFromSelection());
+  Q_EMIT MoveToCollection(UrlListFromSelection());
 }
 
 void FileViewList::CopyToDeviceSlot() {
-  emit CopyToDevice(UrlListFromSelection());
+  Q_EMIT CopyToDevice(UrlListFromSelection());
 }
 
 void FileViewList::DeleteSlot() {
-  emit Delete(FilenamesFromSelection());
+  Q_EMIT Delete(FilenamesFromSelection());
 }
 
 void FileViewList::EditTagsSlot() {
-  emit EditTags(UrlListFromSelection());
+  Q_EMIT EditTags(UrlListFromSelection());
 }
 
 void FileViewList::mousePressEvent(QMouseEvent *e) {
 
   switch (e->button()) {
     case Qt::XButton1:
-      emit Back();
+      Q_EMIT Back();
       break;
     case Qt::XButton2:
-      emit Forward();
+      Q_EMIT Forward();
       break;
     // enqueue to playlist with middleClick
     case Qt::MiddleButton:{
@@ -204,7 +204,7 @@ void FileViewList::mousePressEvent(QMouseEvent *e) {
       MimeData *mimedata = new MimeData;
       mimedata->setUrls(UrlListFromSelection());
       mimedata->enqueue_now_ = true;
-      emit AddToPlaylist(mimedata);
+      Q_EMIT AddToPlaylist(mimedata);
       break;
     }
     default:

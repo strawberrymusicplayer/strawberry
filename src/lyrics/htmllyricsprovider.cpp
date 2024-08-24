@@ -92,34 +92,34 @@ void HtmlLyricsProvider::HandleLyricsReply(QNetworkReply *reply, const int id, c
     else {
       qLog(Error) << name_ << reply->errorString() << reply->error();
     }
-    emit SearchFinished(id);
+    Q_EMIT SearchFinished(id);
     return;
   }
 
   if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
     qLog(Error) << name_ << "Received HTTP code" << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
-    emit SearchFinished(id);
+    Q_EMIT SearchFinished(id);
     return;
   }
 
   QByteArray data = reply->readAll();
   if (data.isEmpty()) {
     qLog(Error) << name_ << "Empty reply received from server.";
-    emit SearchFinished(id);
+    Q_EMIT SearchFinished(id);
     return;
   }
 
   const QString lyrics = ParseLyricsFromHTML(QString::fromUtf8(data), QRegularExpression(start_tag_), QRegularExpression(end_tag_), QRegularExpression(lyrics_start_), multiple_);
   if (lyrics.isEmpty() || lyrics.contains(QLatin1String("we do not have the lyrics for"), Qt::CaseInsensitive)) {
     qLog(Debug) << name_ << "No lyrics for" << request.artist << request.album << request.title;
-    emit SearchFinished(id);
+    Q_EMIT SearchFinished(id);
     return;
   }
 
   qLog(Debug) << name_ << "Got lyrics for" << request.artist << request.album << request.title;
 
   LyricsSearchResult result(lyrics);
-  emit SearchFinished(id, LyricsSearchResults() << result);
+  Q_EMIT SearchFinished(id, LyricsSearchResults() << result);
 
 }
 

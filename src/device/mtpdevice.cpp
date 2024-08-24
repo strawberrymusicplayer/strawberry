@@ -124,7 +124,7 @@ void MtpDevice::LoadFinished(const bool success, MtpConnection *connection) {
     ConnectedDevice::Close();
   }
   else {
-    emit DeviceConnectFinished(unique_id_, success);
+    Q_EMIT DeviceConnectFinished(unique_id_, success);
   }
 
 }

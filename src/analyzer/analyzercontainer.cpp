@@ -130,7 +130,7 @@ void AnalyzerContainer::ShowPopupMenu() {
 }
 
 void AnalyzerContainer::wheelEvent(QWheelEvent *e) {
-  emit WheelEvent(e->angleDelta().y());
+  Q_EMIT WheelEvent(e->angleDelta().y());
 }
 
 void AnalyzerContainer::SetEngine(SharedPtr<EngineBase> engine) {

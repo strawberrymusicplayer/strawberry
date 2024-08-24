@@ -129,7 +129,7 @@ bool CddaLister::Init() {
 #endif
     if (!devices_list_.contains(device)) {
       devices_list_ << device;
-      emit DeviceAdded(device);
+      Q_EMIT DeviceAdded(device);
     }
   }
 

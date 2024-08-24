@@ -437,7 +437,7 @@ void MusixmatchLyricsProvider::EndSearch(LyricsSearchContextPtr search, const QU
     else {
       qLog(Debug) << "MusixmatchLyrics: Got lyrics for" << search->request.artist << search->request.title;
     }
-    emit SearchFinished(search->id, search->results);
+    Q_EMIT SearchFinished(search->id, search->results);
   }
 
 }

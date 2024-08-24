@@ -1494,10 +1494,10 @@ void EditTagDialog::SongSaveTagsComplete(TagReaderReply *reply, const QString &f
   }
   else {
     if (error.isEmpty()) {
-      emit Error(tr("Could not write metadata to %1").arg(filename));
+      Q_EMIT Error(tr("Could not write metadata to %1").arg(filename));
     }
     else {
-      emit Error(tr("Could not write metadata to %1: %2").arg(filename, error));
+      Q_EMIT Error(tr("Could not write metadata to %1: %2").arg(filename, error));
     }
   }
 

@@ -131,7 +131,7 @@ qint64 MockNetworkReply::writeData(const char*, qint64) {
 void MockNetworkReply::Done() {
 
   setOpenMode(QIODevice::ReadOnly);
-  emit finished();
+  Q_EMIT finished();
 
 }
 

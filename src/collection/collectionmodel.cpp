@@ -266,7 +266,7 @@ void CollectionModel::SetGroupBy(const Grouping g, const std::optional<bool> sep
 
   ScheduleReset();
 
-  emit GroupingChanged(g, options_current_.separate_albums_by_grouping);
+  Q_EMIT GroupingChanged(g, options_current_.separate_albums_by_grouping);
 
 }
 
@@ -622,7 +622,7 @@ void CollectionModel::UpdateSongsInternal(const SongList &songs) {
       qLog(Debug) << "Song metadata and title for" << new_song.id() << new_song.PrettyTitleWithArtist() << "changed, informing model";
       const QModelIndex idx = ItemToIndex(item);
       if (!idx.isValid()) continue;
-      emit dataChanged(idx, idx);
+      Q_EMIT dataChanged(idx, idx);
     }
     else {
       qLog(Debug) << "Song metadata for" << new_song.id() << new_song.PrettyTitleWithArtist() << "changed";
@@ -633,7 +633,7 @@ void CollectionModel::UpdateSongsInternal(const SongList &songs) {
     ClearItemPixmapCache(item);
     const QModelIndex idx = ItemToIndex(item);
     if (idx.isValid()) {
-      emit dataChanged(idx, idx);
+      Q_EMIT dataChanged(idx, idx);
     }
   }
 
@@ -989,7 +989,7 @@ void CollectionModel::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderR
   const QModelIndex idx = ItemToIndex(item);
   if (!idx.isValid()) return;
 
-  emit dataChanged(idx, idx);
+  Q_EMIT dataChanged(idx, idx);
 
 }
 
@@ -1532,21 +1532,21 @@ CollectionModel::GroupBy &CollectionModel::Grouping::operator[](const int i) {
 void CollectionModel::TotalSongCountUpdatedSlot(const int count) {
 
   total_song_count_ = count;
-  emit TotalSongCountUpdated(count);
+  Q_EMIT TotalSongCountUpdated(count);
 
 }
 
 void CollectionModel::TotalArtistCountUpdatedSlot(const int count) {
 
   total_artist_count_ = count;
-  emit TotalArtistCountUpdated(count);
+  Q_EMIT TotalArtistCountUpdated(count);
 
 }
 
 void CollectionModel::TotalAlbumCountUpdatedSlot(const int count) {
 
   total_album_count_ = count;
-  emit TotalAlbumCountUpdated(count);
+  Q_EMIT TotalAlbumCountUpdated(count);
 
 }
 
@@ -1566,7 +1566,7 @@ void CollectionModel::RowsInserted(const QModelIndex &parent, const int first, c
   }
 
   if (!songs.isEmpty()) {
-    emit SongsAdded(songs);
+    Q_EMIT SongsAdded(songs);
   }
 
 }
@@ -1582,7 +1582,7 @@ void CollectionModel::RowsRemoved(const QModelIndex &parent, const int first, co
     songs << item->metadata;
   }
 
-  emit SongsRemoved(songs);
+  Q_EMIT SongsRemoved(songs);
 
 }
 

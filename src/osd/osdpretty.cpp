@@ -538,7 +538,7 @@ void OSDPretty::mouseReleaseEvent(QMouseEvent *) {
     popup_screen_ = current_screen();
     popup_screen_name_ = current_screen()->name();
     popup_pos_ = current_pos();
-    emit PositionChanged();
+    Q_EMIT PositionChanged();
   }
 
 }

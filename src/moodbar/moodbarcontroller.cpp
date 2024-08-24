@@ -62,17 +62,17 @@ void MoodbarController::CurrentSongChanged(const Song &song) {
 
   switch (result) {
     case MoodbarLoader::Result::CannotLoad:
-      emit CurrentMoodbarDataChanged(QByteArray());
+      Q_EMIT CurrentMoodbarDataChanged(QByteArray());
       break;
 
     case MoodbarLoader::Result::Loaded:
-      emit CurrentMoodbarDataChanged(data);
+      Q_EMIT CurrentMoodbarDataChanged(data);
       break;
 
     case MoodbarLoader::Result::WillLoadAsync:
       // Emit an empty array for now so the GUI reverts to a normal progress
       // bar.  Our slot will be called when the data is actually loaded.
-      emit CurrentMoodbarDataChanged(QByteArray());
+      Q_EMIT CurrentMoodbarDataChanged(QByteArray());
 
       QObject::connect(pipeline, &MoodbarPipeline::Finished, this, [this, pipeline, song]() { AsyncLoadComplete(pipeline, song.url()); });
       break;
@@ -82,7 +82,7 @@ void MoodbarController::CurrentSongChanged(const Song &song) {
 
 void MoodbarController::PlaybackStopped() {
   if (enabled_) {
-    emit CurrentMoodbarDataChanged(QByteArray());
+    Q_EMIT CurrentMoodbarDataChanged(QByteArray());
   }
 }
 
@@ -104,6 +104,6 @@ void MoodbarController::AsyncLoadComplete(MoodbarPipeline *pipeline, const QUrl 
       break;
   }
 
-  emit CurrentMoodbarDataChanged(pipeline->data());
+  Q_EMIT CurrentMoodbarDataChanged(pipeline->data());
 
 }

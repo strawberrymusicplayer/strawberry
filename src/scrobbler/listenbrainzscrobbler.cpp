@@ -347,7 +347,7 @@ void ListenBrainzScrobbler::AuthenticateReplyFinished(QNetworkReply *reply) {
     refresh_login_timer_.start();
   }
 
-  emit AuthenticationComplete(true);
+  Q_EMIT AuthenticationComplete(true);
 
   qLog(Debug) << "ListenBrainz: Authentication was successful, login expires in" << expires_in_;
 
@@ -667,7 +667,7 @@ void ListenBrainzScrobbler::LoveRequestFinished(QNetworkReply *reply) {
 void ListenBrainzScrobbler::AuthError(const QString &error) {
 
   qLog(Error) << "ListenBrainz" << error;
-  emit AuthenticationComplete(false, error);
+  Q_EMIT AuthenticationComplete(false, error);
 
 }
 
@@ -677,7 +677,7 @@ void ListenBrainzScrobbler::Error(const QString &error, const QVariant &debug) {
   if (debug.isValid()) qLog(Debug) << debug;
 
   if (settings_->show_error_dialog()) {
-    emit ErrorMessage(tr("ListenBrainz error: %1").arg(error));
+    Q_EMIT ErrorMessage(tr("ListenBrainz error: %1").arg(error));
   }
 
 }

@@ -91,7 +91,7 @@ void VolumeSlider::HandleWheel(const int delta) {
     wheeling_ = true;
 
     QSlider::setValue(SliderSlider::value() + steps);
-    emit SliderReleased(value());
+    Q_EMIT SliderReleased(value());
 
     wheeling_ = false;
   }
@@ -271,7 +271,7 @@ void VolumeSlider::contextMenuEvent(QContextMenuEvent *e) {
   QAction *ret = menu.exec(mapToGlobal(e->pos()));
   if (ret) {
     QSlider::setValue(values[ret]);
-    emit SliderReleased(values[ret]);
+    Q_EMIT SliderReleased(values[ret]);
   }
 
 }

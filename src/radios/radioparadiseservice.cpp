@@ -76,14 +76,14 @@ void RadioParadiseService::GetChannelsReply(QNetworkReply *reply, const int task
   QJsonObject object = ExtractJsonObj(reply);
   if (object.isEmpty()) {
     app_->task_manager()->SetTaskFinished(task_id);
-    emit NewChannels();
+    Q_EMIT NewChannels();
     return;
   }
 
   if (!object.contains(QLatin1String("channels")) || !object[QLatin1String("channels")].isArray()) {
     Error(QStringLiteral("Missing JSON channels array."), object);
     app_->task_manager()->SetTaskFinished(task_id);
-    emit NewChannels();
+    Q_EMIT NewChannels();
     return;
   }
   const QJsonArray array_channels = object[QLatin1String("channels")].toArray();
@@ -123,6 +123,6 @@ void RadioParadiseService::GetChannelsReply(QNetworkReply *reply, const int task
 
   app_->task_manager()->SetTaskFinished(task_id);
 
-  emit NewChannels(channels);
+  Q_EMIT NewChannels(channels);
 
 }

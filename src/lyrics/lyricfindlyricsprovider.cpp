@@ -213,6 +213,6 @@ void LyricFindLyricsProvider::EndSearch(const int id, const LyricsSearchRequest 
     qLog(Debug) << "LyricFind: Got lyrics for" << request.artist << request.title;
   }
 
-  emit SearchFinished(id, results);
+  Q_EMIT SearchFinished(id, results);
 
 }

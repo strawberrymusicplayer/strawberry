@@ -143,7 +143,7 @@ void TidalRequest::LoginComplete(const bool success, const QString &error) {
 void TidalRequest::Process() {
 
   if (!service_->authenticated()) {
-    emit UpdateStatus(query_id_, tr("Authenticating..."));
+    Q_EMIT UpdateStatus(query_id_, tr("Authenticating..."));
     need_login_ = true;
     service_->TryLogin();
     return;
@@ -226,8 +226,8 @@ void TidalRequest::Search(const int query_id, const QString &search_text) {
 
 void TidalRequest::GetArtists() {
 
-  emit UpdateStatus(query_id_, tr("Receiving artists..."));
-  emit UpdateProgress(query_id_, 0);
+  Q_EMIT UpdateStatus(query_id_, tr("Receiving artists..."));
+  Q_EMIT UpdateProgress(query_id_, 0);
   AddArtistsRequest();
 
 }
@@ -274,8 +274,8 @@ void TidalRequest::FlushArtistsRequests() {
 
 void TidalRequest::GetAlbums() {
 
-  emit UpdateStatus(query_id_, tr("Receiving albums..."));
-  emit UpdateProgress(query_id_, 0);
+  Q_EMIT UpdateStatus(query_id_, tr("Receiving albums..."));
+  Q_EMIT UpdateProgress(query_id_, 0);
   AddAlbumsRequest();
 
 }
@@ -322,8 +322,8 @@ void TidalRequest::FlushAlbumsRequests() {
 
 void TidalRequest::GetSongs() {
 
-  emit UpdateStatus(query_id_, tr("Receiving songs..."));
-  emit UpdateProgress(query_id_, 0);
+  Q_EMIT UpdateStatus(query_id_, tr("Receiving songs..."));
+  Q_EMIT UpdateProgress(query_id_, 0);
   AddSongsRequest();
 
 }
@@ -370,8 +370,8 @@ void TidalRequest::FlushSongsRequests() {
 
 void TidalRequest::ArtistsSearch() {
 
-  emit UpdateStatus(query_id_, tr("Searching..."));
-  emit UpdateProgress(query_id_, 0);
+  Q_EMIT UpdateStatus(query_id_, tr("Searching..."));
+  Q_EMIT UpdateProgress(query_id_, 0);
   AddArtistsSearchRequest();
 
 }
@@ -384,8 +384,8 @@ void TidalRequest::AddArtistsSearchRequest(const int offset) {
 
 void TidalRequest::AlbumsSearch() {
 
-  emit UpdateStatus(query_id_, tr("Searching..."));
-  emit UpdateProgress(query_id_, 0);
+  Q_EMIT UpdateStatus(query_id_, tr("Searching..."));
+  Q_EMIT UpdateProgress(query_id_, 0);
   AddAlbumsSearchRequest();
 
 }
@@ -398,8 +398,8 @@ void TidalRequest::AddAlbumsSearchRequest(const int offset) {
 
 void TidalRequest::SongsSearch() {
 
-  emit UpdateStatus(query_id_, tr("Searching..."));
-  emit UpdateProgress(query_id_, 0);
+  Q_EMIT UpdateStatus(query_id_, tr("Searching..."));
+  Q_EMIT UpdateProgress(query_id_, 0);
   AddSongsSearchRequest();
 
 }
@@ -463,7 +463,7 @@ void TidalRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_re
   }
 
   if (offset_requested == 0) {
-    emit UpdateProgress(query_id_, GetProgress(artists_received_, artists_total_));
+    Q_EMIT UpdateProgress(query_id_, GetProgress(artists_received_, artists_total_));
   }
 
   QJsonValue value_items = ExtractItems(json_obj);
@@ -521,7 +521,7 @@ void TidalRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_re
   }
   artists_received_ += artists_received;
 
-  if (offset_requested != 0) emit UpdateProgress(query_id_, GetProgress(artists_received_, artists_total_));
+  if (offset_requested != 0) Q_EMIT UpdateProgress(query_id_, GetProgress(artists_received_, artists_total_));
 
   ArtistsFinishCheck(limit_requested, offset, artists_received);
 
@@ -549,9 +549,9 @@ void TidalRequest::ArtistsFinishCheck(const int limit, const int offset, const i
     artist_albums_requests_pending_.clear();
 
     if (artist_albums_requests_total_ > 0) {
-      if (artist_albums_requests_total_ == 1) emit UpdateStatus(query_id_, tr("Receiving albums for %1 artist...").arg(artist_albums_requests_total_));
-      else emit UpdateStatus(query_id_, tr("Receiving albums for %1 artists...").arg(artist_albums_requests_total_));
-      emit UpdateProgress(query_id_, 0);
+      if (artist_albums_requests_total_ == 1) Q_EMIT UpdateStatus(query_id_, tr("Receiving albums for %1 artist...").arg(artist_albums_requests_total_));
+      else Q_EMIT UpdateStatus(query_id_, tr("Receiving albums for %1 artists...").arg(artist_albums_requests_total_));
+      Q_EMIT UpdateProgress(query_id_, 0);
     }
 
   }
@@ -603,7 +603,7 @@ void TidalRequest::ArtistAlbumsReplyReceived(QNetworkReply *reply, const Artist 
 
   --artist_albums_requests_active_;
   ++artist_albums_requests_received_;
-  emit UpdateProgress(query_id_, GetProgress(artist_albums_requests_received_, artist_albums_requests_total_));
+  Q_EMIT UpdateProgress(query_id_, GetProgress(artist_albums_requests_received_, artist_albums_requests_total_));
   AlbumsReceived(reply, artist, 0, offset_requested, false);
 
 }
@@ -770,7 +770,7 @@ void TidalRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_req
 
   if (query_type_ == Type::FavouriteAlbums || query_type_ == Type::SearchAlbums) {
     albums_received_ += albums_received;
-    emit UpdateProgress(query_id_, GetProgress(albums_received_, albums_total_));
+    Q_EMIT UpdateProgress(query_id_, GetProgress(albums_received_, albums_total_));
   }
 
   AlbumsFinishCheck(artist_requested, limit_requested, offset, albums_total, albums_received);
@@ -819,9 +819,9 @@ void TidalRequest::AlbumsFinishCheck(const Artist &artist, const int limit, cons
     album_songs_requests_pending_.clear();
 
     if (album_songs_requests_total_ > 0) {
-      if (album_songs_requests_total_ == 1) emit UpdateStatus(query_id_, tr("Receiving songs for %1 album...").arg(album_songs_requests_total_));
-      else emit UpdateStatus(query_id_, tr("Receiving songs for %1 albums...").arg(album_songs_requests_total_));
-      emit UpdateProgress(query_id_, 0);
+      if (album_songs_requests_total_ == 1) Q_EMIT UpdateStatus(query_id_, tr("Receiving songs for %1 album...").arg(album_songs_requests_total_));
+      else Q_EMIT UpdateStatus(query_id_, tr("Receiving songs for %1 albums...").arg(album_songs_requests_total_));
+      Q_EMIT UpdateProgress(query_id_, 0);
     }
   }
 
@@ -879,7 +879,7 @@ void TidalRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const Artist &a
   --album_songs_requests_active_;
   ++album_songs_requests_received_;
   if (offset_requested == 0) {
-    emit UpdateProgress(query_id_, GetProgress(album_songs_requests_received_, album_songs_requests_total_));
+    Q_EMIT UpdateProgress(query_id_, GetProgress(album_songs_requests_received_, album_songs_requests_total_));
   }
   SongsReceived(reply, artist, album, 0, offset_requested, false);
 
@@ -976,7 +976,7 @@ void TidalRequest::SongsReceived(QNetworkReply *reply, const Artist &artist, con
 
   if (query_type_ == Type::FavouriteSongs || query_type_ == Type::SearchSongs) {
     songs_received_ += songs_received;
-    emit UpdateProgress(query_id_, GetProgress(songs_received_, songs_total_));
+    Q_EMIT UpdateProgress(query_id_, GetProgress(songs_received_, songs_total_));
   }
 
   SongsFinishCheck(artist, album, limit_requested, offset_requested, songs_total, songs_received);
@@ -1196,9 +1196,9 @@ void TidalRequest::GetAlbumCovers() {
     AddAlbumCoverRequest(song);
   }
 
-  if (album_covers_requests_total_ == 1) emit UpdateStatus(query_id_, tr("Receiving album cover for %1 album...").arg(album_covers_requests_total_));
-  else emit UpdateStatus(query_id_, tr("Receiving album covers for %1 albums...").arg(album_covers_requests_total_));
-  emit UpdateProgress(query_id_, 0);
+  if (album_covers_requests_total_ == 1) Q_EMIT UpdateStatus(query_id_, tr("Receiving album cover for %1 album...").arg(album_covers_requests_total_));
+  else Q_EMIT UpdateStatus(query_id_, tr("Receiving album covers for %1 albums...").arg(album_covers_requests_total_));
+  Q_EMIT UpdateProgress(query_id_, 0);
 
   StartRequests();
 
@@ -1259,7 +1259,7 @@ void TidalRequest::AlbumCoverReceived(QNetworkReply *reply, const QString &album
 
   if (finished_) return;
 
-  emit UpdateProgress(query_id_, GetProgress(album_covers_requests_received_, album_covers_requests_total_));
+  Q_EMIT UpdateProgress(query_id_, GetProgress(album_covers_requests_received_, album_covers_requests_total_));
 
   if (!album_covers_requests_sent_.contains(album_id)) {
     AlbumCoverFinishCheck();
@@ -1363,18 +1363,18 @@ void TidalRequest::FinishCheck() {
     if (songs_.isEmpty()) {
       if (errors_.isEmpty()) {
         if (IsSearch()) {
-          emit Results(query_id_, SongMap(), tr("No match."));
+          Q_EMIT Results(query_id_, SongMap(), tr("No match."));
         }
         else {
-          emit Results(query_id_);
+          Q_EMIT Results(query_id_);
         }
       }
       else {
-        emit Results(query_id_, SongMap(), ErrorsToHTML(errors_));
+        Q_EMIT Results(query_id_, SongMap(), ErrorsToHTML(errors_));
       }
     }
     else {
-      emit Results(query_id_, songs_);
+      Q_EMIT Results(query_id_, songs_);
     }
   }
 

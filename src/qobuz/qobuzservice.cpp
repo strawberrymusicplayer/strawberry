@@ -201,7 +201,7 @@ void QobuzService::ExitReceived() {
   QObject::disconnect(obj, nullptr, this, nullptr);
   qLog(Debug) << obj << "successfully exited.";
   wait_for_exit_.removeAll(obj);
-  if (wait_for_exit_.isEmpty()) emit ExitFinished();
+  if (wait_for_exit_.isEmpty()) Q_EMIT ExitFinished();
 
 }
 
@@ -268,7 +268,7 @@ void QobuzService::SendLogin() {
 
 void QobuzService::SendLoginWithCredentials(const QString &app_id, const QString &username, const QString &password) {
 
-  emit UpdateStatus(tr("Authenticating..."));
+  Q_EMIT UpdateStatus(tr("Authenticating..."));
   login_errors_.clear();
 
   login_sent_ = true;
@@ -446,8 +446,8 @@ void QobuzService::HandleAuthReply(QNetworkReply *reply) {
   login_attempts_ = 0;
   if (timer_login_attempt_->isActive()) timer_login_attempt_->stop();
 
-  emit LoginComplete(true);
-  emit LoginSuccess();
+  Q_EMIT LoginComplete(true);
+  Q_EMIT LoginSuccess();
 
 }
 
@@ -477,23 +477,23 @@ void QobuzService::TryLogin() {
   if (authenticated() || login_sent_) return;
 
   if (login_attempts_ >= kLoginAttempts) {
-    emit LoginComplete(false, tr("Maximum number of login attempts reached."));
+    Q_EMIT LoginComplete(false, tr("Maximum number of login attempts reached."));
     return;
   }
   if (app_id_.isEmpty()) {
-    emit LoginComplete(false, tr("Missing Qobuz app ID."));
+    Q_EMIT LoginComplete(false, tr("Missing Qobuz app ID."));
     return;
   }
   if (username_.isEmpty()) {
-    emit LoginComplete(false, tr("Missing Qobuz username."));
+    Q_EMIT LoginComplete(false, tr("Missing Qobuz username."));
     return;
   }
   if (password_.isEmpty()) {
-    emit LoginComplete(false, tr("Missing Qobuz password."));
+    Q_EMIT LoginComplete(false, tr("Missing Qobuz password."));
     return;
   }
 
-  emit RequestLogin();
+  Q_EMIT RequestLogin();
 
 }
 
@@ -510,12 +510,12 @@ void QobuzService::ResetArtistsRequest() {
 void QobuzService::GetArtists() {
 
   if (app_id().isEmpty()) {
-    emit ArtistsResults(SongMap(), tr("Missing Qobuz app ID."));
+    Q_EMIT ArtistsResults(SongMap(), tr("Missing Qobuz app ID."));
     return;
   }
 
   if (!authenticated()) {
-    emit ArtistsResults(SongMap(), tr("Not authenticated with Qobuz."));
+    Q_EMIT ArtistsResults(SongMap(), tr("Not authenticated with Qobuz."));
     return;
   }
 
@@ -532,19 +532,19 @@ void QobuzService::GetArtists() {
 void QobuzService::ArtistsResultsReceived(const int id, const SongMap &songs, const QString &error) {
 
   Q_UNUSED(id);
-  emit ArtistsResults(songs, error);
+  Q_EMIT ArtistsResults(songs, error);
   ResetArtistsRequest();
 
 }
 
 void QobuzService::ArtistsUpdateStatusReceived(const int id, const QString &text) {
   Q_UNUSED(id);
-  emit ArtistsUpdateStatus(text);
+  Q_EMIT ArtistsUpdateStatus(text);
 }
 
 void QobuzService::ArtistsUpdateProgressReceived(const int id, const int progress) {
   Q_UNUSED(id);
-  emit ArtistsUpdateProgress(progress);
+  Q_EMIT ArtistsUpdateProgress(progress);
 }
 
 void QobuzService::ResetAlbumsRequest() {
@@ -560,12 +560,12 @@ void QobuzService::ResetAlbumsRequest() {
 void QobuzService::GetAlbums() {
 
   if (app_id().isEmpty()) {
-    emit AlbumsResults(SongMap(), tr("Missing Qobuz app ID."));
+    Q_EMIT AlbumsResults(SongMap(), tr("Missing Qobuz app ID."));
     return;
   }
 
   if (!authenticated()) {
-    emit AlbumsResults(SongMap(), tr("Not authenticated with Qobuz."));
+    Q_EMIT AlbumsResults(SongMap(), tr("Not authenticated with Qobuz."));
     return;
   }
 
@@ -582,19 +582,19 @@ void QobuzService::GetAlbums() {
 void QobuzService::AlbumsResultsReceived(const int id, const SongMap &songs, const QString &error) {
 
   Q_UNUSED(id);
-  emit AlbumsResults(songs, error);
+  Q_EMIT AlbumsResults(songs, error);
   ResetAlbumsRequest();
 
 }
 
 void QobuzService::AlbumsUpdateStatusReceived(const int id, const QString &text) {
   Q_UNUSED(id);
-  emit AlbumsUpdateStatus(text);
+  Q_EMIT AlbumsUpdateStatus(text);
 }
 
 void QobuzService::AlbumsUpdateProgressReceived(const int id, const int progress) {
   Q_UNUSED(id);
-  emit AlbumsUpdateProgress(progress);
+  Q_EMIT AlbumsUpdateProgress(progress);
 }
 
 void QobuzService::ResetSongsRequest() {
@@ -610,12 +610,12 @@ void QobuzService::ResetSongsRequest() {
 void QobuzService::GetSongs() {
 
   if (app_id().isEmpty()) {
-    emit SongsResults(SongMap(), tr("Missing Qobuz app ID."));
+    Q_EMIT SongsResults(SongMap(), tr("Missing Qobuz app ID."));
     return;
   }
 
   if (!authenticated()) {
-    emit SongsResults(SongMap(), tr("Not authenticated with Qobuz."));
+    Q_EMIT SongsResults(SongMap(), tr("Not authenticated with Qobuz."));
     return;
   }
 
@@ -632,19 +632,19 @@ void QobuzService::GetSongs() {
 void QobuzService::SongsResultsReceived(const int id, const SongMap &songs, const QString &error) {
 
   Q_UNUSED(id);
-  emit SongsResults(songs, error);
+  Q_EMIT SongsResults(songs, error);
   ResetSongsRequest();
 
 }
 
 void QobuzService::SongsUpdateStatusReceived(const int id, const QString &text) {
   Q_UNUSED(id);
-  emit SongsUpdateStatus(text);
+  Q_EMIT SongsUpdateStatus(text);
 }
 
 void QobuzService::SongsUpdateProgressReceived(const int id, const int progress) {
   Q_UNUSED(id);
-  emit SongsUpdateProgress(progress);
+  Q_EMIT SongsUpdateProgress(progress);
 }
 
 int QobuzService::Search(const QString &text, StreamingSearchView::SearchType type) {
@@ -672,7 +672,7 @@ void QobuzService::StartSearch() {
   search_text_ = pending_search_text_;
 
   if (app_id_.isEmpty()) {  // App ID is the only thing needed to search.
-    emit SearchResults(search_id_, SongMap(), tr("Missing Qobuz app ID."));
+    Q_EMIT SearchResults(search_id_, SongMap(), tr("Missing Qobuz app ID."));
     return;
   }
 
@@ -713,7 +713,7 @@ void QobuzService::SendSearch() {
 void QobuzService::SearchResultsReceived(const int id, const SongMap &songs, const QString &error) {
 
   search_request_.reset();
-  emit SearchResults(id, songs, error);
+  Q_EMIT SearchResults(id, songs, error);
 
 }
 
@@ -746,7 +746,7 @@ void QobuzService::HandleStreamURLFailure(const uint id, const QUrl &media_url, 
   if (!stream_url_requests_.contains(id)) return;
   stream_url_requests_.remove(id);
 
-  emit StreamURLFailure(id, media_url, error);
+  Q_EMIT StreamURLFailure(id, media_url, error);
 
 }
 
@@ -755,7 +755,7 @@ void QobuzService::HandleStreamURLSuccess(const uint id, const QUrl &media_url, 
   if (!stream_url_requests_.contains(id)) return;
   stream_url_requests_.remove(id);
 
-  emit StreamURLSuccess(id, media_url, stream_url, filetype, samplerate, bit_depth, duration);
+  Q_EMIT StreamURLSuccess(id, media_url, stream_url, filetype, samplerate, bit_depth, duration);
 
 }
 
@@ -770,8 +770,8 @@ void QobuzService::LoginError(const QString &error, const QVariant &debug) {
   }
   if (debug.isValid()) qLog(Debug) << debug;
 
-  emit LoginFailure(error_html);
-  emit LoginComplete(false, error_html);
+  Q_EMIT LoginFailure(error_html);
+  Q_EMIT LoginComplete(false, error_html);
 
   login_errors_.clear();
 
