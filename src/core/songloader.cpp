@@ -175,7 +175,9 @@ SongLoader::Result SongLoader::LoadLocalPartial(const QString &filename) {
   }
 
   // Assume it's just a normal file
-  if (TagReaderClient::Instance()->IsMediaFileBlocking(filename) || Song::kAcceptedExtensions.contains(fileinfo.suffix(), Qt::CaseInsensitive)) {
+  if (!Song::kRejectedExtensions.contains(fileinfo.suffix(), Qt::CaseInsensitive) &&
+      (TagReaderClient::Instance()->IsMediaFileBlocking(filename) ||
+       Song::kAcceptedExtensions.contains(fileinfo.suffix(), Qt::CaseInsensitive))) {
     Song song(Song::Source::LocalFile);
     song.InitFromFilePartial(filename, fileinfo);
     if (song.is_valid()) {
@@ -319,7 +321,9 @@ SongLoader::Result SongLoader::LoadLocalAsync(const QString &filename) {
   }
 
   // Assume it's just a normal file
-  if (TagReaderClient::Instance()->IsMediaFileBlocking(filename) || Song::kAcceptedExtensions.contains(fileinfo.suffix(), Qt::CaseInsensitive)) {
+  if (!Song::kRejectedExtensions.contains(fileinfo.suffix(), Qt::CaseInsensitive) &&
+      (TagReaderClient::Instance()->IsMediaFileBlocking(filename) ||
+       Song::kAcceptedExtensions.contains(fileinfo.suffix(), Qt::CaseInsensitive))) {
     Song song(Song::Source::LocalFile);
     song.InitFromFilePartial(filename, fileinfo);
     if (song.is_valid()) {
