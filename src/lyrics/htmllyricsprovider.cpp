@@ -19,7 +19,8 @@
 
 #include "config.h"
 
-#include <QObject>
+#include <QApplication>
+#include <QThread>
 #include <QByteArray>
 #include <QVariant>
 #include <QString>
@@ -49,9 +50,19 @@ HtmlLyricsProvider::~HtmlLyricsProvider() {
 
 }
 
-bool HtmlLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &request) {
+bool HtmlLyricsProvider::StartSearchAsync(const int id, const LyricsSearchRequest &request) {
 
   if (request.artist.isEmpty() || request.title.isEmpty()) return false;
+
+  QMetaObject::invokeMethod(this, "StartSearch", Qt::QueuedConnection, Q_ARG(int, id), Q_ARG(LyricsSearchRequest, request));
+
+  return true;
+
+}
+
+void HtmlLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &request) {
+
+  Q_ASSERT(QThread::currentThread() != qApp->thread());
 
   QUrl url(Url(request));
   QNetworkRequest req(url);
@@ -63,13 +74,11 @@ bool HtmlLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &re
 
   qLog(Debug) << name_ << "Sending request for" << url;
 
-  return true;
-
 }
 
-void HtmlLyricsProvider::CancelSearch(const int id) { Q_UNUSED(id); }
-
 void HtmlLyricsProvider::HandleLyricsReply(QNetworkReply *reply, const int id, const LyricsSearchRequest &request) {
+
+  Q_ASSERT(QThread::currentThread() != qApp->thread());
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
@@ -115,6 +124,8 @@ void HtmlLyricsProvider::HandleLyricsReply(QNetworkReply *reply, const int id, c
 }
 
 QString HtmlLyricsProvider::ParseLyricsFromHTML(const QString &content, const QRegularExpression &start_tag, const QRegularExpression &end_tag, const QRegularExpression &lyrics_start, const bool multiple) {
+
+  Q_ASSERT(QThread::currentThread() != qApp->thread());
 
   QString lyrics;
   qint64 start_idx = 0;

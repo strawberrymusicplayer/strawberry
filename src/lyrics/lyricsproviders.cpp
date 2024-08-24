@@ -20,8 +20,8 @@
 #include "config.h"
 
 #include <utility>
+#include <memory>
 
-#include <QObject>
 #include <QMutex>
 #include <QList>
 #include <QMap>
@@ -31,6 +31,7 @@
 
 #include "core/logging.h"
 #include "core/settings.h"
+#include "core/networkaccessmanager.h"
 
 #include "lyricsprovider.h"
 #include "lyricsproviders.h"
@@ -39,13 +40,23 @@
 
 int LyricsProviders::NextOrderId = 0;
 
-LyricsProviders::LyricsProviders(QObject *parent) : QObject(parent) {}
+using std::make_shared;
+
+LyricsProviders::LyricsProviders(QObject *parent) : QObject(parent), thread_(new QThread(this)), network_(make_shared<NetworkAccessManager>()) {
+
+  network_->moveToThread(thread_);
+  thread_->start();
+
+}
 
 LyricsProviders::~LyricsProviders() {
 
   while (!lyrics_providers_.isEmpty()) {
     delete lyrics_providers_.firstKey();
   }
+
+  thread_->quit();
+  thread_->wait(1000);
 
 }
 
@@ -95,6 +106,8 @@ LyricsProvider *LyricsProviders::ProviderByName(const QString &name) const {
 }
 
 void LyricsProviders::AddProvider(LyricsProvider *provider) {
+
+  provider->moveToThread(thread_);
 
   {
     QMutexLocker locker(&mutex_);

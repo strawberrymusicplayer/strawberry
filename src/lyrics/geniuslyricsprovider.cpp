@@ -22,7 +22,8 @@
 #include <utility>
 #include <memory>
 
-#include <QObject>
+#include <QApplication>
+#include <QThread>
 #include <QList>
 #include <QByteArray>
 #include <QVariant>
@@ -42,6 +43,7 @@
 #include <QJsonValue>
 #include <QJsonParseError>
 #include <QMessageBox>
+#include <QMutexLocker>
 
 #include "core/logging.h"
 #include "core/shared_ptr.h"
@@ -70,7 +72,7 @@ GeniusLyricsProvider::GeniusLyricsProvider(SharedPtr<NetworkAccessManager> netwo
   Settings s;
   s.beginGroup(kSettingsGroup);
   if (s.contains("access_token")) {
-    access_token_ = s.value("access_token").toString();
+    set_access_token(s.value("access_token").toString());
   }
   s.endGroup();
 
@@ -84,6 +86,27 @@ GeniusLyricsProvider::~GeniusLyricsProvider() {
     reply->abort();
     reply->deleteLater();
   }
+
+}
+
+QString GeniusLyricsProvider::access_token() const {
+
+  QMutexLocker l(&mutex_access_token_);
+  return access_token_;
+
+}
+
+void GeniusLyricsProvider::clear_access_token() {
+
+  QMutexLocker l(&mutex_access_token_);
+  access_token_.clear();
+
+}
+
+void GeniusLyricsProvider::set_access_token(const QString &access_token) {
+
+  QMutexLocker l(&mutex_access_token_);
+  access_token_ = access_token;
 
 }
 
@@ -277,11 +300,13 @@ void GeniusLyricsProvider::AccessTokenRequestFinished(QNetworkReply *reply) {
     return;
   }
 
-  access_token_ = json_obj[QLatin1String("access_token")].toString();
+  const QString access_token = json_obj[QLatin1String("access_token")].toString();
+
+  set_access_token(access_token);
 
   Settings s;
   s.beginGroup(kSettingsGroup);
-  s.setValue("access_token", access_token_);
+  s.setValue("access_token", access_token);
   s.endGroup();
 
   qLog(Debug) << "Genius: Authentication was successful.";
@@ -291,14 +316,19 @@ void GeniusLyricsProvider::AccessTokenRequestFinished(QNetworkReply *reply) {
 
 }
 
-bool GeniusLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &request) {
+void GeniusLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &request) {
 
-  if (access_token_.isEmpty()) return false;
+  Q_ASSERT(QThread::currentThread() != qApp->thread());
 
   GeniusLyricsSearchContextPtr search = make_shared<GeniusLyricsSearchContext>();
   search->id = id;
   search->request = request;
   requests_search_.insert(id, search);
+
+  if (access_token().isEmpty()) {
+    EndSearch(search);
+    return;
+  }
 
   QUrlQuery url_query;
   url_query.addQueryItem(QStringLiteral("q"), QString::fromLatin1(QUrl::toPercentEncoding(QStringLiteral("%1 %2").arg(request.artist, request.title))));
@@ -307,18 +337,16 @@ bool GeniusLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &
   url.setQuery(url_query);
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  req.setRawHeader("Authorization", "Bearer " + access_token_.toUtf8());
+  req.setRawHeader("Authorization", "Bearer " + access_token().toUtf8());
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, id]() { HandleSearchReply(reply, id); });
 
-  return true;
-
 }
 
-void GeniusLyricsProvider::CancelSearch(const int id) { Q_UNUSED(id); }
-
 void GeniusLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
+
+  Q_ASSERT(QThread::currentThread() != qApp->thread());
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
@@ -438,6 +466,8 @@ void GeniusLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id)
 }
 
 void GeniusLyricsProvider::HandleLyricReply(QNetworkReply *reply, const int search_id, const QUrl &url) {
+
+  Q_ASSERT(QThread::currentThread() != qApp->thread());
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);

@@ -19,7 +19,8 @@
 
 #include "config.h"
 
-#include <QObject>
+#include <QApplication>
+#include <QThread>
 #include <QByteArray>
 #include <QVariant>
 #include <QString>
@@ -54,7 +55,9 @@ ChartLyricsProvider::~ChartLyricsProvider() {
 
 }
 
-bool ChartLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &request) {
+void ChartLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &request) {
+
+  Q_ASSERT(QThread::currentThread() != qApp->thread());
 
   QUrlQuery url_query;
   url_query.addQueryItem(QStringLiteral("artist"), QString::fromUtf8(QUrl::toPercentEncoding(request.artist)));
@@ -68,11 +71,7 @@ bool ChartLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &r
   replies_ << reply;
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, id, request]() { HandleSearchReply(reply, id, request); });
 
-  return true;
-
 }
-
-void ChartLyricsProvider::CancelSearch(const int) {}
 
 void ChartLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, const LyricsSearchRequest &request) {
 

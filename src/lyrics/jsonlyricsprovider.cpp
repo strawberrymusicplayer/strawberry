@@ -19,7 +19,6 @@
 
 #include "config.h"
 
-#include <QObject>
 #include <QByteArray>
 #include <QString>
 #include <QNetworkRequest>

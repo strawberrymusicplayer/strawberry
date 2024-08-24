@@ -22,7 +22,6 @@
 #include <algorithm>
 #include <utility>
 
-#include <QObject>
 #include <QTimer>
 #include <QList>
 
@@ -54,7 +53,7 @@ void LyricsFetcherSearch::TerminateSearch() {
 
   const QList<int> keys = pending_requests_.keys();
   for (const int id : keys) {
-    pending_requests_.take(id)->CancelSearch(id);
+    pending_requests_.take(id)->CancelSearchAsync(id);
   }
   AllProvidersFinished();
 
@@ -75,7 +74,7 @@ void LyricsFetcherSearch::Start(SharedPtr<LyricsProviders> lyrics_providers) {
     if (!provider->is_enabled() || !provider->IsAuthenticated()) continue;
     QObject::connect(provider, &LyricsProvider::SearchFinished, this, &LyricsFetcherSearch::ProviderSearchFinished);
     const int id = lyrics_providers->NextId();
-    const bool success = provider->StartSearch(id, request_);
+    const bool success = provider->StartSearchAsync(id, request_);
     if (success) {
       pending_requests_.insert(id, provider);
     }

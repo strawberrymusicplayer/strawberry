@@ -17,7 +17,8 @@
  *
  */
 
-#include <QObject>
+#include <QApplication>
+#include <QThread>
 #include <QString>
 #include <QUrl>
 #include <QRegularExpression>
@@ -44,6 +45,8 @@ QUrl SongLyricsComLyricsProvider::Url(const LyricsSearchRequest &request) {
 }
 
 QString SongLyricsComLyricsProvider::StringFixup(QString text) {
+
+  Q_ASSERT(QThread::currentThread() != qApp->thread());
 
   static const QRegularExpression regex_illegal_characters(QStringLiteral("[^\\w0-9\\- ]"));
   static const QRegularExpression regex_multiple_whitespaces(QStringLiteral(" {2,}"));

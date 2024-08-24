@@ -19,7 +19,8 @@
 
 #include "config.h"
 
-#include <QObject>
+#include <QApplication>
+#include <QThread>
 #include <QByteArray>
 #include <QVariant>
 #include <QString>
@@ -54,7 +55,9 @@ LoloLyricsProvider::~LoloLyricsProvider() {
 
 }
 
-bool LoloLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &request) {
+void LoloLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &request) {
+
+  Q_ASSERT(QThread::currentThread() != qApp->thread());
 
   QUrlQuery url_query;
   url_query.addQueryItem(QStringLiteral("artist"), QString::fromLatin1(QUrl::toPercentEncoding(request.artist)));
@@ -68,11 +71,7 @@ bool LoloLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &re
   replies_ << reply;
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, id, request]() { HandleSearchReply(reply, id, request); });
 
-  return true;
-
 }
-
-void LoloLyricsProvider::CancelSearch(const int id) { Q_UNUSED(id); }
 
 void LoloLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, const LyricsSearchRequest &request) {
 

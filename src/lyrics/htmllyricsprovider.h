@@ -43,8 +43,7 @@ class HtmlLyricsProvider : public LyricsProvider {
   explicit HtmlLyricsProvider(const QString &name, const bool enabled, const QString &start_tag, const QString &end_tag, const QString &lyrics_start, const bool multiple, SharedPtr<NetworkAccessManager> network, QObject *parent);
   ~HtmlLyricsProvider();
 
-  virtual bool StartSearch(const int id, const LyricsSearchRequest &request) override;
-  virtual void CancelSearch(const int id) override;
+  virtual bool StartSearchAsync(const int id, const LyricsSearchRequest &request) override;
 
   static QString ParseLyricsFromHTML(const QString &content, const QRegularExpression &start_tag, const QRegularExpression &end_tag, const QRegularExpression &lyrics_start, const bool multiple);
 
@@ -53,6 +52,7 @@ class HtmlLyricsProvider : public LyricsProvider {
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
  protected Q_SLOTS:
+  virtual void StartSearch(const int id, const LyricsSearchRequest &request) override;
   virtual void HandleLyricsReply(QNetworkReply *reply, const int id, const LyricsSearchRequest &request);
 
  protected:

@@ -41,11 +41,11 @@ class ChartLyricsProvider : public LyricsProvider {
   explicit ChartLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~ChartLyricsProvider() override;
 
-  bool StartSearch(const int id, const LyricsSearchRequest &request) override;
-  void CancelSearch(int id) override;
-
  private:
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
+
+ protected Q_SLOTS:
+  void StartSearch(const int id, const LyricsSearchRequest &request) override;
 
  private Q_SLOTS:
   void HandleSearchReply(QNetworkReply *reply, const int id, const LyricsSearchRequest &request);

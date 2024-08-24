@@ -17,7 +17,8 @@
  *
  */
 
-#include <QObject>
+#include <QApplication>
+#include <QThread>
 #include <QString>
 #include <QUrl>
 #include <QRegularExpression>
@@ -45,6 +46,8 @@ QUrl AzLyricsComLyricsProvider::Url(const LyricsSearchRequest &request) {
 }
 
 QString AzLyricsComLyricsProvider::StringFixup(const QString &text) {
+
+  Q_ASSERT(QThread::currentThread() != qApp->thread());
 
   static const QRegularExpression regex_words_numbers_and_dash(QStringLiteral("[^\\w0-9\\-]"));
   return Utilities::Transliterate(text).remove(regex_words_numbers_and_dash).toLower();

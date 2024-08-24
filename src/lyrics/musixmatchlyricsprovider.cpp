@@ -22,7 +22,8 @@
 #include <utility>
 #include <memory>
 
-#include <QObject>
+#include <QApplication>
+#include <QThread>
 #include <QByteArray>
 #include <QVariant>
 #include <QString>
@@ -59,7 +60,9 @@ MusixmatchLyricsProvider::~MusixmatchLyricsProvider() {
 
 }
 
-bool MusixmatchLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &request) {
+void MusixmatchLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &request) {
+
+  Q_ASSERT(QThread::currentThread() != qApp->thread());
 
   LyricsSearchContextPtr search = make_shared<LyricsSearchContext>();
   search->id = id;
@@ -67,14 +70,13 @@ bool MusixmatchLyricsProvider::StartSearch(const int id, const LyricsSearchReque
   requests_search_.append(search);
 
   if (use_api_) {
-    return SendSearchRequest(search);
+    SendSearchRequest(search);
+    return;
   }
 
-  return CreateLyricsRequest(search);
+  CreateLyricsRequest(search);
 
 }
-
-void MusixmatchLyricsProvider::CancelSearch(const int id) { Q_UNUSED(id); }
 
 bool MusixmatchLyricsProvider::SendSearchRequest(LyricsSearchContextPtr search) {
 
@@ -99,6 +101,8 @@ bool MusixmatchLyricsProvider::SendSearchRequest(LyricsSearchContextPtr search) 
 }
 
 void MusixmatchLyricsProvider::HandleSearchReply(QNetworkReply *reply, LyricsSearchContextPtr search) {
+
+  Q_ASSERT(QThread::currentThread() != qApp->thread());
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
@@ -273,6 +277,8 @@ bool MusixmatchLyricsProvider::SendLyricsRequest(LyricsSearchContextPtr search, 
 }
 
 void MusixmatchLyricsProvider::HandleLyricsReply(QNetworkReply *reply, LyricsSearchContextPtr search, const QUrl &url) {
+
+  Q_ASSERT(QThread::currentThread() != qApp->thread());
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);

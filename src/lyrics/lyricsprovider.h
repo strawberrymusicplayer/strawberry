@@ -47,14 +47,17 @@ class LyricsProvider : public QObject {
   void set_enabled(const bool enabled) { enabled_ = enabled; }
   void set_order(const int order) { order_ = order; }
 
-  virtual bool StartSearch(const int id, const LyricsSearchRequest &request) = 0;
-  virtual void CancelSearch(const int id) { Q_UNUSED(id); }
+  virtual bool StartSearchAsync(const int id, const LyricsSearchRequest &request);
+  virtual void CancelSearchAsync(const int id) { Q_UNUSED(id); }
   virtual bool AuthenticationRequired() const { return authentication_required_; }
   virtual void Authenticate() {}
   virtual bool IsAuthenticated() const { return !authentication_required_; }
   virtual void Deauthenticate() {}
 
   virtual void Error(const QString &error, const QVariant &debug = QVariant()) = 0;
+
+ protected Q_SLOTS:
+  virtual void StartSearch(const int id, const LyricsSearchRequest &request) = 0;
 
  Q_SIGNALS:
   void AuthenticationComplete(const bool success, const QStringList &errors = QStringList());

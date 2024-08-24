@@ -22,7 +22,6 @@
 #include <chrono>
 
 #include <QtGlobal>
-#include <QObject>
 #include <QTimer>
 #include <QString>
 

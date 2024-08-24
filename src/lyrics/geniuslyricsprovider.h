@@ -32,6 +32,7 @@
 #include <QUrl>
 #include <QSslError>
 #include <QJsonArray>
+#include <QMutex>
 
 #include "core/shared_ptr.h"
 #include "jsonlyricsprovider.h"
@@ -49,12 +50,12 @@ class GeniusLyricsProvider : public JsonLyricsProvider {
   explicit GeniusLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~GeniusLyricsProvider() override;
 
-  bool IsAuthenticated() const override { return !access_token_.isEmpty(); }
+  bool IsAuthenticated() const override { return !access_token().isEmpty(); }
   void Authenticate() override;
-  void Deauthenticate() override { access_token_.clear(); }
+  void Deauthenticate() override { clear_access_token(); }
 
-  bool StartSearch(const int id, const LyricsSearchRequest &request) override;
-  void CancelSearch(const int id) override;
+ protected Q_SLOTS:
+  void StartSearch(const int id, const LyricsSearchRequest &request) override;
 
  private:
   struct GeniusLyricsLyricContext {
@@ -74,6 +75,9 @@ class GeniusLyricsProvider : public JsonLyricsProvider {
   using GeniusLyricsSearchContextPtr = SharedPtr<GeniusLyricsSearchContext>;
 
  private:
+  QString access_token() const;
+  void clear_access_token();
+  void set_access_token(const QString &access_token);
   void RequestAccessToken(const QUrl &url, const QUrl &redirect_url);
   void AuthError(const QString &error = QString(), const QVariant &debug = QVariant());
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
@@ -90,6 +94,7 @@ class GeniusLyricsProvider : public JsonLyricsProvider {
   LocalRedirectServer *server_;
   QString code_verifier_;
   QString code_challenge_;
+  mutable QMutex mutex_access_token_;
   QString access_token_;
   QStringList login_errors_;
   QMap<int, SharedPtr<GeniusLyricsSearchContext>> requests_search_;

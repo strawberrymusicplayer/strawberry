@@ -42,14 +42,12 @@ class LyricFindLyricsProvider : public JsonLyricsProvider {
   explicit LyricFindLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~LyricFindLyricsProvider() override;
 
-  bool StartSearch(const int id, const LyricsSearchRequest &request) override;
-  void CancelSearch(const int id) override;
-
  private:
   static QUrl Url(const LyricsSearchRequest &request);
   static QString StringFixup(const QString &text);
-  void Error(const QString &error, const QVariant &debug = QVariant()) override;
+  void StartSearch(const int id, const LyricsSearchRequest &request) override;
   void EndSearch(const int id, const LyricsSearchRequest &request, const LyricsSearchResults &lyrics = LyricsSearchResults());
+  void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
  private Q_SLOTS:
   void HandleSearchReply(QNetworkReply *reply, const int id, const LyricsSearchRequest &request);

@@ -29,7 +29,11 @@
 #include <QMap>
 #include <QString>
 #include <QAtomicInt>
+#include <QThread>
 
+#include "core/shared_ptr.h"
+
+class NetworkAccessManager;
 class LyricsProvider;
 
 class LyricsProviders : public QObject {
@@ -38,6 +42,8 @@ class LyricsProviders : public QObject {
  public:
   explicit LyricsProviders(QObject *parent = nullptr);
   ~LyricsProviders() override;
+
+  SharedPtr<NetworkAccessManager> network() const { return network_; }
 
   void ReloadSettings();
   LyricsProvider *ProviderByName(const QString &name) const;
@@ -55,6 +61,9 @@ class LyricsProviders : public QObject {
   Q_DISABLE_COPY(LyricsProviders)
 
   static int NextOrderId;
+
+  QThread *thread_;
+  SharedPtr<NetworkAccessManager> network_;
 
   QMap<LyricsProvider*, QString> lyrics_providers_;
   QList<LyricsProvider*> ordered_providers_;

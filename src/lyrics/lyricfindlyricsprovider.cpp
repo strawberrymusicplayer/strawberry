@@ -19,6 +19,8 @@
 
 #include "config.h"
 
+#include <QApplication>
+#include <QThread>
 #include <QByteArray>
 #include <QVariant>
 #include <QString>
@@ -62,6 +64,8 @@ QUrl LyricFindLyricsProvider::Url(const LyricsSearchRequest &request) {
 
 QString LyricFindLyricsProvider::StringFixup(const QString &text) {
 
+  Q_ASSERT(QThread::currentThread() != qApp->thread());
+
   static const QRegularExpression regex_illegal_characters(QStringLiteral("[^\\w0-9_\\- ]"));
   static const QRegularExpression regex_multiple_whitespaces(QStringLiteral(" {2,}"));
 
@@ -74,7 +78,9 @@ QString LyricFindLyricsProvider::StringFixup(const QString &text) {
 
 }
 
-bool LyricFindLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &request) {
+void LyricFindLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &request) {
+
+  Q_ASSERT(QThread::currentThread() != qApp->thread());
 
   const QUrl url = Url(request);
   QNetworkRequest req(url);
@@ -86,13 +92,11 @@ bool LyricFindLyricsProvider::StartSearch(const int id, const LyricsSearchReques
 
   qLog(Debug) << "LyricFind: Sending request for" << url;
 
-  return true;
-
 }
 
-void LyricFindLyricsProvider::CancelSearch(const int id) { Q_UNUSED(id); }
-
 void LyricFindLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, const LyricsSearchRequest &request) {
+
+  Q_ASSERT(QThread::currentThread() != qApp->thread());
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
