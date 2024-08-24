@@ -2059,7 +2059,7 @@ void MainWindow::PlaylistRightClick(const QPoint global_pos, const QModelIndex &
     playlist_menu_->insertActions(playlistitem_actions_separator_, playlistitem_actions_);
   }
 
-  //if it isn't the first time we right click, we need to remove the menu previously created
+  // If it isn't the first time we right click, we need to remove the menu previously created
   if (playlist_add_to_another_ != nullptr) {
     playlist_menu_->removeAction(playlist_add_to_another_);
     delete playlist_add_to_another_;
@@ -2083,7 +2083,7 @@ void MainWindow::PlaylistRightClick(const QPoint global_pos, const QModelIndex &
     }
 
     add_to_another_menu->addSeparator();
-    // add to a new playlist
+    // Add to a new playlist
     QAction *new_playlist = new QAction(this);
     new_playlist->setText(tr("New playlist"));
     new_playlist->setData(-1);  // fake id
@@ -2186,7 +2186,7 @@ void MainWindow::RenumberTracks() {
   // Get the index list in order
   std::stable_sort(indexes.begin(), indexes.end());
 
-  // if first selected song has a track number set, start from that offset
+  // If first selected song has a track number set, start from that offset
   if (!indexes.isEmpty()) {
     const Song first_song = app_->playlist_manager()->current()->item_at(indexes[0].row())->OriginalMetadata();
     if (first_song.track() > 0) track = first_song.track();
@@ -2915,7 +2915,7 @@ void MainWindow::CheckFullRescanRevisions() {
   int from = app_->database()->startup_schema_version();
   int to = app_->database()->current_schema_version();
 
-  // if we're restoring DB from scratch or nothing has changed, do nothing
+  // If we're restoring DB from scratch or nothing has changed, do nothing
   if (from == 0 || from == to) {
     return;
   }
@@ -2929,7 +2929,7 @@ void MainWindow::CheckFullRescanRevisions() {
     }
   }
 
-  // if we have any...
+  // If we have any...
   if (!reasons.isEmpty()) {
     QString message = tr("The version of Strawberry you've just updated to requires a full collection rescan because of the new features listed below:") + QStringLiteral("<ul>");
     for (const QString &reason : reasons) {
