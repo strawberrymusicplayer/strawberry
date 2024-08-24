@@ -216,7 +216,7 @@ void SpotifyService::LoadSession() {
   s.endGroup();
 
   if (!refresh_token_.isEmpty()) {
-    qint64 time = static_cast<qint64>(expires_in_) - (QDateTime::currentDateTime().toSecsSinceEpoch() - static_cast<qint64>(login_time_));
+    qint64 time = static_cast<qint64>(expires_in_) - (QDateTime::currentSecsSinceEpoch() - static_cast<qint64>(login_time_));
     if (time < 1) time = 1;
     refresh_login_timer_.setInterval(static_cast<int>(time * kMsecPerSec));
     refresh_login_timer_.start();
@@ -479,7 +479,7 @@ void SpotifyService::AccessTokenRequestFinished(QNetworkReply *reply) {
     refresh_token_ = json_obj[QLatin1String("refresh_token")].toString();
   }
   expires_in_ = json_obj[QLatin1String("expires_in")].toInt();
-  login_time_ = QDateTime::currentDateTime().toSecsSinceEpoch();
+  login_time_ = QDateTime::currentSecsSinceEpoch();
 
   Settings s;
   s.beginGroup(SpotifySettingsPage::kSettingsGroup);

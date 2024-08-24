@@ -394,7 +394,7 @@ void ScrobblingAPI20::UpdateNowPlaying(const Song &song) {
   CheckScrobblePrevSong();
 
   song_playing_ = song;
-  timestamp_ = QDateTime::currentDateTime().toSecsSinceEpoch();
+  timestamp_ = QDateTime::currentSecsSinceEpoch();
   scrobbled_ = false;
 
   if (!authenticated() || !song.is_metadata_good() || settings_->offline()) return;
@@ -980,7 +980,7 @@ QString ScrobblingAPI20::ErrorString(const ScrobbleErrorCode error) {
 
 void ScrobblingAPI20::CheckScrobblePrevSong() {
 
-  qint64 duration = QDateTime::currentDateTime().toSecsSinceEpoch() - static_cast<qint64>(timestamp_);
+  qint64 duration = QDateTime::currentSecsSinceEpoch() - static_cast<qint64>(timestamp_);
   if (duration < 0) duration = 0;
 
   if (!scrobbled_ && song_playing_.is_metadata_good() && song_playing_.is_radio() && duration > 30) {

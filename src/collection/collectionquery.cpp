@@ -46,7 +46,7 @@ CollectionQuery::CollectionQuery(const QSqlDatabase &db, const QString &songs_ta
       limit_(-1) {
 
   if (filter_options.max_age() != -1) {
-    qint64 cutoff = QDateTime::currentDateTime().toSecsSinceEpoch() - filter_options.max_age();
+    qint64 cutoff = QDateTime::currentSecsSinceEpoch() - filter_options.max_age();
 
     where_clauses_ << QStringLiteral("ctime > ?");
     bound_values_ << cutoff;

@@ -114,7 +114,7 @@ void QobuzStreamURLRequest::GetStreamURL() {
     reply_->deleteLater();
   }
 
-  quint64 timestamp = QDateTime::currentDateTime().toSecsSinceEpoch();
+  quint64 timestamp = QDateTime::currentSecsSinceEpoch();
 
   ParamList params_to_sign = ParamList() << Param(QStringLiteral("format_id"), QString::number(format()))
                                          << Param(QStringLiteral("track_id"), QString::number(song_id_));

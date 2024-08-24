@@ -94,7 +94,7 @@ bool OpenTidalCoverProvider::StartSearch(const QString &artist, const QString &a
 
   if (artist.isEmpty() || album.isEmpty()) return false;
 
-  if (!have_login_ && !login_in_progress_ && QDateTime::currentDateTime().toSecsSinceEpoch() - last_login_attempt_.toSecsSinceEpoch() < 120) {
+  if (!have_login_ && !login_in_progress_ && QDateTime::currentSecsSinceEpoch() - last_login_attempt_.toSecsSinceEpoch() < 120) {
     return false;
   }
 
@@ -123,7 +123,7 @@ void OpenTidalCoverProvider::LoadSession() {
   login_time_ = s.value("login_time", 0).toLongLong();
   s.endGroup();
 
-  if (!token_type_.isEmpty() && !access_token_.isEmpty() && (login_time_ + expires_in_) > (QDateTime::currentDateTime().toSecsSinceEpoch() + 30)) {
+  if (!token_type_.isEmpty() && !access_token_.isEmpty() && (login_time_ + expires_in_) > (QDateTime::currentSecsSinceEpoch() + 30)) {
     have_login_ = true;
   }
 
@@ -131,7 +131,7 @@ void OpenTidalCoverProvider::LoadSession() {
 
 void OpenTidalCoverProvider::FlushRequests() {
 
-  if (have_login_ && (login_time_ + expires_in_) < QDateTime::currentDateTime().toSecsSinceEpoch()) {
+  if (have_login_ && (login_time_ + expires_in_) < QDateTime::currentSecsSinceEpoch()) {
     have_login_ = false;
   }
 
@@ -153,7 +153,7 @@ void OpenTidalCoverProvider::FlushRequests() {
 
 void OpenTidalCoverProvider::LoginCheck() {
 
-  if (!login_in_progress_ && (!last_login_attempt_.isValid() || QDateTime::currentDateTime().toSecsSinceEpoch() - last_login_attempt_.toSecsSinceEpoch() > 120)) {
+  if (!login_in_progress_ && (!last_login_attempt_.isValid() || QDateTime::currentSecsSinceEpoch() - last_login_attempt_.toSecsSinceEpoch() > 120)) {
     Login();
   }
 
@@ -221,7 +221,7 @@ void OpenTidalCoverProvider::LoginFinished(QNetworkReply *reply) {
   have_login_ = true;
   token_type_ = json_obj[QLatin1String("token_type")].toString();
   access_token_ = json_obj[QLatin1String("access_token")].toString();
-  login_time_ = QDateTime::currentDateTime().toSecsSinceEpoch();
+  login_time_ = QDateTime::currentSecsSinceEpoch();
   expires_in_ = json_obj[QLatin1String("expires_in")].toInt();
 
   Settings s;
