@@ -11,9 +11,8 @@ msgstr ""
 "Project-Id-Version: strawberrymusicplayer\n"
 "Language-Team: Indonesian\n"
 "Language: id_ID\n"
-"PO-Revision-Date: 2024-07-29 11:14\n"
+"PO-Revision-Date: 2024-08-24 18:30\n"
 
-#: playlist/playlistlistview.cpp:51
 msgid "\n\n"
 "You can favorite playlists by clicking the star icon next to a playlist name\n\n"
 "Favorited playlists will be saved here"
@@ -21,6081 +20,4314 @@ msgstr "\n\n"
 "Anda dapat memfavoritkan daftar putar dengan mengklik ikon bintang di sebelah nama daftar putar\n\n"
 "Daftar putar yang difavoritkan akan disimpan di sini"
 
-#: settings/globalshortcutssettingspage.cpp:357
 #, qt-format
 msgid " Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in cinnamon-settings-daemon instead."
 msgstr ""
 
-#: settings/globalshortcutssettingspage.cpp:354
 #, qt-format
 msgid " Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in gnome-settings-daemon instead."
 msgstr ""
 
-#: settings/globalshortcutssettingspage.cpp:360
 #, qt-format
 msgid " Shortcuts on %1 are usually used through MATE Settings Daemon and should be configured there instead."
 msgstr ""
 
-#: settings/globalshortcutssettingspage.cpp:351
 #, qt-format
 msgid " Shortcuts on %1 are usually used through MPRIS and KGlobalAccel."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:133
-#: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:201
-#: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:204
-#: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:207
-#: ../../build-qt6dev/src/ui_transcoderoptionsopus.h:77
-#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:220
-#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:223
-#: ../../build-qt6dev/src/ui_transcoderoptionsasf.h:76
-#: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:195
 msgid " kbps"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:689
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:714
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:717
 msgid " ms"
 msgstr " md"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:441
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:446
 msgid " pt"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:356
 msgid " s"
 msgstr " d"
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:411
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:486
 msgid " seconds"
 msgstr " detik"
 
-#: ../../build-qt6dev/src/ui_smartplaylistquerysortpage.h:140
 msgid " songs"
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:214 scrobbler/scrobblingapi20.cpp:223
 #, qt-format
 msgid "%1 Scrobbler Authentication"
 msgstr "%1 Autentikasi Scrobbler"
 
-#: context/contextview.cpp:419
 #, qt-format
 msgid "%1 album"
 msgstr ""
 
-#: context/contextview.cpp:420
 #, qt-format
 msgid "%1 albums"
 msgstr ""
 
-#: context/contextview.cpp:415
 #, qt-format
 msgid "%1 artist"
 msgstr ""
 
-#: context/contextview.cpp:416
 #, qt-format
 msgid "%1 artists"
 msgstr ""
 
-#: equalizer/equalizerslider.cpp:41 equalizer/equalizerslider.cpp:42
-#: equalizer/equalizerslider.cpp:59
 #, qt-format
 msgid "%1 dB"
 msgstr ""
 
-#: utilities/timeutils.cpp:67
 #, qt-format
 msgid "%1 days"
 msgstr "%1 hari"
 
-#: utilities/timeutils.cpp:87
 #, qt-format
 msgid "%1 days ago"
 msgstr "%1 hari yang lalu"
 
-#: settings/coverssettingspage.cpp:247
 #, qt-format
 msgid "%1 does not need authentication."
 msgstr ""
 
-#: settings/coverssettingspage.cpp:242
 #, qt-format
 msgid "%1 needs authentication."
 msgstr ""
 
-#: playlistparsers/playlistparser.cpp:131
 #, qt-format
 msgid "%1 playlists (%2)"
 msgstr "%1 daftar putar (%2)"
 
-#: playlist/playlistmanager.cpp:447
 #, qt-format
 msgid "%1 selected of"
 msgstr "%1 terpilih dari"
 
-#: context/contextview.cpp:411
 #, qt-format
 msgid "%1 song"
 msgstr ""
 
-#: device/deviceview.cpp:146
 #, qt-format
 msgid "%1 song%2"
 msgstr "%1 lagu%2"
 
-#: context/contextview.cpp:412
 #, qt-format
 msgid "%1 songs"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchpreview.cpp:156
 #, qt-format
 msgid "%1 songs found"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchpreview.cpp:153
 #, qt-format
 msgid "%1 songs found (showing %2)"
 msgstr ""
 
-#: utilities/filemanagerutils.cpp:145
 #, qt-format
 msgid "%1 songs in %2 different directories selected, are you sure you want to open them all?"
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:698
 #, qt-format
 msgid "%1 songs selected."
 msgstr ""
 
-#: covermanager/albumcovermanager.cpp:563
 #, qt-format
 msgid "%1 transferred"
 msgstr "%1 telah ditransfer"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:405
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:466
 msgid "%filename%"
 msgstr ""
 
-#: transcoder/transcodedialog.cpp:315
 #, c-format, qt-plural-format
 msgid "%n failed"
 msgstr "%n gagal"
 
-#: transcoder/transcodedialog.cpp:311
 #, c-format, qt-plural-format
 msgid "%n finished"
 msgstr "%n telah selesai"
 
-#: transcoder/transcodedialog.cpp:307
 #, c-format, qt-plural-format
 msgid "%n remaining"
 msgstr "%n tersisa"
 
-#: playlist/playlistmanager.cpp:453 queue/queue.cpp:255
 #, c-format, qt-plural-format
 msgid "%n track(s)"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:417
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:474
 msgid "%originalyear%"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:413
 msgid "%rating%"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:409
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:470
 msgid "%url%"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:653
 msgid "&About Strawberry"
 msgstr "&Tentang Strawberry"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:661
 msgid "&Add file..."
 msgstr "&Tambah file..."
 
-#: playlist/playlistheader.cpp:64
 msgid "&Align text"
 msgstr "Sej&ajarkan teks"
 
-#: playlist/playlistheader.cpp:67
 msgid "&Center"
 msgstr "&Tengah"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:635
 msgid "&Clear playlist"
 msgstr "&Bersihkan daftar putar"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:667
 msgid "&Cover Manager"
 msgstr "Pengelola &Sampul"
 
-#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:286
 msgid "&Custom"
 msgstr "&Ubahsuai"
 
-#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:285
 msgid "&Default"
 msgstr "Stan&dar"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:700
 msgid "&Do a full collection rescan"
 msgstr "Lakukan pemin&daian ulang seluruh pustaka"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:672
 msgid "&Equalizer"
 msgstr ""
 
-#: playlist/playlistheader.cpp:103
 #, qt-format
 msgid "&Hide %1"
 msgstr "&Sembunyikan %1"
 
-#: playlist/playlistheader.cpp:57
 msgid "&Hide..."
 msgstr "&Sembunyikan..."
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:675
 msgid "&Jump to the currently playing track"
 msgstr "&Lompat ke trek yang sedang berputar"
 
-#: playlist/playlistheader.cpp:66
 msgid "&Left"
 msgstr "&Kiri"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:687
 msgid "&Load playlist..."
 msgstr "&Muat daftar putar..."
 
-#: playlist/playlistheader.cpp:60
 msgid "&Lock rating"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:176
 msgid "&Manual proxy configuration"
 msgstr "Konfigurasi proxy &manual"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:732
 msgid "&Music"
 msgstr "&Musik"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:696
 msgid "&Mute"
 msgstr "&Bisukan"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:679
 msgid "&New playlist"
 msgstr "&Daftar putar baru"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:622
 msgid "&Next track"
 msgstr "&Trek berikutnya"
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:529
 msgid "&No background image"
 msgstr "&Tidak ada gambar latar belakang"
 
-#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:284
 msgid "&None"
 msgstr "&Nihil"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:665
 msgid "&Open file..."
 msgstr "&Buka berkas..."
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:614
 msgid "&Play"
 msgstr "&Putar"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:626
 msgid "&Quit"
 msgstr "&Keluar"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:670
 msgid "&Repeat mode"
 msgstr "Mode pe&rulangan"
 
-#: playlist/playlistheader.cpp:59
 msgid "&Reset columns to default"
 msgstr "Atu&r ulang kolom ke pengaturan standar"
 
-#: playlist/playlistheader.cpp:68
 msgid "&Right"
 msgstr "&Kanan"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:691
 msgid "&Save all playlists..."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:649
 msgid "&Settings..."
 msgstr "&Pengaturan..."
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:669
 msgid "&Shuffle mode"
 msgstr "Mode &Acak"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:618
 msgid "&Stop"
 msgstr "Ber&henti"
 
-#: playlist/playlistheader.cpp:58
 msgid "&Stretch columns to fit window"
 msgstr "&Regang kolom agar pas dengan jendela"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:735
 msgid "&Tools"
 msgstr "&Perkakas"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:673
 msgid "&Transcode Music"
 msgstr "&Transkode Musik"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:694
 msgid "&Update changed collection folders"
 msgstr "Perbar&ui folder pustaka yang telah diubah"
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:523
 msgid "&Use the system default color"
 msgstr "G&unakan warna standar sistem"
 
-#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:174
 msgid "&Use the system proxy settings"
 msgstr "G&unakan pengaturan proxy sistem"
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:413
 msgid "(This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately)."
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:103
 msgid "(different across multiple songs)"
 msgstr "(berbeda diantara berbagai lagu)"
 
-#: ../../build-qt6dev/src/ui_albumcovermanager.h:223
-#: ../../build-qt6dev/src/ui_albumcovermanager.h:224
 msgid "0"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_trackslider.h:66
-#: ../../build-qt6dev/src/ui_trackslider.h:70
 msgid "0:00:00"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:548
 msgid "0px"
 msgstr ""
 
-#: utilities/timeutils.cpp:67
 msgid "1 day"
 msgstr "1 hari"
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:550
 msgid "40%"
 msgstr ""
 
-#: smartplaylists/smartplaylistsmodel.cpp:72
 msgid "50 random tracks"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:272
-msgid "<html><head/><body><p>The GStreamer Spotify plugin is not detected, you will not be able to stream songs from Spotify without it. See: <a href=\"https://github.com/strawberrymusicplayer/strawberry/wiki/GStreamer-Spotify-plugin\"><span style=\" text-decoration: underline; color:#0000ff;\">https://github.com/strawberrymusicplayer/strawberry/wiki/GStreamer-Spotify-plugin</span></a> for instructions on how to install the plugin.</p></body></html>"
+msgid "<html><head/><body><p>The GStreamer Spotify plugin is not detected, you will not be able to stream songs from Spotify without it. See <a href=\"https://wiki.strawberrymusicplayer.org/wiki/Installing_GStreamer_Spotify_plugin\"><span style=\" text-decoration: underline; color:#2980b9;\">Wiki</span></a> for instructions on how to install the plugin.</p></body></html>"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_organizedialog.h:268
 msgid "<p>Tokens start with %, for example: %artist %album %title </p>\n\n"
 "<p>If you surround sections of text that contain a token with curly-braces, that section will be hidden if the token is empty.</p>"
 msgstr "<p>Token dimulai dengan %, sebagai contoh: %artist %album %title </p>\n\n"
 "<p>Jika Anda mengurung bagian dari teks yang mengandung token dengan kurung kurawal, maka bagian tersebut akan disembunyikan jika token tersebut kosong.</p>"
 
-#: smartplaylists/smartplaylistwizard.cpp:88
 msgid "A smart playlist is a dynamic list of songs that come from your collection.  There are different types of smart playlist that offer different ways of selecting songs."
 msgstr ""
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:162
 msgid "A song will be included in the playlist if it matches these conditions."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_playlistsettingspage.h:191
 msgid "A&utomatic"
 msgstr "&Otomatis"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:430
 msgid "A-Z"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_transcodersettingspage.h:192
 msgid "AAC"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:676
 msgid "ALSA plugin:"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:331
 msgid "API Token"
 msgstr "Token API"
 
-#: ../../build-qt6dev/src/ui_transcodersettingspage.h:193
 msgid "ASF (WMA)"
 msgstr ""
 
-#: covermanager/albumcovermanager.cpp:148
-#: covermanager/albumcoversearcher.cpp:186
-#: ../../build-qt6dev/src/ui_streamingcollectionviewcontainer.h:139
 msgid "Abort"
 msgstr "Batal"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:701
-msgid "Abort collection scan"
-msgstr "Batalkan pemindaian pustaka"
-
-#: ../../build-qt6dev/src/ui_about.h:152
 msgid "About"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:695
 msgid "About &Qt"
 msgstr "Tentang &Qt"
 
-#: dialogs/about.cpp:43
 msgid "About Strawberry"
 msgstr "Tentang Strawberry"
 
-#: ../../build-qt6dev/src/ui_playlistsettingspage.h:192
 msgid "Absolu&te"
 msgstr "Absolu&t"
 
-#: playlist/playlistsaveoptionsdialog.cpp:43
 msgid "Absolute"
 msgstr "Absolut"
 
-#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:282
 msgctxt "Category label"
 msgid "Action"
 msgstr "Tindakan"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:674
 msgid "Add &folder..."
 msgstr "Tambah &folder..."
 
-#: ../../build-qt6dev/src/ui_addstreamdialog.h:76
 msgid "Add Stream"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:403
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:464
 msgid "Add a new line if supported by the notification type"
 msgstr "Tambah baris baru jika didukung oleh tipe notifikasi"
 
-#: ../../build-qt6dev/src/ui_transcodedialog.h:224
 msgid "Add all tracks from a directory and all its subdirectories"
 msgstr "Tambah semua trek dari sebuah direktori dan semua subdirektorinya"
 
-#: settings/collectionsettingspage.cpp:252
 msgid "Add directory..."
 msgstr "Tambah direktori..."
 
-#: core/mainwindow.cpp:2330
 msgid "Add file"
 msgstr "Tambah berkas"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:711
 msgid "Add file to transcoder"
 msgstr "Tambah berkas ke transkoder"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:709
 msgid "Add file(s) to transcoder"
 msgstr "Tambah berkas ke transkoder"
 
-#: transcoder/transcodedialog.cpp:329
 msgid "Add files to transcode"
 msgstr "Tambah berkas untuk ditranskode"
 
-#: core/mainwindow.cpp:2356 transcoder/transcodedialog.cpp:421
 msgid "Add folder"
 msgstr "Tambah folder"
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:444
 msgid "Add new folder..."
 msgstr "Tambah folder baru..."
 
-#: smartplaylists/smartplaylistsearchtermwidget.cpp:432
 msgid "Add search term"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:411
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:472
 msgid "Add song URL"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:364
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:422
 msgid "Add song album tag"
 msgstr "Tambahkan nama album"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:370
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:428
 msgid "Add song albumartist tag"
 msgstr "Tambahkan nama album artis"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:361
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:419
 msgid "Add song artist tag"
 msgstr "Tambahkan nama artis"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:376
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:434
 msgid "Add song composer tag"
 msgstr "Tambahkan nama komposer"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:385
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:443
 msgid "Add song disc tag"
 msgstr "Tambahkan nomor cakram"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:407
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:468
 msgid "Add song filename"
 msgstr "Tambahkan nama berkas"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:391
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:449
 msgid "Add song genre tag"
 msgstr "Tambahkan genre"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:382
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:440
 msgid "Add song grouping tag"
 msgstr "Tambahkan kelompok"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:394
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:452
 msgid "Add song length tag"
 msgstr "Tambahkan durasi lagu"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:419
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:476
 msgid "Add song original year tag"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:379
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:437
 msgid "Add song performer tag"
 msgstr "Tambahkan nama penampil"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:397
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:455
 msgid "Add song play count"
 msgstr "Tambahkan jumlah pemutaran"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:415
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:461
 msgid "Add song rating"
 msgstr "Tambahkan peringkat"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:400
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:458
 msgid "Add song skip count"
 msgstr "Tambahkan jumlah lewatan"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:367
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:425
 msgid "Add song title tag"
 msgstr "Tambahkan judul lagu"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:388
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:446
 msgid "Add song track tag"
 msgstr "Tambahkan nomor trek"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:373
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:431
 msgid "Add song year tag"
 msgstr "Tambahkan tahun rilis"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:713
 msgid "Add stream..."
 msgstr ""
 
-#: streaming/streamingsearchview.cpp:331
 msgid "Add to albums"
 msgstr "Tambahkan ke album"
 
-#: core/mainwindow.cpp:2132
 msgid "Add to another playlist"
 msgstr "Tambahkan ke daftar putar lainnya"
 
-#: streaming/streamingsearchview.cpp:328
 msgid "Add to artists"
 msgstr "Tambahkan ke artis"
 
-#: ../../build-qt6dev/src/ui_albumcovermanager.h:215
 msgid "Add to playlist"
 msgstr "Tambahkan ke daftar putar"
 
-#: streaming/streamingsearchview.cpp:334
 msgid "Add to songs"
 msgstr "Tambahkan ke lagu"
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:344
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:352
 msgid "Add to the queue"
 msgstr "Tambahkan ke antrean"
 
-#: ../../build-qt6dev/src/ui_transcodedialog.h:221
 msgid "Add..."
 msgstr "Tambah..."
 
-#: ../../build-qt6dev/src/ui_collectionfilterwidget.h:99
 msgid "Added this month"
 msgstr "Ditambahkan bulan ini"
 
-#: ../../build-qt6dev/src/ui_collectionfilterwidget.h:93
 msgid "Added this week"
 msgstr "Ditambahkan minggu ini"
 
-#: ../../build-qt6dev/src/ui_collectionfilterwidget.h:98
 msgid "Added this year"
 msgstr "Ditambahkan tahun ini"
 
-#: ../../build-qt6dev/src/ui_collectionfilterwidget.h:92
 msgid "Added today"
 msgstr "Ditambahkan hari ini"
 
-#: ../../build-qt6dev/src/ui_collectionfilterwidget.h:94
-#: ../../build-qt6dev/src/ui_collectionfilterwidget.h:96
 msgid "Added within three months"
 msgstr "Ditambahkan pada tiga bulan terakhir"
 
-#: collection/collectionfilterwidget.cpp:316
 msgid "Advanced grouping..."
 msgstr "Pengelompokkan lanjut..."
 
-#: ../../build-qt6dev/src/ui_organizedialog.h:262
 msgid "After copying..."
 msgstr "Setelah menyalin..."
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:533
 msgid "Albu&m cover"
 msgstr "Sa&mpul album"
 
-#: collection/savedgroupingmanager.cpp:100 playlist/playlist.cpp:1389
-#: organize/organizedialog.cpp:107
-#: ../../build-qt6dev/src/ui_groupbydialog.h:194
-#: ../../build-qt6dev/src/ui_groupbydialog.h:216
-#: ../../build-qt6dev/src/ui_groupbydialog.h:238
-#: ../../build-qt6dev/src/ui_albumcoversearcher.h:108
-#: ../../build-qt6dev/src/ui_albumcoversearcher.h:110
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:433
-#: ../../build-qt6dev/src/ui_edittagdialog.h:921
-#: ../../build-qt6dev/src/ui_trackselectiondialog.h:208
 msgid "Album"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:700
 msgid "Album (ideal loudness for all tracks)"
 msgstr "Album (kenyaringan ideal untuk semua trek)"
 
-#: collection/savedgroupingmanager.cpp:103
-#: ../../build-qt6dev/src/ui_groupbydialog.h:195
-#: ../../build-qt6dev/src/ui_groupbydialog.h:217
-#: ../../build-qt6dev/src/ui_groupbydialog.h:239
 msgid "Album - Disc"
 msgstr "Album - Cakram"
 
-#: playlist/playlist.cpp:1396
 msgid "Album Artist"
 msgstr ""
 
-#: collection/savedgroupingmanager.cpp:94 organize/organizedialog.cpp:110
-#: ../../build-qt6dev/src/ui_groupbydialog.h:193
-#: ../../build-qt6dev/src/ui_groupbydialog.h:215
-#: ../../build-qt6dev/src/ui_groupbydialog.h:237
-#: ../../build-qt6dev/src/ui_edittagdialog.h:920
 msgid "Album artist"
 msgstr "Album artis"
 
-#: dialogs/edittagdialog.cpp:867
 msgid "Album cover editing is only available for collection songs."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:465
 msgid "Album cover pixmap cache"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:344
 msgid "Album cover size"
 msgstr "Ukuran sampul album"
 
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:314
 msgid "Album cover types"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_streamingtabsview.h:114
 msgid "Albums"
 msgstr "Album"
 
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:340
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:277
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:295
 msgid "Albums search limit"
 msgstr "Batasan pencarian album"
 
-#: covermanager/albumcovermanager.cpp:173
 msgid "Albums with covers"
 msgstr "Album dengan sampul"
 
-#: covermanager/albumcovermanager.cpp:174
 msgid "Albums without covers"
 msgstr "Album tanpa sampul"
 
-#: core/mainwindow.cpp:231
 msgid "All Files (*)"
 msgstr "Semua Berkas (*)"
 
-#: covermanager/albumcovermanager.cpp:172
 msgid "All albums"
 msgstr "Semua album"
 
-#: covermanager/albumcovermanager.cpp:348
 msgid "All artists"
 msgstr "Semua artis"
 
-#: covermanager/albumcoverchoicecontroller.cpp:82
 msgid "All files (*)"
 msgstr "Semua berkas (*)"
 
-#: playlistparsers/playlistparser.cpp:113
 #, qt-format
 msgid "All playlists (%1)"
 msgstr "Semua daftar putar (%1)"
 
-#: smartplaylists/smartplaylistsmodel.cpp:115
 msgid "All tracks"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_organizedialog.h:276
 msgid "Allow extended ASCII characters"
 msgstr "Perbolehkan karakter ASCII diperpanjang"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:141
 msgid "Allow mid/side encoding"
 msgstr "Izinkan enkode tengah/sisi"
 
-#: ../../build-qt6dev/src/ui_transcodedialog.h:231
 msgid "Alongside the originals"
 msgstr "Bersama dengan yang asli"
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:334
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:348
 msgid "Always start playing"
 msgstr "Selalu mulai memutar"
 
-#: device/gpodloader.cpp:81
 msgid "An error occurred loading the iTunes database"
 msgstr "Sebuah galat terjadi saat memuat basis data iTunes"
 
-#: moodbar/moodbarrenderer.cpp:168
 msgid "Angry"
 msgstr "Marah"
 
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:285
 msgid "App ID"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:288
 msgid "App Secret"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:517
 msgid "Appearance"
 msgstr "Penampilan"
 
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:346
 msgid "Append explicit to album title for explicit albums"
 msgstr ""
 
-#: core/commandlineoptions.cpp:237
 msgid "Append files/URLs to the playlist"
 msgstr "Tambahkan berkas/URL ke daftar putar"
 
-#: collection/collectionview.cpp:378
-#: smartplaylists/smartplaylistsviewcontainer.cpp:66
-#: widgets/fileviewlist.cpp:43 streaming/streamingsearchview.cpp:317
-#: streaming/streamingcollectionview.cpp:329 radios/radioview.cpp:69
-#: device/deviceview.cpp:244
 msgid "Append to current playlist"
 msgstr "Tambahkan ke daftar putar saat ini"
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:341
 msgid "Append to the playlist"
 msgstr "Tambahkan ke daftar putar"
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:703
 msgid "Apply compression to prevent clipping"
 msgstr "Terapkan kompresi untuk mencegah clipping"
 
-#: dialogs/deleteconfirmationdialog.cpp:73
 msgid "Are you sure you want to continue?"
 msgstr ""
 
-#: equalizer/equalizer.cpp:230
 #, qt-format
 msgid "Are you sure you want to delete the \"%1\" preset?"
 msgstr "Apakah Anda yakin ingin menghapus prasetel \"%1\"?"
 
-#: dialogs/edittagdialog.cpp:1338
 msgid "Are you sure you want to reset this song's play statistics?"
 msgstr ""
 
-#: settings/collectionsettingspage.cpp:339
 msgid "Are you sure you want to write song playcounts and ratings to file for all songs in your collection?"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:890
 msgid "Art Automatic"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:892
 msgid "Art Embedded"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:906
 msgid "Art Manual"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:904
 msgid "Art Unset"
 msgstr ""
 
-#: collection/savedgroupingmanager.cpp:97 playlist/playlist.cpp:1388
-#: organize/organizedialog.cpp:108
-#: ../../build-qt6dev/src/ui_groupbydialog.h:192
-#: ../../build-qt6dev/src/ui_groupbydialog.h:214
-#: ../../build-qt6dev/src/ui_groupbydialog.h:236
-#: ../../build-qt6dev/src/ui_albumcoversearcher.h:104
-#: ../../build-qt6dev/src/ui_albumcoversearcher.h:106
-#: ../../build-qt6dev/src/ui_edittagdialog.h:924
-#: ../../build-qt6dev/src/ui_trackselectiondialog.h:209
 msgid "Artist"
 msgstr "Artis"
 
-#: organize/organizedialog.cpp:109
 msgid "Artist's initial"
 msgstr "Inisial artis"
 
-#: ../../build-qt6dev/src/ui_streamingtabsview.h:113
 msgid "Artists"
 msgstr "Artis"
 
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:339
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:276
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:294
 msgid "Artists search limit"
 msgstr "Batasan pencarian artis"
 
-#: ../../build-qt6dev/src/ui_playlistsettingspage.h:194
 msgid "As&k when saving"
 msgstr "Tanya&kan saat menyimpan"
 
-#: ../../build-qt6dev/src/ui_transcodedialog.h:228
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:291
 msgid "Audio format"
 msgstr "Format audio"
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:694
 msgid "Audio normalization"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:671
 msgid "Audio output"
 msgstr "Keluaran audio"
 
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:336
 msgid "Audio quality"
 msgstr "Kualitas audio"
 
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:267
 msgid "Authenticate"
 msgstr ""
 
-#: tidal/tidalrequest.cpp:144 spotify/spotifyrequest.cpp:127
-#: qobuz/qobuzservice.cpp:270
 msgid "Authenticating..."
 msgstr "Mengautentikasi..."
 
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:311
-#: ../../build-qt6dev/src/ui_lyricssettingspage.h:167
-#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:246
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:328
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:284
 msgid "Authentication"
 msgstr "Otentikasi"
 
-#: settings/coverssettingspage.cpp:382 settings/lyricssettingspage.cpp:256
-#: settings/tidalsettingspage.cpp:214 settings/spotifysettingspage.cpp:167
-#: settings/qobuzsettingspage.cpp:177
 msgid "Authentication failed"
 msgstr "Otentikasi gagal"
 
-#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:249
 msgid "Authentication method:"
 msgstr ""
 
-#: dialogs/about.cpp:145
 msgid "Author and maintainer"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:225
 msgid "Auto"
 msgstr ""
 
-#: playlist/playlistsaveoptionsdialog.cpp:41
 msgid "Automatic"
 msgstr "Otomatis"
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:446
 msgid "Automatic updating"
 msgstr "Pembaruan otomatis"
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:460
 msgid "Automatically open single categories in the collection tree"
 msgstr "Secara otomatis membuka kategori tunggal di pohon pustaka"
 
-#: settings/coverssettingspage.cpp:439
 #, qt-format
 msgid "Automatically picked up from album directory (%1)"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:436
 msgid "Automatically search for album cover"
 msgstr ""
 
-#: context/contextview.cpp:272
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:437
 msgid "Automatically search for song lyrics"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_playlistsettingspage.h:185
 msgid "Automatically select current playing track"
 msgstr "Pilih trek yang sedang diputar secara otomatis"
 
-#: ../../build-qt6dev/src/ui_playlistsettingspage.h:189
 msgid "Automatically sort playlist when inserting songs"
 msgstr ""
 
-#: widgets/freespacebar.cpp:67
 msgid "Available"
 msgstr "Tersedia"
 
-#: filterparser/filterparser.cpp:481
 msgid "Available fields"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:221
 msgid "Average bitrate"
 msgstr "Lajubit rerata"
 
-#: covermanager/coversearchstatisticsdialog.cpp:82
 msgid "Average image size"
 msgstr "Ukuran gambar rerata"
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:670
 msgid "Backend"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:507
 msgid "Background color"
 msgstr "Warna latar belakang"
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:527
 msgid "Background image"
 msgstr "Gambar latar belakang"
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:511
 msgid "Background opacity"
 msgstr "Kelegapan latar belakang"
 
-#: core/database.cpp:564
 msgid "Backing up database"
 msgstr "Membuat cadangan basis data"
 
-#: ../../build-qt6dev/src/ui_equalizer.h:177
 msgid "Balance"
 msgstr "Seimbang"
 
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:298
 msgid "Base64 encoded secret"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:512
 msgid "Basic Blue"
 msgstr "Biru Dasar"
 
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:266
 msgid "Basic authentication"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:314
 msgid "Behavior"
 msgstr "Perilaku"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsflac.h:79
 msgid "Best"
 msgstr "Terbaik"
 
-#: playlist/playlistview.cpp:224
 msgid "Bit"
 msgstr ""
 
-#: playlist/playlist.cpp:1406
 msgid "Bit Depth"
 msgstr ""
 
-#: context/contextview.cpp:166 collection/savedgroupingmanager.cpp:148
-#: organize/organizedialog.cpp:123
-#: ../../build-qt6dev/src/ui_groupbydialog.h:209
-#: ../../build-qt6dev/src/ui_groupbydialog.h:231
-#: ../../build-qt6dev/src/ui_groupbydialog.h:253
-#: ../../build-qt6dev/src/ui_edittagdialog.h:897
 msgid "Bit depth"
 msgstr "Kedalaman bit"
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:899
 msgid "Bit rate"
 msgstr "Laju bit"
 
-#: context/contextview.cpp:167 collection/savedgroupingmanager.cpp:151
-#: playlist/playlist.cpp:1407 ../../build-qt6dev/src/ui_groupbydialog.h:210
-#: ../../build-qt6dev/src/ui_groupbydialog.h:232
-#: ../../build-qt6dev/src/ui_groupbydialog.h:254
-#: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:132
-#: ../../build-qt6dev/src/ui_transcoderoptionsopus.h:76
-#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:218
-#: ../../build-qt6dev/src/ui_transcoderoptionsasf.h:75
-#: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:194
 msgid "Bitrate"
 msgstr "Lajubit"
 
-#: organize/organizedialog.cpp:121
 msgctxt "Refers to bitrate in file organize dialog."
 msgid "Bitrate"
 msgstr ""
 
-#: analyzer/blockanalyzer.cpp:46
 msgid "Block analyzer"
 msgstr "Penganalisis blok"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:142
 msgid "Block type"
 msgstr "Tipe blok"
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:547
 msgid "Blur amount"
 msgstr "Besaran kekaburan"
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:501
 msgid "Body"
 msgstr "Badan"
 
-#: analyzer/boomanalyzer.cpp:43
 msgid "Boom analyzer"
 msgstr "Penganalisis dentuman"
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:540
 msgid "Bottom Left"
 msgstr "Kiri Bawah"
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:541
 msgid "Bottom Right"
 msgstr "Kanan Bawah"
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:535
 msgid "Browse..."
 msgstr "Ramban..."
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:688
 msgid "Buffer"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:690
 msgid "Buffer duration"
 msgstr "Durasi Bufer"
 
-#: engine/gstengine.cpp:699
 msgid "Buffering"
 msgstr "Membufer..."
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:668
 msgid "C&onsole"
 msgstr "K&onsol"
 
-#: core/songloader.cpp:201
 msgid "CD playback is only available with the GStreamer engine."
 msgstr "Pemutaran CD hanya tersedia dengan mesin GStreamer."
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:424
 msgid "CDDA"
 msgstr ""
 
-#: playlist/playlist.cpp:1420
 msgid "CUE"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_lastfmimportdialog.h:157
 msgid "Cancel"
 msgstr ""
 
-#: tidal/tidalstreamurlrequest.cpp:105 qobuz/qobuzstreamurlrequest.cpp:101
 msgid "Cancelled."
 msgstr "Dibatalkan."
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:916
 msgid "Change art"
 msgstr ""
 
-#: globalshortcuts/globalshortcutsmanager.cpp:78
 msgid "Change repeat mode"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:287
 msgid "Change shortcut..."
 msgstr "Ubah pintasan..."
 
-#: globalshortcuts/globalshortcutsmanager.cpp:77
 msgid "Change shuffle mode"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:351
 msgid "Change the currently playing song"
 msgstr "Ganti lagu yang diputar saat ini"
 
-#: core/commandlineoptions.cpp:243
 msgid "Change the language"
 msgstr "Ubah bahasa"
 
-#: core/mainwindow.cpp:821
 msgid "Check for updates..."
 msgstr "Periksa pembaruan..."
 
-#: smartplaylists/smartplaylistwizard.cpp:94
 msgid "Choose a name for your smart playlist"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:510
 msgid "Choose color..."
 msgstr "Pilih warna..."
 
-#: ../../build-qt6dev/src/ui_lastfmimportdialog.h:149
 msgid "Choose data to import from last.fm"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:509
 msgid "Choose font..."
 msgstr "Pilih huruf..."
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:164
 msgid "Choose how the playlist is sorted and how many songs it will contain."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:308
 msgid "Choose the providers you want to use when searching for covers."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_lyricssettingspage.h:164
 msgid "Choose the providers you want to use when searching for lyrics."
 msgstr ""
 
-#: equalizer/equalizer.cpp:140
 msgid "Classical"
 msgstr "Klasik"
 
-#: widgets/lineedit.cpp:58 transcoder/transcodedialog.cpp:104
-#: ../../build-qt6dev/src/ui_queueview.h:141
 msgid "Clear"
 msgstr "Bersihkan"
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:471
 msgid "Clear Disk Cache"
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:112
 msgid "Clear cover"
 msgstr ""
 
-#: core/mainwindow.cpp:2421 ../../build-qt6dev/src/ui_mainwindow.h:637
 msgid "Clear playlist"
 msgstr "Bersihkan daftar putar"
 
-#: dialogs/about.cpp:163
 msgid "Clementine authors"
 msgstr ""
 
-#: dialogs/about.cpp:172
 msgid "Clementine contributors"
 msgstr ""
 
-#: collection/collectionview.cpp:338
 msgid "Click here to add some music"
 msgstr "Klik di sini untuk menambahkan musik"
 
-#: streaming/streamingcollectionview.cpp:307
 msgid "Click here to retrieve music"
 msgstr "Klik di sini untuk menerima musik"
 
-#: ../../build-qt6dev/src/ui_trackslider.h:68
 msgid "Click to toggle between remaining time and total time"
 msgstr "Klik untuk beralih antara waktu tersisa dan total waktu"
 
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:330
 msgid "Client ID"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_lastfmimportdialog.h:156
-#: ../../build-qt6dev/src/ui_streamingcollectionviewcontainer.h:138
 msgid "Close"
 msgstr "Tutup"
 
-#: playlist/playlisttabbar.cpp:80
 msgid "Close playlist"
 msgstr "Tutup daftar putar"
 
-#: covermanager/albumcovermanager.cpp:261
 msgid "Closing this window will stop searching for album covers."
 msgstr "Menutup jendela ini akan menghentikan pencarian sampul album."
 
-#: equalizer/equalizer.cpp:141
 msgid "Club"
 msgstr "Klub"
 
-#: core/mainwindow.cpp:386
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:442
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:418
 msgid "Collection"
 msgstr "Pustakascan"
 
-#: ../../build-qt6dev/src/ui_collectionfilterwidget.h:90
 msgid "Collection Filter"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_groupbydialog.h:187
 msgid "Collection advanced grouping"
 msgstr "Pengelompokan pustaka lanjutan"
 
-#: core/mainwindow.cpp:2988
 msgid "Collection rescan notice"
 msgstr "Pemberitahuan pemindaian ulang pustaka"
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:95
 msgid "Collection search"
 msgstr ""
 
-#: core/commandlineoptions.cpp:247
 msgid "Comma separated list of class:level, level is 0-3"
 msgstr "Daftar yang dipisahkan koma dari kelas:level, level adalah 0-3"
 
-#: playlist/playlist.cpp:1416 smartplaylists/smartplaylistsearchterm.cpp:391
-#: organize/organizedialog.cpp:119
-#: ../../build-qt6dev/src/ui_edittagdialog.h:928
 msgid "Comment"
 msgstr "Komentar"
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:930
 msgid "Compilation"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:935
 msgid "Complete lyrics automatically"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:926
 msgid "Complete tags automatically"
 msgstr "Lengkapi tag secara otomatis"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:702
 msgid "Complete tags automatically..."
 msgstr "Lengkapi tag secara otomatis..."
 
-#: collection/savedgroupingmanager.cpp:130 playlist/playlist.cpp:1397
-#: organize/organizedialog.cpp:111
-#: ../../build-qt6dev/src/ui_groupbydialog.h:204
-#: ../../build-qt6dev/src/ui_groupbydialog.h:226
-#: ../../build-qt6dev/src/ui_groupbydialog.h:248
-#: ../../build-qt6dev/src/ui_edittagdialog.h:925
 msgid "Composer"
 msgstr "Komposer"
 
-#: settings/subsonicsettingspage.cpp:131 settings/tidalsettingspage.cpp:152
-#: settings/tidalsettingspage.cpp:159 settings/tidalsettingspage.cpp:163
-#: settings/tidalsettingspage.cpp:167 settings/qobuzsettingspage.cpp:131
-#: settings/qobuzsettingspage.cpp:135 settings/qobuzsettingspage.cpp:139
 msgid "Configuration incomplete"
 msgstr "Konfigurasi tidak lengkap"
 
-#: settings/subsonicsettingspage.cpp:137
 msgid "Configuration incorrect"
 msgstr "Konfigurasi tidak benar"
 
-#: streaming/streamingsearchview.cpp:180 streaming/streamingsearchview.cpp:346
-#: streaming/streamingsongsview.cpp:60 streaming/streamingtabsview.cpp:64
 #, qt-format
 msgid "Configure %1..."
 msgstr "Konfigurasi %1..."
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:555
 msgid "Configure buttons"
 msgstr ""
 
-#: core/mainwindow.cpp:691
 msgid "Configure collection..."
 msgstr "Konfigurasi pustaka..."
 
-#: device/devicemanager.cpp:352 device/devicemanager.cpp:353
 msgid "Connect device"
 msgstr "Sambungkan perangkat"
 
-#: ../../build-qt6dev/src/ui_console.h:76
 msgid "Console"
 msgstr "Konsol"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:196
 msgid "Constant bitrate"
 msgstr "Lajubit konstan"
 
-#: core/mainwindow.cpp:385 ../../build-qt6dev/src/ui_contextsettingspage.h:359
 msgid "Context"
 msgstr "Konteks"
 
-#: ../../build-qt6dev/src/ui_playlistsettingspage.h:182
 msgid "Continue to the next item in the playlist if a song is unavailable"
 msgstr "Lanjutkan ke lagu berikutnya jika suatu lagu di daftar putar tidak tersedia"
 
-#: dialogs/about.cpp:154
 msgid "Contributors"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_deviceproperties.h:381
 msgid "Convert all music"
 msgstr "Konversi semua musik"
 
-#: ../../build-qt6dev/src/ui_deviceproperties.h:380
 msgid "Convert any music that the device can't play"
 msgstr "Konversi semua musik yang tidak dapat diputar oleh perangkat."
 
-#: core/mainwindow.cpp:767
 msgid "Copy URL(s)..."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_organizedialog.h:279
 msgid "Copy album cover artwork"
 msgstr "Salin sampul album"
 
-#: core/mainwindow.cpp:771 widgets/fileviewlist.cpp:47
-#: device/deviceview.cpp:249
 msgid "Copy to collection..."
 msgstr "Salin ke pustaka..."
 
-#: playlist/playlistlistcontainer.cpp:386
 msgid "Copy to device"
 msgstr ""
 
-#: core/mainwindow.cpp:774 collection/collectionview.cpp:393
-#: playlist/playlistlistcontainer.cpp:93 widgets/fileviewlist.cpp:49
 msgid "Copy to device..."
 msgstr "Salin ke perangkat..."
 
-#: dialogs/snapdialog.cpp:66
 msgid "Copy your strawberry.conf and strawberry.db from your ~/snap directory to avoid losing configuration before you uninstall the snap:"
 msgstr ""
 
-#: device/gpoddevice.cpp:241
 #, qt-format
 msgid "Could not copy %1 to %2: %3"
 msgstr ""
 
-#: core/filesystemmusicstorage.cpp:98
 #, qt-format
 msgid "Could not copy file %1 to %2."
 msgstr ""
 
-#: transcoder/transcoder.cpp:73
 #, qt-format
 msgid "Could not create the GStreamer element \"%1\" - make sure you have all the required GStreamer plugins installed"
 msgstr "Tidak dapat membuat elemen GStreamer \"%1\" - pastikan Anda memiliki semua plugin GStreamer yang dibutuhkan terpasang"
 
-#: core/songloader.cpp:313
 #, qt-format
 msgid "Could not open CUE file %1 for reading: %2"
 msgstr ""
 
-#: device/mtpconnection.cpp:75 device/mtpconnection.cpp:109
 msgid "Could not open MTP device."
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:223
 msgid "Could not open URL. Please open this URL in your browser"
 msgstr ""
 
-#: playlistparsers/playlistparser.cpp:192
 #, qt-format
 msgid "Could not open file %1"
 msgstr ""
 
-#: core/songloader.cpp:281
 #, qt-format
 msgid "Could not open file %1 for reading: %2"
 msgstr ""
 
-#: core/songloader.cpp:374
 #, qt-format
 msgid "Could not open playlist file %1 for reading: %2"
 msgstr ""
 
-#: covermanager/albumcovermanager.cpp:1065
-#: covermanager/albumcoverchoicecontroller.cpp:827
 #, qt-format
 msgid "Could not save cover to file %1."
 msgstr ""
 
-#: playlist/playlist.cpp:442 dialogs/edittagdialog.cpp:1491
 #, qt-format
 msgid "Could not write metadata to %1"
 msgstr ""
 
-#: playlist/playlist.cpp:439 dialogs/edittagdialog.cpp:1494
 #, qt-format
 msgid "Could not write metadata to %1: %2"
 msgstr ""
 
-#: core/songloader.cpp:499
 #, qt-format
 msgid "Couldn't create GStreamer fakesink element for %1"
 msgstr ""
 
-#: core/songloader.cpp:482
 #, qt-format
 msgid "Couldn't create GStreamer source element for %1"
 msgstr ""
 
-#: core/songloader.cpp:492
 #, qt-format
 msgid "Couldn't create GStreamer typefind element for %1"
 msgstr ""
 
-#: playlist/playlistmanager.cpp:207
 msgid "Couldn't create playlist"
 msgstr "Tidak bisa membuat daftar putar"
 
-#: transcoder/transcoder.cpp:431
 #, qt-format
 msgid "Couldn't find a muxer for %1, check you have the correct GStreamer plugins installed"
 msgstr "Tidak dapat menemukan muxer untuk %1, periksa apakah Anda memiliki plugin GStreamer yang benar terpasang"
 
-#: transcoder/transcoder.cpp:426
 #, qt-format
 msgid "Couldn't find an encoder for %1, check you have the correct GStreamer plugins installed"
 msgstr "Tidak dapat menemukan enkoder untuk %1, periksa apakah Anda memiliki plugin GStreamer yang benar terpasang"
 
-#: core/songloader.cpp:505
 #, qt-format
 msgid "Couldn't link GStreamer source, typefind and fakesink elements for %1"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_albumcovermanager.h:212
-#: ../../build-qt6dev/src/ui_albumcoversearcher.h:102
 msgid "Cover Manager"
 msgstr "Pengelola Sampul"
 
-#: dialogs/edittagdialog.cpp:862
 msgid "Cover art not set"
 msgstr "Sampul tidak diset"
 
-#: dialogs/edittagdialog.cpp:878
 msgid "Cover changed: Will be cleared when saved."
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:882
 msgid "Cover changed: Will be deleted when saved."
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:880
 msgid "Cover changed: Will be unset when saved."
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:884
 msgid "Cover changed: Will set new when saved."
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:193
 #, qt-format
 msgid "Cover file %1 is empty."
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:854 dialogs/edittagdialog.cpp:857
 #, qt-format
 msgid "Cover from %1"
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:851
 msgid "Cover from embedded image."
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:848
 msgid "Cover is unset."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:307
 msgid "Cover providers"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:306
 msgid "Covers"
 msgstr ""
 
-#: covermanager/albumcoversearcher.cpp:128
-#: covermanager/coversearchstatisticsdialog.cpp:74
 #, qt-format
 msgid "Covers from %1"
 msgstr "Sampul dari %1"
 
-#: core/commandlineoptions.cpp:236
 msgid "Create a new playlist with files"
 msgstr "Buat daftar putar baru dengan berkas"
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:711
 msgid "Cross-fade when changing tracks automatically"
 msgstr "Lesap-silang ketika mengubah trek secara otomatis"
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:710
 msgid "Cross-fade when changing tracks manually"
 msgstr "Lesap-silang ketika mengubah trek secara manual"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:632
 msgid "Ctrl+Alt+V"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_queueview.h:134
 msgid "Ctrl+Down"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:644
 msgid "Ctrl+E"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:659
 msgid "Ctrl+H"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:677
 msgid "Ctrl+J"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:640
-#: ../../build-qt6dev/src/ui_queueview.h:144
 msgid "Ctrl+K"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:698
 msgid "Ctrl+M"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:681
 msgid "Ctrl+N"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:651
 msgid "Ctrl+P"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:628
 msgid "Ctrl+Q"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:685
 msgid "Ctrl+S"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:663
 msgid "Ctrl+Shift+A"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:689
 msgid "Ctrl+Shift+O"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:704
 msgid "Ctrl+T"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_savedgroupingmanager.h:106
-#: ../../build-qt6dev/src/ui_queueview.h:128
 msgid "Ctrl+Up"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:469
 msgid "Current disk cache in use:"
 msgstr ""
 
-#: equalizer/equalizer.cpp:139
 msgid "Custom"
 msgstr "Ubahsuai"
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:560
 msgid "Custom color"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:534
 msgid "Custom image:"
 msgstr "Gambar ubahsuai:"
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:493
 msgid "Custom message settings"
 msgstr "Setelan pesan ubahsuai"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:421
 msgid "Custom text settings"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:514
 msgid "Custom..."
 msgstr "Ubahsuai..."
 
-#: device/udisks2lister.cpp:123
 msgid "D-Bus path"
 msgstr "Lokasi D-Bus"
 
-#: equalizer/equalizer.cpp:142
 msgid "Dance"
 msgstr "Dansa"
 
-#: spotify/spotifyrequest.cpp:1371
 msgid "Data missing error"
 msgstr ""
 
-#: core/database.cpp:510
 msgid "Database corruption detected."
 msgstr "Kerusakan basis data terdeteksi."
 
-#: playlist/playlist.cpp:1414
 msgid "Date Created"
 msgstr ""
 
-#: playlist/playlist.cpp:1413
 msgid "Date Modified"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:888
 msgid "Date created"
 msgstr "Tanggal dibuat"
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:891
 msgid "Date modified"
 msgstr "Tanggal diubah"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:453
 msgid "Days"
 msgstr ""
 
-#: core/commandlineoptions.cpp:229
 msgid "Decrease the volume by 4 percent"
 msgstr "Kurangi volume 4 persen"
 
-#: core/commandlineoptions.cpp:231
 msgid "Decrease the volume by <value> percent"
 msgstr "Kurangi volume <value> persen"
 
-#: globalshortcuts/globalshortcutsmanager.cpp:70
 msgid "Decrease volume"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:528
 msgid "Default bac&kground image"
 msgstr "Gambar latar bela&kang standar"
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:693
 msgid "Defaults"
 msgstr ""
 
-#: playlist/playlistlistcontainer.cpp:90
-#: ../../build-qt6dev/src/ui_playlistlistcontainer.h:131
 msgid "Delete"
 msgstr "Hapus"
 
-#: covermanager/albumcoverchoicecontroller.cpp:111
 msgid "Delete cover"
 msgstr ""
 
-#: dialogs/deleteconfirmationdialog.cpp:46 device/deviceview.cpp:429
 msgid "Delete files"
 msgstr "Hapus berkas"
 
-#: device/deviceview.cpp:250
 msgid "Delete from device..."
 msgstr "Hapus dari perangkat..."
 
-#: core/mainwindow.cpp:776 collection/collectionview.cpp:395
-#: widgets/fileviewlist.cpp:50
 msgid "Delete from disk..."
 msgstr "Hapus dari diska..."
 
-#: equalizer/equalizer.cpp:229 ../../build-qt6dev/src/ui_equalizer.h:172
 msgid "Delete preset"
 msgstr "Hapus prasetel"
 
-#: smartplaylists/smartplaylistsviewcontainer.cpp:78
-#: ../../build-qt6dev/src/ui_smartplaylistsviewcontainer.h:107
 msgid "Delete smart playlist"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:259
 msgid "Delete songs"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_organizedialog.h:264
 msgid "Delete the original files"
 msgstr "Hapus berkas yang asli"
 
-#: core/deletefiles.cpp:59
 msgid "Deleting files"
 msgstr "Menghapus berkas"
 
-#: core/mainwindow.cpp:2047
 msgid "Dequeue selected tracks"
 msgstr "Buang antrean trek terpilih"
 
-#: core/mainwindow.cpp:2046
 msgid "Dequeue track"
 msgstr "Buang antrean trek"
 
-#: ../../build-qt6dev/src/ui_organizedialog.h:261
-#: ../../build-qt6dev/src/ui_transcodedialog.h:230
 msgid "Destination"
 msgstr "Tujuan"
 
-#: core/filesystemmusicstorage.cpp:92
 #, qt-format
 msgid "Destination file %1 exists, but not allowed to overwrite"
 msgstr ""
 
-#: core/filesystemmusicstorage.cpp:73
 #, qt-format
 msgid "Destination file %1 exists, but not allowed to overwrite."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_transcodedialog.h:235
 msgid "Details..."
 msgstr "Detail..."
 
-#: device/giolister.cpp:193 ../../build-qt6dev/src/ui_backendsettingspage.h:672
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:422
 msgid "Device"
 msgstr "Perangkat"
 
-#: ../../build-qt6dev/src/ui_deviceproperties.h:370
 msgid "Device Properties"
 msgstr "Properti Perangkat"
 
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:268
 msgid "Device credentials"
 msgstr ""
 
-#: device/deviceview.cpp:241
 msgid "Device properties..."
 msgstr "Properti perangkat..."
 
-#: core/mainwindow.cpp:393
 msgid "Devices"
 msgstr "Perangkat"
 
-#: dialogs/edittagdialog.cpp:104
 msgid "Different art across multiple songs."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:175
 msgid "Direct internet connection"
 msgstr "Sambungan internet langsung"
 
-#: ../../build-qt6dev/src/ui_transcodedialog.h:219
 msgid "Directory"
 msgstr "Direktori"
 
-#: playlistparsers/playlistparser.cpp:222
 #, qt-format
 msgid "Directory %1 does not exist."
 msgstr ""
 
-#: dialogs/saveplaylistsdialog.cpp:79
 msgid "Directory does not exist."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:487
 msgid "Disable duration"
 msgstr "Nonfungsikan durasi"
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:480
 msgctxt "Refers to a disabled notification type in Notification settings."
 msgid "Disabled"
 msgstr "Nonfungsi"
 
-#: collection/savedgroupingmanager.cpp:118 playlist/playlist.cpp:1391
-#: organize/organizedialog.cpp:115
-#: ../../build-qt6dev/src/ui_groupbydialog.h:196
-#: ../../build-qt6dev/src/ui_groupbydialog.h:218
-#: ../../build-qt6dev/src/ui_groupbydialog.h:240
-#: ../../build-qt6dev/src/ui_edittagdialog.h:918
 msgid "Disc"
 msgstr "Cakram"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:232
 msgid "Discontinuous transmission"
 msgstr "Transmisi putus-putus"
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:468
 msgid "Disk Cache Size"
 msgstr ""
 
-#: collection/collectionfilterwidget.cpp:117
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:459
 msgid "Display options"
 msgstr "Opsi tampilan"
 
-#: core/commandlineoptions.cpp:241
 msgid "Display the on-screen-display"
 msgstr "Tampilkan tampilan-pada-layar"
 
-#: ../../build-qt6dev/src/ui_deviceproperties.h:379
 msgid "Do not convert any music"
 msgstr "Jangan konversi musik apapun"
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:546
 msgid "Do not cut image"
 msgstr "Jangan potong gambar"
 
-#: ../../build-qt6dev/src/ui_albumcoverexport.h:206
 msgid "Do not overwrite"
 msgstr "Jangan timpa"
 
-#: ../../build-qt6dev/src/ui_messagedialog.h:121
 msgid "Do not show this message again."
 msgstr ""
 
-#: playlistparsers/parserbase.cpp:62
 #, qt-format
 msgid "Don't know how to handle %1"
 msgstr ""
 
-#: osd/osdbase.cpp:363 ../../build-qt6dev/src/ui_playlistsequence.h:108
 msgid "Don't repeat"
 msgstr "Jangan ulang"
 
-#: collection/collectionview.cpp:408
 msgid "Don't show in various artists"
 msgstr "Jangan tampilkan di artis beragam"
 
-#: osd/osdbase.cpp:348 ../../build-qt6dev/src/ui_playlistsequence.h:114
 msgid "Don't shuffle"
 msgstr "Jangan karau"
 
-#: covermanager/albumcovermanager.cpp:262
 msgid "Don't stop!"
 msgstr "Jangan berhenti!"
 
-#: radios/radioview.cpp:85
 msgid "Donate"
 msgstr ""
 
-#: device/deviceview.cpp:139
 msgid "Double click to open"
 msgstr "Kilk ganda untuk membuka"
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:350
 msgid "Double clicking a song in the playlist will..."
 msgstr "Klik ganda pada lagu dalam daftar putar akan..."
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:340
 msgid "Double clicking a song will..."
 msgstr "Klik ganda pada lagu akan..."
 
-#: playlist/playlisttabbar.cpp:358
 msgid "Double-click here to favorite this playlist so it will be saved and remain accessible through the \"Playlists\" panel on the left side bar"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:255
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:342
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:279
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:297
 msgid "Download album covers"
 msgstr "Unduh sampul album"
 
-#: musicbrainz/tagfetcher.cpp:132
 msgid "Downloading metadata"
 msgstr ""
 
-#: settings/notificationssettingspage.cpp:68
 msgid "Drag to reposition"
 msgstr "Seret untuk reposisi"
 
-#: ../../build-qt6dev/src/ui_dynamicplaylistcontrols.h:105
 msgid "Dynamic mode is on"
 msgstr ""
 
-#: smartplaylists/smartplaylistsmodel.cpp:116
 msgid "Dynamic random mix"
 msgstr ""
 
-#: context/contextview.cpp:168
 msgid "EBU R 128 Integrated Loudness"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:705
 msgid "EBU R 128 Loudness Normalization"
 msgstr ""
 
-#: context/contextview.cpp:169
 msgid "EBU R 128 Loudness Range"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:898
 msgid "EBU R 128 integrated loudness"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:907
 msgid "EBU R 128 loudness range"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_smartplaylistsviewcontainer.h:104
 msgid "Edit smart playlist"
 msgstr ""
 
-#: smartplaylists/smartplaylistsviewcontainer.cpp:77
 msgid "Edit smart playlist..."
 msgstr ""
 
-#: core/mainwindow.cpp:2090
 #, qt-format
 msgid "Edit tag \"%1\"..."
 msgstr "Sunting tag \"%1\"..."
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:648
 msgid "Edit tag..."
 msgstr "Sunting tag..."
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:886
 msgid "Edit track information"
 msgstr "Sunting informasi trek"
 
-#: collection/collectionview.cpp:398 widgets/fileviewlist.cpp:53
-#: ../../build-qt6dev/src/ui_mainwindow.h:642
 msgid "Edit track information..."
 msgstr "Sunting informasi trek..."
 
-#: collection/collectionview.cpp:399
 msgid "Edit tracks information..."
 msgstr "Sunting informasi trek..."
 
-#: settings/coverssettingspage.cpp:442
 #, qt-format
 msgid "Embedded album cover art (%1)"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:917
 msgid "Embedded cover"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:405
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:430
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:433
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:436
-#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:244
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:326
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:265
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:282
 msgid "Enable"
 msgstr "Fungsikan"
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:467
 msgid "Enable Disk Cache"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:686
 msgid "Enable HTTP/2 for streaming"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:432
 msgid "Enable Items"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:478
-#: ../../build-qt6dev/src/ui_playlistsettingspage.h:188
 msgid "Enable delete files in the right click context menu"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_equalizer.h:174
 msgid "Enable equalizer"
 msgstr "Fungsikan ekualiser"
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:516
 msgid "Enable fading"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_playlistsettingspage.h:187
 msgid "Enable playlist clear button"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_playlistsettingspage.h:186
 msgid "Enable playlist toolbar"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:417
 msgid "Enable scrobbling for the following sources:"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_playlistsettingspage.h:199
 msgid "Enable song metadata inline edition with click"
 msgstr "Fungsikan edisi metadata lagu sebaris dengan mengkliknya"
 
-#: ../../build-qt6dev/src/ui_equalizer.h:175
 msgid "Enable stereo balancer"
 msgstr "Fungsikan penyeimbang stereo"
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:682
 msgid "Enable volume control"
 msgstr "Fungsikan kontrol volume"
 
-#: globalshortcuts/globalshortcutsmanager.cpp:79
 msgid "Enable/disable scrobbling"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_moodbarsettingspage.h:98
 msgid "Enabled"
 msgstr "Terfungsikan"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:233
 msgid "Encoding complexity"
 msgstr "Kompleksitas enkode"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:197
 msgid "Encoding engine quality"
 msgstr "Kualitas mesin enkode"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:224
 msgid "Encoding mode"
 msgstr "Mode enkode"
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:675
 msgid "Engine"
 msgstr "Mesin"
 
-#: ../../build-qt6dev/src/ui_coverfromurldialog.h:101
 msgid "Enter a URL to download a cover from the Internet:"
 msgstr "Masukkan URL untuk mengunduh sampul dari Internet:"
 
-#: ../../build-qt6dev/src/ui_albumcoverexport.h:202
 msgid "Enter a filename for exported covers (no extension):"
 msgstr "Masukkan nama berkas untuk sampul yang diekspor (tanpa ekstensi):"
 
-#: playlist/playlisttabbar.cpp:181
 msgid "Enter a new name for this playlist"
 msgstr "Masukkan nama baru untuk daftar putar ini"
 
-#: streaming/streamingsearchview.cpp:405
-#: ../../build-qt6dev/src/ui_streamingsearchview.h:232
 msgid "Enter search terms above to find music"
 msgstr "Masukkan kata pencarian di atas untuk mencari musik"
 
-#: ../../build-qt6dev/src/ui_collectionfilterwidget.h:102
-#: ../../build-qt6dev/src/ui_albumcovermanager.h:216
 msgid "Enter search terms here"
 msgstr "Masukkan lema pencarian di sini"
 
-#: ../../build-qt6dev/src/ui_addstreamdialog.h:77
 msgid "Enter the URL of a stream:"
 msgstr ""
 
-#: playlist/playlistlistcontainer.cpp:216
 msgid "Enter the name of the folder"
 msgstr "Masukkan nama folder"
 
-#: ../../build-qt6dev/src/ui_userpassdialog.h:91
 msgid "Enter username and password"
 msgstr ""
 
-#: settings/scrobblersettingspage.cpp:82
 msgid "Enter your user token from"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_collectionfilterwidget.h:91
 msgid "Entire collection"
 msgstr "Semua koleksi"
 
-#: ../../build-qt6dev/src/ui_equalizer.h:166
-#: ../../build-qt6dev/src/ui_equalizerslider.h:95
 msgid "Equalizer"
 msgstr "Ekualiser"
 
-#: core/commandlineoptions.cpp:245
 msgid "Equivalent to --log-levels *:1"
 msgstr "Setara dengan --log-level *: 1"
 
-#: core/commandlineoptions.cpp:246
 msgid "Equivalent to --log-levels *:3"
 msgstr "Setara dengan --log-level *: 3"
 
-#: core/mainwindow.cpp:2719 core/mainwindow.cpp:2870
-#: collection/collectionview.cpp:715
 msgid "Error"
 msgstr "Kesalahan"
 
-#: device/mtploader.cpp:72
 #, qt-format
 msgid "Error connecting MTP device %1"
 msgstr "Terjadi kesalahan saat menyambungkan perangkat MTP %1"
 
-#: device/mtploader.cpp:77
 #, qt-format
 msgid "Error connecting MTP device %1: %2"
 msgstr ""
 
-#: organize/organizeerrordialog.cpp:71
 msgid "Error copying songs"
 msgstr "Terjadi kesalahan saat menyalin lagu"
 
-#: organize/organizeerrordialog.cpp:76
 msgid "Error deleting songs"
 msgstr "Terjadi kesalahan saat menghapus lagu"
 
-#: transcoder/transcoder.cpp:399
 #, qt-format
 msgid "Error processing %1: %2"
 msgstr "Terjadi kesalahan saat memproses %1: %2"
 
-#: playlist/songloaderinserter.cpp:114
 msgid "Error while loading audio CD."
 msgstr "Terjadi kesalahan saat memuat CD audio."
 
-#: device/cddasongloader.cpp:120 device/cddasongloader.cpp:129
 msgid "Error while querying CDDA tracks."
 msgstr ""
 
-#: device/cddasongloader.cpp:108
 msgid "Error while setting CDDA device to pause state."
 msgstr ""
 
-#: device/cddasongloader.cpp:100
 msgid "Error while setting CDDA device to ready state."
 msgstr ""
 
-#: smartplaylists/smartplaylistsmodel.cpp:78
 msgid "Ever played"
 msgstr ""
 
-#: widgets/freespacebar.cpp:69
 msgid "Exceeded by"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:712
 msgid "Except between tracks on the same album or in the same CUE sheet"
 msgstr "Kecuali antara trek pada album yang sama atau di lembar CUE yang sama"
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:680
 msgid "Exclusive mode (Experimental)"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_albumcoverexport.h:205
 msgid "Existing covers"
 msgstr "Sampul yang tersedia"
 
-#: ../../build-qt6dev/src/ui_dynamicplaylistcontrols.h:107
 msgid "Expand"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:452
 msgid "Expire unavailable songs after"
 msgstr ""
 
-#: widgets/loginstatewidget.cpp:156
 #, qt-format
 msgid "Expires on %1"
 msgstr "Kedaluwarsa pada %1"
 
-#: ../../build-qt6dev/src/ui_albumcovermanager.h:226
 msgid "Export Covers"
 msgstr "Ekspor Sampul"
 
-#: ../../build-qt6dev/src/ui_albumcoverexport.h:200
 msgid "Export covers"
 msgstr "Ekspor sampul"
 
-#: ../../build-qt6dev/src/ui_albumcoverexport.h:203
 msgid "Export downloaded covers"
 msgstr "Ekspor sampul yang sudah diunduh"
 
-#: ../../build-qt6dev/src/ui_albumcoverexport.h:204
 msgid "Export embedded covers"
 msgstr "Ekspor sampul yang tertanam"
 
-#: covermanager/albumcovermanager.cpp:1021
-#: covermanager/albumcovermanager.cpp:1047
 msgid "Export finished"
 msgstr "Ekspor selesai"
 
-#: covermanager/albumcovermanager.cpp:1032
 #, qt-format
 msgid "Exported %1 covers out of %2 (%3 skipped)"
 msgstr "Mengekspor %1 sampul dari %2 (%3 dilewati)"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:655
 msgid "F1"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:612
 msgid "F5"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:616
 msgid "F6"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:620
 msgid "F7"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:624
 msgid "F8"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_transcodersettingspage.h:187
 msgid "FLAC"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:715
 msgid "Fade out on pause / fade in on resume"
 msgstr "Lesap senyap saat jeda / lesap jelma saat melanjutkan"
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:709
 msgid "Fade out when stopping a track"
 msgstr "Lesap senyap saat menghentikan trek"
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:708
 msgid "Fading"
 msgstr "Melesap"
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:713
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:716
 msgid "Fading duration"
 msgstr "Durasi lesap"
 
-#: core/database.cpp:485 collection/collectionbackend.cpp:118
 #, qt-format
 msgid "Failed SQL query: %1"
 msgstr ""
 
-#: core/filesystemmusicstorage.cpp:57
 #, qt-format
 msgid "Failed to create directory %1."
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:380
-#: covermanager/albumcoverchoicecontroller.cpp:397
 #, qt-format
 msgid "Failed to delete cover file %1: %2"
 msgstr ""
 
-#: core/tagreaderclient.cpp:302
 #, qt-format
 msgid "Failed to load image from data for %1"
 msgstr ""
 
-#: playlistparsers/playlistparser.cpp:245
 #, qt-format
 msgid "Failed to open %1 for writing."
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:185
 #, qt-format
 msgid "Failed to open cover file %1 for reading: %2"
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:263
-#: covermanager/albumcoverchoicecontroller.cpp:688
 #, qt-format
 msgid "Failed to open cover file %1 for writing: %2"
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:682
 #, qt-format
 msgid "Failed to write cover to file %1: %2"
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:278
 #, qt-format
 msgid "Failed writing cover to file %1."
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:269
 #, qt-format
 msgid "Failed writing cover to file %1: %2"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:704
 msgid "Fallback-gain"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsflac.h:78
-#: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:198
 msgid "Fast"
 msgstr "Cepat"
 
-#: smartplaylists/smartplaylistsmodel.cpp:102
 msgid "Favourite tracks"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_albumcovermanager.h:225
 msgid "Fetch Missing Covers"
 msgstr "Ambil Sampul yang Hilang"
 
-#: ../../build-qt6dev/src/ui_albumcovermanager.h:213
 msgid "Fetch automatically"
 msgstr "Ambil secara otomatis"
 
-#: ../../build-qt6dev/src/ui_coversearchstatisticsdialog.h:72
 msgid "Fetch completed"
 msgstr "Pengambilan selesai"
 
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:343
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:280
 msgid "Fetch entire albums when searching songs"
 msgstr "Ambil seluruh album saat mencari lagu"
 
-#: covermanager/coverfromurldialog.cpp:90
-#: covermanager/coverfromurldialog.cpp:100
 msgid "Fetching cover error"
 msgstr "Terjadi kesalahan saat mengambil sampul"
 
-#: core/songloader.cpp:164 core/songloader.cpp:268
 #, qt-format
 msgid "File %1 does not exist."
 msgstr ""
 
-#: core/songloader.cpp:184 core/songloader.cpp:328
 #, qt-format
 msgid "File %1 is not recognized as a valid audio file."
 msgstr "Berkas %1 bukanlah berkas audio yang benar."
 
-#: playlist/playlist.cpp:1409
 msgid "File Name"
 msgstr ""
 
-#: playlist/playlist.cpp:1410
 msgid "File Name (without path)"
 msgstr ""
 
-#: playlist/playlist.cpp:1411
 msgid "File Size"
 msgstr ""
 
-#: playlist/playlist.cpp:1412
 msgid "File Type"
 msgstr ""
 
-#: organize/organizedialog.cpp:124
 msgid "File extension"
 msgstr "Ekstensi berkas"
 
-#: ../../build-qt6dev/src/ui_deviceproperties.h:386
 msgid "File formats"
 msgstr "Format berkas"
 
-#: ../../build-qt6dev/src/ui_playlistsaveoptionsdialog.h:93
 msgid "File paths"
 msgstr "Lokasi berkas"
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:905
 msgid "File size"
 msgstr "Ukuran berkas"
 
-#: collection/savedgroupingmanager.cpp:139
-#: ../../build-qt6dev/src/ui_groupbydialog.h:207
-#: ../../build-qt6dev/src/ui_groupbydialog.h:229
-#: ../../build-qt6dev/src/ui_groupbydialog.h:251
-#: ../../build-qt6dev/src/ui_edittagdialog.h:894
 msgid "File type"
 msgstr "Jenis berkas"
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:903
-#: ../../build-qt6dev/src/ui_transcodedialog.h:220
 msgid "Filename"
 msgstr "Nama berkas"
 
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:322
 msgid "Filename:"
 msgstr "Nama berkas:"
 
-#: core/mainwindow.cpp:390
 msgid "Files"
 msgstr "Berkas"
 
-#: ../../build-qt6dev/src/ui_transcodedialog.h:217
 msgid "Files to transcode"
 msgstr "Berkas untuk ditranskode"
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:556
 msgid "Files, playlists and queue buttons"
 msgstr ""
 
-#: context/contextview.cpp:163
 msgid "Filetype"
 msgstr "Tipe berkas"
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:98
 msgid "Find songs in your collection that match the criteria you specify."
 msgstr ""
 
-#: musicbrainz/tagfetcher.cpp:80
 msgid "Fingerprinting song"
 msgstr ""
 
-#: smartplaylists/smartplaylistwizard.cpp:93
 msgid "Finish"
 msgstr ""
 
-#: collection/savedgroupingmanager.cpp:58
-#: ../../build-qt6dev/src/ui_groupbydialog.h:190
 msgid "First level"
 msgstr "Level pertama"
 
-#: widgets/playingwidget.cpp:106
 msgid "Fit cover to width"
 msgstr "Paskan sampul ke lebar"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:439
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:444
 msgid "Font"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:443
 msgid "Font for data and lyrics"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:438
 msgid "Font for headline"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:440
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:445
 msgid "Font size"
 msgstr ""
 
-#: dialogs/snapdialog.cpp:54
 #, qt-format
 msgid "For Ubuntu there is an official PPA repository available at %1."
 msgstr ""
 
-#: dialogs/snapdialog.cpp:62
 msgid "For a better experience please consider the other options above."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:202
 msgid "Force mono encoding"
 msgstr "Paksa enkode mono"
 
-#: device/deviceview.cpp:239 device/deviceview.cpp:346
-#: device/deviceview.cpp:349
 msgid "Forget device"
 msgstr "Lupakan perangkat"
 
-#: device/deviceview.cpp:347
 msgid "Forgetting a device will remove it from this list and Strawberry will have to rescan all the songs again next time you connect it."
 msgstr "Melupakan perangkat akan membuangnya dari daftar ini dan Strawberry harus memindai ulang semua lagu ketika Anda menyambungkannya lagi."
 
-#: ../../build-qt6dev/src/ui_collectionviewcontainer.h:55
-#: ../../build-qt6dev/src/ui_playlistcontainer.h:148
-#: ../../build-qt6dev/src/ui_playlistlistcontainer.h:126
-#: ../../build-qt6dev/src/ui_smartplaylistquerysearchpage.h:108
-#: ../../build-qt6dev/src/ui_smartplaylistquerysortpage.h:133
-#: ../../build-qt6dev/src/ui_smartplaylistsearchpreview.h:101
-#: ../../build-qt6dev/src/ui_smartplaylistsearchtermwidget.h:271
-#: ../../build-qt6dev/src/ui_smartplaylistwizardfinishpage.h:79
-#: ../../build-qt6dev/src/ui_trackslider.h:65
-#: ../../build-qt6dev/src/ui_fileview.h:103
-#: ../../build-qt6dev/src/ui_loginstatewidget.h:164
-#: ../../build-qt6dev/src/ui_streamingcollectionviewcontainer.h:136
-#: ../../build-qt6dev/src/ui_radioviewcontainer.h:80
-#: ../../build-qt6dev/src/ui_deviceviewcontainer.h:48
-#: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:131
-#: ../../build-qt6dev/src/ui_transcoderoptionsflac.h:76
-#: ../../build-qt6dev/src/ui_transcoderoptionswavpack.h:46
-#: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:197
-#: ../../build-qt6dev/src/ui_transcoderoptionsopus.h:75
-#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:216
-#: ../../build-qt6dev/src/ui_transcoderoptionsasf.h:74
-#: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:190
 msgid "Form"
 msgstr ""
 
-#: collection/savedgroupingmanager.cpp:142
-#: ../../build-qt6dev/src/ui_groupbydialog.h:197
-#: ../../build-qt6dev/src/ui_groupbydialog.h:219
-#: ../../build-qt6dev/src/ui_groupbydialog.h:241
 msgid "Format"
 msgstr ""
 
-#: analyzer/analyzercontainer.cpp:69
 msgid "Framerate"
 msgstr "Lajubingkai"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:234
 msgid "Frames per buffer"
 msgstr "Bingkai per bufer"
 
-#: moodbar/moodbarrenderer.cpp:170
 msgid "Frozen"
 msgstr "Beku"
 
-#: equalizer/equalizer.cpp:143
 msgid "Full Bass"
 msgstr "Bass Penuh"
 
-#: equalizer/equalizer.cpp:145
 msgid "Full Bass + Treble"
 msgstr "Bass + Treble Penuh"
 
-#: equalizer/equalizer.cpp:144
 msgid "Full Treble"
 msgstr "Treble Penuh"
 
-#: settings/settingsdialog.cpp:135
 msgid "General"
 msgstr "Umum"
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:484
 msgid "General settings"
 msgstr "Setelan umum"
 
-#: lyrics/geniuslyricsprovider.cpp:123
 msgid "Genius Authentication"
 msgstr ""
 
-#: collection/savedgroupingmanager.cpp:127 playlist/playlist.cpp:1395
-#: organize/organizedialog.cpp:118
-#: ../../build-qt6dev/src/ui_groupbydialog.h:198
-#: ../../build-qt6dev/src/ui_groupbydialog.h:220
-#: ../../build-qt6dev/src/ui_groupbydialog.h:242
-#: ../../build-qt6dev/src/ui_edittagdialog.h:927
 msgid "Genre"
 msgstr ""
 
-#: radios/somafmservice.cpp:72 radios/radioparadiseservice.cpp:66
 #, qt-format
 msgid "Getting %1 channels"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:268
 msgid "Global Shortcuts"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:692
 msgid "Go to next playlist tab"
 msgstr "Buka tab daftar putar selanjutnya"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:693
 msgid "Go to previous playlist tab"
 msgstr "Buka tab daftar putar sebelumnya"
 
-#: ../../build-qt6dev/src/ui_lastfmimportdialog.h:155
 msgid "Go!"
 msgstr ""
 
-#: covermanager/albumcovermanager.cpp:557
-#: covermanager/coversearchstatisticsdialog.cpp:68
-#: ../../build-qt6dev/src/ui_coversearchstatisticsdialog.h:73
 #, qt-format
 msgid "Got %1 covers out of %2 (%3 failed)"
 msgstr "Mendapatkan %1 sampul dari %2 ( %3 gagal)"
 
-#: ../../build-qt6dev/src/ui_playlistsettingspage.h:183
 msgid "Grey out unavailable songs in playlists on playback"
 msgstr "Abu-abukan lagu yang tidak tersedia di daftar putar saat pemutaran"
 
-#: ../../build-qt6dev/src/ui_playlistsettingspage.h:184
 msgid "Grey out unavailable songs in playlists on startup"
 msgstr "Abu-abukan lagu yang tidak tersedia di daftar putar saat membuka"
 
-#: ../../build-qt6dev/src/ui_groupbydialog.h:189
 msgid "Group Collection by..."
 msgstr "Grup Pustaka berdasarkan..."
 
-#: collection/collectionfilterwidget.cpp:111
-#: streaming/streamingsearchview.cpp:344
 msgid "Group by"
 msgstr "Grup berdasarkan"
 
-#: collection/collectionfilterwidget.cpp:281
 msgid "Group by Album"
 msgstr "Grup berdasarkan Album"
 
-#: collection/collectionfilterwidget.cpp:278
 msgid "Group by Album Artist"
 msgstr "Grup berdasarkan Artis Album"
 
-#: collection/collectionfilterwidget.cpp:265
 msgid "Group by Album artist/Album"
 msgstr "Grup berdasarkan Artis album/Album"
 
-#: collection/collectionfilterwidget.cpp:266
 msgid "Group by Album artist/Album - Disc"
 msgstr "Grup berdasarkan Artis album/Album - Cakram"
 
-#: collection/collectionfilterwidget.cpp:267
 msgid "Group by Album artist/Year - Album"
 msgstr "Grup berdasarkan Artis album/Tahun - Album"
 
-#: collection/collectionfilterwidget.cpp:268
 msgid "Group by Album artist/Year - Album - Disc"
 msgstr "Grup berdasarkan Artis album/Tahun - Album - Cakram"
 
-#: collection/collectionfilterwidget.cpp:279
 msgid "Group by Artist"
 msgstr "Grup berdasarkan Artis"
 
-#: collection/collectionfilterwidget.cpp:270
 msgid "Group by Artist/Album"
 msgstr "Grup berdasarkan Artis/Album"
 
-#: collection/collectionfilterwidget.cpp:271
 msgid "Group by Artist/Album - Disc"
 msgstr "Grup berdasarkan Artis/Album - Cakram"
 
-#: collection/collectionfilterwidget.cpp:272
 msgid "Group by Artist/Year - Album"
 msgstr "Grup berdasarkan Artis/Tahun - Album"
 
-#: collection/collectionfilterwidget.cpp:273
 msgid "Group by Artist/Year - Album - Disc"
 msgstr "Grup berdasarkan Artis/Tahun - Album - Cakram"
 
-#: collection/collectionfilterwidget.cpp:282
 msgid "Group by Genre/Album"
 msgstr "Grup berdasarkan Genre/Album"
 
-#: collection/collectionfilterwidget.cpp:275
 msgid "Group by Genre/Album artist/Album"
 msgstr "Grup berdasarkan Genre/Artis album/Album"
 
-#: collection/collectionfilterwidget.cpp:276
 msgid "Group by Genre/Artist/Album"
 msgstr "Grup berdasarkan Genre/Artis/Album"
 
-#: collection/savedgroupingmanager.cpp:136 playlist/playlist.cpp:1399
-#: organize/organizedialog.cpp:113
-#: ../../build-qt6dev/src/ui_groupbydialog.h:206
-#: ../../build-qt6dev/src/ui_groupbydialog.h:228
-#: ../../build-qt6dev/src/ui_groupbydialog.h:250
-#: ../../build-qt6dev/src/ui_edittagdialog.h:919
 msgid "Grouping"
 msgstr "Pengelompokan"
 
-#: collection/collectionfilterwidget.cpp:339
 msgid "Grouping Name"
 msgstr "Nama Pengelompokan"
 
-#: collection/collectionfilterwidget.cpp:339
 msgid "Grouping name:"
 msgstr "Nama pengelompokan:"
 
-#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:177
 msgid "HTTP proxy"
 msgstr "Proxy HTTP"
 
-#: moodbar/moodbarrenderer.cpp:172
 msgid "Happy"
 msgstr "Senang"
 
-#: ../../build-qt6dev/src/ui_deviceproperties.h:373
 msgid "Hardware information"
 msgstr "Informasi perangkat keras"
 
-#: ../../build-qt6dev/src/ui_deviceproperties.h:374
 msgid "Hardware information is only available while the device is connected."
 msgstr "Informasi hardware hanya tersedia ketika perangkat tersambung."
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:734
 msgid "Help"
 msgstr "Bantuan"
 
-#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:250
 msgid "Hex"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:324
 msgid "Hide the main window"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:200
 msgid "High"
 msgstr "Tinggi"
 
-#: analyzer/analyzercontainer.cpp:84
 #, qt-format
 msgid "High (%1 fps)"
 msgstr "Tinggi (%1 fps)"
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:691
 msgid "High watermark"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:451
 msgid "Hours"
 msgstr ""
 
-#: playlist/playlistview.cpp:223
 msgid "Hz"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_deviceproperties.h:372
 msgid "Icon"
 msgstr "Ikon"
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:551
 msgid "Icon sizes"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:733
 msgid "Icons on top"
 msgstr "Ikon di atas"
 
-#: musicbrainz/tagfetcher.cpp:70 musicbrainz/tagfetcher.cpp:114
 msgid "Identifying song"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_playlistsettingspage.h:197
 msgid "If activated, clicking a selected song in the playlist view will let you edit the tag value directly"
 msgstr "Jika diaktifkan, mengklik lagu yang dipilih di dalam tampilan daftar putar memperbolehkan Anda menyunting nilai tag secara langsung"
 
-#: device/devicemanager.cpp:610 device/devicemanager.cpp:618
 msgid "If you continue, this device will work slowly and songs copied to it may not work."
 msgstr "Jika Anda lanjutkan, perangkat ini akan bekerja lambat dan lagu-lagu yang disalin mungkin tidak bekerja."
 
-#: dialogs/about.cpp:126
 msgid "If you like Strawberry and can make use of it, consider sponsoring or donating."
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:80
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
 msgstr "Gambar (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
 
-#: covermanager/albumcoverchoicecontroller.cpp:81
 msgid "Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 msgstr "Gambar (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
 
-#: ../../build-qt6dev/src/ui_lastfmimportdialog.h:148
 msgid "Import data from last.fm"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:715
 msgid "Import data from last.fm..."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_transcodedialog.h:226
 msgid "Import..."
 msgstr "Impor..."
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:685
 msgid "Improve headphone listening of stereo audio records (bs2b)"
 msgstr ""
 
-#: utilities/timeutils.cpp:101
 #, qt-format
 msgid "In %1 days"
 msgstr "Dalam %1 hari"
 
-#: utilities/timeutils.cpp:104
 #, qt-format
 msgid "In %1 weeks"
 msgstr "Dalam %1 minggu"
 
-#: ../../build-qt6dev/src/ui_smartplaylistwizardfinishpage.h:82
 msgid "In dynamic mode new tracks will be chosen and added to the playlist every time a song finishes."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:492
 msgid "Include album art in the notification"
 msgstr "Sertakan sampul album di dalam pemberitahuan"
 
-#: ../../build-qt6dev/src/ui_smartplaylistquerysearchpage.h:112
 msgid "Include all songs"
 msgstr ""
 
-#: core/commandlineoptions.cpp:228
 msgid "Increase the volume by 4 percent"
 msgstr "Naikkan volume 4 persen"
 
-#: core/commandlineoptions.cpp:230
 msgid "Increase the volume by <value> percent"
 msgstr "Naikkan volume <value> persen"
 
-#: globalshortcuts/globalshortcutsmanager.cpp:69
 msgid "Increase volume"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_deviceproperties.h:375
 msgid "Information"
 msgstr "Informasi"
 
-#: ../../build-qt6dev/src/ui_organizedialog.h:272
 msgid "Insert..."
 msgstr "Sisipkan..."
 
-#: dialogs/snapdialog.cpp:77
 msgid "Install strawberry through PPA:"
 msgstr ""
 
-#: playlist/playlist.cpp:1422
 msgid "Integrated Loudness"
 msgstr ""
 
-#: core/database.cpp:493
 msgid "Integrity check"
 msgstr "Periksa integritas"
 
-#: osd/osdbase.cpp:368 ../../build-qt6dev/src/ui_playlistsequence.h:113
 msgid "Intro tracks"
 msgstr "Trek intro"
 
-#: device/mtpconnection.cpp:57
 #, qt-format
 msgid "Invalid MTP device: %1"
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:257
 msgid "Invalid reply from web browser. Missing token."
 msgstr "Balasan tidak benar dari peramban web. Token tidak tersedia."
 
-#: dialogs/about.cpp:116
 msgid "It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles."
 msgstr ""
 
-#: dialogs/snapdialog.cpp:42
 msgid "It is detected that Strawberry is running as a Snap"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:337
 msgid "Jump to previous song right away"
 msgstr "Lompat ke lagu sebelumnya sesegera"
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:545
 msgid "Keep aspect ratio"
 msgstr "Jaga aspek ratio"
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:316
 msgid "Keep running in the background when the window is closed"
 msgstr "Tetap jalankan di belakang layar ketika jendela ditutup"
 
-#: ../../build-qt6dev/src/ui_organizedialog.h:263
 msgid "Keep the original files"
 msgstr "Simpan berkas yang asli"
 
-#: core/song.cpp:799
 msgid "LU"
 msgstr ""
 
-#: core/song.cpp:787
 msgid "LUFS"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:327
 msgid "Language"
 msgstr "Bahasa"
 
-#: equalizer/equalizer.cpp:146
 msgid "Laptop/Headphones"
 msgstr "Laptop/Fonkepala"
 
-#: equalizer/equalizer.cpp:147
 msgid "Large Hall"
 msgstr "Balai Besar"
 
-#: widgets/playingwidget.cpp:103
 msgid "Large album cover"
 msgstr "Sampul album besar"
 
-#: widgets/fancytabwidget.cpp:729
 msgid "Large sidebar"
 msgstr "Bilah sisi besar"
 
-#: playlist/playlist.cpp:1403
 msgid "Last Played"
 msgstr ""
 
-#: smartplaylists/smartplaylistsmodel.cpp:90
-#: ../../build-qt6dev/src/ui_lastfmimportdialog.h:150
 msgid "Last played"
 msgstr "Terakhir diputar"
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:893
 msgctxt "A playlist's tag."
 msgid "Last played"
 msgstr "Terakhir diputar"
 
-#: dialogs/lastfmimportdialog.cpp:163
 #, qt-format
 msgid "Last played for %1 songs received."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:429
 msgid "Last.fm"
 msgstr ""
 
-#: smartplaylists/smartplaylistsmodel.cpp:108
 msgid "Least favourite tracks"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_equalizer.h:176
 msgid "Left"
 msgstr "Kiri"
 
-#: context/contextview.cpp:164 playlist/playlist.cpp:1392
-#: organize/organizedialog.cpp:120
-#: ../../build-qt6dev/src/ui_edittagdialog.h:895
 msgid "Length"
 msgstr "Durasi"
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:432
 msgid "Libre.fm"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_smartplaylistquerysortpage.h:137
 msgid "Limits"
 msgstr ""
 
-#: scrobbler/listenbrainzscrobbler.cpp:193
 msgid "ListenBrainz Authentication"
 msgstr "Otentikasi ListenBrainz"
 
-#: scrobbler/listenbrainzscrobbler.cpp:679
 #, qt-format
 msgid "ListenBrainz error: %1"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:435
 msgid "Listenbrainz"
 msgstr ""
 
-#: equalizer/equalizer.cpp:148
 msgid "Live"
 msgstr "Langsung"
 
-#: ../../build-qt6dev/src/ui_albumcovermanager.h:214
 msgid "Load"
 msgstr "Muat"
 
-#: ../../build-qt6dev/src/ui_coverfromurldialog.h:100
 msgid "Load cover from URL"
 msgstr "Muat sampul dari URL"
 
-#: covermanager/albumcoverchoicecontroller.cpp:108
 msgid "Load cover from URL..."
 msgstr "Muat sampul dari URL..."
 
-#: covermanager/albumcoverchoicecontroller.cpp:179
-#: covermanager/albumcoverchoicecontroller.cpp:210
 msgid "Load cover from disk"
 msgstr "Muat sampul dari diska"
 
-#: covermanager/albumcoverchoicecontroller.cpp:106
 msgid "Load cover from disk..."
 msgstr "Muat sampul dari diska..."
 
-#: playlist/playlistcontainer.cpp:347
 msgid "Load playlist"
 msgstr "Muat daftar putar"
 
-#: device/mtploader.cpp:55
 msgid "Loading MTP device"
 msgstr "Memuat perangkat MTP"
 
-#: device/gpodloader.cpp:54
 msgid "Loading iPod database"
 msgstr "Memuat basis data iPod"
 
-#: smartplaylists/playlistgeneratorinserter.cpp:62
 msgid "Loading smart playlist"
 msgstr ""
 
-#: playlist/songloaderinserter.cpp:171 dialogs/edittagdialog.cpp:417
 msgid "Loading tracks"
 msgstr "Memuat trek"
 
-#: playlist/songloaderinserter.cpp:201
 msgid "Loading tracks info"
 msgstr "Memuat info trek"
 
-#: collection/collectionmodel.cpp:209
-#: ../../build-qt6dev/src/ui_smartplaylistsearchpreview.h:103
-#: ../../build-qt6dev/src/ui_organizedialog.h:281
 msgid "Loading..."
 msgstr "Memuat..."
 
-#: core/commandlineoptions.cpp:238
 msgid "Loads files/URLs, replacing current playlist"
 msgstr "Muat berkas/URL, menggantikan daftar putar saat ini"
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:420
 msgid "Local file"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:431
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:434
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:439
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:313
-#: ../../build-qt6dev/src/ui_lyricssettingspage.h:169
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:334
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:289
 msgid "Login"
 msgstr "Masuk"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:138
 msgid "Long term prediction profile (LTP)"
 msgstr "Profil prediksi jangka panjang (LTP)"
 
-#: playlist/playlist.cpp:1423
 msgid "Loudness Range"
 msgstr ""
 
-#: globalshortcuts/globalshortcutsmanager.cpp:80
-#: ../../build-qt6dev/src/ui_mainwindow.h:634
 msgid "Love"
 msgstr "Suka"
 
-#: analyzer/analyzercontainer.cpp:82
 #, qt-format
 msgid "Low (%1 fps)"
 msgstr "Rendah (%1 fps)"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:136
 msgid "Low complexity profile (LC)"
 msgstr "Profil kompleksitas rendah (LC)"
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:692
 msgid "Low watermark"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:326
 msgid "Lowercase filename"
 msgstr "Nama berkas huruf kecil"
 
-#: ../../build-qt6dev/src/ui_lyricssettingspage.h:162
-#: ../../build-qt6dev/src/ui_edittagdialog.h:936
 msgid "Lyrics"
 msgstr "Lirik"
 
-#: ../../build-qt6dev/src/ui_lyricssettingspage.h:163
 msgid "Lyrics providers"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:251
 msgid "MD5 token (Recommended)"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_transcodersettingspage.h:194
 msgid "MP3"
 msgstr ""
 
-#: device/mtpconnection.cpp:100
 msgid "MTP device not found."
 msgstr ""
 
-#: device/mtpconnection.cpp:86
 #, qt-format
 msgid "MTP error: %1"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:135
 msgid "Main profile (MAIN)"
 msgstr "Profil utama (MAIN)"
 
-#: ../../build-qt6dev/src/ui_collectionfilterwidget.h:101
 msgid "Manage saved groupings"
 msgstr "Kelola pengelompokan tersimpan"
 
-#: settings/coverssettingspage.cpp:433
 #, qt-format
 msgid "Manually unset (%1)"
 msgstr ""
 
-#: device/deviceproperties.cpp:176
 msgid "Manufacturer"
 msgstr "Produsen"
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:450
 msgid "Mark disappeared songs unavailable"
 msgstr "Tandai lagu yang hilang sebagai tidak tersedia"
 
-#: ../../build-qt6dev/src/ui_smartplaylistquerysearchpage.h:110
 msgid "Match every search term (AND)"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_smartplaylistquerysearchpage.h:111
 msgid "Match one or more search terms (OR)"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:543
 msgid "Max cover size"
 msgstr "Ukuran sampul maksimum"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:205
 msgid "Maximum bitrate"
 msgstr "Lajubit maksimum"
 
-#: qobuz/qobuzservice.cpp:479
 msgid "Maximum number of login attempts reached."
 msgstr "Jumlah maksimum upaya masuk tercapai."
 
-#: analyzer/analyzercontainer.cpp:83
 #, qt-format
 msgid "Medium (%1 fps)"
 msgstr "Sedang (%1 fps)"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:717
-#: ../../build-qt6dev/src/ui_mainwindow.h:720
-#: ../../build-qt6dev/src/ui_mainwindow.h:723
-#: ../../build-qt6dev/src/ui_mainwindow.h:726
-#: ../../build-qt6dev/src/ui_mainwindow.h:729
-#: ../../build-qt6dev/src/ui_collectionfilterwidget.h:104
-#: ../../build-qt6dev/src/ui_albumcovermanager.h:218
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:423
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:429
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:497
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:503
-#: ../../build-qt6dev/src/ui_edittagdialog.h:914
-#: ../../build-qt6dev/src/ui_streamingsearchview.h:226
 msgid "MenuPopupToolButton"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_messagedialog.h:118
 msgid "Message Dialog"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_playlistsettingspage.h:195
 msgid "Metadata"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:539
 msgid "Middle"
 msgstr "Tengah"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:202
 msgid "Minimum bitrate"
 msgstr "Lajubit minimum"
 
-#: settings/tidalsettingspage.cpp:159
 msgid "Missing API token."
 msgstr ""
 
-#: scrobbler/listenbrainzscrobbler.cpp:630
 #, qt-format
 msgid "Missing MusicBrainz recording ID for %1 %2 %3"
 msgstr ""
 
-#: qobuz/qobuzservice.cpp:722 qobuz/qobuzstreamurlrequest.cpp:82
 msgid "Missing Qobuz app ID or secret."
 msgstr "App ID atau secret Qobuz tidak tersedia."
 
-#: qobuz/qobuzservice.cpp:483 qobuz/qobuzservice.cpp:512
-#: qobuz/qobuzservice.cpp:562 qobuz/qobuzservice.cpp:612
-#: qobuz/qobuzservice.cpp:674
 msgid "Missing Qobuz app ID."
 msgstr "App ID Qobuz tidak tersedia."
 
-#: qobuz/qobuzservice.cpp:491
 msgid "Missing Qobuz password."
 msgstr "Kata sandi Qobuz tidak tersedia."
 
-#: qobuz/qobuzservice.cpp:487
 msgid "Missing Qobuz username."
 msgstr "Nama pengguna Qobuz tidak tersedia."
 
-#: subsonic/subsonicurlhandler.cpp:43
 msgid "Missing Subsonic username or password."
 msgstr "Nama pengguna atau kata sandi Subsonic tidak tersedia."
 
-#: tidal/tidalservice.cpp:728 tidal/tidalservice.cpp:783
-#: tidal/tidalservice.cpp:838 tidal/tidalservice.cpp:901
-#: tidal/tidalservice.cpp:964 tidal/tidalstreamurlrequest.cpp:87
 msgid "Missing Tidal API token, username or password."
 msgstr ""
 
-#: tidal/tidalservice.cpp:689
 msgid "Missing Tidal API token."
 msgstr "Token API Tidal tidak tersedia."
 
-#: settings/tidalsettingspage.cpp:152
 msgid "Missing Tidal client ID."
 msgstr "Client ID Tidal tidak tersedia."
 
-#: tidal/tidalservice.cpp:697
 msgid "Missing Tidal password."
 msgstr "Kata sandi Tidal tidak tersedia."
 
-#: tidal/tidalservice.cpp:693
 msgid "Missing Tidal username."
 msgstr "Nama pengguna Tidal tidak tersedia."
 
-#: settings/qobuzsettingspage.cpp:131
 msgid "Missing app id."
 msgstr ""
 
-#: settings/tidalsettingspage.cpp:167 settings/qobuzsettingspage.cpp:139
 msgid "Missing password."
 msgstr ""
 
-#: settings/subsonicsettingspage.cpp:131
 msgid "Missing server url, username or password."
 msgstr "URL server, nama pengguna atau kata sandi tidak tersedia."
 
-#: subsonic/subsonicservice.cpp:418
 msgid "Missing username or password."
 msgstr "Nama pengguna atau kata sandi tidak tersedia."
 
-#: scrobbler/lastfmimport.cpp:215
 msgid "Missing username, please login to last.fm first!"
 msgstr ""
 
-#: settings/tidalsettingspage.cpp:163 settings/qobuzsettingspage.cpp:135
 msgid "Missing username."
 msgstr ""
 
-#: device/deviceproperties.cpp:175
 msgid "Model"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:448
 msgid "Monitor the collection for changes"
 msgstr "Monitor perubahan pustaka"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:457
 msgid "Months"
 msgstr ""
 
-#: playlist/playlist.cpp:1418
 msgid "Mood"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_moodbarsettingspage.h:93
-#: ../../build-qt6dev/src/ui_moodbarsettingspage.h:94
 msgid "Moodbar"
 msgstr ""
 
-#: moodbar/moodbarproxystyle.cpp:378
-#: ../../build-qt6dev/src/ui_moodbarsettingspage.h:96
 msgid "Moodbar style"
 msgstr "Gaya moodbar"
 
-#: smartplaylists/smartplaylistsmodel.cpp:96
 msgid "Most played"
 msgstr ""
 
-#: device/giolister.cpp:192
 msgid "Mount point"
 msgstr "Titik kait"
 
-#: device/udisks2lister.cpp:125
 msgid "Mount points"
 msgstr "Titik kait"
 
-#: ../../build-qt6dev/src/ui_queueview.h:125
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:310
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:316
-#: ../../build-qt6dev/src/ui_lyricssettingspage.h:166
 msgid "Move down"
 msgstr "Pindah turun"
 
-#: core/mainwindow.cpp:772 widgets/fileviewlist.cpp:48
 msgid "Move to collection..."
 msgstr "Pindah ke pustaka..."
 
-#: ../../build-qt6dev/src/ui_queueview.h:131
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:309
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:315
-#: ../../build-qt6dev/src/ui_lyricssettingspage.h:165
 msgid "Move up"
 msgstr "Pindah naik"
 
-#: filterparser/filterparser.cpp:477
 #, qt-format
 msgid "Multiple search terms can also be combined with \"%1\" (default) and \"%2\", as well as grouped with parentheses. "
 msgstr ""
 
-#: core/mainwindow.cpp:2330 transcoder/transcodedialog.cpp:330
 msgid "Music"
 msgstr "Musik"
 
-#: globalshortcuts/globalshortcutsmanager.cpp:71
 msgid "Mute"
 msgstr "Bisu"
 
-#: equalizer/equalizer.cpp:211 collection/savedgroupingmanager.cpp:57
-#: ../../build-qt6dev/src/ui_smartplaylistwizardfinishpage.h:80
-#: ../../build-qt6dev/src/ui_deviceproperties.h:371
 msgid "Name"
 msgstr "Nama"
 
-#: ../../build-qt6dev/src/ui_organizedialog.h:266
 msgid "Naming options"
 msgstr "Opsi penamaan"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:228
 msgid "Narrow band (NB)"
 msgstr "Pita sempit (NB)"
 
-#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:173
 msgid "Network Proxy"
 msgstr "Proxy Jaringan"
 
-#: playlist/playlistdelegates.cpp:342 dialogs/edittagdialog.cpp:897
 msgid "Never"
 msgstr "Tidak Pernah"
 
-#: smartplaylists/smartplaylistsmodel.cpp:84
 msgid "Never played"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:332
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:346
 msgid "Never start playing"
 msgstr "Jangan mulai memutar"
 
-#: playlist/playlistlistcontainer.cpp:89 playlist/playlistlistcontainer.cpp:216
-#: ../../build-qt6dev/src/ui_playlistlistcontainer.h:128
 msgid "New folder"
 msgstr "Folder baru"
 
-#: core/mainwindow.cpp:2148
 msgid "New playlist"
 msgstr "Daftar putar baru"
 
-#: ../../build-qt6dev/src/ui_smartplaylistsviewcontainer.h:101
 msgid "New smart playlist"
 msgstr ""
 
-#: smartplaylists/smartplaylistsviewcontainer.cpp:64
 msgid "New smart playlist..."
 msgstr ""
 
-#: widgets/freespacebar.cpp:68
 msgid "New songs"
 msgstr "Lagu baru"
 
-#: ../../build-qt6dev/src/ui_dynamicplaylistcontrols.h:106
 msgid "New tracks will be added automatically."
 msgstr ""
 
-#: smartplaylists/smartplaylistsmodel.cpp:65
 msgid "Newest tracks"
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:233 dialogs/trackselectiondialog.cpp:72
 msgid "Next"
 msgstr "Lanjut"
 
-#: globalshortcuts/globalshortcutsmanager.cpp:67
 msgid "Next track"
 msgstr ""
 
-#: utilities/timeutils.cpp:102
 msgid "Next week"
 msgstr "Minggu depan"
 
-#: dialogs/edittagdialog.cpp:820 dialogs/edittagdialog.cpp:836
 msgid "No"
 msgstr ""
 
-#: analyzer/analyzercontainer.cpp:98
 msgid "No analyzer"
 msgstr "Tidak ada penganalisis"
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:695
 msgid "No audio normalization"
 msgstr ""
 
-#: covermanager/albumcovermanager.cpp:1022
 msgid "No covers to export."
 msgstr "Tidak ada sampul untuk diekspor."
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:145
 msgid "No long blocks"
 msgstr "Tanpa blok panjang"
 
-#: tidal/tidalrequest.cpp:1364 spotify/spotifyrequest.cpp:1365
-#: qobuz/qobuzrequest.cpp:1426
 msgid "No match."
 msgstr "Tidak ada yang cocok."
 
-#: playlist/playlistcontainer.cpp:441
 msgid "No matches found.  Clear the search box to show the whole playlist again."
 msgstr "Tidak ada yang cocok.  Kosongkan kotak pencarian untuk menampilkan lagi seluruh daftar putar."
 
-#: settings/coverssettingspage.cpp:303 settings/lyricssettingspage.cpp:191
 msgid "No provider selected."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:144
 msgid "No short blocks"
 msgstr "Tanpa blok pendek"
 
-#: context/contextview.cpp:408
 msgid "No song playing"
 msgstr "Tidak ada lagu yang berputar"
 
-#: collection/savedgroupingmanager.cpp:91 dialogs/edittagdialog.cpp:823
-#: dialogs/edittagdialog.cpp:830 ../../build-qt6dev/src/ui_groupbydialog.h:191
-#: ../../build-qt6dev/src/ui_groupbydialog.h:213
-#: ../../build-qt6dev/src/ui_groupbydialog.h:235
 msgid "None"
 msgstr "Nihil"
 
-#: core/mainwindow.cpp:2719 core/mainwindow.cpp:2870
-#: collection/collectionview.cpp:715
 msgid "None of the selected songs were suitable for copying to a device"
 msgstr "Tidak satu pun dari lagu yang dipilih cocok untuk disalin ke perangkat"
 
-#: moodbar/moodbarrenderer.cpp:166
 msgid "Normal"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:143
 msgid "Normal block type"
 msgstr "Tipe blok normal"
 
-#: qobuz/qobuzservice.cpp:517 qobuz/qobuzservice.cpp:567
-#: qobuz/qobuzservice.cpp:617
 msgid "Not authenticated with Qobuz."
 msgstr "Tidak terautentikasi dengan Qobuz."
 
-#: spotify/spotifyservice.cpp:516 spotify/spotifyservice.cpp:568
-#: spotify/spotifyservice.cpp:620 spotify/spotifyservice.cpp:680
 msgid "Not authenticated with Spotify."
 msgstr ""
 
-#: tidal/tidalservice.cpp:701
 msgid "Not authenticated with Tidal and reached maximum number of login attempts."
 msgstr "Tidak terautentikasi dengan Tidal dan jumlah maksimum upaya masuk tercapai."
 
-#: tidal/tidalservice.cpp:723 tidal/tidalservice.cpp:778
-#: tidal/tidalservice.cpp:833 tidal/tidalservice.cpp:896
-#: tidal/tidalservice.cpp:960 tidal/tidalstreamurlrequest.cpp:83
 msgid "Not authenticated with Tidal."
 msgstr "Tidak terautentikasi dengan Tidal."
 
-#: device/deviceview.cpp:131
 msgid "Not connected"
 msgstr "Tidak terhubung"
 
-#: dialogs/edittagdialog.cpp:1442
 msgid "Not found."
 msgstr ""
 
-#: device/deviceview.cpp:135
 msgid "Not mounted - double click to mount"
 msgstr "Tidak terkait - klik ganda untuk mengait"
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:479
 msgid "Notification type"
 msgstr "Tipe notifikasi"
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:417
 msgid "Notifications"
 msgstr "Notifikasi"
 
-#: ../../build-qt6dev/src/ui_albumcoverexport.h:207
 msgid "O&verwrite all"
 msgstr "T&impa semua"
 
-#: settings/notificationssettingspage.cpp:68
 msgid "OSD Preview"
 msgstr "Pratinjau OSD"
 
-#: osd/osdbase.cpp:271
 msgid "Off"
 msgstr "Mati"
 
-#: dialogs/snapdialog.cpp:58
 #, qt-format
 msgid "Official releases are available for Debian and Ubuntu which also work on most of their derivatives. See %1 for more information."
 msgstr ""
 
-#: osd/osdbase.cpp:271
 msgid "On"
 msgstr "Nyala"
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:321
 msgid "On startup"
 msgstr "Saat membuka"
 
-#: ../../build-qt6dev/src/ui_smartplaylistquerysortpage.h:139
 msgid "Only show the first"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:549
 msgid "Opacity"
 msgstr "Kelegapan"
 
-#: scrobbler/scrobblingapi20.cpp:214
 msgid "Open URL in web browser?"
 msgstr ""
 
-#: transcoder/transcodedialog.cpp:346
 msgid "Open a directory to import music from"
 msgstr "Buka sebuah direktori untuk mengimpor musik dari"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:666
 msgid "Open audio &CD..."
 msgstr "Buka &CD audio..."
 
-#: ../../build-qt6dev/src/ui_deviceproperties.h:384
 msgid "Open device"
 msgstr "Buka perangkat"
 
-#: radios/radioview.cpp:81
 msgid "Open homepage"
 msgstr ""
 
-#: collection/collectionview.cpp:380
-#: smartplaylists/smartplaylistsviewcontainer.cpp:68
-#: widgets/fileviewlist.cpp:45 streaming/streamingsearchview.cpp:319
-#: streaming/streamingcollectionview.cpp:331 radios/radioview.cpp:77
-#: device/deviceview.cpp:246
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:343
 msgid "Open in new playlist"
 msgstr "Buka di daftar putar baru"
 
-#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:270
-#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:272
-#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:279
 msgid "Open..."
 msgstr "Buka..."
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:193
 msgid "Opti&mize for bitrate"
 msgstr "Opti&masi untuk lajubit"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:191
 msgid "Optimize for &quality"
 msgstr "Optimasi untuk &kualitas"
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:681
 msgid "Options"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_transcodedialog.h:229
 msgid "Options..."
 msgstr "Opsi..."
 
-#: ../../build-qt6dev/src/ui_transcodersettingspage.h:190
 msgid "Opus"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_organizedialog.h:260
 msgid "Organize Files"
 msgstr ""
 
-#: core/mainwindow.cpp:770 collection/collectionview.cpp:391
 msgid "Organize files..."
 msgstr ""
 
-#: organize/organize.cpp:107
 msgid "Organizing files"
 msgstr ""
 
-#: playlist/playlist.cpp:1394
 msgid "Original Year"
 msgstr ""
 
-#: dialogs/trackselectiondialog.cpp:194
 msgid "Original tags"
 msgstr "Tag asli"
 
-#: collection/savedgroupingmanager.cpp:124 organize/organizedialog.cpp:117
-#: ../../build-qt6dev/src/ui_groupbydialog.h:202
-#: ../../build-qt6dev/src/ui_groupbydialog.h:224
-#: ../../build-qt6dev/src/ui_groupbydialog.h:246
 msgid "Original year"
 msgstr "Tahun asli"
 
-#: collection/savedgroupingmanager.cpp:112
-#: ../../build-qt6dev/src/ui_groupbydialog.h:203
-#: ../../build-qt6dev/src/ui_groupbydialog.h:225
-#: ../../build-qt6dev/src/ui_groupbydialog.h:247
 msgid "Original year - Album"
 msgstr "Tahun asli - Album"
 
-#: collection/savedgroupingmanager.cpp:115
 msgid "Original year - Album - Disc"
 msgstr ""
 
-#: core/commandlineoptions.cpp:241
 msgid "Other options"
 msgstr "Opsi lainnya"
 
-#: ../../build-qt6dev/src/ui_albumcoverexport.h:201
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:674
 msgid "Output"
 msgstr "Keluaran"
 
-#: ../../build-qt6dev/src/ui_transcodedialog.h:227
 msgid "Output options"
 msgstr "Opsi keluaran"
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:475
 msgid "Overwrite database playcount when songs are re-read from disk"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:476
 msgid "Overwrite database rating when songs are re-read from disk"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:325
 msgid "Overwrite existing file"
 msgstr "Timpa berkas yang sudah ada"
 
-#: ../../build-qt6dev/src/ui_organizedialog.h:278
 msgid "Overwrite existing files"
 msgstr "Timpa berkas yang ada"
 
-#: ../../build-qt6dev/src/ui_albumcoverexport.h:208
 msgid "Overwrite s&maller ones only"
 msgstr "Hanya ti&mpa yang lebih kecil"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:733
 msgid "P&laylist"
 msgstr "D&aftar putar"
 
-#: device/udisks2lister.cpp:126
 msgid "Partition label"
 msgstr "Label partisi"
 
-#: equalizer/equalizer.cpp:149
 msgid "Party"
 msgstr "Pesta"
 
-#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:183
-#: ../../build-qt6dev/src/ui_userpassdialog.h:93
-#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:248
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:333
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:270
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:287
 msgid "Password"
 msgstr "Sandi"
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:902
 msgid "Path"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:323
 msgid "Pattern"
 msgstr ""
 
-#: core/mainwindow.cpp:1415 core/mainwindow.cpp:1947
-#: core/qtsystemtrayicon.cpp:147 globalshortcuts/globalshortcutsmanager.cpp:63
 msgid "Pause"
 msgstr "Jeda"
 
-#: core/commandlineoptions.cpp:223
 msgid "Pause playback"
 msgstr "Jeda pemutaran"
 
-#: osd/osdbase.cpp:212 osd/osdbase.cpp:215
 msgid "Paused"
 msgstr "Jeda"
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:451
 msgid "Perform song EBU R 128 analysis (required for EBU R 128 loudness normalization)"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:706
 msgid "Perform track loudness normalization"
 msgstr ""
 
-#: collection/savedgroupingmanager.cpp:133 playlist/playlist.cpp:1398
-#: organize/organizedialog.cpp:112
-#: ../../build-qt6dev/src/ui_groupbydialog.h:205
-#: ../../build-qt6dev/src/ui_groupbydialog.h:227
-#: ../../build-qt6dev/src/ui_groupbydialog.h:249
-#: ../../build-qt6dev/src/ui_edittagdialog.h:929
 msgid "Performer"
 msgstr "Penampil"
 
-#: ../../build-qt6dev/src/ui_albumcoverexport.h:212
 msgid "Pixel"
 msgstr "Piksel"
 
-#: widgets/fancytabwidget.cpp:731
 msgid "Plain sidebar"
 msgstr "Bilah sisi polos"
 
-#: core/mainwindow.cpp:739 core/mainwindow.cpp:1366 core/mainwindow.cpp:1399
-#: core/mainwindow.cpp:1951 core/qtsystemtrayicon.cpp:160
-#: core/qtsystemtrayicon.cpp:174 globalshortcuts/globalshortcutsmanager.cpp:62
 msgid "Play"
 msgstr "Putar"
 
-#: playlist/playlist.cpp:1401
 msgid "Play Count"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:554
 msgid "Play control buttons"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:896
 msgid "Play count"
 msgstr "Jumlah putar"
 
-#: ../../build-qt6dev/src/ui_lastfmimportdialog.h:151
 msgid "Play counts"
 msgstr ""
 
-#: core/commandlineoptions.cpp:240
 msgid "Play given playlist"
 msgstr ""
 
-#: core/commandlineoptions.cpp:222
 msgid "Play if stopped, pause if playing"
 msgstr "Putar jika berhenti, jeda jika berputar"
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:333
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:347
 msgid "Play if there is nothing already playing"
 msgstr "Putar jika tidak ada yang sedang diputar"
 
-#: smartplaylists/smartplaylistsviewcontainer.cpp:72
 msgid "Play next"
 msgstr ""
 
-#: core/commandlineoptions.cpp:239
 msgid "Play the <n>th track in the playlist"
 msgstr "Putar trek ke <n> dalam daftar putar"
 
-#: globalshortcuts/globalshortcutsmanager.cpp:64
 msgid "Play/Pause"
 msgstr ""
 
-#: dialogs/lastfmimportdialog.cpp:160
 #, qt-format
 msgid "Playcounts for %1 songs and last played for %2 songs received."
 msgstr ""
 
-#: dialogs/lastfmimportdialog.cpp:166
 #, qt-format
 msgid "Playcounts for %1 songs received."
 msgstr ""
 
-#: core/commandlineoptions.cpp:220
 msgid "Player options"
 msgstr "Opsi pemutar"
 
-#: playlist/playlistcontainer.cpp:342 playlist/playlistlistcontainer.cpp:281
-#: playlist/playlistlistcontainer.cpp:391 playlist/playlistmanager.cpp:112
-#: playlist/playlistmanager.cpp:194 playlist/playlistmanager.cpp:540
-#: playlist/playlisttabbar.cpp:434
-#: ../../build-qt6dev/src/ui_playlistsettingspage.h:177
 msgid "Playlist"
 msgstr "Daftar putar"
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:552
 msgid "Playlist buttons"
 msgstr ""
 
-#: osd/osdbase.cpp:279
 msgid "Playlist finished"
 msgstr "Daftar putar selesai"
 
-#: core/mainwindow.cpp:2421
 #, qt-format
 msgid "Playlist has %1 songs, too large to undo, are you sure you want to clear the playlist?"
 msgstr ""
 
-#: playlist/playlistlistcontainer.cpp:386
 msgid "Playlist must be open first."
 msgstr ""
 
-#: core/commandlineoptions.cpp:235
-#: ../../build-qt6dev/src/ui_playlistsaveoptionsdialog.h:92
 msgid "Playlist options"
 msgstr "Opsi daftar putar"
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:558
 msgid "Playlist playing song color"
 msgstr ""
 
-#: smartplaylists/smartplaylistwizard.cpp:87
 msgid "Playlist type"
 msgstr ""
 
-#: core/mainwindow.cpp:388
 msgid "Playlists"
 msgstr "Daftar putar"
 
-#: ../data/html/oauthsuccess.html:38
 msgid "Please close your browser and return to Strawberry."
 msgstr "Mohon tutup peramban Anda dan kembali ke Strawberry."
 
-#: lyrics/geniuslyricsprovider.cpp:123 scrobbler/listenbrainzscrobbler.cpp:193
-#: spotify/spotifyservice.cpp:295
 msgid "Please open this URL in your browser"
 msgstr ""
 
-#: equalizer/equalizer.cpp:150
 msgid "Pop"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:485
 msgid "Popup duration"
 msgstr "Durasi sembulan"
 
-#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:180
 msgid "Port"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:536
 msgid "Position"
 msgstr "Posisi"
 
-#: equalizer/equalizer.cpp:67
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:702
 msgid "Pre-amp"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:414
 msgid "Prefer album artist when sending scrobbles"
 msgstr "Kemukakan artis album saat scrobble"
 
-#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:252
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:335
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:273
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:290
 msgid "Preferences"
 msgstr "Preferensi"
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:454
 msgid "Preferred album art filenames (comma separated)"
 msgstr "Nama berkas sampul album yang diinginkan (dipisahkan koma)"
 
-#: ../../build-qt6dev/src/ui_deviceproperties.h:382
 msgid "Preferred format"
 msgstr "Format yang diinginkan"
 
-#: filterparser/filterparser.cpp:460
 msgid "Prefix a search term with a field name to limit the search to that field, e.g.:"
 msgstr ""
 
-#: core/songloader.cpp:151
 msgid "Preload function was not set for blocking operation."
 msgstr "Fungsi preload tidak diatur untuk operasi memblokir."
 
-#: ../../build-qt6dev/src/ui_equalizer.h:167
 msgid "Preset:"
 msgstr "Prasetel:"
 
-#: scrobbler/scrobblingapi20.cpp:214
 msgid "Press \"Save\" to copy the URL to clipboard and manually open it in a web browser."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_globalshortcutgrabber.h:69
 msgid "Press a key"
 msgstr "Tekan tombol"
 
-#: globalshortcuts/globalshortcutgrabber.cpp:57
-#: ../../build-qt6dev/src/ui_globalshortcutgrabber.h:70
 #, qt-format
 msgid "Press a key combination to use for %1..."
 msgstr "Tekan kombinasi tombol untuk menggunakan %1..."
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:336
 msgid "Pressing \"Previous\" in player will..."
 msgstr "Menekan \"Sebelumnya\" pada pemutar akan..."
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:506
 msgid "Pretty OSD options"
 msgstr "Opsi Pretty OSD"
 
-#: ../../build-qt6dev/src/ui_smartplaylistsearchpreview.h:102
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:442
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:447
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:495
-#: ../../build-qt6dev/src/ui_organizedialog.h:280
 msgid "Preview"
 msgstr "Pratinjau"
 
-#: dialogs/edittagdialog.cpp:232 dialogs/trackselectiondialog.cpp:71
 msgid "Previous"
 msgstr "Sebelumnya"
 
-#: globalshortcuts/globalshortcutsmanager.cpp:68
-#: ../../build-qt6dev/src/ui_mainwindow.h:610
 msgid "Previous track"
 msgstr "Trek sebelumnya"
 
-#: core/commandlineoptions.cpp:248
 msgid "Print out version information"
 msgstr "Cetak informasi versi"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:134
 msgid "Profile"
 msgstr "Profil"
 
-#: ../../build-qt6dev/src/ui_transcodedialog.h:234
 msgid "Progress"
 msgstr "Kemajuan"
 
-#: ../../build-qt6dev/src/ui_smartplaylistquerysortpage.h:135
 msgid "Put songs in a random order"
 msgstr ""
 
-#: core/mainwindow.cpp:405
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:423
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:281
 msgid "Qobuz"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:283
 msgid "Qobuz support is not official and requires an API app ID and secret from a registered application to work. We can't help you getting these."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsflac.h:77
-#: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:198
-#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:217
-#: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:192
 msgctxt "Sound quality"
 msgid "Quality"
 msgstr "Kualitas"
 
-#: ../../build-qt6dev/src/ui_deviceproperties.h:385
 msgid "Querying device..."
 msgstr "Meminta perangkat..."
 
-#: core/mainwindow.cpp:387
 msgid "Queue"
 msgstr "Antrean"
 
-#: core/mainwindow.cpp:2049
 msgid "Queue selected tracks"
 msgstr "Antre trek terpilih"
 
-#: core/mainwindow.cpp:745 core/mainwindow.cpp:2053
 msgid "Queue selected tracks to play next"
 msgstr "Antre trek terpilih untuk diputar selanjutnya"
 
-#: core/mainwindow.cpp:2056 collection/collectionview.cpp:384
-#: streaming/streamingcollectionview.cpp:335
 msgid "Queue to play next"
 msgstr "Antre untuk diputar selanjutnya"
 
-#: core/mainwindow.cpp:2048 collection/collectionview.cpp:383
-#: smartplaylists/smartplaylistsviewcontainer.cpp:71
-#: streaming/streamingsearchview.cpp:322
-#: streaming/streamingcollectionview.cpp:334
 msgid "Queue track"
 msgstr "Antre trek"
 
-#: ../../build-qt6dev/src/ui_queueview.h:123
 msgid "QueueView"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:699
 msgid "Radio (equal loudness for all tracks)"
 msgstr "Radio (kenyaringan sama untuk semua trek)"
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:427
 msgid "Radio Paradise"
 msgstr ""
 
-#: core/mainwindow.cpp:391
 msgid "Radios"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:324
 msgid "Random"
 msgstr ""
 
-#: playlist/playlist.cpp:1419 ../../build-qt6dev/src/ui_edittagdialog.h:932
 msgid "Rating"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_playlistsettingspage.h:193
 msgid "Re&lative"
 msgstr "Re&latif"
 
-#: covermanager/albumcovermanager.cpp:261
 msgid "Really cancel?"
 msgstr "Benar-benar membatalkan?"
 
-#: tidal/tidalstreamurlrequest.cpp:222
 #, qt-format
 msgid "Received URL with %1 encrypted stream from Tidal. Strawberry does not currently support encrypted streams."
 msgstr ""
 
-#: tidal/tidalstreamurlrequest.cpp:275 tidal/tidalstreamurlrequest.cpp:285
 msgid "Received URL with encrypted stream from Tidal. Strawberry does not currently support encrypted streams."
 msgstr ""
 
-#: lyrics/geniuslyricsprovider.cpp:151 scrobbler/listenbrainzscrobbler.cpp:219
-#: spotify/spotifyservice.cpp:344
 msgid "Received invalid reply from web browser."
 msgstr "Balasan yang tidak benar diterima dari peramban web."
 
-#: scrobbler/scrobblingapi20.cpp:261
 msgid "Received invalid reply from web browser. Try another browser."
 msgstr ""
 
-#: tidal/tidalrequest.cpp:1197 spotify/spotifyrequest.cpp:1200
-#: qobuz/qobuzrequest.cpp:1259
 #, qt-format
 msgid "Receiving album cover for %1 album..."
 msgstr ""
 
-#: tidal/tidalrequest.cpp:1198 spotify/spotifyrequest.cpp:1201
-#: qobuz/qobuzrequest.cpp:1260
 #, qt-format
 msgid "Receiving album covers for %1 albums..."
 msgstr ""
 
-#: tidal/tidalrequest.cpp:550 spotify/spotifyrequest.cpp:557
-#: qobuz/qobuzrequest.cpp:552
 #, qt-format
 msgid "Receiving albums for %1 artist..."
 msgstr ""
 
-#: tidal/tidalrequest.cpp:551 spotify/spotifyrequest.cpp:558
-#: qobuz/qobuzrequest.cpp:553
 #, qt-format
 msgid "Receiving albums for %1 artists..."
 msgstr ""
 
-#: tidal/tidalrequest.cpp:275 spotify/spotifyrequest.cpp:264
-#: qobuz/qobuzrequest.cpp:255
 msgid "Receiving albums..."
 msgstr ""
 
-#: tidal/tidalrequest.cpp:227 spotify/spotifyrequest.cpp:210
-#: qobuz/qobuzrequest.cpp:203
 msgid "Receiving artists..."
 msgstr ""
 
-#: dialogs/lastfmimportdialog.cpp:80
 msgid "Receiving initial data from last.fm..."
 msgstr ""
 
-#: dialogs/lastfmimportdialog.cpp:140
 #, qt-format
 msgid "Receiving last played for %1 songs."
 msgstr ""
 
-#: dialogs/lastfmimportdialog.cpp:137
 #, qt-format
 msgid "Receiving playcount for %1 songs and last played for %2 songs."
 msgstr ""
 
-#: dialogs/lastfmimportdialog.cpp:143
 #, qt-format
 msgid "Receiving playcounts for %1 songs."
 msgstr ""
 
-#: tidal/tidalrequest.cpp:820 spotify/spotifyrequest.cpp:853
-#: qobuz/qobuzrequest.cpp:809
 #, qt-format
 msgid "Receiving songs for %1 album..."
 msgstr ""
 
-#: tidal/tidalrequest.cpp:821 spotify/spotifyrequest.cpp:854
-#: qobuz/qobuzrequest.cpp:810
 #, qt-format
 msgid "Receiving songs for %1 albums..."
 msgstr ""
 
-#: tidal/tidalrequest.cpp:323 spotify/spotifyrequest.cpp:318
-#: qobuz/qobuzrequest.cpp:307
 msgid "Receiving songs..."
 msgstr ""
 
-#: lyrics/geniuslyricsprovider.cpp:195
 msgid "Redirect from Genius is missing query items code or state."
 msgstr ""
 
-#: spotify/spotifyservice.cpp:340
 msgid "Redirect missing token code or state!"
 msgstr ""
 
-#: lyrics/geniuslyricsprovider.cpp:147 scrobbler/listenbrainzscrobbler.cpp:215
 msgid "Redirect missing token code!"
 msgstr "Alihkan kode token yang tidak tersedia!"
 
-#: playlist/playlistcontainer.cpp:228
 msgid "Redo"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_streamingcollectionviewcontainer.h:140
 msgid "Refresh catalogue"
 msgstr "Segarkan katalog"
 
-#: radios/radioview.cpp:89
 msgid "Refresh channels"
 msgstr ""
 
-#: equalizer/equalizer.cpp:151
 msgid "Reggae"
 msgstr ""
 
-#: playlist/playlistsaveoptionsdialog.cpp:42
 msgid "Relative"
 msgstr "Relatif"
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:322
 msgid "Remember from &last time"
 msgstr "Ingat dari terakhir ka&li"
 
-#: ../../build-qt6dev/src/ui_playlistsaveoptionsdialog.h:97
 msgid "Remember my choice"
 msgstr "Ingat pilihan saya"
 
-#: ../../build-qt6dev/src/ui_savedgroupingmanager.h:103
-#: ../../build-qt6dev/src/ui_queueview.h:137
-#: ../../build-qt6dev/src/ui_transcodedialog.h:222
 msgid "Remove"
 msgstr "Buang"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:707
 msgid "Remove &duplicates from playlist"
 msgstr "Buang &duplikat dari daftar putar"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:708
 msgid "Remove &unavailable tracks from playlist"
 msgstr "B&uang trek yang tidak tersedia dari daftar putar"
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:445
 msgid "Remove folder"
 msgstr "Buang folder"
 
-#: streaming/streamingcollectionview.cpp:340
 msgid "Remove from favorites"
 msgstr "Buang dari favorit"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:671
 msgid "Remove from playlist"
 msgstr "Buang dari daftar putar"
 
-#: playlist/playlisttabbar.cpp:229
 msgid "Remove playlist"
 msgstr "Buang daftar putar"
 
-#: playlist/playlistlistcontainer.cpp:437
 msgid "Remove playlists"
 msgstr "Buang daftar putar"
 
-#: ../../build-qt6dev/src/ui_organizedialog.h:273
 msgid "Remove problematic characters from filenames"
 msgstr ""
 
-#: playlist/playlisttabbar.cpp:181
 msgid "Rename playlist"
 msgstr "Ubah nama daftar putar"
 
-#: playlist/playlisttabbar.cpp:81
 msgid "Rename playlist..."
 msgstr "Ubah nama daftar putar.."
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:646
 msgid "Renumber tracks in this order..."
 msgstr "Beri nomor baru trek dalam urutan ini..."
 
-#: ../../build-qt6dev/src/ui_playlistsequence.h:119
 msgid "Repeat"
 msgstr "Ulang"
 
-#: osd/osdbase.cpp:365 ../../build-qt6dev/src/ui_playlistsequence.h:110
 msgid "Repeat album"
 msgstr "Ulang album"
 
-#: osd/osdbase.cpp:366 ../../build-qt6dev/src/ui_playlistsequence.h:111
 msgid "Repeat playlist"
 msgstr "Ulang daftar putar"
 
-#: osd/osdbase.cpp:364 ../../build-qt6dev/src/ui_playlistsequence.h:109
 msgid "Repeat track"
 msgstr "Ulang trek"
 
-#: collection/collectionview.cpp:379
-#: smartplaylists/smartplaylistsviewcontainer.cpp:67
-#: widgets/fileviewlist.cpp:44 streaming/streamingsearchview.cpp:318
-#: streaming/streamingcollectionview.cpp:330 radios/radioview.cpp:73
-#: device/deviceview.cpp:245
 msgid "Replace current playlist"
 msgstr "Ganti daftar putar saat ini"
 
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:327
 msgid "Replace spaces with dashes"
 msgstr "Ganti spasi dengan garis strip"
 
-#: ../../build-qt6dev/src/ui_organizedialog.h:277
 msgid "Replace spaces with underscores"
 msgstr "Ganti spasi dengan garis bawah"
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:342
 msgid "Replace the playlist"
 msgstr "Ganti daftar putar"
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:696
 msgid "Replay Gain"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:698
 msgid "Replay Gain mode"
 msgstr "Mode Replay Gain"
 
-#: tidal/tidalservice.cpp:354
 msgid "Reply from Tidal is missing query items."
 msgstr "Balasan dari Tidal tidak memiliki artikel yang diminta."
 
-#: ../../build-qt6dev/src/ui_dynamicplaylistcontrols.h:108
 msgid "Repopulate"
 msgstr ""
 
-#: collection/collectionview.cpp:404
 msgid "Rescan song(s)"
 msgstr "Pindai ulang lagu"
 
-#: core/mainwindow.cpp:761
 msgid "Rescan song(s)..."
 msgstr ""
 
-#: widgets/lineedit.cpp:68
 msgid "Reset"
 msgstr "Setel-ulang"
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:910
 msgid "Reset play counts"
 msgstr "Setel-ulang jumlah putar"
 
-#: dialogs/edittagdialog.cpp:1338
 msgid "Reset song play statistics"
 msgstr ""
 
-#: core/commandlineoptions.cpp:244
 msgid "Resize the window"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:338
 msgid "Restart song, then jump to previous if pressed again"
 msgstr "Mulai ulang lagu, lalu lompat ke yang sebelumnya jika ditekan lagi"
 
-#: core/commandlineoptions.cpp:234
 msgid "Restart the track, or play the previous track if within 8 seconds of start."
 msgstr "Mulai ulang trek, atau putar trek sebelumnya jika masih dalam 8 detik sejak mulai."
 
-#: ../../build-qt6dev/src/ui_organizedialog.h:275
 msgid "Restrict characters to ASCII"
 msgstr "Bataskan ke karakter ASCII"
 
-#: ../../build-qt6dev/src/ui_organizedialog.h:274
 msgid "Restrict to characters allowed on FAT filesystems"
 msgstr "Bataskan ke karakter yang diperbolehkan oleh sistem file FAT"
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:319
 msgid "Resume playback on start"
 msgstr "Lanjutkan pemutaran saat memulai Strawberry"
 
-#: subsonic/subsonicrequest.cpp:690
 #, qt-format
 msgid "Retrieving album cover for %1 album..."
 msgstr "Mengambil sampul album untuk %1 album..."
 
-#: subsonic/subsonicrequest.cpp:691
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
 msgstr "Mengambil sampul album untuk %1 album..."
 
-#: subsonic/subsonicrequest.cpp:127
 msgid "Retrieving albums..."
 msgstr "Mengambil album..."
 
-#: subsonic/subsonicrequest.cpp:316
 #, qt-format
 msgid "Retrieving songs for %1 album..."
 msgstr "Mengambil lagu untuk %1 album..."
 
-#: subsonic/subsonicrequest.cpp:317
 #, qt-format
 msgid "Retrieving songs for %1 albums..."
 msgstr "Mengambil lagu untuk %1 album..."
 
-#: ../data/html/oauthsuccess.html:5
 msgid "Return to Strawberry"
 msgstr "Kembali ke Strawberry"
 
-#: ../../build-qt6dev/src/ui_equalizer.h:178
 msgid "Right"
 msgstr "Kanan"
 
-#: equalizer/equalizer.cpp:152
 msgid "Rock"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_console.h:77
 msgid "Run"
 msgstr "Jalankan"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:657
 msgid "S&huffle playlist"
 msgstr "A&cak daftar putar"
 
-#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:178
 msgid "SOCKS proxy"
 msgstr "Proxy SOCKS"
 
-#: device/deviceview.cpp:238
 msgid "Safely remove device"
 msgstr "Secara aman melepas perangkat"
 
-#: ../../build-qt6dev/src/ui_organizedialog.h:282
 msgid "Safely remove the device after copying"
 msgstr "Secara aman melepas perangkat setelah menyalin"
 
-#: playlist/playlist.cpp:1405
 msgid "Sample Rate"
 msgstr ""
 
-#: collection/savedgroupingmanager.cpp:145 organize/organizedialog.cpp:122
-#: ../../build-qt6dev/src/ui_groupbydialog.h:208
-#: ../../build-qt6dev/src/ui_groupbydialog.h:230
-#: ../../build-qt6dev/src/ui_groupbydialog.h:252
-#: ../../build-qt6dev/src/ui_edittagdialog.h:901
 msgid "Sample rate"
 msgstr "Laju sampel"
 
-#: context/contextview.cpp:165
 msgid "Samplerate"
 msgstr "Lajusampel"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:683
 msgid "Save &playlist..."
 msgstr "Simpan &daftar putar..."
 
-#: covermanager/albumcoverchoicecontroller.cpp:244
 msgid "Save album cover"
 msgstr "Simpan sampul album"
 
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:321
 msgid "Save album covers as embedded cover"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:319
 msgid "Save album covers in album directory"
 msgstr "Simpan sampul album di direktori album"
 
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:320
 msgid "Save album covers in cache directory"
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:107
 msgid "Save cover to disk..."
 msgstr "Simpan sampul ke diska..."
 
-#: ../../build-qt6dev/src/ui_collectionfilterwidget.h:100
 msgid "Save current grouping"
 msgstr "Simpan pengelompokan saat ini"
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:477
 msgid "Save playcounts and ratings to files now"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:473
 msgid "Save playcounts to song tags when possible"
 msgstr ""
 
-#: playlist/playlistlistcontainer.cpp:91
 msgctxt "Save playlist menu action."
 msgid "Save playlist"
 msgstr "Simpan daftar putar"
 
-#: playlist/playlistmanager.cpp:259
 msgctxt "Title of the playlist save dialog."
 msgid "Save playlist"
 msgstr "Simpan daftar putar"
 
-#: playlist/playlisttabbar.cpp:82
 msgid "Save playlist..."
 msgstr "Simpan daftar putar..."
 
-#: equalizer/equalizer.cpp:211 ../../build-qt6dev/src/ui_equalizer.h:169
 msgid "Save preset"
 msgstr "Simpan prasetel"
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:474
 msgid "Save ratings to song tags when possible"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_moodbarsettingspage.h:97
 msgid "Save the .mood files directly in the songs folders"
 msgstr "Simpan berkas .mood di folder lagu"
 
-#: ../../build-qt6dev/src/ui_savedgroupingmanager.h:101
 msgid "Saved Grouping Manager"
 msgstr "Pengelola Pengelompokan Tersimpan"
 
-#: playlistparsers/cueparser.cpp:395
 msgid "Saving CUE files is not supported."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_coverssettingspage.h:317
 msgid "Saving album covers"
 msgstr "Menyimpan sampul album"
 
-#: collection/collection.cpp:202
 msgid "Saving playcounts and ratings"
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:312 dialogs/trackselectiondialog.cpp:292
 msgid "Saving tracks"
 msgstr "Menyimpan trek"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:137
 msgid "Scalable sampling rate profile (SSR)"
 msgstr "Profil laju sampel terukur (LST)"
 
-#: ../../build-qt6dev/src/ui_albumcoverexport.h:210
 msgid "Scale size"
 msgstr "Ukuran skala"
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:404
 msgid "Scrobbler"
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:910
 #, qt-format
 msgid "Scrobbler %1 error: %2"
 msgstr ""
 
-#: scrobbler/scrobblingapi20.cpp:461
 #, qt-format
 msgid "Scrobbler %1 is not authenticated!"
 msgstr "Scrobbler %1 tidak terautentikasi!"
 
-#: covermanager/albumcoversearcher.cpp:194
-#: covermanager/albumcoversearcher.cpp:212
-#: ../../build-qt6dev/src/ui_albumcoversearcher.h:111
-#: ../../build-qt6dev/src/ui_streamingtabsview.h:116
 msgid "Search"
 msgstr "Cari"
 
-#: covermanager/albumcoverchoicecontroller.cpp:117
 msgid "Search automatically"
 msgstr "Cari secara otomatis"
 
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:337
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:274
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:292
 msgid "Search delay"
 msgstr "Jeda pencarian"
 
-#: covermanager/albumcoverchoicecontroller.cpp:109
 msgid "Search for album covers..."
 msgstr "Cari sampul album..."
 
-#: collection/collectionview.cpp:388 streaming/streamingsearchview.cpp:340
 msgid "Search for this"
 msgstr "Cari ini"
 
-#: ../../build-qt6dev/src/ui_smartplaylistquerysearchpage.h:109
 msgid "Search mode"
 msgstr ""
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:163
 msgid "Search options"
 msgstr ""
 
-#: smartplaylists/smartplaylistquerywizardplugin.cpp:161
-#: ../../build-qt6dev/src/ui_smartplaylistquerysearchpage.h:114
 msgid "Search terms"
 msgstr ""
 
-#: filterparser/filterparser.cpp:468
 #, qt-format
 msgid "Search terms for numerical fields can be prefixed with %1 or %2 to refine the search, e.g.: "
 msgstr ""
 
-#: tidal/tidalrequest.cpp:371 tidal/tidalrequest.cpp:385
-#: tidal/tidalrequest.cpp:399 spotify/spotifyrequest.cpp:373
-#: spotify/spotifyrequest.cpp:387 spotify/spotifyrequest.cpp:401
-#: qobuz/qobuzrequest.cpp:359 qobuz/qobuzrequest.cpp:373
-#: qobuz/qobuzrequest.cpp:387
 msgid "Searching..."
 msgstr "Mencari..."
 
-#: collection/savedgroupingmanager.cpp:59
 msgid "Second Level"
 msgstr "Level Kedua"
 
-#: ../../build-qt6dev/src/ui_groupbydialog.h:212
 msgid "Second level"
 msgstr "Level kedua"
 
-#: globalshortcuts/globalshortcutsmanager.cpp:73
 msgid "Seek backward"
 msgstr ""
 
-#: globalshortcuts/globalshortcutsmanager.cpp:72
 msgid "Seek forward"
 msgstr ""
 
-#: core/commandlineoptions.cpp:233
 msgid "Seek the currently playing track by a relative amount"
 msgstr "Jangkau trek yang sedang diputar berdasarkan nilai relatif"
 
-#: core/commandlineoptions.cpp:232
 msgid "Seek the currently playing track to an absolute position"
 msgstr "Jangkau yang sedang diputar ke posisi mutlak"
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:354
 msgid "Seeking using a keyboard shortcut or mouse wheel"
 msgstr "Menjangkau menggunakan pintasan keyboard atau roda mouse"
 
-#: settings/appearancesettingspage.cpp:301
 msgid "Select background image"
 msgstr "Pilih gambar latar belakang"
 
-#: ../../build-qt6dev/src/ui_trackselectiondialog.h:206
 msgid "Select best possible match"
 msgstr "Pilih kecocokan yang terbaik"
 
-#: ../../build-qt6dev/src/ui_saveplaylistsdialog.h:118
 msgid "Select directory for saving playlists"
 msgstr ""
 
-#: dialogs/saveplaylistsdialog.cpp:63
 msgid "Select directory for the playlists"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:561
 msgid "Select playlist playing song color:"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:526
 msgid "Select tabbar color:"
 msgstr "Pilih warna tabbar:"
 
-#: ../../build-qt6dev/src/ui_transcodedialog.h:233
 msgid "Select..."
 msgstr "Pilih..."
 
-#: ../../build-qt6dev/src/ui_groupbydialog.h:256
 msgid "Separate albums by grouping tag"
 msgstr ""
 
-#: device/udisks2lister.cpp:124
 msgid "Serial number"
 msgstr "Nomor seri"
 
-#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:245
 msgid "Server URL"
 msgstr "URL server"
 
-#: subsonic/subsonicservice.cpp:413 settings/subsonicsettingspage.cpp:137
 msgid "Server URL is invalid."
 msgstr "URL server tidak benar."
 
-#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:256
 msgid "Server-side scrobbling"
 msgstr ""
 
-#: core/mainwindow.cpp:2089
 #, qt-format
 msgid "Set %1 to \"%2\"..."
 msgstr "Tetapkan %1 ke \"%2\"..."
 
-#: core/commandlineoptions.cpp:227
 msgid "Set the volume to <value> percent"
 msgstr "Tetapkan volume ke <value> persen"
 
-#: settings/coverssettingspage.cpp:436
 #, qt-format
 msgid "Set through album cover search (%1)"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:647
 msgid "Set value for all selected tracks..."
 msgstr "Tetapkan nilai untuk semua trek terpilih..."
 
-#: ../../build-qt6dev/src/ui_settingsdialog.h:114
 msgid "Settings"
 msgstr "Setelan"
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:521
 msgid "Settings require restart."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:281
 msgid "Shortcut"
 msgstr "Pintasan"
 
-#: settings/globalshortcutssettingspage.cpp:295
-#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:283
 #, qt-format
 msgid "Shortcut for %1"
 msgstr "Pintasan untuk %1"
 
-#: collection/collectionfilterwidget.cpp:101
 msgid "Show"
 msgstr "Tampilkan"
 
-#: globalshortcuts/globalshortcutsmanager.cpp:75
 msgid "Show OSD"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:481
 msgid "Show a &native desktop notification"
 msgstr "Tampilkan &notifikasi desktop asli"
 
-#: ../../build-qt6dev/src/ui_playlistsettingspage.h:180
 msgid "Show a glowing animation on the currently playing track"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_moodbarsettingspage.h:95
 msgid "Show a moodbar in the track progress bar"
 msgstr "Tampilkan moodbar di bilah kemajuan trek"
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:489
 msgid "Show a notification when I change the repeat/shuffle mode"
 msgstr "Tampilkan notifikasi ketika saya mengubah mode ulang/karau"
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:488
 msgid "Show a notification when I change the volume"
 msgstr "Tampilkan notifikasi ketika saya mengubah volume"
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:490
 msgid "Show a notification when I pause playback"
 msgstr "Tampilkan sebuah notifikasi ketika saya jeda pemutaran"
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:491
 msgid "Show a notification when I resume playback"
 msgstr "Tampilkan notifikasi saat Saya meneruskan pemutaran"
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:483
 msgid "Show a popup fro&m the system tray"
 msgstr "Tampilkan popup dari baki siste&m"
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:482
 msgid "Show a pretty OSD"
 msgstr "Tampilkan OSD cantik"
 
-#: widgets/playingwidget.cpp:141
 msgid "Show above status bar"
 msgstr "Tampilkan di atas bilah status"
 
-#: context/contextview.cpp:260
 msgid "Show album cover"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:462
 msgid "Show album cover art in collection"
 msgstr "Tampilkan sampul album di pustaka"
 
-#: core/mainwindow.cpp:680
 msgid "Show all songs"
 msgstr "Tampilkan semua lagu"
 
-#: ../../build-qt6dev/src/ui_smartplaylistquerysortpage.h:138
 msgid "Show all the songs"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_playlistsettingspage.h:179
 msgid "Show bars on the currently playing track"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:415
 msgid "Show dialog for errors"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:461
 msgid "Show dividers"
 msgstr "Tampilkan pembagi"
 
-#: covermanager/albumcoverchoicecontroller.cpp:115
 msgid "Show fullsize..."
 msgstr "Tampilkan ukuran penuh..."
 
-#: core/mainwindow.cpp:768
 msgid "Show in collection..."
 msgstr "Tampilkan di pustaka..."
 
-#: utilities/filemanagerutils.cpp:139 utilities/filemanagerutils.cpp:145
 msgid "Show in file browser"
 msgstr "Tampilkan di peramban berkas"
 
-#: core/mainwindow.cpp:769 collection/collectionview.cpp:400
-#: widgets/fileviewlist.cpp:54
 msgid "Show in file browser..."
 msgstr "Tampilkan di peramban berkas..."
 
-#: collection/collectionview.cpp:407
 msgid "Show in various artists"
 msgstr "Tampilkan di artis beragam"
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:409
 msgid "Show love button"
 msgstr "Tampilkan tombol suka"
 
-#: moodbar/moodbarproxystyle.cpp:373
 msgid "Show moodbar"
 msgstr "Tampilkan moodbar"
 
-#: core/mainwindow.cpp:681
 msgid "Show only duplicates"
 msgstr "Tampilkan hanya duplikat"
 
-#: core/mainwindow.cpp:682
 msgid "Show only untagged"
 msgstr "Tampilkan hanya tidak bertag"
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:320
 msgid "Show playing widget"
 msgstr "Tampilkan widget berputar"
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:408
 msgid "Show scrobble button"
 msgstr "Tampilkan tombol scrobble"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:714
 msgid "Show sidebar"
 msgstr ""
 
-#: context/contextview.cpp:268
 msgid "Show song lyrics"
 msgstr "Tampilkan lirik lagu"
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:317
 msgid "Show song progress on system tray icon"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:318
 msgid "Show song progress on taskbar"
 msgstr ""
 
-#: context/contextview.cpp:264
 msgid "Show song technical data"
 msgstr "Tampilkan data teknis lagu"
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:315
 msgid "Show system tray icon"
 msgstr "Tampilkan ikon baki sistem"
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:323
 msgid "Show the main window"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:325
 msgid "Show the main window maximized"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:326
 msgid "Show the main window minimized"
 msgstr ""
 
-#: globalshortcuts/globalshortcutsmanager.cpp:74
 msgid "Show/Hide"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_playlistsequence.h:122
 msgid "Shuffle"
 msgstr "Karau"
 
-#: osd/osdbase.cpp:351 ../../build-qt6dev/src/ui_playlistsequence.h:117
 msgid "Shuffle albums"
 msgstr "Karau album"
 
-#: osd/osdbase.cpp:349 ../../build-qt6dev/src/ui_playlistsequence.h:116
 msgid "Shuffle all"
 msgstr "Karau semua"
 
-#: osd/osdbase.cpp:350 ../../build-qt6dev/src/ui_playlistsequence.h:115
 msgid "Shuffle tracks in this album"
 msgstr "Karau trek di dalam album ini"
 
-#: ../../build-qt6dev/src/ui_loginstatewidget.h:166
 msgid "Sign out"
 msgstr "Keluar"
 
-#: ../../build-qt6dev/src/ui_loginstatewidget.h:168
 msgid "Signing in..."
 msgstr "Sedang masuk..."
 
-#: ../../build-qt6dev/src/ui_albumcoverexport.h:209
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:466
 msgid "Size"
 msgstr "Ukuran"
 
-#: ../../build-qt6dev/src/ui_albumcoverexport.h:211
 msgid "Size:"
 msgstr "Ukuran:"
 
-#: equalizer/equalizer.cpp:154
 msgid "Ska"
 msgstr ""
 
-#: playlist/playlist.cpp:1402
 msgid "Skip Count"
 msgstr ""
 
-#: core/commandlineoptions.cpp:225
 msgid "Skip backwards in playlist"
 msgstr "Lewati mundur di dalam daftar putar"
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:900
 msgid "Skip count"
 msgstr "Lewati hitungan"
 
-#: core/commandlineoptions.cpp:226
 msgid "Skip forwards in playlist"
 msgstr "Lewati maju di dalam daftar putar"
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:464
 msgid "Skip leading articles (\"the\", \"a\", \"an\") when sorting artist names"
 msgstr ""
 
-#: core/mainwindow.cpp:2062
 msgid "Skip selected tracks"
 msgstr "Lewati trek yang dipilih"
 
-#: core/mainwindow.cpp:2061
 msgid "Skip track"
 msgstr "Lewati trek"
 
-#: widgets/playingwidget.cpp:102
 msgid "Small album cover"
 msgstr "Sampul album kecil"
 
-#: widgets/fancytabwidget.cpp:730
 msgid "Small sidebar"
 msgstr "Bilah sisi kecil"
 
-#: smartplaylists/smartplaylistwizard.cpp:72
 msgid "Smart playlist"
 msgstr ""
 
-#: core/mainwindow.cpp:389
 msgid "Smart playlists"
 msgstr ""
 
-#: equalizer/equalizer.cpp:153
 msgid "Soft"
 msgstr ""
 
-#: equalizer/equalizer.cpp:155
 msgid "Soft Rock"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:425
 msgid "SomaFM"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:435
 msgid "Song Lyrics"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:449
 msgid "Song fingerprinting and tracking"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:472
 msgid "Song playcounts and ratings"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_streamingtabsview.h:115
 msgid "Songs"
 msgstr "Lagu"
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:406
 msgid "Songs are scrobbled if they have valid metadata and are longer than 30 seconds, have been playing for at least half its duration or for 4 minutes (whichever occurs earlier)."
 msgstr "Lagu akan di-scrobble jika memiliki metadata yang benar dan lebih panjang dari 30 detik, sudah berputar setidaknya setengah dari durasinya atau 4 menit (yang mana terdahulu terjadi)."
 
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:341
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:278
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:296
 msgid "Songs search limit"
 msgstr "Batasan pencarian lagu"
 
-#: analyzer/sonogramanalyzer.cpp:31
 msgid "Sonogram"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_trackselectiondialog.h:204
 msgid "Sorry"
 msgstr "Maaf"
 
-#: ../../build-qt6dev/src/ui_smartplaylistquerysortpage.h:136
 msgid "Sort songs by"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_smartplaylistquerysortpage.h:134
 msgid "Sorting"
 msgstr ""
 
-#: playlist/playlist.cpp:1417
 msgid "Source"
 msgstr "Sumber"
 
-#: ../../build-qt6dev/src/ui_transcodersettingspage.h:191
 msgid "Speex"
 msgstr ""
 
-#: core/mainwindow.cpp:1091
 msgid "Sponsoring Strawberry"
 msgstr ""
 
-#: core/mainwindow.cpp:402 ../../build-qt6dev/src/ui_spotifysettingspage.h:264
 msgid "Spotify"
 msgstr ""
 
-#: spotify/spotifyservice.cpp:295
 msgid "Spotify Authentication"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsmp3.h:199
 msgid "Standard"
 msgstr "Standar"
 
-#: playlist/playlisttabbar.cpp:79
 msgid "Star playlist"
 msgstr ""
 
-#: core/commandlineoptions.cpp:221
 msgid "Start the playlist currently playing"
 msgstr "Mulai daftar putar yang berputar saat ini"
 
-#: transcoder/transcodedialog.cpp:130
 msgid "Start transcoding"
 msgstr "Mulai transkode"
 
-#: transcoder/transcoder.cpp:407
 #, qt-format
 msgid "Starting %1"
 msgstr "Memulai %1"
 
-#: globalshortcuts/globalshortcutsmanager.cpp:65
 msgid "Stop"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_playlistsequence.h:112
 msgid "Stop after each track"
 msgstr "Berhenti setelah masing-masing trek"
 
-#: osd/osdbase.cpp:367
 msgid "Stop after every track"
 msgstr "Berhenti setelah setiap trek"
 
-#: core/mainwindow.cpp:741 ../../build-qt6dev/src/ui_mainwindow.h:630
 msgid "Stop after this track"
 msgstr "Berhenti setelah trek ini"
 
-#: core/commandlineoptions.cpp:223
+msgid "Stop collection scan"
+msgstr ""
+
 msgid "Stop playback"
 msgstr "Hentikan pemutaran"
 
-#: core/commandlineoptions.cpp:224
 msgid "Stop playback after current track"
 msgstr "Hentikan pemutaran setelah trek saat ini"
 
-#: globalshortcuts/globalshortcutsmanager.cpp:66
 msgid "Stop playing after current track"
 msgstr ""
 
-#: osd/osdbase.cpp:271
 #, qt-format
 msgid "Stop playing after track: %1"
 msgstr "Berhenti memutar setelah trek: %1"
 
-#: osd/osdbase.cpp:258 osd/osdbase.cpp:261
 msgid "Stopped"
 msgstr "Berhenti"
 
-#: ../../build-qt6dev/src/ui_errordialog.h:91
 msgid "Strawberry Error"
 msgstr "Kesalahan dengan Strawberry"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:609
 msgid "Strawberry Music Player"
 msgstr "Pemutar Musik Strawberry"
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:513
 msgid "Strawberry Red"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_deviceproperties.h:378
 msgid "Strawberry can automatically convert the music you copy to this device into a format that it can play."
 msgstr "Strawberry dapat secara otomatis mengonversi musik yang Anda salin ke perangkat ini ke dalam format yang dapat diputar."
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:478
 msgid "Strawberry can show a message when the track changes."
 msgstr "Strawberry dapat menampilkan pesan ketika trek berubah."
 
-#: dialogs/about.cpp:114
 msgid "Strawberry is a music player and music collection organizer."
 msgstr ""
 
-#: core/mainwindow.cpp:1091
 #, qt-format
 msgid "Strawberry is free and open source software. If you like Strawberry, please consider sponsoring the project. For more information about sponsorship see our website %1"
 msgstr ""
 
-#: dialogs/about.cpp:120
 #, qt-format
 msgid "Strawberry is free software released under GPL. The source code is available on %1"
 msgstr ""
 
-#: dialogs/snapdialog.cpp:30
 msgid "Strawberry is running as a Snap"
 msgstr ""
 
-#: dialogs/snapdialog.cpp:46
 msgid "Strawberry is slower, and has restrictions when running as a Snap. Accessing the root filesystem (/) will not work. There also might be other restrictions such as accessing certain devices or network shares."
 msgstr ""
 
-#: core/mainwindow.cpp:1068
 msgid "Strawberry running under Rosetta"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_trackselectiondialog.h:205
 msgid "Strawberry was unable to find results for this file"
 msgstr "Strawberry tidak dapat menemukan hasil untuk berkas ini"
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:426
 msgid "Stream"
 msgstr "Strim"
 
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:345
 msgid "Stream URL method"
 msgstr "Metode URL Stream"
 
-#: settings/settingsdialog.cpp:162
 msgid "Streaming"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_streamingsearchview.h:223
 msgid "Streaming Search View"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_streamingtabsview.h:112
 msgid "Streaming Tabs View"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:544
 msgid "Stretch image to fill playlist"
 msgstr "Regangkan gambar hingga memenuhi daftar putar"
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:416
 msgid "Strip \"remastered\" and similar from album and title"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:518
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:519
 msgid "Style"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:410
 msgid "Submit scrobbles every"
 msgstr "Kirimkan scrobble setiap"
 
-#: core/mainwindow.cpp:396
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:419
-#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:243
 msgid "Subsonic"
 msgstr ""
 
-#: subsonic/subsonicurlhandler.cpp:39
 msgid "Subsonic server URL is invalid."
 msgstr "URL server Subsonic tidak benar."
 
-#: ../data/html/oauthsuccess.html:36
 msgid "Success!"
 msgstr "Sukses!"
 
-#: transcoder/transcoder.cpp:184
 #, qt-format
 msgid "Successfully written %1"
 msgstr "Berhasil menulis %1"
 
-#: dialogs/trackselectiondialog.cpp:198
 msgid "Suggested tags"
 msgstr "Tag yang disarankan"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:427
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:500
-#: ../../build-qt6dev/src/ui_edittagdialog.h:911
 msgid "Summary"
 msgstr "Ringkasan"
 
-#: analyzer/analyzercontainer.cpp:85
 #, qt-format
 msgid "Super high (%1 fps)"
 msgstr "Sangat tinggi (%1 fps)"
 
-#: ../../build-qt6dev/src/ui_deviceproperties.h:376
 msgid "Supported formats"
 msgstr "Format yang didukung"
 
-#: moodbar/moodbarrenderer.cpp:174
 msgid "System colors"
 msgstr "Warna sistem"
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:559
 msgid "System highlight color"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:522
 msgid "Tabbar colors"
 msgstr "Warna tabbar"
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:553
 msgid "Tabbar large mode"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:557
 msgid "Tabbar small mode"
 msgstr ""
 
-#: widgets/fancytabwidget.cpp:732
 msgid "Tabs on top"
 msgstr "Tab di puncak"
 
-#: ../../build-qt6dev/src/ui_trackselectiondialog.h:203
 msgid "Tag fetcher"
 msgstr "Pengambil tag"
 
-#: ../../build-qt6dev/src/ui_edittagdialog.h:933
 msgid "Tags"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:707
 msgid "Target Level"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:200
 msgid "Target bitrate"
 msgstr "Target lajubit"
 
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:434
 msgid "Technical Data"
 msgstr ""
 
-#: equalizer/equalizer.cpp:156
 msgid "Techno"
 msgstr "Tekno"
 
-#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:258
 msgid "Test"
 msgstr "Tes"
 
-#: settings/subsonicsettingspage.cpp:170
 msgid "Test failed!"
 msgstr "Tes gagal!"
 
-#: settings/subsonicsettingspage.cpp:161
 msgid "Test successful!"
 msgstr "Tes berhasil!"
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:508
 msgid "Text options"
 msgstr "Opsi teks"
 
-#: dialogs/about.cpp:181
 msgid "Thanks to"
 msgstr ""
 
-#: dialogs/about.cpp:189
 msgid "Thanks to all the other Amarok and Clementine contributors."
 msgstr ""
 
-#: settings/globalshortcutssettingspage.cpp:263
-#: settings/globalshortcutssettingspage.cpp:273
 #, qt-format
 msgid "The \"%1\" command could not be started."
 msgstr "Perintah \"%1\" tidak dapat dimulai."
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:531
 msgid "The album cover of the currently playing song"
 msgstr "Sampul album dari lagu yang diputar saat ini"
 
-#: dialogs/deleteconfirmationdialog.cpp:60
 msgid "The following files will be deleted from disk:"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchtermwidget.cpp:421
 msgid "The second value must be greater than the first one!"
 msgstr ""
 
-#: covermanager/coverfromurldialog.cpp:90
 msgid "The site you requested does not exist!"
 msgstr "Situs yang Anda minta tidak ada!"
 
-#: covermanager/coverfromurldialog.cpp:100
 msgid "The site you requested is not an image!"
 msgstr "Situs yang Anda minta bukan sebuah gambar!"
 
-#: streaming/streamingcollectionview.cpp:301
 msgid "The streaming collection is empty!"
 msgstr ""
 
-#: core/mainwindow.cpp:2983
 msgid "The version of Strawberry you've just updated to requires a full collection rescan because of the new features listed below:"
 msgstr "Versi Strawberry yang baru saja Anda perbarui membutuhkan pemindaian ulang pustaka menyeluruh karena fitur baru yang tercantum di bawah ini:"
 
-#: collection/collectionview.cpp:516
 msgid "There are other songs in this album"
 msgstr "Ada lagu lainnya di dalam album ini"
 
-#: organize/organizeerrordialog.cpp:72
 msgid "There were problems copying some songs.  The following files could not be copied:"
 msgstr "Ada masalah penyalinan pada beberapa lagu.  Berkas-berkas berikut tidak dapat disalin:"
 
-#: organize/organizeerrordialog.cpp:77
 msgid "There were problems deleting some songs.  The following files could not be deleted:"
 msgstr "Ada masalah dalam menghapus beberapa lagu.  Berkas-berkas berikut tidak dapat dihapus:"
 
-#: device/deviceview.cpp:429
 msgid "These files will be deleted from the device, are you sure you want to continue?"
 msgstr "Berkas-berkas ini akan dihapus dari perangkat, apakah Anda yakin ingin melanjutkan?"
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:443
 msgid "These folders will be scanned for music to make up your collection"
 msgstr "Folder berikut akan dipindai untuk musik untuk membuat pustaka Anda"
 
-#: ../../build-qt6dev/src/ui_transcodersettingspage.h:186
 msgid "These settings are used in the \"Transcode Music\" dialog, and when converting music before copying it to a device."
 msgstr "Setelan ini digunakan dalam dialog \"Transkode Musik\", dan ketika mengonversi musik sebelum menyalinnya ke perangkat."
 
-#: collection/savedgroupingmanager.cpp:60
 msgid "Third Level"
 msgstr "Level Ketiga"
 
-#: ../../build-qt6dev/src/ui_groupbydialog.h:234
 msgid "Third level"
 msgstr "Level ketiga"
 
-#: ../../build-qt6dev/src/ui_playlistsaveoptionsdialog.h:95
 msgid "This can be changed later through the preferences"
 msgstr "Ini dapat diubah kemudian melalui preferensi"
 
-#: ../../build-qt6dev/src/ui_deviceproperties.h:383
 msgid "This device must be connected and opened before Strawberry can see what file formats it supports."
 msgstr "Perangkat ini harus tersambung dan dibuka sebelum Strawberry dapat melihat format berkas apa yang didukungnya."
 
-#: ../../build-qt6dev/src/ui_deviceproperties.h:377
 msgid "This device supports the following file formats:"
 msgstr "Perangkat ini mendukung format berkas berikut:"
 
-#: device/devicemanager.cpp:608 device/devicemanager.cpp:616
 msgid "This device will not work properly"
 msgstr "Perangkat ini tidak akan bekerja dengan baik"
 
-#: device/devicemanager.cpp:609
 msgid "This is an MTP device, but you compiled Strawberry without libmtp support."
 msgstr "Ini adalah perangkat MTP, tetapi Anda mengompilasi Strawberry tanpa dukungan libmtp."
 
-#: device/devicemanager.cpp:617
 msgid "This is an iPod, but you compiled Strawberry without libgpod support."
 msgstr "Ini adalah iPod, tetapi Anda mengompilasi Strawberry tanpa dukungan libgpod."
 
-#: device/devicemanager.cpp:352
 msgid "This is the first time you have connected this device.  Strawberry will now scan the device to find music files - this may take some time."
 msgstr "Ini adalah pertama kalinya Anda menyambungkan perangkat ini.  Strawberry sekarang akan memindai perangkat untuk mencari berkas musik - ini mungkin memakan waktu."
 
-#: playlist/playlisttabbar.cpp:241
 msgid "This option can be changed in the \"Behavior\" preferences"
 msgstr "Opsi ini dapat diubah di pengaturan \"Perilaku\""
 
-#: device/devicemanager.cpp:632
 #, qt-format
 msgid "This type of device is not supported: %1"
 msgstr "Tipe perangkat ini tidak didukung: %1"
 
-#: core/mainwindow.cpp:399
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:421
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:325
 msgid "Tidal"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:327
 msgid "Tidal support is not official and requires a API token from a registered application to work. We can't help you getting these."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:355
 msgid "Time step"
 msgstr "Selang waktu"
 
-#: playlist/playlist.cpp:1387 organize/organizedialog.cpp:106
-#: ../../build-qt6dev/src/ui_contextsettingspage.h:426
-#: ../../build-qt6dev/src/ui_edittagdialog.h:923
-#: ../../build-qt6dev/src/ui_trackselectiondialog.h:210
 msgid "Title"
 msgstr "Judul"
 
-#: utilities/timeutils.cpp:85 utilities/timeutils.cpp:99
 msgid "Today"
 msgstr "Hari Ini"
 
-#: globalshortcuts/globalshortcutsmanager.cpp:76
 msgid "Toggle Pretty OSD"
 msgstr ""
 
-#: core/mainwindow.cpp:742 core/mainwindow.cpp:2050
 msgid "Toggle queue status"
 msgstr "Alihkan status antrean"
 
-#: ../../build-qt6dev/src/ui_mainwindow.h:706
 msgid "Toggle scrobbling"
 msgstr "Alihkan scrobbling"
 
-#: core/mainwindow.cpp:748 core/mainwindow.cpp:2063
 msgid "Toggle skip status"
 msgstr "Alihkan status melewati"
 
-#: core/commandlineoptions.cpp:242
 msgid "Toggle visibility for the pretty on-screen-display"
 msgstr "Alihkan kenampakan tampilan-pada-layar cantik"
 
-#: utilities/timeutils.cpp:100
 msgid "Tomorrow"
 msgstr "Besok"
 
-#: utilities/filemanagerutils.cpp:139
 msgid "Too many songs selected."
 msgstr "Terlalu banyak lagu yang terpilih."
 
-#: ../../build-qt6dev/src/ui_albumcovermanager.h:221
 msgid "Total albums:"
 msgstr "Total album:"
 
-#: covermanager/coversearchstatisticsdialog.cpp:83
 msgid "Total bytes transferred"
 msgstr "Jumlah byte yang ditransfer"
 
-#: covermanager/coversearchstatisticsdialog.cpp:81
 msgid "Total network requests made"
 msgstr "Total permintaan jaringan yang dibuat"
 
-#: playlist/playlist.cpp:1390 organize/organizedialog.cpp:114
-#: ../../build-qt6dev/src/ui_edittagdialog.h:931
-#: ../../build-qt6dev/src/ui_trackselectiondialog.h:212
 msgid "Track"
 msgstr "Trek"
 
-#: ../../build-qt6dev/src/ui_transcodedialog.h:216
 msgid "Transcode Music"
 msgstr "Transkode Musik"
 
-#: ../../build-qt6dev/src/ui_transcodelogdialog.h:61
 msgid "Transcoder Log"
 msgstr "Log Transkoder"
 
-#: ../../build-qt6dev/src/ui_transcodersettingspage.h:185
 msgid "Transcoding"
 msgstr "Transkode"
 
-#: transcoder/transcoder.cpp:322
 #, qt-format
 msgid "Transcoding %1 files using %2 threads"
 msgstr "Transkode berkas %1 menggunakan %2 thread"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsdialog.h:51
 msgid "Transcoding options"
 msgstr "Opsi transkode"
 
-#: analyzer/turbineanalyzer.cpp:35
 msgid "Turbine"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_dynamicplaylistcontrols.h:109
 msgid "Turn off"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_saveplaylistsdialog.h:120
 msgid "Type"
 msgstr ""
 
-#: device/giolister.cpp:194
 msgid "URI"
 msgstr ""
 
-#: core/commandlineoptions.cpp:219
 msgid "URL(s)"
 msgstr "URL"
 
-#: device/udisks2lister.cpp:127
 msgid "UUID"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:226
 msgid "Ultra wide band (UWB)"
 msgstr "Pita ultra lebar (UWB)"
 
-#: core/database.cpp:484
 #, qt-format
 msgid "Unable to execute SQL query: %1"
 msgstr ""
 
-#: collection/collectionbackend.cpp:117
 #, qt-format
 msgid "Unable to execute collection SQL query: %1"
 msgstr ""
 
-#: scrobbler/listenbrainzscrobbler.cpp:604
 #, qt-format
 msgid "Unable to scrobble %1 - %2 because of error: %3"
 msgstr ""
 
-#: playlist/playlistcontainer.cpp:227
 msgid "Undo"
 msgstr ""
 
-#: dialogs/snapdialog.cpp:72
 msgid "Uninstall the snap with:"
 msgstr ""
 
-#: core/song.cpp:785 core/song.cpp:797 core/song.cpp:1064
-#: collection/collectionmodel.cpp:1050 collection/collectionmodel.cpp:1405
-#: collection/collectionmodel.cpp:1410 collection/collectionmodel.cpp:1416
-#: collection/savedgroupingmanager.cpp:155 playlist/playlistdelegates.cpp:356
-#: playlist/playlistmanager.cpp:548 playlist/playlistmanager.cpp:549
-#: dialogs/edittagdialog.cpp:774 dialogs/edittagdialog.cpp:803
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:428
 msgid "Unknown"
 msgstr "Tidak diketahui"
 
-#: subsonic/subsonicrequest.cpp:883 qobuz/qobuzrequest.cpp:1432
 msgid "Unknown error"
 msgstr "Kesalahan tak terduga"
 
-#: playlist/playlistmanager.cpp:264
 msgid "Unknown file extension for playlist."
 msgstr ""
 
-#: playlistparsers/playlistparser.cpp:185
-#: playlistparsers/playlistparser.cpp:230
 #, qt-format
 msgid "Unknown filetype: %1"
 msgstr ""
 
-#: playlist/playlistmanager.cpp:264
 msgid "Unknown playlist extension"
 msgstr ""
 
-#: covermanager/albumcoverchoicecontroller.cpp:110
 msgid "Unset cover"
 msgstr "Tak set sampul"
 
-#: core/mainwindow.cpp:2060
 msgid "Unskip selected tracks"
 msgstr "Taklewati trek yang dipilih"
 
-#: core/mainwindow.cpp:2059
 msgid "Unskip track"
 msgstr "Taklewati trek"
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:447
 msgid "Update the collection when Strawberry starts"
 msgstr "Perbarui pustaka ketika memulai Strawberry"
 
-#: collection/collectionwatcher.cpp:222
 #, qt-format
 msgid "Updating %1"
 msgstr "Memperbarui %1"
 
-#: collection/collectionbackend.cpp:738
 #, qt-format
 msgid "Updating %1 database."
 msgstr ""
 
-#: device/deviceview.cpp:126
 #, qt-format
 msgid "Updating %1%..."
 msgstr "Memperbarui %1%..."
 
-#: collection/collectionwatcher.cpp:219
 msgid "Updating collection"
 msgstr "Memperbarui pustaka"
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:683
 msgid "Upmix / downmix to"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:537
 msgid "Upper Left"
 msgstr "Kiri Atas"
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:538
 msgid "Upper Right"
 msgstr "Kanan Atas"
 
-#: core/commandlineoptions.cpp:219
 msgid "Usage"
 msgstr "Penggunaan"
 
-#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:269
 msgid "Use Gnome (GSD) shortcuts when available"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:253
 msgid "Use HTTP/2 when possible"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:273
 msgid "Use KDE (KGlobalAccel) shortcuts when available"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:271
 msgid "Use MATE shortcuts when available"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:329
 msgid "Use OAuth"
 msgstr "Gunakan OAuth"
 
-#: settings/coverssettingspage.cpp:235 settings/coverssettingspage.cpp:352
 msgid "Use Qobuz settings to authenticate."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:697
 msgid "Use Replay Gain metadata if it is available"
 msgstr "Gunakan metadata Replay Gain jika tersedia"
 
-#: settings/coverssettingspage.cpp:231 settings/coverssettingspage.cpp:348
 msgid "Use Spotify settings to authenticate."
 msgstr ""
 
-#: settings/coverssettingspage.cpp:227 settings/coverssettingspage.cpp:344
 msgid "Use Tidal settings to authenticate."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:274
 msgid "Use X11 shortcuts when available"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_notificationssettingspage.h:494
 msgid "Use a custom message for notifications"
 msgstr "Gunakan pesan ubahsuai untuk pemberitahuan"
 
-#: ../../build-qt6dev/src/ui_playlistsettingspage.h:178
 msgid "Use alternating row colors"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:181
 msgid "Use authentication"
 msgstr "Gunakan otentikasi"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:199
 msgid "Use bitrate management engine"
 msgstr "Gunakan mesin pengelolaan lajubit"
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:524
 msgid "Use custom color"
 msgstr "Gunakan warna kustom"
 
-#: ../../build-qt6dev/src/ui_smartplaylistwizardfinishpage.h:81
 msgid "Use dynamic mode"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:525
 msgid "Use gradient background"
 msgstr "Gunakan latar belakang gradien"
 
-#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:184
 msgid "Use proxy settings for streaming"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:687
 msgid "Use strict SSL mode"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_appearancesettingspage.h:520
 msgid "Use system theme icons"
 msgstr "Gunakan ikon tema sistem"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsaac.h:140
 msgid "Use temporal noise shaping"
 msgstr "Gunakan pengasah derau temporal"
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:328
 msgid "Use the system default"
 msgstr "Gunakan bawaan sistem"
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:463
 msgid "Use various artists for compilation albums"
 msgstr ""
 
-#: widgets/freespacebar.cpp:70
 msgid "Used"
 msgstr "Bekas"
 
-#: settings/settingsdialog.cpp:148
 msgid "User interface"
 msgstr "Antarmuka"
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:437
 msgid "User token:"
 msgstr "Token pengguna:"
 
-#: ../../build-qt6dev/src/ui_networkproxysettingspage.h:182
-#: ../../build-qt6dev/src/ui_userpassdialog.h:92
-#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:247
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:332
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:269
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:286
 msgid "Username"
 msgstr "Nama pengguna"
 
-#: settings/globalshortcutssettingspage.cpp:349
 #, qt-format
 msgid "Using X11 shortcuts on %1 is not recommended and can cause keyboard to become unresponsive!"
 msgstr "Menggunakan pintasan X11 pada %1 tidak direkomendasikan dan dapat membuat keyboard tidak responsif!"
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:331
 msgid "Using the menu to add a song will..."
 msgstr "Menggunakan menu untuk menambah lagu akan..."
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:230
 msgid "Variable bit rate"
 msgstr "Laju bit beragam"
 
-#: collection/collectionmodel.cpp:81 playlist/playlistmanager.cpp:560
-#: covermanager/albumcovermanager.cpp:349 streaming/streamingsearchmodel.cpp:93
-#: streaming/streamingsearchmodel.cpp:105
 msgid "Various artists"
 msgstr "Artis beraga"
 
-#: ../../build-qt6dev/src/ui_subsonicsettingspage.h:254
 msgid "Verify server certificate"
 msgstr "Verifikasi sertifikat server"
 
-#: dialogs/about.cpp:110
 #, qt-format
 msgid "Version %1"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_albumcovermanager.h:220
 msgid "View"
 msgstr "Tampilan"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:231
 msgid "Voice activity detection"
 msgstr "Deteksi aktivitas suara"
 
-#: osd/osdbase.cpp:287
 #, qt-format
 msgid "Volume %1%"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:358
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:359
 msgid "Volume Increment"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_transcodersettingspage.h:189
 msgid "Vorbis"
 msgstr ""
 
-#: playlist/playlisttabbar.cpp:238
-#: ../../build-qt6dev/src/ui_playlistsettingspage.h:181
 msgid "Warn me when closing a playlist tab"
 msgstr "Peringatkan saya ketika menutup tab daftar putar"
 
-#: ../../build-qt6dev/src/ui_lastfmimportdialog.h:152
 msgid "Warning: Play counts and last played from last.fm will completely replace the same data for the matched songs. Play counts will replace the data based on artist and song title for the same albums! Please backup your database before you start."
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_transcodersettingspage.h:188
 msgid "WavPack"
 msgstr ""
 
-#: analyzer/waverubberanalyzer.cpp:24
 msgid "WaveRubber"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:455
 msgid "Weeks"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:456
 msgid "When looking for album art Strawberry will first look for picture files that contain one of these words.\n"
 "If there are no matches then it will use the largest image in the directory."
 msgstr "Ketika mencari sampul album, Strawberry akan lebih dulu mencari berkas gambar yang mengandung satu dari kata berikut.\n"
 "Jika tidak ada yang cocok maka akan menggunakan gambar terbesar dalam direktori."
 
-#: ../../build-qt6dev/src/ui_playlistsettingspage.h:190
 msgid "When saving a playlist, file paths should be"
 msgstr "Ketika menyimpan daftar putar, lokasi berkas sebaiknya"
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:227
 msgid "Wide band (WB)"
 msgstr "Pita lebar (WB)"
 
-#: ../../build-qt6dev/src/ui_albumcovermanager.h:222
 msgid "Without cover:"
 msgstr "Tanpa sampul:"
 
-#: ../../build-qt6dev/src/ui_scrobblersettingspage.h:407
 msgid "Work in offline mode (Only cache scrobbles)"
 msgstr "Bekerja di modus offline (Hanya cache scrobble)"
 
-#: collection/collectionview.cpp:516
 msgid "Would you like to move the other songs on this album to Various Artists as well?"
 msgstr ""
 
-#: core/mainwindow.cpp:2987
 msgid "Would you like to run a full rescan right now?"
 msgstr "Apakah Anda ingin menjalankan pemindaian ulang menyeluruh sekarang?"
 
-#: settings/collectionsettingspage.cpp:339
 msgid "Write all playcounts and ratings to files"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_playlistsettingspage.h:200
 msgid "Write metadata when saving playlists"
 msgstr "Tulis metadata saat menyimpan daftar putar"
 
-#: device/gpoddevice.cpp:288
 msgid "Writing database failed."
 msgstr ""
 
-#: device/gpoddevice.cpp:284
 #, qt-format
 msgid "Writing database failed: %1"
 msgstr ""
 
-#: collection/savedgroupingmanager.cpp:121 playlist/playlist.cpp:1393
-#: organize/organizedialog.cpp:116
-#: ../../build-qt6dev/src/ui_groupbydialog.h:199
-#: ../../build-qt6dev/src/ui_groupbydialog.h:221
-#: ../../build-qt6dev/src/ui_groupbydialog.h:243
-#: ../../build-qt6dev/src/ui_edittagdialog.h:922
-#: ../../build-qt6dev/src/ui_trackselectiondialog.h:211
 msgid "Year"
 msgstr "Tahun"
 
-#: collection/savedgroupingmanager.cpp:106
-#: ../../build-qt6dev/src/ui_groupbydialog.h:200
-#: ../../build-qt6dev/src/ui_groupbydialog.h:222
-#: ../../build-qt6dev/src/ui_groupbydialog.h:244
 msgid "Year - Album"
 msgstr "Tahun - Album"
 
-#: collection/savedgroupingmanager.cpp:109
-#: ../../build-qt6dev/src/ui_groupbydialog.h:201
-#: ../../build-qt6dev/src/ui_groupbydialog.h:223
-#: ../../build-qt6dev/src/ui_groupbydialog.h:245
 msgid "Year - Album - Disc"
 msgstr "Tahun - Album - Cakram"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:459
 msgid "Years"
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:820 dialogs/edittagdialog.cpp:836
 msgid "Yes"
 msgstr ""
 
-#: utilities/timeutils.cpp:86
 msgid "Yesterday"
 msgstr "Kemarin"
 
-#: playlist/playlistlistcontainer.cpp:437
 #, qt-format
 msgid "You are about to remove %1 playlists from your favorites, are you sure?"
 msgstr "Anda akan membuang %1 daftar putar dari favorit Anda, apakah Anda yakin?"
 
-#: playlist/playlisttabbar.cpp:232
 msgid "You are about to remove a playlist which is not part of your favorite playlists: the playlist will be deleted (this action cannot be undone). \n"
 "Are you sure you want to continue?"
 msgstr "Anda akan membuang daftar putar yang bukan bagian dari daftar putar favorit Anda: daftar putar ini akan dihapus (tindakan ini tidak dapat diurungkan). \n"
 "Apakah Anda yakin ingin melanjutkan?"
 
-#: ../../build-qt6dev/src/ui_loginstatewidget.h:165
 msgid "You are not signed in."
 msgstr "Anda belum masuk."
 
-#: core/mainwindow.cpp:1068
 #, qt-format
 msgid "You are running Strawberry under Rosetta. Running Strawberry under Rosetta is unsupported and known to have issues. You should download Strawberry for the correct CPU architecture from %1"
 msgstr ""
 
-#: widgets/loginstatewidget.cpp:85
 #, qt-format
 msgid "You are signed in as %1."
 msgstr "Anda masuk sebagai %1."
 
-#: widgets/loginstatewidget.cpp:84
 msgid "You are signed in."
 msgstr "Anda sudah masuk."
 
-#: ../../build-qt6dev/src/ui_groupbydialog.h:188
 msgid "You can change the way the songs in the collection are organized."
 msgstr ""
 
-#: dialogs/about.cpp:128
 #, qt-format
 msgid "You can sponsor the author on %1. You can also make a one-time payment through %2."
 msgstr ""
 
-#: core/songloader.cpp:132 core/songloader.cpp:137
 msgid "You need GStreamer for this URL."
 msgstr "Anda memerlukan GStreamer untuk URL ini."
 
-#: ../../build-qt6dev/src/ui_globalshortcutssettingspage.h:278
 msgid "You need to launch System Preferences and allow Strawberry to \"<span style=\"font-style:italic\">control your computer</span>\" to use global shortcuts in Strawberry."
 msgstr "Anda perlu meluncurkan Preferensi Sistem dan mengizinkan Strawberry untuk \"<span style=\"font-style:italic;\">mengendalikan komputer Anda</span>\" untuk menggunakan pintasan global di Strawberry."
 
-#: dialogs/about.cpp:122
 #, qt-format
 msgid "You should have received a copy of the GNU General Public License along with this program.  If not, see %1"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_behavioursettingspage.h:330
 msgid "You will need to restart Strawberry if you change the language."
 msgstr "Anda perlu memulai ulang Strawberry jika Anda mengubah bahasa."
 
-#: collection/collectionview.cpp:332
 msgid "Your collection is empty!"
 msgstr "Pustaka Anda kosong!"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:430
 msgid "Z-A"
 msgstr ""
 
-#: equalizer/equalizer.cpp:157
 msgid "Zero"
 msgstr "Nol"
 
-#: playlist/playlistundocommands.cpp:44
 #, c-format, qt-plural-format
 msgid "add %n songs"
 msgstr "tambahkan %n lagu"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:254
 msgid "after"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_smartplaylistsearchtermwidget.h:273
 msgid "ago"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_streamingsearchview.h:229
 msgid "albums"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_smartplaylistsearchtermwidget.h:272
 msgid "and"
 msgstr ""
 
-#: filterparser/filterparser.cpp:463
 msgid "artist"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_streamingsearchview.h:228
 msgid "artists"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:219
 msgid "automatic"
 msgstr "otomatis"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:256
 msgid "before"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:266
 msgid "between"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:437
 msgid "biggest first"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:684
 msgid "channels"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:274
 msgid "contains"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_collectionsettingspage.h:453
 msgid "days"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:203
-#: ../../build-qt6dev/src/ui_transcoderoptionsvorbis.h:206
-#: ../../build-qt6dev/src/ui_transcoderoptionsspeex.h:222
 msgid "disabled"
 msgstr "nonfungsi"
 
-#: osd/osdbase.cpp:156
 #, qt-format
 msgid "disc %1"
 msgstr "cakram %1"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:276
 msgid "does not contain"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:290
 msgid "empty"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:280
 msgid "ends with"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:286
 msgid "equals"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:282
 msgid "greater than"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:677
 msgid "hw"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:262
 msgid "in the last"
 msgstr ""
 
-#: context/contextview.cpp:498 context/contextview.cpp:599
-#: playlist/playlistview.cpp:225 dialogs/edittagdialog.cpp:796
 msgid "kbps"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:284
 msgid "less than"
 msgstr ""
 
-#: dialogs/edittagdialog.cpp:1430
 msgid "loading..."
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:434
 msgid "longest first"
 msgstr ""
 
-#: playlist/playlistundocommands.cpp:112
 #, c-format, qt-plural-format
 msgid "move %n songs"
 msgstr "pindah %n lagu"
 
-#: ../../build-qt6dev/src/ui_tidalsettingspage.h:338
-#: ../../build-qt6dev/src/ui_spotifysettingspage.h:275
-#: ../../build-qt6dev/src/ui_qobuzsettingspage.h:293
 msgid "ms"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:432
 msgid "newest first"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:292
 msgid "not empty"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:288
 msgid "not equals"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:264
 msgid "not in the last"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:260
 msgid "not on"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:432
 msgid "oldest first"
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:258
 msgid "on"
 msgstr ""
 
-#: core/commandlineoptions.cpp:219
 msgid "options"
 msgstr "opsi"
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:678
 msgid "p&lughw"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_backendsettingspage.h:679
 msgid "pcm"
 msgstr ""
 
-#: filterparser/filterparser.cpp:471
 msgid "rating"
 msgstr ""
 
-#: playlist/playlistundocommands.cpp:72 playlist/playlistundocommands.cpp:100
 #, c-format, qt-plural-format
 msgid "remove %n songs"
 msgstr "buang %n lagu"
 
-#: filterparser/filterparser.cpp:465
 #, qt-format
 msgid "searches for all artists containing the word %1. "
 msgstr ""
 
-#: smartplaylists/smartplaylistsearchterm.cpp:434
 msgid "shortest first"
 msgstr ""
 
-#: playlist/playlistundocommands.cpp:145
 msgid "shuffle songs"
 msgstr "karau lagu"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:437
 msgid "smallest first"
 msgstr ""
 
-#: ../../build-qt6dev/src/ui_streamingsearchview.h:230
 msgid "songs"
 msgstr ""
 
-#: playlist/playlistundocommands.cpp:137
 msgid "sort songs"
 msgstr "urutkan lagu"
 
-#: smartplaylists/smartplaylistsearchterm.cpp:278
 msgid "starts with"
 msgstr ""
 
-#: playlist/playlistdelegates.cpp:223
 msgid "stop"
 msgstr "berhenti"
 
-#: osd/osdbase.cpp:159
 #, qt-format
 msgid "track %1"
 msgstr "trek %1"
 
-#: covermanager/albumcoverchoicecontroller.cpp:239
 msgid "unknown"
 msgstr "tidak diketahui"
 
