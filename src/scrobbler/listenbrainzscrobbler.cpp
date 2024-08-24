@@ -602,7 +602,7 @@ void ListenBrainzScrobbler::ScrobbleRequestFinished(QNetworkReply *reply, Scrobb
     if (reply_result == ReplyResult::APIError) {
       if (cache_items.count() == 1) {
         const ScrobbleMetadata &metadata = cache_items.first()->metadata;
-        Error(tr("Unable to scrobble %1 - %2 because of error: %3").arg(metadata.effective_albumartist()).arg(metadata.title).arg(error_message));
+        Error(tr("Unable to scrobble %1 - %2 because of error: %3").arg(metadata.effective_albumartist(), metadata.title, error_message));
         cache_->Flush(cache_items);
       }
       else {
@@ -628,7 +628,7 @@ void ListenBrainzScrobbler::Love() {
   if (!authenticated()) settings_->ShowConfig();
 
   if (song_playing_.musicbrainz_recording_id().isEmpty()) {
-    Error(tr("Missing MusicBrainz recording ID for %1 %2 %3").arg(song_playing_.artist()).arg(song_playing_.album()).arg(song_playing_.title()));
+    Error(tr("Missing MusicBrainz recording ID for %1 %2 %3").arg(song_playing_.artist(), song_playing_.album(), song_playing_.title()));
     return;
   }
 
