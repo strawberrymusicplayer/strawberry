@@ -34,9 +34,9 @@
 
 MacFSListener::MacFSListener(QObject *parent)
     : FileSystemWatcherInterface(parent),
-    run_loop_(nullptr),
-    stream_(nullptr),
-    update_timer_(new QTimer(this)) {
+      run_loop_(nullptr),
+      stream_(nullptr),
+      update_timer_(new QTimer(this)) {
 
   update_timer_->setSingleShot(true);
   update_timer_->setInterval(2000);
