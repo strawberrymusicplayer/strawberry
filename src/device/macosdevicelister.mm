@@ -204,7 +204,7 @@ bool MacOsDeviceLister::Init() {
 }
 
 void MacOsDeviceLister::ExitAsync() {
-  emit ExitFinished();
+  Q_EMIT ExitFinished();
 }
 
 void MacOsDeviceLister::ShutDown() { CFRunLoopStop(run_loop_); }
@@ -393,7 +393,7 @@ void MacOsDeviceLister::DiskAddedCallback(DADiskRef disk, void *context) {
     // CD inserted.
     QString bsd_name = QString::fromLatin1(DADiskGetBSDName(disk));
     me->cd_devices_ << bsd_name;
-    emit me->DeviceAdded(bsd_name);
+    Q_EMIT me->DeviceAdded(bsd_name);
     return;
   }
 #endif
@@ -416,7 +416,7 @@ void MacOsDeviceLister::DiskAddedCallback(DADiskRef disk, void *context) {
           QString serial = GetSerialForDevice(device.get());
           if (!serial.isEmpty()) {
             me->current_devices_[serial] = QString::fromLatin1(DADiskGetBSDName(disk));
-            emit me->DeviceAdded(serial);
+            Q_EMIT me->DeviceAdded(serial);
           }
         }
       }
@@ -433,13 +433,13 @@ void MacOsDeviceLister::DiskRemovedCallback(DADiskRef disk, void *context) {
 
   QString bsd_name = QString::fromLatin1(DADiskGetBSDName(disk));
   if (me->cd_devices_.remove(bsd_name)) {
-    emit me->DeviceRemoved(bsd_name);
+    Q_EMIT me->DeviceRemoved(bsd_name);
     return;
   }
 
   for (QMap<QString, QString>::iterator it = me->current_devices_.begin(); it != me->current_devices_.end(); ++it) {
     if (it.value() == bsd_name) {
-      emit me->DeviceRemoved(it.key());
+      Q_EMIT me->DeviceRemoved(it.key());
       me->current_devices_.erase(it);
       break;
     }
@@ -661,7 +661,7 @@ void MacOsDeviceLister::RemovedMTPDevice(const QString &serial) {
   int count = mtp_devices_.remove(serial);
   if (count) {
     qLog(Debug) << "MTP device removed:" << serial;
-    emit DeviceRemoved(serial);
+    Q_EMIT DeviceRemoved(serial);
   }
 
 }
@@ -674,7 +674,7 @@ void MacOsDeviceLister::FoundMTPDevice(const MTPDevice &device, const QString &s
   MTPDevice *d = &mtp_devices_[serial];
   d->capacity = GetCapacity(urls[0]);
   d->free_space = GetFreeSpace(urls[0]);
-  emit DeviceAdded(serial);
+  Q_EMIT DeviceAdded(serial);
 
 }
 
@@ -887,6 +887,6 @@ void MacOsDeviceLister::UpdateDeviceFreeSpace(const QString &serial) {
       d->free_space = GetFreeSpace(urls[0]);
     }
   }
-  emit DeviceChanged(serial);
+  Q_EMIT DeviceChanged(serial);
 
 }

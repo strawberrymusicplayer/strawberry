@@ -60,7 +60,7 @@ void MacFSListener::EventStreamCallback(ConstFSEventStreamRef stream, void *user
     while (path.endsWith(QLatin1Char('/'))) {
       path.chop(1);
     }
-    emit me->PathChanged(path);
+    Q_EMIT me->PathChanged(path);
   }
 
 }
