@@ -24,6 +24,7 @@
 #include <algorithm>
 #include <utility>
 #include <optional>
+#include <chrono>
 
 #include <QObject>
 #include <QtGlobal>
@@ -74,6 +75,8 @@
 #include "covermanager/albumcoverloaderresult.h"
 #include "covermanager/albumcoverloader.h"
 #include "settings/collectionsettingspage.h"
+
+using namespace std::chrono_literals;
 
 const int CollectionModel::kPrettyCoverSize = 32;
 namespace {
@@ -133,11 +136,11 @@ CollectionModel::CollectionModel(SharedPtr<CollectionBackend> backend, Applicati
   backend_->UpdateTotalAlbumCountAsync();
 
   timer_reload_->setSingleShot(true);
-  timer_reload_->setInterval(300);
+  timer_reload_->setInterval(300ms);
   QObject::connect(timer_reload_, &QTimer::timeout, this, &CollectionModel::Reload);
 
   timer_update_->setSingleShot(false);
-  timer_update_->setInterval(20);
+  timer_update_->setInterval(20ms);
   QObject::connect(timer_update_, &QTimer::timeout, this, &CollectionModel::ProcessUpdate);
 
   ReloadSettings();
