@@ -67,6 +67,7 @@
 #include "collection/collectionbackend.h"
 #include "organize.h"
 #include "organizeformat.h"
+#include "organizesyntaxhighlighter.h"
 #include "organizedialog.h"
 #include "organizeerrordialog.h"
 #include "ui_organizedialog.h"
@@ -125,7 +126,7 @@ OrganizeDialog::OrganizeDialog(SharedPtr<TaskManager> task_manager, SharedPtr<Co
   tags[tr("File extension")] = QStringLiteral("extension");
 
   // Naming scheme input field
-  new OrganizeFormat::SyntaxHighlighter(ui_->naming);
+  new OrganizeSyntaxHighlighter(ui_->naming);
 
   QObject::connect(ui_->destination, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &OrganizeDialog::UpdatePreviews);
   QObject::connect(ui_->naming, &LineTextEdit::textChanged, this, &OrganizeDialog::UpdatePreviews);

@@ -22,23 +22,20 @@
 #ifndef ORGANISEFORMAT_H
 #define ORGANISEFORMAT_H
 
-#include "config.h"
-
-#include <QObject>
 #include <QString>
 #include <QStringList>
-#include <QRgb>
-#include <QSyntaxHighlighter>
-#include <QValidator>
 
-class QTextDocument;
-class QTextEdit;
 class Song;
 
 class OrganizeFormat {
 
  public:
   explicit OrganizeFormat(const QString &format = QString());
+
+  static const char kBlockPattern[];
+  static const char kTagPattern[];
+  static const QStringList kKnownTags;
+  static const QStringList kUniqueTags;
 
   QString format() const { return format_; }
   bool remove_problematic() const { return remove_problematic_; }
@@ -63,31 +60,7 @@ class OrganizeFormat {
   };
   GetFilenameForSongResult GetFilenameForSong(const Song& song, QString extension = QString()) const;
 
-  class Validator : public QValidator {  // clazy:exclude=missing-qobject-macro
-   public:
-    explicit Validator(QObject *parent = nullptr);
-    QValidator::State validate(QString &input, int&) const override;
-  };
-
-  class SyntaxHighlighter : public QSyntaxHighlighter {  // clazy:exclude=missing-qobject-macro
-   public:
-    static const QRgb kValidTagColorLight;
-    static const QRgb kInvalidTagColorLight;
-    static const QRgb kBlockColorLight;
-    static const QRgb kValidTagColorDark;
-    static const QRgb kInvalidTagColorDark;
-    static const QRgb kBlockColorDark;
-
-    explicit SyntaxHighlighter(QObject *parent = nullptr);
-    explicit SyntaxHighlighter(QTextEdit *parent);
-    explicit SyntaxHighlighter(QTextDocument *parent);
-    void highlightBlock(const QString &text) override;
-  };
-
  private:
-  static const QStringList kKnownTags;
-  static const QStringList kUniqueTags;
-
   QString ParseBlock(QString block, const Song &song, bool *have_tagdata = nullptr, bool *any_empty = nullptr) const;
   QString TagValue(const QString &tag, const Song &song) const;
 

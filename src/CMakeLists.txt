@@ -305,6 +305,8 @@ set(SOURCES
 
   organize/organize.cpp
   organize/organizeformat.cpp
+  organize/organizeformatvalidator.cpp
+  organize/organizesyntaxhighlighter.cpp
   organize/organizedialog.cpp
   organize/organizeerrordialog.cpp
 
@@ -550,6 +552,8 @@ set(HEADERS
   scrobbler/lastfmimport.h
 
   organize/organize.h
+  organize/organizeformatvalidator.h
+  organize/organizesyntaxhighlighter.h
   organize/organizedialog.h
   organize/organizeerrordialog.h
 

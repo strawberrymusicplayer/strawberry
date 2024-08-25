@@ -21,20 +21,12 @@
 
 #include "config.h"
 
-#include <QObject>
-#include <QApplication>
-#include <QChar>
 #include <QString>
+#include <QChar>
 #include <QStringList>
 #include <QRegularExpression>
 #include <QFileInfo>
-#include <QDir>
-#include <QColor>
-#include <QPalette>
 #include <QValidator>
-#include <QTextEdit>
-#include <QTextDocument>
-#include <QTextFormat>
 
 #include "utilities/filenameconstants.h"
 #include "utilities/timeconstants.h"
@@ -42,11 +34,10 @@
 #include "core/song.h"
 
 #include "organizeformat.h"
+#include "organizeformatvalidator.h"
 
-namespace {
-constexpr char kBlockPattern[] = "\\{([^{}]+)\\}";
-constexpr char kTagPattern[] = "\\%([a-zA-Z]*)";
-}
+const char OrganizeFormat::kBlockPattern[] = "\\{([^{}]+)\\}";
+const char OrganizeFormat::kTagPattern[] = "\\%([a-zA-Z]*)";
 
 const QStringList OrganizeFormat::kKnownTags = QStringList() << QStringLiteral("title")
                                                              << QStringLiteral("album")
@@ -72,14 +63,6 @@ const QStringList OrganizeFormat::kKnownTags = QStringList() << QStringLiteral("
 const QStringList OrganizeFormat::kUniqueTags = QStringList() << QStringLiteral("title")
                                                               << QStringLiteral("track");
 
-const QRgb OrganizeFormat::SyntaxHighlighter::kValidTagColorLight = qRgb(64, 64, 255);
-const QRgb OrganizeFormat::SyntaxHighlighter::kInvalidTagColorLight = qRgb(255, 64, 64);
-const QRgb OrganizeFormat::SyntaxHighlighter::kBlockColorLight = qRgb(230, 230, 230);
-
-const QRgb OrganizeFormat::SyntaxHighlighter::kValidTagColorDark = qRgb(128, 128, 255);
-const QRgb OrganizeFormat::SyntaxHighlighter::kInvalidTagColorDark = qRgb(255, 128, 128);
-const QRgb OrganizeFormat::SyntaxHighlighter::kBlockColorDark = qRgb(64, 64, 64);
-
 OrganizeFormat::OrganizeFormat(const QString &format)
     : format_(format),
       remove_problematic_(false),
@@ -98,7 +81,7 @@ bool OrganizeFormat::IsValid() const {
   int pos = 0;
   QString format_copy(format_);
 
-  Validator v;
+  OrganizeFormatValidator v;
   return v.validate(format_copy, pos) == QValidator::Acceptable;
 
 }
@@ -133,9 +116,15 @@ OrganizeFormat::GetFilenameForSongResult OrganizeFormat::GetFilenameForSong(cons
     return GetFilenameForSongResult();
   }
 
-  if (remove_problematic_) filepath = filepath.remove(QRegularExpression(QLatin1String(kProblematicCharactersRegex), QRegularExpression::PatternOption::CaseInsensitiveOption));
+  if (remove_problematic_) {
+    static const QRegularExpression regex_problematic_characters(QLatin1String(kProblematicCharactersRegex), QRegularExpression::PatternOption::CaseInsensitiveOption);
+    filepath = filepath.remove(regex_problematic_characters);
+  }
   if (remove_non_fat_ || (remove_non_ascii_ && !allow_ascii_ext_)) filepath = Utilities::Transliterate(filepath);
-  if (remove_non_fat_) filepath = filepath.remove(QRegularExpression(QLatin1String(kInvalidFatCharactersRegex), QRegularExpression::PatternOption::CaseInsensitiveOption));
+  if (remove_non_fat_) {
+    static const QRegularExpression regex_invalid_fat_characters(QLatin1String(kInvalidFatCharactersRegex), QRegularExpression::PatternOption::CaseInsensitiveOption);
+    filepath = filepath.remove(regex_invalid_fat_characters);
+  }
 
   if (remove_non_ascii_) {
     int ascii = 128;
@@ -209,7 +198,7 @@ QString OrganizeFormat::ParseBlock(QString block, const Song &song, bool *have_t
 
   // Find any blocks first
   qint64 pos = 0;
-  const QRegularExpression block_regexp(QString::fromLatin1(kBlockPattern));
+  static const QRegularExpression block_regexp(QString::fromLatin1(kBlockPattern));
   QRegularExpressionMatch re_match;
   for (re_match = block_regexp.match(block, pos); re_match.hasMatch(); re_match = block_regexp.match(block, pos)) {
     pos = re_match.capturedStart();
@@ -226,7 +215,7 @@ QString OrganizeFormat::ParseBlock(QString block, const Song &song, bool *have_t
   // Now look for tags
   bool empty = false;
   pos = 0;
-  const QRegularExpression tag_regexp(QString::fromLatin1(kTagPattern));
+  static const QRegularExpression tag_regexp(QString::fromLatin1(kTagPattern));
   for (re_match = tag_regexp.match(block, pos); re_match.hasMatch(); re_match = tag_regexp.match(block, pos)) {
     pos = re_match.capturedStart();
     const QString tag = re_match.captured(1);
@@ -326,89 +315,11 @@ QString OrganizeFormat::TagValue(const QString &tag, const Song &song) const {
   if (tag == QLatin1String("track") && value.length() == 1) value.prepend(QLatin1Char('0'));
 
   // Replace characters that really shouldn't be in paths
-  value = value.remove(QRegularExpression(QString::fromLatin1(kInvalidDirCharactersRegex), QRegularExpression::PatternOption::CaseInsensitiveOption));
+  static const QRegularExpression regex_invalid_dir_characters(QString::fromLatin1(kInvalidDirCharactersRegex), QRegularExpression::PatternOption::CaseInsensitiveOption);
+  value = value.remove(regex_invalid_dir_characters);
   if (remove_problematic_) value = value.remove(QLatin1Char('.'));
   value = value.trimmed();
 
   return value;
-
-}
-
-OrganizeFormat::Validator::Validator(QObject *parent) : QValidator(parent) {}
-
-QValidator::State OrganizeFormat::Validator::validate(QString &input, int&) const {
-
-  // Make sure all the blocks match up
-  int block_level = 0;
-  for (int i = 0; i < input.length(); ++i) {
-    if (input[i] == QLatin1Char('{')) {
-      ++block_level;
-    }
-    else if (input[i] == QLatin1Char('}')) {
-      --block_level;
-    }
-
-    if (block_level < 0 || block_level > 1) return QValidator::Invalid;
-  }
-
-  if (block_level != 0) return QValidator::Invalid;
-
-  // Make sure the tags are valid
-  const QRegularExpression tag_regexp(QString::fromLatin1(kTagPattern));
-  QRegularExpressionMatch re_match;
-  qint64 pos = 0;
-  for (re_match = tag_regexp.match(input, pos); re_match.hasMatch(); re_match = tag_regexp.match(input, pos)) {
-    pos = re_match.capturedStart();
-    if (!OrganizeFormat::kKnownTags.contains(re_match.captured(1))) {
-      return QValidator::Invalid;
-    }
-
-    pos += re_match.capturedLength();
-  }
-
-  return QValidator::Acceptable;
-
-}
-
-OrganizeFormat::SyntaxHighlighter::SyntaxHighlighter(QObject *parent) : QSyntaxHighlighter(parent) {}
-
-OrganizeFormat::SyntaxHighlighter::SyntaxHighlighter(QTextEdit *parent) : QSyntaxHighlighter(parent) {}
-
-OrganizeFormat::SyntaxHighlighter::SyntaxHighlighter(QTextDocument *parent) : QSyntaxHighlighter(parent) {}
-
-void OrganizeFormat::SyntaxHighlighter::highlightBlock(const QString &text) {
-
-  const bool light = QApplication::palette().color(QPalette::Base).value() > 128;
-  const QRgb block_color = light ? kBlockColorLight : kBlockColorDark;
-  const QRgb valid_tag_color = light ? kValidTagColorLight : kValidTagColorDark;
-  const QRgb invalid_tag_color = light ? kInvalidTagColorLight : kInvalidTagColorDark;
-
-  QTextCharFormat block_format;
-  block_format.setBackground(QColor(block_color));
-
-  // Reset formatting
-  setFormat(0, static_cast<int>(text.length()), QTextCharFormat());
-
-  // Blocks
-  const QRegularExpression block_regexp(QString::fromLatin1(kBlockPattern));
-  QRegularExpressionMatch re_match;
-  qint64 pos = 0;
-  for (re_match = block_regexp.match(text, pos); re_match.hasMatch(); re_match = block_regexp.match(text, pos)) {
-    pos = re_match.capturedStart();
-    setFormat(static_cast<int>(pos), static_cast<int>(re_match.capturedLength()), block_format);
-    pos += re_match.capturedLength();
-  }
-
-  // Tags
-  const QRegularExpression tag_regexp(QString::fromLatin1(kTagPattern));
-  pos = 0;
-  for (re_match = tag_regexp.match(text, pos); re_match.hasMatch(); re_match = tag_regexp.match(text, pos)) {
-    pos = re_match.capturedStart();
-    QTextCharFormat f = format(static_cast<int>(pos));
-    f.setForeground(QColor(OrganizeFormat::kKnownTags.contains(re_match.captured(1)) ? valid_tag_color : invalid_tag_color));
-
-    setFormat(static_cast<int>(pos), static_cast<int>(re_match.capturedLength()), f);
-    pos += re_match.capturedLength();
-  }
 
 }
