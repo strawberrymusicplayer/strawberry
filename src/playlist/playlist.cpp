@@ -2274,7 +2274,7 @@ void Playlist::UpdateItemMetadata(const int row, PlaylistItemPtr item, const Son
 
 }
 
-void Playlist::ItemChanged(const int row, const Columns columns) {
+void Playlist::ItemChanged(const int row, const Columns &columns) {
 
   if (columns.count() > 5) {
     const QModelIndex idx_column_first = index(row, 0);

@@ -265,7 +265,7 @@ class Playlist : public QAbstractListModel {
   static bool MinorMetadataChange(const Song &old_metadata, const Song &new_metadata);
   void UpdateItemMetadata(PlaylistItemPtr item, const Song &new_metadata, const bool temporary);
   void UpdateItemMetadata(const int row, PlaylistItemPtr item, const Song &new_metadata, const bool temporary);
-  void ItemChanged(const int row, const Columns columns);
+  void ItemChanged(const int row, const Columns &columns);
 
   // Changes rating of a song to the given value asynchronously
   void RateSong(const QModelIndex &idx, const float rating);
