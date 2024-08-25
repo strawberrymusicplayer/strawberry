@@ -53,7 +53,7 @@ void StyleSheetLoader::SetStyleSheet(QWidget *widget, const QString &filename) {
   }
   QTextStream stream(&file);
   QString stylesheet;
-  forever {
+  Q_FOREVER {
     QString line = stream.readLine();
     stylesheet.append(line);
     if (stream.atEnd()) break;

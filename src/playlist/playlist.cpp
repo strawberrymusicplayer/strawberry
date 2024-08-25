@@ -1897,9 +1897,9 @@ void Playlist::RemoveItemsNotInQueue() {
   }
 
   int start = 0;
-  forever {
+  Q_FOREVER {
     // Find a place to start - first row that isn't in the queue
-    forever {
+    Q_FOREVER {
       if (start >= rowCount()) return;
       if (!queue_->ContainsSourceRow(start) && current_row() != start) break;
       start++;
@@ -1907,7 +1907,7 @@ void Playlist::RemoveItemsNotInQueue() {
 
     // Figure out how many rows to remove - keep going until we find a row that is in the queue
     int count = 1;
-    forever {
+    Q_FOREVER {
       if (start + count >= rowCount()) break;
       if (queue_->ContainsSourceRow(start + count) || current_row() == start + count) break;
       count++;

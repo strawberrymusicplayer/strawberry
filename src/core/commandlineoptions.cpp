@@ -206,7 +206,7 @@ bool CommandlineOptions::Parse() {
 
   // Parse the arguments
   bool ok = false;
-  forever {
+  Q_FOREVER {
 #ifdef Q_OS_WIN32
     int c = getopt_long(argc_, argv_, L"hptusqrfv:c:alk:i:oyg:w:", kOptions, nullptr);
 #else

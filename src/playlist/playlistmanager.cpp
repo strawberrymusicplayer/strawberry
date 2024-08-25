@@ -256,7 +256,7 @@ void PlaylistManager::SaveWithUI(const int id, const QString &playlist_name) {
   QString filename = last_save_path + QLatin1Char('/') + suggested_filename.remove(QRegularExpression(QLatin1String(kProblematicCharactersRegex), QRegularExpression::CaseInsensitiveOption)) + QLatin1Char('.') + last_save_extension;
 
   QFileInfo fileinfo;
-  forever {
+  Q_FOREVER {
     filename = QFileDialog::getSaveFileName(nullptr, tr("Save playlist", "Title of the playlist save dialog."), filename, parser()->filters(PlaylistParser::Type::Save), &last_save_filter);
     if (filename.isEmpty()) return;
     fileinfo.setFile(filename);

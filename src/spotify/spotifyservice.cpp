@@ -253,7 +253,7 @@ void SpotifyService::Authenticate() {
     int port = redirect_url.port();
     int port_max = port + 10;
     bool success = false;
-    forever {
+    Q_FOREVER {
       server_->set_port(port);
       if (server_->Listen()) {
         success = true;

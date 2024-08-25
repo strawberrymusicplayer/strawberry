@@ -321,7 +321,7 @@ void Transcoder::Start() {
 
   Q_EMIT LogLine(tr("Transcoding %1 files using %2 threads").arg(queued_jobs_.count()).arg(max_threads()));
 
-  forever {
+  Q_FOREVER {
     StartJobStatus status = MaybeStartNextJob();
     if (status == StartJobStatus::AllThreadsBusy || status == StartJobStatus::NoMoreJobs) break;
   }

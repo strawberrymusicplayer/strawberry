@@ -65,7 +65,7 @@ bool PulseDeviceFinder::Reconnect() {
   }
 
   // Wait for the context to be connected.
-  forever {
+  Q_FOREVER {
     const pa_context_state state = pa_context_get_state(context_);
     if (state == PA_CONTEXT_FAILED || state == PA_CONTEXT_TERMINATED) {
       qLog(Warning) << "Connection to pulseaudio failed";
@@ -90,7 +90,7 @@ retry:
   ListDevicesState state;
   pa_context_get_sink_info_list(context_, &PulseDeviceFinder::GetSinkInfoCallback, &state);
 
-  forever {
+  Q_FOREVER {
     if (state.finished) {
       return state.devices;
     }

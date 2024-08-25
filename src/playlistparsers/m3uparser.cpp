@@ -62,7 +62,7 @@ SongList M3UParser::Load(QIODevice *device, const QString &playlist_path, const 
   }
 
   SongList ret;
-  forever {
+  Q_FOREVER {
     if (line.startsWith(QLatin1Char('#'))) {
       // Extended info or comment.
       if (type == M3UType::EXTENDED && line.startsWith(QLatin1String("#EXT"))) {
