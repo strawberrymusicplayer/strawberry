@@ -43,6 +43,7 @@ set(SOURCES
   core/localredirectserver.cpp
   core/mimedata.cpp
   core/potranslator.cpp
+  core/temporaryfile.cpp
   utilities/strutils.cpp
   utilities/envutils.cpp
   utilities/colorutils.cpp

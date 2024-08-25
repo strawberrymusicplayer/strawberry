@@ -24,6 +24,7 @@
 #include <QByteArray>
 #include <QString>
 #include <QDateTime>
+#include <QRegularExpression>
 #include <QtDebug>
 
 #include "test_utils.h"
@@ -35,6 +36,7 @@
 #include "utilities/colorutils.h"
 #include "utilities/transliterate.h"
 #include "core/logging.h"
+#include "core/temporaryfile.h"
 
 TEST(UtilitiesTest, PrettyTimeDelta) {
 
@@ -242,5 +244,21 @@ TEST(UtilitiesTest, ReplaceMessage) {
   song.set_rating(1.0);
 
   ASSERT_EQ(Utilities::ReplaceMessage(QStringLiteral("%title% - %artist%"), song, QLatin1String("")), song.title() + QStringLiteral(" - ") + song.artist());
+
+}
+
+TEST(UtilitiesTest, TemporaryFile) {
+
+  QString filename_pattern = QStringLiteral("/tmp/test-XXXX.jpg");
+
+  TemporaryFile temp_file(filename_pattern);
+
+  EXPECT_FALSE(temp_file.filename().isEmpty());
+
+  EXPECT_FALSE(temp_file.filename() == filename_pattern);
+
+  static const QRegularExpression regex_temp_filename(QStringLiteral("^\\/tmp\\/test-....\\.jpg$"));
+
+  EXPECT_TRUE(regex_temp_filename.match(temp_file.filename()).hasMatch());
 
 }
