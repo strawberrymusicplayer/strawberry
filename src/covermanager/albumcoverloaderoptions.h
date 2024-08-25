@@ -31,7 +31,7 @@ class AlbumCoverLoaderOptions {
     RawImageData = 0x2,
     OriginalImage = 0x4,
     ScaledImage = 0x8,
-    PadScaledImage = 0x16
+    PadScaledImage = 0x10
   };
   Q_DECLARE_FLAGS(Options, Option)
 
