@@ -57,7 +57,7 @@
 #include "collectionfilterwidget.h"
 #include "groupbydialog.h"
 #include "ui_collectionfilterwidget.h"
-#include "widgets/qsearchfield.h"
+#include "widgets/searchfield.h"
 #include "settings/collectionsettingspage.h"
 #include "settings/appearancesettingspage.h"
 
@@ -84,7 +84,7 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
 
   ui_->search_field->setToolTip(FilterParser::ToolTip());
 
-  QObject::connect(ui_->search_field, &QSearchField::returnPressed, this, &CollectionFilterWidget::ReturnPressed);
+  QObject::connect(ui_->search_field, &SearchField::returnPressed, this, &CollectionFilterWidget::ReturnPressed);
   QObject::connect(timer_filter_delay_, &QTimer::timeout, this, &CollectionFilterWidget::FilterDelayTimeout);
 
   timer_filter_delay_->setInterval(kFilterDelay);
@@ -127,7 +127,7 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
   collection_menu_->addSeparator();
   ui_->options->setMenu(collection_menu_);
 
-  QObject::connect(ui_->search_field, &QSearchField::textChanged, this, &CollectionFilterWidget::FilterTextChanged);
+  QObject::connect(ui_->search_field, &SearchField::textChanged, this, &CollectionFilterWidget::FilterTextChanged);
   QObject::connect(ui_->options, &QToolButton::clicked, ui_->options, &QToolButton::showMenu);
 
   ReloadSettings();

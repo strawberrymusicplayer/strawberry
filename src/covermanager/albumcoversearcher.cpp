@@ -54,7 +54,7 @@
 #include "widgets/busyindicator.h"
 #include "widgets/forcescrollperpixel.h"
 #include "widgets/groupediconview.h"
-#include "widgets/qsearchfield.h"
+#include "widgets/searchfield.h"
 #include "albumcoversearcher.h"
 #include "albumcoverfetcher.h"
 #include "albumcoverloader.h"

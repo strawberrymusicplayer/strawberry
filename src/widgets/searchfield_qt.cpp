@@ -1,6 +1,6 @@
 /*
 Copyright (C) 2011 by Mike McQuaid
-Copyright (C) 2018-2021 by Jonas Kvinge <jonas@jkvinge.net>
+Copyright (C) 2018-2024 by Jonas Kvinge <jonas@jkvinge.net>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -21,55 +21,30 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#include "qsearchfield.h"
+#include "searchfield.h"
+#include "searchfield_qt_private.h"
 
-#include <QtGlobal>
-#include <QObject>
 #include <QWidget>
 #include <QApplication>
 #include <QString>
 #include <QIcon>
-#include <QPointer>
 #include <QLineEdit>
 #include <QPushButton>
+#include <QVBoxLayout>
 #include <QStyle>
 #include <QSize>
-#include <QBoxLayout>
 #include <QEvent>
 #include <QResizeEvent>
 
 #include "core/iconloader.h"
 
-class QSearchFieldPrivate : public QObject {  // clazy:exclude=missing-qobject-macro
-
- public:
-  QSearchFieldPrivate(QSearchField *searchField, QLineEdit *lineedit, QPushButton *clearbutton)
-      : QObject(searchField), lineedit_(lineedit), clearbutton_(clearbutton) {}
-
-  int lineEditFrameWidth() const {
-    return lineedit_->style()->pixelMetric(QStyle::PM_DefaultFrameWidth);
-  }
-
-  int clearButtonPaddedWidth() const {
-    return clearbutton_->width() + lineEditFrameWidth() * 2;
-  }
-
-  int clearButtonPaddedHeight() const {
-    return clearbutton_->height() + lineEditFrameWidth() * 2;
-  }
-
-  QPointer<QLineEdit> lineedit_;
-  QPointer<QPushButton> clearbutton_;
-
-};
-
-QSearchField::QSearchField(QWidget *parent) : QWidget(parent) {
+SearchField::SearchField(QWidget *parent) : QWidget(parent) {
 
   QLineEdit *lineEdit = new QLineEdit(this);
-  QObject::connect(lineEdit, &QLineEdit::textChanged, this, &QSearchField::textChanged);
-  QObject::connect(lineEdit, &QLineEdit::editingFinished, this, &QSearchField::editingFinished);
-  QObject::connect(lineEdit, &QLineEdit::returnPressed, this, &QSearchField::returnPressed);
-  QObject::connect(lineEdit, &QLineEdit::textChanged, this, &QSearchField::setText);
+  QObject::connect(lineEdit, &QLineEdit::textChanged, this, &SearchField::textChanged);
+  QObject::connect(lineEdit, &QLineEdit::editingFinished, this, &SearchField::editingFinished);
+  QObject::connect(lineEdit, &QLineEdit::returnPressed, this, &SearchField::returnPressed);
+  QObject::connect(lineEdit, &QLineEdit::textChanged, this, &SearchField::setText);
 
   QPushButton *clearbutton = new QPushButton(this);
   QIcon clearIcon(IconLoader::Load(QStringLiteral("edit-clear-locationbar-ltr")));
@@ -79,9 +54,9 @@ QSearchField::QSearchField(QWidget *parent) : QWidget(parent) {
   clearbutton->setStyleSheet(QStringLiteral("border: none; padding: 2px;"));
   clearbutton->resize(clearbutton->sizeHint());
 
-  QObject::connect(clearbutton, &QPushButton::clicked, this, &QSearchField::clear);
+  QObject::connect(clearbutton, &QPushButton::clicked, this, &SearchField::clear);
 
-  pimpl = new QSearchFieldPrivate(this, lineEdit, clearbutton);
+  pimpl = new SearchFieldPrivate(this, lineEdit, clearbutton);
 
   const int frame_width = lineEdit->style()->pixelMetric(QStyle::PM_DefaultFrameWidth);
 
@@ -98,7 +73,7 @@ QSearchField::QSearchField(QWidget *parent) : QWidget(parent) {
 
 }
 
-void QSearchField::setIconSize(const int iconsize) {
+void SearchField::setIconSize(const int iconsize) {
 
   pimpl->clearbutton_->setIconSize(QSize(iconsize, iconsize));
   pimpl->clearbutton_->resize(pimpl->clearbutton_->sizeHint());
@@ -111,7 +86,7 @@ void QSearchField::setIconSize(const int iconsize) {
 
 }
 
-void QSearchField::setText(const QString &new_text) {
+void SearchField::setText(const QString &new_text) {
 
   Q_ASSERT(pimpl && pimpl->clearbutton_ && pimpl->lineedit_);
   if (!(pimpl && pimpl->clearbutton_ && pimpl->lineedit_)) return;
@@ -119,7 +94,7 @@ void QSearchField::setText(const QString &new_text) {
 
 }
 
-void QSearchField::setPlaceholderText(const QString &text) {
+void SearchField::setPlaceholderText(const QString &text) {
 
   Q_ASSERT(pimpl && pimpl->lineedit_);
   if (!(pimpl && pimpl->lineedit_)) return;
@@ -127,25 +102,25 @@ void QSearchField::setPlaceholderText(const QString &text) {
 
 }
 
-QString QSearchField::placeholderText() const {
+QString SearchField::placeholderText() const {
   return pimpl->lineedit_->placeholderText();
 }
 
-bool QSearchField::hasFocus() const {
+bool SearchField::hasFocus() const {
   Q_ASSERT(pimpl && pimpl->lineedit_);
   return pimpl && pimpl->lineedit_ && pimpl->lineedit_->hasFocus();
 }
 
-void QSearchField::setFocus(Qt::FocusReason reason) {
+void SearchField::setFocus(Qt::FocusReason reason) {
   Q_ASSERT(pimpl && pimpl->lineedit_);
   if (pimpl && pimpl->lineedit_) pimpl->lineedit_->setFocus(reason);
 }
 
-void QSearchField::setFocus() {
+void SearchField::setFocus() {
   setFocus(Qt::OtherFocusReason);
 }
 
-void QSearchField::clear() {
+void SearchField::clear() {
 
   Q_ASSERT(pimpl && pimpl->lineedit_);
 
@@ -154,7 +129,7 @@ void QSearchField::clear() {
 
 }
 
-void QSearchField::selectAll() {
+void SearchField::selectAll() {
 
   Q_ASSERT(pimpl && pimpl->lineedit_);
 
@@ -163,7 +138,7 @@ void QSearchField::selectAll() {
 
 }
 
-QString QSearchField::text() const {
+QString SearchField::text() const {
 
   Q_ASSERT(pimpl && pimpl->lineedit_);
 
@@ -172,7 +147,7 @@ QString QSearchField::text() const {
 
 }
 
-void QSearchField::resizeEvent(QResizeEvent *resizeEvent) {
+void SearchField::resizeEvent(QResizeEvent *resizeEvent) {
 
   Q_ASSERT(pimpl && pimpl->clearbutton_ && pimpl->lineedit_);
   if (!(pimpl && pimpl->clearbutton_ && pimpl->lineedit_)) return;
@@ -184,10 +159,10 @@ void QSearchField::resizeEvent(QResizeEvent *resizeEvent) {
 
 }
 
-bool QSearchField::eventFilter(QObject *o, QEvent *e) {
+bool SearchField::eventFilter(QObject *o, QEvent *e) {
 
   if (pimpl && pimpl->lineedit_ && o == pimpl->lineedit_) {
-    // Forward some lineEdit events to QSearchField (only those we need for
+    // Forward some lineEdit events to SearchField (only those we need for
     // now, but some might be added later if needed)
     switch (e->type()) {
       case QEvent::FocusIn:
@@ -198,6 +173,7 @@ bool QSearchField::eventFilter(QObject *o, QEvent *e) {
         break;
     }
   }
+
   return QWidget::eventFilter(o, e);
 
 }

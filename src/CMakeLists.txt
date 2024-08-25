@@ -511,7 +511,7 @@ set(HEADERS
   widgets/tracksliderpopup.h
   widgets/tracksliderslider.h
   widgets/loginstatewidget.h
-  widgets/qsearchfield.h
+  widgets/searchfield.h
   widgets/ratingwidget.h
   widgets/forcescrollperpixel.h
   widgets/resizabletextedit.h
@@ -639,7 +639,7 @@ option(USE_INSTALL_PREFIX "Look for data in CMAKE_INSTALL_PREFIX" ON)
 
 if(NOT APPLE)
   set(NOT_APPLE ON)
-  optional_source(NOT_APPLE SOURCES widgets/qsearchfield_qt.cpp core/qtsystemtrayicon.cpp HEADERS core/qtsystemtrayicon.h)
+  optional_source(NOT_APPLE SOURCES widgets/searchfield_qt.cpp widgets/searchfield_qt_private.cpp core/qtsystemtrayicon.cpp HEADERS core/qtsystemtrayicon.h widgets/searchfield_qt_private.h)
 endif()
 
 if(HAVE_GLOBALSHORTCUTS)
@@ -857,7 +857,7 @@ optional_source(APPLE
     core/macsystemtrayicon.mm
     core/macfslistener.mm
     osd/osdmac.mm
-    widgets/qsearchfield_mac.mm
+    widgets/searchfield_mac.mm
     engine/macosdevicefinder.cpp
     globalshortcuts/globalshortcutsbackend-macos.mm
     globalshortcuts/globalshortcutgrabber.mm

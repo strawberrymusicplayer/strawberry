@@ -143,7 +143,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QSearchField" name="search_field" native="true"/>
+       <widget class="SearchField" name="search_field" native="true"/>
       </item>
      </layout>
     </widget>
@@ -186,9 +186,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QSearchField</class>
+   <class>SearchField</class>
    <extends>QWidget</extends>
-   <header>widgets/qsearchfield.h</header>
+   <header>widgets/searchfield.h</header>
   </customwidget>
   <customwidget>
    <class>PlaylistView</class>

@@ -192,7 +192,7 @@ void StreamingSearchView::Init(Application *app, StreamingServicePtr service) {
   QObject::connect(group_by_actions_, &QActionGroup::triggered, this, &StreamingSearchView::GroupByClicked);
   QObject::connect(group_by_actions_, &QActionGroup::triggered, this, &StreamingSearchView::GroupByClicked);
 
-  QObject::connect(ui_->search, &QSearchField::textChanged, this, &StreamingSearchView::TextEdited);
+  QObject::connect(ui_->search, &SearchField::textChanged, this, &StreamingSearchView::TextEdited);
   QObject::connect(ui_->results, &AutoExpandingTreeView::AddToPlaylistSignal, this, &StreamingSearchView::AddToPlaylist);
   QObject::connect(ui_->results, &AutoExpandingTreeView::FocusOnFilterSignal, this, &StreamingSearchView::FocusOnFilter);
 

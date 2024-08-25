@@ -79,7 +79,7 @@
            <number>0</number>
           </property>
           <item>
-           <widget class="QSearchField" name="filter" native="true">
+           <widget class="SearchField" name="filter" native="true">
             <property name="placeholderText" stdset="0">
              <string>Enter search terms here</string>
             </property>
@@ -281,9 +281,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QSearchField</class>
+   <class>SearchField</class>
    <extends>QWidget</extends>
-   <header>widgets/qsearchfield.h</header>
+   <header>widgets/searchfield.h</header>
   </customwidget>
   <customwidget>
    <class>AlbumCoverManagerList</class>

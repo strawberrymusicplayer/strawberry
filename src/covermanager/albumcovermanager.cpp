@@ -74,7 +74,7 @@
 #include "utilities/mimeutils.h"
 #include "utilities/screenutils.h"
 #include "widgets/forcescrollperpixel.h"
-#include "widgets/qsearchfield.h"
+#include "widgets/searchfield.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionquery.h"
 #include "playlist/songmimedata.h"
@@ -206,7 +206,7 @@ void AlbumCoverManager::Init() {
 
   // Connections
   QObject::connect(ui_->artists, &QListWidget::currentItemChanged, this, &AlbumCoverManager::ArtistChanged);
-  QObject::connect(ui_->filter, &QSearchField::textChanged, this, &AlbumCoverManager::UpdateFilter);
+  QObject::connect(ui_->filter, &SearchField::textChanged, this, &AlbumCoverManager::UpdateFilter);
   QObject::connect(filter_group, &QActionGroup::triggered, this, &AlbumCoverManager::UpdateFilter);
   QObject::connect(ui_->view, &QToolButton::clicked, ui_->view, &QToolButton::showMenu);
   QObject::connect(ui_->button_fetch, &QPushButton::clicked, this, &AlbumCoverManager::FetchAlbumCovers);

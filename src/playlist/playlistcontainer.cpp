@@ -58,7 +58,7 @@
 #include "playlistfilter.h"
 #include "playlistparsers/playlistparser.h"
 #include "ui_playlistcontainer.h"
-#include "widgets/qsearchfield.h"
+#include "widgets/searchfield.h"
 #include "settings/appearancesettingspage.h"
 
 namespace {
@@ -123,7 +123,7 @@ PlaylistContainer::PlaylistContainer(QWidget *parent)
   QObject::connect(filter_timer_, &QTimer::timeout, this, &PlaylistContainer::UpdateFilter);
 
   // Replace playlist search filter with native search box.
-  QObject::connect(ui_->search_field, &QSearchField::textChanged, this, &PlaylistContainer::MaybeUpdateFilter);
+  QObject::connect(ui_->search_field, &SearchField::textChanged, this, &PlaylistContainer::MaybeUpdateFilter);
   QObject::connect(ui_->playlist, &PlaylistView::FocusOnFilterSignal, this, &PlaylistContainer::FocusOnFilter);
   ui_->search_field->installEventFilter(this);
 

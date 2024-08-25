@@ -40,7 +40,7 @@
         <item>
          <layout class="QHBoxLayout" name="layout_search">
           <item>
-           <widget class="QSearchField" name="search" native="true">
+           <widget class="SearchField" name="search" native="true">
             <property name="placeholderText" stdset="0">
              <string/>
             </property>
@@ -297,9 +297,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QSearchField</class>
+   <class>SearchField</class>
    <extends>QWidget</extends>
-   <header>widgets/qsearchfield.h</header>
+   <header>widgets/searchfield.h</header>
   </customwidget>
   <customwidget>
    <class>AutoExpandingTreeView</class>
