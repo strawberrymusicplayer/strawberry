@@ -446,7 +446,7 @@ TEST_F(PlaylistTest, ShuffleThenNext) {
   playlist_.set_current_row(0);
 
   // Shuffle until the current index is not at the end
-  forever {
+  Q_FOREVER {
     playlist_.Shuffle();
     if (playlist_.current_row() != items.count()-1)
       break;
