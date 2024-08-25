@@ -47,7 +47,7 @@ class SearchFieldPrivate : public QObject {
   void textDidChange(const QString &text) {
 
     if (qSearchField) {
-      emit qSearchField->textChanged(text);
+      Q_EMIT qSearchField->textChanged(text);
     }
 
   }
