@@ -1029,14 +1029,16 @@ if(HAVE_TRANSLATIONS)
     endif(NOT LINGUAS OR LINGUAS STREQUAL "None")
   endif(LINGUAS STREQUAL "All")
 
-  add_pot(POT
-    ${CMAKE_CURRENT_SOURCE_DIR}/translations/header
-    ${CMAKE_CURRENT_SOURCE_DIR}/translations/translations.pot
-    ${SOURCES}
-    ${MOC}
-    ${UIC}
-    ${CMAKE_SOURCE_DIR}/data/html/oauthsuccess.html
-  )
+  if(NOT MSVC)
+    add_pot(POT
+      ${CMAKE_CURRENT_SOURCE_DIR}/translations/header
+      ${CMAKE_CURRENT_SOURCE_DIR}/translations/translations.pot
+      ${SOURCES}
+      ${MOC}
+      ${UIC}
+      ${CMAKE_SOURCE_DIR}/data/html/oauthsuccess.html
+    )
+  endif()
   add_po(PO strawberry_ LANGUAGES ${LANGUAGES} DIRECTORY translations)
 
 endif(HAVE_TRANSLATIONS)
