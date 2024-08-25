@@ -61,7 +61,7 @@ QString TemporaryFile::GenerateFilename(const QString &filename_pattern) const {
   QString filename = filename_pattern;
 
   Q_FOREVER {
-    const qint64 i = filename.indexOf(QLatin1Char('X'));
+    const int i = static_cast<int>(filename.indexOf(QLatin1Char('X')));
     if (i == -1) break;
     const qint64 index = QRandomGenerator::global()->bounded(0, random_chars.length());
     const QChar random_char = random_chars.at(index);
