@@ -54,10 +54,6 @@ constexpr char kSettingsGroup[] = "PlayingWidget";
 // Space between the cover and the details in small mode
 constexpr int kPadding = 2;
 
-// Width of the transparent to black gradient above and below the text in large mode
-constexpr int kGradientHead = 40;
-constexpr int kGradientTail = 20;
-
 // Maximum height of the cover in large mode, and offset between the bottom of the cover and bottom of the widget
 constexpr int kMaxCoverSize = 260;
 constexpr int kBottomOffset = 0;
