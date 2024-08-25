@@ -32,6 +32,8 @@
 class Application;
 class CollectionBackend;
 class SmartPlaylistWizardPlugin;
+class SmartPlaylistWizardTypePage;
+class SmartPlaylistWizardFinishPage;
 
 class SmartPlaylistWizard : public QWizard {
   Q_OBJECT
@@ -47,9 +49,6 @@ class SmartPlaylistWizard : public QWizard {
   void initializePage(const int id) override;
 
  private:
-  class TypePage;
-  class FinishPage;
-
   void AddPlugin(SmartPlaylistWizardPlugin *plugin);
 
  private Q_SLOTS:
@@ -58,8 +57,8 @@ class SmartPlaylistWizard : public QWizard {
  private:
   Application *app_;
   SharedPtr<CollectionBackend> collection_backend_;
-  TypePage *type_page_;
-  FinishPage *finish_page_;
+  SmartPlaylistWizardTypePage *type_page_;
+  SmartPlaylistWizardFinishPage *finish_page_;
   int finish_id_;
 
   int type_index_;

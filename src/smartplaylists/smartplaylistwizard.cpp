@@ -34,38 +34,16 @@
 #include "smartplaylistquerywizardplugin.h"
 #include "smartplaylistwizard.h"
 #include "smartplaylistwizardplugin.h"
+#include "smartplaylistwizardtypepage.h"
+#include "smartplaylistwizardfinishpage.h"
 #include "ui_smartplaylistwizardfinishpage.h"
-
-class SmartPlaylistWizard::TypePage : public QWizardPage {  // clazy:exclude=missing-qobject-macro
- public:
-  explicit TypePage(QWidget *parent) : QWizardPage(parent), next_id_(-1) {}
-
-  int nextId() const override { return next_id_; }
-  int next_id_;
-};
-
-class SmartPlaylistWizard::FinishPage : public QWizardPage {  // clazy:exclude=missing-qobject-macro
- public:
-  explicit FinishPage(QWidget *parent) : QWizardPage(parent), ui_(new Ui_SmartPlaylistWizardFinishPage) {
-    ui_->setupUi(this);
-    QObject::connect(ui_->name, &QLineEdit::textChanged, this, &SmartPlaylistWizard::FinishPage::completeChanged);
-  }
-
-  ~FinishPage() override { delete ui_; }
-
-  int nextId() const override { return -1; }
-  bool isComplete() const override { return !ui_->name->text().isEmpty(); }
-
-  Ui_SmartPlaylistWizardFinishPage *ui_;
-
-};
 
 SmartPlaylistWizard::SmartPlaylistWizard(Application *app, SharedPtr<CollectionBackend> collection_backend, QWidget *parent)
     : QWizard(parent),
       app_(app),
       collection_backend_(collection_backend),
-      type_page_(new TypePage(this)),
-      finish_page_(new FinishPage(this)),
+      type_page_(new SmartPlaylistWizardTypePage(this)),
+      finish_page_(new SmartPlaylistWizardFinishPage(this)),
       type_index_(-1) {
 
   setWindowIcon(IconLoader::Load(QStringLiteral("strawberry")));

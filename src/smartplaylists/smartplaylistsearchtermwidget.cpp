@@ -20,19 +20,16 @@
 
 #include "config.h"
 
-#include <QWidget>
 #include <QIODevice>
 #include <QFile>
 #include <QMessageBox>
-#include <QImage>
-#include <QPixmap>
-#include <QPainter>
-#include <QPalette>
 #include <QDateTime>
 #include <QMetaObject>
 #include <QPropertyAnimation>
-#include <QKeyEvent>
+#include <QEvent>
 #include <QEnterEvent>
+#include <QShowEvent>
+#include <QResizeEvent>
 
 #include "core/shared_ptr.h"
 #include "core/iconloader.h"
@@ -41,38 +38,8 @@
 #include "playlist/playlistdelegates.h"
 #include "smartplaylistsearchterm.h"
 #include "smartplaylistsearchtermwidget.h"
+#include "smartplaylistsearchtermwidgetoverlay.h"
 #include "ui_smartplaylistsearchtermwidget.h"
-
-// Exported by QtGui
-void qt_blurImage(QPainter *p, QImage &blurImage, qreal radius, bool quality, bool alphaOnly, int transposed = 0);
-
-class SmartPlaylistSearchTermWidget::Overlay : public QWidget {  // clazy:exclude=missing-qobject-macro
- public:
-  explicit Overlay(SmartPlaylistSearchTermWidget *parent);
-  void Grab();
-  void SetOpacity(const float opacity);
-  float opacity() const { return opacity_; }
-
-  static const int kSpacing;
-  static const int kIconSize;
-
- protected:
-  void paintEvent(QPaintEvent*) override;
-  void mouseReleaseEvent(QMouseEvent*) override;
-  void keyReleaseEvent(QKeyEvent *e) override;
-
- private:
-  SmartPlaylistSearchTermWidget *parent_;
-
-  float opacity_;
-  QString text_;
-  QPixmap pixmap_;
-  QPixmap icon_;
-
-};
-
-const int SmartPlaylistSearchTermWidget::Overlay::kSpacing = 6;
-const int SmartPlaylistSearchTermWidget::Overlay::kIconSize = 22;
 
 SmartPlaylistSearchTermWidget::SmartPlaylistSearchTermWidget(SharedPtr<CollectionBackend> collection_backend, QWidget *parent)
     : QWidget(parent),
@@ -259,16 +226,18 @@ void SmartPlaylistSearchTermWidget::SetActive(bool active) {
   ui_->container->setEnabled(active);
 
   if (!active) {
-    overlay_ = new Overlay(this);
+    overlay_ = new SmartPlaylistSearchTermWidgetOverlay(this);
   }
 
 }
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-void SmartPlaylistSearchTermWidget::enterEvent(QEnterEvent*) {
+void SmartPlaylistSearchTermWidget::enterEvent(QEnterEvent *e) {
 #else
-void SmartPlaylistSearchTermWidget::enterEvent(QEvent*) {
+void SmartPlaylistSearchTermWidget::enterEvent(QEvent *e) {
 #endif
+
+  Q_UNUSED(e)
 
   if (!overlay_ || !isEnabled()) return;
 
@@ -279,7 +248,9 @@ void SmartPlaylistSearchTermWidget::enterEvent(QEvent*) {
 
 }
 
-void SmartPlaylistSearchTermWidget::leaveEvent(QEvent*) {
+void SmartPlaylistSearchTermWidget::leaveEvent(QEvent *e) {
+
+  Q_UNUSED(e);
 
   if (!overlay_) return;
 
@@ -293,6 +264,7 @@ void SmartPlaylistSearchTermWidget::leaveEvent(QEvent*) {
 void SmartPlaylistSearchTermWidget::resizeEvent(QResizeEvent *e) {
 
   QWidget::resizeEvent(e);
+
   if (overlay_ && overlay_->isVisible()) {
     QMetaObject::invokeMethod(this, &SmartPlaylistSearchTermWidget::Grab);
   }
@@ -424,87 +396,4 @@ void SmartPlaylistSearchTermWidget::RelativeValueChanged() {
   // Emit the signal in any case, so the Next button will be disabled
   Q_EMIT Changed();
 
-}
-
-SmartPlaylistSearchTermWidget::Overlay::Overlay(SmartPlaylistSearchTermWidget *parent)
-    : QWidget(parent),
-      parent_(parent),
-      opacity_(0.0),
-      text_(tr("Add search term")),
-      icon_(IconLoader::Load(QStringLiteral("list-add")).pixmap(kIconSize)) {
-
-  raise();
-  setFocusPolicy(Qt::TabFocus);
-
-}
-
-void SmartPlaylistSearchTermWidget::Overlay::SetOpacity(const float opacity) {
-
-  opacity_ = opacity;
-  update();
-
-}
-
-void SmartPlaylistSearchTermWidget::Overlay::Grab() {
-
-  hide();
-
-  // Take a "screenshot" of the window
-  QPixmap pixmap = parent_->grab();
-  QImage image = pixmap.toImage();
-
-  // Blur it
-  QImage blurred(image.size(), QImage::Format_ARGB32_Premultiplied);
-  blurred.fill(Qt::transparent);
-
-  QPainter blur_painter(&blurred);
-  qt_blurImage(&blur_painter, image, 10.0, true, false);
-  blur_painter.end();
-
-  pixmap_ = QPixmap::fromImage(blurred);
-
-  resize(parent_->size());
-  show();
-  update();
-
-}
-
-void SmartPlaylistSearchTermWidget::Overlay::paintEvent(QPaintEvent*) {
-
-  QPainter p(this);
-
-  // Background
-  p.fillRect(rect(), palette().window());
-
-  // Blurred parent widget
-  p.setOpacity(0.25 + opacity_ * 0.25);
-  p.drawPixmap(0, 0, pixmap_);
-
-  // Draw a frame
-  p.setOpacity(1.0);
-  p.setPen(palette().color(QPalette::Mid));
-  p.setRenderHint(QPainter::Antialiasing);
-  p.drawRoundedRect(rect(), 5, 5);
-
-  // Geometry
-
-  const QSize contents_size(kIconSize + kSpacing + fontMetrics().horizontalAdvance(text_), qMax(kIconSize, fontMetrics().height()));
-
-  const QRect contents(QPoint((width() - contents_size.width()) / 2, (height() - contents_size.height()) / 2), contents_size);
-  const QRect icon(contents.topLeft(), QSize(kIconSize, kIconSize));
-  const QRect text(icon.right() + kSpacing, icon.top(), contents.width() - kSpacing - kIconSize, contents.height());
-
-  // Icon and text
-  p.setPen(palette().color(QPalette::Text));
-  p.drawPixmap(icon, icon_);
-  p.drawText(text, Qt::TextDontClip | Qt::AlignVCenter, text_);  // NOLINT(bugprone-suspicious-enum-usage)
-
-}
-
-void SmartPlaylistSearchTermWidget::Overlay::mouseReleaseEvent(QMouseEvent*) {
-  Q_EMIT parent_->Clicked();
-}
-
-void SmartPlaylistSearchTermWidget::Overlay::keyReleaseEvent(QKeyEvent *e) {
-  if (e->key() == Qt::Key_Space) Q_EMIT parent_->Clicked();
 }

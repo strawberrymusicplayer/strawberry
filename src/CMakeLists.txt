@@ -148,15 +148,20 @@ set(SOURCES
   smartplaylists/playlistgeneratormimedata.cpp
   smartplaylists/playlistquerygenerator.cpp
   smartplaylists/smartplaylistquerywizardplugin.cpp
+  smartplaylists/smartplaylistquerywizardpluginsortpage.cpp
+  smartplaylists/smartplaylistquerywizardpluginsearchpage.cpp
   smartplaylists/smartplaylistsearch.cpp
   smartplaylists/smartplaylistsearchpreview.cpp
   smartplaylists/smartplaylistsearchterm.cpp
   smartplaylists/smartplaylistsearchtermwidget.cpp
+  smartplaylists/smartplaylistsearchtermwidgetoverlay.cpp
   smartplaylists/smartplaylistsmodel.cpp
   smartplaylists/smartplaylistsviewcontainer.cpp
   smartplaylists/smartplaylistsview.cpp
   smartplaylists/smartplaylistwizard.cpp
   smartplaylists/smartplaylistwizardplugin.cpp
+  smartplaylists/smartplaylistwizardtypepage.cpp
+  smartplaylists/smartplaylistwizardfinishpage.cpp
 
   covermanager/albumcovermanager.cpp
   covermanager/albumcovermanagerlist.cpp
@@ -409,13 +414,18 @@ set(HEADERS
   smartplaylists/playlistquerygenerator.h
   smartplaylists/playlistgeneratormimedata.h
   smartplaylists/smartplaylistquerywizardplugin.h
+  smartplaylists/smartplaylistquerywizardpluginsortpage.h
+  smartplaylists/smartplaylistquerywizardpluginsearchpage.h
   smartplaylists/smartplaylistsearchpreview.h
   smartplaylists/smartplaylistsearchtermwidget.h
+  smartplaylists/smartplaylistsearchtermwidgetoverlay.h
   smartplaylists/smartplaylistsmodel.h
   smartplaylists/smartplaylistsviewcontainer.h
   smartplaylists/smartplaylistsview.h
   smartplaylists/smartplaylistwizard.h
   smartplaylists/smartplaylistwizardplugin.h
+  smartplaylists/smartplaylistwizardtypepage.h
+  smartplaylists/smartplaylistwizardfinishpage.h
 
   covermanager/albumcovermanager.h
   covermanager/albumcovermanagerlist.h

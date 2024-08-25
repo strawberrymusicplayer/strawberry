@@ -37,6 +37,7 @@ class QResizeEvent;
 
 class CollectionBackend;
 class Ui_SmartPlaylistSearchTermWidget;
+class SmartPlaylistSearchTermWidgetOverlay;
 
 class SmartPlaylistSearchTermWidget : public QWidget {
   Q_OBJECT
@@ -78,13 +79,10 @@ class SmartPlaylistSearchTermWidget : public QWidget {
   void Grab();
 
  private:
-  class Overlay;
-  friend class Overlay;
-
   Ui_SmartPlaylistSearchTermWidget *ui_;
   SharedPtr<CollectionBackend> collection_backend_;
 
-  Overlay *overlay_;
+  SmartPlaylistSearchTermWidgetOverlay *overlay_;
   QPropertyAnimation *animation_;
   bool active_;
   bool initialized_;

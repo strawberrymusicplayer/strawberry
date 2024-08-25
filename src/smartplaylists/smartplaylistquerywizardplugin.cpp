@@ -34,57 +34,14 @@
 #include "core/shared_ptr.h"
 #include "playlistquerygenerator.h"
 #include "smartplaylistquerywizardplugin.h"
+#include "smartplaylistquerywizardpluginsearchpage.h"
+#include "smartplaylistquerywizardpluginsortpage.h"
 #include "smartplaylistsearchtermwidget.h"
 #include "ui_smartplaylistquerysearchpage.h"
 #include "ui_smartplaylistquerysortpage.h"
 
 using std::make_unique;
 using std::make_shared;
-
-class SmartPlaylistQueryWizardPlugin::SearchPage : public QWizardPage {  // clazy:exclude=missing-qobject-macro
-
-  friend class SmartPlaylistQueryWizardPlugin;
-
- public:
-  explicit SearchPage(QWidget *parent = nullptr)
-      : QWizardPage(parent),
-        layout_(nullptr),
-        new_term_(nullptr),
-        preview_(nullptr),
-        ui_(new Ui_SmartPlaylistQuerySearchPage) {
-
-    ui_->setupUi(this);
-
-  }
-
-  bool isComplete() const override {
-    if (ui_->type->currentIndex() == 2) {  // All songs
-      return true;
-    }
-    return !std::any_of(terms_.begin(), terms_.end(), [](SmartPlaylistSearchTermWidget *widget) { return !widget->Term().is_valid(); });
-  }
-
-  QVBoxLayout *layout_;
-  QList<SmartPlaylistSearchTermWidget*> terms_;
-  SmartPlaylistSearchTermWidget *new_term_;
-
-  SmartPlaylistSearchPreview *preview_;
-
-  ScopedPtr<Ui_SmartPlaylistQuerySearchPage> ui_;
-};
-
-class SmartPlaylistQueryWizardPlugin::SortPage : public QWizardPage {  // clazy:exclude=missing-qobject-macro
- public:
-  SortPage(SmartPlaylistQueryWizardPlugin *plugin, QWidget *parent, int next_id)
-      : QWizardPage(parent), next_id_(next_id), plugin_(plugin) {}
-
-  void showEvent(QShowEvent*) override { plugin_->UpdateSortPreview(); }
-
-  int nextId() const override { return next_id_; }
-  int next_id_;
-
-  SmartPlaylistQueryWizardPlugin *plugin_;
-};
 
 SmartPlaylistQueryWizardPlugin::SmartPlaylistQueryWizardPlugin(Application *app, SharedPtr<CollectionBackend> collection_backend, QObject *parent)
     : SmartPlaylistWizardPlugin(app, collection_backend, parent),
@@ -102,9 +59,9 @@ QString SmartPlaylistQueryWizardPlugin::description() const {
 int SmartPlaylistQueryWizardPlugin::CreatePages(QWizard *wizard, int finish_page_id) {
 
   // Create the UI
-  search_page_ = new SearchPage(wizard);
+  search_page_ = new SmartPlaylistQueryWizardPluginSearchPage(wizard);
 
-  QWizardPage *sort_page = new SortPage(this, wizard, finish_page_id);
+  QWizardPage *sort_page = new SmartPlaylistQueryWizardPluginSortPage(this, wizard, finish_page_id);
   sort_ui_ = make_unique<Ui_SmartPlaylistQuerySortPage>();
   sort_ui_->setupUi(sort_page);
 

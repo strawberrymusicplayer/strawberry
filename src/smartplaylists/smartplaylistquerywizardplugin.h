@@ -23,7 +23,6 @@
 
 #include "config.h"
 
-#include <QObject>
 #include <QString>
 
 #include "core/scoped_ptr.h"
@@ -35,6 +34,7 @@ class QWizard;
 
 class CollectionBackend;
 class SmartPlaylistSearch;
+class SmartPlaylistQueryWizardPluginSearchPage;
 class Ui_SmartPlaylistQuerySortPage;
 
 class SmartPlaylistQueryWizardPlugin : public SmartPlaylistWizardPlugin {
@@ -53,6 +53,9 @@ class SmartPlaylistQueryWizardPlugin : public SmartPlaylistWizardPlugin {
   void SetGenerator(PlaylistGeneratorPtr) override;
   PlaylistGeneratorPtr CreateGenerator() const override;
 
+ public Q_SLOTS:
+  void UpdateSortPreview();
+
  private Q_SLOTS:
   void AddSearchTerm();
   void RemoveSearchTerm();
@@ -60,19 +63,15 @@ class SmartPlaylistQueryWizardPlugin : public SmartPlaylistWizardPlugin {
   void SearchTypeChanged();
 
   void UpdateTermPreview();
-  void UpdateSortPreview();
   void UpdateSortOrder();
 
   void MoveTermListToBottom(const int min, const int max);
 
  private:
-  class SearchPage;
-  class SortPage;
-
   SmartPlaylistSearch MakeSearch() const;
 
   ScopedPtr<Ui_SmartPlaylistQuerySortPage> sort_ui_;
-  SearchPage *search_page_;
+  SmartPlaylistQueryWizardPluginSearchPage *search_page_;
 
   int previous_scrollarea_max_;
 };
