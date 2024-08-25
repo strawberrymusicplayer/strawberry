@@ -36,12 +36,12 @@
 #include <QString>
 #include <QUrl>
 #include <QImage>
-#include <QTemporaryFile>
 #include <QStandardPaths>
 
 #include "core/logging.h"
 #include "core/shared_ptr.h"
 #include "core/application.h"
+#include "core/temporaryfile.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
 #include "connecteddevice.h"
@@ -200,13 +200,11 @@ bool GPodDevice::CopyToStorage(const CopyJob &job, QString &error_text) {
       QString temp_path = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
 #endif
       if (!QDir(temp_path).exists()) QDir().mkpath(temp_path);
-      SharedPtr<QTemporaryFile> cover_file = make_shared<QTemporaryFile>(temp_path + QStringLiteral("/track-albumcover-XXXXXX.jpg"));
-      cover_file->setAutoRemove(true);
-      if (cover_file->open()) {
-        cover_file->close();
+      SharedPtr<TemporaryFile> cover_file = make_shared<TemporaryFile>(temp_path + QStringLiteral("/track-albumcover-XXXXXX.jpg"));
+      if (!cover_file->filename().isEmpty()) {
         const QImage &image = job.cover_image_;
-        if (image.save(cover_file->fileName(), "JPG")) {
-          const QByteArray filename = QFile::encodeName(cover_file->fileName());
+        if (image.save(cover_file->filename(), "JPG")) {
+          const QByteArray filename = QFile::encodeName(cover_file->filename());
           result = itdb_track_set_thumbnails(track, filename.constData());
           if (result) {
             cover_files_ << cover_file;
@@ -214,11 +212,11 @@ bool GPodDevice::CopyToStorage(const CopyJob &job, QString &error_text) {
           }
         }
         else {
-          qLog(Error) << "Failed to save" << cover_file->fileName() << cover_file->errorString();
+          qLog(Error) << "Failed to save" << cover_file->filename();
         }
       }
       else {
-        qLog(Error) << "Failed to open" << cover_file->fileName() << cover_file->errorString();
+        qLog(Error) << "Failed to obtain temporary file";
       }
     }
     else if (!job.cover_source_.isEmpty()) {

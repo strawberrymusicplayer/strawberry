@@ -33,11 +33,11 @@
 #include <QString>
 #include <QStringList>
 #include <QUrl>
-#include <QTemporaryFile>
 
 #include "core/shared_ptr.h"
 #include "core/song.h"
 #include "core/musicstorage.h"
+#include "core/temporaryfile.h"
 #include "connecteddevice.h"
 #include "gpodloader.h"
 
@@ -97,7 +97,7 @@ class GPodDevice : public ConnectedDevice, public virtual MusicStorage {
   QMutex db_busy_;
   SongList songs_to_add_;
   SongList songs_to_remove_;
-  QList<SharedPtr<QTemporaryFile>> cover_files_;
+  QList<SharedPtr<TemporaryFile>> cover_files_;
 };
 
 #endif  // GPODDEVICE_H
