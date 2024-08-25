@@ -247,7 +247,7 @@ void Organize::ProcessSomeFiles() {
     else if (destination_->source() == Song::Source::Device) {
       const TagReaderClient::Result result = TagReaderClient::Instance()->LoadEmbeddedArtAsImageBlocking(task.song_info_.song_.url().toLocalFile(), job.cover_image_);
       if (!result.success()) {
-        qLog(Error) << "Could not save embedded art to" << task.song_info_.song_.url() << result.error;
+        qLog(Error) << "Could not load embedded art from" << task.song_info_.song_.url() << result.error;
       }
     }
 
