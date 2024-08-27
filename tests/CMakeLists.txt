@@ -13,34 +13,6 @@ set(TESTUTILS-MOC-HEADERS src/mock_networkaccessmanager.h src/test_utils.h src/t
 
 qt_wrap_cpp(TESTUTILS-SOURCES-MOC ${TESTUTILS-MOC-HEADERS})
 
-link_directories(
-  ${SQLITE_LIBRARY_DIRS}
-  ${TAGLIB_LIBRARY_DIRS}
-)
-
-if(HAVE_GSTREAMER)
-  link_directories(
-    ${GSTREAMER_LIBRARY_DIRS}
-    ${GSTREAMER_BASE_LIBRARY_DIRS}
-    ${GSTREAMER_APP_LIBRARY_DIRS}
-    ${GSTREAMER_AUDIO_LIBRARY_DIRS}
-    ${GSTREAMER_TAG_LIBRARY_DIRS}
-    ${GSTREAMER_PBUTILS_LIBRARY_DIRS}
-  )
-endif()
-
-if(HAVE_CHROMAPRINT)
-  link_directories(${CHROMAPRINT_LIBRARY_DIRS})
-endif()
-
-if(HAVE_AUDIOCD)
-  link_directories(${LIBCDIO_LIBRARY_DIRS})
-endif()
-
-if(HAVE_LIBMTP)
-  link_directories(${LIBMTP_LIBRARY_DIRS})
-endif()
-
 add_library(test_utils STATIC EXCLUDE_FROM_ALL ${TESTUTILS-SOURCES} ${TESTUTILS-SOURCES-MOC})
 target_include_directories(test_utils SYSTEM PRIVATE
   ${GTEST_INCLUDE_DIRS}
@@ -50,6 +22,10 @@ target_include_directories(test_utils PRIVATE
   ${CMAKE_BINARY_DIR}/src
   ${CMAKE_SOURCE_DIR}/src
   ${CMAKE_SOURCE_DIR}/ext/libstrawberry-common
+)
+target_link_directories(test_utils PRIVATE
+  ${SQLITE_LIBRARY_DIRS}
+  ${TAGLIB_LIBRARY_DIRS}
 )
 target_link_libraries(test_utils PRIVATE
   ${GTEST_BOTH_LIBRARIES}

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.7)
+cmake_minimum_required(VERSION 3.13)
 
 set(SOURCES
   core/logging.cpp
@@ -16,8 +16,6 @@ set(HEADERS
 
 qt_wrap_cpp(MOC ${HEADERS})
 
-link_directories(${GLIB_LIBRARY_DIRS})
-
 add_library(libstrawberry-common STATIC ${SOURCES} ${MOC})
 
 target_include_directories(libstrawberry-common SYSTEM PRIVATE ${GLIB_INCLUDE_DIRS})
@@ -30,6 +28,8 @@ target_include_directories(libstrawberry-common PRIVATE
 if(Backtrace_FOUND)
   target_include_directories(libstrawberry-common SYSTEM PRIVATE ${Backtrace_INCLUDE_DIRS})
 endif()
+
+target_link_directories(libstrawberry-common PRIVATE ${GLIB_LIBRARY_DIRS})
 
 target_link_libraries(libstrawberry-common PRIVATE
   ${CMAKE_THREAD_LIBS_INIT}

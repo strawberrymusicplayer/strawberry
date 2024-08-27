@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.7)
+cmake_minimum_required(VERSION 3.13)
 set(SOURCES KDSingleApplication/src/kdsingleapplication.cpp KDSingleApplication/src/kdsingleapplication_localsocket.cpp)
 set(HEADERS KDSingleApplication/src/kdsingleapplication.h KDSingleApplication/src/kdsingleapplication_localsocket_p.h)
 qt_wrap_cpp(MOC ${HEADERS})

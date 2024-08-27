@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.7)
+cmake_minimum_required(VERSION 3.13)
 
 if(HAVE_TRANSLATIONS)
   include(../cmake/Translations.cmake)
@@ -1044,83 +1044,6 @@ if(HAVE_TRANSLATIONS)
 
 endif(HAVE_TRANSLATIONS)
 
-link_directories(
-  ${Boost_LIBRARY_DIRS}
-  ${GLIB_LIBRARY_DIRS}
-  ${GOBJECT_LIBRARY_DIRS}
-  ${SQLITE_LIBRARY_DIRS}
-  ${PROTOBUF_LIBRARY_DIRS}
-  ${SINGLEAPPLICATION_LIBRARY_DIRS}
-  ${ICU_LIBRARY_DIRS}
-)
-
-if(HAVE_ALSA)
-  link_directories(${ALSA_LIBRARY_DIRS})
-endif()
-
-if(HAVE_LIBPULSE)
-  link_directories(${LIBPULSE_LIBRARY_DIRS})
-endif()
-
-if(HAVE_GSTREAMER)
-  link_directories(
-    ${GSTREAMER_LIBRARY_DIRS}
-    ${GSTREAMER_BASE_LIBRARY_DIRS}
-    ${GSTREAMER_APP_LIBRARY_DIRS}
-    ${GSTREAMER_AUDIO_LIBRARY_DIRS}
-    ${GSTREAMER_TAG_LIBRARY_DIRS}
-    ${GSTREAMER_PBUTILS_LIBRARY_DIRS}
-  )
-endif()
-
-if(HAVE_VLC)
-  link_directories(${LIBVLC_LIBRARY_DIRS})
-endif()
-
-if(HAVE_SONGFINGERPRINTING OR HAVE_MUSICBRAINZ)
-  link_directories(${CHROMAPRINT_LIBRARY_DIRS})
-endif()
-
-if(X11_FOUND)
-  link_directories(${X11_LIBRARY_DIRS})
-endif()
-
-if(XCB_FOUND)
-  link_directories(${XCB_LIBRARY_DIRS})
-endif()
-
-if(HAVE_GIO)
-  link_directories(${GIO_LIBRARY_DIRS})
-endif()
-
-if(HAVE_GIO_UNIX)
-  link_directories(${GIO_UNIX_LIBRARY_DIRS})
-endif()
-
-if(HAVE_AUDIOCD)
-  link_directories(${LIBCDIO_LIBRARY_DIRS})
-endif()
-
-if(HAVE_LIBGPOD)
-  link_directories(${LIBGPOD_LIBRARY_DIRS} ${GDK_PIXBUF_LIBRARY_DIRS})
-endif()
-
-if(HAVE_LIBMTP)
-  link_directories(${LIBMTP_LIBRARY_DIRS})
-endif()
-
-if(HAVE_TAGLIB)
-  link_directories(${TAGLIB_LIBRARY_DIRS})
-endif()
-
-if(HAVE_TAGPARSER)
-  link_directories(${TAGPARSER_LIBRARY_DIRS})
-endif()
-
-if(HAVE_QTSPARKLE)
-  link_directories(${QTSPARKLE_LIBRARY_DIRS})
-endif()
-
 add_library(strawberry_lib STATIC
   ${SOURCES}
   ${MOC}
@@ -1155,6 +1078,16 @@ target_include_directories(strawberry_lib PUBLIC
   ${SINGLEAPPLICATION_INCLUDE_DIRS}
 )
 
+target_link_directories(strawberry_lib PUBLIC
+  ${Boost_LIBRARY_DIRS}
+  ${GLIB_LIBRARY_DIRS}
+  ${GOBJECT_LIBRARY_DIRS}
+  ${SQLITE_LIBRARY_DIRS}
+  ${PROTOBUF_LIBRARY_DIRS}
+  ${SINGLEAPPLICATION_LIBRARY_DIRS}
+  ${ICU_LIBRARY_DIRS}
+)
+
 target_link_libraries(strawberry_lib PUBLIC
   ${CMAKE_THREAD_LIBS_INIT}
   ${GLIB_LIBRARIES}
@@ -1183,11 +1116,13 @@ endif()
 
 if(HAVE_ALSA)
   target_include_directories(strawberry_lib SYSTEM PRIVATE ${ALSA_INCLUDE_DIRS})
+  target_link_directories(strawberry_lib PRIVATE ${ALSA_LIBRARY_DIRS})
   target_link_libraries(strawberry_lib PRIVATE ${ALSA_LIBRARIES})
 endif()
 
 if(HAVE_LIBPULSE)
   target_include_directories(strawberry_lib SYSTEM PRIVATE ${LIBPULSE_INCLUDE_DIRS})
+  target_link_directories(strawberry_lib PRIVATE ${LIBPULSE_LIBRARY_DIRS})
   target_link_libraries(strawberry_lib PRIVATE ${LIBPULSE_LIBRARIES})
 endif()
 
@@ -1199,6 +1134,14 @@ if(HAVE_GSTREAMER)
     ${GSTREAMER_AUDIO_INCLUDE_DIRS}
     ${GSTREAMER_TAG_INCLUDE_DIRS}
     ${GSTREAMER_PBUTILS_INCLUDE_DIRS}
+  )
+  target_link_directories(strawberry_lib PRIVATE
+    ${GSTREAMER_LIBRARY_DIRS}
+    ${GSTREAMER_BASE_LIBRARY_DIRS}
+    ${GSTREAMER_APP_LIBRARY_DIRS}
+    ${GSTREAMER_AUDIO_LIBRARY_DIRS}
+    ${GSTREAMER_TAG_LIBRARY_DIRS}
+    ${GSTREAMER_PBUTILS_LIBRARY_DIRS}
   )
   target_link_libraries(strawberry_lib PRIVATE
     ${GSTREAMER_LIBRARIES}
@@ -1216,11 +1159,13 @@ endif()
 
 if(HAVE_VLC)
   target_include_directories(strawberry_lib SYSTEM PRIVATE ${LIBVLC_INCLUDE_DIRS})
+  target_link_directories(strawberry_lib PRIVATE ${LIBVLC_LIBRARY_DIRS})
   target_link_libraries(strawberry_lib PRIVATE ${LIBVLC_LIBRARIES})
 endif()
 
 if(HAVE_SONGFINGERPRINTING OR HAVE_MUSICBRAINZ)
   target_include_directories(strawberry_lib SYSTEM PRIVATE ${CHROMAPRINT_INCLUDE_DIRS})
+  target_link_directories(strawberry_lib PRIVATE ${CHROMAPRINT_LIBRARY_DIRS})
   target_link_libraries(strawberry_lib PRIVATE ${CHROMAPRINT_LIBRARIES})
 endif()
 
@@ -1230,36 +1175,43 @@ endif()
 
 if(X11_FOUND)
   target_include_directories(strawberry_lib SYSTEM PRIVATE ${X11_INCLUDE_DIR})
+  target_link_directories(strawberry_lib PRIVATE ${X11_LIBRARY_DIRS})
   target_link_libraries(strawberry_lib PRIVATE ${X11_LIBRARIES})
 endif()
 
 if(XCB_FOUND)
   target_include_directories(strawberry_lib SYSTEM PRIVATE ${XCB_INCLUDE_DIR})
+  target_link_directories(strawberry_lib PRIVATE ${XCB_LIBRARY_DIRS})
   target_link_libraries(strawberry_lib PRIVATE ${XCB_LIBRARIES})
 endif()
 
 if(HAVE_GIO)
   target_include_directories(strawberry_lib SYSTEM PRIVATE ${GIO_INCLUDE_DIRS})
+  target_link_directories(strawberry_lib PRIVATE ${GIO_LIBRARY_DIRS})
   target_link_libraries(strawberry_lib PRIVATE ${GIO_LIBRARIES})
 endif()
 
 if(HAVE_GIO_UNIX)
   target_include_directories(strawberry_lib SYSTEM PRIVATE ${GIO_UNIX_INCLUDE_DIRS})
+  target_link_directories(strawberry_lib PRIVATE ${GIO_UNIX_LIBRARY_DIRS})
   target_link_libraries(strawberry_lib PRIVATE ${GIO_UNIX_LIBRARIES})
 endif()
 
 if(HAVE_AUDIOCD)
   target_include_directories(strawberry_lib SYSTEM PRIVATE ${LIBCDIO_INCLUDE_DIRS})
+  target_link_directories(strawberry_lib PRIVATE ${LIBCDIO_LIBRARY_DIRS})
   target_link_libraries(strawberry_lib PRIVATE ${LIBCDIO_LIBRARIES})
 endif()
 
 if(HAVE_LIBGPOD)
   target_include_directories(strawberry_lib SYSTEM PRIVATE ${LIBGPOD_INCLUDE_DIRS} ${GDK_PIXBUF_INCLUDE_DIRS})
+  target_link_directories(strawberry_lib PRIVATE ${LIBGPOD_LIBRARY_DIRS} ${GDK_PIXBUF_LIBRARY_DIRS})
   target_link_libraries(strawberry_lib PRIVATE ${LIBGPOD_LIBRARIES} ${GDK_PIXBUF_LIBRARIES})
 endif()
 
 if(HAVE_LIBMTP)
   target_include_directories(strawberry_lib SYSTEM PRIVATE ${LIBMTP_INCLUDE_DIRS})
+  target_link_directories(strawberry_lib PRIVATE ${LIBMTP_LIBRARY_DIRS})
   target_link_libraries(strawberry_lib PRIVATE ${LIBMTP_LIBRARIES})
 endif()
 
@@ -1291,6 +1243,7 @@ endif()
 
 if(HAVE_QTSPARKLE)
   target_include_directories(strawberry_lib SYSTEM PRIVATE ${QTSPARKLE_INCLUDE_DIRS})
+  target_link_directories(strawberry_lib PRIVATE ${QTSPARKLE_LIBRARY_DIRS})
   target_link_libraries(strawberry_lib PRIVATE ${QTSPARKLE_LIBRARIES})
 endif()
 

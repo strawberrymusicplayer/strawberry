@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.7)
+cmake_minimum_required(VERSION 3.13)
 
 # Workaround a bug in protobuf-generate.cmake (https://github.com/protocolbuffers/protobuf/issues/12450)
 if(NOT protobuf_PROTOC_EXE)
@@ -19,19 +19,6 @@ if(HAVE_TAGPARSER)
   list(APPEND SOURCES tagreadertagparser.cpp)
 endif()
 
-link_directories(
-  ${GLIB_LIBRARY_DIRS}
-  ${PROTOBUF_LIBRARY_DIRS}
-)
-
-if(HAVE_TAGLIB)
-  link_directories(${TAGLIB_LIBRARY_DIRS})
-endif()
-
-if(HAVE_TAGPARSER)
-  link_directories(${TAGPARSER_LIBRARY_DIRS})
-endif()
-
 add_library(libstrawberry-tagreader STATIC ${PROTO_SOURCES} ${SOURCES})
 
 target_include_directories(libstrawberry-tagreader SYSTEM PRIVATE
@@ -47,6 +34,11 @@ target_include_directories(libstrawberry-tagreader PRIVATE
   ${CMAKE_BINARY_DIR}/src
 )
 
+target_link_directories(libstrawberry-tagreader PRIVATE
+  ${GLIB_LIBRARY_DIRS}
+  ${PROTOBUF_LIBRARY_DIRS}
+)
+
 target_link_libraries(libstrawberry-tagreader PRIVATE
   ${GLIB_LIBRARIES}
   ${Protobuf_LIBRARIES}
@@ -58,11 +50,13 @@ target_link_libraries(libstrawberry-tagreader PRIVATE
 
 if(HAVE_TAGLIB)
   target_include_directories(libstrawberry-tagreader SYSTEM PRIVATE ${TAGLIB_INCLUDE_DIRS})
+  target_link_directories(libstrawberry-tagreader PRIVATE ${TAGLIB_LIBRARY_DIRS})
   target_link_libraries(libstrawberry-tagreader PRIVATE ${TAGLIB_LIBRARIES})
 endif()
 
 if(HAVE_TAGPARSER)
   target_include_directories(libstrawberry-tagreader SYSTEM PRIVATE ${TAGPARSER_INCLUDE_DIRS})
+  target_link_directories(libstrawberry-tagreader PRIVATE ${TAGPARSER_LIBRARY_DIRS})
   target_link_libraries(libstrawberry-tagreader PRIVATE ${TAGPARSER_LIBRARIES})
 endif()
 

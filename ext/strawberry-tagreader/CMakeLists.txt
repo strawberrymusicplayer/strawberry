@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.7)
+cmake_minimum_required(VERSION 3.13)
 
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 
@@ -6,16 +6,6 @@ set(SOURCES main.cpp tagreaderworker.cpp)
 set(HEADERS tagreaderworker.h)
 
 qt_wrap_cpp(MOC ${HEADERS})
-
-link_directories(${GLIB_LIBRARY_DIRS})
-
-if(HAVE_TAGLIB)
-  link_directories(${TAGLIB_LIBRARY_DIRS})
-endif()
-
-if(HAVE_TAGPARSER)
-  link_directories(${TAGPARSER_LIBRARY_DIRS})
-endif()
 
 add_executable(strawberry-tagreader ${SOURCES} ${MOC} ${QRC})
 
@@ -31,6 +21,8 @@ target_include_directories(strawberry-tagreader PRIVATE
   ${CMAKE_BINARY_DIR}/src
 )
 
+target_link_directories(strawberry-tagreader PRIVATE ${GLIB_LIBRARY_DIRS})
+
 target_link_libraries(strawberry-tagreader PRIVATE
   ${GLIB_LIBRARIES}
   Qt${QT_VERSION_MAJOR}::Core
@@ -41,11 +33,13 @@ target_link_libraries(strawberry-tagreader PRIVATE
 
 if(HAVE_TAGLIB)
   target_include_directories(strawberry-tagreader SYSTEM PRIVATE ${TAGLIB_INCLUDE_DIRS})
+  target_link_directories(strawberry-tagreader PRIVATE ${TAGLIB_LIBRARY_DIRS})
   target_link_libraries(strawberry-tagreader PRIVATE ${TAGLIB_LIBRARIES})
 endif()
 
 if(HAVE_TAGPARSER)
   target_include_directories(strawberry-tagreader SYSTEM PRIVATE ${TAGPARSER_INCLUDE_DIRS})
+  target_link_directories(strawberry-tagreader PRIVATE ${TAGPARSER_LIBRARY_DIRS})
   target_link_libraries(strawberry-tagreader PRIVATE ${TAGPARSER_LIBRARIES})
 endif()
 
