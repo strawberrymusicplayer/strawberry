@@ -136,6 +136,8 @@ class TagReaderTagLib : public TagReaderBase {
   void SetEmbeddedArt(TagLib::ID3v2::Tag *tag, const QByteArray &data, const QString &mime_type) const;
   void SetEmbeddedArt(TagLib::MP4::File *aac_file, TagLib::MP4::Tag *tag, const QByteArray &data, const QString &mime_type) const;
 
+  static TagLib::String TagLibStringListToSlashSeparatedString(const TagLib::StringList &taglib_string_list);
+
  private:
   FileRefFactory *factory_;
 

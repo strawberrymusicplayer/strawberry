@@ -798,13 +798,13 @@ void TagReaderTagLib::ParseMP4Tags(TagLib::MP4::Tag *tag, QString *disc, QString
   }
 
   if (tag->contains(kMP4_MusicBrainz_AlbumArtistId)) {
-    AssignTagLibStringToStdString(tag->item(kMP4_MusicBrainz_AlbumArtistId).toStringList().toString(), song->mutable_musicbrainz_album_artist_id());
+    AssignTagLibStringToStdString(TagLibStringListToSlashSeparatedString(tag->item(kMP4_MusicBrainz_AlbumArtistId).toStringList()), song->mutable_musicbrainz_album_artist_id());
   }
   if (tag->contains(kMP4_MusicBrainz_ArtistId)) {
-    AssignTagLibStringToStdString(tag->item(kMP4_MusicBrainz_ArtistId).toStringList().toString(), song->mutable_musicbrainz_artist_id());
+    AssignTagLibStringToStdString(TagLibStringListToSlashSeparatedString(tag->item(kMP4_MusicBrainz_ArtistId).toStringList()), song->mutable_musicbrainz_artist_id());
   }
   if (tag->contains(kMP4_MusicBrainz_OriginalArtistId)) {
-    AssignTagLibStringToStdString(tag->item(kMP4_MusicBrainz_OriginalArtistId).toStringList().toString(), song->mutable_musicbrainz_original_artist_id());
+    AssignTagLibStringToStdString(TagLibStringListToSlashSeparatedString(tag->item(kMP4_MusicBrainz_OriginalArtistId).toStringList()), song->mutable_musicbrainz_original_artist_id());
   }
   if (tag->contains(kMP4_MusicBrainz_AlbumId)) {
     AssignTagLibStringToStdString(tag->item(kMP4_MusicBrainz_AlbumId).toStringList().toString(), song->mutable_musicbrainz_album_id());
@@ -825,7 +825,7 @@ void TagReaderTagLib::ParseMP4Tags(TagLib::MP4::Tag *tag, QString *disc, QString
     AssignTagLibStringToStdString(tag->item(kMP4_MusicBrainz_ReleaseGroupId).toStringList().toString(), song->mutable_musicbrainz_release_group_id());
   }
   if (tag->contains(kMP4_MusicBrainz_WorkId)) {
-    AssignTagLibStringToStdString(tag->item(kMP4_MusicBrainz_WorkId).toStringList().toString(), song->mutable_musicbrainz_work_id());
+    AssignTagLibStringToStdString(TagLibStringListToSlashSeparatedString(tag->item(kMP4_MusicBrainz_WorkId).toStringList()), song->mutable_musicbrainz_work_id());
   }
 
 }
@@ -1868,5 +1868,19 @@ TagReaderBase::Result TagReaderTagLib::SaveSongRatingToFile(const QString &filen
   }
 
   return success ? Result::ErrorCode::Success : Result::ErrorCode::FileSaveError;
+
+}
+
+TagLib::String TagReaderTagLib::TagLibStringListToSlashSeparatedString(const TagLib::StringList &taglib_string_list) {
+
+  TagLib::String result_string;
+  for (const TagLib::String &taglib_string : taglib_string_list) {
+    if (!result_string.isEmpty()) {
+      result_string += '/';
+    }
+    result_string += taglib_string;
+  }
+
+  return result_string;
 
 }
