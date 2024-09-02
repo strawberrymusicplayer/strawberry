@@ -437,7 +437,12 @@ QJsonObject ListenBrainzScrobbler::JsonTrackMetadata(const ScrobbleMetadata &met
     object_additional_info.insert(QLatin1String("track_mbid"), metadata.musicbrainz_track_id);
   }
   if (!metadata.musicbrainz_work_id.isEmpty()) {
-    object_additional_info.insert(QLatin1String("work_mbids"), QJsonArray() << metadata.musicbrainz_work_id);
+    const QStringList musicbrainz_work_id_list = metadata.musicbrainz_work_id.split(QLatin1Char('/'));
+    QJsonArray array_musicbrainz_work_id;
+    for (const QString &musicbrainz_work_id : musicbrainz_work_id_list) {
+      array_musicbrainz_work_id << musicbrainz_work_id;
+    }
+    object_additional_info.insert(QLatin1String("work_mbids"), array_musicbrainz_work_id);
   }
 
   object_track_metadata.insert(QLatin1String("additional_info"), object_additional_info);
