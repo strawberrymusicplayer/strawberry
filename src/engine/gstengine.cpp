@@ -37,6 +37,7 @@
 #include <QtGlobal>
 #include <QFuture>
 #include <QFutureWatcher>
+#include <QMutexLocker>
 #include <QTimer>
 #include <QList>
 #include <QByteArray>
@@ -604,32 +605,42 @@ void GstEngine::EndOfStreamReached(const int pipeline_id, const bool has_next_tr
 
 void GstEngine::HandlePipelineError(const int pipeline_id, const int domain, const int error_code, const QString &message, const QString &debugstr) {
 
-  if (!current_pipeline_ || current_pipeline_->id() != pipeline_id) return;
-
   qLog(Error) << "GStreamer error:" << domain << error_code << message;
-
-  FinishPipeline(current_pipeline_);
-  current_pipeline_ = GstEnginePipelinePtr();
-
-  BufferingFinished();
-  Q_EMIT StateChanged(State::Error);
-
-  if (
-      (domain == static_cast<int>(GST_RESOURCE_ERROR) && (
-        error_code == static_cast<int>(GST_RESOURCE_ERROR_NOT_FOUND) ||
-        error_code == static_cast<int>(GST_RESOURCE_ERROR_OPEN_READ) ||
-        error_code == static_cast<int>(GST_RESOURCE_ERROR_NOT_AUTHORIZED)
-      ))
-      || (domain == static_cast<int>(GST_STREAM_ERROR))
-      ) {
-     Q_EMIT InvalidSongRequested(stream_url_);
-   }
-  else {
-    Q_EMIT FatalError();
-  }
 
   Q_EMIT Error(message);
   Q_EMIT Error(debugstr);
+
+  if (fadeout_pause_pipeline_ && pipeline_id == fadeout_pause_pipeline_->id()) {
+    StopFadeoutPause();
+  }
+
+  if (current_pipeline_ && current_pipeline_->id() == pipeline_id) {
+
+    FinishPipeline(current_pipeline_);
+    current_pipeline_ = GstEnginePipelinePtr();
+
+    BufferingFinished();
+    Q_EMIT StateChanged(State::Error);
+
+    if (
+        (domain == static_cast<int>(GST_RESOURCE_ERROR) && (
+          error_code == static_cast<int>(GST_RESOURCE_ERROR_NOT_FOUND) ||
+          error_code == static_cast<int>(GST_RESOURCE_ERROR_OPEN_READ) ||
+          error_code == static_cast<int>(GST_RESOURCE_ERROR_NOT_AUTHORIZED)
+        ))
+        || (domain == static_cast<int>(GST_STREAM_ERROR))
+        ) {
+       Q_EMIT InvalidSongRequested(stream_url_);
+     }
+    else {
+      Q_EMIT FatalError();
+    }
+  }
+
+  else if (fadeout_pipelines_.contains(pipeline_id)) {
+    GstEnginePipelinePtr pipeline = fadeout_pipelines_.take(pipeline_id);
+    FinishPipeline(pipeline);
+  }
 
 }
 
@@ -663,22 +674,21 @@ void GstEngine::FadeoutFinished(const int pipeline_id) {
     return;
   }
 
-  GstEnginePipelinePtr pipeline = fadeout_pipelines_.value(pipeline_id);
-  fadeout_pipelines_.remove(pipeline_id);
-  FinishPipeline(pipeline);
+  GstEnginePipelinePtr pipeline = fadeout_pipelines_.take(pipeline_id);
 
-  Q_EMIT FadeoutFinishedSignal();
+  FinishPipeline(pipeline);
 
 }
 
 void GstEngine::FadeoutPauseFinished() {
+
+  if (!fadeout_pause_pipeline_) return;
 
   fadeout_pause_pipeline_->SetStateAsync(GST_STATE_PAUSED);
   Q_EMIT StateChanged(State::Paused);
   StopTimers();
   has_faded_out_to_pause_ = true;
   fadeout_pause_pipeline_ = GstEnginePipelinePtr();
-  Q_EMIT FadeoutFinishedSignal();
 
 }
 
@@ -703,26 +713,40 @@ void GstEngine::PlayDone(const GstStateChangeReturn ret, const bool pause, const
 
   if (ret == GST_STATE_CHANGE_FAILURE) {
     // Failure, but we got a redirection URL - try loading that instead
-    const QByteArray redirect_url = current_pipeline_->redirect_url();
-    if (!redirect_url.isEmpty() && redirect_url != current_pipeline_->gst_url()) {
+    GstEnginePipelinePtr old_pipeline = current_pipeline_;
+    current_pipeline_ = GstEnginePipelinePtr();
+    QByteArray redirect_url;
+    {
+      QMutexLocker l(old_pipeline->mutex_redirect_url());
+      redirect_url = old_pipeline->redirect_url();
+      redirect_url.detach();
+    }
+    QByteArray gst_url;
+    {
+      QMutexLocker l(old_pipeline->mutex_url());
+      gst_url = old_pipeline->gst_url();
+      gst_url.detach();
+    }
+    if (!redirect_url.isEmpty() && redirect_url != gst_url) {
       qLog(Info) << "Redirecting to" << redirect_url;
-      GstEnginePipelinePtr old_pipeline = current_pipeline_;
-      current_pipeline_ = GstEnginePipelinePtr();
-      if (old_pipeline) {
-        FinishPipeline(old_pipeline);
+      QUrl media_url;
+      QUrl stream_url;
+      {
+        QMutexLocker l(old_pipeline->mutex_url());
+        media_url = old_pipeline->media_url();
+        media_url.detach();
+        stream_url = old_pipeline->stream_url();
+        stream_url.detach();
       }
-      current_pipeline_ = CreatePipeline(current_pipeline_->media_url(), current_pipeline_->stream_url(), redirect_url, end_nanosec_, current_pipeline_->ebur128_loudness_normalizing_gain_db());
+      current_pipeline_ = CreatePipeline(media_url, stream_url, redirect_url, end_nanosec_, old_pipeline->ebur128_loudness_normalizing_gain_db());
+      FinishPipeline(old_pipeline);
       Play(pause, offset_nanosec);
       return;
     }
 
     // Failure - give up
     qLog(Warning) << "Could not set thread to PLAYING.";
-    GstEnginePipelinePtr old_pipeline = current_pipeline_;
-    current_pipeline_ = GstEnginePipelinePtr();
-    if (old_pipeline) {
-      FinishPipeline(old_pipeline);
-    }
+    FinishPipeline(old_pipeline);
     BufferingFinished();
     return;
   }
@@ -806,7 +830,14 @@ void GstEngine::StartFadeout(GstEnginePipelinePtr pipeline) {
     return;
   }
 
-  QObject::disconnect(&*pipeline, nullptr, this, nullptr);
+  QObject::disconnect(&*pipeline, &GstEnginePipeline::FaderFinished, this, &GstEngine::FadeoutPauseFinished);
+  QObject::disconnect(&*pipeline, &GstEnginePipeline::EndOfStreamReached, this, &GstEngine::EndOfStreamReached);
+  QObject::disconnect(&*pipeline, &GstEnginePipeline::MetadataFound, this, &GstEngine::NewMetaData);
+  QObject::disconnect(&*pipeline, &GstEnginePipeline::BufferingStarted, this, &GstEngine::BufferingStarted);
+  QObject::disconnect(&*pipeline, &GstEnginePipeline::BufferingProgress, this, &GstEngine::BufferingProgress);
+  QObject::disconnect(&*pipeline, &GstEnginePipeline::BufferingFinished, this, &GstEngine::BufferingFinished);
+  QObject::disconnect(&*pipeline, &GstEnginePipeline::VolumeChanged, this, &EngineBase::UpdateVolume);
+  QObject::disconnect(&*pipeline, &GstEnginePipeline::AboutToFinish, this, &EngineBase::EmitAboutToFinish);
 
   fadeout_pipelines_.insert(pipeline->id(), pipeline);
   pipeline->RemoveAllBufferConsumers();
@@ -954,6 +985,10 @@ void GstEngine::PipelineFinished(const int pipeline_id) {
 
   qLog(Debug) << (current_pipeline_ ? 1 : 0) + old_pipelines_.count() << "pipelines are active";
 
+  if (!current_pipeline_ && old_pipelines_.isEmpty()) {
+    Q_EMIT Finished();
+  }
+
 }
 
 void GstEngine::UpdateScope(const int chunk_length) {
@@ -1038,15 +1073,23 @@ void GstEngine::StreamDiscovered(GstDiscoverer*, GstDiscovererInfo *info, GError
     GstDiscovererStreamInfo *stream_info = reinterpret_cast<GstDiscovererStreamInfo*>(g_list_first(audio_streams)->data);
 
     EngineMetadata engine_metadata;
-    if (discovered_url == instance->current_pipeline_->gst_url()) {
-      engine_metadata.type = EngineMetadata::Type::Current;
-      engine_metadata.media_url = instance->current_pipeline_->media_url();
-      engine_metadata.stream_url = instance->current_pipeline_->stream_url();
+    bool match = false;
+    {
+      QMutexLocker l(instance->current_pipeline_->mutex_url());
+      if (discovered_url == instance->current_pipeline_->gst_url()) {
+        match = true;
+        engine_metadata.type = EngineMetadata::Type::Current;
+        engine_metadata.media_url = instance->current_pipeline_->media_url();
+        engine_metadata.stream_url = instance->current_pipeline_->stream_url();
+      }
     }
-    else if (discovered_url == instance->current_pipeline_->next_gst_url()) {
-      engine_metadata.type = EngineMetadata::Type::Next;
-      engine_metadata.media_url = instance->current_pipeline_->next_media_url();
-      engine_metadata.stream_url = instance->current_pipeline_->next_stream_url();
+    if (!match) {
+      QMutexLocker l(instance->current_pipeline_->mutex_next_url());
+      if (discovered_url == instance->current_pipeline_->next_gst_url()) {
+        engine_metadata.type = EngineMetadata::Type::Next;
+        engine_metadata.media_url = instance->current_pipeline_->next_media_url();
+        engine_metadata.stream_url = instance->current_pipeline_->next_stream_url();
+      }
     }
     engine_metadata.samplerate = static_cast<int>(gst_discoverer_audio_info_get_sample_rate(GST_DISCOVERER_AUDIO_INFO(stream_info)));
     engine_metadata.bitdepth = static_cast<int>(gst_discoverer_audio_info_get_depth(GST_DISCOVERER_AUDIO_INFO(stream_info)));

@@ -168,8 +168,6 @@ class EngineBase : public QObject {
 
   void TrackEnded();
 
-  void FadeoutFinishedSignal();
-
   void StatusText(const QString &text);
   void Error(const QString &text);
 
@@ -187,6 +185,8 @@ class EngineBase : public QObject {
   void StateChanged(const EngineBase::State state);
 
   void VolumeChanged(const uint volume);
+
+  void Finished();
 
  protected:
   bool exclusive_mode_;

@@ -1306,7 +1306,7 @@ void MainWindow::Exit() {
   else {
     if (app_->player()->engine()->is_fadeout_enabled()) {
       // To shut down the application when fadeout will be finished
-      QObject::connect(&*app_->player()->engine(), &EngineBase::FadeoutFinishedSignal, this, &MainWindow::DoExit);
+      QObject::connect(&*app_->player()->engine(), &EngineBase::Finished, this, &MainWindow::DoExit);
       if (app_->player()->GetState() == EngineBase::State::Playing) {
         app_->player()->Stop();
         ignore_close_ = true;
