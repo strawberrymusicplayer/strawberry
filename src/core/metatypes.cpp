@@ -81,6 +81,8 @@
 #include "smartplaylists/smartplaylistsearchterm.h"
 #include "smartplaylists/smartplaylistsitem.h"
 
+#include "lyrics/lyricssearchresult.h"
+
 void RegisterMetaTypes() {
 
   qRegisterMetaType<const char*>("const char*");
@@ -166,5 +168,7 @@ void RegisterMetaTypes() {
   qRegisterMetaType<SmartPlaylistSearchTerm::Type>("SmartPlaylistSearchTerm::Type");
   qRegisterMetaType<SmartPlaylistSearchTerm::DateType>("SmartPlaylistSearchTerm::DateType");
   qRegisterMetaType<SmartPlaylistsItem::Type>("SmartPlaylistsItem::Type");
+
+  qRegisterMetaType<LyricsSearchResults>("LyricsSearchResults");
 
 }
