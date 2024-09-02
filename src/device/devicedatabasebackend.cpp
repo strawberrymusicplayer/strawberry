@@ -47,6 +47,8 @@ DeviceDatabaseBackend::DeviceDatabaseBackend(QObject *parent)
       db_(nullptr),
       original_thread_(nullptr) {
 
+  setObjectName(QLatin1String(metaObject()->className()));
+
   original_thread_ = thread();
 
 }

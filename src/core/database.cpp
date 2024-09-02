@@ -71,6 +71,8 @@ Database::Database(Application *app, QObject *parent, const QString &database_na
       startup_schema_version_(-1),
       original_thread_(nullptr) {
 
+  setObjectName(QLatin1String(metaObject()->className()));
+
   original_thread_ = thread();
 
   {

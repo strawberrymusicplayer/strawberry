@@ -248,6 +248,8 @@ class ApplicationImpl {
 Application::Application(QObject *parent)
     : QObject(parent), p_(new ApplicationImpl(this)) {
 
+  setObjectName(QLatin1String(metaObject()->className()));
+
   device_finders()->Init();
   collection()->Init();
   tag_reader_client();
@@ -274,6 +276,8 @@ Application::~Application() {
 QThread *Application::MoveToNewThread(QObject *object) {
 
   QThread *thread = new QThread(this);
+
+  thread->setObjectName(object->objectName());
 
   MoveToThread(object, thread);
 

@@ -101,6 +101,8 @@ Player::Player(Application *app, QObject *parent)
       volume_increment_(5),
       play_offset_nanosec_(0) {
 
+  setObjectName(QLatin1String(metaObject()->className()));
+
   Settings s;
   s.beginGroup(BackendSettingsPage::kSettingsGroup);
   EngineBase::Type enginetype = EngineBase::TypeFromName(s.value("engine", EngineBase::Name(EngineBase::Type::GStreamer)).toString().toLower());

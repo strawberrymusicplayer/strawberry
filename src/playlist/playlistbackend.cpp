@@ -65,6 +65,8 @@ PlaylistBackend::PlaylistBackend(Application *app, QObject *parent)
       db_(app_->database()),
       original_thread_(nullptr) {
 
+  setObjectName(QLatin1String(metaObject()->className()));
+
   original_thread_ = thread();
 
 }

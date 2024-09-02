@@ -75,6 +75,8 @@ PlaylistManager::PlaylistManager(Application *app, QObject *parent)
       active_(-1),
       playlists_loading_(0) {
 
+  setObjectName(QLatin1String(metaObject()->className()));
+
   QObject::connect(&*app_->player(), &Player::Paused, this, &PlaylistManager::SetActivePaused);
   QObject::connect(&*app_->player(), &Player::Playing, this, &PlaylistManager::SetActivePlaying);
   QObject::connect(&*app_->player(), &Player::Stopped, this, &PlaylistManager::SetActiveStopped);

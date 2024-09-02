@@ -72,17 +72,21 @@ CollectionBackend::CollectionBackend(QObject *parent)
 
 CollectionBackend::~CollectionBackend() {
 
-  qLog(Debug) << "Collection backend" << this << "for" << Song::TextForSource(source_) << "deleted";
+  qLog(Debug) << "Collection backend" << this << "deleted";
 
 }
 
 void CollectionBackend::Init(SharedPtr<Database> db, SharedPtr<TaskManager> task_manager, const Song::Source source, const QString &songs_table, const QString &dirs_table, const QString &subdirs_table) {
+
+  setObjectName(source == Song::Source::Collection ? QLatin1String(metaObject()->className()) : QStringLiteral("%1%2").arg(Song::DescriptionForSource(source), QLatin1String(metaObject()->className())));
+
   db_ = db;
   task_manager_ = task_manager;
   source_ = source;
   songs_table_ = songs_table;
   dirs_table_ = dirs_table;
   subdirs_table_ = subdirs_table;
+
 }
 
 void CollectionBackend::Close() {

@@ -205,6 +205,8 @@ int main(int argc, char *argv[]) {
     return 0;
   }
 
+  QThread::currentThread()->setObjectName(QStringLiteral("Main"));
+
   QGuiApplication::setWindowIcon(IconLoader::Load(QStringLiteral("strawberry")));
 
 #if defined(USE_BUNDLE)

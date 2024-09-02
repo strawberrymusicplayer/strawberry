@@ -94,6 +94,8 @@ DeviceManager::DeviceManager(Application *app, QObject *parent)
       app_(app),
       not_connected_overlay_(IconLoader::Load(QStringLiteral("edit-delete"))) {
 
+  setObjectName(QLatin1String(metaObject()->className()));
+
   thread_pool_.setMaxThreadCount(1);
   QObject::connect(&*app_->task_manager(), &TaskManager::TasksChanged, this, &DeviceManager::TasksChanged);
 

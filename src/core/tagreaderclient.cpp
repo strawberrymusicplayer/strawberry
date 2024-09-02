@@ -44,6 +44,8 @@ TagReaderClient *TagReaderClient::sInstance = nullptr;
 
 TagReaderClient::TagReaderClient(QObject *parent) : QObject(parent), worker_pool_(new WorkerPool<HandlerType>(this)) {
 
+  setObjectName(QLatin1String(metaObject()->className()));
+
   sInstance = this;
   original_thread_ = thread();
 

@@ -43,6 +43,8 @@ DeviceLister::DeviceLister(QObject *parent)
       original_thread_(nullptr),
       next_mount_request_id_(0) {
 
+  setObjectName(QLatin1String(metaObject()->className()));
+
   original_thread_ = thread();
 
 }
@@ -60,6 +62,7 @@ DeviceLister::~DeviceLister() {
 void DeviceLister::Start() {
 
   thread_ = new QThread;
+  thread_->setObjectName(objectName());
   QObject::connect(thread_, &QThread::started, this, &DeviceLister::ThreadStarted);
 
   moveToThread(thread_);

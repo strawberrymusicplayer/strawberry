@@ -57,6 +57,8 @@ AlbumCoverLoader::AlbumCoverLoader(QObject *parent)
       load_image_async_id_(1),
       original_thread_(nullptr) {
 
+  setObjectName(QLatin1String(metaObject()->className()));
+
   original_thread_ = thread();
 
 }

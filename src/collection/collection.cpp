@@ -63,6 +63,8 @@ SCollection::SCollection(Application *app, QObject *parent)
       save_playcounts_to_files_(false),
       save_ratings_to_files_(false) {
 
+  setObjectName(QLatin1String(metaObject()->className()));
+
   original_thread_ = thread();
 
   backend_ = make_shared<CollectionBackend>();
@@ -94,6 +96,7 @@ void SCollection::Init() {
 
   watcher_ = new CollectionWatcher(Song::Source::Collection);
   watcher_thread_ = new Thread(this);
+  watcher_thread_->setObjectName(watcher_->objectName());
 
   watcher_thread_->SetIoPriority(Utilities::IoPriority::IOPRIO_CLASS_IDLE);
 

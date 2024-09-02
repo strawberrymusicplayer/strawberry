@@ -49,7 +49,11 @@
 #  endif  // _MSC_VER
 #endif  // Q_OS_WIN32
 
-DeviceFinders::DeviceFinders(QObject *parent) : QObject(parent) {}
+DeviceFinders::DeviceFinders(QObject *parent) : QObject(parent) {
+
+  setObjectName(QLatin1String(metaObject()->className()));
+
+}
 
 DeviceFinders::~DeviceFinders() {
   qDeleteAll(device_finders_);

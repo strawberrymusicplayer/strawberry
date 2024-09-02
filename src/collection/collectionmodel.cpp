@@ -101,6 +101,8 @@ CollectionModel::CollectionModel(SharedPtr<CollectionBackend> backend, Applicati
       total_album_count_(0),
       loading_(false) {
 
+  setObjectName(backend_->source() == Song::Source::Collection ? QLatin1String(metaObject()->className()) : QStringLiteral("%1%2").arg(Song::DescriptionForSource(backend_->source()), QLatin1String(metaObject()->className())));
+
   filter_->setSourceModel(this);
   filter_->setSortRole(Role_SortText);
   filter_->sort(0);
@@ -149,7 +151,7 @@ CollectionModel::CollectionModel(SharedPtr<CollectionBackend> backend, Applicati
 
 CollectionModel::~CollectionModel() {
 
-  qLog(Debug) << "Collection model" << this << "for" << Song::TextForSource(backend_->source()) << "deleted";
+  qLog(Debug) << "Collection model" << this << "deleted";
 
   beginResetModel();
   Clear();

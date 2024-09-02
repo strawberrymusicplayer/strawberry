@@ -44,6 +44,8 @@ CurrentAlbumCoverLoader::CurrentAlbumCoverLoader(Application *app, QObject *pare
       temp_file_pattern_(QDir::tempPath() + QStringLiteral("/strawberry-cover-XXXXXX.jpg")),
       id_(0) {
 
+  setObjectName(QLatin1String(metaObject()->className()));
+
   options_.options = AlbumCoverLoaderOptions::Option::RawImageData | AlbumCoverLoaderOptions::Option::OriginalImage | AlbumCoverLoaderOptions::Option::ScaledImage;
   options_.desired_scaled_size = QSize(120, 120);
   options_.default_cover = QStringLiteral(":/pictures/cdcase.png");

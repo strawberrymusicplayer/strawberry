@@ -30,7 +30,11 @@
 
 #include "taskmanager.h"
 
-TaskManager::TaskManager(QObject *parent) : QObject(parent), next_task_id_(1) {}
+TaskManager::TaskManager(QObject *parent) : QObject(parent), next_task_id_(1) {
+
+  setObjectName(QLatin1String(metaObject()->className()));
+
+}
 
 int TaskManager::StartTask(const QString &name) {
 

@@ -98,6 +98,8 @@ CollectionWatcher::CollectionWatcher(Song::Source source, QObject *parent)
       cue_parser_(new CueParser(backend_, this)),
       last_scan_time_(0) {
 
+  setObjectName(source_ == Song::Source::Collection ? QLatin1String(metaObject()->className()) : QStringLiteral("%1%2").arg(Song::DescriptionForSource(source_), QLatin1String(metaObject()->className())));
+
   original_thread_ = thread();
 
   rescan_timer_->setInterval(2s);
