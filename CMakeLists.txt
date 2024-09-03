@@ -84,6 +84,13 @@ add_compile_options(${COMPILE_OPTIONS})
 
 if(CMAKE_BUILD_TYPE MATCHES "Release")
   add_definitions(-DNDEBUG)
+  set(ENABLE_DEBUG_OUTPUT_DEFAULT OFF)
+else()
+  set(ENABLE_DEBUG_OUTPUT_DEFAULT ON)
+endif()
+
+option(ENABLE_DEBUG_OUTPUT "Enable debug output" ${ENABLE_DEBUG_OUTPUT_DEFAULT})
+if(NOT ENABLE_DEBUG_OUTPUT)
   add_definitions(-DQT_NO_DEBUG_OUTPUT)
 endif()
 
