@@ -23,6 +23,7 @@
 
 #include <algorithm>
 #include <utility>
+#include <chrono>
 
 #include <QObject>
 #include <QMainWindow>
@@ -93,6 +94,8 @@
 
 #include "ui_albumcovermanager.h"
 
+using namespace std::literals::chrono_literals;
+
 namespace {
 constexpr char kSettingsGroup[] = "CoverManager";
 constexpr int kThumbnailSize = 120;
@@ -105,6 +108,7 @@ AlbumCoverManager::AlbumCoverManager(Application *app, SharedPtr<CollectionBacke
       app_(app),
       collection_backend_(collection_backend),
       album_cover_choice_controller_(new AlbumCoverChoiceController(this)),
+      timer_album_cover_load_(new QTimer(this)),
       filter_all_(nullptr),
       filter_with_covers_(nullptr),
       filter_without_covers_(nullptr),
@@ -124,6 +128,10 @@ AlbumCoverManager::AlbumCoverManager(Application *app, SharedPtr<CollectionBacke
 
   ui_->setupUi(this);
   ui_->albums->set_cover_manager(this);
+
+  timer_album_cover_load_->setSingleShot(false);
+  timer_album_cover_load_->setInterval(10ms);
+  QObject::connect(timer_album_cover_load_, &QTimer::timeout, this, &AlbumCoverManager::LoadAlbumCovers);
 
   // Icons
   ui_->action_fetch->setIcon(IconLoader::Load(QStringLiteral("download")));
@@ -316,6 +324,7 @@ void AlbumCoverManager::CancelRequests() {
 #else
   app_->album_cover_loader()->CancelTasks(QSet<quint64>::fromList(cover_loading_tasks_.keys()));
 #endif
+  cover_loading_pending_.clear();
   cover_loading_tasks_.clear();
   cover_save_tasks_.clear();
 
@@ -346,7 +355,7 @@ void AlbumCoverManager::Reset() {
   all_artists_ = new QListWidgetItem(all_artists_icon_, tr("All artists"), ui_->artists, All_Artists);
   new AlbumItem(artist_icon_, tr("Various artists"), ui_->artists, Various_Artists);
 
-  QStringList artists(collection_backend_->GetAllArtistsWithAlbums());
+  QStringList artists = collection_backend_->GetAllArtistsWithAlbums();
   std::stable_sort(artists.begin(), artists.end(), CompareNocase);
 
   for (const QString &artist : std::as_const(artists)) {
@@ -422,12 +431,46 @@ void AlbumCoverManager::ArtistChanged(QListWidgetItem *current) {
     album_item->setData(Role_ArtUnset, album_info.art_unset);
 
     if (album_info.art_embedded || !album_info.art_automatic.isEmpty() || !album_info.art_manual.isEmpty()) {
-      LoadAlbumCoverAsync(album_item);
+      QueueAlbumCoverLoad(album_item);
     }
 
   }
 
   UpdateFilter();
+
+}
+
+void AlbumCoverManager::QueueAlbumCoverLoad(AlbumItem *album_item) {
+
+  cover_loading_pending_.enqueue(album_item);
+
+  if (!timer_album_cover_load_->isActive()) {
+    timer_album_cover_load_->start();
+  }
+
+}
+
+void AlbumCoverManager::LoadAlbumCovers() {
+
+  if (cover_loading_pending_.isEmpty()) {
+    if (timer_album_cover_load_->isActive()) {
+      timer_album_cover_load_->stop();
+    }
+    return;
+  }
+
+  LoadAlbumCoverAsync(cover_loading_pending_.dequeue());
+
+}
+
+void AlbumCoverManager::LoadAlbumCoverAsync(AlbumItem *album_item) {
+
+  AlbumCoverLoaderOptions cover_options(AlbumCoverLoaderOptions::Option::ScaledImage | AlbumCoverLoaderOptions::Option::PadScaledImage);
+  cover_options.types = cover_types_;
+  cover_options.desired_scaled_size = QSize(kThumbnailSize, kThumbnailSize);
+  cover_options.device_pixel_ratio = devicePixelRatioF();
+  quint64 cover_load_id = app_->album_cover_loader()->LoadImageAsync(cover_options, album_item->data(Role_ArtEmbedded).toBool(), album_item->data(Role_ArtAutomatic).toUrl(), album_item->data(Role_ArtManual).toUrl(), album_item->data(Role_ArtUnset).toBool(), album_item->urls.constFirst());
+  cover_loading_tasks_.insert(cover_load_id, album_item);
 
 }
 
@@ -1076,13 +1119,3 @@ void AlbumCoverManager::SaveEmbeddedCoverFinished(TagReaderReply *reply, AlbumIt
 
 }
 
-void AlbumCoverManager::LoadAlbumCoverAsync(AlbumItem *album_item) {
-
-  AlbumCoverLoaderOptions cover_options(AlbumCoverLoaderOptions::Option::ScaledImage | AlbumCoverLoaderOptions::Option::PadScaledImage);
-  cover_options.types = cover_types_;
-  cover_options.desired_scaled_size = QSize(kThumbnailSize, kThumbnailSize);
-  cover_options.device_pixel_ratio = devicePixelRatioF();
-  quint64 cover_load_id = app_->album_cover_loader()->LoadImageAsync(cover_options, album_item->data(Role_ArtEmbedded).toBool(), album_item->data(Role_ArtAutomatic).toUrl(), album_item->data(Role_ArtManual).toUrl(), album_item->data(Role_ArtUnset).toBool(), album_item->urls.constFirst());
-  cover_loading_tasks_.insert(cover_load_id, album_item);
-
-}

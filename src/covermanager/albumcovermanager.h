@@ -32,6 +32,7 @@
 #include <QListWidgetItem>
 #include <QMap>
 #include <QMultiMap>
+#include <QQueue>
 #include <QString>
 #include <QImage>
 #include <QIcon>
@@ -44,7 +45,7 @@
 #include "albumcoverchoicecontroller.h"
 #include "coversearchstatistics.h"
 
-class QWidget;
+class QTimer;
 class QMimeData;
 class QMenu;
 class QAction;
@@ -136,6 +137,9 @@ class AlbumCoverManager : public QMainWindow {
   Song AlbumItemAsSong(QListWidgetItem *list_widget_item) { return AlbumItemAsSong(static_cast<AlbumItem*>(list_widget_item)); }
   static Song AlbumItemAsSong(AlbumItem *album_item);
 
+  void QueueAlbumCoverLoad(AlbumItem *album_item);
+  void LoadAlbumCoverAsync(AlbumItem *album_item);
+
   void UpdateStatusText();
   bool ShouldHide(const AlbumItem &album_item, const QString &filter, const HideCovers hide_covers) const;
   void SaveAndSetCover(AlbumItem *album_item, const AlbumCoverImageResult &result);
@@ -147,14 +151,13 @@ class AlbumCoverManager : public QMainWindow {
 
   bool ItemHasCover(const AlbumItem &album_item) const;
 
-  void LoadAlbumCoverAsync(AlbumItem *album_item);
-
  Q_SIGNALS:
   void Error(const QString &error);
   void AddToPlaylist(QMimeData *data);
 
  private Q_SLOTS:
   void ArtistChanged(QListWidgetItem *current);
+  void LoadAlbumCovers();
   void AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &result);
   void UpdateFilter();
   void FetchAlbumCovers();
@@ -190,11 +193,13 @@ class AlbumCoverManager : public QMainWindow {
   Application *app_;
   SharedPtr<CollectionBackend> collection_backend_;
   AlbumCoverChoiceController *album_cover_choice_controller_;
+  QTimer *timer_album_cover_load_;
 
   QAction *filter_all_;
   QAction *filter_with_covers_;
   QAction *filter_without_covers_;
 
+  QQueue<AlbumItem*> cover_loading_pending_;
   QMap<quint64, AlbumItem*> cover_loading_tasks_;
 
   AlbumCoverFetcher *cover_fetcher_;
