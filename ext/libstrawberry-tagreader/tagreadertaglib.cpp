@@ -1211,7 +1211,7 @@ void TagReaderTagLib::SetUnsyncLyricsFrame(const std::string &value, TagLib::ID3
   // If no frames stored create empty frame
   if (frames_buffer.isEmpty()) {
     TagLib::ID3v2::UnsynchronizedLyricsFrame frame(TagLib::String::UTF8);
-    frame.setDescription("Clementine editor");
+    frame.setDescription("Strawberry editor");
     frames_buffer.push_back(frame.render());
   }
 
