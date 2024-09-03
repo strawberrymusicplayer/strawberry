@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2023, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2024, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
  */
 
 #include <memory>
+#include <chrono>
 
 #include <QtGlobal>
 #include <QObject>
@@ -31,6 +32,7 @@
 #include <QUrl>
 #include <QFile>
 #include <QImage>
+#include <QTimer>
 #include <QNetworkReply>
 #include <QNetworkRequest>
 
@@ -44,6 +46,7 @@
 #include "albumcoverloaderresult.h"
 #include "albumcoverimageresult.h"
 
+using namespace std::literals::chrono_literals;
 using std::make_shared;
 
 namespace {
@@ -53,6 +56,7 @@ constexpr int kMaxRedirects = 3;
 AlbumCoverLoader::AlbumCoverLoader(QObject *parent)
     : QObject(parent),
       network_(new NetworkAccessManager(this)),
+      timer_process_tasks_(new QTimer(this)),
       stop_requested_(false),
       load_image_async_id_(1),
       original_thread_(nullptr) {
@@ -60,6 +64,10 @@ AlbumCoverLoader::AlbumCoverLoader(QObject *parent)
   setObjectName(QLatin1String(metaObject()->className()));
 
   original_thread_ = thread();
+
+  timer_process_tasks_->setSingleShot(false);
+  timer_process_tasks_->setInterval(10ms);
+  QObject::connect(timer_process_tasks_, &QTimer::timeout, this, &AlbumCoverLoader::ProcessTasks);
 
 }
 
@@ -165,9 +173,17 @@ quint64 AlbumCoverLoader::EnqueueTask(TaskPtr task) {
     tasks_.enqueue(task);
   }
 
-  QMetaObject::invokeMethod(this, &AlbumCoverLoader::ProcessTasks, Qt::QueuedConnection);
+  QMetaObject::invokeMethod(this, &AlbumCoverLoader::StartProcessTasks, Qt::QueuedConnection);
 
   return task->id;
+
+}
+
+void AlbumCoverLoader::StartProcessTasks() {
+
+  if (!timer_process_tasks_->isActive()) {
+    timer_process_tasks_->start();
+  }
 
 }
 
@@ -176,7 +192,12 @@ void AlbumCoverLoader::ProcessTasks() {
   TaskPtr task;
   {
     QMutexLocker l(&mutex_load_image_async_);
-    if (tasks_.isEmpty()) return;
+    if (tasks_.isEmpty()) {
+      if (timer_process_tasks_->isActive()) {
+        timer_process_tasks_->stop();
+      }
+      return;
+    }
     task = tasks_.dequeue();
   }
 

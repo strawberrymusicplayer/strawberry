@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2023, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2024, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,6 +39,7 @@
 #include "albumcoverimageresult.h"
 
 class QThread;
+class QTimer;
 class QNetworkReply;
 class NetworkAccessManager;
 
@@ -119,11 +120,13 @@ class AlbumCoverLoader : public QObject {
 
  private Q_SLOTS:
   void Exit();
+  void StartProcessTasks();
   void ProcessTasks();
   void LoadRemoteImageFinished(QNetworkReply *reply, AlbumCoverLoader::TaskPtr task, const AlbumCoverLoaderResult::Type result_type, const QUrl &cover_url);
 
  private:
   SharedPtr<NetworkAccessManager> network_;
+  QTimer *timer_process_tasks_;
   bool stop_requested_;
   QMutex mutex_load_image_async_;
   QQueue<TaskPtr> tasks_;
