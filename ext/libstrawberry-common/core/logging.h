@@ -72,20 +72,25 @@ enum Level {
 
   void DumpStackTrace();
 
-QDebug CreateLoggerInfo(int line, const char *pretty_function, const char *category);
-QDebug CreateLoggerFatal(int line, const char *pretty_function, const char *category);
-QDebug CreateLoggerError(int line, const char *pretty_function, const char *category);
+QDebug CreateLoggerFatal(const int line, const char *pretty_function, const char *category);
+QDebug CreateLoggerError(const int line, const char *pretty_function, const char *category);
+
+#ifdef QT_NO_INFO_OUTPUT
+QNoDebug CreateLoggerInfo(const int line, const char *pretty_function, const char *category);
+#else
+QDebug CreateLoggerInfo(const int line, const char *pretty_function, const char *category);
+#endif // QT_NO_INFO_OUTPUT
 
 #ifdef QT_NO_WARNING_OUTPUT
-  QNoDebug CreateLoggerWarning(int, const char*, const char*);
+QNoDebug CreateLoggerWarning(const int line, const char *pretty_function, const char *category);
 #else
-  QDebug CreateLoggerWarning(int line, const char *pretty_function, const char *category);
+QDebug CreateLoggerWarning(const int line, const char *pretty_function, const char *category);
 #endif // QT_NO_WARNING_OUTPUT
 
 #ifdef QT_NO_DEBUG_OUTPUT
-  QNoDebug CreateLoggerDebug(int, const char*, const char*);
+QNoDebug CreateLoggerDebug(const int line, const char *pretty_function, const char *category);
 #else
-  QDebug CreateLoggerDebug(int line, const char *pretty_function, const char *category);
+QDebug CreateLoggerDebug(const int line, const char *pretty_function, const char *category);
 #endif  // QT_NO_DEBUG_OUTPUT
 
 void GLog(const char *domain, int level, const char *message, void *user_data);

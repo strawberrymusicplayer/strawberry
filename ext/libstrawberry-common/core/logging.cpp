@@ -374,20 +374,49 @@ void DumpStackTrace() {
 // It's okay that the LoggedDebug instance is copied to a QDebug in these. It doesn't override any behavior that should be needed after return.
 #define qCreateLogger(line, pretty_function, category, level) logging::CreateLogger<LoggedDebug>(logging::Level_##level, logging::ParsePrettyFunction(pretty_function), line, category)
 
-QDebug CreateLoggerInfo(int line, const char *pretty_function, const char *category) { return qCreateLogger(line, pretty_function, category, Info); }
-QDebug CreateLoggerFatal(int line, const char *pretty_function, const char *category) { return qCreateLogger(line, pretty_function, category, Fatal); }
-QDebug CreateLoggerError(int line, const char *pretty_function, const char *category) { return qCreateLogger(line, pretty_function, category, Error); }
+QDebug CreateLoggerFatal(const int line, const char *pretty_function, const char *category) { return qCreateLogger(line, pretty_function, category, Fatal); }
+QDebug CreateLoggerError(const int line, const char *pretty_function, const char *category) { return qCreateLogger(line, pretty_function, category, Error); }
+
+#ifdef QT_NO_INFO_OUTPUT
+QNoDebug CreateLoggerInfo(const int line, const char *pretty_function, const char *category) {
+
+  Q_UNUSED(line)
+  Q_UNUSED(pretty_function)
+  Q_UNUSED(category)
+
+  return QNoDebug();
+
+}
+#else
+QDebug CreateLoggerInfo(const int line, const char *pretty_function, const char *category) { return qCreateLogger(line, pretty_function, category, Info); }
+#endif // QT_NO_INFO_OUTPUT
 
 #ifdef QT_NO_WARNING_OUTPUT
-  QNoDebug CreateLoggerWarning(int, const char*, const char*) { return QNoDebug(); }
+QNoDebug CreateLoggerWarning(const int line, const char *pretty_function, const char *category) {
+
+  Q_UNUSED(line)
+  Q_UNUSED(pretty_function)
+  Q_UNUSED(category)
+
+  return QNoDebug();
+
+}
 #else
-  QDebug CreateLoggerWarning(int line, const char *pretty_function, const char *category) { return qCreateLogger(line, pretty_function, category, Warning); }
+QDebug CreateLoggerWarning(const int line, const char *pretty_function, const char *category) { return qCreateLogger(line, pretty_function, category, Warning); }
 #endif // QT_NO_WARNING_OUTPUT
 
 #ifdef QT_NO_DEBUG_OUTPUT
-  QNoDebug CreateLoggerDebug(int, const char*, const char*) { return QNoDebug(); }
+QNoDebug CreateLoggerDebug(const int line, const char *pretty_function, const char *category) {
+
+  Q_UNUSED(line)
+  Q_UNUSED(pretty_function)
+  Q_UNUSED(category)
+
+  return QNoDebug();
+
+}
 #else
-  QDebug CreateLoggerDebug(int line, const char *pretty_function, const char *category) { return qCreateLogger(line, pretty_function, category, Debug); }
+QDebug CreateLoggerDebug(const int line, const char *pretty_function, const char *category) { return qCreateLogger(line, pretty_function, category, Debug); }
 #endif // QT_NO_DEBUG_OUTPUT
 
 }  // namespace logging
