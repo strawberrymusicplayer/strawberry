@@ -744,15 +744,9 @@ void Playlist::set_current_row(const int i, const AutoScroll autoscroll, const b
   if (current_item_index_.isValid()) {
     last_played_item_index_ = current_item_index_;
     played_indexes_.append(current_item_index_);
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     if (played_indexes_.count() > kMaxPlayedIndexes) {
       played_indexes_.remove(0, played_indexes_.count() - kMaxPlayedIndexes);
     }
-#else
-    while (played_indexes_.count() > kMaxPlayedIndexes) {
-      played_indexes_.removeFirst();
-    }
-#endif
     ScheduleSave();
   }
 
@@ -1563,11 +1557,7 @@ void Playlist::Restore() {
   collection_items_by_id_.clear();
 
   cancel_restore_ = false;
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   QFuture<PlaylistItemPtrList> future = QtConcurrent::run(&PlaylistBackend::GetPlaylistItems, backend_, id_);
-#else
-  QFuture<PlaylistItemPtrList> future = QtConcurrent::run(&*backend_, &PlaylistBackend::GetPlaylistItems, id_);
-#endif
   QFutureWatcher<PlaylistItemPtrList> *watcher = new QFutureWatcher<PlaylistItemPtrList>();
   QObject::connect(watcher, &QFutureWatcher<PlaylistItemPtrList>::finished, this, &Playlist::ItemsLoaded);
   watcher->setFuture(future);
@@ -1626,11 +1616,7 @@ void Playlist::ItemsLoaded() {
 
   // Should we gray out deleted songs asynchronously on startup?
   if (greyout) {
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     (void)QtConcurrent::run(&Playlist::InvalidateDeletedSongs, this);
-#else
-    (void)QtConcurrent::run(this, &Playlist::InvalidateDeletedSongs);
-#endif
   }
 
   Q_EMIT PlaylistLoaded();

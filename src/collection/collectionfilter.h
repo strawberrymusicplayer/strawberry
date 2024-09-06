@@ -51,11 +51,7 @@ class CollectionFilter : public QSortFilterProxyModel {
 
  private:
   mutable QScopedPointer<FilterTree> filter_tree_;
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   mutable size_t query_hash_;
-#else
-  mutable uint query_hash_;
-#endif
   QString filter_string_;
 };
 

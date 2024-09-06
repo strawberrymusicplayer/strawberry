@@ -464,11 +464,8 @@ void OSDPretty::Reposition() {
 
 }
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 void OSDPretty::enterEvent(QEnterEvent*) {
-#else
-void OSDPretty::enterEvent(QEvent*) {
-#endif
+
   if (mode_ == Mode::Popup) {
     setWindowOpacity(0.25);
   }
@@ -486,11 +483,7 @@ void OSDPretty::mousePressEvent(QMouseEvent *e) {
   }
   else {
     original_window_pos_ = pos();
-#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
     drag_start_pos_ = e->globalPosition().toPoint();
-#else
-    drag_start_pos_ = e->globalPos();
-#endif
   }
 
 }
@@ -498,19 +491,11 @@ void OSDPretty::mousePressEvent(QMouseEvent *e) {
 void OSDPretty::mouseMoveEvent(QMouseEvent *e) {
 
   if (mode_ == Mode::Draggable) {
-#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
     QPoint delta = e->globalPosition().toPoint() - drag_start_pos_;
-#else
-    QPoint delta = e->globalPos() - drag_start_pos_;
-#endif
     QPoint new_pos = original_window_pos_ + delta;
 
     // Keep it to the bounds of the desktop
-#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
     QScreen *screen = current_screen(e->globalPosition().toPoint());
-#else
-    QScreen *screen = current_screen(e->globalPos());
-#endif
     if (!screen) return;
 
     QRect geometry = screen->availableGeometry();

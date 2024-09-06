@@ -245,12 +245,7 @@ void FileView::Delete(const QStringList &filenames) {
 
   if (DeleteConfirmationDialog::warning(filenames) != QDialogButtonBox::Yes) return;
 
-  bool use_trash = false;
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
-  use_trash = true;
-#endif
-
-  DeleteFiles *delete_files = new DeleteFiles(task_manager_, storage_, use_trash);
+  DeleteFiles *delete_files = new DeleteFiles(task_manager_, storage_, true);
   QObject::connect(delete_files, &DeleteFiles::Finished, this, &FileView::DeleteFinished);
   delete_files->Start(filenames);
 

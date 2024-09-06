@@ -408,11 +408,7 @@ void AlbumCoverLoader::LoadRemoteImageFinished(QNetworkReply *reply, TaskPtr tas
   reply->deleteLater();
 
   QVariant redirect = reply->attribute(QNetworkRequest::RedirectionTargetAttribute);
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   if (redirect.isValid() && redirect.metaType().id() == QMetaType::QUrl) {
-#else
-  if (redirect.isValid() && redirect.type() == QVariant::Url) {
-#endif
     if (task->redirects++ >= kMaxRedirects) {
       ProcessTask(task);
       return;

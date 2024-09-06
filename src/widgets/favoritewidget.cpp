@@ -63,21 +63,12 @@ void FavoriteWidget::paintEvent(QPaintEvent *e) {
 
   QStylePainter p(this);
 
-#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
   if (favorite_) {
     p.drawPixmap(rect_, on_.pixmap(rect_.size(), devicePixelRatioF()));
   }
   else {
     p.drawPixmap(rect_, off_.pixmap(rect_.size(), devicePixelRatioF()));
   }
-#else
-  if (favorite_) {
-    p.drawPixmap(rect_, on_.pixmap(rect_.size()));
-  }
-  else {
-    p.drawPixmap(rect_, off_.pixmap(rect_.size()));
-  }
-#endif
 
 }
 

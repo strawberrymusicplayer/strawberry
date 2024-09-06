@@ -217,11 +217,7 @@
 #endif
 
 #ifdef HAVE_QTSPARKLE
-#  if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
-#    include <qtsparkle-qt6/Updater>
-#  else
-#    include <qtsparkle-qt5/Updater>
-#  endif
+#  include <qtsparkle-qt6/Updater>
 #endif  // HAVE_QTSPARKLE
 
 using std::make_unique;
@@ -2044,9 +2040,7 @@ void MainWindow::PlaylistRightClick(const QPoint global_pos, const QModelIndex &
     playlist_copy_to_device_->setVisible(local_songs > 0);
 #endif
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     playlist_delete_->setVisible(delete_files_ && local_songs > 0);
-#endif
 
     // Remove old item actions, if any.
     for (QAction *action : std::as_const(playlistitem_actions_)) {
@@ -2966,11 +2960,7 @@ void MainWindow::Raise() {
 }
 
 #ifdef Q_OS_WIN
-#  if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 bool MainWindow::nativeEvent(const QByteArray &eventType, void *message, qintptr *result) {
-#  else
-bool MainWindow::nativeEvent(const QByteArray &eventType, void *message, long *result) {
-#  endif
 
   if (exit_count_ == 0 && message) {
     MSG *msg = static_cast<MSG*>(message);

@@ -238,11 +238,7 @@ TagReaderBase::Result GME::VGM::Read(const QFileInfo &fileinfo, spb::tagreader::
   QByteArray gd3Data = file.read(gd3_length);
   QTextStream fileTagStream(gd3Data, QIODevice::ReadOnly);
   // Stored as 16 bit UTF string, two bytes per letter.
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   fileTagStream.setEncoding(QStringConverter::Utf16);
-#else
-  fileTagStream.setCodec("UTF-16");
-#endif
   QStringList strings = fileTagStream.readLine(0).split(QLatin1Char('\0'));
   if (strings.count() < 10) {
     return TagReaderBase::Result::ErrorCode::FileParseError;

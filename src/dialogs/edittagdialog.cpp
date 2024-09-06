@@ -326,11 +326,7 @@ bool EditTagDialog::eventFilter(QObject *o, QEvent *e) {
       case QEvent::MouseButtonRelease:{
         QMouseEvent *mouse_event = static_cast<QMouseEvent*>(e);
         if (mouse_event && mouse_event->button() == Qt::RightButton) {
-#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
           cover_menu_->popup(mouse_event->globalPosition().toPoint());
-#else
-          cover_menu_->popup(mouse_event->globalPos());
-#endif
         }
         break;
       }

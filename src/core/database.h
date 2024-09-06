@@ -34,9 +34,7 @@
 #include <QSqlQuery>
 #include <QString>
 #include <QStringList>
-#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
-#  include <QRecursiveMutex>
-#endif
+#include <QRecursiveMutex>
 
 #include "sqlquery.h"
 
@@ -67,11 +65,7 @@ class Database : public QObject {
   void Close();
   void ReportErrors(const SqlQuery &query);
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
   QRecursiveMutex *Mutex() { return &mutex_; }
-#else
-  QMutex *Mutex() { return &mutex_; }
-#endif
 
   void RecreateAttachedDb(const QString &database_name);
   void ExecSchemaCommands(QSqlDatabase &db, const QString &schema, int schema_version, bool in_transaction = false);
@@ -115,11 +109,7 @@ class Database : public QObject {
 
   QString directory_;
   QMutex connect_mutex_;
-#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
   QRecursiveMutex mutex_;
-#else
-  QMutex mutex_;
-#endif
 
   // This ID makes the QSqlDatabase name unique to the object as well as the thread
   int connection_id_;

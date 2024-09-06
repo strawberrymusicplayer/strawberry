@@ -63,14 +63,10 @@ class SmartPlaylistSearchTermWidget : public QWidget {
   void Changed();
 
  protected:
-  void showEvent(QShowEvent*) override;
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-  void enterEvent(QEnterEvent*) override;
-#else
-  void enterEvent(QEvent*) override;
-#endif
-  void leaveEvent(QEvent*) override;
-  void resizeEvent(QResizeEvent*) override;
+  void showEvent(QShowEvent *e) override;
+  void enterEvent(QEnterEvent *e) override;
+  void leaveEvent(QEvent *e) override;
+  void resizeEvent(QResizeEvent *e) override;
 
  private Q_SLOTS:
   void FieldChanged(const int index);

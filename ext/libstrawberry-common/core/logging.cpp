@@ -329,11 +329,7 @@ QString LinuxDemangle(const QString &symbol) {
 QString DarwinDemangle(const QString &symbol);
 QString DarwinDemangle(const QString &symbol) {
 
-#  if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
-  QStringList split = symbol.split(QLatin1Char(' '), Qt::SkipEmptyParts);
-#  else
-  QStringList split = symbol.split(QLatin1Char(' '), QString::SkipEmptyParts);
-#  endif
+  const QStringList split = symbol.split(QLatin1Char(' '), Qt::SkipEmptyParts);
   QString mangled_function = split[3];
   return CXXDemangle(mangled_function);
 

@@ -54,11 +54,7 @@ class TrackSliderSlider : public QSlider {
   void mouseReleaseEvent(QMouseEvent *e) override;
   void mouseMoveEvent(QMouseEvent *e) override;
   void wheelEvent(QWheelEvent *e) override;
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   void enterEvent(QEnterEvent *e) override;
-#else
-  void enterEvent(QEvent *e) override;
-#endif
   void leaveEvent(QEvent *e) override;
   void keyPressEvent(QKeyEvent *event) override;
 

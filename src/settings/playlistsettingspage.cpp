@@ -95,12 +95,7 @@ void PlaylistSettingsPage::Load() {
   ui_->checkbox_editmetadatainline->setChecked(s.value("editmetadatainline", false).toBool());
   ui_->checkbox_writemetadata->setChecked(s.value("write_metadata", false).toBool());
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
   ui_->checkbox_delete_files->setChecked(s.value("delete_files", false).toBool());
-#else
-  ui_->checkbox_delete_files->setChecked(false);
-  ui_->checkbox_delete_files->hide();
-#endif
 
   s.endGroup();
 

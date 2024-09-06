@@ -500,11 +500,7 @@ MusicBrainzClient::ResultList MusicBrainzClient::UniqueResults(const ResultList 
 
   ResultList ret;
   if (opt == UniqueResultsSortOption::SortResults) {
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
     ret = QSet<Result>(results.begin(), results.end()).values();
-#else
-    ret = QSet<Result>::fromList(results).values();
-#endif
     std::sort(ret.begin(), ret.end());
   }
   else {  // KeepOriginalOrder

@@ -107,11 +107,7 @@ DeviceManager::DeviceManager(Application *app, QObject *parent)
   QObject::connect(this, &DeviceManager::DeviceCreatedFromDB, this, &DeviceManager::AddDeviceFromDB);
 
   // This reads from the database and contents on the database mutex, which can be very slow on startup.
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   (void)QtConcurrent::run(&thread_pool_, &DeviceManager::LoadAllDevices, this);
-#else
-  (void)QtConcurrent::run(&thread_pool_, this, &DeviceManager::LoadAllDevices);
-#endif
 
   // This proxy model only shows connected devices
   connected_devices_model_ = new DeviceStateFilterModel(this);

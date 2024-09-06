@@ -84,11 +84,7 @@ void PlaylistListView::dragEnterEvent(QDragEnterEvent *e) {
 
 void PlaylistListView::dragMoveEvent(QDragMoveEvent *e) {
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-    QModelIndex drag_hover_tab_ = indexAt(e->position().toPoint());
-#else
-    QModelIndex drag_hover_tab_ = indexAt(e->pos());
-#endif
+  QModelIndex drag_hover_tab_ = indexAt(e->position().toPoint());
 
   if (e->mimeData()->hasFormat(QLatin1String(Playlist::kRowsMimetype))) {
     if (drag_hover_tab_ != currentIndex()) {

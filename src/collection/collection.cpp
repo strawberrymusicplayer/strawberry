@@ -192,11 +192,7 @@ void SCollection::ReloadSettings() {
 
 void SCollection::SyncPlaycountAndRatingToFilesAsync() {
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   (void)QtConcurrent::run(&SCollection::SyncPlaycountAndRatingToFiles, this);
-#else
-  (void)QtConcurrent::run(this, &SCollection::SyncPlaycountAndRatingToFiles);
-#endif
 
 }
 

@@ -243,11 +243,7 @@ void DeviceProperties::UpdateFormats() {
     // Get the device's supported formats list.  This takes a long time and it blocks, so do it in the background.
     supported_formats_.clear();
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     QFuture<bool> future = QtConcurrent::run(&ConnectedDevice::GetSupportedFiletypes, device, &supported_formats_);
-#else
-    QFuture<bool> future = QtConcurrent::run(std::bind(&ConnectedDevice::GetSupportedFiletypes, device, &supported_formats_));
-#endif
     QFutureWatcher<bool> *watcher = new QFutureWatcher<bool>();
     QObject::connect(watcher, &QFutureWatcher<bool>::finished, this, &DeviceProperties::UpdateFormatsFinished);
     watcher->setFuture(future);

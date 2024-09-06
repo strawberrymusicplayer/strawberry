@@ -87,11 +87,7 @@ void SongLoaderInserter::Load(Playlist *destination, int row, bool play_now, boo
     deleteLater();
   }
   else {
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     (void)QtConcurrent::run(&SongLoaderInserter::AsyncLoad, this);
-#else
-    (void)QtConcurrent::run(this, &SongLoaderInserter::AsyncLoad);
-#endif
   }
 }
 

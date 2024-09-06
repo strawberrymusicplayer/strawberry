@@ -231,11 +231,7 @@ void SmartPlaylistSearchTermWidget::SetActive(bool active) {
 
 }
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 void SmartPlaylistSearchTermWidget::enterEvent(QEnterEvent *e) {
-#else
-void SmartPlaylistSearchTermWidget::enterEvent(QEvent *e) {
-#endif
 
   Q_UNUSED(e)
 

@@ -1938,11 +1938,7 @@ QString Song::AlbumKey() const {
   return QStringLiteral("%1|%2|%3").arg(is_compilation() ? QStringLiteral("_compilation") : effective_albumartist(), has_cue() ? cue_path() : QLatin1String(""), effective_album());
 }
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 size_t qHash(const Song &song) {
-#else
-uint qHash(const Song &song) {
-#endif
   // Should compare the same fields as operator==
   return qHash(song.url().toString()) ^ qHash(song.beginning_nanosec());
 }

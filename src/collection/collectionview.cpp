@@ -459,11 +459,7 @@ void CollectionView::contextMenuEvent(QContextMenuEvent *e) {
   action_copy_to_device_->setVisible(regular_elements == regular_editable);
 #endif
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
   action_delete_files_->setVisible(delete_files_);
-#else
-  action_delete_files_->setVisible(false);
-#endif
 
   action_show_in_various_->setVisible(songs_selected > 0);
   action_no_show_in_various_->setVisible(songs_selected > 0);
@@ -474,11 +470,7 @@ void CollectionView::contextMenuEvent(QContextMenuEvent *e) {
   action_copy_to_device_->setEnabled(regular_elements == regular_editable);
 #endif
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
   action_delete_files_->setEnabled(delete_files_);
-#else
-  action_delete_files_->setEnabled(false);
-#endif
 
   context_menu_->popup(e->globalPos());
 
@@ -523,11 +515,7 @@ void CollectionView::SetShowInVarious(const bool on) {
     }
   }
 
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
   const QSet<QString> albums_set = QSet<QString>(albums.keyBegin(), albums.keyEnd());
-#else
-  const QSet<QString> albums_set = QSet<QString>::fromList(albums.keys());
-#endif
   for (const QString &album : albums_set) {
     app_->collection_backend()->ForceCompilation(album, albums.values(album), on);
   }

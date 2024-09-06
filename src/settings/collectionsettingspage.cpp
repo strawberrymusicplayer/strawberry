@@ -171,12 +171,7 @@ void CollectionSettingsPage::Load() {
   ui_->checkbox_overwrite_playcount->setChecked(s.value("overwrite_playcount", false).toBool());
   ui_->checkbox_overwrite_rating->setChecked(s.value("overwrite_rating", false).toBool());
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
   ui_->checkbox_delete_files->setChecked(s.value("delete_files", false).toBool());
-#else
-  ui_->checkbox_delete_files->setChecked(false);
-  ui_->checkbox_delete_files->hide();
-#endif
 
   s.endGroup();
 
@@ -208,11 +203,7 @@ void CollectionSettingsPage::Save() {
 
   QString filter_text = ui_->cover_art_patterns->text();
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
-  QStringList filters = filter_text.split(QLatin1Char(','), Qt::SkipEmptyParts);
-#else
-  QStringList filters = filter_text.split(QLatin1Char(','), QString::SkipEmptyParts);
-#endif
+  const QStringList filters = filter_text.split(QLatin1Char(','), Qt::SkipEmptyParts);
 
   s.setValue("cover_art_patterns", filters);
 

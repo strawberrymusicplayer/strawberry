@@ -349,13 +349,8 @@ void TranscodeDialog::Import() {
 
   QStringList filenames;
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
-  QStringList audioTypes = QString::fromLatin1(FileView::kFileFilter).split(QLatin1Char(' '), Qt::SkipEmptyParts);
-#else
-  QStringList audioTypes = QString::fromLatin1(FileView::kFileFilter).split(QLatin1Char(' '), QString::SkipEmptyParts);
-#endif
-
-  QDirIterator files(path, audioTypes, QDir::Files | QDir::Readable, QDirIterator::Subdirectories);
+  const QStringList audio_types = QString::fromLatin1(FileView::kFileFilter).split(QLatin1Char(' '), Qt::SkipEmptyParts);
+  QDirIterator files(path, audio_types, QDir::Files | QDir::Readable, QDirIterator::Subdirectories);
 
   while (files.hasNext()) {
     filenames << files.next();

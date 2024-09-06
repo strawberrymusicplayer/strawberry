@@ -16,13 +16,9 @@ jobs:
       fail-fast: false
       matrix:
         opensuse_version: [ 'tumbleweed', 'leap:15.6' ]
-        qt_version: [ '5', '6' ]
     container:
       image: opensuse/${{matrix.opensuse_version}}
     steps:
-      - name: Add tagparser repo
-        if: matrix.opensuse_version == 'tumbleweed'
-        run: zypper -n ar -c -f -n 'repo-tagparser' https://download.opensuse.org/repositories/home:/mkittler/openSUSE_Tumbleweed/ repo-tagparser
       - name: Refresh repositories
         run: zypper -n --gpg-auto-import-keys ref
       - name: Upgrade packages
@@ -74,26 +70,6 @@ jobs:
             update-desktop-files
             appstream-glib
             hicolor-icon-theme
-      - name: Install Qt 5
-        if: matrix.qt_version == '5'
-        run: >
-            zypper -n --gpg-auto-import-keys in
-            libQt5Core-devel
-            libQt5Gui-devel
-            libQt5Widgets-devel
-            libQt5Concurrent-devel
-            libQt5Network-devel
-            libQt5Sql-devel
-            libQt5DBus-devel
-            libQt5Test-devel
-            libqt5-qtbase-common-devel
-            libQt5Sql5-sqlite
-            libqt5-linguist-devel
-            libqt5-qtx11extras-devel
-      - name: Install Qt 6
-        if: matrix.qt_version == '6'
-        run: >
-            zypper -n --gpg-auto-import-keys in
             qt6-core-devel
             qt6-gui-devel
             qt6-widgets-devel
@@ -105,14 +81,8 @@ jobs:
             qt6-base-common-devel
             qt6-sql-sqlite
             qt6-linguist-devel
-      - name: Install tagparser
-        if: matrix.opensuse_version == 'tumbleweed'
-        run: zypper -n --gpg-auto-import-keys in tagparser-devel
-      - name: Install kdsingleapplication-devel
-        if: matrix.opensuse_version == 'tumbleweed' && matrix.qt_version == '5'
-        run: zypper -n --gpg-auto-import-keys in kdsingleapplication-devel
       - name: Install kdsingleapplication-qt6-devel
-        if: matrix.opensuse_version == 'tumbleweed' && matrix.qt_version == '6'
+        if: matrix.opensuse_version == 'tumbleweed'
         run: zypper -n --gpg-auto-import-keys in kdsingleapplication-qt6-devel
       - name: Checkout
         uses: actions/checkout@v4
@@ -124,7 +94,7 @@ jobs:
       - name: Create Build Environment
         run: cmake -E make_directory build
       - name: Configure CMake
-        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON -DUSE_TAGLIB=ON -DQT_VERSION_MAJOR=${{matrix.qt_version}}
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON -DUSE_TAGLIB=ON
       - name: Create source tarball
         working-directory: build
         run: ../dist/scripts/maketarball.sh
@@ -148,14 +118,14 @@ jobs:
         id: set-subdir
         run: echo "subdir=$(echo ${{matrix.opensuse_version}} | sed 's/leap:/lp/g' | sed 's/\.//g')" > $GITHUB_OUTPUT
       - name: Upload source
-        if: matrix.opensuse_version == 'tumbleweed' && matrix.qt_version == '6'
+        if: matrix.opensuse_version == 'tumbleweed'
         uses: actions/upload-artifact@v4
         with:
           name: source
           path: |
             /usr/src/packages/SOURCES/*.xz
       - name: Upload rpm
-        if: matrix.opensuse_version != 'tumbleweed' && matrix.qt_version == '6'
+        if: matrix.opensuse_version != 'tumbleweed'
         uses: actions/upload-artifact@v4
         with:
           name: opensuse-${{steps.set-subdir.outputs.subdir}}
@@ -460,7 +430,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        debian_version: [ 'bullseye', 'bookworm', 'trixie' ]
+        debian_version: [ 'bookworm', 'trixie' ]
     container:
       image: debian:${{matrix.debian_version}}
     steps:
@@ -505,16 +475,11 @@ jobs:
             libcdio-dev
             libmtp-dev
             libgpod-dev
-      - name: Install Qt 5
-        if: matrix.debian_version == 'bullseye'
-        env:
-          DEBIAN_FRONTEND: noninteractive
-        run: apt install -y qtbase5-dev qtbase5-dev-tools qttools5-dev qttools5-dev-tools libqt5x11extras5-dev
-      - name: Install Qt 6
-        if: matrix.debian_version != 'bullseye'
-        env:
-          DEBIAN_FRONTEND: noninteractive
-        run: apt install -y qt6-base-dev qt6-base-dev-tools qt6-tools-dev qt6-tools-dev-tools qt6-l10n-tools
+            qt6-base-dev
+            qt6-base-dev-tools
+            qt6-tools-dev
+            qt6-tools-dev-tools
+            qt6-l10n-tools
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -544,7 +509,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ubuntu_version: [ 'focal', 'jammy', 'noble', 'oracular' ]
+        ubuntu_version: [ 'noble', 'oracular' ]
     container:
       image: ubuntu:${{matrix.ubuntu_version}}
     steps:
@@ -592,16 +557,11 @@ jobs:
             libcdio-dev
             libmtp-dev
             libgpod-dev
-      - name: Install Qt 5
-        if: matrix.ubuntu_version == 'focal'
-        env:
-          DEBIAN_FRONTEND: noninteractive
-        run: apt install -y qtbase5-dev qtbase5-dev-tools qttools5-dev qttools5-dev-tools libqt5x11extras5-dev
-      - name: Install Qt 6
-        if: matrix.ubuntu_version != 'focal'
-        env:
-          DEBIAN_FRONTEND: noninteractive
-        run: apt install -y qt6-base-dev qt6-base-dev-tools qt6-tools-dev qt6-tools-dev-tools qt6-l10n-tools
+            qt6-base-dev
+            qt6-base-dev-tools
+            qt6-tools-dev
+            qt6-tools-dev-tools
+            qt6-l10n-tools
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -633,7 +593,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ubuntu_version: [ 'focal', 'jammy', 'noble', 'oracular' ]
+        ubuntu_version: [ 'noble', 'oracular' ]
     container:
       image: ubuntu:${{matrix.ubuntu_version}}
     steps:
@@ -678,6 +638,11 @@ jobs:
             libcdio-dev
             libmtp-dev
             libgpod-dev
+            qt6-base-dev
+            qt6-base-dev-tools
+            qt6-tools-dev
+            qt6-tools-dev-tools
+            qt6-l10n-tools
             gstreamer1.0-alsa
             gstreamer1.0-pulseaudio
             protobuf-compiler
@@ -686,16 +651,6 @@ jobs:
         env:
           DEBIAN_FRONTEND: noninteractive
         run: apt install -y keyboxd
-      - name: Install Qt 5
-        if: matrix.ubuntu_version == 'focal'
-        env:
-          DEBIAN_FRONTEND: noninteractive
-        run: apt install -y qtbase5-dev qtbase5-dev-tools qttools5-dev qttools5-dev-tools libqt5x11extras5-dev
-      - name: Install Qt 6
-        if: matrix.ubuntu_version != 'focal'
-        env:
-          DEBIAN_FRONTEND: noninteractive
-        run: apt install -y qt6-base-dev qt6-base-dev-tools qt6-tools-dev qt6-tools-dev-tools qt6-l10n-tools
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -807,7 +762,6 @@ jobs:
           -B build
           -DCMAKE_BUILD_TYPE="${{env.cmake_buildtype}}"
           -DCMAKE_PREFIX_PATH="${{env.prefix_path}}/lib/cmake"
-          -DBUILD_WITH_QT6=ON
           -DBUILD_WERROR=OFF
           -DUSE_BUNDLE=ON
           -DENABLE_DBUS=OFF
@@ -948,7 +902,6 @@ jobs:
           -B build
           -DCMAKE_BUILD_TYPE="${{env.cmake_buildtype}}"
           -DCMAKE_PREFIX_PATH="${{env.prefix_path}}/lib/cmake"
-          -DBUILD_WITH_QT6=ON
           -DBUILD_WERROR=OFF
           -DUSE_BUNDLE=ON
           -DENABLE_DBUS=OFF
@@ -1047,7 +1000,6 @@ jobs:
           -DCMAKE_TOOLCHAIN_FILE="../cmake/Toolchain-${{matrix.arch}}-w64-mingw32-shared.cmake"
           -DCMAKE_BUILD_TYPE="${{env.cmake_buildtype}}"
           -DCMAKE_PREFIX_PATH="/strawberry-mxe/usr/${{matrix.arch}}-w64-mingw32.shared/qt6"
-          -DBUILD_WITH_QT6=ON
           -DBUILD_WERROR=OFF
           -DARCH="${{matrix.arch}}"
           -DENABLE_WIN32_CONSOLE=$(test "${{matrix.buildtype}}" = "debug" && echo "ON" || echo "OFF")
@@ -1336,7 +1288,6 @@ jobs:
           -G "Ninja"
           -DCMAKE_BUILD_TYPE="${{env.cmake_buildtype}}"
           -DCMAKE_PREFIX_PATH="${{env.prefix_path_forwardslash}}/lib/cmake"
-          -DBUILD_WITH_QT6=ON
           -DARCH="${{matrix.arch}}"
           -DENABLE_WIN32_CONSOLE=${{env.win32_console}}
           -DUSE_TAGLIB=ON

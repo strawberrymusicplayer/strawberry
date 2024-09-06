@@ -44,11 +44,7 @@ class AlbumCoverManagerList : public QListWidget {
   void set_cover_manager(AlbumCoverManager *manager) { manager_ = manager; }
 
  protected:
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   QMimeData *mimeData(const QList<QListWidgetItem*> &items) const override;
-#else
-  QMimeData *mimeData(const QList<QListWidgetItem*> items) const override;
-#endif
 
   void dropEvent(QDropEvent*) override {}
 

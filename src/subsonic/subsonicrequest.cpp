@@ -742,10 +742,7 @@ void SubsonicRequest::FlushAlbumCoverRequests() {
 
     QNetworkRequest req(request.url);
     req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     req.setAttribute(QNetworkRequest::Http2AllowedAttribute, http2());
-#endif
 
     if (!verify_certificate()) {
       QSslConfiguration sslconfig = QSslConfiguration::defaultConfiguration();
