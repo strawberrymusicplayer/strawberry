@@ -28,13 +28,7 @@ namespace Utilities {
 
 QScreen *GetScreen(QWidget *widget) {
 
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
-  QScreen *screen = widget->screen();
-#else
-  QScreen *screen = (widget->window() && widget->window()->windowHandle() ? widget->window()->windowHandle()->screen() : nullptr);
-#endif
-
-  return screen;
+  return widget->screen();
 
 }
 

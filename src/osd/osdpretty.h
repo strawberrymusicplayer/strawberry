@@ -114,11 +114,7 @@ class OSDPretty : public QWidget {
 
  protected:
   void paintEvent(QPaintEvent *e) override;
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   void enterEvent(QEnterEvent*) override;
-#else
-  void enterEvent(QEvent*) override;
-#endif
   void leaveEvent(QEvent*) override;
   void mousePressEvent(QMouseEvent *e) override;
   void showEvent(QShowEvent *e) override;

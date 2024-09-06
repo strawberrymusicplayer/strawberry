@@ -60,11 +60,7 @@ bool CollectionFilter::filterAcceptsRow(const int source_row, const QModelIndex 
     return item->type == CollectionItem::Type::LoadingIndicator;
   }
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   size_t hash = qHash(filter_string_);
-#else
-  uint hash = qHash(filter_string_);
-#endif
   if (hash != query_hash_) {
     FilterParser p(filter_string_);
     filter_tree_.reset(p.parse());

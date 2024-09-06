@@ -53,11 +53,8 @@ class SqlQuery : public QSqlQuery {
   QString LastQuery() const;
 
  private:
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   QMap<QString, QVariant> bound_values_;
-#endif
   QString last_query_;
-
 };
 
 #endif  // SQLQUERY_H

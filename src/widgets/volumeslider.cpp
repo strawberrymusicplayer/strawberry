@@ -40,11 +40,7 @@
 #include <QAction>
 #include <QLinearGradient>
 #include <QStyleOptionViewItem>
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-#  include <QEnterEvent>
-#else
-#  include <QEvent>
-#endif
+#include <QEnterEvent>
 #include <QPaintEvent>
 #include <QContextMenuEvent>
 #include <QMouseEvent>
@@ -233,11 +229,7 @@ void VolumeSlider::drawVolumeSliderHandle() {
 
 }
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 void VolumeSlider::enterEvent(QEnterEvent*) {
-#else
-void VolumeSlider::enterEvent(QEvent*) {
-#endif
 
   anim_enter_ = true;
   anim_count_ = 0;

@@ -164,11 +164,7 @@ void PlaylistHeader::ToggleVisible(const int section) {
   Q_EMIT SectionVisibilityChanged(section, !isSectionHidden(section));
 }
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 void PlaylistHeader::enterEvent(QEnterEvent*) {
-#else
-void PlaylistHeader::enterEvent(QEvent*) {
-#endif
   Q_EMIT MouseEntered();
 }
 

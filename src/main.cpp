@@ -76,11 +76,7 @@
 #include <kdsingleapplication.h>
 
 #ifdef HAVE_QTSPARKLE
-#  if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
-#    include <qtsparkle-qt6/Updater>
-#  else
-#    include <qtsparkle-qt5/Updater>
-#  endif
+#  include <qtsparkle-qt6/Updater>
 #endif  // HAVE_QTSPARKLE
 
 #ifdef Q_OS_MACOS
@@ -135,11 +131,6 @@ int main(int argc, char *argv[]) {
 #endif
   QCoreApplication::setApplicationVersion(QStringLiteral(STRAWBERRY_VERSION_DISPLAY));
   QCoreApplication::setOrganizationDomain(QStringLiteral("strawberrymusicplayer.org"));
-
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-  QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-  QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-#endif
 
   // This makes us show up nicely in gnome-volume-control
   g_set_application_name("Strawberry");
@@ -273,11 +264,7 @@ int main(int argc, char *argv[]) {
 
   ScopedPtr<Translations> translations(new Translations);
 
-#  if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   translations->LoadTranslation(QStringLiteral("qt"), QLibraryInfo::path(QLibraryInfo::TranslationsPath), language);
-#  else
-  translations->LoadTranslation(QStringLiteral("qt"), QLibraryInfo::location(QLibraryInfo::TranslationsPath), language);
-#  endif
   translations->LoadTranslation(QStringLiteral("strawberry"), QStringLiteral(":/translations"), language);
   translations->LoadTranslation(QStringLiteral("strawberry"), QStringLiteral(TRANSLATIONS_DIR), language);
   translations->LoadTranslation(QStringLiteral("strawberry"), QCoreApplication::applicationDirPath(), language);

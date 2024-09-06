@@ -60,11 +60,7 @@ SubsonicSettingsPage::SubsonicSettingsPage(SettingsDialog *dialog, QWidget *pare
 
   dialog->installEventFilter(this);
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
   ui_->checkbox_http2->show();
-#else
-  ui_->checkbox_http2->hide();
-#endif
 
 }
 

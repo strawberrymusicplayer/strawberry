@@ -43,11 +43,7 @@ void OpenInFileManager(const QString &path, const QUrl &url) {
   if (!url.isLocalFile()) return;
 
   QProcess proc;
-#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
   proc.startCommand(QStringLiteral("xdg-mime query default inode/directory"));
-#else
-  proc.start(QStringLiteral("xdg-mime"), QStringList() << QStringLiteral("query") << QStringLiteral("default") << QStringLiteral("inode/directory"));
-#endif
   proc.waitForFinished();
   QString desktop_file = QString::fromUtf8(proc.readLine()).simplified();
   QString xdg_data_dirs = QString::fromUtf8(qgetenv("XDG_DATA_DIRS"));
@@ -68,11 +64,7 @@ void OpenInFileManager(const QString &path, const QUrl &url) {
       if (cmd.isEmpty()) break;
       static const QRegularExpression regex(QStringLiteral("[%][a-zA-Z]*( |$)"), QRegularExpression::CaseInsensitiveOption);
       cmd = cmd.remove(regex);
-#  if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
       command_params = cmd.split(QLatin1Char(' '), Qt::SkipEmptyParts);
-#  else
-      command_params = cmd.split(QLatin1Char(' '), QString::SkipEmptyParts);
-#  endif
       command = command_params.first();
       command_params.removeFirst();
     }

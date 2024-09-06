@@ -30,11 +30,7 @@
 #include <QStringList>
 #include <QRegularExpression>
 #include <QTextStream>
-#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
-#  include <QStringConverter>
-#else
-#  include <QTextCodec>
-#endif
+#include <QStringConverter>
 
 #include "core/shared_ptr.h"
 #include "core/logging.h"
@@ -76,7 +72,6 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
 
   const QByteArray data_chunk = device->peek(1024);
 
-#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
   std::optional<QStringConverter::Encoding> encoding = QStringConverter::encodingForData(data_chunk);
   if (encoding.has_value()) {
     text_stream.setEncoding(encoding.value());
@@ -90,12 +85,6 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
       }
     }
   }
-#else
-  const QByteArray encoding_name = Utilities::TextEncodingFromData(data_chunk);
-  if (!encoding_name.isEmpty()) {
-    text_stream.setCodec(encoding_name.constData());
-  }
-#endif
 
   QString dir_path = dir.absolutePath();
   // Read the first line already

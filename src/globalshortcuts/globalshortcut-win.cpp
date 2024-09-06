@@ -91,11 +91,7 @@ bool GlobalShortcut::unregisterShortcut(const int native_key, const int native_m
 
 }
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 bool GlobalShortcut::nativeEventFilter(const QByteArray &eventtype, void *message, qintptr *result) {
-#else
-bool GlobalShortcut::nativeEventFilter(const QByteArray &eventtype, void *message, long *result) {
-#endif
 
   Q_UNUSED(eventtype);
   Q_UNUSED(result);

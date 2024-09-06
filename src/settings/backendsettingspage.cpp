@@ -449,13 +449,7 @@ void BackendSettingsPage::Load_Device(const QString &output, const QVariant &dev
   }
 
   // This allows a custom ALSA device string ie: "hw:0,0" even if it is not listed.
-  if (engine()->CustomDeviceSupport(output) &&
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-      device.metaType().id() == QMetaType::QString
-#else
-      device.type() == QVariant::String
-#endif
-      && !device.toString().isEmpty()) {
+  if (engine()->CustomDeviceSupport(output) && device.metaType().id() == QMetaType::QString && !device.toString().isEmpty()) {
     ui_->lineedit_device->setText(device.toString());
     if (!found) {
       for (int i = 0; i < ui_->combobox_device->count(); ++i) {
@@ -600,11 +594,7 @@ void BackendSettingsPage::DeviceSelectionChanged(int index) {
   if (engine()->CustomDeviceSupport(output.name)) {
     ui_->lineedit_device->setEnabled(true);
     if (ui_->combobox_device->currentText() != QLatin1String(kOutputCustom)) {
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
       if (device.metaType().id() == QMetaType::QString)
-#else
-      if (device.type() == QVariant::String)
-#endif
         ui_->lineedit_device->setText(device.toString());
       else ui_->lineedit_device->clear();
     }
@@ -644,11 +634,7 @@ void BackendSettingsPage::DeviceStringChanged() {
 
   for (int i = 0; i < ui_->combobox_device->count(); ++i) {
     QVariant device = ui_->combobox_device->itemData(i).value<QVariant>();
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     if (device.metaType().id() != QMetaType::QString) continue;
-#else
-    if (device.type() != QVariant::String) continue;
-#endif
     QString device_str = device.toString();
     if (device_str.isEmpty()) continue;
     if (ui_->combobox_device->itemText(i) == QLatin1String(kOutputCustom)) continue;
@@ -831,11 +817,7 @@ void BackendSettingsPage::SelectDevice(const QString &device_new) {
       QListView *view = qobject_cast<QListView*>(ui_->combobox_device->view());
       if (view && view->isRowHidden(i)) continue;
       QVariant device = ui_->combobox_device->itemData(i).value<QVariant>();
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
       if (device.metaType().id() != QMetaType::QString) continue;
-#else
-      if (device.type() != QVariant::String) continue;
-#endif
       QString device_str = device.toString();
       if (device_str.isEmpty()) continue;
       if (device_str == device_new) {

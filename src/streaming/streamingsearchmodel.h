@@ -96,11 +96,7 @@ class StreamingSearchModel : public QStandardItemModel {
   QMap<ContainerKey, QStandardItem*> containers_;
 };
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 inline size_t qHash(const StreamingSearchModel::ContainerKey &key) {
-#else
-inline uint qHash(const StreamingSearchModel::ContainerKey &key) {
-#endif
   return qHash(key.group_[0]) ^ qHash(key.group_[1]) ^ qHash(key.group_[2]);
 }
 

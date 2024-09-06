@@ -34,33 +34,6 @@ HRGN qt_RectToHRGN(const QRect &rc) {
   return CreateRectRgn(rc.left(), rc.top(), rc.right() + 1, rc.bottom() + 1);
 }
 
-HRGN toHRGN(const QRegion &region);
-HRGN toHRGN(const QRegion &region) {
-
-#  if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-  return region.toHRGN();
-#  else
-
-  const int rect_count = region.rectCount();
-  if (rect_count == 0) {
-    return nullptr;
-  }
-
-  HRGN resultRgn = nullptr;
-  QRegion::const_iterator rects = region.begin();
-  resultRgn = qt_RectToHRGN(rects[0]);
-  for (int i = 1; i < rect_count; ++i) {
-    HRGN tmpRgn = qt_RectToHRGN(rects[i]);
-    const int res = CombineRgn(resultRgn, resultRgn, tmpRgn, RGN_OR);
-    if (res == ERROR) qWarning("Error combining HRGNs.");
-    DeleteObject(tmpRgn);
-  }
-
-  return resultRgn;
-
-#  endif  // Qt 6
-}
-
 void enableBlurBehindWindow(QWindow *window, const QRegion &region) {
 
   DWM_BLURBEHIND dwmbb = { 0, 0, nullptr, 0 };
@@ -68,7 +41,7 @@ void enableBlurBehindWindow(QWindow *window, const QRegion &region) {
   dwmbb.fEnable = TRUE;
   HRGN rgn = nullptr;
   if (!region.isNull()) {
-    rgn = toHRGN(region);
+    rgn = region.toHRGN();
     if (rgn) {
       dwmbb.hRgnBlur = rgn;
       dwmbb.dwFlags |= DWM_BB_BLURREGION;

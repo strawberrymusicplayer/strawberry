@@ -75,7 +75,7 @@ To build Strawberry from source you need the following installed on your system 
 * [pkg-config](https://www.freedesktop.org/wiki/Software/pkg-config/) or [pkgconf](https://github.com/pkgconf/pkgconf)
 * [Boost](https://www.boost.org/)
 * [GLib](https://developer.gnome.org/glib/)
-* [Qt 6 or Qt 5.12 or higher with components Core, Gui, Widgets, Concurrent, Network and Sql](https://www.qt.io/)
+* [Qt 6.4.0 or higher with components Core, Gui, Widgets, Concurrent, Network and Sql](https://www.qt.io/)
 * [SQLite 3.9 or newer](https://www.sqlite.org)
 * [Protobuf](https://developers.google.com/protocol-buffers/)
 * [ALSA (Required on Linux)](https://www.alsa-project.org/)
@@ -107,13 +107,9 @@ You should also install the gstreamer plugins base and good, and optionally bad,
     cd strawberry
     mkdir build
     cd build
-    cmake .. -DBUILD_WITH_QT6=ON
+    cmake ..
     make -j $(nproc)
     sudo make install
-
-Strawberry is backwards compatible with Qt 5, to compile with Qt 5 use:
-
-    cmake .. -DBUILD_WITH_QT5=ON
 
 To compile on Windows with Visual Studio 2019 or 2022, see https://github.com/strawberrymusicplayer/strawberry-msvc
 

@@ -54,11 +54,7 @@ void MessageDialog::ShowMessage(const QString &title, const QString &message, co
   setWindowTitle(title);
 
   if (!icon.isNull()) {
-#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
     const QPixmap pixmap = icon.pixmap(QSize(64, 64), devicePixelRatioF());
-#else
-    const QPixmap pixmap = icon.pixmap(QSize(64, 64));
-#endif
     ui_->label_logo->setPixmap(pixmap);
   }
 

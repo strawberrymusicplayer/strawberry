@@ -28,9 +28,7 @@
 
 void SqlQuery::BindValue(const QString &placeholder, const QVariant &value) {
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   bound_values_.insert(placeholder, value);
-#endif
 
   bindValue(placeholder, value);
 
@@ -95,18 +93,10 @@ bool SqlQuery::Exec() {
   bool success = exec();
   last_query_ = executedQuery();
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   for (QMap<QString, QVariant>::const_iterator it = bound_values_.constBegin(); it != bound_values_.constEnd(); ++it) {
     last_query_.replace(it.key(), it.value().toString());
   }
   bound_values_.clear();
-#else
-  QMapIterator<QString, QVariant> it(boundValues());
-  while (it.hasNext()) {
-    it.next();
-    last_query_.replace(it.key(), it.value().toString());
-  }
-#endif
 
   return success;
 

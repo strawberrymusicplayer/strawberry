@@ -198,11 +198,7 @@ bool RadioModel::CompareItems(const RadioItem *a, const RadioItem *b) const {
   QVariant left(data(a, RadioModel::Role_SortText));
   QVariant right(data(b, RadioModel::Role_SortText));
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   if (left.metaType().id() == QMetaType::Int)
-#else
-  if (left.type() == QVariant::Int)
-#endif
     return left.toInt() < right.toInt();
   else return left.toString() < right.toString();
 

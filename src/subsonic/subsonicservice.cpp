@@ -195,10 +195,7 @@ void SubsonicService::SendPingWithCredentials(QUrl url, const QString &username,
 
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
   req.setHeader(QNetworkRequest::ContentTypeHeader, QStringLiteral("application/x-www-form-urlencoded"));
-
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
   req.setAttribute(QNetworkRequest::Http2AllowedAttribute, http2_);
-#endif
 
   errors_.clear();
   QNetworkReply *reply = network_->get(req);

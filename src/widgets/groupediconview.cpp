@@ -242,11 +242,7 @@ void GroupedIconView::paintEvent(QPaintEvent *e) {
   // This code was adapted from QListView::paintEvent(), changed to use the visualRect() of items, and to draw headers.
 
   QStyleOptionViewItem option;
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   initViewItemOption(&option);
-#else
-  option = viewOptions();
-#endif
   if (isWrapping()) {
     option.features = QStyleOptionViewItem::WrapText;
   }

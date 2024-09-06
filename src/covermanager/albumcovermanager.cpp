@@ -319,11 +319,7 @@ void AlbumCoverManager::SaveSettings() {
 
 void AlbumCoverManager::CancelRequests() {
 
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
   app_->album_cover_loader()->CancelTasks(QSet<quint64>(cover_loading_tasks_.keyBegin(), cover_loading_tasks_.keyEnd()));
-#else
-  app_->album_cover_loader()->CancelTasks(QSet<quint64>::fromList(cover_loading_tasks_.keys()));
-#endif
   cover_loading_pending_.clear();
   cover_loading_tasks_.clear();
   cover_save_tasks_.clear();

@@ -29,9 +29,7 @@
 #include <QDBusObjectPath>
 #include <QDBusPendingCallWatcher>
 #include <QKeySequence>
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-#  include <QKeyCombination>
-#endif
+#include <QKeyCombination>
 
 #include "core/logging.h"
 
@@ -190,11 +188,7 @@ QList<int> GlobalShortcutsBackendKDE::ToIntList(const QList<QKeySequence> &seque
   QList<int> ret;
   ret.reserve(sequence_list.count());
   for (const QKeySequence &sequence : sequence_list) {
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     ret.append(sequence[0].toCombined());
-#else
-    ret.append(sequence[0]);
-#endif
   }
 
   return ret;

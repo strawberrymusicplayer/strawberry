@@ -91,11 +91,7 @@ constexpr int kDropIndicatorGradientWidth = 5;
 PlaylistView::PlaylistView(QWidget *parent)
     : QTreeView(parent),
       app_(nullptr),
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
       style_(new PlaylistProxyStyle(QApplication::style()->name())),
-#else
-      style_(new PlaylistProxyStyle(QApplication::style()->objectName())),
-#endif
       playlist_(nullptr),
       header_(new PlaylistHeader(Qt::Horizontal, this, this)),
       background_image_type_(AppearanceSettingsPage::BackgroundImageType::Default),
@@ -1130,11 +1126,7 @@ void PlaylistView::dragMoveEvent(QDragMoveEvent *event) {
 
   QTreeView::dragMoveEvent(event);
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   QModelIndex idx(indexAt(event->position().toPoint()));
-#else
-  QModelIndex idx(indexAt(event->pos()));
-#endif
 
   drop_indicator_row_ = idx.isValid() ? idx.row() : 0;
 
@@ -1385,11 +1377,7 @@ void PlaylistView::CopyCurrentSongToClipboard() const {
     }
 
     const QVariant var_data = model()->data(currentIndex().sibling(currentIndex().row(), i));
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     if (var_data.metaType().id() == QMetaType::QString) {
-#else
-    if (var_data.type() == QVariant::String) {
-#endif
       columns << var_data.toString();
     }
   }

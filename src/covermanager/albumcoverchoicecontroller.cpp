@@ -507,11 +507,7 @@ void AlbumCoverChoiceController::ShowCover(const Song &song, const QPixmap &pixm
   }
 
   dialog->setWindowTitle(title_text);
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
   dialog->setFixedSize(label->pixmap(Qt::ReturnByValue).size() / pixmap.devicePixelRatioF());
-#else
-  dialog->setFixedSize(label->pixmap()->size() / pixmap.devicePixelRatioF());
-#endif
   dialog->show();
 
 }
@@ -721,11 +717,7 @@ void AlbumCoverChoiceController::SaveCoverEmbeddedToCollectionSongs(const Song &
 
 void AlbumCoverChoiceController::SaveCoverEmbeddedToCollectionSongs(const QString &effective_albumartist, const QString &effective_album, const QString &cover_filename, const QByteArray &image_data, const QString &mime_type) {
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   QFuture<SongList> future = QtConcurrent::run(&CollectionBackend::GetAlbumSongs, app_->collection_backend(), effective_albumartist, effective_album, CollectionFilterOptions());
-#else
-  QFuture<SongList> future = QtConcurrent::run(&*app_->collection_backend(), &CollectionBackend::GetAlbumSongs, effective_albumartist, effective_album, CollectionFilterOptions());
-#endif
   QFutureWatcher<SongList> *watcher = new QFutureWatcher<SongList>();
   QObject::connect(watcher, &QFutureWatcher<SongList>::finished, this, [this, watcher, cover_filename, image_data, mime_type]() {
     const SongList collection_songs = watcher->result();

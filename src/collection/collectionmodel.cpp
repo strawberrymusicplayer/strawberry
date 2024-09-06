@@ -813,11 +813,7 @@ CollectionItem *CollectionModel::CreateCompilationArtistNode(CollectionItem *par
 
 void CollectionModel::LoadSongsFromSqlAsync() {
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   QFuture<SongList> future = QtConcurrent::run(&CollectionModel::LoadSongsFromSql, this, options_active_.filter_options);
-#else
-  QFuture<SongList> future = QtConcurrent::run(this, &CollectionModel::LoadSongsFromSql, options_active_.filter_options);
-#endif
   QFutureWatcher<SongList> *watcher = new QFutureWatcher<SongList>();
   QObject::connect(watcher, &QFutureWatcher<void>::finished, this, &CollectionModel::LoadSongsFromSqlAsyncFinished);
   watcher->setFuture(future);
@@ -1435,17 +1431,15 @@ QString CollectionModel::DividerDisplayText(const GroupBy group_by, const QStrin
 
 bool CollectionModel::CompareItems(const CollectionItem *a, const CollectionItem *b) const {
 
-  QVariant left(data(a, CollectionModel::Role_SortText));
-  QVariant right(data(b, CollectionModel::Role_SortText));
+  QVariant left = data(a, CollectionModel::Role_SortText);
+  QVariant right = data(b, CollectionModel::Role_SortText);
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-  if (left.metaType().id() == QMetaType::Int)
-#else
-  if (left.type() == QVariant::Int)
-#endif
+  if (left.metaType().id() == QMetaType::Int) {
     return left.toInt() < right.toInt();
-  else
+  }
+  else {
     return left.toString() < right.toString();
+  }
 
 }
 
