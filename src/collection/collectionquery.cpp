@@ -64,10 +64,10 @@ void CollectionQuery::AddWhere(const QString &column, const QVariant &value, con
 
   // Ignore 'literal' for IN
   if (op.compare(QLatin1String("IN"), Qt::CaseInsensitive) == 0) {
-    QStringList values = value.toStringList();
+    const QStringList values = value.toStringList();
     QStringList final_values;
     final_values.reserve(values.count());
-    for (const QString &single_value : std::as_const(values)) {
+    for (const QString &single_value : values) {
       final_values.append(QStringLiteral("?"));
       bound_values_ << single_value;
     }
