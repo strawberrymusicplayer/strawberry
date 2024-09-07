@@ -35,6 +35,8 @@
 #include "parserbase.h"
 #include "m3uparser.h"
 
+using namespace Qt::StringLiterals;
+
 class CollectionBackendInterface;
 
 M3UParser::M3UParser(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent)
@@ -48,14 +50,14 @@ SongList M3UParser::Load(QIODevice *device, const QString &playlist_path, const 
   Metadata current_metadata;
 
   QString data = QString::fromUtf8(device->readAll());
-  data.replace(QLatin1Char('\r'), QLatin1Char('\n'));
-  data.replace(QLatin1String("\n\n"), QLatin1String("\n"));
+  data.replace(u'\r', u'\n');
+  data.replace("\n\n"_L1, "\n"_L1);
   QByteArray bytes = data.toUtf8();
   QBuffer buffer(&bytes);
   if (!buffer.open(QIODevice::ReadOnly)) return SongList();
 
   QString line = QString::fromUtf8(buffer.readLine()).trimmed();
-  if (line.startsWith(QLatin1String("#EXTM3U"))) {
+  if (line.startsWith("#EXTM3U"_L1)) {
     // This is in extended M3U format.
     type = M3UType::EXTENDED;
     line = QString::fromUtf8(buffer.readLine()).trimmed();
@@ -63,9 +65,9 @@ SongList M3UParser::Load(QIODevice *device, const QString &playlist_path, const 
 
   SongList ret;
   Q_FOREVER {
-    if (line.startsWith(QLatin1Char('#'))) {
+    if (line.startsWith(u'#')) {
       // Extended info or comment.
-      if (type == M3UType::EXTENDED && line.startsWith(QLatin1String("#EXT"))) {
+      if (type == M3UType::EXTENDED && line.startsWith("#EXT"_L1)) {
         if (!ParseMetadata(line, &current_metadata)) {
           qLog(Warning) << "Failed to parse metadata: " << line;
         }
@@ -102,8 +104,8 @@ bool M3UParser::ParseMetadata(const QString &line, M3UParser::Metadata *metadata
 
   // Extended info, eg.
   // #EXTINF:123,Sample Artist - Sample title
-  QString info = line.section(QLatin1Char(':'), 1);
-  QString l = info.section(QLatin1Char(','), 0, 0);
+  QString info = line.section(u':', 1);
+  QString l = info.section(u',', 0, 0);
   bool ok = false;
   int length = l.toInt(&ok);
   if (!ok) {
@@ -111,7 +113,7 @@ bool M3UParser::ParseMetadata(const QString &line, M3UParser::Metadata *metadata
   }
   metadata->length = length * kNsecPerSec;
 
-  QString track_info = info.section(QLatin1Char(','), 1);
+  QString track_info = info.section(u',', 1);
   QStringList list = track_info.split(QStringLiteral(" - "));
   if (list.size() <= 1) {
     metadata->title = track_info;

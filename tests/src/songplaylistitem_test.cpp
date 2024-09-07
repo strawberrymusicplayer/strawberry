@@ -54,8 +54,8 @@ class SongPlaylistItemTest : public ::testing::TestWithParam<const char*> {
 
     item_ = make_unique<SongPlaylistItem>(song_);
 
-    if (!absolute_file_name_.startsWith(QLatin1Char('/')))
-      absolute_file_name_.prepend(QLatin1Char('/'));
+    if (!absolute_file_name_.startsWith(u'/'))
+      absolute_file_name_.prepend(u'/');
   }
 
   Song song_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)

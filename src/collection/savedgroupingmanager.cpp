@@ -44,6 +44,8 @@
 #include "savedgroupingmanager.h"
 #include "ui_savedgroupingmanager.h"
 
+using namespace Qt::StringLiterals;
+
 const char *SavedGroupingManager::kSavedGroupingsSettingsGroup = "SavedGroupings";
 
 SavedGroupingManager::SavedGroupingManager(const QString &saved_groupings_settings_group, QWidget *parent)
@@ -165,7 +167,7 @@ void SavedGroupingManager::UpdateModel() {
   if (version == 1) {
     QStringList saved = s.childKeys();
     for (int i = 0; i < saved.size(); ++i) {
-      if (saved.at(i) == QLatin1String("version")) continue;
+      if (saved.at(i) == "version"_L1) continue;
       QByteArray bytes = s.value(saved.at(i)).toByteArray();
       QDataStream ds(&bytes, QIODevice::ReadOnly);
       CollectionModel::Grouping g;
@@ -183,7 +185,7 @@ void SavedGroupingManager::UpdateModel() {
   else {
     QStringList saved = s.childKeys();
     for (int i = 0; i < saved.size(); ++i) {
-      if (saved.at(i) == QLatin1String("version")) continue;
+      if (saved.at(i) == "version"_L1) continue;
       s.remove(saved.at(i));
     }
   }

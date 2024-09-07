@@ -38,6 +38,8 @@
 #include "lyricssearchresult.h"
 #include "lololyricsprovider.h"
 
+using namespace Qt::StringLiterals;
+
 namespace {
 constexpr char kUrlSearch[] = "http://api.lololyrics.com/0.5/getLyric";
 }
@@ -104,15 +106,15 @@ void LoloLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, c
       QXmlStreamReader::TokenType type = reader.readNext();
       QString name = reader.name().toString();
       if (type == QXmlStreamReader::StartElement) {
-        if (name == QLatin1String("result")) {
+        if (name == "result"_L1) {
           status.clear();
           result = LyricsSearchResult();
         }
-        else if (name == QLatin1String("status")) {
+        else if (name == "status"_L1) {
           status = reader.readElementText();
         }
-        else if (name == QLatin1String("response")) {
-          if (status == QLatin1String("OK")) {
+        else if (name == "response"_L1) {
+          if (status == "OK"_L1) {
             result.lyrics = reader.readElementText();
           }
           else {
@@ -122,7 +124,7 @@ void LoloLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, c
         }
       }
       else if (type == QXmlStreamReader::EndElement) {
-        if (name == QLatin1String("result")) {
+        if (name == "result"_L1) {
           if (!result.lyrics.isEmpty()) {
             result.lyrics = Utilities::DecodeHtmlEntities(result.lyrics);
             results << result;

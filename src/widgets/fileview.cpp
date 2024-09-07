@@ -95,7 +95,7 @@ FileView::FileView(QWidget *parent)
   QObject::connect(ui_->list, &FileViewList::EditTags, this, &FileView::EditTags);
 
   QString filter = QLatin1String(FileView::kFileFilter);
-  filter_list_ << filter.split(QLatin1Char(' '));
+  filter_list_ << filter.split(u' ');
 
   ReloadSettings();
 

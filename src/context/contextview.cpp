@@ -67,6 +67,8 @@
 #include "contextview.h"
 #include "contextalbum.h"
 
+using namespace Qt::StringLiterals;
+
 namespace {
 constexpr int kWidgetSpacing = 50;
 }
@@ -410,15 +412,15 @@ void ContextView::NoSong() {
   QString html;
   if (collectionview_->TotalSongs() == 1) html += tr("%1 song").arg(collectionview_->TotalSongs());
   else html += tr("%1 songs").arg(collectionview_->TotalSongs());
-  html += QLatin1String("<br />");
+  html += "<br />"_L1;
 
   if (collectionview_->TotalArtists() == 1) html += tr("%1 artist").arg(collectionview_->TotalArtists());
   else html += tr("%1 artists").arg(collectionview_->TotalArtists());
-  html += QLatin1String("<br />");
+  html += "<br />"_L1;
 
   if (collectionview_->TotalAlbums() == 1) html += tr("%1 album").arg(collectionview_->TotalAlbums());
   else html += tr("%1 albums").arg(collectionview_->TotalAlbums());
-  html += QLatin1String("<br />");
+  html += "<br />"_L1;
 
   label_stop_summary_->setFont(font_normal_);
   label_stop_summary_->setText(html);
@@ -636,10 +638,10 @@ void ContextView::UpdateLyrics(const quint64 id, const QString &provider, const 
   if (static_cast<qint64>(id) != lyrics_id_) return;
 
   if (lyrics.isEmpty()) {
-    lyrics_ = QLatin1String("No lyrics found.\n");
+    lyrics_ = "No lyrics found.\n"_L1;
   }
   else {
-    lyrics_ = lyrics + QLatin1String("\n\n(Lyrics from ") + provider + QLatin1String(")\n");
+    lyrics_ = lyrics + "\n\n(Lyrics from "_L1 + provider + ")\n"_L1;
   }
   lyrics_id_ = -1;
 

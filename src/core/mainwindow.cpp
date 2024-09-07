@@ -223,6 +223,7 @@
 using std::make_unique;
 using std::make_shared;
 using namespace std::chrono_literals;
+using namespace Qt::StringLiterals;
 
 const char *MainWindow::kSettingsGroup = "MainWindow";
 const char *MainWindow::kAllFilesFilterSpec = QT_TR_NOOP("All Files (*)");
@@ -1268,7 +1269,7 @@ void MainWindow::ReloadAllSettings() {
 
 void MainWindow::RefreshStyleSheet() {
   QString contents(styleSheet());
-  setStyleSheet(QLatin1String(""));
+  setStyleSheet(""_L1);
   setStyleSheet(contents);
 }
 
@@ -2344,7 +2345,7 @@ void MainWindow::ShowInCollection() {
   }
   QString search;
   if (!songs.isEmpty()) {
-    search = QLatin1String("artist:") + songs.first().artist() + QLatin1String(" album:") + songs.first().album();
+    search = "artist:"_L1 + songs.first().artist() + " album:"_L1 + songs.first().album();
   }
   collection_view_->filter_widget()->ShowInCollection(search);
 
@@ -2437,9 +2438,9 @@ void MainWindow::CommandlineOptionsReceived(const CommandlineOptions &options) {
       break;
 
     case CommandlineOptions::PlayerAction::ResizeWindow:{
-      if (options.window_size().contains(QLatin1Char('x')) && options.window_size().length() >= 4) {
-        QString str_w = options.window_size().left(options.window_size().indexOf(QLatin1Char('x')));
-        QString str_h = options.window_size().right(options.window_size().length() - options.window_size().indexOf(QLatin1Char('x')) - 1);
+      if (options.window_size().contains(u'x') && options.window_size().length() >= 4) {
+        QString str_w = options.window_size().left(options.window_size().indexOf(u'x'));
+        QString str_h = options.window_size().right(options.window_size().length() - options.window_size().indexOf(u'x') - 1);
         bool w_ok = false;
         bool h_ok = false;
         int w = str_w.toInt(&w_ok);
@@ -2479,7 +2480,7 @@ void MainWindow::CommandlineOptionsReceived(const CommandlineOptions &options) {
 #ifdef HAVE_TIDAL
     const QList<QUrl> urls = options.urls();
     for (const QUrl &url : urls) {
-      if (url.scheme() == QLatin1String("tidal") && url.host() == QLatin1String("login")) {
+      if (url.scheme() == "tidal"_L1 && url.host() == "login"_L1) {
         Q_EMIT AuthorizationUrlReceived(url);
         return;
       }
@@ -2557,7 +2558,7 @@ bool MainWindow::LoadUrl(const QString &url) {
     return true;
   }
 #ifdef HAVE_TIDAL
-  if (url.startsWith(QLatin1String("tidal://login"))) {
+  if (url.startsWith("tidal://login"_L1)) {
     Q_EMIT AuthorizationUrlReceived(QUrl(url));
     return true;
   }
@@ -2927,9 +2928,9 @@ void MainWindow::CheckFullRescanRevisions() {
   if (!reasons.isEmpty()) {
     QString message = tr("The version of Strawberry you've just updated to requires a full collection rescan because of the new features listed below:") + QStringLiteral("<ul>");
     for (const QString &reason : reasons) {
-      message += QLatin1String("<li>") + reason + QLatin1String("</li>");
+      message += "<li>"_L1 + reason + "</li>"_L1;
     }
-    message += QLatin1String("</ul>") + tr("Would you like to run a full rescan right now?");
+    message += "</ul>"_L1 + tr("Would you like to run a full rescan right now?");
     if (QMessageBox::question(this, tr("Collection rescan notice"), message, QMessageBox::Yes, QMessageBox::No) == QMessageBox::Yes) {
       app_->collection()->FullScan();
     }

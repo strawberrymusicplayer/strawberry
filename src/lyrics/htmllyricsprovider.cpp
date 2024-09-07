@@ -36,6 +36,8 @@
 #include "htmllyricsprovider.h"
 #include "lyricssearchrequest.h"
 
+using namespace Qt::StringLiterals;
+
 HtmlLyricsProvider::HtmlLyricsProvider(const QString &name, const bool enabled, const QString &start_tag, const QString &end_tag, const QString &lyrics_start, const bool multiple, SharedPtr<NetworkAccessManager> network, QObject *parent)
     : LyricsProvider(name, enabled, false, network, parent), start_tag_(start_tag), end_tag_(end_tag), lyrics_start_(lyrics_start), multiple_(multiple) {}
 
@@ -110,7 +112,7 @@ void HtmlLyricsProvider::HandleLyricsReply(QNetworkReply *reply, const int id, c
   }
 
   const QString lyrics = ParseLyricsFromHTML(QString::fromUtf8(data), QRegularExpression(start_tag_), QRegularExpression(end_tag_), QRegularExpression(lyrics_start_), multiple_);
-  if (lyrics.isEmpty() || lyrics.contains(QLatin1String("we do not have the lyrics for"), Qt::CaseInsensitive)) {
+  if (lyrics.isEmpty() || lyrics.contains("we do not have the lyrics for"_L1, Qt::CaseInsensitive)) {
     qLog(Debug) << name_ << "No lyrics for" << request.artist << request.album << request.title;
     Q_EMIT SearchFinished(id);
     return;
@@ -165,7 +167,7 @@ QString HtmlLyricsProvider::ParseLyricsFromHTML(const QString &content, const QR
 
     if (end_lyrics_idx != -1 && start_lyrics_idx < end_lyrics_idx) {
       if (!lyrics.isEmpty()) {
-        lyrics.append(QLatin1Char('\n'));
+        lyrics.append(u'\n');
       }
       static const QRegularExpression regex_html_tag_a(QStringLiteral("<a [^>]*>[^<]*</a>"));
       static const QRegularExpression regex_html_tag_script(QStringLiteral("<script>[^>]*</script>"));
@@ -174,8 +176,8 @@ QString HtmlLyricsProvider::ParseLyricsFromHTML(const QString &content, const QR
       static const QRegularExpression regex_html_tag_p_close(QStringLiteral("</p>"));
       static const QRegularExpression regex_html_tags(QStringLiteral("<[^>]*>"));
       lyrics.append(content.mid(start_lyrics_idx, end_lyrics_idx - start_lyrics_idx)
-                           .remove(QLatin1Char('\r'))
-                           .remove(QLatin1Char('\n'))
+                           .remove(u'\r')
+                           .remove(u'\n')
                            .remove(regex_html_tag_a)
                            .remove(regex_html_tag_script)
                            .remove(regex_html_tag_div)
@@ -191,7 +193,7 @@ QString HtmlLyricsProvider::ParseLyricsFromHTML(const QString &content, const QR
   }
   while (start_idx > 0 && multiple);
 
-  if (lyrics.length() > 6000 || lyrics.contains(QLatin1String("there are no lyrics to"), Qt::CaseInsensitive)) {
+  if (lyrics.length() > 6000 || lyrics.contains("there are no lyrics to"_L1, Qt::CaseInsensitive)) {
     return QString();
   }
 

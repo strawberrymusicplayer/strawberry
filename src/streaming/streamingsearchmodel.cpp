@@ -37,6 +37,8 @@
 #include "streamingsearchmodel.h"
 #include "streamingsearchview.h"
 
+using namespace Qt::StringLiterals;
+
 StreamingSearchModel::StreamingSearchModel(StreamingServicePtr service, QObject *parent)
     : QStandardItemModel(parent),
       service_(service),
@@ -91,7 +93,7 @@ QStandardItem *StreamingSearchModel::BuildContainers(const Song &s, QStandardIte
     case CollectionModel::GroupBy::AlbumArtist:
       if (s.is_compilation()) {
         display_text = tr("Various artists");
-        sort_text = QLatin1String("aaaaaa");
+        sort_text = "aaaaaa"_L1;
       }
       else {
         display_text = CollectionModel::TextOrUnknown(s.effective_albumartist());
@@ -103,7 +105,7 @@ QStandardItem *StreamingSearchModel::BuildContainers(const Song &s, QStandardIte
     case CollectionModel::GroupBy::Artist:
       if (s.is_compilation()) {
         display_text = tr("Various artists");
-        sort_text = QLatin1String("aaaaaa");
+        sort_text = "aaaaaa"_L1;
       }
       else {
         display_text = CollectionModel::TextOrUnknown(s.artist());
@@ -251,7 +253,7 @@ QStandardItem *StreamingSearchModel::BuildContainers(const Song &s, QStandardIte
   }
 
   if (display_text.isEmpty() || sort_text.isEmpty()) {
-    display_text = QLatin1String("Unknown");
+    display_text = "Unknown"_L1;
   }
 
   // Find a container for this level

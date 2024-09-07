@@ -40,6 +40,8 @@
 #include "jsoncoverprovider.h"
 #include "musixmatchcoverprovider.h"
 
+using namespace Qt::StringLiterals;
+
 MusixmatchCoverProvider::MusixmatchCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
     : JsonCoverProvider(QStringLiteral("Musixmatch"), true, false, 1.0, true, false, app, network, parent) {}
 
@@ -107,8 +109,8 @@ void MusixmatchCoverProvider::HandleSearchReply(QNetworkReply *reply, const int 
     return;
   }
   const QString content = QString::fromUtf8(data);
-  const QString data_begin = QLatin1String("<script id=\"__NEXT_DATA__\" type=\"application/json\">");
-  const QString data_end = QLatin1String("</script>");
+  const QString data_begin = "<script id=\"__NEXT_DATA__\" type=\"application/json\">"_L1;
+  const QString data_end = "</script>"_L1;
   if (!content.contains(data_begin) || !content.contains(data_end)) {
     Q_EMIT SearchFinished(id, results);
     return;
@@ -162,47 +164,47 @@ void MusixmatchCoverProvider::HandleSearchReply(QNetworkReply *reply, const int 
     return;
   }
 
-  if (!obj_data.contains(QLatin1String("props")) || !obj_data[QLatin1String("props")].isObject()) {
+  if (!obj_data.contains("props"_L1) || !obj_data["props"_L1].isObject()) {
     Error(QStringLiteral("Json reply is missing props."), obj_data);
     Q_EMIT SearchFinished(id, results);
     return;
   }
-  obj_data = obj_data[QLatin1String("props")].toObject();
+  obj_data = obj_data["props"_L1].toObject();
 
-  if (!obj_data.contains(QLatin1String("pageProps")) || !obj_data[QLatin1String("pageProps")].isObject()) {
+  if (!obj_data.contains("pageProps"_L1) || !obj_data["pageProps"_L1].isObject()) {
     Error(QStringLiteral("Json props is missing pageProps."), obj_data);
     Q_EMIT SearchFinished(id, results);
     return;
   }
-  obj_data = obj_data[QLatin1String("pageProps")].toObject();
+  obj_data = obj_data["pageProps"_L1].toObject();
 
-  if (!obj_data.contains(QLatin1String("data")) || !obj_data[QLatin1String("data")].isObject()) {
+  if (!obj_data.contains("data"_L1) || !obj_data["data"_L1].isObject()) {
     Error(QStringLiteral("Json pageProps is missing data."), obj_data);
     Q_EMIT SearchFinished(id, results);
     return;
   }
-  obj_data = obj_data[QLatin1String("data")].toObject();
+  obj_data = obj_data["data"_L1].toObject();
 
-  if (!obj_data.contains(QLatin1String("albumGet")) || !obj_data[QLatin1String("albumGet")].isObject()) {
+  if (!obj_data.contains("albumGet"_L1) || !obj_data["albumGet"_L1].isObject()) {
     Error(QStringLiteral("Json data is missing albumGet."), obj_data);
     Q_EMIT SearchFinished(id, results);
     return;
   }
-  obj_data = obj_data[QLatin1String("albumGet")].toObject();
+  obj_data = obj_data["albumGet"_L1].toObject();
 
-  if (!obj_data.contains(QLatin1String("data")) || !obj_data[QLatin1String("data")].isObject()) {
+  if (!obj_data.contains("data"_L1) || !obj_data["data"_L1].isObject()) {
     Error(QStringLiteral("Json albumGet reply is missing data."), obj_data);
     Q_EMIT SearchFinished(id, results);
     return;
   }
-  obj_data = obj_data[QLatin1String("data")].toObject();
+  obj_data = obj_data["data"_L1].toObject();
 
   CoverProviderSearchResult result;
-  if (obj_data.contains(QLatin1String("artistName")) && obj_data[QLatin1String("artistName")].isString()) {
-    result.artist = obj_data[QLatin1String("artistName")].toString();
+  if (obj_data.contains("artistName"_L1) && obj_data["artistName"_L1].isString()) {
+    result.artist = obj_data["artistName"_L1].toString();
   }
-  if (obj_data.contains(QLatin1String("name")) && obj_data[QLatin1String("name")].isString()) {
-    result.album = obj_data[QLatin1String("name")].toString();
+  if (obj_data.contains("name"_L1) && obj_data["name"_L1].isString()) {
+    result.album = obj_data["name"_L1].toString();
   }
 
   if (result.artist.compare(artist, Qt::CaseInsensitive) != 0 && result.album.compare(album, Qt::CaseInsensitive) != 0) {

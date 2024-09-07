@@ -112,6 +112,7 @@
 #  include "osd/osdbase.h"
 #endif
 
+using namespace Qt::StringLiterals;
 using std::make_shared;
 
 int main(int argc, char *argv[]) {
@@ -212,11 +213,11 @@ int main(int argc, char *argv[]) {
     s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
     QString style = s.value(AppearanceSettingsPage::kStyle).toString();
     if (style.isEmpty()) {
-      style = QLatin1String("default");
+      style = "default"_L1;
       s.setValue(AppearanceSettingsPage::kStyle, style);
     }
     s.endGroup();
-    if (style != QLatin1String("default")) {
+    if (style != "default"_L1) {
       QApplication::setStyle(style);
     }
     if (QApplication::style()) qLog(Debug) << "Style:" << QApplication::style()->objectName();
@@ -258,7 +259,7 @@ int main(int argc, char *argv[]) {
 
   QString system_language = QLocale::system().uiLanguages().empty() ? QLocale::system().name() : QLocale::system().uiLanguages().first();
   // uiLanguages returns strings with "-" as separators for language/region; however QTranslator needs "_" separators
-  system_language.replace(QLatin1Char('-'), QLatin1Char('_'));
+  system_language.replace(u'-', u'_');
 
   const QString language = override_language.isEmpty() ? system_language : override_language;
 

@@ -61,6 +61,8 @@
 #include "settings/collectionsettingspage.h"
 #include "settings/appearancesettingspage.h"
 
+using namespace Qt::StringLiterals;
+
 namespace {
 constexpr int kFilterDelay = 500;  // msec
 }
@@ -296,7 +298,7 @@ QActionGroup *CollectionFilterWidget::CreateGroupByActions(const QString &saved_
   if (version == 1) {
     QStringList saved = s.childKeys();
     for (int i = 0; i < saved.size(); ++i) {
-      if (saved.at(i) == QLatin1String("version")) continue;
+      if (saved.at(i) == "version"_L1) continue;
       QByteArray bytes = s.value(saved.at(i)).toByteArray();
       QDataStream ds(&bytes, QIODevice::ReadOnly);
       CollectionModel::Grouping g;
@@ -307,7 +309,7 @@ QActionGroup *CollectionFilterWidget::CreateGroupByActions(const QString &saved_
   else {
     QStringList saved = s.childKeys();
     for (int i = 0; i < saved.size(); ++i) {
-      if (saved.at(i) == QLatin1String("version")) continue;
+      if (saved.at(i) == "version"_L1) continue;
       s.remove(saved.at(i));
     }
   }

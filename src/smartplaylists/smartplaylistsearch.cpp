@@ -28,6 +28,8 @@
 
 #include "smartplaylistsearch.h"
 
+using namespace Qt::StringLiterals;
+
 SmartPlaylistSearch::SmartPlaylistSearch() : search_type_(SearchType::And), sort_type_(SortType::Random), sort_field_(SmartPlaylistSearchTerm::Field::Title), limit_(-1), first_item_(0) { Reset(); }
 
 SmartPlaylistSearch::SmartPlaylistSearch(const SearchType type, const TermList &terms, const SortType sort_type, const SmartPlaylistSearchTerm::Field sort_field, const int limit)
@@ -62,7 +64,7 @@ QString SmartPlaylistSearch::ToSql(const QString &songs_table) const {
   }
 
   if (!terms_.isEmpty() && search_type_ != SearchType::All) {
-    QString boolean_op = search_type_ == SearchType::And ? QLatin1String(" AND ") : QLatin1String(" OR ");
+    QString boolean_op = search_type_ == SearchType::And ? " AND "_L1 : " OR "_L1;
     where_clauses << QStringLiteral("(") + term_where_clauses.join(boolean_op) + QStringLiteral(")");
   }
 
@@ -70,7 +72,7 @@ QString SmartPlaylistSearch::ToSql(const QString &songs_table) const {
   if (!id_not_in_.isEmpty()) {
     QString numbers;
     for (int id : id_not_in_) {
-      numbers += (numbers.isEmpty() ? QLatin1String("") : QLatin1String(",")) + QString::number(id);
+      numbers += (numbers.isEmpty() ? ""_L1 : ","_L1) + QString::number(id);
     }
     where_clauses << QStringLiteral("(ROWID NOT IN (") + numbers + QStringLiteral("))");
   }
@@ -80,15 +82,15 @@ QString SmartPlaylistSearch::ToSql(const QString &songs_table) const {
   where_clauses << QStringLiteral("unavailable = 0");
 
   if (!where_clauses.isEmpty()) {
-    sql += QLatin1String(" WHERE ") + where_clauses.join(QLatin1String(" AND "));
+    sql += " WHERE "_L1 + where_clauses.join(" AND "_L1);
   }
 
   // Add sort by
   if (sort_type_ == SortType::Random) {
-    sql += QLatin1String(" ORDER BY random()");
+    sql += " ORDER BY random()"_L1;
   }
   else {
-    sql += QLatin1String(" ORDER BY ") + SmartPlaylistSearchTerm::FieldColumnName(sort_field_) + (sort_type_ == SortType::FieldAsc ? QLatin1String(" ASC") : QLatin1String(" DESC"));
+    sql += " ORDER BY "_L1 + SmartPlaylistSearchTerm::FieldColumnName(sort_field_) + (sort_type_ == SortType::FieldAsc ? " ASC"_L1 : " DESC"_L1);
   }
 
   // Add limit
@@ -96,7 +98,7 @@ QString SmartPlaylistSearch::ToSql(const QString &songs_table) const {
     sql += QStringLiteral(" LIMIT %1 OFFSET %2").arg(limit_).arg(first_item_);
   }
   else if (limit_ != -1) {
-    sql += QLatin1String(" LIMIT ") + QString::number(limit_);
+    sql += " LIMIT "_L1 + QString::number(limit_);
   }
   //qLog(Debug) << sql;
 

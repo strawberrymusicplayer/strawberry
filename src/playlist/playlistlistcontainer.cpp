@@ -218,7 +218,7 @@ void PlaylistListContainer::NewFolderClicked() {
     return;
   }
 
-  name.replace(QLatin1Char('/'), QLatin1Char(' '));
+  name.replace(u'/', u' ');
 
   model_->invisibleRootItem()->appendRow(model_->NewFolder(name));
 

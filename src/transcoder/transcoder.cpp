@@ -48,6 +48,7 @@
 #include "core/settings.h"
 #include "transcoder.h"
 
+using namespace Qt::StringLiterals;
 using std::make_shared;
 
 int Transcoder::JobFinishedEvent::sEventType = -1;
@@ -95,8 +96,8 @@ GstElement *Transcoder::CreateElementForMimeType(GstElementFactoryListType eleme
   if (mime_type.isEmpty()) return nullptr;
 
   // HACK: Force mp4mux because it doesn't set any useful src caps
-  if (mime_type == QLatin1String("audio/mp4")) {
-    Q_EMIT LogLine(QStringLiteral("Using '%1' (rank %2)").arg(QLatin1String("mp4mux")).arg(-1));
+  if (mime_type == "audio/mp4"_L1) {
+    Q_EMIT LogLine(QStringLiteral("Using '%1' (rank %2)").arg("mp4mux"_L1).arg(-1));
     return CreateElement(QStringLiteral("mp4mux"), bin);
   }
 
@@ -118,7 +119,7 @@ GstElement *Transcoder::CreateElementForMimeType(GstElementFactoryListType eleme
       if (gst_element_factory_can_src_any_caps(factory, target_caps)) {
         const QString name = QString::fromUtf8(GST_OBJECT_NAME(factory));
         int rank = static_cast<int>(gst_plugin_feature_get_rank(GST_PLUGIN_FEATURE(factory)));
-        if (name.startsWith(QLatin1String("avmux")) || name.startsWith(QLatin1String("avenc"))) {
+        if (name.startsWith("avmux"_L1) || name.startsWith("avenc"_L1)) {
           rank = -1;  // ffmpeg usually sucks
         }
         suitable_elements_ << SuitableElement(name, rank);
@@ -137,7 +138,7 @@ GstElement *Transcoder::CreateElementForMimeType(GstElementFactoryListType eleme
 
   Q_EMIT LogLine(QStringLiteral("Using '%1' (rank %2)").arg(best.name_).arg(best.rank_));
 
-  if (best.name_ == QLatin1String("lamemp3enc")) {
+  if (best.name_ == "lamemp3enc"_L1) {
     // Special case: we need to add xingmux and id3v2mux to the pipeline when using lamemp3enc because it doesn't write the VBR or ID3v2 headers itself.
 
     Q_EMIT LogLine(QStringLiteral("Adding xingmux and id3v2mux to the pipeline"));
@@ -198,7 +199,7 @@ Transcoder::Transcoder(QObject *parent, const QString &settings_postfix)
 
   // Initialize some settings for the lamemp3enc element.
   Settings s;
-  s.beginGroup(QLatin1String("Transcoder/lamemp3enc") + settings_postfix_);
+  s.beginGroup("Transcoder/lamemp3enc"_L1 + settings_postfix_);
 
   if (s.value("target").isNull()) {
     s.setValue("target", 1);  // 1 == bitrate
@@ -282,7 +283,7 @@ QString Transcoder::GetFile(const QString &input, const TranscoderPreset &preset
 
   if (!fileinfo_output.isFile() || fileinfo_output.filePath().isEmpty() || fileinfo_output.path().isEmpty() || fileinfo_output.fileName().isEmpty() || fileinfo_output.suffix().isEmpty()) {
     QFileInfo fileinfo_input(input);
-    QString temp_dir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + QLatin1String("/transcoder");
+    QString temp_dir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/transcoder"_L1;
     if (!QDir(temp_dir).exists()) QDir().mkpath(temp_dir);
     QString filename = fileinfo_input.completeBaseName() + QLatin1Char('.') + preset.extension_;
     fileinfo_output.setFile(temp_dir + QLatin1Char('/') + filename);
@@ -553,7 +554,7 @@ QMap<QString, float> Transcoder::GetProgress() const {
 void Transcoder::SetElementProperties(const QString &name, GObject *object) {
 
   Settings s;
-  s.beginGroup(QLatin1String("Transcoder/") + name + settings_postfix_);
+  s.beginGroup("Transcoder/"_L1 + name + settings_postfix_);
 
   guint properties_count = 0;
   GParamSpec **properties = g_object_class_list_properties(G_OBJECT_GET_CLASS(object), &properties_count);

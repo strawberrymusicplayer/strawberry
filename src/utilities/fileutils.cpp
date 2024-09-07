@@ -86,7 +86,7 @@ bool Copy(QIODevice *source, QIODevice *destination) {
 bool CopyRecursive(const QString &source, const QString &destination) {
 
   // Make the destination directory
-  QString dir_name = source.section(QLatin1Char('/'), -1, -1);
+  QString dir_name = source.section(u'/', -1, -1);
   QString dest_path = destination + QLatin1Char('/') + dir_name;
   QDir().mkpath(dest_path);
 

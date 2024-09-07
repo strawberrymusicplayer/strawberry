@@ -38,6 +38,7 @@
 #include "devicemanager.h"
 #include "deviceinfo.h"
 
+using namespace Qt::StringLiterals;
 using std::make_shared;
 
 ConnectedDevice::ConnectedDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, SharedPtr<DeviceManager> manager, Application *app, const int database_id, const bool first_time, QObject *parent)
@@ -60,7 +61,7 @@ ConnectedDevice::ConnectedDevice(const QUrl &url, DeviceLister *lister, const QS
   backend_->moveToThread(app_->database()->thread());
   qLog(Debug) << &*backend_ << "for device" << unique_id_ << "moved to thread" << app_->database()->thread();
 
-  if (url_.scheme() != QLatin1String("cdda")) {
+  if (url_.scheme() != "cdda"_L1) {
     QObject::connect(&*backend_, &CollectionBackend::TotalSongCountUpdated, this, &ConnectedDevice::BackendTotalSongCountUpdated);
   }
 

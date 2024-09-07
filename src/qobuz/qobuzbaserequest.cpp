@@ -43,6 +43,8 @@
 #include "qobuzservice.h"
 #include "qobuzbaserequest.h"
 
+using namespace Qt::StringLiterals;
+
 QobuzBaseRequest::QobuzBaseRequest(QobuzService *service, SharedPtr<NetworkAccessManager> network, QObject *parent)
     : QObject(parent),
       service_(service),
@@ -107,9 +109,9 @@ QByteArray QobuzBaseRequest::GetReplyData(QNetworkReply *reply) {
       QJsonDocument json_doc = QJsonDocument::fromJson(data, &parse_error);
       if (parse_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
-        if (!json_obj.isEmpty() && json_obj.contains(QLatin1String("status")) && json_obj.contains(QLatin1String("code")) && json_obj.contains(QLatin1String("message"))) {
-          int code = json_obj[QLatin1String("code")].toInt();
-          QString message = json_obj[QLatin1String("message")].toString();
+        if (!json_obj.isEmpty() && json_obj.contains("status"_L1) && json_obj.contains("code"_L1) && json_obj.contains("message"_L1)) {
+          int code = json_obj["code"_L1].toInt();
+          QString message = json_obj["message"_L1].toString();
           error = QStringLiteral("%1 (%2)").arg(message).arg(code);
         }
       }
@@ -170,11 +172,11 @@ QJsonValue QobuzBaseRequest::ExtractItems(QByteArray &data) {
 
 QJsonValue QobuzBaseRequest::ExtractItems(QJsonObject &json_obj) {
 
-  if (!json_obj.contains(QLatin1String("items"))) {
+  if (!json_obj.contains("items"_L1)) {
     Error(QStringLiteral("Json reply is missing items."), json_obj);
     return QJsonArray();
   }
-  QJsonValue json_items = json_obj[QLatin1String("items")];
+  QJsonValue json_items = json_obj["items"_L1];
   return json_items;
 
 }

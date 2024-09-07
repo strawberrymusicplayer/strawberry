@@ -49,6 +49,8 @@
 #  endif  // _MSC_VER
 #endif  // Q_OS_WIN32
 
+using namespace Qt::StringLiterals;
+
 DeviceFinders::DeviceFinders(QObject *parent) : QObject(parent) {
 
   setObjectName(QLatin1String(metaObject()->className()));

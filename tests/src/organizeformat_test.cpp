@@ -29,6 +29,8 @@
 
 #include <QUrl>
 
+using namespace Qt::StringLiterals;
+
 // clazy:excludeall=returning-void-expression
 
 class OrganizeFormatTest : public ::testing::Test {
@@ -148,7 +150,7 @@ TEST_F(OrganizeFormatTest, ReplaceNonAscii) {
   format_.set_remove_non_ascii(true);
   EXPECT_EQ(QStringLiteral("Royksopp"), format_.GetFilenameForSong(song_).filename);
 
-  song_.set_artist(QLatin1String(""));
+  song_.set_artist(""_L1);
   EXPECT_EQ(QLatin1String(""), format_.GetFilenameForSong(song_).filename);
 
   song_.set_artist(QStringLiteral("Владимир Высоцкий"));

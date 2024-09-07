@@ -119,7 +119,7 @@ void SpotifyFavoriteRequest::AddFavorites(const FavoriteType type, const SongLis
   if (list_ids.isEmpty() || array_ids.isEmpty()) return;
 
   QByteArray json_data = QJsonDocument(array_ids).toJson();
-  QString ids_list = list_ids.join(QLatin1Char(','));
+  QString ids_list = list_ids.join(u',');
 
   AddFavoritesRequest(type, ids_list, json_data, songs);
 
@@ -231,7 +231,7 @@ void SpotifyFavoriteRequest::RemoveFavorites(const FavoriteType type, const Song
   if (list_ids.isEmpty() || array_ids.isEmpty()) return;
 
   QByteArray json_data = QJsonDocument(array_ids).toJson();
-  QString ids_list = list_ids.join(QLatin1Char(','));
+  QString ids_list = list_ids.join(u',');
 
   RemoveFavoritesRequest(type, ids_list, json_data, songs);
 

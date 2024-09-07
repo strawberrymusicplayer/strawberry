@@ -35,6 +35,8 @@
 #include "errordialog.h"
 #include "ui_errordialog.h"
 
+using namespace Qt::StringLiterals;
+
 ErrorDialog::ErrorDialog(QWidget *parent)
     : QDialog(parent),
       ui_(new Ui_ErrorDialog) {
@@ -83,7 +85,7 @@ void ErrorDialog::UpdateContent() {
   QString html;
   for (const QString &message : std::as_const(current_messages_)) {
     if (!html.isEmpty()) {
-      html += QLatin1String("<hr/>");
+      html += "<hr/>"_L1;
     }
     html += message.toHtmlEscaped();
   }

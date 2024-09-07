@@ -67,6 +67,7 @@
 #include "deviceproperties.h"
 #include "deviceview.h"
 
+using namespace Qt::StringLiterals;
 using std::make_unique;
 
 const int DeviceItemDelegate::kIconPadding = 6;
@@ -143,7 +144,7 @@ void DeviceItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
         QVariant song_count = idx.data(DeviceManager::Role_SongCount);
         if (song_count.isValid()) {
           int count = song_count.toInt();
-          status_text = tr("%1 song%2").arg(count).arg(count == 1 ? QLatin1String("") : QLatin1String("s"));
+          status_text = tr("%1 song%2").arg(count).arg(count == 1 ? ""_L1 : "s"_L1);
         }
         else {
           status_text = idx.data(DeviceManager::Role_MountPath).toString();

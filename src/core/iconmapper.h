@@ -27,6 +27,8 @@
 
 namespace IconMapper {
 
+using namespace Qt::Literals::StringLiterals;
+
 struct IconProperties {
   explicit IconProperties() : min_size(0), max_size(0), allow_system_icon(true) {}
   IconProperties(const QStringList &_names, const int _min_size = 16, const int _max_size = 512, const bool _allow_system_icon = true) : names(_names), min_size(_min_size), max_size(_max_size), allow_system_icon(_allow_system_icon) {}
@@ -100,7 +102,7 @@ static const QMap<QString, IconProperties> iconmapper_ = {  // clazy:exclude=non
     { QStringLiteral("media-eject"),                   { {}} },
     { QStringLiteral("media-playback-pause"),          { {QStringLiteral("media-pause")}} },
     { QStringLiteral("media-playlist-repeat"),         { {}} },
-    { QStringLiteral("media-playlist-shuffle"),        { {QLatin1String("")}} },
+    { QStringLiteral("media-playlist-shuffle"),        { {""_L1}} },
     { QStringLiteral("media-playback-start"),          { {QStringLiteral("media-play"), QStringLiteral("media-playback-playing")}} },
     { QStringLiteral("media-seek-backward"),           { {}} },
     { QStringLiteral("media-seek-forward"),            { {}} },

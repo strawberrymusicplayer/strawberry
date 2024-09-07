@@ -67,6 +67,8 @@
 #include "ui_transcodedialog.h"
 #include "ui_transcodelogdialog.h"
 
+using namespace Qt::StringLiterals;
+
 // winspool.h defines this :(
 #ifdef AddJob
 #  undef AddJob
@@ -315,7 +317,7 @@ void TranscodeDialog::UpdateStatusText() {
     sections << QStringLiteral("<font color=\"#b60000\">") + tr("%n failed", "", finished_failed_) + QStringLiteral("</font>");
   }
 
-  ui_->progress_text->setText(sections.join(QLatin1String(", ")));
+  ui_->progress_text->setText(sections.join(", "_L1));
 
 }
 
@@ -349,7 +351,7 @@ void TranscodeDialog::Import() {
 
   QStringList filenames;
 
-  const QStringList audio_types = QString::fromLatin1(FileView::kFileFilter).split(QLatin1Char(' '), Qt::SkipEmptyParts);
+  const QStringList audio_types = QString::fromLatin1(FileView::kFileFilter).split(u' ', Qt::SkipEmptyParts);
   QDirIterator files(path, audio_types, QDir::Files | QDir::Readable, QDirIterator::Subdirectories);
 
   while (files.hasNext()) {
@@ -369,8 +371,8 @@ void TranscodeDialog::Import() {
 void TranscodeDialog::SetFilenames(const QStringList &filenames) {
 
   for (const QString &filename : filenames) {
-    QString name = filename.section(QLatin1Char('/'), -1, -1);
-    QString path = filename.section(QLatin1Char('/'), 0, -2);
+    QString name = filename.section(u'/', -1, -1);
+    QString path = filename.section(u'/', 0, -2);
 
     QTreeWidgetItem *item = new QTreeWidgetItem(ui_->files, QStringList() << name << path);
     item->setData(0, Qt::UserRole, filename);
@@ -438,7 +440,7 @@ void TranscodeDialog::AddDestination() {
 
 // Returns the rightmost non-empty part of 'path'.
 QString TranscodeDialog::TrimPath(const QString &path) {
-  return path.section(QLatin1Char('/'), -1, -1, QString::SectionSkipEmpty);
+  return path.section(u'/', -1, -1, QString::SectionSkipEmpty);
 }
 
 QString TranscodeDialog::GetOutputFileName(const QString &input_filepath, const TranscoderPreset &preset) const {
@@ -451,7 +453,7 @@ QString TranscodeDialog::GetOutputFileName(const QString &input_filepath, const 
   }
   else {
     QString filename = TrimPath(input_filepath);
-    filename = filename.section(QLatin1Char('.'), 0, -2);
+    filename = filename.section(u'.', 0, -2);
     output_filepath = destination_path + QLatin1Char('/') + filename + QLatin1Char('.') + preset.extension_;
   }
 

@@ -34,6 +34,8 @@
 #include "multiloadingindicator.h"
 #include "widgets/busyindicator.h"
 
+using namespace Qt::StringLiterals;
+
 namespace {
 constexpr int kVerticalPadding = 4;
 constexpr int kHorizontalPadding = 6;
@@ -84,10 +86,10 @@ void MultiLoadingIndicator::UpdateText() {
     strings << task_text;
   }
 
-  text_ = strings.join(QLatin1String(", "));
+  text_ = strings.join(", "_L1);
   if (!text_.isEmpty()) {
     text_[0] = text_[0].toUpper();
-    text_ += QLatin1String("...");
+    text_ += "..."_L1;
   }
 
   Q_EMIT TaskCountChange(static_cast<int>(tasks.count()));

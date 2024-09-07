@@ -40,6 +40,8 @@
 #include "parserbase.h"
 #include "cueparser.h"
 
+using namespace Qt::StringLiterals;
+
 class CollectionBackendInterface;
 
 namespace {
@@ -161,7 +163,7 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
     }
 
     // If this is a data file, all of its tracks will be ignored
-    bool valid_file = file_type.compare(QLatin1String("BINARY"), Qt::CaseInsensitive) != 0 && file_type.compare(QLatin1String("MOTOROLA"), Qt::CaseInsensitive) != 0;
+    bool valid_file = file_type.compare("BINARY"_L1, Qt::CaseInsensitive) != 0 && file_type.compare("MOTOROLA"_L1, Qt::CaseInsensitive) != 0;
 
     QString track_type;
     QString index;
@@ -182,7 +184,7 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
 
       const QString &line_name = splitted[0];
       const QString &line_value = splitted[1];
-      QString line_additional = splitted.size() > 2 ? splitted[2].toLower() : QLatin1String("");
+      QString line_additional = splitted.size() > 2 ? splitted[2].toLower() : ""_L1;
 
       if (line_name.compare(QLatin1String(kTrack), Qt::CaseInsensitive) == 0) {
 
@@ -193,7 +195,7 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
         }
 
         // Clear the state
-        track_type = index = artist = composer = title = date = genre = QLatin1String("");
+        track_type = index = artist = composer = title = date = genre = ""_L1;
 
         if (!line_additional.isEmpty()) {
           track_type = line_additional;
@@ -206,7 +208,7 @@ SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const 
         if (!line_additional.isEmpty()) {
 
           // If there's none "01" index, we'll just take the first one also, we'll take the "01" index even if it's the last one
-          if (line_value == QLatin1String("01") || index.isEmpty()) {
+          if (line_value == "01"_L1 || index.isEmpty()) {
 
             index = line_additional;
           }
@@ -300,7 +302,7 @@ QStringList CueParser::SplitCueLine(const QString &line) {
   // Let's remove the empty entries while we're at it
   static const QRegularExpression regex_entry(QStringLiteral(".+"));
   static const QRegularExpression regex_exclude(QStringLiteral("^\"\"$"));
-  return re_match.capturedTexts().filter(regex_entry).mid(1, -1).replaceInStrings(regex_exclude, QLatin1String(""));
+  return re_match.capturedTexts().filter(regex_entry).mid(1, -1).replaceInStrings(regex_exclude, ""_L1);
 
 }
 
@@ -392,7 +394,7 @@ void CueParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, 
 // Looks for a track starting with one of the .cue's keywords.
 bool CueParser::TryMagic(const QByteArray &data) const {
 
-  QStringList splitted = QString::fromUtf8(data.constData()).split(QLatin1Char('\n'));
+  QStringList splitted = QString::fromUtf8(data.constData()).split(u'\n');
 
   for (int i = 0; i < splitted.length(); i++) {
     QString line = splitted.at(i).trimmed();
@@ -411,7 +413,7 @@ bool CueParser::TryMagic(const QByteArray &data) const {
 QString CueParser::FindCueFilename(const QString &filename) {
 
   const QStringList cue_files = QStringList() << filename + QStringLiteral(".cue")
-                                              << filename.section(QLatin1Char('.'), 0, -2) + QStringLiteral(".cue");
+                                              << filename.section(u'.', 0, -2) + QStringLiteral(".cue");
 
   for (const QString &cuefile : cue_files) {
     if (QFileInfo::exists(cuefile)) return cuefile;

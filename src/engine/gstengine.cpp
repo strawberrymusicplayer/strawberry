@@ -61,6 +61,7 @@
 #include "gstbufferconsumer.h"
 #include "enginemetadata.h"
 
+using namespace Qt::StringLiterals;
 using std::make_shared;
 
 const char *GstEngine::kAutoSink = "autoaudiosink";
@@ -455,24 +456,24 @@ EngineBase::OutputDetailsList GstEngine::GetOutputsList() const {
     GstElementFactory *factory = GST_ELEMENT_FACTORY(future->data);
     const QString metadata = QString::fromUtf8(gst_element_factory_get_metadata(factory, GST_ELEMENT_METADATA_KLASS));
     const QString name = QString::fromUtf8(gst_plugin_feature_get_name(future->data));
-    const QStringList classes = metadata.split(QLatin1Char('/'));
-    if (classes.contains(QLatin1String("Audio"), Qt::CaseInsensitive) && (classes.contains(QLatin1String("Sink"), Qt::CaseInsensitive) || (classes.contains(QLatin1String("Source"), Qt::CaseInsensitive) && name.contains(QLatin1String("sink"))))) {
+    const QStringList classes = metadata.split(u'/');
+    if (classes.contains("Audio"_L1, Qt::CaseInsensitive) && (classes.contains("Sink"_L1, Qt::CaseInsensitive) || (classes.contains("Source"_L1, Qt::CaseInsensitive) && name.contains("sink"_L1)))) {
       QString description = QString::fromUtf8(gst_element_factory_get_metadata(factory, GST_ELEMENT_METADATA_DESCRIPTION));
-      if (name == QLatin1String("wasapi2sink") && description == QLatin1String("Stream audio to an audio capture device through WASAPI")) {
-        description.append(QLatin1Char('2'));
+      if (name == "wasapi2sink"_L1 && description == "Stream audio to an audio capture device through WASAPI"_L1) {
+        description.append(u'2');
       }
-      else if (name == QLatin1String("pipewiresink") && description == QLatin1String("Send video to PipeWire")) {
-        description = QLatin1String("Send audio to PipeWire");
+      else if (name == "pipewiresink"_L1 && description == "Send video to PipeWire"_L1) {
+        description = "Send audio to PipeWire"_L1;
       }
       OutputDetails output;
       output.name = name;
       output.description = description;
-      if (output.name == QLatin1String(kAutoSink)) output.iconname = QLatin1String("soundcard");
-      else if (output.name == QLatin1String(kALSASink) || output.name == QLatin1String(kOSS4Sink)) output.iconname = QLatin1String("alsa");
-      else if (output.name == QLatin1String(kJackAudioSink)) output.iconname = QLatin1String("jack");
-      else if (output.name == QLatin1String(kPulseSink)) output.iconname = QLatin1String("pulseaudio");
-      else if (output.name == QLatin1String(kA2DPSink) || output.name == QLatin1String(kAVDTPSink)) output.iconname = QLatin1String("bluetooth");
-      else output.iconname = QLatin1String("soundcard");
+      if (output.name == QLatin1String(kAutoSink)) output.iconname = "soundcard"_L1;
+      else if (output.name == QLatin1String(kALSASink) || output.name == QLatin1String(kOSS4Sink)) output.iconname = "alsa"_L1;
+      else if (output.name == QLatin1String(kJackAudioSink)) output.iconname = "jack"_L1;
+      else if (output.name == QLatin1String(kPulseSink)) output.iconname = "pulseaudio"_L1;
+      else if (output.name == QLatin1String(kA2DPSink) || output.name == QLatin1String(kAVDTPSink)) output.iconname = "bluetooth"_L1;
+      else output.iconname = "soundcard"_L1;
       outputs << output;
     }
   }
@@ -796,22 +797,22 @@ QByteArray GstEngine::FixupUrl(const QUrl &url) {
   // QUrl::fromLocalFile does this when given a \\host\share\file path on Windows.
   // Munge it back into a path that gstreamer will recognise.
   if (url.isLocalFile() && !url.host().isEmpty()) {
-    QString str = QLatin1String("file:////") + url.host() + url.path();
+    QString str = "file:////"_L1 + url.host() + url.path();
     uri = str.toUtf8();
   }
-  else if (url.scheme() == QLatin1String("cdda")) {
+  else if (url.scheme() == "cdda"_L1) {
     QString str;
     if (url.path().isEmpty()) {
       str = url.toString();
-      str.remove(str.lastIndexOf(QLatin1Char('a')), 1);
+      str.remove(str.lastIndexOf(u'a'), 1);
     }
     else {
       // Currently, Gstreamer can't handle input CD devices inside cdda URL.
       // So we handle them ourselves: we extract the track number and re-create a URL with only cdda:// + the track number (which can be handled by Gstreamer).
       // We keep the device in mind, and we will set it later using SourceSetupCallback
-      QStringList path = url.path().split(QLatin1Char('/'));
+      QStringList path = url.path().split(u'/');
       str = QStringLiteral("cdda://%1").arg(path.takeLast());
-      QString device = path.join(QLatin1Char('/'));
+      QString device = path.join(u'/');
       if (current_pipeline_) current_pipeline_->SetSourceDevice(device);
     }
     uri = str.toUtf8();
@@ -1030,12 +1031,12 @@ void GstEngine::UpdateScope(const int chunk_length) {
 
   scope_chunk_++;
 
-  if (buffer_format_.startsWith(QLatin1String("S16LE")) ||
-      buffer_format_.startsWith(QLatin1String("U16LE")) ||
-      buffer_format_.startsWith(QLatin1String("S24LE")) ||
-      buffer_format_.startsWith(QLatin1String("S24_32LE")) ||
-      buffer_format_.startsWith(QLatin1String("S32LE")) ||
-      buffer_format_.startsWith(QLatin1String("F32LE"))
+  if (buffer_format_.startsWith("S16LE"_L1) ||
+      buffer_format_.startsWith("U16LE"_L1) ||
+      buffer_format_.startsWith("S24LE"_L1) ||
+      buffer_format_.startsWith("S24_32LE"_L1) ||
+      buffer_format_.startsWith("S32LE"_L1) ||
+      buffer_format_.startsWith("F32LE"_L1)
   ) {
     memcpy(dest, source, bytes);
   }
@@ -1102,7 +1103,7 @@ void GstEngine::StreamDiscovered(GstDiscoverer*, GstDiscovererInfo *info, GError
       GstStructure *gst_structure = gst_caps_get_structure(caps, i);
       if (!gst_structure) continue;
       QString mimetype = QString::fromUtf8(gst_structure_get_name(gst_structure));
-      if (!mimetype.isEmpty() && mimetype != QLatin1String("audio/mpeg")) {
+      if (!mimetype.isEmpty() && mimetype != "audio/mpeg"_L1) {
         engine_metadata.filetype = Song::FiletypeByMimetype(mimetype);
         if (engine_metadata.filetype == Song::FileType::Unknown) {
           qLog(Error) << "Unknown mimetype" << mimetype;

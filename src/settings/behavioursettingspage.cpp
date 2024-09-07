@@ -46,6 +46,8 @@
 #include "behavioursettingspage.h"
 #include "ui_behavioursettingspage.h"
 
+using namespace Qt::StringLiterals;
+
 class SettingsDialog;
 
 const char *BehaviourSettingsPage::kSettingsGroup = "Behaviour";
@@ -95,9 +97,9 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog, QWidget *pa
 
     QString code = re_match.captured(1);
     QString lookup_code = QString(code)
-                              .replace(QLatin1String("@latin"), QLatin1String("_Latn"))
-                              .replace(QLatin1String("_CN"), QLatin1String("_Hans_CN"))
-                              .replace(QLatin1String("_TW"), QLatin1String("_Hant_TW"));
+                              .replace("@latin"_L1, "_Latn"_L1)
+                              .replace("_CN"_L1, "_Hans_CN"_L1)
+                              .replace("_TW"_L1, "_Hant_TW"_L1);
 
     QString language_name = QLocale::languageToString(QLocale(lookup_code).language());
     QString native_name = QLocale(lookup_code).nativeLanguageName();

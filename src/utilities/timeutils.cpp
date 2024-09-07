@@ -67,7 +67,7 @@ QString WordyTime(const quint64 seconds) {
   if (days > 0) parts << (days == 1 ? QObject::tr("1 day") : QObject::tr("%1 days").arg(days));
   parts << PrettyTime(static_cast<int>(seconds - days * 60 * 60 * 24));
 
-  return parts.join(QLatin1Char(' '));
+  return parts.join(u' ');
 
 }
 

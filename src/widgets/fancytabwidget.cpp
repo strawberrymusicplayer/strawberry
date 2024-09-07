@@ -49,6 +49,7 @@
 #include "settings/appearancesettingspage.h"
 
 using namespace std::chrono_literals;
+using namespace Qt::StringLiterals;
 
 namespace {
 constexpr int IconSize_LargeSidebar = 40;
@@ -209,12 +210,12 @@ void FancyTabWidget::SetMode(const Mode mode) {
   if (previous_mode == Mode::IconOnlyTabs && mode != Mode::IconOnlyTabs) {
     for (int i = 0; i < count(); ++i) {
       tabBar()->setTabText(i, tabBar()->tabData(i).value<FancyTabData*>()->label());
-      tabBar()->setTabToolTip(i, QLatin1String(""));
+      tabBar()->setTabToolTip(i, ""_L1);
     }
   }
   else if (previous_mode != Mode::IconOnlyTabs && mode == Mode::IconOnlyTabs) {
     for (int i = 0; i < count(); ++i) {
-      tabBar()->setTabText(i, QLatin1String(""));
+      tabBar()->setTabText(i, ""_L1);
       tabBar()->setTabToolTip(i, tabBar()->tabData(i).value<FancyTabData*>()->label());
     }
   }

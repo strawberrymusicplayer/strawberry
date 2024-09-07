@@ -37,6 +37,8 @@
 #include "xmlparser.h"
 #include "xspfparser.h"
 
+using namespace Qt::StringLiterals;
+
 class CollectionBackendInterface;
 
 XSPFParser::XSPFParser(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent)
@@ -75,22 +77,22 @@ Song XSPFParser::ParseTrack(QXmlStreamReader *reader, const QDir &dir, const boo
     QString name = reader->name().toString();
     switch (type) {
       case QXmlStreamReader::StartElement:{
-        if (name == QLatin1String("location")) {
+        if (name == "location"_L1) {
           location = QUrl::fromPercentEncoding(reader->readElementText().toUtf8());
         }
-        else if (name == QLatin1String("title")) {
+        else if (name == "title"_L1) {
           title = reader->readElementText();
         }
-        else if (name == QLatin1String("creator")) {
+        else if (name == "creator"_L1) {
           artist = reader->readElementText();
         }
-        else if (name == QLatin1String("album")) {
+        else if (name == "album"_L1) {
           album = reader->readElementText();
         }
-        else if (name == QLatin1String("image")) {
+        else if (name == "image"_L1) {
           art = QUrl::fromPercentEncoding(reader->readElementText().toUtf8());
         }
-        else if (name == QLatin1String("duration")) {  // in milliseconds.
+        else if (name == "duration"_L1) {  // in milliseconds.
           const QString duration = reader->readElementText();
           bool ok = false;
           nanosec = duration.toInt(&ok) * kNsecPerMsec;
@@ -98,7 +100,7 @@ Song XSPFParser::ParseTrack(QXmlStreamReader *reader, const QDir &dir, const boo
             nanosec = -1;
           }
         }
-        else if (name == QLatin1String("trackNum")) {
+        else if (name == "trackNum"_L1) {
           const QString track_num_str = reader->readElementText();
           bool ok = false;
           track_num = track_num_str.toInt(&ok);
@@ -106,13 +108,13 @@ Song XSPFParser::ParseTrack(QXmlStreamReader *reader, const QDir &dir, const boo
             track_num = -1;
           }
         }
-        else if (name == QLatin1String("info")) {
+        else if (name == "info"_L1) {
           // TODO: Do something with extra info?
         }
         break;
       }
       case QXmlStreamReader::EndElement:{
-        if (name == QLatin1String("track")) {
+        if (name == "track"_L1) {
           goto return_song;
         }
       }
@@ -145,8 +147,8 @@ void XSPFParser::Save(const SongList &songs, QIODevice *device, const QDir &dir,
   writer.setAutoFormattingIndent(2);
   writer.writeStartDocument();
   StreamElement playlist(QStringLiteral("playlist"), &writer);
-  writer.writeAttribute(QLatin1String("version"), QLatin1String("1"));
-  writer.writeDefaultNamespace(QLatin1String("http://xspf.org/ns/0/"));
+  writer.writeAttribute("version"_L1, "1"_L1);
+  writer.writeDefaultNamespace("http://xspf.org/ns/0/"_L1);
 
   Settings s;
   s.beginGroup(PlaylistSettingsPage::kSettingsGroup);
@@ -158,23 +160,23 @@ void XSPFParser::Save(const SongList &songs, QIODevice *device, const QDir &dir,
     QString filename_or_url = QString::fromLatin1(QUrl::toPercentEncoding(URLOrFilename(song.url(), dir, path_type), "/ "));
 
     StreamElement track(QStringLiteral("track"), &writer);
-    writer.writeTextElement(QLatin1String("location"), filename_or_url);
+    writer.writeTextElement("location"_L1, filename_or_url);
 
     if (write_metadata || (song.is_stream() && !song.is_radio())) {
-      writer.writeTextElement(QLatin1String("title"), song.title());
+      writer.writeTextElement("title"_L1, song.title());
       if (!song.artist().isEmpty()) {
-        writer.writeTextElement(QLatin1String("creator"), song.artist());
+        writer.writeTextElement("creator"_L1, song.artist());
       }
       if (!song.album().isEmpty()) {
-        writer.writeTextElement(QLatin1String("album"), song.album());
+        writer.writeTextElement("album"_L1, song.album());
       }
       if (song.length_nanosec() != -1) {
-        writer.writeTextElement(QLatin1String("duration"), QString::number(song.length_nanosec() / kNsecPerMsec));
+        writer.writeTextElement("duration"_L1, QString::number(song.length_nanosec() / kNsecPerMsec));
       }
     }
 
     if ((write_metadata || song.has_cue() || (song.is_stream() && !song.is_radio())) && song.track() > 0) {
-      writer.writeTextElement(QLatin1String("trackNum"), QString::number(song.track()));
+      writer.writeTextElement("trackNum"_L1, QString::number(song.track()));
     }
 
     if (write_metadata || (song.is_stream() && !song.is_radio())) {
@@ -182,7 +184,7 @@ void XSPFParser::Save(const SongList &songs, QIODevice *device, const QDir &dir,
       // Ignore images that are in our resource bundle.
       if (!cover_url.isEmpty() && cover_url.isValid()) {
         const QString cover_filename = QString::fromLatin1(QUrl::toPercentEncoding(URLOrFilename(cover_url, dir, path_type), "/ "));
-        writer.writeTextElement(QLatin1String("image"), cover_filename);
+        writer.writeTextElement("image"_L1, cover_filename);
       }
     }
   }

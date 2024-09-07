@@ -37,6 +37,8 @@
 
 #include "gnomesettingsdaemon.h"
 
+using namespace Qt::StringLiterals;
+
 namespace {
 constexpr char kService1[] = "org.gnome.SettingsDaemon.MediaKeys";
 constexpr char kService2[] = "org.gnome.SettingsDaemon";
@@ -118,9 +120,9 @@ void GlobalShortcutsBackendGnome::DoUnregister() {
 void GlobalShortcutsBackendGnome::GnomeMediaKeyPressed(const QString&, const QString &key) {
 
   auto shortcuts = manager_->shortcuts();
-  if (key == QLatin1String("Play")) shortcuts[QStringLiteral("play_pause")].action->trigger();
-  if (key == QLatin1String("Stop")) shortcuts[QStringLiteral("stop")].action->trigger();
-  if (key == QLatin1String("Next")) shortcuts[QStringLiteral("next_track")].action->trigger();
-  if (key == QLatin1String("Previous")) shortcuts[QStringLiteral("prev_track")].action->trigger();
+  if (key == "Play"_L1) shortcuts[QStringLiteral("play_pause")].action->trigger();
+  if (key == "Stop"_L1) shortcuts[QStringLiteral("stop")].action->trigger();
+  if (key == "Next"_L1) shortcuts[QStringLiteral("next_track")].action->trigger();
+  if (key == "Previous"_L1) shortcuts[QStringLiteral("prev_track")].action->trigger();
 
 }

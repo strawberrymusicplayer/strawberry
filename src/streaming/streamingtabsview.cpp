@@ -46,6 +46,8 @@
 #include "streamingcollectionviewcontainer.h"
 #include "ui_streamingtabsview.h"
 
+using namespace Qt::StringLiterals;
+
 StreamingTabsView::StreamingTabsView(Application *app, StreamingServicePtr service, const QString &settings_group, const SettingsDialog::Page settings_page, QWidget *parent)
     : QWidget(parent),
       app_(app),
@@ -165,16 +167,16 @@ StreamingTabsView::StreamingTabsView(Application *app, StreamingServicePtr servi
   QString tab = s.value("tab", QStringLiteral("artists")).toString().toLower();
   s.endGroup();
 
-  if (tab == QLatin1String("artists")) {
+  if (tab == "artists"_L1) {
     ui_->tabs->setCurrentWidget(ui_->artists);
   }
-  else if (tab == QLatin1String("albums")) {
+  else if (tab == "albums"_L1) {
     ui_->tabs->setCurrentWidget(ui_->albums);
   }
-  else if (tab == QLatin1String("songs")) {
+  else if (tab == "songs"_L1) {
     ui_->tabs->setCurrentWidget(ui_->songs);
   }
-  else if (tab == QLatin1String("search")) {
+  else if (tab == "search"_L1) {
     ui_->tabs->setCurrentWidget(ui_->search);
   }
 

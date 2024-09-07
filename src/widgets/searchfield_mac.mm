@@ -37,6 +37,8 @@ THE SOFTWARE.
 #include "searchfield.h"
 #include "qocoa_mac.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 class SearchFieldPrivate : public QObject {
 
  public:
@@ -156,19 +158,19 @@ class SearchFieldPrivate : public QObject {
 
     if ([event type] == NSEventTypeKeyDown && [event modifierFlags] & NSEventModifierFlagCommand) {
       const QString keyString = toQString([event characters]);
-      if (keyString == QLatin1String("a")) {  // Cmd+a
+      if (keyString == "a"_L1) {  // Cmd+a
         [self performSelector:@selector(selectText:)];
         return YES;
       }
-      else if (keyString == QLatin1String("c")) {  // Cmd+c
+      else if (keyString == "c"_L1) {  // Cmd+c
         [[self currentEditor] copy: nil];
         return YES;
       }
-      else if (keyString == QLatin1String("v")) {  // Cmd+v
+      else if (keyString == "v"_L1) {  // Cmd+v
         [[self currentEditor] paste: nil];
         return YES;
       }
-      else if (keyString == QLatin1String("x")) {  // Cmd+x
+      else if (keyString == "x"_L1) {  // Cmd+x
         [[self currentEditor] cut: nil];
         return YES;
       }

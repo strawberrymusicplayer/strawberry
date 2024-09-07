@@ -29,6 +29,8 @@
 #include "dynamicplaylistcontrols.h"
 #include "ui_dynamicplaylistcontrols.h"
 
+using namespace Qt::StringLiterals;
+
 DynamicPlaylistControls::DynamicPlaylistControls(QWidget *parent)
     : QWidget(parent),
       ui_(new Ui_DynamicPlaylistControls) {
@@ -45,7 +47,7 @@ DynamicPlaylistControls::DynamicPlaylistControls(QWidget *parent)
     stylesheet_file.close();
     QColor color = palette().color(QPalette::Light);
     color.setAlpha(50);
-    stylesheet.replace(QLatin1String("%background"), QStringLiteral("rgba(%1, %2, %3, %4%5)").arg(QString::number(color.red()), QString::number(color.green()), QString::number(color.blue()), QString::number(color.alpha())).arg(QLatin1Char('%')));
+    stylesheet.replace("%background"_L1, QStringLiteral("rgba(%1, %2, %3, %4%5)").arg(QString::number(color.red()), QString::number(color.green()), QString::number(color.blue()), QString::number(color.alpha())).arg(u'%'));
     setStyleSheet(stylesheet);
   }
 

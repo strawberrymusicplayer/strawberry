@@ -36,6 +36,7 @@
 #include "collection/collectionbackend.h"
 #include "collection/collection.h"
 
+using namespace Qt::StringLiterals;
 using std::make_unique;
 using std::make_shared;
 
@@ -158,7 +159,7 @@ class SingleSong : public CollectionBackendTest {
 
 TEST_F(SingleSong, GetSongWithNoAlbum) {
 
-  song_.set_album(QLatin1String(""));
+  song_.set_album(""_L1);
   AddDummySong();
   if (HasFatalFailure()) return;
 
@@ -166,7 +167,7 @@ TEST_F(SingleSong, GetSongWithNoAlbum) {
   CollectionBackend::AlbumList albums = backend_->GetAllAlbums();
   EXPECT_EQ(1, albums.size());
   EXPECT_EQ(QStringLiteral("Artist"), albums[0].album_artist);
-  EXPECT_EQ(QLatin1String(""), albums[0].album);
+  EXPECT_EQ(""_L1, albums[0].album);
 
 }
 

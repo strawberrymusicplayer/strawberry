@@ -440,11 +440,11 @@ QStringList StreamingSearchView::TokenizeQuery(const QString &query) {
   QStringList tokens = query.split(regex_whitespaces);
 
   for (QStringList::iterator it = tokens.begin(); it != tokens.end(); ++it) {
-    (*it).remove(QLatin1Char('('));
-    (*it).remove(QLatin1Char(')'));
-    (*it).remove(QLatin1Char('"'));
+    (*it).remove(u'(');
+    (*it).remove(u')');
+    (*it).remove(u'"');
 
-    const qint64 colon = (*it).indexOf(QLatin1Char(':'));
+    const qint64 colon = (*it).indexOf(u':');
     if (colon != -1) {
       (*it).remove(0, colon + 1);
     }

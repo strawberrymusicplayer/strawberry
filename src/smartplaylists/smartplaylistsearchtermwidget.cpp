@@ -41,6 +41,8 @@
 #include "smartplaylistsearchtermwidgetoverlay.h"
 #include "ui_smartplaylistsearchtermwidget.h"
 
+using namespace Qt::StringLiterals;
+
 SmartPlaylistSearchTermWidget::SmartPlaylistSearchTermWidget(SharedPtr<CollectionBackend> collection_backend, QWidget *parent)
     : QWidget(parent),
       ui_(new Ui_SmartPlaylistSearchTermWidget),
@@ -97,10 +99,10 @@ SmartPlaylistSearchTermWidget::SmartPlaylistSearchTermWidget(SharedPtr<Collectio
     QString stylesheet = QString::fromLatin1(stylesheet_file.readAll());
     stylesheet_file.close();
     const QColor base(222, 97, 97, 128);
-    stylesheet.replace(QLatin1String("%light2"), Utilities::ColorToRgba(base.lighter(140)));
-    stylesheet.replace(QLatin1String("%light"), Utilities::ColorToRgba(base.lighter(120)));
-    stylesheet.replace(QLatin1String("%dark"), Utilities::ColorToRgba(base.darker(120)));
-    stylesheet.replace(QLatin1String("%base"), Utilities::ColorToRgba(base));
+    stylesheet.replace("%light2"_L1, Utilities::ColorToRgba(base.lighter(140)));
+    stylesheet.replace("%light"_L1, Utilities::ColorToRgba(base.lighter(120)));
+    stylesheet.replace("%dark"_L1, Utilities::ColorToRgba(base.darker(120)));
+    stylesheet.replace("%base"_L1, Utilities::ColorToRgba(base));
     setStyleSheet(stylesheet);
   }
 
@@ -295,7 +297,7 @@ void SmartPlaylistSearchTermWidget::SetTerm(const SmartPlaylistSearchTerm &term)
   switch (SmartPlaylistSearchTerm::TypeOf(term.field_)) {
     case SmartPlaylistSearchTerm::Type::Text:
       if (ui_->value_stack->currentWidget() == ui_->page_empty) {
-        ui_->value_text->setText(QLatin1String(""));
+        ui_->value_text->setText(""_L1);
       }
       else {
         ui_->value_text->setText(term.value_.toString());
@@ -350,7 +352,7 @@ SmartPlaylistSearchTerm SmartPlaylistSearchTermWidget::Term() const {
     ret.value_ = ui_->value_text->text();
   }
   else if (value_page == ui_->page_empty) {
-    ret.value_ = QLatin1String("");
+    ret.value_ = ""_L1;
   }
   else if (value_page == ui_->page_number) {
     ret.value_ = ui_->value_number->value();

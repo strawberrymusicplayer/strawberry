@@ -34,6 +34,8 @@
 #include "parserbase.h"
 #include "plsparser.h"
 
+using namespace Qt::StringLiterals;
+
 class CollectionBackendInterface;
 
 PLSParser::PLSParser(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent)
@@ -48,14 +50,14 @@ SongList PLSParser::Load(QIODevice *device, const QString &playlist_path, const 
 
   while (!device->atEnd()) {
     QString line = QString::fromUtf8(device->readLine()).trimmed();
-    qint64 equals = line.indexOf(QLatin1Char('='));
+    qint64 equals = line.indexOf(u'=');
     QString key = line.left(equals).toLower();
     QString value = line.mid(equals + 1);
 
     QRegularExpressionMatch re_match = n_re.match(key);
     int n = re_match.captured(0).toInt();
 
-    if (key.startsWith(QLatin1String("file"))) {
+    if (key.startsWith("file"_L1)) {
       Song song = LoadSong(value, 0, 0, dir, collection_lookup);
 
       // Use the title and length we've already loaded if any
@@ -66,10 +68,10 @@ SongList PLSParser::Load(QIODevice *device, const QString &playlist_path, const 
 
       songs[n] = song;
     }
-    else if (key.startsWith(QLatin1String("title"))) {
+    else if (key.startsWith("title"_L1)) {
       songs[n].set_title(value);
     }
-    else if (key.startsWith(QLatin1String("length"))) {
+    else if (key.startsWith("length"_L1)) {
       qint64 seconds = value.toLongLong();
       if (seconds > 0) {
         songs[n].set_length_nanosec(seconds * kNsecPerSec);

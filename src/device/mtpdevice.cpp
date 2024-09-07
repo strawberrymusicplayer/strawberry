@@ -44,6 +44,8 @@
 #include "mtploader.h"
 #include "mtpconnection.h"
 
+using namespace Qt::StringLiterals;
+
 class DeviceLister;
 class DeviceManager;
 
@@ -187,7 +189,7 @@ bool MtpDevice::CopyToStorage(const CopyJob &job, QString &error_text) {
   metadata_on_device.InitFromMTP(&track, url_.host());
   metadata_on_device.set_directory_id(1);
   metadata_on_device.set_artist(metadata_on_device.effective_albumartist());
-  metadata_on_device.set_albumartist(QLatin1String(""));
+  metadata_on_device.set_albumartist(""_L1);
   songs_to_add_ << metadata_on_device;
 
   // Remove the original if requested
@@ -226,7 +228,7 @@ bool MtpDevice::DeleteFromStorage(const DeleteJob &job) {
 
   // Extract the ID from the song's URL
   QString filename = job.metadata_.url().path();
-  filename.remove(QLatin1Char('/'));
+  filename.remove(u'/');
 
   bool ok = false;
   uint32_t id = filename.toUInt(&ok);

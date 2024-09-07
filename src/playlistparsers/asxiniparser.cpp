@@ -31,6 +31,8 @@
 #include "parserbase.h"
 #include "asxiniparser.h"
 
+using namespace Qt::StringLiterals;
+
 class CollectionBackendInterface;
 
 AsxIniParser::AsxIniParser(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent)
@@ -48,11 +50,11 @@ SongList AsxIniParser::Load(QIODevice *device, const QString &playlist_path, con
 
   while (!device->atEnd()) {
     QString line = QString::fromUtf8(device->readLine()).trimmed();
-    qint64 equals = line.indexOf(QLatin1Char('='));
+    qint64 equals = line.indexOf(u'=');
     QString key = line.left(equals).toLower();
     QString value = line.mid(equals + 1);
 
-    if (key.startsWith(QLatin1String("ref"))) {
+    if (key.startsWith("ref"_L1)) {
       Song song = LoadSong(value, 0, 0, dir, collection_lookup);
       if (song.is_valid()) {
         ret << song;

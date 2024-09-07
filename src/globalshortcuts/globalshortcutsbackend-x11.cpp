@@ -33,6 +33,8 @@
 #include "globalshortcutsbackend.h"
 #include "globalshortcut.h"
 
+using namespace Qt::StringLiterals;
+
 GlobalShortcutsBackendX11::GlobalShortcutsBackendX11(GlobalShortcutsManager *manager, QObject *parent)
     : GlobalShortcutsBackend(manager, GlobalShortcutsBackend::Type::X11, parent),
       gshortcut_init_(nullptr) {}
@@ -45,7 +47,7 @@ bool GlobalShortcutsBackendX11::IsAvailable() const {
 
 bool GlobalShortcutsBackendX11::IsX11Available() {
 
-  return QApplication::platformName() == QLatin1String("xcb");
+  return QApplication::platformName() == "xcb"_L1;
 
 }
 

@@ -49,6 +49,8 @@
 #include "globalshortcutssettingspage.h"
 #include "ui_globalshortcutssettingspage.h"
 
+using namespace Qt::StringLiterals;
+
 const char *GlobalShortcutsSettingsPage::kSettingsGroup = "GlobalShortcuts";
 
 GlobalShortcutsSettingsPage::GlobalShortcutsSettingsPage(SettingsDialog *dialog, QWidget *parent)
@@ -260,7 +262,7 @@ void GlobalShortcutsSettingsPage::OpenGnomeKeybindingProperties() {
 
   if (!QProcess::startDetached(QStringLiteral("gnome-keybinding-properties"), QStringList())) {
     if (!QProcess::startDetached(QStringLiteral("gnome-control-center"), QStringList() << QStringLiteral("keyboard"))) {
-      QMessageBox::warning(this, QStringLiteral("Error"), tr("The \"%1\" command could not be started.").arg(QLatin1String("gnome-keybinding-properties")));
+      QMessageBox::warning(this, QStringLiteral("Error"), tr("The \"%1\" command could not be started.").arg("gnome-keybinding-properties"_L1));
     }
   }
 
@@ -270,7 +272,7 @@ void GlobalShortcutsSettingsPage::OpenMateKeybindingProperties() {
 
   if (!QProcess::startDetached(QStringLiteral("mate-keybinding-properties"), QStringList())) {
     if (!QProcess::startDetached(QStringLiteral("mate-control-center"), QStringList() << QStringLiteral("keyboard"))) {
-      QMessageBox::warning(this, QStringLiteral("Error"), tr("The \"%1\" command could not be started.").arg(QLatin1String("mate-keybinding-properties")));
+      QMessageBox::warning(this, QStringLiteral("Error"), tr("The \"%1\" command could not be started.").arg("mate-keybinding-properties"_L1));
     }
   }
 
@@ -347,18 +349,18 @@ void GlobalShortcutsSettingsPage::ChangeClicked() {
 void GlobalShortcutsSettingsPage::X11Warning() {
 
   QString de = de_.toLower();
-  if (de == QLatin1String("kde") || de == QLatin1String("gnome") || de == QLatin1String("x-cinnamon") || de == QLatin1String("mate")) {
+  if (de == "kde"_L1 || de == "gnome"_L1 || de == "x-cinnamon"_L1 || de == "mate"_L1) {
     QString text(tr("Using X11 shortcuts on %1 is not recommended and can cause keyboard to become unresponsive!").arg(de_));
-    if (de == QLatin1String("kde")) {
+    if (de == "kde"_L1) {
       text += tr(" Shortcuts on %1 are usually used through MPRIS and KGlobalAccel.").arg(de_);
     }
-    else if (de == QLatin1String("gnome")) {
+    else if (de == "gnome"_L1) {
       text += tr(" Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in gnome-settings-daemon instead.").arg(de_);
     }
-    else if (de == QLatin1String("x-cinnamon")) {
+    else if (de == "x-cinnamon"_L1) {
       text += tr(" Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in cinnamon-settings-daemon instead.").arg(de_);
     }
-    else if (de == QLatin1String("mate")) {
+    else if (de == "mate"_L1) {
       text += tr(" Shortcuts on %1 are usually used through MATE Settings Daemon and should be configured there instead.").arg(de_);
     }
     ui_->label_warn_text->setText(text);

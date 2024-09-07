@@ -37,6 +37,8 @@
 #include "jsonlyricsprovider.h"
 #include "ovhlyricsprovider.h"
 
+using namespace Qt::StringLiterals;
+
 namespace {
 constexpr char kUrlSearch[] = "https://api.lyrics.ovh/v1/";
 }
@@ -80,20 +82,20 @@ void OVHLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, co
     return;
   }
 
-  if (json_obj.contains(QLatin1String("error"))) {
-    Error(json_obj[QLatin1String("error")].toString());
+  if (json_obj.contains("error"_L1)) {
+    Error(json_obj["error"_L1].toString());
     qLog(Debug) << "OVHLyrics: No lyrics for" << request.artist << request.title;
     Q_EMIT SearchFinished(id);
     return;
   }
 
-  if (!json_obj.contains(QLatin1String("lyrics"))) {
+  if (!json_obj.contains("lyrics"_L1)) {
     Q_EMIT SearchFinished(id);
     return;
   }
 
   LyricsSearchResult result;
-  result.lyrics = json_obj[QLatin1String("lyrics")].toString();
+  result.lyrics = json_obj["lyrics"_L1].toString();
 
   if (result.lyrics.isEmpty()) {
     qLog(Debug) << "OVHLyrics: No lyrics for" << request.artist << request.title;

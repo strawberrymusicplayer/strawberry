@@ -28,6 +28,8 @@
 #include "lyricssearchrequest.h"
 #include "songlyricscomlyricsprovider.h"
 
+using namespace Qt::StringLiterals;
+
 namespace {
 constexpr char kUrl[] = "https://www.songlyrics.com/";
 constexpr char kStartTag[] = "<p[^>]*>";
@@ -40,7 +42,7 @@ SongLyricsComLyricsProvider::SongLyricsComLyricsProvider(SharedPtr<NetworkAccess
 
 QUrl SongLyricsComLyricsProvider::Url(const LyricsSearchRequest &request) {
 
-  return QUrl(QLatin1String(kUrl) + StringFixup(request.artist) + QLatin1Char('/') + StringFixup(request.title) + QLatin1String("-lyrics/"));
+  return QUrl(QLatin1String(kUrl) + StringFixup(request.artist) + QLatin1Char('/') + StringFixup(request.title) + "-lyrics/"_L1);
 
 }
 
@@ -52,12 +54,12 @@ QString SongLyricsComLyricsProvider::StringFixup(QString text) {
   static const QRegularExpression regex_multiple_whitespaces(QStringLiteral(" {2,}"));
   static const QRegularExpression regex_multiple_dashes(QStringLiteral("(-)\\1+"));
 
-  return text.replace(QLatin1Char('/'), QLatin1Char('-'))
-             .replace(QLatin1Char('\''), QLatin1Char('-'))
+  return text.replace(u'/', u'-')
+             .replace(u'\'', u'-')
              .remove(regex_illegal_characters)
              .replace(regex_multiple_whitespaces, QStringLiteral(" "))
              .simplified()
-             .replace(QLatin1Char(' '), QLatin1Char('-'))
+             .replace(u' ', u'-')
              .replace(regex_multiple_dashes, QStringLiteral("-"))
              .toLower();
 

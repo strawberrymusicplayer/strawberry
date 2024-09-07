@@ -36,6 +36,8 @@
 #include "song.h"
 #include "tagreaderclient.h"
 
+using namespace Qt::StringLiterals;
+
 namespace {
 constexpr char kWorkerExecutableName[] = "strawberry-tagreader";
 }

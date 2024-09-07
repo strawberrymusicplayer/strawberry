@@ -42,6 +42,8 @@
 #include "wplparser.h"
 #include "xspfparser.h"
 
+using namespace Qt::StringLiterals;
+
 const int PlaylistParser::kMagicSize = 512;
 
 PlaylistParser::PlaylistParser(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent) : QObject(parent), default_parser_(nullptr) {
@@ -110,10 +112,10 @@ QString PlaylistParser::filters(const Type type) const {
   }
 
   if (type == Type::Load) {
-    filters.prepend(tr("All playlists (%1)").arg(all_extensions.join(QLatin1Char(' '))));
+    filters.prepend(tr("All playlists (%1)").arg(all_extensions.join(u' ')));
   }
 
-  return filters.join(QLatin1String(";;"));
+  return filters.join(";;"_L1);
 
 }
 
@@ -128,7 +130,7 @@ QString PlaylistParser::FilterForParser(const ParserBase *parser, QStringList *a
 
   if (all_extensions) *all_extensions << extensions;
 
-  return tr("%1 playlists (%2)").arg(parser->name(), extensions.join(QLatin1Char(' ')));
+  return tr("%1 playlists (%2)").arg(parser->name(), extensions.join(u' '));
 
 }
 

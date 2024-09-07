@@ -34,10 +34,10 @@ QValidator::State OrganizeFormatValidator::validate(QString &input, int &_pos) c
   // Make sure all the blocks match up
   int block_level = 0;
   for (int i = 0; i < input.length(); ++i) {
-    if (input[i] == QLatin1Char('{')) {
+    if (input[i] == u'{') {
       ++block_level;
     }
-    else if (input[i] == QLatin1Char('}')) {
+    else if (input[i] == u'}') {
       --block_level;
     }
 

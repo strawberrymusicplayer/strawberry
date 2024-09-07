@@ -39,6 +39,8 @@
 #include "coverfromurldialog.h"
 #include "ui_coverfromurldialog.h"
 
+using namespace Qt::StringLiterals;
+
 CoverFromURLDialog::CoverFromURLDialog(SharedPtr<NetworkAccessManager> network, QWidget *parent)
     : QDialog(parent),
       network_(network),
@@ -56,7 +58,7 @@ CoverFromURLDialog::~CoverFromURLDialog() {
 AlbumCoverImageResult CoverFromURLDialog::Exec() {
 
   // reset state
-  ui_->url->setText(QLatin1String(""));
+  ui_->url->setText(""_L1);
   last_album_cover_ = AlbumCoverImageResult();
 
   QClipboard *clipboard = QApplication::clipboard();

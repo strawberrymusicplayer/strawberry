@@ -54,6 +54,7 @@
 #include "udisks2filesystem.h"
 #include "udisks2job.h"
 
+using namespace Qt::StringLiterals;
 using std::make_unique;
 using std::make_shared;
 
@@ -83,7 +84,7 @@ QVariantList Udisks2Lister::DeviceIcons(const QString &id) {
 QString Udisks2Lister::DeviceManufacturer(const QString &id) {
 
   QReadLocker locker(&device_data_lock_);
-  if (!device_data_.contains(id)) return QLatin1String("");
+  if (!device_data_.contains(id)) return ""_L1;
   return device_data_.value(id).vendor;
 
 }
@@ -91,7 +92,7 @@ QString Udisks2Lister::DeviceManufacturer(const QString &id) {
 QString Udisks2Lister::DeviceModel(const QString &id) {
 
   QReadLocker locker(&device_data_lock_);
-  if (!device_data_.contains(id)) return QLatin1String("");
+  if (!device_data_.contains(id)) return ""_L1;
   return device_data_.value(id).model;
 
 }
@@ -122,7 +123,7 @@ QVariantMap Udisks2Lister::DeviceHardwareInfo(const QString &id) {
   const PartitionData data = device_data_.value(id);
   result[QStringLiteral(QT_TR_NOOP("D-Bus path"))] = data.dbus_path;
   result[QStringLiteral(QT_TR_NOOP("Serial number"))] = data.serial;
-  result[QStringLiteral(QT_TR_NOOP("Mount points"))] = data.mount_paths.join(QLatin1String(", "));
+  result[QStringLiteral(QT_TR_NOOP("Mount points"))] = data.mount_paths.join(", "_L1);
   result[QStringLiteral(QT_TR_NOOP("Partition label"))] = data.label;
   result[QStringLiteral(QT_TR_NOOP("UUID"))] = data.uuid;
 
@@ -133,7 +134,7 @@ QVariantMap Udisks2Lister::DeviceHardwareInfo(const QString &id) {
 QString Udisks2Lister::MakeFriendlyName(const QString &id) {
 
   QReadLocker locker(&device_data_lock_);
-  if (!device_data_.contains(id)) return QLatin1String("");
+  if (!device_data_.contains(id)) return ""_L1;
   return device_data_.value(id).friendly_name;
 
 }
@@ -226,17 +227,17 @@ void Udisks2Lister::DBusInterfaceAdded(const QDBusObjectPath &path, const Interf
 
   for (auto interface = interfaces.constBegin(); interface != interfaces.constEnd(); ++interface) {
 
-    if (interface.key() != QLatin1String("org.freedesktop.UDisks2.Job")) continue;
+    if (interface.key() != "org.freedesktop.UDisks2.Job"_L1) continue;
 
     SharedPtr<OrgFreedesktopUDisks2JobInterface> job = make_shared<OrgFreedesktopUDisks2JobInterface>(QLatin1String(kUDisks2Service), path.path(), QDBusConnection::systemBus());
 
     if (!job->isValid()) continue;
 
     bool is_mount_job = false;
-    if (job->operation() == QLatin1String("filesystem-mount")) {
+    if (job->operation() == "filesystem-mount"_L1) {
       is_mount_job = true;
     }
-    else if (job->operation() == QLatin1String("filesystem-unmount")) {
+    else if (job->operation() == "filesystem-unmount"_L1) {
       is_mount_job = false;
     }
     else {

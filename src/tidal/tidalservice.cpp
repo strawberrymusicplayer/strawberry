@@ -65,8 +65,9 @@
 #include "settings/settingsdialog.h"
 #include "settings/tidalsettingspage.h"
 
-using std::make_shared;
 using namespace std::chrono_literals;
+using namespace Qt::StringLiterals;
+using std::make_shared;
 
 const Song::Source TidalService::kSource = Song::Source::Tidal;
 
@@ -292,7 +293,7 @@ void TidalService::StartAuthorization(const QString &client_id) {
   code_verifier_ = Utilities::CryptographicRandomString(44);
   code_challenge_ = QString::fromLatin1(QCryptographicHash::hash(code_verifier_.toUtf8(), QCryptographicHash::Sha256).toBase64(QByteArray::Base64UrlEncoding));
 
-  if (code_challenge_.lastIndexOf(QLatin1Char('=')) == code_challenge_.length() - 1) {
+  if (code_challenge_.lastIndexOf(u'=') == code_challenge_.length() - 1) {
     code_challenge_.chop(1);
   }
 
@@ -425,10 +426,10 @@ void TidalService::AccessTokenRequestFinished(QNetworkReply *reply) {
       QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
       if (json_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
-        if (!json_obj.isEmpty() && json_obj.contains(QLatin1String("status")) && json_obj.contains(QLatin1String("userMessage"))) {
-          int status = json_obj[QLatin1String("status")].toInt();
-          int sub_status = json_obj[QLatin1String("subStatus")].toInt();
-          QString user_message = json_obj[QLatin1String("userMessage")].toString();
+        if (!json_obj.isEmpty() && json_obj.contains("status"_L1) && json_obj.contains("userMessage"_L1)) {
+          int status = json_obj["status"_L1].toInt();
+          int sub_status = json_obj["subStatus"_L1].toInt();
+          QString user_message = json_obj["userMessage"_L1].toString();
           login_errors_ << QStringLiteral("Authentication failure: %1 (%2) (%3)").arg(user_message).arg(status).arg(sub_status);
         }
       }
@@ -470,23 +471,23 @@ void TidalService::AccessTokenRequestFinished(QNetworkReply *reply) {
     return;
   }
 
-  if (!json_obj.contains(QLatin1String("access_token")) || !json_obj.contains(QLatin1String("expires_in"))) {
+  if (!json_obj.contains("access_token"_L1) || !json_obj.contains("expires_in"_L1)) {
     LoginError(QStringLiteral("Authentication reply from server is missing access_token or expires_in"), json_obj);
     return;
   }
 
-  access_token_ = json_obj[QLatin1String("access_token")].toString();
-  expires_in_ = json_obj[QLatin1String("expires_in")].toInt();
-  if (json_obj.contains(QLatin1String("refresh_token"))) {
-    refresh_token_ = json_obj[QLatin1String("refresh_token")].toString();
+  access_token_ = json_obj["access_token"_L1].toString();
+  expires_in_ = json_obj["expires_in"_L1].toInt();
+  if (json_obj.contains("refresh_token"_L1)) {
+    refresh_token_ = json_obj["refresh_token"_L1].toString();
   }
   login_time_ = QDateTime::currentSecsSinceEpoch();
 
-  if (json_obj.contains(QLatin1String("user")) && json_obj[QLatin1String("user")].isObject()) {
-    QJsonObject obj_user = json_obj[QLatin1String("user")].toObject();
-    if (obj_user.contains(QLatin1String("countryCode")) && obj_user.contains(QLatin1String("userId"))) {
-      country_code_ = obj_user[QLatin1String("countryCode")].toString();
-      user_id_ = obj_user[QLatin1String("userId")].toInt();
+  if (json_obj.contains("user"_L1) && json_obj["user"_L1].isObject()) {
+    QJsonObject obj_user = json_obj["user"_L1].toObject();
+    if (obj_user.contains("countryCode"_L1) && obj_user.contains("userId"_L1)) {
+      country_code_ = obj_user["countryCode"_L1].toString();
+      user_id_ = obj_user["userId"_L1].toInt();
     }
   }
 
@@ -575,10 +576,10 @@ void TidalService::HandleAuthReply(QNetworkReply *reply) {
       QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
       if (json_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
-        if (!json_obj.isEmpty() && json_obj.contains(QLatin1String("status")) && json_obj.contains(QLatin1String("userMessage"))) {
-          int status = json_obj[QLatin1String("status")].toInt();
-          int sub_status = json_obj[QLatin1String("subStatus")].toInt();
-          QString user_message = json_obj[QLatin1String("userMessage")].toString();
+        if (!json_obj.isEmpty() && json_obj.contains("status"_L1) && json_obj.contains("userMessage"_L1)) {
+          int status = json_obj["status"_L1].toInt();
+          int sub_status = json_obj["subStatus"_L1].toInt();
+          QString user_message = json_obj["userMessage"_L1].toString();
           login_errors_ << QStringLiteral("Authentication failure: %1 (%2) (%3)").arg(user_message).arg(status).arg(sub_status);
         }
       }
@@ -623,14 +624,14 @@ void TidalService::HandleAuthReply(QNetworkReply *reply) {
     return;
   }
 
-  if (!json_obj.contains(QLatin1String("userId")) || !json_obj.contains(QLatin1String("sessionId")) || !json_obj.contains(QLatin1String("countryCode"))) {
+  if (!json_obj.contains("userId"_L1) || !json_obj.contains("sessionId"_L1) || !json_obj.contains("countryCode"_L1)) {
     LoginError(QStringLiteral("Authentication reply from server is missing userId, sessionId or countryCode"), json_obj);
     return;
   }
 
-  country_code_ = json_obj[QLatin1String("countryCode")].toString();
-  session_id_ = json_obj[QLatin1String("sessionId")].toString();
-  user_id_ = json_obj[QLatin1String("userId")].toInt();
+  country_code_ = json_obj["countryCode"_L1].toString();
+  session_id_ = json_obj["sessionId"_L1].toString();
+  user_id_ = json_obj["userId"_L1].toInt();
   access_token_.clear();
   refresh_token_.clear();
 
@@ -1009,7 +1010,7 @@ void TidalService::LoginError(const QString &error, const QVariant &debug) {
   QString error_html;
   for (const QString &e : std::as_const(login_errors_)) {
     qLog(Error) << "Tidal:" << e;
-    error_html += e + QLatin1String("<br />");
+    error_html += e + "<br />"_L1;
   }
   if (debug.isValid()) qLog(Debug) << debug;
 

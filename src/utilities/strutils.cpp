@@ -27,6 +27,8 @@
 #include "strutils.h"
 #include "core/song.h"
 
+using namespace Qt::StringLiterals;
+
 namespace Utilities {
 
 QString PrettySize(const quint64 bytes) {
@@ -35,7 +37,7 @@ QString PrettySize(const quint64 bytes) {
 
   if (bytes > 0LL) {
     if (bytes <= 1000LL) {
-      ret = QString::number(bytes) + QLatin1String(" bytes");
+      ret = QString::number(bytes) + " bytes"_L1;
     }
     else if (bytes <= 1000LL * 1000LL) {
       ret = QString::asprintf("%.1f KB", static_cast<float>(bytes) / 1000.0F);
@@ -56,7 +58,7 @@ QString PrettySize(const QSize size) {
 }
 
 QString PathWithoutFilenameExtension(const QString &filename) {
-  if (filename.section(QLatin1Char('/'), -1, -1).contains(QLatin1Char('.'))) return filename.section(QLatin1Char('.'), 0, -2);
+  if (filename.section(u'/', -1, -1).contains(u'.')) return filename.section(u'.', 0, -2);
   return filename;
 }
 
@@ -86,7 +88,7 @@ QStringList Prepend(const QString &text, const QStringList &list) {
 QStringList Updateify(const QStringList &list) {
 
   QStringList ret(list);
-  for (int i = 0; i < ret.count(); ++i) ret[i].prepend(ret[i] + QLatin1String(" = :"));
+  for (int i = 0; i < ret.count(); ++i) ret[i].prepend(ret[i] + " = :"_L1);
   return ret;
 
 }
@@ -94,17 +96,17 @@ QStringList Updateify(const QStringList &list) {
 QString DecodeHtmlEntities(const QString &text) {
 
   QString copy(text);
-  copy.replace(QLatin1String("&amp;"), QLatin1String("&"))
-      .replace(QLatin1String("&#38;"), QLatin1String("&"))
-      .replace(QLatin1String("&quot;"), QLatin1String("\""))
-      .replace(QLatin1String("&#34;"), QLatin1String("\""))
-      .replace(QLatin1String("&apos;"), QLatin1String("'"))
-      .replace(QLatin1String("&#39;"), QLatin1String("'"))
-      .replace(QLatin1String("&lt;"), QLatin1String("<"))
-      .replace(QLatin1String("&#60;"), QLatin1String("<"))
-      .replace(QLatin1String("&gt;"), QLatin1String(">"))
-      .replace(QLatin1String("&#62;"), QLatin1String(">"))
-      .replace(QLatin1String("&#x27;"), QLatin1String("'"));
+  copy.replace("&amp;"_L1, "&"_L1)
+      .replace("&#38;"_L1, "&"_L1)
+      .replace("&quot;"_L1, "\""_L1)
+      .replace("&#34;"_L1, "\""_L1)
+      .replace("&apos;"_L1, "'"_L1)
+      .replace("&#39;"_L1, "'"_L1)
+      .replace("&lt;"_L1, "<"_L1)
+      .replace("&#60;"_L1, "<"_L1)
+      .replace("&gt;"_L1, ">"_L1)
+      .replace("&#62;"_L1, ">"_L1)
+      .replace("&#x27;"_L1, "'"_L1);
 
   return copy;
 
@@ -137,61 +139,61 @@ QString ReplaceVariable(const QString &variable, const Song &song, const QString
 
   QString value = variable;
 
-  if (variable == QLatin1String("%title%")) {
+  if (variable == "%title%"_L1) {
     value = song.PrettyTitle();
   }
-  else if (variable == QLatin1String("%album%")) {
+  else if (variable == "%album%"_L1) {
     value = song.album();
   }
-  else if (variable == QLatin1String("%artist%")) {
+  else if (variable == "%artist%"_L1) {
     value = song.artist();
   }
-  else if (variable == QLatin1String("%albumartist%")) {
+  else if (variable == "%albumartist%"_L1) {
     value = song.effective_albumartist();
   }
-  else if (variable == QLatin1String("%track%")) {
+  else if (variable == "%track%"_L1) {
     value.setNum(song.track());
   }
-  else if (variable == QLatin1String("%disc%")) {
+  else if (variable == "%disc%"_L1) {
     value.setNum(song.disc());
   }
-  else if (variable == QLatin1String("%year%")) {
+  else if (variable == "%year%"_L1) {
     value = song.PrettyYear();
   }
-  else if (variable == QLatin1String("%originalyear%")) {
+  else if (variable == "%originalyear%"_L1) {
     value = song.PrettyOriginalYear();
   }
-  else if (variable == QLatin1String("%genre%")) {
+  else if (variable == "%genre%"_L1) {
     value = song.genre();
   }
-  else if (variable == QLatin1String("%composer%")) {
+  else if (variable == "%composer%"_L1) {
     value = song.composer();
   }
-  else if (variable == QLatin1String("%performer%")) {
+  else if (variable == "%performer%"_L1) {
     value = song.performer();
   }
-  else if (variable == QLatin1String("%grouping%")) {
+  else if (variable == "%grouping%"_L1) {
     value = song.grouping();
   }
-  else if (variable == QLatin1String("%length%")) {
+  else if (variable == "%length%"_L1) {
     value = song.PrettyLength();
   }
-  else if (variable == QLatin1String("%filename%")) {
+  else if (variable == "%filename%"_L1) {
     value = song.basefilename();
   }
-  else if (variable == QLatin1String("%url%")) {
+  else if (variable == "%url%"_L1) {
     value = song.url().toString();
   }
-  else if (variable == QLatin1String("%playcount%")) {
+  else if (variable == "%playcount%"_L1) {
     value.setNum(song.playcount());
   }
-  else if (variable == QLatin1String("%skipcount%")) {
+  else if (variable == "%skipcount%"_L1) {
     value.setNum(song.skipcount());
   }
-  else if (variable == QLatin1String("%rating%")) {
+  else if (variable == "%rating%"_L1) {
     value = song.PrettyRating();
   }
-  else if (variable == QLatin1String("%newline%")) {
+  else if (variable == "%newline%"_L1) {
     return QString(newline);  // No HTML escaping, return immediately.
   }
 

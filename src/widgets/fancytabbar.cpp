@@ -37,6 +37,8 @@
 #include "fancytabwidget.h"
 #include "fancytabdata.h"
 
+using namespace Qt::StringLiterals;
+
 namespace {
 constexpr int TabSize_LargeSidebarMinWidth = 70;
 }  // namespace
@@ -50,7 +52,7 @@ FancyTabBar::FancyTabBar(QWidget *parent) :
 }
 
 QString FancyTabBar::TabText(const int index) const {
-  return tabText(index).isEmpty() ? QLatin1String("") : tabData(index).value<FancyTabData*>()->label();
+  return tabText(index).isEmpty() ? ""_L1 : tabData(index).value<FancyTabData*>()->label();
 }
 
 QSize FancyTabBar::sizeHint() const {

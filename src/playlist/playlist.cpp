@@ -96,6 +96,7 @@
 
 using std::make_shared;
 using namespace std::chrono_literals;
+using namespace Qt::StringLiterals;
 
 const char *Playlist::kSettingsGroup = "Playlist";
 const char *Playlist::kCddaMimeType = "x-content/audio-cdda";
@@ -1410,7 +1411,7 @@ QString Playlist::column_name(const Column column) {
       break;
   }
 
-  return QLatin1String("");
+  return ""_L1;
 
 }
 
@@ -1428,7 +1429,7 @@ QString Playlist::abbreviated_column_name(const Column column) {
       return column_name;
   }
 
-  return QLatin1String("");
+  return ""_L1;
 
 }
 

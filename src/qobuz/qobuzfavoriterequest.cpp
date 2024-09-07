@@ -134,7 +134,7 @@ void QobuzFavoriteRequest::AddFavoritesRequest(const FavoriteType type, const QS
 
   const ParamList params = ParamList() << Param(QStringLiteral("app_id"), app_id())
                                        << Param(QStringLiteral("user_auth_token"), user_auth_token())
-                                       << Param(FavoriteMethod(type), ids_list.join(QLatin1Char(',')));
+                                       << Param(FavoriteMethod(type), ids_list.join(u','));
 
   QUrlQuery url_query;
   for (const Param &param : params) {
@@ -229,7 +229,7 @@ void QobuzFavoriteRequest::RemoveFavoritesRequest(const FavoriteType type, const
 
   const ParamList params = ParamList() << Param(QStringLiteral("app_id"), app_id())
                                        << Param(QStringLiteral("user_auth_token"), user_auth_token())
-                                       << Param(FavoriteMethod(type), ids_list.join(QLatin1Char(',')));
+                                       << Param(FavoriteMethod(type), ids_list.join(u','));
 
   QUrlQuery url_query;
   for (const Param &param : params) {

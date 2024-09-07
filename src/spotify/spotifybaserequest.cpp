@@ -39,6 +39,8 @@
 #include "spotifyservice.h"
 #include "spotifybaserequest.h"
 
+using namespace Qt::StringLiterals;
+
 SpotifyBaseRequest::SpotifyBaseRequest(SpotifyService *service, NetworkAccessManager *network, QObject *parent)
     : QObject(parent),
       service_(service),
@@ -96,11 +98,11 @@ QByteArray SpotifyBaseRequest::GetReplyData(QNetworkReply *reply) {
       int status = 0;
       if (json_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
-        if (!json_obj.isEmpty() && json_obj.contains(QLatin1String("error")) && json_obj[QLatin1String("error")].isObject()) {
-          QJsonObject obj_error = json_obj[QLatin1String("error")].toObject();
-          if (!obj_error.isEmpty() && obj_error.contains(QLatin1String("status")) && obj_error.contains(QLatin1String("message"))) {
-            status = obj_error[QLatin1String("status")].toInt();
-            QString user_message = obj_error[QLatin1String("message")].toString();
+        if (!json_obj.isEmpty() && json_obj.contains("error"_L1) && json_obj["error"_L1].isObject()) {
+          QJsonObject obj_error = json_obj["error"_L1].toObject();
+          if (!obj_error.isEmpty() && obj_error.contains("status"_L1) && obj_error.contains("message"_L1)) {
+            status = obj_error["status"_L1].toInt();
+            QString user_message = obj_error["message"_L1].toString();
             error = QStringLiteral("%1 (%2)").arg(user_message).arg(status);
           }
         }
@@ -162,11 +164,11 @@ QJsonValue SpotifyBaseRequest::ExtractItems(const QByteArray &data) {
 
 QJsonValue SpotifyBaseRequest::ExtractItems(const QJsonObject &json_obj) {
 
-  if (!json_obj.contains(QLatin1String("items"))) {
+  if (!json_obj.contains("items"_L1)) {
     Error(QStringLiteral("Json reply is missing items."), json_obj);
     return QJsonArray();
   }
-  QJsonValue json_items = json_obj[QLatin1String("items")];
+  QJsonValue json_items = json_obj["items"_L1];
   return json_items;
 
 }
@@ -175,7 +177,7 @@ QString SpotifyBaseRequest::ErrorsToHTML(const QStringList &errors) {
 
   QString error_html;
   for (const QString &error : errors) {
-    error_html += error + QLatin1String("<br />");
+    error_html += error + "<br />"_L1;
   }
   return error_html;
 

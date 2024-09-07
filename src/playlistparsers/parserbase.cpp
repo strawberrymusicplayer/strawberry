@@ -34,6 +34,8 @@
 #include "settings/playlistsettingspage.h"
 #include "parserbase.h"
 
+using namespace Qt::StringLiterals;
+
 ParserBase::ParserBase(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent)
     : QObject(parent), collection_backend_(collection_backend) {}
 
@@ -128,7 +130,7 @@ QString ParserBase::URLOrFilename(const QUrl &url, const QDir &dir, const Playli
   if (path_type != PlaylistSettingsPage::PathType::Absolute && QDir::isAbsolutePath(filename)) {
     const QString relative = dir.relativeFilePath(filename);
 
-    if (!relative.startsWith(QLatin1String("../")) || path_type == PlaylistSettingsPage::PathType::Relative) {
+    if (!relative.startsWith("../"_L1) || path_type == PlaylistSettingsPage::PathType::Relative) {
       return relative;
     }
   }

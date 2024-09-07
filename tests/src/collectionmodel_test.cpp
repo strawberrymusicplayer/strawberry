@@ -39,6 +39,7 @@
 #include "collection/collectionmodel.h"
 #include "collection/collectionfilter.h"
 
+using namespace Qt::StringLiterals;
 using std::make_unique;
 using std::make_shared;
 
@@ -171,7 +172,7 @@ TEST_F(CollectionModelTest, MixedCaseHeaders) {
 
 TEST_F(CollectionModelTest, UnknownArtists) {
 
-  AddSong(QStringLiteral("Title"), QLatin1String(""), QStringLiteral("Album"), 123);
+  AddSong(QStringLiteral("Title"), ""_L1, QStringLiteral("Album"), 123);
 
   ASSERT_EQ(1, model_->rowCount(QModelIndex()));
   QModelIndex unknown_index = model_->index(0, 0, QModelIndex());
@@ -184,7 +185,7 @@ TEST_F(CollectionModelTest, UnknownArtists) {
 
 TEST_F(CollectionModelTest, UnknownAlbums) {
 
-  AddSong(QStringLiteral("Title"), QStringLiteral("Artist"), QLatin1String(""), 123);
+  AddSong(QStringLiteral("Title"), QStringLiteral("Artist"), ""_L1, 123);
   AddSong(QStringLiteral("Title"), QStringLiteral("Artist"), QStringLiteral("Album"), 123);
 
   QModelIndex artist_index = model_->index(1, 0, QModelIndex());

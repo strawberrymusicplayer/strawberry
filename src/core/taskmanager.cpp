@@ -30,6 +30,8 @@
 
 #include "taskmanager.h"
 
+using namespace Qt::StringLiterals;
+
 TaskManager::TaskManager(QObject *parent) : QObject(parent), next_task_id_(1) {
 
   setObjectName(QLatin1String(metaObject()->className()));

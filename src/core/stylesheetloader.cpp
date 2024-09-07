@@ -39,6 +39,8 @@
 #include "core/logging.h"
 #include "stylesheetloader.h"
 
+using namespace Qt::StringLiterals;
+
 using std::make_shared;
 
 StyleSheetLoader::StyleSheetLoader(QObject *parent) : QObject(parent) {}
@@ -90,7 +92,7 @@ void StyleSheetLoader::UpdateStyleSheet(QWidget *widget, SharedPtr<StyleSheetDat
 #else
     alt.setAlpha(130);
 #endif
-    stylesheet.replace(QLatin1String("%palette-alternate-base"), QStringLiteral("rgba(%1,%2,%3,%4)").arg(alt.red()).arg(alt.green()).arg(alt.blue()).arg(alt.alpha()));
+    stylesheet.replace("%palette-alternate-base"_L1, QStringLiteral("rgba(%1,%2,%3,%4)").arg(alt.red()).arg(alt.green()).arg(alt.blue()).arg(alt.alpha()));
   }
 
   ReplaceColor(&stylesheet, QStringLiteral("Window"), p, QPalette::Window);

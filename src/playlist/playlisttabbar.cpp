@@ -54,6 +54,8 @@
 #include "playlistmanager.h"
 #include "playlisttabbar.h"
 
+using namespace Qt::StringLiterals;
+
 namespace {
 constexpr char kSettingsGroup[] = "PlaylistTabBar";
 constexpr int kDragHoverTimeout = 500;
@@ -334,7 +336,7 @@ void PlaylistTabBar::RemoveTab(const int id) {
 void PlaylistTabBar::set_text_by_id(const int id, const QString &text) {
 
   QString new_text = text;
-  new_text = new_text.replace(QLatin1Char('&'), QLatin1String("&&"));
+  new_text = new_text.replace(u'&', "&&"_L1);
   setTabText(index_of(id), new_text);
   setTabToolTip(index_of(id), text);
 
@@ -347,8 +349,8 @@ void PlaylistTabBar::CurrentIndexChanged(const int index) {
 void PlaylistTabBar::InsertTab(const int id, const int index, const QString &text, const bool favorite) {
 
   QString new_text = text;
-  if (new_text.contains(QLatin1Char('&'))) {
-    new_text = new_text.replace(QLatin1Char('&'), QLatin1String("&&"));
+  if (new_text.contains(u'&')) {
+    new_text = new_text.replace(u'&', "&&"_L1);
   }
 
   suppress_current_changed_ = true;

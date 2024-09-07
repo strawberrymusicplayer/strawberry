@@ -62,6 +62,8 @@
 #include "osdpretty.h"
 #include "ui_osdpretty.h"
 
+using namespace Qt::StringLiterals;
+
 #ifdef Q_OS_WIN
 #  include <windows.h>
 #endif
@@ -248,7 +250,7 @@ void OSDPretty::Load() {
   fading_enabled_ = s.value("fading", false).toBool();
 #endif
 
-  if (s.contains(QLatin1String("popup_screen"))) {
+  if (s.contains("popup_screen"_L1)) {
     popup_screen_name_ = s.value("popup_screen").toString();
     if (screens_.contains(popup_screen_name_)) {
       popup_screen_ = screens_.value(popup_screen_name_);
@@ -264,7 +266,7 @@ void OSDPretty::Load() {
     if (current_screen()) popup_screen_name_ = current_screen()->name();
   }
 
-  if (s.contains(QLatin1String("popup_pos"))) {
+  if (s.contains("popup_pos"_L1)) {
     popup_pos_ = s.value("popup_pos").toPoint();
   }
   else {

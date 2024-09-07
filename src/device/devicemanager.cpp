@@ -84,6 +84,7 @@
 #  include "gpoddevice.h"
 #endif
 
+using namespace Qt::StringLiterals;
 using std::make_unique;
 
 const int DeviceManager::kDeviceIconSize = 32;
@@ -244,7 +245,7 @@ void DeviceManager::LoadAllDevices() {
 
 void DeviceManager::AddDeviceFromDB(DeviceInfo *info) {
 
-  const QStringList icon_names = info->icon_name_.split(QLatin1Char(','));
+  const QStringList icon_names = info->icon_name_.split(u',');
   QVariantList icons;
   icons.reserve(icon_names.count());
   for (const QString &icon_name : icon_names) {
@@ -603,7 +604,7 @@ SharedPtr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *info) {
 
     // If we get here it means that this URL scheme wasn't supported.
     // If it was "ipod" or "mtp" then the user compiled out support and the device won't work properly.
-    if (url.scheme() == QLatin1String("mtp") || url.scheme() == QLatin1String("gphoto2")) {
+    if (url.scheme() == "mtp"_L1 || url.scheme() == "gphoto2"_L1) {
       if (QMessageBox::critical(nullptr, tr("This device will not work properly"),
           tr("This is an MTP device, but you compiled Strawberry without libmtp support.") + QStringLiteral("  ") +
           tr("If you continue, this device will work slowly and songs copied to it may not work."),
@@ -611,9 +612,9 @@ SharedPtr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *info) {
         return ret;
     }
 
-    if (url.scheme() == QLatin1String("ipod")) {
+    if (url.scheme() == "ipod"_L1) {
       if (QMessageBox::critical(nullptr, tr("This device will not work properly"),
-          tr("This is an iPod, but you compiled Strawberry without libgpod support.") + QLatin1String("  ") +
+          tr("This is an iPod, but you compiled Strawberry without libgpod support.") + "  "_L1 +
           tr("If you continue, this device will work slowly and songs copied to it may not work."),
               QMessageBox::Abort, QMessageBox::Ignore) == QMessageBox::Abort)
         return ret;
@@ -628,7 +629,7 @@ SharedPtr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *info) {
       url_strings << url.toString();
     }
 
-    app_->AddError(tr("This type of device is not supported: %1").arg(url_strings.join(QLatin1String(", "))));
+    app_->AddError(tr("This type of device is not supported: %1").arg(url_strings.join(", "_L1)));
     return ret;
   }
 

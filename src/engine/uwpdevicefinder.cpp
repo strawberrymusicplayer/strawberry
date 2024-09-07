@@ -41,6 +41,8 @@ using namespace ABI::Windows::Foundation;
 using namespace ABI::Windows::Foundation::Collections;
 using namespace ABI::Windows::Devices::Enumeration;
 
+using namespace Qt::Literals::StringLiterals;
+
 UWPDeviceFinder::UWPDeviceFinder() : DeviceFinder(QStringLiteral("uwpdevice"), { QStringLiteral("wasapi2sink") }) {}
 
 namespace {
@@ -107,7 +109,7 @@ EngineDeviceList UWPDeviceFinder::ListDevices() {
 
   {
     EngineDevice default_device;
-    default_device.description = QStringLiteral("Default device");
+    default_device.description = "Default device"_L1;
     default_device.iconname = default_device.GuessIconName();
     devices.append(default_device);
   }

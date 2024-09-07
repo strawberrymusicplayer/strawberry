@@ -59,6 +59,8 @@
 #include "collectionquery.h"
 #include "collectiontask.h"
 
+using namespace Qt::StringLiterals;
+
 CollectionBackend::CollectionBackend(QObject *parent)
     : CollectionBackendInterface(parent),
       db_(nullptr),
@@ -946,14 +948,14 @@ QStringList CollectionBackend::GetAllArtistsWithAlbums(const CollectionFilterOpt
   CollectionQuery query(db, songs_table_, opt);
   query.SetColumnSpec(QStringLiteral("DISTINCT albumartist"));
   query.AddCompilationRequirement(false);
-  query.AddWhere(QStringLiteral("album"), QLatin1String(""), QStringLiteral("!="));
+  query.AddWhere(QStringLiteral("album"), ""_L1, QStringLiteral("!="));
 
   // Albums with no 'albumartist' (extract 'artist'):
   CollectionQuery query2(db, songs_table_, opt);
   query2.SetColumnSpec(QStringLiteral("DISTINCT artist"));
   query2.AddCompilationRequirement(false);
-  query2.AddWhere(QStringLiteral("album"), QLatin1String(""), QStringLiteral("!="));
-  query2.AddWhere(QStringLiteral("albumartist"), QLatin1String(""), QStringLiteral("="));
+  query2.AddWhere(QStringLiteral("album"), ""_L1, QStringLiteral("!="));
+  query2.AddWhere(QStringLiteral("albumartist"), ""_L1, QStringLiteral("="));
 
   if (!query.Exec()) {
     ReportErrors(query);
@@ -1107,7 +1109,7 @@ SongList CollectionBackend::GetSongsByForeignId(const QStringList &ids, const QS
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
 
-  QString in = ids.join(QLatin1Char(','));
+  QString in = ids.join(u',');
 
   SqlQuery q(db);
   q.prepare(QStringLiteral("SELECT %3.ROWID, %2, %3.%4 FROM %3, %1 WHERE %3.%4 IN (in) AND %1.ROWID = %3.ROWID AND unavailable = 0").arg(songs_table_, Song::kColumnSpec, table, column, in));
@@ -1138,7 +1140,7 @@ Song CollectionBackend::GetSongById(const int id, QSqlDatabase &db) {
 
 SongList CollectionBackend::GetSongsById(const QStringList &ids, QSqlDatabase &db) {
 
-  QString in = ids.join(QLatin1Char(','));
+  QString in = ids.join(u',');
 
   SqlQuery q(db);
   q.prepare(QStringLiteral("SELECT %1 FROM %2 WHERE ROWID IN (%3)").arg(Song::kRowIdColumnSpec, songs_table_, in));
@@ -1276,7 +1278,7 @@ SongList CollectionBackend::GetSongsBySongId(const QStringList &song_ids, QSqlDa
   for (const QString &song_id : song_ids) {
     song_ids2 << QLatin1Char('\'') + song_id + QLatin1Char('\'');
   }
-  QString in = song_ids2.join(QLatin1Char(','));
+  QString in = song_ids2.join(u',');
 
   SqlQuery q(db);
   q.prepare(QStringLiteral("SELECT %1 FROM %2 WHERE SONG_ID IN (%3)").arg(Song::kRowIdColumnSpec, songs_table_, in));
@@ -1524,7 +1526,7 @@ CollectionBackend::AlbumList CollectionBackend::GetAlbums(const QString &artist,
       key.append(album_info.album_artist);
     }
     if (!album_info.album.isEmpty()) {
-      if (!key.isEmpty()) key.append(QLatin1Char('-'));
+      if (!key.isEmpty()) key.append(u'-');
       key.append(album_info.album);
     }
     if (!filetype.isEmpty()) {
@@ -1640,7 +1642,7 @@ void CollectionBackend::UpdateManualAlbumArt(const QString &effective_albumartis
   {
     SqlQuery q(db);
     q.prepare(QStringLiteral("UPDATE %1 SET art_manual = :art_manual, art_unset = 0 WHERE effective_albumartist = :effective_albumartist AND album = :album AND unavailable = 0").arg(songs_table_));
-    q.BindValue(QStringLiteral(":art_manual"), art_manual.isValid() ? art_manual.toString(QUrl::FullyEncoded) : QLatin1String(""));
+    q.BindValue(QStringLiteral(":art_manual"), art_manual.isValid() ? art_manual.toString(QUrl::FullyEncoded) : ""_L1);
     q.BindValue(QStringLiteral(":effective_albumartist"), effective_albumartist);
     q.BindValue(QStringLiteral(":album"), album);
     if (!q.Exec()) {
@@ -1773,7 +1775,7 @@ void CollectionBackend::ForceCompilation(const QString &album, const QStringList
 
     // Update the songs
     QString sql(QStringLiteral("UPDATE %1 SET compilation_on = :compilation_on, compilation_off = :compilation_off, compilation_effective = ((compilation OR compilation_detected OR :compilation_on) AND NOT :compilation_off) + 0 WHERE album = :album AND unavailable = 0").arg(songs_table_));
-    if (!artist.isEmpty()) sql += QLatin1String(" AND artist = :artist");
+    if (!artist.isEmpty()) sql += " AND artist = :artist"_L1;
 
     SqlQuery q(db);
     q.prepare(sql);
@@ -1890,7 +1892,7 @@ bool CollectionBackend::ResetPlayStatistics(const QStringList &id_str_list) {
 
   SqlQuery q(db);
   q.prepare(QStringLiteral("UPDATE %1 SET playcount = 0, skipcount = 0, lastplayed = -1 WHERE ROWID IN (:ids)").arg(songs_table_));
-  q.BindValue(QStringLiteral(":ids"), id_str_list.join(QLatin1Char(',')));
+  q.BindValue(QStringLiteral(":ids"), id_str_list.join(u','));
   if (!q.Exec()) {
     db_->ReportErrors(q);
     return false;
@@ -2068,7 +2070,7 @@ void CollectionBackend::UpdateSongsRating(const QList<int> &id_list, const float
   for (int i : id_list) {
     id_str_list << QString::number(i);
   }
-  QString ids = id_str_list.join(QLatin1Char(','));
+  QString ids = id_str_list.join(u',');
   SqlQuery q(db);
   q.prepare(QStringLiteral("UPDATE %1 SET rating = :rating WHERE ROWID IN (%2)").arg(songs_table_, ids));
   q.BindValue(QStringLiteral(":rating"), rating);
