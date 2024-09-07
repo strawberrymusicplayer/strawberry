@@ -26,6 +26,8 @@
 
 #include "sqlquery.h"
 
+using namespace Qt::StringLiterals;
+
 void SqlQuery::BindValue(const QString &placeholder, const QVariant &value) {
 
   bound_values_.insert(placeholder, value);
@@ -36,13 +38,13 @@ void SqlQuery::BindValue(const QString &placeholder, const QVariant &value) {
 
 void SqlQuery::BindStringValue(const QString &placeholder, const QString &value) {
 
-  BindValue(placeholder, value.isNull() ? QLatin1String("") : value);
+  BindValue(placeholder, value.isNull() ? ""_L1 : value);
 
 }
 
 void SqlQuery::BindUrlValue(const QString &placeholder, const QUrl &value) {
 
-  BindValue(placeholder, value.isValid() ? value.toString(QUrl::FullyEncoded) : QLatin1String(""));
+  BindValue(placeholder, value.isValid() ? value.toString(QUrl::FullyEncoded) : ""_L1);
 
 }
 

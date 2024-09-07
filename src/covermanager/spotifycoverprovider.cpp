@@ -52,6 +52,8 @@
 #include "jsoncoverprovider.h"
 #include "spotifycoverprovider.h"
 
+using namespace Qt::StringLiterals;
+
 namespace {
 constexpr char kApiUrl[] = "https://api.spotify.com/v1";
 constexpr int kLimit = 10;
@@ -82,16 +84,16 @@ bool SpotifyCoverProvider::StartSearch(const QString &artist, const QString &alb
   QString extract;
   QString query = artist;
   if (album.isEmpty() && !title.isEmpty()) {
-    type = QLatin1String("track");
-    extract = QLatin1String("tracks");
-    if (!query.isEmpty()) query.append(QLatin1Char(' '));
+    type = "track"_L1;
+    extract = "tracks"_L1;
+    if (!query.isEmpty()) query.append(u' ');
     query.append(title);
   }
   else {
-    type = QLatin1String("album");
-    extract = QLatin1String("albums");
+    type = "album"_L1;
+    extract = "albums"_L1;
     if (!album.isEmpty()) {
-      if (!query.isEmpty()) query.append(QLatin1Char(' '));
+      if (!query.isEmpty()) query.append(u' ');
       query.append(album);
     }
   }
@@ -141,11 +143,11 @@ QByteArray SpotifyCoverProvider::GetReplyData(QNetworkReply *reply) {
       QString error;
       if (parse_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
-        if (!json_obj.isEmpty() && json_obj.contains(QLatin1String("error")) && json_obj[QLatin1String("error")].isObject()) {
-          QJsonObject obj_error = json_obj[QLatin1String("error")].toObject();
-          if (obj_error.contains(QLatin1String("status")) && obj_error.contains(QLatin1String("message"))) {
-            int status = obj_error[QLatin1String("status")].toInt();
-            QString message = obj_error[QLatin1String("message")].toString();
+        if (!json_obj.isEmpty() && json_obj.contains("error"_L1) && json_obj["error"_L1].isObject()) {
+          QJsonObject obj_error = json_obj["error"_L1].toObject();
+          if (obj_error.contains("status"_L1) && obj_error.contains("message"_L1)) {
+            int status = obj_error["status"_L1].toInt();
+            QString message = obj_error["message"_L1].toString();
             error = QStringLiteral("%1 (%2)").arg(message).arg(status);
             if (status == 401) Deauthenticate();
           }
@@ -195,13 +197,13 @@ void SpotifyCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id,
   }
   json_obj = json_obj[extract].toObject();
 
-  if (!json_obj.contains(QLatin1String("items")) || !json_obj[QLatin1String("items")].isArray()) {
+  if (!json_obj.contains("items"_L1) || !json_obj["items"_L1].isArray()) {
     Error(QStringLiteral("%1 object is missing items array.").arg(extract), json_obj);
     Q_EMIT SearchFinished(id, CoverProviderSearchResults());
     return;
   }
 
-  const QJsonArray array_items = json_obj[QLatin1String("items")].toArray();
+  const QJsonArray array_items = json_obj["items"_L1].toArray();
   if (array_items.isEmpty()) {
     Q_EMIT SearchFinished(id, CoverProviderSearchResults());
     return;
@@ -216,33 +218,33 @@ void SpotifyCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id,
     QJsonObject obj_item = value_item.toObject();
 
     QJsonObject obj_album = obj_item;
-    if (obj_item.contains(QLatin1String("album")) && obj_item[QLatin1String("album")].isObject()) {
-      obj_album = obj_item[QLatin1String("album")].toObject();
+    if (obj_item.contains("album"_L1) && obj_item["album"_L1].isObject()) {
+      obj_album = obj_item["album"_L1].toObject();
     }
 
-    if (!obj_album.contains(QLatin1String("artists")) || !obj_album.contains(QLatin1String("name")) || !obj_album.contains(QLatin1String("images")) || !obj_album[QLatin1String("artists")].isArray() || !obj_album[QLatin1String("images")].isArray()) {
+    if (!obj_album.contains("artists"_L1) || !obj_album.contains("name"_L1) || !obj_album.contains("images"_L1) || !obj_album["artists"_L1].isArray() || !obj_album["images"_L1].isArray()) {
       continue;
     }
-    const QJsonArray array_artists = obj_album[QLatin1String("artists")].toArray();
-    const QJsonArray array_images = obj_album[QLatin1String("images")].toArray();
-    QString album = obj_album[QLatin1String("name")].toString();
+    const QJsonArray array_artists = obj_album["artists"_L1].toArray();
+    const QJsonArray array_images = obj_album["images"_L1].toArray();
+    QString album = obj_album["name"_L1].toString();
 
     QStringList artists;
     for (const QJsonValue &value_artist : array_artists) {
       if (!value_artist.isObject()) continue;
       QJsonObject obj_artist = value_artist.toObject();
-      if (!obj_artist.contains(QLatin1String("name"))) continue;
-      artists << obj_artist[QLatin1String("name")].toString();
+      if (!obj_artist.contains("name"_L1)) continue;
+      artists << obj_artist["name"_L1].toString();
     }
 
     for (const QJsonValue &value_image : array_images) {
       if (!value_image.isObject()) continue;
       QJsonObject obj_image = value_image.toObject();
-      if (!obj_image.contains(QLatin1String("url")) || !obj_image.contains(QLatin1String("width")) || !obj_image.contains(QLatin1String("height"))) continue;
-      int width = obj_image[QLatin1String("width")].toInt();
-      int height = obj_image[QLatin1String("height")].toInt();
+      if (!obj_image.contains("url"_L1) || !obj_image.contains("width"_L1) || !obj_image.contains("height"_L1)) continue;
+      int width = obj_image["width"_L1].toInt();
+      int height = obj_image["height"_L1].toInt();
       if (width < 300 || height < 300) continue;
-      QUrl url(obj_image[QLatin1String("url")].toString());
+      QUrl url(obj_image["url"_L1].toString());
       CoverProviderSearchResult result;
       result.album = album;
       result.image_url = url;

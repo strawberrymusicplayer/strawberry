@@ -176,7 +176,7 @@ QStringList GlobalShortcutsBackendKDE::GetActionId(const QString &id, const QAct
   ret << QCoreApplication::applicationName();
   ret << id;
   ret << QCoreApplication::applicationName();
-  ret << action->text().remove(QLatin1Char('&'));
+  ret << action->text().remove(u'&');
   if (ret.back().isEmpty()) ret.back() = id;
 
   return ret;

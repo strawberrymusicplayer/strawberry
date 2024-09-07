@@ -26,6 +26,8 @@
 
 #include "envutils.h"
 
+using namespace Qt::StringLiterals;
+
 namespace Utilities {
 
 QString GetEnv(const QString &key) {
@@ -52,7 +54,7 @@ QString DesktopEnvironment() {
   if (!qEnvironmentVariableIsEmpty("GNOME_DESKTOP_SESSION_ID")) return QStringLiteral("Gnome");
 
   QString session = GetEnv(QStringLiteral("DESKTOP_SESSION"));
-  qint64 slash = session.lastIndexOf(QLatin1Char('/'));
+  qint64 slash = session.lastIndexOf(u'/');
   if (slash != -1) {
     QSettings desktop_file(QStringLiteral("%1.desktop").arg(session), QSettings::IniFormat);
     desktop_file.beginGroup(QStringLiteral("Desktop Entry"));
@@ -62,9 +64,9 @@ QString DesktopEnvironment() {
     session = session.mid(slash + 1);
   }
 
-  if (session == QLatin1String("kde"))           return QStringLiteral("KDE");
-  else if (session == QLatin1String("gnome"))    return QStringLiteral("Gnome");
-  else if (session == QLatin1String("xfce"))     return QStringLiteral("XFCE");
+  if (session == "kde"_L1)           return QStringLiteral("KDE");
+  else if (session == "gnome"_L1)    return QStringLiteral("Gnome");
+  else if (session == "xfce"_L1)     return QStringLiteral("XFCE");
 
   return QStringLiteral("Unknown");
 

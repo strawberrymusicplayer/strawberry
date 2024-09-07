@@ -81,6 +81,8 @@
 #  include "moodbar/moodbaritemdelegate.h"
 #endif
 
+using namespace Qt::StringLiterals;
+
 namespace {
 constexpr int kGlowIntensitySteps = 24;
 constexpr int kAutoscrollGraceTimeout = 30;  // seconds
@@ -1387,7 +1389,7 @@ void PlaylistView::CopyCurrentSongToClipboard() const {
 
   QMimeData *mime_data = new QMimeData;
   mime_data->setUrls(QList<QUrl>() << url);
-  mime_data->setText(columns.join(QLatin1String(" - ")));
+  mime_data->setText(columns.join(" - "_L1));
 
   QApplication::clipboard()->setMimeData(mime_data);
 

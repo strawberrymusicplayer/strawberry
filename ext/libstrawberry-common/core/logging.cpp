@@ -61,6 +61,8 @@
 
 #include "logging.h"
 
+using namespace Qt::StringLiterals;
+
 namespace logging {
 
 static Level sDefaultLevel = Level_Debug;
@@ -159,7 +161,7 @@ static void MessageHandler(QtMsgType type, const QMessageLogContext&, const QStr
       break;
   }
 
-  const QStringList lines = message.split(QLatin1Char('\n'));
+  const QStringList lines = message.split(u'\n');
   for (const QString &line : lines) {
     BufferedDebug d = CreateLogger<BufferedDebug>(level, QStringLiteral("unknown"), -1, nullptr);
     d << line.toLocal8Bit().constData();
@@ -196,9 +198,9 @@ void SetLevels(const QString &levels) {
 
   if (!sClassLevels) return;
 
-  const QStringList items = levels.split(QLatin1Char(','));
+  const QStringList items = levels.split(u',');
   for (const QString &item : items) {
-    const QStringList class_level = item.split(QLatin1Char(':'));
+    const QStringList class_level = item.split(u':');
 
     QString class_name;
     bool ok = false;
@@ -216,7 +218,7 @@ void SetLevels(const QString &levels) {
       continue;
     }
 
-    if (class_name.isEmpty() || class_name == QLatin1Char('*')) {
+    if (class_name.isEmpty() || class_name == u'*') {
       sDefaultLevel = static_cast<Level>(level);
     }
     else {
@@ -230,9 +232,9 @@ static QString ParsePrettyFunction(const char *pretty_function) {
 
   // Get the class name out of the function name.
   QString class_name = QLatin1String(pretty_function);
-  const qint64 paren = class_name.indexOf(QLatin1Char('('));
+  const qint64 paren = class_name.indexOf(u'(');
   if (paren != -1) {
-    const qint64 colons = class_name.lastIndexOf(QLatin1String("::"), paren);
+    const qint64 colons = class_name.lastIndexOf("::"_L1, paren);
     if (colons != -1) {
       class_name = class_name.left(colons);
     }
@@ -241,7 +243,7 @@ static QString ParsePrettyFunction(const char *pretty_function) {
     }
   }
 
-  const qint64 space = class_name.lastIndexOf(QLatin1Char(' '));
+  const qint64 space = class_name.lastIndexOf(u' ');
   if (space != -1) {
     class_name = class_name.mid(space + 1);
   }

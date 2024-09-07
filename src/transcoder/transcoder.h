@@ -39,6 +39,8 @@
 #include "core/shared_ptr.h"
 #include "core/song.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 struct TranscoderPreset {
   explicit TranscoderPreset() : filetype_(Song::FileType::Unknown) {}
   TranscoderPreset(const Song::FileType filetype, const QString &name, const QString &extension, const QString &codec_mimetype, const QString &muxer_mimetype_ = QString());
@@ -55,7 +57,7 @@ class Transcoder : public QObject {
   Q_OBJECT
 
  public:
-  explicit Transcoder(QObject *parent = nullptr, const QString &settings_postfix = QLatin1String(""));
+  explicit Transcoder(QObject *parent = nullptr, const QString &settings_postfix = ""_L1);
 
   static TranscoderPreset PresetForFileType(const Song::FileType filetype);
   static QList<TranscoderPreset> GetAllPresets();

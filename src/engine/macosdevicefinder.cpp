@@ -33,6 +33,8 @@
 #include "macosdevicefinder.h"
 #include "enginedevice.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 namespace {
 
 template<typename T>
@@ -107,7 +109,7 @@ EngineDeviceList MacOsDeviceFinder::ListDevices() {
     EngineDevice device;
     device.value = id;
     device.description = QString::fromUtf8(CFStringGetCStringPtr(*device_name, CFStringGetSystemEncoding()));
-    if (device.description.isEmpty()) device.description = QLatin1String("Unknown device ") + device.value.toString();
+    if (device.description.isEmpty()) device.description = "Unknown device "_L1 + device.value.toString();
     device.iconname = device.GuessIconName();
     device_list.append(device);
   }

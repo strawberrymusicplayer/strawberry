@@ -39,6 +39,8 @@
 #include "radiomimedata.h"
 #include "radiochannel.h"
 
+using namespace Qt::StringLiterals;
+
 namespace {
 constexpr int kTreeIconSize = 22;
 }
@@ -179,7 +181,7 @@ void RadioModel::AddChannels(const RadioChannelList &channels) {
     RadioItem *item = new RadioItem(RadioItem::Type::Channel, container);
     item->source = channel.source;
     item->display_text = channel.name;
-    item->sort_text = SortText(Song::TextForSource(channel.source) + QLatin1String(" - ") + channel.name);
+    item->sort_text = SortText(Song::TextForSource(channel.source) + " - "_L1 + channel.name);
     item->channel = channel;
     items_ << item;
     endInsertRows();
@@ -251,7 +253,7 @@ QString RadioModel::ChannelIconPixmapCacheKey(const QModelIndex &idx) const {
     idx_copy = idx_copy.parent();
   }
 
-  return path.join(QLatin1Char('/'));
+  return path.join(u'/');
 
 }
 
@@ -323,7 +325,7 @@ void RadioModel::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult
 QString RadioModel::SortText(QString text) {
 
   if (text.isEmpty()) {
-    text = QLatin1String(" unknown");
+    text = " unknown"_L1;
   }
   else {
     text = text.toLower();

@@ -79,6 +79,8 @@
 #include "coverfromurldialog.h"
 #include "currentalbumcoverloader.h"
 
+using namespace Qt::StringLiterals;
+
 const char *AlbumCoverChoiceController::kLoadImageFileFilter = QT_TR_NOOP("Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)");
 const char *AlbumCoverChoiceController::kSaveImageFileFilter = QT_TR_NOOP("Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)");
 const char *AlbumCoverChoiceController::kAllFilesFilter = QT_TR_NOOP("All files (*)");
@@ -233,12 +235,12 @@ QUrl AlbumCoverChoiceController::LoadCoverFromFile(Song *song) {
 
 void AlbumCoverChoiceController::SaveCoverToFileManual(const Song &song, const AlbumCoverImageResult &result) {
 
-  QString initial_file_name = QLatin1String("/");
+  QString initial_file_name = "/"_L1;
 
   if (!song.effective_albumartist().isEmpty()) {
     initial_file_name = initial_file_name + song.effective_albumartist();
   }
-  initial_file_name = initial_file_name + QLatin1Char('-') + (song.effective_album().isEmpty() ? tr("unknown") : song.effective_album()) + QLatin1String(".jpg");
+  initial_file_name = initial_file_name + QLatin1Char('-') + (song.effective_album().isEmpty() ? tr("unknown") : song.effective_album()) + ".jpg"_L1;
   initial_file_name = initial_file_name.toLower();
   static const QRegularExpression regex_whitespaces(QStringLiteral("\\s"));
   initial_file_name.replace(regex_whitespaces, QStringLiteral("-"));
@@ -251,16 +253,16 @@ void AlbumCoverChoiceController::SaveCoverToFileManual(const Song &song, const A
 
   QFileInfo fileinfo(save_filename);
   if (fileinfo.suffix().isEmpty()) {
-    save_filename.append(QLatin1String(".jpg"));
+    save_filename.append(".jpg"_L1);
     fileinfo.setFile(save_filename);
   }
 
   if (!QImageWriter::supportedImageFormats().contains(fileinfo.completeSuffix().toUtf8().toLower())) {
-    save_filename = Utilities::PathWithoutFilenameExtension(save_filename) + QLatin1String(".jpg");
+    save_filename = Utilities::PathWithoutFilenameExtension(save_filename) + ".jpg"_L1;
     fileinfo.setFile(save_filename);
   }
 
-  if (result.is_jpeg() && fileinfo.completeSuffix().compare(QLatin1String("jpg"), Qt::CaseInsensitive) == 0) {
+  if (result.is_jpeg() && fileinfo.completeSuffix().compare("jpg"_L1, Qt::CaseInsensitive) == 0) {
     QFile file(save_filename);
     if (!file.open(QIODevice::WriteOnly)) {
       qLog(Error) << "Failed to open cover file" << save_filename << "for writing:" << file.errorString();
@@ -294,8 +296,8 @@ QString AlbumCoverChoiceController::GetInitialPathForFileDialog(const Song &song
   }
 
   // If no automatic art, start in the song's folder
-  if (!song.url().isEmpty() && song.url().isValid() && song.url().isLocalFile() && song.url().toLocalFile().contains(QLatin1Char('/'))) {
-    return song.url().toLocalFile().section(QLatin1Char('/'), 0, -2) + filename;
+  if (!song.url().isEmpty() && song.url().isValid() && song.url().isLocalFile() && song.url().toLocalFile().contains(u'/')) {
+    return song.url().toLocalFile().section(u'/', 0, -2) + filename;
   }
 
   return QDir::home().absolutePath() + filename;
@@ -478,13 +480,13 @@ void AlbumCoverChoiceController::ShowCover(const Song &song, const QPixmap &pixm
 
   // Use Artist - Album as the window title
   QString title_text(song.effective_albumartist());
-  if (!song.effective_album().isEmpty()) title_text += QLatin1String(" - ") + song.effective_album();
+  if (!song.effective_album().isEmpty()) title_text += " - "_L1 + song.effective_album();
 
   QLabel *label = new QLabel(dialog);
   label->setPixmap(pixmap);
 
   // Add (WxHpx) to the title before possibly resizing
-  title_text += QLatin1String(" (") + QString::number(pixmap.width()) + QLatin1Char('x') + QString::number(pixmap.height()) + QLatin1String("px)");
+  title_text += QLatin1String(" (") + QString::number(pixmap.width()) + QLatin1Char('x') + QString::number(pixmap.height()) + "px)"_L1;
 
   // If the cover is larger than the screen, resize the window 85% seems to be enough to account for title bar and taskbar etc.
   QScreen *screen = Utilities::GetScreen(this);
@@ -666,7 +668,7 @@ QUrl AlbumCoverChoiceController::SaveCoverToFileAutomatic(const Song::Source sou
   if (source == Song::Source::Collection && !cover_options_.cover_overwrite && !force_overwrite && get_save_album_cover_type() == CoverOptions::CoverType::Album && cover_options_.cover_filename == CoverOptions::CoverFilename::Pattern && file.exists()) {
     while (file.exists()) {
       QFileInfo fileinfo(file.fileName());
-      file.setFileName(fileinfo.path() + QLatin1String("/0") + fileinfo.fileName());
+      file.setFileName(fileinfo.path() + "/0"_L1 + fileinfo.fileName());
     }
     filepath = file.fileName();
   }

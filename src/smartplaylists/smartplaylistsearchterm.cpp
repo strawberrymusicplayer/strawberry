@@ -29,6 +29,8 @@
 #include "smartplaylistsearchterm.h"
 #include "playlist/playlist.h"
 
+using namespace Qt::StringLiterals;
+
 SmartPlaylistSearchTerm::SmartPlaylistSearchTerm() : field_(Field::Title), operator_(Operator::Equals), datetype_(DateType::Hour) {}
 
 SmartPlaylistSearchTerm::SmartPlaylistSearchTerm(Field field, Operator op, const QVariant &value)
@@ -39,7 +41,7 @@ QString SmartPlaylistSearchTerm::ToSql() const {
   QString col = FieldColumnName(field_);
   QString date = DateName(datetype_, true);
   QString value = value_.toString();
-  value.replace(QLatin1Char('\''), QLatin1String("''"));
+  value.replace(u'\'', "''"_L1);
 
   if (field_ == Field::Filetype) {
     Song::FileType filetype = Song::FiletypeByExtension(value);
@@ -62,12 +64,12 @@ QString SmartPlaylistSearchTerm::ToSql() const {
   if (TypeOf(field_) == Type::Date) {
     if (special_date_query) {
       // We have a numeric date, consider also the time for more precision
-      col = QLatin1String("DATETIME(") + col + QLatin1String(", 'unixepoch', 'localtime')");
+      col = "DATETIME("_L1 + col + ", 'unixepoch', 'localtime')"_L1;
       second_value = second_value_.toString();
-      second_value.replace(QLatin1Char('\''), QLatin1String("''"));
-      if (date == QLatin1String("weeks")) {
+      second_value.replace(u'\'', "''"_L1);
+      if (date == "weeks"_L1) {
         // Sqlite doesn't know weeks, transform them to days
-        date = QLatin1String("days");
+        date = "days"_L1;
         value = QString::number(value_.toInt() * 7);
         second_value = QString::number(second_value_.toInt() * 7);
       }
@@ -76,13 +78,13 @@ QString SmartPlaylistSearchTerm::ToSql() const {
       // We have the exact date
       // The calendar widget specifies no time so ditch the possible time part
       // from integers representing the dates.
-      col = QLatin1String("DATE(") + col + QLatin1String(", 'unixepoch', 'localtime')");
-      value = QLatin1String("DATE(") + value + QLatin1String(", 'unixepoch', 'localtime')");
+      col = "DATE("_L1 + col + ", 'unixepoch', 'localtime')"_L1;
+      value = "DATE("_L1 + value + ", 'unixepoch', 'localtime')"_L1;
     }
   }
   else if (TypeOf(field_) == Type::Time) {
     // Convert seconds to nanoseconds
-    value = QLatin1String("CAST (") + value + QLatin1String(" *1000000000 AS INTEGER)");
+    value = "CAST ("_L1 + value + " *1000000000 AS INTEGER)"_L1;
   }
 
   // File paths need some extra processing since they are stored as encoded urls in the database.
@@ -95,61 +97,61 @@ QString SmartPlaylistSearchTerm::ToSql() const {
     }
   }
   else if (TypeOf(field_) == Type::Rating) {
-    col = QLatin1String("CAST ((replace(") + col + QLatin1String(", -1, 0) + 0.05) * 10 AS INTEGER)");
-    value = QLatin1String("CAST ((") + value + QLatin1String(" + 0.05) * 10 AS INTEGER)");
+    col = "CAST ((replace("_L1 + col + ", -1, 0) + 0.05) * 10 AS INTEGER)"_L1;
+    value = "CAST (("_L1 + value + " + 0.05) * 10 AS INTEGER)"_L1;
   }
 
   switch (operator_) {
     case Operator::Contains:
-      return col + QLatin1String(" LIKE '%") + value + QLatin1String("%'");
+      return col + " LIKE '%"_L1 + value + "%'"_L1;
     case Operator::NotContains:
-      return col + QLatin1String(" NOT LIKE '%") + value + QLatin1String("%'");
+      return col + " NOT LIKE '%"_L1 + value + "%'"_L1;
     case Operator::StartsWith:
-      return col + QLatin1String(" LIKE '") + value + QLatin1String("%'");
+      return col + " LIKE '"_L1 + value + "%'"_L1;
     case Operator::EndsWith:
-      return col + QLatin1String(" LIKE '%") + value + QLatin1Char('\'');
+      return col + " LIKE '%"_L1 + value + u'\'';
     case Operator::Equals:
       if (TypeOf(field_) == Type::Text) {
-        return col + QLatin1String(" LIKE '") + value + QLatin1Char('\'');
+        return col + " LIKE '"_L1 + value + u'\'';
       }
       else if (TypeOf(field_) == Type::Date || TypeOf(field_) == Type::Time || TypeOf(field_) == Type::Rating) {
-        return col + QLatin1String(" = ") + value;
+        return col + " = "_L1 + value;
       }
       else {
-        return col + QLatin1String(" = '") + value + QLatin1Char('\'');
+        return col + " = '"_L1 + value + u'\'';
       }
     case Operator::GreaterThan:
       if (TypeOf(field_) == Type::Date || TypeOf(field_) == Type::Time || TypeOf(field_) == Type::Rating) {
-        return col + QLatin1String(" > ") + value;
+        return col + " > "_L1 + value;
       }
       else {
-        return col + QLatin1String(" > '") + value + QLatin1Char('\'');
+        return col + " > '"_L1 + value + u'\'';
       }
     case Operator::LessThan:
       if (TypeOf(field_) == Type::Date || TypeOf(field_) == Type::Time || TypeOf(field_) == Type::Rating) {
-        return col + QLatin1String(" < ") + value;
+        return col + " < "_L1 + value;
       }
       else {
-        return col + QLatin1String(" < '") + value + QLatin1Char('\'');
+        return col + " < '"_L1 + value + u'\'';
       }
     case Operator::NumericDate:
-      return col + QLatin1String(" > ") + QLatin1String("DATETIME('now', '-") + value + QLatin1Char(' ') + date + QLatin1String("', 'localtime')");
+      return col + " > "_L1 + "DATETIME('now', '-"_L1 + value + u' ' + date + "', 'localtime')"_L1;
     case Operator::NumericDateNot:
-      return col + QLatin1String(" < ") + QLatin1String("DATETIME('now', '-") + value + QLatin1Char(' ') + date + QLatin1String("', 'localtime')");
+      return col + " < "_L1 + "DATETIME('now', '-"_L1 + value + u' ' + date + "', 'localtime')"_L1;
     case Operator::RelativeDate:
       // Consider the time range before the first date but after the second one
-      return QLatin1String("(") + col + QLatin1String(" < ") + QLatin1String("DATETIME('now', '-") + value + QLatin1Char(' ') + date + QLatin1String("', 'localtime') AND ") + col + QLatin1String(" > ") + QLatin1String("DATETIME('now', '-") + second_value + QLatin1Char(' ') + date + QLatin1String("', 'localtime'))");
+      return "("_L1 + col + " < "_L1 + "DATETIME('now', '-"_L1 + value + u' ' + date + "', 'localtime') AND "_L1 + col + " > "_L1 + "DATETIME('now', '-"_L1 + second_value + u' ' + date + "', 'localtime'))"_L1;
     case Operator::NotEquals:
       if (TypeOf(field_) == Type::Text) {
-        return col + QLatin1String(" <> '") + value + QLatin1Char('\'');
+        return col + " <> '"_L1 + value + u'\'';
       }
       else {
-        return col + QLatin1String(" <> ") + value;
+        return col + " <> "_L1 + value;
       }
     case Operator::Empty:
-      return col + QLatin1String(" = ''");
+      return col + " = ''"_L1;
     case Operator::NotEmpty:
-      return col + QLatin1String(" <> ''");
+      return col + " <> ''"_L1;
   }
 
   return QString();

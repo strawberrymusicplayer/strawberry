@@ -61,6 +61,8 @@
 #include "playlistparsers/playlistparser.h"
 #include "dialogs/saveplaylistsdialog.h"
 
+using namespace Qt::StringLiterals;
+
 class ParserBase;
 
 PlaylistManager::PlaylistManager(Application *app, QObject *parent)
@@ -453,7 +455,7 @@ void PlaylistManager::UpdateSummaryText() {
   summary += tr("%n track(s)", "", tracks);
 
   if (nanoseconds > 0) {
-    summary += QLatin1String(" - [ ") + Utilities::WordyTimeNanosec(nanoseconds) + QLatin1String(" ]");
+    summary += " - [ "_L1 + Utilities::WordyTimeNanosec(nanoseconds) + " ]"_L1;
   }
 
   Q_EMIT SummaryTextChanged(summary);
@@ -571,7 +573,7 @@ QString PlaylistManager::GetNameForNewPlaylist(const SongList &songs) {
 
   if (!various_artists && albums.size() == 1) {
     QStringList album_names = albums.values();
-    result += QLatin1String(" - ") + album_names.first();
+    result += " - "_L1 + album_names.first();
   }
 
   return result;

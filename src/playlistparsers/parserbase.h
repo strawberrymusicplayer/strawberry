@@ -36,6 +36,8 @@
 #include "core/song.h"
 #include "settings/playlistsettingspage.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 class QIODevice;
 class CollectionBackendInterface;
 
@@ -58,7 +60,7 @@ class ParserBase : public QObject {
   // This method might not return all the songs found in the playlist.
   // Any playlist parser may decide to leave out some entries if it finds them incomplete or invalid.
   // This means that the final resulting SongList should be considered valid (at least from the parser's point of view).
-  virtual SongList Load(QIODevice *device, const QString &playlist_path = QLatin1String(""), const QDir &dir = QDir(), const bool collection_lookup = true) const = 0;
+  virtual SongList Load(QIODevice *device, const QString &playlist_path = ""_L1, const QDir &dir = QDir(), const bool collection_lookup = true) const = 0;
   virtual void Save(const SongList &songs, QIODevice *device, const QDir &dir = QDir(), const PlaylistSettingsPage::PathType path_type = PlaylistSettingsPage::PathType::Automatic) const = 0;
 
  Q_SIGNALS:

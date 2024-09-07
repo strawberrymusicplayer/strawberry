@@ -34,6 +34,8 @@
 #include "globalshortcutgrabber.h"
 #include "ui_globalshortcutgrabber.h"
 
+using namespace Qt::StringLiterals;
+
 GlobalShortcutGrabber::GlobalShortcutGrabber(QWidget *parent)
     : QDialog(parent),
       ui_(new Ui::GlobalShortcutGrabber),
@@ -110,7 +112,7 @@ bool GlobalShortcutGrabber::event(QEvent *e) {
 }
 
 void GlobalShortcutGrabber::UpdateText() {
-  ui_->label_key->setText(QLatin1String("<b>") + ret_.toString(QKeySequence::NativeText) + QLatin1String("</b>"));
+  ui_->label_key->setText("<b>"_L1 + ret_.toString(QKeySequence::NativeText) + "</b>"_L1);
 }
 
 void GlobalShortcutGrabber::Accepted() {

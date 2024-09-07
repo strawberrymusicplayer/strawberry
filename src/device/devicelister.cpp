@@ -37,6 +37,8 @@
 
 #include "core/logging.h"
 
+using namespace Qt::StringLiterals;
+
 DeviceLister::DeviceLister(QObject *parent)
     : QObject(parent),
       thread_(nullptr),
@@ -226,9 +228,9 @@ QUrl DeviceLister::MakeUrlFromLocalPath(const QString &path) const {
 }
 
 bool DeviceLister::IsIpod(const QString &path) {
-  return QFile::exists(path + QLatin1String("/iTunes_Control")) ||
-         QFile::exists(path + QLatin1String("/iPod_Control")) ||
-         QFile::exists(path + QLatin1String("/iTunes/iTunes_Control"));
+  return QFile::exists(path + "/iTunes_Control"_L1) ||
+         QFile::exists(path + "/iPod_Control"_L1) ||
+         QFile::exists(path + "/iTunes/iTunes_Control"_L1);
 }
 
 QVariantList DeviceLister::GuessIconForPath(const QString &path) {
@@ -277,7 +279,7 @@ QVariantList DeviceLister::GuessIconForPath(const QString &path) {
 QVariantList DeviceLister::GuessIconForModel(const QString &vendor, const QString &model) {
 
   QVariantList ret;
-  if (vendor.startsWith(QLatin1String("Google")) && model.contains(QLatin1String("Nexus"))) {
+  if (vendor.startsWith("Google"_L1) && model.contains("Nexus"_L1)) {
     ret << QStringLiteral("phone-google-nexus-one");
   }
   return ret;

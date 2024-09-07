@@ -70,7 +70,6 @@
 #include "settings/playlistsettingspage.h"
 
 using namespace std::chrono_literals;
-
 using std::make_shared;
 
 const char *Player::kSettingsGroup = "Player";

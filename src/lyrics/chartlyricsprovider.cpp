@@ -38,6 +38,8 @@
 #include "lyricssearchresult.h"
 #include "chartlyricsprovider.h"
 
+using namespace Qt::StringLiterals;
+
 namespace {
 constexpr char kUrlSearch[] = "http://api.chartlyrics.com/apiv1.asmx/SearchLyricDirect";
 }
@@ -100,21 +102,21 @@ void ChartLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, 
     QXmlStreamReader::TokenType type = reader.readNext();
     QString name = reader.name().toString();
     if (type == QXmlStreamReader::StartElement) {
-      if (name == QLatin1String("GetLyricResult")) {
+      if (name == "GetLyricResult"_L1) {
         result = LyricsSearchResult();
       }
-      if (name == QLatin1String("LyricArtist")) {
+      if (name == "LyricArtist"_L1) {
         result.artist = reader.readElementText();
       }
-      else if (name == QLatin1String("LyricSong")) {
+      else if (name == "LyricSong"_L1) {
         result.title = reader.readElementText();
       }
-      else if (name == QLatin1String("Lyric")) {
+      else if (name == "Lyric"_L1) {
         result.lyrics = reader.readElementText();
       }
     }
     else if (type == QXmlStreamReader::EndElement) {
-      if (name == QLatin1String("GetLyricResult")) {
+      if (name == "GetLyricResult"_L1) {
         if (!result.artist.isEmpty() && !result.title.isEmpty() && !result.lyrics.isEmpty() &&
             (result.artist.compare(request.albumartist, Qt::CaseInsensitive) == 0 ||
              result.artist.compare(request.artist, Qt::CaseInsensitive) == 0 ||

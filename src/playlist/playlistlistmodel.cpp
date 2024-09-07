@@ -68,7 +68,7 @@ QString PlaylistListModel::ItemPath(const QStandardItem *item) {
     current = current->parent();
   }
 
-  return components.join(QLatin1Char('/'));
+  return components.join(u'/');
 
 }
 
@@ -164,7 +164,7 @@ QStandardItem *PlaylistListModel::FolderByPath(const QString &path) {
   // inefficient but maintaining a path -> item map is difficult.
   QStandardItem *parent = invisibleRootItem();
 
-  const QStringList parts = path.split(QLatin1Char('/'), Qt::SkipEmptyParts);
+  const QStringList parts = path.split(u'/', Qt::SkipEmptyParts);
   for (const QString &part : parts) {
     QStandardItem *matching_child = nullptr;
 

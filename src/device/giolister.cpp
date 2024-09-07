@@ -47,6 +47,8 @@
 #include "devicelister.h"
 #include "giolister.h"
 
+using namespace Qt::StringLiterals;
+
 QString GioLister::DeviceInfo::unique_id() const {
 
   if (!volume_root_uri.isEmpty()) return volume_root_uri;
@@ -69,7 +71,7 @@ bool GioLister::DeviceInfo::is_suitable() const {
 
   if (filesystem_type.isEmpty()) return true;
 
-  return filesystem_type != QLatin1String("udf") && filesystem_type != QLatin1String("smb") && filesystem_type != QLatin1String("cifs") && filesystem_type != QLatin1String("ssh") && filesystem_type != QLatin1String("isofs");
+  return filesystem_type != "udf"_L1 && filesystem_type != "smb"_L1 && filesystem_type != "cifs"_L1 && filesystem_type != "ssh"_L1 && filesystem_type != "isofs"_L1;
 
 }
 
@@ -295,12 +297,12 @@ void GioLister::VolumeAdded(GVolume *volume) {
 
   DeviceInfo info;
   info.ReadVolumeInfo(volume);
-  if (info.volume_root_uri.startsWith(QLatin1String("afc://")) || info.volume_root_uri.startsWith(QLatin1String("gphoto2://"))) {
+  if (info.volume_root_uri.startsWith("afc://"_L1) || info.volume_root_uri.startsWith("gphoto2://"_L1)) {
     // Handled by iLister.
     return;
   }
 #ifdef HAVE_AUDIOCD
-  if (info.volume_root_uri.startsWith(QLatin1String("cdda"))) {
+  if (info.volume_root_uri.startsWith("cdda"_L1)) {
     // Audio CD devices are already handled by CDDA lister
     return;
   }
@@ -339,12 +341,12 @@ void GioLister::MountAdded(GMount *mount) {
 
   DeviceInfo info;
   info.ReadVolumeInfo(g_mount_get_volume(mount));
-  if (info.volume_root_uri.startsWith(QLatin1String("afc://")) || info.volume_root_uri.startsWith(QLatin1String("gphoto2://"))) {
+  if (info.volume_root_uri.startsWith("afc://"_L1) || info.volume_root_uri.startsWith("gphoto2://"_L1)) {
     // Handled by iLister.
     return;
   }
 #ifdef HAVE_AUDIOCD
-  if (info.volume_root_uri.startsWith(QLatin1String("cdda"))) {
+  if (info.volume_root_uri.startsWith("cdda"_L1)) {
     // Audio CD devices are already handled by CDDA lister
     return;
   }
@@ -506,7 +508,7 @@ void GioLister::DeviceInfo::ReadMountInfo(GMount *mount) {
 
   // Query the file's info for a filesystem ID
   // Only afc devices (that I know of) give reliably unique IDs
-  if (filesystem_type == QLatin1String("afc")) {
+  if (filesystem_type == "afc"_L1) {
     error = nullptr;
     info = g_file_query_info(root, G_FILE_ATTRIBUTE_ID_FILESYSTEM, G_FILE_QUERY_INFO_NONE, nullptr, &error);
     if (error) {
@@ -580,7 +582,7 @@ void GioLister::UpdateDeviceFreeSpace(const QString &id) {
 
   {
     QMutexLocker l(&mutex_);
-    if (!devices_.contains(id) || !devices_[id].mount_ptr || devices_.value(id).volume_root_uri.startsWith(QLatin1String("mtp://"))) return;
+    if (!devices_.contains(id) || !devices_[id].mount_ptr || devices_.value(id).volume_root_uri.startsWith("mtp://"_L1)) return;
 
     GFile *root = g_mount_get_root(devices_.value(id).mount_ptr);
 
@@ -605,7 +607,7 @@ void GioLister::UpdateDeviceFreeSpace(const QString &id) {
 bool GioLister::DeviceNeedsMount(const QString &id) {
 
   QMutexLocker l(&mutex_);
-  return devices_.contains(id) && !devices_[id].mount_ptr && !devices_[id].volume_root_uri.startsWith(QLatin1String("mtp://")) && !devices_[id].volume_root_uri.startsWith(QLatin1String("gphoto2://"));
+  return devices_.contains(id) && !devices_[id].mount_ptr && !devices_[id].volume_root_uri.startsWith("mtp://"_L1) && !devices_[id].volume_root_uri.startsWith("gphoto2://"_L1);
 
 }
 
@@ -632,7 +634,7 @@ void GioLister::MountDevice(const QString &id, const int request_id) {
 void GioLister::UnmountDevice(const QString &id) {
 
   QMutexLocker l(&mutex_);
-  if (!devices_.contains(id) || !devices_[id].mount_ptr || devices_.value(id).volume_root_uri.startsWith(QLatin1String("mtp://"))) return;
+  if (!devices_.contains(id) || !devices_[id].mount_ptr || devices_.value(id).volume_root_uri.startsWith("mtp://"_L1)) return;
 
   const DeviceInfo device_info = devices_.value(id);
 

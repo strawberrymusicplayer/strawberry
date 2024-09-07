@@ -37,6 +37,8 @@
 #include "utilities/transliterate.h"
 #include "lyricfindlyricsprovider.h"
 
+using namespace Qt::StringLiterals;
+
 namespace {
 constexpr char kUrl[] = "https://lyrics.lyricfind.com/lyrics";
 constexpr char kLyricsStart[] = "<script id=\"__NEXT_DATA__\" type=\"application/json\">";
@@ -73,7 +75,7 @@ QString LyricFindLyricsProvider::StringFixup(const QString &text) {
     .remove(regex_illegal_characters)
     .replace(regex_multiple_whitespaces, QStringLiteral(" "))
     .simplified()
-    .replace(QLatin1Char(' '), QLatin1Char('-'))
+    .replace(u' ', u'-')
     .toLower();
 
 }
@@ -151,48 +153,48 @@ void LyricFindLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int 
   if (obj.isEmpty()) {
     return;
   }
-  if (!obj.contains(QLatin1String("props")) || !obj[QLatin1String("props")].isObject()) {
+  if (!obj.contains("props"_L1) || !obj["props"_L1].isObject()) {
     Error(QStringLiteral("Missing props."));
     return;
   }
-  obj = obj[QLatin1String("props")].toObject();
-  if (!obj.contains(QLatin1String("pageProps")) || !obj[QLatin1String("pageProps")].isObject()) {
+  obj = obj["props"_L1].toObject();
+  if (!obj.contains("pageProps"_L1) || !obj["pageProps"_L1].isObject()) {
     Error(QStringLiteral("Missing pageProps."));
     return;
   }
-  obj = obj[QLatin1String("pageProps")].toObject();
-  if (!obj.contains(QLatin1String("songData")) || !obj[QLatin1String("songData")].isObject()) {
+  obj = obj["pageProps"_L1].toObject();
+  if (!obj.contains("songData"_L1) || !obj["songData"_L1].isObject()) {
     Error(QStringLiteral("Missing songData."));
     return;
   }
-  obj = obj[QLatin1String("songData")].toObject();
+  obj = obj["songData"_L1].toObject();
 
-  if (!obj.contains(QLatin1String("response")) || !obj[QLatin1String("response")].isObject()) {
+  if (!obj.contains("response"_L1) || !obj["response"_L1].isObject()) {
     Error(QStringLiteral("Missing response."));
     return;
   }
   //const QJsonObject obj_response = obj[QLatin1String("response")].toObject();
 
-  if (!obj.contains(QLatin1String("track")) || !obj[QLatin1String("track")].isObject()) {
+  if (!obj.contains("track"_L1) || !obj["track"_L1].isObject()) {
     Error(QStringLiteral("Missing track."));
     return;
   }
-  const QJsonObject obj_track = obj[QLatin1String("track")].toObject();
+  const QJsonObject obj_track = obj["track"_L1].toObject();
 
-  if (!obj_track.contains(QLatin1String("title")) ||
-      !obj_track.contains(QLatin1String("lyrics"))) {
+  if (!obj_track.contains("title"_L1) ||
+      !obj_track.contains("lyrics"_L1)) {
     Error(QStringLiteral("Missing title or lyrics."));
     return;
   }
 
   LyricsSearchResult result;
 
-  const QJsonObject obj_artist = obj[QLatin1String("artist")].toObject();
-  if (obj_artist.contains(QLatin1String("name"))) {
-    result.artist = obj_artist[QLatin1String("name")].toString();
+  const QJsonObject obj_artist = obj["artist"_L1].toObject();
+  if (obj_artist.contains("name"_L1)) {
+    result.artist = obj_artist["name"_L1].toString();
   }
-  result.title = obj_track[QLatin1String("title")].toString();
-  result.lyrics = obj_track[QLatin1String("lyrics")].toString();
+  result.title = obj_track["title"_L1].toString();
+  result.lyrics = obj_track["lyrics"_L1].toString();
   results << result;
 
 }

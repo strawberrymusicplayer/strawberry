@@ -46,6 +46,8 @@
 #include "covermanager/coverprovider.h"
 #include "widgets/loginstatewidget.h"
 
+using namespace Qt::StringLiterals;
+
 const char *CoversSettingsPage::kSettingsGroup = "Covers";
 const char *CoversSettingsPage::kProviders = "providers";
 const char *CoversSettingsPage::kTypes = "types";
@@ -222,15 +224,15 @@ void CoversSettingsPage::ProvidersCurrentItemChanged(QListWidgetItem *item_curre
     CoverProvider *provider = dialog()->app()->cover_providers()->ProviderByName(item_current->text());
     if (provider) {
       if (provider->AuthenticationRequired()) {
-        if (provider->name() == QLatin1String("Tidal") && !provider->IsAuthenticated()) {
+        if (provider->name() == "Tidal"_L1 && !provider->IsAuthenticated()) {
           DisableAuthentication();
           ui_->label_auth_info->setText(tr("Use Tidal settings to authenticate."));
         }
-        else if (provider->name() == QLatin1String("Spotify") && !provider->IsAuthenticated()) {
+        else if (provider->name() == "Spotify"_L1 && !provider->IsAuthenticated()) {
           DisableAuthentication();
           ui_->label_auth_info->setText(tr("Use Spotify settings to authenticate."));
         }
-        else if (provider->name() == QLatin1String("Qobuz") && !provider->IsAuthenticated()) {
+        else if (provider->name() == "Qobuz"_L1 && !provider->IsAuthenticated()) {
           DisableAuthentication();
           ui_->label_auth_info->setText(tr("Use Qobuz settings to authenticate."));
         }
@@ -339,15 +341,15 @@ void CoversSettingsPage::LogoutClicked() {
   if (!provider) return;
   provider->Deauthenticate();
 
-  if (provider->name() == QLatin1String("Tidal")) {
+  if (provider->name() == "Tidal"_L1) {
     DisableAuthentication();
     ui_->label_auth_info->setText(tr("Use Tidal settings to authenticate."));
   }
-  else if (provider->name() == QLatin1String("Spotify")) {
+  else if (provider->name() == "Spotify"_L1) {
     DisableAuthentication();
     ui_->label_auth_info->setText(tr("Use Spotify settings to authenticate."));
   }
-  else if (provider->name() == QLatin1String("Qobuz")) {
+  else if (provider->name() == "Qobuz"_L1) {
     DisableAuthentication();
     ui_->label_auth_info->setText(tr("Use Qobuz settings to authenticate."));
   }
@@ -379,7 +381,7 @@ void CoversSettingsPage::AuthenticationFailure(const QStringList &errors) {
 
   if (!isVisible() || !ui_->providers->currentItem() || ui_->providers->currentItem()->text() != provider->name()) return;
 
-  QMessageBox::warning(this, tr("Authentication failed"), errors.join(QLatin1Char('\n')));
+  QMessageBox::warning(this, tr("Authentication failed"), errors.join(u'\n'));
 
   ui_->login_state->SetLoggedIn(LoginStateWidget::State::LoggedOut);
   ui_->button_authenticate->setEnabled(true);
@@ -429,16 +431,16 @@ void CoversSettingsPage::AddAlbumCoverArtType(const QString &name, const QString
 
 QString CoversSettingsPage::AlbumCoverArtTypeDescription(const QString &type) const {
 
-  if (type == QLatin1String("art_unset")) {
+  if (type == "art_unset"_L1) {
     return tr("Manually unset (%1)").arg(type);
   }
-  if (type == QLatin1String("art_manual")) {
+  if (type == "art_manual"_L1) {
     return tr("Set through album cover search (%1)").arg(type);
   }
-  if (type == QLatin1String("art_automatic")) {
+  if (type == "art_automatic"_L1) {
     return tr("Automatically picked up from album directory (%1)").arg(type);
   }
-  if (type == QLatin1String("art_embedded")) {
+  if (type == "art_embedded"_L1) {
     return tr("Embedded album cover art (%1)").arg(type);
   }
 

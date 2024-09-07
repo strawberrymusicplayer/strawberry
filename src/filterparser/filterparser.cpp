@@ -28,6 +28,8 @@
 #include "filtertree.h"
 #include "filterparsersearchcomparators.h"
 
+using namespace Qt::StringLiterals;
+
 FilterParser::FilterParser(const QString &filter_string) : filter_string_(filter_string), iter_{}, end_{} {}
 
 FilterTree *FilterParser::parse() {
@@ -73,7 +75,7 @@ FilterTree *FilterParser::parseAndGroup() {
   do {
     group->add(parseSearchExpression());
     advance();
-    if (iter_ != end_ && *iter_ == QLatin1Char(')')) break;
+    if (iter_ != end_ && *iter_ == u')') break;
     if (checkOr(false)) {
       break;
     }
@@ -87,16 +89,16 @@ FilterTree *FilterParser::parseAndGroup() {
 bool FilterParser::checkAnd() {
 
   if (iter_ != end_) {
-    if (*iter_ == QLatin1Char('A')) {
+    if (*iter_ == u'A') {
       buf_ += *iter_;
       ++iter_;
-      if (iter_ != end_ && *iter_ == QLatin1Char('N')) {
+      if (iter_ != end_ && *iter_ == u'N') {
         buf_ += *iter_;
         ++iter_;
-        if (iter_ != end_ && *iter_ == QLatin1Char('D')) {
+        if (iter_ != end_ && *iter_ == u'D') {
           buf_ += *iter_;
           ++iter_;
-          if (iter_ != end_ && (iter_->isSpace() || *iter_ == QLatin1Char('-') || *iter_ == QLatin1Char('('))) {
+          if (iter_ != end_ && (iter_->isSpace() || *iter_ == u'-' || *iter_ == u'(')) {
             advance();
             buf_.clear();
             return true;
@@ -113,7 +115,7 @@ bool FilterParser::checkAnd() {
 bool FilterParser::checkOr(const bool step_over) {
 
   if (!buf_.isEmpty()) {
-    if (buf_ == QLatin1String("OR")) {
+    if (buf_ == "OR"_L1) {
       if (step_over) {
         buf_.clear();
         advance();
@@ -123,13 +125,13 @@ bool FilterParser::checkOr(const bool step_over) {
   }
   else {
     if (iter_ != end_) {
-      if (*iter_ == QLatin1Char('O')) {
+      if (*iter_ == u'O') {
         buf_ += *iter_;
         ++iter_;
-        if (iter_ != end_ && *iter_ == QLatin1Char('R')) {
+        if (iter_ != end_ && *iter_ == u'R') {
           buf_ += *iter_;
           ++iter_;
-          if (iter_ != end_ && (iter_->isSpace() || *iter_ == QLatin1Char('-') || *iter_ == QLatin1Char('('))) {
+          if (iter_ != end_ && (iter_->isSpace() || *iter_ == u'-' || *iter_ == u'(')) {
             if (step_over) {
               buf_.clear();
               advance();
@@ -149,19 +151,19 @@ FilterTree *FilterParser::parseSearchExpression() {
 
   advance();
   if (iter_ == end_) return new NopFilter;
-  if (*iter_ == QLatin1Char('(')) {
+  if (*iter_ == u'(') {
     ++iter_;
     advance();
     FilterTree *tree = parseOrGroup();
     advance();
     if (iter_ != end_) {
-      if (*iter_ == QLatin1Char(')')) {
+      if (*iter_ == u')') {
         ++iter_;
       }
     }
     return tree;
   }
-  else if (*iter_ == QLatin1Char('-')) {
+  else if (*iter_ == u'-') {
     ++iter_;
     FilterTree *tree = parseSearchExpression();
     if (tree->type() != FilterTree::FilterType::Nop) return new NotFilter(tree);
@@ -183,7 +185,7 @@ FilterTree *FilterParser::parseSearchTerm() {
 
   for (; iter_ != end_; ++iter_) {
     if (in_quotes) {
-      if (*iter_ == QLatin1Char('"')) {
+      if (*iter_ == u'"') {
         in_quotes = false;
       }
       else {
@@ -191,23 +193,23 @@ FilterTree *FilterParser::parseSearchTerm() {
       }
     }
     else {
-      if (*iter_ == QLatin1Char('"')) {
+      if (*iter_ == u'"') {
         in_quotes = true;
       }
-      else if (column.isEmpty() && *iter_ == QLatin1Char(':')) {
+      else if (column.isEmpty() && *iter_ == u':') {
         column = buf_.toLower();
         buf_.clear();
         prefix.clear();  // Prefix isn't allowed here - let's ignore it
       }
-      else if (iter_->isSpace() || *iter_ == QLatin1Char('(') || *iter_ == QLatin1Char(')') || *iter_ == QLatin1Char('-')) {
+      else if (iter_->isSpace() || *iter_ == u'(' || *iter_ == u')' || *iter_ == u'-') {
         break;
       }
       else if (buf_.isEmpty()) {
         // We don't know whether there is a column part in this search term thus we assume the latter and just try and read a prefix
-        if (prefix.isEmpty() && (*iter_ == QLatin1Char('>') || *iter_ == QLatin1Char('<') || *iter_ == QLatin1Char('=') || *iter_ == QLatin1Char('!'))) {
+        if (prefix.isEmpty() && (*iter_ == u'>' || *iter_ == u'<' || *iter_ == u'=' || *iter_ == u'!')) {
           prefix += *iter_;
         }
-        else if (prefix != QLatin1Char('=') && *iter_ == QLatin1Char('=')) {
+        else if (prefix != u'=' && *iter_ == u'=') {
           prefix += *iter_;
         }
         else {
@@ -229,17 +231,17 @@ FilterTree *FilterParser::parseSearchTerm() {
 
 FilterTree *FilterParser::createSearchTermTreeNode(const QString &column, const QString &prefix, const QString &value) const {
 
-  if (value.isEmpty() && prefix != QLatin1Char('=')) {
+  if (value.isEmpty() && prefix != u'=') {
     return new NopFilter;
   }
 
   FilterParserSearchTermComparator *cmp = nullptr;
 
   if (Song::kTextSearchColumns.contains(column, Qt::CaseInsensitive)) {
-    if (prefix == QLatin1Char('=') || prefix == QLatin1String("==")) {
+    if (prefix == u'=' || prefix == "=="_L1) {
       cmp = new FilterParserTextEqComparator(value);
     }
-    else if (prefix == QLatin1String("!=") || prefix == QLatin1String("<>")) {
+    else if (prefix == "!="_L1 || prefix == "<>"_L1) {
       cmp = new FilterParserTextNeComparator(value);
     }
     else {
@@ -250,22 +252,22 @@ FilterTree *FilterParser::createSearchTermTreeNode(const QString &column, const 
     bool ok = false;
     int number = value.toInt(&ok);
     if (ok) {
-      if (prefix == QLatin1Char('=') || prefix == QLatin1String("==")) {
+      if (prefix == u'=' || prefix == "=="_L1) {
         cmp = new FilterParserIntEqComparator(number);
       }
-      else if (prefix == QLatin1String("!=") || prefix == QLatin1String("<>")) {
+      else if (prefix == "!="_L1 || prefix == "<>"_L1) {
         cmp = new FilterParserIntNeComparator(number);
       }
-      else if (prefix == QLatin1Char('>')) {
+      else if (prefix == u'>') {
         cmp = new FilterParserIntGtComparator(number);
       }
-      else if (prefix == QLatin1String(">=")) {
+      else if (prefix == ">="_L1) {
         cmp = new FilterParserIntGeComparator(number);
       }
-      else if (prefix == QLatin1Char('<')) {
+      else if (prefix == u'<') {
         cmp = new FilterParserIntLtComparator(number);
       }
-      else if (prefix == QLatin1String("<=")) {
+      else if (prefix == "<="_L1) {
         cmp = new FilterParserIntLeComparator(number);
       }
       else {
@@ -277,22 +279,22 @@ FilterTree *FilterParser::createSearchTermTreeNode(const QString &column, const 
     bool ok = false;
     uint number = value.toUInt(&ok);
     if (ok) {
-      if (prefix == QLatin1Char('=') || prefix == QLatin1String("==")) {
+      if (prefix == u'=' || prefix == "=="_L1) {
         cmp = new FilterParserUIntEqComparator(number);
       }
-      else if (prefix == QLatin1String("!=") || prefix == QLatin1String("<>")) {
+      else if (prefix == "!="_L1 || prefix == "<>"_L1) {
         cmp = new FilterParserUIntNeComparator(number);
       }
-      else if (prefix == QLatin1Char('>')) {
+      else if (prefix == u'>') {
         cmp = new FilterParserUIntGtComparator(number);
       }
-      else if (prefix == QLatin1String(">=")) {
+      else if (prefix == ">="_L1) {
         cmp = new FilterParserUIntGeComparator(number);
       }
-      else if (prefix == QLatin1Char('<')) {
+      else if (prefix == u'<') {
         cmp = new FilterParserUIntLtComparator(number);
       }
-      else if (prefix == QLatin1String("<=")) {
+      else if (prefix == "<="_L1) {
         cmp = new FilterParserUIntLeComparator(number);
       }
       else {
@@ -302,28 +304,28 @@ FilterTree *FilterParser::createSearchTermTreeNode(const QString &column, const 
   }
   else if (Song::kInt64SearchColumns.contains(column, Qt::CaseInsensitive)) {
     qint64 number = 0;
-    if (column == QLatin1String("length")) {
+    if (column == "length"_L1) {
       number = ParseTime(value);
     }
     else {
       number = value.toLongLong();
     }
-    if (prefix == QLatin1Char('=') || prefix == QLatin1String("==")) {
+    if (prefix == u'=' || prefix == "=="_L1) {
       cmp = new FilterParserInt64EqComparator(number);
     }
-    else if (prefix == QLatin1String("!=") || prefix == QLatin1String("<>")) {
+    else if (prefix == "!="_L1 || prefix == "<>"_L1) {
       cmp = new FilterParserInt64NeComparator(number);
     }
-    else if (prefix == QLatin1Char('>')) {
+    else if (prefix == u'>') {
       cmp = new FilterParserInt64GtComparator(number);
     }
-    else if (prefix == QLatin1String(">=")) {
+    else if (prefix == ">="_L1) {
       cmp = new FilterParserInt64GeComparator(number);
     }
-    else if (prefix == QLatin1Char('<')) {
+    else if (prefix == u'<') {
       cmp = new FilterParserInt64LtComparator(number);
     }
-    else if (prefix == QLatin1String("<=")) {
+    else if (prefix == "<="_L1) {
       cmp = new FilterParserInt64LeComparator(number);
     }
     else {
@@ -332,22 +334,22 @@ FilterTree *FilterParser::createSearchTermTreeNode(const QString &column, const 
   }
   else if (Song::kFloatSearchColumns.contains(column, Qt::CaseInsensitive)) {
     const float rating = ParseRating(value);
-    if (prefix == QLatin1Char('=') || prefix == QLatin1String("==")) {
+    if (prefix == u'=' || prefix == "=="_L1) {
       cmp = new FilterParserFloatEqComparator(rating);
     }
-    else if (prefix == QLatin1String("!=") || prefix == QLatin1String("<>")) {
+    else if (prefix == "!="_L1 || prefix == "<>"_L1) {
       cmp = new FilterParserFloatNeComparator(rating);
     }
-    else if (prefix == QLatin1Char('>')) {
+    else if (prefix == u'>') {
       cmp = new FilterParserFloatGtComparator(rating);
     }
-    else if (prefix == QLatin1String(">=")) {
+    else if (prefix == ">="_L1) {
       cmp = new FilterParserFloatGeComparator(rating);
     }
-    else if (prefix == QLatin1Char('<')) {
+    else if (prefix == u'<') {
       cmp = new FilterParserFloatLtComparator(rating);
     }
-    else if (prefix == QLatin1String("<=")) {
+    else if (prefix == "<="_L1) {
       cmp = new FilterParserFloatLeComparator(rating);
     }
     else {
@@ -385,7 +387,7 @@ qint64 FilterParser::ParseTime(const QString &time_str) {
     if (c.isDigit()) {
       accum = accum * 10LL + static_cast<qint64>(c.digitValue());
     }
-    else if (c == QLatin1Char(':')) {
+    else if (c == u':') {
       seconds = seconds * 60LL + accum;
       accum = 0LL;
       ++colon_count;
@@ -419,15 +421,15 @@ float FilterParser::ParseRating(const QString &rating_str) {
   float rating = -1.0F;
 
   // Check if the search is a float
-  if (rating_str.contains(QLatin1Char('f'), Qt::CaseInsensitive)) {
-    if (rating_str.count(QLatin1Char('f'), Qt::CaseInsensitive) > 1) {
+  if (rating_str.contains(u'f', Qt::CaseInsensitive)) {
+    if (rating_str.count(u'f', Qt::CaseInsensitive) > 1) {
       return rating;
     }
     QString rating_float_str = rating_str;
-    if (rating_str.at(0) == QLatin1Char('f') || rating_str.at(0) == QLatin1Char('F')) {
+    if (rating_str.at(0) == u'f' || rating_str.at(0) == u'F') {
       rating_float_str = rating_float_str.remove(0, 1);
     }
-    if (rating_str.right(1) == QLatin1Char('f') || rating_str.right(1) == QLatin1Char('F')) {
+    if (rating_str.right(1) == u'f' || rating_str.right(1) == u'F') {
       rating_float_str.chop(1);
     }
     bool ok = false;
@@ -459,29 +461,29 @@ QString FilterParser::ToolTip() {
   return QLatin1String("<html><head/><body><p>") +
          QObject::tr("Prefix a search term with a field name to limit the search to that field, e.g.:") +
          QLatin1Char(' ') +
-         QLatin1String("<span style=\"font-weight:600;\">") +
+         "<span style=\"font-weight:600;\">"_L1 +
          QObject::tr("artist") +
-         QLatin1String(":</span><span style=\"font-style:italic;\">Strawbs</span> ") +
-         QObject::tr("searches for all artists containing the word %1. ").arg(QLatin1String("Strawbs")) +
-         QLatin1String("</p><p>") +
+         ":</span><span style=\"font-style:italic;\">Strawbs</span> "_L1 +
+         QObject::tr("searches for all artists containing the word %1. ").arg("Strawbs"_L1) +
+         "</p><p>"_L1 +
 
          QObject::tr("Search terms for numerical fields can be prefixed with %1 or %2 to refine the search, e.g.: ")
-                     .arg(QLatin1String(" =, !=, &lt;, &gt;, &lt;="), QLatin1String("&gt;=")) +
-         QLatin1String("<span style=\"font-weight:600;\">") +
+                     .arg(" =, !=, &lt;, &gt;, &lt;="_L1, "&gt;="_L1) +
+         "<span style=\"font-weight:600;\">"_L1 +
          QObject::tr("rating") +
-         QLatin1String("</span>") +
-         QLatin1String(":>=") +
-         QLatin1String("<span style=\"font-weight:italic;\">4</span>") +
-         QLatin1String("</p><p>") +
+         "</span>"_L1 +
+         ":>="_L1 +
+         "<span style=\"font-weight:italic;\">4</span>"_L1 +
+         "</p><p>"_L1 +
 
          QObject::tr("Multiple search terms can also be combined with \"%1\" (default) and \"%2\", as well as grouped with parentheses. ")
-                     .arg(QLatin1String("AND"), QLatin1String("OR")) +
+                     .arg("AND"_L1, "OR"_L1) +
 
-         QLatin1String("</p><p><span style=\"font-weight:600;\">") +
+         "</p><p><span style=\"font-weight:600;\">"_L1 +
          QObject::tr("Available fields") +
-         QLatin1String(": ") + QLatin1String("</span><span style=\"font-style:italic;\">") +
-         Song::kSearchColumns.join(QLatin1String(", ")) +
-         QLatin1String("</span>.") +
-         QLatin1String("</p></body></html>");
+         ": "_L1 + "</span><span style=\"font-style:italic;\">"_L1 +
+         Song::kSearchColumns.join(", "_L1) +
+         "</span>."_L1 +
+         "</p></body></html>"_L1;
 
 }

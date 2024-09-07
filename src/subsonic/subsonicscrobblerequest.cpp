@@ -35,6 +35,8 @@
 #include "subsonicbaserequest.h"
 #include "subsonicscrobblerequest.h"
 
+using namespace Qt::StringLiterals;
+
 namespace {
 constexpr int kMaxConcurrentScrobbleRequests = 3;
 }
@@ -111,17 +113,17 @@ void SubsonicScrobbleRequest::ScrobbleReplyReceived(QNetworkReply *reply) {
     return;
   }
 
-  if (json_obj.contains(QLatin1String("error"))) {
-    QJsonValue json_error = json_obj[QLatin1String("error")];
+  if (json_obj.contains("error"_L1)) {
+    QJsonValue json_error = json_obj["error"_L1];
     if (!json_error.isObject()) {
       Error(QStringLiteral("Json error is not an object."), json_obj);
       FinishCheck();
       return;
     }
     json_obj = json_error.toObject();
-    if (!json_obj.isEmpty() && json_obj.contains(QLatin1String("code")) && json_obj.contains(QLatin1String("message"))) {
-      int code = json_obj[QLatin1String("code")].toInt();
-      QString message = json_obj[QLatin1String("message")].toString();
+    if (!json_obj.isEmpty() && json_obj.contains("code"_L1) && json_obj.contains("message"_L1)) {
+      int code = json_obj["code"_L1].toInt();
+      QString message = json_obj["message"_L1].toString();
       Error(QStringLiteral("%1 (%2)").arg(message).arg(code));
       FinishCheck();
     }

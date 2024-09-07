@@ -52,14 +52,14 @@ EngineDeviceList AlsaPCMDeviceFinder::ListDevices() {
       for (char *desc_i = hint_desc; desc_i && *desc_i != '\0'; ++desc_i) {
         if (*desc_i == '\n') {
           *desc_i = '\0';
-          if (!description.isEmpty()) description.append(QLatin1Char(' '));
+          if (!description.isEmpty()) description.append(u' ');
           description.append(QString::fromUtf8(desc_last));
           desc_last = desc_i + 1;
         }
       }
 
       if (desc_last) {
-        if (!description.isEmpty()) description.append(QLatin1Char(' '));
+        if (!description.isEmpty()) description.append(u' ');
         description.append(QString::fromUtf8(desc_last));
       }
 

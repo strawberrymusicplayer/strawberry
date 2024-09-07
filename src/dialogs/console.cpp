@@ -79,7 +79,7 @@ void Console::RunQuery() {
       values.append(record.value(i).toString());
     }
 
-    ui_.output->append(values.join(QLatin1Char('|')));
+    ui_.output->append(values.join(u'|'));
 
   }
 

@@ -36,6 +36,8 @@
 #include "about.h"
 #include "ui_about.h"
 
+using namespace Qt::StringLiterals;
+
 About::About(QWidget *parent) : QDialog(parent), ui_{} {
 
   ui_.setupUi(this);
@@ -106,31 +108,31 @@ QString About::MainHtml() const {
 
   QString ret;
 
-  ret += QLatin1String("<p>");
+  ret += "<p>"_L1;
   ret += tr("Version %1").arg(QCoreApplication::applicationVersion());
-  ret += QLatin1String("</p>");
+  ret += "</p>"_L1;
 
-  ret += QLatin1String("<p>");
+  ret += "<p>"_L1;
   ret += tr("Strawberry is a music player and music collection organizer.");
-  ret += QLatin1String("<br />");
+  ret += "<br />"_L1;
   ret += tr("It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles.");
-  ret += QLatin1String("</p>");
+  ret += "</p>"_L1;
 
-  ret += QLatin1String("<p>");
+  ret += "<p>"_L1;
   ret += tr("Strawberry is free software released under GPL. The source code is available on %1").arg(QStringLiteral("<a style=\"color:%1;\" href=\"https://github.com/strawberrymusicplayer/strawberry\">GitHub</a>.").arg(palette().text().color().name()));
-  ret += QLatin1String("<br />");
+  ret += "<br />"_L1;
   ret += tr("You should have received a copy of the GNU General Public License along with this program.  If not, see %1").arg(QStringLiteral("<a style=\"color:%1;\" href=\"http://www.gnu.org/licenses/\">http://www.gnu.org/licenses/</a>").arg(palette().text().color().name()));
-  ret += QLatin1String("</p>");
+  ret += "</p>"_L1;
 
-  ret += QLatin1String("<p>");
+  ret += "<p>"_L1;
   ret += tr("If you like Strawberry and can make use of it, consider sponsoring or donating.");
-  ret += QLatin1String("<br />");
+  ret += "<br />"_L1;
   ret += tr("You can sponsor the author on %1. You can also make a one-time payment through %2.").arg(
     QStringLiteral("<a style=\"color:%1;\" href=\"https://github.com/sponsors/jonaski\">GitHub sponsors</a>").arg(palette().text().color().name()),
     QStringLiteral("<a style=\"color:%1;\" href=\"https://paypal.me/jonaskvinge\">paypal.me/jonaskvinge</a>").arg(palette().text().color().name())
   );
 
-  ret += QLatin1String("</p>");
+  ret += "</p>"_L1;
 
   return ret;
 
@@ -140,54 +142,54 @@ QString About::ContributorsHtml() const {
 
   QString ret;
 
-  ret += QLatin1String("<p>");
-  ret += QLatin1String("<b>");
+  ret += "<p>"_L1;
+  ret += "<b>"_L1;
   ret += tr("Author and maintainer");
-  ret += QLatin1String("</b>");
+  ret += "</b>"_L1;
   for (const Person &person : strawberry_authors_) {
-    ret += QLatin1String("<br />") + PersonToHtml(person);
+    ret += "<br />"_L1 + PersonToHtml(person);
   }
-  ret += QLatin1String("</p>");
+  ret += "</p>"_L1;
 
-  ret += QLatin1String("<p>");
-  ret += QLatin1String("<b>");
+  ret += "<p>"_L1;
+  ret += "<b>"_L1;
   ret += tr("Contributors");
-  ret += QLatin1String("</b>");
+  ret += "</b>"_L1;
   for (const Person &person : strawberry_contributors_) {
-    ret += QLatin1String("<br />") + PersonToHtml(person);
+    ret += "<br />"_L1 + PersonToHtml(person);
   }
-  ret += QLatin1String("</p>");
+  ret += "</p>"_L1;
 
-  ret += QLatin1String("<p>");
-  ret += QLatin1String("<b>");
+  ret += "<p>"_L1;
+  ret += "<b>"_L1;
   ret += tr("Clementine authors");
-  ret += QLatin1String("</b>");
+  ret += "</b>"_L1;
   for (const Person &person : clementine_authors_) {
-    ret += QLatin1String("<br />") + PersonToHtml(person);
+    ret += "<br />"_L1 + PersonToHtml(person);
   }
-  ret += QLatin1String("</p>");
+  ret += "</p>"_L1;
 
-  ret += QLatin1String("<p>");
-  ret += QLatin1String("<b>");
+  ret += "<p>"_L1;
+  ret += "<b>"_L1;
   ret += tr("Clementine contributors");
-  ret += QLatin1String("</b>");
+  ret += "</b>"_L1;
   for (const Person &person : clementine_contributors_) {
-    ret += QLatin1String("<br />") + PersonToHtml(person);
+    ret += "<br />"_L1 + PersonToHtml(person);
   }
-  ret += QLatin1String("</p>");
+  ret += "</p>"_L1;
 
-  ret += QLatin1String("<p>");
-  ret += QLatin1String("<b>");
+  ret += "<p>"_L1;
+  ret += "<b>"_L1;
   ret += tr("Thanks to");
-  ret += QLatin1String("</b>");
+  ret += "</b>"_L1;
   for (const Person &person : strawberry_thanks_) {
-    ret += QLatin1String("<br />") + PersonToHtml(person);
+    ret += "<br />"_L1 + PersonToHtml(person);
   }
-  ret += QLatin1String("</p>");
+  ret += "</p>"_L1;
 
-  ret += QLatin1String("<p>");
+  ret += "<p>"_L1;
   ret += tr("Thanks to all the other Amarok and Clementine contributors.");
-  ret += QLatin1String("</p>");
+  ret += "</p>"_L1;
   return ret;
 
 }

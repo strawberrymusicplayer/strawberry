@@ -34,6 +34,8 @@
 
 #include "filemanagerutils.h"
 
+using namespace Qt::StringLiterals;
+
 namespace Utilities {
 
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
@@ -48,9 +50,9 @@ void OpenInFileManager(const QString &path, const QUrl &url) {
   QString desktop_file = QString::fromUtf8(proc.readLine()).simplified();
   QString xdg_data_dirs = QString::fromUtf8(qgetenv("XDG_DATA_DIRS"));
   if (xdg_data_dirs.isEmpty()) {
-    xdg_data_dirs = QLatin1String("/usr/local/share/:/usr/share/");
+    xdg_data_dirs = "/usr/local/share/:/usr/share/"_L1;
   }
-  const QStringList data_dirs = xdg_data_dirs.split(QLatin1Char(':'));
+  const QStringList data_dirs = xdg_data_dirs.split(u':');
 
   QString command;
   QStringList command_params;
@@ -59,12 +61,12 @@ void OpenInFileManager(const QString &path, const QUrl &url) {
     if (!QFile::exists(desktop_file_path)) continue;
     QSettings setting(desktop_file_path, QSettings::IniFormat);
     setting.beginGroup(QStringLiteral("Desktop Entry"));
-    if (setting.contains(QLatin1String("Exec"))) {
+    if (setting.contains("Exec"_L1)) {
       QString cmd = setting.value(QStringLiteral("Exec")).toString();
       if (cmd.isEmpty()) break;
       static const QRegularExpression regex(QStringLiteral("[%][a-zA-Z]*( |$)"), QRegularExpression::CaseInsensitiveOption);
       cmd = cmd.remove(regex);
-      command_params = cmd.split(QLatin1Char(' '), Qt::SkipEmptyParts);
+      command_params = cmd.split(u' ', Qt::SkipEmptyParts);
       command = command_params.first();
       command_params.removeFirst();
     }
@@ -72,23 +74,23 @@ void OpenInFileManager(const QString &path, const QUrl &url) {
     if (!command.isEmpty()) break;
   }
 
-  if (command.startsWith(QLatin1String("/usr/bin/"))) {
-    command = command.split(QLatin1Char('/')).last();
+  if (command.startsWith("/usr/bin/"_L1)) {
+    command = command.split(u'/').last();
   }
 
-  if (command.isEmpty() || command == QLatin1String("exo-open")) {
+  if (command.isEmpty() || command == "exo-open"_L1) {
     QDesktopServices::openUrl(QUrl::fromLocalFile(path));
   }
-  else if (command.startsWith(QLatin1String("nautilus")) ||
-           command.startsWith(QLatin1String("dolphin")) ||
-           command.startsWith(QLatin1String("konqueror")) ||
-           command.startsWith(QLatin1String("kfmclient"))) {
+  else if (command.startsWith("nautilus"_L1) ||
+           command.startsWith("dolphin"_L1) ||
+           command.startsWith("konqueror"_L1) ||
+           command.startsWith("kfmclient"_L1)) {
     proc.startDetached(command, QStringList() << command_params << QStringLiteral("--select") << url.toLocalFile());
   }
-  else if (command.startsWith(QLatin1String("caja"))) {
+  else if (command.startsWith("caja"_L1)) {
     proc.startDetached(command, QStringList() << command_params << QStringLiteral("--no-desktop") << path);
   }
-  else if (command.startsWith(QLatin1String("pcmanfm")) || command.startsWith(QLatin1String("thunar")) || command.startsWith(QLatin1String("spacefm"))) {
+  else if (command.startsWith("pcmanfm"_L1) || command.startsWith("thunar"_L1) || command.startsWith("spacefm"_L1)) {
     proc.startDetached(command, QStringList() << command_params << path);
   }
   else {

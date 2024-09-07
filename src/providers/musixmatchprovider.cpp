@@ -31,12 +31,12 @@ QString MusixmatchProvider::StringFixup(QString text) {
   static const QRegularExpression regex_duplicate_whitespaces(QStringLiteral(" {2,}"));
   static const QRegularExpression regex_duplicate_dashes(QStringLiteral("(-)\\1+"));
 
-  return text.replace(QLatin1Char('/'), QLatin1Char('-'))
-             .replace(QLatin1Char('\''), QLatin1Char('-'))
+  return text.replace(u'/', u'-')
+             .replace(u'\'', u'-')
              .remove(regex_illegal_characters)
              .replace(regex_duplicate_whitespaces, QStringLiteral(" "))
              .simplified()
-             .replace(QLatin1Char(' '), QLatin1Char('-'))
+             .replace(u' ', u'-')
              .replace(regex_duplicate_dashes, QStringLiteral("-"))
              .toLower();
 

@@ -31,6 +31,8 @@
 #include "core/logging.h"
 #include "tagreaderbase.h"
 
+using namespace Qt::StringLiterals;
+
 TagReaderBase::TagReaderBase() = default;
 TagReaderBase::~TagReaderBase() = default;
 
@@ -142,11 +144,11 @@ TagReaderBase::Cover TagReaderBase::LoadCoverFromRequest(const QString &song_fil
     if (cover_mime_type.isEmpty()) {
       cover_mime_type = QMimeDatabase().mimeTypeForData(cover_data).name();
     }
-    if (cover_mime_type == QLatin1String("image/jpeg")) {
+    if (cover_mime_type == "image/jpeg"_L1) {
       qLog(Debug) << "Using cover from JPEG data for" << song_filename;
       return Cover(cover_data, cover_mime_type);
     }
-    if (cover_mime_type == QLatin1String("image/png")) {
+    if (cover_mime_type == "image/png"_L1) {
       qLog(Debug) << "Using cover from PNG data for" << song_filename;
       return Cover(cover_data, cover_mime_type);
     }

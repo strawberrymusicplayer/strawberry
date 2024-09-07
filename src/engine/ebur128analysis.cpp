@@ -45,6 +45,7 @@
 
 #include "ebur128analysis.h"
 
+using namespace Qt::StringLiterals;
 using std::unique_ptr;
 
 namespace {
@@ -216,16 +217,16 @@ FrameFormat::FrameFormat(GstCaps *caps) : channels(0), channel_mask(0), samplera
     channel_mask = gst_value_get_bitmask(value);
   }
 
-  if (format_str == QLatin1String("S16LE")) {
+  if (format_str == "S16LE"_L1) {
     format = DataFormat::S16;
   }
-  else if (format_str == QLatin1String("S32LE")) {
+  else if (format_str == "S32LE"_L1) {
     format = DataFormat::S32;
   }
-  else if (format_str == QLatin1String("F32LE")) {
+  else if (format_str == "F32LE"_L1) {
     format = DataFormat::FP32;
   }
-  else if (format_str == QLatin1String("F64LE")) {
+  else if (format_str == "F64LE"_L1) {
     format = DataFormat::FP64;
   }
   else {

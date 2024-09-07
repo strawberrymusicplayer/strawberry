@@ -34,19 +34,21 @@
 #include "tagreaderbase.h"
 #include "tagreadertaglib.h"
 
+using namespace Qt::StringLiterals;
+
 #undef TStringToQString
 #undef QStringToTString
 
 bool GME::IsSupportedFormat(const QFileInfo &fileinfo) {
-  return fileinfo.exists() && (fileinfo.completeSuffix().endsWith(QLatin1String("spc"), Qt::CaseInsensitive) || fileinfo.completeSuffix().endsWith(QLatin1String("vgm")), Qt::CaseInsensitive);
+  return fileinfo.exists() && (fileinfo.completeSuffix().endsWith("spc"_L1, Qt::CaseInsensitive) || fileinfo.completeSuffix().endsWith("vgm"_L1), Qt::CaseInsensitive);
 }
 
 TagReaderBase::Result GME::ReadFile(const QFileInfo &fileinfo, spb::tagreader::SongMetadata *song) {
 
-  if (fileinfo.completeSuffix().endsWith(QLatin1String("spc")), Qt::CaseInsensitive) {
+  if (fileinfo.completeSuffix().endsWith("spc"_L1), Qt::CaseInsensitive) {
     return SPC::Read(fileinfo, song);
   }
-  if (fileinfo.completeSuffix().endsWith(QLatin1String("vgm"), Qt::CaseInsensitive)) {
+  if (fileinfo.completeSuffix().endsWith("vgm"_L1, Qt::CaseInsensitive)) {
     return VGM::Read(fileinfo, song);
   }
 
@@ -239,7 +241,7 @@ TagReaderBase::Result GME::VGM::Read(const QFileInfo &fileinfo, spb::tagreader::
   QTextStream fileTagStream(gd3Data, QIODevice::ReadOnly);
   // Stored as 16 bit UTF string, two bytes per letter.
   fileTagStream.setEncoding(QStringConverter::Utf16);
-  QStringList strings = fileTagStream.readLine(0).split(QLatin1Char('\0'));
+  QStringList strings = fileTagStream.readLine(0).split(u'\0');
   if (strings.count() < 10) {
     return TagReaderBase::Result::ErrorCode::FileParseError;
   }

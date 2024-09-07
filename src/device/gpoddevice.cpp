@@ -325,10 +325,10 @@ bool GPodDevice::RemoveTrackFromITunesDb(const QString &path, const QString &rel
 
   QString ipod_filename = path;
   if (!relative_to.isEmpty() && path.startsWith(relative_to)) {
-    ipod_filename.remove(0, relative_to.length() + (relative_to.endsWith(QLatin1Char('/')) ? -1 : 0));
+    ipod_filename.remove(0, relative_to.length() + (relative_to.endsWith(u'/') ? -1 : 0));
   }
 
-  ipod_filename.replace(QLatin1Char('/'), QLatin1Char(':'));
+  ipod_filename.replace(u'/', u':');
 
   // Find the track in the itdb, identify it by its filename
   Itdb_Track *track = nullptr;

@@ -101,6 +101,8 @@
 #include "ui_edittagdialog.h"
 #include "tagreadermessages.pb.h"
 
+using namespace Qt::StringLiterals;
+
 namespace {
 constexpr char kTagsDifferentHintText[] = QT_TR_NOOP("(different across multiple songs)");
 constexpr char kArtDifferentHintText[] = QT_TR_NOOP("Different art across multiple songs.");
@@ -476,21 +478,21 @@ void EditTagDialog::SetSongListVisibility(bool visible) {
 
 QVariant EditTagDialog::Data::value(const Song &song, const QString &id) {
 
-  if (id == QLatin1String("title")) return song.title();
-  if (id == QLatin1String("artist")) return song.artist();
-  if (id == QLatin1String("album")) return song.album();
-  if (id == QLatin1String("albumartist")) return song.albumartist();
-  if (id == QLatin1String("composer")) return song.composer();
-  if (id == QLatin1String("performer")) return song.performer();
-  if (id == QLatin1String("grouping")) return song.grouping();
-  if (id == QLatin1String("genre")) return song.genre();
-  if (id == QLatin1String("comment")) return song.comment();
-  if (id == QLatin1String("lyrics")) return song.lyrics();
-  if (id == QLatin1String("track")) return song.track();
-  if (id == QLatin1String("disc")) return song.disc();
-  if (id == QLatin1String("year")) return song.year();
-  if (id == QLatin1String("compilation")) return song.compilation();
-  if (id == QLatin1String("rating")) { return song.rating(); }
+  if (id == "title"_L1) return song.title();
+  if (id == "artist"_L1) return song.artist();
+  if (id == "album"_L1) return song.album();
+  if (id == "albumartist"_L1) return song.albumartist();
+  if (id == "composer"_L1) return song.composer();
+  if (id == "performer"_L1) return song.performer();
+  if (id == "grouping"_L1) return song.grouping();
+  if (id == "genre"_L1) return song.genre();
+  if (id == "comment"_L1) return song.comment();
+  if (id == "lyrics"_L1) return song.lyrics();
+  if (id == "track"_L1) return song.track();
+  if (id == "disc"_L1) return song.disc();
+  if (id == "year"_L1) return song.year();
+  if (id == "compilation"_L1) return song.compilation();
+  if (id == "rating"_L1) { return song.rating(); }
   qLog(Warning) << "Unknown ID" << id;
   return QVariant();
 
@@ -498,21 +500,21 @@ QVariant EditTagDialog::Data::value(const Song &song, const QString &id) {
 
 void EditTagDialog::Data::set_value(const QString &id, const QVariant &value) {
 
-  if (id == QLatin1String("title")) current_.set_title(value.toString());
-  else if (id == QLatin1String("artist")) current_.set_artist(value.toString());
-  else if (id == QLatin1String("album")) current_.set_album(value.toString());
-  else if (id == QLatin1String("albumartist")) current_.set_albumartist(value.toString());
-  else if (id == QLatin1String("composer")) current_.set_composer(value.toString());
-  else if (id == QLatin1String("performer")) current_.set_performer(value.toString());
-  else if (id == QLatin1String("grouping")) current_.set_grouping(value.toString());
-  else if (id == QLatin1String("genre")) current_.set_genre(value.toString());
-  else if (id == QLatin1String("comment")) current_.set_comment(value.toString());
-  else if (id == QLatin1String("lyrics")) current_.set_lyrics(value.toString());
-  else if (id == QLatin1String("track")) current_.set_track(value.toInt());
-  else if (id == QLatin1String("disc")) current_.set_disc(value.toInt());
-  else if (id == QLatin1String("year")) current_.set_year(value.toInt());
-  else if (id == QLatin1String("compilation")) current_.set_compilation(value.toBool());
-  else if (id == QLatin1String("rating")) { current_.set_rating(value.toFloat()); }
+  if (id == "title"_L1) current_.set_title(value.toString());
+  else if (id == "artist"_L1) current_.set_artist(value.toString());
+  else if (id == "album"_L1) current_.set_album(value.toString());
+  else if (id == "albumartist"_L1) current_.set_albumartist(value.toString());
+  else if (id == "composer"_L1) current_.set_composer(value.toString());
+  else if (id == "performer"_L1) current_.set_performer(value.toString());
+  else if (id == "grouping"_L1) current_.set_grouping(value.toString());
+  else if (id == "genre"_L1) current_.set_genre(value.toString());
+  else if (id == "comment"_L1) current_.set_comment(value.toString());
+  else if (id == "lyrics"_L1) current_.set_lyrics(value.toString());
+  else if (id == "track"_L1) current_.set_track(value.toInt());
+  else if (id == "disc"_L1) current_.set_disc(value.toInt());
+  else if (id == "year"_L1) current_.set_year(value.toInt());
+  else if (id == "compilation"_L1) current_.set_compilation(value.toBool());
+  else if (id == "rating"_L1) { current_.set_rating(value.toFloat()); }
   else qLog(Warning) << "Unknown ID" << id;
 
 }
@@ -692,12 +694,12 @@ void EditTagDialog::SelectionChanged() {
 
   QString summary;
   if (indexes.count() == 1) {
-    summary += QLatin1String("<p><b>") + first_song.PrettyTitleWithArtist().toHtmlEscaped() + QLatin1String("</b></p>");
+    summary += "<p><b>"_L1 + first_song.PrettyTitleWithArtist().toHtmlEscaped() + "</b></p>"_L1;
   }
   else {
-    summary += QLatin1String("<p><b>");
+    summary += "<p><b>"_L1;
     summary += tr("%1 songs selected.").arg(indexes.count());
-    summary += QLatin1String("</b></p>");
+    summary += "</b></p>"_L1;
   }
   ui_->tags_summary->setText(summary);
 
@@ -864,7 +866,7 @@ QString EditTagDialog::GetArtSummary(const Song &song, const AlbumCoverLoaderRes
   }
 
   if (!song.is_collection_song()) {
-    if (!summary.isEmpty()) summary += QLatin1String("<br />");
+    if (!summary.isEmpty()) summary += "<br />"_L1;
     summary = tr("Album cover editing is only available for collection songs.");
   }
 
@@ -911,8 +913,8 @@ void EditTagDialog::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderRes
     if (ui_->song_list->selectionModel()->selectedIndexes().count() > 0) {
       const QModelIndex idx = ui_->song_list->selectionModel()->selectedIndexes().first();
       QString summary = ui_->summary->toPlainText();
-      summary += QLatin1String("<br />");
-      summary += QLatin1String("<br />");
+      summary += "<br />"_L1;
+      summary += "<br />"_L1;
       summary += GetArtSummary(data_[idx.row()].current_, result.type);
       ui_->summary->setText(summary);
     }
@@ -938,8 +940,8 @@ void EditTagDialog::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderRes
     bool enable_change_art = false;
     if (first_song.is_valid()) {
       QString summary = ui_->tags_summary->toPlainText();
-      summary += QLatin1String("<br />");
-      summary += QLatin1String("<br />");
+      summary += "<br />"_L1;
+      summary += "<br />"_L1;
       if (cover_action == UpdateCoverAction::None) {
         summary += GetArtSummary(first_song, result.type);
       }

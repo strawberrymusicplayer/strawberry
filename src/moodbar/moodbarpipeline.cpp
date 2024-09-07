@@ -39,6 +39,7 @@
 
 #include "ext/gstmoodbar/gstfastspectrum.h"
 
+using namespace Qt::StringLiterals;
 using std::make_unique;
 
 namespace {
@@ -73,7 +74,7 @@ GstElement *MoodbarPipeline::CreateElement(const QString &factory_name) {
 QByteArray MoodbarPipeline::ToGstUrl(const QUrl &url) {
 
   if (url.isLocalFile() && !url.host().isEmpty()) {
-    QString str = QLatin1String("file:////") + url.host() + url.path();
+    QString str = "file:////"_L1 + url.host() + url.path();
     return str.toUtf8();
   }
 

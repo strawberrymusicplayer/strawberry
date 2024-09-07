@@ -34,6 +34,8 @@
 #include <QWindow>
 #include <qmath.h>
 
+using namespace Qt::StringLiterals;
+
 // Clamps float color values within (0, 255)
 static int clamp(float x) {
   const int val = x > 255 ? 255 : static_cast<int>(x);
@@ -461,7 +463,7 @@ QString StyleHelper::dpiSpecificImageFile(const QString &fileName) {
 QString StyleHelper::imageFileWithResolution(const QString &fileName, int dpr) {
 
   const QFileInfo fi(fileName);
-  return dpr == 1 ? fileName : fi.path() + QLatin1Char('/') + fi.completeBaseName() + QLatin1Char('@') + QString::number(dpr) + QLatin1String("x.") + fi.suffix();
+  return dpr == 1 ? fileName : fi.path() + QLatin1Char('/') + fi.completeBaseName() + QLatin1Char('@') + QString::number(dpr) + "x."_L1 + fi.suffix();
 
 }
 

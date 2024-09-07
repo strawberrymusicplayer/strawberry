@@ -67,6 +67,8 @@
 #include "gstenginepipeline.h"
 #include "gstbufferconsumer.h"
 
+using namespace Qt::StringLiterals;
+
 namespace {
 
 constexpr int GST_PLAY_FLAG_VIDEO = 0x00000001;
@@ -296,7 +298,7 @@ QString GstEnginePipeline::GstStateText(const GstState state) {
 
 GstElement *GstEnginePipeline::CreateElement(const QString &factory_name, const QString &name, GstElement *bin, QString &error) const {
 
-  QString unique_name = QLatin1String("pipeline") + QLatin1Char('-') + QString::number(id()) + QLatin1Char('-') + (name.isEmpty() ? factory_name : name);
+  QString unique_name = "pipeline"_L1 + u'-' + QString::number(id()) + u'-' + (name.isEmpty() ? factory_name : name);
 
   GstElement *element = gst_element_factory_make(factory_name.toUtf8().constData(), unique_name.toUtf8().constData());
   if (!element) {
@@ -491,7 +493,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
           if (!device.isEmpty()) {
             qLog(Debug) << "Setting device" << device << "for" << output_;
             g_object_set(G_OBJECT(audiosink_), "device", device.toUtf8().constData(), nullptr);
-            if (output_ == QLatin1String(GstEngine::kALSASink) && (device.startsWith(QLatin1String("hw:")) || device.startsWith(QLatin1String("plughw:")))) {
+            if (output_ == QLatin1String(GstEngine::kALSASink) && (device.startsWith("hw:"_L1) || device.startsWith("plughw:"_L1))) {
               exclusive_mode_ = true;
             }
           }
@@ -783,7 +785,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
   // Link replaygain elements if enabled.
   if (rg_enabled_ && rgvolume && rglimiter && rgconverter) {
     if (!gst_element_link_many(element_link, rgvolume, rglimiter, rgconverter, nullptr)) {
-      error = QLatin1String("Failed to link replaygain volume, limiter and converter elements.");
+      error = "Failed to link replaygain volume, limiter and converter elements."_L1;
       return false;
     }
     element_link = rgconverter;
@@ -796,7 +798,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
       "format = (string) { F32LE, F64LE }");
     GstCaps *raw_fp_audio_caps = gst_static_caps_get(&static_raw_fp_audio_caps);
     if (!gst_element_link_filtered(element_link, volume_ebur128_, raw_fp_audio_caps)) {
-      error = QLatin1String("Failed to link EBU R 128 volume element.");
+      error = "Failed to link EBU R 128 volume element."_L1;
       return false;
     }
     gst_caps_unref(raw_fp_audio_caps);
@@ -806,7 +808,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
   // Link equalizer elements if enabled.
   if (eq_enabled_ && equalizer_ && equalizer_preamp_) {
     if (!gst_element_link_many(element_link, equalizer_preamp_, equalizer_, nullptr)) {
-      error = QLatin1String("Failed to link equalizer and equalizer preamp elements.");
+      error = "Failed to link equalizer and equalizer preamp elements."_L1;
       return false;
     }
     element_link = equalizer_;
@@ -815,7 +817,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
   // Link stereo balancer elements if enabled.
   if (stereo_balancer_enabled_ && audiopanorama_) {
     if (!gst_element_link(element_link, audiopanorama_)) {
-      error = QLatin1String("Failed to link audio panorama (stereo balancer).");
+      error = "Failed to link audio panorama (stereo balancer)."_L1;
       return false;
     }
     element_link = audiopanorama_;
@@ -824,7 +826,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
   // Link software volume element if enabled.
   if (volume_enabled_ && volume_sw_) {
     if (!gst_element_link(element_link, volume_sw_)) {
-      error = QLatin1String("Failed to link software volume.");
+      error = "Failed to link software volume."_L1;
       return false;
     }
     element_link = volume_sw_;
@@ -833,7 +835,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
   // Link fading volume element if enabled.
   if (fading_enabled_ && volume_fading_) {
     if (!gst_element_link(element_link, volume_fading_)) {
-      error = QLatin1String("Failed to link fading volume.");
+      error = "Failed to link fading volume."_L1;
       return false;
     }
     element_link = volume_fading_;
@@ -843,21 +845,21 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
   if (bs2b_enabled_ && bs2b) {
     qLog(Debug) << "Enabling bs2b";
     if (!gst_element_link(element_link, bs2b)) {
-      error = QLatin1String("Failed to link bs2b.");
+      error = "Failed to link bs2b."_L1;
       return false;
     }
     element_link = bs2b;
   }
 
   if (!gst_element_link(element_link, audiosinkconverter)) {
-    error = QLatin1String("Failed to link audio sink converter.");
+    error = "Failed to link audio sink converter."_L1;
     return false;
   }
 
   {
     GstCaps *caps = gst_caps_new_empty_simple("audio/x-raw");
     if (!caps) {
-      error = QLatin1String("Failed to create caps for raw audio.");
+      error = "Failed to create caps for raw audio."_L1;
       return false;
     }
     if (channels_enabled_ && channels_ > 0) {
@@ -867,7 +869,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
     const bool link_filtered_result = gst_element_link_filtered(audiosinkconverter, audiosink_, caps);
     gst_caps_unref(caps);
     if (!link_filtered_result) {
-      error = QLatin1String("Failed to link audio sink converter to audio sink with filter for ") + output_;
+      error = "Failed to link audio sink converter to audio sink with filter for "_L1 + output_;
       return false;
     }
   }
@@ -960,7 +962,7 @@ void GstEnginePipeline::ElementAddedCallback(GstBin *bin, GstBin *sub_bin, GstEl
   const QString element_name = QString::fromUtf8(element_name_char);
   g_free(element_name_char);
 
-  if (bin != GST_BIN(instance->audiobin_) || element_name == QLatin1String("fake-audio-sink") || GST_ELEMENT(gst_element_get_parent(element)) != instance->audiosink_) return;
+  if (bin != GST_BIN(instance->audiobin_) || element_name == "fake-audio-sink"_L1 || GST_ELEMENT(gst_element_get_parent(element)) != instance->audiosink_) return;
 
   GstElement *volume = nullptr;
   if (GST_IS_STREAM_VOLUME(element)) {
@@ -1186,10 +1188,10 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
   quint64 duration = GST_BUFFER_DURATION(buf);
   qint64 end_time = static_cast<qint64>(start_time + duration);
 
-  if (format.startsWith(QLatin1String("S16LE"))) {
+  if (format.startsWith("S16LE"_L1)) {
     instance->logged_unsupported_analyzer_format_ = false;
   }
-  else if (format.startsWith(QLatin1String("S32LE"))) {
+  else if (format.startsWith("S32LE"_L1)) {
 
     GstMapInfo map_info;
     gst_buffer_map(buf, &map_info, GST_MAP_READ);
@@ -1210,7 +1212,7 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
     instance->logged_unsupported_analyzer_format_ = false;
   }
 
-  else if (format.startsWith(QLatin1String("F32LE"))) {
+  else if (format.startsWith("F32LE"_L1)) {
 
     GstMapInfo map_info;
     gst_buffer_map(buf, &map_info, GST_MAP_READ);
@@ -1231,7 +1233,7 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
 
     instance->logged_unsupported_analyzer_format_ = false;
   }
-  else if (format.startsWith(QLatin1String("S24LE"))) {
+  else if (format.startsWith("S24LE"_L1)) {
 
     GstMapInfo map_info;
     gst_buffer_map(buf, &map_info, GST_MAP_READ);
@@ -1254,7 +1256,7 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
 
     instance->logged_unsupported_analyzer_format_ = false;
   }
-  else if (format.startsWith(QLatin1String("S24_32LE"))) {
+  else if (format.startsWith("S24_32LE"_L1)) {
 
     GstMapInfo map_info;
     gst_buffer_map(buf, &map_info, GST_MAP_READ);
@@ -1526,7 +1528,7 @@ void GstEnginePipeline::ErrorMessageReceived(GstMessage *msg) {
 
   {
     QMutexLocker l(&mutex_redirect_url_);
-    if (!redirect_url_.isEmpty() && debugstr.contains(QLatin1String("A redirect message was posted on the bus and should have been handled by the application."))) {
+    if (!redirect_url_.isEmpty() && debugstr.contains("A redirect message was posted on the bus and should have been handled by the application."_L1)) {
       // mmssrc posts a message on the bus *and* makes an error message when it wants to do a redirect.
       // We handle the message, but now we have to ignore the error too.
       return;
@@ -1567,11 +1569,11 @@ void GstEnginePipeline::TagMessageReceived(GstMessage *msg) {
 
   if (!engine_metadata.title.isEmpty() && engine_metadata.artist.isEmpty() && engine_metadata.album.isEmpty()) {
     QStringList title_splitted;
-    if (engine_metadata.title.contains(QLatin1String(" - "))) {
+    if (engine_metadata.title.contains(" - "_L1)) {
       title_splitted = engine_metadata.title.split(QStringLiteral(" - "));
     }
-    else if (engine_metadata.title.contains(QLatin1Char('~'))) {
-      title_splitted = engine_metadata.title.split(QLatin1Char('~'));
+    else if (engine_metadata.title.contains(u'~')) {
+      title_splitted = engine_metadata.title.split(u'~');
     }
     if (!title_splitted.isEmpty() && title_splitted.count() >= 2) {
       int i = 0;

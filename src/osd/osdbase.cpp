@@ -43,6 +43,8 @@
 #include "utilities/strutils.h"
 #include "covermanager/currentalbumcoverloader.h"
 
+using namespace Qt::StringLiterals;
+
 const char *OSDBase::kSettingsGroup = "OSD";
 
 OSDBase::OSDBase(SharedPtr<SystemTrayIcon> tray_icon, Application *app, QObject *parent)
@@ -169,7 +171,7 @@ void OSDBase::ShowPlaying(const Song &song, const QUrl &cover_url, const QImage 
 #endif
   }
 
-  QString message = message_parts.join(QLatin1String(", "));
+  QString message = message_parts.join(", "_L1);
   if (html_escaped) message = message.toHtmlEscaped();
 
   if (show_art_) {
@@ -201,7 +203,7 @@ void OSDBase::Paused() {
     else {
       summary = last_song_.PrettyTitle();
       if (!last_song_.artist().isEmpty()) {
-        summary.prepend(QLatin1String(" - "));
+        summary.prepend(" - "_L1);
         summary.prepend(last_song_.artist());
       }
       if (behaviour_ == Behaviour::Pretty) {
@@ -246,7 +248,7 @@ void OSDBase::Stopped() {
   else {
     summary = last_song_.PrettyTitle();
     if (!last_song_.artist().isEmpty()) {
-      summary.prepend(QLatin1String(" - "));
+      summary.prepend(" - "_L1);
       summary.prepend(last_song_.artist());
     }
     if (behaviour_ == Behaviour::Pretty) {
@@ -379,7 +381,7 @@ QString OSDBase::ReplaceMessage(const MessageType type, const QString &message, 
 #endif
 
   bool html_escaped = false;
-  QString newline = QLatin1String("");
+  QString newline = ""_L1;
 
   // We need different strings depending on notification type
   switch (behaviour_) {
@@ -392,12 +394,12 @@ QString OSDBase::ReplaceMessage(const MessageType type, const QString &message, 
       switch (type) {
         case MessageType::Summary:{
           html_escaped = false;
-          newline = QLatin1String("");
+          newline = ""_L1;
           break;
         }
         case MessageType::Message:{
           html_escaped = true;
-          newline = QLatin1String("<br />");
+          newline = "<br />"_L1;
           break;
         }
       }
@@ -412,12 +414,12 @@ QString OSDBase::ReplaceMessage(const MessageType type, const QString &message, 
     case Behaviour::TrayPopup:
       qLog(Debug) << "New line not supported by this notification type.";
       html_escaped = false;
-      newline = QLatin1String("");
+      newline = ""_L1;
       break;
     case Behaviour::Disabled:  // When notifications are disabled, we force the PrettyOSD
     case Behaviour::Pretty:
       html_escaped = true;
-      newline = QLatin1String("<br />");
+      newline = "<br />"_L1;
       break;
   }
 

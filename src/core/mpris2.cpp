@@ -64,6 +64,8 @@
 #include "mpris2_root.h"
 #include "mpris2_tracklist.h"
 
+using namespace Qt::StringLiterals;
+
 QDBusArgument &operator<<(QDBusArgument &arg, const MprisPlaylist &playlist) {
   arg.beginStructure();
   arg << playlist.id << playlist.name << playlist.icon;
@@ -132,13 +134,13 @@ Mpris2::Mpris2(Application *app, QObject *parent)
 
   app_name_[0] = app_name_[0].toUpper();
 
-  QStringList data_dirs = QString::fromUtf8(qgetenv("XDG_DATA_DIRS")).split(QLatin1Char(':'));
+  QStringList data_dirs = QString::fromUtf8(qgetenv("XDG_DATA_DIRS")).split(u':');
 
-  if (!data_dirs.contains(QLatin1String("/usr/local/share"))) {
+  if (!data_dirs.contains("/usr/local/share"_L1)) {
     data_dirs.append(QStringLiteral("/usr/local/share"));
   }
 
-  if (!data_dirs.contains(QLatin1String("/usr/share"))) {
+  if (!data_dirs.contains("/usr/share"_L1)) {
     data_dirs.append(QStringLiteral("/usr/share"));
   }
 
@@ -208,18 +210,18 @@ void Mpris2::EmitNotification(const QString &name, const QVariant &value, const 
 void Mpris2::EmitNotification(const QString &name) {
 
   QVariant value;
-  if (name == QLatin1String("PlaybackStatus")) value = PlaybackStatus();
-  else if (name == QLatin1String("LoopStatus")) value = LoopStatus();
-  else if (name == QLatin1String("Shuffle")) value = Shuffle();
-  else if (name == QLatin1String("Metadata")) value = Metadata();
-  else if (name == QLatin1String("Rating")) value = Rating();
-  else if (name == QLatin1String("Volume")) value = Volume();
-  else if (name == QLatin1String("Position")) value = Position();
-  else if (name == QLatin1String("CanPlay")) value = CanPlay();
-  else if (name == QLatin1String("CanPause")) value = CanPause();
-  else if (name == QLatin1String("CanSeek")) value = CanSeek();
-  else if (name == QLatin1String("CanGoNext")) value = CanGoNext();
-  else if (name == QLatin1String("CanGoPrevious")) value = CanGoPrevious();
+  if (name == "PlaybackStatus"_L1) value = PlaybackStatus();
+  else if (name == "LoopStatus"_L1) value = LoopStatus();
+  else if (name == "Shuffle"_L1) value = Shuffle();
+  else if (name == "Metadata"_L1) value = Metadata();
+  else if (name == "Rating"_L1) value = Rating();
+  else if (name == "Volume"_L1) value = Volume();
+  else if (name == "Position"_L1) value = Position();
+  else if (name == "CanPlay"_L1) value = CanPlay();
+  else if (name == "CanPause"_L1) value = CanPause();
+  else if (name == "CanSeek"_L1) value = CanSeek();
+  else if (name == "CanGoNext"_L1) value = CanGoNext();
+  else if (name == "CanGoPrevious"_L1) value = CanGoPrevious();
 
   if (value.isValid()) EmitNotification(name, value);
 
@@ -326,13 +328,13 @@ void Mpris2::SetLoopStatus(const QString &value) {
 
   PlaylistSequence::RepeatMode mode = PlaylistSequence::RepeatMode::Off;
 
-  if (value == QLatin1String("None")) {
+  if (value == "None"_L1) {
     mode = PlaylistSequence::RepeatMode::Off;
   }
-  else if (value == QLatin1String("Track")) {
+  else if (value == "Track"_L1) {
     mode = PlaylistSequence::RepeatMode::Track;
   }
-  else if (value == QLatin1String("Playlist")) {
+  else if (value == "Playlist"_L1) {
     mode = PlaylistSequence::RepeatMode::Playlist;
   }
 
@@ -461,7 +463,7 @@ bool Mpris2::CanPlay() const {
 
 // This one's a bit different than MPRIS 1 - we want this to be true even when the song is already paused or stopped.
 bool Mpris2::CanPause() const {
-  return (app_->player()->GetCurrentItem() && app_->player()->GetState() == EngineBase::State::Playing && !(app_->player()->GetCurrentItem()->options() & PlaylistItem::Option::PauseDisabled)) || PlaybackStatus() == QLatin1String("Paused") || PlaybackStatus() == QLatin1String("Stopped");
+  return (app_->player()->GetCurrentItem() && app_->player()->GetState() == EngineBase::State::Playing && !(app_->player()->GetCurrentItem()->options() & PlaylistItem::Option::PauseDisabled)) || PlaybackStatus() == "Paused"_L1 || PlaybackStatus() == "Stopped"_L1;
 }
 
 bool Mpris2::CanSeek() const { return CanSeek(app_->player()->GetState()); }
@@ -595,7 +597,7 @@ MaybePlaylist Mpris2::ActivePlaylist() const {
 
 void Mpris2::ActivatePlaylist(const QDBusObjectPath &playlist_id) {
 
-  QStringList split_path = playlist_id.path().split(QLatin1Char('/'));
+  QStringList split_path = playlist_id.path().split(u'/');
   qLog(Debug) << Q_FUNC_INFO << playlist_id.path() << split_path;
   if (split_path.isEmpty()) {
     return;
@@ -649,7 +651,7 @@ void Mpris2::PlaylistChangedSlot(Playlist *playlist) {
 
 void Mpris2::PlaylistCollectionChanged(Playlist *playlist) {
   Q_UNUSED(playlist);
-  EmitNotification(QStringLiteral("PlaylistCount"), QLatin1String(""), QStringLiteral("org.mpris.MediaPlayer2.Playlists"));
+  EmitNotification(QStringLiteral("PlaylistCount"), ""_L1, QStringLiteral("org.mpris.MediaPlayer2.Playlists"));
 }
 
 }  // namespace mpris

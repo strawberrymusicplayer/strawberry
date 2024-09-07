@@ -37,6 +37,8 @@
 
 #include "enginebase.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 struct libvlc_event_t;
 
 class TaskManager;
@@ -67,7 +69,7 @@ class VLCEngine : public EngineBase {
 
   OutputDetailsList GetOutputsList() const override;
   bool ValidOutput(const QString &output) override;
-  QString DefaultOutput() const override { return QLatin1String(""); }
+  QString DefaultOutput() const override { return ""_L1; }
   bool CustomDeviceSupport(const QString &output) const override;
   bool ALSADeviceSupport(const QString &output) const override;
   bool ExclusiveModeSupport(const QString &output) const override;

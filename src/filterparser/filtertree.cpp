@@ -23,31 +23,33 @@
 
 #include "filtertree.h"
 
+using namespace Qt::StringLiterals;
+
 FilterTree::FilterTree() = default;
 FilterTree::~FilterTree() = default;
 
 QVariant FilterTree::DataFromColumn(const QString &column, const Song &metadata) {
 
-  if (column == QLatin1String("albumartist")) return metadata.effective_albumartist();
-  if (column == QLatin1String("artist"))      return metadata.artist();
-  if (column == QLatin1String("album"))       return metadata.album();
-  if (column == QLatin1String("title"))       return metadata.PrettyTitle();
-  if (column == QLatin1String("composer"))    return metadata.composer();
-  if (column == QLatin1String("performer"))   return metadata.performer();
-  if (column == QLatin1String("grouping"))    return metadata.grouping();
-  if (column == QLatin1String("genre"))       return metadata.genre();
-  if (column == QLatin1String("comment"))     return metadata.comment();
-  if (column == QLatin1String("track"))       return metadata.track();
-  if (column == QLatin1String("year"))        return metadata.year();
-  if (column == QLatin1String("length"))      return metadata.length_nanosec();
-  if (column == QLatin1String("samplerate"))  return metadata.samplerate();
-  if (column == QLatin1String("bitdepth"))    return metadata.bitdepth();
-  if (column == QLatin1String("bitrate"))     return metadata.bitrate();
-  if (column == QLatin1String("rating"))      return metadata.rating();
-  if (column == QLatin1String("playcount"))   return metadata.playcount();
-  if (column == QLatin1String("skipcount"))   return metadata.skipcount();
-  if (column == QLatin1String("filename"))    return metadata.basefilename();
-  if (column == QLatin1String("url"))         return metadata.effective_stream_url().toString();
+  if (column == "albumartist"_L1) return metadata.effective_albumartist();
+  if (column == "artist"_L1)      return metadata.artist();
+  if (column == "album"_L1)       return metadata.album();
+  if (column == "title"_L1)       return metadata.PrettyTitle();
+  if (column == "composer"_L1)    return metadata.composer();
+  if (column == "performer"_L1)   return metadata.performer();
+  if (column == "grouping"_L1)    return metadata.grouping();
+  if (column == "genre"_L1)       return metadata.genre();
+  if (column == "comment"_L1)     return metadata.comment();
+  if (column == "track"_L1)       return metadata.track();
+  if (column == "year"_L1)        return metadata.year();
+  if (column == "length"_L1)      return metadata.length_nanosec();
+  if (column == "samplerate"_L1)  return metadata.samplerate();
+  if (column == "bitdepth"_L1)    return metadata.bitdepth();
+  if (column == "bitrate"_L1)     return metadata.bitrate();
+  if (column == "rating"_L1)      return metadata.rating();
+  if (column == "playcount"_L1)   return metadata.playcount();
+  if (column == "skipcount"_L1)   return metadata.skipcount();
+  if (column == "filename"_L1)    return metadata.basefilename();
+  if (column == "url"_L1)         return metadata.effective_stream_url().toString();
 
   return QVariant();
 

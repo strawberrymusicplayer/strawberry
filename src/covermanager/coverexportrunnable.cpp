@@ -34,6 +34,8 @@
 #include "albumcoverexport.h"
 #include "coverexportrunnable.h"
 
+using namespace Qt::StringLiterals;
+
 CoverExportRunnable::CoverExportRunnable(const AlbumCoverExport::DialogResult &dialog_result, const AlbumCoverLoaderOptions::Types &cover_types, const Song &song, QObject *parent)
     : QObject(parent),
       dialog_result_(dialog_result),
@@ -78,7 +80,7 @@ void CoverExportRunnable::ProcessAndExportCover() {
         if (song_.art_embedded() && dialog_result_.export_embedded_) {
           const TagReaderClient::Result result = TagReaderClient::Instance()->LoadEmbeddedArtAsImageBlocking(song_.url().toLocalFile(), image);
           if (result.success() && !image.isNull()) {
-            extension = QLatin1String("jpg");
+            extension = "jpg"_L1;
           }
         }
         break;
@@ -86,7 +88,7 @@ void CoverExportRunnable::ProcessAndExportCover() {
         if (dialog_result_.export_downloaded_ && song_.art_manual_is_valid()) {
           const QString cover_path = song_.art_manual().toLocalFile();
           if (image.load(cover_path)) {
-            extension = cover_path.section(QLatin1Char('.'), -1);
+            extension = cover_path.section(u'.', -1);
           }
         }
         break;
@@ -94,7 +96,7 @@ void CoverExportRunnable::ProcessAndExportCover() {
         if (dialog_result_.export_downloaded_ && song_.art_automatic_is_valid()) {
           const QString cover_path = song_.art_automatic().toLocalFile();
           if (image.load(cover_path)) {
-            extension = cover_path.section(QLatin1Char('.'), -1);
+            extension = cover_path.section(u'.', -1);
           }
         }
         break;
@@ -112,8 +114,8 @@ void CoverExportRunnable::ProcessAndExportCover() {
     image = image.scaled(QSize(dialog_result_.width_, dialog_result_.height_), Qt::IgnoreAspectRatio);
   }
 
-  QString cover_dir = song_.url().toLocalFile().section(QLatin1Char('/'), 0, -2);
-  QString new_file = cover_dir + QLatin1Char('/') + dialog_result_.filename_ + QLatin1Char('.') + (song_.art_embedded() ? QLatin1String("jpg") : extension);
+  QString cover_dir = song_.url().toLocalFile().section(u'/', 0, -2);
+  QString new_file = cover_dir + QLatin1Char('/') + dialog_result_.filename_ + QLatin1Char('.') + (song_.art_embedded() ? "jpg"_L1 : extension);
 
   // If the file exists, do not override!
   if (dialog_result_.overwrite_ == AlbumCoverExport::OverwriteMode::None && QFile::exists(new_file)) {
@@ -171,7 +173,7 @@ void CoverExportRunnable::ExportCover() {
           const TagReaderClient::Result result = TagReaderClient::Instance()->LoadEmbeddedArtAsImageBlocking(song_.url().toLocalFile(), image);
           if (result.success() && !image.isNull()) {
             embedded_cover = true;
-            extension = QLatin1String("jpg");
+            extension = "jpg"_L1;
           }
         }
         break;
@@ -179,7 +181,7 @@ void CoverExportRunnable::ExportCover() {
         if (dialog_result_.export_downloaded_ && song_.art_manual_is_valid()) {
           cover_path = song_.art_manual().toLocalFile();
           if (image.load(cover_path)) {
-            extension = cover_path.section(QLatin1Char('.'), -1);
+            extension = cover_path.section(u'.', -1);
           }
         }
         break;
@@ -187,7 +189,7 @@ void CoverExportRunnable::ExportCover() {
         if (dialog_result_.export_downloaded_ && song_.art_automatic_is_valid()) {
           cover_path = song_.art_automatic().toLocalFile();
           if (image.load(cover_path)) {
-            extension = cover_path.section(QLatin1Char('.'), -1);
+            extension = cover_path.section(u'.', -1);
           }
         }
         break;
@@ -200,7 +202,7 @@ void CoverExportRunnable::ExportCover() {
     return;
   }
 
-  QString cover_dir = song_.url().toLocalFile().section(QLatin1Char('/'), 0, -2);
+  QString cover_dir = song_.url().toLocalFile().section(u'/', 0, -2);
   QString new_file = cover_dir + QLatin1Char('/') + dialog_result_.filename_ + QLatin1Char('.') + extension;
 
   // If the file exists, do not override!

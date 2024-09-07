@@ -32,6 +32,8 @@
 #include "core/settings.h"
 #include "networkproxyfactory.h"
 
+using namespace Qt::StringLiterals;
+
 NetworkProxyFactory *NetworkProxyFactory::sInstance = nullptr;
 const char *NetworkProxyFactory::kSettingsGroup = "NetworkProxy";
 
@@ -112,7 +114,7 @@ QList<QNetworkProxy> NetworkProxyFactory::queryProxy(const QNetworkProxyQuery &q
         ret.setPort(env_url_.port());
         ret.setUser(env_url_.userName());
         ret.setPassword(env_url_.password());
-        if (env_url_.scheme().startsWith(QLatin1String("http"))) {
+        if (env_url_.scheme().startsWith("http"_L1)) {
           ret.setType(QNetworkProxy::HttpProxy);
         }
         else {

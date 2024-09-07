@@ -60,6 +60,7 @@
 #include "settings/settingsdialog.h"
 #include "settings/qobuzsettingspage.h"
 
+using namespace Qt::StringLiterals;
 using std::make_shared;
 
 const Song::Source QobuzService::kSource = Song::Source::Qobuz;
@@ -330,9 +331,9 @@ void QobuzService::HandleAuthReply(QNetworkReply *reply) {
       QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
       if (json_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
-        if (!json_obj.isEmpty() && json_obj.contains(QLatin1String("status")) && json_obj.contains(QLatin1String("code")) && json_obj.contains(QLatin1String("message"))) {
-          int code = json_obj[QLatin1String("code")].toInt();
-          QString message = json_obj[QLatin1String("message")].toString();
+        if (!json_obj.isEmpty() && json_obj.contains("status"_L1) && json_obj.contains("code"_L1) && json_obj.contains("message"_L1)) {
+          int code = json_obj["code"_L1].toInt();
+          QString message = json_obj["message"_L1].toString();
           login_errors_ << QStringLiteral("%1 (%2)").arg(message).arg(code);
         }
       }
@@ -376,62 +377,62 @@ void QobuzService::HandleAuthReply(QNetworkReply *reply) {
     return;
   }
 
-  if (!json_obj.contains(QLatin1String("user_auth_token"))) {
+  if (!json_obj.contains("user_auth_token"_L1)) {
     LoginError(QStringLiteral("Authentication reply from server is missing user_auth_token"), json_obj);
     return;
   }
-  user_auth_token_ = json_obj[QLatin1String("user_auth_token")].toString();
+  user_auth_token_ = json_obj["user_auth_token"_L1].toString();
 
-  if (!json_obj.contains(QLatin1String("user"))) {
+  if (!json_obj.contains("user"_L1)) {
     LoginError(QStringLiteral("Authentication reply from server is missing user"), json_obj);
     return;
   }
-  QJsonValue value_user = json_obj[QLatin1String("user")];
+  QJsonValue value_user = json_obj["user"_L1];
   if (!value_user.isObject()) {
     LoginError(QStringLiteral("Authentication reply user is not a object"), json_obj);
     return;
   }
   QJsonObject obj_user = value_user.toObject();
 
-  if (!obj_user.contains(QLatin1String("id"))) {
+  if (!obj_user.contains("id"_L1)) {
     LoginError(QStringLiteral("Authentication reply from server is missing user id"), obj_user);
     return;
   }
-  user_id_ = obj_user[QLatin1String("id")].toInt();
+  user_id_ = obj_user["id"_L1].toInt();
 
-  if (!obj_user.contains(QLatin1String("device"))) {
+  if (!obj_user.contains("device"_L1)) {
     LoginError(QStringLiteral("Authentication reply from server is missing user device"), obj_user);
     return;
   }
-  QJsonValue value_device = obj_user[QLatin1String("device")];
+  QJsonValue value_device = obj_user["device"_L1];
   if (!value_device.isObject()) {
     LoginError(QStringLiteral("Authentication reply from server user device is not a object"), value_device);
     return;
   }
   QJsonObject obj_device = value_device.toObject();
 
-  if (!obj_device.contains(QLatin1String("device_manufacturer_id"))) {
+  if (!obj_device.contains("device_manufacturer_id"_L1)) {
     LoginError(QStringLiteral("Authentication reply from server device is missing device_manufacturer_id"), obj_device);
     return;
   }
-  device_id_ = obj_device[QLatin1String("device_manufacturer_id")].toString();
+  device_id_ = obj_device["device_manufacturer_id"_L1].toString();
 
-  if (!obj_user.contains(QLatin1String("credential"))) {
+  if (!obj_user.contains("credential"_L1)) {
     LoginError(QStringLiteral("Authentication reply from server is missing user credential"), obj_user);
     return;
   }
-  QJsonValue value_credential = obj_user[QLatin1String("credential")];
+  QJsonValue value_credential = obj_user["credential"_L1];
   if (!value_credential.isObject()) {
     LoginError(QStringLiteral("Authentication reply from serve userr credential is not a object"), value_device);
     return;
   }
   QJsonObject obj_credential = value_credential.toObject();
 
-  if (!obj_credential.contains(QLatin1String("id"))) {
+  if (!obj_credential.contains("id"_L1)) {
     LoginError(QStringLiteral("Authentication reply user credential from server is missing user credential id"), obj_credential);
     return;
   }
-  credential_id_ = obj_credential[QLatin1String("id")].toInt();
+  credential_id_ = obj_credential["id"_L1].toInt();
 
   Settings s;
   s.beginGroup(QobuzSettingsPage::kSettingsGroup);

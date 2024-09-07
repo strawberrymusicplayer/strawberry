@@ -43,6 +43,8 @@
 #include "qobuzbaserequest.h"
 #include "qobuzstreamurlrequest.h"
 
+using namespace Qt::StringLiterals;
+
 QobuzStreamURLRequest::QobuzStreamURLRequest(QobuzService *service, SharedPtr<NetworkAccessManager> network, const QUrl &media_url, const uint id, QObject *parent)
     : QobuzBaseRequest(service, network, parent),
       service_(service),
@@ -122,7 +124,7 @@ void QobuzStreamURLRequest::GetStreamURL() {
   std::sort(params_to_sign.begin(), params_to_sign.end());
 
   QString data_to_sign;
-  data_to_sign += QLatin1String("trackgetFileUrl");
+  data_to_sign += "trackgetFileUrl"_L1;
   for (const Param &param : std::as_const(params_to_sign)) {
     data_to_sign += param.first + param.second;
   }
@@ -130,7 +132,7 @@ void QobuzStreamURLRequest::GetStreamURL() {
   data_to_sign += app_secret();
 
   QByteArray const digest = QCryptographicHash::hash(data_to_sign.toUtf8(), QCryptographicHash::Md5);
-  const QString signature = QString::fromLatin1(digest.toHex()).rightJustified(32, QLatin1Char('0')).toLower();
+  const QString signature = QString::fromLatin1(digest.toHex()).rightJustified(32, u'0').toLower();
 
   ParamList params = params_to_sign;
     params << Param(QStringLiteral("request_ts"), QString::number(timestamp));
@@ -169,27 +171,27 @@ void QobuzStreamURLRequest::StreamURLReceived() {
     return;
   }
 
-  if (!json_obj.contains(QLatin1String("track_id"))) {
+  if (!json_obj.contains("track_id"_L1)) {
     Error(QStringLiteral("Invalid Json reply, stream url is missing track_id."), json_obj);
     Q_EMIT StreamURLFailure(id_, media_url_, errors_.constFirst());
     return;
   }
 
-  int track_id = json_obj[QLatin1String("track_id")].toInt();
+  int track_id = json_obj["track_id"_L1].toInt();
   if (track_id != song_id_) {
     Error(QStringLiteral("Incorrect track ID returned."), json_obj);
     Q_EMIT StreamURLFailure(id_, media_url_, errors_.constFirst());
     return;
   }
 
-  if (!json_obj.contains(QLatin1String("mime_type")) || !json_obj.contains(QLatin1String("url"))) {
+  if (!json_obj.contains("mime_type"_L1) || !json_obj.contains("url"_L1)) {
     Error(QStringLiteral("Invalid Json reply, stream url is missing url or mime_type."), json_obj);
     Q_EMIT StreamURLFailure(id_, media_url_, errors_.constFirst());
     return;
   }
 
-  QUrl url(json_obj[QLatin1String("url")].toString());
-  QString mimetype = json_obj[QLatin1String("mime_type")].toString();
+  QUrl url(json_obj["url"_L1].toString());
+  QString mimetype = json_obj["mime_type"_L1].toString();
 
   Song::FileType filetype(Song::FileType::Unknown);
   QMimeDatabase mimedb;
@@ -210,16 +212,16 @@ void QobuzStreamURLRequest::StreamURLReceived() {
   }
 
   qint64 duration = -1;
-  if (json_obj.contains(QLatin1String("duration"))) {
-    duration = json_obj[QLatin1String("duration")].toInt() * kNsecPerSec;
+  if (json_obj.contains("duration"_L1)) {
+    duration = json_obj["duration"_L1].toInt() * kNsecPerSec;
   }
   int samplerate = -1;
-  if (json_obj.contains(QLatin1String("sampling_rate"))) {
-    samplerate = static_cast<int>(json_obj[QLatin1String("sampling_rate")].toDouble()) * 1000;
+  if (json_obj.contains("sampling_rate"_L1)) {
+    samplerate = static_cast<int>(json_obj["sampling_rate"_L1].toDouble()) * 1000;
   }
   int bit_depth = -1;
-  if (json_obj.contains(QLatin1String("bit_depth"))) {
-    bit_depth = static_cast<int>(json_obj[QLatin1String("bit_depth")].toDouble());
+  if (json_obj.contains("bit_depth"_L1)) {
+    bit_depth = static_cast<int>(json_obj["bit_depth"_L1].toDouble());
   }
 
   Q_EMIT StreamURLSuccess(id_, media_url_, url, filetype, samplerate, bit_depth, duration);

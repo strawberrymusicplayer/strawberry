@@ -53,6 +53,7 @@
 #include "playlistparsers/cueparser.h"
 #include "smartplaylists/playlistgenerator.h"
 
+using namespace Qt::StringLiterals;
 using std::make_shared;
 
 namespace {
@@ -121,7 +122,7 @@ PlaylistBackend::PlaylistList PlaylistBackend::GetPlaylists(const GetPlaylistsFl
   }
   QString condition;
   if (!condition_list.isEmpty()) {
-    condition = QLatin1String(" WHERE ") + condition_list.join(QLatin1String(" OR "));
+    condition = " WHERE "_L1 + condition_list.join(" OR "_L1);
   }
 
   SqlQuery q(db);
@@ -302,7 +303,7 @@ PlaylistItemPtr PlaylistBackend::RestoreCueData(PlaylistItemPtr item, SharedPtr<
       QFile cue_file(cue_path);
       if (!cue_file.open(QIODevice::ReadOnly)) return item;
 
-      song_list = cue_parser.Load(&cue_file, cue_path, QDir(cue_path.section(QLatin1Char('/'), 0, -2)));
+      song_list = cue_parser.Load(&cue_file, cue_path, QDir(cue_path.section(u'/', 0, -2)));
       cue_file.close();
       state->cached_cues_[cue_path] = song_list;
     }

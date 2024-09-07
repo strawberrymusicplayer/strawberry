@@ -49,6 +49,8 @@
 
 #include "acoustidclient.h"
 
+using namespace Qt::StringLiterals;
+
 namespace {
 constexpr char kClientId[] = "0qjUoxbowg";
 constexpr char kUrl[] = "https://api.acoustid.org/v2/lookup";
@@ -151,8 +153,8 @@ void AcoustidClient::RequestFinished(QNetworkReply *reply, const int request_id)
 
   QJsonObject json_object = json_document.object();
 
-  QString status = json_object[QLatin1String("status")].toString();
-  if (status != QLatin1String("ok")) {
+  QString status = json_object["status"_L1].toString();
+  if (status != "ok"_L1) {
     Q_EMIT Finished(request_id, QStringList(), status);
     return;
   }
@@ -162,19 +164,19 @@ void AcoustidClient::RequestFinished(QNetworkReply *reply, const int request_id)
   // -then sort results by number of sources (the results are originally
   //  unsorted but results with more sources are likely to be more accurate)
   // -keep only the ids, as sources where useful only to sort the results
-  const QJsonArray json_results = json_object[QLatin1String("results")].toArray();
+  const QJsonArray json_results = json_object["results"_L1].toArray();
 
   // List of <id, nb of sources> pairs
   QList<IdSource> id_source_list;
 
   for (const QJsonValue &v : json_results) {
     QJsonObject r = v.toObject();
-    if (!r[QLatin1String("recordings")].isUndefined()) {
-      const QJsonArray json_recordings = r[QLatin1String("recordings")].toArray();
+    if (!r["recordings"_L1].isUndefined()) {
+      const QJsonArray json_recordings = r["recordings"_L1].toArray();
       for (const QJsonValue &recording : json_recordings) {
         QJsonObject o = recording.toObject();
-        if (!o[QLatin1String("id")].isUndefined()) {
-          id_source_list << IdSource(o[QLatin1String("id")].toString(), o[QLatin1String("sources")].toInt());
+        if (!o["id"_L1].isUndefined()) {
+          id_source_list << IdSource(o["id"_L1].toString(), o["sources"_L1].toInt());
         }
       }
     }

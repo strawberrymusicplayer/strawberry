@@ -71,6 +71,7 @@
 #endif
 
 using namespace std::chrono_literals;
+using namespace Qt::StringLiterals;
 
 QStringList CollectionWatcher::sValidImages = QStringList() << QStringLiteral("jpg") << QStringLiteral("png") << QStringLiteral("gif") << QStringLiteral("jpeg");
 
@@ -360,7 +361,7 @@ SongList CollectionWatcher::ScanTransaction::FindSongsInSubdirectory(const QStri
   if (cached_songs_dirty_) {
     const SongList songs = watcher_->backend_->FindSongsInDirectory(dir_);
     for (const Song &song : songs) {
-      const QString p = song.url().toLocalFile().section(QLatin1Char('/'), 0, -2);
+      const QString p = song.url().toLocalFile().section(u'/', 0, -2);
       cached_songs_.insert(p, song);
     }
     cached_songs_dirty_ = false;
@@ -379,7 +380,7 @@ bool CollectionWatcher::ScanTransaction::HasSongsWithMissingFingerprint(const QS
   if (cached_songs_missing_fingerprint_dirty_) {
     const SongList songs = watcher_->backend_->SongsWithMissingFingerprint(dir_);
     for (const Song &song : songs) {
-      const QString p = song.url().toLocalFile().section(QLatin1Char('/'), 0, -2);
+      const QString p = song.url().toLocalFile().section(u'/', 0, -2);
       cached_songs_missing_fingerprint_.insert(p, song);
     }
     cached_songs_missing_fingerprint_dirty_ = false;
@@ -394,7 +395,7 @@ bool CollectionWatcher::ScanTransaction::HasSongsWithMissingLoudnessCharacterist
   if (cached_songs_missing_loudness_characteristics_dirty_) {
     const SongList songs = watcher_->backend_->SongsWithMissingLoudnessCharacteristics(dir_);
     for (const Song &song : songs) {
-      const QString p = song.url().toLocalFile().section(QLatin1Char('/'), 0, -2);
+      const QString p = song.url().toLocalFile().section(u'/', 0, -2);
       cached_songs_missing_loudness_characteristics_.insert(p, song);
     }
     cached_songs_missing_loudness_characteristics_dirty_ = false;
@@ -559,7 +560,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const CollectionSu
     else {
       QString ext_part(ExtensionPart(child));
       QString dir_part(DirectoryPart(child));
-      if (Song::kRejectedExtensions.contains(child_info.suffix(), Qt::CaseInsensitive) || child_info.baseName() == QLatin1String("qt_temp")) {
+      if (Song::kRejectedExtensions.contains(child_info.suffix(), Qt::CaseInsensitive) || child_info.baseName() == "qt_temp"_L1) {
         t->AddToProgress(1);
       }
       else if (sValidImages.contains(ext_part)) {
@@ -661,7 +662,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const CollectionSu
           Chromaprinter chromaprinter(file);
           fingerprint = chromaprinter.CreateFingerprint();
           if (fingerprint.isEmpty()) {
-            fingerprint = QLatin1String("NONE");
+            fingerprint = "NONE"_L1;
           }
         }
 #endif
@@ -688,11 +689,11 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const CollectionSu
         Chromaprinter chromaprinter(file);
         fingerprint = chromaprinter.CreateFingerprint();
         if (fingerprint.isEmpty()) {
-          fingerprint = QLatin1String("NONE");
+          fingerprint = "NONE"_L1;
         }
       }
 #endif
-      if (song_tracking_ && !fingerprint.isEmpty() && fingerprint != QLatin1String("NONE") && FindSongsByFingerprint(file, fingerprint, &matching_songs)) {
+      if (song_tracking_ && !fingerprint.isEmpty() && fingerprint != "NONE"_L1 && FindSongsByFingerprint(file, fingerprint, &matching_songs)) {
 
         // The song is in the database and still on disk.
         // Check the mtime to see if it's been changed since it was added.
@@ -985,7 +986,7 @@ void CollectionWatcher::AddChangedSong(const QString &file, const Song &matching
       qLog(Debug) << "Song" << file << "unchanged.";
     }
     else {
-      qLog(Debug) << "Song" << file << changes.join(QLatin1String(", ")) << "changed.";
+      qLog(Debug) << "Song" << file << changes.join(", "_L1) << "changed.";
     }
 
   }
@@ -1360,7 +1361,7 @@ void CollectionWatcher::RescanSongs(const SongList &songs) {
   QStringList scanned_paths;
   for (const Song &song : songs) {
     if (stop_or_abort_requested()) break;
-    const QString song_path = song.url().toLocalFile().section(QLatin1Char('/'), 0, -2);
+    const QString song_path = song.url().toLocalFile().section(u'/', 0, -2);
     if (scanned_paths.contains(song_path)) continue;
     ScanTransaction transaction(this, song.directory_id(), false, true, mark_songs_unavailable_);
     const CollectionSubdirectoryList subdirs = transaction.GetAllSubdirs();

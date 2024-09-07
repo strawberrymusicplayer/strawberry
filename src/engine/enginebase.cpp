@@ -41,6 +41,8 @@
 #  include "settings/spotifysettingspage.h"
 #endif
 
+using namespace Qt::StringLiterals;
+
 EngineBase::EngineBase(QObject *parent)
     : QObject(parent),
       exclusive_mode_(false),
@@ -83,8 +85,8 @@ EngineBase::~EngineBase() = default;
 
 EngineBase::Type EngineBase::TypeFromName(const QString &name) {
 
-  if (name.compare(QLatin1String("gstreamer"), Qt::CaseInsensitive) == 0) return Type::GStreamer;
-  if (name.compare(QLatin1String("vlc"), Qt::CaseInsensitive) == 0)  return Type::VLC;
+  if (name.compare("gstreamer"_L1, Qt::CaseInsensitive) == 0) return Type::GStreamer;
+  if (name.compare("vlc"_L1, Qt::CaseInsensitive) == 0)  return Type::VLC;
 
   return Type::None;
 
@@ -207,7 +209,7 @@ void EngineBase::ReloadSettings() {
   bool http2_enabled = s.value("http2", false).toBool();
   if (http2_enabled != http2_enabled_) {
     http2_enabled_ = http2_enabled;
-    Utilities::SetEnv("SOUP_FORCE_HTTP1", http2_enabled_ ? QLatin1String("") : QStringLiteral("1"));
+    Utilities::SetEnv("SOUP_FORCE_HTTP1", http2_enabled_ ? ""_L1 : QStringLiteral("1"));
     qLog(Debug) << "SOUP_FORCE_HTTP1:" << (http2_enabled_ ? "OFF" : "ON");
   }
 

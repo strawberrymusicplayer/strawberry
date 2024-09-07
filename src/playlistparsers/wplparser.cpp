@@ -35,6 +35,8 @@
 #include "xmlparser.h"
 #include "wplparser.h"
 
+using namespace Qt::StringLiterals;
+
 class CollectionBackendInterface;
 
 WplParser::WplParser(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent)
@@ -69,8 +71,8 @@ void WplParser::ParseSeq(const QDir &dir, QXmlStreamReader *reader, SongList *so
     QString name = reader->name().toString();
     switch (type) {
       case QXmlStreamReader::StartElement:{
-        if (name == QLatin1String("media")) {
-          QString src = reader->attributes().value(QLatin1String("src")).toString();
+        if (name == "media"_L1) {
+          QString src = reader->attributes().value("src"_L1).toString();
           if (!src.isEmpty()) {
             Song song = LoadSong(src, 0, 0, dir, collection_lookup);
             if (song.is_valid()) {
@@ -84,7 +86,7 @@ void WplParser::ParseSeq(const QDir &dir, QXmlStreamReader *reader, SongList *so
         break;
       }
       case QXmlStreamReader::EndElement:{
-        if (name == QLatin1String("seq")) {
+        if (name == "seq"_L1) {
           return;
         }
         break;
@@ -101,14 +103,14 @@ void WplParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, 
   QXmlStreamWriter writer(device);
   writer.setAutoFormatting(true);
   writer.setAutoFormattingIndent(2);
-  writer.writeProcessingInstruction(QLatin1String("wpl"), QLatin1String("version=\"1.0\""));
+  writer.writeProcessingInstruction("wpl"_L1, "version=\"1.0\""_L1);
 
   StreamElement smil(QStringLiteral("smil"), &writer);
 
   {
     StreamElement head(QStringLiteral("head"), &writer);
-    WriteMeta(QLatin1String("Generator"), QLatin1String("Strawberry -- ") + QLatin1String(STRAWBERRY_VERSION_DISPLAY), &writer);
-    WriteMeta(QLatin1String("ItemCount"), QString::number(songs.count()), &writer);
+    WriteMeta("Generator"_L1, "Strawberry -- "_L1 + QLatin1String(STRAWBERRY_VERSION_DISPLAY), &writer);
+    WriteMeta("ItemCount"_L1, QString::number(songs.count()), &writer);
   }
 
   {
@@ -116,8 +118,8 @@ void WplParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, 
     {
       StreamElement seq(QStringLiteral("seq"), &writer);
       for (const Song &song : songs) {
-        writer.writeStartElement(QLatin1String("media"));
-        writer.writeAttribute(QLatin1String("src"), URLOrFilename(song.url(), dir, path_type));
+        writer.writeStartElement("media"_L1);
+        writer.writeAttribute("src"_L1, URLOrFilename(song.url(), dir, path_type));
         writer.writeEndElement();
       }
     }
@@ -126,9 +128,9 @@ void WplParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, 
 
 void WplParser::WriteMeta(const QString &name, const QString &content, QXmlStreamWriter *writer) {
 
-  writer->writeStartElement(QLatin1String("meta"));
-  writer->writeAttribute(QLatin1String("name"), name);
-  writer->writeAttribute(QLatin1String("content"), content);
+  writer->writeStartElement("meta"_L1);
+  writer->writeAttribute("name"_L1, name);
+  writer->writeAttribute("content"_L1, content);
   writer->writeEndElement();
 
 }

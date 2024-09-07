@@ -33,6 +33,8 @@
 #include "lyricsprovider.h"
 #include "lyricsproviders.h"
 
+using namespace Qt::StringLiterals;
+
 namespace {
 constexpr int kSearchTimeoutMs = 3000;
 constexpr int kGoodLyricsLength = 60;
@@ -62,7 +64,7 @@ void LyricsFetcherSearch::TerminateSearch() {
 void LyricsFetcherSearch::Start(SharedPtr<LyricsProviders> lyrics_providers) {
 
   // Ignore Radio Paradise "commercial" break.
-  if (request_.artist.compare(QLatin1String("commercial-free"), Qt::CaseInsensitive) == 0 && request_.title.compare(QLatin1String("listener-supported"), Qt::CaseInsensitive) == 0) {
+  if (request_.artist.compare("commercial-free"_L1, Qt::CaseInsensitive) == 0 && request_.title.compare("listener-supported"_L1, Qt::CaseInsensitive) == 0) {
     TerminateSearch();
     return;
   }

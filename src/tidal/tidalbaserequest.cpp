@@ -40,6 +40,8 @@
 #include "tidalservice.h"
 #include "tidalbaserequest.h"
 
+using namespace Qt::StringLiterals;
+
 TidalBaseRequest::TidalBaseRequest(TidalService *service, SharedPtr<NetworkAccessManager> network, QObject *parent)
     : QObject(parent),
       service_(service),
@@ -102,10 +104,10 @@ QByteArray TidalBaseRequest::GetReplyData(QNetworkReply *reply, const bool send_
       int sub_status = 0;
       if (json_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
-        if (!json_obj.isEmpty() && json_obj.contains(QLatin1String("status")) && json_obj.contains(QLatin1String("userMessage"))) {
-          status = json_obj[QLatin1String("status")].toInt();
-          sub_status = json_obj[QLatin1String("subStatus")].toInt();
-          QString user_message = json_obj[QLatin1String("userMessage")].toString();
+        if (!json_obj.isEmpty() && json_obj.contains("status"_L1) && json_obj.contains("userMessage"_L1)) {
+          status = json_obj["status"_L1].toInt();
+          sub_status = json_obj["subStatus"_L1].toInt();
+          QString user_message = json_obj["userMessage"_L1].toString();
           error = QStringLiteral("%1 (%2) (%3)").arg(user_message).arg(status).arg(sub_status);
         }
       }
@@ -185,11 +187,11 @@ QJsonValue TidalBaseRequest::ExtractItems(const QByteArray &data) {
 
 QJsonValue TidalBaseRequest::ExtractItems(const QJsonObject &json_obj) {
 
-  if (!json_obj.contains(QLatin1String("items"))) {
+  if (!json_obj.contains("items"_L1)) {
     Error(QStringLiteral("Json reply is missing items."), json_obj);
     return QJsonArray();
   }
-  QJsonValue json_items = json_obj[QLatin1String("items")];
+  QJsonValue json_items = json_obj["items"_L1];
   return json_items;
 
 }
@@ -198,7 +200,7 @@ QString TidalBaseRequest::ErrorsToHTML(const QStringList &errors) {
 
   QString error_html;
   for (const QString &error : errors) {
-    error_html += error + QLatin1String("<br />");
+    error_html += error + "<br />"_L1;
   }
   return error_html;
 

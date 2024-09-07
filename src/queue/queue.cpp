@@ -40,6 +40,8 @@
 #include "playlist/playlist.h"
 #include "queue.h"
 
+using namespace Qt::StringLiterals;
+
 namespace {
 constexpr char kRowsMimetype[] = "application/x-strawberry-queue-rows";
 }
@@ -255,7 +257,7 @@ void Queue::UpdateSummaryText() {
   summary += tr("%n track(s)", "", tracks);
 
   if (nanoseconds > 0) {
-    summary += QLatin1String(" - [ ") + Utilities::WordyTimeNanosec(nanoseconds) + QLatin1String(" ]");
+    summary += " - [ "_L1 + Utilities::WordyTimeNanosec(nanoseconds) + " ]"_L1;
   }
 
   Q_EMIT SummaryTextChanged(summary);

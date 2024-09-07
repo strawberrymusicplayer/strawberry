@@ -35,6 +35,8 @@
 #include "xmlparser.h"
 #include "asxparser.h"
 
+using namespace Qt::StringLiterals;
+
 class CollectionBackendInterface;
 
 ASXParser::ASXParser(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent)
@@ -94,20 +96,20 @@ Song ASXParser::ParseTrack(QXmlStreamReader *reader, const QDir &dir, const bool
     switch (type) {
       case QXmlStreamReader::StartElement:{
         const QString name = reader->name().toString().toLower();
-        if (name == QLatin1String("ref")) {
-          ref = reader->attributes().value(QLatin1String("href")).toString();
+        if (name == "ref"_L1) {
+          ref = reader->attributes().value("href"_L1).toString();
         }
-        else if (name == QLatin1String("title")) {
+        else if (name == "title"_L1) {
           title = reader->readElementText();
         }
-        else if (name == QLatin1String("author")) {
+        else if (name == "author"_L1) {
           artist = reader->readElementText();
         }
         break;
       }
       case QXmlStreamReader::EndElement:{
         const QString name = reader->name().toString().toLower();
-        if (name == QLatin1String("entry")) {
+        if (name == "entry"_L1) {
           goto return_song;
         }
         break;
@@ -139,16 +141,16 @@ void ASXParser::Save(const SongList &songs, QIODevice *device, const QDir&, cons
   writer.writeStartDocument();
   {
     StreamElement asx(QStringLiteral("asx"), &writer);
-    writer.writeAttribute(QLatin1String("version"), QLatin1String("3.0"));
+    writer.writeAttribute("version"_L1, "3.0"_L1);
     for (const Song &song : songs) {
       StreamElement entry(QStringLiteral("entry"), &writer);
-      writer.writeTextElement(QLatin1String("title"), song.title());
+      writer.writeTextElement("title"_L1, song.title());
       {
         StreamElement ref(QStringLiteral("ref"), &writer);
-        writer.writeAttribute(QLatin1String("href"), song.url().toString());
+        writer.writeAttribute("href"_L1, song.url().toString());
       }
       if (!song.artist().isEmpty()) {
-        writer.writeTextElement(QLatin1String("author"), song.artist());
+        writer.writeTextElement("author"_L1, song.artist());
       }
     }
   }

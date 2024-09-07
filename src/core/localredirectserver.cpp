@@ -39,6 +39,8 @@
 #include <QDateTime>
 #include <QRandomGenerator>
 
+using namespace Qt::StringLiterals;
+
 LocalRedirectServer::LocalRedirectServer(QObject *parent)
     : QTcpServer(parent),
       port_(0),
@@ -86,7 +88,7 @@ void LocalRedirectServer::incomingConnection(qintptr socket_descriptor) {
   if (!tcp_socket->setSocketDescriptor(socket_descriptor)) {
     delete tcp_socket;
     close();
-    error_ = QLatin1String("Unable to set socket descriptor");
+    error_ = "Unable to set socket descriptor"_L1;
     Q_EMIT Finished();
     return;
   }
@@ -151,7 +153,7 @@ void LocalRedirectServer::WriteTemplate() const {
         .pixmap(16)
         .toImage()
         .save(&image_buffer, "PNG");
-    page_data.replace(QLatin1String("@IMAGE_DATA@"), QString::fromUtf8(image_buffer.data().toBase64()));
+    page_data.replace("@IMAGE_DATA@"_L1, QString::fromUtf8(image_buffer.data().toBase64()));
     image_buffer.close();
   }
 

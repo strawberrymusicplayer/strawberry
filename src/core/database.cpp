@@ -49,6 +49,8 @@
 #include "sqlquery.h"
 #include "scopedtransaction.h"
 
+using namespace Qt::StringLiterals;
+
 const int Database::kSchemaVersion = 20;
 
 namespace {
@@ -136,7 +138,7 @@ QSqlDatabase Database::Connect() {
   //qLog(Debug) << "Opened database with connection id" << connection_id;
 
   if (injected_database_name_.isNull()) {
-    db.setDatabaseName(directory_ + QLatin1Char('/') + QLatin1String(kDatabaseFilename));
+    db.setDatabaseName(directory_ + u'/' + QLatin1String(kDatabaseFilename));
   }
   else {
     db.setDatabaseName(injected_database_name_);
@@ -352,7 +354,7 @@ void Database::UrlEncodeFilenameColumn(const QString &table, QSqlDatabase &db) {
     const int rowid = select.value(0).toInt();
     const QString filename = select.value(1).toString();
 
-    if (filename.isEmpty() || filename.contains(QLatin1String("://"))) {
+    if (filename.isEmpty() || filename.contains("://"_L1)) {
       continue;
     }
 
@@ -376,8 +378,8 @@ void Database::ExecSchemaCommandsFromFile(QSqlDatabase &db, const QString &filen
   }
   QByteArray data = schema_file.readAll();
   QString schema = QString::fromUtf8(data);
-  if (schema.contains(QLatin1String("\r\n"))) {
-    schema = schema.replace(QLatin1String("\r\n"), QLatin1String("\n"));
+  if (schema.contains("\r\n"_L1)) {
+    schema = schema.replace("\r\n"_L1, "\n"_L1);
   }
   schema_file.close();
   ExecSchemaCommands(db, schema, schema_version, in_transaction);
@@ -414,7 +416,7 @@ void Database::ExecSongTablesCommands(QSqlDatabase &db, const QStringList &song_
     if (command.contains(QLatin1String(kMagicAllSongsTables))) {
       for (const QString &table : song_tables) {
         // Another horrible hack: device songs tables don't have matching _fts tables, so if this command tries to touch one, ignore it.
-        if (table.startsWith(QLatin1String("device_")) && command.contains(QLatin1String(kMagicAllSongsTables) + QLatin1String("_fts"))) {
+        if (table.startsWith("device_"_L1) && command.contains(QLatin1String(kMagicAllSongsTables) + "_fts"_L1)) {
           continue;
         }
 
@@ -450,7 +452,7 @@ QStringList Database::SongsTables(QSqlDatabase &db, const int schema_version) {
   // look for the tables in the main db
   const QStringList &tables = db.tables();
   for (const QString &table : tables) {
-    if (table == QLatin1String("songs") || table.endsWith(QLatin1String("_songs"))) ret << table;
+    if (table == "songs"_L1 || table.endsWith("_songs"_L1)) ret << table;
   }
 
   // look for the tables in attached dbs
@@ -502,7 +504,7 @@ bool Database::IntegrityCheck(const QSqlDatabase &db) {
       QString message = q.value(0).toString();
 
       // If no errors are found, a single row with the value "ok" is returned
-      if (message == QLatin1String("ok")) {
+      if (message == "ok"_L1) {
         ok = true;
         break;
       }

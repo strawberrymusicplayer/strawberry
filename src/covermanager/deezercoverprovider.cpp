@@ -48,6 +48,8 @@
 #include "jsoncoverprovider.h"
 #include "deezercoverprovider.h"
 
+using namespace Qt::StringLiterals;
+
 namespace {
 constexpr char kApiUrl[] = "https://api.deezer.com";
 constexpr int kLimit = 10;
@@ -74,14 +76,14 @@ bool DeezerCoverProvider::StartSearch(const QString &artist, const QString &albu
   QString resource;
   QString query = artist;
   if (album.isEmpty() && !title.isEmpty()) {
-    resource = QLatin1String("search/track");
-    if (!query.isEmpty()) query.append(QLatin1Char(' '));
+    resource = "search/track"_L1;
+    if (!query.isEmpty()) query.append(u' ');
     query.append(title);
   }
   else {
-    resource = QLatin1String("search/album");
+    resource = "search/album"_L1;
     if (!album.isEmpty()) {
-      if (!query.isEmpty()) query.append(QLatin1Char(' '));
+      if (!query.isEmpty()) query.append(u' ');
       query.append(album);
     }
   }
@@ -130,12 +132,12 @@ QByteArray DeezerCoverProvider::GetReplyData(QNetworkReply *reply) {
       QString error;
       if (json_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
         QJsonObject json_obj = json_doc.object();
-        if (json_obj.contains(QLatin1String("error"))) {
-          QJsonValue value_error = json_obj[QLatin1String("error")];
+        if (json_obj.contains("error"_L1)) {
+          QJsonValue value_error = json_obj["error"_L1];
           if (value_error.isObject()) {
             QJsonObject obj_error = value_error.toObject();
-            int code = obj_error[QLatin1String("code")].toInt();
-            QString message = obj_error[QLatin1String("message")].toString();
+            int code = obj_error["code"_L1].toInt();
+            QString message = obj_error["message"_L1].toString();
             error = QStringLiteral("%1 (%2)").arg(message).arg(code);
           }
         }
@@ -162,27 +164,27 @@ QJsonValue DeezerCoverProvider::ExtractData(const QByteArray &data) {
   QJsonObject json_obj = ExtractJsonObj(data);
   if (json_obj.isEmpty()) return QJsonObject();
 
-  if (json_obj.contains(QLatin1String("error"))) {
-    QJsonValue value_error = json_obj[QLatin1String("error")];
+  if (json_obj.contains("error"_L1)) {
+    QJsonValue value_error = json_obj["error"_L1];
     if (!value_error.isObject()) {
       Error(QStringLiteral("Error missing object"), json_obj);
       return QJsonValue();
     }
     QJsonObject obj_error = value_error.toObject();
-    const int code = obj_error[QLatin1String("code")].toInt();
-    QString message = obj_error[QLatin1String("message")].toString();
+    const int code = obj_error["code"_L1].toInt();
+    QString message = obj_error["message"_L1].toString();
     Error(QStringLiteral("%1 (%2)").arg(message).arg(code));
     return QJsonValue();
   }
 
-  if (!json_obj.contains(QLatin1String("data")) && !json_obj.contains(QLatin1String("DATA"))) {
+  if (!json_obj.contains("data"_L1) && !json_obj.contains("DATA"_L1)) {
     Error(QStringLiteral("Json reply object is missing data."), json_obj);
     return QJsonValue();
   }
 
   QJsonValue value_data;
-  if (json_obj.contains(QLatin1String("data"))) value_data = json_obj[QLatin1String("data")];
-  else value_data = json_obj[QLatin1String("DATA")];
+  if (json_obj.contains("data"_L1)) value_data = json_obj["data"_L1];
+  else value_data = json_obj["DATA"_L1];
 
   return value_data;
 
@@ -223,50 +225,50 @@ void DeezerCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) 
     }
     QJsonObject json_obj = json_value.toObject();
     QJsonObject obj_album;
-    if (json_obj.contains(QLatin1String("album")) && json_obj[QLatin1String("album")].isObject()) {  // Song search, so extract the album.
-      obj_album = json_obj[QLatin1String("album")].toObject();
+    if (json_obj.contains("album"_L1) && json_obj["album"_L1].isObject()) {  // Song search, so extract the album.
+      obj_album = json_obj["album"_L1].toObject();
     }
     else {
       obj_album = json_obj;
     }
 
-    if (!json_obj.contains(QLatin1String("id")) || !obj_album.contains(QLatin1String("id"))) {
+    if (!json_obj.contains("id"_L1) || !obj_album.contains("id"_L1)) {
       Error(QStringLiteral("Invalid Json reply, data array value object is missing ID."), json_obj);
       continue;
     }
 
-    if (!obj_album.contains(QLatin1String("type"))) {
+    if (!obj_album.contains("type"_L1)) {
       Error(QStringLiteral("Invalid Json reply, data array value album object is missing type."), obj_album);
       continue;
     }
-    QString type = obj_album[QLatin1String("type")].toString();
-    if (type != QLatin1String("album")) {
+    QString type = obj_album["type"_L1].toString();
+    if (type != "album"_L1) {
       Error(QStringLiteral("Invalid Json reply, data array value album object has incorrect type returned"), obj_album);
       continue;
     }
 
-    if (!json_obj.contains(QLatin1String("artist"))) {
+    if (!json_obj.contains("artist"_L1)) {
       Error(QStringLiteral("Invalid Json reply, data array value object is missing artist."), json_obj);
       continue;
     }
-    QJsonValue value_artist = json_obj[QLatin1String("artist")];
+    QJsonValue value_artist = json_obj["artist"_L1];
     if (!value_artist.isObject()) {
       Error(QStringLiteral("Invalid Json reply, data array value artist is not a object."), value_artist);
       continue;
     }
     QJsonObject obj_artist = value_artist.toObject();
 
-    if (!obj_artist.contains(QLatin1String("name"))) {
+    if (!obj_artist.contains("name"_L1)) {
       Error(QStringLiteral("Invalid Json reply, data array value artist object is missing name."), obj_artist);
       continue;
     }
-    QString artist = obj_artist[QLatin1String("name")].toString();
+    QString artist = obj_artist["name"_L1].toString();
 
-    if (!obj_album.contains(QLatin1String("title"))) {
+    if (!obj_album.contains("title"_L1)) {
       Error(QStringLiteral("Invalid Json reply, data array value album object is missing title."), obj_album);
       continue;
     }
-    QString album = obj_album[QLatin1String("title")].toString();
+    QString album = obj_album["title"_L1].toString();
 
     CoverProviderSearchResult cover_result;
     cover_result.artist = artist;

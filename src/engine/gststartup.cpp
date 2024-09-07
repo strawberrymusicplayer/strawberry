@@ -44,6 +44,8 @@
 
 #include "gststartup.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 GThread *GstStartup::kGThread = nullptr;
 
 gpointer GstStartup::GLibMainLoopThreadFunc(gpointer) {
@@ -115,28 +117,28 @@ void GstStartup::SetEnvironment() {
   // Set plugin root path
   QString plugin_root_path;
 #  if defined(Q_OS_MACOS)
-  plugin_root_path = QDir::cleanPath(app_path + QLatin1String("/../PlugIns"));
+  plugin_root_path = QDir::cleanPath(app_path + "/../PlugIns"_L1);
 #  elif defined(Q_OS_UNIX)
-  plugin_root_path = QDir::cleanPath(app_path + QLatin1String("/../plugins"));
+  plugin_root_path = QDir::cleanPath(app_path + "/../plugins"_L1);
 #  elif defined(Q_OS_WIN32)
   plugin_root_path = app_path;
 #  endif
 
   // Set GIO module path
-  const QString gio_module_path = plugin_root_path + QLatin1String("/gio-modules");
+  const QString gio_module_path = plugin_root_path + "/gio-modules"_L1;
 
   // Set GStreamer plugin scanner path
   QString gst_plugin_scanner;
 #  if defined(Q_OS_UNIX)
-  gst_plugin_scanner = plugin_root_path + QLatin1String("/gst-plugin-scanner");
+  gst_plugin_scanner = plugin_root_path + "/gst-plugin-scanner"_L1;
 #  endif
 
   // Set GStreamer plugin path
   QString gst_plugin_path;
 #  if defined(Q_OS_WIN32)
-  gst_plugin_path = plugin_root_path + QLatin1String("/gstreamer-plugins");
+  gst_plugin_path = plugin_root_path + "/gstreamer-plugins"_L1;
 #  else
-  gst_plugin_path = plugin_root_path + QLatin1String("/gstreamer");
+  gst_plugin_path = plugin_root_path + "/gstreamer"_L1;
 #  endif
 
   if (!gio_module_path.isEmpty()) {
