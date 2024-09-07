@@ -32,6 +32,8 @@
 
 namespace Utilities {
 
+using namespace Qt::Literals::StringLiterals;
+
 QString PrettyTime(int seconds) {
 
   // last.fm sometimes gets the track length wrong, so you end up with negative times.
@@ -82,8 +84,8 @@ QString Ago(const qint64 seconds_since_epoch, const QLocale &locale) {
   const qint64 days_ago = then.date().daysTo(now.date());
   const QString time = then.time().toString(locale.timeFormat(QLocale::ShortFormat));
 
-  if (days_ago == 0) return QObject::tr("Today") + QLatin1Char(' ') + time;
-  if (days_ago == 1) return QObject::tr("Yesterday") + QLatin1Char(' ') + time;
+  if (days_ago == 0) return QObject::tr("Today") + u' ' + time;
+  if (days_ago == 1) return QObject::tr("Yesterday") + u' ' + time;
   if (days_ago <= 7) return QObject::tr("%1 days ago").arg(days_ago);
 
   return then.date().toString(locale.dateFormat(QLocale::ShortFormat));
@@ -107,7 +109,7 @@ QString PrettyFutureDate(const QDate date) {
 
 QDateTime ParseRFC822DateTime(const QString &text) {
 
-  static const QRegularExpression regexp(QStringLiteral("(\\d{1,2}) (\\w{3,12}) (\\d+) (\\d{1,2}):(\\d{1,2}):(\\d{1,2})"));
+  static const QRegularExpression regexp(u"(\\d{1,2}) (\\w{3,12}) (\\d+) (\\d{1,2}):(\\d{1,2}):(\\d{1,2})"_s);
   QRegularExpressionMatch re_match = regexp.match(text);
   if (!re_match.hasMatch()) {
     return QDateTime();
@@ -116,30 +118,30 @@ QDateTime ParseRFC822DateTime(const QString &text) {
   enum class MatchNames { DAYS = 1, MONTHS, YEARS, HOURS, MINUTES, SECONDS };
 
   QMap<QString, int> monthmap;
-  monthmap[QStringLiteral("Jan")] = 1;
-  monthmap[QStringLiteral("Feb")] = 2;
-  monthmap[QStringLiteral("Mar")] = 3;
-  monthmap[QStringLiteral("Apr")] = 4;
-  monthmap[QStringLiteral("May")] = 5;
-  monthmap[QStringLiteral("Jun")] = 6;
-  monthmap[QStringLiteral("Jul")] = 7;
-  monthmap[QStringLiteral("Aug")] = 8;
-  monthmap[QStringLiteral("Sep")] = 9;
-  monthmap[QStringLiteral("Oct")] = 10;
-  monthmap[QStringLiteral("Nov")] = 11;
-  monthmap[QStringLiteral("Dec")] = 12;
-  monthmap[QStringLiteral("January")] = 1;
-  monthmap[QStringLiteral("February")] = 2;
-  monthmap[QStringLiteral("March")] = 3;
-  monthmap[QStringLiteral("April")] = 4;
-  monthmap[QStringLiteral("May")] = 5;
-  monthmap[QStringLiteral("June")] = 6;
-  monthmap[QStringLiteral("July")] = 7;
-  monthmap[QStringLiteral("August")] = 8;
-  monthmap[QStringLiteral("September")] = 9;
-  monthmap[QStringLiteral("October")] = 10;
-  monthmap[QStringLiteral("November")] = 11;
-  monthmap[QStringLiteral("December")] = 12;
+  monthmap[u"Jan"_s] = 1;
+  monthmap[u"Feb"_s] = 2;
+  monthmap[u"Mar"_s] = 3;
+  monthmap[u"Apr"_s] = 4;
+  monthmap[u"May"_s] = 5;
+  monthmap[u"Jun"_s] = 6;
+  monthmap[u"Jul"_s] = 7;
+  monthmap[u"Aug"_s] = 8;
+  monthmap[u"Sep"_s] = 9;
+  monthmap[u"Oct"_s] = 10;
+  monthmap[u"Nov"_s] = 11;
+  monthmap[u"Dec"_s] = 12;
+  monthmap[u"January"_s] = 1;
+  monthmap[u"February"_s] = 2;
+  monthmap[u"March"_s] = 3;
+  monthmap[u"April"_s] = 4;
+  monthmap[u"May"_s] = 5;
+  monthmap[u"June"_s] = 6;
+  monthmap[u"July"_s] = 7;
+  monthmap[u"August"_s] = 8;
+  monthmap[u"September"_s] = 9;
+  monthmap[u"October"_s] = 10;
+  monthmap[u"November"_s] = 11;
+  monthmap[u"December"_s] = 12;
 
   const QDate date(re_match.captured(static_cast<int>(MatchNames::YEARS)).toInt(), monthmap[re_match.captured(static_cast<int>(MatchNames::MONTHS))], re_match.captured(static_cast<int>(MatchNames::DAYS)).toInt());
 
