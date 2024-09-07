@@ -363,8 +363,8 @@ bool StreamingSearchView::ResultsContextMenuEvent(QContextMenuEvent *e) {
 
 void StreamingSearchView::timerEvent(QTimerEvent *e) {
 
-  QMap<int, DelayedSearch>::iterator it = delayed_searches_.find(e->timerId());
-  if (it != delayed_searches_.end()) {
+  QMap<int, DelayedSearch>::const_iterator it = delayed_searches_.constFind(e->timerId());
+  if (it != delayed_searches_.constEnd()) {
     SearchAsync(it.value().id_, it.value().query_, it.value().type_);
     delayed_searches_.erase(it);
     return;
@@ -518,7 +518,7 @@ void StreamingSearchView::SearchDone(const int service_id, const SongMap &songs,
 
 void StreamingSearchView::CancelSearch(const int id) {
 
-  for (QMap<int, DelayedSearch>::iterator it = delayed_searches_.begin(); it != delayed_searches_.end(); ++it) {
+  for (QMap<int, DelayedSearch>::const_iterator it = delayed_searches_.constBegin(); it != delayed_searches_.constEnd(); ++it) {
     if (it.value().id_ == id) {
       killTimer(it.key());
       delayed_searches_.erase(it);
