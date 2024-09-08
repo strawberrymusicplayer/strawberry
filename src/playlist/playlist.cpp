@@ -1342,7 +1342,7 @@ bool Playlist::CompareItems(const Column column, const Qt::SortOrder order, Play
     case Column::Samplerate:   cmp(samplerate);
     case Column::Bitdepth:     cmp(bitdepth);
     case Column::Filename:
-      return (QString::localeAwareCompare(a->Url().path().toLower(), b->Url().path().toLower()) < 0);
+      return QString::localeAwareCompare(a->Url().path(), b->Url().path()) < 0;
     case Column::BaseFilename: cmp(basefilename);
     case Column::Filesize:     cmp(filesize);
     case Column::Filetype:     cmp(filetype);
@@ -1368,18 +1368,6 @@ bool Playlist::CompareItems(const Column column, const Qt::SortOrder order, Play
 #undef strcmp
 
   return false;
-
-}
-
-bool Playlist::ComparePathDepths(const Qt::SortOrder order, PlaylistItemPtr _a, PlaylistItemPtr _b) {
-
-  PlaylistItemPtr a = order == Qt::AscendingOrder ? _a : _b;
-  PlaylistItemPtr b = order == Qt::AscendingOrder ? _b : _a;
-
-  qint64 a_dir_level = a->Url().path().count(QLatin1Char('/'));
-  qint64 b_dir_level = b->Url().path().count(QLatin1Char('/'));
-
-  return a_dir_level < b_dir_level;
 
 }
 
@@ -1470,11 +1458,6 @@ void Playlist::sort(const int column_number, const Qt::SortOrder order) {
     std::stable_sort(begin, new_items.end(), std::bind(&Playlist::CompareItems, Column::Track, order, std::placeholders::_1, std::placeholders::_2));
     std::stable_sort(begin, new_items.end(), std::bind(&Playlist::CompareItems, Column::Disc, order, std::placeholders::_1, std::placeholders::_2));
     std::stable_sort(begin, new_items.end(), std::bind(&Playlist::CompareItems, Column::Album, order, std::placeholders::_1, std::placeholders::_2));
-  }
-  else if (column == Column::Filename) {
-    // When sorting by full paths we also expect a hierarchical order. This returns a breath-first ordering of paths.
-    std::stable_sort(begin, new_items.end(), std::bind(&Playlist::CompareItems, Column::Filename, order, std::placeholders::_1, std::placeholders::_2));
-    std::stable_sort(begin, new_items.end(), std::bind(&Playlist::ComparePathDepths, order, std::placeholders::_1, std::placeholders::_2));
   }
   else {
     std::stable_sort(begin, new_items.end(), std::bind(&Playlist::CompareItems, column, order, std::placeholders::_1, std::placeholders::_2));
