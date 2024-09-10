@@ -1123,11 +1123,12 @@ void GstEnginePipeline::NotifyVolumeCallback(GstElement *element, GParamSpec *pa
 
   if (!instance->volume_set_.value()) return;
 
-  const double volume_internal = instance->volume_internal_.value();
+  double volume_internal = 0.0;
   g_object_get(G_OBJECT(instance->volume_), "volume", &volume_internal, nullptr);
 
-  const uint volume_percent = static_cast<uint>(qBound(0L, lround(instance->volume_internal_.value() / 0.01), 100L));
+  const uint volume_percent = static_cast<uint>(qBound(0L, lround(volume_internal / 0.01), 100L));
   if (volume_percent != instance->volume_percent_.value()) {
+    instance->volume_internal_ = volume_internal;
     instance->volume_percent_ = volume_percent;
     Q_EMIT instance->VolumeChanged(volume_percent);
   }
