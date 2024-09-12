@@ -102,7 +102,7 @@ void CurrentAlbumCoverLoader::AlbumCoverReady(const quint64 id, AlbumCoverLoader
   QUrl thumbnail_url;
   if (!result.image_scaled.isNull()) {
     temp_cover_thumbnail_ = make_unique<TemporaryFile>(temp_file_pattern_);
-    if (temp_cover_thumbnail_->filename().isEmpty()) {
+    if (!temp_cover_thumbnail_->filename().isEmpty()) {
       if (result.image_scaled.save(temp_cover_thumbnail_->filename(), "JPEG")) {
         thumbnail_url = QUrl::fromLocalFile(temp_cover_thumbnail_->filename());
       }
