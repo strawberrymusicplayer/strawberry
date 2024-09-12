@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Version 1.1.2-rc1 (2024.09.06):
+Version 1.1.2 (2024.09.12):
 
   Bugfixes:
     * Fixed Tidal Open API cover provider to only login when needed instead of on startup.
