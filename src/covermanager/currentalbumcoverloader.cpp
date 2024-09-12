@@ -28,6 +28,7 @@
 #include <QDir>
 #include <QImage>
 #include <QTemporaryFile>
+#include <QStandardPaths>
 
 #include "core/application.h"
 #include "core/song.h"
@@ -41,7 +42,7 @@ using std::make_unique;
 CurrentAlbumCoverLoader::CurrentAlbumCoverLoader(Application *app, QObject *parent)
     : QObject(parent),
       app_(app),
-      temp_file_pattern_(QDir::tempPath() + QStringLiteral("/strawberry-cover-XXXXXX.jpg")),
+      temp_file_pattern_(QStandardPaths::writableLocation(QStandardPaths::TempLocation) + QStringLiteral("/strawberry-cover-XXXXXX.jpg")),
       id_(0) {
 
   setObjectName(QLatin1String(metaObject()->className()));
