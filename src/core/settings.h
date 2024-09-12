@@ -30,22 +30,6 @@ class Settings : public QSettings {
  public:
   explicit Settings(QObject *parent = nullptr);
   explicit Settings(const QString &filename, const Format format, QObject *parent = nullptr);
-#if QT_VERSION < QT_VERSION_CHECK(6, 4, 0)  // Compatibility with older Qt versions
-  void beginGroup(const char *prefix);
-  void beginGroup(const QString &prefix);
-  bool contains(const char *key) const;
-  bool contains(const QString &key) const;
-  QVariant value(const char *key, const QVariant &default_value = QVariant()) const;
-  QVariant value(const QString &key, const QVariant &default_value = QVariant()) const;
-  void setValue(const char *key, const QVariant &value);
-  void setValue(const QString &key, const QVariant &value);
-  int beginReadArray(const char *prefix);
-  int beginReadArray(const QString &prefix);
-  void beginWriteArray(const char *prefix, int size = -1);
-  void beginWriteArray(const QString &prefix, int size = -1);
-  void remove(const char *key);
-  void remove(const QString &key);
-#endif
 };
 
 #endif  // SETTINGS_H
