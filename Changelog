@@ -24,6 +24,7 @@ Version 1.1.2-rc1 (2024.09.06):
     * Fixed freeze on playlist right click (#1478).
     * Fixed copying songs to a iPod device keeping too many files open (#1527).
     * Fixed MBIDs from MP4 being parsed incorrectly causing ListenBrainz errors (#1531).
+    * Fixed playlist sorting after filename (#1538).
 
   Enhancements:
     * Improved volume adjustment and track seeking using touchpad (#1498).
