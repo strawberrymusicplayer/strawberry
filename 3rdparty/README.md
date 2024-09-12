@@ -26,3 +26,11 @@ getopt included on Windows for command line options parsing with Unicode support
 The directory can safely be deleted on other platforms.
 
 URL: https://github.com/ludvikjerabek/getopt-win
+
+gstfastspectrum
+---------------
+A GStreamer spectrum plugin using FFTW3.
+It is needed for moodbar support, and is currently not available
+in GStreamer.
+The plan is to submit it to GStreamer, or move it to
+a seperate repository outside of Strawberry.

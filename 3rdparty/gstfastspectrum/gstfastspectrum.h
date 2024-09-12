@@ -1,6 +1,7 @@
 /* GStreamer
  * Copyright (C) <1999> Erik Walthinsen <omega@cse.ogi.edu>
  * Copyright (C) <2009> Sebastian Dröge <sebastian.droege@collabora.co.uk>
+ * Copyright (C) <2018-2024> Jonas Kvinge <jonas@jkvinge.net>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -25,9 +26,8 @@
 //   - Send output via a callback instead of GST messages (less overhead).
 //   - Removed all properties except interval and band.
 
-
-#ifndef GST_MOODBAR_FASTSPECTRUM_H
-#define GST_MOODBAR_FASTSPECTRUM_H
+#ifndef GST_STRAWBERRY_FASTSPECTRUM_H
+#define GST_STRAWBERRY_FASTSPECTRUM_H
 
 #include <functional>
 
@@ -37,19 +37,17 @@
 
 G_BEGIN_DECLS
 
-#define GST_TYPE_FASTSPECTRUM            (gst_fastspectrum_get_type())
-#define GST_FASTSPECTRUM(obj)            (G_TYPE_CHECK_INSTANCE_CAST((obj), GST_TYPE_FASTSPECTRUM, GstFastSpectrum))
-#define GST_IS_FASTSPECTRUM(obj)         (G_TYPE_CHECK_INSTANCE_TYPE((obj), GST_TYPE_FASTSPECTRUM))
-#define GST_FASTSPECTRUM_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST((klass), GST_TYPE_FASTSPECTRUM, GstFastSpectrumClass))
-#define GST_IS_FASTSPECTRUM_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE((klass), GST_TYPE_FASTSPECTRUM))
+#define GST_TYPE_STRAWBERRY_FASTSPECTRUM            (gst_strawberry_fastspectrum_get_type())
+#define GST_STRAWBERRY_FASTSPECTRUM(obj)            (G_TYPE_CHECK_INSTANCE_CAST((obj), GST_TYPE_FASTSPECTRUM, GstStrawberryFastSpectrum))
+#define GST_IS_STRAWBERRY_FASTSPECTRUM(obj)         (G_TYPE_CHECK_INSTANCE_TYPE((obj), GST_TYPE_FASTSPECTRUM))
+#define GST_STRAWBERRY_FASTSPECTRUM_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST((klass), GST_TYPE_FASTSPECTRUM, GstStrawberryFastSpectrumClass))
+#define GST_IS_STRAWBERRY_FASTSPECTRUM_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE((klass), GST_TYPE_FASTSPECTRUM))
 
-class QMutex;
+typedef void (*GstStrawberryFastSpectrumInputData)(const guint8 *in, double *out, guint len, double max_value, guint op, guint nfft);
 
-typedef void (*GstFastSpectrumInputData)(const guint8 *in, double *out, guint len, double max_value, guint op, guint nfft);
+using GstStrawberryFastSpectrumOutputCallback = std::function<void(double *magnitudes, int size)>;
 
-using OutputCallback = std::function<void(double *magnitudes, int size)>;
-
-struct GstFastSpectrum {
+struct GstStrawberryFastSpectrum {
   GstAudioFilter parent;
 
   // Properties
@@ -77,20 +75,17 @@ struct GstFastSpectrum {
 
   GMutex lock;
 
-  GstFastSpectrumInputData input_data;
-
-  OutputCallback output_callback;
+  GstStrawberryFastSpectrumInputData input_data;
+  GstStrawberryFastSpectrumOutputCallback output_callback;
 };
 
-struct GstFastSpectrumClass {
+struct GstStrawberryFastSpectrumClass {
   GstAudioFilterClass parent_class;
-
-  // Static lock for creating & destroying FFTW plans.
-  QMutex *fftw_lock;
+  GMutex fftw_lock;
 };
 
-GType gst_fastspectrum_get_type(void);
+GType gst_strawberry_fastspectrum_get_type(void);
 
 G_END_DECLS
 
-#endif  // GST_MOODBAR_FASTSPECTRUM_H
+#endif  // GST_STRAWBERRY_FASTSPECTRUM_H

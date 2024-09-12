@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.13)
 
-set(SOURCES gstfastspectrum.cpp gstmoodbarplugin.cpp)
+set(SOURCES gstfastspectrum.cpp)
 
-add_library(gstmoodbar STATIC ${SOURCES})
+add_library(gstfastspectrum STATIC ${SOURCES})
 
-target_include_directories(gstmoodbar SYSTEM PRIVATE
+target_include_directories(gstfastspectrum SYSTEM PRIVATE
   ${GLIB_INCLUDE_DIRS}
   ${GOBJECT_INCLUDE_DIRS}
   ${GSTREAMER_INCLUDE_DIRS}
@@ -13,9 +13,9 @@ target_include_directories(gstmoodbar SYSTEM PRIVATE
   ${FFTW3_INCLUDE_DIR}
 )
 
-target_include_directories(gstmoodbar PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(gstfastspectrum PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
-target_link_directories(gstmoodbar PRIVATE
+target_link_directories(gstfastspectrum PRIVATE
   ${GLIB_LIBRARY_DIRS}
   ${GOBJECT_LIBRARY_DIRS}
   ${GSTREAMER_LIBRARY_DIRS}
@@ -24,12 +24,11 @@ target_link_directories(gstmoodbar PRIVATE
   ${FFTW3_LIBRARY_DIRS}
 )
 
-target_link_libraries(gstmoodbar PRIVATE
+target_link_libraries(gstfastspectrum PRIVATE
   ${GLIB_LIBRARIES}
   ${GOBJECT_LIBRARIES}
   ${GSTREAMER_LIBRARIES}
   ${GSTREAMER_BASE_LIBRARIES}
   ${GSTREAMER_AUDIO_LIBRARIES}
   ${FFTW3_FFTW_LIBRARY}
-  Qt${QT_VERSION_MAJOR}::Core
 )

@@ -37,7 +37,7 @@
 #include "utilities/threadutils.h"
 #include "moodbar/moodbarbuilder.h"
 
-#include "ext/gstmoodbar/gstfastspectrum.h"
+#include "gstfastspectrum.h"
 
 using namespace Qt::StringLiterals;
 using std::make_unique;
@@ -122,7 +122,7 @@ void MoodbarPipeline::Start() {
   g_object_set(decodebin, "uri", gst_url.constData(), nullptr);
   g_object_set(spectrum, "bands", kBands, nullptr);
 
-  GstFastSpectrum *fast_spectrum = reinterpret_cast<GstFastSpectrum*>(spectrum);
+  GstStrawberryFastSpectrum *fast_spectrum = reinterpret_cast<GstStrawberryFastSpectrum*>(spectrum);
   fast_spectrum->output_callback = [this](double *magnitudes, int size) { builder_->AddFrame(magnitudes, size); };
 
   // Connect signals

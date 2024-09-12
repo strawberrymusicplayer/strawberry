@@ -39,7 +39,7 @@
 #include "utilities/envutils.h"
 
 #ifdef HAVE_MOODBAR
-#  include "ext/gstmoodbar/gstmoodbarplugin.h"
+#  include "moodbar/gstfastspectrumplugin.h"
 #endif
 
 #include "gststartup.h"
@@ -83,7 +83,7 @@ void GstStartup::InitializeGStreamer() {
   gst_pb_utils_init();
 
 #ifdef HAVE_MOODBAR
-  gstfastspectrum_register_static();
+  gst_strawberry_fastspectrum_register_static();
 #endif
 
 #ifdef Q_OS_WIN32

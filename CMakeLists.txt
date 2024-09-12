@@ -471,7 +471,7 @@ add_subdirectory(ext/libstrawberry-common)
 add_subdirectory(ext/libstrawberry-tagreader)
 add_subdirectory(ext/strawberry-tagreader)
 if(HAVE_MOODBAR)
-  add_subdirectory(ext/gstmoodbar)
+  add_subdirectory(3rdparty/gstfastspectrum)
 endif()
 
 if(GTest_FOUND AND GMOCK_LIBRARY AND Qt${QT_VERSION_MAJOR}Test_FOUND)
