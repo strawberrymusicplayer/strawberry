@@ -69,6 +69,7 @@ SpotifySettingsPage::SpotifySettingsPage(SettingsDialog *dialog, QWidget *parent
   if (reg) {
     GstPluginFeature *spotifyaudiosrc = gst_registry_lookup_feature(reg, "spotifyaudiosrc");
     if (spotifyaudiosrc) {
+      gst_object_unref(spotifyaudiosrc);
       ui_->widget_warning->hide();
     }
     else {
