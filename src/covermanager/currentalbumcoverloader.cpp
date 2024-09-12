@@ -27,11 +27,11 @@
 #include <QObject>
 #include <QDir>
 #include <QImage>
-#include <QTemporaryFile>
 #include <QStandardPaths>
 
 #include "core/application.h"
 #include "core/song.h"
+#include "core/temporaryfile.h"
 #include "playlist/playlistmanager.h"
 #include "albumcoverloader.h"
 #include "albumcoverloaderresult.h"
@@ -58,12 +58,7 @@ CurrentAlbumCoverLoader::CurrentAlbumCoverLoader(Application *app, QObject *pare
 
 }
 
-CurrentAlbumCoverLoader::~CurrentAlbumCoverLoader() {
-
-  if (temp_cover_) temp_cover_->remove();
-  if (temp_cover_thumbnail_) temp_cover_thumbnail_->remove();
-
-}
+CurrentAlbumCoverLoader::~CurrentAlbumCoverLoader() = default;
 
 void CurrentAlbumCoverLoader::ReloadSettingsAsync() {
 
@@ -90,35 +85,33 @@ void CurrentAlbumCoverLoader::AlbumCoverReady(const quint64 id, AlbumCoverLoader
   id_ = 0;
 
   if (!result.album_cover.image.isNull()) {
-    temp_cover_ = make_unique<QTemporaryFile>(temp_file_pattern_);
-    temp_cover_->setAutoRemove(true);
-    if (temp_cover_->open()) {
-      if (result.album_cover.image.save(temp_cover_->fileName(), "JPEG")) {
-        result.temp_cover_url = QUrl::fromLocalFile(temp_cover_->fileName());
+    temp_cover_ = make_unique<TemporaryFile>(temp_file_pattern_);
+    if (!temp_cover_->filename().isEmpty()) {
+      if (result.album_cover.image.save(temp_cover_->filename(), "JPEG")) {
+        result.temp_cover_url = QUrl::fromLocalFile(temp_cover_->filename());
       }
       else {
-        qLog(Error) << "Failed to save cover image to" << temp_cover_->fileName() << temp_cover_->errorString();
+        qLog(Error) << "Failed to save cover image to" << temp_cover_->filename();
       }
     }
     else {
-      qLog(Error) << "Failed to open" << temp_cover_->fileName() << temp_cover_->errorString();
+      qLog(Error) << "Failed to open" << temp_cover_->filename();
     }
   }
 
   QUrl thumbnail_url;
   if (!result.image_scaled.isNull()) {
-    temp_cover_thumbnail_ = make_unique<QTemporaryFile>(temp_file_pattern_);
-    temp_cover_thumbnail_->setAutoRemove(true);
-    if (temp_cover_thumbnail_->open()) {
-      if (result.image_scaled.save(temp_cover_thumbnail_->fileName(), "JPEG")) {
-        thumbnail_url = QUrl::fromLocalFile(temp_cover_thumbnail_->fileName());
+    temp_cover_thumbnail_ = make_unique<TemporaryFile>(temp_file_pattern_);
+    if (temp_cover_thumbnail_->filename().isEmpty()) {
+      if (result.image_scaled.save(temp_cover_thumbnail_->filename(), "JPEG")) {
+        thumbnail_url = QUrl::fromLocalFile(temp_cover_thumbnail_->filename());
       }
       else {
-        qLog(Error) << "Unable to save cover thumbnail image to" << temp_cover_thumbnail_->fileName();
+        qLog(Error) << "Unable to save cover thumbnail image to" << temp_cover_thumbnail_->filename();
       }
     }
     else {
-      qLog(Error) << "Unable to open" << temp_cover_thumbnail_->fileName();
+      qLog(Error) << "Unable to open" << temp_cover_thumbnail_->filename();
     }
   }
 

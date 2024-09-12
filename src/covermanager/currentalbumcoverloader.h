@@ -28,9 +28,9 @@
 #include <QObject>
 #include <QString>
 #include <QImage>
-#include <QTemporaryFile>
 
 #include "core/scoped_ptr.h"
+#include "core/temporaryfile.h"
 #include "core/song.h"
 #include "albumcoverloaderoptions.h"
 #include "albumcoverloaderresult.h"
@@ -66,8 +66,8 @@ class CurrentAlbumCoverLoader : public QObject {
 
   QString temp_file_pattern_;
 
-  ScopedPtr<QTemporaryFile> temp_cover_;
-  ScopedPtr<QTemporaryFile> temp_cover_thumbnail_;
+  ScopedPtr<TemporaryFile> temp_cover_;
+  ScopedPtr<TemporaryFile> temp_cover_thumbnail_;
   quint64 id_;
 
   Song last_song_;
