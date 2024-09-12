@@ -1111,10 +1111,6 @@ if(HAVE_DBUS)
   target_link_libraries(strawberry_lib PUBLIC Qt${QT_VERSION_MAJOR}::DBus)
 endif()
 
-if(HAVE_X11_GLOBALSHORTCUTS AND HAVE_X11EXTRAS)
-  target_link_libraries(strawberry_lib PUBLIC Qt${QT_VERSION_MAJOR}::X11Extras)
-endif()
-
 if(HAVE_ALSA)
   target_include_directories(strawberry_lib SYSTEM PRIVATE ${ALSA_INCLUDE_DIRS})
   target_link_directories(strawberry_lib PRIVATE ${ALSA_LIBRARY_DIRS})

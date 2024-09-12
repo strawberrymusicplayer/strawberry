@@ -182,9 +182,6 @@ endif()
 if(Qt${QT_VERSION_MAJOR}LinguistTools_FOUND)
   get_target_property(QT_LCONVERT_EXECUTABLE Qt${QT_VERSION_MAJOR}::lconvert LOCATION)
 endif()
-if(Qt${QT_VERSION_MAJOR}X11Extras_FOUND)
-  set(HAVE_X11EXTRAS ON)
-endif()
 
 if(X11_FOUND)
   find_path(KEYSYMDEF_H NAMES "keysymdef.h" PATHS "${X11_INCLUDE_DIR}" PATH_SUFFIXES "X11")
@@ -209,21 +206,19 @@ if(X11_FOUND)
   endif()
 
   # Check for QX11Application (Qt 6 compiled with XCB).
-  if(QT_VERSION_MAJOR EQUAL 6)
-    set(CMAKE_REQUIRED_FLAGS "-std=c++17")
-    set(CMAKE_REQUIRED_LIBRARIES Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Gui)
-    check_cxx_source_compiles("
+  set(CMAKE_REQUIRED_FLAGS "-std=c++17")
+  set(CMAKE_REQUIRED_LIBRARIES Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Gui)
+  check_cxx_source_compiles("
     #include <QGuiApplication>
     int main() {
       (void)qApp->nativeInterface<QNativeInterface::QX11Application>();
       return 0;
     }
     "
-      HAVE_QX11APPLICATION
-      )
-    unset(CMAKE_REQUIRED_FLAGS)
-    unset(CMAKE_REQUIRED_LIBRARIES)
-  endif()
+    HAVE_QX11APPLICATION
+  )
+  unset(CMAKE_REQUIRED_FLAGS)
+  unset(CMAKE_REQUIRED_LIBRARIES)
 
 endif(X11_FOUND)
 
@@ -352,12 +347,9 @@ optional_component(GLOBALSHORTCUTS ON "Global shortcuts"
   DEPENDS "D-Bus, X11, Windows or macOS" HAVE_GLOBALSHORTCUTS_SUPPORT
 )
 
-if(HAVE_QX11APPLICATION OR HAVE_X11EXTRAS OR HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)
-  set(X11_GLOBALSHORTCUTS_REQUIREMENT_FOUND ON)
-endif()
 optional_component(X11_GLOBALSHORTCUTS ON "X11 global shortcuts"
   DEPENDS "X11" X11_FOUND
-  DEPENDS "QX11Application, X11Extras or qpa/qplatformnativeinterface.h header" X11_GLOBALSHORTCUTS_REQUIREMENT_FOUND
+  DEPENDS "QX11Application" HAVE_QX11APPLICATION
 )
 
 optional_component(AUDIOCD ON "Devices: Audio CD support"

@@ -51,13 +51,11 @@
 #include <QFlags>
 #include <QtEvents>
 
-#include "core/settings.h"
-
-#ifdef HAVE_X11EXTRAS
-#  include <QX11Info>
-#elif defined(HAVE_X11) && defined(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)
+#ifdef HAVE_QPA_QPLATFORMNATIVEINTERFACE_H
 #  include <qpa/qplatformnativeinterface.h>
 #endif
+
+#include "core/settings.h"
 
 #include "osdpretty.h"
 #include "ui_osdpretty.h"
@@ -84,7 +82,6 @@ const int OSDPretty::kSnapProximity = 20;
 
 const QRgb OSDPretty::kPresetBlue = qRgb(102, 150, 227);
 const QRgb OSDPretty::kPresetRed = qRgb(202, 22, 16);
-
 
 OSDPretty::OSDPretty(Mode mode, QWidget *parent)
     : QWidget(parent),
@@ -219,9 +216,7 @@ void OSDPretty::ScreenRemoved(QScreen *screen) {
 
 bool OSDPretty::IsTransparencyAvailable() {
 
-#ifdef HAVE_X11EXTRAS
-  return QX11Info::isCompositingManagerRunning();
-#elif defined(HAVE_X11) && defined(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)
+#ifdef HAVE_QPA_QPLATFORMNATIVEINTERFACE_H
   if (qApp) {
     QPlatformNativeInterface *native = QGuiApplication::platformNativeInterface();
     QScreen *screen = popup_screen_ == nullptr ? QGuiApplication::primaryScreen() : popup_screen_;

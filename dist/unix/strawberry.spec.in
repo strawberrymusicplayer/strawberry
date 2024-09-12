@@ -55,9 +55,6 @@ BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@Gui)
 BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@Widgets)
 BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@Test)
 BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@LinguistTools)
-%if "@QT_VERSION_MAJOR@" == "5"
-BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@X11Extras)
-%endif
 BuildRequires:  pkgconfig(gstreamer-1.0)
 BuildRequires:  pkgconfig(gstreamer-app-1.0)
 BuildRequires:  pkgconfig(gstreamer-audio-1.0)

@@ -48,12 +48,10 @@
 #cmakedefine INSTALL_TRANSLATIONS
 #define TRANSLATIONS_DIR "${CMAKE_INSTALL_PREFIX}/share/strawberry/translations"
 
+#cmakedefine HAVE_QX11APPLICATION
 #cmakedefine HAVE_QPA_QPLATFORMNATIVEINTERFACE_H
-#cmakedefine HAVE_X11EXTRAS
 
 #cmakedefine ENABLE_WIN32_CONSOLE
-
-#cmakedefine HAVE_QX11APPLICATION
 
 #cmakedefine HAVE_EBUR128
 
