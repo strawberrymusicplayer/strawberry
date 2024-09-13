@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: strawberrymusicplayer\n"
 "Language-Team: Spanish, Mexico\n"
 "Language: es_MX\n"
-"PO-Revision-Date: 2024-08-27 16:57\n"
+"PO-Revision-Date: 2024-09-14 16:42\n"
 
 msgid "All Files (*)"
 msgstr "Todos los archivos (*)"
@@ -1947,6 +1947,9 @@ msgstr "Siguiente pista"
 
 msgid "Previous track"
 msgstr "Pista anterior"
+
+msgid "Restart or previous track"
+msgstr "Reiniciar o pista anterior"
 
 msgid "Increase volume"
 msgstr "Aumentar el volumen"
