@@ -85,6 +85,7 @@ class GlobalShortcutsManager : public QWidget {
   void StopAfter();
   void Next();
   void Previous();
+  void RestartOrPrevious();
   void IncVolume();
   void DecVolume();
   void Mute();

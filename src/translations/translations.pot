@@ -2000,6 +2000,9 @@ msgstr ""
 msgid "Previous track"
 msgstr ""
 
+msgid "Restart or previous track"
+msgstr ""
+
 msgid "Increase volume"
 msgstr ""
 
