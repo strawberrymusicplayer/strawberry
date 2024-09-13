@@ -1,8 +1,15 @@
-find_program(MACDEPLOYQT_EXECUTABLE NAMES macdeployqt PATHS /usr/bin /usr/local/bin /opt/local/bin /usr/local/opt/qt6/bin /usr/local/opt/qt5/bin REQUIRED)
+find_program(MACDEPLOYQT_EXECUTABLE NAMES macdeployqt PATHS /usr/bin /usr/local/bin /opt/local/bin /usr/local/opt/qt6/bin REQUIRED)
 if(MACDEPLOYQT_EXECUTABLE)
   message(STATUS "Found macdeployqt: ${MACDEPLOYQT_EXECUTABLE}")
 else()
   message(WARNING "Missing macdeployqt executable.")
+endif()
+
+find_program(MACDEPLOYCHECK_EXECUTABLE NAMES macdeploycheck PATHS /usr/bin /usr/local/bin /opt/local/bin /usr/local/opt/qt6/bin REQUIRED)
+if(MACDEPLOYCHECK_EXECUTABLE)
+  message(STATUS "Found macdeploycheck: ${MACDEPLOYCHECK_EXECUTABLE}")
+else()
+  message(WARNING "Missing macdeploycheck executable.")
 endif()
 
 find_program(CREATEDMG_EXECUTABLE NAMES create-dmg REQUIRED)
@@ -31,10 +38,11 @@ if(MACDEPLOYQT_EXECUTABLE)
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     DEPENDS strawberry strawberry-tagreader
   )
-  add_custom_target(deploycheck
-    COMMAND ${CMAKE_BINARY_DIR}/ext/macdeploycheck/macdeploycheck strawberry.app
-    DEPENDS macdeploycheck
-  )
+  if(MACDEPLOYCHECK_EXECUTABLE)
+    add_custom_target(deploycheck
+      COMMAND ${MACDEPLOYCHECK_EXECUTABLE} strawberry.app
+    )
+  endif()
   if(CREATEDMG_EXECUTABLE)
     add_custom_target(dmg
       COMMAND ${CREATEDMG_EXECUTABLE} --volname strawberry --background "${CMAKE_SOURCE_DIR}/dist/macos/dmg_background.png" --app-drop-link 450 218 --icon strawberry.app 150 218 --window-size 600 450 ${CREATEDMG_CODESIGN} ${CREATEDMG_SKIP_JENKINS_ARG} strawberry-${STRAWBERRY_VERSION_PACKAGE}-${CMAKE_HOST_SYSTEM_PROCESSOR}.dmg strawberry.app

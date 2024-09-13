@@ -95,7 +95,6 @@ Files: src/core/main.h
        src/transcoder/transcoderoptionswavpack.h
        ext/libstrawberry-tagreader/tagreadertagparser.cpp
        ext/libstrawberry-tagreader/tagreadertagparser.h
-       ext/macdeploycheck/*
        src/widgets/resizabletextedit.cpp
        src/widgets/resizabletextedit.h
 Copyright: 2012-2014, 2017-2023, Jonas Kvinge <jonas@jkvinge.net>

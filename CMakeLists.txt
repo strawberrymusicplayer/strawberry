@@ -275,7 +275,6 @@ if(APPLE)
   add_subdirectory(3rdparty/SPMediaKeyTap)
   set(SPMEDIAKEYTAP_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/SPMediaKeyTap)
   set(SPMEDIAKEYTAP_LIBRARIES SPMediaKeyTap)
-  add_subdirectory(ext/macdeploycheck)
 endif()
 
 if(WIN32)
