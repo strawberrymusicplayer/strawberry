@@ -278,17 +278,11 @@ if(APPLE)
 endif()
 
 if(WIN32)
+  find_package(getopt-win REQUIRED)
   pkg_check_modules(QTSPARKLE qtsparkle-qt${QT_VERSION_MAJOR})
   if(QTSPARKLE_FOUND)
     set(HAVE_QTSPARKLE ON)
   endif()
-endif()
-
-if(WIN32)
-  add_subdirectory(3rdparty/getopt)
-  set(GETOPT_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/getopt)
-  set(GETOPT_LIBRARIES getopt)
-  add_definitions(-DSTATIC_GETOPT -D_UNICODE)
 endif()
 
 if(WIN32 AND NOT MSVC)

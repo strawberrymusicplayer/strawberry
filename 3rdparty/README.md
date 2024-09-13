@@ -19,13 +19,6 @@ The library is no longer maintained by the original author.
 
 The directory can safely be deleted on other platforms.
 
-getopt
-------
-getopt included on Windows for command line options parsing with Unicode support .
-
-The directory can safely be deleted on other platforms.
-
-URL: https://github.com/ludvikjerabek/getopt-win
 
 gstfastspectrum
 ---------------
