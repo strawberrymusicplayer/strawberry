@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: strawberrymusicplayer\n"
 "Language-Team: Estonian\n"
 "Language: et_EE\n"
-"PO-Revision-Date: 2024-08-25 12:58\n"
+"PO-Revision-Date: 2024-09-14 19:49\n"
 
 msgid "All Files (*)"
 msgstr "Kõik failid (*)"
@@ -1947,6 +1947,9 @@ msgstr "Järgmine lugu"
 
 msgid "Previous track"
 msgstr "Eelmine lugu"
+
+msgid "Restart or previous track"
+msgstr "Käivita uuesti või esita eelmine lugu"
 
 msgid "Increase volume"
 msgstr "Heli valjemaks"

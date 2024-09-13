@@ -11,57 +11,613 @@ msgstr ""
 "Project-Id-Version: strawberrymusicplayer\n"
 "Language-Team: Chinese Traditional\n"
 "Language: zh_TW\n"
-"PO-Revision-Date: 2024-08-24 18:29\n"
+"PO-Revision-Date: 2024-09-13 18:08\n"
 
-msgid "\n\n"
-"You can favorite playlists by clicking the star icon next to a playlist name\n\n"
-"Favorited playlists will be saved here"
+msgid "All Files (*)"
+msgstr ""
+
+msgid "Context"
+msgstr ""
+
+msgid "Collection"
+msgstr ""
+
+msgid "Queue"
+msgstr ""
+
+msgid "Playlists"
+msgstr ""
+
+msgid "Smart playlists"
+msgstr ""
+
+msgid "Files"
+msgstr ""
+
+msgid "Radios"
+msgstr ""
+
+msgid "Devices"
+msgstr ""
+
+msgid "Subsonic"
+msgstr ""
+
+msgid "Tidal"
+msgstr ""
+
+msgid "Spotify"
+msgstr ""
+
+msgid "Qobuz"
+msgstr ""
+
+msgid "Show all songs"
+msgstr ""
+
+msgid "Show only duplicates"
+msgstr ""
+
+msgid "Show only untagged"
+msgstr ""
+
+msgid "Configure collection..."
+msgstr ""
+
+msgid "Play"
+msgstr ""
+
+msgid "Stop after this track"
+msgstr ""
+
+msgid "Toggle queue status"
+msgstr ""
+
+msgid "Queue selected tracks to play next"
+msgstr ""
+
+msgid "Toggle skip status"
+msgstr ""
+
+msgid "Rescan song(s)..."
+msgstr ""
+
+msgid "Copy URL(s)..."
+msgstr ""
+
+msgid "Show in collection..."
+msgstr ""
+
+msgid "Show in file browser..."
+msgstr ""
+
+msgid "Organize files..."
+msgstr ""
+
+msgid "Copy to collection..."
+msgstr ""
+
+msgid "Move to collection..."
+msgstr ""
+
+msgid "Copy to device..."
+msgstr ""
+
+msgid "Delete from disk..."
+msgstr ""
+
+msgid "Check for updates..."
+msgstr ""
+
+msgid "Strawberry running under Rosetta"
 msgstr ""
 
 #, qt-format
-msgid " Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in cinnamon-settings-daemon instead."
+msgid "You are running Strawberry under Rosetta. Running Strawberry under Rosetta is unsupported and known to have issues. You should download Strawberry for the correct CPU architecture from %1"
+msgstr ""
+
+msgid "Sponsoring Strawberry"
 msgstr ""
 
 #, qt-format
-msgid " Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in gnome-settings-daemon instead."
+msgid "Strawberry is free and open source software. If you like Strawberry, please consider sponsoring the project. For more information about sponsorship see our website %1"
+msgstr ""
+
+msgid "Pause"
+msgstr ""
+
+msgid "Dequeue track"
+msgstr ""
+
+msgid "Dequeue selected tracks"
+msgstr ""
+
+msgid "Queue track"
+msgstr ""
+
+msgid "Queue selected tracks"
+msgstr ""
+
+msgid "Queue to play next"
+msgstr ""
+
+msgid "Unskip track"
+msgstr ""
+
+msgid "Unskip selected tracks"
+msgstr ""
+
+msgid "Skip track"
+msgstr ""
+
+msgid "Skip selected tracks"
 msgstr ""
 
 #, qt-format
-msgid " Shortcuts on %1 are usually used through MATE Settings Daemon and should be configured there instead."
+msgid "Set %1 to \"%2\"..."
 msgstr ""
 
 #, qt-format
-msgid " Shortcuts on %1 are usually used through MPRIS and KGlobalAccel."
+msgid "Edit tag \"%1\"..."
 msgstr ""
 
-msgid " kbps"
+msgid "Add to another playlist"
 msgstr ""
 
-msgid " ms"
+msgid "New playlist"
 msgstr ""
 
-msgid " pt"
+msgid "Add file"
 msgstr ""
 
-msgid " s"
+msgid "Music"
 msgstr ""
 
-msgid " seconds"
+msgid "Add folder"
 msgstr ""
 
-msgid " songs"
-msgstr ""
-
-#, qt-format
-msgid "%1 Scrobbler Authentication"
+msgid "Clear playlist"
 msgstr ""
 
 #, qt-format
-msgid "%1 album"
+msgid "Playlist has %1 songs, too large to undo, are you sure you want to clear the playlist?"
+msgstr ""
+
+msgid "Error"
+msgstr ""
+
+msgid "None of the selected songs were suitable for copying to a device"
+msgstr ""
+
+msgid "The version of Strawberry you've just updated to requires a full collection rescan because of the new features listed below:"
+msgstr ""
+
+msgid "Would you like to run a full rescan right now?"
+msgstr ""
+
+msgid "Collection rescan notice"
+msgstr ""
+
+msgid "Usage"
+msgstr ""
+
+msgid "options"
+msgstr ""
+
+msgid "URL(s)"
+msgstr ""
+
+msgid "Player options"
+msgstr ""
+
+msgid "Start the playlist currently playing"
+msgstr ""
+
+msgid "Play if stopped, pause if playing"
+msgstr ""
+
+msgid "Pause playback"
+msgstr ""
+
+msgid "Stop playback"
+msgstr ""
+
+msgid "Stop playback after current track"
+msgstr ""
+
+msgid "Skip backwards in playlist"
+msgstr ""
+
+msgid "Skip forwards in playlist"
+msgstr ""
+
+msgid "Set the volume to <value> percent"
+msgstr ""
+
+msgid "Increase the volume by 4 percent"
+msgstr ""
+
+msgid "Decrease the volume by 4 percent"
+msgstr ""
+
+msgid "Increase the volume by <value> percent"
+msgstr ""
+
+msgid "Decrease the volume by <value> percent"
+msgstr ""
+
+msgid "Seek the currently playing track to an absolute position"
+msgstr ""
+
+msgid "Seek the currently playing track by a relative amount"
+msgstr ""
+
+msgid "Restart the track, or play the previous track if within 8 seconds of start."
+msgstr ""
+
+msgid "Playlist options"
+msgstr ""
+
+msgid "Create a new playlist with files"
+msgstr ""
+
+msgid "Append files/URLs to the playlist"
+msgstr ""
+
+msgid "Loads files/URLs, replacing current playlist"
+msgstr ""
+
+msgid "Play the <n>th track in the playlist"
+msgstr ""
+
+msgid "Play given playlist"
+msgstr ""
+
+msgid "Other options"
+msgstr ""
+
+msgid "Display the on-screen-display"
+msgstr ""
+
+msgid "Toggle visibility for the pretty on-screen-display"
+msgstr ""
+
+msgid "Change the language"
+msgstr ""
+
+msgid "Resize the window"
+msgstr ""
+
+msgid "Equivalent to --log-levels *:1"
+msgstr ""
+
+msgid "Equivalent to --log-levels *:3"
+msgstr ""
+
+msgid "Comma separated list of class:level, level is 0-3"
+msgstr ""
+
+msgid "Print out version information"
 msgstr ""
 
 #, qt-format
-msgid "%1 albums"
+msgid "Unable to execute SQL query: %1"
+msgstr ""
+
+#, qt-format
+msgid "Failed SQL query: %1"
+msgstr ""
+
+msgid "Integrity check"
+msgstr ""
+
+msgid "Database corruption detected."
+msgstr ""
+
+msgid "Backing up database"
+msgstr ""
+
+msgid "Deleting files"
+msgstr ""
+
+#, qt-format
+msgid "Failed to create directory %1."
+msgstr ""
+
+#, qt-format
+msgid "Destination file %1 exists, but not allowed to overwrite."
+msgstr ""
+
+#, qt-format
+msgid "Destination file %1 exists, but not allowed to overwrite"
+msgstr ""
+
+#, qt-format
+msgid "Could not copy file %1 to %2."
+msgstr ""
+
+msgid "Unknown"
+msgstr ""
+
+msgid "LUFS"
+msgstr ""
+
+msgid "LU"
+msgstr ""
+
+msgid "You need GStreamer for this URL."
+msgstr ""
+
+msgid "Preload function was not set for blocking operation."
+msgstr ""
+
+#, qt-format
+msgid "File %1 does not exist."
+msgstr ""
+
+#, qt-format
+msgid "File %1 is not recognized as a valid audio file."
+msgstr ""
+
+msgid "CD playback is only available with the GStreamer engine."
+msgstr ""
+
+#, qt-format
+msgid "Could not open file %1 for reading: %2"
+msgstr ""
+
+#, qt-format
+msgid "Could not open CUE file %1 for reading: %2"
+msgstr ""
+
+#, qt-format
+msgid "Could not open playlist file %1 for reading: %2"
+msgstr ""
+
+#, qt-format
+msgid "Couldn't create GStreamer source element for %1"
+msgstr ""
+
+#, qt-format
+msgid "Couldn't create GStreamer typefind element for %1"
+msgstr ""
+
+#, qt-format
+msgid "Couldn't create GStreamer fakesink element for %1"
+msgstr ""
+
+#, qt-format
+msgid "Couldn't link GStreamer source, typefind and fakesink elements for %1"
+msgstr ""
+
+#, qt-format
+msgid "Failed to load image from data for %1"
+msgstr ""
+
+msgid "Playlist"
+msgstr ""
+
+msgid "1 day"
+msgstr ""
+
+#, qt-format
+msgid "%1 days"
+msgstr ""
+
+msgid "Today"
+msgstr ""
+
+msgid "Yesterday"
+msgstr ""
+
+#, qt-format
+msgid "%1 days ago"
+msgstr ""
+
+msgid "Tomorrow"
+msgstr ""
+
+#, qt-format
+msgid "In %1 days"
+msgstr ""
+
+msgid "Next week"
+msgstr ""
+
+#, qt-format
+msgid "In %1 weeks"
+msgstr ""
+
+msgid "Show in file browser"
+msgstr ""
+
+msgid "Too many songs selected."
+msgstr ""
+
+#, qt-format
+msgid "%1 songs in %2 different directories selected, are you sure you want to open them all?"
+msgstr ""
+
+msgid "Prefix a search term with a field name to limit the search to that field, e.g.:"
+msgstr ""
+
+msgid "artist"
+msgstr ""
+
+#, qt-format
+msgid "searches for all artists containing the word %1. "
+msgstr ""
+
+#, qt-format
+msgid "Search terms for numerical fields can be prefixed with %1 or %2 to refine the search, e.g.: "
+msgstr ""
+
+msgid "rating"
+msgstr ""
+
+#, qt-format
+msgid "Multiple search terms can also be combined with \"%1\" (default) and \"%2\", as well as grouped with parentheses. "
+msgstr ""
+
+msgid "Available fields"
+msgstr ""
+
+msgid "Framerate"
+msgstr ""
+
+#, qt-format
+msgid "Low (%1 fps)"
+msgstr ""
+
+#, qt-format
+msgid "Medium (%1 fps)"
+msgstr ""
+
+#, qt-format
+msgid "High (%1 fps)"
+msgstr ""
+
+#, qt-format
+msgid "Super high (%1 fps)"
+msgstr ""
+
+msgid "No analyzer"
+msgstr ""
+
+msgid "Block analyzer"
+msgstr ""
+
+msgid "Boom analyzer"
+msgstr ""
+
+msgid "Turbine"
+msgstr ""
+
+msgid "Sonogram"
+msgstr ""
+
+msgid "WaveRubber"
+msgstr ""
+
+msgid "Pre-amp"
+msgstr ""
+
+msgid "Custom"
+msgstr ""
+
+msgid "Classical"
+msgstr ""
+
+msgid "Club"
+msgstr ""
+
+msgid "Dance"
+msgstr ""
+
+msgid "Full Bass"
+msgstr ""
+
+msgid "Full Treble"
+msgstr ""
+
+msgid "Full Bass + Treble"
+msgstr ""
+
+msgid "Laptop/Headphones"
+msgstr ""
+
+msgid "Large Hall"
+msgstr ""
+
+msgid "Live"
+msgstr ""
+
+msgid "Party"
+msgstr ""
+
+msgid "Pop"
+msgstr ""
+
+msgid "Reggae"
+msgstr ""
+
+msgid "Rock"
+msgstr ""
+
+msgid "Soft"
+msgstr ""
+
+msgid "Ska"
+msgstr ""
+
+msgid "Soft Rock"
+msgstr ""
+
+msgid "Techno"
+msgstr ""
+
+msgid "Zero"
+msgstr ""
+
+msgid "Save preset"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Delete preset"
+msgstr ""
+
+#, qt-format
+msgid "Are you sure you want to delete the \"%1\" preset?"
+msgstr ""
+
+#, qt-format
+msgid "%1 dB"
+msgstr ""
+
+msgid "Filetype"
+msgstr ""
+
+msgid "Length"
+msgstr ""
+
+msgid "Samplerate"
+msgstr ""
+
+msgid "Bit depth"
+msgstr ""
+
+msgid "Bitrate"
+msgstr ""
+
+msgid "EBU R 128 Integrated Loudness"
+msgstr ""
+
+msgid "EBU R 128 Loudness Range"
+msgstr ""
+
+msgid "Show album cover"
+msgstr ""
+
+msgid "Show song technical data"
+msgstr ""
+
+msgid "Show song lyrics"
+msgstr ""
+
+msgid "Automatically search for song lyrics"
+msgstr ""
+
+msgid "No song playing"
+msgstr ""
+
+#, qt-format
+msgid "%1 song"
+msgstr ""
+
+#, qt-format
+msgid "%1 songs"
 msgstr ""
 
 #, qt-format
@@ -73,1342 +629,56 @@ msgid "%1 artists"
 msgstr ""
 
 #, qt-format
-msgid "%1 dB"
+msgid "%1 album"
 msgstr ""
 
 #, qt-format
-msgid "%1 days"
+msgid "%1 albums"
+msgstr ""
+
+msgid "kbps"
+msgstr ""
+
+msgid "Saving playcounts and ratings"
+msgstr ""
+
+msgid "Various artists"
+msgstr ""
+
+msgid "Loading..."
 msgstr ""
 
 #, qt-format
-msgid "%1 days ago"
+msgid "Unable to execute collection SQL query: %1"
 msgstr ""
 
 #, qt-format
-msgid "%1 does not need authentication."
+msgid "Updating %1 database."
+msgstr ""
+
+msgid "Updating collection"
 msgstr ""
 
 #, qt-format
-msgid "%1 needs authentication."
+msgid "Updating %1"
 msgstr ""
 
-#, qt-format
-msgid "%1 playlists (%2)"
-msgstr ""
-
-#, qt-format
-msgid "%1 selected of"
-msgstr ""
-
-#, qt-format
-msgid "%1 song"
-msgstr ""
-
-#, qt-format
-msgid "%1 song%2"
-msgstr ""
-
-#, qt-format
-msgid "%1 songs"
-msgstr ""
-
-#, qt-format
-msgid "%1 songs found"
-msgstr ""
-
-#, qt-format
-msgid "%1 songs found (showing %2)"
-msgstr ""
-
-#, qt-format
-msgid "%1 songs in %2 different directories selected, are you sure you want to open them all?"
-msgstr ""
-
-#, qt-format
-msgid "%1 songs selected."
-msgstr ""
-
-#, qt-format
-msgid "%1 transferred"
-msgstr ""
-
-msgid "%filename%"
-msgstr ""
-
-#, c-format, qt-plural-format
-msgid "%n failed"
-msgstr ""
-
-#, c-format, qt-plural-format
-msgid "%n finished"
-msgstr ""
-
-#, c-format, qt-plural-format
-msgid "%n remaining"
-msgstr ""
-
-#, c-format, qt-plural-format
-msgid "%n track(s)"
-msgstr ""
-
-msgid "%originalyear%"
-msgstr ""
-
-msgid "%rating%"
-msgstr ""
-
-msgid "%url%"
-msgstr ""
-
-msgid "&About Strawberry"
-msgstr ""
-
-msgid "&Add file..."
-msgstr ""
-
-msgid "&Align text"
-msgstr ""
-
-msgid "&Center"
-msgstr ""
-
-msgid "&Clear playlist"
-msgstr ""
-
-msgid "&Cover Manager"
-msgstr ""
-
-msgid "&Custom"
-msgstr ""
-
-msgid "&Default"
-msgstr ""
-
-msgid "&Do a full collection rescan"
-msgstr ""
-
-msgid "&Equalizer"
-msgstr ""
-
-#, qt-format
-msgid "&Hide %1"
-msgstr ""
-
-msgid "&Hide..."
-msgstr ""
-
-msgid "&Jump to the currently playing track"
-msgstr ""
-
-msgid "&Left"
-msgstr ""
-
-msgid "&Load playlist..."
-msgstr ""
-
-msgid "&Lock rating"
-msgstr ""
-
-msgid "&Manual proxy configuration"
-msgstr ""
-
-msgid "&Music"
-msgstr ""
-
-msgid "&Mute"
-msgstr ""
-
-msgid "&New playlist"
-msgstr ""
-
-msgid "&Next track"
-msgstr ""
-
-msgid "&No background image"
-msgstr ""
-
-msgid "&None"
-msgstr ""
-
-msgid "&Open file..."
-msgstr ""
-
-msgid "&Play"
-msgstr ""
-
-msgid "&Quit"
-msgstr ""
-
-msgid "&Repeat mode"
-msgstr ""
-
-msgid "&Reset columns to default"
-msgstr ""
-
-msgid "&Right"
-msgstr ""
-
-msgid "&Save all playlists..."
-msgstr ""
-
-msgid "&Settings..."
-msgstr ""
-
-msgid "&Shuffle mode"
-msgstr ""
-
-msgid "&Stop"
-msgstr ""
-
-msgid "&Stretch columns to fit window"
-msgstr ""
-
-msgid "&Tools"
-msgstr ""
-
-msgid "&Transcode Music"
-msgstr ""
-
-msgid "&Update changed collection folders"
-msgstr ""
-
-msgid "&Use the system default color"
-msgstr ""
-
-msgid "&Use the system proxy settings"
-msgstr ""
-
-msgid "(This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately)."
-msgstr ""
-
-msgid "(different across multiple songs)"
-msgstr ""
-
-msgid "0"
-msgstr ""
-
-msgid "0:00:00"
-msgstr ""
-
-msgid "0px"
-msgstr ""
-
-msgid "1 day"
-msgstr ""
-
-msgid "40%"
-msgstr ""
-
-msgid "50 random tracks"
-msgstr ""
-
-msgid "<html><head/><body><p>The GStreamer Spotify plugin is not detected, you will not be able to stream songs from Spotify without it. See <a href=\"https://wiki.strawberrymusicplayer.org/wiki/Installing_GStreamer_Spotify_plugin\"><span style=\" text-decoration: underline; color:#2980b9;\">Wiki</span></a> for instructions on how to install the plugin.</p></body></html>"
-msgstr ""
-
-msgid "<p>Tokens start with %, for example: %artist %album %title </p>\n\n"
-"<p>If you surround sections of text that contain a token with curly-braces, that section will be hidden if the token is empty.</p>"
-msgstr ""
-
-msgid "A smart playlist is a dynamic list of songs that come from your collection.  There are different types of smart playlist that offer different ways of selecting songs."
-msgstr ""
-
-msgid "A song will be included in the playlist if it matches these conditions."
-msgstr ""
-
-msgid "A&utomatic"
-msgstr ""
-
-msgid "A-Z"
-msgstr ""
-
-msgid "AAC"
-msgstr ""
-
-msgid "ALSA plugin:"
-msgstr ""
-
-msgid "API Token"
-msgstr ""
-
-msgid "ASF (WMA)"
-msgstr ""
-
-msgid "Abort"
-msgstr ""
-
-msgid "About"
-msgstr ""
-
-msgid "About &Qt"
-msgstr ""
-
-msgid "About Strawberry"
-msgstr ""
-
-msgid "Absolu&te"
-msgstr ""
-
-msgid "Absolute"
-msgstr ""
-
-msgctxt "Category label"
-msgid "Action"
-msgstr ""
-
-msgid "Add &folder..."
-msgstr ""
-
-msgid "Add Stream"
-msgstr ""
-
-msgid "Add a new line if supported by the notification type"
-msgstr ""
-
-msgid "Add all tracks from a directory and all its subdirectories"
-msgstr ""
-
-msgid "Add directory..."
-msgstr ""
-
-msgid "Add file"
-msgstr ""
-
-msgid "Add file to transcoder"
-msgstr ""
-
-msgid "Add file(s) to transcoder"
-msgstr ""
-
-msgid "Add files to transcode"
-msgstr ""
-
-msgid "Add folder"
-msgstr ""
-
-msgid "Add new folder..."
-msgstr ""
-
-msgid "Add search term"
-msgstr ""
-
-msgid "Add song URL"
-msgstr ""
-
-msgid "Add song album tag"
-msgstr ""
-
-msgid "Add song albumartist tag"
-msgstr ""
-
-msgid "Add song artist tag"
-msgstr ""
-
-msgid "Add song composer tag"
-msgstr ""
-
-msgid "Add song disc tag"
-msgstr ""
-
-msgid "Add song filename"
-msgstr ""
-
-msgid "Add song genre tag"
-msgstr ""
-
-msgid "Add song grouping tag"
-msgstr ""
-
-msgid "Add song length tag"
-msgstr ""
-
-msgid "Add song original year tag"
-msgstr ""
-
-msgid "Add song performer tag"
-msgstr ""
-
-msgid "Add song play count"
-msgstr ""
-
-msgid "Add song rating"
-msgstr ""
-
-msgid "Add song skip count"
-msgstr ""
-
-msgid "Add song title tag"
-msgstr ""
-
-msgid "Add song track tag"
-msgstr ""
-
-msgid "Add song year tag"
-msgstr ""
-
-msgid "Add stream..."
-msgstr ""
-
-msgid "Add to albums"
-msgstr ""
-
-msgid "Add to another playlist"
-msgstr ""
-
-msgid "Add to artists"
-msgstr ""
-
-msgid "Add to playlist"
-msgstr ""
-
-msgid "Add to songs"
-msgstr ""
-
-msgid "Add to the queue"
-msgstr ""
-
-msgid "Add..."
-msgstr ""
-
-msgid "Added this month"
-msgstr ""
-
-msgid "Added this week"
-msgstr ""
-
-msgid "Added this year"
-msgstr ""
-
-msgid "Added today"
-msgstr ""
-
-msgid "Added within three months"
-msgstr ""
-
-msgid "Advanced grouping..."
-msgstr ""
-
-msgid "After copying..."
-msgstr ""
-
-msgid "Albu&m cover"
-msgstr ""
-
-msgid "Album"
-msgstr ""
-
-msgid "Album (ideal loudness for all tracks)"
-msgstr ""
-
-msgid "Album - Disc"
-msgstr ""
-
-msgid "Album Artist"
-msgstr ""
-
-msgid "Album artist"
-msgstr ""
-
-msgid "Album cover editing is only available for collection songs."
-msgstr ""
-
-msgid "Album cover pixmap cache"
-msgstr ""
-
-msgid "Album cover size"
-msgstr ""
-
-msgid "Album cover types"
-msgstr ""
-
-msgid "Albums"
-msgstr ""
-
-msgid "Albums search limit"
-msgstr ""
-
-msgid "Albums with covers"
-msgstr ""
-
-msgid "Albums without covers"
-msgstr ""
-
-msgid "All Files (*)"
-msgstr ""
-
-msgid "All albums"
-msgstr ""
-
-msgid "All artists"
-msgstr ""
-
-msgid "All files (*)"
-msgstr ""
-
-#, qt-format
-msgid "All playlists (%1)"
-msgstr ""
-
-msgid "All tracks"
-msgstr ""
-
-msgid "Allow extended ASCII characters"
-msgstr ""
-
-msgid "Allow mid/side encoding"
-msgstr ""
-
-msgid "Alongside the originals"
-msgstr ""
-
-msgid "Always start playing"
-msgstr ""
-
-msgid "An error occurred loading the iTunes database"
-msgstr ""
-
-msgid "Angry"
-msgstr ""
-
-msgid "App ID"
-msgstr ""
-
-msgid "App Secret"
-msgstr ""
-
-msgid "Appearance"
-msgstr ""
-
-msgid "Append explicit to album title for explicit albums"
-msgstr ""
-
-msgid "Append files/URLs to the playlist"
-msgstr ""
-
-msgid "Append to current playlist"
-msgstr ""
-
-msgid "Append to the playlist"
-msgstr ""
-
-msgid "Apply compression to prevent clipping"
-msgstr ""
-
-msgid "Are you sure you want to continue?"
-msgstr ""
-
-#, qt-format
-msgid "Are you sure you want to delete the \"%1\" preset?"
-msgstr ""
-
-msgid "Are you sure you want to reset this song's play statistics?"
-msgstr ""
-
-msgid "Are you sure you want to write song playcounts and ratings to file for all songs in your collection?"
-msgstr ""
-
-msgid "Art Automatic"
-msgstr ""
-
-msgid "Art Embedded"
-msgstr ""
-
-msgid "Art Manual"
-msgstr ""
-
-msgid "Art Unset"
-msgstr ""
-
-msgid "Artist"
-msgstr ""
-
-msgid "Artist's initial"
-msgstr ""
-
-msgid "Artists"
-msgstr ""
-
-msgid "Artists search limit"
-msgstr ""
-
-msgid "As&k when saving"
-msgstr ""
-
-msgid "Audio format"
-msgstr ""
-
-msgid "Audio normalization"
-msgstr ""
-
-msgid "Audio output"
-msgstr ""
-
-msgid "Audio quality"
-msgstr ""
-
-msgid "Authenticate"
-msgstr ""
-
-msgid "Authenticating..."
-msgstr ""
-
-msgid "Authentication"
-msgstr ""
-
-msgid "Authentication failed"
-msgstr ""
-
-msgid "Authentication method:"
-msgstr ""
-
-msgid "Author and maintainer"
-msgstr ""
-
-msgid "Auto"
-msgstr ""
-
-msgid "Automatic"
-msgstr ""
-
-msgid "Automatic updating"
-msgstr ""
-
-msgid "Automatically open single categories in the collection tree"
-msgstr ""
-
-#, qt-format
-msgid "Automatically picked up from album directory (%1)"
-msgstr ""
-
-msgid "Automatically search for album cover"
-msgstr ""
-
-msgid "Automatically search for song lyrics"
-msgstr ""
-
-msgid "Automatically select current playing track"
-msgstr ""
-
-msgid "Automatically sort playlist when inserting songs"
-msgstr ""
-
-msgid "Available"
-msgstr ""
-
-msgid "Available fields"
-msgstr ""
-
-msgid "Average bitrate"
-msgstr ""
-
-msgid "Average image size"
-msgstr ""
-
-msgid "Backend"
-msgstr ""
-
-msgid "Background color"
-msgstr ""
-
-msgid "Background image"
-msgstr ""
-
-msgid "Background opacity"
-msgstr ""
-
-msgid "Backing up database"
-msgstr ""
-
-msgid "Balance"
-msgstr ""
-
-msgid "Base64 encoded secret"
-msgstr ""
-
-msgid "Basic Blue"
-msgstr ""
-
-msgid "Basic authentication"
-msgstr ""
-
-msgid "Behavior"
-msgstr ""
-
-msgid "Best"
-msgstr ""
-
-msgid "Bit"
-msgstr ""
-
-msgid "Bit Depth"
-msgstr ""
-
-msgid "Bit depth"
-msgstr ""
-
-msgid "Bit rate"
-msgstr ""
-
-msgid "Bitrate"
-msgstr ""
-
-msgctxt "Refers to bitrate in file organize dialog."
-msgid "Bitrate"
-msgstr ""
-
-msgid "Block analyzer"
-msgstr ""
-
-msgid "Block type"
-msgstr ""
-
-msgid "Blur amount"
-msgstr ""
-
-msgid "Body"
-msgstr ""
-
-msgid "Boom analyzer"
-msgstr ""
-
-msgid "Bottom Left"
-msgstr ""
-
-msgid "Bottom Right"
-msgstr ""
-
-msgid "Browse..."
-msgstr ""
-
-msgid "Buffer"
-msgstr ""
-
-msgid "Buffer duration"
-msgstr ""
-
-msgid "Buffering"
-msgstr ""
-
-msgid "C&onsole"
-msgstr ""
-
-msgid "CD playback is only available with the GStreamer engine."
-msgstr ""
-
-msgid "CDDA"
-msgstr ""
-
-msgid "CUE"
-msgstr ""
-
-msgid "Cancel"
-msgstr ""
-
-msgid "Cancelled."
-msgstr ""
-
-msgid "Change art"
-msgstr ""
-
-msgid "Change repeat mode"
-msgstr ""
-
-msgid "Change shortcut..."
-msgstr ""
-
-msgid "Change shuffle mode"
-msgstr ""
-
-msgid "Change the currently playing song"
-msgstr ""
-
-msgid "Change the language"
-msgstr ""
-
-msgid "Check for updates..."
-msgstr ""
-
-msgid "Choose a name for your smart playlist"
-msgstr ""
-
-msgid "Choose color..."
-msgstr ""
-
-msgid "Choose data to import from last.fm"
-msgstr ""
-
-msgid "Choose font..."
-msgstr ""
-
-msgid "Choose how the playlist is sorted and how many songs it will contain."
-msgstr ""
-
-msgid "Choose the providers you want to use when searching for covers."
-msgstr ""
-
-msgid "Choose the providers you want to use when searching for lyrics."
-msgstr ""
-
-msgid "Classical"
-msgstr ""
-
-msgid "Clear"
-msgstr ""
-
-msgid "Clear Disk Cache"
-msgstr ""
-
-msgid "Clear cover"
-msgstr ""
-
-msgid "Clear playlist"
-msgstr ""
-
-msgid "Clementine authors"
-msgstr ""
-
-msgid "Clementine contributors"
+msgid "Your collection is empty!"
 msgstr ""
 
 msgid "Click here to add some music"
 msgstr ""
 
-msgid "Click here to retrieve music"
+msgid "Append to current playlist"
 msgstr ""
 
-msgid "Click to toggle between remaining time and total time"
+msgid "Replace current playlist"
 msgstr ""
 
-msgid "Client ID"
+msgid "Open in new playlist"
 msgstr ""
 
-msgid "Close"
-msgstr ""
-
-msgid "Close playlist"
-msgstr ""
-
-msgid "Closing this window will stop searching for album covers."
-msgstr ""
-
-msgid "Club"
-msgstr ""
-
-msgid "Collection"
-msgstr ""
-
-msgid "Collection Filter"
-msgstr ""
-
-msgid "Collection advanced grouping"
-msgstr ""
-
-msgid "Collection rescan notice"
-msgstr ""
-
-msgid "Collection search"
-msgstr ""
-
-msgid "Comma separated list of class:level, level is 0-3"
-msgstr ""
-
-msgid "Comment"
-msgstr ""
-
-msgid "Compilation"
-msgstr ""
-
-msgid "Complete lyrics automatically"
-msgstr ""
-
-msgid "Complete tags automatically"
-msgstr ""
-
-msgid "Complete tags automatically..."
-msgstr ""
-
-msgid "Composer"
-msgstr ""
-
-msgid "Configuration incomplete"
-msgstr ""
-
-msgid "Configuration incorrect"
-msgstr ""
-
-#, qt-format
-msgid "Configure %1..."
-msgstr ""
-
-msgid "Configure buttons"
-msgstr ""
-
-msgid "Configure collection..."
-msgstr ""
-
-msgid "Connect device"
-msgstr ""
-
-msgid "Console"
-msgstr ""
-
-msgid "Constant bitrate"
-msgstr ""
-
-msgid "Context"
-msgstr ""
-
-msgid "Continue to the next item in the playlist if a song is unavailable"
-msgstr ""
-
-msgid "Contributors"
-msgstr ""
-
-msgid "Convert all music"
-msgstr ""
-
-msgid "Convert any music that the device can't play"
-msgstr ""
-
-msgid "Copy URL(s)..."
-msgstr ""
-
-msgid "Copy album cover artwork"
-msgstr ""
-
-msgid "Copy to collection..."
-msgstr ""
-
-msgid "Copy to device"
-msgstr ""
-
-msgid "Copy to device..."
-msgstr ""
-
-msgid "Copy your strawberry.conf and strawberry.db from your ~/snap directory to avoid losing configuration before you uninstall the snap:"
-msgstr ""
-
-#, qt-format
-msgid "Could not copy %1 to %2: %3"
-msgstr ""
-
-#, qt-format
-msgid "Could not copy file %1 to %2."
-msgstr ""
-
-#, qt-format
-msgid "Could not create the GStreamer element \"%1\" - make sure you have all the required GStreamer plugins installed"
-msgstr ""
-
-#, qt-format
-msgid "Could not open CUE file %1 for reading: %2"
-msgstr ""
-
-msgid "Could not open MTP device."
-msgstr ""
-
-msgid "Could not open URL. Please open this URL in your browser"
-msgstr ""
-
-#, qt-format
-msgid "Could not open file %1"
-msgstr ""
-
-#, qt-format
-msgid "Could not open file %1 for reading: %2"
-msgstr ""
-
-#, qt-format
-msgid "Could not open playlist file %1 for reading: %2"
-msgstr ""
-
-#, qt-format
-msgid "Could not save cover to file %1."
-msgstr ""
-
-#, qt-format
-msgid "Could not write metadata to %1"
-msgstr ""
-
-#, qt-format
-msgid "Could not write metadata to %1: %2"
-msgstr ""
-
-#, qt-format
-msgid "Couldn't create GStreamer fakesink element for %1"
-msgstr ""
-
-#, qt-format
-msgid "Couldn't create GStreamer source element for %1"
-msgstr ""
-
-#, qt-format
-msgid "Couldn't create GStreamer typefind element for %1"
-msgstr ""
-
-msgid "Couldn't create playlist"
-msgstr ""
-
-#, qt-format
-msgid "Couldn't find a muxer for %1, check you have the correct GStreamer plugins installed"
-msgstr ""
-
-#, qt-format
-msgid "Couldn't find an encoder for %1, check you have the correct GStreamer plugins installed"
-msgstr ""
-
-#, qt-format
-msgid "Couldn't link GStreamer source, typefind and fakesink elements for %1"
-msgstr ""
-
-msgid "Cover Manager"
-msgstr ""
-
-msgid "Cover art not set"
-msgstr ""
-
-msgid "Cover changed: Will be cleared when saved."
-msgstr ""
-
-msgid "Cover changed: Will be deleted when saved."
-msgstr ""
-
-msgid "Cover changed: Will be unset when saved."
-msgstr ""
-
-msgid "Cover changed: Will set new when saved."
-msgstr ""
-
-#, qt-format
-msgid "Cover file %1 is empty."
-msgstr ""
-
-#, qt-format
-msgid "Cover from %1"
-msgstr ""
-
-msgid "Cover from embedded image."
-msgstr ""
-
-msgid "Cover is unset."
-msgstr ""
-
-msgid "Cover providers"
-msgstr ""
-
-msgid "Covers"
-msgstr ""
-
-#, qt-format
-msgid "Covers from %1"
-msgstr ""
-
-msgid "Create a new playlist with files"
-msgstr ""
-
-msgid "Cross-fade when changing tracks automatically"
-msgstr ""
-
-msgid "Cross-fade when changing tracks manually"
-msgstr ""
-
-msgid "Ctrl+Alt+V"
-msgstr ""
-
-msgid "Ctrl+Down"
-msgstr ""
-
-msgid "Ctrl+E"
-msgstr ""
-
-msgid "Ctrl+H"
-msgstr ""
-
-msgid "Ctrl+J"
-msgstr ""
-
-msgid "Ctrl+K"
-msgstr ""
-
-msgid "Ctrl+M"
-msgstr ""
-
-msgid "Ctrl+N"
-msgstr ""
-
-msgid "Ctrl+P"
-msgstr ""
-
-msgid "Ctrl+Q"
-msgstr ""
-
-msgid "Ctrl+S"
-msgstr ""
-
-msgid "Ctrl+Shift+A"
-msgstr ""
-
-msgid "Ctrl+Shift+O"
-msgstr ""
-
-msgid "Ctrl+T"
-msgstr ""
-
-msgid "Ctrl+Up"
-msgstr ""
-
-msgid "Current disk cache in use:"
-msgstr ""
-
-msgid "Custom"
-msgstr ""
-
-msgid "Custom color"
-msgstr ""
-
-msgid "Custom image:"
-msgstr ""
-
-msgid "Custom message settings"
-msgstr ""
-
-msgid "Custom text settings"
-msgstr ""
-
-msgid "Custom..."
-msgstr ""
-
-msgid "D-Bus path"
-msgstr ""
-
-msgid "Dance"
-msgstr ""
-
-msgid "Data missing error"
-msgstr ""
-
-msgid "Database corruption detected."
-msgstr ""
-
-msgid "Date Created"
-msgstr ""
-
-msgid "Date Modified"
-msgstr ""
-
-msgid "Date created"
-msgstr ""
-
-msgid "Date modified"
-msgstr ""
-
-msgid "Days"
-msgstr ""
-
-msgid "Decrease the volume by 4 percent"
-msgstr ""
-
-msgid "Decrease the volume by <value> percent"
-msgstr ""
-
-msgid "Decrease volume"
-msgstr ""
-
-msgid "Default bac&kground image"
-msgstr ""
-
-msgid "Defaults"
-msgstr ""
-
-msgid "Delete"
-msgstr ""
-
-msgid "Delete cover"
-msgstr ""
-
-msgid "Delete files"
-msgstr ""
-
-msgid "Delete from device..."
-msgstr ""
-
-msgid "Delete from disk..."
-msgstr ""
-
-msgid "Delete preset"
-msgstr ""
-
-msgid "Delete smart playlist"
-msgstr ""
-
-msgid "Delete songs"
-msgstr ""
-
-msgid "Delete the original files"
-msgstr ""
-
-msgid "Deleting files"
-msgstr ""
-
-msgid "Dequeue selected tracks"
-msgstr ""
-
-msgid "Dequeue track"
-msgstr ""
-
-msgid "Destination"
-msgstr ""
-
-#, qt-format
-msgid "Destination file %1 exists, but not allowed to overwrite"
-msgstr ""
-
-#, qt-format
-msgid "Destination file %1 exists, but not allowed to overwrite."
-msgstr ""
-
-msgid "Details..."
-msgstr ""
-
-msgid "Device"
-msgstr ""
-
-msgid "Device Properties"
-msgstr ""
-
-msgid "Device credentials"
-msgstr ""
-
-msgid "Device properties..."
-msgstr ""
-
-msgid "Devices"
-msgstr ""
-
-msgid "Different art across multiple songs."
-msgstr ""
-
-msgid "Direct internet connection"
-msgstr ""
-
-msgid "Directory"
-msgstr ""
-
-#, qt-format
-msgid "Directory %1 does not exist."
-msgstr ""
-
-msgid "Directory does not exist."
-msgstr ""
-
-msgid "Disable duration"
-msgstr ""
-
-msgctxt "Refers to a disabled notification type in Notification settings."
-msgid "Disabled"
-msgstr ""
-
-msgid "Disc"
-msgstr ""
-
-msgid "Discontinuous transmission"
-msgstr ""
-
-msgid "Disk Cache Size"
-msgstr ""
-
-msgid "Display options"
-msgstr ""
-
-msgid "Display the on-screen-display"
-msgstr ""
-
-msgid "Do not convert any music"
-msgstr ""
-
-msgid "Do not cut image"
-msgstr ""
-
-msgid "Do not overwrite"
-msgstr ""
-
-msgid "Do not show this message again."
-msgstr ""
-
-#, qt-format
-msgid "Don't know how to handle %1"
-msgstr ""
-
-msgid "Don't repeat"
-msgstr ""
-
-msgid "Don't show in various artists"
-msgstr ""
-
-msgid "Don't shuffle"
-msgstr ""
-
-msgid "Don't stop!"
-msgstr ""
-
-msgid "Donate"
-msgstr ""
-
-msgid "Double click to open"
-msgstr ""
-
-msgid "Double clicking a song in the playlist will..."
-msgstr ""
-
-msgid "Double clicking a song will..."
-msgstr ""
-
-msgid "Double-click here to favorite this playlist so it will be saved and remain accessible through the \"Playlists\" panel on the left side bar"
-msgstr ""
-
-msgid "Download album covers"
-msgstr ""
-
-msgid "Downloading metadata"
-msgstr ""
-
-msgid "Drag to reposition"
-msgstr ""
-
-msgid "Dynamic mode is on"
-msgstr ""
-
-msgid "Dynamic random mix"
-msgstr ""
-
-msgid "EBU R 128 Integrated Loudness"
-msgstr ""
-
-msgid "EBU R 128 Loudness Normalization"
-msgstr ""
-
-msgid "EBU R 128 Loudness Range"
-msgstr ""
-
-msgid "EBU R 128 integrated loudness"
-msgstr ""
-
-msgid "EBU R 128 loudness range"
-msgstr ""
-
-msgid "Edit smart playlist"
-msgstr ""
-
-msgid "Edit smart playlist..."
-msgstr ""
-
-#, qt-format
-msgid "Edit tag \"%1\"..."
-msgstr ""
-
-msgid "Edit tag..."
-msgstr ""
-
-msgid "Edit track information"
+msgid "Search for this"
 msgstr ""
 
 msgid "Edit track information..."
@@ -1417,448 +687,28 @@ msgstr ""
 msgid "Edit tracks information..."
 msgstr ""
 
-#, qt-format
-msgid "Embedded album cover art (%1)"
+msgid "Rescan song(s)"
 msgstr ""
 
-msgid "Embedded cover"
+msgid "Show in various artists"
 msgstr ""
 
-msgid "Enable"
+msgid "Don't show in various artists"
 msgstr ""
 
-msgid "Enable Disk Cache"
+msgid "There are other songs in this album"
 msgstr ""
 
-msgid "Enable HTTP/2 for streaming"
+msgid "Would you like to move the other songs on this album to Various Artists as well?"
 msgstr ""
 
-msgid "Enable Items"
-msgstr ""
-
-msgid "Enable delete files in the right click context menu"
-msgstr ""
-
-msgid "Enable equalizer"
-msgstr ""
-
-msgid "Enable fading"
-msgstr ""
-
-msgid "Enable playlist clear button"
-msgstr ""
-
-msgid "Enable playlist toolbar"
-msgstr ""
-
-msgid "Enable scrobbling for the following sources:"
-msgstr ""
-
-msgid "Enable song metadata inline edition with click"
-msgstr ""
-
-msgid "Enable stereo balancer"
-msgstr ""
-
-msgid "Enable volume control"
-msgstr ""
-
-msgid "Enable/disable scrobbling"
-msgstr ""
-
-msgid "Enabled"
-msgstr ""
-
-msgid "Encoding complexity"
-msgstr ""
-
-msgid "Encoding engine quality"
-msgstr ""
-
-msgid "Encoding mode"
-msgstr ""
-
-msgid "Engine"
-msgstr ""
-
-msgid "Enter a URL to download a cover from the Internet:"
-msgstr ""
-
-msgid "Enter a filename for exported covers (no extension):"
-msgstr ""
-
-msgid "Enter a new name for this playlist"
-msgstr ""
-
-msgid "Enter search terms above to find music"
-msgstr ""
-
-msgid "Enter search terms here"
-msgstr ""
-
-msgid "Enter the URL of a stream:"
-msgstr ""
-
-msgid "Enter the name of the folder"
-msgstr ""
-
-msgid "Enter username and password"
-msgstr ""
-
-msgid "Enter your user token from"
-msgstr ""
-
-msgid "Entire collection"
-msgstr ""
-
-msgid "Equalizer"
-msgstr ""
-
-msgid "Equivalent to --log-levels *:1"
-msgstr ""
-
-msgid "Equivalent to --log-levels *:3"
-msgstr ""
-
-msgid "Error"
-msgstr ""
-
-#, qt-format
-msgid "Error connecting MTP device %1"
-msgstr ""
-
-#, qt-format
-msgid "Error connecting MTP device %1: %2"
-msgstr ""
-
-msgid "Error copying songs"
-msgstr ""
-
-msgid "Error deleting songs"
-msgstr ""
-
-#, qt-format
-msgid "Error processing %1: %2"
-msgstr ""
-
-msgid "Error while loading audio CD."
-msgstr ""
-
-msgid "Error while querying CDDA tracks."
-msgstr ""
-
-msgid "Error while setting CDDA device to pause state."
-msgstr ""
-
-msgid "Error while setting CDDA device to ready state."
-msgstr ""
-
-msgid "Ever played"
-msgstr ""
-
-msgid "Exceeded by"
-msgstr ""
-
-msgid "Except between tracks on the same album or in the same CUE sheet"
-msgstr ""
-
-msgid "Exclusive mode (Experimental)"
-msgstr ""
-
-msgid "Existing covers"
-msgstr ""
-
-msgid "Expand"
-msgstr ""
-
-msgid "Expire unavailable songs after"
-msgstr ""
-
-#, qt-format
-msgid "Expires on %1"
-msgstr ""
-
-msgid "Export Covers"
-msgstr ""
-
-msgid "Export covers"
-msgstr ""
-
-msgid "Export downloaded covers"
-msgstr ""
-
-msgid "Export embedded covers"
-msgstr ""
-
-msgid "Export finished"
-msgstr ""
-
-#, qt-format
-msgid "Exported %1 covers out of %2 (%3 skipped)"
-msgstr ""
-
-msgid "F1"
-msgstr ""
-
-msgid "F5"
-msgstr ""
-
-msgid "F6"
-msgstr ""
-
-msgid "F7"
-msgstr ""
-
-msgid "F8"
-msgstr ""
-
-msgid "FLAC"
-msgstr ""
-
-msgid "Fade out on pause / fade in on resume"
-msgstr ""
-
-msgid "Fade out when stopping a track"
-msgstr ""
-
-msgid "Fading"
-msgstr ""
-
-msgid "Fading duration"
-msgstr ""
-
-#, qt-format
-msgid "Failed SQL query: %1"
-msgstr ""
-
-#, qt-format
-msgid "Failed to create directory %1."
-msgstr ""
-
-#, qt-format
-msgid "Failed to delete cover file %1: %2"
-msgstr ""
-
-#, qt-format
-msgid "Failed to load image from data for %1"
-msgstr ""
-
-#, qt-format
-msgid "Failed to open %1 for writing."
-msgstr ""
-
-#, qt-format
-msgid "Failed to open cover file %1 for reading: %2"
-msgstr ""
-
-#, qt-format
-msgid "Failed to open cover file %1 for writing: %2"
-msgstr ""
-
-#, qt-format
-msgid "Failed to write cover to file %1: %2"
-msgstr ""
-
-#, qt-format
-msgid "Failed writing cover to file %1."
-msgstr ""
-
-#, qt-format
-msgid "Failed writing cover to file %1: %2"
-msgstr ""
-
-msgid "Fallback-gain"
-msgstr ""
-
-msgid "Fast"
-msgstr ""
-
-msgid "Favourite tracks"
-msgstr ""
-
-msgid "Fetch Missing Covers"
-msgstr ""
-
-msgid "Fetch automatically"
-msgstr ""
-
-msgid "Fetch completed"
-msgstr ""
-
-msgid "Fetch entire albums when searching songs"
-msgstr ""
-
-msgid "Fetching cover error"
-msgstr ""
-
-#, qt-format
-msgid "File %1 does not exist."
-msgstr ""
-
-#, qt-format
-msgid "File %1 is not recognized as a valid audio file."
-msgstr ""
-
-msgid "File Name"
-msgstr ""
-
-msgid "File Name (without path)"
-msgstr ""
-
-msgid "File Size"
-msgstr ""
-
-msgid "File Type"
-msgstr ""
-
-msgid "File extension"
-msgstr ""
-
-msgid "File formats"
-msgstr ""
-
-msgid "File paths"
-msgstr ""
-
-msgid "File size"
-msgstr ""
-
-msgid "File type"
-msgstr ""
-
-msgid "Filename"
-msgstr ""
-
-msgid "Filename:"
-msgstr ""
-
-msgid "Files"
-msgstr ""
-
-msgid "Files to transcode"
-msgstr ""
-
-msgid "Files, playlists and queue buttons"
-msgstr ""
-
-msgid "Filetype"
-msgstr ""
-
-msgid "Find songs in your collection that match the criteria you specify."
-msgstr ""
-
-msgid "Fingerprinting song"
-msgstr ""
-
-msgid "Finish"
-msgstr ""
-
-msgid "First level"
-msgstr ""
-
-msgid "Fit cover to width"
-msgstr ""
-
-msgid "Font"
-msgstr ""
-
-msgid "Font for data and lyrics"
-msgstr ""
-
-msgid "Font for headline"
-msgstr ""
-
-msgid "Font size"
-msgstr ""
-
-#, qt-format
-msgid "For Ubuntu there is an official PPA repository available at %1."
-msgstr ""
-
-msgid "For a better experience please consider the other options above."
-msgstr ""
-
-msgid "Force mono encoding"
-msgstr ""
-
-msgid "Forget device"
-msgstr ""
-
-msgid "Forgetting a device will remove it from this list and Strawberry will have to rescan all the songs again next time you connect it."
-msgstr ""
-
-msgid "Form"
-msgstr ""
-
-msgid "Format"
-msgstr ""
-
-msgid "Framerate"
-msgstr ""
-
-msgid "Frames per buffer"
-msgstr ""
-
-msgid "Frozen"
-msgstr ""
-
-msgid "Full Bass"
-msgstr ""
-
-msgid "Full Bass + Treble"
-msgstr ""
-
-msgid "Full Treble"
-msgstr ""
-
-msgid "General"
-msgstr ""
-
-msgid "General settings"
-msgstr ""
-
-msgid "Genius Authentication"
-msgstr ""
-
-msgid "Genre"
-msgstr ""
-
-#, qt-format
-msgid "Getting %1 channels"
-msgstr ""
-
-msgid "Global Shortcuts"
-msgstr ""
-
-msgid "Go to next playlist tab"
-msgstr ""
-
-msgid "Go to previous playlist tab"
-msgstr ""
-
-msgid "Go!"
-msgstr ""
-
-#, qt-format
-msgid "Got %1 covers out of %2 (%3 failed)"
-msgstr ""
-
-msgid "Grey out unavailable songs in playlists on playback"
-msgstr ""
-
-msgid "Grey out unavailable songs in playlists on startup"
-msgstr ""
-
-msgid "Group Collection by..."
+msgid "Show"
 msgstr ""
 
 msgid "Group by"
 msgstr ""
 
-msgid "Group by Album"
-msgstr ""
-
-msgid "Group by Album Artist"
+msgid "Display options"
 msgstr ""
 
 msgid "Group by Album artist/Album"
@@ -1873,9 +723,6 @@ msgstr ""
 msgid "Group by Album artist/Year - Album - Disc"
 msgstr ""
 
-msgid "Group by Artist"
-msgstr ""
-
 msgid "Group by Artist/Album"
 msgstr ""
 
@@ -1888,16 +735,25 @@ msgstr ""
 msgid "Group by Artist/Year - Album - Disc"
 msgstr ""
 
-msgid "Group by Genre/Album"
-msgstr ""
-
 msgid "Group by Genre/Album artist/Album"
 msgstr ""
 
 msgid "Group by Genre/Artist/Album"
 msgstr ""
 
-msgid "Grouping"
+msgid "Group by Album Artist"
+msgstr ""
+
+msgid "Group by Artist"
+msgstr ""
+
+msgid "Group by Album"
+msgstr ""
+
+msgid "Group by Genre/Album"
+msgstr ""
+
+msgid "Advanced grouping..."
 msgstr ""
 
 msgid "Grouping Name"
@@ -1906,651 +762,34 @@ msgstr ""
 msgid "Grouping name:"
 msgstr ""
 
-msgid "HTTP proxy"
+msgid "First level"
 msgstr ""
 
-msgid "Happy"
+msgid "Second Level"
 msgstr ""
 
-msgid "Hardware information"
-msgstr ""
-
-msgid "Hardware information is only available while the device is connected."
-msgstr ""
-
-msgid "Help"
-msgstr ""
-
-msgid "Hex"
-msgstr ""
-
-msgid "Hide the main window"
-msgstr ""
-
-msgid "High"
-msgstr ""
-
-#, qt-format
-msgid "High (%1 fps)"
-msgstr ""
-
-msgid "High watermark"
-msgstr ""
-
-msgid "Hours"
-msgstr ""
-
-msgid "Hz"
-msgstr ""
-
-msgid "Icon"
-msgstr ""
-
-msgid "Icon sizes"
-msgstr ""
-
-msgid "Icons on top"
-msgstr ""
-
-msgid "Identifying song"
-msgstr ""
-
-msgid "If activated, clicking a selected song in the playlist view will let you edit the tag value directly"
-msgstr ""
-
-msgid "If you continue, this device will work slowly and songs copied to it may not work."
-msgstr ""
-
-msgid "If you like Strawberry and can make use of it, consider sponsoring or donating."
-msgstr ""
-
-msgid "Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
-msgstr ""
-
-msgid "Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
-msgstr ""
-
-msgid "Import data from last.fm"
-msgstr ""
-
-msgid "Import data from last.fm..."
-msgstr ""
-
-msgid "Import..."
-msgstr ""
-
-msgid "Improve headphone listening of stereo audio records (bs2b)"
-msgstr ""
-
-#, qt-format
-msgid "In %1 days"
-msgstr ""
-
-#, qt-format
-msgid "In %1 weeks"
-msgstr ""
-
-msgid "In dynamic mode new tracks will be chosen and added to the playlist every time a song finishes."
-msgstr ""
-
-msgid "Include album art in the notification"
-msgstr ""
-
-msgid "Include all songs"
-msgstr ""
-
-msgid "Increase the volume by 4 percent"
-msgstr ""
-
-msgid "Increase the volume by <value> percent"
-msgstr ""
-
-msgid "Increase volume"
-msgstr ""
-
-msgid "Information"
-msgstr ""
-
-msgid "Insert..."
-msgstr ""
-
-msgid "Install strawberry through PPA:"
-msgstr ""
-
-msgid "Integrated Loudness"
-msgstr ""
-
-msgid "Integrity check"
-msgstr ""
-
-msgid "Intro tracks"
-msgstr ""
-
-#, qt-format
-msgid "Invalid MTP device: %1"
-msgstr ""
-
-msgid "Invalid reply from web browser. Missing token."
-msgstr ""
-
-msgid "It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles."
-msgstr ""
-
-msgid "It is detected that Strawberry is running as a Snap"
-msgstr ""
-
-msgid "Jump to previous song right away"
-msgstr ""
-
-msgid "Keep aspect ratio"
-msgstr ""
-
-msgid "Keep running in the background when the window is closed"
-msgstr ""
-
-msgid "Keep the original files"
-msgstr ""
-
-msgid "LU"
-msgstr ""
-
-msgid "LUFS"
-msgstr ""
-
-msgid "Language"
-msgstr ""
-
-msgid "Laptop/Headphones"
-msgstr ""
-
-msgid "Large Hall"
-msgstr ""
-
-msgid "Large album cover"
-msgstr ""
-
-msgid "Large sidebar"
-msgstr ""
-
-msgid "Last Played"
-msgstr ""
-
-msgid "Last played"
-msgstr ""
-
-msgctxt "A playlist's tag."
-msgid "Last played"
-msgstr ""
-
-#, qt-format
-msgid "Last played for %1 songs received."
-msgstr ""
-
-msgid "Last.fm"
-msgstr ""
-
-msgid "Least favourite tracks"
-msgstr ""
-
-msgid "Left"
-msgstr ""
-
-msgid "Length"
-msgstr ""
-
-msgid "Libre.fm"
-msgstr ""
-
-msgid "Limits"
-msgstr ""
-
-msgid "ListenBrainz Authentication"
-msgstr ""
-
-#, qt-format
-msgid "ListenBrainz error: %1"
-msgstr ""
-
-msgid "Listenbrainz"
-msgstr ""
-
-msgid "Live"
-msgstr ""
-
-msgid "Load"
-msgstr ""
-
-msgid "Load cover from URL"
-msgstr ""
-
-msgid "Load cover from URL..."
-msgstr ""
-
-msgid "Load cover from disk"
-msgstr ""
-
-msgid "Load cover from disk..."
-msgstr ""
-
-msgid "Load playlist"
-msgstr ""
-
-msgid "Loading MTP device"
-msgstr ""
-
-msgid "Loading iPod database"
-msgstr ""
-
-msgid "Loading smart playlist"
-msgstr ""
-
-msgid "Loading tracks"
-msgstr ""
-
-msgid "Loading tracks info"
-msgstr ""
-
-msgid "Loading..."
-msgstr ""
-
-msgid "Loads files/URLs, replacing current playlist"
-msgstr ""
-
-msgid "Local file"
-msgstr ""
-
-msgid "Login"
-msgstr ""
-
-msgid "Long term prediction profile (LTP)"
-msgstr ""
-
-msgid "Loudness Range"
-msgstr ""
-
-msgid "Love"
-msgstr ""
-
-#, qt-format
-msgid "Low (%1 fps)"
-msgstr ""
-
-msgid "Low complexity profile (LC)"
-msgstr ""
-
-msgid "Low watermark"
-msgstr ""
-
-msgid "Lowercase filename"
-msgstr ""
-
-msgid "Lyrics"
-msgstr ""
-
-msgid "Lyrics providers"
-msgstr ""
-
-msgid "MD5 token (Recommended)"
-msgstr ""
-
-msgid "MP3"
-msgstr ""
-
-msgid "MTP device not found."
-msgstr ""
-
-#, qt-format
-msgid "MTP error: %1"
-msgstr ""
-
-msgid "Main profile (MAIN)"
-msgstr ""
-
-msgid "Manage saved groupings"
-msgstr ""
-
-#, qt-format
-msgid "Manually unset (%1)"
-msgstr ""
-
-msgid "Manufacturer"
-msgstr ""
-
-msgid "Mark disappeared songs unavailable"
-msgstr ""
-
-msgid "Match every search term (AND)"
-msgstr ""
-
-msgid "Match one or more search terms (OR)"
-msgstr ""
-
-msgid "Max cover size"
-msgstr ""
-
-msgid "Maximum bitrate"
-msgstr ""
-
-msgid "Maximum number of login attempts reached."
-msgstr ""
-
-#, qt-format
-msgid "Medium (%1 fps)"
-msgstr ""
-
-msgid "MenuPopupToolButton"
-msgstr ""
-
-msgid "Message Dialog"
-msgstr ""
-
-msgid "Metadata"
-msgstr ""
-
-msgid "Middle"
-msgstr ""
-
-msgid "Minimum bitrate"
-msgstr ""
-
-msgid "Missing API token."
-msgstr ""
-
-#, qt-format
-msgid "Missing MusicBrainz recording ID for %1 %2 %3"
-msgstr ""
-
-msgid "Missing Qobuz app ID or secret."
-msgstr ""
-
-msgid "Missing Qobuz app ID."
-msgstr ""
-
-msgid "Missing Qobuz password."
-msgstr ""
-
-msgid "Missing Qobuz username."
-msgstr ""
-
-msgid "Missing Subsonic username or password."
-msgstr ""
-
-msgid "Missing Tidal API token, username or password."
-msgstr ""
-
-msgid "Missing Tidal API token."
-msgstr ""
-
-msgid "Missing Tidal client ID."
-msgstr ""
-
-msgid "Missing Tidal password."
-msgstr ""
-
-msgid "Missing Tidal username."
-msgstr ""
-
-msgid "Missing app id."
-msgstr ""
-
-msgid "Missing password."
-msgstr ""
-
-msgid "Missing server url, username or password."
-msgstr ""
-
-msgid "Missing username or password."
-msgstr ""
-
-msgid "Missing username, please login to last.fm first!"
-msgstr ""
-
-msgid "Missing username."
-msgstr ""
-
-msgid "Model"
-msgstr ""
-
-msgid "Monitor the collection for changes"
-msgstr ""
-
-msgid "Months"
-msgstr ""
-
-msgid "Mood"
-msgstr ""
-
-msgid "Moodbar"
-msgstr ""
-
-msgid "Moodbar style"
-msgstr ""
-
-msgid "Most played"
-msgstr ""
-
-msgid "Mount point"
-msgstr ""
-
-msgid "Mount points"
-msgstr ""
-
-msgid "Move down"
-msgstr ""
-
-msgid "Move to collection..."
-msgstr ""
-
-msgid "Move up"
-msgstr ""
-
-#, qt-format
-msgid "Multiple search terms can also be combined with \"%1\" (default) and \"%2\", as well as grouped with parentheses. "
-msgstr ""
-
-msgid "Music"
-msgstr ""
-
-msgid "Mute"
-msgstr ""
-
-msgid "Name"
-msgstr ""
-
-msgid "Naming options"
-msgstr ""
-
-msgid "Narrow band (NB)"
-msgstr ""
-
-msgid "Network Proxy"
-msgstr ""
-
-msgid "Never"
-msgstr ""
-
-msgid "Never played"
-msgstr ""
-
-msgid "Never start playing"
-msgstr ""
-
-msgid "New folder"
-msgstr ""
-
-msgid "New playlist"
-msgstr ""
-
-msgid "New smart playlist"
-msgstr ""
-
-msgid "New smart playlist..."
-msgstr ""
-
-msgid "New songs"
-msgstr ""
-
-msgid "New tracks will be added automatically."
-msgstr ""
-
-msgid "Newest tracks"
-msgstr ""
-
-msgid "Next"
-msgstr ""
-
-msgid "Next track"
-msgstr ""
-
-msgid "Next week"
-msgstr ""
-
-msgid "No"
-msgstr ""
-
-msgid "No analyzer"
-msgstr ""
-
-msgid "No audio normalization"
-msgstr ""
-
-msgid "No covers to export."
-msgstr ""
-
-msgid "No long blocks"
-msgstr ""
-
-msgid "No match."
-msgstr ""
-
-msgid "No matches found.  Clear the search box to show the whole playlist again."
-msgstr ""
-
-msgid "No provider selected."
-msgstr ""
-
-msgid "No short blocks"
-msgstr ""
-
-msgid "No song playing"
+msgid "Third Level"
 msgstr ""
 
 msgid "None"
 msgstr ""
 
-msgid "None of the selected songs were suitable for copying to a device"
+msgid "Album artist"
 msgstr ""
 
-msgid "Normal"
+msgid "Artist"
 msgstr ""
 
-msgid "Normal block type"
+msgid "Album"
 msgstr ""
 
-msgid "Not authenticated with Qobuz."
+msgid "Album - Disc"
 msgstr ""
 
-msgid "Not authenticated with Spotify."
+msgid "Year - Album"
 msgstr ""
 
-msgid "Not authenticated with Tidal and reached maximum number of login attempts."
-msgstr ""
-
-msgid "Not authenticated with Tidal."
-msgstr ""
-
-msgid "Not connected"
-msgstr ""
-
-msgid "Not found."
-msgstr ""
-
-msgid "Not mounted - double click to mount"
-msgstr ""
-
-msgid "Notification type"
-msgstr ""
-
-msgid "Notifications"
-msgstr ""
-
-msgid "O&verwrite all"
-msgstr ""
-
-msgid "OSD Preview"
-msgstr ""
-
-msgid "Off"
-msgstr ""
-
-#, qt-format
-msgid "Official releases are available for Debian and Ubuntu which also work on most of their derivatives. See %1 for more information."
-msgstr ""
-
-msgid "On"
-msgstr ""
-
-msgid "On startup"
-msgstr ""
-
-msgid "Only show the first"
-msgstr ""
-
-msgid "Opacity"
-msgstr ""
-
-msgid "Open URL in web browser?"
-msgstr ""
-
-msgid "Open a directory to import music from"
-msgstr ""
-
-msgid "Open audio &CD..."
-msgstr ""
-
-msgid "Open device"
-msgstr ""
-
-msgid "Open homepage"
-msgstr ""
-
-msgid "Open in new playlist"
-msgstr ""
-
-msgid "Open..."
-msgstr ""
-
-msgid "Opti&mize for bitrate"
-msgstr ""
-
-msgid "Optimize for &quality"
-msgstr ""
-
-msgid "Options"
-msgstr ""
-
-msgid "Options..."
-msgstr ""
-
-msgid "Opus"
-msgstr ""
-
-msgid "Organize Files"
-msgstr ""
-
-msgid "Organize files..."
-msgstr ""
-
-msgid "Organizing files"
-msgstr ""
-
-msgid "Original Year"
-msgstr ""
-
-msgid "Original tags"
-msgstr ""
-
-msgid "Original year"
+msgid "Year - Album - Disc"
 msgstr ""
 
 msgid "Original year - Album"
@@ -2559,315 +798,852 @@ msgstr ""
 msgid "Original year - Album - Disc"
 msgstr ""
 
-msgid "Other options"
+msgid "Disc"
 msgstr ""
 
-msgid "Output"
+msgid "Year"
 msgstr ""
 
-msgid "Output options"
+msgid "Original year"
 msgstr ""
 
-msgid "Overwrite database playcount when songs are re-read from disk"
+msgid "Genre"
 msgstr ""
 
-msgid "Overwrite database rating when songs are re-read from disk"
-msgstr ""
-
-msgid "Overwrite existing file"
-msgstr ""
-
-msgid "Overwrite existing files"
-msgstr ""
-
-msgid "Overwrite s&maller ones only"
-msgstr ""
-
-msgid "P&laylist"
-msgstr ""
-
-msgid "Partition label"
-msgstr ""
-
-msgid "Party"
-msgstr ""
-
-msgid "Password"
-msgstr ""
-
-msgid "Path"
-msgstr ""
-
-msgid "Pattern"
-msgstr ""
-
-msgid "Pause"
-msgstr ""
-
-msgid "Pause playback"
-msgstr ""
-
-msgid "Paused"
-msgstr ""
-
-msgid "Perform song EBU R 128 analysis (required for EBU R 128 loudness normalization)"
-msgstr ""
-
-msgid "Perform track loudness normalization"
+msgid "Composer"
 msgstr ""
 
 msgid "Performer"
 msgstr ""
 
-msgid "Pixel"
+msgid "Grouping"
 msgstr ""
 
-msgid "Plain sidebar"
+msgid "File type"
 msgstr ""
 
-msgid "Play"
+msgid "Format"
+msgstr ""
+
+msgid "Sample rate"
+msgstr ""
+
+#, qt-format
+msgid "Could not write metadata to %1: %2"
+msgstr ""
+
+#, qt-format
+msgid "Could not write metadata to %1"
+msgstr ""
+
+msgid "Title"
+msgstr ""
+
+msgid "Track"
+msgstr ""
+
+msgid "Original Year"
+msgstr ""
+
+msgid "Album Artist"
 msgstr ""
 
 msgid "Play Count"
 msgstr ""
 
-msgid "Play control buttons"
+msgid "Skip Count"
 msgstr ""
 
-msgid "Play count"
+msgid "Last Played"
 msgstr ""
 
-msgid "Play counts"
+msgid "Sample Rate"
 msgstr ""
 
-msgid "Play given playlist"
+msgid "Bit Depth"
 msgstr ""
 
-msgid "Play if stopped, pause if playing"
+msgid "File Name"
 msgstr ""
 
-msgid "Play if there is nothing already playing"
+msgid "File Name (without path)"
 msgstr ""
 
-msgid "Play next"
+msgid "File Size"
 msgstr ""
 
-msgid "Play the <n>th track in the playlist"
+msgid "File Type"
 msgstr ""
 
-msgid "Play/Pause"
+msgid "Date Modified"
 msgstr ""
 
-#, qt-format
-msgid "Playcounts for %1 songs and last played for %2 songs received."
+msgid "Date Created"
 msgstr ""
 
-#, qt-format
-msgid "Playcounts for %1 songs received."
+msgid "Comment"
 msgstr ""
 
-msgid "Player options"
+msgid "Source"
 msgstr ""
 
-msgid "Playlist"
-msgstr ""
-
-msgid "Playlist buttons"
-msgstr ""
-
-msgid "Playlist finished"
-msgstr ""
-
-#, qt-format
-msgid "Playlist has %1 songs, too large to undo, are you sure you want to clear the playlist?"
-msgstr ""
-
-msgid "Playlist must be open first."
-msgstr ""
-
-msgid "Playlist options"
-msgstr ""
-
-msgid "Playlist playing song color"
-msgstr ""
-
-msgid "Playlist type"
-msgstr ""
-
-msgid "Playlists"
-msgstr ""
-
-msgid "Please close your browser and return to Strawberry."
-msgstr ""
-
-msgid "Please open this URL in your browser"
-msgstr ""
-
-msgid "Pop"
-msgstr ""
-
-msgid "Popup duration"
-msgstr ""
-
-msgid "Port"
-msgstr ""
-
-msgid "Position"
-msgstr ""
-
-msgid "Pre-amp"
-msgstr ""
-
-msgid "Prefer album artist when sending scrobbles"
-msgstr ""
-
-msgid "Preferences"
-msgstr ""
-
-msgid "Preferred album art filenames (comma separated)"
-msgstr ""
-
-msgid "Preferred format"
-msgstr ""
-
-msgid "Prefix a search term with a field name to limit the search to that field, e.g.:"
-msgstr ""
-
-msgid "Preload function was not set for blocking operation."
-msgstr ""
-
-msgid "Preset:"
-msgstr ""
-
-msgid "Press \"Save\" to copy the URL to clipboard and manually open it in a web browser."
-msgstr ""
-
-msgid "Press a key"
-msgstr ""
-
-#, qt-format
-msgid "Press a key combination to use for %1..."
-msgstr ""
-
-msgid "Pressing \"Previous\" in player will..."
-msgstr ""
-
-msgid "Pretty OSD options"
-msgstr ""
-
-msgid "Preview"
-msgstr ""
-
-msgid "Previous"
-msgstr ""
-
-msgid "Previous track"
-msgstr ""
-
-msgid "Print out version information"
-msgstr ""
-
-msgid "Profile"
-msgstr ""
-
-msgid "Progress"
-msgstr ""
-
-msgid "Put songs in a random order"
-msgstr ""
-
-msgid "Qobuz"
-msgstr ""
-
-msgid "Qobuz support is not official and requires an API app ID and secret from a registered application to work. We can't help you getting these."
-msgstr ""
-
-msgctxt "Sound quality"
-msgid "Quality"
-msgstr ""
-
-msgid "Querying device..."
-msgstr ""
-
-msgid "Queue"
-msgstr ""
-
-msgid "Queue selected tracks"
-msgstr ""
-
-msgid "Queue selected tracks to play next"
-msgstr ""
-
-msgid "Queue to play next"
-msgstr ""
-
-msgid "Queue track"
-msgstr ""
-
-msgid "QueueView"
-msgstr ""
-
-msgid "Radio (equal loudness for all tracks)"
-msgstr ""
-
-msgid "Radio Paradise"
-msgstr ""
-
-msgid "Radios"
-msgstr ""
-
-msgid "Random"
+msgid "Mood"
 msgstr ""
 
 msgid "Rating"
 msgstr ""
 
-msgid "Re&lative"
+msgid "CUE"
+msgstr ""
+
+msgid "Integrated Loudness"
+msgstr ""
+
+msgid "Loudness Range"
+msgstr ""
+
+msgid "Undo"
+msgstr ""
+
+msgid "Redo"
+msgstr ""
+
+msgid "Load playlist"
+msgstr ""
+
+msgid "No matches found.  Clear the search box to show the whole playlist again."
+msgstr ""
+
+msgid "stop"
+msgstr ""
+
+msgid "Never"
+msgstr ""
+
+msgid "&Hide..."
+msgstr ""
+
+msgid "&Stretch columns to fit window"
+msgstr ""
+
+msgid "&Reset columns to default"
+msgstr ""
+
+msgid "&Lock rating"
+msgstr ""
+
+msgid "&Align text"
+msgstr ""
+
+msgid "&Left"
+msgstr ""
+
+msgid "&Center"
+msgstr ""
+
+msgid "&Right"
+msgstr ""
+
+#, qt-format
+msgid "&Hide %1"
+msgstr ""
+
+msgid "New folder"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
+msgctxt "Save playlist menu action."
+msgid "Save playlist"
+msgstr ""
+
+msgid "Enter the name of the folder"
+msgstr ""
+
+msgid "Copy to device"
+msgstr ""
+
+msgid "Playlist must be open first."
+msgstr ""
+
+msgid "Remove playlists"
+msgstr ""
+
+#, qt-format
+msgid "You are about to remove %1 playlists from your favorites, are you sure?"
+msgstr ""
+
+msgid "\n\n"
+"You can favorite playlists by clicking the star icon next to a playlist name\n\n"
+"Favorited playlists will be saved here"
+msgstr ""
+
+msgid "Couldn't create playlist"
+msgstr ""
+
+msgctxt "Title of the playlist save dialog."
+msgid "Save playlist"
+msgstr ""
+
+msgid "Unknown playlist extension"
+msgstr ""
+
+msgid "Unknown file extension for playlist."
+msgstr ""
+
+#, qt-format
+msgid "%1 selected of"
+msgstr ""
+
+#, c-format, qt-plural-format
+msgid "%n track(s)"
+msgstr ""
+
+msgid "Automatic"
+msgstr ""
+
+msgid "Relative"
+msgstr ""
+
+msgid "Absolute"
+msgstr ""
+
+msgid "Star playlist"
+msgstr ""
+
+msgid "Close playlist"
+msgstr ""
+
+msgid "Rename playlist..."
+msgstr ""
+
+msgid "Save playlist..."
+msgstr ""
+
+msgid "Rename playlist"
+msgstr ""
+
+msgid "Enter a new name for this playlist"
+msgstr ""
+
+msgid "Remove playlist"
+msgstr ""
+
+msgid "You are about to remove a playlist which is not part of your favorite playlists: the playlist will be deleted (this action cannot be undone). \n"
+"Are you sure you want to continue?"
+msgstr ""
+
+msgid "Warn me when closing a playlist tab"
+msgstr ""
+
+msgid "This option can be changed in the \"Behavior\" preferences"
+msgstr ""
+
+msgid "Double-click here to favorite this playlist so it will be saved and remain accessible through the \"Playlists\" panel on the left side bar"
+msgstr ""
+
+#, c-format, qt-plural-format
+msgid "add %n songs"
+msgstr ""
+
+#, c-format, qt-plural-format
+msgid "remove %n songs"
+msgstr ""
+
+#, c-format, qt-plural-format
+msgid "move %n songs"
+msgstr ""
+
+msgid "sort songs"
+msgstr ""
+
+msgid "shuffle songs"
+msgstr ""
+
+msgid "Hz"
+msgstr ""
+
+msgid "Bit"
+msgstr ""
+
+msgid "Error while loading audio CD."
+msgstr ""
+
+msgid "Loading tracks"
+msgstr ""
+
+msgid "Loading tracks info"
+msgstr ""
+
+msgid "Saving CUE files is not supported."
+msgstr ""
+
+#, qt-format
+msgid "Don't know how to handle %1"
+msgstr ""
+
+#, qt-format
+msgid "All playlists (%1)"
+msgstr ""
+
+#, qt-format
+msgid "%1 playlists (%2)"
+msgstr ""
+
+#, qt-format
+msgid "Unknown filetype: %1"
+msgstr ""
+
+#, qt-format
+msgid "Could not open file %1"
+msgstr ""
+
+#, qt-format
+msgid "Directory %1 does not exist."
+msgstr ""
+
+#, qt-format
+msgid "Failed to open %1 for writing."
+msgstr ""
+
+msgid "Loading smart playlist"
+msgstr ""
+
+msgid "Collection search"
+msgstr ""
+
+msgid "Find songs in your collection that match the criteria you specify."
+msgstr ""
+
+msgid "Search terms"
+msgstr ""
+
+msgid "A song will be included in the playlist if it matches these conditions."
+msgstr ""
+
+msgid "Search options"
+msgstr ""
+
+msgid "Choose how the playlist is sorted and how many songs it will contain."
+msgstr ""
+
+#, qt-format
+msgid "%1 songs found (showing %2)"
+msgstr ""
+
+#, qt-format
+msgid "%1 songs found"
+msgstr ""
+
+msgid "after"
+msgstr ""
+
+msgid "before"
+msgstr ""
+
+msgid "on"
+msgstr ""
+
+msgid "not on"
+msgstr ""
+
+msgid "in the last"
+msgstr ""
+
+msgid "not in the last"
+msgstr ""
+
+msgid "between"
+msgstr ""
+
+msgid "contains"
+msgstr ""
+
+msgid "does not contain"
+msgstr ""
+
+msgid "starts with"
+msgstr ""
+
+msgid "ends with"
+msgstr ""
+
+msgid "greater than"
+msgstr ""
+
+msgid "less than"
+msgstr ""
+
+msgid "equals"
+msgstr ""
+
+msgid "not equals"
+msgstr ""
+
+msgid "empty"
+msgstr ""
+
+msgid "not empty"
+msgstr ""
+
+msgid "A-Z"
+msgstr ""
+
+msgid "Z-A"
+msgstr ""
+
+msgid "oldest first"
+msgstr ""
+
+msgid "newest first"
+msgstr ""
+
+msgid "shortest first"
+msgstr ""
+
+msgid "longest first"
+msgstr ""
+
+msgid "smallest first"
+msgstr ""
+
+msgid "biggest first"
+msgstr ""
+
+msgid "Hours"
+msgstr ""
+
+msgid "Days"
+msgstr ""
+
+msgid "Weeks"
+msgstr ""
+
+msgid "Months"
+msgstr ""
+
+msgid "Years"
+msgstr ""
+
+msgid "The second value must be greater than the first one!"
+msgstr ""
+
+msgid "Add search term"
+msgstr ""
+
+msgid "Newest tracks"
+msgstr ""
+
+msgid "50 random tracks"
+msgstr ""
+
+msgid "Ever played"
+msgstr ""
+
+msgid "Never played"
+msgstr ""
+
+msgid "Last played"
+msgstr ""
+
+msgid "Most played"
+msgstr ""
+
+msgid "Favourite tracks"
+msgstr ""
+
+msgid "Least favourite tracks"
+msgstr ""
+
+msgid "All tracks"
+msgstr ""
+
+msgid "Dynamic random mix"
+msgstr ""
+
+msgid "New smart playlist..."
+msgstr ""
+
+msgid "Play next"
+msgstr ""
+
+msgid "Edit smart playlist..."
+msgstr ""
+
+msgid "Delete smart playlist"
+msgstr ""
+
+msgid "Smart playlist"
+msgstr ""
+
+msgid "Playlist type"
+msgstr ""
+
+msgid "A smart playlist is a dynamic list of songs that come from your collection.  There are different types of smart playlist that offer different ways of selecting songs."
+msgstr ""
+
+msgid "Finish"
+msgstr ""
+
+msgid "Choose a name for your smart playlist"
+msgstr ""
+
+msgid "Abort"
+msgstr ""
+
+msgid "All albums"
+msgstr ""
+
+msgid "Albums with covers"
+msgstr ""
+
+msgid "Albums without covers"
 msgstr ""
 
 msgid "Really cancel?"
 msgstr ""
 
-#, qt-format
-msgid "Received URL with %1 encrypted stream from Tidal. Strawberry does not currently support encrypted streams."
+msgid "Closing this window will stop searching for album covers."
 msgstr ""
 
-msgid "Received URL with encrypted stream from Tidal. Strawberry does not currently support encrypted streams."
+msgid "Don't stop!"
+msgstr ""
+
+msgid "All artists"
+msgstr ""
+
+#, qt-format
+msgid "Got %1 covers out of %2 (%3 failed)"
+msgstr ""
+
+#, qt-format
+msgid "%1 transferred"
+msgstr ""
+
+msgid "Export finished"
+msgstr ""
+
+msgid "No covers to export."
+msgstr ""
+
+#, qt-format
+msgid "Exported %1 covers out of %2 (%3 skipped)"
+msgstr ""
+
+#, qt-format
+msgid "Could not save cover to file %1."
+msgstr ""
+
+#, qt-format
+msgid "Covers from %1"
+msgstr ""
+
+msgid "Search"
+msgstr ""
+
+msgid "Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
+msgstr ""
+
+msgid "Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
+msgstr ""
+
+msgid "All files (*)"
+msgstr ""
+
+msgid "Load cover from disk..."
+msgstr ""
+
+msgid "Save cover to disk..."
+msgstr ""
+
+msgid "Load cover from URL..."
+msgstr ""
+
+msgid "Search for album covers..."
+msgstr ""
+
+msgid "Unset cover"
+msgstr ""
+
+msgid "Delete cover"
+msgstr ""
+
+msgid "Clear cover"
+msgstr ""
+
+msgid "Show fullsize..."
+msgstr ""
+
+msgid "Search automatically"
+msgstr ""
+
+msgid "Load cover from disk"
+msgstr ""
+
+#, qt-format
+msgid "Failed to open cover file %1 for reading: %2"
+msgstr ""
+
+#, qt-format
+msgid "Cover file %1 is empty."
+msgstr ""
+
+msgid "unknown"
+msgstr ""
+
+msgid "Save album cover"
+msgstr ""
+
+#, qt-format
+msgid "Failed to open cover file %1 for writing: %2"
+msgstr ""
+
+#, qt-format
+msgid "Failed writing cover to file %1: %2"
+msgstr ""
+
+#, qt-format
+msgid "Failed writing cover to file %1."
+msgstr ""
+
+#, qt-format
+msgid "Failed to delete cover file %1: %2"
+msgstr ""
+
+#, qt-format
+msgid "Failed to write cover to file %1: %2"
+msgstr ""
+
+msgid "Total network requests made"
+msgstr ""
+
+msgid "Average image size"
+msgstr ""
+
+msgid "Total bytes transferred"
+msgstr ""
+
+msgid "Fetching cover error"
+msgstr ""
+
+msgid "The site you requested does not exist!"
+msgstr ""
+
+msgid "The site you requested is not an image!"
+msgstr ""
+
+msgid "Genius Authentication"
+msgstr ""
+
+msgid "Please open this URL in your browser"
+msgstr ""
+
+msgid "Redirect missing token code!"
 msgstr ""
 
 msgid "Received invalid reply from web browser."
 msgstr ""
 
-msgid "Received invalid reply from web browser. Try another browser."
+msgid "Redirect from Genius is missing query items code or state."
+msgstr ""
+
+msgid "General"
+msgstr ""
+
+msgid "User interface"
+msgstr ""
+
+msgid "Streaming"
+msgstr ""
+
+msgid "Add directory..."
+msgstr ""
+
+msgid "Write all playcounts and ratings to files"
+msgstr ""
+
+msgid "Are you sure you want to write song playcounts and ratings to file for all songs in your collection?"
+msgstr ""
+
+msgid "Enter your user token from"
+msgstr ""
+
+msgid "Use Tidal settings to authenticate."
+msgstr ""
+
+msgid "Use Spotify settings to authenticate."
+msgstr ""
+
+msgid "Use Qobuz settings to authenticate."
 msgstr ""
 
 #, qt-format
-msgid "Receiving album cover for %1 album..."
+msgid "%1 needs authentication."
 msgstr ""
 
 #, qt-format
-msgid "Receiving album covers for %1 albums..."
+msgid "%1 does not need authentication."
+msgstr ""
+
+msgid "No provider selected."
+msgstr ""
+
+msgid "Authentication failed"
 msgstr ""
 
 #, qt-format
-msgid "Receiving albums for %1 artist..."
+msgid "Manually unset (%1)"
 msgstr ""
 
 #, qt-format
-msgid "Receiving albums for %1 artists..."
+msgid "Set through album cover search (%1)"
 msgstr ""
 
-msgid "Receiving albums..."
+#, qt-format
+msgid "Automatically picked up from album directory (%1)"
 msgstr ""
 
-msgid "Receiving artists..."
+#, qt-format
+msgid "Embedded album cover art (%1)"
+msgstr ""
+
+msgid "Select background image"
+msgstr ""
+
+msgid "OSD Preview"
+msgstr ""
+
+msgid "Drag to reposition"
+msgstr ""
+
+msgid "About Strawberry"
+msgstr ""
+
+#, qt-format
+msgid "Version %1"
+msgstr ""
+
+msgid "Strawberry is a music player and music collection organizer."
+msgstr ""
+
+msgid "It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles."
+msgstr ""
+
+#, qt-format
+msgid "Strawberry is free software released under GPL. The source code is available on %1"
+msgstr ""
+
+#, qt-format
+msgid "You should have received a copy of the GNU General Public License along with this program.  If not, see %1"
+msgstr ""
+
+msgid "If you like Strawberry and can make use of it, consider sponsoring or donating."
+msgstr ""
+
+#, qt-format
+msgid "You can sponsor the author on %1. You can also make a one-time payment through %2."
+msgstr ""
+
+msgid "Author and maintainer"
+msgstr ""
+
+msgid "Contributors"
+msgstr ""
+
+msgid "Clementine authors"
+msgstr ""
+
+msgid "Clementine contributors"
+msgstr ""
+
+msgid "Thanks to"
+msgstr ""
+
+msgid "Thanks to all the other Amarok and Clementine contributors."
+msgstr ""
+
+msgid "(different across multiple songs)"
+msgstr ""
+
+msgid "Different art across multiple songs."
+msgstr ""
+
+msgid "Previous"
+msgstr ""
+
+msgid "Next"
+msgstr ""
+
+msgid "Saving tracks"
+msgstr ""
+
+#, qt-format
+msgid "%1 songs selected."
+msgstr ""
+
+msgid "Yes"
+msgstr ""
+
+msgid "No"
+msgstr ""
+
+msgid "Cover is unset."
+msgstr ""
+
+msgid "Cover from embedded image."
+msgstr ""
+
+#, qt-format
+msgid "Cover from %1"
+msgstr ""
+
+msgid "Cover art not set"
+msgstr ""
+
+msgid "Album cover editing is only available for collection songs."
+msgstr ""
+
+msgid "Cover changed: Will be cleared when saved."
+msgstr ""
+
+msgid "Cover changed: Will be unset when saved."
+msgstr ""
+
+msgid "Cover changed: Will be deleted when saved."
+msgstr ""
+
+msgid "Cover changed: Will set new when saved."
+msgstr ""
+
+msgid "Reset song play statistics"
+msgstr ""
+
+msgid "Are you sure you want to reset this song's play statistics?"
+msgstr ""
+
+msgid "loading..."
+msgstr ""
+
+msgid "Not found."
+msgstr ""
+
+msgid "Original tags"
+msgstr ""
+
+msgid "Suggested tags"
+msgstr ""
+
+msgid "Delete files"
+msgstr ""
+
+msgid "The following files will be deleted from disk:"
+msgstr ""
+
+msgid "Are you sure you want to continue?"
 msgstr ""
 
 msgid "Receiving initial data from last.fm..."
-msgstr ""
-
-#, qt-format
-msgid "Receiving last played for %1 songs."
 msgstr ""
 
 #, qt-format
@@ -2875,87 +1651,163 @@ msgid "Receiving playcount for %1 songs and last played for %2 songs."
 msgstr ""
 
 #, qt-format
+msgid "Receiving last played for %1 songs."
+msgstr ""
+
+#, qt-format
 msgid "Receiving playcounts for %1 songs."
 msgstr ""
 
 #, qt-format
-msgid "Receiving songs for %1 album..."
+msgid "Playcounts for %1 songs and last played for %2 songs received."
 msgstr ""
 
 #, qt-format
-msgid "Receiving songs for %1 albums..."
+msgid "Last played for %1 songs received."
 msgstr ""
 
-msgid "Receiving songs..."
+#, qt-format
+msgid "Playcounts for %1 songs received."
 msgstr ""
 
-msgid "Redirect from Genius is missing query items code or state."
+msgid "Strawberry is running as a Snap"
 msgstr ""
 
-msgid "Redirect missing token code or state!"
+msgid "It is detected that Strawberry is running as a Snap"
 msgstr ""
 
-msgid "Redirect missing token code!"
+msgid "Strawberry is slower, and has restrictions when running as a Snap. Accessing the root filesystem (/) will not work. There also might be other restrictions such as accessing certain devices or network shares."
 msgstr ""
 
-msgid "Redo"
+#, qt-format
+msgid "For Ubuntu there is an official PPA repository available at %1."
 msgstr ""
 
-msgid "Refresh catalogue"
+#, qt-format
+msgid "Official releases are available for Debian and Ubuntu which also work on most of their derivatives. See %1 for more information."
 msgstr ""
 
-msgid "Refresh channels"
+msgid "For a better experience please consider the other options above."
 msgstr ""
 
-msgid "Reggae"
+msgid "Copy your strawberry.conf and strawberry.db from your ~/snap directory to avoid losing configuration before you uninstall the snap:"
 msgstr ""
 
-msgid "Relative"
+msgid "Uninstall the snap with:"
 msgstr ""
 
-msgid "Remember from &last time"
+msgid "Install strawberry through PPA:"
 msgstr ""
 
-msgid "Remember my choice"
+msgid "Select directory for the playlists"
 msgstr ""
 
-msgid "Remove"
+msgid "Directory does not exist."
 msgstr ""
 
-msgid "Remove &duplicates from playlist"
+msgid "Large sidebar"
 msgstr ""
 
-msgid "Remove &unavailable tracks from playlist"
+msgid "Small sidebar"
 msgstr ""
 
-msgid "Remove folder"
+msgid "Plain sidebar"
 msgstr ""
 
-msgid "Remove from favorites"
+msgid "Tabs on top"
 msgstr ""
 
-msgid "Remove from playlist"
+msgid "Icons on top"
 msgstr ""
 
-msgid "Remove playlist"
+msgid "Available"
 msgstr ""
 
-msgid "Remove playlists"
+msgid "New songs"
 msgstr ""
 
-msgid "Remove problematic characters from filenames"
+msgid "Exceeded by"
 msgstr ""
 
-msgid "Rename playlist"
+msgid "Used"
 msgstr ""
 
-msgid "Rename playlist..."
+msgid "Clear"
 msgstr ""
 
-msgid "Renumber tracks in this order..."
+msgid "Reset"
 msgstr ""
 
-msgid "Repeat"
+msgid "Small album cover"
+msgstr ""
+
+msgid "Large album cover"
+msgstr ""
+
+msgid "Fit cover to width"
+msgstr ""
+
+msgid "Show above status bar"
+msgstr ""
+
+msgid "You are signed in."
+msgstr ""
+
+#, qt-format
+msgid "You are signed in as %1."
+msgstr ""
+
+#, qt-format
+msgid "Expires on %1"
+msgstr ""
+
+#, qt-format
+msgid "disc %1"
+msgstr ""
+
+#, qt-format
+msgid "track %1"
+msgstr ""
+
+msgid "Paused"
+msgstr ""
+
+msgid "Stopped"
+msgstr ""
+
+#, qt-format
+msgid "Stop playing after track: %1"
+msgstr ""
+
+msgid "On"
+msgstr ""
+
+msgid "Off"
+msgstr ""
+
+msgid "Playlist finished"
+msgstr ""
+
+#, qt-format
+msgid "Volume %1%"
+msgstr ""
+
+msgid "Don't shuffle"
+msgstr ""
+
+msgid "Shuffle all"
+msgstr ""
+
+msgid "Shuffle tracks in this album"
+msgstr ""
+
+msgid "Shuffle albums"
+msgstr ""
+
+msgid "Don't repeat"
+msgstr ""
+
+msgid "Repeat track"
 msgstr ""
 
 msgid "Repeat album"
@@ -2964,72 +1816,415 @@ msgstr ""
 msgid "Repeat playlist"
 msgstr ""
 
-msgid "Repeat track"
+msgid "Stop after every track"
 msgstr ""
 
-msgid "Replace current playlist"
-msgstr ""
-
-msgid "Replace spaces with dashes"
-msgstr ""
-
-msgid "Replace spaces with underscores"
-msgstr ""
-
-msgid "Replace the playlist"
-msgstr ""
-
-msgid "Replay Gain"
-msgstr ""
-
-msgid "Replay Gain mode"
-msgstr ""
-
-msgid "Reply from Tidal is missing query items."
-msgstr ""
-
-msgid "Repopulate"
-msgstr ""
-
-msgid "Rescan song(s)"
-msgstr ""
-
-msgid "Rescan song(s)..."
-msgstr ""
-
-msgid "Reset"
-msgstr ""
-
-msgid "Reset play counts"
-msgstr ""
-
-msgid "Reset song play statistics"
-msgstr ""
-
-msgid "Resize the window"
-msgstr ""
-
-msgid "Restart song, then jump to previous if pressed again"
-msgstr ""
-
-msgid "Restart the track, or play the previous track if within 8 seconds of start."
-msgstr ""
-
-msgid "Restrict characters to ASCII"
-msgstr ""
-
-msgid "Restrict to characters allowed on FAT filesystems"
-msgstr ""
-
-msgid "Resume playback on start"
+msgid "Intro tracks"
 msgstr ""
 
 #, qt-format
-msgid "Retrieving album cover for %1 album..."
+msgid "Configure %1..."
+msgstr ""
+
+msgid "Add to artists"
+msgstr ""
+
+msgid "Add to albums"
+msgstr ""
+
+msgid "Add to songs"
+msgstr ""
+
+msgid "Enter search terms above to find music"
+msgstr ""
+
+msgid "The streaming collection is empty!"
+msgstr ""
+
+msgid "Click here to retrieve music"
+msgstr ""
+
+msgid "Remove from favorites"
+msgstr ""
+
+msgid "Open homepage"
+msgstr ""
+
+msgid "Donate"
+msgstr ""
+
+msgid "Refresh channels"
 msgstr ""
 
 #, qt-format
-msgid "Retrieving album covers for %1 albums..."
+msgid "Getting %1 channels"
+msgstr ""
+
+#, qt-format
+msgid "%1 Scrobbler Authentication"
+msgstr ""
+
+msgid "Open URL in web browser?"
+msgstr ""
+
+msgid "Press \"Save\" to copy the URL to clipboard and manually open it in a web browser."
+msgstr ""
+
+msgid "Could not open URL. Please open this URL in your browser"
+msgstr ""
+
+msgid "Invalid reply from web browser. Missing token."
+msgstr ""
+
+msgid "Received invalid reply from web browser. Try another browser."
+msgstr ""
+
+#, qt-format
+msgid "Scrobbler %1 is not authenticated!"
+msgstr ""
+
+#, qt-format
+msgid "Scrobbler %1 error: %2"
+msgstr ""
+
+msgid "ListenBrainz Authentication"
+msgstr ""
+
+#, qt-format
+msgid "Unable to scrobble %1 - %2 because of error: %3"
+msgstr ""
+
+#, qt-format
+msgid "Missing MusicBrainz recording ID for %1 %2 %3"
+msgstr ""
+
+#, qt-format
+msgid "ListenBrainz error: %1"
+msgstr ""
+
+msgid "Missing username, please login to last.fm first!"
+msgstr ""
+
+msgid "Organizing files"
+msgstr ""
+
+msgid "Artist's initial"
+msgstr ""
+
+msgctxt "Refers to bitrate in file organize dialog."
+msgid "Bitrate"
+msgstr ""
+
+msgid "File extension"
+msgstr ""
+
+msgid "Error copying songs"
+msgstr ""
+
+msgid "There were problems copying some songs.  The following files could not be copied:"
+msgstr ""
+
+msgid "Error deleting songs"
+msgstr ""
+
+msgid "There were problems deleting some songs.  The following files could not be deleted:"
+msgstr ""
+
+msgid "Play/Pause"
+msgstr ""
+
+msgid "Stop"
+msgstr ""
+
+msgid "Stop playing after current track"
+msgstr ""
+
+msgid "Next track"
+msgstr ""
+
+msgid "Previous track"
+msgstr ""
+
+msgid "Restart or previous track"
+msgstr ""
+
+msgid "Increase volume"
+msgstr ""
+
+msgid "Decrease volume"
+msgstr ""
+
+msgid "Mute"
+msgstr ""
+
+msgid "Seek forward"
+msgstr ""
+
+msgid "Seek backward"
+msgstr ""
+
+msgid "Show/Hide"
+msgstr ""
+
+msgid "Show OSD"
+msgstr ""
+
+msgid "Toggle Pretty OSD"
+msgstr ""
+
+msgid "Change shuffle mode"
+msgstr ""
+
+msgid "Change repeat mode"
+msgstr ""
+
+msgid "Enable/disable scrobbling"
+msgstr ""
+
+msgid "Love"
+msgstr ""
+
+#, qt-format
+msgid "Press a key combination to use for %1..."
+msgstr ""
+
+#, qt-format
+msgid "The \"%1\" command could not be started."
+msgstr ""
+
+#, qt-format
+msgid "Shortcut for %1"
+msgstr ""
+
+#, qt-format
+msgid "Using X11 shortcuts on %1 is not recommended and can cause keyboard to become unresponsive!"
+msgstr ""
+
+#, qt-format
+msgid " Shortcuts on %1 are usually used through MPRIS and KGlobalAccel."
+msgstr ""
+
+#, qt-format
+msgid " Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in gnome-settings-daemon instead."
+msgstr ""
+
+#, qt-format
+msgid " Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in cinnamon-settings-daemon instead."
+msgstr ""
+
+#, qt-format
+msgid " Shortcuts on %1 are usually used through MATE Settings Daemon and should be configured there instead."
+msgstr ""
+
+msgid "Buffering"
+msgstr ""
+
+msgid "D-Bus path"
+msgstr ""
+
+msgid "Serial number"
+msgstr ""
+
+msgid "Mount points"
+msgstr ""
+
+msgid "Partition label"
+msgstr ""
+
+msgid "UUID"
+msgstr ""
+
+msgid "Connect device"
+msgstr ""
+
+msgid "This is the first time you have connected this device.  Strawberry will now scan the device to find music files - this may take some time."
+msgstr ""
+
+msgid "This device will not work properly"
+msgstr ""
+
+msgid "This is an MTP device, but you compiled Strawberry without libmtp support."
+msgstr ""
+
+msgid "If you continue, this device will work slowly and songs copied to it may not work."
+msgstr ""
+
+msgid "This is an iPod, but you compiled Strawberry without libgpod support."
+msgstr ""
+
+#, qt-format
+msgid "This type of device is not supported: %1"
+msgstr ""
+
+#, qt-format
+msgid "Updating %1%..."
+msgstr ""
+
+msgid "Not connected"
+msgstr ""
+
+msgid "Not mounted - double click to mount"
+msgstr ""
+
+msgid "Double click to open"
+msgstr ""
+
+#, qt-format
+msgid "%1 song%2"
+msgstr ""
+
+msgid "Safely remove device"
+msgstr ""
+
+msgid "Forget device"
+msgstr ""
+
+msgid "Device properties..."
+msgstr ""
+
+msgid "Delete from device..."
+msgstr ""
+
+msgid "Forgetting a device will remove it from this list and Strawberry will have to rescan all the songs again next time you connect it."
+msgstr ""
+
+msgid "These files will be deleted from the device, are you sure you want to continue?"
+msgstr ""
+
+msgid "Model"
+msgstr ""
+
+msgid "Manufacturer"
+msgstr ""
+
+#, qt-format
+msgid "Could not copy %1 to %2: %3"
+msgstr ""
+
+#, qt-format
+msgid "Writing database failed: %1"
+msgstr ""
+
+msgid "Writing database failed."
+msgstr ""
+
+msgid "Loading iPod database"
+msgstr ""
+
+msgid "An error occurred loading the iTunes database"
+msgstr ""
+
+msgid "Mount point"
+msgstr ""
+
+msgid "Device"
+msgstr ""
+
+msgid "URI"
+msgstr ""
+
+#, qt-format
+msgid "Invalid MTP device: %1"
+msgstr ""
+
+msgid "Could not open MTP device."
+msgstr ""
+
+#, qt-format
+msgid "MTP error: %1"
+msgstr ""
+
+msgid "MTP device not found."
+msgstr ""
+
+msgid "Loading MTP device"
+msgstr ""
+
+#, qt-format
+msgid "Error connecting MTP device %1"
+msgstr ""
+
+#, qt-format
+msgid "Error connecting MTP device %1: %2"
+msgstr ""
+
+#, qt-format
+msgid "Could not create the GStreamer element \"%1\" - make sure you have all the required GStreamer plugins installed"
+msgstr ""
+
+#, qt-format
+msgid "Successfully written %1"
+msgstr ""
+
+#, qt-format
+msgid "Transcoding %1 files using %2 threads"
+msgstr ""
+
+#, qt-format
+msgid "Error processing %1: %2"
+msgstr ""
+
+#, qt-format
+msgid "Starting %1"
+msgstr ""
+
+#, qt-format
+msgid "Couldn't find an encoder for %1, check you have the correct GStreamer plugins installed"
+msgstr ""
+
+#, qt-format
+msgid "Couldn't find a muxer for %1, check you have the correct GStreamer plugins installed"
+msgstr ""
+
+msgid "Start transcoding"
+msgstr ""
+
+#, c-format, qt-plural-format
+msgid "%n remaining"
+msgstr ""
+
+#, c-format, qt-plural-format
+msgid "%n finished"
+msgstr ""
+
+#, c-format, qt-plural-format
+msgid "%n failed"
+msgstr ""
+
+msgid "Add files to transcode"
+msgstr ""
+
+msgid "Open a directory to import music from"
+msgstr ""
+
+msgid "Identifying song"
+msgstr ""
+
+msgid "Fingerprinting song"
+msgstr ""
+
+msgid "Downloading metadata"
+msgstr ""
+
+msgid "Error while setting CDDA device to ready state."
+msgstr ""
+
+msgid "Error while setting CDDA device to pause state."
+msgstr ""
+
+msgid "Error while querying CDDA tracks."
+msgstr ""
+
+msgid "Server URL is invalid."
+msgstr ""
+
+msgid "Missing username or password."
+msgstr ""
+
+msgid "Subsonic server URL is invalid."
+msgstr ""
+
+msgid "Missing Subsonic username or password."
 msgstr ""
 
 msgid "Retrieving albums..."
@@ -3043,327 +2238,619 @@ msgstr ""
 msgid "Retrieving songs for %1 albums..."
 msgstr ""
 
-msgid "Return to Strawberry"
-msgstr ""
-
-msgid "Right"
-msgstr ""
-
-msgid "Rock"
-msgstr ""
-
-msgid "Run"
-msgstr ""
-
-msgid "S&huffle playlist"
-msgstr ""
-
-msgid "SOCKS proxy"
-msgstr ""
-
-msgid "Safely remove device"
-msgstr ""
-
-msgid "Safely remove the device after copying"
-msgstr ""
-
-msgid "Sample Rate"
-msgstr ""
-
-msgid "Sample rate"
-msgstr ""
-
-msgid "Samplerate"
-msgstr ""
-
-msgid "Save &playlist..."
-msgstr ""
-
-msgid "Save album cover"
-msgstr ""
-
-msgid "Save album covers as embedded cover"
-msgstr ""
-
-msgid "Save album covers in album directory"
-msgstr ""
-
-msgid "Save album covers in cache directory"
-msgstr ""
-
-msgid "Save cover to disk..."
-msgstr ""
-
-msgid "Save current grouping"
-msgstr ""
-
-msgid "Save playcounts and ratings to files now"
-msgstr ""
-
-msgid "Save playcounts to song tags when possible"
-msgstr ""
-
-msgctxt "Save playlist menu action."
-msgid "Save playlist"
-msgstr ""
-
-msgctxt "Title of the playlist save dialog."
-msgid "Save playlist"
-msgstr ""
-
-msgid "Save playlist..."
-msgstr ""
-
-msgid "Save preset"
-msgstr ""
-
-msgid "Save ratings to song tags when possible"
-msgstr ""
-
-msgid "Save the .mood files directly in the songs folders"
-msgstr ""
-
-msgid "Saved Grouping Manager"
-msgstr ""
-
-msgid "Saving CUE files is not supported."
-msgstr ""
-
-msgid "Saving album covers"
-msgstr ""
-
-msgid "Saving playcounts and ratings"
-msgstr ""
-
-msgid "Saving tracks"
-msgstr ""
-
-msgid "Scalable sampling rate profile (SSR)"
-msgstr ""
-
-msgid "Scale size"
-msgstr ""
-
-msgid "Scrobbler"
+#, qt-format
+msgid "Retrieving album cover for %1 album..."
 msgstr ""
 
 #, qt-format
-msgid "Scrobbler %1 error: %2"
+msgid "Retrieving album covers for %1 albums..."
 msgstr ""
 
-#, qt-format
-msgid "Scrobbler %1 is not authenticated!"
+msgid "Unknown error"
 msgstr ""
 
-msgid "Search"
+msgid "Configuration incomplete"
 msgstr ""
 
-msgid "Search automatically"
+msgid "Missing server url, username or password."
 msgstr ""
 
-msgid "Search delay"
+msgid "Configuration incorrect"
 msgstr ""
 
-msgid "Search for album covers..."
+msgid "Test successful!"
 msgstr ""
 
-msgid "Search for this"
+msgid "Test failed!"
 msgstr ""
 
-msgid "Search mode"
+msgid "Reply from Tidal is missing query items."
 msgstr ""
 
-msgid "Search options"
+msgid "Missing Tidal API token."
 msgstr ""
 
-msgid "Search terms"
+msgid "Missing Tidal username."
 msgstr ""
 
-#, qt-format
-msgid "Search terms for numerical fields can be prefixed with %1 or %2 to refine the search, e.g.: "
+msgid "Missing Tidal password."
+msgstr ""
+
+msgid "Not authenticated with Tidal and reached maximum number of login attempts."
+msgstr ""
+
+msgid "Not authenticated with Tidal."
+msgstr ""
+
+msgid "Missing Tidal API token, username or password."
+msgstr ""
+
+msgid "Authenticating..."
+msgstr ""
+
+msgid "Receiving artists..."
+msgstr ""
+
+msgid "Receiving albums..."
+msgstr ""
+
+msgid "Receiving songs..."
 msgstr ""
 
 msgid "Searching..."
 msgstr ""
 
-msgid "Second Level"
-msgstr ""
-
-msgid "Second level"
-msgstr ""
-
-msgid "Seek backward"
-msgstr ""
-
-msgid "Seek forward"
-msgstr ""
-
-msgid "Seek the currently playing track by a relative amount"
-msgstr ""
-
-msgid "Seek the currently playing track to an absolute position"
-msgstr ""
-
-msgid "Seeking using a keyboard shortcut or mouse wheel"
-msgstr ""
-
-msgid "Select background image"
-msgstr ""
-
-msgid "Select best possible match"
-msgstr ""
-
-msgid "Select directory for saving playlists"
-msgstr ""
-
-msgid "Select directory for the playlists"
-msgstr ""
-
-msgid "Select playlist playing song color:"
-msgstr ""
-
-msgid "Select tabbar color:"
-msgstr ""
-
-msgid "Select..."
-msgstr ""
-
-msgid "Separate albums by grouping tag"
-msgstr ""
-
-msgid "Serial number"
-msgstr ""
-
-msgid "Server URL"
-msgstr ""
-
-msgid "Server URL is invalid."
-msgstr ""
-
-msgid "Server-side scrobbling"
+#, qt-format
+msgid "Receiving albums for %1 artist..."
 msgstr ""
 
 #, qt-format
-msgid "Set %1 to \"%2\"..."
-msgstr ""
-
-msgid "Set the volume to <value> percent"
+msgid "Receiving albums for %1 artists..."
 msgstr ""
 
 #, qt-format
-msgid "Set through album cover search (%1)"
-msgstr ""
-
-msgid "Set value for all selected tracks..."
-msgstr ""
-
-msgid "Settings"
-msgstr ""
-
-msgid "Settings require restart."
-msgstr ""
-
-msgid "Shortcut"
+msgid "Receiving songs for %1 album..."
 msgstr ""
 
 #, qt-format
-msgid "Shortcut for %1"
+msgid "Receiving songs for %1 albums..."
 msgstr ""
 
-msgid "Show"
+#, qt-format
+msgid "Receiving album cover for %1 album..."
 msgstr ""
 
-msgid "Show OSD"
+#, qt-format
+msgid "Receiving album covers for %1 albums..."
 msgstr ""
 
-msgid "Show a &native desktop notification"
+msgid "No match."
 msgstr ""
 
-msgid "Show a glowing animation on the currently playing track"
+msgid "Cancelled."
 msgstr ""
 
-msgid "Show a moodbar in the track progress bar"
+#, qt-format
+msgid "Received URL with %1 encrypted stream from Tidal. Strawberry does not currently support encrypted streams."
 msgstr ""
 
-msgid "Show a notification when I change the repeat/shuffle mode"
+msgid "Received URL with encrypted stream from Tidal. Strawberry does not currently support encrypted streams."
 msgstr ""
 
-msgid "Show a notification when I change the volume"
+msgid "Missing Tidal client ID."
 msgstr ""
 
-msgid "Show a notification when I pause playback"
+msgid "Missing API token."
 msgstr ""
 
-msgid "Show a notification when I resume playback"
+msgid "Missing username."
 msgstr ""
 
-msgid "Show a popup fro&m the system tray"
+msgid "Missing password."
 msgstr ""
 
-msgid "Show a pretty OSD"
+msgid "Spotify Authentication"
 msgstr ""
 
-msgid "Show above status bar"
+msgid "Redirect missing token code or state!"
 msgstr ""
 
-msgid "Show album cover"
+msgid "Not authenticated with Spotify."
 msgstr ""
 
-msgid "Show album cover art in collection"
+msgid "Data missing error"
 msgstr ""
 
-msgid "Show all songs"
+msgid "Maximum number of login attempts reached."
 msgstr ""
 
-msgid "Show all the songs"
+msgid "Missing Qobuz app ID."
 msgstr ""
 
-msgid "Show bars on the currently playing track"
+msgid "Missing Qobuz username."
 msgstr ""
 
-msgid "Show dialog for errors"
+msgid "Missing Qobuz password."
 msgstr ""
 
-msgid "Show dividers"
+msgid "Not authenticated with Qobuz."
 msgstr ""
 
-msgid "Show fullsize..."
+msgid "Missing Qobuz app ID or secret."
 msgstr ""
 
-msgid "Show in collection..."
-msgstr ""
-
-msgid "Show in file browser"
-msgstr ""
-
-msgid "Show in file browser..."
-msgstr ""
-
-msgid "Show in various artists"
-msgstr ""
-
-msgid "Show love button"
+msgid "Missing app id."
 msgstr ""
 
 msgid "Show moodbar"
 msgstr ""
 
-msgid "Show only duplicates"
+msgid "Moodbar style"
 msgstr ""
 
-msgid "Show only untagged"
+msgid "Normal"
 msgstr ""
 
-msgid "Show playing widget"
+msgid "Angry"
 msgstr ""
 
-msgid "Show scrobble button"
+msgid "Frozen"
+msgstr ""
+
+msgid "Happy"
+msgstr ""
+
+msgid "System colors"
+msgstr ""
+
+msgid "Strawberry Music Player"
+msgstr ""
+
+msgid "F5"
+msgstr ""
+
+msgid "&Play"
+msgstr ""
+
+msgid "F6"
+msgstr ""
+
+msgid "&Stop"
+msgstr ""
+
+msgid "F7"
+msgstr ""
+
+msgid "&Next track"
+msgstr ""
+
+msgid "F8"
+msgstr ""
+
+msgid "&Quit"
+msgstr ""
+
+msgid "Ctrl+Q"
+msgstr ""
+
+msgid "Ctrl+Alt+V"
+msgstr ""
+
+msgid "&Clear playlist"
+msgstr ""
+
+msgid "Ctrl+K"
+msgstr ""
+
+msgid "Ctrl+E"
+msgstr ""
+
+msgid "Renumber tracks in this order..."
+msgstr ""
+
+msgid "Set value for all selected tracks..."
+msgstr ""
+
+msgid "Edit tag..."
+msgstr ""
+
+msgid "&Settings..."
+msgstr ""
+
+msgid "Ctrl+P"
+msgstr ""
+
+msgid "&About Strawberry"
+msgstr ""
+
+msgid "F1"
+msgstr ""
+
+msgid "S&huffle playlist"
+msgstr ""
+
+msgid "Ctrl+H"
+msgstr ""
+
+msgid "&Add file..."
+msgstr ""
+
+msgid "Ctrl+Shift+A"
+msgstr ""
+
+msgid "&Open file..."
+msgstr ""
+
+msgid "Open audio &CD..."
+msgstr ""
+
+msgid "&Cover Manager"
+msgstr ""
+
+msgid "C&onsole"
+msgstr ""
+
+msgid "&Shuffle mode"
+msgstr ""
+
+msgid "&Repeat mode"
+msgstr ""
+
+msgid "Remove from playlist"
+msgstr ""
+
+msgid "&Equalizer"
+msgstr ""
+
+msgid "&Transcode Music"
+msgstr ""
+
+msgid "Add &folder..."
+msgstr ""
+
+msgid "&Jump to the currently playing track"
+msgstr ""
+
+msgid "Ctrl+J"
+msgstr ""
+
+msgid "&New playlist"
+msgstr ""
+
+msgid "Ctrl+N"
+msgstr ""
+
+msgid "Save &playlist..."
+msgstr ""
+
+msgid "Ctrl+S"
+msgstr ""
+
+msgid "&Load playlist..."
+msgstr ""
+
+msgid "Ctrl+Shift+O"
+msgstr ""
+
+msgid "&Save all playlists..."
+msgstr ""
+
+msgid "Go to next playlist tab"
+msgstr ""
+
+msgid "Go to previous playlist tab"
+msgstr ""
+
+msgid "&Update changed collection folders"
+msgstr ""
+
+msgid "About &Qt"
+msgstr ""
+
+msgid "&Mute"
+msgstr ""
+
+msgid "Ctrl+M"
+msgstr ""
+
+msgid "&Do a full collection rescan"
+msgstr ""
+
+msgid "Stop collection scan"
+msgstr ""
+
+msgid "Complete tags automatically..."
+msgstr ""
+
+msgid "Ctrl+T"
+msgstr ""
+
+msgid "Toggle scrobbling"
+msgstr ""
+
+msgid "Remove &duplicates from playlist"
+msgstr ""
+
+msgid "Remove &unavailable tracks from playlist"
+msgstr ""
+
+msgid "Add file(s) to transcoder"
+msgstr ""
+
+msgid "Add file to transcoder"
+msgstr ""
+
+msgid "Add stream..."
 msgstr ""
 
 msgid "Show sidebar"
 msgstr ""
 
-msgid "Show song lyrics"
+msgid "Import data from last.fm..."
+msgstr ""
+
+msgid "MenuPopupToolButton"
+msgstr ""
+
+msgid "&Music"
+msgstr ""
+
+msgid "P&laylist"
+msgstr ""
+
+msgid "Help"
+msgstr ""
+
+msgid "&Tools"
+msgstr ""
+
+msgid "Collection advanced grouping"
+msgstr ""
+
+msgid "You can change the way the songs in the collection are organized."
+msgstr ""
+
+msgid "Group Collection by..."
+msgstr ""
+
+msgid "Second level"
+msgstr ""
+
+msgid "Third level"
+msgstr ""
+
+msgid "Separate albums by grouping tag"
+msgstr ""
+
+msgid "Collection Filter"
+msgstr ""
+
+msgid "Entire collection"
+msgstr ""
+
+msgid "Added today"
+msgstr ""
+
+msgid "Added this week"
+msgstr ""
+
+msgid "Added within three months"
+msgstr ""
+
+msgid "Added this year"
+msgstr ""
+
+msgid "Added this month"
+msgstr ""
+
+msgid "Save current grouping"
+msgstr ""
+
+msgid "Manage saved groupings"
+msgstr ""
+
+msgid "Enter search terms here"
+msgstr ""
+
+msgid "Form"
+msgstr ""
+
+msgid "Saved Grouping Manager"
+msgstr ""
+
+msgid "Remove"
+msgstr ""
+
+msgid "Ctrl+Up"
+msgstr ""
+
+msgid "File paths"
+msgstr ""
+
+msgid "This can be changed later through the preferences"
+msgstr ""
+
+msgid "Remember my choice"
+msgstr ""
+
+msgid "Stop after each track"
+msgstr ""
+
+msgid "Repeat"
+msgstr ""
+
+msgid "Shuffle"
+msgstr ""
+
+msgid "Dynamic mode is on"
+msgstr ""
+
+msgid "New tracks will be added automatically."
+msgstr ""
+
+msgid "Expand"
+msgstr ""
+
+msgid "Repopulate"
+msgstr ""
+
+msgid "Turn off"
+msgstr ""
+
+msgid "QueueView"
+msgstr ""
+
+msgid "Move down"
+msgstr ""
+
+msgid "Move up"
+msgstr ""
+
+msgid "Ctrl+Down"
+msgstr ""
+
+msgid "Search mode"
+msgstr ""
+
+msgid "Match every search term (AND)"
+msgstr ""
+
+msgid "Match one or more search terms (OR)"
+msgstr ""
+
+msgid "Include all songs"
+msgstr ""
+
+msgid "Sorting"
+msgstr ""
+
+msgid "Put songs in a random order"
+msgstr ""
+
+msgid "Sort songs by"
+msgstr ""
+
+msgid "Limits"
+msgstr ""
+
+msgid "Show all the songs"
+msgstr ""
+
+msgid "Only show the first"
+msgstr ""
+
+msgid " songs"
+msgstr ""
+
+msgid "Preview"
+msgstr ""
+
+msgid "and"
+msgstr ""
+
+msgid "ago"
+msgstr ""
+
+msgid "New smart playlist"
+msgstr ""
+
+msgid "Edit smart playlist"
+msgstr ""
+
+msgid "Use dynamic mode"
+msgstr ""
+
+msgid "In dynamic mode new tracks will be chosen and added to the playlist every time a song finishes."
+msgstr ""
+
+msgid "Export covers"
+msgstr ""
+
+msgid "Output"
+msgstr ""
+
+msgid "Enter a filename for exported covers (no extension):"
+msgstr ""
+
+msgid "Export downloaded covers"
+msgstr ""
+
+msgid "Export embedded covers"
+msgstr ""
+
+msgid "Existing covers"
+msgstr ""
+
+msgid "Do not overwrite"
+msgstr ""
+
+msgid "O&verwrite all"
+msgstr ""
+
+msgid "Overwrite s&maller ones only"
+msgstr ""
+
+msgid "Size"
+msgstr ""
+
+msgid "Scale size"
+msgstr ""
+
+msgid "Size:"
+msgstr ""
+
+msgid "Pixel"
+msgstr ""
+
+msgid "Cover Manager"
+msgstr ""
+
+msgid "Fetch automatically"
+msgstr ""
+
+msgid "Load"
+msgstr ""
+
+msgid "Add to playlist"
+msgstr ""
+
+msgid "View"
+msgstr ""
+
+msgid "Total albums:"
+msgstr ""
+
+msgid "Without cover:"
+msgstr ""
+
+msgid "0"
+msgstr ""
+
+msgid "Fetch Missing Covers"
+msgstr ""
+
+msgid "Export Covers"
+msgstr ""
+
+msgid "Fetch completed"
+msgstr ""
+
+msgid "Load cover from URL"
+msgstr ""
+
+msgid "Enter a URL to download a cover from the Internet:"
+msgstr ""
+
+msgid "Settings"
+msgstr ""
+
+msgid "Behavior"
+msgstr ""
+
+msgid "Show system tray icon"
+msgstr ""
+
+msgid "Keep running in the background when the window is closed"
 msgstr ""
 
 msgid "Show song progress on system tray icon"
@@ -3372,13 +2859,22 @@ msgstr ""
 msgid "Show song progress on taskbar"
 msgstr ""
 
-msgid "Show song technical data"
+msgid "Resume playback on start"
 msgstr ""
 
-msgid "Show system tray icon"
+msgid "Show playing widget"
+msgstr ""
+
+msgid "On startup"
+msgstr ""
+
+msgid "Remember from &last time"
 msgstr ""
 
 msgid "Show the main window"
+msgstr ""
+
+msgid "Hide the main window"
 msgstr ""
 
 msgid "Show the main window maximized"
@@ -3387,898 +2883,170 @@ msgstr ""
 msgid "Show the main window minimized"
 msgstr ""
 
-msgid "Show/Hide"
-msgstr ""
-
-msgid "Shuffle"
-msgstr ""
-
-msgid "Shuffle albums"
-msgstr ""
-
-msgid "Shuffle all"
-msgstr ""
-
-msgid "Shuffle tracks in this album"
-msgstr ""
-
-msgid "Sign out"
-msgstr ""
-
-msgid "Signing in..."
-msgstr ""
-
-msgid "Size"
-msgstr ""
-
-msgid "Size:"
-msgstr ""
-
-msgid "Ska"
-msgstr ""
-
-msgid "Skip Count"
-msgstr ""
-
-msgid "Skip backwards in playlist"
-msgstr ""
-
-msgid "Skip count"
-msgstr ""
-
-msgid "Skip forwards in playlist"
-msgstr ""
-
-msgid "Skip leading articles (\"the\", \"a\", \"an\") when sorting artist names"
-msgstr ""
-
-msgid "Skip selected tracks"
-msgstr ""
-
-msgid "Skip track"
-msgstr ""
-
-msgid "Small album cover"
-msgstr ""
-
-msgid "Small sidebar"
-msgstr ""
-
-msgid "Smart playlist"
-msgstr ""
-
-msgid "Smart playlists"
-msgstr ""
-
-msgid "Soft"
-msgstr ""
-
-msgid "Soft Rock"
-msgstr ""
-
-msgid "SomaFM"
-msgstr ""
-
-msgid "Song Lyrics"
-msgstr ""
-
-msgid "Song fingerprinting and tracking"
-msgstr ""
-
-msgid "Song playcounts and ratings"
-msgstr ""
-
-msgid "Songs"
-msgstr ""
-
-msgid "Songs are scrobbled if they have valid metadata and are longer than 30 seconds, have been playing for at least half its duration or for 4 minutes (whichever occurs earlier)."
-msgstr ""
-
-msgid "Songs search limit"
-msgstr ""
-
-msgid "Sonogram"
-msgstr ""
-
-msgid "Sorry"
-msgstr ""
-
-msgid "Sort songs by"
-msgstr ""
-
-msgid "Sorting"
-msgstr ""
-
-msgid "Source"
-msgstr ""
-
-msgid "Speex"
-msgstr ""
-
-msgid "Sponsoring Strawberry"
-msgstr ""
-
-msgid "Spotify"
-msgstr ""
-
-msgid "Spotify Authentication"
-msgstr ""
-
-msgid "Standard"
-msgstr ""
-
-msgid "Star playlist"
-msgstr ""
-
-msgid "Start the playlist currently playing"
-msgstr ""
-
-msgid "Start transcoding"
-msgstr ""
-
-#, qt-format
-msgid "Starting %1"
-msgstr ""
-
-msgid "Stop"
-msgstr ""
-
-msgid "Stop after each track"
-msgstr ""
-
-msgid "Stop after every track"
-msgstr ""
-
-msgid "Stop after this track"
-msgstr ""
-
-msgid "Stop collection scan"
-msgstr ""
-
-msgid "Stop playback"
-msgstr ""
-
-msgid "Stop playback after current track"
-msgstr ""
-
-msgid "Stop playing after current track"
-msgstr ""
-
-#, qt-format
-msgid "Stop playing after track: %1"
-msgstr ""
-
-msgid "Stopped"
-msgstr ""
-
-msgid "Strawberry Error"
-msgstr ""
-
-msgid "Strawberry Music Player"
-msgstr ""
-
-msgid "Strawberry Red"
-msgstr ""
-
-msgid "Strawberry can automatically convert the music you copy to this device into a format that it can play."
-msgstr ""
-
-msgid "Strawberry can show a message when the track changes."
-msgstr ""
-
-msgid "Strawberry is a music player and music collection organizer."
-msgstr ""
-
-#, qt-format
-msgid "Strawberry is free and open source software. If you like Strawberry, please consider sponsoring the project. For more information about sponsorship see our website %1"
-msgstr ""
-
-#, qt-format
-msgid "Strawberry is free software released under GPL. The source code is available on %1"
-msgstr ""
-
-msgid "Strawberry is running as a Snap"
-msgstr ""
-
-msgid "Strawberry is slower, and has restrictions when running as a Snap. Accessing the root filesystem (/) will not work. There also might be other restrictions such as accessing certain devices or network shares."
-msgstr ""
-
-msgid "Strawberry running under Rosetta"
-msgstr ""
-
-msgid "Strawberry was unable to find results for this file"
-msgstr ""
-
-msgid "Stream"
-msgstr ""
-
-msgid "Stream URL method"
-msgstr ""
-
-msgid "Streaming"
-msgstr ""
-
-msgid "Streaming Search View"
-msgstr ""
-
-msgid "Streaming Tabs View"
-msgstr ""
-
-msgid "Stretch image to fill playlist"
-msgstr ""
-
-msgid "Strip \"remastered\" and similar from album and title"
-msgstr ""
-
-msgid "Style"
-msgstr ""
-
-msgid "Submit scrobbles every"
-msgstr ""
-
-msgid "Subsonic"
-msgstr ""
-
-msgid "Subsonic server URL is invalid."
-msgstr ""
-
-msgid "Success!"
-msgstr ""
-
-#, qt-format
-msgid "Successfully written %1"
-msgstr ""
-
-msgid "Suggested tags"
-msgstr ""
-
-msgid "Summary"
-msgstr ""
-
-#, qt-format
-msgid "Super high (%1 fps)"
-msgstr ""
-
-msgid "Supported formats"
-msgstr ""
-
-msgid "System colors"
-msgstr ""
-
-msgid "System highlight color"
-msgstr ""
-
-msgid "Tabbar colors"
-msgstr ""
-
-msgid "Tabbar large mode"
-msgstr ""
-
-msgid "Tabbar small mode"
-msgstr ""
-
-msgid "Tabs on top"
-msgstr ""
-
-msgid "Tag fetcher"
-msgstr ""
-
-msgid "Tags"
-msgstr ""
-
-msgid "Target Level"
-msgstr ""
-
-msgid "Target bitrate"
-msgstr ""
-
-msgid "Technical Data"
-msgstr ""
-
-msgid "Techno"
-msgstr ""
-
-msgid "Test"
-msgstr ""
-
-msgid "Test failed!"
-msgstr ""
-
-msgid "Test successful!"
-msgstr ""
-
-msgid "Text options"
-msgstr ""
-
-msgid "Thanks to"
-msgstr ""
-
-msgid "Thanks to all the other Amarok and Clementine contributors."
-msgstr ""
-
-#, qt-format
-msgid "The \"%1\" command could not be started."
-msgstr ""
-
-msgid "The album cover of the currently playing song"
-msgstr ""
-
-msgid "The following files will be deleted from disk:"
-msgstr ""
-
-msgid "The second value must be greater than the first one!"
-msgstr ""
-
-msgid "The site you requested does not exist!"
-msgstr ""
-
-msgid "The site you requested is not an image!"
-msgstr ""
-
-msgid "The streaming collection is empty!"
-msgstr ""
-
-msgid "The version of Strawberry you've just updated to requires a full collection rescan because of the new features listed below:"
-msgstr ""
-
-msgid "There are other songs in this album"
-msgstr ""
-
-msgid "There were problems copying some songs.  The following files could not be copied:"
-msgstr ""
-
-msgid "There were problems deleting some songs.  The following files could not be deleted:"
-msgstr ""
-
-msgid "These files will be deleted from the device, are you sure you want to continue?"
-msgstr ""
-
-msgid "These folders will be scanned for music to make up your collection"
-msgstr ""
-
-msgid "These settings are used in the \"Transcode Music\" dialog, and when converting music before copying it to a device."
-msgstr ""
-
-msgid "Third Level"
-msgstr ""
-
-msgid "Third level"
-msgstr ""
-
-msgid "This can be changed later through the preferences"
-msgstr ""
-
-msgid "This device must be connected and opened before Strawberry can see what file formats it supports."
-msgstr ""
-
-msgid "This device supports the following file formats:"
-msgstr ""
-
-msgid "This device will not work properly"
-msgstr ""
-
-msgid "This is an MTP device, but you compiled Strawberry without libmtp support."
-msgstr ""
-
-msgid "This is an iPod, but you compiled Strawberry without libgpod support."
-msgstr ""
-
-msgid "This is the first time you have connected this device.  Strawberry will now scan the device to find music files - this may take some time."
-msgstr ""
-
-msgid "This option can be changed in the \"Behavior\" preferences"
-msgstr ""
-
-#, qt-format
-msgid "This type of device is not supported: %1"
-msgstr ""
-
-msgid "Tidal"
-msgstr ""
-
-msgid "Tidal support is not official and requires a API token from a registered application to work. We can't help you getting these."
-msgstr ""
-
-msgid "Time step"
-msgstr ""
-
-msgid "Title"
-msgstr ""
-
-msgid "Today"
-msgstr ""
-
-msgid "Toggle Pretty OSD"
-msgstr ""
-
-msgid "Toggle queue status"
-msgstr ""
-
-msgid "Toggle scrobbling"
-msgstr ""
-
-msgid "Toggle skip status"
-msgstr ""
-
-msgid "Toggle visibility for the pretty on-screen-display"
-msgstr ""
-
-msgid "Tomorrow"
-msgstr ""
-
-msgid "Too many songs selected."
-msgstr ""
-
-msgid "Total albums:"
-msgstr ""
-
-msgid "Total bytes transferred"
-msgstr ""
-
-msgid "Total network requests made"
-msgstr ""
-
-msgid "Track"
-msgstr ""
-
-msgid "Transcode Music"
-msgstr ""
-
-msgid "Transcoder Log"
-msgstr ""
-
-msgid "Transcoding"
-msgstr ""
-
-#, qt-format
-msgid "Transcoding %1 files using %2 threads"
-msgstr ""
-
-msgid "Transcoding options"
-msgstr ""
-
-msgid "Turbine"
-msgstr ""
-
-msgid "Turn off"
-msgstr ""
-
-msgid "Type"
-msgstr ""
-
-msgid "URI"
-msgstr ""
-
-msgid "URL(s)"
-msgstr ""
-
-msgid "UUID"
-msgstr ""
-
-msgid "Ultra wide band (UWB)"
-msgstr ""
-
-#, qt-format
-msgid "Unable to execute SQL query: %1"
-msgstr ""
-
-#, qt-format
-msgid "Unable to execute collection SQL query: %1"
-msgstr ""
-
-#, qt-format
-msgid "Unable to scrobble %1 - %2 because of error: %3"
-msgstr ""
-
-msgid "Undo"
-msgstr ""
-
-msgid "Uninstall the snap with:"
-msgstr ""
-
-msgid "Unknown"
-msgstr ""
-
-msgid "Unknown error"
-msgstr ""
-
-msgid "Unknown file extension for playlist."
-msgstr ""
-
-#, qt-format
-msgid "Unknown filetype: %1"
-msgstr ""
-
-msgid "Unknown playlist extension"
-msgstr ""
-
-msgid "Unset cover"
-msgstr ""
-
-msgid "Unskip selected tracks"
-msgstr ""
-
-msgid "Unskip track"
-msgstr ""
-
-msgid "Update the collection when Strawberry starts"
-msgstr ""
-
-#, qt-format
-msgid "Updating %1"
-msgstr ""
-
-#, qt-format
-msgid "Updating %1 database."
-msgstr ""
-
-#, qt-format
-msgid "Updating %1%..."
-msgstr ""
-
-msgid "Updating collection"
-msgstr ""
-
-msgid "Upmix / downmix to"
-msgstr ""
-
-msgid "Upper Left"
-msgstr ""
-
-msgid "Upper Right"
-msgstr ""
-
-msgid "Usage"
-msgstr ""
-
-msgid "Use Gnome (GSD) shortcuts when available"
-msgstr ""
-
-msgid "Use HTTP/2 when possible"
-msgstr ""
-
-msgid "Use KDE (KGlobalAccel) shortcuts when available"
-msgstr ""
-
-msgid "Use MATE shortcuts when available"
-msgstr ""
-
-msgid "Use OAuth"
-msgstr ""
-
-msgid "Use Qobuz settings to authenticate."
-msgstr ""
-
-msgid "Use Replay Gain metadata if it is available"
-msgstr ""
-
-msgid "Use Spotify settings to authenticate."
-msgstr ""
-
-msgid "Use Tidal settings to authenticate."
-msgstr ""
-
-msgid "Use X11 shortcuts when available"
-msgstr ""
-
-msgid "Use a custom message for notifications"
-msgstr ""
-
-msgid "Use alternating row colors"
-msgstr ""
-
-msgid "Use authentication"
-msgstr ""
-
-msgid "Use bitrate management engine"
-msgstr ""
-
-msgid "Use custom color"
-msgstr ""
-
-msgid "Use dynamic mode"
-msgstr ""
-
-msgid "Use gradient background"
-msgstr ""
-
-msgid "Use proxy settings for streaming"
-msgstr ""
-
-msgid "Use strict SSL mode"
-msgstr ""
-
-msgid "Use system theme icons"
-msgstr ""
-
-msgid "Use temporal noise shaping"
+msgid "Language"
 msgstr ""
 
 msgid "Use the system default"
 msgstr ""
 
-msgid "Use various artists for compilation albums"
-msgstr ""
-
-msgid "Used"
-msgstr ""
-
-msgid "User interface"
-msgstr ""
-
-msgid "User token:"
-msgstr ""
-
-msgid "Username"
-msgstr ""
-
-#, qt-format
-msgid "Using X11 shortcuts on %1 is not recommended and can cause keyboard to become unresponsive!"
+msgid "You will need to restart Strawberry if you change the language."
 msgstr ""
 
 msgid "Using the menu to add a song will..."
 msgstr ""
 
-msgid "Variable bit rate"
+msgid "Never start playing"
 msgstr ""
 
-msgid "Various artists"
+msgid "Play if there is nothing already playing"
 msgstr ""
 
-msgid "Verify server certificate"
+msgid "Always start playing"
 msgstr ""
 
-#, qt-format
-msgid "Version %1"
+msgid "Pressing \"Previous\" in player will..."
 msgstr ""
 
-msgid "View"
+msgid "Jump to previous song right away"
 msgstr ""
 
-msgid "Voice activity detection"
+msgid "Restart song, then jump to previous if pressed again"
 msgstr ""
 
-#, qt-format
-msgid "Volume %1%"
+msgid "Double clicking a song will..."
+msgstr ""
+
+msgid "Append to the playlist"
+msgstr ""
+
+msgid "Replace the playlist"
+msgstr ""
+
+msgid "Add to the queue"
+msgstr ""
+
+msgid "Double clicking a song in the playlist will..."
+msgstr ""
+
+msgid "Change the currently playing song"
+msgstr ""
+
+msgid "Seeking using a keyboard shortcut or mouse wheel"
+msgstr ""
+
+msgid "Time step"
+msgstr ""
+
+msgid " s"
 msgstr ""
 
 msgid "Volume Increment"
 msgstr ""
 
-msgid "Vorbis"
+msgid "These folders will be scanned for music to make up your collection"
 msgstr ""
 
-msgid "Warn me when closing a playlist tab"
+msgid "Add new folder..."
 msgstr ""
 
-msgid "Warning: Play counts and last played from last.fm will completely replace the same data for the matched songs. Play counts will replace the data based on artist and song title for the same albums! Please backup your database before you start."
+msgid "Remove folder"
 msgstr ""
 
-msgid "WavPack"
+msgid "Automatic updating"
 msgstr ""
 
-msgid "WaveRubber"
+msgid "Update the collection when Strawberry starts"
 msgstr ""
 
-msgid "Weeks"
+msgid "Monitor the collection for changes"
+msgstr ""
+
+msgid "Song fingerprinting and tracking"
+msgstr ""
+
+msgid "Mark disappeared songs unavailable"
+msgstr ""
+
+msgid "Perform song EBU R 128 analysis (required for EBU R 128 loudness normalization)"
+msgstr ""
+
+msgid "Expire unavailable songs after"
+msgstr ""
+
+msgid "days"
+msgstr ""
+
+msgid "Preferred album art filenames (comma separated)"
 msgstr ""
 
 msgid "When looking for album art Strawberry will first look for picture files that contain one of these words.\n"
 "If there are no matches then it will use the largest image in the directory."
 msgstr ""
 
-msgid "When saving a playlist, file paths should be"
+msgid "Automatically open single categories in the collection tree"
 msgstr ""
 
-msgid "Wide band (WB)"
+msgid "Show dividers"
 msgstr ""
 
-msgid "Without cover:"
+msgid "Show album cover art in collection"
 msgstr ""
 
-msgid "Work in offline mode (Only cache scrobbles)"
+msgid "Use various artists for compilation albums"
 msgstr ""
 
-msgid "Would you like to move the other songs on this album to Various Artists as well?"
+msgid "Skip leading articles (\"the\", \"a\", \"an\") when sorting artist names"
 msgstr ""
 
-msgid "Would you like to run a full rescan right now?"
+msgid "Album cover pixmap cache"
 msgstr ""
 
-msgid "Write all playcounts and ratings to files"
+msgid "Enable Disk Cache"
 msgstr ""
 
-msgid "Write metadata when saving playlists"
+msgid "Disk Cache Size"
 msgstr ""
 
-msgid "Writing database failed."
+msgid "Current disk cache in use:"
 msgstr ""
 
-#, qt-format
-msgid "Writing database failed: %1"
+msgid "Clear Disk Cache"
 msgstr ""
 
-msgid "Year"
+msgid "Song playcounts and ratings"
 msgstr ""
 
-msgid "Year - Album"
+msgid "Save playcounts to song tags when possible"
 msgstr ""
 
-msgid "Year - Album - Disc"
+msgid "Save ratings to song tags when possible"
 msgstr ""
 
-msgid "Years"
+msgid "Overwrite database playcount when songs are re-read from disk"
 msgstr ""
 
-msgid "Yes"
+msgid "Overwrite database rating when songs are re-read from disk"
 msgstr ""
 
-msgid "Yesterday"
+msgid "Save playcounts and ratings to files now"
 msgstr ""
 
-#, qt-format
-msgid "You are about to remove %1 playlists from your favorites, are you sure?"
+msgid "Enable delete files in the right click context menu"
 msgstr ""
 
-msgid "You are about to remove a playlist which is not part of your favorite playlists: the playlist will be deleted (this action cannot be undone). \n"
-"Are you sure you want to continue?"
+msgid "Backend"
 msgstr ""
 
-msgid "You are not signed in."
+msgid "Audio output"
 msgstr ""
 
-#, qt-format
-msgid "You are running Strawberry under Rosetta. Running Strawberry under Rosetta is unsupported and known to have issues. You should download Strawberry for the correct CPU architecture from %1"
+msgid "Engine"
 msgstr ""
 
-#, qt-format
-msgid "You are signed in as %1."
-msgstr ""
-
-msgid "You are signed in."
-msgstr ""
-
-msgid "You can change the way the songs in the collection are organized."
-msgstr ""
-
-#, qt-format
-msgid "You can sponsor the author on %1. You can also make a one-time payment through %2."
-msgstr ""
-
-msgid "You need GStreamer for this URL."
-msgstr ""
-
-msgid "You need to launch System Preferences and allow Strawberry to \"<span style=\"font-style:italic\">control your computer</span>\" to use global shortcuts in Strawberry."
-msgstr ""
-
-#, qt-format
-msgid "You should have received a copy of the GNU General Public License along with this program.  If not, see %1"
-msgstr ""
-
-msgid "You will need to restart Strawberry if you change the language."
-msgstr ""
-
-msgid "Your collection is empty!"
-msgstr ""
-
-msgid "Z-A"
-msgstr ""
-
-msgid "Zero"
-msgstr ""
-
-#, c-format, qt-plural-format
-msgid "add %n songs"
-msgstr ""
-
-msgid "after"
-msgstr ""
-
-msgid "ago"
-msgstr ""
-
-msgid "albums"
-msgstr ""
-
-msgid "and"
-msgstr ""
-
-msgid "artist"
-msgstr ""
-
-msgid "artists"
-msgstr ""
-
-msgid "automatic"
-msgstr ""
-
-msgid "before"
-msgstr ""
-
-msgid "between"
-msgstr ""
-
-msgid "biggest first"
-msgstr ""
-
-msgid "channels"
-msgstr ""
-
-msgid "contains"
-msgstr ""
-
-msgid "days"
-msgstr ""
-
-msgid "disabled"
-msgstr ""
-
-#, qt-format
-msgid "disc %1"
-msgstr ""
-
-msgid "does not contain"
-msgstr ""
-
-msgid "empty"
-msgstr ""
-
-msgid "ends with"
-msgstr ""
-
-msgid "equals"
-msgstr ""
-
-msgid "greater than"
+msgid "ALSA plugin:"
 msgstr ""
 
 msgid "hw"
-msgstr ""
-
-msgid "in the last"
-msgstr ""
-
-msgid "kbps"
-msgstr ""
-
-msgid "less than"
-msgstr ""
-
-msgid "loading..."
-msgstr ""
-
-msgid "longest first"
-msgstr ""
-
-#, c-format, qt-plural-format
-msgid "move %n songs"
-msgstr ""
-
-msgid "ms"
-msgstr ""
-
-msgid "newest first"
-msgstr ""
-
-msgid "not empty"
-msgstr ""
-
-msgid "not equals"
-msgstr ""
-
-msgid "not in the last"
-msgstr ""
-
-msgid "not on"
-msgstr ""
-
-msgid "oldest first"
-msgstr ""
-
-msgid "on"
-msgstr ""
-
-msgid "options"
 msgstr ""
 
 msgid "p&lughw"
@@ -4287,42 +3055,1277 @@ msgstr ""
 msgid "pcm"
 msgstr ""
 
-msgid "rating"
+msgid "Exclusive mode (Experimental)"
 msgstr ""
 
-#, c-format, qt-plural-format
-msgid "remove %n songs"
+msgid "Options"
 msgstr ""
 
-#, qt-format
-msgid "searches for all artists containing the word %1. "
+msgid "Enable volume control"
 msgstr ""
 
-msgid "shortest first"
+msgid "Upmix / downmix to"
 msgstr ""
 
-msgid "shuffle songs"
+msgid "channels"
 msgstr ""
 
-msgid "smallest first"
+msgid "Improve headphone listening of stereo audio records (bs2b)"
+msgstr ""
+
+msgid "Enable HTTP/2 for streaming"
+msgstr ""
+
+msgid "Use strict SSL mode"
+msgstr ""
+
+msgid "Buffer"
+msgstr ""
+
+msgid " ms"
+msgstr ""
+
+msgid "Buffer duration"
+msgstr ""
+
+msgid "High watermark"
+msgstr ""
+
+msgid "Low watermark"
+msgstr ""
+
+msgid "Defaults"
+msgstr ""
+
+msgid "Audio normalization"
+msgstr ""
+
+msgid "No audio normalization"
+msgstr ""
+
+msgid "Replay Gain"
+msgstr ""
+
+msgid "Use Replay Gain metadata if it is available"
+msgstr ""
+
+msgid "Replay Gain mode"
+msgstr ""
+
+msgid "Radio (equal loudness for all tracks)"
+msgstr ""
+
+msgid "Album (ideal loudness for all tracks)"
+msgstr ""
+
+msgid "Apply compression to prevent clipping"
+msgstr ""
+
+msgid "Fallback-gain"
+msgstr ""
+
+msgid "EBU R 128 Loudness Normalization"
+msgstr ""
+
+msgid "Perform track loudness normalization"
+msgstr ""
+
+msgid "Target Level"
+msgstr ""
+
+msgid "Fading"
+msgstr ""
+
+msgid "Fade out when stopping a track"
+msgstr ""
+
+msgid "Cross-fade when changing tracks manually"
+msgstr ""
+
+msgid "Cross-fade when changing tracks automatically"
+msgstr ""
+
+msgid "Except between tracks on the same album or in the same CUE sheet"
+msgstr ""
+
+msgid "Fading duration"
+msgstr ""
+
+msgid "Fade out on pause / fade in on resume"
+msgstr ""
+
+msgid "Add song artist tag"
+msgstr ""
+
+msgid "Add song album tag"
+msgstr ""
+
+msgid "Add song title tag"
+msgstr ""
+
+msgid "Add song albumartist tag"
+msgstr ""
+
+msgid "Add song year tag"
+msgstr ""
+
+msgid "Add song composer tag"
+msgstr ""
+
+msgid "Add song performer tag"
+msgstr ""
+
+msgid "Add song grouping tag"
+msgstr ""
+
+msgid "Add song disc tag"
+msgstr ""
+
+msgid "Add song track tag"
+msgstr ""
+
+msgid "Add song genre tag"
+msgstr ""
+
+msgid "Add song length tag"
+msgstr ""
+
+msgid "Add song play count"
+msgstr ""
+
+msgid "Add song skip count"
+msgstr ""
+
+msgid "Add a new line if supported by the notification type"
+msgstr ""
+
+msgid "%filename%"
+msgstr ""
+
+msgid "Add song filename"
+msgstr ""
+
+msgid "%url%"
+msgstr ""
+
+msgid "Add song URL"
+msgstr ""
+
+msgid "%rating%"
+msgstr ""
+
+msgid "Add song rating"
+msgstr ""
+
+msgid "%originalyear%"
+msgstr ""
+
+msgid "Add song original year tag"
+msgstr ""
+
+msgid "Custom text settings"
+msgstr ""
+
+msgid "Summary"
+msgstr ""
+
+msgid "Enable Items"
+msgstr ""
+
+msgid "Technical Data"
+msgstr ""
+
+msgid "Song Lyrics"
+msgstr ""
+
+msgid "Automatically search for album cover"
+msgstr ""
+
+msgid "Font for headline"
+msgstr ""
+
+msgid "Font"
+msgstr ""
+
+msgid "Font size"
+msgstr ""
+
+msgid " pt"
+msgstr ""
+
+msgid "Font for data and lyrics"
+msgstr ""
+
+msgid "Use alternating row colors"
+msgstr ""
+
+msgid "Show bars on the currently playing track"
+msgstr ""
+
+msgid "Show a glowing animation on the currently playing track"
+msgstr ""
+
+msgid "Continue to the next item in the playlist if a song is unavailable"
+msgstr ""
+
+msgid "Grey out unavailable songs in playlists on playback"
+msgstr ""
+
+msgid "Grey out unavailable songs in playlists on startup"
+msgstr ""
+
+msgid "Automatically select current playing track"
+msgstr ""
+
+msgid "Enable playlist toolbar"
+msgstr ""
+
+msgid "Enable playlist clear button"
+msgstr ""
+
+msgid "Automatically sort playlist when inserting songs"
+msgstr ""
+
+msgid "When saving a playlist, file paths should be"
+msgstr ""
+
+msgid "A&utomatic"
+msgstr ""
+
+msgid "Absolu&te"
+msgstr ""
+
+msgid "Re&lative"
+msgstr ""
+
+msgid "As&k when saving"
+msgstr ""
+
+msgid "Metadata"
+msgstr ""
+
+msgid "If activated, clicking a selected song in the playlist view will let you edit the tag value directly"
+msgstr ""
+
+msgid "Enable song metadata inline edition with click"
+msgstr ""
+
+msgid "Write metadata when saving playlists"
+msgstr ""
+
+msgid "Scrobbler"
+msgstr ""
+
+msgid "Enable"
+msgstr ""
+
+msgid "Songs are scrobbled if they have valid metadata and are longer than 30 seconds, have been playing for at least half its duration or for 4 minutes (whichever occurs earlier)."
+msgstr ""
+
+msgid "Work in offline mode (Only cache scrobbles)"
+msgstr ""
+
+msgid "Show scrobble button"
+msgstr ""
+
+msgid "Show love button"
+msgstr ""
+
+msgid "Submit scrobbles every"
+msgstr ""
+
+msgid " seconds"
+msgstr ""
+
+msgid "(This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately)."
+msgstr ""
+
+msgid "Prefer album artist when sending scrobbles"
+msgstr ""
+
+msgid "Show dialog for errors"
+msgstr ""
+
+msgid "Strip \"remastered\" and similar from album and title"
+msgstr ""
+
+msgid "Enable scrobbling for the following sources:"
+msgstr ""
+
+msgid "Local file"
+msgstr ""
+
+msgid "CDDA"
+msgstr ""
+
+msgid "SomaFM"
+msgstr ""
+
+msgid "Stream"
+msgstr ""
+
+msgid "Radio Paradise"
+msgstr ""
+
+msgid "Last.fm"
+msgstr ""
+
+msgid "Login"
+msgstr ""
+
+msgid "Libre.fm"
+msgstr ""
+
+msgid "Listenbrainz"
+msgstr ""
+
+msgid "User token:"
+msgstr ""
+
+msgid "Covers"
+msgstr ""
+
+msgid "Cover providers"
+msgstr ""
+
+msgid "Choose the providers you want to use when searching for covers."
+msgstr ""
+
+msgid "Authentication"
+msgstr ""
+
+msgid "Album cover types"
+msgstr ""
+
+msgid "Saving album covers"
+msgstr ""
+
+msgid "Save album covers in album directory"
+msgstr ""
+
+msgid "Save album covers in cache directory"
+msgstr ""
+
+msgid "Save album covers as embedded cover"
+msgstr ""
+
+msgid "Filename:"
+msgstr ""
+
+msgid "Pattern"
+msgstr ""
+
+msgid "Random"
+msgstr ""
+
+msgid "Overwrite existing file"
+msgstr ""
+
+msgid "Lowercase filename"
+msgstr ""
+
+msgid "Replace spaces with dashes"
+msgstr ""
+
+msgid "Lyrics"
+msgstr ""
+
+msgid "Lyrics providers"
+msgstr ""
+
+msgid "Choose the providers you want to use when searching for lyrics."
+msgstr ""
+
+msgid "Network Proxy"
+msgstr ""
+
+msgid "&Use the system proxy settings"
+msgstr ""
+
+msgid "Direct internet connection"
+msgstr ""
+
+msgid "&Manual proxy configuration"
+msgstr ""
+
+msgid "HTTP proxy"
+msgstr ""
+
+msgid "SOCKS proxy"
+msgstr ""
+
+msgid "Port"
+msgstr ""
+
+msgid "Use authentication"
+msgstr ""
+
+msgid "Username"
+msgstr ""
+
+msgid "Password"
+msgstr ""
+
+msgid "Use proxy settings for streaming"
+msgstr ""
+
+msgid "Appearance"
+msgstr ""
+
+msgid "Style"
+msgstr ""
+
+msgid "Use system theme icons"
+msgstr ""
+
+msgid "Settings require restart."
+msgstr ""
+
+msgid "Tabbar colors"
+msgstr ""
+
+msgid "&Use the system default color"
+msgstr ""
+
+msgid "Use custom color"
+msgstr ""
+
+msgid "Use gradient background"
+msgstr ""
+
+msgid "Select tabbar color:"
+msgstr ""
+
+msgid "Background image"
+msgstr ""
+
+msgid "Default bac&kground image"
+msgstr ""
+
+msgid "&No background image"
+msgstr ""
+
+msgid "The album cover of the currently playing song"
+msgstr ""
+
+msgid "Albu&m cover"
+msgstr ""
+
+msgid "Custom image:"
+msgstr ""
+
+msgid "Browse..."
+msgstr ""
+
+msgid "Position"
+msgstr ""
+
+msgid "Upper Left"
+msgstr ""
+
+msgid "Upper Right"
+msgstr ""
+
+msgid "Middle"
+msgstr ""
+
+msgid "Bottom Left"
+msgstr ""
+
+msgid "Bottom Right"
+msgstr ""
+
+msgid "Max cover size"
+msgstr ""
+
+msgid "Stretch image to fill playlist"
+msgstr ""
+
+msgid "Keep aspect ratio"
+msgstr ""
+
+msgid "Do not cut image"
+msgstr ""
+
+msgid "Blur amount"
+msgstr ""
+
+msgid "0px"
+msgstr ""
+
+msgid "Opacity"
+msgstr ""
+
+msgid "40%"
+msgstr ""
+
+msgid "Icon sizes"
+msgstr ""
+
+msgid "Playlist buttons"
+msgstr ""
+
+msgid "Tabbar large mode"
+msgstr ""
+
+msgid "Play control buttons"
+msgstr ""
+
+msgid "Configure buttons"
+msgstr ""
+
+msgid "Files, playlists and queue buttons"
+msgstr ""
+
+msgid "Tabbar small mode"
+msgstr ""
+
+msgid "Playlist playing song color"
+msgstr ""
+
+msgid "System highlight color"
+msgstr ""
+
+msgid "Custom color"
+msgstr ""
+
+msgid "Select playlist playing song color:"
+msgstr ""
+
+msgid "Notifications"
+msgstr ""
+
+msgid "Strawberry can show a message when the track changes."
+msgstr ""
+
+msgid "Notification type"
+msgstr ""
+
+msgctxt "Refers to a disabled notification type in Notification settings."
+msgid "Disabled"
+msgstr ""
+
+msgid "Show a &native desktop notification"
+msgstr ""
+
+msgid "Show a pretty OSD"
+msgstr ""
+
+msgid "Show a popup fro&m the system tray"
+msgstr ""
+
+msgid "General settings"
+msgstr ""
+
+msgid "Popup duration"
+msgstr ""
+
+msgid "Disable duration"
+msgstr ""
+
+msgid "Show a notification when I change the volume"
+msgstr ""
+
+msgid "Show a notification when I change the repeat/shuffle mode"
+msgstr ""
+
+msgid "Show a notification when I pause playback"
+msgstr ""
+
+msgid "Show a notification when I resume playback"
+msgstr ""
+
+msgid "Include album art in the notification"
+msgstr ""
+
+msgid "Custom message settings"
+msgstr ""
+
+msgid "Use a custom message for notifications"
+msgstr ""
+
+msgid "Body"
+msgstr ""
+
+msgid "Pretty OSD options"
+msgstr ""
+
+msgid "Background color"
+msgstr ""
+
+msgid "Text options"
+msgstr ""
+
+msgid "Choose font..."
+msgstr ""
+
+msgid "Choose color..."
+msgstr ""
+
+msgid "Background opacity"
+msgstr ""
+
+msgid "Basic Blue"
+msgstr ""
+
+msgid "Strawberry Red"
+msgstr ""
+
+msgid "Custom..."
+msgstr ""
+
+msgid "Enable fading"
+msgstr ""
+
+msgid "Equalizer"
+msgstr ""
+
+msgid "Preset:"
+msgstr ""
+
+msgid "Enable equalizer"
+msgstr ""
+
+msgid "Enable stereo balancer"
+msgstr ""
+
+msgid "Left"
+msgstr ""
+
+msgid "Balance"
+msgstr ""
+
+msgid "Right"
+msgstr ""
+
+msgid "About"
+msgstr ""
+
+msgid "Strawberry Error"
+msgstr ""
+
+msgid "Console"
+msgstr ""
+
+msgid "Run"
+msgstr ""
+
+msgid "Edit track information"
+msgstr ""
+
+msgid "Date created"
+msgstr ""
+
+msgid "Art Automatic"
+msgstr ""
+
+msgid "Date modified"
+msgstr ""
+
+msgid "Art Embedded"
+msgstr ""
+
+msgctxt "A playlist's tag."
+msgid "Last played"
+msgstr ""
+
+msgid "Play count"
+msgstr ""
+
+msgid "EBU R 128 integrated loudness"
+msgstr ""
+
+msgid "Bit rate"
+msgstr ""
+
+msgid "Skip count"
+msgstr ""
+
+msgid "Path"
+msgstr ""
+
+msgid "Filename"
+msgstr ""
+
+msgid "Art Unset"
+msgstr ""
+
+msgid "File size"
+msgstr ""
+
+msgid "Art Manual"
+msgstr ""
+
+msgid "EBU R 128 loudness range"
+msgstr ""
+
+msgid "Reset play counts"
+msgstr ""
+
+msgid "Change art"
+msgstr ""
+
+msgid "Embedded cover"
+msgstr ""
+
+msgid "Complete tags automatically"
+msgstr ""
+
+msgid "Compilation"
+msgstr ""
+
+msgid "Tags"
+msgstr ""
+
+msgid "Complete lyrics automatically"
+msgstr ""
+
+msgid "Tag fetcher"
+msgstr ""
+
+msgid "Sorry"
+msgstr ""
+
+msgid "Strawberry was unable to find results for this file"
+msgstr ""
+
+msgid "Select best possible match"
+msgstr ""
+
+msgid "Add Stream"
+msgstr ""
+
+msgid "Enter the URL of a stream:"
+msgstr ""
+
+msgid "Enter username and password"
+msgstr ""
+
+msgid "Import data from last.fm"
+msgstr ""
+
+msgid "Choose data to import from last.fm"
+msgstr ""
+
+msgid "Play counts"
+msgstr ""
+
+msgid "Warning: Play counts and last played from last.fm will completely replace the same data for the matched songs. Play counts will replace the data based on artist and song title for the same albums! Please backup your database before you start."
+msgstr ""
+
+msgid "Go!"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Message Dialog"
+msgstr ""
+
+msgid "Do not show this message again."
+msgstr ""
+
+msgid "Select directory for saving playlists"
+msgstr ""
+
+msgid "Type"
+msgstr ""
+
+msgid "0:00:00"
+msgstr ""
+
+msgid "Click to toggle between remaining time and total time"
+msgstr ""
+
+msgid "You are not signed in."
+msgstr ""
+
+msgid "Sign out"
+msgstr ""
+
+msgid "Signing in..."
+msgstr ""
+
+msgid "Streaming Tabs View"
+msgstr ""
+
+msgid "Artists"
+msgstr ""
+
+msgid "Albums"
+msgstr ""
+
+msgid "Songs"
+msgstr ""
+
+msgid "Refresh catalogue"
+msgstr ""
+
+msgid "Streaming Search View"
+msgstr ""
+
+msgid "artists"
+msgstr ""
+
+msgid "albums"
 msgstr ""
 
 msgid "songs"
 msgstr ""
 
-msgid "sort songs"
+msgid "Organize Files"
 msgstr ""
 
-msgid "starts with"
+msgid "Destination"
 msgstr ""
 
-msgid "stop"
+msgid "After copying..."
 msgstr ""
 
-#, qt-format
-msgid "track %1"
+msgid "Keep the original files"
 msgstr ""
 
-msgid "unknown"
+msgid "Delete the original files"
+msgstr ""
+
+msgid "Naming options"
+msgstr ""
+
+msgid "<p>Tokens start with %, for example: %artist %album %title </p>\n\n"
+"<p>If you surround sections of text that contain a token with curly-braces, that section will be hidden if the token is empty.</p>"
+msgstr ""
+
+msgid "Insert..."
+msgstr ""
+
+msgid "Remove problematic characters from filenames"
+msgstr ""
+
+msgid "Restrict to characters allowed on FAT filesystems"
+msgstr ""
+
+msgid "Restrict characters to ASCII"
+msgstr ""
+
+msgid "Allow extended ASCII characters"
+msgstr ""
+
+msgid "Replace spaces with underscores"
+msgstr ""
+
+msgid "Overwrite existing files"
+msgstr ""
+
+msgid "Copy album cover artwork"
+msgstr ""
+
+msgid "Safely remove the device after copying"
+msgstr ""
+
+msgid "Press a key"
+msgstr ""
+
+msgid "Global Shortcuts"
+msgstr ""
+
+msgid "Use Gnome (GSD) shortcuts when available"
+msgstr ""
+
+msgid "Open..."
+msgstr ""
+
+msgid "Use MATE shortcuts when available"
+msgstr ""
+
+msgid "Use KDE (KGlobalAccel) shortcuts when available"
+msgstr ""
+
+msgid "Use X11 shortcuts when available"
+msgstr ""
+
+msgid "You need to launch System Preferences and allow Strawberry to \"<span style=\"font-style:italic\">control your computer</span>\" to use global shortcuts in Strawberry."
+msgstr ""
+
+msgid "Shortcut"
+msgstr ""
+
+msgctxt "Category label"
+msgid "Action"
+msgstr ""
+
+msgid "&None"
+msgstr ""
+
+msgid "&Default"
+msgstr ""
+
+msgid "&Custom"
+msgstr ""
+
+msgid "Change shortcut..."
+msgstr ""
+
+msgid "Device Properties"
+msgstr ""
+
+msgid "Icon"
+msgstr ""
+
+msgid "Hardware information"
+msgstr ""
+
+msgid "Hardware information is only available while the device is connected."
+msgstr ""
+
+msgid "Information"
+msgstr ""
+
+msgid "Supported formats"
+msgstr ""
+
+msgid "This device supports the following file formats:"
+msgstr ""
+
+msgid "Strawberry can automatically convert the music you copy to this device into a format that it can play."
+msgstr ""
+
+msgid "Do not convert any music"
+msgstr ""
+
+msgid "Convert any music that the device can't play"
+msgstr ""
+
+msgid "Convert all music"
+msgstr ""
+
+msgid "Preferred format"
+msgstr ""
+
+msgid "This device must be connected and opened before Strawberry can see what file formats it supports."
+msgstr ""
+
+msgid "Open device"
+msgstr ""
+
+msgid "Querying device..."
+msgstr ""
+
+msgid "File formats"
+msgstr ""
+
+msgid "Transcode Music"
+msgstr ""
+
+msgid "Files to transcode"
+msgstr ""
+
+msgid "Directory"
+msgstr ""
+
+msgid "Add..."
+msgstr ""
+
+msgid "Add all tracks from a directory and all its subdirectories"
+msgstr ""
+
+msgid "Import..."
+msgstr ""
+
+msgid "Output options"
+msgstr ""
+
+msgid "Audio format"
+msgstr ""
+
+msgid "Options..."
+msgstr ""
+
+msgid "Alongside the originals"
+msgstr ""
+
+msgid "Select..."
+msgstr ""
+
+msgid "Progress"
+msgstr ""
+
+msgid "Details..."
+msgstr ""
+
+msgid "Transcoder Log"
+msgstr ""
+
+msgid " kbps"
+msgstr ""
+
+msgid "Profile"
+msgstr ""
+
+msgid "Main profile (MAIN)"
+msgstr ""
+
+msgid "Low complexity profile (LC)"
+msgstr ""
+
+msgid "Scalable sampling rate profile (SSR)"
+msgstr ""
+
+msgid "Long term prediction profile (LTP)"
+msgstr ""
+
+msgid "Use temporal noise shaping"
+msgstr ""
+
+msgid "Allow mid/side encoding"
+msgstr ""
+
+msgid "Block type"
+msgstr ""
+
+msgid "Normal block type"
+msgstr ""
+
+msgid "No short blocks"
+msgstr ""
+
+msgid "No long blocks"
+msgstr ""
+
+msgid "Transcoding options"
+msgstr ""
+
+msgctxt "Sound quality"
+msgid "Quality"
+msgstr ""
+
+msgid "Fast"
+msgstr ""
+
+msgid "Best"
+msgstr ""
+
+msgid "Use bitrate management engine"
+msgstr ""
+
+msgid "Target bitrate"
+msgstr ""
+
+msgid "Minimum bitrate"
+msgstr ""
+
+msgid "disabled"
+msgstr ""
+
+msgid "Maximum bitrate"
+msgstr ""
+
+msgid "automatic"
+msgstr ""
+
+msgid "Average bitrate"
+msgstr ""
+
+msgid "Encoding mode"
+msgstr ""
+
+msgid "Auto"
+msgstr ""
+
+msgid "Ultra wide band (UWB)"
+msgstr ""
+
+msgid "Wide band (WB)"
+msgstr ""
+
+msgid "Narrow band (NB)"
+msgstr ""
+
+msgid "Variable bit rate"
+msgstr ""
+
+msgid "Voice activity detection"
+msgstr ""
+
+msgid "Discontinuous transmission"
+msgstr ""
+
+msgid "Encoding complexity"
+msgstr ""
+
+msgid "Frames per buffer"
+msgstr ""
+
+msgid "Optimize for &quality"
+msgstr ""
+
+msgid "Opti&mize for bitrate"
+msgstr ""
+
+msgid "Constant bitrate"
+msgstr ""
+
+msgid "Encoding engine quality"
+msgstr ""
+
+msgid "Standard"
+msgstr ""
+
+msgid "High"
+msgstr ""
+
+msgid "Force mono encoding"
+msgstr ""
+
+msgid "Transcoding"
+msgstr ""
+
+msgid "These settings are used in the \"Transcode Music\" dialog, and when converting music before copying it to a device."
+msgstr ""
+
+msgid "FLAC"
+msgstr ""
+
+msgid "WavPack"
+msgstr ""
+
+msgid "Vorbis"
+msgstr ""
+
+msgid "Opus"
+msgstr ""
+
+msgid "Speex"
+msgstr ""
+
+msgid "AAC"
+msgstr ""
+
+msgid "ASF (WMA)"
+msgstr ""
+
+msgid "MP3"
+msgstr ""
+
+msgid "Server URL"
+msgstr ""
+
+msgid "Authentication method:"
+msgstr ""
+
+msgid "Hex"
+msgstr ""
+
+msgid "MD5 token (Recommended)"
+msgstr ""
+
+msgid "Preferences"
+msgstr ""
+
+msgid "Use HTTP/2 when possible"
+msgstr ""
+
+msgid "Verify server certificate"
+msgstr ""
+
+msgid "Download album covers"
+msgstr ""
+
+msgid "Server-side scrobbling"
+msgstr ""
+
+msgid "Test"
+msgstr ""
+
+msgid "Delete songs"
+msgstr ""
+
+msgid "Tidal support is not official and requires a API token from a registered application to work. We can't help you getting these."
+msgstr ""
+
+msgid "Use OAuth"
+msgstr ""
+
+msgid "Client ID"
+msgstr ""
+
+msgid "API Token"
+msgstr ""
+
+msgid "Audio quality"
+msgstr ""
+
+msgid "Search delay"
+msgstr ""
+
+msgid "ms"
+msgstr ""
+
+msgid "Artists search limit"
+msgstr ""
+
+msgid "Albums search limit"
+msgstr ""
+
+msgid "Songs search limit"
+msgstr ""
+
+msgid "Fetch entire albums when searching songs"
+msgstr ""
+
+msgid "Album cover size"
+msgstr ""
+
+msgid "Stream URL method"
+msgstr ""
+
+msgid "Append explicit to album title for explicit albums"
+msgstr ""
+
+msgid "Basic authentication"
+msgstr ""
+
+msgid "Authenticate"
+msgstr ""
+
+msgid "Device credentials"
+msgstr ""
+
+msgid "<html><head/><body><p>The GStreamer Spotify plugin is not detected, you will not be able to stream songs from Spotify without it. See <a href=\"https://wiki.strawberrymusicplayer.org/wiki/Installing_GStreamer_Spotify_plugin\"><span style=\" text-decoration: underline; color:#2980b9;\">Wiki</span></a> for instructions on how to install the plugin.</p></body></html>"
+msgstr ""
+
+msgid "Qobuz support is not official and requires an API app ID and secret from a registered application to work. We can't help you getting these."
+msgstr ""
+
+msgid "App ID"
+msgstr ""
+
+msgid "App Secret"
+msgstr ""
+
+msgid "Base64 encoded secret"
+msgstr ""
+
+msgid "Moodbar"
+msgstr ""
+
+msgid "Show a moodbar in the track progress bar"
+msgstr ""
+
+msgid "Save the .mood files directly in the songs folders"
+msgstr ""
+
+msgid "Enabled"
+msgstr ""
+
+msgid "Return to Strawberry"
+msgstr ""
+
+msgid "Success!"
+msgstr ""
+
+msgid "Please close your browser and return to Strawberry."
 msgstr ""
 

@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: strawberrymusicplayer\n"
 "Language-Team: Turkish\n"
 "Language: tr_TR\n"
-"PO-Revision-Date: 2024-08-31 00:18\n"
+"PO-Revision-Date: 2024-09-13 18:08\n"
 
 msgid "All Files (*)"
 msgstr "Tüm Dosyalar"
@@ -1945,6 +1945,9 @@ msgid "Next track"
 msgstr ""
 
 msgid "Previous track"
+msgstr ""
+
+msgid "Restart or previous track"
 msgstr ""
 
 msgid "Increase volume"

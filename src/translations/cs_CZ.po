@@ -11,1033 +11,367 @@ msgstr ""
 "Project-Id-Version: strawberrymusicplayer\n"
 "Language-Team: Czech\n"
 "Language: cs_CZ\n"
-"PO-Revision-Date: 2024-08-24 18:29\n"
-
-msgid "\n\n"
-"You can favorite playlists by clicking the star icon next to a playlist name\n\n"
-"Favorited playlists will be saved here"
-msgstr "\n\n"
-"Seznamy skladeb můžete označit jako oblíbený klepnutím na hvězdičku vedle názvu seznamu skladeb\n\n"
-"Oblíbené seznamy skladeb budou uloženy zde"
-
-#, qt-format
-msgid " Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in cinnamon-settings-daemon instead."
-msgstr ""
-
-#, qt-format
-msgid " Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in gnome-settings-daemon instead."
-msgstr ""
-
-#, qt-format
-msgid " Shortcuts on %1 are usually used through MATE Settings Daemon and should be configured there instead."
-msgstr ""
-
-#, qt-format
-msgid " Shortcuts on %1 are usually used through MPRIS and KGlobalAccel."
-msgstr "Zkratky na %1 jsou většinou používány přes MPRIS a KGlobalAccel."
-
-msgid " kbps"
-msgstr " kb/s"
-
-msgid " ms"
-msgstr ""
-
-msgid " pt"
-msgstr " bodů"
-
-msgid " s"
-msgstr ""
-
-msgid " seconds"
-msgstr " sekund"
-
-msgid " songs"
-msgstr "skladby"
-
-#, qt-format
-msgid "%1 Scrobbler Authentication"
-msgstr "%1 Ověření systému pro doporučování hudby (scrobbler)"
-
-#, qt-format
-msgid "%1 album"
-msgstr ""
-
-#, qt-format
-msgid "%1 albums"
-msgstr "%1 alba"
-
-#, qt-format
-msgid "%1 artist"
-msgstr "%1 umělec"
-
-#, qt-format
-msgid "%1 artists"
-msgstr "%1 umělci"
-
-#, qt-format
-msgid "%1 dB"
-msgstr ""
-
-#, qt-format
-msgid "%1 days"
-msgstr "%1 dnů"
-
-#, qt-format
-msgid "%1 days ago"
-msgstr "před %1 dny"
-
-#, qt-format
-msgid "%1 does not need authentication."
-msgstr "%1 nevyžaduje ověření."
-
-#, qt-format
-msgid "%1 needs authentication."
-msgstr "%1 vyžaduje ověření."
-
-#, qt-format
-msgid "%1 playlists (%2)"
-msgstr "%1 seznamů skladeb (%2)"
-
-#, qt-format
-msgid "%1 selected of"
-msgstr "%1 vybráno z"
-
-#, qt-format
-msgid "%1 song"
-msgstr "%1 skladba"
-
-#, qt-format
-msgid "%1 song%2"
-msgstr "%1 skladba%2"
-
-#, qt-format
-msgid "%1 songs"
-msgstr "%1 skladby"
-
-#, qt-format
-msgid "%1 songs found"
-msgstr "%1 skladeb nalezeno"
-
-#, qt-format
-msgid "%1 songs found (showing %2)"
-msgstr "%1 skladeb nalezeno (%2 zobrazeno)"
-
-#, qt-format
-msgid "%1 songs in %2 different directories selected, are you sure you want to open them all?"
-msgstr "Je vybráno %1 skladeb obsažených v %2 různých složkách, chcete je všechny otevřít?"
-
-#, qt-format
-msgid "%1 songs selected."
-msgstr ""
-
-#, qt-format
-msgid "%1 transferred"
-msgstr "%1 přeneseno"
-
-msgid "%filename%"
-msgstr ""
-
-#, c-format, qt-plural-format
-msgid "%n failed"
-msgstr "nepodařilo se %n"
-
-#, c-format, qt-plural-format
-msgid "%n finished"
-msgstr "dokončeno %n"
-
-#, c-format, qt-plural-format
-msgid "%n remaining"
-msgstr "zůstávají %n"
-
-#, c-format, qt-plural-format
-msgid "%n track(s)"
-msgstr ""
-
-msgid "%originalyear%"
-msgstr ""
-
-msgid "%rating%"
-msgstr "%hodnocení%"
-
-msgid "%url%"
-msgstr "%adresa%"
-
-msgid "&About Strawberry"
-msgstr "&O Strawberry"
-
-msgid "&Add file..."
-msgstr "&Přidat soubor..."
-
-msgid "&Align text"
-msgstr "&Zarovnat text"
-
-msgid "&Center"
-msgstr "&Na střed"
-
-msgid "&Clear playlist"
-msgstr "&Vyčistit seznam skladeb"
-
-msgid "&Cover Manager"
-msgstr "&Správce obalů"
-
-msgid "&Custom"
-msgstr "Vl&astní"
-
-msgid "&Default"
-msgstr "&Výchozí"
-
-msgid "&Do a full collection rescan"
-msgstr "&Provést úplné nové prohledání sbírky"
-
-msgid "&Equalizer"
-msgstr "&Ekvalizér"
-
-#, qt-format
-msgid "&Hide %1"
-msgstr "Skrýt %1"
-
-msgid "&Hide..."
-msgstr "Skrýt..."
-
-msgid "&Jump to the currently playing track"
-msgstr "&Skočit na aktuálně přehrávanou skladbu"
-
-msgid "&Left"
-msgstr "&Vlevo"
-
-msgid "&Load playlist..."
-msgstr "&Načíst seznam skladeb"
-
-msgid "&Lock rating"
-msgstr ""
-
-msgid "&Manual proxy configuration"
-msgstr "&Ruční nastavení proxy"
-
-msgid "&Music"
-msgstr "Hudba"
-
-msgid "&Mute"
-msgstr "&Ztlumit"
-
-msgid "&New playlist"
-msgstr "&Nový seznam skladeb"
-
-msgid "&Next track"
-msgstr "&Další skladba"
-
-msgid "&No background image"
-msgstr "&Chybějící obrázek na pozadí"
-
-msgid "&None"
-msgstr "Žád&né"
-
-msgid "&Open file..."
-msgstr "&Otevřít soubor"
-
-msgid "&Play"
-msgstr "&Přehrát"
-
-msgid "&Quit"
-msgstr "&Ukončit"
-
-msgid "&Repeat mode"
-msgstr "Režim opakování"
-
-msgid "&Reset columns to default"
-msgstr "&Původní nastavení sloupců"
-
-msgid "&Right"
-msgstr "&Vpravo"
-
-msgid "&Save all playlists..."
-msgstr ""
-
-msgid "&Settings..."
-msgstr "&Nastavení"
-
-msgid "&Shuffle mode"
-msgstr "Režim míchání"
-
-msgid "&Stop"
-msgstr "&Zastavit"
-
-msgid "&Stretch columns to fit window"
-msgstr "Roztáhnout sloupce tak, aby se vešly do okna"
-
-msgid "&Tools"
-msgstr "Nástroje"
-
-msgid "&Transcode Music"
-msgstr "&Převést hudbu"
-
-msgid "&Update changed collection folders"
-msgstr "&Aktualizovat změny ve složkách kolekce"
-
-msgid "&Use the system default color"
-msgstr "&Použít nastavení barvu systému"
-
-msgid "&Use the system proxy settings"
-msgstr "&Použít nastavení systému"
-
-msgid "(This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately)."
-msgstr ""
-
-msgid "(different across multiple songs)"
-msgstr "(liší se u jednotlivých písní)"
-
-msgid "0"
-msgstr ""
-
-msgid "0:00:00"
-msgstr ""
-
-msgid "0px"
-msgstr "0 px"
-
-msgid "1 day"
-msgstr "1 den"
-
-msgid "40%"
-msgstr ""
-
-msgid "50 random tracks"
-msgstr "50 náhodných skladeb"
-
-msgid "<html><head/><body><p>The GStreamer Spotify plugin is not detected, you will not be able to stream songs from Spotify without it. See <a href=\"https://wiki.strawberrymusicplayer.org/wiki/Installing_GStreamer_Spotify_plugin\"><span style=\" text-decoration: underline; color:#2980b9;\">Wiki</span></a> for instructions on how to install the plugin.</p></body></html>"
-msgstr ""
-
-msgid "<p>Tokens start with %, for example: %artist %album %title </p>\n\n"
-"<p>If you surround sections of text that contain a token with curly-braces, that section will be hidden if the token is empty.</p>"
-msgstr "<p>Symboly začínají %, například: %artist %album %title </p>\n\n"
-"<p>Pokud obklopíte části textu obsahující symbol složenými závorkami, tato část bude skryta, je-li symbol prázdný.</p>"
-
-msgid "A smart playlist is a dynamic list of songs that come from your collection.  There are different types of smart playlist that offer different ways of selecting songs."
-msgstr "Chytrý playlist je dynamický seznam skladeb z vaší kolekce. Existuje několik různých typů chytrých playlistů. Každý nabízí jiný způsob výběru skladeb."
-
-msgid "A song will be included in the playlist if it matches these conditions."
-msgstr "Skladba bude zahrnuta v seznamu skladeb, pokud splňuje tyto podmínky."
-
-msgid "A&utomatic"
-msgstr "A&utomaticky"
-
-msgid "A-Z"
-msgstr ""
-
-msgid "AAC"
-msgstr ""
-
-msgid "ALSA plugin:"
-msgstr ""
-
-msgid "API Token"
-msgstr ""
-
-msgid "ASF (WMA)"
-msgstr ""
-
-msgid "Abort"
-msgstr "Přerušit"
-
-msgid "About"
-msgstr "O programu"
-
-msgid "About &Qt"
-msgstr "O &Qt"
-
-msgid "About Strawberry"
-msgstr "O Strawberry"
-
-msgid "Absolu&te"
-msgstr "Absolut&ní"
-
-msgid "Absolute"
-msgstr "Absolutní"
-
-msgctxt "Category label"
-msgid "Action"
-msgstr "Činnost"
-
-msgid "Add &folder..."
-msgstr "Přidat &složku"
-
-msgid "Add Stream"
-msgstr "Přidat přenos"
-
-msgid "Add a new line if supported by the notification type"
-msgstr "Přidat nový řádek, je-li to podporováno typem oznámení"
-
-msgid "Add all tracks from a directory and all its subdirectories"
-msgstr "Přidat všechny skladby z adresáři a všech jeho podadresářů"
-
-msgid "Add directory..."
-msgstr "Přidat složku..."
-
-msgid "Add file"
-msgstr "Přidat soubor"
-
-msgid "Add file to transcoder"
-msgstr "Přidat soubor k překódování"
-
-msgid "Add file(s) to transcoder"
-msgstr "Přidat soubor(y) k překódování"
-
-msgid "Add files to transcode"
-msgstr "Přidat soubory pro překódování"
-
-msgid "Add folder"
-msgstr "Přidat složku"
-
-msgid "Add new folder..."
-msgstr "Přidat novou složku..."
-
-msgid "Add search term"
-msgstr "Přidat hledaný výraz"
-
-msgid "Add song URL"
-msgstr "Přidat URL skladby"
-
-msgid "Add song album tag"
-msgstr "Přidat značku album písně"
-
-msgid "Add song albumartist tag"
-msgstr "Přidat značku umělec alba písně"
-
-msgid "Add song artist tag"
-msgstr "Přidat značku umělec písně"
-
-msgid "Add song composer tag"
-msgstr "Přidat značku skladatel písně"
-
-msgid "Add song disc tag"
-msgstr "Přidat značku disk písně"
-
-msgid "Add song filename"
-msgstr "Přidat název souboru písně"
-
-msgid "Add song genre tag"
-msgstr "Přidat značku žánr písně"
-
-msgid "Add song grouping tag"
-msgstr "Přidat značku seskupení písně"
-
-msgid "Add song length tag"
-msgstr "Přidat značku délka písně"
-
-msgid "Add song original year tag"
-msgstr ""
-
-msgid "Add song performer tag"
-msgstr "Přidat značku účinkující písně"
-
-msgid "Add song play count"
-msgstr "Přidat počet přehrání písně"
-
-msgid "Add song rating"
-msgstr "Přidat hodnocení písně"
-
-msgid "Add song skip count"
-msgstr "Přidat počet přeskočení písně"
-
-msgid "Add song title tag"
-msgstr "Přidat značku název písně"
-
-msgid "Add song track tag"
-msgstr "Přidat značku pořadí písně"
-
-msgid "Add song year tag"
-msgstr "Přidat značku rok písně"
-
-msgid "Add stream..."
-msgstr "Přidat přenos..."
-
-msgid "Add to albums"
-msgstr "Přidat do alb"
-
-msgid "Add to another playlist"
-msgstr "Přidat do jiného seznamu skladeb"
-
-msgid "Add to artists"
-msgstr "Přidat k umělcům"
-
-msgid "Add to playlist"
-msgstr "Přidat do seznamu skladeb"
-
-msgid "Add to songs"
-msgstr "Přidat ke skladbám"
-
-msgid "Add to the queue"
-msgstr "Přidat do řady"
-
-msgid "Add..."
-msgstr "Přidat..."
-
-msgid "Added this month"
-msgstr "Přidána tento měsíc"
-
-msgid "Added this week"
-msgstr "Přidána tento týden"
-
-msgid "Added this year"
-msgstr "Přidána tento rok"
-
-msgid "Added today"
-msgstr "Přidána dnes"
-
-msgid "Added within three months"
-msgstr "Přidána během tří měsíců"
-
-msgid "Advanced grouping..."
-msgstr "Pokročilé seskupování..."
-
-msgid "After copying..."
-msgstr "Po zkopírování..."
-
-msgid "Albu&m cover"
-msgstr "Obal alb&a"
-
-msgid "Album"
-msgstr ""
-
-msgid "Album (ideal loudness for all tracks)"
-msgstr "Album (ideální hlasitost pro všechny skladby)"
-
-msgid "Album - Disc"
-msgstr "Album - Disk"
-
-msgid "Album Artist"
-msgstr ""
-
-msgid "Album artist"
-msgstr "Umělec alba"
-
-msgid "Album cover editing is only available for collection songs."
-msgstr ""
-
-msgid "Album cover pixmap cache"
-msgstr "Mezipaměť obalů alb"
-
-msgid "Album cover size"
-msgstr "Velikost obalu alba"
-
-msgid "Album cover types"
-msgstr ""
-
-msgid "Albums"
-msgstr "Alba"
-
-msgid "Albums search limit"
-msgstr "Limit vyhledávaných alb"
-
-msgid "Albums with covers"
-msgstr "Alba s obaly"
-
-msgid "Albums without covers"
-msgstr "Alba bez obalů"
+"PO-Revision-Date: 2024-09-13 18:08\n"
 
 msgid "All Files (*)"
 msgstr "Všechny soubory (*)"
 
-msgid "All albums"
-msgstr "Všechna alba"
-
-msgid "All artists"
-msgstr "Všichni umělci"
-
-msgid "All files (*)"
-msgstr "Všechny soubory (*)"
-
-#, qt-format
-msgid "All playlists (%1)"
-msgstr "Všechny seznamy skladeb (%1)"
-
-msgid "All tracks"
-msgstr "Všechny skladby"
-
-msgid "Allow extended ASCII characters"
-msgstr "Povolit rozšířené ASCII znaky"
-
-msgid "Allow mid/side encoding"
-msgstr "Povolit kódování střed/kraj"
-
-msgid "Alongside the originals"
-msgstr "Vedle původních"
-
-msgid "Always start playing"
-msgstr "Vždy začít přehrávat"
-
-msgid "An error occurred loading the iTunes database"
-msgstr "Při nahrávání databáze iTunes nastala chyba"
-
-msgid "Angry"
-msgstr "Naštvaný"
-
-msgid "App ID"
-msgstr "ID aplikace"
-
-msgid "App Secret"
-msgstr "Tajemství aplikace"
-
-msgid "Appearance"
-msgstr "Vzhled"
-
-msgid "Append explicit to album title for explicit albums"
-msgstr ""
-
-msgid "Append files/URLs to the playlist"
-msgstr "Přidat soubory/adresy do seznamu skladeb"
-
-msgid "Append to current playlist"
-msgstr "Přidat do současného seznamu skladeb"
-
-msgid "Append to the playlist"
-msgstr "Přidat do seznamu skladeb"
-
-msgid "Apply compression to prevent clipping"
-msgstr "Použít kompresi, aby se zabránilo ořezávání zvuku (clippingu)"
-
-msgid "Are you sure you want to continue?"
-msgstr "Opravdu chcete pokračovat?"
-
-#, qt-format
-msgid "Are you sure you want to delete the \"%1\" preset?"
-msgstr "Opravdu chcete smazat nastavení \"%1\"?"
-
-msgid "Are you sure you want to reset this song's play statistics?"
-msgstr ""
-
-msgid "Are you sure you want to write song playcounts and ratings to file for all songs in your collection?"
-msgstr ""
-
-msgid "Art Automatic"
-msgstr ""
-
-msgid "Art Embedded"
-msgstr ""
-
-msgid "Art Manual"
-msgstr ""
-
-msgid "Art Unset"
-msgstr ""
-
-msgid "Artist"
-msgstr "Umělec"
-
-msgid "Artist's initial"
-msgstr "Začáteční písmena umělce"
-
-msgid "Artists"
-msgstr "Umělci"
-
-msgid "Artists search limit"
-msgstr "Limit vyhledávaných umělců"
-
-msgid "As&k when saving"
-msgstr "Ze&ptat se při ukládání"
-
-msgid "Audio format"
-msgstr "Zvukový formát"
-
-msgid "Audio normalization"
-msgstr ""
-
-msgid "Audio output"
-msgstr "Zvukový výstup"
-
-msgid "Audio quality"
-msgstr "Kvalita zvuku"
-
-msgid "Authenticate"
-msgstr ""
-
-msgid "Authenticating..."
-msgstr "Probíhá ověření..."
-
-msgid "Authentication"
-msgstr "Ověření"
-
-msgid "Authentication failed"
-msgstr "Ověření selhalo"
-
-msgid "Authentication method:"
-msgstr ""
-
-msgid "Author and maintainer"
-msgstr "Autor a vedoucí"
-
-msgid "Auto"
-msgstr "Automaticky"
-
-msgid "Automatic"
-msgstr "Automaticky"
-
-msgid "Automatic updating"
-msgstr "Automatická aktualizace"
-
-msgid "Automatically open single categories in the collection tree"
-msgstr "Automaticky otevřít jednotlivé skupiny ve stromu sbírky"
-
-#, qt-format
-msgid "Automatically picked up from album directory (%1)"
-msgstr ""
-
-msgid "Automatically search for album cover"
-msgstr "Automaticky vyhledat obal alba"
-
-msgid "Automatically search for song lyrics"
-msgstr "Automaticky najít texty skladeb"
-
-msgid "Automatically select current playing track"
-msgstr "Automaticky vybrat aktuálně přehrávanou skladbu"
-
-msgid "Automatically sort playlist when inserting songs"
-msgstr "Automaticky seřadit seznam skladeb po vložení nových skladeb"
-
-msgid "Available"
-msgstr "Dostupné"
-
-msgid "Available fields"
-msgstr "Dostupná pole"
-
-msgid "Average bitrate"
-msgstr "Průměrný datový tok"
-
-msgid "Average image size"
-msgstr "Průměrná velikost obrázku"
-
-msgid "Backend"
-msgstr ""
-
-msgid "Background color"
-msgstr "Barva pozadí"
-
-msgid "Background image"
-msgstr "Obrázek na pozadí"
-
-msgid "Background opacity"
-msgstr "Neprůhlednost pozadí"
-
-msgid "Backing up database"
-msgstr "Záloha databáze"
-
-msgid "Balance"
-msgstr "Vyvážení"
-
-msgid "Base64 encoded secret"
-msgstr ""
-
-msgid "Basic Blue"
-msgstr "Jednoduchá modrá"
-
-msgid "Basic authentication"
-msgstr ""
-
-msgid "Behavior"
-msgstr "Chování"
-
-msgid "Best"
-msgstr "Nejlepší"
-
-msgid "Bit"
-msgstr ""
-
-msgid "Bit Depth"
-msgstr ""
-
-msgid "Bit depth"
-msgstr "Bitová hloubka"
-
-msgid "Bit rate"
-msgstr "Datový tok"
-
-msgid "Bitrate"
-msgstr "Datový tok"
-
-msgctxt "Refers to bitrate in file organize dialog."
-msgid "Bitrate"
-msgstr "Datový tok"
-
-msgid "Block analyzer"
-msgstr "Blokový analyzátor"
-
-msgid "Block type"
-msgstr "Typ bloku"
-
-msgid "Blur amount"
-msgstr "Velikost rozmazání"
-
-msgid "Body"
-msgstr "Tělo"
-
-msgid "Boom analyzer"
-msgstr "Růstový analyzátor"
-
-msgid "Bottom Left"
-msgstr "Vlevo dole"
-
-msgid "Bottom Right"
-msgstr "Vpravo dole"
-
-msgid "Browse..."
-msgstr "Procházet…"
-
-msgid "Buffer"
-msgstr "Mezipaměť"
-
-msgid "Buffer duration"
-msgstr "Délka vyrovnávací paměti"
-
-msgid "Buffering"
-msgstr "Ukládá se do vyrovnávací paměti"
-
-msgid "C&onsole"
-msgstr ""
-
-msgid "CD playback is only available with the GStreamer engine."
-msgstr "Přehrávání disků CD je možné pouze za použití GStreamer enginu."
-
-msgid "CDDA"
-msgstr ""
-
-msgid "CUE"
-msgstr ""
-
-msgid "Cancel"
-msgstr "Zrušit"
-
-msgid "Cancelled."
-msgstr "Zrušeno."
-
-msgid "Change art"
-msgstr ""
-
-msgid "Change repeat mode"
-msgstr ""
-
-msgid "Change shortcut..."
-msgstr "Změnit klávesovou zkratku..."
-
-msgid "Change shuffle mode"
-msgstr ""
-
-msgid "Change the currently playing song"
-msgstr "Změnit nyní přehrávanou píseň"
-
-msgid "Change the language"
-msgstr "Změnit jazyk"
-
-msgid "Check for updates..."
-msgstr "Zkontrolovat aktualizace"
-
-msgid "Choose a name for your smart playlist"
-msgstr "Zvolte jméno pro váš chytrý seznam skladeb"
-
-msgid "Choose color..."
-msgstr "Vybrat barvu..."
-
-msgid "Choose data to import from last.fm"
-msgstr "Zvolte data pro import z last.fm"
-
-msgid "Choose font..."
-msgstr "Vybrat písmo..."
-
-msgid "Choose how the playlist is sorted and how many songs it will contain."
-msgstr "Zvolte jak bude seznam skladeb seřazen a kolik skladeb bude obsahovat."
-
-msgid "Choose the providers you want to use when searching for covers."
-msgstr "Vyberte poskytovatele vyhledávání obalů alb."
-
-msgid "Choose the providers you want to use when searching for lyrics."
-msgstr "Vyberte poskytovatele vyhledávání textů skladeb."
-
-msgid "Classical"
-msgstr "Klasická"
-
-msgid "Clear"
-msgstr "Smazat"
-
-msgid "Clear Disk Cache"
-msgstr "Vyčistit mezipaměť na disku"
-
-msgid "Clear cover"
-msgstr ""
-
-msgid "Clear playlist"
-msgstr "Vyprázdnit seznam skladeb"
-
-msgid "Clementine authors"
-msgstr "Autoři Clementine"
-
-msgid "Clementine contributors"
-msgstr "Přispěvatelé Clementine"
-
-msgid "Click here to add some music"
-msgstr "Klepněte sem pro přidání nějaké hudby"
-
-msgid "Click here to retrieve music"
-msgstr "Klikněte zde pro načtení hudby"
-
-msgid "Click to toggle between remaining time and total time"
-msgstr "Klepněte pro přepnutí mezi zbývajícím časem a celkovým časem"
-
-msgid "Client ID"
-msgstr "ID Klienta"
-
-msgid "Close"
-msgstr "Zavřít"
-
-msgid "Close playlist"
-msgstr "Zavřít seznam skladeb"
-
-msgid "Closing this window will stop searching for album covers."
-msgstr "Zavření tohoto okna zastaví hledání obalů alb."
-
-msgid "Club"
-msgstr "Klub"
+msgid "Context"
+msgstr "Kontext"
 
 msgid "Collection"
 msgstr "Sbírka"
 
-msgid "Collection Filter"
-msgstr "Filtr Kolekce"
+msgid "Queue"
+msgstr "Fronta"
 
-msgid "Collection advanced grouping"
-msgstr "Pokročilé seskupování sbírky"
+msgid "Playlists"
+msgstr "Seznamy skladeb"
 
-msgid "Collection rescan notice"
-msgstr "Zpráva o prohledání sbírky"
-
-msgid "Collection search"
-msgstr "Hledání v kolekci"
-
-msgid "Comma separated list of class:level, level is 0-3"
-msgstr "Čárkou oddělený seznam class:level, level je 0-3"
-
-msgid "Comment"
-msgstr "Poznámka"
-
-msgid "Compilation"
-msgstr "Kompilace"
-
-msgid "Complete lyrics automatically"
+msgid "Smart playlists"
 msgstr ""
 
-msgid "Complete tags automatically"
-msgstr "Doplnit značky automaticky"
+msgid "Files"
+msgstr "Soubory"
 
-msgid "Complete tags automatically..."
-msgstr "Doplnit značky automaticky..."
+msgid "Radios"
+msgstr ""
 
-msgid "Composer"
-msgstr "Skladatel"
+msgid "Devices"
+msgstr "Zařízení"
 
-msgid "Configuration incomplete"
-msgstr "Konfigurace není hotová"
+msgid "Subsonic"
+msgstr ""
 
-msgid "Configuration incorrect"
-msgstr "Konfigurace není správná"
+msgid "Tidal"
+msgstr ""
 
-#, qt-format
-msgid "Configure %1..."
-msgstr "Nastavit %1..."
+msgid "Spotify"
+msgstr ""
 
-msgid "Configure buttons"
-msgstr "Nastavit tlačítka"
+msgid "Qobuz"
+msgstr ""
+
+msgid "Show all songs"
+msgstr "Ukázat všechny písně"
+
+msgid "Show only duplicates"
+msgstr "Ukázat pouze zdvojené"
+
+msgid "Show only untagged"
+msgstr "Ukázat pouze neoznačené"
 
 msgid "Configure collection..."
 msgstr "Nastavit sbírku..."
 
-msgid "Connect device"
-msgstr "Připojit zařízení"
+msgid "Play"
+msgstr "Přehrát"
 
-msgid "Console"
-msgstr "Konzole"
+msgid "Stop after this track"
+msgstr "Zastavit po této skladbě"
 
-msgid "Constant bitrate"
-msgstr "Stálý datový tok"
+msgid "Toggle queue status"
+msgstr "Přepnout stav řady"
 
-msgid "Context"
-msgstr "Kontext"
+msgid "Queue selected tracks to play next"
+msgstr "Přidat vybrané skladby do fronty"
 
-msgid "Continue to the next item in the playlist if a song is unavailable"
-msgstr "Pokračovat na další položku když skladba v seznamu není dostupná"
+msgid "Toggle skip status"
+msgstr "Přepnout stav přeskakování"
 
-msgid "Contributors"
-msgstr "Přispěvatelé"
-
-msgid "Convert all music"
-msgstr "Převést všechnu hudbu"
-
-msgid "Convert any music that the device can't play"
-msgstr "Převést veškerou hudbu, kterou zařízení nedokáže přehrát"
+msgid "Rescan song(s)..."
+msgstr ""
 
 msgid "Copy URL(s)..."
 msgstr "Kopírovat odkaz(y)..."
 
-msgid "Copy album cover artwork"
-msgstr "Kopírovat obrázek alba"
+msgid "Show in collection..."
+msgstr "Ukazovat ve sbírce..."
+
+msgid "Show in file browser..."
+msgstr "Ukázat v prohlížeči souborů..."
+
+msgid "Organize files..."
+msgstr "Uspořádat soubory..."
 
 msgid "Copy to collection..."
 msgstr "Zkopírovat do sbírky..."
 
-msgid "Copy to device"
-msgstr "Zkopírovat na zařízení"
+msgid "Move to collection..."
+msgstr "Přesunout do sbírky..."
 
 msgid "Copy to device..."
 msgstr "Zkopírovat do zařízení..."
 
-msgid "Copy your strawberry.conf and strawberry.db from your ~/snap directory to avoid losing configuration before you uninstall the snap:"
+msgid "Delete from disk..."
+msgstr "Smazat z disku..."
+
+msgid "Check for updates..."
+msgstr "Zkontrolovat aktualizace"
+
+msgid "Strawberry running under Rosetta"
 msgstr ""
 
 #, qt-format
-msgid "Could not copy %1 to %2: %3"
+msgid "You are running Strawberry under Rosetta. Running Strawberry under Rosetta is unsupported and known to have issues. You should download Strawberry for the correct CPU architecture from %1"
+msgstr ""
+
+msgid "Sponsoring Strawberry"
+msgstr ""
+
+#, qt-format
+msgid "Strawberry is free and open source software. If you like Strawberry, please consider sponsoring the project. For more information about sponsorship see our website %1"
+msgstr ""
+
+msgid "Pause"
+msgstr "Pozastavit"
+
+msgid "Dequeue track"
+msgstr "Odstranit skladbu z řady"
+
+msgid "Dequeue selected tracks"
+msgstr "Odstranit vybrané skladby z řady"
+
+msgid "Queue track"
+msgstr "Přidat skladbu do řady"
+
+msgid "Queue selected tracks"
+msgstr "Přidat vybrané skladby do řady"
+
+msgid "Queue to play next"
+msgstr "Do fronty jako další"
+
+msgid "Unskip track"
+msgstr "Zrušit přeskočení skladby"
+
+msgid "Unskip selected tracks"
+msgstr "Zrušit přeskočení vybraných skladeb"
+
+msgid "Skip track"
+msgstr "Přeskočit skladbu"
+
+msgid "Skip selected tracks"
+msgstr "Přeskočit vybrané skladby"
+
+#, qt-format
+msgid "Set %1 to \"%2\"..."
+msgstr "Nastavit %1 na \"%2\"..."
+
+#, qt-format
+msgid "Edit tag \"%1\"..."
+msgstr "Upravit značku \"%1\"..."
+
+msgid "Add to another playlist"
+msgstr "Přidat do jiného seznamu skladeb"
+
+msgid "New playlist"
+msgstr "Nový seznam skladeb"
+
+msgid "Add file"
+msgstr "Přidat soubor"
+
+msgid "Music"
+msgstr "Hudba"
+
+msgid "Add folder"
+msgstr "Přidat složku"
+
+msgid "Clear playlist"
+msgstr "Vyprázdnit seznam skladeb"
+
+#, qt-format
+msgid "Playlist has %1 songs, too large to undo, are you sure you want to clear the playlist?"
+msgstr "Seznam skladeb obsahuje %1 skladeb. Jste si jisti že chcete seznam vyčistit? Nelze to vrátit zpátky!"
+
+msgid "Error"
+msgstr "Chyba"
+
+msgid "None of the selected songs were suitable for copying to a device"
+msgstr "Žádná z vybraných písní nebyla vhodná ke zkopírování do zařízení"
+
+msgid "The version of Strawberry you've just updated to requires a full collection rescan because of the new features listed below:"
+msgstr "Verze Strawberry, na kterou jste právě povýšili, vyžaduje z důvodu nových vlastností vypsaných níže úplné nové prohledání sbírky:"
+
+msgid "Would you like to run a full rescan right now?"
+msgstr "Chcete spustit toto úplné nové prohledání hned teď?"
+
+msgid "Collection rescan notice"
+msgstr "Zpráva o prohledání sbírky"
+
+msgid "Usage"
+msgstr "Zacházení"
+
+msgid "options"
+msgstr "volby"
+
+msgid "URL(s)"
+msgstr "Adresa (URL)"
+
+msgid "Player options"
+msgstr "Nastavení přehrávače"
+
+msgid "Start the playlist currently playing"
+msgstr "Přehrát současnou skladbu v seznamu skladeb"
+
+msgid "Play if stopped, pause if playing"
+msgstr "Přehrát, pokud je zastaveno, pozastavit, pokud je přehráváno"
+
+msgid "Pause playback"
+msgstr "Pozastavit přehrávání"
+
+msgid "Stop playback"
+msgstr "Zastavit přehrávání"
+
+msgid "Stop playback after current track"
+msgstr "Zastavit přehrávání po současné skladbě"
+
+msgid "Skip backwards in playlist"
+msgstr "Předchozí skladba v seznamu skladeb"
+
+msgid "Skip forwards in playlist"
+msgstr "Další skladba v seznamu skladeb"
+
+msgid "Set the volume to <value> percent"
+msgstr "Nastavit hlasitost na <value> procent"
+
+msgid "Increase the volume by 4 percent"
+msgstr "Zvýšit hlasitost o 4 procenta"
+
+msgid "Decrease the volume by 4 percent"
+msgstr "Snížit hlasitost o 4 procenta"
+
+msgid "Increase the volume by <value> percent"
+msgstr "Zvýšit hlasitost o <value> procent"
+
+msgid "Decrease the volume by <value> percent"
+msgstr "Snížit hlasitost o <value> procent"
+
+msgid "Seek the currently playing track to an absolute position"
+msgstr "Skočit v nyní přehrávané skladbě na určité místo"
+
+msgid "Seek the currently playing track by a relative amount"
+msgstr "Přetočit v nyní přehrávané skladbě"
+
+msgid "Restart the track, or play the previous track if within 8 seconds of start."
+msgstr "Spustit znovu přehrávání skladby, nebo přehrávat předchozí skladbu, jestliže ještě neuběhlo osm sekund od začátku skladby."
+
+msgid "Playlist options"
+msgstr "Nastavení seznamu skladeb"
+
+msgid "Create a new playlist with files"
+msgstr "Vytvořit nový seznam skladeb se soubory"
+
+msgid "Append files/URLs to the playlist"
+msgstr "Přidat soubory/adresy do seznamu skladeb"
+
+msgid "Loads files/URLs, replacing current playlist"
+msgstr "Nahraje soubory/adresy (URL), nahradí současný seznam skladeb"
+
+msgid "Play the <n>th track in the playlist"
+msgstr "Přehrát <n>. skladbu v seznamu se skladbami"
+
+msgid "Play given playlist"
+msgstr ""
+
+msgid "Other options"
+msgstr "Další volby"
+
+msgid "Display the on-screen-display"
+msgstr "Zobrazovat informace na obrazovce (OSD)"
+
+msgid "Toggle visibility for the pretty on-screen-display"
+msgstr "Přepnout viditelnost hezkých oznámení na obrazovce (OSD)"
+
+msgid "Change the language"
+msgstr "Změnit jazyk"
+
+msgid "Resize the window"
+msgstr ""
+
+msgid "Equivalent to --log-levels *:1"
+msgstr "Rovnocenné s --log-levels *:1"
+
+msgid "Equivalent to --log-levels *:3"
+msgstr "Rovnocenné s --log-levels *:3"
+
+msgid "Comma separated list of class:level, level is 0-3"
+msgstr "Čárkou oddělený seznam class:level, level je 0-3"
+
+msgid "Print out version information"
+msgstr "Vypsat informaci o verzi"
+
+#, qt-format
+msgid "Unable to execute SQL query: %1"
+msgstr ""
+
+#, qt-format
+msgid "Failed SQL query: %1"
+msgstr ""
+
+msgid "Integrity check"
+msgstr "Ověření celistvosti"
+
+msgid "Database corruption detected."
+msgstr "Databáze je poškozená."
+
+msgid "Backing up database"
+msgstr "Záloha databáze"
+
+msgid "Deleting files"
+msgstr "Probíhá mazání souborů"
+
+#, qt-format
+msgid "Failed to create directory %1."
+msgstr ""
+
+#, qt-format
+msgid "Destination file %1 exists, but not allowed to overwrite."
+msgstr ""
+
+#, qt-format
+msgid "Destination file %1 exists, but not allowed to overwrite"
 msgstr ""
 
 #, qt-format
 msgid "Could not copy file %1 to %2."
 msgstr ""
 
-#, qt-format
-msgid "Could not create the GStreamer element \"%1\" - make sure you have all the required GStreamer plugins installed"
-msgstr "Nepodařilo se vytvořit prvek GStreamer \"%1\" - ujistěte se, že máte nainstalovány všechny požadované přídavné moduly GStreamer"
+msgid "Unknown"
+msgstr "Neznámý"
 
-#, qt-format
-msgid "Could not open CUE file %1 for reading: %2"
+msgid "LUFS"
 msgstr ""
 
-msgid "Could not open MTP device."
+msgid "LU"
 msgstr ""
 
-msgid "Could not open URL. Please open this URL in your browser"
-msgstr "Nelze otevřít adresu URL. Prosím otevřete tuto URL ve vašem prohlížeči"
+msgid "You need GStreamer for this URL."
+msgstr "Pro tento odkaz je potřeba GStreamer."
+
+msgid "Preload function was not set for blocking operation."
+msgstr "Funkce přednačítání nebyla nastavena pro operaci blokování."
 
 #, qt-format
-msgid "Could not open file %1"
+msgid "File %1 does not exist."
 msgstr ""
+
+#, qt-format
+msgid "File %1 is not recognized as a valid audio file."
+msgstr "Soubor %1 nebyl rozpoznán jako platný zvukový soubor."
+
+msgid "CD playback is only available with the GStreamer engine."
+msgstr "Přehrávání disků CD je možné pouze za použití GStreamer enginu."
 
 #, qt-format
 msgid "Could not open file %1 for reading: %2"
 msgstr ""
 
 #, qt-format
+msgid "Could not open CUE file %1 for reading: %2"
+msgstr ""
+
+#, qt-format
 msgid "Could not open playlist file %1 for reading: %2"
-msgstr ""
-
-#, qt-format
-msgid "Could not save cover to file %1."
-msgstr ""
-
-#, qt-format
-msgid "Could not write metadata to %1"
-msgstr ""
-
-#, qt-format
-msgid "Could not write metadata to %1: %2"
-msgstr ""
-
-#, qt-format
-msgid "Couldn't create GStreamer fakesink element for %1"
 msgstr ""
 
 #, qt-format
@@ -1048,371 +382,304 @@ msgstr ""
 msgid "Couldn't create GStreamer typefind element for %1"
 msgstr ""
 
-msgid "Couldn't create playlist"
-msgstr "Nepodařilo se vytvořit seznam skladeb"
-
 #, qt-format
-msgid "Couldn't find a muxer for %1, check you have the correct GStreamer plugins installed"
-msgstr "Nepodařilo se najít multiplexer pro \"%1\" - ujistěte se, že máte nainstalovány správné přídavné moduly GStreamer"
-
-#, qt-format
-msgid "Couldn't find an encoder for %1, check you have the correct GStreamer plugins installed"
-msgstr "Nepodařilo se najít kodér \"%1\" - ujistěte se, že máte nainstalovány správné přídavné moduly GStreamer"
+msgid "Couldn't create GStreamer fakesink element for %1"
+msgstr ""
 
 #, qt-format
 msgid "Couldn't link GStreamer source, typefind and fakesink elements for %1"
 msgstr ""
 
-msgid "Cover Manager"
-msgstr "Správce obalů"
-
-msgid "Cover art not set"
-msgstr "Obal nenastaven"
-
-msgid "Cover changed: Will be cleared when saved."
+#, qt-format
+msgid "Failed to load image from data for %1"
 msgstr ""
 
-msgid "Cover changed: Will be deleted when saved."
+msgid "Playlist"
+msgstr "Seznam skladeb"
+
+msgid "1 day"
+msgstr "1 den"
+
+#, qt-format
+msgid "%1 days"
+msgstr "%1 dnů"
+
+msgid "Today"
+msgstr "Dnes"
+
+msgid "Yesterday"
+msgstr "Včera"
+
+#, qt-format
+msgid "%1 days ago"
+msgstr "před %1 dny"
+
+msgid "Tomorrow"
+msgstr "Zítra"
+
+#, qt-format
+msgid "In %1 days"
+msgstr "Za %1 dny(ů)"
+
+msgid "Next week"
+msgstr "Příští týden"
+
+#, qt-format
+msgid "In %1 weeks"
+msgstr "Za %1 týdny(ů)"
+
+msgid "Show in file browser"
+msgstr "Zobrazit v průzkumníku souborů"
+
+msgid "Too many songs selected."
+msgstr "Je vybráno příliš mnoho skladeb."
+
+#, qt-format
+msgid "%1 songs in %2 different directories selected, are you sure you want to open them all?"
+msgstr "Je vybráno %1 skladeb obsažených v %2 různých složkách, chcete je všechny otevřít?"
+
+msgid "Prefix a search term with a field name to limit the search to that field, e.g.:"
 msgstr ""
 
-msgid "Cover changed: Will be unset when saved."
-msgstr ""
+msgid "artist"
+msgstr "umělec"
 
-msgid "Cover changed: Will set new when saved."
+#, qt-format
+msgid "searches for all artists containing the word %1. "
 msgstr ""
 
 #, qt-format
-msgid "Cover file %1 is empty."
+msgid "Search terms for numerical fields can be prefixed with %1 or %2 to refine the search, e.g.: "
+msgstr ""
+
+msgid "rating"
 msgstr ""
 
 #, qt-format
-msgid "Cover from %1"
+msgid "Multiple search terms can also be combined with \"%1\" (default) and \"%2\", as well as grouped with parentheses. "
 msgstr ""
 
-msgid "Cover from embedded image."
-msgstr ""
+msgid "Available fields"
+msgstr "Dostupná pole"
 
-msgid "Cover is unset."
-msgstr ""
-
-msgid "Cover providers"
-msgstr "Poskytovatel obalů alb"
-
-msgid "Covers"
-msgstr "Obaly alb"
+msgid "Framerate"
+msgstr "Počet snímků"
 
 #, qt-format
-msgid "Covers from %1"
-msgstr "Obaly od %1"
+msgid "Low (%1 fps)"
+msgstr "Nízký (%1 fps)"
 
-msgid "Create a new playlist with files"
-msgstr "Vytvořit nový seznam skladeb se soubory"
+#, qt-format
+msgid "Medium (%1 fps)"
+msgstr "Střední (%1 fps)"
 
-msgid "Cross-fade when changing tracks automatically"
-msgstr "Prolínání při automatické změně skladby"
+#, qt-format
+msgid "High (%1 fps)"
+msgstr "Vysoký (%1 fps)"
 
-msgid "Cross-fade when changing tracks manually"
-msgstr "Prolínání při ruční změně skladby"
+#, qt-format
+msgid "Super high (%1 fps)"
+msgstr "Nadmíru vysoké (%1 fps)"
 
-msgid "Ctrl+Alt+V"
+msgid "No analyzer"
+msgstr "Žádný analyzátor"
+
+msgid "Block analyzer"
+msgstr "Blokový analyzátor"
+
+msgid "Boom analyzer"
+msgstr "Růstový analyzátor"
+
+msgid "Turbine"
 msgstr ""
 
-msgid "Ctrl+Down"
-msgstr "Ctrl+Šipka dolů"
-
-msgid "Ctrl+E"
+msgid "Sonogram"
 msgstr ""
 
-msgid "Ctrl+H"
+msgid "WaveRubber"
 msgstr ""
 
-msgid "Ctrl+J"
-msgstr ""
-
-msgid "Ctrl+K"
-msgstr ""
-
-msgid "Ctrl+M"
-msgstr ""
-
-msgid "Ctrl+N"
-msgstr ""
-
-msgid "Ctrl+P"
-msgstr ""
-
-msgid "Ctrl+Q"
-msgstr ""
-
-msgid "Ctrl+S"
-msgstr ""
-
-msgid "Ctrl+Shift+A"
-msgstr ""
-
-msgid "Ctrl+Shift+O"
-msgstr ""
-
-msgid "Ctrl+T"
-msgstr ""
-
-msgid "Ctrl+Up"
-msgstr ""
-
-msgid "Current disk cache in use:"
-msgstr "Využití mezipaměti na disku:"
+msgid "Pre-amp"
+msgstr "Předzesílení"
 
 msgid "Custom"
 msgstr "Vlastní"
 
-msgid "Custom color"
-msgstr ""
+msgid "Classical"
+msgstr "Klasická"
 
-msgid "Custom image:"
-msgstr "Vlastní obrázek:"
-
-msgid "Custom message settings"
-msgstr "Nastavení vlastní zprávy"
-
-msgid "Custom text settings"
-msgstr "Vlastní nastavení textu"
-
-msgid "Custom..."
-msgstr "Vlastní..."
-
-msgid "D-Bus path"
-msgstr "Cesta k D-Bus"
+msgid "Club"
+msgstr "Klub"
 
 msgid "Dance"
 msgstr "Taneční hudba"
 
-msgid "Data missing error"
+msgid "Full Bass"
+msgstr "Plné basy"
+
+msgid "Full Treble"
+msgstr "Plné výšky"
+
+msgid "Full Bass + Treble"
+msgstr "Plné basy + výšky"
+
+msgid "Laptop/Headphones"
+msgstr "Přenosný počítač/Sluchátka"
+
+msgid "Large Hall"
+msgstr "Velký sál"
+
+msgid "Live"
+msgstr "Živě"
+
+msgid "Party"
+msgstr "Oslava"
+
+msgid "Pop"
 msgstr ""
 
-msgid "Database corruption detected."
-msgstr "Databáze je poškozená."
-
-msgid "Date Created"
+msgid "Reggae"
 msgstr ""
 
-msgid "Date Modified"
+msgid "Rock"
 msgstr ""
 
-msgid "Date created"
-msgstr "Datum vytvoření"
+msgid "Soft"
+msgstr "Měkké"
 
-msgid "Date modified"
-msgstr "Datum změny"
-
-msgid "Days"
-msgstr "Dny"
-
-msgid "Decrease the volume by 4 percent"
-msgstr "Snížit hlasitost o 4 procenta"
-
-msgid "Decrease the volume by <value> percent"
-msgstr "Snížit hlasitost o <value> procent"
-
-msgid "Decrease volume"
+msgid "Ska"
 msgstr ""
 
-msgid "Default bac&kground image"
-msgstr "Výchozí obrázek poza&dí"
+msgid "Soft Rock"
+msgstr "Soft rock"
 
-msgid "Defaults"
-msgstr "Výchozí nastavení"
-
-msgid "Delete"
-msgstr "Smazat"
-
-msgid "Delete cover"
+msgid "Techno"
 msgstr ""
 
-msgid "Delete files"
-msgstr "Smazat soubory"
+msgid "Zero"
+msgstr "Vynulovat"
 
-msgid "Delete from device..."
-msgstr "Smazat ze zařízení..."
+msgid "Save preset"
+msgstr "Uložit předvolbu"
 
-msgid "Delete from disk..."
-msgstr "Smazat z disku..."
+msgid "Name"
+msgstr "Název"
 
 msgid "Delete preset"
 msgstr "Smazat předvolbu"
 
-msgid "Delete smart playlist"
-msgstr "Odstranit chytrý playlist"
-
-msgid "Delete songs"
-msgstr ""
-
-msgid "Delete the original files"
-msgstr "Smazat původní soubory"
-
-msgid "Deleting files"
-msgstr "Probíhá mazání souborů"
-
-msgid "Dequeue selected tracks"
-msgstr "Odstranit vybrané skladby z řady"
-
-msgid "Dequeue track"
-msgstr "Odstranit skladbu z řady"
-
-msgid "Destination"
-msgstr "Cíl"
+#, qt-format
+msgid "Are you sure you want to delete the \"%1\" preset?"
+msgstr "Opravdu chcete smazat nastavení \"%1\"?"
 
 #, qt-format
-msgid "Destination file %1 exists, but not allowed to overwrite"
+msgid "%1 dB"
 msgstr ""
 
-#, qt-format
-msgid "Destination file %1 exists, but not allowed to overwrite."
-msgstr ""
+msgid "Filetype"
+msgstr "Typ souboru"
 
-msgid "Details..."
-msgstr "Podrobnosti..."
+msgid "Length"
+msgstr "Délka"
 
-msgid "Device"
-msgstr "Zařízení"
+msgid "Samplerate"
+msgstr "Vzorkovací frekvence"
 
-msgid "Device Properties"
-msgstr "Vlastnosti zařízení"
+msgid "Bit depth"
+msgstr "Bitová hloubka"
 
-msgid "Device credentials"
-msgstr ""
-
-msgid "Device properties..."
-msgstr "Vlastnosti zařízení..."
-
-msgid "Devices"
-msgstr "Zařízení"
-
-msgid "Different art across multiple songs."
-msgstr ""
-
-msgid "Direct internet connection"
-msgstr "Přímé připojení k internetu"
-
-msgid "Directory"
-msgstr "Složka"
-
-#, qt-format
-msgid "Directory %1 does not exist."
-msgstr ""
-
-msgid "Directory does not exist."
-msgstr ""
-
-msgid "Disable duration"
-msgstr "Zakázat délku"
-
-msgctxt "Refers to a disabled notification type in Notification settings."
-msgid "Disabled"
-msgstr "Zakázáno"
-
-msgid "Disc"
-msgstr "Disk"
-
-msgid "Discontinuous transmission"
-msgstr "Nesouvislý přenos"
-
-msgid "Disk Cache Size"
-msgstr "Velikost mezipaměti na disku"
-
-msgid "Display options"
-msgstr "Volby zobrazení"
-
-msgid "Display the on-screen-display"
-msgstr "Zobrazovat informace na obrazovce (OSD)"
-
-msgid "Do not convert any music"
-msgstr "Nepřevádět žádnou hudbu"
-
-msgid "Do not cut image"
-msgstr "Neořezávat obrázek"
-
-msgid "Do not overwrite"
-msgstr "Nepřepisovat"
-
-msgid "Do not show this message again."
-msgstr "Tuto zprávu již nezobrazovat."
-
-#, qt-format
-msgid "Don't know how to handle %1"
-msgstr ""
-
-msgid "Don't repeat"
-msgstr "Neopakovat"
-
-msgid "Don't show in various artists"
-msgstr "Nezobrazovat pod různými umělci"
-
-msgid "Don't shuffle"
-msgstr "Nemíchat"
-
-msgid "Don't stop!"
-msgstr "Nezastavovat!"
-
-msgid "Donate"
-msgstr ""
-
-msgid "Double click to open"
-msgstr "Klepnout dvakrát pro otevření"
-
-msgid "Double clicking a song in the playlist will..."
-msgstr "Dvojité klepnutí na píseň v seznamu skladeb způsobí..."
-
-msgid "Double clicking a song will..."
-msgstr "Dvojité klepnutí na píseň..."
-
-msgid "Double-click here to favorite this playlist so it will be saved and remain accessible through the \"Playlists\" panel on the left side bar"
-msgstr ""
-
-msgid "Download album covers"
-msgstr "Stahovat obaly alb"
-
-msgid "Downloading metadata"
-msgstr ""
-
-msgid "Drag to reposition"
-msgstr "Tažením přemístěte"
-
-msgid "Dynamic mode is on"
-msgstr "Dynamický režim je zapnutý"
-
-msgid "Dynamic random mix"
-msgstr "Dynamické míchání skladeb"
+msgid "Bitrate"
+msgstr "Datový tok"
 
 msgid "EBU R 128 Integrated Loudness"
-msgstr ""
-
-msgid "EBU R 128 Loudness Normalization"
 msgstr ""
 
 msgid "EBU R 128 Loudness Range"
 msgstr ""
 
-msgid "EBU R 128 integrated loudness"
-msgstr ""
+msgid "Show album cover"
+msgstr "Ukazovat obal alba"
 
-msgid "EBU R 128 loudness range"
-msgstr ""
+msgid "Show song technical data"
+msgstr "Zobrazovat technická data"
 
-msgid "Edit smart playlist"
-msgstr "Upravit chytrý playlist"
+msgid "Show song lyrics"
+msgstr "Zobrazovat texty skladeb"
 
-msgid "Edit smart playlist..."
-msgstr "Upravit chytrý playlist..."
+msgid "Automatically search for song lyrics"
+msgstr "Automaticky najít texty skladeb"
+
+msgid "No song playing"
+msgstr "Žádná skladba se nepřehrává"
 
 #, qt-format
-msgid "Edit tag \"%1\"..."
-msgstr "Upravit značku \"%1\"..."
+msgid "%1 song"
+msgstr "%1 skladba"
 
-msgid "Edit tag..."
-msgstr "Upravit značku..."
+#, qt-format
+msgid "%1 songs"
+msgstr "%1 skladby"
 
-msgid "Edit track information"
-msgstr "Upravit informace o skladbě"
+#, qt-format
+msgid "%1 artist"
+msgstr "%1 umělec"
+
+#, qt-format
+msgid "%1 artists"
+msgstr "%1 umělci"
+
+#, qt-format
+msgid "%1 album"
+msgstr ""
+
+#, qt-format
+msgid "%1 albums"
+msgstr "%1 alba"
+
+msgid "kbps"
+msgstr "kb/s"
+
+msgid "Saving playcounts and ratings"
+msgstr ""
+
+msgid "Various artists"
+msgstr "Různí umělci"
+
+msgid "Loading..."
+msgstr "Nahrává se..."
+
+#, qt-format
+msgid "Unable to execute collection SQL query: %1"
+msgstr ""
+
+#, qt-format
+msgid "Updating %1 database."
+msgstr ""
+
+msgid "Updating collection"
+msgstr "Obnovuje se hudební sbírka"
+
+#, qt-format
+msgid "Updating %1"
+msgstr "Obnovuje se %1"
+
+msgid "Your collection is empty!"
+msgstr "Vaše hudební sbírka je prázdná!"
+
+msgid "Click here to add some music"
+msgstr "Klepněte sem pro přidání nějaké hudby"
+
+msgid "Append to current playlist"
+msgstr "Přidat do současného seznamu skladeb"
+
+msgid "Replace current playlist"
+msgstr "Nahradit současný seznam skladeb"
+
+msgid "Open in new playlist"
+msgstr "Otevřít v novém seznamu skladeb"
+
+msgid "Search for this"
+msgstr "Hledat toto"
 
 msgid "Edit track information..."
 msgstr "Upravit informace o skladbě..."
@@ -1420,449 +687,29 @@ msgstr "Upravit informace o skladbě..."
 msgid "Edit tracks information..."
 msgstr "Upravit informace o skladbách..."
 
-#, qt-format
-msgid "Embedded album cover art (%1)"
+msgid "Rescan song(s)"
+msgstr "Prohledat skladbu"
+
+msgid "Show in various artists"
+msgstr "Ukázat pod různými umělci"
+
+msgid "Don't show in various artists"
+msgstr "Nezobrazovat pod různými umělci"
+
+msgid "There are other songs in this album"
+msgstr "Na tomto albu jsou další písně"
+
+msgid "Would you like to move the other songs on this album to Various Artists as well?"
 msgstr ""
 
-msgid "Embedded cover"
-msgstr ""
-
-msgid "Enable"
-msgstr "Povolit"
-
-msgid "Enable Disk Cache"
-msgstr "Povolit mezipaměť na disku"
-
-msgid "Enable HTTP/2 for streaming"
-msgstr ""
-
-msgid "Enable Items"
-msgstr "Povolit Položky"
-
-msgid "Enable delete files in the right click context menu"
-msgstr "Povolit mazání souborů v kontextové nabídce pravého kliknutí"
-
-msgid "Enable equalizer"
-msgstr "Povolit ekvalizér"
-
-msgid "Enable fading"
-msgstr ""
-
-msgid "Enable playlist clear button"
-msgstr "Zobrazit tlačítko pro vyčištění seznamu skladeb"
-
-msgid "Enable playlist toolbar"
-msgstr ""
-
-msgid "Enable scrobbling for the following sources:"
-msgstr "Zapnout scrobbling pro následující zdroje:"
-
-msgid "Enable song metadata inline edition with click"
-msgstr "Povolit upravování popisných dat písně klepnutím v řádku"
-
-msgid "Enable stereo balancer"
-msgstr "Zapnout vyrovnávání sterea"
-
-msgid "Enable volume control"
-msgstr "Povolit ovládání hlasitosti"
-
-msgid "Enable/disable scrobbling"
-msgstr ""
-
-msgid "Enabled"
-msgstr "Povoleno"
-
-msgid "Encoding complexity"
-msgstr "Složitost kódování"
-
-msgid "Encoding engine quality"
-msgstr "Kvalita kódovacího stroje"
-
-msgid "Encoding mode"
-msgstr "Režim kódování"
-
-msgid "Engine"
-msgstr ""
-
-msgid "Enter a URL to download a cover from the Internet:"
-msgstr "Zadejte adresu (URL) ke stažení obalu z internetu:"
-
-msgid "Enter a filename for exported covers (no extension):"
-msgstr "Zadejte souborový název pro uložené obaly (bez přípony):"
-
-msgid "Enter a new name for this playlist"
-msgstr "Zadejte název tohoto seznamu skladeb"
-
-msgid "Enter search terms above to find music"
-msgstr "Výše zadejte hledaný výraz pro vyhledání hudby"
-
-msgid "Enter search terms here"
-msgstr "Zde zadejte hledané výrazy"
-
-msgid "Enter the URL of a stream:"
-msgstr "Zadejte URL streamu:"
-
-msgid "Enter the name of the folder"
-msgstr "Zadejte název složky"
-
-msgid "Enter username and password"
-msgstr "Zadejte uživatelské jméno a heslo"
-
-msgid "Enter your user token from"
-msgstr "Zadejte uživatelský token z"
-
-msgid "Entire collection"
-msgstr "Celá sbírka"
-
-msgid "Equalizer"
-msgstr "Ekvalizér"
-
-msgid "Equivalent to --log-levels *:1"
-msgstr "Rovnocenné s --log-levels *:1"
-
-msgid "Equivalent to --log-levels *:3"
-msgstr "Rovnocenné s --log-levels *:3"
-
-msgid "Error"
-msgstr "Chyba"
-
-#, qt-format
-msgid "Error connecting MTP device %1"
-msgstr "Chyba při připojování k MTP zařízení %1"
-
-#, qt-format
-msgid "Error connecting MTP device %1: %2"
-msgstr ""
-
-msgid "Error copying songs"
-msgstr "Chyba při kopírování písní"
-
-msgid "Error deleting songs"
-msgstr "Chyba při mazání písní"
-
-#, qt-format
-msgid "Error processing %1: %2"
-msgstr "Chyba při zpracovávání %1: %2"
-
-msgid "Error while loading audio CD."
-msgstr "Chyba při načítání zvukového CD"
-
-msgid "Error while querying CDDA tracks."
-msgstr "Chyba při dotazování na CDDA stopy."
-
-msgid "Error while setting CDDA device to pause state."
-msgstr "Chyba při přenastavování CCDA zařízení do pozastaveného stavu."
-
-msgid "Error while setting CDDA device to ready state."
-msgstr "Chyba při přenastavování CCDA zařízení do připraveného stavu."
-
-msgid "Ever played"
-msgstr ""
-
-msgid "Exceeded by"
-msgstr ""
-
-msgid "Except between tracks on the same album or in the same CUE sheet"
-msgstr "Kromě mezistop na tom samém albu nebo v tom samém listu CUE"
-
-msgid "Exclusive mode (Experimental)"
-msgstr ""
-
-msgid "Existing covers"
-msgstr "Stávající obaly"
-
-msgid "Expand"
-msgstr "Rozbalit"
-
-msgid "Expire unavailable songs after"
-msgstr ""
-
-#, qt-format
-msgid "Expires on %1"
-msgstr "Vyprší %1"
-
-msgid "Export Covers"
-msgstr "Uložit obaly"
-
-msgid "Export covers"
-msgstr "Uložit obaly"
-
-msgid "Export downloaded covers"
-msgstr "Uložit stažené obaly"
-
-msgid "Export embedded covers"
-msgstr "Uložit vložené obaly"
-
-msgid "Export finished"
-msgstr "Uložení dokončeno"
-
-#, qt-format
-msgid "Exported %1 covers out of %2 (%3 skipped)"
-msgstr "Uloženo %1 obalů z %2 (%3 přeskočeno)"
-
-msgid "F1"
-msgstr ""
-
-msgid "F5"
-msgstr ""
-
-msgid "F6"
-msgstr ""
-
-msgid "F7"
-msgstr ""
-
-msgid "F8"
-msgstr ""
-
-msgid "FLAC"
-msgstr ""
-
-msgid "Fade out on pause / fade in on resume"
-msgstr "Zeslabení při pozastavení/Zesílení při obnovení přehrávání"
-
-msgid "Fade out when stopping a track"
-msgstr "Zeslabit při zastavování skladby"
-
-msgid "Fading"
-msgstr "Slábnutí"
-
-msgid "Fading duration"
-msgstr "Doba slábnutí"
-
-#, qt-format
-msgid "Failed SQL query: %1"
-msgstr ""
-
-#, qt-format
-msgid "Failed to create directory %1."
-msgstr ""
-
-#, qt-format
-msgid "Failed to delete cover file %1: %2"
-msgstr ""
-
-#, qt-format
-msgid "Failed to load image from data for %1"
-msgstr ""
-
-#, qt-format
-msgid "Failed to open %1 for writing."
-msgstr ""
-
-#, qt-format
-msgid "Failed to open cover file %1 for reading: %2"
-msgstr ""
-
-#, qt-format
-msgid "Failed to open cover file %1 for writing: %2"
-msgstr ""
-
-#, qt-format
-msgid "Failed to write cover to file %1: %2"
-msgstr ""
-
-#, qt-format
-msgid "Failed writing cover to file %1."
-msgstr ""
-
-#, qt-format
-msgid "Failed writing cover to file %1: %2"
-msgstr ""
-
-msgid "Fallback-gain"
-msgstr ""
-
-msgid "Fast"
-msgstr "Rychlý"
-
-msgid "Favourite tracks"
-msgstr "Oblíbené skladby"
-
-msgid "Fetch Missing Covers"
-msgstr "Stáhnout chybějící obaly"
-
-msgid "Fetch automatically"
-msgstr "Stáhnout automaticky"
-
-msgid "Fetch completed"
-msgstr "Stahování dokončeno"
-
-msgid "Fetch entire albums when searching songs"
-msgstr "Načítat celá alba při vyhledávání"
-
-msgid "Fetching cover error"
-msgstr "Chyba při stahování obalu"
-
-#, qt-format
-msgid "File %1 does not exist."
-msgstr ""
-
-#, qt-format
-msgid "File %1 is not recognized as a valid audio file."
-msgstr "Soubor %1 nebyl rozpoznán jako platný zvukový soubor."
-
-msgid "File Name"
-msgstr ""
-
-msgid "File Name (without path)"
-msgstr ""
-
-msgid "File Size"
-msgstr ""
-
-msgid "File Type"
-msgstr ""
-
-msgid "File extension"
-msgstr "Přípona souboru"
-
-msgid "File formats"
-msgstr "Formáty souborů"
-
-msgid "File paths"
-msgstr "Souborové cesty"
-
-msgid "File size"
-msgstr "Velikost souboru"
-
-msgid "File type"
-msgstr "Typ souboru"
-
-msgid "Filename"
-msgstr "Název souboru"
-
-msgid "Filename:"
-msgstr "Název souboru:"
-
-msgid "Files"
-msgstr "Soubory"
-
-msgid "Files to transcode"
-msgstr "Soubory k překódování"
-
-msgid "Files, playlists and queue buttons"
-msgstr "Soubory, playlisty a tlačítka fronty"
-
-msgid "Filetype"
-msgstr "Typ souboru"
-
-msgid "Find songs in your collection that match the criteria you specify."
-msgstr " Najít skladby z kolekce, které odpovídají kritériům, která specifikujete."
-
-msgid "Fingerprinting song"
-msgstr ""
-
-msgid "Finish"
-msgstr "Dokončit"
-
-msgid "First level"
-msgstr "První úroveň"
-
-msgid "Fit cover to width"
-msgstr "Přizpůsobit obal šířce"
-
-msgid "Font"
-msgstr ""
-
-msgid "Font for data and lyrics"
-msgstr "Font pro data a texty skladeb"
-
-msgid "Font for headline"
-msgstr "Font nadpisu"
-
-msgid "Font size"
-msgstr "Velikost fontu"
-
-#, qt-format
-msgid "For Ubuntu there is an official PPA repository available at %1."
-msgstr "Pro Ubuntu je na %1 dostupné oficiální PPA."
-
-msgid "For a better experience please consider the other options above."
-msgstr "Pro lepší zážitek, prosím zvažte ostatní dostupné možnosti."
-
-msgid "Force mono encoding"
-msgstr "Vynutit jednokanálové kódování"
-
-msgid "Forget device"
-msgstr "Zapomenout zařízení"
-
-msgid "Forgetting a device will remove it from this list and Strawberry will have to rescan all the songs again next time you connect it."
-msgstr "Zařízení bude odstraněno z tohoto seznamu. Po opětovném připojení je Strawberry bude muset znovu celé prohledat."
-
-msgid "Form"
-msgstr "Formulář"
-
-msgid "Format"
-msgstr "Formát"
-
-msgid "Framerate"
-msgstr "Počet snímků"
-
-msgid "Frames per buffer"
-msgstr "Snímků na vyrovnávací paměť"
-
-msgid "Frozen"
-msgstr "Zamrznutý"
-
-msgid "Full Bass"
-msgstr "Plné basy"
-
-msgid "Full Bass + Treble"
-msgstr "Plné basy + výšky"
-
-msgid "Full Treble"
-msgstr "Plné výšky"
-
-msgid "General"
-msgstr "Obecné"
-
-msgid "General settings"
-msgstr "Obecná nastavení"
-
-msgid "Genius Authentication"
-msgstr ""
-
-msgid "Genre"
-msgstr "Žánr"
-
-#, qt-format
-msgid "Getting %1 channels"
-msgstr ""
-
-msgid "Global Shortcuts"
-msgstr ""
-
-msgid "Go to next playlist tab"
-msgstr "Jít na další kartu seznamu skladeb"
-
-msgid "Go to previous playlist tab"
-msgstr "Jít na předchozí kartu seznamu skladeb"
-
-msgid "Go!"
-msgstr "Importovat!"
-
-#, qt-format
-msgid "Got %1 covers out of %2 (%3 failed)"
-msgstr "Získáno %1 obalů z %2 (%3 nezískáno)"
-
-msgid "Grey out unavailable songs in playlists on playback"
-msgstr "Zšednout nedostupné skladby v seznamu skladeb při jejich přehrání"
-
-msgid "Grey out unavailable songs in playlists on startup"
-msgstr "Zšednout nedostupné skladby v seznamu skladeb při startu"
-
-msgid "Group Collection by..."
-msgstr "Seskupovat v hudební sbírce podle..."
+msgid "Show"
+msgstr "Ukázat"
 
 msgid "Group by"
 msgstr "Seskupovat podle"
 
-msgid "Group by Album"
-msgstr "Seskupovat podle alba"
-
-msgid "Group by Album Artist"
-msgstr "Seskupit dle Autora alba"
+msgid "Display options"
+msgstr "Volby zobrazení"
 
 msgid "Group by Album artist/Album"
 msgstr "Seskupovat podle umělce alba/alba"
@@ -1876,9 +723,6 @@ msgstr "Seskupit jako Autor alba/Rok - Album"
 msgid "Group by Album artist/Year - Album - Disc"
 msgstr "Seskupit jako Autor alba/Rok - Album - Disk"
 
-msgid "Group by Artist"
-msgstr "Seskupovat podle umělce"
-
 msgid "Group by Artist/Album"
 msgstr "Seskupovat podle umělce/alba"
 
@@ -1891,17 +735,26 @@ msgstr "Seskupovat podle umělce/roku - alba"
 msgid "Group by Artist/Year - Album - Disc"
 msgstr "Seskupit jako Umělec/Rok - Album - Disk"
 
-msgid "Group by Genre/Album"
-msgstr "Seskupovat podle žánru/alba"
-
 msgid "Group by Genre/Album artist/Album"
 msgstr "Seskupit jako Žánr/Autor alba/Album"
 
 msgid "Group by Genre/Artist/Album"
 msgstr "Seskupovat podle žánru/umělce/alba"
 
-msgid "Grouping"
-msgstr "Seskupení"
+msgid "Group by Album Artist"
+msgstr "Seskupit dle Autora alba"
+
+msgid "Group by Artist"
+msgstr "Seskupovat podle umělce"
+
+msgid "Group by Album"
+msgstr "Seskupovat podle alba"
+
+msgid "Group by Genre/Album"
+msgstr "Seskupovat podle žánru/alba"
+
+msgid "Advanced grouping..."
+msgstr "Pokročilé seskupování..."
 
 msgid "Grouping Name"
 msgstr "Název seskupení"
@@ -1909,652 +762,35 @@ msgstr "Název seskupení"
 msgid "Grouping name:"
 msgstr "Název seskupení:"
 
-msgid "HTTP proxy"
-msgstr "Proxy HTTP"
+msgid "First level"
+msgstr "První úroveň"
 
-msgid "Happy"
-msgstr "Šťastný"
+msgid "Second Level"
+msgstr "Druhá úroveň"
 
-msgid "Hardware information"
-msgstr "Informace o vybavení"
-
-msgid "Hardware information is only available while the device is connected."
-msgstr "Informace o vybavení jsou dostupné pouze tehdy, když je zařízení připojeno."
-
-msgid "Help"
-msgstr "Pomoc"
-
-msgid "Hex"
-msgstr ""
-
-msgid "Hide the main window"
-msgstr "Skrýt hlavní okno"
-
-msgid "High"
-msgstr "Vysoká"
-
-#, qt-format
-msgid "High (%1 fps)"
-msgstr "Vysoký (%1 fps)"
-
-msgid "High watermark"
-msgstr ""
-
-msgid "Hours"
-msgstr "Hodiny"
-
-msgid "Hz"
-msgstr ""
-
-msgid "Icon"
-msgstr "Ikona"
-
-msgid "Icon sizes"
-msgstr "Velikosti ikon"
-
-msgid "Icons on top"
-msgstr "Ikony nahoře"
-
-msgid "Identifying song"
-msgstr ""
-
-msgid "If activated, clicking a selected song in the playlist view will let you edit the tag value directly"
-msgstr "Pokud je zapnuto, po klepnutí na vybranou píseň v seznamu skladeb můžete upravit hodnotu značky přímo"
-
-msgid "If you continue, this device will work slowly and songs copied to it may not work."
-msgstr "Budete-li pokračovat, toto zařízení bude pracovat pomalu a písně na něj kopírované nemusí fungovat."
-
-msgid "If you like Strawberry and can make use of it, consider sponsoring or donating."
-msgstr "Líbí se a vyhovuje vám-li Strawberry, zvažte příspěvek."
-
-msgid "Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
-msgstr "Obrázky (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
-
-msgid "Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
-msgstr "Obrázky (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
-
-msgid "Import data from last.fm"
-msgstr "Importovat data z last.fm"
-
-msgid "Import data from last.fm..."
-msgstr "Importovat data z last.fm..."
-
-msgid "Import..."
-msgstr "Importovat..."
-
-msgid "Improve headphone listening of stereo audio records (bs2b)"
-msgstr ""
-
-#, qt-format
-msgid "In %1 days"
-msgstr "Za %1 dny(ů)"
-
-#, qt-format
-msgid "In %1 weeks"
-msgstr "Za %1 týdny(ů)"
-
-msgid "In dynamic mode new tracks will be chosen and added to the playlist every time a song finishes."
-msgstr ""
-
-msgid "Include album art in the notification"
-msgstr "Zahrnout obal alba do oznámení"
-
-msgid "Include all songs"
-msgstr "Zahrnout všechny skladby"
-
-msgid "Increase the volume by 4 percent"
-msgstr "Zvýšit hlasitost o 4 procenta"
-
-msgid "Increase the volume by <value> percent"
-msgstr "Zvýšit hlasitost o <value> procent"
-
-msgid "Increase volume"
-msgstr ""
-
-msgid "Information"
-msgstr "Informace"
-
-msgid "Insert..."
-msgstr "Vložit..."
-
-msgid "Install strawberry through PPA:"
-msgstr ""
-
-msgid "Integrated Loudness"
-msgstr ""
-
-msgid "Integrity check"
-msgstr "Ověření celistvosti"
-
-msgid "Intro tracks"
-msgstr "Skladby úvodu"
-
-#, qt-format
-msgid "Invalid MTP device: %1"
-msgstr ""
-
-msgid "Invalid reply from web browser. Missing token."
-msgstr "Špatná odpověď od prohlížeče. Token chybí."
-
-msgid "It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles."
-msgstr "Je to větev přehrávače Clementine z roku 2018 zaměřený na sběratele hudby a audiofily."
-
-msgid "It is detected that Strawberry is running as a Snap"
-msgstr "Bylo zjištěno, že Strawberry běží jako Snap"
-
-msgid "Jump to previous song right away"
-msgstr "Skočit ihned na předchozí píseň"
-
-msgid "Keep aspect ratio"
-msgstr "Zachovat poměr stran"
-
-msgid "Keep running in the background when the window is closed"
-msgstr "Při zavření okna nechat běžet na pozadí"
-
-msgid "Keep the original files"
-msgstr "Zachovat původní soubory"
-
-msgid "LU"
-msgstr ""
-
-msgid "LUFS"
-msgstr ""
-
-msgid "Language"
-msgstr "Jazyk"
-
-msgid "Laptop/Headphones"
-msgstr "Přenosný počítač/Sluchátka"
-
-msgid "Large Hall"
-msgstr "Velký sál"
-
-msgid "Large album cover"
-msgstr "Velký obal alba"
-
-msgid "Large sidebar"
-msgstr "Velký postranní panel"
-
-msgid "Last Played"
-msgstr ""
-
-msgid "Last played"
-msgstr "Naposledy hrané"
-
-msgctxt "A playlist's tag."
-msgid "Last played"
-msgstr "Naposledy hráno"
-
-#, qt-format
-msgid "Last played for %1 songs received."
-msgstr "Hodnota \"Naposledy přehráno\" pro %1 skladeb bylo přijato."
-
-msgid "Last.fm"
-msgstr ""
-
-msgid "Least favourite tracks"
-msgstr "Nejméně oblíbené skladby"
-
-msgid "Left"
-msgstr "Vlevo"
-
-msgid "Length"
-msgstr "Délka"
-
-msgid "Libre.fm"
-msgstr ""
-
-msgid "Limits"
-msgstr "Omezení"
-
-msgid "ListenBrainz Authentication"
-msgstr "Přihlášení na ListenBrainz"
-
-#, qt-format
-msgid "ListenBrainz error: %1"
-msgstr ""
-
-msgid "Listenbrainz"
-msgstr ""
-
-msgid "Live"
-msgstr "Živě"
-
-msgid "Load"
-msgstr "Načíst"
-
-msgid "Load cover from URL"
-msgstr "Nahrát obal z adresy (URL)"
-
-msgid "Load cover from URL..."
-msgstr "Nahrát obal z adresy (URL)..."
-
-msgid "Load cover from disk"
-msgstr "Nahrát obal z disku"
-
-msgid "Load cover from disk..."
-msgstr "Nahrát obal na disku..."
-
-msgid "Load playlist"
-msgstr "Nahrát seznam skladeb"
-
-msgid "Loading MTP device"
-msgstr "Nahrává se zařízení MTP"
-
-msgid "Loading iPod database"
-msgstr "Nahrává se databáze iPod"
-
-msgid "Loading smart playlist"
-msgstr "Nahrávání chytrého playlistu"
-
-msgid "Loading tracks"
-msgstr "Nahrávají se skladby"
-
-msgid "Loading tracks info"
-msgstr "Nahrávají se informace o skladbě"
-
-msgid "Loading..."
-msgstr "Nahrává se..."
-
-msgid "Loads files/URLs, replacing current playlist"
-msgstr "Nahraje soubory/adresy (URL), nahradí současný seznam skladeb"
-
-msgid "Local file"
-msgstr "Místní soubor"
-
-msgid "Login"
-msgstr "Přihlášení"
-
-msgid "Long term prediction profile (LTP)"
-msgstr "Dlouhodobý předpověďní profil"
-
-msgid "Loudness Range"
-msgstr ""
-
-msgid "Love"
-msgstr "To Miluju!"
-
-#, qt-format
-msgid "Low (%1 fps)"
-msgstr "Nízký (%1 fps)"
-
-msgid "Low complexity profile (LC)"
-msgstr "Nízkosložitostní profil"
-
-msgid "Low watermark"
-msgstr ""
-
-msgid "Lowercase filename"
-msgstr "Název souboru malými písmeny"
-
-msgid "Lyrics"
-msgstr "Texty"
-
-msgid "Lyrics providers"
-msgstr "Poskytovatelé textů"
-
-msgid "MD5 token (Recommended)"
-msgstr ""
-
-msgid "MP3"
-msgstr ""
-
-msgid "MTP device not found."
-msgstr ""
-
-#, qt-format
-msgid "MTP error: %1"
-msgstr ""
-
-msgid "Main profile (MAIN)"
-msgstr "Hlavní profil"
-
-msgid "Manage saved groupings"
-msgstr "Spravovat uložená seskupení"
-
-#, qt-format
-msgid "Manually unset (%1)"
-msgstr ""
-
-msgid "Manufacturer"
-msgstr "Výrobce"
-
-msgid "Mark disappeared songs unavailable"
-msgstr "Označit zmizelé skladby jako nedostupné"
-
-msgid "Match every search term (AND)"
-msgstr ""
-
-msgid "Match one or more search terms (OR)"
-msgstr ""
-
-msgid "Max cover size"
-msgstr "Maximální velikost obalu alba"
-
-msgid "Maximum bitrate"
-msgstr "Nejvyšší datový tok"
-
-msgid "Maximum number of login attempts reached."
-msgstr "Byl dosažen maximální počet pokusů o přihlášení."
-
-#, qt-format
-msgid "Medium (%1 fps)"
-msgstr "Střední (%1 fps)"
-
-msgid "MenuPopupToolButton"
-msgstr ""
-
-msgid "Message Dialog"
-msgstr ""
-
-msgid "Metadata"
-msgstr ""
-
-msgid "Middle"
-msgstr "Střed"
-
-msgid "Minimum bitrate"
-msgstr "Nejnižší datový tok"
-
-msgid "Missing API token."
-msgstr "Chybějící API token."
-
-#, qt-format
-msgid "Missing MusicBrainz recording ID for %1 %2 %3"
-msgstr ""
-
-msgid "Missing Qobuz app ID or secret."
-msgstr "Chybějící ID aplikace, nebo tajemství služby Qobuz."
-
-msgid "Missing Qobuz app ID."
-msgstr "Chybějící ID aplikace Qobuz."
-
-msgid "Missing Qobuz password."
-msgstr "Chybějící Qobuz heslo."
-
-msgid "Missing Qobuz username."
-msgstr "Chybějící Qobuz uživatelské jméno."
-
-msgid "Missing Subsonic username or password."
-msgstr "Chybějící uživatelské jméno nebo heslo pro Subsonic."
-
-msgid "Missing Tidal API token, username or password."
-msgstr "Chybějící API token, uživatelské jméno nebo heslo pro Tidal."
-
-msgid "Missing Tidal API token."
-msgstr "Chybějící API token pro Tidal."
-
-msgid "Missing Tidal client ID."
-msgstr "Chybějící ID klienta pro Tidal."
-
-msgid "Missing Tidal password."
-msgstr "Chybějící heslo k Tidal."
-
-msgid "Missing Tidal username."
-msgstr "Chybějící uživatelské jméno k Tidal."
-
-msgid "Missing app id."
-msgstr "Chybějící ID aplikace."
-
-msgid "Missing password."
-msgstr "Chybějící heslo."
-
-msgid "Missing server url, username or password."
-msgstr "Chybějící URL serveru, uživatelské jméno nebo heslo."
-
-msgid "Missing username or password."
-msgstr "Chybějící uživatelské jméno nebo heslo."
-
-msgid "Missing username, please login to last.fm first!"
-msgstr "Chybějící jméno, prosím, nejdříve se přihlašte k last.fm!"
-
-msgid "Missing username."
-msgstr "Chybějící uživatelské jméno."
-
-msgid "Model"
-msgstr ""
-
-msgid "Monitor the collection for changes"
-msgstr "Sledovat změny ve sbírce"
-
-msgid "Months"
-msgstr "Měsíce"
-
-msgid "Mood"
-msgstr "Nálada"
-
-msgid "Moodbar"
-msgstr "Ukazatel nálady"
-
-msgid "Moodbar style"
-msgstr "Styl Ukazatele nálady"
-
-msgid "Most played"
-msgstr "Nejčastěji přehrávané"
-
-msgid "Mount point"
-msgstr "Přípojný bod"
-
-msgid "Mount points"
-msgstr "Přípojné body"
-
-msgid "Move down"
-msgstr "Posunout dolů"
-
-msgid "Move to collection..."
-msgstr "Přesunout do sbírky..."
-
-msgid "Move up"
-msgstr "Posunout nahoru"
-
-#, qt-format
-msgid "Multiple search terms can also be combined with \"%1\" (default) and \"%2\", as well as grouped with parentheses. "
-msgstr ""
-
-msgid "Music"
-msgstr "Hudba"
-
-msgid "Mute"
-msgstr "Ztlumit"
-
-msgid "Name"
-msgstr "Název"
-
-msgid "Naming options"
-msgstr "Volby pro pojmenování"
-
-msgid "Narrow band (NB)"
-msgstr "Úzké pásmo"
-
-msgid "Network Proxy"
-msgstr "Síťová proxy"
-
-msgid "Never"
-msgstr "Nikdy"
-
-msgid "Never played"
-msgstr "Nikdy nepřehrané"
-
-msgid "Never start playing"
-msgstr "Nikdy nezačít přehrávání"
-
-msgid "New folder"
-msgstr "Nová složka"
-
-msgid "New playlist"
-msgstr "Nový seznam skladeb"
-
-msgid "New smart playlist"
-msgstr "Nový chytrý playlist"
-
-msgid "New smart playlist..."
-msgstr "Nový chytrý playlist..."
-
-msgid "New songs"
-msgstr "Nové písně"
-
-msgid "New tracks will be added automatically."
-msgstr "Nové skladby budou přidány automaticky."
-
-msgid "Newest tracks"
-msgstr "Nejnovější skladby"
-
-msgid "Next"
-msgstr "Další"
-
-msgid "Next track"
-msgstr ""
-
-msgid "Next week"
-msgstr "Příští týden"
-
-msgid "No"
-msgstr ""
-
-msgid "No analyzer"
-msgstr "Žádný analyzátor"
-
-msgid "No audio normalization"
-msgstr ""
-
-msgid "No covers to export."
-msgstr "Žádné obaly k uložení"
-
-msgid "No long blocks"
-msgstr "Žádné dlouhé bloky"
-
-msgid "No match."
-msgstr "Žádná shoda."
-
-msgid "No matches found.  Clear the search box to show the whole playlist again."
-msgstr "Nebyly nalezeny žádné shody. Smažte obsah vyhledávacího pole, aby se znovu zobrazil celý seznam skladeb."
-
-msgid "No provider selected."
-msgstr "Žádný poskytovatel nebyl zvolen."
-
-msgid "No short blocks"
-msgstr "Žádné krátké bloky"
-
-msgid "No song playing"
-msgstr "Žádná skladba se nepřehrává"
+msgid "Third Level"
+msgstr "Třetí úroveň"
 
 msgid "None"
 msgstr "Žádná"
 
-msgid "None of the selected songs were suitable for copying to a device"
-msgstr "Žádná z vybraných písní nebyla vhodná ke zkopírování do zařízení"
+msgid "Album artist"
+msgstr "Umělec alba"
 
-msgid "Normal"
-msgstr "Normální"
+msgid "Artist"
+msgstr "Umělec"
 
-msgid "Normal block type"
-msgstr "Běžný typ bloku"
-
-msgid "Not authenticated with Qobuz."
-msgstr "Nejste přihlášeni ke službě Qobuz."
-
-msgid "Not authenticated with Spotify."
+msgid "Album"
 msgstr ""
 
-msgid "Not authenticated with Tidal and reached maximum number of login attempts."
-msgstr "Nejste přihlášeni k Tidal a byl dosažen maximální počet pokusů o přihlášení."
+msgid "Album - Disc"
+msgstr "Album - Disk"
 
-msgid "Not authenticated with Tidal."
-msgstr "Nejste přihlášeni k Tidal."
+msgid "Year - Album"
+msgstr "Rok - Album"
 
-msgid "Not connected"
-msgstr "Nepřipojeno"
-
-msgid "Not found."
-msgstr ""
-
-msgid "Not mounted - double click to mount"
-msgstr "Nepřipojeno - dvojitým klepnutím připojíte"
-
-msgid "Notification type"
-msgstr "Druh oznámení"
-
-msgid "Notifications"
-msgstr "Oznámení"
-
-msgid "O&verwrite all"
-msgstr "Přeps&at vše"
-
-msgid "OSD Preview"
-msgstr "Náhled OSD"
-
-msgid "Off"
-msgstr "Vypnuto"
-
-#, qt-format
-msgid "Official releases are available for Debian and Ubuntu which also work on most of their derivatives. See %1 for more information."
-msgstr "Jsou dostupná oficiální vydání pro Debian a Ubuntu. Tato vydání také fungují s většinou jejich derivátů. Navštivte %1 pro více informací."
-
-msgid "On"
-msgstr "Zapnuto"
-
-msgid "On startup"
-msgstr "Při startu"
-
-msgid "Only show the first"
-msgstr "Zobrazit pouze první"
-
-msgid "Opacity"
-msgstr "Neprůhlednost"
-
-msgid "Open URL in web browser?"
-msgstr "Otevřít URL v prohlížeči?"
-
-msgid "Open a directory to import music from"
-msgstr "Otevřít adresář a zavést hudbu v něm"
-
-msgid "Open audio &CD..."
-msgstr "Otevřít zvukové CD"
-
-msgid "Open device"
-msgstr "Otevřít zařízení"
-
-msgid "Open homepage"
-msgstr ""
-
-msgid "Open in new playlist"
-msgstr "Otevřít v novém seznamu skladeb"
-
-msgid "Open..."
-msgstr "Otevřít..."
-
-msgid "Opti&mize for bitrate"
-msgstr "Optimal&izovat pro datový tok"
-
-msgid "Optimize for &quality"
-msgstr "Optimalizovat pro &kvalitu"
-
-msgid "Options"
-msgstr ""
-
-msgid "Options..."
-msgstr "Volby..."
-
-msgid "Opus"
-msgstr ""
-
-msgid "Organize Files"
-msgstr "Uspořádat Soubory"
-
-msgid "Organize files..."
-msgstr "Uspořádat soubory..."
-
-msgid "Organizing files"
-msgstr "Organizace souborů"
-
-msgid "Original Year"
-msgstr ""
-
-msgid "Original tags"
-msgstr "Původní značky"
-
-msgid "Original year"
-msgstr "Původní rok"
+msgid "Year - Album - Disc"
+msgstr "Rok - Album - Disk"
 
 msgid "Original year - Album"
 msgstr "Původní rok - Album"
@@ -2562,315 +798,855 @@ msgstr "Původní rok - Album"
 msgid "Original year - Album - Disc"
 msgstr ""
 
-msgid "Other options"
-msgstr "Další volby"
+msgid "Disc"
+msgstr "Disk"
 
-msgid "Output"
-msgstr "Výstup"
+msgid "Year"
+msgstr "Rok"
 
-msgid "Output options"
-msgstr "Možnosti výstupu"
+msgid "Original year"
+msgstr "Původní rok"
 
-msgid "Overwrite database playcount when songs are re-read from disk"
-msgstr ""
+msgid "Genre"
+msgstr "Žánr"
 
-msgid "Overwrite database rating when songs are re-read from disk"
-msgstr ""
-
-msgid "Overwrite existing file"
-msgstr "Přepsat existující soubor"
-
-msgid "Overwrite existing files"
-msgstr "Přepsat existující soubory"
-
-msgid "Overwrite s&maller ones only"
-msgstr "Přepsat pouze menší"
-
-msgid "P&laylist"
-msgstr "Seznam sklad&eb"
-
-msgid "Partition label"
-msgstr "Štítek oddílu"
-
-msgid "Party"
-msgstr "Oslava"
-
-msgid "Password"
-msgstr "Heslo"
-
-msgid "Path"
-msgstr ""
-
-msgid "Pattern"
-msgstr ""
-
-msgid "Pause"
-msgstr "Pozastavit"
-
-msgid "Pause playback"
-msgstr "Pozastavit přehrávání"
-
-msgid "Paused"
-msgstr "Pozastaveno"
-
-msgid "Perform song EBU R 128 analysis (required for EBU R 128 loudness normalization)"
-msgstr ""
-
-msgid "Perform track loudness normalization"
-msgstr ""
+msgid "Composer"
+msgstr "Skladatel"
 
 msgid "Performer"
 msgstr "Účinkující"
 
-msgid "Pixel"
+msgid "Grouping"
+msgstr "Seskupení"
+
+msgid "File type"
+msgstr "Typ souboru"
+
+msgid "Format"
+msgstr "Formát"
+
+msgid "Sample rate"
+msgstr "Vzorkovací kmitočet"
+
+#, qt-format
+msgid "Could not write metadata to %1: %2"
 msgstr ""
 
-msgid "Plain sidebar"
-msgstr "Prostý postranní panel"
+#, qt-format
+msgid "Could not write metadata to %1"
+msgstr ""
 
-msgid "Play"
-msgstr "Přehrát"
+msgid "Title"
+msgstr "Název"
+
+msgid "Track"
+msgstr "Skladba"
+
+msgid "Original Year"
+msgstr ""
+
+msgid "Album Artist"
+msgstr ""
 
 msgid "Play Count"
 msgstr ""
 
-msgid "Play control buttons"
-msgstr "Tlačítka pro ovládání přehrávání"
-
-msgid "Play count"
-msgstr "Počet přehrání"
-
-msgid "Play counts"
+msgid "Skip Count"
 msgstr ""
 
-msgid "Play given playlist"
+msgid "Last Played"
 msgstr ""
 
-msgid "Play if stopped, pause if playing"
-msgstr "Přehrát, pokud je zastaveno, pozastavit, pokud je přehráváno"
-
-msgid "Play if there is nothing already playing"
-msgstr "Hrát, pokud se již něco nepřehrává"
-
-msgid "Play next"
-msgstr "Přehrát další"
-
-msgid "Play the <n>th track in the playlist"
-msgstr "Přehrát <n>. skladbu v seznamu se skladbami"
-
-msgid "Play/Pause"
+msgid "Sample Rate"
 msgstr ""
+
+msgid "Bit Depth"
+msgstr ""
+
+msgid "File Name"
+msgstr ""
+
+msgid "File Name (without path)"
+msgstr ""
+
+msgid "File Size"
+msgstr ""
+
+msgid "File Type"
+msgstr ""
+
+msgid "Date Modified"
+msgstr ""
+
+msgid "Date Created"
+msgstr ""
+
+msgid "Comment"
+msgstr "Poznámka"
+
+msgid "Source"
+msgstr "Zdroj"
+
+msgid "Mood"
+msgstr "Nálada"
+
+msgid "Rating"
+msgstr "Hodnocení"
+
+msgid "CUE"
+msgstr ""
+
+msgid "Integrated Loudness"
+msgstr ""
+
+msgid "Loudness Range"
+msgstr ""
+
+msgid "Undo"
+msgstr ""
+
+msgid "Redo"
+msgstr ""
+
+msgid "Load playlist"
+msgstr "Nahrát seznam skladeb"
+
+msgid "No matches found.  Clear the search box to show the whole playlist again."
+msgstr "Nebyly nalezeny žádné shody. Smažte obsah vyhledávacího pole, aby se znovu zobrazil celý seznam skladeb."
+
+msgid "stop"
+msgstr "zastavit"
+
+msgid "Never"
+msgstr "Nikdy"
+
+msgid "&Hide..."
+msgstr "Skrýt..."
+
+msgid "&Stretch columns to fit window"
+msgstr "Roztáhnout sloupce tak, aby se vešly do okna"
+
+msgid "&Reset columns to default"
+msgstr "&Původní nastavení sloupců"
+
+msgid "&Lock rating"
+msgstr ""
+
+msgid "&Align text"
+msgstr "&Zarovnat text"
+
+msgid "&Left"
+msgstr "&Vlevo"
+
+msgid "&Center"
+msgstr "&Na střed"
+
+msgid "&Right"
+msgstr "&Vpravo"
 
 #, qt-format
-msgid "Playcounts for %1 songs and last played for %2 songs received."
-msgstr ""
+msgid "&Hide %1"
+msgstr "Skrýt %1"
 
-#, qt-format
-msgid "Playcounts for %1 songs received."
-msgstr "Hodnota \"Počet přehrání\" pro %1 skladeb byla přijata."
+msgid "New folder"
+msgstr "Nová složka"
 
-msgid "Player options"
-msgstr "Nastavení přehrávače"
+msgid "Delete"
+msgstr "Smazat"
 
-msgid "Playlist"
-msgstr "Seznam skladeb"
+msgctxt "Save playlist menu action."
+msgid "Save playlist"
+msgstr "Uložit seznam skladeb"
 
-msgid "Playlist buttons"
-msgstr "Tlačítka playlistů"
+msgid "Enter the name of the folder"
+msgstr "Zadejte název složky"
 
-msgid "Playlist finished"
-msgstr "Seznam skladeb dokončen"
-
-#, qt-format
-msgid "Playlist has %1 songs, too large to undo, are you sure you want to clear the playlist?"
-msgstr "Seznam skladeb obsahuje %1 skladeb. Jste si jisti že chcete seznam vyčistit? Nelze to vrátit zpátky!"
+msgid "Copy to device"
+msgstr "Zkopírovat na zařízení"
 
 msgid "Playlist must be open first."
 msgstr "Seznam skladeb musí být nejdřív otevřen."
 
-msgid "Playlist options"
-msgstr "Nastavení seznamu skladeb"
+msgid "Remove playlists"
+msgstr "Odstranit seznamy skladeb"
 
-msgid "Playlist playing song color"
+#, qt-format
+msgid "You are about to remove %1 playlists from your favorites, are you sure?"
+msgstr "Chystáte se odstranit %1 seznamů skladeb z vašich oblíbených. Jste si jisti?"
+
+msgid "\n\n"
+"You can favorite playlists by clicking the star icon next to a playlist name\n\n"
+"Favorited playlists will be saved here"
+msgstr "\n\n"
+"Seznamy skladeb můžete označit jako oblíbený klepnutím na hvězdičku vedle názvu seznamu skladeb\n\n"
+"Oblíbené seznamy skladeb budou uloženy zde"
+
+msgid "Couldn't create playlist"
+msgstr "Nepodařilo se vytvořit seznam skladeb"
+
+msgctxt "Title of the playlist save dialog."
+msgid "Save playlist"
+msgstr "Uložit seznam skladeb"
+
+msgid "Unknown playlist extension"
+msgstr ""
+
+msgid "Unknown file extension for playlist."
+msgstr ""
+
+#, qt-format
+msgid "%1 selected of"
+msgstr "%1 vybráno z"
+
+#, c-format, qt-plural-format
+msgid "%n track(s)"
+msgstr ""
+
+msgid "Automatic"
+msgstr "Automaticky"
+
+msgid "Relative"
+msgstr "Relativní"
+
+msgid "Absolute"
+msgstr "Absolutní"
+
+msgid "Star playlist"
+msgstr ""
+
+msgid "Close playlist"
+msgstr "Zavřít seznam skladeb"
+
+msgid "Rename playlist..."
+msgstr "Přejmenovat seznam skladeb..."
+
+msgid "Save playlist..."
+msgstr "Uložit seznam skladeb..."
+
+msgid "Rename playlist"
+msgstr "Přejmenovat seznam skladeb"
+
+msgid "Enter a new name for this playlist"
+msgstr "Zadejte název tohoto seznamu skladeb"
+
+msgid "Remove playlist"
+msgstr "Odstranit seznam skladeb"
+
+msgid "You are about to remove a playlist which is not part of your favorite playlists: the playlist will be deleted (this action cannot be undone). \n"
+"Are you sure you want to continue?"
+msgstr "Chystáte se odstranit seznam skladeb, který není součástí vašich oblíbených seznamů skladeb: Seznam skladeb bude nenávratně odstraněn (tento krok nelze vrátit zpět). \n"
+"Opravdu chcete pokračovat?"
+
+msgid "Warn me when closing a playlist tab"
+msgstr "Varovat při zavření karty se seznamem skladeb"
+
+msgid "This option can be changed in the \"Behavior\" preferences"
+msgstr "Tuto volbu lze změnit v nastavení Chování"
+
+msgid "Double-click here to favorite this playlist so it will be saved and remain accessible through the \"Playlists\" panel on the left side bar"
+msgstr ""
+
+#, c-format, qt-plural-format
+msgid "add %n songs"
+msgstr "přidat %n skladeb"
+
+#, c-format, qt-plural-format
+msgid "remove %n songs"
+msgstr "odstranit %n skladeb"
+
+#, c-format, qt-plural-format
+msgid "move %n songs"
+msgstr "Přesunout %n skladeb"
+
+msgid "sort songs"
+msgstr "Třídit skladby"
+
+msgid "shuffle songs"
+msgstr "Zamíchat skladby"
+
+msgid "Hz"
+msgstr ""
+
+msgid "Bit"
+msgstr ""
+
+msgid "Error while loading audio CD."
+msgstr "Chyba při načítání zvukového CD"
+
+msgid "Loading tracks"
+msgstr "Nahrávají se skladby"
+
+msgid "Loading tracks info"
+msgstr "Nahrávají se informace o skladbě"
+
+msgid "Saving CUE files is not supported."
+msgstr ""
+
+#, qt-format
+msgid "Don't know how to handle %1"
+msgstr ""
+
+#, qt-format
+msgid "All playlists (%1)"
+msgstr "Všechny seznamy skladeb (%1)"
+
+#, qt-format
+msgid "%1 playlists (%2)"
+msgstr "%1 seznamů skladeb (%2)"
+
+#, qt-format
+msgid "Unknown filetype: %1"
+msgstr ""
+
+#, qt-format
+msgid "Could not open file %1"
+msgstr ""
+
+#, qt-format
+msgid "Directory %1 does not exist."
+msgstr ""
+
+#, qt-format
+msgid "Failed to open %1 for writing."
+msgstr ""
+
+msgid "Loading smart playlist"
+msgstr "Nahrávání chytrého playlistu"
+
+msgid "Collection search"
+msgstr "Hledání v kolekci"
+
+msgid "Find songs in your collection that match the criteria you specify."
+msgstr " Najít skladby z kolekce, které odpovídají kritériům, která specifikujete."
+
+msgid "Search terms"
+msgstr ""
+
+msgid "A song will be included in the playlist if it matches these conditions."
+msgstr "Skladba bude zahrnuta v seznamu skladeb, pokud splňuje tyto podmínky."
+
+msgid "Search options"
+msgstr ""
+
+msgid "Choose how the playlist is sorted and how many songs it will contain."
+msgstr "Zvolte jak bude seznam skladeb seřazen a kolik skladeb bude obsahovat."
+
+#, qt-format
+msgid "%1 songs found (showing %2)"
+msgstr "%1 skladeb nalezeno (%2 zobrazeno)"
+
+#, qt-format
+msgid "%1 songs found"
+msgstr "%1 skladeb nalezeno"
+
+msgid "after"
+msgstr ""
+
+msgid "before"
+msgstr ""
+
+msgid "on"
+msgstr ""
+
+msgid "not on"
+msgstr ""
+
+msgid "in the last"
+msgstr ""
+
+msgid "not in the last"
+msgstr ""
+
+msgid "between"
+msgstr ""
+
+msgid "contains"
+msgstr ""
+
+msgid "does not contain"
+msgstr ""
+
+msgid "starts with"
+msgstr ""
+
+msgid "ends with"
+msgstr ""
+
+msgid "greater than"
+msgstr ""
+
+msgid "less than"
+msgstr ""
+
+msgid "equals"
+msgstr ""
+
+msgid "not equals"
+msgstr ""
+
+msgid "empty"
+msgstr ""
+
+msgid "not empty"
+msgstr ""
+
+msgid "A-Z"
+msgstr ""
+
+msgid "Z-A"
+msgstr ""
+
+msgid "oldest first"
+msgstr ""
+
+msgid "newest first"
+msgstr ""
+
+msgid "shortest first"
+msgstr ""
+
+msgid "longest first"
+msgstr ""
+
+msgid "smallest first"
+msgstr ""
+
+msgid "biggest first"
+msgstr ""
+
+msgid "Hours"
+msgstr "Hodiny"
+
+msgid "Days"
+msgstr "Dny"
+
+msgid "Weeks"
+msgstr ""
+
+msgid "Months"
+msgstr "Měsíce"
+
+msgid "Years"
+msgstr ""
+
+msgid "The second value must be greater than the first one!"
+msgstr ""
+
+msgid "Add search term"
+msgstr "Přidat hledaný výraz"
+
+msgid "Newest tracks"
+msgstr "Nejnovější skladby"
+
+msgid "50 random tracks"
+msgstr "50 náhodných skladeb"
+
+msgid "Ever played"
+msgstr ""
+
+msgid "Never played"
+msgstr "Nikdy nepřehrané"
+
+msgid "Last played"
+msgstr "Naposledy hrané"
+
+msgid "Most played"
+msgstr "Nejčastěji přehrávané"
+
+msgid "Favourite tracks"
+msgstr "Oblíbené skladby"
+
+msgid "Least favourite tracks"
+msgstr "Nejméně oblíbené skladby"
+
+msgid "All tracks"
+msgstr "Všechny skladby"
+
+msgid "Dynamic random mix"
+msgstr "Dynamické míchání skladeb"
+
+msgid "New smart playlist..."
+msgstr "Nový chytrý playlist..."
+
+msgid "Play next"
+msgstr "Přehrát další"
+
+msgid "Edit smart playlist..."
+msgstr "Upravit chytrý playlist..."
+
+msgid "Delete smart playlist"
+msgstr "Odstranit chytrý playlist"
+
+msgid "Smart playlist"
 msgstr ""
 
 msgid "Playlist type"
 msgstr "Typ seznamu skladeb"
 
-msgid "Playlists"
-msgstr "Seznamy skladeb"
+msgid "A smart playlist is a dynamic list of songs that come from your collection.  There are different types of smart playlist that offer different ways of selecting songs."
+msgstr "Chytrý playlist je dynamický seznam skladeb z vaší kolekce. Existuje několik různých typů chytrých playlistů. Každý nabízí jiný způsob výběru skladeb."
 
-msgid "Please close your browser and return to Strawberry."
-msgstr "Zavřete, prosím, svůj prohlížeč a vraťte se do Strawberry."
+msgid "Finish"
+msgstr "Dokončit"
 
-msgid "Please open this URL in your browser"
-msgstr "Prosím navštivte tuto adresu URL ve vašem prohlížeči."
+msgid "Choose a name for your smart playlist"
+msgstr "Zvolte jméno pro váš chytrý seznam skladeb"
 
-msgid "Pop"
-msgstr ""
+msgid "Abort"
+msgstr "Přerušit"
 
-msgid "Popup duration"
-msgstr "Doba zobrazení oznámení"
+msgid "All albums"
+msgstr "Všechna alba"
 
-msgid "Port"
-msgstr ""
+msgid "Albums with covers"
+msgstr "Alba s obaly"
 
-msgid "Position"
-msgstr "Pozice"
-
-msgid "Pre-amp"
-msgstr "Předzesílení"
-
-msgid "Prefer album artist when sending scrobbles"
-msgstr "Preferovat autory alb při odesílání na server"
-
-msgid "Preferences"
-msgstr "Nastavení"
-
-msgid "Preferred album art filenames (comma separated)"
-msgstr "Upřednostňované názvy souborů s obaly alb (oddělené čárkou)"
-
-msgid "Preferred format"
-msgstr "Upřednostňovaný formát"
-
-msgid "Prefix a search term with a field name to limit the search to that field, e.g.:"
-msgstr ""
-
-msgid "Preload function was not set for blocking operation."
-msgstr "Funkce přednačítání nebyla nastavena pro operaci blokování."
-
-msgid "Preset:"
-msgstr "Předvolba:"
-
-msgid "Press \"Save\" to copy the URL to clipboard and manually open it in a web browser."
-msgstr "Klikněte na \"Uložit\" pro zkopírování URL do schránky a ruční otevření v prohlížeči."
-
-msgid "Press a key"
-msgstr "Stiskněte klávesu"
-
-#, qt-format
-msgid "Press a key combination to use for %1..."
-msgstr "Stiskněte klávesovou zkratku, která se použije pro %1..."
-
-msgid "Pressing \"Previous\" in player will..."
-msgstr "Po stisknutí Předchozí v přehrávači nastane..."
-
-msgid "Pretty OSD options"
-msgstr "Možnosti vzhledu OSD"
-
-msgid "Preview"
-msgstr "Náhled"
-
-msgid "Previous"
-msgstr "Předchozí"
-
-msgid "Previous track"
-msgstr "Předchozí skladba"
-
-msgid "Print out version information"
-msgstr "Vypsat informaci o verzi"
-
-msgid "Profile"
-msgstr "Profil"
-
-msgid "Progress"
-msgstr "Průběh"
-
-msgid "Put songs in a random order"
-msgstr ""
-
-msgid "Qobuz"
-msgstr ""
-
-msgid "Qobuz support is not official and requires an API app ID and secret from a registered application to work. We can't help you getting these."
-msgstr ""
-
-msgctxt "Sound quality"
-msgid "Quality"
-msgstr "Kvalita"
-
-msgid "Querying device..."
-msgstr "Dotazování se zařízení..."
-
-msgid "Queue"
-msgstr "Fronta"
-
-msgid "Queue selected tracks"
-msgstr "Přidat vybrané skladby do řady"
-
-msgid "Queue selected tracks to play next"
-msgstr "Přidat vybrané skladby do fronty"
-
-msgid "Queue to play next"
-msgstr "Do fronty jako další"
-
-msgid "Queue track"
-msgstr "Přidat skladbu do řady"
-
-msgid "QueueView"
-msgstr "Zobrazení fronty"
-
-msgid "Radio (equal loudness for all tracks)"
-msgstr "Rádio (shodná hlasitost pro všechny skladby)"
-
-msgid "Radio Paradise"
-msgstr ""
-
-msgid "Radios"
-msgstr ""
-
-msgid "Random"
-msgstr ""
-
-msgid "Rating"
-msgstr "Hodnocení"
-
-msgid "Re&lative"
-msgstr "Re&lativní"
+msgid "Albums without covers"
+msgstr "Alba bez obalů"
 
 msgid "Really cancel?"
 msgstr "Opravdu zrušit?"
 
+msgid "Closing this window will stop searching for album covers."
+msgstr "Zavření tohoto okna zastaví hledání obalů alb."
+
+msgid "Don't stop!"
+msgstr "Nezastavovat!"
+
+msgid "All artists"
+msgstr "Všichni umělci"
+
 #, qt-format
-msgid "Received URL with %1 encrypted stream from Tidal. Strawberry does not currently support encrypted streams."
+msgid "Got %1 covers out of %2 (%3 failed)"
+msgstr "Získáno %1 obalů z %2 (%3 nezískáno)"
+
+#, qt-format
+msgid "%1 transferred"
+msgstr "%1 přeneseno"
+
+msgid "Export finished"
+msgstr "Uložení dokončeno"
+
+msgid "No covers to export."
+msgstr "Žádné obaly k uložení"
+
+#, qt-format
+msgid "Exported %1 covers out of %2 (%3 skipped)"
+msgstr "Uloženo %1 obalů z %2 (%3 přeskočeno)"
+
+#, qt-format
+msgid "Could not save cover to file %1."
 msgstr ""
 
-msgid "Received URL with encrypted stream from Tidal. Strawberry does not currently support encrypted streams."
+#, qt-format
+msgid "Covers from %1"
+msgstr "Obaly od %1"
+
+msgid "Search"
+msgstr "Hledat"
+
+msgid "Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
+msgstr "Obrázky (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)"
+
+msgid "Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
+msgstr "Obrázky (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)"
+
+msgid "All files (*)"
+msgstr "Všechny soubory (*)"
+
+msgid "Load cover from disk..."
+msgstr "Nahrát obal na disku..."
+
+msgid "Save cover to disk..."
+msgstr "Uložit obal na disk..."
+
+msgid "Load cover from URL..."
+msgstr "Nahrát obal z adresy (URL)..."
+
+msgid "Search for album covers..."
+msgstr "Hledat obaly alb..."
+
+msgid "Unset cover"
+msgstr "Odebrat obal"
+
+msgid "Delete cover"
 msgstr ""
+
+msgid "Clear cover"
+msgstr ""
+
+msgid "Show fullsize..."
+msgstr "Ukázat v plné velikosti..."
+
+msgid "Search automatically"
+msgstr "Hledat automaticky"
+
+msgid "Load cover from disk"
+msgstr "Nahrát obal z disku"
+
+#, qt-format
+msgid "Failed to open cover file %1 for reading: %2"
+msgstr ""
+
+#, qt-format
+msgid "Cover file %1 is empty."
+msgstr ""
+
+msgid "unknown"
+msgstr "neznámý"
+
+msgid "Save album cover"
+msgstr "Uložit obal alba"
+
+#, qt-format
+msgid "Failed to open cover file %1 for writing: %2"
+msgstr ""
+
+#, qt-format
+msgid "Failed writing cover to file %1: %2"
+msgstr ""
+
+#, qt-format
+msgid "Failed writing cover to file %1."
+msgstr ""
+
+#, qt-format
+msgid "Failed to delete cover file %1: %2"
+msgstr ""
+
+#, qt-format
+msgid "Failed to write cover to file %1: %2"
+msgstr ""
+
+msgid "Total network requests made"
+msgstr "Celkem uskutečněno síťových požadavků"
+
+msgid "Average image size"
+msgstr "Průměrná velikost obrázku"
+
+msgid "Total bytes transferred"
+msgstr "Celkem přeneseno bajtů"
+
+msgid "Fetching cover error"
+msgstr "Chyba při stahování obalu"
+
+msgid "The site you requested does not exist!"
+msgstr "Požadovaná stránka neexistuje!"
+
+msgid "The site you requested is not an image!"
+msgstr "Požadovaná stránka není obrázek!"
+
+msgid "Genius Authentication"
+msgstr ""
+
+msgid "Please open this URL in your browser"
+msgstr "Prosím navštivte tuto adresu URL ve vašem prohlížeči."
+
+msgid "Redirect missing token code!"
+msgstr "Přesměrování chybí kód tokenu!"
 
 msgid "Received invalid reply from web browser."
 msgstr "Obdržena špatná odpověď od prohlížeče."
 
-msgid "Received invalid reply from web browser. Try another browser."
+msgid "Redirect from Genius is missing query items code or state."
+msgstr "Přesměrování z Genius chybí kód položek dotazu nebo stav."
+
+msgid "General"
+msgstr "Obecné"
+
+msgid "User interface"
+msgstr "Uživatelské rozhraní"
+
+msgid "Streaming"
+msgstr "Streamování"
+
+msgid "Add directory..."
+msgstr "Přidat složku..."
+
+msgid "Write all playcounts and ratings to files"
+msgstr ""
+
+msgid "Are you sure you want to write song playcounts and ratings to file for all songs in your collection?"
+msgstr ""
+
+msgid "Enter your user token from"
+msgstr "Zadejte uživatelský token z"
+
+msgid "Use Tidal settings to authenticate."
+msgstr "Použijte nastavení Tidal pro přihlášení."
+
+msgid "Use Spotify settings to authenticate."
+msgstr ""
+
+msgid "Use Qobuz settings to authenticate."
 msgstr ""
 
 #, qt-format
-msgid "Receiving album cover for %1 album..."
+msgid "%1 needs authentication."
+msgstr "%1 vyžaduje ověření."
+
+#, qt-format
+msgid "%1 does not need authentication."
+msgstr "%1 nevyžaduje ověření."
+
+msgid "No provider selected."
+msgstr "Žádný poskytovatel nebyl zvolen."
+
+msgid "Authentication failed"
+msgstr "Ověření selhalo"
+
+#, qt-format
+msgid "Manually unset (%1)"
 msgstr ""
 
 #, qt-format
-msgid "Receiving album covers for %1 albums..."
+msgid "Set through album cover search (%1)"
 msgstr ""
 
 #, qt-format
-msgid "Receiving albums for %1 artist..."
+msgid "Automatically picked up from album directory (%1)"
 msgstr ""
 
 #, qt-format
-msgid "Receiving albums for %1 artists..."
+msgid "Embedded album cover art (%1)"
 msgstr ""
 
-msgid "Receiving albums..."
+msgid "Select background image"
+msgstr "Vybrat obrázek na pozadí"
+
+msgid "OSD Preview"
+msgstr "Náhled OSD"
+
+msgid "Drag to reposition"
+msgstr "Tažením přemístěte"
+
+msgid "About Strawberry"
+msgstr "O Strawberry"
+
+#, qt-format
+msgid "Version %1"
+msgstr "Verze %1"
+
+msgid "Strawberry is a music player and music collection organizer."
+msgstr "Strawberry je hudební přehrávač a organizér hudební kolekce."
+
+msgid "It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles."
+msgstr "Je to větev přehrávače Clementine z roku 2018 zaměřený na sběratele hudby a audiofily."
+
+#, qt-format
+msgid "Strawberry is free software released under GPL. The source code is available on %1"
+msgstr "Strawberry je svobodný software vydávaný pod licencí GPL. Zdrojový kód je dostupný na %1"
+
+#, qt-format
+msgid "You should have received a copy of the GNU General Public License along with this program.  If not, see %1"
+msgstr "S tímto programem jste měli obdržet kopii licence GNU GPL. Pokud ne, navštivte %1"
+
+msgid "If you like Strawberry and can make use of it, consider sponsoring or donating."
+msgstr "Líbí se a vyhovuje vám-li Strawberry, zvažte příspěvek."
+
+#, qt-format
+msgid "You can sponsor the author on %1. You can also make a one-time payment through %2."
+msgstr "Můžete podpořit autora na %1. Také můžete jednorázově přispět pomocí %2."
+
+msgid "Author and maintainer"
+msgstr "Autor a vedoucí"
+
+msgid "Contributors"
+msgstr "Přispěvatelé"
+
+msgid "Clementine authors"
+msgstr "Autoři Clementine"
+
+msgid "Clementine contributors"
+msgstr "Přispěvatelé Clementine"
+
+msgid "Thanks to"
+msgstr "Díky"
+
+msgid "Thanks to all the other Amarok and Clementine contributors."
+msgstr "Díky všem ostatním přispěvatelům Amaroku a Clementine."
+
+msgid "(different across multiple songs)"
+msgstr "(liší se u jednotlivých písní)"
+
+msgid "Different art across multiple songs."
 msgstr ""
 
-msgid "Receiving artists..."
+msgid "Previous"
+msgstr "Předchozí"
+
+msgid "Next"
+msgstr "Další"
+
+msgid "Saving tracks"
+msgstr "Ukládají se skladby"
+
+#, qt-format
+msgid "%1 songs selected."
 msgstr ""
+
+msgid "Yes"
+msgstr ""
+
+msgid "No"
+msgstr ""
+
+msgid "Cover is unset."
+msgstr ""
+
+msgid "Cover from embedded image."
+msgstr ""
+
+#, qt-format
+msgid "Cover from %1"
+msgstr ""
+
+msgid "Cover art not set"
+msgstr "Obal nenastaven"
+
+msgid "Album cover editing is only available for collection songs."
+msgstr ""
+
+msgid "Cover changed: Will be cleared when saved."
+msgstr ""
+
+msgid "Cover changed: Will be unset when saved."
+msgstr ""
+
+msgid "Cover changed: Will be deleted when saved."
+msgstr ""
+
+msgid "Cover changed: Will set new when saved."
+msgstr ""
+
+msgid "Reset song play statistics"
+msgstr ""
+
+msgid "Are you sure you want to reset this song's play statistics?"
+msgstr ""
+
+msgid "loading..."
+msgstr ""
+
+msgid "Not found."
+msgstr ""
+
+msgid "Original tags"
+msgstr "Původní značky"
+
+msgid "Suggested tags"
+msgstr "Navrhované značky"
+
+msgid "Delete files"
+msgstr "Smazat soubory"
+
+msgid "The following files will be deleted from disk:"
+msgstr ""
+
+msgid "Are you sure you want to continue?"
+msgstr "Opravdu chcete pokračovat?"
 
 msgid "Receiving initial data from last.fm..."
-msgstr ""
-
-#, qt-format
-msgid "Receiving last played for %1 songs."
 msgstr ""
 
 #, qt-format
@@ -2878,88 +1654,164 @@ msgid "Receiving playcount for %1 songs and last played for %2 songs."
 msgstr ""
 
 #, qt-format
+msgid "Receiving last played for %1 songs."
+msgstr ""
+
+#, qt-format
 msgid "Receiving playcounts for %1 songs."
 msgstr ""
 
 #, qt-format
-msgid "Receiving songs for %1 album..."
+msgid "Playcounts for %1 songs and last played for %2 songs received."
 msgstr ""
 
 #, qt-format
-msgid "Receiving songs for %1 albums..."
+msgid "Last played for %1 songs received."
+msgstr "Hodnota \"Naposledy přehráno\" pro %1 skladeb bylo přijato."
+
+#, qt-format
+msgid "Playcounts for %1 songs received."
+msgstr "Hodnota \"Počet přehrání\" pro %1 skladeb byla přijata."
+
+msgid "Strawberry is running as a Snap"
 msgstr ""
 
-msgid "Receiving songs..."
+msgid "It is detected that Strawberry is running as a Snap"
+msgstr "Bylo zjištěno, že Strawberry běží jako Snap"
+
+msgid "Strawberry is slower, and has restrictions when running as a Snap. Accessing the root filesystem (/) will not work. There also might be other restrictions such as accessing certain devices or network shares."
 msgstr ""
 
-msgid "Redirect from Genius is missing query items code or state."
-msgstr "Přesměrování z Genius chybí kód položek dotazu nebo stav."
+#, qt-format
+msgid "For Ubuntu there is an official PPA repository available at %1."
+msgstr "Pro Ubuntu je na %1 dostupné oficiální PPA."
 
-msgid "Redirect missing token code or state!"
-msgstr "Přesměrování chybí kód tokenu nebo stav!"
+#, qt-format
+msgid "Official releases are available for Debian and Ubuntu which also work on most of their derivatives. See %1 for more information."
+msgstr "Jsou dostupná oficiální vydání pro Debian a Ubuntu. Tato vydání také fungují s většinou jejich derivátů. Navštivte %1 pro více informací."
 
-msgid "Redirect missing token code!"
-msgstr "Přesměrování chybí kód tokenu!"
+msgid "For a better experience please consider the other options above."
+msgstr "Pro lepší zážitek, prosím zvažte ostatní dostupné možnosti."
 
-msgid "Redo"
+msgid "Copy your strawberry.conf and strawberry.db from your ~/snap directory to avoid losing configuration before you uninstall the snap:"
 msgstr ""
 
-msgid "Refresh catalogue"
-msgstr "Obnovit katalog"
-
-msgid "Refresh channels"
+msgid "Uninstall the snap with:"
 msgstr ""
 
-msgid "Reggae"
+msgid "Install strawberry through PPA:"
 msgstr ""
 
-msgid "Relative"
-msgstr "Relativní"
+msgid "Select directory for the playlists"
+msgstr ""
 
-msgid "Remember from &last time"
-msgstr "&Obnovit předchozí stav"
+msgid "Directory does not exist."
+msgstr ""
 
-msgid "Remember my choice"
-msgstr "Zapamatovat si moji volbu"
+msgid "Large sidebar"
+msgstr "Velký postranní panel"
 
-msgid "Remove"
-msgstr "Odstranit"
+msgid "Small sidebar"
+msgstr "Malý postranní panel"
 
-msgid "Remove &duplicates from playlist"
-msgstr "Odstranit &duplikáty ze seznamu skladeb"
+msgid "Plain sidebar"
+msgstr "Prostý postranní panel"
 
-msgid "Remove &unavailable tracks from playlist"
-msgstr "Odstranit &nedostupné skladby ze seznamu skladeb"
+msgid "Tabs on top"
+msgstr "Karty nahoře"
 
-msgid "Remove folder"
-msgstr "Odstranit složku"
+msgid "Icons on top"
+msgstr "Ikony nahoře"
 
-msgid "Remove from favorites"
-msgstr "Odstranit z oblíbených"
+msgid "Available"
+msgstr "Dostupné"
 
-msgid "Remove from playlist"
-msgstr "Odstranit ze seznamu skladeb"
+msgid "New songs"
+msgstr "Nové písně"
 
-msgid "Remove playlist"
-msgstr "Odstranit seznam skladeb"
+msgid "Exceeded by"
+msgstr ""
 
-msgid "Remove playlists"
-msgstr "Odstranit seznamy skladeb"
+msgid "Used"
+msgstr "Použito"
 
-msgid "Remove problematic characters from filenames"
-msgstr "Odstranit problémové znaky z názvů souborů"
+msgid "Clear"
+msgstr "Smazat"
 
-msgid "Rename playlist"
-msgstr "Přejmenovat seznam skladeb"
+msgid "Reset"
+msgstr "Obnovit výchozí"
 
-msgid "Rename playlist..."
-msgstr "Přejmenovat seznam skladeb..."
+msgid "Small album cover"
+msgstr "Malý obal alba"
 
-msgid "Renumber tracks in this order..."
-msgstr "Přečíslovat skladby v tomto pořadí..."
+msgid "Large album cover"
+msgstr "Velký obal alba"
 
-msgid "Repeat"
-msgstr "Opakovat"
+msgid "Fit cover to width"
+msgstr "Přizpůsobit obal šířce"
+
+msgid "Show above status bar"
+msgstr "Ukazovat nad stavovým řádkem"
+
+msgid "You are signed in."
+msgstr "Jste přihlášen."
+
+#, qt-format
+msgid "You are signed in as %1."
+msgstr "Jste přihlášen jako %1."
+
+#, qt-format
+msgid "Expires on %1"
+msgstr "Vyprší %1"
+
+#, qt-format
+msgid "disc %1"
+msgstr "disk %1"
+
+#, qt-format
+msgid "track %1"
+msgstr "skladba %1"
+
+msgid "Paused"
+msgstr "Pozastaveno"
+
+msgid "Stopped"
+msgstr "Zastaveno"
+
+#, qt-format
+msgid "Stop playing after track: %1"
+msgstr "Zastavit přehrávání po skladbě: %1"
+
+msgid "On"
+msgstr "Zapnuto"
+
+msgid "Off"
+msgstr "Vypnuto"
+
+msgid "Playlist finished"
+msgstr "Seznam skladeb dokončen"
+
+#, qt-format
+msgid "Volume %1%"
+msgstr "Hlasitost %1 %"
+
+msgid "Don't shuffle"
+msgstr "Nemíchat"
+
+msgid "Shuffle all"
+msgstr "Zamíchat vše"
+
+msgid "Shuffle tracks in this album"
+msgstr "Zamíchat skladby na tomto albu"
+
+msgid "Shuffle albums"
+msgstr "Zamíchat alba"
+
+msgid "Don't repeat"
+msgstr "Neopakovat"
+
+msgid "Repeat track"
+msgstr "Opakovat skladbu"
 
 msgid "Repeat album"
 msgstr "Opakovat album"
@@ -2967,73 +1819,416 @@ msgstr "Opakovat album"
 msgid "Repeat playlist"
 msgstr "Opakovat seznam skladeb"
 
-msgid "Repeat track"
-msgstr "Opakovat skladbu"
+msgid "Stop after every track"
+msgstr "Zastavit po každé skladbě"
 
-msgid "Replace current playlist"
-msgstr "Nahradit současný seznam skladeb"
-
-msgid "Replace spaces with dashes"
-msgstr "Nahradit mezery pomlčkami"
-
-msgid "Replace spaces with underscores"
-msgstr "Nahradit mezery podtržítky"
-
-msgid "Replace the playlist"
-msgstr "Nahradit seznam skladeb"
-
-msgid "Replay Gain"
-msgstr "Zesílení přehrávaných skladeb"
-
-msgid "Replay Gain mode"
-msgstr "Režim zesílení přehrávaných skladeb"
-
-msgid "Reply from Tidal is missing query items."
-msgstr "Odpověď od Tidal neobsahuje dotazové položky."
-
-msgid "Repopulate"
-msgstr ""
-
-msgid "Rescan song(s)"
-msgstr "Prohledat skladbu"
-
-msgid "Rescan song(s)..."
-msgstr ""
-
-msgid "Reset"
-msgstr "Obnovit výchozí"
-
-msgid "Reset play counts"
-msgstr "Vynulovat počty přehrání"
-
-msgid "Reset song play statistics"
-msgstr ""
-
-msgid "Resize the window"
-msgstr ""
-
-msgid "Restart song, then jump to previous if pressed again"
-msgstr "Spustit píseň znovu, potom, v případě že je tlačítko opět stisknuto, skočit na předchozí"
-
-msgid "Restart the track, or play the previous track if within 8 seconds of start."
-msgstr "Spustit znovu přehrávání skladby, nebo přehrávat předchozí skladbu, jestliže ještě neuběhlo osm sekund od začátku skladby."
-
-msgid "Restrict characters to ASCII"
-msgstr "Omezit na ASCII znaky"
-
-msgid "Restrict to characters allowed on FAT filesystems"
-msgstr "Omezit na znaky dostupné na FAT systémech souborů"
-
-msgid "Resume playback on start"
-msgstr "Obnovit přehrávání při spuštění"
+msgid "Intro tracks"
+msgstr "Skladby úvodu"
 
 #, qt-format
-msgid "Retrieving album cover for %1 album..."
-msgstr "Načítání obalů alb pro %1 album..."
+msgid "Configure %1..."
+msgstr "Nastavit %1..."
+
+msgid "Add to artists"
+msgstr "Přidat k umělcům"
+
+msgid "Add to albums"
+msgstr "Přidat do alb"
+
+msgid "Add to songs"
+msgstr "Přidat ke skladbám"
+
+msgid "Enter search terms above to find music"
+msgstr "Výše zadejte hledaný výraz pro vyhledání hudby"
+
+msgid "The streaming collection is empty!"
+msgstr ""
+
+msgid "Click here to retrieve music"
+msgstr "Klikněte zde pro načtení hudby"
+
+msgid "Remove from favorites"
+msgstr "Odstranit z oblíbených"
+
+msgid "Open homepage"
+msgstr ""
+
+msgid "Donate"
+msgstr ""
+
+msgid "Refresh channels"
+msgstr ""
 
 #, qt-format
-msgid "Retrieving album covers for %1 albums..."
-msgstr "Načítání obalů alb pro %1 alb..."
+msgid "Getting %1 channels"
+msgstr ""
+
+#, qt-format
+msgid "%1 Scrobbler Authentication"
+msgstr "%1 Ověření systému pro doporučování hudby (scrobbler)"
+
+msgid "Open URL in web browser?"
+msgstr "Otevřít URL v prohlížeči?"
+
+msgid "Press \"Save\" to copy the URL to clipboard and manually open it in a web browser."
+msgstr "Klikněte na \"Uložit\" pro zkopírování URL do schránky a ruční otevření v prohlížeči."
+
+msgid "Could not open URL. Please open this URL in your browser"
+msgstr "Nelze otevřít adresu URL. Prosím otevřete tuto URL ve vašem prohlížeči"
+
+msgid "Invalid reply from web browser. Missing token."
+msgstr "Špatná odpověď od prohlížeče. Token chybí."
+
+msgid "Received invalid reply from web browser. Try another browser."
+msgstr ""
+
+#, qt-format
+msgid "Scrobbler %1 is not authenticated!"
+msgstr "Systém pro doporučování hudby %1 není přihlášen!"
+
+#, qt-format
+msgid "Scrobbler %1 error: %2"
+msgstr ""
+
+msgid "ListenBrainz Authentication"
+msgstr "Přihlášení na ListenBrainz"
+
+#, qt-format
+msgid "Unable to scrobble %1 - %2 because of error: %3"
+msgstr ""
+
+#, qt-format
+msgid "Missing MusicBrainz recording ID for %1 %2 %3"
+msgstr ""
+
+#, qt-format
+msgid "ListenBrainz error: %1"
+msgstr ""
+
+msgid "Missing username, please login to last.fm first!"
+msgstr "Chybějící jméno, prosím, nejdříve se přihlašte k last.fm!"
+
+msgid "Organizing files"
+msgstr "Organizace souborů"
+
+msgid "Artist's initial"
+msgstr "Začáteční písmena umělce"
+
+msgctxt "Refers to bitrate in file organize dialog."
+msgid "Bitrate"
+msgstr "Datový tok"
+
+msgid "File extension"
+msgstr "Přípona souboru"
+
+msgid "Error copying songs"
+msgstr "Chyba při kopírování písní"
+
+msgid "There were problems copying some songs.  The following files could not be copied:"
+msgstr "Při kopírování některých písní nastaly potíže. Nepodařilo se zkopírovat následující soubory:"
+
+msgid "Error deleting songs"
+msgstr "Chyba při mazání písní"
+
+msgid "There were problems deleting some songs.  The following files could not be deleted:"
+msgstr "Při mazání některých písní nastaly potíže. Nepodařilo se smazat následující soubory:"
+
+msgid "Play/Pause"
+msgstr ""
+
+msgid "Stop"
+msgstr ""
+
+msgid "Stop playing after current track"
+msgstr ""
+
+msgid "Next track"
+msgstr ""
+
+msgid "Previous track"
+msgstr "Předchozí skladba"
+
+msgid "Restart or previous track"
+msgstr ""
+
+msgid "Increase volume"
+msgstr ""
+
+msgid "Decrease volume"
+msgstr ""
+
+msgid "Mute"
+msgstr "Ztlumit"
+
+msgid "Seek forward"
+msgstr ""
+
+msgid "Seek backward"
+msgstr ""
+
+msgid "Show/Hide"
+msgstr ""
+
+msgid "Show OSD"
+msgstr ""
+
+msgid "Toggle Pretty OSD"
+msgstr ""
+
+msgid "Change shuffle mode"
+msgstr ""
+
+msgid "Change repeat mode"
+msgstr ""
+
+msgid "Enable/disable scrobbling"
+msgstr ""
+
+msgid "Love"
+msgstr "To Miluju!"
+
+#, qt-format
+msgid "Press a key combination to use for %1..."
+msgstr "Stiskněte klávesovou zkratku, která se použije pro %1..."
+
+#, qt-format
+msgid "The \"%1\" command could not be started."
+msgstr "Příkaz \"%1\" se nepodařilo provést."
+
+#, qt-format
+msgid "Shortcut for %1"
+msgstr "Klávesová zkratka pro %1"
+
+#, qt-format
+msgid "Using X11 shortcuts on %1 is not recommended and can cause keyboard to become unresponsive!"
+msgstr "Použití klávesových zkratek X11 na %1 není doporučeno a může zapříčinit nereagující klávesnici!"
+
+#, qt-format
+msgid " Shortcuts on %1 are usually used through MPRIS and KGlobalAccel."
+msgstr "Zkratky na %1 jsou většinou používány přes MPRIS a KGlobalAccel."
+
+#, qt-format
+msgid " Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in gnome-settings-daemon instead."
+msgstr ""
+
+#, qt-format
+msgid " Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in cinnamon-settings-daemon instead."
+msgstr ""
+
+#, qt-format
+msgid " Shortcuts on %1 are usually used through MATE Settings Daemon and should be configured there instead."
+msgstr ""
+
+msgid "Buffering"
+msgstr "Ukládá se do vyrovnávací paměti"
+
+msgid "D-Bus path"
+msgstr "Cesta k D-Bus"
+
+msgid "Serial number"
+msgstr "Sériové číslo"
+
+msgid "Mount points"
+msgstr "Přípojné body"
+
+msgid "Partition label"
+msgstr "Štítek oddílu"
+
+msgid "UUID"
+msgstr ""
+
+msgid "Connect device"
+msgstr "Připojit zařízení"
+
+msgid "This is the first time you have connected this device.  Strawberry will now scan the device to find music files - this may take some time."
+msgstr "Toto zařízení bylo připojeno poprvé. Strawberry na něm nyní hledá hudební soubory - může to chvíli trvat."
+
+msgid "This device will not work properly"
+msgstr "Toto zařízení nebude pracovat správně"
+
+msgid "This is an MTP device, but you compiled Strawberry without libmtp support."
+msgstr "Toto je zařízení MTP, ale Strawberry byl sestaven bez podpory pro libmtp."
+
+msgid "If you continue, this device will work slowly and songs copied to it may not work."
+msgstr "Budete-li pokračovat, toto zařízení bude pracovat pomalu a písně na něj kopírované nemusí fungovat."
+
+msgid "This is an iPod, but you compiled Strawberry without libgpod support."
+msgstr "Toto je zařízení iPod, ale Strawberry byl sestaven bez podpory pro libgpod."
+
+#, qt-format
+msgid "This type of device is not supported: %1"
+msgstr "Tento typ zařízení není podporován: %1"
+
+#, qt-format
+msgid "Updating %1%..."
+msgstr "Obnovuje se %1%..."
+
+msgid "Not connected"
+msgstr "Nepřipojeno"
+
+msgid "Not mounted - double click to mount"
+msgstr "Nepřipojeno - dvojitým klepnutím připojíte"
+
+msgid "Double click to open"
+msgstr "Klepnout dvakrát pro otevření"
+
+#, qt-format
+msgid "%1 song%2"
+msgstr "%1 skladba%2"
+
+msgid "Safely remove device"
+msgstr "Bezpečně odebrat zařízení"
+
+msgid "Forget device"
+msgstr "Zapomenout zařízení"
+
+msgid "Device properties..."
+msgstr "Vlastnosti zařízení..."
+
+msgid "Delete from device..."
+msgstr "Smazat ze zařízení..."
+
+msgid "Forgetting a device will remove it from this list and Strawberry will have to rescan all the songs again next time you connect it."
+msgstr "Zařízení bude odstraněno z tohoto seznamu. Po opětovném připojení je Strawberry bude muset znovu celé prohledat."
+
+msgid "These files will be deleted from the device, are you sure you want to continue?"
+msgstr "Tyto soubory budou smazány ze zařízení. Opravdu chcete pokračovat?"
+
+msgid "Model"
+msgstr ""
+
+msgid "Manufacturer"
+msgstr "Výrobce"
+
+#, qt-format
+msgid "Could not copy %1 to %2: %3"
+msgstr ""
+
+#, qt-format
+msgid "Writing database failed: %1"
+msgstr ""
+
+msgid "Writing database failed."
+msgstr ""
+
+msgid "Loading iPod database"
+msgstr "Nahrává se databáze iPod"
+
+msgid "An error occurred loading the iTunes database"
+msgstr "Při nahrávání databáze iTunes nastala chyba"
+
+msgid "Mount point"
+msgstr "Přípojný bod"
+
+msgid "Device"
+msgstr "Zařízení"
+
+msgid "URI"
+msgstr ""
+
+#, qt-format
+msgid "Invalid MTP device: %1"
+msgstr ""
+
+msgid "Could not open MTP device."
+msgstr ""
+
+#, qt-format
+msgid "MTP error: %1"
+msgstr ""
+
+msgid "MTP device not found."
+msgstr ""
+
+msgid "Loading MTP device"
+msgstr "Nahrává se zařízení MTP"
+
+#, qt-format
+msgid "Error connecting MTP device %1"
+msgstr "Chyba při připojování k MTP zařízení %1"
+
+#, qt-format
+msgid "Error connecting MTP device %1: %2"
+msgstr ""
+
+#, qt-format
+msgid "Could not create the GStreamer element \"%1\" - make sure you have all the required GStreamer plugins installed"
+msgstr "Nepodařilo se vytvořit prvek GStreamer \"%1\" - ujistěte se, že máte nainstalovány všechny požadované přídavné moduly GStreamer"
+
+#, qt-format
+msgid "Successfully written %1"
+msgstr "%1 úspěšně zapsán"
+
+#, qt-format
+msgid "Transcoding %1 files using %2 threads"
+msgstr "Převádí se %1 souborů s %2 procesy"
+
+#, qt-format
+msgid "Error processing %1: %2"
+msgstr "Chyba při zpracovávání %1: %2"
+
+#, qt-format
+msgid "Starting %1"
+msgstr "Spouští se %1"
+
+#, qt-format
+msgid "Couldn't find an encoder for %1, check you have the correct GStreamer plugins installed"
+msgstr "Nepodařilo se najít kodér \"%1\" - ujistěte se, že máte nainstalovány správné přídavné moduly GStreamer"
+
+#, qt-format
+msgid "Couldn't find a muxer for %1, check you have the correct GStreamer plugins installed"
+msgstr "Nepodařilo se najít multiplexer pro \"%1\" - ujistěte se, že máte nainstalovány správné přídavné moduly GStreamer"
+
+msgid "Start transcoding"
+msgstr "Převést"
+
+#, c-format, qt-plural-format
+msgid "%n remaining"
+msgstr "zůstávají %n"
+
+#, c-format, qt-plural-format
+msgid "%n finished"
+msgstr "dokončeno %n"
+
+#, c-format, qt-plural-format
+msgid "%n failed"
+msgstr "nepodařilo se %n"
+
+msgid "Add files to transcode"
+msgstr "Přidat soubory pro překódování"
+
+msgid "Open a directory to import music from"
+msgstr "Otevřít adresář a zavést hudbu v něm"
+
+msgid "Identifying song"
+msgstr ""
+
+msgid "Fingerprinting song"
+msgstr ""
+
+msgid "Downloading metadata"
+msgstr ""
+
+msgid "Error while setting CDDA device to ready state."
+msgstr "Chyba při přenastavování CCDA zařízení do připraveného stavu."
+
+msgid "Error while setting CDDA device to pause state."
+msgstr "Chyba při přenastavování CCDA zařízení do pozastaveného stavu."
+
+msgid "Error while querying CDDA tracks."
+msgstr "Chyba při dotazování na CDDA stopy."
+
+msgid "Server URL is invalid."
+msgstr "Adresa serveru není správná."
+
+msgid "Missing username or password."
+msgstr "Chybějící uživatelské jméno nebo heslo."
+
+msgid "Subsonic server URL is invalid."
+msgstr "Adresa serveru Subsonic není správná."
+
+msgid "Missing Subsonic username or password."
+msgstr "Chybějící uživatelské jméno nebo heslo pro Subsonic."
 
 msgid "Retrieving albums..."
 msgstr "Načítání alb..."
@@ -3046,328 +2241,620 @@ msgstr "Načítání skladeb z %1 alba..."
 msgid "Retrieving songs for %1 albums..."
 msgstr "Načítání skladeb z %1 alb..."
 
-msgid "Return to Strawberry"
-msgstr "Návrat do Strawberry"
-
-msgid "Right"
-msgstr "Vpravo"
-
-msgid "Rock"
-msgstr ""
-
-msgid "Run"
-msgstr "Spustit"
-
-msgid "S&huffle playlist"
-msgstr "Z&amíchat seznam skladeb"
-
-msgid "SOCKS proxy"
-msgstr "Proxy SOCKS"
-
-msgid "Safely remove device"
-msgstr "Bezpečně odebrat zařízení"
-
-msgid "Safely remove the device after copying"
-msgstr "Po dokončení kopírování bezpečně odebrat zařízení"
-
-msgid "Sample Rate"
-msgstr ""
-
-msgid "Sample rate"
-msgstr "Vzorkovací kmitočet"
-
-msgid "Samplerate"
-msgstr "Vzorkovací frekvence"
-
-msgid "Save &playlist..."
-msgstr "Uložit seznam skladeb..."
-
-msgid "Save album cover"
-msgstr "Uložit obal alba"
-
-msgid "Save album covers as embedded cover"
-msgstr ""
-
-msgid "Save album covers in album directory"
-msgstr "Ukládat obaly alb ve složce alba"
-
-msgid "Save album covers in cache directory"
-msgstr ""
-
-msgid "Save cover to disk..."
-msgstr "Uložit obal na disk..."
-
-msgid "Save current grouping"
-msgstr "Uložit nynější seskupení"
-
-msgid "Save playcounts and ratings to files now"
-msgstr ""
-
-msgid "Save playcounts to song tags when possible"
-msgstr ""
-
-msgctxt "Save playlist menu action."
-msgid "Save playlist"
-msgstr "Uložit seznam skladeb"
-
-msgctxt "Title of the playlist save dialog."
-msgid "Save playlist"
-msgstr "Uložit seznam skladeb"
-
-msgid "Save playlist..."
-msgstr "Uložit seznam skladeb..."
-
-msgid "Save preset"
-msgstr "Uložit předvolbu"
-
-msgid "Save ratings to song tags when possible"
-msgstr ""
-
-msgid "Save the .mood files directly in the songs folders"
-msgstr "Ukládat .mood soubory přímo ve složkách skladeb"
-
-msgid "Saved Grouping Manager"
-msgstr "Spravce uložených seskupení"
-
-msgid "Saving CUE files is not supported."
-msgstr ""
-
-msgid "Saving album covers"
-msgstr "Ukládání obalů alb"
-
-msgid "Saving playcounts and ratings"
-msgstr ""
-
-msgid "Saving tracks"
-msgstr "Ukládají se skladby"
-
-msgid "Scalable sampling rate profile (SSR)"
-msgstr "Profil škálovatelného vzorkovacího kmitočtu"
-
-msgid "Scale size"
-msgstr "Velikost měřítka"
-
-msgid "Scrobbler"
-msgstr "doporučování hudby"
+#, qt-format
+msgid "Retrieving album cover for %1 album..."
+msgstr "Načítání obalů alb pro %1 album..."
 
 #, qt-format
-msgid "Scrobbler %1 error: %2"
+msgid "Retrieving album covers for %1 albums..."
+msgstr "Načítání obalů alb pro %1 alb..."
+
+msgid "Unknown error"
+msgstr "Neznámá chyba"
+
+msgid "Configuration incomplete"
+msgstr "Konfigurace není hotová"
+
+msgid "Missing server url, username or password."
+msgstr "Chybějící URL serveru, uživatelské jméno nebo heslo."
+
+msgid "Configuration incorrect"
+msgstr "Konfigurace není správná"
+
+msgid "Test successful!"
+msgstr "Test uspěl!"
+
+msgid "Test failed!"
+msgstr "Test selhal!"
+
+msgid "Reply from Tidal is missing query items."
+msgstr "Odpověď od Tidal neobsahuje dotazové položky."
+
+msgid "Missing Tidal API token."
+msgstr "Chybějící API token pro Tidal."
+
+msgid "Missing Tidal username."
+msgstr "Chybějící uživatelské jméno k Tidal."
+
+msgid "Missing Tidal password."
+msgstr "Chybějící heslo k Tidal."
+
+msgid "Not authenticated with Tidal and reached maximum number of login attempts."
+msgstr "Nejste přihlášeni k Tidal a byl dosažen maximální počet pokusů o přihlášení."
+
+msgid "Not authenticated with Tidal."
+msgstr "Nejste přihlášeni k Tidal."
+
+msgid "Missing Tidal API token, username or password."
+msgstr "Chybějící API token, uživatelské jméno nebo heslo pro Tidal."
+
+msgid "Authenticating..."
+msgstr "Probíhá ověření..."
+
+msgid "Receiving artists..."
 msgstr ""
 
-#, qt-format
-msgid "Scrobbler %1 is not authenticated!"
-msgstr "Systém pro doporučování hudby %1 není přihlášen!"
-
-msgid "Search"
-msgstr "Hledat"
-
-msgid "Search automatically"
-msgstr "Hledat automaticky"
-
-msgid "Search delay"
-msgstr "Zpožděné vyhledávání"
-
-msgid "Search for album covers..."
-msgstr "Hledat obaly alb..."
-
-msgid "Search for this"
-msgstr "Hledat toto"
-
-msgid "Search mode"
+msgid "Receiving albums..."
 msgstr ""
 
-msgid "Search options"
-msgstr ""
-
-msgid "Search terms"
-msgstr ""
-
-#, qt-format
-msgid "Search terms for numerical fields can be prefixed with %1 or %2 to refine the search, e.g.: "
+msgid "Receiving songs..."
 msgstr ""
 
 msgid "Searching..."
 msgstr "Vyhlevávání..."
 
-msgid "Second Level"
-msgstr "Druhá úroveň"
-
-msgid "Second level"
-msgstr "Druhá úroveň"
-
-msgid "Seek backward"
-msgstr ""
-
-msgid "Seek forward"
-msgstr ""
-
-msgid "Seek the currently playing track by a relative amount"
-msgstr "Přetočit v nyní přehrávané skladbě"
-
-msgid "Seek the currently playing track to an absolute position"
-msgstr "Skočit v nyní přehrávané skladbě na určité místo"
-
-msgid "Seeking using a keyboard shortcut or mouse wheel"
-msgstr "Posunování pomocí klávesové zkratky nebo kolečka myši"
-
-msgid "Select background image"
-msgstr "Vybrat obrázek na pozadí"
-
-msgid "Select best possible match"
-msgstr "Vyberte nejlepší možnou shodu"
-
-msgid "Select directory for saving playlists"
-msgstr ""
-
-msgid "Select directory for the playlists"
-msgstr ""
-
-msgid "Select playlist playing song color:"
-msgstr ""
-
-msgid "Select tabbar color:"
-msgstr ""
-
-msgid "Select..."
-msgstr "Vybrat..."
-
-msgid "Separate albums by grouping tag"
-msgstr ""
-
-msgid "Serial number"
-msgstr "Sériové číslo"
-
-msgid "Server URL"
-msgstr "URL serveru"
-
-msgid "Server URL is invalid."
-msgstr "Adresa serveru není správná."
-
-msgid "Server-side scrobbling"
+#, qt-format
+msgid "Receiving albums for %1 artist..."
 msgstr ""
 
 #, qt-format
-msgid "Set %1 to \"%2\"..."
-msgstr "Nastavit %1 na \"%2\"..."
-
-msgid "Set the volume to <value> percent"
-msgstr "Nastavit hlasitost na <value> procent"
+msgid "Receiving albums for %1 artists..."
+msgstr ""
 
 #, qt-format
-msgid "Set through album cover search (%1)"
+msgid "Receiving songs for %1 album..."
 msgstr ""
-
-msgid "Set value for all selected tracks..."
-msgstr "Nastavit hodnotu pro vybrané skladby..."
-
-msgid "Settings"
-msgstr "Nastavení"
-
-msgid "Settings require restart."
-msgstr ""
-
-msgid "Shortcut"
-msgstr "Klávesová zkratka"
 
 #, qt-format
-msgid "Shortcut for %1"
-msgstr "Klávesová zkratka pro %1"
-
-msgid "Show"
-msgstr "Ukázat"
-
-msgid "Show OSD"
+msgid "Receiving songs for %1 albums..."
 msgstr ""
 
-msgid "Show a &native desktop notification"
-msgstr "Zobrazit &nativní upozornění na ploše"
-
-msgid "Show a glowing animation on the currently playing track"
+#, qt-format
+msgid "Receiving album cover for %1 album..."
 msgstr ""
 
-msgid "Show a moodbar in the track progress bar"
+#, qt-format
+msgid "Receiving album covers for %1 albums..."
 msgstr ""
 
-msgid "Show a notification when I change the repeat/shuffle mode"
-msgstr "Ukazovat oznámení při změně režimu opakování/míchání"
+msgid "No match."
+msgstr "Žádná shoda."
 
-msgid "Show a notification when I change the volume"
-msgstr "Zobrazovat oznámení při změně hlasitosti"
+msgid "Cancelled."
+msgstr "Zrušeno."
 
-msgid "Show a notification when I pause playback"
-msgstr "Ukazovat oznámení při pozastavení přehrávání"
-
-msgid "Show a notification when I resume playback"
-msgstr "Zobrazit oznámení při pokračování v přehrávání"
-
-msgid "Show a popup fro&m the system tray"
+#, qt-format
+msgid "Received URL with %1 encrypted stream from Tidal. Strawberry does not currently support encrypted streams."
 msgstr ""
 
-msgid "Show a pretty OSD"
-msgstr "Ukazovat OSD"
-
-msgid "Show above status bar"
-msgstr "Ukazovat nad stavovým řádkem"
-
-msgid "Show album cover"
-msgstr "Ukazovat obal alba"
-
-msgid "Show album cover art in collection"
-msgstr "Ukazovat obaly alb v kolekci"
-
-msgid "Show all songs"
-msgstr "Ukázat všechny písně"
-
-msgid "Show all the songs"
+msgid "Received URL with encrypted stream from Tidal. Strawberry does not currently support encrypted streams."
 msgstr ""
 
-msgid "Show bars on the currently playing track"
+msgid "Missing Tidal client ID."
+msgstr "Chybějící ID klienta pro Tidal."
+
+msgid "Missing API token."
+msgstr "Chybějící API token."
+
+msgid "Missing username."
+msgstr "Chybějící uživatelské jméno."
+
+msgid "Missing password."
+msgstr "Chybějící heslo."
+
+msgid "Spotify Authentication"
+msgstr "Přihlášení ke Spotify"
+
+msgid "Redirect missing token code or state!"
+msgstr "Přesměrování chybí kód tokenu nebo stav!"
+
+msgid "Not authenticated with Spotify."
 msgstr ""
 
-msgid "Show dialog for errors"
+msgid "Data missing error"
 msgstr ""
 
-msgid "Show dividers"
-msgstr "Ukazovat oddělovače"
+msgid "Maximum number of login attempts reached."
+msgstr "Byl dosažen maximální počet pokusů o přihlášení."
 
-msgid "Show fullsize..."
-msgstr "Ukázat v plné velikosti..."
+msgid "Missing Qobuz app ID."
+msgstr "Chybějící ID aplikace Qobuz."
 
-msgid "Show in collection..."
-msgstr "Ukazovat ve sbírce..."
+msgid "Missing Qobuz username."
+msgstr "Chybějící Qobuz uživatelské jméno."
 
-msgid "Show in file browser"
-msgstr "Zobrazit v průzkumníku souborů"
+msgid "Missing Qobuz password."
+msgstr "Chybějící Qobuz heslo."
 
-msgid "Show in file browser..."
-msgstr "Ukázat v prohlížeči souborů..."
+msgid "Not authenticated with Qobuz."
+msgstr "Nejste přihlášeni ke službě Qobuz."
 
-msgid "Show in various artists"
-msgstr "Ukázat pod různými umělci"
+msgid "Missing Qobuz app ID or secret."
+msgstr "Chybějící ID aplikace, nebo tajemství služby Qobuz."
 
-msgid "Show love button"
-msgstr "Zobrazit tlačítko To Miluju!"
+msgid "Missing app id."
+msgstr "Chybějící ID aplikace."
 
 msgid "Show moodbar"
 msgstr "Zobrazit ukazatel nálady"
 
-msgid "Show only duplicates"
-msgstr "Ukázat pouze zdvojené"
+msgid "Moodbar style"
+msgstr "Styl Ukazatele nálady"
 
-msgid "Show only untagged"
-msgstr "Ukázat pouze neoznačené"
+msgid "Normal"
+msgstr "Normální"
 
-msgid "Show playing widget"
-msgstr "Zobrazit widget s přehráváním"
+msgid "Angry"
+msgstr "Naštvaný"
 
-msgid "Show scrobble button"
-msgstr "Zobrazit tlačítko pro doporučování hudby"
+msgid "Frozen"
+msgstr "Zamrznutý"
+
+msgid "Happy"
+msgstr "Šťastný"
+
+msgid "System colors"
+msgstr "Systémové barvy"
+
+msgid "Strawberry Music Player"
+msgstr "Přehrávač hudby Strawberry"
+
+msgid "F5"
+msgstr ""
+
+msgid "&Play"
+msgstr "&Přehrát"
+
+msgid "F6"
+msgstr ""
+
+msgid "&Stop"
+msgstr "&Zastavit"
+
+msgid "F7"
+msgstr ""
+
+msgid "&Next track"
+msgstr "&Další skladba"
+
+msgid "F8"
+msgstr ""
+
+msgid "&Quit"
+msgstr "&Ukončit"
+
+msgid "Ctrl+Q"
+msgstr ""
+
+msgid "Ctrl+Alt+V"
+msgstr ""
+
+msgid "&Clear playlist"
+msgstr "&Vyčistit seznam skladeb"
+
+msgid "Ctrl+K"
+msgstr ""
+
+msgid "Ctrl+E"
+msgstr ""
+
+msgid "Renumber tracks in this order..."
+msgstr "Přečíslovat skladby v tomto pořadí..."
+
+msgid "Set value for all selected tracks..."
+msgstr "Nastavit hodnotu pro vybrané skladby..."
+
+msgid "Edit tag..."
+msgstr "Upravit značku..."
+
+msgid "&Settings..."
+msgstr "&Nastavení"
+
+msgid "Ctrl+P"
+msgstr ""
+
+msgid "&About Strawberry"
+msgstr "&O Strawberry"
+
+msgid "F1"
+msgstr ""
+
+msgid "S&huffle playlist"
+msgstr "Z&amíchat seznam skladeb"
+
+msgid "Ctrl+H"
+msgstr ""
+
+msgid "&Add file..."
+msgstr "&Přidat soubor..."
+
+msgid "Ctrl+Shift+A"
+msgstr ""
+
+msgid "&Open file..."
+msgstr "&Otevřít soubor"
+
+msgid "Open audio &CD..."
+msgstr "Otevřít zvukové CD"
+
+msgid "&Cover Manager"
+msgstr "&Správce obalů"
+
+msgid "C&onsole"
+msgstr ""
+
+msgid "&Shuffle mode"
+msgstr "Režim míchání"
+
+msgid "&Repeat mode"
+msgstr "Režim opakování"
+
+msgid "Remove from playlist"
+msgstr "Odstranit ze seznamu skladeb"
+
+msgid "&Equalizer"
+msgstr "&Ekvalizér"
+
+msgid "&Transcode Music"
+msgstr "&Převést hudbu"
+
+msgid "Add &folder..."
+msgstr "Přidat &složku"
+
+msgid "&Jump to the currently playing track"
+msgstr "&Skočit na aktuálně přehrávanou skladbu"
+
+msgid "Ctrl+J"
+msgstr ""
+
+msgid "&New playlist"
+msgstr "&Nový seznam skladeb"
+
+msgid "Ctrl+N"
+msgstr ""
+
+msgid "Save &playlist..."
+msgstr "Uložit seznam skladeb..."
+
+msgid "Ctrl+S"
+msgstr ""
+
+msgid "&Load playlist..."
+msgstr "&Načíst seznam skladeb"
+
+msgid "Ctrl+Shift+O"
+msgstr ""
+
+msgid "&Save all playlists..."
+msgstr ""
+
+msgid "Go to next playlist tab"
+msgstr "Jít na další kartu seznamu skladeb"
+
+msgid "Go to previous playlist tab"
+msgstr "Jít na předchozí kartu seznamu skladeb"
+
+msgid "&Update changed collection folders"
+msgstr "&Aktualizovat změny ve složkách kolekce"
+
+msgid "About &Qt"
+msgstr "O &Qt"
+
+msgid "&Mute"
+msgstr "&Ztlumit"
+
+msgid "Ctrl+M"
+msgstr ""
+
+msgid "&Do a full collection rescan"
+msgstr "&Provést úplné nové prohledání sbírky"
+
+msgid "Stop collection scan"
+msgstr ""
+
+msgid "Complete tags automatically..."
+msgstr "Doplnit značky automaticky..."
+
+msgid "Ctrl+T"
+msgstr ""
+
+msgid "Toggle scrobbling"
+msgstr "Přepnout odesílání informací o přehrávání"
+
+msgid "Remove &duplicates from playlist"
+msgstr "Odstranit &duplikáty ze seznamu skladeb"
+
+msgid "Remove &unavailable tracks from playlist"
+msgstr "Odstranit &nedostupné skladby ze seznamu skladeb"
+
+msgid "Add file(s) to transcoder"
+msgstr "Přidat soubor(y) k překódování"
+
+msgid "Add file to transcoder"
+msgstr "Přidat soubor k překódování"
+
+msgid "Add stream..."
+msgstr "Přidat přenos..."
 
 msgid "Show sidebar"
 msgstr "Zobrazovat boční panel"
 
-msgid "Show song lyrics"
-msgstr "Zobrazovat texty skladeb"
+msgid "Import data from last.fm..."
+msgstr "Importovat data z last.fm..."
+
+msgid "MenuPopupToolButton"
+msgstr ""
+
+msgid "&Music"
+msgstr "Hudba"
+
+msgid "P&laylist"
+msgstr "Seznam sklad&eb"
+
+msgid "Help"
+msgstr "Pomoc"
+
+msgid "&Tools"
+msgstr "Nástroje"
+
+msgid "Collection advanced grouping"
+msgstr "Pokročilé seskupování sbírky"
+
+msgid "You can change the way the songs in the collection are organized."
+msgstr ""
+
+msgid "Group Collection by..."
+msgstr "Seskupovat v hudební sbírce podle..."
+
+msgid "Second level"
+msgstr "Druhá úroveň"
+
+msgid "Third level"
+msgstr "Třetí úroveň"
+
+msgid "Separate albums by grouping tag"
+msgstr ""
+
+msgid "Collection Filter"
+msgstr "Filtr Kolekce"
+
+msgid "Entire collection"
+msgstr "Celá sbírka"
+
+msgid "Added today"
+msgstr "Přidána dnes"
+
+msgid "Added this week"
+msgstr "Přidána tento týden"
+
+msgid "Added within three months"
+msgstr "Přidána během tří měsíců"
+
+msgid "Added this year"
+msgstr "Přidána tento rok"
+
+msgid "Added this month"
+msgstr "Přidána tento měsíc"
+
+msgid "Save current grouping"
+msgstr "Uložit nynější seskupení"
+
+msgid "Manage saved groupings"
+msgstr "Spravovat uložená seskupení"
+
+msgid "Enter search terms here"
+msgstr "Zde zadejte hledané výrazy"
+
+msgid "Form"
+msgstr "Formulář"
+
+msgid "Saved Grouping Manager"
+msgstr "Spravce uložených seskupení"
+
+msgid "Remove"
+msgstr "Odstranit"
+
+msgid "Ctrl+Up"
+msgstr ""
+
+msgid "File paths"
+msgstr "Souborové cesty"
+
+msgid "This can be changed later through the preferences"
+msgstr "Toto lze změnit později v nastavení"
+
+msgid "Remember my choice"
+msgstr "Zapamatovat si moji volbu"
+
+msgid "Stop after each track"
+msgstr "Zastavit po každé skladbě"
+
+msgid "Repeat"
+msgstr "Opakovat"
+
+msgid "Shuffle"
+msgstr "Zamíchat"
+
+msgid "Dynamic mode is on"
+msgstr "Dynamický režim je zapnutý"
+
+msgid "New tracks will be added automatically."
+msgstr "Nové skladby budou přidány automaticky."
+
+msgid "Expand"
+msgstr "Rozbalit"
+
+msgid "Repopulate"
+msgstr ""
+
+msgid "Turn off"
+msgstr ""
+
+msgid "QueueView"
+msgstr "Zobrazení fronty"
+
+msgid "Move down"
+msgstr "Posunout dolů"
+
+msgid "Move up"
+msgstr "Posunout nahoru"
+
+msgid "Ctrl+Down"
+msgstr "Ctrl+Šipka dolů"
+
+msgid "Search mode"
+msgstr ""
+
+msgid "Match every search term (AND)"
+msgstr ""
+
+msgid "Match one or more search terms (OR)"
+msgstr ""
+
+msgid "Include all songs"
+msgstr "Zahrnout všechny skladby"
+
+msgid "Sorting"
+msgstr ""
+
+msgid "Put songs in a random order"
+msgstr ""
+
+msgid "Sort songs by"
+msgstr ""
+
+msgid "Limits"
+msgstr "Omezení"
+
+msgid "Show all the songs"
+msgstr ""
+
+msgid "Only show the first"
+msgstr "Zobrazit pouze první"
+
+msgid " songs"
+msgstr "skladby"
+
+msgid "Preview"
+msgstr "Náhled"
+
+msgid "and"
+msgstr ""
+
+msgid "ago"
+msgstr ""
+
+msgid "New smart playlist"
+msgstr "Nový chytrý playlist"
+
+msgid "Edit smart playlist"
+msgstr "Upravit chytrý playlist"
+
+msgid "Use dynamic mode"
+msgstr ""
+
+msgid "In dynamic mode new tracks will be chosen and added to the playlist every time a song finishes."
+msgstr ""
+
+msgid "Export covers"
+msgstr "Uložit obaly"
+
+msgid "Output"
+msgstr "Výstup"
+
+msgid "Enter a filename for exported covers (no extension):"
+msgstr "Zadejte souborový název pro uložené obaly (bez přípony):"
+
+msgid "Export downloaded covers"
+msgstr "Uložit stažené obaly"
+
+msgid "Export embedded covers"
+msgstr "Uložit vložené obaly"
+
+msgid "Existing covers"
+msgstr "Stávající obaly"
+
+msgid "Do not overwrite"
+msgstr "Nepřepisovat"
+
+msgid "O&verwrite all"
+msgstr "Přeps&at vše"
+
+msgid "Overwrite s&maller ones only"
+msgstr "Přepsat pouze menší"
+
+msgid "Size"
+msgstr "Velikost"
+
+msgid "Scale size"
+msgstr "Velikost měřítka"
+
+msgid "Size:"
+msgstr "Velikost:"
+
+msgid "Pixel"
+msgstr ""
+
+msgid "Cover Manager"
+msgstr "Správce obalů"
+
+msgid "Fetch automatically"
+msgstr "Stáhnout automaticky"
+
+msgid "Load"
+msgstr "Načíst"
+
+msgid "Add to playlist"
+msgstr "Přidat do seznamu skladeb"
+
+msgid "View"
+msgstr "Pohled"
+
+msgid "Total albums:"
+msgstr "Alb celkem:"
+
+msgid "Without cover:"
+msgstr "Bez obalu:"
+
+msgid "0"
+msgstr ""
+
+msgid "Fetch Missing Covers"
+msgstr "Stáhnout chybějící obaly"
+
+msgid "Export Covers"
+msgstr "Uložit obaly"
+
+msgid "Fetch completed"
+msgstr "Stahování dokončeno"
+
+msgid "Load cover from URL"
+msgstr "Nahrát obal z adresy (URL)"
+
+msgid "Enter a URL to download a cover from the Internet:"
+msgstr "Zadejte adresu (URL) ke stažení obalu z internetu:"
+
+msgid "Settings"
+msgstr "Nastavení"
+
+msgid "Behavior"
+msgstr "Chování"
+
+msgid "Show system tray icon"
+msgstr "Zobrazovat ikonu v systémové oblasti"
+
+msgid "Keep running in the background when the window is closed"
+msgstr "Při zavření okna nechat běžet na pozadí"
 
 msgid "Show song progress on system tray icon"
 msgstr ""
@@ -3375,14 +2862,23 @@ msgstr ""
 msgid "Show song progress on taskbar"
 msgstr ""
 
-msgid "Show song technical data"
-msgstr "Zobrazovat technická data"
+msgid "Resume playback on start"
+msgstr "Obnovit přehrávání při spuštění"
 
-msgid "Show system tray icon"
-msgstr "Zobrazovat ikonu v systémové oblasti"
+msgid "Show playing widget"
+msgstr "Zobrazit widget s přehráváním"
+
+msgid "On startup"
+msgstr "Při startu"
+
+msgid "Remember from &last time"
+msgstr "&Obnovit předchozí stav"
 
 msgid "Show the main window"
 msgstr ""
+
+msgid "Hide the main window"
+msgstr "Skrýt hlavní okno"
 
 msgid "Show the main window maximized"
 msgstr ""
@@ -3390,901 +2886,172 @@ msgstr ""
 msgid "Show the main window minimized"
 msgstr ""
 
-msgid "Show/Hide"
-msgstr ""
-
-msgid "Shuffle"
-msgstr "Zamíchat"
-
-msgid "Shuffle albums"
-msgstr "Zamíchat alba"
-
-msgid "Shuffle all"
-msgstr "Zamíchat vše"
-
-msgid "Shuffle tracks in this album"
-msgstr "Zamíchat skladby na tomto albu"
-
-msgid "Sign out"
-msgstr "Odhlásit"
-
-msgid "Signing in..."
-msgstr "Přihlašuje se..."
-
-msgid "Size"
-msgstr "Velikost"
-
-msgid "Size:"
-msgstr "Velikost:"
-
-msgid "Ska"
-msgstr ""
-
-msgid "Skip Count"
-msgstr ""
-
-msgid "Skip backwards in playlist"
-msgstr "Předchozí skladba v seznamu skladeb"
-
-msgid "Skip count"
-msgstr "Počet přeskočení"
-
-msgid "Skip forwards in playlist"
-msgstr "Další skladba v seznamu skladeb"
-
-msgid "Skip leading articles (\"the\", \"a\", \"an\") when sorting artist names"
-msgstr ""
-
-msgid "Skip selected tracks"
-msgstr "Přeskočit vybrané skladby"
-
-msgid "Skip track"
-msgstr "Přeskočit skladbu"
-
-msgid "Small album cover"
-msgstr "Malý obal alba"
-
-msgid "Small sidebar"
-msgstr "Malý postranní panel"
-
-msgid "Smart playlist"
-msgstr ""
-
-msgid "Smart playlists"
-msgstr ""
-
-msgid "Soft"
-msgstr "Měkké"
-
-msgid "Soft Rock"
-msgstr "Soft rock"
-
-msgid "SomaFM"
-msgstr ""
-
-msgid "Song Lyrics"
-msgstr "Texty skladeb"
-
-msgid "Song fingerprinting and tracking"
-msgstr ""
-
-msgid "Song playcounts and ratings"
-msgstr ""
-
-msgid "Songs"
-msgstr "Skladby"
-
-msgid "Songs are scrobbled if they have valid metadata and are longer than 30 seconds, have been playing for at least half its duration or for 4 minutes (whichever occurs earlier)."
-msgstr ""
-
-msgid "Songs search limit"
-msgstr "Limit vyhledaných skladeb"
-
-msgid "Sonogram"
-msgstr ""
-
-msgid "Sorry"
-msgstr "Promiňte"
-
-msgid "Sort songs by"
-msgstr ""
-
-msgid "Sorting"
-msgstr ""
-
-msgid "Source"
-msgstr "Zdroj"
-
-msgid "Speex"
-msgstr ""
-
-msgid "Sponsoring Strawberry"
-msgstr ""
-
-msgid "Spotify"
-msgstr ""
-
-msgid "Spotify Authentication"
-msgstr "Přihlášení ke Spotify"
-
-msgid "Standard"
-msgstr "Obvyklý"
-
-msgid "Star playlist"
-msgstr ""
-
-msgid "Start the playlist currently playing"
-msgstr "Přehrát současnou skladbu v seznamu skladeb"
-
-msgid "Start transcoding"
-msgstr "Převést"
-
-#, qt-format
-msgid "Starting %1"
-msgstr "Spouští se %1"
-
-msgid "Stop"
-msgstr ""
-
-msgid "Stop after each track"
-msgstr "Zastavit po každé skladbě"
-
-msgid "Stop after every track"
-msgstr "Zastavit po každé skladbě"
-
-msgid "Stop after this track"
-msgstr "Zastavit po této skladbě"
-
-msgid "Stop collection scan"
-msgstr ""
-
-msgid "Stop playback"
-msgstr "Zastavit přehrávání"
-
-msgid "Stop playback after current track"
-msgstr "Zastavit přehrávání po současné skladbě"
-
-msgid "Stop playing after current track"
-msgstr ""
-
-#, qt-format
-msgid "Stop playing after track: %1"
-msgstr "Zastavit přehrávání po skladbě: %1"
-
-msgid "Stopped"
-msgstr "Zastaveno"
-
-msgid "Strawberry Error"
-msgstr "Chyba Clemetine"
-
-msgid "Strawberry Music Player"
-msgstr "Přehrávač hudby Strawberry"
-
-msgid "Strawberry Red"
-msgstr "Jahodově Červená"
-
-msgid "Strawberry can automatically convert the music you copy to this device into a format that it can play."
-msgstr "Strawberry může automaticky převést hudbu kopírovanou do tohoto zařízení do formátu, který dokáže přehrát."
-
-msgid "Strawberry can show a message when the track changes."
-msgstr "Strawberry může při změně skladby ukázat zprávu."
-
-msgid "Strawberry is a music player and music collection organizer."
-msgstr "Strawberry je hudební přehrávač a organizér hudební kolekce."
-
-#, qt-format
-msgid "Strawberry is free and open source software. If you like Strawberry, please consider sponsoring the project. For more information about sponsorship see our website %1"
-msgstr ""
-
-#, qt-format
-msgid "Strawberry is free software released under GPL. The source code is available on %1"
-msgstr "Strawberry je svobodný software vydávaný pod licencí GPL. Zdrojový kód je dostupný na %1"
-
-msgid "Strawberry is running as a Snap"
-msgstr ""
-
-msgid "Strawberry is slower, and has restrictions when running as a Snap. Accessing the root filesystem (/) will not work. There also might be other restrictions such as accessing certain devices or network shares."
-msgstr ""
-
-msgid "Strawberry running under Rosetta"
-msgstr ""
-
-msgid "Strawberry was unable to find results for this file"
-msgstr "Strawberry se pro tento soubor výsledky najít nepodařilo"
-
-msgid "Stream"
-msgstr "Proud"
-
-msgid "Stream URL method"
-msgstr "Metoda URL streamu"
-
-msgid "Streaming"
-msgstr "Streamování"
-
-msgid "Streaming Search View"
-msgstr ""
-
-msgid "Streaming Tabs View"
-msgstr ""
-
-msgid "Stretch image to fill playlist"
-msgstr "Roztáhnout obrázek aby vyplnil seznam skladeb"
-
-msgid "Strip \"remastered\" and similar from album and title"
-msgstr ""
-
-msgid "Style"
-msgstr ""
-
-msgid "Submit scrobbles every"
-msgstr "Odeslat přehrané skladby každých"
-
-msgid "Subsonic"
-msgstr ""
-
-msgid "Subsonic server URL is invalid."
-msgstr "Adresa serveru Subsonic není správná."
-
-msgid "Success!"
-msgstr "Úspěch"
-
-#, qt-format
-msgid "Successfully written %1"
-msgstr "%1 úspěšně zapsán"
-
-msgid "Suggested tags"
-msgstr "Navrhované značky"
-
-msgid "Summary"
-msgstr "Shrnutí"
-
-#, qt-format
-msgid "Super high (%1 fps)"
-msgstr "Nadmíru vysoké (%1 fps)"
-
-msgid "Supported formats"
-msgstr "Podporované formáty"
-
-msgid "System colors"
-msgstr "Systémové barvy"
-
-msgid "System highlight color"
-msgstr ""
-
-msgid "Tabbar colors"
-msgstr ""
-
-msgid "Tabbar large mode"
-msgstr ""
-
-msgid "Tabbar small mode"
-msgstr ""
-
-msgid "Tabs on top"
-msgstr "Karty nahoře"
-
-msgid "Tag fetcher"
-msgstr "Stahování značek"
-
-msgid "Tags"
-msgstr ""
-
-msgid "Target Level"
-msgstr ""
-
-msgid "Target bitrate"
-msgstr "Cílový datový tok"
-
-msgid "Technical Data"
-msgstr "Technická data"
-
-msgid "Techno"
-msgstr ""
-
-msgid "Test"
-msgstr ""
-
-msgid "Test failed!"
-msgstr "Test selhal!"
-
-msgid "Test successful!"
-msgstr "Test uspěl!"
-
-msgid "Text options"
-msgstr "Volby pro text"
-
-msgid "Thanks to"
-msgstr "Díky"
-
-msgid "Thanks to all the other Amarok and Clementine contributors."
-msgstr "Díky všem ostatním přispěvatelům Amaroku a Clementine."
-
-#, qt-format
-msgid "The \"%1\" command could not be started."
-msgstr "Příkaz \"%1\" se nepodařilo provést."
-
-msgid "The album cover of the currently playing song"
-msgstr "Obal alba nyní přehrávané písně"
-
-msgid "The following files will be deleted from disk:"
-msgstr ""
-
-msgid "The second value must be greater than the first one!"
-msgstr ""
-
-msgid "The site you requested does not exist!"
-msgstr "Požadovaná stránka neexistuje!"
-
-msgid "The site you requested is not an image!"
-msgstr "Požadovaná stránka není obrázek!"
-
-msgid "The streaming collection is empty!"
-msgstr ""
-
-msgid "The version of Strawberry you've just updated to requires a full collection rescan because of the new features listed below:"
-msgstr "Verze Strawberry, na kterou jste právě povýšili, vyžaduje z důvodu nových vlastností vypsaných níže úplné nové prohledání sbírky:"
-
-msgid "There are other songs in this album"
-msgstr "Na tomto albu jsou další písně"
-
-msgid "There were problems copying some songs.  The following files could not be copied:"
-msgstr "Při kopírování některých písní nastaly potíže. Nepodařilo se zkopírovat následující soubory:"
-
-msgid "There were problems deleting some songs.  The following files could not be deleted:"
-msgstr "Při mazání některých písní nastaly potíže. Nepodařilo se smazat následující soubory:"
-
-msgid "These files will be deleted from the device, are you sure you want to continue?"
-msgstr "Tyto soubory budou smazány ze zařízení. Opravdu chcete pokračovat?"
-
-msgid "These folders will be scanned for music to make up your collection"
-msgstr "Strawberry bude novou hudbu pro vaši sbírku hledat v těchto složkách"
-
-msgid "These settings are used in the \"Transcode Music\" dialog, and when converting music before copying it to a device."
-msgstr "Tato nastavení se používají v dialogu pro překódování hudby a když je hudba před kopírováním do zařízení převáděna."
-
-msgid "Third Level"
-msgstr "Třetí úroveň"
-
-msgid "Third level"
-msgstr "Třetí úroveň"
-
-msgid "This can be changed later through the preferences"
-msgstr "Toto lze změnit později v nastavení"
-
-msgid "This device must be connected and opened before Strawberry can see what file formats it supports."
-msgstr "Pro zjištění podporovaných formátů souborů je zařízení nejdřív nutno připojit a otevřít."
-
-msgid "This device supports the following file formats:"
-msgstr "Toto zařízení podporuje následující formáty souborů:"
-
-msgid "This device will not work properly"
-msgstr "Toto zařízení nebude pracovat správně"
-
-msgid "This is an MTP device, but you compiled Strawberry without libmtp support."
-msgstr "Toto je zařízení MTP, ale Strawberry byl sestaven bez podpory pro libmtp."
-
-msgid "This is an iPod, but you compiled Strawberry without libgpod support."
-msgstr "Toto je zařízení iPod, ale Strawberry byl sestaven bez podpory pro libgpod."
-
-msgid "This is the first time you have connected this device.  Strawberry will now scan the device to find music files - this may take some time."
-msgstr "Toto zařízení bylo připojeno poprvé. Strawberry na něm nyní hledá hudební soubory - může to chvíli trvat."
-
-msgid "This option can be changed in the \"Behavior\" preferences"
-msgstr "Tuto volbu lze změnit v nastavení Chování"
-
-#, qt-format
-msgid "This type of device is not supported: %1"
-msgstr "Tento typ zařízení není podporován: %1"
-
-msgid "Tidal"
-msgstr ""
-
-msgid "Tidal support is not official and requires a API token from a registered application to work. We can't help you getting these."
-msgstr "Podpora Tidal není oficiální a vyžaduje API token z registrované aplikace. S tímto vám nemůžeme pomoct."
-
-msgid "Time step"
-msgstr "Časový krok"
-
-msgid "Title"
-msgstr "Název"
-
-msgid "Today"
-msgstr "Dnes"
-
-msgid "Toggle Pretty OSD"
-msgstr ""
-
-msgid "Toggle queue status"
-msgstr "Přepnout stav řady"
-
-msgid "Toggle scrobbling"
-msgstr "Přepnout odesílání informací o přehrávání"
-
-msgid "Toggle skip status"
-msgstr "Přepnout stav přeskakování"
-
-msgid "Toggle visibility for the pretty on-screen-display"
-msgstr "Přepnout viditelnost hezkých oznámení na obrazovce (OSD)"
-
-msgid "Tomorrow"
-msgstr "Zítra"
-
-msgid "Too many songs selected."
-msgstr "Je vybráno příliš mnoho skladeb."
-
-msgid "Total albums:"
-msgstr "Alb celkem:"
-
-msgid "Total bytes transferred"
-msgstr "Celkem přeneseno bajtů"
-
-msgid "Total network requests made"
-msgstr "Celkem uskutečněno síťových požadavků"
-
-msgid "Track"
-msgstr "Skladba"
-
-msgid "Transcode Music"
-msgstr "Převést hudbu"
-
-msgid "Transcoder Log"
-msgstr "Záznam o převodu"
-
-msgid "Transcoding"
-msgstr "Překódování"
-
-#, qt-format
-msgid "Transcoding %1 files using %2 threads"
-msgstr "Převádí se %1 souborů s %2 procesy"
-
-msgid "Transcoding options"
-msgstr "Volby překódování"
-
-msgid "Turbine"
-msgstr ""
-
-msgid "Turn off"
-msgstr ""
-
-msgid "Type"
-msgstr ""
-
-msgid "URI"
-msgstr ""
-
-msgid "URL(s)"
-msgstr "Adresa (URL)"
-
-msgid "UUID"
-msgstr ""
-
-msgid "Ultra wide band (UWB)"
-msgstr "Ultra široké pásmo"
-
-#, qt-format
-msgid "Unable to execute SQL query: %1"
-msgstr ""
-
-#, qt-format
-msgid "Unable to execute collection SQL query: %1"
-msgstr ""
-
-#, qt-format
-msgid "Unable to scrobble %1 - %2 because of error: %3"
-msgstr ""
-
-msgid "Undo"
-msgstr ""
-
-msgid "Uninstall the snap with:"
-msgstr ""
-
-msgid "Unknown"
-msgstr "Neznámý"
-
-msgid "Unknown error"
-msgstr "Neznámá chyba"
-
-msgid "Unknown file extension for playlist."
-msgstr ""
-
-#, qt-format
-msgid "Unknown filetype: %1"
-msgstr ""
-
-msgid "Unknown playlist extension"
-msgstr ""
-
-msgid "Unset cover"
-msgstr "Odebrat obal"
-
-msgid "Unskip selected tracks"
-msgstr "Zrušit přeskočení vybraných skladeb"
-
-msgid "Unskip track"
-msgstr "Zrušit přeskočení skladby"
-
-msgid "Update the collection when Strawberry starts"
-msgstr "Při spuštění Strawberry obnovit hudební sbírku"
-
-#, qt-format
-msgid "Updating %1"
-msgstr "Obnovuje se %1"
-
-#, qt-format
-msgid "Updating %1 database."
-msgstr ""
-
-#, qt-format
-msgid "Updating %1%..."
-msgstr "Obnovuje se %1%..."
-
-msgid "Updating collection"
-msgstr "Obnovuje se hudební sbírka"
-
-msgid "Upmix / downmix to"
-msgstr ""
-
-msgid "Upper Left"
-msgstr "Vlevo nahoře"
-
-msgid "Upper Right"
-msgstr "Vpravo nahoře"
-
-msgid "Usage"
-msgstr "Zacházení"
-
-msgid "Use Gnome (GSD) shortcuts when available"
-msgstr ""
-
-msgid "Use HTTP/2 when possible"
-msgstr ""
-
-msgid "Use KDE (KGlobalAccel) shortcuts when available"
-msgstr ""
-
-msgid "Use MATE shortcuts when available"
-msgstr ""
-
-msgid "Use OAuth"
-msgstr "Použijte OAuth"
-
-msgid "Use Qobuz settings to authenticate."
-msgstr ""
-
-msgid "Use Replay Gain metadata if it is available"
-msgstr "Používat metadata pro zesílení přehrávaných skladeb, jsou-li dostupná"
-
-msgid "Use Spotify settings to authenticate."
-msgstr ""
-
-msgid "Use Tidal settings to authenticate."
-msgstr "Použijte nastavení Tidal pro přihlášení."
-
-msgid "Use X11 shortcuts when available"
-msgstr ""
-
-msgid "Use a custom message for notifications"
-msgstr "Použít vlastní zprávu pro oznámení"
-
-msgid "Use alternating row colors"
-msgstr ""
-
-msgid "Use authentication"
-msgstr "Použít ověření"
-
-msgid "Use bitrate management engine"
-msgstr "Použít stroj na správu datového toku"
-
-msgid "Use custom color"
-msgstr "Použít vlastní barvy"
-
-msgid "Use dynamic mode"
-msgstr ""
-
-msgid "Use gradient background"
-msgstr "Použít gradientu"
-
-msgid "Use proxy settings for streaming"
-msgstr ""
-
-msgid "Use strict SSL mode"
-msgstr ""
-
-msgid "Use system theme icons"
-msgstr "Použít ikony ze systémového motivu"
-
-msgid "Use temporal noise shaping"
-msgstr "Použít časové tvarování šumu"
+msgid "Language"
+msgstr "Jazyk"
 
 msgid "Use the system default"
 msgstr "Použít výchozí nastavení systému"
 
-msgid "Use various artists for compilation albums"
-msgstr ""
-
-msgid "Used"
-msgstr "Použito"
-
-msgid "User interface"
-msgstr "Uživatelské rozhraní"
-
-msgid "User token:"
-msgstr "Uživatelský token:"
-
-msgid "Username"
-msgstr "Uživatelské jméno"
-
-#, qt-format
-msgid "Using X11 shortcuts on %1 is not recommended and can cause keyboard to become unresponsive!"
-msgstr "Použití klávesových zkratek X11 na %1 není doporučeno a může zapříčinit nereagující klávesnici!"
+msgid "You will need to restart Strawberry if you change the language."
+msgstr "Pokud změníte jazyk, budete muset Strawberry spustit znovu."
 
 msgid "Using the menu to add a song will..."
 msgstr "Použití nabídky pro přidání písně..."
 
-msgid "Variable bit rate"
-msgstr "Proměnlivý datový tok"
+msgid "Never start playing"
+msgstr "Nikdy nezačít přehrávání"
 
-msgid "Various artists"
-msgstr "Různí umělci"
+msgid "Play if there is nothing already playing"
+msgstr "Hrát, pokud se již něco nepřehrává"
 
-msgid "Verify server certificate"
-msgstr "Ověřovat certifikát serveru"
+msgid "Always start playing"
+msgstr "Vždy začít přehrávat"
 
-#, qt-format
-msgid "Version %1"
-msgstr "Verze %1"
+msgid "Pressing \"Previous\" in player will..."
+msgstr "Po stisknutí Předchozí v přehrávači nastane..."
 
-msgid "View"
-msgstr "Pohled"
+msgid "Jump to previous song right away"
+msgstr "Skočit ihned na předchozí píseň"
 
-msgid "Voice activity detection"
-msgstr "Zjištění hlasové činnosti"
+msgid "Restart song, then jump to previous if pressed again"
+msgstr "Spustit píseň znovu, potom, v případě že je tlačítko opět stisknuto, skočit na předchozí"
 
-#, qt-format
-msgid "Volume %1%"
-msgstr "Hlasitost %1 %"
+msgid "Double clicking a song will..."
+msgstr "Dvojité klepnutí na píseň..."
+
+msgid "Append to the playlist"
+msgstr "Přidat do seznamu skladeb"
+
+msgid "Replace the playlist"
+msgstr "Nahradit seznam skladeb"
+
+msgid "Add to the queue"
+msgstr "Přidat do řady"
+
+msgid "Double clicking a song in the playlist will..."
+msgstr "Dvojité klepnutí na píseň v seznamu skladeb způsobí..."
+
+msgid "Change the currently playing song"
+msgstr "Změnit nyní přehrávanou píseň"
+
+msgid "Seeking using a keyboard shortcut or mouse wheel"
+msgstr "Posunování pomocí klávesové zkratky nebo kolečka myši"
+
+msgid "Time step"
+msgstr "Časový krok"
+
+msgid " s"
+msgstr ""
 
 msgid "Volume Increment"
 msgstr ""
 
-msgid "Vorbis"
+msgid "These folders will be scanned for music to make up your collection"
+msgstr "Strawberry bude novou hudbu pro vaši sbírku hledat v těchto složkách"
+
+msgid "Add new folder..."
+msgstr "Přidat novou složku..."
+
+msgid "Remove folder"
+msgstr "Odstranit složku"
+
+msgid "Automatic updating"
+msgstr "Automatická aktualizace"
+
+msgid "Update the collection when Strawberry starts"
+msgstr "Při spuštění Strawberry obnovit hudební sbírku"
+
+msgid "Monitor the collection for changes"
+msgstr "Sledovat změny ve sbírce"
+
+msgid "Song fingerprinting and tracking"
 msgstr ""
 
-msgid "Warn me when closing a playlist tab"
-msgstr "Varovat při zavření karty se seznamem skladeb"
+msgid "Mark disappeared songs unavailable"
+msgstr "Označit zmizelé skladby jako nedostupné"
 
-msgid "Warning: Play counts and last played from last.fm will completely replace the same data for the matched songs. Play counts will replace the data based on artist and song title for the same albums! Please backup your database before you start."
+msgid "Perform song EBU R 128 analysis (required for EBU R 128 loudness normalization)"
 msgstr ""
 
-msgid "WavPack"
+msgid "Expire unavailable songs after"
 msgstr ""
 
-msgid "WaveRubber"
+msgid "days"
 msgstr ""
 
-msgid "Weeks"
-msgstr ""
+msgid "Preferred album art filenames (comma separated)"
+msgstr "Upřednostňované názvy souborů s obaly alb (oddělené čárkou)"
 
 msgid "When looking for album art Strawberry will first look for picture files that contain one of these words.\n"
 "If there are no matches then it will use the largest image in the directory."
 msgstr "Při hledání obalu alba se Strawberry nejprve podívá po obrázkových souborech, jež obsahují jedno z těchto slov.\n"
 "Pokud nenajde žádné, které by se shodovaly, potom použije největší obrázek v adresáři."
 
-msgid "When saving a playlist, file paths should be"
-msgstr "Při ukládání seznamu skladeb mají být cesty k souborům"
+msgid "Automatically open single categories in the collection tree"
+msgstr "Automaticky otevřít jednotlivé skupiny ve stromu sbírky"
 
-msgid "Wide band (WB)"
-msgstr "Široké pásmo"
+msgid "Show dividers"
+msgstr "Ukazovat oddělovače"
 
-msgid "Without cover:"
-msgstr "Bez obalu:"
+msgid "Show album cover art in collection"
+msgstr "Ukazovat obaly alb v kolekci"
 
-msgid "Work in offline mode (Only cache scrobbles)"
-msgstr "Pracovat v režimu offline (pouze ukládat přehrané skladby)"
-
-msgid "Would you like to move the other songs on this album to Various Artists as well?"
+msgid "Use various artists for compilation albums"
 msgstr ""
 
-msgid "Would you like to run a full rescan right now?"
-msgstr "Chcete spustit toto úplné nové prohledání hned teď?"
-
-msgid "Write all playcounts and ratings to files"
+msgid "Skip leading articles (\"the\", \"a\", \"an\") when sorting artist names"
 msgstr ""
 
-msgid "Write metadata when saving playlists"
-msgstr "Zapisovat metadata při ukládání seznamů skladeb"
+msgid "Album cover pixmap cache"
+msgstr "Mezipaměť obalů alb"
 
-msgid "Writing database failed."
+msgid "Enable Disk Cache"
+msgstr "Povolit mezipaměť na disku"
+
+msgid "Disk Cache Size"
+msgstr "Velikost mezipaměti na disku"
+
+msgid "Current disk cache in use:"
+msgstr "Využití mezipaměti na disku:"
+
+msgid "Clear Disk Cache"
+msgstr "Vyčistit mezipaměť na disku"
+
+msgid "Song playcounts and ratings"
 msgstr ""
 
-#, qt-format
-msgid "Writing database failed: %1"
+msgid "Save playcounts to song tags when possible"
 msgstr ""
 
-msgid "Year"
-msgstr "Rok"
-
-msgid "Year - Album"
-msgstr "Rok - Album"
-
-msgid "Year - Album - Disc"
-msgstr "Rok - Album - Disk"
-
-msgid "Years"
+msgid "Save ratings to song tags when possible"
 msgstr ""
 
-msgid "Yes"
+msgid "Overwrite database playcount when songs are re-read from disk"
 msgstr ""
 
-msgid "Yesterday"
-msgstr "Včera"
-
-#, qt-format
-msgid "You are about to remove %1 playlists from your favorites, are you sure?"
-msgstr "Chystáte se odstranit %1 seznamů skladeb z vašich oblíbených. Jste si jisti?"
-
-msgid "You are about to remove a playlist which is not part of your favorite playlists: the playlist will be deleted (this action cannot be undone). \n"
-"Are you sure you want to continue?"
-msgstr "Chystáte se odstranit seznam skladeb, který není součástí vašich oblíbených seznamů skladeb: Seznam skladeb bude nenávratně odstraněn (tento krok nelze vrátit zpět). \n"
-"Opravdu chcete pokračovat?"
-
-msgid "You are not signed in."
-msgstr "Nejste přihlášen."
-
-#, qt-format
-msgid "You are running Strawberry under Rosetta. Running Strawberry under Rosetta is unsupported and known to have issues. You should download Strawberry for the correct CPU architecture from %1"
+msgid "Overwrite database rating when songs are re-read from disk"
 msgstr ""
 
-#, qt-format
-msgid "You are signed in as %1."
-msgstr "Jste přihlášen jako %1."
-
-msgid "You are signed in."
-msgstr "Jste přihlášen."
-
-msgid "You can change the way the songs in the collection are organized."
+msgid "Save playcounts and ratings to files now"
 msgstr ""
 
-#, qt-format
-msgid "You can sponsor the author on %1. You can also make a one-time payment through %2."
-msgstr "Můžete podpořit autora na %1. Také můžete jednorázově přispět pomocí %2."
+msgid "Enable delete files in the right click context menu"
+msgstr "Povolit mazání souborů v kontextové nabídce pravého kliknutí"
 
-msgid "You need GStreamer for this URL."
-msgstr "Pro tento odkaz je potřeba GStreamer."
-
-msgid "You need to launch System Preferences and allow Strawberry to \"<span style=\"font-style:italic\">control your computer</span>\" to use global shortcuts in Strawberry."
-msgstr "Aby bylo možné v Strawberry používat globální klávesové zkratky, je nutné spustit Nastavení Systému a povolit Strawberry \"<span style=\"font-style:italic\">ovládat váš počítač</span>\"."
-
-#, qt-format
-msgid "You should have received a copy of the GNU General Public License along with this program.  If not, see %1"
-msgstr "S tímto programem jste měli obdržet kopii licence GNU GPL. Pokud ne, navštivte %1"
-
-msgid "You will need to restart Strawberry if you change the language."
-msgstr "Pokud změníte jazyk, budete muset Strawberry spustit znovu."
-
-msgid "Your collection is empty!"
-msgstr "Vaše hudební sbírka je prázdná!"
-
-msgid "Z-A"
+msgid "Backend"
 msgstr ""
 
-msgid "Zero"
-msgstr "Vynulovat"
+msgid "Audio output"
+msgstr "Zvukový výstup"
 
-#, c-format, qt-plural-format
-msgid "add %n songs"
-msgstr "přidat %n skladeb"
-
-msgid "after"
+msgid "Engine"
 msgstr ""
 
-msgid "ago"
-msgstr ""
-
-msgid "albums"
-msgstr "alba"
-
-msgid "and"
-msgstr ""
-
-msgid "artist"
-msgstr "umělec"
-
-msgid "artists"
-msgstr "umělci"
-
-msgid "automatic"
-msgstr "automatický"
-
-msgid "before"
-msgstr ""
-
-msgid "between"
-msgstr ""
-
-msgid "biggest first"
-msgstr ""
-
-msgid "channels"
-msgstr ""
-
-msgid "contains"
-msgstr ""
-
-msgid "days"
-msgstr ""
-
-msgid "disabled"
-msgstr "zakázáno"
-
-#, qt-format
-msgid "disc %1"
-msgstr "disk %1"
-
-msgid "does not contain"
-msgstr ""
-
-msgid "empty"
-msgstr ""
-
-msgid "ends with"
-msgstr ""
-
-msgid "equals"
-msgstr ""
-
-msgid "greater than"
+msgid "ALSA plugin:"
 msgstr ""
 
 msgid "hw"
 msgstr "hardware"
-
-msgid "in the last"
-msgstr ""
-
-msgid "kbps"
-msgstr "kb/s"
-
-msgid "less than"
-msgstr ""
-
-msgid "loading..."
-msgstr ""
-
-msgid "longest first"
-msgstr ""
-
-#, c-format, qt-plural-format
-msgid "move %n songs"
-msgstr "Přesunout %n skladeb"
-
-msgid "ms"
-msgstr ""
-
-msgid "newest first"
-msgstr ""
-
-msgid "not empty"
-msgstr ""
-
-msgid "not equals"
-msgstr ""
-
-msgid "not in the last"
-msgstr ""
-
-msgid "not on"
-msgstr ""
-
-msgid "oldest first"
-msgstr ""
-
-msgid "on"
-msgstr ""
-
-msgid "options"
-msgstr "volby"
 
 msgid "p&lughw"
 msgstr ""
@@ -4292,42 +3059,1278 @@ msgstr ""
 msgid "pcm"
 msgstr ""
 
-msgid "rating"
+msgid "Exclusive mode (Experimental)"
 msgstr ""
 
-#, c-format, qt-plural-format
-msgid "remove %n songs"
-msgstr "odstranit %n skladeb"
-
-#, qt-format
-msgid "searches for all artists containing the word %1. "
+msgid "Options"
 msgstr ""
 
-msgid "shortest first"
+msgid "Enable volume control"
+msgstr "Povolit ovládání hlasitosti"
+
+msgid "Upmix / downmix to"
 msgstr ""
 
-msgid "shuffle songs"
-msgstr "Zamíchat skladby"
-
-msgid "smallest first"
+msgid "channels"
 msgstr ""
+
+msgid "Improve headphone listening of stereo audio records (bs2b)"
+msgstr ""
+
+msgid "Enable HTTP/2 for streaming"
+msgstr ""
+
+msgid "Use strict SSL mode"
+msgstr ""
+
+msgid "Buffer"
+msgstr "Mezipaměť"
+
+msgid " ms"
+msgstr ""
+
+msgid "Buffer duration"
+msgstr "Délka vyrovnávací paměti"
+
+msgid "High watermark"
+msgstr ""
+
+msgid "Low watermark"
+msgstr ""
+
+msgid "Defaults"
+msgstr "Výchozí nastavení"
+
+msgid "Audio normalization"
+msgstr ""
+
+msgid "No audio normalization"
+msgstr ""
+
+msgid "Replay Gain"
+msgstr "Zesílení přehrávaných skladeb"
+
+msgid "Use Replay Gain metadata if it is available"
+msgstr "Používat metadata pro zesílení přehrávaných skladeb, jsou-li dostupná"
+
+msgid "Replay Gain mode"
+msgstr "Režim zesílení přehrávaných skladeb"
+
+msgid "Radio (equal loudness for all tracks)"
+msgstr "Rádio (shodná hlasitost pro všechny skladby)"
+
+msgid "Album (ideal loudness for all tracks)"
+msgstr "Album (ideální hlasitost pro všechny skladby)"
+
+msgid "Apply compression to prevent clipping"
+msgstr "Použít kompresi, aby se zabránilo ořezávání zvuku (clippingu)"
+
+msgid "Fallback-gain"
+msgstr ""
+
+msgid "EBU R 128 Loudness Normalization"
+msgstr ""
+
+msgid "Perform track loudness normalization"
+msgstr ""
+
+msgid "Target Level"
+msgstr ""
+
+msgid "Fading"
+msgstr "Slábnutí"
+
+msgid "Fade out when stopping a track"
+msgstr "Zeslabit při zastavování skladby"
+
+msgid "Cross-fade when changing tracks manually"
+msgstr "Prolínání při ruční změně skladby"
+
+msgid "Cross-fade when changing tracks automatically"
+msgstr "Prolínání při automatické změně skladby"
+
+msgid "Except between tracks on the same album or in the same CUE sheet"
+msgstr "Kromě mezistop na tom samém albu nebo v tom samém listu CUE"
+
+msgid "Fading duration"
+msgstr "Doba slábnutí"
+
+msgid "Fade out on pause / fade in on resume"
+msgstr "Zeslabení při pozastavení/Zesílení při obnovení přehrávání"
+
+msgid "Add song artist tag"
+msgstr "Přidat značku umělec písně"
+
+msgid "Add song album tag"
+msgstr "Přidat značku album písně"
+
+msgid "Add song title tag"
+msgstr "Přidat značku název písně"
+
+msgid "Add song albumartist tag"
+msgstr "Přidat značku umělec alba písně"
+
+msgid "Add song year tag"
+msgstr "Přidat značku rok písně"
+
+msgid "Add song composer tag"
+msgstr "Přidat značku skladatel písně"
+
+msgid "Add song performer tag"
+msgstr "Přidat značku účinkující písně"
+
+msgid "Add song grouping tag"
+msgstr "Přidat značku seskupení písně"
+
+msgid "Add song disc tag"
+msgstr "Přidat značku disk písně"
+
+msgid "Add song track tag"
+msgstr "Přidat značku pořadí písně"
+
+msgid "Add song genre tag"
+msgstr "Přidat značku žánr písně"
+
+msgid "Add song length tag"
+msgstr "Přidat značku délka písně"
+
+msgid "Add song play count"
+msgstr "Přidat počet přehrání písně"
+
+msgid "Add song skip count"
+msgstr "Přidat počet přeskočení písně"
+
+msgid "Add a new line if supported by the notification type"
+msgstr "Přidat nový řádek, je-li to podporováno typem oznámení"
+
+msgid "%filename%"
+msgstr ""
+
+msgid "Add song filename"
+msgstr "Přidat název souboru písně"
+
+msgid "%url%"
+msgstr "%adresa%"
+
+msgid "Add song URL"
+msgstr "Přidat URL skladby"
+
+msgid "%rating%"
+msgstr "%hodnocení%"
+
+msgid "Add song rating"
+msgstr "Přidat hodnocení písně"
+
+msgid "%originalyear%"
+msgstr ""
+
+msgid "Add song original year tag"
+msgstr ""
+
+msgid "Custom text settings"
+msgstr "Vlastní nastavení textu"
+
+msgid "Summary"
+msgstr "Shrnutí"
+
+msgid "Enable Items"
+msgstr "Povolit Položky"
+
+msgid "Technical Data"
+msgstr "Technická data"
+
+msgid "Song Lyrics"
+msgstr "Texty skladeb"
+
+msgid "Automatically search for album cover"
+msgstr "Automaticky vyhledat obal alba"
+
+msgid "Font for headline"
+msgstr "Font nadpisu"
+
+msgid "Font"
+msgstr ""
+
+msgid "Font size"
+msgstr "Velikost fontu"
+
+msgid " pt"
+msgstr " bodů"
+
+msgid "Font for data and lyrics"
+msgstr "Font pro data a texty skladeb"
+
+msgid "Use alternating row colors"
+msgstr ""
+
+msgid "Show bars on the currently playing track"
+msgstr ""
+
+msgid "Show a glowing animation on the currently playing track"
+msgstr ""
+
+msgid "Continue to the next item in the playlist if a song is unavailable"
+msgstr "Pokračovat na další položku když skladba v seznamu není dostupná"
+
+msgid "Grey out unavailable songs in playlists on playback"
+msgstr "Zšednout nedostupné skladby v seznamu skladeb při jejich přehrání"
+
+msgid "Grey out unavailable songs in playlists on startup"
+msgstr "Zšednout nedostupné skladby v seznamu skladeb při startu"
+
+msgid "Automatically select current playing track"
+msgstr "Automaticky vybrat aktuálně přehrávanou skladbu"
+
+msgid "Enable playlist toolbar"
+msgstr ""
+
+msgid "Enable playlist clear button"
+msgstr "Zobrazit tlačítko pro vyčištění seznamu skladeb"
+
+msgid "Automatically sort playlist when inserting songs"
+msgstr "Automaticky seřadit seznam skladeb po vložení nových skladeb"
+
+msgid "When saving a playlist, file paths should be"
+msgstr "Při ukládání seznamu skladeb mají být cesty k souborům"
+
+msgid "A&utomatic"
+msgstr "A&utomaticky"
+
+msgid "Absolu&te"
+msgstr "Absolut&ní"
+
+msgid "Re&lative"
+msgstr "Re&lativní"
+
+msgid "As&k when saving"
+msgstr "Ze&ptat se při ukládání"
+
+msgid "Metadata"
+msgstr ""
+
+msgid "If activated, clicking a selected song in the playlist view will let you edit the tag value directly"
+msgstr "Pokud je zapnuto, po klepnutí na vybranou píseň v seznamu skladeb můžete upravit hodnotu značky přímo"
+
+msgid "Enable song metadata inline edition with click"
+msgstr "Povolit upravování popisných dat písně klepnutím v řádku"
+
+msgid "Write metadata when saving playlists"
+msgstr "Zapisovat metadata při ukládání seznamů skladeb"
+
+msgid "Scrobbler"
+msgstr "doporučování hudby"
+
+msgid "Enable"
+msgstr "Povolit"
+
+msgid "Songs are scrobbled if they have valid metadata and are longer than 30 seconds, have been playing for at least half its duration or for 4 minutes (whichever occurs earlier)."
+msgstr ""
+
+msgid "Work in offline mode (Only cache scrobbles)"
+msgstr "Pracovat v režimu offline (pouze ukládat přehrané skladby)"
+
+msgid "Show scrobble button"
+msgstr "Zobrazit tlačítko pro doporučování hudby"
+
+msgid "Show love button"
+msgstr "Zobrazit tlačítko To Miluju!"
+
+msgid "Submit scrobbles every"
+msgstr "Odeslat přehrané skladby každých"
+
+msgid " seconds"
+msgstr " sekund"
+
+msgid "(This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately)."
+msgstr ""
+
+msgid "Prefer album artist when sending scrobbles"
+msgstr "Preferovat autory alb při odesílání na server"
+
+msgid "Show dialog for errors"
+msgstr ""
+
+msgid "Strip \"remastered\" and similar from album and title"
+msgstr ""
+
+msgid "Enable scrobbling for the following sources:"
+msgstr "Zapnout scrobbling pro následující zdroje:"
+
+msgid "Local file"
+msgstr "Místní soubor"
+
+msgid "CDDA"
+msgstr ""
+
+msgid "SomaFM"
+msgstr ""
+
+msgid "Stream"
+msgstr "Proud"
+
+msgid "Radio Paradise"
+msgstr ""
+
+msgid "Last.fm"
+msgstr ""
+
+msgid "Login"
+msgstr "Přihlášení"
+
+msgid "Libre.fm"
+msgstr ""
+
+msgid "Listenbrainz"
+msgstr ""
+
+msgid "User token:"
+msgstr "Uživatelský token:"
+
+msgid "Covers"
+msgstr "Obaly alb"
+
+msgid "Cover providers"
+msgstr "Poskytovatel obalů alb"
+
+msgid "Choose the providers you want to use when searching for covers."
+msgstr "Vyberte poskytovatele vyhledávání obalů alb."
+
+msgid "Authentication"
+msgstr "Ověření"
+
+msgid "Album cover types"
+msgstr ""
+
+msgid "Saving album covers"
+msgstr "Ukládání obalů alb"
+
+msgid "Save album covers in album directory"
+msgstr "Ukládat obaly alb ve složce alba"
+
+msgid "Save album covers in cache directory"
+msgstr ""
+
+msgid "Save album covers as embedded cover"
+msgstr ""
+
+msgid "Filename:"
+msgstr "Název souboru:"
+
+msgid "Pattern"
+msgstr ""
+
+msgid "Random"
+msgstr ""
+
+msgid "Overwrite existing file"
+msgstr "Přepsat existující soubor"
+
+msgid "Lowercase filename"
+msgstr "Název souboru malými písmeny"
+
+msgid "Replace spaces with dashes"
+msgstr "Nahradit mezery pomlčkami"
+
+msgid "Lyrics"
+msgstr "Texty"
+
+msgid "Lyrics providers"
+msgstr "Poskytovatelé textů"
+
+msgid "Choose the providers you want to use when searching for lyrics."
+msgstr "Vyberte poskytovatele vyhledávání textů skladeb."
+
+msgid "Network Proxy"
+msgstr "Síťová proxy"
+
+msgid "&Use the system proxy settings"
+msgstr "&Použít nastavení systému"
+
+msgid "Direct internet connection"
+msgstr "Přímé připojení k internetu"
+
+msgid "&Manual proxy configuration"
+msgstr "&Ruční nastavení proxy"
+
+msgid "HTTP proxy"
+msgstr "Proxy HTTP"
+
+msgid "SOCKS proxy"
+msgstr "Proxy SOCKS"
+
+msgid "Port"
+msgstr ""
+
+msgid "Use authentication"
+msgstr "Použít ověření"
+
+msgid "Username"
+msgstr "Uživatelské jméno"
+
+msgid "Password"
+msgstr "Heslo"
+
+msgid "Use proxy settings for streaming"
+msgstr ""
+
+msgid "Appearance"
+msgstr "Vzhled"
+
+msgid "Style"
+msgstr ""
+
+msgid "Use system theme icons"
+msgstr "Použít ikony ze systémového motivu"
+
+msgid "Settings require restart."
+msgstr ""
+
+msgid "Tabbar colors"
+msgstr ""
+
+msgid "&Use the system default color"
+msgstr "&Použít nastavení barvu systému"
+
+msgid "Use custom color"
+msgstr "Použít vlastní barvy"
+
+msgid "Use gradient background"
+msgstr "Použít gradientu"
+
+msgid "Select tabbar color:"
+msgstr ""
+
+msgid "Background image"
+msgstr "Obrázek na pozadí"
+
+msgid "Default bac&kground image"
+msgstr "Výchozí obrázek poza&dí"
+
+msgid "&No background image"
+msgstr "&Chybějící obrázek na pozadí"
+
+msgid "The album cover of the currently playing song"
+msgstr "Obal alba nyní přehrávané písně"
+
+msgid "Albu&m cover"
+msgstr "Obal alb&a"
+
+msgid "Custom image:"
+msgstr "Vlastní obrázek:"
+
+msgid "Browse..."
+msgstr "Procházet…"
+
+msgid "Position"
+msgstr "Pozice"
+
+msgid "Upper Left"
+msgstr "Vlevo nahoře"
+
+msgid "Upper Right"
+msgstr "Vpravo nahoře"
+
+msgid "Middle"
+msgstr "Střed"
+
+msgid "Bottom Left"
+msgstr "Vlevo dole"
+
+msgid "Bottom Right"
+msgstr "Vpravo dole"
+
+msgid "Max cover size"
+msgstr "Maximální velikost obalu alba"
+
+msgid "Stretch image to fill playlist"
+msgstr "Roztáhnout obrázek aby vyplnil seznam skladeb"
+
+msgid "Keep aspect ratio"
+msgstr "Zachovat poměr stran"
+
+msgid "Do not cut image"
+msgstr "Neořezávat obrázek"
+
+msgid "Blur amount"
+msgstr "Velikost rozmazání"
+
+msgid "0px"
+msgstr "0 px"
+
+msgid "Opacity"
+msgstr "Neprůhlednost"
+
+msgid "40%"
+msgstr ""
+
+msgid "Icon sizes"
+msgstr "Velikosti ikon"
+
+msgid "Playlist buttons"
+msgstr "Tlačítka playlistů"
+
+msgid "Tabbar large mode"
+msgstr ""
+
+msgid "Play control buttons"
+msgstr "Tlačítka pro ovládání přehrávání"
+
+msgid "Configure buttons"
+msgstr "Nastavit tlačítka"
+
+msgid "Files, playlists and queue buttons"
+msgstr "Soubory, playlisty a tlačítka fronty"
+
+msgid "Tabbar small mode"
+msgstr ""
+
+msgid "Playlist playing song color"
+msgstr ""
+
+msgid "System highlight color"
+msgstr ""
+
+msgid "Custom color"
+msgstr ""
+
+msgid "Select playlist playing song color:"
+msgstr ""
+
+msgid "Notifications"
+msgstr "Oznámení"
+
+msgid "Strawberry can show a message when the track changes."
+msgstr "Strawberry může při změně skladby ukázat zprávu."
+
+msgid "Notification type"
+msgstr "Druh oznámení"
+
+msgctxt "Refers to a disabled notification type in Notification settings."
+msgid "Disabled"
+msgstr "Zakázáno"
+
+msgid "Show a &native desktop notification"
+msgstr "Zobrazit &nativní upozornění na ploše"
+
+msgid "Show a pretty OSD"
+msgstr "Ukazovat OSD"
+
+msgid "Show a popup fro&m the system tray"
+msgstr ""
+
+msgid "General settings"
+msgstr "Obecná nastavení"
+
+msgid "Popup duration"
+msgstr "Doba zobrazení oznámení"
+
+msgid "Disable duration"
+msgstr "Zakázat délku"
+
+msgid "Show a notification when I change the volume"
+msgstr "Zobrazovat oznámení při změně hlasitosti"
+
+msgid "Show a notification when I change the repeat/shuffle mode"
+msgstr "Ukazovat oznámení při změně režimu opakování/míchání"
+
+msgid "Show a notification when I pause playback"
+msgstr "Ukazovat oznámení při pozastavení přehrávání"
+
+msgid "Show a notification when I resume playback"
+msgstr "Zobrazit oznámení při pokračování v přehrávání"
+
+msgid "Include album art in the notification"
+msgstr "Zahrnout obal alba do oznámení"
+
+msgid "Custom message settings"
+msgstr "Nastavení vlastní zprávy"
+
+msgid "Use a custom message for notifications"
+msgstr "Použít vlastní zprávu pro oznámení"
+
+msgid "Body"
+msgstr "Tělo"
+
+msgid "Pretty OSD options"
+msgstr "Možnosti vzhledu OSD"
+
+msgid "Background color"
+msgstr "Barva pozadí"
+
+msgid "Text options"
+msgstr "Volby pro text"
+
+msgid "Choose font..."
+msgstr "Vybrat písmo..."
+
+msgid "Choose color..."
+msgstr "Vybrat barvu..."
+
+msgid "Background opacity"
+msgstr "Neprůhlednost pozadí"
+
+msgid "Basic Blue"
+msgstr "Jednoduchá modrá"
+
+msgid "Strawberry Red"
+msgstr "Jahodově Červená"
+
+msgid "Custom..."
+msgstr "Vlastní..."
+
+msgid "Enable fading"
+msgstr ""
+
+msgid "Equalizer"
+msgstr "Ekvalizér"
+
+msgid "Preset:"
+msgstr "Předvolba:"
+
+msgid "Enable equalizer"
+msgstr "Povolit ekvalizér"
+
+msgid "Enable stereo balancer"
+msgstr "Zapnout vyrovnávání sterea"
+
+msgid "Left"
+msgstr "Vlevo"
+
+msgid "Balance"
+msgstr "Vyvážení"
+
+msgid "Right"
+msgstr "Vpravo"
+
+msgid "About"
+msgstr "O programu"
+
+msgid "Strawberry Error"
+msgstr "Chyba Clemetine"
+
+msgid "Console"
+msgstr "Konzole"
+
+msgid "Run"
+msgstr "Spustit"
+
+msgid "Edit track information"
+msgstr "Upravit informace o skladbě"
+
+msgid "Date created"
+msgstr "Datum vytvoření"
+
+msgid "Art Automatic"
+msgstr ""
+
+msgid "Date modified"
+msgstr "Datum změny"
+
+msgid "Art Embedded"
+msgstr ""
+
+msgctxt "A playlist's tag."
+msgid "Last played"
+msgstr "Naposledy hráno"
+
+msgid "Play count"
+msgstr "Počet přehrání"
+
+msgid "EBU R 128 integrated loudness"
+msgstr ""
+
+msgid "Bit rate"
+msgstr "Datový tok"
+
+msgid "Skip count"
+msgstr "Počet přeskočení"
+
+msgid "Path"
+msgstr ""
+
+msgid "Filename"
+msgstr "Název souboru"
+
+msgid "Art Unset"
+msgstr ""
+
+msgid "File size"
+msgstr "Velikost souboru"
+
+msgid "Art Manual"
+msgstr ""
+
+msgid "EBU R 128 loudness range"
+msgstr ""
+
+msgid "Reset play counts"
+msgstr "Vynulovat počty přehrání"
+
+msgid "Change art"
+msgstr ""
+
+msgid "Embedded cover"
+msgstr ""
+
+msgid "Complete tags automatically"
+msgstr "Doplnit značky automaticky"
+
+msgid "Compilation"
+msgstr "Kompilace"
+
+msgid "Tags"
+msgstr ""
+
+msgid "Complete lyrics automatically"
+msgstr ""
+
+msgid "Tag fetcher"
+msgstr "Stahování značek"
+
+msgid "Sorry"
+msgstr "Promiňte"
+
+msgid "Strawberry was unable to find results for this file"
+msgstr "Strawberry se pro tento soubor výsledky najít nepodařilo"
+
+msgid "Select best possible match"
+msgstr "Vyberte nejlepší možnou shodu"
+
+msgid "Add Stream"
+msgstr "Přidat přenos"
+
+msgid "Enter the URL of a stream:"
+msgstr "Zadejte URL streamu:"
+
+msgid "Enter username and password"
+msgstr "Zadejte uživatelské jméno a heslo"
+
+msgid "Import data from last.fm"
+msgstr "Importovat data z last.fm"
+
+msgid "Choose data to import from last.fm"
+msgstr "Zvolte data pro import z last.fm"
+
+msgid "Play counts"
+msgstr ""
+
+msgid "Warning: Play counts and last played from last.fm will completely replace the same data for the matched songs. Play counts will replace the data based on artist and song title for the same albums! Please backup your database before you start."
+msgstr ""
+
+msgid "Go!"
+msgstr "Importovat!"
+
+msgid "Close"
+msgstr "Zavřít"
+
+msgid "Cancel"
+msgstr "Zrušit"
+
+msgid "Message Dialog"
+msgstr ""
+
+msgid "Do not show this message again."
+msgstr "Tuto zprávu již nezobrazovat."
+
+msgid "Select directory for saving playlists"
+msgstr ""
+
+msgid "Type"
+msgstr ""
+
+msgid "0:00:00"
+msgstr ""
+
+msgid "Click to toggle between remaining time and total time"
+msgstr "Klepněte pro přepnutí mezi zbývajícím časem a celkovým časem"
+
+msgid "You are not signed in."
+msgstr "Nejste přihlášen."
+
+msgid "Sign out"
+msgstr "Odhlásit"
+
+msgid "Signing in..."
+msgstr "Přihlašuje se..."
+
+msgid "Streaming Tabs View"
+msgstr ""
+
+msgid "Artists"
+msgstr "Umělci"
+
+msgid "Albums"
+msgstr "Alba"
+
+msgid "Songs"
+msgstr "Skladby"
+
+msgid "Refresh catalogue"
+msgstr "Obnovit katalog"
+
+msgid "Streaming Search View"
+msgstr ""
+
+msgid "artists"
+msgstr "umělci"
+
+msgid "albums"
+msgstr "alba"
 
 msgid "songs"
 msgstr "skladby"
 
-msgid "sort songs"
-msgstr "Třídit skladby"
+msgid "Organize Files"
+msgstr "Uspořádat Soubory"
 
-msgid "starts with"
+msgid "Destination"
+msgstr "Cíl"
+
+msgid "After copying..."
+msgstr "Po zkopírování..."
+
+msgid "Keep the original files"
+msgstr "Zachovat původní soubory"
+
+msgid "Delete the original files"
+msgstr "Smazat původní soubory"
+
+msgid "Naming options"
+msgstr "Volby pro pojmenování"
+
+msgid "<p>Tokens start with %, for example: %artist %album %title </p>\n\n"
+"<p>If you surround sections of text that contain a token with curly-braces, that section will be hidden if the token is empty.</p>"
+msgstr "<p>Symboly začínají %, například: %artist %album %title </p>\n\n"
+"<p>Pokud obklopíte části textu obsahující symbol složenými závorkami, tato část bude skryta, je-li symbol prázdný.</p>"
+
+msgid "Insert..."
+msgstr "Vložit..."
+
+msgid "Remove problematic characters from filenames"
+msgstr "Odstranit problémové znaky z názvů souborů"
+
+msgid "Restrict to characters allowed on FAT filesystems"
+msgstr "Omezit na znaky dostupné na FAT systémech souborů"
+
+msgid "Restrict characters to ASCII"
+msgstr "Omezit na ASCII znaky"
+
+msgid "Allow extended ASCII characters"
+msgstr "Povolit rozšířené ASCII znaky"
+
+msgid "Replace spaces with underscores"
+msgstr "Nahradit mezery podtržítky"
+
+msgid "Overwrite existing files"
+msgstr "Přepsat existující soubory"
+
+msgid "Copy album cover artwork"
+msgstr "Kopírovat obrázek alba"
+
+msgid "Safely remove the device after copying"
+msgstr "Po dokončení kopírování bezpečně odebrat zařízení"
+
+msgid "Press a key"
+msgstr "Stiskněte klávesu"
+
+msgid "Global Shortcuts"
 msgstr ""
 
-msgid "stop"
-msgstr "zastavit"
+msgid "Use Gnome (GSD) shortcuts when available"
+msgstr ""
 
-#, qt-format
-msgid "track %1"
-msgstr "skladba %1"
+msgid "Open..."
+msgstr "Otevřít..."
 
-msgid "unknown"
-msgstr "neznámý"
+msgid "Use MATE shortcuts when available"
+msgstr ""
+
+msgid "Use KDE (KGlobalAccel) shortcuts when available"
+msgstr ""
+
+msgid "Use X11 shortcuts when available"
+msgstr ""
+
+msgid "You need to launch System Preferences and allow Strawberry to \"<span style=\"font-style:italic\">control your computer</span>\" to use global shortcuts in Strawberry."
+msgstr "Aby bylo možné v Strawberry používat globální klávesové zkratky, je nutné spustit Nastavení Systému a povolit Strawberry \"<span style=\"font-style:italic\">ovládat váš počítač</span>\"."
+
+msgid "Shortcut"
+msgstr "Klávesová zkratka"
+
+msgctxt "Category label"
+msgid "Action"
+msgstr "Činnost"
+
+msgid "&None"
+msgstr "Žád&né"
+
+msgid "&Default"
+msgstr "&Výchozí"
+
+msgid "&Custom"
+msgstr "Vl&astní"
+
+msgid "Change shortcut..."
+msgstr "Změnit klávesovou zkratku..."
+
+msgid "Device Properties"
+msgstr "Vlastnosti zařízení"
+
+msgid "Icon"
+msgstr "Ikona"
+
+msgid "Hardware information"
+msgstr "Informace o vybavení"
+
+msgid "Hardware information is only available while the device is connected."
+msgstr "Informace o vybavení jsou dostupné pouze tehdy, když je zařízení připojeno."
+
+msgid "Information"
+msgstr "Informace"
+
+msgid "Supported formats"
+msgstr "Podporované formáty"
+
+msgid "This device supports the following file formats:"
+msgstr "Toto zařízení podporuje následující formáty souborů:"
+
+msgid "Strawberry can automatically convert the music you copy to this device into a format that it can play."
+msgstr "Strawberry může automaticky převést hudbu kopírovanou do tohoto zařízení do formátu, který dokáže přehrát."
+
+msgid "Do not convert any music"
+msgstr "Nepřevádět žádnou hudbu"
+
+msgid "Convert any music that the device can't play"
+msgstr "Převést veškerou hudbu, kterou zařízení nedokáže přehrát"
+
+msgid "Convert all music"
+msgstr "Převést všechnu hudbu"
+
+msgid "Preferred format"
+msgstr "Upřednostňovaný formát"
+
+msgid "This device must be connected and opened before Strawberry can see what file formats it supports."
+msgstr "Pro zjištění podporovaných formátů souborů je zařízení nejdřív nutno připojit a otevřít."
+
+msgid "Open device"
+msgstr "Otevřít zařízení"
+
+msgid "Querying device..."
+msgstr "Dotazování se zařízení..."
+
+msgid "File formats"
+msgstr "Formáty souborů"
+
+msgid "Transcode Music"
+msgstr "Převést hudbu"
+
+msgid "Files to transcode"
+msgstr "Soubory k překódování"
+
+msgid "Directory"
+msgstr "Složka"
+
+msgid "Add..."
+msgstr "Přidat..."
+
+msgid "Add all tracks from a directory and all its subdirectories"
+msgstr "Přidat všechny skladby z adresáři a všech jeho podadresářů"
+
+msgid "Import..."
+msgstr "Importovat..."
+
+msgid "Output options"
+msgstr "Možnosti výstupu"
+
+msgid "Audio format"
+msgstr "Zvukový formát"
+
+msgid "Options..."
+msgstr "Volby..."
+
+msgid "Alongside the originals"
+msgstr "Vedle původních"
+
+msgid "Select..."
+msgstr "Vybrat..."
+
+msgid "Progress"
+msgstr "Průběh"
+
+msgid "Details..."
+msgstr "Podrobnosti..."
+
+msgid "Transcoder Log"
+msgstr "Záznam o převodu"
+
+msgid " kbps"
+msgstr " kb/s"
+
+msgid "Profile"
+msgstr "Profil"
+
+msgid "Main profile (MAIN)"
+msgstr "Hlavní profil"
+
+msgid "Low complexity profile (LC)"
+msgstr "Nízkosložitostní profil"
+
+msgid "Scalable sampling rate profile (SSR)"
+msgstr "Profil škálovatelného vzorkovacího kmitočtu"
+
+msgid "Long term prediction profile (LTP)"
+msgstr "Dlouhodobý předpověďní profil"
+
+msgid "Use temporal noise shaping"
+msgstr "Použít časové tvarování šumu"
+
+msgid "Allow mid/side encoding"
+msgstr "Povolit kódování střed/kraj"
+
+msgid "Block type"
+msgstr "Typ bloku"
+
+msgid "Normal block type"
+msgstr "Běžný typ bloku"
+
+msgid "No short blocks"
+msgstr "Žádné krátké bloky"
+
+msgid "No long blocks"
+msgstr "Žádné dlouhé bloky"
+
+msgid "Transcoding options"
+msgstr "Volby překódování"
+
+msgctxt "Sound quality"
+msgid "Quality"
+msgstr "Kvalita"
+
+msgid "Fast"
+msgstr "Rychlý"
+
+msgid "Best"
+msgstr "Nejlepší"
+
+msgid "Use bitrate management engine"
+msgstr "Použít stroj na správu datového toku"
+
+msgid "Target bitrate"
+msgstr "Cílový datový tok"
+
+msgid "Minimum bitrate"
+msgstr "Nejnižší datový tok"
+
+msgid "disabled"
+msgstr "zakázáno"
+
+msgid "Maximum bitrate"
+msgstr "Nejvyšší datový tok"
+
+msgid "automatic"
+msgstr "automatický"
+
+msgid "Average bitrate"
+msgstr "Průměrný datový tok"
+
+msgid "Encoding mode"
+msgstr "Režim kódování"
+
+msgid "Auto"
+msgstr "Automaticky"
+
+msgid "Ultra wide band (UWB)"
+msgstr "Ultra široké pásmo"
+
+msgid "Wide band (WB)"
+msgstr "Široké pásmo"
+
+msgid "Narrow band (NB)"
+msgstr "Úzké pásmo"
+
+msgid "Variable bit rate"
+msgstr "Proměnlivý datový tok"
+
+msgid "Voice activity detection"
+msgstr "Zjištění hlasové činnosti"
+
+msgid "Discontinuous transmission"
+msgstr "Nesouvislý přenos"
+
+msgid "Encoding complexity"
+msgstr "Složitost kódování"
+
+msgid "Frames per buffer"
+msgstr "Snímků na vyrovnávací paměť"
+
+msgid "Optimize for &quality"
+msgstr "Optimalizovat pro &kvalitu"
+
+msgid "Opti&mize for bitrate"
+msgstr "Optimal&izovat pro datový tok"
+
+msgid "Constant bitrate"
+msgstr "Stálý datový tok"
+
+msgid "Encoding engine quality"
+msgstr "Kvalita kódovacího stroje"
+
+msgid "Standard"
+msgstr "Obvyklý"
+
+msgid "High"
+msgstr "Vysoká"
+
+msgid "Force mono encoding"
+msgstr "Vynutit jednokanálové kódování"
+
+msgid "Transcoding"
+msgstr "Překódování"
+
+msgid "These settings are used in the \"Transcode Music\" dialog, and when converting music before copying it to a device."
+msgstr "Tato nastavení se používají v dialogu pro překódování hudby a když je hudba před kopírováním do zařízení převáděna."
+
+msgid "FLAC"
+msgstr ""
+
+msgid "WavPack"
+msgstr ""
+
+msgid "Vorbis"
+msgstr ""
+
+msgid "Opus"
+msgstr ""
+
+msgid "Speex"
+msgstr ""
+
+msgid "AAC"
+msgstr ""
+
+msgid "ASF (WMA)"
+msgstr ""
+
+msgid "MP3"
+msgstr ""
+
+msgid "Server URL"
+msgstr "URL serveru"
+
+msgid "Authentication method:"
+msgstr ""
+
+msgid "Hex"
+msgstr ""
+
+msgid "MD5 token (Recommended)"
+msgstr ""
+
+msgid "Preferences"
+msgstr "Nastavení"
+
+msgid "Use HTTP/2 when possible"
+msgstr ""
+
+msgid "Verify server certificate"
+msgstr "Ověřovat certifikát serveru"
+
+msgid "Download album covers"
+msgstr "Stahovat obaly alb"
+
+msgid "Server-side scrobbling"
+msgstr ""
+
+msgid "Test"
+msgstr ""
+
+msgid "Delete songs"
+msgstr ""
+
+msgid "Tidal support is not official and requires a API token from a registered application to work. We can't help you getting these."
+msgstr "Podpora Tidal není oficiální a vyžaduje API token z registrované aplikace. S tímto vám nemůžeme pomoct."
+
+msgid "Use OAuth"
+msgstr "Použijte OAuth"
+
+msgid "Client ID"
+msgstr "ID Klienta"
+
+msgid "API Token"
+msgstr ""
+
+msgid "Audio quality"
+msgstr "Kvalita zvuku"
+
+msgid "Search delay"
+msgstr "Zpožděné vyhledávání"
+
+msgid "ms"
+msgstr ""
+
+msgid "Artists search limit"
+msgstr "Limit vyhledávaných umělců"
+
+msgid "Albums search limit"
+msgstr "Limit vyhledávaných alb"
+
+msgid "Songs search limit"
+msgstr "Limit vyhledaných skladeb"
+
+msgid "Fetch entire albums when searching songs"
+msgstr "Načítat celá alba při vyhledávání"
+
+msgid "Album cover size"
+msgstr "Velikost obalu alba"
+
+msgid "Stream URL method"
+msgstr "Metoda URL streamu"
+
+msgid "Append explicit to album title for explicit albums"
+msgstr ""
+
+msgid "Basic authentication"
+msgstr ""
+
+msgid "Authenticate"
+msgstr ""
+
+msgid "Device credentials"
+msgstr ""
+
+msgid "<html><head/><body><p>The GStreamer Spotify plugin is not detected, you will not be able to stream songs from Spotify without it. See <a href=\"https://wiki.strawberrymusicplayer.org/wiki/Installing_GStreamer_Spotify_plugin\"><span style=\" text-decoration: underline; color:#2980b9;\">Wiki</span></a> for instructions on how to install the plugin.</p></body></html>"
+msgstr ""
+
+msgid "Qobuz support is not official and requires an API app ID and secret from a registered application to work. We can't help you getting these."
+msgstr ""
+
+msgid "App ID"
+msgstr "ID aplikace"
+
+msgid "App Secret"
+msgstr "Tajemství aplikace"
+
+msgid "Base64 encoded secret"
+msgstr ""
+
+msgid "Moodbar"
+msgstr "Ukazatel nálady"
+
+msgid "Show a moodbar in the track progress bar"
+msgstr ""
+
+msgid "Save the .mood files directly in the songs folders"
+msgstr "Ukládat .mood soubory přímo ve složkách skladeb"
+
+msgid "Enabled"
+msgstr "Povoleno"
+
+msgid "Return to Strawberry"
+msgstr "Návrat do Strawberry"
+
+msgid "Success!"
+msgstr "Úspěch"
+
+msgid "Please close your browser and return to Strawberry."
+msgstr "Zavřete, prosím, svůj prohlížeč a vraťte se do Strawberry."
 
