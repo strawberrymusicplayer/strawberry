@@ -66,6 +66,7 @@ GlobalShortcutsManager::GlobalShortcutsManager(QWidget *parent) : QWidget(parent
   AddShortcut(QStringLiteral("stop_after"), tr("Stop playing after current track"), std::bind(&GlobalShortcutsManager::StopAfter, this));
   AddShortcut(QStringLiteral("next_track"), tr("Next track"), std::bind(&GlobalShortcutsManager::Next, this), QKeySequence(Qt::Key_MediaNext));
   AddShortcut(QStringLiteral("prev_track"), tr("Previous track"), std::bind(&GlobalShortcutsManager::Previous, this), QKeySequence(Qt::Key_MediaPrevious));
+  AddShortcut(QStringLiteral("restart_or_prev_track"), tr("Restart or previous track"), std::bind(&GlobalShortcutsManager::RestartOrPrevious, this));
   AddShortcut(QStringLiteral("inc_volume"), tr("Increase volume"), std::bind(&GlobalShortcutsManager::IncVolume, this));
   AddShortcut(QStringLiteral("dec_volume"), tr("Decrease volume"), std::bind(&GlobalShortcutsManager::DecVolume, this));
   AddShortcut(QStringLiteral("mute"), tr("Mute"), std::bind(&GlobalShortcutsManager::Mute, this));

@@ -830,6 +830,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::StopAfter, ui_->action_stop_after_this_track, &QAction::trigger);
   QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::Next, ui_->action_next_track, &QAction::trigger);
   QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::Previous, ui_->action_previous_track, &QAction::trigger);
+  QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::RestartOrPrevious, &*app_->player(), &Player::RestartOrPrevious);
   QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::IncVolume, &*app_->player(), &Player::VolumeUp);
   QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::DecVolume, &*app_->player(), &Player::VolumeDown);
   QObject::connect(globalshortcuts_manager_, &GlobalShortcutsManager::Mute, &*app_->player(), &Player::Mute);
