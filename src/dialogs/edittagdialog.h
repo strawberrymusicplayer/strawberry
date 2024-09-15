@@ -36,7 +36,7 @@
 #include <QImage>
 
 #include "core/song.h"
-#include "core/tagreaderclient.h"
+#include "tagreader/tagreaderclient.h"
 #include "playlist/playlistitem.h"
 #include "covermanager/albumcoverloaderoptions.h"
 #include "covermanager/albumcoverloaderresult.h"
@@ -133,7 +133,7 @@ class EditTagDialog : public QDialog {
   void PreviousSong();
   void NextSong();
 
-  void SongSaveTagsComplete(TagReaderReply *reply, const QString &filename, Song song, const UpdateCoverAction cover_action);
+  void SongSaveTagsComplete(TagReaderReplyPtr reply, const QString &filename, Song song, const UpdateCoverAction cover_action);
 
  private:
   struct FieldData {

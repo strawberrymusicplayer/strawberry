@@ -39,9 +39,9 @@
 #include "core/logging.h"
 #include "core/networkaccessmanager.h"
 #include "core/song.h"
-#include "core/tagreaderclient.h"
 #include "utilities/mimeutils.h"
 #include "utilities/imageutils.h"
+#include "tagreader/tagreaderclient.h"
 #include "albumcoverloader.h"
 #include "albumcoverloaderoptions.h"
 #include "albumcoverloaderresult.h"
@@ -318,7 +318,7 @@ AlbumCoverLoader::LoadImageResult AlbumCoverLoader::LoadImage(TaskPtr task, cons
 AlbumCoverLoader::LoadImageResult AlbumCoverLoader::LoadEmbeddedImage(TaskPtr task) {
 
   if (task->art_embedded && task->song_url.isValid() && task->song_url.isLocalFile()) {
-    const TagReaderClient::Result result = TagReaderClient::Instance()->LoadEmbeddedArtBlocking(task->song_url.toLocalFile(), task->album_cover.image_data);
+    const TagReaderResult result = TagReaderClient::Instance()->LoadCoverDataBlocking(task->song_url.toLocalFile(), task->album_cover.image_data);
     if (result.success() && !task->album_cover.image_data.isEmpty() && task->album_cover.image.loadFromData(task->album_cover.image_data)) {
       return LoadImageResult(AlbumCoverLoaderResult::Type::Embedded, LoadImageResult::Status::Success);
     }

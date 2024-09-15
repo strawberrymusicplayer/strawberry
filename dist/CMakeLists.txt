@@ -22,7 +22,7 @@ if(UNIX AND NOT APPLE)
   install(FILES ../data/icons/128x128/strawberry.png DESTINATION share/icons/hicolor/128x128/apps/)
   install(FILES unix/org.strawberrymusicplayer.strawberry.desktop DESTINATION share/applications)
   install(FILES unix/org.strawberrymusicplayer.strawberry.appdata.xml DESTINATION share/metainfo)
-  install(FILES unix/strawberry.1 unix/strawberry-tagreader.1 DESTINATION share/man/man1)
+  install(FILES unix/strawberry.1 DESTINATION share/man/man1)
 endif(UNIX AND NOT APPLE)
 
 if(APPLE)

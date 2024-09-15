@@ -59,12 +59,12 @@
 #include "core/shared_ptr.h"
 #include "core/iconloader.h"
 #include "core/musicstorage.h"
-#include "core/tagreaderclient.h"
 #include "core/settings.h"
 #include "utilities/strutils.h"
 #include "utilities/screenutils.h"
 #include "widgets/freespacebar.h"
 #include "widgets/linetextedit.h"
+#include "tagreader/tagreaderclient.h"
 #include "collection/collectionbackend.h"
 #include "organize.h"
 #include "organizeformat.h"
@@ -423,12 +423,12 @@ SongList OrganizeDialog::LoadSongsBlocking(const QStringList &filenames) {
       continue;
     }
 
-    const TagReaderClient::Result result = TagReaderClient::Instance()->ReadFileBlocking(filename, &song);
+    const TagReaderResult result = TagReaderClient::Instance()->ReadFileBlocking(filename, &song);
     if (result.success() && song.is_valid()) {
       songs << song;
     }
     else {
-      qLog(Error) << "Could not read file" << filename << result.error;
+      qLog(Error) << "Could not read file" << filename << result.error_string();
     }
   }
 

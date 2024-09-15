@@ -26,7 +26,7 @@
 #include "core/logging.h"
 #include "core/song.h"
 #include "core/sqlrow.h"
-#include "core/tagreaderclient.h"
+#include "tagreader/tagreaderclient.h"
 #include "playlistitem.h"
 #include "songplaylistitem.h"
 
@@ -44,9 +44,9 @@ void SongPlaylistItem::Reload() {
 
   if (!song_.url().isLocalFile()) return;
 
-  const TagReaderClient::Result result = TagReaderClient::Instance()->ReadFileBlocking(song_.url().toLocalFile(), &song_);
+  const TagReaderResult result = TagReaderClient::Instance()->ReadFileBlocking(song_.url().toLocalFile(), &song_);
   if (!result.success()) {
-    qLog(Error) << "Could not reload file" << song_.url() << result.error;
+    qLog(Error) << "Could not reload file" << song_.url() << result.error_string();
   }
 
   UpdateTemporaryMetadata(song_);

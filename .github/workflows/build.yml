@@ -52,7 +52,6 @@ jobs:
             dbus-1-devel
             alsa-devel
             libnotify-devel
-            protobuf-devel
             sqlite3-devel
             libpulse-devel
             gstreamer-devel
@@ -170,8 +169,6 @@ jobs:
             rsync
             boost-devel
             dbus-devel
-            protobuf-devel
-            protobuf-compiler
             sqlite-devel
             alsa-lib-devel
             pulseaudio-libs-devel
@@ -258,8 +255,6 @@ jobs:
           glibc-devel
           boost-devel
           dbus-devel
-          protobuf-devel
-          protobuf-compiler
           sqlite-devel
           libasound-devel
           pulseaudio-devel
@@ -360,7 +355,6 @@ jobs:
           rpmdevtools
           gettext
           lib64boost-devel
-          lib64protobuf-devel
           lib64sqlite3-devel
           lib64alsa2-devel
           lib64pulseaudio-devel
@@ -385,7 +379,6 @@ jobs:
           lib64qt6dbus-devel
           lib64qt6help-devel
           lib64qt6test-devel
-          protobuf-compiler
           desktop-file-utils
           appstream-util
           hicolor-icon-theme
@@ -458,8 +451,6 @@ jobs:
             libglib2.0-dev
             libdbus-1-dev
             libboost-dev
-            libprotobuf-dev
-            protobuf-compiler
             libsqlite3-dev
             libasound2-dev
             libpulse-dev
@@ -539,8 +530,6 @@ jobs:
             libglib2.0-dev
             libboost-dev
             libdbus-1-dev
-            libprotobuf-dev
-            protobuf-compiler
             libsqlite3-dev
             libasound2-dev
             libpulse-dev
@@ -623,7 +612,6 @@ jobs:
             libglib2.0-dev
             libboost-dev
             libdbus-1-dev
-            libprotobuf-dev
             libsqlite3-dev
             libasound2-dev
             libpulse-dev
@@ -645,7 +633,6 @@ jobs:
             qt6-l10n-tools
             gstreamer1.0-alsa
             gstreamer1.0-pulseaudio
-            protobuf-compiler
       - name: Install keyboxd
         if: matrix.ubuntu_version == 'noble'
         env:
@@ -789,7 +776,7 @@ jobs:
       - name: Manually Codesign
         if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && matrix.runner == 'macos-13'
         working-directory: build
-        run: codesign -s 383J84DVB6 -f strawberry.app/Contents/Frameworks/{libpcre2-8.0.dylib,libpcre2-16.0.dylib,libpng16.16.dylib,libfreetype.6.dylib,libzstd.1.dylib,libutf8_validity.dylib} strawberry.app/Contents/Frameworks/png.framework/png strawberry.app
+        run: codesign -s 383J84DVB6 -f strawberry.app/Contents/Frameworks/{libpcre2-8.0.dylib,libpcre2-16.0.dylib,libpng16.16.dylib,libfreetype.6.dylib,libzstd.1.dylib} strawberry.app/Contents/Frameworks/png.framework/png strawberry.app
 
       - name: Manually Codesign
         if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && matrix.runner == 'macos-14'
@@ -1008,7 +995,6 @@ jobs:
           -DENABLE_LIBMTP=OFF
           -DENABLE_AUDIOCD=OFF
           -DENABLE_SPOTIFY=OFF
-          -DProtobuf_PROTOC_EXECUTABLE="/strawberry-mxe/usr/x86_64-pc-linux-gnu/bin/protoc"
 
       - name: Run Make
         run: cmake --build build --config "${{env.cmake_buildtype}}" --parallel $(nproc)

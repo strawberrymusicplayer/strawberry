@@ -43,7 +43,7 @@
 
 #include "core/shared_ptr.h"
 #include "core/song.h"
-#include "core/tagreaderclient.h"
+#include "tagreader/tagreaderclient.h"
 #include "covermanager/albumcoverloaderresult.h"
 #include "playlistitem.h"
 #include "playlistsequence.h"
@@ -350,7 +350,7 @@ class Playlist : public QAbstractListModel {
   void TracksDequeued();
   void TracksEnqueued(const QModelIndex &parent_idx, const int begin, const int end);
   void QueueLayoutChanged();
-  void SongSaveComplete(TagReaderReply *reply, const QPersistentModelIndex &idx, const Song &old_metadata);
+  void SongSaveComplete(TagReaderReplyPtr reply, const QPersistentModelIndex &idx, const Song &old_metadata);
   void ItemReloadComplete(const QPersistentModelIndex &idx, const Song &old_metadata, const bool metadata_edit);
   void ItemsLoaded();
   void ScheduleSave();

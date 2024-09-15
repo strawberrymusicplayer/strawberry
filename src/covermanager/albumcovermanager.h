@@ -39,7 +39,7 @@
 
 #include "core/shared_ptr.h"
 #include "core/song.h"
-#include "core/tagreaderclient.h"
+#include "tagreader/tagreaderclient.h"
 #include "albumcoverloaderoptions.h"
 #include "albumcoverloaderresult.h"
 #include "albumcoverchoicecontroller.h"
@@ -185,7 +185,7 @@ class AlbumCoverManager : public QMainWindow {
   void UpdateCoverInList(AlbumItem *album_item, const QUrl &cover);
   void UpdateExportStatus(const int exported, const int skipped, const int max);
 
-  void SaveEmbeddedCoverFinished(TagReaderReply *reply, AlbumItem *album_item, const QUrl &url, const bool art_embedded);
+  void SaveEmbeddedCoverFinished(TagReaderReplyPtr reply, AlbumItem *album_item, const QUrl &url, const bool art_embedded);
 
  private:
   Ui_CoverManager *ui_;

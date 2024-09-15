@@ -21,7 +21,6 @@ target_include_directories(test_utils SYSTEM PRIVATE
 target_include_directories(test_utils PRIVATE
   ${CMAKE_BINARY_DIR}/src
   ${CMAKE_SOURCE_DIR}/src
-  ${CMAKE_SOURCE_DIR}/ext/libstrawberry-common
 )
 target_link_directories(test_utils PRIVATE
   ${SQLITE_LIBRARY_DIRS}
@@ -41,15 +40,12 @@ add_custom_target(strawberry_tests echo "Running Strawberry tests" WORKING_DIREC
 add_custom_target(build_tests WORKING_DIRECTORY ${CURRENT_BINARY_DIR})
 add_dependencies(strawberry_tests build_tests)
 
-qt_add_resources(TEST-RESOURCE-SOURCES data/testdata.qrc)
+qt_add_resources(TEST-RESOURCE-SOURCES data/testdata.qrc ${CMAKE_SOURCE_DIR}/data/data.qrc ${CMAKE_SOURCE_DIR}/data/icons.qrc)
 
 add_library(test_gui_main STATIC EXCLUDE_FROM_ALL ${TEST-RESOURCE-SOURCES} src/main.cpp)
 target_include_directories(test_gui_main PRIVATE
   ${CMAKE_BINARY_DIR}/src
   ${CMAKE_SOURCE_DIR}/src
-  ${CMAKE_SOURCE_DIR}/ext/libstrawberry-common
-  ${CMAKE_SOURCE_DIR}/ext/libstrawberry-tagreader
-  ${CMAKE_BINARY_DIR}/ext/libstrawberry-tagreader
 )
 if(HAVE_GSTREAMER)
   target_include_directories(test_gui_main SYSTEM PRIVATE ${GSTREAMER_INCLUDE_DIRS})
@@ -61,9 +57,6 @@ add_library(test_main STATIC EXCLUDE_FROM_ALL ${TEST-RESOURCE-SOURCES} src/main.
 target_include_directories(test_main PRIVATE
   ${CMAKE_BINARY_DIR}/src
   ${CMAKE_SOURCE_DIR}/src
-  ${CMAKE_SOURCE_DIR}/ext/libstrawberry-common
-  ${CMAKE_SOURCE_DIR}/ext/libstrawberry-tagreader
-  ${CMAKE_BINARY_DIR}/ext/libstrawberry-tagreader
 )
 if(HAVE_GSTREAMER)
   target_include_directories(test_main SYSTEM PRIVATE ${GSTREAMER_INCLUDE_DIRS})
@@ -81,9 +74,6 @@ macro(add_test_file test_source gui_required)
     target_include_directories(${TEST_NAME} PRIVATE
       ${CMAKE_BINARY_DIR}/src
       ${CMAKE_SOURCE_DIR}/src
-      ${CMAKE_SOURCE_DIR}/ext/libstrawberry-common
-      ${CMAKE_SOURCE_DIR}/ext/libstrawberry-tagreader
-      ${CMAKE_BINARY_DIR}/ext/libstrawberry-tagreader
       ${TAGLIB_INCLUDE_DIRS}
     )
     target_link_libraries(${TEST_NAME} PRIVATE
@@ -113,7 +103,7 @@ add_test_file(src/mergedproxymodel_test.cpp false)
 add_test_file(src/sqlite_test.cpp false)
 add_test_file(src/tagreader_test.cpp false)
 add_test_file(src/collectionbackend_test.cpp false)
-add_test_file(src/collectionmodel_test.cpp false)
+add_test_file(src/collectionmodel_test.cpp true)
 add_test_file(src/songplaylistitem_test.cpp false)
 add_test_file(src/organizeformat_test.cpp false)
 add_test_file(src/playlist_test.cpp true)

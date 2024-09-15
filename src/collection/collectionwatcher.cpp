@@ -47,11 +47,11 @@
 
 #include "core/filesystemwatcherinterface.h"
 #include "core/logging.h"
-#include "core/tagreaderclient.h"
 #include "core/taskmanager.h"
 #include "core/settings.h"
 #include "utilities/imageutils.h"
 #include "utilities/timeconstants.h"
+#include "tagreader/tagreaderclient.h"
 #include "collectiondirectory.h"
 #include "collectionbackend.h"
 #include "collectionwatcher.h"
@@ -866,7 +866,7 @@ void CollectionWatcher::UpdateNonCueAssociatedSong(const QString &file,
   }
 
   Song song_on_disk(source_);
-  const TagReaderClient::Result result = TagReaderClient::Instance()->ReadFileBlocking(file, &song_on_disk);
+  const TagReaderResult result = TagReaderClient::Instance()->ReadFileBlocking(file, &song_on_disk);
   if (result.success() && song_on_disk.is_valid()) {
     song_on_disk.set_source(source_);
     song_on_disk.set_directory_id(t->dir());
@@ -919,7 +919,7 @@ SongList CollectionWatcher::ScanNewFile(const QString &file, const QString &path
   }
   else {  // It's a normal media file
     Song song(source_);
-    const TagReaderClient::Result result = TagReaderClient::Instance()->ReadFileBlocking(file, &song);
+    const TagReaderResult result = TagReaderClient::Instance()->ReadFileBlocking(file, &song);
     if (result.success() && song.is_valid()) {
       song.set_source(source_);
       PerformEBUR128Analysis(song);

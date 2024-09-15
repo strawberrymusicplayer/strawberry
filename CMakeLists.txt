@@ -120,13 +120,6 @@ if(NOT Boost_FOUND)
   find_package(Boost REQUIRED)
 endif()
 find_package(ICU COMPONENTS uc i18n REQUIRED)
-find_package(Protobuf CONFIG)
-if(NOT Protobuf_FOUND)
-  find_package(Protobuf REQUIRED)
-endif()
-if(NOT TARGET protobuf::protoc)
-  message(FATAL_ERROR "Missing Protobuf compiler.")
-endif()
 if(LINUX)
   find_package(ALSA REQUIRED)
   pkg_check_modules(DBUS REQUIRED dbus-1)
@@ -223,38 +216,18 @@ if(X11_FOUND)
 
 endif(X11_FOUND)
 
-option(USE_TAGLIB "Build with TagLib" ON)
-option(USE_TAGPARSER "Build with TagParser" OFF)
-
-# TAGLIB
-if(USE_TAGLIB)
-  find_package(TagLib 2.0)
-  if(TARGET TagLib::TagLib)
-    set(TAGLIB_FOUND ON)
-    set(TAGLIB_LIBRARIES TagLib::TagLib)
-    set(HAVE_TAGLIB_DSFFILE ON)
-    set(HAVE_TAGLIB_DSDIFFFILE ON)
-  else()
-    pkg_check_modules(TAGLIB REQUIRED taglib>=1.12)
-  endif()
-  set(HAVE_TAGLIB ON)
+# TagLib
+find_package(TagLib 2.0)
+if(TARGET TagLib::TagLib)
+  set(TAGLIB_FOUND ON)
+  set(TAGLIB_LIBRARIES TagLib::TagLib)
+  set(HAVE_TAGLIB_DSFFILE ON)
+  set(HAVE_TAGLIB_DSDIFFFILE ON)
 else()
-  set(HAVE_TAGLIB OFF)
-endif()
-
-# TAGPARSER
-if(USE_TAGPARSER)
-  pkg_check_modules(TAGPARSER REQUIRED tagparser)
-  set(HAVE_TAGPARSER ON)
-else()
-  set(HAVE_TAGPARSER OFF)
+  pkg_check_modules(TAGLIB REQUIRED taglib>=1.12)
 endif()
 
 pkg_check_modules(LIBEBUR128 IMPORTED_TARGET libebur128)
-
-if(NOT HAVE_TAGLIB AND NOT HAVE_TAGPARSER)
-  message(FATAL_ERROR "You need either TagLib or TagParser!")
-endif()
 
 # SingleApplication
 set(KDSINGLEAPPLICATION_NAME "KDSingleApplication-qt${QT_VERSION_MAJOR}")
@@ -443,17 +416,11 @@ add_definitions(
 
 if(WIN32)
   add_definitions(-DUNICODE)
-  if(MSVC)
-    add_definitions(-DPROTOBUF_USE_DLLS)
-  endif()
 endif()
 
 # Subdirectories
 add_subdirectory(src)
 add_subdirectory(dist)
-add_subdirectory(ext/libstrawberry-common)
-add_subdirectory(ext/libstrawberry-tagreader)
-add_subdirectory(ext/strawberry-tagreader)
 
 if(GTest_FOUND AND GMOCK_LIBRARY AND Qt${QT_VERSION_MAJOR}Test_FOUND)
   add_subdirectory(tests)

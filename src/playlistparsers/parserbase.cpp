@@ -29,7 +29,7 @@
 
 #include "core/shared_ptr.h"
 #include "core/logging.h"
-#include "core/tagreaderclient.h"
+#include "tagreader/tagreaderclient.h"
 #include "collection/collectionbackend.h"
 #include "settings/playlistsettingspage.h"
 #include "parserbase.h"
@@ -105,9 +105,9 @@ void ParserBase::LoadSong(const QString &filename_or_url, const qint64 beginning
     }
   }
 
-  const TagReaderClient::Result result = TagReaderClient::Instance()->ReadFileBlocking(filename, song);
+  const TagReaderResult result = TagReaderClient::Instance()->ReadFileBlocking(filename, song);
   if (!result.success()) {
-    qLog(Error) << "Could not read file" << filename << result.error;
+    qLog(Error) << "Could not read file" << filename << result.error_string();
   }
 
 }

@@ -63,9 +63,8 @@
 #include "core/application.h"
 #include "core/song.h"
 #include "core/iconloader.h"
-#include "core/tagreaderclient.h"
 #include "core/settings.h"
-
+#include "tagreader/tagreaderclient.h"
 #include "collection/collectionfilteroptions.h"
 #include "collection/collectionbackend.h"
 #include "settings/coverssettingspage.h"
@@ -447,7 +446,7 @@ void AlbumCoverChoiceController::ShowCover(const Song &song, const QImage &image
       case AlbumCoverLoaderOptions::Type::Embedded:{
         if (song.art_embedded() && !song.url().isEmpty() && song.url().isValid() && song.url().isLocalFile()) {
           QImage image_embedded_cover;
-          const TagReaderClient::Result result = TagReaderClient::Instance()->LoadEmbeddedArtAsImageBlocking(song.url().toLocalFile(), image_embedded_cover);
+          const TagReaderResult result = TagReaderClient::Instance()->LoadCoverImageBlocking(song.url().toLocalFile(), image_embedded_cover);
           if (result.success() && !image_embedded_cover.isNull()) {
             QPixmap pixmap = QPixmap::fromImage(image_embedded_cover);
             if (!pixmap.isNull()) {
@@ -737,8 +736,8 @@ void AlbumCoverChoiceController::SaveCoverEmbeddedToSong(const Song &song, const
   QMutexLocker l(&mutex_cover_save_tasks_);
   cover_save_tasks_.append(song);
   const bool art_embedded = !image_data.isNull();
-  TagReaderReply *reply = app_->tag_reader_client()->SaveEmbeddedArt(song.url().toLocalFile(), TagReaderClient::SaveCoverOptions(cover_filename, image_data, mime_type));
-  QObject::connect(reply, &TagReaderReply::Finished, this, [this, reply, song, art_embedded]() { SaveEmbeddedCoverFinished(reply, song, art_embedded); });
+  TagReaderReplyPtr reply = app_->tag_reader_client()->SaveCoverAsync(song.url().toLocalFile(), SaveTagCoverData(cover_filename, image_data, mime_type));
+  QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, song, art_embedded]() { SaveEmbeddedCoverFinished(reply, song, art_embedded); });
 
 }
 
@@ -815,12 +814,12 @@ QUrl AlbumCoverChoiceController::SaveCoverAutomatic(Song *song, const AlbumCover
 
 }
 
-void AlbumCoverChoiceController::SaveEmbeddedCoverFinished(TagReaderReply *reply, Song song, const bool art_embedded) {
+void AlbumCoverChoiceController::SaveEmbeddedCoverFinished(TagReaderReplyPtr reply, Song song, const bool art_embedded) {
 
   if (!cover_save_tasks_.contains(song)) return;
   cover_save_tasks_.removeAll(song);
 
-  if (reply->is_successful()) {
+  if (reply->success()) {
     SaveArtEmbeddedToSong(&song, art_embedded);
   }
   else {

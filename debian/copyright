@@ -9,10 +9,8 @@ Copyright: 2010-2015, David Sansome <me@davidsansome.com>
 License: GPL-3+
 
 Files: src/utilities/timeconstants.h
-       ext/libstrawberry-common/core/logging.cpp
-       ext/libstrawberry-common/core/logging.h
-       ext/libstrawberry-common/core/messagehandler.cpp
-       ext/libstrawberry-common/core/messagehandler.h
+       src/core/logging.cpp
+       src/core/logging.h
 Copyright: 2011, 2012, David Sansome <me@davidsansome.com>
            2018-2022, Jonas Kvinge <jonas@jkvinge.net>
 License: Apache-2.0
@@ -100,8 +98,6 @@ Files: src/core/main.h
        src/spotify/*
        src/transcoder/transcoderoptionswavpack.cpp
        src/transcoder/transcoderoptionswavpack.h
-       ext/libstrawberry-tagreader/tagreadertagparser.cpp
-       ext/libstrawberry-tagreader/tagreadertagparser.h
        src/widgets/resizabletextedit.cpp
        src/widgets/resizabletextedit.h
        src/widgets/fancytabdata.cpp
