@@ -112,6 +112,9 @@ QSize FancyTabBar::tabSizeHint(const int index) const {
     QRect rect = fm.boundingRect(QRect(0, 0, w, height()), Qt::TextWordWrap, TabText(index));
     size = QSize(w, tabWidget->iconsize_largesidebar() + rect.height() + 10);
   }
+  else if (tabWidget->mode() == FancyTabWidget::Mode::IconsSidebar) {
+    size = QSize(tabWidget->iconsize_largesidebar() + 20, tabWidget->iconsize_largesidebar() + 20);
+  }
   else if (tabWidget->mode() == FancyTabWidget::Mode::SmallSidebar) {
 
     QFont bold_font(font());
@@ -156,7 +159,9 @@ void FancyTabBar::paintEvent(QPaintEvent *pe) {
 
   FancyTabWidget *tabWidget = qobject_cast<FancyTabWidget*>(parentWidget());
 
-  if (tabWidget->mode() != FancyTabWidget::Mode::LargeSidebar && tabWidget->mode() != FancyTabWidget::Mode::SmallSidebar) {
+  if (tabWidget->mode() != FancyTabWidget::Mode::LargeSidebar &&
+      tabWidget->mode() != FancyTabWidget::Mode::SmallSidebar &&
+      tabWidget->mode() != FancyTabWidget::Mode::IconsSidebar) {
     QTabBar::paintEvent(pe);
     return;
   }
@@ -273,7 +278,13 @@ void FancyTabBar::paintEvent(QPaintEvent *pe) {
         tabrectIcon.setSize(QSize(tabWidget->iconsize_largesidebar(), tabWidget->iconsize_largesidebar()));
         // Center the icon
         const int moveRight = (QTabBar::width() - tabWidget->iconsize_largesidebar() - 1) / 2;
-        tabrectIcon.translate(moveRight, 5);
+
+        if (tabWidget->mode() == FancyTabWidget::Mode::IconsSidebar) {
+          tabrectIcon.translate(moveRight, (tabSizeHint(0).height() - tabWidget->iconsize_largesidebar() - 5) / 2);
+        }
+        else {
+          tabrectIcon.translate(moveRight, 5);
+        }
       }
       tabIcon(index).paint(&p, tabrectIcon, iconFlags);
       p.restore();

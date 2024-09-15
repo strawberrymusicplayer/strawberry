@@ -48,7 +48,8 @@ class FancyTabWidget : public QTabWidget {
     SmallSidebar,
     Tabs,
     IconOnlyTabs,
-    PlainSidebar
+    PlainSidebar,
+    IconsSidebar,
   };
 
   Mode mode() const { return mode_; }
