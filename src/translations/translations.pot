@@ -1757,6 +1757,9 @@ msgstr ""
 msgid "Large sidebar"
 msgstr ""
 
+msgid "Icons sidebar"
+msgstr ""
+
 msgid "Small sidebar"
 msgstr ""
 
