@@ -285,7 +285,7 @@ bool GstEngine::Play(const bool pause, const quint64 offset_nanosec) {
     watcher->deleteLater();
     PlayDone(ret, pause, offset_nanosec, pipeline_id);
   });
-  QFuture<GstStateChangeReturn> future = current_pipeline_->Play(pause, offset_nanosec);
+  QFuture<GstStateChangeReturn> future = current_pipeline_->Play(pause, beginning_nanosec_ + offset_nanosec);
   watcher->setFuture(future);
 
   return true;
