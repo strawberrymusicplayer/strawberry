@@ -5,6 +5,7 @@ if(HAVE_TRANSLATIONS)
 endif()
 
 set(SOURCES
+  core/logging.cpp
   core/mainwindow.cpp
   core/application.cpp
   core/player.cpp
@@ -31,7 +32,6 @@ set(SOURCES
   core/songloader.cpp
   core/stylehelper.cpp
   core/stylesheetloader.cpp
-  core/tagreaderclient.cpp
   core/taskmanager.cpp
   core/thread.cpp
   core/urlhandler.cpp
@@ -62,6 +62,27 @@ set(SOURCES
   utilities/coverutils.cpp
   utilities/screenutils.cpp
   utilities/textencodingutils.cpp
+
+  tagreader/tagreaderclient.cpp
+  tagreader/tagreaderresult.cpp
+  tagreader/tagreaderbase.cpp
+  tagreader/tagreadertaglib.cpp
+  tagreader/tagreadergme.cpp
+  tagreader/tagreaderrequest.cpp
+  tagreader/tagreaderismediafilerequest.cpp
+  tagreader/tagreaderreadfilerequest.cpp
+  tagreader/tagreaderwritefilerequest.cpp
+  tagreader/tagreaderloadcoverdatarequest.cpp
+  tagreader/tagreaderloadcoverimagerequest.cpp
+  tagreader/tagreadersavecoverrequest.cpp
+  tagreader/tagreadersaveplaycountrequest.cpp
+  tagreader/tagreadersaveratingrequest.cpp
+  tagreader/albumcovertagdata.cpp
+  tagreader/savetagcoverdata.cpp
+  tagreader/tagreaderreply.cpp
+  tagreader/tagreaderreadfilereply.cpp
+  tagreader/tagreaderloadcoverdatareply.cpp
+  tagreader/tagreaderloadcoverimagereply.cpp
 
   filterparser/filterparser.cpp
   filterparser/filtertree.cpp
@@ -319,6 +340,7 @@ set(SOURCES
 )
 
 set(HEADERS
+  core/logging.h
   core/mainwindow.h
   core/application.h
   core/player.h
@@ -333,7 +355,6 @@ set(HEADERS
   core/qtfslistener.h
   core/settings.h
   core/songloader.h
-  core/tagreaderclient.h
   core/taskmanager.h
   core/thread.h
   core/urlhandler.h
@@ -343,6 +364,12 @@ set(HEADERS
   core/mimedata.h
   core/stylesheetloader.h
   core/localredirectserver.h
+
+  tagreader/tagreaderclient.h
+  tagreader/tagreaderreply.h
+  tagreader/tagreaderreadfilereply.h
+  tagreader/tagreaderloadcoverdatareply.h
+  tagreader/tagreaderloadcoverimagereply.h
 
   engine/enginebase.h
   engine/devicefinders.h
@@ -1059,8 +1086,8 @@ target_include_directories(strawberry_lib SYSTEM PUBLIC
   ${GLIB_INCLUDE_DIRS}
   ${GOBJECT_INCLUDE_DIRS}
   ${SQLITE_INCLUDE_DIRS}
-  ${PROTOBUF_INCLUDE_DIRS}
   ${ICU_INCLUDE_DIRS}
+  ${TAGLIB_INCLUDE_DIRS}
 )
 
 if(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)
@@ -1072,9 +1099,6 @@ target_include_directories(strawberry_lib PUBLIC
   ${CMAKE_BINARY_DIR}
   ${CMAKE_CURRENT_BINARY_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR}
-  ${CMAKE_SOURCE_DIR}/ext/libstrawberry-common
-  ${CMAKE_SOURCE_DIR}/ext/libstrawberry-tagreader
-  ${CMAKE_BINARY_DIR}/ext/libstrawberry-tagreader
   ${SINGLEAPPLICATION_INCLUDE_DIRS}
 )
 
@@ -1083,9 +1107,9 @@ target_link_directories(strawberry_lib PUBLIC
   ${GLIB_LIBRARY_DIRS}
   ${GOBJECT_LIBRARY_DIRS}
   ${SQLITE_LIBRARY_DIRS}
-  ${PROTOBUF_LIBRARY_DIRS}
   ${SINGLEAPPLICATION_LIBRARY_DIRS}
   ${ICU_LIBRARY_DIRS}
+  ${TAGLIB_LIBRARY_DIRS}
 )
 
 target_link_libraries(strawberry_lib PUBLIC
@@ -1094,16 +1118,14 @@ target_link_libraries(strawberry_lib PUBLIC
   ${GOBJECT_LIBRARIES}
   ${SQLITE_LIBRARIES}
   ${ICU_LIBRARIES}
+  ${TAGLIB_LIBRARIES}
   Qt${QT_VERSION_MAJOR}::Core
   Qt${QT_VERSION_MAJOR}::Concurrent
   Qt${QT_VERSION_MAJOR}::Gui
   Qt${QT_VERSION_MAJOR}::Widgets
   Qt${QT_VERSION_MAJOR}::Network
   Qt${QT_VERSION_MAJOR}::Sql
-  ${Protobuf_LIBRARIES}
   ${SINGLEAPPLICATION_LIBRARIES}
-  libstrawberry-common
-  libstrawberry-tagreader
 )
 
 if(HAVE_DBUS)
@@ -1267,9 +1289,6 @@ if(FREEBSD)
 endif()
 
 target_link_libraries(strawberry PRIVATE strawberry_lib)
-
-# macdeploy.py relies on the blob being built first.
-add_dependencies(strawberry strawberry-tagreader)
 
 if(NOT APPLE)
   install(TARGETS strawberry RUNTIME DESTINATION bin)

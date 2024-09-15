@@ -2177,21 +2177,20 @@ void MainWindow::RenumberTracks() {
     Song song = item->OriginalMetadata();
     if (song.IsEditable()) {
       song.set_track(track);
-      TagReaderReply *reply = TagReaderClient::Instance()->WriteFile(song.url().toLocalFile(), song);
+      TagReaderReplyPtr reply = TagReaderClient::Instance()->WriteFileAsync(song.url().toLocalFile(), song);
       QPersistentModelIndex persistent_index = QPersistentModelIndex(source_index);
-      QObject::connect(reply, &TagReaderReply::Finished, this, [this, reply, persistent_index]() { SongSaveComplete(reply, persistent_index); }, Qt::QueuedConnection);
+      QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, persistent_index]() { SongSaveComplete(reply, persistent_index); }, Qt::QueuedConnection);
     }
     ++track;
   }
 
 }
 
-void MainWindow::SongSaveComplete(TagReaderReply *reply, const QPersistentModelIndex &idx) {
+void MainWindow::SongSaveComplete(TagReaderReplyPtr reply, const QPersistentModelIndex &idx) {
 
-  if (reply->is_successful() && idx.isValid()) {
+  if (reply->success() && idx.isValid()) {
     app_->playlist_manager()->current()->ReloadItems(QList<int>() << idx.row());
   }
-  reply->deleteLater();
 
 }
 
@@ -2209,9 +2208,9 @@ void MainWindow::SelectionSetValue() {
     Song song = item->OriginalMetadata();
     if (!song.is_valid()) continue;
     if (song.url().isLocalFile() && Playlist::set_column_value(song, column, column_value)) {
-      TagReaderReply *reply = TagReaderClient::Instance()->WriteFile(song.url().toLocalFile(), song);
+      TagReaderReplyPtr reply = TagReaderClient::Instance()->WriteFileAsync(song.url().toLocalFile(), song);
       QPersistentModelIndex persistent_index = QPersistentModelIndex(source_index);
-      QObject::connect(reply, &TagReaderReply::Finished, this, [this, reply, persistent_index]() { SongSaveComplete(reply, persistent_index); }, Qt::QueuedConnection);
+      QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, persistent_index]() { SongSaveComplete(reply, persistent_index); }, Qt::QueuedConnection);
     }
     else if (song.source() == Song::Source::Stream) {
       app_->playlist_manager()->current()->setData(source_index, column_value, 0);

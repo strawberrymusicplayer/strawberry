@@ -66,7 +66,6 @@
 #include "core/logging.h"
 #include "core/application.h"
 #include "core/iconloader.h"
-#include "core/tagreaderclient.h"
 #include "core/database.h"
 #include "core/sqlrow.h"
 #include "core/settings.h"
@@ -77,6 +76,7 @@
 #include "utilities/screenutils.h"
 #include "widgets/forcescrollperpixel.h"
 #include "widgets/searchfield.h"
+#include "tagreader/tagreaderclient.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionquery.h"
 #include "playlist/songmimedata.h"
@@ -758,9 +758,9 @@ void AlbumCoverManager::SaveCoverToFile() {
         return;
       case AlbumCoverLoaderOptions::Type::Embedded:
         if (song.art_embedded()) {
-          const TagReaderClient::Result tagreaderclient_result = TagReaderClient::Instance()->LoadEmbeddedArtBlocking(song.url().toLocalFile(), result.image_data);
+          const TagReaderResult tagreaderclient_result = TagReaderClient::Instance()->LoadCoverDataBlocking(song.url().toLocalFile(), result.image_data);
           if (!tagreaderclient_result.success()) {
-            qLog(Error) << "Could not load embedded art from" << song.url() << tagreaderclient_result.error;
+            qLog(Error) << "Could not load embedded art from" << song.url() << tagreaderclient_result.error_string();
           }
         }
         break;
@@ -845,8 +845,8 @@ void AlbumCoverManager::SaveImageToAlbums(Song *song, const AlbumCoverImageResul
       case CoverOptions::CoverType::Embedded:{
         for (const QUrl &url : std::as_const(album_item->urls)) {
           const bool art_embedded = !result.image_data.isEmpty();
-          TagReaderReply *reply = app_->tag_reader_client()->SaveEmbeddedArt(url.toLocalFile(), TagReaderClient::SaveCoverOptions(result.image_data, result.mime_type));
-          QObject::connect(reply, &TagReaderReply::Finished, this, [this, reply, album_item, url, art_embedded]() {
+          TagReaderReplyPtr reply = app_->tag_reader_client()->SaveCoverAsync(url.toLocalFile(), SaveTagCoverData(result.image_data, result.mime_type));
+          QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, album_item, url, art_embedded]() {
             SaveEmbeddedCoverFinished(reply, album_item, url, art_embedded);
           });
           cover_save_tasks_.insert(album_item, url);
@@ -995,8 +995,8 @@ void AlbumCoverManager::SaveAndSetCover(AlbumItem *album_item, const AlbumCoverI
   if (album_cover_choice_controller_->get_save_album_cover_type() == CoverOptions::CoverType::Embedded && Song::save_embedded_cover_supported(filetype) && !has_cue) {
     for (const QUrl &url : urls) {
       const bool art_embedded = !result.image_data.isEmpty();
-      TagReaderReply *reply = app_->tag_reader_client()->SaveEmbeddedArt(url.toLocalFile(), TagReaderClient::SaveCoverOptions(result.cover_url.isValid() ? result.cover_url.toLocalFile() : QString(), result.image_data, result.mime_type));
-      QObject::connect(reply, &TagReaderReply::Finished, this, [this, reply, album_item, url, art_embedded]() {
+      TagReaderReplyPtr reply = app_->tag_reader_client()->SaveCoverAsync(url.toLocalFile(), SaveTagCoverData(result.cover_url.isValid() ? result.cover_url.toLocalFile() : QString(), result.image_data, result.mime_type));
+      QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, album_item, url, art_embedded]() {
         SaveEmbeddedCoverFinished(reply, album_item, url, art_embedded);
       });
       cover_save_tasks_.insert(album_item, url);
@@ -1094,13 +1094,13 @@ bool AlbumCoverManager::ItemHasCover(const AlbumItem &album_item) const {
   return album_item.icon().cacheKey() != icon_nocover_item_.cacheKey();
 }
 
-void AlbumCoverManager::SaveEmbeddedCoverFinished(TagReaderReply *reply, AlbumItem *album_item, const QUrl &url, const bool art_embedded) {
+void AlbumCoverManager::SaveEmbeddedCoverFinished(TagReaderReplyPtr reply, AlbumItem *album_item, const QUrl &url, const bool art_embedded) {
 
   if (cover_save_tasks_.contains(album_item, url)) {
     cover_save_tasks_.remove(album_item, url);
   }
 
-  if (!reply->is_successful()) {
+  if (!reply->success()) {
     Q_EMIT Error(tr("Could not save cover to file %1.").arg(url.toLocalFile()));
     return;
   }

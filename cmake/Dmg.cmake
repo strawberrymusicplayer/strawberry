@@ -34,9 +34,9 @@ if(MACDEPLOYQT_EXECUTABLE)
     COMMAND cp -v ${CMAKE_SOURCE_DIR}/dist/macos/Info.plist ${CMAKE_BINARY_DIR}/strawberry.app/Contents/
     COMMAND cp -v ${CMAKE_SOURCE_DIR}/dist/macos/strawberry.icns ${CMAKE_BINARY_DIR}/strawberry.app/Contents/Resources/
     COMMAND ${CMAKE_SOURCE_DIR}/dist/macos/macgstcopy.sh ${CMAKE_BINARY_DIR}/strawberry.app
-    COMMAND ${MACDEPLOYQT_EXECUTABLE} strawberry.app -verbose=3 -executable=${CMAKE_BINARY_DIR}/strawberry.app/Contents/PlugIns/strawberry-tagreader -executable=${CMAKE_BINARY_DIR}/strawberry.app/Contents/PlugIns/gst-plugin-scanner ${MACDEPLOYQT_CODESIGN}
+    COMMAND ${MACDEPLOYQT_EXECUTABLE} strawberry.app -verbose=3 -executable=${CMAKE_BINARY_DIR}/strawberry.app/Contents/PlugIns/gst-plugin-scanner ${MACDEPLOYQT_CODESIGN}
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-    DEPENDS strawberry strawberry-tagreader
+    DEPENDS strawberry
   )
   if(MACDEPLOYCHECK_EXECUTABLE)
     add_custom_target(deploycheck

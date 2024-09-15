@@ -39,9 +39,9 @@
 #include "core/shared_ptr.h"
 #include "core/taskmanager.h"
 #include "core/musicstorage.h"
-#include "core/tagreaderclient.h"
 #include "core/song.h"
 #include "utilities/strutils.h"
+#include "tagreader/tagreaderclient.h"
 #include "organize.h"
 #ifdef HAVE_GSTREAMER
 #  include "transcoder/transcoder.h"
@@ -245,9 +245,9 @@ void Organize::ProcessSomeFiles() {
       }
     }
     else if (destination_->source() == Song::Source::Device) {
-      const TagReaderClient::Result result = TagReaderClient::Instance()->LoadEmbeddedArtAsImageBlocking(task.song_info_.song_.url().toLocalFile(), job.cover_image_);
+      const TagReaderResult result = TagReaderClient::Instance()->LoadCoverImageBlocking(task.song_info_.song_.url().toLocalFile(), job.cover_image_);
       if (!result.success()) {
-        qLog(Error) << "Could not load embedded art from" << task.song_info_.song_.url() << result.error;
+        qLog(Error) << "Could not load embedded art from" << task.song_info_.song_.url() << result.error_string();
       }
     }
 

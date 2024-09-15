@@ -36,12 +36,11 @@
 
 #include "shared_ptr.h"
 #include "lazy.h"
-#include "tagreaderclient.h"
 #include "database.h"
 #include "taskmanager.h"
 #include "player.h"
 #include "networkaccessmanager.h"
-
+#include "tagreader/tagreaderclient.h"
 #include "engine/devicefinders.h"
 #ifndef Q_OS_WIN
 #  include "device/devicemanager.h"
@@ -118,7 +117,6 @@ class ApplicationImpl {
        tag_reader_client_([app](){
           TagReaderClient *client = new TagReaderClient();
           app->MoveToNewThread(client);
-          client->Start();
           return client;
         }),
         database_([app]() {

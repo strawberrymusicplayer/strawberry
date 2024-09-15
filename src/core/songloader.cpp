@@ -48,10 +48,10 @@
 #include "player.h"
 #include "song.h"
 #include "songloader.h"
-#include "tagreaderclient.h"
 #include "database.h"
 #include "sqlrow.h"
 #include "engine/enginebase.h"
+#include "tagreader/tagreaderclient.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionquery.h"
 #include "playlistparsers/cueparser.h"
@@ -362,9 +362,9 @@ void SongLoader::EffectiveSongLoad(Song *song) {
   else {
     // It's a normal media file
     const QString filename = song->url().toLocalFile();
-    const TagReaderClient::Result result = TagReaderClient::Instance()->ReadFileBlocking(filename, song);
+    const TagReaderResult result = TagReaderClient::Instance()->ReadFileBlocking(filename, song);
     if (!result.success()) {
-      qLog(Error) << "Could not read file" << song->url() << result.error;
+      qLog(Error) << "Could not read file" << song->url() << result.error_string();
     }
   }
 

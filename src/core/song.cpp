@@ -48,6 +48,8 @@
 #include <QStandardPaths>
 #include <QSqlRecord>
 
+#include <taglib/tstring.h>
+
 #include "core/iconloader.h"
 #include "engine/enginemetadata.h"
 #include "utilities/strutils.h"
@@ -55,13 +57,13 @@
 #include "utilities/coverutils.h"
 #include "utilities/timeconstants.h"
 #include "utilities/sqlhelper.h"
+
 #include "song.h"
 #include "sqlquery.h"
 #include "sqlrow.h"
 #ifdef HAVE_DBUS
 #  include "mpris_common.h"
 #endif
-#include "tagreadermessages.pb.h"
 
 using namespace Qt::StringLiterals;
 
@@ -482,6 +484,29 @@ const QString &Song::musicbrainz_work_id() const { return d->musicbrainz_work_id
 std::optional<double> Song::ebur128_integrated_loudness_lufs() const { return d->ebur128_integrated_loudness_lufs_; }
 std::optional<double> Song::ebur128_loudness_range_lu() const { return d->ebur128_loudness_range_lu_; }
 
+QString *Song::mutable_title() { return &d->title_; }
+QString *Song::mutable_album() { return &d->album_; }
+QString *Song::mutable_artist() { return &d->artist_; }
+QString *Song::mutable_albumartist() { return &d->albumartist_; }
+QString *Song::mutable_genre() { return &d->genre_; }
+QString *Song::mutable_composer() { return &d->composer_; }
+QString *Song::mutable_performer() { return &d->performer_; }
+QString *Song::mutable_grouping() { return &d->grouping_; }
+QString *Song::mutable_comment() { return &d->comment_; }
+QString *Song::mutable_lyrics() { return &d->lyrics_; }
+QString *Song::mutable_acoustid_id() { return &d->acoustid_id_; }
+QString *Song::mutable_acoustid_fingerprint() { return &d->acoustid_fingerprint_; }
+QString *Song::mutable_musicbrainz_album_artist_id() { return &d->musicbrainz_album_artist_id_; }
+QString *Song::mutable_musicbrainz_artist_id() { return &d->musicbrainz_artist_id_; }
+QString *Song::mutable_musicbrainz_original_artist_id() { return &d->musicbrainz_original_artist_id_; }
+QString *Song::mutable_musicbrainz_album_id() { return &d->musicbrainz_album_id_; }
+QString *Song::mutable_musicbrainz_original_album_id() { return &d->musicbrainz_original_album_id_; }
+QString *Song::mutable_musicbrainz_recording_id() { return &d->musicbrainz_recording_id_; }
+QString *Song::mutable_musicbrainz_track_id() { return &d->musicbrainz_track_id_; }
+QString *Song::mutable_musicbrainz_disc_id() { return &d->musicbrainz_disc_id_; }
+QString *Song::mutable_musicbrainz_release_group_id() { return &d->musicbrainz_release_group_id_; }
+QString *Song::mutable_musicbrainz_work_id() { return &d->musicbrainz_work_id_; }
+
 bool Song::init_from_file() const { return d->init_from_file_; }
 
 const QString &Song::title_sortable() const { return d->title_sortable_; }
@@ -503,7 +528,7 @@ void Song::set_disc(const int v) { d->disc_ = v; }
 void Song::set_year(const int v) { d->year_ = v; }
 void Song::set_originalyear(const int v) { d->originalyear_ = v; }
 void Song::set_genre(const QString &v) { d->genre_ = v; }
-void Song::set_compilation(bool v) { d->compilation_ = v; }
+void Song::set_compilation(const bool v) { d->compilation_ = v; }
 void Song::set_composer(const QString &v) { d->composer_ = v; }
 void Song::set_performer(const QString &v) { d->performer_ = v; }
 void Song::set_grouping(const QString &v) { d->grouping_ = v; }
@@ -570,6 +595,59 @@ void Song::set_ebur128_integrated_loudness_lufs(const std::optional<double> v) {
 void Song::set_ebur128_loudness_range_lu(const std::optional<double> v) { d->ebur128_loudness_range_lu_ = v; }
 
 void Song::set_stream_url(const QUrl &v) { d->stream_url_ = v; }
+
+void Song::set_title(const TagLib::String &v) {
+
+  const QString title = TagLibStringToQString(v);
+  d->title_sortable_ = sortable(title);
+  d->title_ = title;
+
+}
+
+void Song::set_album(const TagLib::String &v) {
+
+  const QString album = TagLibStringToQString(v);
+  d->album_sortable_ = sortable(album);
+  d->album_ = album;
+
+}
+void Song::set_artist(const TagLib::String &v) {
+
+  const QString artist = TagLibStringToQString(v);
+  d->artist_sortable_ = sortable(artist);
+  d->artist_ = artist;
+
+}
+
+void Song::set_albumartist(const TagLib::String &v) {
+
+  const QString albumartist = TagLibStringToQString(v);
+  d->albumartist_sortable_ = sortable(albumartist);
+  d->albumartist_ = albumartist;
+
+}
+
+void Song::set_genre(const TagLib::String &v) { d->genre_ = TagLibStringToQString(v); }
+void Song::set_composer(const TagLib::String &v) { d->composer_ = TagLibStringToQString(v); }
+void Song::set_performer(const TagLib::String &v) { d->performer_ = TagLibStringToQString(v); }
+void Song::set_grouping(const TagLib::String &v) { d->grouping_ = TagLibStringToQString(v); }
+void Song::set_comment(const TagLib::String &v) { d->comment_ = TagLibStringToQString(v); }
+void Song::set_lyrics(const TagLib::String &v) { d->lyrics_ = TagLibStringToQString(v); }
+void Song::set_artist_id(const TagLib::String &v) { d->artist_id_ = TagLibStringToQString(v); }
+void Song::set_album_id(const TagLib::String &v) { d->album_id_ = TagLibStringToQString(v); }
+void Song::set_song_id(const TagLib::String &v) { d->song_id_ = TagLibStringToQString(v); }
+void Song::set_acoustid_id(const TagLib::String &v) { d->acoustid_id_ = TagLibStringToQString(v); }
+void Song::set_acoustid_fingerprint(const TagLib::String &v) { d->acoustid_fingerprint_ = TagLibStringToQString(v); }
+void Song::set_musicbrainz_album_artist_id(const TagLib::String &v) { d->musicbrainz_album_artist_id_ = TagLibStringToQString(v); }
+void Song::set_musicbrainz_artist_id(const TagLib::String &v) { d->musicbrainz_artist_id_ = TagLibStringToQString(v); }
+void Song::set_musicbrainz_original_artist_id(const TagLib::String &v) { d->musicbrainz_original_artist_id_ = TagLibStringToQString(v); }
+void Song::set_musicbrainz_album_id(const TagLib::String &v) { d->musicbrainz_album_id_ = TagLibStringToQString(v); }
+void Song::set_musicbrainz_original_album_id(const TagLib::String &v) { d->musicbrainz_original_album_id_ = TagLibStringToQString(v); }
+void Song::set_musicbrainz_recording_id(const TagLib::String &v) { d->musicbrainz_recording_id_ = TagLibStringToQString(v); }
+void Song::set_musicbrainz_track_id(const TagLib::String &v) { d->musicbrainz_track_id_ = TagLibStringToQString(v); }
+void Song::set_musicbrainz_disc_id(const TagLib::String &v) { d->musicbrainz_disc_id_ = TagLibStringToQString(v); }
+void Song::set_musicbrainz_release_group_id(const TagLib::String &v) { d->musicbrainz_release_group_id_ = TagLibStringToQString(v); }
+void Song::set_musicbrainz_work_id(const TagLib::String &v) { d->musicbrainz_work_id_ = TagLibStringToQString(v); }
 
 const QUrl &Song::effective_stream_url() const { return !d->stream_url_.isEmpty() && d->stream_url_.isValid() ? d->stream_url_ : d->url_; }
 const QString &Song::effective_albumartist() const { return d->albumartist_.isEmpty() ? d->artist_ : d->albumartist_; }
@@ -1309,125 +1387,6 @@ void Song::Init(const QString &title, const QString &artist, const QString &albu
 
   d->beginning_ = beginning;
   d->end_ = end;
-
-}
-
-void Song::InitFromProtobuf(const spb::tagreader::SongMetadata &pb) {
-
-  if (d->source_ == Source::Unknown) d->source_ = Source::LocalFile;
-
-  d->init_from_file_ = true;
-  d->valid_ = pb.valid();
-  set_title(QString::fromStdString(pb.title()));
-  set_album(QString::fromStdString(pb.album()));
-  set_artist(QString::fromStdString(pb.artist()));
-  set_albumartist(QString::fromStdString(pb.albumartist()));
-  d->track_ = pb.track();
-  d->disc_ = pb.disc();
-  d->year_ = pb.year();
-  d->originalyear_ = pb.originalyear();
-  d->genre_ = QString::fromStdString(pb.genre());
-  d->compilation_ = pb.compilation();
-  d->composer_ = QString::fromStdString(pb.composer());
-  d->performer_ = QString::fromStdString(pb.performer());
-  d->grouping_ = QString::fromStdString(pb.grouping());
-  d->comment_ = QString::fromStdString(pb.comment());
-  d->lyrics_ = QString::fromStdString(pb.lyrics());
-  set_length_nanosec(static_cast<qint64>(pb.length_nanosec()));
-  d->bitrate_ = pb.bitrate();
-  d->samplerate_ = pb.samplerate();
-  d->bitdepth_ = pb.bitdepth();
-  set_url(QUrl::fromEncoded(QString::fromStdString(pb.url()).toUtf8()));
-  d->basefilename_ = QString::fromStdString(pb.basefilename());
-  d->filetype_ = static_cast<FileType>(pb.filetype());
-  d->filesize_ = pb.filesize();
-  d->mtime_ = pb.mtime();
-  d->ctime_ = pb.ctime();
-  d->skipcount_ = pb.skipcount();
-  d->lastplayed_ = pb.lastplayed();
-  d->lastseen_ = pb.lastseen();
-
-  if (pb.has_playcount()) {
-    d->playcount_ = pb.playcount();
-  }
-  if (pb.has_rating()) {
-    d->rating_ = pb.rating();
-  }
-
-  d->art_embedded_ = pb.has_art_embedded();
-
-  d->acoustid_id_ = QString::fromStdString(pb.acoustid_id());
-  d->acoustid_fingerprint_ = QString::fromStdString(pb.acoustid_fingerprint());
-
-  d->musicbrainz_album_artist_id_ = QString::fromStdString(pb.musicbrainz_album_artist_id());
-  d->musicbrainz_artist_id_ = QString::fromStdString(pb.musicbrainz_artist_id().data());
-  d->musicbrainz_original_artist_id_ = QString::fromStdString(pb.musicbrainz_original_artist_id());
-  d->musicbrainz_album_id_ = QString::fromStdString(pb.musicbrainz_album_id());
-  d->musicbrainz_original_album_id_ = QString::fromStdString(pb.musicbrainz_original_album_id());
-  d->musicbrainz_recording_id_ = QString::fromStdString(pb.musicbrainz_recording_id());
-  d->musicbrainz_track_id_ = QString::fromStdString(pb.musicbrainz_track_id());
-  d->musicbrainz_disc_id_ = QString::fromStdString(pb.musicbrainz_disc_id());
-  d->musicbrainz_release_group_id_ = QString::fromStdString(pb.musicbrainz_release_group_id());
-  d->musicbrainz_work_id_ = QString::fromStdString(pb.musicbrainz_work_id());
-
-  d->suspicious_tags_ = pb.suspicious_tags();
-
-  InitArtManual();
-
-}
-
-void Song::ToProtobuf(spb::tagreader::SongMetadata *pb) const {
-
-  const QByteArray url(d->url_.toEncoded());
-
-  pb->set_valid(d->valid_);
-  pb->set_title(d->title_.toStdString());
-  pb->set_album(d->album_.toStdString());
-  pb->set_artist(d->artist_.toStdString());
-  pb->set_albumartist(d->albumartist_.toStdString());
-  pb->set_track(d->track_);
-  pb->set_disc(d->disc_);
-  pb->set_year(d->year_);
-  pb->set_originalyear(d->originalyear_);
-  pb->set_genre(d->genre_.toStdString());
-  pb->set_compilation(d->compilation_);
-  pb->set_composer(d->composer_.toStdString());
-  pb->set_performer(d->performer_.toStdString());
-  pb->set_grouping(d->grouping_.toStdString());
-  pb->set_comment(d->comment_.toStdString());
-  pb->set_lyrics(d->lyrics_.toStdString());
-  pb->set_length_nanosec(length_nanosec());
-  pb->set_bitrate(d->bitrate_);
-  pb->set_samplerate(d->samplerate_);
-  pb->set_bitdepth(d->bitdepth_);
-  pb->set_url(url.constData(), url.size());
-  pb->set_basefilename(d->basefilename_.toStdString());
-  pb->set_filetype(static_cast<spb::tagreader::SongMetadata_FileType>(d->filetype_));
-  pb->set_filesize(d->filesize_);
-  pb->set_mtime(d->mtime_);
-  pb->set_ctime(d->ctime_);
-  pb->set_playcount(d->playcount_);
-  pb->set_skipcount(d->skipcount_);
-  pb->set_lastplayed(d->lastplayed_);
-  pb->set_lastseen(d->lastseen_);
-  pb->set_art_embedded(d->art_embedded_);
-  pb->set_rating(d->rating_);
-
-  pb->set_acoustid_id(d->acoustid_id_.toStdString());
-  pb->set_acoustid_fingerprint(d->acoustid_fingerprint_.toStdString());
-
-  pb->set_musicbrainz_album_artist_id(d->musicbrainz_album_artist_id_.toStdString());
-  pb->set_musicbrainz_artist_id(d->musicbrainz_artist_id_.toStdString());
-  pb->set_musicbrainz_original_artist_id(d->musicbrainz_original_artist_id_.toStdString());
-  pb->set_musicbrainz_album_id(d->musicbrainz_album_id_.toStdString());
-  pb->set_musicbrainz_original_album_id(d->musicbrainz_original_album_id_.toStdString());
-  pb->set_musicbrainz_recording_id(d->musicbrainz_recording_id_.toStdString());
-  pb->set_musicbrainz_track_id(d->musicbrainz_track_id_.toStdString());
-  pb->set_musicbrainz_disc_id(d->musicbrainz_disc_id_.toStdString());
-  pb->set_musicbrainz_release_group_id(d->musicbrainz_release_group_id_.toStdString());
-  pb->set_musicbrainz_work_id(d->musicbrainz_work_id_.toStdString());
-
-  pb->set_suspicious_tags(d->suspicious_tags_);
 
 }
 

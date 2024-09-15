@@ -62,10 +62,10 @@
 #include "core/application.h"
 #include "core/logging.h"
 #include "core/mimedata.h"
-#include "core/tagreaderclient.h"
 #include "core/song.h"
 #include "core/settings.h"
 #include "utilities/timeconstants.h"
+#include "tagreader/tagreaderclient.h"
 #include "collection/collection.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionplaylistitem.h"
@@ -418,9 +418,9 @@ bool Playlist::setData(const QModelIndex &idx, const QVariant &value, const int 
   if (!set_column_value(song, static_cast<Column>(idx.column()), value)) return false;
 
   if (song.url().isLocalFile()) {
-    TagReaderReply *reply = TagReaderClient::Instance()->WriteFile(song.url().toLocalFile(), song);
+    TagReaderReplyPtr reply = TagReaderClient::Instance()->WriteFileAsync(song.url().toLocalFile(), song);
     QPersistentModelIndex persistent_index = QPersistentModelIndex(idx);
-    QObject::connect(reply, &TagReaderReply::Finished, this, [this, reply, persistent_index, item]() { SongSaveComplete(reply, persistent_index, item->OriginalMetadata()); }, Qt::QueuedConnection);
+    QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, persistent_index, item]() { SongSaveComplete(reply, persistent_index, item->OriginalMetadata()); }, Qt::QueuedConnection);
   }
   else if (song.is_radio()) {
     item->SetMetadata(song);
@@ -431,18 +431,18 @@ bool Playlist::setData(const QModelIndex &idx, const QVariant &value, const int 
 
 }
 
-void Playlist::SongSaveComplete(TagReaderReply *reply, const QPersistentModelIndex &idx, const Song &old_metadata) {
+void Playlist::SongSaveComplete(TagReaderReplyPtr reply, const QPersistentModelIndex &idx, const Song &old_metadata) {
 
-  if (reply->is_successful() && idx.isValid()) {
-    if (reply->message().write_file_response().success()) {
+  if (reply->success() && idx.isValid()) {
+    if (reply->success()) {
       ItemReload(idx, old_metadata, true);
     }
     else {
-      if (reply->request_message().write_file_response().has_error()) {
-        Q_EMIT Error(tr("Could not write metadata to %1: %2").arg(QString::fromStdString(reply->request_message().write_file_request().filename()), QString::fromStdString(reply->request_message().write_file_response().error())));
+      if (reply->error().isEmpty()) {
+        Q_EMIT Error(tr("Could not write metadata to %1").arg(reply->filename()));
       }
       else {
-        Q_EMIT Error(tr("Could not write metadata to %1").arg(QString::fromStdString(reply->request_message().write_file_request().filename())));
+        Q_EMIT Error(tr("Could not write metadata to %1: %2").arg(reply->filename(), reply->error()));
       }
     }
   }

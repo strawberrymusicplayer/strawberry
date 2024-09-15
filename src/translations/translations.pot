@@ -394,10 +394,6 @@ msgstr ""
 msgid "Couldn't link GStreamer source, typefind and fakesink elements for %1"
 msgstr ""
 
-#, qt-format
-msgid "Failed to load image from data for %1"
-msgstr ""
-
 msgid "Playlist"
 msgstr ""
 
@@ -442,6 +438,34 @@ msgstr ""
 msgid ""
 "%1 songs in %2 different directories selected, are you sure you want to open "
 "them all?"
+msgstr ""
+
+#, qt-format
+msgid "Failed to load image from data for %1"
+msgstr ""
+
+msgid "Success"
+msgstr ""
+
+msgid "File is unsupported"
+msgstr ""
+
+msgid "Filename is missing"
+msgstr ""
+
+msgid "File does not exist"
+msgstr ""
+
+msgid "File could not be opened"
+msgstr ""
+
+msgid "Could not parse file"
+msgstr ""
+
+msgid "Could save file"
+msgstr ""
+
+msgid "Unknown error"
 msgstr ""
 
 msgid ""
@@ -843,11 +867,11 @@ msgid "Sample rate"
 msgstr ""
 
 #, qt-format
-msgid "Could not write metadata to %1: %2"
+msgid "Could not write metadata to %1"
 msgstr ""
 
 #, qt-format
-msgid "Could not write metadata to %1"
+msgid "Could not write metadata to %1: %2"
 msgstr ""
 
 msgid "Title"
@@ -2326,9 +2350,6 @@ msgstr ""
 
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
-msgstr ""
-
-msgid "Unknown error"
 msgstr ""
 
 msgid "Configuration incomplete"

@@ -41,16 +41,14 @@
 #include <QFileInfo>
 #include <QIcon>
 
+#include <taglib/tstring.h>
+#undef TStringToQString
+#undef QStringToTString
+
 class SqlQuery;
 class QSqlRecord;
 
 class EngineMetadata;
-
-namespace spb {
-namespace tagreader {
-class SongMetadata;
-}  // namespace tagreader
-}  // namespace spb
 
 #ifdef HAVE_LIBGPOD
 struct _Itdb_Track;
@@ -80,9 +78,6 @@ class Song {
     RadioParadise = 10,
     Spotify = 11
   };
-
-  // Don't change these values - they're stored in the database, and defined in the tag reader protobuf.
-  // If a new lossless file is added, also add it to IsFileLossless().
 
   enum class FileType {
     Unknown = 0,
@@ -227,6 +222,29 @@ class Song {
   std::optional<double> ebur128_integrated_loudness_lufs() const;
   std::optional<double> ebur128_loudness_range_lu() const;
 
+  QString *mutable_title();
+  QString *mutable_album();
+  QString *mutable_artist();
+  QString *mutable_albumartist();
+  QString *mutable_genre();
+  QString *mutable_composer();
+  QString *mutable_performer();
+  QString *mutable_grouping();
+  QString *mutable_comment();
+  QString *mutable_lyrics();
+  QString *mutable_acoustid_id();
+  QString *mutable_acoustid_fingerprint();
+  QString *mutable_musicbrainz_album_artist_id();
+  QString *mutable_musicbrainz_artist_id();
+  QString *mutable_musicbrainz_original_artist_id();
+  QString *mutable_musicbrainz_album_id();
+  QString *mutable_musicbrainz_original_album_id();
+  QString *mutable_musicbrainz_recording_id();
+  QString *mutable_musicbrainz_track_id();
+  QString *mutable_musicbrainz_disc_id();
+  QString *mutable_musicbrainz_release_group_id();
+  QString *mutable_musicbrainz_work_id();
+
   bool init_from_file() const;
 
   const QString &title_sortable() const;
@@ -316,6 +334,32 @@ class Song {
   void set_ebur128_loudness_range_lu(const std::optional<double> v);
 
   void set_stream_url(const QUrl &v);
+
+  void set_title(const TagLib::String &v);
+  void set_album(const TagLib::String &v);
+  void set_artist(const TagLib::String &v);
+  void set_albumartist(const TagLib::String &v);
+  void set_genre(const TagLib::String &v);
+  void set_composer(const TagLib::String &v);
+  void set_performer(const TagLib::String &v);
+  void set_grouping(const TagLib::String &v);
+  void set_comment(const TagLib::String &v);
+  void set_lyrics(const TagLib::String &v);
+  void set_artist_id(const TagLib::String &v);
+  void set_album_id(const TagLib::String &v);
+  void set_song_id(const TagLib::String &v);
+  void set_acoustid_id(const TagLib::String &v);
+  void set_acoustid_fingerprint(const TagLib::String &v);
+  void set_musicbrainz_album_artist_id(const TagLib::String &v);
+  void set_musicbrainz_artist_id(const TagLib::String &v);
+  void set_musicbrainz_original_artist_id(const TagLib::String &v);
+  void set_musicbrainz_album_id(const TagLib::String &v);
+  void set_musicbrainz_original_album_id(const TagLib::String &v);
+  void set_musicbrainz_recording_id(const TagLib::String &v);
+  void set_musicbrainz_track_id(const TagLib::String &v);
+  void set_musicbrainz_disc_id(const TagLib::String &v);
+  void set_musicbrainz_release_group_id(const TagLib::String &v);
+  void set_musicbrainz_work_id(const TagLib::String &v);
 
   const QUrl &effective_stream_url() const;
   const QString &effective_albumartist() const;
@@ -422,7 +466,6 @@ class Song {
   // Constructors
   void Init(const QString &title, const QString &artist, const QString &album, const qint64 length_nanosec);
   void Init(const QString &title, const QString &artist, const QString &album, const qint64 beginning, const qint64 end);
-  void InitFromProtobuf(const spb::tagreader::SongMetadata &pb);
   void InitFromQuery(const QSqlRecord &r, const bool reliable_metadata, const int col = 0);
   void InitFromQuery(const SqlQuery &query, const bool reliable_metadata, const int col = 0);
   void InitFromQuery(const SqlRow &row, const bool reliable_metadata, const int col = 0);
@@ -445,7 +488,6 @@ class Song {
 #ifdef HAVE_DBUS
   void ToXesam(QVariantMap *map) const;
 #endif
-  void ToProtobuf(spb::tagreader::SongMetadata *pb) const;
 
   bool MergeFromEngineMetadata(const EngineMetadata &engine_metadata);
 
@@ -464,6 +506,10 @@ class Song {
   static QString AlbumRemoveMisc(const QString &album);
   static QString AlbumRemoveDiscMisc(const QString &album);
   static QString TitleRemoveMisc(const QString &title);
+
+  static inline QString TagLibStringToQString(const TagLib::String &s) {
+    return QString::fromUtf8((s).toCString(true));
+  }
 
  private:
   struct Private;

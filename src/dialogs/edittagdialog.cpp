@@ -73,13 +73,13 @@
 #include "core/application.h"
 #include "core/iconloader.h"
 #include "core/logging.h"
-#include "core/tagreaderclient.h"
 #include "core/settings.h"
 #include "utilities/strutils.h"
 #include "utilities/timeutils.h"
 #include "utilities/imageutils.h"
 #include "utilities/coverutils.h"
 #include "utilities/coveroptions.h"
+#include "tagreader/tagreaderclient.h"
 #include "widgets/busyindicator.h"
 #include "widgets/lineedit.h"
 #include "collection/collectionbackend.h"
@@ -99,7 +99,6 @@
 #include "covermanager/albumcoverimageresult.h"
 #include "edittagdialog.h"
 #include "ui_edittagdialog.h"
-#include "tagreadermessages.pb.h"
 
 using namespace Qt::StringLiterals;
 
@@ -401,7 +400,7 @@ QList<EditTagDialog::Data> EditTagDialog::LoadData(const SongList &songs) {
     if (song.IsEditable()) {
       // Try reloading the tags from file
       Song copy(song);
-      const TagReaderClient::Result result = TagReaderClient::Instance()->ReadFileBlocking(copy.url().toLocalFile(), &copy);
+      const TagReaderResult result = TagReaderClient::Instance()->ReadFileBlocking(copy.url().toLocalFile(), &copy);
       if (result.success() && copy.is_valid()) {
         copy.MergeUserSetData(song, false, false);
         ret << Data(copy);
@@ -1276,31 +1275,31 @@ void EditTagDialog::SaveData() {
       if (ref.current_.originalyear() <= 0) { ref.current_.set_originalyear(-1); }
       if (ref.current_.lastplayed() <= 0) { ref.current_.set_lastplayed(-1); }
       ++save_tag_pending_;
-      TagReaderClient::SaveCoverOptions savecover_options;
+      SaveTagCoverData save_tag_cover_data;
       if (save_embedded_cover && ref.cover_action_ == UpdateCoverAction::New) {
         if (!ref.cover_result_.image.isNull()) {
-          savecover_options.mime_type = ref.cover_result_.mime_type;
+          save_tag_cover_data.cover_mimetype = ref.cover_result_.mime_type;
         }
         else if (!embedded_cover_from_file.isEmpty()) {
-          savecover_options.cover_filename = embedded_cover_from_file;
+          save_tag_cover_data.cover_filename = embedded_cover_from_file;
         }
-        savecover_options.cover_data = ref.cover_result_.image_data;
+        save_tag_cover_data.cover_data = ref.cover_result_.image_data;
       }
-      TagReaderClient::SaveTypes save_types;
+      TagReaderClient::SaveOptions save_tags_options;
       if (save_tags) {
-        save_types |= TagReaderClient::SaveType::Tags;
+        save_tags_options |= TagReaderClient::SaveOption::Tags;
       }
       if (save_playcount) {
-        save_types |= TagReaderClient::SaveType::PlayCount;
+        save_tags_options |= TagReaderClient::SaveOption::Playcount;
       }
       if (save_rating) {
-        save_types |= TagReaderClient::SaveType::Rating;
+        save_tags_options |= TagReaderClient::SaveOption::Rating;
       }
       if (save_embedded_cover) {
-        save_types |= TagReaderClient::SaveType::Cover;
+        save_tags_options |= TagReaderClient::SaveOption::Cover;
       }
-      TagReaderReply *reply = TagReaderClient::Instance()->WriteFile(ref.current_.url().toLocalFile(), ref.current_, save_types, savecover_options);
-      QObject::connect(reply, &TagReaderReply::Finished, this, [this, reply, ref]() { SongSaveTagsComplete(reply, ref.current_.url().toLocalFile(), ref.current_, ref.cover_action_); }, Qt::QueuedConnection);
+      TagReaderReplyPtr reply = TagReaderClient::Instance()->WriteFileAsync(ref.current_.url().toLocalFile(), ref.current_, save_tags_options, save_tag_cover_data);
+      QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, ref]() { SongSaveTagsComplete(reply, ref.current_.url().toLocalFile(), ref.current_, ref.cover_action_); }, Qt::QueuedConnection);
     }
     // If the cover was changed, but no tags written, make sure to update the collection.
     else if (ref.cover_action_ != UpdateCoverAction::None && !ref.current_.effective_albumartist().isEmpty() && !ref.current_.album().isEmpty()) {
@@ -1451,15 +1450,12 @@ void EditTagDialog::UpdateLyrics(const quint64 id, const QString &provider, cons
 
 }
 
-void EditTagDialog::SongSaveTagsComplete(TagReaderReply *reply, const QString &filename, Song song, const UpdateCoverAction cover_action) {
+void EditTagDialog::SongSaveTagsComplete(TagReaderReplyPtr reply, const QString &filename, Song song, const UpdateCoverAction cover_action) {
 
   --save_tag_pending_;
-  const bool success = reply->message().write_file_response().success();
-  QString error;
-  if (!success && reply->message().write_file_response().has_error()) {
-    error = QString::fromStdString(reply->message().write_file_response().error());
-  }
-  reply->deleteLater();
+
+  const bool success = reply->success();
+  const QString error = reply->error();
 
   if (success) {
     if (song.is_collection_song()) {

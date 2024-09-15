@@ -48,7 +48,7 @@
 
 #include "core/iconloader.h"
 #include "core/logging.h"
-#include "core/tagreaderclient.h"
+#include "tagreader/tagreaderclient.h"
 #include "widgets/busyindicator.h"
 #include "trackselectiondialog.h"
 #include "ui_trackselectiondialog.h"
@@ -278,9 +278,9 @@ void TrackSelectionDialog::SaveData(const QList<Data> &data) {
     copy.set_track(new_metadata.track());
     copy.set_year(new_metadata.year());
 
-    const TagReaderClient::Result result = TagReaderClient::Instance()->WriteFileBlocking(copy.url().toLocalFile(), copy, TagReaderClient::SaveType::Tags, TagReaderClient::SaveCoverOptions());
+    const TagReaderResult result = TagReaderClient::Instance()->WriteFileBlocking(copy.url().toLocalFile(), copy, TagReaderClient::SaveOption::Tags, SaveTagCoverData());
     if (!result.success()) {
-      qLog(Error) << "Failed to write new auto-tags to" << copy.url().toLocalFile() << result.error;
+      qLog(Error) << "Failed to write new auto-tags to" << copy.url().toLocalFile() << result.error_string();
     }
   }
 

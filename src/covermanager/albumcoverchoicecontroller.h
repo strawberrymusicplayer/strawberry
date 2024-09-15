@@ -38,7 +38,7 @@
 #include <QMutex>
 
 #include "core/song.h"
-#include "core/tagreaderclient.h"
+#include "tagreader/tagreaderclient.h"
 #include "utilities/coveroptions.h"
 #include "albumcoverloaderoptions.h"
 #include "albumcoverimageresult.h"
@@ -160,7 +160,7 @@ class AlbumCoverChoiceController : public QWidget {
 
  private Q_SLOTS:
   void AlbumCoverFetched(const quint64 id, const AlbumCoverImageResult &result, const CoverSearchStatistics &statistics);
-  void SaveEmbeddedCoverFinished(TagReaderReply *reply, Song song, const bool art_embedded);
+  void SaveEmbeddedCoverFinished(TagReaderReplyPtr reply, Song song, const bool art_embedded);
 
  Q_SIGNALS:
   void Error(const QString &error);

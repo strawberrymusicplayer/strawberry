@@ -51,8 +51,8 @@
 #include "lazy.h"
 #include "platforminterface.h"
 #include "song.h"
-#include "tagreaderclient.h"
 #include "settings.h"
+#include "tagreader/tagreaderclient.h"
 #include "engine/enginebase.h"
 #include "osd/osdbase.h"
 #include "playlist/playlist.h"
@@ -218,7 +218,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 
   void PlayingWidgetPositionChanged(const bool above_status_bar);
 
-  void SongSaveComplete(TagReaderReply *reply, const QPersistentModelIndex &idx);
+  void SongSaveComplete(TagReaderReplyPtr reply, const QPersistentModelIndex &idx);
 
   void ShowCoverManager();
   void ShowEqualizer();

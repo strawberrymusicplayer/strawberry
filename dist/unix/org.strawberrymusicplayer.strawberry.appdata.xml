@@ -6,7 +6,6 @@
   <project_license>GPL-3.0+</project_license>
   <provides>
     <binary>strawberry</binary>
-    <binary>strawberry-tagreader</binary>
   </provides>
   <name>Strawberry Music Player</name>
   <summary>A music player and collection organizer</summary>

@@ -33,11 +33,11 @@
 #include "core/application.h"
 #include "core/taskmanager.h"
 #include "core/database.h"
-#include "core/tagreaderclient.h"
 #include "core/thread.h"
 #include "core/song.h"
 #include "core/logging.h"
 #include "core/settings.h"
+#include "tagreader/tagreaderclient.h"
 #include "utilities/threadutils.h"
 #include "collection.h"
 #include "collectionwatcher.h"
@@ -216,7 +216,7 @@ void SCollection::SyncPlaycountAndRatingToFiles() {
 void SCollection::SongsPlaycountChanged(const SongList &songs, const bool save_tags) {
 
   if (save_tags || save_playcounts_to_files_) {
-    app_->tag_reader_client()->SaveSongsPlaycount(songs);
+    app_->tag_reader_client()->SaveSongsPlaycountAsync(songs);
   }
 
 }
@@ -224,7 +224,7 @@ void SCollection::SongsPlaycountChanged(const SongList &songs, const bool save_t
 void SCollection::SongsRatingChanged(const SongList &songs, const bool save_tags) {
 
   if (save_tags || save_ratings_to_files_) {
-    app_->tag_reader_client()->SaveSongsRating(songs);
+    app_->tag_reader_client()->SaveSongsRatingAsync(songs);
   }
 
 }
