@@ -263,49 +263,49 @@ static gboolean gst_strawberry_fastspectrum_stop(GstBaseTransform *transform) {
 
 // Mixing data readers
 
-static void gst_strawberry_fastspectrum_input_data_mixed_float(const guint8 *_in, double *out, const guint len, const double max_value, guint op, const guint nfft) {
+static void gst_strawberry_fastspectrum_input_data_mixed_float(const guint8 *_in, double *out, const guint64 len, const double max_value, guint op, const guint nfft) {
 
   (void) max_value;
 
   const gfloat *in = reinterpret_cast<const gfloat*>(_in);
   guint ip = 0;
 
-  for (guint j = 0; j < len; j++) {
+  for (guint64 j = 0; j < len; j++) {
     out[op] = in[ip++];
     op = (op + 1) % nfft;
   }
 
 }
 
-static void gst_strawberry_fastspectrum_input_data_mixed_double(const guint8 *_in, double *out, const guint len, const double max_value, guint op, const guint nfft) {
+static void gst_strawberry_fastspectrum_input_data_mixed_double(const guint8 *_in, double *out, const guint64 len, const double max_value, guint op, const guint nfft) {
 
   (void) max_value;
 
   const gdouble *in = reinterpret_cast<const gdouble*>(_in);
   guint ip = 0;
 
-  for (guint j = 0; j < len; j++) {
+  for (guint64 j = 0; j < len; j++) {
     out[op] = in[ip++];
     op = (op + 1) % nfft;
   }
 
 }
 
-static void gst_strawberry_fastspectrum_input_data_mixed_int32_max(const guint8 *_in, double *out, const guint len, const double max_value, guint op, const guint nfft) {
+static void gst_strawberry_fastspectrum_input_data_mixed_int32_max(const guint8 *_in, double *out, const guint64 len, const double max_value, guint op, const guint nfft) {
 
   const gint32 *in = reinterpret_cast<const gint32*>(_in);
   guint ip = 0;
 
-  for (guint j = 0; j < len; j++) {
+  for (guint64 j = 0; j < len; j++) {
     out[op] = in[ip++] / max_value;
     op = (op + 1) % nfft;
   }
 
 }
 
-static void gst_strawberry_fastspectrum_input_data_mixed_int24_max(const guint8 *_in, double *out, const guint len, const double max_value, guint op, const guint nfft) {
+static void gst_strawberry_fastspectrum_input_data_mixed_int24_max(const guint8 *_in, double *out, const guint64 len, const double max_value, guint op, const guint nfft) {
 
-  for (guint j = 0; j < len; j++) {
+  for (guint64 j = 0; j < len; j++) {
 #if G_BYTE_ORDER == G_BIG_ENDIAN
     guint32 value = GST_READ_UINT24_BE(_in);
 #else
@@ -322,12 +322,12 @@ static void gst_strawberry_fastspectrum_input_data_mixed_int24_max(const guint8 
 
 }
 
-static void gst_strawberry_fastspectrum_input_data_mixed_int16_max(const guint8 *_in, double *out, const guint len, const double max_value, guint op, const guint nfft) {
+static void gst_strawberry_fastspectrum_input_data_mixed_int16_max(const guint8 *_in, double *out, const guint64 len, const double max_value, guint op, const guint nfft) {
 
   const gint16 *in = reinterpret_cast<const gint16*>(_in);
   guint ip = 0;
 
-  for (guint j = 0; j < len; j++) {
+  for (guint64 j = 0; j < len; j++) {
     out[op] = in[ip++] / max_value;
     op = (op + 1) % nfft;
   }
@@ -397,7 +397,7 @@ static GstFlowReturn gst_strawberry_fastspectrum_transform_ip(GstBaseTransform *
 
   const guint rate = GST_AUDIO_FILTER_RATE(fastspectrum);
   const guint bps = GST_AUDIO_FILTER_BPS(fastspectrum);
-  const guint bpf = GST_AUDIO_FILTER_BPF(fastspectrum);
+  const guint64 bpf = GST_AUDIO_FILTER_BPF(fastspectrum);
   const double max_value = static_cast<double>((1UL << ((bps << 3) - 1)) - 1);
   const guint bands = fastspectrum->bands;
   const guint nfft = 2 * bands - 2;
@@ -447,10 +447,10 @@ static GstFlowReturn gst_strawberry_fastspectrum_transform_ip(GstBaseTransform *
 
   while (size >= bpf) {
     // Run input_data for a chunk of data
-    guint fft_todo = nfft - (fastspectrum->num_frames % nfft);
-    guint msg_todo = fastspectrum->frames_todo - fastspectrum->num_frames;
+    guint64 fft_todo = nfft - (fastspectrum->num_frames % nfft);
+    guint64 msg_todo = fastspectrum->frames_todo - fastspectrum->num_frames;
     GST_LOG_OBJECT(fastspectrum, "message frames todo: %u, fft frames todo: %u, input frames %" G_GSIZE_FORMAT, msg_todo, fft_todo, (size / bpf));
-    guint block_size = msg_todo;
+    guint64 block_size = msg_todo;
     if (block_size > (size / bpf)) {
       block_size = (size / bpf);
     }

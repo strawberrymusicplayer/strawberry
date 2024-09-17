@@ -43,7 +43,7 @@ G_BEGIN_DECLS
 #define GST_STRAWBERRY_FASTSPECTRUM_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST((klass), GST_TYPE_FASTSPECTRUM, GstStrawberryFastSpectrumClass))
 #define GST_IS_STRAWBERRY_FASTSPECTRUM_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE((klass), GST_TYPE_FASTSPECTRUM))
 
-typedef void (*GstStrawberryFastSpectrumInputData)(const guint8 *in, double *out, guint len, double max_value, guint op, guint nfft);
+typedef void (*GstStrawberryFastSpectrumInputData)(const guint8 *in, double *out, guint64 len, double max_value, guint op, guint nfft);
 
 using GstStrawberryFastSpectrumOutputCallback = std::function<void(double *magnitudes, int size)>;
 
