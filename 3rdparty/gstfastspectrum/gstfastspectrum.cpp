@@ -449,7 +449,7 @@ static GstFlowReturn gst_strawberry_fastspectrum_transform_ip(GstBaseTransform *
     // Run input_data for a chunk of data
     guint64 fft_todo = nfft - (fastspectrum->num_frames % nfft);
     guint64 msg_todo = fastspectrum->frames_todo - fastspectrum->num_frames;
-    GST_LOG_OBJECT(fastspectrum, "message frames todo: %u, fft frames todo: %u, input frames %" G_GSIZE_FORMAT, msg_todo, fft_todo, (size / bpf));
+    GST_LOG_OBJECT(fastspectrum, "message frames todo: %lu, fft frames todo: %lu, input frames %" G_GSIZE_FORMAT, msg_todo, fft_todo, (size / bpf));
     guint64 block_size = msg_todo;
     if (block_size > (size / bpf)) {
       block_size = (size / bpf);
