@@ -1499,7 +1499,7 @@ jobs:
               upload_path="${{secrets.RELEASES_PATH}}/"
             else
               distro=$(echo "$i" | cut -d '/' -f 2)
-              if [ "$(echo "$i" | grep '-' || true)" = "" ]; then
+              if [ -z "$(echo "${distro}" | grep '-' || true)" ]; then
                 upload_path="${{secrets.BUILDS_PATH}}/${distro}/"
               else
                 distro_name=$(echo "${distro}" | cut -d '-' -f 1)
