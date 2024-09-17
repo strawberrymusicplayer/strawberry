@@ -260,7 +260,7 @@ bool GstEngine::Play(const bool pause, const quint64 offset_nanosec) {
 
   EnsureInitialized();
 
-  if (!current_pipeline_ || current_pipeline_->is_buffering()) return false;
+  if (!current_pipeline_ || current_pipeline_->is_buffering() || current_pipeline_->state() == GstState::GST_STATE_PLAYING) return false;
 
   if (OldExclusivePipelineActive()) {
     qLog(Debug) << "Delaying play because a exclusive pipeline is already active...";
