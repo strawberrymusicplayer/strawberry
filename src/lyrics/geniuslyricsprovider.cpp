@@ -134,7 +134,7 @@ void GeniusLyricsProvider::Authenticate() {
   }
 
   QUrlQuery url_query;
-  url_query.addQueryItem(QStringLiteral("client_id"), QString::fromLatin1(QUrl::toPercentEncoding(QLatin1String(kClientIDB64))));
+  url_query.addQueryItem(QStringLiteral("client_id"), QString::fromLatin1(QUrl::toPercentEncoding(QString::fromLatin1(QByteArray::fromBase64(kClientIDB64)))));
   url_query.addQueryItem(QStringLiteral("redirect_uri"), QString::fromLatin1(QUrl::toPercentEncoding(redirect_url.toString())));
   url_query.addQueryItem(QStringLiteral("scope"), QStringLiteral("me"));
   url_query.addQueryItem(QStringLiteral("state"), QString::fromLatin1(QUrl::toPercentEncoding(code_challenge_)));
@@ -198,8 +198,8 @@ void GeniusLyricsProvider::RequestAccessToken(const QUrl &url, const QUrl &redir
 
     QUrlQuery new_url_query;
     new_url_query.addQueryItem(QStringLiteral("code"), QString::fromLatin1(QUrl::toPercentEncoding(code)));
-    new_url_query.addQueryItem(QStringLiteral("client_id"), QString::fromLatin1(QUrl::toPercentEncoding(QLatin1String(kClientIDB64))));
-    new_url_query.addQueryItem(QStringLiteral("client_secret"), QString::fromLatin1(QUrl::toPercentEncoding(QLatin1String(kClientSecretB64))));
+    new_url_query.addQueryItem(QStringLiteral("client_id"), QString::fromLatin1(QUrl::toPercentEncoding(QString::fromLatin1(QByteArray::fromBase64(kClientIDB64)))));
+    new_url_query.addQueryItem(QStringLiteral("client_secret"), QString::fromLatin1(QUrl::toPercentEncoding(QString::fromLatin1(QByteArray::fromBase64(kClientSecretB64)))));
     new_url_query.addQueryItem(QStringLiteral("redirect_uri"), QString::fromLatin1(QUrl::toPercentEncoding(redirect_url.toString())));
     new_url_query.addQueryItem(QStringLiteral("grant_type"), QStringLiteral("authorization_code"));
     new_url_query.addQueryItem(QStringLiteral("response_type"), QStringLiteral("code"));
