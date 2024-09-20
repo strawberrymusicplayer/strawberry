@@ -237,123 +237,125 @@ FilterTree *FilterParser::createSearchTermTreeNode(const QString &column, const 
 
   FilterParserSearchTermComparator *cmp = nullptr;
 
-  if (Song::kTextSearchColumns.contains(column, Qt::CaseInsensitive)) {
-    if (prefix == u'=' || prefix == "=="_L1) {
-      cmp = new FilterParserTextEqComparator(value);
-    }
-    else if (prefix == "!="_L1 || prefix == "<>"_L1) {
-      cmp = new FilterParserTextNeComparator(value);
-    }
-    else {
-      cmp = new FilterParserDefaultComparator(value);
-    }
-  }
-  else if (Song::kIntSearchColumns.contains(column, Qt::CaseInsensitive)) {
-    bool ok = false;
-    int number = value.toInt(&ok);
-    if (ok) {
+  if (!column.isEmpty()) {
+    if (Song::kTextSearchColumns.contains(column, Qt::CaseInsensitive)) {
       if (prefix == u'=' || prefix == "=="_L1) {
-        cmp = new FilterParserIntEqComparator(number);
+        cmp = new FilterParserTextEqComparator(value);
       }
       else if (prefix == "!="_L1 || prefix == "<>"_L1) {
-        cmp = new FilterParserIntNeComparator(number);
-      }
-      else if (prefix == u'>') {
-        cmp = new FilterParserIntGtComparator(number);
-      }
-      else if (prefix == ">="_L1) {
-        cmp = new FilterParserIntGeComparator(number);
-      }
-      else if (prefix == u'<') {
-        cmp = new FilterParserIntLtComparator(number);
-      }
-      else if (prefix == "<="_L1) {
-        cmp = new FilterParserIntLeComparator(number);
+        cmp = new FilterParserTextNeComparator(value);
       }
       else {
-        cmp = new FilterParserIntEqComparator(number);
+        cmp = new FilterParserDefaultComparator(value);
       }
     }
-  }
-  else if (Song::kUIntSearchColumns.contains(column, Qt::CaseInsensitive)) {
-    bool ok = false;
-    uint number = value.toUInt(&ok);
-    if (ok) {
+    else if (Song::kIntSearchColumns.contains(column, Qt::CaseInsensitive)) {
+      bool ok = false;
+      int number = value.toInt(&ok);
+      if (ok) {
+        if (prefix == u'=' || prefix == "=="_L1) {
+          cmp = new FilterParserIntEqComparator(number);
+        }
+        else if (prefix == "!="_L1 || prefix == "<>"_L1) {
+          cmp = new FilterParserIntNeComparator(number);
+        }
+        else if (prefix == u'>') {
+          cmp = new FilterParserIntGtComparator(number);
+        }
+        else if (prefix == ">="_L1) {
+          cmp = new FilterParserIntGeComparator(number);
+        }
+        else if (prefix == u'<') {
+          cmp = new FilterParserIntLtComparator(number);
+        }
+        else if (prefix == "<="_L1) {
+          cmp = new FilterParserIntLeComparator(number);
+        }
+        else {
+          cmp = new FilterParserIntEqComparator(number);
+        }
+      }
+    }
+    else if (Song::kUIntSearchColumns.contains(column, Qt::CaseInsensitive)) {
+      bool ok = false;
+      uint number = value.toUInt(&ok);
+      if (ok) {
+        if (prefix == u'=' || prefix == "=="_L1) {
+          cmp = new FilterParserUIntEqComparator(number);
+        }
+        else if (prefix == "!="_L1 || prefix == "<>"_L1) {
+          cmp = new FilterParserUIntNeComparator(number);
+        }
+        else if (prefix == u'>') {
+          cmp = new FilterParserUIntGtComparator(number);
+        }
+        else if (prefix == ">="_L1) {
+          cmp = new FilterParserUIntGeComparator(number);
+        }
+        else if (prefix == u'<') {
+          cmp = new FilterParserUIntLtComparator(number);
+        }
+        else if (prefix == "<="_L1) {
+          cmp = new FilterParserUIntLeComparator(number);
+        }
+        else {
+          cmp = new FilterParserUIntEqComparator(number);
+        }
+      }
+    }
+    else if (Song::kInt64SearchColumns.contains(column, Qt::CaseInsensitive)) {
+      qint64 number = 0;
+      if (column == "length"_L1) {
+        number = ParseTime(value);
+      }
+      else {
+        number = value.toLongLong();
+      }
       if (prefix == u'=' || prefix == "=="_L1) {
-        cmp = new FilterParserUIntEqComparator(number);
+        cmp = new FilterParserInt64EqComparator(number);
       }
       else if (prefix == "!="_L1 || prefix == "<>"_L1) {
-        cmp = new FilterParserUIntNeComparator(number);
+        cmp = new FilterParserInt64NeComparator(number);
       }
       else if (prefix == u'>') {
-        cmp = new FilterParserUIntGtComparator(number);
+        cmp = new FilterParserInt64GtComparator(number);
       }
       else if (prefix == ">="_L1) {
-        cmp = new FilterParserUIntGeComparator(number);
+        cmp = new FilterParserInt64GeComparator(number);
       }
       else if (prefix == u'<') {
-        cmp = new FilterParserUIntLtComparator(number);
+        cmp = new FilterParserInt64LtComparator(number);
       }
       else if (prefix == "<="_L1) {
-        cmp = new FilterParserUIntLeComparator(number);
+        cmp = new FilterParserInt64LeComparator(number);
       }
       else {
-        cmp = new FilterParserUIntEqComparator(number);
+        cmp = new FilterParserInt64EqComparator(number);
       }
     }
-  }
-  else if (Song::kInt64SearchColumns.contains(column, Qt::CaseInsensitive)) {
-    qint64 number = 0;
-    if (column == "length"_L1) {
-      number = ParseTime(value);
-    }
-    else {
-      number = value.toLongLong();
-    }
-    if (prefix == u'=' || prefix == "=="_L1) {
-      cmp = new FilterParserInt64EqComparator(number);
-    }
-    else if (prefix == "!="_L1 || prefix == "<>"_L1) {
-      cmp = new FilterParserInt64NeComparator(number);
-    }
-    else if (prefix == u'>') {
-      cmp = new FilterParserInt64GtComparator(number);
-    }
-    else if (prefix == ">="_L1) {
-      cmp = new FilterParserInt64GeComparator(number);
-    }
-    else if (prefix == u'<') {
-      cmp = new FilterParserInt64LtComparator(number);
-    }
-    else if (prefix == "<="_L1) {
-      cmp = new FilterParserInt64LeComparator(number);
-    }
-    else {
-      cmp = new FilterParserInt64EqComparator(number);
-    }
-  }
-  else if (Song::kFloatSearchColumns.contains(column, Qt::CaseInsensitive)) {
-    const float rating = ParseRating(value);
-    if (prefix == u'=' || prefix == "=="_L1) {
-      cmp = new FilterParserFloatEqComparator(rating);
-    }
-    else if (prefix == "!="_L1 || prefix == "<>"_L1) {
-      cmp = new FilterParserFloatNeComparator(rating);
-    }
-    else if (prefix == u'>') {
-      cmp = new FilterParserFloatGtComparator(rating);
-    }
-    else if (prefix == ">="_L1) {
-      cmp = new FilterParserFloatGeComparator(rating);
-    }
-    else if (prefix == u'<') {
-      cmp = new FilterParserFloatLtComparator(rating);
-    }
-    else if (prefix == "<="_L1) {
-      cmp = new FilterParserFloatLeComparator(rating);
-    }
-    else {
-      cmp = new FilterParserFloatEqComparator(rating);
+    else if (Song::kFloatSearchColumns.contains(column, Qt::CaseInsensitive)) {
+      const float rating = ParseRating(value);
+      if (prefix == u'=' || prefix == "=="_L1) {
+        cmp = new FilterParserFloatEqComparator(rating);
+      }
+      else if (prefix == "!="_L1 || prefix == "<>"_L1) {
+        cmp = new FilterParserFloatNeComparator(rating);
+      }
+      else if (prefix == u'>') {
+        cmp = new FilterParserFloatGtComparator(rating);
+      }
+      else if (prefix == ">="_L1) {
+        cmp = new FilterParserFloatGeComparator(rating);
+      }
+      else if (prefix == u'<') {
+        cmp = new FilterParserFloatLtComparator(rating);
+      }
+      else if (prefix == "<="_L1) {
+        cmp = new FilterParserFloatLeComparator(rating);
+      }
+      else {
+        cmp = new FilterParserFloatEqComparator(rating);
+      }
     }
   }
 
