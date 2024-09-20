@@ -38,16 +38,16 @@ class FilterParserSearchTermComparator {
 };
 
 // "compares" by checking if the field contains the search term
-class FilterParserDefaultComparator : public FilterParserSearchTermComparator {
+class FilterParserTextContainsComparator : public FilterParserSearchTermComparator {
  public:
-  explicit FilterParserDefaultComparator(const QString &search_term) : search_term_(search_term) {}
+  explicit FilterParserTextContainsComparator(const QString &search_term) : search_term_(search_term) {}
   bool Matches(const QVariant &value) const override {
-    return value.toString().contains(search_term_, Qt::CaseInsensitive);
+    return value.metaType().id() == QMetaType::QString && value.toString().contains(search_term_, Qt::CaseInsensitive);
   }
  private:
   QString search_term_;
 
-  Q_DISABLE_COPY(FilterParserDefaultComparator)
+  Q_DISABLE_COPY(FilterParserTextContainsComparator)
 };
 
 class FilterParserTextEqComparator : public FilterParserSearchTermComparator {
