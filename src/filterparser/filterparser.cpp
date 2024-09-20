@@ -244,7 +244,7 @@ FilterTree *FilterParser::createSearchTermTreeNode(const QString &column, const 
         cmp = new FilterParserTextNeComparator(value);
       }
       else {
-        cmp = new FilterParserDefaultComparator(value);
+        cmp = new FilterParserTextContainsComparator(value);
       }
     }
     else if (Song::kIntSearchColumns.contains(column, Qt::CaseInsensitive)) {
@@ -270,7 +270,7 @@ FilterTree *FilterParser::createSearchTermTreeNode(const QString &column, const 
           cmp = new FilterParserIntLeComparator(number);
         }
         else {
-          cmp = new FilterParserDefaultComparator(value);
+          cmp = new FilterParserTextContainsComparator(value);
         }
       }
     }
@@ -361,7 +361,7 @@ FilterTree *FilterParser::createSearchTermTreeNode(const QString &column, const 
     return new FilterColumnTerm(column, cmp);
   }
 
-  return new FilterTerm(Song::kTextSearchColumns, new FilterParserDefaultComparator(value));
+  return new FilterTerm(new FilterParserTextContainsComparator(value));
 
 }
 

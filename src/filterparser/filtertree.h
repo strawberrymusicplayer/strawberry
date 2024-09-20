@@ -67,19 +67,27 @@ class NopFilter : public FilterTree {
 // Filter that applies a SearchTermComparator to all fields
 class FilterTerm : public FilterTree {
  public:
-  explicit FilterTerm(const QStringList &columns, FilterParserSearchTermComparator *comparator) : columns_(columns), cmp_(comparator) {}
+  explicit FilterTerm(FilterParserSearchTermComparator *comparator) : cmp_(comparator) {}
 
   FilterType type() const override { return FilterType::Term; }
 
   bool accept(const Song &song) const override {
-    for (const QString &column : columns_) {
-      if (cmp_->Matches(DataFromColumn(column, song))) return true;
-    }
+
+    if (cmp_->Matches(song.PrettyTitle())) return true;
+    if (cmp_->Matches(song.album())) return true;
+    if (cmp_->Matches(song.artist())) return true;
+    if (cmp_->Matches(song.albumartist())) return true;
+    if (cmp_->Matches(song.composer())) return true;
+    if (cmp_->Matches(song.performer())) return true;
+    if (cmp_->Matches(song.grouping())) return true;
+    if (cmp_->Matches(song.genre())) return true;
+    if (cmp_->Matches(song.comment())) return true;
+
     return false;
+
   }
 
  private:
-  const QStringList columns_;
   QScopedPointer<FilterParserSearchTermComparator> cmp_;
 };
 
