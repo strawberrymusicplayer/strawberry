@@ -235,123 +235,125 @@ FilterTree *FilterParser::createSearchTermTreeNode(const QString &column, const 
 
   FilterParserSearchTermComparator *cmp = nullptr;
 
-  if (Song::kTextSearchColumns.contains(column, Qt::CaseInsensitive)) {
-    if (prefix == QLatin1Char('=') || prefix == QLatin1String("==")) {
-      cmp = new FilterParserTextEqComparator(value);
-    }
-    else if (prefix == QLatin1String("!=") || prefix == QLatin1String("<>")) {
-      cmp = new FilterParserTextNeComparator(value);
-    }
-    else {
-      cmp = new FilterParserDefaultComparator(value);
-    }
-  }
-  else if (Song::kIntSearchColumns.contains(column, Qt::CaseInsensitive)) {
-    bool ok = false;
-    int number = value.toInt(&ok);
-    if (ok) {
+  if (!column.isEmpty()) {
+    if (Song::kTextSearchColumns.contains(column, Qt::CaseInsensitive)) {
       if (prefix == QLatin1Char('=') || prefix == QLatin1String("==")) {
-        cmp = new FilterParserIntEqComparator(number);
+        cmp = new FilterParserTextEqComparator(value);
       }
       else if (prefix == QLatin1String("!=") || prefix == QLatin1String("<>")) {
-        cmp = new FilterParserIntNeComparator(number);
-      }
-      else if (prefix == QLatin1Char('>')) {
-        cmp = new FilterParserIntGtComparator(number);
-      }
-      else if (prefix == QLatin1String(">=")) {
-        cmp = new FilterParserIntGeComparator(number);
-      }
-      else if (prefix == QLatin1Char('<')) {
-        cmp = new FilterParserIntLtComparator(number);
-      }
-      else if (prefix == QLatin1String("<=")) {
-        cmp = new FilterParserIntLeComparator(number);
+        cmp = new FilterParserTextNeComparator(value);
       }
       else {
-        cmp = new FilterParserIntEqComparator(number);
+        cmp = new FilterParserDefaultComparator(value);
       }
     }
-  }
-  else if (Song::kUIntSearchColumns.contains(column, Qt::CaseInsensitive)) {
-    bool ok = false;
-    uint number = value.toUInt(&ok);
-    if (ok) {
+    else if (Song::kIntSearchColumns.contains(column, Qt::CaseInsensitive)) {
+      bool ok = false;
+      int number = value.toInt(&ok);
+      if (ok) {
+        if (prefix == QLatin1Char('=') || prefix == QLatin1String("==")) {
+          cmp = new FilterParserIntEqComparator(number);
+        }
+        else if (prefix == QLatin1String("!=") || prefix == QLatin1String("<>")) {
+          cmp = new FilterParserIntNeComparator(number);
+        }
+        else if (prefix == QLatin1Char('>')) {
+          cmp = new FilterParserIntGtComparator(number);
+        }
+        else if (prefix == QLatin1String(">=")) {
+          cmp = new FilterParserIntGeComparator(number);
+        }
+        else if (prefix == QLatin1Char('<')) {
+          cmp = new FilterParserIntLtComparator(number);
+        }
+        else if (prefix == QLatin1String("<=")) {
+          cmp = new FilterParserIntLeComparator(number);
+        }
+        else {
+          cmp = new FilterParserDefaultComparator(value);
+        }
+      }
+    }
+    else if (Song::kUIntSearchColumns.contains(column, Qt::CaseInsensitive)) {
+      bool ok = false;
+      uint number = value.toUInt(&ok);
+      if (ok) {
+        if (prefix == QLatin1Char('=') || prefix == QLatin1String("==")) {
+          cmp = new FilterParserUIntEqComparator(number);
+        }
+        else if (prefix == QLatin1String("!=") || prefix == QLatin1String("<>")) {
+          cmp = new FilterParserUIntNeComparator(number);
+        }
+        else if (prefix == QLatin1Char('>')) {
+          cmp = new FilterParserUIntGtComparator(number);
+        }
+        else if (prefix == QLatin1String(">=")) {
+          cmp = new FilterParserUIntGeComparator(number);
+        }
+        else if (prefix == QLatin1Char('<')) {
+          cmp = new FilterParserUIntLtComparator(number);
+        }
+        else if (prefix == QLatin1String("<=")) {
+          cmp = new FilterParserUIntLeComparator(number);
+        }
+        else {
+          cmp = new FilterParserInt64EqComparator(number);
+        }
+      }
+    }
+    else if (Song::kInt64SearchColumns.contains(column, Qt::CaseInsensitive)) {
+      qint64 number = 0;
+      if (column == QLatin1String("length")) {
+        number = ParseTime(value);
+      }
+      else {
+        number = value.toLongLong();
+      }
       if (prefix == QLatin1Char('=') || prefix == QLatin1String("==")) {
-        cmp = new FilterParserUIntEqComparator(number);
+        cmp = new FilterParserInt64EqComparator(number);
       }
       else if (prefix == QLatin1String("!=") || prefix == QLatin1String("<>")) {
-        cmp = new FilterParserUIntNeComparator(number);
+        cmp = new FilterParserInt64NeComparator(number);
       }
       else if (prefix == QLatin1Char('>')) {
-        cmp = new FilterParserUIntGtComparator(number);
+        cmp = new FilterParserInt64GtComparator(number);
       }
       else if (prefix == QLatin1String(">=")) {
-        cmp = new FilterParserUIntGeComparator(number);
+        cmp = new FilterParserInt64GeComparator(number);
       }
       else if (prefix == QLatin1Char('<')) {
-        cmp = new FilterParserUIntLtComparator(number);
+        cmp = new FilterParserInt64LtComparator(number);
       }
       else if (prefix == QLatin1String("<=")) {
-        cmp = new FilterParserUIntLeComparator(number);
+        cmp = new FilterParserInt64LeComparator(number);
       }
       else {
-        cmp = new FilterParserUIntEqComparator(number);
+        cmp = new FilterParserInt64EqComparator(number);
       }
     }
-  }
-  else if (Song::kInt64SearchColumns.contains(column, Qt::CaseInsensitive)) {
-    qint64 number = 0;
-    if (column == QLatin1String("length")) {
-      number = ParseTime(value);
-    }
-    else {
-      number = value.toLongLong();
-    }
-    if (prefix == QLatin1Char('=') || prefix == QLatin1String("==")) {
-      cmp = new FilterParserInt64EqComparator(number);
-    }
-    else if (prefix == QLatin1String("!=") || prefix == QLatin1String("<>")) {
-      cmp = new FilterParserInt64NeComparator(number);
-    }
-    else if (prefix == QLatin1Char('>')) {
-      cmp = new FilterParserInt64GtComparator(number);
-    }
-    else if (prefix == QLatin1String(">=")) {
-      cmp = new FilterParserInt64GeComparator(number);
-    }
-    else if (prefix == QLatin1Char('<')) {
-      cmp = new FilterParserInt64LtComparator(number);
-    }
-    else if (prefix == QLatin1String("<=")) {
-      cmp = new FilterParserInt64LeComparator(number);
-    }
-    else {
-      cmp = new FilterParserInt64EqComparator(number);
-    }
-  }
-  else if (Song::kFloatSearchColumns.contains(column, Qt::CaseInsensitive)) {
-    const float rating = ParseRating(value);
-    if (prefix == QLatin1Char('=') || prefix == QLatin1String("==")) {
-      cmp = new FilterParserFloatEqComparator(rating);
-    }
-    else if (prefix == QLatin1String("!=") || prefix == QLatin1String("<>")) {
-      cmp = new FilterParserFloatNeComparator(rating);
-    }
-    else if (prefix == QLatin1Char('>')) {
-      cmp = new FilterParserFloatGtComparator(rating);
-    }
-    else if (prefix == QLatin1String(">=")) {
-      cmp = new FilterParserFloatGeComparator(rating);
-    }
-    else if (prefix == QLatin1Char('<')) {
-      cmp = new FilterParserFloatLtComparator(rating);
-    }
-    else if (prefix == QLatin1String("<=")) {
-      cmp = new FilterParserFloatLeComparator(rating);
-    }
-    else {
-      cmp = new FilterParserFloatEqComparator(rating);
+    else if (Song::kFloatSearchColumns.contains(column, Qt::CaseInsensitive)) {
+      const float rating = ParseRating(value);
+      if (prefix == QLatin1Char('=') || prefix == QLatin1String("==")) {
+        cmp = new FilterParserFloatEqComparator(rating);
+      }
+      else if (prefix == QLatin1String("!=") || prefix == QLatin1String("<>")) {
+        cmp = new FilterParserFloatNeComparator(rating);
+      }
+      else if (prefix == QLatin1Char('>')) {
+        cmp = new FilterParserFloatGtComparator(rating);
+      }
+      else if (prefix == QLatin1String(">=")) {
+        cmp = new FilterParserFloatGeComparator(rating);
+      }
+      else if (prefix == QLatin1Char('<')) {
+        cmp = new FilterParserFloatLtComparator(rating);
+      }
+      else if (prefix == QLatin1String("<=")) {
+        cmp = new FilterParserFloatLeComparator(rating);
+      }
+      else {
+        cmp = new FilterParserFloatEqComparator(rating);
+      }
     }
   }
 
