@@ -41,7 +41,7 @@
 
 #import <QuartzCore/CALayer.h>
 
-#import "3rdparty/SPMediaKeyTap/SPMediaKeyTap.h"
+#import <SPMediaKeyTap.h>
 
 #include "config.h"
 

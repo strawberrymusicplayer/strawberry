@@ -1223,7 +1223,7 @@ if(APPLE)
     "-framework IOKit"
     "-framework ScriptingBridge"
   )
-  target_link_libraries(strawberry_lib PRIVATE ${SPMEDIAKEYTAP_LIBRARIES})
+  target_link_libraries(strawberry_lib PRIVATE SPMediaKeyTap)
 endif()
 
 if(WIN32)

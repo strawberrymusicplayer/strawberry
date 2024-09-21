@@ -272,9 +272,7 @@ else()
 endif()
 
 if(APPLE)
-  add_subdirectory(3rdparty/SPMediaKeyTap)
-  set(SPMEDIAKEYTAP_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/SPMediaKeyTap)
-  set(SPMEDIAKEYTAP_LIBRARIES SPMediaKeyTap)
+  find_package(SPMediaKeyTap REQUIRED)
 endif()
 
 if(WIN32)

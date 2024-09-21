@@ -11,15 +11,6 @@ This 3rdparty copy is used only if KDSingleApplication 1.1 or higher is not foun
 URL: https://github.com/KDAB/KDSingleApplication/
 
 
-SPMediaKeyTap
--------------
-A library used on macOS to exclusively grab global media shortcuts.
-
-The library is no longer maintained by the original author.
-
-The directory can safely be deleted on other platforms.
-
-
 gstfastspectrum
 ---------------
 A GStreamer spectrum plugin using FFTW3.
