@@ -2,6 +2,14 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+    * Require Qt 6.4 or higher and drop support for Qt 5.
+    * Require TagLib 1.12 or higher.
+    * Use Qt stringliterals.
+    * Move gstfastspectrum to 3rdparty.
+    * Use standard user temp location for current album cover.
+
 Version 1.1.3 (2024.09.21):
 
 Bugfixes:
