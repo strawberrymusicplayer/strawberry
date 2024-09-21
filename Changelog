@@ -2,6 +2,15 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Version 1.1.3 (2024.09.21):
+
+Bugfixes:
+    * Fixed gstreamer registry lookup leak in Spotify settings.
+    * Fixed all songs in a CUE sheet starting playback at the zero position (#1549).
+    * Fixed playback going to pause and back to play on song change.
+    * Fixed Genius Lyrics login not working (#1554).
+    * Fixed slow collection filter search.
+
 Version 1.1.2 (2024.09.12):
 
   Bugfixes:
