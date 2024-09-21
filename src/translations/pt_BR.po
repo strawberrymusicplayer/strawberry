@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: strawberrymusicplayer\n"
 "Language-Team: Portuguese, Brazilian\n"
 "Language: pt_BR\n"
-"PO-Revision-Date: 2024-09-13 18:08\n"
+"PO-Revision-Date: 2024-09-21 22:57\n"
 
 msgid "All Files (*)"
 msgstr "Todos os arquivos (*)"
@@ -1710,6 +1710,9 @@ msgstr ""
 
 msgid "Large sidebar"
 msgstr "Barra lateral grande"
+
+msgid "Icons sidebar"
+msgstr ""
 
 msgid "Small sidebar"
 msgstr "Barra lateral compacta"

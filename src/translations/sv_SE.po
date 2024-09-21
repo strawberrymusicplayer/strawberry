@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: strawberrymusicplayer\n"
 "Language-Team: Swedish\n"
 "Language: sv_SE\n"
-"PO-Revision-Date: 2024-09-13 18:08\n"
+"PO-Revision-Date: 2024-09-21 22:56\n"
 
 msgid "All Files (*)"
 msgstr "Alla filer (*)"
@@ -1710,6 +1710,9 @@ msgstr "Mappen finns inte."
 
 msgid "Large sidebar"
 msgstr "Stort sidofält"
+
+msgid "Icons sidebar"
+msgstr ""
 
 msgid "Small sidebar"
 msgstr "Litet sidofält"

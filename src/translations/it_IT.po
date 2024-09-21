@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: strawberrymusicplayer\n"
 "Language-Team: Italian\n"
 "Language: it_IT\n"
-"PO-Revision-Date: 2024-09-13 18:08\n"
+"PO-Revision-Date: 2024-09-21 22:56\n"
 
 msgid "All Files (*)"
 msgstr "Tutti i file (*)"
@@ -1716,6 +1716,9 @@ msgstr "La cartella non esiste."
 
 msgid "Large sidebar"
 msgstr "Pannello laterale grande"
+
+msgid "Icons sidebar"
+msgstr ""
 
 msgid "Small sidebar"
 msgstr "Pannello laterale piccolo"

@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: strawberrymusicplayer\n"
 "Language-Team: Dutch\n"
 "Language: nl_NL\n"
-"PO-Revision-Date: 2024-09-13 18:08\n"
+"PO-Revision-Date: 2024-09-21 22:56\n"
 
 msgid "All Files (*)"
 msgstr "Alle bestanden (*)"
@@ -1710,6 +1710,9 @@ msgstr ""
 
 msgid "Large sidebar"
 msgstr "Grote zijbalk"
+
+msgid "Icons sidebar"
+msgstr ""
 
 msgid "Small sidebar"
 msgstr "Kleine zijbalk"

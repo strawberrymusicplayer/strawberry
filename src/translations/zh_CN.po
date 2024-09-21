@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: strawberrymusicplayer\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-09-13 18:08\n"
+"PO-Revision-Date: 2024-09-21 22:57\n"
 
 msgid "All Files (*)"
 msgstr "全部文件 (*)"
@@ -1710,6 +1710,9 @@ msgstr "目录不存在。"
 
 msgid "Large sidebar"
 msgstr "大侧边栏"
+
+msgid "Icons sidebar"
+msgstr ""
 
 msgid "Small sidebar"
 msgstr "小侧边栏"

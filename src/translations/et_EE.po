@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: strawberrymusicplayer\n"
 "Language-Team: Estonian\n"
 "Language: et_EE\n"
-"PO-Revision-Date: 2024-09-14 19:49\n"
+"PO-Revision-Date: 2024-09-23 10:19\n"
 
 msgid "All Files (*)"
 msgstr "Kõik failid (*)"
@@ -1710,6 +1710,9 @@ msgstr "Kataloogi pole olemas."
 
 msgid "Large sidebar"
 msgstr "Suur külgriba"
+
+msgid "Icons sidebar"
+msgstr "Ikoonide külgriba"
 
 msgid "Small sidebar"
 msgstr "Väike külgriba"

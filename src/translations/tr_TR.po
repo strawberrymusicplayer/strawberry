@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: strawberrymusicplayer\n"
 "Language-Team: Turkish\n"
 "Language: tr_TR\n"
-"PO-Revision-Date: 2024-09-13 18:08\n"
+"PO-Revision-Date: 2024-09-21 22:56\n"
 
 msgid "All Files (*)"
 msgstr "Tüm Dosyalar"
@@ -1708,6 +1708,9 @@ msgid "Directory does not exist."
 msgstr ""
 
 msgid "Large sidebar"
+msgstr ""
+
+msgid "Icons sidebar"
 msgstr ""
 
 msgid "Small sidebar"
