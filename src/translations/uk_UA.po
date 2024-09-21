@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: strawberrymusicplayer\n"
 "Language-Team: Ukrainian\n"
 "Language: uk_UA\n"
-"PO-Revision-Date: 2024-09-13 18:08\n"
+"PO-Revision-Date: 2024-09-21 22:57\n"
 
 msgid "All Files (*)"
 msgstr "Всі файли (*)"
@@ -1711,6 +1711,9 @@ msgstr ""
 
 msgid "Large sidebar"
 msgstr "Велика бічна панель"
+
+msgid "Icons sidebar"
+msgstr ""
 
 msgid "Small sidebar"
 msgstr "Маленька бічна панель"

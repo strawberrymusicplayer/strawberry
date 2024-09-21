@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: strawberrymusicplayer\n"
 "Language-Team: Russian\n"
 "Language: ru_RU\n"
-"PO-Revision-Date: 2024-09-15 21:11\n"
+"PO-Revision-Date: 2024-09-24 08:35\n"
 
 msgid "All Files (*)"
 msgstr "Все файлы (*)"
@@ -1710,6 +1710,9 @@ msgstr "Каталог не существует."
 
 msgid "Large sidebar"
 msgstr "Широкая боковая панель"
+
+msgid "Icons sidebar"
+msgstr "Боковая панель значков"
 
 msgid "Small sidebar"
 msgstr "Узкая боковая панель"
