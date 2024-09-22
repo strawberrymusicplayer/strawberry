@@ -30,7 +30,6 @@
 #include <glib.h>
 #include <glib-object.h>
 #include <gst/gst.h>
-#include <gst/app/gstappsink.h>
 
 #include "core/scoped_ptr.h"
 
