@@ -144,14 +144,14 @@
          <string>The album cover of the currently playing song</string>
         </property>
         <property name="text">
-         <string>Albu&amp;m cover</string>
+         <string>A&amp;lbum cover</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QRadioButton" name="use_strawbs_background">
         <property name="text">
-         <string notr="true">A Taste of Strawbs</string>
+         <string notr="true">A &amp;Taste of Strawbs</string>
         </property>
        </widget>
       </item>
@@ -160,7 +160,7 @@
         <item>
          <widget class="QRadioButton" name="use_custom_background_image">
           <property name="text">
-           <string>Custom image:</string>
+           <string>&amp;Custom image:</string>
           </property>
          </widget>
         </item>
@@ -553,7 +553,7 @@
       <item>
        <widget class="QRadioButton" name="playlist_playing_song_color_system">
         <property name="text">
-         <string>System highlight color</string>
+         <string>System hi&amp;ghlight color</string>
         </property>
        </widget>
       </item>
@@ -579,6 +579,53 @@
            <string/>
           </property>
          </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_player_controls">
+     <property name="title">
+      <string>Player controls</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>Position</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="comboBox_player_controls_position">
+          <item>
+           <property name="text">
+            <string>Bottom</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Top</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Orientation::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
         </item>
        </layout>
       </item>

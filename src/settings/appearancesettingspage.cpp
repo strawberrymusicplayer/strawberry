@@ -52,6 +52,8 @@
 #include "settingsdialog.h"
 #include "ui_appearancesettingspage.h"
 
+#include <core/mainwindow.h>
+
 const char *AppearanceSettingsPage::kSettingsGroup = "Appearance";
 
 const char *AppearanceSettingsPage::kStyle = "style";
@@ -84,6 +86,8 @@ const char *AppearanceSettingsPage::kIconSizeConfigureButtons = "icon_size_confi
 
 const char *AppearanceSettingsPage::kPlaylistPlayingSongColor = "playlist_playing_song_color";
 
+const char *AppearanceSettingsPage::kPlayerControlsPosition = "player_controls_position";
+
 AppearanceSettingsPage::AppearanceSettingsPage(SettingsDialog *dialog, QWidget *parent)
     : SettingsPage(dialog, parent),
       ui_(new Ui_AppearanceSettingsPage),
@@ -103,6 +107,9 @@ AppearanceSettingsPage::AppearanceSettingsPage(SettingsDialog *dialog, QWidget *
   ui_->combobox_backgroundimageposition->setItemData(2, static_cast<int>(BackgroundImagePosition::Middle));
   ui_->combobox_backgroundimageposition->setItemData(3, static_cast<int>(BackgroundImagePosition::BottomLeft));
   ui_->combobox_backgroundimageposition->setItemData(4, static_cast<int>(BackgroundImagePosition::BottomRight));
+
+  ui_->comboBox_player_controls_position->setItemData(0, static_cast<int>(MainWindow::PlayerControlsPosition::Bottom));
+  ui_->comboBox_player_controls_position->setItemData(1, static_cast<int>(MainWindow::PlayerControlsPosition::Top));
 
   QObject::connect(ui_->blur_slider, &QSlider::valueChanged, this, &AppearanceSettingsPage::BlurLevelChanged);
   QObject::connect(ui_->opacity_slider, &QSlider::valueChanged, this, &AppearanceSettingsPage::OpacityLevelChanged);
@@ -215,6 +222,8 @@ void AppearanceSettingsPage::Load() {
   UpdateColorSelectorColor(ui_->select_playlist_playing_song_color, current_playlist_playing_song_color_);
   PlaylistPlayingSongColorSystem(ui_->playlist_playing_song_color_system->isChecked());
 
+  ui_->comboBox_player_controls_position->setCurrentIndex(ui_->comboBox_player_controls_position->findData(s.value(kPlayerControlsPosition, static_cast<int>(MainWindow::PlayerControlsPosition::Bottom)).toInt()));
+
   s.endGroup();
 
   Init(ui_->layout_appearancesettingspage->parentWidget());
@@ -287,6 +296,8 @@ void AppearanceSettingsPage::Save() {
   else {
     s.setValue(kPlaylistPlayingSongColor, current_playlist_playing_song_color_);
   }
+
+  s.setValue(kPlayerControlsPosition, ui_->comboBox_player_controls_position->currentData().toInt());
 
   s.endGroup();
 
