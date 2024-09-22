@@ -158,18 +158,18 @@ void MoodbarPipeline::ReportError(GstMessage *msg) {
 
 }
 
-void MoodbarPipeline::NewPadCallback(GstElement *element, GstPad *pad, gpointer data) {
+void MoodbarPipeline::NewPadCallback(GstElement *element, GstPad *pad, gpointer self) {
 
   Q_UNUSED(element)
 
-  MoodbarPipeline *self = reinterpret_cast<MoodbarPipeline*>(data);
+  MoodbarPipeline *instance = reinterpret_cast<MoodbarPipeline*>(self);
 
-  if (!self->running_) {
+  if (!instance->running_) {
     qLog(Warning) << "Received gstreamer callback after pipeline has stopped.";
     return;
   }
 
-  GstPad *const audiopad = gst_element_get_static_pad(self->convert_element_, "sink");
+  GstPad *const audiopad = gst_element_get_static_pad(instance->convert_element_, "sink");
   if (!audiopad) return;
 
   if (GST_PAD_IS_LINKED(audiopad)) {
@@ -190,8 +190,8 @@ void MoodbarPipeline::NewPadCallback(GstElement *element, GstPad *pad, gpointer 
     gst_caps_unref(caps);
   }
 
-  if (self->builder_) {
-    self->builder_->Init(kBands, rate);
+  if (instance->builder_) {
+    instance->builder_->Init(kBands, rate);
   }
   else {
     qLog(Error) << "Builder does not exist";
@@ -199,20 +199,20 @@ void MoodbarPipeline::NewPadCallback(GstElement *element, GstPad *pad, gpointer 
 
 }
 
-GstBusSyncReply MoodbarPipeline::BusCallbackSync(GstBus *bus, GstMessage *message, gpointer data) {
+GstBusSyncReply MoodbarPipeline::BusCallbackSync(GstBus *bus, GstMessage *message, gpointer self) {
 
   Q_UNUSED(bus)
 
-  MoodbarPipeline *self = reinterpret_cast<MoodbarPipeline*>(data);
+  MoodbarPipeline *instance = reinterpret_cast<MoodbarPipeline*>(self);
 
   switch (GST_MESSAGE_TYPE(message)) {
     case GST_MESSAGE_EOS:
-      self->Stop(true);
+      instance->Stop(true);
       break;
 
     case GST_MESSAGE_ERROR:
-      self->ReportError(message);
-      self->Stop(false);
+      instance->ReportError(message);
+      instance->Stop(false);
       break;
 
     default:
@@ -227,7 +227,7 @@ void MoodbarPipeline::Stop(const bool success) {
 
   success_ = success;
   running_ = false;
-  if (builder_ != nullptr) {
+  if (builder_) {
     data_ = builder_->Finish(1000);
     builder_.reset();
   }

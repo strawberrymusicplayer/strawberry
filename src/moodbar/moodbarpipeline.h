@@ -61,8 +61,8 @@ class MoodbarPipeline : public QObject {
   void Stop(const bool success);
   void Cleanup();
 
-  static void NewPadCallback(GstElement *element, GstPad *pad, gpointer data);
-  static GstBusSyncReply BusCallbackSync(GstBus *bus, GstMessage *message, gpointer data);
+  static void NewPadCallback(GstElement *element, GstPad *pad, gpointer self);
+  static GstBusSyncReply BusCallbackSync(GstBus *bus, GstMessage *message, gpointer self);
 
  private:
   QUrl url_;
