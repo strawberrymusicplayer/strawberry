@@ -62,7 +62,6 @@ class MoodbarPipeline : public QObject {
   void Cleanup();
 
   static void NewPadCallback(GstElement *element, GstPad *pad, gpointer data);
-  static GstFlowReturn NewBufferCallback(GstAppSink *app_sink, gpointer self);
   static GstBusSyncReply BusCallbackSync(GstBus *bus, GstMessage *message, gpointer data);
 
  private:
