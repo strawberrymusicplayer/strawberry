@@ -112,6 +112,12 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   static const char *kSettingsGroup;
   static const char *kAllFilesFilterSpec;
 
+  enum class PlayerControlsPosition {
+    None = 0,
+    Top,
+    Bottom,
+  };
+
   void SetHiddenInTray(const bool hidden);
   void CommandlineOptionsReceived(const CommandlineOptions &options);
 
@@ -270,6 +276,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
  public Q_SLOTS:
   void CommandlineOptionsReceived(const QByteArray &string_options);
   void Raise();
+  void SetPlayerControlsPosition(const PlayerControlsPosition position);
 
  private:
 
@@ -405,6 +412,8 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   int exit_count_;
   bool delete_files_;
   bool ignore_close_;
+
+  PlayerControlsPosition player_controls_position_;
 
 };
 

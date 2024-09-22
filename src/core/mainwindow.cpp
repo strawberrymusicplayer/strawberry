@@ -954,6 +954,12 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   // Reload playlist settings, for BG and glowing
   ui_->playlist->view()->ReloadSettings();
 
+  // Initialize the player controls position.
+  PlayerControlsPosition default_position = PlayerControlsPosition::Bottom;
+  PlayerControlsPosition player_controls_position = static_cast<PlayerControlsPosition>(settings_.value("player_controls_position", static_cast<int>(default_position)).toInt());
+  if (player_controls_position == PlayerControlsPosition::None) player_controls_position = default_position;
+  SetPlayerControlsPosition(player_controls_position);
+
 #ifdef Q_OS_MACOS  // Always show the mainwindow on startup for macOS
   show();
 #else
@@ -1285,6 +1291,7 @@ void MainWindow::SaveSettings() {
 
   settings_.setValue("show_sidebar", ui_->action_toggle_show_sidebar->isChecked());
   settings_.setValue("search_for_cover_auto", album_cover_choice_controller_->search_cover_auto_action()->isChecked());
+  settings_.setValue("player_controls_position", static_cast<int>(player_controls_position_));
 
 }
 
@@ -3015,6 +3022,36 @@ void MainWindow::AutoCompleteTags() {
 
 #endif
 
+}
+
+void MainWindow::SetPlayerControlsPosition(const PlayerControlsPosition position) {
+  if (position == PlayerControlsPosition::None) {
+    return;
+  }
+
+  const PlayerControlsPosition previous_position = player_controls_position_;
+  player_controls_position_ = position;
+
+  if (player_controls_position_ == previous_position) {
+    return;
+  }
+  else {
+    // Remove player controls and line for reordering.
+    ui_->layout_right->removeWidget(ui_->line_playlist_sep);
+    ui_->layout_right->removeItem(ui_->layout_player_controls_container);
+    ui_->layout_right->removeWidget(ui_->playlist);
+  }
+
+  if (player_controls_position_ == PlayerControlsPosition::Bottom) {
+    ui_->layout_right->insertWidget(0, ui_->playlist);
+    ui_->layout_right->insertWidget(1, ui_->line_playlist_sep);
+    ui_->layout_right->insertLayout(2, ui_->layout_player_controls_container);
+  }
+  else {
+    ui_->layout_right->insertLayout(0, ui_->layout_player_controls_container);
+    ui_->layout_right->insertWidget(1, ui_->line_playlist_sep);
+    ui_->layout_right->insertWidget(2, ui_->playlist);
+  }
 }
 
 void MainWindow::AutoCompleteTagsAccepted() {

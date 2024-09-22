@@ -70,379 +70,379 @@
          </widget>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="layout_bottom">
-          <property name="spacing">
-           <number>0</number>
+         <widget class="Line" name="line_playlist_sep">
+          <property name="orientation">
+           <enum>Qt::Orientation::Horizontal</enum>
           </property>
-          <item>
-           <widget class="QWidget" name="player_controls_container" native="true">
-            <layout class="QVBoxLayout" name="layout_player_controls_container">
-             <property name="spacing">
-              <number>0</number>
+         </widget>
+        </item>
+        <item>
+         <widget class="QWidget" name="player_controls_container" native="true">
+          <layout class="QVBoxLayout" name="layout_player_controls_container">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QFrame" name="player_controls">
+             <property name="frameShape">
+              <enum>QFrame::Shape::NoFrame</enum>
              </property>
-             <property name="leftMargin">
-              <number>0</number>
+             <layout class="QHBoxLayout" name="layout_player_controls">
+              <property name="spacing">
+               <number>1</number>
+              </property>
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <item>
+               <widget class="QToolButton" name="back_button">
+                <property name="accessibleName">
+                 <string>MenuPopupToolButton</string>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>32</width>
+                  <height>32</height>
+                 </size>
+                </property>
+                <property name="autoRaise">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QToolButton" name="pause_play_button">
+                <property name="accessibleName">
+                 <string>MenuPopupToolButton</string>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>32</width>
+                  <height>32</height>
+                 </size>
+                </property>
+                <property name="autoRaise">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QToolButton" name="stop_button">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="accessibleName">
+                 <string>MenuPopupToolButton</string>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>32</width>
+                  <height>32</height>
+                 </size>
+                </property>
+                <property name="popupMode">
+                 <enum>QToolButton::ToolButtonPopupMode::MenuButtonPopup</enum>
+                </property>
+                <property name="autoRaise">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QToolButton" name="forward_button">
+                <property name="accessibleName">
+                 <string>MenuPopupToolButton</string>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>32</width>
+                  <height>32</height>
+                 </size>
+                </property>
+                <property name="autoRaise">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QWidget" name="widget_love" native="true">
+                <layout class="QHBoxLayout" name="layout_widget_love">
+                 <property name="spacing">
+                  <number>1</number>
+                 </property>
+                 <property name="leftMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
+                 <item>
+                  <widget class="Line" name="line_love">
+                   <property name="orientation">
+                    <enum>Qt::Orientation::Vertical</enum>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QToolButton" name="button_love">
+                   <property name="accessibleName">
+                    <string>MenuPopupToolButton</string>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>32</width>
+                     <height>32</height>
+                    </size>
+                   </property>
+                   <property name="autoRaise">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="Line" name="line_buttons">
+                <property name="orientation">
+                 <enum>Qt::Orientation::Vertical</enum>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="AnalyzerContainer" name="analyzer" native="true">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                  <horstretch>100</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>36</height>
+                 </size>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer">
+                <property name="orientation">
+                 <enum>Qt::Orientation::Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Policy::Expanding</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>0</width>
+                  <height>0</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="Line" name="line_volume">
+                <property name="orientation">
+                 <enum>Qt::Orientation::Vertical</enum>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="VolumeSlider" name="volume">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximum">
+                 <number>100</number>
+                </property>
+                <property name="orientation">
+                 <enum>Qt::Orientation::Horizontal</enum>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QWidget" name="status_bar" native="true">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
              </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>0</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QFrame" name="player_controls">
-               <property name="frameShape">
-                <enum>QFrame::Shape::NoFrame</enum>
-               </property>
-               <layout class="QHBoxLayout" name="layout_player_controls">
-                <property name="spacing">
-                 <number>1</number>
+             <layout class="QVBoxLayout" name="layout_status_bar">
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <item>
+               <widget class="Line" name="status_bar_line">
+                <property name="orientation">
+                 <enum>Qt::Orientation::Horizontal</enum>
                 </property>
-                <property name="leftMargin">
-                 <number>0</number>
+               </widget>
+              </item>
+              <item>
+               <widget class="QWidget" name="status_bar_internal" native="true">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
                 </property>
-                <property name="topMargin">
-                 <number>0</number>
-                </property>
-                <property name="rightMargin">
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>0</number>
-                </property>
-                <item>
-                 <widget class="QToolButton" name="back_button">
-                  <property name="accessibleName">
-                   <string>MenuPopupToolButton</string>
-                  </property>
-                  <property name="iconSize">
-                   <size>
-                    <width>32</width>
-                    <height>32</height>
-                   </size>
-                  </property>
-                  <property name="autoRaise">
-                   <bool>true</bool>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QToolButton" name="pause_play_button">
-                  <property name="accessibleName">
-                   <string>MenuPopupToolButton</string>
-                  </property>
-                  <property name="iconSize">
-                   <size>
-                    <width>32</width>
-                    <height>32</height>
-                   </size>
-                  </property>
-                  <property name="autoRaise">
-                   <bool>true</bool>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QToolButton" name="stop_button">
-                  <property name="enabled">
-                   <bool>false</bool>
-                  </property>
-                  <property name="accessibleName">
-                   <string>MenuPopupToolButton</string>
-                  </property>
-                  <property name="iconSize">
-                   <size>
-                    <width>32</width>
-                    <height>32</height>
-                   </size>
-                  </property>
-                  <property name="popupMode">
-                   <enum>QToolButton::ToolButtonPopupMode::MenuButtonPopup</enum>
-                  </property>
-                  <property name="autoRaise">
-                   <bool>true</bool>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QToolButton" name="forward_button">
-                  <property name="accessibleName">
-                   <string>MenuPopupToolButton</string>
-                  </property>
-                  <property name="iconSize">
-                   <size>
-                    <width>32</width>
-                    <height>32</height>
-                   </size>
-                  </property>
-                  <property name="autoRaise">
-                   <bool>true</bool>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QWidget" name="widget_love" native="true">
-                  <layout class="QHBoxLayout" name="layout_widget_love">
-                   <property name="spacing">
+                <layout class="QHBoxLayout" name="layout_status_bar_internal">
+                 <property name="spacing">
+                  <number>3</number>
+                 </property>
+                 <property name="leftMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
+                 <item>
+                  <widget class="QStackedWidget" name="status_bar_stack">
+                   <property name="currentIndex">
                     <number>1</number>
                    </property>
-                   <property name="leftMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="topMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="rightMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="bottomMargin">
-                    <number>0</number>
-                   </property>
-                   <item>
-                    <widget class="Line" name="line_love">
-                     <property name="orientation">
-                      <enum>Qt::Orientation::Vertical</enum>
+                   <widget class="MultiLoadingIndicator" name="multi_loading_indicator"/>
+                   <widget class="QWidget" name="playlist_summary_page">
+                    <layout class="QVBoxLayout" name="layout_playlist_summary">
+                     <property name="spacing">
+                      <number>0</number>
                      </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QToolButton" name="button_love">
-                     <property name="accessibleName">
-                      <string>MenuPopupToolButton</string>
+                     <property name="leftMargin">
+                      <number>0</number>
                      </property>
-                     <property name="iconSize">
-                      <size>
-                       <width>32</width>
-                       <height>32</height>
-                      </size>
+                     <property name="topMargin">
+                      <number>0</number>
                      </property>
-                     <property name="autoRaise">
-                      <bool>true</bool>
+                     <property name="rightMargin">
+                      <number>0</number>
                      </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="Line" name="line_buttons">
-                  <property name="orientation">
-                   <enum>Qt::Orientation::Vertical</enum>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="AnalyzerContainer" name="analyzer" native="true">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                    <horstretch>100</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>36</height>
-                   </size>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <spacer name="horizontalSpacer">
-                  <property name="orientation">
-                   <enum>Qt::Orientation::Horizontal</enum>
-                  </property>
-                  <property name="sizeType">
-                   <enum>QSizePolicy::Policy::Expanding</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>0</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-                <item>
-                 <widget class="Line" name="line_volume">
-                  <property name="orientation">
-                   <enum>Qt::Orientation::Vertical</enum>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="VolumeSlider" name="volume">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="maximum">
-                   <number>100</number>
-                  </property>
-                  <property name="orientation">
-                   <enum>Qt::Orientation::Horizontal</enum>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </widget>
-             </item>
-             <item>
-              <widget class="QWidget" name="status_bar" native="true">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <layout class="QVBoxLayout" name="layout_status_bar">
-                <property name="spacing">
-                 <number>0</number>
-                </property>
-                <property name="leftMargin">
-                 <number>0</number>
-                </property>
-                <property name="topMargin">
-                 <number>0</number>
-                </property>
-                <property name="rightMargin">
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>0</number>
-                </property>
-                <item>
-                 <widget class="Line" name="status_bar_line">
-                  <property name="orientation">
-                   <enum>Qt::Orientation::Horizontal</enum>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QWidget" name="status_bar_internal" native="true">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <layout class="QHBoxLayout" name="layout_status_bar_internal">
-                   <property name="spacing">
-                    <number>3</number>
-                   </property>
-                   <property name="leftMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="topMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="rightMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="bottomMargin">
-                    <number>0</number>
-                   </property>
-                   <item>
-                    <widget class="QStackedWidget" name="status_bar_stack">
-                     <property name="currentIndex">
-                      <number>1</number>
+                     <property name="bottomMargin">
+                      <number>0</number>
                      </property>
-                     <widget class="MultiLoadingIndicator" name="multi_loading_indicator"/>
-                     <widget class="QWidget" name="playlist_summary_page">
-                      <layout class="QVBoxLayout" name="layout_playlist_summary">
-                       <property name="spacing">
-                        <number>0</number>
+                     <item>
+                      <widget class="QLabel" name="playlist_summary">
+                       <property name="alignment">
+                        <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
                        </property>
-                       <property name="leftMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="topMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="rightMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="bottomMargin">
-                        <number>0</number>
-                       </property>
-                       <item>
-                        <widget class="QLabel" name="playlist_summary">
-                         <property name="alignment">
-                          <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
-                         </property>
-                        </widget>
-                       </item>
-                      </layout>
-                     </widget>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="Line" name="line_5">
-                     <property name="orientation">
-                      <enum>Qt::Orientation::Vertical</enum>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="PlaylistSequence" name="playlist_sequence" native="true"/>
-                   </item>
-                   <item>
-                    <widget class="Line" name="line_2">
-                     <property name="orientation">
-                      <enum>Qt::Orientation::Vertical</enum>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QToolButton" name="button_scrobble">
-                     <property name="enabled">
-                      <bool>true</bool>
-                     </property>
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="text">
-                      <string/>
-                     </property>
-                     <property name="iconSize">
-                      <size>
-                       <width>16</width>
-                       <height>16</height>
-                      </size>
-                     </property>
-                     <property name="autoRaise">
-                      <bool>true</bool>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="TrackSlider" name="track_slider" native="true">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                       <horstretch>10</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </widget>
-                </item>
-               </layout>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
-         </layout>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="Line" name="line_5">
+                   <property name="orientation">
+                    <enum>Qt::Orientation::Vertical</enum>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="PlaylistSequence" name="playlist_sequence" native="true"/>
+                 </item>
+                 <item>
+                  <widget class="Line" name="line_2">
+                   <property name="orientation">
+                    <enum>Qt::Orientation::Vertical</enum>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QToolButton" name="button_scrobble">
+                   <property name="enabled">
+                    <bool>true</bool>
+                   </property>
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>16</width>
+                     <height>16</height>
+                    </size>
+                   </property>
+                   <property name="autoRaise">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="TrackSlider" name="track_slider" native="true">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                     <horstretch>10</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
         </item>
        </layout>
       </widget>
