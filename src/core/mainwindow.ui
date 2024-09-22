@@ -75,13 +75,6 @@
            <number>0</number>
           </property>
           <item>
-           <widget class="Line" name="line_6">
-            <property name="orientation">
-             <enum>Qt::Orientation::Vertical</enum>
-            </property>
-           </widget>
-          </item>
-          <item>
            <widget class="QWidget" name="player_controls_container" native="true">
             <layout class="QVBoxLayout" name="layout_player_controls_container">
              <property name="spacing">
@@ -463,7 +456,7 @@
      <x>0</x>
      <y>0</y>
      <width>1131</width>
-     <height>23</height>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_music">
@@ -508,7 +501,7 @@
    </widget>
    <widget class="QMenu" name="menu_help">
     <property name="title">
-     <string>Help</string>
+     <string>Hel&amp;p</string>
     </property>
     <addaction name="action_about_strawberry"/>
     <addaction name="action_about_qt"/>
@@ -539,7 +532,7 @@
   </widget>
   <action name="action_previous_track">
    <property name="text">
-    <string>Previous track</string>
+    <string>P&amp;revious track</string>
    </property>
    <property name="shortcut">
     <string>F5</string>
@@ -596,7 +589,7 @@
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Love</string>
+    <string>&amp;Love</string>
    </property>
    <property name="shortcut">
     <string notr="true">Ctrl+L</string>
@@ -762,7 +755,7 @@
   </action>
   <action name="action_save_all_playlists">
    <property name="text">
-    <string>&amp;Save all playlists...</string>
+    <string>Sa&amp;ve all playlists...</string>
    </property>
   </action>
   <action name="action_next_playlist">
@@ -806,7 +799,7 @@
   </action>
   <action name="action_stop_collection_scan">
    <property name="text">
-    <string>Stop collection scan</string>
+    <string>Sto&amp;p collection scan</string>
    </property>
    <property name="toolTip">
     <string>Stop collection scan</string>
@@ -851,7 +844,7 @@
   </action>
   <action name="action_add_stream">
    <property name="text">
-    <string>Add stream...</string>
+    <string>Add str&amp;eam...</string>
    </property>
   </action>
   <action name="action_toggle_show_sidebar">
@@ -859,12 +852,12 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Show sidebar</string>
+    <string>Sho&amp;w sidebar</string>
    </property>
   </action>
   <action name="action_import_data_from_last_fm">
    <property name="text">
-    <string>Import data from last.fm...</string>
+    <string>&amp;Import data from last.fm...</string>
    </property>
   </action>
  </widget>
