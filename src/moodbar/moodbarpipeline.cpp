@@ -103,7 +103,7 @@ void MoodbarPipeline::Start() {
 
   GstElement *decodebin = CreateElement("uridecodebin");
   convert_element_ = CreateElement("audioconvert");
-  GstElement *spectrum = CreateElement("strawberry-fastspectrum");
+  GstElement *spectrum = CreateElement("spectrum");
   GstElement *fakesink = CreateElement("fakesink");
 
   if (!decodebin || !convert_element_ || !spectrum || !fakesink) {
@@ -122,7 +122,7 @@ void MoodbarPipeline::Start() {
     return;
   }
 
-  builder_ = make_unique<MoodbarBuilder>();
+  //builder_ = make_unique<MoodbarBuilder>();
 
   // Set properties
 
@@ -130,8 +130,16 @@ void MoodbarPipeline::Start() {
   g_object_set(decodebin, "uri", gst_url.constData(), nullptr);
   g_object_set(spectrum, "bands", kBands, nullptr);
 
-  GstStrawberryFastSpectrum *fastspectrum = reinterpret_cast<GstStrawberryFastSpectrum*>(spectrum);
-  fastspectrum->output_callback = [this](double *magnitudes, const int size) { builder_->AddFrame(magnitudes, size); };
+  //GstStrawberryFastSpectrum *fastspectrum = reinterpret_cast<GstStrawberryFastSpectrum*>(spectrum);
+  //fastspectrum->output_callback = [this](double *magnitudes, const int size) { builder_->AddFrame(magnitudes, size); };
+
+  {
+    GstPad *pad = gst_element_get_static_pad(fakesink, "src");
+    if (pad) {
+      buffer_probe_cb_id_ = gst_pad_add_probe(pad, GST_PAD_PROBE_TYPE_BUFFER, BufferProbeCallback, this, nullptr);
+      gst_object_unref(pad);
+    }
+  }
 
   // Connect signals
   CHECKED_GCONNECT(decodebin, "pad-added", &NewPadCallback, this);
@@ -212,6 +220,20 @@ GstBusSyncReply MoodbarPipeline::BusCallbackSync(GstBus *bus, GstMessage *messag
   if (!instance->running_) return GST_BUS_PASS;
 
   switch (GST_MESSAGE_TYPE(message)) {
+#if 0
+    case GST_MESSAGE_ELEMENT:{
+      const GstStructure *structure = gst_message_get_structure(message);
+      const gchar *name = gst_structure_get_name(structure);
+      if (strcmp(name, "spectrum") == 0) {
+        const GValue *magnitudes = gst_structure_get_value(structure, "magnitude");
+        if (instance->builder_) {
+          instance->builder_->AddFrame(magnitudes, kBands);
+        }
+      }
+      break;
+    }
+#endif
+
     case GST_MESSAGE_EOS:
       instance->Stop(true);
       break;
@@ -226,6 +248,24 @@ GstBusSyncReply MoodbarPipeline::BusCallbackSync(GstBus *bus, GstMessage *messag
   }
 
   return GST_BUS_PASS;
+
+}
+
+GstPadProbeReturn MoodbarPipeline::BufferProbeCallback(GstPad *pad, GstPadProbeInfo *info, gpointer self) {
+
+  Q_UNUSED(pad)
+
+  MoodbarPipeline *instance = reinterpret_cast<MoodbarPipeline*>(self);
+
+  GstBuffer *buffer = gst_pad_probe_info_get_buffer(info);
+
+  GstMapInfo map;
+  gst_buffer_map(buffer, &map, GST_MAP_READ);
+  instance->data_.append(reinterpret_cast<const char*>(map.data), map.size);
+  gst_buffer_unmap(buffer, &map);
+  gst_buffer_unref(buffer);
+
+  return GST_PAD_PROBE_OK;
 
 }
 

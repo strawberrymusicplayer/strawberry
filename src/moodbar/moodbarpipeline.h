@@ -63,6 +63,7 @@ class MoodbarPipeline : public QObject {
 
   static void NewPadCallback(GstElement *element, GstPad *pad, gpointer self);
   static GstBusSyncReply BusCallbackSync(GstBus *bus, GstMessage *message, gpointer self);
+  static GstPadProbeReturn BufferProbeCallback(GstPad *pad, GstPadProbeInfo *info, gpointer self);
 
  private:
   QUrl url_;
@@ -74,6 +75,7 @@ class MoodbarPipeline : public QObject {
   bool success_;
   bool running_;
   QByteArray data_;
+  gint buffer_probe_cb_id_;
 };
 
 using MoodbarPipelinePtr = QSharedPointer<MoodbarPipeline>;
