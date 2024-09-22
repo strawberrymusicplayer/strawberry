@@ -456,7 +456,7 @@
      <x>0</x>
      <y>0</y>
      <width>1131</width>
-     <height>30</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_music">
@@ -501,7 +501,7 @@
    </widget>
    <widget class="QMenu" name="menu_help">
     <property name="title">
-     <string>Hel&amp;p</string>
+     <string>Help</string>
     </property>
     <addaction name="action_about_strawberry"/>
     <addaction name="action_about_qt"/>
@@ -532,7 +532,7 @@
   </widget>
   <action name="action_previous_track">
    <property name="text">
-    <string>P&amp;revious track</string>
+    <string>Previous track</string>
    </property>
    <property name="shortcut">
     <string>F5</string>
@@ -589,7 +589,7 @@
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>&amp;Love</string>
+    <string>Love</string>
    </property>
    <property name="shortcut">
     <string notr="true">Ctrl+L</string>
@@ -755,7 +755,7 @@
   </action>
   <action name="action_save_all_playlists">
    <property name="text">
-    <string>Sa&amp;ve all playlists...</string>
+    <string>&amp;Save all playlists...</string>
    </property>
   </action>
   <action name="action_next_playlist">
@@ -799,7 +799,7 @@
   </action>
   <action name="action_stop_collection_scan">
    <property name="text">
-    <string>Sto&amp;p collection scan</string>
+    <string>Stop collection scan</string>
    </property>
    <property name="toolTip">
     <string>Stop collection scan</string>
@@ -844,7 +844,7 @@
   </action>
   <action name="action_add_stream">
    <property name="text">
-    <string>Add str&amp;eam...</string>
+    <string>Add stream...</string>
    </property>
   </action>
   <action name="action_toggle_show_sidebar">
@@ -852,12 +852,12 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Sho&amp;w sidebar</string>
+    <string>Show sidebar</string>
    </property>
   </action>
   <action name="action_import_data_from_last_fm">
    <property name="text">
-    <string>&amp;Import data from last.fm...</string>
+    <string>Import data from last.fm...</string>
    </property>
   </action>
  </widget>
