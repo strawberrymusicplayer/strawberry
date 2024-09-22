@@ -22,6 +22,8 @@
 #ifndef MOODBARBUILDER_H
 #define MOODBARBUILDER_H
 
+#include <glib-object.h>
+
 #include <QtGlobal>
 #include <QList>
 #include <QByteArray>
@@ -31,6 +33,7 @@ class MoodbarBuilder {
   explicit MoodbarBuilder();
 
   void Init(const int bands, const int rate_hz);
+  void AddFrame(const GValue *magnitudes, const int size);
   void AddFrame(const double *magnitudes, const int size);
   QByteArray Finish(const int width);
 

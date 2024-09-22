@@ -22,6 +22,9 @@
 #include <algorithm>
 #include <cmath>
 
+#include <glib-object.h>
+#include <gst/gst.h>
+
 #include <QList>
 #include <QByteArray>
 
@@ -58,6 +61,29 @@ void MoodbarBuilder::Init(const int bands, const int rate_hz) {
 
     barkband_table_.append(barkband);
   }
+
+}
+
+void MoodbarBuilder::AddFrame(const GValue *magnitudes, const int size) {
+
+  if (size > barkband_table_.length()) {
+    return;
+  }
+
+  // Calculate total magnitudes for different bark bands.
+  double bands[sBarkBandCount]{};
+  for (int i = 0; i < size; ++i) {
+    const GValue *magnitude = gst_value_list_get_value(magnitudes, i);
+    bands[barkband_table_[i]] += g_value_get_float(magnitude);
+  }
+
+  // Now divide the bark bands into thirds and compute their total amplitudes.
+  double rgb[] = { 0, 0, 0 };
+  for (int i = 0; i < sBarkBandCount; ++i) {
+    rgb[(i * 3) / sBarkBandCount] += bands[i] * bands[i];
+  }
+
+  frames_.append(Rgb(sqrt(rgb[0]), sqrt(rgb[1]), sqrt(rgb[2])));
 
 }
 
