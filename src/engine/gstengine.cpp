@@ -64,6 +64,11 @@
 using namespace Qt::StringLiterals;
 using std::make_shared;
 
+#ifdef __clang__
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wunused-const-variable"
+#endif
+
 const char *GstEngine::kAutoSink = "autoaudiosink";
 const char *GstEngine::kALSASink = "alsasink";
 
@@ -84,6 +89,10 @@ constexpr qint64 kTimerIntervalNanosec = 1000 * kNsecPerMsec;  // 1s
 constexpr qint64 kPreloadGapNanosec = 8000 * kNsecPerMsec;     // 8s
 constexpr qint64 kSeekDelayNanosec = 100 * kNsecPerMsec;       // 100msec
 }  // namespace
+
+#ifdef __clang_
+#  pragma clang diagnostic pop
+#endif
 
 GstEngine::GstEngine(SharedPtr<TaskManager> task_manager, QObject *parent)
     : EngineBase(parent),

@@ -69,6 +69,11 @@
 
 using namespace Qt::StringLiterals;
 
+#ifdef __clang__
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wunused-const-variable"
+#endif
+
 namespace {
 
 constexpr int GST_PLAY_FLAG_VIDEO = 0x00000001;
@@ -84,6 +89,10 @@ constexpr int kEqBandCount = 10;
 constexpr int kEqBandFrequencies[] = { 60, 170, 310, 600, 1000, 3000, 6000, 12000, 14000, 16000 };
 
 }  // namespace
+
+#ifdef __clang_
+#  pragma clang diagnostic pop
+#endif
 
 int GstEnginePipeline::sId = 1;
 
