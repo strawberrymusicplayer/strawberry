@@ -1,19 +1,23 @@
-/* This file was part of Clementine.
-   Copyright 2012, David Sansome <me@davidsansome.com>
-
-   Strawberry is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
-
-   Strawberry is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-
-   You should have received a copy of the GNU General Public License
-   along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
-*/
+/*
+ * Strawberry Music Player
+ * This file was part of Clementine.
+ * Copyright 2012, David Sansome <me@davidsansome.com>
+ * Copyright 2019-2024, Jonas Kvinge <jonas@jkvinge.net>
+ *
+ * Strawberry is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Strawberry is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 
 #include "moodbarpipeline.h"
 
@@ -122,8 +126,8 @@ void MoodbarPipeline::Start() {
   g_object_set(decodebin, "uri", gst_url.constData(), nullptr);
   g_object_set(spectrum, "bands", kBands, nullptr);
 
-  GstStrawberryFastSpectrum *fast_spectrum = reinterpret_cast<GstStrawberryFastSpectrum*>(spectrum);
-  fast_spectrum->output_callback = [this](double *magnitudes, int size) { builder_->AddFrame(magnitudes, size); };
+  GstStrawberryFastSpectrum *fastspectrum = reinterpret_cast<GstStrawberryFastSpectrum*>(spectrum);
+  fastspectrum->output_callback = [this](double *magnitudes, const int size) { builder_->AddFrame(magnitudes, size); };
 
   // Connect signals
   CHECKED_GCONNECT(decodebin, "pad-added", &NewPadCallback, this);
@@ -154,7 +158,9 @@ void MoodbarPipeline::ReportError(GstMessage *msg) {
 
 }
 
-void MoodbarPipeline::NewPadCallback(GstElement*, GstPad *pad, gpointer data) {
+void MoodbarPipeline::NewPadCallback(GstElement *element, GstPad *pad, gpointer data) {
+
+  Q_UNUSED(element)
 
   MoodbarPipeline *self = reinterpret_cast<MoodbarPipeline*>(data);
 
@@ -193,23 +199,26 @@ void MoodbarPipeline::NewPadCallback(GstElement*, GstPad *pad, gpointer data) {
 
 }
 
-GstBusSyncReply MoodbarPipeline::BusCallbackSync(GstBus*, GstMessage *msg, gpointer data) {
+GstBusSyncReply MoodbarPipeline::BusCallbackSync(GstBus *bus, GstMessage *message, gpointer data) {
+
+  Q_UNUSED(bus)
 
   MoodbarPipeline *self = reinterpret_cast<MoodbarPipeline*>(data);
 
-  switch (GST_MESSAGE_TYPE(msg)) {
+  switch (GST_MESSAGE_TYPE(message)) {
     case GST_MESSAGE_EOS:
       self->Stop(true);
       break;
 
     case GST_MESSAGE_ERROR:
-      self->ReportError(msg);
+      self->ReportError(message);
       self->Stop(false);
       break;
 
     default:
       break;
   }
+
   return GST_BUS_PASS;
 
 }
