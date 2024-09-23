@@ -21,6 +21,8 @@ endif()
 
 add_library(libstrawberry-tagreader STATIC ${PROTO_SOURCES} ${SOURCES})
 
+target_compile_options(libstrawberry-tagreader PRIVATE -Wno-missing-declarations)
+
 target_include_directories(libstrawberry-tagreader SYSTEM PRIVATE
   ${GLIB_INCLUDE_DIRS}
   ${PROTOBUF_INCLUDE_DIRS}
