@@ -74,7 +74,7 @@ else()
     $<$<COMPILE_LANGUAGE:CXX>:-Woverloaded-virtual>
     $<$<COMPILE_LANGUAGE:CXX>:-Wold-style-cast>
   )
-  option(BUILD_WERROR "Build with -Werror" OFF)
+  option(BUILD_WERROR "Build with -Werror" ON)
   if(BUILD_WERROR)
     list(APPEND COMPILE_OPTIONS -Werror)
   endif()
