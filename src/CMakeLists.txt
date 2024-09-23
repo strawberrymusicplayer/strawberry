@@ -866,7 +866,6 @@ optional_source(APPLE
     core/scoped_nsautorelease_pool.mm
     core/mac_startup.mm
     core/macsystemtrayicon.mm
-    core/macfslistener.mm
     osd/osdmac.mm
     widgets/searchfield_mac.mm
     engine/macosdevicefinder.cpp
@@ -875,7 +874,6 @@ optional_source(APPLE
     device/macosdevicelister.mm
   HEADERS
     core/macsystemtrayicon.h
-    core/macfslistener.h
     osd/osdmac.h
     globalshortcuts/globalshortcutsbackend-macos.h
     device/macosdevicelister.h
