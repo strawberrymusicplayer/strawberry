@@ -3,6 +3,7 @@ set(SOURCES KDSingleApplication/src/kdsingleapplication.cpp KDSingleApplication/
 set(HEADERS KDSingleApplication/src/kdsingleapplication.h KDSingleApplication/src/kdsingleapplication_localsocket_p.h)
 qt_wrap_cpp(MOC ${HEADERS})
 add_library(kdsingleapplication STATIC ${SOURCES} ${MOC})
+target_compile_options(kdsingleapplication PRIVATE -Wno-missing-declarations)
 target_compile_definitions(kdsingleapplication PRIVATE -DKDSINGLEAPPLICATION_STATIC_BUILD)
 target_include_directories(kdsingleapplication PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(kdsingleapplication PUBLIC Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Network)
