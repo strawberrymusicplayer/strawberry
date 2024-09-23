@@ -5,7 +5,7 @@ Source: https://github.com/strawberrymusicplayer/strawberry
 
 Files: *
 Copyright: 2010-2015, David Sansome <me@davidsansome.com>
-           2012-2014, 2017-2023 Jonas Kvinge <jonas@jkvinge.net>
+           2012-2014, 2017-2024 Jonas Kvinge <jonas@jkvinge.net>
 License: GPL-3+
 
 Files: src/utilities/timeconstants.h
@@ -31,18 +31,20 @@ Files: src/core/main.h
        src/engine/alsapcmdevicefinder.h
        src/engine/mmdevicefinder.cpp
        src/engine/mmdevicefinder.h
+       src/engine/uwpdevicefinder.cpp
+       src/engine/uwpdevicefinder.h
        src/engine/devicefinder.cpp
        src/engine/devicefinder.h
        src/engine/enginedevice.cpp
        src/engine/enginedevice.h
        src/engine/enginemetadata.cpp
        src/engine/enginemetadata.h
-       src/internet/internetservice.cpp
-       src/internet/internetservice.h
-       src/internet/internettabsview.cpp
-       src/internet/internettabsview.h
-       src/internet/internetsongsview.cpp
-       src/internet/internetsongsview.h
+       src/streaming/streamingservice.cpp
+       src/streaming/streamingservice.h
+       src/streaming/streamingtabsview.cpp
+       src/streaming/streamingtabsview.h
+       src/streaming/streamingsongsview.cpp
+       src/streaming/streamingsongsview.h
        src/settings/backendsettingspage.cpp
        src/settings/backendsettingspage.h
        src/settings/coverssettingspage.cpp
@@ -55,6 +57,8 @@ Files: src/core/main.h
        src/settings/subsonicsettingspage.h
        src/settings/tidalsettingspage.cpp
        src/settings/tidalsettingspage.h
+       src/settings/spotifysettingspage.cpp
+       src/settings/spotifysettingspage.h
        src/covermanager/jsoncoverprovider.cpp
        src/covermanager/jsoncoverprovider.h
        src/covermanager/lastfmcoverprovider.cpp
@@ -65,6 +69,8 @@ Files: src/core/main.h
        src/covermanager/deezercoverprovider.h
        src/covermanager/tidalcoverprovider.cpp
        src/covermanager/tidalcoverprovider.h
+       src/covermanager/opentidalcoverprovider.cpp
+       src/covermanager/opentidalcoverprovider.h
        src/covermanager/qobuzcoverprovider.cpp
        src/covermanager/qobuzcoverprovider.h
        src/covermanager/spotifycoverprovider.cpp
@@ -91,13 +97,16 @@ Files: src/core/main.h
        src/tidal/*
        src/qobuz/*
        src/radios/*
+       src/spotify/*
        src/transcoder/transcoderoptionswavpack.cpp
        src/transcoder/transcoderoptionswavpack.h
        ext/libstrawberry-tagreader/tagreadertagparser.cpp
        ext/libstrawberry-tagreader/tagreadertagparser.h
        src/widgets/resizabletextedit.cpp
        src/widgets/resizabletextedit.h
-Copyright: 2012-2014, 2017-2023, Jonas Kvinge <jonas@jkvinge.net>
+       src/widgets/fancytabdata.cpp
+       src/widgets/fancytabdata.h
+Copyright: 2012-2014, 2017-2024, Jonas Kvinge <jonas@jkvinge.net>
 License: GPL-3+
 
 Files: src/engine/enginebase.cpp
@@ -118,6 +127,8 @@ License: GPL-2+
 
 Files: src/widgets/fancytabwidget.cpp
        src/widgets/fancytabwidget.h
+       src/widgets/fancytabbar.cpp
+       src/widgets/fancytabbar.h
 Copyright: 2018, Vikram Ambrose <ambroseworks@gmail.com>
            2018, Jonas Kvinge <jonas@jkvinge.net>
 License: GPL-3+
@@ -207,8 +218,8 @@ Files: src/device/udisks2lister.cpp
 Copyright: 2016, Valeriy Malov <jazzvoid@gmail.com>
 License: GPL-3+
 
-Files: src/internet/localredirectserver.cpp
-       src/internet/localredirectserver.h
+Files: src/core/localredirectserver.cpp
+       src/core/localredirectserver.h
 Copyright: 2012, 2014, John Maguire <john.maguire@gmail.com>
            2014, Krzysztof Sobiecki <sobkas@gmail.com>
            2018-2021, Jonas Kvinge <jonas@jkvinge.net>
@@ -247,18 +258,22 @@ Files: src/core/stylehelper.cpp
 Copyright: 2016 The Qt Company Ltd.
 License: GPL-3+
 
-Files: ext/gstmoodbar/gstfastspectrum.cpp
-       ext/gstmoodbar/gstfastspectrum.h
+Files: 3rdparty/gstfastspectrum/gstfastspectrum.cpp
+       3rdparty/gstfastspectrum/gstfastspectrum.h
 Copyright: 1999 Erik Walthinsen <omega@cse.ogi.edu>
            2006,2011 Stefan Kost <ensonic@users.sf.net>
            2007-2009 Sebastian Dröge <sebastian.droege@collabora.co.uk>
+           2018-2024 Jonas Kvinge <jonas@jkvinge.net>
 License: GPL-2+
 
-Files: src/widgets/qsearchfield_nonmac.cpp
+Files: src/widgets/qsearchfield_qt.cpp
        src/widgets/qsearchfield_mac.mm
        src/widgets/qsearchfield.h
        src/widgets/qocoa_mac.h
+       src/widgets/searchfield_qt_private.cpp
+       src/widgets/searchfield_qt_private.h
 Copyright: 2011, Mike McQuaid <mike@mikemcquaid.com>
+           2018-2024, Jonas Kvinge <jonas@jkvinge.net>
 License: Expat
 
 Files: 3rdparty/kdsingleapplication/*
