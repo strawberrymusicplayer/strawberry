@@ -27,9 +27,9 @@
 #include <QHeaderView>
 #include <QAbstractItemModel>
 #include <QIODevice>
+#include <QList>
 #include <QByteArray>
 #include <QDataStream>
-#include <QList>
 #include <QResizeEvent>
 #include <QMouseEvent>
 

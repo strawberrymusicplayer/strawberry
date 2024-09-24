@@ -23,7 +23,7 @@
 #ifndef FHT_H
 #define FHT_H
 
-#include <QVector>
+#include <QList>
 
 /**
  * Implementation of the Hartley Transform after Bracewell's discrete
@@ -37,9 +37,9 @@ class FHT {
   const int num_;
   const int exp2_;
 
-  QVector<float> buf_vector_;
-  QVector<float> tab_vector_;
-  QVector<int> log_vector_;
+  QList<float> buf_vector_;
+  QList<float> tab_vector_;
+  QList<int> log_vector_;
 
   float *buf_();
   float *tab_();

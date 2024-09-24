@@ -31,7 +31,7 @@
 #include <QMutex>
 #include <QSet>
 #include <QMap>
-#include <QVector>
+#include <QList>
 #include <QVariant>
 #include <QByteArray>
 #include <QString>
@@ -1118,7 +1118,7 @@ SongList CollectionBackend::GetSongsByForeignId(const QStringList &ids, const QS
     return SongList();
   }
 
-  QVector<Song> ret(ids.count());
+  QList<Song> ret(ids.count());
   while (q.next()) {
     const QString foreign_id = q.value(static_cast<int>(Song::kColumns.count()) + 1).toString();
     const qint64 index = ids.indexOf(foreign_id);

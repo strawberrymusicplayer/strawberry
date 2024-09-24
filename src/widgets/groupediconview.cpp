@@ -33,7 +33,6 @@
 #include <QLocale>
 #include <QPainter>
 #include <QPalette>
-#include <QVector>
 #include <QRect>
 #include <QPen>
 #include <QPoint>
@@ -133,7 +132,7 @@ void GroupedIconView::rowsInserted(const QModelIndex &parent, int start, int end
   LayoutItems();
 }
 
-void GroupedIconView::dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int>&) {
+void GroupedIconView::dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QList<int>&) {
   QListView::dataChanged(topLeft, bottomRight);
   LayoutItems();
 }
@@ -253,7 +252,7 @@ void GroupedIconView::paintEvent(QPaintEvent *e) {
   QPainter painter(viewport());
 
   const QRect viewport_rect(e->rect().translated(horizontalOffset(), verticalOffset()));
-  QVector<QModelIndex> toBeRendered = IntersectingItems(viewport_rect);
+  QList<QModelIndex> toBeRendered = IntersectingItems(viewport_rect);
 
   const QModelIndex current = currentIndex();
   const QAbstractItemModel *itemModel = model();
@@ -265,8 +264,8 @@ void GroupedIconView::paintEvent(QPaintEvent *e) {
 
   int maxSize = (flow() == TopToBottom) ? viewport()->size().width() - 2 * spacing() : viewport()->size().height() - 2 * spacing();
 
-  QVector<QModelIndex>::const_iterator end = toBeRendered.constEnd();
-  for (QVector<QModelIndex>::const_iterator it = toBeRendered.constBegin(); it != end; ++it) {
+  QList<QModelIndex>::const_iterator end = toBeRendered.constEnd();
+  for (QList<QModelIndex>::const_iterator it = toBeRendered.constBegin(); it != end; ++it) {
     if (!it->isValid()) {
       continue;
     }
@@ -325,7 +324,7 @@ void GroupedIconView::paintEvent(QPaintEvent *e) {
 
 void GroupedIconView::setSelection(const QRect &rect, QItemSelectionModel::SelectionFlags command) {
 
-  const QVector<QModelIndex> indexes(IntersectingItems(rect.translated(horizontalOffset(), verticalOffset())));
+  const QList<QModelIndex> indexes(IntersectingItems(rect.translated(horizontalOffset(), verticalOffset())));
 
   QItemSelection selection;
   selection.reserve(indexes.count());
@@ -338,9 +337,9 @@ void GroupedIconView::setSelection(const QRect &rect, QItemSelectionModel::Selec
 
 }
 
-QVector<QModelIndex> GroupedIconView::IntersectingItems(const QRect rect) const {
+QList<QModelIndex> GroupedIconView::IntersectingItems(const QRect rect) const {
 
-  QVector<QModelIndex> ret;
+  QList<QModelIndex> ret;
 
   const int count = static_cast<int>(visual_rects_.count());
   for (int i = 0; i < count; ++i) {

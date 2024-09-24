@@ -25,7 +25,7 @@
 #include <algorithm>
 #include <cmath>
 
-#include <QVector>
+#include <QList>
 #include <QtMath>
 
 FHT::FHT(uint n) : num_((n < 3) ? 0 : 1 << n), exp2_((n < 3) ? -1 : static_cast<int>(n)) {

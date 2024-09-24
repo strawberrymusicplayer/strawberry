@@ -31,7 +31,6 @@
 #include <QFileInfo>
 #include <QSet>
 #include <QList>
-#include <QVector>
 #include <QMap>
 #include <QString>
 #include <QStringList>
@@ -120,7 +119,7 @@ class Organize : public QObject {
   const QString playlist_;
 
   QBasicTimer transcode_progress_timer_;
-  QVector<Task> tasks_pending_;
+  QList<Task> tasks_pending_;
   QMap<QString, Task> tasks_transcoding_;
   int tasks_complete_;
 

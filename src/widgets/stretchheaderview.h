@@ -27,7 +27,6 @@
 #include <QHeaderView>
 #include <QList>
 #include <QString>
-#include <QVector>
 
 class QWidget;
 class QAbstractItemModel;
@@ -92,7 +91,7 @@ class StretchHeaderView : public QHeaderView {
 
  private:
   bool stretch_enabled_;
-  QVector<ColumnWidthType> column_widths_;
+  QList<ColumnWidthType> column_widths_;
 
   bool in_mouse_move_event_;
   int forced_resize_logical_index_;

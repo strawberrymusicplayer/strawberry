@@ -26,7 +26,7 @@
 #include <QByteArray>
 #include <QString>
 #include <QImage>
-#include <QVector>
+#include <QList>
 #include <QColor>
 #include <QPalette>
 #include <QRect>
@@ -34,7 +34,7 @@
 
 class QPainter;
 
-using ColorVector = QVector<QColor>;
+using ColorVector = QList<QColor>;
 
 class MoodbarRenderer {
  public:
@@ -73,6 +73,6 @@ class MoodbarRenderer {
   };
 };
 
-Q_DECLARE_METATYPE(QVector<QColor>)
+Q_DECLARE_METATYPE(QList<QColor>)
 
 #endif  // MOODBARRENDERER_H

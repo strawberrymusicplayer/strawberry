@@ -26,13 +26,13 @@
 #include <QAbstractItemModel>
 #include <QAbstractItemView>
 #include <QItemSelectionModel>
+#include <QList>
 #include <QString>
 #include <QFont>
 #include <QPalette>
 #include <QPoint>
 #include <QRect>
 #include <QRegion>
-#include <QVector>
 
 class QWidget;
 class QPainter;
@@ -89,7 +89,7 @@ class GroupedIconView : public QListView {
   void resizeEvent(QResizeEvent *e) override;
 
   // QAbstractItemView
-  void dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int>& = QVector<int>()) override;
+  void dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QList<int>& = QList<int>()) override;
   QModelIndex indexAt(const QPoint &p) const override;
   void rowsInserted(const QModelIndex &parent, int start, int end) override;
   void setSelection(const QRect &rect, QItemSelectionModel::SelectionFlags command) override;
@@ -107,14 +107,14 @@ class GroupedIconView : public QListView {
   };
 
   // Returns the items that are wholly or partially inside the rect.
-  QVector<QModelIndex> IntersectingItems(const QRect rect) const;
+  QList<QModelIndex> IntersectingItems(const QRect rect) const;
 
   // Returns the index of the item above (d=-1) or below (d=+1) the given item.
   int IndexAboveOrBelow(int index, const int d) const;
 
   MultiSortFilterProxy *proxy_model_;
-  QVector<QRect> visual_rects_;
-  QVector<Header> headers_;
+  QList<QRect> visual_rects_;
+  QList<Header> headers_;
 
   const int default_header_height_;
   int header_spacing_;

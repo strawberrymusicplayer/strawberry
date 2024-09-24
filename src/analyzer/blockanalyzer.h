@@ -26,7 +26,7 @@
 
 #include <QtGlobal>
 #include <QObject>
-#include <QVector>
+#include <QList>
 #include <QString>
 #include <QPixmap>
 #include <QPainter>
@@ -65,12 +65,12 @@ class BlockAnalyzer : public AnalyzerBase {
   QPixmap background_;
   QPixmap canvas_;
   Scope scope_;  // so we don't create a vector every frame
-  QVector<double> store_;  // current bar heights
-  QVector<double> yscale_;
+  QList<double> store_;  // current bar heights
+  QList<double> yscale_;
 
-  QVector<QPixmap> fade_bars_;
-  QVector<int> fade_pos_;
-  QVector<int> fade_intensity_;
+  QList<QPixmap> fade_bars_;
+  QList<int> fade_pos_;
+  QList<int> fade_intensity_;
 
   double step_;  // rows to fall per frame
 };

@@ -32,7 +32,6 @@
 #include <QMetaType>
 #include <QFileInfo>
 #include <QList>
-#include <QVector>
 #include <QMap>
 #include <QByteArray>
 #include <QUrl>
@@ -86,7 +85,6 @@ void RegisterMetaTypes() {
 
   qRegisterMetaType<const char*>("const char*");
   qRegisterMetaType<QList<int>>("QList<int>");
-  qRegisterMetaType<QVector<int>>("QVector<int>");
   qRegisterMetaType<QList<QUrl>>("QList<QUrl>");
   qRegisterMetaType<QFileInfo>("QFileInfo");
   qRegisterMetaType<QAbstractSocket::SocketState>("QAbstractSocket::SocketState");

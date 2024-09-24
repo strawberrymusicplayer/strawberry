@@ -29,7 +29,7 @@
 #include <algorithm>
 
 #include <QWidget>
-#include <QVector>
+#include <QList>
 #include <QPainter>
 #include <QPalette>
 #include <QBasicTimer>
@@ -89,7 +89,7 @@ void AnalyzerBase::ChangeTimeout(const int timeout) {
 
 void AnalyzerBase::transform(Scope &scope) {
 
-  QVector<float> aux(fht_->size());
+  QList<float> aux(fht_->size());
   if (static_cast<quint64>(aux.size()) >= scope.size()) {
     std::copy(scope.begin(), scope.end(), aux.begin());
   }

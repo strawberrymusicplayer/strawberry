@@ -21,7 +21,7 @@
 
 #include <QApplication>
 #include <QGuiApplication>
-#include <QVector>
+#include <QList>
 #include <QByteArray>
 #include <QKeySequence>
 #include <QFlags>
@@ -35,7 +35,7 @@
 #include <xcb/xcb.h>
 #include <xcb/xproto.h>
 
-const QVector<quint32> GlobalShortcut::mask_modifiers_ = QVector<quint32>() << 0 << Mod2Mask << LockMask << (Mod2Mask | LockMask);
+const QList<quint32> GlobalShortcut::mask_modifiers_ = QList<quint32>() << 0 << Mod2Mask << LockMask << (Mod2Mask | LockMask);
 
 namespace {
 

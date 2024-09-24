@@ -83,7 +83,7 @@
 #endif
 
 #include <QtGlobal>
-#include <QVector>
+#include <QList>
 #include <QByteArray>
 #include <QString>
 #include <QStringList>
@@ -1145,7 +1145,7 @@ void TagReaderTagLib::SetTextFrame(const char *id, const QString &value, TagLib:
 void TagReaderTagLib::SetTextFrame(const char *id, const std::string &value, TagLib::ID3v2::Tag *tag) const {
 
   const TagLib::ByteVector id_vector(id);
-  QVector<TagLib::ByteVector> frames_buffer;
+  QList<TagLib::ByteVector> frames_buffer;
 
   // Store and clear existing frames
   while (tag->frameListMap().contains(id_vector) && tag->frameListMap()[id_vector].size() != 0) {
@@ -1200,7 +1200,7 @@ void TagReaderTagLib::SetUserTextFrame(const std::string &description, const std
 void TagReaderTagLib::SetUnsyncLyricsFrame(const std::string &value, TagLib::ID3v2::Tag *tag) const {
 
   TagLib::ByteVector id_vector(kID3v2_UnsychronizedLyrics);
-  QVector<TagLib::ByteVector> frames_buffer;
+  QList<TagLib::ByteVector> frames_buffer;
 
   // Store and clear existing frames
   while (tag->frameListMap().contains(id_vector) && tag->frameListMap()[id_vector].size() != 0) {
