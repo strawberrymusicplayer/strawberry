@@ -137,10 +137,12 @@ void AnalyzerContainer::SetEngine(SharedPtr<EngineBase> engine) {
 }
 
 void AnalyzerContainer::DisableAnalyzer() {
+
   delete current_analyzer_;
   current_analyzer_ = nullptr;
 
   Save();
+
 }
 
 void AnalyzerContainer::ChangeAnalyzer(const int id) {
