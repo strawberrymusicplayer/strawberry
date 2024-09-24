@@ -39,6 +39,7 @@ class QAction;
 class QContextMenuEvent;
 class QMouseEvent;
 class QPaintEvent;
+class QKeyEvent;
 
 class Application;
 class CollectionFilterWidget;

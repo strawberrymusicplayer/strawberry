@@ -42,7 +42,7 @@
 #include <QMenu>
 #include <QSettings>
 #include <QToolButton>
-#include <QtEvents>
+#include <QKeyEvent>
 
 #include "core/iconloader.h"
 #include "core/song.h"
