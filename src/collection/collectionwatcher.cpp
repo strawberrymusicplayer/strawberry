@@ -1028,6 +1028,7 @@ quint64 CollectionWatcher::GetMtimeForCue(const QString &cue_path) {
   const QDateTime cue_last_modified = fileinfo.lastModified();
 
   return cue_last_modified.isValid() ? cue_last_modified.toSecsSinceEpoch() : 0;
+
 }
 
 void CollectionWatcher::AddWatch(const CollectionDirectory &dir, const QString &path) {
