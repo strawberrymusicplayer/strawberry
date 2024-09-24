@@ -24,7 +24,6 @@
 
 #include "config.h"
 
-#include <QObject>
 #include <QAbstractItemModel>
 #include <QAbstractItemView>
 #include <QString>
@@ -35,7 +34,6 @@
 #include "core/song.h"
 #include "widgets/autoexpandingtreeview.h"
 
-class QWidget;
 class QMenu;
 class QAction;
 class QContextMenuEvent;

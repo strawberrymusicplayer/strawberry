@@ -31,7 +31,6 @@
 #include <QObject>
 #include <QFile>
 #include <QList>
-#include <QJsonArray>
 #include <QVariant>
 #include <QVariantMap>
 #include <QString>

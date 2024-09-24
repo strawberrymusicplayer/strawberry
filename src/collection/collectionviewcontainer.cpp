@@ -21,9 +21,6 @@
 
 #include "config.h"
 
-#include <QWidget>
-#include <QKeyEvent>
-
 #include "collectionfilterwidget.h"
 #include "collectionview.h"
 #include "collectionviewcontainer.h"

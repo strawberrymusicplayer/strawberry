@@ -36,12 +36,10 @@
 #include <QScreen>
 #include <QMetaObject>
 #include <QThread>
-#include <QSortFilterProxyModel>
 #include <QByteArray>
 #include <QDir>
 #include <QFile>
 #include <QFileDialog>
-#include <QFileInfo>
 #include <QFontMetrics>
 #include <QList>
 #include <QSet>
@@ -60,7 +58,6 @@
 #include <QShortcut>
 #include <QMessageBox>
 #include <QErrorMessage>
-#include <QtEvents>
 #include <QSettings>
 #include <QColor>
 #include <QFrame>
@@ -74,6 +71,9 @@
 #include <QToolButton>
 #include <QCheckBox>
 #include <QClipboard>
+#include <QShowEvent>
+#include <QCloseEvent>
+#include <QKeyEvent>
 #ifdef HAVE_DBUS
 #  include <QDBusConnection>
 #  include <QDBusMessage>

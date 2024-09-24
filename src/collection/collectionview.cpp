@@ -25,7 +25,6 @@
 #include <memory>
 
 #include <QtGlobal>
-#include <QWidget>
 #include <QAbstractItemView>
 #include <QTreeView>
 #include <QItemSelectionModel>
@@ -46,7 +45,10 @@
 #include <QAction>
 #include <QMessageBox>
 #include <QSettings>
-#include <QtEvents>
+#include <QPaintEvent>
+#include <QMouseEvent>
+#include <QKeyEvent>
+#include <QContextMenuEvent>
 
 #include "core/application.h"
 #include "core/iconloader.h"

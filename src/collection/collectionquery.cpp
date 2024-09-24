@@ -29,7 +29,6 @@
 #include <QVariant>
 #include <QString>
 #include <QStringList>
-#include <QRegularExpression>
 #include <QSqlDatabase>
 
 #include "core/sqlquery.h"

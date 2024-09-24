@@ -22,7 +22,6 @@
 #include "config.h"
 
 #include <QtGlobal>
-#include <QObject>
 #include <QCoreApplication>
 #include <QIODevice>
 #include <QByteArray>

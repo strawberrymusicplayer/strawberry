@@ -31,8 +31,6 @@
 
 #include <vector>
 
-#include <QtGlobal>
-#include <QObject>
 #include <QWidget>
 #include <QBasicTimer>
 #include <QString>
