@@ -20,7 +20,7 @@
 #ifndef COLLECTIONTASK_H
 #define COLLECTIONTASK_H
 
-#include <QtClassHelperMacros>
+#include <QtGlobal>
 #include <QString>
 
 #include "core/shared_ptr.h"
