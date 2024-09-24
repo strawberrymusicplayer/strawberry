@@ -135,7 +135,6 @@ class CollectionWatcher : public QObject {
     QStringList files_changed_path_;
 
    private:
-    ScanTransaction(const ScanTransaction&) {}
     ScanTransaction &operator=(const ScanTransaction&) { return *this; }
 
     int task_id_;
