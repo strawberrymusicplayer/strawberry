@@ -902,10 +902,10 @@ SongList CollectionWatcher::ScanNewFile(const QString &file, const QString &path
     // Also, watch out for incorrect media files.
     // Playlist parser for CUEs considers every entry in sheet valid, and we don't want invalid media getting into collection!
     QString file_nfd = file.normalized(QString::NormalizationForm_D);
-    SongList cue_congs = cue_parser_->Load(&cue_file, matching_cue, path, false);
+    SongList cue_songs = cue_parser_->Load(&cue_file, matching_cue, path, false);
     cue_file.close();
-    songs.reserve(cue_congs.count());
-    for (Song &cue_song : cue_congs) {
+    songs.reserve(cue_songs.count());
+    for (Song &cue_song : cue_songs) {
       cue_song.set_source(source_);
       PerformEBUR128Analysis(cue_song);
       cue_song.set_fingerprint(fingerprint);
@@ -1083,7 +1083,7 @@ bool CollectionWatcher::FindSongsByFingerprint(const QString &file, const QStrin
   for (const Song &song : songs) {
     QString filename = song.url().toLocalFile();
     QFileInfo info(filename);
-    // Allow mulitiple songs in different directories with the same fingerprint.
+    // Allow multiple songs in different directories with the same fingerprint.
     // Only use the matching song by fingerprint if it doesn't already exist in a different path.
     if (file == filename || !info.exists()) {
       *out << song;
