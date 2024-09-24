@@ -75,7 +75,7 @@ using namespace Qt::StringLiterals;
 
 QStringList CollectionWatcher::sValidImages = QStringList() << QStringLiteral("jpg") << QStringLiteral("png") << QStringLiteral("gif") << QStringLiteral("jpeg");
 
-CollectionWatcher::CollectionWatcher(Song::Source source, QObject *parent)
+CollectionWatcher::CollectionWatcher(const Song::Source source, QObject *parent)
     : QObject(parent),
       source_(source),
       backend_(nullptr),
@@ -801,7 +801,7 @@ void CollectionWatcher::UpdateCueAssociatedSongs(const QString &file,
                                                  const QString &matching_cue,
                                                  const QUrl &art_automatic,
                                                  const SongList &old_cue_songs,
-                                                 ScanTransaction *t) {
+                                                 ScanTransaction *t) const {
 
   QHash<quint64, Song> sections_map;
   for (const Song &song : old_cue_songs) {
@@ -880,7 +880,7 @@ void CollectionWatcher::UpdateNonCueAssociatedSong(const QString &file,
 
 }
 
-SongList CollectionWatcher::ScanNewFile(const QString &file, const QString &path, const QString &fingerprint, const QString &matching_cue, QSet<QString> *cues_processed) {
+SongList CollectionWatcher::ScanNewFile(const QString &file, const QString &path, const QString &fingerprint, const QString &matching_cue, QSet<QString> *cues_processed) const {
 
   SongList songs;
 
@@ -1115,7 +1115,7 @@ void CollectionWatcher::DirectoryChanged(const QString &subdir) {
   if (it == subdir_mapping_.constEnd()) {
     return;
   }
-  CollectionDirectory dir = *it;
+  const CollectionDirectory dir = *it;
 
   qLog(Debug) << "Subdir" << subdir << "changed under directory" << dir.path << "id" << dir.id;
 
