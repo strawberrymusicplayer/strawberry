@@ -1010,6 +1010,8 @@ void CollectionWatcher::PerformEBUR128Analysis(Song &song) const {
     song.set_ebur128_integrated_loudness_lufs(loudness_characteristics->loudness_lufs);
     song.set_ebur128_loudness_range_lu(loudness_characteristics->range_lu);
   }
+#else
+  Q_UNUSED(song)
 #endif
 
 }
