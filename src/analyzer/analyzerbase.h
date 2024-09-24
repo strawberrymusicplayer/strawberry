@@ -65,13 +65,13 @@ class AnalyzerBase : public QWidget {
   using Scope = std::vector<float>;
   explicit AnalyzerBase(QWidget*, const uint scopeSize = 7);
 
-  void hideEvent(QHideEvent*) override;
-  void showEvent(QShowEvent*) override;
+  void hideEvent(QHideEvent *e) override;
+  void showEvent(QShowEvent *e) override;
   void paintEvent(QPaintEvent *e) override;
   void timerEvent(QTimerEvent *e) override;
 
-  int resizeExponent(int);
-  int resizeForBands(const int);
+  int resizeExponent(int exp);
+  int resizeForBands(const int bands);
   virtual void init() {}
   virtual void transform(Scope&);
   virtual void analyze(QPainter &p, const Scope&, const bool new_frame) = 0;

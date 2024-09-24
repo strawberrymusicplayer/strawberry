@@ -340,7 +340,9 @@ QColor ensureContrast(const QColor &bg, const QColor &fg, int amount) {
 
 }
 
-void BlockAnalyzer::paletteChange(const QPalette&) {
+void BlockAnalyzer::paletteChange(const QPalette &_palette) {
+
+  Q_UNUSED(_palette)
 
   const QColor bg = palette().color(QPalette::Window);
   const QColor fg = ensureContrast(bg, palette().color(QPalette::Highlight));

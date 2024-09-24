@@ -67,11 +67,13 @@ AnalyzerBase::~AnalyzerBase() {
   delete fht_;
 }
 
-void AnalyzerBase::showEvent(QShowEvent*) {
+void AnalyzerBase::showEvent(QShowEvent *e) {
+  Q_UNUSED(e)
   timer_.start(timeout(), this);
 }
 
-void AnalyzerBase::hideEvent(QHideEvent*) {
+void AnalyzerBase::hideEvent(QHideEvent *e) {
+  Q_UNUSED(e)
   timer_.stop();
 }
 

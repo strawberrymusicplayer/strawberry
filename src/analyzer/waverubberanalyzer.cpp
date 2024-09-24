@@ -82,9 +82,9 @@ void WaveRubberAnalyzer::analyze(QPainter &p, const Scope &s, const bool new_fra
 
 }
 
-void WaveRubberAnalyzer::transform(Scope &s) {
+void WaveRubberAnalyzer::transform(Scope &scope) {
   // No need transformation for waveform analyzer
-  Q_UNUSED(s);
+  Q_UNUSED(scope);
 }
 
 void WaveRubberAnalyzer::demo(QPainter &p) {
