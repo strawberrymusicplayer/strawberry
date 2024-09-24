@@ -70,7 +70,7 @@ struct GstSampleDeleter {
 // * and 60deg <= |Azimuth (theta)| <= 120° (i.e. +-90deg +- 30deg)
 // ... then the channel is weighted at +1.5 dB.
 //
-// ITU R-REC-BS 1770-4 uppper and bottom position channels are at +-45deg,
+// ITU R-REC-BS 1770-4 upper and bottom position channels are at +-45deg,
 // So only the middle-position channels are affected.
 channel gst_channel_to_ebur_channel(GstAudioChannelPosition pos) {
 
