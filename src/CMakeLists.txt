@@ -987,6 +987,7 @@ optional_source(HAVE_MOODBAR
     moodbar/moodbarproxystyle.cpp
     moodbar/moodbarrenderer.cpp
     moodbar/gstfastspectrumplugin.cpp
+    moodbar/gstfastspectrum.cpp
     settings/moodbarsettingspage.cpp
   HEADERS
     moodbar/moodbarcontroller.h
@@ -1149,8 +1150,9 @@ if(HAVE_GSTREAMER)
 endif()
 
 if(HAVE_MOODBAR)
-  target_include_directories(strawberry_lib SYSTEM PRIVATE ${CMAKE_SOURCE_DIR}/3rdparty/gstfastspectrum)
-  target_link_libraries(strawberry_lib PRIVATE gstfastspectrum)
+  target_include_directories(strawberry_lib SYSTEM PRIVATE ${FFTW3_INCLUDE_DIR})
+  target_link_directories(strawberry_lib PRIVATE ${FFTW3_LIBRARY_DIRS})
+  target_link_libraries(strawberry_lib PRIVATE ${FFTW3_FFTW_LIBRARY})
 endif()
 
 if(HAVE_VLC)

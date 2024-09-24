@@ -99,7 +99,7 @@ void MoodbarPipeline::Start() {
 
   GstElement *decodebin = CreateElement(QStringLiteral("uridecodebin"));
   convert_element_ = CreateElement(QStringLiteral("audioconvert"));
-  GstElement *spectrum = CreateElement(QStringLiteral("fastspectrum"));
+  GstElement *spectrum = CreateElement(QStringLiteral("strawberry-fastspectrum"));
   GstElement *fakesink = CreateElement(QStringLiteral("fakesink"));
 
   if (!decodebin || !convert_element_ || !spectrum || !fakesink) {

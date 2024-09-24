@@ -27,14 +27,14 @@ static gboolean gst_strawberry_fastspectrum_plugin_init(GstPlugin *plugin) {
 
   GstRegistry *reg = gst_registry_get();
   if (reg) {
-    GstPluginFeature *fastspectrum = gst_registry_lookup_feature(reg, "fastspectrum");
+    GstPluginFeature *fastspectrum = gst_registry_lookup_feature(reg, "strawberry-fastspectrum");
     if (fastspectrum) {
       gst_object_unref(fastspectrum);
       return TRUE;
     }
   }
 
-  return gst_element_register(plugin, "fastspectrum", GST_RANK_NONE, GST_TYPE_STRAWBERRY_FASTSPECTRUM);
+  return gst_element_register(plugin, "strawberry-fastspectrum", GST_RANK_NONE, GST_TYPE_STRAWBERRY_FASTSPECTRUM);
 
 }
 
@@ -43,7 +43,7 @@ int gst_strawberry_fastspectrum_register_static() {
   return gst_plugin_register_static(
     GST_VERSION_MAJOR,
     GST_VERSION_MINOR,
-    "fastspectrum",
+    "strawberry-fastspectrum",
     "Fast spectrum analyzer for generating Moodbars",
     gst_strawberry_fastspectrum_plugin_init,
     "0.1",

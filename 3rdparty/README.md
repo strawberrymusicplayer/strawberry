@@ -9,12 +9,3 @@ It is also used to pass command-line options through to the first instance.
 This 3rdparty copy is used only if KDSingleApplication 1.1 or higher is not found on the system.
 
 URL: https://github.com/KDAB/KDSingleApplication/
-
-
-gstfastspectrum
----------------
-A GStreamer spectrum plugin using FFTW3.
-It is needed for moodbar support, and is currently not available
-in GStreamer.
-The plan is to submit it to GStreamer, or move it to
-a seperate repository outside of Strawberry.
