@@ -74,13 +74,14 @@ else()
     $<$<COMPILE_LANGUAGE:CXX>:-Woverloaded-virtual>
     $<$<COMPILE_LANGUAGE:CXX>:-Wold-style-cast>
   )
-  option(BUILD_WERROR "Build with -Werror" ON)
-  if(BUILD_WERROR)
-    list(APPEND COMPILE_OPTIONS -Werror)
-  endif()
 endif()
 
 add_compile_options(${COMPILE_OPTIONS})
+
+option(BUILD_WERROR "Build with -Werror" OFF)
+if(BUILD_WERROR)
+  set(CMAKE_COMPILE_WARNING_AS_ERROR ON)
+endif()
 
 if(CMAKE_BUILD_TYPE MATCHES "Release")
   add_definitions(-DNDEBUG)
