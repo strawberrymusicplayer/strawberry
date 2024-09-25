@@ -24,6 +24,7 @@
 #include <QVariant>
 #include <QUrl>
 
+#include "core/logging.h"
 #include "collectionplaylistitem.h"
 #include "core/tagreaderclient.h"
 

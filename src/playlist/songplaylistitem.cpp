@@ -23,9 +23,10 @@
 
 #include <QUrl>
 
-#include "core/tagreaderclient.h"
+#include "core/logging.h"
 #include "core/song.h"
 #include "core/sqlrow.h"
+#include "core/tagreaderclient.h"
 #include "playlistitem.h"
 #include "songplaylistitem.h"
 

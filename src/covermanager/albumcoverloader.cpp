@@ -36,6 +36,7 @@
 #include <QNetworkReply>
 #include <QNetworkRequest>
 
+#include "core/logging.h"
 #include "core/networkaccessmanager.h"
 #include "core/song.h"
 #include "core/tagreaderclient.h"

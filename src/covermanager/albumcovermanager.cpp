@@ -63,6 +63,7 @@
 
 #include "core/scoped_ptr.h"
 #include "core/shared_ptr.h"
+#include "core/logging.h"
 #include "core/application.h"
 #include "core/iconloader.h"
 #include "core/tagreaderclient.h"

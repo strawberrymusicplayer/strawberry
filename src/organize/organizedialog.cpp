@@ -55,6 +55,7 @@
 #include <QCloseEvent>
 #include <QSettings>
 
+#include "core/logging.h"
 #include "core/shared_ptr.h"
 #include "core/iconloader.h"
 #include "core/musicstorage.h"

@@ -31,7 +31,6 @@
 #include "imageutils.h"
 #include "fileutils.h"
 #include "mimeutils.h"
-#include "core/tagreaderclient.h"
 
 QStringList ImageUtils::kSupportedImageMimeTypes;
 QStringList ImageUtils::kSupportedImageFormats;

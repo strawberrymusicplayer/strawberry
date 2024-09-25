@@ -34,6 +34,7 @@
 #include <QString>
 #include <QUrl>
 #include <QDateTime>
+#include <QTimer>
 #include <QSettings>
 
 #include "core/logging.h"
