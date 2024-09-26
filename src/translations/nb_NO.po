@@ -974,12 +974,11 @@ msgstr "Fjern spillelister"
 msgid "You are about to remove %1 playlists from your favorites, are you sure?"
 msgstr "Du sletter nå %1 spillelister fra favorittene dine, er du sikker?"
 
-msgid "\n\n"
-"You can favorite playlists by clicking the star icon next to a playlist name\n\n"
-"Favorited playlists will be saved here"
-msgstr "\n\n"
-"Du kan merke en spilleliste som favoritt ved å klikke på stjerneikonet nær listenavnet.\n\n"
-"Favoritt-spillelister vil lagres her"
+msgid "You can favorite playlists by clicking the star icon next to a playlist name"
+msgstr "Du kan merke en spilleliste som favoritt ved å klikke på stjerneikonet nær listenavnet."
+
+msgid "Favorited playlists will be saved here"
+msgstr "Favoritt-spillelister vil lagres her"
 
 msgid "Couldn't create playlist"
 msgstr "Kunne ikke opprette spilleliste"

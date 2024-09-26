@@ -974,12 +974,11 @@ msgstr "Удалить плейлисты"
 msgid "You are about to remove %1 playlists from your favorites, are you sure?"
 msgstr "Вы хотите удалить %1 плейлистов из избранных, уверены?"
 
-msgid "\n\n"
-"You can favorite playlists by clicking the star icon next to a playlist name\n\n"
-"Favorited playlists will be saved here"
-msgstr "\n\n"
-"Вы можете занести плейлист в избранные двойным щелчком по звезде возле имени списка\n\n"
-"Избранные плейлисты будут храниться здесь"
+msgid "You can favorite playlists by clicking the star icon next to a playlist name"
+msgstr "Вы можете занести плейлист в избранные двойным щелчком по звезде возле имени списка"
+
+msgid "Favorited playlists will be saved here"
+msgstr "Избранные плейлисты будут храниться здесь"
 
 msgid "Couldn't create playlist"
 msgstr "Невозможно создать плейлист"

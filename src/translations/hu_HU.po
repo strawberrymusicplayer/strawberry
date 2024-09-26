@@ -974,12 +974,11 @@ msgstr "Lejátszólisták eltávolítása"
 msgid "You are about to remove %1 playlists from your favorites, are you sure?"
 msgstr "Biztos, hogy törölni szeretné a(z) %1 lejátszólistát a kedvencek közül?"
 
-msgid "\n\n"
-"You can favorite playlists by clicking the star icon next to a playlist name\n\n"
-"Favorited playlists will be saved here"
-msgstr "\n"
-"A lejátszólista kedvenccé tételéhez kattintson a lista neve melletti csillag ikonra\n\n"
-"A kedvenc lejátszólisták ide lesznek elmentve"
+msgid "You can favorite playlists by clicking the star icon next to a playlist name"
+msgstr "A lejátszólista kedvenccé tételéhez kattintson a lista neve melletti csillag ikonra"
+
+msgid "Favorited playlists will be saved here"
+msgstr "A kedvenc lejátszólisták ide lesznek elmentve"
 
 msgid "Couldn't create playlist"
 msgstr "Nem lehet létrehozni a lejátszólistát"

@@ -974,12 +974,11 @@ msgstr "Supprimer les listes de lecture"
 msgid "You are about to remove %1 playlists from your favorites, are you sure?"
 msgstr "Vous allez supprimer %1 listes de lecture de vos favoris. Êtes-vous sûr(e) ?"
 
-msgid "\n\n"
-"You can favorite playlists by clicking the star icon next to a playlist name\n\n"
-"Favorited playlists will be saved here"
-msgstr "\n\n"
-"Vous pouvez ajouter les listes de lecture aux favoris en cliquant sur l'icône étoile à côté de leur nom\n\n"
-"Les listes de lecture favorites seront sauvegardées ici"
+msgid "You can favorite playlists by clicking the star icon next to a playlist name"
+msgstr "Vous pouvez ajouter les listes de lecture aux favoris en cliquant sur l'icône étoile à côté de leur nom"
+
+msgid "Favorited playlists will be saved here"
+msgstr "Les listes de lecture favorites seront sauvegardées ici"
 
 msgid "Couldn't create playlist"
 msgstr "La liste de lecture n'a pas pu être créée"

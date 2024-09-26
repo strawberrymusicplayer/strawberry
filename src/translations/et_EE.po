@@ -974,12 +974,11 @@ msgstr "Eemalda esitusloendid"
 msgid "You are about to remove %1 playlists from your favorites, are you sure?"
 msgstr "Oled eemaldamas oma lemmikutest %1 esitusloendit. Kas oled kindel?"
 
-msgid "\n\n"
-"You can favorite playlists by clicking the star icon next to a playlist name\n\n"
-"Favorited playlists will be saved here"
-msgstr "\n\n"
-"Esitusloendi saab määrata lemmikuks vajutades selle nime juures olevale täheikoonile\n\n"
-"Lemmikuks määratud esitusloendid salvestatakse siia"
+msgid "You can favorite playlists by clicking the star icon next to a playlist name"
+msgstr "Esitusloendi saab määrata lemmikuks vajutades selle nime juures olevale täheikoonile"
+
+msgid "Favorited playlists will be saved here"
+msgstr "Lemmikuks määratud esitusloendid salvestatakse siia"
 
 msgid "Couldn't create playlist"
 msgstr "Esitusloendit ei saanud luua"

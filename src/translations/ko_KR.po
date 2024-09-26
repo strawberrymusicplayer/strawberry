@@ -974,12 +974,11 @@ msgstr "재생 목록 삭제"
 msgid "You are about to remove %1 playlists from your favorites, are you sure?"
 msgstr "즐겨찾기에서 재생 목록 %1개를 삭제할 것입니다. 계속 진행하시겠습니까?"
 
-msgid "\n\n"
-"You can favorite playlists by clicking the star icon next to a playlist name\n\n"
-"Favorited playlists will be saved here"
-msgstr "\n\n"
-"재생 목록 왼쪽의 별 모양 아이콘을 클릭해서 즐겨찾기에 추가할 수 있습니다.\n\n"
-"즐겨찾는 재생 목록은 여기에 저장됩니다"
+msgid "You can favorite playlists by clicking the star icon next to a playlist name"
+msgstr "재생 목록 왼쪽의 별 모양 아이콘을 클릭해서 즐겨찾기에 추가할 수 있습니다."
+
+msgid "Favorited playlists will be saved here"
+msgstr "즐겨찾는 재생 목록은 여기에 저장됩니다"
 
 msgid "Couldn't create playlist"
 msgstr "재생 목록을 생성할 수 없음"

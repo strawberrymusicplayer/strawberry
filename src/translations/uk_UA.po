@@ -974,13 +974,11 @@ msgstr "Видалити списки відтворення"
 msgid "You are about to remove %1 playlists from your favorites, are you sure?"
 msgstr "Ви збираєтесь видалити %1 списків відтворення з улюблених. Дійсно видалити їх?"
 
-msgid "\n\n"
-"You can favorite playlists by clicking the star icon next to a playlist name\n\n"
-"Favorited playlists will be saved here"
-msgstr "\n\n"
-"Список відтворення можна зробити улюбленим, натиснувши піктограму\n"
-"зірки поряд з назвою списку\n\n"
-"Улюблені списки відтворення буде збережено тут"
+msgid "You can favorite playlists by clicking the star icon next to a playlist name"
+msgstr "Список відтворення можна зробити улюбленим, натиснувши піктограму"
+
+msgid "Favorited playlists will be saved here"
+msgstr "зірки поряд з назвою списку Улюблені списки відтворення буде збережено тут"
 
 msgid "Couldn't create playlist"
 msgstr "Не вдалося створити список відтворення"

@@ -974,12 +974,11 @@ msgstr "Poista soittolistat"
 msgid "You are about to remove %1 playlists from your favorites, are you sure?"
 msgstr "Haluatko varmasti poistaa %1 soittolistaa suosikeistasi?"
 
-msgid "\n\n"
-"You can favorite playlists by clicking the star icon next to a playlist name\n\n"
-"Favorited playlists will be saved here"
-msgstr "\n\n"
-"Voit lisätä soittolistan suosikkeihin napsauttamalla tähteä soittolistan nimen vierestä\n\n"
-"Suosikkeihin lisätyt soittolistat tallennetaan tänne"
+msgid "You can favorite playlists by clicking the star icon next to a playlist name"
+msgstr "Voit lisätä soittolistan suosikkeihin napsauttamalla tähteä soittolistan nimen vierestä"
+
+msgid "Favorited playlists will be saved here"
+msgstr "Suosikkeihin lisätyt soittolistat tallennetaan tänne"
 
 msgid "Couldn't create playlist"
 msgstr "Soittolistan luominen epäonnistui"

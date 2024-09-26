@@ -974,12 +974,11 @@ msgstr "删除播放列表"
 msgid "You are about to remove %1 playlists from your favorites, are you sure?"
 msgstr "您正试图从收藏夹中删除播放列表 %1 ，确定要这样做吗?"
 
-msgid "\n\n"
-"You can favorite playlists by clicking the star icon next to a playlist name\n\n"
-"Favorited playlists will be saved here"
-msgstr "\n\n"
-"您可以通过点击播放列表名称旁的星标来收藏播放列表\n\n"
-"收藏的播放列表将被保存至此"
+msgid "You can favorite playlists by clicking the star icon next to a playlist name"
+msgstr "您可以通过点击播放列表名称旁的星标来收藏播放列表"
+
+msgid "Favorited playlists will be saved here"
+msgstr "收藏的播放列表将被保存至此"
 
 msgid "Couldn't create playlist"
 msgstr "无法创建列表"

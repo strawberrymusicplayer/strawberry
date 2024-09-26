@@ -974,12 +974,11 @@ msgstr "Odstranit seznamy skladeb"
 msgid "You are about to remove %1 playlists from your favorites, are you sure?"
 msgstr "Chystáte se odstranit %1 seznamů skladeb z vašich oblíbených. Jste si jisti?"
 
-msgid "\n\n"
-"You can favorite playlists by clicking the star icon next to a playlist name\n\n"
-"Favorited playlists will be saved here"
-msgstr "\n\n"
-"Seznamy skladeb můžete označit jako oblíbený klepnutím na hvězdičku vedle názvu seznamu skladeb\n\n"
-"Oblíbené seznamy skladeb budou uloženy zde"
+msgid "You can favorite playlists by clicking the star icon next to a playlist name"
+msgstr "Seznamy skladeb můžete označit jako oblíbený klepnutím na hvězdičku vedle názvu seznamu skladeb"
+
+msgid "Favorited playlists will be saved here"
+msgstr "Oblíbené seznamy skladeb budou uloženy zde"
 
 msgid "Couldn't create playlist"
 msgstr "Nepodařilo se vytvořit seznam skladeb"

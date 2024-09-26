@@ -974,12 +974,11 @@ msgstr "Wiedergabeliste entfernen"
 msgid "You are about to remove %1 playlists from your favorites, are you sure?"
 msgstr "Wollen Sie %1 Wiedergabelisten löschen?"
 
-msgid "\n\n"
-"You can favorite playlists by clicking the star icon next to a playlist name\n\n"
-"Favorited playlists will be saved here"
-msgstr "\n\n"
-"Sie können Wiedergabelisten favorisieren, indem Sie das Stern-Symbol neben dem Namen anklicken\n\n"
-"Favorisierte Wiedergabelisten werden hier gespeichert"
+msgid "You can favorite playlists by clicking the star icon next to a playlist name"
+msgstr "Sie können Wiedergabelisten favorisieren, indem Sie das Stern-Symbol neben dem Namen anklicken"
+
+msgid "Favorited playlists will be saved here"
+msgstr "Favorisierte Wiedergabelisten werden hier gespeichert"
 
 msgid "Couldn't create playlist"
 msgstr "Wiedergabeliste konnte nicht erstellt werden"

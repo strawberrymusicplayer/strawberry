@@ -974,12 +974,11 @@ msgstr "Usuń listy odtwarzania"
 msgid "You are about to remove %1 playlists from your favorites, are you sure?"
 msgstr "Czy na pewno chcesz usunąć listy odtwarzania (%1) z ulubionych??"
 
-msgid "\n\n"
-"You can favorite playlists by clicking the star icon next to a playlist name\n\n"
-"Favorited playlists will be saved here"
-msgstr "\n\n"
-"Możesz dodać listę odtwarzania do ulubionych poprzez kliknięcie w ikonę gwiazdki obok jej nazwy na zakładce\n\n"
-"Ulubione listy odtwarzania zostaną zapisane tutaj"
+msgid "You can favorite playlists by clicking the star icon next to a playlist name"
+msgstr "Możesz dodać listę odtwarzania do ulubionych poprzez kliknięcie w ikonę gwiazdki obok jej nazwy na zakładce"
+
+msgid "Favorited playlists will be saved here"
+msgstr "Ulubione listy odtwarzania zostaną zapisane tutaj"
 
 msgid "Couldn't create playlist"
 msgstr "Nie można utworzyć listy odtwarzania"

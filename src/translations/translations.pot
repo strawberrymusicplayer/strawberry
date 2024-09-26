@@ -990,12 +990,10 @@ msgid "You are about to remove %1 playlists from your favorites, are you sure?"
 msgstr ""
 
 msgid ""
-"\n"
-"\n"
-"You can favorite playlists by clicking the star icon next to a playlist "
-"name\n"
-"\n"
-"Favorited playlists will be saved here"
+"You can favorite playlists by clicking the star icon next to a playlist name"
+msgstr ""
+
+msgid "Favorited playlists will be saved here"
 msgstr ""
 
 msgid "Couldn't create playlist"

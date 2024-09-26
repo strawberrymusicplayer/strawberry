@@ -974,11 +974,11 @@ msgstr "Çalma listelerini kaldır"
 msgid "You are about to remove %1 playlists from your favorites, are you sure?"
 msgstr "%1 çalma listesini favorilerinizden kaldırmak üzeresiniz, emin misiniz?"
 
-msgid "\n\n"
-"You can favorite playlists by clicking the star icon next to a playlist name\n\n"
-"Favorited playlists will be saved here"
-msgstr "Çalma listesinin adının yanındaki yıldız simgesine basarak çalma listelerini favorilerinize ekleyebilirsiniz\n\n"
-"Favorilere eklenen çalma listeleri buraya kaydedilecek"
+msgid "You can favorite playlists by clicking the star icon next to a playlist name"
+msgstr "Çalma listesinin adının yanındaki yıldız simgesine basarak çalma listelerini favorilerinize ekleyebilirsiniz"
+
+msgid "Favorited playlists will be saved here"
+msgstr "Favorilere eklenen çalma listeleri buraya kaydedilecek"
 
 msgid "Couldn't create playlist"
 msgstr "Çalma listesi oluşturulamadı"

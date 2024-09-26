@@ -974,12 +974,11 @@ msgstr "Buang daftar putar"
 msgid "You are about to remove %1 playlists from your favorites, are you sure?"
 msgstr "Anda akan membuang %1 daftar putar dari favorit Anda, apakah Anda yakin?"
 
-msgid "\n\n"
-"You can favorite playlists by clicking the star icon next to a playlist name\n\n"
-"Favorited playlists will be saved here"
-msgstr "\n\n"
-"Anda dapat memfavoritkan daftar putar dengan mengklik ikon bintang di sebelah nama daftar putar\n\n"
-"Daftar putar yang difavoritkan akan disimpan di sini"
+msgid "You can favorite playlists by clicking the star icon next to a playlist name"
+msgstr "Anda dapat memfavoritkan daftar putar dengan mengklik ikon bintang di sebelah nama daftar putar"
+
+msgid "Favorited playlists will be saved here"
+msgstr "Daftar putar yang difavoritkan akan disimpan di sini"
 
 msgid "Couldn't create playlist"
 msgstr "Tidak bisa membuat daftar putar"

@@ -974,12 +974,11 @@ msgstr "プレイリストを削除する"
 msgid "You are about to remove %1 playlists from your favorites, are you sure?"
 msgstr "プレイリスト「%1」をお気に入りから削除します。よろしいですか?"
 
-msgid "\n\n"
-"You can favorite playlists by clicking the star icon next to a playlist name\n\n"
-"Favorited playlists will be saved here"
-msgstr "\n\n"
-"プレイリスト名の横にある星アイコンをクリックするとプレイリストをお気に入りにできます。\n\n"
-"お気に入りにしたプレイリストはここに保存されます"
+msgid "You can favorite playlists by clicking the star icon next to a playlist name"
+msgstr "プレイリスト名の横にある星アイコンをクリックするとプレイリストをお気に入りにできます。"
+
+msgid "Favorited playlists will be saved here"
+msgstr "お気に入りにしたプレイリストはここに保存されます"
 
 msgid "Couldn't create playlist"
 msgstr "プレイリストを作成できません"

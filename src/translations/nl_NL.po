@@ -974,12 +974,11 @@ msgstr "Afspeellijsten verwijderen"
 msgid "You are about to remove %1 playlists from your favorites, are you sure?"
 msgstr "U staat op het punt om %1 afspeellijsten uit uw favorieten te verwijderen, weet u het zeker?"
 
-msgid "\n\n"
-"You can favorite playlists by clicking the star icon next to a playlist name\n\n"
-"Favorited playlists will be saved here"
-msgstr "\n\n"
-"U kunt afspeellijsten aan uw favorieten toevoegen door op het stericoon naast de naam van de afspeellijst te klikken.\n\n"
-"Favoriete afspeellijsten zullen hier opgeslagen worden."
+msgid "You can favorite playlists by clicking the star icon next to a playlist name"
+msgstr "U kunt afspeellijsten aan uw favorieten toevoegen door op het stericoon naast de naam van de afspeellijst te klikken."
+
+msgid "Favorited playlists will be saved here"
+msgstr "Favoriete afspeellijsten zullen hier opgeslagen worden."
 
 msgid "Couldn't create playlist"
 msgstr "Kon afspeellijst niet maken"
