@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: strawberrymusicplayer\n"
 "Language-Team: Turkish, Cyprus\n"
 "Language: tr_CY\n"
-"PO-Revision-Date: 2024-09-21 22:57\n"
+"PO-Revision-Date: 2024-09-28 13:40\n"
 
 msgid "All Files (*)"
 msgstr ""
@@ -390,10 +390,6 @@ msgstr ""
 msgid "Couldn't link GStreamer source, typefind and fakesink elements for %1"
 msgstr ""
 
-#, qt-format
-msgid "Failed to load image from data for %1"
-msgstr ""
-
 msgid "Playlist"
 msgstr ""
 
@@ -436,6 +432,34 @@ msgstr ""
 
 #, qt-format
 msgid "%1 songs in %2 different directories selected, are you sure you want to open them all?"
+msgstr ""
+
+#, qt-format
+msgid "Failed to load image from data for %1"
+msgstr ""
+
+msgid "Success"
+msgstr ""
+
+msgid "File is unsupported"
+msgstr ""
+
+msgid "Filename is missing"
+msgstr ""
+
+msgid "File does not exist"
+msgstr ""
+
+msgid "File could not be opened"
+msgstr ""
+
+msgid "Could not parse file"
+msgstr ""
+
+msgid "Could save file"
+msgstr ""
+
+msgid "Unknown error"
 msgstr ""
 
 msgid "Prefix a search term with a field name to limit the search to that field, e.g.:"
@@ -829,11 +853,11 @@ msgid "Sample rate"
 msgstr ""
 
 #, qt-format
-msgid "Could not write metadata to %1: %2"
+msgid "Could not write metadata to %1"
 msgstr ""
 
 #, qt-format
-msgid "Could not write metadata to %1"
+msgid "Could not write metadata to %1: %2"
 msgstr ""
 
 msgid "Title"
@@ -2248,9 +2272,6 @@ msgstr ""
 
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
-msgstr ""
-
-msgid "Unknown error"
 msgstr ""
 
 msgid "Configuration incomplete"
@@ -4292,9 +4313,6 @@ msgid "Basic authentication"
 msgstr ""
 
 msgid "Authenticate"
-msgstr ""
-
-msgid "Device credentials"
 msgstr ""
 
 msgid "<html><head/><body><p>The GStreamer Spotify plugin is not detected, you will not be able to stream songs from Spotify without it. See <a href=\"https://wiki.strawberrymusicplayer.org/wiki/Installing_GStreamer_Spotify_plugin\"><span style=\" text-decoration: underline; color:#2980b9;\">Wiki</span></a> for instructions on how to install the plugin.</p></body></html>"

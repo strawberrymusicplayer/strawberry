@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: strawberrymusicplayer\n"
 "Language-Team: Russian\n"
 "Language: ru_RU\n"
-"PO-Revision-Date: 2024-09-24 08:35\n"
+"PO-Revision-Date: 2024-09-28 19:06\n"
 
 msgid "All Files (*)"
 msgstr "Все файлы (*)"
@@ -390,10 +390,6 @@ msgstr "Не удалось создать элемент GStreamer fakesink д�
 msgid "Couldn't link GStreamer source, typefind and fakesink elements for %1"
 msgstr "Не удалось связать элементы GStreamer источник, typefind и fakesink для %1"
 
-#, qt-format
-msgid "Failed to load image from data for %1"
-msgstr "Не удалось загрузить изображение из данных для %1"
-
 msgid "Playlist"
 msgstr "Плейлист"
 
@@ -438,6 +434,34 @@ msgstr "Слишком много песен выбрано."
 msgid "%1 songs in %2 different directories selected, are you sure you want to open them all?"
 msgstr "Выбрано %1 песен из %2 разных каталогов. Уверены, что хотите открыть их все?"
 
+#, qt-format
+msgid "Failed to load image from data for %1"
+msgstr "Не удалось загрузить изображение из данных для %1"
+
+msgid "Success"
+msgstr "Успешно"
+
+msgid "File is unsupported"
+msgstr "Файл не поддерживается"
+
+msgid "Filename is missing"
+msgstr "Отсутствует имя файла"
+
+msgid "File does not exist"
+msgstr "Файл не существует"
+
+msgid "File could not be opened"
+msgstr "Не удалось открыть файл"
+
+msgid "Could not parse file"
+msgstr "Не удалось разобрать файл"
+
+msgid "Could save file"
+msgstr "Не удалось сохранить файл"
+
+msgid "Unknown error"
+msgstr "Неизвестная ошибка"
+
 msgid "Prefix a search term with a field name to limit the search to that field, e.g.:"
 msgstr "Приставка имени поля в поисковом термине позволяет ограничить поиск этим полем, например:"
 
@@ -461,6 +485,9 @@ msgstr "Несколько поисковых терминов можно объ
 
 msgid "Available fields"
 msgstr "Доступные поля"
+
+msgid "Buffering"
+msgstr "Буферизация"
 
 msgid "Framerate"
 msgstr "Частота кадров"
@@ -829,12 +856,12 @@ msgid "Sample rate"
 msgstr "Частота"
 
 #, qt-format
-msgid "Could not write metadata to %1: %2"
-msgstr "Не удалось записать метаданные в %1: %2"
-
-#, qt-format
 msgid "Could not write metadata to %1"
 msgstr "Не удалось записать метаданные в %1"
+
+#, qt-format
+msgid "Could not write metadata to %1: %2"
+msgstr "Не удалось записать метаданные в %1: %2"
 
 msgid "Title"
 msgstr "Название"
@@ -1935,6 +1962,55 @@ msgstr "Ошибка удаления композиций"
 msgid "There were problems deleting some songs.  The following files could not be deleted:"
 msgstr "В процессе удаления некоторых композиций возникли проблемы. Следующие файлы не могут быть удалены:"
 
+#, qt-format
+msgid "Could not create the GStreamer element \"%1\" - make sure you have all the required GStreamer plugins installed"
+msgstr "Не удалось создать элемент GStreamer «%1» — убедитесь, что у вас установлены все необходимые модули GStreamer"
+
+#, qt-format
+msgid "Successfully written %1"
+msgstr "Успешно записано %1"
+
+#, qt-format
+msgid "Transcoding %1 files using %2 threads"
+msgstr "Конвертировано %1 файлов в %2 потока"
+
+#, qt-format
+msgid "Error processing %1: %2"
+msgstr "Ошибка при обработке %1: %2"
+
+#, qt-format
+msgid "Starting %1"
+msgstr "Запуск %1"
+
+#, qt-format
+msgid "Couldn't find an encoder for %1, check you have the correct GStreamer plugins installed"
+msgstr "Не удалось найти кодировщик для %1, проверьте, что у вас установлены все необходимые модули GStreamer"
+
+#, qt-format
+msgid "Couldn't find a muxer for %1, check you have the correct GStreamer plugins installed"
+msgstr "Не удалось найти мультиплексор для %1. Убедитесь, что у вас установлены необходимые модули GStreamer"
+
+msgid "Start transcoding"
+msgstr "Конвертировать"
+
+#, c-format, qt-plural-format
+msgid "%n remaining"
+msgstr "%n осталось"
+
+#, c-format, qt-plural-format
+msgid "%n finished"
+msgstr "%n завершено"
+
+#, c-format, qt-plural-format
+msgid "%n failed"
+msgstr "%n с ошибкой"
+
+msgid "Add files to transcode"
+msgstr "Добавить файлы для конвертирования"
+
+msgid "Open a directory to import music from"
+msgstr "Открыть папку для импорта музыки"
+
 msgid "Play/Pause"
 msgstr "Играть/пауза"
 
@@ -2020,9 +2096,6 @@ msgstr " Горячие клавиши на %1 обычно работают ч�
 #, qt-format
 msgid " Shortcuts on %1 are usually used through MATE Settings Daemon and should be configured there instead."
 msgstr " Горячие клавиши на %1 обычно работают через MATE Settings Daemon и должны быть настроены в нём."
-
-msgid "Buffering"
-msgstr "Буферизация"
 
 msgid "D-Bus path"
 msgstr "Путь D-Bus"
@@ -2153,55 +2226,6 @@ msgstr "Ошибка подключения устройства MTP %1"
 msgid "Error connecting MTP device %1: %2"
 msgstr "Ошибка подключения устройства MTP %1: %2"
 
-#, qt-format
-msgid "Could not create the GStreamer element \"%1\" - make sure you have all the required GStreamer plugins installed"
-msgstr "Не удалось создать элемент GStreamer «%1» — убедитесь, что у вас установлены все необходимые модули GStreamer"
-
-#, qt-format
-msgid "Successfully written %1"
-msgstr "Успешно записано %1"
-
-#, qt-format
-msgid "Transcoding %1 files using %2 threads"
-msgstr "Конвертировано %1 файлов в %2 потока"
-
-#, qt-format
-msgid "Error processing %1: %2"
-msgstr "Ошибка при обработке %1: %2"
-
-#, qt-format
-msgid "Starting %1"
-msgstr "Запуск %1"
-
-#, qt-format
-msgid "Couldn't find an encoder for %1, check you have the correct GStreamer plugins installed"
-msgstr "Не удалось найти кодировщик для %1, проверьте, что у вас установлены все необходимые модули GStreamer"
-
-#, qt-format
-msgid "Couldn't find a muxer for %1, check you have the correct GStreamer plugins installed"
-msgstr "Не удалось найти мультиплексор для %1. Убедитесь, что у вас установлены необходимые модули GStreamer"
-
-msgid "Start transcoding"
-msgstr "Конвертировать"
-
-#, c-format, qt-plural-format
-msgid "%n remaining"
-msgstr "%n осталось"
-
-#, c-format, qt-plural-format
-msgid "%n finished"
-msgstr "%n завершено"
-
-#, c-format, qt-plural-format
-msgid "%n failed"
-msgstr "%n с ошибкой"
-
-msgid "Add files to transcode"
-msgstr "Добавить файлы для конвертирования"
-
-msgid "Open a directory to import music from"
-msgstr "Открыть папку для импорта музыки"
-
 msgid "Identifying song"
 msgstr "Определяется песня"
 
@@ -2250,9 +2274,6 @@ msgstr "Получение обложки альбома для %1…"
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
 msgstr "Получение обложек альбомов для %1…"
-
-msgid "Unknown error"
-msgstr "Неизвестная ошибка"
 
 msgid "Configuration incomplete"
 msgstr "Конфигурация не завершена"
@@ -3683,6 +3704,36 @@ msgstr "Пользовательский…"
 msgid "Enable fading"
 msgstr "Включить исчезание"
 
+msgid "Transcoding"
+msgstr "Конвертер"
+
+msgid "These settings are used in the \"Transcode Music\" dialog, and when converting music before copying it to a device."
+msgstr "Эти настройки используются в окне «Конвертация музыки» и при конвертировании музыки перед копированием на устройство."
+
+msgid "FLAC"
+msgstr "FLAC"
+
+msgid "WavPack"
+msgstr "WavPack"
+
+msgid "Vorbis"
+msgstr "Vorbis"
+
+msgid "Opus"
+msgstr "Opus"
+
+msgid "Speex"
+msgstr "Speex"
+
+msgid "AAC"
+msgstr "AAC"
+
+msgid "ASF (WMA)"
+msgstr "ASF (WMA)"
+
+msgid "MP3"
+msgstr "MP3"
+
 msgid "Equalizer"
 msgstr "Эквалайзер"
 
@@ -3932,97 +3983,6 @@ msgstr "Копировать обложку альбома"
 msgid "Safely remove the device after copying"
 msgstr "Безопасно извлечь устройство после копирования"
 
-msgid "Press a key"
-msgstr "Нажмите клавиши"
-
-msgid "Global Shortcuts"
-msgstr "Глобальные клавиши"
-
-msgid "Use Gnome (GSD) shortcuts when available"
-msgstr "Использовать сочетания клавиш Gnome (GSD) по возможности"
-
-msgid "Open..."
-msgstr "Открыть…"
-
-msgid "Use MATE shortcuts when available"
-msgstr "Использовать сочетания клавиш MATE по возможности"
-
-msgid "Use KDE (KGlobalAccel) shortcuts when available"
-msgstr "Использовать сочетания клавиш KDE (KGlobalAccel) по возможности"
-
-msgid "Use X11 shortcuts when available"
-msgstr "Использовать сочетания клавиш X11 по возможности"
-
-msgid "You need to launch System Preferences and allow Strawberry to \"<span style=\"font-style:italic\">control your computer</span>\" to use global shortcuts in Strawberry."
-msgstr "Вы должны запустить «Параметры системы» и позволить Clemetine «<span style=\" font-style:italic;\">управлять вашим компьютером</span>» для использования глобальных горячих клавиш в Strawberry."
-
-msgid "Shortcut"
-msgstr "Сочетание клавиш"
-
-msgctxt "Category label"
-msgid "Action"
-msgstr "Действие"
-
-msgid "&None"
-msgstr "&Нет"
-
-msgid "&Default"
-msgstr "&По умолчанию"
-
-msgid "&Custom"
-msgstr "&Другое"
-
-msgid "Change shortcut..."
-msgstr "Изменить сочетание…"
-
-msgid "Device Properties"
-msgstr "Свойства носителя"
-
-msgid "Icon"
-msgstr "Значок"
-
-msgid "Hardware information"
-msgstr "Сведения об оборудовании"
-
-msgid "Hardware information is only available while the device is connected."
-msgstr "Сведения об оборудовании доступны только при подключении устройства."
-
-msgid "Information"
-msgstr "Информация"
-
-msgid "Supported formats"
-msgstr "Поддерживаемые форматы"
-
-msgid "This device supports the following file formats:"
-msgstr "Это устройство поддерживает следующие форматы:"
-
-msgid "Strawberry can automatically convert the music you copy to this device into a format that it can play."
-msgstr "Strawberry может автоматически конвертировать музыку при копировании на это устройство в формат, который оно поддерживает."
-
-msgid "Do not convert any music"
-msgstr "Не конвертировать какую-либо музыку"
-
-msgid "Convert any music that the device can't play"
-msgstr "Конвертировать всю музыку, которую не может проигрывать устройство"
-
-msgid "Convert all music"
-msgstr "Конвертировать всю музыку"
-
-msgid "Preferred format"
-msgstr "Предпочитаемый формат"
-
-msgid "This device must be connected and opened before Strawberry can see what file formats it supports."
-msgstr "Устройство должно быть подключено и открыто перед тем, как Strawberry определит, какой формат оно поддерживает."
-
-msgid "Open device"
-msgstr "Открыть устройство"
-
-msgid "Querying device..."
-msgstr "Производится опрос носителя…"
-
-msgid "File formats"
-msgstr "Форматы файлов"
-
 msgid "Transcode Music"
 msgstr "Конвертер музыки"
 
@@ -4186,35 +4146,96 @@ msgstr "Высокое"
 msgid "Force mono encoding"
 msgstr "Принудительно кодировать в моно"
 
-msgid "Transcoding"
-msgstr "Конвертер"
+msgid "Press a key"
+msgstr "Нажмите клавиши"
 
-msgid "These settings are used in the \"Transcode Music\" dialog, and when converting music before copying it to a device."
-msgstr "Эти настройки используются в окне «Конвертация музыки» и при конвертировании музыки перед копированием на устройство."
+msgid "Global Shortcuts"
+msgstr "Глобальные клавиши"
 
-msgid "FLAC"
-msgstr "FLAC"
+msgid "Use Gnome (GSD) shortcuts when available"
+msgstr "Использовать сочетания клавиш Gnome (GSD) по возможности"
 
-msgid "WavPack"
-msgstr "WavPack"
+msgid "Open..."
+msgstr "Открыть…"
 
-msgid "Vorbis"
-msgstr "Vorbis"
+msgid "Use MATE shortcuts when available"
+msgstr "Использовать сочетания клавиш MATE по возможности"
 
-msgid "Opus"
-msgstr "Opus"
+msgid "Use KDE (KGlobalAccel) shortcuts when available"
+msgstr "Использовать сочетания клавиш KDE (KGlobalAccel) по возможности"
 
-msgid "Speex"
-msgstr "Speex"
+msgid "Use X11 shortcuts when available"
+msgstr "Использовать сочетания клавиш X11 по возможности"
 
-msgid "AAC"
-msgstr "AAC"
+msgid "You need to launch System Preferences and allow Strawberry to \"<span style=\"font-style:italic\">control your computer</span>\" to use global shortcuts in Strawberry."
+msgstr "Вы должны запустить «Параметры системы» и позволить Clemetine «<span style=\" font-style:italic;\">управлять вашим компьютером</span>» для использования глобальных горячих клавиш в Strawberry."
 
-msgid "ASF (WMA)"
-msgstr "ASF (WMA)"
+msgid "Shortcut"
+msgstr "Сочетание клавиш"
 
-msgid "MP3"
-msgstr "MP3"
+msgctxt "Category label"
+msgid "Action"
+msgstr "Действие"
+
+msgid "&None"
+msgstr "&Нет"
+
+msgid "&Default"
+msgstr "&По умолчанию"
+
+msgid "&Custom"
+msgstr "&Другое"
+
+msgid "Change shortcut..."
+msgstr "Изменить сочетание…"
+
+msgid "Device Properties"
+msgstr "Свойства носителя"
+
+msgid "Icon"
+msgstr "Значок"
+
+msgid "Hardware information"
+msgstr "Сведения об оборудовании"
+
+msgid "Hardware information is only available while the device is connected."
+msgstr "Сведения об оборудовании доступны только при подключении устройства."
+
+msgid "Information"
+msgstr "Информация"
+
+msgid "Supported formats"
+msgstr "Поддерживаемые форматы"
+
+msgid "This device supports the following file formats:"
+msgstr "Это устройство поддерживает следующие форматы:"
+
+msgid "Strawberry can automatically convert the music you copy to this device into a format that it can play."
+msgstr "Strawberry может автоматически конвертировать музыку при копировании на это устройство в формат, который оно поддерживает."
+
+msgid "Do not convert any music"
+msgstr "Не конвертировать какую-либо музыку"
+
+msgid "Convert any music that the device can't play"
+msgstr "Конвертировать всю музыку, которую не может проигрывать устройство"
+
+msgid "Convert all music"
+msgstr "Конвертировать всю музыку"
+
+msgid "Preferred format"
+msgstr "Предпочитаемый формат"
+
+msgid "This device must be connected and opened before Strawberry can see what file formats it supports."
+msgstr "Устройство должно быть подключено и открыто перед тем, как Strawberry определит, какой формат оно поддерживает."
+
+msgid "Open device"
+msgstr "Открыть устройство"
+
+msgid "Querying device..."
+msgstr "Производится опрос носителя…"
+
+msgid "File formats"
+msgstr "Форматы файлов"
 
 msgid "Server URL"
 msgstr "Адрес сервера"
@@ -4296,9 +4317,6 @@ msgstr "Основная аутентификация"
 
 msgid "Authenticate"
 msgstr "Аутентификация"
-
-msgid "Device credentials"
-msgstr "Учётные данные устройства"
 
 msgid "<html><head/><body><p>The GStreamer Spotify plugin is not detected, you will not be able to stream songs from Spotify without it. See <a href=\"https://wiki.strawberrymusicplayer.org/wiki/Installing_GStreamer_Spotify_plugin\"><span style=\" text-decoration: underline; color:#2980b9;\">Wiki</span></a> for instructions on how to install the plugin.</p></body></html>"
 msgstr "<html><head/><body><p>Плагин GStreamer для Spotify не обнаружен, вы не сможете транслировать песни из Spotify без него. См. <a href=\"https://wiki.strawberrymusicplayer.org/wiki/Installing_GStreamer_Spotify_plugin\"><span style=\" text-decoration: underline; color:#2980b9;\">Вики</span></a>, чтобы узнать как установить плагин.</p></body></html>"
