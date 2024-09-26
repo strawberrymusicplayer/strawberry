@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: strawberrymusicplayer\n"
 "Language-Team: Estonian\n"
 "Language: et_EE\n"
-"PO-Revision-Date: 2024-09-23 10:19\n"
+"PO-Revision-Date: 2024-09-28 13:40\n"
 
 msgid "All Files (*)"
 msgstr "Kõik failid (*)"
@@ -390,10 +390,6 @@ msgstr "GStreameri fakesink elemendi loomine %1 jaoks nurjus"
 msgid "Couldn't link GStreamer source, typefind and fakesink elements for %1"
 msgstr "GStreameri fakesink, typefind ja lähteelementide linkimine %1 jaoks nurjus"
 
-#, qt-format
-msgid "Failed to load image from data for %1"
-msgstr "%1 jaoks ei õnnestunud andmetest tuvastada pildifaili"
-
 msgid "Playlist"
 msgstr "Esitusloend"
 
@@ -437,6 +433,34 @@ msgstr "Valitud on liiga palju lugusi."
 #, qt-format
 msgid "%1 songs in %2 different directories selected, are you sure you want to open them all?"
 msgstr "Valitud on %1 lugu %2 erinevas kataloogis. Kas oled kindel, et soovid need kõik avada?"
+
+#, qt-format
+msgid "Failed to load image from data for %1"
+msgstr "%1 jaoks ei õnnestunud andmetest tuvastada pildifaili"
+
+msgid "Success"
+msgstr ""
+
+msgid "File is unsupported"
+msgstr ""
+
+msgid "Filename is missing"
+msgstr ""
+
+msgid "File does not exist"
+msgstr ""
+
+msgid "File could not be opened"
+msgstr ""
+
+msgid "Could not parse file"
+msgstr ""
+
+msgid "Could save file"
+msgstr ""
+
+msgid "Unknown error"
+msgstr "Tundmatu viga"
 
 msgid "Prefix a search term with a field name to limit the search to that field, e.g.:"
 msgstr "Otsingusõnale välja nime lisamine võimaldab piirata otsingut selle väljaga, näiteks:"
@@ -829,12 +853,12 @@ msgid "Sample rate"
 msgstr "Diskreetimissagedus"
 
 #, qt-format
-msgid "Could not write metadata to %1: %2"
-msgstr "Metaandmete salvestamine faili „%1“ ei õnnestunud: %2"
-
-#, qt-format
 msgid "Could not write metadata to %1"
 msgstr "Metaandmete salvestamine faili „%1“ ei õnnestunud"
+
+#, qt-format
+msgid "Could not write metadata to %1: %2"
+msgstr "Metaandmete salvestamine faili „%1“ ei õnnestunud: %2"
 
 msgid "Title"
 msgstr "Pealkiri"
@@ -2250,9 +2274,6 @@ msgstr "Kaanepildi toomine albumile %1..."
 #, qt-format
 msgid "Retrieving album covers for %1 albums..."
 msgstr "Kaanepiltide toomine albumitele %1..."
-
-msgid "Unknown error"
-msgstr "Tundmatu viga"
 
 msgid "Configuration incomplete"
 msgstr "Seadistamine on pooleli"
@@ -4296,9 +4317,6 @@ msgstr "Lihtne autentimine"
 
 msgid "Authenticate"
 msgstr "Autendi"
-
-msgid "Device credentials"
-msgstr "Selle seadme autentimiseks kasuta"
 
 msgid "<html><head/><body><p>The GStreamer Spotify plugin is not detected, you will not be able to stream songs from Spotify without it. See <a href=\"https://wiki.strawberrymusicplayer.org/wiki/Installing_GStreamer_Spotify_plugin\"><span style=\" text-decoration: underline; color:#2980b9;\">Wiki</span></a> for instructions on how to install the plugin.</p></body></html>"
 msgstr "<html><head/><body><p>GStreameri Spotify pistikprogrammi ei õnnestu tuvastada, aga Spotify voogedastus ilma selleta ei toimi. Lisateavet leiad: <a href=\"https://wiki.strawberrymusicplayer.org/wiki/Installing_GStreamer_Spotify_plugin\"><span style=\" text-decoration: underline; color:#2980b9;\"></span></a> selle pistikprogrammi paigaldamise lehelt meie vikis.</p></body></html>"
