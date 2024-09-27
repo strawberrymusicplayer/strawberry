@@ -160,7 +160,7 @@ void BehaviourSettingsPage::Load() {
   ui_->checkbox_showtrayicon->setEnabled(systemtray_available);
   ui_->checkbox_showtrayicon->setChecked(systemtray_available && s.value("showtrayicon", true).toBool());
   ui_->checkbox_keeprunning->setEnabled(systemtray_available && ui_->checkbox_showtrayicon->isChecked());
-  ui_->checkbox_keeprunning->setChecked(systemtray_available && ui_->checkbox_showtrayicon->isChecked() && s.value("keeprunning", false).toBool());
+  ui_->checkbox_keeprunning->setChecked(s.value("keeprunning", false).toBool());
   ui_->checkbox_trayicon_progress->setEnabled(systemtray_available && ui_->checkbox_showtrayicon->isChecked());
   ui_->checkbox_trayicon_progress->setChecked(systemtray_available && ui_->checkbox_showtrayicon->isChecked() && s.value("trayicon_progress", false).toBool());
   ui_->radiobutton_hide->setEnabled(systemtray_available && ui_->checkbox_showtrayicon->isChecked());
