@@ -66,6 +66,7 @@ jobs:
             libchromaprint-devel
             fftw3-devel
             libebur128-devel
+            projectM-devel
             desktop-file-utils
             update-desktop-files
             appstream-glib
@@ -81,6 +82,7 @@ jobs:
             qt6-base-common-devel
             qt6-sql-sqlite
             qt6-linguist-devel
+            qt6-opengl-devel
       - name: Install kdsingleapplication-qt6-devel
         if: matrix.opensuse_version == 'tumbleweed'
         run: zypper -n --gpg-auto-import-keys in kdsingleapplication-qt6-devel
@@ -189,6 +191,7 @@ jobs:
             libchromaprint-devel
             libebur128-devel
             fftw-devel
+            libprojectM-devel
             desktop-file-utils
             libappstream-glib
             hicolor-icon-theme
@@ -280,6 +283,7 @@ jobs:
           lib64Qt6DBus-devel
           lib64Qt6Gui-devel
           lib64Qt6Widgets-devel
+          lib64Qt6OpenGL-devel
           lib64Qt6Test-devel
           qt6-cmake
           qt6-qtbase-tools
@@ -376,6 +380,7 @@ jobs:
           lib64fftw-devel
           lib64dbus-devel
           lib64appstream-devel
+          lib64projectm-devel
           lib64qt6core-devel
           lib64qt6gui-devel
           lib64qt6widgets-devel
@@ -385,6 +390,7 @@ jobs:
           lib64qt6dbus-devel
           lib64qt6help-devel
           lib64qt6test-devel
+          lib64qt6opengl-devel
           protobuf-compiler
           desktop-file-utils
           appstream-util
@@ -480,6 +486,7 @@ jobs:
             qt6-tools-dev
             qt6-tools-dev-tools
             qt6-l10n-tools
+            libprojectm-dev
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -562,6 +569,7 @@ jobs:
             qt6-tools-dev
             qt6-tools-dev-tools
             qt6-l10n-tools
+            libprojectm-dev
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -646,6 +654,7 @@ jobs:
             gstreamer1.0-alsa
             gstreamer1.0-pulseaudio
             protobuf-compiler
+            libprojectm-dev
       - name: Install keyboxd
         if: matrix.ubuntu_version == 'noble'
         env:

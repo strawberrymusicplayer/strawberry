@@ -2490,6 +2490,51 @@ msgstr ""
 msgid "System colors"
 msgstr ""
 
+msgid "Missing projectM presets"
+msgstr ""
+
+msgid ""
+"Strawberry could not load any projectM visualizations.  Check that you have "
+"installed Strawberry properly."
+msgstr ""
+
+msgid "Visualizations"
+msgstr ""
+
+msgid "Toggle fullscreen"
+msgstr ""
+
+msgctxt "Visualization quality"
+msgid "Quality"
+msgstr ""
+
+msgid "Low (256x256)"
+msgstr ""
+
+msgid "Medium (512x512)"
+msgstr ""
+
+msgid "High (1024x1024)"
+msgstr ""
+
+msgid "Super high (2048x2048)"
+msgstr ""
+
+msgid "Select visualizations..."
+msgstr ""
+
+msgid "Close visualization"
+msgstr ""
+
+msgid "strawberry"
+msgstr ""
+
+msgid "Select All"
+msgstr ""
+
+msgid "Select None"
+msgstr ""
+
 msgid "Strawberry Music Player"
 msgstr ""
 
@@ -4443,6 +4488,27 @@ msgid "Save the .mood files directly in the songs folders"
 msgstr ""
 
 msgid "Enabled"
+msgstr ""
+
+msgid "Strawberry"
+msgstr ""
+
+msgid "Visualizations Settings"
+msgstr ""
+
+msgid "Select visualizations"
+msgstr ""
+
+msgid "Visualization mode"
+msgstr ""
+
+msgid "Random visualization"
+msgstr ""
+
+msgid "Choose from the list"
+msgstr ""
+
+msgid "Delay between visualizations"
 msgstr ""
 
 msgid "Return to Strawberry"

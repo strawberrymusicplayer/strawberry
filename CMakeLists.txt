@@ -163,6 +163,14 @@ pkg_check_modules(LIBMTP libmtp>=1.0)
 pkg_check_modules(GDK_PIXBUF gdk-pixbuf-2.0)
 find_package(Gettext)
 find_package(FFTW3)
+find_package(projectM4 COMPONENTS Playlist)
+if(projectM4_FOUND)
+  set(LIBPROJECTM_FOUND ON)
+  set(HAVE_PROJECTM4 ON)
+  set(LIBPROJECTM_LIBRARIES libprojectM::projectM libprojectM::playlist)
+else()
+  pkg_check_modules(LIBPROJECTM libprojectM)
+endif()
 find_package(GTest)
 find_library(GMOCK_LIBRARY gmock)
 
@@ -170,7 +178,7 @@ set(QT_VERSION_MAJOR 6)
 set(QT_MIN_VERSION 6.4.0)
 set(QT_DEFAULT_MAJOR_VERSION ${QT_VERSION_MAJOR})
 set(QT_COMPONENTS Core Concurrent Gui Widgets Network Sql)
-set(QT_OPTIONAL_COMPONENTS LinguistTools Test)
+set(QT_OPTIONAL_COMPONENTS OpenGLWidgets LinguistTools Test)
 if(DBUS_FOUND AND NOT WIN32)
   list(APPEND QT_COMPONENTS DBus)
 endif()
@@ -392,6 +400,12 @@ optional_component(MOODBAR ON "Moodbar"
 
 optional_component(EBUR128 ON "EBU R 128 loudness normalization"
   DEPENDS "libebur128" LIBEBUR128_FOUND
+  DEPENDS "gstreamer" HAVE_GSTREAMER
+)
+
+optional_component(VISUALIZATIONS ON "Visualizations"
+  DEPENDS "libprojectm" LIBPROJECTM_FOUND
+  DEPENDS "QtOpenGLWidgets" Qt${QT_VERSION_MAJOR}OpenGLWidgets_FOUND
   DEPENDS "gstreamer" HAVE_GSTREAMER
 )
 
