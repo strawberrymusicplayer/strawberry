@@ -41,8 +41,10 @@ class SystemTrayIcon : public QObject {
   explicit SystemTrayIcon(QObject *parent = nullptr);
   ~SystemTrayIcon();
 
-  bool isSystemTrayAvailable() { return true; }
-  bool IsSystemTrayAvailable() { return true; }
+  bool isSystemTrayAvailable() const { return true; }
+  bool IsSystemTrayAvailable() const { return true; }
+
+  bool isVisible() const { return true; }
   void setVisible(const bool) {}
 
   void SetTrayiconProgress(const bool enabled);
