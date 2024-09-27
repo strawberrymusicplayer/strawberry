@@ -78,7 +78,7 @@ class BehaviourSettingsPage : public SettingsPage {
   void Save() override;
 
  private Q_SLOTS:
-  void ShowTrayIconToggled(bool on);
+  void ShowTrayIconToggled(const bool on);
 
  private:
   Ui_BehaviourSettingsPage *ui_;

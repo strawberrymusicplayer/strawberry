@@ -274,7 +274,7 @@ void BehaviourSettingsPage::Save() {
 
 }
 
-void BehaviourSettingsPage::ShowTrayIconToggled(bool on) {
+void BehaviourSettingsPage::ShowTrayIconToggled(const bool on) {
 
   ui_->radiobutton_hide->setEnabled(on);
   if (!on && ui_->radiobutton_hide->isChecked()) ui_->radiobutton_remember->setChecked(true);
