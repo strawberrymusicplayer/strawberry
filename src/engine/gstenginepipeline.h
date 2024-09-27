@@ -79,7 +79,7 @@ class GstEnginePipeline : public QObject {
   void set_strict_ssl_enabled(const bool enabled);
   void set_fading_enabled(const bool enabled);
 #ifdef HAVE_SPOTIFY
-  void set_spotify_login(const QString &spotify_username, const QString &spotify_password);
+  void set_spotify_access_token(const QString &spotify_access_token);
 #endif
 
   bool Finish();
@@ -259,8 +259,7 @@ class GstEnginePipeline : public QObject {
 
   // Spotify
 #ifdef HAVE_SPOTIFY
-  QString spotify_username_;
-  QString spotify_password_;
+  QString spotify_access_token_;
 #endif
 
   // The URL that is currently playing, and the URL that is to be preloaded when the current track is close to finishing.

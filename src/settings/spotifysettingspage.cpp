@@ -87,11 +87,6 @@ void SpotifySettingsPage::Load() {
   s.beginGroup(kSettingsGroup);
   ui_->enable->setChecked(s.value("enabled", false).toBool());
 
-  ui_->username->setText(s.value("username").toString());
-  QByteArray password = s.value("password").toByteArray();
-  if (password.isEmpty()) ui_->password->clear();
-  else ui_->password->setText(QString::fromUtf8(QByteArray::fromBase64(password)));
-
   ui_->searchdelay->setValue(s.value("searchdelay", 1500).toInt());
   ui_->artistssearchlimit->setValue(s.value("artistssearchlimit", 4).toInt());
   ui_->albumssearchlimit->setValue(s.value("albumssearchlimit", 10).toInt());
@@ -114,10 +109,6 @@ void SpotifySettingsPage::Save() {
   Settings s;
   s.beginGroup(kSettingsGroup);
   s.setValue("enabled", ui_->enable->isChecked());
-
-  s.setValue("username", ui_->username->text());
-  s.setValue("password", QString::fromUtf8(ui_->password->text().toUtf8().toBase64()));
-
   s.setValue("searchdelay", ui_->searchdelay->value());
   s.setValue("artistssearchlimit", ui_->artistssearchlimit->value());
   s.setValue("albumssearchlimit", ui_->albumssearchlimit->value());

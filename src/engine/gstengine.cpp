@@ -915,7 +915,7 @@ GstEnginePipelinePtr GstEngine::CreatePipeline() {
   pipeline->set_fading_enabled(fadeout_enabled_ || autocrossfade_enabled_ || fadeout_pause_enabled_);
 
 #ifdef HAVE_SPOTIFY
-  pipeline->set_spotify_login(spotify_username_, spotify_password_);
+  pipeline->set_spotify_access_token(spotify_access_token_);
 #endif
 
   pipeline->AddBufferConsumer(this);

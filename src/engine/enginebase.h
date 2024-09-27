@@ -249,8 +249,7 @@ class EngineBase : public QObject {
 
   // Spotify
 #ifdef HAVE_SPOTIFY
-  QString spotify_username_;
-  QString spotify_password_;
+  QString spotify_access_token_;
 #endif
 
   bool about_to_end_emitted_;

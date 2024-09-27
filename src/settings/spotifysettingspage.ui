@@ -41,52 +41,6 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="group_device_credentials">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="title">
-      <string>Device credentials</string>
-     </property>
-     <layout class="QFormLayout" name="layout_credential_group">
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_username">
-        <property name="text">
-         <string>Username</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_password">
-        <property name="text">
-         <string>Password</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QLineEdit" name="password">
-        <property name="text">
-         <string notr="true"/>
-        </property>
-        <property name="echoMode">
-         <enum>QLineEdit::EchoMode::Password</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QLineEdit" name="username">
-        <property name="text">
-         <string notr="true"/>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
     <widget class="QWidget" name="widget_warning" native="true">
      <layout class="QHBoxLayout" name="horizontalLayout">
       <property name="spacing">
@@ -312,7 +266,6 @@
  </customwidgets>
  <tabstops>
   <tabstop>enable</tabstop>
-  <tabstop>password</tabstop>
   <tabstop>searchdelay</tabstop>
   <tabstop>artistssearchlimit</tabstop>
   <tabstop>albumssearchlimit</tabstop>

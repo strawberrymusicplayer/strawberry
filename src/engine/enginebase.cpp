@@ -246,10 +246,7 @@ void EngineBase::ReloadSettings() {
 
 #ifdef HAVE_SPOTIFY
   s.beginGroup(SpotifySettingsPage::kSettingsGroup);
-  spotify_username_ = s.value("username").toString();
-  QByteArray password = s.value("password").toByteArray();
-  if (password.isEmpty()) spotify_password_.clear();
-  else spotify_password_ = QString::fromUtf8(QByteArray::fromBase64(password));
+  spotify_access_token_ = s.value("access_token").toString();
   s.endGroup();
 #endif
 

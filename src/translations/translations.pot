@@ -4410,9 +4410,6 @@ msgstr ""
 msgid "Authenticate"
 msgstr ""
 
-msgid "Device credentials"
-msgstr ""
-
 msgid ""
 "<html><head/><body><p>The GStreamer Spotify plugin is not detected, you will "
 "not be able to stream songs from Spotify without it. See <a href=\"https://"
