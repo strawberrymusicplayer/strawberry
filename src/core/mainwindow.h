@@ -117,6 +117,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 
  protected:
   void showEvent(QShowEvent *e) override;
+  void hideEvent(QHideEvent *e) override;
   void closeEvent(QCloseEvent *e) override;
   void keyPressEvent(QKeyEvent *e) override;
 #ifdef Q_OS_WIN
@@ -396,7 +397,6 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   bool initialized_;
   bool was_maximized_;
   bool was_minimized_;
-  bool hidden_;
 
   Song song_;
   Song song_playing_;

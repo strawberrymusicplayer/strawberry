@@ -354,11 +354,9 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
       initialized_(false),
       was_maximized_(true),
       was_minimized_(false),
-      hidden_(false),
       exit_(false),
       exit_count_(0),
-      delete_files_(false),
-      ignore_close_(false) {
+      delete_files_(false) {
 
   qLog(Debug) << "Starting";
 
@@ -990,16 +988,8 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
       was_minimized_ = settings_.value("minimized", false).toBool();
       if (was_minimized_) setWindowState(windowState() | Qt::WindowMinimized);
 
-      if (!tray_icon_->IsSystemTrayAvailable() || !tray_icon_->isVisible()) {
-        hidden_ = false;
-        settings_.setValue("hidden", false);
+      if (!tray_icon_->IsSystemTrayAvailable() || !tray_icon_->isVisible() || !settings_.value("hidden", false).toBool()) {
         show();
-      }
-      else {
-        hidden_ = settings_.value("hidden", false).toBool();
-        if (!hidden_) {
-          show();
-        }
       }
       break;
     }
@@ -1307,8 +1297,7 @@ void MainWindow::Exit() {
       QObject::connect(&*app_->player()->engine(), &EngineBase::Finished, this, &MainWindow::DoExit);
       if (app_->player()->GetState() == EngineBase::State::Playing) {
         app_->player()->Stop();
-        ignore_close_ = true;
-        close();
+        hide();
         if (tray_icon_->IsSystemTrayAvailable()) {
           tray_icon_->setVisible(false);
         }
@@ -1539,7 +1528,7 @@ void MainWindow::SaveGeometry() {
 
   settings_.setValue("maximized", isMaximized());
   settings_.setValue("minimized", isMinimized());
-  settings_.setValue("hidden", hidden_);
+  settings_.setValue("hidden", isHidden());
   settings_.setValue("geometry", saveGeometry());
   settings_.setValue("splitter_state", ui_->splitter->saveState());
 
@@ -1593,7 +1582,7 @@ void MainWindow::VolumeWheelEvent(const int delta) {
 
 void MainWindow::ToggleShowHide() {
 
-  if (hidden_) {
+  if (isHidden()) {
     SetHiddenInTray(false);
   }
   else if (isActiveWindow()) {
@@ -1617,7 +1606,7 @@ void MainWindow::ToggleShowHide() {
 }
 
 void MainWindow::ToggleHide() {
-  if (!hidden_) SetHiddenInTray(true);
+  if (isVisible()) SetHiddenInTray(true);
 }
 
 void MainWindow::StopAfterCurrent() {
@@ -1627,27 +1616,26 @@ void MainWindow::StopAfterCurrent() {
 
 void MainWindow::showEvent(QShowEvent *e) {
 
-  hidden_ = false;
-
   QMainWindow::showEvent(e);
+
+}
+
+void MainWindow::hideEvent(QHideEvent *e) {
+
+  // Some window managers don't remember maximized state between
+  // calls to hide() and show(), so we have to remember it ourself.
+
+  was_maximized_ = isMaximized();
+  was_minimized_ = isMinimized();
+
+  QMainWindow::hideEvent(e);
 
 }
 
 void MainWindow::closeEvent(QCloseEvent *e) {
 
-  if (ignore_close_) {
-    ignore_close_ = false;
-    QMainWindow::closeEvent(e);
-    return;
-  }
-
-  if (!exit_) {
-    if (!hidden_ && tray_icon_->IsSystemTrayAvailable() && tray_icon_->isVisible() && keep_running_) {
-      SetHiddenInTray(true);
-    }
-    else {
-      Exit();
-    }
+  if (!exit_ && (!tray_icon_->IsSystemTrayAvailable() || !tray_icon_->isVisible() || !keep_running_)) {
+    Exit();
   }
 
   QMainWindow::closeEvent(e);
@@ -1656,17 +1644,10 @@ void MainWindow::closeEvent(QCloseEvent *e) {
 
 void MainWindow::SetHiddenInTray(const bool hidden) {
 
-  hidden_ = hidden;
-  settings_.setValue("hidden", hidden_);
-
-  // Some window managers don't remember maximized state between calls to hide() and show(), so we have to remember it ourself.
-  if (hidden) {
-    was_maximized_ = isMaximized();
-    was_minimized_ = isMinimized();
-    ignore_close_ = true;
+  if (hidden && isVisible()) {
     close();
   }
-  else {
+  else if (!hidden && isHidden()) {
     if (was_minimized_) {
       showMinimized();
     }
@@ -2392,7 +2373,6 @@ void MainWindow::CommandlineOptionsReceived(const QByteArray &string_options) {
     raise();
     show();
     activateWindow();
-    hidden_ = false;
     return;
   }
 
@@ -2958,7 +2938,7 @@ void MainWindow::Raise() {
 
   show();
   activateWindow();
-  hidden_ = false;
+
 }
 
 #ifdef Q_OS_WIN
