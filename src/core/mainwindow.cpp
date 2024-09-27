@@ -1107,10 +1107,10 @@ void MainWindow::ReloadSettings() {
   constexpr bool keeprunning_available = true;
 #else
   const bool systemtray_available = tray_icon_->IsSystemTrayAvailable();
-  const bool keeprunning_available = systemtray_available;
   s.beginGroup(BehaviourSettingsPage::kSettingsGroup);
   const bool showtrayicon = s.value("showtrayicon", systemtray_available).toBool();
   s.endGroup();
+  const bool keeprunning_available = systemtray_available && showtrayicon;
   if (systemtray_available) {
     tray_icon_->setVisible(showtrayicon);
   }
@@ -1642,7 +1642,7 @@ void MainWindow::closeEvent(QCloseEvent *e) {
   }
 
   if (!exit_) {
-    if (!hidden_ && keep_running_ && tray_icon_->IsSystemTrayAvailable()) {
+    if (!hidden_ && tray_icon_->IsSystemTrayAvailable() && tray_icon_->isVisible() && keep_running_) {
       SetHiddenInTray(true);
     }
     else {
