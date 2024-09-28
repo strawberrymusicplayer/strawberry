@@ -280,15 +280,6 @@ optional_component(DBUS ON "D-Bus support"
   DEPENDS "Qt D-Bus" Qt${QT_VERSION_MAJOR}DBus_FOUND
 )
 
-optional_component(GSTREAMER ON "Engine: GStreamer backend"
-  DEPENDS "gstreamer-1.0" GSTREAMER_FOUND
-  DEPENDS "gstreamer-base-1.0" GSTREAMER_BASE_FOUND
-  DEPENDS "gstreamer-app-1.0" GSTREAMER_APP_FOUND
-  DEPENDS "gstreamer-audio-1.0" GSTREAMER_AUDIO_FOUND
-  DEPENDS "gstreamer-tag-1.0" GSTREAMER_TAG_FOUND
-  DEPENDS "gstreamer-pbutils-1.0" GSTREAMER_PBUTILS_FOUND
-)
-
 optional_component(SONGFINGERPRINTING ON "Song fingerprinting and tracking"
   DEPENDS "chromaprint" CHROMAPRINT_FOUND
 )
