@@ -24,9 +24,6 @@
 
 #cmakedefine USE_INSTALL_PREFIX
 
-#cmakedefine HAVE_GSTREAMER
-#cmakedefine HAVE_VLC
-
 #cmakedefine HAVE_SUBSONIC
 #cmakedefine HAVE_TIDAL
 #cmakedefine HAVE_SPOTIFY

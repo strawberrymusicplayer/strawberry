@@ -56,7 +56,6 @@ jobs:
             libpulse-devel
             gstreamer-devel
             gstreamer-plugins-base-devel
-            vlc-devel
             taglib-devel
             libicu-devel
             libcdio-devel

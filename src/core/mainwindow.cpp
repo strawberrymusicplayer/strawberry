@@ -291,12 +291,10 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
         dialog->SetDestinationModel(app->collection()->model()->directory_model());
         return dialog;
       }),
-#ifdef HAVE_GSTREAMER
       transcode_dialog_([this]() {
         TranscodeDialog *dialog = new TranscodeDialog(this);
         return dialog;
       }),
-#endif
       add_stream_dialog_([this]() {
         AddStreamDialog *add_stream_dialog = new AddStreamDialog;
         QObject::connect(add_stream_dialog, &AddStreamDialog::accepted, this, &MainWindow::AddStreamAccepted);
@@ -500,13 +498,11 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   // File view connections
   QObject::connect(file_view_, &FileView::AddToPlaylist, this, &MainWindow::AddToPlaylist);
   QObject::connect(file_view_, &FileView::PathChanged, this, &MainWindow::FilePathChanged);
-#ifdef HAVE_GSTREAMER
   QObject::connect(file_view_, &FileView::CopyToCollection, this, &MainWindow::CopyFilesToCollection);
   QObject::connect(file_view_, &FileView::MoveToCollection, this, &MainWindow::MoveFilesToCollection);
   QObject::connect(file_view_, &FileView::EditTags, this, &MainWindow::EditFileTags);
-#  ifndef Q_OS_WIN
+#ifndef Q_OS_WIN
   QObject::connect(file_view_, &FileView::CopyToDevice, this, &MainWindow::CopyFilesToDevice);
-#  endif
 #endif
   file_view_->SetTaskManager(app_->task_manager());
 
@@ -543,21 +539,13 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   QObject::connect(ui_->action_add_stream, &QAction::triggered, this, &MainWindow::AddStream);
   QObject::connect(ui_->action_cover_manager, &QAction::triggered, this, &MainWindow::ShowCoverManager);
   QObject::connect(ui_->action_equalizer, &QAction::triggered, this, &MainWindow::ShowEqualizer);
-#if defined(HAVE_GSTREAMER)
   QObject::connect(ui_->action_transcoder, &QAction::triggered, this, &MainWindow::ShowTranscodeDialog);
-#else
-  ui_->action_transcoder->setDisabled(true);
-#endif
   QObject::connect(ui_->action_jump, &QAction::triggered, ui_->playlist->view(), &PlaylistView::JumpToCurrentlyPlayingTrack);
   QObject::connect(ui_->action_update_collection, &QAction::triggered, &*app_->collection(), &SCollection::IncrementalScan);
   QObject::connect(ui_->action_full_collection_scan, &QAction::triggered, &*app_->collection(), &SCollection::FullScan);
   QObject::connect(ui_->action_stop_collection_scan, &QAction::triggered, &*app_->collection(), &SCollection::StopScan);
-#if defined(HAVE_GSTREAMER)
   QObject::connect(ui_->action_add_files_to_transcoder, &QAction::triggered, this, &MainWindow::AddFilesToTranscoder);
   ui_->action_add_files_to_transcoder->setIcon(IconLoader::Load(QStringLiteral("tools-wizard")));
-#else
-  ui_->action_add_files_to_transcoder->setDisabled(true);
-#endif
 
   QObject::connect(ui_->action_toggle_scrobbling, &QAction::triggered, &*app_->scrobbler(), &AudioScrobbler::ToggleScrobbling);
   QObject::connect(ui_->action_love, &QAction::triggered, this, &MainWindow::Love);
@@ -757,9 +745,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
 #endif
   playlist_rescan_songs_ = playlist_menu_->addAction(IconLoader::Load(QStringLiteral("view-refresh")), tr("Rescan song(s)..."), this, &MainWindow::RescanSongs);
   playlist_menu_->addAction(playlist_rescan_songs_);
-#ifdef HAVE_GSTREAMER
   playlist_menu_->addAction(ui_->action_add_files_to_transcoder);
-#endif
   playlist_menu_->addSeparator();
   playlist_copy_url_ = playlist_menu_->addAction(IconLoader::Load(QStringLiteral("edit-copy")), tr("Copy URL(s)..."), this, &MainWindow::PlaylistCopyUrl);
   playlist_show_in_collection_ = playlist_menu_->addAction(IconLoader::Load(QStringLiteral("edit-find")), tr("Show in collection..."), this, &MainWindow::ShowInCollection);
@@ -767,7 +753,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   playlist_organize_ = playlist_menu_->addAction(IconLoader::Load(QStringLiteral("edit-copy")), tr("Organize files..."), this, &MainWindow::PlaylistMoveToCollection);
   playlist_copy_to_collection_ = playlist_menu_->addAction(IconLoader::Load(QStringLiteral("edit-copy")), tr("Copy to collection..."), this, &MainWindow::PlaylistCopyToCollection);
   playlist_move_to_collection_ = playlist_menu_->addAction(IconLoader::Load(QStringLiteral("go-jump")), tr("Move to collection..."), this, &MainWindow::PlaylistMoveToCollection);
-#if defined(HAVE_GSTREAMER) && !defined(Q_OS_WIN)
+#ifndef Q_OS_WIN
   playlist_copy_to_device_ = playlist_menu_->addAction(IconLoader::Load(QStringLiteral("device")), tr("Copy to device..."), this, &MainWindow::PlaylistCopyToDevice);
 #endif
   playlist_delete_ = playlist_menu_->addAction(IconLoader::Load(QStringLiteral("edit-delete")), tr("Delete from disk..."), this, &MainWindow::PlaylistDelete);
@@ -787,7 +773,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
 
   QObject::connect(ui_->playlist, &PlaylistContainer::UndoRedoActionsChanged, this, &MainWindow::PlaylistUndoRedoChanged);
 
-#if defined(HAVE_GSTREAMER) && !defined(Q_OS_WIN)
+#ifndef Q_OS_WIN
   playlist_copy_to_device_->setDisabled(app_->device_manager()->connected_devices_model()->rowCount() == 0);
   QObject::connect(app_->device_manager()->connected_devices_model(), &DeviceStateFilterModel::IsEmptyChanged, playlist_copy_to_device_, &QAction::setDisabled);
 #endif
@@ -1927,10 +1913,8 @@ void MainWindow::PlaylistRightClick(const QPoint global_pos, const QModelIndex &
   playlist_rescan_songs_->setEnabled(local_songs > 0 && editable > 0);
   playlist_rescan_songs_->setVisible(local_songs > 0 && editable > 0);
 
-#ifdef HAVE_GSTREAMER
   ui_->action_add_files_to_transcoder->setEnabled(local_songs > 0 && editable > 0);
   ui_->action_add_files_to_transcoder->setVisible(local_songs > 0 && editable > 0);
-#endif
 
   playlist_open_in_browser_->setVisible(selected > 0 && local_songs == selected);
 
@@ -1944,7 +1928,7 @@ void MainWindow::PlaylistRightClick(const QPoint global_pos, const QModelIndex &
   playlist_show_in_collection_->setVisible(false);
   playlist_copy_to_collection_->setVisible(false);
   playlist_move_to_collection_->setVisible(false);
-#if defined(HAVE_GSTREAMER) && !defined(Q_OS_WIN)
+#ifndef Q_OS_WIN
   playlist_copy_to_device_->setVisible(false);
 #endif
   playlist_organize_->setVisible(false);
@@ -2019,7 +2003,7 @@ void MainWindow::PlaylistRightClick(const QPoint global_pos, const QModelIndex &
       playlist_move_to_collection_->setVisible(local_songs > 0);
     }
 
-#if defined(HAVE_GSTREAMER) && !defined(Q_OS_WIN)
+#ifndef Q_OS_WIN
     playlist_copy_to_device_->setVisible(local_songs > 0);
 #endif
 
@@ -2558,8 +2542,6 @@ void MainWindow::PlaylistUndoRedoChanged(QAction *undo, QAction *redo) {
 
 void MainWindow::AddFilesToTranscoder() {
 
-#ifdef HAVE_GSTREAMER
-
   QStringList filenames;
 
   const QModelIndexList proxy_indexes = ui_->playlist->view()->selectionModel()->selectedRows();
@@ -2578,8 +2560,6 @@ void MainWindow::AddFilesToTranscoder() {
   transcode_dialog_->SetFilenames(filenames);
 
   ShowTranscodeDialog();
-
-#endif
 
 }
 
@@ -2630,7 +2610,7 @@ void MainWindow::MoveFilesToCollection(const QList<QUrl> &urls) {
 
 void MainWindow::CopyFilesToDevice(const QList<QUrl> &urls) {
 
-#if defined(HAVE_GSTREAMER) && !defined(Q_OS_WIN)
+#ifndef Q_OS_WIN
   organize_dialog_->SetDestinationModel(app_->device_manager()->connected_devices_model(), true);
   organize_dialog_->SetCopy(true);
   if (organize_dialog_->SetUrls(urls)) {
@@ -2874,10 +2854,8 @@ void MainWindow::ShowAboutDialog() {
 
 void MainWindow::ShowTranscodeDialog() {
 
-#ifdef HAVE_GSTREAMER
   transcode_dialog_->show();
   transcode_dialog_->raise();
-#endif
 
 }
 

@@ -65,7 +65,7 @@
 #ifdef HAVE_GIO
 #  include "giolister.h"
 #endif
-#if defined(HAVE_AUDIOCD) && defined(HAVE_GSTREAMER)
+#ifdef HAVE_AUDIOCD
 #  include "cddalister.h"
 #  include "cddadevice.h"
 #endif
@@ -115,7 +115,7 @@ DeviceManager::DeviceManager(Application *app, QObject *parent)
   connected_devices_model_->setSourceModel(this);
 
 // CD devices are detected via the DiskArbitration framework instead on MacOs.
-#if defined(HAVE_AUDIOCD) && defined(HAVE_GSTREAMER) && !defined(Q_OS_MACOS)
+#if defined(HAVE_AUDIOCD) && !defined(Q_OS_MACOS)
   AddLister(new CddaLister);
 #endif
 #if defined(HAVE_DBUS) && defined(HAVE_UDISKS2)
@@ -128,7 +128,7 @@ DeviceManager::DeviceManager(Application *app, QObject *parent)
   AddLister(new MacOsDeviceLister);
 #endif
 
-#if defined(HAVE_AUDIOCD) && defined(HAVE_GSTREAMER)
+#ifdef HAVE_AUDIOCD
   AddDeviceClass<CddaDevice>();
 #endif
 

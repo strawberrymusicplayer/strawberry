@@ -97,9 +97,7 @@ BackendSettingsPage::BackendSettingsPage(SettingsDialog *dialog, QWidget *parent
 #endif
   QObject::connect(ui_->stickyslider_replaygainpreamp, &StickySlider::valueChanged, this, &BackendSettingsPage::RgPreampChanged);
   QObject::connect(ui_->stickyslider_replaygainfallbackgain, &StickySlider::valueChanged, this, &BackendSettingsPage::RgFallbackGainChanged);
-#ifdef HAVE_GSTREAMER
   QObject::connect(ui_->stickyslider_ebur128_target_level, &StickySlider::valueChanged, this, &BackendSettingsPage::EbuR128TargetLevelChanged);
-#endif
   QObject::connect(ui_->checkbox_fadeout_stop, &QCheckBox::toggled, this, &BackendSettingsPage::FadingOptionsChanged);
   QObject::connect(ui_->checkbox_fadeout_cross, &QCheckBox::toggled, this, &BackendSettingsPage::FadingOptionsChanged);
   QObject::connect(ui_->checkbox_fadeout_auto, &QCheckBox::toggled, this, &BackendSettingsPage::FadingOptionsChanged);
@@ -132,12 +130,7 @@ void BackendSettingsPage::Load() {
   if (enginetype == EngineBase::Type::None && engine()) enginetype = engine()->type();
 
   ui_->combobox_engine->clear();
-#ifdef HAVE_GSTREAMER
   ui_->combobox_engine->addItem(IconLoader::Load(QStringLiteral("gstreamer")), EngineBase::Description(EngineBase::Type::GStreamer), static_cast<int>(EngineBase::Type::GStreamer));
-#endif
-#ifdef HAVE_VLC
-  ui_->combobox_engine->addItem(IconLoader::Load(QStringLiteral("vlc")), EngineBase::Description(EngineBase::Type::VLC), static_cast<int>(EngineBase::Type::VLC));
-#endif
 
   enginetype_current_ = enginetype;
   output_current_ = s.value("output", QString()).toString();
@@ -192,12 +185,6 @@ void BackendSettingsPage::Load() {
   ui_->checkbox_replaygaincompression->setChecked(s.value("rgcompression", true).toBool());
   ui_->stickyslider_replaygainfallbackgain->setValue(static_cast<int>(s.value("rgfallbackgain", 0.0).toDouble() * 10 + 600));
 
-#ifdef HAVE_GSTREAMER
-  ui_->groupbox_ebur128->show();
-#else
-  ui_->groupbox_ebur128->hide();
-#endif
-
   ui_->radiobutton_ebur128_loudness_normalization->setChecked(s.value("ebur128_loudness_normalization", false).toBool());
   ui_->stickyslider_ebur128_target_level->setValue(static_cast<int>(s.value("ebur128_target_level_lufs", -23.0).toDouble() * 10));
 
@@ -230,10 +217,7 @@ void BackendSettingsPage::Load() {
   FadingOptionsChanged();
   RgPreampChanged(ui_->stickyslider_replaygainpreamp->value());
   RgFallbackGainChanged(ui_->stickyslider_replaygainfallbackgain->value());
-
-#ifdef HAVE_GSTREAMER
   EbuR128TargetLevelChanged(ui_->stickyslider_ebur128_target_level->value());
-#endif
 
   Init(ui_->layout_backendsettingspage->parentWidget());
   if (!Settings().childGroups().contains(QLatin1String(kSettingsGroup))) set_changed();
@@ -684,7 +668,6 @@ void BackendSettingsPage::RgFallbackGainChanged(const int value) {
 
 }
 
-#ifdef HAVE_GSTREAMER
 void BackendSettingsPage::EbuR128TargetLevelChanged(const int value) {
 
   double db = static_cast<double>(value) / 10;
@@ -692,7 +675,6 @@ void BackendSettingsPage::EbuR128TargetLevelChanged(const int value) {
   ui_->label_ebur128_target_level->setText(db_str);
 
 }
-#endif
 
 #ifdef HAVE_ALSA
 void BackendSettingsPage::SwitchALSADevices(const ALSAPluginType alsa_plugin_type) {

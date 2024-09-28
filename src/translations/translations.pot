@@ -498,6 +498,9 @@ msgstr ""
 msgid "Available fields"
 msgstr ""
 
+msgid "Buffering"
+msgstr ""
+
 msgid "Framerate"
 msgstr ""
 
@@ -2010,6 +2013,64 @@ msgid ""
 "deleted:"
 msgstr ""
 
+#, qt-format
+msgid ""
+"Could not create the GStreamer element \"%1\" - make sure you have all the "
+"required GStreamer plugins installed"
+msgstr ""
+
+#, qt-format
+msgid "Successfully written %1"
+msgstr ""
+
+#, qt-format
+msgid "Transcoding %1 files using %2 threads"
+msgstr ""
+
+#, qt-format
+msgid "Error processing %1: %2"
+msgstr ""
+
+#, qt-format
+msgid "Starting %1"
+msgstr ""
+
+#, qt-format
+msgid ""
+"Couldn't find an encoder for %1, check you have the correct GStreamer "
+"plugins installed"
+msgstr ""
+
+#, qt-format
+msgid ""
+"Couldn't find a muxer for %1, check you have the correct GStreamer plugins "
+"installed"
+msgstr ""
+
+msgid "Start transcoding"
+msgstr ""
+
+#, c-format, qt-plural-format
+msgctxt ""
+msgid "%n remaining"
+msgstr ""
+
+#, c-format, qt-plural-format
+msgctxt ""
+msgid "%n finished"
+msgstr ""
+
+#, c-format, qt-plural-format
+msgctxt ""
+msgid "%n failed"
+msgstr ""
+
+msgid "Add files to transcode"
+msgstr ""
+
+msgid "Open a directory to import music from"
+msgstr ""
+
 msgid "Play/Pause"
 msgstr ""
 
@@ -2102,9 +2163,6 @@ msgstr ""
 msgid ""
 " Shortcuts on %1 are usually used through MATE Settings Daemon and should be "
 "configured there instead."
-msgstr ""
-
-msgid "Buffering"
 msgstr ""
 
 msgid "D-Bus path"
@@ -2243,64 +2301,6 @@ msgstr ""
 
 #, qt-format
 msgid "Error connecting MTP device %1: %2"
-msgstr ""
-
-#, qt-format
-msgid ""
-"Could not create the GStreamer element \"%1\" - make sure you have all the "
-"required GStreamer plugins installed"
-msgstr ""
-
-#, qt-format
-msgid "Successfully written %1"
-msgstr ""
-
-#, qt-format
-msgid "Transcoding %1 files using %2 threads"
-msgstr ""
-
-#, qt-format
-msgid "Error processing %1: %2"
-msgstr ""
-
-#, qt-format
-msgid "Starting %1"
-msgstr ""
-
-#, qt-format
-msgid ""
-"Couldn't find an encoder for %1, check you have the correct GStreamer "
-"plugins installed"
-msgstr ""
-
-#, qt-format
-msgid ""
-"Couldn't find a muxer for %1, check you have the correct GStreamer plugins "
-"installed"
-msgstr ""
-
-msgid "Start transcoding"
-msgstr ""
-
-#, c-format, qt-plural-format
-msgctxt ""
-msgid "%n remaining"
-msgstr ""
-
-#, c-format, qt-plural-format
-msgctxt ""
-msgid "%n finished"
-msgstr ""
-
-#, c-format, qt-plural-format
-msgctxt ""
-msgid "%n failed"
-msgstr ""
-
-msgid "Add files to transcode"
-msgstr ""
-
-msgid "Open a directory to import music from"
 msgstr ""
 
 msgid "Identifying song"
@@ -3800,6 +3800,38 @@ msgstr ""
 msgid "Enable fading"
 msgstr ""
 
+msgid "Transcoding"
+msgstr ""
+
+msgid ""
+"These settings are used in the \"Transcode Music\" dialog, and when "
+"converting music before copying it to a device."
+msgstr ""
+
+msgid "FLAC"
+msgstr ""
+
+msgid "WavPack"
+msgstr ""
+
+msgid "Vorbis"
+msgstr ""
+
+msgid "Opus"
+msgstr ""
+
+msgid "Speex"
+msgstr ""
+
+msgid "AAC"
+msgstr ""
+
+msgid "ASF (WMA)"
+msgstr ""
+
+msgid "MP3"
+msgstr ""
+
 msgid "Equalizer"
 msgstr ""
 
@@ -4055,104 +4087,6 @@ msgstr ""
 msgid "Safely remove the device after copying"
 msgstr ""
 
-msgid "Press a key"
-msgstr ""
-
-msgid "Global Shortcuts"
-msgstr ""
-
-msgid "Use Gnome (GSD) shortcuts when available"
-msgstr ""
-
-msgid "Open..."
-msgstr ""
-
-msgid "Use MATE shortcuts when available"
-msgstr ""
-
-msgid "Use KDE (KGlobalAccel) shortcuts when available"
-msgstr ""
-
-msgid "Use X11 shortcuts when available"
-msgstr ""
-
-msgid ""
-"You need to launch System Preferences and allow Strawberry to \"<span "
-"style=\"font-style:italic\">control your computer</span>\" to use global "
-"shortcuts in Strawberry."
-msgstr ""
-
-msgid "Shortcut"
-msgstr ""
-
-msgctxt "Category label"
-msgid "Action"
-msgstr ""
-
-msgid "&None"
-msgstr ""
-
-msgid "&Default"
-msgstr ""
-
-msgid "&Custom"
-msgstr ""
-
-msgid "Change shortcut..."
-msgstr ""
-
-msgid "Device Properties"
-msgstr ""
-
-msgid "Icon"
-msgstr ""
-
-msgid "Hardware information"
-msgstr ""
-
-msgid "Hardware information is only available while the device is connected."
-msgstr ""
-
-msgid "Information"
-msgstr ""
-
-msgid "Supported formats"
-msgstr ""
-
-msgid "This device supports the following file formats:"
-msgstr ""
-
-msgid ""
-"Strawberry can automatically convert the music you copy to this device into "
-"a format that it can play."
-msgstr ""
-
-msgid "Do not convert any music"
-msgstr ""
-
-msgid "Convert any music that the device can't play"
-msgstr ""
-
-msgid "Convert all music"
-msgstr ""
-
-msgid "Preferred format"
-msgstr ""
-
-msgid ""
-"This device must be connected and opened before Strawberry can see what file "
-"formats it supports."
-msgstr ""
-
-msgid "Open device"
-msgstr ""
-
-msgid "Querying device..."
-msgstr ""
-
-msgid "File formats"
-msgstr ""
-
 msgid "Transcode Music"
 msgstr ""
 
@@ -4316,36 +4250,102 @@ msgstr ""
 msgid "Force mono encoding"
 msgstr ""
 
-msgid "Transcoding"
+msgid "Press a key"
+msgstr ""
+
+msgid "Global Shortcuts"
+msgstr ""
+
+msgid "Use Gnome (GSD) shortcuts when available"
+msgstr ""
+
+msgid "Open..."
+msgstr ""
+
+msgid "Use MATE shortcuts when available"
+msgstr ""
+
+msgid "Use KDE (KGlobalAccel) shortcuts when available"
+msgstr ""
+
+msgid "Use X11 shortcuts when available"
 msgstr ""
 
 msgid ""
-"These settings are used in the \"Transcode Music\" dialog, and when "
-"converting music before copying it to a device."
+"You need to launch System Preferences and allow Strawberry to \"<span "
+"style=\"font-style:italic\">control your computer</span>\" to use global "
+"shortcuts in Strawberry."
 msgstr ""
 
-msgid "FLAC"
+msgid "Shortcut"
 msgstr ""
 
-msgid "WavPack"
+msgctxt "Category label"
+msgid "Action"
 msgstr ""
 
-msgid "Vorbis"
+msgid "&None"
 msgstr ""
 
-msgid "Opus"
+msgid "&Default"
 msgstr ""
 
-msgid "Speex"
+msgid "&Custom"
 msgstr ""
 
-msgid "AAC"
+msgid "Change shortcut..."
 msgstr ""
 
-msgid "ASF (WMA)"
+msgid "Device Properties"
 msgstr ""
 
-msgid "MP3"
+msgid "Icon"
+msgstr ""
+
+msgid "Hardware information"
+msgstr ""
+
+msgid "Hardware information is only available while the device is connected."
+msgstr ""
+
+msgid "Information"
+msgstr ""
+
+msgid "Supported formats"
+msgstr ""
+
+msgid "This device supports the following file formats:"
+msgstr ""
+
+msgid ""
+"Strawberry can automatically convert the music you copy to this device into "
+"a format that it can play."
+msgstr ""
+
+msgid "Do not convert any music"
+msgstr ""
+
+msgid "Convert any music that the device can't play"
+msgstr ""
+
+msgid "Convert all music"
+msgstr ""
+
+msgid "Preferred format"
+msgstr ""
+
+msgid ""
+"This device must be connected and opened before Strawberry can see what file "
+"formats it supports."
+msgstr ""
+
+msgid "Open device"
+msgstr ""
+
+msgid "Querying device..."
+msgstr ""
+
+msgid "File formats"
 msgstr ""
 
 msgid "Server URL"

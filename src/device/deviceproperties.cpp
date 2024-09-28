@@ -54,9 +54,7 @@
 #include "devicelister.h"
 #include "devicemanager.h"
 #include "deviceproperties.h"
-#ifdef HAVE_GSTREAMER
-#  include "transcoder/transcoder.h"
-#endif
+#include "transcoder/transcoder.h"
 #include "ui_deviceproperties.h"
 
 DeviceProperties::DeviceProperties(QWidget *parent)
@@ -103,14 +101,12 @@ void DeviceProperties::ShowDevice(const QModelIndex &idx) {
       item->setData(Qt::UserRole, icon_name);
     }
 
-#ifdef HAVE_GSTREAMER
     // Load the transcode formats the first time the dialog is shown
     const QList<TranscoderPreset> presets = Transcoder::GetAllPresets();
     for (const TranscoderPreset &preset : presets) {
       ui_->transcode_format->addItem(preset.name_, QVariant::fromValue(preset.filetype_));
     }
     ui_->transcode_format->model()->sort(0);
-#endif
   }
 
   index_ = idx;
@@ -310,7 +306,6 @@ void DeviceProperties::UpdateFormatsFinished() {
   }
   ui_->supported_formats->sortItems();
 
-#ifdef HAVE_GSTREAMER
   // Set the format combobox item
   TranscoderPreset preset = Transcoder::PresetForFileType(static_cast<Song::FileType>(index_.data(DeviceManager::Role_TranscodeFormat).toInt()));
   if (preset.filetype_ == Song::FileType::Unknown) {
@@ -319,7 +314,6 @@ void DeviceProperties::UpdateFormatsFinished() {
     preset = Transcoder::PresetForFileType(Transcoder::PickBestFormat(supported_formats_));
   }
   ui_->transcode_format->setCurrentIndex(ui_->transcode_format->findText(preset.name_));
-#endif
 
   ui_->formats_stack->setCurrentWidget(ui_->formats_page);
 

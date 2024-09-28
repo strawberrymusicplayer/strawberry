@@ -88,9 +88,7 @@ class SystemTrayIcon;
 class TagFetcher;
 #endif
 class TrackSelectionDialog;
-#ifdef HAVE_GSTREAMER
 class TranscodeDialog;
-#endif
 class Ui_MainWindow;
 class StreamingSongsView;
 class StreamingTabsView;
@@ -322,9 +320,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   Lazy<AlbumCoverManager> cover_manager_;
   SharedPtr<Equalizer> equalizer_;
   Lazy<OrganizeDialog> organize_dialog_;
-#ifdef HAVE_GSTREAMER
   Lazy<TranscodeDialog> transcode_dialog_;
-#endif
   Lazy<AddStreamDialog> add_stream_dialog_;
 
 #ifdef HAVE_MUSICBRAINZ

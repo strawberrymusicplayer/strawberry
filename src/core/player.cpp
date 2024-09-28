@@ -49,14 +49,8 @@
 
 #include "engine/enginebase.h"
 #include "engine/enginemetadata.h"
-
-#ifdef HAVE_GSTREAMER
-#  include "engine/gstengine.h"
-#  include "engine/gststartup.h"
-#endif
-#ifdef HAVE_VLC
-#  include "engine/vlcengine.h"
-#endif
+#include "engine/gstengine.h"
+#include "engine/gststartup.h"
 
 #include "collection/collectionbackend.h"
 #include "playlist/playlist.h"
@@ -79,9 +73,7 @@ Player::Player(Application *app, QObject *parent)
     : PlayerInterface(parent),
       app_(app),
       engine_(nullptr),
-#ifdef HAVE_GSTREAMER
       gst_startup_(new GstStartup(this)),
-#endif
       analyzer_(nullptr),
       equalizer_(nullptr),
       timer_save_volume_(new QTimer(this)),
@@ -124,7 +116,6 @@ EngineBase::Type Player::CreateEngine(EngineBase::Type enginetype) {
   for (int i = 0; use_enginetype == EngineBase::Type::None; i++) {
     switch (enginetype) {
       case EngineBase::Type::None:
-#ifdef HAVE_GSTREAMER
       case EngineBase::Type::GStreamer:{
         use_enginetype=EngineBase::Type::GStreamer;
         ScopedPtr<GstEngine> gst_engine(new GstEngine(app_->task_manager()));
@@ -132,13 +123,6 @@ EngineBase::Type Player::CreateEngine(EngineBase::Type enginetype) {
         engine_.reset(gst_engine.release());
         break;
       }
-#endif
-#ifdef HAVE_VLC
-      case EngineBase::Type::VLC:
-        use_enginetype = EngineBase::Type::VLC;
-        engine_ = make_shared<VLCEngine>(app_->task_manager());
-        break;
-#endif
       default:
         if (i > 0) {
           qFatal("No engine available!");

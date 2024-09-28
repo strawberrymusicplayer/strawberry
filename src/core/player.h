@@ -44,9 +44,7 @@ class Application;
 class Song;
 class AnalyzerContainer;
 class Equalizer;
-#ifdef HAVE_GSTREAMER
 class GstStartup;
-#endif
 
 class PlayerInterface : public QObject {
   Q_OBJECT
@@ -228,9 +226,7 @@ class Player : public PlayerInterface {
  private:
   Application *app_;
   SharedPtr<EngineBase> engine_;
-#ifdef HAVE_GSTREAMER
   GstStartup *gst_startup_;
-#endif
   AnalyzerContainer *analyzer_;
   SharedPtr<Equalizer> equalizer_;
   QTimer *timer_save_volume_;

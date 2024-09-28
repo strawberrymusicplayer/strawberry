@@ -45,9 +45,7 @@ class QTimerEvent;
 
 class MusicStorage;
 class TaskManager;
-#ifdef HAVE_GSTREAMER
 class Transcoder;
-#endif
 
 class Organize : public QObject {
   Q_OBJECT
@@ -83,9 +81,7 @@ class Organize : public QObject {
  private:
   void SetSongProgress(float progress, bool transcoded = false);
   void UpdateProgress();
-#ifdef HAVE_GSTREAMER
   Song::FileType CheckTranscode(Song::FileType original_type) const;
-#endif
 
  private:
   struct Task {
@@ -103,9 +99,7 @@ class Organize : public QObject {
   QThread *thread_;
   QThread *original_thread_;
   SharedPtr<TaskManager> task_manager_;
-#ifdef HAVE_GSTREAMER
   Transcoder *transcoder_;
-#endif
   QTimer *process_files_timer_;
   SharedPtr<MusicStorage> destination_;
   QList<Song::FileType> supported_filetypes_;

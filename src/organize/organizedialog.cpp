@@ -72,9 +72,7 @@
 #include "organizedialog.h"
 #include "organizeerrordialog.h"
 #include "ui_organizedialog.h"
-#ifdef HAVE_GSTREAMER
-#  include "transcoder/transcoder.h"
-#endif
+#include "transcoder/transcoder.h"
 
 using std::make_unique;
 
@@ -522,13 +520,11 @@ void OrganizeDialog::UpdatePreviews() {
 
   if (ok) {
     QString extension;
-#ifdef HAVE_GSTREAMER
     if (storage && storage->GetTranscodeMode() == MusicStorage::TranscodeMode::Transcode_Always) {
       const Song::FileType format = storage->GetTranscodeFormat();
       TranscoderPreset preset = Transcoder::PresetForFileType(format);
       extension = preset.extension_;
     }
-#endif
     new_songs_info_ = ComputeNewSongsFilenames(songs_, format_, extension);
     if (new_songs_info_.isEmpty()) {
       ok = false;

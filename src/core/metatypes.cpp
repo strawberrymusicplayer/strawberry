@@ -23,10 +23,8 @@
 
 #include "metatypes.h"
 
-#ifdef HAVE_GSTREAMER
-#  include <gst/gstbuffer.h>
-#  include <gst/gstelement.h>
-#endif
+#include <gst/gstbuffer.h>
+#include <gst/gstelement.h>
 
 #include <QAbstractSocket>
 #include <QMetaType>
@@ -47,9 +45,7 @@
 
 #include "engine/enginebase.h"
 #include "engine/enginemetadata.h"
-#ifdef HAVE_GSTREAMER
-#  include "engine/gstenginepipeline.h"
-#endif
+#include "engine/gstenginepipeline.h"
 #include "collection/collectiondirectory.h"
 #include "playlist/playlistitem.h"
 #include "playlist/playlistsequence.h"
@@ -103,12 +99,10 @@ void RegisterMetaTypes() {
   qRegisterMetaType<EngineBase::TrackChangeFlags>("EngineBase::TrackChangeFlags");
   qRegisterMetaType<EngineBase::OutputDetails>("EngineBase::OutputDetails");
   qRegisterMetaType<EngineMetadata>("EngineMetadata");
-#ifdef HAVE_GSTREAMER
   qRegisterMetaType<GstBuffer*>("GstBuffer*");
   qRegisterMetaType<GstElement*>("GstElement*");
   qRegisterMetaType<GstState>("GstState");
   qRegisterMetaType<GstEnginePipeline*>("GstEnginePipeline*");
-#endif
   qRegisterMetaType<CollectionDirectory>("CollectionDirectory");
   qRegisterMetaType<CollectionDirectoryList>("CollectionDirectoryList");
   qRegisterMetaType<CollectionSubdirectory>("CollectionSubdirectory");

@@ -23,9 +23,7 @@
 
 #include <algorithm>
 
-#ifdef HAVE_GSTREAMER
-#  include <gst/gst.h>
-#endif
+#include <gst/gst.h>
 
 #include <QObject>
 #include <QIODevice>
@@ -58,7 +56,7 @@
 #include "playlistparsers/parserbase.h"
 #include "playlistparsers/playlistparser.h"
 
-#if defined(HAVE_AUDIOCD) && defined(HAVE_GSTREAMER)
+#ifdef HAVE_AUDIOCD
 #  include "device/cddasongloader.h"
 #endif
 
@@ -78,10 +76,8 @@ SongLoader::SongLoader(SharedPtr<CollectionBackendInterface> collection_backend,
       parser_(nullptr),
       state_(State::WaitingForType),
       timeout_(kDefaultTimeout),
-#ifdef HAVE_GSTREAMER
       fakesink_(nullptr),
       buffer_probe_cb_id_(0),
-#endif
       success_(false) {
 
   if (sRawUriSchemes.isEmpty()) {
@@ -104,9 +100,7 @@ SongLoader::SongLoader(SharedPtr<CollectionBackendInterface> collection_backend,
 
 SongLoader::~SongLoader() {
 
-#ifdef HAVE_GSTREAMER
   CleanupPipeline();
-#endif
 
 }
 
@@ -128,13 +122,8 @@ SongLoader::Result SongLoader::Load(const QUrl &url) {
   }
 
   if (player_->engine()->type() == EngineBase::Type::GStreamer) {
-#ifdef HAVE_GSTREAMER
     preload_func_ = std::bind(&SongLoader::LoadRemote, this);
     return Result::BlockingLoadRequired;
-#else
-    errors_ << tr("You need GStreamer for this URL.");
-    return Result::Error;
-#endif
   }
   else {
     errors_ << tr("You need GStreamer for this URL.");
@@ -193,7 +182,7 @@ SongLoader::Result SongLoader::LoadLocalPartial(const QString &filename) {
 
 SongLoader::Result SongLoader::LoadAudioCD() {
 
-#if defined(HAVE_AUDIOCD) && defined(HAVE_GSTREAMER)
+#ifdef HAVE_AUDIOCD
   if (player_->engine()->type() == EngineBase::Type::GStreamer) {
     CddaSongLoader *cdda_song_loader = new CddaSongLoader(QUrl(), this);
     QObject::connect(cdda_song_loader, &CddaSongLoader::SongsDurationLoaded, this, &SongLoader::AudioCDTracksLoadFinishedSlot);
@@ -205,13 +194,13 @@ SongLoader::Result SongLoader::LoadAudioCD() {
 #endif
     errors_ << tr("CD playback is only available with the GStreamer engine.");
     return Result::Error;
-#if defined(HAVE_AUDIOCD) && defined(HAVE_GSTREAMER)
+#ifdef HAVE_AUDIOCD
   }
 #endif
 
 }
 
-#if defined(HAVE_AUDIOCD) && defined(HAVE_GSTREAMER)
+#ifdef HAVE_AUDIOCD
 
 void SongLoader::AudioCDTracksLoadFinishedSlot(const SongList &songs, const QString &error) {
 
@@ -436,13 +425,12 @@ void SongLoader::Timeout() {
 
 void SongLoader::StopTypefind() {
 
-#ifdef HAVE_GSTREAMER
   // Destroy the pipeline
   if (pipeline_) {
     gst_element_set_state(&*pipeline_, GST_STATE_NULL);
     CleanupPipeline();
   }
-#endif
+
   timeout_timer_->stop();
 
   if (success_ && parser_) {
@@ -467,7 +455,6 @@ void SongLoader::StopTypefind() {
 
 }
 
-#ifdef HAVE_GSTREAMER
 SongLoader::Result SongLoader::LoadRemote() {
 
   qLog(Debug) << "Loading remote file" << url_;
@@ -542,9 +529,7 @@ SongLoader::Result SongLoader::LoadRemote() {
   return Result::Success;
 
 }
-#endif
 
-#ifdef HAVE_GSTREAMER
 void SongLoader::TypeFound(GstElement *typefind, const uint probability, GstCaps *caps, void *self) {
 
   Q_UNUSED(typefind)
@@ -567,9 +552,7 @@ void SongLoader::TypeFound(GstElement *typefind, const uint probability, GstCaps
   instance->StopTypefindAsync(true);
 
 }
-#endif
 
-#ifdef HAVE_GSTREAMER
 GstPadProbeReturn SongLoader::DataReady(GstPad *pad, GstPadProbeInfo *info, gpointer self) {
 
   Q_UNUSED(pad)
@@ -595,10 +578,9 @@ GstPadProbeReturn SongLoader::DataReady(GstPad *pad, GstPadProbeInfo *info, gpoi
   }
 
   return GST_PAD_PROBE_OK;
-}
-#endif
 
-#ifdef HAVE_GSTREAMER
+}
+
 gboolean SongLoader::BusWatchCallback(GstBus *bus, GstMessage *msg, gpointer self) {
 
   Q_UNUSED(bus)
@@ -615,10 +597,9 @@ gboolean SongLoader::BusWatchCallback(GstBus *bus, GstMessage *msg, gpointer sel
   }
 
   return TRUE;
-}
-#endif
 
-#ifdef HAVE_GSTREAMER
+}
+
 GstBusSyncReply SongLoader::BusCallbackSync(GstBus *bus, GstMessage *msg, gpointer self) {
 
   Q_UNUSED(bus)
@@ -637,11 +618,11 @@ GstBusSyncReply SongLoader::BusCallbackSync(GstBus *bus, GstMessage *msg, gpoint
     default:
       break;
   }
-  return GST_BUS_PASS;
-}
-#endif
 
-#ifdef HAVE_GSTREAMER
+  return GST_BUS_PASS;
+
+}
+
 void SongLoader::ErrorMessageReceived(GstMessage *msg) {
 
   if (state_ == State::Finished) return;
@@ -667,9 +648,7 @@ void SongLoader::ErrorMessageReceived(GstMessage *msg) {
   StopTypefindAsync(false);
 
 }
-#endif
 
-#ifdef HAVE_GSTREAMER
 void SongLoader::EndOfStreamReached() {
 
   qLog(Debug) << Q_FUNC_INFO << static_cast<int>(state_);
@@ -696,9 +675,7 @@ void SongLoader::EndOfStreamReached() {
   }
 
 }
-#endif
 
-#ifdef HAVE_GSTREAMER
 void SongLoader::MagicReady() {
 
   qLog(Debug) << Q_FUNC_INFO;
@@ -730,9 +707,7 @@ void SongLoader::MagicReady() {
   }
 
 }
-#endif
 
-#ifdef HAVE_GSTREAMER
 bool SongLoader::IsPipelinePlaying() {
 
   GstState state = GST_STATE_NULL;
@@ -746,9 +721,7 @@ bool SongLoader::IsPipelinePlaying() {
   return state == GST_STATE_PLAYING;
 
 }
-#endif
 
-#ifdef HAVE_GSTREAMER
 void SongLoader::StopTypefindAsync(const bool success) {
 
   state_ = State::Finished;
@@ -757,7 +730,6 @@ void SongLoader::StopTypefindAsync(const bool success) {
   QMetaObject::invokeMethod(this, &SongLoader::StopTypefind, Qt::QueuedConnection);
 
 }
-#endif
 
 void SongLoader::ScheduleTimeoutAsync() {
 
@@ -775,8 +747,6 @@ void SongLoader::ScheduleTimeout() {
   timeout_timer_->start(timeout_);
 
 }
-
-#ifdef HAVE_GSTREAMER
 
 void SongLoader::CleanupPipeline() {
 
@@ -809,4 +779,3 @@ void SongLoader::CleanupPipeline() {
 
 }
 
-#endif

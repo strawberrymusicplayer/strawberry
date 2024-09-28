@@ -86,7 +86,6 @@ EngineBase::~EngineBase() = default;
 EngineBase::Type EngineBase::TypeFromName(const QString &name) {
 
   if (name.compare("gstreamer"_L1, Qt::CaseInsensitive) == 0) return Type::GStreamer;
-  if (name.compare("vlc"_L1, Qt::CaseInsensitive) == 0)  return Type::VLC;
 
   return Type::None;
 
@@ -96,7 +95,6 @@ QString EngineBase::Name(const Type type) {
 
   switch (type) {
     case Type::GStreamer:  return QStringLiteral("gstreamer");
-    case Type::VLC:        return QStringLiteral("vlc");
     case Type::None:
     default:               return QStringLiteral("None");
   }
@@ -107,7 +105,6 @@ QString EngineBase::Description(const Type type) {
 
   switch (type) {
     case Type::GStreamer:  return QStringLiteral("GStreamer");
-    case Type::VLC:        return QStringLiteral("VLC");
     case Type::None:
     default:               return QStringLiteral("None");
   }

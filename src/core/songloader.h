@@ -27,10 +27,7 @@
 #include <memory>
 #include <functional>
 #include <glib.h>
-
-#ifdef HAVE_GSTREAMER
-#  include <gst/gst.h>
-#endif
+#include <gst/gst.h>
 
 #include <QtGlobal>
 #include <QObject>
@@ -51,7 +48,7 @@ class PlaylistParser;
 class ParserBase;
 class CueParser;
 
-#if defined(HAVE_AUDIOCD) && defined(HAVE_GSTREAMER)
+#ifdef HAVE_AUDIOCD
 class CddaSongLoader;
 #endif
 
@@ -95,10 +92,10 @@ class SongLoader : public QObject {
   void ScheduleTimeout();
   void Timeout();
   void StopTypefind();
-#if defined(HAVE_AUDIOCD) && defined(HAVE_GSTREAMER)
+#ifdef HAVE_AUDIOCD
   void AudioCDTracksLoadFinishedSlot(const SongList &songs, const QString &error);
   void AudioCDTracksTagsLoaded(const SongList &songs);
-#endif  // HAVE_AUDIOCD && HAVE_GSTREAMER
+#endif  // HAVE_AUDIOCD
 
  private:
   enum class State {
@@ -117,7 +114,6 @@ class SongLoader : public QObject {
 
   void AddAsRawStream();
 
-#ifdef HAVE_GSTREAMER
   Result LoadRemote();
 
   // GStreamer callbacks
@@ -132,7 +128,6 @@ class SongLoader : public QObject {
   bool IsPipelinePlaying();
   void StopTypefindAsync(const bool success);
   void CleanupPipeline();
-#endif
 
   void ScheduleTimeoutAsync();
 
@@ -156,11 +151,9 @@ class SongLoader : public QObject {
   State state_;
   int timeout_;
 
-#ifdef HAVE_GSTREAMER
   SharedPtr<GstElement> pipeline_;
   GstElement *fakesink_;
   gulong buffer_probe_cb_id_;
-#endif
 
   QThreadPool thread_pool_;
   QStringList errors_;

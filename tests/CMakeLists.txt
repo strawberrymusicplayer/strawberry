@@ -47,9 +47,9 @@ target_include_directories(test_gui_main PRIVATE
   ${CMAKE_BINARY_DIR}/src
   ${CMAKE_SOURCE_DIR}/src
 )
-if(HAVE_GSTREAMER)
-  target_include_directories(test_gui_main SYSTEM PRIVATE ${GSTREAMER_INCLUDE_DIRS})
-endif()
+
+target_include_directories(test_gui_main SYSTEM PRIVATE ${GSTREAMER_INCLUDE_DIRS})
+
 target_link_libraries(test_gui_main PRIVATE strawberry_lib)
 set_target_properties(test_gui_main PROPERTIES COMPILE_DEFINITIONS GUI)
 

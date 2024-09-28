@@ -141,13 +141,12 @@ if(UNIX)
   pkg_check_modules(GIO_UNIX gio-unix-2.0)
 endif()
 pkg_check_modules(LIBCDIO libcdio)
-pkg_check_modules(GSTREAMER gstreamer-1.0)
-pkg_check_modules(GSTREAMER_BASE gstreamer-base-1.0)
-pkg_check_modules(GSTREAMER_AUDIO gstreamer-audio-1.0)
-pkg_check_modules(GSTREAMER_APP gstreamer-app-1.0)
-pkg_check_modules(GSTREAMER_TAG gstreamer-tag-1.0)
-pkg_check_modules(GSTREAMER_PBUTILS gstreamer-pbutils-1.0)
-pkg_check_modules(LIBVLC libvlc)
+pkg_check_modules(GSTREAMER REQUIRED gstreamer-1.0)
+pkg_check_modules(GSTREAMER_BASE REQUIRED gstreamer-base-1.0)
+pkg_check_modules(GSTREAMER_AUDIO REQUIRED gstreamer-audio-1.0)
+pkg_check_modules(GSTREAMER_APP REQUIRED gstreamer-app-1.0)
+pkg_check_modules(GSTREAMER_TAG REQUIRED gstreamer-tag-1.0)
+pkg_check_modules(GSTREAMER_PBUTILS REQUIRED gstreamer-pbutils-1.0)
 pkg_check_modules(SQLITE REQUIRED sqlite3>=3.9)
 pkg_check_modules(LIBPULSE libpulse)
 pkg_check_modules(CHROMAPRINT libchromaprint>=1.4)
@@ -290,18 +289,12 @@ optional_component(GSTREAMER ON "Engine: GStreamer backend"
   DEPENDS "gstreamer-pbutils-1.0" GSTREAMER_PBUTILS_FOUND
 )
 
-optional_component(VLC ON "Engine: VLC backend"
-  DEPENDS "libvlc" LIBVLC_FOUND
-)
-
 optional_component(SONGFINGERPRINTING ON "Song fingerprinting and tracking"
   DEPENDS "chromaprint" CHROMAPRINT_FOUND
-  DEPENDS "gstreamer" HAVE_GSTREAMER
 )
 
 optional_component(MUSICBRAINZ ON "MusicBrainz integration"
   DEPENDS "chromaprint" CHROMAPRINT_FOUND
-  DEPENDS "gstreamer" HAVE_GSTREAMER
 )
 
 if(X11_FOUND OR (HAVE_DBUS AND Qt${QT_VERSION_MAJOR}DBus_FOUND) OR APPLE OR WIN32)
@@ -319,7 +312,6 @@ optional_component(X11_GLOBALSHORTCUTS ON "X11 global shortcuts"
 
 optional_component(AUDIOCD ON "Devices: Audio CD support"
   DEPENDS "libcdio" LIBCDIO_FOUND
-  DEPENDS "gstreamer" HAVE_GSTREAMER
 )
 
 optional_component(UDISKS2 ON "Devices: UDisks2 backend"
@@ -360,12 +352,10 @@ optional_component(QOBUZ ON "Streaming: Qobuz")
 
 optional_component(MOODBAR ON "Moodbar"
   DEPENDS "fftw3" FFTW3_FOUND
-  DEPENDS "gstreamer" HAVE_GSTREAMER
 )
 
 optional_component(EBUR128 ON "EBU R 128 loudness normalization"
   DEPENDS "libebur128" LIBEBUR128_FOUND
-  DEPENDS "gstreamer" HAVE_GSTREAMER
 )
 
 if(APPLE OR WIN32)
@@ -437,11 +427,6 @@ add_custom_target(uninstall "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/c
 
 # Show a summary of what we have enabled
 summary_show()
-if(NOT HAVE_GSTREAMER AND NOT HAVE_VLC)
-  message(FATAL_ERROR "You need to have either GStreamer or libvlc to compile!")
-elseif(NOT HAVE_GSTREAMER)
-  message(WARNING "GStreamer is the only engine that is fully implemented. Using other engines is possible but not recommended.")
-endif()
 
 if(NOT CMAKE_CROSSCOMPILING)
   if(NOT QT_SQLITE_TEST)

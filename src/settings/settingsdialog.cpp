@@ -140,9 +140,7 @@ SettingsDialog::SettingsDialog(Application *app, OSDBase *osd, QMainWindow *main
   AddPage(Page::Scrobbler, new ScrobblerSettingsPage(this, this), general);
   AddPage(Page::Covers, new CoversSettingsPage(this, this), general);
   AddPage(Page::Lyrics, new LyricsSettingsPage(this, this), general);
-#ifdef HAVE_GSTREAMER
   AddPage(Page::Transcoding, new TranscoderSettingsPage(this, this), general);
-#endif
   AddPage(Page::Proxy, new NetworkProxySettingsPage(this, this), general);
 
   QTreeWidgetItem *iface = AddCategory(tr("User interface"));

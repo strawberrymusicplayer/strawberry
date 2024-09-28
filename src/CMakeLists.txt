@@ -92,6 +92,9 @@ set(SOURCES
   engine/devicefinders.cpp
   engine/devicefinder.cpp
   engine/enginemetadata.cpp
+  engine/gststartup.cpp
+  engine/gstengine.cpp
+  engine/gstenginepipeline.cpp
 
   analyzer/fht.cpp
   analyzer/analyzerbase.cpp
@@ -246,6 +249,7 @@ set(SOURCES
   settings/appearancesettingspage.cpp
   settings/contextsettingspage.cpp
   settings/notificationssettingspage.cpp
+  settings/transcodersettingspage.cpp
 
   dialogs/about.cpp
   dialogs/console.cpp
@@ -337,6 +341,18 @@ set(SOURCES
   organize/organizedialog.cpp
   organize/organizeerrordialog.cpp
 
+  transcoder/transcoder.cpp
+  transcoder/transcoderoptionsinterface.cpp
+  transcoder/transcodedialog.cpp
+  transcoder/transcoderoptionsdialog.cpp
+  transcoder/transcoderoptionsflac.cpp
+  transcoder/transcoderoptionswavpack.cpp
+  transcoder/transcoderoptionsvorbis.cpp
+  transcoder/transcoderoptionsopus.cpp
+  transcoder/transcoderoptionsspeex.cpp
+  transcoder/transcoderoptionsaac.cpp
+  transcoder/transcoderoptionsasf.cpp
+  transcoder/transcoderoptionsmp3.cpp
 )
 
 set(HEADERS
@@ -373,6 +389,9 @@ set(HEADERS
 
   engine/enginebase.h
   engine/devicefinders.h
+  engine/gststartup.h
+  engine/gstengine.h
+  engine/gstenginepipeline.h
 
   analyzer/analyzerbase.h
   analyzer/analyzercontainer.h
@@ -510,6 +529,7 @@ set(HEADERS
   settings/appearancesettingspage.h
   settings/contextsettingspage.h
   settings/notificationssettingspage.h
+  settings/transcodersettingspage.h
 
   dialogs/about.h
   dialogs/errordialog.h
@@ -595,6 +615,18 @@ set(HEADERS
   organize/organizedialog.h
   organize/organizeerrordialog.h
 
+  transcoder/transcoder.h
+  transcoder/transcodedialog.h
+  transcoder/transcoderoptionsdialog.h
+  transcoder/transcoderoptionsinterface.h
+  transcoder/transcoderoptionsflac.h
+  transcoder/transcoderoptionswavpack.h
+  transcoder/transcoderoptionsvorbis.h
+  transcoder/transcoderoptionsopus.h
+  transcoder/transcoderoptionsspeex.h
+  transcoder/transcoderoptionsaac.h
+  transcoder/transcoderoptionsasf.h
+  transcoder/transcoderoptionsmp3.h
 )
 
 set(UI
@@ -639,6 +671,7 @@ set(UI
   settings/networkproxysettingspage.ui
   settings/appearancesettingspage.ui
   settings/notificationssettingspage.ui
+  settings/transcodersettingspage.ui
 
   equalizer/equalizer.ui
   equalizer/equalizerslider.ui
@@ -669,6 +702,17 @@ set(UI
   organize/organizedialog.ui
   organize/organizeerrordialog.ui
 
+  transcoder/transcodedialog.ui
+  transcoder/transcodelogdialog.ui
+  transcoder/transcoderoptionsaac.ui
+  transcoder/transcoderoptionsdialog.ui
+  transcoder/transcoderoptionsflac.ui
+  transcoder/transcoderoptionswavpack.ui
+  transcoder/transcoderoptionsvorbis.ui
+  transcoder/transcoderoptionsopus.ui
+  transcoder/transcoderoptionsspeex.ui
+  transcoder/transcoderoptionsasf.ui
+  transcoder/transcoderoptionsmp3.ui
 )
 
 set(RESOURCES ../data/data.qrc ../data/icons.qrc)
@@ -705,15 +749,6 @@ optional_source(HAVE_ALSA SOURCES engine/alsadevicefinder.cpp engine/alsapcmdevi
 
 # DBUS
 optional_source(HAVE_DBUS SOURCES osd/osddbus.cpp HEADERS osd/osddbus.h)
-
-# GStreamer
-optional_source(HAVE_GSTREAMER
-  SOURCES engine/gststartup.cpp engine/gstengine.cpp engine/gstenginepipeline.cpp
-  HEADERS engine/gststartup.h engine/gstengine.h engine/gstenginepipeline.h
-)
-
-# VLC
-optional_source(HAVE_VLC SOURCES engine/vlcengine.cpp HEADERS engine/vlcengine.h)
 
 # DBUS and MPRIS - Unix specific
 if(UNIX AND HAVE_DBUS)
@@ -811,51 +846,6 @@ optional_source(HAVE_LIBMTP
 
 # Pulse audio integration
 optional_source(HAVE_LIBPULSE SOURCES engine/pulsedevicefinder.cpp)
-
-# Transcoder require GStreamer
-optional_source(HAVE_GSTREAMER
-SOURCES
-  transcoder/transcoder.cpp
-  transcoder/transcoderoptionsinterface.cpp
-  transcoder/transcodedialog.cpp
-  transcoder/transcoderoptionsdialog.cpp
-  transcoder/transcoderoptionsflac.cpp
-  transcoder/transcoderoptionswavpack.cpp
-  transcoder/transcoderoptionsvorbis.cpp
-  transcoder/transcoderoptionsopus.cpp
-  transcoder/transcoderoptionsspeex.cpp
-  transcoder/transcoderoptionsaac.cpp
-  transcoder/transcoderoptionsasf.cpp
-  transcoder/transcoderoptionsmp3.cpp
-  settings/transcodersettingspage.cpp
-HEADERS
-  transcoder/transcoder.h
-  transcoder/transcodedialog.h
-  transcoder/transcoderoptionsdialog.h
-  transcoder/transcoderoptionsinterface.h
-  transcoder/transcoderoptionsflac.h
-  transcoder/transcoderoptionswavpack.h
-  transcoder/transcoderoptionsvorbis.h
-  transcoder/transcoderoptionsopus.h
-  transcoder/transcoderoptionsspeex.h
-  transcoder/transcoderoptionsaac.h
-  transcoder/transcoderoptionsasf.h
-  transcoder/transcoderoptionsmp3.h
-  settings/transcodersettingspage.h
-UI
-  transcoder/transcodedialog.ui
-  transcoder/transcodelogdialog.ui
-  transcoder/transcoderoptionsaac.ui
-  transcoder/transcoderoptionsdialog.ui
-  transcoder/transcoderoptionsflac.ui
-  transcoder/transcoderoptionswavpack.ui
-  transcoder/transcoderoptionsvorbis.ui
-  transcoder/transcoderoptionsopus.ui
-  transcoder/transcoderoptionsspeex.ui
-  transcoder/transcoderoptionsasf.ui
-  transcoder/transcoderoptionsmp3.ui
-  settings/transcodersettingspage.ui
-)
 
 # CHROMAPRINT
 if(HAVE_SONGFINGERPRINTING OR HAVE_MUSICBRAINZ)
@@ -1081,6 +1071,13 @@ add_library(strawberry_lib STATIC
   ${OTHER_UIC_SOURCES}
 )
 
+target_include_directories(strawberry_lib PUBLIC
+  ${CMAKE_SOURCE_DIR}
+  ${CMAKE_BINARY_DIR}
+  ${CMAKE_CURRENT_BINARY_DIR}
+  ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
 target_include_directories(strawberry_lib SYSTEM PUBLIC
   ${Boost_INCLUDE_DIRS}
   ${GLIB_INCLUDE_DIRS}
@@ -1088,19 +1085,18 @@ target_include_directories(strawberry_lib SYSTEM PUBLIC
   ${SQLITE_INCLUDE_DIRS}
   ${ICU_INCLUDE_DIRS}
   ${TAGLIB_INCLUDE_DIRS}
+  ${GSTREAMER_INCLUDE_DIRS}
+  ${GSTREAMER_BASE_INCLUDE_DIRS}
+  ${GSTREAMER_APP_INCLUDE_DIRS}
+  ${GSTREAMER_AUDIO_INCLUDE_DIRS}
+  ${GSTREAMER_TAG_INCLUDE_DIRS}
+  ${GSTREAMER_PBUTILS_INCLUDE_DIRS}
+  ${SINGLEAPPLICATION_INCLUDE_DIRS}
 )
 
 if(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)
   target_include_directories(strawberry_lib SYSTEM PUBLIC ${Qt${QT_VERSION_MAJOR}Gui_PRIVATE_INCLUDE_DIRS})
 endif()
-
-target_include_directories(strawberry_lib PUBLIC
-  ${CMAKE_SOURCE_DIR}
-  ${CMAKE_BINARY_DIR}
-  ${CMAKE_CURRENT_BINARY_DIR}
-  ${CMAKE_CURRENT_SOURCE_DIR}
-  ${SINGLEAPPLICATION_INCLUDE_DIRS}
-)
 
 target_link_directories(strawberry_lib PUBLIC
   ${Boost_LIBRARY_DIRS}
@@ -1110,6 +1106,12 @@ target_link_directories(strawberry_lib PUBLIC
   ${SINGLEAPPLICATION_LIBRARY_DIRS}
   ${ICU_LIBRARY_DIRS}
   ${TAGLIB_LIBRARY_DIRS}
+  ${GSTREAMER_LIBRARY_DIRS}
+  ${GSTREAMER_BASE_LIBRARY_DIRS}
+  ${GSTREAMER_APP_LIBRARY_DIRS}
+  ${GSTREAMER_AUDIO_LIBRARY_DIRS}
+  ${GSTREAMER_TAG_LIBRARY_DIRS}
+  ${GSTREAMER_PBUTILS_LIBRARY_DIRS}
 )
 
 target_link_libraries(strawberry_lib PUBLIC
@@ -1119,6 +1121,12 @@ target_link_libraries(strawberry_lib PUBLIC
   ${SQLITE_LIBRARIES}
   ${ICU_LIBRARIES}
   ${TAGLIB_LIBRARIES}
+  ${GSTREAMER_LIBRARIES}
+  ${GSTREAMER_BASE_LIBRARIES}
+  ${GSTREAMER_AUDIO_LIBRARIES}
+  ${GSTREAMER_APP_LIBRARIES}
+  ${GSTREAMER_TAG_LIBRARIES}
+  ${GSTREAMER_PBUTILS_LIBRARIES}
   Qt${QT_VERSION_MAJOR}::Core
   Qt${QT_VERSION_MAJOR}::Concurrent
   Qt${QT_VERSION_MAJOR}::Gui
@@ -1144,43 +1152,10 @@ if(HAVE_LIBPULSE)
   target_link_libraries(strawberry_lib PRIVATE ${LIBPULSE_LIBRARIES})
 endif()
 
-if(HAVE_GSTREAMER)
-  target_include_directories(strawberry_lib SYSTEM PRIVATE
-    ${GSTREAMER_INCLUDE_DIRS}
-    ${GSTREAMER_BASE_INCLUDE_DIRS}
-    ${GSTREAMER_APP_INCLUDE_DIRS}
-    ${GSTREAMER_AUDIO_INCLUDE_DIRS}
-    ${GSTREAMER_TAG_INCLUDE_DIRS}
-    ${GSTREAMER_PBUTILS_INCLUDE_DIRS}
-  )
-  target_link_directories(strawberry_lib PRIVATE
-    ${GSTREAMER_LIBRARY_DIRS}
-    ${GSTREAMER_BASE_LIBRARY_DIRS}
-    ${GSTREAMER_APP_LIBRARY_DIRS}
-    ${GSTREAMER_AUDIO_LIBRARY_DIRS}
-    ${GSTREAMER_TAG_LIBRARY_DIRS}
-    ${GSTREAMER_PBUTILS_LIBRARY_DIRS}
-  )
-  target_link_libraries(strawberry_lib PRIVATE
-    ${GSTREAMER_LIBRARIES}
-    ${GSTREAMER_BASE_LIBRARIES}
-    ${GSTREAMER_AUDIO_LIBRARIES}
-    ${GSTREAMER_APP_LIBRARIES}
-    ${GSTREAMER_TAG_LIBRARIES}
-    ${GSTREAMER_PBUTILS_LIBRARIES}
-  )
-endif()
-
 if(HAVE_MOODBAR)
   target_include_directories(strawberry_lib SYSTEM PRIVATE ${FFTW3_INCLUDE_DIR})
   target_link_directories(strawberry_lib PRIVATE ${FFTW3_LIBRARY_DIRS})
   target_link_libraries(strawberry_lib PRIVATE ${FFTW3_FFTW_LIBRARY})
-endif()
-
-if(HAVE_VLC)
-  target_include_directories(strawberry_lib SYSTEM PRIVATE ${LIBVLC_INCLUDE_DIRS})
-  target_link_directories(strawberry_lib PRIVATE ${LIBVLC_LIBRARY_DIRS})
-  target_link_libraries(strawberry_lib PRIVATE ${LIBVLC_LIBRARIES})
 endif()
 
 if(HAVE_SONGFINGERPRINTING OR HAVE_MUSICBRAINZ)
