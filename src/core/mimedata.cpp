@@ -32,7 +32,6 @@ MimeData::MimeData(const bool clear, const bool play_now, const bool enqueue, co
         enqueue_now_(enqueue),
         enqueue_next_now_(enqueue_next_now),
         open_in_new_playlist_(open_in_new_playlist),
-        name_for_new_playlist_(QString()),
         from_doubleclick_(false) {
 
   Q_UNUSED(parent);
