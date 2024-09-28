@@ -87,6 +87,7 @@ Player::Player(Application *app, QObject *parent)
       timer_save_volume_(new QTimer(this)),
       playlists_loaded_(false),
       play_requested_(false),
+      pause_(false),
       stream_change_type_(EngineBase::TrackChangeType::First),
       autoscroll_(Playlist::AutoScroll::Maybe),
       last_state_(EngineBase::State::Empty),
