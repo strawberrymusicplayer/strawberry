@@ -7,8 +7,12 @@ Unreleased:
     * Require Qt 6.4 or higher and drop support for Qt 5.
     * Require TagLib 1.12 or higher.
     * Use Qt stringliterals.
-    * Move gstfastspectrum to 3rdparty.
+    * Move gstfastspectrum to src.
     * Use standard user temp location for current album cover.
+    * Remove old MacFSListener.
+    * Remove external tagreader and protobuf dependency.
+    * Remove VLC support.
+    * Replace Spotify username/password with access token.
 
 Version 1.1.3 (2024.09.21):
 
