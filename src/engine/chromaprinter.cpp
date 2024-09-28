@@ -189,7 +189,9 @@ QString Chromaprinter::CreateFingerprint() {
 
 }
 
-void Chromaprinter::NewPadCallback(GstElement*, GstPad *pad, gpointer data) {
+void Chromaprinter::NewPadCallback(GstElement *element, GstPad *pad, gpointer data) {
+
+  Q_UNUSED(element)
 
   Chromaprinter *instance = reinterpret_cast<Chromaprinter*>(data);
   GstPad *const audiopad = gst_element_get_static_pad(instance->convert_element_, "sink");

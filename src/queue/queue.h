@@ -74,7 +74,7 @@ class Queue : public QAbstractProxyModel {
   QStringList mimeTypes() const override;
   Qt::DropActions supportedDropActions() const override;
   QMimeData *mimeData(const QModelIndexList &indexes) const override;
-  bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) override;
+  bool dropMimeData(const QMimeData *data, Qt::DropAction action, const int row, const int column, const QModelIndex &parent_index) override;
   Qt::ItemFlags flags(const QModelIndex &idx) const override;
 
  public Q_SLOTS:

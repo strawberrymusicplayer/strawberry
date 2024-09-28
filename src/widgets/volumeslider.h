@@ -48,12 +48,12 @@ class VolumeSlider : public SliderSlider {
   void HandleWheel(const int delta);
 
  protected:
-  void enterEvent(QEnterEvent*) override;
-  void leaveEvent(QEvent*) override;
-  void paintEvent(QPaintEvent*) override;
-  virtual void paletteChange(const QPalette&);
-  void slideEvent(QMouseEvent*) override;
-  void contextMenuEvent(QContextMenuEvent*) override;
+  void enterEvent(QEnterEvent *e) override;
+  void leaveEvent(QEvent *e) override;
+  void paintEvent(QPaintEvent *e) override;
+  virtual void paletteChange(const QPalette &palette);
+  void slideEvent(QMouseEvent *e) override;
+  void contextMenuEvent(QContextMenuEvent *e) override;
   void mousePressEvent(QMouseEvent*) override;
   void wheelEvent(QWheelEvent *e) override;
 

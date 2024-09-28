@@ -100,7 +100,9 @@ QSize ContextAlbum::sizeHint() const {
 
 }
 
-void ContextAlbum::paintEvent(QPaintEvent*) {
+void ContextAlbum::paintEvent(QPaintEvent *paint_event) {
+
+  Q_UNUSED(paint_event)
 
   QPainter p(this);
   p.setRenderHint(QPainter::SmoothPixmapTransform);

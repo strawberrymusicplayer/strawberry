@@ -132,9 +132,13 @@ void GroupedIconView::rowsInserted(const QModelIndex &parent, int start, int end
   LayoutItems();
 }
 
-void GroupedIconView::dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QList<int>&) {
-  QListView::dataChanged(topLeft, bottomRight);
+void GroupedIconView::dataChanged(const QModelIndex &top_left, const QModelIndex &bottom_right, const QList<int> &roles) {
+
+  Q_UNUSED(roles)
+
+  QListView::dataChanged(top_left, bottom_right);
   LayoutItems();
+
 }
 
 void GroupedIconView::LayoutItems() {
@@ -363,7 +367,9 @@ QRegion GroupedIconView::visualRegionForSelection(const QItemSelection &selectio
 
 }
 
-QModelIndex GroupedIconView::moveCursor(CursorAction action, Qt::KeyboardModifiers) {
+QModelIndex GroupedIconView::moveCursor(CursorAction action, const Qt::KeyboardModifiers keyboard_modifiers) {
+
+  Q_UNUSED(keyboard_modifiers)
 
   if (model()->rowCount() == 0) {
     return QModelIndex();

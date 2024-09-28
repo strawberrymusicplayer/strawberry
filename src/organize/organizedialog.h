@@ -74,8 +74,8 @@ class OrganizeDialog : public QDialog {
   void SetPlaylist(const QString &playlist);
 
  protected:
-  void showEvent(QShowEvent*) override;
-  void closeEvent(QCloseEvent*) override;
+  void showEvent(QShowEvent *e) override;
+  void closeEvent(QCloseEvent *e) override;
 
  private:
   void LoadGeometry();

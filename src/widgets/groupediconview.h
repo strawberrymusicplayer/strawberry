@@ -76,7 +76,7 @@ class GroupedIconView : public QListView {
   void set_header_text(const QString &value) { header_text_ = value; }
 
   // QAbstractItemView
-  QModelIndex moveCursor(CursorAction action, Qt::KeyboardModifiers modifiers) override;
+  QModelIndex moveCursor(CursorAction action, const Qt::KeyboardModifiers keyboard_modifiers) override;
   void setModel(QAbstractItemModel *model) override;
 
   static void DrawHeader(QPainter *painter, const QRect rect, const QFont &font, const QPalette &palette, const QString &text);
@@ -89,7 +89,7 @@ class GroupedIconView : public QListView {
   void resizeEvent(QResizeEvent *e) override;
 
   // QAbstractItemView
-  void dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QList<int>& = QList<int>()) override;
+  void dataChanged(const QModelIndex &top_left, const QModelIndex &bottom_right, const QList<int> &roles = QList<int>()) override;
   QModelIndex indexAt(const QPoint &p) const override;
   void rowsInserted(const QModelIndex &parent, int start, int end) override;
   void setSelection(const QRect &rect, QItemSelectionModel::SelectionFlags command) override;

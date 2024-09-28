@@ -132,12 +132,18 @@ void ConnectedDevice::Eject() {
 
 }
 
-bool ConnectedDevice::FinishCopy(bool success, QString&) {
+bool ConnectedDevice::FinishCopy(bool success, QString &error_text) {
+
+  Q_UNUSED(error_text)
+
   lister_->UpdateDeviceFreeSpace(unique_id_);
+
   return success;
+
 }
 
-bool ConnectedDevice::FinishDelete(bool success, QString&) {
+bool ConnectedDevice::FinishDelete(bool success, QString &error_text) {
+  Q_UNUSED(error_text)
   lister_->UpdateDeviceFreeSpace(unique_id_);
   return success;
 }

@@ -98,7 +98,9 @@ void MultiLoadingIndicator::UpdateText() {
 
 }
 
-void MultiLoadingIndicator::paintEvent(QPaintEvent*) {
+void MultiLoadingIndicator::paintEvent(QPaintEvent *e) {
+
+  Q_UNUSED(e)
 
   QPainter p(this);
 

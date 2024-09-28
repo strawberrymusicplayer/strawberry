@@ -121,7 +121,9 @@ void SliderSlider::mousePressEvent(QMouseEvent *e) {
 
 }
 
-void SliderSlider::mouseReleaseEvent(QMouseEvent*) {
+void SliderSlider::mouseReleaseEvent(QMouseEvent *e) {
+
+  Q_UNUSED(e)
 
   if (!outside_ && QSlider::value() != prev_value_) {
     Q_EMIT SliderReleased(value());

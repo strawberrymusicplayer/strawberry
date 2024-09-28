@@ -144,8 +144,8 @@ class GstEngine : public EngineBase, public GstBufferConsumer {
 
   void UpdateScope(int chunk_length);
 
-  static void StreamDiscovered(GstDiscoverer*, GstDiscovererInfo *info, GError*, gpointer self);
-  static void StreamDiscoveryFinished(GstDiscoverer*, gpointer);
+  static void StreamDiscovered(GstDiscoverer *discoverer, GstDiscovererInfo *info, GError *error, gpointer self);
+  static void StreamDiscoveryFinished(GstDiscoverer *discoverer, gpointer self);
   static QString GSTdiscovererErrorMessage(GstDiscovererResult result);
 
   bool OldExclusivePipelineActive() const;

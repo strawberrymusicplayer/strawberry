@@ -255,7 +255,7 @@ class Playlist : public QAbstractListModel {
   QStringList mimeTypes() const override;
   Qt::DropActions supportedDropActions() const override;
   QMimeData *mimeData(const QModelIndexList &indexes) const override;
-  bool dropMimeData(const QMimeData *data, Qt::DropAction action, const int row, const int column, const QModelIndex &parent) override;
+  bool dropMimeData(const QMimeData *data, Qt::DropAction action, const int row, const int column, const QModelIndex &parent_index) override;
   void sort(const int column_number, const Qt::SortOrder order) override;
   bool removeRows(const int row, const int count, const QModelIndex &parent = QModelIndex()) override;
 
@@ -288,7 +288,7 @@ class Playlist : public QAbstractListModel {
   void RemoveUnavailableSongs();
   void Shuffle();
 
-  void ShuffleModeChanged(const PlaylistSequence::ShuffleMode);
+  void ShuffleModeChanged(const PlaylistSequence::ShuffleMode shuffle_mode);
 
   void SetColumnAlignment(const ColumnAlignmentMap &alignment);
 
@@ -348,7 +348,7 @@ class Playlist : public QAbstractListModel {
  private Q_SLOTS:
   void TracksAboutToBeDequeued(const QModelIndex&, const int begin, const int end);
   void TracksDequeued();
-  void TracksEnqueued(const QModelIndex&, const int begin, const int end);
+  void TracksEnqueued(const QModelIndex &parent_idx, const int begin, const int end);
   void QueueLayoutChanged();
   void SongSaveComplete(TagReaderReply *reply, const QPersistentModelIndex &idx, const Song &old_metadata);
   void ItemReloadComplete(const QPersistentModelIndex &idx, const Song &old_metadata, const bool metadata_edit);

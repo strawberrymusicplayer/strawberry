@@ -117,7 +117,9 @@ void GlobalShortcutsBackendMate::DoUnregister() {
 
 }
 
-void GlobalShortcutsBackendMate::MateMediaKeyPressed(const QString&, const QString &key) {
+void GlobalShortcutsBackendMate::MateMediaKeyPressed(const QString &application, const QString &key) {
+
+  Q_UNUSED(application)
 
   auto shortcuts = manager_->shortcuts();
   if (key == "Play"_L1) shortcuts[QStringLiteral("play_pause")].action->trigger();

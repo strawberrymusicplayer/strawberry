@@ -732,15 +732,18 @@ void StreamingSearchView::SetGroupBy(const CollectionModel::Grouping g) {
 
 }
 
-void StreamingSearchView::SearchArtistsClicked(const bool) {
+void StreamingSearchView::SearchArtistsClicked(const bool checked) {
+  Q_UNUSED(checked)
   SetSearchType(StreamingSearchView::SearchType::Artists);
 }
 
-void StreamingSearchView::SearchAlbumsClicked(const bool) {
+void StreamingSearchView::SearchAlbumsClicked(const bool checked) {
+  Q_UNUSED(checked)
   SetSearchType(StreamingSearchView::SearchType::Albums);
 }
 
-void StreamingSearchView::SearchSongsClicked(const bool) {
+void StreamingSearchView::SearchSongsClicked(const bool checked) {
+  Q_UNUSED(checked)
   SetSearchType(StreamingSearchView::SearchType::Songs);
 }
 

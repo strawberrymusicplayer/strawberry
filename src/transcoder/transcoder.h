@@ -138,8 +138,8 @@ class Transcoder : public QObject {
   GstElement *CreateElementForMimeType(GstElementFactoryListType element_type, const QString &mime_type, GstElement *bin = nullptr);
   void SetElementProperties(const QString &name, GObject *object);
 
-  static void NewPadCallback(GstElement*, GstPad *pad, gpointer data);
-  static GstBusSyncReply BusCallbackSync(GstBus*, GstMessage *msg, gpointer data);
+  static void NewPadCallback(GstElement *element, GstPad *pad, gpointer data);
+  static GstBusSyncReply BusCallbackSync(GstBus *bus, GstMessage *msg, gpointer data);
 
  private:
   using JobStateList = QList<SharedPtr<JobState>>;

@@ -245,20 +245,32 @@ QModelIndex MergedProxyModel::GetActualSourceParent(const QModelIndex &source_pa
 
 }
 
-void MergedProxyModel::RowsAboutToBeInserted(const QModelIndex &source_parent, int start, int end) {
+void MergedProxyModel::RowsAboutToBeInserted(const QModelIndex &source_parent, const int start, const int end) {
   beginInsertRows(mapFromSource(GetActualSourceParent(source_parent, qobject_cast<QAbstractItemModel*>(sender()))), start, end);
 }
 
-void MergedProxyModel::RowsInserted(const QModelIndex&, int, int) {
+void MergedProxyModel::RowsInserted(const QModelIndex &source_parent, const int start, const int end) {
+
+  Q_UNUSED(source_parent)
+  Q_UNUSED(start)
+  Q_UNUSED(end)
+
   endInsertRows();
+
 }
 
-void MergedProxyModel::RowsAboutToBeRemoved(const QModelIndex &source_parent, int start, int end) {
+void MergedProxyModel::RowsAboutToBeRemoved(const QModelIndex &source_parent, const int start, const int end) {
   beginRemoveRows(mapFromSource(GetActualSourceParent(source_parent, qobject_cast<QAbstractItemModel*>(sender()))), start, end);
 }
 
-void MergedProxyModel::RowsRemoved(const QModelIndex&, int, int) {
+void MergedProxyModel::RowsRemoved(const QModelIndex &source_parent, const int start, const int end) {
+
+  Q_UNUSED(source_parent)
+  Q_UNUSED(start)
+  Q_UNUSED(end)
+
   endRemoveRows();
+
 }
 
 QModelIndex MergedProxyModel::mapToSource(const QModelIndex &proxy_index) const {
@@ -294,7 +306,7 @@ QModelIndex MergedProxyModel::mapFromSource(const QModelIndex &source_index) con
 
 }
 
-QModelIndex MergedProxyModel::index(int row, int column, const QModelIndex &parent) const {
+QModelIndex MergedProxyModel::index(const int row, const int column, const QModelIndex &parent) const {
 
   QModelIndex source_index;
 
@@ -380,7 +392,7 @@ bool MergedProxyModel::hasChildren(const QModelIndex &parent) const {
 
 }
 
-QVariant MergedProxyModel::data(const QModelIndex &proxy_index, int role) const {
+QVariant MergedProxyModel::data(const QModelIndex &proxy_index, const int role) const {
 
   QModelIndex source_index = mapToSource(proxy_index);
   if (!IsKnownModel(source_index.model())) return QVariant();
@@ -407,7 +419,7 @@ Qt::ItemFlags MergedProxyModel::flags(const QModelIndex &idx) const {
 
 }
 
-bool MergedProxyModel::setData(const QModelIndex &idx, const QVariant &value, int role) {
+bool MergedProxyModel::setData(const QModelIndex &idx, const QVariant &value, const int role) {
 
   QModelIndex source_index = mapToSource(idx);
 
@@ -456,7 +468,7 @@ QMimeData *MergedProxyModel::mimeData(const QModelIndexList &indexes) const {
 
 }
 
-bool MergedProxyModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) {
+bool MergedProxyModel::dropMimeData(const QMimeData *data, Qt::DropAction action, const int row, const int column, const QModelIndex &parent) {
 
   if (!parent.isValid()) {
     return false;

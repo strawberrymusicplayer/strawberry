@@ -408,7 +408,8 @@ void PlaylistTabBar::dragMoveEvent(QDragMoveEvent *e) {
 
 }
 
-void PlaylistTabBar::dragLeaveEvent(QDragLeaveEvent*) {
+void PlaylistTabBar::dragLeaveEvent(QDragLeaveEvent *e) {
+  Q_UNUSED(e)
   drag_hover_timer_.stop();
 }
 

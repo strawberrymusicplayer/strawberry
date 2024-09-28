@@ -209,7 +209,9 @@ void SettingsDialog::showEvent(QShowEvent *e) {
 
 }
 
-void SettingsDialog::closeEvent(QCloseEvent*) {
+void SettingsDialog::closeEvent(QCloseEvent *e) {
+
+  Q_UNUSED(e)
 
   SaveGeometry();
 

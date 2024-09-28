@@ -116,17 +116,17 @@ class GioLister : public DeviceLister {
   void MountChanged(GMount *mount);
   void MountRemoved(GMount *mount);
 
-  static void VolumeAddedCallback(GVolumeMonitor*, GVolume*, gpointer);
-  static void VolumeRemovedCallback(GVolumeMonitor*, GVolume*, gpointer);
+  static void VolumeAddedCallback(GVolumeMonitor *volume_monitor, GVolume *volume, gpointer instance);
+  static void VolumeRemovedCallback(GVolumeMonitor *volume_monitor, GVolume *volume, gpointer instance);
 
-  static void MountAddedCallback(GVolumeMonitor*, GMount*, gpointer);
-  static void MountChangedCallback(GVolumeMonitor*, GMount*, gpointer);
-  static void MountRemovedCallback(GVolumeMonitor*, GMount*, gpointer);
+  static void MountAddedCallback(GVolumeMonitor *volume_monitor, GMount*, gpointer instance);
+  static void MountChangedCallback(GVolumeMonitor *volume_monitor, GMount*, gpointer instance);
+  static void MountRemovedCallback(GVolumeMonitor *volume_monitor, GMount *mount, gpointer instance);
 
-  static void VolumeMountFinished(GObject *object, GAsyncResult *result, gpointer);
-  static void VolumeEjectFinished(GObject *object, GAsyncResult *result, gpointer);
-  static void MountEjectFinished(GObject *object, GAsyncResult *result, gpointer);
-  static void MountUnmountFinished(GObject *object, GAsyncResult *result, gpointer);
+  static void VolumeMountFinished(GObject *object, GAsyncResult *result, gpointer instance);
+  static void VolumeEjectFinished(GObject *object, GAsyncResult *result, gpointer instance);
+  static void MountEjectFinished(GObject *object, GAsyncResult *result, gpointer instance);
+  static void MountUnmountFinished(GObject *object, GAsyncResult *result, gpointer instance);
 
   // You MUST hold the mutex while calling this function
   QString FindUniqueIdByMount(GMount *mount) const;

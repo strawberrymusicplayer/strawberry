@@ -121,10 +121,10 @@ class SongLoader : public QObject {
   Result LoadRemote();
 
   // GStreamer callbacks
-  static void TypeFound(GstElement *typefind, uint probability, GstCaps *caps, void *self);
-  static GstPadProbeReturn DataReady(GstPad*, GstPadProbeInfo *info, gpointer self);
-  static GstBusSyncReply BusCallbackSync(GstBus*, GstMessage*, gpointer);
-  static gboolean BusWatchCallback(GstBus*, GstMessage*, gpointer);
+  static void TypeFound(GstElement *typefind, const uint probability, GstCaps *caps, void *self);
+  static GstPadProbeReturn DataReady(GstPad *pad, GstPadProbeInfo *info, gpointer self);
+  static GstBusSyncReply BusCallbackSync(GstBus *bus, GstMessage *msg, gpointer self);
+  static gboolean BusWatchCallback(GstBus *bus, GstMessage *msg, gpointer self);
 
   void ErrorMessageReceived(GstMessage *msg);
   void EndOfStreamReached();

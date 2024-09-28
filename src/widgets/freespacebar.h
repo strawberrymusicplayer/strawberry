@@ -50,7 +50,7 @@ class FreeSpaceBar : public QWidget {
   QSize sizeHint() const override;
 
  protected:
-  void paintEvent(QPaintEvent*) override;
+  void paintEvent(QPaintEvent *e) override;
 
  private:
   struct Label {

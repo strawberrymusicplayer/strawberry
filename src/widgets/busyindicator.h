@@ -44,8 +44,8 @@ class BusyIndicator : public QWidget {
   void set_text(const QString &text);
 
  protected:
-  void showEvent(QShowEvent *event) override;
-  void hideEvent(QHideEvent *event) override;
+  void showEvent(QShowEvent *e) override;
+  void hideEvent(QHideEvent *e) override;
 
  private:
   void Init(const QString &text);

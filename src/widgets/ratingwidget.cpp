@@ -128,7 +128,9 @@ void RatingWidget::set_rating(const float rating) {
 
 }
 
-void RatingWidget::paintEvent(QPaintEvent*) {
+void RatingWidget::paintEvent(QPaintEvent *e) {
+
+  Q_UNUSED(e)
 
   QStylePainter p(this);
 
@@ -161,7 +163,9 @@ void RatingWidget::mouseMoveEvent(QMouseEvent *e) {
 
 }
 
-void RatingWidget::leaveEvent(QEvent*) {
+void RatingWidget::leaveEvent(QEvent *e) {
+
+  Q_UNUSED(e)
 
   hover_rating_ = -1.0;
   update();

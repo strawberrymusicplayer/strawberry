@@ -115,7 +115,10 @@ class DebugBase : public QDebug {
 class BufferedDebug : public DebugBase<BufferedDebug> {
  public:
   BufferedDebug() = default;
-  explicit BufferedDebug(QtMsgType) : buf_(new QBuffer, later_deleter) {
+  explicit BufferedDebug(QtMsgType msg_type) : buf_(new QBuffer, later_deleter) {
+
+    Q_UNUSED(msg_type)
+
     buf_->open(QIODevice::WriteOnly);
 
     // QDebug doesn't have a method to set a new io device, but swap() allows the devices to be swapped between two instances.
@@ -137,7 +140,9 @@ class LoggedDebug : public DebugBase<LoggedDebug> {
   explicit LoggedDebug(QtMsgType t) : DebugBase(t) { nospace() << kMessageHandlerMagic; }
 };
 
-static void MessageHandler(QtMsgType type, const QMessageLogContext&, const QString &message) {
+static void MessageHandler(QtMsgType type, const QMessageLogContext &message_log_context, const QString &message) {
+
+  Q_UNUSED(message_log_context)
 
   if (message.startsWith(QLatin1String(kMessageHandlerMagic))) {
     QByteArray message_data = message.toUtf8();

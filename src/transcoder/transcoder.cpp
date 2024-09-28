@@ -350,7 +350,9 @@ Transcoder::StartJobStatus Transcoder::MaybeStartNextJob() {
 
 }
 
-void Transcoder::NewPadCallback(GstElement*, GstPad *pad, gpointer data) {
+void Transcoder::NewPadCallback(GstElement *element, GstPad *pad, gpointer data) {
+
+  Q_UNUSED(element)
 
   JobState *state = reinterpret_cast<JobState*>(data);
   GstPad *const audiopad = gst_element_get_static_pad(state->convert_element_, "sink");
@@ -365,7 +367,9 @@ void Transcoder::NewPadCallback(GstElement*, GstPad *pad, gpointer data) {
 
 }
 
-GstBusSyncReply Transcoder::BusCallbackSync(GstBus*, GstMessage *msg, gpointer data) {
+GstBusSyncReply Transcoder::BusCallbackSync(GstBus *bus, GstMessage *msg, gpointer data) {
+
+  Q_UNUSED(bus)
 
   JobState *state = reinterpret_cast<JobState*>(data);
   switch (GST_MESSAGE_TYPE(msg)) {

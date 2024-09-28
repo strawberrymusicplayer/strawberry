@@ -48,7 +48,7 @@ class FavoriteWidget : public QWidget {
 
  protected:
   void paintEvent(QPaintEvent *e) override;
-  void mouseDoubleClickEvent(QMouseEvent*) override;
+  void mouseDoubleClickEvent(QMouseEvent *e) override;
 
  private:
   // The playlist's id this widget belongs to

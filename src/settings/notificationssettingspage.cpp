@@ -142,11 +142,13 @@ NotificationsSettingsPage::~NotificationsSettingsPage() {
   delete ui_;
 }
 
-void NotificationsSettingsPage::showEvent(QShowEvent*) {
+void NotificationsSettingsPage::showEvent(QShowEvent *e) {
+  Q_UNUSED(e)
   UpdatePopupVisible();
 }
 
-void NotificationsSettingsPage::hideEvent(QHideEvent*) {
+void NotificationsSettingsPage::hideEvent(QHideEvent *e) {
+  Q_UNUSED(e)
   UpdatePopupVisible();
 }
 

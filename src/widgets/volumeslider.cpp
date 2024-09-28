@@ -94,7 +94,9 @@ void VolumeSlider::HandleWheel(const int delta) {
 
 }
 
-void VolumeSlider::paintEvent(QPaintEvent*) {
+void VolumeSlider::paintEvent(QPaintEvent *e) {
+
+  Q_UNUSED(e)
 
   QPainter p(this);
 
@@ -162,7 +164,8 @@ void VolumeSlider::slotAnimTimer() {
 
 }
 
-void VolumeSlider::paletteChange(const QPalette&) {
+void VolumeSlider::paletteChange(const QPalette &palette) {
+  Q_UNUSED(palette)
   generateGradient();
 }
 
@@ -229,7 +232,9 @@ void VolumeSlider::drawVolumeSliderHandle() {
 
 }
 
-void VolumeSlider::enterEvent(QEnterEvent*) {
+void VolumeSlider::enterEvent(QEnterEvent *e) {
+
+  Q_UNUSED(e)
 
   anim_enter_ = true;
   anim_count_ = 0;
@@ -238,7 +243,9 @@ void VolumeSlider::enterEvent(QEnterEvent*) {
 
 }
 
-void VolumeSlider::leaveEvent(QEvent*) {
+void VolumeSlider::leaveEvent(QEvent *e) {
+
+  Q_UNUSED(e)
 
   // This can happen if you enter and leave the widget quickly
   if (anim_count_ == 0) anim_count_ = 1;

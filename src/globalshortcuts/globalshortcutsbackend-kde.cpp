@@ -207,7 +207,9 @@ QList<QKeySequence> GlobalShortcutsBackendKDE::ToKeySequenceList(const QList<int
 
 }
 
-void GlobalShortcutsBackendKDE::GlobalShortcutPressed(const QString &component_unique, const QString &shortcut_unique, qint64) {
+void GlobalShortcutsBackendKDE::GlobalShortcutPressed(const QString &component_unique, const QString &shortcut_unique, const qint64 timestamp) {
+
+  Q_UNUSED(timestamp)
 
   if (QCoreApplication::applicationName() == component_unique && actions_.contains(shortcut_unique)) {
     const QList<QAction*> actions = actions_.values(shortcut_unique);

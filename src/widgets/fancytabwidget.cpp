@@ -77,7 +77,7 @@ FancyTabWidget::FancyTabWidget(QWidget *parent)
 
 }
 
-FancyTabWidget::~FancyTabWidget() {}
+FancyTabWidget::~FancyTabWidget() = default;
 
 void FancyTabWidget::AddTab(QWidget *widget_view, const QString &name, const QIcon &icon, const QString &label) {
 

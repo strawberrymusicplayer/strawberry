@@ -80,7 +80,9 @@ QSize FreeSpaceBar::sizeHint() const {
   return QSize(150, kBarHeight + kLabelBoxPadding + fontMetrics().height());
 }
 
-void FreeSpaceBar::paintEvent(QPaintEvent*) {
+void FreeSpaceBar::paintEvent(QPaintEvent *e) {
+
+  Q_UNUSED(e)
 
   // Geometry
   QRect bar_rect(rect());

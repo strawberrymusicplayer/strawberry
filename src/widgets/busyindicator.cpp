@@ -72,11 +72,13 @@ BusyIndicator::~BusyIndicator() {
   delete movie_;
 }
 
-void BusyIndicator::showEvent(QShowEvent*) {
+void BusyIndicator::showEvent(QShowEvent *e) {
+  Q_UNUSED(e)
   movie_->start();
 }
 
-void BusyIndicator::hideEvent(QHideEvent*) {
+void BusyIndicator::hideEvent(QHideEvent *e) {
+  Q_UNUSED(e)
   movie_->stop();
 }
 

@@ -40,7 +40,7 @@ class GstStartup : public QObject {
 
  private:
   static GThread *kGThread;
-  static gpointer GLibMainLoopThreadFunc(gpointer);
+  static gpointer GLibMainLoopThreadFunc(gpointer data);
 
   static void InitializeGStreamer();
   static void SetEnvironment();

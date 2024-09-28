@@ -71,7 +71,7 @@ class Equalizer : public QDialog {
   void EqualizerParametersChanged(const int preamp, const QList<int> &band_gains);
 
  protected:
-  void closeEvent(QCloseEvent*) override;
+  void closeEvent(QCloseEvent *e) override;
 
  private Q_SLOTS:
   void StereoBalancerEnabledChangedSlot(const bool enabled);

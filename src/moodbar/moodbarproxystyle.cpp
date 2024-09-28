@@ -54,7 +54,7 @@ constexpr int kArrowWidth = 17;
 constexpr int kArrowHeight = 13;
 }  // namespace
 
-MoodbarProxyStyle::MoodbarProxyStyle(Application *app, QSlider *slider, QObject*)
+MoodbarProxyStyle::MoodbarProxyStyle(Application *app, QSlider *slider, QObject *parent)
     : QProxyStyle(nullptr),
       app_(app),
       slider_(slider),
@@ -67,6 +67,8 @@ MoodbarProxyStyle::MoodbarProxyStyle(Application *app, QSlider *slider, QObject*
       context_menu_(nullptr),
       show_moodbar_action_(nullptr),
       style_action_group_(nullptr) {
+
+  Q_UNUSED(parent)
 
   slider->setStyle(this);
   slider->installEventFilter(this);

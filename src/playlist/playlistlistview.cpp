@@ -70,8 +70,13 @@ bool PlaylistListView::ItemsSelected() const {
   return selectionModel()->selectedRows().count() > 0;
 }
 
-void PlaylistListView::selectionChanged(const QItemSelection&, const QItemSelection&) {
+void PlaylistListView::selectionChanged(const QItemSelection &selected, const QItemSelection &deselected) {
+
+  Q_UNUSED(selected)
+  Q_UNUSED(deselected)
+
   Q_EMIT ItemsSelectedChanged(selectionModel()->selectedRows().count() > 0);
+
 }
 
 void PlaylistListView::dragEnterEvent(QDragEnterEvent *e) {

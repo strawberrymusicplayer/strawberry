@@ -451,6 +451,13 @@ bool OSDBase::SupportsTrayPopups() {
   return tray_icon_->IsSystemTrayAvailable();
 }
 
-void OSDBase::ShowMessageNative(const QString&, const QString&, const QString&, const QImage&) {
+void OSDBase::ShowMessageNative(const QString &summary, const QString &message, const QString &icon, const QImage &image) {
+
+  Q_UNUSED(summary)
+  Q_UNUSED(message)
+  Q_UNUSED(icon)
+  Q_UNUSED(image)
+
   qLog(Warning) << "Native notifications are not supported on this OS.";
+
 }

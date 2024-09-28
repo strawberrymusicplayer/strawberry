@@ -299,7 +299,9 @@ void Equalizer::StereoBalancerEnabledChangedSlot(const bool enabled) {
 
 }
 
-void Equalizer::StereoBalanceSliderChanged(const int) {
+void Equalizer::StereoBalanceSliderChanged(const int value) {
+
+  Q_UNUSED(value)
 
   Q_EMIT StereoBalanceChanged(stereo_balance());
   Save();
@@ -348,7 +350,9 @@ void Equalizer::Save() {
 
 }
 
-void Equalizer::closeEvent(QCloseEvent*) {
+void Equalizer::closeEvent(QCloseEvent *e) {
+
+  Q_UNUSED(e)
 
   QString name = ui_->preset->currentText();
   if (!presets_.contains(name)) return;

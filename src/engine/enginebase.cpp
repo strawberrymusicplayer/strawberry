@@ -114,8 +114,9 @@ QString EngineBase::Description(const Type type) {
 
 }
 
-bool EngineBase::Load(const QUrl &media_url, const QUrl &stream_url, const TrackChangeFlags, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec, const std::optional<double> ebur128_integrated_loudness_lufs) {
+bool EngineBase::Load(const QUrl &media_url, const QUrl &stream_url, const TrackChangeFlags track_change_flags, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec, const std::optional<double> ebur128_integrated_loudness_lufs) {
 
+  Q_UNUSED(track_change_flags)
   Q_UNUSED(force_stop_at_end);
 
   media_url_ = media_url;

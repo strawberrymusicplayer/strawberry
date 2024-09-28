@@ -48,7 +48,9 @@ using namespace Qt::Literals::StringLiterals;
 
 GThread *GstStartup::kGThread = nullptr;
 
-gpointer GstStartup::GLibMainLoopThreadFunc(gpointer) {
+gpointer GstStartup::GLibMainLoopThreadFunc(gpointer data) {
+
+  Q_UNUSED(data)
 
   qLog(Info) << "Creating GLib main event loop.";
 

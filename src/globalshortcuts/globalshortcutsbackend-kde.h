@@ -59,7 +59,7 @@ class GlobalShortcutsBackendKDE : public GlobalShortcutsBackend {
 
  private Q_SLOTS:
   void RegisterFinished(QDBusPendingCallWatcher *watcher);
-  void GlobalShortcutPressed(const QString &component_unique, const QString &shortcut_unique, qint64);
+  void GlobalShortcutPressed(const QString &component_unique, const QString &shortcut_unique, const qint64 timestamp);
 
  private:
   OrgKdeKGlobalAccelInterface *interface_;

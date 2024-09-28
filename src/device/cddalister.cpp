@@ -39,10 +39,14 @@
 
 QStringList CddaLister::DeviceUniqueIDs() { return devices_list_; }
 
-QVariantList CddaLister::DeviceIcons(const QString &) {
+QVariantList CddaLister::DeviceIcons(const QString &id) {
+
+  Q_UNUSED(id)
+
   QVariantList icons;
   icons << QStringLiteral("media-optical");
   return icons;
+
 }
 
 QString CddaLister::DeviceManufacturer(const QString &id) {
@@ -71,11 +75,24 @@ QString CddaLister::DeviceModel(const QString &id) {
 
 }
 
-quint64 CddaLister::DeviceCapacity(const QString&) { return 0; }
+quint64 CddaLister::DeviceCapacity(const QString &id) {
 
-quint64 CddaLister::DeviceFreeSpace(const QString&) { return 0; }
+  Q_UNUSED(id)
 
-QVariantMap CddaLister::DeviceHardwareInfo(const QString&) {
+  return 0;
+
+}
+
+quint64 CddaLister::DeviceFreeSpace(const QString &id) {
+
+  Q_UNUSED(id)
+
+  return 0;
+
+}
+
+QVariantMap CddaLister::DeviceHardwareInfo(const QString &id) {
+  Q_UNUSED(id)
   return QVariantMap();
 }
 
@@ -100,7 +117,9 @@ void CddaLister::UnmountDevice(const QString &id) {
   cdio_eject_media_drive(id.toLocal8Bit().constData());
 }
 
-void CddaLister::UpdateDeviceFreeSpace(const QString&) {}
+void CddaLister::UpdateDeviceFreeSpace(const QString &id) {
+  Q_UNUSED(id)
+}
 
 bool CddaLister::Init() {
 

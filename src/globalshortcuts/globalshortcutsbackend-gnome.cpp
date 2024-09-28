@@ -117,7 +117,9 @@ void GlobalShortcutsBackendGnome::DoUnregister() {
 
 }
 
-void GlobalShortcutsBackendGnome::GnomeMediaKeyPressed(const QString&, const QString &key) {
+void GlobalShortcutsBackendGnome::GnomeMediaKeyPressed(const QString &application, const QString &key) {
+
+  Q_UNUSED(application)
 
   auto shortcuts = manager_->shortcuts();
   if (key == "Play"_L1) shortcuts[QStringLiteral("play_pause")].action->trigger();

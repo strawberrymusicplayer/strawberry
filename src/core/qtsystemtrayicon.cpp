@@ -190,7 +190,8 @@ void SystemTrayIcon::MuteButtonStateChanged(const bool value) {
   if (action_mute_) action_mute_->setChecked(value);
 }
 
-void SystemTrayIcon::SetNowPlaying(const Song &song, const QUrl&) {
+void SystemTrayIcon::SetNowPlaying(const Song &song, const QUrl &url) {
+  Q_UNUSED(url)
   if (available_) setToolTip(song.PrettyTitleWithArtist());
 }
 

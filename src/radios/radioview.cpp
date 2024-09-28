@@ -54,7 +54,9 @@ RadioView::RadioView(QWidget *parent)
 
 RadioView::~RadioView() { delete menu_; }
 
-void RadioView::showEvent(QShowEvent*) {
+void RadioView::showEvent(QShowEvent *e) {
+
+  Q_UNUSED(e)
 
   if (!initialized_) {
     Q_EMIT GetChannels();

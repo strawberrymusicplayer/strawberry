@@ -168,14 +168,18 @@ void OrganizeDialog::SetDestinationModel(QAbstractItemModel *model, const bool d
 
 }
 
-void OrganizeDialog::showEvent(QShowEvent*) {
+void OrganizeDialog::showEvent(QShowEvent *e) {
+
+  Q_UNUSED(e)
 
   LoadGeometry();
   LoadSettings();
 
 }
 
-void OrganizeDialog::closeEvent(QCloseEvent*) {
+void OrganizeDialog::closeEvent(QCloseEvent *e) {
+
+  Q_UNUSED(e)
 
   if (!devices_) SaveGeometry();
 

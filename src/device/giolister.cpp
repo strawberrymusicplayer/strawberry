@@ -90,7 +90,8 @@ void OperationFinished(F f, GObject *object, GAsyncResult *result) {
 
 }
 
-void GioLister::VolumeMountFinished(GObject *object, GAsyncResult *result, gpointer) {
+void GioLister::VolumeMountFinished(GObject *object, GAsyncResult *result, gpointer instance) {
+  Q_UNUSED(instance)
   OperationFinished<GVolume>(std::bind(g_volume_mount_finish, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3), object, result);
 }
 
@@ -271,24 +272,29 @@ QList<QUrl> GioLister::MakeDeviceUrls(const QString &id) {
 
 }
 
-void GioLister::VolumeAddedCallback(GVolumeMonitor*, GVolume *v, gpointer d) {
-  static_cast<GioLister*>(d)->VolumeAdded(v);
+void GioLister::VolumeAddedCallback(GVolumeMonitor *volume_monitor, GVolume *volume, gpointer instance) {
+  Q_UNUSED(volume_monitor)
+  static_cast<GioLister*>(instance)->VolumeAdded(volume);
 }
 
-void GioLister::VolumeRemovedCallback(GVolumeMonitor*, GVolume *v, gpointer d) {
-  static_cast<GioLister*>(d)->VolumeRemoved(v);
+void GioLister::VolumeRemovedCallback(GVolumeMonitor *volume_monitor, GVolume *volume, gpointer instance) {
+  Q_UNUSED(volume_monitor)
+  static_cast<GioLister*>(instance)->VolumeRemoved(volume);
 }
 
-void GioLister::MountAddedCallback(GVolumeMonitor*, GMount *m, gpointer d) {
-  static_cast<GioLister*>(d)->MountAdded(m);
+void GioLister::MountAddedCallback(GVolumeMonitor *volume_monitor, GMount *mount, gpointer instance) {
+  Q_UNUSED(volume_monitor)
+  static_cast<GioLister*>(instance)->MountAdded(mount);
 }
 
-void GioLister::MountChangedCallback(GVolumeMonitor*, GMount *m, gpointer d) {
-  static_cast<GioLister*>(d)->MountChanged(m);
+void GioLister::MountChangedCallback(GVolumeMonitor *volume_monitor, GMount *mount, gpointer instance) {
+  Q_UNUSED(volume_monitor)
+  static_cast<GioLister*>(instance)->MountChanged(mount);
 }
 
-void GioLister::MountRemovedCallback(GVolumeMonitor*, GMount *m, gpointer d) {
-  static_cast<GioLister*>(d)->MountRemoved(m);
+void GioLister::MountRemovedCallback(GVolumeMonitor *volume_monitor, GMount *mount, gpointer instance) {
+  Q_UNUSED(volume_monitor)
+  static_cast<GioLister*>(instance)->MountRemoved(mount);
 }
 
 void GioLister::VolumeAdded(GVolume *volume) {
@@ -570,11 +576,13 @@ void GioLister::VolumeEjectFinished(GObject *object, GAsyncResult *result, gpoin
   OperationFinished<GVolume>(std::bind(g_volume_eject_with_operation_finish, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3), object, result);
 }
 
-void GioLister::MountEjectFinished(GObject *object, GAsyncResult *result, gpointer) {
+void GioLister::MountEjectFinished(GObject *object, GAsyncResult *result, gpointer instance) {
+  Q_UNUSED(instance)
   OperationFinished<GMount>(std::bind(g_mount_eject_with_operation_finish, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3), object, result);
 }
 
-void GioLister::MountUnmountFinished(GObject *object, GAsyncResult *result, gpointer) {
+void GioLister::MountUnmountFinished(GObject *object, GAsyncResult *result, gpointer instance) {
+  Q_UNUSED(instance)
   OperationFinished<GMount>(std::bind(g_mount_unmount_with_operation_finish, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3), object, result);
 }
 

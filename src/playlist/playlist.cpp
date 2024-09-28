@@ -188,7 +188,9 @@ void Playlist::InsertSongItems(const SongList &songs, const int pos, const bool 
 
 }
 
-QVariant Playlist::headerData(const int section, Qt::Orientation, const int role) const {
+QVariant Playlist::headerData(const int section, Qt::Orientation orientation, const int role) const {
+
+  Q_UNUSED(orientation)
 
   if (role != Qt::DisplayRole && role != Qt::ToolTipRole) return QVariant();
 
@@ -501,7 +503,8 @@ int Playlist::last_played_row() const {
   return last_played_item_index_.isValid() ? last_played_item_index_.row() : -1;
 }
 
-void Playlist::ShuffleModeChanged(const PlaylistSequence::ShuffleMode) {
+void Playlist::ShuffleModeChanged(const PlaylistSequence::ShuffleMode shuffle_mode) {
+  Q_UNUSED(shuffle_mode)
   ReshuffleIndices();
 }
 
@@ -787,7 +790,10 @@ Qt::DropActions Playlist::supportedDropActions() const {
   return Qt::MoveAction | Qt::CopyAction | Qt::LinkAction;
 }
 
-bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, const int row, int, const QModelIndex&) {
+bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, const int row, const int column, const QModelIndex &parent_index) {
+
+  Q_UNUSED(column)
+  Q_UNUSED(parent_index)
 
   if (action == Qt::IgnoreAction) return false;
 
@@ -2060,7 +2066,9 @@ PlaylistItemPtrList Playlist::collection_items_by_id(const int id) const {
   return collection_items_by_id_.values(id);
 }
 
-void Playlist::TracksAboutToBeDequeued(const QModelIndex&, const int begin, const int end) {
+void Playlist::TracksAboutToBeDequeued(const QModelIndex &idx, const int begin, const int end) {
+
+  Q_UNUSED(idx)
 
   for (int i = begin; i <= end; ++i) {
     temp_dequeue_change_indexes_ << queue_->mapToSource(queue_->index(i, static_cast<int>(Column::Title)));
@@ -2078,7 +2086,9 @@ void Playlist::TracksDequeued() {
 
 }
 
-void Playlist::TracksEnqueued(const QModelIndex&, const int begin, const int end) {
+void Playlist::TracksEnqueued(const QModelIndex &parent_idx, const int begin, const int end) {
+
+  Q_UNUSED(parent_idx)
 
   const QModelIndex &b = queue_->mapToSource(queue_->index(begin, static_cast<int>(Column::Title)));
   const QModelIndex &e = queue_->mapToSource(queue_->index(end, static_cast<int>(Column::Title)));

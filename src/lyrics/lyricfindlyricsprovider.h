@@ -46,7 +46,7 @@ class LyricFindLyricsProvider : public JsonLyricsProvider {
   static QUrl Url(const LyricsSearchRequest &request);
   static QString StringFixup(const QString &text);
   void StartSearch(const int id, const LyricsSearchRequest &request) override;
-  void EndSearch(const int id, const LyricsSearchRequest &request, const LyricsSearchResults &lyrics = LyricsSearchResults());
+  void EndSearch(const int id, const LyricsSearchRequest &request, const LyricsSearchResults &results = LyricsSearchResults());
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
  private Q_SLOTS:

@@ -75,7 +75,8 @@ void TrackSliderPopup::SetPopupPosition(const QPoint pos) {
   UpdatePosition();
 }
 
-void TrackSliderPopup::paintEvent(QPaintEvent*) {
+void TrackSliderPopup::paintEvent(QPaintEvent *e) {
+  Q_UNUSED(e)
   QPainter p(this);
   p.drawPixmap(0, 0, pixmap_);
 }

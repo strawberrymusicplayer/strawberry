@@ -165,9 +165,9 @@ class StreamingSearchView : public QWidget {
   void SearchForThis();
   void OpenSettingsDialog();
 
-  void SearchArtistsClicked(const bool);
-  void SearchAlbumsClicked(const bool);
-  void SearchSongsClicked(const bool);
+  void SearchArtistsClicked(const bool checked);
+  void SearchAlbumsClicked(const bool checked);
+  void SearchSongsClicked(const bool checked);
   void GroupByClicked(QAction *action);
   void SetGroupBy(const CollectionModel::Grouping g);
 
