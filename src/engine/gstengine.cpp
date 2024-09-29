@@ -608,6 +608,8 @@ void GstEngine::EndOfStreamReached(const int pipeline_id, const bool has_next_tr
   }
 
   if (!has_next_track) {
+    GstEnginePipelinePtr old_pipeline = current_pipeline_;
+    FinishPipeline(old_pipeline);
     current_pipeline_ = GstEnginePipelinePtr();
     BufferingFinished();
   }
