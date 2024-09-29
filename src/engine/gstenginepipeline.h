@@ -106,6 +106,7 @@ class GstEnginePipeline : public QObject {
 
   // If this is set then it will be loaded automatically when playback finishes for gapless playback
   bool HasNextUrl() const;
+  bool HasMatchingNextUrl() const;
   void PrepareNextUrl(const QUrl &media_url, const QUrl &stream_url, const QByteArray &gst_url, const qint64 beginning_nanosec, const qint64 end_nanosec);
   void SetNextUrl();
 

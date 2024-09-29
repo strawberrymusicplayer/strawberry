@@ -1305,22 +1305,18 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
 
   // Calculate the end time of this buffer so we can stop playback if it's after the end time of this song.
   if (instance->end_offset_nanosec_.value() > 0 && end_time > instance->end_offset_nanosec_.value()) {
-    if (instance->HasNextUrl()) {
-      QMutexLocker mutex_locker_url(&instance->mutex_url_);
-      QMutexLocker mutex_locker_next_url(&instance->mutex_next_url_);
-      if (instance->next_stream_url_ == instance->stream_url_ && instance->next_beginning_offset_nanosec_ == instance->end_offset_nanosec_) {
-        // The "next" song is actually the next segment of this file - so cheat and keep on playing, but just tell the Engine we've moved on.
-        instance->end_offset_nanosec_ = instance->next_end_offset_nanosec_;
-        instance->next_media_url_.clear();
-        instance->next_stream_url_.clear();
-        instance->next_gst_url_.clear();
-        instance->next_beginning_offset_nanosec_ = 0;
-        instance->next_end_offset_nanosec_ = 0;
+    if (instance->HasMatchingNextUrl() && instance->next_beginning_offset_nanosec_.value() == instance->end_offset_nanosec_.value()) {
+      // The "next" song is actually the next segment of this file - so cheat and keep on playing, but just tell the Engine we've moved on.
+      instance->end_offset_nanosec_ = instance->next_end_offset_nanosec_;
+      instance->next_media_url_.clear();
+      instance->next_stream_url_.clear();
+      instance->next_gst_url_.clear();
+      instance->next_beginning_offset_nanosec_ = 0;
+      instance->next_end_offset_nanosec_ = 0;
 
-        // GstEngine will try to seek to the start of the new section, but we're already there so ignore it.
-        instance->ignore_next_seek_ = true;
-        Q_EMIT instance->EndOfStreamReached(instance->id(), true);
-      }
+      // GstEngine will try to seek to the start of the new section, but we're already there so ignore it.
+      instance->ignore_next_seek_ = true;
+      Q_EMIT instance->EndOfStreamReached(instance->id(), true);
     }
     else {
       // There's no next song
@@ -2067,6 +2063,14 @@ bool GstEnginePipeline::HasNextUrl() const {
 
   QMutexLocker l(&mutex_next_url_);
   return next_stream_url_.isValid();
+
+}
+
+bool GstEnginePipeline::HasMatchingNextUrl() const {
+
+  QMutexLocker mutex_locker_url(&mutex_url_);
+  QMutexLocker mutex_locker_next_url(&mutex_next_url_);
+  return next_stream_url_.isValid() && next_stream_url_ == stream_url_;
 
 }
 
