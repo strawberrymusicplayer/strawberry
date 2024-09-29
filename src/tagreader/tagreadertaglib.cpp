@@ -323,6 +323,8 @@ TagReaderResult TagReaderTagLib::ReadFile(const QString &filename, Song *song) c
     return TagReaderResult::ErrorCode::FileDoesNotExist;
   }
 
+  if (song->source() == Song::Source::Unknown) song->set_source(Song::Source::LocalFile);
+
   const QUrl url = QUrl::fromLocalFile(filename);
   song->set_basefilename(fileinfo.fileName());
   song->set_url(url);
@@ -333,6 +335,7 @@ TagReaderResult TagReaderTagLib::ReadFile(const QString &filename, Song *song) c
     song->set_ctime(song->mtime());
   }
   song->set_lastseen(QDateTime::currentSecsSinceEpoch());
+  song->set_init_from_file(true);
 
   unique_ptr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));
   if (!fileref || fileref->isNull()) {
