@@ -725,7 +725,7 @@ CollectionItem *CollectionModel::CreateContainerItem(const GroupBy group_by, con
 
   QString divider_key;
   if (options_active_.show_dividers && container_level == 0) {
-    divider_key = DividerKey(group_by, song, SortText(group_by, container_level, song, options_active_.sort_skips_articles));
+    divider_key = DividerKey(group_by, song, SortText(group_by, song, options_active_.sort_skips_articles));
     if (!divider_key.isEmpty()) {
       if (!divider_nodes_.contains(divider_key)) {
         CreateDividerItem(divider_key, DividerDisplayText(group_by, divider_key), parent);
@@ -739,7 +739,7 @@ CollectionItem *CollectionModel::CreateContainerItem(const GroupBy group_by, con
   item->container_level = container_level;
   item->container_key = container_key;
   item->display_text = DisplayText(group_by, song);
-  item->sort_text = SortText(group_by, container_level, song, options_active_.sort_skips_articles);
+  item->sort_text = SortText(group_by, song, options_active_.sort_skips_articles);
   if (!divider_key.isEmpty()) {
     item->sort_text.prepend(divider_key + QLatin1Char(' '));
   }
@@ -781,13 +781,7 @@ void CollectionModel::CreateSongItem(const Song &song, CollectionItem *parent) {
 void CollectionModel::SetSongItemData(CollectionItem *item, const Song &song) {
 
   item->display_text = song.TitleWithCompilationArtist();
-  if (item->container_level == 1 && !IsAlbumGroupBy(options_active_.group_by[0])) {
-    item->sort_text = SortText(song.title());
-  }
-  else {
-    item->sort_text = SortTextForSong(song);
-  }
-
+  item->sort_text = IsAlbumGroupBy(options_active_.group_by[item->parent->container_level]) ? SortTextForSong(song) : SortText(song.title());
   item->metadata = song;
 
 }
@@ -1101,7 +1095,7 @@ QString CollectionModel::PrettyFormat(const Song &song) {
 
 }
 
-QString CollectionModel::SortText(const GroupBy group_by, const int container_level, const Song &song, const bool sort_skips_articles) {
+QString CollectionModel::SortText(const GroupBy group_by, const Song &song, const bool sort_skips_articles) {
 
   switch (group_by) {
     case GroupBy::AlbumArtist:
@@ -1145,12 +1139,8 @@ QString CollectionModel::SortText(const GroupBy group_by, const int container_le
     case GroupBy::Bitrate:
       return SortTextForNumber(std::max(0, song.bitrate())) + QLatin1Char(' ');
     case GroupBy::None:
-    case GroupBy::GroupByCount:{
-      if (container_level == 1 && !IsAlbumGroupBy(options_active_.group_by[0])) {
-        return SortText(song.title());
-      }
-      return SortTextForSong(song);
-    }
+    case GroupBy::GroupByCount:
+      break;
   }
 
   return QString();
