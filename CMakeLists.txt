@@ -338,7 +338,7 @@ option(INSTALL_TRANSLATIONS "Install translations" OFF)
 
 optional_component(SUBSONIC ON "Streaming: Subsonic")
 optional_component(TIDAL ON "Streaming: Tidal")
-optional_component(SPOTIFY ON "Streaming: Spotify" DEPENDS "gstreamer" GSTREAMER_FOUND)
+optional_component(SPOTIFY ON "Streaming: Spotify")
 optional_component(QOBUZ ON "Streaming: Qobuz")
 
 optional_component(MOODBAR ON "Moodbar"
