@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: strawberrymusicplayer\n"
 "Language-Team: Portuguese, Brazilian\n"
 "Language: pt_BR\n"
-"PO-Revision-Date: 2024-09-28 13:40\n"
+"PO-Revision-Date: 2024-10-01 18:51\n"
 
 msgid "All Files (*)"
 msgstr "Todos os arquivos (*)"
@@ -485,6 +485,9 @@ msgstr ""
 
 msgid "Available fields"
 msgstr ""
+
+msgid "Buffering"
+msgstr "Armazenando em buffer"
 
 msgid "Framerate"
 msgstr "Quadros por segundo"
@@ -1959,6 +1962,55 @@ msgstr "Erro ao apagar músicas"
 msgid "There were problems deleting some songs.  The following files could not be deleted:"
 msgstr "Houve problemas ao deletar algumas músicas. Os seguintes arquivos não puderam ser deletados:"
 
+#, qt-format
+msgid "Could not create the GStreamer element \"%1\" - make sure you have all the required GStreamer plugins installed"
+msgstr "Incapaz de criar o elemento GStreamer \"%1\" - confira se você possui todos os plugins requeridos pelo GStreamer instalados"
+
+#, qt-format
+msgid "Successfully written %1"
+msgstr "%1 gravado com sucesso"
+
+#, qt-format
+msgid "Transcoding %1 files using %2 threads"
+msgstr "Convertendo %1 arquivos usando %2 núcleos"
+
+#, qt-format
+msgid "Error processing %1: %2"
+msgstr "Erro processando %1:%2"
+
+#, qt-format
+msgid "Starting %1"
+msgstr "Iniciando %1"
+
+#, qt-format
+msgid "Couldn't find an encoder for %1, check you have the correct GStreamer plugins installed"
+msgstr "Não foi possível encontrar um codificador para %1, verifique se você tem os plugins corretos do GStreamer instalados"
+
+#, qt-format
+msgid "Couldn't find a muxer for %1, check you have the correct GStreamer plugins installed"
+msgstr "Não foi possível encontrar um multiplexador para %1, verifique se você tem os plugins corretos do GStreamer instalados"
+
+msgid "Start transcoding"
+msgstr "Começar conversão"
+
+#, c-format, qt-plural-format
+msgid "%n remaining"
+msgstr "%n faltando"
+
+#, c-format, qt-plural-format
+msgid "%n finished"
+msgstr "%n finalizado"
+
+#, c-format, qt-plural-format
+msgid "%n failed"
+msgstr "%n falhou"
+
+msgid "Add files to transcode"
+msgstr "Adicionar arquivos para converter"
+
+msgid "Open a directory to import music from"
+msgstr "Abrir uma pasta para importar músicas"
+
 msgid "Play/Pause"
 msgstr ""
 
@@ -2044,9 +2096,6 @@ msgstr ""
 #, qt-format
 msgid " Shortcuts on %1 are usually used through MATE Settings Daemon and should be configured there instead."
 msgstr ""
-
-msgid "Buffering"
-msgstr "Armazenando em buffer"
 
 msgid "D-Bus path"
 msgstr "Localização do D-Bus"
@@ -2176,55 +2225,6 @@ msgstr "Erro ao conectar ao dispositivo MTP %1"
 #, qt-format
 msgid "Error connecting MTP device %1: %2"
 msgstr ""
-
-#, qt-format
-msgid "Could not create the GStreamer element \"%1\" - make sure you have all the required GStreamer plugins installed"
-msgstr "Incapaz de criar o elemento GStreamer \"%1\" - confira se você possui todos os plugins requeridos pelo GStreamer instalados"
-
-#, qt-format
-msgid "Successfully written %1"
-msgstr "%1 gravado com sucesso"
-
-#, qt-format
-msgid "Transcoding %1 files using %2 threads"
-msgstr "Convertendo %1 arquivos usando %2 núcleos"
-
-#, qt-format
-msgid "Error processing %1: %2"
-msgstr "Erro processando %1:%2"
-
-#, qt-format
-msgid "Starting %1"
-msgstr "Iniciando %1"
-
-#, qt-format
-msgid "Couldn't find an encoder for %1, check you have the correct GStreamer plugins installed"
-msgstr "Não foi possível encontrar um codificador para %1, verifique se você tem os plugins corretos do GStreamer instalados"
-
-#, qt-format
-msgid "Couldn't find a muxer for %1, check you have the correct GStreamer plugins installed"
-msgstr "Não foi possível encontrar um multiplexador para %1, verifique se você tem os plugins corretos do GStreamer instalados"
-
-msgid "Start transcoding"
-msgstr "Começar conversão"
-
-#, c-format, qt-plural-format
-msgid "%n remaining"
-msgstr "%n faltando"
-
-#, c-format, qt-plural-format
-msgid "%n finished"
-msgstr "%n finalizado"
-
-#, c-format, qt-plural-format
-msgid "%n failed"
-msgstr "%n falhou"
-
-msgid "Add files to transcode"
-msgstr "Adicionar arquivos para converter"
-
-msgid "Open a directory to import music from"
-msgstr "Abrir uma pasta para importar músicas"
 
 msgid "Identifying song"
 msgstr ""
@@ -3704,6 +3704,36 @@ msgstr "Personalizado..."
 msgid "Enable fading"
 msgstr ""
 
+msgid "Transcoding"
+msgstr "Conversão"
+
+msgid "These settings are used in the \"Transcode Music\" dialog, and when converting music before copying it to a device."
+msgstr "Essas configurações são usadas na \"Conversão de Músicas\" e, ao converter a música antes de copiar para um dispositivo."
+
+msgid "FLAC"
+msgstr ""
+
+msgid "WavPack"
+msgstr ""
+
+msgid "Vorbis"
+msgstr ""
+
+msgid "Opus"
+msgstr ""
+
+msgid "Speex"
+msgstr ""
+
+msgid "AAC"
+msgstr ""
+
+msgid "ASF (WMA)"
+msgstr ""
+
+msgid "MP3"
+msgstr ""
+
 msgid "Equalizer"
 msgstr "Equalizador"
 
@@ -3953,97 +3983,6 @@ msgstr "Copiar a arte da capa do álbum"
 msgid "Safely remove the device after copying"
 msgstr "Remover o dispositivo com segurança após copiar"
 
-msgid "Press a key"
-msgstr "Pressione uma tecla"
-
-msgid "Global Shortcuts"
-msgstr ""
-
-msgid "Use Gnome (GSD) shortcuts when available"
-msgstr ""
-
-msgid "Open..."
-msgstr "Abrir..."
-
-msgid "Use MATE shortcuts when available"
-msgstr ""
-
-msgid "Use KDE (KGlobalAccel) shortcuts when available"
-msgstr ""
-
-msgid "Use X11 shortcuts when available"
-msgstr ""
-
-msgid "You need to launch System Preferences and allow Strawberry to \"<span style=\"font-style:italic\">control your computer</span>\" to use global shortcuts in Strawberry."
-msgstr "Você deve iniciar as Preferências do Sistema e permitir que o Strawberry \"<span style=\"font-style:italic\">controle o seu computador</span>\" para poder usar atalhos globais no Strawberry."
-
-msgid "Shortcut"
-msgstr "Atalho"
-
-msgctxt "Category label"
-msgid "Action"
-msgstr "Ação"
-
-msgid "&None"
-msgstr "&Nenhum"
-
-msgid "&Default"
-msgstr ""
-
-msgid "&Custom"
-msgstr "&Personalizado"
-
-msgid "Change shortcut..."
-msgstr "Mudar atalho..."
-
-msgid "Device Properties"
-msgstr "Propriedades do dispositivo"
-
-msgid "Icon"
-msgstr "Ícone"
-
-msgid "Hardware information"
-msgstr "Informação de hardware"
-
-msgid "Hardware information is only available while the device is connected."
-msgstr "Informação do hardware só está disponível quando o dispositivo está conectado."
-
-msgid "Information"
-msgstr "Informação"
-
-msgid "Supported formats"
-msgstr "Formatos suportados"
-
-msgid "This device supports the following file formats:"
-msgstr "Este dispositivo suporta os seguintes formatos de arquivo:"
-
-msgid "Strawberry can automatically convert the music you copy to this device into a format that it can play."
-msgstr "O Strawberry pode converter automaticamente a música que você copiar para o dispositivo no formato que pode ser executado."
-
-msgid "Do not convert any music"
-msgstr "Não converter nenhuma música"
-
-msgid "Convert any music that the device can't play"
-msgstr "Converter qualquer música que o dispositivo não puder tocar"
-
-msgid "Convert all music"
-msgstr "Converter todas as músicas"
-
-msgid "Preferred format"
-msgstr "Formato preferido"
-
-msgid "This device must be connected and opened before Strawberry can see what file formats it supports."
-msgstr "O dispositivo deve estar conectado e aberto antes que o Strawberry possa ver que formatos de arquivo ele suporta."
-
-msgid "Open device"
-msgstr "Abrir dispositivo"
-
-msgid "Querying device..."
-msgstr "Consultando dispositivo..."
-
-msgid "File formats"
-msgstr "Formatos de arquivo"
-
 msgid "Transcode Music"
 msgstr "Converter Música"
 
@@ -4207,35 +4146,96 @@ msgstr "Alta"
 msgid "Force mono encoding"
 msgstr "Forçar codificação em mono"
 
-msgid "Transcoding"
-msgstr "Conversão"
+msgid "Press a key"
+msgstr "Pressione uma tecla"
 
-msgid "These settings are used in the \"Transcode Music\" dialog, and when converting music before copying it to a device."
-msgstr "Essas configurações são usadas na \"Conversão de Músicas\" e, ao converter a música antes de copiar para um dispositivo."
-
-msgid "FLAC"
+msgid "Global Shortcuts"
 msgstr ""
 
-msgid "WavPack"
+msgid "Use Gnome (GSD) shortcuts when available"
 msgstr ""
 
-msgid "Vorbis"
+msgid "Open..."
+msgstr "Abrir..."
+
+msgid "Use MATE shortcuts when available"
 msgstr ""
 
-msgid "Opus"
+msgid "Use KDE (KGlobalAccel) shortcuts when available"
 msgstr ""
 
-msgid "Speex"
+msgid "Use X11 shortcuts when available"
 msgstr ""
 
-msgid "AAC"
+msgid "You need to launch System Preferences and allow Strawberry to \"<span style=\"font-style:italic\">control your computer</span>\" to use global shortcuts in Strawberry."
+msgstr "Você deve iniciar as Preferências do Sistema e permitir que o Strawberry \"<span style=\"font-style:italic\">controle o seu computador</span>\" para poder usar atalhos globais no Strawberry."
+
+msgid "Shortcut"
+msgstr "Atalho"
+
+msgctxt "Category label"
+msgid "Action"
+msgstr "Ação"
+
+msgid "&None"
+msgstr "&Nenhum"
+
+msgid "&Default"
 msgstr ""
 
-msgid "ASF (WMA)"
-msgstr ""
+msgid "&Custom"
+msgstr "&Personalizado"
 
-msgid "MP3"
-msgstr ""
+msgid "Change shortcut..."
+msgstr "Mudar atalho..."
+
+msgid "Device Properties"
+msgstr "Propriedades do dispositivo"
+
+msgid "Icon"
+msgstr "Ícone"
+
+msgid "Hardware information"
+msgstr "Informação de hardware"
+
+msgid "Hardware information is only available while the device is connected."
+msgstr "Informação do hardware só está disponível quando o dispositivo está conectado."
+
+msgid "Information"
+msgstr "Informação"
+
+msgid "Supported formats"
+msgstr "Formatos suportados"
+
+msgid "This device supports the following file formats:"
+msgstr "Este dispositivo suporta os seguintes formatos de arquivo:"
+
+msgid "Strawberry can automatically convert the music you copy to this device into a format that it can play."
+msgstr "O Strawberry pode converter automaticamente a música que você copiar para o dispositivo no formato que pode ser executado."
+
+msgid "Do not convert any music"
+msgstr "Não converter nenhuma música"
+
+msgid "Convert any music that the device can't play"
+msgstr "Converter qualquer música que o dispositivo não puder tocar"
+
+msgid "Convert all music"
+msgstr "Converter todas as músicas"
+
+msgid "Preferred format"
+msgstr "Formato preferido"
+
+msgid "This device must be connected and opened before Strawberry can see what file formats it supports."
+msgstr "O dispositivo deve estar conectado e aberto antes que o Strawberry possa ver que formatos de arquivo ele suporta."
+
+msgid "Open device"
+msgstr "Abrir dispositivo"
+
+msgid "Querying device..."
+msgstr "Consultando dispositivo..."
+
+msgid "File formats"
+msgstr "Formatos de arquivo"
 
 msgid "Server URL"
 msgstr ""
