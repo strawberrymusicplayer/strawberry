@@ -23,12 +23,12 @@
 
 #include <algorithm>
 
-#ifdef HAVE_LIBGPOD
+#ifdef HAVE_GPOD
 #  include <gdk-pixbuf/gdk-pixbuf.h>
 #  include <gpod/itdb.h>
 #endif
 
-#ifdef HAVE_LIBMTP
+#ifdef HAVE_MTP
 #  include <libmtp.h>
 #endif
 
@@ -61,8 +61,8 @@
 #include "song.h"
 #include "sqlquery.h"
 #include "sqlrow.h"
-#ifdef HAVE_DBUS
-#  include "mpris_common.h"
+#ifdef HAVE_MPRIS2
+#  include "mpris2/mpris_common.h"
 #endif
 
 using namespace Qt::StringLiterals;
@@ -1525,7 +1525,7 @@ void Song::InitArtAutomatic() {
 
 }
 
-#ifdef HAVE_LIBGPOD
+#ifdef HAVE_GPOD
 void Song::InitFromItdb(Itdb_Track *track, const QString &prefix) {
 
   d->valid_ = true;
@@ -1620,7 +1620,7 @@ void Song::ToItdb(Itdb_Track *track) const {
 }
 #endif
 
-#ifdef HAVE_LIBMTP
+#ifdef HAVE_MTP
 void Song::InitFromMTP(const LIBMTP_track_t *track, const QString &host) {
 
   d->valid_ = true;
@@ -1795,7 +1795,7 @@ void Song::BindToQuery(SqlQuery *query) const {
 
 }
 
-#ifdef HAVE_DBUS
+#ifdef HAVE_MPRIS2
 void Song::ToXesam(QVariantMap *map) const {
 
   using mpris::AddMetadata;

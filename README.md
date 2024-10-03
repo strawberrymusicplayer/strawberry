@@ -78,7 +78,6 @@ To build Strawberry from source you need the following installed on your system 
 * [Qt 6.4.0 or higher with components Core, Concurrent, Gui, Widgets, Network, Sql and D-Bus](https://www.qt.io/)
 * [SQLite 3.9 or newer](https://www.sqlite.org)
 * [ALSA (Required on Linux)](https://www.alsa-project.org/)
-* [D-Bus (Required on Linux)](https://www.freedesktop.org/wiki/Software/dbus/)
 * [GStreamer](https://gstreamer.freedesktop.org/)
 * [TagLib 1.12 or higher](https://www.taglib.org/)
 * [ICU](https://unicode-org.github.io/icu/)

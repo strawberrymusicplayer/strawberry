@@ -16,4 +16,4 @@ using ManagedObjectList = QMap<QDBusObjectPath, InterfacesAndProperties>;
 Q_DECLARE_METATYPE(InterfacesAndProperties)
 Q_DECLARE_METATYPE(ManagedObjectList)
 
-#endif  // DBUS_METATYPES_H_
+#endif  // DBUS_METATYPES_H

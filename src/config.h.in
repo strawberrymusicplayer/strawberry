@@ -5,34 +5,33 @@
 #define CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}"
 #define CMAKE_EXECUTABLE_SUFFIX "${CMAKE_EXECUTABLE_SUFFIX}"
 
+#cmakedefine USE_INSTALL_PREFIX
+
 #cmakedefine HAVE_BACKTRACE
+#cmakedefine HAVE_ALSA
+#cmakedefine HAVE_PULSE
 #cmakedefine HAVE_GIO
 #cmakedefine HAVE_GIO_UNIX
 #cmakedefine HAVE_DBUS
-#cmakedefine HAVE_X11
+#cmakedefine HAVE_MPRIS2
 #cmakedefine HAVE_UDISKS2
-#cmakedefine HAVE_ALSA
 #cmakedefine HAVE_AUDIOCD
-#cmakedefine HAVE_LIBGPOD
-#cmakedefine HAVE_LIBMTP
-#cmakedefine HAVE_LIBPULSE
+#cmakedefine HAVE_MTP
+#cmakedefine HAVE_GPOD
 #cmakedefine HAVE_QTSPARKLE
 #cmakedefine HAVE_SONGFINGERPRINTING
 #cmakedefine HAVE_MUSICBRAINZ
+#cmakedefine HAVE_MOODBAR
+#cmakedefine HAVE_EBUR128
 #cmakedefine HAVE_GLOBALSHORTCUTS
 #cmakedefine HAVE_X11_GLOBALSHORTCUTS
-
-#cmakedefine USE_INSTALL_PREFIX
-
+#cmakedefine HAVE_KDE_GLOBALSHORTCUTS
+#cmakedefine HAVE_GNOME_GLOBALSHORTCUTS
+#cmakedefine HAVE_MATE_GLOBALSHORTCUTS
 #cmakedefine HAVE_SUBSONIC
 #cmakedefine HAVE_TIDAL
 #cmakedefine HAVE_SPOTIFY
 #cmakedefine HAVE_QOBUZ
-
-#cmakedefine HAVE_MOODBAR
-
-#cmakedefine HAVE_KEYSYMDEF_H
-#cmakedefine HAVE_XF86KEYSYM_H
 
 #cmakedefine HAVE_TAGLIB_DSFFILE
 #cmakedefine HAVE_TAGLIB_DSDIFFFILE
@@ -47,7 +46,5 @@
 #cmakedefine HAVE_QPA_QPLATFORMNATIVEINTERFACE_H
 
 #cmakedefine ENABLE_WIN32_CONSOLE
-
-#cmakedefine HAVE_EBUR128
 
 #endif // CONFIG_H_IN

@@ -50,11 +50,11 @@ class QSqlRecord;
 
 class EngineMetadata;
 
-#ifdef HAVE_LIBGPOD
+#ifdef HAVE_GPOD
 struct _Itdb_Track;
 #endif
 
-#ifdef HAVE_LIBMTP
+#ifdef HAVE_MTP
 struct LIBMTP_track_struct;
 #endif
 
@@ -475,19 +475,19 @@ class Song {
   void InitArtManual();
   void InitArtAutomatic();
 
-#ifdef HAVE_LIBGPOD
+#ifdef HAVE_GPOD
   void InitFromItdb(_Itdb_Track *track, const QString &prefix);
   void ToItdb(_Itdb_Track *track) const;
 #endif
 
-#ifdef HAVE_LIBMTP
+#ifdef HAVE_MTP
   void InitFromMTP(const LIBMTP_track_struct *track, const QString &host);
   void ToMTP(LIBMTP_track_struct *track) const;
 #endif
 
   // Save
   void BindToQuery(SqlQuery *query) const;
-#ifdef HAVE_DBUS
+#ifdef HAVE_MPRIS2
   void ToXesam(QVariantMap *map) const;
 #endif
 

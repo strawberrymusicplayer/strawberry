@@ -21,7 +21,7 @@
 
 #include "config.h"
 
-#ifdef HAVE_LIBGPOD
+#ifdef HAVE_GPOD
 #  include <gpod/itdb.h>
 #endif
 
@@ -107,7 +107,7 @@ void DeviceLister::Exit() {
 
 namespace {
 
-#ifdef HAVE_LIBGPOD
+#ifdef HAVE_GPOD
 
 QString GetIpodColour(Itdb_IpodModel model) {
 
@@ -237,7 +237,7 @@ QVariantList DeviceLister::GuessIconForPath(const QString &path) {
 
   QVariantList ret;
 
-#ifdef HAVE_LIBGPOD
+#ifdef HAVE_GPOD
   if (IsIpod(path)) {
     Itdb_Device *device = itdb_device_new();
     itdb_device_set_mountpoint(device, path.toLocal8Bit().constData());

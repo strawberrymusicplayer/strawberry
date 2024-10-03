@@ -40,8 +40,8 @@
 
 #include "core/scoped_ptr.h"
 #include "core/shared_ptr.h"
+#include "core/dbus_metatypes.h"
 
-#include "dbus/metatypes.h"
 #include "devicelister.h"
 
 class OrgFreedesktopDBusObjectManagerInterface;

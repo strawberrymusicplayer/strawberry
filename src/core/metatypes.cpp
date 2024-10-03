@@ -33,9 +33,11 @@
 #include <QMap>
 #include <QByteArray>
 #include <QUrl>
+#include <QDataStream>
 #include <QImage>
 #include <QNetworkReply>
 #include <QItemSelection>
+
 #ifdef HAVE_DBUS
 #  include <QDBusMetaType>
 #  include <QDBusArgument>
@@ -55,9 +57,11 @@
 #include "equalizer/equalizer.h"
 
 #ifdef HAVE_DBUS
-#  include "mpris2.h"
-#  include "osd/osddbus.h"
-#  include "dbus/metatypes.h"
+#  include "dbus_metatypes.h"
+#endif
+
+#ifdef HAVE_MPRIS2
+#  include "mpris2/mpris2.h"
 #endif
 
 #include "streaming/streamingsearchview.h"
@@ -66,7 +70,7 @@
 
 #include "radios/radiochannel.h"
 
-#ifdef HAVE_LIBMTP
+#ifdef HAVE_MTP
 #  include "device/mtpconnection.h"
 #endif
 
@@ -76,6 +80,11 @@
 #include "smartplaylists/smartplaylistsitem.h"
 
 #include "lyrics/lyricssearchresult.h"
+
+#ifdef HAVE_DBUS
+QDBusArgument &operator<<(QDBusArgument &arg, const QImage &image);
+const QDBusArgument &operator>>(const QDBusArgument &arg, QImage &image);
+#endif
 
 void RegisterMetaTypes() {
 
@@ -123,13 +132,15 @@ void RegisterMetaTypes() {
 #ifdef HAVE_DBUS
   qDBusRegisterMetaType<QByteArrayList>();
   qDBusRegisterMetaType<QImage>();
+  qDBusRegisterMetaType<InterfacesAndProperties>();
+  qDBusRegisterMetaType<ManagedObjectList>();
+#  ifdef HAVE_MPRIS2
   qDBusRegisterMetaType<TrackMetadata>();
   qDBusRegisterMetaType<Track_Ids>();
   qDBusRegisterMetaType<MprisPlaylist>();
   qDBusRegisterMetaType<MprisPlaylistList>();
   qDBusRegisterMetaType<MaybePlaylist>();
-  qDBusRegisterMetaType<InterfacesAndProperties>();
-  qDBusRegisterMetaType<ManagedObjectList>();
+#  endif
 #endif
 
   qRegisterMetaType<StreamingSearchView::Result>("StreamingSearchView::Result");
@@ -138,7 +149,7 @@ void RegisterMetaTypes() {
   qRegisterMetaType<RadioChannel>("RadioChannel");
   qRegisterMetaType<RadioChannelList>("RadioChannelList");
 
-#ifdef HAVE_LIBMTP
+#ifdef HAVE_MTP
   qRegisterMetaType<MtpConnection*>("MtpConnection*");
 #endif
 

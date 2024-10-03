@@ -46,9 +46,9 @@
 #include "mpris_common.h"
 #include "mpris2.h"
 
-#include "song.h"
-#include "application.h"
-#include "player.h"
+#include "core/song.h"
+#include "core/application.h"
+#include "core/player.h"
 #include "utilities/timeconstants.h"
 #include "engine/enginebase.h"
 #include "playlist/playlist.h"

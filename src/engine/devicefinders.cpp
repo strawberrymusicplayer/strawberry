@@ -32,7 +32,7 @@
 #  include "alsapcmdevicefinder.h"
 #endif
 
-#ifdef HAVE_LIBPULSE
+#ifdef HAVE_PULSE
 #  include "pulsedevicefinder.h"
 #endif
 
@@ -69,7 +69,7 @@ void DeviceFinders::Init() {
   device_finders.append(new AlsaDeviceFinder);
   device_finders.append(new AlsaPCMDeviceFinder);
 #endif
-#ifdef HAVE_LIBPULSE
+#ifdef HAVE_PULSE
   device_finders.append(new PulseDeviceFinder);
 #endif
 #ifdef Q_OS_MACOS

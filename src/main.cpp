@@ -84,8 +84,8 @@
 #  include "core/mac_startup.h"
 #endif
 
-#ifdef HAVE_DBUS
-#  include "core/mpris2.h"
+#ifdef HAVE_MPRIS2
+#  include "mpris2/mpris2.h"
 #endif
 #include "core/metatypes.h"
 #include "core/iconloader.h"
@@ -266,7 +266,7 @@ int main(int argc, char *argv[]) {
   ScopedPtr<Translations> translations(new Translations);
 
   translations->LoadTranslation(QStringLiteral("qt"), QLibraryInfo::path(QLibraryInfo::TranslationsPath), language);
-  translations->LoadTranslation(QStringLiteral("strawberry"), QStringLiteral(":/translations"), language);
+  translations->LoadTranslation(QStringLiteral("strawberry"), QStringLiteral(":/src/translations"), language);
   translations->LoadTranslation(QStringLiteral("strawberry"), QStringLiteral(TRANSLATIONS_DIR), language);
   translations->LoadTranslation(QStringLiteral("strawberry"), QCoreApplication::applicationDirPath(), language);
   translations->LoadTranslation(QStringLiteral("strawberry"), QDir::currentPath(), language);
@@ -293,7 +293,7 @@ int main(int argc, char *argv[]) {
   OSDBase osd(tray_icon, &app);
 #endif
 
-#ifdef HAVE_DBUS
+#ifdef HAVE_MPRIS2
   mpris::Mpris2 mpris2(&app);
 #endif
 
@@ -304,7 +304,7 @@ int main(int argc, char *argv[]) {
   mac::EnableFullScreen(w);
 #endif  // Q_OS_MACOS
 
-#ifdef HAVE_DBUS
+#ifdef HAVE_MPRIS2
   QObject::connect(&mpris2, &mpris::Mpris2::RaiseMainWindow, &w, &MainWindow::Raise);
 #endif
   QObject::connect(&single_app, &KDSingleApplication::messageReceived, &w, QOverload<const QByteArray&>::of(&MainWindow::CommandlineOptionsReceived));

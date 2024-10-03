@@ -29,19 +29,11 @@
 #define XK_XKB_KEYS
 #define XK_LATIN1
 
-#ifdef HAVE_KEYSYMDEF_H
-#  include <X11/keysymdef.h>
-#else
-#  warning "Missing X11/keysymdef.h"
-#endif
-#ifdef HAVE_XF86KEYSYM_H
-#  include <X11/XF86keysym.h>
-#endif
+#include <X11/keysymdef.h>
+#include <X11/XF86keysym.h>
 
 namespace KeyMapperX11 {
 static const QMap<Qt::Key, quint32> keymapper_x11_ = {  // clazy:exclude=non-pod-global-static
-
-#ifdef HAVE_KEYSYMDEF_H
 
     { Qt::Key_0,                  XK_0 },
     { Qt::Key_1,                  XK_1 },
@@ -208,9 +200,7 @@ static const QMap<Qt::Key, quint32> keymapper_x11_ = {  // clazy:exclude=non-pod
     { Qt::Key_MultipleCandidate,  XK_MultipleCandidate },
     { Qt::Key_PreviousCandidate,  XK_PreviousCandidate },
     { Qt::Key_Mode_switch,        XK_Mode_switch },
-#endif
 
-#ifdef HAVE_XF86KEYSYM_H
     { Qt::Key_Back,               XF86XK_Back },
     { Qt::Key_Forward,            XF86XK_Forward },
     { Qt::Key_Stop,               XF86XK_Stop },
@@ -249,7 +239,6 @@ static const QMap<Qt::Key, quint32> keymapper_x11_ = {  // clazy:exclude=non-pod
     { Qt::Key_LaunchF,            XF86XK_LaunchD },
     { Qt::Key_LaunchG,            XF86XK_LaunchE },
     { Qt::Key_LaunchH,            XF86XK_LaunchF },
-#endif
 
     {Qt::Key(0),                  0}
 

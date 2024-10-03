@@ -1,5 +1,8 @@
 find_program(GETTEXT_XGETTEXT_EXECUTABLE xgettext REQUIRED)
-find_program(CAT_EXECUTABLE cat REQUIRED)
+
+if(NOT MSVC)
+  find_program(CAT_EXECUTABLE cat REQUIRED)
+endif()
 
 list(APPEND XGETTEXT_OPTIONS
   --qt
@@ -82,11 +85,13 @@ macro(add_po outfiles po_prefix)
   # Generate a qrc file for the translations
   if(NOT INSTALL_TRANSLATIONS)
     set(_qrc ${CMAKE_CURRENT_BINARY_DIR}/${ADD_PO_DIRECTORY}/translations.qrc)
-    file(WRITE ${_qrc} "<RCC><qresource prefix=\"/${ADD_PO_DIRECTORY}\">")
+    file(WRITE ${_qrc} "<RCC>\n")
+    file(APPEND ${_qrc} "<qresource prefix=\"/${ADD_PO_DIRECTORY}\">\n")
     foreach(_lang ${ADD_PO_LANGUAGES})
-      file(APPEND ${_qrc} "<file>${po_prefix}${_lang}.qm</file>")
+      file(APPEND ${_qrc} "<file>${po_prefix}${_lang}.qm</file>\n")
     endforeach(_lang)
-    file(APPEND ${_qrc} "</qresource></RCC>")
+    file(APPEND ${_qrc} "</qresource>\n")
+    file(APPEND ${_qrc} "</RCC>\n")
     qt_add_resources(${outfiles} ${_qrc})
   endif()
 endmacro(add_po)

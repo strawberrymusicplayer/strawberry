@@ -49,7 +49,6 @@ jobs:
             boost-devel
             glib2-devel
             glib2-tools
-            dbus-1-devel
             alsa-devel
             libnotify-devel
             sqlite3-devel
@@ -167,7 +166,6 @@ jobs:
             openssh
             rsync
             boost-devel
-            dbus-devel
             sqlite-devel
             alsa-lib-devel
             pulseaudio-libs-devel
@@ -253,7 +251,6 @@ jobs:
           rpm-build
           glibc-devel
           boost-devel
-          dbus-devel
           sqlite-devel
           libasound-devel
           pulseaudio-devel
@@ -448,7 +445,6 @@ jobs:
             lsb-release
             dpkg-dev
             libglib2.0-dev
-            libdbus-1-dev
             libboost-dev
             libsqlite3-dev
             libasound2-dev
@@ -528,7 +524,6 @@ jobs:
             dpkg-dev
             libglib2.0-dev
             libboost-dev
-            libdbus-1-dev
             libsqlite3-dev
             libasound2-dev
             libpulse-dev
@@ -610,7 +605,6 @@ jobs:
             dpkg-dev
             libglib2.0-dev
             libboost-dev
-            libdbus-1-dev
             libsqlite3-dev
             libasound2-dev
             libpulse-dev
@@ -752,7 +746,6 @@ jobs:
           -DUSE_BUNDLE=ON
           -DENABLE_DBUS=OFF
           -DICU_ROOT="${{env.prefix_path}}"
-          -DFFTW3_DIR="${{env.prefix_path}}"
           -DAPPLE_DEVELOPER_ID=$(test '${{github.repository}}' = 'strawberrymusicplayer/strawberry' && test '${{github.event.pull_request.base.repo.full_name}}' = '${{github.event.pull_request.head.repo.full_name}}' && echo "383J84DVB6" || echo "")
           -DENABLE_SPOTIFY=$(test -f "${{env.prefix_path}}/lib/gstreamer-1.0/libgstspotify.dylib" && echo "ON" || echo "OFF")
 
@@ -892,7 +885,6 @@ jobs:
           -DUSE_BUNDLE=ON
           -DENABLE_DBUS=OFF
           -DICU_ROOT="${{env.prefix_path}}"
-          -DFFTW3_DIR="${{env.prefix_path}}"
           -DAPPLE_DEVELOPER_ID="383J84DVB6"
           -DENABLE_SPOTIFY=$(test -f "${{env.prefix_path}}/lib/gstreamer-1.0/libgstspotify.dylib" && echo "ON" || echo "OFF")
 
@@ -990,9 +982,9 @@ jobs:
           -DARCH="${{matrix.arch}}"
           -DENABLE_WIN32_CONSOLE=$(test "${{matrix.buildtype}}" = "debug" && echo "ON" || echo "OFF")
           -DENABLE_DBUS=OFF
-          -DENABLE_LIBGPOD=OFF
-          -DENABLE_LIBMTP=OFF
           -DENABLE_AUDIOCD=OFF
+          -DENABLE_MTP=OFF
+          -DENABLE_GPOD=OFF
           -DENABLE_SPOTIFY=OFF
 
       - name: Run Make
@@ -1277,7 +1269,6 @@ jobs:
           -DENABLE_WIN32_CONSOLE=${{env.win32_console}}
           -DPKG_CONFIG_EXECUTABLE="${{env.prefix_path_forwardslash}}/bin/pkg-config.exe"
           -DICU_ROOT="${{env.prefix_path_forwardslash}}"
-          -DFFTW3_DIR="${{env.prefix_path_forwardslash}}"
           -DBoost_INCLUDE_DIR="${{env.prefix_path_forwardslash}}/include"
 
       - name: Run Make

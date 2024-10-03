@@ -69,18 +69,16 @@
 #  include "cddalister.h"
 #  include "cddadevice.h"
 #endif
-#ifdef HAVE_DBUS
-#  ifdef HAVE_UDISKS2
-#    include "udisks2lister.h"
-#  endif
+#ifdef HAVE_UDISKS2
+#  include "udisks2lister.h"
 #endif
-#ifdef HAVE_LIBMTP
+#ifdef HAVE_MTP
 #  include "mtpdevice.h"
 #endif
-#if defined(Q_OS_MACOS) and defined(HAVE_LIBMTP)
+#ifdef Q_OS_MACOS
 #  include "macosdevicelister.h"
 #endif
-#ifdef HAVE_LIBGPOD
+#ifdef HAVE_GPOD
 #  include "gpoddevice.h"
 #endif
 
@@ -118,13 +116,13 @@ DeviceManager::DeviceManager(Application *app, QObject *parent)
 #if defined(HAVE_AUDIOCD) && !defined(Q_OS_MACOS)
   AddLister(new CddaLister);
 #endif
-#if defined(HAVE_DBUS) && defined(HAVE_UDISKS2)
+#ifdef HAVE_UDISKS2
   AddLister(new Udisks2Lister);
 #endif
 #ifdef HAVE_GIO
   AddLister(new GioLister);
 #endif
-#if defined(Q_OS_MACOS) and defined(HAVE_LIBMTP)
+#ifdef Q_OS_MACOS
   AddLister(new MacOsDeviceLister);
 #endif
 
@@ -134,11 +132,11 @@ DeviceManager::DeviceManager(Application *app, QObject *parent)
 
   AddDeviceClass<FilesystemDevice>();
 
-#ifdef HAVE_LIBGPOD
+#ifdef HAVE_GPOD
   AddDeviceClass<GPodDevice>();
 #endif
 
-#ifdef HAVE_LIBMTP
+#ifdef HAVE_MTP
   AddDeviceClass<MtpDevice>();
 #endif
 

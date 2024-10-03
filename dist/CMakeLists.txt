@@ -13,6 +13,7 @@ if(APPLE)
 endif(APPLE)
 
 if(WIN32)
+  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/windows/windres.rc.in ${CMAKE_BINARY_DIR}/windres.rc)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/windows/strawberry.nsi.in ${CMAKE_CURRENT_SOURCE_DIR}/windows/strawberry.nsi @ONLY)
 endif(WIN32)
 

@@ -34,10 +34,16 @@
 #include "globalshortcutsmanager.h"
 #include "globalshortcutsbackend.h"
 
-#if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS) && defined(HAVE_DBUS)
-#  include "globalshortcutsbackend-kde.h"
-#  include "globalshortcutsbackend-gnome.h"
-#  include "globalshortcutsbackend-mate.h"
+#ifdef HAVE_KDE_GLOBALSHORTCUTS
+#include "globalshortcutsbackend-kde.h"
+#endif
+
+#ifdef HAVE_GNOME_GLOBALSHORTCUTS
+#include "globalshortcutsbackend-gnome.h"
+#endif
+
+#ifdef HAVE_MATE_GLOBALSHORTCUTS
+#include "globalshortcutsbackend-mate.h"
 #endif
 
 #ifdef HAVE_X11_GLOBALSHORTCUTS
@@ -82,9 +88,15 @@ GlobalShortcutsManager::GlobalShortcutsManager(QWidget *parent) : QWidget(parent
 
   // Create backends - these do the actual shortcut registration
 
-#if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS) && defined(HAVE_DBUS)
+#ifdef HAVE_KDE_GLOBALSHORTCUTS
   backends_ << new GlobalShortcutsBackendKDE(this, this);
+#endif
+
+#ifdef HAVE_GNOME_GLOBALSHORTCUTS
   backends_ << new GlobalShortcutsBackendGnome(this, this);
+#endif
+
+#ifdef HAVE_MATE_GLOBALSHORTCUTS
   backends_ << new GlobalShortcutsBackendMate(this, this);
 #endif
 
@@ -116,13 +128,19 @@ void GlobalShortcutsManager::ReloadSettings() {
   backends_enabled_ << GlobalShortcutsBackend::Type::Win;
 #endif
 
-#if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS) && defined(HAVE_DBUS)
+#ifdef HAVE_KDE_GLOBALSHORTCUTS
   if (settings_.value("use_kde", true).toBool()) {
     backends_enabled_ << GlobalShortcutsBackend::Type::KDE;
   }
+#endif
+
+#ifdef HAVE_GNOME_GLOBALSHORTCUTS
   if (settings_.value("use_gnome", true).toBool()) {
     backends_enabled_ << GlobalShortcutsBackend::Type::Gnome;
   }
+#endif
+
+#ifdef HAVE_MATE_GLOBALSHORTCUTS
   if (settings_.value("use_mate", true).toBool()) {
     backends_enabled_ << GlobalShortcutsBackend::Type::Mate;
   }
@@ -165,7 +183,7 @@ GlobalShortcutsManager::Shortcut GlobalShortcutsManager::AddShortcut(const QStri
 
 }
 
-#if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS) && defined(HAVE_DBUS)
+#ifdef HAVE_KDE_GLOBALSHORTCUTS
 
 bool GlobalShortcutsManager::IsKdeAvailable() {
 
@@ -173,11 +191,19 @@ bool GlobalShortcutsManager::IsKdeAvailable() {
 
 }
 
+#endif
+
+#ifdef HAVE_KDE_GLOBALSHORTCUTS
+
 bool GlobalShortcutsManager::IsGnomeAvailable() {
 
   return GlobalShortcutsBackendGnome::IsGnomeAvailable();
 
 }
+
+#endif
+
+#ifdef HAVE_KDE_GLOBALSHORTCUTS
 
 bool GlobalShortcutsManager::IsMateAvailable() {
 
@@ -185,7 +211,7 @@ bool GlobalShortcutsManager::IsMateAvailable() {
 
 }
 
-#endif  // defined(Q_OS_UNIX) && !defined(Q_OS_MACOS) && defined(HAVE_DBUS)
+#endif
 
 #ifdef HAVE_X11_GLOBALSHORTCUTS
 
