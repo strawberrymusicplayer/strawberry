@@ -193,7 +193,7 @@ bool GlobalShortcutsManager::IsKdeAvailable() {
 
 #endif
 
-#ifdef HAVE_KDE_GLOBALSHORTCUTS
+#ifdef HAVE_GNOME_GLOBALSHORTCUTS
 
 bool GlobalShortcutsManager::IsGnomeAvailable() {
 
@@ -203,7 +203,7 @@ bool GlobalShortcutsManager::IsGnomeAvailable() {
 
 #endif
 
-#ifdef HAVE_KDE_GLOBALSHORTCUTS
+#ifdef HAVE_MATE_GLOBALSHORTCUTS
 
 bool GlobalShortcutsManager::IsMateAvailable() {
 
@@ -221,7 +221,7 @@ bool GlobalShortcutsManager::IsX11Available() {
 
 }
 
-#endif  // HAVE_X11_GLOBALSHORTCUTS
+#endif
 
 bool GlobalShortcutsManager::Register() {
 
@@ -255,7 +255,7 @@ bool GlobalShortcutsManager::IsMacAccessibilityEnabled() {
 
 }
 
-#endif  // Q_OS_MACOS
+#endif
 
 void GlobalShortcutsManager::ShowMacAccessibilityDialog() {
 
