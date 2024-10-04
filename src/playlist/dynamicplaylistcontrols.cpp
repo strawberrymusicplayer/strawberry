@@ -47,7 +47,7 @@ DynamicPlaylistControls::DynamicPlaylistControls(QWidget *parent)
     stylesheet_file.close();
     QColor color = palette().color(QPalette::Light);
     color.setAlpha(50);
-    stylesheet.replace("%background"_L1, QStringLiteral("rgba(%1, %2, %3, %4%5)").arg(QString::number(color.red()), QString::number(color.green()), QString::number(color.blue()), QString::number(color.alpha())).arg(u'%'));
+    stylesheet.replace("%background"_L1, QStringLiteral("rgba(%1, %2, %3, %4%5)").arg(QString::number(color.red()), QString::number(color.green()), QString::number(color.blue()), QString::number(color.alpha()), u"%"_s));
     setStyleSheet(stylesheet);
   }
 
