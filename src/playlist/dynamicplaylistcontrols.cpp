@@ -45,7 +45,7 @@ DynamicPlaylistControls::DynamicPlaylistControls(QWidget *parent)
   if (stylesheet_file.open(QIODevice::ReadOnly)) {
     QString stylesheet = QString::fromLatin1(stylesheet_file.readAll());
     stylesheet_file.close();
-    QColor color = palette().color(QPalette::Light);
+    QColor color = palette().color(QPalette::AlternateBase).lighter(80);
     color.setAlpha(50);
     stylesheet.replace("%background"_L1, QStringLiteral("rgba(%1, %2, %3, %4%5)").arg(QString::number(color.red()), QString::number(color.green()), QString::number(color.blue()), QString::number(color.alpha()), u"%"_s));
     setStyleSheet(stylesheet);
