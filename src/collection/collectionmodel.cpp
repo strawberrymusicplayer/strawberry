@@ -1211,6 +1211,7 @@ bool CollectionModel::IsSongTitleDataChanged(const Song &song1, const Song &song
 
   return song1.url() != song2.url() ||
          song1.track() != song2.track() ||
+         song1.disc() != song2.disc() ||
          song1.title() != song2.title() ||
          song1.compilation() != song2.compilation() ||
          (song1.compilation() && song1.artist() != song2.artist());
