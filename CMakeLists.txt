@@ -262,12 +262,6 @@ if(WIN32)
   endif()
 endif()
 
-if(WIN32 AND NOT MSVC)
-  string(REPLACE "gcc" "windres" CMAKE_RC_COMPILER_INIT ${CMAKE_C_COMPILER})
-  enable_language(RC)
-  set(CMAKE_RC_COMPILE_OBJECT "<CMAKE_RC_COMPILER> -O coff -o <OBJECT> <SOURCE> -I ${CMAKE_SOURCE_DIR}/dist/windows")
-endif()
-
 optional_component(ALSA ON "ALSA integration"
   DEPENDS "alsa" ALSA_FOUND
 )
