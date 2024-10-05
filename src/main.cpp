@@ -249,19 +249,32 @@ int main(int argc, char *argv[]) {
   IconLoader::Init();
 
 #ifdef HAVE_TRANSLATIONS
-  QString override_language = options.language();
-  if (override_language.isEmpty()) {
+  QString language = options.language();
+  if (language.isEmpty()) {
     Settings s;
     s.beginGroup(BehaviourSettingsPage::kSettingsGroup);
-    override_language = s.value("language").toString();
+    language = s.value("language").toString();
     s.endGroup();
   }
 
-  QString system_language = QLocale::system().uiLanguages().empty() ? QLocale::system().name() : QLocale::system().uiLanguages().first();
-  // uiLanguages returns strings with "-" as separators for language/region; however QTranslator needs "_" separators
-  system_language.replace(u'-', u'_');
-
-  const QString language = override_language.isEmpty() ? system_language : override_language;
+  if (language.isEmpty()) {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+    const QStringList system_languages = QLocale::system().uiLanguages(QLocale::TagSeparator::Underscore);
+#else
+    const QStringList system_languages = QLocale::system().uiLanguages();
+#endif
+    if (system_languages.isEmpty()) {
+      language = QLocale::system().name();
+    }
+    else {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+      language = system_languages.first();
+#else
+      language = system_languages.first();
+      language = language.replace(u'-', u'_');
+#endif
+    }
+  }
 
   ScopedPtr<Translations> translations(new Translations);
 
