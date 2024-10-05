@@ -112,7 +112,7 @@
 #  include "osd/osdbase.h"
 #endif
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 using std::make_shared;
 
 int main(int argc, char *argv[]) {
@@ -124,14 +124,14 @@ int main(int argc, char *argv[]) {
 #endif
 
 #if defined(Q_OS_WIN32) || defined(Q_OS_MACOS)
-  QCoreApplication::setApplicationName(QStringLiteral("Strawberry"));
-  QCoreApplication::setOrganizationName(QStringLiteral("Strawberry"));
+  QCoreApplication::setApplicationName(u"Strawberry"_s);
+  QCoreApplication::setOrganizationName(u"Strawberry"_s);
 #else
-  QCoreApplication::setApplicationName(QStringLiteral("strawberry"));
-  QCoreApplication::setOrganizationName(QStringLiteral("strawberry"));
+  QCoreApplication::setApplicationName(u"strawberry"_s);
+  QCoreApplication::setOrganizationName(u"strawberry"_s);
 #endif
   QCoreApplication::setApplicationVersion(QStringLiteral(STRAWBERRY_VERSION_DISPLAY));
-  QCoreApplication::setOrganizationDomain(QStringLiteral("strawberrymusicplayer.org"));
+  QCoreApplication::setOrganizationDomain(u"strawberrymusicplayer.org"_s);
 
   // This makes us show up nicely in gnome-volume-control
   g_set_application_name("Strawberry");
@@ -181,8 +181,8 @@ int main(int argc, char *argv[]) {
   Utilities::IncreaseFDLimit();
 #endif
 
-  QGuiApplication::setApplicationDisplayName(QStringLiteral("Strawberry Music Player"));
-  QGuiApplication::setDesktopFileName(QStringLiteral("org.strawberrymusicplayer.strawberry"));
+  QGuiApplication::setApplicationDisplayName(u"Strawberry Music Player"_s);
+  QGuiApplication::setDesktopFileName(u"org.strawberrymusicplayer.strawberry"_s);
   QGuiApplication::setQuitOnLastWindowClosed(false);
 
   QApplication a(argc, argv);
@@ -197,9 +197,9 @@ int main(int argc, char *argv[]) {
     return 0;
   }
 
-  QThread::currentThread()->setObjectName(QStringLiteral("Main"));
+  QThread::currentThread()->setObjectName(u"Main"_s);
 
-  QGuiApplication::setWindowIcon(IconLoader::Load(QStringLiteral("strawberry")));
+  QGuiApplication::setWindowIcon(IconLoader::Load(u"strawberry"_s));
 
 #if defined(USE_BUNDLE)
   qLog(Debug) << "Looking for resources in" << QCoreApplication::libraryPaths();
@@ -265,11 +265,11 @@ int main(int argc, char *argv[]) {
 
   ScopedPtr<Translations> translations(new Translations);
 
-  translations->LoadTranslation(QStringLiteral("qt"), QLibraryInfo::path(QLibraryInfo::TranslationsPath), language);
-  translations->LoadTranslation(QStringLiteral("strawberry"), QStringLiteral(":/src/translations"), language);
-  translations->LoadTranslation(QStringLiteral("strawberry"), QStringLiteral(TRANSLATIONS_DIR), language);
-  translations->LoadTranslation(QStringLiteral("strawberry"), QCoreApplication::applicationDirPath(), language);
-  translations->LoadTranslation(QStringLiteral("strawberry"), QDir::currentPath(), language);
+  translations->LoadTranslation(u"qt"_s, QLibraryInfo::path(QLibraryInfo::TranslationsPath), language);
+  translations->LoadTranslation(u"strawberry"_s, u":/src/translations"_s, language);
+  translations->LoadTranslation(u"strawberry"_s, QStringLiteral(TRANSLATIONS_DIR), language);
+  translations->LoadTranslation(u"strawberry"_s, QCoreApplication::applicationDirPath(), language);
+  translations->LoadTranslation(u"strawberry"_s, QDir::currentPath(), language);
 
 #  ifdef HAVE_QTSPARKLE
   //qtsparkle::LoadTranslations(language);
