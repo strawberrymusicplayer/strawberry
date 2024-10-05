@@ -2165,19 +2165,34 @@ msgid ""
 "configured there instead."
 msgstr ""
 
-msgid "D-Bus path"
+msgid "Identifying song"
 msgstr ""
 
-msgid "Serial number"
+msgid "Fingerprinting song"
 msgstr ""
 
-msgid "Mount points"
+msgid "Downloading metadata"
 msgstr ""
 
-msgid "Partition label"
+msgid "Show moodbar"
 msgstr ""
 
-msgid "UUID"
+msgid "Moodbar style"
+msgstr ""
+
+msgid "Normal"
+msgstr ""
+
+msgid "Angry"
+msgstr ""
+
+msgid "Frozen"
+msgstr ""
+
+msgid "Happy"
+msgstr ""
+
+msgid "System colors"
 msgstr ""
 
 msgid "Connect device"
@@ -2252,23 +2267,6 @@ msgstr ""
 msgid "Manufacturer"
 msgstr ""
 
-#, qt-format
-msgid "Could not copy %1 to %2: %3"
-msgstr ""
-
-#, qt-format
-msgid "Writing database failed: %1"
-msgstr ""
-
-msgid "Writing database failed."
-msgstr ""
-
-msgid "Loading iPod database"
-msgstr ""
-
-msgid "An error occurred loading the iTunes database"
-msgstr ""
-
 msgid "Mount point"
 msgstr ""
 
@@ -2276,6 +2274,21 @@ msgid "Device"
 msgstr ""
 
 msgid "URI"
+msgstr ""
+
+msgid "D-Bus path"
+msgstr ""
+
+msgid "Serial number"
+msgstr ""
+
+msgid "Mount points"
+msgstr ""
+
+msgid "Partition label"
+msgstr ""
+
+msgid "UUID"
 msgstr ""
 
 #, qt-format
@@ -2303,15 +2316,6 @@ msgstr ""
 msgid "Error connecting MTP device %1: %2"
 msgstr ""
 
-msgid "Identifying song"
-msgstr ""
-
-msgid "Fingerprinting song"
-msgstr ""
-
-msgid "Downloading metadata"
-msgstr ""
-
 msgid "Error while setting CDDA device to ready state."
 msgstr ""
 
@@ -2319,6 +2323,23 @@ msgid "Error while setting CDDA device to pause state."
 msgstr ""
 
 msgid "Error while querying CDDA tracks."
+msgstr ""
+
+#, qt-format
+msgid "Could not copy %1 to %2: %3"
+msgstr ""
+
+#, qt-format
+msgid "Writing database failed: %1"
+msgstr ""
+
+msgid "Writing database failed."
+msgstr ""
+
+msgid "Loading iPod database"
+msgstr ""
+
+msgid "An error occurred loading the iTunes database"
 msgstr ""
 
 msgid "Server URL is invalid."
@@ -2488,27 +2509,6 @@ msgid "Missing Qobuz app ID or secret."
 msgstr ""
 
 msgid "Missing app id."
-msgstr ""
-
-msgid "Show moodbar"
-msgstr ""
-
-msgid "Moodbar style"
-msgstr ""
-
-msgid "Normal"
-msgstr ""
-
-msgid "Angry"
-msgstr ""
-
-msgid "Frozen"
-msgstr ""
-
-msgid "Happy"
-msgstr ""
-
-msgid "System colors"
 msgstr ""
 
 msgid "Strawberry Music Player"
@@ -4296,6 +4296,18 @@ msgstr ""
 msgid "Change shortcut..."
 msgstr ""
 
+msgid "Moodbar"
+msgstr ""
+
+msgid "Show a moodbar in the track progress bar"
+msgstr ""
+
+msgid "Save the .mood files directly in the songs folders"
+msgstr ""
+
+msgid "Enabled"
+msgstr ""
+
 msgid "Device Properties"
 msgstr ""
 
@@ -4452,18 +4464,6 @@ msgid "App Secret"
 msgstr ""
 
 msgid "Base64 encoded secret"
-msgstr ""
-
-msgid "Moodbar"
-msgstr ""
-
-msgid "Show a moodbar in the track progress bar"
-msgstr ""
-
-msgid "Save the .mood files directly in the songs folders"
-msgstr ""
-
-msgid "Enabled"
 msgstr ""
 
 msgid "Return to Strawberry"
