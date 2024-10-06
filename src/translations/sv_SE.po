@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: strawberrymusicplayer\n"
 "Language-Team: Swedish\n"
 "Language: sv_SE\n"
-"PO-Revision-Date: 2024-09-28 13:40\n"
+"PO-Revision-Date: 2024-10-06 18:59\n"
 
 msgid "All Files (*)"
 msgstr "Alla filer (*)"
@@ -41,16 +41,16 @@ msgid "Devices"
 msgstr "Enheter"
 
 msgid "Subsonic"
-msgstr ""
+msgstr "Subsonic"
 
 msgid "Tidal"
-msgstr ""
+msgstr "Tidal"
 
 msgid "Spotify"
-msgstr ""
+msgstr "Spotify"
 
 msgid "Qobuz"
-msgstr ""
+msgstr "Qobuz"
 
 msgid "Show all songs"
 msgstr "Visa alla låtar"
@@ -322,19 +322,19 @@ msgstr "Tar bort filer"
 
 #, qt-format
 msgid "Failed to create directory %1."
-msgstr ""
+msgstr "Det gick inte att skapa katalogen %1."
 
 #, qt-format
 msgid "Destination file %1 exists, but not allowed to overwrite."
-msgstr ""
+msgstr "Målfilen %1 finns, men får inte skrivas över."
 
 #, qt-format
 msgid "Destination file %1 exists, but not allowed to overwrite"
-msgstr ""
+msgstr "Målfilen %1 finns, men får inte skrivas över"
 
 #, qt-format
 msgid "Could not copy file %1 to %2."
-msgstr ""
+msgstr "Det gick inte att kopiera filen %1 till %2."
 
 msgid "Unknown"
 msgstr "Okänt"
@@ -436,28 +436,28 @@ msgstr "%1 låtar i %2 olika valda mappar, är du säker på att du vill öppna 
 
 #, qt-format
 msgid "Failed to load image from data for %1"
-msgstr ""
+msgstr "Det gick inte att läsa in bilden från data för %1"
 
 msgid "Success"
-msgstr ""
+msgstr "Lyckades"
 
 msgid "File is unsupported"
-msgstr ""
+msgstr "Filen stöds inte"
 
 msgid "Filename is missing"
-msgstr ""
+msgstr "Filnamn saknas"
 
 msgid "File does not exist"
-msgstr ""
+msgstr "Filen finns inte"
 
 msgid "File could not be opened"
-msgstr ""
+msgstr "Det gick inte att öppna filen"
 
 msgid "Could not parse file"
 msgstr ""
 
 msgid "Could save file"
-msgstr ""
+msgstr "Det gick att spara filen"
 
 msgid "Unknown error"
 msgstr "Okänt fel"
@@ -466,7 +466,7 @@ msgid "Prefix a search term with a field name to limit the search to that field,
 msgstr "Prefix en sökterm med ett fältnamn för att begränsa sökningen till det fältet, t.ex.:"
 
 msgid "artist"
-msgstr ""
+msgstr "artist"
 
 #, qt-format
 msgid "searches for all artists containing the word %1. "
@@ -485,6 +485,9 @@ msgstr "Flera söktermer kan också kombineras med \"%1\" (standard) och \"%2\",
 
 msgid "Available fields"
 msgstr "Tillgängliga fält"
+
+msgid "Buffering"
+msgstr "Buffrar"
 
 msgid "Framerate"
 msgstr "Bildfrekvens"
@@ -554,25 +557,25 @@ msgid "Large Hall"
 msgstr "Stor sal"
 
 msgid "Live"
-msgstr ""
+msgstr "Live"
 
 msgid "Party"
 msgstr "Fest"
 
 msgid "Pop"
-msgstr ""
+msgstr "Pop"
 
 msgid "Reggae"
-msgstr ""
+msgstr "Reggae"
 
 msgid "Rock"
-msgstr ""
+msgstr "Rock"
 
 msgid "Soft"
 msgstr ""
 
 msgid "Ska"
-msgstr ""
+msgstr "Ska"
 
 msgid "Soft Rock"
 msgstr ""
@@ -598,7 +601,7 @@ msgstr "Är du säker på att du vill ta bort förinställningen \"%1\"?"
 
 #, qt-format
 msgid "%1 dB"
-msgstr ""
+msgstr "%1 dB"
 
 msgid "Filetype"
 msgstr "Filtyp"
@@ -646,7 +649,7 @@ msgstr "%1 låtar"
 
 #, qt-format
 msgid "%1 artist"
-msgstr ""
+msgstr "%1 artist"
 
 #, qt-format
 msgid "%1 artists"
@@ -654,14 +657,14 @@ msgstr "%1 artister"
 
 #, qt-format
 msgid "%1 album"
-msgstr ""
+msgstr "%1 album"
 
 #, qt-format
 msgid "%1 albums"
 msgstr "%1 album"
 
 msgid "kbps"
-msgstr ""
+msgstr "kbps"
 
 msgid "Saving playcounts and ratings"
 msgstr "Sparar antal spelningar och betyg"
@@ -802,10 +805,10 @@ msgid "Album artist"
 msgstr "Albumartist"
 
 msgid "Artist"
-msgstr ""
+msgstr "Artist"
 
 msgid "Album"
-msgstr ""
+msgstr "Album"
 
 msgid "Album - Disc"
 msgstr "Album - Skiva"
@@ -832,7 +835,7 @@ msgid "Original year"
 msgstr "Originalår"
 
 msgid "Genre"
-msgstr ""
+msgstr "Genre"
 
 msgid "Composer"
 msgstr "Kompositör"
@@ -847,7 +850,7 @@ msgid "File type"
 msgstr "Filtyp"
 
 msgid "Format"
-msgstr ""
+msgstr "Format"
 
 msgid "Sample rate"
 msgstr "Samplingsfrekvens"
@@ -1103,11 +1106,11 @@ msgid "Loading tracks info"
 msgstr "Läser in låtinformation"
 
 msgid "Saving CUE files is not supported."
-msgstr ""
+msgstr "Spara CUE-filer stöds inte."
 
 #, qt-format
 msgid "Don't know how to handle %1"
-msgstr ""
+msgstr "Vet inte hur man hanterar %1"
 
 #, qt-format
 msgid "All playlists (%1)"
@@ -1119,11 +1122,11 @@ msgstr "%1 spellistor (%2)"
 
 #, qt-format
 msgid "Unknown filetype: %1"
-msgstr ""
+msgstr "Okänd filtyp: %1"
 
 #, qt-format
 msgid "Could not open file %1"
-msgstr ""
+msgstr "Det gick inte att öppna filen %1"
 
 #, qt-format
 msgid "Directory %1 does not exist."
@@ -1959,6 +1962,55 @@ msgstr "Fel vid borttagning av låtar"
 msgid "There were problems deleting some songs.  The following files could not be deleted:"
 msgstr "Fel uppstod vid borttagning av några låtar. Följande filer kunde inte kopieras:"
 
+#, qt-format
+msgid "Could not create the GStreamer element \"%1\" - make sure you have all the required GStreamer plugins installed"
+msgstr "Kunde inte skapa GStreamer-elementet \"%1\" - kontrollera att du har alla GStreamer-insticksmoduler som krävs installerade"
+
+#, qt-format
+msgid "Successfully written %1"
+msgstr "Skrev %1 med lyckat resultat"
+
+#, qt-format
+msgid "Transcoding %1 files using %2 threads"
+msgstr "Omkodar %1 filer med %2 trådar"
+
+#, qt-format
+msgid "Error processing %1: %2"
+msgstr "Fel vid bearbetning av %1: %2"
+
+#, qt-format
+msgid "Starting %1"
+msgstr "Startar %1"
+
+#, qt-format
+msgid "Couldn't find an encoder for %1, check you have the correct GStreamer plugins installed"
+msgstr "Kunde inte hitta en kodare för %1, kontrollera att du har de korrekta GStreamer-insticksmodulerna installerade"
+
+#, qt-format
+msgid "Couldn't find a muxer for %1, check you have the correct GStreamer plugins installed"
+msgstr "Kunde inte hitta en muxer för %1, kontrollera att du har de korrekta GStreamer-insticksmodulerna installerade"
+
+msgid "Start transcoding"
+msgstr "Starta omkodning"
+
+#, c-format, qt-plural-format
+msgid "%n remaining"
+msgstr "%n återstår"
+
+#, c-format, qt-plural-format
+msgid "%n finished"
+msgstr "%n är klar"
+
+#, c-format, qt-plural-format
+msgid "%n failed"
+msgstr "%n misslyckades"
+
+msgid "Add files to transcode"
+msgstr "Lägg till filer för omkodning"
+
+msgid "Open a directory to import music from"
+msgstr "Öppna en mapp att importera musik från"
+
 msgid "Play/Pause"
 msgstr "Spela/pausa"
 
@@ -2045,23 +2097,35 @@ msgstr " Genvägar till %1 används vanligtvis via Gnome-inställningsdemon och 
 msgid " Shortcuts on %1 are usually used through MATE Settings Daemon and should be configured there instead."
 msgstr " Genvägar till %1 används vanligtvis via Mate-inställningsdemon och ska istället anpassas där."
 
-msgid "Buffering"
-msgstr "Buffrar"
-
-msgid "D-Bus path"
-msgstr "D-Bus sökväg"
-
-msgid "Serial number"
-msgstr "Serienummer"
-
-msgid "Mount points"
-msgstr "Monteringspunkter"
-
-msgid "Partition label"
-msgstr "Partitionsnamn"
-
-msgid "UUID"
+msgid "Identifying song"
 msgstr ""
+
+msgid "Fingerprinting song"
+msgstr ""
+
+msgid "Downloading metadata"
+msgstr ""
+
+msgid "Show moodbar"
+msgstr "Visa stämningsdiagram"
+
+msgid "Moodbar style"
+msgstr "Format på stämningsdiagrammet"
+
+msgid "Normal"
+msgstr ""
+
+msgid "Angry"
+msgstr "Arg"
+
+msgid "Frozen"
+msgstr "Frusen"
+
+msgid "Happy"
+msgstr "Glad"
+
+msgid "System colors"
+msgstr "Systemfärger"
 
 msgid "Connect device"
 msgstr "Anslut enhet"
@@ -2126,23 +2190,6 @@ msgstr "Modell"
 msgid "Manufacturer"
 msgstr "Tillverkare"
 
-#, qt-format
-msgid "Could not copy %1 to %2: %3"
-msgstr ""
-
-#, qt-format
-msgid "Writing database failed: %1"
-msgstr ""
-
-msgid "Writing database failed."
-msgstr ""
-
-msgid "Loading iPod database"
-msgstr "Läser in iPod-databas"
-
-msgid "An error occurred loading the iTunes database"
-msgstr "Ett fel uppstod vid inläsning av iTunes-databasen"
-
 msgid "Mount point"
 msgstr "Monteringspunkt"
 
@@ -2150,6 +2197,21 @@ msgid "Device"
 msgstr "Enhet"
 
 msgid "URI"
+msgstr ""
+
+msgid "D-Bus path"
+msgstr "D-Bus sökväg"
+
+msgid "Serial number"
+msgstr "Serienummer"
+
+msgid "Mount points"
+msgstr "Monteringspunkter"
+
+msgid "Partition label"
+msgstr "Partitionsnamn"
+
+msgid "UUID"
 msgstr ""
 
 #, qt-format
@@ -2177,64 +2239,6 @@ msgstr "Fel vid anslutning av MTP-enhet %1"
 msgid "Error connecting MTP device %1: %2"
 msgstr ""
 
-#, qt-format
-msgid "Could not create the GStreamer element \"%1\" - make sure you have all the required GStreamer plugins installed"
-msgstr "Kunde inte skapa GStreamer-elementet \"%1\" - kontrollera att du har alla GStreamer-insticksmoduler som krävs installerade"
-
-#, qt-format
-msgid "Successfully written %1"
-msgstr "Skrev %1 med lyckat resultat"
-
-#, qt-format
-msgid "Transcoding %1 files using %2 threads"
-msgstr "Omkodar %1 filer med %2 trådar"
-
-#, qt-format
-msgid "Error processing %1: %2"
-msgstr "Fel vid bearbetning av %1: %2"
-
-#, qt-format
-msgid "Starting %1"
-msgstr "Startar %1"
-
-#, qt-format
-msgid "Couldn't find an encoder for %1, check you have the correct GStreamer plugins installed"
-msgstr "Kunde inte hitta en kodare för %1, kontrollera att du har de korrekta GStreamer-insticksmodulerna installerade"
-
-#, qt-format
-msgid "Couldn't find a muxer for %1, check you have the correct GStreamer plugins installed"
-msgstr "Kunde inte hitta en muxer för %1, kontrollera att du har de korrekta GStreamer-insticksmodulerna installerade"
-
-msgid "Start transcoding"
-msgstr "Starta omkodning"
-
-#, c-format, qt-plural-format
-msgid "%n remaining"
-msgstr "%n återstår"
-
-#, c-format, qt-plural-format
-msgid "%n finished"
-msgstr "%n är klar"
-
-#, c-format, qt-plural-format
-msgid "%n failed"
-msgstr "%n misslyckades"
-
-msgid "Add files to transcode"
-msgstr "Lägg till filer för omkodning"
-
-msgid "Open a directory to import music from"
-msgstr "Öppna en mapp att importera musik från"
-
-msgid "Identifying song"
-msgstr ""
-
-msgid "Fingerprinting song"
-msgstr ""
-
-msgid "Downloading metadata"
-msgstr ""
-
 msgid "Error while setting CDDA device to ready state."
 msgstr "Fel när CDDA-enheten ställdes till klartillstånd."
 
@@ -2243,6 +2247,23 @@ msgstr "Fel när CDDA-enheten ställdes till pausläge."
 
 msgid "Error while querying CDDA tracks."
 msgstr "Fel vid förfrågan om CDDA-spår."
+
+#, qt-format
+msgid "Could not copy %1 to %2: %3"
+msgstr ""
+
+#, qt-format
+msgid "Writing database failed: %1"
+msgstr ""
+
+msgid "Writing database failed."
+msgstr ""
+
+msgid "Loading iPod database"
+msgstr "Läser in iPod-databas"
+
+msgid "An error occurred loading the iTunes database"
+msgstr "Ett fel uppstod vid inläsning av iTunes-databasen"
 
 msgid "Server URL is invalid."
 msgstr "Serverwebbadressen är ogiltig."
@@ -2407,27 +2428,6 @@ msgstr "Qobuz-app-ID eller hemlighet saknas."
 
 msgid "Missing app id."
 msgstr "App-id saknas."
-
-msgid "Show moodbar"
-msgstr "Visa stämningsdiagram"
-
-msgid "Moodbar style"
-msgstr "Format på stämningsdiagrammet"
-
-msgid "Normal"
-msgstr ""
-
-msgid "Angry"
-msgstr "Arg"
-
-msgid "Frozen"
-msgstr "Frusen"
-
-msgid "Happy"
-msgstr "Glad"
-
-msgid "System colors"
-msgstr "Systemfärger"
 
 msgid "Strawberry Music Player"
 msgstr ""
@@ -3584,7 +3584,7 @@ msgid "Opacity"
 msgstr "Opacitet"
 
 msgid "40%"
-msgstr ""
+msgstr "40%"
 
 msgid "Icon sizes"
 msgstr "Ikonstorlekar"
@@ -3703,6 +3703,36 @@ msgstr "Anpassad..."
 
 msgid "Enable fading"
 msgstr "Aktivera toning"
+
+msgid "Transcoding"
+msgstr "Omkodning"
+
+msgid "These settings are used in the \"Transcode Music\" dialog, and when converting music before copying it to a device."
+msgstr "Dessa inställningar används i dialogrutan \"Omkoda musik\" och vid konvertering av musik innan den kopieras till en enhet."
+
+msgid "FLAC"
+msgstr ""
+
+msgid "WavPack"
+msgstr ""
+
+msgid "Vorbis"
+msgstr ""
+
+msgid "Opus"
+msgstr ""
+
+msgid "Speex"
+msgstr ""
+
+msgid "AAC"
+msgstr ""
+
+msgid "ASF (WMA)"
+msgstr ""
+
+msgid "MP3"
+msgstr ""
 
 msgid "Equalizer"
 msgstr "Frekvenskorrigerare"
@@ -3953,97 +3983,6 @@ msgstr "Kopiera albumomslag"
 msgid "Safely remove the device after copying"
 msgstr "Säker borttagning av enheten efter kopiering"
 
-msgid "Press a key"
-msgstr "Tryck på en tangent"
-
-msgid "Global Shortcuts"
-msgstr "Globala genvägar"
-
-msgid "Use Gnome (GSD) shortcuts when available"
-msgstr "Använd Gnome (GSD)-genvägar när de är tillgängliga"
-
-msgid "Open..."
-msgstr "Öppna..."
-
-msgid "Use MATE shortcuts when available"
-msgstr "Använd MATE-genvägar när de är tillgängliga"
-
-msgid "Use KDE (KGlobalAccel) shortcuts when available"
-msgstr "Använd KDE (KGlobalAccel) genvägar när de är tillgängliga"
-
-msgid "Use X11 shortcuts when available"
-msgstr "Använd X11-genvägar när de är tillgängliga"
-
-msgid "You need to launch System Preferences and allow Strawberry to \"<span style=\"font-style:italic\">control your computer</span>\" to use global shortcuts in Strawberry."
-msgstr "Du behöver starta Systeminställningar och tillåta Strawberry att \"<span style=\"font-style:italic\">kontrollera din dator</span>\" för att använda globala genvägar i Strawberry."
-
-msgid "Shortcut"
-msgstr "Genväg"
-
-msgctxt "Category label"
-msgid "Action"
-msgstr "Åtgärd"
-
-msgid "&None"
-msgstr "I&ngen"
-
-msgid "&Default"
-msgstr "&Standard"
-
-msgid "&Custom"
-msgstr "A&npassad"
-
-msgid "Change shortcut..."
-msgstr "Byt genväg..."
-
-msgid "Device Properties"
-msgstr "Enhetsegenskaper"
-
-msgid "Icon"
-msgstr "Ikon"
-
-msgid "Hardware information"
-msgstr "Hårdvaruinformation"
-
-msgid "Hardware information is only available while the device is connected."
-msgstr "Hårdvaruinformation är endast tillgänglig när enheten är ansluten."
-
-msgid "Information"
-msgstr ""
-
-msgid "Supported formats"
-msgstr "Format som stöds"
-
-msgid "This device supports the following file formats:"
-msgstr "Den här enheten stöder följande filformat:"
-
-msgid "Strawberry can automatically convert the music you copy to this device into a format that it can play."
-msgstr "Strawberry kan automatiskt konvertera musiken du kopierar till den här enheten till ett format som den kan spela."
-
-msgid "Do not convert any music"
-msgstr "Konvertera inte någon musik"
-
-msgid "Convert any music that the device can't play"
-msgstr "Konvertera all musik som inte kan spelas av enheten"
-
-msgid "Convert all music"
-msgstr "Konvertera all musik"
-
-msgid "Preferred format"
-msgstr "Önskat format"
-
-msgid "This device must be connected and opened before Strawberry can see what file formats it supports."
-msgstr "Den här enheten måste vara ansluten och öppnad innan Strawberry kan se vilka filformat den stöder."
-
-msgid "Open device"
-msgstr "Öppna enhet"
-
-msgid "Querying device..."
-msgstr "Kommunicerar med enhet..."
-
-msgid "File formats"
-msgstr "Filformat"
-
 msgid "Transcode Music"
 msgstr "Omkoda musik"
 
@@ -4207,35 +4146,108 @@ msgstr "Hög"
 msgid "Force mono encoding"
 msgstr "Tvinga monokodning"
 
-msgid "Transcoding"
-msgstr "Omkodning"
+msgid "Press a key"
+msgstr "Tryck på en tangent"
 
-msgid "These settings are used in the \"Transcode Music\" dialog, and when converting music before copying it to a device."
-msgstr "Dessa inställningar används i dialogrutan \"Omkoda musik\" och vid konvertering av musik innan den kopieras till en enhet."
+msgid "Global Shortcuts"
+msgstr "Globala genvägar"
 
-msgid "FLAC"
+msgid "Use Gnome (GSD) shortcuts when available"
+msgstr "Använd Gnome (GSD)-genvägar när de är tillgängliga"
+
+msgid "Open..."
+msgstr "Öppna..."
+
+msgid "Use MATE shortcuts when available"
+msgstr "Använd MATE-genvägar när de är tillgängliga"
+
+msgid "Use KDE (KGlobalAccel) shortcuts when available"
+msgstr "Använd KDE (KGlobalAccel) genvägar när de är tillgängliga"
+
+msgid "Use X11 shortcuts when available"
+msgstr "Använd X11-genvägar när de är tillgängliga"
+
+msgid "You need to launch System Preferences and allow Strawberry to \"<span style=\"font-style:italic\">control your computer</span>\" to use global shortcuts in Strawberry."
+msgstr "Du behöver starta Systeminställningar och tillåta Strawberry att \"<span style=\"font-style:italic\">kontrollera din dator</span>\" för att använda globala genvägar i Strawberry."
+
+msgid "Shortcut"
+msgstr "Genväg"
+
+msgctxt "Category label"
+msgid "Action"
+msgstr "Åtgärd"
+
+msgid "&None"
+msgstr "I&ngen"
+
+msgid "&Default"
+msgstr "&Standard"
+
+msgid "&Custom"
+msgstr "A&npassad"
+
+msgid "Change shortcut..."
+msgstr "Byt genväg..."
+
+msgid "Moodbar"
+msgstr "Stämningsdiagram"
+
+msgid "Show a moodbar in the track progress bar"
+msgstr "Visa ett stämningsdiagram i spårets förloppsfält"
+
+msgid "Save the .mood files directly in the songs folders"
+msgstr "Spara .mood-filerna direkt i låtmapparna"
+
+msgid "Enabled"
+msgstr "Aktiverad"
+
+msgid "Device Properties"
+msgstr "Enhetsegenskaper"
+
+msgid "Icon"
+msgstr "Ikon"
+
+msgid "Hardware information"
+msgstr "Hårdvaruinformation"
+
+msgid "Hardware information is only available while the device is connected."
+msgstr "Hårdvaruinformation är endast tillgänglig när enheten är ansluten."
+
+msgid "Information"
 msgstr ""
 
-msgid "WavPack"
-msgstr ""
+msgid "Supported formats"
+msgstr "Format som stöds"
 
-msgid "Vorbis"
-msgstr ""
+msgid "This device supports the following file formats:"
+msgstr "Den här enheten stöder följande filformat:"
 
-msgid "Opus"
-msgstr ""
+msgid "Strawberry can automatically convert the music you copy to this device into a format that it can play."
+msgstr "Strawberry kan automatiskt konvertera musiken du kopierar till den här enheten till ett format som den kan spela."
 
-msgid "Speex"
-msgstr ""
+msgid "Do not convert any music"
+msgstr "Konvertera inte någon musik"
 
-msgid "AAC"
-msgstr ""
+msgid "Convert any music that the device can't play"
+msgstr "Konvertera all musik som inte kan spelas av enheten"
 
-msgid "ASF (WMA)"
-msgstr ""
+msgid "Convert all music"
+msgstr "Konvertera all musik"
 
-msgid "MP3"
-msgstr ""
+msgid "Preferred format"
+msgstr "Önskat format"
+
+msgid "This device must be connected and opened before Strawberry can see what file formats it supports."
+msgstr "Den här enheten måste vara ansluten och öppnad innan Strawberry kan se vilka filformat den stöder."
+
+msgid "Open device"
+msgstr "Öppna enhet"
+
+msgid "Querying device..."
+msgstr "Kommunicerar med enhet..."
+
+msgid "File formats"
+msgstr "Filformat"
 
 msgid "Server URL"
 msgstr "Serverwebbadress"
@@ -4332,18 +4344,6 @@ msgstr "Apphemlighet"
 
 msgid "Base64 encoded secret"
 msgstr "Base64-kodad hemlighet"
-
-msgid "Moodbar"
-msgstr "Stämningsdiagram"
-
-msgid "Show a moodbar in the track progress bar"
-msgstr "Visa ett stämningsdiagram i spårets förloppsfält"
-
-msgid "Save the .mood files directly in the songs folders"
-msgstr "Spara .mood-filerna direkt i låtmapparna"
-
-msgid "Enabled"
-msgstr "Aktiverad"
 
 msgid "Return to Strawberry"
 msgstr "Återgå till Strawberry"
