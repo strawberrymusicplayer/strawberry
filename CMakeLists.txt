@@ -620,7 +620,6 @@ set(SOURCES
   src/covermanager/musicbrainzcoverprovider.cpp
   src/covermanager/discogscoverprovider.cpp
   src/covermanager/deezercoverprovider.cpp
-  src/covermanager/qobuzcoverprovider.cpp
   src/covermanager/musixmatchcoverprovider.cpp
   src/covermanager/opentidalcoverprovider.cpp
 
@@ -904,7 +903,6 @@ set(HEADERS
   src/covermanager/musicbrainzcoverprovider.h
   src/covermanager/discogscoverprovider.h
   src/covermanager/deezercoverprovider.h
-  src/covermanager/qobuzcoverprovider.h
   src/covermanager/musixmatchcoverprovider.h
   src/covermanager/opentidalcoverprovider.h
 
@@ -1399,6 +1397,7 @@ optional_source(HAVE_QOBUZ
     src/qobuz/qobuzstreamurlrequest.cpp
     src/qobuz/qobuzfavoriterequest.cpp
     src/settings/qobuzsettingspage.cpp
+    src/covermanager/qobuzcoverprovider.cpp
   HEADERS
     src/qobuz/qobuzservice.h
     src/qobuz/qobuzurlhandler.h
@@ -1407,6 +1406,7 @@ optional_source(HAVE_QOBUZ
     src/qobuz/qobuzstreamurlrequest.h
     src/qobuz/qobuzfavoriterequest.h
     src/settings/qobuzsettingspage.h
+    src/covermanager/qobuzcoverprovider.h
   UI
     src/settings/qobuzsettingspage.ui
 )
