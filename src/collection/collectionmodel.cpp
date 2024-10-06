@@ -781,7 +781,7 @@ void CollectionModel::CreateSongItem(const Song &song, CollectionItem *parent) {
 void CollectionModel::SetSongItemData(CollectionItem *item, const Song &song) {
 
   item->display_text = song.TitleWithCompilationArtist();
-  item->sort_text = IsAlbumGroupBy(options_active_.group_by[item->parent->container_level]) ? SortTextForSong(song) : SortText(song.title());
+  item->sort_text = HasParentAlbumGroupBy(item->parent) ? SortTextForSong(song) : SortText(song.title());
   item->metadata = song;
 
 }
@@ -1431,6 +1431,19 @@ bool CollectionModel::CompareItems(const CollectionItem *a, const CollectionItem
   else {
     return left.toString() < right.toString();
   }
+
+}
+
+bool CollectionModel::HasParentAlbumGroupBy(CollectionItem *item) const {
+
+  while (item && item != root_) {
+    if (item->container_level >= 0 && item->container_level <= 2 && IsAlbumGroupBy(options_active_.group_by[item->container_level])) {
+      return true;
+    }
+    item = item->parent;
+  }
+
+  return false;
 
 }
 
