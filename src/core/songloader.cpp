@@ -225,27 +225,22 @@ SongLoader::Result SongLoader::LoadLocal(const QString &filename) {
   qLog(Debug) << "Loading local file" << filename;
 
   // Search in the database.
-  QUrl url = QUrl::fromLocalFile(filename);
+  const QUrl url = QUrl::fromLocalFile(filename);
 
-  QMutexLocker l(collection_backend_->db()->Mutex());
-  QSqlDatabase db(collection_backend_->db()->Connect());
-
-  CollectionQuery query(db, collection_backend_->songs_table());
-  query.SetColumnSpec(QStringLiteral("%songs_table.ROWID, ") + Song::kColumnSpec);
-  query.AddWhere(QStringLiteral("url"), url.toEncoded());
-
-  if (query.Exec() && query.Next()) {
-    // We may have many results when the file has many sections
-    do {
-      Song song(Song::Source::Collection);
-      song.InitFromQuery(query, true);
-
-      if (song.is_valid()) {
-        songs_ << song;
-      }
-    } while (query.Next());
-
+  SongList songs = collection_backend_->GetSongsByUrl(url);
+  if (!songs.isEmpty()) {
+    songs_ = songs;
     return Result::Success;
+  }
+
+  const QString canonical_filepath = QFileInfo(filename).canonicalFilePath();
+  if (!canonical_filepath.isEmpty() && canonical_filepath != filename) {
+    const QUrl canonical_filepath_url = QUrl::fromLocalFile(canonical_filepath);
+    songs = collection_backend_->GetSongsByUrl(canonical_filepath_url);
+    if (!songs.isEmpty()) {
+      songs_ = songs;
+      return Result::Success;
+    }
   }
 
   // It's not in the database, load it asynchronously.
