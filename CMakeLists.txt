@@ -247,7 +247,6 @@ if(TARGET KDAB::kdsingleapplication)
   set(SINGLEAPPLICATION_LIBRARIES KDAB::kdsingleapplication)
 else()
   message(STATUS "Using 3rdparty KDSingleApplication")
-  set(HAVE_KDSINGLEAPPLICATION_OPTIONS ON)
   add_subdirectory(3rdparty/kdsingleapplication)
   set(SINGLEAPPLICATION_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/kdsingleapplication/KDSingleApplication/src)
   set(SINGLEAPPLICATION_LIBRARIES kdsingleapplication)
@@ -1471,7 +1470,9 @@ target_include_directories(strawberry PRIVATE
   ${CMAKE_BINARY_DIR}/src
 )
 
-target_include_directories(strawberry SYSTEM PRIVATE ${SINGLEAPPLICATION_INCLUDE_DIRS})
+if(SINGLEAPPLICATION_INCLUDE_DIRS)
+  target_include_directories(strawberry SYSTEM PRIVATE ${SINGLEAPPLICATION_INCLUDE_DIRS})
+endif()
 
 if(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)
   target_include_directories(strawberry SYSTEM PRIVATE ${Qt${QT_VERSION_MAJOR}Gui_PRIVATE_INCLUDE_DIRS})
@@ -1495,85 +1496,38 @@ target_link_libraries(strawberry PRIVATE
   Qt${QT_VERSION_MAJOR}::Widgets
   Qt${QT_VERSION_MAJOR}::Network
   Qt${QT_VERSION_MAJOR}::Sql
+  $<$<BOOL:${HAVE_DBUS}>:Qt${QT_VERSION_MAJOR}::DBus>
   ICU::uc
   ICU::i18n
+  $<$<BOOL:${HAVE_ALSA}>:ALSA::ALSA>
+  $<$<BOOL:${HAVE_PULSE}>:PkgConfig::LIBPULSE>
+  $<$<BOOL:${HAVE_SONGFINGERPRINTING} OR ${HAVE_MUSICBRAINZ}>:PkgConfig::CHROMAPRINT>
+  $<$<BOOL:${HAVE_MOODBAR}>:PkgConfig::FFTW3>
+  $<$<BOOL:${HAVE_EBUR128}>:PkgConfig::LIBEBUR128>
+  $<$<BOOL:${HAVE_X11_GLOBALSHORTCUTS}>:X11::X11_xcb>
+  $<$<BOOL:${HAVE_GIO}>:PkgConfig::GIO>
+  $<$<BOOL:${HAVE_GIO_UNIX}>:PkgConfig::GIO_UNIX>
+  $<$<BOOL:${HAVE_AUDIOCD}>:PkgConfig::LIBCDIO>
+  $<$<BOOL:${HAVE_MTP}>:PkgConfig::LIBMTP>
+  $<$<BOOL:${HAVE_GPOD}>:PkgConfig::LIBGPOD PkgConfig::GDK_PIXBUF>
+  $<$<BOOL:${HAVE_QTSPARKLE}>:PkgConfig::QTSPARKLE>
+  $<$<BOOL:${FREEBSD}>:execinfo>
+  $<$<BOOL:${WIN32}>:dsound dwmapi getopt-win::getopt>
+  $<$<BOOL:${MSVC}>:WindowsApp>
   ${SINGLEAPPLICATION_LIBRARIES}
 )
 
 if(APPLE)
   target_link_libraries(strawberry PRIVATE
+    "-framework Foundation"
     "-framework AppKit"
     "-framework Carbon"
     "-framework CoreAudio"
     "-framework DiskArbitration"
-    "-framework Foundation"
     "-framework IOKit"
     "-framework ScriptingBridge"
+    SPMediaKeyTap
   )
-  target_link_libraries(strawberry PRIVATE SPMediaKeyTap)
-endif()
-
-if(WIN32)
-  target_link_libraries(strawberry PRIVATE dsound dwmapi)
-  if(MSVC)
-    target_link_libraries(strawberry PRIVATE WindowsApp)
-  endif()
-  target_link_libraries(strawberry PRIVATE getopt-win::getopt)
-endif()
-
-if(HAVE_DBUS)
-  target_link_libraries(strawberry PRIVATE Qt${QT_VERSION_MAJOR}::DBus)
-endif()
-
-if(HAVE_ALSA)
-  target_link_libraries(strawberry PRIVATE ALSA::ALSA)
-endif()
-
-if(HAVE_PULSE)
-  target_link_libraries(strawberry PRIVATE PkgConfig::LIBPULSE)
-endif()
-
-if(HAVE_MOODBAR)
-  target_link_libraries(strawberry PRIVATE PkgConfig::FFTW3)
-endif()
-
-if(HAVE_SONGFINGERPRINTING OR HAVE_MUSICBRAINZ)
-  target_link_libraries(strawberry PRIVATE PkgConfig::CHROMAPRINT)
-endif()
-
-if(HAVE_EBUR128)
-  target_link_libraries(strawberry PRIVATE PkgConfig::LIBEBUR128)
-endif()
-
-if(HAVE_X11_GLOBALSHORTCUTS)
-  target_link_libraries(strawberry PRIVATE X11::X11_xcb)
-endif()
-
-if(HAVE_GIO)
-  target_link_libraries(strawberry PRIVATE PkgConfig::GIO)
-  if(HAVE_GIO_UNIX)
-    target_link_libraries(strawberry PRIVATE PkgConfig::GIO_UNIX)
-  endif()
-endif()
-
-if(HAVE_AUDIOCD)
-  target_link_libraries(strawberry PRIVATE PkgConfig::LIBCDIO)
-endif()
-
-if(HAVE_MTP)
-  target_link_libraries(strawberry PRIVATE PkgConfig::LIBMTP)
-endif()
-
-if(HAVE_GPOD)
-  target_link_libraries(strawberry PRIVATE PkgConfig::LIBGPOD PkgConfig::GDK_PIXBUF)
-endif()
-
-if(HAVE_QTSPARKLE)
-  target_link_libraries(strawberry PRIVATE PkgConfig::QTSPARKLE)
-endif()
-
-if(FREEBSD)
-  target_link_libraries(strawberry PRIVATE execinfo)
 endif()
 
 if(NOT APPLE)
@@ -1589,8 +1543,6 @@ add_custom_target(uninstall "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/c
 
 summary_show()
 
-if(NOT CMAKE_CROSSCOMPILING)
-  if(NOT QT_SQLITE_TEST)
-    message(WARNING "The Qt sqlite driver test failed.")
-  endif()
+if(NOT CMAKE_CROSSCOMPILING AND NOT QT_SQLITE_TEST)
+  message(WARNING "The Qt sqlite driver test failed.")
 endif()
