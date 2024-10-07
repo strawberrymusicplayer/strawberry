@@ -75,6 +75,8 @@ class AppearanceSettingsPage : public SettingsPage {
 
   static const char *kPlaylistPlayingSongColor;
 
+  static const char *kPlayerControlsPosition;
+
   enum class BackgroundImageType {
     Default,
     None,
