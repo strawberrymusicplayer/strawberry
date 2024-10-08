@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: strawberrymusicplayer\n"
 "Language-Team: Estonian\n"
 "Language: et_EE\n"
-"PO-Revision-Date: 2024-10-02 11:54\n"
+"PO-Revision-Date: 2024-10-08 07:26\n"
 
 msgid "All Files (*)"
 msgstr "Kõik failid (*)"
@@ -2097,20 +2097,35 @@ msgstr " %1 otseteid kasutatakse tavaliselt Gnome sätete deemoni kaudu ja need 
 msgid " Shortcuts on %1 are usually used through MATE Settings Daemon and should be configured there instead."
 msgstr " %1 otseteid kasutatakse tavaliselt MATE sätete deemoni kaudu ja need tuleks seadistada hoopis seal."
 
-msgid "D-Bus path"
-msgstr "D-Bus asukoht"
+msgid "Identifying song"
+msgstr "Tuvastame laulu"
 
-msgid "Serial number"
-msgstr "Seerianumber"
+msgid "Fingerprinting song"
+msgstr "Sõrmejäljestame lugu"
 
-msgid "Mount points"
-msgstr "Haakepunktid"
+msgid "Downloading metadata"
+msgstr "Laadime alla metaandmeid"
 
-msgid "Partition label"
-msgstr "Partitsiooni silt"
+msgid "Show moodbar"
+msgstr "Kuva tujuriba"
 
-msgid "UUID"
-msgstr "UUID"
+msgid "Moodbar style"
+msgstr "Meeleoluriba stiil"
+
+msgid "Normal"
+msgstr "Tavaline"
+
+msgid "Angry"
+msgstr "Vihane"
+
+msgid "Frozen"
+msgstr "Külmunud"
+
+msgid "Happy"
+msgstr "Õnnelik"
+
+msgid "System colors"
+msgstr "Süsteemi värvid"
 
 msgid "Connect device"
 msgstr "Ühenda seade"
@@ -2175,23 +2190,6 @@ msgstr "Mudel"
 msgid "Manufacturer"
 msgstr "Tootja"
 
-#, qt-format
-msgid "Could not copy %1 to %2: %3"
-msgstr "%1 -> %2 kopeeruimine ei õnnestunud: %3"
-
-#, qt-format
-msgid "Writing database failed: %1"
-msgstr "Andmebaasi salvestamine ei õnnestunud: %1"
-
-msgid "Writing database failed."
-msgstr "Andmebaasi salvestamine ei õnnestunud."
-
-msgid "Loading iPod database"
-msgstr "Laadime iPodi andmekogu"
-
-msgid "An error occurred loading the iTunes database"
-msgstr "iTunesi andmebaasi laadimisel tekkis viga"
-
 msgid "Mount point"
 msgstr "Haakepunkt"
 
@@ -2200,6 +2198,21 @@ msgstr "Seade"
 
 msgid "URI"
 msgstr "URI"
+
+msgid "D-Bus path"
+msgstr "D-Bus asukoht"
+
+msgid "Serial number"
+msgstr "Seerianumber"
+
+msgid "Mount points"
+msgstr "Haakepunktid"
+
+msgid "Partition label"
+msgstr "Partitsiooni silt"
+
+msgid "UUID"
+msgstr "UUID"
 
 #, qt-format
 msgid "Invalid MTP device: %1"
@@ -2226,15 +2239,6 @@ msgstr "Viga MTP seadme %1 ühendamiselug"
 msgid "Error connecting MTP device %1: %2"
 msgstr "Viga MTP-seadme %1 ühendamisel: %2"
 
-msgid "Identifying song"
-msgstr "Tuvastame laulu"
-
-msgid "Fingerprinting song"
-msgstr "Sõrmejäljestame lugu"
-
-msgid "Downloading metadata"
-msgstr "Laadime alla metaandmeid"
-
 msgid "Error while setting CDDA device to ready state."
 msgstr "Viga CDDA seadme valmisolekusse seadmisel."
 
@@ -2243,6 +2247,23 @@ msgstr "Viga CDDA seadme peatatud olekusse määramisel."
 
 msgid "Error while querying CDDA tracks."
 msgstr "Viga lugude CDDA päringul."
+
+#, qt-format
+msgid "Could not copy %1 to %2: %3"
+msgstr "%1 -> %2 kopeeruimine ei õnnestunud: %3"
+
+#, qt-format
+msgid "Writing database failed: %1"
+msgstr "Andmebaasi salvestamine ei õnnestunud: %1"
+
+msgid "Writing database failed."
+msgstr "Andmebaasi salvestamine ei õnnestunud."
+
+msgid "Loading iPod database"
+msgstr "Laadime iPodi andmekogu"
+
+msgid "An error occurred loading the iTunes database"
+msgstr "iTunesi andmebaasi laadimisel tekkis viga"
 
 msgid "Server URL is invalid."
 msgstr "Serveri URL on vigane."
@@ -2407,27 +2428,6 @@ msgstr "Qobuzi rakenduse ID või võti puudub."
 
 msgid "Missing app id."
 msgstr "Rakenduse ID puudub."
-
-msgid "Show moodbar"
-msgstr "Kuva tujuriba"
-
-msgid "Moodbar style"
-msgstr "Meeleoluriba stiil"
-
-msgid "Normal"
-msgstr "Tavaline"
-
-msgid "Angry"
-msgstr "Vihane"
-
-msgid "Frozen"
-msgstr "Külmunud"
-
-msgid "Happy"
-msgstr "Õnnelik"
-
-msgid "System colors"
-msgstr "Süsteemi värvid"
 
 msgid "Strawberry Music Player"
 msgstr "Strawberry muusikamängija"
@@ -4189,6 +4189,18 @@ msgstr "&Kohandatud"
 msgid "Change shortcut..."
 msgstr "Muuda kiirklahvi..."
 
+msgid "Moodbar"
+msgstr "Meeleoluriba"
+
+msgid "Show a moodbar in the track progress bar"
+msgstr "Kuva loo edenemisribal meeleoluriba"
+
+msgid "Save the .mood files directly in the songs folders"
+msgstr "Salvesta .mood failid lugude kaustadesse"
+
+msgid "Enabled"
+msgstr "Lubatud"
+
 msgid "Device Properties"
 msgstr "Seadme omadused"
 
@@ -4332,18 +4344,6 @@ msgstr "Rakenduse võti"
 
 msgid "Base64 encoded secret"
 msgstr "Base64 kodeeringus võti"
-
-msgid "Moodbar"
-msgstr "Meeleoluriba"
-
-msgid "Show a moodbar in the track progress bar"
-msgstr "Kuva loo edenemisribal meeleoluriba"
-
-msgid "Save the .mood files directly in the songs folders"
-msgstr "Salvesta .mood failid lugude kaustadesse"
-
-msgid "Enabled"
-msgstr "Lubatud"
 
 msgid "Return to Strawberry"
 msgstr "Naase Strawberrysse"
