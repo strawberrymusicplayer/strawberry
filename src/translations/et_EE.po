@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: strawberrymusicplayer\n"
 "Language-Team: Estonian\n"
 "Language: et_EE\n"
-"PO-Revision-Date: 2024-09-28 13:40\n"
+"PO-Revision-Date: 2024-10-08 07:26\n"
 
 msgid "All Files (*)"
 msgstr "Kõik failid (*)"
@@ -439,25 +439,25 @@ msgid "Failed to load image from data for %1"
 msgstr "%1 jaoks ei õnnestunud andmetest tuvastada pildifaili"
 
 msgid "Success"
-msgstr ""
+msgstr "Valmis"
 
 msgid "File is unsupported"
-msgstr ""
+msgstr "Fail pole toetatud"
 
 msgid "Filename is missing"
-msgstr ""
+msgstr "Faili nimi on puudu"
 
 msgid "File does not exist"
-msgstr ""
+msgstr "Faili pole olemas"
 
 msgid "File could not be opened"
-msgstr ""
+msgstr "Faili avamine ei õnnestunud"
 
 msgid "Could not parse file"
-msgstr ""
+msgstr "Faili süntaksi analüüsimine ei õnnestunud"
 
 msgid "Could save file"
-msgstr ""
+msgstr "Faili salvestamine ei õnnestunud"
 
 msgid "Unknown error"
 msgstr "Tundmatu viga"
@@ -485,6 +485,9 @@ msgstr "Mitut otsinguterminit saab kombineerida ka sõnadega \"%1\" (vaikimisi) 
 
 msgid "Available fields"
 msgstr "Saadaolevad väljad"
+
+msgid "Buffering"
+msgstr "Puhvedamine"
 
 msgid "Framerate"
 msgstr "Kaadrisagedus"
@@ -1959,6 +1962,55 @@ msgstr "Viga lugude kustutamisel"
 msgid "There were problems deleting some songs.  The following files could not be deleted:"
 msgstr "Mõne loo kustutamisel ilmnes probleeme.  Järgnevaid faile ei kustutatud:"
 
+#, qt-format
+msgid "Could not create the GStreamer element \"%1\" - make sure you have all the required GStreamer plugins installed"
+msgstr "Ei suutnud luua GStreamer'i elementi \"%1\" - palun kontrolli, et arvutis oleks paigaldatud kõik vajalikud GStreamer'i pistikprogrammid"
+
+#, qt-format
+msgid "Successfully written %1"
+msgstr "Kodeerimine õnnestus: %1"
+
+#, qt-format
+msgid "Transcoding %1 files using %2 threads"
+msgstr "Teisendatakse %1 faili kasutades %2 lõime"
+
+#, qt-format
+msgid "Error processing %1: %2"
+msgstr "Viga %1 töötlemisel: %2"
+
+#, qt-format
+msgid "Starting %1"
+msgstr "Käivitatakse %1"
+
+#, qt-format
+msgid "Couldn't find an encoder for %1, check you have the correct GStreamer plugins installed"
+msgstr "Ei leidnud kodeerijat %1 jaoks, palun kontrolli et arvutis oleks paigaldatud õiged GStreamer'i pistikprogrammid"
+
+#, qt-format
+msgid "Couldn't find a muxer for %1, check you have the correct GStreamer plugins installed"
+msgstr "Ei leidnud mukserit %1 jaoks, palun kontrolli et arvutis oleks paigaldatud õiged GStreamer'i pistikprogrammid"
+
+msgid "Start transcoding"
+msgstr "Alusta teisendamist"
+
+#, c-format, qt-plural-format
+msgid "%n remaining"
+msgstr "jäänud %n"
+
+#, c-format, qt-plural-format
+msgid "%n finished"
+msgstr "%n lõpetatud"
+
+#, c-format, qt-plural-format
+msgid "%n failed"
+msgstr "%n ebaõnnestus"
+
+msgid "Add files to transcode"
+msgstr "Lisa failid teisendamiseks"
+
+msgid "Open a directory to import music from"
+msgstr "Ava kataloog, kust muusika importida"
+
 msgid "Play/Pause"
 msgstr "Esita/paus"
 
@@ -2045,23 +2097,35 @@ msgstr " %1 otseteid kasutatakse tavaliselt Gnome sätete deemoni kaudu ja need 
 msgid " Shortcuts on %1 are usually used through MATE Settings Daemon and should be configured there instead."
 msgstr " %1 otseteid kasutatakse tavaliselt MATE sätete deemoni kaudu ja need tuleks seadistada hoopis seal."
 
-msgid "Buffering"
-msgstr "Puhvedamine"
+msgid "Identifying song"
+msgstr "Tuvastame laulu"
 
-msgid "D-Bus path"
-msgstr "D-Bus asukoht"
+msgid "Fingerprinting song"
+msgstr "Sõrmejäljestame lugu"
 
-msgid "Serial number"
-msgstr "Seerianumber"
+msgid "Downloading metadata"
+msgstr "Laadime alla metaandmeid"
 
-msgid "Mount points"
-msgstr "Haakepunktid"
+msgid "Show moodbar"
+msgstr "Kuva tujuriba"
 
-msgid "Partition label"
-msgstr "Partitsiooni silt"
+msgid "Moodbar style"
+msgstr "Meeleoluriba stiil"
 
-msgid "UUID"
-msgstr "UUID"
+msgid "Normal"
+msgstr "Tavaline"
+
+msgid "Angry"
+msgstr "Vihane"
+
+msgid "Frozen"
+msgstr "Külmunud"
+
+msgid "Happy"
+msgstr "Õnnelik"
+
+msgid "System colors"
+msgstr "Süsteemi värvid"
 
 msgid "Connect device"
 msgstr "Ühenda seade"
@@ -2126,23 +2190,6 @@ msgstr "Mudel"
 msgid "Manufacturer"
 msgstr "Tootja"
 
-#, qt-format
-msgid "Could not copy %1 to %2: %3"
-msgstr "%1 -> %2 kopeeruimine ei õnnestunud: %3"
-
-#, qt-format
-msgid "Writing database failed: %1"
-msgstr "Andmebaasi salvestamine ei õnnestunud: %1"
-
-msgid "Writing database failed."
-msgstr "Andmebaasi salvestamine ei õnnestunud."
-
-msgid "Loading iPod database"
-msgstr "Laadime iPodi andmekogu"
-
-msgid "An error occurred loading the iTunes database"
-msgstr "iTunesi andmebaasi laadimisel tekkis viga"
-
 msgid "Mount point"
 msgstr "Haakepunkt"
 
@@ -2151,6 +2198,21 @@ msgstr "Seade"
 
 msgid "URI"
 msgstr "URI"
+
+msgid "D-Bus path"
+msgstr "D-Bus asukoht"
+
+msgid "Serial number"
+msgstr "Seerianumber"
+
+msgid "Mount points"
+msgstr "Haakepunktid"
+
+msgid "Partition label"
+msgstr "Partitsiooni silt"
+
+msgid "UUID"
+msgstr "UUID"
 
 #, qt-format
 msgid "Invalid MTP device: %1"
@@ -2177,64 +2239,6 @@ msgstr "Viga MTP seadme %1 ühendamiselug"
 msgid "Error connecting MTP device %1: %2"
 msgstr "Viga MTP-seadme %1 ühendamisel: %2"
 
-#, qt-format
-msgid "Could not create the GStreamer element \"%1\" - make sure you have all the required GStreamer plugins installed"
-msgstr "Ei suutnud luua GStreamer'i elementi \"%1\" - palun kontrolli, et arvutis oleks paigaldatud kõik vajalikud GStreamer'i pistikprogrammid"
-
-#, qt-format
-msgid "Successfully written %1"
-msgstr "Kodeerimine õnnestus: %1"
-
-#, qt-format
-msgid "Transcoding %1 files using %2 threads"
-msgstr "Teisendatakse %1 faili kasutades %2 lõime"
-
-#, qt-format
-msgid "Error processing %1: %2"
-msgstr "Viga %1 töötlemisel: %2"
-
-#, qt-format
-msgid "Starting %1"
-msgstr "Käivitatakse %1"
-
-#, qt-format
-msgid "Couldn't find an encoder for %1, check you have the correct GStreamer plugins installed"
-msgstr "Ei leidnud kodeerijat %1 jaoks, palun kontrolli et arvutis oleks paigaldatud õiged GStreamer'i pistikprogrammid"
-
-#, qt-format
-msgid "Couldn't find a muxer for %1, check you have the correct GStreamer plugins installed"
-msgstr "Ei leidnud mukserit %1 jaoks, palun kontrolli et arvutis oleks paigaldatud õiged GStreamer'i pistikprogrammid"
-
-msgid "Start transcoding"
-msgstr "Alusta teisendamist"
-
-#, c-format, qt-plural-format
-msgid "%n remaining"
-msgstr "jäänud %n"
-
-#, c-format, qt-plural-format
-msgid "%n finished"
-msgstr "%n lõpetatud"
-
-#, c-format, qt-plural-format
-msgid "%n failed"
-msgstr "%n ebaõnnestus"
-
-msgid "Add files to transcode"
-msgstr "Lisa failid teisendamiseks"
-
-msgid "Open a directory to import music from"
-msgstr "Ava kataloog, kust muusika importida"
-
-msgid "Identifying song"
-msgstr "Tuvastame laulu"
-
-msgid "Fingerprinting song"
-msgstr "Sõrmejäljestame lugu"
-
-msgid "Downloading metadata"
-msgstr "Laadime alla metaandmeid"
-
 msgid "Error while setting CDDA device to ready state."
 msgstr "Viga CDDA seadme valmisolekusse seadmisel."
 
@@ -2243,6 +2247,23 @@ msgstr "Viga CDDA seadme peatatud olekusse määramisel."
 
 msgid "Error while querying CDDA tracks."
 msgstr "Viga lugude CDDA päringul."
+
+#, qt-format
+msgid "Could not copy %1 to %2: %3"
+msgstr "%1 -> %2 kopeeruimine ei õnnestunud: %3"
+
+#, qt-format
+msgid "Writing database failed: %1"
+msgstr "Andmebaasi salvestamine ei õnnestunud: %1"
+
+msgid "Writing database failed."
+msgstr "Andmebaasi salvestamine ei õnnestunud."
+
+msgid "Loading iPod database"
+msgstr "Laadime iPodi andmekogu"
+
+msgid "An error occurred loading the iTunes database"
+msgstr "iTunesi andmebaasi laadimisel tekkis viga"
 
 msgid "Server URL is invalid."
 msgstr "Serveri URL on vigane."
@@ -2407,27 +2428,6 @@ msgstr "Qobuzi rakenduse ID või võti puudub."
 
 msgid "Missing app id."
 msgstr "Rakenduse ID puudub."
-
-msgid "Show moodbar"
-msgstr "Kuva tujuriba"
-
-msgid "Moodbar style"
-msgstr "Meeleoluriba stiil"
-
-msgid "Normal"
-msgstr "Tavaline"
-
-msgid "Angry"
-msgstr "Vihane"
-
-msgid "Frozen"
-msgstr "Külmunud"
-
-msgid "Happy"
-msgstr "Õnnelik"
-
-msgid "System colors"
-msgstr "Süsteemi värvid"
 
 msgid "Strawberry Music Player"
 msgstr "Strawberry muusikamängija"
@@ -3704,6 +3704,36 @@ msgstr "Kohandatud..."
 msgid "Enable fading"
 msgstr "Luba hajumine"
 
+msgid "Transcoding"
+msgstr "Teisendamine"
+
+msgid "These settings are used in the \"Transcode Music\" dialog, and when converting music before copying it to a device."
+msgstr "Neid sätteid kasutatakse aknas \"Teisenda muusikat\" ja muusika teisendamisel enne selle seadmesse kopeerimist."
+
+msgid "FLAC"
+msgstr "FLAC"
+
+msgid "WavPack"
+msgstr "WavPack"
+
+msgid "Vorbis"
+msgstr "Vorbis"
+
+msgid "Opus"
+msgstr "Opus"
+
+msgid "Speex"
+msgstr "Speex"
+
+msgid "AAC"
+msgstr "AAC"
+
+msgid "ASF (WMA)"
+msgstr "ASF (WMA)"
+
+msgid "MP3"
+msgstr "MP3"
+
 msgid "Equalizer"
 msgstr "Ekvalaiser"
 
@@ -3953,97 +3983,6 @@ msgstr "Kopeeri albumi kaanepildid"
 msgid "Safely remove the device after copying"
 msgstr "Pärast kopeerimist eemalda seade ohutult"
 
-msgid "Press a key"
-msgstr "Vajuta klahvi"
-
-msgid "Global Shortcuts"
-msgstr "Globaalsed kiirklahvid"
-
-msgid "Use Gnome (GSD) shortcuts when available"
-msgstr "Kasuta võimalusel Gnome kiirklahve"
-
-msgid "Open..."
-msgstr "Ava..."
-
-msgid "Use MATE shortcuts when available"
-msgstr "Kasuta võimalusel MATE kiirklahve"
-
-msgid "Use KDE (KGlobalAccel) shortcuts when available"
-msgstr "Kasuta võimalusel KDE kiirklahve"
-
-msgid "Use X11 shortcuts when available"
-msgstr "Kasuta võimalusel X11 kiirklahve"
-
-msgid "You need to launch System Preferences and allow Strawberry to \"<span style=\"font-style:italic\">control your computer</span>\" to use global shortcuts in Strawberry."
-msgstr "Et Strawberry saaks üldiseid kiirklahve kasutada, ava süsteemi seadistused ja märgi eelistus „<span style=\"font-style:italic\">juhi oma arvutit</span>“."
-
-msgid "Shortcut"
-msgstr "Kiirklahv"
-
-msgctxt "Category label"
-msgid "Action"
-msgstr "Tegevus"
-
-msgid "&None"
-msgstr "&Puudub"
-
-msgid "&Default"
-msgstr "&Vaikimisi"
-
-msgid "&Custom"
-msgstr "&Kohandatud"
-
-msgid "Change shortcut..."
-msgstr "Muuda kiirklahvi..."
-
-msgid "Device Properties"
-msgstr "Seadme omadused"
-
-msgid "Icon"
-msgstr "Ikoon"
-
-msgid "Hardware information"
-msgstr "Riistvara info"
-
-msgid "Hardware information is only available while the device is connected."
-msgstr "Riistvara info on ainult siis saadaval, kui seade on ühendatud."
-
-msgid "Information"
-msgstr "Informatsioon"
-
-msgid "Supported formats"
-msgstr "Toetatud vormingud"
-
-msgid "This device supports the following file formats:"
-msgstr "See seade toetab järgmisi failivorminguid:"
-
-msgid "Strawberry can automatically convert the music you copy to this device into a format that it can play."
-msgstr "Strawberry saab sellesse seadmesse kopeeritud muusika automaatselt teisendada vormingusse, mida ta suudab esitada."
-
-msgid "Do not convert any music"
-msgstr "Ära teisenda mitte midagi"
-
-msgid "Convert any music that the device can't play"
-msgstr "Teisenda kogu muusika, mida seade ei suuda esitada"
-
-msgid "Convert all music"
-msgstr "Konverteeri kõik failid"
-
-msgid "Preferred format"
-msgstr "Eelistatud vorming"
-
-msgid "This device must be connected and opened before Strawberry can see what file formats it supports."
-msgstr "See seade peab olema ühendatud ja avatud, enne kui Strawberry näeb, milliseid failivorminguid see toetab."
-
-msgid "Open device"
-msgstr "Ava seade"
-
-msgid "Querying device..."
-msgstr "Vaatame, mida seadmes leidub..."
-
-msgid "File formats"
-msgstr "Failivormingud"
-
 msgid "Transcode Music"
 msgstr "Teisenda muusikat"
 
@@ -4207,35 +4146,108 @@ msgstr "Kõrge"
 msgid "Force mono encoding"
 msgstr "Sunni monoheli"
 
-msgid "Transcoding"
-msgstr "Teisendamine"
+msgid "Press a key"
+msgstr "Vajuta klahvi"
 
-msgid "These settings are used in the \"Transcode Music\" dialog, and when converting music before copying it to a device."
-msgstr "Neid sätteid kasutatakse aknas \"Teisenda muusikat\" ja muusika teisendamisel enne selle seadmesse kopeerimist."
+msgid "Global Shortcuts"
+msgstr "Globaalsed kiirklahvid"
 
-msgid "FLAC"
-msgstr "FLAC"
+msgid "Use Gnome (GSD) shortcuts when available"
+msgstr "Kasuta võimalusel Gnome kiirklahve"
 
-msgid "WavPack"
-msgstr "WavPack"
+msgid "Open..."
+msgstr "Ava..."
 
-msgid "Vorbis"
-msgstr "Vorbis"
+msgid "Use MATE shortcuts when available"
+msgstr "Kasuta võimalusel MATE kiirklahve"
 
-msgid "Opus"
-msgstr "Opus"
+msgid "Use KDE (KGlobalAccel) shortcuts when available"
+msgstr "Kasuta võimalusel KDE kiirklahve"
 
-msgid "Speex"
-msgstr "Speex"
+msgid "Use X11 shortcuts when available"
+msgstr "Kasuta võimalusel X11 kiirklahve"
 
-msgid "AAC"
-msgstr "AAC"
+msgid "You need to launch System Preferences and allow Strawberry to \"<span style=\"font-style:italic\">control your computer</span>\" to use global shortcuts in Strawberry."
+msgstr "Et Strawberry saaks üldiseid kiirklahve kasutada, ava süsteemi seadistused ja märgi eelistus „<span style=\"font-style:italic\">juhi oma arvutit</span>“."
 
-msgid "ASF (WMA)"
-msgstr "ASF (WMA)"
+msgid "Shortcut"
+msgstr "Kiirklahv"
 
-msgid "MP3"
-msgstr "MP3"
+msgctxt "Category label"
+msgid "Action"
+msgstr "Tegevus"
+
+msgid "&None"
+msgstr "&Puudub"
+
+msgid "&Default"
+msgstr "&Vaikimisi"
+
+msgid "&Custom"
+msgstr "&Kohandatud"
+
+msgid "Change shortcut..."
+msgstr "Muuda kiirklahvi..."
+
+msgid "Moodbar"
+msgstr "Meeleoluriba"
+
+msgid "Show a moodbar in the track progress bar"
+msgstr "Kuva loo edenemisribal meeleoluriba"
+
+msgid "Save the .mood files directly in the songs folders"
+msgstr "Salvesta .mood failid lugude kaustadesse"
+
+msgid "Enabled"
+msgstr "Lubatud"
+
+msgid "Device Properties"
+msgstr "Seadme omadused"
+
+msgid "Icon"
+msgstr "Ikoon"
+
+msgid "Hardware information"
+msgstr "Riistvara info"
+
+msgid "Hardware information is only available while the device is connected."
+msgstr "Riistvara info on ainult siis saadaval, kui seade on ühendatud."
+
+msgid "Information"
+msgstr "Informatsioon"
+
+msgid "Supported formats"
+msgstr "Toetatud vormingud"
+
+msgid "This device supports the following file formats:"
+msgstr "See seade toetab järgmisi failivorminguid:"
+
+msgid "Strawberry can automatically convert the music you copy to this device into a format that it can play."
+msgstr "Strawberry saab sellesse seadmesse kopeeritud muusika automaatselt teisendada vormingusse, mida ta suudab esitada."
+
+msgid "Do not convert any music"
+msgstr "Ära teisenda mitte midagi"
+
+msgid "Convert any music that the device can't play"
+msgstr "Teisenda kogu muusika, mida seade ei suuda esitada"
+
+msgid "Convert all music"
+msgstr "Konverteeri kõik failid"
+
+msgid "Preferred format"
+msgstr "Eelistatud vorming"
+
+msgid "This device must be connected and opened before Strawberry can see what file formats it supports."
+msgstr "See seade peab olema ühendatud ja avatud, enne kui Strawberry näeb, milliseid failivorminguid see toetab."
+
+msgid "Open device"
+msgstr "Ava seade"
+
+msgid "Querying device..."
+msgstr "Vaatame, mida seadmes leidub..."
+
+msgid "File formats"
+msgstr "Failivormingud"
 
 msgid "Server URL"
 msgstr "Serveri URL"
@@ -4332,18 +4344,6 @@ msgstr "Rakenduse võti"
 
 msgid "Base64 encoded secret"
 msgstr "Base64 kodeeringus võti"
-
-msgid "Moodbar"
-msgstr "Meeleoluriba"
-
-msgid "Show a moodbar in the track progress bar"
-msgstr "Kuva loo edenemisribal meeleoluriba"
-
-msgid "Save the .mood files directly in the songs folders"
-msgstr "Salvesta .mood failid lugude kaustadesse"
-
-msgid "Enabled"
-msgstr "Lubatud"
 
 msgid "Return to Strawberry"
 msgstr "Naase Strawberrysse"

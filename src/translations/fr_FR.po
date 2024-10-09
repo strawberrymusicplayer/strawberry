@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: strawberrymusicplayer\n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
-"PO-Revision-Date: 2024-09-28 13:40\n"
+"PO-Revision-Date: 2024-10-09 12:16\n"
 
 msgid "All Files (*)"
 msgstr "Tous les fichiers (*)"
@@ -439,25 +439,25 @@ msgid "Failed to load image from data for %1"
 msgstr "Impossible de charger l'image depuis les données pour %1"
 
 msgid "Success"
-msgstr ""
+msgstr "Effectué"
 
 msgid "File is unsupported"
-msgstr ""
+msgstr "Le fichier n'est pas pris en charge"
 
 msgid "Filename is missing"
-msgstr ""
+msgstr "Le nom du fichier est manquant"
 
 msgid "File does not exist"
-msgstr ""
+msgstr "Le fichier n’existe pas"
 
 msgid "File could not be opened"
-msgstr ""
+msgstr "Le fichier n'a pas pu être ouvert"
 
 msgid "Could not parse file"
-msgstr ""
+msgstr "Le fichier n'a pas pu être analysé"
 
 msgid "Could save file"
-msgstr ""
+msgstr "Sauvegarde du fichier possible"
 
 msgid "Unknown error"
 msgstr "Erreur inconnue"
@@ -485,6 +485,9 @@ msgstr "Plusieurs termes de recherche peuvent également être combinés avec \"
 
 msgid "Available fields"
 msgstr "Champs disponibles"
+
+msgid "Buffering"
+msgstr "Mise en mémoire tampon"
 
 msgid "Framerate"
 msgstr "Images par seconde"
@@ -1959,6 +1962,55 @@ msgstr "Erreur lors de la suppression des morceaux"
 msgid "There were problems deleting some songs.  The following files could not be deleted:"
 msgstr "Il y a eu un problème pour supprimer certains morceaux. Les fichiers suivant n'ont pas pu être supprimés :"
 
+#, qt-format
+msgid "Could not create the GStreamer element \"%1\" - make sure you have all the required GStreamer plugins installed"
+msgstr "Impossible de créer l'élément GStreamer « %1 » - vérifier que les modules externes GStreamer nécessaires sont installés"
+
+#, qt-format
+msgid "Successfully written %1"
+msgstr "%1 écrit avec succès"
+
+#, qt-format
+msgid "Transcoding %1 files using %2 threads"
+msgstr "Transcodage de %1 fichiers en utilisant %2 threads"
+
+#, qt-format
+msgid "Error processing %1: %2"
+msgstr "Erreur lors du traitement de %1 : %2"
+
+#, qt-format
+msgid "Starting %1"
+msgstr "Lancement de %1"
+
+#, qt-format
+msgid "Couldn't find an encoder for %1, check you have the correct GStreamer plugins installed"
+msgstr "Impossible de trouver un encodeur pour %1, vérifiez que les bons modules externes GStreamer sont installés"
+
+#, qt-format
+msgid "Couldn't find a muxer for %1, check you have the correct GStreamer plugins installed"
+msgstr "Impossible de trouver un multiplexeur pour %1, vérifiez que les bons modules externes GStreamer sont installés"
+
+msgid "Start transcoding"
+msgstr "Commencer le transcodage"
+
+#, c-format, qt-plural-format
+msgid "%n remaining"
+msgstr "%n restant"
+
+#, c-format, qt-plural-format
+msgid "%n finished"
+msgstr "%n terminé"
+
+#, c-format, qt-plural-format
+msgid "%n failed"
+msgstr "%n échoué"
+
+msgid "Add files to transcode"
+msgstr "Ajouter des fichiers à transcoder"
+
+msgid "Open a directory to import music from"
+msgstr "Ouvrir un répertoire pour en importer la musique"
+
 msgid "Play/Pause"
 msgstr "Lecture/Pause"
 
@@ -2045,23 +2097,35 @@ msgstr " Les raccourcis sur %1 sont généralement utilisés via Cinnamon Settin
 msgid " Shortcuts on %1 are usually used through MATE Settings Daemon and should be configured there instead."
 msgstr " Les raccourcis sur %1 sont généralement utilisés via MATE Settings Daemon et doivent être configurés ici à la place."
 
-msgid "Buffering"
-msgstr "Mise en mémoire tampon"
+msgid "Identifying song"
+msgstr "Identification du morceau"
 
-msgid "D-Bus path"
-msgstr "Chemin D-Bus"
+msgid "Fingerprinting song"
+msgstr "Morceau d'empreinte digitale"
 
-msgid "Serial number"
-msgstr "Numéro de série"
+msgid "Downloading metadata"
+msgstr "Téléchargement des métadonnées"
 
-msgid "Mount points"
-msgstr "Points de montage"
+msgid "Show moodbar"
+msgstr "Afficher la barre d'humeur"
 
-msgid "Partition label"
-msgstr "Intitulé de la partition"
+msgid "Moodbar style"
+msgstr "Style de la barre d'humeur"
 
-msgid "UUID"
-msgstr "UUID"
+msgid "Normal"
+msgstr "Normal"
+
+msgid "Angry"
+msgstr "En colère"
+
+msgid "Frozen"
+msgstr "Gelé"
+
+msgid "Happy"
+msgstr "Heureux"
+
+msgid "System colors"
+msgstr "Couleurs du système"
 
 msgid "Connect device"
 msgstr "Connexion du périphérique"
@@ -2126,23 +2190,6 @@ msgstr "Modèle"
 msgid "Manufacturer"
 msgstr "Fabricant"
 
-#, qt-format
-msgid "Could not copy %1 to %2: %3"
-msgstr "Impossible de copier %1 dans %2 : %3"
-
-#, qt-format
-msgid "Writing database failed: %1"
-msgstr "L'écriture de la base de données a échoué : %1"
-
-msgid "Writing database failed."
-msgstr "L'écriture de la base de données a échoué"
-
-msgid "Loading iPod database"
-msgstr "Chargement de la base de données iPod"
-
-msgid "An error occurred loading the iTunes database"
-msgstr "Une erreur est survenue lors du chargement de la base de données iTunes"
-
 msgid "Mount point"
 msgstr "Point de montage"
 
@@ -2151,6 +2198,21 @@ msgstr "Périphérique"
 
 msgid "URI"
 msgstr "URI"
+
+msgid "D-Bus path"
+msgstr "Chemin D-Bus"
+
+msgid "Serial number"
+msgstr "Numéro de série"
+
+msgid "Mount points"
+msgstr "Points de montage"
+
+msgid "Partition label"
+msgstr "Intitulé de la partition"
+
+msgid "UUID"
+msgstr "UUID"
 
 #, qt-format
 msgid "Invalid MTP device: %1"
@@ -2177,64 +2239,6 @@ msgstr "Erreur lors de la connexion au périphérique MTP %1"
 msgid "Error connecting MTP device %1: %2"
 msgstr "Erreur de connexion du dispositif MTP %1 : %2"
 
-#, qt-format
-msgid "Could not create the GStreamer element \"%1\" - make sure you have all the required GStreamer plugins installed"
-msgstr "Impossible de créer l'élément GStreamer « %1 » - vérifier que les modules externes GStreamer nécessaires sont installés"
-
-#, qt-format
-msgid "Successfully written %1"
-msgstr "%1 écrit avec succès"
-
-#, qt-format
-msgid "Transcoding %1 files using %2 threads"
-msgstr "Transcodage de %1 fichiers en utilisant %2 threads"
-
-#, qt-format
-msgid "Error processing %1: %2"
-msgstr "Erreur lors du traitement de %1 : %2"
-
-#, qt-format
-msgid "Starting %1"
-msgstr "Lancement de %1"
-
-#, qt-format
-msgid "Couldn't find an encoder for %1, check you have the correct GStreamer plugins installed"
-msgstr "Impossible de trouver un encodeur pour %1, vérifiez que les bons modules externes GStreamer sont installés"
-
-#, qt-format
-msgid "Couldn't find a muxer for %1, check you have the correct GStreamer plugins installed"
-msgstr "Impossible de trouver un multiplexeur pour %1, vérifiez que les bons modules externes GStreamer sont installés"
-
-msgid "Start transcoding"
-msgstr "Commencer le transcodage"
-
-#, c-format, qt-plural-format
-msgid "%n remaining"
-msgstr "%n restant"
-
-#, c-format, qt-plural-format
-msgid "%n finished"
-msgstr "%n terminé"
-
-#, c-format, qt-plural-format
-msgid "%n failed"
-msgstr "%n échoué"
-
-msgid "Add files to transcode"
-msgstr "Ajouter des fichiers à transcoder"
-
-msgid "Open a directory to import music from"
-msgstr "Ouvrir un répertoire pour en importer la musique"
-
-msgid "Identifying song"
-msgstr "Identification du morceau"
-
-msgid "Fingerprinting song"
-msgstr "Morceau d'empreinte digitale"
-
-msgid "Downloading metadata"
-msgstr "Téléchargement des métadonnées"
-
 msgid "Error while setting CDDA device to ready state."
 msgstr "Erreur lors de la configuration du périphérique CDDA à l'état prêt."
 
@@ -2243,6 +2247,23 @@ msgstr "Erreur lors de la configuration du périphérique CDDA à l'état pause.
 
 msgid "Error while querying CDDA tracks."
 msgstr "Erreur lors de l'interrogation des pistes CDDA."
+
+#, qt-format
+msgid "Could not copy %1 to %2: %3"
+msgstr "Impossible de copier %1 dans %2 : %3"
+
+#, qt-format
+msgid "Writing database failed: %1"
+msgstr "L'écriture de la base de données a échoué : %1"
+
+msgid "Writing database failed."
+msgstr "L'écriture de la base de données a échoué"
+
+msgid "Loading iPod database"
+msgstr "Chargement de la base de données iPod"
+
+msgid "An error occurred loading the iTunes database"
+msgstr "Une erreur est survenue lors du chargement de la base de données iTunes"
 
 msgid "Server URL is invalid."
 msgstr "L'URL du serveur est invalide."
@@ -2407,27 +2428,6 @@ msgstr "L'ID app ou le secret de Qobuz est manquant."
 
 msgid "Missing app id."
 msgstr "ID d'application manquant."
-
-msgid "Show moodbar"
-msgstr "Afficher la barre d'humeur"
-
-msgid "Moodbar style"
-msgstr "Style de la barre d'humeur"
-
-msgid "Normal"
-msgstr "Normal"
-
-msgid "Angry"
-msgstr "En colère"
-
-msgid "Frozen"
-msgstr "Gelé"
-
-msgid "Happy"
-msgstr "Heureux"
-
-msgid "System colors"
-msgstr "Couleurs du système"
 
 msgid "Strawberry Music Player"
 msgstr "Lecteur audio Strawberry"
@@ -3704,6 +3704,36 @@ msgstr "Personnalisée..."
 msgid "Enable fading"
 msgstr "Activer la décoloration"
 
+msgid "Transcoding"
+msgstr "Transcodage"
+
+msgid "These settings are used in the \"Transcode Music\" dialog, and when converting music before copying it to a device."
+msgstr "Ces paramètres sont utilisés dans la boîte de dialogue « Transcoder de la musique » ou lors de la conversion de musique, avant de la copier sur un périphérique."
+
+msgid "FLAC"
+msgstr "FLAC"
+
+msgid "WavPack"
+msgstr "WavPack"
+
+msgid "Vorbis"
+msgstr "Vorbis"
+
+msgid "Opus"
+msgstr "Opus"
+
+msgid "Speex"
+msgstr "Speex"
+
+msgid "AAC"
+msgstr "AAC"
+
+msgid "ASF (WMA)"
+msgstr "ASF (WMA)"
+
+msgid "MP3"
+msgstr "MP3"
+
 msgid "Equalizer"
 msgstr "Égaliseur"
 
@@ -3953,97 +3983,6 @@ msgstr "Copier la pochette de l'album"
 msgid "Safely remove the device after copying"
 msgstr "Enlever le périphérique en toute sécurité à la fin de la copie"
 
-msgid "Press a key"
-msgstr "Appuyez sur une touche"
-
-msgid "Global Shortcuts"
-msgstr "Raccourcis globaux"
-
-msgid "Use Gnome (GSD) shortcuts when available"
-msgstr "Utilisez les raccourcis de Gnome (GSD) lorsque c'est possible"
-
-msgid "Open..."
-msgstr "Ouvrir..."
-
-msgid "Use MATE shortcuts when available"
-msgstr "Utiliser les raccourcis MATE lorsqu'ils sont disponibles"
-
-msgid "Use KDE (KGlobalAccel) shortcuts when available"
-msgstr "Utilisez les raccourcis de KDE (KGlobalAccel) lorsque c'est possible"
-
-msgid "Use X11 shortcuts when available"
-msgstr "Utilisez les raccourcis de X11 lorsque c'est possible"
-
-msgid "You need to launch System Preferences and allow Strawberry to \"<span style=\"font-style:italic\">control your computer</span>\" to use global shortcuts in Strawberry."
-msgstr "Vous devez lancer les Préférences Système et permettre à Strawberry de « <span style=\"font-style:italic\">contrôler votre ordinateur</span> » pour utiliser les raccourcis globaux de Strawberry."
-
-msgid "Shortcut"
-msgstr "Raccourci"
-
-msgctxt "Category label"
-msgid "Action"
-msgstr "Action"
-
-msgid "&None"
-msgstr "Aucu&n"
-
-msgid "&Default"
-msgstr "&Par défaut"
-
-msgid "&Custom"
-msgstr "&Personnaliser"
-
-msgid "Change shortcut..."
-msgstr "Changer le raccourci..."
-
-msgid "Device Properties"
-msgstr "Propriétés du périphérique"
-
-msgid "Icon"
-msgstr "Icône"
-
-msgid "Hardware information"
-msgstr "Informations sur le matériel"
-
-msgid "Hardware information is only available while the device is connected."
-msgstr "Les informations sur le matériel sont disponibles uniquement lorsque le périphérique est connecté."
-
-msgid "Information"
-msgstr "Information"
-
-msgid "Supported formats"
-msgstr "Formats supportés"
-
-msgid "This device supports the following file formats:"
-msgstr "Ce périphérique supporte les formats suivant :"
-
-msgid "Strawberry can automatically convert the music you copy to this device into a format that it can play."
-msgstr "Strawberry peut automatiquement convertir la musique que vous copiez sur ce périphérique dans un format qu'il peut lire."
-
-msgid "Do not convert any music"
-msgstr "Ne pas convertir la musique"
-
-msgid "Convert any music that the device can't play"
-msgstr "Convertir la musique que le périphérique ne peut pas lire"
-
-msgid "Convert all music"
-msgstr "Convertir toutes les musiques"
-
-msgid "Preferred format"
-msgstr "Format préféré"
-
-msgid "This device must be connected and opened before Strawberry can see what file formats it supports."
-msgstr "Ce périphérique doit être connecté et ouvert pour que Strawberry puisse voir les formats de fichier qu'il gère."
-
-msgid "Open device"
-msgstr "Ouvrir le périphérique"
-
-msgid "Querying device..."
-msgstr "Requête du périphérique..."
-
-msgid "File formats"
-msgstr "Formats de fichier"
-
 msgid "Transcode Music"
 msgstr "Transcoder de la musique"
 
@@ -4207,35 +4146,108 @@ msgstr "Élevé"
 msgid "Force mono encoding"
 msgstr "Forcer l’encodage en mono"
 
-msgid "Transcoding"
-msgstr "Transcodage"
+msgid "Press a key"
+msgstr "Appuyez sur une touche"
 
-msgid "These settings are used in the \"Transcode Music\" dialog, and when converting music before copying it to a device."
-msgstr "Ces paramètres sont utilisés dans la boîte de dialogue « Transcoder de la musique » ou lors de la conversion de musique, avant de la copier sur un périphérique."
+msgid "Global Shortcuts"
+msgstr "Raccourcis globaux"
 
-msgid "FLAC"
-msgstr "FLAC"
+msgid "Use Gnome (GSD) shortcuts when available"
+msgstr "Utilisez les raccourcis de Gnome (GSD) lorsque c'est possible"
 
-msgid "WavPack"
-msgstr "WavPack"
+msgid "Open..."
+msgstr "Ouvrir..."
 
-msgid "Vorbis"
-msgstr "Vorbis"
+msgid "Use MATE shortcuts when available"
+msgstr "Utiliser les raccourcis MATE lorsqu'ils sont disponibles"
 
-msgid "Opus"
-msgstr "Opus"
+msgid "Use KDE (KGlobalAccel) shortcuts when available"
+msgstr "Utilisez les raccourcis de KDE (KGlobalAccel) lorsque c'est possible"
 
-msgid "Speex"
-msgstr "Speex"
+msgid "Use X11 shortcuts when available"
+msgstr "Utilisez les raccourcis de X11 lorsque c'est possible"
 
-msgid "AAC"
-msgstr "AAC"
+msgid "You need to launch System Preferences and allow Strawberry to \"<span style=\"font-style:italic\">control your computer</span>\" to use global shortcuts in Strawberry."
+msgstr "Vous devez lancer les Préférences Système et permettre à Strawberry de « <span style=\"font-style:italic\">contrôler votre ordinateur</span> » pour utiliser les raccourcis globaux de Strawberry."
 
-msgid "ASF (WMA)"
-msgstr "ASF (WMA)"
+msgid "Shortcut"
+msgstr "Raccourci"
 
-msgid "MP3"
-msgstr "MP3"
+msgctxt "Category label"
+msgid "Action"
+msgstr "Action"
+
+msgid "&None"
+msgstr "Aucu&n"
+
+msgid "&Default"
+msgstr "&Par défaut"
+
+msgid "&Custom"
+msgstr "&Personnaliser"
+
+msgid "Change shortcut..."
+msgstr "Changer le raccourci..."
+
+msgid "Moodbar"
+msgstr "Barre d'humeur"
+
+msgid "Show a moodbar in the track progress bar"
+msgstr "Afficher une barre d'humeur sur la barre de progression de la piste"
+
+msgid "Save the .mood files directly in the songs folders"
+msgstr "Sauvegarder les fichiers .mood dans les dossiers des morceaux"
+
+msgid "Enabled"
+msgstr "Activé"
+
+msgid "Device Properties"
+msgstr "Propriétés du périphérique"
+
+msgid "Icon"
+msgstr "Icône"
+
+msgid "Hardware information"
+msgstr "Informations sur le matériel"
+
+msgid "Hardware information is only available while the device is connected."
+msgstr "Les informations sur le matériel sont disponibles uniquement lorsque le périphérique est connecté."
+
+msgid "Information"
+msgstr "Information"
+
+msgid "Supported formats"
+msgstr "Formats supportés"
+
+msgid "This device supports the following file formats:"
+msgstr "Ce périphérique supporte les formats suivant :"
+
+msgid "Strawberry can automatically convert the music you copy to this device into a format that it can play."
+msgstr "Strawberry peut automatiquement convertir la musique que vous copiez sur ce périphérique dans un format qu'il peut lire."
+
+msgid "Do not convert any music"
+msgstr "Ne pas convertir la musique"
+
+msgid "Convert any music that the device can't play"
+msgstr "Convertir la musique que le périphérique ne peut pas lire"
+
+msgid "Convert all music"
+msgstr "Convertir toutes les musiques"
+
+msgid "Preferred format"
+msgstr "Format préféré"
+
+msgid "This device must be connected and opened before Strawberry can see what file formats it supports."
+msgstr "Ce périphérique doit être connecté et ouvert pour que Strawberry puisse voir les formats de fichier qu'il gère."
+
+msgid "Open device"
+msgstr "Ouvrir le périphérique"
+
+msgid "Querying device..."
+msgstr "Requête du périphérique..."
+
+msgid "File formats"
+msgstr "Formats de fichier"
 
 msgid "Server URL"
 msgstr "L'URL du serveur"
@@ -4332,18 +4344,6 @@ msgstr "Secret d'application (\"App secret\")"
 
 msgid "Base64 encoded secret"
 msgstr "Secret encodé en Base64"
-
-msgid "Moodbar"
-msgstr "Barre d'humeur"
-
-msgid "Show a moodbar in the track progress bar"
-msgstr "Afficher une barre d'humeur sur la barre de progression de la piste"
-
-msgid "Save the .mood files directly in the songs folders"
-msgstr "Sauvegarder les fichiers .mood dans les dossiers des morceaux"
-
-msgid "Enabled"
-msgstr "Activé"
 
 msgid "Return to Strawberry"
 msgstr "Retourner dans Strawberry"
