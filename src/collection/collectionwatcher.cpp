@@ -197,8 +197,14 @@ void CollectionWatcher::ReloadSettings() {
   const bool was_monitoring_before = monitor_;
   Settings s;
   s.beginGroup(CollectionSettingsPage::kSettingsGroup);
-  scan_on_startup_ = s.value("startup_scan", true).toBool();
-  monitor_ = s.value("monitor", true).toBool();
+  if (source_ == Song::Source::Collection) {
+    scan_on_startup_ = s.value("startup_scan", true).toBool();
+    monitor_ = s.value("monitor", true).toBool();
+  }
+  else {
+    scan_on_startup_ = true;
+    monitor_ = true;
+  }
   const QStringList filters = s.value("cover_art_patterns", QStringList() << QStringLiteral("front") << QStringLiteral("cover")).toStringList();
   if (source_ == Song::Source::Collection) {
     song_tracking_ = s.value("song_tracking", false).toBool();
@@ -234,11 +240,13 @@ void CollectionWatcher::ReloadSettings() {
     }
   }
 
-  if (monitor_ && scan_on_startup_ && mark_songs_unavailable_ && !periodic_scan_timer_->isActive()) {
-    periodic_scan_timer_->start();
-  }
-  else if ((!monitor_ || !scan_on_startup_ || !mark_songs_unavailable_) && periodic_scan_timer_->isActive()) {
-    periodic_scan_timer_->stop();
+  if (source_ == Song::Source::Collection) {
+    if (monitor_ && scan_on_startup_ && mark_songs_unavailable_ && !periodic_scan_timer_->isActive()) {
+      periodic_scan_timer_->start();
+    }
+    else if ((!monitor_ || !scan_on_startup_ || !mark_songs_unavailable_) && periodic_scan_timer_->isActive()) {
+      periodic_scan_timer_->stop();
+    }
   }
 
 }
