@@ -33,8 +33,8 @@ Resources:
 The program is free software, released under GPL. If you like this program and can make use of it, consider sponsoring or donating to help fund the project.
 There are currently 4 options for sponsoring:
 
-1. [GitHub](https://github.com/sponsors/jonaski)
-2. [Patreon](https://www.patreon.com/jonaskvinge)
+1. [Patreon](https://www.patreon.com/jonaskvinge)
+2. [GitHub](https://github.com/sponsors/jonaski)
 3. [Ko-fi](https://ko-fi.com/jonaskvinge)
 4. [PayPal](https://paypal.me/jonaskvinge)
 
@@ -81,6 +81,7 @@ To build Strawberry from source you need the following installed on your system 
 * [GStreamer](https://gstreamer.freedesktop.org/)
 * [TagLib 1.12 or higher](https://www.taglib.org/)
 * [ICU](https://unicode-org.github.io/icu/)
+* [KDSingleApplication](https://github.com/KDAB/KDSingleApplication)
 
 Optional dependencies:
 
