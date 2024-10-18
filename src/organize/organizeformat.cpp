@@ -36,7 +36,7 @@
 #include "organizeformat.h"
 #include "organizeformatvalidator.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 const char OrganizeFormat::kBlockPattern[] = "\\{([^{}]+)\\}";
 const char OrganizeFormat::kTagPattern[] = "\\%([a-zA-Z]*)";

@@ -43,7 +43,7 @@
 #include "utilities/strutils.h"
 #include "covermanager/currentalbumcoverloader.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 const char *OSDBase::kSettingsGroup = "OSD";
 

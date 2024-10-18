@@ -53,7 +53,7 @@
 #include "playlistparsers/cueparser.h"
 #include "smartplaylists/playlistgenerator.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 using std::make_shared;
 
 namespace {

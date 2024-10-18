@@ -26,7 +26,7 @@
 
 #include "sqlquery.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 void SqlQuery::BindValue(const QString &placeholder, const QVariant &value) {
 

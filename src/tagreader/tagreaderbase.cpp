@@ -31,7 +31,7 @@
 #include "core/logging.h"
 #include "tagreaderbase.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 TagReaderBase::TagReaderBase() = default;
 TagReaderBase::~TagReaderBase() = default;

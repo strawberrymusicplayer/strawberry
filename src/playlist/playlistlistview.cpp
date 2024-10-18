@@ -33,7 +33,7 @@
 #include "playlistlistview.h"
 #include "playlist.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr int kDragHoverTimeout = 500;

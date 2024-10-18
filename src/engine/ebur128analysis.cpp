@@ -45,7 +45,7 @@
 
 #include "ebur128analysis.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 using std::unique_ptr;
 
 namespace {

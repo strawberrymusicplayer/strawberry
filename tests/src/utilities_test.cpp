@@ -38,7 +38,7 @@
 #include "core/logging.h"
 #include "core/temporaryfile.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 TEST(UtilitiesTest, PrettyTimeDelta) {
 

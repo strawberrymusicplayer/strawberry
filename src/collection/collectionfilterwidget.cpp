@@ -61,7 +61,7 @@
 #include "settings/collectionsettingspage.h"
 #include "settings/appearancesettingspage.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr int kFilterDelay = 500;  // msec

@@ -33,7 +33,7 @@
 #include "tagreaderbase.h"
 #include "tagreadertaglib.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 #undef TStringToQString
 #undef QStringToTString

@@ -34,7 +34,7 @@
 #include "parserbase.h"
 #include "plsparser.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 class CollectionBackendInterface;
 

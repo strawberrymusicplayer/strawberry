@@ -50,7 +50,7 @@
 #include "subsonicbaserequest.h"
 #include "subsonicrequest.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr int kMaxConcurrentAlbumsRequests = 3;

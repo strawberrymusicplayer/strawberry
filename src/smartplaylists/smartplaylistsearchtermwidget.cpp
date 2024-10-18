@@ -41,7 +41,7 @@
 #include "smartplaylistsearchtermwidgetoverlay.h"
 #include "ui_smartplaylistsearchtermwidget.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 SmartPlaylistSearchTermWidget::SmartPlaylistSearchTermWidget(SharedPtr<CollectionBackend> collection_backend, QWidget *parent)
     : QWidget(parent),

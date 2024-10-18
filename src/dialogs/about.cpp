@@ -36,7 +36,7 @@
 #include "about.h"
 #include "ui_about.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 About::About(QWidget *parent) : QDialog(parent), ui_{} {
 

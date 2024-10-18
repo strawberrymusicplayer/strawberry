@@ -38,7 +38,7 @@
 #include "devicemanager.h"
 #include "deviceinfo.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 using std::make_shared;
 
 ConnectedDevice::ConnectedDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, SharedPtr<DeviceManager> manager, Application *app, const int database_id, const bool first_time, QObject *parent)

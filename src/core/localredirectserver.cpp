@@ -39,7 +39,7 @@
 #include <QDateTime>
 #include <QRandomGenerator>
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 LocalRedirectServer::LocalRedirectServer(QObject *parent)
     : QTcpServer(parent),

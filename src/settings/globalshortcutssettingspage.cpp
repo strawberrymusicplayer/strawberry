@@ -49,7 +49,7 @@
 #include "globalshortcutssettingspage.h"
 #include "ui_globalshortcutssettingspage.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 const char *GlobalShortcutsSettingsPage::kSettingsGroup = "GlobalShortcuts";
 

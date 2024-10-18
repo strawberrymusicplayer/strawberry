@@ -47,7 +47,7 @@
 #include "devicelister.h"
 #include "giolister.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 QString GioLister::DeviceInfo::unique_id() const {
 

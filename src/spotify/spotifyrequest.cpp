@@ -45,7 +45,7 @@
 #include "spotifybaserequest.h"
 #include "spotifyrequest.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 namespace {
 const int kMaxConcurrentArtistsRequests = 1;

@@ -35,7 +35,7 @@
 #include "subsonicbaserequest.h"
 #include "subsonicscrobblerequest.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr int kMaxConcurrentScrobbleRequests = 3;

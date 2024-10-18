@@ -52,7 +52,7 @@
 #include "jsoncoverprovider.h"
 #include "spotifycoverprovider.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr char kApiUrl[] = "https://api.spotify.com/v1";

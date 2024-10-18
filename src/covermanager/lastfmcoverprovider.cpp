@@ -47,7 +47,7 @@
 #include "albumcoverfetcher.h"
 #include "lastfmcoverprovider.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr char kUrl[] = "https://ws.audioscrobbler.com/2.0/";

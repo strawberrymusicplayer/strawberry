@@ -49,7 +49,7 @@
 
 #include "acoustidclient.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr char kClientId[] = "0qjUoxbowg";

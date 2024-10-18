@@ -48,7 +48,7 @@
 #include "coverproviders.h"
 #include "albumcoverimageresult.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr int kSearchTimeoutMs = 20000;

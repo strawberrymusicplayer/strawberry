@@ -35,7 +35,7 @@
 #include "parserbase.h"
 #include "m3uparser.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 class CollectionBackendInterface;
 

@@ -44,7 +44,7 @@
 #include "savedgroupingmanager.h"
 #include "ui_savedgroupingmanager.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 const char *SavedGroupingManager::kSavedGroupingsSettingsGroup = "SavedGroupings";
 

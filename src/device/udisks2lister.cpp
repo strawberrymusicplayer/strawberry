@@ -54,7 +54,7 @@
 #include "udisks2filesystem.h"
 #include "udisks2job.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 using std::make_unique;
 using std::make_shared;
 

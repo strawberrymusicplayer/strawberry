@@ -35,7 +35,7 @@
 #include "errordialog.h"
 #include "ui_errordialog.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 ErrorDialog::ErrorDialog(QWidget *parent)
     : QDialog(parent),

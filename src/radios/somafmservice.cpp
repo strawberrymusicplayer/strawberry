@@ -36,7 +36,7 @@
 #include "somafmservice.h"
 #include "radiochannel.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr char kApiChannelsUrl[] = "https://somafm.com/channels.json";

@@ -37,7 +37,7 @@
 #include "utilities/transliterate.h"
 #include "lyricfindlyricsprovider.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr char kUrl[] = "https://lyrics.lyricfind.com/lyrics";

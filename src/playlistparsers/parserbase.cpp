@@ -34,7 +34,7 @@
 #include "settings/playlistsettingspage.h"
 #include "parserbase.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 ParserBase::ParserBase(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent)
     : QObject(parent), collection_backend_(collection_backend) {}

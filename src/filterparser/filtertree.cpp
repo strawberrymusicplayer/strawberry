@@ -23,7 +23,7 @@
 
 #include "filtertree.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 FilterTree::FilterTree() = default;
 FilterTree::~FilterTree() = default;

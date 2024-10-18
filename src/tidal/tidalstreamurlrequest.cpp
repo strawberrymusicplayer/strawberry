@@ -42,7 +42,7 @@
 #include "tidalbaserequest.h"
 #include "tidalstreamurlrequest.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 TidalStreamURLRequest::TidalStreamURLRequest(TidalService *service, SharedPtr<NetworkAccessManager> network, const QUrl &media_url, const uint id, QObject *parent)
     : TidalBaseRequest(service, network, parent),

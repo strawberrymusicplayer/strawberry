@@ -67,7 +67,7 @@
 #include "gstenginepipeline.h"
 #include "gstbufferconsumer.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 #ifdef __clang__
 #  pragma clang diagnostic push

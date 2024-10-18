@@ -46,7 +46,7 @@
 #include "covermanager/coverprovider.h"
 #include "widgets/loginstatewidget.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 const char *CoversSettingsPage::kSettingsGroup = "Covers";
 const char *CoversSettingsPage::kProviders = "providers";

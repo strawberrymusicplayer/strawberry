@@ -60,7 +60,7 @@
 #include "settings/settingsdialog.h"
 #include "settings/qobuzsettingspage.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 using std::make_shared;
 
 const Song::Source QobuzService::kSource = Song::Source::Qobuz;

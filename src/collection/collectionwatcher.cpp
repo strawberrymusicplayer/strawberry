@@ -71,7 +71,7 @@
 #endif
 
 using namespace std::chrono_literals;
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 QStringList CollectionWatcher::sValidImages = QStringList() << QStringLiteral("jpg") << QStringLiteral("png") << QStringLiteral("gif") << QStringLiteral("jpeg");
 

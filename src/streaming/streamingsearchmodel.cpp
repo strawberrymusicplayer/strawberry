@@ -37,7 +37,7 @@
 #include "streamingsearchmodel.h"
 #include "streamingsearchview.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 StreamingSearchModel::StreamingSearchModel(StreamingServicePtr service, QObject *parent)
     : QStandardItemModel(parent),

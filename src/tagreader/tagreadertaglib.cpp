@@ -101,7 +101,7 @@
 #include "albumcovertagdata.h"
 
 using std::unique_ptr;
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 #undef TStringToQString
 #undef QStringToTString

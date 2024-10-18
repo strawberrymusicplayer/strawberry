@@ -41,7 +41,7 @@
 #  include "settings/spotifysettingspage.h"
 #endif
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 EngineBase::EngineBase(QObject *parent)
     : QObject(parent),

@@ -39,7 +39,7 @@
 #include "core/logging.h"
 #include "stylesheetloader.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 using std::make_shared;
 

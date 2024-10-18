@@ -65,7 +65,7 @@
 #  include "mpris2/mpris_common.h"
 #endif
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 const QStringList Song::kColumns = QStringList() << u"title"_s
                                                  << u"album"_s

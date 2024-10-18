@@ -31,7 +31,7 @@
 #include "coverutils.h"
 #include "core/logging.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 QByteArray CoverUtils::Sha1CoverHash(const QString &artist, const QString &album) {
 

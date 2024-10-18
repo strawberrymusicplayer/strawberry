@@ -100,7 +100,7 @@
 #include "edittagdialog.h"
 #include "ui_edittagdialog.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr char kTagsDifferentHintText[] = QT_TR_NOOP("(different across multiple songs)");

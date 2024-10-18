@@ -77,7 +77,7 @@
 #include "settings/collectionsettingspage.h"
 
 using namespace std::chrono_literals;
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 const int CollectionModel::kPrettyCoverSize = 32;
 namespace {

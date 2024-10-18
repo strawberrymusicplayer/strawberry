@@ -35,7 +35,7 @@
 #include "test_utils.h"
 
 using std::make_shared;
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 // clazy:excludeall=non-pod-global-static
 

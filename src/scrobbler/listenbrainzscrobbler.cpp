@@ -57,7 +57,7 @@
 #include "scrobblemetadata.h"
 #include "listenbrainzscrobbler.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 const char *ListenBrainzScrobbler::kName = "ListenBrainz";
 const char *ListenBrainzScrobbler::kSettingsGroup = "ListenBrainz";

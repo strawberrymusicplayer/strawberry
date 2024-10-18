@@ -63,7 +63,7 @@
 #include "mpris2_root.h"
 #include "mpris2_tracklist.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 QDBusArgument &operator<<(QDBusArgument &arg, const MprisPlaylist &playlist) {
   arg.beginStructure();

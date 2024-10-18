@@ -38,7 +38,7 @@
 #include "lyricssearchresult.h"
 #include "lololyricsprovider.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr char kUrlSearch[] = "http://api.lololyrics.com/0.5/getLyric";

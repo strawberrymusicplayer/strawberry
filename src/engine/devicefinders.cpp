@@ -49,7 +49,7 @@
 #  endif  // _MSC_VER
 #endif  // Q_OS_WIN32
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 DeviceFinders::DeviceFinders(QObject *parent) : QObject(parent) {
 

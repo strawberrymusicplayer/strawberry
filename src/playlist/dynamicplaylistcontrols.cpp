@@ -29,7 +29,7 @@
 #include "dynamicplaylistcontrols.h"
 #include "ui_dynamicplaylistcontrols.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 DynamicPlaylistControls::DynamicPlaylistControls(QWidget *parent)
     : QWidget(parent),

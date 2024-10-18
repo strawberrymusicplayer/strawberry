@@ -37,7 +37,7 @@
 #include "jsonlyricsprovider.h"
 #include "ovhlyricsprovider.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr char kUrlSearch[] = "https://api.lyrics.ovh/v1/";

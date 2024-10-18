@@ -61,7 +61,7 @@
 #include "scrobblercacheitem.h"
 #include "scrobblemetadata.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 const char *ScrobblingAPI20::kApiKey = "211990b4c96782c05d1536e7219eb56e";
 

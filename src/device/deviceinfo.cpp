@@ -34,7 +34,7 @@
 #include "devicedatabasebackend.h"
 #include "deviceinfo.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 DeviceDatabaseBackend::Device DeviceInfo::SaveToDb() const {
 

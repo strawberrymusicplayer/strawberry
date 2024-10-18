@@ -46,7 +46,7 @@
 #include "behavioursettingspage.h"
 #include "ui_behavioursettingspage.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 class SettingsDialog;
 

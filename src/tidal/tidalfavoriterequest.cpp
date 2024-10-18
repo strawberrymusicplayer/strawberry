@@ -39,7 +39,7 @@
 #include "tidalbaserequest.h"
 #include "tidalfavoriterequest.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 TidalFavoriteRequest::TidalFavoriteRequest(TidalService *service, SharedPtr<NetworkAccessManager> network, QObject *parent)
     : TidalBaseRequest(service, network, parent),

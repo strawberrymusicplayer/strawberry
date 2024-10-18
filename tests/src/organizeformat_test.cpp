@@ -29,7 +29,7 @@
 
 #include <QUrl>
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 // clazy:excludeall=returning-void-expression
 

@@ -40,7 +40,7 @@
 #include "jsoncoverprovider.h"
 #include "musixmatchcoverprovider.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 MusixmatchCoverProvider::MusixmatchCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
     : JsonCoverProvider(QStringLiteral("Musixmatch"), true, false, 1.0, true, false, app, network, parent) {}

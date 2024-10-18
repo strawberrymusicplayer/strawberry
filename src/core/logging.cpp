@@ -61,7 +61,7 @@
 
 #include "logging.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 namespace logging {
 

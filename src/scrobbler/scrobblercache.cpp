@@ -43,7 +43,7 @@
 #include "scrobblercacheitem.h"
 
 using namespace std::chrono_literals;
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 using std::make_shared;
 
 ScrobblerCache::ScrobblerCache(const QString &filename, QObject *parent)

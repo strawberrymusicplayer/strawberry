@@ -28,7 +28,7 @@
 
 #include "smartplaylistsearch.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 SmartPlaylistSearch::SmartPlaylistSearch() : search_type_(SearchType::And), sort_type_(SortType::Random), sort_field_(SmartPlaylistSearchTerm::Field::Title), limit_(-1), first_item_(0) { Reset(); }
 

@@ -37,7 +37,7 @@
 
 #include "core/logging.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 DeviceLister::DeviceLister(QObject *parent)
     : QObject(parent),

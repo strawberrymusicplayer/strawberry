@@ -60,7 +60,7 @@
 #include "settings/settingsdialog.h"
 #include "settings/subsonicsettingspage.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 using std::make_unique;
 using std::make_shared;
 

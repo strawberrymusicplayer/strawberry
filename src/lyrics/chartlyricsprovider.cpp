@@ -38,7 +38,7 @@
 #include "lyricssearchresult.h"
 #include "chartlyricsprovider.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr char kUrlSearch[] = "http://api.chartlyrics.com/apiv1.asmx/SearchLyricDirect";

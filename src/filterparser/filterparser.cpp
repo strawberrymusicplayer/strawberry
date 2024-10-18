@@ -28,7 +28,7 @@
 #include "filtertree.h"
 #include "filterparsersearchcomparators.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 FilterParser::FilterParser(const QString &filter_string) : filter_string_(filter_string), iter_{}, end_{} {}
 

@@ -37,7 +37,7 @@
 #include "xmlparser.h"
 #include "xspfparser.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 class CollectionBackendInterface;
 

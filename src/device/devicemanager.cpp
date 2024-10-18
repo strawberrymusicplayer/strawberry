@@ -82,7 +82,7 @@
 #  include "gpoddevice.h"
 #endif
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 using std::make_unique;
 
 const int DeviceManager::kDeviceIconSize = 32;

@@ -43,7 +43,7 @@
 #include "qobuzbaserequest.h"
 #include "qobuzstreamurlrequest.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 QobuzStreamURLRequest::QobuzStreamURLRequest(QobuzService *service, SharedPtr<NetworkAccessManager> network, const QUrl &media_url, const uint id, QObject *parent)
     : QobuzBaseRequest(service, network, parent),

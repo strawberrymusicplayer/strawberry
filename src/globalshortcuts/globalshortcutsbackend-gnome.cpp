@@ -37,7 +37,7 @@
 
 #include "gnomesettingsdaemon.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr char kService1[] = "org.gnome.SettingsDaemon.MediaKeys";

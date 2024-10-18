@@ -48,7 +48,7 @@
 #include "jsoncoverprovider.h"
 #include "deezercoverprovider.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr char kApiUrl[] = "https://api.deezer.com";

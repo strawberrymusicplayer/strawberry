@@ -45,7 +45,7 @@
 #include "musixmatchlyricsprovider.h"
 #include "providers/musixmatchprovider.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 using std::make_shared;
 
 MusixmatchLyricsProvider::MusixmatchLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent) : JsonLyricsProvider(QStringLiteral("Musixmatch"), true, false, network, parent), use_api_(true) {}

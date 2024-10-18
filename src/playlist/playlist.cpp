@@ -96,7 +96,7 @@
 
 using std::make_shared;
 using namespace std::chrono_literals;
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 const char *Playlist::kSettingsGroup = "Playlist";
 const char *Playlist::kCddaMimeType = "x-content/audio-cdda";

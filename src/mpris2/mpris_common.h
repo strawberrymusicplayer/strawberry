@@ -32,8 +32,6 @@
 
 namespace mpris {
 
-using namespace Qt::Literals::StringLiterals;
-
 inline void AddMetadata(const QString &key, const QString &metadata, QVariantMap *map) {
   if (!metadata.isEmpty()) (*map)[key] = metadata;
 }
@@ -63,7 +61,7 @@ inline void AddMetadata(const QString &key, const QDBusObjectPath &metadata, QVa
 }
 
 inline QString AsMPRISDateTimeType(const qint64 time) {
-  return time != -1 ? QDateTime::fromSecsSinceEpoch(time).toString(Qt::ISODate) : ""_L1;
+  return time != -1 ? QDateTime::fromSecsSinceEpoch(time).toString(Qt::ISODate) : QLatin1String("");
 }
 
 }  // namespace mpris

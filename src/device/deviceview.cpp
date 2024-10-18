@@ -67,7 +67,7 @@
 #include "deviceproperties.h"
 #include "deviceview.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 using std::make_unique;
 
 const int DeviceItemDelegate::kIconPadding = 6;

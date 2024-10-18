@@ -19,7 +19,7 @@
 
 #include "enginedevice.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 EngineDevice::EngineDevice() : card(0), device(0) {}
 

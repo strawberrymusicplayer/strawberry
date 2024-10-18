@@ -30,7 +30,7 @@
 
 #include "taskmanager.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 TaskManager::TaskManager(QObject *parent) : QObject(parent), next_task_id_(1) {
 

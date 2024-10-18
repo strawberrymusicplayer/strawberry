@@ -39,7 +39,7 @@
 #include "spotifyservice.h"
 #include "spotifybaserequest.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 SpotifyBaseRequest::SpotifyBaseRequest(SpotifyService *service, NetworkAccessManager *network, QObject *parent)
     : QObject(parent),

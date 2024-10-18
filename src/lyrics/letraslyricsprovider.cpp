@@ -30,7 +30,7 @@
 #include "lyricssearchrequest.h"
 #include "letraslyricsprovider.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr char kUrl[] = "https://www.letras.mus.br/winamp.php";

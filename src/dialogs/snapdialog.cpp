@@ -25,7 +25,7 @@
 #include "snapdialog.h"
 #include "ui_messagedialog.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 SnapDialog::SnapDialog(QWidget *parent) : MessageDialog(parent) {
 

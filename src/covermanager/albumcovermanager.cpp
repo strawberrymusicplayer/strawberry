@@ -96,7 +96,7 @@
 #include "ui_albumcovermanager.h"
 
 using namespace std::literals::chrono_literals;
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr char kSettingsGroup[] = "CoverManager";

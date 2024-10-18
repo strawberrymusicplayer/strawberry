@@ -45,7 +45,7 @@
 #include "jsoncoverprovider.h"
 #include "tidalcoverprovider.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr int kLimit = 10;

@@ -60,7 +60,7 @@
 #include "osdpretty.h"
 #include "ui_osdpretty.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 #ifdef Q_OS_WIN
 #  include <windows.h>

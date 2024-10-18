@@ -81,7 +81,7 @@
 #  include "moodbar/moodbaritemdelegate.h"
 #endif
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr int kGlowIntensitySteps = 24;

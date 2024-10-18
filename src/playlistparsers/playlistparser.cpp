@@ -42,7 +42,7 @@
 #include "wplparser.h"
 #include "xspfparser.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 const int PlaylistParser::kMagicSize = 512;
 

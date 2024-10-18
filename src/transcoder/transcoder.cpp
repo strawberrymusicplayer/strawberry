@@ -48,7 +48,7 @@
 #include "core/settings.h"
 #include "transcoder.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 using std::make_shared;
 
 int Transcoder::JobFinishedEvent::sEventType = -1;

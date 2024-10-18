@@ -34,7 +34,7 @@
 #include <QWindow>
 #include <qmath.h>
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 // Clamps float color values within (0, 255)
 static int clamp(float x) {

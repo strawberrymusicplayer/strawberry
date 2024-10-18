@@ -67,7 +67,7 @@
 #include "ui_transcodedialog.h"
 #include "ui_transcodelogdialog.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 // winspool.h defines this :(
 #ifdef AddJob

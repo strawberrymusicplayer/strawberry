@@ -34,7 +34,7 @@
 #include "albumcoverexport.h"
 #include "coverexportrunnable.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 CoverExportRunnable::CoverExportRunnable(const AlbumCoverExport::DialogResult &dialog_result, const AlbumCoverLoaderOptions::Types &cover_types, const Song &song, QObject *parent)
     : QObject(parent),

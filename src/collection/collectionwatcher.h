@@ -47,8 +47,6 @@ class FileSystemWatcherInterface;
 class TaskManager;
 class CueParser;
 
-using namespace Qt::Literals::StringLiterals;
-
 class CollectionWatcher : public QObject {
   Q_OBJECT
 
@@ -260,11 +258,11 @@ class CollectionWatcher : public QObject {
 };
 
 inline QString CollectionWatcher::NoExtensionPart(const QString &fileName) {
-  return fileName.contains(u'.') ? fileName.section(u'.', 0, -2) : ""_L1;
+  return fileName.contains(u'.') ? fileName.section(u'.', 0, -2) : QLatin1String("");
 }
 // Thanks Amarok
 inline QString CollectionWatcher::ExtensionPart(const QString &fileName) {
-  return fileName.contains(u'.') ? fileName.mid(fileName.lastIndexOf(u'.') + 1).toLower() : ""_L1;
+  return fileName.contains(u'.') ? fileName.mid(fileName.lastIndexOf(u'.') + 1).toLower() : QLatin1String("");
 }
 inline QString CollectionWatcher::DirectoryPart(const QString &fileName) {
   return fileName.section(u'/', 0, -2);

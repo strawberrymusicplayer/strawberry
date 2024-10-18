@@ -40,7 +40,7 @@
 #include "tidalservice.h"
 #include "tidalbaserequest.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 TidalBaseRequest::TidalBaseRequest(TidalService *service, SharedPtr<NetworkAccessManager> network, QObject *parent)
     : QObject(parent),

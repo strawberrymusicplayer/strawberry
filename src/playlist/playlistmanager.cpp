@@ -61,7 +61,7 @@
 #include "playlistparsers/playlistparser.h"
 #include "dialogs/saveplaylistsdialog.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 class ParserBase;
 

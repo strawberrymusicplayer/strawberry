@@ -50,7 +50,7 @@
 #include "utilities/xmlutils.h"
 #include "musicbrainzclient.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr char kTrackUrl[] = "https://musicbrainz.org/ws/2/recording/";

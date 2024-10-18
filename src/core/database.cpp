@@ -49,7 +49,7 @@
 #include "sqlquery.h"
 #include "scopedtransaction.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 const int Database::kSchemaVersion = 20;
 

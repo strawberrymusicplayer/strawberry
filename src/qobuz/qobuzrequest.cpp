@@ -49,7 +49,7 @@
 #include "qobuzbaserequest.h"
 #include "qobuzrequest.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr int kMaxConcurrentArtistsRequests = 3;

@@ -44,7 +44,7 @@
 #include "jsoncoverprovider.h"
 #include "musicbrainzcoverprovider.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr char kReleaseSearchUrl[] = "https://musicbrainz.org/ws/2/release/";

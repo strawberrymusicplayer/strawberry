@@ -38,7 +38,7 @@
 #include "core/scopedtransaction.h"
 #include "devicedatabasebackend.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr int kDeviceSchemaVersion = 5;

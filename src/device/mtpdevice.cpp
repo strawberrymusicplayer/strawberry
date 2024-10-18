@@ -44,7 +44,7 @@
 #include "mtploader.h"
 #include "mtpconnection.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 class DeviceLister;
 class DeviceManager;

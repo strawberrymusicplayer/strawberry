@@ -65,7 +65,7 @@
 #include "settings/settingsdialog.h"
 #include "settings/spotifysettingspage.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 const Song::Source SpotifyService::kSource = Song::Source::Spotify;
 const char SpotifyService::kApiUrl[] = "https://api.spotify.com/v1";

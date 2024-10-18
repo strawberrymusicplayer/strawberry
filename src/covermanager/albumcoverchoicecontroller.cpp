@@ -78,7 +78,7 @@
 #include "coverfromurldialog.h"
 #include "currentalbumcoverloader.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 const char *AlbumCoverChoiceController::kLoadImageFileFilter = QT_TR_NOOP("Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)");
 const char *AlbumCoverChoiceController::kSaveImageFileFilter = QT_TR_NOOP("Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)");

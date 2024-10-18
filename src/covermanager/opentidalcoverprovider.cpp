@@ -47,7 +47,7 @@
 #include "jsoncoverprovider.h"
 #include "opentidalcoverprovider.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr char kSettingsGroup[] = "OpenTidal";

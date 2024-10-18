@@ -55,7 +55,7 @@
 #include "htmllyricsprovider.h"
 #include "geniuslyricsprovider.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 using std::make_shared;
 
 namespace {

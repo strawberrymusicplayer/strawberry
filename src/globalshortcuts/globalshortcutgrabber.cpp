@@ -34,7 +34,7 @@
 #include "globalshortcutgrabber.h"
 #include "ui_globalshortcutgrabber.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 GlobalShortcutGrabber::GlobalShortcutGrabber(QWidget *parent)
     : QDialog(parent),

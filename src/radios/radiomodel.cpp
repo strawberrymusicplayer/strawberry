@@ -39,7 +39,7 @@
 #include "radiomimedata.h"
 #include "radiochannel.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr int kTreeIconSize = 22;

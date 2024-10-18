@@ -37,7 +37,7 @@
 #include "collectionquery.h"
 #include "collectionfilteroptions.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 CollectionQuery::CollectionQuery(const QSqlDatabase &db, const QString &songs_table, const CollectionFilterOptions &filter_options)
     : SqlQuery(db),

@@ -32,7 +32,7 @@
 #include "core/settings.h"
 #include "networkproxyfactory.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 NetworkProxyFactory *NetworkProxyFactory::sInstance = nullptr;
 const char *NetworkProxyFactory::kSettingsGroup = "NetworkProxy";

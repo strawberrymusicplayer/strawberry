@@ -24,7 +24,7 @@
 #include "core/settings.h"
 #include "settings/coverssettingspage.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 AlbumCoverLoaderOptions::AlbumCoverLoaderOptions(const Options _options, const QSize _desired_scaled_size, const qreal _device_pixel_ratio, const Types &_types)
     : options(_options),

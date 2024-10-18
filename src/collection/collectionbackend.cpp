@@ -59,7 +59,7 @@
 #include "collectionquery.h"
 #include "collectiontask.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 CollectionBackend::CollectionBackend(QObject *parent)
     : CollectionBackendInterface(parent),

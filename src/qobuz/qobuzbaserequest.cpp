@@ -43,7 +43,7 @@
 #include "qobuzservice.h"
 #include "qobuzbaserequest.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 QobuzBaseRequest::QobuzBaseRequest(QobuzService *service, SharedPtr<NetworkAccessManager> network, QObject *parent)
     : QObject(parent),

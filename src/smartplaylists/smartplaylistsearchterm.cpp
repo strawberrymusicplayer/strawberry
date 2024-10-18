@@ -29,7 +29,7 @@
 #include "smartplaylistsearchterm.h"
 #include "playlist/playlist.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 SmartPlaylistSearchTerm::SmartPlaylistSearchTerm() : field_(Field::Title), operator_(Operator::Equals), datetype_(DateType::Hour) {}
 

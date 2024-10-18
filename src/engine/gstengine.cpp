@@ -61,7 +61,7 @@
 #include "gstbufferconsumer.h"
 #include "enginemetadata.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 using std::make_shared;
 
 #ifdef __clang__

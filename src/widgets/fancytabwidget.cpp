@@ -49,7 +49,7 @@
 #include "settings/appearancesettingspage.h"
 
 using namespace std::chrono_literals;
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr int IconSize_LargeSidebar = 40;

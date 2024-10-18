@@ -40,7 +40,7 @@
 #include "playlist/playlist.h"
 #include "queue.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr char kRowsMimetype[] = "application/x-strawberry-queue-rows";

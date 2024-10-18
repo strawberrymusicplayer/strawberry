@@ -223,7 +223,7 @@
 using std::make_unique;
 using std::make_shared;
 using namespace std::chrono_literals;
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 const char *MainWindow::kSettingsGroup = "MainWindow";
 const char *MainWindow::kAllFilesFilterSpec = QT_TR_NOOP("All Files (*)");

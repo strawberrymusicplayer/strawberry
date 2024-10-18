@@ -33,7 +33,7 @@
 #include "globalshortcutsbackend.h"
 #include "globalshortcut.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 GlobalShortcutsBackendX11::GlobalShortcutsBackendX11(GlobalShortcutsManager *manager, QObject *parent)
     : GlobalShortcutsBackend(manager, GlobalShortcutsBackend::Type::X11, parent),

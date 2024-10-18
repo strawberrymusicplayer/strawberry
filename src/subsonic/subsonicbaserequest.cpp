@@ -45,7 +45,7 @@
 
 #include "settings/subsonicsettingspage.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 SubsonicBaseRequest::SubsonicBaseRequest(SubsonicService *service, QObject *parent)
     : QObject(parent),

@@ -39,7 +39,7 @@
 #include "coverfromurldialog.h"
 #include "ui_coverfromurldialog.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 CoverFromURLDialog::CoverFromURLDialog(SharedPtr<NetworkAccessManager> network, QWidget *parent)
     : QDialog(parent),

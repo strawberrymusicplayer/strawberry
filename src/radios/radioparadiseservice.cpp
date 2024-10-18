@@ -32,7 +32,7 @@
 #include "radioparadiseservice.h"
 #include "radiochannel.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr char kApiChannelsUrl[] = "https://api.radioparadise.com/api/list_streams";

@@ -42,7 +42,7 @@
 
 #include "gstfastspectrum.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 using std::make_unique;
 
 namespace {

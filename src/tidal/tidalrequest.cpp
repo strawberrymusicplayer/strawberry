@@ -49,7 +49,7 @@
 #include "tidalbaserequest.h"
 #include "tidalrequest.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr char kResourcesUrl[] = "https://resources.tidal.com";

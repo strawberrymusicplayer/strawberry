@@ -46,7 +46,7 @@
 #include "streamingcollectionviewcontainer.h"
 #include "ui_streamingtabsview.h"
 
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 StreamingTabsView::StreamingTabsView(Application *app, StreamingServicePtr service, const QString &settings_group, const SettingsDialog::Page settings_page, QWidget *parent)
     : QWidget(parent),

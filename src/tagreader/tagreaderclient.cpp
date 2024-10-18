@@ -49,7 +49,7 @@
 #include "tagreaderloadcoverimagereply.h"
 
 using std::dynamic_pointer_cast;
-using namespace Qt::StringLiterals;
+using namespace Qt::Literals::StringLiterals;
 
 TagReaderClient *TagReaderClient::sInstance = nullptr;
 
