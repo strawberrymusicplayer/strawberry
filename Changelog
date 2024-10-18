@@ -4,6 +4,19 @@ ChangeLog
 
 Unreleased:
 
+This release features major restructuring of the codebase, moving files,
+rewriting CMake build files, dropping Qt 5 support, external tagreader,
+and dropping some unmaintained parts such as VLC.
+
+Bugfixes:
+
+    * Fixed playback of CUE continuing to play from the same file after the song has finished playing (#1568)
+    * Fixed updating collection song sort text when disc is changed.
+
+Enhancements:
+
+    * Resolve symbolic links when dragging files to the playlist to match collection song.
+    * Replace Spotify username/password with access token.
     * Require Qt 6.4 or higher and drop support for Qt 5.
     * Require TagLib 1.12 or higher.
     * Use Qt stringliterals.
@@ -12,7 +25,6 @@ Unreleased:
     * Remove old MacFSListener.
     * Remove external tagreader and protobuf dependency.
     * Remove VLC support.
-    * Replace Spotify username/password with access token.
 
 Version 1.1.3 (2024.09.21):
 
