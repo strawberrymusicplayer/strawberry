@@ -3715,6 +3715,15 @@ msgstr ""
 msgid "Select playlist playing song color:"
 msgstr ""
 
+msgid "Player controls"
+msgstr ""
+
+msgid "Bottom"
+msgstr ""
+
+msgid "Top"
+msgstr ""
+
 msgid "Notifications"
 msgstr ""
 

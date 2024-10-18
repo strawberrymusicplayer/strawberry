@@ -1111,6 +1111,12 @@ void MainWindow::ReloadSettings() {
 
   s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
   int iconsize = s.value(AppearanceSettingsPage::kIconSizePlayControlButtons, 32).toInt();
+
+  // Initialize the player controls position.
+  PlayerControlsPosition default_position = PlayerControlsPosition::Bottom;
+  PlayerControlsPosition player_controls_position = static_cast<PlayerControlsPosition>(s.value(AppearanceSettingsPage::kPlayerControlsPosition, static_cast<int>(default_position)).toInt());
+  if (player_controls_position == PlayerControlsPosition::None) player_controls_position = default_position;
+  SetPlayerControlsPosition(player_controls_position);
   s.endGroup();
 
   tray_icon_->SetTrayiconProgress(trayicon_progress);
@@ -2972,6 +2978,36 @@ void MainWindow::AutoCompleteTags() {
 
 #endif
 
+}
+
+void MainWindow::SetPlayerControlsPosition(const PlayerControlsPosition position) {
+  if (position == PlayerControlsPosition::None) {
+    return;
+  }
+
+  const PlayerControlsPosition previous_position = player_controls_position_;
+  player_controls_position_ = position;
+
+  if (player_controls_position_ == previous_position) {
+    return;
+  }
+  else {
+    // Remove player controls and line for reordering.
+    ui_->layout_right->removeWidget(ui_->line_playlist_sep);
+    ui_->layout_right->removeItem(ui_->layout_player_controls_container);
+    ui_->layout_right->removeWidget(ui_->playlist);
+  }
+
+  if (player_controls_position_ == PlayerControlsPosition::Bottom) {
+    ui_->layout_right->insertWidget(0, ui_->playlist);
+    ui_->layout_right->insertWidget(1, ui_->line_playlist_sep);
+    ui_->layout_right->insertLayout(2, ui_->layout_player_controls_container);
+  }
+  else {
+    ui_->layout_right->insertLayout(0, ui_->layout_player_controls_container);
+    ui_->layout_right->insertWidget(1, ui_->line_playlist_sep);
+    ui_->layout_right->insertWidget(2, ui_->playlist);
+  }
 }
 
 void MainWindow::AutoCompleteTagsAccepted() {
