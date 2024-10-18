@@ -552,7 +552,7 @@ QString PlaylistManager::GetNameForNewPlaylist(const SongList &songs) {
   artists.reserve(songs.count());
   albums.reserve(songs.count());
   for (const Song &song : songs) {
-    artists << (song.artist().isEmpty() ? tr("Unknown") : song.artist());
+    artists << (song.effective_albumartist().isEmpty() ? tr("Unknown") : song.effective_albumartist());
     albums << (song.album().isEmpty() ? tr("Unknown") : song.album());
 
     if (artists.size() > 1) {
