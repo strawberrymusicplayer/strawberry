@@ -187,7 +187,6 @@ else()
   pkg_check_modules(TAGLIB REQUIRED IMPORTED_TARGET taglib>=1.12)
 endif()
 
-find_package(Gettext)
 find_package(GTest)
 find_library(GMOCK_LIBRARY gmock)
 
@@ -204,10 +203,6 @@ find_package(Qt${QT_VERSION_MAJOR} ${QT_MIN_VERSION} COMPONENTS ${QT_COMPONENTS}
 
 if(Qt${QT_VERSION_MAJOR}DBus_FOUND)
   set(DBUS_FOUND ON)
-endif()
-
-if(Qt${QT_VERSION_MAJOR}LinguistTools_FOUND)
-  get_target_property(QT_LCONVERT_EXECUTABLE Qt${QT_VERSION_MAJOR}::lconvert LOCATION)
 endif()
 
 if(X11_FOUND)
@@ -333,7 +328,6 @@ optional_component(GPOD ON "Devices: iPod classic support"
 )
 
 optional_component(TRANSLATIONS ON "Translations"
-  DEPENDS "gettext" GETTEXT_FOUND
   DEPENDS "Qt LinguistTools" Qt${QT_VERSION_MAJOR}LinguistTools_FOUND
 )
 
@@ -352,10 +346,6 @@ optional_component(EBUR128 ON "EBU R 128 loudness normalization"
 
 if(HAVE_X11_GLOBALSHORTCUTS OR HAVE_KDE_GLOBALSHORTCUTS OR HAVE_GNOME_GLOBALSHORTCUTS OR HAVE_MATE_GLOBALSHORTCUTS OR APPLE OR WIN32)
   set(HAVE_GLOBALSHORTCUTS ON)
-endif()
-
-if(HAVE_TRANSLATIONS)
-  include(cmake/Translations.cmake)
 endif()
 
 if(NOT CMAKE_CROSSCOMPILING)
@@ -1413,38 +1403,6 @@ qt_wrap_cpp(SOURCES ${HEADERS})
 qt_wrap_ui(SOURCES ${UI})
 qt_add_resources(SOURCES data/data.qrc data/icons.qrc)
 
-if(HAVE_TRANSLATIONS)
-
-  set(LINGUAS "All" CACHE STRING "A space-seperated list of translations to compile in to Strawberry, or \"None\".")
-  if(LINGUAS STREQUAL "All")
-    # build LANGUAGES from all existing .po files
-    file(GLOB pofiles src/translations/*.po)
-    foreach(pofile ${pofiles})
-      get_filename_component(lang ${pofile} NAME_WE)
-      list(APPEND LANGUAGES ${lang})
-    endforeach(pofile)
-  else(LINGUAS STREQUAL "All")
-    if(NOT LINGUAS OR LINGUAS STREQUAL "None")
-      set(LANGUAGES "")
-    else(NOT LINGUAS OR LINGUAS STREQUAL "None")
-      string(REGEX MATCHALL [a-zA-Z_@]+ LANGUAGES ${LINGUAS})
-    endif(NOT LINGUAS OR LINGUAS STREQUAL "None")
-  endif(LINGUAS STREQUAL "All")
-
-  if(NOT MSVC)
-    add_pot(SOURCES
-      ${CMAKE_CURRENT_SOURCE_DIR}/src/translations/header
-      ${CMAKE_CURRENT_SOURCE_DIR}/src/translations/translations.pot
-      ${SOURCES}
-      ${MOC}
-      ${UIC}
-      ${CMAKE_SOURCE_DIR}/data/html/oauthsuccess.html
-    )
-  endif()
-  add_po(SOURCES strawberry_ LANGUAGES ${LANGUAGES} DIRECTORY src/translations)
-
-endif()
-
 target_sources(strawberry PRIVATE ${SOURCES})
 
 if(WIN32)
@@ -1460,6 +1418,16 @@ endif()
 
 if(LINUX AND LSB_RELEASE_EXEC AND DPKG_BUILDPACKAGE)
   add_subdirectory(debian)
+endif()
+
+if(HAVE_TRANSLATIONS)
+  file(GLOB_RECURSE ts_files src/translations/*.ts)
+  set_source_files_properties(${ts_files} PROPERTIES OUTPUT_LOCATION "${CMAKE_CURRENT_BINARY_DIR}/data")
+  qt_add_lupdate(strawberry TS_FILES ${ts_files} OPTIONS -no-ui-lines -locations none -no-obsolete)
+  qt_add_lrelease(strawberry TS_FILES ${ts_files} QM_FILES_OUTPUT_VARIABLE INSTALL_TRANSLATIONS_FILES)
+  if(NOT INSTALL_TRANSLATIONS)
+    qt_add_resources(strawberry "translations" PREFIX "/i18n" BASE "${CMAKE_CURRENT_BINARY_DIR}/data" FILES "${INSTALL_TRANSLATIONS_FILES}")
+  endif()
 endif()
 
 target_include_directories(strawberry PRIVATE

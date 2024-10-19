@@ -42,7 +42,6 @@ jobs:
             tar
             make
             cmake
-            gettext-tools
             openssh-clients
             glibc-devel
             libboost_headers-devel
@@ -162,7 +161,6 @@ jobs:
             glib
             man
             tar
-            gettext
             openssh
             rsync
             boost-devel
@@ -245,7 +243,6 @@ jobs:
           make
           cmake
           glib
-          gettext
           lsb-release
           rpmdevtools
           rpm-build
@@ -349,7 +346,6 @@ jobs:
           man
           tar
           rpmdevtools
-          gettext
           lib64boost-devel
           lib64sqlite3-devel
           lib64alsa2-devel
@@ -441,7 +437,6 @@ jobs:
             g++
             pkg-config
             fakeroot
-            gettext
             lsb-release
             dpkg-dev
             libglib2.0-dev
@@ -519,7 +514,6 @@ jobs:
             fakeroot
             wget
             curl
-            gettext
             lsb-release
             dpkg-dev
             libglib2.0-dev
@@ -598,7 +592,6 @@ jobs:
             gcc
             g++
             fakeroot
-            gettext
             lsb-release
             gpg
             dput

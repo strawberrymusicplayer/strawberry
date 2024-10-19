@@ -279,7 +279,7 @@ int main(int argc, char *argv[]) {
   ScopedPtr<Translations> translations(new Translations);
 
   translations->LoadTranslation(u"qt"_s, QLibraryInfo::path(QLibraryInfo::TranslationsPath), language);
-  translations->LoadTranslation(u"strawberry"_s, u":/src/translations"_s, language);
+  translations->LoadTranslation(u"strawberry"_s, u":/i18n"_s, language);
   translations->LoadTranslation(u"strawberry"_s, QStringLiteral(TRANSLATIONS_DIR), language);
   translations->LoadTranslation(u"strawberry"_s, QCoreApplication::applicationDirPath(), language);
   translations->LoadTranslation(u"strawberry"_s, QDir::currentPath(), language);

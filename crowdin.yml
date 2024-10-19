@@ -1,3 +1,3 @@
 files:
-  - source: /src/translations/translations.pot
-    translation: /src/translations/%locale_with_underscore%.po
+  - source: /src/translations/strawberry_en_US.ts
+    translation: /src/translations/strawberry_%locale_with_underscore%.ts
