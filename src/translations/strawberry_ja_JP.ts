@@ -1,7561 +1,7561 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="ja_JP">
-<context>
+<TS version="2.1" language="ja_JP" sourcelanguage="en-US">
+  <context>
     <name>About</name>
     <message>
-        <source>About</source>
-        <translation type="unfinished"></translation>
+      <source>About</source>
+      <translation type="unfinished">About</translation>
     </message>
     <message>
-        <source>About Strawberry</source>
-        <translation type="unfinished">Strawberry について</translation>
+      <source>About Strawberry</source>
+      <translation>Strawberry について</translation>
     </message>
     <message>
-        <source>Version %1</source>
-        <translation type="unfinished">バージョン %1</translation>
+      <source>Version %1</source>
+      <translation>バージョン %1</translation>
     </message>
     <message>
-        <source>Strawberry is a music player and music collection organizer.</source>
-        <translation type="unfinished">Strawberry は、音楽プレーヤーおよび音楽コレクションのオーガナイザーです。</translation>
+      <source>Strawberry is a music player and music collection organizer.</source>
+      <translation>Strawberry は、音楽プレーヤーおよび音楽コレクションのオーガナイザーです。</translation>
     </message>
     <message>
-        <source>It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles.</source>
-        <translation type="unfinished"></translation>
+      <source>It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles.</source>
+      <translation type="unfinished">It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles.</translation>
     </message>
     <message>
-        <source>Strawberry is free software released under GPL. The source code is available on %1</source>
-        <translation type="unfinished">Strawberry は、GPL の下でリリースされた自由ソフトウェアです。ソースコードは %1 で入手できます。</translation>
+      <source>Strawberry is free software released under GPL. The source code is available on %1</source>
+      <translation>Strawberry は、GPL の下でリリースされた自由ソフトウェアです。ソースコードは %1 で入手できます。</translation>
     </message>
     <message>
-        <source>You should have received a copy of the GNU General Public License along with this program.  If not, see %1</source>
-        <translation type="unfinished"></translation>
+      <source>You should have received a copy of the GNU General Public License along with this program.  If not, see %1</source>
+      <translation type="unfinished">You should have received a copy of the GNU General Public License along with this program.  If not, see %1</translation>
     </message>
     <message>
-        <source>If you like Strawberry and can make use of it, consider sponsoring or donating.</source>
-        <translation type="unfinished">もし Strawberry が気に入って利用する場合は、後援または寄付を検討してください</translation>
+      <source>If you like Strawberry and can make use of it, consider sponsoring or donating.</source>
+      <translation>もし Strawberry が気に入って利用する場合は、後援または寄付を検討してください</translation>
     </message>
     <message>
-        <source>You can sponsor the author on %1. You can also make a one-time payment through %2.</source>
-        <translation type="unfinished"></translation>
+      <source>You can sponsor the author on %1. You can also make a one-time payment through %2.</source>
+      <translation type="unfinished">You can sponsor the author on %1. You can also make a one-time payment through %2.</translation>
     </message>
     <message>
-        <source>Author and maintainer</source>
-        <translation type="unfinished">作者とメンテナー</translation>
+      <source>Author and maintainer</source>
+      <translation>作者とメンテナー</translation>
     </message>
     <message>
-        <source>Contributors</source>
-        <translation type="unfinished">貢献者</translation>
+      <source>Contributors</source>
+      <translation>貢献者</translation>
     </message>
     <message>
-        <source>Clementine authors</source>
-        <translation type="unfinished">Clementine の作者</translation>
+      <source>Clementine authors</source>
+      <translation>Clementine の作者</translation>
     </message>
     <message>
-        <source>Clementine contributors</source>
-        <translation type="unfinished">Clementine への貢献者</translation>
+      <source>Clementine contributors</source>
+      <translation>Clementine への貢献者</translation>
     </message>
     <message>
-        <source>Thanks to</source>
-        <translation type="unfinished">ありがとうございます</translation>
+      <source>Thanks to</source>
+      <translation>ありがとうございます</translation>
     </message>
     <message>
-        <source>Thanks to all the other Amarok and Clementine contributors.</source>
-        <translation type="unfinished"></translation>
+      <source>Thanks to all the other Amarok and Clementine contributors.</source>
+      <translation type="unfinished">Thanks to all the other Amarok and Clementine contributors.</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>AddStreamDialog</name>
     <message>
-        <source>Add Stream</source>
-        <translation type="unfinished">ストリームを追加</translation>
+      <source>Add Stream</source>
+      <translation>ストリームを追加</translation>
     </message>
     <message>
-        <source>Enter the URL of a stream:</source>
-        <translation type="unfinished">ストリームのURLを入力:</translation>
+      <source>Enter the URL of a stream:</source>
+      <translation>ストリームのURLを入力:</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>AlbumCoverChoiceController</name>
     <message>
-        <source>Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)</source>
-        <translation type="unfinished">画像 (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)</translation>
+      <source>Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)</source>
+      <translation>画像 (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)</translation>
     </message>
     <message>
-        <source>Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)</source>
-        <translation type="unfinished">画像 (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)</translation>
+      <source>Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)</source>
+      <translation>画像 (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)</translation>
     </message>
     <message>
-        <source>All files (*)</source>
-        <translation type="unfinished">すべてのファイル (*)</translation>
+      <source>All files (*)</source>
+      <translation>すべてのファイル (*)</translation>
     </message>
     <message>
-        <source>Load cover from disk...</source>
-        <translation type="unfinished">ディスクからカバーの読み込み...</translation>
+      <source>Load cover from disk...</source>
+      <translation>ディスクからカバーの読み込み...</translation>
     </message>
     <message>
-        <source>Save cover to disk...</source>
-        <translation type="unfinished">カバーをディスクに保存...</translation>
+      <source>Save cover to disk...</source>
+      <translation>カバーをディスクに保存...</translation>
     </message>
     <message>
-        <source>Load cover from URL...</source>
-        <translation type="unfinished">URL からカバーの読み込み...</translation>
+      <source>Load cover from URL...</source>
+      <translation>URL からカバーの読み込み...</translation>
     </message>
     <message>
-        <source>Search for album covers...</source>
-        <translation type="unfinished">アルバムカバーの検索...</translation>
+      <source>Search for album covers...</source>
+      <translation>アルバムカバーの検索...</translation>
     </message>
     <message>
-        <source>Unset cover</source>
-        <translation type="unfinished">カバーを未設定にする</translation>
+      <source>Unset cover</source>
+      <translation>カバーを未設定にする</translation>
     </message>
     <message>
-        <source>Delete cover</source>
-        <translation type="unfinished">カバーを削除</translation>
+      <source>Delete cover</source>
+      <translation>カバーを削除</translation>
     </message>
     <message>
-        <source>Clear cover</source>
-        <translation type="unfinished">カバーを選択</translation>
+      <source>Clear cover</source>
+      <translation>カバーを選択</translation>
     </message>
     <message>
-        <source>Show fullsize...</source>
-        <translation type="unfinished">原寸表示...</translation>
+      <source>Show fullsize...</source>
+      <translation>原寸表示...</translation>
     </message>
     <message>
-        <source>Search automatically</source>
-        <translation type="unfinished">自動的に検索する</translation>
+      <source>Search automatically</source>
+      <translation>自動的に検索する</translation>
     </message>
     <message>
-        <source>Load cover from disk</source>
-        <translation type="unfinished">ディスクからカバーの読み込み</translation>
+      <source>Load cover from disk</source>
+      <translation>ディスクからカバーの読み込み</translation>
     </message>
     <message>
-        <source>Failed to open cover file %1 for reading: %2</source>
-        <translation type="unfinished">カバーファイル %1 を読み取れません: %2</translation>
+      <source>Failed to open cover file %1 for reading: %2</source>
+      <translation>カバーファイル %1 を読み取れません: %2</translation>
     </message>
     <message>
-        <source>Cover file %1 is empty.</source>
-        <translation type="unfinished">カバーファイル %1 は空です。</translation>
+      <source>Cover file %1 is empty.</source>
+      <translation>カバーファイル %1 は空です。</translation>
     </message>
     <message>
-        <source>unknown</source>
-        <translation type="unfinished">不明</translation>
+      <source>unknown</source>
+      <translation>不明</translation>
     </message>
     <message>
-        <source>Save album cover</source>
-        <translation type="unfinished">カバーアートの保存</translation>
+      <source>Save album cover</source>
+      <translation>カバーアートの保存</translation>
     </message>
     <message>
-        <source>Failed to open cover file %1 for writing: %2</source>
-        <translation type="unfinished">カバーファイル %1 を書き込めません: %2</translation>
+      <source>Failed to open cover file %1 for writing: %2</source>
+      <translation>カバーファイル %1 を書き込めません: %2</translation>
     </message>
     <message>
-        <source>Failed writing cover to file %1: %2</source>
-        <translation type="unfinished">ファイル %1 へのカバーの書き込みに失敗: %2</translation>
+      <source>Failed writing cover to file %1: %2</source>
+      <translation>ファイル %1 へのカバーの書き込みに失敗: %2</translation>
     </message>
     <message>
-        <source>Failed writing cover to file %1.</source>
-        <translation type="unfinished">ファイル %1 へのカバーの書き込みに失敗しました。</translation>
+      <source>Failed writing cover to file %1.</source>
+      <translation>ファイル %1 へのカバーの書き込みに失敗しました。</translation>
     </message>
     <message>
-        <source>Failed to delete cover file %1: %2</source>
-        <translation type="unfinished">カバーファイル %1 の削除に失敗しました: %2</translation>
+      <source>Failed to delete cover file %1: %2</source>
+      <translation>カバーファイル %1 の削除に失敗しました: %2</translation>
     </message>
     <message>
-        <source>Failed to write cover to file %1: %2</source>
-        <translation type="unfinished">ファイル %1 へのカバーの書き込みに失敗: %2</translation>
+      <source>Failed to write cover to file %1: %2</source>
+      <translation>ファイル %1 へのカバーの書き込みに失敗: %2</translation>
     </message>
     <message>
-        <source>Could not save cover to file %1.</source>
-        <translation type="unfinished">カバーをファイル %1 に保存できません。</translation>
+      <source>Could not save cover to file %1.</source>
+      <translation>カバーをファイル %1 に保存できません。</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>AlbumCoverExport</name>
     <message>
-        <source>Export covers</source>
-        <translation type="unfinished">カバーをエクスポートする</translation>
+      <source>Export covers</source>
+      <translation>カバーをエクスポートする</translation>
     </message>
     <message>
-        <source>Output</source>
-        <translation type="unfinished">出力</translation>
+      <source>Output</source>
+      <translation>出力</translation>
     </message>
     <message>
-        <source>Enter a filename for exported covers (no extension):</source>
-        <translation type="unfinished">エクスポートするカバーのファイル名を入力してください (拡張子なし):</translation>
+      <source>Enter a filename for exported covers (no extension):</source>
+      <translation>エクスポートするカバーのファイル名を入力してください (拡張子なし):</translation>
     </message>
     <message>
-        <source>Export downloaded covers</source>
-        <translation type="unfinished">ダウンロードしたカバーをエクスポートする</translation>
+      <source>Export downloaded covers</source>
+      <translation>ダウンロードしたカバーをエクスポートする</translation>
     </message>
     <message>
-        <source>Export embedded covers</source>
-        <translation type="unfinished">埋め込みカバーをエクスポートする</translation>
+      <source>Export embedded covers</source>
+      <translation>埋め込みカバーをエクスポートする</translation>
     </message>
     <message>
-        <source>Existing covers</source>
-        <translation type="unfinished">既存のカバー</translation>
+      <source>Existing covers</source>
+      <translation>既存のカバー</translation>
     </message>
     <message>
-        <source>Do not overwrite</source>
-        <translation type="unfinished">上書きしない</translation>
+      <source>Do not overwrite</source>
+      <translation>上書きしない</translation>
     </message>
     <message>
-        <source>O&amp;verwrite all</source>
-        <translation type="unfinished">すべて上書きする(&amp;v)</translation>
+      <source>O&amp;verwrite all</source>
+      <translation>すべて上書きする(&amp;v)</translation>
     </message>
     <message>
-        <source>Overwrite s&amp;maller ones only</source>
-        <translation type="unfinished"></translation>
+      <source>Overwrite s&amp;maller ones only</source>
+      <translation type="unfinished">Overwrite s&amp;maller ones only</translation>
     </message>
     <message>
-        <source>Size</source>
-        <translation type="unfinished">サイズ</translation>
+      <source>Size</source>
+      <translation>サイズ</translation>
     </message>
     <message>
-        <source>Scale size</source>
-        <translation type="unfinished">サイズを調整する</translation>
+      <source>Scale size</source>
+      <translation>サイズを調整する</translation>
     </message>
     <message>
-        <source>Size:</source>
-        <translation type="unfinished">サイズ:</translation>
+      <source>Size:</source>
+      <translation>サイズ:</translation>
     </message>
     <message>
-        <source>Pixel</source>
-        <translation type="unfinished">ピクセル</translation>
+      <source>Pixel</source>
+      <translation>ピクセル</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>AlbumCoverManager</name>
     <message>
-        <source>Abort</source>
-        <translation type="unfinished">中止</translation>
+      <source>Abort</source>
+      <translation>中止</translation>
     </message>
     <message>
-        <source>All albums</source>
-        <translation type="unfinished">すべてのアルバム</translation>
+      <source>All albums</source>
+      <translation>すべてのアルバム</translation>
     </message>
     <message>
-        <source>Albums with covers</source>
-        <translation type="unfinished">カバー付きのアルバム</translation>
+      <source>Albums with covers</source>
+      <translation>カバー付きのアルバム</translation>
     </message>
     <message>
-        <source>Albums without covers</source>
-        <translation type="unfinished">カバーなしのアルバム数</translation>
+      <source>Albums without covers</source>
+      <translation>カバーなしのアルバム数</translation>
     </message>
     <message>
-        <source>Really cancel?</source>
-        <translation type="unfinished">本当に取り消しますか?</translation>
+      <source>Really cancel?</source>
+      <translation>本当に取り消しますか?</translation>
     </message>
     <message>
-        <source>Closing this window will stop searching for album covers.</source>
-        <translation type="unfinished">このウィンドウを閉じるとアルバムカバーの検索を中止します。</translation>
+      <source>Closing this window will stop searching for album covers.</source>
+      <translation>このウィンドウを閉じるとアルバムカバーの検索を中止します。</translation>
     </message>
     <message>
-        <source>Don&apos;t stop!</source>
-        <translation type="unfinished">中止しないでください!</translation>
+      <source>Don&apos;t stop!</source>
+      <translation>中止しないでください!</translation>
     </message>
     <message>
-        <source>All artists</source>
-        <translation type="unfinished">すべてのアーティスト</translation>
+      <source>All artists</source>
+      <translation>すべてのアーティスト</translation>
     </message>
     <message>
-        <source>Various artists</source>
-        <translation type="unfinished">さまざまなアーティスト</translation>
+      <source>Various artists</source>
+      <translation>さまざまなアーティスト</translation>
     </message>
     <message>
-        <source>Got %1 covers out of %2 (%3 failed)</source>
-        <translation type="unfinished">%2 個中 %1 個のカバーを取得しました (%3 個失敗しました)</translation>
+      <source>Got %1 covers out of %2 (%3 failed)</source>
+      <translation>%2 個中 %1 個のカバーを取得しました (%3 個失敗しました)</translation>
     </message>
     <message>
-        <source>%1 transferred</source>
-        <translation type="unfinished">%1 転送済み</translation>
+      <source>%1 transferred</source>
+      <translation>%1 転送済み</translation>
     </message>
     <message>
-        <source>Export finished</source>
-        <translation type="unfinished">エクスポートが完了しました</translation>
+      <source>Export finished</source>
+      <translation>エクスポートが完了しました</translation>
     </message>
     <message>
-        <source>No covers to export.</source>
-        <translation type="unfinished">エクスポートしたカバーはありません</translation>
+      <source>No covers to export.</source>
+      <translation>エクスポートしたカバーはありません</translation>
     </message>
     <message>
-        <source>Exported %1 covers out of %2 (%3 skipped)</source>
-        <translation type="unfinished">%2 個中 %1 個のカバーをエクスポートしました (%3 個スキップしました)</translation>
+      <source>Exported %1 covers out of %2 (%3 skipped)</source>
+      <translation>%2 個中 %1 個のカバーをエクスポートしました (%3 個スキップしました)</translation>
     </message>
     <message>
-        <source>Could not save cover to file %1.</source>
-        <translation type="unfinished">カバーをファイル %1 に保存できません。</translation>
+      <source>Could not save cover to file %1.</source>
+      <translation>カバーをファイル %1 に保存できません。</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>AlbumCoverSearcher</name>
     <message>
-        <source>Cover Manager</source>
-        <translation type="unfinished">カバーマネージャー</translation>
+      <source>Cover Manager</source>
+      <translation>カバーマネージャー</translation>
     </message>
     <message>
-        <source>Artist</source>
-        <translation type="unfinished">アーティスト</translation>
+      <source>Artist</source>
+      <translation>アーティスト</translation>
     </message>
     <message>
-        <source>Album</source>
-        <translation type="unfinished">アルバム</translation>
+      <source>Album</source>
+      <translation>アルバム</translation>
     </message>
     <message>
-        <source>Search</source>
-        <translation type="unfinished">検索</translation>
+      <source>Search</source>
+      <translation>検索</translation>
     </message>
     <message>
-        <source>Covers from %1</source>
-        <translation type="unfinished">%1 からのカバー</translation>
+      <source>Covers from %1</source>
+      <translation>%1 からのカバー</translation>
     </message>
     <message>
-        <source>Abort</source>
-        <translation type="unfinished">中止</translation>
+      <source>Abort</source>
+      <translation>中止</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>AnalyzerContainer</name>
     <message>
-        <source>Framerate</source>
-        <translation type="unfinished">フレームレート</translation>
+      <source>Framerate</source>
+      <translation>フレームレート</translation>
     </message>
     <message>
-        <source>Low (%1 fps)</source>
-        <translation type="unfinished">低 (%1 fps)</translation>
+      <source>Low (%1 fps)</source>
+      <translation>低 (%1 fps)</translation>
     </message>
     <message>
-        <source>Medium (%1 fps)</source>
-        <translation type="unfinished">中 (%1 fps)</translation>
+      <source>Medium (%1 fps)</source>
+      <translation>中 (%1 fps)</translation>
     </message>
     <message>
-        <source>High (%1 fps)</source>
-        <translation type="unfinished">高 (%1 fps)</translation>
+      <source>High (%1 fps)</source>
+      <translation>高 (%1 fps)</translation>
     </message>
     <message>
-        <source>Super high (%1 fps)</source>
-        <translation type="unfinished">最高 (%1 fps)</translation>
+      <source>Super high (%1 fps)</source>
+      <translation>最高 (%1 fps)</translation>
     </message>
     <message>
-        <source>No analyzer</source>
-        <translation type="unfinished">アナライザーなし</translation>
+      <source>No analyzer</source>
+      <translation>アナライザーなし</translation>
     </message>
     <message>
-        <source>Block analyzer</source>
-        <translation type="unfinished">ブロック表示</translation>
+      <source>Block analyzer</source>
+      <translation>ブロック表示</translation>
     </message>
     <message>
-        <source>Boom analyzer</source>
-        <translation type="unfinished">ブームアナライザー</translation>
+      <source>Boom analyzer</source>
+      <translation>ブームアナライザー</translation>
     </message>
     <message>
-        <source>Turbine</source>
-        <translation type="unfinished"></translation>
+      <source>Turbine</source>
+      <translation type="unfinished">Turbine</translation>
     </message>
     <message>
-        <source>Sonogram</source>
-        <translation type="unfinished"></translation>
+      <source>Sonogram</source>
+      <translation type="unfinished">Sonogram</translation>
     </message>
     <message>
-        <source>WaveRubber</source>
-        <translation type="unfinished"></translation>
+      <source>WaveRubber</source>
+      <translation type="unfinished">WaveRubber</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>AppearanceSettingsPage</name>
     <message>
-        <source>Appearance</source>
-        <translation type="unfinished">外観</translation>
+      <source>Appearance</source>
+      <translation>外観</translation>
     </message>
     <message>
-        <source>Style</source>
-        <translation type="unfinished">スタイル</translation>
+      <source>Style</source>
+      <translation>スタイル</translation>
     </message>
     <message>
-        <source>Use system theme icons</source>
-        <translation type="unfinished">システムのテーマアイコンを使用する</translation>
+      <source>Use system theme icons</source>
+      <translation>システムのテーマアイコンを使用する</translation>
     </message>
     <message>
-        <source>Settings require restart.</source>
-        <translation type="unfinished">設定には再起動が必要です</translation>
+      <source>Settings require restart.</source>
+      <translation>設定には再起動が必要です</translation>
     </message>
     <message>
-        <source>Tabbar colors</source>
-        <translation type="unfinished">タブバーの色</translation>
+      <source>Tabbar colors</source>
+      <translation>タブバーの色</translation>
     </message>
     <message>
-        <source>&amp;Use the system default color</source>
-        <translation type="unfinished">システムの既定の色を使用する</translation>
+      <source>&amp;Use the system default color</source>
+      <translation>システムの既定の色を使用する</translation>
     </message>
     <message>
-        <source>Use custom color</source>
-        <translation type="unfinished">カスタム色</translation>
+      <source>Use custom color</source>
+      <translation>カスタム色</translation>
     </message>
     <message>
-        <source>Use gradient background</source>
-        <translation type="unfinished">背景</translation>
+      <source>Use gradient background</source>
+      <translation>背景</translation>
     </message>
     <message>
-        <source>Select tabbar color:</source>
-        <translation type="unfinished">タブバーの色を選択:</translation>
+      <source>Select tabbar color:</source>
+      <translation>タブバーの色を選択:</translation>
     </message>
     <message>
-        <source>Background image</source>
-        <translation type="unfinished">背景画像</translation>
+      <source>Background image</source>
+      <translation>背景画像</translation>
     </message>
     <message>
-        <source>Default bac&amp;kground image</source>
-        <translation type="unfinished">既定の背景(&amp;K)</translation>
+      <source>Default bac&amp;kground image</source>
+      <translation>既定の背景(&amp;K)</translation>
     </message>
     <message>
-        <source>&amp;No background image</source>
-        <translation type="unfinished">背景画像なし(&amp;N)</translation>
+      <source>&amp;No background image</source>
+      <translation>背景画像なし(&amp;N)</translation>
     </message>
     <message>
-        <source>The album cover of the currently playing song</source>
-        <translation type="unfinished">再生中の曲のアルバムカバー</translation>
+      <source>The album cover of the currently playing song</source>
+      <translation>再生中の曲のアルバムカバー</translation>
     </message>
     <message>
-        <source>Albu&amp;m cover</source>
-        <translation type="unfinished">アルバムカバー(&amp;m)</translation>
+      <source>Albu&amp;m cover</source>
+      <translation>アルバムカバー(&amp;m)</translation>
     </message>
     <message>
-        <source>Custom image:</source>
-        <translation type="unfinished">カスタム画像:</translation>
+      <source>Custom image:</source>
+      <translation>カスタム画像:</translation>
     </message>
     <message>
-        <source>Browse...</source>
-        <translation type="unfinished">参照...</translation>
+      <source>Browse...</source>
+      <translation>参照...</translation>
     </message>
     <message>
-        <source>Position</source>
-        <translation type="unfinished">位置</translation>
+      <source>Position</source>
+      <translation>位置</translation>
     </message>
     <message>
-        <source>Upper Left</source>
-        <translation type="unfinished">左上</translation>
+      <source>Upper Left</source>
+      <translation>左上</translation>
     </message>
     <message>
-        <source>Upper Right</source>
-        <translation type="unfinished">右上</translation>
+      <source>Upper Right</source>
+      <translation>右上</translation>
     </message>
     <message>
-        <source>Middle</source>
-        <translation type="unfinished">中央</translation>
+      <source>Middle</source>
+      <translation>中央</translation>
     </message>
     <message>
-        <source>Bottom Left</source>
-        <translation type="unfinished">左下</translation>
+      <source>Bottom Left</source>
+      <translation>左下</translation>
     </message>
     <message>
-        <source>Bottom Right</source>
-        <translation type="unfinished">右下</translation>
+      <source>Bottom Right</source>
+      <translation>右下</translation>
     </message>
     <message>
-        <source>Max cover size</source>
-        <translation type="unfinished">最大カバーサイズ</translation>
+      <source>Max cover size</source>
+      <translation>最大カバーサイズ</translation>
     </message>
     <message>
-        <source>Stretch image to fill playlist</source>
-        <translation type="unfinished"></translation>
+      <source>Stretch image to fill playlist</source>
+      <translation type="unfinished">Stretch image to fill playlist</translation>
     </message>
     <message>
-        <source>Keep aspect ratio</source>
-        <translation type="unfinished">縦横比を維持</translation>
+      <source>Keep aspect ratio</source>
+      <translation>縦横比を維持</translation>
     </message>
     <message>
-        <source>Do not cut image</source>
-        <translation type="unfinished">画像をカットしない</translation>
+      <source>Do not cut image</source>
+      <translation>画像をカットしない</translation>
     </message>
     <message>
-        <source>Blur amount</source>
-        <translation type="unfinished">ぼかし量</translation>
+      <source>Blur amount</source>
+      <translation>ぼかし量</translation>
     </message>
     <message>
-        <source>0px</source>
-        <translation type="unfinished"></translation>
+      <source>0px</source>
+      <translation type="unfinished">0px</translation>
     </message>
     <message>
-        <source>Opacity</source>
-        <translation type="unfinished">不透明度</translation>
+      <source>Opacity</source>
+      <translation>不透明度</translation>
     </message>
     <message>
-        <source>40%</source>
-        <translation type="unfinished"></translation>
+      <source>40%</source>
+      <translation type="unfinished">40%</translation>
     </message>
     <message>
-        <source>Icon sizes</source>
-        <translation type="unfinished">アイコンサイズ</translation>
+      <source>Icon sizes</source>
+      <translation>アイコンサイズ</translation>
     </message>
     <message>
-        <source>Playlist buttons</source>
-        <translation type="unfinished">プレイリストボタン</translation>
+      <source>Playlist buttons</source>
+      <translation>プレイリストボタン</translation>
     </message>
     <message>
-        <source>Tabbar large mode</source>
-        <translation type="unfinished">大きなタブバーモード</translation>
+      <source>Tabbar large mode</source>
+      <translation>大きなタブバーモード</translation>
     </message>
     <message>
-        <source>Play control buttons</source>
-        <translation type="unfinished">再生コントロールボタン</translation>
+      <source>Play control buttons</source>
+      <translation>再生コントロールボタン</translation>
     </message>
     <message>
-        <source>Configure buttons</source>
-        <translation type="unfinished">設定ボタン</translation>
+      <source>Configure buttons</source>
+      <translation>設定ボタン</translation>
     </message>
     <message>
-        <source>Files, playlists and queue buttons</source>
-        <translation type="unfinished">ファイル、プレイリスト、キューボタン</translation>
+      <source>Files, playlists and queue buttons</source>
+      <translation>ファイル、プレイリスト、キューボタン</translation>
     </message>
     <message>
-        <source>Tabbar small mode</source>
-        <translation type="unfinished">小さなタブバーモード</translation>
+      <source>Tabbar small mode</source>
+      <translation>小さなタブバーモード</translation>
     </message>
     <message>
-        <source>Playlist playing song color</source>
-        <translation type="unfinished"></translation>
+      <source>Playlist playing song color</source>
+      <translation type="unfinished">Playlist playing song color</translation>
     </message>
     <message>
-        <source>System highlight color</source>
-        <translation type="unfinished">システムのハイライト色</translation>
+      <source>System highlight color</source>
+      <translation>システムのハイライト色</translation>
     </message>
     <message>
-        <source>Custom color</source>
-        <translation type="unfinished">カスタム色</translation>
+      <source>Custom color</source>
+      <translation>カスタム色</translation>
     </message>
     <message>
-        <source>Select playlist playing song color:</source>
-        <translation type="unfinished">プレイリスト再生中の曲の色を選択:</translation>
+      <source>Select playlist playing song color:</source>
+      <translation>プレイリスト再生中の曲の色を選択:</translation>
     </message>
     <message>
-        <source>Select background image</source>
-        <translation type="unfinished">背景画像の選択</translation>
+      <source>Select background image</source>
+      <translation>背景画像の選択</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>BackendSettingsPage</name>
     <message>
-        <source>Backend</source>
-        <translation type="unfinished">バックエンド</translation>
+      <source>Backend</source>
+      <translation>バックエンド</translation>
     </message>
     <message>
-        <source>Audio output</source>
-        <translation type="unfinished">オーディオ出力</translation>
+      <source>Audio output</source>
+      <translation>オーディオ出力</translation>
     </message>
     <message>
-        <source>Device</source>
-        <translation type="unfinished">デバイス</translation>
+      <source>Device</source>
+      <translation>デバイス</translation>
     </message>
     <message>
-        <source>Output</source>
-        <translation type="unfinished">出力</translation>
+      <source>Output</source>
+      <translation>出力</translation>
     </message>
     <message>
-        <source>Engine</source>
-        <translation type="unfinished">エンジン</translation>
+      <source>Engine</source>
+      <translation>エンジン</translation>
     </message>
     <message>
-        <source>ALSA plugin:</source>
-        <translation type="unfinished">ALSA プラグイン</translation>
+      <source>ALSA plugin:</source>
+      <translation>ALSA プラグイン</translation>
     </message>
     <message>
-        <source>hw</source>
-        <translation type="unfinished"></translation>
+      <source>hw</source>
+      <translation type="unfinished">hw</translation>
     </message>
     <message>
-        <source>p&amp;lughw</source>
-        <translation type="unfinished"></translation>
+      <source>p&amp;lughw</source>
+      <translation type="unfinished">p&amp;lughw</translation>
     </message>
     <message>
-        <source>pcm</source>
-        <translation type="unfinished"></translation>
+      <source>pcm</source>
+      <translation type="unfinished">pcm</translation>
     </message>
     <message>
-        <source>Exclusive mode (Experimental)</source>
-        <translation type="unfinished"></translation>
+      <source>Exclusive mode (Experimental)</source>
+      <translation type="unfinished">Exclusive mode (Experimental)</translation>
     </message>
     <message>
-        <source>Options</source>
-        <translation type="unfinished">オプション</translation>
+      <source>Options</source>
+      <translation>オプション</translation>
     </message>
     <message>
-        <source>Enable volume control</source>
-        <translation type="unfinished">ボリュームコントロールを有効化</translation>
+      <source>Enable volume control</source>
+      <translation>ボリュームコントロールを有効化</translation>
     </message>
     <message>
-        <source>Upmix / downmix to</source>
-        <translation type="unfinished">アップミックス / ダウンミックス</translation>
+      <source>Upmix / downmix to</source>
+      <translation>アップミックス / ダウンミックス</translation>
     </message>
     <message>
-        <source>channels</source>
-        <translation type="unfinished">チャネル</translation>
+      <source>channels</source>
+      <translation>チャネル</translation>
     </message>
     <message>
-        <source>Improve headphone listening of stereo audio records (bs2b)</source>
-        <translation type="unfinished">ステレオ音源をヘッドフォンで聴く場合の改善(bs2b)</translation>
+      <source>Improve headphone listening of stereo audio records (bs2b)</source>
+      <translation>ステレオ音源をヘッドフォンで聴く場合の改善(bs2b)</translation>
     </message>
     <message>
-        <source>Enable HTTP/2 for streaming</source>
-        <translation type="unfinished">ストリーミングでHTTP/2を有効にする</translation>
+      <source>Enable HTTP/2 for streaming</source>
+      <translation>ストリーミングでHTTP/2を有効にする</translation>
     </message>
     <message>
-        <source>Use strict SSL mode</source>
-        <translation type="unfinished">厳密なSSLモードを使用する</translation>
+      <source>Use strict SSL mode</source>
+      <translation>厳密なSSLモードを使用する</translation>
     </message>
     <message>
-        <source>Buffer</source>
-        <translation type="unfinished">バッファ</translation>
+      <source>Buffer</source>
+      <translation>バッファ</translation>
     </message>
     <message>
-        <source> ms</source>
-        <translation type="unfinished"> ミリ秒</translation>
+      <source> ms</source>
+      <translation> ミリ秒</translation>
     </message>
     <message>
-        <source>Buffer duration</source>
-        <translation type="unfinished">バッファーの長さ</translation>
+      <source>Buffer duration</source>
+      <translation>バッファーの長さ</translation>
     </message>
     <message>
-        <source>High watermark</source>
-        <translation type="unfinished">最高水準点</translation>
+      <source>High watermark</source>
+      <translation>最高水準点</translation>
     </message>
     <message>
-        <source>Low watermark</source>
-        <translation type="unfinished">最低水準点</translation>
+      <source>Low watermark</source>
+      <translation>最低水準点</translation>
     </message>
     <message>
-        <source>Defaults</source>
-        <translation type="unfinished">デフォルト</translation>
+      <source>Defaults</source>
+      <translation>デフォルト</translation>
     </message>
     <message>
-        <source>Audio normalization</source>
-        <translation type="unfinished">オーディオの正規化</translation>
+      <source>Audio normalization</source>
+      <translation>オーディオの正規化</translation>
     </message>
     <message>
-        <source>No audio normalization</source>
-        <translation type="unfinished">オーディオを正規化しない</translation>
+      <source>No audio normalization</source>
+      <translation>オーディオを正規化しない</translation>
     </message>
     <message>
-        <source>Replay Gain</source>
-        <translation type="unfinished">再生ゲイン</translation>
+      <source>Replay Gain</source>
+      <translation>再生ゲイン</translation>
     </message>
     <message>
-        <source>Use Replay Gain metadata if it is available</source>
-        <translation type="unfinished">可能なら再生ゲインのメタデータを使用する</translation>
+      <source>Use Replay Gain metadata if it is available</source>
+      <translation>可能なら再生ゲインのメタデータを使用する</translation>
     </message>
     <message>
-        <source>Replay Gain mode</source>
-        <translation type="unfinished">再生ゲインモード</translation>
+      <source>Replay Gain mode</source>
+      <translation>再生ゲインモード</translation>
     </message>
     <message>
-        <source>Radio (equal loudness for all tracks)</source>
-        <translation type="unfinished">ラジオ (すべてのトラックで均一の音量)</translation>
+      <source>Radio (equal loudness for all tracks)</source>
+      <translation>ラジオ (すべてのトラックで均一の音量)</translation>
     </message>
     <message>
-        <source>Album (ideal loudness for all tracks)</source>
-        <translation type="unfinished">アルバム (すべてのトラックで最適な音量)</translation>
+      <source>Album (ideal loudness for all tracks)</source>
+      <translation>アルバム (すべてのトラックで最適な音量)</translation>
     </message>
     <message>
-        <source>Pre-amp</source>
-        <translation type="unfinished">プリアンプ</translation>
+      <source>Pre-amp</source>
+      <translation>プリアンプ</translation>
     </message>
     <message>
-        <source>Apply compression to prevent clipping</source>
-        <translation type="unfinished">クリップ防止のために音量を制限する</translation>
+      <source>Apply compression to prevent clipping</source>
+      <translation>クリップ防止のために音量を制限する</translation>
     </message>
     <message>
-        <source>Fallback-gain</source>
-        <translation type="unfinished">フォールバックゲイン</translation>
+      <source>Fallback-gain</source>
+      <translation>フォールバックゲイン</translation>
     </message>
     <message>
-        <source>EBU R 128 Loudness Normalization</source>
-        <translation type="unfinished">EBU R 128 ラウドネス正規化</translation>
+      <source>EBU R 128 Loudness Normalization</source>
+      <translation>EBU R 128 ラウドネス正規化</translation>
     </message>
     <message>
-        <source>Perform track loudness normalization</source>
-        <translation type="unfinished">曲をラウドネス正規化する</translation>
+      <source>Perform track loudness normalization</source>
+      <translation>曲をラウドネス正規化する</translation>
     </message>
     <message>
-        <source>Target Level</source>
-        <translation type="unfinished">ターゲットレベル</translation>
+      <source>Target Level</source>
+      <translation>ターゲットレベル</translation>
     </message>
     <message>
-        <source>Fading</source>
-        <translation type="unfinished">フェード</translation>
+      <source>Fading</source>
+      <translation>フェード</translation>
     </message>
     <message>
-        <source>Fade out when stopping a track</source>
-        <translation type="unfinished">トラックの停止時にフェードアウトする</translation>
+      <source>Fade out when stopping a track</source>
+      <translation>トラックの停止時にフェードアウトする</translation>
     </message>
     <message>
-        <source>Cross-fade when changing tracks manually</source>
-        <translation type="unfinished">トラックを手動で変更したときにクロスフェードする</translation>
+      <source>Cross-fade when changing tracks manually</source>
+      <translation>トラックを手動で変更したときにクロスフェードする</translation>
     </message>
     <message>
-        <source>Cross-fade when changing tracks automatically</source>
-        <translation type="unfinished">トラックが自動で変更するときにクロスフェードする</translation>
+      <source>Cross-fade when changing tracks automatically</source>
+      <translation>トラックが自動で変更するときにクロスフェードする</translation>
     </message>
     <message>
-        <source>Except between tracks on the same album or in the same CUE sheet</source>
-        <translation type="unfinished">同じアルバムもしくはキューシートのトラック同士の場合は除外する</translation>
+      <source>Except between tracks on the same album or in the same CUE sheet</source>
+      <translation>同じアルバムもしくはキューシートのトラック同士の場合は除外する</translation>
     </message>
     <message>
-        <source>Fading duration</source>
-        <translation type="unfinished">フェードの長さ</translation>
+      <source>Fading duration</source>
+      <translation>フェードの長さ</translation>
     </message>
     <message>
-        <source>Fade out on pause / fade in on resume</source>
-        <translation type="unfinished">一時停止/再開時にフェードアウト/インする</translation>
+      <source>Fade out on pause / fade in on resume</source>
+      <translation>一時停止/再開時にフェードアウト/インする</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>BehaviourSettingsPage</name>
     <message>
-        <source>Behavior</source>
-        <translation type="unfinished">動作</translation>
+      <source>Behavior</source>
+      <translation>動作</translation>
     </message>
     <message>
-        <source>Show system tray icon</source>
-        <translation type="unfinished">システムトレイアイコンを表示</translation>
+      <source>Show system tray icon</source>
+      <translation>システムトレイアイコンを表示</translation>
     </message>
     <message>
-        <source>Keep running in the background when the window is closed</source>
-        <translation type="unfinished">ウィンドウを閉じたときバックグラウンドで起動し続ける</translation>
+      <source>Keep running in the background when the window is closed</source>
+      <translation>ウィンドウを閉じたときバックグラウンドで起動し続ける</translation>
     </message>
     <message>
-        <source>Show song progress on system tray icon</source>
-        <translation type="unfinished">システムトレイアイコンで曲の進行状況を表示</translation>
+      <source>Show song progress on system tray icon</source>
+      <translation>システムトレイアイコンで曲の進行状況を表示</translation>
     </message>
     <message>
-        <source>Show song progress on taskbar</source>
-        <translation type="unfinished"></translation>
+      <source>Show song progress on taskbar</source>
+      <translation type="unfinished">Show song progress on taskbar</translation>
     </message>
     <message>
-        <source>Resume playback on start</source>
-        <translation type="unfinished">起動時に再生を再開する</translation>
+      <source>Resume playback on start</source>
+      <translation>起動時に再生を再開する</translation>
     </message>
     <message>
-        <source>Show playing widget</source>
-        <translation type="unfinished">再生ウィジェットを表示</translation>
+      <source>Show playing widget</source>
+      <translation>再生ウィジェットを表示</translation>
     </message>
     <message>
-        <source>On startup</source>
-        <translation type="unfinished">起動時</translation>
+      <source>On startup</source>
+      <translation>起動時</translation>
     </message>
     <message>
-        <source>Remember from &amp;last time</source>
-        <translation type="unfinished">前回起動時と同じ</translation>
+      <source>Remember from &amp;last time</source>
+      <translation>前回起動時と同じ</translation>
     </message>
     <message>
-        <source>Show the main window</source>
-        <translation type="unfinished">メインウィンドウを表示</translation>
+      <source>Show the main window</source>
+      <translation>メインウィンドウを表示</translation>
     </message>
     <message>
-        <source>Hide the main window</source>
-        <translation type="unfinished">メインウィンドウを隠す</translation>
+      <source>Hide the main window</source>
+      <translation>メインウィンドウを隠す</translation>
     </message>
     <message>
-        <source>Show the main window maximized</source>
-        <translation type="unfinished">メインウィンドウを最大化して表示</translation>
+      <source>Show the main window maximized</source>
+      <translation>メインウィンドウを最大化して表示</translation>
     </message>
     <message>
-        <source>Show the main window minimized</source>
-        <translation type="unfinished">メインウィンドウを最小化して表示</translation>
+      <source>Show the main window minimized</source>
+      <translation>メインウィンドウを最小化して表示</translation>
     </message>
     <message>
-        <source>Language</source>
-        <translation type="unfinished">言語</translation>
+      <source>Language</source>
+      <translation>言語</translation>
     </message>
     <message>
-        <source>Use the system default</source>
-        <translation type="unfinished">システム既定を使用する</translation>
+      <source>Use the system default</source>
+      <translation>システム既定を使用する</translation>
     </message>
     <message>
-        <source>You will need to restart Strawberry if you change the language.</source>
-        <translation type="unfinished">言語を変更するには Strawberry の再起動が必要です。</translation>
+      <source>You will need to restart Strawberry if you change the language.</source>
+      <translation>言語を変更するには Strawberry の再起動が必要です。</translation>
     </message>
     <message>
-        <source>Using the menu to add a song will...</source>
-        <translation type="unfinished">メニューから曲を追加した場合...</translation>
+      <source>Using the menu to add a song will...</source>
+      <translation>メニューから曲を追加した場合...</translation>
     </message>
     <message>
-        <source>Never start playing</source>
-        <translation type="unfinished">再生を開始しない</translation>
+      <source>Never start playing</source>
+      <translation>再生を開始しない</translation>
     </message>
     <message>
-        <source>Play if there is nothing already playing</source>
-        <translation type="unfinished">再生中の曲がない場合は再生する</translation>
+      <source>Play if there is nothing already playing</source>
+      <translation>再生中の曲がない場合は再生する</translation>
     </message>
     <message>
-        <source>Always start playing</source>
-        <translation type="unfinished">常に再生を開始する</translation>
+      <source>Always start playing</source>
+      <translation>常に再生を開始する</translation>
     </message>
     <message>
-        <source>Pressing &quot;Previous&quot; in player will...</source>
-        <translation type="unfinished">プレイヤーの &quot;前へ&quot; ボタンを押した場合...</translation>
+      <source>Pressing &quot;Previous&quot; in player will...</source>
+      <translation>プレイヤーの &quot;前へ&quot; ボタンを押した場合...</translation>
     </message>
     <message>
-        <source>Jump to previous song right away</source>
-        <translation type="unfinished">すぐに、前の曲にジャンプする</translation>
+      <source>Jump to previous song right away</source>
+      <translation>すぐに、前の曲にジャンプする</translation>
     </message>
     <message>
-        <source>Restart song, then jump to previous if pressed again</source>
-        <translation type="unfinished">曲を再スタートし、もう一度押された場合前の曲へジャンプする</translation>
+      <source>Restart song, then jump to previous if pressed again</source>
+      <translation>曲を再スタートし、もう一度押された場合前の曲へジャンプする</translation>
     </message>
     <message>
-        <source>Double clicking a song will...</source>
-        <translation type="unfinished">曲をダブルクリックした場合...</translation>
+      <source>Double clicking a song will...</source>
+      <translation>曲をダブルクリックした場合...</translation>
     </message>
     <message>
-        <source>Append to the playlist</source>
-        <translation type="unfinished">プレイリストに追加する</translation>
+      <source>Append to the playlist</source>
+      <translation>プレイリストに追加する</translation>
     </message>
     <message>
-        <source>Replace the playlist</source>
-        <translation type="unfinished">プレイリストを置き換える</translation>
+      <source>Replace the playlist</source>
+      <translation>プレイリストを置き換える</translation>
     </message>
     <message>
-        <source>Open in new playlist</source>
-        <translation type="unfinished">新しいプレイリストで開く</translation>
+      <source>Open in new playlist</source>
+      <translation>新しいプレイリストで開く</translation>
     </message>
     <message>
-        <source>Add to the queue</source>
-        <translation type="unfinished">キューに追加</translation>
+      <source>Add to the queue</source>
+      <translation>キューに追加</translation>
     </message>
     <message>
-        <source>Double clicking a song in the playlist will...</source>
-        <translation type="unfinished">プレイリスト上の曲をダブルクリックした場合...</translation>
+      <source>Double clicking a song in the playlist will...</source>
+      <translation>プレイリスト上の曲をダブルクリックした場合...</translation>
     </message>
     <message>
-        <source>Change the currently playing song</source>
-        <translation type="unfinished">再生中の曲を変更する</translation>
+      <source>Change the currently playing song</source>
+      <translation>再生中の曲を変更する</translation>
     </message>
     <message>
-        <source>Seeking using a keyboard shortcut or mouse wheel</source>
-        <translation type="unfinished">キーボードショートカットまたはマウスホイールを使ってシークする</translation>
+      <source>Seeking using a keyboard shortcut or mouse wheel</source>
+      <translation>キーボードショートカットまたはマウスホイールを使ってシークする</translation>
     </message>
     <message>
-        <source>Time step</source>
-        <translation type="unfinished">時間刻み</translation>
+      <source>Time step</source>
+      <translation>時間刻み</translation>
     </message>
     <message>
-        <source> s</source>
-        <translation type="unfinished">秒</translation>
+      <source> s</source>
+      <translation>秒</translation>
     </message>
     <message>
-        <source>Volume Increment</source>
-        <translation type="unfinished"></translation>
+      <source>Volume Increment</source>
+      <translation type="unfinished">Volume Increment</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>CddaSongLoader</name>
     <message>
-        <source>Error while setting CDDA device to ready state.</source>
-        <translation type="unfinished">CDDA デバイスを準備中にエラーが発生しました</translation>
+      <source>Error while setting CDDA device to ready state.</source>
+      <translation>CDDA デバイスを準備中にエラーが発生しました</translation>
     </message>
     <message>
-        <source>Error while setting CDDA device to pause state.</source>
-        <translation type="unfinished">CDDA デバイスを一時停止中にエラーが発生しました</translation>
+      <source>Error while setting CDDA device to pause state.</source>
+      <translation>CDDA デバイスを一時停止中にエラーが発生しました</translation>
     </message>
     <message>
-        <source>Error while querying CDDA tracks.</source>
-        <translation type="unfinished">CDDAトラック取得中にエラーが発生しました</translation>
+      <source>Error while querying CDDA tracks.</source>
+      <translation>CDDAトラック取得中にエラーが発生しました</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>CollectionBackend</name>
     <message>
-        <source>Unable to execute collection SQL query: %1</source>
-        <translation type="unfinished"></translation>
+      <source>Unable to execute collection SQL query: %1</source>
+      <translation type="unfinished">Unable to execute collection SQL query: %1</translation>
     </message>
     <message>
-        <source>Failed SQL query: %1</source>
-        <translation type="unfinished">失敗した SQL クエリ: %1</translation>
+      <source>Failed SQL query: %1</source>
+      <translation>失敗した SQL クエリ: %1</translation>
     </message>
     <message>
-        <source>Updating %1 database.</source>
-        <translation type="unfinished">%1 データベースを更新しています。</translation>
+      <source>Updating %1 database.</source>
+      <translation>%1 データベースを更新しています。</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>CollectionFilterWidget</name>
     <message>
-        <source>Collection Filter</source>
-        <translation type="unfinished">コレクションフィルター</translation>
+      <source>Collection Filter</source>
+      <translation>コレクションフィルター</translation>
     </message>
     <message>
-        <source>Enter search terms here</source>
-        <translation type="unfinished">ここに検索条件を入力してください</translation>
+      <source>Enter search terms here</source>
+      <translation>ここに検索条件を入力してください</translation>
     </message>
     <message>
-        <source>MenuPopupToolButton</source>
-        <translation type="unfinished"></translation>
+      <source>MenuPopupToolButton</source>
+      <translation type="unfinished">MenuPopupToolButton</translation>
     </message>
     <message>
-        <source>Entire collection</source>
-        <translation type="unfinished">コレクション全体</translation>
+      <source>Entire collection</source>
+      <translation>コレクション全体</translation>
     </message>
     <message>
-        <source>Added today</source>
-        <translation type="unfinished">今日追加されたもの</translation>
+      <source>Added today</source>
+      <translation>今日追加されたもの</translation>
     </message>
     <message>
-        <source>Added this week</source>
-        <translation type="unfinished">今週追加されたもの</translation>
+      <source>Added this week</source>
+      <translation>今週追加されたもの</translation>
     </message>
     <message>
-        <source>Added within three months</source>
-        <translation type="unfinished">3 ヶ月以内に追加されたもの</translation>
+      <source>Added within three months</source>
+      <translation>3 ヶ月以内に追加されたもの</translation>
     </message>
     <message>
-        <source>Added this year</source>
-        <translation type="unfinished">今年追加されたもの</translation>
+      <source>Added this year</source>
+      <translation>今年追加されたもの</translation>
     </message>
     <message>
-        <source>Added this month</source>
-        <translation type="unfinished">今月追加されたもの</translation>
+      <source>Added this month</source>
+      <translation>今月追加されたもの</translation>
     </message>
     <message>
-        <source>Save current grouping</source>
-        <translation type="unfinished">現在の分類を保存する</translation>
+      <source>Save current grouping</source>
+      <translation>現在の分類を保存する</translation>
     </message>
     <message>
-        <source>Manage saved groupings</source>
-        <translation type="unfinished">保存した分類を管理する</translation>
+      <source>Manage saved groupings</source>
+      <translation>保存した分類を管理する</translation>
     </message>
     <message>
-        <source>Show</source>
-        <translation type="unfinished">表示</translation>
+      <source>Show</source>
+      <translation>表示</translation>
     </message>
     <message>
-        <source>Group by</source>
-        <translation type="unfinished">グループ化</translation>
+      <source>Group by</source>
+      <translation>グループ化</translation>
     </message>
     <message>
-        <source>Display options</source>
-        <translation type="unfinished">画面のオプション</translation>
+      <source>Display options</source>
+      <translation>画面のオプション</translation>
     </message>
     <message>
-        <source>Group by Album artist/Album</source>
-        <translation type="unfinished">アーティスト/アルバムでアルバムをグループ化</translation>
+      <source>Group by Album artist/Album</source>
+      <translation>アーティスト/アルバムでアルバムをグループ化</translation>
     </message>
     <message>
-        <source>Group by Album artist/Album - Disc</source>
-        <translation type="unfinished">アーティスト/アルバム - ディスクでアルバムをグループ化</translation>
+      <source>Group by Album artist/Album - Disc</source>
+      <translation>アーティスト/アルバム - ディスクでアルバムをグループ化</translation>
     </message>
     <message>
-        <source>Group by Album artist/Year - Album</source>
-        <translation type="unfinished">アーティスト/年 - アルバムでアルバムをグループ化</translation>
+      <source>Group by Album artist/Year - Album</source>
+      <translation>アーティスト/年 - アルバムでアルバムをグループ化</translation>
     </message>
     <message>
-        <source>Group by Album artist/Year - Album - Disc</source>
-        <translation type="unfinished">アーティスト/年 - アルバム - ディスクでアルバムをグループ化</translation>
+      <source>Group by Album artist/Year - Album - Disc</source>
+      <translation>アーティスト/年 - アルバム - ディスクでアルバムをグループ化</translation>
     </message>
     <message>
-        <source>Group by Artist/Album</source>
-        <translation type="unfinished">アーティスト/アルバムでグループ化</translation>
+      <source>Group by Artist/Album</source>
+      <translation>アーティスト/アルバムでグループ化</translation>
     </message>
     <message>
-        <source>Group by Artist/Album - Disc</source>
-        <translation type="unfinished">アーティスト/アルバム - ディスクでグループ化</translation>
+      <source>Group by Artist/Album - Disc</source>
+      <translation>アーティスト/アルバム - ディスクでグループ化</translation>
     </message>
     <message>
-        <source>Group by Artist/Year - Album</source>
-        <translation type="unfinished">アーティスト/年 - アルバムでグループ化</translation>
+      <source>Group by Artist/Year - Album</source>
+      <translation>アーティスト/年 - アルバムでグループ化</translation>
     </message>
     <message>
-        <source>Group by Artist/Year - Album - Disc</source>
-        <translation type="unfinished">アーティスト/年 - アルバム - ディスクでグループ化</translation>
+      <source>Group by Artist/Year - Album - Disc</source>
+      <translation>アーティスト/年 - アルバム - ディスクでグループ化</translation>
     </message>
     <message>
-        <source>Group by Genre/Album artist/Album</source>
-        <translation type="unfinished">ジャンル/アルバム、アーティスト/アルバムでグループ化</translation>
+      <source>Group by Genre/Album artist/Album</source>
+      <translation>ジャンル/アルバム、アーティスト/アルバムでグループ化</translation>
     </message>
     <message>
-        <source>Group by Genre/Artist/Album</source>
-        <translation type="unfinished">ジャンル/アーティスト/アルバムでグループ化</translation>
+      <source>Group by Genre/Artist/Album</source>
+      <translation>ジャンル/アーティスト/アルバムでグループ化</translation>
     </message>
     <message>
-        <source>Group by Album Artist</source>
-        <translation type="unfinished">アーティストでアルバムをグループ化</translation>
+      <source>Group by Album Artist</source>
+      <translation>アーティストでアルバムをグループ化</translation>
     </message>
     <message>
-        <source>Group by Artist</source>
-        <translation type="unfinished">アーティストでグループ化</translation>
+      <source>Group by Artist</source>
+      <translation>アーティストでグループ化</translation>
     </message>
     <message>
-        <source>Group by Album</source>
-        <translation type="unfinished">アルバムでグループ化</translation>
+      <source>Group by Album</source>
+      <translation>アルバムでグループ化</translation>
     </message>
     <message>
-        <source>Group by Genre/Album</source>
-        <translation type="unfinished">ジャンル/アルバムでグループ化</translation>
+      <source>Group by Genre/Album</source>
+      <translation>ジャンル/アルバムでグループ化</translation>
     </message>
     <message>
-        <source>Advanced grouping...</source>
-        <translation type="unfinished">高度なグループ化...</translation>
+      <source>Advanced grouping...</source>
+      <translation>高度なグループ化...</translation>
     </message>
     <message>
-        <source>Grouping Name</source>
-        <translation type="unfinished">分類名</translation>
+      <source>Grouping Name</source>
+      <translation>分類名</translation>
     </message>
     <message>
-        <source>Grouping name:</source>
-        <translation type="unfinished">分類名:</translation>
+      <source>Grouping name:</source>
+      <translation>分類名:</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>CollectionModel</name>
     <message>
-        <source>Various artists</source>
-        <translation type="unfinished">さまざまなアーティスト</translation>
+      <source>Various artists</source>
+      <translation>さまざまなアーティスト</translation>
     </message>
     <message>
-        <source>Loading...</source>
-        <translation type="unfinished">読み込んでいます...</translation>
+      <source>Loading...</source>
+      <translation>読み込んでいます...</translation>
     </message>
     <message>
-        <source>Unknown</source>
-        <translation type="unfinished">不明</translation>
+      <source>Unknown</source>
+      <translation>不明</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>CollectionSettingsPage</name>
     <message>
-        <source>Collection</source>
-        <translation type="unfinished">ライブラリ</translation>
+      <source>Collection</source>
+      <translation>ライブラリ</translation>
     </message>
     <message>
-        <source>These folders will be scanned for music to make up your collection</source>
-        <translation type="unfinished">これらのフォルダーはライブラリを作成するためにスキャンされます</translation>
+      <source>These folders will be scanned for music to make up your collection</source>
+      <translation>これらのフォルダーはライブラリを作成するためにスキャンされます</translation>
     </message>
     <message>
-        <source>Add new folder...</source>
-        <translation type="unfinished">新しいフォルダーを追加...</translation>
+      <source>Add new folder...</source>
+      <translation>新しいフォルダーを追加...</translation>
     </message>
     <message>
-        <source>Remove folder</source>
-        <translation type="unfinished">フォルダーの削除</translation>
+      <source>Remove folder</source>
+      <translation>フォルダーの削除</translation>
     </message>
     <message>
-        <source>Automatic updating</source>
-        <translation type="unfinished">自動更新</translation>
+      <source>Automatic updating</source>
+      <translation>自動更新</translation>
     </message>
     <message>
-        <source>Update the collection when Strawberry starts</source>
-        <translation type="unfinished">Strawberry の起動時にライブラリを更新する</translation>
+      <source>Update the collection when Strawberry starts</source>
+      <translation>Strawberry の起動時にライブラリを更新する</translation>
     </message>
     <message>
-        <source>Monitor the collection for changes</source>
-        <translation type="unfinished">ライブラリの変更を監視する</translation>
+      <source>Monitor the collection for changes</source>
+      <translation>ライブラリの変更を監視する</translation>
     </message>
     <message>
-        <source>Song fingerprinting and tracking</source>
-        <translation type="unfinished">曲の特徴を検出して追跡</translation>
+      <source>Song fingerprinting and tracking</source>
+      <translation>曲の特徴を検出して追跡</translation>
     </message>
     <message>
-        <source>Mark disappeared songs unavailable</source>
-        <translation type="unfinished">消えた曲を利用できないとマークする</translation>
+      <source>Mark disappeared songs unavailable</source>
+      <translation>消えた曲を利用できないとマークする</translation>
     </message>
     <message>
-        <source>Perform song EBU R 128 analysis (required for EBU R 128 loudness normalization)</source>
-        <translation type="unfinished">曲の EBU R 128 分析を実行します (EBU R 128 ラウドネス正規化に必要)</translation>
+      <source>Perform song EBU R 128 analysis (required for EBU R 128 loudness normalization)</source>
+      <translation>曲の EBU R 128 分析を実行します (EBU R 128 ラウドネス正規化に必要)</translation>
     </message>
     <message>
-        <source>Expire unavailable songs after</source>
-        <translation type="unfinished">利用できない曲の期限が切れるまで</translation>
+      <source>Expire unavailable songs after</source>
+      <translation>利用できない曲の期限が切れるまで</translation>
     </message>
     <message>
-        <source>days</source>
-        <translation type="unfinished">日</translation>
+      <source>days</source>
+      <translation>日</translation>
     </message>
     <message>
-        <source>Preferred album art filenames (comma separated)</source>
-        <translation type="unfinished">優先するアルバムアートのファイル名 (コンマ区切り)</translation>
+      <source>Preferred album art filenames (comma separated)</source>
+      <translation>優先するアルバムアートのファイル名 (コンマ区切り)</translation>
     </message>
     <message>
-        <source>When looking for album art Strawberry will first look for picture files that contain one of these words.
+      <source>When looking for album art Strawberry will first look for picture files that contain one of these words.
 If there are no matches then it will use the largest image in the directory.</source>
-        <translation type="unfinished">アルバム アートの検索時に Strawberry はまずこれらの単語の 1 つを含む画像ファイルを探します。
+      <translation>アルバム アートの検索時に Strawberry はまずこれらの単語の 1 つを含む画像ファイルを探します。
 一致するものがない場合はディレクトリにある最も大きいイメージを使用します。</translation>
     </message>
     <message>
-        <source>Display options</source>
-        <translation type="unfinished">画面のオプション</translation>
+      <source>Display options</source>
+      <translation>画面のオプション</translation>
     </message>
     <message>
-        <source>Automatically open single categories in the collection tree</source>
-        <translation type="unfinished">下位カテゴリが 1 つしかないときは、ライブラリツリーを自動で開く</translation>
+      <source>Automatically open single categories in the collection tree</source>
+      <translation>下位カテゴリが 1 つしかないときは、ライブラリツリーを自動で開く</translation>
     </message>
     <message>
-        <source>Show dividers</source>
-        <translation type="unfinished">区切りを表示する</translation>
+      <source>Show dividers</source>
+      <translation>区切りを表示する</translation>
     </message>
     <message>
-        <source>Show album cover art in collection</source>
-        <translation type="unfinished">コレクションでアルバムカバーアートを表示</translation>
+      <source>Show album cover art in collection</source>
+      <translation>コレクションでアルバムカバーアートを表示</translation>
     </message>
     <message>
-        <source>Use various artists for compilation albums</source>
-        <translation type="unfinished"></translation>
+      <source>Use various artists for compilation albums</source>
+      <translation type="unfinished">Use various artists for compilation albums</translation>
     </message>
     <message>
-        <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artist names</source>
-        <translation type="unfinished"></translation>
+      <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artist names</source>
+      <translation type="unfinished">Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artist names</translation>
     </message>
     <message>
-        <source>Album cover pixmap cache</source>
-        <translation type="unfinished">アルバムカバーpixmapキャッシュ</translation>
+      <source>Album cover pixmap cache</source>
+      <translation>アルバムカバーpixmapキャッシュ</translation>
     </message>
     <message>
-        <source>Size</source>
-        <translation type="unfinished">サイズ</translation>
+      <source>Size</source>
+      <translation>サイズ</translation>
     </message>
     <message>
-        <source>Enable Disk Cache</source>
-        <translation type="unfinished">ディスクキャッシュ有効化</translation>
+      <source>Enable Disk Cache</source>
+      <translation>ディスクキャッシュ有効化</translation>
     </message>
     <message>
-        <source>Disk Cache Size</source>
-        <translation type="unfinished">ディスクキャッシュサイズ</translation>
+      <source>Disk Cache Size</source>
+      <translation>ディスクキャッシュサイズ</translation>
     </message>
     <message>
-        <source>Current disk cache in use:</source>
-        <translation type="unfinished">現在のディスクキャッシュ使用量:</translation>
+      <source>Current disk cache in use:</source>
+      <translation>現在のディスクキャッシュ使用量:</translation>
     </message>
     <message>
-        <source>Clear Disk Cache</source>
-        <translation type="unfinished">ディスクキャッシュをクリア</translation>
+      <source>Clear Disk Cache</source>
+      <translation>ディスクキャッシュをクリア</translation>
     </message>
     <message>
-        <source>Song playcounts and ratings</source>
-        <translation type="unfinished">再生回数と評価</translation>
+      <source>Song playcounts and ratings</source>
+      <translation>再生回数と評価</translation>
     </message>
     <message>
-        <source>Save playcounts to song tags when possible</source>
-        <translation type="unfinished">可能な場合は再生回数を曲のタグに保存する</translation>
+      <source>Save playcounts to song tags when possible</source>
+      <translation>可能な場合は再生回数を曲のタグに保存する</translation>
     </message>
     <message>
-        <source>Save ratings to song tags when possible</source>
-        <translation type="unfinished">可能であれば曲のタグに評価を保存する</translation>
+      <source>Save ratings to song tags when possible</source>
+      <translation>可能であれば曲のタグに評価を保存する</translation>
     </message>
     <message>
-        <source>Overwrite database playcount when songs are re-read from disk</source>
-        <translation type="unfinished">曲がディスクから再読取りされるときにデータベースの再生数を上書きします</translation>
+      <source>Overwrite database playcount when songs are re-read from disk</source>
+      <translation>曲がディスクから再読取りされるときにデータベースの再生数を上書きします</translation>
     </message>
     <message>
-        <source>Overwrite database rating when songs are re-read from disk</source>
-        <translation type="unfinished">曲がディスクから再読取りされるときにデータベースの評価を上書きします</translation>
+      <source>Overwrite database rating when songs are re-read from disk</source>
+      <translation>曲がディスクから再読取りされるときにデータベースの評価を上書きします</translation>
     </message>
     <message>
-        <source>Save playcounts and ratings to files now</source>
-        <translation type="unfinished">再生回数と評価をファイルに保存する</translation>
+      <source>Save playcounts and ratings to files now</source>
+      <translation>再生回数と評価をファイルに保存する</translation>
     </message>
     <message>
-        <source>Enable delete files in the right click context menu</source>
-        <translation type="unfinished">右クリックメニューでの削除を有効化</translation>
+      <source>Enable delete files in the right click context menu</source>
+      <translation>右クリックメニューでの削除を有効化</translation>
     </message>
     <message>
-        <source>Add directory...</source>
-        <translation type="unfinished">ディレクトリを追加...</translation>
+      <source>Add directory...</source>
+      <translation>ディレクトリを追加...</translation>
     </message>
     <message>
-        <source>Write all playcounts and ratings to files</source>
-        <translation type="unfinished">すべての再生回数と評価をファイルに書き込む</translation>
+      <source>Write all playcounts and ratings to files</source>
+      <translation>すべての再生回数と評価をファイルに書き込む</translation>
     </message>
     <message>
-        <source>Are you sure you want to write song playcounts and ratings to file for all songs in your collection?</source>
-        <translation type="unfinished">コレクション内のすべての曲のファイルに曲の再生回数と評価を書き込んでもよろしいですか?</translation>
+      <source>Are you sure you want to write song playcounts and ratings to file for all songs in your collection?</source>
+      <translation>コレクション内のすべての曲のファイルに曲の再生回数と評価を書き込んでもよろしいですか?</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>CollectionView</name>
     <message>
-        <source>Your collection is empty!</source>
-        <translation type="unfinished">ライブラリは空です!</translation>
+      <source>Your collection is empty!</source>
+      <translation>ライブラリは空です!</translation>
     </message>
     <message>
-        <source>Click here to add some music</source>
-        <translation type="unfinished">音楽を追加するにはここをクリックします</translation>
+      <source>Click here to add some music</source>
+      <translation>音楽を追加するにはここをクリックします</translation>
     </message>
     <message>
-        <source>Append to current playlist</source>
-        <translation type="unfinished">現在のプレイリストに追加する</translation>
+      <source>Append to current playlist</source>
+      <translation>現在のプレイリストに追加する</translation>
     </message>
     <message>
-        <source>Replace current playlist</source>
-        <translation type="unfinished">現在のプレイリストを置き換える</translation>
+      <source>Replace current playlist</source>
+      <translation>現在のプレイリストを置き換える</translation>
     </message>
     <message>
-        <source>Open in new playlist</source>
-        <translation type="unfinished">新しいプレイリストで開く</translation>
+      <source>Open in new playlist</source>
+      <translation>新しいプレイリストで開く</translation>
     </message>
     <message>
-        <source>Queue track</source>
-        <translation type="unfinished">トラックをキューに追加</translation>
+      <source>Queue track</source>
+      <translation>トラックをキューに追加</translation>
     </message>
     <message>
-        <source>Queue to play next</source>
-        <translation type="unfinished">次に再生する</translation>
+      <source>Queue to play next</source>
+      <translation>次に再生する</translation>
     </message>
     <message>
-        <source>Search for this</source>
-        <translation type="unfinished"></translation>
+      <source>Search for this</source>
+      <translation type="unfinished">Search for this</translation>
     </message>
     <message>
-        <source>Organize files...</source>
-        <translation type="unfinished">ファイルを管理...</translation>
+      <source>Organize files...</source>
+      <translation>ファイルを管理...</translation>
     </message>
     <message>
-        <source>Copy to device...</source>
-        <translation type="unfinished">デバイスへコピー...</translation>
+      <source>Copy to device...</source>
+      <translation>デバイスへコピー...</translation>
     </message>
     <message>
-        <source>Delete from disk...</source>
-        <translation type="unfinished">ディスクから削除...</translation>
+      <source>Delete from disk...</source>
+      <translation>ディスクから削除...</translation>
     </message>
     <message>
-        <source>Edit track information...</source>
-        <translation type="unfinished">トラック情報の編集...</translation>
+      <source>Edit track information...</source>
+      <translation>トラック情報の編集...</translation>
     </message>
     <message>
-        <source>Edit tracks information...</source>
-        <translation type="unfinished">トラック情報の編集...</translation>
+      <source>Edit tracks information...</source>
+      <translation>トラック情報の編集...</translation>
     </message>
     <message>
-        <source>Show in file browser...</source>
-        <translation type="unfinished">ファイルブラウザーで表示...</translation>
+      <source>Show in file browser...</source>
+      <translation>ファイルブラウザーで表示...</translation>
     </message>
     <message>
-        <source>Rescan song(s)</source>
-        <translation type="unfinished">曲を再スキャン</translation>
+      <source>Rescan song(s)</source>
+      <translation>曲を再スキャン</translation>
     </message>
     <message>
-        <source>Show in various artists</source>
-        <translation type="unfinished">さまざまなアーティストに表示</translation>
+      <source>Show in various artists</source>
+      <translation>さまざまなアーティストに表示</translation>
     </message>
     <message>
-        <source>Don&apos;t show in various artists</source>
-        <translation type="unfinished">さまざまなアーティストに表示しない</translation>
+      <source>Don&apos;t show in various artists</source>
+      <translation>さまざまなアーティストに表示しない</translation>
     </message>
     <message>
-        <source>There are other songs in this album</source>
-        <translation type="unfinished">このアルバムにはほかの曲があります</translation>
+      <source>There are other songs in this album</source>
+      <translation>このアルバムにはほかの曲があります</translation>
     </message>
     <message>
-        <source>Would you like to move the other songs on this album to Various Artists as well?</source>
-        <translation type="unfinished"></translation>
+      <source>Would you like to move the other songs on this album to Various Artists as well?</source>
+      <translation type="unfinished">Would you like to move the other songs on this album to Various Artists as well?</translation>
     </message>
     <message>
-        <source>Error</source>
-        <translation type="unfinished">エラー</translation>
+      <source>Error</source>
+      <translation>エラー</translation>
     </message>
     <message>
-        <source>None of the selected songs were suitable for copying to a device</source>
-        <translation type="unfinished">デバイスへのコピーに適切な曲が選択されていません</translation>
+      <source>None of the selected songs were suitable for copying to a device</source>
+      <translation>デバイスへのコピーに適切な曲が選択されていません</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>CollectionViewContainer</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">フォーム</translation>
+      <source>Form</source>
+      <translation>フォーム</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>CollectionWatcher</name>
     <message>
-        <source>Updating collection</source>
-        <translation type="unfinished">ライブラリの更新中</translation>
+      <source>Updating collection</source>
+      <translation>ライブラリの更新中</translation>
     </message>
     <message>
-        <source>Updating %1</source>
-        <translation type="unfinished">%1 の更新中</translation>
+      <source>Updating %1</source>
+      <translation>%1 の更新中</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>Console</name>
     <message>
-        <source>Console</source>
-        <translation type="unfinished">コンソール</translation>
+      <source>Console</source>
+      <translation>コンソール</translation>
     </message>
     <message>
-        <source>Run</source>
-        <translation type="unfinished">実行</translation>
+      <source>Run</source>
+      <translation>実行</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>ContextSettingsPage</name>
     <message>
-        <source>Context</source>
-        <translation type="unfinished">コンテキスト</translation>
+      <source>Context</source>
+      <translation>コンテキスト</translation>
     </message>
     <message>
-        <source>Custom text settings</source>
-        <translation type="unfinished">カスタムテキスト設定</translation>
+      <source>Custom text settings</source>
+      <translation>カスタムテキスト設定</translation>
     </message>
     <message>
-        <source>MenuPopupToolButton</source>
-        <translation type="unfinished"></translation>
+      <source>MenuPopupToolButton</source>
+      <translation type="unfinished">MenuPopupToolButton</translation>
     </message>
     <message>
-        <source>Title</source>
-        <translation type="unfinished">タイトル</translation>
+      <source>Title</source>
+      <translation>タイトル</translation>
     </message>
     <message>
-        <source>Summary</source>
-        <translation type="unfinished">要約</translation>
+      <source>Summary</source>
+      <translation>要約</translation>
     </message>
     <message>
-        <source>Enable Items</source>
-        <translation type="unfinished">アイテム有効化</translation>
+      <source>Enable Items</source>
+      <translation>アイテム有効化</translation>
     </message>
     <message>
-        <source>Album</source>
-        <translation type="unfinished">アルバム</translation>
+      <source>Album</source>
+      <translation>アルバム</translation>
     </message>
     <message>
-        <source>Technical Data</source>
-        <translation type="unfinished">技術データ</translation>
+      <source>Technical Data</source>
+      <translation>技術データ</translation>
     </message>
     <message>
-        <source>Song Lyrics</source>
-        <translation type="unfinished">歌詞</translation>
+      <source>Song Lyrics</source>
+      <translation>歌詞</translation>
     </message>
     <message>
-        <source>Automatically search for album cover</source>
-        <translation type="unfinished">アルバムカバーの自動検索</translation>
+      <source>Automatically search for album cover</source>
+      <translation>アルバムカバーの自動検索</translation>
     </message>
     <message>
-        <source>Automatically search for song lyrics</source>
-        <translation type="unfinished">歌詞の自動検索</translation>
+      <source>Automatically search for song lyrics</source>
+      <translation>歌詞の自動検索</translation>
     </message>
     <message>
-        <source>Font for headline</source>
-        <translation type="unfinished">ヘッドラインのフォント</translation>
+      <source>Font for headline</source>
+      <translation>ヘッドラインのフォント</translation>
     </message>
     <message>
-        <source>Font</source>
-        <translation type="unfinished">フォント</translation>
+      <source>Font</source>
+      <translation>フォント</translation>
     </message>
     <message>
-        <source>Font size</source>
-        <translation type="unfinished">フォントサイズ</translation>
+      <source>Font size</source>
+      <translation>フォントサイズ</translation>
     </message>
     <message>
-        <source> pt</source>
-        <translation type="unfinished"></translation>
+      <source> pt</source>
+      <translation type="unfinished"> pt</translation>
     </message>
     <message>
-        <source>Preview</source>
-        <translation type="unfinished">プレビュー</translation>
+      <source>Preview</source>
+      <translation>プレビュー</translation>
     </message>
     <message>
-        <source>Font for data and lyrics</source>
-        <translation type="unfinished">データと歌詞のフォント</translation>
+      <source>Font for data and lyrics</source>
+      <translation>データと歌詞のフォント</translation>
     </message>
     <message>
-        <source>Add song artist tag</source>
-        <translation type="unfinished">曲にアーティストタグを追加</translation>
+      <source>Add song artist tag</source>
+      <translation>曲にアーティストタグを追加</translation>
     </message>
     <message>
-        <source>Add song album tag</source>
-        <translation type="unfinished">曲にアルバムタグを追加</translation>
+      <source>Add song album tag</source>
+      <translation>曲にアルバムタグを追加</translation>
     </message>
     <message>
-        <source>Add song title tag</source>
-        <translation type="unfinished">曲のタイトルタグを追加</translation>
+      <source>Add song title tag</source>
+      <translation>曲のタイトルタグを追加</translation>
     </message>
     <message>
-        <source>Add song albumartist tag</source>
-        <translation type="unfinished">曲にアルバムアーティストタグを追加</translation>
+      <source>Add song albumartist tag</source>
+      <translation>曲にアルバムアーティストタグを追加</translation>
     </message>
     <message>
-        <source>Add song year tag</source>
-        <translation type="unfinished">曲の年タグを追加</translation>
+      <source>Add song year tag</source>
+      <translation>曲の年タグを追加</translation>
     </message>
     <message>
-        <source>Add song composer tag</source>
-        <translation type="unfinished">曲に作曲者タグを追加</translation>
+      <source>Add song composer tag</source>
+      <translation>曲に作曲者タグを追加</translation>
     </message>
     <message>
-        <source>Add song performer tag</source>
-        <translation type="unfinished">曲の出演者タグを追加</translation>
+      <source>Add song performer tag</source>
+      <translation>曲の出演者タグを追加</translation>
     </message>
     <message>
-        <source>Add song grouping tag</source>
-        <translation type="unfinished">曲の分類タグを追加</translation>
+      <source>Add song grouping tag</source>
+      <translation>曲の分類タグを追加</translation>
     </message>
     <message>
-        <source>Add song disc tag</source>
-        <translation type="unfinished">曲にディスクタグを追加</translation>
+      <source>Add song disc tag</source>
+      <translation>曲にディスクタグを追加</translation>
     </message>
     <message>
-        <source>Add song track tag</source>
-        <translation type="unfinished">曲のトラックタグを追加</translation>
+      <source>Add song track tag</source>
+      <translation>曲のトラックタグを追加</translation>
     </message>
     <message>
-        <source>Add song genre tag</source>
-        <translation type="unfinished">曲にジャンルタグを追加</translation>
+      <source>Add song genre tag</source>
+      <translation>曲にジャンルタグを追加</translation>
     </message>
     <message>
-        <source>Add song length tag</source>
-        <translation type="unfinished">曲に曲の長さのタグを追加</translation>
+      <source>Add song length tag</source>
+      <translation>曲に曲の長さのタグを追加</translation>
     </message>
     <message>
-        <source>Add song play count</source>
-        <translation type="unfinished">曲の再生回数を追加</translation>
+      <source>Add song play count</source>
+      <translation>曲の再生回数を追加</translation>
     </message>
     <message>
-        <source>Add song skip count</source>
-        <translation type="unfinished">曲のスキップ回数を追加</translation>
+      <source>Add song skip count</source>
+      <translation>曲のスキップ回数を追加</translation>
     </message>
     <message>
-        <source>Add a new line if supported by the notification type</source>
-        <translation type="unfinished">改行を追加 (通知形式が対応している場合)</translation>
+      <source>Add a new line if supported by the notification type</source>
+      <translation>改行を追加 (通知形式が対応している場合)</translation>
     </message>
     <message>
-        <source>%filename%</source>
-        <translation type="unfinished"></translation>
+      <source>%filename%</source>
+      <translation type="unfinished">%filename%</translation>
     </message>
     <message>
-        <source>Add song filename</source>
-        <translation type="unfinished">曲のファイル名を追加</translation>
+      <source>Add song filename</source>
+      <translation>曲のファイル名を追加</translation>
     </message>
     <message>
-        <source>%url%</source>
-        <translation type="unfinished"></translation>
+      <source>%url%</source>
+      <translation type="unfinished">%url%</translation>
     </message>
     <message>
-        <source>Add song URL</source>
-        <translation type="unfinished">曲の URL を追加</translation>
+      <source>Add song URL</source>
+      <translation>曲の URL を追加</translation>
     </message>
     <message>
-        <source>%rating%</source>
-        <translation type="unfinished"></translation>
+      <source>%rating%</source>
+      <translation type="unfinished">%rating%</translation>
     </message>
     <message>
-        <source>Add song rating</source>
-        <translation type="unfinished">曲の評価を追加</translation>
+      <source>Add song rating</source>
+      <translation>曲の評価を追加</translation>
     </message>
     <message>
-        <source>%originalyear%</source>
-        <translation type="unfinished"></translation>
+      <source>%originalyear%</source>
+      <translation type="unfinished">%originalyear%</translation>
     </message>
     <message>
-        <source>Add song original year tag</source>
-        <translation type="unfinished">元の年タグを追加</translation>
+      <source>Add song original year tag</source>
+      <translation>元の年タグを追加</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>ContextView</name>
     <message>
-        <source>Filetype</source>
-        <translation type="unfinished">ファイルタイプ</translation>
+      <source>Filetype</source>
+      <translation>ファイルタイプ</translation>
     </message>
     <message>
-        <source>Length</source>
-        <translation type="unfinished">長さ</translation>
+      <source>Length</source>
+      <translation>長さ</translation>
     </message>
     <message>
-        <source>Samplerate</source>
-        <translation type="unfinished">サンプルレート</translation>
+      <source>Samplerate</source>
+      <translation>サンプルレート</translation>
     </message>
     <message>
-        <source>Bit depth</source>
-        <translation type="unfinished">ビット深度</translation>
+      <source>Bit depth</source>
+      <translation>ビット深度</translation>
     </message>
     <message>
-        <source>Bitrate</source>
-        <translation type="unfinished">ビットレート</translation>
+      <source>Bitrate</source>
+      <translation>ビットレート</translation>
     </message>
     <message>
-        <source>EBU R 128 Integrated Loudness</source>
-        <translation type="unfinished">EBU R 128 統合ラウドネス</translation>
+      <source>EBU R 128 Integrated Loudness</source>
+      <translation>EBU R 128 統合ラウドネス</translation>
     </message>
     <message>
-        <source>EBU R 128 Loudness Range</source>
-        <translation type="unfinished">EBU R 128 ラウドネスレンジ</translation>
+      <source>EBU R 128 Loudness Range</source>
+      <translation>EBU R 128 ラウドネスレンジ</translation>
     </message>
     <message>
-        <source>Show album cover</source>
-        <translation type="unfinished">アルバムカバーを表示</translation>
+      <source>Show album cover</source>
+      <translation>アルバムカバーを表示</translation>
     </message>
     <message>
-        <source>Show song technical data</source>
-        <translation type="unfinished">曲のテクニカルデータを表示</translation>
+      <source>Show song technical data</source>
+      <translation>曲のテクニカルデータを表示</translation>
     </message>
     <message>
-        <source>Show song lyrics</source>
-        <translation type="unfinished">歌詞を表示</translation>
+      <source>Show song lyrics</source>
+      <translation>歌詞を表示</translation>
     </message>
     <message>
-        <source>Automatically search for song lyrics</source>
-        <translation type="unfinished">歌詞の自動検索</translation>
+      <source>Automatically search for song lyrics</source>
+      <translation>歌詞の自動検索</translation>
     </message>
     <message>
-        <source>No song playing</source>
-        <translation type="unfinished">曲が再生されていません</translation>
+      <source>No song playing</source>
+      <translation>曲が再生されていません</translation>
     </message>
     <message>
-        <source>%1 song</source>
-        <translation type="unfinished">%1 曲</translation>
+      <source>%1 song</source>
+      <translation>%1 曲</translation>
     </message>
     <message>
-        <source>%1 songs</source>
-        <translation type="unfinished">%1 曲</translation>
+      <source>%1 songs</source>
+      <translation>%1 曲</translation>
     </message>
     <message>
-        <source>%1 artist</source>
-        <translation type="unfinished">%1 アーティスト</translation>
+      <source>%1 artist</source>
+      <translation>%1 アーティスト</translation>
     </message>
     <message>
-        <source>%1 artists</source>
-        <translation type="unfinished">%1 アーティスト</translation>
+      <source>%1 artists</source>
+      <translation>%1 アーティスト</translation>
     </message>
     <message>
-        <source>%1 album</source>
-        <translation type="unfinished">%1 枚のアルバム</translation>
+      <source>%1 album</source>
+      <translation>%1 枚のアルバム</translation>
     </message>
     <message>
-        <source>%1 albums</source>
-        <translation type="unfinished">%1 枚のアルバム</translation>
+      <source>%1 albums</source>
+      <translation>%1 枚のアルバム</translation>
     </message>
     <message>
-        <source>kbps</source>
-        <translation type="unfinished"></translation>
+      <source>kbps</source>
+      <translation type="unfinished">kbps</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>CoverFromURLDialog</name>
     <message>
-        <source>Load cover from URL</source>
-        <translation type="unfinished">URL からカバーの読み込み</translation>
+      <source>Load cover from URL</source>
+      <translation>URL からカバーの読み込み</translation>
     </message>
     <message>
-        <source>Enter a URL to download a cover from the Internet:</source>
-        <translation type="unfinished">インターネットからカバーアートをダウンロードする URL を入力してください:</translation>
+      <source>Enter a URL to download a cover from the Internet:</source>
+      <translation>インターネットからカバーアートをダウンロードする URL を入力してください:</translation>
     </message>
     <message>
-        <source>Fetching cover error</source>
-        <translation type="unfinished">カバーの取得エラー</translation>
+      <source>Fetching cover error</source>
+      <translation>カバーの取得エラー</translation>
     </message>
     <message>
-        <source>The site you requested does not exist!</source>
-        <translation type="unfinished">指定されたサイトは存在しません!</translation>
+      <source>The site you requested does not exist!</source>
+      <translation>指定されたサイトは存在しません!</translation>
     </message>
     <message>
-        <source>The site you requested is not an image!</source>
-        <translation type="unfinished">指定されたサイトは画像ではありません!</translation>
+      <source>The site you requested is not an image!</source>
+      <translation>指定されたサイトは画像ではありません!</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>CoverManager</name>
     <message>
-        <source>Cover Manager</source>
-        <translation type="unfinished">カバーマネージャー</translation>
+      <source>Cover Manager</source>
+      <translation>カバーマネージャー</translation>
     </message>
     <message>
-        <source>Enter search terms here</source>
-        <translation type="unfinished">ここに検索条件を入力してください</translation>
+      <source>Enter search terms here</source>
+      <translation>ここに検索条件を入力してください</translation>
     </message>
     <message>
-        <source>MenuPopupToolButton</source>
-        <translation type="unfinished"></translation>
+      <source>MenuPopupToolButton</source>
+      <translation type="unfinished">MenuPopupToolButton</translation>
     </message>
     <message>
-        <source>View</source>
-        <translation type="unfinished">表示</translation>
+      <source>View</source>
+      <translation>表示</translation>
     </message>
     <message>
-        <source>Total albums:</source>
-        <translation type="unfinished">全アルバム数:</translation>
+      <source>Total albums:</source>
+      <translation>全アルバム数:</translation>
     </message>
     <message>
-        <source>Without cover:</source>
-        <translation type="unfinished">カバーなし:</translation>
+      <source>Without cover:</source>
+      <translation>カバーなし:</translation>
     </message>
     <message>
-        <source>0</source>
-        <translation type="unfinished"></translation>
+      <source>0</source>
+      <translation type="unfinished">0</translation>
     </message>
     <message>
-        <source>Fetch Missing Covers</source>
-        <translation type="unfinished">足りないカバーの取得</translation>
+      <source>Fetch Missing Covers</source>
+      <translation>足りないカバーの取得</translation>
     </message>
     <message>
-        <source>Export Covers</source>
-        <translation type="unfinished">カバーをエクスポート</translation>
+      <source>Export Covers</source>
+      <translation>カバーをエクスポート</translation>
     </message>
     <message>
-        <source>Fetch automatically</source>
-        <translation type="unfinished">自動的に取得する</translation>
+      <source>Fetch automatically</source>
+      <translation>自動的に取得する</translation>
     </message>
     <message>
-        <source>Load</source>
-        <translation type="unfinished">読み込み</translation>
+      <source>Load</source>
+      <translation>読み込み</translation>
     </message>
     <message>
-        <source>Add to playlist</source>
-        <translation type="unfinished">プレイリストに追加</translation>
+      <source>Add to playlist</source>
+      <translation>プレイリストに追加</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>CoverSearchStatisticsDialog</name>
     <message>
-        <source>Fetch completed</source>
-        <translation type="unfinished">取得完了</translation>
+      <source>Fetch completed</source>
+      <translation>取得完了</translation>
     </message>
     <message>
-        <source>Got %1 covers out of %2 (%3 failed)</source>
-        <translation type="unfinished">%2 個中 %1 個のカバーを取得しました (%3 個失敗しました)</translation>
+      <source>Got %1 covers out of %2 (%3 failed)</source>
+      <translation>%2 個中 %1 個のカバーを取得しました (%3 個失敗しました)</translation>
     </message>
     <message>
-        <source>Covers from %1</source>
-        <translation type="unfinished">%1 からのカバー</translation>
+      <source>Covers from %1</source>
+      <translation>%1 からのカバー</translation>
     </message>
     <message>
-        <source>Total network requests made</source>
-        <translation type="unfinished">合計ネットワーク要求回数</translation>
+      <source>Total network requests made</source>
+      <translation>合計ネットワーク要求回数</translation>
     </message>
     <message>
-        <source>Average image size</source>
-        <translation type="unfinished">平均画像サイズ</translation>
+      <source>Average image size</source>
+      <translation>平均画像サイズ</translation>
     </message>
     <message>
-        <source>Total bytes transferred</source>
-        <translation type="unfinished">合計転送バイト数</translation>
+      <source>Total bytes transferred</source>
+      <translation>合計転送バイト数</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>CoversSettingsPage</name>
     <message>
-        <source>Covers</source>
-        <translation type="unfinished">カバー</translation>
+      <source>Covers</source>
+      <translation>カバー</translation>
     </message>
     <message>
-        <source>Cover providers</source>
-        <translation type="unfinished">カバー提供者</translation>
+      <source>Cover providers</source>
+      <translation>カバー提供者</translation>
     </message>
     <message>
-        <source>Choose the providers you want to use when searching for covers.</source>
-        <translation type="unfinished">カバーの検索に利用するプロバイダーを選択します。</translation>
+      <source>Choose the providers you want to use when searching for covers.</source>
+      <translation>カバーの検索に利用するプロバイダーを選択します。</translation>
     </message>
     <message>
-        <source>Move up</source>
-        <translation type="unfinished">上へ移動</translation>
+      <source>Move up</source>
+      <translation>上へ移動</translation>
     </message>
     <message>
-        <source>Move down</source>
-        <translation type="unfinished">下へ移動</translation>
+      <source>Move down</source>
+      <translation>下へ移動</translation>
     </message>
     <message>
-        <source>Authentication</source>
-        <translation type="unfinished">認証</translation>
+      <source>Authentication</source>
+      <translation>認証</translation>
     </message>
     <message>
-        <source>Login</source>
-        <translation type="unfinished">ログイン</translation>
+      <source>Login</source>
+      <translation>ログイン</translation>
     </message>
     <message>
-        <source>Album cover types</source>
-        <translation type="unfinished">アルバムカバータイプ</translation>
+      <source>Album cover types</source>
+      <translation>アルバムカバータイプ</translation>
     </message>
     <message>
-        <source>Saving album covers</source>
-        <translation type="unfinished">アルバムカバーを保存</translation>
+      <source>Saving album covers</source>
+      <translation>アルバムカバーを保存</translation>
     </message>
     <message>
-        <source>Save album covers in album directory</source>
-        <translation type="unfinished">アルバムカバーをアルバムディレクトリに保存</translation>
+      <source>Save album covers in album directory</source>
+      <translation>アルバムカバーをアルバムディレクトリに保存</translation>
     </message>
     <message>
-        <source>Save album covers in cache directory</source>
-        <translation type="unfinished">アルバムカバーをキャッシュディレクトリに保存</translation>
+      <source>Save album covers in cache directory</source>
+      <translation>アルバムカバーをキャッシュディレクトリに保存</translation>
     </message>
     <message>
-        <source>Save album covers as embedded cover</source>
-        <translation type="unfinished">アルバムカバーを埋め込みカバーとして保存</translation>
+      <source>Save album covers as embedded cover</source>
+      <translation>アルバムカバーを埋め込みカバーとして保存</translation>
     </message>
     <message>
-        <source>Filename:</source>
-        <translation type="unfinished">ファイル名:</translation>
+      <source>Filename:</source>
+      <translation>ファイル名:</translation>
     </message>
     <message>
-        <source>Pattern</source>
-        <translation type="unfinished">パターン</translation>
+      <source>Pattern</source>
+      <translation>パターン</translation>
     </message>
     <message>
-        <source>Random</source>
-        <translation type="unfinished">ランダム</translation>
+      <source>Random</source>
+      <translation>ランダム</translation>
     </message>
     <message>
-        <source>Overwrite existing file</source>
-        <translation type="unfinished">既存ファイルを上書きする</translation>
+      <source>Overwrite existing file</source>
+      <translation>既存ファイルを上書きする</translation>
     </message>
     <message>
-        <source>Lowercase filename</source>
-        <translation type="unfinished">ファイル名を小文字にする</translation>
+      <source>Lowercase filename</source>
+      <translation>ファイル名を小文字にする</translation>
     </message>
     <message>
-        <source>Replace spaces with dashes</source>
-        <translation type="unfinished">スペースをダッシュ​​に置き換える</translation>
+      <source>Replace spaces with dashes</source>
+      <translation>スペースをダッシュ​​に置き換える</translation>
     </message>
     <message>
-        <source>Use Tidal settings to authenticate.</source>
-        <translation type="unfinished">Tidal 設定を使用して認証します。</translation>
+      <source>Use Tidal settings to authenticate.</source>
+      <translation>Tidal 設定を使用して認証します。</translation>
     </message>
     <message>
-        <source>Use Spotify settings to authenticate.</source>
-        <translation type="unfinished"></translation>
+      <source>Use Spotify settings to authenticate.</source>
+      <translation type="unfinished">Use Spotify settings to authenticate.</translation>
     </message>
     <message>
-        <source>Use Qobuz settings to authenticate.</source>
-        <translation type="unfinished"></translation>
+      <source>Use Qobuz settings to authenticate.</source>
+      <translation type="unfinished">Use Qobuz settings to authenticate.</translation>
     </message>
     <message>
-        <source>%1 needs authentication.</source>
-        <translation type="unfinished">%1 には認証が必要です。</translation>
+      <source>%1 needs authentication.</source>
+      <translation>%1 には認証が必要です。</translation>
     </message>
     <message>
-        <source>%1 does not need authentication.</source>
-        <translation type="unfinished">%1 には認証は不要です。</translation>
+      <source>%1 does not need authentication.</source>
+      <translation>%1 には認証は不要です。</translation>
     </message>
     <message>
-        <source>No provider selected.</source>
-        <translation type="unfinished">プロバイダーが選択されていません</translation>
+      <source>No provider selected.</source>
+      <translation>プロバイダーが選択されていません</translation>
     </message>
     <message>
-        <source>Authentication failed</source>
-        <translation type="unfinished">認証に失敗しました</translation>
+      <source>Authentication failed</source>
+      <translation>認証に失敗しました</translation>
     </message>
     <message>
-        <source>Manually unset (%1)</source>
-        <translation type="unfinished">手動で設定を解除 (%1)</translation>
+      <source>Manually unset (%1)</source>
+      <translation>手動で設定を解除 (%1)</translation>
     </message>
     <message>
-        <source>Set through album cover search (%1)</source>
-        <translation type="unfinished">アルバムカバー検索で設定 (%1)</translation>
+      <source>Set through album cover search (%1)</source>
+      <translation>アルバムカバー検索で設定 (%1)</translation>
     </message>
     <message>
-        <source>Automatically picked up from album directory (%1)</source>
-        <translation type="unfinished">アルバムのディレクトリ (%1) から自動的に取得</translation>
+      <source>Automatically picked up from album directory (%1)</source>
+      <translation>アルバムのディレクトリ (%1) から自動的に取得</translation>
     </message>
     <message>
-        <source>Embedded album cover art (%1)</source>
-        <translation type="unfinished">埋め込まれたアルバムカバーアート (%1)</translation>
+      <source>Embedded album cover art (%1)</source>
+      <translation>埋め込まれたアルバムカバーアート (%1)</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>CueParser</name>
     <message>
-        <source>Saving CUE files is not supported.</source>
-        <translation type="unfinished"></translation>
+      <source>Saving CUE files is not supported.</source>
+      <translation type="unfinished">Saving CUE files is not supported.</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>Database</name>
     <message>
-        <source>Unable to execute SQL query: %1</source>
-        <translation type="unfinished"></translation>
+      <source>Unable to execute SQL query: %1</source>
+      <translation type="unfinished">Unable to execute SQL query: %1</translation>
     </message>
     <message>
-        <source>Failed SQL query: %1</source>
-        <translation type="unfinished">失敗した SQL クエリ: %1</translation>
+      <source>Failed SQL query: %1</source>
+      <translation>失敗した SQL クエリ: %1</translation>
     </message>
     <message>
-        <source>Integrity check</source>
-        <translation type="unfinished">整合性の検査</translation>
+      <source>Integrity check</source>
+      <translation>整合性の検査</translation>
     </message>
     <message>
-        <source>Database corruption detected.</source>
-        <translation type="unfinished">データベースの不整合が検出されました。</translation>
+      <source>Database corruption detected.</source>
+      <translation>データベースの不整合が検出されました。</translation>
     </message>
     <message>
-        <source>Backing up database</source>
-        <translation type="unfinished">データベースをバックアップ中</translation>
+      <source>Backing up database</source>
+      <translation>データベースをバックアップ中</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>DeleteConfirmationDialog</name>
     <message>
-        <source>Delete files</source>
-        <translation type="unfinished">ファイルの削除</translation>
+      <source>Delete files</source>
+      <translation>ファイルの削除</translation>
     </message>
     <message>
-        <source>The following files will be deleted from disk:</source>
-        <translation type="unfinished">これらのファイルがディスクから削除されます:</translation>
+      <source>The following files will be deleted from disk:</source>
+      <translation>これらのファイルがディスクから削除されます:</translation>
     </message>
     <message>
-        <source>Are you sure you want to continue?</source>
-        <translation type="unfinished">本当に続行しますか?</translation>
+      <source>Are you sure you want to continue?</source>
+      <translation>本当に続行しますか?</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>DeleteFiles</name>
     <message>
-        <source>Deleting files</source>
-        <translation type="unfinished">ファイルの削除中</translation>
+      <source>Deleting files</source>
+      <translation>ファイルの削除中</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>DeviceItemDelegate</name>
     <message>
-        <source>Updating %1%...</source>
-        <translation type="unfinished">更新しています %1%...</translation>
+      <source>Updating %1%...</source>
+      <translation>更新しています %1%...</translation>
     </message>
     <message>
-        <source>Not connected</source>
-        <translation type="unfinished">接続されていません</translation>
+      <source>Not connected</source>
+      <translation>接続されていません</translation>
     </message>
     <message>
-        <source>Not mounted - double click to mount</source>
-        <translation type="unfinished">マウントされていません - マウントするにはダブルクリックします</translation>
+      <source>Not mounted - double click to mount</source>
+      <translation>マウントされていません - マウントするにはダブルクリックします</translation>
     </message>
     <message>
-        <source>Double click to open</source>
-        <translation type="unfinished">ダブルクリックで開く</translation>
+      <source>Double click to open</source>
+      <translation>ダブルクリックで開く</translation>
     </message>
     <message>
-        <source>%1 song%2</source>
-        <translation type="unfinished">%1 曲</translation>
+      <source>%1 song%2</source>
+      <translation>%1 曲</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>DeviceManager</name>
     <message>
-        <source>Connect device</source>
-        <translation type="unfinished">デバイスの接続</translation>
+      <source>Connect device</source>
+      <translation>デバイスの接続</translation>
     </message>
     <message>
-        <source>This is the first time you have connected this device.  Strawberry will now scan the device to find music files - this may take some time.</source>
-        <translation type="unfinished">このデバイスに初めて接続しました。音楽ファイルを検索するためにデバイスをスキャンします - これには時間がかかる可能性があります。</translation>
+      <source>This is the first time you have connected this device.  Strawberry will now scan the device to find music files - this may take some time.</source>
+      <translation>このデバイスに初めて接続しました。音楽ファイルを検索するためにデバイスをスキャンします - これには時間がかかる可能性があります。</translation>
     </message>
     <message>
-        <source>This device will not work properly</source>
-        <translation type="unfinished">このデバイスは適切に動作しません</translation>
+      <source>This device will not work properly</source>
+      <translation>このデバイスは適切に動作しません</translation>
     </message>
     <message>
-        <source>This is an MTP device, but you compiled Strawberry without libmtp support.</source>
-        <translation type="unfinished">これは MTP デバイスですが、Strawberry は libmtp サポートなしでコンパイルされています。</translation>
+      <source>This is an MTP device, but you compiled Strawberry without libmtp support.</source>
+      <translation>これは MTP デバイスですが、Strawberry は libmtp サポートなしでコンパイルされています。</translation>
     </message>
     <message>
-        <source>If you continue, this device will work slowly and songs copied to it may not work.</source>
-        <translation type="unfinished">続行すると、このデバイスは低速で動作しコピーされた曲は動作しなくなる可能性があります。</translation>
+      <source>If you continue, this device will work slowly and songs copied to it may not work.</source>
+      <translation>続行すると、このデバイスは低速で動作しコピーされた曲は動作しなくなる可能性があります。</translation>
     </message>
     <message>
-        <source>This is an iPod, but you compiled Strawberry without libgpod support.</source>
-        <translation type="unfinished">これは iPod ですが、Strawberry は libgpod サポートなしでコンパイルされています。</translation>
+      <source>This is an iPod, but you compiled Strawberry without libgpod support.</source>
+      <translation>これは iPod ですが、Strawberry は libgpod サポートなしでコンパイルされています。</translation>
     </message>
     <message>
-        <source>This type of device is not supported: %1</source>
-        <translation type="unfinished">この種類のデバイスはサポートされていません: %1</translation>
+      <source>This type of device is not supported: %1</source>
+      <translation>この種類のデバイスはサポートされていません: %1</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>DeviceProperties</name>
     <message>
-        <source>Device Properties</source>
-        <translation type="unfinished">デバイスのプロパティ</translation>
+      <source>Device Properties</source>
+      <translation>デバイスのプロパティ</translation>
     </message>
     <message>
-        <source>Information</source>
-        <translation type="unfinished">情報</translation>
+      <source>Information</source>
+      <translation>情報</translation>
     </message>
     <message>
-        <source>Name</source>
-        <translation type="unfinished">名前</translation>
+      <source>Name</source>
+      <translation>名前</translation>
     </message>
     <message>
-        <source>Icon</source>
-        <translation type="unfinished">アイコン</translation>
+      <source>Icon</source>
+      <translation>アイコン</translation>
     </message>
     <message>
-        <source>Hardware information</source>
-        <translation type="unfinished">ハードウェアの情報</translation>
+      <source>Hardware information</source>
+      <translation>ハードウェアの情報</translation>
     </message>
     <message>
-        <source>Hardware information is only available while the device is connected.</source>
-        <translation type="unfinished">ハードウェアの情報はデバイス接続中のみ利用できます。</translation>
+      <source>Hardware information is only available while the device is connected.</source>
+      <translation>ハードウェアの情報はデバイス接続中のみ利用できます。</translation>
     </message>
     <message>
-        <source>File formats</source>
-        <translation type="unfinished">ファイル形式</translation>
+      <source>File formats</source>
+      <translation>ファイル形式</translation>
     </message>
     <message>
-        <source>Supported formats</source>
-        <translation type="unfinished">サポートされている形式</translation>
+      <source>Supported formats</source>
+      <translation>サポートされている形式</translation>
     </message>
     <message>
-        <source>This device supports the following file formats:</source>
-        <translation type="unfinished">このデバイスは次のファイル形式をサポートしています:</translation>
+      <source>This device supports the following file formats:</source>
+      <translation>このデバイスは次のファイル形式をサポートしています:</translation>
     </message>
     <message>
-        <source>Strawberry can automatically convert the music you copy to this device into a format that it can play.</source>
-        <translation type="unfinished">Strawberry はこのデバイスへコピーする際、このデバイスで再生可能な形式に自動で変換できます。</translation>
+      <source>Strawberry can automatically convert the music you copy to this device into a format that it can play.</source>
+      <translation>Strawberry はこのデバイスへコピーする際、このデバイスで再生可能な形式に自動で変換できます。</translation>
     </message>
     <message>
-        <source>Do not convert any music</source>
-        <translation type="unfinished">すべてのミュージックを変換しない</translation>
+      <source>Do not convert any music</source>
+      <translation>すべてのミュージックを変換しない</translation>
     </message>
     <message>
-        <source>Convert any music that the device can&apos;t play</source>
-        <translation type="unfinished">デバイスが再生できないすべての曲を変換する</translation>
+      <source>Convert any music that the device can&apos;t play</source>
+      <translation>デバイスが再生できないすべての曲を変換する</translation>
     </message>
     <message>
-        <source>Convert all music</source>
-        <translation type="unfinished">すべての曲を変換する</translation>
+      <source>Convert all music</source>
+      <translation>すべての曲を変換する</translation>
     </message>
     <message>
-        <source>Preferred format</source>
-        <translation type="unfinished">優先する形式</translation>
+      <source>Preferred format</source>
+      <translation>優先する形式</translation>
     </message>
     <message>
-        <source>This device must be connected and opened before Strawberry can see what file formats it supports.</source>
-        <translation type="unfinished">Strawberry がこのデバイスのサポートするファイル形式を認識する前にデバイスが接続されて開かれている必要があります。</translation>
+      <source>This device must be connected and opened before Strawberry can see what file formats it supports.</source>
+      <translation>Strawberry がこのデバイスのサポートするファイル形式を認識する前にデバイスが接続されて開かれている必要があります。</translation>
     </message>
     <message>
-        <source>Open device</source>
-        <translation type="unfinished">デバイスを開く</translation>
+      <source>Open device</source>
+      <translation>デバイスを開く</translation>
     </message>
     <message>
-        <source>Querying device...</source>
-        <translation type="unfinished">デバイスを照会しています...</translation>
+      <source>Querying device...</source>
+      <translation>デバイスを照会しています...</translation>
     </message>
     <message>
-        <source>Model</source>
-        <translation type="unfinished">モデル</translation>
+      <source>Model</source>
+      <translation>モデル</translation>
     </message>
     <message>
-        <source>Manufacturer</source>
-        <translation type="unfinished">製造元</translation>
+      <source>Manufacturer</source>
+      <translation>製造元</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>DeviceView</name>
     <message>
-        <source>Safely remove device</source>
-        <translation type="unfinished">デバイスを安全に取り外す</translation>
+      <source>Safely remove device</source>
+      <translation>デバイスを安全に取り外す</translation>
     </message>
     <message>
-        <source>Forget device</source>
-        <translation type="unfinished">デバイスを忘れる</translation>
+      <source>Forget device</source>
+      <translation>デバイスを忘れる</translation>
     </message>
     <message>
-        <source>Device properties...</source>
-        <translation type="unfinished">デバイスのプロパティ...</translation>
+      <source>Device properties...</source>
+      <translation>デバイスのプロパティ...</translation>
     </message>
     <message>
-        <source>Append to current playlist</source>
-        <translation type="unfinished">現在のプレイリストに追加する</translation>
+      <source>Append to current playlist</source>
+      <translation>現在のプレイリストに追加する</translation>
     </message>
     <message>
-        <source>Replace current playlist</source>
-        <translation type="unfinished">現在のプレイリストを置き換える</translation>
+      <source>Replace current playlist</source>
+      <translation>現在のプレイリストを置き換える</translation>
     </message>
     <message>
-        <source>Open in new playlist</source>
-        <translation type="unfinished">新しいプレイリストで開く</translation>
+      <source>Open in new playlist</source>
+      <translation>新しいプレイリストで開く</translation>
     </message>
     <message>
-        <source>Copy to collection...</source>
-        <translation type="unfinished">ライブラリへコピー...</translation>
+      <source>Copy to collection...</source>
+      <translation>ライブラリへコピー...</translation>
     </message>
     <message>
-        <source>Delete from device...</source>
-        <translation type="unfinished">デバイスから削除...</translation>
+      <source>Delete from device...</source>
+      <translation>デバイスから削除...</translation>
     </message>
     <message>
-        <source>Forgetting a device will remove it from this list and Strawberry will have to rescan all the songs again next time you connect it.</source>
-        <translation type="unfinished">デバイスを忘れるとこの一覧から削除して Strawberry は次回接続時に再びすべての曲を再スキャンします。</translation>
+      <source>Forgetting a device will remove it from this list and Strawberry will have to rescan all the songs again next time you connect it.</source>
+      <translation>デバイスを忘れるとこの一覧から削除して Strawberry は次回接続時に再びすべての曲を再スキャンします。</translation>
     </message>
     <message>
-        <source>Delete files</source>
-        <translation type="unfinished">ファイルの削除</translation>
+      <source>Delete files</source>
+      <translation>ファイルの削除</translation>
     </message>
     <message>
-        <source>These files will be deleted from the device, are you sure you want to continue?</source>
-        <translation type="unfinished">これらのファイルはデバイスから削除されます。続行してもよろしいですか?</translation>
+      <source>These files will be deleted from the device, are you sure you want to continue?</source>
+      <translation>これらのファイルはデバイスから削除されます。続行してもよろしいですか?</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>DeviceViewContainer</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">フォーム</translation>
+      <source>Form</source>
+      <translation>フォーム</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>DynamicPlaylistControls</name>
     <message>
-        <source>Dynamic mode is on</source>
-        <translation type="unfinished">ダイナミックモードがオン</translation>
+      <source>Dynamic mode is on</source>
+      <translation>ダイナミックモードがオン</translation>
     </message>
     <message>
-        <source>New tracks will be added automatically.</source>
-        <translation type="unfinished">新しいトラックは自動的に追加されます</translation>
+      <source>New tracks will be added automatically.</source>
+      <translation>新しいトラックは自動的に追加されます</translation>
     </message>
     <message>
-        <source>Expand</source>
-        <translation type="unfinished">展開</translation>
+      <source>Expand</source>
+      <translation>展開</translation>
     </message>
     <message>
-        <source>Repopulate</source>
-        <translation type="unfinished">再装着</translation>
+      <source>Repopulate</source>
+      <translation>再装着</translation>
     </message>
     <message>
-        <source>Turn off</source>
-        <translation type="unfinished">オフにする</translation>
+      <source>Turn off</source>
+      <translation>オフにする</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>EditTagDialog</name>
     <message>
-        <source>Edit track information</source>
-        <translation type="unfinished">トラック情報の編集</translation>
+      <source>Edit track information</source>
+      <translation>トラック情報の編集</translation>
     </message>
     <message>
-        <source>Summary</source>
-        <translation type="unfinished">要約</translation>
+      <source>Summary</source>
+      <translation>要約</translation>
     </message>
     <message>
-        <source>Date created</source>
-        <translation type="unfinished">作成日時</translation>
+      <source>Date created</source>
+      <translation>作成日時</translation>
     </message>
     <message>
-        <source>Art Automatic</source>
-        <translation type="unfinished">自動アート</translation>
+      <source>Art Automatic</source>
+      <translation>自動アート</translation>
     </message>
     <message>
-        <source>Date modified</source>
-        <translation type="unfinished">更新日時</translation>
+      <source>Date modified</source>
+      <translation>更新日時</translation>
     </message>
     <message>
-        <source>Art Embedded</source>
-        <translation type="unfinished">アート埋め込み</translation>
+      <source>Art Embedded</source>
+      <translation>アート埋め込み</translation>
     </message>
     <message>
-        <source>Last played</source>
-        <comment>A playlist&apos;s tag.</comment>
-        <translation type="unfinished"></translation>
+      <source>Last played</source>
+      <comment>A playlist&apos;s tag.</comment>
+      <translation type="unfinished">Last played</translation>
     </message>
     <message>
-        <source>File type</source>
-        <translation type="unfinished">ファイルの種類</translation>
+      <source>File type</source>
+      <translation>ファイルの種類</translation>
     </message>
     <message>
-        <source>Length</source>
-        <translation type="unfinished">長さ</translation>
+      <source>Length</source>
+      <translation>長さ</translation>
     </message>
     <message>
-        <source>Play count</source>
-        <translation type="unfinished">再生回数</translation>
+      <source>Play count</source>
+      <translation>再生回数</translation>
     </message>
     <message>
-        <source>Bit depth</source>
-        <translation type="unfinished">ビット深度</translation>
+      <source>Bit depth</source>
+      <translation>ビット深度</translation>
     </message>
     <message>
-        <source>EBU R 128 integrated loudness</source>
-        <translation type="unfinished">EBU R 128 統合ラウドネス</translation>
+      <source>EBU R 128 integrated loudness</source>
+      <translation>EBU R 128 統合ラウドネス</translation>
     </message>
     <message>
-        <source>Bit rate</source>
-        <translation type="unfinished">ビットレート</translation>
+      <source>Bit rate</source>
+      <translation>ビットレート</translation>
     </message>
     <message>
-        <source>Skip count</source>
-        <translation type="unfinished">スキップ回数</translation>
+      <source>Skip count</source>
+      <translation>スキップ回数</translation>
     </message>
     <message>
-        <source>Sample rate</source>
-        <translation type="unfinished">サンプルレート</translation>
+      <source>Sample rate</source>
+      <translation>サンプルレート</translation>
     </message>
     <message>
-        <source>Path</source>
-        <translation type="unfinished">パス</translation>
+      <source>Path</source>
+      <translation>パス</translation>
     </message>
     <message>
-        <source>Filename</source>
-        <translation type="unfinished">ファイル名</translation>
+      <source>Filename</source>
+      <translation>ファイル名</translation>
     </message>
     <message>
-        <source>Art Unset</source>
-        <translation type="unfinished">アート解除</translation>
+      <source>Art Unset</source>
+      <translation>アート解除</translation>
     </message>
     <message>
-        <source>File size</source>
-        <translation type="unfinished">ファイルサイズ</translation>
+      <source>File size</source>
+      <translation>ファイルサイズ</translation>
     </message>
     <message>
-        <source>Art Manual</source>
-        <translation type="unfinished">手動アート</translation>
+      <source>Art Manual</source>
+      <translation>手動アート</translation>
     </message>
     <message>
-        <source>EBU R 128 loudness range</source>
-        <translation type="unfinished">EBU R 128 ラウドネスレンジ</translation>
+      <source>EBU R 128 loudness range</source>
+      <translation>EBU R 128 ラウドネスレンジ</translation>
     </message>
     <message>
-        <source>Reset play counts</source>
-        <translation type="unfinished">再生回数のリセット</translation>
+      <source>Reset play counts</source>
+      <translation>再生回数のリセット</translation>
     </message>
     <message>
-        <source>Tags</source>
-        <translation type="unfinished">タグ</translation>
+      <source>Tags</source>
+      <translation>タグ</translation>
     </message>
     <message>
-        <source>MenuPopupToolButton</source>
-        <translation type="unfinished"></translation>
+      <source>MenuPopupToolButton</source>
+      <translation type="unfinished">MenuPopupToolButton</translation>
     </message>
     <message>
-        <source>Change art</source>
-        <translation type="unfinished">アートの変更</translation>
+      <source>Change art</source>
+      <translation>アートの変更</translation>
     </message>
     <message>
-        <source>Embedded cover</source>
-        <translation type="unfinished">埋め込みカバー</translation>
+      <source>Embedded cover</source>
+      <translation>埋め込みカバー</translation>
     </message>
     <message>
-        <source>Disc</source>
-        <translation type="unfinished">ディスク</translation>
+      <source>Disc</source>
+      <translation>ディスク</translation>
     </message>
     <message>
-        <source>Grouping</source>
-        <translation type="unfinished">分類</translation>
+      <source>Grouping</source>
+      <translation>分類</translation>
     </message>
     <message>
-        <source>Album artist</source>
-        <translation type="unfinished">アルバムアーティスト</translation>
+      <source>Album artist</source>
+      <translation>アルバムアーティスト</translation>
     </message>
     <message>
-        <source>Album</source>
-        <translation type="unfinished">アルバム</translation>
+      <source>Album</source>
+      <translation>アルバム</translation>
     </message>
     <message>
-        <source>Year</source>
-        <translation type="unfinished">年</translation>
+      <source>Year</source>
+      <translation>年</translation>
     </message>
     <message>
-        <source>Title</source>
-        <translation type="unfinished">タイトル</translation>
+      <source>Title</source>
+      <translation>タイトル</translation>
     </message>
     <message>
-        <source>Artist</source>
-        <translation type="unfinished">アーティスト</translation>
+      <source>Artist</source>
+      <translation>アーティスト</translation>
     </message>
     <message>
-        <source>Composer</source>
-        <translation type="unfinished">作曲者</translation>
+      <source>Composer</source>
+      <translation>作曲者</translation>
     </message>
     <message>
-        <source>Complete tags automatically</source>
-        <translation type="unfinished">タグの自動補完</translation>
+      <source>Complete tags automatically</source>
+      <translation>タグの自動補完</translation>
     </message>
     <message>
-        <source>Genre</source>
-        <translation type="unfinished">ジャンル</translation>
+      <source>Genre</source>
+      <translation>ジャンル</translation>
     </message>
     <message>
-        <source>Comment</source>
-        <translation type="unfinished">コメント</translation>
+      <source>Comment</source>
+      <translation>コメント</translation>
     </message>
     <message>
-        <source>Performer</source>
-        <translation type="unfinished">出演者</translation>
+      <source>Performer</source>
+      <translation>出演者</translation>
     </message>
     <message>
-        <source>Compilation</source>
-        <translation type="unfinished">コンピレーション</translation>
+      <source>Compilation</source>
+      <translation>コンピレーション</translation>
     </message>
     <message>
-        <source>Track</source>
-        <translation type="unfinished">トラック</translation>
+      <source>Track</source>
+      <translation>トラック</translation>
     </message>
     <message>
-        <source>Rating</source>
-        <translation type="unfinished">評価</translation>
+      <source>Rating</source>
+      <translation>評価</translation>
     </message>
     <message>
-        <source>Lyrics</source>
-        <translation type="unfinished">歌詞</translation>
+      <source>Lyrics</source>
+      <translation>歌詞</translation>
     </message>
     <message>
-        <source>Complete lyrics automatically</source>
-        <translation type="unfinished"></translation>
+      <source>Complete lyrics automatically</source>
+      <translation type="unfinished">Complete lyrics automatically</translation>
     </message>
     <message>
-        <source>Previous</source>
-        <translation type="unfinished">前へ</translation>
+      <source>(different across multiple songs)</source>
+      <translation type="unfinished">(different across multiple songs)</translation>
     </message>
     <message>
-        <source>Next</source>
-        <translation type="unfinished">次へ</translation>
+      <source>Different art across multiple songs.</source>
+      <translation type="unfinished">Different art across multiple songs.</translation>
     </message>
     <message>
-        <source>Saving tracks</source>
-        <translation type="unfinished">トラックの保存中</translation>
+      <source>Previous</source>
+      <translation>前へ</translation>
     </message>
     <message>
-        <source>Loading tracks</source>
-        <translation type="unfinished">トラックの読み込み中</translation>
+      <source>Next</source>
+      <translation>次へ</translation>
     </message>
     <message>
-        <source>%1 songs selected.</source>
-        <translation type="unfinished">%1 曲が選択されました</translation>
+      <source>Saving tracks</source>
+      <translation>トラックの保存中</translation>
     </message>
     <message>
-        <source>kbps</source>
-        <translation type="unfinished"></translation>
+      <source>Loading tracks</source>
+      <translation>トラックの読み込み中</translation>
     </message>
     <message>
-        <source>Unknown</source>
-        <translation type="unfinished">不明</translation>
+      <source>%1 songs selected.</source>
+      <translation>%1 曲が選択されました</translation>
     </message>
     <message>
-        <source>Yes</source>
-        <translation type="unfinished">はい</translation>
+      <source>kbps</source>
+      <translation type="unfinished">kbps</translation>
     </message>
     <message>
-        <source>No</source>
-        <translation type="unfinished">いいえ</translation>
+      <source>Unknown</source>
+      <translation>不明</translation>
     </message>
     <message>
-        <source>None</source>
-        <translation type="unfinished">なし</translation>
+      <source>Yes</source>
+      <translation>はい</translation>
     </message>
     <message>
-        <source>Cover is unset.</source>
-        <translation type="unfinished">カバーはセットされていません。</translation>
+      <source>No</source>
+      <translation>いいえ</translation>
     </message>
     <message>
-        <source>Cover from embedded image.</source>
-        <translation type="unfinished">埋め込み画像からのカバー。</translation>
+      <source>None</source>
+      <translation>なし</translation>
     </message>
     <message>
-        <source>Cover from %1</source>
-        <translation type="unfinished">%1 のカバー</translation>
+      <source>Cover is unset.</source>
+      <translation>カバーはセットされていません。</translation>
     </message>
     <message>
-        <source>Cover art not set</source>
-        <translation type="unfinished">カバーアートが設定されていません</translation>
+      <source>Cover from embedded image.</source>
+      <translation>埋め込み画像からのカバー。</translation>
     </message>
     <message>
-        <source>Album cover editing is only available for collection songs.</source>
-        <translation type="unfinished">アルバムカバーの編集はコレクションだけで可能です。</translation>
+      <source>Cover from %1</source>
+      <translation>%1 のカバー</translation>
     </message>
     <message>
-        <source>Cover changed: Will be cleared when saved.</source>
-        <translation type="unfinished">カバーが変更されました: 保存するとクリアされます。</translation>
+      <source>Cover art not set</source>
+      <translation>カバーアートが設定されていません</translation>
     </message>
     <message>
-        <source>Cover changed: Will be unset when saved.</source>
-        <translation type="unfinished">カバーが変更されました: 保存すると設定が解除されます。</translation>
+      <source>Album cover editing is only available for collection songs.</source>
+      <translation>アルバムカバーの編集はコレクションだけで可能です。</translation>
     </message>
     <message>
-        <source>Cover changed: Will be deleted when saved.</source>
-        <translation type="unfinished">カバーが変更されました: 保存時に削除されます。</translation>
+      <source>Cover changed: Will be cleared when saved.</source>
+      <translation>カバーが変更されました: 保存するとクリアされます。</translation>
     </message>
     <message>
-        <source>Cover changed: Will set new when saved.</source>
-        <translation type="unfinished">カバーが変更されました: 保存時に新しい設定になります。</translation>
+      <source>Cover changed: Will be unset when saved.</source>
+      <translation>カバーが変更されました: 保存すると設定が解除されます。</translation>
     </message>
     <message>
-        <source>Never</source>
-        <translation type="unfinished">なし</translation>
+      <source>Cover changed: Will be deleted when saved.</source>
+      <translation>カバーが変更されました: 保存時に削除されます。</translation>
     </message>
     <message>
-        <source>Reset song play statistics</source>
-        <translation type="unfinished"></translation>
+      <source>Cover changed: Will set new when saved.</source>
+      <translation>カバーが変更されました: 保存時に新しい設定になります。</translation>
     </message>
     <message>
-        <source>Are you sure you want to reset this song&apos;s play statistics?</source>
-        <translation type="unfinished">この曲の再生統計をリセットしてもよろしいですか?</translation>
+      <source>Never</source>
+      <translation>なし</translation>
     </message>
     <message>
-        <source>loading...</source>
-        <translation type="unfinished"></translation>
+      <source>Reset song play statistics</source>
+      <translation type="unfinished">Reset song play statistics</translation>
     </message>
     <message>
-        <source>Not found.</source>
-        <translation type="unfinished"></translation>
+      <source>Are you sure you want to reset this song&apos;s play statistics?</source>
+      <translation>この曲の再生統計をリセットしてもよろしいですか?</translation>
     </message>
     <message>
-        <source>Could not write metadata to %1</source>
-        <translation type="unfinished"></translation>
+      <source>loading...</source>
+      <translation type="unfinished">loading...</translation>
     </message>
     <message>
-        <source>Could not write metadata to %1: %2</source>
-        <translation type="unfinished"></translation>
+      <source>Not found.</source>
+      <translation type="unfinished">Not found.</translation>
     </message>
     <message>
-        <source>(different across multiple songs)</source>
-        <translation type="unfinished"></translation>
+      <source>Could not write metadata to %1</source>
+      <translation type="unfinished">Could not write metadata to %1</translation>
     </message>
     <message>
-        <source>Different art across multiple songs.</source>
-        <translation type="unfinished"></translation>
+      <source>Could not write metadata to %1: %2</source>
+      <translation type="unfinished">Could not write metadata to %1: %2</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>Equalizer</name>
     <message>
-        <source>Equalizer</source>
-        <translation type="unfinished">イコライザー</translation>
+      <source>Equalizer</source>
+      <translation>イコライザー</translation>
     </message>
     <message>
-        <source>Preset:</source>
-        <translation type="unfinished">プリセット:</translation>
+      <source>Preset:</source>
+      <translation>プリセット:</translation>
     </message>
     <message>
-        <source>Save preset</source>
-        <translation type="unfinished">プリセットの保存</translation>
+      <source>Save preset</source>
+      <translation>プリセットの保存</translation>
     </message>
     <message>
-        <source>Delete preset</source>
-        <translation type="unfinished">プリセットの削除</translation>
+      <source>Delete preset</source>
+      <translation>プリセットの削除</translation>
     </message>
     <message>
-        <source>Enable equalizer</source>
-        <translation type="unfinished">イコライザーを有効にする</translation>
+      <source>Enable equalizer</source>
+      <translation>イコライザーを有効にする</translation>
     </message>
     <message>
-        <source>Enable stereo balancer</source>
-        <translation type="unfinished">ステレオバランサーを有効化</translation>
+      <source>Enable stereo balancer</source>
+      <translation>ステレオバランサーを有効化</translation>
     </message>
     <message>
-        <source>Left</source>
-        <translation type="unfinished">左</translation>
+      <source>Left</source>
+      <translation>左</translation>
     </message>
     <message>
-        <source>Balance</source>
-        <translation type="unfinished">バランス</translation>
+      <source>Balance</source>
+      <translation>バランス</translation>
     </message>
     <message>
-        <source>Right</source>
-        <translation type="unfinished">右</translation>
+      <source>Right</source>
+      <translation>右</translation>
     </message>
     <message>
-        <source>Pre-amp</source>
-        <translation type="unfinished">プリアンプ</translation>
+      <source>Pre-amp</source>
+      <translation>プリアンプ</translation>
     </message>
     <message>
-        <source>Custom</source>
-        <translation type="unfinished">カスタム</translation>
+      <source>Custom</source>
+      <translation>カスタム</translation>
     </message>
     <message>
-        <source>Classical</source>
-        <translation type="unfinished">クラシック</translation>
+      <source>Classical</source>
+      <translation>クラシック</translation>
     </message>
     <message>
-        <source>Club</source>
-        <translation type="unfinished">クラブ</translation>
+      <source>Club</source>
+      <translation>クラブ</translation>
     </message>
     <message>
-        <source>Dance</source>
-        <translation type="unfinished">ダンス</translation>
+      <source>Dance</source>
+      <translation>ダンス</translation>
     </message>
     <message>
-        <source>Full Bass</source>
-        <translation type="unfinished"></translation>
+      <source>Full Bass</source>
+      <translation type="unfinished">Full Bass</translation>
     </message>
     <message>
-        <source>Full Treble</source>
-        <translation type="unfinished"></translation>
+      <source>Full Treble</source>
+      <translation type="unfinished">Full Treble</translation>
     </message>
     <message>
-        <source>Full Bass + Treble</source>
-        <translation type="unfinished"></translation>
+      <source>Full Bass + Treble</source>
+      <translation type="unfinished">Full Bass + Treble</translation>
     </message>
     <message>
-        <source>Laptop/Headphones</source>
-        <translation type="unfinished">ノートパソコン・ヘッドフォン</translation>
+      <source>Laptop/Headphones</source>
+      <translation>ノートパソコン・ヘッドフォン</translation>
     </message>
     <message>
-        <source>Large Hall</source>
-        <translation type="unfinished">広間</translation>
+      <source>Large Hall</source>
+      <translation>広間</translation>
     </message>
     <message>
-        <source>Live</source>
-        <translation type="unfinished">ライブ</translation>
+      <source>Live</source>
+      <translation>ライブ</translation>
     </message>
     <message>
-        <source>Party</source>
-        <translation type="unfinished">パーティー</translation>
+      <source>Party</source>
+      <translation>パーティー</translation>
     </message>
     <message>
-        <source>Pop</source>
-        <translation type="unfinished"></translation>
+      <source>Pop</source>
+      <translation type="unfinished">Pop</translation>
     </message>
     <message>
-        <source>Reggae</source>
-        <translation type="unfinished">レゲエ</translation>
+      <source>Reggae</source>
+      <translation>レゲエ</translation>
     </message>
     <message>
-        <source>Rock</source>
-        <translation type="unfinished">ロック</translation>
+      <source>Rock</source>
+      <translation>ロック</translation>
     </message>
     <message>
-        <source>Soft</source>
-        <translation type="unfinished"></translation>
+      <source>Soft</source>
+      <translation type="unfinished">Soft</translation>
     </message>
     <message>
-        <source>Ska</source>
-        <translation type="unfinished"></translation>
+      <source>Ska</source>
+      <translation type="unfinished">Ska</translation>
     </message>
     <message>
-        <source>Soft Rock</source>
-        <translation type="unfinished"></translation>
+      <source>Soft Rock</source>
+      <translation type="unfinished">Soft Rock</translation>
     </message>
     <message>
-        <source>Techno</source>
-        <translation type="unfinished">テクノ</translation>
+      <source>Techno</source>
+      <translation>テクノ</translation>
     </message>
     <message>
-        <source>Zero</source>
-        <translation type="unfinished"></translation>
+      <source>Zero</source>
+      <translation type="unfinished">Zero</translation>
     </message>
     <message>
-        <source>Name</source>
-        <translation type="unfinished">名前</translation>
+      <source>Name</source>
+      <translation>名前</translation>
     </message>
     <message>
-        <source>Are you sure you want to delete the &quot;%1&quot; preset?</source>
-        <translation type="unfinished">プリセット「%1」を削除してもよろしいですか?</translation>
+      <source>Are you sure you want to delete the &quot;%1&quot; preset?</source>
+      <translation>プリセット「%1」を削除してもよろしいですか?</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>EqualizerSlider</name>
     <message>
-        <source>Equalizer</source>
-        <translation type="unfinished">イコライザー</translation>
+      <source>Equalizer</source>
+      <translation>イコライザー</translation>
     </message>
     <message>
-        <source>%1 dB</source>
-        <translation type="unfinished"></translation>
+      <source>%1 dB</source>
+      <translation type="unfinished">%1 dB</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>ErrorDialog</name>
     <message>
-        <source>Strawberry Error</source>
-        <translation type="unfinished">Strawberry のエラー</translation>
+      <source>Strawberry Error</source>
+      <translation>Strawberry のエラー</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>FancyTabWidget</name>
     <message>
-        <source>Large sidebar</source>
-        <translation type="unfinished">大きいサイドバー</translation>
+      <source>Large sidebar</source>
+      <translation>大きいサイドバー</translation>
     </message>
     <message>
-        <source>Icons sidebar</source>
-        <translation type="unfinished"></translation>
+      <source>Icons sidebar</source>
+      <translation type="unfinished">Icons sidebar</translation>
     </message>
     <message>
-        <source>Small sidebar</source>
-        <translation type="unfinished">小さいサイドバー</translation>
+      <source>Small sidebar</source>
+      <translation>小さいサイドバー</translation>
     </message>
     <message>
-        <source>Plain sidebar</source>
-        <translation type="unfinished">プレーンサイドバー</translation>
+      <source>Plain sidebar</source>
+      <translation>プレーンサイドバー</translation>
     </message>
     <message>
-        <source>Tabs on top</source>
-        <translation type="unfinished">タブを上に配置</translation>
+      <source>Tabs on top</source>
+      <translation>タブを上に配置</translation>
     </message>
     <message>
-        <source>Icons on top</source>
-        <translation type="unfinished">アイコンを上に配置</translation>
+      <source>Icons on top</source>
+      <translation>アイコンを上に配置</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>FileTypeItemDelegate</name>
     <message>
-        <source>Unknown</source>
-        <translation type="unfinished">不明</translation>
+      <source>Unknown</source>
+      <translation>不明</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>FileView</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">フォーム</translation>
+      <source>Form</source>
+      <translation>フォーム</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>FileViewList</name>
     <message>
-        <source>Append to current playlist</source>
-        <translation type="unfinished">現在のプレイリストに追加する</translation>
+      <source>Append to current playlist</source>
+      <translation>現在のプレイリストに追加する</translation>
     </message>
     <message>
-        <source>Replace current playlist</source>
-        <translation type="unfinished">現在のプレイリストを置き換える</translation>
+      <source>Replace current playlist</source>
+      <translation>現在のプレイリストを置き換える</translation>
     </message>
     <message>
-        <source>Open in new playlist</source>
-        <translation type="unfinished">新しいプレイリストで開く</translation>
+      <source>Open in new playlist</source>
+      <translation>新しいプレイリストで開く</translation>
     </message>
     <message>
-        <source>Copy to collection...</source>
-        <translation type="unfinished">ライブラリへコピー...</translation>
+      <source>Copy to collection...</source>
+      <translation>ライブラリへコピー...</translation>
     </message>
     <message>
-        <source>Move to collection...</source>
-        <translation type="unfinished">ライブラリへ移動...</translation>
+      <source>Move to collection...</source>
+      <translation>ライブラリへ移動...</translation>
     </message>
     <message>
-        <source>Copy to device...</source>
-        <translation type="unfinished">デバイスへコピー...</translation>
+      <source>Copy to device...</source>
+      <translation>デバイスへコピー...</translation>
     </message>
     <message>
-        <source>Delete from disk...</source>
-        <translation type="unfinished">ディスクから削除...</translation>
+      <source>Delete from disk...</source>
+      <translation>ディスクから削除...</translation>
     </message>
     <message>
-        <source>Edit track information...</source>
-        <translation type="unfinished">トラック情報の編集...</translation>
+      <source>Edit track information...</source>
+      <translation>トラック情報の編集...</translation>
     </message>
     <message>
-        <source>Show in file browser...</source>
-        <translation type="unfinished">ファイルブラウザーで表示...</translation>
+      <source>Show in file browser...</source>
+      <translation>ファイルブラウザーで表示...</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>FreeSpaceBar</name>
     <message>
-        <source>Available</source>
-        <translation type="unfinished">空き</translation>
+      <source>Available</source>
+      <translation>空き</translation>
     </message>
     <message>
-        <source>New songs</source>
-        <translation type="unfinished">新しい曲</translation>
+      <source>New songs</source>
+      <translation>新しい曲</translation>
     </message>
     <message>
-        <source>Exceeded by</source>
-        <translation type="unfinished"></translation>
+      <source>Exceeded by</source>
+      <translation type="unfinished">Exceeded by</translation>
     </message>
     <message>
-        <source>Used</source>
-        <translation type="unfinished">使用中</translation>
+      <source>Used</source>
+      <translation>使用中</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>GPodDevice</name>
     <message>
-        <source>Could not copy %1 to %2: %3</source>
-        <translation type="unfinished">%1 を %2 にコピーできませんでした: %3</translation>
+      <source>Could not copy %1 to %2: %3</source>
+      <translation>%1 を %2 にコピーできませんでした: %3</translation>
     </message>
     <message>
-        <source>Writing database failed: %1</source>
-        <translation type="unfinished">データベースの書き込みに失敗: %1</translation>
+      <source>Writing database failed: %1</source>
+      <translation>データベースの書き込みに失敗: %1</translation>
     </message>
     <message>
-        <source>Writing database failed.</source>
-        <translation type="unfinished">データベースの書き込みに失敗しました。</translation>
+      <source>Writing database failed.</source>
+      <translation>データベースの書き込みに失敗しました。</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>GPodLoader</name>
     <message>
-        <source>Loading iPod database</source>
-        <translation type="unfinished">iPod データベースの読み込み中</translation>
+      <source>Loading iPod database</source>
+      <translation>iPod データベースの読み込み中</translation>
     </message>
     <message>
-        <source>An error occurred loading the iTunes database</source>
-        <translation type="unfinished">iTunes のデータベースを読み込み中にエラーが発生しました</translation>
+      <source>An error occurred loading the iTunes database</source>
+      <translation>iTunes のデータベースを読み込み中にエラーが発生しました</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>GeniusLyricsProvider</name>
     <message>
-        <source>Genius Authentication</source>
-        <translation type="unfinished">Genius 認証</translation>
+      <source>Genius Authentication</source>
+      <translation>Genius 認証</translation>
     </message>
     <message>
-        <source>Please open this URL in your browser</source>
-        <translation type="unfinished">このURLをブラウザで開いてください</translation>
+      <source>Please open this URL in your browser</source>
+      <translation>このURLをブラウザで開いてください</translation>
     </message>
     <message>
-        <source>Redirect missing token code!</source>
-        <translation type="unfinished">不足しているトークンコードをリダイレクトしてください！</translation>
+      <source>Redirect missing token code!</source>
+      <translation>不足しているトークンコードをリダイレクトしてください！</translation>
     </message>
     <message>
-        <source>Received invalid reply from web browser.</source>
-        <translation type="unfinished">Webブラウザから無効な返信を受け取りました。</translation>
+      <source>Received invalid reply from web browser.</source>
+      <translation>Webブラウザから無効な返信を受け取りました。</translation>
     </message>
     <message>
-        <source>Redirect from Genius is missing query items code or state.</source>
-        <translation type="unfinished">Genius からのリダイレクトにクエリアイテムのコードまたは状態がありません。</translation>
+      <source>Redirect from Genius is missing query items code or state.</source>
+      <translation>Genius からのリダイレクトにクエリアイテムのコードまたは状態がありません。</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>GioLister</name>
     <message>
-        <source>Mount point</source>
-        <translation type="unfinished">マウントポイント</translation>
+      <source>Mount point</source>
+      <translation>マウントポイント</translation>
     </message>
     <message>
-        <source>Device</source>
-        <translation type="unfinished">デバイス</translation>
+      <source>Device</source>
+      <translation>デバイス</translation>
     </message>
     <message>
-        <source>URI</source>
-        <translation type="unfinished"></translation>
+      <source>URI</source>
+      <translation type="unfinished">URI</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>GlobalShortcutGrabber</name>
     <message>
-        <source>Press a key</source>
-        <translation type="unfinished">キーを押してください</translation>
+      <source>Press a key</source>
+      <translation>キーを押してください</translation>
     </message>
     <message>
-        <source>Press a key combination to use for %1...</source>
-        <translation type="unfinished">%1 に使用するキーの組み合わせを押してください...</translation>
+      <source>Press a key combination to use for %1...</source>
+      <translation>%1 に使用するキーの組み合わせを押してください...</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>GlobalShortcutsManager</name>
     <message>
-        <source>Play</source>
-        <translation type="unfinished">再生</translation>
+      <source>Play</source>
+      <translation>再生</translation>
     </message>
     <message>
-        <source>Pause</source>
-        <translation type="unfinished">一時停止</translation>
+      <source>Pause</source>
+      <translation>一時停止</translation>
     </message>
     <message>
-        <source>Play/Pause</source>
-        <translation type="unfinished">再生/一時停止</translation>
+      <source>Play/Pause</source>
+      <translation>再生/一時停止</translation>
     </message>
     <message>
-        <source>Stop</source>
-        <translation type="unfinished">停止</translation>
+      <source>Stop</source>
+      <translation>停止</translation>
     </message>
     <message>
-        <source>Stop playing after current track</source>
-        <translation type="unfinished">現在のトラックの後で再生を停止</translation>
+      <source>Stop playing after current track</source>
+      <translation>現在のトラックの後で再生を停止</translation>
     </message>
     <message>
-        <source>Next track</source>
-        <translation type="unfinished">次の曲</translation>
+      <source>Next track</source>
+      <translation>次の曲</translation>
     </message>
     <message>
-        <source>Previous track</source>
-        <translation type="unfinished">前のトラック</translation>
+      <source>Previous track</source>
+      <translation>前のトラック</translation>
     </message>
     <message>
-        <source>Restart or previous track</source>
-        <translation type="unfinished"></translation>
+      <source>Restart or previous track</source>
+      <translation type="unfinished">Restart or previous track</translation>
     </message>
     <message>
-        <source>Increase volume</source>
-        <translation type="unfinished">音量を上げる</translation>
+      <source>Increase volume</source>
+      <translation>音量を上げる</translation>
     </message>
     <message>
-        <source>Decrease volume</source>
-        <translation type="unfinished">音量を下げる</translation>
+      <source>Decrease volume</source>
+      <translation>音量を下げる</translation>
     </message>
     <message>
-        <source>Mute</source>
-        <translation type="unfinished">ミュート</translation>
+      <source>Mute</source>
+      <translation>ミュート</translation>
     </message>
     <message>
-        <source>Seek forward</source>
-        <translation type="unfinished">順方向にシークする</translation>
+      <source>Seek forward</source>
+      <translation>順方向にシークする</translation>
     </message>
     <message>
-        <source>Seek backward</source>
-        <translation type="unfinished">逆方向にシークする</translation>
+      <source>Seek backward</source>
+      <translation>逆方向にシークする</translation>
     </message>
     <message>
-        <source>Show/Hide</source>
-        <translation type="unfinished">表示/隠す</translation>
+      <source>Show/Hide</source>
+      <translation>表示/隠す</translation>
     </message>
     <message>
-        <source>Show OSD</source>
-        <translation type="unfinished">OSDの表示</translation>
+      <source>Show OSD</source>
+      <translation>OSDの表示</translation>
     </message>
     <message>
-        <source>Toggle Pretty OSD</source>
-        <translation type="unfinished"></translation>
+      <source>Toggle Pretty OSD</source>
+      <translation type="unfinished">Toggle Pretty OSD</translation>
     </message>
     <message>
-        <source>Change shuffle mode</source>
-        <translation type="unfinished">シャッフルモードの変更</translation>
+      <source>Change shuffle mode</source>
+      <translation>シャッフルモードの変更</translation>
     </message>
     <message>
-        <source>Change repeat mode</source>
-        <translation type="unfinished">リピートモードの変更</translation>
+      <source>Change repeat mode</source>
+      <translation>リピートモードの変更</translation>
     </message>
     <message>
-        <source>Enable/disable scrobbling</source>
-        <translation type="unfinished"></translation>
+      <source>Enable/disable scrobbling</source>
+      <translation type="unfinished">Enable/disable scrobbling</translation>
     </message>
     <message>
-        <source>Love</source>
-        <translation type="unfinished"></translation>
+      <source>Love</source>
+      <translation type="unfinished">Love</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>GlobalShortcutsSettingsPage</name>
     <message>
-        <source>Global Shortcuts</source>
-        <translation type="unfinished">グローバルショートカット</translation>
+      <source>Global Shortcuts</source>
+      <translation>グローバルショートカット</translation>
     </message>
     <message>
-        <source>Use Gnome (GSD) shortcuts when available</source>
-        <translation type="unfinished">可能なら Gnome (GSD) のショートカットを使用する</translation>
+      <source>Use Gnome (GSD) shortcuts when available</source>
+      <translation>可能なら Gnome (GSD) のショートカットを使用する</translation>
     </message>
     <message>
-        <source>Open...</source>
-        <translation type="unfinished">開く...</translation>
+      <source>Open...</source>
+      <translation>開く...</translation>
     </message>
     <message>
-        <source>Use MATE shortcuts when available</source>
-        <translation type="unfinished">可能なら MATE のショートカットを使用する</translation>
+      <source>Use MATE shortcuts when available</source>
+      <translation>可能なら MATE のショートカットを使用する</translation>
     </message>
     <message>
-        <source>Use KDE (KGlobalAccel) shortcuts when available</source>
-        <translation type="unfinished">可能なら KDE (KGlobalAccel) のショートカットを使用する</translation>
+      <source>Use KDE (KGlobalAccel) shortcuts when available</source>
+      <translation>可能なら KDE (KGlobalAccel) のショートカットを使用する</translation>
     </message>
     <message>
-        <source>Use X11 shortcuts when available</source>
-        <translation type="unfinished">可能なら X11 のショートカットを使用する</translation>
+      <source>Use X11 shortcuts when available</source>
+      <translation>可能なら X11 のショートカットを使用する</translation>
     </message>
     <message>
-        <source>You need to launch System Preferences and allow Strawberry to &quot;&lt;span style=&quot;font-style:italic&quot;&gt;control your computer&lt;/span&gt;&quot; to use global shortcuts in Strawberry.</source>
-        <translation type="unfinished"></translation>
+      <source>You need to launch System Preferences and allow Strawberry to &quot;&lt;span style=&quot;font-style:italic&quot;&gt;control your computer&lt;/span&gt;&quot; to use global shortcuts in Strawberry.</source>
+      <translation type="unfinished">You need to launch System Preferences and allow Strawberry to &quot;&lt;span style=&quot;font-style:italic&quot;&gt;control your computer&lt;/span&gt;&quot; to use global shortcuts in Strawberry.</translation>
     </message>
     <message>
-        <source>Action</source>
-        <comment>Category label</comment>
-        <translation type="unfinished">アクション</translation>
+      <source>Action</source>
+      <comment>Category label</comment>
+      <translation>アクション</translation>
     </message>
     <message>
-        <source>Shortcut</source>
-        <translation type="unfinished">ショートカット</translation>
+      <source>Shortcut</source>
+      <translation>ショートカット</translation>
     </message>
     <message>
-        <source>Shortcut for %1</source>
-        <translation type="unfinished">%1 のショートカット</translation>
+      <source>Shortcut for %1</source>
+      <translation>%1 のショートカット</translation>
     </message>
     <message>
-        <source>&amp;None</source>
-        <translation type="unfinished">なし(&amp;N)</translation>
+      <source>&amp;None</source>
+      <translation>なし(&amp;N)</translation>
     </message>
     <message>
-        <source>&amp;Default</source>
-        <translation type="unfinished">デフォルト(&amp;D)</translation>
+      <source>&amp;Default</source>
+      <translation>デフォルト(&amp;D)</translation>
     </message>
     <message>
-        <source>&amp;Custom</source>
-        <translation type="unfinished">カスタム(&amp;C)</translation>
+      <source>&amp;Custom</source>
+      <translation>カスタム(&amp;C)</translation>
     </message>
     <message>
-        <source>Change shortcut...</source>
-        <translation type="unfinished">ショートカットの変更...</translation>
+      <source>Change shortcut...</source>
+      <translation>ショートカットの変更...</translation>
     </message>
     <message>
-        <source>The &quot;%1&quot; command could not be started.</source>
-        <translation type="unfinished">コマンド「%1」を開始できませんでした。</translation>
+      <source>The &quot;%1&quot; command could not be started.</source>
+      <translation>コマンド「%1」を開始できませんでした。</translation>
     </message>
     <message>
-        <source>Using X11 shortcuts on %1 is not recommended and can cause keyboard to become unresponsive!</source>
-        <translation type="unfinished"></translation>
+      <source>Using X11 shortcuts on %1 is not recommended and can cause keyboard to become unresponsive!</source>
+      <translation type="unfinished">Using X11 shortcuts on %1 is not recommended and can cause keyboard to become unresponsive!</translation>
     </message>
     <message>
-        <source> Shortcuts on %1 are usually used through MPRIS and KGlobalAccel.</source>
-        <translation type="unfinished">%1 のショートカットは通常 MPRIS と KGlobalAccel で利用されます。</translation>
+      <source> Shortcuts on %1 are usually used through MPRIS and KGlobalAccel.</source>
+      <translation>%1 のショートカットは通常 MPRIS と KGlobalAccel で利用されます。</translation>
     </message>
     <message>
-        <source> Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in gnome-settings-daemon instead.</source>
-        <translation type="unfinished">%1 のショートカットは通常 Gnome Settings Daemon で利用されるため、gnome-settings-daemon で構成する必要があります。</translation>
+      <source> Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in gnome-settings-daemon instead.</source>
+      <translation>%1 のショートカットは通常 Gnome Settings Daemon で利用されるため、gnome-settings-daemon で構成する必要があります。</translation>
     </message>
     <message>
-        <source> Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in cinnamon-settings-daemon instead.</source>
-        <translation type="unfinished">%1 のショートカットは通常 Gnome Settings Daemon で利用されるため、cinnamon-settings-daemon で構成する必要があります。</translation>
+      <source> Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in cinnamon-settings-daemon instead.</source>
+      <translation>%1 のショートカットは通常 Gnome Settings Daemon で利用されるため、cinnamon-settings-daemon で構成する必要があります。</translation>
     </message>
     <message>
-        <source> Shortcuts on %1 are usually used through MATE Settings Daemon and should be configured there instead.</source>
-        <translation type="unfinished">%1 のショートカットは通常 Mate Settings Daemon で利用されるため、そちらで構成する必要があります。</translation>
+      <source> Shortcuts on %1 are usually used through MATE Settings Daemon and should be configured there instead.</source>
+      <translation>%1 のショートカットは通常 Mate Settings Daemon で利用されるため、そちらで構成する必要があります。</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>GroupByDialog</name>
     <message>
-        <source>Collection advanced grouping</source>
-        <translation type="unfinished">ライブラリの高度なグループ化</translation>
+      <source>Collection advanced grouping</source>
+      <translation>ライブラリの高度なグループ化</translation>
     </message>
     <message>
-        <source>You can change the way the songs in the collection are organized.</source>
-        <translation type="unfinished">コレクション内の曲の編成方法を変更できます。</translation>
+      <source>You can change the way the songs in the collection are organized.</source>
+      <translation>コレクション内の曲の編成方法を変更できます。</translation>
     </message>
     <message>
-        <source>Group Collection by...</source>
-        <translation type="unfinished">ライブラリのグループ化...</translation>
+      <source>Group Collection by...</source>
+      <translation>ライブラリのグループ化...</translation>
     </message>
     <message>
-        <source>First level</source>
-        <translation type="unfinished">第 1 階層</translation>
+      <source>First level</source>
+      <translation>第 1 階層</translation>
     </message>
     <message>
-        <source>None</source>
-        <translation type="unfinished">なし</translation>
+      <source>None</source>
+      <translation>なし</translation>
     </message>
     <message>
-        <source>Artist</source>
-        <translation type="unfinished">アーティスト</translation>
+      <source>Artist</source>
+      <translation>アーティスト</translation>
     </message>
     <message>
-        <source>Album artist</source>
-        <translation type="unfinished">アルバムアーティスト</translation>
+      <source>Album artist</source>
+      <translation>アルバムアーティスト</translation>
     </message>
     <message>
-        <source>Album</source>
-        <translation type="unfinished">アルバム</translation>
+      <source>Album</source>
+      <translation>アルバム</translation>
     </message>
     <message>
-        <source>Album - Disc</source>
-        <translation type="unfinished">アルバム - ディスク</translation>
+      <source>Album - Disc</source>
+      <translation>アルバム - ディスク</translation>
     </message>
     <message>
-        <source>Disc</source>
-        <translation type="unfinished">ディスク</translation>
+      <source>Disc</source>
+      <translation>ディスク</translation>
     </message>
     <message>
-        <source>Format</source>
-        <translation type="unfinished">形式</translation>
+      <source>Format</source>
+      <translation>形式</translation>
     </message>
     <message>
-        <source>Genre</source>
-        <translation type="unfinished">ジャンル</translation>
+      <source>Genre</source>
+      <translation>ジャンル</translation>
     </message>
     <message>
-        <source>Year</source>
-        <translation type="unfinished">年</translation>
+      <source>Year</source>
+      <translation>年</translation>
     </message>
     <message>
-        <source>Year - Album</source>
-        <translation type="unfinished">年 - アルバム</translation>
+      <source>Year - Album</source>
+      <translation>年 - アルバム</translation>
     </message>
     <message>
-        <source>Year - Album - Disc</source>
-        <translation type="unfinished">年 - アルバム - ディスク</translation>
+      <source>Year - Album - Disc</source>
+      <translation>年 - アルバム - ディスク</translation>
     </message>
     <message>
-        <source>Original year</source>
-        <translation type="unfinished">元の年</translation>
+      <source>Original year</source>
+      <translation>元の年</translation>
     </message>
     <message>
-        <source>Original year - Album</source>
-        <translation type="unfinished">元の年 - アルバム</translation>
+      <source>Original year - Album</source>
+      <translation>元の年 - アルバム</translation>
     </message>
     <message>
-        <source>Composer</source>
-        <translation type="unfinished">作曲者</translation>
+      <source>Composer</source>
+      <translation>作曲者</translation>
     </message>
     <message>
-        <source>Performer</source>
-        <translation type="unfinished">出演者</translation>
+      <source>Performer</source>
+      <translation>出演者</translation>
     </message>
     <message>
-        <source>Grouping</source>
-        <translation type="unfinished">分類</translation>
+      <source>Grouping</source>
+      <translation>分類</translation>
     </message>
     <message>
-        <source>File type</source>
-        <translation type="unfinished">ファイルの種類</translation>
+      <source>File type</source>
+      <translation>ファイルの種類</translation>
     </message>
     <message>
-        <source>Sample rate</source>
-        <translation type="unfinished">サンプルレート</translation>
+      <source>Sample rate</source>
+      <translation>サンプルレート</translation>
     </message>
     <message>
-        <source>Bit depth</source>
-        <translation type="unfinished">ビット深度</translation>
+      <source>Bit depth</source>
+      <translation>ビット深度</translation>
     </message>
     <message>
-        <source>Bitrate</source>
-        <translation type="unfinished">ビットレート</translation>
+      <source>Bitrate</source>
+      <translation>ビットレート</translation>
     </message>
     <message>
-        <source>Second level</source>
-        <translation type="unfinished">第 2 階層</translation>
+      <source>Second level</source>
+      <translation>第 2 階層</translation>
     </message>
     <message>
-        <source>Third level</source>
-        <translation type="unfinished">第 3 階層</translation>
+      <source>Third level</source>
+      <translation>第 3 階層</translation>
     </message>
     <message>
-        <source>Separate albums by grouping tag</source>
-        <translation type="unfinished">グループタグでアルバムを分ける</translation>
+      <source>Separate albums by grouping tag</source>
+      <translation>グループタグでアルバムを分ける</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>GstEngine</name>
     <message>
-        <source>Buffering</source>
-        <translation type="unfinished">バッファ中</translation>
+      <source>Buffering</source>
+      <translation>バッファ中</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>LastFMImport</name>
     <message>
-        <source>Missing username, please login to last.fm first!</source>
-        <translation type="unfinished">ユーザー名がありません。最初に last.fm にログインしてください!</translation>
+      <source>Missing username, please login to last.fm first!</source>
+      <translation>ユーザー名がありません。最初に last.fm にログインしてください!</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>LastFMImportDialog</name>
     <message>
-        <source>Import data from last.fm</source>
-        <translation type="unfinished">last.fm からデータをインポート</translation>
+      <source>Import data from last.fm</source>
+      <translation>last.fm からデータをインポート</translation>
     </message>
     <message>
-        <source>Choose data to import from last.fm</source>
-        <translation type="unfinished">last.fm からインポートするデータを選択</translation>
+      <source>Choose data to import from last.fm</source>
+      <translation>last.fm からインポートするデータを選択</translation>
     </message>
     <message>
-        <source>Last played</source>
-        <translation type="unfinished"></translation>
+      <source>Last played</source>
+      <translation type="unfinished">Last played</translation>
     </message>
     <message>
-        <source>Play counts</source>
-        <translation type="unfinished">再生回数</translation>
+      <source>Play counts</source>
+      <translation>再生回数</translation>
     </message>
     <message>
-        <source>Warning: Play counts and last played from last.fm will completely replace the same data for the matched songs. Play counts will replace the data based on artist and song title for the same albums! Please backup your database before you start.</source>
-        <translation type="unfinished">警告: last.fm から受信した再生回数と最後に再生された曲は、一致した曲の同じデータを完全に置き換えます。再生回数は同じアルバムのアーティストと曲名に基づいてデータを置き換えます! 開始する前にデータベースをバックアップしてください。</translation>
+      <source>Warning: Play counts and last played from last.fm will completely replace the same data for the matched songs. Play counts will replace the data based on artist and song title for the same albums! Please backup your database before you start.</source>
+      <translation>警告: last.fm から受信した再生回数と最後に再生された曲は、一致した曲の同じデータを完全に置き換えます。再生回数は同じアルバムのアーティストと曲名に基づいてデータを置き換えます! 開始する前にデータベースをバックアップしてください。</translation>
     </message>
     <message>
-        <source>Go!</source>
-        <translation type="unfinished"></translation>
+      <source>Go!</source>
+      <translation type="unfinished">Go!</translation>
     </message>
     <message>
-        <source>Close</source>
-        <translation type="unfinished">閉じる</translation>
+      <source>Close</source>
+      <translation>閉じる</translation>
     </message>
     <message>
-        <source>Cancel</source>
-        <translation type="unfinished">キャンセル</translation>
+      <source>Cancel</source>
+      <translation>キャンセル</translation>
     </message>
     <message>
-        <source>Receiving initial data from last.fm...</source>
-        <translation type="unfinished">last.fm から初期データを受信中...</translation>
+      <source>Receiving initial data from last.fm...</source>
+      <translation>last.fm から初期データを受信中...</translation>
     </message>
     <message>
-        <source>Receiving playcount for %1 songs and last played for %2 songs.</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving playcount for %1 songs and last played for %2 songs.</source>
+      <translation type="unfinished">Receiving playcount for %1 songs and last played for %2 songs.</translation>
     </message>
     <message>
-        <source>Receiving last played for %1 songs.</source>
-        <translation type="unfinished">最近再生した %1 曲を受信中です。</translation>
+      <source>Receiving last played for %1 songs.</source>
+      <translation>最近再生した %1 曲を受信中です。</translation>
     </message>
     <message>
-        <source>Receiving playcounts for %1 songs.</source>
-        <translation type="unfinished">%1 曲の再生回数を受信中。</translation>
+      <source>Receiving playcounts for %1 songs.</source>
+      <translation>%1 曲の再生回数を受信中。</translation>
     </message>
     <message>
-        <source>Playcounts for %1 songs and last played for %2 songs received.</source>
-        <translation type="unfinished"></translation>
+      <source>Playcounts for %1 songs and last played for %2 songs received.</source>
+      <translation type="unfinished">Playcounts for %1 songs and last played for %2 songs received.</translation>
     </message>
     <message>
-        <source>Last played for %1 songs received.</source>
-        <translation type="unfinished">最近再生した %1 曲を受信しました</translation>
+      <source>Last played for %1 songs received.</source>
+      <translation>最近再生した %1 曲を受信しました</translation>
     </message>
     <message>
-        <source>Playcounts for %1 songs received.</source>
-        <translation type="unfinished">%1 曲の再生回数を受信しました。</translation>
+      <source>Playcounts for %1 songs received.</source>
+      <translation>%1 曲の再生回数を受信しました。</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>LastPlayedItemDelegate</name>
     <message>
-        <source>Never</source>
-        <translation type="unfinished">なし</translation>
+      <source>Never</source>
+      <translation>なし</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>Library</name>
     <message>
-        <source>Least favourite tracks</source>
-        <translation type="unfinished"></translation>
+      <source>Least favourite tracks</source>
+      <translation type="unfinished">Least favourite tracks</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>ListenBrainzScrobbler</name>
     <message>
-        <source>ListenBrainz Authentication</source>
-        <translation type="unfinished">ListenBrainz 認証</translation>
+      <source>ListenBrainz Authentication</source>
+      <translation>ListenBrainz 認証</translation>
     </message>
     <message>
-        <source>Please open this URL in your browser</source>
-        <translation type="unfinished">このURLをブラウザで開いてください</translation>
+      <source>Please open this URL in your browser</source>
+      <translation>このURLをブラウザで開いてください</translation>
     </message>
     <message>
-        <source>Redirect missing token code!</source>
-        <translation type="unfinished">不足しているトークンコードをリダイレクトしてください！</translation>
+      <source>Redirect missing token code!</source>
+      <translation>不足しているトークンコードをリダイレクトしてください！</translation>
     </message>
     <message>
-        <source>Received invalid reply from web browser.</source>
-        <translation type="unfinished">Webブラウザから無効な返信を受け取りました。</translation>
+      <source>Received invalid reply from web browser.</source>
+      <translation>Webブラウザから無効な返信を受け取りました。</translation>
     </message>
     <message>
-        <source>Unable to scrobble %1 - %2 because of error: %3</source>
-        <translation type="unfinished"></translation>
+      <source>Unable to scrobble %1 - %2 because of error: %3</source>
+      <translation type="unfinished">Unable to scrobble %1 - %2 because of error: %3</translation>
     </message>
     <message>
-        <source>Missing MusicBrainz recording ID for %1 %2 %3</source>
-        <translation type="unfinished"></translation>
+      <source>Missing MusicBrainz recording ID for %1 %2 %3</source>
+      <translation type="unfinished">Missing MusicBrainz recording ID for %1 %2 %3</translation>
     </message>
     <message>
-        <source>ListenBrainz error: %1</source>
-        <translation type="unfinished"></translation>
+      <source>ListenBrainz error: %1</source>
+      <translation type="unfinished">ListenBrainz error: %1</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>LoginStateWidget</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">フォーム</translation>
+      <source>Form</source>
+      <translation>フォーム</translation>
     </message>
     <message>
-        <source>You are not signed in.</source>
-        <translation type="unfinished">サインインしていません。</translation>
+      <source>You are not signed in.</source>
+      <translation>サインインしていません。</translation>
     </message>
     <message>
-        <source>Sign out</source>
-        <translation type="unfinished">サインアウト</translation>
+      <source>Sign out</source>
+      <translation>サインアウト</translation>
     </message>
     <message>
-        <source>Signing in...</source>
-        <translation type="unfinished">サインインしています...</translation>
+      <source>Signing in...</source>
+      <translation>サインインしています...</translation>
     </message>
     <message>
-        <source>You are signed in.</source>
-        <translation type="unfinished">サインインしています。</translation>
+      <source>You are signed in.</source>
+      <translation>サインインしています。</translation>
     </message>
     <message>
-        <source>You are signed in as %1.</source>
-        <translation type="unfinished">%1 でサインインしています。</translation>
+      <source>You are signed in as %1.</source>
+      <translation>%1 でサインインしています。</translation>
     </message>
     <message>
-        <source>Expires on %1</source>
-        <translation type="unfinished">期限: %1</translation>
+      <source>Expires on %1</source>
+      <translation>期限: %1</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>LyricsSettingsPage</name>
     <message>
-        <source>Lyrics</source>
-        <translation type="unfinished">歌詞</translation>
+      <source>Lyrics</source>
+      <translation>歌詞</translation>
     </message>
     <message>
-        <source>Lyrics providers</source>
-        <translation type="unfinished">歌詞提供元</translation>
+      <source>Lyrics providers</source>
+      <translation>歌詞提供元</translation>
     </message>
     <message>
-        <source>Choose the providers you want to use when searching for lyrics.</source>
-        <translation type="unfinished">歌詞の検索に利用するプロバイダーを選択します。</translation>
+      <source>Choose the providers you want to use when searching for lyrics.</source>
+      <translation>歌詞の検索に利用するプロバイダーを選択します。</translation>
     </message>
     <message>
-        <source>Move up</source>
-        <translation type="unfinished">上へ移動</translation>
+      <source>Move up</source>
+      <translation>上へ移動</translation>
     </message>
     <message>
-        <source>Move down</source>
-        <translation type="unfinished">下へ移動</translation>
+      <source>Move down</source>
+      <translation>下へ移動</translation>
     </message>
     <message>
-        <source>Authentication</source>
-        <translation type="unfinished">認証</translation>
+      <source>Authentication</source>
+      <translation>認証</translation>
     </message>
     <message>
-        <source>Login</source>
-        <translation type="unfinished">ログイン</translation>
+      <source>Login</source>
+      <translation>ログイン</translation>
     </message>
     <message>
-        <source>No provider selected.</source>
-        <translation type="unfinished">プロバイダーが選択されていません</translation>
+      <source>No provider selected.</source>
+      <translation>プロバイダーが選択されていません</translation>
     </message>
     <message>
-        <source>Authentication failed</source>
-        <translation type="unfinished">認証に失敗しました</translation>
+      <source>Authentication failed</source>
+      <translation>認証に失敗しました</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>MainWindow</name>
     <message>
-        <source>Strawberry Music Player</source>
-        <translation type="unfinished"></translation>
+      <source>Strawberry Music Player</source>
+      <translation type="unfinished">Strawberry Music Player</translation>
     </message>
     <message>
-        <source>MenuPopupToolButton</source>
-        <translation type="unfinished"></translation>
+      <source>MenuPopupToolButton</source>
+      <translation type="unfinished">MenuPopupToolButton</translation>
     </message>
     <message>
-        <source>&amp;Music</source>
-        <translation type="unfinished">音楽(&amp;M)</translation>
+      <source>&amp;Music</source>
+      <translation>音楽(&amp;M)</translation>
     </message>
     <message>
-        <source>P&amp;laylist</source>
-        <translation type="unfinished">プレイリスト(&amp;l)</translation>
+      <source>P&amp;laylist</source>
+      <translation>プレイリスト(&amp;l)</translation>
     </message>
     <message>
-        <source>Help</source>
-        <translation type="unfinished">ヘルプ</translation>
+      <source>Help</source>
+      <translation>ヘルプ</translation>
     </message>
     <message>
-        <source>&amp;Tools</source>
-        <translation type="unfinished">ツール(&amp;T)</translation>
+      <source>&amp;Tools</source>
+      <translation>ツール(&amp;T)</translation>
     </message>
     <message>
-        <source>Previous track</source>
-        <translation type="unfinished">前のトラック</translation>
+      <source>Previous track</source>
+      <translation>前のトラック</translation>
     </message>
     <message>
-        <source>F5</source>
-        <translation type="unfinished"></translation>
+      <source>F5</source>
+      <translation type="unfinished">F5</translation>
     </message>
     <message>
-        <source>&amp;Play</source>
-        <translation type="unfinished">再生</translation>
+      <source>&amp;Play</source>
+      <translation>再生</translation>
     </message>
     <message>
-        <source>F6</source>
-        <translation type="unfinished"></translation>
+      <source>F6</source>
+      <translation type="unfinished">F6</translation>
     </message>
     <message>
-        <source>&amp;Stop</source>
-        <translation type="unfinished">停止</translation>
+      <source>&amp;Stop</source>
+      <translation>停止</translation>
     </message>
     <message>
-        <source>F7</source>
-        <translation type="unfinished"></translation>
+      <source>F7</source>
+      <translation type="unfinished">F7</translation>
     </message>
     <message>
-        <source>&amp;Next track</source>
-        <translation type="unfinished">次のトラック(&amp;N)</translation>
+      <source>&amp;Next track</source>
+      <translation>次のトラック(&amp;N)</translation>
     </message>
     <message>
-        <source>F8</source>
-        <translation type="unfinished"></translation>
+      <source>F8</source>
+      <translation type="unfinished">F8</translation>
     </message>
     <message>
-        <source>&amp;Quit</source>
-        <translation type="unfinished">終了(&amp;Q)</translation>
+      <source>&amp;Quit</source>
+      <translation>終了(&amp;Q)</translation>
     </message>
     <message>
-        <source>Ctrl+Q</source>
-        <translation type="unfinished"></translation>
+      <source>Ctrl+Q</source>
+      <translation type="unfinished">Ctrl+Q</translation>
     </message>
     <message>
-        <source>Stop after this track</source>
-        <translation type="unfinished">このトラック後に停止</translation>
+      <source>Stop after this track</source>
+      <translation>このトラック後に停止</translation>
     </message>
     <message>
-        <source>Ctrl+Alt+V</source>
-        <translation type="unfinished"></translation>
+      <source>Ctrl+Alt+V</source>
+      <translation type="unfinished">Ctrl+Alt+V</translation>
     </message>
     <message>
-        <source>Love</source>
-        <translation type="unfinished"></translation>
+      <source>Love</source>
+      <translation type="unfinished">Love</translation>
     </message>
     <message>
-        <source>&amp;Clear playlist</source>
-        <translation type="unfinished">プレイリストをクリア(&amp;C)</translation>
+      <source>&amp;Clear playlist</source>
+      <translation>プレイリストをクリア(&amp;C)</translation>
     </message>
     <message>
-        <source>Clear playlist</source>
-        <translation type="unfinished">プレイリストをクリア</translation>
+      <source>Clear playlist</source>
+      <translation>プレイリストをクリア</translation>
     </message>
     <message>
-        <source>Ctrl+K</source>
-        <translation type="unfinished"></translation>
+      <source>Ctrl+K</source>
+      <translation type="unfinished">Ctrl+K</translation>
     </message>
     <message>
-        <source>Edit track information...</source>
-        <translation type="unfinished">トラック情報の編集...</translation>
+      <source>Edit track information...</source>
+      <translation>トラック情報の編集...</translation>
     </message>
     <message>
-        <source>Ctrl+E</source>
-        <translation type="unfinished"></translation>
+      <source>Ctrl+E</source>
+      <translation type="unfinished">Ctrl+E</translation>
     </message>
     <message>
-        <source>Renumber tracks in this order...</source>
-        <translation type="unfinished">この順序でトラック番号を振る...</translation>
+      <source>Renumber tracks in this order...</source>
+      <translation>この順序でトラック番号を振る...</translation>
     </message>
     <message>
-        <source>Set value for all selected tracks...</source>
-        <translation type="unfinished">すべての選択されたトラックの音量を設定しました...</translation>
+      <source>Set value for all selected tracks...</source>
+      <translation>すべての選択されたトラックの音量を設定しました...</translation>
     </message>
     <message>
-        <source>Edit tag...</source>
-        <translation type="unfinished">タグの編集...</translation>
+      <source>Edit tag...</source>
+      <translation>タグの編集...</translation>
     </message>
     <message>
-        <source>&amp;Settings...</source>
-        <translation type="unfinished">設定</translation>
+      <source>&amp;Settings...</source>
+      <translation>設定</translation>
     </message>
     <message>
-        <source>Ctrl+P</source>
-        <translation type="unfinished"></translation>
+      <source>Ctrl+P</source>
+      <translation type="unfinished">Ctrl+P</translation>
     </message>
     <message>
-        <source>&amp;About Strawberry</source>
-        <translation type="unfinished">Strawberryについて(&amp;A)</translation>
+      <source>&amp;About Strawberry</source>
+      <translation>Strawberryについて(&amp;A)</translation>
     </message>
     <message>
-        <source>F1</source>
-        <translation type="unfinished"></translation>
+      <source>F1</source>
+      <translation type="unfinished">F1</translation>
     </message>
     <message>
-        <source>S&amp;huffle playlist</source>
-        <translation type="unfinished">プレイリストをシャッフル(&amp;s)</translation>
+      <source>S&amp;huffle playlist</source>
+      <translation>プレイリストをシャッフル(&amp;s)</translation>
     </message>
     <message>
-        <source>Ctrl+H</source>
-        <translation type="unfinished"></translation>
+      <source>Ctrl+H</source>
+      <translation type="unfinished">Ctrl+H</translation>
     </message>
     <message>
-        <source>&amp;Add file...</source>
-        <translation type="unfinished">ファイルを追加...</translation>
+      <source>&amp;Add file...</source>
+      <translation>ファイルを追加...</translation>
     </message>
     <message>
-        <source>Ctrl+Shift+A</source>
-        <translation type="unfinished"></translation>
+      <source>Ctrl+Shift+A</source>
+      <translation type="unfinished">Ctrl+Shift+A</translation>
     </message>
     <message>
-        <source>&amp;Open file...</source>
-        <translation type="unfinished">ファイルを開く...</translation>
+      <source>&amp;Open file...</source>
+      <translation>ファイルを開く...</translation>
     </message>
     <message>
-        <source>Open audio &amp;CD...</source>
-        <translation type="unfinished">音楽CDを開く(&amp;C)</translation>
+      <source>Open audio &amp;CD...</source>
+      <translation>音楽CDを開く(&amp;C)</translation>
     </message>
     <message>
-        <source>&amp;Cover Manager</source>
-        <translation type="unfinished">カバーマネージャー(&amp;C)</translation>
+      <source>&amp;Cover Manager</source>
+      <translation>カバーマネージャー(&amp;C)</translation>
     </message>
     <message>
-        <source>C&amp;onsole</source>
-        <translation type="unfinished">コンソール</translation>
+      <source>C&amp;onsole</source>
+      <translation>コンソール</translation>
     </message>
     <message>
-        <source>&amp;Shuffle mode</source>
-        <translation type="unfinished">シャッフルモード(&amp;S)</translation>
+      <source>&amp;Shuffle mode</source>
+      <translation>シャッフルモード(&amp;S)</translation>
     </message>
     <message>
-        <source>&amp;Repeat mode</source>
-        <translation type="unfinished">リピートモード(&amp;R)</translation>
+      <source>&amp;Repeat mode</source>
+      <translation>リピートモード(&amp;R)</translation>
     </message>
     <message>
-        <source>Remove from playlist</source>
-        <translation type="unfinished">プレイリストから削除</translation>
+      <source>Remove from playlist</source>
+      <translation>プレイリストから削除</translation>
     </message>
     <message>
-        <source>&amp;Equalizer</source>
-        <translation type="unfinished">イコライザー(&amp;E)</translation>
+      <source>&amp;Equalizer</source>
+      <translation>イコライザー(&amp;E)</translation>
     </message>
     <message>
-        <source>&amp;Transcode Music</source>
-        <translation type="unfinished">音楽を変換</translation>
+      <source>&amp;Transcode Music</source>
+      <translation>音楽を変換</translation>
     </message>
     <message>
-        <source>Add &amp;folder...</source>
-        <translation type="unfinished">フォルダーを追加(&amp;F)...</translation>
+      <source>Add &amp;folder...</source>
+      <translation>フォルダーを追加(&amp;F)...</translation>
     </message>
     <message>
-        <source>&amp;Jump to the currently playing track</source>
-        <translation type="unfinished">再生中のトラックへジャンプ(&amp;J)</translation>
+      <source>&amp;Jump to the currently playing track</source>
+      <translation>再生中のトラックへジャンプ(&amp;J)</translation>
     </message>
     <message>
-        <source>Ctrl+J</source>
-        <translation type="unfinished"></translation>
+      <source>Ctrl+J</source>
+      <translation type="unfinished">Ctrl+J</translation>
     </message>
     <message>
-        <source>&amp;New playlist</source>
-        <translation type="unfinished">新しいプレイリスト(&amp;N)</translation>
+      <source>&amp;New playlist</source>
+      <translation>新しいプレイリスト(&amp;N)</translation>
     </message>
     <message>
-        <source>Ctrl+N</source>
-        <translation type="unfinished"></translation>
+      <source>Ctrl+N</source>
+      <translation type="unfinished">Ctrl+N</translation>
     </message>
     <message>
-        <source>Save &amp;playlist...</source>
-        <translation type="unfinished">プレイリストを保存(&amp;s)</translation>
+      <source>Save &amp;playlist...</source>
+      <translation>プレイリストを保存(&amp;s)</translation>
     </message>
     <message>
-        <source>Ctrl+S</source>
-        <translation type="unfinished"></translation>
+      <source>Ctrl+S</source>
+      <translation type="unfinished">Ctrl+S</translation>
     </message>
     <message>
-        <source>&amp;Load playlist...</source>
-        <translation type="unfinished">プレイリストの読み込み(&amp;L)</translation>
+      <source>&amp;Load playlist...</source>
+      <translation>プレイリストの読み込み(&amp;L)</translation>
     </message>
     <message>
-        <source>Ctrl+Shift+O</source>
-        <translation type="unfinished"></translation>
+      <source>Ctrl+Shift+O</source>
+      <translation type="unfinished">Ctrl+Shift+O</translation>
     </message>
     <message>
-        <source>&amp;Save all playlists...</source>
-        <translation type="unfinished">すべてのプレイリストを保存...</translation>
+      <source>&amp;Save all playlists...</source>
+      <translation>すべてのプレイリストを保存...</translation>
     </message>
     <message>
-        <source>Go to next playlist tab</source>
-        <translation type="unfinished">次のプレイリストタブへ</translation>
+      <source>Go to next playlist tab</source>
+      <translation>次のプレイリストタブへ</translation>
     </message>
     <message>
-        <source>Go to previous playlist tab</source>
-        <translation type="unfinished">前のプレイリストタブへ</translation>
+      <source>Go to previous playlist tab</source>
+      <translation>前のプレイリストタブへ</translation>
     </message>
     <message>
-        <source>&amp;Update changed collection folders</source>
-        <translation type="unfinished">変更されたコレクションフォルダーの更新(&amp;U)</translation>
+      <source>&amp;Update changed collection folders</source>
+      <translation>変更されたコレクションフォルダーの更新(&amp;U)</translation>
     </message>
     <message>
-        <source>About &amp;Qt</source>
-        <translation type="unfinished">QT について(&amp;Q)</translation>
+      <source>About &amp;Qt</source>
+      <translation>QT について(&amp;Q)</translation>
     </message>
     <message>
-        <source>&amp;Mute</source>
-        <translation type="unfinished">ミュート(&amp;M)</translation>
+      <source>&amp;Mute</source>
+      <translation>ミュート(&amp;M)</translation>
     </message>
     <message>
-        <source>Ctrl+M</source>
-        <translation type="unfinished"></translation>
+      <source>Ctrl+M</source>
+      <translation type="unfinished">Ctrl+M</translation>
     </message>
     <message>
-        <source>&amp;Do a full collection rescan</source>
-        <translation type="unfinished">すべてのコレクションを再スキャン(&amp;D)</translation>
+      <source>&amp;Do a full collection rescan</source>
+      <translation>すべてのコレクションを再スキャン(&amp;D)</translation>
     </message>
     <message>
-        <source>Stop collection scan</source>
-        <translation type="unfinished"></translation>
+      <source>Stop collection scan</source>
+      <translation type="unfinished">Stop collection scan</translation>
     </message>
     <message>
-        <source>Complete tags automatically...</source>
-        <translation type="unfinished">タグを自動補完...</translation>
+      <source>Complete tags automatically...</source>
+      <translation>タグを自動補完...</translation>
     </message>
     <message>
-        <source>Ctrl+T</source>
-        <translation type="unfinished"></translation>
+      <source>Ctrl+T</source>
+      <translation type="unfinished">Ctrl+T</translation>
     </message>
     <message>
-        <source>Toggle scrobbling</source>
-        <translation type="unfinished">scrobbling の切り替え</translation>
+      <source>Toggle scrobbling</source>
+      <translation>scrobbling の切り替え</translation>
     </message>
     <message>
-        <source>Remove &amp;duplicates from playlist</source>
-        <translation type="unfinished">プレイリストから重複を削除する(&amp;d)</translation>
+      <source>Remove &amp;duplicates from playlist</source>
+      <translation>プレイリストから重複を削除する(&amp;d)</translation>
     </message>
     <message>
-        <source>Remove &amp;unavailable tracks from playlist</source>
-        <translation type="unfinished">プレイリストから利用できないトラックを削除する(&amp;u)</translation>
+      <source>Remove &amp;unavailable tracks from playlist</source>
+      <translation>プレイリストから利用できないトラックを削除する(&amp;u)</translation>
     </message>
     <message>
-        <source>Add file(s) to transcoder</source>
-        <translation type="unfinished">ファイルをトランスコーダーに追加</translation>
+      <source>Add file(s) to transcoder</source>
+      <translation>ファイルをトランスコーダーに追加</translation>
     </message>
     <message>
-        <source>Add file to transcoder</source>
-        <translation type="unfinished">ファイルをトランスコーダーに追加</translation>
+      <source>Add file to transcoder</source>
+      <translation>ファイルをトランスコーダーに追加</translation>
     </message>
     <message>
-        <source>Add stream...</source>
-        <translation type="unfinished">ストリームを追加...</translation>
+      <source>Add stream...</source>
+      <translation>ストリームを追加...</translation>
     </message>
     <message>
-        <source>Show sidebar</source>
-        <translation type="unfinished">サイドバーを表示</translation>
+      <source>Show sidebar</source>
+      <translation>サイドバーを表示</translation>
     </message>
     <message>
-        <source>Import data from last.fm...</source>
-        <translation type="unfinished">last.fm からデータをインポート中...</translation>
+      <source>Import data from last.fm...</source>
+      <translation>last.fm からデータをインポート中...</translation>
     </message>
     <message>
-        <source>All Files (*)</source>
-        <translation type="unfinished">すべてのファイル (*)</translation>
+      <source>All Files (*)</source>
+      <translation>すべてのファイル (*)</translation>
     </message>
     <message>
-        <source>Context</source>
-        <translation type="unfinished">コンテキスト</translation>
+      <source>Context</source>
+      <translation>コンテキスト</translation>
     </message>
     <message>
-        <source>Collection</source>
-        <translation type="unfinished">ライブラリ</translation>
+      <source>Collection</source>
+      <translation>ライブラリ</translation>
     </message>
     <message>
-        <source>Queue</source>
-        <translation type="unfinished">キュー</translation>
+      <source>Queue</source>
+      <translation>キュー</translation>
     </message>
     <message>
-        <source>Playlists</source>
-        <translation type="unfinished">プレイリスト</translation>
+      <source>Playlists</source>
+      <translation>プレイリスト</translation>
     </message>
     <message>
-        <source>Smart playlists</source>
-        <translation type="unfinished">スマートプレイリスト</translation>
+      <source>Smart playlists</source>
+      <translation>スマートプレイリスト</translation>
     </message>
     <message>
-        <source>Files</source>
-        <translation type="unfinished">ファイル</translation>
+      <source>Files</source>
+      <translation>ファイル</translation>
     </message>
     <message>
-        <source>Radios</source>
-        <translation type="unfinished"></translation>
+      <source>Radios</source>
+      <translation type="unfinished">Radios</translation>
     </message>
     <message>
-        <source>Devices</source>
-        <translation type="unfinished">デバイス</translation>
+      <source>Devices</source>
+      <translation>デバイス</translation>
     </message>
     <message>
-        <source>Subsonic</source>
-        <translation type="unfinished"></translation>
+      <source>Subsonic</source>
+      <translation type="unfinished">Subsonic</translation>
     </message>
     <message>
-        <source>Tidal</source>
-        <translation type="unfinished"></translation>
+      <source>Tidal</source>
+      <translation type="unfinished">Tidal</translation>
     </message>
     <message>
-        <source>Spotify</source>
-        <translation type="unfinished"></translation>
+      <source>Spotify</source>
+      <translation type="unfinished">Spotify</translation>
     </message>
     <message>
-        <source>Qobuz</source>
-        <translation type="unfinished"></translation>
+      <source>Qobuz</source>
+      <translation type="unfinished">Qobuz</translation>
     </message>
     <message>
-        <source>Show all songs</source>
-        <translation type="unfinished">すべての曲を表示する</translation>
+      <source>Show all songs</source>
+      <translation>すべての曲を表示する</translation>
     </message>
     <message>
-        <source>Show only duplicates</source>
-        <translation type="unfinished">重複するものだけ表示</translation>
+      <source>Show only duplicates</source>
+      <translation>重複するものだけ表示</translation>
     </message>
     <message>
-        <source>Show only untagged</source>
-        <translation type="unfinished">タグのないものだけ表示</translation>
+      <source>Show only untagged</source>
+      <translation>タグのないものだけ表示</translation>
     </message>
     <message>
-        <source>Configure collection...</source>
-        <translation type="unfinished">ライブラリの設定...</translation>
+      <source>Configure collection...</source>
+      <translation>ライブラリの設定...</translation>
     </message>
     <message>
-        <source>Play</source>
-        <translation type="unfinished">再生</translation>
+      <source>Play</source>
+      <translation>再生</translation>
     </message>
     <message>
-        <source>Toggle queue status</source>
-        <translation type="unfinished">キュー状態の切り替え</translation>
+      <source>Toggle queue status</source>
+      <translation>キュー状態の切り替え</translation>
     </message>
     <message>
-        <source>Queue selected tracks to play next</source>
-        <translation type="unfinished">選択したトラックを次に再生する</translation>
+      <source>Queue selected tracks to play next</source>
+      <translation>選択したトラックを次に再生する</translation>
     </message>
     <message>
-        <source>Toggle skip status</source>
-        <translation type="unfinished"></translation>
+      <source>Toggle skip status</source>
+      <translation type="unfinished">Toggle skip status</translation>
     </message>
     <message>
-        <source>Rescan song(s)...</source>
-        <translation type="unfinished">曲を再スキャン中...</translation>
+      <source>Rescan song(s)...</source>
+      <translation>曲を再スキャン中...</translation>
     </message>
     <message>
-        <source>Copy URL(s)...</source>
-        <translation type="unfinished">URLをコピー</translation>
+      <source>Copy URL(s)...</source>
+      <translation>URLをコピー</translation>
     </message>
     <message>
-        <source>Show in collection...</source>
-        <translation type="unfinished">ライブラリーに表示...</translation>
+      <source>Show in collection...</source>
+      <translation>ライブラリーに表示...</translation>
     </message>
     <message>
-        <source>Show in file browser...</source>
-        <translation type="unfinished">ファイルブラウザーで表示...</translation>
+      <source>Show in file browser...</source>
+      <translation>ファイルブラウザーで表示...</translation>
     </message>
     <message>
-        <source>Organize files...</source>
-        <translation type="unfinished">ファイルを管理...</translation>
+      <source>Organize files...</source>
+      <translation>ファイルを管理...</translation>
     </message>
     <message>
-        <source>Copy to collection...</source>
-        <translation type="unfinished">ライブラリへコピー...</translation>
+      <source>Copy to collection...</source>
+      <translation>ライブラリへコピー...</translation>
     </message>
     <message>
-        <source>Move to collection...</source>
-        <translation type="unfinished">ライブラリへ移動...</translation>
+      <source>Move to collection...</source>
+      <translation>ライブラリへ移動...</translation>
     </message>
     <message>
-        <source>Copy to device...</source>
-        <translation type="unfinished">デバイスへコピー...</translation>
+      <source>Copy to device...</source>
+      <translation>デバイスへコピー...</translation>
     </message>
     <message>
-        <source>Delete from disk...</source>
-        <translation type="unfinished">ディスクから削除...</translation>
+      <source>Delete from disk...</source>
+      <translation>ディスクから削除...</translation>
     </message>
     <message>
-        <source>Check for updates...</source>
-        <translation type="unfinished">更新のチェック...</translation>
+      <source>Check for updates...</source>
+      <translation>更新のチェック...</translation>
     </message>
     <message>
-        <source>Strawberry running under Rosetta</source>
-        <translation type="unfinished"></translation>
+      <source>Strawberry running under Rosetta</source>
+      <translation type="unfinished">Strawberry running under Rosetta</translation>
     </message>
     <message>
-        <source>You are running Strawberry under Rosetta. Running Strawberry under Rosetta is unsupported and known to have issues. You should download Strawberry for the correct CPU architecture from %1</source>
-        <translation type="unfinished">あなたは、Rosetta で Strawberry を実行しています。 Rosetta での Strawberry の実行はサポートされておらず、問題があることが知られています。正しい CPU アーキテクチャの Strawberry を %1 からダウンロードする必要があります。</translation>
+      <source>You are running Strawberry under Rosetta. Running Strawberry under Rosetta is unsupported and known to have issues. You should download Strawberry for the correct CPU architecture from %1</source>
+      <translation>あなたは、Rosetta で Strawberry を実行しています。 Rosetta での Strawberry の実行はサポートされておらず、問題があることが知られています。正しい CPU アーキテクチャの Strawberry を %1 からダウンロードする必要があります。</translation>
     </message>
     <message>
-        <source>Sponsoring Strawberry</source>
-        <translation type="unfinished"></translation>
+      <source>Sponsoring Strawberry</source>
+      <translation type="unfinished">Sponsoring Strawberry</translation>
     </message>
     <message>
-        <source>Strawberry is free and open source software. If you like Strawberry, please consider sponsoring the project. For more information about sponsorship see our website %1</source>
-        <translation type="unfinished">Strawberry は無料のオープンソース ソフトウェアです。Strawberry を気に入ったらぜひこのプロジェクトへのご支援をご検討ください。スポンサーシップの詳細については、私たちの Web サイト %1 を参照してください。</translation>
+      <source>Strawberry is free and open source software. If you like Strawberry, please consider sponsoring the project. For more information about sponsorship see our website %1</source>
+      <translation>Strawberry は無料のオープンソース ソフトウェアです。Strawberry を気に入ったらぜひこのプロジェクトへのご支援をご検討ください。スポンサーシップの詳細については、私たちの Web サイト %1 を参照してください。</translation>
     </message>
     <message>
-        <source>Pause</source>
-        <translation type="unfinished">一時停止</translation>
+      <source>Pause</source>
+      <translation>一時停止</translation>
     </message>
     <message>
-        <source>Dequeue track</source>
-        <translation type="unfinished">トラックをキューから削除</translation>
+      <source>Dequeue track</source>
+      <translation>トラックをキューから削除</translation>
     </message>
     <message>
-        <source>Dequeue selected tracks</source>
-        <translation type="unfinished">選択されたトラックをキューから削除する</translation>
+      <source>Dequeue selected tracks</source>
+      <translation>選択されたトラックをキューから削除する</translation>
     </message>
     <message>
-        <source>Queue track</source>
-        <translation type="unfinished">トラックをキューに追加</translation>
+      <source>Queue track</source>
+      <translation>トラックをキューに追加</translation>
     </message>
     <message>
-        <source>Queue selected tracks</source>
-        <translation type="unfinished">選択されたトラックをキューに追加</translation>
+      <source>Queue selected tracks</source>
+      <translation>選択されたトラックをキューに追加</translation>
     </message>
     <message>
-        <source>Queue to play next</source>
-        <translation type="unfinished">次に再生する</translation>
+      <source>Queue to play next</source>
+      <translation>次に再生する</translation>
     </message>
     <message>
-        <source>Unskip track</source>
-        <translation type="unfinished">トラックをスキップしない</translation>
+      <source>Unskip track</source>
+      <translation>トラックをスキップしない</translation>
     </message>
     <message>
-        <source>Unskip selected tracks</source>
-        <translation type="unfinished">選択したトラックをスキップしない</translation>
+      <source>Unskip selected tracks</source>
+      <translation>選択したトラックをスキップしない</translation>
     </message>
     <message>
-        <source>Skip track</source>
-        <translation type="unfinished">トラックをスキップする</translation>
+      <source>Skip track</source>
+      <translation>トラックをスキップする</translation>
     </message>
     <message>
-        <source>Skip selected tracks</source>
-        <translation type="unfinished">選択したトラックをスキップする</translation>
+      <source>Skip selected tracks</source>
+      <translation>選択したトラックをスキップする</translation>
     </message>
     <message>
-        <source>Set %1 to &quot;%2&quot;...</source>
-        <translation type="unfinished">%1 を「%2」に設定します...</translation>
+      <source>Set %1 to &quot;%2&quot;...</source>
+      <translation>%1 を「%2」に設定します...</translation>
     </message>
     <message>
-        <source>Edit tag &quot;%1&quot;...</source>
-        <translation type="unfinished">タグ「%1」を編集...</translation>
+      <source>Edit tag &quot;%1&quot;...</source>
+      <translation>タグ「%1」を編集...</translation>
     </message>
     <message>
-        <source>Add to another playlist</source>
-        <translation type="unfinished">別のプレイリストに追加</translation>
+      <source>Add to another playlist</source>
+      <translation>別のプレイリストに追加</translation>
     </message>
     <message>
-        <source>New playlist</source>
-        <translation type="unfinished">新しいプレイリスト</translation>
+      <source>New playlist</source>
+      <translation>新しいプレイリスト</translation>
     </message>
     <message>
-        <source>Add file</source>
-        <translation type="unfinished">ファイルを追加</translation>
+      <source>Add file</source>
+      <translation>ファイルを追加</translation>
     </message>
     <message>
-        <source>Music</source>
-        <translation type="unfinished">ミュージック</translation>
+      <source>Music</source>
+      <translation>ミュージック</translation>
     </message>
     <message>
-        <source>Add folder</source>
-        <translation type="unfinished">フォルダーを追加</translation>
+      <source>Add folder</source>
+      <translation>フォルダーを追加</translation>
     </message>
     <message>
-        <source>Playlist has %1 songs, too large to undo, are you sure you want to clear the playlist?</source>
-        <translation type="unfinished">プレイリストに %1 曲があり、大きすぎて元に戻せません。プレイリストをクリアしてもよろしいですか？</translation>
+      <source>Playlist has %1 songs, too large to undo, are you sure you want to clear the playlist?</source>
+      <translation>プレイリストに %1 曲があり、大きすぎて元に戻せません。プレイリストをクリアしてもよろしいですか？</translation>
     </message>
     <message>
-        <source>Error</source>
-        <translation type="unfinished">エラー</translation>
+      <source>Error</source>
+      <translation>エラー</translation>
     </message>
     <message>
-        <source>None of the selected songs were suitable for copying to a device</source>
-        <translation type="unfinished">デバイスへのコピーに適切な曲が選択されていません</translation>
+      <source>None of the selected songs were suitable for copying to a device</source>
+      <translation>デバイスへのコピーに適切な曲が選択されていません</translation>
     </message>
     <message>
-        <source>The version of Strawberry you&apos;ve just updated to requires a full collection rescan because of the new features listed below:</source>
-        <translation type="unfinished">更新したこのバージョンの Strawberry は、次の新機能によりライブラリ全体の再スキャンが必要です。</translation>
+      <source>The version of Strawberry you&apos;ve just updated to requires a full collection rescan because of the new features listed below:</source>
+      <translation>更新したこのバージョンの Strawberry は、次の新機能によりライブラリ全体の再スキャンが必要です。</translation>
     </message>
     <message>
-        <source>Would you like to run a full rescan right now?</source>
-        <translation type="unfinished">全体の再スキャンを今すぐ実行しますか?</translation>
+      <source>Would you like to run a full rescan right now?</source>
+      <translation>全体の再スキャンを今すぐ実行しますか?</translation>
     </message>
     <message>
-        <source>Collection rescan notice</source>
-        <translation type="unfinished">ライブラリー再スキャン通知</translation>
+      <source>Collection rescan notice</source>
+      <translation>ライブラリー再スキャン通知</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>MessageDialog</name>
     <message>
-        <source>Message Dialog</source>
-        <translation type="unfinished">メッセージダイアログ</translation>
+      <source>Message Dialog</source>
+      <translation>メッセージダイアログ</translation>
     </message>
     <message>
-        <source>Do not show this message again.</source>
-        <translation type="unfinished">このメッセージを再度表示しない</translation>
+      <source>Do not show this message again.</source>
+      <translation>このメッセージを再度表示しない</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>MimeData</name>
     <message>
-        <source>Playlist</source>
-        <translation type="unfinished">プレイリスト</translation>
+      <source>Playlist</source>
+      <translation>プレイリスト</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>MoodbarProxyStyle</name>
     <message>
-        <source>Show moodbar</source>
-        <translation type="unfinished">ムードバーを表示</translation>
+      <source>Show moodbar</source>
+      <translation>ムードバーを表示</translation>
     </message>
     <message>
-        <source>Moodbar style</source>
-        <translation type="unfinished">ムードバーのスタイル</translation>
+      <source>Moodbar style</source>
+      <translation>ムードバーのスタイル</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>MoodbarSettingsPage</name>
     <message>
-        <source>Moodbar</source>
-        <translation type="unfinished">ムードバー</translation>
+      <source>Moodbar</source>
+      <translation>ムードバー</translation>
     </message>
     <message>
-        <source>Show a moodbar in the track progress bar</source>
-        <translation type="unfinished">プログレスバー内にムードバーを表示</translation>
+      <source>Show a moodbar in the track progress bar</source>
+      <translation>プログレスバー内にムードバーを表示</translation>
     </message>
     <message>
-        <source>Moodbar style</source>
-        <translation type="unfinished">ムードバーのスタイル</translation>
+      <source>Moodbar style</source>
+      <translation>ムードバーのスタイル</translation>
     </message>
     <message>
-        <source>Save the .mood files directly in the songs folders</source>
-        <translation type="unfinished">.mood ファイルを曲フォルダーに直接保存</translation>
+      <source>Save the .mood files directly in the songs folders</source>
+      <translation>.mood ファイルを曲フォルダーに直接保存</translation>
     </message>
     <message>
-        <source>Enabled</source>
-        <translation type="unfinished">有効</translation>
+      <source>Enabled</source>
+      <translation>有効</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>MtpConnection</name>
     <message>
-        <source>Invalid MTP device: %1</source>
-        <translation type="unfinished">無効な MTP デバイス: %1</translation>
+      <source>Invalid MTP device: %1</source>
+      <translation>無効な MTP デバイス: %1</translation>
     </message>
     <message>
-        <source>Could not open MTP device.</source>
-        <translation type="unfinished">MTP デバイスを開けませんでした。</translation>
+      <source>Could not open MTP device.</source>
+      <translation>MTP デバイスを開けませんでした。</translation>
     </message>
     <message>
-        <source>MTP error: %1</source>
-        <translation type="unfinished">MTP エラー: %1</translation>
+      <source>MTP error: %1</source>
+      <translation>MTP エラー: %1</translation>
     </message>
     <message>
-        <source>MTP device not found.</source>
-        <translation type="unfinished">MTP デバイスが見つかりません。</translation>
+      <source>MTP device not found.</source>
+      <translation>MTP デバイスが見つかりません。</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>MtpLoader</name>
     <message>
-        <source>Loading MTP device</source>
-        <translation type="unfinished">MTP デバイスの読み込み中</translation>
+      <source>Loading MTP device</source>
+      <translation>MTP デバイスの読み込み中</translation>
     </message>
     <message>
-        <source>Error connecting MTP device %1</source>
-        <translation type="unfinished">MTP デバイス %1 の接続エラー</translation>
+      <source>Error connecting MTP device %1</source>
+      <translation>MTP デバイス %1 の接続エラー</translation>
     </message>
     <message>
-        <source>Error connecting MTP device %1: %2</source>
-        <translation type="unfinished">MTP デバイス %1 の接続エラー: %2</translation>
+      <source>Error connecting MTP device %1: %2</source>
+      <translation>MTP デバイス %1 の接続エラー: %2</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>NetworkProxySettingsPage</name>
     <message>
-        <source>Network Proxy</source>
-        <translation type="unfinished">ネットワークプロキシ</translation>
+      <source>Network Proxy</source>
+      <translation>ネットワークプロキシ</translation>
     </message>
     <message>
-        <source>&amp;Use the system proxy settings</source>
-        <translation type="unfinished">システムのプロキシー設定を使用する</translation>
+      <source>&amp;Use the system proxy settings</source>
+      <translation>システムのプロキシー設定を使用する</translation>
     </message>
     <message>
-        <source>Direct internet connection</source>
-        <translation type="unfinished">インターネットに直接接続する</translation>
+      <source>Direct internet connection</source>
+      <translation>インターネットに直接接続する</translation>
     </message>
     <message>
-        <source>&amp;Manual proxy configuration</source>
-        <translation type="unfinished">プロキシの手動構成(&amp;M)</translation>
+      <source>&amp;Manual proxy configuration</source>
+      <translation>プロキシの手動構成(&amp;M)</translation>
     </message>
     <message>
-        <source>HTTP proxy</source>
-        <translation type="unfinished">HTTP プロキシ</translation>
+      <source>HTTP proxy</source>
+      <translation>HTTP プロキシ</translation>
     </message>
     <message>
-        <source>SOCKS proxy</source>
-        <translation type="unfinished">SOCKS プロキシ</translation>
+      <source>SOCKS proxy</source>
+      <translation>SOCKS プロキシ</translation>
     </message>
     <message>
-        <source>Port</source>
-        <translation type="unfinished">ポート</translation>
+      <source>Port</source>
+      <translation>ポート</translation>
     </message>
     <message>
-        <source>Use authentication</source>
-        <translation type="unfinished">認証を使用する</translation>
+      <source>Use authentication</source>
+      <translation>認証を使用する</translation>
     </message>
     <message>
-        <source>Username</source>
-        <translation type="unfinished">ユーザー名</translation>
+      <source>Username</source>
+      <translation>ユーザー名</translation>
     </message>
     <message>
-        <source>Password</source>
-        <translation type="unfinished">パスワード</translation>
+      <source>Password</source>
+      <translation>パスワード</translation>
     </message>
     <message>
-        <source>Use proxy settings for streaming</source>
-        <translation type="unfinished">ストリーミングプロキシ設定</translation>
+      <source>Use proxy settings for streaming</source>
+      <translation>ストリーミングプロキシ設定</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>NotificationsSettingsPage</name>
     <message>
-        <source>Notifications</source>
-        <translation type="unfinished">通知</translation>
+      <source>Notifications</source>
+      <translation>通知</translation>
     </message>
     <message>
-        <source>Strawberry can show a message when the track changes.</source>
-        <translation type="unfinished">Strawberry はトラックの変更時にメッセージを表示できます。</translation>
+      <source>Strawberry can show a message when the track changes.</source>
+      <translation>Strawberry はトラックの変更時にメッセージを表示できます。</translation>
     </message>
     <message>
-        <source>Notification type</source>
-        <translation type="unfinished">通知の種類</translation>
+      <source>Notification type</source>
+      <translation>通知の種類</translation>
     </message>
     <message>
-        <source>Disabled</source>
-        <comment>Refers to a disabled notification type in Notification settings.</comment>
-        <translation type="unfinished">無効</translation>
+      <source>Disabled</source>
+      <comment>Refers to a disabled notification type in Notification settings.</comment>
+      <translation>無効</translation>
     </message>
     <message>
-        <source>Show a &amp;native desktop notification</source>
-        <translation type="unfinished">ネイティブのデスクトップ通知を表示</translation>
+      <source>Show a &amp;native desktop notification</source>
+      <translation>ネイティブのデスクトップ通知を表示</translation>
     </message>
     <message>
-        <source>Show a pretty OSD</source>
-        <translation type="unfinished">Pretty OSD を表示する</translation>
+      <source>Show a pretty OSD</source>
+      <translation>Pretty OSD を表示する</translation>
     </message>
     <message>
-        <source>Show a popup fro&amp;m the system tray</source>
-        <translation type="unfinished">システムトレイからポップアップを表示する(&amp;m)</translation>
+      <source>Show a popup fro&amp;m the system tray</source>
+      <translation>システムトレイからポップアップを表示する(&amp;m)</translation>
     </message>
     <message>
-        <source>General settings</source>
-        <translation type="unfinished">全般設定</translation>
+      <source>General settings</source>
+      <translation>全般設定</translation>
     </message>
     <message>
-        <source>Popup duration</source>
-        <translation type="unfinished">ポップアップの長さ</translation>
+      <source>Popup duration</source>
+      <translation>ポップアップの長さ</translation>
     </message>
     <message>
-        <source> seconds</source>
-        <translation type="unfinished"> 秒</translation>
+      <source> seconds</source>
+      <translation> 秒</translation>
     </message>
     <message>
-        <source>Disable duration</source>
-        <translation type="unfinished">長さを無効にする</translation>
+      <source>Disable duration</source>
+      <translation>長さを無効にする</translation>
     </message>
     <message>
-        <source>Show a notification when I change the volume</source>
-        <translation type="unfinished">音量の変更時に通知を表示する</translation>
+      <source>Show a notification when I change the volume</source>
+      <translation>音量の変更時に通知を表示する</translation>
     </message>
     <message>
-        <source>Show a notification when I change the repeat/shuffle mode</source>
-        <translation type="unfinished">リピート・シャッフルモードの変更時に通知を表示する</translation>
+      <source>Show a notification when I change the repeat/shuffle mode</source>
+      <translation>リピート・シャッフルモードの変更時に通知を表示する</translation>
     </message>
     <message>
-        <source>Show a notification when I pause playback</source>
-        <translation type="unfinished">ポーズした際に通知を表示する</translation>
+      <source>Show a notification when I pause playback</source>
+      <translation>ポーズした際に通知を表示する</translation>
     </message>
     <message>
-        <source>Show a notification when I resume playback</source>
-        <translation type="unfinished">再生再開時に通知を表示する</translation>
+      <source>Show a notification when I resume playback</source>
+      <translation>再生再開時に通知を表示する</translation>
     </message>
     <message>
-        <source>Include album art in the notification</source>
-        <translation type="unfinished">通知にアルバムアートを含める</translation>
+      <source>Include album art in the notification</source>
+      <translation>通知にアルバムアートを含める</translation>
     </message>
     <message>
-        <source>Custom message settings</source>
-        <translation type="unfinished">カスタムメッセージの設定</translation>
+      <source>Custom message settings</source>
+      <translation>カスタムメッセージの設定</translation>
     </message>
     <message>
-        <source>Use a custom message for notifications</source>
-        <translation type="unfinished">通知にカスタムメッセージを使用する</translation>
+      <source>Use a custom message for notifications</source>
+      <translation>通知にカスタムメッセージを使用する</translation>
     </message>
     <message>
-        <source>Preview</source>
-        <translation type="unfinished">プレビュー</translation>
+      <source>Preview</source>
+      <translation>プレビュー</translation>
     </message>
     <message>
-        <source>MenuPopupToolButton</source>
-        <translation type="unfinished"></translation>
+      <source>MenuPopupToolButton</source>
+      <translation type="unfinished">MenuPopupToolButton</translation>
     </message>
     <message>
-        <source>Summary</source>
-        <translation type="unfinished">要約</translation>
+      <source>Summary</source>
+      <translation>要約</translation>
     </message>
     <message>
-        <source>Body</source>
-        <translation type="unfinished">本文</translation>
+      <source>Body</source>
+      <translation>本文</translation>
     </message>
     <message>
-        <source>Pretty OSD options</source>
-        <translation type="unfinished">Pretty OSD のオプション</translation>
+      <source>Pretty OSD options</source>
+      <translation>Pretty OSD のオプション</translation>
     </message>
     <message>
-        <source>Background color</source>
-        <translation type="unfinished">背景色</translation>
+      <source>Background color</source>
+      <translation>背景色</translation>
     </message>
     <message>
-        <source>Text options</source>
-        <translation type="unfinished">文字のオプション</translation>
+      <source>Text options</source>
+      <translation>文字のオプション</translation>
     </message>
     <message>
-        <source>Choose font...</source>
-        <translation type="unfinished">フォントの選択...</translation>
+      <source>Choose font...</source>
+      <translation>フォントの選択...</translation>
     </message>
     <message>
-        <source>Choose color...</source>
-        <translation type="unfinished">色の選択...</translation>
+      <source>Choose color...</source>
+      <translation>色の選択...</translation>
     </message>
     <message>
-        <source>Background opacity</source>
-        <translation type="unfinished">背景の不透明度</translation>
+      <source>Background opacity</source>
+      <translation>背景の不透明度</translation>
     </message>
     <message>
-        <source>Basic Blue</source>
-        <translation type="unfinished">標準のブルー</translation>
+      <source>Basic Blue</source>
+      <translation>標準のブルー</translation>
     </message>
     <message>
-        <source>Strawberry Red</source>
-        <translation type="unfinished"></translation>
+      <source>Strawberry Red</source>
+      <translation type="unfinished">Strawberry Red</translation>
     </message>
     <message>
-        <source>Custom...</source>
-        <translation type="unfinished">カスタム...</translation>
+      <source>Custom...</source>
+      <translation>カスタム...</translation>
     </message>
     <message>
-        <source>Enable fading</source>
-        <translation type="unfinished">フェーディングを有効にする</translation>
+      <source>Enable fading</source>
+      <translation>フェーディングを有効にする</translation>
     </message>
     <message>
-        <source>Add song artist tag</source>
-        <translation type="unfinished">曲にアーティストタグを追加</translation>
+      <source>Add song artist tag</source>
+      <translation>曲にアーティストタグを追加</translation>
     </message>
     <message>
-        <source>Add song album tag</source>
-        <translation type="unfinished">曲にアルバムタグを追加</translation>
+      <source>Add song album tag</source>
+      <translation>曲にアルバムタグを追加</translation>
     </message>
     <message>
-        <source>Add song title tag</source>
-        <translation type="unfinished">曲のタイトルタグを追加</translation>
+      <source>Add song title tag</source>
+      <translation>曲のタイトルタグを追加</translation>
     </message>
     <message>
-        <source>Add song albumartist tag</source>
-        <translation type="unfinished">曲にアルバムアーティストタグを追加</translation>
+      <source>Add song albumartist tag</source>
+      <translation>曲にアルバムアーティストタグを追加</translation>
     </message>
     <message>
-        <source>Add song year tag</source>
-        <translation type="unfinished">曲の年タグを追加</translation>
+      <source>Add song year tag</source>
+      <translation>曲の年タグを追加</translation>
     </message>
     <message>
-        <source>Add song composer tag</source>
-        <translation type="unfinished">曲に作曲者タグを追加</translation>
+      <source>Add song composer tag</source>
+      <translation>曲に作曲者タグを追加</translation>
     </message>
     <message>
-        <source>Add song performer tag</source>
-        <translation type="unfinished">曲の出演者タグを追加</translation>
+      <source>Add song performer tag</source>
+      <translation>曲の出演者タグを追加</translation>
     </message>
     <message>
-        <source>Add song grouping tag</source>
-        <translation type="unfinished">曲の分類タグを追加</translation>
+      <source>Add song grouping tag</source>
+      <translation>曲の分類タグを追加</translation>
     </message>
     <message>
-        <source>Add song disc tag</source>
-        <translation type="unfinished">曲にディスクタグを追加</translation>
+      <source>Add song disc tag</source>
+      <translation>曲にディスクタグを追加</translation>
     </message>
     <message>
-        <source>Add song track tag</source>
-        <translation type="unfinished">曲のトラックタグを追加</translation>
+      <source>Add song track tag</source>
+      <translation>曲のトラックタグを追加</translation>
     </message>
     <message>
-        <source>Add song genre tag</source>
-        <translation type="unfinished">曲にジャンルタグを追加</translation>
+      <source>Add song genre tag</source>
+      <translation>曲にジャンルタグを追加</translation>
     </message>
     <message>
-        <source>Add song length tag</source>
-        <translation type="unfinished">曲に曲の長さのタグを追加</translation>
+      <source>Add song length tag</source>
+      <translation>曲に曲の長さのタグを追加</translation>
     </message>
     <message>
-        <source>Add song play count</source>
-        <translation type="unfinished">曲の再生回数を追加</translation>
+      <source>Add song play count</source>
+      <translation>曲の再生回数を追加</translation>
     </message>
     <message>
-        <source>Add song skip count</source>
-        <translation type="unfinished">曲のスキップ回数を追加</translation>
+      <source>Add song skip count</source>
+      <translation>曲のスキップ回数を追加</translation>
     </message>
     <message>
-        <source>Add song rating</source>
-        <translation type="unfinished">曲の評価を追加</translation>
+      <source>Add song rating</source>
+      <translation>曲の評価を追加</translation>
     </message>
     <message>
-        <source>Add a new line if supported by the notification type</source>
-        <translation type="unfinished">改行を追加 (通知形式が対応している場合)</translation>
+      <source>Add a new line if supported by the notification type</source>
+      <translation>改行を追加 (通知形式が対応している場合)</translation>
     </message>
     <message>
-        <source>%filename%</source>
-        <translation type="unfinished"></translation>
+      <source>%filename%</source>
+      <translation type="unfinished">%filename%</translation>
     </message>
     <message>
-        <source>Add song filename</source>
-        <translation type="unfinished">曲のファイル名を追加</translation>
+      <source>Add song filename</source>
+      <translation>曲のファイル名を追加</translation>
     </message>
     <message>
-        <source>%url%</source>
-        <translation type="unfinished"></translation>
+      <source>%url%</source>
+      <translation type="unfinished">%url%</translation>
     </message>
     <message>
-        <source>Add song URL</source>
-        <translation type="unfinished">曲の URL を追加</translation>
+      <source>Add song URL</source>
+      <translation>曲の URL を追加</translation>
     </message>
     <message>
-        <source>%originalyear%</source>
-        <translation type="unfinished"></translation>
+      <source>%originalyear%</source>
+      <translation type="unfinished">%originalyear%</translation>
     </message>
     <message>
-        <source>Add song original year tag</source>
-        <translation type="unfinished">元の年タグを追加</translation>
+      <source>Add song original year tag</source>
+      <translation>元の年タグを追加</translation>
     </message>
     <message>
-        <source>OSD Preview</source>
-        <translation type="unfinished">OSD のプレビュー</translation>
+      <source>OSD Preview</source>
+      <translation>OSD のプレビュー</translation>
     </message>
     <message>
-        <source>Drag to reposition</source>
-        <translation type="unfinished">位置を変更するにはドラッグします</translation>
+      <source>Drag to reposition</source>
+      <translation>位置を変更するにはドラッグします</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>OSDBase</name>
     <message>
-        <source>disc %1</source>
-        <translation type="unfinished">ディスク %1</translation>
+      <source>disc %1</source>
+      <translation>ディスク %1</translation>
     </message>
     <message>
-        <source>track %1</source>
-        <translation type="unfinished">トラック %1</translation>
+      <source>track %1</source>
+      <translation>トラック %1</translation>
     </message>
     <message>
-        <source>Paused</source>
-        <translation type="unfinished">一時停止中</translation>
+      <source>Paused</source>
+      <translation>一時停止中</translation>
     </message>
     <message>
-        <source>Stopped</source>
-        <translation type="unfinished">停止しました</translation>
+      <source>Stopped</source>
+      <translation>停止しました</translation>
     </message>
     <message>
-        <source>Stop playing after track: %1</source>
-        <translation type="unfinished">このトラック後に停止: %1</translation>
+      <source>Stop playing after track: %1</source>
+      <translation>このトラック後に停止: %1</translation>
     </message>
     <message>
-        <source>On</source>
-        <translation type="unfinished">オン</translation>
+      <source>On</source>
+      <translation>オン</translation>
     </message>
     <message>
-        <source>Off</source>
-        <translation type="unfinished">オフ</translation>
+      <source>Off</source>
+      <translation>オフ</translation>
     </message>
     <message>
-        <source>Playlist finished</source>
-        <translation type="unfinished">プレイリストが完了しました</translation>
+      <source>Playlist finished</source>
+      <translation>プレイリストが完了しました</translation>
     </message>
     <message>
-        <source>Volume %1%</source>
-        <translation type="unfinished">音量 %1%</translation>
+      <source>Volume %1%</source>
+      <translation>音量 %1%</translation>
     </message>
     <message>
-        <source>Don&apos;t shuffle</source>
-        <translation type="unfinished">シャッフルしない</translation>
+      <source>Don&apos;t shuffle</source>
+      <translation>シャッフルしない</translation>
     </message>
     <message>
-        <source>Shuffle all</source>
-        <translation type="unfinished">すべてシャッフル</translation>
+      <source>Shuffle all</source>
+      <translation>すべてシャッフル</translation>
     </message>
     <message>
-        <source>Shuffle tracks in this album</source>
-        <translation type="unfinished">このアルバムのトラックをシャッフル</translation>
+      <source>Shuffle tracks in this album</source>
+      <translation>このアルバムのトラックをシャッフル</translation>
     </message>
     <message>
-        <source>Shuffle albums</source>
-        <translation type="unfinished">アルバムをシャッフル</translation>
+      <source>Shuffle albums</source>
+      <translation>アルバムをシャッフル</translation>
     </message>
     <message>
-        <source>Don&apos;t repeat</source>
-        <translation type="unfinished">リピートしない</translation>
+      <source>Don&apos;t repeat</source>
+      <translation>リピートしない</translation>
     </message>
     <message>
-        <source>Repeat track</source>
-        <translation type="unfinished">トラックをリピート</translation>
+      <source>Repeat track</source>
+      <translation>トラックをリピート</translation>
     </message>
     <message>
-        <source>Repeat album</source>
-        <translation type="unfinished">アルバムをリピート</translation>
+      <source>Repeat album</source>
+      <translation>アルバムをリピート</translation>
     </message>
     <message>
-        <source>Repeat playlist</source>
-        <translation type="unfinished">プレイリストをリピート</translation>
+      <source>Repeat playlist</source>
+      <translation>プレイリストをリピート</translation>
     </message>
     <message>
-        <source>Stop after every track</source>
-        <translation type="unfinished">各トラック後に停止</translation>
+      <source>Stop after every track</source>
+      <translation>各トラック後に停止</translation>
     </message>
     <message>
-        <source>Intro tracks</source>
-        <translation type="unfinished">イントロ再生</translation>
+      <source>Intro tracks</source>
+      <translation>イントロ再生</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>Organize</name>
     <message>
-        <source>Organizing files</source>
-        <translation type="unfinished">ファイルを管理中</translation>
+      <source>Organizing files</source>
+      <translation>ファイルを管理中</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>OrganizeDialog</name>
     <message>
-        <source>Organize Files</source>
-        <translation type="unfinished">ファイルを管理</translation>
+      <source>Organize Files</source>
+      <translation>ファイルを管理</translation>
     </message>
     <message>
-        <source>Destination</source>
-        <translation type="unfinished">フォルダー</translation>
+      <source>Destination</source>
+      <translation>フォルダー</translation>
     </message>
     <message>
-        <source>After copying...</source>
-        <translation type="unfinished">コピー後...</translation>
+      <source>After copying...</source>
+      <translation>コピー後...</translation>
     </message>
     <message>
-        <source>Keep the original files</source>
-        <translation type="unfinished">元のファイルを保持する</translation>
+      <source>Keep the original files</source>
+      <translation>元のファイルを保持する</translation>
     </message>
     <message>
-        <source>Delete the original files</source>
-        <translation type="unfinished">元のファイルを削除する</translation>
+      <source>Delete the original files</source>
+      <translation>元のファイルを削除する</translation>
     </message>
     <message>
-        <source>Naming options</source>
-        <translation type="unfinished">名前のオプション</translation>
+      <source>Naming options</source>
+      <translation>名前のオプション</translation>
     </message>
     <message>
-        <source>&lt;p&gt;Tokens start with %, for example: %artist %album %title &lt;/p&gt;
+      <source>&lt;p&gt;Tokens start with %, for example: %artist %album %title &lt;/p&gt;
 
 &lt;p&gt;If you surround sections of text that contain a token with curly-braces, that section will be hidden if the token is empty.&lt;/p&gt;</source>
-        <translation type="unfinished">&lt;p&gt;トークンは % で始まります (例: %artist %album %title)。 &lt;/p&gt;
+      <translation>&lt;p&gt;トークンは % で始まります (例: %artist %album %title)。 &lt;/p&gt;
 
 &lt;p&gt;トークンを含むテキストの一部を「{ }」で囲むと、トークンが空の場合、{ } で選択した部分が非表示になります。&lt;/p&gt;</translation>
     </message>
     <message>
-        <source>Insert...</source>
-        <translation type="unfinished">挿入...</translation>
+      <source>Insert...</source>
+      <translation>挿入...</translation>
     </message>
     <message>
-        <source>Remove problematic characters from filenames</source>
-        <translation type="unfinished">ファイル名から問題のある文字を削除する</translation>
+      <source>Remove problematic characters from filenames</source>
+      <translation>ファイル名から問題のある文字を削除する</translation>
     </message>
     <message>
-        <source>Restrict to characters allowed on FAT filesystems</source>
-        <translation type="unfinished">FATファイルシステムで許可されている文字に制限</translation>
+      <source>Restrict to characters allowed on FAT filesystems</source>
+      <translation>FATファイルシステムで許可されている文字に制限</translation>
     </message>
     <message>
-        <source>Restrict characters to ASCII</source>
-        <translation type="unfinished">文字をASCIIに制限</translation>
+      <source>Restrict characters to ASCII</source>
+      <translation>文字をASCIIに制限</translation>
     </message>
     <message>
-        <source>Allow extended ASCII characters</source>
-        <translation type="unfinished">拡張ASCII文字の許可</translation>
+      <source>Allow extended ASCII characters</source>
+      <translation>拡張ASCII文字の許可</translation>
     </message>
     <message>
-        <source>Replace spaces with underscores</source>
-        <translation type="unfinished">スペースをアンダースコアに置き換える</translation>
+      <source>Replace spaces with underscores</source>
+      <translation>スペースをアンダースコアに置き換える</translation>
     </message>
     <message>
-        <source>Overwrite existing files</source>
-        <translation type="unfinished">既存のファイルを上書きする</translation>
+      <source>Overwrite existing files</source>
+      <translation>既存のファイルを上書きする</translation>
     </message>
     <message>
-        <source>Copy album cover artwork</source>
-        <translation type="unfinished">アルバムのカバーアートワークをコピー</translation>
+      <source>Copy album cover artwork</source>
+      <translation>アルバムのカバーアートワークをコピー</translation>
     </message>
     <message>
-        <source>Preview</source>
-        <translation type="unfinished">プレビュー</translation>
+      <source>Preview</source>
+      <translation>プレビュー</translation>
     </message>
     <message>
-        <source>Loading...</source>
-        <translation type="unfinished">読み込んでいます...</translation>
+      <source>Loading...</source>
+      <translation>読み込んでいます...</translation>
     </message>
     <message>
-        <source>Safely remove the device after copying</source>
-        <translation type="unfinished">コピー後にデバイスを安全に取り外す</translation>
+      <source>Safely remove the device after copying</source>
+      <translation>コピー後にデバイスを安全に取り外す</translation>
     </message>
     <message>
-        <source>Title</source>
-        <translation type="unfinished">タイトル</translation>
+      <source>Title</source>
+      <translation>タイトル</translation>
     </message>
     <message>
-        <source>Album</source>
-        <translation type="unfinished">アルバム</translation>
+      <source>Album</source>
+      <translation>アルバム</translation>
     </message>
     <message>
-        <source>Artist</source>
-        <translation type="unfinished">アーティスト</translation>
+      <source>Artist</source>
+      <translation>アーティスト</translation>
     </message>
     <message>
-        <source>Artist&apos;s initial</source>
-        <translation type="unfinished">アーティストの頭文字</translation>
+      <source>Artist&apos;s initial</source>
+      <translation>アーティストの頭文字</translation>
     </message>
     <message>
-        <source>Album artist</source>
-        <translation type="unfinished">アルバムアーティスト</translation>
+      <source>Album artist</source>
+      <translation>アルバムアーティスト</translation>
     </message>
     <message>
-        <source>Composer</source>
-        <translation type="unfinished">作曲者</translation>
+      <source>Composer</source>
+      <translation>作曲者</translation>
     </message>
     <message>
-        <source>Performer</source>
-        <translation type="unfinished">出演者</translation>
+      <source>Performer</source>
+      <translation>出演者</translation>
     </message>
     <message>
-        <source>Grouping</source>
-        <translation type="unfinished">分類</translation>
+      <source>Grouping</source>
+      <translation>分類</translation>
     </message>
     <message>
-        <source>Track</source>
-        <translation type="unfinished">トラック</translation>
+      <source>Track</source>
+      <translation>トラック</translation>
     </message>
     <message>
-        <source>Disc</source>
-        <translation type="unfinished">ディスク</translation>
+      <source>Disc</source>
+      <translation>ディスク</translation>
     </message>
     <message>
-        <source>Year</source>
-        <translation type="unfinished">年</translation>
+      <source>Year</source>
+      <translation>年</translation>
     </message>
     <message>
-        <source>Original year</source>
-        <translation type="unfinished">元の年</translation>
+      <source>Original year</source>
+      <translation>元の年</translation>
     </message>
     <message>
-        <source>Genre</source>
-        <translation type="unfinished">ジャンル</translation>
+      <source>Genre</source>
+      <translation>ジャンル</translation>
     </message>
     <message>
-        <source>Comment</source>
-        <translation type="unfinished">コメント</translation>
+      <source>Comment</source>
+      <translation>コメント</translation>
     </message>
     <message>
-        <source>Length</source>
-        <translation type="unfinished">長さ</translation>
+      <source>Length</source>
+      <translation>長さ</translation>
     </message>
     <message>
-        <source>Bitrate</source>
-        <comment>Refers to bitrate in file organize dialog.</comment>
-        <translation type="unfinished">ビットレート</translation>
+      <source>Bitrate</source>
+      <comment>Refers to bitrate in file organize dialog.</comment>
+      <translation>ビットレート</translation>
     </message>
     <message>
-        <source>Sample rate</source>
-        <translation type="unfinished">サンプルレート</translation>
+      <source>Sample rate</source>
+      <translation>サンプルレート</translation>
     </message>
     <message>
-        <source>Bit depth</source>
-        <translation type="unfinished">ビット深度</translation>
+      <source>Bit depth</source>
+      <translation>ビット深度</translation>
     </message>
     <message>
-        <source>File extension</source>
-        <translation type="unfinished">ファイル拡張子</translation>
+      <source>File extension</source>
+      <translation>ファイル拡張子</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>OrganizeErrorDialog</name>
     <message>
-        <source>Error copying songs</source>
-        <translation type="unfinished">曲のコピーエラー</translation>
+      <source>Error copying songs</source>
+      <translation>曲のコピーエラー</translation>
     </message>
     <message>
-        <source>There were problems copying some songs.  The following files could not be copied:</source>
-        <translation type="unfinished">曲のコピーに問題がありました。次のファイルはコピーできませんでした:</translation>
+      <source>There were problems copying some songs.  The following files could not be copied:</source>
+      <translation>曲のコピーに問題がありました。次のファイルはコピーできませんでした:</translation>
     </message>
     <message>
-        <source>Error deleting songs</source>
-        <translation type="unfinished">曲の削除エラー</translation>
+      <source>Error deleting songs</source>
+      <translation>曲の削除エラー</translation>
     </message>
     <message>
-        <source>There were problems deleting some songs.  The following files could not be deleted:</source>
-        <translation type="unfinished">曲の削除に問題がありました。次のファイルは削除できませんでした:</translation>
+      <source>There were problems deleting some songs.  The following files could not be deleted:</source>
+      <translation>曲の削除に問題がありました。次のファイルは削除できませんでした:</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>ParserBase</name>
     <message>
-        <source>Don&apos;t know how to handle %1</source>
-        <translation type="unfinished"></translation>
+      <source>Don&apos;t know how to handle %1</source>
+      <translation type="unfinished">Don&apos;t know how to handle %1</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>PlayingWidget</name>
     <message>
-        <source>Small album cover</source>
-        <translation type="unfinished">小さいアルバムカバー</translation>
+      <source>Small album cover</source>
+      <translation>小さいアルバムカバー</translation>
     </message>
     <message>
-        <source>Large album cover</source>
-        <translation type="unfinished">大きいアルバムカバー</translation>
+      <source>Large album cover</source>
+      <translation>大きいアルバムカバー</translation>
     </message>
     <message>
-        <source>Fit cover to width</source>
-        <translation type="unfinished">カバーの大きさを幅に合わせる</translation>
+      <source>Fit cover to width</source>
+      <translation>カバーの大きさを幅に合わせる</translation>
     </message>
     <message>
-        <source>Show above status bar</source>
-        <translation type="unfinished">ステータスバーの上に表示</translation>
+      <source>Show above status bar</source>
+      <translation>ステータスバーの上に表示</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>Playlist</name>
     <message>
-        <source>Could not write metadata to %1</source>
-        <translation type="unfinished"></translation>
+      <source>Could not write metadata to %1</source>
+      <translation type="unfinished">Could not write metadata to %1</translation>
     </message>
     <message>
-        <source>Could not write metadata to %1: %2</source>
-        <translation type="unfinished"></translation>
+      <source>Could not write metadata to %1: %2</source>
+      <translation type="unfinished">Could not write metadata to %1: %2</translation>
     </message>
     <message>
-        <source>Title</source>
-        <translation type="unfinished">タイトル</translation>
+      <source>Title</source>
+      <translation>タイトル</translation>
     </message>
     <message>
-        <source>Artist</source>
-        <translation type="unfinished">アーティスト</translation>
+      <source>Artist</source>
+      <translation>アーティスト</translation>
     </message>
     <message>
-        <source>Album</source>
-        <translation type="unfinished">アルバム</translation>
+      <source>Album</source>
+      <translation>アルバム</translation>
     </message>
     <message>
-        <source>Track</source>
-        <translation type="unfinished">トラック</translation>
+      <source>Track</source>
+      <translation>トラック</translation>
     </message>
     <message>
-        <source>Disc</source>
-        <translation type="unfinished">ディスク</translation>
+      <source>Disc</source>
+      <translation>ディスク</translation>
     </message>
     <message>
-        <source>Length</source>
-        <translation type="unfinished">長さ</translation>
+      <source>Length</source>
+      <translation>長さ</translation>
     </message>
     <message>
-        <source>Year</source>
-        <translation type="unfinished">年</translation>
+      <source>Year</source>
+      <translation>年</translation>
     </message>
     <message>
-        <source>Original Year</source>
-        <translation type="unfinished">発表年</translation>
+      <source>Original Year</source>
+      <translation>発表年</translation>
     </message>
     <message>
-        <source>Genre</source>
-        <translation type="unfinished">ジャンル</translation>
+      <source>Genre</source>
+      <translation>ジャンル</translation>
     </message>
     <message>
-        <source>Album Artist</source>
-        <translation type="unfinished">アルバムアーティスト</translation>
+      <source>Album Artist</source>
+      <translation>アルバムアーティスト</translation>
     </message>
     <message>
-        <source>Composer</source>
-        <translation type="unfinished">作曲者</translation>
+      <source>Composer</source>
+      <translation>作曲者</translation>
     </message>
     <message>
-        <source>Performer</source>
-        <translation type="unfinished">出演者</translation>
+      <source>Performer</source>
+      <translation>出演者</translation>
     </message>
     <message>
-        <source>Grouping</source>
-        <translation type="unfinished">分類</translation>
+      <source>Grouping</source>
+      <translation>分類</translation>
     </message>
     <message>
-        <source>Play Count</source>
-        <translation type="unfinished">再生回数</translation>
+      <source>Play Count</source>
+      <translation>再生回数</translation>
     </message>
     <message>
-        <source>Skip Count</source>
-        <translation type="unfinished"></translation>
+      <source>Skip Count</source>
+      <translation type="unfinished">Skip Count</translation>
     </message>
     <message>
-        <source>Last Played</source>
-        <translation type="unfinished">最終再生時刻</translation>
+      <source>Last Played</source>
+      <translation>最終再生時刻</translation>
     </message>
     <message>
-        <source>Sample Rate</source>
-        <translation type="unfinished">サンプリングレート</translation>
+      <source>Sample Rate</source>
+      <translation>サンプリングレート</translation>
     </message>
     <message>
-        <source>Bit Depth</source>
-        <translation type="unfinished">ビット深度</translation>
+      <source>Bit Depth</source>
+      <translation>ビット深度</translation>
     </message>
     <message>
-        <source>Bitrate</source>
-        <translation type="unfinished">ビットレート</translation>
+      <source>Bitrate</source>
+      <translation>ビットレート</translation>
     </message>
     <message>
-        <source>File Name</source>
-        <translation type="unfinished">ファイル名</translation>
+      <source>File Name</source>
+      <translation>ファイル名</translation>
     </message>
     <message>
-        <source>File Name (without path)</source>
-        <translation type="unfinished">ファイル名 (パスなし)</translation>
+      <source>File Name (without path)</source>
+      <translation>ファイル名 (パスなし)</translation>
     </message>
     <message>
-        <source>File Size</source>
-        <translation type="unfinished">ファイルサイズ</translation>
+      <source>File Size</source>
+      <translation>ファイルサイズ</translation>
     </message>
     <message>
-        <source>File Type</source>
-        <translation type="unfinished">ファイルタイプ</translation>
+      <source>File Type</source>
+      <translation>ファイルタイプ</translation>
     </message>
     <message>
-        <source>Date Modified</source>
-        <translation type="unfinished">更新日</translation>
+      <source>Date Modified</source>
+      <translation>更新日</translation>
     </message>
     <message>
-        <source>Date Created</source>
-        <translation type="unfinished">作成日</translation>
+      <source>Date Created</source>
+      <translation>作成日</translation>
     </message>
     <message>
-        <source>Comment</source>
-        <translation type="unfinished">コメント</translation>
+      <source>Comment</source>
+      <translation>コメント</translation>
     </message>
     <message>
-        <source>Source</source>
-        <translation type="unfinished">ソース</translation>
+      <source>Source</source>
+      <translation>ソース</translation>
     </message>
     <message>
-        <source>Mood</source>
-        <translation type="unfinished">ムード</translation>
+      <source>Mood</source>
+      <translation>ムード</translation>
     </message>
     <message>
-        <source>Rating</source>
-        <translation type="unfinished">評価</translation>
+      <source>Rating</source>
+      <translation>評価</translation>
     </message>
     <message>
-        <source>CUE</source>
-        <translation type="unfinished">キュー</translation>
+      <source>CUE</source>
+      <translation>キュー</translation>
     </message>
     <message>
-        <source>Integrated Loudness</source>
-        <translation type="unfinished">統合ラウドネス</translation>
+      <source>Integrated Loudness</source>
+      <translation>統合ラウドネス</translation>
     </message>
     <message>
-        <source>Loudness Range</source>
-        <translation type="unfinished">ラウドネスレンジ</translation>
+      <source>Loudness Range</source>
+      <translation>ラウドネスレンジ</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>PlaylistContainer</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">フォーム</translation>
+      <source>Form</source>
+      <translation>フォーム</translation>
     </message>
     <message>
-        <source>Undo</source>
-        <translation type="unfinished"></translation>
+      <source>Undo</source>
+      <translation type="unfinished">Undo</translation>
     </message>
     <message>
-        <source>Redo</source>
-        <translation type="unfinished"></translation>
+      <source>Redo</source>
+      <translation type="unfinished">Redo</translation>
     </message>
     <message>
-        <source>Playlist</source>
-        <translation type="unfinished">プレイリスト</translation>
+      <source>Playlist</source>
+      <translation>プレイリスト</translation>
     </message>
     <message>
-        <source>Load playlist</source>
-        <translation type="unfinished">プレイリストの読み込み</translation>
+      <source>Load playlist</source>
+      <translation>プレイリストの読み込み</translation>
     </message>
     <message>
-        <source>No matches found.  Clear the search box to show the whole playlist again.</source>
-        <translation type="unfinished">見つかりません。再びプレイリスト全体を表示するには検索ボックスをクリアします。</translation>
+      <source>No matches found.  Clear the search box to show the whole playlist again.</source>
+      <translation>見つかりません。再びプレイリスト全体を表示するには検索ボックスをクリアします。</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>PlaylistDelegateBase</name>
     <message>
-        <source>stop</source>
-        <translation type="unfinished">停止</translation>
+      <source>stop</source>
+      <translation>停止</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>PlaylistGeneratorInserter</name>
     <message>
-        <source>Loading smart playlist</source>
-        <translation type="unfinished">スマートプレイリストをロード中</translation>
+      <source>Loading smart playlist</source>
+      <translation>スマートプレイリストをロード中</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>PlaylistHeader</name>
     <message>
-        <source>&amp;Hide...</source>
-        <translation type="unfinished">非表示にする(&amp;H)...</translation>
+      <source>&amp;Hide...</source>
+      <translation>非表示にする(&amp;H)...</translation>
     </message>
     <message>
-        <source>&amp;Stretch columns to fit window</source>
-        <translation type="unfinished">列の幅をウィンドウに合わせる(&amp;S)</translation>
+      <source>&amp;Stretch columns to fit window</source>
+      <translation>列の幅をウィンドウに合わせる(&amp;S)</translation>
     </message>
     <message>
-        <source>&amp;Reset columns to default</source>
-        <translation type="unfinished">列を既定値にリセット</translation>
+      <source>&amp;Reset columns to default</source>
+      <translation>列を既定値にリセット</translation>
     </message>
     <message>
-        <source>&amp;Lock rating</source>
-        <translation type="unfinished">評価を固定</translation>
+      <source>&amp;Lock rating</source>
+      <translation>評価を固定</translation>
     </message>
     <message>
-        <source>&amp;Align text</source>
-        <translation type="unfinished">テキストの配置(&amp;A)</translation>
+      <source>&amp;Align text</source>
+      <translation>テキストの配置(&amp;A)</translation>
     </message>
     <message>
-        <source>&amp;Left</source>
-        <translation type="unfinished">左揃え(&amp;L)</translation>
+      <source>&amp;Left</source>
+      <translation>左揃え(&amp;L)</translation>
     </message>
     <message>
-        <source>&amp;Center</source>
-        <translation type="unfinished">中央揃え(&amp;C)</translation>
+      <source>&amp;Center</source>
+      <translation>中央揃え(&amp;C)</translation>
     </message>
     <message>
-        <source>&amp;Right</source>
-        <translation type="unfinished">右揃え(&amp;R)</translation>
+      <source>&amp;Right</source>
+      <translation>右揃え(&amp;R)</translation>
     </message>
     <message>
-        <source>&amp;Hide %1</source>
-        <translation type="unfinished">%1 を非表示にする(&amp;H)</translation>
+      <source>&amp;Hide %1</source>
+      <translation>%1 を非表示にする(&amp;H)</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>PlaylistListContainer</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">フォーム</translation>
+      <source>Form</source>
+      <translation>フォーム</translation>
     </message>
     <message>
-        <source>New folder</source>
-        <translation type="unfinished">新しいフォルダー</translation>
+      <source>New folder</source>
+      <translation>新しいフォルダー</translation>
     </message>
     <message>
-        <source>Delete</source>
-        <translation type="unfinished">削除</translation>
+      <source>Delete</source>
+      <translation>削除</translation>
     </message>
     <message>
-        <source>Save playlist</source>
-        <comment>Save playlist menu action.</comment>
-        <translation type="unfinished">プレイリストを保存する</translation>
+      <source>Save playlist</source>
+      <comment>Save playlist menu action.</comment>
+      <translation>プレイリストを保存する</translation>
     </message>
     <message>
-        <source>Copy to device...</source>
-        <translation type="unfinished">デバイスへコピー...</translation>
+      <source>Copy to device...</source>
+      <translation>デバイスへコピー...</translation>
     </message>
     <message>
-        <source>Enter the name of the folder</source>
-        <translation type="unfinished">フォルダ名を入力してください</translation>
+      <source>Enter the name of the folder</source>
+      <translation>フォルダ名を入力してください</translation>
     </message>
     <message>
-        <source>Playlist</source>
-        <translation type="unfinished">プレイリスト</translation>
+      <source>Playlist</source>
+      <translation>プレイリスト</translation>
     </message>
     <message>
-        <source>Copy to device</source>
-        <translation type="unfinished">デバイスへコピー</translation>
+      <source>Copy to device</source>
+      <translation>デバイスへコピー</translation>
     </message>
     <message>
-        <source>Playlist must be open first.</source>
-        <translation type="unfinished">プレイリストを最初に開く必要があります。</translation>
+      <source>Playlist must be open first.</source>
+      <translation>プレイリストを最初に開く必要があります。</translation>
     </message>
     <message>
-        <source>Remove playlists</source>
-        <translation type="unfinished">プレイリストを削除する</translation>
+      <source>Remove playlists</source>
+      <translation>プレイリストを削除する</translation>
     </message>
     <message>
-        <source>You are about to remove %1 playlists from your favorites, are you sure?</source>
-        <translation type="unfinished">プレイリスト「%1」をお気に入りから削除します。よろしいですか?</translation>
+      <source>You are about to remove %1 playlists from your favorites, are you sure?</source>
+      <translation>プレイリスト「%1」をお気に入りから削除します。よろしいですか?</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>PlaylistListView</name>
     <message>
-        <source>You can favorite playlists by clicking the star icon next to a playlist name</source>
-        <translation type="unfinished">プレイリスト名の横にある星アイコンをクリックするとプレイリストをお気に入りにできます。</translation>
+      <source>You can favorite playlists by clicking the star icon next to a playlist name</source>
+      <translation>プレイリスト名の横にある星アイコンをクリックするとプレイリストをお気に入りにできます。</translation>
     </message>
     <message>
-        <source>Favorited playlists will be saved here</source>
-        <translation type="unfinished">お気に入りにしたプレイリストはここに保存されます</translation>
+      <source>Favorited playlists will be saved here</source>
+      <translation>お気に入りにしたプレイリストはここに保存されます</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>PlaylistManager</name>
     <message>
-        <source>Playlist</source>
-        <translation type="unfinished">プレイリスト</translation>
+      <source>Playlist</source>
+      <translation>プレイリスト</translation>
     </message>
     <message>
-        <source>Couldn&apos;t create playlist</source>
-        <translation type="unfinished">プレイリストを作成できません</translation>
+      <source>Couldn&apos;t create playlist</source>
+      <translation>プレイリストを作成できません</translation>
     </message>
     <message>
-        <source>Save playlist</source>
-        <comment>Title of the playlist save dialog.</comment>
-        <translation type="unfinished">プレイリストを保存する</translation>
+      <source>Save playlist</source>
+      <comment>Title of the playlist save dialog.</comment>
+      <translation>プレイリストを保存する</translation>
     </message>
     <message>
-        <source>Unknown playlist extension</source>
-        <translation type="unfinished">不明なプレイリスト拡張子</translation>
+      <source>Unknown playlist extension</source>
+      <translation>不明なプレイリスト拡張子</translation>
     </message>
     <message>
-        <source>Unknown file extension for playlist.</source>
-        <translation type="unfinished">プレイリストの不明なファイル拡張子。</translation>
+      <source>Unknown file extension for playlist.</source>
+      <translation>プレイリストの不明なファイル拡張子。</translation>
     </message>
     <message>
-        <source>%1 selected of</source>
-        <translation type="unfinished">%1 個選択中</translation>
+      <source>%1 selected of</source>
+      <translation>%1 個選択中</translation>
     </message>
     <message numerus="yes">
-        <source>%n track(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
+      <source>%n track(s)</source>
+      <translation type="unfinished">
+        <numerusform>%n track(s)</numerusform>
+      </translation>
     </message>
     <message>
-        <source>Unknown</source>
-        <translation type="unfinished">不明</translation>
+      <source>Unknown</source>
+      <translation>不明</translation>
     </message>
     <message>
-        <source>Various artists</source>
-        <translation type="unfinished">さまざまなアーティスト</translation>
+      <source>Various artists</source>
+      <translation>さまざまなアーティスト</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>PlaylistParser</name>
     <message>
-        <source>All playlists (%1)</source>
-        <translation type="unfinished">すべてのプレイリスト (%1)</translation>
+      <source>All playlists (%1)</source>
+      <translation>すべてのプレイリスト (%1)</translation>
     </message>
     <message>
-        <source>%1 playlists (%2)</source>
-        <translation type="unfinished">%1 プレイリスト (%2)</translation>
+      <source>%1 playlists (%2)</source>
+      <translation>%1 プレイリスト (%2)</translation>
     </message>
     <message>
-        <source>Unknown filetype: %1</source>
-        <translation type="unfinished"></translation>
+      <source>Unknown filetype: %1</source>
+      <translation type="unfinished">Unknown filetype: %1</translation>
     </message>
     <message>
-        <source>Could not open file %1</source>
-        <translation type="unfinished"></translation>
+      <source>Could not open file %1</source>
+      <translation type="unfinished">Could not open file %1</translation>
     </message>
     <message>
-        <source>Directory %1 does not exist.</source>
-        <translation type="unfinished"></translation>
+      <source>Directory %1 does not exist.</source>
+      <translation type="unfinished">Directory %1 does not exist.</translation>
     </message>
     <message>
-        <source>Failed to open %1 for writing.</source>
-        <translation type="unfinished"></translation>
+      <source>Failed to open %1 for writing.</source>
+      <translation type="unfinished">Failed to open %1 for writing.</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>PlaylistSaveOptionsDialog</name>
     <message>
-        <source>Playlist options</source>
-        <translation type="unfinished">プレイリストのオプション</translation>
+      <source>Playlist options</source>
+      <translation>プレイリストのオプション</translation>
     </message>
     <message>
-        <source>File paths</source>
-        <translation type="unfinished">ファイルのパス</translation>
+      <source>File paths</source>
+      <translation>ファイルのパス</translation>
     </message>
     <message>
-        <source>This can be changed later through the preferences</source>
-        <translation type="unfinished">これは後でプリファレンスから変えることができます</translation>
+      <source>This can be changed later through the preferences</source>
+      <translation>これは後でプリファレンスから変えることができます</translation>
     </message>
     <message>
-        <source>Remember my choice</source>
-        <translation type="unfinished">選択を記憶する</translation>
+      <source>Remember my choice</source>
+      <translation>選択を記憶する</translation>
     </message>
     <message>
-        <source>Automatic</source>
-        <translation type="unfinished">自動</translation>
+      <source>Automatic</source>
+      <translation>自動</translation>
     </message>
     <message>
-        <source>Relative</source>
-        <translation type="unfinished">相対パス</translation>
+      <source>Relative</source>
+      <translation>相対パス</translation>
     </message>
     <message>
-        <source>Absolute</source>
-        <translation type="unfinished">絶対パス</translation>
+      <source>Absolute</source>
+      <translation>絶対パス</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>PlaylistSequence</name>
     <message>
-        <source>Repeat</source>
-        <translation type="unfinished">リピート</translation>
+      <source>Repeat</source>
+      <translation>リピート</translation>
     </message>
     <message>
-        <source>Shuffle</source>
-        <translation type="unfinished">シャッフル</translation>
+      <source>Shuffle</source>
+      <translation>シャッフル</translation>
     </message>
     <message>
-        <source>Don&apos;t repeat</source>
-        <translation type="unfinished">リピートしない</translation>
+      <source>Don&apos;t repeat</source>
+      <translation>リピートしない</translation>
     </message>
     <message>
-        <source>Repeat track</source>
-        <translation type="unfinished">トラックをリピート</translation>
+      <source>Repeat track</source>
+      <translation>トラックをリピート</translation>
     </message>
     <message>
-        <source>Repeat album</source>
-        <translation type="unfinished">アルバムをリピート</translation>
+      <source>Repeat album</source>
+      <translation>アルバムをリピート</translation>
     </message>
     <message>
-        <source>Repeat playlist</source>
-        <translation type="unfinished">プレイリストをリピート</translation>
+      <source>Repeat playlist</source>
+      <translation>プレイリストをリピート</translation>
     </message>
     <message>
-        <source>Stop after each track</source>
-        <translation type="unfinished">各トラック後に停止</translation>
+      <source>Stop after each track</source>
+      <translation>各トラック後に停止</translation>
     </message>
     <message>
-        <source>Intro tracks</source>
-        <translation type="unfinished">イントロ再生</translation>
+      <source>Intro tracks</source>
+      <translation>イントロ再生</translation>
     </message>
     <message>
-        <source>Don&apos;t shuffle</source>
-        <translation type="unfinished">シャッフルしない</translation>
+      <source>Don&apos;t shuffle</source>
+      <translation>シャッフルしない</translation>
     </message>
     <message>
-        <source>Shuffle tracks in this album</source>
-        <translation type="unfinished">このアルバムのトラックをシャッフル</translation>
+      <source>Shuffle tracks in this album</source>
+      <translation>このアルバムのトラックをシャッフル</translation>
     </message>
     <message>
-        <source>Shuffle all</source>
-        <translation type="unfinished">すべてシャッフル</translation>
+      <source>Shuffle all</source>
+      <translation>すべてシャッフル</translation>
     </message>
     <message>
-        <source>Shuffle albums</source>
-        <translation type="unfinished">アルバムをシャッフル</translation>
+      <source>Shuffle albums</source>
+      <translation>アルバムをシャッフル</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>PlaylistSettingsPage</name>
     <message>
-        <source>Playlist</source>
-        <translation type="unfinished">プレイリスト</translation>
+      <source>Playlist</source>
+      <translation>プレイリスト</translation>
     </message>
     <message>
-        <source>Use alternating row colors</source>
-        <translation type="unfinished">行の色を交互に変える</translation>
+      <source>Use alternating row colors</source>
+      <translation>行の色を交互に変える</translation>
     </message>
     <message>
-        <source>Show bars on the currently playing track</source>
-        <translation type="unfinished">現在再生中のトラックのバーを表示</translation>
+      <source>Show bars on the currently playing track</source>
+      <translation>現在再生中のトラックのバーを表示</translation>
     </message>
     <message>
-        <source>Show a glowing animation on the currently playing track</source>
-        <translation type="unfinished">現在再生中のトラックにグローアニメーションを表示する</translation>
+      <source>Show a glowing animation on the currently playing track</source>
+      <translation>現在再生中のトラックにグローアニメーションを表示する</translation>
     </message>
     <message>
-        <source>Warn me when closing a playlist tab</source>
-        <translation type="unfinished">プレイリストタブを閉じるときに警告する</translation>
+      <source>Warn me when closing a playlist tab</source>
+      <translation>プレイリストタブを閉じるときに警告する</translation>
     </message>
     <message>
-        <source>Continue to the next item in the playlist if a song is unavailable</source>
-        <translation type="unfinished">曲が見つからない場合にプレイリストの次のアイテムを続ける</translation>
+      <source>Continue to the next item in the playlist if a song is unavailable</source>
+      <translation>曲が見つからない場合にプレイリストの次のアイテムを続ける</translation>
     </message>
     <message>
-        <source>Grey out unavailable songs in playlists on playback</source>
-        <translation type="unfinished">再生時にプレイリスト内の利用できない曲をグレーアウトする</translation>
+      <source>Grey out unavailable songs in playlists on playback</source>
+      <translation>再生時にプレイリスト内の利用できない曲をグレーアウトする</translation>
     </message>
     <message>
-        <source>Grey out unavailable songs in playlists on startup</source>
-        <translation type="unfinished">起動時にプレイリストで利用できない曲をグレーアウトする</translation>
+      <source>Grey out unavailable songs in playlists on startup</source>
+      <translation>起動時にプレイリストで利用できない曲をグレーアウトする</translation>
     </message>
     <message>
-        <source>Automatically select current playing track</source>
-        <translation type="unfinished">再生中の曲の自動選択</translation>
+      <source>Automatically select current playing track</source>
+      <translation>再生中の曲の自動選択</translation>
     </message>
     <message>
-        <source>Enable playlist toolbar</source>
-        <translation type="unfinished">プレイリストツールバーを有効にする</translation>
+      <source>Enable playlist toolbar</source>
+      <translation>プレイリストツールバーを有効にする</translation>
     </message>
     <message>
-        <source>Enable playlist clear button</source>
-        <translation type="unfinished">プレイリストのクリアボタンを有効化</translation>
+      <source>Enable playlist clear button</source>
+      <translation>プレイリストのクリアボタンを有効化</translation>
     </message>
     <message>
-        <source>Enable delete files in the right click context menu</source>
-        <translation type="unfinished">右クリックメニューでの削除を有効化</translation>
+      <source>Enable delete files in the right click context menu</source>
+      <translation>右クリックメニューでの削除を有効化</translation>
     </message>
     <message>
-        <source>Automatically sort playlist when inserting songs</source>
-        <translation type="unfinished">曲を挿入時にプレイリストを自動的に並べ替える</translation>
+      <source>Automatically sort playlist when inserting songs</source>
+      <translation>曲を挿入時にプレイリストを自動的に並べ替える</translation>
     </message>
     <message>
-        <source>When saving a playlist, file paths should be</source>
-        <translation type="unfinished">プレイリストを保存する時、パス名は</translation>
+      <source>When saving a playlist, file paths should be</source>
+      <translation>プレイリストを保存する時、パス名は</translation>
     </message>
     <message>
-        <source>A&amp;utomatic</source>
-        <translation type="unfinished">自動</translation>
+      <source>A&amp;utomatic</source>
+      <translation>自動</translation>
     </message>
     <message>
-        <source>Absolu&amp;te</source>
-        <translation type="unfinished">絶対パス(&amp;t)</translation>
+      <source>Absolu&amp;te</source>
+      <translation>絶対パス(&amp;t)</translation>
     </message>
     <message>
-        <source>Re&amp;lative</source>
-        <translation type="unfinished">相対パス(&amp;L)</translation>
+      <source>Re&amp;lative</source>
+      <translation>相対パス(&amp;L)</translation>
     </message>
     <message>
-        <source>As&amp;k when saving</source>
-        <translation type="unfinished">保存時に確認する(&amp;K)</translation>
+      <source>As&amp;k when saving</source>
+      <translation>保存時に確認する(&amp;K)</translation>
     </message>
     <message>
-        <source>Metadata</source>
-        <translation type="unfinished">メタデータ</translation>
+      <source>Metadata</source>
+      <translation>メタデータ</translation>
     </message>
     <message>
-        <source>If activated, clicking a selected song in the playlist view will let you edit the tag value directly</source>
-        <translation type="unfinished">有効にすると、プレイリストの選択された曲をクリックすることでタグの値を直接編集できるようになります</translation>
+      <source>If activated, clicking a selected song in the playlist view will let you edit the tag value directly</source>
+      <translation>有効にすると、プレイリストの選択された曲をクリックすることでタグの値を直接編集できるようになります</translation>
     </message>
     <message>
-        <source>Enable song metadata inline edition with click</source>
-        <translation type="unfinished">クリックによる曲のメタデータの直接編集を有効にする</translation>
+      <source>Enable song metadata inline edition with click</source>
+      <translation>クリックによる曲のメタデータの直接編集を有効にする</translation>
     </message>
     <message>
-        <source>Write metadata when saving playlists</source>
-        <translation type="unfinished">プレイリストを保存するときにメタデータを書き込む</translation>
+      <source>Write metadata when saving playlists</source>
+      <translation>プレイリストを保存するときにメタデータを書き込む</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>PlaylistTabBar</name>
     <message>
-        <source>Star playlist</source>
-        <translation type="unfinished">プレイリストに星をつける</translation>
+      <source>Star playlist</source>
+      <translation>プレイリストに星をつける</translation>
     </message>
     <message>
-        <source>Close playlist</source>
-        <translation type="unfinished">プレイリストを閉じる</translation>
+      <source>Close playlist</source>
+      <translation>プレイリストを閉じる</translation>
     </message>
     <message>
-        <source>Rename playlist...</source>
-        <translation type="unfinished">プレイリストの名前の変更...</translation>
+      <source>Rename playlist...</source>
+      <translation>プレイリストの名前の変更...</translation>
     </message>
     <message>
-        <source>Save playlist...</source>
-        <translation type="unfinished">プレイリストの保存...</translation>
+      <source>Save playlist...</source>
+      <translation>プレイリストの保存...</translation>
     </message>
     <message>
-        <source>Rename playlist</source>
-        <translation type="unfinished">プレイリストの名前の変更</translation>
+      <source>Rename playlist</source>
+      <translation>プレイリストの名前の変更</translation>
     </message>
     <message>
-        <source>Enter a new name for this playlist</source>
-        <translation type="unfinished">このプレイリストの名前を入力してください</translation>
+      <source>Enter a new name for this playlist</source>
+      <translation>このプレイリストの名前を入力してください</translation>
     </message>
     <message>
-        <source>Remove playlist</source>
-        <translation type="unfinished">プレイリストを削除する</translation>
+      <source>Remove playlist</source>
+      <translation>プレイリストを削除する</translation>
     </message>
     <message>
-        <source>You are about to remove a playlist which is not part of your favorite playlists: the playlist will be deleted (this action cannot be undone). 
+      <source>You are about to remove a playlist which is not part of your favorite playlists: the playlist will be deleted (this action cannot be undone). 
 Are you sure you want to continue?</source>
-        <translation type="unfinished">お気に入りに含まれていないプレイリストを削除しようとしています。このプレイリストは削除されます(この操作は元に戻せません)。
+      <translation>お気に入りに含まれていないプレイリストを削除しようとしています。このプレイリストは削除されます(この操作は元に戻せません)。
 削除してもよろしいですか?</translation>
     </message>
     <message>
-        <source>Warn me when closing a playlist tab</source>
-        <translation type="unfinished">プレイリストタブを閉じるときに警告する</translation>
+      <source>Warn me when closing a playlist tab</source>
+      <translation>プレイリストタブを閉じるときに警告する</translation>
     </message>
     <message>
-        <source>This option can be changed in the &quot;Behavior&quot; preferences</source>
-        <translation type="unfinished">このオプションは設定の「動作」で変更できます。</translation>
+      <source>This option can be changed in the &quot;Behavior&quot; preferences</source>
+      <translation>このオプションは設定の「動作」で変更できます。</translation>
     </message>
     <message>
-        <source>Double-click here to favorite this playlist so it will be saved and remain accessible through the &quot;Playlists&quot; panel on the left side bar</source>
-        <translation type="unfinished">このプレイリストを左側のサイドバーの&quot;プレイリスト&quot;からアクセスできるようにするにはここをダブルクリックします。</translation>
+      <source>Double-click here to favorite this playlist so it will be saved and remain accessible through the &quot;Playlists&quot; panel on the left side bar</source>
+      <translation>このプレイリストを左側のサイドバーの&quot;プレイリスト&quot;からアクセスできるようにするにはここをダブルクリックします。</translation>
     </message>
     <message>
-        <source>Playlist</source>
-        <translation type="unfinished">プレイリスト</translation>
+      <source>Playlist</source>
+      <translation>プレイリスト</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>PlaylistUndoCommands::InsertItems</name>
     <message numerus="yes">
-        <source>add %n songs</source>
-        <translation type="unfinished">
-            <numerusform>%n 曲の追加</numerusform>
-        </translation>
+      <source>add %n songs</source>
+      <translation>
+        <numerusform>%n 曲の追加</numerusform>
+      </translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>PlaylistUndoCommands::MoveItems</name>
     <message numerus="yes">
-        <source>move %n songs</source>
-        <translation type="unfinished">
-            <numerusform>%n 曲の移動</numerusform>
-        </translation>
+      <source>move %n songs</source>
+      <translation>
+        <numerusform>%n 曲の移動</numerusform>
+      </translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>PlaylistUndoCommands::RemoveItems</name>
     <message numerus="yes">
-        <source>remove %n songs</source>
-        <translation type="unfinished">
-            <numerusform>%n 曲の削除</numerusform>
-        </translation>
+      <source>remove %n songs</source>
+      <translation>
+        <numerusform>%n 曲の削除</numerusform>
+      </translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>PlaylistUndoCommands::ShuffleItems</name>
     <message>
-        <source>shuffle songs</source>
-        <translation type="unfinished">曲のシャッフル</translation>
+      <source>shuffle songs</source>
+      <translation>曲のシャッフル</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>PlaylistUndoCommands::SortItems</name>
     <message>
-        <source>sort songs</source>
-        <translation type="unfinished">曲の並び替え</translation>
+      <source>sort songs</source>
+      <translation>曲の並び替え</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>PlaylistView</name>
     <message>
-        <source>Hz</source>
-        <translation type="unfinished"></translation>
+      <source>Hz</source>
+      <translation type="unfinished">Hz</translation>
     </message>
     <message>
-        <source>Bit</source>
-        <translation type="unfinished"></translation>
+      <source>Bit</source>
+      <translation type="unfinished">Bit</translation>
     </message>
     <message>
-        <source>kbps</source>
-        <translation type="unfinished"></translation>
+      <source>kbps</source>
+      <translation type="unfinished">kbps</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>QObject</name>
     <message>
-        <source>Usage</source>
-        <translation type="unfinished">使用量</translation>
+      <source>Usage</source>
+      <translation>使用量</translation>
     </message>
     <message>
-        <source>options</source>
-        <translation type="unfinished">オプション</translation>
+      <source>options</source>
+      <translation>オプション</translation>
     </message>
     <message>
-        <source>URL(s)</source>
-        <translation type="unfinished">URL</translation>
+      <source>URL(s)</source>
+      <translation>URL</translation>
     </message>
     <message>
-        <source>Player options</source>
-        <translation type="unfinished">プレーヤーのオプション</translation>
+      <source>Player options</source>
+      <translation>プレーヤーのオプション</translation>
     </message>
     <message>
-        <source>Start the playlist currently playing</source>
-        <translation type="unfinished">現在再生中のプレイリストを開始する</translation>
+      <source>Start the playlist currently playing</source>
+      <translation>現在再生中のプレイリストを開始する</translation>
     </message>
     <message>
-        <source>Play if stopped, pause if playing</source>
-        <translation type="unfinished">停止中は再生し、再生中は一時停止します</translation>
+      <source>Play if stopped, pause if playing</source>
+      <translation>停止中は再生し、再生中は一時停止します</translation>
     </message>
     <message>
-        <source>Pause playback</source>
-        <translation type="unfinished">再生を一時停止します</translation>
+      <source>Pause playback</source>
+      <translation>再生を一時停止します</translation>
     </message>
     <message>
-        <source>Stop playback</source>
-        <translation type="unfinished">再生の停止</translation>
+      <source>Stop playback</source>
+      <translation>再生の停止</translation>
     </message>
     <message>
-        <source>Stop playback after current track</source>
-        <translation type="unfinished">現在のトラック後に停止</translation>
+      <source>Stop playback after current track</source>
+      <translation>現在のトラック後に停止</translation>
     </message>
     <message>
-        <source>Skip backwards in playlist</source>
-        <translation type="unfinished">プレイリストで後ろにスキップ</translation>
+      <source>Skip backwards in playlist</source>
+      <translation>プレイリストで後ろにスキップ</translation>
     </message>
     <message>
-        <source>Skip forwards in playlist</source>
-        <translation type="unfinished">プレイリストで前にスキップ</translation>
+      <source>Skip forwards in playlist</source>
+      <translation>プレイリストで前にスキップ</translation>
     </message>
     <message>
-        <source>Set the volume to &lt;value&gt; percent</source>
-        <translation type="unfinished">音量を &lt;value&gt; %に設定しました</translation>
+      <source>Set the volume to &lt;value&gt; percent</source>
+      <translation>音量を &lt;value&gt; %に設定しました</translation>
     </message>
     <message>
-        <source>Increase the volume by 4 percent</source>
-        <translation type="unfinished">音量を 4% 上げる</translation>
+      <source>Increase the volume by 4 percent</source>
+      <translation>音量を 4% 上げる</translation>
     </message>
     <message>
-        <source>Decrease the volume by 4 percent</source>
-        <translation type="unfinished">音量を 4% 下げる</translation>
+      <source>Decrease the volume by 4 percent</source>
+      <translation>音量を 4% 下げる</translation>
     </message>
     <message>
-        <source>Increase the volume by &lt;value&gt; percent</source>
-        <translation type="unfinished">音量を &lt;value&gt; % 上げる</translation>
+      <source>Increase the volume by &lt;value&gt; percent</source>
+      <translation>音量を &lt;value&gt; % 上げる</translation>
     </message>
     <message>
-        <source>Decrease the volume by &lt;value&gt; percent</source>
-        <translation type="unfinished">音量を &lt;value&gt; % 下げる</translation>
+      <source>Decrease the volume by &lt;value&gt; percent</source>
+      <translation>音量を &lt;value&gt; % 下げる</translation>
     </message>
     <message>
-        <source>Seek the currently playing track to an absolute position</source>
-        <translation type="unfinished">現在再生中のトラックの絶対的な位置へシークする</translation>
+      <source>Seek the currently playing track to an absolute position</source>
+      <translation>現在再生中のトラックの絶対的な位置へシークする</translation>
     </message>
     <message>
-        <source>Seek the currently playing track by a relative amount</source>
-        <translation type="unfinished">現在再生中のトラックを相対値でシークする</translation>
+      <source>Seek the currently playing track by a relative amount</source>
+      <translation>現在再生中のトラックを相対値でシークする</translation>
     </message>
     <message>
-        <source>Restart the track, or play the previous track if within 8 seconds of start.</source>
-        <translation type="unfinished">トラックを再開 (開始8秒以内なら前のトラックを再生)</translation>
+      <source>Restart the track, or play the previous track if within 8 seconds of start.</source>
+      <translation>トラックを再開 (開始8秒以内なら前のトラックを再生)</translation>
     </message>
     <message>
-        <source>Playlist options</source>
-        <translation type="unfinished">プレイリストのオプション</translation>
+      <source>Playlist options</source>
+      <translation>プレイリストのオプション</translation>
     </message>
     <message>
-        <source>Create a new playlist with files</source>
-        <translation type="unfinished">ファイルを含む新しいプレイリストを作成</translation>
+      <source>Create a new playlist with files</source>
+      <translation>ファイルを含む新しいプレイリストを作成</translation>
     </message>
     <message>
-        <source>Append files/URLs to the playlist</source>
-        <translation type="unfinished">ファイル・URL をプレイリストに追加する</translation>
+      <source>Append files/URLs to the playlist</source>
+      <translation>ファイル・URL をプレイリストに追加する</translation>
     </message>
     <message>
-        <source>Loads files/URLs, replacing current playlist</source>
-        <translation type="unfinished">ファイル・URL を読み込んで、現在のプレイリストを置き換えます</translation>
+      <source>Loads files/URLs, replacing current playlist</source>
+      <translation>ファイル・URL を読み込んで、現在のプレイリストを置き換えます</translation>
     </message>
     <message>
-        <source>Play the &lt;n&gt;th track in the playlist</source>
-        <translation type="unfinished">プレイリストの &lt;n&gt; 番目のトラックを再生する</translation>
+      <source>Play the &lt;n&gt;th track in the playlist</source>
+      <translation>プレイリストの &lt;n&gt; 番目のトラックを再生する</translation>
     </message>
     <message>
-        <source>Play given playlist</source>
-        <translation type="unfinished">プレイリストを再生する</translation>
+      <source>Play given playlist</source>
+      <translation>プレイリストを再生する</translation>
     </message>
     <message>
-        <source>Other options</source>
-        <translation type="unfinished">その他のオプション</translation>
+      <source>Other options</source>
+      <translation>その他のオプション</translation>
     </message>
     <message>
-        <source>Display the on-screen-display</source>
-        <translation type="unfinished">OSD を表示する</translation>
+      <source>Display the on-screen-display</source>
+      <translation>OSD を表示する</translation>
     </message>
     <message>
-        <source>Toggle visibility for the pretty on-screen-display</source>
-        <translation type="unfinished">pretty OSD 表示の切り替え</translation>
+      <source>Toggle visibility for the pretty on-screen-display</source>
+      <translation>pretty OSD 表示の切り替え</translation>
     </message>
     <message>
-        <source>Change the language</source>
-        <translation type="unfinished">言語の変更</translation>
+      <source>Change the language</source>
+      <translation>言語の変更</translation>
     </message>
     <message>
-        <source>Resize the window</source>
-        <translation type="unfinished">このウィンドウの大きさを変える</translation>
+      <source>Resize the window</source>
+      <translation>このウィンドウの大きさを変える</translation>
     </message>
     <message>
-        <source>Equivalent to --log-levels *:1</source>
-        <translation type="unfinished">--log-levels *:1 と同じ</translation>
+      <source>Equivalent to --log-levels *:1</source>
+      <translation>--log-levels *:1 と同じ</translation>
     </message>
     <message>
-        <source>Equivalent to --log-levels *:3</source>
-        <translation type="unfinished">--log-levels *:3 と同じ</translation>
+      <source>Equivalent to --log-levels *:3</source>
+      <translation>--log-levels *:3 と同じ</translation>
     </message>
     <message>
-        <source>Comma separated list of class:level, level is 0-3</source>
-        <translation type="unfinished">コンマ区切りの クラス:レベル のリスト、レベルは 0-3</translation>
+      <source>Comma separated list of class:level, level is 0-3</source>
+      <translation>コンマ区切りの クラス:レベル のリスト、レベルは 0-3</translation>
     </message>
     <message>
-        <source>Print out version information</source>
-        <translation type="unfinished">バージョン情報を出力</translation>
+      <source>Print out version information</source>
+      <translation>バージョン情報を出力</translation>
     </message>
     <message>
-        <source>Failed to create directory %1.</source>
-        <translation type="unfinished">ディレクトリ %1 の作成に失敗しました。</translation>
+      <source>Failed to create directory %1.</source>
+      <translation>ディレクトリ %1 の作成に失敗しました。</translation>
     </message>
     <message>
-        <source>Destination file %1 exists, but not allowed to overwrite.</source>
-        <translation type="unfinished">宛先ファイル %1 は存在しますが上書きが許可されていません。</translation>
+      <source>Destination file %1 exists, but not allowed to overwrite.</source>
+      <translation>宛先ファイル %1 は存在しますが上書きが許可されていません。</translation>
     </message>
     <message>
-        <source>Destination file %1 exists, but not allowed to overwrite</source>
-        <translation type="unfinished">宛先ファイル %1 は存在しますが上書きが許可されていません</translation>
+      <source>Destination file %1 exists, but not allowed to overwrite</source>
+      <translation>宛先ファイル %1 は存在しますが上書きが許可されていません</translation>
     </message>
     <message>
-        <source>Could not copy file %1 to %2.</source>
-        <translation type="unfinished">ファイル %1 を %2 にコピーできません。</translation>
+      <source>Could not copy file %1 to %2.</source>
+      <translation>ファイル %1 を %2 にコピーできません。</translation>
     </message>
     <message>
-        <source>Unknown</source>
-        <translation type="unfinished">不明</translation>
+      <source>Unknown</source>
+      <translation>不明</translation>
     </message>
     <message>
-        <source>LUFS</source>
-        <translation type="unfinished"></translation>
+      <source>LUFS</source>
+      <translation type="unfinished">LUFS</translation>
     </message>
     <message>
-        <source>LU</source>
-        <translation type="unfinished"></translation>
+      <source>LU</source>
+      <translation type="unfinished">LU</translation>
     </message>
     <message>
-        <source>File %1 is not recognized as a valid audio file.</source>
-        <translation type="unfinished">ファイル %1 は正常な音声ファイルではありません</translation>
+      <source>File %1 is not recognized as a valid audio file.</source>
+      <translation>ファイル %1 は正常な音声ファイルではありません</translation>
     </message>
     <message>
-        <source>1 day</source>
-        <translation type="unfinished">1 日</translation>
+      <source>1 day</source>
+      <translation>1 日</translation>
     </message>
     <message>
-        <source>%1 days</source>
-        <translation type="unfinished">%1 日</translation>
+      <source>%1 days</source>
+      <translation>%1 日</translation>
     </message>
     <message>
-        <source>Today</source>
-        <translation type="unfinished">今日</translation>
+      <source>Today</source>
+      <translation>今日</translation>
     </message>
     <message>
-        <source>Yesterday</source>
-        <translation type="unfinished">昨日</translation>
+      <source>Yesterday</source>
+      <translation>昨日</translation>
     </message>
     <message>
-        <source>%1 days ago</source>
-        <translation type="unfinished">%1 日前</translation>
+      <source>%1 days ago</source>
+      <translation>%1 日前</translation>
     </message>
     <message>
-        <source>Tomorrow</source>
-        <translation type="unfinished">明日</translation>
+      <source>Tomorrow</source>
+      <translation>明日</translation>
     </message>
     <message>
-        <source>In %1 days</source>
-        <translation type="unfinished">%1 日以内</translation>
+      <source>In %1 days</source>
+      <translation>%1 日以内</translation>
     </message>
     <message>
-        <source>Next week</source>
-        <translation type="unfinished">次週</translation>
+      <source>Next week</source>
+      <translation>次週</translation>
     </message>
     <message>
-        <source>In %1 weeks</source>
-        <translation type="unfinished">%1 週以内</translation>
+      <source>In %1 weeks</source>
+      <translation>%1 週以内</translation>
     </message>
     <message>
-        <source>Show in file browser</source>
-        <translation type="unfinished">ファイルブラウザーで表示</translation>
+      <source>Show in file browser</source>
+      <translation>ファイルブラウザーで表示</translation>
     </message>
     <message>
-        <source>Too many songs selected.</source>
-        <translation type="unfinished">選択した曲が多すぎます。</translation>
+      <source>Too many songs selected.</source>
+      <translation>選択した曲が多すぎます。</translation>
     </message>
     <message>
-        <source>%1 songs in %2 different directories selected, are you sure you want to open them all?</source>
-        <translation type="unfinished">%2 個の異なるディレクトリにある %1 曲が選択されていますが、それらをすべて開いてもよろしいですか？</translation>
+      <source>%1 songs in %2 different directories selected, are you sure you want to open them all?</source>
+      <translation>%2 個の異なるディレクトリにある %1 曲が選択されていますが、それらをすべて開いてもよろしいですか？</translation>
     </message>
     <message>
-        <source>Failed to load image from data for %1</source>
-        <translation type="unfinished"></translation>
+      <source>Failed to load image from data for %1</source>
+      <translation type="unfinished">Failed to load image from data for %1</translation>
     </message>
     <message>
-        <source>Success</source>
-        <translation type="unfinished"></translation>
+      <source>Success</source>
+      <translation type="unfinished">Success</translation>
     </message>
     <message>
-        <source>File is unsupported</source>
-        <translation type="unfinished"></translation>
+      <source>File is unsupported</source>
+      <translation type="unfinished">File is unsupported</translation>
     </message>
     <message>
-        <source>Filename is missing</source>
-        <translation type="unfinished"></translation>
+      <source>Filename is missing</source>
+      <translation type="unfinished">Filename is missing</translation>
     </message>
     <message>
-        <source>File does not exist</source>
-        <translation type="unfinished"></translation>
+      <source>File does not exist</source>
+      <translation type="unfinished">File does not exist</translation>
     </message>
     <message>
-        <source>File could not be opened</source>
-        <translation type="unfinished"></translation>
+      <source>File could not be opened</source>
+      <translation type="unfinished">File could not be opened</translation>
     </message>
     <message>
-        <source>Could not parse file</source>
-        <translation type="unfinished"></translation>
+      <source>Could not parse file</source>
+      <translation type="unfinished">Could not parse file</translation>
     </message>
     <message>
-        <source>Could save file</source>
-        <translation type="unfinished"></translation>
+      <source>Could save file</source>
+      <translation type="unfinished">Could save file</translation>
     </message>
     <message>
-        <source>Unknown error</source>
-        <translation type="unfinished">不明なエラー</translation>
+      <source>Unknown error</source>
+      <translation>不明なエラー</translation>
     </message>
     <message>
-        <source>Prefix a search term with a field name to limit the search to that field, e.g.:</source>
-        <translation type="unfinished"></translation>
+      <source>Prefix a search term with a field name to limit the search to that field, e.g.:</source>
+      <translation type="unfinished">Prefix a search term with a field name to limit the search to that field, e.g.:</translation>
     </message>
     <message>
-        <source>artist</source>
-        <translation type="unfinished">アーティスト</translation>
+      <source>artist</source>
+      <translation>アーティスト</translation>
     </message>
     <message>
-        <source>searches for all artists containing the word %1. </source>
-        <translation type="unfinished"></translation>
+      <source>searches for all artists containing the word %1. </source>
+      <translation type="unfinished">searches for all artists containing the word %1. </translation>
     </message>
     <message>
-        <source>Search terms for numerical fields can be prefixed with %1 or %2 to refine the search, e.g.: </source>
-        <translation type="unfinished"></translation>
+      <source>Search terms for numerical fields can be prefixed with %1 or %2 to refine the search, e.g.: </source>
+      <translation type="unfinished">Search terms for numerical fields can be prefixed with %1 or %2 to refine the search, e.g.: </translation>
     </message>
     <message>
-        <source>rating</source>
-        <translation type="unfinished">評価</translation>
+      <source>rating</source>
+      <translation>評価</translation>
     </message>
     <message>
-        <source>Multiple search terms can also be combined with &quot;%1&quot; (default) and &quot;%2&quot;, as well as grouped with parentheses. </source>
-        <translation type="unfinished">複数の検索語を「%1」(デフォルト) および「%2」と組み合わせたり、括弧でグループ化したりすることもできます。</translation>
+      <source>Multiple search terms can also be combined with &quot;%1&quot; (default) and &quot;%2&quot;, as well as grouped with parentheses. </source>
+      <translation>複数の検索語を「%1」(デフォルト) および「%2」と組み合わせたり、括弧でグループ化したりすることもできます。</translation>
     </message>
     <message>
-        <source>Available fields</source>
-        <translation type="unfinished">利用可能なフィールド</translation>
+      <source>Available fields</source>
+      <translation>利用可能なフィールド</translation>
     </message>
     <message>
-        <source>after</source>
-        <translation type="unfinished">の後</translation>
+      <source>after</source>
+      <translation>の後</translation>
     </message>
     <message>
-        <source>before</source>
-        <translation type="unfinished">以前</translation>
+      <source>before</source>
+      <translation>以前</translation>
     </message>
     <message>
-        <source>on</source>
-        <translation type="unfinished">が次の日付</translation>
+      <source>on</source>
+      <translation>が次の日付</translation>
     </message>
     <message>
-        <source>not on</source>
-        <translation type="unfinished">が次の日付でない</translation>
+      <source>not on</source>
+      <translation>が次の日付でない</translation>
     </message>
     <message>
-        <source>in the last</source>
-        <translation type="unfinished">最後の時間</translation>
+      <source>in the last</source>
+      <translation>最後の時間</translation>
     </message>
     <message>
-        <source>not in the last</source>
-        <translation type="unfinished">が次の時間以前</translation>
+      <source>not in the last</source>
+      <translation>が次の時間以前</translation>
     </message>
     <message>
-        <source>between</source>
-        <translation type="unfinished">の間</translation>
+      <source>between</source>
+      <translation>の間</translation>
     </message>
     <message>
-        <source>contains</source>
-        <translation type="unfinished">含む</translation>
+      <source>contains</source>
+      <translation>含む</translation>
     </message>
     <message>
-        <source>does not contain</source>
-        <translation type="unfinished">含まない</translation>
+      <source>does not contain</source>
+      <translation>含まない</translation>
     </message>
     <message>
-        <source>starts with</source>
-        <translation type="unfinished">で始まる</translation>
+      <source>starts with</source>
+      <translation>で始まる</translation>
     </message>
     <message>
-        <source>ends with</source>
-        <translation type="unfinished">で終わる</translation>
+      <source>ends with</source>
+      <translation>で終わる</translation>
     </message>
     <message>
-        <source>greater than</source>
-        <translation type="unfinished">より大きい</translation>
+      <source>greater than</source>
+      <translation>より大きい</translation>
     </message>
     <message>
-        <source>less than</source>
-        <translation type="unfinished">より小さい</translation>
+      <source>less than</source>
+      <translation>より小さい</translation>
     </message>
     <message>
-        <source>equals</source>
-        <translation type="unfinished">等しい</translation>
+      <source>equals</source>
+      <translation>等しい</translation>
     </message>
     <message>
-        <source>not equals</source>
-        <translation type="unfinished">が次と異なる</translation>
+      <source>not equals</source>
+      <translation>が次と異なる</translation>
     </message>
     <message>
-        <source>empty</source>
-        <translation type="unfinished">空</translation>
+      <source>empty</source>
+      <translation>空</translation>
     </message>
     <message>
-        <source>not empty</source>
-        <translation type="unfinished">が空ではない</translation>
+      <source>not empty</source>
+      <translation>が空ではない</translation>
     </message>
     <message>
-        <source>Comment</source>
-        <translation type="unfinished">コメント</translation>
+      <source>Comment</source>
+      <translation>コメント</translation>
     </message>
     <message>
-        <source>A-Z</source>
-        <translation type="unfinished"></translation>
+      <source>A-Z</source>
+      <translation type="unfinished">A-Z</translation>
     </message>
     <message>
-        <source>Z-A</source>
-        <translation type="unfinished"></translation>
+      <source>Z-A</source>
+      <translation type="unfinished">Z-A</translation>
     </message>
     <message>
-        <source>oldest first</source>
-        <translation type="unfinished">古い順</translation>
+      <source>oldest first</source>
+      <translation>古い順</translation>
     </message>
     <message>
-        <source>newest first</source>
-        <translation type="unfinished">新しい順</translation>
+      <source>newest first</source>
+      <translation>新しい順</translation>
     </message>
     <message>
-        <source>shortest first</source>
-        <translation type="unfinished">短い順</translation>
+      <source>shortest first</source>
+      <translation>短い順</translation>
     </message>
     <message>
-        <source>longest first</source>
-        <translation type="unfinished">最長優先</translation>
+      <source>longest first</source>
+      <translation>最長優先</translation>
     </message>
     <message>
-        <source>smallest first</source>
-        <translation type="unfinished">昇順</translation>
+      <source>smallest first</source>
+      <translation>昇順</translation>
     </message>
     <message>
-        <source>biggest first</source>
-        <translation type="unfinished">降順</translation>
+      <source>biggest first</source>
+      <translation>降順</translation>
     </message>
     <message>
-        <source>Hours</source>
-        <translation type="unfinished">時間</translation>
+      <source>Hours</source>
+      <translation>時間</translation>
     </message>
     <message>
-        <source>Days</source>
-        <translation type="unfinished">日</translation>
+      <source>Days</source>
+      <translation>日</translation>
     </message>
     <message>
-        <source>Weeks</source>
-        <translation type="unfinished">週</translation>
+      <source>Weeks</source>
+      <translation>週</translation>
     </message>
     <message>
-        <source>Months</source>
-        <translation type="unfinished">月</translation>
+      <source>Months</source>
+      <translation>月</translation>
     </message>
     <message>
-        <source>Years</source>
-        <translation type="unfinished">年</translation>
+      <source>Years</source>
+      <translation>年</translation>
     </message>
     <message>
-        <source>Normal</source>
-        <translation type="unfinished">ノーマル</translation>
+      <source>Normal</source>
+      <translation>ノーマル</translation>
     </message>
     <message>
-        <source>Angry</source>
-        <translation type="unfinished">怒り</translation>
+      <source>Angry</source>
+      <translation>怒り</translation>
     </message>
     <message>
-        <source>Frozen</source>
-        <translation type="unfinished">凍結</translation>
+      <source>Frozen</source>
+      <translation>凍結</translation>
     </message>
     <message>
-        <source>Happy</source>
-        <translation type="unfinished"></translation>
+      <source>Happy</source>
+      <translation type="unfinished">Happy</translation>
     </message>
     <message>
-        <source>System colors</source>
-        <translation type="unfinished">システムの色</translation>
+      <source>System colors</source>
+      <translation>システムの色</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>QWidget</name>
     <message>
-        <source>Clear</source>
-        <translation type="unfinished">クリア</translation>
+      <source>Clear</source>
+      <translation>クリア</translation>
     </message>
     <message>
-        <source>Reset</source>
-        <translation type="unfinished">リセット</translation>
+      <source>Reset</source>
+      <translation>リセット</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>QobuzRequest</name>
     <message>
-        <source>Receiving artists...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving artists...</source>
+      <translation type="unfinished">Receiving artists...</translation>
     </message>
     <message>
-        <source>Receiving albums...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving albums...</source>
+      <translation type="unfinished">Receiving albums...</translation>
     </message>
     <message>
-        <source>Receiving songs...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving songs...</source>
+      <translation type="unfinished">Receiving songs...</translation>
     </message>
     <message>
-        <source>Searching...</source>
-        <translation type="unfinished">検索中...</translation>
+      <source>Searching...</source>
+      <translation>検索中...</translation>
     </message>
     <message>
-        <source>Receiving albums for %1 artist...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving albums for %1 artist...</source>
+      <translation type="unfinished">Receiving albums for %1 artist...</translation>
     </message>
     <message>
-        <source>Receiving albums for %1 artists...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving albums for %1 artists...</source>
+      <translation type="unfinished">Receiving albums for %1 artists...</translation>
     </message>
     <message>
-        <source>Receiving songs for %1 album...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving songs for %1 album...</source>
+      <translation type="unfinished">Receiving songs for %1 album...</translation>
     </message>
     <message>
-        <source>Receiving songs for %1 albums...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving songs for %1 albums...</source>
+      <translation type="unfinished">Receiving songs for %1 albums...</translation>
     </message>
     <message>
-        <source>Receiving album cover for %1 album...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving album cover for %1 album...</source>
+      <translation type="unfinished">Receiving album cover for %1 album...</translation>
     </message>
     <message>
-        <source>Receiving album covers for %1 albums...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving album covers for %1 albums...</source>
+      <translation type="unfinished">Receiving album covers for %1 albums...</translation>
     </message>
     <message>
-        <source>No match.</source>
-        <translation type="unfinished">見つかりません</translation>
+      <source>No match.</source>
+      <translation>見つかりません</translation>
     </message>
     <message>
-        <source>Unknown error</source>
-        <translation type="unfinished">不明なエラー</translation>
+      <source>Unknown error</source>
+      <translation>不明なエラー</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>QobuzService</name>
     <message>
-        <source>Authenticating...</source>
-        <translation type="unfinished">認証中...</translation>
+      <source>Authenticating...</source>
+      <translation>認証中...</translation>
     </message>
     <message>
-        <source>Maximum number of login attempts reached.</source>
-        <translation type="unfinished">ログイン試行数が最大数に達しました</translation>
+      <source>Maximum number of login attempts reached.</source>
+      <translation>ログイン試行数が最大数に達しました</translation>
     </message>
     <message>
-        <source>Missing Qobuz app ID.</source>
-        <translation type="unfinished">Qobuz app ID がありません</translation>
+      <source>Missing Qobuz app ID.</source>
+      <translation>Qobuz app ID がありません</translation>
     </message>
     <message>
-        <source>Missing Qobuz username.</source>
-        <translation type="unfinished">Qobuz ユーザー名がありません</translation>
+      <source>Missing Qobuz username.</source>
+      <translation>Qobuz ユーザー名がありません</translation>
     </message>
     <message>
-        <source>Missing Qobuz password.</source>
-        <translation type="unfinished">Qobuz パスワードがありません</translation>
+      <source>Missing Qobuz password.</source>
+      <translation>Qobuz パスワードがありません</translation>
     </message>
     <message>
-        <source>Not authenticated with Qobuz.</source>
-        <translation type="unfinished">Qobuz で認証されませんでした</translation>
+      <source>Not authenticated with Qobuz.</source>
+      <translation>Qobuz で認証されませんでした</translation>
     </message>
     <message>
-        <source>Missing Qobuz app ID or secret.</source>
-        <translation type="unfinished">Qobuz app ID またはシークレットがありません</translation>
+      <source>Missing Qobuz app ID or secret.</source>
+      <translation>Qobuz app ID またはシークレットがありません</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>QobuzSettingsPage</name>
     <message>
-        <source>Qobuz</source>
-        <translation type="unfinished"></translation>
+      <source>Qobuz</source>
+      <translation type="unfinished">Qobuz</translation>
     </message>
     <message>
-        <source>Enable</source>
-        <translation type="unfinished">有効</translation>
+      <source>Enable</source>
+      <translation>有効</translation>
     </message>
     <message>
-        <source>Qobuz support is not official and requires an API app ID and secret from a registered application to work. We can&apos;t help you getting these.</source>
-        <translation type="unfinished">Qobuz のサポートは公式ではなく、利用するには API app ID と登録済みアプリケーションのシークレットが必要です。私たちはあなたがこれらを手に入れるのを手伝うことはできません。</translation>
+      <source>Qobuz support is not official and requires an API app ID and secret from a registered application to work. We can&apos;t help you getting these.</source>
+      <translation>Qobuz のサポートは公式ではなく、利用するには API app ID と登録済みアプリケーションのシークレットが必要です。私たちはあなたがこれらを手に入れるのを手伝うことはできません。</translation>
     </message>
     <message>
-        <source>Authentication</source>
-        <translation type="unfinished">認証</translation>
+      <source>Authentication</source>
+      <translation>認証</translation>
     </message>
     <message>
-        <source>App ID</source>
-        <translation type="unfinished"></translation>
+      <source>App ID</source>
+      <translation type="unfinished">App ID</translation>
     </message>
     <message>
-        <source>Username</source>
-        <translation type="unfinished">ユーザー名</translation>
+      <source>Username</source>
+      <translation>ユーザー名</translation>
     </message>
     <message>
-        <source>Password</source>
-        <translation type="unfinished">パスワード</translation>
+      <source>Password</source>
+      <translation>パスワード</translation>
     </message>
     <message>
-        <source>App Secret</source>
-        <translation type="unfinished"></translation>
+      <source>App Secret</source>
+      <translation type="unfinished">App Secret</translation>
     </message>
     <message>
-        <source>Login</source>
-        <translation type="unfinished">ログイン</translation>
+      <source>Login</source>
+      <translation>ログイン</translation>
     </message>
     <message>
-        <source>Preferences</source>
-        <translation type="unfinished">設定</translation>
+      <source>Preferences</source>
+      <translation>設定</translation>
     </message>
     <message>
-        <source>Audio format</source>
-        <translation type="unfinished">オーディオ形式</translation>
+      <source>Audio format</source>
+      <translation>オーディオ形式</translation>
     </message>
     <message>
-        <source>Search delay</source>
-        <translation type="unfinished"></translation>
+      <source>Search delay</source>
+      <translation type="unfinished">Search delay</translation>
     </message>
     <message>
-        <source>ms</source>
-        <translation type="unfinished"></translation>
+      <source>ms</source>
+      <translation type="unfinished">ms</translation>
     </message>
     <message>
-        <source>Artists search limit</source>
-        <translation type="unfinished">アーティスト検索の制限</translation>
+      <source>Artists search limit</source>
+      <translation>アーティスト検索の制限</translation>
     </message>
     <message>
-        <source>Albums search limit</source>
-        <translation type="unfinished">アルバム検索の制限</translation>
+      <source>Albums search limit</source>
+      <translation>アルバム検索の制限</translation>
     </message>
     <message>
-        <source>Songs search limit</source>
-        <translation type="unfinished">曲検索の制限</translation>
+      <source>Songs search limit</source>
+      <translation>曲検索の制限</translation>
     </message>
     <message>
-        <source>Download album covers</source>
-        <translation type="unfinished">アルバムカバーをダウンロード</translation>
+      <source>Download album covers</source>
+      <translation>アルバムカバーをダウンロード</translation>
     </message>
     <message>
-        <source>Base64 encoded secret</source>
-        <translation type="unfinished">Base64でエンコードされたシークレット</translation>
+      <source>Base64 encoded secret</source>
+      <translation>Base64でエンコードされたシークレット</translation>
     </message>
     <message>
-        <source>Configuration incomplete</source>
-        <translation type="unfinished">設定に失敗</translation>
+      <source>Configuration incomplete</source>
+      <translation>設定に失敗</translation>
     </message>
     <message>
-        <source>Missing app id.</source>
-        <translation type="unfinished">app id がありません</translation>
+      <source>Missing app id.</source>
+      <translation>app id がありません</translation>
     </message>
     <message>
-        <source>Missing username.</source>
-        <translation type="unfinished">ユーザー名がありません</translation>
+      <source>Missing username.</source>
+      <translation>ユーザー名がありません</translation>
     </message>
     <message>
-        <source>Missing password.</source>
-        <translation type="unfinished">パスワードがありません</translation>
+      <source>Missing password.</source>
+      <translation>パスワードがありません</translation>
     </message>
     <message>
-        <source>Authentication failed</source>
-        <translation type="unfinished">認証に失敗しました</translation>
+      <source>Authentication failed</source>
+      <translation>認証に失敗しました</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>QobuzStreamURLRequest</name>
     <message>
-        <source>Missing Qobuz app ID or secret.</source>
-        <translation type="unfinished">Qobuz app ID またはシークレットがありません</translation>
+      <source>Missing Qobuz app ID or secret.</source>
+      <translation>Qobuz app ID またはシークレットがありません</translation>
     </message>
     <message>
-        <source>Cancelled.</source>
-        <translation type="unfinished">キャンセルされました。</translation>
+      <source>Cancelled.</source>
+      <translation>キャンセルされました。</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>Queue</name>
     <message numerus="yes">
-        <source>%n track(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
+      <source>%n track(s)</source>
+      <translation type="unfinished">
+        <numerusform>%n track(s)</numerusform>
+      </translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>QueueView</name>
     <message>
-        <source>QueueView</source>
-        <translation type="unfinished">キュービュー</translation>
+      <source>QueueView</source>
+      <translation>キュービュー</translation>
     </message>
     <message>
-        <source>Move down</source>
-        <translation type="unfinished">下へ移動</translation>
+      <source>Move down</source>
+      <translation>下へ移動</translation>
     </message>
     <message>
-        <source>Ctrl+Up</source>
-        <translation type="unfinished"></translation>
+      <source>Ctrl+Up</source>
+      <translation type="unfinished">Ctrl+Up</translation>
     </message>
     <message>
-        <source>Move up</source>
-        <translation type="unfinished">上へ移動</translation>
+      <source>Move up</source>
+      <translation>上へ移動</translation>
     </message>
     <message>
-        <source>Ctrl+Down</source>
-        <translation type="unfinished"></translation>
+      <source>Ctrl+Down</source>
+      <translation type="unfinished">Ctrl+Down</translation>
     </message>
     <message>
-        <source>Remove</source>
-        <translation type="unfinished">削除</translation>
+      <source>Remove</source>
+      <translation>削除</translation>
     </message>
     <message>
-        <source>Clear</source>
-        <translation type="unfinished">クリア</translation>
+      <source>Clear</source>
+      <translation>クリア</translation>
     </message>
     <message>
-        <source>Ctrl+K</source>
-        <translation type="unfinished"></translation>
+      <source>Ctrl+K</source>
+      <translation type="unfinished">Ctrl+K</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>RadioParadiseService</name>
     <message>
-        <source>Getting %1 channels</source>
-        <translation type="unfinished">%1 チャネルを取得中</translation>
+      <source>Getting %1 channels</source>
+      <translation>%1 チャネルを取得中</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>RadioView</name>
     <message>
-        <source>Append to current playlist</source>
-        <translation type="unfinished">現在のプレイリストに追加する</translation>
+      <source>Append to current playlist</source>
+      <translation>現在のプレイリストに追加する</translation>
     </message>
     <message>
-        <source>Replace current playlist</source>
-        <translation type="unfinished">現在のプレイリストを置き換える</translation>
+      <source>Replace current playlist</source>
+      <translation>現在のプレイリストを置き換える</translation>
     </message>
     <message>
-        <source>Open in new playlist</source>
-        <translation type="unfinished">新しいプレイリストで開く</translation>
+      <source>Open in new playlist</source>
+      <translation>新しいプレイリストで開く</translation>
     </message>
     <message>
-        <source>Open homepage</source>
-        <translation type="unfinished">ホームページを開く</translation>
+      <source>Open homepage</source>
+      <translation>ホームページを開く</translation>
     </message>
     <message>
-        <source>Donate</source>
-        <translation type="unfinished">寄付</translation>
+      <source>Donate</source>
+      <translation>寄付</translation>
     </message>
     <message>
-        <source>Refresh channels</source>
-        <translation type="unfinished">チャネルを更新</translation>
+      <source>Refresh channels</source>
+      <translation>チャネルを更新</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>RadioViewContainer</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">フォーム</translation>
+      <source>Form</source>
+      <translation>フォーム</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SCollection</name>
     <message>
-        <source>Saving playcounts and ratings</source>
-        <translation type="unfinished">再生回数と評価</translation>
+      <source>Saving playcounts and ratings</source>
+      <translation>再生回数と評価</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SavePlaylistsDialog</name>
     <message>
-        <source>Select directory for saving playlists</source>
-        <translation type="unfinished">プレイリストを保存するディレクトリを選択</translation>
+      <source>Select directory for saving playlists</source>
+      <translation>プレイリストを保存するディレクトリを選択</translation>
     </message>
     <message>
-        <source>Type</source>
-        <translation type="unfinished">タイプ</translation>
+      <source>Type</source>
+      <translation>タイプ</translation>
     </message>
     <message>
-        <source>Select directory for the playlists</source>
-        <translation type="unfinished">プレイリストのディレクトリを選択</translation>
+      <source>Select directory for the playlists</source>
+      <translation>プレイリストのディレクトリを選択</translation>
     </message>
     <message>
-        <source>Directory does not exist.</source>
-        <translation type="unfinished">ディレクトリが存在しません。</translation>
+      <source>Directory does not exist.</source>
+      <translation>ディレクトリが存在しません。</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SavedGroupingManager</name>
     <message>
-        <source>Saved Grouping Manager</source>
-        <translation type="unfinished">保存した分類マネージャー</translation>
+      <source>Saved Grouping Manager</source>
+      <translation>保存した分類マネージャー</translation>
     </message>
     <message>
-        <source>Remove</source>
-        <translation type="unfinished">削除</translation>
+      <source>Remove</source>
+      <translation>削除</translation>
     </message>
     <message>
-        <source>Ctrl+Up</source>
-        <translation type="unfinished"></translation>
+      <source>Ctrl+Up</source>
+      <translation type="unfinished">Ctrl+Up</translation>
     </message>
     <message>
-        <source>Name</source>
-        <translation type="unfinished">名前</translation>
+      <source>Name</source>
+      <translation>名前</translation>
     </message>
     <message>
-        <source>First level</source>
-        <translation type="unfinished">第 1 階層</translation>
+      <source>First level</source>
+      <translation>第 1 階層</translation>
     </message>
     <message>
-        <source>Second Level</source>
-        <translation type="unfinished">第 2 階層</translation>
+      <source>Second Level</source>
+      <translation>第 2 階層</translation>
     </message>
     <message>
-        <source>Third Level</source>
-        <translation type="unfinished">第 3 階層</translation>
+      <source>Third Level</source>
+      <translation>第 3 階層</translation>
     </message>
     <message>
-        <source>None</source>
-        <translation type="unfinished">なし</translation>
+      <source>None</source>
+      <translation>なし</translation>
     </message>
     <message>
-        <source>Album artist</source>
-        <translation type="unfinished">アルバムアーティスト</translation>
+      <source>Album artist</source>
+      <translation>アルバムアーティスト</translation>
     </message>
     <message>
-        <source>Artist</source>
-        <translation type="unfinished">アーティスト</translation>
+      <source>Artist</source>
+      <translation>アーティスト</translation>
     </message>
     <message>
-        <source>Album</source>
-        <translation type="unfinished">アルバム</translation>
+      <source>Album</source>
+      <translation>アルバム</translation>
     </message>
     <message>
-        <source>Album - Disc</source>
-        <translation type="unfinished">アルバム - ディスク</translation>
+      <source>Album - Disc</source>
+      <translation>アルバム - ディスク</translation>
     </message>
     <message>
-        <source>Year - Album</source>
-        <translation type="unfinished">年 - アルバム</translation>
+      <source>Year - Album</source>
+      <translation>年 - アルバム</translation>
     </message>
     <message>
-        <source>Year - Album - Disc</source>
-        <translation type="unfinished">年 - アルバム - ディスク</translation>
+      <source>Year - Album - Disc</source>
+      <translation>年 - アルバム - ディスク</translation>
     </message>
     <message>
-        <source>Original year - Album</source>
-        <translation type="unfinished">元の年 - アルバム</translation>
+      <source>Original year - Album</source>
+      <translation>元の年 - アルバム</translation>
     </message>
     <message>
-        <source>Original year - Album - Disc</source>
-        <translation type="unfinished">元の年 - アルバム - ディスク</translation>
+      <source>Original year - Album - Disc</source>
+      <translation>元の年 - アルバム - ディスク</translation>
     </message>
     <message>
-        <source>Disc</source>
-        <translation type="unfinished">ディスク</translation>
+      <source>Disc</source>
+      <translation>ディスク</translation>
     </message>
     <message>
-        <source>Year</source>
-        <translation type="unfinished">年</translation>
+      <source>Year</source>
+      <translation>年</translation>
     </message>
     <message>
-        <source>Original year</source>
-        <translation type="unfinished">元の年</translation>
+      <source>Original year</source>
+      <translation>元の年</translation>
     </message>
     <message>
-        <source>Genre</source>
-        <translation type="unfinished">ジャンル</translation>
+      <source>Genre</source>
+      <translation>ジャンル</translation>
     </message>
     <message>
-        <source>Composer</source>
-        <translation type="unfinished">作曲者</translation>
+      <source>Composer</source>
+      <translation>作曲者</translation>
     </message>
     <message>
-        <source>Performer</source>
-        <translation type="unfinished">出演者</translation>
+      <source>Performer</source>
+      <translation>出演者</translation>
     </message>
     <message>
-        <source>Grouping</source>
-        <translation type="unfinished">分類</translation>
+      <source>Grouping</source>
+      <translation>分類</translation>
     </message>
     <message>
-        <source>File type</source>
-        <translation type="unfinished">ファイルの種類</translation>
+      <source>File type</source>
+      <translation>ファイルの種類</translation>
     </message>
     <message>
-        <source>Format</source>
-        <translation type="unfinished">形式</translation>
+      <source>Format</source>
+      <translation>形式</translation>
     </message>
     <message>
-        <source>Sample rate</source>
-        <translation type="unfinished">サンプルレート</translation>
+      <source>Sample rate</source>
+      <translation>サンプルレート</translation>
     </message>
     <message>
-        <source>Bit depth</source>
-        <translation type="unfinished">ビット深度</translation>
+      <source>Bit depth</source>
+      <translation>ビット深度</translation>
     </message>
     <message>
-        <source>Bitrate</source>
-        <translation type="unfinished">ビットレート</translation>
+      <source>Bitrate</source>
+      <translation>ビットレート</translation>
     </message>
     <message>
-        <source>Unknown</source>
-        <translation type="unfinished">不明</translation>
+      <source>Unknown</source>
+      <translation>不明</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>ScrobblerSettingsPage</name>
     <message>
-        <source>Scrobbler</source>
-        <translation type="unfinished"></translation>
+      <source>Scrobbler</source>
+      <translation type="unfinished">Scrobbler</translation>
     </message>
     <message>
-        <source>Enable</source>
-        <translation type="unfinished">有効</translation>
+      <source>Enable</source>
+      <translation>有効</translation>
     </message>
     <message>
-        <source>Songs are scrobbled if they have valid metadata and are longer than 30 seconds, have been playing for at least half its duration or for 4 minutes (whichever occurs earlier).</source>
-        <translation type="unfinished">有効なメタデータで30秒以上ある曲で、再生時間が少なくとも半分または4分間（どちらか早い方）になると、曲は Scrobble されます。</translation>
+      <source>Songs are scrobbled if they have valid metadata and are longer than 30 seconds, have been playing for at least half its duration or for 4 minutes (whichever occurs earlier).</source>
+      <translation>有効なメタデータで30秒以上ある曲で、再生時間が少なくとも半分または4分間（どちらか早い方）になると、曲は Scrobble されます。</translation>
     </message>
     <message>
-        <source>Work in offline mode (Only cache scrobbles)</source>
-        <translation type="unfinished"></translation>
+      <source>Work in offline mode (Only cache scrobbles)</source>
+      <translation type="unfinished">Work in offline mode (Only cache scrobbles)</translation>
     </message>
     <message>
-        <source>Show scrobble button</source>
-        <translation type="unfinished">Scrobbleボタンを表示</translation>
+      <source>Show scrobble button</source>
+      <translation>Scrobbleボタンを表示</translation>
     </message>
     <message>
-        <source>Show love button</source>
-        <translation type="unfinished">Loveボタンを表示</translation>
+      <source>Show love button</source>
+      <translation>Loveボタンを表示</translation>
     </message>
     <message>
-        <source>Submit scrobbles every</source>
-        <translation type="unfinished"></translation>
+      <source>Submit scrobbles every</source>
+      <translation type="unfinished">Submit scrobbles every</translation>
     </message>
     <message>
-        <source> seconds</source>
-        <translation type="unfinished"> 秒</translation>
+      <source> seconds</source>
+      <translation> 秒</translation>
     </message>
     <message>
-        <source>(This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately).</source>
-        <translation type="unfinished"></translation>
+      <source>(This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately).</source>
+      <translation type="unfinished">(This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately).</translation>
     </message>
     <message>
-        <source>Prefer album artist when sending scrobbles</source>
-        <translation type="unfinished">Scrobbles を送信するときにアルバムアーティストを優先する</translation>
+      <source>Prefer album artist when sending scrobbles</source>
+      <translation>Scrobbles を送信するときにアルバムアーティストを優先する</translation>
     </message>
     <message>
-        <source>Show dialog for errors</source>
-        <translation type="unfinished">エラーダイアログを表示</translation>
+      <source>Show dialog for errors</source>
+      <translation>エラーダイアログを表示</translation>
     </message>
     <message>
-        <source>Strip &quot;remastered&quot; and similar from album and title</source>
-        <translation type="unfinished"></translation>
+      <source>Strip &quot;remastered&quot; and similar from album and title</source>
+      <translation type="unfinished">Strip &quot;remastered&quot; and similar from album and title</translation>
     </message>
     <message>
-        <source>Enable scrobbling for the following sources:</source>
-        <translation type="unfinished">以下のソースへのScrobblingを有効化:</translation>
+      <source>Enable scrobbling for the following sources:</source>
+      <translation>以下のソースへのScrobblingを有効化:</translation>
     </message>
     <message>
-        <source>Collection</source>
-        <translation type="unfinished">ライブラリ</translation>
+      <source>Collection</source>
+      <translation>ライブラリ</translation>
     </message>
     <message>
-        <source>Subsonic</source>
-        <translation type="unfinished"></translation>
+      <source>Subsonic</source>
+      <translation type="unfinished">Subsonic</translation>
     </message>
     <message>
-        <source>Local file</source>
-        <translation type="unfinished">ローカルファイル</translation>
+      <source>Local file</source>
+      <translation>ローカルファイル</translation>
     </message>
     <message>
-        <source>Tidal</source>
-        <translation type="unfinished"></translation>
+      <source>Tidal</source>
+      <translation type="unfinished">Tidal</translation>
     </message>
     <message>
-        <source>Device</source>
-        <translation type="unfinished">デバイス</translation>
+      <source>Device</source>
+      <translation>デバイス</translation>
     </message>
     <message>
-        <source>Qobuz</source>
-        <translation type="unfinished"></translation>
+      <source>Qobuz</source>
+      <translation type="unfinished">Qobuz</translation>
     </message>
     <message>
-        <source>CDDA</source>
-        <translation type="unfinished">オーディオ CD</translation>
+      <source>CDDA</source>
+      <translation>オーディオ CD</translation>
     </message>
     <message>
-        <source>SomaFM</source>
-        <translation type="unfinished"></translation>
+      <source>SomaFM</source>
+      <translation type="unfinished">SomaFM</translation>
     </message>
     <message>
-        <source>Stream</source>
-        <translation type="unfinished">ストリーム</translation>
+      <source>Stream</source>
+      <translation>ストリーム</translation>
     </message>
     <message>
-        <source>Radio Paradise</source>
-        <translation type="unfinished"></translation>
+      <source>Radio Paradise</source>
+      <translation type="unfinished">Radio Paradise</translation>
     </message>
     <message>
-        <source>Unknown</source>
-        <translation type="unfinished">不明</translation>
+      <source>Unknown</source>
+      <translation>不明</translation>
     </message>
     <message>
-        <source>Last.fm</source>
-        <translation type="unfinished"></translation>
+      <source>Last.fm</source>
+      <translation type="unfinished">Last.fm</translation>
     </message>
     <message>
-        <source>Login</source>
-        <translation type="unfinished">ログイン</translation>
+      <source>Login</source>
+      <translation>ログイン</translation>
     </message>
     <message>
-        <source>Libre.fm</source>
-        <translation type="unfinished"></translation>
+      <source>Libre.fm</source>
+      <translation type="unfinished">Libre.fm</translation>
     </message>
     <message>
-        <source>Listenbrainz</source>
-        <translation type="unfinished"></translation>
+      <source>Listenbrainz</source>
+      <translation type="unfinished">Listenbrainz</translation>
     </message>
     <message>
-        <source>User token:</source>
-        <translation type="unfinished">ユーザートークン:</translation>
+      <source>User token:</source>
+      <translation>ユーザートークン:</translation>
     </message>
     <message>
-        <source>Enter your user token from</source>
-        <translation type="unfinished">ユーザートークンを入力:</translation>
+      <source>Enter your user token from</source>
+      <translation>ユーザートークンを入力:</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>ScrobblingAPI20</name>
     <message>
-        <source>%1 Scrobbler Authentication</source>
-        <translation type="unfinished">%1 Scrobbler 認証</translation>
+      <source>%1 Scrobbler Authentication</source>
+      <translation>%1 Scrobbler 認証</translation>
     </message>
     <message>
-        <source>Open URL in web browser?</source>
-        <translation type="unfinished">ブラウザで開きますか?</translation>
+      <source>Open URL in web browser?</source>
+      <translation>ブラウザで開きますか?</translation>
     </message>
     <message>
-        <source>Press &quot;Save&quot; to copy the URL to clipboard and manually open it in a web browser.</source>
-        <translation type="unfinished">&quot;保存&quot;を押してURLをクリップボードにコピーし、Webブラウザで手動で開きます</translation>
+      <source>Press &quot;Save&quot; to copy the URL to clipboard and manually open it in a web browser.</source>
+      <translation>&quot;保存&quot;を押してURLをクリップボードにコピーし、Webブラウザで手動で開きます</translation>
     </message>
     <message>
-        <source>Could not open URL. Please open this URL in your browser</source>
-        <translation type="unfinished">URLを開けません。ブラウザで開いてください。</translation>
+      <source>Could not open URL. Please open this URL in your browser</source>
+      <translation>URLを開けません。ブラウザで開いてください。</translation>
     </message>
     <message>
-        <source>Invalid reply from web browser. Missing token.</source>
-        <translation type="unfinished">ブラウザからの不正な応答 トークンがありません</translation>
+      <source>Invalid reply from web browser. Missing token.</source>
+      <translation>ブラウザからの不正な応答 トークンがありません</translation>
     </message>
     <message>
-        <source>Received invalid reply from web browser. Try another browser.</source>
-        <translation type="unfinished"></translation>
+      <source>Received invalid reply from web browser. Try another browser.</source>
+      <translation type="unfinished">Received invalid reply from web browser. Try another browser.</translation>
     </message>
     <message>
-        <source>Scrobbler %1 is not authenticated!</source>
-        <translation type="unfinished"></translation>
+      <source>Scrobbler %1 is not authenticated!</source>
+      <translation type="unfinished">Scrobbler %1 is not authenticated!</translation>
     </message>
     <message>
-        <source>Scrobbler %1 error: %2</source>
-        <translation type="unfinished">Scrobbler %1 のエラー: %2</translation>
+      <source>Scrobbler %1 error: %2</source>
+      <translation>Scrobbler %1 のエラー: %2</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SettingsDialog</name>
     <message>
-        <source>Settings</source>
-        <translation type="unfinished">設定</translation>
+      <source>Settings</source>
+      <translation>設定</translation>
     </message>
     <message>
-        <source>General</source>
-        <translation type="unfinished">全般</translation>
+      <source>General</source>
+      <translation>全般</translation>
     </message>
     <message>
-        <source>User interface</source>
-        <translation type="unfinished">ユーザーインターフェース</translation>
+      <source>User interface</source>
+      <translation>ユーザーインターフェース</translation>
     </message>
     <message>
-        <source>Streaming</source>
-        <translation type="unfinished">ストリーミング</translation>
+      <source>Streaming</source>
+      <translation>ストリーミング</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SmartPlaylistQuerySearchPage</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">フォーム</translation>
+      <source>Form</source>
+      <translation>フォーム</translation>
     </message>
     <message>
-        <source>Search mode</source>
-        <translation type="unfinished">検索モード</translation>
+      <source>Search mode</source>
+      <translation>検索モード</translation>
     </message>
     <message>
-        <source>Match every search term (AND)</source>
-        <translation type="unfinished">すべての検索語に一致 (AND)</translation>
+      <source>Match every search term (AND)</source>
+      <translation>すべての検索語に一致 (AND)</translation>
     </message>
     <message>
-        <source>Match one or more search terms (OR)</source>
-        <translation type="unfinished">1 つ以上の検索語に一致する (OR)</translation>
+      <source>Match one or more search terms (OR)</source>
+      <translation>1 つ以上の検索語に一致する (OR)</translation>
     </message>
     <message>
-        <source>Include all songs</source>
-        <translation type="unfinished">すべての曲を含む</translation>
+      <source>Include all songs</source>
+      <translation>すべての曲を含む</translation>
     </message>
     <message>
-        <source>Search terms</source>
-        <translation type="unfinished">検索語</translation>
+      <source>Search terms</source>
+      <translation>検索語</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SmartPlaylistQuerySortPage</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">フォーム</translation>
+      <source>Form</source>
+      <translation>フォーム</translation>
     </message>
     <message>
-        <source>Sorting</source>
-        <translation type="unfinished">整列</translation>
+      <source>Sorting</source>
+      <translation>整列</translation>
     </message>
     <message>
-        <source>Put songs in a random order</source>
-        <translation type="unfinished">曲をランダムに並び替える</translation>
+      <source>Put songs in a random order</source>
+      <translation>曲をランダムに並び替える</translation>
     </message>
     <message>
-        <source>Sort songs by</source>
-        <translation type="unfinished">曲を並べ替え</translation>
+      <source>Sort songs by</source>
+      <translation>曲を並べ替え</translation>
     </message>
     <message>
-        <source>Limits</source>
-        <translation type="unfinished">制限</translation>
+      <source>Limits</source>
+      <translation>制限</translation>
     </message>
     <message>
-        <source>Show all the songs</source>
-        <translation type="unfinished">すべての曲を表示</translation>
+      <source>Show all the songs</source>
+      <translation>すべての曲を表示</translation>
     </message>
     <message>
-        <source>Only show the first</source>
-        <translation type="unfinished">最初だけ表示</translation>
+      <source>Only show the first</source>
+      <translation>最初だけ表示</translation>
     </message>
     <message>
-        <source> songs</source>
-        <translation type="unfinished"> 曲</translation>
+      <source> songs</source>
+      <translation> 曲</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SmartPlaylistQueryWizardPlugin</name>
     <message>
-        <source>Collection search</source>
-        <translation type="unfinished">コレクション検索</translation>
+      <source>Collection search</source>
+      <translation>コレクション検索</translation>
     </message>
     <message>
-        <source>Find songs in your collection that match the criteria you specify.</source>
-        <translation type="unfinished">指定した条件でコレクションを検索します</translation>
+      <source>Find songs in your collection that match the criteria you specify.</source>
+      <translation>指定した条件でコレクションを検索します</translation>
     </message>
     <message>
-        <source>Search terms</source>
-        <translation type="unfinished">検索語</translation>
+      <source>Search terms</source>
+      <translation>検索語</translation>
     </message>
     <message>
-        <source>A song will be included in the playlist if it matches these conditions.</source>
-        <translation type="unfinished">これらの条件に一致する曲がプレイリストに含まれます</translation>
+      <source>A song will be included in the playlist if it matches these conditions.</source>
+      <translation>これらの条件に一致する曲がプレイリストに含まれます</translation>
     </message>
     <message>
-        <source>Search options</source>
-        <translation type="unfinished">検索オプション</translation>
+      <source>Search options</source>
+      <translation>検索オプション</translation>
     </message>
     <message>
-        <source>Choose how the playlist is sorted and how many songs it will contain.</source>
-        <translation type="unfinished">プレイリストの並び順と含まれる曲数を選択します。</translation>
+      <source>Choose how the playlist is sorted and how many songs it will contain.</source>
+      <translation>プレイリストの並び順と含まれる曲数を選択します。</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SmartPlaylistSearchPreview</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">フォーム</translation>
+      <source>Form</source>
+      <translation>フォーム</translation>
     </message>
     <message>
-        <source>Preview</source>
-        <translation type="unfinished">プレビュー</translation>
+      <source>Preview</source>
+      <translation>プレビュー</translation>
     </message>
     <message>
-        <source>Loading...</source>
-        <translation type="unfinished">読み込んでいます...</translation>
+      <source>Loading...</source>
+      <translation>読み込んでいます...</translation>
     </message>
     <message>
-        <source>%1 songs found (showing %2)</source>
-        <translation type="unfinished">%1 曲が見つかりました( %2 を表示中)</translation>
+      <source>%1 songs found (showing %2)</source>
+      <translation>%1 曲が見つかりました( %2 を表示中)</translation>
     </message>
     <message>
-        <source>%1 songs found</source>
-        <translation type="unfinished">%1 曲が見つかりました</translation>
+      <source>%1 songs found</source>
+      <translation>%1 曲が見つかりました</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SmartPlaylistSearchTermWidget</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">フォーム</translation>
+      <source>Form</source>
+      <translation>フォーム</translation>
     </message>
     <message>
-        <source>and</source>
-        <translation type="unfinished">かつ</translation>
+      <source>and</source>
+      <translation>かつ</translation>
     </message>
     <message>
-        <source>ago</source>
-        <translation type="unfinished">前</translation>
+      <source>ago</source>
+      <translation>前</translation>
     </message>
     <message>
-        <source>The second value must be greater than the first one!</source>
-        <translation type="unfinished"></translation>
+      <source>The second value must be greater than the first one!</source>
+      <translation type="unfinished">The second value must be greater than the first one!</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SmartPlaylistSearchTermWidgetOverlay</name>
     <message>
-        <source>Add search term</source>
-        <translation type="unfinished">検索条件を追加</translation>
+      <source>Add search term</source>
+      <translation>検索条件を追加</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SmartPlaylistWizard</name>
     <message>
-        <source>Smart playlist</source>
-        <translation type="unfinished">スマートプレイリスト</translation>
+      <source>Smart playlist</source>
+      <translation>スマートプレイリスト</translation>
     </message>
     <message>
-        <source>Playlist type</source>
-        <translation type="unfinished">プレイリストタイプ</translation>
+      <source>Playlist type</source>
+      <translation>プレイリストタイプ</translation>
     </message>
     <message>
-        <source>A smart playlist is a dynamic list of songs that come from your collection.  There are different types of smart playlist that offer different ways of selecting songs.</source>
-        <translation type="unfinished">スマートプレイリストは、コレクションから一定の作成される動的なプレイリストです。さまざまな選曲方法を提供する異なるタイプのスマートプレイリストがあります。</translation>
+      <source>A smart playlist is a dynamic list of songs that come from your collection.  There are different types of smart playlist that offer different ways of selecting songs.</source>
+      <translation>スマートプレイリストは、コレクションから一定の作成される動的なプレイリストです。さまざまな選曲方法を提供する異なるタイプのスマートプレイリストがあります。</translation>
     </message>
     <message>
-        <source>Finish</source>
-        <translation type="unfinished">終了</translation>
+      <source>Finish</source>
+      <translation>終了</translation>
     </message>
     <message>
-        <source>Choose a name for your smart playlist</source>
-        <translation type="unfinished">スマートプレイリスト名の変更</translation>
+      <source>Choose a name for your smart playlist</source>
+      <translation>スマートプレイリスト名の変更</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SmartPlaylistWizardFinishPage</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">フォーム</translation>
+      <source>Form</source>
+      <translation>フォーム</translation>
     </message>
     <message>
-        <source>Name</source>
-        <translation type="unfinished">名前</translation>
+      <source>Name</source>
+      <translation>名前</translation>
     </message>
     <message>
-        <source>Use dynamic mode</source>
-        <translation type="unfinished">ダイナミックモード</translation>
+      <source>Use dynamic mode</source>
+      <translation>ダイナミックモード</translation>
     </message>
     <message>
-        <source>In dynamic mode new tracks will be chosen and added to the playlist every time a song finishes.</source>
-        <translation type="unfinished">ダイナミックモードでは曲が終了するたびに新しいトラックが選択され、プレイリストに追加されます</translation>
+      <source>In dynamic mode new tracks will be chosen and added to the playlist every time a song finishes.</source>
+      <translation>ダイナミックモードでは曲が終了するたびに新しいトラックが選択され、プレイリストに追加されます</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SmartPlaylists</name>
     <message>
-        <source>Newest tracks</source>
-        <translation type="unfinished">新しい順</translation>
+      <source>Newest tracks</source>
+      <translation>新しい順</translation>
     </message>
     <message>
-        <source>50 random tracks</source>
-        <translation type="unfinished">ランダムな 50 トラック</translation>
+      <source>50 random tracks</source>
+      <translation>ランダムな 50 トラック</translation>
     </message>
     <message>
-        <source>Ever played</source>
-        <translation type="unfinished">再生済み</translation>
+      <source>Ever played</source>
+      <translation>再生済み</translation>
     </message>
     <message>
-        <source>Never played</source>
-        <translation type="unfinished">未再生</translation>
+      <source>Never played</source>
+      <translation>未再生</translation>
     </message>
     <message>
-        <source>Last played</source>
-        <translation type="unfinished"></translation>
+      <source>Last played</source>
+      <translation type="unfinished">Last played</translation>
     </message>
     <message>
-        <source>Most played</source>
-        <translation type="unfinished">最も再生された曲</translation>
+      <source>Most played</source>
+      <translation>最も再生された曲</translation>
     </message>
     <message>
-        <source>Favourite tracks</source>
-        <translation type="unfinished">お気に入りのトラック</translation>
+      <source>Favourite tracks</source>
+      <translation>お気に入りのトラック</translation>
     </message>
     <message>
-        <source>All tracks</source>
-        <translation type="unfinished">すべてのトラック</translation>
+      <source>All tracks</source>
+      <translation>すべてのトラック</translation>
     </message>
     <message>
-        <source>Dynamic random mix</source>
-        <translation type="unfinished">ダイナミックランダムミックス</translation>
+      <source>Dynamic random mix</source>
+      <translation>ダイナミックランダムミックス</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SmartPlaylistsViewContainer</name>
     <message>
-        <source>New smart playlist</source>
-        <translation type="unfinished">新しいスマートプレイリスト</translation>
+      <source>New smart playlist</source>
+      <translation>新しいスマートプレイリスト</translation>
     </message>
     <message>
-        <source>Edit smart playlist</source>
-        <translation type="unfinished">スマートプレイリストを編集</translation>
+      <source>Edit smart playlist</source>
+      <translation>スマートプレイリストを編集</translation>
     </message>
     <message>
-        <source>Delete smart playlist</source>
-        <translation type="unfinished">スマートプレイリストを削除</translation>
+      <source>Delete smart playlist</source>
+      <translation>スマートプレイリストを削除</translation>
     </message>
     <message>
-        <source>New smart playlist...</source>
-        <translation type="unfinished">新しいスマートプレイリスト...</translation>
+      <source>New smart playlist...</source>
+      <translation>新しいスマートプレイリスト...</translation>
     </message>
     <message>
-        <source>Append to current playlist</source>
-        <translation type="unfinished">現在のプレイリストに追加する</translation>
+      <source>Append to current playlist</source>
+      <translation>現在のプレイリストに追加する</translation>
     </message>
     <message>
-        <source>Replace current playlist</source>
-        <translation type="unfinished">現在のプレイリストを置き換える</translation>
+      <source>Replace current playlist</source>
+      <translation>現在のプレイリストを置き換える</translation>
     </message>
     <message>
-        <source>Open in new playlist</source>
-        <translation type="unfinished">新しいプレイリストで開く</translation>
+      <source>Open in new playlist</source>
+      <translation>新しいプレイリストで開く</translation>
     </message>
     <message>
-        <source>Queue track</source>
-        <translation type="unfinished">トラックをキューに追加</translation>
+      <source>Queue track</source>
+      <translation>トラックをキューに追加</translation>
     </message>
     <message>
-        <source>Play next</source>
-        <translation type="unfinished">次を再生</translation>
+      <source>Play next</source>
+      <translation>次を再生</translation>
     </message>
     <message>
-        <source>Edit smart playlist...</source>
-        <translation type="unfinished">スマートプレイリストを編集...</translation>
+      <source>Edit smart playlist...</source>
+      <translation>スマートプレイリストを編集...</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SnapDialog</name>
     <message>
-        <source>Strawberry is running as a Snap</source>
-        <translation type="unfinished">Strawberry は Snap として実行されています</translation>
+      <source>Strawberry is running as a Snap</source>
+      <translation>Strawberry は Snap として実行されています</translation>
     </message>
     <message>
-        <source>It is detected that Strawberry is running as a Snap</source>
-        <translation type="unfinished"></translation>
+      <source>It is detected that Strawberry is running as a Snap</source>
+      <translation type="unfinished">It is detected that Strawberry is running as a Snap</translation>
     </message>
     <message>
-        <source>Strawberry is slower, and has restrictions when running as a Snap. Accessing the root filesystem (/) will not work. There also might be other restrictions such as accessing certain devices or network shares.</source>
-        <translation type="unfinished">Strawberry はスナップとして実行する場合、遅く、制限があります。ルートファイルシステム ( /) へのアクセスはできません。特定のデバイスやネットワーク共有へのアクセスなど、他の制限もある場合があります。</translation>
+      <source>Strawberry is slower, and has restrictions when running as a Snap. Accessing the root filesystem (/) will not work. There also might be other restrictions such as accessing certain devices or network shares.</source>
+      <translation>Strawberry はスナップとして実行する場合、遅く、制限があります。ルートファイルシステム ( /) へのアクセスはできません。特定のデバイスやネットワーク共有へのアクセスなど、他の制限もある場合があります。</translation>
     </message>
     <message>
-        <source>For Ubuntu there is an official PPA repository available at %1.</source>
-        <translation type="unfinished"></translation>
+      <source>For Ubuntu there is an official PPA repository available at %1.</source>
+      <translation type="unfinished">For Ubuntu there is an official PPA repository available at %1.</translation>
     </message>
     <message>
-        <source>Official releases are available for Debian and Ubuntu which also work on most of their derivatives. See %1 for more information.</source>
-        <translation type="unfinished"></translation>
+      <source>Official releases are available for Debian and Ubuntu which also work on most of their derivatives. See %1 for more information.</source>
+      <translation type="unfinished">Official releases are available for Debian and Ubuntu which also work on most of their derivatives. See %1 for more information.</translation>
     </message>
     <message>
-        <source>For a better experience please consider the other options above.</source>
-        <translation type="unfinished">より良い体験のために、上記の他のオプションを検討してください</translation>
+      <source>For a better experience please consider the other options above.</source>
+      <translation>より良い体験のために、上記の他のオプションを検討してください</translation>
     </message>
     <message>
-        <source>Copy your strawberry.conf and strawberry.db from your ~/snap directory to avoid losing configuration before you uninstall the snap:</source>
-        <translation type="unfinished">snapをアンインストールする前に、構成が失われないように ~/snap ディレクトリからstrawberry.confとstrawberry.dbをコピーする:</translation>
+      <source>Copy your strawberry.conf and strawberry.db from your ~/snap directory to avoid losing configuration before you uninstall the snap:</source>
+      <translation>snapをアンインストールする前に、構成が失われないように ~/snap ディレクトリからstrawberry.confとstrawberry.dbをコピーする:</translation>
     </message>
     <message>
-        <source>Uninstall the snap with:</source>
-        <translation type="unfinished"></translation>
+      <source>Uninstall the snap with:</source>
+      <translation type="unfinished">Uninstall the snap with:</translation>
     </message>
     <message>
-        <source>Install strawberry through PPA:</source>
-        <translation type="unfinished"></translation>
+      <source>Install strawberry through PPA:</source>
+      <translation type="unfinished">Install strawberry through PPA:</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SomaFMService</name>
     <message>
-        <source>Getting %1 channels</source>
-        <translation type="unfinished">%1 チャネルを取得中</translation>
+      <source>Getting %1 channels</source>
+      <translation>%1 チャネルを取得中</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SongLoader</name>
     <message>
-        <source>You need GStreamer for this URL.</source>
-        <translation type="unfinished"></translation>
+      <source>You need GStreamer for this URL.</source>
+      <translation type="unfinished">You need GStreamer for this URL.</translation>
     </message>
     <message>
-        <source>Preload function was not set for blocking operation.</source>
-        <translation type="unfinished">ブロッキング操作にプリロード機能が設定されていません</translation>
+      <source>Preload function was not set for blocking operation.</source>
+      <translation>ブロッキング操作にプリロード機能が設定されていません</translation>
     </message>
     <message>
-        <source>File %1 does not exist.</source>
-        <translation type="unfinished">ファイル %1 は存在しません。</translation>
+      <source>File %1 does not exist.</source>
+      <translation>ファイル %1 は存在しません。</translation>
     </message>
     <message>
-        <source>CD playback is only available with the GStreamer engine.</source>
-        <translation type="unfinished">CD の再生は GStreamer エンジンでのみ使用できます</translation>
+      <source>CD playback is only available with the GStreamer engine.</source>
+      <translation>CD の再生は GStreamer エンジンでのみ使用できます</translation>
     </message>
     <message>
-        <source>Could not open file %1 for reading: %2</source>
-        <translation type="unfinished">ファイル %1 を読み取れません: %2</translation>
+      <source>Could not open file %1 for reading: %2</source>
+      <translation>ファイル %1 を読み取れません: %2</translation>
     </message>
     <message>
-        <source>Could not open CUE file %1 for reading: %2</source>
-        <translation type="unfinished">キューファイル %1 を読み取れません: %2</translation>
+      <source>Could not open CUE file %1 for reading: %2</source>
+      <translation>キューファイル %1 を読み取れません: %2</translation>
     </message>
     <message>
-        <source>Could not open playlist file %1 for reading: %2</source>
-        <translation type="unfinished">プレイリストファイル %1 を読み取れません: %2</translation>
+      <source>Could not open playlist file %1 for reading: %2</source>
+      <translation>プレイリストファイル %1 を読み取れません: %2</translation>
     </message>
     <message>
-        <source>Couldn&apos;t create GStreamer source element for %1</source>
-        <translation type="unfinished"></translation>
+      <source>Couldn&apos;t create GStreamer source element for %1</source>
+      <translation type="unfinished">Couldn&apos;t create GStreamer source element for %1</translation>
     </message>
     <message>
-        <source>Couldn&apos;t create GStreamer typefind element for %1</source>
-        <translation type="unfinished"></translation>
+      <source>Couldn&apos;t create GStreamer typefind element for %1</source>
+      <translation type="unfinished">Couldn&apos;t create GStreamer typefind element for %1</translation>
     </message>
     <message>
-        <source>Couldn&apos;t create GStreamer fakesink element for %1</source>
-        <translation type="unfinished"></translation>
+      <source>Couldn&apos;t create GStreamer fakesink element for %1</source>
+      <translation type="unfinished">Couldn&apos;t create GStreamer fakesink element for %1</translation>
     </message>
     <message>
-        <source>Couldn&apos;t link GStreamer source, typefind and fakesink elements for %1</source>
-        <translation type="unfinished"></translation>
+      <source>Couldn&apos;t link GStreamer source, typefind and fakesink elements for %1</source>
+      <translation type="unfinished">Couldn&apos;t link GStreamer source, typefind and fakesink elements for %1</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SongLoaderInserter</name>
     <message>
-        <source>Error while loading audio CD.</source>
-        <translation type="unfinished">音楽 CD を読み込み中にエラーが発生しました</translation>
+      <source>Error while loading audio CD.</source>
+      <translation>音楽 CD を読み込み中にエラーが発生しました</translation>
     </message>
     <message>
-        <source>Loading tracks</source>
-        <translation type="unfinished">トラックの読み込み中</translation>
+      <source>Loading tracks</source>
+      <translation>トラックの読み込み中</translation>
     </message>
     <message>
-        <source>Loading tracks info</source>
-        <translation type="unfinished">トラック情報の読み込み中</translation>
+      <source>Loading tracks info</source>
+      <translation>トラック情報の読み込み中</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SpotifyRequest</name>
     <message>
-        <source>Authenticating...</source>
-        <translation type="unfinished">認証中...</translation>
+      <source>Authenticating...</source>
+      <translation>認証中...</translation>
     </message>
     <message>
-        <source>Receiving artists...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving artists...</source>
+      <translation type="unfinished">Receiving artists...</translation>
     </message>
     <message>
-        <source>Receiving albums...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving albums...</source>
+      <translation type="unfinished">Receiving albums...</translation>
     </message>
     <message>
-        <source>Receiving songs...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving songs...</source>
+      <translation type="unfinished">Receiving songs...</translation>
     </message>
     <message>
-        <source>Searching...</source>
-        <translation type="unfinished">検索中...</translation>
+      <source>Searching...</source>
+      <translation>検索中...</translation>
     </message>
     <message>
-        <source>Receiving albums for %1 artist...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving albums for %1 artist...</source>
+      <translation type="unfinished">Receiving albums for %1 artist...</translation>
     </message>
     <message>
-        <source>Receiving albums for %1 artists...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving albums for %1 artists...</source>
+      <translation type="unfinished">Receiving albums for %1 artists...</translation>
     </message>
     <message>
-        <source>Receiving songs for %1 album...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving songs for %1 album...</source>
+      <translation type="unfinished">Receiving songs for %1 album...</translation>
     </message>
     <message>
-        <source>Receiving songs for %1 albums...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving songs for %1 albums...</source>
+      <translation type="unfinished">Receiving songs for %1 albums...</translation>
     </message>
     <message>
-        <source>Receiving album cover for %1 album...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving album cover for %1 album...</source>
+      <translation type="unfinished">Receiving album cover for %1 album...</translation>
     </message>
     <message>
-        <source>Receiving album covers for %1 albums...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving album covers for %1 albums...</source>
+      <translation type="unfinished">Receiving album covers for %1 albums...</translation>
     </message>
     <message>
-        <source>No match.</source>
-        <translation type="unfinished">見つかりません</translation>
+      <source>No match.</source>
+      <translation>見つかりません</translation>
     </message>
     <message>
-        <source>Data missing error</source>
-        <translation type="unfinished"></translation>
+      <source>Data missing error</source>
+      <translation type="unfinished">Data missing error</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SpotifyService</name>
     <message>
-        <source>Spotify Authentication</source>
-        <translation type="unfinished">Spotify 認証</translation>
+      <source>Spotify Authentication</source>
+      <translation>Spotify 認証</translation>
     </message>
     <message>
-        <source>Please open this URL in your browser</source>
-        <translation type="unfinished">このURLをブラウザで開いてください</translation>
+      <source>Please open this URL in your browser</source>
+      <translation>このURLをブラウザで開いてください</translation>
     </message>
     <message>
-        <source>Redirect missing token code or state!</source>
-        <translation type="unfinished">不足しているトークンコードまたは状態をリダイレクトしてください！</translation>
+      <source>Redirect missing token code or state!</source>
+      <translation>不足しているトークンコードまたは状態をリダイレクトしてください！</translation>
     </message>
     <message>
-        <source>Received invalid reply from web browser.</source>
-        <translation type="unfinished">Webブラウザから無効な返信を受け取りました。</translation>
+      <source>Received invalid reply from web browser.</source>
+      <translation>Webブラウザから無効な返信を受け取りました。</translation>
     </message>
     <message>
-        <source>Not authenticated with Spotify.</source>
-        <translation type="unfinished"></translation>
+      <source>Not authenticated with Spotify.</source>
+      <translation type="unfinished">Not authenticated with Spotify.</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SpotifySettingsPage</name>
     <message>
-        <source>Spotify</source>
-        <translation type="unfinished"></translation>
+      <source>Spotify</source>
+      <translation type="unfinished">Spotify</translation>
     </message>
     <message>
-        <source>Enable</source>
-        <translation type="unfinished">有効</translation>
+      <source>Enable</source>
+      <translation>有効</translation>
     </message>
     <message>
-        <source>Basic authentication</source>
-        <translation type="unfinished"></translation>
+      <source>Basic authentication</source>
+      <translation type="unfinished">Basic authentication</translation>
     </message>
     <message>
-        <source>Authenticate</source>
-        <translation type="unfinished"></translation>
+      <source>Authenticate</source>
+      <translation type="unfinished">Authenticate</translation>
     </message>
     <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The GStreamer Spotify plugin is not detected, you will not be able to stream songs from Spotify without it. See &lt;a href=&quot;https://wiki.strawberrymusicplayer.org/wiki/Installing_GStreamer_Spotify_plugin&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;Wiki&lt;/span&gt;&lt;/a&gt; for instructions on how to install the plugin.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+      <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The GStreamer Spotify plugin is not detected, you will not be able to stream songs from Spotify without it. See &lt;a href=&quot;https://wiki.strawberrymusicplayer.org/wiki/Installing_GStreamer_Spotify_plugin&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;Wiki&lt;/span&gt;&lt;/a&gt; for instructions on how to install the plugin.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+      <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The GStreamer Spotify plugin is not detected, you will not be able to stream songs from Spotify without it. See &lt;a href=&quot;https://wiki.strawberrymusicplayer.org/wiki/Installing_GStreamer_Spotify_plugin&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;Wiki&lt;/span&gt;&lt;/a&gt; for instructions on how to install the plugin.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <source>Preferences</source>
-        <translation type="unfinished">設定</translation>
+      <source>Preferences</source>
+      <translation>設定</translation>
     </message>
     <message>
-        <source>Search delay</source>
-        <translation type="unfinished"></translation>
+      <source>Search delay</source>
+      <translation type="unfinished">Search delay</translation>
     </message>
     <message>
-        <source>ms</source>
-        <translation type="unfinished"></translation>
+      <source>ms</source>
+      <translation type="unfinished">ms</translation>
     </message>
     <message>
-        <source>Artists search limit</source>
-        <translation type="unfinished">アーティスト検索の制限</translation>
+      <source>Artists search limit</source>
+      <translation>アーティスト検索の制限</translation>
     </message>
     <message>
-        <source>Albums search limit</source>
-        <translation type="unfinished">アルバム検索の制限</translation>
+      <source>Albums search limit</source>
+      <translation>アルバム検索の制限</translation>
     </message>
     <message>
-        <source>Songs search limit</source>
-        <translation type="unfinished">曲検索の制限</translation>
+      <source>Songs search limit</source>
+      <translation>曲検索の制限</translation>
     </message>
     <message>
-        <source>Download album covers</source>
-        <translation type="unfinished">アルバムカバーをダウンロード</translation>
+      <source>Download album covers</source>
+      <translation>アルバムカバーをダウンロード</translation>
     </message>
     <message>
-        <source>Fetch entire albums when searching songs</source>
-        <translation type="unfinished">曲検索時にアルバム全体を取得する</translation>
+      <source>Fetch entire albums when searching songs</source>
+      <translation>曲検索時にアルバム全体を取得する</translation>
     </message>
     <message>
-        <source>Authentication failed</source>
-        <translation type="unfinished">認証に失敗しました</translation>
+      <source>Authentication failed</source>
+      <translation>認証に失敗しました</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>StreamingCollectionView</name>
     <message>
-        <source>The streaming collection is empty!</source>
-        <translation type="unfinished"></translation>
+      <source>The streaming collection is empty!</source>
+      <translation type="unfinished">The streaming collection is empty!</translation>
     </message>
     <message>
-        <source>Click here to retrieve music</source>
-        <translation type="unfinished">音楽を取得するにはここをクリック</translation>
+      <source>Click here to retrieve music</source>
+      <translation>音楽を取得するにはここをクリック</translation>
     </message>
     <message>
-        <source>Append to current playlist</source>
-        <translation type="unfinished">現在のプレイリストに追加する</translation>
+      <source>Append to current playlist</source>
+      <translation>現在のプレイリストに追加する</translation>
     </message>
     <message>
-        <source>Replace current playlist</source>
-        <translation type="unfinished">現在のプレイリストを置き換える</translation>
+      <source>Replace current playlist</source>
+      <translation>現在のプレイリストを置き換える</translation>
     </message>
     <message>
-        <source>Open in new playlist</source>
-        <translation type="unfinished">新しいプレイリストで開く</translation>
+      <source>Open in new playlist</source>
+      <translation>新しいプレイリストで開く</translation>
     </message>
     <message>
-        <source>Queue track</source>
-        <translation type="unfinished">トラックをキューに追加</translation>
+      <source>Queue track</source>
+      <translation>トラックをキューに追加</translation>
     </message>
     <message>
-        <source>Queue to play next</source>
-        <translation type="unfinished">次に再生する</translation>
+      <source>Queue to play next</source>
+      <translation>次に再生する</translation>
     </message>
     <message>
-        <source>Remove from favorites</source>
-        <translation type="unfinished">お気に入りから削除</translation>
+      <source>Remove from favorites</source>
+      <translation>お気に入りから削除</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>StreamingCollectionViewContainer</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">フォーム</translation>
+      <source>Form</source>
+      <translation>フォーム</translation>
     </message>
     <message>
-        <source>Close</source>
-        <translation type="unfinished">閉じる</translation>
+      <source>Close</source>
+      <translation>閉じる</translation>
     </message>
     <message>
-        <source>Abort</source>
-        <translation type="unfinished">中止</translation>
+      <source>Abort</source>
+      <translation>中止</translation>
     </message>
     <message>
-        <source>Refresh catalogue</source>
-        <translation type="unfinished">カタログを更新</translation>
+      <source>Refresh catalogue</source>
+      <translation>カタログを更新</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>StreamingSearchModel</name>
     <message>
-        <source>Various artists</source>
-        <translation type="unfinished">さまざまなアーティスト</translation>
+      <source>Various artists</source>
+      <translation>さまざまなアーティスト</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>StreamingSearchView</name>
     <message>
-        <source>Streaming Search View</source>
-        <translation type="unfinished"></translation>
+      <source>Streaming Search View</source>
+      <translation type="unfinished">Streaming Search View</translation>
     </message>
     <message>
-        <source>MenuPopupToolButton</source>
-        <translation type="unfinished"></translation>
+      <source>MenuPopupToolButton</source>
+      <translation type="unfinished">MenuPopupToolButton</translation>
     </message>
     <message>
-        <source>artists</source>
-        <translation type="unfinished">アーティスト</translation>
+      <source>artists</source>
+      <translation>アーティスト</translation>
     </message>
     <message>
-        <source>albums</source>
-        <translation type="unfinished">アルバム</translation>
+      <source>albums</source>
+      <translation>アルバム</translation>
     </message>
     <message>
-        <source>songs</source>
-        <translation type="unfinished">曲</translation>
+      <source>songs</source>
+      <translation>曲</translation>
     </message>
     <message>
-        <source>Enter search terms above to find music</source>
-        <translation type="unfinished">音楽を見つけるには、上記の検索用語を入力してください</translation>
+      <source>Enter search terms above to find music</source>
+      <translation>音楽を見つけるには、上記の検索用語を入力してください</translation>
     </message>
     <message>
-        <source>Configure %1...</source>
-        <translation type="unfinished">%1 の設定...</translation>
+      <source>Configure %1...</source>
+      <translation>%1 の設定...</translation>
     </message>
     <message>
-        <source>Append to current playlist</source>
-        <translation type="unfinished">現在のプレイリストに追加する</translation>
+      <source>Append to current playlist</source>
+      <translation>現在のプレイリストに追加する</translation>
     </message>
     <message>
-        <source>Replace current playlist</source>
-        <translation type="unfinished">現在のプレイリストを置き換える</translation>
+      <source>Replace current playlist</source>
+      <translation>現在のプレイリストを置き換える</translation>
     </message>
     <message>
-        <source>Open in new playlist</source>
-        <translation type="unfinished">新しいプレイリストで開く</translation>
+      <source>Open in new playlist</source>
+      <translation>新しいプレイリストで開く</translation>
     </message>
     <message>
-        <source>Queue track</source>
-        <translation type="unfinished">トラックをキューに追加</translation>
+      <source>Queue track</source>
+      <translation>トラックをキューに追加</translation>
     </message>
     <message>
-        <source>Add to artists</source>
-        <translation type="unfinished">アーティストに追加</translation>
+      <source>Add to artists</source>
+      <translation>アーティストに追加</translation>
     </message>
     <message>
-        <source>Add to albums</source>
-        <translation type="unfinished">アルバムに追加</translation>
+      <source>Add to albums</source>
+      <translation>アルバムに追加</translation>
     </message>
     <message>
-        <source>Add to songs</source>
-        <translation type="unfinished">曲に追加</translation>
+      <source>Add to songs</source>
+      <translation>曲に追加</translation>
     </message>
     <message>
-        <source>Search for this</source>
-        <translation type="unfinished"></translation>
+      <source>Search for this</source>
+      <translation type="unfinished">Search for this</translation>
     </message>
     <message>
-        <source>Group by</source>
-        <translation type="unfinished">グループ化</translation>
+      <source>Group by</source>
+      <translation>グループ化</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>StreamingSongsView</name>
     <message>
-        <source>Configure %1...</source>
-        <translation type="unfinished">%1 の設定...</translation>
+      <source>Configure %1...</source>
+      <translation>%1 の設定...</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>StreamingTabsView</name>
     <message>
-        <source>Streaming Tabs View</source>
-        <translation type="unfinished"></translation>
+      <source>Streaming Tabs View</source>
+      <translation type="unfinished">Streaming Tabs View</translation>
     </message>
     <message>
-        <source>Artists</source>
-        <translation type="unfinished">アーティスト</translation>
+      <source>Artists</source>
+      <translation>アーティスト</translation>
     </message>
     <message>
-        <source>Albums</source>
-        <translation type="unfinished">アルバム</translation>
+      <source>Albums</source>
+      <translation>アルバム</translation>
     </message>
     <message>
-        <source>Songs</source>
-        <translation type="unfinished">曲</translation>
+      <source>Songs</source>
+      <translation>曲</translation>
     </message>
     <message>
-        <source>Search</source>
-        <translation type="unfinished">検索</translation>
+      <source>Search</source>
+      <translation>検索</translation>
     </message>
     <message>
-        <source>Configure %1...</source>
-        <translation type="unfinished">%1 の設定...</translation>
+      <source>Configure %1...</source>
+      <translation>%1 の設定...</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SubsonicRequest</name>
     <message>
-        <source>Retrieving albums...</source>
-        <translation type="unfinished">アルバムを取得...</translation>
+      <source>Retrieving albums...</source>
+      <translation>アルバムを取得...</translation>
     </message>
     <message>
-        <source>Retrieving songs for %1 album...</source>
-        <translation type="unfinished">アルバム %1 から曲を取得...</translation>
+      <source>Retrieving songs for %1 album...</source>
+      <translation>アルバム %1 から曲を取得...</translation>
     </message>
     <message>
-        <source>Retrieving songs for %1 albums...</source>
-        <translation type="unfinished">アルバム %1 から曲を取得...</translation>
+      <source>Retrieving songs for %1 albums...</source>
+      <translation>アルバム %1 から曲を取得...</translation>
     </message>
     <message>
-        <source>Retrieving album cover for %1 album...</source>
-        <translation type="unfinished">アルバム %1 からアルバムカバーを取得...</translation>
+      <source>Retrieving album cover for %1 album...</source>
+      <translation>アルバム %1 からアルバムカバーを取得...</translation>
     </message>
     <message>
-        <source>Retrieving album covers for %1 albums...</source>
-        <translation type="unfinished">アルバム %1 からアルバムカバーを取得...</translation>
+      <source>Retrieving album covers for %1 albums...</source>
+      <translation>アルバム %1 からアルバムカバーを取得...</translation>
     </message>
     <message>
-        <source>Unknown error</source>
-        <translation type="unfinished">不明なエラー</translation>
+      <source>Unknown error</source>
+      <translation>不明なエラー</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SubsonicService</name>
     <message>
-        <source>Server URL is invalid.</source>
-        <translation type="unfinished">サーバーURLが不正です。</translation>
+      <source>Server URL is invalid.</source>
+      <translation>サーバーURLが不正です。</translation>
     </message>
     <message>
-        <source>Missing username or password.</source>
-        <translation type="unfinished">ユーザー名またはパスワードがありません</translation>
+      <source>Missing username or password.</source>
+      <translation>ユーザー名またはパスワードがありません</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SubsonicSettingsPage</name>
     <message>
-        <source>Subsonic</source>
-        <translation type="unfinished"></translation>
+      <source>Subsonic</source>
+      <translation type="unfinished">Subsonic</translation>
     </message>
     <message>
-        <source>Enable</source>
-        <translation type="unfinished">有効</translation>
+      <source>Enable</source>
+      <translation>有効</translation>
     </message>
     <message>
-        <source>Server URL</source>
-        <translation type="unfinished">サーバーURL</translation>
+      <source>Server URL</source>
+      <translation>サーバーURL</translation>
     </message>
     <message>
-        <source>Authentication</source>
-        <translation type="unfinished">認証</translation>
+      <source>Authentication</source>
+      <translation>認証</translation>
     </message>
     <message>
-        <source>Username</source>
-        <translation type="unfinished">ユーザー名</translation>
+      <source>Username</source>
+      <translation>ユーザー名</translation>
     </message>
     <message>
-        <source>Password</source>
-        <translation type="unfinished">パスワード</translation>
+      <source>Password</source>
+      <translation>パスワード</translation>
     </message>
     <message>
-        <source>Authentication method:</source>
-        <translation type="unfinished">認証方法：</translation>
+      <source>Authentication method:</source>
+      <translation>認証方法：</translation>
     </message>
     <message>
-        <source>Hex</source>
-        <translation type="unfinished">16進数</translation>
+      <source>Hex</source>
+      <translation>16進数</translation>
     </message>
     <message>
-        <source>MD5 token (Recommended)</source>
-        <translation type="unfinished">MD5トークン (推奨)</translation>
+      <source>MD5 token (Recommended)</source>
+      <translation>MD5トークン (推奨)</translation>
     </message>
     <message>
-        <source>Preferences</source>
-        <translation type="unfinished">設定</translation>
+      <source>Preferences</source>
+      <translation>設定</translation>
     </message>
     <message>
-        <source>Use HTTP/2 when possible</source>
-        <translation type="unfinished">可能な場合は HTTP/2 を使用</translation>
+      <source>Use HTTP/2 when possible</source>
+      <translation>可能な場合は HTTP/2 を使用</translation>
     </message>
     <message>
-        <source>Verify server certificate</source>
-        <translation type="unfinished">サーバー証明書の検証</translation>
+      <source>Verify server certificate</source>
+      <translation>サーバー証明書の検証</translation>
     </message>
     <message>
-        <source>Download album covers</source>
-        <translation type="unfinished">アルバムカバーをダウンロード</translation>
+      <source>Download album covers</source>
+      <translation>アルバムカバーをダウンロード</translation>
     </message>
     <message>
-        <source>Server-side scrobbling</source>
-        <translation type="unfinished">サーバーサイドの scrobbling</translation>
+      <source>Server-side scrobbling</source>
+      <translation>サーバーサイドの scrobbling</translation>
     </message>
     <message>
-        <source>Test</source>
-        <translation type="unfinished">テスト</translation>
+      <source>Test</source>
+      <translation>テスト</translation>
     </message>
     <message>
-        <source>Delete songs</source>
-        <translation type="unfinished">曲の削除</translation>
+      <source>Delete songs</source>
+      <translation>曲の削除</translation>
     </message>
     <message>
-        <source>Configuration incomplete</source>
-        <translation type="unfinished">設定に失敗</translation>
+      <source>Configuration incomplete</source>
+      <translation>設定に失敗</translation>
     </message>
     <message>
-        <source>Missing server url, username or password.</source>
-        <translation type="unfinished">サーバーの URL、ユーザー名またはパスワードがありません</translation>
+      <source>Missing server url, username or password.</source>
+      <translation>サーバーの URL、ユーザー名またはパスワードがありません</translation>
     </message>
     <message>
-        <source>Configuration incorrect</source>
-        <translation type="unfinished">設定が不正</translation>
+      <source>Configuration incorrect</source>
+      <translation>設定が不正</translation>
     </message>
     <message>
-        <source>Server URL is invalid.</source>
-        <translation type="unfinished">サーバーURLが不正です。</translation>
+      <source>Server URL is invalid.</source>
+      <translation>サーバーURLが不正です。</translation>
     </message>
     <message>
-        <source>Test successful!</source>
-        <translation type="unfinished">テスト成功!</translation>
+      <source>Test successful!</source>
+      <translation>テスト成功!</translation>
     </message>
     <message>
-        <source>Test failed!</source>
-        <translation type="unfinished">テスト失敗!</translation>
+      <source>Test failed!</source>
+      <translation>テスト失敗!</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SubsonicUrlHandler</name>
     <message>
-        <source>Subsonic server URL is invalid.</source>
-        <translation type="unfinished">Subsonic サーバーの URL が不正です</translation>
+      <source>Subsonic server URL is invalid.</source>
+      <translation>Subsonic サーバーの URL が不正です</translation>
     </message>
     <message>
-        <source>Missing Subsonic username or password.</source>
-        <translation type="unfinished">Subsonic ユーザー名またはシークレットがありません</translation>
+      <source>Missing Subsonic username or password.</source>
+      <translation>Subsonic ユーザー名またはシークレットがありません</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SystemTrayIcon</name>
     <message>
-        <source>Pause</source>
-        <translation type="unfinished">一時停止</translation>
+      <source>Pause</source>
+      <translation>一時停止</translation>
     </message>
     <message>
-        <source>Play</source>
-        <translation type="unfinished">再生</translation>
+      <source>Play</source>
+      <translation>再生</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>TagFetcher</name>
     <message>
-        <source>Identifying song</source>
-        <translation type="unfinished"></translation>
+      <source>Identifying song</source>
+      <translation type="unfinished">Identifying song</translation>
     </message>
     <message>
-        <source>Fingerprinting song</source>
-        <translation type="unfinished"></translation>
+      <source>Fingerprinting song</source>
+      <translation type="unfinished">Fingerprinting song</translation>
     </message>
     <message>
-        <source>Downloading metadata</source>
-        <translation type="unfinished"></translation>
+      <source>Downloading metadata</source>
+      <translation type="unfinished">Downloading metadata</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>TidalRequest</name>
     <message>
-        <source>Authenticating...</source>
-        <translation type="unfinished">認証中...</translation>
+      <source>Authenticating...</source>
+      <translation>認証中...</translation>
     </message>
     <message>
-        <source>Receiving artists...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving artists...</source>
+      <translation type="unfinished">Receiving artists...</translation>
     </message>
     <message>
-        <source>Receiving albums...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving albums...</source>
+      <translation type="unfinished">Receiving albums...</translation>
     </message>
     <message>
-        <source>Receiving songs...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving songs...</source>
+      <translation type="unfinished">Receiving songs...</translation>
     </message>
     <message>
-        <source>Searching...</source>
-        <translation type="unfinished">検索中...</translation>
+      <source>Searching...</source>
+      <translation>検索中...</translation>
     </message>
     <message>
-        <source>Receiving albums for %1 artist...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving albums for %1 artist...</source>
+      <translation type="unfinished">Receiving albums for %1 artist...</translation>
     </message>
     <message>
-        <source>Receiving albums for %1 artists...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving albums for %1 artists...</source>
+      <translation type="unfinished">Receiving albums for %1 artists...</translation>
     </message>
     <message>
-        <source>Receiving songs for %1 album...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving songs for %1 album...</source>
+      <translation type="unfinished">Receiving songs for %1 album...</translation>
     </message>
     <message>
-        <source>Receiving songs for %1 albums...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving songs for %1 albums...</source>
+      <translation type="unfinished">Receiving songs for %1 albums...</translation>
     </message>
     <message>
-        <source>Receiving album cover for %1 album...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving album cover for %1 album...</source>
+      <translation type="unfinished">Receiving album cover for %1 album...</translation>
     </message>
     <message>
-        <source>Receiving album covers for %1 albums...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving album covers for %1 albums...</source>
+      <translation type="unfinished">Receiving album covers for %1 albums...</translation>
     </message>
     <message>
-        <source>No match.</source>
-        <translation type="unfinished">見つかりません</translation>
+      <source>No match.</source>
+      <translation>見つかりません</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>TidalService</name>
     <message>
-        <source>Reply from Tidal is missing query items.</source>
-        <translation type="unfinished">Tidal からの返信にクエリアイテムがありません。</translation>
+      <source>Reply from Tidal is missing query items.</source>
+      <translation>Tidal からの返信にクエリアイテムがありません。</translation>
     </message>
     <message>
-        <source>Missing Tidal API token.</source>
-        <translation type="unfinished">Tidal API トークンがありません。</translation>
+      <source>Missing Tidal API token.</source>
+      <translation>Tidal API トークンがありません。</translation>
     </message>
     <message>
-        <source>Missing Tidal username.</source>
-        <translation type="unfinished">Tidal ユーザー名がありません。</translation>
+      <source>Missing Tidal username.</source>
+      <translation>Tidal ユーザー名がありません。</translation>
     </message>
     <message>
-        <source>Missing Tidal password.</source>
-        <translation type="unfinished">Tidal パスワードがありません。</translation>
+      <source>Missing Tidal password.</source>
+      <translation>Tidal パスワードがありません。</translation>
     </message>
     <message>
-        <source>Not authenticated with Tidal and reached maximum number of login attempts.</source>
-        <translation type="unfinished">Tidal で認証されずログイン最大試行回数に達しました。</translation>
+      <source>Not authenticated with Tidal and reached maximum number of login attempts.</source>
+      <translation>Tidal で認証されずログイン最大試行回数に達しました。</translation>
     </message>
     <message>
-        <source>Not authenticated with Tidal.</source>
-        <translation type="unfinished">Tidal で認証されませんでした。</translation>
+      <source>Not authenticated with Tidal.</source>
+      <translation>Tidal で認証されませんでした。</translation>
     </message>
     <message>
-        <source>Missing Tidal API token, username or password.</source>
-        <translation type="unfinished">Tidal API トークン、ユーザー名またはパスワードがありません。</translation>
+      <source>Missing Tidal API token, username or password.</source>
+      <translation>Tidal API トークン、ユーザー名またはパスワードがありません。</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>TidalSettingsPage</name>
     <message>
-        <source>Tidal</source>
-        <translation type="unfinished"></translation>
+      <source>Tidal</source>
+      <translation type="unfinished">Tidal</translation>
     </message>
     <message>
-        <source>Enable</source>
-        <translation type="unfinished">有効</translation>
+      <source>Enable</source>
+      <translation>有効</translation>
     </message>
     <message>
-        <source>Tidal support is not official and requires a API token from a registered application to work. We can&apos;t help you getting these.</source>
-        <translation type="unfinished">Tidal サポートは公式ではないため、利用するには登録済みアプリケーションの API トークンが必要です。これらを入手するお手伝いはできません。</translation>
+      <source>Tidal support is not official and requires a API token from a registered application to work. We can&apos;t help you getting these.</source>
+      <translation>Tidal サポートは公式ではないため、利用するには登録済みアプリケーションの API トークンが必要です。これらを入手するお手伝いはできません。</translation>
     </message>
     <message>
-        <source>Authentication</source>
-        <translation type="unfinished">認証</translation>
+      <source>Authentication</source>
+      <translation>認証</translation>
     </message>
     <message>
-        <source>Use OAuth</source>
-        <translation type="unfinished">OAuth を使用する</translation>
+      <source>Use OAuth</source>
+      <translation>OAuth を使用する</translation>
     </message>
     <message>
-        <source>Client ID</source>
-        <translation type="unfinished">クライアント ID</translation>
+      <source>Client ID</source>
+      <translation>クライアント ID</translation>
     </message>
     <message>
-        <source>API Token</source>
-        <translation type="unfinished">API トークン</translation>
+      <source>API Token</source>
+      <translation>API トークン</translation>
     </message>
     <message>
-        <source>Username</source>
-        <translation type="unfinished">ユーザー名</translation>
+      <source>Username</source>
+      <translation>ユーザー名</translation>
     </message>
     <message>
-        <source>Password</source>
-        <translation type="unfinished">パスワード</translation>
+      <source>Password</source>
+      <translation>パスワード</translation>
     </message>
     <message>
-        <source>Login</source>
-        <translation type="unfinished">ログイン</translation>
+      <source>Login</source>
+      <translation>ログイン</translation>
     </message>
     <message>
-        <source>Preferences</source>
-        <translation type="unfinished">設定</translation>
+      <source>Preferences</source>
+      <translation>設定</translation>
     </message>
     <message>
-        <source>Audio quality</source>
-        <translation type="unfinished">音質</translation>
+      <source>Audio quality</source>
+      <translation>音質</translation>
     </message>
     <message>
-        <source>Search delay</source>
-        <translation type="unfinished"></translation>
+      <source>Search delay</source>
+      <translation type="unfinished">Search delay</translation>
     </message>
     <message>
-        <source>ms</source>
-        <translation type="unfinished"></translation>
+      <source>ms</source>
+      <translation type="unfinished">ms</translation>
     </message>
     <message>
-        <source>Artists search limit</source>
-        <translation type="unfinished">アーティスト検索の制限</translation>
+      <source>Artists search limit</source>
+      <translation>アーティスト検索の制限</translation>
     </message>
     <message>
-        <source>Albums search limit</source>
-        <translation type="unfinished">アルバム検索の制限</translation>
+      <source>Albums search limit</source>
+      <translation>アルバム検索の制限</translation>
     </message>
     <message>
-        <source>Songs search limit</source>
-        <translation type="unfinished">曲検索の制限</translation>
+      <source>Songs search limit</source>
+      <translation>曲検索の制限</translation>
     </message>
     <message>
-        <source>Download album covers</source>
-        <translation type="unfinished">アルバムカバーをダウンロード</translation>
+      <source>Download album covers</source>
+      <translation>アルバムカバーをダウンロード</translation>
     </message>
     <message>
-        <source>Fetch entire albums when searching songs</source>
-        <translation type="unfinished">曲検索時にアルバム全体を取得する</translation>
+      <source>Fetch entire albums when searching songs</source>
+      <translation>曲検索時にアルバム全体を取得する</translation>
     </message>
     <message>
-        <source>Album cover size</source>
-        <translation type="unfinished">アルバムカバーサイズ</translation>
+      <source>Album cover size</source>
+      <translation>アルバムカバーサイズ</translation>
     </message>
     <message>
-        <source>Stream URL method</source>
-        <translation type="unfinished">ストリームURLメソッド</translation>
+      <source>Stream URL method</source>
+      <translation>ストリームURLメソッド</translation>
     </message>
     <message>
-        <source>Append explicit to album title for explicit albums</source>
-        <translation type="unfinished">露骨な表現を含むアルバムのタイトルに露骨な表現を追加する。</translation>
+      <source>Append explicit to album title for explicit albums</source>
+      <translation>露骨な表現を含むアルバムのタイトルに露骨な表現を追加する。</translation>
     </message>
     <message>
-        <source>Configuration incomplete</source>
-        <translation type="unfinished">設定に失敗</translation>
+      <source>Configuration incomplete</source>
+      <translation>設定に失敗</translation>
     </message>
     <message>
-        <source>Missing Tidal client ID.</source>
-        <translation type="unfinished">Tidal Client ID がありません。</translation>
+      <source>Missing Tidal client ID.</source>
+      <translation>Tidal Client ID がありません。</translation>
     </message>
     <message>
-        <source>Missing API token.</source>
-        <translation type="unfinished">API トークンがありません</translation>
+      <source>Missing API token.</source>
+      <translation>API トークンがありません</translation>
     </message>
     <message>
-        <source>Missing username.</source>
-        <translation type="unfinished">ユーザー名がありません</translation>
+      <source>Missing username.</source>
+      <translation>ユーザー名がありません</translation>
     </message>
     <message>
-        <source>Missing password.</source>
-        <translation type="unfinished">パスワードがありません</translation>
+      <source>Missing password.</source>
+      <translation>パスワードがありません</translation>
     </message>
     <message>
-        <source>Authentication failed</source>
-        <translation type="unfinished">認証に失敗しました</translation>
+      <source>Authentication failed</source>
+      <translation>認証に失敗しました</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>TidalStreamURLRequest</name>
     <message>
-        <source>Not authenticated with Tidal.</source>
-        <translation type="unfinished">Tidal で認証されませんでした。</translation>
+      <source>Not authenticated with Tidal.</source>
+      <translation>Tidal で認証されませんでした。</translation>
     </message>
     <message>
-        <source>Missing Tidal API token, username or password.</source>
-        <translation type="unfinished">Tidal API トークン、ユーザー名またはパスワードがありません。</translation>
+      <source>Missing Tidal API token, username or password.</source>
+      <translation>Tidal API トークン、ユーザー名またはパスワードがありません。</translation>
     </message>
     <message>
-        <source>Cancelled.</source>
-        <translation type="unfinished">キャンセルされました。</translation>
+      <source>Cancelled.</source>
+      <translation>キャンセルされました。</translation>
     </message>
     <message>
-        <source>Received URL with %1 encrypted stream from Tidal. Strawberry does not currently support encrypted streams.</source>
-        <translation type="unfinished">Tidal から %1 暗号化ストリームを含む URL を受信しました。 Strawberry は現在暗号化されたストリームをサポートしていません。</translation>
+      <source>Received URL with %1 encrypted stream from Tidal. Strawberry does not currently support encrypted streams.</source>
+      <translation>Tidal から %1 暗号化ストリームを含む URL を受信しました。 Strawberry は現在暗号化されたストリームをサポートしていません。</translation>
     </message>
     <message>
-        <source>Received URL with encrypted stream from Tidal. Strawberry does not currently support encrypted streams.</source>
-        <translation type="unfinished">Tidal から暗号化されたストリームを含む URL を受信しました。 Strawberry は現在暗号化されたストリームをサポートしていません。</translation>
+      <source>Received URL with encrypted stream from Tidal. Strawberry does not currently support encrypted streams.</source>
+      <translation>Tidal から暗号化されたストリームを含む URL を受信しました。 Strawberry は現在暗号化されたストリームをサポートしていません。</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>TrackSelectionDialog</name>
     <message>
-        <source>Tag fetcher</source>
-        <translation type="unfinished">タグ取得ツール</translation>
+      <source>Tag fetcher</source>
+      <translation>タグ取得ツール</translation>
     </message>
     <message>
-        <source>Sorry</source>
-        <translation type="unfinished">申し訳ありません</translation>
+      <source>Sorry</source>
+      <translation>申し訳ありません</translation>
     </message>
     <message>
-        <source>Strawberry was unable to find results for this file</source>
-        <translation type="unfinished">このファイルの検索結果を見つけられませんでした。</translation>
+      <source>Strawberry was unable to find results for this file</source>
+      <translation>このファイルの検索結果を見つけられませんでした。</translation>
     </message>
     <message>
-        <source>Select best possible match</source>
-        <translation type="unfinished">一番近いものを選ぶ</translation>
+      <source>Select best possible match</source>
+      <translation>一番近いものを選ぶ</translation>
     </message>
     <message>
-        <source>Track</source>
-        <translation type="unfinished">トラック</translation>
+      <source>Track</source>
+      <translation>トラック</translation>
     </message>
     <message>
-        <source>Year</source>
-        <translation type="unfinished">年</translation>
+      <source>Year</source>
+      <translation>年</translation>
     </message>
     <message>
-        <source>Title</source>
-        <translation type="unfinished">タイトル</translation>
+      <source>Title</source>
+      <translation>タイトル</translation>
     </message>
     <message>
-        <source>Artist</source>
-        <translation type="unfinished">アーティスト</translation>
+      <source>Artist</source>
+      <translation>アーティスト</translation>
     </message>
     <message>
-        <source>Album</source>
-        <translation type="unfinished">アルバム</translation>
+      <source>Album</source>
+      <translation>アルバム</translation>
     </message>
     <message>
-        <source>Previous</source>
-        <translation type="unfinished">前へ</translation>
+      <source>Previous</source>
+      <translation>前へ</translation>
     </message>
     <message>
-        <source>Next</source>
-        <translation type="unfinished">次へ</translation>
+      <source>Next</source>
+      <translation>次へ</translation>
     </message>
     <message>
-        <source>Original tags</source>
-        <translation type="unfinished">元のタグ</translation>
+      <source>Original tags</source>
+      <translation>元のタグ</translation>
     </message>
     <message>
-        <source>Suggested tags</source>
-        <translation type="unfinished">お薦めのタグ</translation>
+      <source>Suggested tags</source>
+      <translation>お薦めのタグ</translation>
     </message>
     <message>
-        <source>Saving tracks</source>
-        <translation type="unfinished">トラックの保存中</translation>
+      <source>Saving tracks</source>
+      <translation>トラックの保存中</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>TrackSlider</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">フォーム</translation>
+      <source>Form</source>
+      <translation>フォーム</translation>
     </message>
     <message>
-        <source>0:00:00</source>
-        <translation type="unfinished"></translation>
+      <source>0:00:00</source>
+      <translation type="unfinished">0:00:00</translation>
     </message>
     <message>
-        <source>Click to toggle between remaining time and total time</source>
-        <translation type="unfinished">ここをクリックすると、残り時間と合計時間の表示を切り替えます</translation>
+      <source>Click to toggle between remaining time and total time</source>
+      <translation>ここをクリックすると、残り時間と合計時間の表示を切り替えます</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>TranscodeDialog</name>
     <message>
-        <source>Transcode Music</source>
-        <translation type="unfinished">音楽のトランスコード</translation>
+      <source>Transcode Music</source>
+      <translation>音楽のトランスコード</translation>
     </message>
     <message>
-        <source>Files to transcode</source>
-        <translation type="unfinished">トランスコードするファイル</translation>
+      <source>Files to transcode</source>
+      <translation>トランスコードするファイル</translation>
     </message>
     <message>
-        <source>Filename</source>
-        <translation type="unfinished">ファイル名</translation>
+      <source>Filename</source>
+      <translation>ファイル名</translation>
     </message>
     <message>
-        <source>Directory</source>
-        <translation type="unfinished">ディレクトリ</translation>
+      <source>Directory</source>
+      <translation>ディレクトリ</translation>
     </message>
     <message>
-        <source>Add...</source>
-        <translation type="unfinished">追加...</translation>
+      <source>Add...</source>
+      <translation>追加...</translation>
     </message>
     <message>
-        <source>Remove</source>
-        <translation type="unfinished">削除</translation>
+      <source>Remove</source>
+      <translation>削除</translation>
     </message>
     <message>
-        <source>Add all tracks from a directory and all its subdirectories</source>
-        <translation type="unfinished">ディレクトリとサブディレクトリにあるすべてのトラックを追加</translation>
+      <source>Add all tracks from a directory and all its subdirectories</source>
+      <translation>ディレクトリとサブディレクトリにあるすべてのトラックを追加</translation>
     </message>
     <message>
-        <source>Import...</source>
-        <translation type="unfinished">インポート中...</translation>
+      <source>Import...</source>
+      <translation>インポート中...</translation>
     </message>
     <message>
-        <source>Output options</source>
-        <translation type="unfinished">出力のオプション</translation>
+      <source>Output options</source>
+      <translation>出力のオプション</translation>
     </message>
     <message>
-        <source>Audio format</source>
-        <translation type="unfinished">オーディオ形式</translation>
+      <source>Audio format</source>
+      <translation>オーディオ形式</translation>
     </message>
     <message>
-        <source>Options...</source>
-        <translation type="unfinished">オプション...</translation>
+      <source>Options...</source>
+      <translation>オプション...</translation>
     </message>
     <message>
-        <source>Destination</source>
-        <translation type="unfinished">フォルダー</translation>
+      <source>Destination</source>
+      <translation>フォルダー</translation>
     </message>
     <message>
-        <source>Alongside the originals</source>
-        <translation type="unfinished">元と同じ</translation>
+      <source>Alongside the originals</source>
+      <translation>元と同じ</translation>
     </message>
     <message>
-        <source>Select...</source>
-        <translation type="unfinished">選択...</translation>
+      <source>Select...</source>
+      <translation>選択...</translation>
     </message>
     <message>
-        <source>Progress</source>
-        <translation type="unfinished">進行状況</translation>
+      <source>Progress</source>
+      <translation>進行状況</translation>
     </message>
     <message>
-        <source>Details...</source>
-        <translation type="unfinished">詳細...</translation>
+      <source>Details...</source>
+      <translation>詳細...</translation>
     </message>
     <message>
-        <source>Clear</source>
-        <translation type="unfinished">クリア</translation>
+      <source>Clear</source>
+      <translation>クリア</translation>
     </message>
     <message>
-        <source>Start transcoding</source>
-        <translation type="unfinished">トランスコードの開始</translation>
+      <source>Start transcoding</source>
+      <translation>トランスコードの開始</translation>
     </message>
     <message numerus="yes">
-        <source>%n remaining</source>
-        <translation type="unfinished">
-            <numerusform>%n 曲残っています</numerusform>
-        </translation>
+      <source>%n remaining</source>
+      <translation>
+        <numerusform>%n 曲残っています</numerusform>
+      </translation>
     </message>
     <message numerus="yes">
-        <source>%n finished</source>
-        <translation type="unfinished">
-            <numerusform>%n が完了しました</numerusform>
-        </translation>
+      <source>%n finished</source>
+      <translation>
+        <numerusform>%n が完了しました</numerusform>
+      </translation>
     </message>
     <message numerus="yes">
-        <source>%n failed</source>
-        <translation type="unfinished">
-            <numerusform>%n 曲失敗しました</numerusform>
-        </translation>
+      <source>%n failed</source>
+      <translation>
+        <numerusform>%n 曲失敗しました</numerusform>
+      </translation>
     </message>
     <message>
-        <source>Add files to transcode</source>
-        <translation type="unfinished">変換するファイルを追加</translation>
+      <source>Add files to transcode</source>
+      <translation>変換するファイルを追加</translation>
     </message>
     <message>
-        <source>Music</source>
-        <translation type="unfinished">ミュージック</translation>
+      <source>Music</source>
+      <translation>ミュージック</translation>
     </message>
     <message>
-        <source>Open a directory to import music from</source>
-        <translation type="unfinished">音楽を取り込むディレクトリを開く</translation>
+      <source>Open a directory to import music from</source>
+      <translation>音楽を取り込むディレクトリを開く</translation>
     </message>
     <message>
-        <source>Add folder</source>
-        <translation type="unfinished">フォルダーを追加</translation>
+      <source>Add folder</source>
+      <translation>フォルダーを追加</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>TranscodeLogDialog</name>
     <message>
-        <source>Transcoder Log</source>
-        <translation type="unfinished">トランスコーダーのログ</translation>
+      <source>Transcoder Log</source>
+      <translation>トランスコーダーのログ</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>Transcoder</name>
     <message>
-        <source>Could not create the GStreamer element &quot;%1&quot; - make sure you have all the required GStreamer plugins installed</source>
-        <translation type="unfinished">GStreamer 要素「%1」を作成できませんでした。必要な GStreamer プラグインがすべてインストールされていることを確認してください</translation>
+      <source>Could not create the GStreamer element &quot;%1&quot; - make sure you have all the required GStreamer plugins installed</source>
+      <translation>GStreamer 要素「%1」を作成できませんでした。必要な GStreamer プラグインがすべてインストールされていることを確認してください</translation>
     </message>
     <message>
-        <source>Successfully written %1</source>
-        <translation type="unfinished">%1 の書き込みに成功しました</translation>
+      <source>Successfully written %1</source>
+      <translation>%1 の書き込みに成功しました</translation>
     </message>
     <message>
-        <source>Transcoding %1 files using %2 threads</source>
-        <translation type="unfinished">%2 個のスレッドを使用して %1 個のファイルをトランスコードしています</translation>
+      <source>Transcoding %1 files using %2 threads</source>
+      <translation>%2 個のスレッドを使用して %1 個のファイルをトランスコードしています</translation>
     </message>
     <message>
-        <source>Error processing %1: %2</source>
-        <translation type="unfinished">%1 の処理エラー: %2</translation>
+      <source>Error processing %1: %2</source>
+      <translation>%1 の処理エラー: %2</translation>
     </message>
     <message>
-        <source>Starting %1</source>
-        <translation type="unfinished">%1 の開始中</translation>
+      <source>Starting %1</source>
+      <translation>%1 の開始中</translation>
     </message>
     <message>
-        <source>Couldn&apos;t find an encoder for %1, check you have the correct GStreamer plugins installed</source>
-        <translation type="unfinished">%1 のエンコーダーを見つけることができませんでした。正しい GStreamer プラグインがインストールされていることをチェックしてください</translation>
+      <source>Couldn&apos;t find an encoder for %1, check you have the correct GStreamer plugins installed</source>
+      <translation>%1 のエンコーダーを見つけることができませんでした。正しい GStreamer プラグインがインストールされていることをチェックしてください</translation>
     </message>
     <message>
-        <source>Couldn&apos;t find a muxer for %1, check you have the correct GStreamer plugins installed</source>
-        <translation type="unfinished">%1 のミュクサーを見つけることができませんでした。正しい GStreamer プラグインがインストールされていることをチェックしてください</translation>
+      <source>Couldn&apos;t find a muxer for %1, check you have the correct GStreamer plugins installed</source>
+      <translation>%1 のミュクサーを見つけることができませんでした。正しい GStreamer プラグインがインストールされていることをチェックしてください</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>TranscoderOptionsAAC</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">フォーム</translation>
+      <source>Form</source>
+      <translation>フォーム</translation>
     </message>
     <message>
-        <source>Bitrate</source>
-        <translation type="unfinished">ビットレート</translation>
+      <source>Bitrate</source>
+      <translation>ビットレート</translation>
     </message>
     <message>
-        <source> kbps</source>
-        <translation type="unfinished"></translation>
+      <source> kbps</source>
+      <translation type="unfinished"> kbps</translation>
     </message>
     <message>
-        <source>Profile</source>
-        <translation type="unfinished">プロファイル</translation>
+      <source>Profile</source>
+      <translation>プロファイル</translation>
     </message>
     <message>
-        <source>Main profile (MAIN)</source>
-        <translation type="unfinished">Main プロファイル (MAIN)</translation>
+      <source>Main profile (MAIN)</source>
+      <translation>Main プロファイル (MAIN)</translation>
     </message>
     <message>
-        <source>Low complexity profile (LC)</source>
-        <translation type="unfinished">Low Complexity プロファイル (LC)</translation>
+      <source>Low complexity profile (LC)</source>
+      <translation>Low Complexity プロファイル (LC)</translation>
     </message>
     <message>
-        <source>Scalable sampling rate profile (SSR)</source>
-        <translation type="unfinished">Scalable Sampling Rate プロファイル (SSR)</translation>
+      <source>Scalable sampling rate profile (SSR)</source>
+      <translation>Scalable Sampling Rate プロファイル (SSR)</translation>
     </message>
     <message>
-        <source>Long term prediction profile (LTP)</source>
-        <translation type="unfinished">Long Term Prediction プロファイル (LTP)</translation>
+      <source>Long term prediction profile (LTP)</source>
+      <translation>Long Term Prediction プロファイル (LTP)</translation>
     </message>
     <message>
-        <source>Use temporal noise shaping</source>
-        <translation type="unfinished">Temporal Noise Shaping (TNS) を使用する</translation>
+      <source>Use temporal noise shaping</source>
+      <translation>Temporal Noise Shaping (TNS) を使用する</translation>
     </message>
     <message>
-        <source>Allow mid/side encoding</source>
-        <translation type="unfinished">M/S エンコードを許可</translation>
+      <source>Allow mid/side encoding</source>
+      <translation>M/S エンコードを許可</translation>
     </message>
     <message>
-        <source>Block type</source>
-        <translation type="unfinished">ブロックタイプ</translation>
+      <source>Block type</source>
+      <translation>ブロックタイプ</translation>
     </message>
     <message>
-        <source>Normal block type</source>
-        <translation type="unfinished">通常ブロックタイプ</translation>
+      <source>Normal block type</source>
+      <translation>通常ブロックタイプ</translation>
     </message>
     <message>
-        <source>No short blocks</source>
-        <translation type="unfinished">短いブロックなし</translation>
+      <source>No short blocks</source>
+      <translation>短いブロックなし</translation>
     </message>
     <message>
-        <source>No long blocks</source>
-        <translation type="unfinished">長いブロックなし</translation>
+      <source>No long blocks</source>
+      <translation>長いブロックなし</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>TranscoderOptionsASF</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">フォーム</translation>
+      <source>Form</source>
+      <translation>フォーム</translation>
     </message>
     <message>
-        <source>Bitrate</source>
-        <translation type="unfinished">ビットレート</translation>
+      <source>Bitrate</source>
+      <translation>ビットレート</translation>
     </message>
     <message>
-        <source> kbps</source>
-        <translation type="unfinished"></translation>
+      <source> kbps</source>
+      <translation type="unfinished"> kbps</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>TranscoderOptionsDialog</name>
     <message>
-        <source>Transcoding options</source>
-        <translation type="unfinished">トランスコードのオプション</translation>
+      <source>Transcoding options</source>
+      <translation>トランスコードのオプション</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>TranscoderOptionsFLAC</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">フォーム</translation>
+      <source>Form</source>
+      <translation>フォーム</translation>
     </message>
     <message>
-        <source>Quality</source>
-        <comment>Sound quality</comment>
-        <translation type="unfinished">品質</translation>
+      <source>Quality</source>
+      <comment>Sound quality</comment>
+      <translation>品質</translation>
     </message>
     <message>
-        <source>Fast</source>
-        <translation type="unfinished">速</translation>
+      <source>Fast</source>
+      <translation>速</translation>
     </message>
     <message>
-        <source>Best</source>
-        <translation type="unfinished">良</translation>
+      <source>Best</source>
+      <translation>良</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>TranscoderOptionsMP3</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">フォーム</translation>
+      <source>Form</source>
+      <translation>フォーム</translation>
     </message>
     <message>
-        <source>Optimize for &amp;quality</source>
-        <translation type="unfinished">音質で最適化(&amp;q)</translation>
+      <source>Optimize for &amp;quality</source>
+      <translation>音質で最適化(&amp;q)</translation>
     </message>
     <message>
-        <source>Quality</source>
-        <comment>Sound quality</comment>
-        <translation type="unfinished">品質</translation>
+      <source>Quality</source>
+      <comment>Sound quality</comment>
+      <translation>品質</translation>
     </message>
     <message>
-        <source>Opti&amp;mize for bitrate</source>
-        <translation type="unfinished">ビットレートで最適化(&amp;m)</translation>
+      <source>Opti&amp;mize for bitrate</source>
+      <translation>ビットレートで最適化(&amp;m)</translation>
     </message>
     <message>
-        <source>Bitrate</source>
-        <translation type="unfinished">ビットレート</translation>
+      <source>Bitrate</source>
+      <translation>ビットレート</translation>
     </message>
     <message>
-        <source> kbps</source>
-        <translation type="unfinished"></translation>
+      <source> kbps</source>
+      <translation type="unfinished"> kbps</translation>
     </message>
     <message>
-        <source>Constant bitrate</source>
-        <translation type="unfinished">固定ビットレート</translation>
+      <source>Constant bitrate</source>
+      <translation>固定ビットレート</translation>
     </message>
     <message>
-        <source>Encoding engine quality</source>
-        <translation type="unfinished">エンコーディングエンジンの品質</translation>
+      <source>Encoding engine quality</source>
+      <translation>エンコーディングエンジンの品質</translation>
     </message>
     <message>
-        <source>Fast</source>
-        <translation type="unfinished">速</translation>
+      <source>Fast</source>
+      <translation>速</translation>
     </message>
     <message>
-        <source>Standard</source>
-        <translation type="unfinished">標準</translation>
+      <source>Standard</source>
+      <translation>標準</translation>
     </message>
     <message>
-        <source>High</source>
-        <translation type="unfinished">高</translation>
+      <source>High</source>
+      <translation>高</translation>
     </message>
     <message>
-        <source>Force mono encoding</source>
-        <translation type="unfinished">モノラルエンコーディングを強制する</translation>
+      <source>Force mono encoding</source>
+      <translation>モノラルエンコーディングを強制する</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>TranscoderOptionsOpus</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">フォーム</translation>
+      <source>Form</source>
+      <translation>フォーム</translation>
     </message>
     <message>
-        <source>Bitrate</source>
-        <translation type="unfinished">ビットレート</translation>
+      <source>Bitrate</source>
+      <translation>ビットレート</translation>
     </message>
     <message>
-        <source> kbps</source>
-        <translation type="unfinished"></translation>
+      <source> kbps</source>
+      <translation type="unfinished"> kbps</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>TranscoderOptionsSpeex</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">フォーム</translation>
+      <source>Form</source>
+      <translation>フォーム</translation>
     </message>
     <message>
-        <source>Quality</source>
-        <comment>Sound quality</comment>
-        <translation type="unfinished">品質</translation>
+      <source>Quality</source>
+      <comment>Sound quality</comment>
+      <translation>品質</translation>
     </message>
     <message>
-        <source>Bitrate</source>
-        <translation type="unfinished">ビットレート</translation>
+      <source>Bitrate</source>
+      <translation>ビットレート</translation>
     </message>
     <message>
-        <source>automatic</source>
-        <translation type="unfinished">自動</translation>
+      <source>automatic</source>
+      <translation>自動</translation>
     </message>
     <message>
-        <source> kbps</source>
-        <translation type="unfinished"></translation>
+      <source> kbps</source>
+      <translation type="unfinished"> kbps</translation>
     </message>
     <message>
-        <source>Average bitrate</source>
-        <translation type="unfinished">平均ビットレート</translation>
+      <source>Average bitrate</source>
+      <translation>平均ビットレート</translation>
     </message>
     <message>
-        <source>disabled</source>
-        <translation type="unfinished">無効</translation>
+      <source>disabled</source>
+      <translation>無効</translation>
     </message>
     <message>
-        <source>Encoding mode</source>
-        <translation type="unfinished">エンコーディングモード</translation>
+      <source>Encoding mode</source>
+      <translation>エンコーディングモード</translation>
     </message>
     <message>
-        <source>Auto</source>
-        <translation type="unfinished">自動</translation>
+      <source>Auto</source>
+      <translation>自動</translation>
     </message>
     <message>
-        <source>Ultra wide band (UWB)</source>
-        <translation type="unfinished">超高速回線 (UWB)</translation>
+      <source>Ultra wide band (UWB)</source>
+      <translation>超高速回線 (UWB)</translation>
     </message>
     <message>
-        <source>Wide band (WB)</source>
-        <translation type="unfinished">高速回線 (WB)</translation>
+      <source>Wide band (WB)</source>
+      <translation>高速回線 (WB)</translation>
     </message>
     <message>
-        <source>Narrow band (NB)</source>
-        <translation type="unfinished">低速回線 (NB)</translation>
+      <source>Narrow band (NB)</source>
+      <translation>低速回線 (NB)</translation>
     </message>
     <message>
-        <source>Variable bit rate</source>
-        <translation type="unfinished">可変ビットレート</translation>
+      <source>Variable bit rate</source>
+      <translation>可変ビットレート</translation>
     </message>
     <message>
-        <source>Voice activity detection</source>
-        <translation type="unfinished">有音/無音検出 (VAD)</translation>
+      <source>Voice activity detection</source>
+      <translation>有音/無音検出 (VAD)</translation>
     </message>
     <message>
-        <source>Discontinuous transmission</source>
-        <translation type="unfinished">不連続送信 (DTX)</translation>
+      <source>Discontinuous transmission</source>
+      <translation>不連続送信 (DTX)</translation>
     </message>
     <message>
-        <source>Encoding complexity</source>
-        <translation type="unfinished">Complexity エンコーディング</translation>
+      <source>Encoding complexity</source>
+      <translation>Complexity エンコーディング</translation>
     </message>
     <message>
-        <source>Frames per buffer</source>
-        <translation type="unfinished">バッファーあたりのフレーム数</translation>
+      <source>Frames per buffer</source>
+      <translation>バッファーあたりのフレーム数</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>TranscoderOptionsVorbis</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">フォーム</translation>
+      <source>Form</source>
+      <translation>フォーム</translation>
     </message>
     <message>
-        <source>Quality</source>
-        <comment>Sound quality</comment>
-        <translation type="unfinished">品質</translation>
+      <source>Quality</source>
+      <comment>Sound quality</comment>
+      <translation>品質</translation>
     </message>
     <message>
-        <source>Use bitrate management engine</source>
-        <translation type="unfinished">ビットレート管理エンジンを使用する</translation>
+      <source>Use bitrate management engine</source>
+      <translation>ビットレート管理エンジンを使用する</translation>
     </message>
     <message>
-        <source>Target bitrate</source>
-        <translation type="unfinished">目標ビットレート</translation>
+      <source>Target bitrate</source>
+      <translation>目標ビットレート</translation>
     </message>
     <message>
-        <source> kbps</source>
-        <translation type="unfinished"></translation>
+      <source> kbps</source>
+      <translation type="unfinished"> kbps</translation>
     </message>
     <message>
-        <source>Minimum bitrate</source>
-        <translation type="unfinished">最低ビットレート</translation>
+      <source>Minimum bitrate</source>
+      <translation>最低ビットレート</translation>
     </message>
     <message>
-        <source>disabled</source>
-        <translation type="unfinished">無効</translation>
+      <source>disabled</source>
+      <translation>無効</translation>
     </message>
     <message>
-        <source>Maximum bitrate</source>
-        <translation type="unfinished">最高ビットレート</translation>
+      <source>Maximum bitrate</source>
+      <translation>最高ビットレート</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>TranscoderOptionsWavPack</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">フォーム</translation>
+      <source>Form</source>
+      <translation>フォーム</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>TranscoderSettingsPage</name>
     <message>
-        <source>Transcoding</source>
-        <translation type="unfinished">トランスコード</translation>
+      <source>Transcoding</source>
+      <translation>トランスコード</translation>
     </message>
     <message>
-        <source>These settings are used in the &quot;Transcode Music&quot; dialog, and when converting music before copying it to a device.</source>
-        <translation type="unfinished">以下の設定は「音楽のトランスコード」ダイアログや、デバイスへコピーする前に音楽を変換する時に使われます。</translation>
+      <source>These settings are used in the &quot;Transcode Music&quot; dialog, and when converting music before copying it to a device.</source>
+      <translation>以下の設定は「音楽のトランスコード」ダイアログや、デバイスへコピーする前に音楽を変換する時に使われます。</translation>
     </message>
     <message>
-        <source>FLAC</source>
-        <translation type="unfinished"></translation>
+      <source>FLAC</source>
+      <translation type="unfinished">FLAC</translation>
     </message>
     <message>
-        <source>WavPack</source>
-        <translation type="unfinished"></translation>
+      <source>WavPack</source>
+      <translation type="unfinished">WavPack</translation>
     </message>
     <message>
-        <source>Vorbis</source>
-        <translation type="unfinished"></translation>
+      <source>Vorbis</source>
+      <translation type="unfinished">Vorbis</translation>
     </message>
     <message>
-        <source>Opus</source>
-        <translation type="unfinished"></translation>
+      <source>Opus</source>
+      <translation type="unfinished">Opus</translation>
     </message>
     <message>
-        <source>Speex</source>
-        <translation type="unfinished"></translation>
+      <source>Speex</source>
+      <translation type="unfinished">Speex</translation>
     </message>
     <message>
-        <source>AAC</source>
-        <translation type="unfinished"></translation>
+      <source>AAC</source>
+      <translation type="unfinished">AAC</translation>
     </message>
     <message>
-        <source>ASF (WMA)</source>
-        <translation type="unfinished"></translation>
+      <source>ASF (WMA)</source>
+      <translation type="unfinished">ASF (WMA)</translation>
     </message>
     <message>
-        <source>MP3</source>
-        <translation type="unfinished"></translation>
+      <source>MP3</source>
+      <translation type="unfinished">MP3</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>Udisks2Lister</name>
     <message>
-        <source>D-Bus path</source>
-        <translation type="unfinished">D-Bus パス</translation>
+      <source>D-Bus path</source>
+      <translation>D-Bus パス</translation>
     </message>
     <message>
-        <source>Serial number</source>
-        <translation type="unfinished">シリアル番号</translation>
+      <source>Serial number</source>
+      <translation>シリアル番号</translation>
     </message>
     <message>
-        <source>Mount points</source>
-        <translation type="unfinished">マウントポイント</translation>
+      <source>Mount points</source>
+      <translation>マウントポイント</translation>
     </message>
     <message>
-        <source>Partition label</source>
-        <translation type="unfinished">パーティションのラベル</translation>
+      <source>Partition label</source>
+      <translation>パーティションのラベル</translation>
     </message>
     <message>
-        <source>UUID</source>
-        <translation type="unfinished"></translation>
+      <source>UUID</source>
+      <translation type="unfinished">UUID</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>UserPassDialog</name>
     <message>
-        <source>Enter username and password</source>
-        <translation type="unfinished">ユーザー名とパスワードを入力:</translation>
+      <source>Enter username and password</source>
+      <translation>ユーザー名とパスワードを入力:</translation>
     </message>
     <message>
-        <source>Username</source>
-        <translation type="unfinished">ユーザー名</translation>
+      <source>Username</source>
+      <translation>ユーザー名</translation>
     </message>
     <message>
-        <source>Password</source>
-        <translation type="unfinished">パスワード</translation>
+      <source>Password</source>
+      <translation>パスワード</translation>
     </message>
-</context>
+  </context>
 </TS>
