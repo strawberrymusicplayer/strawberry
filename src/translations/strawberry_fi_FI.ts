@@ -1,7569 +1,7569 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="fi_FI">
-<context>
+<TS version="2.1" language="fi_FI" sourcelanguage="en-US">
+  <context>
     <name>About</name>
     <message>
-        <source>About</source>
-        <translation type="unfinished">Tietoa</translation>
+      <source>About</source>
+      <translation>Tietoa</translation>
     </message>
     <message>
-        <source>About Strawberry</source>
-        <translation type="unfinished">Tietoa Strawberrystä</translation>
+      <source>About Strawberry</source>
+      <translation>Tietoa Strawberrystä</translation>
     </message>
     <message>
-        <source>Version %1</source>
-        <translation type="unfinished">Versio %1</translation>
+      <source>Version %1</source>
+      <translation>Versio %1</translation>
     </message>
     <message>
-        <source>Strawberry is a music player and music collection organizer.</source>
-        <translation type="unfinished"></translation>
+      <source>Strawberry is a music player and music collection organizer.</source>
+      <translation type="unfinished">Strawberry is a music player and music collection organizer.</translation>
     </message>
     <message>
-        <source>It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles.</source>
-        <translation type="unfinished"></translation>
+      <source>It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles.</source>
+      <translation type="unfinished">It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles.</translation>
     </message>
     <message>
-        <source>Strawberry is free software released under GPL. The source code is available on %1</source>
-        <translation type="unfinished"></translation>
+      <source>Strawberry is free software released under GPL. The source code is available on %1</source>
+      <translation type="unfinished">Strawberry is free software released under GPL. The source code is available on %1</translation>
     </message>
     <message>
-        <source>You should have received a copy of the GNU General Public License along with this program.  If not, see %1</source>
-        <translation type="unfinished">Sinun pitäisi olla saanut kopio GNU:n GPL -lisenssistä tämän ohjelman mukana.  Jos et, katso %1</translation>
+      <source>You should have received a copy of the GNU General Public License along with this program.  If not, see %1</source>
+      <translation>Sinun pitäisi olla saanut kopio GNU:n GPL -lisenssistä tämän ohjelman mukana.  Jos et, katso %1</translation>
     </message>
     <message>
-        <source>If you like Strawberry and can make use of it, consider sponsoring or donating.</source>
-        <translation type="unfinished">Jos pidät Strawberrystä ja sinulla on sille käyttöä, harkitse sponsorointia tai lahjoitusta.</translation>
+      <source>If you like Strawberry and can make use of it, consider sponsoring or donating.</source>
+      <translation>Jos pidät Strawberrystä ja sinulla on sille käyttöä, harkitse sponsorointia tai lahjoitusta.</translation>
     </message>
     <message>
-        <source>You can sponsor the author on %1. You can also make a one-time payment through %2.</source>
-        <translation type="unfinished">Voit sponsoroida tekijää %1:ssa. Voit myös tehdä kertalahjoituksen osoiteessa %2.</translation>
+      <source>You can sponsor the author on %1. You can also make a one-time payment through %2.</source>
+      <translation>Voit sponsoroida tekijää %1:ssa. Voit myös tehdä kertalahjoituksen osoiteessa %2.</translation>
     </message>
     <message>
-        <source>Author and maintainer</source>
-        <translation type="unfinished">Tekijä ja ylläpitäjä</translation>
+      <source>Author and maintainer</source>
+      <translation>Tekijä ja ylläpitäjä</translation>
     </message>
     <message>
-        <source>Contributors</source>
-        <translation type="unfinished">Tekijät</translation>
+      <source>Contributors</source>
+      <translation>Tekijät</translation>
     </message>
     <message>
-        <source>Clementine authors</source>
-        <translation type="unfinished">Clementinen tekijät</translation>
+      <source>Clementine authors</source>
+      <translation>Clementinen tekijät</translation>
     </message>
     <message>
-        <source>Clementine contributors</source>
-        <translation type="unfinished">Clementinen tekijät</translation>
+      <source>Clementine contributors</source>
+      <translation>Clementinen tekijät</translation>
     </message>
     <message>
-        <source>Thanks to</source>
-        <translation type="unfinished">Kiitos</translation>
+      <source>Thanks to</source>
+      <translation>Kiitos</translation>
     </message>
     <message>
-        <source>Thanks to all the other Amarok and Clementine contributors.</source>
-        <translation type="unfinished">Kiitos kaikille muille Amarokin ja Clementinen kehittäjille.</translation>
+      <source>Thanks to all the other Amarok and Clementine contributors.</source>
+      <translation>Kiitos kaikille muille Amarokin ja Clementinen kehittäjille.</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>AddStreamDialog</name>
     <message>
-        <source>Add Stream</source>
-        <translation type="unfinished">Lisää virta</translation>
+      <source>Add Stream</source>
+      <translation>Lisää virta</translation>
     </message>
     <message>
-        <source>Enter the URL of a stream:</source>
-        <translation type="unfinished">Syötä virran URL:</translation>
+      <source>Enter the URL of a stream:</source>
+      <translation>Syötä virran URL:</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>AlbumCoverChoiceController</name>
     <message>
-        <source>Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)</source>
-        <translation type="unfinished">Kuvat (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)</translation>
+      <source>Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)</source>
+      <translation>Kuvat (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)</translation>
     </message>
     <message>
-        <source>Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)</source>
-        <translation type="unfinished">Kuvat (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)</translation>
+      <source>Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)</source>
+      <translation>Kuvat (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)</translation>
     </message>
     <message>
-        <source>All files (*)</source>
-        <translation type="unfinished">Kaikki tiedostot (*)</translation>
+      <source>All files (*)</source>
+      <translation>Kaikki tiedostot (*)</translation>
     </message>
     <message>
-        <source>Load cover from disk...</source>
-        <translation type="unfinished">Lataa kansikuva levyltä...</translation>
+      <source>Load cover from disk...</source>
+      <translation>Lataa kansikuva levyltä...</translation>
     </message>
     <message>
-        <source>Save cover to disk...</source>
-        <translation type="unfinished">Tallenna levyn kansikuva kiintolevylle...</translation>
+      <source>Save cover to disk...</source>
+      <translation>Tallenna levyn kansikuva kiintolevylle...</translation>
     </message>
     <message>
-        <source>Load cover from URL...</source>
-        <translation type="unfinished">Lataa kansikuva osoitteesta...</translation>
+      <source>Load cover from URL...</source>
+      <translation>Lataa kansikuva osoitteesta...</translation>
     </message>
     <message>
-        <source>Search for album covers...</source>
-        <translation type="unfinished">Etsi kansikuvia...</translation>
+      <source>Search for album covers...</source>
+      <translation>Etsi kansikuvia...</translation>
     </message>
     <message>
-        <source>Unset cover</source>
-        <translation type="unfinished">Poista kansikuva</translation>
+      <source>Unset cover</source>
+      <translation>Poista kansikuva</translation>
     </message>
     <message>
-        <source>Delete cover</source>
-        <translation type="unfinished"></translation>
+      <source>Delete cover</source>
+      <translation type="unfinished">Delete cover</translation>
     </message>
     <message>
-        <source>Clear cover</source>
-        <translation type="unfinished"></translation>
+      <source>Clear cover</source>
+      <translation type="unfinished">Clear cover</translation>
     </message>
     <message>
-        <source>Show fullsize...</source>
-        <translation type="unfinished">Näytä oikeassa koossa...</translation>
+      <source>Show fullsize...</source>
+      <translation>Näytä oikeassa koossa...</translation>
     </message>
     <message>
-        <source>Search automatically</source>
-        <translation type="unfinished">Etsi automaattisesti</translation>
+      <source>Search automatically</source>
+      <translation>Etsi automaattisesti</translation>
     </message>
     <message>
-        <source>Load cover from disk</source>
-        <translation type="unfinished">Lataa kansikuva levyltä</translation>
+      <source>Load cover from disk</source>
+      <translation>Lataa kansikuva levyltä</translation>
     </message>
     <message>
-        <source>Failed to open cover file %1 for reading: %2</source>
-        <translation type="unfinished"></translation>
+      <source>Failed to open cover file %1 for reading: %2</source>
+      <translation type="unfinished">Failed to open cover file %1 for reading: %2</translation>
     </message>
     <message>
-        <source>Cover file %1 is empty.</source>
-        <translation type="unfinished"></translation>
+      <source>Cover file %1 is empty.</source>
+      <translation type="unfinished">Cover file %1 is empty.</translation>
     </message>
     <message>
-        <source>unknown</source>
-        <translation type="unfinished">tuntematon</translation>
+      <source>unknown</source>
+      <translation>tuntematon</translation>
     </message>
     <message>
-        <source>Save album cover</source>
-        <translation type="unfinished">Tallenna albumin kansikuva</translation>
+      <source>Save album cover</source>
+      <translation>Tallenna albumin kansikuva</translation>
     </message>
     <message>
-        <source>Failed to open cover file %1 for writing: %2</source>
-        <translation type="unfinished"></translation>
+      <source>Failed to open cover file %1 for writing: %2</source>
+      <translation type="unfinished">Failed to open cover file %1 for writing: %2</translation>
     </message>
     <message>
-        <source>Failed writing cover to file %1: %2</source>
-        <translation type="unfinished"></translation>
+      <source>Failed writing cover to file %1: %2</source>
+      <translation type="unfinished">Failed writing cover to file %1: %2</translation>
     </message>
     <message>
-        <source>Failed writing cover to file %1.</source>
-        <translation type="unfinished"></translation>
+      <source>Failed writing cover to file %1.</source>
+      <translation type="unfinished">Failed writing cover to file %1.</translation>
     </message>
     <message>
-        <source>Failed to delete cover file %1: %2</source>
-        <translation type="unfinished"></translation>
+      <source>Failed to delete cover file %1: %2</source>
+      <translation type="unfinished">Failed to delete cover file %1: %2</translation>
     </message>
     <message>
-        <source>Failed to write cover to file %1: %2</source>
-        <translation type="unfinished"></translation>
+      <source>Failed to write cover to file %1: %2</source>
+      <translation type="unfinished">Failed to write cover to file %1: %2</translation>
     </message>
     <message>
-        <source>Could not save cover to file %1.</source>
-        <translation type="unfinished"></translation>
+      <source>Could not save cover to file %1.</source>
+      <translation type="unfinished">Could not save cover to file %1.</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>AlbumCoverExport</name>
     <message>
-        <source>Export covers</source>
-        <translation type="unfinished">Vie kansikuvat</translation>
+      <source>Export covers</source>
+      <translation>Vie kansikuvat</translation>
     </message>
     <message>
-        <source>Output</source>
-        <translation type="unfinished">Ulostulo</translation>
+      <source>Output</source>
+      <translation>Ulostulo</translation>
     </message>
     <message>
-        <source>Enter a filename for exported covers (no extension):</source>
-        <translation type="unfinished">Syötä tiedostonimi kansille (ei tiedostopäätettä):</translation>
+      <source>Enter a filename for exported covers (no extension):</source>
+      <translation>Syötä tiedostonimi kansille (ei tiedostopäätettä):</translation>
     </message>
     <message>
-        <source>Export downloaded covers</source>
-        <translation type="unfinished">Vie ladatut kansikuvat</translation>
+      <source>Export downloaded covers</source>
+      <translation>Vie ladatut kansikuvat</translation>
     </message>
     <message>
-        <source>Export embedded covers</source>
-        <translation type="unfinished">Vie upotetut kansikuvat</translation>
+      <source>Export embedded covers</source>
+      <translation>Vie upotetut kansikuvat</translation>
     </message>
     <message>
-        <source>Existing covers</source>
-        <translation type="unfinished">Olemassa olevat kansikuvat</translation>
+      <source>Existing covers</source>
+      <translation>Olemassa olevat kansikuvat</translation>
     </message>
     <message>
-        <source>Do not overwrite</source>
-        <translation type="unfinished">Älä korvaa</translation>
+      <source>Do not overwrite</source>
+      <translation>Älä korvaa</translation>
     </message>
     <message>
-        <source>O&amp;verwrite all</source>
-        <translation type="unfinished"></translation>
+      <source>O&amp;verwrite all</source>
+      <translation type="unfinished">O&amp;verwrite all</translation>
     </message>
     <message>
-        <source>Overwrite s&amp;maller ones only</source>
-        <translation type="unfinished"></translation>
+      <source>Overwrite s&amp;maller ones only</source>
+      <translation type="unfinished">Overwrite s&amp;maller ones only</translation>
     </message>
     <message>
-        <source>Size</source>
-        <translation type="unfinished">Koko</translation>
+      <source>Size</source>
+      <translation>Koko</translation>
     </message>
     <message>
-        <source>Scale size</source>
-        <translation type="unfinished">Skaalaa koko</translation>
+      <source>Scale size</source>
+      <translation>Skaalaa koko</translation>
     </message>
     <message>
-        <source>Size:</source>
-        <translation type="unfinished">Koko:</translation>
+      <source>Size:</source>
+      <translation>Koko:</translation>
     </message>
     <message>
-        <source>Pixel</source>
-        <translation type="unfinished">Pikseli</translation>
+      <source>Pixel</source>
+      <translation>Pikseli</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>AlbumCoverManager</name>
     <message>
-        <source>Abort</source>
-        <translation type="unfinished">Keskeytä</translation>
+      <source>Abort</source>
+      <translation>Keskeytä</translation>
     </message>
     <message>
-        <source>All albums</source>
-        <translation type="unfinished">Kaikki albumit</translation>
+      <source>All albums</source>
+      <translation>Kaikki albumit</translation>
     </message>
     <message>
-        <source>Albums with covers</source>
-        <translation type="unfinished">Albumit kansikuvineen</translation>
+      <source>Albums with covers</source>
+      <translation>Albumit kansikuvineen</translation>
     </message>
     <message>
-        <source>Albums without covers</source>
-        <translation type="unfinished">Albumit vailla kansikuvia</translation>
+      <source>Albums without covers</source>
+      <translation>Albumit vailla kansikuvia</translation>
     </message>
     <message>
-        <source>Really cancel?</source>
-        <translation type="unfinished">Haluatko todella perua?</translation>
+      <source>Really cancel?</source>
+      <translation>Haluatko todella perua?</translation>
     </message>
     <message>
-        <source>Closing this window will stop searching for album covers.</source>
-        <translation type="unfinished">Tämän ikkunan sulkeminen lopettaa albumikansien etsimisen.</translation>
+      <source>Closing this window will stop searching for album covers.</source>
+      <translation>Tämän ikkunan sulkeminen lopettaa albumikansien etsimisen.</translation>
     </message>
     <message>
-        <source>Don&apos;t stop!</source>
-        <translation type="unfinished">Älä lopeta!</translation>
+      <source>Don&apos;t stop!</source>
+      <translation>Älä lopeta!</translation>
     </message>
     <message>
-        <source>All artists</source>
-        <translation type="unfinished">Kaikki esittäjät</translation>
+      <source>All artists</source>
+      <translation>Kaikki esittäjät</translation>
     </message>
     <message>
-        <source>Various artists</source>
-        <translation type="unfinished">Useita esittäjiä</translation>
+      <source>Various artists</source>
+      <translation>Useita esittäjiä</translation>
     </message>
     <message>
-        <source>Got %1 covers out of %2 (%3 failed)</source>
-        <translation type="unfinished">Löydetty %1 / %2 kansikuvaa (%3 epäonnistui)</translation>
+      <source>Got %1 covers out of %2 (%3 failed)</source>
+      <translation>Löydetty %1 / %2 kansikuvaa (%3 epäonnistui)</translation>
     </message>
     <message>
-        <source>%1 transferred</source>
-        <translation type="unfinished">%1 siirretty</translation>
+      <source>%1 transferred</source>
+      <translation>%1 siirretty</translation>
     </message>
     <message>
-        <source>Export finished</source>
-        <translation type="unfinished">Vienti valmistui</translation>
+      <source>Export finished</source>
+      <translation>Vienti valmistui</translation>
     </message>
     <message>
-        <source>No covers to export.</source>
-        <translation type="unfinished">Ei kansikuvia vietäväksi.</translation>
+      <source>No covers to export.</source>
+      <translation>Ei kansikuvia vietäväksi.</translation>
     </message>
     <message>
-        <source>Exported %1 covers out of %2 (%3 skipped)</source>
-        <translation type="unfinished">Vietiin %1/%2 kansikuvaa (%3 ohitettu)</translation>
+      <source>Exported %1 covers out of %2 (%3 skipped)</source>
+      <translation>Vietiin %1/%2 kansikuvaa (%3 ohitettu)</translation>
     </message>
     <message>
-        <source>Could not save cover to file %1.</source>
-        <translation type="unfinished"></translation>
+      <source>Could not save cover to file %1.</source>
+      <translation type="unfinished">Could not save cover to file %1.</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>AlbumCoverSearcher</name>
     <message>
-        <source>Cover Manager</source>
-        <translation type="unfinished">Kansikuvaselain</translation>
+      <source>Cover Manager</source>
+      <translation>Kansikuvaselain</translation>
     </message>
     <message>
-        <source>Artist</source>
-        <translation type="unfinished">Esittäjä</translation>
+      <source>Artist</source>
+      <translation>Esittäjä</translation>
     </message>
     <message>
-        <source>Album</source>
-        <translation type="unfinished">Albumi</translation>
+      <source>Album</source>
+      <translation>Albumi</translation>
     </message>
     <message>
-        <source>Search</source>
-        <translation type="unfinished">Etsi</translation>
+      <source>Search</source>
+      <translation>Etsi</translation>
     </message>
     <message>
-        <source>Covers from %1</source>
-        <translation type="unfinished">Kansikuvat kohteesta %1</translation>
+      <source>Covers from %1</source>
+      <translation>Kansikuvat kohteesta %1</translation>
     </message>
     <message>
-        <source>Abort</source>
-        <translation type="unfinished">Keskeytä</translation>
+      <source>Abort</source>
+      <translation>Keskeytä</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>AnalyzerContainer</name>
     <message>
-        <source>Framerate</source>
-        <translation type="unfinished">Kuvanopeus</translation>
+      <source>Framerate</source>
+      <translation>Kuvanopeus</translation>
     </message>
     <message>
-        <source>Low (%1 fps)</source>
-        <translation type="unfinished">Hidas (%1 fps)</translation>
+      <source>Low (%1 fps)</source>
+      <translation>Hidas (%1 fps)</translation>
     </message>
     <message>
-        <source>Medium (%1 fps)</source>
-        <translation type="unfinished">Keskitaso (%1 fps)</translation>
+      <source>Medium (%1 fps)</source>
+      <translation>Keskitaso (%1 fps)</translation>
     </message>
     <message>
-        <source>High (%1 fps)</source>
-        <translation type="unfinished">Nopea (%1 fps)</translation>
+      <source>High (%1 fps)</source>
+      <translation>Nopea (%1 fps)</translation>
     </message>
     <message>
-        <source>Super high (%1 fps)</source>
-        <translation type="unfinished">Erittäin nopea (%1 fps)</translation>
+      <source>Super high (%1 fps)</source>
+      <translation>Erittäin nopea (%1 fps)</translation>
     </message>
     <message>
-        <source>No analyzer</source>
-        <translation type="unfinished">Ei visualisointia</translation>
+      <source>No analyzer</source>
+      <translation>Ei visualisointia</translation>
     </message>
     <message>
-        <source>Block analyzer</source>
-        <translation type="unfinished"></translation>
+      <source>Block analyzer</source>
+      <translation type="unfinished">Block analyzer</translation>
     </message>
     <message>
-        <source>Boom analyzer</source>
-        <translation type="unfinished"></translation>
+      <source>Boom analyzer</source>
+      <translation type="unfinished">Boom analyzer</translation>
     </message>
     <message>
-        <source>Turbine</source>
-        <translation type="unfinished"></translation>
+      <source>Turbine</source>
+      <translation type="unfinished">Turbine</translation>
     </message>
     <message>
-        <source>Sonogram</source>
-        <translation type="unfinished"></translation>
+      <source>Sonogram</source>
+      <translation type="unfinished">Sonogram</translation>
     </message>
     <message>
-        <source>WaveRubber</source>
-        <translation type="unfinished"></translation>
+      <source>WaveRubber</source>
+      <translation type="unfinished">WaveRubber</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>AppearanceSettingsPage</name>
     <message>
-        <source>Appearance</source>
-        <translation type="unfinished">Ulkoasu</translation>
+      <source>Appearance</source>
+      <translation>Ulkoasu</translation>
     </message>
     <message>
-        <source>Style</source>
-        <translation type="unfinished">Tyyli</translation>
+      <source>Style</source>
+      <translation>Tyyli</translation>
     </message>
     <message>
-        <source>Use system theme icons</source>
-        <translation type="unfinished">Käytä järjestelmäteeman kuvakkeita</translation>
+      <source>Use system theme icons</source>
+      <translation>Käytä järjestelmäteeman kuvakkeita</translation>
     </message>
     <message>
-        <source>Settings require restart.</source>
-        <translation type="unfinished"></translation>
+      <source>Settings require restart.</source>
+      <translation type="unfinished">Settings require restart.</translation>
     </message>
     <message>
-        <source>Tabbar colors</source>
-        <translation type="unfinished">Välilehtipalkin värit</translation>
+      <source>Tabbar colors</source>
+      <translation>Välilehtipalkin värit</translation>
     </message>
     <message>
-        <source>&amp;Use the system default color</source>
-        <translation type="unfinished">Käytä järjestelmän oletusväriä</translation>
+      <source>&amp;Use the system default color</source>
+      <translation>Käytä järjestelmän oletusväriä</translation>
     </message>
     <message>
-        <source>Use custom color</source>
-        <translation type="unfinished">Käytä omaa väriä</translation>
+      <source>Use custom color</source>
+      <translation>Käytä omaa väriä</translation>
     </message>
     <message>
-        <source>Use gradient background</source>
-        <translation type="unfinished">Käytä liukuväriä taustana</translation>
+      <source>Use gradient background</source>
+      <translation>Käytä liukuväriä taustana</translation>
     </message>
     <message>
-        <source>Select tabbar color:</source>
-        <translation type="unfinished"></translation>
+      <source>Select tabbar color:</source>
+      <translation type="unfinished">Select tabbar color:</translation>
     </message>
     <message>
-        <source>Background image</source>
-        <translation type="unfinished">Taustakuva</translation>
+      <source>Background image</source>
+      <translation>Taustakuva</translation>
     </message>
     <message>
-        <source>Default bac&amp;kground image</source>
-        <translation type="unfinished"></translation>
+      <source>Default bac&amp;kground image</source>
+      <translation type="unfinished">Default bac&amp;kground image</translation>
     </message>
     <message>
-        <source>&amp;No background image</source>
-        <translation type="unfinished">Ei taustakuvaa</translation>
+      <source>&amp;No background image</source>
+      <translation>Ei taustakuvaa</translation>
     </message>
     <message>
-        <source>The album cover of the currently playing song</source>
-        <translation type="unfinished">Parhaillaan soivan kappaleen albumin kansikuva</translation>
+      <source>The album cover of the currently playing song</source>
+      <translation>Parhaillaan soivan kappaleen albumin kansikuva</translation>
     </message>
     <message>
-        <source>Albu&amp;m cover</source>
-        <translation type="unfinished">Albu&amp;min kansikuva</translation>
+      <source>Albu&amp;m cover</source>
+      <translation>Albu&amp;min kansikuva</translation>
     </message>
     <message>
-        <source>Custom image:</source>
-        <translation type="unfinished">Omavalintainen kuva:</translation>
+      <source>Custom image:</source>
+      <translation>Omavalintainen kuva:</translation>
     </message>
     <message>
-        <source>Browse...</source>
-        <translation type="unfinished">Selaa...</translation>
+      <source>Browse...</source>
+      <translation>Selaa...</translation>
     </message>
     <message>
-        <source>Position</source>
-        <translation type="unfinished">Sijainti</translation>
+      <source>Position</source>
+      <translation>Sijainti</translation>
     </message>
     <message>
-        <source>Upper Left</source>
-        <translation type="unfinished">Vasen yläkulma</translation>
+      <source>Upper Left</source>
+      <translation>Vasen yläkulma</translation>
     </message>
     <message>
-        <source>Upper Right</source>
-        <translation type="unfinished">Oikea yläkulma</translation>
+      <source>Upper Right</source>
+      <translation>Oikea yläkulma</translation>
     </message>
     <message>
-        <source>Middle</source>
-        <translation type="unfinished">Keskellä</translation>
+      <source>Middle</source>
+      <translation>Keskellä</translation>
     </message>
     <message>
-        <source>Bottom Left</source>
-        <translation type="unfinished">Vasen alakulma</translation>
+      <source>Bottom Left</source>
+      <translation>Vasen alakulma</translation>
     </message>
     <message>
-        <source>Bottom Right</source>
-        <translation type="unfinished">Oikea alakulma</translation>
+      <source>Bottom Right</source>
+      <translation>Oikea alakulma</translation>
     </message>
     <message>
-        <source>Max cover size</source>
-        <translation type="unfinished">Kansikuvan maksimikoko</translation>
+      <source>Max cover size</source>
+      <translation>Kansikuvan maksimikoko</translation>
     </message>
     <message>
-        <source>Stretch image to fill playlist</source>
-        <translation type="unfinished">Venytä kuva soittolistan kokoiseksi</translation>
+      <source>Stretch image to fill playlist</source>
+      <translation>Venytä kuva soittolistan kokoiseksi</translation>
     </message>
     <message>
-        <source>Keep aspect ratio</source>
-        <translation type="unfinished">Säilytä kuvasuhde</translation>
+      <source>Keep aspect ratio</source>
+      <translation>Säilytä kuvasuhde</translation>
     </message>
     <message>
-        <source>Do not cut image</source>
-        <translation type="unfinished">Älä leikkaa kuvaa</translation>
+      <source>Do not cut image</source>
+      <translation>Älä leikkaa kuvaa</translation>
     </message>
     <message>
-        <source>Blur amount</source>
-        <translation type="unfinished">Sumennuksen määrä</translation>
+      <source>Blur amount</source>
+      <translation>Sumennuksen määrä</translation>
     </message>
     <message>
-        <source>0px</source>
-        <translation type="unfinished"></translation>
+      <source>0px</source>
+      <translation type="unfinished">0px</translation>
     </message>
     <message>
-        <source>Opacity</source>
-        <translation type="unfinished">Läpinäkyvyys</translation>
+      <source>Opacity</source>
+      <translation>Läpinäkyvyys</translation>
     </message>
     <message>
-        <source>40%</source>
-        <translation type="unfinished">40 %</translation>
+      <source>40%</source>
+      <translation>40 %</translation>
     </message>
     <message>
-        <source>Icon sizes</source>
-        <translation type="unfinished">Kuvakkeen koot</translation>
+      <source>Icon sizes</source>
+      <translation>Kuvakkeen koot</translation>
     </message>
     <message>
-        <source>Playlist buttons</source>
-        <translation type="unfinished"></translation>
+      <source>Playlist buttons</source>
+      <translation type="unfinished">Playlist buttons</translation>
     </message>
     <message>
-        <source>Tabbar large mode</source>
-        <translation type="unfinished"></translation>
+      <source>Tabbar large mode</source>
+      <translation type="unfinished">Tabbar large mode</translation>
     </message>
     <message>
-        <source>Play control buttons</source>
-        <translation type="unfinished"></translation>
+      <source>Play control buttons</source>
+      <translation type="unfinished">Play control buttons</translation>
     </message>
     <message>
-        <source>Configure buttons</source>
-        <translation type="unfinished"></translation>
+      <source>Configure buttons</source>
+      <translation type="unfinished">Configure buttons</translation>
     </message>
     <message>
-        <source>Files, playlists and queue buttons</source>
-        <translation type="unfinished"></translation>
+      <source>Files, playlists and queue buttons</source>
+      <translation type="unfinished">Files, playlists and queue buttons</translation>
     </message>
     <message>
-        <source>Tabbar small mode</source>
-        <translation type="unfinished"></translation>
+      <source>Tabbar small mode</source>
+      <translation type="unfinished">Tabbar small mode</translation>
     </message>
     <message>
-        <source>Playlist playing song color</source>
-        <translation type="unfinished"></translation>
+      <source>Playlist playing song color</source>
+      <translation type="unfinished">Playlist playing song color</translation>
     </message>
     <message>
-        <source>System highlight color</source>
-        <translation type="unfinished"></translation>
+      <source>System highlight color</source>
+      <translation type="unfinished">System highlight color</translation>
     </message>
     <message>
-        <source>Custom color</source>
-        <translation type="unfinished"></translation>
+      <source>Custom color</source>
+      <translation type="unfinished">Custom color</translation>
     </message>
     <message>
-        <source>Select playlist playing song color:</source>
-        <translation type="unfinished"></translation>
+      <source>Select playlist playing song color:</source>
+      <translation type="unfinished">Select playlist playing song color:</translation>
     </message>
     <message>
-        <source>Select background image</source>
-        <translation type="unfinished">Valitse taustakuva</translation>
+      <source>Select background image</source>
+      <translation>Valitse taustakuva</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>BackendSettingsPage</name>
     <message>
-        <source>Backend</source>
-        <translation type="unfinished"></translation>
+      <source>Backend</source>
+      <translation type="unfinished">Backend</translation>
     </message>
     <message>
-        <source>Audio output</source>
-        <translation type="unfinished">Äänen ulostulo</translation>
+      <source>Audio output</source>
+      <translation>Äänen ulostulo</translation>
     </message>
     <message>
-        <source>Device</source>
-        <translation type="unfinished">Laite</translation>
+      <source>Device</source>
+      <translation>Laite</translation>
     </message>
     <message>
-        <source>Output</source>
-        <translation type="unfinished">Ulostulo</translation>
+      <source>Output</source>
+      <translation>Ulostulo</translation>
     </message>
     <message>
-        <source>Engine</source>
-        <translation type="unfinished">Moottori</translation>
+      <source>Engine</source>
+      <translation>Moottori</translation>
     </message>
     <message>
-        <source>ALSA plugin:</source>
-        <translation type="unfinished"></translation>
+      <source>ALSA plugin:</source>
+      <translation type="unfinished">ALSA plugin:</translation>
     </message>
     <message>
-        <source>hw</source>
-        <translation type="unfinished"></translation>
+      <source>hw</source>
+      <translation type="unfinished">hw</translation>
     </message>
     <message>
-        <source>p&amp;lughw</source>
-        <translation type="unfinished"></translation>
+      <source>p&amp;lughw</source>
+      <translation type="unfinished">p&amp;lughw</translation>
     </message>
     <message>
-        <source>pcm</source>
-        <translation type="unfinished"></translation>
+      <source>pcm</source>
+      <translation type="unfinished">pcm</translation>
     </message>
     <message>
-        <source>Exclusive mode (Experimental)</source>
-        <translation type="unfinished"></translation>
+      <source>Exclusive mode (Experimental)</source>
+      <translation type="unfinished">Exclusive mode (Experimental)</translation>
     </message>
     <message>
-        <source>Options</source>
-        <translation type="unfinished"></translation>
+      <source>Options</source>
+      <translation type="unfinished">Options</translation>
     </message>
     <message>
-        <source>Enable volume control</source>
-        <translation type="unfinished"></translation>
+      <source>Enable volume control</source>
+      <translation type="unfinished">Enable volume control</translation>
     </message>
     <message>
-        <source>Upmix / downmix to</source>
-        <translation type="unfinished"></translation>
+      <source>Upmix / downmix to</source>
+      <translation type="unfinished">Upmix / downmix to</translation>
     </message>
     <message>
-        <source>channels</source>
-        <translation type="unfinished"></translation>
+      <source>channels</source>
+      <translation type="unfinished">channels</translation>
     </message>
     <message>
-        <source>Improve headphone listening of stereo audio records (bs2b)</source>
-        <translation type="unfinished"></translation>
+      <source>Improve headphone listening of stereo audio records (bs2b)</source>
+      <translation type="unfinished">Improve headphone listening of stereo audio records (bs2b)</translation>
     </message>
     <message>
-        <source>Enable HTTP/2 for streaming</source>
-        <translation type="unfinished"></translation>
+      <source>Enable HTTP/2 for streaming</source>
+      <translation type="unfinished">Enable HTTP/2 for streaming</translation>
     </message>
     <message>
-        <source>Use strict SSL mode</source>
-        <translation type="unfinished"></translation>
+      <source>Use strict SSL mode</source>
+      <translation type="unfinished">Use strict SSL mode</translation>
     </message>
     <message>
-        <source>Buffer</source>
-        <translation type="unfinished">Puskuri</translation>
+      <source>Buffer</source>
+      <translation>Puskuri</translation>
     </message>
     <message>
-        <source> ms</source>
-        <translation type="unfinished"></translation>
+      <source> ms</source>
+      <translation type="unfinished"> ms</translation>
     </message>
     <message>
-        <source>Buffer duration</source>
-        <translation type="unfinished">Puskurin kesto</translation>
+      <source>Buffer duration</source>
+      <translation>Puskurin kesto</translation>
     </message>
     <message>
-        <source>High watermark</source>
-        <translation type="unfinished"></translation>
+      <source>High watermark</source>
+      <translation type="unfinished">High watermark</translation>
     </message>
     <message>
-        <source>Low watermark</source>
-        <translation type="unfinished">Alaraja</translation>
+      <source>Low watermark</source>
+      <translation>Alaraja</translation>
     </message>
     <message>
-        <source>Defaults</source>
-        <translation type="unfinished">Oletusasetukset</translation>
+      <source>Defaults</source>
+      <translation>Oletusasetukset</translation>
     </message>
     <message>
-        <source>Audio normalization</source>
-        <translation type="unfinished"></translation>
+      <source>Audio normalization</source>
+      <translation type="unfinished">Audio normalization</translation>
     </message>
     <message>
-        <source>No audio normalization</source>
-        <translation type="unfinished"></translation>
+      <source>No audio normalization</source>
+      <translation type="unfinished">No audio normalization</translation>
     </message>
     <message>
-        <source>Replay Gain</source>
-        <translation type="unfinished"></translation>
+      <source>Replay Gain</source>
+      <translation type="unfinished">Replay Gain</translation>
     </message>
     <message>
-        <source>Use Replay Gain metadata if it is available</source>
-        <translation type="unfinished">Käytä Replay Gainin metatietoja, jos saatavilla</translation>
+      <source>Use Replay Gain metadata if it is available</source>
+      <translation>Käytä Replay Gainin metatietoja, jos saatavilla</translation>
     </message>
     <message>
-        <source>Replay Gain mode</source>
-        <translation type="unfinished">Replay Gain -tila</translation>
+      <source>Replay Gain mode</source>
+      <translation>Replay Gain -tila</translation>
     </message>
     <message>
-        <source>Radio (equal loudness for all tracks)</source>
-        <translation type="unfinished">Radio (sama äänenvoimakkuus kaikille kappaleille)</translation>
+      <source>Radio (equal loudness for all tracks)</source>
+      <translation>Radio (sama äänenvoimakkuus kaikille kappaleille)</translation>
     </message>
     <message>
-        <source>Album (ideal loudness for all tracks)</source>
-        <translation type="unfinished">Albumi (ihanteellinen voimakkuus kaikille kappaleille)</translation>
+      <source>Album (ideal loudness for all tracks)</source>
+      <translation>Albumi (ihanteellinen voimakkuus kaikille kappaleille)</translation>
     </message>
     <message>
-        <source>Pre-amp</source>
-        <translation type="unfinished">Esivahvistus</translation>
+      <source>Pre-amp</source>
+      <translation>Esivahvistus</translation>
     </message>
     <message>
-        <source>Apply compression to prevent clipping</source>
-        <translation type="unfinished">Lisää vaimennusta äänisignaalin leikkautumisen estämiseksi</translation>
+      <source>Apply compression to prevent clipping</source>
+      <translation>Lisää vaimennusta äänisignaalin leikkautumisen estämiseksi</translation>
     </message>
     <message>
-        <source>Fallback-gain</source>
-        <translation type="unfinished"></translation>
+      <source>Fallback-gain</source>
+      <translation type="unfinished">Fallback-gain</translation>
     </message>
     <message>
-        <source>EBU R 128 Loudness Normalization</source>
-        <translation type="unfinished"></translation>
+      <source>EBU R 128 Loudness Normalization</source>
+      <translation type="unfinished">EBU R 128 Loudness Normalization</translation>
     </message>
     <message>
-        <source>Perform track loudness normalization</source>
-        <translation type="unfinished"></translation>
+      <source>Perform track loudness normalization</source>
+      <translation type="unfinished">Perform track loudness normalization</translation>
     </message>
     <message>
-        <source>Target Level</source>
-        <translation type="unfinished"></translation>
+      <source>Target Level</source>
+      <translation type="unfinished">Target Level</translation>
     </message>
     <message>
-        <source>Fading</source>
-        <translation type="unfinished">Häivytys</translation>
+      <source>Fading</source>
+      <translation>Häivytys</translation>
     </message>
     <message>
-        <source>Fade out when stopping a track</source>
-        <translation type="unfinished">Häivytä, kun kappale pysäytetään</translation>
+      <source>Fade out when stopping a track</source>
+      <translation>Häivytä, kun kappale pysäytetään</translation>
     </message>
     <message>
-        <source>Cross-fade when changing tracks manually</source>
-        <translation type="unfinished">Ristiinhäivytä kappaleet, kun käyttäjä vaihtaa kappaletta</translation>
+      <source>Cross-fade when changing tracks manually</source>
+      <translation>Ristiinhäivytä kappaleet, kun käyttäjä vaihtaa kappaletta</translation>
     </message>
     <message>
-        <source>Cross-fade when changing tracks automatically</source>
-        <translation type="unfinished">Ristiinhäivytä kappaleet, kun kappale vaihtuu automaattisesti</translation>
+      <source>Cross-fade when changing tracks automatically</source>
+      <translation>Ristiinhäivytä kappaleet, kun kappale vaihtuu automaattisesti</translation>
     </message>
     <message>
-        <source>Except between tracks on the same album or in the same CUE sheet</source>
-        <translation type="unfinished">Älä käytä ristihäivytystä samalla albumilla tai samassa CUE-tiedostossa oleville kappaleille</translation>
+      <source>Except between tracks on the same album or in the same CUE sheet</source>
+      <translation>Älä käytä ristihäivytystä samalla albumilla tai samassa CUE-tiedostossa oleville kappaleille</translation>
     </message>
     <message>
-        <source>Fading duration</source>
-        <translation type="unfinished">Häivytyksen kesto</translation>
+      <source>Fading duration</source>
+      <translation>Häivytyksen kesto</translation>
     </message>
     <message>
-        <source>Fade out on pause / fade in on resume</source>
-        <translation type="unfinished">Häivytä keskeyttäessä ja palauttaessa kappaleen toisto</translation>
+      <source>Fade out on pause / fade in on resume</source>
+      <translation>Häivytä keskeyttäessä ja palauttaessa kappaleen toisto</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>BehaviourSettingsPage</name>
     <message>
-        <source>Behavior</source>
-        <translation type="unfinished">Toiminta</translation>
+      <source>Behavior</source>
+      <translation>Toiminta</translation>
     </message>
     <message>
-        <source>Show system tray icon</source>
-        <translation type="unfinished"></translation>
+      <source>Show system tray icon</source>
+      <translation type="unfinished">Show system tray icon</translation>
     </message>
     <message>
-        <source>Keep running in the background when the window is closed</source>
-        <translation type="unfinished">Pidä käynnissä taustalla, kun ikkuna suljetaan</translation>
+      <source>Keep running in the background when the window is closed</source>
+      <translation>Pidä käynnissä taustalla, kun ikkuna suljetaan</translation>
     </message>
     <message>
-        <source>Show song progress on system tray icon</source>
-        <translation type="unfinished"></translation>
+      <source>Show song progress on system tray icon</source>
+      <translation type="unfinished">Show song progress on system tray icon</translation>
     </message>
     <message>
-        <source>Show song progress on taskbar</source>
-        <translation type="unfinished"></translation>
+      <source>Show song progress on taskbar</source>
+      <translation type="unfinished">Show song progress on taskbar</translation>
     </message>
     <message>
-        <source>Resume playback on start</source>
-        <translation type="unfinished">Jatka toistoa sovelluksen käynnistyttyä</translation>
+      <source>Resume playback on start</source>
+      <translation>Jatka toistoa sovelluksen käynnistyttyä</translation>
     </message>
     <message>
-        <source>Show playing widget</source>
-        <translation type="unfinished"></translation>
+      <source>Show playing widget</source>
+      <translation type="unfinished">Show playing widget</translation>
     </message>
     <message>
-        <source>On startup</source>
-        <translation type="unfinished">Käynnistyksessä</translation>
+      <source>On startup</source>
+      <translation>Käynnistyksessä</translation>
     </message>
     <message>
-        <source>Remember from &amp;last time</source>
-        <translation type="unfinished">Muista &amp;viime kerrasta</translation>
+      <source>Remember from &amp;last time</source>
+      <translation>Muista &amp;viime kerrasta</translation>
     </message>
     <message>
-        <source>Show the main window</source>
-        <translation type="unfinished">Näytä pääikkuna</translation>
+      <source>Show the main window</source>
+      <translation>Näytä pääikkuna</translation>
     </message>
     <message>
-        <source>Hide the main window</source>
-        <translation type="unfinished">Piilota pääikkuna</translation>
+      <source>Hide the main window</source>
+      <translation>Piilota pääikkuna</translation>
     </message>
     <message>
-        <source>Show the main window maximized</source>
-        <translation type="unfinished"></translation>
+      <source>Show the main window maximized</source>
+      <translation type="unfinished">Show the main window maximized</translation>
     </message>
     <message>
-        <source>Show the main window minimized</source>
-        <translation type="unfinished"></translation>
+      <source>Show the main window minimized</source>
+      <translation type="unfinished">Show the main window minimized</translation>
     </message>
     <message>
-        <source>Language</source>
-        <translation type="unfinished">Kieli</translation>
+      <source>Language</source>
+      <translation>Kieli</translation>
     </message>
     <message>
-        <source>Use the system default</source>
-        <translation type="unfinished">Käytä järjestelmän oletusta</translation>
+      <source>Use the system default</source>
+      <translation>Käytä järjestelmän oletusta</translation>
     </message>
     <message>
-        <source>You will need to restart Strawberry if you change the language.</source>
-        <translation type="unfinished">Strawberry tulee käynnistää uudelleen, jos vaihdat kieltä.</translation>
+      <source>You will need to restart Strawberry if you change the language.</source>
+      <translation>Strawberry tulee käynnistää uudelleen, jos vaihdat kieltä.</translation>
     </message>
     <message>
-        <source>Using the menu to add a song will...</source>
-        <translation type="unfinished">Valikon avulla kappaleen lisäys...</translation>
+      <source>Using the menu to add a song will...</source>
+      <translation>Valikon avulla kappaleen lisäys...</translation>
     </message>
     <message>
-        <source>Never start playing</source>
-        <translation type="unfinished">Älä koskaan aloita toistoa</translation>
+      <source>Never start playing</source>
+      <translation>Älä koskaan aloita toistoa</translation>
     </message>
     <message>
-        <source>Play if there is nothing already playing</source>
-        <translation type="unfinished">Aloita toisto, jos mikään ei soi parhaillaan</translation>
+      <source>Play if there is nothing already playing</source>
+      <translation>Aloita toisto, jos mikään ei soi parhaillaan</translation>
     </message>
     <message>
-        <source>Always start playing</source>
-        <translation type="unfinished">Aloita aina toisto</translation>
+      <source>Always start playing</source>
+      <translation>Aloita aina toisto</translation>
     </message>
     <message>
-        <source>Pressing &quot;Previous&quot; in player will...</source>
-        <translation type="unfinished">Soittimen &quot;Edellinen&quot;-painiketta painettaessa...</translation>
+      <source>Pressing &quot;Previous&quot; in player will...</source>
+      <translation>Soittimen &quot;Edellinen&quot;-painiketta painettaessa...</translation>
     </message>
     <message>
-        <source>Jump to previous song right away</source>
-        <translation type="unfinished">Siirry edelliseen kappaleeseen välittömästi</translation>
+      <source>Jump to previous song right away</source>
+      <translation>Siirry edelliseen kappaleeseen välittömästi</translation>
     </message>
     <message>
-        <source>Restart song, then jump to previous if pressed again</source>
-        <translation type="unfinished">Käynnistä kappale uudelleen, siirry edelliseen jos painetaan uudellaan</translation>
+      <source>Restart song, then jump to previous if pressed again</source>
+      <translation>Käynnistä kappale uudelleen, siirry edelliseen jos painetaan uudellaan</translation>
     </message>
     <message>
-        <source>Double clicking a song will...</source>
-        <translation type="unfinished">Kappaleen kaksoisnapsautus...</translation>
+      <source>Double clicking a song will...</source>
+      <translation>Kappaleen kaksoisnapsautus...</translation>
     </message>
     <message>
-        <source>Append to the playlist</source>
-        <translation type="unfinished">Lisää soittolistalle</translation>
+      <source>Append to the playlist</source>
+      <translation>Lisää soittolistalle</translation>
     </message>
     <message>
-        <source>Replace the playlist</source>
-        <translation type="unfinished">Korvaa soittolista</translation>
+      <source>Replace the playlist</source>
+      <translation>Korvaa soittolista</translation>
     </message>
     <message>
-        <source>Open in new playlist</source>
-        <translation type="unfinished">Avaa uudessa soittolistassa</translation>
+      <source>Open in new playlist</source>
+      <translation>Avaa uudessa soittolistassa</translation>
     </message>
     <message>
-        <source>Add to the queue</source>
-        <translation type="unfinished">Lisää jonoon</translation>
+      <source>Add to the queue</source>
+      <translation>Lisää jonoon</translation>
     </message>
     <message>
-        <source>Double clicking a song in the playlist will...</source>
-        <translation type="unfinished">Soittolistalla olevaa kappaletta kaksoisnapsauttaessa...</translation>
+      <source>Double clicking a song in the playlist will...</source>
+      <translation>Soittolistalla olevaa kappaletta kaksoisnapsauttaessa...</translation>
     </message>
     <message>
-        <source>Change the currently playing song</source>
-        <translation type="unfinished">Vaihda parhaillaan toistettavaa kappaletta</translation>
+      <source>Change the currently playing song</source>
+      <translation>Vaihda parhaillaan toistettavaa kappaletta</translation>
     </message>
     <message>
-        <source>Seeking using a keyboard shortcut or mouse wheel</source>
-        <translation type="unfinished">Siirtyminen näppäimistön pikanäppäimiä tai hiiren rullaa käyttäen</translation>
+      <source>Seeking using a keyboard shortcut or mouse wheel</source>
+      <translation>Siirtyminen näppäimistön pikanäppäimiä tai hiiren rullaa käyttäen</translation>
     </message>
     <message>
-        <source>Time step</source>
-        <translation type="unfinished">Aikasiirtymä</translation>
+      <source>Time step</source>
+      <translation>Aikasiirtymä</translation>
     </message>
     <message>
-        <source> s</source>
-        <translation type="unfinished"></translation>
+      <source> s</source>
+      <translation type="unfinished"> s</translation>
     </message>
     <message>
-        <source>Volume Increment</source>
-        <translation type="unfinished"></translation>
+      <source>Volume Increment</source>
+      <translation type="unfinished">Volume Increment</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>CddaSongLoader</name>
     <message>
-        <source>Error while setting CDDA device to ready state.</source>
-        <translation type="unfinished"></translation>
+      <source>Error while setting CDDA device to ready state.</source>
+      <translation type="unfinished">Error while setting CDDA device to ready state.</translation>
     </message>
     <message>
-        <source>Error while setting CDDA device to pause state.</source>
-        <translation type="unfinished"></translation>
+      <source>Error while setting CDDA device to pause state.</source>
+      <translation type="unfinished">Error while setting CDDA device to pause state.</translation>
     </message>
     <message>
-        <source>Error while querying CDDA tracks.</source>
-        <translation type="unfinished">CDDA-raitojen kysely epäonnistui.</translation>
+      <source>Error while querying CDDA tracks.</source>
+      <translation>CDDA-raitojen kysely epäonnistui.</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>CollectionBackend</name>
     <message>
-        <source>Unable to execute collection SQL query: %1</source>
-        <translation type="unfinished"></translation>
+      <source>Unable to execute collection SQL query: %1</source>
+      <translation type="unfinished">Unable to execute collection SQL query: %1</translation>
     </message>
     <message>
-        <source>Failed SQL query: %1</source>
-        <translation type="unfinished"></translation>
+      <source>Failed SQL query: %1</source>
+      <translation type="unfinished">Failed SQL query: %1</translation>
     </message>
     <message>
-        <source>Updating %1 database.</source>
-        <translation type="unfinished"></translation>
+      <source>Updating %1 database.</source>
+      <translation type="unfinished">Updating %1 database.</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>CollectionFilterWidget</name>
     <message>
-        <source>Collection Filter</source>
-        <translation type="unfinished">Kokoelmasuodatin</translation>
+      <source>Collection Filter</source>
+      <translation>Kokoelmasuodatin</translation>
     </message>
     <message>
-        <source>Enter search terms here</source>
-        <translation type="unfinished">Etsi tästä</translation>
+      <source>Enter search terms here</source>
+      <translation>Etsi tästä</translation>
     </message>
     <message>
-        <source>MenuPopupToolButton</source>
-        <translation type="unfinished"></translation>
+      <source>MenuPopupToolButton</source>
+      <translation type="unfinished">MenuPopupToolButton</translation>
     </message>
     <message>
-        <source>Entire collection</source>
-        <translation type="unfinished">Koko kokoelma</translation>
+      <source>Entire collection</source>
+      <translation>Koko kokoelma</translation>
     </message>
     <message>
-        <source>Added today</source>
-        <translation type="unfinished">Lisätty tänään</translation>
+      <source>Added today</source>
+      <translation>Lisätty tänään</translation>
     </message>
     <message>
-        <source>Added this week</source>
-        <translation type="unfinished">Lisätty tällä viikolla</translation>
+      <source>Added this week</source>
+      <translation>Lisätty tällä viikolla</translation>
     </message>
     <message>
-        <source>Added within three months</source>
-        <translation type="unfinished">Lisätty kolmen kuukauden sisään</translation>
+      <source>Added within three months</source>
+      <translation>Lisätty kolmen kuukauden sisään</translation>
     </message>
     <message>
-        <source>Added this year</source>
-        <translation type="unfinished">Lisätty tänä vuonna</translation>
+      <source>Added this year</source>
+      <translation>Lisätty tänä vuonna</translation>
     </message>
     <message>
-        <source>Added this month</source>
-        <translation type="unfinished">Lisätty tässä kuussa</translation>
+      <source>Added this month</source>
+      <translation>Lisätty tässä kuussa</translation>
     </message>
     <message>
-        <source>Save current grouping</source>
-        <translation type="unfinished">Tallenna nykyinen ryhmittely</translation>
+      <source>Save current grouping</source>
+      <translation>Tallenna nykyinen ryhmittely</translation>
     </message>
     <message>
-        <source>Manage saved groupings</source>
-        <translation type="unfinished">Hallitse tallennettuja ryhmittelyjä</translation>
+      <source>Manage saved groupings</source>
+      <translation>Hallitse tallennettuja ryhmittelyjä</translation>
     </message>
     <message>
-        <source>Show</source>
-        <translation type="unfinished">Näytä</translation>
+      <source>Show</source>
+      <translation>Näytä</translation>
     </message>
     <message>
-        <source>Group by</source>
-        <translation type="unfinished">Järjestä</translation>
+      <source>Group by</source>
+      <translation>Järjestä</translation>
     </message>
     <message>
-        <source>Display options</source>
-        <translation type="unfinished">Näkymäasetukset</translation>
+      <source>Display options</source>
+      <translation>Näkymäasetukset</translation>
     </message>
     <message>
-        <source>Group by Album artist/Album</source>
-        <translation type="unfinished">Ryhmitä albumin esittäjän/albumin mukaan</translation>
+      <source>Group by Album artist/Album</source>
+      <translation>Ryhmitä albumin esittäjän/albumin mukaan</translation>
     </message>
     <message>
-        <source>Group by Album artist/Album - Disc</source>
-        <translation type="unfinished"></translation>
+      <source>Group by Album artist/Album - Disc</source>
+      <translation type="unfinished">Group by Album artist/Album - Disc</translation>
     </message>
     <message>
-        <source>Group by Album artist/Year - Album</source>
-        <translation type="unfinished"></translation>
+      <source>Group by Album artist/Year - Album</source>
+      <translation type="unfinished">Group by Album artist/Year - Album</translation>
     </message>
     <message>
-        <source>Group by Album artist/Year - Album - Disc</source>
-        <translation type="unfinished"></translation>
+      <source>Group by Album artist/Year - Album - Disc</source>
+      <translation type="unfinished">Group by Album artist/Year - Album - Disc</translation>
     </message>
     <message>
-        <source>Group by Artist/Album</source>
-        <translation type="unfinished">Järjestä esittäjän/albumin mukaan</translation>
+      <source>Group by Artist/Album</source>
+      <translation>Järjestä esittäjän/albumin mukaan</translation>
     </message>
     <message>
-        <source>Group by Artist/Album - Disc</source>
-        <translation type="unfinished"></translation>
+      <source>Group by Artist/Album - Disc</source>
+      <translation type="unfinished">Group by Artist/Album - Disc</translation>
     </message>
     <message>
-        <source>Group by Artist/Year - Album</source>
-        <translation type="unfinished">Järjestä esittäjän/vuoden - albumin mukaan</translation>
+      <source>Group by Artist/Year - Album</source>
+      <translation>Järjestä esittäjän/vuoden - albumin mukaan</translation>
     </message>
     <message>
-        <source>Group by Artist/Year - Album - Disc</source>
-        <translation type="unfinished"></translation>
+      <source>Group by Artist/Year - Album - Disc</source>
+      <translation type="unfinished">Group by Artist/Year - Album - Disc</translation>
     </message>
     <message>
-        <source>Group by Genre/Album artist/Album</source>
-        <translation type="unfinished"></translation>
+      <source>Group by Genre/Album artist/Album</source>
+      <translation type="unfinished">Group by Genre/Album artist/Album</translation>
     </message>
     <message>
-        <source>Group by Genre/Artist/Album</source>
-        <translation type="unfinished">Järjestä tyylin/esittäjän/albumin mukaan</translation>
+      <source>Group by Genre/Artist/Album</source>
+      <translation>Järjestä tyylin/esittäjän/albumin mukaan</translation>
     </message>
     <message>
-        <source>Group by Album Artist</source>
-        <translation type="unfinished">Ryhmitä albumin esittäjän perusteella</translation>
+      <source>Group by Album Artist</source>
+      <translation>Ryhmitä albumin esittäjän perusteella</translation>
     </message>
     <message>
-        <source>Group by Artist</source>
-        <translation type="unfinished">Järjestä esittäjän mukaan</translation>
+      <source>Group by Artist</source>
+      <translation>Järjestä esittäjän mukaan</translation>
     </message>
     <message>
-        <source>Group by Album</source>
-        <translation type="unfinished">Järjestä albumin mukaan</translation>
+      <source>Group by Album</source>
+      <translation>Järjestä albumin mukaan</translation>
     </message>
     <message>
-        <source>Group by Genre/Album</source>
-        <translation type="unfinished">Järjestä tyylin/albumin mukaan</translation>
+      <source>Group by Genre/Album</source>
+      <translation>Järjestä tyylin/albumin mukaan</translation>
     </message>
     <message>
-        <source>Advanced grouping...</source>
-        <translation type="unfinished">Kirjaston tarkempi järjestely...</translation>
+      <source>Advanced grouping...</source>
+      <translation>Kirjaston tarkempi järjestely...</translation>
     </message>
     <message>
-        <source>Grouping Name</source>
-        <translation type="unfinished">Ryhmittelyn nimi</translation>
+      <source>Grouping Name</source>
+      <translation>Ryhmittelyn nimi</translation>
     </message>
     <message>
-        <source>Grouping name:</source>
-        <translation type="unfinished">Ryhmittelyn nimi:</translation>
+      <source>Grouping name:</source>
+      <translation>Ryhmittelyn nimi:</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>CollectionModel</name>
     <message>
-        <source>Various artists</source>
-        <translation type="unfinished">Useita esittäjiä</translation>
+      <source>Various artists</source>
+      <translation>Useita esittäjiä</translation>
     </message>
     <message>
-        <source>Loading...</source>
-        <translation type="unfinished">Ladataan...</translation>
+      <source>Loading...</source>
+      <translation>Ladataan...</translation>
     </message>
     <message>
-        <source>Unknown</source>
-        <translation type="unfinished">Tuntematon</translation>
+      <source>Unknown</source>
+      <translation>Tuntematon</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>CollectionSettingsPage</name>
     <message>
-        <source>Collection</source>
-        <translation type="unfinished">Kirjasto</translation>
+      <source>Collection</source>
+      <translation>Kirjasto</translation>
     </message>
     <message>
-        <source>These folders will be scanned for music to make up your collection</source>
-        <translation type="unfinished">Seuraavista kansioista lisätään musiikkia kirjastoa varten</translation>
+      <source>These folders will be scanned for music to make up your collection</source>
+      <translation>Seuraavista kansioista lisätään musiikkia kirjastoa varten</translation>
     </message>
     <message>
-        <source>Add new folder...</source>
-        <translation type="unfinished">Lisää uusi kansio...</translation>
+      <source>Add new folder...</source>
+      <translation>Lisää uusi kansio...</translation>
     </message>
     <message>
-        <source>Remove folder</source>
-        <translation type="unfinished">Poista kansio</translation>
+      <source>Remove folder</source>
+      <translation>Poista kansio</translation>
     </message>
     <message>
-        <source>Automatic updating</source>
-        <translation type="unfinished">Automaattinen päivitys</translation>
+      <source>Automatic updating</source>
+      <translation>Automaattinen päivitys</translation>
     </message>
     <message>
-        <source>Update the collection when Strawberry starts</source>
-        <translation type="unfinished">Päivitä kirjasto Strawberry käynnistyessä</translation>
+      <source>Update the collection when Strawberry starts</source>
+      <translation>Päivitä kirjasto Strawberry käynnistyessä</translation>
     </message>
     <message>
-        <source>Monitor the collection for changes</source>
-        <translation type="unfinished">Tarkkaile kirjastoa muutosten varalta</translation>
+      <source>Monitor the collection for changes</source>
+      <translation>Tarkkaile kirjastoa muutosten varalta</translation>
     </message>
     <message>
-        <source>Song fingerprinting and tracking</source>
-        <translation type="unfinished"></translation>
+      <source>Song fingerprinting and tracking</source>
+      <translation type="unfinished">Song fingerprinting and tracking</translation>
     </message>
     <message>
-        <source>Mark disappeared songs unavailable</source>
-        <translation type="unfinished"></translation>
+      <source>Mark disappeared songs unavailable</source>
+      <translation type="unfinished">Mark disappeared songs unavailable</translation>
     </message>
     <message>
-        <source>Perform song EBU R 128 analysis (required for EBU R 128 loudness normalization)</source>
-        <translation type="unfinished"></translation>
+      <source>Perform song EBU R 128 analysis (required for EBU R 128 loudness normalization)</source>
+      <translation type="unfinished">Perform song EBU R 128 analysis (required for EBU R 128 loudness normalization)</translation>
     </message>
     <message>
-        <source>Expire unavailable songs after</source>
-        <translation type="unfinished"></translation>
+      <source>Expire unavailable songs after</source>
+      <translation type="unfinished">Expire unavailable songs after</translation>
     </message>
     <message>
-        <source>days</source>
-        <translation type="unfinished"></translation>
+      <source>days</source>
+      <translation type="unfinished">days</translation>
     </message>
     <message>
-        <source>Preferred album art filenames (comma separated)</source>
-        <translation type="unfinished">Ensisijainen tiedostonimi albumikuvitukselle (pilkuin eroteltu)</translation>
+      <source>Preferred album art filenames (comma separated)</source>
+      <translation>Ensisijainen tiedostonimi albumikuvitukselle (pilkuin eroteltu)</translation>
     </message>
     <message>
-        <source>When looking for album art Strawberry will first look for picture files that contain one of these words.
+      <source>When looking for album art Strawberry will first look for picture files that contain one of these words.
 If there are no matches then it will use the largest image in the directory.</source>
-        <translation type="unfinished">Albumikuvitusta etsiessä Strawberry etsii kuvatiedostoja, jotka sisältävät yhden näistä sanoista.
+      <translation>Albumikuvitusta etsiessä Strawberry etsii kuvatiedostoja, jotka sisältävät yhden näistä sanoista.
 Jos vastaavia tiedostoja ei löydy, Strawberry käyttää suurinta kansiossa olevaa kuvaa.</translation>
     </message>
     <message>
-        <source>Display options</source>
-        <translation type="unfinished">Näkymäasetukset</translation>
+      <source>Display options</source>
+      <translation>Näkymäasetukset</translation>
     </message>
     <message>
-        <source>Automatically open single categories in the collection tree</source>
-        <translation type="unfinished">Laajenna automaattisesti yhden alitason sisältävät kohteet kirjaston puunäkymässä</translation>
+      <source>Automatically open single categories in the collection tree</source>
+      <translation>Laajenna automaattisesti yhden alitason sisältävät kohteet kirjaston puunäkymässä</translation>
     </message>
     <message>
-        <source>Show dividers</source>
-        <translation type="unfinished">Näytä erottimet</translation>
+      <source>Show dividers</source>
+      <translation>Näytä erottimet</translation>
     </message>
     <message>
-        <source>Show album cover art in collection</source>
-        <translation type="unfinished"></translation>
+      <source>Show album cover art in collection</source>
+      <translation type="unfinished">Show album cover art in collection</translation>
     </message>
     <message>
-        <source>Use various artists for compilation albums</source>
-        <translation type="unfinished"></translation>
+      <source>Use various artists for compilation albums</source>
+      <translation type="unfinished">Use various artists for compilation albums</translation>
     </message>
     <message>
-        <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artist names</source>
-        <translation type="unfinished"></translation>
+      <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artist names</source>
+      <translation type="unfinished">Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artist names</translation>
     </message>
     <message>
-        <source>Album cover pixmap cache</source>
-        <translation type="unfinished">Albumien kansikuvien välimuisti</translation>
+      <source>Album cover pixmap cache</source>
+      <translation>Albumien kansikuvien välimuisti</translation>
     </message>
     <message>
-        <source>Size</source>
-        <translation type="unfinished">Koko</translation>
+      <source>Size</source>
+      <translation>Koko</translation>
     </message>
     <message>
-        <source>Enable Disk Cache</source>
-        <translation type="unfinished">Ota levyvälimuisti käyttöön</translation>
+      <source>Enable Disk Cache</source>
+      <translation>Ota levyvälimuisti käyttöön</translation>
     </message>
     <message>
-        <source>Disk Cache Size</source>
-        <translation type="unfinished">Levyvälimuistin koko</translation>
+      <source>Disk Cache Size</source>
+      <translation>Levyvälimuistin koko</translation>
     </message>
     <message>
-        <source>Current disk cache in use:</source>
-        <translation type="unfinished">Levyvälimuistia käytössä:</translation>
+      <source>Current disk cache in use:</source>
+      <translation>Levyvälimuistia käytössä:</translation>
     </message>
     <message>
-        <source>Clear Disk Cache</source>
-        <translation type="unfinished">Tyhjennä levyvälimuisti</translation>
+      <source>Clear Disk Cache</source>
+      <translation>Tyhjennä levyvälimuisti</translation>
     </message>
     <message>
-        <source>Song playcounts and ratings</source>
-        <translation type="unfinished"></translation>
+      <source>Song playcounts and ratings</source>
+      <translation type="unfinished">Song playcounts and ratings</translation>
     </message>
     <message>
-        <source>Save playcounts to song tags when possible</source>
-        <translation type="unfinished"></translation>
+      <source>Save playcounts to song tags when possible</source>
+      <translation type="unfinished">Save playcounts to song tags when possible</translation>
     </message>
     <message>
-        <source>Save ratings to song tags when possible</source>
-        <translation type="unfinished"></translation>
+      <source>Save ratings to song tags when possible</source>
+      <translation type="unfinished">Save ratings to song tags when possible</translation>
     </message>
     <message>
-        <source>Overwrite database playcount when songs are re-read from disk</source>
-        <translation type="unfinished"></translation>
+      <source>Overwrite database playcount when songs are re-read from disk</source>
+      <translation type="unfinished">Overwrite database playcount when songs are re-read from disk</translation>
     </message>
     <message>
-        <source>Overwrite database rating when songs are re-read from disk</source>
-        <translation type="unfinished"></translation>
+      <source>Overwrite database rating when songs are re-read from disk</source>
+      <translation type="unfinished">Overwrite database rating when songs are re-read from disk</translation>
     </message>
     <message>
-        <source>Save playcounts and ratings to files now</source>
-        <translation type="unfinished"></translation>
+      <source>Save playcounts and ratings to files now</source>
+      <translation type="unfinished">Save playcounts and ratings to files now</translation>
     </message>
     <message>
-        <source>Enable delete files in the right click context menu</source>
-        <translation type="unfinished"></translation>
+      <source>Enable delete files in the right click context menu</source>
+      <translation type="unfinished">Enable delete files in the right click context menu</translation>
     </message>
     <message>
-        <source>Add directory...</source>
-        <translation type="unfinished">Lisää kansio...</translation>
+      <source>Add directory...</source>
+      <translation>Lisää kansio...</translation>
     </message>
     <message>
-        <source>Write all playcounts and ratings to files</source>
-        <translation type="unfinished"></translation>
+      <source>Write all playcounts and ratings to files</source>
+      <translation type="unfinished">Write all playcounts and ratings to files</translation>
     </message>
     <message>
-        <source>Are you sure you want to write song playcounts and ratings to file for all songs in your collection?</source>
-        <translation type="unfinished"></translation>
+      <source>Are you sure you want to write song playcounts and ratings to file for all songs in your collection?</source>
+      <translation type="unfinished">Are you sure you want to write song playcounts and ratings to file for all songs in your collection?</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>CollectionView</name>
     <message>
-        <source>Your collection is empty!</source>
-        <translation type="unfinished">Kirjasto on tyhjä!</translation>
+      <source>Your collection is empty!</source>
+      <translation>Kirjasto on tyhjä!</translation>
     </message>
     <message>
-        <source>Click here to add some music</source>
-        <translation type="unfinished">Napsauta tästä lisätäksesi musiikkia</translation>
+      <source>Click here to add some music</source>
+      <translation>Napsauta tästä lisätäksesi musiikkia</translation>
     </message>
     <message>
-        <source>Append to current playlist</source>
-        <translation type="unfinished">Lisää nykyiselle soittolistalle</translation>
+      <source>Append to current playlist</source>
+      <translation>Lisää nykyiselle soittolistalle</translation>
     </message>
     <message>
-        <source>Replace current playlist</source>
-        <translation type="unfinished">Korvaa nykyinen soittolista</translation>
+      <source>Replace current playlist</source>
+      <translation>Korvaa nykyinen soittolista</translation>
     </message>
     <message>
-        <source>Open in new playlist</source>
-        <translation type="unfinished">Avaa uudessa soittolistassa</translation>
+      <source>Open in new playlist</source>
+      <translation>Avaa uudessa soittolistassa</translation>
     </message>
     <message>
-        <source>Queue track</source>
-        <translation type="unfinished">Aseta kappale jonoon</translation>
+      <source>Queue track</source>
+      <translation>Aseta kappale jonoon</translation>
     </message>
     <message>
-        <source>Queue to play next</source>
-        <translation type="unfinished">Toistojonoon</translation>
+      <source>Queue to play next</source>
+      <translation>Toistojonoon</translation>
     </message>
     <message>
-        <source>Search for this</source>
-        <translation type="unfinished">Hae tätä</translation>
+      <source>Search for this</source>
+      <translation>Hae tätä</translation>
     </message>
     <message>
-        <source>Organize files...</source>
-        <translation type="unfinished"></translation>
+      <source>Organize files...</source>
+      <translation type="unfinished">Organize files...</translation>
     </message>
     <message>
-        <source>Copy to device...</source>
-        <translation type="unfinished">Kopioi laitteelle...</translation>
+      <source>Copy to device...</source>
+      <translation>Kopioi laitteelle...</translation>
     </message>
     <message>
-        <source>Delete from disk...</source>
-        <translation type="unfinished">Poista levyltä...</translation>
+      <source>Delete from disk...</source>
+      <translation>Poista levyltä...</translation>
     </message>
     <message>
-        <source>Edit track information...</source>
-        <translation type="unfinished">Muokkaa kappaleen tietoja...</translation>
+      <source>Edit track information...</source>
+      <translation>Muokkaa kappaleen tietoja...</translation>
     </message>
     <message>
-        <source>Edit tracks information...</source>
-        <translation type="unfinished">Muokkaa kappaleen tietoja...</translation>
+      <source>Edit tracks information...</source>
+      <translation>Muokkaa kappaleen tietoja...</translation>
     </message>
     <message>
-        <source>Show in file browser...</source>
-        <translation type="unfinished">Näytä tiedostoselaimessa...</translation>
+      <source>Show in file browser...</source>
+      <translation>Näytä tiedostoselaimessa...</translation>
     </message>
     <message>
-        <source>Rescan song(s)</source>
-        <translation type="unfinished"></translation>
+      <source>Rescan song(s)</source>
+      <translation type="unfinished">Rescan song(s)</translation>
     </message>
     <message>
-        <source>Show in various artists</source>
-        <translation type="unfinished">Näytä kohdassa &quot;Useita esittäjiä&quot;</translation>
+      <source>Show in various artists</source>
+      <translation>Näytä kohdassa &quot;Useita esittäjiä&quot;</translation>
     </message>
     <message>
-        <source>Don&apos;t show in various artists</source>
-        <translation type="unfinished">Älä näytä kohdassa &quot;Useita esittäjiä&quot;</translation>
+      <source>Don&apos;t show in various artists</source>
+      <translation>Älä näytä kohdassa &quot;Useita esittäjiä&quot;</translation>
     </message>
     <message>
-        <source>There are other songs in this album</source>
-        <translation type="unfinished">Albumilla on muita kappaleita</translation>
+      <source>There are other songs in this album</source>
+      <translation>Albumilla on muita kappaleita</translation>
     </message>
     <message>
-        <source>Would you like to move the other songs on this album to Various Artists as well?</source>
-        <translation type="unfinished"></translation>
+      <source>Would you like to move the other songs on this album to Various Artists as well?</source>
+      <translation type="unfinished">Would you like to move the other songs on this album to Various Artists as well?</translation>
     </message>
     <message>
-        <source>Error</source>
-        <translation type="unfinished">Virhe</translation>
+      <source>Error</source>
+      <translation>Virhe</translation>
     </message>
     <message>
-        <source>None of the selected songs were suitable for copying to a device</source>
-        <translation type="unfinished">Yksikään valitsemistasi kappaleista ei sovellu kopioitavaksi laitteelle</translation>
+      <source>None of the selected songs were suitable for copying to a device</source>
+      <translation>Yksikään valitsemistasi kappaleista ei sovellu kopioitavaksi laitteelle</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>CollectionViewContainer</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">Lomake</translation>
+      <source>Form</source>
+      <translation>Lomake</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>CollectionWatcher</name>
     <message>
-        <source>Updating collection</source>
-        <translation type="unfinished">Päivitetään kirjastoa</translation>
+      <source>Updating collection</source>
+      <translation>Päivitetään kirjastoa</translation>
     </message>
     <message>
-        <source>Updating %1</source>
-        <translation type="unfinished">Päivitetään %1</translation>
+      <source>Updating %1</source>
+      <translation>Päivitetään %1</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>Console</name>
     <message>
-        <source>Console</source>
-        <translation type="unfinished">Konsoli</translation>
+      <source>Console</source>
+      <translation>Konsoli</translation>
     </message>
     <message>
-        <source>Run</source>
-        <translation type="unfinished">Aja</translation>
+      <source>Run</source>
+      <translation>Aja</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>ContextSettingsPage</name>
     <message>
-        <source>Context</source>
-        <translation type="unfinished">Konteksti</translation>
+      <source>Context</source>
+      <translation>Konteksti</translation>
     </message>
     <message>
-        <source>Custom text settings</source>
-        <translation type="unfinished"></translation>
+      <source>Custom text settings</source>
+      <translation type="unfinished">Custom text settings</translation>
     </message>
     <message>
-        <source>MenuPopupToolButton</source>
-        <translation type="unfinished"></translation>
+      <source>MenuPopupToolButton</source>
+      <translation type="unfinished">MenuPopupToolButton</translation>
     </message>
     <message>
-        <source>Title</source>
-        <translation type="unfinished">Nimi</translation>
+      <source>Title</source>
+      <translation>Nimi</translation>
     </message>
     <message>
-        <source>Summary</source>
-        <translation type="unfinished">Yhteenveto</translation>
+      <source>Summary</source>
+      <translation>Yhteenveto</translation>
     </message>
     <message>
-        <source>Enable Items</source>
-        <translation type="unfinished"></translation>
+      <source>Enable Items</source>
+      <translation type="unfinished">Enable Items</translation>
     </message>
     <message>
-        <source>Album</source>
-        <translation type="unfinished">Albumi</translation>
+      <source>Album</source>
+      <translation>Albumi</translation>
     </message>
     <message>
-        <source>Technical Data</source>
-        <translation type="unfinished">Tekniset tiedot</translation>
+      <source>Technical Data</source>
+      <translation>Tekniset tiedot</translation>
     </message>
     <message>
-        <source>Song Lyrics</source>
-        <translation type="unfinished">Laulunsanat</translation>
+      <source>Song Lyrics</source>
+      <translation>Laulunsanat</translation>
     </message>
     <message>
-        <source>Automatically search for album cover</source>
-        <translation type="unfinished">Etsin kansikuvia automaattisesti</translation>
+      <source>Automatically search for album cover</source>
+      <translation>Etsin kansikuvia automaattisesti</translation>
     </message>
     <message>
-        <source>Automatically search for song lyrics</source>
-        <translation type="unfinished">Etsi laulunsanoja automaattisesti</translation>
+      <source>Automatically search for song lyrics</source>
+      <translation>Etsi laulunsanoja automaattisesti</translation>
     </message>
     <message>
-        <source>Font for headline</source>
-        <translation type="unfinished">Otsikon fontti</translation>
+      <source>Font for headline</source>
+      <translation>Otsikon fontti</translation>
     </message>
     <message>
-        <source>Font</source>
-        <translation type="unfinished">Kirjasin</translation>
+      <source>Font</source>
+      <translation>Kirjasin</translation>
     </message>
     <message>
-        <source>Font size</source>
-        <translation type="unfinished">Fontin koko</translation>
+      <source>Font size</source>
+      <translation>Fontin koko</translation>
     </message>
     <message>
-        <source> pt</source>
-        <translation type="unfinished">pt</translation>
+      <source> pt</source>
+      <translation>pt</translation>
     </message>
     <message>
-        <source>Preview</source>
-        <translation type="unfinished">Esikatselu</translation>
+      <source>Preview</source>
+      <translation>Esikatselu</translation>
     </message>
     <message>
-        <source>Font for data and lyrics</source>
-        <translation type="unfinished"></translation>
+      <source>Font for data and lyrics</source>
+      <translation type="unfinished">Font for data and lyrics</translation>
     </message>
     <message>
-        <source>Add song artist tag</source>
-        <translation type="unfinished">Lisää tunniste kappaleen esittäjä</translation>
+      <source>Add song artist tag</source>
+      <translation>Lisää tunniste kappaleen esittäjä</translation>
     </message>
     <message>
-        <source>Add song album tag</source>
-        <translation type="unfinished">Lisää tunniste levyn nimi</translation>
+      <source>Add song album tag</source>
+      <translation>Lisää tunniste levyn nimi</translation>
     </message>
     <message>
-        <source>Add song title tag</source>
-        <translation type="unfinished">Lisää tunniste kappaleen nimi</translation>
+      <source>Add song title tag</source>
+      <translation>Lisää tunniste kappaleen nimi</translation>
     </message>
     <message>
-        <source>Add song albumartist tag</source>
-        <translation type="unfinished">Lisää tunniste levyn esittäjä</translation>
+      <source>Add song albumartist tag</source>
+      <translation>Lisää tunniste levyn esittäjä</translation>
     </message>
     <message>
-        <source>Add song year tag</source>
-        <translation type="unfinished">Lisää kappaleen levytysvuoden tunniste</translation>
+      <source>Add song year tag</source>
+      <translation>Lisää kappaleen levytysvuoden tunniste</translation>
     </message>
     <message>
-        <source>Add song composer tag</source>
-        <translation type="unfinished">Lisää tunniste kappaleen säveltäjä</translation>
+      <source>Add song composer tag</source>
+      <translation>Lisää tunniste kappaleen säveltäjä</translation>
     </message>
     <message>
-        <source>Add song performer tag</source>
-        <translation type="unfinished">Lisää tunniste kappaleen esittäjä</translation>
+      <source>Add song performer tag</source>
+      <translation>Lisää tunniste kappaleen esittäjä</translation>
     </message>
     <message>
-        <source>Add song grouping tag</source>
-        <translation type="unfinished">Lisää tunniste kappaleen ryhmitys</translation>
+      <source>Add song grouping tag</source>
+      <translation>Lisää tunniste kappaleen ryhmitys</translation>
     </message>
     <message>
-        <source>Add song disc tag</source>
-        <translation type="unfinished">Lisää levyn numeron tunniste</translation>
+      <source>Add song disc tag</source>
+      <translation>Lisää levyn numeron tunniste</translation>
     </message>
     <message>
-        <source>Add song track tag</source>
-        <translation type="unfinished">Lisää tunniste </translation>
+      <source>Add song track tag</source>
+      <translation>Lisää tunniste </translation>
     </message>
     <message>
-        <source>Add song genre tag</source>
-        <translation type="unfinished">Lisää tunniste kappaleen kategoria</translation>
+      <source>Add song genre tag</source>
+      <translation>Lisää tunniste kappaleen kategoria</translation>
     </message>
     <message>
-        <source>Add song length tag</source>
-        <translation type="unfinished">Lisää tunniste kappaleen kesto</translation>
+      <source>Add song length tag</source>
+      <translation>Lisää tunniste kappaleen kesto</translation>
     </message>
     <message>
-        <source>Add song play count</source>
-        <translation type="unfinished">Lisää kappaleen toistolaskuri</translation>
+      <source>Add song play count</source>
+      <translation>Lisää kappaleen toistolaskuri</translation>
     </message>
     <message>
-        <source>Add song skip count</source>
-        <translation type="unfinished">Lisää kappaleen keskeyttämislaskuri</translation>
+      <source>Add song skip count</source>
+      <translation>Lisää kappaleen keskeyttämislaskuri</translation>
     </message>
     <message>
-        <source>Add a new line if supported by the notification type</source>
-        <translation type="unfinished">Lisää uusi rivi, jos ilmoitustyyppi sen sallii</translation>
+      <source>Add a new line if supported by the notification type</source>
+      <translation>Lisää uusi rivi, jos ilmoitustyyppi sen sallii</translation>
     </message>
     <message>
-        <source>%filename%</source>
-        <translation type="unfinished"></translation>
+      <source>%filename%</source>
+      <translation type="unfinished">%filename%</translation>
     </message>
     <message>
-        <source>Add song filename</source>
-        <translation type="unfinished">Lisää kappaleen tiedostonimi</translation>
+      <source>Add song filename</source>
+      <translation>Lisää kappaleen tiedostonimi</translation>
     </message>
     <message>
-        <source>%url%</source>
-        <translation type="unfinished"></translation>
+      <source>%url%</source>
+      <translation type="unfinished">%url%</translation>
     </message>
     <message>
-        <source>Add song URL</source>
-        <translation type="unfinished">Lisää kappaleen osoite</translation>
+      <source>Add song URL</source>
+      <translation>Lisää kappaleen osoite</translation>
     </message>
     <message>
-        <source>%rating%</source>
-        <translation type="unfinished"></translation>
+      <source>%rating%</source>
+      <translation type="unfinished">%rating%</translation>
     </message>
     <message>
-        <source>Add song rating</source>
-        <translation type="unfinished">Lisää kappaleelle arvosana</translation>
+      <source>Add song rating</source>
+      <translation>Lisää kappaleelle arvosana</translation>
     </message>
     <message>
-        <source>%originalyear%</source>
-        <translation type="unfinished"></translation>
+      <source>%originalyear%</source>
+      <translation type="unfinished">%originalyear%</translation>
     </message>
     <message>
-        <source>Add song original year tag</source>
-        <translation type="unfinished"></translation>
+      <source>Add song original year tag</source>
+      <translation type="unfinished">Add song original year tag</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>ContextView</name>
     <message>
-        <source>Filetype</source>
-        <translation type="unfinished">Tiedoston tyyppi</translation>
+      <source>Filetype</source>
+      <translation>Tiedoston tyyppi</translation>
     </message>
     <message>
-        <source>Length</source>
-        <translation type="unfinished">Kesto</translation>
+      <source>Length</source>
+      <translation>Kesto</translation>
     </message>
     <message>
-        <source>Samplerate</source>
-        <translation type="unfinished">Näytteenottotaajuus</translation>
+      <source>Samplerate</source>
+      <translation>Näytteenottotaajuus</translation>
     </message>
     <message>
-        <source>Bit depth</source>
-        <translation type="unfinished">Bittisyys</translation>
+      <source>Bit depth</source>
+      <translation>Bittisyys</translation>
     </message>
     <message>
-        <source>Bitrate</source>
-        <translation type="unfinished">Bittinopeus</translation>
+      <source>Bitrate</source>
+      <translation>Bittinopeus</translation>
     </message>
     <message>
-        <source>EBU R 128 Integrated Loudness</source>
-        <translation type="unfinished"></translation>
+      <source>EBU R 128 Integrated Loudness</source>
+      <translation type="unfinished">EBU R 128 Integrated Loudness</translation>
     </message>
     <message>
-        <source>EBU R 128 Loudness Range</source>
-        <translation type="unfinished"></translation>
+      <source>EBU R 128 Loudness Range</source>
+      <translation type="unfinished">EBU R 128 Loudness Range</translation>
     </message>
     <message>
-        <source>Show album cover</source>
-        <translation type="unfinished">Näytä kansikuva</translation>
+      <source>Show album cover</source>
+      <translation>Näytä kansikuva</translation>
     </message>
     <message>
-        <source>Show song technical data</source>
-        <translation type="unfinished">Näytä kappaleen tekniset tiedot</translation>
+      <source>Show song technical data</source>
+      <translation>Näytä kappaleen tekniset tiedot</translation>
     </message>
     <message>
-        <source>Show song lyrics</source>
-        <translation type="unfinished">Näytä laulunsanat</translation>
+      <source>Show song lyrics</source>
+      <translation>Näytä laulunsanat</translation>
     </message>
     <message>
-        <source>Automatically search for song lyrics</source>
-        <translation type="unfinished">Etsi laulunsanoja automaattisesti</translation>
+      <source>Automatically search for song lyrics</source>
+      <translation>Etsi laulunsanoja automaattisesti</translation>
     </message>
     <message>
-        <source>No song playing</source>
-        <translation type="unfinished"></translation>
+      <source>No song playing</source>
+      <translation type="unfinished">No song playing</translation>
     </message>
     <message>
-        <source>%1 song</source>
-        <translation type="unfinished">%1 kappale</translation>
+      <source>%1 song</source>
+      <translation>%1 kappale</translation>
     </message>
     <message>
-        <source>%1 songs</source>
-        <translation type="unfinished">%1 kappaletta</translation>
+      <source>%1 songs</source>
+      <translation>%1 kappaletta</translation>
     </message>
     <message>
-        <source>%1 artist</source>
-        <translation type="unfinished">%1 esittäjä</translation>
+      <source>%1 artist</source>
+      <translation>%1 esittäjä</translation>
     </message>
     <message>
-        <source>%1 artists</source>
-        <translation type="unfinished">%1 esitäjää</translation>
+      <source>%1 artists</source>
+      <translation>%1 esitäjää</translation>
     </message>
     <message>
-        <source>%1 album</source>
-        <translation type="unfinished">%1 albumi</translation>
+      <source>%1 album</source>
+      <translation>%1 albumi</translation>
     </message>
     <message>
-        <source>%1 albums</source>
-        <translation type="unfinished">%1 albumia</translation>
+      <source>%1 albums</source>
+      <translation>%1 albumia</translation>
     </message>
     <message>
-        <source>kbps</source>
-        <translation type="unfinished">kb/s</translation>
+      <source>kbps</source>
+      <translation>kb/s</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>CoverFromURLDialog</name>
     <message>
-        <source>Load cover from URL</source>
-        <translation type="unfinished">Lataa kansikuva osoitteesta</translation>
+      <source>Load cover from URL</source>
+      <translation>Lataa kansikuva osoitteesta</translation>
     </message>
     <message>
-        <source>Enter a URL to download a cover from the Internet:</source>
-        <translation type="unfinished">Kirjoita URL-osoite kansikuvien lataamiseen Internetistä:</translation>
+      <source>Enter a URL to download a cover from the Internet:</source>
+      <translation>Kirjoita URL-osoite kansikuvien lataamiseen Internetistä:</translation>
     </message>
     <message>
-        <source>Fetching cover error</source>
-        <translation type="unfinished">Virhe kansikuvan noudossa</translation>
+      <source>Fetching cover error</source>
+      <translation>Virhe kansikuvan noudossa</translation>
     </message>
     <message>
-        <source>The site you requested does not exist!</source>
-        <translation type="unfinished">Hakemaasi sivua ei ole olemassa!</translation>
+      <source>The site you requested does not exist!</source>
+      <translation>Hakemaasi sivua ei ole olemassa!</translation>
     </message>
     <message>
-        <source>The site you requested is not an image!</source>
-        <translation type="unfinished">Hakemasi sivu ei ole kuva!</translation>
+      <source>The site you requested is not an image!</source>
+      <translation>Hakemasi sivu ei ole kuva!</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>CoverManager</name>
     <message>
-        <source>Cover Manager</source>
-        <translation type="unfinished">Kansikuvaselain</translation>
+      <source>Cover Manager</source>
+      <translation>Kansikuvaselain</translation>
     </message>
     <message>
-        <source>Enter search terms here</source>
-        <translation type="unfinished">Etsi tästä</translation>
+      <source>Enter search terms here</source>
+      <translation>Etsi tästä</translation>
     </message>
     <message>
-        <source>MenuPopupToolButton</source>
-        <translation type="unfinished"></translation>
+      <source>MenuPopupToolButton</source>
+      <translation type="unfinished">MenuPopupToolButton</translation>
     </message>
     <message>
-        <source>View</source>
-        <translation type="unfinished">Näkymä</translation>
+      <source>View</source>
+      <translation>Näkymä</translation>
     </message>
     <message>
-        <source>Total albums:</source>
-        <translation type="unfinished">Albumeja yhteensä:</translation>
+      <source>Total albums:</source>
+      <translation>Albumeja yhteensä:</translation>
     </message>
     <message>
-        <source>Without cover:</source>
-        <translation type="unfinished">Ilman kansikuvaa:</translation>
+      <source>Without cover:</source>
+      <translation>Ilman kansikuvaa:</translation>
     </message>
     <message>
-        <source>0</source>
-        <translation type="unfinished"></translation>
+      <source>0</source>
+      <translation type="unfinished">0</translation>
     </message>
     <message>
-        <source>Fetch Missing Covers</source>
-        <translation type="unfinished">Nouda puuttuvat kansikuvat</translation>
+      <source>Fetch Missing Covers</source>
+      <translation>Nouda puuttuvat kansikuvat</translation>
     </message>
     <message>
-        <source>Export Covers</source>
-        <translation type="unfinished">Vie kansikuvat</translation>
+      <source>Export Covers</source>
+      <translation>Vie kansikuvat</translation>
     </message>
     <message>
-        <source>Fetch automatically</source>
-        <translation type="unfinished">Nouda automaattisesti</translation>
+      <source>Fetch automatically</source>
+      <translation>Nouda automaattisesti</translation>
     </message>
     <message>
-        <source>Load</source>
-        <translation type="unfinished">Lataa</translation>
+      <source>Load</source>
+      <translation>Lataa</translation>
     </message>
     <message>
-        <source>Add to playlist</source>
-        <translation type="unfinished">Lisää soittolistaan</translation>
+      <source>Add to playlist</source>
+      <translation>Lisää soittolistaan</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>CoverSearchStatisticsDialog</name>
     <message>
-        <source>Fetch completed</source>
-        <translation type="unfinished">Nouto suoritettu</translation>
+      <source>Fetch completed</source>
+      <translation>Nouto suoritettu</translation>
     </message>
     <message>
-        <source>Got %1 covers out of %2 (%3 failed)</source>
-        <translation type="unfinished">Löydetty %1 / %2 kansikuvaa (%3 epäonnistui)</translation>
+      <source>Got %1 covers out of %2 (%3 failed)</source>
+      <translation>Löydetty %1 / %2 kansikuvaa (%3 epäonnistui)</translation>
     </message>
     <message>
-        <source>Covers from %1</source>
-        <translation type="unfinished">Kansikuvat kohteesta %1</translation>
+      <source>Covers from %1</source>
+      <translation>Kansikuvat kohteesta %1</translation>
     </message>
     <message>
-        <source>Total network requests made</source>
-        <translation type="unfinished">Yhteensä verkko pyyntöjä tehty</translation>
+      <source>Total network requests made</source>
+      <translation>Yhteensä verkko pyyntöjä tehty</translation>
     </message>
     <message>
-        <source>Average image size</source>
-        <translation type="unfinished">Kuvatiedoston koko keskimäärin</translation>
+      <source>Average image size</source>
+      <translation>Kuvatiedoston koko keskimäärin</translation>
     </message>
     <message>
-        <source>Total bytes transferred</source>
-        <translation type="unfinished">Yhteensä tavuja siirretty</translation>
+      <source>Total bytes transferred</source>
+      <translation>Yhteensä tavuja siirretty</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>CoversSettingsPage</name>
     <message>
-        <source>Covers</source>
-        <translation type="unfinished">Kansikuvat</translation>
+      <source>Covers</source>
+      <translation>Kansikuvat</translation>
     </message>
     <message>
-        <source>Cover providers</source>
-        <translation type="unfinished">Kansikuvien tarjoajat</translation>
+      <source>Cover providers</source>
+      <translation>Kansikuvien tarjoajat</translation>
     </message>
     <message>
-        <source>Choose the providers you want to use when searching for covers.</source>
-        <translation type="unfinished">Valitse kansikuvien hakemiseen käytettävät palvelut.</translation>
+      <source>Choose the providers you want to use when searching for covers.</source>
+      <translation>Valitse kansikuvien hakemiseen käytettävät palvelut.</translation>
     </message>
     <message>
-        <source>Move up</source>
-        <translation type="unfinished">Siirrä ylös</translation>
+      <source>Move up</source>
+      <translation>Siirrä ylös</translation>
     </message>
     <message>
-        <source>Move down</source>
-        <translation type="unfinished">Siirrä alas</translation>
+      <source>Move down</source>
+      <translation>Siirrä alas</translation>
     </message>
     <message>
-        <source>Authentication</source>
-        <translation type="unfinished">Tunnistautuminen</translation>
+      <source>Authentication</source>
+      <translation>Tunnistautuminen</translation>
     </message>
     <message>
-        <source>Login</source>
-        <translation type="unfinished">Kirjaudu sisään</translation>
+      <source>Login</source>
+      <translation>Kirjaudu sisään</translation>
     </message>
     <message>
-        <source>Album cover types</source>
-        <translation type="unfinished"></translation>
+      <source>Album cover types</source>
+      <translation type="unfinished">Album cover types</translation>
     </message>
     <message>
-        <source>Saving album covers</source>
-        <translation type="unfinished">Tallennetaan kansikuvia</translation>
+      <source>Saving album covers</source>
+      <translation>Tallennetaan kansikuvia</translation>
     </message>
     <message>
-        <source>Save album covers in album directory</source>
-        <translation type="unfinished"></translation>
+      <source>Save album covers in album directory</source>
+      <translation type="unfinished">Save album covers in album directory</translation>
     </message>
     <message>
-        <source>Save album covers in cache directory</source>
-        <translation type="unfinished"></translation>
+      <source>Save album covers in cache directory</source>
+      <translation type="unfinished">Save album covers in cache directory</translation>
     </message>
     <message>
-        <source>Save album covers as embedded cover</source>
-        <translation type="unfinished"></translation>
+      <source>Save album covers as embedded cover</source>
+      <translation type="unfinished">Save album covers as embedded cover</translation>
     </message>
     <message>
-        <source>Filename:</source>
-        <translation type="unfinished">Tiedostonimi:</translation>
+      <source>Filename:</source>
+      <translation>Tiedostonimi:</translation>
     </message>
     <message>
-        <source>Pattern</source>
-        <translation type="unfinished"></translation>
+      <source>Pattern</source>
+      <translation type="unfinished">Pattern</translation>
     </message>
     <message>
-        <source>Random</source>
-        <translation type="unfinished"></translation>
+      <source>Random</source>
+      <translation type="unfinished">Random</translation>
     </message>
     <message>
-        <source>Overwrite existing file</source>
-        <translation type="unfinished"></translation>
+      <source>Overwrite existing file</source>
+      <translation type="unfinished">Overwrite existing file</translation>
     </message>
     <message>
-        <source>Lowercase filename</source>
-        <translation type="unfinished">Tiedoston nimi pienillä kirjaimilla</translation>
+      <source>Lowercase filename</source>
+      <translation>Tiedoston nimi pienillä kirjaimilla</translation>
     </message>
     <message>
-        <source>Replace spaces with dashes</source>
-        <translation type="unfinished">Korvaa välilyönnit viivoilla</translation>
+      <source>Replace spaces with dashes</source>
+      <translation>Korvaa välilyönnit viivoilla</translation>
     </message>
     <message>
-        <source>Use Tidal settings to authenticate.</source>
-        <translation type="unfinished">Käytä Tidal-asetuksia tunnistautumiseen.</translation>
+      <source>Use Tidal settings to authenticate.</source>
+      <translation>Käytä Tidal-asetuksia tunnistautumiseen.</translation>
     </message>
     <message>
-        <source>Use Spotify settings to authenticate.</source>
-        <translation type="unfinished"></translation>
+      <source>Use Spotify settings to authenticate.</source>
+      <translation type="unfinished">Use Spotify settings to authenticate.</translation>
     </message>
     <message>
-        <source>Use Qobuz settings to authenticate.</source>
-        <translation type="unfinished"></translation>
+      <source>Use Qobuz settings to authenticate.</source>
+      <translation type="unfinished">Use Qobuz settings to authenticate.</translation>
     </message>
     <message>
-        <source>%1 needs authentication.</source>
-        <translation type="unfinished">%1 vaatii tunnistautumisen.</translation>
+      <source>%1 needs authentication.</source>
+      <translation>%1 vaatii tunnistautumisen.</translation>
     </message>
     <message>
-        <source>%1 does not need authentication.</source>
-        <translation type="unfinished">%1 ei vaadi tunnistautumista.</translation>
+      <source>%1 does not need authentication.</source>
+      <translation>%1 ei vaadi tunnistautumista.</translation>
     </message>
     <message>
-        <source>No provider selected.</source>
-        <translation type="unfinished"></translation>
+      <source>No provider selected.</source>
+      <translation type="unfinished">No provider selected.</translation>
     </message>
     <message>
-        <source>Authentication failed</source>
-        <translation type="unfinished">Tunnistautuminen epäonnistui</translation>
+      <source>Authentication failed</source>
+      <translation>Tunnistautuminen epäonnistui</translation>
     </message>
     <message>
-        <source>Manually unset (%1)</source>
-        <translation type="unfinished"></translation>
+      <source>Manually unset (%1)</source>
+      <translation type="unfinished">Manually unset (%1)</translation>
     </message>
     <message>
-        <source>Set through album cover search (%1)</source>
-        <translation type="unfinished"></translation>
+      <source>Set through album cover search (%1)</source>
+      <translation type="unfinished">Set through album cover search (%1)</translation>
     </message>
     <message>
-        <source>Automatically picked up from album directory (%1)</source>
-        <translation type="unfinished"></translation>
+      <source>Automatically picked up from album directory (%1)</source>
+      <translation type="unfinished">Automatically picked up from album directory (%1)</translation>
     </message>
     <message>
-        <source>Embedded album cover art (%1)</source>
-        <translation type="unfinished"></translation>
+      <source>Embedded album cover art (%1)</source>
+      <translation type="unfinished">Embedded album cover art (%1)</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>CueParser</name>
     <message>
-        <source>Saving CUE files is not supported.</source>
-        <translation type="unfinished"></translation>
+      <source>Saving CUE files is not supported.</source>
+      <translation type="unfinished">Saving CUE files is not supported.</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>Database</name>
     <message>
-        <source>Unable to execute SQL query: %1</source>
-        <translation type="unfinished"></translation>
+      <source>Unable to execute SQL query: %1</source>
+      <translation type="unfinished">Unable to execute SQL query: %1</translation>
     </message>
     <message>
-        <source>Failed SQL query: %1</source>
-        <translation type="unfinished"></translation>
+      <source>Failed SQL query: %1</source>
+      <translation type="unfinished">Failed SQL query: %1</translation>
     </message>
     <message>
-        <source>Integrity check</source>
-        <translation type="unfinished">Eheystarkistus</translation>
+      <source>Integrity check</source>
+      <translation>Eheystarkistus</translation>
     </message>
     <message>
-        <source>Database corruption detected.</source>
-        <translation type="unfinished">Tietokanta on vioittunut.</translation>
+      <source>Database corruption detected.</source>
+      <translation>Tietokanta on vioittunut.</translation>
     </message>
     <message>
-        <source>Backing up database</source>
-        <translation type="unfinished">Varmuuskopioidaan tietokantaa</translation>
+      <source>Backing up database</source>
+      <translation>Varmuuskopioidaan tietokantaa</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>DeleteConfirmationDialog</name>
     <message>
-        <source>Delete files</source>
-        <translation type="unfinished">Poista tiedostot</translation>
+      <source>Delete files</source>
+      <translation>Poista tiedostot</translation>
     </message>
     <message>
-        <source>The following files will be deleted from disk:</source>
-        <translation type="unfinished"></translation>
+      <source>The following files will be deleted from disk:</source>
+      <translation type="unfinished">The following files will be deleted from disk:</translation>
     </message>
     <message>
-        <source>Are you sure you want to continue?</source>
-        <translation type="unfinished">Haluatko varmasti jatkaa?</translation>
+      <source>Are you sure you want to continue?</source>
+      <translation>Haluatko varmasti jatkaa?</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>DeleteFiles</name>
     <message>
-        <source>Deleting files</source>
-        <translation type="unfinished">Poistetaan tiedostoja</translation>
+      <source>Deleting files</source>
+      <translation>Poistetaan tiedostoja</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>DeviceItemDelegate</name>
     <message>
-        <source>Updating %1%...</source>
-        <translation type="unfinished">Päivitetään %1 %...</translation>
+      <source>Updating %1%...</source>
+      <translation>Päivitetään %1 %...</translation>
     </message>
     <message>
-        <source>Not connected</source>
-        <translation type="unfinished">Ei yhdistetty</translation>
+      <source>Not connected</source>
+      <translation>Ei yhdistetty</translation>
     </message>
     <message>
-        <source>Not mounted - double click to mount</source>
-        <translation type="unfinished">Ei liitetty - kaksoisnapsauta liittääksesi</translation>
+      <source>Not mounted - double click to mount</source>
+      <translation>Ei liitetty - kaksoisnapsauta liittääksesi</translation>
     </message>
     <message>
-        <source>Double click to open</source>
-        <translation type="unfinished">Kaksoisnapsauta avataksesi</translation>
+      <source>Double click to open</source>
+      <translation>Kaksoisnapsauta avataksesi</translation>
     </message>
     <message>
-        <source>%1 song%2</source>
-        <translation type="unfinished">%1 kappale%2</translation>
+      <source>%1 song%2</source>
+      <translation>%1 kappale%2</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>DeviceManager</name>
     <message>
-        <source>Connect device</source>
-        <translation type="unfinished">Yhdistä laite</translation>
+      <source>Connect device</source>
+      <translation>Yhdistä laite</translation>
     </message>
     <message>
-        <source>This is the first time you have connected this device.  Strawberry will now scan the device to find music files - this may take some time.</source>
-        <translation type="unfinished">Kytkit tämän laitteen tähän tietokoneeseen ensimmäistä kertaa. Strawberry etsii musiikkitiedostoja laitteesta - tämä saattaa kestää hetken.</translation>
+      <source>This is the first time you have connected this device.  Strawberry will now scan the device to find music files - this may take some time.</source>
+      <translation>Kytkit tämän laitteen tähän tietokoneeseen ensimmäistä kertaa. Strawberry etsii musiikkitiedostoja laitteesta - tämä saattaa kestää hetken.</translation>
     </message>
     <message>
-        <source>This device will not work properly</source>
-        <translation type="unfinished">Laite ei tule toimimaan kunnolla</translation>
+      <source>This device will not work properly</source>
+      <translation>Laite ei tule toimimaan kunnolla</translation>
     </message>
     <message>
-        <source>This is an MTP device, but you compiled Strawberry without libmtp support.</source>
-        <translation type="unfinished">Kyseessä on MTP-laite, mutta Strawberry on käännetty ilman libmtp-tukea.</translation>
+      <source>This is an MTP device, but you compiled Strawberry without libmtp support.</source>
+      <translation>Kyseessä on MTP-laite, mutta Strawberry on käännetty ilman libmtp-tukea.</translation>
     </message>
     <message>
-        <source>If you continue, this device will work slowly and songs copied to it may not work.</source>
-        <translation type="unfinished">Jos jatkat, laite toimii hitaasti ja sille kopioidut kappaleet eivät välttämättä toimi.</translation>
+      <source>If you continue, this device will work slowly and songs copied to it may not work.</source>
+      <translation>Jos jatkat, laite toimii hitaasti ja sille kopioidut kappaleet eivät välttämättä toimi.</translation>
     </message>
     <message>
-        <source>This is an iPod, but you compiled Strawberry without libgpod support.</source>
-        <translation type="unfinished">Kyseessä on iPod, mutta Strawberry on käännetty ilman libgpod-tukea.</translation>
+      <source>This is an iPod, but you compiled Strawberry without libgpod support.</source>
+      <translation>Kyseessä on iPod, mutta Strawberry on käännetty ilman libgpod-tukea.</translation>
     </message>
     <message>
-        <source>This type of device is not supported: %1</source>
-        <translation type="unfinished">Tämän tyyppinen laite ei ole tuettu: %1</translation>
+      <source>This type of device is not supported: %1</source>
+      <translation>Tämän tyyppinen laite ei ole tuettu: %1</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>DeviceProperties</name>
     <message>
-        <source>Device Properties</source>
-        <translation type="unfinished">Laitteen ominaisuudet</translation>
+      <source>Device Properties</source>
+      <translation>Laitteen ominaisuudet</translation>
     </message>
     <message>
-        <source>Information</source>
-        <translation type="unfinished">Tiedot</translation>
+      <source>Information</source>
+      <translation>Tiedot</translation>
     </message>
     <message>
-        <source>Name</source>
-        <translation type="unfinished">Nimi</translation>
+      <source>Name</source>
+      <translation>Nimi</translation>
     </message>
     <message>
-        <source>Icon</source>
-        <translation type="unfinished">Kuvake</translation>
+      <source>Icon</source>
+      <translation>Kuvake</translation>
     </message>
     <message>
-        <source>Hardware information</source>
-        <translation type="unfinished">Laitetiedot</translation>
+      <source>Hardware information</source>
+      <translation>Laitetiedot</translation>
     </message>
     <message>
-        <source>Hardware information is only available while the device is connected.</source>
-        <translation type="unfinished">Laitetiedot on saatavilla vain laitteen ollessa yhdistettynä.</translation>
+      <source>Hardware information is only available while the device is connected.</source>
+      <translation>Laitetiedot on saatavilla vain laitteen ollessa yhdistettynä.</translation>
     </message>
     <message>
-        <source>File formats</source>
-        <translation type="unfinished">Tiedostomuodot</translation>
+      <source>File formats</source>
+      <translation>Tiedostomuodot</translation>
     </message>
     <message>
-        <source>Supported formats</source>
-        <translation type="unfinished">Tuetut muodot</translation>
+      <source>Supported formats</source>
+      <translation>Tuetut muodot</translation>
     </message>
     <message>
-        <source>This device supports the following file formats:</source>
-        <translation type="unfinished">Laite tukee seuraavia tiedostomuotoja:</translation>
+      <source>This device supports the following file formats:</source>
+      <translation>Laite tukee seuraavia tiedostomuotoja:</translation>
     </message>
     <message>
-        <source>Strawberry can automatically convert the music you copy to this device into a format that it can play.</source>
-        <translation type="unfinished">Strawberry voi automaattisesti muuntaa tähän laitteeseen kopioitavan musiikin sen ymmärtämään muotoon.</translation>
+      <source>Strawberry can automatically convert the music you copy to this device into a format that it can play.</source>
+      <translation>Strawberry voi automaattisesti muuntaa tähän laitteeseen kopioitavan musiikin sen ymmärtämään muotoon.</translation>
     </message>
     <message>
-        <source>Do not convert any music</source>
-        <translation type="unfinished">Älä muunna mitään musiikkia</translation>
+      <source>Do not convert any music</source>
+      <translation>Älä muunna mitään musiikkia</translation>
     </message>
     <message>
-        <source>Convert any music that the device can&apos;t play</source>
-        <translation type="unfinished">Muuta musiikki, jota laite ei voi muuten toistaa</translation>
+      <source>Convert any music that the device can&apos;t play</source>
+      <translation>Muuta musiikki, jota laite ei voi muuten toistaa</translation>
     </message>
     <message>
-        <source>Convert all music</source>
-        <translation type="unfinished">Muunna kaikki musiikki</translation>
+      <source>Convert all music</source>
+      <translation>Muunna kaikki musiikki</translation>
     </message>
     <message>
-        <source>Preferred format</source>
-        <translation type="unfinished">Ensisijainen muoto</translation>
+      <source>Preferred format</source>
+      <translation>Ensisijainen muoto</translation>
     </message>
     <message>
-        <source>This device must be connected and opened before Strawberry can see what file formats it supports.</source>
-        <translation type="unfinished">Laitteen tulee olla yhdistettynä ja avattuna, jotta Strawberry voi tarkistaa, mitä tiedostomuotoja laite tukee.</translation>
+      <source>This device must be connected and opened before Strawberry can see what file formats it supports.</source>
+      <translation>Laitteen tulee olla yhdistettynä ja avattuna, jotta Strawberry voi tarkistaa, mitä tiedostomuotoja laite tukee.</translation>
     </message>
     <message>
-        <source>Open device</source>
-        <translation type="unfinished">Avaa laite</translation>
+      <source>Open device</source>
+      <translation>Avaa laite</translation>
     </message>
     <message>
-        <source>Querying device...</source>
-        <translation type="unfinished">Kysytään tietoja laitteelta...</translation>
+      <source>Querying device...</source>
+      <translation>Kysytään tietoja laitteelta...</translation>
     </message>
     <message>
-        <source>Model</source>
-        <translation type="unfinished">Malli</translation>
+      <source>Model</source>
+      <translation>Malli</translation>
     </message>
     <message>
-        <source>Manufacturer</source>
-        <translation type="unfinished">Valmistaja</translation>
+      <source>Manufacturer</source>
+      <translation>Valmistaja</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>DeviceView</name>
     <message>
-        <source>Safely remove device</source>
-        <translation type="unfinished">Poista laite turvallisesti</translation>
+      <source>Safely remove device</source>
+      <translation>Poista laite turvallisesti</translation>
     </message>
     <message>
-        <source>Forget device</source>
-        <translation type="unfinished">Unohda laite</translation>
+      <source>Forget device</source>
+      <translation>Unohda laite</translation>
     </message>
     <message>
-        <source>Device properties...</source>
-        <translation type="unfinished">Laitteen ominaisuudet...</translation>
+      <source>Device properties...</source>
+      <translation>Laitteen ominaisuudet...</translation>
     </message>
     <message>
-        <source>Append to current playlist</source>
-        <translation type="unfinished">Lisää nykyiselle soittolistalle</translation>
+      <source>Append to current playlist</source>
+      <translation>Lisää nykyiselle soittolistalle</translation>
     </message>
     <message>
-        <source>Replace current playlist</source>
-        <translation type="unfinished">Korvaa nykyinen soittolista</translation>
+      <source>Replace current playlist</source>
+      <translation>Korvaa nykyinen soittolista</translation>
     </message>
     <message>
-        <source>Open in new playlist</source>
-        <translation type="unfinished">Avaa uudessa soittolistassa</translation>
+      <source>Open in new playlist</source>
+      <translation>Avaa uudessa soittolistassa</translation>
     </message>
     <message>
-        <source>Copy to collection...</source>
-        <translation type="unfinished">Kopioi kirjastoon</translation>
+      <source>Copy to collection...</source>
+      <translation>Kopioi kirjastoon</translation>
     </message>
     <message>
-        <source>Delete from device...</source>
-        <translation type="unfinished">Poista laitteelta...</translation>
+      <source>Delete from device...</source>
+      <translation>Poista laitteelta...</translation>
     </message>
     <message>
-        <source>Forgetting a device will remove it from this list and Strawberry will have to rescan all the songs again next time you connect it.</source>
-        <translation type="unfinished">Laitteen unohtaminen poistaa sen listalta. Strawberry joutuu käydä laitteen kaikki kappaleet uudelleen läpi, kun laite seuraavan kerran yhdistetään.</translation>
+      <source>Forgetting a device will remove it from this list and Strawberry will have to rescan all the songs again next time you connect it.</source>
+      <translation>Laitteen unohtaminen poistaa sen listalta. Strawberry joutuu käydä laitteen kaikki kappaleet uudelleen läpi, kun laite seuraavan kerran yhdistetään.</translation>
     </message>
     <message>
-        <source>Delete files</source>
-        <translation type="unfinished">Poista tiedostot</translation>
+      <source>Delete files</source>
+      <translation>Poista tiedostot</translation>
     </message>
     <message>
-        <source>These files will be deleted from the device, are you sure you want to continue?</source>
-        <translation type="unfinished">Nämä tiedostot poistetaan laitteelta, haluatko varmasti jatkaa?</translation>
+      <source>These files will be deleted from the device, are you sure you want to continue?</source>
+      <translation>Nämä tiedostot poistetaan laitteelta, haluatko varmasti jatkaa?</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>DeviceViewContainer</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">Lomake</translation>
+      <source>Form</source>
+      <translation>Lomake</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>DynamicPlaylistControls</name>
     <message>
-        <source>Dynamic mode is on</source>
-        <translation type="unfinished"></translation>
+      <source>Dynamic mode is on</source>
+      <translation type="unfinished">Dynamic mode is on</translation>
     </message>
     <message>
-        <source>New tracks will be added automatically.</source>
-        <translation type="unfinished"></translation>
+      <source>New tracks will be added automatically.</source>
+      <translation type="unfinished">New tracks will be added automatically.</translation>
     </message>
     <message>
-        <source>Expand</source>
-        <translation type="unfinished">Laajenna</translation>
+      <source>Expand</source>
+      <translation>Laajenna</translation>
     </message>
     <message>
-        <source>Repopulate</source>
-        <translation type="unfinished"></translation>
+      <source>Repopulate</source>
+      <translation type="unfinished">Repopulate</translation>
     </message>
     <message>
-        <source>Turn off</source>
-        <translation type="unfinished"></translation>
+      <source>Turn off</source>
+      <translation type="unfinished">Turn off</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>EditTagDialog</name>
     <message>
-        <source>Edit track information</source>
-        <translation type="unfinished">Muokkaa kappaleen tietoja</translation>
+      <source>Edit track information</source>
+      <translation>Muokkaa kappaleen tietoja</translation>
     </message>
     <message>
-        <source>Summary</source>
-        <translation type="unfinished">Yhteenveto</translation>
+      <source>Summary</source>
+      <translation>Yhteenveto</translation>
     </message>
     <message>
-        <source>Date created</source>
-        <translation type="unfinished">Luotu</translation>
+      <source>Date created</source>
+      <translation>Luotu</translation>
     </message>
     <message>
-        <source>Art Automatic</source>
-        <translation type="unfinished"></translation>
+      <source>Art Automatic</source>
+      <translation type="unfinished">Art Automatic</translation>
     </message>
     <message>
-        <source>Date modified</source>
-        <translation type="unfinished">Muokattu</translation>
+      <source>Date modified</source>
+      <translation>Muokattu</translation>
     </message>
     <message>
-        <source>Art Embedded</source>
-        <translation type="unfinished"></translation>
+      <source>Art Embedded</source>
+      <translation type="unfinished">Art Embedded</translation>
     </message>
     <message>
-        <source>Last played</source>
-        <comment>A playlist&apos;s tag.</comment>
-        <translation type="unfinished"></translation>
+      <source>Last played</source>
+      <comment>A playlist&apos;s tag.</comment>
+      <translation type="unfinished">Last played</translation>
     </message>
     <message>
-        <source>File type</source>
-        <translation type="unfinished">Tiedostotyyppi</translation>
+      <source>File type</source>
+      <translation>Tiedostotyyppi</translation>
     </message>
     <message>
-        <source>Length</source>
-        <translation type="unfinished">Kesto</translation>
+      <source>Length</source>
+      <translation>Kesto</translation>
     </message>
     <message>
-        <source>Play count</source>
-        <translation type="unfinished">Soittokertoja</translation>
+      <source>Play count</source>
+      <translation>Soittokertoja</translation>
     </message>
     <message>
-        <source>Bit depth</source>
-        <translation type="unfinished">Bittisyys</translation>
+      <source>Bit depth</source>
+      <translation>Bittisyys</translation>
     </message>
     <message>
-        <source>EBU R 128 integrated loudness</source>
-        <translation type="unfinished"></translation>
+      <source>EBU R 128 integrated loudness</source>
+      <translation type="unfinished">EBU R 128 integrated loudness</translation>
     </message>
     <message>
-        <source>Bit rate</source>
-        <translation type="unfinished">Bittivirta</translation>
+      <source>Bit rate</source>
+      <translation>Bittivirta</translation>
     </message>
     <message>
-        <source>Skip count</source>
-        <translation type="unfinished">Ohituskerrat</translation>
+      <source>Skip count</source>
+      <translation>Ohituskerrat</translation>
     </message>
     <message>
-        <source>Sample rate</source>
-        <translation type="unfinished">Näytteenottotaajuus</translation>
+      <source>Sample rate</source>
+      <translation>Näytteenottotaajuus</translation>
     </message>
     <message>
-        <source>Path</source>
-        <translation type="unfinished"></translation>
+      <source>Path</source>
+      <translation type="unfinished">Path</translation>
     </message>
     <message>
-        <source>Filename</source>
-        <translation type="unfinished">Tiedostonimi</translation>
+      <source>Filename</source>
+      <translation>Tiedostonimi</translation>
     </message>
     <message>
-        <source>Art Unset</source>
-        <translation type="unfinished"></translation>
+      <source>Art Unset</source>
+      <translation type="unfinished">Art Unset</translation>
     </message>
     <message>
-        <source>File size</source>
-        <translation type="unfinished">Tiedostokoko</translation>
+      <source>File size</source>
+      <translation>Tiedostokoko</translation>
     </message>
     <message>
-        <source>Art Manual</source>
-        <translation type="unfinished"></translation>
+      <source>Art Manual</source>
+      <translation type="unfinished">Art Manual</translation>
     </message>
     <message>
-        <source>EBU R 128 loudness range</source>
-        <translation type="unfinished"></translation>
+      <source>EBU R 128 loudness range</source>
+      <translation type="unfinished">EBU R 128 loudness range</translation>
     </message>
     <message>
-        <source>Reset play counts</source>
-        <translation type="unfinished">Nollaa soittokerrat</translation>
+      <source>Reset play counts</source>
+      <translation>Nollaa soittokerrat</translation>
     </message>
     <message>
-        <source>Tags</source>
-        <translation type="unfinished"></translation>
+      <source>Tags</source>
+      <translation type="unfinished">Tags</translation>
     </message>
     <message>
-        <source>MenuPopupToolButton</source>
-        <translation type="unfinished"></translation>
+      <source>MenuPopupToolButton</source>
+      <translation type="unfinished">MenuPopupToolButton</translation>
     </message>
     <message>
-        <source>Change art</source>
-        <translation type="unfinished"></translation>
+      <source>Change art</source>
+      <translation type="unfinished">Change art</translation>
     </message>
     <message>
-        <source>Embedded cover</source>
-        <translation type="unfinished"></translation>
+      <source>Embedded cover</source>
+      <translation type="unfinished">Embedded cover</translation>
     </message>
     <message>
-        <source>Disc</source>
-        <translation type="unfinished">Levy</translation>
+      <source>Disc</source>
+      <translation>Levy</translation>
     </message>
     <message>
-        <source>Grouping</source>
-        <translation type="unfinished">Ryhmittely</translation>
+      <source>Grouping</source>
+      <translation>Ryhmittely</translation>
     </message>
     <message>
-        <source>Album artist</source>
-        <translation type="unfinished">Albumin esittäjä</translation>
+      <source>Album artist</source>
+      <translation>Albumin esittäjä</translation>
     </message>
     <message>
-        <source>Album</source>
-        <translation type="unfinished">Albumi</translation>
+      <source>Album</source>
+      <translation>Albumi</translation>
     </message>
     <message>
-        <source>Year</source>
-        <translation type="unfinished">Vuosi</translation>
+      <source>Year</source>
+      <translation>Vuosi</translation>
     </message>
     <message>
-        <source>Title</source>
-        <translation type="unfinished">Nimi</translation>
+      <source>Title</source>
+      <translation>Nimi</translation>
     </message>
     <message>
-        <source>Artist</source>
-        <translation type="unfinished">Esittäjä</translation>
+      <source>Artist</source>
+      <translation>Esittäjä</translation>
     </message>
     <message>
-        <source>Composer</source>
-        <translation type="unfinished">Säveltäjä</translation>
+      <source>Composer</source>
+      <translation>Säveltäjä</translation>
     </message>
     <message>
-        <source>Complete tags automatically</source>
-        <translation type="unfinished">Täydennä tunnisteet automaattisesti</translation>
+      <source>Complete tags automatically</source>
+      <translation>Täydennä tunnisteet automaattisesti</translation>
     </message>
     <message>
-        <source>Genre</source>
-        <translation type="unfinished">Tyylilaji</translation>
+      <source>Genre</source>
+      <translation>Tyylilaji</translation>
     </message>
     <message>
-        <source>Comment</source>
-        <translation type="unfinished">Kommentti</translation>
+      <source>Comment</source>
+      <translation>Kommentti</translation>
     </message>
     <message>
-        <source>Performer</source>
-        <translation type="unfinished">Esittäjä</translation>
+      <source>Performer</source>
+      <translation>Esittäjä</translation>
     </message>
     <message>
-        <source>Compilation</source>
-        <translation type="unfinished">Kokoelma</translation>
+      <source>Compilation</source>
+      <translation>Kokoelma</translation>
     </message>
     <message>
-        <source>Track</source>
-        <translation type="unfinished">Kappale</translation>
+      <source>Track</source>
+      <translation>Kappale</translation>
     </message>
     <message>
-        <source>Rating</source>
-        <translation type="unfinished">Arvio</translation>
+      <source>Rating</source>
+      <translation>Arvio</translation>
     </message>
     <message>
-        <source>Lyrics</source>
-        <translation type="unfinished">Laulunsanat</translation>
+      <source>Lyrics</source>
+      <translation>Laulunsanat</translation>
     </message>
     <message>
-        <source>Complete lyrics automatically</source>
-        <translation type="unfinished"></translation>
+      <source>Complete lyrics automatically</source>
+      <translation type="unfinished">Complete lyrics automatically</translation>
     </message>
     <message>
-        <source>Previous</source>
-        <translation type="unfinished">Edellinen</translation>
+      <source>(different across multiple songs)</source>
+      <translation type="unfinished">(different across multiple songs)</translation>
     </message>
     <message>
-        <source>Next</source>
-        <translation type="unfinished">Seuraava</translation>
+      <source>Different art across multiple songs.</source>
+      <translation type="unfinished">Different art across multiple songs.</translation>
     </message>
     <message>
-        <source>Saving tracks</source>
-        <translation type="unfinished">Tallennetaan kappaleita</translation>
+      <source>Previous</source>
+      <translation>Edellinen</translation>
     </message>
     <message>
-        <source>Loading tracks</source>
-        <translation type="unfinished">Ladataan kappaleita</translation>
+      <source>Next</source>
+      <translation>Seuraava</translation>
     </message>
     <message>
-        <source>%1 songs selected.</source>
-        <translation type="unfinished"></translation>
+      <source>Saving tracks</source>
+      <translation>Tallennetaan kappaleita</translation>
     </message>
     <message>
-        <source>kbps</source>
-        <translation type="unfinished">kb/s</translation>
+      <source>Loading tracks</source>
+      <translation>Ladataan kappaleita</translation>
     </message>
     <message>
-        <source>Unknown</source>
-        <translation type="unfinished">Tuntematon</translation>
+      <source>%1 songs selected.</source>
+      <translation type="unfinished">%1 songs selected.</translation>
     </message>
     <message>
-        <source>Yes</source>
-        <translation type="unfinished"></translation>
+      <source>kbps</source>
+      <translation>kb/s</translation>
     </message>
     <message>
-        <source>No</source>
-        <translation type="unfinished"></translation>
+      <source>Unknown</source>
+      <translation>Tuntematon</translation>
     </message>
     <message>
-        <source>None</source>
-        <translation type="unfinished">Ei mitään</translation>
+      <source>Yes</source>
+      <translation type="unfinished">Yes</translation>
     </message>
     <message>
-        <source>Cover is unset.</source>
-        <translation type="unfinished"></translation>
+      <source>No</source>
+      <translation type="unfinished">No</translation>
     </message>
     <message>
-        <source>Cover from embedded image.</source>
-        <translation type="unfinished"></translation>
+      <source>None</source>
+      <translation>Ei mitään</translation>
     </message>
     <message>
-        <source>Cover from %1</source>
-        <translation type="unfinished"></translation>
+      <source>Cover is unset.</source>
+      <translation type="unfinished">Cover is unset.</translation>
     </message>
     <message>
-        <source>Cover art not set</source>
-        <translation type="unfinished">Kansikuvaa ei ole asetettu</translation>
+      <source>Cover from embedded image.</source>
+      <translation type="unfinished">Cover from embedded image.</translation>
     </message>
     <message>
-        <source>Album cover editing is only available for collection songs.</source>
-        <translation type="unfinished"></translation>
+      <source>Cover from %1</source>
+      <translation type="unfinished">Cover from %1</translation>
     </message>
     <message>
-        <source>Cover changed: Will be cleared when saved.</source>
-        <translation type="unfinished"></translation>
+      <source>Cover art not set</source>
+      <translation>Kansikuvaa ei ole asetettu</translation>
     </message>
     <message>
-        <source>Cover changed: Will be unset when saved.</source>
-        <translation type="unfinished"></translation>
+      <source>Album cover editing is only available for collection songs.</source>
+      <translation type="unfinished">Album cover editing is only available for collection songs.</translation>
     </message>
     <message>
-        <source>Cover changed: Will be deleted when saved.</source>
-        <translation type="unfinished"></translation>
+      <source>Cover changed: Will be cleared when saved.</source>
+      <translation type="unfinished">Cover changed: Will be cleared when saved.</translation>
     </message>
     <message>
-        <source>Cover changed: Will set new when saved.</source>
-        <translation type="unfinished"></translation>
+      <source>Cover changed: Will be unset when saved.</source>
+      <translation type="unfinished">Cover changed: Will be unset when saved.</translation>
     </message>
     <message>
-        <source>Never</source>
-        <translation type="unfinished">Ei koskaan</translation>
+      <source>Cover changed: Will be deleted when saved.</source>
+      <translation type="unfinished">Cover changed: Will be deleted when saved.</translation>
     </message>
     <message>
-        <source>Reset song play statistics</source>
-        <translation type="unfinished"></translation>
+      <source>Cover changed: Will set new when saved.</source>
+      <translation type="unfinished">Cover changed: Will set new when saved.</translation>
     </message>
     <message>
-        <source>Are you sure you want to reset this song&apos;s play statistics?</source>
-        <translation type="unfinished"></translation>
+      <source>Never</source>
+      <translation>Ei koskaan</translation>
     </message>
     <message>
-        <source>loading...</source>
-        <translation type="unfinished"></translation>
+      <source>Reset song play statistics</source>
+      <translation type="unfinished">Reset song play statistics</translation>
     </message>
     <message>
-        <source>Not found.</source>
-        <translation type="unfinished"></translation>
+      <source>Are you sure you want to reset this song&apos;s play statistics?</source>
+      <translation type="unfinished">Are you sure you want to reset this song&apos;s play statistics?</translation>
     </message>
     <message>
-        <source>Could not write metadata to %1</source>
-        <translation type="unfinished"></translation>
+      <source>loading...</source>
+      <translation type="unfinished">loading...</translation>
     </message>
     <message>
-        <source>Could not write metadata to %1: %2</source>
-        <translation type="unfinished"></translation>
+      <source>Not found.</source>
+      <translation type="unfinished">Not found.</translation>
     </message>
     <message>
-        <source>(different across multiple songs)</source>
-        <translation type="unfinished"></translation>
+      <source>Could not write metadata to %1</source>
+      <translation type="unfinished">Could not write metadata to %1</translation>
     </message>
     <message>
-        <source>Different art across multiple songs.</source>
-        <translation type="unfinished"></translation>
+      <source>Could not write metadata to %1: %2</source>
+      <translation type="unfinished">Could not write metadata to %1: %2</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>Equalizer</name>
     <message>
-        <source>Equalizer</source>
-        <translation type="unfinished">Taajuuskorjain</translation>
+      <source>Equalizer</source>
+      <translation>Taajuuskorjain</translation>
     </message>
     <message>
-        <source>Preset:</source>
-        <translation type="unfinished">Asetus:</translation>
+      <source>Preset:</source>
+      <translation>Asetus:</translation>
     </message>
     <message>
-        <source>Save preset</source>
-        <translation type="unfinished">Tallenna asetus</translation>
+      <source>Save preset</source>
+      <translation>Tallenna asetus</translation>
     </message>
     <message>
-        <source>Delete preset</source>
-        <translation type="unfinished">Poista asetus</translation>
+      <source>Delete preset</source>
+      <translation>Poista asetus</translation>
     </message>
     <message>
-        <source>Enable equalizer</source>
-        <translation type="unfinished">Käytä taajuuskorjainta</translation>
+      <source>Enable equalizer</source>
+      <translation>Käytä taajuuskorjainta</translation>
     </message>
     <message>
-        <source>Enable stereo balancer</source>
-        <translation type="unfinished"></translation>
+      <source>Enable stereo balancer</source>
+      <translation type="unfinished">Enable stereo balancer</translation>
     </message>
     <message>
-        <source>Left</source>
-        <translation type="unfinished">Vasen</translation>
+      <source>Left</source>
+      <translation>Vasen</translation>
     </message>
     <message>
-        <source>Balance</source>
-        <translation type="unfinished">Tasapaino</translation>
+      <source>Balance</source>
+      <translation>Tasapaino</translation>
     </message>
     <message>
-        <source>Right</source>
-        <translation type="unfinished">Oikea</translation>
+      <source>Right</source>
+      <translation>Oikea</translation>
     </message>
     <message>
-        <source>Pre-amp</source>
-        <translation type="unfinished">Esivahvistus</translation>
+      <source>Pre-amp</source>
+      <translation>Esivahvistus</translation>
     </message>
     <message>
-        <source>Custom</source>
-        <translation type="unfinished">Oma</translation>
+      <source>Custom</source>
+      <translation>Oma</translation>
     </message>
     <message>
-        <source>Classical</source>
-        <translation type="unfinished"></translation>
+      <source>Classical</source>
+      <translation type="unfinished">Classical</translation>
     </message>
     <message>
-        <source>Club</source>
-        <translation type="unfinished"></translation>
+      <source>Club</source>
+      <translation type="unfinished">Club</translation>
     </message>
     <message>
-        <source>Dance</source>
-        <translation type="unfinished"></translation>
+      <source>Dance</source>
+      <translation type="unfinished">Dance</translation>
     </message>
     <message>
-        <source>Full Bass</source>
-        <translation type="unfinished">Täysi basso</translation>
+      <source>Full Bass</source>
+      <translation>Täysi basso</translation>
     </message>
     <message>
-        <source>Full Treble</source>
-        <translation type="unfinished">Täysi diskantti</translation>
+      <source>Full Treble</source>
+      <translation>Täysi diskantti</translation>
     </message>
     <message>
-        <source>Full Bass + Treble</source>
-        <translation type="unfinished">Täysi basso ja diskantti</translation>
+      <source>Full Bass + Treble</source>
+      <translation>Täysi basso ja diskantti</translation>
     </message>
     <message>
-        <source>Laptop/Headphones</source>
-        <translation type="unfinished">Kannettava/kuulokkeet</translation>
+      <source>Laptop/Headphones</source>
+      <translation>Kannettava/kuulokkeet</translation>
     </message>
     <message>
-        <source>Large Hall</source>
-        <translation type="unfinished">Suuri halli</translation>
+      <source>Large Hall</source>
+      <translation>Suuri halli</translation>
     </message>
     <message>
-        <source>Live</source>
-        <translation type="unfinished"></translation>
+      <source>Live</source>
+      <translation type="unfinished">Live</translation>
     </message>
     <message>
-        <source>Party</source>
-        <translation type="unfinished"></translation>
+      <source>Party</source>
+      <translation type="unfinished">Party</translation>
     </message>
     <message>
-        <source>Pop</source>
-        <translation type="unfinished"></translation>
+      <source>Pop</source>
+      <translation type="unfinished">Pop</translation>
     </message>
     <message>
-        <source>Reggae</source>
-        <translation type="unfinished"></translation>
+      <source>Reggae</source>
+      <translation type="unfinished">Reggae</translation>
     </message>
     <message>
-        <source>Rock</source>
-        <translation type="unfinished"></translation>
+      <source>Rock</source>
+      <translation type="unfinished">Rock</translation>
     </message>
     <message>
-        <source>Soft</source>
-        <translation type="unfinished"></translation>
+      <source>Soft</source>
+      <translation type="unfinished">Soft</translation>
     </message>
     <message>
-        <source>Ska</source>
-        <translation type="unfinished"></translation>
+      <source>Ska</source>
+      <translation type="unfinished">Ska</translation>
     </message>
     <message>
-        <source>Soft Rock</source>
-        <translation type="unfinished"></translation>
+      <source>Soft Rock</source>
+      <translation type="unfinished">Soft Rock</translation>
     </message>
     <message>
-        <source>Techno</source>
-        <translation type="unfinished"></translation>
+      <source>Techno</source>
+      <translation type="unfinished">Techno</translation>
     </message>
     <message>
-        <source>Zero</source>
-        <translation type="unfinished"></translation>
+      <source>Zero</source>
+      <translation type="unfinished">Zero</translation>
     </message>
     <message>
-        <source>Name</source>
-        <translation type="unfinished">Nimi</translation>
+      <source>Name</source>
+      <translation>Nimi</translation>
     </message>
     <message>
-        <source>Are you sure you want to delete the &quot;%1&quot; preset?</source>
-        <translation type="unfinished">Haluatko varmasti poistaa asetuksen &quot;%1&quot;?</translation>
+      <source>Are you sure you want to delete the &quot;%1&quot; preset?</source>
+      <translation>Haluatko varmasti poistaa asetuksen &quot;%1&quot;?</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>EqualizerSlider</name>
     <message>
-        <source>Equalizer</source>
-        <translation type="unfinished">Taajuuskorjain</translation>
+      <source>Equalizer</source>
+      <translation>Taajuuskorjain</translation>
     </message>
     <message>
-        <source>%1 dB</source>
-        <translation type="unfinished"></translation>
+      <source>%1 dB</source>
+      <translation type="unfinished">%1 dB</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>ErrorDialog</name>
     <message>
-        <source>Strawberry Error</source>
-        <translation type="unfinished">Strawberry-virhe</translation>
+      <source>Strawberry Error</source>
+      <translation>Strawberry-virhe</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>FancyTabWidget</name>
     <message>
-        <source>Large sidebar</source>
-        <translation type="unfinished">Suuri sivupalkki</translation>
+      <source>Large sidebar</source>
+      <translation>Suuri sivupalkki</translation>
     </message>
     <message>
-        <source>Icons sidebar</source>
-        <translation type="unfinished"></translation>
+      <source>Icons sidebar</source>
+      <translation type="unfinished">Icons sidebar</translation>
     </message>
     <message>
-        <source>Small sidebar</source>
-        <translation type="unfinished">Pieni sivupalkki</translation>
+      <source>Small sidebar</source>
+      <translation>Pieni sivupalkki</translation>
     </message>
     <message>
-        <source>Plain sidebar</source>
-        <translation type="unfinished">Pelkistetty sivupalkki</translation>
+      <source>Plain sidebar</source>
+      <translation>Pelkistetty sivupalkki</translation>
     </message>
     <message>
-        <source>Tabs on top</source>
-        <translation type="unfinished">Välilehdet ylhäällä</translation>
+      <source>Tabs on top</source>
+      <translation>Välilehdet ylhäällä</translation>
     </message>
     <message>
-        <source>Icons on top</source>
-        <translation type="unfinished">Kuvakkeet ylhäällä</translation>
+      <source>Icons on top</source>
+      <translation>Kuvakkeet ylhäällä</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>FileTypeItemDelegate</name>
     <message>
-        <source>Unknown</source>
-        <translation type="unfinished">Tuntematon</translation>
+      <source>Unknown</source>
+      <translation>Tuntematon</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>FileView</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">Lomake</translation>
+      <source>Form</source>
+      <translation>Lomake</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>FileViewList</name>
     <message>
-        <source>Append to current playlist</source>
-        <translation type="unfinished">Lisää nykyiselle soittolistalle</translation>
+      <source>Append to current playlist</source>
+      <translation>Lisää nykyiselle soittolistalle</translation>
     </message>
     <message>
-        <source>Replace current playlist</source>
-        <translation type="unfinished">Korvaa nykyinen soittolista</translation>
+      <source>Replace current playlist</source>
+      <translation>Korvaa nykyinen soittolista</translation>
     </message>
     <message>
-        <source>Open in new playlist</source>
-        <translation type="unfinished">Avaa uudessa soittolistassa</translation>
+      <source>Open in new playlist</source>
+      <translation>Avaa uudessa soittolistassa</translation>
     </message>
     <message>
-        <source>Copy to collection...</source>
-        <translation type="unfinished">Kopioi kirjastoon</translation>
+      <source>Copy to collection...</source>
+      <translation>Kopioi kirjastoon</translation>
     </message>
     <message>
-        <source>Move to collection...</source>
-        <translation type="unfinished">Siirrä kirjastoon...</translation>
+      <source>Move to collection...</source>
+      <translation>Siirrä kirjastoon...</translation>
     </message>
     <message>
-        <source>Copy to device...</source>
-        <translation type="unfinished">Kopioi laitteelle...</translation>
+      <source>Copy to device...</source>
+      <translation>Kopioi laitteelle...</translation>
     </message>
     <message>
-        <source>Delete from disk...</source>
-        <translation type="unfinished">Poista levyltä...</translation>
+      <source>Delete from disk...</source>
+      <translation>Poista levyltä...</translation>
     </message>
     <message>
-        <source>Edit track information...</source>
-        <translation type="unfinished">Muokkaa kappaleen tietoja...</translation>
+      <source>Edit track information...</source>
+      <translation>Muokkaa kappaleen tietoja...</translation>
     </message>
     <message>
-        <source>Show in file browser...</source>
-        <translation type="unfinished">Näytä tiedostoselaimessa...</translation>
+      <source>Show in file browser...</source>
+      <translation>Näytä tiedostoselaimessa...</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>FreeSpaceBar</name>
     <message>
-        <source>Available</source>
-        <translation type="unfinished">Käytettävissä</translation>
+      <source>Available</source>
+      <translation>Käytettävissä</translation>
     </message>
     <message>
-        <source>New songs</source>
-        <translation type="unfinished">Uudet kappaleet</translation>
+      <source>New songs</source>
+      <translation>Uudet kappaleet</translation>
     </message>
     <message>
-        <source>Exceeded by</source>
-        <translation type="unfinished"></translation>
+      <source>Exceeded by</source>
+      <translation type="unfinished">Exceeded by</translation>
     </message>
     <message>
-        <source>Used</source>
-        <translation type="unfinished">Käytetty</translation>
+      <source>Used</source>
+      <translation>Käytetty</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>GPodDevice</name>
     <message>
-        <source>Could not copy %1 to %2: %3</source>
-        <translation type="unfinished"></translation>
+      <source>Could not copy %1 to %2: %3</source>
+      <translation type="unfinished">Could not copy %1 to %2: %3</translation>
     </message>
     <message>
-        <source>Writing database failed: %1</source>
-        <translation type="unfinished"></translation>
+      <source>Writing database failed: %1</source>
+      <translation type="unfinished">Writing database failed: %1</translation>
     </message>
     <message>
-        <source>Writing database failed.</source>
-        <translation type="unfinished"></translation>
+      <source>Writing database failed.</source>
+      <translation type="unfinished">Writing database failed.</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>GPodLoader</name>
     <message>
-        <source>Loading iPod database</source>
-        <translation type="unfinished">Ladataan iPod-tietokantaa</translation>
+      <source>Loading iPod database</source>
+      <translation>Ladataan iPod-tietokantaa</translation>
     </message>
     <message>
-        <source>An error occurred loading the iTunes database</source>
-        <translation type="unfinished">iTunes-tietokantaa ladatessa tapahtui virhe</translation>
+      <source>An error occurred loading the iTunes database</source>
+      <translation>iTunes-tietokantaa ladatessa tapahtui virhe</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>GeniusLyricsProvider</name>
     <message>
-        <source>Genius Authentication</source>
-        <translation type="unfinished"></translation>
+      <source>Genius Authentication</source>
+      <translation type="unfinished">Genius Authentication</translation>
     </message>
     <message>
-        <source>Please open this URL in your browser</source>
-        <translation type="unfinished">Avaa tämä sivu selaimessasi</translation>
+      <source>Please open this URL in your browser</source>
+      <translation>Avaa tämä sivu selaimessasi</translation>
     </message>
     <message>
-        <source>Redirect missing token code!</source>
-        <translation type="unfinished"></translation>
+      <source>Redirect missing token code!</source>
+      <translation type="unfinished">Redirect missing token code!</translation>
     </message>
     <message>
-        <source>Received invalid reply from web browser.</source>
-        <translation type="unfinished"></translation>
+      <source>Received invalid reply from web browser.</source>
+      <translation type="unfinished">Received invalid reply from web browser.</translation>
     </message>
     <message>
-        <source>Redirect from Genius is missing query items code or state.</source>
-        <translation type="unfinished"></translation>
+      <source>Redirect from Genius is missing query items code or state.</source>
+      <translation type="unfinished">Redirect from Genius is missing query items code or state.</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>GioLister</name>
     <message>
-        <source>Mount point</source>
-        <translation type="unfinished">Liitoskohta</translation>
+      <source>Mount point</source>
+      <translation>Liitoskohta</translation>
     </message>
     <message>
-        <source>Device</source>
-        <translation type="unfinished">Laite</translation>
+      <source>Device</source>
+      <translation>Laite</translation>
     </message>
     <message>
-        <source>URI</source>
-        <translation type="unfinished"></translation>
+      <source>URI</source>
+      <translation type="unfinished">URI</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>GlobalShortcutGrabber</name>
     <message>
-        <source>Press a key</source>
-        <translation type="unfinished">Paina näppäintä</translation>
+      <source>Press a key</source>
+      <translation>Paina näppäintä</translation>
     </message>
     <message>
-        <source>Press a key combination to use for %1...</source>
-        <translation type="unfinished">Paina näppäinyhdistelmää käyttääksesi %1 ...</translation>
+      <source>Press a key combination to use for %1...</source>
+      <translation>Paina näppäinyhdistelmää käyttääksesi %1 ...</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>GlobalShortcutsManager</name>
     <message>
-        <source>Play</source>
-        <translation type="unfinished">Toista</translation>
+      <source>Play</source>
+      <translation>Toista</translation>
     </message>
     <message>
-        <source>Pause</source>
-        <translation type="unfinished">Keskeytä</translation>
+      <source>Pause</source>
+      <translation>Keskeytä</translation>
     </message>
     <message>
-        <source>Play/Pause</source>
-        <translation type="unfinished"></translation>
+      <source>Play/Pause</source>
+      <translation type="unfinished">Play/Pause</translation>
     </message>
     <message>
-        <source>Stop</source>
-        <translation type="unfinished"></translation>
+      <source>Stop</source>
+      <translation type="unfinished">Stop</translation>
     </message>
     <message>
-        <source>Stop playing after current track</source>
-        <translation type="unfinished"></translation>
+      <source>Stop playing after current track</source>
+      <translation type="unfinished">Stop playing after current track</translation>
     </message>
     <message>
-        <source>Next track</source>
-        <translation type="unfinished"></translation>
+      <source>Next track</source>
+      <translation type="unfinished">Next track</translation>
     </message>
     <message>
-        <source>Previous track</source>
-        <translation type="unfinished">Edellinen kappale</translation>
+      <source>Previous track</source>
+      <translation>Edellinen kappale</translation>
     </message>
     <message>
-        <source>Restart or previous track</source>
-        <translation type="unfinished"></translation>
+      <source>Restart or previous track</source>
+      <translation type="unfinished">Restart or previous track</translation>
     </message>
     <message>
-        <source>Increase volume</source>
-        <translation type="unfinished"></translation>
+      <source>Increase volume</source>
+      <translation type="unfinished">Increase volume</translation>
     </message>
     <message>
-        <source>Decrease volume</source>
-        <translation type="unfinished"></translation>
+      <source>Decrease volume</source>
+      <translation type="unfinished">Decrease volume</translation>
     </message>
     <message>
-        <source>Mute</source>
-        <translation type="unfinished">Vaimenna</translation>
+      <source>Mute</source>
+      <translation>Vaimenna</translation>
     </message>
     <message>
-        <source>Seek forward</source>
-        <translation type="unfinished"></translation>
+      <source>Seek forward</source>
+      <translation type="unfinished">Seek forward</translation>
     </message>
     <message>
-        <source>Seek backward</source>
-        <translation type="unfinished"></translation>
+      <source>Seek backward</source>
+      <translation type="unfinished">Seek backward</translation>
     </message>
     <message>
-        <source>Show/Hide</source>
-        <translation type="unfinished"></translation>
+      <source>Show/Hide</source>
+      <translation type="unfinished">Show/Hide</translation>
     </message>
     <message>
-        <source>Show OSD</source>
-        <translation type="unfinished"></translation>
+      <source>Show OSD</source>
+      <translation type="unfinished">Show OSD</translation>
     </message>
     <message>
-        <source>Toggle Pretty OSD</source>
-        <translation type="unfinished"></translation>
+      <source>Toggle Pretty OSD</source>
+      <translation type="unfinished">Toggle Pretty OSD</translation>
     </message>
     <message>
-        <source>Change shuffle mode</source>
-        <translation type="unfinished"></translation>
+      <source>Change shuffle mode</source>
+      <translation type="unfinished">Change shuffle mode</translation>
     </message>
     <message>
-        <source>Change repeat mode</source>
-        <translation type="unfinished"></translation>
+      <source>Change repeat mode</source>
+      <translation type="unfinished">Change repeat mode</translation>
     </message>
     <message>
-        <source>Enable/disable scrobbling</source>
-        <translation type="unfinished"></translation>
+      <source>Enable/disable scrobbling</source>
+      <translation type="unfinished">Enable/disable scrobbling</translation>
     </message>
     <message>
-        <source>Love</source>
-        <translation type="unfinished">Tykkää</translation>
+      <source>Love</source>
+      <translation>Tykkää</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>GlobalShortcutsSettingsPage</name>
     <message>
-        <source>Global Shortcuts</source>
-        <translation type="unfinished"></translation>
+      <source>Global Shortcuts</source>
+      <translation type="unfinished">Global Shortcuts</translation>
     </message>
     <message>
-        <source>Use Gnome (GSD) shortcuts when available</source>
-        <translation type="unfinished"></translation>
+      <source>Use Gnome (GSD) shortcuts when available</source>
+      <translation type="unfinished">Use Gnome (GSD) shortcuts when available</translation>
     </message>
     <message>
-        <source>Open...</source>
-        <translation type="unfinished">Avaa...</translation>
+      <source>Open...</source>
+      <translation>Avaa...</translation>
     </message>
     <message>
-        <source>Use MATE shortcuts when available</source>
-        <translation type="unfinished"></translation>
+      <source>Use MATE shortcuts when available</source>
+      <translation type="unfinished">Use MATE shortcuts when available</translation>
     </message>
     <message>
-        <source>Use KDE (KGlobalAccel) shortcuts when available</source>
-        <translation type="unfinished"></translation>
+      <source>Use KDE (KGlobalAccel) shortcuts when available</source>
+      <translation type="unfinished">Use KDE (KGlobalAccel) shortcuts when available</translation>
     </message>
     <message>
-        <source>Use X11 shortcuts when available</source>
-        <translation type="unfinished"></translation>
+      <source>Use X11 shortcuts when available</source>
+      <translation type="unfinished">Use X11 shortcuts when available</translation>
     </message>
     <message>
-        <source>You need to launch System Preferences and allow Strawberry to &quot;&lt;span style=&quot;font-style:italic&quot;&gt;control your computer&lt;/span&gt;&quot; to use global shortcuts in Strawberry.</source>
-        <translation type="unfinished">Avaa Järjestelmän asetukset ja salli Strawberryn &quot;&lt;span style=&quot;font-style:italic&quot;&gt;hallita tietokonettasi&lt;/span&gt;&quot; käyttääksesi Strawberryn yleisiä pikanäppäimiä.</translation>
+      <source>You need to launch System Preferences and allow Strawberry to &quot;&lt;span style=&quot;font-style:italic&quot;&gt;control your computer&lt;/span&gt;&quot; to use global shortcuts in Strawberry.</source>
+      <translation>Avaa Järjestelmän asetukset ja salli Strawberryn &quot;&lt;span style=&quot;font-style:italic&quot;&gt;hallita tietokonettasi&lt;/span&gt;&quot; käyttääksesi Strawberryn yleisiä pikanäppäimiä.</translation>
     </message>
     <message>
-        <source>Action</source>
-        <comment>Category label</comment>
-        <translation type="unfinished">Toiminto</translation>
+      <source>Action</source>
+      <comment>Category label</comment>
+      <translation>Toiminto</translation>
     </message>
     <message>
-        <source>Shortcut</source>
-        <translation type="unfinished">Pikanäppäin</translation>
+      <source>Shortcut</source>
+      <translation>Pikanäppäin</translation>
     </message>
     <message>
-        <source>Shortcut for %1</source>
-        <translation type="unfinished">Pikanäppäin toiminnolle %1</translation>
+      <source>Shortcut for %1</source>
+      <translation>Pikanäppäin toiminnolle %1</translation>
     </message>
     <message>
-        <source>&amp;None</source>
-        <translation type="unfinished">&amp;Ei mitään</translation>
+      <source>&amp;None</source>
+      <translation>&amp;Ei mitään</translation>
     </message>
     <message>
-        <source>&amp;Default</source>
-        <translation type="unfinished">Oletus</translation>
+      <source>&amp;Default</source>
+      <translation>Oletus</translation>
     </message>
     <message>
-        <source>&amp;Custom</source>
-        <translation type="unfinished">&amp;Oma</translation>
+      <source>&amp;Custom</source>
+      <translation>&amp;Oma</translation>
     </message>
     <message>
-        <source>Change shortcut...</source>
-        <translation type="unfinished">Vaihda pikanäppäin...</translation>
+      <source>Change shortcut...</source>
+      <translation>Vaihda pikanäppäin...</translation>
     </message>
     <message>
-        <source>The &quot;%1&quot; command could not be started.</source>
-        <translation type="unfinished">&quot;%1&quot;-komentoa ei voitu suorittaa.</translation>
+      <source>The &quot;%1&quot; command could not be started.</source>
+      <translation>&quot;%1&quot;-komentoa ei voitu suorittaa.</translation>
     </message>
     <message>
-        <source>Using X11 shortcuts on %1 is not recommended and can cause keyboard to become unresponsive!</source>
-        <translation type="unfinished">X11-pikanäppäinten käyttöä ei %1 suositella ja se voi aiheuttaa näppäimistön muuttumisen reagoimattomaksi.</translation>
+      <source>Using X11 shortcuts on %1 is not recommended and can cause keyboard to become unresponsive!</source>
+      <translation>X11-pikanäppäinten käyttöä ei %1 suositella ja se voi aiheuttaa näppäimistön muuttumisen reagoimattomaksi.</translation>
     </message>
     <message>
-        <source> Shortcuts on %1 are usually used through MPRIS and KGlobalAccel.</source>
-        <translation type="unfinished"></translation>
+      <source> Shortcuts on %1 are usually used through MPRIS and KGlobalAccel.</source>
+      <translation type="unfinished"> Shortcuts on %1 are usually used through MPRIS and KGlobalAccel.</translation>
     </message>
     <message>
-        <source> Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in gnome-settings-daemon instead.</source>
-        <translation type="unfinished"></translation>
+      <source> Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in gnome-settings-daemon instead.</source>
+      <translation type="unfinished"> Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in gnome-settings-daemon instead.</translation>
     </message>
     <message>
-        <source> Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in cinnamon-settings-daemon instead.</source>
-        <translation type="unfinished"></translation>
+      <source> Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in cinnamon-settings-daemon instead.</source>
+      <translation type="unfinished"> Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in cinnamon-settings-daemon instead.</translation>
     </message>
     <message>
-        <source> Shortcuts on %1 are usually used through MATE Settings Daemon and should be configured there instead.</source>
-        <translation type="unfinished"></translation>
+      <source> Shortcuts on %1 are usually used through MATE Settings Daemon and should be configured there instead.</source>
+      <translation type="unfinished"> Shortcuts on %1 are usually used through MATE Settings Daemon and should be configured there instead.</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>GroupByDialog</name>
     <message>
-        <source>Collection advanced grouping</source>
-        <translation type="unfinished">Kirjaston tarkennettu ryhmittely</translation>
+      <source>Collection advanced grouping</source>
+      <translation>Kirjaston tarkennettu ryhmittely</translation>
     </message>
     <message>
-        <source>You can change the way the songs in the collection are organized.</source>
-        <translation type="unfinished"></translation>
+      <source>You can change the way the songs in the collection are organized.</source>
+      <translation type="unfinished">You can change the way the songs in the collection are organized.</translation>
     </message>
     <message>
-        <source>Group Collection by...</source>
-        <translation type="unfinished">Järjestä kirjasto...</translation>
+      <source>Group Collection by...</source>
+      <translation>Järjestä kirjasto...</translation>
     </message>
     <message>
-        <source>First level</source>
-        <translation type="unfinished">Ensimmäinen taso</translation>
+      <source>First level</source>
+      <translation>Ensimmäinen taso</translation>
     </message>
     <message>
-        <source>None</source>
-        <translation type="unfinished">Ei mitään</translation>
+      <source>None</source>
+      <translation>Ei mitään</translation>
     </message>
     <message>
-        <source>Artist</source>
-        <translation type="unfinished">Esittäjä</translation>
+      <source>Artist</source>
+      <translation>Esittäjä</translation>
     </message>
     <message>
-        <source>Album artist</source>
-        <translation type="unfinished">Albumin esittäjä</translation>
+      <source>Album artist</source>
+      <translation>Albumin esittäjä</translation>
     </message>
     <message>
-        <source>Album</source>
-        <translation type="unfinished">Albumi</translation>
+      <source>Album</source>
+      <translation>Albumi</translation>
     </message>
     <message>
-        <source>Album - Disc</source>
-        <translation type="unfinished">Albumi - Levy</translation>
+      <source>Album - Disc</source>
+      <translation>Albumi - Levy</translation>
     </message>
     <message>
-        <source>Disc</source>
-        <translation type="unfinished">Levy</translation>
+      <source>Disc</source>
+      <translation>Levy</translation>
     </message>
     <message>
-        <source>Format</source>
-        <translation type="unfinished">Muoto</translation>
+      <source>Format</source>
+      <translation>Muoto</translation>
     </message>
     <message>
-        <source>Genre</source>
-        <translation type="unfinished">Tyylilaji</translation>
+      <source>Genre</source>
+      <translation>Tyylilaji</translation>
     </message>
     <message>
-        <source>Year</source>
-        <translation type="unfinished">Vuosi</translation>
+      <source>Year</source>
+      <translation>Vuosi</translation>
     </message>
     <message>
-        <source>Year - Album</source>
-        <translation type="unfinished">Vuosi - Albumi</translation>
+      <source>Year - Album</source>
+      <translation>Vuosi - Albumi</translation>
     </message>
     <message>
-        <source>Year - Album - Disc</source>
-        <translation type="unfinished">Vuosi - Albumi - Levy</translation>
+      <source>Year - Album - Disc</source>
+      <translation>Vuosi - Albumi - Levy</translation>
     </message>
     <message>
-        <source>Original year</source>
-        <translation type="unfinished">Alkuperäinen vuosi</translation>
+      <source>Original year</source>
+      <translation>Alkuperäinen vuosi</translation>
     </message>
     <message>
-        <source>Original year - Album</source>
-        <translation type="unfinished">Alkuperäinen vuosi - albumi</translation>
+      <source>Original year - Album</source>
+      <translation>Alkuperäinen vuosi - albumi</translation>
     </message>
     <message>
-        <source>Composer</source>
-        <translation type="unfinished">Säveltäjä</translation>
+      <source>Composer</source>
+      <translation>Säveltäjä</translation>
     </message>
     <message>
-        <source>Performer</source>
-        <translation type="unfinished">Esittäjä</translation>
+      <source>Performer</source>
+      <translation>Esittäjä</translation>
     </message>
     <message>
-        <source>Grouping</source>
-        <translation type="unfinished">Ryhmittely</translation>
+      <source>Grouping</source>
+      <translation>Ryhmittely</translation>
     </message>
     <message>
-        <source>File type</source>
-        <translation type="unfinished">Tiedostotyyppi</translation>
+      <source>File type</source>
+      <translation>Tiedostotyyppi</translation>
     </message>
     <message>
-        <source>Sample rate</source>
-        <translation type="unfinished">Näytteenottotaajuus</translation>
+      <source>Sample rate</source>
+      <translation>Näytteenottotaajuus</translation>
     </message>
     <message>
-        <source>Bit depth</source>
-        <translation type="unfinished">Bittisyys</translation>
+      <source>Bit depth</source>
+      <translation>Bittisyys</translation>
     </message>
     <message>
-        <source>Bitrate</source>
-        <translation type="unfinished">Bittinopeus</translation>
+      <source>Bitrate</source>
+      <translation>Bittinopeus</translation>
     </message>
     <message>
-        <source>Second level</source>
-        <translation type="unfinished">Toinen taso</translation>
+      <source>Second level</source>
+      <translation>Toinen taso</translation>
     </message>
     <message>
-        <source>Third level</source>
-        <translation type="unfinished">Kolmas taso</translation>
+      <source>Third level</source>
+      <translation>Kolmas taso</translation>
     </message>
     <message>
-        <source>Separate albums by grouping tag</source>
-        <translation type="unfinished"></translation>
+      <source>Separate albums by grouping tag</source>
+      <translation type="unfinished">Separate albums by grouping tag</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>GstEngine</name>
     <message>
-        <source>Buffering</source>
-        <translation type="unfinished">Puskuroidaan</translation>
+      <source>Buffering</source>
+      <translation>Puskuroidaan</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>LastFMImport</name>
     <message>
-        <source>Missing username, please login to last.fm first!</source>
-        <translation type="unfinished">Käyttäjätunnus puuttuu, kirjaudu ensin last.fm:ään.</translation>
+      <source>Missing username, please login to last.fm first!</source>
+      <translation>Käyttäjätunnus puuttuu, kirjaudu ensin last.fm:ään.</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>LastFMImportDialog</name>
     <message>
-        <source>Import data from last.fm</source>
-        <translation type="unfinished">Tuo tiedot last.fm-palvelusta</translation>
+      <source>Import data from last.fm</source>
+      <translation>Tuo tiedot last.fm-palvelusta</translation>
     </message>
     <message>
-        <source>Choose data to import from last.fm</source>
-        <translation type="unfinished">Valitse last.fm:stä tuotavat tiedot</translation>
+      <source>Choose data to import from last.fm</source>
+      <translation>Valitse last.fm:stä tuotavat tiedot</translation>
     </message>
     <message>
-        <source>Last played</source>
-        <translation type="unfinished"></translation>
+      <source>Last played</source>
+      <translation type="unfinished">Last played</translation>
     </message>
     <message>
-        <source>Play counts</source>
-        <translation type="unfinished"></translation>
+      <source>Play counts</source>
+      <translation type="unfinished">Play counts</translation>
     </message>
     <message>
-        <source>Warning: Play counts and last played from last.fm will completely replace the same data for the matched songs. Play counts will replace the data based on artist and song title for the same albums! Please backup your database before you start.</source>
-        <translation type="unfinished"></translation>
+      <source>Warning: Play counts and last played from last.fm will completely replace the same data for the matched songs. Play counts will replace the data based on artist and song title for the same albums! Please backup your database before you start.</source>
+      <translation type="unfinished">Warning: Play counts and last played from last.fm will completely replace the same data for the matched songs. Play counts will replace the data based on artist and song title for the same albums! Please backup your database before you start.</translation>
     </message>
     <message>
-        <source>Go!</source>
-        <translation type="unfinished"></translation>
+      <source>Go!</source>
+      <translation type="unfinished">Go!</translation>
     </message>
     <message>
-        <source>Close</source>
-        <translation type="unfinished">Sulje</translation>
+      <source>Close</source>
+      <translation>Sulje</translation>
     </message>
     <message>
-        <source>Cancel</source>
-        <translation type="unfinished">Peruuta</translation>
+      <source>Cancel</source>
+      <translation>Peruuta</translation>
     </message>
     <message>
-        <source>Receiving initial data from last.fm...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving initial data from last.fm...</source>
+      <translation type="unfinished">Receiving initial data from last.fm...</translation>
     </message>
     <message>
-        <source>Receiving playcount for %1 songs and last played for %2 songs.</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving playcount for %1 songs and last played for %2 songs.</source>
+      <translation type="unfinished">Receiving playcount for %1 songs and last played for %2 songs.</translation>
     </message>
     <message>
-        <source>Receiving last played for %1 songs.</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving last played for %1 songs.</source>
+      <translation type="unfinished">Receiving last played for %1 songs.</translation>
     </message>
     <message>
-        <source>Receiving playcounts for %1 songs.</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving playcounts for %1 songs.</source>
+      <translation type="unfinished">Receiving playcounts for %1 songs.</translation>
     </message>
     <message>
-        <source>Playcounts for %1 songs and last played for %2 songs received.</source>
-        <translation type="unfinished"></translation>
+      <source>Playcounts for %1 songs and last played for %2 songs received.</source>
+      <translation type="unfinished">Playcounts for %1 songs and last played for %2 songs received.</translation>
     </message>
     <message>
-        <source>Last played for %1 songs received.</source>
-        <translation type="unfinished"></translation>
+      <source>Last played for %1 songs received.</source>
+      <translation type="unfinished">Last played for %1 songs received.</translation>
     </message>
     <message>
-        <source>Playcounts for %1 songs received.</source>
-        <translation type="unfinished"></translation>
+      <source>Playcounts for %1 songs received.</source>
+      <translation type="unfinished">Playcounts for %1 songs received.</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>LastPlayedItemDelegate</name>
     <message>
-        <source>Never</source>
-        <translation type="unfinished">Ei koskaan</translation>
+      <source>Never</source>
+      <translation>Ei koskaan</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>Library</name>
     <message>
-        <source>Least favourite tracks</source>
-        <translation type="unfinished"></translation>
+      <source>Least favourite tracks</source>
+      <translation type="unfinished">Least favourite tracks</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>ListenBrainzScrobbler</name>
     <message>
-        <source>ListenBrainz Authentication</source>
-        <translation type="unfinished">ListenBrainz-tunnistautuminen</translation>
+      <source>ListenBrainz Authentication</source>
+      <translation>ListenBrainz-tunnistautuminen</translation>
     </message>
     <message>
-        <source>Please open this URL in your browser</source>
-        <translation type="unfinished">Avaa tämä sivu selaimessasi</translation>
+      <source>Please open this URL in your browser</source>
+      <translation>Avaa tämä sivu selaimessasi</translation>
     </message>
     <message>
-        <source>Redirect missing token code!</source>
-        <translation type="unfinished"></translation>
+      <source>Redirect missing token code!</source>
+      <translation type="unfinished">Redirect missing token code!</translation>
     </message>
     <message>
-        <source>Received invalid reply from web browser.</source>
-        <translation type="unfinished"></translation>
+      <source>Received invalid reply from web browser.</source>
+      <translation type="unfinished">Received invalid reply from web browser.</translation>
     </message>
     <message>
-        <source>Unable to scrobble %1 - %2 because of error: %3</source>
-        <translation type="unfinished"></translation>
+      <source>Unable to scrobble %1 - %2 because of error: %3</source>
+      <translation type="unfinished">Unable to scrobble %1 - %2 because of error: %3</translation>
     </message>
     <message>
-        <source>Missing MusicBrainz recording ID for %1 %2 %3</source>
-        <translation type="unfinished"></translation>
+      <source>Missing MusicBrainz recording ID for %1 %2 %3</source>
+      <translation type="unfinished">Missing MusicBrainz recording ID for %1 %2 %3</translation>
     </message>
     <message>
-        <source>ListenBrainz error: %1</source>
-        <translation type="unfinished"></translation>
+      <source>ListenBrainz error: %1</source>
+      <translation type="unfinished">ListenBrainz error: %1</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>LoginStateWidget</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">Lomake</translation>
+      <source>Form</source>
+      <translation>Lomake</translation>
     </message>
     <message>
-        <source>You are not signed in.</source>
-        <translation type="unfinished">Et ole kirjautunut sisään</translation>
+      <source>You are not signed in.</source>
+      <translation>Et ole kirjautunut sisään</translation>
     </message>
     <message>
-        <source>Sign out</source>
-        <translation type="unfinished">Kirjaudu ulos</translation>
+      <source>Sign out</source>
+      <translation>Kirjaudu ulos</translation>
     </message>
     <message>
-        <source>Signing in...</source>
-        <translation type="unfinished">Kirjautuu sisään...</translation>
+      <source>Signing in...</source>
+      <translation>Kirjautuu sisään...</translation>
     </message>
     <message>
-        <source>You are signed in.</source>
-        <translation type="unfinished">Olet kirjautunut sisään.</translation>
+      <source>You are signed in.</source>
+      <translation>Olet kirjautunut sisään.</translation>
     </message>
     <message>
-        <source>You are signed in as %1.</source>
-        <translation type="unfinished">Olet kirjautunut tunnuksella %1.</translation>
+      <source>You are signed in as %1.</source>
+      <translation>Olet kirjautunut tunnuksella %1.</translation>
     </message>
     <message>
-        <source>Expires on %1</source>
-        <translation type="unfinished">Vanhenee %1</translation>
+      <source>Expires on %1</source>
+      <translation>Vanhenee %1</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>LyricsSettingsPage</name>
     <message>
-        <source>Lyrics</source>
-        <translation type="unfinished">Laulunsanat</translation>
+      <source>Lyrics</source>
+      <translation>Laulunsanat</translation>
     </message>
     <message>
-        <source>Lyrics providers</source>
-        <translation type="unfinished">Laulunsanojen tarjoajat</translation>
+      <source>Lyrics providers</source>
+      <translation>Laulunsanojen tarjoajat</translation>
     </message>
     <message>
-        <source>Choose the providers you want to use when searching for lyrics.</source>
-        <translation type="unfinished">Valitse laulunsanojen hakemiseen käytettävät palvelut.</translation>
+      <source>Choose the providers you want to use when searching for lyrics.</source>
+      <translation>Valitse laulunsanojen hakemiseen käytettävät palvelut.</translation>
     </message>
     <message>
-        <source>Move up</source>
-        <translation type="unfinished">Siirrä ylös</translation>
+      <source>Move up</source>
+      <translation>Siirrä ylös</translation>
     </message>
     <message>
-        <source>Move down</source>
-        <translation type="unfinished">Siirrä alas</translation>
+      <source>Move down</source>
+      <translation>Siirrä alas</translation>
     </message>
     <message>
-        <source>Authentication</source>
-        <translation type="unfinished">Tunnistautuminen</translation>
+      <source>Authentication</source>
+      <translation>Tunnistautuminen</translation>
     </message>
     <message>
-        <source>Login</source>
-        <translation type="unfinished">Kirjaudu sisään</translation>
+      <source>Login</source>
+      <translation>Kirjaudu sisään</translation>
     </message>
     <message>
-        <source>No provider selected.</source>
-        <translation type="unfinished"></translation>
+      <source>No provider selected.</source>
+      <translation type="unfinished">No provider selected.</translation>
     </message>
     <message>
-        <source>Authentication failed</source>
-        <translation type="unfinished">Tunnistautuminen epäonnistui</translation>
+      <source>Authentication failed</source>
+      <translation>Tunnistautuminen epäonnistui</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>MainWindow</name>
     <message>
-        <source>Strawberry Music Player</source>
-        <translation type="unfinished">Strawberry-musiikkisoitin</translation>
+      <source>Strawberry Music Player</source>
+      <translation>Strawberry-musiikkisoitin</translation>
     </message>
     <message>
-        <source>MenuPopupToolButton</source>
-        <translation type="unfinished"></translation>
+      <source>MenuPopupToolButton</source>
+      <translation type="unfinished">MenuPopupToolButton</translation>
     </message>
     <message>
-        <source>&amp;Music</source>
-        <translation type="unfinished">&amp;Musiikki</translation>
+      <source>&amp;Music</source>
+      <translation>&amp;Musiikki</translation>
     </message>
     <message>
-        <source>P&amp;laylist</source>
-        <translation type="unfinished">Soitto&amp;lista</translation>
+      <source>P&amp;laylist</source>
+      <translation>Soitto&amp;lista</translation>
     </message>
     <message>
-        <source>Help</source>
-        <translation type="unfinished">Ohje</translation>
+      <source>Help</source>
+      <translation>Ohje</translation>
     </message>
     <message>
-        <source>&amp;Tools</source>
-        <translation type="unfinished">&amp;Työkalut</translation>
+      <source>&amp;Tools</source>
+      <translation>&amp;Työkalut</translation>
     </message>
     <message>
-        <source>Previous track</source>
-        <translation type="unfinished">Edellinen kappale</translation>
+      <source>Previous track</source>
+      <translation>Edellinen kappale</translation>
     </message>
     <message>
-        <source>F5</source>
-        <translation type="unfinished"></translation>
+      <source>F5</source>
+      <translation type="unfinished">F5</translation>
     </message>
     <message>
-        <source>&amp;Play</source>
-        <translation type="unfinished">&amp;Toista</translation>
+      <source>&amp;Play</source>
+      <translation>&amp;Toista</translation>
     </message>
     <message>
-        <source>F6</source>
-        <translation type="unfinished"></translation>
+      <source>F6</source>
+      <translation type="unfinished">F6</translation>
     </message>
     <message>
-        <source>&amp;Stop</source>
-        <translation type="unfinished">Pysäytä</translation>
+      <source>&amp;Stop</source>
+      <translation>Pysäytä</translation>
     </message>
     <message>
-        <source>F7</source>
-        <translation type="unfinished"></translation>
+      <source>F7</source>
+      <translation type="unfinished">F7</translation>
     </message>
     <message>
-        <source>&amp;Next track</source>
-        <translation type="unfinished">Seuraava kappale</translation>
+      <source>&amp;Next track</source>
+      <translation>Seuraava kappale</translation>
     </message>
     <message>
-        <source>F8</source>
-        <translation type="unfinished"></translation>
+      <source>F8</source>
+      <translation type="unfinished">F8</translation>
     </message>
     <message>
-        <source>&amp;Quit</source>
-        <translation type="unfinished">&amp;Lopeta</translation>
+      <source>&amp;Quit</source>
+      <translation>&amp;Lopeta</translation>
     </message>
     <message>
-        <source>Ctrl+Q</source>
-        <translation type="unfinished"></translation>
+      <source>Ctrl+Q</source>
+      <translation type="unfinished">Ctrl+Q</translation>
     </message>
     <message>
-        <source>Stop after this track</source>
-        <translation type="unfinished">Pysäytä toistettavan kappaleen jälkeen</translation>
+      <source>Stop after this track</source>
+      <translation>Pysäytä toistettavan kappaleen jälkeen</translation>
     </message>
     <message>
-        <source>Ctrl+Alt+V</source>
-        <translation type="unfinished"></translation>
+      <source>Ctrl+Alt+V</source>
+      <translation type="unfinished">Ctrl+Alt+V</translation>
     </message>
     <message>
-        <source>Love</source>
-        <translation type="unfinished">Tykkää</translation>
+      <source>Love</source>
+      <translation>Tykkää</translation>
     </message>
     <message>
-        <source>&amp;Clear playlist</source>
-        <translation type="unfinished">Tyhjennä soittolista</translation>
+      <source>&amp;Clear playlist</source>
+      <translation>Tyhjennä soittolista</translation>
     </message>
     <message>
-        <source>Clear playlist</source>
-        <translation type="unfinished">Tyhjennä soittolista</translation>
+      <source>Clear playlist</source>
+      <translation>Tyhjennä soittolista</translation>
     </message>
     <message>
-        <source>Ctrl+K</source>
-        <translation type="unfinished"></translation>
+      <source>Ctrl+K</source>
+      <translation type="unfinished">Ctrl+K</translation>
     </message>
     <message>
-        <source>Edit track information...</source>
-        <translation type="unfinished">Muokkaa kappaleen tietoja...</translation>
+      <source>Edit track information...</source>
+      <translation>Muokkaa kappaleen tietoja...</translation>
     </message>
     <message>
-        <source>Ctrl+E</source>
-        <translation type="unfinished"></translation>
+      <source>Ctrl+E</source>
+      <translation type="unfinished">Ctrl+E</translation>
     </message>
     <message>
-        <source>Renumber tracks in this order...</source>
-        <translation type="unfinished">Numeroi kappaleet tässä järjestyksessä ...</translation>
+      <source>Renumber tracks in this order...</source>
+      <translation>Numeroi kappaleet tässä järjestyksessä ...</translation>
     </message>
     <message>
-        <source>Set value for all selected tracks...</source>
-        <translation type="unfinished">Aseta arvo kaikille valituille kappaleille...</translation>
+      <source>Set value for all selected tracks...</source>
+      <translation>Aseta arvo kaikille valituille kappaleille...</translation>
     </message>
     <message>
-        <source>Edit tag...</source>
-        <translation type="unfinished">Muokkaa tunnistetta...</translation>
+      <source>Edit tag...</source>
+      <translation>Muokkaa tunnistetta...</translation>
     </message>
     <message>
-        <source>&amp;Settings...</source>
-        <translation type="unfinished">A&amp;setukset</translation>
+      <source>&amp;Settings...</source>
+      <translation>A&amp;setukset</translation>
     </message>
     <message>
-        <source>Ctrl+P</source>
-        <translation type="unfinished"></translation>
+      <source>Ctrl+P</source>
+      <translation type="unfinished">Ctrl+P</translation>
     </message>
     <message>
-        <source>&amp;About Strawberry</source>
-        <translation type="unfinished">Tietoa Strawberrystä</translation>
+      <source>&amp;About Strawberry</source>
+      <translation>Tietoa Strawberrystä</translation>
     </message>
     <message>
-        <source>F1</source>
-        <translation type="unfinished"></translation>
+      <source>F1</source>
+      <translation type="unfinished">F1</translation>
     </message>
     <message>
-        <source>S&amp;huffle playlist</source>
-        <translation type="unfinished"></translation>
+      <source>S&amp;huffle playlist</source>
+      <translation type="unfinished">S&amp;huffle playlist</translation>
     </message>
     <message>
-        <source>Ctrl+H</source>
-        <translation type="unfinished"></translation>
+      <source>Ctrl+H</source>
+      <translation type="unfinished">Ctrl+H</translation>
     </message>
     <message>
-        <source>&amp;Add file...</source>
-        <translation type="unfinished">Lisää tiedosto...</translation>
+      <source>&amp;Add file...</source>
+      <translation>Lisää tiedosto...</translation>
     </message>
     <message>
-        <source>Ctrl+Shift+A</source>
-        <translation type="unfinished"></translation>
+      <source>Ctrl+Shift+A</source>
+      <translation type="unfinished">Ctrl+Shift+A</translation>
     </message>
     <message>
-        <source>&amp;Open file...</source>
-        <translation type="unfinished">Avaa tiedosto...</translation>
+      <source>&amp;Open file...</source>
+      <translation>Avaa tiedosto...</translation>
     </message>
     <message>
-        <source>Open audio &amp;CD...</source>
-        <translation type="unfinished">Avaa audio-&amp;CD</translation>
+      <source>Open audio &amp;CD...</source>
+      <translation>Avaa audio-&amp;CD</translation>
     </message>
     <message>
-        <source>&amp;Cover Manager</source>
-        <translation type="unfinished">Kansikuvaselain</translation>
+      <source>&amp;Cover Manager</source>
+      <translation>Kansikuvaselain</translation>
     </message>
     <message>
-        <source>C&amp;onsole</source>
-        <translation type="unfinished">K&amp;onsoli</translation>
+      <source>C&amp;onsole</source>
+      <translation>K&amp;onsoli</translation>
     </message>
     <message>
-        <source>&amp;Shuffle mode</source>
-        <translation type="unfinished">&amp;Sekoita</translation>
+      <source>&amp;Shuffle mode</source>
+      <translation>&amp;Sekoita</translation>
     </message>
     <message>
-        <source>&amp;Repeat mode</source>
-        <translation type="unfinished">Kertaa</translation>
+      <source>&amp;Repeat mode</source>
+      <translation>Kertaa</translation>
     </message>
     <message>
-        <source>Remove from playlist</source>
-        <translation type="unfinished">Poista soittolistalta</translation>
+      <source>Remove from playlist</source>
+      <translation>Poista soittolistalta</translation>
     </message>
     <message>
-        <source>&amp;Equalizer</source>
-        <translation type="unfinished">Taajuuskorjain</translation>
+      <source>&amp;Equalizer</source>
+      <translation>Taajuuskorjain</translation>
     </message>
     <message>
-        <source>&amp;Transcode Music</source>
-        <translation type="unfinished"></translation>
+      <source>&amp;Transcode Music</source>
+      <translation type="unfinished">&amp;Transcode Music</translation>
     </message>
     <message>
-        <source>Add &amp;folder...</source>
-        <translation type="unfinished">Lisää kansio...</translation>
+      <source>Add &amp;folder...</source>
+      <translation>Lisää kansio...</translation>
     </message>
     <message>
-        <source>&amp;Jump to the currently playing track</source>
-        <translation type="unfinished"></translation>
+      <source>&amp;Jump to the currently playing track</source>
+      <translation type="unfinished">&amp;Jump to the currently playing track</translation>
     </message>
     <message>
-        <source>Ctrl+J</source>
-        <translation type="unfinished"></translation>
+      <source>Ctrl+J</source>
+      <translation type="unfinished">Ctrl+J</translation>
     </message>
     <message>
-        <source>&amp;New playlist</source>
-        <translation type="unfinished">Uusi soittolista</translation>
+      <source>&amp;New playlist</source>
+      <translation>Uusi soittolista</translation>
     </message>
     <message>
-        <source>Ctrl+N</source>
-        <translation type="unfinished"></translation>
+      <source>Ctrl+N</source>
+      <translation type="unfinished">Ctrl+N</translation>
     </message>
     <message>
-        <source>Save &amp;playlist...</source>
-        <translation type="unfinished"></translation>
+      <source>Save &amp;playlist...</source>
+      <translation type="unfinished">Save &amp;playlist...</translation>
     </message>
     <message>
-        <source>Ctrl+S</source>
-        <translation type="unfinished"></translation>
+      <source>Ctrl+S</source>
+      <translation type="unfinished">Ctrl+S</translation>
     </message>
     <message>
-        <source>&amp;Load playlist...</source>
-        <translation type="unfinished">&amp;Lataa soittolista...</translation>
+      <source>&amp;Load playlist...</source>
+      <translation>&amp;Lataa soittolista...</translation>
     </message>
     <message>
-        <source>Ctrl+Shift+O</source>
-        <translation type="unfinished"></translation>
+      <source>Ctrl+Shift+O</source>
+      <translation type="unfinished">Ctrl+Shift+O</translation>
     </message>
     <message>
-        <source>&amp;Save all playlists...</source>
-        <translation type="unfinished"></translation>
+      <source>&amp;Save all playlists...</source>
+      <translation type="unfinished">&amp;Save all playlists...</translation>
     </message>
     <message>
-        <source>Go to next playlist tab</source>
-        <translation type="unfinished">Siirry seuraavaan soittolistaan</translation>
+      <source>Go to next playlist tab</source>
+      <translation>Siirry seuraavaan soittolistaan</translation>
     </message>
     <message>
-        <source>Go to previous playlist tab</source>
-        <translation type="unfinished">Siirry edelliseen soittolistaan</translation>
+      <source>Go to previous playlist tab</source>
+      <translation>Siirry edelliseen soittolistaan</translation>
     </message>
     <message>
-        <source>&amp;Update changed collection folders</source>
-        <translation type="unfinished"></translation>
+      <source>&amp;Update changed collection folders</source>
+      <translation type="unfinished">&amp;Update changed collection folders</translation>
     </message>
     <message>
-        <source>About &amp;Qt</source>
-        <translation type="unfinished">Tietoa &amp;Qt:stä</translation>
+      <source>About &amp;Qt</source>
+      <translation>Tietoa &amp;Qt:stä</translation>
     </message>
     <message>
-        <source>&amp;Mute</source>
-        <translation type="unfinished">&amp;Mykistä</translation>
+      <source>&amp;Mute</source>
+      <translation>&amp;Mykistä</translation>
     </message>
     <message>
-        <source>Ctrl+M</source>
-        <translation type="unfinished"></translation>
+      <source>Ctrl+M</source>
+      <translation type="unfinished">Ctrl+M</translation>
     </message>
     <message>
-        <source>&amp;Do a full collection rescan</source>
-        <translation type="unfinished">Suorita koko kirjaston läpikäynti</translation>
+      <source>&amp;Do a full collection rescan</source>
+      <translation>Suorita koko kirjaston läpikäynti</translation>
     </message>
     <message>
-        <source>Stop collection scan</source>
-        <translation type="unfinished"></translation>
+      <source>Stop collection scan</source>
+      <translation type="unfinished">Stop collection scan</translation>
     </message>
     <message>
-        <source>Complete tags automatically...</source>
-        <translation type="unfinished">Täydennä tunnisteet automaattisesti...</translation>
+      <source>Complete tags automatically...</source>
+      <translation>Täydennä tunnisteet automaattisesti...</translation>
     </message>
     <message>
-        <source>Ctrl+T</source>
-        <translation type="unfinished"></translation>
+      <source>Ctrl+T</source>
+      <translation type="unfinished">Ctrl+T</translation>
     </message>
     <message>
-        <source>Toggle scrobbling</source>
-        <translation type="unfinished">Valitse scrobbling</translation>
+      <source>Toggle scrobbling</source>
+      <translation>Valitse scrobbling</translation>
     </message>
     <message>
-        <source>Remove &amp;duplicates from playlist</source>
-        <translation type="unfinished"></translation>
+      <source>Remove &amp;duplicates from playlist</source>
+      <translation type="unfinished">Remove &amp;duplicates from playlist</translation>
     </message>
     <message>
-        <source>Remove &amp;unavailable tracks from playlist</source>
-        <translation type="unfinished"></translation>
+      <source>Remove &amp;unavailable tracks from playlist</source>
+      <translation type="unfinished">Remove &amp;unavailable tracks from playlist</translation>
     </message>
     <message>
-        <source>Add file(s) to transcoder</source>
-        <translation type="unfinished">Lisää tiedosto(ja) muuntajaan</translation>
+      <source>Add file(s) to transcoder</source>
+      <translation>Lisää tiedosto(ja) muuntajaan</translation>
     </message>
     <message>
-        <source>Add file to transcoder</source>
-        <translation type="unfinished">Lisää tiedosto muuntajaan</translation>
+      <source>Add file to transcoder</source>
+      <translation>Lisää tiedosto muuntajaan</translation>
     </message>
     <message>
-        <source>Add stream...</source>
-        <translation type="unfinished">Lisää virta...</translation>
+      <source>Add stream...</source>
+      <translation>Lisää virta...</translation>
     </message>
     <message>
-        <source>Show sidebar</source>
-        <translation type="unfinished">Näytä sivupalkki</translation>
+      <source>Show sidebar</source>
+      <translation>Näytä sivupalkki</translation>
     </message>
     <message>
-        <source>Import data from last.fm...</source>
-        <translation type="unfinished">Tuo tiedot last.fm-palvelusta...</translation>
+      <source>Import data from last.fm...</source>
+      <translation>Tuo tiedot last.fm-palvelusta...</translation>
     </message>
     <message>
-        <source>All Files (*)</source>
-        <translation type="unfinished">Kaikki tiedostot (*)</translation>
+      <source>All Files (*)</source>
+      <translation>Kaikki tiedostot (*)</translation>
     </message>
     <message>
-        <source>Context</source>
-        <translation type="unfinished">Konteksti</translation>
+      <source>Context</source>
+      <translation>Konteksti</translation>
     </message>
     <message>
-        <source>Collection</source>
-        <translation type="unfinished">Kirjasto</translation>
+      <source>Collection</source>
+      <translation>Kirjasto</translation>
     </message>
     <message>
-        <source>Queue</source>
-        <translation type="unfinished">Jono</translation>
+      <source>Queue</source>
+      <translation>Jono</translation>
     </message>
     <message>
-        <source>Playlists</source>
-        <translation type="unfinished">Soittolistat</translation>
+      <source>Playlists</source>
+      <translation>Soittolistat</translation>
     </message>
     <message>
-        <source>Smart playlists</source>
-        <translation type="unfinished">Älykkäät soittolistat</translation>
+      <source>Smart playlists</source>
+      <translation>Älykkäät soittolistat</translation>
     </message>
     <message>
-        <source>Files</source>
-        <translation type="unfinished">Tiedostot</translation>
+      <source>Files</source>
+      <translation>Tiedostot</translation>
     </message>
     <message>
-        <source>Radios</source>
-        <translation type="unfinished"></translation>
+      <source>Radios</source>
+      <translation type="unfinished">Radios</translation>
     </message>
     <message>
-        <source>Devices</source>
-        <translation type="unfinished">Laitteet</translation>
+      <source>Devices</source>
+      <translation>Laitteet</translation>
     </message>
     <message>
-        <source>Subsonic</source>
-        <translation type="unfinished"></translation>
+      <source>Subsonic</source>
+      <translation type="unfinished">Subsonic</translation>
     </message>
     <message>
-        <source>Tidal</source>
-        <translation type="unfinished"></translation>
+      <source>Tidal</source>
+      <translation type="unfinished">Tidal</translation>
     </message>
     <message>
-        <source>Spotify</source>
-        <translation type="unfinished"></translation>
+      <source>Spotify</source>
+      <translation type="unfinished">Spotify</translation>
     </message>
     <message>
-        <source>Qobuz</source>
-        <translation type="unfinished"></translation>
+      <source>Qobuz</source>
+      <translation type="unfinished">Qobuz</translation>
     </message>
     <message>
-        <source>Show all songs</source>
-        <translation type="unfinished">Näytä kaikki kappaleet</translation>
+      <source>Show all songs</source>
+      <translation>Näytä kaikki kappaleet</translation>
     </message>
     <message>
-        <source>Show only duplicates</source>
-        <translation type="unfinished">Näytä vain kaksoiskappaleet</translation>
+      <source>Show only duplicates</source>
+      <translation>Näytä vain kaksoiskappaleet</translation>
     </message>
     <message>
-        <source>Show only untagged</source>
-        <translation type="unfinished">Näytä vain vailla tunnistetta olevat</translation>
+      <source>Show only untagged</source>
+      <translation>Näytä vain vailla tunnistetta olevat</translation>
     </message>
     <message>
-        <source>Configure collection...</source>
-        <translation type="unfinished">Kirjaston asetukset...</translation>
+      <source>Configure collection...</source>
+      <translation>Kirjaston asetukset...</translation>
     </message>
     <message>
-        <source>Play</source>
-        <translation type="unfinished">Toista</translation>
+      <source>Play</source>
+      <translation>Toista</translation>
     </message>
     <message>
-        <source>Toggle queue status</source>
-        <translation type="unfinished">Vaihda jonon tila</translation>
+      <source>Toggle queue status</source>
+      <translation>Vaihda jonon tila</translation>
     </message>
     <message>
-        <source>Queue selected tracks to play next</source>
-        <translation type="unfinished">Lisää valitut kappaleet jonoon</translation>
+      <source>Queue selected tracks to play next</source>
+      <translation>Lisää valitut kappaleet jonoon</translation>
     </message>
     <message>
-        <source>Toggle skip status</source>
-        <translation type="unfinished"></translation>
+      <source>Toggle skip status</source>
+      <translation type="unfinished">Toggle skip status</translation>
     </message>
     <message>
-        <source>Rescan song(s)...</source>
-        <translation type="unfinished"></translation>
+      <source>Rescan song(s)...</source>
+      <translation type="unfinished">Rescan song(s)...</translation>
     </message>
     <message>
-        <source>Copy URL(s)...</source>
-        <translation type="unfinished">Kopioi URL(:t)</translation>
+      <source>Copy URL(s)...</source>
+      <translation>Kopioi URL(:t)</translation>
     </message>
     <message>
-        <source>Show in collection...</source>
-        <translation type="unfinished">Näytä kirjastossa...</translation>
+      <source>Show in collection...</source>
+      <translation>Näytä kirjastossa...</translation>
     </message>
     <message>
-        <source>Show in file browser...</source>
-        <translation type="unfinished">Näytä tiedostoselaimessa...</translation>
+      <source>Show in file browser...</source>
+      <translation>Näytä tiedostoselaimessa...</translation>
     </message>
     <message>
-        <source>Organize files...</source>
-        <translation type="unfinished"></translation>
+      <source>Organize files...</source>
+      <translation type="unfinished">Organize files...</translation>
     </message>
     <message>
-        <source>Copy to collection...</source>
-        <translation type="unfinished">Kopioi kirjastoon</translation>
+      <source>Copy to collection...</source>
+      <translation>Kopioi kirjastoon</translation>
     </message>
     <message>
-        <source>Move to collection...</source>
-        <translation type="unfinished">Siirrä kirjastoon...</translation>
+      <source>Move to collection...</source>
+      <translation>Siirrä kirjastoon...</translation>
     </message>
     <message>
-        <source>Copy to device...</source>
-        <translation type="unfinished">Kopioi laitteelle...</translation>
+      <source>Copy to device...</source>
+      <translation>Kopioi laitteelle...</translation>
     </message>
     <message>
-        <source>Delete from disk...</source>
-        <translation type="unfinished">Poista levyltä...</translation>
+      <source>Delete from disk...</source>
+      <translation>Poista levyltä...</translation>
     </message>
     <message>
-        <source>Check for updates...</source>
-        <translation type="unfinished">Tarkista päivitykset...</translation>
+      <source>Check for updates...</source>
+      <translation>Tarkista päivitykset...</translation>
     </message>
     <message>
-        <source>Strawberry running under Rosetta</source>
-        <translation type="unfinished"></translation>
+      <source>Strawberry running under Rosetta</source>
+      <translation type="unfinished">Strawberry running under Rosetta</translation>
     </message>
     <message>
-        <source>You are running Strawberry under Rosetta. Running Strawberry under Rosetta is unsupported and known to have issues. You should download Strawberry for the correct CPU architecture from %1</source>
-        <translation type="unfinished"></translation>
+      <source>You are running Strawberry under Rosetta. Running Strawberry under Rosetta is unsupported and known to have issues. You should download Strawberry for the correct CPU architecture from %1</source>
+      <translation type="unfinished">You are running Strawberry under Rosetta. Running Strawberry under Rosetta is unsupported and known to have issues. You should download Strawberry for the correct CPU architecture from %1</translation>
     </message>
     <message>
-        <source>Sponsoring Strawberry</source>
-        <translation type="unfinished"></translation>
+      <source>Sponsoring Strawberry</source>
+      <translation type="unfinished">Sponsoring Strawberry</translation>
     </message>
     <message>
-        <source>Strawberry is free and open source software. If you like Strawberry, please consider sponsoring the project. For more information about sponsorship see our website %1</source>
-        <translation type="unfinished"></translation>
+      <source>Strawberry is free and open source software. If you like Strawberry, please consider sponsoring the project. For more information about sponsorship see our website %1</source>
+      <translation type="unfinished">Strawberry is free and open source software. If you like Strawberry, please consider sponsoring the project. For more information about sponsorship see our website %1</translation>
     </message>
     <message>
-        <source>Pause</source>
-        <translation type="unfinished">Keskeytä</translation>
+      <source>Pause</source>
+      <translation>Keskeytä</translation>
     </message>
     <message>
-        <source>Dequeue track</source>
-        <translation type="unfinished">Poista kappale jonosta</translation>
+      <source>Dequeue track</source>
+      <translation>Poista kappale jonosta</translation>
     </message>
     <message>
-        <source>Dequeue selected tracks</source>
-        <translation type="unfinished">Poista valitut kappaleet jonosta</translation>
+      <source>Dequeue selected tracks</source>
+      <translation>Poista valitut kappaleet jonosta</translation>
     </message>
     <message>
-        <source>Queue track</source>
-        <translation type="unfinished">Aseta kappale jonoon</translation>
+      <source>Queue track</source>
+      <translation>Aseta kappale jonoon</translation>
     </message>
     <message>
-        <source>Queue selected tracks</source>
-        <translation type="unfinished">Aseta valitut kappaleet jonoon</translation>
+      <source>Queue selected tracks</source>
+      <translation>Aseta valitut kappaleet jonoon</translation>
     </message>
     <message>
-        <source>Queue to play next</source>
-        <translation type="unfinished">Toistojonoon</translation>
+      <source>Queue to play next</source>
+      <translation>Toistojonoon</translation>
     </message>
     <message>
-        <source>Unskip track</source>
-        <translation type="unfinished"></translation>
+      <source>Unskip track</source>
+      <translation type="unfinished">Unskip track</translation>
     </message>
     <message>
-        <source>Unskip selected tracks</source>
-        <translation type="unfinished"></translation>
+      <source>Unskip selected tracks</source>
+      <translation type="unfinished">Unskip selected tracks</translation>
     </message>
     <message>
-        <source>Skip track</source>
-        <translation type="unfinished">Ohita kappale</translation>
+      <source>Skip track</source>
+      <translation>Ohita kappale</translation>
     </message>
     <message>
-        <source>Skip selected tracks</source>
-        <translation type="unfinished">Ohita valitut kappaleet</translation>
+      <source>Skip selected tracks</source>
+      <translation>Ohita valitut kappaleet</translation>
     </message>
     <message>
-        <source>Set %1 to &quot;%2&quot;...</source>
-        <translation type="unfinished">Aseta %1 %2:een</translation>
+      <source>Set %1 to &quot;%2&quot;...</source>
+      <translation>Aseta %1 %2:een</translation>
     </message>
     <message>
-        <source>Edit tag &quot;%1&quot;...</source>
-        <translation type="unfinished">Muokkaa tunnistetta &quot;%1&quot;...</translation>
+      <source>Edit tag &quot;%1&quot;...</source>
+      <translation>Muokkaa tunnistetta &quot;%1&quot;...</translation>
     </message>
     <message>
-        <source>Add to another playlist</source>
-        <translation type="unfinished">Lisää toiseen soittolistaan</translation>
+      <source>Add to another playlist</source>
+      <translation>Lisää toiseen soittolistaan</translation>
     </message>
     <message>
-        <source>New playlist</source>
-        <translation type="unfinished">Uusi soittolista</translation>
+      <source>New playlist</source>
+      <translation>Uusi soittolista</translation>
     </message>
     <message>
-        <source>Add file</source>
-        <translation type="unfinished">Lisää tiedosto</translation>
+      <source>Add file</source>
+      <translation>Lisää tiedosto</translation>
     </message>
     <message>
-        <source>Music</source>
-        <translation type="unfinished">Musiikki</translation>
+      <source>Music</source>
+      <translation>Musiikki</translation>
     </message>
     <message>
-        <source>Add folder</source>
-        <translation type="unfinished">Lisää kansio</translation>
+      <source>Add folder</source>
+      <translation>Lisää kansio</translation>
     </message>
     <message>
-        <source>Playlist has %1 songs, too large to undo, are you sure you want to clear the playlist?</source>
-        <translation type="unfinished"></translation>
+      <source>Playlist has %1 songs, too large to undo, are you sure you want to clear the playlist?</source>
+      <translation type="unfinished">Playlist has %1 songs, too large to undo, are you sure you want to clear the playlist?</translation>
     </message>
     <message>
-        <source>Error</source>
-        <translation type="unfinished">Virhe</translation>
+      <source>Error</source>
+      <translation>Virhe</translation>
     </message>
     <message>
-        <source>None of the selected songs were suitable for copying to a device</source>
-        <translation type="unfinished">Yksikään valitsemistasi kappaleista ei sovellu kopioitavaksi laitteelle</translation>
+      <source>None of the selected songs were suitable for copying to a device</source>
+      <translation>Yksikään valitsemistasi kappaleista ei sovellu kopioitavaksi laitteelle</translation>
     </message>
     <message>
-        <source>The version of Strawberry you&apos;ve just updated to requires a full collection rescan because of the new features listed below:</source>
-        <translation type="unfinished">Versio, johon juuri päivitit Strawberryn, vaatii kirjaston täydellisen läpikäynnin alla listattujen uusien ominaisuuksien vuoksi:</translation>
+      <source>The version of Strawberry you&apos;ve just updated to requires a full collection rescan because of the new features listed below:</source>
+      <translation>Versio, johon juuri päivitit Strawberryn, vaatii kirjaston täydellisen läpikäynnin alla listattujen uusien ominaisuuksien vuoksi:</translation>
     </message>
     <message>
-        <source>Would you like to run a full rescan right now?</source>
-        <translation type="unfinished">Haluatko suorittaa kirjaston läpikäynnin nyt?</translation>
+      <source>Would you like to run a full rescan right now?</source>
+      <translation>Haluatko suorittaa kirjaston läpikäynnin nyt?</translation>
     </message>
     <message>
-        <source>Collection rescan notice</source>
-        <translation type="unfinished">Ilmoitus kirjaston läpikäynnistä</translation>
+      <source>Collection rescan notice</source>
+      <translation>Ilmoitus kirjaston läpikäynnistä</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>MessageDialog</name>
     <message>
-        <source>Message Dialog</source>
-        <translation type="unfinished"></translation>
+      <source>Message Dialog</source>
+      <translation type="unfinished">Message Dialog</translation>
     </message>
     <message>
-        <source>Do not show this message again.</source>
-        <translation type="unfinished">Älä näytä tätä enää uudestaan.</translation>
+      <source>Do not show this message again.</source>
+      <translation>Älä näytä tätä enää uudestaan.</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>MimeData</name>
     <message>
-        <source>Playlist</source>
-        <translation type="unfinished">Soittolista</translation>
+      <source>Playlist</source>
+      <translation>Soittolista</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>MoodbarProxyStyle</name>
     <message>
-        <source>Show moodbar</source>
-        <translation type="unfinished">Näytä mielialapalkki</translation>
+      <source>Show moodbar</source>
+      <translation>Näytä mielialapalkki</translation>
     </message>
     <message>
-        <source>Moodbar style</source>
-        <translation type="unfinished">Mielialapalkin tyyli</translation>
+      <source>Moodbar style</source>
+      <translation>Mielialapalkin tyyli</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>MoodbarSettingsPage</name>
     <message>
-        <source>Moodbar</source>
-        <translation type="unfinished">Mielialapalkki</translation>
+      <source>Moodbar</source>
+      <translation>Mielialapalkki</translation>
     </message>
     <message>
-        <source>Show a moodbar in the track progress bar</source>
-        <translation type="unfinished"></translation>
+      <source>Show a moodbar in the track progress bar</source>
+      <translation type="unfinished">Show a moodbar in the track progress bar</translation>
     </message>
     <message>
-        <source>Moodbar style</source>
-        <translation type="unfinished">Mielialapalkin tyyli</translation>
+      <source>Moodbar style</source>
+      <translation>Mielialapalkin tyyli</translation>
     </message>
     <message>
-        <source>Save the .mood files directly in the songs folders</source>
-        <translation type="unfinished">Tallenna .mood-tiedostot suoraan kappaleen kansiossa</translation>
+      <source>Save the .mood files directly in the songs folders</source>
+      <translation>Tallenna .mood-tiedostot suoraan kappaleen kansiossa</translation>
     </message>
     <message>
-        <source>Enabled</source>
-        <translation type="unfinished"></translation>
+      <source>Enabled</source>
+      <translation type="unfinished">Enabled</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>MtpConnection</name>
     <message>
-        <source>Invalid MTP device: %1</source>
-        <translation type="unfinished"></translation>
+      <source>Invalid MTP device: %1</source>
+      <translation type="unfinished">Invalid MTP device: %1</translation>
     </message>
     <message>
-        <source>Could not open MTP device.</source>
-        <translation type="unfinished"></translation>
+      <source>Could not open MTP device.</source>
+      <translation type="unfinished">Could not open MTP device.</translation>
     </message>
     <message>
-        <source>MTP error: %1</source>
-        <translation type="unfinished"></translation>
+      <source>MTP error: %1</source>
+      <translation type="unfinished">MTP error: %1</translation>
     </message>
     <message>
-        <source>MTP device not found.</source>
-        <translation type="unfinished"></translation>
+      <source>MTP device not found.</source>
+      <translation type="unfinished">MTP device not found.</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>MtpLoader</name>
     <message>
-        <source>Loading MTP device</source>
-        <translation type="unfinished">Ladataan MTP-laitetta</translation>
+      <source>Loading MTP device</source>
+      <translation>Ladataan MTP-laitetta</translation>
     </message>
     <message>
-        <source>Error connecting MTP device %1</source>
-        <translation type="unfinished">MTP-laitteen %1 yhdistämisessä tapahtui virhe</translation>
+      <source>Error connecting MTP device %1</source>
+      <translation>MTP-laitteen %1 yhdistämisessä tapahtui virhe</translation>
     </message>
     <message>
-        <source>Error connecting MTP device %1: %2</source>
-        <translation type="unfinished"></translation>
+      <source>Error connecting MTP device %1: %2</source>
+      <translation type="unfinished">Error connecting MTP device %1: %2</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>NetworkProxySettingsPage</name>
     <message>
-        <source>Network Proxy</source>
-        <translation type="unfinished">Verkon välityspalvelin</translation>
+      <source>Network Proxy</source>
+      <translation>Verkon välityspalvelin</translation>
     </message>
     <message>
-        <source>&amp;Use the system proxy settings</source>
-        <translation type="unfinished">Käytä järjestelmän välityspalvelinasetuksia</translation>
+      <source>&amp;Use the system proxy settings</source>
+      <translation>Käytä järjestelmän välityspalvelinasetuksia</translation>
     </message>
     <message>
-        <source>Direct internet connection</source>
-        <translation type="unfinished">Suora internetyhteys</translation>
+      <source>Direct internet connection</source>
+      <translation>Suora internetyhteys</translation>
     </message>
     <message>
-        <source>&amp;Manual proxy configuration</source>
-        <translation type="unfinished">&amp;Manuaaliset välityspalvelimen asetukset</translation>
+      <source>&amp;Manual proxy configuration</source>
+      <translation>&amp;Manuaaliset välityspalvelimen asetukset</translation>
     </message>
     <message>
-        <source>HTTP proxy</source>
-        <translation type="unfinished">HTTP-välityspalvelin</translation>
+      <source>HTTP proxy</source>
+      <translation>HTTP-välityspalvelin</translation>
     </message>
     <message>
-        <source>SOCKS proxy</source>
-        <translation type="unfinished">SOCKS-välityspalvelin</translation>
+      <source>SOCKS proxy</source>
+      <translation>SOCKS-välityspalvelin</translation>
     </message>
     <message>
-        <source>Port</source>
-        <translation type="unfinished">Portti</translation>
+      <source>Port</source>
+      <translation>Portti</translation>
     </message>
     <message>
-        <source>Use authentication</source>
-        <translation type="unfinished">Käytä tunnistatumista</translation>
+      <source>Use authentication</source>
+      <translation>Käytä tunnistatumista</translation>
     </message>
     <message>
-        <source>Username</source>
-        <translation type="unfinished">Käyttäjätunnus</translation>
+      <source>Username</source>
+      <translation>Käyttäjätunnus</translation>
     </message>
     <message>
-        <source>Password</source>
-        <translation type="unfinished">Salasana</translation>
+      <source>Password</source>
+      <translation>Salasana</translation>
     </message>
     <message>
-        <source>Use proxy settings for streaming</source>
-        <translation type="unfinished"></translation>
+      <source>Use proxy settings for streaming</source>
+      <translation type="unfinished">Use proxy settings for streaming</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>NotificationsSettingsPage</name>
     <message>
-        <source>Notifications</source>
-        <translation type="unfinished">Ilmoitukset</translation>
+      <source>Notifications</source>
+      <translation>Ilmoitukset</translation>
     </message>
     <message>
-        <source>Strawberry can show a message when the track changes.</source>
-        <translation type="unfinished">Strawberry voi ilmoittaa, kun kappale vaihtuu.</translation>
+      <source>Strawberry can show a message when the track changes.</source>
+      <translation>Strawberry voi ilmoittaa, kun kappale vaihtuu.</translation>
     </message>
     <message>
-        <source>Notification type</source>
-        <translation type="unfinished">Ilmoituksen tyyppi</translation>
+      <source>Notification type</source>
+      <translation>Ilmoituksen tyyppi</translation>
     </message>
     <message>
-        <source>Disabled</source>
-        <comment>Refers to a disabled notification type in Notification settings.</comment>
-        <translation type="unfinished">Ei käytössä</translation>
+      <source>Disabled</source>
+      <comment>Refers to a disabled notification type in Notification settings.</comment>
+      <translation>Ei käytössä</translation>
     </message>
     <message>
-        <source>Show a &amp;native desktop notification</source>
-        <translation type="unfinished">Näytä &amp;natiivi työpöytäilmoitus</translation>
+      <source>Show a &amp;native desktop notification</source>
+      <translation>Näytä &amp;natiivi työpöytäilmoitus</translation>
     </message>
     <message>
-        <source>Show a pretty OSD</source>
-        <translation type="unfinished">Näytä kuvaruutunäyttö</translation>
+      <source>Show a pretty OSD</source>
+      <translation>Näytä kuvaruutunäyttö</translation>
     </message>
     <message>
-        <source>Show a popup fro&amp;m the system tray</source>
-        <translation type="unfinished"></translation>
+      <source>Show a popup fro&amp;m the system tray</source>
+      <translation type="unfinished">Show a popup fro&amp;m the system tray</translation>
     </message>
     <message>
-        <source>General settings</source>
-        <translation type="unfinished">Yleiset asetukset</translation>
+      <source>General settings</source>
+      <translation>Yleiset asetukset</translation>
     </message>
     <message>
-        <source>Popup duration</source>
-        <translation type="unfinished">Ponnahdusikkunan kesto</translation>
+      <source>Popup duration</source>
+      <translation>Ponnahdusikkunan kesto</translation>
     </message>
     <message>
-        <source> seconds</source>
-        <translation type="unfinished"> sekuntia</translation>
+      <source> seconds</source>
+      <translation> sekuntia</translation>
     </message>
     <message>
-        <source>Disable duration</source>
-        <translation type="unfinished">Kytke kesto pois päältä</translation>
+      <source>Disable duration</source>
+      <translation>Kytke kesto pois päältä</translation>
     </message>
     <message>
-        <source>Show a notification when I change the volume</source>
-        <translation type="unfinished">Näytä ilmoitus, kun vaihdan äänenvoimakkuutta</translation>
+      <source>Show a notification when I change the volume</source>
+      <translation>Näytä ilmoitus, kun vaihdan äänenvoimakkuutta</translation>
     </message>
     <message>
-        <source>Show a notification when I change the repeat/shuffle mode</source>
-        <translation type="unfinished">Näytä ilmoitus, kun vaihdan toiston tai sekoituksen tilaa</translation>
+      <source>Show a notification when I change the repeat/shuffle mode</source>
+      <translation>Näytä ilmoitus, kun vaihdan toiston tai sekoituksen tilaa</translation>
     </message>
     <message>
-        <source>Show a notification when I pause playback</source>
-        <translation type="unfinished">Näytä ilmoitus, kun keskeytän toiston</translation>
+      <source>Show a notification when I pause playback</source>
+      <translation>Näytä ilmoitus, kun keskeytän toiston</translation>
     </message>
     <message>
-        <source>Show a notification when I resume playback</source>
-        <translation type="unfinished"></translation>
+      <source>Show a notification when I resume playback</source>
+      <translation type="unfinished">Show a notification when I resume playback</translation>
     </message>
     <message>
-        <source>Include album art in the notification</source>
-        <translation type="unfinished">Näytä kansikuva ilmoituksen yhteydessä</translation>
+      <source>Include album art in the notification</source>
+      <translation>Näytä kansikuva ilmoituksen yhteydessä</translation>
     </message>
     <message>
-        <source>Custom message settings</source>
-        <translation type="unfinished">Omavalintaisen viestin asetukset</translation>
+      <source>Custom message settings</source>
+      <translation>Omavalintaisen viestin asetukset</translation>
     </message>
     <message>
-        <source>Use a custom message for notifications</source>
-        <translation type="unfinished">Käytä omaa viestiä ilmoituksissa</translation>
+      <source>Use a custom message for notifications</source>
+      <translation>Käytä omaa viestiä ilmoituksissa</translation>
     </message>
     <message>
-        <source>Preview</source>
-        <translation type="unfinished">Esikatselu</translation>
+      <source>Preview</source>
+      <translation>Esikatselu</translation>
     </message>
     <message>
-        <source>MenuPopupToolButton</source>
-        <translation type="unfinished"></translation>
+      <source>MenuPopupToolButton</source>
+      <translation type="unfinished">MenuPopupToolButton</translation>
     </message>
     <message>
-        <source>Summary</source>
-        <translation type="unfinished">Yhteenveto</translation>
+      <source>Summary</source>
+      <translation>Yhteenveto</translation>
     </message>
     <message>
-        <source>Body</source>
-        <translation type="unfinished">Sisältö</translation>
+      <source>Body</source>
+      <translation>Sisältö</translation>
     </message>
     <message>
-        <source>Pretty OSD options</source>
-        <translation type="unfinished">Kuvaruutunäytön valinnat</translation>
+      <source>Pretty OSD options</source>
+      <translation>Kuvaruutunäytön valinnat</translation>
     </message>
     <message>
-        <source>Background color</source>
-        <translation type="unfinished">Taustaväri</translation>
+      <source>Background color</source>
+      <translation>Taustaväri</translation>
     </message>
     <message>
-        <source>Text options</source>
-        <translation type="unfinished">Tekstivalinnat</translation>
+      <source>Text options</source>
+      <translation>Tekstivalinnat</translation>
     </message>
     <message>
-        <source>Choose font...</source>
-        <translation type="unfinished">Valitse kirjasin...</translation>
+      <source>Choose font...</source>
+      <translation>Valitse kirjasin...</translation>
     </message>
     <message>
-        <source>Choose color...</source>
-        <translation type="unfinished">Valitse väri...</translation>
+      <source>Choose color...</source>
+      <translation>Valitse väri...</translation>
     </message>
     <message>
-        <source>Background opacity</source>
-        <translation type="unfinished">Taustan läpinäkyvyys</translation>
+      <source>Background opacity</source>
+      <translation>Taustan läpinäkyvyys</translation>
     </message>
     <message>
-        <source>Basic Blue</source>
-        <translation type="unfinished">Perussininen</translation>
+      <source>Basic Blue</source>
+      <translation>Perussininen</translation>
     </message>
     <message>
-        <source>Strawberry Red</source>
-        <translation type="unfinished">Mansikanpunainen</translation>
+      <source>Strawberry Red</source>
+      <translation>Mansikanpunainen</translation>
     </message>
     <message>
-        <source>Custom...</source>
-        <translation type="unfinished">Mukautettu...</translation>
+      <source>Custom...</source>
+      <translation>Mukautettu...</translation>
     </message>
     <message>
-        <source>Enable fading</source>
-        <translation type="unfinished"></translation>
+      <source>Enable fading</source>
+      <translation type="unfinished">Enable fading</translation>
     </message>
     <message>
-        <source>Add song artist tag</source>
-        <translation type="unfinished">Lisää tunniste kappaleen esittäjä</translation>
+      <source>Add song artist tag</source>
+      <translation>Lisää tunniste kappaleen esittäjä</translation>
     </message>
     <message>
-        <source>Add song album tag</source>
-        <translation type="unfinished">Lisää tunniste levyn nimi</translation>
+      <source>Add song album tag</source>
+      <translation>Lisää tunniste levyn nimi</translation>
     </message>
     <message>
-        <source>Add song title tag</source>
-        <translation type="unfinished">Lisää tunniste kappaleen nimi</translation>
+      <source>Add song title tag</source>
+      <translation>Lisää tunniste kappaleen nimi</translation>
     </message>
     <message>
-        <source>Add song albumartist tag</source>
-        <translation type="unfinished">Lisää tunniste levyn esittäjä</translation>
+      <source>Add song albumartist tag</source>
+      <translation>Lisää tunniste levyn esittäjä</translation>
     </message>
     <message>
-        <source>Add song year tag</source>
-        <translation type="unfinished">Lisää kappaleen levytysvuoden tunniste</translation>
+      <source>Add song year tag</source>
+      <translation>Lisää kappaleen levytysvuoden tunniste</translation>
     </message>
     <message>
-        <source>Add song composer tag</source>
-        <translation type="unfinished">Lisää tunniste kappaleen säveltäjä</translation>
+      <source>Add song composer tag</source>
+      <translation>Lisää tunniste kappaleen säveltäjä</translation>
     </message>
     <message>
-        <source>Add song performer tag</source>
-        <translation type="unfinished">Lisää tunniste kappaleen esittäjä</translation>
+      <source>Add song performer tag</source>
+      <translation>Lisää tunniste kappaleen esittäjä</translation>
     </message>
     <message>
-        <source>Add song grouping tag</source>
-        <translation type="unfinished">Lisää tunniste kappaleen ryhmitys</translation>
+      <source>Add song grouping tag</source>
+      <translation>Lisää tunniste kappaleen ryhmitys</translation>
     </message>
     <message>
-        <source>Add song disc tag</source>
-        <translation type="unfinished">Lisää levyn numeron tunniste</translation>
+      <source>Add song disc tag</source>
+      <translation>Lisää levyn numeron tunniste</translation>
     </message>
     <message>
-        <source>Add song track tag</source>
-        <translation type="unfinished">Lisää tunniste </translation>
+      <source>Add song track tag</source>
+      <translation>Lisää tunniste </translation>
     </message>
     <message>
-        <source>Add song genre tag</source>
-        <translation type="unfinished">Lisää tunniste kappaleen kategoria</translation>
+      <source>Add song genre tag</source>
+      <translation>Lisää tunniste kappaleen kategoria</translation>
     </message>
     <message>
-        <source>Add song length tag</source>
-        <translation type="unfinished">Lisää tunniste kappaleen kesto</translation>
+      <source>Add song length tag</source>
+      <translation>Lisää tunniste kappaleen kesto</translation>
     </message>
     <message>
-        <source>Add song play count</source>
-        <translation type="unfinished">Lisää kappaleen toistolaskuri</translation>
+      <source>Add song play count</source>
+      <translation>Lisää kappaleen toistolaskuri</translation>
     </message>
     <message>
-        <source>Add song skip count</source>
-        <translation type="unfinished">Lisää kappaleen keskeyttämislaskuri</translation>
+      <source>Add song skip count</source>
+      <translation>Lisää kappaleen keskeyttämislaskuri</translation>
     </message>
     <message>
-        <source>Add song rating</source>
-        <translation type="unfinished">Lisää kappaleelle arvosana</translation>
+      <source>Add song rating</source>
+      <translation>Lisää kappaleelle arvosana</translation>
     </message>
     <message>
-        <source>Add a new line if supported by the notification type</source>
-        <translation type="unfinished">Lisää uusi rivi, jos ilmoitustyyppi sen sallii</translation>
+      <source>Add a new line if supported by the notification type</source>
+      <translation>Lisää uusi rivi, jos ilmoitustyyppi sen sallii</translation>
     </message>
     <message>
-        <source>%filename%</source>
-        <translation type="unfinished"></translation>
+      <source>%filename%</source>
+      <translation type="unfinished">%filename%</translation>
     </message>
     <message>
-        <source>Add song filename</source>
-        <translation type="unfinished">Lisää kappaleen tiedostonimi</translation>
+      <source>Add song filename</source>
+      <translation>Lisää kappaleen tiedostonimi</translation>
     </message>
     <message>
-        <source>%url%</source>
-        <translation type="unfinished"></translation>
+      <source>%url%</source>
+      <translation type="unfinished">%url%</translation>
     </message>
     <message>
-        <source>Add song URL</source>
-        <translation type="unfinished">Lisää kappaleen osoite</translation>
+      <source>Add song URL</source>
+      <translation>Lisää kappaleen osoite</translation>
     </message>
     <message>
-        <source>%originalyear%</source>
-        <translation type="unfinished"></translation>
+      <source>%originalyear%</source>
+      <translation type="unfinished">%originalyear%</translation>
     </message>
     <message>
-        <source>Add song original year tag</source>
-        <translation type="unfinished"></translation>
+      <source>Add song original year tag</source>
+      <translation type="unfinished">Add song original year tag</translation>
     </message>
     <message>
-        <source>OSD Preview</source>
-        <translation type="unfinished">Kuvaruutunäytön esikatselu</translation>
+      <source>OSD Preview</source>
+      <translation>Kuvaruutunäytön esikatselu</translation>
     </message>
     <message>
-        <source>Drag to reposition</source>
-        <translation type="unfinished">Vaihda sijaintia vetämällä</translation>
+      <source>Drag to reposition</source>
+      <translation>Vaihda sijaintia vetämällä</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>OSDBase</name>
     <message>
-        <source>disc %1</source>
-        <translation type="unfinished">levy %1</translation>
+      <source>disc %1</source>
+      <translation>levy %1</translation>
     </message>
     <message>
-        <source>track %1</source>
-        <translation type="unfinished">kappale %1</translation>
+      <source>track %1</source>
+      <translation>kappale %1</translation>
     </message>
     <message>
-        <source>Paused</source>
-        <translation type="unfinished">Keskeytetty</translation>
+      <source>Paused</source>
+      <translation>Keskeytetty</translation>
     </message>
     <message>
-        <source>Stopped</source>
-        <translation type="unfinished">Pysäytetty</translation>
+      <source>Stopped</source>
+      <translation>Pysäytetty</translation>
     </message>
     <message>
-        <source>Stop playing after track: %1</source>
-        <translation type="unfinished">Lopeta toisto kappaleen jälkeen: %1</translation>
+      <source>Stop playing after track: %1</source>
+      <translation>Lopeta toisto kappaleen jälkeen: %1</translation>
     </message>
     <message>
-        <source>On</source>
-        <translation type="unfinished">Päällä</translation>
+      <source>On</source>
+      <translation>Päällä</translation>
     </message>
     <message>
-        <source>Off</source>
-        <translation type="unfinished">Pois</translation>
+      <source>Off</source>
+      <translation>Pois</translation>
     </message>
     <message>
-        <source>Playlist finished</source>
-        <translation type="unfinished">Soittolista soitettiin loppuun</translation>
+      <source>Playlist finished</source>
+      <translation>Soittolista soitettiin loppuun</translation>
     </message>
     <message>
-        <source>Volume %1%</source>
-        <translation type="unfinished">Äänenvoimakkuus %1 %</translation>
+      <source>Volume %1%</source>
+      <translation>Äänenvoimakkuus %1 %</translation>
     </message>
     <message>
-        <source>Don&apos;t shuffle</source>
-        <translation type="unfinished">Älä sekoita</translation>
+      <source>Don&apos;t shuffle</source>
+      <translation>Älä sekoita</translation>
     </message>
     <message>
-        <source>Shuffle all</source>
-        <translation type="unfinished">Sekoita kaikki</translation>
+      <source>Shuffle all</source>
+      <translation>Sekoita kaikki</translation>
     </message>
     <message>
-        <source>Shuffle tracks in this album</source>
-        <translation type="unfinished">Sekoita tämän albumin kappaleet</translation>
+      <source>Shuffle tracks in this album</source>
+      <translation>Sekoita tämän albumin kappaleet</translation>
     </message>
     <message>
-        <source>Shuffle albums</source>
-        <translation type="unfinished">Sekoita albumit</translation>
+      <source>Shuffle albums</source>
+      <translation>Sekoita albumit</translation>
     </message>
     <message>
-        <source>Don&apos;t repeat</source>
-        <translation type="unfinished">Älä kertaa</translation>
+      <source>Don&apos;t repeat</source>
+      <translation>Älä kertaa</translation>
     </message>
     <message>
-        <source>Repeat track</source>
-        <translation type="unfinished">Kertaa kappale</translation>
+      <source>Repeat track</source>
+      <translation>Kertaa kappale</translation>
     </message>
     <message>
-        <source>Repeat album</source>
-        <translation type="unfinished">Kertaa albumi</translation>
+      <source>Repeat album</source>
+      <translation>Kertaa albumi</translation>
     </message>
     <message>
-        <source>Repeat playlist</source>
-        <translation type="unfinished">Kertaa soittolista</translation>
+      <source>Repeat playlist</source>
+      <translation>Kertaa soittolista</translation>
     </message>
     <message>
-        <source>Stop after every track</source>
-        <translation type="unfinished"></translation>
+      <source>Stop after every track</source>
+      <translation type="unfinished">Stop after every track</translation>
     </message>
     <message>
-        <source>Intro tracks</source>
-        <translation type="unfinished">Intro-kappaleet</translation>
+      <source>Intro tracks</source>
+      <translation>Intro-kappaleet</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>Organize</name>
     <message>
-        <source>Organizing files</source>
-        <translation type="unfinished"></translation>
+      <source>Organizing files</source>
+      <translation type="unfinished">Organizing files</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>OrganizeDialog</name>
     <message>
-        <source>Organize Files</source>
-        <translation type="unfinished"></translation>
+      <source>Organize Files</source>
+      <translation type="unfinished">Organize Files</translation>
     </message>
     <message>
-        <source>Destination</source>
-        <translation type="unfinished">Kohde</translation>
+      <source>Destination</source>
+      <translation>Kohde</translation>
     </message>
     <message>
-        <source>After copying...</source>
-        <translation type="unfinished">Kopioinnin jälkeen...</translation>
+      <source>After copying...</source>
+      <translation>Kopioinnin jälkeen...</translation>
     </message>
     <message>
-        <source>Keep the original files</source>
-        <translation type="unfinished">Säilytä alkuperäiset tiedostot</translation>
+      <source>Keep the original files</source>
+      <translation>Säilytä alkuperäiset tiedostot</translation>
     </message>
     <message>
-        <source>Delete the original files</source>
-        <translation type="unfinished">Poista alkuperäiset tiedostot</translation>
+      <source>Delete the original files</source>
+      <translation>Poista alkuperäiset tiedostot</translation>
     </message>
     <message>
-        <source>Naming options</source>
-        <translation type="unfinished">Nimeämisvalinnat</translation>
+      <source>Naming options</source>
+      <translation>Nimeämisvalinnat</translation>
     </message>
     <message>
-        <source>&lt;p&gt;Tokens start with %, for example: %artist %album %title &lt;/p&gt;
+      <source>&lt;p&gt;Tokens start with %, for example: %artist %album %title &lt;/p&gt;
 
 &lt;p&gt;If you surround sections of text that contain a token with curly-braces, that section will be hidden if the token is empty.&lt;/p&gt;</source>
-        <translation type="unfinished">&lt;p&gt;Tietueet alkavat %-merkillä, esimerkiksi: %artist %album %title &lt;/p&gt;
+      <translation>&lt;p&gt;Tietueet alkavat %-merkillä, esimerkiksi: %artist %album %title &lt;/p&gt;
 
 &lt;p&gt;Jos ympäröit tietueen sisältävän tekstin aaltosulkeilla, se piilotetaan, jos tietue on tyhjä.&lt;/p&gt;</translation>
     </message>
     <message>
-        <source>Insert...</source>
-        <translation type="unfinished">Lisää...</translation>
+      <source>Insert...</source>
+      <translation>Lisää...</translation>
     </message>
     <message>
-        <source>Remove problematic characters from filenames</source>
-        <translation type="unfinished"></translation>
+      <source>Remove problematic characters from filenames</source>
+      <translation type="unfinished">Remove problematic characters from filenames</translation>
     </message>
     <message>
-        <source>Restrict to characters allowed on FAT filesystems</source>
-        <translation type="unfinished"></translation>
+      <source>Restrict to characters allowed on FAT filesystems</source>
+      <translation type="unfinished">Restrict to characters allowed on FAT filesystems</translation>
     </message>
     <message>
-        <source>Restrict characters to ASCII</source>
-        <translation type="unfinished"></translation>
+      <source>Restrict characters to ASCII</source>
+      <translation type="unfinished">Restrict characters to ASCII</translation>
     </message>
     <message>
-        <source>Allow extended ASCII characters</source>
-        <translation type="unfinished"></translation>
+      <source>Allow extended ASCII characters</source>
+      <translation type="unfinished">Allow extended ASCII characters</translation>
     </message>
     <message>
-        <source>Replace spaces with underscores</source>
-        <translation type="unfinished">Korvaa välilyönnit alaviivoilla</translation>
+      <source>Replace spaces with underscores</source>
+      <translation>Korvaa välilyönnit alaviivoilla</translation>
     </message>
     <message>
-        <source>Overwrite existing files</source>
-        <translation type="unfinished">Korvaa olemassa olevat tiedostot</translation>
+      <source>Overwrite existing files</source>
+      <translation>Korvaa olemassa olevat tiedostot</translation>
     </message>
     <message>
-        <source>Copy album cover artwork</source>
-        <translation type="unfinished">Kopioi albumien kansikuvat</translation>
+      <source>Copy album cover artwork</source>
+      <translation>Kopioi albumien kansikuvat</translation>
     </message>
     <message>
-        <source>Preview</source>
-        <translation type="unfinished">Esikatselu</translation>
+      <source>Preview</source>
+      <translation>Esikatselu</translation>
     </message>
     <message>
-        <source>Loading...</source>
-        <translation type="unfinished">Ladataan...</translation>
+      <source>Loading...</source>
+      <translation>Ladataan...</translation>
     </message>
     <message>
-        <source>Safely remove the device after copying</source>
-        <translation type="unfinished">Poista laite turvallisesti kopioinnin jälkeen</translation>
+      <source>Safely remove the device after copying</source>
+      <translation>Poista laite turvallisesti kopioinnin jälkeen</translation>
     </message>
     <message>
-        <source>Title</source>
-        <translation type="unfinished">Nimi</translation>
+      <source>Title</source>
+      <translation>Nimi</translation>
     </message>
     <message>
-        <source>Album</source>
-        <translation type="unfinished">Albumi</translation>
+      <source>Album</source>
+      <translation>Albumi</translation>
     </message>
     <message>
-        <source>Artist</source>
-        <translation type="unfinished">Esittäjä</translation>
+      <source>Artist</source>
+      <translation>Esittäjä</translation>
     </message>
     <message>
-        <source>Artist&apos;s initial</source>
-        <translation type="unfinished">Esittäjän nimen ensimmäinen kirjain</translation>
+      <source>Artist&apos;s initial</source>
+      <translation>Esittäjän nimen ensimmäinen kirjain</translation>
     </message>
     <message>
-        <source>Album artist</source>
-        <translation type="unfinished">Albumin esittäjä</translation>
+      <source>Album artist</source>
+      <translation>Albumin esittäjä</translation>
     </message>
     <message>
-        <source>Composer</source>
-        <translation type="unfinished">Säveltäjä</translation>
+      <source>Composer</source>
+      <translation>Säveltäjä</translation>
     </message>
     <message>
-        <source>Performer</source>
-        <translation type="unfinished">Esittäjä</translation>
+      <source>Performer</source>
+      <translation>Esittäjä</translation>
     </message>
     <message>
-        <source>Grouping</source>
-        <translation type="unfinished">Ryhmittely</translation>
+      <source>Grouping</source>
+      <translation>Ryhmittely</translation>
     </message>
     <message>
-        <source>Track</source>
-        <translation type="unfinished">Kappale</translation>
+      <source>Track</source>
+      <translation>Kappale</translation>
     </message>
     <message>
-        <source>Disc</source>
-        <translation type="unfinished">Levy</translation>
+      <source>Disc</source>
+      <translation>Levy</translation>
     </message>
     <message>
-        <source>Year</source>
-        <translation type="unfinished">Vuosi</translation>
+      <source>Year</source>
+      <translation>Vuosi</translation>
     </message>
     <message>
-        <source>Original year</source>
-        <translation type="unfinished">Alkuperäinen vuosi</translation>
+      <source>Original year</source>
+      <translation>Alkuperäinen vuosi</translation>
     </message>
     <message>
-        <source>Genre</source>
-        <translation type="unfinished">Tyylilaji</translation>
+      <source>Genre</source>
+      <translation>Tyylilaji</translation>
     </message>
     <message>
-        <source>Comment</source>
-        <translation type="unfinished">Kommentti</translation>
+      <source>Comment</source>
+      <translation>Kommentti</translation>
     </message>
     <message>
-        <source>Length</source>
-        <translation type="unfinished">Kesto</translation>
+      <source>Length</source>
+      <translation>Kesto</translation>
     </message>
     <message>
-        <source>Bitrate</source>
-        <comment>Refers to bitrate in file organize dialog.</comment>
-        <translation type="unfinished">Bittinopeus</translation>
+      <source>Bitrate</source>
+      <comment>Refers to bitrate in file organize dialog.</comment>
+      <translation>Bittinopeus</translation>
     </message>
     <message>
-        <source>Sample rate</source>
-        <translation type="unfinished">Näytteenottotaajuus</translation>
+      <source>Sample rate</source>
+      <translation>Näytteenottotaajuus</translation>
     </message>
     <message>
-        <source>Bit depth</source>
-        <translation type="unfinished">Bittisyys</translation>
+      <source>Bit depth</source>
+      <translation>Bittisyys</translation>
     </message>
     <message>
-        <source>File extension</source>
-        <translation type="unfinished">Tiedostopääte</translation>
+      <source>File extension</source>
+      <translation>Tiedostopääte</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>OrganizeErrorDialog</name>
     <message>
-        <source>Error copying songs</source>
-        <translation type="unfinished">Virhe kappaleita kopioidessa</translation>
+      <source>Error copying songs</source>
+      <translation>Virhe kappaleita kopioidessa</translation>
     </message>
     <message>
-        <source>There were problems copying some songs.  The following files could not be copied:</source>
-        <translation type="unfinished">Kappaleita kopioitaessa ilmeni virheitä. Seuraavien kappaleiden kopiointi epäonnistui:</translation>
+      <source>There were problems copying some songs.  The following files could not be copied:</source>
+      <translation>Kappaleita kopioitaessa ilmeni virheitä. Seuraavien kappaleiden kopiointi epäonnistui:</translation>
     </message>
     <message>
-        <source>Error deleting songs</source>
-        <translation type="unfinished">Virhe kappaleita poistaessa</translation>
+      <source>Error deleting songs</source>
+      <translation>Virhe kappaleita poistaessa</translation>
     </message>
     <message>
-        <source>There were problems deleting some songs.  The following files could not be deleted:</source>
-        <translation type="unfinished">Kappaleita poistaessa ilmeni virheitä. Seuraavien kappaleiden poisto epäonnistui:</translation>
+      <source>There were problems deleting some songs.  The following files could not be deleted:</source>
+      <translation>Kappaleita poistaessa ilmeni virheitä. Seuraavien kappaleiden poisto epäonnistui:</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>ParserBase</name>
     <message>
-        <source>Don&apos;t know how to handle %1</source>
-        <translation type="unfinished"></translation>
+      <source>Don&apos;t know how to handle %1</source>
+      <translation type="unfinished">Don&apos;t know how to handle %1</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>PlayingWidget</name>
     <message>
-        <source>Small album cover</source>
-        <translation type="unfinished">Pieni kansikuva</translation>
+      <source>Small album cover</source>
+      <translation>Pieni kansikuva</translation>
     </message>
     <message>
-        <source>Large album cover</source>
-        <translation type="unfinished">Suuri kansikuva</translation>
+      <source>Large album cover</source>
+      <translation>Suuri kansikuva</translation>
     </message>
     <message>
-        <source>Fit cover to width</source>
-        <translation type="unfinished">Sovita kansi leveyteen</translation>
+      <source>Fit cover to width</source>
+      <translation>Sovita kansi leveyteen</translation>
     </message>
     <message>
-        <source>Show above status bar</source>
-        <translation type="unfinished">Näytä tilapalkin yläpuolella</translation>
+      <source>Show above status bar</source>
+      <translation>Näytä tilapalkin yläpuolella</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>Playlist</name>
     <message>
-        <source>Could not write metadata to %1</source>
-        <translation type="unfinished"></translation>
+      <source>Could not write metadata to %1</source>
+      <translation type="unfinished">Could not write metadata to %1</translation>
     </message>
     <message>
-        <source>Could not write metadata to %1: %2</source>
-        <translation type="unfinished"></translation>
+      <source>Could not write metadata to %1: %2</source>
+      <translation type="unfinished">Could not write metadata to %1: %2</translation>
     </message>
     <message>
-        <source>Title</source>
-        <translation type="unfinished">Nimi</translation>
+      <source>Title</source>
+      <translation>Nimi</translation>
     </message>
     <message>
-        <source>Artist</source>
-        <translation type="unfinished">Esittäjä</translation>
+      <source>Artist</source>
+      <translation>Esittäjä</translation>
     </message>
     <message>
-        <source>Album</source>
-        <translation type="unfinished">Albumi</translation>
+      <source>Album</source>
+      <translation>Albumi</translation>
     </message>
     <message>
-        <source>Track</source>
-        <translation type="unfinished">Kappale</translation>
+      <source>Track</source>
+      <translation>Kappale</translation>
     </message>
     <message>
-        <source>Disc</source>
-        <translation type="unfinished">Levy</translation>
+      <source>Disc</source>
+      <translation>Levy</translation>
     </message>
     <message>
-        <source>Length</source>
-        <translation type="unfinished">Kesto</translation>
+      <source>Length</source>
+      <translation>Kesto</translation>
     </message>
     <message>
-        <source>Year</source>
-        <translation type="unfinished">Vuosi</translation>
+      <source>Year</source>
+      <translation>Vuosi</translation>
     </message>
     <message>
-        <source>Original Year</source>
-        <translation type="unfinished"></translation>
+      <source>Original Year</source>
+      <translation type="unfinished">Original Year</translation>
     </message>
     <message>
-        <source>Genre</source>
-        <translation type="unfinished">Tyylilaji</translation>
+      <source>Genre</source>
+      <translation>Tyylilaji</translation>
     </message>
     <message>
-        <source>Album Artist</source>
-        <translation type="unfinished"></translation>
+      <source>Album Artist</source>
+      <translation type="unfinished">Album Artist</translation>
     </message>
     <message>
-        <source>Composer</source>
-        <translation type="unfinished">Säveltäjä</translation>
+      <source>Composer</source>
+      <translation>Säveltäjä</translation>
     </message>
     <message>
-        <source>Performer</source>
-        <translation type="unfinished">Esittäjä</translation>
+      <source>Performer</source>
+      <translation>Esittäjä</translation>
     </message>
     <message>
-        <source>Grouping</source>
-        <translation type="unfinished">Ryhmittely</translation>
+      <source>Grouping</source>
+      <translation>Ryhmittely</translation>
     </message>
     <message>
-        <source>Play Count</source>
-        <translation type="unfinished"></translation>
+      <source>Play Count</source>
+      <translation type="unfinished">Play Count</translation>
     </message>
     <message>
-        <source>Skip Count</source>
-        <translation type="unfinished"></translation>
+      <source>Skip Count</source>
+      <translation type="unfinished">Skip Count</translation>
     </message>
     <message>
-        <source>Last Played</source>
-        <translation type="unfinished"></translation>
+      <source>Last Played</source>
+      <translation type="unfinished">Last Played</translation>
     </message>
     <message>
-        <source>Sample Rate</source>
-        <translation type="unfinished"></translation>
+      <source>Sample Rate</source>
+      <translation type="unfinished">Sample Rate</translation>
     </message>
     <message>
-        <source>Bit Depth</source>
-        <translation type="unfinished"></translation>
+      <source>Bit Depth</source>
+      <translation type="unfinished">Bit Depth</translation>
     </message>
     <message>
-        <source>Bitrate</source>
-        <translation type="unfinished">Bittinopeus</translation>
+      <source>Bitrate</source>
+      <translation>Bittinopeus</translation>
     </message>
     <message>
-        <source>File Name</source>
-        <translation type="unfinished"></translation>
+      <source>File Name</source>
+      <translation type="unfinished">File Name</translation>
     </message>
     <message>
-        <source>File Name (without path)</source>
-        <translation type="unfinished"></translation>
+      <source>File Name (without path)</source>
+      <translation type="unfinished">File Name (without path)</translation>
     </message>
     <message>
-        <source>File Size</source>
-        <translation type="unfinished"></translation>
+      <source>File Size</source>
+      <translation type="unfinished">File Size</translation>
     </message>
     <message>
-        <source>File Type</source>
-        <translation type="unfinished"></translation>
+      <source>File Type</source>
+      <translation type="unfinished">File Type</translation>
     </message>
     <message>
-        <source>Date Modified</source>
-        <translation type="unfinished"></translation>
+      <source>Date Modified</source>
+      <translation type="unfinished">Date Modified</translation>
     </message>
     <message>
-        <source>Date Created</source>
-        <translation type="unfinished"></translation>
+      <source>Date Created</source>
+      <translation type="unfinished">Date Created</translation>
     </message>
     <message>
-        <source>Comment</source>
-        <translation type="unfinished">Kommentti</translation>
+      <source>Comment</source>
+      <translation>Kommentti</translation>
     </message>
     <message>
-        <source>Source</source>
-        <translation type="unfinished">Lähde</translation>
+      <source>Source</source>
+      <translation>Lähde</translation>
     </message>
     <message>
-        <source>Mood</source>
-        <translation type="unfinished">Mieliala</translation>
+      <source>Mood</source>
+      <translation>Mieliala</translation>
     </message>
     <message>
-        <source>Rating</source>
-        <translation type="unfinished">Arvio</translation>
+      <source>Rating</source>
+      <translation>Arvio</translation>
     </message>
     <message>
-        <source>CUE</source>
-        <translation type="unfinished"></translation>
+      <source>CUE</source>
+      <translation type="unfinished">CUE</translation>
     </message>
     <message>
-        <source>Integrated Loudness</source>
-        <translation type="unfinished"></translation>
+      <source>Integrated Loudness</source>
+      <translation type="unfinished">Integrated Loudness</translation>
     </message>
     <message>
-        <source>Loudness Range</source>
-        <translation type="unfinished"></translation>
+      <source>Loudness Range</source>
+      <translation type="unfinished">Loudness Range</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>PlaylistContainer</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">Lomake</translation>
+      <source>Form</source>
+      <translation>Lomake</translation>
     </message>
     <message>
-        <source>Undo</source>
-        <translation type="unfinished"></translation>
+      <source>Undo</source>
+      <translation type="unfinished">Undo</translation>
     </message>
     <message>
-        <source>Redo</source>
-        <translation type="unfinished"></translation>
+      <source>Redo</source>
+      <translation type="unfinished">Redo</translation>
     </message>
     <message>
-        <source>Playlist</source>
-        <translation type="unfinished">Soittolista</translation>
+      <source>Playlist</source>
+      <translation>Soittolista</translation>
     </message>
     <message>
-        <source>Load playlist</source>
-        <translation type="unfinished">Lataa soittolista</translation>
+      <source>Load playlist</source>
+      <translation>Lataa soittolista</translation>
     </message>
     <message>
-        <source>No matches found.  Clear the search box to show the whole playlist again.</source>
-        <translation type="unfinished">Ei osumia haulle. Tyhjennä hakukenttä näyttääksesi koko soittolistan uudelleen.</translation>
+      <source>No matches found.  Clear the search box to show the whole playlist again.</source>
+      <translation>Ei osumia haulle. Tyhjennä hakukenttä näyttääksesi koko soittolistan uudelleen.</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>PlaylistDelegateBase</name>
     <message>
-        <source>stop</source>
-        <translation type="unfinished">pysäytä</translation>
+      <source>stop</source>
+      <translation>pysäytä</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>PlaylistGeneratorInserter</name>
     <message>
-        <source>Loading smart playlist</source>
-        <translation type="unfinished">Ladataan älykästä soittolistaa</translation>
+      <source>Loading smart playlist</source>
+      <translation>Ladataan älykästä soittolistaa</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>PlaylistHeader</name>
     <message>
-        <source>&amp;Hide...</source>
-        <translation type="unfinished">Piilota...</translation>
+      <source>&amp;Hide...</source>
+      <translation>Piilota...</translation>
     </message>
     <message>
-        <source>&amp;Stretch columns to fit window</source>
-        <translation type="unfinished">&amp;Sovita sarakkeet ikkunan leveyteen</translation>
+      <source>&amp;Stretch columns to fit window</source>
+      <translation>&amp;Sovita sarakkeet ikkunan leveyteen</translation>
     </message>
     <message>
-        <source>&amp;Reset columns to default</source>
-        <translation type="unfinished"></translation>
+      <source>&amp;Reset columns to default</source>
+      <translation type="unfinished">&amp;Reset columns to default</translation>
     </message>
     <message>
-        <source>&amp;Lock rating</source>
-        <translation type="unfinished">&amp;Lukitse arvio</translation>
+      <source>&amp;Lock rating</source>
+      <translation>&amp;Lukitse arvio</translation>
     </message>
     <message>
-        <source>&amp;Align text</source>
-        <translation type="unfinished">&amp;Tasaa teksti</translation>
+      <source>&amp;Align text</source>
+      <translation>&amp;Tasaa teksti</translation>
     </message>
     <message>
-        <source>&amp;Left</source>
-        <translation type="unfinished">&amp;Vasemmalle</translation>
+      <source>&amp;Left</source>
+      <translation>&amp;Vasemmalle</translation>
     </message>
     <message>
-        <source>&amp;Center</source>
-        <translation type="unfinished">&amp;Keskelle</translation>
+      <source>&amp;Center</source>
+      <translation>&amp;Keskelle</translation>
     </message>
     <message>
-        <source>&amp;Right</source>
-        <translation type="unfinished">&amp;Oikealle</translation>
+      <source>&amp;Right</source>
+      <translation>&amp;Oikealle</translation>
     </message>
     <message>
-        <source>&amp;Hide %1</source>
-        <translation type="unfinished">Piilota %1</translation>
+      <source>&amp;Hide %1</source>
+      <translation>Piilota %1</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>PlaylistListContainer</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">Lomake</translation>
+      <source>Form</source>
+      <translation>Lomake</translation>
     </message>
     <message>
-        <source>New folder</source>
-        <translation type="unfinished">Uusi kansio</translation>
+      <source>New folder</source>
+      <translation>Uusi kansio</translation>
     </message>
     <message>
-        <source>Delete</source>
-        <translation type="unfinished">Poista</translation>
+      <source>Delete</source>
+      <translation>Poista</translation>
     </message>
     <message>
-        <source>Save playlist</source>
-        <comment>Save playlist menu action.</comment>
-        <translation type="unfinished">Tallenna soittolista</translation>
+      <source>Save playlist</source>
+      <comment>Save playlist menu action.</comment>
+      <translation>Tallenna soittolista</translation>
     </message>
     <message>
-        <source>Copy to device...</source>
-        <translation type="unfinished">Kopioi laitteelle...</translation>
+      <source>Copy to device...</source>
+      <translation>Kopioi laitteelle...</translation>
     </message>
     <message>
-        <source>Enter the name of the folder</source>
-        <translation type="unfinished">Anna kansion nimi</translation>
+      <source>Enter the name of the folder</source>
+      <translation>Anna kansion nimi</translation>
     </message>
     <message>
-        <source>Playlist</source>
-        <translation type="unfinished">Soittolista</translation>
+      <source>Playlist</source>
+      <translation>Soittolista</translation>
     </message>
     <message>
-        <source>Copy to device</source>
-        <translation type="unfinished">Kopioi laitteeseen</translation>
+      <source>Copy to device</source>
+      <translation>Kopioi laitteeseen</translation>
     </message>
     <message>
-        <source>Playlist must be open first.</source>
-        <translation type="unfinished">Soittolista täytyy avata ensin.</translation>
+      <source>Playlist must be open first.</source>
+      <translation>Soittolista täytyy avata ensin.</translation>
     </message>
     <message>
-        <source>Remove playlists</source>
-        <translation type="unfinished">Poista soittolistat</translation>
+      <source>Remove playlists</source>
+      <translation>Poista soittolistat</translation>
     </message>
     <message>
-        <source>You are about to remove %1 playlists from your favorites, are you sure?</source>
-        <translation type="unfinished">Haluatko varmasti poistaa %1 soittolistaa suosikeistasi?</translation>
+      <source>You are about to remove %1 playlists from your favorites, are you sure?</source>
+      <translation>Haluatko varmasti poistaa %1 soittolistaa suosikeistasi?</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>PlaylistListView</name>
     <message>
-        <source>You can favorite playlists by clicking the star icon next to a playlist name</source>
-        <translation type="unfinished">Voit lisätä soittolistan suosikkeihin napsauttamalla tähteä soittolistan nimen vierestä</translation>
+      <source>You can favorite playlists by clicking the star icon next to a playlist name</source>
+      <translation>Voit lisätä soittolistan suosikkeihin napsauttamalla tähteä soittolistan nimen vierestä</translation>
     </message>
     <message>
-        <source>Favorited playlists will be saved here</source>
-        <translation type="unfinished">Suosikkeihin lisätyt soittolistat tallennetaan tänne</translation>
+      <source>Favorited playlists will be saved here</source>
+      <translation>Suosikkeihin lisätyt soittolistat tallennetaan tänne</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>PlaylistManager</name>
     <message>
-        <source>Playlist</source>
-        <translation type="unfinished">Soittolista</translation>
+      <source>Playlist</source>
+      <translation>Soittolista</translation>
     </message>
     <message>
-        <source>Couldn&apos;t create playlist</source>
-        <translation type="unfinished">Soittolistan luominen epäonnistui</translation>
+      <source>Couldn&apos;t create playlist</source>
+      <translation>Soittolistan luominen epäonnistui</translation>
     </message>
     <message>
-        <source>Save playlist</source>
-        <comment>Title of the playlist save dialog.</comment>
-        <translation type="unfinished">Tallenna soittolista</translation>
+      <source>Save playlist</source>
+      <comment>Title of the playlist save dialog.</comment>
+      <translation>Tallenna soittolista</translation>
     </message>
     <message>
-        <source>Unknown playlist extension</source>
-        <translation type="unfinished"></translation>
+      <source>Unknown playlist extension</source>
+      <translation type="unfinished">Unknown playlist extension</translation>
     </message>
     <message>
-        <source>Unknown file extension for playlist.</source>
-        <translation type="unfinished"></translation>
+      <source>Unknown file extension for playlist.</source>
+      <translation type="unfinished">Unknown file extension for playlist.</translation>
     </message>
     <message>
-        <source>%1 selected of</source>
-        <translation type="unfinished">valittuna %1 /</translation>
+      <source>%1 selected of</source>
+      <translation>valittuna %1 /</translation>
     </message>
     <message numerus="yes">
-        <source>%n track(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+      <source>%n track(s)</source>
+      <translation type="unfinished">
+        <numerusform>%n track(s)</numerusform>
+        <numerusform>%n track(s)</numerusform>
+      </translation>
     </message>
     <message>
-        <source>Unknown</source>
-        <translation type="unfinished">Tuntematon</translation>
+      <source>Unknown</source>
+      <translation>Tuntematon</translation>
     </message>
     <message>
-        <source>Various artists</source>
-        <translation type="unfinished">Useita esittäjiä</translation>
+      <source>Various artists</source>
+      <translation>Useita esittäjiä</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>PlaylistParser</name>
     <message>
-        <source>All playlists (%1)</source>
-        <translation type="unfinished">Kaikki soittolistat (%1)</translation>
+      <source>All playlists (%1)</source>
+      <translation>Kaikki soittolistat (%1)</translation>
     </message>
     <message>
-        <source>%1 playlists (%2)</source>
-        <translation type="unfinished">%1-soittolistat (%2)</translation>
+      <source>%1 playlists (%2)</source>
+      <translation>%1-soittolistat (%2)</translation>
     </message>
     <message>
-        <source>Unknown filetype: %1</source>
-        <translation type="unfinished"></translation>
+      <source>Unknown filetype: %1</source>
+      <translation type="unfinished">Unknown filetype: %1</translation>
     </message>
     <message>
-        <source>Could not open file %1</source>
-        <translation type="unfinished"></translation>
+      <source>Could not open file %1</source>
+      <translation type="unfinished">Could not open file %1</translation>
     </message>
     <message>
-        <source>Directory %1 does not exist.</source>
-        <translation type="unfinished"></translation>
+      <source>Directory %1 does not exist.</source>
+      <translation type="unfinished">Directory %1 does not exist.</translation>
     </message>
     <message>
-        <source>Failed to open %1 for writing.</source>
-        <translation type="unfinished"></translation>
+      <source>Failed to open %1 for writing.</source>
+      <translation type="unfinished">Failed to open %1 for writing.</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>PlaylistSaveOptionsDialog</name>
     <message>
-        <source>Playlist options</source>
-        <translation type="unfinished">Soittolistan valinnat</translation>
+      <source>Playlist options</source>
+      <translation>Soittolistan valinnat</translation>
     </message>
     <message>
-        <source>File paths</source>
-        <translation type="unfinished">Tiedostopolut</translation>
+      <source>File paths</source>
+      <translation>Tiedostopolut</translation>
     </message>
     <message>
-        <source>This can be changed later through the preferences</source>
-        <translation type="unfinished">Tämän voi muuttaa myöhemmin asetuksista</translation>
+      <source>This can be changed later through the preferences</source>
+      <translation>Tämän voi muuttaa myöhemmin asetuksista</translation>
     </message>
     <message>
-        <source>Remember my choice</source>
-        <translation type="unfinished">Muista valintani</translation>
+      <source>Remember my choice</source>
+      <translation>Muista valintani</translation>
     </message>
     <message>
-        <source>Automatic</source>
-        <translation type="unfinished">Automaattinen</translation>
+      <source>Automatic</source>
+      <translation>Automaattinen</translation>
     </message>
     <message>
-        <source>Relative</source>
-        <translation type="unfinished">Suhteellisia</translation>
+      <source>Relative</source>
+      <translation>Suhteellisia</translation>
     </message>
     <message>
-        <source>Absolute</source>
-        <translation type="unfinished">Absoluuttisia</translation>
+      <source>Absolute</source>
+      <translation>Absoluuttisia</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>PlaylistSequence</name>
     <message>
-        <source>Repeat</source>
-        <translation type="unfinished">Kertaa</translation>
+      <source>Repeat</source>
+      <translation>Kertaa</translation>
     </message>
     <message>
-        <source>Shuffle</source>
-        <translation type="unfinished">Sekoita</translation>
+      <source>Shuffle</source>
+      <translation>Sekoita</translation>
     </message>
     <message>
-        <source>Don&apos;t repeat</source>
-        <translation type="unfinished">Älä kertaa</translation>
+      <source>Don&apos;t repeat</source>
+      <translation>Älä kertaa</translation>
     </message>
     <message>
-        <source>Repeat track</source>
-        <translation type="unfinished">Kertaa kappale</translation>
+      <source>Repeat track</source>
+      <translation>Kertaa kappale</translation>
     </message>
     <message>
-        <source>Repeat album</source>
-        <translation type="unfinished">Kertaa albumi</translation>
+      <source>Repeat album</source>
+      <translation>Kertaa albumi</translation>
     </message>
     <message>
-        <source>Repeat playlist</source>
-        <translation type="unfinished">Kertaa soittolista</translation>
+      <source>Repeat playlist</source>
+      <translation>Kertaa soittolista</translation>
     </message>
     <message>
-        <source>Stop after each track</source>
-        <translation type="unfinished"></translation>
+      <source>Stop after each track</source>
+      <translation type="unfinished">Stop after each track</translation>
     </message>
     <message>
-        <source>Intro tracks</source>
-        <translation type="unfinished">Intro-kappaleet</translation>
+      <source>Intro tracks</source>
+      <translation>Intro-kappaleet</translation>
     </message>
     <message>
-        <source>Don&apos;t shuffle</source>
-        <translation type="unfinished">Älä sekoita</translation>
+      <source>Don&apos;t shuffle</source>
+      <translation>Älä sekoita</translation>
     </message>
     <message>
-        <source>Shuffle tracks in this album</source>
-        <translation type="unfinished">Sekoita tämän albumin kappaleet</translation>
+      <source>Shuffle tracks in this album</source>
+      <translation>Sekoita tämän albumin kappaleet</translation>
     </message>
     <message>
-        <source>Shuffle all</source>
-        <translation type="unfinished">Sekoita kaikki</translation>
+      <source>Shuffle all</source>
+      <translation>Sekoita kaikki</translation>
     </message>
     <message>
-        <source>Shuffle albums</source>
-        <translation type="unfinished">Sekoita albumit</translation>
+      <source>Shuffle albums</source>
+      <translation>Sekoita albumit</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>PlaylistSettingsPage</name>
     <message>
-        <source>Playlist</source>
-        <translation type="unfinished">Soittolista</translation>
+      <source>Playlist</source>
+      <translation>Soittolista</translation>
     </message>
     <message>
-        <source>Use alternating row colors</source>
-        <translation type="unfinished"></translation>
+      <source>Use alternating row colors</source>
+      <translation type="unfinished">Use alternating row colors</translation>
     </message>
     <message>
-        <source>Show bars on the currently playing track</source>
-        <translation type="unfinished"></translation>
+      <source>Show bars on the currently playing track</source>
+      <translation type="unfinished">Show bars on the currently playing track</translation>
     </message>
     <message>
-        <source>Show a glowing animation on the currently playing track</source>
-        <translation type="unfinished"></translation>
+      <source>Show a glowing animation on the currently playing track</source>
+      <translation type="unfinished">Show a glowing animation on the currently playing track</translation>
     </message>
     <message>
-        <source>Warn me when closing a playlist tab</source>
-        <translation type="unfinished">Varoita suljettaessa soittolistan sisältävää välilehteä</translation>
+      <source>Warn me when closing a playlist tab</source>
+      <translation>Varoita suljettaessa soittolistan sisältävää välilehteä</translation>
     </message>
     <message>
-        <source>Continue to the next item in the playlist if a song is unavailable</source>
-        <translation type="unfinished"></translation>
+      <source>Continue to the next item in the playlist if a song is unavailable</source>
+      <translation type="unfinished">Continue to the next item in the playlist if a song is unavailable</translation>
     </message>
     <message>
-        <source>Grey out unavailable songs in playlists on playback</source>
-        <translation type="unfinished"></translation>
+      <source>Grey out unavailable songs in playlists on playback</source>
+      <translation type="unfinished">Grey out unavailable songs in playlists on playback</translation>
     </message>
     <message>
-        <source>Grey out unavailable songs in playlists on startup</source>
-        <translation type="unfinished"></translation>
+      <source>Grey out unavailable songs in playlists on startup</source>
+      <translation type="unfinished">Grey out unavailable songs in playlists on startup</translation>
     </message>
     <message>
-        <source>Automatically select current playing track</source>
-        <translation type="unfinished"></translation>
+      <source>Automatically select current playing track</source>
+      <translation type="unfinished">Automatically select current playing track</translation>
     </message>
     <message>
-        <source>Enable playlist toolbar</source>
-        <translation type="unfinished"></translation>
+      <source>Enable playlist toolbar</source>
+      <translation type="unfinished">Enable playlist toolbar</translation>
     </message>
     <message>
-        <source>Enable playlist clear button</source>
-        <translation type="unfinished"></translation>
+      <source>Enable playlist clear button</source>
+      <translation type="unfinished">Enable playlist clear button</translation>
     </message>
     <message>
-        <source>Enable delete files in the right click context menu</source>
-        <translation type="unfinished"></translation>
+      <source>Enable delete files in the right click context menu</source>
+      <translation type="unfinished">Enable delete files in the right click context menu</translation>
     </message>
     <message>
-        <source>Automatically sort playlist when inserting songs</source>
-        <translation type="unfinished"></translation>
+      <source>Automatically sort playlist when inserting songs</source>
+      <translation type="unfinished">Automatically sort playlist when inserting songs</translation>
     </message>
     <message>
-        <source>When saving a playlist, file paths should be</source>
-        <translation type="unfinished">Soittolistoja tallennettaessa tiedostopolkujen tulee olla</translation>
+      <source>When saving a playlist, file paths should be</source>
+      <translation>Soittolistoja tallennettaessa tiedostopolkujen tulee olla</translation>
     </message>
     <message>
-        <source>A&amp;utomatic</source>
-        <translation type="unfinished">A&amp;utomaattinen</translation>
+      <source>A&amp;utomatic</source>
+      <translation>A&amp;utomaattinen</translation>
     </message>
     <message>
-        <source>Absolu&amp;te</source>
-        <translation type="unfinished">Absoluu&amp;ttinen</translation>
+      <source>Absolu&amp;te</source>
+      <translation>Absoluu&amp;ttinen</translation>
     </message>
     <message>
-        <source>Re&amp;lative</source>
-        <translation type="unfinished">Suhtee&amp;llinen</translation>
+      <source>Re&amp;lative</source>
+      <translation>Suhtee&amp;llinen</translation>
     </message>
     <message>
-        <source>As&amp;k when saving</source>
-        <translation type="unfinished">&amp;Kysy tallennettaessa</translation>
+      <source>As&amp;k when saving</source>
+      <translation>&amp;Kysy tallennettaessa</translation>
     </message>
     <message>
-        <source>Metadata</source>
-        <translation type="unfinished">Metatiedot</translation>
+      <source>Metadata</source>
+      <translation>Metatiedot</translation>
     </message>
     <message>
-        <source>If activated, clicking a selected song in the playlist view will let you edit the tag value directly</source>
-        <translation type="unfinished">Jos käytössä, kappaleen napsauttaminen soittolistanäkymässä sallii tunnistearvon muokkauksen suoraan.</translation>
+      <source>If activated, clicking a selected song in the playlist view will let you edit the tag value directly</source>
+      <translation>Jos käytössä, kappaleen napsauttaminen soittolistanäkymässä sallii tunnistearvon muokkauksen suoraan.</translation>
     </message>
     <message>
-        <source>Enable song metadata inline edition with click</source>
-        <translation type="unfinished">Käytä kappaleen metadatan muokkausta napsautuksella</translation>
+      <source>Enable song metadata inline edition with click</source>
+      <translation>Käytä kappaleen metadatan muokkausta napsautuksella</translation>
     </message>
     <message>
-        <source>Write metadata when saving playlists</source>
-        <translation type="unfinished">Kirjoita metatiedot tallentaessa soittolista</translation>
+      <source>Write metadata when saving playlists</source>
+      <translation>Kirjoita metatiedot tallentaessa soittolista</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>PlaylistTabBar</name>
     <message>
-        <source>Star playlist</source>
-        <translation type="unfinished"></translation>
+      <source>Star playlist</source>
+      <translation type="unfinished">Star playlist</translation>
     </message>
     <message>
-        <source>Close playlist</source>
-        <translation type="unfinished">Sulje soittolista</translation>
+      <source>Close playlist</source>
+      <translation>Sulje soittolista</translation>
     </message>
     <message>
-        <source>Rename playlist...</source>
-        <translation type="unfinished">Nimeä soittolista uudelleen...</translation>
+      <source>Rename playlist...</source>
+      <translation>Nimeä soittolista uudelleen...</translation>
     </message>
     <message>
-        <source>Save playlist...</source>
-        <translation type="unfinished">Tallenna soittolista...</translation>
+      <source>Save playlist...</source>
+      <translation>Tallenna soittolista...</translation>
     </message>
     <message>
-        <source>Rename playlist</source>
-        <translation type="unfinished">Nimeä soittolista uudelleen</translation>
+      <source>Rename playlist</source>
+      <translation>Nimeä soittolista uudelleen</translation>
     </message>
     <message>
-        <source>Enter a new name for this playlist</source>
-        <translation type="unfinished">Anna uusi nimi tälle soittolistalle</translation>
+      <source>Enter a new name for this playlist</source>
+      <translation>Anna uusi nimi tälle soittolistalle</translation>
     </message>
     <message>
-        <source>Remove playlist</source>
-        <translation type="unfinished">Poista soittolista</translation>
+      <source>Remove playlist</source>
+      <translation>Poista soittolista</translation>
     </message>
     <message>
-        <source>You are about to remove a playlist which is not part of your favorite playlists: the playlist will be deleted (this action cannot be undone). 
+      <source>You are about to remove a playlist which is not part of your favorite playlists: the playlist will be deleted (this action cannot be undone). 
 Are you sure you want to continue?</source>
-        <translation type="unfinished">Olet aikeissa poistaa soittolistan, joka ei ole osa suosikkisoittolistojasi: soittolista poistetaan (toimintoa ei voi perua.) 
+      <translation>Olet aikeissa poistaa soittolistan, joka ei ole osa suosikkisoittolistojasi: soittolista poistetaan (toimintoa ei voi perua.) 
 Haluatko varmasti jatkaa?</translation>
     </message>
     <message>
-        <source>Warn me when closing a playlist tab</source>
-        <translation type="unfinished">Varoita suljettaessa soittolistan sisältävää välilehteä</translation>
+      <source>Warn me when closing a playlist tab</source>
+      <translation>Varoita suljettaessa soittolistan sisältävää välilehteä</translation>
     </message>
     <message>
-        <source>This option can be changed in the &quot;Behavior&quot; preferences</source>
-        <translation type="unfinished">Tämän valinnan voi vaihtaa asetuksien kohdasta &quot;Toiminta&quot;.</translation>
+      <source>This option can be changed in the &quot;Behavior&quot; preferences</source>
+      <translation>Tämän valinnan voi vaihtaa asetuksien kohdasta &quot;Toiminta&quot;.</translation>
     </message>
     <message>
-        <source>Double-click here to favorite this playlist so it will be saved and remain accessible through the &quot;Playlists&quot; panel on the left side bar</source>
-        <translation type="unfinished"></translation>
+      <source>Double-click here to favorite this playlist so it will be saved and remain accessible through the &quot;Playlists&quot; panel on the left side bar</source>
+      <translation type="unfinished">Double-click here to favorite this playlist so it will be saved and remain accessible through the &quot;Playlists&quot; panel on the left side bar</translation>
     </message>
     <message>
-        <source>Playlist</source>
-        <translation type="unfinished">Soittolista</translation>
+      <source>Playlist</source>
+      <translation>Soittolista</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>PlaylistUndoCommands::InsertItems</name>
     <message numerus="yes">
-        <source>add %n songs</source>
-        <translation type="unfinished">
-            <numerusform>lisää %n kappaletta</numerusform>
-            <numerusform></numerusform>
-        </translation>
+      <source>add %n songs</source>
+      <translation type="unfinished">
+        <numerusform>lisää %n kappaletta</numerusform>
+        <numerusform>add %n songs</numerusform>
+      </translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>PlaylistUndoCommands::MoveItems</name>
     <message numerus="yes">
-        <source>move %n songs</source>
-        <translation type="unfinished">
-            <numerusform>siirrä %n kappaletta</numerusform>
-            <numerusform></numerusform>
-        </translation>
+      <source>move %n songs</source>
+      <translation type="unfinished">
+        <numerusform>siirrä %n kappaletta</numerusform>
+        <numerusform>move %n songs</numerusform>
+      </translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>PlaylistUndoCommands::RemoveItems</name>
     <message numerus="yes">
-        <source>remove %n songs</source>
-        <translation type="unfinished">
-            <numerusform>poista %n kappaletta</numerusform>
-            <numerusform></numerusform>
-        </translation>
+      <source>remove %n songs</source>
+      <translation type="unfinished">
+        <numerusform>poista %n kappaletta</numerusform>
+        <numerusform>remove %n songs</numerusform>
+      </translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>PlaylistUndoCommands::ShuffleItems</name>
     <message>
-        <source>shuffle songs</source>
-        <translation type="unfinished">sekoita kappaleet</translation>
+      <source>shuffle songs</source>
+      <translation>sekoita kappaleet</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>PlaylistUndoCommands::SortItems</name>
     <message>
-        <source>sort songs</source>
-        <translation type="unfinished">järjestä kappaleet</translation>
+      <source>sort songs</source>
+      <translation>järjestä kappaleet</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>PlaylistView</name>
     <message>
-        <source>Hz</source>
-        <translation type="unfinished"></translation>
+      <source>Hz</source>
+      <translation type="unfinished">Hz</translation>
     </message>
     <message>
-        <source>Bit</source>
-        <translation type="unfinished"></translation>
+      <source>Bit</source>
+      <translation type="unfinished">Bit</translation>
     </message>
     <message>
-        <source>kbps</source>
-        <translation type="unfinished">kb/s</translation>
+      <source>kbps</source>
+      <translation>kb/s</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>QObject</name>
     <message>
-        <source>Usage</source>
-        <translation type="unfinished">Käyttötaso</translation>
+      <source>Usage</source>
+      <translation>Käyttötaso</translation>
     </message>
     <message>
-        <source>options</source>
-        <translation type="unfinished">valinnat</translation>
+      <source>options</source>
+      <translation>valinnat</translation>
     </message>
     <message>
-        <source>URL(s)</source>
-        <translation type="unfinished">Osoite/osoitteet</translation>
+      <source>URL(s)</source>
+      <translation>Osoite/osoitteet</translation>
     </message>
     <message>
-        <source>Player options</source>
-        <translation type="unfinished">Soittimen asetukset</translation>
+      <source>Player options</source>
+      <translation>Soittimen asetukset</translation>
     </message>
     <message>
-        <source>Start the playlist currently playing</source>
-        <translation type="unfinished"></translation>
+      <source>Start the playlist currently playing</source>
+      <translation type="unfinished">Start the playlist currently playing</translation>
     </message>
     <message>
-        <source>Play if stopped, pause if playing</source>
-        <translation type="unfinished">Aloittaa tai pysäyttää soittamisen</translation>
+      <source>Play if stopped, pause if playing</source>
+      <translation>Aloittaa tai pysäyttää soittamisen</translation>
     </message>
     <message>
-        <source>Pause playback</source>
-        <translation type="unfinished">Keskeytä toisto</translation>
+      <source>Pause playback</source>
+      <translation>Keskeytä toisto</translation>
     </message>
     <message>
-        <source>Stop playback</source>
-        <translation type="unfinished">Pysäytä toisto</translation>
+      <source>Stop playback</source>
+      <translation>Pysäytä toisto</translation>
     </message>
     <message>
-        <source>Stop playback after current track</source>
-        <translation type="unfinished"></translation>
+      <source>Stop playback after current track</source>
+      <translation type="unfinished">Stop playback after current track</translation>
     </message>
     <message>
-        <source>Skip backwards in playlist</source>
-        <translation type="unfinished">Siirry soittolistan edelliseen kappaleeseen</translation>
+      <source>Skip backwards in playlist</source>
+      <translation>Siirry soittolistan edelliseen kappaleeseen</translation>
     </message>
     <message>
-        <source>Skip forwards in playlist</source>
-        <translation type="unfinished">Siirry soittolistan seuraavaan kappaleeseen</translation>
+      <source>Skip forwards in playlist</source>
+      <translation>Siirry soittolistan seuraavaan kappaleeseen</translation>
     </message>
     <message>
-        <source>Set the volume to &lt;value&gt; percent</source>
-        <translation type="unfinished">Säädä äänenvoimakkuus &lt;value&gt; prosenttia</translation>
+      <source>Set the volume to &lt;value&gt; percent</source>
+      <translation>Säädä äänenvoimakkuus &lt;value&gt; prosenttia</translation>
     </message>
     <message>
-        <source>Increase the volume by 4 percent</source>
-        <translation type="unfinished">Lisää äänenvoimakkuutta 4 prosentilla</translation>
+      <source>Increase the volume by 4 percent</source>
+      <translation>Lisää äänenvoimakkuutta 4 prosentilla</translation>
     </message>
     <message>
-        <source>Decrease the volume by 4 percent</source>
-        <translation type="unfinished">Vähennä äänenvoimakkuutta 4 prosentilla</translation>
+      <source>Decrease the volume by 4 percent</source>
+      <translation>Vähennä äänenvoimakkuutta 4 prosentilla</translation>
     </message>
     <message>
-        <source>Increase the volume by &lt;value&gt; percent</source>
-        <translation type="unfinished">Lisää äänenvoimakkuutta &lt;value&gt; prosentilla</translation>
+      <source>Increase the volume by &lt;value&gt; percent</source>
+      <translation>Lisää äänenvoimakkuutta &lt;value&gt; prosentilla</translation>
     </message>
     <message>
-        <source>Decrease the volume by &lt;value&gt; percent</source>
-        <translation type="unfinished">Vähennä äänenvoimakkuutta &lt;value&gt; prosentilla</translation>
+      <source>Decrease the volume by &lt;value&gt; percent</source>
+      <translation>Vähennä äänenvoimakkuutta &lt;value&gt; prosentilla</translation>
     </message>
     <message>
-        <source>Seek the currently playing track to an absolute position</source>
-        <translation type="unfinished">Siirry nykyisessä kappaleessa tiettyyn kohtaan</translation>
+      <source>Seek the currently playing track to an absolute position</source>
+      <translation>Siirry nykyisessä kappaleessa tiettyyn kohtaan</translation>
     </message>
     <message>
-        <source>Seek the currently playing track by a relative amount</source>
-        <translation type="unfinished">Siirry nykyisessä kappaleessa suhteellinen määrä</translation>
+      <source>Seek the currently playing track by a relative amount</source>
+      <translation>Siirry nykyisessä kappaleessa suhteellinen määrä</translation>
     </message>
     <message>
-        <source>Restart the track, or play the previous track if within 8 seconds of start.</source>
-        <translation type="unfinished">Toista kappale uudelleen, tai toista edellinen kappale, jos alle 8 sekunnin päästä alusta.</translation>
+      <source>Restart the track, or play the previous track if within 8 seconds of start.</source>
+      <translation>Toista kappale uudelleen, tai toista edellinen kappale, jos alle 8 sekunnin päästä alusta.</translation>
     </message>
     <message>
-        <source>Playlist options</source>
-        <translation type="unfinished">Soittolistan valinnat</translation>
+      <source>Playlist options</source>
+      <translation>Soittolistan valinnat</translation>
     </message>
     <message>
-        <source>Create a new playlist with files</source>
-        <translation type="unfinished"></translation>
+      <source>Create a new playlist with files</source>
+      <translation type="unfinished">Create a new playlist with files</translation>
     </message>
     <message>
-        <source>Append files/URLs to the playlist</source>
-        <translation type="unfinished">Lisää tiedostoja/verkko-osoitteita soittolistalle</translation>
+      <source>Append files/URLs to the playlist</source>
+      <translation>Lisää tiedostoja/verkko-osoitteita soittolistalle</translation>
     </message>
     <message>
-        <source>Loads files/URLs, replacing current playlist</source>
-        <translation type="unfinished">Lataa tiedostoja tai verkko-osoitteita, korvaa samalla nykyinen soittolista</translation>
+      <source>Loads files/URLs, replacing current playlist</source>
+      <translation>Lataa tiedostoja tai verkko-osoitteita, korvaa samalla nykyinen soittolista</translation>
     </message>
     <message>
-        <source>Play the &lt;n&gt;th track in the playlist</source>
-        <translation type="unfinished">Soita soittolistan &lt;n&gt;. kappale</translation>
+      <source>Play the &lt;n&gt;th track in the playlist</source>
+      <translation>Soita soittolistan &lt;n&gt;. kappale</translation>
     </message>
     <message>
-        <source>Play given playlist</source>
-        <translation type="unfinished"></translation>
+      <source>Play given playlist</source>
+      <translation type="unfinished">Play given playlist</translation>
     </message>
     <message>
-        <source>Other options</source>
-        <translation type="unfinished">Muut valinnat</translation>
+      <source>Other options</source>
+      <translation>Muut valinnat</translation>
     </message>
     <message>
-        <source>Display the on-screen-display</source>
-        <translation type="unfinished">Näytä kuvaruutunäyttö</translation>
+      <source>Display the on-screen-display</source>
+      <translation>Näytä kuvaruutunäyttö</translation>
     </message>
     <message>
-        <source>Toggle visibility for the pretty on-screen-display</source>
-        <translation type="unfinished">Kuvaruutunäyttö päälle / pois</translation>
+      <source>Toggle visibility for the pretty on-screen-display</source>
+      <translation>Kuvaruutunäyttö päälle / pois</translation>
     </message>
     <message>
-        <source>Change the language</source>
-        <translation type="unfinished">Vaihda kieltä</translation>
+      <source>Change the language</source>
+      <translation>Vaihda kieltä</translation>
     </message>
     <message>
-        <source>Resize the window</source>
-        <translation type="unfinished"></translation>
+      <source>Resize the window</source>
+      <translation type="unfinished">Resize the window</translation>
     </message>
     <message>
-        <source>Equivalent to --log-levels *:1</source>
-        <translation type="unfinished">Vastaa --log-levels *:1</translation>
+      <source>Equivalent to --log-levels *:1</source>
+      <translation>Vastaa --log-levels *:1</translation>
     </message>
     <message>
-        <source>Equivalent to --log-levels *:3</source>
-        <translation type="unfinished">Vastaa --log-levels *:3</translation>
+      <source>Equivalent to --log-levels *:3</source>
+      <translation>Vastaa --log-levels *:3</translation>
     </message>
     <message>
-        <source>Comma separated list of class:level, level is 0-3</source>
-        <translation type="unfinished">Pilkuin erotettu lista luokka:taso -määritteitä, jossa taso on väliltä 0-3</translation>
+      <source>Comma separated list of class:level, level is 0-3</source>
+      <translation>Pilkuin erotettu lista luokka:taso -määritteitä, jossa taso on väliltä 0-3</translation>
     </message>
     <message>
-        <source>Print out version information</source>
-        <translation type="unfinished">Tulosta versiotiedot</translation>
+      <source>Print out version information</source>
+      <translation>Tulosta versiotiedot</translation>
     </message>
     <message>
-        <source>Failed to create directory %1.</source>
-        <translation type="unfinished"></translation>
+      <source>Failed to create directory %1.</source>
+      <translation type="unfinished">Failed to create directory %1.</translation>
     </message>
     <message>
-        <source>Destination file %1 exists, but not allowed to overwrite.</source>
-        <translation type="unfinished"></translation>
+      <source>Destination file %1 exists, but not allowed to overwrite.</source>
+      <translation type="unfinished">Destination file %1 exists, but not allowed to overwrite.</translation>
     </message>
     <message>
-        <source>Destination file %1 exists, but not allowed to overwrite</source>
-        <translation type="unfinished"></translation>
+      <source>Destination file %1 exists, but not allowed to overwrite</source>
+      <translation type="unfinished">Destination file %1 exists, but not allowed to overwrite</translation>
     </message>
     <message>
-        <source>Could not copy file %1 to %2.</source>
-        <translation type="unfinished"></translation>
+      <source>Could not copy file %1 to %2.</source>
+      <translation type="unfinished">Could not copy file %1 to %2.</translation>
     </message>
     <message>
-        <source>Unknown</source>
-        <translation type="unfinished">Tuntematon</translation>
+      <source>Unknown</source>
+      <translation>Tuntematon</translation>
     </message>
     <message>
-        <source>LUFS</source>
-        <translation type="unfinished"></translation>
+      <source>LUFS</source>
+      <translation type="unfinished">LUFS</translation>
     </message>
     <message>
-        <source>LU</source>
-        <translation type="unfinished"></translation>
+      <source>LU</source>
+      <translation type="unfinished">LU</translation>
     </message>
     <message>
-        <source>File %1 is not recognized as a valid audio file.</source>
-        <translation type="unfinished">Tiedostoa %1 ei tunnistettu äänitiedostoksi.</translation>
+      <source>File %1 is not recognized as a valid audio file.</source>
+      <translation>Tiedostoa %1 ei tunnistettu äänitiedostoksi.</translation>
     </message>
     <message>
-        <source>1 day</source>
-        <translation type="unfinished">1 päivä</translation>
+      <source>1 day</source>
+      <translation>1 päivä</translation>
     </message>
     <message>
-        <source>%1 days</source>
-        <translation type="unfinished">%1 päivää</translation>
+      <source>%1 days</source>
+      <translation>%1 päivää</translation>
     </message>
     <message>
-        <source>Today</source>
-        <translation type="unfinished">Tänään</translation>
+      <source>Today</source>
+      <translation>Tänään</translation>
     </message>
     <message>
-        <source>Yesterday</source>
-        <translation type="unfinished">Eilen</translation>
+      <source>Yesterday</source>
+      <translation>Eilen</translation>
     </message>
     <message>
-        <source>%1 days ago</source>
-        <translation type="unfinished">%1 päivää sitten</translation>
+      <source>%1 days ago</source>
+      <translation>%1 päivää sitten</translation>
     </message>
     <message>
-        <source>Tomorrow</source>
-        <translation type="unfinished">Huomenna</translation>
+      <source>Tomorrow</source>
+      <translation>Huomenna</translation>
     </message>
     <message>
-        <source>In %1 days</source>
-        <translation type="unfinished">%1 päivässä</translation>
+      <source>In %1 days</source>
+      <translation>%1 päivässä</translation>
     </message>
     <message>
-        <source>Next week</source>
-        <translation type="unfinished">Ensi viikolla</translation>
+      <source>Next week</source>
+      <translation>Ensi viikolla</translation>
     </message>
     <message>
-        <source>In %1 weeks</source>
-        <translation type="unfinished">%1 viikossa</translation>
+      <source>In %1 weeks</source>
+      <translation>%1 viikossa</translation>
     </message>
     <message>
-        <source>Show in file browser</source>
-        <translation type="unfinished">Näytä tiedostonhallinnassa</translation>
+      <source>Show in file browser</source>
+      <translation>Näytä tiedostonhallinnassa</translation>
     </message>
     <message>
-        <source>Too many songs selected.</source>
-        <translation type="unfinished">Liian monta kappaletta valittu.</translation>
+      <source>Too many songs selected.</source>
+      <translation>Liian monta kappaletta valittu.</translation>
     </message>
     <message>
-        <source>%1 songs in %2 different directories selected, are you sure you want to open them all?</source>
-        <translation type="unfinished"></translation>
+      <source>%1 songs in %2 different directories selected, are you sure you want to open them all?</source>
+      <translation type="unfinished">%1 songs in %2 different directories selected, are you sure you want to open them all?</translation>
     </message>
     <message>
-        <source>Failed to load image from data for %1</source>
-        <translation type="unfinished"></translation>
+      <source>Failed to load image from data for %1</source>
+      <translation type="unfinished">Failed to load image from data for %1</translation>
     </message>
     <message>
-        <source>Success</source>
-        <translation type="unfinished"></translation>
+      <source>Success</source>
+      <translation type="unfinished">Success</translation>
     </message>
     <message>
-        <source>File is unsupported</source>
-        <translation type="unfinished"></translation>
+      <source>File is unsupported</source>
+      <translation type="unfinished">File is unsupported</translation>
     </message>
     <message>
-        <source>Filename is missing</source>
-        <translation type="unfinished"></translation>
+      <source>Filename is missing</source>
+      <translation type="unfinished">Filename is missing</translation>
     </message>
     <message>
-        <source>File does not exist</source>
-        <translation type="unfinished"></translation>
+      <source>File does not exist</source>
+      <translation type="unfinished">File does not exist</translation>
     </message>
     <message>
-        <source>File could not be opened</source>
-        <translation type="unfinished"></translation>
+      <source>File could not be opened</source>
+      <translation type="unfinished">File could not be opened</translation>
     </message>
     <message>
-        <source>Could not parse file</source>
-        <translation type="unfinished"></translation>
+      <source>Could not parse file</source>
+      <translation type="unfinished">Could not parse file</translation>
     </message>
     <message>
-        <source>Could save file</source>
-        <translation type="unfinished"></translation>
+      <source>Could save file</source>
+      <translation type="unfinished">Could save file</translation>
     </message>
     <message>
-        <source>Unknown error</source>
-        <translation type="unfinished">Tuntematon virhe</translation>
+      <source>Unknown error</source>
+      <translation>Tuntematon virhe</translation>
     </message>
     <message>
-        <source>Prefix a search term with a field name to limit the search to that field, e.g.:</source>
-        <translation type="unfinished"></translation>
+      <source>Prefix a search term with a field name to limit the search to that field, e.g.:</source>
+      <translation type="unfinished">Prefix a search term with a field name to limit the search to that field, e.g.:</translation>
     </message>
     <message>
-        <source>artist</source>
-        <translation type="unfinished">esittäjä</translation>
+      <source>artist</source>
+      <translation>esittäjä</translation>
     </message>
     <message>
-        <source>searches for all artists containing the word %1. </source>
-        <translation type="unfinished"></translation>
+      <source>searches for all artists containing the word %1. </source>
+      <translation type="unfinished">searches for all artists containing the word %1. </translation>
     </message>
     <message>
-        <source>Search terms for numerical fields can be prefixed with %1 or %2 to refine the search, e.g.: </source>
-        <translation type="unfinished"></translation>
+      <source>Search terms for numerical fields can be prefixed with %1 or %2 to refine the search, e.g.: </source>
+      <translation type="unfinished">Search terms for numerical fields can be prefixed with %1 or %2 to refine the search, e.g.: </translation>
     </message>
     <message>
-        <source>rating</source>
-        <translation type="unfinished"></translation>
+      <source>rating</source>
+      <translation type="unfinished">rating</translation>
     </message>
     <message>
-        <source>Multiple search terms can also be combined with &quot;%1&quot; (default) and &quot;%2&quot;, as well as grouped with parentheses. </source>
-        <translation type="unfinished"></translation>
+      <source>Multiple search terms can also be combined with &quot;%1&quot; (default) and &quot;%2&quot;, as well as grouped with parentheses. </source>
+      <translation type="unfinished">Multiple search terms can also be combined with &quot;%1&quot; (default) and &quot;%2&quot;, as well as grouped with parentheses. </translation>
     </message>
     <message>
-        <source>Available fields</source>
-        <translation type="unfinished">Käytettävissä olevat kentät</translation>
+      <source>Available fields</source>
+      <translation>Käytettävissä olevat kentät</translation>
     </message>
     <message>
-        <source>after</source>
-        <translation type="unfinished">jälkeen</translation>
+      <source>after</source>
+      <translation>jälkeen</translation>
     </message>
     <message>
-        <source>before</source>
-        <translation type="unfinished">ennen</translation>
+      <source>before</source>
+      <translation>ennen</translation>
     </message>
     <message>
-        <source>on</source>
-        <translation type="unfinished"></translation>
+      <source>on</source>
+      <translation type="unfinished">on</translation>
     </message>
     <message>
-        <source>not on</source>
-        <translation type="unfinished"></translation>
+      <source>not on</source>
+      <translation type="unfinished">not on</translation>
     </message>
     <message>
-        <source>in the last</source>
-        <translation type="unfinished"></translation>
+      <source>in the last</source>
+      <translation type="unfinished">in the last</translation>
     </message>
     <message>
-        <source>not in the last</source>
-        <translation type="unfinished"></translation>
+      <source>not in the last</source>
+      <translation type="unfinished">not in the last</translation>
     </message>
     <message>
-        <source>between</source>
-        <translation type="unfinished">välillä</translation>
+      <source>between</source>
+      <translation>välillä</translation>
     </message>
     <message>
-        <source>contains</source>
-        <translation type="unfinished">sisältää</translation>
+      <source>contains</source>
+      <translation>sisältää</translation>
     </message>
     <message>
-        <source>does not contain</source>
-        <translation type="unfinished">ei sisällä</translation>
+      <source>does not contain</source>
+      <translation>ei sisällä</translation>
     </message>
     <message>
-        <source>starts with</source>
-        <translation type="unfinished"></translation>
+      <source>starts with</source>
+      <translation type="unfinished">starts with</translation>
     </message>
     <message>
-        <source>ends with</source>
-        <translation type="unfinished"></translation>
+      <source>ends with</source>
+      <translation type="unfinished">ends with</translation>
     </message>
     <message>
-        <source>greater than</source>
-        <translation type="unfinished">suurempi kuin</translation>
+      <source>greater than</source>
+      <translation>suurempi kuin</translation>
     </message>
     <message>
-        <source>less than</source>
-        <translation type="unfinished">pienempi kuin</translation>
+      <source>less than</source>
+      <translation>pienempi kuin</translation>
     </message>
     <message>
-        <source>equals</source>
-        <translation type="unfinished">yhtäsuuri</translation>
+      <source>equals</source>
+      <translation>yhtäsuuri</translation>
     </message>
     <message>
-        <source>not equals</source>
-        <translation type="unfinished">ei yhtä suuri kuin</translation>
+      <source>not equals</source>
+      <translation>ei yhtä suuri kuin</translation>
     </message>
     <message>
-        <source>empty</source>
-        <translation type="unfinished">tyhjä</translation>
+      <source>empty</source>
+      <translation>tyhjä</translation>
     </message>
     <message>
-        <source>not empty</source>
-        <translation type="unfinished">ei tyhjä</translation>
+      <source>not empty</source>
+      <translation>ei tyhjä</translation>
     </message>
     <message>
-        <source>Comment</source>
-        <translation type="unfinished">Kommentti</translation>
+      <source>Comment</source>
+      <translation>Kommentti</translation>
     </message>
     <message>
-        <source>A-Z</source>
-        <translation type="unfinished">A-Ö</translation>
+      <source>A-Z</source>
+      <translation>A-Ö</translation>
     </message>
     <message>
-        <source>Z-A</source>
-        <translation type="unfinished">Ö-A</translation>
+      <source>Z-A</source>
+      <translation>Ö-A</translation>
     </message>
     <message>
-        <source>oldest first</source>
-        <translation type="unfinished">vanhin ensin</translation>
+      <source>oldest first</source>
+      <translation>vanhin ensin</translation>
     </message>
     <message>
-        <source>newest first</source>
-        <translation type="unfinished">uusin ensin</translation>
+      <source>newest first</source>
+      <translation>uusin ensin</translation>
     </message>
     <message>
-        <source>shortest first</source>
-        <translation type="unfinished">lyhin ensin</translation>
+      <source>shortest first</source>
+      <translation>lyhin ensin</translation>
     </message>
     <message>
-        <source>longest first</source>
-        <translation type="unfinished">pisin ensin</translation>
+      <source>longest first</source>
+      <translation>pisin ensin</translation>
     </message>
     <message>
-        <source>smallest first</source>
-        <translation type="unfinished">pienin ensin</translation>
+      <source>smallest first</source>
+      <translation>pienin ensin</translation>
     </message>
     <message>
-        <source>biggest first</source>
-        <translation type="unfinished">suurin ensin</translation>
+      <source>biggest first</source>
+      <translation>suurin ensin</translation>
     </message>
     <message>
-        <source>Hours</source>
-        <translation type="unfinished">tuntia</translation>
+      <source>Hours</source>
+      <translation>tuntia</translation>
     </message>
     <message>
-        <source>Days</source>
-        <translation type="unfinished">päivää</translation>
+      <source>Days</source>
+      <translation>päivää</translation>
     </message>
     <message>
-        <source>Weeks</source>
-        <translation type="unfinished">viikkoa</translation>
+      <source>Weeks</source>
+      <translation>viikkoa</translation>
     </message>
     <message>
-        <source>Months</source>
-        <translation type="unfinished">kuukautta</translation>
+      <source>Months</source>
+      <translation>kuukautta</translation>
     </message>
     <message>
-        <source>Years</source>
-        <translation type="unfinished">vuotta</translation>
+      <source>Years</source>
+      <translation>vuotta</translation>
     </message>
     <message>
-        <source>Normal</source>
-        <translation type="unfinished">Tavallinen</translation>
+      <source>Normal</source>
+      <translation>Tavallinen</translation>
     </message>
     <message>
-        <source>Angry</source>
-        <translation type="unfinished">Vihainen</translation>
+      <source>Angry</source>
+      <translation>Vihainen</translation>
     </message>
     <message>
-        <source>Frozen</source>
-        <translation type="unfinished"></translation>
+      <source>Frozen</source>
+      <translation type="unfinished">Frozen</translation>
     </message>
     <message>
-        <source>Happy</source>
-        <translation type="unfinished">Iloinen</translation>
+      <source>Happy</source>
+      <translation>Iloinen</translation>
     </message>
     <message>
-        <source>System colors</source>
-        <translation type="unfinished">Järjestelmän värit</translation>
+      <source>System colors</source>
+      <translation>Järjestelmän värit</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>QWidget</name>
     <message>
-        <source>Clear</source>
-        <translation type="unfinished">Tyhjennä</translation>
+      <source>Clear</source>
+      <translation>Tyhjennä</translation>
     </message>
     <message>
-        <source>Reset</source>
-        <translation type="unfinished">Oletukset</translation>
+      <source>Reset</source>
+      <translation>Oletukset</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>QobuzRequest</name>
     <message>
-        <source>Receiving artists...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving artists...</source>
+      <translation type="unfinished">Receiving artists...</translation>
     </message>
     <message>
-        <source>Receiving albums...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving albums...</source>
+      <translation type="unfinished">Receiving albums...</translation>
     </message>
     <message>
-        <source>Receiving songs...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving songs...</source>
+      <translation type="unfinished">Receiving songs...</translation>
     </message>
     <message>
-        <source>Searching...</source>
-        <translation type="unfinished">Hakee...</translation>
+      <source>Searching...</source>
+      <translation>Hakee...</translation>
     </message>
     <message>
-        <source>Receiving albums for %1 artist...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving albums for %1 artist...</source>
+      <translation type="unfinished">Receiving albums for %1 artist...</translation>
     </message>
     <message>
-        <source>Receiving albums for %1 artists...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving albums for %1 artists...</source>
+      <translation type="unfinished">Receiving albums for %1 artists...</translation>
     </message>
     <message>
-        <source>Receiving songs for %1 album...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving songs for %1 album...</source>
+      <translation type="unfinished">Receiving songs for %1 album...</translation>
     </message>
     <message>
-        <source>Receiving songs for %1 albums...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving songs for %1 albums...</source>
+      <translation type="unfinished">Receiving songs for %1 albums...</translation>
     </message>
     <message>
-        <source>Receiving album cover for %1 album...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving album cover for %1 album...</source>
+      <translation type="unfinished">Receiving album cover for %1 album...</translation>
     </message>
     <message>
-        <source>Receiving album covers for %1 albums...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving album covers for %1 albums...</source>
+      <translation type="unfinished">Receiving album covers for %1 albums...</translation>
     </message>
     <message>
-        <source>No match.</source>
-        <translation type="unfinished"></translation>
+      <source>No match.</source>
+      <translation type="unfinished">No match.</translation>
     </message>
     <message>
-        <source>Unknown error</source>
-        <translation type="unfinished">Tuntematon virhe</translation>
+      <source>Unknown error</source>
+      <translation>Tuntematon virhe</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>QobuzService</name>
     <message>
-        <source>Authenticating...</source>
-        <translation type="unfinished">Tunnistaudutaan...</translation>
+      <source>Authenticating...</source>
+      <translation>Tunnistaudutaan...</translation>
     </message>
     <message>
-        <source>Maximum number of login attempts reached.</source>
-        <translation type="unfinished"></translation>
+      <source>Maximum number of login attempts reached.</source>
+      <translation type="unfinished">Maximum number of login attempts reached.</translation>
     </message>
     <message>
-        <source>Missing Qobuz app ID.</source>
-        <translation type="unfinished">Qobuz-sovellustustunniste puuttuu.</translation>
+      <source>Missing Qobuz app ID.</source>
+      <translation>Qobuz-sovellustustunniste puuttuu.</translation>
     </message>
     <message>
-        <source>Missing Qobuz username.</source>
-        <translation type="unfinished">Gobuz-käyttäjätunnus puuttuu.</translation>
+      <source>Missing Qobuz username.</source>
+      <translation>Gobuz-käyttäjätunnus puuttuu.</translation>
     </message>
     <message>
-        <source>Missing Qobuz password.</source>
-        <translation type="unfinished">Qobuz-salasana puuttuu.</translation>
+      <source>Missing Qobuz password.</source>
+      <translation>Qobuz-salasana puuttuu.</translation>
     </message>
     <message>
-        <source>Not authenticated with Qobuz.</source>
-        <translation type="unfinished"></translation>
+      <source>Not authenticated with Qobuz.</source>
+      <translation type="unfinished">Not authenticated with Qobuz.</translation>
     </message>
     <message>
-        <source>Missing Qobuz app ID or secret.</source>
-        <translation type="unfinished">Qobuz-sovellustunniste tai -salaisuus puuttuu.</translation>
+      <source>Missing Qobuz app ID or secret.</source>
+      <translation>Qobuz-sovellustunniste tai -salaisuus puuttuu.</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>QobuzSettingsPage</name>
     <message>
-        <source>Qobuz</source>
-        <translation type="unfinished"></translation>
+      <source>Qobuz</source>
+      <translation type="unfinished">Qobuz</translation>
     </message>
     <message>
-        <source>Enable</source>
-        <translation type="unfinished">Ota käyttöön</translation>
+      <source>Enable</source>
+      <translation>Ota käyttöön</translation>
     </message>
     <message>
-        <source>Qobuz support is not official and requires an API app ID and secret from a registered application to work. We can&apos;t help you getting these.</source>
-        <translation type="unfinished"></translation>
+      <source>Qobuz support is not official and requires an API app ID and secret from a registered application to work. We can&apos;t help you getting these.</source>
+      <translation type="unfinished">Qobuz support is not official and requires an API app ID and secret from a registered application to work. We can&apos;t help you getting these.</translation>
     </message>
     <message>
-        <source>Authentication</source>
-        <translation type="unfinished">Tunnistautuminen</translation>
+      <source>Authentication</source>
+      <translation>Tunnistautuminen</translation>
     </message>
     <message>
-        <source>App ID</source>
-        <translation type="unfinished">Sovellus-ID</translation>
+      <source>App ID</source>
+      <translation>Sovellus-ID</translation>
     </message>
     <message>
-        <source>Username</source>
-        <translation type="unfinished">Käyttäjätunnus</translation>
+      <source>Username</source>
+      <translation>Käyttäjätunnus</translation>
     </message>
     <message>
-        <source>Password</source>
-        <translation type="unfinished">Salasana</translation>
+      <source>Password</source>
+      <translation>Salasana</translation>
     </message>
     <message>
-        <source>App Secret</source>
-        <translation type="unfinished">Sovelluksen salaisuus</translation>
+      <source>App Secret</source>
+      <translation>Sovelluksen salaisuus</translation>
     </message>
     <message>
-        <source>Login</source>
-        <translation type="unfinished">Kirjaudu sisään</translation>
+      <source>Login</source>
+      <translation>Kirjaudu sisään</translation>
     </message>
     <message>
-        <source>Preferences</source>
-        <translation type="unfinished">Asetukset</translation>
+      <source>Preferences</source>
+      <translation>Asetukset</translation>
     </message>
     <message>
-        <source>Audio format</source>
-        <translation type="unfinished">Äänimuoto</translation>
+      <source>Audio format</source>
+      <translation>Äänimuoto</translation>
     </message>
     <message>
-        <source>Search delay</source>
-        <translation type="unfinished"></translation>
+      <source>Search delay</source>
+      <translation type="unfinished">Search delay</translation>
     </message>
     <message>
-        <source>ms</source>
-        <translation type="unfinished"></translation>
+      <source>ms</source>
+      <translation type="unfinished">ms</translation>
     </message>
     <message>
-        <source>Artists search limit</source>
-        <translation type="unfinished"></translation>
+      <source>Artists search limit</source>
+      <translation type="unfinished">Artists search limit</translation>
     </message>
     <message>
-        <source>Albums search limit</source>
-        <translation type="unfinished"></translation>
+      <source>Albums search limit</source>
+      <translation type="unfinished">Albums search limit</translation>
     </message>
     <message>
-        <source>Songs search limit</source>
-        <translation type="unfinished"></translation>
+      <source>Songs search limit</source>
+      <translation type="unfinished">Songs search limit</translation>
     </message>
     <message>
-        <source>Download album covers</source>
-        <translation type="unfinished">Lataa albumien kansikuvat</translation>
+      <source>Download album covers</source>
+      <translation>Lataa albumien kansikuvat</translation>
     </message>
     <message>
-        <source>Base64 encoded secret</source>
-        <translation type="unfinished"></translation>
+      <source>Base64 encoded secret</source>
+      <translation type="unfinished">Base64 encoded secret</translation>
     </message>
     <message>
-        <source>Configuration incomplete</source>
-        <translation type="unfinished">Asetukset keskeneräiset</translation>
+      <source>Configuration incomplete</source>
+      <translation>Asetukset keskeneräiset</translation>
     </message>
     <message>
-        <source>Missing app id.</source>
-        <translation type="unfinished"></translation>
+      <source>Missing app id.</source>
+      <translation type="unfinished">Missing app id.</translation>
     </message>
     <message>
-        <source>Missing username.</source>
-        <translation type="unfinished">Käyttäjätunnus puuttuu.</translation>
+      <source>Missing username.</source>
+      <translation>Käyttäjätunnus puuttuu.</translation>
     </message>
     <message>
-        <source>Missing password.</source>
-        <translation type="unfinished">Salasana puuttuu.</translation>
+      <source>Missing password.</source>
+      <translation>Salasana puuttuu.</translation>
     </message>
     <message>
-        <source>Authentication failed</source>
-        <translation type="unfinished">Tunnistautuminen epäonnistui</translation>
+      <source>Authentication failed</source>
+      <translation>Tunnistautuminen epäonnistui</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>QobuzStreamURLRequest</name>
     <message>
-        <source>Missing Qobuz app ID or secret.</source>
-        <translation type="unfinished">Qobuz-sovellustunniste tai -salaisuus puuttuu.</translation>
+      <source>Missing Qobuz app ID or secret.</source>
+      <translation>Qobuz-sovellustunniste tai -salaisuus puuttuu.</translation>
     </message>
     <message>
-        <source>Cancelled.</source>
-        <translation type="unfinished">Peruutettu.</translation>
+      <source>Cancelled.</source>
+      <translation>Peruutettu.</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>Queue</name>
     <message numerus="yes">
-        <source>%n track(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+      <source>%n track(s)</source>
+      <translation type="unfinished">
+        <numerusform>%n track(s)</numerusform>
+        <numerusform>%n track(s)</numerusform>
+      </translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>QueueView</name>
     <message>
-        <source>QueueView</source>
-        <translation type="unfinished"></translation>
+      <source>QueueView</source>
+      <translation type="unfinished">QueueView</translation>
     </message>
     <message>
-        <source>Move down</source>
-        <translation type="unfinished">Siirrä alas</translation>
+      <source>Move down</source>
+      <translation>Siirrä alas</translation>
     </message>
     <message>
-        <source>Ctrl+Up</source>
-        <translation type="unfinished"></translation>
+      <source>Ctrl+Up</source>
+      <translation type="unfinished">Ctrl+Up</translation>
     </message>
     <message>
-        <source>Move up</source>
-        <translation type="unfinished">Siirrä ylös</translation>
+      <source>Move up</source>
+      <translation>Siirrä ylös</translation>
     </message>
     <message>
-        <source>Ctrl+Down</source>
-        <translation type="unfinished"></translation>
+      <source>Ctrl+Down</source>
+      <translation type="unfinished">Ctrl+Down</translation>
     </message>
     <message>
-        <source>Remove</source>
-        <translation type="unfinished">Poista</translation>
+      <source>Remove</source>
+      <translation>Poista</translation>
     </message>
     <message>
-        <source>Clear</source>
-        <translation type="unfinished">Tyhjennä</translation>
+      <source>Clear</source>
+      <translation>Tyhjennä</translation>
     </message>
     <message>
-        <source>Ctrl+K</source>
-        <translation type="unfinished"></translation>
+      <source>Ctrl+K</source>
+      <translation type="unfinished">Ctrl+K</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>RadioParadiseService</name>
     <message>
-        <source>Getting %1 channels</source>
-        <translation type="unfinished"></translation>
+      <source>Getting %1 channels</source>
+      <translation type="unfinished">Getting %1 channels</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>RadioView</name>
     <message>
-        <source>Append to current playlist</source>
-        <translation type="unfinished">Lisää nykyiselle soittolistalle</translation>
+      <source>Append to current playlist</source>
+      <translation>Lisää nykyiselle soittolistalle</translation>
     </message>
     <message>
-        <source>Replace current playlist</source>
-        <translation type="unfinished">Korvaa nykyinen soittolista</translation>
+      <source>Replace current playlist</source>
+      <translation>Korvaa nykyinen soittolista</translation>
     </message>
     <message>
-        <source>Open in new playlist</source>
-        <translation type="unfinished">Avaa uudessa soittolistassa</translation>
+      <source>Open in new playlist</source>
+      <translation>Avaa uudessa soittolistassa</translation>
     </message>
     <message>
-        <source>Open homepage</source>
-        <translation type="unfinished"></translation>
+      <source>Open homepage</source>
+      <translation type="unfinished">Open homepage</translation>
     </message>
     <message>
-        <source>Donate</source>
-        <translation type="unfinished"></translation>
+      <source>Donate</source>
+      <translation type="unfinished">Donate</translation>
     </message>
     <message>
-        <source>Refresh channels</source>
-        <translation type="unfinished"></translation>
+      <source>Refresh channels</source>
+      <translation type="unfinished">Refresh channels</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>RadioViewContainer</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">Lomake</translation>
+      <source>Form</source>
+      <translation>Lomake</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SCollection</name>
     <message>
-        <source>Saving playcounts and ratings</source>
-        <translation type="unfinished"></translation>
+      <source>Saving playcounts and ratings</source>
+      <translation type="unfinished">Saving playcounts and ratings</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SavePlaylistsDialog</name>
     <message>
-        <source>Select directory for saving playlists</source>
-        <translation type="unfinished"></translation>
+      <source>Select directory for saving playlists</source>
+      <translation type="unfinished">Select directory for saving playlists</translation>
     </message>
     <message>
-        <source>Type</source>
-        <translation type="unfinished"></translation>
+      <source>Type</source>
+      <translation type="unfinished">Type</translation>
     </message>
     <message>
-        <source>Select directory for the playlists</source>
-        <translation type="unfinished"></translation>
+      <source>Select directory for the playlists</source>
+      <translation type="unfinished">Select directory for the playlists</translation>
     </message>
     <message>
-        <source>Directory does not exist.</source>
-        <translation type="unfinished"></translation>
+      <source>Directory does not exist.</source>
+      <translation type="unfinished">Directory does not exist.</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SavedGroupingManager</name>
     <message>
-        <source>Saved Grouping Manager</source>
-        <translation type="unfinished"></translation>
+      <source>Saved Grouping Manager</source>
+      <translation type="unfinished">Saved Grouping Manager</translation>
     </message>
     <message>
-        <source>Remove</source>
-        <translation type="unfinished">Poista</translation>
+      <source>Remove</source>
+      <translation>Poista</translation>
     </message>
     <message>
-        <source>Ctrl+Up</source>
-        <translation type="unfinished"></translation>
+      <source>Ctrl+Up</source>
+      <translation type="unfinished">Ctrl+Up</translation>
     </message>
     <message>
-        <source>Name</source>
-        <translation type="unfinished">Nimi</translation>
+      <source>Name</source>
+      <translation>Nimi</translation>
     </message>
     <message>
-        <source>First level</source>
-        <translation type="unfinished">Ensimmäinen taso</translation>
+      <source>First level</source>
+      <translation>Ensimmäinen taso</translation>
     </message>
     <message>
-        <source>Second Level</source>
-        <translation type="unfinished">Toinen taso</translation>
+      <source>Second Level</source>
+      <translation>Toinen taso</translation>
     </message>
     <message>
-        <source>Third Level</source>
-        <translation type="unfinished">Kolmas taso</translation>
+      <source>Third Level</source>
+      <translation>Kolmas taso</translation>
     </message>
     <message>
-        <source>None</source>
-        <translation type="unfinished">Ei mitään</translation>
+      <source>None</source>
+      <translation>Ei mitään</translation>
     </message>
     <message>
-        <source>Album artist</source>
-        <translation type="unfinished">Albumin esittäjä</translation>
+      <source>Album artist</source>
+      <translation>Albumin esittäjä</translation>
     </message>
     <message>
-        <source>Artist</source>
-        <translation type="unfinished">Esittäjä</translation>
+      <source>Artist</source>
+      <translation>Esittäjä</translation>
     </message>
     <message>
-        <source>Album</source>
-        <translation type="unfinished">Albumi</translation>
+      <source>Album</source>
+      <translation>Albumi</translation>
     </message>
     <message>
-        <source>Album - Disc</source>
-        <translation type="unfinished">Albumi - Levy</translation>
+      <source>Album - Disc</source>
+      <translation>Albumi - Levy</translation>
     </message>
     <message>
-        <source>Year - Album</source>
-        <translation type="unfinished">Vuosi - Albumi</translation>
+      <source>Year - Album</source>
+      <translation>Vuosi - Albumi</translation>
     </message>
     <message>
-        <source>Year - Album - Disc</source>
-        <translation type="unfinished">Vuosi - Albumi - Levy</translation>
+      <source>Year - Album - Disc</source>
+      <translation>Vuosi - Albumi - Levy</translation>
     </message>
     <message>
-        <source>Original year - Album</source>
-        <translation type="unfinished">Alkuperäinen vuosi - albumi</translation>
+      <source>Original year - Album</source>
+      <translation>Alkuperäinen vuosi - albumi</translation>
     </message>
     <message>
-        <source>Original year - Album - Disc</source>
-        <translation type="unfinished"></translation>
+      <source>Original year - Album - Disc</source>
+      <translation type="unfinished">Original year - Album - Disc</translation>
     </message>
     <message>
-        <source>Disc</source>
-        <translation type="unfinished">Levy</translation>
+      <source>Disc</source>
+      <translation>Levy</translation>
     </message>
     <message>
-        <source>Year</source>
-        <translation type="unfinished">Vuosi</translation>
+      <source>Year</source>
+      <translation>Vuosi</translation>
     </message>
     <message>
-        <source>Original year</source>
-        <translation type="unfinished">Alkuperäinen vuosi</translation>
+      <source>Original year</source>
+      <translation>Alkuperäinen vuosi</translation>
     </message>
     <message>
-        <source>Genre</source>
-        <translation type="unfinished">Tyylilaji</translation>
+      <source>Genre</source>
+      <translation>Tyylilaji</translation>
     </message>
     <message>
-        <source>Composer</source>
-        <translation type="unfinished">Säveltäjä</translation>
+      <source>Composer</source>
+      <translation>Säveltäjä</translation>
     </message>
     <message>
-        <source>Performer</source>
-        <translation type="unfinished">Esittäjä</translation>
+      <source>Performer</source>
+      <translation>Esittäjä</translation>
     </message>
     <message>
-        <source>Grouping</source>
-        <translation type="unfinished">Ryhmittely</translation>
+      <source>Grouping</source>
+      <translation>Ryhmittely</translation>
     </message>
     <message>
-        <source>File type</source>
-        <translation type="unfinished">Tiedostotyyppi</translation>
+      <source>File type</source>
+      <translation>Tiedostotyyppi</translation>
     </message>
     <message>
-        <source>Format</source>
-        <translation type="unfinished">Muoto</translation>
+      <source>Format</source>
+      <translation>Muoto</translation>
     </message>
     <message>
-        <source>Sample rate</source>
-        <translation type="unfinished">Näytteenottotaajuus</translation>
+      <source>Sample rate</source>
+      <translation>Näytteenottotaajuus</translation>
     </message>
     <message>
-        <source>Bit depth</source>
-        <translation type="unfinished">Bittisyys</translation>
+      <source>Bit depth</source>
+      <translation>Bittisyys</translation>
     </message>
     <message>
-        <source>Bitrate</source>
-        <translation type="unfinished">Bittinopeus</translation>
+      <source>Bitrate</source>
+      <translation>Bittinopeus</translation>
     </message>
     <message>
-        <source>Unknown</source>
-        <translation type="unfinished">Tuntematon</translation>
+      <source>Unknown</source>
+      <translation>Tuntematon</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>ScrobblerSettingsPage</name>
     <message>
-        <source>Scrobbler</source>
-        <translation type="unfinished"></translation>
+      <source>Scrobbler</source>
+      <translation type="unfinished">Scrobbler</translation>
     </message>
     <message>
-        <source>Enable</source>
-        <translation type="unfinished">Ota käyttöön</translation>
+      <source>Enable</source>
+      <translation>Ota käyttöön</translation>
     </message>
     <message>
-        <source>Songs are scrobbled if they have valid metadata and are longer than 30 seconds, have been playing for at least half its duration or for 4 minutes (whichever occurs earlier).</source>
-        <translation type="unfinished"></translation>
+      <source>Songs are scrobbled if they have valid metadata and are longer than 30 seconds, have been playing for at least half its duration or for 4 minutes (whichever occurs earlier).</source>
+      <translation type="unfinished">Songs are scrobbled if they have valid metadata and are longer than 30 seconds, have been playing for at least half its duration or for 4 minutes (whichever occurs earlier).</translation>
     </message>
     <message>
-        <source>Work in offline mode (Only cache scrobbles)</source>
-        <translation type="unfinished"></translation>
+      <source>Work in offline mode (Only cache scrobbles)</source>
+      <translation type="unfinished">Work in offline mode (Only cache scrobbles)</translation>
     </message>
     <message>
-        <source>Show scrobble button</source>
-        <translation type="unfinished">Näytä scrobble-painike</translation>
+      <source>Show scrobble button</source>
+      <translation>Näytä scrobble-painike</translation>
     </message>
     <message>
-        <source>Show love button</source>
-        <translation type="unfinished">Näytä tykkää-nappi</translation>
+      <source>Show love button</source>
+      <translation>Näytä tykkää-nappi</translation>
     </message>
     <message>
-        <source>Submit scrobbles every</source>
-        <translation type="unfinished">Lähetä scrobblet kerran</translation>
+      <source>Submit scrobbles every</source>
+      <translation>Lähetä scrobblet kerran</translation>
     </message>
     <message>
-        <source> seconds</source>
-        <translation type="unfinished"> sekuntia</translation>
+      <source> seconds</source>
+      <translation> sekuntia</translation>
     </message>
     <message>
-        <source>(This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately).</source>
-        <translation type="unfinished"></translation>
+      <source>(This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately).</source>
+      <translation type="unfinished">(This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately).</translation>
     </message>
     <message>
-        <source>Prefer album artist when sending scrobbles</source>
-        <translation type="unfinished"></translation>
+      <source>Prefer album artist when sending scrobbles</source>
+      <translation type="unfinished">Prefer album artist when sending scrobbles</translation>
     </message>
     <message>
-        <source>Show dialog for errors</source>
-        <translation type="unfinished"></translation>
+      <source>Show dialog for errors</source>
+      <translation type="unfinished">Show dialog for errors</translation>
     </message>
     <message>
-        <source>Strip &quot;remastered&quot; and similar from album and title</source>
-        <translation type="unfinished"></translation>
+      <source>Strip &quot;remastered&quot; and similar from album and title</source>
+      <translation type="unfinished">Strip &quot;remastered&quot; and similar from album and title</translation>
     </message>
     <message>
-        <source>Enable scrobbling for the following sources:</source>
-        <translation type="unfinished"></translation>
+      <source>Enable scrobbling for the following sources:</source>
+      <translation type="unfinished">Enable scrobbling for the following sources:</translation>
     </message>
     <message>
-        <source>Collection</source>
-        <translation type="unfinished">Kirjasto</translation>
+      <source>Collection</source>
+      <translation>Kirjasto</translation>
     </message>
     <message>
-        <source>Subsonic</source>
-        <translation type="unfinished"></translation>
+      <source>Subsonic</source>
+      <translation type="unfinished">Subsonic</translation>
     </message>
     <message>
-        <source>Local file</source>
-        <translation type="unfinished">Paikallinen tiedosto</translation>
+      <source>Local file</source>
+      <translation>Paikallinen tiedosto</translation>
     </message>
     <message>
-        <source>Tidal</source>
-        <translation type="unfinished"></translation>
+      <source>Tidal</source>
+      <translation type="unfinished">Tidal</translation>
     </message>
     <message>
-        <source>Device</source>
-        <translation type="unfinished">Laite</translation>
+      <source>Device</source>
+      <translation>Laite</translation>
     </message>
     <message>
-        <source>Qobuz</source>
-        <translation type="unfinished"></translation>
+      <source>Qobuz</source>
+      <translation type="unfinished">Qobuz</translation>
     </message>
     <message>
-        <source>CDDA</source>
-        <translation type="unfinished"></translation>
+      <source>CDDA</source>
+      <translation type="unfinished">CDDA</translation>
     </message>
     <message>
-        <source>SomaFM</source>
-        <translation type="unfinished"></translation>
+      <source>SomaFM</source>
+      <translation type="unfinished">SomaFM</translation>
     </message>
     <message>
-        <source>Stream</source>
-        <translation type="unfinished">Suoratoisto</translation>
+      <source>Stream</source>
+      <translation>Suoratoisto</translation>
     </message>
     <message>
-        <source>Radio Paradise</source>
-        <translation type="unfinished"></translation>
+      <source>Radio Paradise</source>
+      <translation type="unfinished">Radio Paradise</translation>
     </message>
     <message>
-        <source>Unknown</source>
-        <translation type="unfinished">Tuntematon</translation>
+      <source>Unknown</source>
+      <translation>Tuntematon</translation>
     </message>
     <message>
-        <source>Last.fm</source>
-        <translation type="unfinished"></translation>
+      <source>Last.fm</source>
+      <translation type="unfinished">Last.fm</translation>
     </message>
     <message>
-        <source>Login</source>
-        <translation type="unfinished">Kirjaudu sisään</translation>
+      <source>Login</source>
+      <translation>Kirjaudu sisään</translation>
     </message>
     <message>
-        <source>Libre.fm</source>
-        <translation type="unfinished"></translation>
+      <source>Libre.fm</source>
+      <translation type="unfinished">Libre.fm</translation>
     </message>
     <message>
-        <source>Listenbrainz</source>
-        <translation type="unfinished"></translation>
+      <source>Listenbrainz</source>
+      <translation type="unfinished">Listenbrainz</translation>
     </message>
     <message>
-        <source>User token:</source>
-        <translation type="unfinished"></translation>
+      <source>User token:</source>
+      <translation type="unfinished">User token:</translation>
     </message>
     <message>
-        <source>Enter your user token from</source>
-        <translation type="unfinished"></translation>
+      <source>Enter your user token from</source>
+      <translation type="unfinished">Enter your user token from</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>ScrobblingAPI20</name>
     <message>
-        <source>%1 Scrobbler Authentication</source>
-        <translation type="unfinished">%1 Scrobbler-tunnistautuminen</translation>
+      <source>%1 Scrobbler Authentication</source>
+      <translation>%1 Scrobbler-tunnistautuminen</translation>
     </message>
     <message>
-        <source>Open URL in web browser?</source>
-        <translation type="unfinished">Avataanko osoite verkkoselaimessa?</translation>
+      <source>Open URL in web browser?</source>
+      <translation>Avataanko osoite verkkoselaimessa?</translation>
     </message>
     <message>
-        <source>Press &quot;Save&quot; to copy the URL to clipboard and manually open it in a web browser.</source>
-        <translation type="unfinished"></translation>
+      <source>Press &quot;Save&quot; to copy the URL to clipboard and manually open it in a web browser.</source>
+      <translation type="unfinished">Press &quot;Save&quot; to copy the URL to clipboard and manually open it in a web browser.</translation>
     </message>
     <message>
-        <source>Could not open URL. Please open this URL in your browser</source>
-        <translation type="unfinished">URL-osoitetta ei voitu avata. Ole hyvä ja kokeile avata URL selaimessasi</translation>
+      <source>Could not open URL. Please open this URL in your browser</source>
+      <translation>URL-osoitetta ei voitu avata. Ole hyvä ja kokeile avata URL selaimessasi</translation>
     </message>
     <message>
-        <source>Invalid reply from web browser. Missing token.</source>
-        <translation type="unfinished"></translation>
+      <source>Invalid reply from web browser. Missing token.</source>
+      <translation type="unfinished">Invalid reply from web browser. Missing token.</translation>
     </message>
     <message>
-        <source>Received invalid reply from web browser. Try another browser.</source>
-        <translation type="unfinished"></translation>
+      <source>Received invalid reply from web browser. Try another browser.</source>
+      <translation type="unfinished">Received invalid reply from web browser. Try another browser.</translation>
     </message>
     <message>
-        <source>Scrobbler %1 is not authenticated!</source>
-        <translation type="unfinished"></translation>
+      <source>Scrobbler %1 is not authenticated!</source>
+      <translation type="unfinished">Scrobbler %1 is not authenticated!</translation>
     </message>
     <message>
-        <source>Scrobbler %1 error: %2</source>
-        <translation type="unfinished">Scrobbler %1 virhe: %2</translation>
+      <source>Scrobbler %1 error: %2</source>
+      <translation>Scrobbler %1 virhe: %2</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SettingsDialog</name>
     <message>
-        <source>Settings</source>
-        <translation type="unfinished">Asetukset</translation>
+      <source>Settings</source>
+      <translation>Asetukset</translation>
     </message>
     <message>
-        <source>General</source>
-        <translation type="unfinished">Yleiset</translation>
+      <source>General</source>
+      <translation>Yleiset</translation>
     </message>
     <message>
-        <source>User interface</source>
-        <translation type="unfinished">Käyttöliittymä</translation>
+      <source>User interface</source>
+      <translation>Käyttöliittymä</translation>
     </message>
     <message>
-        <source>Streaming</source>
-        <translation type="unfinished">Striimaus</translation>
+      <source>Streaming</source>
+      <translation>Striimaus</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SmartPlaylistQuerySearchPage</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">Lomake</translation>
+      <source>Form</source>
+      <translation>Lomake</translation>
     </message>
     <message>
-        <source>Search mode</source>
-        <translation type="unfinished"></translation>
+      <source>Search mode</source>
+      <translation type="unfinished">Search mode</translation>
     </message>
     <message>
-        <source>Match every search term (AND)</source>
-        <translation type="unfinished"></translation>
+      <source>Match every search term (AND)</source>
+      <translation type="unfinished">Match every search term (AND)</translation>
     </message>
     <message>
-        <source>Match one or more search terms (OR)</source>
-        <translation type="unfinished"></translation>
+      <source>Match one or more search terms (OR)</source>
+      <translation type="unfinished">Match one or more search terms (OR)</translation>
     </message>
     <message>
-        <source>Include all songs</source>
-        <translation type="unfinished"></translation>
+      <source>Include all songs</source>
+      <translation type="unfinished">Include all songs</translation>
     </message>
     <message>
-        <source>Search terms</source>
-        <translation type="unfinished">Hakusanat</translation>
+      <source>Search terms</source>
+      <translation>Hakusanat</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SmartPlaylistQuerySortPage</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">Lomake</translation>
+      <source>Form</source>
+      <translation>Lomake</translation>
     </message>
     <message>
-        <source>Sorting</source>
-        <translation type="unfinished">Lajittelu</translation>
+      <source>Sorting</source>
+      <translation>Lajittelu</translation>
     </message>
     <message>
-        <source>Put songs in a random order</source>
-        <translation type="unfinished"></translation>
+      <source>Put songs in a random order</source>
+      <translation type="unfinished">Put songs in a random order</translation>
     </message>
     <message>
-        <source>Sort songs by</source>
-        <translation type="unfinished">Lajitteluperuste</translation>
+      <source>Sort songs by</source>
+      <translation>Lajitteluperuste</translation>
     </message>
     <message>
-        <source>Limits</source>
-        <translation type="unfinished"></translation>
+      <source>Limits</source>
+      <translation type="unfinished">Limits</translation>
     </message>
     <message>
-        <source>Show all the songs</source>
-        <translation type="unfinished">Näytä kaikki kappaleet</translation>
+      <source>Show all the songs</source>
+      <translation>Näytä kaikki kappaleet</translation>
     </message>
     <message>
-        <source>Only show the first</source>
-        <translation type="unfinished">Näytä pelkästään ensimmäinen</translation>
+      <source>Only show the first</source>
+      <translation>Näytä pelkästään ensimmäinen</translation>
     </message>
     <message>
-        <source> songs</source>
-        <translation type="unfinished">kappaleet</translation>
+      <source> songs</source>
+      <translation>kappaleet</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SmartPlaylistQueryWizardPlugin</name>
     <message>
-        <source>Collection search</source>
-        <translation type="unfinished"></translation>
+      <source>Collection search</source>
+      <translation type="unfinished">Collection search</translation>
     </message>
     <message>
-        <source>Find songs in your collection that match the criteria you specify.</source>
-        <translation type="unfinished"></translation>
+      <source>Find songs in your collection that match the criteria you specify.</source>
+      <translation type="unfinished">Find songs in your collection that match the criteria you specify.</translation>
     </message>
     <message>
-        <source>Search terms</source>
-        <translation type="unfinished">Hakusanat</translation>
+      <source>Search terms</source>
+      <translation>Hakusanat</translation>
     </message>
     <message>
-        <source>A song will be included in the playlist if it matches these conditions.</source>
-        <translation type="unfinished"></translation>
+      <source>A song will be included in the playlist if it matches these conditions.</source>
+      <translation type="unfinished">A song will be included in the playlist if it matches these conditions.</translation>
     </message>
     <message>
-        <source>Search options</source>
-        <translation type="unfinished">Hakuasetukset</translation>
+      <source>Search options</source>
+      <translation>Hakuasetukset</translation>
     </message>
     <message>
-        <source>Choose how the playlist is sorted and how many songs it will contain.</source>
-        <translation type="unfinished">Valitse montako kappaletta soittolista sisältää ja missä järjestyksessä.</translation>
+      <source>Choose how the playlist is sorted and how many songs it will contain.</source>
+      <translation>Valitse montako kappaletta soittolista sisältää ja missä järjestyksessä.</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SmartPlaylistSearchPreview</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">Lomake</translation>
+      <source>Form</source>
+      <translation>Lomake</translation>
     </message>
     <message>
-        <source>Preview</source>
-        <translation type="unfinished">Esikatselu</translation>
+      <source>Preview</source>
+      <translation>Esikatselu</translation>
     </message>
     <message>
-        <source>Loading...</source>
-        <translation type="unfinished">Ladataan...</translation>
+      <source>Loading...</source>
+      <translation>Ladataan...</translation>
     </message>
     <message>
-        <source>%1 songs found (showing %2)</source>
-        <translation type="unfinished">%1 kappaletta löytyi (näytetään %2)</translation>
+      <source>%1 songs found (showing %2)</source>
+      <translation>%1 kappaletta löytyi (näytetään %2)</translation>
     </message>
     <message>
-        <source>%1 songs found</source>
-        <translation type="unfinished">%1 kappaletta löytyi</translation>
+      <source>%1 songs found</source>
+      <translation>%1 kappaletta löytyi</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SmartPlaylistSearchTermWidget</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">Lomake</translation>
+      <source>Form</source>
+      <translation>Lomake</translation>
     </message>
     <message>
-        <source>and</source>
-        <translation type="unfinished">ja</translation>
+      <source>and</source>
+      <translation>ja</translation>
     </message>
     <message>
-        <source>ago</source>
-        <translation type="unfinished">sitten</translation>
+      <source>ago</source>
+      <translation>sitten</translation>
     </message>
     <message>
-        <source>The second value must be greater than the first one!</source>
-        <translation type="unfinished"></translation>
+      <source>The second value must be greater than the first one!</source>
+      <translation type="unfinished">The second value must be greater than the first one!</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SmartPlaylistSearchTermWidgetOverlay</name>
     <message>
-        <source>Add search term</source>
-        <translation type="unfinished">Lisää hakusana</translation>
+      <source>Add search term</source>
+      <translation>Lisää hakusana</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SmartPlaylistWizard</name>
     <message>
-        <source>Smart playlist</source>
-        <translation type="unfinished">Älykäs soittolista</translation>
+      <source>Smart playlist</source>
+      <translation>Älykäs soittolista</translation>
     </message>
     <message>
-        <source>Playlist type</source>
-        <translation type="unfinished">Soittolistan tyyppi</translation>
+      <source>Playlist type</source>
+      <translation>Soittolistan tyyppi</translation>
     </message>
     <message>
-        <source>A smart playlist is a dynamic list of songs that come from your collection.  There are different types of smart playlist that offer different ways of selecting songs.</source>
-        <translation type="unfinished"></translation>
+      <source>A smart playlist is a dynamic list of songs that come from your collection.  There are different types of smart playlist that offer different ways of selecting songs.</source>
+      <translation type="unfinished">A smart playlist is a dynamic list of songs that come from your collection.  There are different types of smart playlist that offer different ways of selecting songs.</translation>
     </message>
     <message>
-        <source>Finish</source>
-        <translation type="unfinished"></translation>
+      <source>Finish</source>
+      <translation type="unfinished">Finish</translation>
     </message>
     <message>
-        <source>Choose a name for your smart playlist</source>
-        <translation type="unfinished">Valitse älykkäälle soittolistallesi nimi</translation>
+      <source>Choose a name for your smart playlist</source>
+      <translation>Valitse älykkäälle soittolistallesi nimi</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SmartPlaylistWizardFinishPage</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">Lomake</translation>
+      <source>Form</source>
+      <translation>Lomake</translation>
     </message>
     <message>
-        <source>Name</source>
-        <translation type="unfinished">Nimi</translation>
+      <source>Name</source>
+      <translation>Nimi</translation>
     </message>
     <message>
-        <source>Use dynamic mode</source>
-        <translation type="unfinished"></translation>
+      <source>Use dynamic mode</source>
+      <translation type="unfinished">Use dynamic mode</translation>
     </message>
     <message>
-        <source>In dynamic mode new tracks will be chosen and added to the playlist every time a song finishes.</source>
-        <translation type="unfinished"></translation>
+      <source>In dynamic mode new tracks will be chosen and added to the playlist every time a song finishes.</source>
+      <translation type="unfinished">In dynamic mode new tracks will be chosen and added to the playlist every time a song finishes.</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SmartPlaylists</name>
     <message>
-        <source>Newest tracks</source>
-        <translation type="unfinished">Uusimmat kappaleet</translation>
+      <source>Newest tracks</source>
+      <translation>Uusimmat kappaleet</translation>
     </message>
     <message>
-        <source>50 random tracks</source>
-        <translation type="unfinished">50 satunnaista kappaletta</translation>
+      <source>50 random tracks</source>
+      <translation>50 satunnaista kappaletta</translation>
     </message>
     <message>
-        <source>Ever played</source>
-        <translation type="unfinished"></translation>
+      <source>Ever played</source>
+      <translation type="unfinished">Ever played</translation>
     </message>
     <message>
-        <source>Never played</source>
-        <translation type="unfinished"></translation>
+      <source>Never played</source>
+      <translation type="unfinished">Never played</translation>
     </message>
     <message>
-        <source>Last played</source>
-        <translation type="unfinished"></translation>
+      <source>Last played</source>
+      <translation type="unfinished">Last played</translation>
     </message>
     <message>
-        <source>Most played</source>
-        <translation type="unfinished">Eniten toistetut</translation>
+      <source>Most played</source>
+      <translation>Eniten toistetut</translation>
     </message>
     <message>
-        <source>Favourite tracks</source>
-        <translation type="unfinished">Suosikkikappaleet</translation>
+      <source>Favourite tracks</source>
+      <translation>Suosikkikappaleet</translation>
     </message>
     <message>
-        <source>All tracks</source>
-        <translation type="unfinished">Kaikki kappaleet</translation>
+      <source>All tracks</source>
+      <translation>Kaikki kappaleet</translation>
     </message>
     <message>
-        <source>Dynamic random mix</source>
-        <translation type="unfinished"></translation>
+      <source>Dynamic random mix</source>
+      <translation type="unfinished">Dynamic random mix</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SmartPlaylistsViewContainer</name>
     <message>
-        <source>New smart playlist</source>
-        <translation type="unfinished">Uusi älykäs soittolista</translation>
+      <source>New smart playlist</source>
+      <translation>Uusi älykäs soittolista</translation>
     </message>
     <message>
-        <source>Edit smart playlist</source>
-        <translation type="unfinished">Muokkaa älykästä soittolistaa</translation>
+      <source>Edit smart playlist</source>
+      <translation>Muokkaa älykästä soittolistaa</translation>
     </message>
     <message>
-        <source>Delete smart playlist</source>
-        <translation type="unfinished">Poista älykäs soittolista</translation>
+      <source>Delete smart playlist</source>
+      <translation>Poista älykäs soittolista</translation>
     </message>
     <message>
-        <source>New smart playlist...</source>
-        <translation type="unfinished">Uusi älykäs soittolista...</translation>
+      <source>New smart playlist...</source>
+      <translation>Uusi älykäs soittolista...</translation>
     </message>
     <message>
-        <source>Append to current playlist</source>
-        <translation type="unfinished">Lisää nykyiselle soittolistalle</translation>
+      <source>Append to current playlist</source>
+      <translation>Lisää nykyiselle soittolistalle</translation>
     </message>
     <message>
-        <source>Replace current playlist</source>
-        <translation type="unfinished">Korvaa nykyinen soittolista</translation>
+      <source>Replace current playlist</source>
+      <translation>Korvaa nykyinen soittolista</translation>
     </message>
     <message>
-        <source>Open in new playlist</source>
-        <translation type="unfinished">Avaa uudessa soittolistassa</translation>
+      <source>Open in new playlist</source>
+      <translation>Avaa uudessa soittolistassa</translation>
     </message>
     <message>
-        <source>Queue track</source>
-        <translation type="unfinished">Aseta kappale jonoon</translation>
+      <source>Queue track</source>
+      <translation>Aseta kappale jonoon</translation>
     </message>
     <message>
-        <source>Play next</source>
-        <translation type="unfinished">Toista seuraava</translation>
+      <source>Play next</source>
+      <translation>Toista seuraava</translation>
     </message>
     <message>
-        <source>Edit smart playlist...</source>
-        <translation type="unfinished">Muokkaa älykästä soittolistaa...</translation>
+      <source>Edit smart playlist...</source>
+      <translation>Muokkaa älykästä soittolistaa...</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SnapDialog</name>
     <message>
-        <source>Strawberry is running as a Snap</source>
-        <translation type="unfinished"></translation>
+      <source>Strawberry is running as a Snap</source>
+      <translation type="unfinished">Strawberry is running as a Snap</translation>
     </message>
     <message>
-        <source>It is detected that Strawberry is running as a Snap</source>
-        <translation type="unfinished"></translation>
+      <source>It is detected that Strawberry is running as a Snap</source>
+      <translation type="unfinished">It is detected that Strawberry is running as a Snap</translation>
     </message>
     <message>
-        <source>Strawberry is slower, and has restrictions when running as a Snap. Accessing the root filesystem (/) will not work. There also might be other restrictions such as accessing certain devices or network shares.</source>
-        <translation type="unfinished"></translation>
+      <source>Strawberry is slower, and has restrictions when running as a Snap. Accessing the root filesystem (/) will not work. There also might be other restrictions such as accessing certain devices or network shares.</source>
+      <translation type="unfinished">Strawberry is slower, and has restrictions when running as a Snap. Accessing the root filesystem (/) will not work. There also might be other restrictions such as accessing certain devices or network shares.</translation>
     </message>
     <message>
-        <source>For Ubuntu there is an official PPA repository available at %1.</source>
-        <translation type="unfinished"></translation>
+      <source>For Ubuntu there is an official PPA repository available at %1.</source>
+      <translation type="unfinished">For Ubuntu there is an official PPA repository available at %1.</translation>
     </message>
     <message>
-        <source>Official releases are available for Debian and Ubuntu which also work on most of their derivatives. See %1 for more information.</source>
-        <translation type="unfinished"></translation>
+      <source>Official releases are available for Debian and Ubuntu which also work on most of their derivatives. See %1 for more information.</source>
+      <translation type="unfinished">Official releases are available for Debian and Ubuntu which also work on most of their derivatives. See %1 for more information.</translation>
     </message>
     <message>
-        <source>For a better experience please consider the other options above.</source>
-        <translation type="unfinished"></translation>
+      <source>For a better experience please consider the other options above.</source>
+      <translation type="unfinished">For a better experience please consider the other options above.</translation>
     </message>
     <message>
-        <source>Copy your strawberry.conf and strawberry.db from your ~/snap directory to avoid losing configuration before you uninstall the snap:</source>
-        <translation type="unfinished"></translation>
+      <source>Copy your strawberry.conf and strawberry.db from your ~/snap directory to avoid losing configuration before you uninstall the snap:</source>
+      <translation type="unfinished">Copy your strawberry.conf and strawberry.db from your ~/snap directory to avoid losing configuration before you uninstall the snap:</translation>
     </message>
     <message>
-        <source>Uninstall the snap with:</source>
-        <translation type="unfinished"></translation>
+      <source>Uninstall the snap with:</source>
+      <translation type="unfinished">Uninstall the snap with:</translation>
     </message>
     <message>
-        <source>Install strawberry through PPA:</source>
-        <translation type="unfinished"></translation>
+      <source>Install strawberry through PPA:</source>
+      <translation type="unfinished">Install strawberry through PPA:</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SomaFMService</name>
     <message>
-        <source>Getting %1 channels</source>
-        <translation type="unfinished"></translation>
+      <source>Getting %1 channels</source>
+      <translation type="unfinished">Getting %1 channels</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SongLoader</name>
     <message>
-        <source>You need GStreamer for this URL.</source>
-        <translation type="unfinished">Tarvitset GStreamerin tätä URL-osoitetta varten.</translation>
+      <source>You need GStreamer for this URL.</source>
+      <translation>Tarvitset GStreamerin tätä URL-osoitetta varten.</translation>
     </message>
     <message>
-        <source>Preload function was not set for blocking operation.</source>
-        <translation type="unfinished"></translation>
+      <source>Preload function was not set for blocking operation.</source>
+      <translation type="unfinished">Preload function was not set for blocking operation.</translation>
     </message>
     <message>
-        <source>File %1 does not exist.</source>
-        <translation type="unfinished"></translation>
+      <source>File %1 does not exist.</source>
+      <translation type="unfinished">File %1 does not exist.</translation>
     </message>
     <message>
-        <source>CD playback is only available with the GStreamer engine.</source>
-        <translation type="unfinished">CD-toisto on saatavilla vain GStreamer-moottorilla</translation>
+      <source>CD playback is only available with the GStreamer engine.</source>
+      <translation>CD-toisto on saatavilla vain GStreamer-moottorilla</translation>
     </message>
     <message>
-        <source>Could not open file %1 for reading: %2</source>
-        <translation type="unfinished"></translation>
+      <source>Could not open file %1 for reading: %2</source>
+      <translation type="unfinished">Could not open file %1 for reading: %2</translation>
     </message>
     <message>
-        <source>Could not open CUE file %1 for reading: %2</source>
-        <translation type="unfinished"></translation>
+      <source>Could not open CUE file %1 for reading: %2</source>
+      <translation type="unfinished">Could not open CUE file %1 for reading: %2</translation>
     </message>
     <message>
-        <source>Could not open playlist file %1 for reading: %2</source>
-        <translation type="unfinished"></translation>
+      <source>Could not open playlist file %1 for reading: %2</source>
+      <translation type="unfinished">Could not open playlist file %1 for reading: %2</translation>
     </message>
     <message>
-        <source>Couldn&apos;t create GStreamer source element for %1</source>
-        <translation type="unfinished"></translation>
+      <source>Couldn&apos;t create GStreamer source element for %1</source>
+      <translation type="unfinished">Couldn&apos;t create GStreamer source element for %1</translation>
     </message>
     <message>
-        <source>Couldn&apos;t create GStreamer typefind element for %1</source>
-        <translation type="unfinished"></translation>
+      <source>Couldn&apos;t create GStreamer typefind element for %1</source>
+      <translation type="unfinished">Couldn&apos;t create GStreamer typefind element for %1</translation>
     </message>
     <message>
-        <source>Couldn&apos;t create GStreamer fakesink element for %1</source>
-        <translation type="unfinished"></translation>
+      <source>Couldn&apos;t create GStreamer fakesink element for %1</source>
+      <translation type="unfinished">Couldn&apos;t create GStreamer fakesink element for %1</translation>
     </message>
     <message>
-        <source>Couldn&apos;t link GStreamer source, typefind and fakesink elements for %1</source>
-        <translation type="unfinished"></translation>
+      <source>Couldn&apos;t link GStreamer source, typefind and fakesink elements for %1</source>
+      <translation type="unfinished">Couldn&apos;t link GStreamer source, typefind and fakesink elements for %1</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SongLoaderInserter</name>
     <message>
-        <source>Error while loading audio CD.</source>
-        <translation type="unfinished"></translation>
+      <source>Error while loading audio CD.</source>
+      <translation type="unfinished">Error while loading audio CD.</translation>
     </message>
     <message>
-        <source>Loading tracks</source>
-        <translation type="unfinished">Ladataan kappaleita</translation>
+      <source>Loading tracks</source>
+      <translation>Ladataan kappaleita</translation>
     </message>
     <message>
-        <source>Loading tracks info</source>
-        <translation type="unfinished">Lataa kappaleen tietoja</translation>
+      <source>Loading tracks info</source>
+      <translation>Lataa kappaleen tietoja</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SpotifyRequest</name>
     <message>
-        <source>Authenticating...</source>
-        <translation type="unfinished">Tunnistaudutaan...</translation>
+      <source>Authenticating...</source>
+      <translation>Tunnistaudutaan...</translation>
     </message>
     <message>
-        <source>Receiving artists...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving artists...</source>
+      <translation type="unfinished">Receiving artists...</translation>
     </message>
     <message>
-        <source>Receiving albums...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving albums...</source>
+      <translation type="unfinished">Receiving albums...</translation>
     </message>
     <message>
-        <source>Receiving songs...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving songs...</source>
+      <translation type="unfinished">Receiving songs...</translation>
     </message>
     <message>
-        <source>Searching...</source>
-        <translation type="unfinished">Hakee...</translation>
+      <source>Searching...</source>
+      <translation>Hakee...</translation>
     </message>
     <message>
-        <source>Receiving albums for %1 artist...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving albums for %1 artist...</source>
+      <translation type="unfinished">Receiving albums for %1 artist...</translation>
     </message>
     <message>
-        <source>Receiving albums for %1 artists...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving albums for %1 artists...</source>
+      <translation type="unfinished">Receiving albums for %1 artists...</translation>
     </message>
     <message>
-        <source>Receiving songs for %1 album...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving songs for %1 album...</source>
+      <translation type="unfinished">Receiving songs for %1 album...</translation>
     </message>
     <message>
-        <source>Receiving songs for %1 albums...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving songs for %1 albums...</source>
+      <translation type="unfinished">Receiving songs for %1 albums...</translation>
     </message>
     <message>
-        <source>Receiving album cover for %1 album...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving album cover for %1 album...</source>
+      <translation type="unfinished">Receiving album cover for %1 album...</translation>
     </message>
     <message>
-        <source>Receiving album covers for %1 albums...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving album covers for %1 albums...</source>
+      <translation type="unfinished">Receiving album covers for %1 albums...</translation>
     </message>
     <message>
-        <source>No match.</source>
-        <translation type="unfinished"></translation>
+      <source>No match.</source>
+      <translation type="unfinished">No match.</translation>
     </message>
     <message>
-        <source>Data missing error</source>
-        <translation type="unfinished"></translation>
+      <source>Data missing error</source>
+      <translation type="unfinished">Data missing error</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SpotifyService</name>
     <message>
-        <source>Spotify Authentication</source>
-        <translation type="unfinished">Spotify-tunnistautuminen</translation>
+      <source>Spotify Authentication</source>
+      <translation>Spotify-tunnistautuminen</translation>
     </message>
     <message>
-        <source>Please open this URL in your browser</source>
-        <translation type="unfinished">Avaa tämä sivu selaimessasi</translation>
+      <source>Please open this URL in your browser</source>
+      <translation>Avaa tämä sivu selaimessasi</translation>
     </message>
     <message>
-        <source>Redirect missing token code or state!</source>
-        <translation type="unfinished"></translation>
+      <source>Redirect missing token code or state!</source>
+      <translation type="unfinished">Redirect missing token code or state!</translation>
     </message>
     <message>
-        <source>Received invalid reply from web browser.</source>
-        <translation type="unfinished"></translation>
+      <source>Received invalid reply from web browser.</source>
+      <translation type="unfinished">Received invalid reply from web browser.</translation>
     </message>
     <message>
-        <source>Not authenticated with Spotify.</source>
-        <translation type="unfinished"></translation>
+      <source>Not authenticated with Spotify.</source>
+      <translation type="unfinished">Not authenticated with Spotify.</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SpotifySettingsPage</name>
     <message>
-        <source>Spotify</source>
-        <translation type="unfinished"></translation>
+      <source>Spotify</source>
+      <translation type="unfinished">Spotify</translation>
     </message>
     <message>
-        <source>Enable</source>
-        <translation type="unfinished">Ota käyttöön</translation>
+      <source>Enable</source>
+      <translation>Ota käyttöön</translation>
     </message>
     <message>
-        <source>Basic authentication</source>
-        <translation type="unfinished"></translation>
+      <source>Basic authentication</source>
+      <translation type="unfinished">Basic authentication</translation>
     </message>
     <message>
-        <source>Authenticate</source>
-        <translation type="unfinished"></translation>
+      <source>Authenticate</source>
+      <translation type="unfinished">Authenticate</translation>
     </message>
     <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The GStreamer Spotify plugin is not detected, you will not be able to stream songs from Spotify without it. See &lt;a href=&quot;https://wiki.strawberrymusicplayer.org/wiki/Installing_GStreamer_Spotify_plugin&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;Wiki&lt;/span&gt;&lt;/a&gt; for instructions on how to install the plugin.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+      <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The GStreamer Spotify plugin is not detected, you will not be able to stream songs from Spotify without it. See &lt;a href=&quot;https://wiki.strawberrymusicplayer.org/wiki/Installing_GStreamer_Spotify_plugin&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;Wiki&lt;/span&gt;&lt;/a&gt; for instructions on how to install the plugin.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+      <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The GStreamer Spotify plugin is not detected, you will not be able to stream songs from Spotify without it. See &lt;a href=&quot;https://wiki.strawberrymusicplayer.org/wiki/Installing_GStreamer_Spotify_plugin&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;Wiki&lt;/span&gt;&lt;/a&gt; for instructions on how to install the plugin.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <source>Preferences</source>
-        <translation type="unfinished">Asetukset</translation>
+      <source>Preferences</source>
+      <translation>Asetukset</translation>
     </message>
     <message>
-        <source>Search delay</source>
-        <translation type="unfinished"></translation>
+      <source>Search delay</source>
+      <translation type="unfinished">Search delay</translation>
     </message>
     <message>
-        <source>ms</source>
-        <translation type="unfinished"></translation>
+      <source>ms</source>
+      <translation type="unfinished">ms</translation>
     </message>
     <message>
-        <source>Artists search limit</source>
-        <translation type="unfinished"></translation>
+      <source>Artists search limit</source>
+      <translation type="unfinished">Artists search limit</translation>
     </message>
     <message>
-        <source>Albums search limit</source>
-        <translation type="unfinished"></translation>
+      <source>Albums search limit</source>
+      <translation type="unfinished">Albums search limit</translation>
     </message>
     <message>
-        <source>Songs search limit</source>
-        <translation type="unfinished"></translation>
+      <source>Songs search limit</source>
+      <translation type="unfinished">Songs search limit</translation>
     </message>
     <message>
-        <source>Download album covers</source>
-        <translation type="unfinished">Lataa albumien kansikuvat</translation>
+      <source>Download album covers</source>
+      <translation>Lataa albumien kansikuvat</translation>
     </message>
     <message>
-        <source>Fetch entire albums when searching songs</source>
-        <translation type="unfinished">Nouda koko albumi hakiessa kappaleita</translation>
+      <source>Fetch entire albums when searching songs</source>
+      <translation>Nouda koko albumi hakiessa kappaleita</translation>
     </message>
     <message>
-        <source>Authentication failed</source>
-        <translation type="unfinished">Tunnistautuminen epäonnistui</translation>
+      <source>Authentication failed</source>
+      <translation>Tunnistautuminen epäonnistui</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>StreamingCollectionView</name>
     <message>
-        <source>The streaming collection is empty!</source>
-        <translation type="unfinished"></translation>
+      <source>The streaming collection is empty!</source>
+      <translation type="unfinished">The streaming collection is empty!</translation>
     </message>
     <message>
-        <source>Click here to retrieve music</source>
-        <translation type="unfinished"></translation>
+      <source>Click here to retrieve music</source>
+      <translation type="unfinished">Click here to retrieve music</translation>
     </message>
     <message>
-        <source>Append to current playlist</source>
-        <translation type="unfinished">Lisää nykyiselle soittolistalle</translation>
+      <source>Append to current playlist</source>
+      <translation>Lisää nykyiselle soittolistalle</translation>
     </message>
     <message>
-        <source>Replace current playlist</source>
-        <translation type="unfinished">Korvaa nykyinen soittolista</translation>
+      <source>Replace current playlist</source>
+      <translation>Korvaa nykyinen soittolista</translation>
     </message>
     <message>
-        <source>Open in new playlist</source>
-        <translation type="unfinished">Avaa uudessa soittolistassa</translation>
+      <source>Open in new playlist</source>
+      <translation>Avaa uudessa soittolistassa</translation>
     </message>
     <message>
-        <source>Queue track</source>
-        <translation type="unfinished">Aseta kappale jonoon</translation>
+      <source>Queue track</source>
+      <translation>Aseta kappale jonoon</translation>
     </message>
     <message>
-        <source>Queue to play next</source>
-        <translation type="unfinished">Toistojonoon</translation>
+      <source>Queue to play next</source>
+      <translation>Toistojonoon</translation>
     </message>
     <message>
-        <source>Remove from favorites</source>
-        <translation type="unfinished"></translation>
+      <source>Remove from favorites</source>
+      <translation type="unfinished">Remove from favorites</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>StreamingCollectionViewContainer</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">Lomake</translation>
+      <source>Form</source>
+      <translation>Lomake</translation>
     </message>
     <message>
-        <source>Close</source>
-        <translation type="unfinished">Sulje</translation>
+      <source>Close</source>
+      <translation>Sulje</translation>
     </message>
     <message>
-        <source>Abort</source>
-        <translation type="unfinished">Keskeytä</translation>
+      <source>Abort</source>
+      <translation>Keskeytä</translation>
     </message>
     <message>
-        <source>Refresh catalogue</source>
-        <translation type="unfinished"></translation>
+      <source>Refresh catalogue</source>
+      <translation type="unfinished">Refresh catalogue</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>StreamingSearchModel</name>
     <message>
-        <source>Various artists</source>
-        <translation type="unfinished">Useita esittäjiä</translation>
+      <source>Various artists</source>
+      <translation>Useita esittäjiä</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>StreamingSearchView</name>
     <message>
-        <source>Streaming Search View</source>
-        <translation type="unfinished"></translation>
+      <source>Streaming Search View</source>
+      <translation type="unfinished">Streaming Search View</translation>
     </message>
     <message>
-        <source>MenuPopupToolButton</source>
-        <translation type="unfinished"></translation>
+      <source>MenuPopupToolButton</source>
+      <translation type="unfinished">MenuPopupToolButton</translation>
     </message>
     <message>
-        <source>artists</source>
-        <translation type="unfinished">esittäjät</translation>
+      <source>artists</source>
+      <translation>esittäjät</translation>
     </message>
     <message>
-        <source>albums</source>
-        <translation type="unfinished">albumit</translation>
+      <source>albums</source>
+      <translation>albumit</translation>
     </message>
     <message>
-        <source>songs</source>
-        <translation type="unfinished">kappaleet</translation>
+      <source>songs</source>
+      <translation>kappaleet</translation>
     </message>
     <message>
-        <source>Enter search terms above to find music</source>
-        <translation type="unfinished"></translation>
+      <source>Enter search terms above to find music</source>
+      <translation type="unfinished">Enter search terms above to find music</translation>
     </message>
     <message>
-        <source>Configure %1...</source>
-        <translation type="unfinished">%1 - asetukset...</translation>
+      <source>Configure %1...</source>
+      <translation>%1 - asetukset...</translation>
     </message>
     <message>
-        <source>Append to current playlist</source>
-        <translation type="unfinished">Lisää nykyiselle soittolistalle</translation>
+      <source>Append to current playlist</source>
+      <translation>Lisää nykyiselle soittolistalle</translation>
     </message>
     <message>
-        <source>Replace current playlist</source>
-        <translation type="unfinished">Korvaa nykyinen soittolista</translation>
+      <source>Replace current playlist</source>
+      <translation>Korvaa nykyinen soittolista</translation>
     </message>
     <message>
-        <source>Open in new playlist</source>
-        <translation type="unfinished">Avaa uudessa soittolistassa</translation>
+      <source>Open in new playlist</source>
+      <translation>Avaa uudessa soittolistassa</translation>
     </message>
     <message>
-        <source>Queue track</source>
-        <translation type="unfinished">Aseta kappale jonoon</translation>
+      <source>Queue track</source>
+      <translation>Aseta kappale jonoon</translation>
     </message>
     <message>
-        <source>Add to artists</source>
-        <translation type="unfinished">Lisää esittäjiin</translation>
+      <source>Add to artists</source>
+      <translation>Lisää esittäjiin</translation>
     </message>
     <message>
-        <source>Add to albums</source>
-        <translation type="unfinished">Lisää albumeihin</translation>
+      <source>Add to albums</source>
+      <translation>Lisää albumeihin</translation>
     </message>
     <message>
-        <source>Add to songs</source>
-        <translation type="unfinished">Lisää kappaleisiin</translation>
+      <source>Add to songs</source>
+      <translation>Lisää kappaleisiin</translation>
     </message>
     <message>
-        <source>Search for this</source>
-        <translation type="unfinished">Hae tätä</translation>
+      <source>Search for this</source>
+      <translation>Hae tätä</translation>
     </message>
     <message>
-        <source>Group by</source>
-        <translation type="unfinished">Järjestä</translation>
+      <source>Group by</source>
+      <translation>Järjestä</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>StreamingSongsView</name>
     <message>
-        <source>Configure %1...</source>
-        <translation type="unfinished">%1 - asetukset...</translation>
+      <source>Configure %1...</source>
+      <translation>%1 - asetukset...</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>StreamingTabsView</name>
     <message>
-        <source>Streaming Tabs View</source>
-        <translation type="unfinished"></translation>
+      <source>Streaming Tabs View</source>
+      <translation type="unfinished">Streaming Tabs View</translation>
     </message>
     <message>
-        <source>Artists</source>
-        <translation type="unfinished">Esittäjät</translation>
+      <source>Artists</source>
+      <translation>Esittäjät</translation>
     </message>
     <message>
-        <source>Albums</source>
-        <translation type="unfinished">Albumit</translation>
+      <source>Albums</source>
+      <translation>Albumit</translation>
     </message>
     <message>
-        <source>Songs</source>
-        <translation type="unfinished">Kappaleet</translation>
+      <source>Songs</source>
+      <translation>Kappaleet</translation>
     </message>
     <message>
-        <source>Search</source>
-        <translation type="unfinished">Etsi</translation>
+      <source>Search</source>
+      <translation>Etsi</translation>
     </message>
     <message>
-        <source>Configure %1...</source>
-        <translation type="unfinished">%1 - asetukset...</translation>
+      <source>Configure %1...</source>
+      <translation>%1 - asetukset...</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SubsonicRequest</name>
     <message>
-        <source>Retrieving albums...</source>
-        <translation type="unfinished">Haetaan albumeita...</translation>
+      <source>Retrieving albums...</source>
+      <translation>Haetaan albumeita...</translation>
     </message>
     <message>
-        <source>Retrieving songs for %1 album...</source>
-        <translation type="unfinished"></translation>
+      <source>Retrieving songs for %1 album...</source>
+      <translation type="unfinished">Retrieving songs for %1 album...</translation>
     </message>
     <message>
-        <source>Retrieving songs for %1 albums...</source>
-        <translation type="unfinished"></translation>
+      <source>Retrieving songs for %1 albums...</source>
+      <translation type="unfinished">Retrieving songs for %1 albums...</translation>
     </message>
     <message>
-        <source>Retrieving album cover for %1 album...</source>
-        <translation type="unfinished"></translation>
+      <source>Retrieving album cover for %1 album...</source>
+      <translation type="unfinished">Retrieving album cover for %1 album...</translation>
     </message>
     <message>
-        <source>Retrieving album covers for %1 albums...</source>
-        <translation type="unfinished"></translation>
+      <source>Retrieving album covers for %1 albums...</source>
+      <translation type="unfinished">Retrieving album covers for %1 albums...</translation>
     </message>
     <message>
-        <source>Unknown error</source>
-        <translation type="unfinished">Tuntematon virhe</translation>
+      <source>Unknown error</source>
+      <translation>Tuntematon virhe</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SubsonicService</name>
     <message>
-        <source>Server URL is invalid.</source>
-        <translation type="unfinished">Palvelimen osoite ei kelpaa</translation>
+      <source>Server URL is invalid.</source>
+      <translation>Palvelimen osoite ei kelpaa</translation>
     </message>
     <message>
-        <source>Missing username or password.</source>
-        <translation type="unfinished">Puuttuva käyttäjänimi tai salasana.</translation>
+      <source>Missing username or password.</source>
+      <translation>Puuttuva käyttäjänimi tai salasana.</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SubsonicSettingsPage</name>
     <message>
-        <source>Subsonic</source>
-        <translation type="unfinished"></translation>
+      <source>Subsonic</source>
+      <translation type="unfinished">Subsonic</translation>
     </message>
     <message>
-        <source>Enable</source>
-        <translation type="unfinished">Ota käyttöön</translation>
+      <source>Enable</source>
+      <translation>Ota käyttöön</translation>
     </message>
     <message>
-        <source>Server URL</source>
-        <translation type="unfinished">Palvelimen URL</translation>
+      <source>Server URL</source>
+      <translation>Palvelimen URL</translation>
     </message>
     <message>
-        <source>Authentication</source>
-        <translation type="unfinished">Tunnistautuminen</translation>
+      <source>Authentication</source>
+      <translation>Tunnistautuminen</translation>
     </message>
     <message>
-        <source>Username</source>
-        <translation type="unfinished">Käyttäjätunnus</translation>
+      <source>Username</source>
+      <translation>Käyttäjätunnus</translation>
     </message>
     <message>
-        <source>Password</source>
-        <translation type="unfinished">Salasana</translation>
+      <source>Password</source>
+      <translation>Salasana</translation>
     </message>
     <message>
-        <source>Authentication method:</source>
-        <translation type="unfinished"></translation>
+      <source>Authentication method:</source>
+      <translation type="unfinished">Authentication method:</translation>
     </message>
     <message>
-        <source>Hex</source>
-        <translation type="unfinished"></translation>
+      <source>Hex</source>
+      <translation type="unfinished">Hex</translation>
     </message>
     <message>
-        <source>MD5 token (Recommended)</source>
-        <translation type="unfinished"></translation>
+      <source>MD5 token (Recommended)</source>
+      <translation type="unfinished">MD5 token (Recommended)</translation>
     </message>
     <message>
-        <source>Preferences</source>
-        <translation type="unfinished">Asetukset</translation>
+      <source>Preferences</source>
+      <translation>Asetukset</translation>
     </message>
     <message>
-        <source>Use HTTP/2 when possible</source>
-        <translation type="unfinished"></translation>
+      <source>Use HTTP/2 when possible</source>
+      <translation type="unfinished">Use HTTP/2 when possible</translation>
     </message>
     <message>
-        <source>Verify server certificate</source>
-        <translation type="unfinished">Tarkista palvelimen varmenne</translation>
+      <source>Verify server certificate</source>
+      <translation>Tarkista palvelimen varmenne</translation>
     </message>
     <message>
-        <source>Download album covers</source>
-        <translation type="unfinished">Lataa albumien kansikuvat</translation>
+      <source>Download album covers</source>
+      <translation>Lataa albumien kansikuvat</translation>
     </message>
     <message>
-        <source>Server-side scrobbling</source>
-        <translation type="unfinished"></translation>
+      <source>Server-side scrobbling</source>
+      <translation type="unfinished">Server-side scrobbling</translation>
     </message>
     <message>
-        <source>Test</source>
-        <translation type="unfinished">Testi</translation>
+      <source>Test</source>
+      <translation>Testi</translation>
     </message>
     <message>
-        <source>Delete songs</source>
-        <translation type="unfinished"></translation>
+      <source>Delete songs</source>
+      <translation type="unfinished">Delete songs</translation>
     </message>
     <message>
-        <source>Configuration incomplete</source>
-        <translation type="unfinished">Asetukset keskeneräiset</translation>
+      <source>Configuration incomplete</source>
+      <translation>Asetukset keskeneräiset</translation>
     </message>
     <message>
-        <source>Missing server url, username or password.</source>
-        <translation type="unfinished">Puuttuva palvelimen osoite, käyttäjätunnus tai salasana</translation>
+      <source>Missing server url, username or password.</source>
+      <translation>Puuttuva palvelimen osoite, käyttäjätunnus tai salasana</translation>
     </message>
     <message>
-        <source>Configuration incorrect</source>
-        <translation type="unfinished"></translation>
+      <source>Configuration incorrect</source>
+      <translation type="unfinished">Configuration incorrect</translation>
     </message>
     <message>
-        <source>Server URL is invalid.</source>
-        <translation type="unfinished">Palvelimen osoite ei kelpaa</translation>
+      <source>Server URL is invalid.</source>
+      <translation>Palvelimen osoite ei kelpaa</translation>
     </message>
     <message>
-        <source>Test successful!</source>
-        <translation type="unfinished">Testi onnistui!</translation>
+      <source>Test successful!</source>
+      <translation>Testi onnistui!</translation>
     </message>
     <message>
-        <source>Test failed!</source>
-        <translation type="unfinished">Testi epäonnistui</translation>
+      <source>Test failed!</source>
+      <translation>Testi epäonnistui</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SubsonicUrlHandler</name>
     <message>
-        <source>Subsonic server URL is invalid.</source>
-        <translation type="unfinished">Subsonic-palvelimen osoite ei kelpaa</translation>
+      <source>Subsonic server URL is invalid.</source>
+      <translation>Subsonic-palvelimen osoite ei kelpaa</translation>
     </message>
     <message>
-        <source>Missing Subsonic username or password.</source>
-        <translation type="unfinished">Subsonic-käyttäjätunnus tai -salasana puuttuu.</translation>
+      <source>Missing Subsonic username or password.</source>
+      <translation>Subsonic-käyttäjätunnus tai -salasana puuttuu.</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>SystemTrayIcon</name>
     <message>
-        <source>Pause</source>
-        <translation type="unfinished">Keskeytä</translation>
+      <source>Pause</source>
+      <translation>Keskeytä</translation>
     </message>
     <message>
-        <source>Play</source>
-        <translation type="unfinished">Toista</translation>
+      <source>Play</source>
+      <translation>Toista</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>TagFetcher</name>
     <message>
-        <source>Identifying song</source>
-        <translation type="unfinished"></translation>
+      <source>Identifying song</source>
+      <translation type="unfinished">Identifying song</translation>
     </message>
     <message>
-        <source>Fingerprinting song</source>
-        <translation type="unfinished"></translation>
+      <source>Fingerprinting song</source>
+      <translation type="unfinished">Fingerprinting song</translation>
     </message>
     <message>
-        <source>Downloading metadata</source>
-        <translation type="unfinished"></translation>
+      <source>Downloading metadata</source>
+      <translation type="unfinished">Downloading metadata</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>TidalRequest</name>
     <message>
-        <source>Authenticating...</source>
-        <translation type="unfinished">Tunnistaudutaan...</translation>
+      <source>Authenticating...</source>
+      <translation>Tunnistaudutaan...</translation>
     </message>
     <message>
-        <source>Receiving artists...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving artists...</source>
+      <translation type="unfinished">Receiving artists...</translation>
     </message>
     <message>
-        <source>Receiving albums...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving albums...</source>
+      <translation type="unfinished">Receiving albums...</translation>
     </message>
     <message>
-        <source>Receiving songs...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving songs...</source>
+      <translation type="unfinished">Receiving songs...</translation>
     </message>
     <message>
-        <source>Searching...</source>
-        <translation type="unfinished">Hakee...</translation>
+      <source>Searching...</source>
+      <translation>Hakee...</translation>
     </message>
     <message>
-        <source>Receiving albums for %1 artist...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving albums for %1 artist...</source>
+      <translation type="unfinished">Receiving albums for %1 artist...</translation>
     </message>
     <message>
-        <source>Receiving albums for %1 artists...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving albums for %1 artists...</source>
+      <translation type="unfinished">Receiving albums for %1 artists...</translation>
     </message>
     <message>
-        <source>Receiving songs for %1 album...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving songs for %1 album...</source>
+      <translation type="unfinished">Receiving songs for %1 album...</translation>
     </message>
     <message>
-        <source>Receiving songs for %1 albums...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving songs for %1 albums...</source>
+      <translation type="unfinished">Receiving songs for %1 albums...</translation>
     </message>
     <message>
-        <source>Receiving album cover for %1 album...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving album cover for %1 album...</source>
+      <translation type="unfinished">Receiving album cover for %1 album...</translation>
     </message>
     <message>
-        <source>Receiving album covers for %1 albums...</source>
-        <translation type="unfinished"></translation>
+      <source>Receiving album covers for %1 albums...</source>
+      <translation type="unfinished">Receiving album covers for %1 albums...</translation>
     </message>
     <message>
-        <source>No match.</source>
-        <translation type="unfinished"></translation>
+      <source>No match.</source>
+      <translation type="unfinished">No match.</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>TidalService</name>
     <message>
-        <source>Reply from Tidal is missing query items.</source>
-        <translation type="unfinished"></translation>
+      <source>Reply from Tidal is missing query items.</source>
+      <translation type="unfinished">Reply from Tidal is missing query items.</translation>
     </message>
     <message>
-        <source>Missing Tidal API token.</source>
-        <translation type="unfinished">Tidalin API-avain puuttuu.</translation>
+      <source>Missing Tidal API token.</source>
+      <translation>Tidalin API-avain puuttuu.</translation>
     </message>
     <message>
-        <source>Missing Tidal username.</source>
-        <translation type="unfinished">Puuttuva Tidal-käyttäjätunnus</translation>
+      <source>Missing Tidal username.</source>
+      <translation>Puuttuva Tidal-käyttäjätunnus</translation>
     </message>
     <message>
-        <source>Missing Tidal password.</source>
-        <translation type="unfinished">Puuttuva Tidal-salasana</translation>
+      <source>Missing Tidal password.</source>
+      <translation>Puuttuva Tidal-salasana</translation>
     </message>
     <message>
-        <source>Not authenticated with Tidal and reached maximum number of login attempts.</source>
-        <translation type="unfinished"></translation>
+      <source>Not authenticated with Tidal and reached maximum number of login attempts.</source>
+      <translation type="unfinished">Not authenticated with Tidal and reached maximum number of login attempts.</translation>
     </message>
     <message>
-        <source>Not authenticated with Tidal.</source>
-        <translation type="unfinished"></translation>
+      <source>Not authenticated with Tidal.</source>
+      <translation type="unfinished">Not authenticated with Tidal.</translation>
     </message>
     <message>
-        <source>Missing Tidal API token, username or password.</source>
-        <translation type="unfinished">Tidalin API-avain, käyttäjätunnus tai salasana puuttuu.</translation>
+      <source>Missing Tidal API token, username or password.</source>
+      <translation>Tidalin API-avain, käyttäjätunnus tai salasana puuttuu.</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>TidalSettingsPage</name>
     <message>
-        <source>Tidal</source>
-        <translation type="unfinished"></translation>
+      <source>Tidal</source>
+      <translation type="unfinished">Tidal</translation>
     </message>
     <message>
-        <source>Enable</source>
-        <translation type="unfinished">Ota käyttöön</translation>
+      <source>Enable</source>
+      <translation>Ota käyttöön</translation>
     </message>
     <message>
-        <source>Tidal support is not official and requires a API token from a registered application to work. We can&apos;t help you getting these.</source>
-        <translation type="unfinished"></translation>
+      <source>Tidal support is not official and requires a API token from a registered application to work. We can&apos;t help you getting these.</source>
+      <translation type="unfinished">Tidal support is not official and requires a API token from a registered application to work. We can&apos;t help you getting these.</translation>
     </message>
     <message>
-        <source>Authentication</source>
-        <translation type="unfinished">Tunnistautuminen</translation>
+      <source>Authentication</source>
+      <translation>Tunnistautuminen</translation>
     </message>
     <message>
-        <source>Use OAuth</source>
-        <translation type="unfinished">Käytä OAuthia</translation>
+      <source>Use OAuth</source>
+      <translation>Käytä OAuthia</translation>
     </message>
     <message>
-        <source>Client ID</source>
-        <translation type="unfinished">Asiakas-ID</translation>
+      <source>Client ID</source>
+      <translation>Asiakas-ID</translation>
     </message>
     <message>
-        <source>API Token</source>
-        <translation type="unfinished">API-avain</translation>
+      <source>API Token</source>
+      <translation>API-avain</translation>
     </message>
     <message>
-        <source>Username</source>
-        <translation type="unfinished">Käyttäjätunnus</translation>
+      <source>Username</source>
+      <translation>Käyttäjätunnus</translation>
     </message>
     <message>
-        <source>Password</source>
-        <translation type="unfinished">Salasana</translation>
+      <source>Password</source>
+      <translation>Salasana</translation>
     </message>
     <message>
-        <source>Login</source>
-        <translation type="unfinished">Kirjaudu sisään</translation>
+      <source>Login</source>
+      <translation>Kirjaudu sisään</translation>
     </message>
     <message>
-        <source>Preferences</source>
-        <translation type="unfinished">Asetukset</translation>
+      <source>Preferences</source>
+      <translation>Asetukset</translation>
     </message>
     <message>
-        <source>Audio quality</source>
-        <translation type="unfinished">Äänenlaatu</translation>
+      <source>Audio quality</source>
+      <translation>Äänenlaatu</translation>
     </message>
     <message>
-        <source>Search delay</source>
-        <translation type="unfinished"></translation>
+      <source>Search delay</source>
+      <translation type="unfinished">Search delay</translation>
     </message>
     <message>
-        <source>ms</source>
-        <translation type="unfinished"></translation>
+      <source>ms</source>
+      <translation type="unfinished">ms</translation>
     </message>
     <message>
-        <source>Artists search limit</source>
-        <translation type="unfinished"></translation>
+      <source>Artists search limit</source>
+      <translation type="unfinished">Artists search limit</translation>
     </message>
     <message>
-        <source>Albums search limit</source>
-        <translation type="unfinished"></translation>
+      <source>Albums search limit</source>
+      <translation type="unfinished">Albums search limit</translation>
     </message>
     <message>
-        <source>Songs search limit</source>
-        <translation type="unfinished"></translation>
+      <source>Songs search limit</source>
+      <translation type="unfinished">Songs search limit</translation>
     </message>
     <message>
-        <source>Download album covers</source>
-        <translation type="unfinished">Lataa albumien kansikuvat</translation>
+      <source>Download album covers</source>
+      <translation>Lataa albumien kansikuvat</translation>
     </message>
     <message>
-        <source>Fetch entire albums when searching songs</source>
-        <translation type="unfinished">Nouda koko albumi hakiessa kappaleita</translation>
+      <source>Fetch entire albums when searching songs</source>
+      <translation>Nouda koko albumi hakiessa kappaleita</translation>
     </message>
     <message>
-        <source>Album cover size</source>
-        <translation type="unfinished">Albumin kansikuvan koko</translation>
+      <source>Album cover size</source>
+      <translation>Albumin kansikuvan koko</translation>
     </message>
     <message>
-        <source>Stream URL method</source>
-        <translation type="unfinished">Suoratoistomenetelmä (URL)</translation>
+      <source>Stream URL method</source>
+      <translation>Suoratoistomenetelmä (URL)</translation>
     </message>
     <message>
-        <source>Append explicit to album title for explicit albums</source>
-        <translation type="unfinished"></translation>
+      <source>Append explicit to album title for explicit albums</source>
+      <translation type="unfinished">Append explicit to album title for explicit albums</translation>
     </message>
     <message>
-        <source>Configuration incomplete</source>
-        <translation type="unfinished">Asetukset keskeneräiset</translation>
+      <source>Configuration incomplete</source>
+      <translation>Asetukset keskeneräiset</translation>
     </message>
     <message>
-        <source>Missing Tidal client ID.</source>
-        <translation type="unfinished">Puuttuva Tidal-asiakas-ID</translation>
+      <source>Missing Tidal client ID.</source>
+      <translation>Puuttuva Tidal-asiakas-ID</translation>
     </message>
     <message>
-        <source>Missing API token.</source>
-        <translation type="unfinished">API-avain puuttuu.</translation>
+      <source>Missing API token.</source>
+      <translation>API-avain puuttuu.</translation>
     </message>
     <message>
-        <source>Missing username.</source>
-        <translation type="unfinished">Käyttäjätunnus puuttuu.</translation>
+      <source>Missing username.</source>
+      <translation>Käyttäjätunnus puuttuu.</translation>
     </message>
     <message>
-        <source>Missing password.</source>
-        <translation type="unfinished">Salasana puuttuu.</translation>
+      <source>Missing password.</source>
+      <translation>Salasana puuttuu.</translation>
     </message>
     <message>
-        <source>Authentication failed</source>
-        <translation type="unfinished">Tunnistautuminen epäonnistui</translation>
+      <source>Authentication failed</source>
+      <translation>Tunnistautuminen epäonnistui</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>TidalStreamURLRequest</name>
     <message>
-        <source>Not authenticated with Tidal.</source>
-        <translation type="unfinished"></translation>
+      <source>Not authenticated with Tidal.</source>
+      <translation type="unfinished">Not authenticated with Tidal.</translation>
     </message>
     <message>
-        <source>Missing Tidal API token, username or password.</source>
-        <translation type="unfinished">Tidalin API-avain, käyttäjätunnus tai salasana puuttuu.</translation>
+      <source>Missing Tidal API token, username or password.</source>
+      <translation>Tidalin API-avain, käyttäjätunnus tai salasana puuttuu.</translation>
     </message>
     <message>
-        <source>Cancelled.</source>
-        <translation type="unfinished">Peruutettu.</translation>
+      <source>Cancelled.</source>
+      <translation>Peruutettu.</translation>
     </message>
     <message>
-        <source>Received URL with %1 encrypted stream from Tidal. Strawberry does not currently support encrypted streams.</source>
-        <translation type="unfinished"></translation>
+      <source>Received URL with %1 encrypted stream from Tidal. Strawberry does not currently support encrypted streams.</source>
+      <translation type="unfinished">Received URL with %1 encrypted stream from Tidal. Strawberry does not currently support encrypted streams.</translation>
     </message>
     <message>
-        <source>Received URL with encrypted stream from Tidal. Strawberry does not currently support encrypted streams.</source>
-        <translation type="unfinished"></translation>
+      <source>Received URL with encrypted stream from Tidal. Strawberry does not currently support encrypted streams.</source>
+      <translation type="unfinished">Received URL with encrypted stream from Tidal. Strawberry does not currently support encrypted streams.</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>TrackSelectionDialog</name>
     <message>
-        <source>Tag fetcher</source>
-        <translation type="unfinished">Tunnistenoutaja</translation>
+      <source>Tag fetcher</source>
+      <translation>Tunnistenoutaja</translation>
     </message>
     <message>
-        <source>Sorry</source>
-        <translation type="unfinished">Pahoittelut</translation>
+      <source>Sorry</source>
+      <translation>Pahoittelut</translation>
     </message>
     <message>
-        <source>Strawberry was unable to find results for this file</source>
-        <translation type="unfinished">Strawberry ei löytänyt tuloksia tälle tiedostolle</translation>
+      <source>Strawberry was unable to find results for this file</source>
+      <translation>Strawberry ei löytänyt tuloksia tälle tiedostolle</translation>
     </message>
     <message>
-        <source>Select best possible match</source>
-        <translation type="unfinished">Valitse paras mahdollinen vaihtoehto</translation>
+      <source>Select best possible match</source>
+      <translation>Valitse paras mahdollinen vaihtoehto</translation>
     </message>
     <message>
-        <source>Track</source>
-        <translation type="unfinished">Kappale</translation>
+      <source>Track</source>
+      <translation>Kappale</translation>
     </message>
     <message>
-        <source>Year</source>
-        <translation type="unfinished">Vuosi</translation>
+      <source>Year</source>
+      <translation>Vuosi</translation>
     </message>
     <message>
-        <source>Title</source>
-        <translation type="unfinished">Nimi</translation>
+      <source>Title</source>
+      <translation>Nimi</translation>
     </message>
     <message>
-        <source>Artist</source>
-        <translation type="unfinished">Esittäjä</translation>
+      <source>Artist</source>
+      <translation>Esittäjä</translation>
     </message>
     <message>
-        <source>Album</source>
-        <translation type="unfinished">Albumi</translation>
+      <source>Album</source>
+      <translation>Albumi</translation>
     </message>
     <message>
-        <source>Previous</source>
-        <translation type="unfinished">Edellinen</translation>
+      <source>Previous</source>
+      <translation>Edellinen</translation>
     </message>
     <message>
-        <source>Next</source>
-        <translation type="unfinished">Seuraava</translation>
+      <source>Next</source>
+      <translation>Seuraava</translation>
     </message>
     <message>
-        <source>Original tags</source>
-        <translation type="unfinished">Alkuperäiset tunnisteet</translation>
+      <source>Original tags</source>
+      <translation>Alkuperäiset tunnisteet</translation>
     </message>
     <message>
-        <source>Suggested tags</source>
-        <translation type="unfinished">Ehdotetut tunnisteet</translation>
+      <source>Suggested tags</source>
+      <translation>Ehdotetut tunnisteet</translation>
     </message>
     <message>
-        <source>Saving tracks</source>
-        <translation type="unfinished">Tallennetaan kappaleita</translation>
+      <source>Saving tracks</source>
+      <translation>Tallennetaan kappaleita</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>TrackSlider</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">Lomake</translation>
+      <source>Form</source>
+      <translation>Lomake</translation>
     </message>
     <message>
-        <source>0:00:00</source>
-        <translation type="unfinished"></translation>
+      <source>0:00:00</source>
+      <translation type="unfinished">0:00:00</translation>
     </message>
     <message>
-        <source>Click to toggle between remaining time and total time</source>
-        <translation type="unfinished">Napsauta vaihtaaksesi näkymää: aikaa jäljellä / kokonaisaika</translation>
+      <source>Click to toggle between remaining time and total time</source>
+      <translation>Napsauta vaihtaaksesi näkymää: aikaa jäljellä / kokonaisaika</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>TranscodeDialog</name>
     <message>
-        <source>Transcode Music</source>
-        <translation type="unfinished">Muunna eri muotoon</translation>
+      <source>Transcode Music</source>
+      <translation>Muunna eri muotoon</translation>
     </message>
     <message>
-        <source>Files to transcode</source>
-        <translation type="unfinished">Muunnettavat tiedostot</translation>
+      <source>Files to transcode</source>
+      <translation>Muunnettavat tiedostot</translation>
     </message>
     <message>
-        <source>Filename</source>
-        <translation type="unfinished">Tiedostonimi</translation>
+      <source>Filename</source>
+      <translation>Tiedostonimi</translation>
     </message>
     <message>
-        <source>Directory</source>
-        <translation type="unfinished">Kansio</translation>
+      <source>Directory</source>
+      <translation>Kansio</translation>
     </message>
     <message>
-        <source>Add...</source>
-        <translation type="unfinished">Lisää...</translation>
+      <source>Add...</source>
+      <translation>Lisää...</translation>
     </message>
     <message>
-        <source>Remove</source>
-        <translation type="unfinished">Poista</translation>
+      <source>Remove</source>
+      <translation>Poista</translation>
     </message>
     <message>
-        <source>Add all tracks from a directory and all its subdirectories</source>
-        <translation type="unfinished">Lisää kaikki kappaleet kansiosta ja sen alakansioista</translation>
+      <source>Add all tracks from a directory and all its subdirectories</source>
+      <translation>Lisää kaikki kappaleet kansiosta ja sen alakansioista</translation>
     </message>
     <message>
-        <source>Import...</source>
-        <translation type="unfinished">Tuo...</translation>
+      <source>Import...</source>
+      <translation>Tuo...</translation>
     </message>
     <message>
-        <source>Output options</source>
-        <translation type="unfinished">Muunnoksen asetukset</translation>
+      <source>Output options</source>
+      <translation>Muunnoksen asetukset</translation>
     </message>
     <message>
-        <source>Audio format</source>
-        <translation type="unfinished">Äänimuoto</translation>
+      <source>Audio format</source>
+      <translation>Äänimuoto</translation>
     </message>
     <message>
-        <source>Options...</source>
-        <translation type="unfinished">Valinnat...</translation>
+      <source>Options...</source>
+      <translation>Valinnat...</translation>
     </message>
     <message>
-        <source>Destination</source>
-        <translation type="unfinished">Kohde</translation>
+      <source>Destination</source>
+      <translation>Kohde</translation>
     </message>
     <message>
-        <source>Alongside the originals</source>
-        <translation type="unfinished">Yhteen alkuperäisten kanssa</translation>
+      <source>Alongside the originals</source>
+      <translation>Yhteen alkuperäisten kanssa</translation>
     </message>
     <message>
-        <source>Select...</source>
-        <translation type="unfinished">Valitse...</translation>
+      <source>Select...</source>
+      <translation>Valitse...</translation>
     </message>
     <message>
-        <source>Progress</source>
-        <translation type="unfinished">Edistyminen</translation>
+      <source>Progress</source>
+      <translation>Edistyminen</translation>
     </message>
     <message>
-        <source>Details...</source>
-        <translation type="unfinished">Tiedot...</translation>
+      <source>Details...</source>
+      <translation>Tiedot...</translation>
     </message>
     <message>
-        <source>Clear</source>
-        <translation type="unfinished">Tyhjennä</translation>
+      <source>Clear</source>
+      <translation>Tyhjennä</translation>
     </message>
     <message>
-        <source>Start transcoding</source>
-        <translation type="unfinished">Aloita muunnos</translation>
+      <source>Start transcoding</source>
+      <translation>Aloita muunnos</translation>
     </message>
     <message numerus="yes">
-        <source>%n remaining</source>
-        <translation type="unfinished">
-            <numerusform>%n jäljellä</numerusform>
-            <numerusform></numerusform>
-        </translation>
+      <source>%n remaining</source>
+      <translation type="unfinished">
+        <numerusform>%n jäljellä</numerusform>
+        <numerusform>%n remaining</numerusform>
+      </translation>
     </message>
     <message numerus="yes">
-        <source>%n finished</source>
-        <translation type="unfinished">
-            <numerusform>%n valmistui</numerusform>
-            <numerusform></numerusform>
-        </translation>
+      <source>%n finished</source>
+      <translation type="unfinished">
+        <numerusform>%n valmistui</numerusform>
+        <numerusform>%n finished</numerusform>
+      </translation>
     </message>
     <message numerus="yes">
-        <source>%n failed</source>
-        <translation type="unfinished">
-            <numerusform>%n epäonnistui</numerusform>
-            <numerusform></numerusform>
-        </translation>
+      <source>%n failed</source>
+      <translation type="unfinished">
+        <numerusform>%n epäonnistui</numerusform>
+        <numerusform>%n failed</numerusform>
+      </translation>
     </message>
     <message>
-        <source>Add files to transcode</source>
-        <translation type="unfinished">Lisää tiedostoja muunnettavaksi</translation>
+      <source>Add files to transcode</source>
+      <translation>Lisää tiedostoja muunnettavaksi</translation>
     </message>
     <message>
-        <source>Music</source>
-        <translation type="unfinished">Musiikki</translation>
+      <source>Music</source>
+      <translation>Musiikki</translation>
     </message>
     <message>
-        <source>Open a directory to import music from</source>
-        <translation type="unfinished">Avaa kansio, josta musiikki tuodaan</translation>
+      <source>Open a directory to import music from</source>
+      <translation>Avaa kansio, josta musiikki tuodaan</translation>
     </message>
     <message>
-        <source>Add folder</source>
-        <translation type="unfinished">Lisää kansio</translation>
+      <source>Add folder</source>
+      <translation>Lisää kansio</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>TranscodeLogDialog</name>
     <message>
-        <source>Transcoder Log</source>
-        <translation type="unfinished">Muunnosloki</translation>
+      <source>Transcoder Log</source>
+      <translation>Muunnosloki</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>Transcoder</name>
     <message>
-        <source>Could not create the GStreamer element &quot;%1&quot; - make sure you have all the required GStreamer plugins installed</source>
-        <translation type="unfinished">GStreamer-elementin &quot;%1&quot; luonti epäonnistui - varmista, että kaikki vaaditut GStreamer-liitännäiset on asennettu</translation>
+      <source>Could not create the GStreamer element &quot;%1&quot; - make sure you have all the required GStreamer plugins installed</source>
+      <translation>GStreamer-elementin &quot;%1&quot; luonti epäonnistui - varmista, että kaikki vaaditut GStreamer-liitännäiset on asennettu</translation>
     </message>
     <message>
-        <source>Successfully written %1</source>
-        <translation type="unfinished">Onnistuneesti kirjoitettu %1</translation>
+      <source>Successfully written %1</source>
+      <translation>Onnistuneesti kirjoitettu %1</translation>
     </message>
     <message>
-        <source>Transcoding %1 files using %2 threads</source>
-        <translation type="unfinished">Muunnetaan %1 tiedostoa käyttäen %2 säiettä</translation>
+      <source>Transcoding %1 files using %2 threads</source>
+      <translation>Muunnetaan %1 tiedostoa käyttäen %2 säiettä</translation>
     </message>
     <message>
-        <source>Error processing %1: %2</source>
-        <translation type="unfinished">Virhe käsitellessä %1:%2</translation>
+      <source>Error processing %1: %2</source>
+      <translation>Virhe käsitellessä %1:%2</translation>
     </message>
     <message>
-        <source>Starting %1</source>
-        <translation type="unfinished">Aloittaa %1</translation>
+      <source>Starting %1</source>
+      <translation>Aloittaa %1</translation>
     </message>
     <message>
-        <source>Couldn&apos;t find an encoder for %1, check you have the correct GStreamer plugins installed</source>
-        <translation type="unfinished">Ei löydetty %1 -enkooderia, tarkista että sinulla on oikeat GStreamer-liitännäiset asennettuna</translation>
+      <source>Couldn&apos;t find an encoder for %1, check you have the correct GStreamer plugins installed</source>
+      <translation>Ei löydetty %1 -enkooderia, tarkista että sinulla on oikeat GStreamer-liitännäiset asennettuna</translation>
     </message>
     <message>
-        <source>Couldn&apos;t find a muxer for %1, check you have the correct GStreamer plugins installed</source>
-        <translation type="unfinished">Ei löydetty %1 -multiplekseriä, tarkista että sinulla on oikeat GStreamer-liitännäiset asennettuna</translation>
+      <source>Couldn&apos;t find a muxer for %1, check you have the correct GStreamer plugins installed</source>
+      <translation>Ei löydetty %1 -multiplekseriä, tarkista että sinulla on oikeat GStreamer-liitännäiset asennettuna</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>TranscoderOptionsAAC</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">Lomake</translation>
+      <source>Form</source>
+      <translation>Lomake</translation>
     </message>
     <message>
-        <source>Bitrate</source>
-        <translation type="unfinished">Bittinopeus</translation>
+      <source>Bitrate</source>
+      <translation>Bittinopeus</translation>
     </message>
     <message>
-        <source> kbps</source>
-        <translation type="unfinished"></translation>
+      <source> kbps</source>
+      <translation type="unfinished"> kbps</translation>
     </message>
     <message>
-        <source>Profile</source>
-        <translation type="unfinished">Profiili</translation>
+      <source>Profile</source>
+      <translation>Profiili</translation>
     </message>
     <message>
-        <source>Main profile (MAIN)</source>
-        <translation type="unfinished">Oletusprofiili (MAIN)</translation>
+      <source>Main profile (MAIN)</source>
+      <translation>Oletusprofiili (MAIN)</translation>
     </message>
     <message>
-        <source>Low complexity profile (LC)</source>
-        <translation type="unfinished">Low complexity -profiili (LC)</translation>
+      <source>Low complexity profile (LC)</source>
+      <translation>Low complexity -profiili (LC)</translation>
     </message>
     <message>
-        <source>Scalable sampling rate profile (SSR)</source>
-        <translation type="unfinished">Scalable sampling rate -profiili (SSR)</translation>
+      <source>Scalable sampling rate profile (SSR)</source>
+      <translation>Scalable sampling rate -profiili (SSR)</translation>
     </message>
     <message>
-        <source>Long term prediction profile (LTP)</source>
-        <translation type="unfinished">Long term prediction -profiili (LTP)</translation>
+      <source>Long term prediction profile (LTP)</source>
+      <translation>Long term prediction -profiili (LTP)</translation>
     </message>
     <message>
-        <source>Use temporal noise shaping</source>
-        <translation type="unfinished">Käytä väliaikaista melun muokkausta</translation>
+      <source>Use temporal noise shaping</source>
+      <translation>Käytä väliaikaista melun muokkausta</translation>
     </message>
     <message>
-        <source>Allow mid/side encoding</source>
-        <translation type="unfinished"></translation>
+      <source>Allow mid/side encoding</source>
+      <translation type="unfinished">Allow mid/side encoding</translation>
     </message>
     <message>
-        <source>Block type</source>
-        <translation type="unfinished">Lohkotyyppi</translation>
+      <source>Block type</source>
+      <translation>Lohkotyyppi</translation>
     </message>
     <message>
-        <source>Normal block type</source>
-        <translation type="unfinished">Normaalilohkotyyppi</translation>
+      <source>Normal block type</source>
+      <translation>Normaalilohkotyyppi</translation>
     </message>
     <message>
-        <source>No short blocks</source>
-        <translation type="unfinished">Ei lyhyitä lohkoja</translation>
+      <source>No short blocks</source>
+      <translation>Ei lyhyitä lohkoja</translation>
     </message>
     <message>
-        <source>No long blocks</source>
-        <translation type="unfinished">Ei pitkiä lohkoja</translation>
+      <source>No long blocks</source>
+      <translation>Ei pitkiä lohkoja</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>TranscoderOptionsASF</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">Lomake</translation>
+      <source>Form</source>
+      <translation>Lomake</translation>
     </message>
     <message>
-        <source>Bitrate</source>
-        <translation type="unfinished">Bittinopeus</translation>
+      <source>Bitrate</source>
+      <translation>Bittinopeus</translation>
     </message>
     <message>
-        <source> kbps</source>
-        <translation type="unfinished"></translation>
+      <source> kbps</source>
+      <translation type="unfinished"> kbps</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>TranscoderOptionsDialog</name>
     <message>
-        <source>Transcoding options</source>
-        <translation type="unfinished">Muunnosvalinnat</translation>
+      <source>Transcoding options</source>
+      <translation>Muunnosvalinnat</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>TranscoderOptionsFLAC</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">Lomake</translation>
+      <source>Form</source>
+      <translation>Lomake</translation>
     </message>
     <message>
-        <source>Quality</source>
-        <comment>Sound quality</comment>
-        <translation type="unfinished">Laatu</translation>
+      <source>Quality</source>
+      <comment>Sound quality</comment>
+      <translation>Laatu</translation>
     </message>
     <message>
-        <source>Fast</source>
-        <translation type="unfinished">Nopea</translation>
+      <source>Fast</source>
+      <translation>Nopea</translation>
     </message>
     <message>
-        <source>Best</source>
-        <translation type="unfinished">Paras</translation>
+      <source>Best</source>
+      <translation>Paras</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>TranscoderOptionsMP3</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">Lomake</translation>
+      <source>Form</source>
+      <translation>Lomake</translation>
     </message>
     <message>
-        <source>Optimize for &amp;quality</source>
-        <translation type="unfinished"></translation>
+      <source>Optimize for &amp;quality</source>
+      <translation type="unfinished">Optimize for &amp;quality</translation>
     </message>
     <message>
-        <source>Quality</source>
-        <comment>Sound quality</comment>
-        <translation type="unfinished">Laatu</translation>
+      <source>Quality</source>
+      <comment>Sound quality</comment>
+      <translation>Laatu</translation>
     </message>
     <message>
-        <source>Opti&amp;mize for bitrate</source>
-        <translation type="unfinished">Opti&amp;moi bittinopeus</translation>
+      <source>Opti&amp;mize for bitrate</source>
+      <translation>Opti&amp;moi bittinopeus</translation>
     </message>
     <message>
-        <source>Bitrate</source>
-        <translation type="unfinished">Bittinopeus</translation>
+      <source>Bitrate</source>
+      <translation>Bittinopeus</translation>
     </message>
     <message>
-        <source> kbps</source>
-        <translation type="unfinished"></translation>
+      <source> kbps</source>
+      <translation type="unfinished"> kbps</translation>
     </message>
     <message>
-        <source>Constant bitrate</source>
-        <translation type="unfinished">Pysyvä bittinopeus</translation>
+      <source>Constant bitrate</source>
+      <translation>Pysyvä bittinopeus</translation>
     </message>
     <message>
-        <source>Encoding engine quality</source>
-        <translation type="unfinished">Koodausmoottorin laatu</translation>
+      <source>Encoding engine quality</source>
+      <translation>Koodausmoottorin laatu</translation>
     </message>
     <message>
-        <source>Fast</source>
-        <translation type="unfinished">Nopea</translation>
+      <source>Fast</source>
+      <translation>Nopea</translation>
     </message>
     <message>
-        <source>Standard</source>
-        <translation type="unfinished">Normaali</translation>
+      <source>Standard</source>
+      <translation>Normaali</translation>
     </message>
     <message>
-        <source>High</source>
-        <translation type="unfinished">Korkea</translation>
+      <source>High</source>
+      <translation>Korkea</translation>
     </message>
     <message>
-        <source>Force mono encoding</source>
-        <translation type="unfinished">Pakota monokoodaus</translation>
+      <source>Force mono encoding</source>
+      <translation>Pakota monokoodaus</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>TranscoderOptionsOpus</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">Lomake</translation>
+      <source>Form</source>
+      <translation>Lomake</translation>
     </message>
     <message>
-        <source>Bitrate</source>
-        <translation type="unfinished">Bittinopeus</translation>
+      <source>Bitrate</source>
+      <translation>Bittinopeus</translation>
     </message>
     <message>
-        <source> kbps</source>
-        <translation type="unfinished"></translation>
+      <source> kbps</source>
+      <translation type="unfinished"> kbps</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>TranscoderOptionsSpeex</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">Lomake</translation>
+      <source>Form</source>
+      <translation>Lomake</translation>
     </message>
     <message>
-        <source>Quality</source>
-        <comment>Sound quality</comment>
-        <translation type="unfinished">Laatu</translation>
+      <source>Quality</source>
+      <comment>Sound quality</comment>
+      <translation>Laatu</translation>
     </message>
     <message>
-        <source>Bitrate</source>
-        <translation type="unfinished">Bittinopeus</translation>
+      <source>Bitrate</source>
+      <translation>Bittinopeus</translation>
     </message>
     <message>
-        <source>automatic</source>
-        <translation type="unfinished">automaattinen</translation>
+      <source>automatic</source>
+      <translation>automaattinen</translation>
     </message>
     <message>
-        <source> kbps</source>
-        <translation type="unfinished"></translation>
+      <source> kbps</source>
+      <translation type="unfinished"> kbps</translation>
     </message>
     <message>
-        <source>Average bitrate</source>
-        <translation type="unfinished">Keskimääräinen bittinopeus</translation>
+      <source>Average bitrate</source>
+      <translation>Keskimääräinen bittinopeus</translation>
     </message>
     <message>
-        <source>disabled</source>
-        <translation type="unfinished">pois käytöstä</translation>
+      <source>disabled</source>
+      <translation>pois käytöstä</translation>
     </message>
     <message>
-        <source>Encoding mode</source>
-        <translation type="unfinished">Koodaustila</translation>
+      <source>Encoding mode</source>
+      <translation>Koodaustila</translation>
     </message>
     <message>
-        <source>Auto</source>
-        <translation type="unfinished"></translation>
+      <source>Auto</source>
+      <translation type="unfinished">Auto</translation>
     </message>
     <message>
-        <source>Ultra wide band (UWB)</source>
-        <translation type="unfinished">Todella laaja kaista (UWB)</translation>
+      <source>Ultra wide band (UWB)</source>
+      <translation>Todella laaja kaista (UWB)</translation>
     </message>
     <message>
-        <source>Wide band (WB)</source>
-        <translation type="unfinished">Laajakaistainen (WB)</translation>
+      <source>Wide band (WB)</source>
+      <translation>Laajakaistainen (WB)</translation>
     </message>
     <message>
-        <source>Narrow band (NB)</source>
-        <translation type="unfinished">Kapeakaistainen (NB)</translation>
+      <source>Narrow band (NB)</source>
+      <translation>Kapeakaistainen (NB)</translation>
     </message>
     <message>
-        <source>Variable bit rate</source>
-        <translation type="unfinished">Muuttuva bittinopeus</translation>
+      <source>Variable bit rate</source>
+      <translation>Muuttuva bittinopeus</translation>
     </message>
     <message>
-        <source>Voice activity detection</source>
-        <translation type="unfinished">Äänen havaitseminen</translation>
+      <source>Voice activity detection</source>
+      <translation>Äänen havaitseminen</translation>
     </message>
     <message>
-        <source>Discontinuous transmission</source>
-        <translation type="unfinished">Keskeytyvä siirto</translation>
+      <source>Discontinuous transmission</source>
+      <translation>Keskeytyvä siirto</translation>
     </message>
     <message>
-        <source>Encoding complexity</source>
-        <translation type="unfinished">Enkoodauksen kompleksisuus</translation>
+      <source>Encoding complexity</source>
+      <translation>Enkoodauksen kompleksisuus</translation>
     </message>
     <message>
-        <source>Frames per buffer</source>
-        <translation type="unfinished">Kehyksiä per puskuri</translation>
+      <source>Frames per buffer</source>
+      <translation>Kehyksiä per puskuri</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>TranscoderOptionsVorbis</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">Lomake</translation>
+      <source>Form</source>
+      <translation>Lomake</translation>
     </message>
     <message>
-        <source>Quality</source>
-        <comment>Sound quality</comment>
-        <translation type="unfinished">Laatu</translation>
+      <source>Quality</source>
+      <comment>Sound quality</comment>
+      <translation>Laatu</translation>
     </message>
     <message>
-        <source>Use bitrate management engine</source>
-        <translation type="unfinished">Käytä bittinopeuden hallintakonetta</translation>
+      <source>Use bitrate management engine</source>
+      <translation>Käytä bittinopeuden hallintakonetta</translation>
     </message>
     <message>
-        <source>Target bitrate</source>
-        <translation type="unfinished">Tavoiteltava bittinopeus</translation>
+      <source>Target bitrate</source>
+      <translation>Tavoiteltava bittinopeus</translation>
     </message>
     <message>
-        <source> kbps</source>
-        <translation type="unfinished"></translation>
+      <source> kbps</source>
+      <translation type="unfinished"> kbps</translation>
     </message>
     <message>
-        <source>Minimum bitrate</source>
-        <translation type="unfinished">Pienin bittinopeus</translation>
+      <source>Minimum bitrate</source>
+      <translation>Pienin bittinopeus</translation>
     </message>
     <message>
-        <source>disabled</source>
-        <translation type="unfinished">pois käytöstä</translation>
+      <source>disabled</source>
+      <translation>pois käytöstä</translation>
     </message>
     <message>
-        <source>Maximum bitrate</source>
-        <translation type="unfinished">Suurin bittinopeus</translation>
+      <source>Maximum bitrate</source>
+      <translation>Suurin bittinopeus</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>TranscoderOptionsWavPack</name>
     <message>
-        <source>Form</source>
-        <translation type="unfinished">Lomake</translation>
+      <source>Form</source>
+      <translation>Lomake</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>TranscoderSettingsPage</name>
     <message>
-        <source>Transcoding</source>
-        <translation type="unfinished">Muunnos</translation>
+      <source>Transcoding</source>
+      <translation>Muunnos</translation>
     </message>
     <message>
-        <source>These settings are used in the &quot;Transcode Music&quot; dialog, and when converting music before copying it to a device.</source>
-        <translation type="unfinished">Nämä asetukset ovat käytössä &quot;Muunna eri muotoon&quot;-ikkunassa, ja muunnettaessa musiikkia ennen laitteelle kopiointia.</translation>
+      <source>These settings are used in the &quot;Transcode Music&quot; dialog, and when converting music before copying it to a device.</source>
+      <translation>Nämä asetukset ovat käytössä &quot;Muunna eri muotoon&quot;-ikkunassa, ja muunnettaessa musiikkia ennen laitteelle kopiointia.</translation>
     </message>
     <message>
-        <source>FLAC</source>
-        <translation type="unfinished"></translation>
+      <source>FLAC</source>
+      <translation type="unfinished">FLAC</translation>
     </message>
     <message>
-        <source>WavPack</source>
-        <translation type="unfinished"></translation>
+      <source>WavPack</source>
+      <translation type="unfinished">WavPack</translation>
     </message>
     <message>
-        <source>Vorbis</source>
-        <translation type="unfinished"></translation>
+      <source>Vorbis</source>
+      <translation type="unfinished">Vorbis</translation>
     </message>
     <message>
-        <source>Opus</source>
-        <translation type="unfinished"></translation>
+      <source>Opus</source>
+      <translation type="unfinished">Opus</translation>
     </message>
     <message>
-        <source>Speex</source>
-        <translation type="unfinished"></translation>
+      <source>Speex</source>
+      <translation type="unfinished">Speex</translation>
     </message>
     <message>
-        <source>AAC</source>
-        <translation type="unfinished"></translation>
+      <source>AAC</source>
+      <translation type="unfinished">AAC</translation>
     </message>
     <message>
-        <source>ASF (WMA)</source>
-        <translation type="unfinished"></translation>
+      <source>ASF (WMA)</source>
+      <translation type="unfinished">ASF (WMA)</translation>
     </message>
     <message>
-        <source>MP3</source>
-        <translation type="unfinished"></translation>
+      <source>MP3</source>
+      <translation type="unfinished">MP3</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>Udisks2Lister</name>
     <message>
-        <source>D-Bus path</source>
-        <translation type="unfinished">D-Bus-polku</translation>
+      <source>D-Bus path</source>
+      <translation>D-Bus-polku</translation>
     </message>
     <message>
-        <source>Serial number</source>
-        <translation type="unfinished">Sarjanumero</translation>
+      <source>Serial number</source>
+      <translation>Sarjanumero</translation>
     </message>
     <message>
-        <source>Mount points</source>
-        <translation type="unfinished">Liitoskohdat</translation>
+      <source>Mount points</source>
+      <translation>Liitoskohdat</translation>
     </message>
     <message>
-        <source>Partition label</source>
-        <translation type="unfinished">Osion nimike</translation>
+      <source>Partition label</source>
+      <translation>Osion nimike</translation>
     </message>
     <message>
-        <source>UUID</source>
-        <translation type="unfinished"></translation>
+      <source>UUID</source>
+      <translation type="unfinished">UUID</translation>
     </message>
-</context>
-<context>
+  </context>
+  <context>
     <name>UserPassDialog</name>
     <message>
-        <source>Enter username and password</source>
-        <translation type="unfinished">Syötä käyttäjätunnus ja salasana</translation>
+      <source>Enter username and password</source>
+      <translation>Syötä käyttäjätunnus ja salasana</translation>
     </message>
     <message>
-        <source>Username</source>
-        <translation type="unfinished">Käyttäjätunnus</translation>
+      <source>Username</source>
+      <translation>Käyttäjätunnus</translation>
     </message>
     <message>
-        <source>Password</source>
-        <translation type="unfinished">Salasana</translation>
+      <source>Password</source>
+      <translation>Salasana</translation>
     </message>
-</context>
+  </context>
 </TS>
