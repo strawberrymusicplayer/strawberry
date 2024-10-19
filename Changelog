@@ -25,6 +25,7 @@ Enhancements:
     * Remove old MacFSListener.
     * Remove external tagreader and protobuf dependency.
     * Remove VLC support.
+    * Ported to Qt translation (.ts) files and removed gettext dependency.
 
 Version 1.1.3 (2024.09.21):
 

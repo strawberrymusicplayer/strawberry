@@ -81,7 +81,7 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog, QWidget *pa
 
 #ifdef HAVE_TRANSLATIONS
   // Populate the language combo box.  We do this by looking at all the compiled in translations.
-  QDir dir1(QStringLiteral(":/src/translations/"));
+  QDir dir1(QStringLiteral(":/i18n"));
   QDir dir2(QStringLiteral(TRANSLATIONS_DIR));
   QStringList codes = dir1.entryList(QStringList() << QStringLiteral("*.qm"));
   if (dir2.exists()) {

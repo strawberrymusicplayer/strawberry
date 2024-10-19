@@ -21,7 +21,6 @@ BuildRequires:  gcc-c++
 BuildRequires:  hicolor-icon-theme
 BuildRequires:  make
 BuildRequires:  git
-BuildRequires:  gettext
 BuildRequires:  desktop-file-utils
 %if 0%{?suse_version}
 BuildRequires:  update-desktop-files
