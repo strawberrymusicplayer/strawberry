@@ -175,6 +175,9 @@ class EditTagDialog : public QDialog {
   static void SetDate(QLabel *label, const uint time);
 
  private:
+  static const char kTagsDifferentHintText[];
+  static const char kArtDifferentHintText[];
+
   Ui_EditTagDialog *ui_;
 
   Application *app_;
