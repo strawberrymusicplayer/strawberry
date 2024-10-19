@@ -111,8 +111,6 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog, QWidget *pa
     language_map_[name] = code;
   }
 
-  language_map_[QStringLiteral("English (en)")] = QStringLiteral("en");
-
   // Sort the names and show them in the UI
   QStringList names = language_map_.keys();
   std::stable_sort(names.begin(), names.end(), LocaleAwareCompare);
