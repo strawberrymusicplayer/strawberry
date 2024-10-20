@@ -27,7 +27,6 @@
 #include <QUrl>
 
 #include "core/song.h"
-#include "core/settingsprovider.h"
 #include "core/sqlrow.h"
 #include "playlist/playlistitem.h"
 

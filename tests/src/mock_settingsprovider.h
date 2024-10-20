@@ -21,9 +21,9 @@
 #ifndef MOCK_SETTINGSPROVIDER_H
 #define MOCK_SETTINGSPROVIDER_H
 
-#include "core/settingsprovider.h"
-
 #include <gmock/gmock.h>
+
+#include "core/settingsprovider.h"
 
 // clazy:excludeall=function-args-by-value
 

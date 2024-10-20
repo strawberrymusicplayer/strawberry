@@ -117,6 +117,25 @@ endif()
 
 add_compile_options(${COMPILE_OPTIONS})
 
+add_definitions(
+  -DBOOST_BIND_NO_PLACEHOLDERS
+  -DQT_STRICT_ITERATORS
+  -DQT_NO_CAST_FROM_BYTEARRAY
+  -DQT_USE_QSTRINGBUILDER
+  -DQT_NO_URL_CAST_FROM_STRING
+  -DQT_NO_CAST_TO_ASCII
+  -DQT_NO_NARROWING_CONVERSIONS_IN_CONNECT
+  -DQT_NO_FOREACH
+  -DQT_ASCII_CAST_WARNINGS
+  -DQT_NO_CAST_FROM_ASCII
+  -DQT_NO_KEYWORDS
+  -DQT_NO_SIGNALS_SLOTS_KEYWORDS
+)
+
+if(WIN32)
+  add_definitions(-DUNICODE)
+endif()
+
 if(BUILD_WERROR)
   set(CMAKE_COMPILE_WARNING_AS_ERROR ON)
 endif()
@@ -188,7 +207,6 @@ else()
 endif()
 
 find_package(GTest)
-find_library(GMOCK_LIBRARY gmock)
 
 set(QT_VERSION_MAJOR 6)
 set(QT_MIN_VERSION 6.4.0)
@@ -384,28 +402,7 @@ if(WIN32 AND NOT ENABLE_WIN32_CONSOLE)
   set_target_properties(strawberry PROPERTIES WIN32_EXECUTABLE TRUE)
 endif()
 
-target_compile_definitions(strawberry PRIVATE
-  -DBOOST_BIND_NO_PLACEHOLDERS
-  -DQT_STRICT_ITERATORS
-  -DQT_NO_CAST_FROM_BYTEARRAY
-  -DQT_USE_QSTRINGBUILDER
-  -DQT_NO_URL_CAST_FROM_STRING
-  -DQT_NO_CAST_TO_ASCII
-  -DQT_NO_NARROWING_CONVERSIONS_IN_CONNECT
-  -DQT_NO_FOREACH
-  -DQT_ASCII_CAST_WARNINGS
-  -DQT_NO_CAST_FROM_ASCII
-  -DQT_NO_KEYWORDS
-  -DQT_NO_SIGNALS_SLOTS_KEYWORDS
-)
-
-if(WIN32)
-  target_compile_definitions(strawberry PRIVATE -DUNICODE)
-endif()
-
 set(SOURCES
-  src/main.cpp
-
   src/core/logging.cpp
   src/core/mainwindow.cpp
   src/core/application.cpp
@@ -1406,7 +1403,9 @@ qt_wrap_cpp(SOURCES ${HEADERS})
 qt_wrap_ui(SOURCES ${UI})
 qt_add_resources(SOURCES data/data.qrc data/icons.qrc)
 
-target_sources(strawberry PRIVATE ${SOURCES})
+add_library(strawberry_lib ${SOURCES})
+
+target_sources(strawberry PRIVATE src/main.cpp)
 
 if(WIN32)
   target_sources(strawberry PRIVATE windres.rc)
@@ -1415,7 +1414,7 @@ endif()
 add_subdirectory(src)
 add_subdirectory(dist)
 
-if(GTest_FOUND AND GMOCK_LIBRARY AND Qt${QT_VERSION_MAJOR}Test_FOUND)
+if(TARGET GTest::GTest AND Qt${QT_VERSION_MAJOR}Test_FOUND)
   add_subdirectory(tests)
 endif()
 
@@ -1440,15 +1439,22 @@ target_include_directories(strawberry PRIVATE
   ${CMAKE_BINARY_DIR}/src
 )
 
+target_include_directories(strawberry_lib PRIVATE
+  ${CMAKE_SOURCE_DIR}
+  ${CMAKE_BINARY_DIR}
+  ${CMAKE_SOURCE_DIR}/src
+  ${CMAKE_BINARY_DIR}/src
+)
+
 if(SINGLEAPPLICATION_INCLUDE_DIRS)
   target_include_directories(strawberry SYSTEM PRIVATE ${SINGLEAPPLICATION_INCLUDE_DIRS})
 endif()
 
 if(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)
-  target_include_directories(strawberry SYSTEM PRIVATE ${Qt${QT_VERSION_MAJOR}Gui_PRIVATE_INCLUDE_DIRS})
+  target_include_directories(strawberry_lib SYSTEM PRIVATE ${Qt${QT_VERSION_MAJOR}Gui_PRIVATE_INCLUDE_DIRS})
 endif()
 
-target_link_libraries(strawberry PRIVATE
+target_link_libraries(strawberry_lib PRIVATE
   ${CMAKE_THREAD_LIBS_INIT}
   PkgConfig::GLIB
   PkgConfig::GOBJECT
@@ -1484,11 +1490,10 @@ target_link_libraries(strawberry PRIVATE
   $<$<BOOL:${FREEBSD}>:execinfo>
   $<$<BOOL:${WIN32}>:dsound dwmapi getopt-win::getopt>
   $<$<BOOL:${MSVC}>:WindowsApp>
-  ${SINGLEAPPLICATION_LIBRARIES}
 )
 
 if(APPLE)
-  target_link_libraries(strawberry PRIVATE
+  target_link_libraries(strawberry_lib PRIVATE
     "-framework Foundation"
     "-framework AppKit"
     "-framework Carbon"
@@ -1499,6 +1504,20 @@ if(APPLE)
     SPMediaKeyTap
   )
 endif()
+
+target_link_libraries(strawberry PRIVATE
+  ${CMAKE_THREAD_LIBS_INIT}
+  PkgConfig::GLIB
+  PkgConfig::GOBJECT
+  Qt${QT_VERSION_MAJOR}::Core
+  Qt${QT_VERSION_MAJOR}::Network
+  Qt${QT_VERSION_MAJOR}::Sql
+  Qt${QT_VERSION_MAJOR}::Gui
+  Qt${QT_VERSION_MAJOR}::Widgets
+  $<$<BOOL:${HAVE_DBUS}>:Qt${QT_VERSION_MAJOR}::DBus>
+  ${SINGLEAPPLICATION_LIBRARIES}
+  strawberry_lib
+)
 
 if(NOT APPLE)
   install(TARGETS strawberry RUNTIME DESTINATION bin)

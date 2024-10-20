@@ -1,5 +1,9 @@
 enable_testing()
 
+add_custom_target(strawberry_tests echo "Running Strawberry tests" WORKING_DIRECTORY ${CURRENT_BINARY_DIR})
+add_custom_target(build_tests WORKING_DIRECTORY ${CURRENT_BINARY_DIR})
+add_dependencies(strawberry_tests build_tests)
+
 add_definitions(-DGTEST_USE_OWN_TR1_TUPLE=1)
 
 set(TESTUTILS-SOURCES
@@ -14,21 +18,13 @@ set(TESTUTILS-MOC-HEADERS src/mock_networkaccessmanager.h src/test_utils.h src/t
 qt_wrap_cpp(TESTUTILS-SOURCES-MOC ${TESTUTILS-MOC-HEADERS})
 
 add_library(test_utils STATIC EXCLUDE_FROM_ALL ${TESTUTILS-SOURCES} ${TESTUTILS-SOURCES-MOC})
-target_include_directories(test_utils SYSTEM PRIVATE
-  ${GTEST_INCLUDE_DIRS}
-  ${GMOCK_INCLUDE_DIRS}
-)
 target_include_directories(test_utils PRIVATE
   ${CMAKE_BINARY_DIR}/src
   ${CMAKE_SOURCE_DIR}/src
 )
-target_link_directories(test_utils PRIVATE
-  ${SQLITE_LIBRARY_DIRS}
-  ${TAGLIB_LIBRARY_DIRS}
-)
 target_link_libraries(test_utils PRIVATE
-  ${GTEST_BOTH_LIBRARIES}
-  ${GMOCK_LIBRARY}
+  GTest::GTest
+  GTest::gmock
   Qt${QT_VERSION_MAJOR}::Core
   Qt${QT_VERSION_MAJOR}::Widgets
   Qt${QT_VERSION_MAJOR}::Network
@@ -36,53 +32,58 @@ target_link_libraries(test_utils PRIVATE
   Qt${QT_VERSION_MAJOR}::Test
 )
 
-add_custom_target(strawberry_tests echo "Running Strawberry tests" WORKING_DIRECTORY ${CURRENT_BINARY_DIR})
-add_custom_target(build_tests WORKING_DIRECTORY ${CURRENT_BINARY_DIR})
-add_dependencies(strawberry_tests build_tests)
-
 qt_add_resources(TEST-RESOURCE-SOURCES data/testdata.qrc ${CMAKE_SOURCE_DIR}/data/data.qrc ${CMAKE_SOURCE_DIR}/data/icons.qrc)
-
-add_library(test_gui_main STATIC EXCLUDE_FROM_ALL ${TEST-RESOURCE-SOURCES} src/main.cpp)
-target_include_directories(test_gui_main PRIVATE
-  ${CMAKE_BINARY_DIR}/src
-  ${CMAKE_SOURCE_DIR}/src
-)
-
-target_include_directories(test_gui_main SYSTEM PRIVATE ${GSTREAMER_INCLUDE_DIRS})
-
-target_link_libraries(test_gui_main PRIVATE strawberry_lib)
-set_target_properties(test_gui_main PROPERTIES COMPILE_DEFINITIONS GUI)
 
 add_library(test_main STATIC EXCLUDE_FROM_ALL ${TEST-RESOURCE-SOURCES} src/main.cpp)
 target_include_directories(test_main PRIVATE
   ${CMAKE_BINARY_DIR}/src
   ${CMAKE_SOURCE_DIR}/src
 )
-if(HAVE_GSTREAMER)
-  target_include_directories(test_main SYSTEM PRIVATE ${GSTREAMER_INCLUDE_DIRS})
-endif()
-target_link_libraries(test_main PRIVATE strawberry_lib)
+target_link_libraries(test_main PRIVATE
+  ${CMAKE_THREAD_LIBS_INIT}
+  PkgConfig::GLIB
+  PkgConfig::GOBJECT
+  PkgConfig::GSTREAMER_BASE
+  Qt${QT_VERSION_MAJOR}::Core
+  Qt${QT_VERSION_MAJOR}::Widgets
+  strawberry_lib
+)
+
+add_library(test_gui_main STATIC EXCLUDE_FROM_ALL ${TEST-RESOURCE-SOURCES} src/main.cpp)
+target_include_directories(test_gui_main PRIVATE
+  ${CMAKE_BINARY_DIR}/src
+  ${CMAKE_SOURCE_DIR}/src
+)
+target_link_libraries(test_gui_main PRIVATE
+  ${CMAKE_THREAD_LIBS_INIT}
+  PkgConfig::GLIB
+  PkgConfig::GOBJECT
+  PkgConfig::GSTREAMER_BASE
+  Qt${QT_VERSION_MAJOR}::Core
+  Qt${QT_VERSION_MAJOR}::Widgets
+  strawberry_lib
+)
+set_target_properties(test_gui_main PROPERTIES COMPILE_DEFINITIONS GUI)
 
 # Given a file foo_test.cpp, creates a target foo_test and adds it to the test target.
 macro(add_test_file test_source gui_required)
     get_filename_component(TEST_NAME ${test_source} NAME_WE)
     add_executable(${TEST_NAME} EXCLUDE_FROM_ALL ${test_source})
-    target_include_directories(${TEST_NAME} SYSTEM PRIVATE
-      ${GTEST_INCLUDE_DIRS}
-      ${GMOCK_INCLUDE_DIRS}
-    )
     target_include_directories(${TEST_NAME} PRIVATE
       ${CMAKE_BINARY_DIR}/src
       ${CMAKE_SOURCE_DIR}/src
-      ${TAGLIB_INCLUDE_DIRS}
     )
     target_link_libraries(${TEST_NAME} PRIVATE
+      ${CMAKE_THREAD_LIBS_INIT}
+      PkgConfig::GLIB
+      PkgConfig::GOBJECT
+      PkgConfig::GSTREAMER_BASE
       Qt${QT_VERSION_MAJOR}::Core
       Qt${QT_VERSION_MAJOR}::Concurrent
-      Qt${QT_VERSION_MAJOR}::Widgets
       Qt${QT_VERSION_MAJOR}::Network
       Qt${QT_VERSION_MAJOR}::Sql
       Qt${QT_VERSION_MAJOR}::Test
+      Qt${QT_VERSION_MAJOR}::Widgets
     )
     target_link_libraries(${TEST_NAME} PRIVATE test_utils)
     set(GUI_REQUIRED ${gui_required})

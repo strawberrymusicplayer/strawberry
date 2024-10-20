@@ -20,7 +20,11 @@
 
 #include <gmock/gmock.h>
 
-#include <QApplication>
+#ifdef GUI
+#  include <QApplication>
+#else
+#  include <QCoreApplication>
+#endif
 
 #include "logging_env.h"
 #include "metatypes_env.h"

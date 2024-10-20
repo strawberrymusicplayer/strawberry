@@ -21,6 +21,8 @@
 #ifndef MOCK_NETWORKACCESSMANAGER_H
 #define MOCK_NETWORKACCESSMANAGER_H
 
+#include <gmock/gmock.h>
+
 #include <QtGlobal>
 #include <QMap>
 #include <QByteArray>
@@ -29,7 +31,6 @@
 #include <QNetworkReply>
 
 #include "test_utils.h"
-#include "gmock/gmock.h"
 
 // Usage:
 // Create a MockNetworkAccessManager.
