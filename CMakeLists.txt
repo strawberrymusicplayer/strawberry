@@ -440,7 +440,6 @@ set(SOURCES
   src/core/systemtrayicon.cpp
   src/core/localredirectserver.cpp
   src/core/mimedata.cpp
-  src/core/potranslator.cpp
   src/core/temporaryfile.cpp
   src/utilities/strutils.cpp
   src/utilities/envutils.cpp
@@ -773,7 +772,6 @@ set(HEADERS
   src/core/urlhandler.h
   src/core/standarditemiconloader.h
   src/core/translations.h
-  src/core/potranslator.h
   src/core/mimedata.h
   src/core/stylesheetloader.h
   src/core/localredirectserver.h
