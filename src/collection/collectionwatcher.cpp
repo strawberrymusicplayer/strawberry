@@ -73,7 +73,7 @@
 using namespace std::chrono_literals;
 using namespace Qt::Literals::StringLiterals;
 
-QStringList CollectionWatcher::sValidImages = QStringList() << QStringLiteral("jpg") << QStringLiteral("png") << QStringLiteral("gif") << QStringLiteral("jpeg");
+QStringList CollectionWatcher::sValidImages = QStringList() << u"jpg"_s << u"png"_s << u"gif"_s << u"jpeg"_s;
 
 CollectionWatcher::CollectionWatcher(const Song::Source source, QObject *parent)
     : QObject(parent),
@@ -205,7 +205,7 @@ void CollectionWatcher::ReloadSettings() {
     scan_on_startup_ = true;
     monitor_ = true;
   }
-  const QStringList filters = s.value("cover_art_patterns", QStringList() << QStringLiteral("front") << QStringLiteral("cover")).toStringList();
+  const QStringList filters = s.value("cover_art_patterns", QStringList() << u"front"_s << u"cover"_s).toStringList();
   if (source_ == Song::Source::Collection) {
     song_tracking_ = s.value("song_tracking", false).toBool();
     song_ebur128_loudness_analysis_ = s.value("song_ebur128_loudness_analysis", false).toBool();
@@ -951,43 +951,43 @@ void CollectionWatcher::AddChangedSong(const QString &file, const Song &matching
   }
   else {
     if (matching_song.url() != new_song.url()) {
-      changes << QStringLiteral("file path");
+      changes << u"file path"_s;
       notify_new = true;
     }
     if (matching_song.fingerprint() != new_song.fingerprint()) {
-      changes << QStringLiteral("fingerprint");
+      changes << u"fingerprint"_s;
       notify_new = true;
     }
     if (!matching_song.IsMetadataEqual(new_song)) {
-      changes << QStringLiteral("metadata");
+      changes << u"metadata"_s;
       notify_new = true;
     }
     if (!matching_song.IsPlayStatisticsEqual(new_song)) {
-      changes << QStringLiteral("play statistics");
+      changes << u"play statistics"_s;
       notify_new = true;
     }
     if (!matching_song.IsRatingEqual(new_song)) {
-      changes << QStringLiteral("rating");
+      changes << u"rating"_s;
       notify_new = true;
     }
     if (!matching_song.IsArtEqual(new_song)) {
-      changes << QStringLiteral("album art");
+      changes << u"album art"_s;
       notify_new = true;
     }
     if (!matching_song.IsAcoustIdEqual(new_song)) {
-      changes << QStringLiteral("acoustid");
+      changes << u"acoustid"_s;
       notify_new = true;
     }
     if (!matching_song.IsMusicBrainzEqual(new_song)) {
-      changes << QStringLiteral("musicbrainz");
+      changes << u"musicbrainz"_s;
       notify_new = true;
     }
     if (!matching_song.IsEBUR128Equal(new_song)) {
-      changes << QStringLiteral("ebur128 loudness characteristics");
+      changes << u"ebur128 loudness characteristics"_s;
       notify_new = true;
     }
     if (matching_song.mtime() != new_song.mtime()) {
-      changes << QStringLiteral("mtime");
+      changes << u"mtime"_s;
     }
 
     if (changes.isEmpty()) {

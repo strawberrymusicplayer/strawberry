@@ -55,7 +55,6 @@
 #include "streaming/streamingsearchview.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
-#include "collection/collectionfilter.h"
 #include "tidalservice.h"
 #include "tidalurlhandler.h"
 #include "tidalbaserequest.h"
@@ -91,7 +90,7 @@ constexpr char kSongsTable[] = "tidal_songs";
 }  // namespace
 
 TidalService::TidalService(Application *app, QObject *parent)
-    : StreamingService(Song::Source::Tidal, QStringLiteral("Tidal"), QStringLiteral("tidal"), QLatin1String(TidalSettingsPage::kSettingsGroup), SettingsDialog::Page::Tidal, app, parent),
+    : StreamingService(Song::Source::Tidal, u"Tidal"_s, u"tidal"_s, QLatin1String(TidalSettingsPage::kSettingsGroup), SettingsDialog::Page::Tidal, app, parent),
       app_(app),
       network_(app->network()),
       url_handler_(new TidalUrlHandler(app, this)),
@@ -234,7 +233,7 @@ void TidalService::LoadSession() {
   Settings s;
   s.beginGroup(TidalSettingsPage::kSettingsGroup);
   user_id_ = s.value("user_id").toInt();
-  country_code_ = s.value("country_code", QStringLiteral("US")).toString();
+  country_code_ = s.value("country_code", u"US"_s).toString();
   access_token_ = s.value("access_token").toString();
   refresh_token_ = s.value("refresh_token").toString();
   session_id_ = s.value("session_id").toString();
@@ -270,13 +269,13 @@ void TidalService::ReloadSettings() {
   if (password.isEmpty()) password_.clear();
   else password_ = QString::fromUtf8(QByteArray::fromBase64(password));
 
-  quality_ = s.value("quality", QStringLiteral("LOSSLESS")).toString();
+  quality_ = s.value("quality", u"LOSSLESS"_s).toString();
   quint64 search_delay = s.value("searchdelay", 1500).toInt();
   artistssearchlimit_ = s.value("artistssearchlimit", 4).toInt();
   albumssearchlimit_ = s.value("albumssearchlimit", 10).toInt();
   songssearchlimit_ = s.value("songssearchlimit", 10).toInt();
   fetchalbums_ = s.value("fetchalbums", false).toBool();
-  coversize_ = s.value("coversize", QStringLiteral("640x640")).toString();
+  coversize_ = s.value("coversize", u"640x640"_s).toString();
   download_album_covers_ = s.value("downloadalbumcovers", true).toBool();
   stream_url_method_ = static_cast<TidalSettingsPage::StreamUrlMethod>(s.value("streamurl", static_cast<int>(TidalSettingsPage::StreamUrlMethod::StreamUrl)).toInt());
   album_explicit_ = s.value("album_explicit").toBool();
@@ -297,12 +296,12 @@ void TidalService::StartAuthorization(const QString &client_id) {
     code_challenge_.chop(1);
   }
 
-  const ParamList params = ParamList() << Param(QStringLiteral("response_type"), QStringLiteral("code"))
-                                       << Param(QStringLiteral("code_challenge"), code_challenge_)
-                                       << Param(QStringLiteral("code_challenge_method"), QStringLiteral("S256"))
-                                       << Param(QStringLiteral("redirect_uri"), QLatin1String(kOAuthRedirectUrl))
-                                       << Param(QStringLiteral("client_id"), client_id_)
-                                       << Param(QStringLiteral("scope"), QStringLiteral("r_usr w_usr"));
+  const ParamList params = ParamList() << Param(u"response_type"_s, u"code"_s)
+                                       << Param(u"code_challenge"_s, code_challenge_)
+                                       << Param(u"code_challenge_method"_s, u"S256"_s)
+                                       << Param(u"redirect_uri"_s, QLatin1String(kOAuthRedirectUrl))
+                                       << Param(u"client_id"_s, client_id_)
+                                       << Param(u"scope"_s, u"r_usr w_usr"_s);
 
   QUrlQuery url_query;
   for (const Param &param : params) {
@@ -321,13 +320,13 @@ void TidalService::AuthorizationUrlReceived(const QUrl &url) {
 
   QUrlQuery url_query(url);
 
-  if (url_query.hasQueryItem(QStringLiteral("token_type")) && url_query.hasQueryItem(QStringLiteral("expires_in")) && url_query.hasQueryItem(QStringLiteral("access_token"))) {
+  if (url_query.hasQueryItem(u"token_type"_s) && url_query.hasQueryItem(u"expires_in"_s) && url_query.hasQueryItem(u"access_token"_s)) {
 
-    access_token_ = url_query.queryItemValue(QStringLiteral("access_token"));
-    if (url_query.hasQueryItem(QStringLiteral("refresh_token"))) {
-      refresh_token_ = url_query.queryItemValue(QStringLiteral("refresh_token"));
+    access_token_ = url_query.queryItemValue(u"access_token"_s);
+    if (url_query.hasQueryItem(u"refresh_token"_s)) {
+      refresh_token_ = url_query.queryItemValue(u"refresh_token"_s);
     }
-    expires_in_ = url_query.queryItemValue(QStringLiteral("expires_in")).toInt();
+    expires_in_ = url_query.queryItemValue(u"expires_in"_s).toInt();
     login_time_ = QDateTime::currentSecsSinceEpoch();
     session_id_.clear();
 
@@ -344,9 +343,9 @@ void TidalService::AuthorizationUrlReceived(const QUrl &url) {
     Q_EMIT LoginSuccess();
   }
 
-  else if (url_query.hasQueryItem(QStringLiteral("code")) && url_query.hasQueryItem(QStringLiteral("state"))) {
+  else if (url_query.hasQueryItem(u"code"_s) && url_query.hasQueryItem(u"state"_s)) {
 
-    QString code = url_query.queryItemValue(QStringLiteral("code"));
+    QString code = url_query.queryItemValue(u"code"_s);
 
     RequestAccessToken(code);
 
@@ -363,18 +362,18 @@ void TidalService::RequestAccessToken(const QString &code) {
 
   timer_refresh_login_->stop();
 
-  ParamList params = ParamList() << Param(QStringLiteral("client_id"), client_id_);
+  ParamList params = ParamList() << Param(u"client_id"_s, client_id_);
 
   if (!code.isEmpty()) {
-    params << Param(QStringLiteral("grant_type"), QStringLiteral("authorization_code"));
-    params << Param(QStringLiteral("code"), code);
-    params << Param(QStringLiteral("code_verifier"), code_verifier_);
-    params << Param(QStringLiteral("redirect_uri"), QLatin1String(kOAuthRedirectUrl));
-    params << Param(QStringLiteral("scope"), QStringLiteral("r_usr w_usr"));
+    params << Param(u"grant_type"_s, u"authorization_code"_s);
+    params << Param(u"code"_s, code);
+    params << Param(u"code_verifier"_s, code_verifier_);
+    params << Param(u"redirect_uri"_s, QLatin1String(kOAuthRedirectUrl));
+    params << Param(u"scope"_s, u"r_usr w_usr"_s);
   }
   else if (!refresh_token_.isEmpty() && enabled_ && oauth_) {
-    params << Param(QStringLiteral("grant_type"), QStringLiteral("refresh_token"));
-    params << Param(QStringLiteral("refresh_token"), refresh_token_);
+    params << Param(u"grant_type"_s, u"refresh_token"_s);
+    params << Param(u"refresh_token"_s, refresh_token_);
   }
   else {
     return;
@@ -451,28 +450,28 @@ void TidalService::AccessTokenRequestFinished(QNetworkReply *reply) {
   QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
 
   if (json_error.error != QJsonParseError::NoError) {
-    LoginError(QStringLiteral("Authentication reply from server missing Json data."));
+    LoginError(u"Authentication reply from server missing Json data."_s);
     return;
   }
 
   if (json_doc.isEmpty()) {
-    LoginError(QStringLiteral("Authentication reply from server has empty Json document."));
+    LoginError(u"Authentication reply from server has empty Json document."_s);
     return;
   }
 
   if (!json_doc.isObject()) {
-    LoginError(QStringLiteral("Authentication reply from server has Json document that is not an object."), json_doc);
+    LoginError(u"Authentication reply from server has Json document that is not an object."_s, json_doc);
     return;
   }
 
   QJsonObject json_obj = json_doc.object();
   if (json_obj.isEmpty()) {
-    LoginError(QStringLiteral("Authentication reply from server has empty Json object."), json_doc);
+    LoginError(u"Authentication reply from server has empty Json object."_s, json_doc);
     return;
   }
 
   if (!json_obj.contains("access_token"_L1) || !json_obj.contains("expires_in"_L1)) {
-    LoginError(QStringLiteral("Authentication reply from server is missing access_token or expires_in"), json_obj);
+    LoginError(u"Authentication reply from server is missing access_token or expires_in"_s, json_obj);
     return;
   }
 
@@ -527,10 +526,10 @@ void TidalService::SendLoginWithCredentials(const QString &api_token, const QStr
   timer_login_attempt_->start();
   timer_refresh_login_->stop();
 
-  const ParamList params = ParamList() << Param(QStringLiteral("token"), (api_token.isEmpty() ? api_token_ : api_token))
-                                       << Param(QStringLiteral("username"), username)
-                                       << Param(QStringLiteral("password"), password)
-                                       << Param(QStringLiteral("clientVersion"), QStringLiteral("2.2.1--7"));
+  const ParamList params = ParamList() << Param(u"token"_s, (api_token.isEmpty() ? api_token_ : api_token))
+                                       << Param(u"username"_s, username)
+                                       << Param(u"password"_s, password)
+                                       << Param(u"clientVersion"_s, u"2.2.1--7"_s);
 
   QUrlQuery url_query;
   for (const Param &param : params) {
@@ -540,7 +539,7 @@ void TidalService::SendLoginWithCredentials(const QString &api_token, const QStr
   QUrl url(QString::fromLatin1(kAuthUrl));
   QNetworkRequest req(url);
 
-  req.setHeader(QNetworkRequest::ContentTypeHeader, QStringLiteral("application/x-www-form-urlencoded"));
+  req.setHeader(QNetworkRequest::ContentTypeHeader, u"application/x-www-form-urlencoded"_s);
   req.setRawHeader("X-Tidal-Token", (api_token.isEmpty() ? api_token_.toUtf8() : api_token.toUtf8()));
 
   QByteArray query = url_query.toString(QUrl::FullyEncoded).toUtf8();
@@ -604,28 +603,28 @@ void TidalService::HandleAuthReply(QNetworkReply *reply) {
   QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
 
   if (json_error.error != QJsonParseError::NoError) {
-    LoginError(QStringLiteral("Authentication reply from server missing Json data."));
+    LoginError(u"Authentication reply from server missing Json data."_s);
     return;
   }
 
   if (json_doc.isEmpty()) {
-    LoginError(QStringLiteral("Authentication reply from server has empty Json document."));
+    LoginError(u"Authentication reply from server has empty Json document."_s);
     return;
   }
 
   if (!json_doc.isObject()) {
-    LoginError(QStringLiteral("Authentication reply from server has Json document that is not an object."), json_doc);
+    LoginError(u"Authentication reply from server has Json document that is not an object."_s, json_doc);
     return;
   }
 
   QJsonObject json_obj = json_doc.object();
   if (json_obj.isEmpty()) {
-    LoginError(QStringLiteral("Authentication reply from server has empty Json object."), json_doc);
+    LoginError(u"Authentication reply from server has empty Json object."_s, json_doc);
     return;
   }
 
   if (!json_obj.contains("userId"_L1) || !json_obj.contains("sessionId"_L1) || !json_obj.contains("countryCode"_L1)) {
-    LoginError(QStringLiteral("Authentication reply from server is missing userId, sessionId or countryCode"), json_obj);
+    LoginError(u"Authentication reply from server is missing userId, sessionId or countryCode"_s, json_obj);
     return;
   }
 

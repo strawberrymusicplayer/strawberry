@@ -57,8 +57,6 @@
 #include "utilities/strutils.h"
 #include "utilities/timeutils.h"
 #include "widgets/resizabletextedit.h"
-#include "collection/collectionbackend.h"
-#include "collection/collectionquery.h"
 #include "collection/collectionview.h"
 #include "covermanager/albumcoverchoicecontroller.h"
 #include "lyrics/lyricsfetcher.h"
@@ -119,25 +117,25 @@ ContextView::ContextView(QWidget *parent)
 
   setLayout(layout_container_);
 
-  layout_container_->setObjectName(QStringLiteral("context-layout-container"));
+  layout_container_->setObjectName(u"context-layout-container"_s);
   layout_container_->setContentsMargins(0, 0, 0, 0);
   layout_container_->addWidget(scrollarea_);
 
-  scrollarea_->setObjectName(QStringLiteral("context-scrollarea"));
+  scrollarea_->setObjectName(u"context-scrollarea"_s);
   scrollarea_->setWidgetResizable(true);
   scrollarea_->setWidget(widget_scrollarea_);
   scrollarea_->setContentsMargins(0, 0, 0, 0);
   scrollarea_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   scrollarea_->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 
-  widget_scrollarea_->setObjectName(QStringLiteral("context-widget-scrollarea"));
+  widget_scrollarea_->setObjectName(u"context-widget-scrollarea"_s);
   widget_scrollarea_->setLayout(layout_scrollarea_);
   widget_scrollarea_->setContentsMargins(0, 0, 0, 0);
 
   textedit_top_->setReadOnly(true);
   textedit_top_->setFrameShape(QFrame::NoFrame);
 
-  layout_scrollarea_->setObjectName(QStringLiteral("context-layout-scrollarea"));
+  layout_scrollarea_->setObjectName(u"context-layout-scrollarea"_s);
   layout_scrollarea_->setContentsMargins(15, 15, 15, 15);
   layout_scrollarea_->addWidget(textedit_top_);
   layout_scrollarea_->addWidget(widget_album_);
@@ -306,8 +304,8 @@ void ContextView::ReloadSettings() {
 
   Settings s;
   s.beginGroup(ContextSettingsPage::kSettingsGroup);
-  title_fmt_ = s.value(ContextSettingsPage::kSettingsTitleFmt, QStringLiteral("%title% - %artist%")).toString();
-  summary_fmt_ = s.value(ContextSettingsPage::kSettingsSummaryFmt, QStringLiteral("%album%")).toString();
+  title_fmt_ = s.value(ContextSettingsPage::kSettingsTitleFmt, u"%title% - %artist%"_s).toString();
+  summary_fmt_ = s.value(ContextSettingsPage::kSettingsSummaryFmt, u"%album%"_s).toString();
   action_show_album_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[static_cast<int>(ContextSettingsPage::ContextSettingsOrder::ALBUM)], true).toBool());
   action_show_data_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[static_cast<int>(ContextSettingsPage::ContextSettingsOrder::TECHNICAL_DATA)], false).toBool());
   action_show_lyrics_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[static_cast<int>(ContextSettingsPage::ContextSettingsOrder::SONG_LYRICS)], true).toBool());
@@ -441,7 +439,7 @@ void ContextView::UpdateFonts() {
 void ContextView::SetSong() {
 
   textedit_top_->setFont(font_headline_);
-  textedit_top_->SetText(QStringLiteral("<b>%1</b><br />%2").arg(Utilities::ReplaceMessage(title_fmt_, song_playing_, QStringLiteral("<br />"), true), Utilities::ReplaceMessage(summary_fmt_, song_playing_, QStringLiteral("<br />"), true)));
+  textedit_top_->SetText(QStringLiteral("<b>%1</b><br />%2").arg(Utilities::ReplaceMessage(title_fmt_, song_playing_, u"<br />"_s, true), Utilities::ReplaceMessage(summary_fmt_, song_playing_, u"<br />"_s, true)));
 
   label_stop_summary_->clear();
 
@@ -477,7 +475,7 @@ void ContextView::SetSong() {
     else {
       label_samplerate_title_->show();
       label_samplerate_->show();
-      SetLabelText(label_samplerate_, song_playing_.samplerate(), QStringLiteral("Hz"));
+      SetLabelText(label_samplerate_, song_playing_.samplerate(), u"Hz"_s);
     }
     if (song_playing_.bitdepth() <= 0) {
       label_bitdepth_title_->hide();
@@ -487,7 +485,7 @@ void ContextView::SetSong() {
     else {
       label_bitdepth_title_->show();
       label_bitdepth_->show();
-      SetLabelText(label_bitdepth_, song_playing_.bitdepth(), QStringLiteral("Bit"));
+      SetLabelText(label_bitdepth_, song_playing_.bitdepth(), u"Bit"_s);
     }
     if (song_playing_.bitrate() <= 0) {
       label_bitrate_title_->hide();
@@ -549,7 +547,7 @@ void ContextView::SetSong() {
 
 void ContextView::UpdateSong(const Song &song) {
 
-  const QString top_text = QStringLiteral("<b>%1</b><br />%2").arg(Utilities::ReplaceMessage(title_fmt_, song, QStringLiteral("<br />"), true), Utilities::ReplaceMessage(summary_fmt_, song, QStringLiteral("<br />"), true));
+  const QString top_text = QStringLiteral("<b>%1</b><br />%2").arg(Utilities::ReplaceMessage(title_fmt_, song, u"<br />"_s, true), Utilities::ReplaceMessage(summary_fmt_, song, u"<br />"_s, true));
   if (top_text != textedit_top_->Text()) {
     textedit_top_->SetText(top_text);
   }
@@ -577,7 +575,7 @@ void ContextView::UpdateSong(const Song &song) {
       else {
         label_samplerate_title_->show();
         label_samplerate_->show();
-        SetLabelText(label_samplerate_, song.samplerate(), QStringLiteral("Hz"));
+        SetLabelText(label_samplerate_, song.samplerate(), u"Hz"_s);
       }
     }
     if (song.bitdepth() != song_playing_.bitdepth()) {
@@ -589,7 +587,7 @@ void ContextView::UpdateSong(const Song &song) {
       else {
         label_bitdepth_title_->show();
         label_bitdepth_->show();
-        SetLabelText(label_bitdepth_, song.bitdepth(), QStringLiteral("Bit"));
+        SetLabelText(label_bitdepth_, song.bitdepth(), u"Bit"_s);
       }
     }
     if (song.bitrate() != song_playing_.bitrate()) {

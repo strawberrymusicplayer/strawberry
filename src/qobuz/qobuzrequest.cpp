@@ -147,7 +147,7 @@ void QobuzRequest::Process() {
       SongsSearch();
       break;
     default:
-      Error(QStringLiteral("Invalid query type."));
+      Error(u"Invalid query type."_s);
       break;
   }
 
@@ -231,18 +231,18 @@ void QobuzRequest::FlushArtistsRequests() {
 
     ParamList params;
     if (query_type_ == Type::FavouriteArtists) {
-      params << Param(QStringLiteral("type"), QStringLiteral("artists"));
-      params << Param(QStringLiteral("user_auth_token"), user_auth_token());
+      params << Param(u"type"_s, u"artists"_s);
+      params << Param(u"user_auth_token"_s, user_auth_token());
     }
-    else if (query_type_ == Type::SearchArtists) params << Param(QStringLiteral("query"), search_text_);
-    if (request.limit > 0) params << Param(QStringLiteral("limit"), QString::number(request.limit));
-    if (request.offset > 0) params << Param(QStringLiteral("offset"), QString::number(request.offset));
+    else if (query_type_ == Type::SearchArtists) params << Param(u"query"_s, search_text_);
+    if (request.limit > 0) params << Param(u"limit"_s, QString::number(request.limit));
+    if (request.offset > 0) params << Param(u"offset"_s, QString::number(request.offset));
     QNetworkReply *reply = nullptr;
     if (query_type_ == Type::FavouriteArtists) {
-      reply = CreateRequest(QStringLiteral("favorite/getUserFavorites"), params);
+      reply = CreateRequest(u"favorite/getUserFavorites"_s, params);
     }
     else if (query_type_ == Type::SearchArtists) {
-      reply = CreateRequest(QStringLiteral("artist/search"), params);
+      reply = CreateRequest(u"artist/search"_s, params);
     }
     if (!reply) continue;
     replies_ << reply;
@@ -283,18 +283,18 @@ void QobuzRequest::FlushAlbumsRequests() {
 
     ParamList params;
     if (query_type_ == Type::FavouriteAlbums) {
-      params << Param(QStringLiteral("type"), QStringLiteral("albums"));
-      params << Param(QStringLiteral("user_auth_token"), user_auth_token());
+      params << Param(u"type"_s, u"albums"_s);
+      params << Param(u"user_auth_token"_s, user_auth_token());
     }
-    else if (query_type_ == Type::SearchAlbums) params << Param(QStringLiteral("query"), search_text_);
-    if (request.limit > 0) params << Param(QStringLiteral("limit"), QString::number(request.limit));
-    if (request.offset > 0) params << Param(QStringLiteral("offset"), QString::number(request.offset));
+    else if (query_type_ == Type::SearchAlbums) params << Param(u"query"_s, search_text_);
+    if (request.limit > 0) params << Param(u"limit"_s, QString::number(request.limit));
+    if (request.offset > 0) params << Param(u"offset"_s, QString::number(request.offset));
     QNetworkReply *reply = nullptr;
     if (query_type_ == Type::FavouriteAlbums) {
-      reply = CreateRequest(QStringLiteral("favorite/getUserFavorites"), params);
+      reply = CreateRequest(u"favorite/getUserFavorites"_s, params);
     }
     else if (query_type_ == Type::SearchAlbums) {
-      reply = CreateRequest(QStringLiteral("album/search"), params);
+      reply = CreateRequest(u"album/search"_s, params);
     }
     if (!reply) continue;
     replies_ << reply;
@@ -335,18 +335,18 @@ void QobuzRequest::FlushSongsRequests() {
 
     ParamList params;
     if (query_type_ == Type::FavouriteSongs) {
-      params << Param(QStringLiteral("type"), QStringLiteral("tracks"));
-      params << Param(QStringLiteral("user_auth_token"), user_auth_token());
+      params << Param(u"type"_s, u"tracks"_s);
+      params << Param(u"user_auth_token"_s, user_auth_token());
     }
-    else if (query_type_ == Type::SearchSongs) params << Param(QStringLiteral("query"), search_text_);
-    if (request.limit > 0) params << Param(QStringLiteral("limit"), QString::number(request.limit));
-    if (request.offset > 0) params << Param(QStringLiteral("offset"), QString::number(request.offset));
+    else if (query_type_ == Type::SearchSongs) params << Param(u"query"_s, search_text_);
+    if (request.limit > 0) params << Param(u"limit"_s, QString::number(request.limit));
+    if (request.offset > 0) params << Param(u"offset"_s, QString::number(request.offset));
     QNetworkReply *reply = nullptr;
     if (query_type_ == Type::FavouriteSongs) {
-      reply = CreateRequest(QStringLiteral("favorite/getUserFavorites"), params);
+      reply = CreateRequest(u"favorite/getUserFavorites"_s, params);
     }
     else if (query_type_ == Type::SearchSongs) {
-      reply = CreateRequest(QStringLiteral("track/search"), params);
+      reply = CreateRequest(u"track/search"_s, params);
     }
     if (!reply) continue;
     replies_ << reply;
@@ -427,12 +427,12 @@ void QobuzRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_re
 
   if (!json_obj.contains("artists"_L1)) {
     ArtistsFinishCheck();
-    Error(QStringLiteral("Json object is missing artists."), json_obj);
+    Error(u"Json object is missing artists."_s, json_obj);
     return;
   }
   QJsonValue value_artists = json_obj["artists"_L1];
   if (!value_artists.isObject()) {
-    Error(QStringLiteral("Json artists is not an object."), json_obj);
+    Error(u"Json artists is not an object."_s, json_obj);
     ArtistsFinishCheck();
     return;
   }
@@ -443,7 +443,7 @@ void QobuzRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_re
       !obj_artists.contains("total"_L1) ||
       !obj_artists.contains("items"_L1)) {
     ArtistsFinishCheck();
-    Error(QStringLiteral("Json artists object is missing values."), json_obj);
+    Error(u"Json artists object is missing values."_s, json_obj);
     return;
   }
   //int limit = obj_artists["limit"].toInt();
@@ -488,7 +488,7 @@ void QobuzRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_re
     ++artists_received;
 
     if (!value_item.isObject()) {
-      Error(QStringLiteral("Invalid Json reply, item not a object."));
+      Error(u"Invalid Json reply, item not a object."_s);
       continue;
     }
     QJsonObject obj_item = value_item.toObject();
@@ -496,14 +496,14 @@ void QobuzRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_re
     if (obj_item.contains("item"_L1)) {
       QJsonValue json_item = obj_item["item"_L1];
       if (!json_item.isObject()) {
-        Error(QStringLiteral("Invalid Json reply, item not a object."), json_item);
+        Error(u"Invalid Json reply, item not a object."_s, json_item);
         continue;
       }
       obj_item = json_item.toObject();
     }
 
     if (!obj_item.contains("id"_L1) || !obj_item.contains("name"_L1)) {
-      Error(QStringLiteral("Invalid Json reply, item missing id or album."), obj_item);
+      Error(u"Invalid Json reply, item missing id or album."_s, obj_item);
       continue;
     }
 
@@ -591,11 +591,11 @@ void QobuzRequest::FlushArtistAlbumsRequests() {
 
     const ArtistAlbumsRequest request = artist_albums_requests_queue_.dequeue();
 
-    ParamList params = ParamList() << Param(QStringLiteral("artist_id"), request.artist.artist_id)
-                                   << Param(QStringLiteral("extra"), QStringLiteral("albums"));
+    ParamList params = ParamList() << Param(u"artist_id"_s, request.artist.artist_id)
+                                   << Param(u"extra"_s, u"albums"_s);
 
-    if (request.offset > 0) params << Param(QStringLiteral("offset"), QString::number(request.offset));
-    QNetworkReply *reply = CreateRequest(QStringLiteral("artist/get"), params);
+    if (request.offset > 0) params << Param(u"offset"_s, QString::number(request.offset));
+    QNetworkReply *reply = CreateRequest(u"artist/get"_s, params);
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { ArtistAlbumsReplyReceived(reply, request.artist, request.offset); });
     replies_ << reply;
 
@@ -650,18 +650,18 @@ void QobuzRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_req
 
   if (artist.artist_id != artist_requested.artist_id) {
     AlbumsFinishCheck(artist_requested);
-    Error(QStringLiteral("Artist ID returned does not match artist ID requested."), json_obj);
+    Error(u"Artist ID returned does not match artist ID requested."_s, json_obj);
     return;
   }
 
   if (!json_obj.contains("albums"_L1)) {
     AlbumsFinishCheck(artist_requested);
-    Error(QStringLiteral("Json object is missing albums."), json_obj);
+    Error(u"Json object is missing albums."_s, json_obj);
     return;
   }
   QJsonValue value_albums = json_obj["albums"_L1];
   if (!value_albums.isObject()) {
-    Error(QStringLiteral("Json albums is not an object."), json_obj);
+    Error(u"Json albums is not an object."_s, json_obj);
     AlbumsFinishCheck(artist_requested);
     return;
   }
@@ -672,7 +672,7 @@ void QobuzRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_req
       !obj_albums.contains("total"_L1) ||
       !obj_albums.contains("items"_L1)) {
     AlbumsFinishCheck(artist_requested);
-    Error(QStringLiteral("Json albums object is missing values."), json_obj);
+    Error(u"Json albums object is missing values."_s, json_obj);
     return;
   }
 
@@ -706,13 +706,13 @@ void QobuzRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_req
     ++albums_received;
 
     if (!value_item.isObject()) {
-      Error(QStringLiteral("Invalid Json reply, item in array is not a object."));
+      Error(u"Invalid Json reply, item in array is not a object."_s);
       continue;
     }
     QJsonObject obj_item = value_item.toObject();
 
     if (!obj_item.contains("artist"_L1) || !obj_item.contains("title"_L1) || !obj_item.contains("id"_L1)) {
-      Error(QStringLiteral("Invalid Json reply, item missing artist, title or id."), obj_item);
+      Error(u"Invalid Json reply, item missing artist, title or id."_s, obj_item);
       continue;
     }
 
@@ -734,7 +734,7 @@ void QobuzRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_req
     }
     QJsonObject obj_artist = value_artist.toObject();
     if (!obj_artist.contains("id"_L1) || !obj_artist.contains("name"_L1)) {
-      Error(QStringLiteral("Invalid Json reply, item artist missing id or name."), obj_artist);
+      Error(u"Invalid Json reply, item artist missing id or name."_s, obj_artist);
       continue;
     }
 
@@ -848,9 +848,9 @@ void QobuzRequest::FlushAlbumSongsRequests() {
   while (!album_songs_requests_queue_.isEmpty() && album_songs_requests_active_ < kMaxConcurrentAlbumSongsRequests) {
 
     AlbumSongsRequest request = album_songs_requests_queue_.dequeue();
-    ParamList params = ParamList() << Param(QStringLiteral("album_id"), request.album.album_id);
-    if (request.offset > 0) params << Param(QStringLiteral("offset"), QString::number(request.offset));
-    QNetworkReply *reply = CreateRequest(QStringLiteral("album/get"), params);
+    ParamList params = ParamList() << Param(u"album_id"_s, request.album.album_id);
+    if (request.offset > 0) params << Param(u"offset"_s, QString::number(request.offset));
+    QNetworkReply *reply = CreateRequest(u"album/get"_s, params);
     replies_ << reply;
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { AlbumSongsReplyReceived(reply, request.artist, request.album, request.offset); });
 
@@ -894,7 +894,7 @@ void QobuzRequest::SongsReceived(QNetworkReply *reply, const Artist &artist_requ
   }
 
   if (!json_obj.contains("tracks"_L1)) {
-    Error(QStringLiteral("Json object is missing tracks."), json_obj);
+    Error(u"Json object is missing tracks."_s, json_obj);
     SongsFinishCheck(artist_requested, album_requested, limit_requested, offset_requested);
     return;
   }
@@ -915,13 +915,13 @@ void QobuzRequest::SongsReceived(QNetworkReply *reply, const Artist &artist_requ
   if (json_obj.contains("artist"_L1)) {
     QJsonValue value_artist = json_obj["artist"_L1];
     if (!value_artist.isObject()) {
-      Error(QStringLiteral("Invalid Json reply, album artist is not a object."), value_artist);
+      Error(u"Invalid Json reply, album artist is not a object."_s, value_artist);
       SongsFinishCheck(artist_requested, album_requested, limit_requested, offset_requested);
       return;
     }
     QJsonObject obj_artist = value_artist.toObject();
     if (!obj_artist.contains("id"_L1) || !obj_artist.contains("name"_L1)) {
-      Error(QStringLiteral("Invalid Json reply, album artist is missing id or name."), obj_artist);
+      Error(u"Invalid Json reply, album artist is missing id or name."_s, obj_artist);
       SongsFinishCheck(artist_requested, album_requested, limit_requested, offset_requested);
       return;
     }
@@ -937,13 +937,13 @@ void QobuzRequest::SongsReceived(QNetworkReply *reply, const Artist &artist_requ
   if (json_obj.contains("image"_L1)) {
     QJsonValue value_image = json_obj["image"_L1];
     if (!value_image.isObject()) {
-      Error(QStringLiteral("Invalid Json reply, album image is not a object."), value_image);
+      Error(u"Invalid Json reply, album image is not a object."_s, value_image);
       SongsFinishCheck(artist_requested, album_requested, limit_requested, offset_requested);
       return;
     }
     QJsonObject obj_image = value_image.toObject();
     if (!obj_image.contains("large"_L1)) {
-      Error(QStringLiteral("Invalid Json reply, album image is missing large."), obj_image);
+      Error(u"Invalid Json reply, album image is missing large."_s, obj_image);
       SongsFinishCheck(artist_requested, album_requested, limit_requested, offset_requested);
       return;
     }
@@ -955,7 +955,7 @@ void QobuzRequest::SongsReceived(QNetworkReply *reply, const Artist &artist_requ
 
   QJsonValue value_tracks = json_obj["tracks"_L1];
   if (!value_tracks.isObject()) {
-    Error(QStringLiteral("Json tracks is not an object."), json_obj);
+    Error(u"Json tracks is not an object."_s, json_obj);
     SongsFinishCheck(artist_requested, album_requested, limit_requested, offset_requested);
     return;
   }
@@ -966,7 +966,7 @@ void QobuzRequest::SongsReceived(QNetworkReply *reply, const Artist &artist_requ
       !obj_tracks.contains("total"_L1) ||
       !obj_tracks.contains("items"_L1)) {
     SongsFinishCheck(artist_requested, album_requested, limit_requested, offset_requested);
-    Error(QStringLiteral("Json songs object is missing values."), json_obj);
+    Error(u"Json songs object is missing values."_s, json_obj);
     return;
   }
 
@@ -1002,7 +1002,7 @@ void QobuzRequest::SongsReceived(QNetworkReply *reply, const Artist &artist_requ
   for (const QJsonValue &value_item : array_items) {
 
     if (!value_item.isObject()) {
-      Error(QStringLiteral("Invalid Json reply, track is not a object."));
+      Error(u"Invalid Json reply, track is not a object."_s);
       continue;
     }
     QJsonObject obj_item = value_item.toObject();
@@ -1072,7 +1072,7 @@ void QobuzRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Arti
       !json_obj.contains("copyright"_L1) ||
       !json_obj.contains("streamable"_L1)
     ) {
-    Error(QStringLiteral("Invalid Json reply, track is missing one or more values."), json_obj);
+    Error(u"Invalid Json reply, track is missing one or more values."_s, json_obj);
     return;
   }
 
@@ -1103,7 +1103,7 @@ void QobuzRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Arti
 
     QJsonValue value_album = json_obj["album"_L1];
     if (!value_album.isObject()) {
-      Error(QStringLiteral("Invalid Json reply, album is not an object."), value_album);
+      Error(u"Invalid Json reply, album is not an object."_s, value_album);
       return;
     }
     QJsonObject obj_album = value_album.toObject();
@@ -1124,12 +1124,12 @@ void QobuzRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Arti
     if (obj_album.contains("artist"_L1)) {
       QJsonValue value_artist = obj_album["artist"_L1];
       if (!value_artist.isObject()) {
-        Error(QStringLiteral("Invalid Json reply, album artist is not a object."), value_artist);
+        Error(u"Invalid Json reply, album artist is not a object."_s, value_artist);
         return;
       }
       QJsonObject obj_artist = value_artist.toObject();
       if (!obj_artist.contains("id"_L1) || !obj_artist.contains("name"_L1)) {
-        Error(QStringLiteral("Invalid Json reply, album artist is missing id or name."), obj_artist);
+        Error(u"Invalid Json reply, album artist is missing id or name."_s, obj_artist);
         return;
       }
       if (obj_artist["id"_L1].isString()) {
@@ -1144,12 +1144,12 @@ void QobuzRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Arti
     if (obj_album.contains("image"_L1)) {
       QJsonValue value_image = obj_album["image"_L1];
       if (!value_image.isObject()) {
-        Error(QStringLiteral("Invalid Json reply, album image is not a object."), value_image);
+        Error(u"Invalid Json reply, album image is not a object."_s, value_image);
         return;
       }
       QJsonObject obj_image = value_image.toObject();
       if (!obj_image.contains("large"_L1)) {
-        Error(QStringLiteral("Invalid Json reply, album image is missing large."), obj_image);
+        Error(u"Invalid Json reply, album image is missing large."_s, obj_image);
         return;
       }
       QString album_image = obj_image["large"_L1].toString();
@@ -1162,12 +1162,12 @@ void QobuzRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Arti
   if (json_obj.contains("composer"_L1)) {
     QJsonValue value_composer = json_obj["composer"_L1];
     if (!value_composer.isObject()) {
-      Error(QStringLiteral("Invalid Json reply, track composer is not a object."), value_composer);
+      Error(u"Invalid Json reply, track composer is not a object."_s, value_composer);
       return;
     }
     QJsonObject obj_composer = value_composer.toObject();
     if (!obj_composer.contains("id"_L1) || !obj_composer.contains("name"_L1)) {
-      Error(QStringLiteral("Invalid Json reply, track composer is missing id or name."), obj_composer);
+      Error(u"Invalid Json reply, track composer is missing id or name."_s, obj_composer);
       return;
     }
     composer = obj_composer["name"_L1].toString();
@@ -1176,12 +1176,12 @@ void QobuzRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Arti
   if (json_obj.contains("performer"_L1)) {
     QJsonValue value_performer = json_obj["performer"_L1];
     if (!value_performer.isObject()) {
-      Error(QStringLiteral("Invalid Json reply, track performer is not a object."), value_performer);
+      Error(u"Invalid Json reply, track performer is not a object."_s, value_performer);
       return;
     }
     QJsonObject obj_performer = value_performer.toObject();
     if (!obj_performer.contains("id"_L1) || !obj_performer.contains("name"_L1)) {
-      Error(QStringLiteral("Invalid Json reply, track performer is missing id or name."), obj_performer);
+      Error(u"Invalid Json reply, track performer is missing id or name."_s, obj_performer);
       return;
     }
     performer = obj_performer["name"_L1].toString();

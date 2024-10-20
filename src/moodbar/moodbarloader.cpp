@@ -51,6 +51,7 @@
 #include "settings/moodbarsettingspage.h"
 
 using namespace std::chrono_literals;
+using namespace Qt::Literals::StringLiterals;
 
 #ifdef Q_OS_WIN32
 #  include <windows.h>
@@ -63,7 +64,7 @@ MoodbarLoader::MoodbarLoader(Application *app, QObject *parent)
       kMaxActiveRequests(qMax(1, QThread::idealThreadCount() / 2)),
       save_(false) {
 
-  cache_->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + QStringLiteral("/moodbar"));
+  cache_->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + u"/moodbar"_s);
   cache_->setMaximumCacheSize(60LL * 1024LL * 1024LL);  // 60MB - enough for 20,000 moodbars
 
   QObject::connect(app, &Application::SettingsChanged, this, &MoodbarLoader::ReloadSettings);
@@ -91,9 +92,9 @@ QStringList MoodbarLoader::MoodFilenames(const QString &song_filename) {
 
   const QFileInfo file_info(song_filename);
   const QString dir_path(file_info.dir().path());
-  const QString mood_filename = file_info.completeBaseName() + QStringLiteral(".mood");
+  const QString mood_filename = file_info.completeBaseName() + u".mood"_s;
 
-  return QStringList() << dir_path + QStringLiteral("/.") + mood_filename << dir_path + QLatin1Char('/') + mood_filename;
+  return QStringList() << dir_path + u"/."_s + mood_filename << dir_path + QLatin1Char('/') + mood_filename;
 
 }
 

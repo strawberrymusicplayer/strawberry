@@ -51,11 +51,11 @@ SongList XSPFParser::Load(QIODevice *device, const QString &playlist_path, const
   SongList songs;
 
   QXmlStreamReader reader(device);
-  if (!Utilities::ParseUntilElement(&reader, QStringLiteral("playlist")) || !Utilities::ParseUntilElement(&reader, QStringLiteral("trackList"))) {
+  if (!Utilities::ParseUntilElement(&reader, u"playlist"_s) || !Utilities::ParseUntilElement(&reader, u"trackList"_s)) {
     return songs;
   }
 
-  while (!reader.atEnd() && Utilities::ParseUntilElement(&reader, QStringLiteral("track"))) {
+  while (!reader.atEnd() && Utilities::ParseUntilElement(&reader, u"track"_s)) {
     const Song song = ParseTrack(&reader, dir, collection_lookup);
     if (song.is_valid()) {
       songs << song;
@@ -146,7 +146,7 @@ void XSPFParser::Save(const SongList &songs, QIODevice *device, const QDir &dir,
   writer.setAutoFormatting(true);
   writer.setAutoFormattingIndent(2);
   writer.writeStartDocument();
-  StreamElement playlist(QStringLiteral("playlist"), &writer);
+  StreamElement playlist(u"playlist"_s, &writer);
   writer.writeAttribute("version"_L1, "1"_L1);
   writer.writeDefaultNamespace("http://xspf.org/ns/0/"_L1);
 
@@ -155,11 +155,11 @@ void XSPFParser::Save(const SongList &songs, QIODevice *device, const QDir &dir,
   bool write_metadata = s.value("write_metadata", true).toBool();
   s.endGroup();
 
-  StreamElement tracklist(QStringLiteral("trackList"), &writer);
+  StreamElement tracklist(u"trackList"_s, &writer);
   for (const Song &song : songs) {
     QString filename_or_url = QString::fromLatin1(QUrl::toPercentEncoding(URLOrFilename(song.url(), dir, path_type), "/ "));
 
-    StreamElement track(QStringLiteral("track"), &writer);
+    StreamElement track(u"track"_s, &writer);
     writer.writeTextElement("location"_L1, filename_or_url);
 
     if (write_metadata || (song.is_stream() && !song.is_radio())) {

@@ -26,9 +26,11 @@
 #include "core/iconloader.h"
 #include "collectionsettingsdirectorymodel.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 CollectionSettingsDirectoryModel::CollectionSettingsDirectoryModel(QObject *parent)
     : QStandardItemModel(parent),
-      dir_icon_(IconLoader::Load(QStringLiteral("document-open-folder"))) {}
+      dir_icon_(IconLoader::Load(u"document-open-folder"_s)) {}
 
 void CollectionSettingsDirectoryModel::AddDirectory(const QString &path) {
 

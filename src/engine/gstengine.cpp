@@ -189,7 +189,7 @@ void GstEngine::StartPreloading(const QUrl &media_url, const QUrl &stream_url, c
   if (current_pipeline_) {
     current_pipeline_->PrepareNextUrl(media_url, stream_url, gst_url, beginning_nanosec, force_stop_at_end ? end_nanosec : 0);
     // Add request to discover the stream
-    if (discoverer_ && media_url.scheme() != QStringLiteral("spotify")) {
+    if (discoverer_ && media_url.scheme() != u"spotify"_s) {
       if (!gst_discoverer_discover_uri_async(discoverer_, gst_url.constData())) {
         qLog(Error) << "Failed to start stream discovery for" << gst_url;
       }
@@ -258,7 +258,7 @@ bool GstEngine::Load(const QUrl &media_url, const QUrl &stream_url, const Engine
   }
 
   // Add request to discover the stream
-  if (discoverer_ && media_url.scheme() != QStringLiteral("spotify")) {
+  if (discoverer_ && media_url.scheme() != u"spotify"_s) {
     if (!gst_discoverer_discover_uri_async(discoverer_, gst_url.constData())) {
       qLog(Error) << "Failed to start stream discovery for" << gst_url;
     }
@@ -1162,12 +1162,12 @@ void GstEngine::StreamDiscoveryFinished(GstDiscoverer *discoverer, gpointer self
 QString GstEngine::GSTdiscovererErrorMessage(GstDiscovererResult result) {
 
   switch (result) {
-    case GST_DISCOVERER_URI_INVALID:     return QStringLiteral("The URI is invalid");
-    case GST_DISCOVERER_TIMEOUT:         return QStringLiteral("The discovery timed-out");
-    case GST_DISCOVERER_BUSY:            return QStringLiteral("The discoverer was already discovering a file");
-    case GST_DISCOVERER_MISSING_PLUGINS: return QStringLiteral("Some plugins are missing for full discovery");
+    case GST_DISCOVERER_URI_INVALID:     return u"The URI is invalid"_s;
+    case GST_DISCOVERER_TIMEOUT:         return u"The discovery timed-out"_s;
+    case GST_DISCOVERER_BUSY:            return u"The discoverer was already discovering a file"_s;
+    case GST_DISCOVERER_MISSING_PLUGINS: return u"Some plugins are missing for full discovery"_s;
     case GST_DISCOVERER_ERROR:
-    default:                             return QStringLiteral("An error happened and the GError is set");
+    default:                             return u"An error happened and the GError is set"_s;
   }
 
 }

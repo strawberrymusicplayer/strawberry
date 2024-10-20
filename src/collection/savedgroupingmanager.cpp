@@ -61,7 +61,7 @@ SavedGroupingManager::SavedGroupingManager(const QString &saved_groupings_settin
   model_->setHorizontalHeaderItem(2, new QStandardItem(tr("Second Level")));
   model_->setHorizontalHeaderItem(3, new QStandardItem(tr("Third Level")));
   ui_->list->setModel(model_);
-  ui_->remove->setIcon(IconLoader::Load(QStringLiteral("edit-delete")));
+  ui_->remove->setIcon(IconLoader::Load(u"edit-delete"_s));
   ui_->remove->setEnabled(false);
 
   ui_->remove->setShortcut(QKeySequence::Delete);

@@ -38,6 +38,8 @@ THE SOFTWARE.
 
 #include "core/iconloader.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 SearchField::SearchField(QWidget *parent) : QWidget(parent) {
 
   QLineEdit *lineEdit = new QLineEdit(this);
@@ -47,11 +49,11 @@ SearchField::SearchField(QWidget *parent) : QWidget(parent) {
   QObject::connect(lineEdit, &QLineEdit::textChanged, this, &SearchField::setText);
 
   QPushButton *clearbutton = new QPushButton(this);
-  QIcon clearIcon(IconLoader::Load(QStringLiteral("edit-clear-locationbar-ltr")));
+  QIcon clearIcon(IconLoader::Load(u"edit-clear-locationbar-ltr"_s));
 
   clearbutton->setIcon(clearIcon);
   clearbutton->setIconSize(QSize(20, 20));
-  clearbutton->setStyleSheet(QStringLiteral("border: none; padding: 2px;"));
+  clearbutton->setStyleSheet(u"border: none; padding: 2px;"_s);
   clearbutton->resize(clearbutton->sizeHint());
 
   QObject::connect(clearbutton, &QPushButton::clicked, this, &SearchField::clear);

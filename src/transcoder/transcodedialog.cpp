@@ -118,7 +118,7 @@ TranscodeDialog::TranscodeDialog(QMainWindow *mainwindow, QWidget *parent)
   s.beginGroup(kSettingsGroup);
   last_add_dir_ = s.value("last_add_dir", QDir::homePath()).toString();
   last_import_dir_ = s.value("last_import_dir", QDir::homePath()).toString();
-  QString last_output_format = s.value("last_output_format", QStringLiteral("audio/x-vorbis")).toString();
+  QString last_output_format = s.value("last_output_format", u"audio/x-vorbis"_s).toString();
   s.endGroup();
 
   for (int i = 0; i < ui_->format->count(); ++i) {
@@ -306,15 +306,15 @@ void TranscodeDialog::UpdateStatusText() {
   QStringList sections;
 
   if (queued_) {
-    sections << QStringLiteral("<font color=\"#3467c8\">") + tr("%n remaining", "", queued_) + QStringLiteral("</font>");
+    sections << u"<font color=\"#3467c8\">"_s + tr("%n remaining", "", queued_) + u"</font>"_s;
   }
 
   if (finished_success_) {
-    sections << QStringLiteral("<font color=\"#02b600\">") + tr("%n finished", "", finished_success_) + QStringLiteral("</font>");
+    sections << u"<font color=\"#02b600\">"_s + tr("%n finished", "", finished_success_) + u"</font>"_s;
   }
 
   if (finished_failed_) {
-    sections << QStringLiteral("<font color=\"#b60000\">") + tr("%n failed", "", finished_failed_) + QStringLiteral("</font>");
+    sections << u"<font color=\"#b60000\">"_s + tr("%n failed", "", finished_failed_) + u"</font>"_s;
   }
 
   ui_->progress_text->setText(sections.join(", "_L1));
@@ -423,7 +423,7 @@ void TranscodeDialog::AddDestination() {
       ui_->destination->removeItem(1);  // The oldest folder item.
     }
 
-    QIcon icon = IconLoader::Load(QStringLiteral("folder"));
+    QIcon icon = IconLoader::Load(u"folder"_s);
     QVariant data_var = QVariant::fromValue(dir);
     // Do not insert duplicates.
     int duplicate_index = ui_->destination->findData(data_var);

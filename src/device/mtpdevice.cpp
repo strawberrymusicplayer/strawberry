@@ -78,7 +78,7 @@ MtpDevice::~MtpDevice() {
 
 bool MtpDevice::Init() {
 
-  InitBackendDirectory(QStringLiteral("/"), first_time_, false);
+  InitBackendDirectory(u"/"_s, first_time_, false);
   model_->Init();
 
   loader_ = new MtpLoader(url_, app_->task_manager(), backend_);

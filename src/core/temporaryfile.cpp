@@ -25,6 +25,8 @@
 
 #include "temporaryfile.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 TemporaryFile::TemporaryFile(const QString &filename_pattern) {
 
   int i = 0;
@@ -56,7 +58,7 @@ TemporaryFile::~TemporaryFile() {
 
 QString TemporaryFile::GenerateFilename(const QString &filename_pattern) const {
 
-  static const QString random_chars = QStringLiteral("abcdefghijklmnopqrstuvwxyz0123456789");
+  static const QString random_chars = u"abcdefghijklmnopqrstuvwxyz0123456789"_s;
 
   QString filename = filename_pattern;
 

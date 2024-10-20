@@ -175,10 +175,10 @@ void OSDBase::ShowPlaying(const Song &song, const QUrl &cover_url, const QImage 
   if (html_escaped) message = message.toHtmlEscaped();
 
   if (show_art_) {
-    ShowMessage(summary, message, QStringLiteral("notification-audio-play"), image);
+    ShowMessage(summary, message, u"notification-audio-play"_s, image);
   }
   else {
-    ShowMessage(summary, message, QStringLiteral("notification-audio-play"), QImage());
+    ShowMessage(summary, message, u"notification-audio-play"_s, QImage());
   }
 
   // Reload the saved settings if they were changed for preview

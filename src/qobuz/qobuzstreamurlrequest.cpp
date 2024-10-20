@@ -118,8 +118,8 @@ void QobuzStreamURLRequest::GetStreamURL() {
 
   quint64 timestamp = QDateTime::currentSecsSinceEpoch();
 
-  ParamList params_to_sign = ParamList() << Param(QStringLiteral("format_id"), QString::number(format()))
-                                         << Param(QStringLiteral("track_id"), QString::number(song_id_));
+  ParamList params_to_sign = ParamList() << Param(u"format_id"_s, QString::number(format()))
+                                         << Param(u"track_id"_s, QString::number(song_id_));
 
   std::sort(params_to_sign.begin(), params_to_sign.end());
 
@@ -135,13 +135,13 @@ void QobuzStreamURLRequest::GetStreamURL() {
   const QString signature = QString::fromLatin1(digest.toHex()).rightJustified(32, u'0').toLower();
 
   ParamList params = params_to_sign;
-    params << Param(QStringLiteral("request_ts"), QString::number(timestamp));
-    params << Param(QStringLiteral("request_sig"), signature);
-    params << Param(QStringLiteral("user_auth_token"), user_auth_token());
+    params << Param(u"request_ts"_s, QString::number(timestamp));
+    params << Param(u"request_sig"_s, signature);
+    params << Param(u"user_auth_token"_s, user_auth_token());
 
   std::sort(params.begin(), params.end());
 
-  reply_ = CreateRequest(QStringLiteral("track/getFileUrl"), params);
+  reply_ = CreateRequest(u"track/getFileUrl"_s, params);
   QObject::connect(reply_, &QNetworkReply::finished, this, &QobuzStreamURLRequest::StreamURLReceived);
 
 }
@@ -172,20 +172,20 @@ void QobuzStreamURLRequest::StreamURLReceived() {
   }
 
   if (!json_obj.contains("track_id"_L1)) {
-    Error(QStringLiteral("Invalid Json reply, stream url is missing track_id."), json_obj);
+    Error(u"Invalid Json reply, stream url is missing track_id."_s, json_obj);
     Q_EMIT StreamURLFailure(id_, media_url_, errors_.constFirst());
     return;
   }
 
   int track_id = json_obj["track_id"_L1].toInt();
   if (track_id != song_id_) {
-    Error(QStringLiteral("Incorrect track ID returned."), json_obj);
+    Error(u"Incorrect track ID returned."_s, json_obj);
     Q_EMIT StreamURLFailure(id_, media_url_, errors_.constFirst());
     return;
   }
 
   if (!json_obj.contains("mime_type"_L1) || !json_obj.contains("url"_L1)) {
-    Error(QStringLiteral("Invalid Json reply, stream url is missing url or mime_type."), json_obj);
+    Error(u"Invalid Json reply, stream url is missing url or mime_type."_s, json_obj);
     Q_EMIT StreamURLFailure(id_, media_url_, errors_.constFirst());
     return;
   }
@@ -206,7 +206,7 @@ void QobuzStreamURLRequest::StreamURLReceived() {
   }
 
   if (!url.isValid()) {
-    Error(QStringLiteral("Returned stream url is invalid."), json_obj);
+    Error(u"Returned stream url is invalid."_s, json_obj);
     Q_EMIT StreamURLFailure(id_, media_url_, errors_.constFirst());
     return;
   }

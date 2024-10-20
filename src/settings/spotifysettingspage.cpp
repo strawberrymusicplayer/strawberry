@@ -45,6 +45,8 @@
 #include "spotify/spotifyservice.h"
 #include "widgets/loginstatewidget.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 const char *SpotifySettingsPage::kSettingsGroup = "Spotify";
 
 SpotifySettingsPage::SpotifySettingsPage(SettingsDialog *dialog, QWidget *parent)
@@ -53,7 +55,7 @@ SpotifySettingsPage::SpotifySettingsPage(SettingsDialog *dialog, QWidget *parent
       service_(dialog->app()->streaming_services()->Service<SpotifyService>()) {
 
   ui_->setupUi(this);
-  setWindowIcon(IconLoader::Load(QStringLiteral("spotify")));
+  setWindowIcon(IconLoader::Load(u"spotify"_s));
 
   QObject::connect(ui_->button_login, &QPushButton::clicked, this, &SpotifySettingsPage::LoginClicked);
   QObject::connect(ui_->login_state, &LoginStateWidget::LogoutClicked, this, &SpotifySettingsPage::LogoutClicked);

@@ -94,9 +94,9 @@ EngineBase::Type EngineBase::TypeFromName(const QString &name) {
 QString EngineBase::Name(const Type type) {
 
   switch (type) {
-    case Type::GStreamer:  return QStringLiteral("gstreamer");
+    case Type::GStreamer:  return u"gstreamer"_s;
     case Type::None:
-    default:               return QStringLiteral("None");
+    default:               return u"None"_s;
   }
 
 }
@@ -104,9 +104,9 @@ QString EngineBase::Name(const Type type) {
 QString EngineBase::Description(const Type type) {
 
   switch (type) {
-    case Type::GStreamer:  return QStringLiteral("GStreamer");
+    case Type::GStreamer:  return u"GStreamer"_s;
     case Type::None:
-    default:               return QStringLiteral("None");
+    default:               return u"None"_s;
   }
 
 }
@@ -207,7 +207,7 @@ void EngineBase::ReloadSettings() {
   bool http2_enabled = s.value("http2", false).toBool();
   if (http2_enabled != http2_enabled_) {
     http2_enabled_ = http2_enabled;
-    Utilities::SetEnv("SOUP_FORCE_HTTP1", http2_enabled_ ? ""_L1 : QStringLiteral("1"));
+    Utilities::SetEnv("SOUP_FORCE_HTTP1", http2_enabled_ ? ""_L1 : u"1"_s);
     qLog(Debug) << "SOUP_FORCE_HTTP1:" << (http2_enabled_ ? "OFF" : "ON");
   }
 

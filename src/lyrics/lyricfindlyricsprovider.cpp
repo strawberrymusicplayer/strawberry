@@ -45,7 +45,7 @@ constexpr char kLyricsStart[] = "<script id=\"__NEXT_DATA__\" type=\"application
 constexpr char kLyricsEnd[] = "</script>";
 }  // namespace
 
-LyricFindLyricsProvider::LyricFindLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent) : JsonLyricsProvider(QStringLiteral("lyricfind.com"), true, false, network, parent) {}
+LyricFindLyricsProvider::LyricFindLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent) : JsonLyricsProvider(u"lyricfind.com"_s, true, false, network, parent) {}
 
 LyricFindLyricsProvider::~LyricFindLyricsProvider() {
 
@@ -68,12 +68,12 @@ QString LyricFindLyricsProvider::StringFixup(const QString &text) {
 
   Q_ASSERT(QThread::currentThread() != qApp->thread());
 
-  static const QRegularExpression regex_illegal_characters(QStringLiteral("[^\\w0-9_\\- ]"));
-  static const QRegularExpression regex_multiple_whitespaces(QStringLiteral(" {2,}"));
+  static const QRegularExpression regex_illegal_characters(u"[^\\w0-9_\\- ]"_s);
+  static const QRegularExpression regex_multiple_whitespaces(u" {2,}"_s);
 
   return Utilities::Transliterate(text)
     .remove(regex_illegal_characters)
-    .replace(regex_multiple_whitespaces, QStringLiteral(" "))
+    .replace(regex_multiple_whitespaces, u" "_s)
     .simplified()
     .replace(u' ', u'-')
     .toLower();
@@ -87,7 +87,7 @@ void LyricFindLyricsProvider::StartSearch(const int id, const LyricsSearchReques
   const QUrl url = Url(request);
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  req.setHeader(QNetworkRequest::UserAgentHeader, QStringLiteral("Mozilla/5.0 (X11; Linux x86_64; rv:122.0) Gecko/20100101 Firefox/122.0"));
+  req.setHeader(QNetworkRequest::UserAgentHeader, u"Mozilla/5.0 (X11; Linux x86_64; rv:122.0) Gecko/20100101 Firefox/122.0"_s);
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, id, request]() { HandleSearchReply(reply, id, request); });
@@ -123,13 +123,13 @@ void LyricFindLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int 
 
   const QByteArray data = reply->readAll();
   if (data.isEmpty()) {
-    Error(QStringLiteral("Empty reply received from server."));
+    Error(u"Empty reply received from server."_s);
     return;
   }
 
   const QString content = QString::fromUtf8(data);
   if (content.isEmpty()) {
-    Error(QStringLiteral("Empty reply received from server."));
+    Error(u"Empty reply received from server."_s);
     return;
   }
 
@@ -145,7 +145,7 @@ void LyricFindLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int 
     }
   }
   if (content_json.isEmpty()) {
-    Error(QStringLiteral("Could not parse HTML reply."));
+    Error(u"Could not parse HTML reply."_s);
     return;
   }
 
@@ -154,36 +154,36 @@ void LyricFindLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int 
     return;
   }
   if (!obj.contains("props"_L1) || !obj["props"_L1].isObject()) {
-    Error(QStringLiteral("Missing props."));
+    Error(u"Missing props."_s);
     return;
   }
   obj = obj["props"_L1].toObject();
   if (!obj.contains("pageProps"_L1) || !obj["pageProps"_L1].isObject()) {
-    Error(QStringLiteral("Missing pageProps."));
+    Error(u"Missing pageProps."_s);
     return;
   }
   obj = obj["pageProps"_L1].toObject();
   if (!obj.contains("songData"_L1) || !obj["songData"_L1].isObject()) {
-    Error(QStringLiteral("Missing songData."));
+    Error(u"Missing songData."_s);
     return;
   }
   obj = obj["songData"_L1].toObject();
 
   if (!obj.contains("response"_L1) || !obj["response"_L1].isObject()) {
-    Error(QStringLiteral("Missing response."));
+    Error(u"Missing response."_s);
     return;
   }
   //const QJsonObject obj_response = obj[QLatin1String("response")].toObject();
 
   if (!obj.contains("track"_L1) || !obj["track"_L1].isObject()) {
-    Error(QStringLiteral("Missing track."));
+    Error(u"Missing track."_s);
     return;
   }
   const QJsonObject obj_track = obj["track"_L1].toObject();
 
   if (!obj_track.contains("title"_L1) ||
       !obj_track.contains("lyrics"_L1)) {
-    Error(QStringLiteral("Missing title or lyrics."));
+    Error(u"Missing title or lyrics."_s);
     return;
   }
 

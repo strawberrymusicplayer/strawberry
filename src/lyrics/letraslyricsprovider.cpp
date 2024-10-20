@@ -40,7 +40,7 @@ constexpr char kLyricsStart[] = "<div id=\"letra-cnt\">";
 }  // namespace
 
 LetrasLyricsProvider::LetrasLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : HtmlLyricsProvider(QStringLiteral("letras.mus.br"), true, QLatin1String(kStartTag), QLatin1String(kEndTag), QLatin1String(kLyricsStart), false, network, parent) {}
+    : HtmlLyricsProvider(u"letras.mus.br"_s, true, QLatin1String(kStartTag), QLatin1String(kEndTag), QLatin1String(kLyricsStart), false, network, parent) {}
 
 QUrl LetrasLyricsProvider::Url(const LyricsSearchRequest &request) {
 
@@ -52,12 +52,12 @@ QString LetrasLyricsProvider::StringFixup(const QString &text) {
 
   Q_ASSERT(QThread::currentThread() != qApp->thread());
 
-  static const QRegularExpression regex_illegal_characters(QStringLiteral("[^\\w0-9_,&\\-\\(\\) ]"));
-  static const QRegularExpression regex_multiple_whitespaces(QStringLiteral(" {2,}"));
+  static const QRegularExpression regex_illegal_characters(u"[^\\w0-9_,&\\-\\(\\) ]"_s);
+  static const QRegularExpression regex_multiple_whitespaces(u" {2,}"_s);
 
   return QString::fromLatin1(QUrl::toPercentEncoding(Utilities::Transliterate(text)
-    .replace(regex_illegal_characters, QStringLiteral("_"))
-    .replace(regex_multiple_whitespaces, QStringLiteral(" "))
+    .replace(regex_illegal_characters, u"_"_s)
+    .replace(regex_multiple_whitespaces, u" "_s)
     .simplified()
     .replace(u' ', u'-')
     .toLower()

@@ -27,6 +27,8 @@
 
 #include "coversearchstatistics.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 CoverSearchStatistics::CoverSearchStatistics()
     : network_requests_made_(0),
       bytes_transferred_(0),
@@ -62,7 +64,7 @@ CoverSearchStatistics &CoverSearchStatistics::operator+=(const CoverSearchStatis
 QString CoverSearchStatistics::AverageDimensions() const {
 
   if (chosen_images_ == 0) {
-    return QStringLiteral("0x0");
+    return u"0x0"_s;
   }
 
   return QString::number(chosen_width_ / chosen_images_) + QLatin1Char('x') + QString::number(chosen_height_ / chosen_images_);

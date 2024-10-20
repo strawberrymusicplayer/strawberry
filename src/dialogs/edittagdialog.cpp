@@ -147,7 +147,7 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
   ui_->loading_label->hide();
   ui_->label_lyrics->hide();
 
-  ui_->fetch_tag->setIcon(QPixmap::fromImage(QImage(QStringLiteral(":/pictures/musicbrainz.png"))));
+  ui_->fetch_tag->setIcon(QPixmap::fromImage(QImage(u":/pictures/musicbrainz.png"_s)));
 #ifdef HAVE_MUSICBRAINZ
   ui_->fetch_tag->setEnabled(true);
 #else
@@ -235,8 +235,8 @@ EditTagDialog::EditTagDialog(Application *app, QWidget *parent)
   ui_->summary_art->installEventFilter(this);
 
   // Add the next/previous buttons
-  previous_button_ = new QPushButton(IconLoader::Load(QStringLiteral("go-previous")), tr("Previous"), this);
-  next_button_ = new QPushButton(IconLoader::Load(QStringLiteral("go-next")), tr("Next"), this);
+  previous_button_ = new QPushButton(IconLoader::Load(u"go-previous"_s), tr("Previous"), this);
+  next_button_ = new QPushButton(IconLoader::Load(u"go-next"_s), tr("Next"), this);
   ui_->button_box->addButton(previous_button_, QDialogButtonBox::ResetRole);
   ui_->button_box->addButton(next_button_, QDialogButtonBox::ResetRole);
 
@@ -315,7 +315,7 @@ void EditTagDialog::hideEvent(QHideEvent *e) {
 void EditTagDialog::accept() {
 
   // Show the loading indicator
-  if (!SetLoading(tr("Saving tracks") + QStringLiteral("..."))) return;
+  if (!SetLoading(tr("Saving tracks") + u"..."_s)) return;
 
   SaveData();
 
@@ -416,7 +416,7 @@ QList<EditTagDialog::Data> EditTagDialog::LoadData(const SongList &songs) {
 void EditTagDialog::SetSongs(const SongList &s, const PlaylistItemPtrList &items) {
 
   // Show the loading indicator
-  if (!SetLoading(tr("Loading tracks") + QStringLiteral("..."))) return;
+  if (!SetLoading(tr("Loading tracks") + u"..."_s)) return;
 
   data_.clear();
   playlist_items_ = items;
@@ -790,12 +790,12 @@ void EditTagDialog::UpdateSummaryTab(const Song &song) {
   cover_options.device_pixel_ratio = devicePixelRatioF();
   summary_cover_art_id_ = app_->album_cover_loader()->LoadImageAsync(cover_options, song);
 
-  ui_->summary->setText(QStringLiteral("<p><b>") + song.PrettyTitleWithArtist().toHtmlEscaped() + QStringLiteral("</b></p>"));
+  ui_->summary->setText(u"<p><b>"_s + song.PrettyTitleWithArtist().toHtmlEscaped() + u"</b></p>"_s);
 
   ui_->length->setText(Utilities::PrettyTimeNanosec(song.length_nanosec()));
 
-  SetText(ui_->samplerate, song.samplerate(), QStringLiteral("Hz"));
-  SetText(ui_->bitdepth, song.bitdepth(), QStringLiteral("Bit"));
+  SetText(ui_->samplerate, song.samplerate(), u"Hz"_s);
+  SetText(ui_->bitdepth, song.bitdepth(), u"Bit"_s);
   SetText(ui_->bitrate, song.bitrate(), tr("kbps"));
   ui_->ebur128_integrated_loudness->setText(song.Ebur128LoudnessLUFSToText());
   ui_->ebur128_loudness_range->setText(song.Ebur128LoudnessRangeLUToText());

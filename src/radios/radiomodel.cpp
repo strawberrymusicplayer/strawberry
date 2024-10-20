@@ -127,7 +127,7 @@ QVariant RadioModel::data(const RadioItem *item, int role) const {
 }
 
 QStringList RadioModel::mimeTypes() const {
-  return QStringList() << QStringLiteral("text/uri-list");
+  return QStringList() << u"text/uri-list"_s;
 }
 
 QMimeData *RadioModel::mimeData(const QModelIndexList &indexes) const {
@@ -330,7 +330,7 @@ QString RadioModel::SortText(QString text) {
   else {
     text = text.toLower();
   }
-  static const QRegularExpression regex_words_and_whitespaces(QStringLiteral("[^\\w ]"), QRegularExpression::UseUnicodePropertiesOption);
+  static const QRegularExpression regex_words_and_whitespaces(u"[^\\w ]"_s, QRegularExpression::UseUnicodePropertiesOption);
   text = text.remove(regex_words_and_whitespaces);
 
   return text;

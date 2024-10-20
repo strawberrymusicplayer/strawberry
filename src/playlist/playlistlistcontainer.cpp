@@ -66,6 +66,7 @@
 #endif
 
 using std::make_unique;
+using namespace Qt::Literals::StringLiterals;
 
 PlaylistListContainer::PlaylistListContainer(QWidget *parent)
     : QWidget(parent),
@@ -169,14 +170,14 @@ void PlaylistListContainer::showEvent(QShowEvent *e) {
   if (!loaded_icons_) {
     loaded_icons_ = true;
 
-    action_new_folder_->setIcon(IconLoader::Load(QStringLiteral("folder-new")));
-    action_remove_->setIcon(IconLoader::Load(QStringLiteral("edit-delete")));
-    action_save_playlist_->setIcon(IconLoader::Load(QStringLiteral("document-save")));
+    action_new_folder_->setIcon(IconLoader::Load(u"folder-new"_s));
+    action_remove_->setIcon(IconLoader::Load(u"edit-delete"_s));
+    action_save_playlist_->setIcon(IconLoader::Load(u"document-save"_s));
 #ifndef Q_OS_WIN
-    action_copy_to_device_->setIcon(IconLoader::Load(QStringLiteral("device")));
+    action_copy_to_device_->setIcon(IconLoader::Load(u"device"_s));
 #endif
 
-    model_->SetIcons(IconLoader::Load(QStringLiteral("view-media-playlist")), IconLoader::Load(QStringLiteral("folder")));
+    model_->SetIcons(IconLoader::Load(u"view-media-playlist"_s), IconLoader::Load(u"folder"_s));
 
     // Apply these icons to items that have already been created.
     RecursivelySetIcons(model_->invisibleRootItem());
@@ -500,7 +501,7 @@ void PlaylistListContainer::contextMenuEvent(QContextMenuEvent *e) {
 void PlaylistListContainer::ActivePlaying() {
 
   if (padded_play_icon_.isNull()) {
-    QPixmap pixmap(QStringLiteral(":/pictures/tiny-play.png"));
+    QPixmap pixmap(u":/pictures/tiny-play.png"_s);
     QPixmap new_pixmap(QSize(pixmap.height(), pixmap.height()));
     new_pixmap.fill(Qt::transparent);
 
@@ -515,7 +516,7 @@ void PlaylistListContainer::ActivePlaying() {
 }
 
 void PlaylistListContainer::ActivePaused() {
-  UpdateActiveIcon(active_playlist_id_, QIcon(QStringLiteral(":/pictures/tiny-pause.png")));
+  UpdateActiveIcon(active_playlist_id_, QIcon(u":/pictures/tiny-pause.png"_s));
 }
 
 void PlaylistListContainer::ActiveStopped() {

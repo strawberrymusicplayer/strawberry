@@ -52,7 +52,6 @@
 #include "utilities/randutils.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
-#include "collection/collectionfilter.h"
 #include "subsonicservice.h"
 #include "subsonicurlhandler.h"
 #include "subsonicrequest.h"
@@ -74,7 +73,7 @@ constexpr int kMaxRedirects = 3;
 }  // namespace
 
 SubsonicService::SubsonicService(Application *app, QObject *parent)
-    : StreamingService(Song::Source::Subsonic, QStringLiteral("Subsonic"), QStringLiteral("subsonic"), QLatin1String(SubsonicSettingsPage::kSettingsGroup), SettingsDialog::Page::Subsonic, app, parent),
+    : StreamingService(Song::Source::Subsonic, u"Subsonic"_s, u"subsonic"_s, QLatin1String(SubsonicSettingsPage::kSettingsGroup), SettingsDialog::Page::Subsonic, app, parent),
       app_(app),
       url_handler_(new SubsonicUrlHandler(app, this)),
       collection_backend_(nullptr),
@@ -153,21 +152,21 @@ void SubsonicService::SendPingWithCredentials(QUrl url, const QString &username,
   using Param = QPair<QString, QString>;
   using ParamList = QList<Param>;
 
-  ParamList params = ParamList() << Param(QStringLiteral("c"), QLatin1String(kClientName))
-                                 << Param(QStringLiteral("v"), QLatin1String(kApiVersion))
-                                 << Param(QStringLiteral("f"), QStringLiteral("json"))
-                                 << Param(QStringLiteral("u"), username);
+  ParamList params = ParamList() << Param(u"c"_s, QLatin1String(kClientName))
+                                 << Param(u"v"_s, QLatin1String(kApiVersion))
+                                 << Param(u"f"_s, u"json"_s)
+                                 << Param(u"u"_s, username);
 
   if (auth_method == SubsonicSettingsPage::AuthMethod::Hex) {
-    params << Param(QStringLiteral("p"), QStringLiteral("enc:") + QString::fromLatin1(password.toUtf8().toHex()));
+    params << Param(u"p"_s, u"enc:"_s + QString::fromLatin1(password.toUtf8().toHex()));
   }
   else {
     const QString salt = Utilities::CryptographicRandomString(20);
     QCryptographicHash md5(QCryptographicHash::Md5);
     md5.addData(password.toUtf8());
     md5.addData(salt.toUtf8());
-    params << Param(QStringLiteral("s"), salt);
-    params << Param(QStringLiteral("t"), QString::fromLatin1(md5.result().toHex()));
+    params << Param(u"s"_s, salt);
+    params << Param(u"t"_s, QString::fromLatin1(md5.result().toHex()));
   }
 
   QUrlQuery url_query(url.query());
@@ -195,7 +194,7 @@ void SubsonicService::SendPingWithCredentials(QUrl url, const QString &username,
   }
 
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  req.setHeader(QNetworkRequest::ContentTypeHeader, QStringLiteral("application/x-www-form-urlencoded"));
+  req.setHeader(QNetworkRequest::ContentTypeHeader, u"application/x-www-form-urlencoded"_s);
   req.setAttribute(QNetworkRequest::Http2AllowedAttribute, http2_);
 
   errors_.clear();
@@ -292,33 +291,33 @@ void SubsonicService::HandlePingReply(QNetworkReply *reply, const QUrl &url, con
   QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
 
   if (json_error.error != QJsonParseError::NoError) {
-    PingError(QStringLiteral("Ping reply from server missing Json data."));
+    PingError(u"Ping reply from server missing Json data."_s);
     return;
   }
 
   if (json_doc.isEmpty()) {
-    PingError(QStringLiteral("Ping reply from server has empty Json document."));
+    PingError(u"Ping reply from server has empty Json document."_s);
     return;
   }
 
   if (!json_doc.isObject()) {
-    PingError(QStringLiteral("Ping reply from server has Json document that is not an object."), json_doc);
+    PingError(u"Ping reply from server has Json document that is not an object."_s, json_doc);
     return;
   }
 
   QJsonObject json_obj = json_doc.object();
   if (json_obj.isEmpty()) {
-    PingError(QStringLiteral("Ping reply from server has empty Json object."), json_doc);
+    PingError(u"Ping reply from server has empty Json object."_s, json_doc);
     return;
   }
 
   if (!json_obj.contains("subsonic-response"_L1)) {
-    PingError(QStringLiteral("Ping reply from server is missing subsonic-response"), json_obj);
+    PingError(u"Ping reply from server is missing subsonic-response"_s, json_obj);
     return;
   }
   QJsonValue value_response = json_obj["subsonic-response"_L1];
   if (!value_response.isObject()) {
-    PingError(QStringLiteral("Ping reply from server subsonic-response is not an object"), value_response);
+    PingError(u"Ping reply from server subsonic-response is not an object"_s, value_response);
     return;
   }
   QJsonObject obj_response = value_response.toObject();
@@ -326,12 +325,12 @@ void SubsonicService::HandlePingReply(QNetworkReply *reply, const QUrl &url, con
   if (obj_response.contains("error"_L1)) {
     QJsonValue value_error = obj_response["error"_L1];
     if (!value_error.isObject()) {
-      PingError(QStringLiteral("Authentication error reply from server is not an object"), value_error);
+      PingError(u"Authentication error reply from server is not an object"_s, value_error);
       return;
     }
     QJsonObject obj_error = value_error.toObject();
     if (!obj_error.contains("code"_L1) || !obj_error.contains("message"_L1)) {
-      PingError(QStringLiteral("Authentication error reply from server is missing status or message"), json_obj);
+      PingError(u"Authentication error reply from server is missing status or message"_s, json_obj);
       return;
     }
     //int status = obj_error["code"].toInt();
@@ -342,7 +341,7 @@ void SubsonicService::HandlePingReply(QNetworkReply *reply, const QUrl &url, con
   }
 
   if (!obj_response.contains("status"_L1)) {
-    PingError(QStringLiteral("Ping reply from server is missing status"), obj_response);
+    PingError(u"Ping reply from server is missing status"_s, obj_response);
     return;
   }
 
@@ -360,22 +359,22 @@ void SubsonicService::HandlePingReply(QNetworkReply *reply, const QUrl &url, con
     return;
   }
 
-  PingError(QStringLiteral("Ping reply status from server is unknown"), json_obj);
+  PingError(u"Ping reply status from server is unknown"_s, json_obj);
 
 }
 
 void SubsonicService::CheckConfiguration() {
 
   if (server_url_.isEmpty()) {
-    Q_EMIT TestComplete(false, QStringLiteral("Missing Subsonic server url."));
+    Q_EMIT TestComplete(false, u"Missing Subsonic server url."_s);
     return;
   }
   if (username_.isEmpty()) {
-    Q_EMIT TestComplete(false, QStringLiteral("Missing Subsonic username."));
+    Q_EMIT TestComplete(false, u"Missing Subsonic username."_s);
     return;
   }
   if (password_.isEmpty()) {
-    Q_EMIT TestComplete(false, QStringLiteral("Missing Subsonic password."));
+    Q_EMIT TestComplete(false, u"Missing Subsonic password."_s);
     return;
   }
 

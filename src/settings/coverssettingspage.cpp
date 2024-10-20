@@ -65,7 +65,7 @@ CoversSettingsPage::CoversSettingsPage(SettingsDialog *dialog, QWidget *parent)
       types_selected_(false) {
 
   ui_->setupUi(this);
-  setWindowIcon(IconLoader::Load(QStringLiteral("cdcase"), true, 0, 32));
+  setWindowIcon(IconLoader::Load(u"cdcase"_s, true, 0, 32));
 
   QObject::connect(ui_->providers_up, &QPushButton::clicked, this, &CoversSettingsPage::ProvidersMoveUp);
   QObject::connect(ui_->providers_down, &QPushButton::clicked, this, &CoversSettingsPage::ProvidersMoveDown);
@@ -114,10 +114,10 @@ void CoversSettingsPage::Load() {
   Settings s;
   s.beginGroup(kSettingsGroup);
 
-  const QStringList all_types = QStringList() << QStringLiteral("art_unset")
-                                              << QStringLiteral("art_manual")
-                                              << QStringLiteral("art_automatic")
-                                              << QStringLiteral("art_embedded");
+  const QStringList all_types = QStringList() << u"art_unset"_s
+                                              << u"art_manual"_s
+                                              << u"art_automatic"_s
+                                              << u"art_embedded"_s;
 
   const QStringList types = s.value(kTypes, all_types).toStringList();
 

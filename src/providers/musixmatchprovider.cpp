@@ -22,22 +22,24 @@
 
 #include "musixmatchprovider.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 const char *MusixmatchProvider::kApiUrl = "https://api.musixmatch.com/ws/1.1";
 const char *MusixmatchProvider::kApiKey = "Y2FhMDRlN2Y4OWE5OTIxYmZlOGMzOWQzOGI3ZGU4MjE=";
 
 QString MusixmatchProvider::StringFixup(QString text) {
 
-  static const QRegularExpression regex_illegal_characters(QStringLiteral("[^\\w0-9\\- ]"), QRegularExpression::UseUnicodePropertiesOption);
-  static const QRegularExpression regex_duplicate_whitespaces(QStringLiteral(" {2,}"));
-  static const QRegularExpression regex_duplicate_dashes(QStringLiteral("(-)\\1+"));
+  static const QRegularExpression regex_illegal_characters(u"[^\\w0-9\\- ]"_s, QRegularExpression::UseUnicodePropertiesOption);
+  static const QRegularExpression regex_duplicate_whitespaces(u" {2,}"_s);
+  static const QRegularExpression regex_duplicate_dashes(u"(-)\\1+"_s);
 
   return text.replace(u'/', u'-')
              .replace(u'\'', u'-')
              .remove(regex_illegal_characters)
-             .replace(regex_duplicate_whitespaces, QStringLiteral(" "))
+             .replace(regex_duplicate_whitespaces, u" "_s)
              .simplified()
              .replace(u' ', u'-')
-             .replace(regex_duplicate_dashes, QStringLiteral("-"))
+             .replace(regex_duplicate_dashes, u"-"_s)
              .toLower();
 
 }

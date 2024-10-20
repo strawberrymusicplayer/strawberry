@@ -31,7 +31,9 @@
 #include "alsadevicefinder.h"
 #include "enginedevice.h"
 
-AlsaDeviceFinder::AlsaDeviceFinder() : DeviceFinder(QStringLiteral("alsa"), { QStringLiteral("alsa"), QStringLiteral("alsasink") }) {}
+using namespace Qt::Literals::StringLiterals;
+
+AlsaDeviceFinder::AlsaDeviceFinder() : DeviceFinder(u"alsa"_s, { u"alsa"_s, u"alsasink"_s }) {}
 
 EngineDeviceList AlsaDeviceFinder::ListDevices() {
 

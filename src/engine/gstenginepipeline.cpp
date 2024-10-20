@@ -286,17 +286,17 @@ QString GstEnginePipeline::GstStateText(const GstState state) {
 
   switch (state) {
     case GST_STATE_VOID_PENDING:
-      return QStringLiteral("Pending");
+      return u"Pending"_s;
     case GST_STATE_NULL:
-      return QStringLiteral("Null");
+      return u"Null"_s;
     case GST_STATE_READY:
-      return QStringLiteral("Ready");
+      return u"Ready"_s;
     case GST_STATE_PAUSED:
-      return QStringLiteral("Paused");
+      return u"Paused"_s;
     case GST_STATE_PLAYING:
-      return QStringLiteral("Playing");
+      return u"Playing"_s;
     default:
-      return QStringLiteral("Unknown");
+      return u"Unknown"_s;
   }
 
 }
@@ -424,10 +424,10 @@ bool GstEnginePipeline::InitFromUrl(const QUrl &media_url, const QUrl &stream_ur
   guint version_major = 0, version_minor = 0, version_micro = 0, version_nano = 0;
   gst_plugins_base_version(&version_major, &version_minor, &version_micro, &version_nano);
   if (QVersionNumber::compare(QVersionNumber(static_cast<int>(version_major), static_cast<int>(version_minor)), QVersionNumber(1, 24)) >= 0) {
-    pipeline_ = CreateElement(QStringLiteral("playbin3"), QStringLiteral("pipeline"), nullptr, error);
+    pipeline_ = CreateElement(u"playbin3"_s, u"pipeline"_s, nullptr, error);
   }
   else {
-    pipeline_ = CreateElement(QStringLiteral("playbin"), QStringLiteral("pipeline"), nullptr, error);
+    pipeline_ = CreateElement(u"playbin"_s, u"pipeline"_s, nullptr, error);
   }
 
   if (!pipeline_) return false;
@@ -602,31 +602,31 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
 
   // Create all the other elements
 
-  audioqueue_ = CreateElement(QStringLiteral("queue2"), QStringLiteral("audioqueue"), audiobin_, error);
+  audioqueue_ = CreateElement(u"queue2"_s, u"audioqueue"_s, audiobin_, error);
   if (!audioqueue_) {
     return false;
   }
 
-  audioqueueconverter_ = CreateElement(QStringLiteral("audioconvert"), QStringLiteral("audioqueueconverter"), audiobin_, error);
+  audioqueueconverter_ = CreateElement(u"audioconvert"_s, u"audioqueueconverter"_s, audiobin_, error);
   if (!audioqueueconverter_) {
     return false;
   }
 
-  GstElement *audiosinkconverter = CreateElement(QStringLiteral("audioconvert"), QStringLiteral("audiosinkconverter"), audiobin_, error);
+  GstElement *audiosinkconverter = CreateElement(u"audioconvert"_s, u"audiosinkconverter"_s, audiobin_, error);
   if (!audiosinkconverter) {
     return false;
   }
 
   // Create the volume element if it's enabled.
   if (volume_enabled_ && !volume_) {
-    volume_sw_ = CreateElement(QStringLiteral("volume"), QStringLiteral("volume_sw"), audiobin_, error);
+    volume_sw_ = CreateElement(u"volume"_s, u"volume_sw"_s, audiobin_, error);
     if (!volume_sw_) {
       return false;
     }
   }
 
   if (fading_enabled_) {
-    volume_fading_ = CreateElement(QStringLiteral("volume"), QStringLiteral("volume_fading"), audiobin_, error);
+    volume_fading_ = CreateElement(u"volume"_s, u"volume_fading"_s, audiobin_, error);
     if (!volume_fading_) {
       return false;
     }
@@ -637,7 +637,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
 
   // Create the stereo balancer elements if it's enabled.
   if (stereo_balancer_enabled_) {
-    audiopanorama_ = CreateElement(QStringLiteral("audiopanorama"), QStringLiteral("audiopanorama"), audiobin_, error);
+    audiopanorama_ = CreateElement(u"audiopanorama"_s, u"audiopanorama"_s, audiobin_, error);
     if (!audiopanorama_) {
       return false;
     }
@@ -647,11 +647,11 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
 
   // Create the equalizer elements if it's enabled.
   if (eq_enabled_) {
-    equalizer_preamp_ = CreateElement(QStringLiteral("volume"), QStringLiteral("equalizer_preamp"), audiobin_, error);
+    equalizer_preamp_ = CreateElement(u"volume"_s, u"equalizer_preamp"_s, audiobin_, error);
     if (!equalizer_preamp_) {
       return false;
     }
-    equalizer_ = CreateElement(QStringLiteral("equalizer-nbands"), QStringLiteral("equalizer_nbands"), audiobin_, error);
+    equalizer_ = CreateElement(u"equalizer-nbands"_s, u"equalizer_nbands"_s, audiobin_, error);
     if (!equalizer_) {
       return false;
     }
@@ -701,15 +701,15 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
   GstElement *rglimiter = nullptr;
   GstElement *rgconverter = nullptr;
   if (rg_enabled_) {
-    rgvolume = CreateElement(QStringLiteral("rgvolume"), QStringLiteral("rgvolume"), audiobin_, error);
+    rgvolume = CreateElement(u"rgvolume"_s, u"rgvolume"_s, audiobin_, error);
     if (!rgvolume) {
       return false;
     }
-    rglimiter = CreateElement(QStringLiteral("rglimiter"), QStringLiteral("rglimiter"), audiobin_, error);
+    rglimiter = CreateElement(u"rglimiter"_s, u"rglimiter"_s, audiobin_, error);
     if (!rglimiter) {
       return false;
     }
-    rgconverter = CreateElement(QStringLiteral("audioconvert"), QStringLiteral("rgconverter"), audiobin_, error);
+    rgconverter = CreateElement(u"audioconvert"_s, u"rgconverter"_s, audiobin_, error);
     if (!rgconverter) {
       return false;
     }
@@ -723,7 +723,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
 
   // Create the EBU R 128 loudness normalization volume element if enabled.
   if (ebur128_loudness_normalization_) {
-    volume_ebur128_ = CreateElement(QStringLiteral("volume"), QStringLiteral("ebur128_volume"), audiobin_, error);
+    volume_ebur128_ = CreateElement(u"volume"_s, u"ebur128_volume"_s, audiobin_, error);
     if (!volume_ebur128_) {
       return false;
     }
@@ -735,7 +735,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
 
   GstElement *bs2b = nullptr;
   if (bs2b_enabled_) {
-    bs2b = CreateElement(QStringLiteral("bs2b"), QStringLiteral("bs2b"), audiobin_, error);
+    bs2b = CreateElement(u"bs2b"_s, u"bs2b"_s, audiobin_, error);
     if (!bs2b) {
       return false;
     }
@@ -781,7 +781,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
   // Link all elements
 
   if (!gst_element_link(audioqueue_, audioqueueconverter_)) {
-    error = QStringLiteral("Failed to link audio queue to audio queue converter.");
+    error = u"Failed to link audio queue to audio queue converter."_s;
     return false;
   }
 
@@ -1568,7 +1568,7 @@ void GstEnginePipeline::TagMessageReceived(GstMessage *msg) {
   if (!engine_metadata.title.isEmpty() && engine_metadata.artist.isEmpty() && engine_metadata.album.isEmpty()) {
     QStringList title_splitted;
     if (engine_metadata.title.contains(" - "_L1)) {
-      title_splitted = engine_metadata.title.split(QStringLiteral(" - "));
+      title_splitted = engine_metadata.title.split(u" - "_s);
     }
     else if (engine_metadata.title.contains(u'~')) {
       title_splitted = engine_metadata.title.split(u'~');

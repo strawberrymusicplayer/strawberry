@@ -723,18 +723,18 @@ QList<QUrl> MacOsDeviceLister::MakeDeviceUrls(const QString &serial) {
     const MTPDevice &device = mtp_devices_[serial];
     QString str = QString::asprintf("gphoto2://usb-%d-%d/", device.bus, device.address);
     QUrlQuery url_query;
-    url_query.addQueryItem(QStringLiteral("vendor"), device.vendor);
-    url_query.addQueryItem(QStringLiteral("vendor_id"), QString::number(device.vendor_id));
-    url_query.addQueryItem(QStringLiteral("product"), device.product);
-    url_query.addQueryItem(QStringLiteral("product_id"), QString::number(device.product_id));
-    url_query.addQueryItem(QStringLiteral("quirks"), QString::number(device.quirks));
+    url_query.addQueryItem(u"vendor"_s, device.vendor);
+    url_query.addQueryItem(u"vendor_id"_s, QString::number(device.vendor_id));
+    url_query.addQueryItem(u"product"_s, device.product);
+    url_query.addQueryItem(u"product_id"_s, QString::number(device.product_id));
+    url_query.addQueryItem(u"quirks"_s, QString::number(device.quirks));
     QUrl url(str);
     url.setQuery(url_query);
     return QList<QUrl>() << url;
   }
 
   if (IsCDDevice(serial)) {
-    return QList<QUrl>() << QUrl(QStringLiteral("cdda:///dev/r") + serial);
+    return QList<QUrl>() << QUrl(u"cdda:///dev/r"_s + serial);
   }
 
   QString bsd_name = current_devices_[serial];
@@ -762,7 +762,7 @@ QVariantList MacOsDeviceLister::DeviceIcons(const QString &serial) {
   }
 
   if (IsCDDevice(serial)) {
-    return QVariantList() << QStringLiteral("media-optical");
+    return QVariantList() << u"media-optical"_s;
   }
 
   QString bsd_name = current_devices_[serial];

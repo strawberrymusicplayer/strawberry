@@ -40,7 +40,6 @@
 #include <QStandardPaths>
 
 #include "core/iconloader.h"
-#include "core/mainwindow.h"
 #include "core/settings.h"
 #include "settings/settingspage.h"
 #include "behavioursettingspage.h"
@@ -65,7 +64,7 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog, QWidget *pa
       ui_(new Ui_BehaviourSettingsPage) {
 
   ui_->setupUi(this);
-  setWindowIcon(IconLoader::Load(QStringLiteral("strawberry"), true, 0, 32));
+  setWindowIcon(IconLoader::Load(u"strawberry"_s, true, 0, 32));
 
   QObject::connect(ui_->checkbox_showtrayicon, &QCheckBox::toggled, this, &BehaviourSettingsPage::ShowTrayIconToggled);
 
@@ -81,13 +80,13 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog, QWidget *pa
 
 #ifdef HAVE_TRANSLATIONS
   // Populate the language combo box.  We do this by looking at all the compiled in translations.
-  QDir dir1(QStringLiteral(":/i18n"));
+  QDir dir1(u":/i18n"_s);
   QDir dir2(QStringLiteral(TRANSLATIONS_DIR));
-  QStringList codes = dir1.entryList(QStringList() << QStringLiteral("*.qm"));
+  QStringList codes = dir1.entryList(QStringList() << u"*.qm"_s);
   if (dir2.exists()) {
-    codes << dir2.entryList(QStringList() << QStringLiteral("*.qm"));
+    codes << dir2.entryList(QStringList() << u"*.qm"_s);
   }
-  static const QRegularExpression lang_re(QStringLiteral("^strawberry_(.*).qm$"));
+  static const QRegularExpression lang_re(u"^strawberry_(.*).qm$"_s);
   for (const QString &filename : std::as_const(codes)) {
 
     QRegularExpressionMatch re_match = lang_re.match(filename);
@@ -106,7 +105,7 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog, QWidget *pa
     if (!native_name.isEmpty()) {
       language_name = native_name;
     }
-    QString name = QStringLiteral("%1 (%2)").arg(language_name, code);
+    QString name = u"%1 (%2)"_s.arg(language_name, code);
 
     language_map_[name] = code;
   }

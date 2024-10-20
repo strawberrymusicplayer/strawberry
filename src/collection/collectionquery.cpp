@@ -49,14 +49,14 @@ CollectionQuery::CollectionQuery(const QSqlDatabase &db, const QString &songs_ta
   if (filter_options.max_age() != -1) {
     qint64 cutoff = QDateTime::currentSecsSinceEpoch() - filter_options.max_age();
 
-    where_clauses_ << QStringLiteral("ctime > ?");
+    where_clauses_ << u"ctime > ?"_s;
     bound_values_ << cutoff;
   }
 
   duplicates_only_ = filter_options.filter_mode() == CollectionFilterOptions::FilterMode::Duplicates;
 
   if (filter_options.filter_mode() == CollectionFilterOptions::FilterMode::Untagged) {
-    where_clauses_ << QStringLiteral("(artist = '' OR album = '' OR title ='')");
+    where_clauses_ << u"(artist = '' OR album = '' OR title ='')"_s;
   }
 
 }
@@ -69,7 +69,7 @@ void CollectionQuery::AddWhere(const QString &column, const QVariant &value, con
     QStringList final_values;
     final_values.reserve(values.count());
     for (const QString &single_value : values) {
-      final_values.append(QStringLiteral("?"));
+      final_values.append(u"?"_s);
       bound_values_ << single_value;
     }
 
@@ -113,7 +113,7 @@ bool CollectionQuery::Exec() {
 
   QStringList where_clauses(where_clauses_);
   if (!include_unavailable_) {
-    where_clauses << QStringLiteral("unavailable = 0");
+    where_clauses << u"unavailable = 0"_s;
   }
 
   if (!where_clauses.isEmpty()) sql += " WHERE "_L1 + where_clauses.join(" AND "_L1);

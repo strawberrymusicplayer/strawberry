@@ -88,7 +88,7 @@ using std::make_shared;
 using namespace std::chrono_literals;
 
 SpotifyService::SpotifyService(Application *app, QObject *parent)
-    : StreamingService(Song::Source::Spotify, QStringLiteral("Spotify"), QStringLiteral("spotify"), QLatin1String(SpotifySettingsPage::kSettingsGroup), SettingsDialog::Page::Spotify, app, parent),
+    : StreamingService(Song::Source::Spotify, u"Spotify"_s, u"spotify"_s, QLatin1String(SpotifySettingsPage::kSettingsGroup), SettingsDialog::Page::Spotify, app, parent),
       app_(app),
       network_(new NetworkAccessManager(this)),
       artists_collection_backend_(nullptr),
@@ -279,11 +279,11 @@ void SpotifyService::Authenticate() {
     code_challenge_.chop(1);
   }
 
-  const ParamList params = ParamList() << Param(QStringLiteral("client_id"), QString::fromLatin1(QByteArray::fromBase64(kClientIDB64)))
-                                       << Param(QStringLiteral("response_type"), QStringLiteral("code"))
-                                       << Param(QStringLiteral("redirect_uri"), redirect_url.toString())
-                                       << Param(QStringLiteral("state"), code_challenge_)
-                                       << Param(QStringLiteral("scope"), QStringLiteral("user-follow-read user-follow-modify user-library-read user-library-modify streaming"));
+  const ParamList params = ParamList() << Param(u"client_id"_s, QString::fromLatin1(QByteArray::fromBase64(kClientIDB64)))
+                                       << Param(u"response_type"_s, u"code"_s)
+                                       << Param(u"redirect_uri"_s, redirect_url.toString())
+                                       << Param(u"state"_s, code_challenge_)
+                                       << Param(u"scope"_s, u"user-follow-read user-follow-modify user-library-read user-library-modify streaming"_s);
 
   QUrlQuery url_query;
   for (const Param &param : params) {
@@ -329,12 +329,12 @@ void SpotifyService::RedirectArrived() {
     QUrl url = server_->request_url();
     if (url.isValid()) {
       QUrlQuery url_query(url);
-      if (url_query.hasQueryItem(QStringLiteral("error"))) {
-        LoginError(QUrlQuery(url).queryItemValue(QStringLiteral("error")));
+      if (url_query.hasQueryItem(u"error"_s)) {
+        LoginError(QUrlQuery(url).queryItemValue(u"error"_s));
       }
-      else if (url_query.hasQueryItem(QStringLiteral("code")) && url_query.hasQueryItem(QStringLiteral("state"))) {
+      else if (url_query.hasQueryItem(u"code"_s) && url_query.hasQueryItem(u"state"_s)) {
         qLog(Debug) << "Spotify: Authorization URL Received" << url;
-        QString code = url_query.queryItemValue(QStringLiteral("code"));
+        QString code = url_query.queryItemValue(u"code"_s);
         QUrl redirect_url(QString::fromLatin1(kOAuthRedirectUrl));
         redirect_url.setPort(server_->url().port());
         RequestAccessToken(code, redirect_url);
@@ -361,17 +361,17 @@ void SpotifyService::RequestAccessToken(const QString &code, const QUrl &redirec
 
   refresh_login_timer_.stop();
 
-  ParamList params = ParamList() << Param(QStringLiteral("client_id"), QString::fromLatin1(QByteArray::fromBase64(kClientIDB64)))
-                                 << Param(QStringLiteral("client_secret"), QString::fromLatin1(QByteArray::fromBase64(kClientSecretB64)));
+  ParamList params = ParamList() << Param(u"client_id"_s, QString::fromLatin1(QByteArray::fromBase64(kClientIDB64)))
+                                 << Param(u"client_secret"_s, QString::fromLatin1(QByteArray::fromBase64(kClientSecretB64)));
 
   if (!code.isEmpty() && !redirect_url.isEmpty()) {
-    params << Param(QStringLiteral("grant_type"), QStringLiteral("authorization_code"));
-    params << Param(QStringLiteral("code"), code);
-    params << Param(QStringLiteral("redirect_uri"), redirect_url.toString());
+    params << Param(u"grant_type"_s, u"authorization_code"_s);
+    params << Param(u"code"_s, code);
+    params << Param(u"redirect_uri"_s, redirect_url.toString());
   }
   else if (!refresh_token_.isEmpty() && enabled_) {
-    params << Param(QStringLiteral("grant_type"), QStringLiteral("refresh_token"));
-    params << Param(QStringLiteral("refresh_token"), refresh_token_);
+    params << Param(u"grant_type"_s, u"refresh_token"_s);
+    params << Param(u"refresh_token"_s, refresh_token_);
   }
   else {
     return;
@@ -385,7 +385,7 @@ void SpotifyService::RequestAccessToken(const QString &code, const QUrl &redirec
   QUrl new_url(QString::fromLatin1(kOAuthAccessTokenUrl));
   QNetworkRequest req(new_url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  req.setHeader(QNetworkRequest::ContentTypeHeader, QStringLiteral("application/x-www-form-urlencoded"));
+  req.setHeader(QNetworkRequest::ContentTypeHeader, u"application/x-www-form-urlencoded"_s);
   QString auth_header_data = QString::fromLatin1(QByteArray::fromBase64(kClientIDB64)) + QLatin1Char(':') + QString::fromLatin1(QByteArray::fromBase64(kClientSecretB64));
   req.setRawHeader("Authorization", "Basic " + auth_header_data.toUtf8().toBase64());
 
@@ -456,23 +456,23 @@ void SpotifyService::AccessTokenRequestFinished(QNetworkReply *reply) {
   }
 
   if (json_doc.isEmpty()) {
-    LoginError(QStringLiteral("Authentication reply from server has empty Json document."));
+    LoginError(u"Authentication reply from server has empty Json document."_s);
     return;
   }
 
   if (!json_doc.isObject()) {
-    LoginError(QStringLiteral("Authentication reply from server has Json document that is not an object."), json_doc);
+    LoginError(u"Authentication reply from server has Json document that is not an object."_s, json_doc);
     return;
   }
 
   QJsonObject json_obj = json_doc.object();
   if (json_obj.isEmpty()) {
-    LoginError(QStringLiteral("Authentication reply from server has empty Json object."), json_doc);
+    LoginError(u"Authentication reply from server has empty Json object."_s, json_doc);
     return;
   }
 
   if (!json_obj.contains("access_token"_L1) || !json_obj.contains("expires_in"_L1)) {
-    LoginError(QStringLiteral("Authentication reply from server is missing access token or expires in."), json_obj);
+    LoginError(u"Authentication reply from server is missing access token or expires in."_s, json_obj);
     return;
   }
 

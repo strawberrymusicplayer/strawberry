@@ -34,12 +34,14 @@
 #include "iconloader.h"
 #include "qtsystemtrayicon.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 SystemTrayIcon::SystemTrayIcon(QObject *parent)
     : QSystemTrayIcon(parent),
       menu_(new QMenu),
       app_name_(QCoreApplication::applicationName()),
-      pixmap_playing_(QStringLiteral(":/pictures/tiny-play.png")),
-      pixmap_paused_(QStringLiteral(":/pictures/tiny-pause.png")),
+      pixmap_playing_(u":/pictures/tiny-play.png"_s),
+      pixmap_paused_(u":/pictures/tiny-pause.png"_s),
       action_play_pause_(nullptr),
       action_stop_(nullptr),
       action_stop_after_this_track_(nullptr),
@@ -51,8 +53,8 @@ SystemTrayIcon::SystemTrayIcon(QObject *parent)
 
   app_name_[0] = app_name_[0].toUpper();
 
-  const QIcon icon = IconLoader::Load(QStringLiteral("strawberry"));
-  const QIcon icon_grey = IconLoader::Load(QStringLiteral("strawberry-grey"));
+  const QIcon icon = IconLoader::Load(u"strawberry"_s);
+  const QIcon icon_grey = IconLoader::Load(u"strawberry-grey"_s);
   pixmap_normal_ = icon.pixmap(48, QIcon::Normal);
   if (icon_grey.isNull()) {
     pixmap_grey_ = icon.pixmap(48, QIcon::Disabled);
@@ -143,7 +145,7 @@ void SystemTrayIcon::SetPlaying(bool enable_play_pause) {
 
   action_stop_->setEnabled(true);
   action_stop_after_this_track_->setEnabled(true);
-  action_play_pause_->setIcon(IconLoader::Load(QStringLiteral("media-playback-pause")));
+  action_play_pause_->setIcon(IconLoader::Load(u"media-playback-pause"_s));
   action_play_pause_->setText(tr("Pause"));
   action_play_pause_->setEnabled(enable_play_pause);
 
@@ -156,7 +158,7 @@ void SystemTrayIcon::SetPaused() {
 
   action_stop_->setEnabled(true);
   action_stop_after_this_track_->setEnabled(true);
-  action_play_pause_->setIcon(IconLoader::Load(QStringLiteral("media-playback-start")));
+  action_play_pause_->setIcon(IconLoader::Load(u"media-playback-start"_s));
   action_play_pause_->setText(tr("Play"));
 
   action_play_pause_->setEnabled(true);
@@ -170,7 +172,7 @@ void SystemTrayIcon::SetStopped() {
 
   action_stop_->setEnabled(false);
   action_stop_after_this_track_->setEnabled(false);
-  action_play_pause_->setIcon(IconLoader::Load(QStringLiteral("media-playback-start")));
+  action_play_pause_->setIcon(IconLoader::Load(u"media-playback-start"_s));
   action_play_pause_->setText(tr("Play"));
 
   action_play_pause_->setEnabled(true);

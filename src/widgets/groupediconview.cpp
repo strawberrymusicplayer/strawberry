@@ -46,6 +46,8 @@
 #include "core/multisortfilterproxy.h"
 #include "groupediconview.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 namespace {
 constexpr int kBarThickness = 2;
 constexpr int kBarMarginTop = 3;
@@ -59,7 +61,7 @@ GroupedIconView::GroupedIconView(QWidget *parent)
       header_spacing_(10),
       header_indent_(5),
       item_indent_(10),
-      header_text_(QStringLiteral("%1")) {
+      header_text_(u"%1"_s) {
 
   setFlow(LeftToRight);
   setViewMode(IconMode);

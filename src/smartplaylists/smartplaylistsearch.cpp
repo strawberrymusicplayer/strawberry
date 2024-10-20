@@ -65,7 +65,7 @@ QString SmartPlaylistSearch::ToSql(const QString &songs_table) const {
 
   if (!terms_.isEmpty() && search_type_ != SearchType::All) {
     QString boolean_op = search_type_ == SearchType::And ? " AND "_L1 : " OR "_L1;
-    where_clauses << QStringLiteral("(") + term_where_clauses.join(boolean_op) + QStringLiteral(")");
+    where_clauses << u"("_s + term_where_clauses.join(boolean_op) + u")"_s;
   }
 
   // Restrict the IDs of songs if we're making a dynamic playlist
@@ -74,12 +74,12 @@ QString SmartPlaylistSearch::ToSql(const QString &songs_table) const {
     for (int id : id_not_in_) {
       numbers += (numbers.isEmpty() ? ""_L1 : ","_L1) + QString::number(id);
     }
-    where_clauses << QStringLiteral("(ROWID NOT IN (") + numbers + QStringLiteral("))");
+    where_clauses << u"(ROWID NOT IN ("_s + numbers + u"))"_s;
   }
 
   // We never want to include songs that have been deleted,
   // but are still kept in the database in case the directory containing them has just been unmounted.
-  where_clauses << QStringLiteral("unavailable = 0");
+  where_clauses << u"unavailable = 0"_s;
 
   if (!where_clauses.isEmpty()) {
     sql += " WHERE "_L1 + where_clauses.join(" AND "_L1);

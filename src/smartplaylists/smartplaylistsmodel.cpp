@@ -44,6 +44,8 @@
 #include "playlistgeneratormimedata.h"
 #include "playlistquerygenerator.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 const char *SmartPlaylistsModel::kSettingsGroup = "SerializedSmartPlaylists";
 const char *SmartPlaylistsModel::kSmartPlaylistsMimeType = "application/x-strawberry-smart-playlist-generator";
 const int SmartPlaylistsModel::kSmartPlaylistsVersion = 1;
@@ -51,7 +53,7 @@ const int SmartPlaylistsModel::kSmartPlaylistsVersion = 1;
 SmartPlaylistsModel::SmartPlaylistsModel(SharedPtr<CollectionBackend> collection_backend, QObject *parent)
     : SimpleTreeModel<SmartPlaylistsItem>(new SmartPlaylistsItem(this), parent),
       collection_backend_(collection_backend),
-      icon_(IconLoader::Load(QStringLiteral("view-media-playlist"))) {}
+      icon_(IconLoader::Load(u"view-media-playlist"_s)) {}
 
 SmartPlaylistsModel::~SmartPlaylistsModel() { delete root_; }
 
@@ -117,7 +119,7 @@ void SmartPlaylistsModel::Init() {
 
   Settings s;
   s.beginGroup(kSettingsGroup);
-  int version = s.value(collection_backend_->songs_table() + QStringLiteral("_version"), 0).toInt();
+  int version = s.value(collection_backend_->songs_table() + u"_version"_s, 0).toInt();
 
   // How many defaults do we have to write?
   int unwritten_defaults = 0;
@@ -142,7 +144,7 @@ void SmartPlaylistsModel::Init() {
     s.endArray();
   }
 
-  s.setValue(collection_backend_->songs_table() + QStringLiteral("_version"), version);
+  s.setValue(collection_backend_->songs_table() + u"_version"_s, version);
 
   const int count = s.beginReadArray(collection_backend_->songs_table());
   for (int i = 0; i < count; ++i) {
@@ -289,7 +291,7 @@ QVariant SmartPlaylistsModel::data(const QModelIndex &idx, const int role) const
 }
 
 QStringList SmartPlaylistsModel::mimeTypes() const {
-  return QStringList() << QStringLiteral("text/uri-list");
+  return QStringList() << u"text/uri-list"_s;
 }
 
 QMimeData *SmartPlaylistsModel::mimeData(const QModelIndexList &indexes) const {

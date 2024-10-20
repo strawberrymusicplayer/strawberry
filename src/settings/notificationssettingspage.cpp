@@ -54,6 +54,8 @@
 #include "notificationssettingspage.h"
 #include "ui_notificationssettingspage.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 class QHideEvent;
 class QShowEvent;
 
@@ -63,9 +65,9 @@ NotificationsSettingsPage::NotificationsSettingsPage(SettingsDialog *dialog, QWi
       pretty_popup_(new OSDPretty(OSDPretty::Mode::Draggable)) {
 
   ui_->setupUi(this);
-  setWindowIcon(IconLoader::Load(QStringLiteral("help-hint"), true, 0, 32));
+  setWindowIcon(IconLoader::Load(u"help-hint"_s, true, 0, 32));
 
-  pretty_popup_->SetMessage(tr("OSD Preview"), tr("Drag to reposition"), QImage(QStringLiteral(":/pictures/cdcase.png")));
+  pretty_popup_->SetMessage(tr("OSD Preview"), tr("Drag to reposition"), QImage(u":/pictures/cdcase.png"_s));
 
   ui_->notifications_bg_preset->setItemData(0, QColor(OSDPretty::kPresetBlue), Qt::DecorationRole);
   ui_->notifications_bg_preset->setItemData(1, QColor(OSDPretty::kPresetRed), Qt::DecorationRole);
@@ -130,8 +132,8 @@ NotificationsSettingsPage::NotificationsSettingsPage(SettingsDialog *dialog, QWi
   QObject::connect(ui_->notifications_preview, &QPushButton::clicked, this, &NotificationsSettingsPage::PrepareNotificationPreview);
 
   // Icons
-  ui_->notifications_exp_chooser1->setIcon(IconLoader::Load(QStringLiteral("list-add")));
-  ui_->notifications_exp_chooser2->setIcon(IconLoader::Load(QStringLiteral("list-add")));
+  ui_->notifications_exp_chooser1->setIcon(IconLoader::Load(u"list-add"_s));
+  ui_->notifications_exp_chooser2->setIcon(IconLoader::Load(u"list-add"_s));
 
   QObject::connect(pretty_popup_, &OSDPretty::PositionChanged, this, &NotificationsSettingsPage::PrettyOSDChanged);
 

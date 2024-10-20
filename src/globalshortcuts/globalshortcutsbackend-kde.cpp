@@ -38,6 +38,8 @@
 #include "kglobalaccel.h"
 #include "kglobalaccelcomponent.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 namespace {
 constexpr char kKdeService[] = "org.kde.kglobalaccel";
 constexpr char kKdePath[] = "/kglobalaccel";
@@ -102,7 +104,7 @@ void GlobalShortcutsBackendKDE::RegisterFinished(QDBusPendingCallWatcher *watche
   watcher->deleteLater();
 
   if (!reply.isValid()) {
-    if (reply.error().name() != QStringLiteral("org.kde.kglobalaccel.NoSuchComponent")) {
+    if (reply.error().name() != u"org.kde.kglobalaccel.NoSuchComponent"_s) {
       qLog(Error) << "Failed to register:" << reply.error().name() << reply.error().message();
     }
     return;

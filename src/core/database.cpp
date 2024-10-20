@@ -129,12 +129,12 @@ QSqlDatabase Database::Connect() {
     db = QSqlDatabase::database(connection_id);
   }
   else {
-    db = QSqlDatabase::addDatabase(QStringLiteral("QSQLITE"), connection_id);
+    db = QSqlDatabase::addDatabase(u"QSQLITE"_s, connection_id);
   }
   if (db.isOpen()) {
     return db;
   }
-  db.setConnectOptions(QStringLiteral("QSQLITE_BUSY_TIMEOUT=30000"));
+  db.setConnectOptions(u"QSQLITE_BUSY_TIMEOUT=30000"_s);
   //qLog(Debug) << "Opened database with connection id" << connection_id;
 
   if (injected_database_name_.isNull()) {
@@ -145,7 +145,7 @@ QSqlDatabase Database::Connect() {
   }
 
   if (!db.open()) {
-    app_->AddError(QStringLiteral("Database: ") + db.lastError().text());
+    app_->AddError(u"Database: "_s + db.lastError().text());
     return db;
   }
 
@@ -168,9 +168,9 @@ QSqlDatabase Database::Connect() {
 
     // Attach the db
     SqlQuery q(db);
-    q.prepare(QStringLiteral("ATTACH DATABASE :filename AS :alias"));
-    q.BindValue(QStringLiteral(":filename"), filename);
-    q.BindValue(QStringLiteral(":alias"), key);
+    q.prepare(u"ATTACH DATABASE :filename AS :alias"_s);
+    q.BindValue(u":filename"_s, filename);
+    q.BindValue(u":alias"_s, key);
     if (!q.Exec()) {
       qFatal("Couldn't attach external database '%s'", key.toLatin1().constData());
     }
@@ -225,7 +225,7 @@ int Database::SchemaVersion(QSqlDatabase *db) {
   int schema_version = 0;
   {
     SqlQuery q(*db);
-    q.prepare(QStringLiteral("SELECT version FROM schema_version"));
+    q.prepare(u"SELECT version FROM schema_version"_s);
     if (q.Exec() && q.next()) {
       schema_version = q.value(0).toInt();
     }
@@ -266,8 +266,8 @@ void Database::RecreateAttachedDb(const QString &database_name) {
     QSqlDatabase db(Connect());
 
     SqlQuery q(db);
-    q.prepare(QStringLiteral("DETACH DATABASE :alias"));
-    q.BindValue(QStringLiteral(":alias"), database_name);
+    q.prepare(u"DETACH DATABASE :alias"_s);
+    q.BindValue(u":alias"_s, database_name);
     if (!q.Exec()) {
       qLog(Warning) << "Failed to detach database" << database_name;
       return;
@@ -297,9 +297,9 @@ void Database::AttachDatabaseOnDbConnection(const QString &database_name, const 
 
   // Attach the db
   SqlQuery q(db);
-  q.prepare(QStringLiteral("ATTACH DATABASE :filename AS :alias"));
-  q.BindValue(QStringLiteral(":filename"), database.filename_);
-  q.BindValue(QStringLiteral(":alias"), database_name);
+  q.prepare(u"ATTACH DATABASE :filename AS :alias"_s);
+  q.BindValue(u":filename"_s, database.filename_);
+  q.BindValue(u":alias"_s, database_name);
   if (!q.Exec()) {
     qFatal("Couldn't attach external database '%s'", database_name.toLatin1().constData());
   }
@@ -313,8 +313,8 @@ void Database::DetachDatabase(const QString &database_name) {
     QSqlDatabase db(Connect());
 
     SqlQuery q(db);
-    q.prepare(QStringLiteral("DETACH DATABASE :alias"));
-    q.BindValue(QStringLiteral(":alias"), database_name);
+    q.prepare(u"DETACH DATABASE :alias"_s);
+    q.BindValue(u":alias"_s, database_name);
     if (!q.Exec()) {
       qLog(Warning) << "Failed to detach database" << database_name;
       return;
@@ -329,7 +329,7 @@ void Database::UpdateDatabaseSchema(int version, QSqlDatabase &db) {
 
   QString filename;
   if (version == 0) {
-    filename = QStringLiteral(":/schema/schema.sql");
+    filename = u":/schema/schema.sql"_s;
   }
   else {
     filename = QStringLiteral(":/schema/schema-%1.sql").arg(version);
@@ -360,8 +360,8 @@ void Database::UrlEncodeFilenameColumn(const QString &table, QSqlDatabase &db) {
 
     const QUrl url = QUrl::fromLocalFile(filename);
 
-    update.BindValue(QStringLiteral(":filename"), url.toEncoded());
-    update.BindValue(QStringLiteral(":id"), rowid);
+    update.BindValue(u":filename"_s, url.toEncoded());
+    update.BindValue(u":id"_s, rowid);
     if (!update.Exec()) {
       ReportErrors(update);
     }
@@ -389,7 +389,7 @@ void Database::ExecSchemaCommandsFromFile(QSqlDatabase &db, const QString &filen
 void Database::ExecSchemaCommands(QSqlDatabase &db, const QString &schema, int schema_version, bool in_transaction) {
 
   // Run each command
-  static const QRegularExpression regex_split_commands(QStringLiteral("; *\n\n"));
+  static const QRegularExpression regex_split_commands(u"; *\n\n"_s);
   QStringList commands = schema.split(regex_split_commands);
 
   // We don't want this list to reflect possible DB schema changes, so we initialize it before executing any statements.
@@ -471,7 +471,7 @@ QStringList Database::SongsTables(QSqlDatabase &db, const int schema_version) {
     }
   }
 
-  ret << QStringLiteral("playlist_items");
+  ret << u"playlist_items"_s;
 
   return ret;
 
@@ -497,7 +497,7 @@ bool Database::IntegrityCheck(const QSqlDatabase &db) {
   bool ok = false;
   // Ask for 10 error messages at most.
   SqlQuery q(db);
-  q.prepare(QStringLiteral("PRAGMA integrity_check(10)"));
+  q.prepare(u"PRAGMA integrity_check(10)"_s);
   if (q.Exec()) {
     bool error_reported = false;
     while (q.next()) {
@@ -510,7 +510,7 @@ bool Database::IntegrityCheck(const QSqlDatabase &db) {
       }
       else {
         if (!error_reported) { app_->AddError(tr("Database corruption detected.")); }
-        app_->AddError(QStringLiteral("Database: ") + message);
+        app_->AddError(u"Database: "_s + message);
         error_reported = true;
       }
     }

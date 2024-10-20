@@ -49,6 +49,8 @@
 #include "collection/collectionitemdelegate.h"
 #include "streamingcollectionview.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 StreamingCollectionView::StreamingCollectionView(QWidget *parent)
     : AutoExpandingTreeView(parent),
       app_(nullptr),
@@ -59,7 +61,7 @@ StreamingCollectionView::StreamingCollectionView(QWidget *parent)
       total_song_count_(0),
       total_artist_count_(0),
       total_album_count_(0),
-      nomusic_(QStringLiteral(":/pictures/nomusic.png")),
+      nomusic_(u":/pictures/nomusic.png"_s),
       context_menu_(nullptr),
       load_(nullptr),
       add_to_playlist_(nullptr),
@@ -78,7 +80,7 @@ StreamingCollectionView::StreamingCollectionView(QWidget *parent)
   setSelectionMode(QAbstractItemView::ExtendedSelection);
   SetAutoOpen(false);
 
-  setStyleSheet(QStringLiteral("QTreeView::item{padding-top:1px;}"));
+  setStyleSheet(u"QTreeView::item{padding-top:1px;}"_s);
 
 }
 
@@ -326,18 +328,18 @@ void StreamingCollectionView::contextMenuEvent(QContextMenuEvent *e) {
 
   if (!context_menu_) {
     context_menu_ = new QMenu(this);
-    add_to_playlist_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("media-playback-start")), tr("Append to current playlist"), this, &StreamingCollectionView::AddToPlaylist);
-    load_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("media-playback-start")), tr("Replace current playlist"), this, &StreamingCollectionView::Load);
-    open_in_new_playlist_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("document-new")), tr("Open in new playlist"), this, &StreamingCollectionView::OpenInNewPlaylist);
+    add_to_playlist_ = context_menu_->addAction(IconLoader::Load(u"media-playback-start"_s), tr("Append to current playlist"), this, &StreamingCollectionView::AddToPlaylist);
+    load_ = context_menu_->addAction(IconLoader::Load(u"media-playback-start"_s), tr("Replace current playlist"), this, &StreamingCollectionView::Load);
+    open_in_new_playlist_ = context_menu_->addAction(IconLoader::Load(u"document-new"_s), tr("Open in new playlist"), this, &StreamingCollectionView::OpenInNewPlaylist);
 
     context_menu_->addSeparator();
-    add_to_playlist_enqueue_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("go-next")), tr("Queue track"), this, &StreamingCollectionView::AddToPlaylistEnqueue);
-    add_to_playlist_enqueue_next_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("go-next")), tr("Queue to play next"), this, &StreamingCollectionView::AddToPlaylistEnqueueNext);
+    add_to_playlist_enqueue_ = context_menu_->addAction(IconLoader::Load(u"go-next"_s), tr("Queue track"), this, &StreamingCollectionView::AddToPlaylistEnqueue);
+    add_to_playlist_enqueue_next_ = context_menu_->addAction(IconLoader::Load(u"go-next"_s), tr("Queue to play next"), this, &StreamingCollectionView::AddToPlaylistEnqueueNext);
 
     context_menu_->addSeparator();
 
     if (favorite_) {
-      remove_songs_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("edit-delete")), tr("Remove from favorites"), this, &StreamingCollectionView::RemoveSelectedSongs);
+      remove_songs_ = context_menu_->addAction(IconLoader::Load(u"edit-delete"_s), tr("Remove from favorites"), this, &StreamingCollectionView::RemoveSelectedSongs);
       context_menu_->addSeparator();
     }
 

@@ -37,6 +37,8 @@
 #include "cddalister.h"
 #include "core/logging.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 QStringList CddaLister::DeviceUniqueIDs() { return devices_list_; }
 
 QVariantList CddaLister::DeviceIcons(const QString &id) {
@@ -44,7 +46,7 @@ QVariantList CddaLister::DeviceIcons(const QString &id) {
   Q_UNUSED(id)
 
   QVariantList icons;
-  icons << QStringLiteral("media-optical");
+  icons << u"media-optical"_s;
   return icons;
 
 }
@@ -105,12 +107,12 @@ QString CddaLister::MakeFriendlyName(const QString &id) {
     return QString::fromUtf8(cd_info.psz_model);
   }
   cdio_destroy(cdio);
-  return QStringLiteral("CD (") + id + QLatin1Char(')');
+  return u"CD ("_s + id + QLatin1Char(')');
 
 }
 
 QList<QUrl> CddaLister::MakeDeviceUrls(const QString &id) {
-  return QList<QUrl>() << QUrl(QStringLiteral("cdda://") + id);
+  return QList<QUrl>() << QUrl(u"cdda://"_s + id);
 }
 
 void CddaLister::UnmountDevice(const QString &id) {
@@ -142,7 +144,7 @@ bool CddaLister::Init() {
     }
 #ifdef Q_OS_MACOS
     // Every track is detected as a separate device on Darwin. The raw disk looks like /dev/rdisk1
-    if (!device.contains(QRegularExpression(QStringLiteral("^/dev/rdisk[0-9]$")))) {
+    if (!device.contains(QRegularExpression(u"^/dev/rdisk[0-9]$"_s))) {
       continue;
     }
 #endif

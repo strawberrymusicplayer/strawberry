@@ -300,8 +300,8 @@ QStringList CueParser::SplitCueLine(const QString &line) {
   }
 
   // Let's remove the empty entries while we're at it
-  static const QRegularExpression regex_entry(QStringLiteral(".+"));
-  static const QRegularExpression regex_exclude(QStringLiteral("^\"\"$"));
+  static const QRegularExpression regex_entry(u".+"_s);
+  static const QRegularExpression regex_exclude(u"^\"\"$"_s);
   return re_match.capturedTexts().filter(regex_entry).mid(1, -1).replaceInStrings(regex_exclude, ""_L1);
 
 }
@@ -412,8 +412,8 @@ bool CueParser::TryMagic(const QByteArray &data) const {
 
 QString CueParser::FindCueFilename(const QString &filename) {
 
-  const QStringList cue_files = QStringList() << filename + QStringLiteral(".cue")
-                                              << filename.section(u'.', 0, -2) + QStringLiteral(".cue");
+  const QStringList cue_files = QStringList() << filename + u".cue"_s
+                                              << filename.section(u'.', 0, -2) + u".cue"_s;
 
   for (const QString &cuefile : cue_files) {
     if (QFileInfo::exists(cuefile)) return cuefile;

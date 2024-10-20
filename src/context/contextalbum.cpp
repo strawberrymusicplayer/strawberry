@@ -48,6 +48,8 @@
 using std::make_unique;
 using std::make_shared;
 
+using namespace Qt::Literals::StringLiterals;
+
 namespace {
 constexpr int kFadeTimeLineMs = 1000;
 }
@@ -59,12 +61,12 @@ ContextAlbum::ContextAlbum(QWidget *parent)
       album_cover_choice_controller_(nullptr),
       downloading_covers_(false),
       timeline_fade_(new QTimeLine(kFadeTimeLineMs, this)),
-      image_strawberry_(QStringLiteral(":/pictures/strawberry.png")),
+      image_strawberry_(u":/pictures/strawberry.png"_s),
       image_original_(image_strawberry_),
       pixmap_current_opacity_(1.0),
       desired_height_(width()) {
 
-  setObjectName(QStringLiteral("context-widget-album"));
+  setObjectName(u"context-widget-album"_s);
 
   setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
@@ -274,7 +276,7 @@ void ContextAlbum::SearchCoverInProgress() {
   downloading_covers_ = true;
 
   // Show a spinner animation
-  spinner_animation_ = make_unique<QMovie>(QStringLiteral(":/pictures/spinner.gif"), QByteArray(), this);
+  spinner_animation_ = make_unique<QMovie>(u":/pictures/spinner.gif"_s, QByteArray(), this);
   QObject::connect(&*spinner_animation_, &QMovie::updated, this, &ContextAlbum::Update);
   spinner_animation_->start();
   update();

@@ -87,6 +87,8 @@
 
 #include "ui_settingsdialog.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 const char *SettingsDialog::kSettingsGroup = "SettingsDialog";
 
 SettingsItemDelegate::SettingsItemDelegate(QObject *parent) : QStyledItemDelegate(parent) {}
@@ -360,7 +362,7 @@ void SettingsDialog::CurrentItemChanged(QTreeWidgetItem *item) {
   }
 
   // Set the title
-  ui_->title->setText(QStringLiteral("<b>") + item->text(0) + QStringLiteral("</b>"));
+  ui_->title->setText(QStringLiteral("<b>") + item->text(0) + u"</b>"_s);
 
   // Display the right page
   const QList<PageData> pages = pages_.values();

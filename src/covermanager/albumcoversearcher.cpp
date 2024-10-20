@@ -62,6 +62,8 @@
 #include "albumcoverimageresult.h"
 #include "ui_albumcoversearcher.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 namespace {
 constexpr int kMargin = 4;
 constexpr int kPaddingX = 3;
@@ -222,7 +224,7 @@ void AlbumCoverSearcher::SearchFinished(const quint64 id, const CoverProviderSea
 
     QStandardItem *item = new QStandardItem;
     item->setIcon(no_cover_icon_);
-    item->setText(result.artist + QStringLiteral(" - ") + result.album);
+    item->setText(result.artist + u" - "_s + result.album);
     item->setData(result.image_url, Role_ImageURL);
     item->setData(new_id, Role_ImageRequestId);
     item->setData(false, Role_ImageFetchFinished);

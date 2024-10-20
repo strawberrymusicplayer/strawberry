@@ -41,7 +41,7 @@ DynamicPlaylistControls::DynamicPlaylistControls(QWidget *parent)
   QObject::connect(ui_->repopulate, &QPushButton::clicked, this, &DynamicPlaylistControls::Repopulate);
   QObject::connect(ui_->off, &QPushButton::clicked, this, &DynamicPlaylistControls::TurnOff);
 
-  QFile stylesheet_file(QStringLiteral(":/style/dynamicplaylistcontrols.css"));
+  QFile stylesheet_file(u":/style/dynamicplaylistcontrols.css"_s);
   if (stylesheet_file.open(QIODevice::ReadOnly)) {
     QString stylesheet = QString::fromLatin1(stylesheet_file.readAll());
     stylesheet_file.close();

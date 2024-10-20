@@ -168,7 +168,7 @@ static void MessageHandler(QtMsgType type, const QMessageLogContext &message_log
 
   const QStringList lines = message.split(u'\n');
   for (const QString &line : lines) {
-    BufferedDebug d = CreateLogger<BufferedDebug>(level, QStringLiteral("unknown"), -1, nullptr);
+    BufferedDebug d = CreateLogger<BufferedDebug>(level, u"unknown"_s, -1, nullptr);
     d << line.toLocal8Bit().constData();
     if (d.buf_) {
       d.buf_->close();
@@ -295,7 +295,7 @@ static T CreateLogger(Level level, const QString &class_name, int line, const ch
   }
 
   T ret(type);
-  ret.nospace() << QDateTime::currentDateTime().toString(QStringLiteral("hh:mm:ss.zzz")).toLatin1().constData() << level_name << function_line.leftJustified(32).toLatin1().constData();
+  ret.nospace() << QDateTime::currentDateTime().toString(u"hh:mm:ss.zzz"_s).toLatin1().constData() << level_name << function_line.leftJustified(32).toLatin1().constData();
 
   return ret.space();
 
@@ -321,7 +321,7 @@ QString CXXDemangle(const QString &mangled_function) {
 QString LinuxDemangle(const QString &symbol);
 QString LinuxDemangle(const QString &symbol) {
 
-  static const QRegularExpression regex_symbol(QStringLiteral("\\(([^+]+)"));
+  static const QRegularExpression regex_symbol(u"\\(([^+]+)"_s);
   QRegularExpressionMatch match = regex_symbol.match(symbol);
   if (!match.hasMatch()) {
     return symbol;

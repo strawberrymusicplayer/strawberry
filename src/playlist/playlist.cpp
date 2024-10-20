@@ -782,7 +782,7 @@ Qt::ItemFlags Playlist::flags(const QModelIndex &idx) const {
 
 QStringList Playlist::mimeTypes() const {
 
-  return QStringList() << QStringLiteral("text/uri-list") << QLatin1String(kRowsMimetype);
+  return QStringList() << u"text/uri-list"_s << QLatin1String(kRowsMimetype);
 
 }
 

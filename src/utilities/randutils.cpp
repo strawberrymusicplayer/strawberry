@@ -24,20 +24,22 @@
 
 #include "randutils.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 namespace Utilities {
 
 QString GetRandomStringWithChars(const int len) {
-  const QString UseCharacters(QStringLiteral("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"));
+  const QString UseCharacters(u"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"_s);
   return GetRandomString(len, UseCharacters);
 }
 
 QString GetRandomStringWithCharsAndNumbers(const int len) {
-  const QString UseCharacters(QStringLiteral("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"));
+  const QString UseCharacters(u"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"_s);
   return GetRandomString(len, UseCharacters);
 }
 
 QString CryptographicRandomString(const int len) {
-  const QString UseCharacters(QStringLiteral("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~"));
+  const QString UseCharacters(u"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~"_s);
   return GetRandomString(len, UseCharacters);
 }
 

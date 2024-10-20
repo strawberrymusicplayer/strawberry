@@ -26,27 +26,27 @@ EngineDevice::EngineDevice() : card(0), device(0) {}
 QString EngineDevice::GuessIconName() const {
 
   if (description.contains("mcintosh"_L1, Qt::CaseInsensitive)) {
-    return QStringLiteral("mcintosh");
+    return u"mcintosh"_s;
   }
   if (description.contains("electrocompaniet"_L1, Qt::CaseInsensitive)) {
-    return QStringLiteral("electrocompaniet");
+    return u"electrocompaniet"_s;
   }
   if (description.contains("intel"_L1, Qt::CaseInsensitive)) {
-    return QStringLiteral("intel");
+    return u"intel"_s;
   }
   if (description.contains("realtek"_L1, Qt::CaseInsensitive)) {
-    return QStringLiteral("realtek");
+    return u"realtek"_s;
   }
   if (description.contains("nvidia"_L1, Qt::CaseInsensitive)) {
-    return QStringLiteral("nvidia");
+    return u"nvidia"_s;
   }
   if (description.contains("headset"_L1, Qt::CaseInsensitive)) {
-    return QStringLiteral("headset");
+    return u"headset"_s;
   }
   if (description.contains("pulseaudio"_L1, Qt::CaseInsensitive)) {
-    return QStringLiteral("pulseaudio");
+    return u"pulseaudio"_s;
   }
 
-  return QStringLiteral("soundcard");
+  return u"soundcard"_s;
 
 }

@@ -24,8 +24,6 @@
 
 #include "config.h"
 
-#include <memory>
-
 #include <QWidget>
 #include <QObject>
 #include <QHash>

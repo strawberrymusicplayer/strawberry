@@ -52,6 +52,7 @@ class DeviceLister;
 class DeviceManager;
 
 using std::make_shared;
+using namespace Qt::Literals::StringLiterals;
 
 GPodDevice::GPodDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, SharedPtr<DeviceManager> manager, Application *app, const int database_id, const bool first_time, QObject *parent)
     : ConnectedDevice(url, lister, unique_id, manager, app, database_id, first_time, parent),
@@ -195,12 +196,12 @@ bool GPodDevice::CopyToStorage(const CopyJob &job, QString &error_text) {
     bool result = false;
     if (!job.cover_image_.isNull()) {
 #ifdef Q_OS_LINUX
-      QString temp_path = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + QStringLiteral("/organize");
+      QString temp_path = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + u"/organize"_s;
 #else
       QString temp_path = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
 #endif
       if (!QDir(temp_path).exists()) QDir().mkpath(temp_path);
-      SharedPtr<TemporaryFile> cover_file = make_shared<TemporaryFile>(temp_path + QStringLiteral("/track-albumcover-XXXXXX.jpg"));
+      SharedPtr<TemporaryFile> cover_file = make_shared<TemporaryFile>(temp_path + u"/track-albumcover-XXXXXX.jpg"_s);
       if (!cover_file->filename().isEmpty()) {
         const QImage &image = job.cover_image_;
         if (image.save(cover_file->filename(), "JPG")) {

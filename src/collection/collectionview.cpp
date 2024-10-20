@@ -76,6 +76,7 @@
 #include "settings/collectionsettingspage.h"
 
 using std::make_unique;
+using namespace Qt::Literals::StringLiterals;
 
 CollectionView::CollectionView(QWidget *parent)
     : AutoExpandingTreeView(parent),
@@ -84,7 +85,7 @@ CollectionView::CollectionView(QWidget *parent)
       total_song_count_(-1),
       total_artist_count_(-1),
       total_album_count_(-1),
-      nomusic_(QStringLiteral(":/pictures/nomusic.png")),
+      nomusic_(u":/pictures/nomusic.png"_s),
       context_menu_(nullptr),
       action_load_(nullptr),
       action_add_to_playlist_(nullptr),
@@ -116,7 +117,7 @@ CollectionView::CollectionView(QWidget *parent)
   setDragDropMode(QAbstractItemView::DragOnly);
   setSelectionMode(QAbstractItemView::ExtendedSelection);
 
-  setStyleSheet(QStringLiteral("QTreeView::item{padding-top:1px;}"));
+  setStyleSheet(u"QTreeView::item{padding-top:1px;}"_s);
 
 }
 
@@ -379,29 +380,29 @@ void CollectionView::contextMenuEvent(QContextMenuEvent *e) {
 
   if (!context_menu_) {
     context_menu_ = new QMenu(this);
-    action_add_to_playlist_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("media-playback-start")), tr("Append to current playlist"), this, &CollectionView::AddToPlaylist);
-    action_load_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("media-playback-start")), tr("Replace current playlist"), this, &CollectionView::Load);
-    action_open_in_new_playlist_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("document-new")), tr("Open in new playlist"), this, &CollectionView::OpenInNewPlaylist);
+    action_add_to_playlist_ = context_menu_->addAction(IconLoader::Load(u"media-playback-start"_s), tr("Append to current playlist"), this, &CollectionView::AddToPlaylist);
+    action_load_ = context_menu_->addAction(IconLoader::Load(u"media-playback-start"_s), tr("Replace current playlist"), this, &CollectionView::Load);
+    action_open_in_new_playlist_ = context_menu_->addAction(IconLoader::Load(u"document-new"_s), tr("Open in new playlist"), this, &CollectionView::OpenInNewPlaylist);
 
     context_menu_->addSeparator();
-    action_add_to_playlist_enqueue_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("go-next")), tr("Queue track"), this, &CollectionView::AddToPlaylistEnqueue);
-    action_add_to_playlist_enqueue_next_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("go-next")), tr("Queue to play next"), this, &CollectionView::AddToPlaylistEnqueueNext);
+    action_add_to_playlist_enqueue_ = context_menu_->addAction(IconLoader::Load(u"go-next"_s), tr("Queue track"), this, &CollectionView::AddToPlaylistEnqueue);
+    action_add_to_playlist_enqueue_next_ = context_menu_->addAction(IconLoader::Load(u"go-next"_s), tr("Queue to play next"), this, &CollectionView::AddToPlaylistEnqueueNext);
 
     context_menu_->addSeparator();
 
-    action_search_for_this_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("edit-find")), tr("Search for this"), this, &CollectionView::SearchForThis);
+    action_search_for_this_ = context_menu_->addAction(IconLoader::Load(u"edit-find"_s), tr("Search for this"), this, &CollectionView::SearchForThis);
 
     context_menu_->addSeparator();
-    action_organize_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("edit-copy")), tr("Organize files..."), this, &CollectionView::Organize);
+    action_organize_ = context_menu_->addAction(IconLoader::Load(u"edit-copy"_s), tr("Organize files..."), this, &CollectionView::Organize);
 #ifndef Q_OS_WIN
-    action_copy_to_device_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("device")), tr("Copy to device..."), this, &CollectionView::CopyToDevice);
+    action_copy_to_device_ = context_menu_->addAction(IconLoader::Load(u"device"_s), tr("Copy to device..."), this, &CollectionView::CopyToDevice);
 #endif
-    action_delete_files_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("edit-delete")), tr("Delete from disk..."), this, &CollectionView::Delete);
+    action_delete_files_ = context_menu_->addAction(IconLoader::Load(u"edit-delete"_s), tr("Delete from disk..."), this, &CollectionView::Delete);
 
     context_menu_->addSeparator();
-    action_edit_track_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("edit-rename")), tr("Edit track information..."), this, &CollectionView::EditTracks);
-    action_edit_tracks_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("edit-rename")), tr("Edit tracks information..."), this, &CollectionView::EditTracks);
-    action_show_in_browser_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("document-open-folder")), tr("Show in file browser..."), this, &CollectionView::ShowInBrowser);
+    action_edit_track_ = context_menu_->addAction(IconLoader::Load(u"edit-rename"_s), tr("Edit track information..."), this, &CollectionView::EditTracks);
+    action_edit_tracks_ = context_menu_->addAction(IconLoader::Load(u"edit-rename"_s), tr("Edit tracks information..."), this, &CollectionView::EditTracks);
+    action_show_in_browser_ = context_menu_->addAction(IconLoader::Load(u"document-open-folder"_s), tr("Show in file browser..."), this, &CollectionView::ShowInBrowser);
 
     context_menu_->addSeparator();
 

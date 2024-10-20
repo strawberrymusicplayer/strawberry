@@ -45,6 +45,8 @@
 #include "moodbarsettingspage.h"
 #include "ui_moodbarsettingspage.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 const char *MoodbarSettingsPage::kSettingsGroup = "Moodbar";
 const int MoodbarSettingsPage::kMoodbarPreviewWidth = 150;
 const int MoodbarSettingsPage::kMoodbarPreviewHeight = 18;
@@ -55,7 +57,7 @@ MoodbarSettingsPage::MoodbarSettingsPage(SettingsDialog *dialog, QWidget *parent
       initialized_(false) {
 
   ui_->setupUi(this);
-  setWindowIcon(IconLoader::Load(QStringLiteral("moodbar"), true, 0, 32));
+  setWindowIcon(IconLoader::Load(u"moodbar"_s, true, 0, 32));
 
   MoodbarSettingsPage::Load();
 
@@ -103,7 +105,7 @@ void MoodbarSettingsPage::InitMoodbarPreviews() {
   ui_->moodbar_style->setIconSize(preview_size);
 
   // Read the sample data
-  QFile file(QStringLiteral(":/mood/sample.mood"));
+  QFile file(u":/mood/sample.mood"_s);
   if (!file.open(QIODevice::ReadOnly)) {
     qLog(Warning) << "Failed to open moodbar sample file" << file.fileName() << "for reading:" << file.errorString();
     return;

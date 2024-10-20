@@ -57,6 +57,8 @@
 #include "settingsdialog.h"
 #include "ui_backendsettingspage.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 const char *BackendSettingsPage::kSettingsGroup = "Backend";
 const qint64 BackendSettingsPage::kDefaultBufferDuration = 4000;
 const double BackendSettingsPage::kDefaultBufferLowWatermark = 0.33;
@@ -65,10 +67,10 @@ const double BackendSettingsPage::kDefaultBufferHighWatermark = 0.99;
 namespace {
 constexpr char kOutputAutomaticallySelect[] = "Automatically select";
 constexpr char kOutputCustom[] = "Custom";
-static const QRegularExpression kRegex_ALSA_HW(QStringLiteral("^hw:.*"));
-static const QRegularExpression kRegex_ALSA_PlugHW(QStringLiteral("^plughw:.*"));
-static const QRegularExpression kRegex_ALSA_PCM_Card(QStringLiteral("^.*:.*CARD=.*"));
-static const QRegularExpression kRegex_ALSA_PCM_Dev(QStringLiteral("^.*:.*DEV=.*"));
+static const QRegularExpression kRegex_ALSA_HW(u"^hw:.*"_s);
+static const QRegularExpression kRegex_ALSA_PlugHW(u"^plughw:.*"_s);
+static const QRegularExpression kRegex_ALSA_PCM_Card(u"^.*:.*CARD=.*"_s);
+static const QRegularExpression kRegex_ALSA_PCM_Dev(u"^.*:.*DEV=.*"_s);
 }  // namespace
 
 BackendSettingsPage::BackendSettingsPage(SettingsDialog *dialog, QWidget *parent)
@@ -79,12 +81,12 @@ BackendSettingsPage::BackendSettingsPage(SettingsDialog *dialog, QWidget *parent
       enginetype_current_(EngineBase::Type::None) {
 
   ui_->setupUi(this);
-  setWindowIcon(IconLoader::Load(QStringLiteral("soundcard"), true, 0, 32));
+  setWindowIcon(IconLoader::Load(u"soundcard"_s, true, 0, 32));
 
-  ui_->label_replaygainpreamp->setMinimumWidth(QFontMetrics(ui_->label_replaygainpreamp->font()).horizontalAdvance(QStringLiteral("-WW.W dB")));
-  ui_->label_replaygainfallbackgain->setMinimumWidth(QFontMetrics(ui_->label_replaygainfallbackgain->font()).horizontalAdvance(QStringLiteral("-WW.W dB")));
+  ui_->label_replaygainpreamp->setMinimumWidth(QFontMetrics(ui_->label_replaygainpreamp->font()).horizontalAdvance(u"-WW.W dB"_s));
+  ui_->label_replaygainfallbackgain->setMinimumWidth(QFontMetrics(ui_->label_replaygainfallbackgain->font()).horizontalAdvance(u"-WW.W dB"_s));
 
-  ui_->label_ebur128_target_level->setMinimumWidth(QFontMetrics(ui_->label_ebur128_target_level->font()).horizontalAdvance(QStringLiteral("-WW.W LUFS")));
+  ui_->label_ebur128_target_level->setMinimumWidth(QFontMetrics(ui_->label_ebur128_target_level->font()).horizontalAdvance(u"-WW.W LUFS"_s));
 
   QObject::connect(ui_->combobox_engine, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &BackendSettingsPage::EngineChanged);
   QObject::connect(ui_->combobox_output, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &BackendSettingsPage::OutputChanged);
@@ -130,7 +132,7 @@ void BackendSettingsPage::Load() {
   if (enginetype == EngineBase::Type::None && engine()) enginetype = engine()->type();
 
   ui_->combobox_engine->clear();
-  ui_->combobox_engine->addItem(IconLoader::Load(QStringLiteral("gstreamer")), EngineBase::Description(EngineBase::Type::GStreamer), static_cast<int>(EngineBase::Type::GStreamer));
+  ui_->combobox_engine->addItem(IconLoader::Load(u"gstreamer"_s), EngineBase::Description(EngineBase::Type::GStreamer), static_cast<int>(EngineBase::Type::GStreamer));
 
   enginetype_current_ = enginetype;
   output_current_ = s.value("output", QString()).toString();
@@ -249,7 +251,7 @@ void BackendSettingsPage::Load() {
 bool BackendSettingsPage::EngineInitialized() {
 
   if (!engine() || engine()->type() == EngineBase::Type::None) {
-    errordialog_.ShowMessage(QStringLiteral("Engine is not initialized! Please restart."));
+    errordialog_.ShowMessage(u"Engine is not initialized! Please restart."_s);
     return false;
   }
   return true;
@@ -359,7 +361,7 @@ void BackendSettingsPage::Load_Device(const QString &output, const QVariant &dev
 #ifdef Q_OS_WIN
   if (engine()->type() != EngineBase::Type::GStreamer)
 #endif
-    ui_->combobox_device->addItem(IconLoader::Load(QStringLiteral("soundcard")), QLatin1String(kOutputAutomaticallySelect), QVariant());
+    ui_->combobox_device->addItem(IconLoader::Load(u"soundcard"_s), QLatin1String(kOutputAutomaticallySelect), QVariant());
 
   const QList<DeviceFinder*> device_finders = dialog()->app()->device_finders()->ListFinders();
   for (DeviceFinder *f : device_finders) {
@@ -373,7 +375,7 @@ void BackendSettingsPage::Load_Device(const QString &output, const QVariant &dev
   }
 
   if (engine()->CustomDeviceSupport(output)) {
-    ui_->combobox_device->addItem(IconLoader::Load(QStringLiteral("soundcard")), QLatin1String(kOutputCustom), QVariant());
+    ui_->combobox_device->addItem(IconLoader::Load(u"soundcard"_s), QLatin1String(kOutputCustom), QVariant());
     ui_->lineedit_device->setEnabled(true);
   }
   else {
@@ -544,7 +546,7 @@ void BackendSettingsPage::EngineChanged(const int index) {
   if (engine()->type() == enginetype) return;
 
   if (engine()->state() != EngineBase::State::Empty) {
-    errordialog_.ShowMessage(QStringLiteral("Can't switch engine while playing!"));
+    errordialog_.ShowMessage(u"Can't switch engine while playing!"_s);
     ui_->combobox_engine->setCurrentIndex(ui_->combobox_engine->findData(static_cast<int>(engine()->type())));
     return;
   }
@@ -716,7 +718,7 @@ void BackendSettingsPage::radiobutton_alsa_hw_clicked(const bool checked) {
   QString device_new = ui_->lineedit_device->text();
 
   if (device_new.contains(kRegex_ALSA_PlugHW)) {
-    device_new = device_new.replace(kRegex_ALSA_PlugHW, QStringLiteral("hw:"));
+    device_new = device_new.replace(kRegex_ALSA_PlugHW, u"hw:"_s);
   }
 
   if (!device_new.contains(kRegex_ALSA_HW)) {
@@ -745,7 +747,7 @@ void BackendSettingsPage::radiobutton_alsa_plughw_clicked(const bool checked) {
   QString device_new = ui_->lineedit_device->text();
 
   if (device_new.contains(kRegex_ALSA_HW)) {
-    device_new = device_new.replace(kRegex_ALSA_HW, QStringLiteral("plughw:"));
+    device_new = device_new.replace(kRegex_ALSA_HW, u"plughw:"_s);
   }
 
   if (!device_new.contains(kRegex_ALSA_PlugHW)) {

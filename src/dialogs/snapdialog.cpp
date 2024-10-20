@@ -31,7 +31,7 @@ SnapDialog::SnapDialog(QWidget *parent) : MessageDialog(parent) {
 
   setWindowTitle(tr("Strawberry is running as a Snap"));
 
-  const QIcon icon = IconLoader::Load(QStringLiteral("dialog-warning"));
+  const QIcon icon = IconLoader::Load(u"dialog-warning"_s);
   const QPixmap pixmap = icon.pixmap(QSize(64, 64), devicePixelRatioF());
   ui_->label_logo->setPixmap(pixmap);
 

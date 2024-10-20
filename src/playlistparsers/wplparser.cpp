@@ -53,11 +53,11 @@ SongList WplParser::Load(QIODevice *device, const QString &playlist_path, const 
   SongList ret;
 
   QXmlStreamReader reader(device);
-  if (!Utilities::ParseUntilElement(&reader, QStringLiteral("smil")) || !Utilities::ParseUntilElement(&reader, QStringLiteral("body"))) {
+  if (!Utilities::ParseUntilElement(&reader, u"smil"_s) || !Utilities::ParseUntilElement(&reader, u"body"_s)) {
     return ret;
   }
 
-  while (!reader.atEnd() && Utilities::ParseUntilElement(&reader, QStringLiteral("seq"))) {
+  while (!reader.atEnd() && Utilities::ParseUntilElement(&reader, u"seq"_s)) {
     ParseSeq(dir, &reader, &ret, collection_lookup);
   }
   return ret;
@@ -105,18 +105,18 @@ void WplParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, 
   writer.setAutoFormattingIndent(2);
   writer.writeProcessingInstruction("wpl"_L1, "version=\"1.0\""_L1);
 
-  StreamElement smil(QStringLiteral("smil"), &writer);
+  StreamElement smil(u"smil"_s, &writer);
 
   {
-    StreamElement head(QStringLiteral("head"), &writer);
+    StreamElement head(u"head"_s, &writer);
     WriteMeta("Generator"_L1, "Strawberry -- "_L1 + QLatin1String(STRAWBERRY_VERSION_DISPLAY), &writer);
     WriteMeta("ItemCount"_L1, QString::number(songs.count()), &writer);
   }
 
   {
-    StreamElement body(QStringLiteral("body"), &writer);
+    StreamElement body(u"body"_s, &writer);
     {
-      StreamElement seq(QStringLiteral("seq"), &writer);
+      StreamElement seq(u"seq"_s, &writer);
       for (const Song &song : songs) {
         writer.writeStartElement("media"_L1);
         writer.writeAttribute("src"_L1, URLOrFilename(song.url(), dir, path_type));

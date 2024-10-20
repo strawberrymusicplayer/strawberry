@@ -45,50 +45,50 @@ About::About(QWidget *parent) : QDialog(parent), ui_{} {
   setWindowTitle(tr("About Strawberry"));
 
   strawberry_authors_ \
-           << Person(QStringLiteral("Jonas Kvinge"));
+           << Person(u"Jonas Kvinge"_s);
 
   strawberry_contributors_ \
-           << Person(QStringLiteral("Gavin D. Howard"))
-           << Person(QStringLiteral("Martin Delille"))
-           << Person(QStringLiteral("Roman Lebedev"))
-           << Person(QStringLiteral("Daniel Ostertag"))
-           << Person(QStringLiteral("Gustavo L Conte"));
+           << Person(u"Gavin D. Howard"_s)
+           << Person(u"Martin Delille"_s)
+           << Person(u"Roman Lebedev"_s)
+           << Person(u"Daniel Ostertag"_s)
+           << Person(u"Gustavo L Conte"_s);
 
   clementine_authors_
-           << Person(QStringLiteral("David Sansome"))
-           << Person(QStringLiteral("John Maguire"))
-           << Person(QStringLiteral("Paweł Bara"))
-           << Person(QStringLiteral("Arnaud Bienner"));
+           << Person(u"David Sansome"_s)
+           << Person(u"John Maguire"_s)
+           << Person(u"Paweł Bara"_s)
+           << Person(u"Arnaud Bienner"_s);
 
   clementine_contributors_ \
-           << Person(QStringLiteral("Jakub Stachowski"))
-           << Person(QStringLiteral("Paul Cifarelli"))
-           << Person(QStringLiteral("Felipe Rivera"))
-           << Person(QStringLiteral("Alexander Peitz"))
-           << Person(QStringLiteral("Andreas Muttscheller"))
-           << Person(QStringLiteral("Mark Furneaux"))
-           << Person(QStringLiteral("Florian Bigard"))
-           << Person(QStringLiteral("Alex Bikadorov"))
-           << Person(QStringLiteral("Mattias Andersson"))
-           << Person(QStringLiteral("Alan Briolat"))
-           << Person(QStringLiteral("Arun Narayanankutty"))
-           << Person(QStringLiteral("Bartłomiej Burdukiewicz"))
-           << Person(QStringLiteral("Andre Siviero"))
-           << Person(QStringLiteral("Santiago Gil"))
-           << Person(QStringLiteral("Tyler Rhodes"))
-           << Person(QStringLiteral("Vikram Ambrose"))
-           << Person(QStringLiteral("David Guillen"))
-           << Person(QStringLiteral("Krzysztof Sobiecki"))
-           << Person(QStringLiteral("Valeriy Malov"))
-           << Person(QStringLiteral("Nick Lanham"));
+           << Person(u"Jakub Stachowski"_s)
+           << Person(u"Paul Cifarelli"_s)
+           << Person(u"Felipe Rivera"_s)
+           << Person(u"Alexander Peitz"_s)
+           << Person(u"Andreas Muttscheller"_s)
+           << Person(u"Mark Furneaux"_s)
+           << Person(u"Florian Bigard"_s)
+           << Person(u"Alex Bikadorov"_s)
+           << Person(u"Mattias Andersson"_s)
+           << Person(u"Alan Briolat"_s)
+           << Person(u"Arun Narayanankutty"_s)
+           << Person(u"Bartłomiej Burdukiewicz"_s)
+           << Person(u"Andre Siviero"_s)
+           << Person(u"Santiago Gil"_s)
+           << Person(u"Tyler Rhodes"_s)
+           << Person(u"Vikram Ambrose"_s)
+           << Person(u"David Guillen"_s)
+           << Person(u"Krzysztof Sobiecki"_s)
+           << Person(u"Valeriy Malov"_s)
+           << Person(u"Nick Lanham"_s);
 
   strawberry_thanks_ \
-           << Person(QStringLiteral("Mark Kretschmann"))
-           << Person(QStringLiteral("Max Howell"))
-           << Person(QStringLiteral("Artur Rona"))
-           << Person(QStringLiteral("Robert-André Mauchin"))
-           << Person(QStringLiteral("Thomas Pierson"))
-           << Person(QStringLiteral("Fabio Loli"));
+           << Person(u"Mark Kretschmann"_s)
+           << Person(u"Max Howell"_s)
+           << Person(u"Artur Rona"_s)
+           << Person(u"Robert-André Mauchin"_s)
+           << Person(u"Thomas Pierson"_s)
+           << Person(u"Fabio Loli"_s);
 
   QFont title_font;
   title_font.setBold(true);

@@ -32,6 +32,8 @@
 #include "fileutils.h"
 #include "mimeutils.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 QStringList ImageUtils::kSupportedImageMimeTypes;
 QStringList ImageUtils::kSupportedImageFormats;
 
@@ -81,7 +83,7 @@ QByteArray ImageUtils::FileToJpegData(const QString &filename) {
   if (filename.isEmpty()) return QByteArray();
 
   QByteArray image_data = Utilities::ReadDataFromFile(filename);
-  if (Utilities::MimeTypeFromData(image_data) == QStringLiteral("image/jpeg")) {
+  if (Utilities::MimeTypeFromData(image_data) == u"image/jpeg"_s) {
     return image_data;
   }
 
@@ -127,7 +129,7 @@ QImage ImageUtils::ScaleImage(const QImage &image, const QSize desired_size, con
 
 QImage ImageUtils::GenerateNoCoverImage(const QSize size, const qreal device_pixel_ratio) {
 
-  QImage image(QStringLiteral(":/pictures/cdcase.png"));
+  QImage image(u":/pictures/cdcase.png"_s);
   QSize scale_size(static_cast<int>(size.width() * device_pixel_ratio), static_cast<int>(size.height() * device_pixel_ratio));
 
   // Get a square version of the nocover image with some transparency:

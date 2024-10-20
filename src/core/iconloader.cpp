@@ -36,6 +36,8 @@
 #include "settings/appearancesettingspage.h"
 #include "iconloader.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 bool IconLoader::system_icons_ = false;
 bool IconLoader::custom_icons_ = false;
 
@@ -49,7 +51,7 @@ void IconLoader::Init() {
 #endif
 
   QDir dir;
-  if (dir.exists(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + QStringLiteral("/icons"))) {
+  if (dir.exists(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + u"/icons"_s)) {
     custom_icons_ = true;
   }
 
@@ -123,7 +125,7 @@ QIcon IconLoader::Load(const QString &name, const bool system_icon, const int fi
   }
 
   if (custom_icons_) {
-    QString custom_icon_path = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + QStringLiteral("/icons/%1x%2/%3.png");
+    QString custom_icon_path = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + u"/icons/%1x%2/%3.png"_s;
     for (int s : std::as_const(sizes)) {
       QString filename(custom_icon_path.arg(s).arg(s).arg(name));
       if (QFile::exists(filename)) ret.addFile(filename, QSize(s, s));
@@ -132,7 +134,7 @@ QIcon IconLoader::Load(const QString &name, const bool system_icon, const int fi
     qLog(Warning) << "Couldn't load icon" << name << "from custom icons.";
   }
 
-  const QString path(QStringLiteral(":/icons/%1x%2/%3.png"));
+  const QString path(u":/icons/%1x%2/%3.png"_s);
   for (int s : std::as_const(sizes)) {
     QString filename(path.arg(s).arg(s).arg(name));
     if (QFile::exists(filename)) ret.addFile(filename, QSize(s, s));

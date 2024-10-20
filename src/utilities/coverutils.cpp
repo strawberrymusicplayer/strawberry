@@ -97,8 +97,8 @@ QString CoverUtils::CoverFilePath(const CoverOptions &options, const Song::Sourc
     filename.remove(QRegularExpression(QLatin1String(kInvalidFatCharactersRegex), QRegularExpression::CaseInsensitiveOption)).remove(u'/').remove(u'\\');
     if (options.cover_lowercase) filename = filename.toLower();
     if (options.cover_replace_spaces) {
-      static const QRegularExpression regex_whitespaces(QStringLiteral("\\s"));
-      filename.replace(regex_whitespaces, QStringLiteral("-"));
+      static const QRegularExpression regex_whitespaces(u"\\s"_s);
+      filename.replace(regex_whitespaces, u"-"_s);
     }
     if (!extension.isEmpty()) {
       filename.append(u'.');

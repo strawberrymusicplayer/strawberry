@@ -45,7 +45,7 @@ using namespace ABI::Windows::Devices::Enumeration;
 
 using namespace Qt::Literals::StringLiterals;
 
-UWPDeviceFinder::UWPDeviceFinder() : DeviceFinder(QStringLiteral("uwpdevice"), { QStringLiteral("wasapi2sink") }) {}
+UWPDeviceFinder::UWPDeviceFinder() : DeviceFinder(u"uwpdevice"_s, { u"wasapi2sink"_s }) {}
 
 namespace {
 

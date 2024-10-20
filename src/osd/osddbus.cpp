@@ -47,6 +47,7 @@
 #include "notification.h"
 
 using std::make_unique;
+using namespace Qt::Literals::StringLiterals;
 
 QDBusArgument &operator<<(QDBusArgument &arg, const QImage &image) {
 
@@ -117,7 +118,7 @@ OSDDBus::~OSDDBus() = default;
 
 void OSDDBus::Init() {
 
-  interface_ = make_unique<OrgFreedesktopNotificationsInterface>(QString::fromUtf8(OrgFreedesktopNotificationsInterface::staticInterfaceName()), QStringLiteral("/org/freedesktop/Notifications"), QDBusConnection::sessionBus());
+  interface_ = make_unique<OrgFreedesktopNotificationsInterface>(QString::fromUtf8(OrgFreedesktopNotificationsInterface::staticInterfaceName()), u"/org/freedesktop/Notifications"_s, QDBusConnection::sessionBus());
   if (!interface_->isValid()) {
     qLog(Warning) << "Error connecting to notifications service.";
   }
@@ -145,22 +146,22 @@ void OSDDBus::ShowMessageNative(const QString &summary, const QString &message, 
 
   QVariantMap hints;
   QString summary_stripped = summary;
-  static const QRegularExpression regex_illegal_characters(QStringLiteral("[&\"<>]"));
+  static const QRegularExpression regex_illegal_characters(u"[&\"<>]"_s);
   summary_stripped = summary_stripped.remove(regex_illegal_characters).simplified();
 
   if (!image.isNull()) {
     if (version_ >= QVersionNumber(1, 2)) {
-      hints[QStringLiteral("image-data")] = QVariant(image);
+      hints[u"image-data"_s] = QVariant(image);
     }
     else if (version_ >= QVersionNumber(1, 1)) {
-      hints[QStringLiteral("image_data")] = QVariant(image);
+      hints[u"image_data"_s] = QVariant(image);
     }
     else {
-      hints[QStringLiteral("icon_data")] = QVariant(image);
+      hints[u"icon_data"_s] = QVariant(image);
     }
   }
 
-  hints[QStringLiteral("transient")] = QVariant(true);
+  hints[u"transient"_s] = QVariant(true);
 
   quint64 id = 0;
   if (last_notification_time_.secsTo(QDateTime::currentDateTime()) * 1000 < timeout_msec()) {

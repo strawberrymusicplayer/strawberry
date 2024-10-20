@@ -46,6 +46,8 @@
 
 #include <getopt.h>
 
+using namespace Qt::Literals::StringLiterals;
+
 namespace {
 
 constexpr char kHelpText[] =
@@ -113,11 +115,11 @@ CommandlineOptions::CommandlineOptions(int argc, char **argv)
 
 #ifdef Q_OS_MACOS
   // Remove -psn_xxx option that Mac passes when opened from Finder.
-  RemoveArg(QStringLiteral("-psn"), 1);
+  RemoveArg(u"-psn"_s, 1);
 #endif
 
   // Remove the -session option that KDE passes
-  RemoveArg(QStringLiteral("-session"), 2);
+  RemoveArg(u"-session"_s, 2);
 
 }
 
@@ -306,10 +308,10 @@ bool CommandlineOptions::Parse() {
         volume_modifier_ = -4;
         break;
       case LongOptions::Quiet:
-        log_levels_ = QStringLiteral("1");
+        log_levels_ = u"1"_s;
         break;
       case LongOptions::Verbose:
-        log_levels_ = QStringLiteral("3");
+        log_levels_ = u"3"_s;
         break;
       case LongOptions::LogLevels:
         log_levels_ = OptArgToString(optarg);

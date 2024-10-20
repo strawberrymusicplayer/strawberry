@@ -22,7 +22,6 @@
 #include "config.h"
 
 #include <utility>
-#include <memory>
 
 #include <QApplication>
 #include <QWidget>
@@ -45,13 +44,11 @@
 #include <QKeyEvent>
 
 #include "core/iconloader.h"
-#include "core/song.h"
 #include "core/logging.h"
 #include "core/settings.h"
 #include "collectionfilteroptions.h"
 #include "collectionmodel.h"
 #include "collectionfilter.h"
-#include "collectionquery.h"
 #include "filterparser/filterparser.h"
 #include "savedgroupingmanager.h"
 #include "collectionfilterwidget.h"
@@ -93,7 +90,7 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
   timer_filter_delay_->setSingleShot(true);
 
   // Icons
-  ui_->options->setIcon(IconLoader::Load(QStringLiteral("configure")));
+  ui_->options->setIcon(IconLoader::Load(u"configure"_s));
 
   // Filter by age
   QActionGroup *filter_age_group = new QActionGroup(this);
@@ -218,7 +215,7 @@ void CollectionFilterWidget::ReloadSettings() {
 QString CollectionFilterWidget::group_by_version() const {
 
   if (settings_prefix_.isEmpty()) {
-    return QStringLiteral("group_by_version");
+    return u"group_by_version"_s;
   }
 
   return QStringLiteral("%1_group_by_version").arg(settings_prefix_);
@@ -228,7 +225,7 @@ QString CollectionFilterWidget::group_by_version() const {
 QString CollectionFilterWidget::group_by_key() const {
 
   if (settings_prefix_.isEmpty()) {
-    return QStringLiteral("group_by");
+    return u"group_by"_s;
   }
 
   return QStringLiteral("%1_group_by").arg(settings_prefix_);
@@ -240,7 +237,7 @@ QString CollectionFilterWidget::group_by_key(const int number) const { return gr
 QString CollectionFilterWidget::separate_albums_by_grouping_key() const {
 
   if (settings_prefix_.isEmpty()) {
-    return QStringLiteral("separate_albums_by_grouping");
+    return u"separate_albums_by_grouping"_s;
   }
 
   return QStringLiteral("%1_separate_albums_by_grouping").arg(settings_prefix_);
@@ -357,7 +354,7 @@ void CollectionFilterWidget::SaveGroupBy() {
   QByteArray buffer;
   QDataStream datastream(&buffer, QIODevice::WriteOnly);
   datastream << model_->GetGroupBy();
-  s.setValue("version", QStringLiteral("1"));
+  s.setValue("version", u"1"_s);
   s.setValue(name, buffer);
   s.endGroup();
 

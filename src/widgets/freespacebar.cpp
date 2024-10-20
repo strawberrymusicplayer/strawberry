@@ -42,6 +42,8 @@
 #include "utilities/strutils.h"
 #include "freespacebar.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 class QPaintEvent;
 
 namespace {
@@ -239,7 +241,7 @@ QString FreeSpaceBar::TextForSize(const QString &prefix, const quint64 size) {
     ret = Utilities::PrettySize(size);
   }
   else {
-    ret = QStringLiteral("0 MB");
+    ret = u"0 MB"_s;
   }
 
   if (!prefix.isEmpty()) ret.prepend(prefix + QLatin1Char(' '));

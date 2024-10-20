@@ -40,6 +40,8 @@
 #include "streamingcollectionview.h"
 #include "ui_streamingcollectionviewcontainer.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 StreamingSongsView::StreamingSongsView(Application *app, StreamingServicePtr service, const QString &settings_group, const SettingsDialog::Page settings_page, QWidget *parent)
     : QWidget(parent),
       app_(app),
@@ -57,7 +59,7 @@ StreamingSongsView::StreamingSongsView(Application *app, StreamingServicePtr ser
   ui_->filter_widget->SetSettingsGroup(settings_group);
   ui_->filter_widget->Init(service_->songs_collection_model(), service_->songs_collection_filter_model());
 
-  QAction *action_configure = new QAction(IconLoader::Load(QStringLiteral("configure")), tr("Configure %1...").arg(Song::DescriptionForSource(service_->source())), this);
+  QAction *action_configure = new QAction(IconLoader::Load(u"configure"_s), tr("Configure %1...").arg(Song::DescriptionForSource(service_->source())), this);
   QObject::connect(action_configure, &QAction::triggered, this, &StreamingSongsView::OpenSettingsDialog);
   ui_->filter_widget->AddMenuAction(action_configure);
 

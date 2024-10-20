@@ -91,7 +91,7 @@ const int DeviceManager::kDeviceIconOverlaySize = 16;
 DeviceManager::DeviceManager(Application *app, QObject *parent)
     : SimpleTreeModel<DeviceInfo>(new DeviceInfo(this), parent),
       app_(app),
-      not_connected_overlay_(IconLoader::Load(QStringLiteral("edit-delete"))) {
+      not_connected_overlay_(IconLoader::Load(u"edit-delete"_s)) {
 
   setObjectName(QLatin1String(metaObject()->className()));
 
@@ -604,7 +604,7 @@ SharedPtr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *info) {
     // If it was "ipod" or "mtp" then the user compiled out support and the device won't work properly.
     if (url.scheme() == "mtp"_L1 || url.scheme() == "gphoto2"_L1) {
       if (QMessageBox::critical(nullptr, tr("This device will not work properly"),
-          tr("This is an MTP device, but you compiled Strawberry without libmtp support.") + QStringLiteral("  ") +
+          tr("This is an MTP device, but you compiled Strawberry without libmtp support.") + u"  "_s +
           tr("If you continue, this device will work slowly and songs copied to it may not work."),
               QMessageBox::Abort, QMessageBox::Ignore) == QMessageBox::Abort)
         return ret;

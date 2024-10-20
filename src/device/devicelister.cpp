@@ -115,48 +115,48 @@ QString GetIpodColour(Itdb_IpodModel model) {
     case ITDB_IPOD_MODEL_MINI_GREEN:
     case ITDB_IPOD_MODEL_NANO_GREEN:
     case ITDB_IPOD_MODEL_SHUFFLE_GREEN:
-      return QStringLiteral("green");
+      return u"green"_s;
 
     case ITDB_IPOD_MODEL_MINI_BLUE:
     case ITDB_IPOD_MODEL_NANO_BLUE:
     case ITDB_IPOD_MODEL_SHUFFLE_BLUE:
-      return QStringLiteral("blue");
+      return u"blue"_s;
 
     case ITDB_IPOD_MODEL_MINI_PINK:
     case ITDB_IPOD_MODEL_NANO_PINK:
     case ITDB_IPOD_MODEL_SHUFFLE_PINK:
-      return QStringLiteral("pink");
+      return u"pink"_s;
 
     case ITDB_IPOD_MODEL_MINI_GOLD:
-      return QStringLiteral("gold");
+      return u"gold"_s;
 
     case ITDB_IPOD_MODEL_NANO_WHITE:
     case ITDB_IPOD_MODEL_VIDEO_WHITE:
-      return QStringLiteral("white");
+      return u"white"_s;
 
     case ITDB_IPOD_MODEL_NANO_SILVER:
     case ITDB_IPOD_MODEL_CLASSIC_SILVER:
-      return QStringLiteral("silver");
+      return u"silver"_s;
 
     case ITDB_IPOD_MODEL_NANO_RED:
     case ITDB_IPOD_MODEL_SHUFFLE_RED:
-      return QStringLiteral("red");
+      return u"red"_s;
 
     case ITDB_IPOD_MODEL_NANO_YELLOW:
-      return QStringLiteral("yellow");
+      return u"yellow"_s;
 
     case ITDB_IPOD_MODEL_NANO_PURPLE:
     case ITDB_IPOD_MODEL_SHUFFLE_PURPLE:
-      return QStringLiteral("purple");
+      return u"purple"_s;
 
     case ITDB_IPOD_MODEL_NANO_ORANGE:
     case ITDB_IPOD_MODEL_SHUFFLE_ORANGE:
-      return QStringLiteral("orange");
+      return u"orange"_s;
 
     case ITDB_IPOD_MODEL_NANO_BLACK:
     case ITDB_IPOD_MODEL_VIDEO_BLACK:
     case ITDB_IPOD_MODEL_CLASSIC_BLACK:
-      return QStringLiteral("black");
+      return u"black"_s;
 
     default:
       return QString();
@@ -172,7 +172,7 @@ QString GetIpodModel(Itdb_IpodModel model) {
     case ITDB_IPOD_MODEL_MINI_PINK:
     case ITDB_IPOD_MODEL_MINI_GREEN:
     case ITDB_IPOD_MODEL_MINI_GOLD:
-      return QStringLiteral("mini");
+      return u"mini"_s;
 
     case ITDB_IPOD_MODEL_NANO_WHITE:
     case ITDB_IPOD_MODEL_NANO_BLACK:
@@ -184,7 +184,7 @@ QString GetIpodModel(Itdb_IpodModel model) {
     case ITDB_IPOD_MODEL_NANO_YELLOW:
     case ITDB_IPOD_MODEL_NANO_PURPLE:
     case ITDB_IPOD_MODEL_NANO_ORANGE:
-      return QStringLiteral("nano");
+      return u"nano"_s;
 
     case ITDB_IPOD_MODEL_SHUFFLE:
     case ITDB_IPOD_MODEL_SHUFFLE_SILVER:
@@ -193,17 +193,17 @@ QString GetIpodModel(Itdb_IpodModel model) {
     case ITDB_IPOD_MODEL_SHUFFLE_GREEN:
     case ITDB_IPOD_MODEL_SHUFFLE_ORANGE:
     case ITDB_IPOD_MODEL_SHUFFLE_RED:
-      return QStringLiteral("shuffle");
+      return u"shuffle"_s;
 
     case ITDB_IPOD_MODEL_COLOR:
     case ITDB_IPOD_MODEL_REGULAR:
     case ITDB_IPOD_MODEL_CLASSIC_SILVER:
     case ITDB_IPOD_MODEL_CLASSIC_BLACK:
-      return QStringLiteral("standard");
+      return u"standard"_s;
 
     case ITDB_IPOD_MODEL_COLOR_U2:
     case ITDB_IPOD_MODEL_REGULAR_U2:
-      return QStringLiteral("U2");
+      return u"U2"_s;
 
     default:
       return QString();
@@ -218,7 +218,7 @@ QUrl DeviceLister::MakeUrlFromLocalPath(const QString &path) const {
 
   if (IsIpod(path)) {
     QUrl ret;
-    ret.setScheme(QStringLiteral("ipod"));
+    ret.setScheme(u"ipod"_s);
     ret.setPath(QDir::fromNativeSeparators(path));
     return ret;
   }
@@ -244,7 +244,7 @@ QVariantList DeviceLister::GuessIconForPath(const QString &path) {
     const Itdb_IpodInfo *info = itdb_device_get_ipod_info(device);
 
     if (info->ipod_model == ITDB_IPOD_MODEL_INVALID) {
-      ret << QStringLiteral("device-ipod");
+      ret << u"device-ipod"_s;
     }
     else {
       QString model = GetIpodModel(info->ipod_model);
@@ -260,7 +260,7 @@ QVariantList DeviceLister::GuessIconForPath(const QString &path) {
       }
 
       if (ret.isEmpty()) {
-        ret << QStringLiteral("device-ipod");
+        ret << u"device-ipod"_s;
       }
 
     }
@@ -280,7 +280,7 @@ QVariantList DeviceLister::GuessIconForModel(const QString &vendor, const QStrin
 
   QVariantList ret;
   if (vendor.startsWith("Google"_L1) && model.contains("Nexus"_L1)) {
-    ret << QStringLiteral("phone-google-nexus-one");
+    ret << u"phone-google-nexus-one"_s;
   }
   return ret;
 

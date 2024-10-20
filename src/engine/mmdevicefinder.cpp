@@ -36,12 +36,14 @@
 #include "enginedevice.h"
 #include "core/logging.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 #ifdef _MSC_VER
   DEFINE_GUID(IID_IMMDeviceEnumerator, 0xa95664d2, 0x9614, 0x4f35, 0xa7, 0x46, 0xde, 0x8d, 0xb6, 0x36, 0x17, 0xe6);
   DEFINE_GUID(CLSID_MMDeviceEnumerator, 0xbcde0395, 0xe52f, 0x467c, 0x8e, 0x3d, 0xc4, 0x57, 0x92, 0x91, 0x69, 0x2e);
 #endif
 
-MMDeviceFinder::MMDeviceFinder() : DeviceFinder(QStringLiteral("mmdevice"), { QStringLiteral("wasapisink") }) {}
+MMDeviceFinder::MMDeviceFinder() : DeviceFinder(u"mmdevice"_s, { u"wasapisink"_s }) {}
 
 EngineDeviceList MMDeviceFinder::ListDevices() {
 

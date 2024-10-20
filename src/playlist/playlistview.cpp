@@ -128,8 +128,8 @@ PlaylistView::PlaylistView(QWidget *parent)
       inhibit_autoscroll_(false),
       currently_autoscrolling_(false),
       row_height_(-1),
-      currenttrack_play_(QStringLiteral(":/pictures/currenttrack_play.png")),
-      currenttrack_pause_(QStringLiteral(":/pictures/currenttrack_pause.png")),
+      currenttrack_play_(u":/pictures/currenttrack_play.png"_s),
+      currenttrack_pause_(u":/pictures/currenttrack_pause.png"_s),
       cached_current_row_row_(-1),
       drop_indicator_row_(-1),
       drag_over_(false),
@@ -415,9 +415,9 @@ void PlaylistView::RestoreHeaderState() {
 
 void PlaylistView::ReloadBarPixmaps() {
 
-  currenttrack_bar_left_ = LoadBarPixmap(QStringLiteral(":/pictures/currenttrack_bar_left.png"), true);
-  currenttrack_bar_mid_ = LoadBarPixmap(QStringLiteral(":/pictures/currenttrack_bar_mid.png"), false);
-  currenttrack_bar_right_ = LoadBarPixmap(QStringLiteral(":/pictures/currenttrack_bar_right.png"), true);
+  currenttrack_bar_left_ = LoadBarPixmap(u":/pictures/currenttrack_bar_left.png"_s, true);
+  currenttrack_bar_mid_ = LoadBarPixmap(u":/pictures/currenttrack_bar_mid.png"_s, false);
+  currenttrack_bar_right_ = LoadBarPixmap(u":/pictures/currenttrack_bar_right.png"_s, true);
 
 }
 
@@ -463,8 +463,8 @@ QList<QPixmap> PlaylistView::LoadBarPixmap(const QString &filename, const bool k
 
 void PlaylistView::LoadTinyPlayPausePixmaps(const int desired_size) {
 
-  QImage image_play = QImage(QStringLiteral(":/pictures/tiny-play.png")).scaled(desired_size, desired_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-  QImage image_pause = QImage(QStringLiteral(":/pictures/tiny-pause.png")).scaled(desired_size, desired_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+  QImage image_play = QImage(u":/pictures/tiny-play.png"_s).scaled(desired_size, desired_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+  QImage image_pause = QImage(u":/pictures/tiny-pause.png"_s).scaled(desired_size, desired_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
   pixmap_tinyplay_ = QPixmap::fromImage(image_play);
   pixmap_tinypause_ = QPixmap::fromImage(image_pause);
 

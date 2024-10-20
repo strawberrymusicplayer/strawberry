@@ -114,7 +114,7 @@ void QueuedItemDelegate::DrawBox(QPainter *painter, const QRect line_rect, const
   smaller.setBold(true);
 
   if (width == -1) {
-    width = QFontMetrics(font).horizontalAdvance(text + QStringLiteral("  "));
+    width = QFontMetrics(font).horizontalAdvance(text + u"  "_s);
   }
 
   QRect rect(line_rect);
@@ -387,13 +387,13 @@ TagCompletionModel::TagCompletionModel(SharedPtr<CollectionBackend> backend, con
 QString TagCompletionModel::database_column(const Playlist::Column column) {
 
   switch (column) {
-    case Playlist::Column::Artist:       return QStringLiteral("artist");
-    case Playlist::Column::Album:        return QStringLiteral("album");
-    case Playlist::Column::AlbumArtist:  return QStringLiteral("albumartist");
-    case Playlist::Column::Composer:     return QStringLiteral("composer");
-    case Playlist::Column::Performer:    return QStringLiteral("performer");
-    case Playlist::Column::Grouping:     return QStringLiteral("grouping");
-    case Playlist::Column::Genre:        return QStringLiteral("genre");
+    case Playlist::Column::Artist:       return u"artist"_s;
+    case Playlist::Column::Album:        return u"album"_s;
+    case Playlist::Column::AlbumArtist:  return u"albumartist"_s;
+    case Playlist::Column::Composer:     return u"composer"_s;
+    case Playlist::Column::Performer:    return u"performer"_s;
+    case Playlist::Column::Grouping:     return u"grouping"_s;
+    case Playlist::Column::Genre:        return u"genre"_s;
     default:
       qLog(Warning) << "Unknown column" << static_cast<int>(column);
       return QString();

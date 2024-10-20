@@ -43,7 +43,7 @@
 using namespace Qt::Literals::StringLiterals;
 
 MusixmatchCoverProvider::MusixmatchCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : JsonCoverProvider(QStringLiteral("Musixmatch"), true, false, 1.0, true, false, app, network, parent) {}
+    : JsonCoverProvider(u"Musixmatch"_s, true, false, 1.0, true, false, app, network, parent) {}
 
 MusixmatchCoverProvider::~MusixmatchCoverProvider() {
 
@@ -104,7 +104,7 @@ void MusixmatchCoverProvider::HandleSearchReply(QNetworkReply *reply, const int 
 
   const QByteArray data = reply->readAll();
   if (data.isEmpty()) {
-    Error(QStringLiteral("Empty reply received from server."));
+    Error(u"Empty reply received from server."_s);
     Q_EMIT SearchFinished(id, results);
     return;
   }
@@ -130,7 +130,7 @@ void MusixmatchCoverProvider::HandleSearchReply(QNetworkReply *reply, const int 
     return;
   }
 
-  static const QRegularExpression regex_html_tag(QStringLiteral("<[^>]*>"));
+  static const QRegularExpression regex_html_tag(u"<[^>]*>"_s);
   if (content_json.contains(regex_html_tag)) {  // Make sure it's not HTML code.
     Q_EMIT SearchFinished(id, results);
     return;
@@ -146,54 +146,54 @@ void MusixmatchCoverProvider::HandleSearchReply(QNetworkReply *reply, const int 
   }
 
   if (json_doc.isEmpty()) {
-    Error(QStringLiteral("Received empty Json document."), data);
+    Error(u"Received empty Json document."_s, data);
     Q_EMIT SearchFinished(id, results);
     return;
   }
 
   if (!json_doc.isObject()) {
-    Error(QStringLiteral("Json document is not an object."), json_doc);
+    Error(u"Json document is not an object."_s, json_doc);
     Q_EMIT SearchFinished(id, results);
     return;
   }
 
   QJsonObject obj_data = json_doc.object();
   if (obj_data.isEmpty()) {
-    Error(QStringLiteral("Received empty Json object."), json_doc);
+    Error(u"Received empty Json object."_s, json_doc);
     Q_EMIT SearchFinished(id, results);
     return;
   }
 
   if (!obj_data.contains("props"_L1) || !obj_data["props"_L1].isObject()) {
-    Error(QStringLiteral("Json reply is missing props."), obj_data);
+    Error(u"Json reply is missing props."_s, obj_data);
     Q_EMIT SearchFinished(id, results);
     return;
   }
   obj_data = obj_data["props"_L1].toObject();
 
   if (!obj_data.contains("pageProps"_L1) || !obj_data["pageProps"_L1].isObject()) {
-    Error(QStringLiteral("Json props is missing pageProps."), obj_data);
+    Error(u"Json props is missing pageProps."_s, obj_data);
     Q_EMIT SearchFinished(id, results);
     return;
   }
   obj_data = obj_data["pageProps"_L1].toObject();
 
   if (!obj_data.contains("data"_L1) || !obj_data["data"_L1].isObject()) {
-    Error(QStringLiteral("Json pageProps is missing data."), obj_data);
+    Error(u"Json pageProps is missing data."_s, obj_data);
     Q_EMIT SearchFinished(id, results);
     return;
   }
   obj_data = obj_data["data"_L1].toObject();
 
   if (!obj_data.contains("albumGet"_L1) || !obj_data["albumGet"_L1].isObject()) {
-    Error(QStringLiteral("Json data is missing albumGet."), obj_data);
+    Error(u"Json data is missing albumGet."_s, obj_data);
     Q_EMIT SearchFinished(id, results);
     return;
   }
   obj_data = obj_data["albumGet"_L1].toObject();
 
   if (!obj_data.contains("data"_L1) || !obj_data["data"_L1].isObject()) {
-    Error(QStringLiteral("Json albumGet reply is missing data."), obj_data);
+    Error(u"Json albumGet reply is missing data."_s, obj_data);
     Q_EMIT SearchFinished(id, results);
     return;
   }
@@ -212,9 +212,9 @@ void MusixmatchCoverProvider::HandleSearchReply(QNetworkReply *reply, const int 
     return;
   }
 
-  const QList<QPair<QString, QSize>> cover_sizes = QList<QPair<QString, QSize>>() << qMakePair(QStringLiteral("coverImage800x800"), QSize(800, 800))
-                                                                                  << qMakePair(QStringLiteral("coverImage500x500"), QSize(500, 500))
-                                                                                  << qMakePair(QStringLiteral("coverImage350x350"), QSize(350, 350));
+  const QList<QPair<QString, QSize>> cover_sizes = QList<QPair<QString, QSize>>() << qMakePair(u"coverImage800x800"_s, QSize(800, 800))
+                                                                                  << qMakePair(u"coverImage500x500"_s, QSize(500, 500))
+                                                                                  << qMakePair(u"coverImage350x350"_s, QSize(350, 350));
 
   for (const QPair<QString, QSize> &cover_size : cover_sizes) {
     if (!obj_data.contains(cover_size.first)) continue;

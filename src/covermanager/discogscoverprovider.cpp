@@ -59,7 +59,7 @@ const char *DiscogsCoverProvider::kSecretKeyB64 = "ZkFIcmlaSER4aHhRSlF2U3d0bm5ZV
 const int DiscogsCoverProvider::kRequestsDelay = 1000;
 
 DiscogsCoverProvider::DiscogsCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : JsonCoverProvider(QStringLiteral("Discogs"), false, false, 0.0, false, false, app, network, parent),
+    : JsonCoverProvider(u"Discogs"_s, false, false, 0.0, false, false, app, network, parent),
       timer_flush_requests_(new QTimer(this)) {
 
   timer_flush_requests_->setInterval(kRequestsDelay);
@@ -127,16 +127,16 @@ void DiscogsCoverProvider::FlushRequests() {
 
 void DiscogsCoverProvider::SendSearchRequest(SharedPtr<DiscogsCoverSearchContext> search) {
 
-  ParamList params = ParamList() << Param(QStringLiteral("format"), QStringLiteral("album"))
-                                 << Param(QStringLiteral("artist"), search->artist.toLower())
-                                 << Param(QStringLiteral("release_title"), search->album.toLower());
+  ParamList params = ParamList() << Param(u"format"_s, u"album"_s)
+                                 << Param(u"artist"_s, search->artist.toLower())
+                                 << Param(u"release_title"_s, search->album.toLower());
 
   switch (search->type) {
     case DiscogsCoverType::Master:
-      params << Param(QStringLiteral("type"), QStringLiteral("master"));
+      params << Param(u"type"_s, u"master"_s);
       break;
     case DiscogsCoverType::Release:
-      params << Param(QStringLiteral("type"), QStringLiteral("release"));
+      params << Param(u"type"_s, u"release"_s);
       break;
   }
 
@@ -147,8 +147,8 @@ void DiscogsCoverProvider::SendSearchRequest(SharedPtr<DiscogsCoverSearchContext
 
 QNetworkReply *DiscogsCoverProvider::CreateRequest(QUrl url, const ParamList &params_provided) {
 
-  const ParamList params = ParamList() << Param(QStringLiteral("key"), QString::fromLatin1(QByteArray::fromBase64(kAccessKeyB64)))
-                                       << Param(QStringLiteral("secret"), QString::fromLatin1(QByteArray::fromBase64(kSecretKeyB64)))
+  const ParamList params = ParamList() << Param(u"key"_s, QString::fromLatin1(QByteArray::fromBase64(kAccessKeyB64)))
+                                       << Param(u"secret"_s, QString::fromLatin1(QByteArray::fromBase64(kSecretKeyB64)))
                                        << params_provided;
 
   QUrlQuery url_query;
@@ -168,7 +168,7 @@ QNetworkReply *DiscogsCoverProvider::CreateRequest(QUrl url, const ParamList &pa
   const QByteArray signature(Utilities::HmacSha256(QByteArray::fromBase64(kSecretKeyB64), data_to_sign));
 
   // Add the signature to the request
-  url_query.addQueryItem(QStringLiteral("Signature"), QString::fromLatin1(QUrl::toPercentEncoding(QString::fromLatin1(signature.toBase64()))));
+  url_query.addQueryItem(u"Signature"_s, QString::fromLatin1(QUrl::toPercentEncoding(QString::fromLatin1(signature.toBase64()))));
 
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
@@ -256,13 +256,13 @@ void DiscogsCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id)
     return;
   }
   else {
-    Error(QStringLiteral("Json object is missing results."), json_obj);
+    Error(u"Json object is missing results."_s, json_obj);
     EndSearch(search);
     return;
   }
 
   if (!value_results.isArray()) {
-    Error(QStringLiteral("Missing results array."), value_results);
+    Error(u"Missing results array."_s, value_results);
     EndSearch(search);
     return;
   }
@@ -271,7 +271,7 @@ void DiscogsCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id)
   for (const QJsonValue &value_result : array_results) {
 
     if (!value_result.isObject()) {
-      Error(QStringLiteral("Invalid Json reply, results value is not a object."));
+      Error(u"Invalid Json reply, results value is not a object."_s);
       continue;
     }
     QJsonObject obj_result = value_result.toObject();
@@ -284,7 +284,7 @@ void DiscogsCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id)
     QString title = obj_result["title"_L1].toString();
 
     if (title.contains(" - "_L1)) {
-      QStringList title_splitted = title.split(QStringLiteral(" - "));
+      QStringList title_splitted = title.split(u" - "_s);
       if (title_splitted.count() == 2) {
         QString artist = title_splitted.first();
         title = title_splitted.last();
@@ -356,7 +356,7 @@ void DiscogsCoverProvider::HandleReleaseReply(QNetworkReply *reply, const int se
   }
 
   if (!json_obj.contains("artists"_L1) || !json_obj.contains("title"_L1)) {
-    Error(QStringLiteral("Json reply object is missing artists or title."), json_obj);
+    Error(u"Json reply object is missing artists or title."_s, json_obj);
     EndSearch(search, release.id);
     return;
   }
@@ -368,7 +368,7 @@ void DiscogsCoverProvider::HandleReleaseReply(QNetworkReply *reply, const int se
 
   QJsonValue value_artists = json_obj["artists"_L1];
   if (!value_artists.isArray()) {
-    Error(QStringLiteral("Json reply object artists is not a array."), value_artists);
+    Error(u"Json reply object artists is not a array."_s, value_artists);
     EndSearch(search, release.id);
     return;
   }
@@ -377,12 +377,12 @@ void DiscogsCoverProvider::HandleReleaseReply(QNetworkReply *reply, const int se
   QString artist;
   for (const QJsonValue &value_artist : array_artists) {
     if (!value_artist.isObject()) {
-      Error(QStringLiteral("Invalid Json reply, atists array value is not a object."));
+      Error(u"Invalid Json reply, atists array value is not a object."_s);
       continue;
     }
     QJsonObject obj_artist = value_artist.toObject();
     if (!obj_artist.contains("name"_L1)) {
-      Error(QStringLiteral("Invalid Json reply, artists array value object is missing name."), obj_artist);
+      Error(u"Invalid Json reply, artists array value object is missing name."_s, obj_artist);
       continue;
     }
     artist = obj_artist["name"_L1].toString();
@@ -404,14 +404,14 @@ void DiscogsCoverProvider::HandleReleaseReply(QNetworkReply *reply, const int se
 
   QJsonValue value_images = json_obj["images"_L1];
   if (!value_images.isArray()) {
-    Error(QStringLiteral("Json images is not an array."));
+    Error(u"Json images is not an array."_s);
     EndSearch(search, release.id);
     return;
   }
   const QJsonArray array_images = value_images.toArray();
 
   if (array_images.isEmpty()) {
-    Error(QStringLiteral("Invalid Json reply, images array is empty."));
+    Error(u"Invalid Json reply, images array is empty."_s);
     EndSearch(search, release.id);
     return;
   }
@@ -419,12 +419,12 @@ void DiscogsCoverProvider::HandleReleaseReply(QNetworkReply *reply, const int se
   for (const QJsonValue &value_image : array_images) {
 
     if (!value_image.isObject()) {
-      Error(QStringLiteral("Invalid Json reply, images array value is not an object."));
+      Error(u"Invalid Json reply, images array value is not an object."_s);
       continue;
     }
     QJsonObject obj_image = value_image.toObject();
     if (!obj_image.contains("type"_L1) || !obj_image.contains("resource_url"_L1) || !obj_image.contains("width"_L1) || !obj_image.contains("height"_L1)) {
-      Error(QStringLiteral("Invalid Json reply, images array value object is missing type, resource_url, width or height."), obj_image);
+      Error(u"Invalid Json reply, images array value object is missing type, resource_url, width or height."_s, obj_image);
       continue;
     }
     QString type = obj_image["type"_L1].toString();

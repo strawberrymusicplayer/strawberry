@@ -30,6 +30,8 @@
 #include "playlistproxystyle.h"
 #include "playlist.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 PlaylistProxyStyle::PlaylistProxyStyle(const QString &style) : QProxyStyle(style), common_style_(new QCommonStyle) {}
 
 void PlaylistProxyStyle::drawControl(ControlElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const {
@@ -41,7 +43,7 @@ void PlaylistProxyStyle::drawControl(ControlElement element, const QStyleOption 
     const QFontMetrics &font_metrics = header_option->fontMetrics;
 
     // Spaces added to make transition less abrupt
-    if (rect.width() < font_metrics.horizontalAdvance(text + QStringLiteral("  "))) {
+    if (rect.width() < font_metrics.horizontalAdvance(text + u"  "_s)) {
       const Playlist::Column column = static_cast<Playlist::Column>(header_option->section);
       QStyleOptionHeader new_option(*header_option);
       new_option.text = Playlist::abbreviated_column_name(column);

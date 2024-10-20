@@ -115,10 +115,10 @@ PlaylistBackend::PlaylistList PlaylistBackend::GetPlaylists(const GetPlaylistsFl
 
   QStringList condition_list;
   if (flags & GetPlaylistsFlags::GetPlaylists_OpenInUi) {
-    condition_list << QStringLiteral("ui_order != -1");
+    condition_list << u"ui_order != -1"_s;
   }
   if (flags & GetPlaylistsFlags::GetPlaylists_Favorite) {
-    condition_list << QStringLiteral("is_favorite != 0");
+    condition_list << u"is_favorite != 0"_s;
   }
   QString condition;
   if (!condition_list.isEmpty()) {
@@ -126,7 +126,7 @@ PlaylistBackend::PlaylistList PlaylistBackend::GetPlaylists(const GetPlaylistsFl
   }
 
   SqlQuery q(db);
-  q.prepare(QStringLiteral("SELECT ROWID, name, last_played, special_type, ui_path, is_favorite, dynamic_playlist_type, dynamic_playlist_data, dynamic_playlist_backend FROM playlists ") + condition + QStringLiteral(" ORDER BY ui_order"));
+  q.prepare(u"SELECT ROWID, name, last_played, special_type, ui_path, is_favorite, dynamic_playlist_type, dynamic_playlist_data, dynamic_playlist_backend FROM playlists "_s + condition + u" ORDER BY ui_order"_s);
   if (!q.Exec()) {
     db_->ReportErrors(q);
     return ret;
@@ -156,9 +156,9 @@ PlaylistBackend::Playlist PlaylistBackend::GetPlaylist(const int id) {
   QSqlDatabase db(db_->Connect());
 
   SqlQuery q(db);
-  q.prepare(QStringLiteral("SELECT ROWID, name, last_played, special_type, ui_path, is_favorite, dynamic_playlist_type, dynamic_playlist_data, dynamic_playlist_backend FROM playlists WHERE ROWID=:id"));
+  q.prepare(u"SELECT ROWID, name, last_played, special_type, ui_path, is_favorite, dynamic_playlist_type, dynamic_playlist_data, dynamic_playlist_backend FROM playlists WHERE ROWID=:id"_s);
 
-  q.BindValue(QStringLiteral(":id"), id);
+  q.BindValue(u":id"_s, id);
   if (!q.Exec()) {
     db_->ReportErrors(q);
     return Playlist();
@@ -196,7 +196,7 @@ PlaylistItemPtrList PlaylistBackend::GetPlaylistItems(const int playlist) {
     // Forward iterations only may be faster
     q.setForwardOnly(true);
     q.prepare(query);
-    q.BindValue(QStringLiteral(":playlist"), playlist);
+    q.BindValue(u":playlist"_s, playlist);
     if (!q.Exec()) {
       db_->ReportErrors(q);
       return PlaylistItemPtrList();
@@ -226,13 +226,13 @@ SongList PlaylistBackend::GetPlaylistSongs(const int playlist) {
     QMutexLocker l(db_->Mutex());
     QSqlDatabase db(db_->Connect());
 
-    QString query = QStringLiteral("SELECT %1, %2, p.type FROM playlist_items AS p LEFT JOIN songs ON p.collection_id = songs.ROWID WHERE p.playlist = :playlist").arg(Song::JoinSpec(QStringLiteral("songs")), Song::JoinSpec(QStringLiteral("p")));
+    QString query = QStringLiteral("SELECT %1, %2, p.type FROM playlist_items AS p LEFT JOIN songs ON p.collection_id = songs.ROWID WHERE p.playlist = :playlist").arg(Song::JoinSpec(u"songs"_s), Song::JoinSpec(u"p"_s));
 
     SqlQuery q(db);
     // Forward iterations only may be faster
     q.setForwardOnly(true);
     q.prepare(query);
-    q.BindValue(QStringLiteral(":playlist"), playlist);
+    q.BindValue(u":playlist"_s, playlist);
     if (!q.Exec()) {
       db_->ReportErrors(q);
       return SongList();
@@ -344,8 +344,8 @@ void PlaylistBackend::SavePlaylist(int playlist, const PlaylistItemPtrList &item
   // Clear the existing items in the playlist
   {
     SqlQuery q(db);
-    q.prepare(QStringLiteral("DELETE FROM playlist_items WHERE playlist = :playlist"));
-    q.BindValue(QStringLiteral(":playlist"), playlist);
+    q.prepare(u"DELETE FROM playlist_items WHERE playlist = :playlist"_s);
+    q.BindValue(u":playlist"_s, playlist);
     if (!q.Exec()) {
       db_->ReportErrors(q);
       return;
@@ -355,8 +355,8 @@ void PlaylistBackend::SavePlaylist(int playlist, const PlaylistItemPtrList &item
   // Save the new ones
   for (PlaylistItemPtr item : items) {  // clazy:exclude=range-loop-reference
     SqlQuery q(db);
-    q.prepare(QStringLiteral("INSERT INTO playlist_items (playlist, type, collection_id, ") + Song::kColumnSpec + QStringLiteral(") VALUES (:playlist, :type, :collection_id, ") + Song::kBindSpec + QStringLiteral(")"));
-    q.BindValue(QStringLiteral(":playlist"), playlist);
+    q.prepare(u"INSERT INTO playlist_items (playlist, type, collection_id, "_s + Song::kColumnSpec + u") VALUES (:playlist, :type, :collection_id, "_s + Song::kBindSpec + u")"_s);
+    q.BindValue(u":playlist"_s, playlist);
     item->BindToQuery(&q);
 
     if (!q.Exec()) {
@@ -368,19 +368,19 @@ void PlaylistBackend::SavePlaylist(int playlist, const PlaylistItemPtrList &item
   // Update the last played track number
   {
     SqlQuery q(db);
-    q.prepare(QStringLiteral("UPDATE playlists SET last_played=:last_played, dynamic_playlist_type=:dynamic_type, dynamic_playlist_data=:dynamic_data, dynamic_playlist_backend=:dynamic_backend WHERE ROWID=:playlist"));
-    q.BindValue(QStringLiteral(":last_played"), last_played);
+    q.prepare(u"UPDATE playlists SET last_played=:last_played, dynamic_playlist_type=:dynamic_type, dynamic_playlist_data=:dynamic_data, dynamic_playlist_backend=:dynamic_backend WHERE ROWID=:playlist"_s);
+    q.BindValue(u":last_played"_s, last_played);
     if (dynamic) {
-      q.BindValue(QStringLiteral(":dynamic_type"), static_cast<int>(dynamic->type()));
-      q.BindValue(QStringLiteral(":dynamic_data"), dynamic->Save());
-      q.BindValue(QStringLiteral(":dynamic_backend"), dynamic->collection()->songs_table());
+      q.BindValue(u":dynamic_type"_s, static_cast<int>(dynamic->type()));
+      q.BindValue(u":dynamic_data"_s, dynamic->Save());
+      q.BindValue(u":dynamic_backend"_s, dynamic->collection()->songs_table());
     }
     else {
-      q.BindValue(QStringLiteral(":dynamic_type"), 0);
-      q.BindValue(QStringLiteral(":dynamic_data"), QByteArray());
-      q.BindValue(QStringLiteral(":dynamic_backend"), QString());
+      q.BindValue(u":dynamic_type"_s, 0);
+      q.BindValue(u":dynamic_data"_s, QByteArray());
+      q.BindValue(u":dynamic_backend"_s, QString());
     }
-    q.BindValue(QStringLiteral(":playlist"), playlist);
+    q.BindValue(u":playlist"_s, playlist);
     if (!q.Exec()) {
       db_->ReportErrors(q);
       return;
@@ -397,9 +397,9 @@ int PlaylistBackend::CreatePlaylist(const QString &name, const QString &special_
   QSqlDatabase db(db_->Connect());
 
   SqlQuery q(db);
-  q.prepare(QStringLiteral("INSERT INTO playlists (name, special_type) VALUES (:name, :special_type)"));
-  q.BindValue(QStringLiteral(":name"), name);
-  q.BindValue(QStringLiteral(":special_type"), special_type);
+  q.prepare(u"INSERT INTO playlists (name, special_type) VALUES (:name, :special_type)"_s);
+  q.BindValue(u":name"_s, name);
+  q.BindValue(u":special_type"_s, special_type);
   if (!q.Exec()) {
     db_->ReportErrors(q);
     return -1;
@@ -418,8 +418,8 @@ void PlaylistBackend::RemovePlaylist(int id) {
 
   {
     SqlQuery q(db);
-    q.prepare(QStringLiteral("DELETE FROM playlists WHERE ROWID=:id"));
-    q.BindValue(QStringLiteral(":id"), id);
+    q.prepare(u"DELETE FROM playlists WHERE ROWID=:id"_s);
+    q.BindValue(u":id"_s, id);
     if (!q.Exec()) {
       db_->ReportErrors(q);
       return;
@@ -428,8 +428,8 @@ void PlaylistBackend::RemovePlaylist(int id) {
 
   {
     SqlQuery q(db);
-    q.prepare(QStringLiteral("DELETE FROM playlist_items WHERE playlist=:id"));
-    q.BindValue(QStringLiteral(":id"), id);
+    q.prepare(u"DELETE FROM playlist_items WHERE playlist=:id"_s);
+    q.BindValue(u":id"_s, id);
     if (!q.Exec()) {
       db_->ReportErrors(q);
       return;
@@ -445,9 +445,9 @@ void PlaylistBackend::RenamePlaylist(const int id, const QString &new_name) {
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
   SqlQuery q(db);
-  q.prepare(QStringLiteral("UPDATE playlists SET name=:name WHERE ROWID=:id"));
-  q.BindValue(QStringLiteral(":name"), new_name);
-  q.BindValue(QStringLiteral(":id"), id);
+  q.prepare(u"UPDATE playlists SET name=:name WHERE ROWID=:id"_s);
+  q.BindValue(u":name"_s, new_name);
+  q.BindValue(u":id"_s, id);
 
   if (!q.Exec()) {
     db_->ReportErrors(q);
@@ -460,9 +460,9 @@ void PlaylistBackend::FavoritePlaylist(const int id, const bool is_favorite) {
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
   SqlQuery q(db);
-  q.prepare(QStringLiteral("UPDATE playlists SET is_favorite=:is_favorite WHERE ROWID=:id"));
-  q.BindValue(QStringLiteral(":is_favorite"), is_favorite ? 1 : 0);
-  q.BindValue(QStringLiteral(":id"), id);
+  q.prepare(u"UPDATE playlists SET is_favorite=:is_favorite WHERE ROWID=:id"_s);
+  q.BindValue(u":is_favorite"_s, is_favorite ? 1 : 0);
+  q.BindValue(u":id"_s, id);
 
   if (!q.Exec()) {
     db_->ReportErrors(q);
@@ -477,16 +477,16 @@ void PlaylistBackend::SetPlaylistOrder(const QList<int> &ids) {
   ScopedTransaction transaction(&db);
 
   SqlQuery q(db);
-  q.prepare(QStringLiteral("UPDATE playlists SET ui_order=-1"));
+  q.prepare(u"UPDATE playlists SET ui_order=-1"_s);
   if (!q.Exec()) {
     db_->ReportErrors(q);
     return;
   }
 
-  q.prepare(QStringLiteral("UPDATE playlists SET ui_order=:index WHERE ROWID=:id"));
+  q.prepare(u"UPDATE playlists SET ui_order=:index WHERE ROWID=:id"_s);
   for (int i = 0; i < ids.count(); ++i) {
-    q.BindValue(QStringLiteral(":index"), i);
-    q.BindValue(QStringLiteral(":id"), ids[i]);
+    q.BindValue(u":index"_s, i);
+    q.BindValue(u":id"_s, ids[i]);
     if (!q.Exec()) {
       db_->ReportErrors(q);
       return;
@@ -502,12 +502,12 @@ void PlaylistBackend::SetPlaylistUiPath(const int id, const QString &path) {
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
   SqlQuery q(db);
-  q.prepare(QStringLiteral("UPDATE playlists SET ui_path=:path WHERE ROWID=:id"));
+  q.prepare(u"UPDATE playlists SET ui_path=:path WHERE ROWID=:id"_s);
 
   ScopedTransaction transaction(&db);
 
-  q.BindValue(QStringLiteral(":path"), path);
-  q.BindValue(QStringLiteral(":id"), id);
+  q.BindValue(u":path"_s, path);
+  q.BindValue(u":id"_s, id);
   if (!q.Exec()) {
     db_->ReportErrors(q);
     return;

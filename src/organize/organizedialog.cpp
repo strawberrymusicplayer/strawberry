@@ -75,6 +75,7 @@
 #include "transcoder/transcoder.h"
 
 using std::make_unique;
+using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr char kSettingsGroup[] = "OrganizeDialog";
@@ -94,35 +95,35 @@ OrganizeDialog::OrganizeDialog(SharedPtr<TaskManager> task_manager, SharedPtr<Co
 
   setWindowFlags(windowFlags() | Qt::WindowMaximizeButtonHint);
 
-  QPushButton *button_save = ui_->button_box->addButton(QStringLiteral("Save settings"), QDialogButtonBox::ApplyRole);
+  QPushButton *button_save = ui_->button_box->addButton(u"Save settings"_s, QDialogButtonBox::ApplyRole);
   QObject::connect(button_save, &QPushButton::clicked, this, &OrganizeDialog::SaveSettings);
-  button_save->setIcon(IconLoader::Load(QStringLiteral("document-save")));
-  ui_->button_box->button(QDialogButtonBox::RestoreDefaults)->setIcon(IconLoader::Load(QStringLiteral("edit-undo")));
+  button_save->setIcon(IconLoader::Load(u"document-save"_s));
+  ui_->button_box->button(QDialogButtonBox::RestoreDefaults)->setIcon(IconLoader::Load(u"edit-undo"_s));
   QObject::connect(ui_->button_box->button(QDialogButtonBox::RestoreDefaults), &QPushButton::clicked, this, &OrganizeDialog::RestoreDefaults);
 
-  ui_->aftercopying->setItemIcon(1, IconLoader::Load(QStringLiteral("edit-delete")));
+  ui_->aftercopying->setItemIcon(1, IconLoader::Load(u"edit-delete"_s));
 
   // Valid tags
   QMap<QString, QString> tags;
-  tags[tr("Title")] = QStringLiteral("title");
-  tags[tr("Album")] = QStringLiteral("album");
-  tags[tr("Artist")] = QStringLiteral("artist");
-  tags[tr("Artist's initial")] = QStringLiteral("artistinitial");
-  tags[tr("Album artist")] = QStringLiteral("albumartist");
-  tags[tr("Composer")] = QStringLiteral("composer");
-  tags[tr("Performer")] = QStringLiteral("performer");
-  tags[tr("Grouping")] = QStringLiteral("grouping");
-  tags[tr("Track")] = QStringLiteral("track");
-  tags[tr("Disc")] = QStringLiteral("disc");
-  tags[tr("Year")] = QStringLiteral("year");
-  tags[tr("Original year")] = QStringLiteral("originalyear");
-  tags[tr("Genre")] = QStringLiteral("genre");
-  tags[tr("Comment")] = QStringLiteral("comment");
-  tags[tr("Length")] = QStringLiteral("length");
-  tags[tr("Bitrate", "Refers to bitrate in file organize dialog.")] = QStringLiteral("bitrate");
-  tags[tr("Sample rate")] = QStringLiteral("samplerate");
-  tags[tr("Bit depth")] = QStringLiteral("bitdepth");
-  tags[tr("File extension")] = QStringLiteral("extension");
+  tags[tr("Title")] = u"title"_s;
+  tags[tr("Album")] = u"album"_s;
+  tags[tr("Artist")] = u"artist"_s;
+  tags[tr("Artist's initial")] = u"artistinitial"_s;
+  tags[tr("Album artist")] = u"albumartist"_s;
+  tags[tr("Composer")] = u"composer"_s;
+  tags[tr("Performer")] = u"performer"_s;
+  tags[tr("Grouping")] = u"grouping"_s;
+  tags[tr("Track")] = u"track"_s;
+  tags[tr("Disc")] = u"disc"_s;
+  tags[tr("Year")] = u"year"_s;
+  tags[tr("Original year")] = u"originalyear"_s;
+  tags[tr("Genre")] = u"genre"_s;
+  tags[tr("Comment")] = u"comment"_s;
+  tags[tr("Length")] = u"length"_s;
+  tags[tr("Bitrate", "Refers to bitrate in file organize dialog.")] = u"bitrate"_s;
+  tags[tr("Sample rate")] = u"samplerate"_s;
+  tags[tr("Bit depth")] = u"bitdepth"_s;
+  tags[tr("File extension")] = u"extension"_s;
 
   // Naming scheme input field
   new OrganizeSyntaxHighlighter(ui_->naming);
@@ -462,7 +463,7 @@ Organize::NewSongInfoList OrganizeDialog::ComputeNewSongsFilenames(const SongLis
     if (result.unique_filename) {
       if (filenames.contains(result.filename)) {
         QString song_number = QString::number(++filenames[result.filename]);
-        result.filename = Utilities::PathWithoutFilenameExtension(result.filename) + QStringLiteral("(") + song_number + QStringLiteral(").") + QFileInfo(result.filename).suffix();
+        result.filename = Utilities::PathWithoutFilenameExtension(result.filename) + u"("_s + song_number + u")."_s + QFileInfo(result.filename).suffix();
       }
       else {
         filenames.insert(result.filename, 1);
@@ -541,7 +542,7 @@ void OrganizeDialog::UpdatePreviews() {
   if (has_local_destination) {
     for (const Organize::NewSongInfo &song_info : std::as_const(new_songs_info_)) {
       QString filename = storage->LocalPath() + QLatin1Char('/') + song_info.new_filename_;
-      QListWidgetItem *item = new QListWidgetItem(song_info.unique_filename_ ? IconLoader::Load(QStringLiteral("dialog-ok-apply")) : IconLoader::Load(QStringLiteral("dialog-warning")), QDir::toNativeSeparators(filename), ui_->preview);
+      QListWidgetItem *item = new QListWidgetItem(song_info.unique_filename_ ? IconLoader::Load(u"dialog-ok-apply"_s) : IconLoader::Load(u"dialog-warning"_s), QDir::toNativeSeparators(filename), ui_->preview);
       ui_->preview->addItem(item);
       if (!song_info.unique_filename_) {
         ok = false;

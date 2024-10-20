@@ -38,7 +38,7 @@ constexpr char kLyricsStart[] = "<p id=\"songLyricsDiv\"[^>]+>";
 }  // namespace
 
 SongLyricsComLyricsProvider::SongLyricsComLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : HtmlLyricsProvider(QStringLiteral("songlyrics.com"), true, QLatin1String(kStartTag), QLatin1String(kEndTag), QLatin1String(kLyricsStart), false, network, parent) {}
+    : HtmlLyricsProvider(u"songlyrics.com"_s, true, QLatin1String(kStartTag), QLatin1String(kEndTag), QLatin1String(kLyricsStart), false, network, parent) {}
 
 QUrl SongLyricsComLyricsProvider::Url(const LyricsSearchRequest &request) {
 
@@ -50,17 +50,17 @@ QString SongLyricsComLyricsProvider::StringFixup(QString text) {
 
   Q_ASSERT(QThread::currentThread() != qApp->thread());
 
-  static const QRegularExpression regex_illegal_characters(QStringLiteral("[^\\w0-9\\- ]"));
-  static const QRegularExpression regex_multiple_whitespaces(QStringLiteral(" {2,}"));
-  static const QRegularExpression regex_multiple_dashes(QStringLiteral("(-)\\1+"));
+  static const QRegularExpression regex_illegal_characters(u"[^\\w0-9\\- ]"_s);
+  static const QRegularExpression regex_multiple_whitespaces(u" {2,}"_s);
+  static const QRegularExpression regex_multiple_dashes(u"(-)\\1+"_s);
 
   return text.replace(u'/', u'-')
              .replace(u'\'', u'-')
              .remove(regex_illegal_characters)
-             .replace(regex_multiple_whitespaces, QStringLiteral(" "))
+             .replace(regex_multiple_whitespaces, u" "_s)
              .simplified()
              .replace(u' ', u'-')
-             .replace(regex_multiple_dashes, QStringLiteral("-"))
+             .replace(regex_multiple_dashes, u"-"_s)
              .toLower();
 
 }

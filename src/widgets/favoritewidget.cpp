@@ -30,6 +30,8 @@
 
 #include "favoritewidget.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 namespace {
 constexpr int kStarSize = 15;
 }
@@ -38,8 +40,8 @@ FavoriteWidget::FavoriteWidget(const int tab_index, const bool favorite, QWidget
     : QWidget(parent),
       tab_index_(tab_index),
       favorite_(favorite),
-      on_(IconLoader::Load(QStringLiteral("star"))),
-      off_(IconLoader::Load(QStringLiteral("star-grey"))),
+      on_(IconLoader::Load(u"star"_s)),
+      off_(IconLoader::Load(u"star-grey"_s)),
       rect_(0, 0, kStarSize, kStarSize) {}
 
 void FavoriteWidget::SetFavorite(const bool favorite) {

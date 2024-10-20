@@ -39,6 +39,8 @@
 #include "playlistsequence.h"
 #include "ui_playlistsequence.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 namespace {
 constexpr char kSettingsGroup[] = "PlaylistSequence";
 }
@@ -56,12 +58,12 @@ PlaylistSequence::PlaylistSequence(QWidget *parent, SettingsProvider *settings)
   ui_->setupUi(this);
 
   // Icons
-  ui_->repeat->setIcon(AddDesaturatedIcon(IconLoader::Load(QStringLiteral("media-playlist-repeat"))));
-  ui_->shuffle->setIcon(AddDesaturatedIcon(IconLoader::Load(QStringLiteral("media-playlist-shuffle"))));
+  ui_->repeat->setIcon(AddDesaturatedIcon(IconLoader::Load(u"media-playlist-repeat"_s)));
+  ui_->shuffle->setIcon(AddDesaturatedIcon(IconLoader::Load(u"media-playlist-shuffle"_s)));
 
   // Remove arrow indicators
-  ui_->repeat->setStyleSheet(QStringLiteral("QToolButton::menu-indicator { image: none; }"));
-  ui_->shuffle->setStyleSheet(QStringLiteral("QToolButton::menu-indicator { image: none; }"));
+  ui_->repeat->setStyleSheet(u"QToolButton::menu-indicator { image: none; }"_s);
+  ui_->shuffle->setStyleSheet(u"QToolButton::menu-indicator { image: none; }"_s);
 
   settings_->set_group(kSettingsGroup);
 
@@ -97,8 +99,8 @@ PlaylistSequence::~PlaylistSequence() {
 void PlaylistSequence::Load() {
 
   loading_ = true;  // Stops these setter functions calling Save()
-  SetShuffleMode(static_cast<ShuffleMode>(settings_->value(QStringLiteral("shuffle_mode"), static_cast<int>(ShuffleMode::Off)).toInt()));
-  SetRepeatMode(static_cast<RepeatMode>(settings_->value(QStringLiteral("repeat_mode"), static_cast<int>(RepeatMode::Off)).toInt()));
+  SetShuffleMode(static_cast<ShuffleMode>(settings_->value(u"shuffle_mode"_s, static_cast<int>(ShuffleMode::Off)).toInt()));
+  SetRepeatMode(static_cast<RepeatMode>(settings_->value(u"repeat_mode"_s, static_cast<int>(RepeatMode::Off)).toInt()));
   loading_ = false;
 
 }
@@ -107,8 +109,8 @@ void PlaylistSequence::Save() {
 
   if (loading_) return;
 
-  settings_->setValue(QStringLiteral("shuffle_mode"), static_cast<int>(shuffle_mode_));
-  settings_->setValue(QStringLiteral("repeat_mode"), static_cast<int>(repeat_mode_));
+  settings_->setValue(u"shuffle_mode"_s, static_cast<int>(shuffle_mode_));
+  settings_->setValue(u"repeat_mode"_s, static_cast<int>(repeat_mode_));
 
 }
 

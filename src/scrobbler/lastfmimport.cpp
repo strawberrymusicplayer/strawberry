@@ -109,10 +109,10 @@ void LastFMImport::ReloadSettings() {
 QNetworkReply *LastFMImport::CreateRequest(const ParamList &request_params) {
 
   ParamList params = ParamList()
-    << Param(QStringLiteral("api_key"), QLatin1String(ScrobblingAPI20::kApiKey))
-    << Param(QStringLiteral("user"), username_)
-    << Param(QStringLiteral("lang"), QLocale().name().left(2).toLower())
-    << Param(QStringLiteral("format"), QStringLiteral("json"))
+    << Param(u"api_key"_s, QLatin1String(ScrobblingAPI20::kApiKey))
+    << Param(u"user"_s, username_)
+    << Param(u"lang"_s, QLocale().name().left(2).toLower())
+    << Param(u"format"_s, u"json"_s)
     << request_params;
 
   std::sort(params.begin(), params.end());
@@ -126,7 +126,7 @@ QNetworkReply *LastFMImport::CreateRequest(const ParamList &request_params) {
   url.setQuery(url_query);
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  req.setHeader(QNetworkRequest::ContentTypeHeader, QStringLiteral("application/x-www-form-urlencoded"));
+  req.setHeader(QNetworkRequest::ContentTypeHeader, u"application/x-www-form-urlencoded"_s);
 
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
@@ -186,20 +186,20 @@ QJsonObject LastFMImport::ExtractJsonObj(const QByteArray &data) {
   QJsonDocument json_doc = QJsonDocument::fromJson(data, &error);
 
   if (error.error != QJsonParseError::NoError) {
-    Error(QStringLiteral("Reply from server missing Json data."), data);
+    Error(u"Reply from server missing Json data."_s, data);
     return QJsonObject();
   }
   if (json_doc.isEmpty()) {
-    Error(QStringLiteral("Received empty Json document."), json_doc);
+    Error(u"Received empty Json document."_s, json_doc);
     return QJsonObject();
   }
   if (!json_doc.isObject()) {
-    Error(QStringLiteral("Json document is not an object."), json_doc);
+    Error(u"Json document is not an object."_s, json_doc);
     return QJsonObject();
   }
   QJsonObject json_obj = json_doc.object();
   if (json_obj.isEmpty()) {
-    Error(QStringLiteral("Received empty Json object."), json_doc);
+    Error(u"Received empty Json object."_s, json_doc);
     return QJsonObject();
   }
 
@@ -256,15 +256,15 @@ void LastFMImport::AddGetRecentTracksRequest(const int page) {
 
 void LastFMImport::SendGetRecentTracksRequest(GetRecentTracksRequest request) {
 
-  ParamList params = ParamList() << Param(QStringLiteral("method"), QStringLiteral("user.getRecentTracks"));
+  ParamList params = ParamList() << Param(u"method"_s, u"user.getRecentTracks"_s);
 
   if (request.page == 0) {
-    params << Param(QStringLiteral("page"), QStringLiteral("1"));
-    params << Param(QStringLiteral("limit"), QStringLiteral("1"));
+    params << Param(u"page"_s, u"1"_s);
+    params << Param(u"limit"_s, u"1"_s);
   }
   else {
-    params << Param(QStringLiteral("page"), QString::number(request.page));
-    params << Param(QStringLiteral("limit"), QStringLiteral("500"));
+    params << Param(u"page"_s, QString::number(request.page));
+    params << Param(u"limit"_s, u"500"_s);
   }
 
   QNetworkReply *reply = CreateRequest(params);
@@ -298,48 +298,48 @@ void LastFMImport::GetRecentTracksRequestFinished(QNetworkReply *reply, const in
   }
 
   if (!json_obj.contains("recenttracks"_L1)) {
-    Error(QStringLiteral("JSON reply from server is missing recenttracks."), json_obj);
+    Error(u"JSON reply from server is missing recenttracks."_s, json_obj);
     return;
   }
 
   if (!json_obj["recenttracks"_L1].isObject()) {
-    Error(QStringLiteral("Failed to parse JSON: recenttracks is not an object!"), json_obj);
+    Error(u"Failed to parse JSON: recenttracks is not an object!"_s, json_obj);
     return;
   }
   json_obj = json_obj["recenttracks"_L1].toObject();
 
   if (!json_obj.contains("@attr"_L1)) {
-    Error(QStringLiteral("JSON reply from server is missing @attr."), json_obj);
+    Error(u"JSON reply from server is missing @attr."_s, json_obj);
     return;
   }
 
   if (!json_obj.contains("track"_L1)) {
-    Error(QStringLiteral("JSON reply from server is missing track."), json_obj);
+    Error(u"JSON reply from server is missing track."_s, json_obj);
     return;
   }
 
   if (!json_obj["@attr"_L1].isObject()) {
-    Error(QStringLiteral("Failed to parse JSON: @attr is not an object."), json_obj);
+    Error(u"Failed to parse JSON: @attr is not an object."_s, json_obj);
     return;
   }
 
   if (!json_obj["track"_L1].isArray()) {
-    Error(QStringLiteral("Failed to parse JSON: track is not an object."), json_obj);
+    Error(u"Failed to parse JSON: track is not an object."_s, json_obj);
     return;
   }
 
   QJsonObject obj_attr = json_obj["@attr"_L1].toObject();
 
   if (!obj_attr.contains("page"_L1)) {
-    Error(QStringLiteral("Failed to parse JSON: attr object is missing page."), json_obj);
+    Error(u"Failed to parse JSON: attr object is missing page."_s, json_obj);
     return;
   }
   if (!obj_attr.contains("totalPages"_L1)) {
-    Error(QStringLiteral("Failed to parse JSON: attr object is missing totalPages."), json_obj);
+    Error(u"Failed to parse JSON: attr object is missing totalPages."_s, json_obj);
     return;
   }
   if (!obj_attr.contains("total"_L1)) {
-    Error(QStringLiteral("Failed to parse JSON: attr object is missing total."), json_obj);
+    Error(u"Failed to parse JSON: attr object is missing total."_s, json_obj);
     return;
   }
 
@@ -386,7 +386,7 @@ void LastFMImport::GetRecentTracksRequestFinished(QNetworkReply *reply, const in
       QString album = obj_album["#text"_L1].toString();
       QString date = obj_date["#text"_L1].toString();
       QString title = obj_track["name"_L1].toString();
-      QDateTime datetime = QDateTime::fromString(date, QStringLiteral("dd MMM yyyy, hh:mm"));
+      QDateTime datetime = QDateTime::fromString(date, u"dd MMM yyyy, hh:mm"_s);
       if (datetime.isValid()) {
         Q_EMIT UpdateLastPlayed(artist, album, title, datetime.toSecsSinceEpoch());
       }
@@ -419,15 +419,15 @@ void LastFMImport::AddGetTopTracksRequest(const int page) {
 
 void LastFMImport::SendGetTopTracksRequest(GetTopTracksRequest request) {
 
-  ParamList params = ParamList() << Param(QStringLiteral("method"), QStringLiteral("user.getTopTracks"));
+  ParamList params = ParamList() << Param(u"method"_s, u"user.getTopTracks"_s);
 
   if (request.page == 0) {
-    params << Param(QStringLiteral("page"), QStringLiteral("1"));
-    params << Param(QStringLiteral("limit"), QStringLiteral("1"));
+    params << Param(u"page"_s, u"1"_s);
+    params << Param(u"limit"_s, u"1"_s);
   }
   else {
-    params << Param(QStringLiteral("page"), QString::number(request.page));
-    params << Param(QStringLiteral("limit"), QStringLiteral("500"));
+    params << Param(u"page"_s, QString::number(request.page));
+    params << Param(u"limit"_s, u"500"_s);
   }
 
   QNetworkReply *reply = CreateRequest(params);
@@ -461,48 +461,48 @@ void LastFMImport::GetTopTracksRequestFinished(QNetworkReply *reply, const int p
   }
 
   if (!json_obj.contains("toptracks"_L1)) {
-    Error(QStringLiteral("JSON reply from server is missing toptracks."), json_obj);
+    Error(u"JSON reply from server is missing toptracks."_s, json_obj);
     return;
   }
 
   if (!json_obj["toptracks"_L1].isObject()) {
-    Error(QStringLiteral("Failed to parse JSON: toptracks is not an object!"), json_obj);
+    Error(u"Failed to parse JSON: toptracks is not an object!"_s, json_obj);
     return;
   }
   json_obj = json_obj["toptracks"_L1].toObject();
 
   if (!json_obj.contains("@attr"_L1)) {
-    Error(QStringLiteral("JSON reply from server is missing @attr."), json_obj);
+    Error(u"JSON reply from server is missing @attr."_s, json_obj);
     return;
   }
 
   if (!json_obj.contains("track"_L1)) {
-    Error(QStringLiteral("JSON reply from server is missing track."), json_obj);
+    Error(u"JSON reply from server is missing track."_s, json_obj);
     return;
   }
 
   if (!json_obj["@attr"_L1].isObject()) {
-    Error(QStringLiteral("Failed to parse JSON: @attr is not an object."), json_obj);
+    Error(u"Failed to parse JSON: @attr is not an object."_s, json_obj);
     return;
   }
 
   if (!json_obj["track"_L1].isArray()) {
-    Error(QStringLiteral("Failed to parse JSON: track is not an object."), json_obj);
+    Error(u"Failed to parse JSON: track is not an object."_s, json_obj);
     return;
   }
 
   QJsonObject obj_attr = json_obj["@attr"_L1].toObject();
 
   if (!obj_attr.contains("page"_L1)) {
-    Error(QStringLiteral("Failed to parse JSON: attr object is missing page."), json_obj);
+    Error(u"Failed to parse JSON: attr object is missing page."_s, json_obj);
     return;
   }
   if (!obj_attr.contains("totalPages"_L1)) {
-    Error(QStringLiteral("Failed to parse JSON: attr object is missing page."), json_obj);
+    Error(u"Failed to parse JSON: attr object is missing page."_s, json_obj);
     return;
   }
   if (!obj_attr.contains("total"_L1)) {
-    Error(QStringLiteral("Failed to parse JSON: attr object is missing total."), json_obj);
+    Error(u"Failed to parse JSON: attr object is missing total."_s, json_obj);
     return;
   }
 

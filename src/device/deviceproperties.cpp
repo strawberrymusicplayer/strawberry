@@ -57,6 +57,8 @@
 #include "transcoder/transcoder.h"
 #include "ui_deviceproperties.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 DeviceProperties::DeviceProperties(QWidget *parent)
     : QDialog(parent),
       ui_(new Ui_DeviceProperties),
@@ -87,13 +89,13 @@ void DeviceProperties::ShowDevice(const QModelIndex &idx) {
 
   if (ui_->icon->count() == 0) {
     // Only load the icons the first time the dialog is shown
-    const QStringList icon_names = QStringList() << QStringLiteral("device")
-                                                 << QStringLiteral("device-usb-drive")
-                                                 << QStringLiteral("device-usb-flash")
-                                                 << QStringLiteral("media-optical")
-                                                 << QStringLiteral("device-ipod")
-                                                 << QStringLiteral("device-ipod-nano")
-                                                 << QStringLiteral("device-phone");
+    const QStringList icon_names = QStringList() << u"device"_s
+                                                 << u"device-usb-drive"_s
+                                                 << u"device-usb-flash"_s
+                                                 << u"media-optical"_s
+                                                 << u"device-ipod"_s
+                                                 << u"device-ipod-nano"_s
+                                                 << u"device-phone"_s;
 
 
     for (const QString &icon_name : icon_names) {

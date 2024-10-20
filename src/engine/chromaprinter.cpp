@@ -39,6 +39,8 @@
 #include "core/logging.h"
 #include "core/signalchecker.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 #ifndef u_int32_t
 using u_int32_t = unsigned int;
 #endif
@@ -80,11 +82,11 @@ QString Chromaprinter::CreateFingerprint() {
     return QString();
   }
 
-  GstElement *src = CreateElement(QStringLiteral("filesrc"), pipeline);
-  GstElement *decode = CreateElement(QStringLiteral("decodebin"), pipeline);
-  GstElement *convert = CreateElement(QStringLiteral("audioconvert"), pipeline);
-  GstElement *resample = CreateElement(QStringLiteral("audioresample"), pipeline);
-  GstElement *sink = CreateElement(QStringLiteral("appsink"), pipeline);
+  GstElement *src = CreateElement(u"filesrc"_s, pipeline);
+  GstElement *decode = CreateElement(u"decodebin"_s, pipeline);
+  GstElement *convert = CreateElement(u"audioconvert"_s, pipeline);
+  GstElement *resample = CreateElement(u"audioresample"_s, pipeline);
+  GstElement *sink = CreateElement(u"appsink"_s, pipeline);
 
   if (!src || !decode || !convert || !resample || !sink) {
     gst_object_unref(pipeline);

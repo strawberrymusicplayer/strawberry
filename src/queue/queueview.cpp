@@ -45,6 +45,8 @@
 #include "ui_queueview.h"
 #include "settings/appearancesettingspage.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 QueueView::QueueView(QWidget *parent)
     : QWidget(parent),
       ui_(new Ui_QueueView),
@@ -55,10 +57,10 @@ QueueView::QueueView(QWidget *parent)
   ui_->list->setItemDelegate(new QueuedItemDelegate(this, 0));
 
   // Set icons on buttons
-  ui_->move_down->setIcon(IconLoader::Load(QStringLiteral("go-down")));
-  ui_->move_up->setIcon(IconLoader::Load(QStringLiteral("go-up")));
-  ui_->remove->setIcon(IconLoader::Load(QStringLiteral("edit-delete")));
-  ui_->clear->setIcon(IconLoader::Load(QStringLiteral("edit-clear-list")));
+  ui_->move_down->setIcon(IconLoader::Load(u"go-down"_s));
+  ui_->move_up->setIcon(IconLoader::Load(u"go-up"_s));
+  ui_->remove->setIcon(IconLoader::Load(u"edit-delete"_s));
+  ui_->clear->setIcon(IconLoader::Load(u"edit-clear-list"_s));
 
   // Set a standard shortcut
   ui_->remove->setShortcut(QKeySequence::Delete);

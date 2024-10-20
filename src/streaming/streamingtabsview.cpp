@@ -63,7 +63,7 @@ StreamingTabsView::StreamingTabsView(Application *app, StreamingServicePtr servi
   QObject::connect(ui_->search_view, &StreamingSearchView::AddAlbumsSignal, &*service_, &StreamingService::AddAlbums);
   QObject::connect(ui_->search_view, &StreamingSearchView::AddSongsSignal, &*service_, &StreamingService::AddSongs);
 
-  QAction *action_configure = new QAction(IconLoader::Load(QStringLiteral("configure")), tr("Configure %1...").arg(Song::TextForSource(service_->source())), this);
+  QAction *action_configure = new QAction(IconLoader::Load(u"configure"_s), tr("Configure %1...").arg(Song::TextForSource(service_->source())), this);
   QObject::connect(action_configure, &QAction::triggered, this, &StreamingTabsView::OpenSettingsDialog);
 
   if (service_->artists_collection_model()) {
@@ -72,7 +72,7 @@ StreamingTabsView::StreamingTabsView(Application *app, StreamingServicePtr servi
     ui_->artists_collection->view()->setModel(service_->artists_collection_filter_model());
     ui_->artists_collection->view()->SetFilter(ui_->artists_collection->filter_widget());
     ui_->artists_collection->filter_widget()->SetSettingsGroup(settings_group);
-    ui_->artists_collection->filter_widget()->SetSettingsPrefix(QStringLiteral("artists"));
+    ui_->artists_collection->filter_widget()->SetSettingsPrefix(u"artists"_s);
     ui_->artists_collection->filter_widget()->Init(service_->artists_collection_model(), service_->artists_collection_filter_model());
     ui_->artists_collection->filter_widget()->AddMenuAction(action_configure);
 
@@ -104,7 +104,7 @@ StreamingTabsView::StreamingTabsView(Application *app, StreamingServicePtr servi
     ui_->albums_collection->view()->setModel(service_->albums_collection_filter_model());
     ui_->albums_collection->view()->SetFilter(ui_->albums_collection->filter_widget());
     ui_->albums_collection->filter_widget()->SetSettingsGroup(settings_group);
-    ui_->albums_collection->filter_widget()->SetSettingsPrefix(QStringLiteral("albums"));
+    ui_->albums_collection->filter_widget()->SetSettingsPrefix(u"albums"_s);
     ui_->albums_collection->filter_widget()->Init(service_->albums_collection_model(), service_->albums_collection_filter_model());
     ui_->albums_collection->filter_widget()->AddMenuAction(action_configure);
 
@@ -136,7 +136,7 @@ StreamingTabsView::StreamingTabsView(Application *app, StreamingServicePtr servi
     ui_->songs_collection->view()->setModel(service_->songs_collection_filter_model());
     ui_->songs_collection->view()->SetFilter(ui_->songs_collection->filter_widget());
     ui_->songs_collection->filter_widget()->SetSettingsGroup(settings_group);
-    ui_->songs_collection->filter_widget()->SetSettingsPrefix(QStringLiteral("songs"));
+    ui_->songs_collection->filter_widget()->SetSettingsPrefix(u"songs"_s);
     ui_->songs_collection->filter_widget()->Init(service_->songs_collection_model(), service_->songs_collection_filter_model());
     ui_->songs_collection->filter_widget()->AddMenuAction(action_configure);
 
@@ -164,7 +164,7 @@ StreamingTabsView::StreamingTabsView(Application *app, StreamingServicePtr servi
 
   Settings s;
   s.beginGroup(settings_group_);
-  QString tab = s.value("tab", QStringLiteral("artists")).toString().toLower();
+  QString tab = s.value("tab", u"artists"_s).toString().toLower();
   s.endGroup();
 
   if (tab == "artists"_L1) {

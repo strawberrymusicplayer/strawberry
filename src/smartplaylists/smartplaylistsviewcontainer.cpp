@@ -28,16 +28,16 @@
 #include "core/iconloader.h"
 #include "core/mimedata.h"
 #include "core/settings.h"
-#include "collection/collectionbackend.h"
 #include "settings/appearancesettingspage.h"
 
 #include "smartplaylistsviewcontainer.h"
 #include "smartplaylistsmodel.h"
 #include "smartplaylistsview.h"
 #include "smartplaylistwizard.h"
-#include "playlistgenerator_fwd.h"
 
 #include "ui_smartplaylistsviewcontainer.h"
+
+using namespace Qt::Literals::StringLiterals;
 
 SmartPlaylistsViewContainer::SmartPlaylistsViewContainer(Application *app, QWidget *parent)
     : QWidget(parent),
@@ -61,27 +61,27 @@ SmartPlaylistsViewContainer::SmartPlaylistsViewContainer(Application *app, QWidg
 
   model_->Init();
 
-  action_new_smart_playlist_ = context_menu_->addAction(IconLoader::Load(QStringLiteral("document-new")), tr("New smart playlist..."), this, &SmartPlaylistsViewContainer::NewSmartPlaylist);
+  action_new_smart_playlist_ = context_menu_->addAction(IconLoader::Load(u"document-new"_s), tr("New smart playlist..."), this, &SmartPlaylistsViewContainer::NewSmartPlaylist);
 
-  action_append_to_playlist_ = context_menu_selected_->addAction(IconLoader::Load(QStringLiteral("media-playback-start")), tr("Append to current playlist"), this, &SmartPlaylistsViewContainer::AppendToPlaylist);
-  action_replace_current_playlist_ = context_menu_selected_->addAction(IconLoader::Load(QStringLiteral("media-playback-start")), tr("Replace current playlist"), this, &SmartPlaylistsViewContainer::ReplaceCurrentPlaylist);
-  action_open_in_new_playlist_ = context_menu_selected_->addAction(IconLoader::Load(QStringLiteral("document-new")), tr("Open in new playlist"), this, &SmartPlaylistsViewContainer::OpenInNewPlaylist);
+  action_append_to_playlist_ = context_menu_selected_->addAction(IconLoader::Load(u"media-playback-start"_s), tr("Append to current playlist"), this, &SmartPlaylistsViewContainer::AppendToPlaylist);
+  action_replace_current_playlist_ = context_menu_selected_->addAction(IconLoader::Load(u"media-playback-start"_s), tr("Replace current playlist"), this, &SmartPlaylistsViewContainer::ReplaceCurrentPlaylist);
+  action_open_in_new_playlist_ = context_menu_selected_->addAction(IconLoader::Load(u"document-new"_s), tr("Open in new playlist"), this, &SmartPlaylistsViewContainer::OpenInNewPlaylist);
 
   context_menu_selected_->addSeparator();
-  action_add_to_playlist_enqueue_ = context_menu_selected_->addAction(IconLoader::Load(QStringLiteral("go-next")), tr("Queue track"), this, &SmartPlaylistsViewContainer::AddToPlaylistEnqueue);
-  action_add_to_playlist_enqueue_next_ = context_menu_selected_->addAction(IconLoader::Load(QStringLiteral("go-next")), tr("Play next"), this, &SmartPlaylistsViewContainer::AddToPlaylistEnqueueNext);
+  action_add_to_playlist_enqueue_ = context_menu_selected_->addAction(IconLoader::Load(u"go-next"_s), tr("Queue track"), this, &SmartPlaylistsViewContainer::AddToPlaylistEnqueue);
+  action_add_to_playlist_enqueue_next_ = context_menu_selected_->addAction(IconLoader::Load(u"go-next"_s), tr("Play next"), this, &SmartPlaylistsViewContainer::AddToPlaylistEnqueueNext);
   context_menu_selected_->addSeparator();
 
   context_menu_selected_->addSeparator();
   context_menu_selected_->addActions(QList<QAction*>() << action_new_smart_playlist_);
-  action_edit_smart_playlist_ = context_menu_selected_->addAction(IconLoader::Load(QStringLiteral("edit-rename")), tr("Edit smart playlist..."), this, &SmartPlaylistsViewContainer::EditSmartPlaylistFromContext);
-  action_delete_smart_playlist_ = context_menu_selected_->addAction(IconLoader::Load(QStringLiteral("edit-delete")), tr("Delete smart playlist"), this, &SmartPlaylistsViewContainer::DeleteSmartPlaylistFromContext);
+  action_edit_smart_playlist_ = context_menu_selected_->addAction(IconLoader::Load(u"edit-rename"_s), tr("Edit smart playlist..."), this, &SmartPlaylistsViewContainer::EditSmartPlaylistFromContext);
+  action_delete_smart_playlist_ = context_menu_selected_->addAction(IconLoader::Load(u"edit-delete"_s), tr("Delete smart playlist"), this, &SmartPlaylistsViewContainer::DeleteSmartPlaylistFromContext);
 
   context_menu_selected_->addSeparator();
 
   ui_->new_->setDefaultAction(action_new_smart_playlist_);
-  ui_->edit_->setIcon(IconLoader::Load(QStringLiteral("edit-rename")));
-  ui_->delete_->setIcon(IconLoader::Load(QStringLiteral("edit-delete")));
+  ui_->edit_->setIcon(IconLoader::Load(u"edit-rename"_s));
+  ui_->delete_->setIcon(IconLoader::Load(u"edit-delete"_s));
 
   QObject::connect(ui_->edit_, &QToolButton::clicked, this, &SmartPlaylistsViewContainer::EditSmartPlaylistFromButton);
   QObject::connect(ui_->delete_, &QToolButton::clicked, this, &SmartPlaylistsViewContainer::DeleteSmartPlaylistFromButton);

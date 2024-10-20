@@ -57,10 +57,10 @@ bool LocalRedirectServer::Listen() {
     return false;
   }
 
-  url_.setScheme(QStringLiteral("http"));
-  url_.setHost(QStringLiteral("localhost"));
+  url_.setScheme(u"http"_s);
+  url_.setHost(u"localhost"_s);
   url_.setPort(serverPort());
-  url_.setPath(QStringLiteral("/"));
+  url_.setPath(u"/"_s);
   QObject::connect(this, &QTcpServer::newConnection, this, &LocalRedirectServer::NewConnection);
 
   return true;
@@ -126,12 +126,12 @@ void LocalRedirectServer::ReadyRead() {
 
 void LocalRedirectServer::WriteTemplate() const {
 
-  QFile page_file(QStringLiteral(":/html/oauthsuccess.html"));
+  QFile page_file(u":/html/oauthsuccess.html"_s);
   if (!page_file.open(QIODevice::ReadOnly)) return;
   QString page_data = QString::fromUtf8(page_file.readAll());
   page_file.close();
 
-  static const QRegularExpression tr_regexp(QStringLiteral("tr\\(\"([^\"]+)\"\\)"));
+  static const QRegularExpression tr_regexp(u"tr\\(\"([^\"]+)\"\\)"_s);
   qint64 offset = 0;
   Q_FOREVER {
     QRegularExpressionMatch re_match = tr_regexp.match(page_data, offset);

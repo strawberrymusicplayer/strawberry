@@ -67,7 +67,6 @@
 #include "core/application.h"
 #include "core/iconloader.h"
 #include "core/database.h"
-#include "core/sqlrow.h"
 #include "core/settings.h"
 #include "utilities/strutils.h"
 #include "utilities/fileutils.h"
@@ -118,8 +117,8 @@ AlbumCoverManager::AlbumCoverManager(Application *app, SharedPtr<CollectionBacke
       cover_searcher_(nullptr),
       cover_export_(nullptr),
       cover_exporter_(new AlbumCoverExporter(this)),
-      artist_icon_(IconLoader::Load(QStringLiteral("folder-sound"))),
-      all_artists_icon_(IconLoader::Load(QStringLiteral("library-music"))),
+      artist_icon_(IconLoader::Load(u"folder-sound"_s)),
+      all_artists_icon_(IconLoader::Load(u"library-music"_s)),
       image_nocover_thumbnail_(ImageUtils::GenerateNoCoverImage(QSize(120, 120), devicePixelRatio())),
       icon_nocover_item_(QPixmap::fromImage(image_nocover_thumbnail_)),
       context_menu_(new QMenu(this)),
@@ -136,12 +135,12 @@ AlbumCoverManager::AlbumCoverManager(Application *app, SharedPtr<CollectionBacke
   QObject::connect(timer_album_cover_load_, &QTimer::timeout, this, &AlbumCoverManager::LoadAlbumCovers);
 
   // Icons
-  ui_->action_fetch->setIcon(IconLoader::Load(QStringLiteral("download")));
-  ui_->export_covers->setIcon(IconLoader::Load(QStringLiteral("document-save")));
-  ui_->view->setIcon(IconLoader::Load(QStringLiteral("view-choose")));
-  ui_->button_fetch->setIcon(IconLoader::Load(QStringLiteral("download")));
-  ui_->action_add_to_playlist->setIcon(IconLoader::Load(QStringLiteral("media-playback-start")));
-  ui_->action_load->setIcon(IconLoader::Load(QStringLiteral("media-playback-start")));
+  ui_->action_fetch->setIcon(IconLoader::Load(u"download"_s));
+  ui_->export_covers->setIcon(IconLoader::Load(u"document-save"_s));
+  ui_->view->setIcon(IconLoader::Load(u"view-choose"_s));
+  ui_->button_fetch->setIcon(IconLoader::Load(u"download"_s));
+  ui_->action_add_to_playlist->setIcon(IconLoader::Load(u"media-playback-start"_s));
+  ui_->action_load->setIcon(IconLoader::Load(u"media-playback-start"_s));
 
   album_cover_choice_controller_->Init(app_);
 
@@ -921,12 +920,12 @@ SongList AlbumCoverManager::GetSongsInAlbum(const QModelIndex &idx) const {
 
   CollectionQuery q(db, collection_backend_->songs_table());
   q.SetColumnSpec(Song::kRowIdColumnSpec);
-  q.AddWhere(QStringLiteral("album"), idx.data(Role_Album).toString());
-  q.SetOrderBy(QStringLiteral("disc, track, title"));
+  q.AddWhere(u"album"_s, idx.data(Role_Album).toString());
+  q.SetOrderBy(u"disc, track, title"_s);
 
   QString albumartist = idx.data(Role_AlbumArtist).toString();
   if (!albumartist.isEmpty()) {
-    q.AddWhere(QStringLiteral("effective_albumartist"), albumartist);
+    q.AddWhere(u"effective_albumartist"_s, albumartist);
   }
 
   q.AddCompilationRequirement(albumartist.isEmpty());

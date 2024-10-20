@@ -55,7 +55,7 @@ QobuzBaseRequest::~QobuzBaseRequest() = default;
 QNetworkReply *QobuzBaseRequest::CreateRequest(const QString &ressource_name, const ParamList &params_provided) {
 
   ParamList params = ParamList() << params_provided
-                                 << Param(QStringLiteral("app_id"), app_id());
+                                 << Param(u"app_id"_s, app_id());
 
   std::sort(params.begin(), params.end());
 
@@ -68,7 +68,7 @@ QNetworkReply *QobuzBaseRequest::CreateRequest(const QString &ressource_name, co
   url.setQuery(url_query);
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  req.setHeader(QNetworkRequest::ContentTypeHeader, QStringLiteral("application/x-www-form-urlencoded"));
+  req.setHeader(QNetworkRequest::ContentTypeHeader, u"application/x-www-form-urlencoded"_s);
   req.setRawHeader("X-App-Id", app_id().toUtf8());
   if (authenticated()) req.setRawHeader("X-User-Auth-Token", user_auth_token().toUtf8());
 
@@ -138,23 +138,23 @@ QJsonObject QobuzBaseRequest::ExtractJsonObj(QByteArray &data) {
   QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
 
   if (json_error.error != QJsonParseError::NoError) {
-    Error(QStringLiteral("Reply from server missing Json data."), data);
+    Error(u"Reply from server missing Json data."_s, data);
     return QJsonObject();
   }
 
   if (json_doc.isEmpty()) {
-    Error(QStringLiteral("Received empty Json document."), data);
+    Error(u"Received empty Json document."_s, data);
     return QJsonObject();
   }
 
   if (!json_doc.isObject()) {
-    Error(QStringLiteral("Json document is not an object."), json_doc);
+    Error(u"Json document is not an object."_s, json_doc);
     return QJsonObject();
   }
 
   QJsonObject json_obj = json_doc.object();
   if (json_obj.isEmpty()) {
-    Error(QStringLiteral("Received empty Json object."), json_doc);
+    Error(u"Received empty Json object."_s, json_doc);
     return QJsonObject();
   }
 
@@ -173,7 +173,7 @@ QJsonValue QobuzBaseRequest::ExtractItems(QByteArray &data) {
 QJsonValue QobuzBaseRequest::ExtractItems(QJsonObject &json_obj) {
 
   if (!json_obj.contains("items"_L1)) {
-    Error(QStringLiteral("Json reply is missing items."), json_obj);
+    Error(u"Json reply is missing items."_s, json_obj);
     return QJsonArray();
   }
   QJsonValue json_items = json_obj["items"_L1];
@@ -185,7 +185,7 @@ QString QobuzBaseRequest::ErrorsToHTML(const QStringList &errors) {
 
   QString error_html;
   for (const QString &error : errors) {
-    error_html += error + QStringLiteral("<br />");
+    error_html += error + u"<br />"_s;
   }
   return error_html;
 

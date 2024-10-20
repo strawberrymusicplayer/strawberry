@@ -38,18 +38,19 @@
 #include "currentalbumcoverloader.h"
 
 using std::make_unique;
+using namespace Qt::Literals::StringLiterals;
 
 CurrentAlbumCoverLoader::CurrentAlbumCoverLoader(Application *app, QObject *parent)
     : QObject(parent),
       app_(app),
-      temp_file_pattern_(QStandardPaths::writableLocation(QStandardPaths::TempLocation) + QStringLiteral("/strawberry-cover-XXXXXX.jpg")),
+      temp_file_pattern_(QStandardPaths::writableLocation(QStandardPaths::TempLocation) + u"/strawberry-cover-XXXXXX.jpg"_s),
       id_(0) {
 
   setObjectName(QLatin1String(metaObject()->className()));
 
   options_.options = AlbumCoverLoaderOptions::Option::RawImageData | AlbumCoverLoaderOptions::Option::OriginalImage | AlbumCoverLoaderOptions::Option::ScaledImage;
   options_.desired_scaled_size = QSize(120, 120);
-  options_.default_cover = QStringLiteral(":/pictures/cdcase.png");
+  options_.default_cover = u":/pictures/cdcase.png"_s;
 
   QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, this, &CurrentAlbumCoverLoader::LoadAlbumCover);
   QObject::connect(&*app_->album_cover_loader(), &AlbumCoverLoader::AlbumCoverLoaded, this, &CurrentAlbumCoverLoader::AlbumCoverReady);

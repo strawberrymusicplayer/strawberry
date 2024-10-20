@@ -39,10 +39,11 @@
 #include "collectiondirectorymodel.h"
 
 using std::make_shared;
+using namespace Qt::Literals::StringLiterals;
 
 CollectionDirectoryModel::CollectionDirectoryModel(SharedPtr<CollectionBackend> backend, QObject *parent)
     : QStandardItemModel(parent),
-      dir_icon_(IconLoader::Load(QStringLiteral("document-open-folder"))),
+      dir_icon_(IconLoader::Load(u"document-open-folder"_s)),
       backend_(backend) {
 
   QObject::connect(&*backend_, &CollectionBackend::DirectoryAdded, this, &CollectionDirectoryModel::AddDirectory);

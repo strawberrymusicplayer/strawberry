@@ -39,10 +39,10 @@ constexpr char kApiChannelsUrl[] = "https://api.radioparadise.com/api/list_strea
 }
 
 RadioParadiseService::RadioParadiseService(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : RadioService(Song::Source::RadioParadise, QStringLiteral("Radio Paradise"), IconLoader::Load(QStringLiteral("radioparadise")), app, network, parent) {}
+    : RadioService(Song::Source::RadioParadise, u"Radio Paradise"_s, IconLoader::Load(u"radioparadise"_s), app, network, parent) {}
 
-QUrl RadioParadiseService::Homepage() { return QUrl(QStringLiteral("https://radioparadise.com/")); }
-QUrl RadioParadiseService::Donate() { return QUrl(QStringLiteral("https://payments.radioparadise.com/rp2s-content.php?name=Support&file=support")); }
+QUrl RadioParadiseService::Homepage() { return QUrl(u"https://radioparadise.com/"_s); }
+QUrl RadioParadiseService::Donate() { return QUrl(u"https://payments.radioparadise.com/rp2s-content.php?name=Support&file=support"_s); }
 
 void RadioParadiseService::Abort() {
 
@@ -83,7 +83,7 @@ void RadioParadiseService::GetChannelsReply(QNetworkReply *reply, const int task
   }
 
   if (!object.contains("channels"_L1) || !object["channels"_L1].isArray()) {
-    Error(QStringLiteral("Missing JSON channels array."), object);
+    Error(u"Missing JSON channels array."_s, object);
     app_->task_manager()->SetTaskFinished(task_id);
     Q_EMIT NewChannels();
     return;
@@ -111,7 +111,7 @@ void RadioParadiseService::GetChannelsReply(QNetworkReply *reply, const int task
       }
       QString label = obj_stream["label"_L1].toString();
       QString url = obj_stream["url"_L1].toString();
-      static const QRegularExpression regex_url_schema(QStringLiteral("^[0-9a-zA-Z]*:\\/\\/"), QRegularExpression::CaseInsensitiveOption);
+      static const QRegularExpression regex_url_schema(u"^[0-9a-zA-Z]*:\\/\\/"_s, QRegularExpression::CaseInsensitiveOption);
       if (!url.contains(regex_url_schema)) {
         url.prepend("https://"_L1);
       }

@@ -31,6 +31,8 @@
 #include "smartplaylistsearchtermwidget.h"
 #include "smartplaylistsearchtermwidgetoverlay.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 const int SmartPlaylistSearchTermWidgetOverlay::kSpacing = 6;
 const int SmartPlaylistSearchTermWidgetOverlay::kIconSize = 22;
 
@@ -42,7 +44,7 @@ SmartPlaylistSearchTermWidgetOverlay::SmartPlaylistSearchTermWidgetOverlay(Smart
       parent_(parent),
       opacity_(0.0),
       text_(tr("Add search term")),
-      icon_(IconLoader::Load(QStringLiteral("list-add")).pixmap(kIconSize)) {
+      icon_(IconLoader::Load(u"list-add"_s).pixmap(kIconSize)) {
 
   raise();
   setFocusPolicy(Qt::TabFocus);

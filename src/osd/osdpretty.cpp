@@ -60,8 +60,6 @@
 #include "osdpretty.h"
 #include "ui_osdpretty.h"
 
-using namespace Qt::Literals::StringLiterals;
-
 #ifdef Q_OS_WIN
 #  include <windows.h>
 #endif
@@ -71,6 +69,7 @@ using namespace Qt::Literals::StringLiterals;
 #endif
 
 using namespace std::chrono_literals;
+using namespace Qt::Literals::StringLiterals;
 
 const char *OSDPretty::kSettingsGroup = "OSDPretty";
 
@@ -134,14 +133,14 @@ OSDPretty::OSDPretty(Mode mode, QWidget *parent)
   QObject::connect(fader_, &QTimeLine::finished, this, &OSDPretty::FaderFinished);
 
   // Load the show edges and corners
-  QImage shadow_edge(QStringLiteral(":/pictures/osd_shadow_edge.png"));
-  QImage shadow_corner(QStringLiteral(":/pictures/osd_shadow_corner.png"));
+  QImage shadow_edge(u":/pictures/osd_shadow_edge.png"_s);
+  QImage shadow_corner(u":/pictures/osd_shadow_corner.png"_s);
   for (int i = 0; i < 4; ++i) {
     QTransform rotation = QTransform().rotate(90 * i);
     shadow_edge_[i] = QPixmap::fromImage(shadow_edge.transformed(rotation));
     shadow_corner_[i] = QPixmap::fromImage(shadow_corner.transformed(rotation));
   }
-  background_ = QPixmap(QStringLiteral(":/pictures/osd_background.png"));
+  background_ = QPixmap(u":/pictures/osd_background.png"_s);
 
   // Set the margins to allow for the drop shadow
   QBoxLayout *l = qobject_cast<QBoxLayout*>(layout());
@@ -237,7 +236,7 @@ void OSDPretty::Load() {
   foreground_color_ = QColor(s.value("foreground_color", 0).toInt());
   background_color_ = QColor(s.value("background_color", kPresetBlue).toInt());
   background_opacity_ = s.value("background_opacity", 0.85).toFloat();
-  font_.fromString(s.value("font", QStringLiteral("Verdana,9,-1,5,50,0,0,0,0,0")).toString());
+  font_.fromString(s.value("font", u"Verdana,9,-1,5,50,0,0,0,0,0"_s).toString());
   disable_duration_ = s.value("disable_duration", false).toBool();
 #ifdef Q_OS_WIN
   fading_enabled_ = s.value("fading", true).toBool();

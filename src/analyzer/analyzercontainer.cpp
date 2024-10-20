@@ -50,6 +50,7 @@
 #include "engine/enginebase.h"
 
 using namespace std::chrono_literals;
+using namespace Qt::Literals::StringLiterals;
 
 const char *AnalyzerContainer::kSettingsGroup = "Analyzer";
 const char *AnalyzerContainer::kSettingsFramerate = "framerate";
@@ -185,7 +186,7 @@ void AnalyzerContainer::Load() {
 
   Settings s;
   s.beginGroup(kSettingsGroup);
-  QString type = s.value("type", QStringLiteral("BlockAnalyzer")).toString();
+  QString type = s.value("type", u"BlockAnalyzer"_s).toString();
   current_framerate_ = s.value(kSettingsFramerate, kMediumFramerate).toInt();
   s.endGroup();
 

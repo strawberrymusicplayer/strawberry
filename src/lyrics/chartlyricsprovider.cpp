@@ -44,7 +44,7 @@ namespace {
 constexpr char kUrlSearch[] = "http://api.chartlyrics.com/apiv1.asmx/SearchLyricDirect";
 }
 
-ChartLyricsProvider::ChartLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent) : LyricsProvider(QStringLiteral("ChartLyrics"), false, false, network, parent) {}
+ChartLyricsProvider::ChartLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent) : LyricsProvider(u"ChartLyrics"_s, false, false, network, parent) {}
 
 ChartLyricsProvider::~ChartLyricsProvider() {
 
@@ -62,8 +62,8 @@ void ChartLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &r
   Q_ASSERT(QThread::currentThread() != qApp->thread());
 
   QUrlQuery url_query;
-  url_query.addQueryItem(QStringLiteral("artist"), QString::fromUtf8(QUrl::toPercentEncoding(request.artist)));
-  url_query.addQueryItem(QStringLiteral("song"), QString::fromUtf8(QUrl::toPercentEncoding(request.title)));
+  url_query.addQueryItem(u"artist"_s, QString::fromUtf8(QUrl::toPercentEncoding(request.artist)));
+  url_query.addQueryItem(u"song"_s, QString::fromUtf8(QUrl::toPercentEncoding(request.title)));
 
   QUrl url(QString::fromUtf8(kUrlSearch));
   url.setQuery(url_query);

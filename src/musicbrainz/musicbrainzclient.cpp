@@ -156,7 +156,7 @@ void MusicBrainzClient::Start(const int id, const QStringList &mbid_list) {
 
 void MusicBrainzClient::StartDiscIdRequest(const QString &discid) {
 
-  const ParamList params = ParamList() << Param(QStringLiteral("inc"), QStringLiteral("artists+recordings"));
+  const ParamList params = ParamList() << Param(u"inc"_s, u"artists+recordings"_s);
 
   QUrlQuery url_query;
   url_query.setQueryItems(params);
@@ -178,7 +178,7 @@ void MusicBrainzClient::FlushRequests() {
 
   Request request = requests_pending_.take(requests_pending_.firstKey());
 
-  const ParamList params = ParamList() << Param(QStringLiteral("inc"), QStringLiteral("artists+releases+media"));
+  const ParamList params = ParamList() << Param(u"inc"_s, u"artists+releases+media"_s);
 
   QUrlQuery url_query;
   url_query.setQueryItems(params);

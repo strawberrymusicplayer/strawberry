@@ -119,8 +119,8 @@ PlayingWidget::PlayingWidget(QWidget *parent)
   details_->setUndoRedoEnabled(false);
   // add placeholder text to get the correct height
   if (mode_ == Mode::LargeSongDetails) {
-    details_->setDefaultStyleSheet(QStringLiteral("p { font-size: small; font-weight: bold; }"));
-    details_->setHtml(QStringLiteral("<p align=center><i></i><br/><br/></p>"));
+    details_->setDefaultStyleSheet(u"p { font-size: small; font-weight: bold; }"_s);
+    details_->setHtml(u"<p align=center><i></i><br/><br/></p>"_s);
   }
 
   UpdateHeight();
@@ -404,7 +404,7 @@ void PlayingWidget::UpdateHeight() {
 void PlayingWidget::UpdateDetailsText() {
 
   QString html;
-  details_->setDefaultStyleSheet(QStringLiteral("p { font-size: small; font-weight: bold; }"));
+  details_->setDefaultStyleSheet(u"p { font-size: small; font-weight: bold; }"_s);
   switch (mode_) {
     case Mode::SmallSongDetails:
       details_->setTextWidth(-1);
@@ -549,7 +549,7 @@ void PlayingWidget::SearchCoverInProgress() {
   downloading_covers_ = true;
 
   // Show a spinner animation
-  spinner_animation_ = make_unique<QMovie>(QStringLiteral(":/pictures/spinner.gif"), QByteArray(), this);
+  spinner_animation_ = make_unique<QMovie>(u":/pictures/spinner.gif"_s, QByteArray(), this);
   QObject::connect(&*spinner_animation_, &QMovie::updated, this, &PlayingWidget::Update);
   spinner_animation_->start();
   update();

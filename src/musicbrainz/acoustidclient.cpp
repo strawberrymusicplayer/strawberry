@@ -75,11 +75,11 @@ void AcoustidClient::Start(const int id, const QString &fingerprint, int duratio
   using Param = QPair<QString, QString>;
   using ParamList = QList<Param>;
 
-  const ParamList params = ParamList() << Param(QStringLiteral("format"), QStringLiteral("json"))
-                                       << Param(QStringLiteral("client"), QLatin1String(kClientId))
-                                       << Param(QStringLiteral("duration"), QString::number(duration_msec / kMsecPerSec))
-                                       << Param(QStringLiteral("meta"), QStringLiteral("recordingids+sources"))
-                                       << Param(QStringLiteral("fingerprint"), fingerprint);
+  const ParamList params = ParamList() << Param(u"format"_s, u"json"_s)
+                                       << Param(u"client"_s, QLatin1String(kClientId))
+                                       << Param(u"duration"_s, QString::number(duration_msec / kMsecPerSec))
+                                       << Param(u"meta"_s, u"recordingids+sources"_s)
+                                       << Param(u"fingerprint"_s, fingerprint);
 
   QUrlQuery url_query;
   url_query.setQueryItems(params);

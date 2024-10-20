@@ -33,6 +33,8 @@
 #include <QEvent>
 #include <QKeyEvent>
 
+using namespace Qt::Literals::StringLiterals;
+
 LoginStateWidget::LoginStateWidget(QWidget *parent)
     : QWidget(parent),
       ui_(new Ui_LoginStateWidget),
@@ -44,10 +46,10 @@ LoginStateWidget::LoginStateWidget(QWidget *parent)
   ui_->account_type->hide();
   ui_->busy->hide();
 
-  ui_->sign_out->setIcon(IconLoader::Load(QStringLiteral("list-remove")));
-  ui_->signed_in_icon_label->setPixmap(IconLoader::Load(QStringLiteral("dialog-ok-apply")).pixmap(22));
-  ui_->expires_icon_label->setPixmap(IconLoader::Load(QStringLiteral("dialog-password")).pixmap(22));
-  ui_->account_type_icon_label->setPixmap(IconLoader::Load(QStringLiteral("dialog-warning")).pixmap(22));
+  ui_->sign_out->setIcon(IconLoader::Load(u"list-remove"_s));
+  ui_->signed_in_icon_label->setPixmap(IconLoader::Load(u"dialog-ok-apply"_s).pixmap(22));
+  ui_->expires_icon_label->setPixmap(IconLoader::Load(u"dialog-password"_s).pixmap(22));
+  ui_->account_type_icon_label->setPixmap(IconLoader::Load(u"dialog-warning"_s).pixmap(22));
 
   QFont bold_font(font());
   bold_font.setBold(true);
@@ -81,8 +83,8 @@ void LoginStateWidget::SetLoggedIn(const State state, const QString &account_nam
   ui_->signed_out->setVisible(state != State::LoggedIn);
   ui_->busy->setVisible(state == State::LoginInProgress);
 
-  if (account_name.isEmpty()) ui_->signed_in_label->setText(QStringLiteral("<b>") + tr("You are signed in.") + QStringLiteral("</b>"));
-  else ui_->signed_in_label->setText(tr("You are signed in as %1.").arg(QStringLiteral("<b>") + account_name + QStringLiteral("</b>")));
+  if (account_name.isEmpty()) ui_->signed_in_label->setText(u"<b>"_s + tr("You are signed in.") + u"</b>"_s);
+  else ui_->signed_in_label->setText(tr("You are signed in as %1.").arg(u"<b>"_s + account_name + u"</b>"_s));
 
   for (QWidget *widget : std::as_const(credential_groups_)) {
     widget->setVisible(state != State::LoggedIn);
@@ -153,7 +155,7 @@ void LoginStateWidget::SetExpires(const QDate expires) {
 
   if (expires.isValid()) {
     const QString expires_text = QLocale().toString(expires, QLocale::LongFormat);
-    ui_->expires_label->setText(tr("Expires on %1").arg(QStringLiteral("<b>") + expires_text + QStringLiteral("</b>")));
+    ui_->expires_label->setText(tr("Expires on %1").arg(u"<b>"_s + expires_text + u"</b>"_s));
   }
 
 }

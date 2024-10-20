@@ -62,7 +62,7 @@ GlobalShortcutsSettingsPage::GlobalShortcutsSettingsPage(SettingsDialog *dialog,
   ui_->setupUi(this);
   ui_->shortcut_options->setEnabled(false);
   ui_->list->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
-  setWindowIcon(IconLoader::Load(QStringLiteral("keyboard"), true, 0, 32));
+  setWindowIcon(IconLoader::Load(u"keyboard"_s, true, 0, 32));
 
   QObject::connect(ui_->list, &QTreeWidget::currentItemChanged, this, &GlobalShortcutsSettingsPage::ItemClicked);
   QObject::connect(ui_->radio_none, &QRadioButton::clicked, this, &GlobalShortcutsSettingsPage::NoneClicked);
@@ -276,9 +276,9 @@ void GlobalShortcutsSettingsPage::ShortcutOptionsChanged() {
 
 void GlobalShortcutsSettingsPage::OpenGnomeKeybindingProperties() {
 
-  if (!QProcess::startDetached(QStringLiteral("gnome-keybinding-properties"), QStringList())) {
-    if (!QProcess::startDetached(QStringLiteral("gnome-control-center"), QStringList() << QStringLiteral("keyboard"))) {
-      QMessageBox::warning(this, QStringLiteral("Error"), tr("The \"%1\" command could not be started.").arg("gnome-keybinding-properties"_L1));
+  if (!QProcess::startDetached(u"gnome-keybinding-properties"_s, QStringList())) {
+    if (!QProcess::startDetached(u"gnome-control-center"_s, QStringList() << u"keyboard"_s)) {
+      QMessageBox::warning(this, u"Error"_s, tr("The \"%1\" command could not be started.").arg("gnome-keybinding-properties"_L1));
     }
   }
 
@@ -286,9 +286,9 @@ void GlobalShortcutsSettingsPage::OpenGnomeKeybindingProperties() {
 
 void GlobalShortcutsSettingsPage::OpenMateKeybindingProperties() {
 
-  if (!QProcess::startDetached(QStringLiteral("mate-keybinding-properties"), QStringList())) {
-    if (!QProcess::startDetached(QStringLiteral("mate-control-center"), QStringList() << QStringLiteral("keyboard"))) {
-      QMessageBox::warning(this, QStringLiteral("Error"), tr("The \"%1\" command could not be started.").arg("mate-keybinding-properties"_L1));
+  if (!QProcess::startDetached(u"mate-keybinding-properties"_s, QStringList())) {
+    if (!QProcess::startDetached(u"mate-control-center"_s, QStringList() << u"keyboard"_s)) {
+      QMessageBox::warning(this, u"Error"_s, tr("The \"%1\" command could not be started.").arg("mate-keybinding-properties"_L1));
     }
   }
 

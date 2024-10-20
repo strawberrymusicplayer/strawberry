@@ -47,11 +47,9 @@
 #include "song.h"
 #include "songloader.h"
 #include "database.h"
-#include "sqlrow.h"
 #include "engine/enginebase.h"
 #include "tagreader/tagreaderclient.h"
 #include "collection/collectionbackend.h"
-#include "collection/collectionquery.h"
 #include "playlistparsers/cueparser.h"
 #include "playlistparsers/parserbase.h"
 #include "playlistparsers/playlistparser.h"
@@ -59,6 +57,8 @@
 #ifdef HAVE_AUDIOCD
 #  include "device/cddasongloader.h"
 #endif
+
+using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr int kDefaultTimeout = 5000;
@@ -81,15 +81,15 @@ SongLoader::SongLoader(SharedPtr<CollectionBackendInterface> collection_backend,
       success_(false) {
 
   if (sRawUriSchemes.isEmpty()) {
-    sRawUriSchemes << QStringLiteral("udp")
-                   << QStringLiteral("mms")
-                   << QStringLiteral("mmsh")
-                   << QStringLiteral("mmst")
-                   << QStringLiteral("mmsu")
-                   << QStringLiteral("rtsp")
-                   << QStringLiteral("rtspu")
-                   << QStringLiteral("rtspt")
-                   << QStringLiteral("rtsph");
+    sRawUriSchemes << u"udp"_s
+                   << u"mms"_s
+                   << u"mmsh"_s
+                   << u"mmst"_s
+                   << u"mmsu"_s
+                   << u"rtsp"_s
+                   << u"rtspu"_s
+                   << u"rtspt"_s
+                   << u"rtsph"_s;
   }
 
   timeout_timer_->setSingleShot(true);
@@ -537,7 +537,7 @@ void SongLoader::TypeFound(GstElement *typefind, const uint probability, GstCaps
   // Check the mimetype
   instance->mime_type_ = QString::fromUtf8(gst_structure_get_name(gst_caps_get_structure(caps, 0)));
   qLog(Debug) << "Mime type is" << instance->mime_type_;
-  if (instance->mime_type_ == QStringLiteral("text/plain") || instance->mime_type_ == QStringLiteral("text/uri-list")) {
+  if (instance->mime_type_ == u"text/plain"_s || instance->mime_type_ == u"text/uri-list"_s) {
     // Yeah it might be a playlist, let's get some data and have a better look
     instance->state_ = State::WaitingForMagic;
     return;
@@ -688,10 +688,10 @@ void SongLoader::MagicReady() {
 
   qLog(Debug) << "Magic says" << parser_->name();
 
-  if (parser_->name() == QStringLiteral("ASX/INI") && url_.scheme() == QStringLiteral("http")) {
+  if (parser_->name() == u"ASX/INI"_s && url_.scheme() == u"http"_s) {
     // This is actually a weird MS-WMSP stream. Changing the protocol to MMS from HTTP makes it playable.
     parser_ = nullptr;
-    url_.setScheme(QStringLiteral("mms"));
+    url_.setScheme(u"mms"_s);
     StopTypefindAsync(true);
   }
 

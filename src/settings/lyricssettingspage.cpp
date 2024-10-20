@@ -45,6 +45,8 @@
 #include "lyrics/lyricsprovider.h"
 #include "widgets/loginstatewidget.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 const char *LyricsSettingsPage::kSettingsGroup = "Lyrics";
 
 LyricsSettingsPage::LyricsSettingsPage(SettingsDialog *dialog, QWidget *parent)
@@ -53,7 +55,7 @@ LyricsSettingsPage::LyricsSettingsPage(SettingsDialog *dialog, QWidget *parent)
       provider_selected_(false) {
 
   ui_->setupUi(this);
-  setWindowIcon(IconLoader::Load(QStringLiteral("view-media-lyrics"), true, 0, 32));
+  setWindowIcon(IconLoader::Load(u"view-media-lyrics"_s, true, 0, 32));
 
   QObject::connect(ui_->providers_up, &QPushButton::clicked, this, &LyricsSettingsPage::ProvidersMoveUp);
   QObject::connect(ui_->providers_down, &QPushButton::clicked, this, &LyricsSettingsPage::ProvidersMoveDown);

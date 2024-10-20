@@ -33,6 +33,8 @@
 #include "playlistsettingspage.h"
 #include "ui_playlistsettingspage.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 class SettingsDialog;
 
 const char *PlaylistSettingsPage::kSettingsGroup = "Playlist";
@@ -42,7 +44,7 @@ PlaylistSettingsPage::PlaylistSettingsPage(SettingsDialog *dialog, QWidget *pare
       ui_(new Ui_PlaylistSettingsPage) {
 
   ui_->setupUi(this);
-  setWindowIcon(IconLoader::Load(QStringLiteral("document-new"), true, 0, 32));
+  setWindowIcon(IconLoader::Load(u"document-new"_s, true, 0, 32));
 
 }
 

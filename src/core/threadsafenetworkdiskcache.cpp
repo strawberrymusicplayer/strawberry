@@ -34,6 +34,8 @@
 
 #include "threadsafenetworkdiskcache.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 QMutex ThreadSafeNetworkDiskCache::sMutex;
 int ThreadSafeNetworkDiskCache::sInstances = 0;
 QNetworkDiskCache *ThreadSafeNetworkDiskCache::sCache = nullptr;
@@ -46,9 +48,9 @@ ThreadSafeNetworkDiskCache::ThreadSafeNetworkDiskCache(QObject *parent) : QAbstr
   if (!sCache) {
     sCache = new QNetworkDiskCache;
 #ifdef Q_OS_WIN32
-    sCache->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::TempLocation) + QStringLiteral("/strawberry/networkcache"));
+    sCache->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::TempLocation) + u"/strawberry/networkcache"_s);
 #else
-    sCache->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + QStringLiteral("/networkcache"));
+    sCache->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + u"/networkcache"_s);
 #endif
   }
 

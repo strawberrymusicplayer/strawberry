@@ -36,6 +36,8 @@
 #include "qobuzbaserequest.h"
 #include "qobuzfavoriterequest.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 QobuzFavoriteRequest::QobuzFavoriteRequest(QobuzService *service, SharedPtr<NetworkAccessManager> network, QObject *parent)
     : QobuzBaseRequest(service, network, parent),
       service_(service),
@@ -56,12 +58,12 @@ QString QobuzFavoriteRequest::FavoriteText(const FavoriteType type) {
 
   switch (type) {
     case FavoriteType::Artists:
-      return QStringLiteral("artists");
+      return u"artists"_s;
     case FavoriteType::Albums:
-      return QStringLiteral("albums");
+      return u"albums"_s;
     case FavoriteType::Songs:
     default:
-      return QStringLiteral("tracks");
+      return u"tracks"_s;
   }
 
 }
@@ -70,13 +72,13 @@ QString QobuzFavoriteRequest::FavoriteMethod(const FavoriteType type) {
 
   switch (type) {
     case FavoriteType::Artists:
-      return QStringLiteral("artist_ids");
+      return u"artist_ids"_s;
       break;
     case FavoriteType::Albums:
-      return QStringLiteral("album_ids");
+      return u"album_ids"_s;
       break;
     case FavoriteType::Songs:
-      return QStringLiteral("track_ids");
+      return u"track_ids"_s;
       break;
   }
 
@@ -132,8 +134,8 @@ void QobuzFavoriteRequest::AddFavorites(const FavoriteType type, const SongList 
 
 void QobuzFavoriteRequest::AddFavoritesRequest(const FavoriteType type, const QStringList &ids_list, const SongList &songs) {
 
-  const ParamList params = ParamList() << Param(QStringLiteral("app_id"), app_id())
-                                       << Param(QStringLiteral("user_auth_token"), user_auth_token())
+  const ParamList params = ParamList() << Param(u"app_id"_s, app_id())
+                                       << Param(u"user_auth_token"_s, user_auth_token())
                                        << Param(FavoriteMethod(type), ids_list.join(u','));
 
   QUrlQuery url_query;
@@ -141,7 +143,7 @@ void QobuzFavoriteRequest::AddFavoritesRequest(const FavoriteType type, const QS
     url_query.addQueryItem(QString::fromLatin1(QUrl::toPercentEncoding(param.first)), QString::fromLatin1(QUrl::toPercentEncoding(param.second)));
   }
 
-  QNetworkReply *reply = CreateRequest(QStringLiteral("favorite/create"), params);
+  QNetworkReply *reply = CreateRequest(u"favorite/create"_s, params);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, type, songs]() { AddFavoritesReply(reply, type, songs); });
   replies_ << reply;
 
@@ -227,8 +229,8 @@ void QobuzFavoriteRequest::RemoveFavorites(const FavoriteType type, const SongLi
 
 void QobuzFavoriteRequest::RemoveFavoritesRequest(const FavoriteType type, const QStringList &ids_list, const SongList &songs) {
 
-  const ParamList params = ParamList() << Param(QStringLiteral("app_id"), app_id())
-                                       << Param(QStringLiteral("user_auth_token"), user_auth_token())
+  const ParamList params = ParamList() << Param(u"app_id"_s, app_id())
+                                       << Param(u"user_auth_token"_s, user_auth_token())
                                        << Param(FavoriteMethod(type), ids_list.join(u','));
 
   QUrlQuery url_query;
@@ -236,7 +238,7 @@ void QobuzFavoriteRequest::RemoveFavoritesRequest(const FavoriteType type, const
     url_query.addQueryItem(QString::fromLatin1(QUrl::toPercentEncoding(param.first)), QString::fromLatin1(QUrl::toPercentEncoding(param.second)));
   }
 
-  QNetworkReply *reply = CreateRequest(QStringLiteral("favorite/delete"), params);
+  QNetworkReply *reply = CreateRequest(u"favorite/delete"_s, params);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, type, songs]() { RemoveFavoritesReply(reply, type, songs); });
   replies_ << reply;
 

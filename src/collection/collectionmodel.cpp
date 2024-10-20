@@ -95,7 +95,7 @@ CollectionModel::CollectionModel(SharedPtr<CollectionBackend> backend, Applicati
       filter_(new CollectionFilter(this)),
       timer_reload_(new QTimer(this)),
       timer_update_(new QTimer(this)),
-      icon_artist_(IconLoader::Load(QStringLiteral("folder-sound"))),
+      icon_artist_(IconLoader::Load(u"folder-sound"_s)),
       use_disk_cache_(false),
       total_song_count_(0),
       total_artist_count_(0),
@@ -112,7 +112,7 @@ CollectionModel::CollectionModel(SharedPtr<CollectionBackend> backend, Applicati
     QObject::connect(&*app_->album_cover_loader(), &AlbumCoverLoader::AlbumCoverLoaded, this, &CollectionModel::AlbumCoverLoaded);
   }
 
-  QIcon nocover = IconLoader::Load(QStringLiteral("cdcase"));
+  QIcon nocover = IconLoader::Load(u"cdcase"_s);
   if (!nocover.isNull()) {
     QList<QSize> nocover_sizes = nocover.availableSizes();
     pixmap_no_cover_ = nocover.pixmap(nocover_sizes.last()).scaled(kPrettyCoverSize, kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
@@ -409,7 +409,7 @@ Qt::ItemFlags CollectionModel::flags(const QModelIndex &idx) const {
 }
 
 QStringList CollectionModel::mimeTypes() const {
-  return QStringList() << QStringLiteral("text/uri-list");
+  return QStringList() << u"text/uri-list"_s;
 }
 
 QMimeData *CollectionModel::mimeData(const QModelIndexList &indexes) const {
@@ -823,7 +823,7 @@ SongList CollectionModel::LoadSongsFromSql(const CollectionFilterOptions &filter
     QMutexLocker l(backend_->db()->Mutex());
     QSqlDatabase db(backend_->db()->Connect());
     CollectionQuery q(db, backend_->songs_table(), filter_options);
-    q.SetColumnSpec(QStringLiteral("%songs_table.ROWID, ") + Song::kColumnSpec);
+    q.SetColumnSpec(u"%songs_table.ROWID, "_s + Song::kColumnSpec);
     if (q.Exec()) {
       while (q.Next()) {
         Song song;
@@ -1155,7 +1155,7 @@ QString CollectionModel::SortText(QString text) {
   else {
     text = text.toLower();
   }
-  static const QRegularExpression regex_not_words(QStringLiteral("[^\\w ]"), QRegularExpression::UseUnicodePropertiesOption);
+  static const QRegularExpression regex_not_words(u"[^\\w ]"_s, QRegularExpression::UseUnicodePropertiesOption);
   text = text.remove(regex_not_words);
 
   return text;
@@ -1338,7 +1338,7 @@ QString CollectionModel::DividerKey(const GroupBy group_by, const Song &song, co
     case GroupBy::Format:
     case GroupBy::FileType: {
       QChar c = sort_text[0];
-      if (c.isDigit()) return QStringLiteral("0");
+      if (c.isDigit()) return u"0"_s;
       if (c == u' ') return QString();
       if (c.decompositionTag() != QChar::NoDecomposition) {
         QString decomposition = c.decomposition();
@@ -1388,7 +1388,7 @@ QString CollectionModel::DividerDisplayText(const GroupBy group_by, const QStrin
     case GroupBy::Genre:
     case GroupBy::FileType:
     case GroupBy::Format:
-      if (key == "0"_L1) return QStringLiteral("0-9");
+      if (key == "0"_L1) return u"0-9"_s;
       return key.toUpper();
 
     case GroupBy::YearAlbum:

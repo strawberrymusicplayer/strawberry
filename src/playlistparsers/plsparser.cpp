@@ -46,7 +46,7 @@ SongList PLSParser::Load(QIODevice *device, const QString &playlist_path, const 
   Q_UNUSED(playlist_path);
 
   QMap<int, Song> songs;
-  static const QRegularExpression n_re(QStringLiteral("\\d+$"));
+  static const QRegularExpression n_re(u"\\d+$"_s);
 
   while (!device->atEnd()) {
     QString line = QString::fromUtf8(device->readLine()).trimmed();

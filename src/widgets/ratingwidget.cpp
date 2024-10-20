@@ -29,13 +29,15 @@
 #include <QPainter>
 #include <QMouseEvent>
 
+using namespace Qt::Literals::StringLiterals;
+
 RatingPainter::RatingPainter() {
 
   // Load the base pixmaps
-  QIcon star_on(QStringLiteral(":/pictures/star-on.png"));
+  QIcon star_on(u":/pictures/star-on.png"_s);
   QList<QSize> star_on_sizes = star_on.availableSizes();
   QPixmap on(star_on.pixmap(star_on_sizes.last()));
-  QIcon star_off(QStringLiteral(":/pictures/star-off.png"));
+  QIcon star_off(u":/pictures/star-off.png"_s);
   QList<QSize> star_off_sizes = star_off.availableSizes();
   QPixmap off(star_off.pixmap(star_off_sizes.last()));
 

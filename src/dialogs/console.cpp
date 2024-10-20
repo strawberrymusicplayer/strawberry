@@ -40,6 +40,8 @@
 #include "core/application.h"
 #include "core/database.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 Console::Console(Application *app, QWidget *parent) : QDialog(parent), ui_{}, app_(app) {
 
   ui_.setupUi(this);
@@ -48,7 +50,7 @@ Console::Console(Application *app, QWidget *parent) : QDialog(parent), ui_{}, ap
 
   QObject::connect(ui_.run, &QPushButton::clicked, this, &Console::RunQuery);
 
-  QFont font(QStringLiteral("Monospace"));
+  QFont font(u"Monospace"_s);
   font.setStyleHint(QFont::TypeWriter);
 
   ui_.output->setFont(font);
@@ -69,7 +71,7 @@ void Console::RunQuery() {
     return;
   }
 
-  ui_.output->append(QStringLiteral("<b>&gt; ") + query.executedQuery() + QStringLiteral("</b>"));
+  ui_.output->append(u"<b>&gt; "_s + query.executedQuery() + u"</b>"_s);
 
   while (query.next() && query.isValid()) {
     QSqlRecord record = query.record();

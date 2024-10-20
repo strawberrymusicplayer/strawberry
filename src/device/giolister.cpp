@@ -228,12 +228,12 @@ QList<QUrl> GioLister::MakeDeviceUrls(const QString &id) {
   for (QString uri : std::as_const(uris)) {
 
     // gphoto2 gives invalid hostnames with []:, characters in
-    static const QRegularExpression regex_url_usb(QStringLiteral("//\\[usb:(\\d+),(\\d+)\\]"));
-    uri.replace(regex_url_usb, QStringLiteral("//usb-\\1-\\2"));
+    static const QRegularExpression regex_url_usb(u"//\\[usb:(\\d+),(\\d+)\\]"_s);
+    uri.replace(regex_url_usb, u"//usb-\\1-\\2"_s);
 
     QUrl url;
 
-    static const QRegularExpression regex_url_schema(QStringLiteral("..+:.*"));
+    static const QRegularExpression regex_url_schema(u"..+:.*"_s);
     if (uri.contains(regex_url_schema)) {
       url = QUrl::fromEncoded(uri.toUtf8());
     }
@@ -245,16 +245,16 @@ QList<QUrl> GioLister::MakeDeviceUrls(const QString &id) {
 
       // Special case for file:// GIO URIs - we have to check whether they point to an ipod.
       if (url.isLocalFile() && IsIpod(url.path())) {
-        url.setScheme(QStringLiteral("ipod"));
+        url.setScheme(u"ipod"_s);
       }
 
-      static const QRegularExpression regex_usb_digit(QStringLiteral("usb/(\\d+)/(\\d+)"));
+      static const QRegularExpression regex_usb_digit(u"usb/(\\d+)/(\\d+)"_s);
       QRegularExpression device_re(regex_usb_digit);
       QRegularExpressionMatch re_match = device_re.match(unix_device);
       if (re_match.hasMatch()) {
         QUrlQuery url_query(url);
-        url_query.addQueryItem(QStringLiteral("busnum"), re_match.captured(1));
-        url_query.addQueryItem(QStringLiteral("devnum"), re_match.captured(2));
+        url_query.addQueryItem(u"busnum"_s, re_match.captured(1));
+        url_query.addQueryItem(u"devnum"_s, re_match.captured(2));
         url.setQuery(url_query);
       }
 

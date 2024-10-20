@@ -27,6 +27,8 @@
 #include "radioviewcontainer.h"
 #include "ui_radioviewcontainer.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 RadioViewContainer::RadioViewContainer(QWidget *parent)
     : QWidget(parent),
       ui_(new Ui_RadioViewContainer) {
@@ -35,7 +37,7 @@ RadioViewContainer::RadioViewContainer(QWidget *parent)
 
   QObject::connect(ui_->refresh, &QToolButton::clicked, this, &RadioViewContainer::Refresh);
 
-  ui_->refresh->setIcon(IconLoader::Load(QStringLiteral("view-refresh")));
+  ui_->refresh->setIcon(IconLoader::Load(u"view-refresh"_s));
 
   ReloadSettings();
 

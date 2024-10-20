@@ -38,6 +38,8 @@
 #include "smartplaylistwizardfinishpage.h"
 #include "ui_smartplaylistwizardfinishpage.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 SmartPlaylistWizard::SmartPlaylistWizard(Application *app, SharedPtr<CollectionBackend> collection_backend, QWidget *parent)
     : QWizard(parent),
       app_(app),
@@ -46,7 +48,7 @@ SmartPlaylistWizard::SmartPlaylistWizard(Application *app, SharedPtr<CollectionB
       finish_page_(new SmartPlaylistWizardFinishPage(this)),
       type_index_(-1) {
 
-  setWindowIcon(IconLoader::Load(QStringLiteral("strawberry")));
+  setWindowIcon(IconLoader::Load(u"strawberry"_s));
   setWindowTitle(tr("Smart playlist"));
 
   resize(788, 628);
@@ -56,7 +58,7 @@ SmartPlaylistWizard::SmartPlaylistWizard(Application *app, SharedPtr<CollectionB
   setWizardStyle(QWizard::ClassicStyle);
 #endif
 #ifdef Q_OS_WIN32
-  if (QApplication::style() && QApplication::style()->objectName() == QStringLiteral("fusion")) {
+  if (QApplication::style() && QApplication::style()->objectName() == u"fusion"_s) {
     setWizardStyle(QWizard::ClassicStyle);
   }
 #endif
@@ -64,7 +66,7 @@ SmartPlaylistWizard::SmartPlaylistWizard(Application *app, SharedPtr<CollectionB
   // Type page
   type_page_->setTitle(tr("Playlist type"));
   type_page_->setSubTitle(tr("A smart playlist is a dynamic list of songs that come from your collection.  There are different types of smart playlist that offer different ways of selecting songs."));
-  type_page_->setStyleSheet(QStringLiteral("QRadioButton { font-weight: bold; } QLabel { margin-bottom: 1em; margin-left: 24px; }"));
+  type_page_->setStyleSheet(u"QRadioButton { font-weight: bold; } QLabel { margin-bottom: 1em; margin-left: 24px; }"_s);
   addPage(type_page_);
 
   // Finish page
@@ -102,7 +104,7 @@ void SmartPlaylistWizard::SetGenerator(PlaylistGeneratorPtr gen) {
 
   // Set the name
   if (!gen->name().isEmpty()) {
-    setWindowTitle(windowTitle() + QStringLiteral(" - ") + gen->name());
+    setWindowTitle(windowTitle() + u" - "_s + gen->name());
   }
   finish_page_->ui_->name->setText(gen->name());
   finish_page_->ui_->dynamic->setChecked(gen->is_dynamic());

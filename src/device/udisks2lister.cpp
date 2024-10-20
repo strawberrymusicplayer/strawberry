@@ -190,7 +190,7 @@ void Udisks2Lister::UpdateDeviceFreeSpace(const QString &id) {
 
 bool Udisks2Lister::Init() {
 
-  udisks2_interface_ = make_unique<OrgFreedesktopDBusObjectManagerInterface>(QLatin1String(kUDisks2Service), QStringLiteral("/org/freedesktop/UDisks2"), QDBusConnection::systemBus());
+  udisks2_interface_ = make_unique<OrgFreedesktopDBusObjectManagerInterface>(QLatin1String(kUDisks2Service), u"/org/freedesktop/UDisks2"_s, QDBusConnection::systemBus());
 
   QDBusPendingReply<ManagedObjectList> reply = udisks2_interface_->GetManagedObjects();
   reply.waitForFinished();
@@ -411,7 +411,7 @@ Udisks2Lister::PartitionData Udisks2Lister::ReadPartitionData(const QDBusObjectP
 }
 
 QString Udisks2Lister::PartitionData::unique_id() const {
-  return QStringLiteral("Udisks2/%1/%2/%3/%4/%5")
+  return u"Udisks2/%1/%2/%3/%4/%5"_s
       .arg(serial, vendor, model)
       .arg(capacity)
       .arg(uuid);

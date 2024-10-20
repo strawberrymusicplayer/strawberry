@@ -41,6 +41,8 @@
 #  include "moodbar/moodbarproxystyle.h"
 #endif
 
+using namespace Qt::Literals::StringLiterals;
+
 namespace {
 constexpr char kSettingsGroup[] = "MainWindow";
 }
@@ -97,8 +99,8 @@ void TrackSlider::SetApplication(Application *app) {
 void TrackSlider::UpdateLabelWidth() {
 
   // We set the label's minimum size, so it won't resize itself when the user is dragging the slider.
-  UpdateLabelWidth(ui_->elapsed, QStringLiteral("0:00:00"));
-  UpdateLabelWidth(ui_->remaining, QStringLiteral("-0:00:00"));
+  UpdateLabelWidth(ui_->elapsed, u"0:00:00"_s);
+  UpdateLabelWidth(ui_->remaining, u"-0:00:00"_s);
 
 }
 
@@ -161,8 +163,8 @@ void TrackSlider::UpdateTimes(const int elapsed) {
 void TrackSlider::SetStopped() {
 
   setEnabled(false);
-  ui_->elapsed->setText(QStringLiteral("0:00:00"));
-  ui_->remaining->setText(QStringLiteral("0:00:00"));
+  ui_->elapsed->setText(u"0:00:00"_s);
+  ui_->remaining->setText(u"0:00:00"_s);
 
   setting_value_ = true;
   ui_->slider->setValue(0);

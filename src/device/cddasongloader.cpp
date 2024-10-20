@@ -47,6 +47,8 @@
 
 using std::make_shared;
 
+using namespace Qt::Literals::StringLiterals;
+
 CddaSongLoader::CddaSongLoader(const QUrl &url, QObject *parent)
     : QObject(parent),
       url_(url),
@@ -73,7 +75,7 @@ void CddaSongLoader::LoadSongs() {
   QMutexLocker locker(&mutex_load_);
   cdio_ = cdio_open(url_.path().toLocal8Bit().constData(), DRIVER_DEVICE);
   if (cdio_ == nullptr) {
-    Error(QStringLiteral("Unable to open CDIO device."));
+    Error(u"Unable to open CDIO device."_s);
     return;
   }
 

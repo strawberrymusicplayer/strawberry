@@ -62,7 +62,7 @@ constexpr const int kRequestsDelay = 1000;
 using std::make_shared;
 
 OpenTidalCoverProvider::OpenTidalCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : JsonCoverProvider(QStringLiteral("OpenTidal"), true, false, 2.5, true, false, app, network, parent),
+    : JsonCoverProvider(u"OpenTidal"_s, true, false, 2.5, true, false, app, network, parent),
       login_timer_(new QTimer(this)),
       timer_flush_requests_(new QTimer(this)),
       login_in_progress_(false),
@@ -178,7 +178,7 @@ void OpenTidalCoverProvider::Login() {
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
   req.setRawHeader("Authorization", "Basic " + QByteArray(QByteArray::fromBase64(kApiClientIdB64) + ":" + QByteArray::fromBase64(kApiClientSecretB64)).toBase64());
   QUrlQuery url_query;
-  url_query.addQueryItem(QStringLiteral("grant_type"), QStringLiteral("client_credentials"));
+  url_query.addQueryItem(u"grant_type"_s, u"client_credentials"_s);
   QNetworkReply *reply = network_->post(req, url_query.toString(QUrl::FullyEncoded).toUtf8());
   replies_ << reply;
   QObject::connect(reply, &QNetworkReply::sslErrors, this, &OpenTidalCoverProvider::HandleLoginSSLErrors);
@@ -331,14 +331,14 @@ void OpenTidalCoverProvider::SendSearchRequest(SearchRequestPtr search_request) 
   }
 
   QUrlQuery url_query;
-  url_query.addQueryItem(QStringLiteral("query"), QString::fromUtf8(QUrl::toPercentEncoding(query)));
-  url_query.addQueryItem(QStringLiteral("limit"), QString::number(kLimit));
-  url_query.addQueryItem(QStringLiteral("countryCode"), QStringLiteral("US"));
+  url_query.addQueryItem(u"query"_s, QString::fromUtf8(QUrl::toPercentEncoding(query)));
+  url_query.addQueryItem(u"limit"_s, QString::number(kLimit));
+  url_query.addQueryItem(u"countryCode"_s, u"US"_s);
   QUrl url(QLatin1String(kApiUrl) + "/search"_L1);
   url.setQuery(url_query);
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  req.setHeader(QNetworkRequest::ContentTypeHeader, QStringLiteral("application/vnd.tidal.v1+json"));
+  req.setHeader(QNetworkRequest::ContentTypeHeader, u"application/vnd.tidal.v1+json"_s);
   req.setRawHeader("Authorization", token_type_.toUtf8() + " " + access_token_.toUtf8());
 
   QNetworkReply *reply = network_->get(req);

@@ -48,8 +48,8 @@
 #include "core/settings.h"
 #include "transcoder.h"
 
-using namespace Qt::Literals::StringLiterals;
 using std::make_shared;
+using namespace Qt::Literals::StringLiterals;
 
 int Transcoder::JobFinishedEvent::sEventType = -1;
 
@@ -98,7 +98,7 @@ GstElement *Transcoder::CreateElementForMimeType(GstElementFactoryListType eleme
   // HACK: Force mp4mux because it doesn't set any useful src caps
   if (mime_type == "audio/mp4"_L1) {
     Q_EMIT LogLine(QStringLiteral("Using '%1' (rank %2)").arg("mp4mux"_L1).arg(-1));
-    return CreateElement(QStringLiteral("mp4mux"), bin);
+    return CreateElement(u"mp4mux"_s, bin);
   }
 
   // Keep track of all the suitable elements we find and figure out which is the best at the end.
@@ -141,16 +141,16 @@ GstElement *Transcoder::CreateElementForMimeType(GstElementFactoryListType eleme
   if (best.name_ == "lamemp3enc"_L1) {
     // Special case: we need to add xingmux and id3v2mux to the pipeline when using lamemp3enc because it doesn't write the VBR or ID3v2 headers itself.
 
-    Q_EMIT LogLine(QStringLiteral("Adding xingmux and id3v2mux to the pipeline"));
+    Q_EMIT LogLine(u"Adding xingmux and id3v2mux to the pipeline"_s);
 
     // Create the bin
     GstElement *mp3bin = gst_bin_new("mp3bin");
     gst_bin_add(GST_BIN(bin), mp3bin);
 
     // Create the elements
-    GstElement *lame = CreateElement(QStringLiteral("lamemp3enc"), mp3bin);
-    GstElement *xing = CreateElement(QStringLiteral("xingmux"), mp3bin);
-    GstElement *id3v2 = CreateElement(QStringLiteral("id3v2mux"), mp3bin);
+    GstElement *lame = CreateElement(u"lamemp3enc"_s, mp3bin);
+    GstElement *xing = CreateElement(u"xingmux"_s, mp3bin);
+    GstElement *id3v2 = CreateElement(u"id3v2mux"_s, mp3bin);
 
     if (!lame || !xing || !id3v2) {
       return nullptr;
@@ -234,25 +234,25 @@ TranscoderPreset Transcoder::PresetForFileType(const Song::FileType filetype) {
 
   switch (filetype) {
     case Song::FileType::WAV:
-      return TranscoderPreset(filetype, QStringLiteral("Wav"),                    QStringLiteral("wav"),  QString(), QStringLiteral("audio/x-wav"));
+      return TranscoderPreset(filetype, u"Wav"_s,                    u"wav"_s,  QString(), u"audio/x-wav"_s);
     case Song::FileType::FLAC:
-      return TranscoderPreset(filetype, QStringLiteral("FLAC"),                   QStringLiteral("flac"), QStringLiteral("audio/x-flac"));
+      return TranscoderPreset(filetype, u"FLAC"_s,                   u"flac"_s, u"audio/x-flac"_s);
     case Song::FileType::WavPack:
-      return TranscoderPreset(filetype, QStringLiteral("WavPack"),                QStringLiteral("wv"),   QStringLiteral("audio/x-wavpack"));
+      return TranscoderPreset(filetype, u"WavPack"_s,                u"wv"_s,   u"audio/x-wavpack"_s);
     case Song::FileType::OggFlac:
-      return TranscoderPreset(filetype, QStringLiteral("Ogg FLAC"),               QStringLiteral("ogg"),  QStringLiteral("audio/x-flac"), QStringLiteral("application/ogg"));
+      return TranscoderPreset(filetype, u"Ogg FLAC"_s,               u"ogg"_s,  u"audio/x-flac"_s, u"application/ogg"_s);
     case Song::FileType::OggVorbis:
-      return TranscoderPreset(filetype, QStringLiteral("Ogg Vorbis"),             QStringLiteral("ogg"),  QStringLiteral("audio/x-vorbis"), QStringLiteral("application/ogg"));
+      return TranscoderPreset(filetype, u"Ogg Vorbis"_s,             u"ogg"_s,  u"audio/x-vorbis"_s, u"application/ogg"_s);
     case Song::FileType::OggOpus:
-      return TranscoderPreset(filetype, QStringLiteral("Ogg Opus"),               QStringLiteral("opus"), QStringLiteral("audio/x-opus"), QStringLiteral("application/ogg"));
+      return TranscoderPreset(filetype, u"Ogg Opus"_s,               u"opus"_s, u"audio/x-opus"_s, u"application/ogg"_s);
     case Song::FileType::OggSpeex:
-      return TranscoderPreset(filetype, QStringLiteral("Ogg Speex"),              QStringLiteral("spx"),  QStringLiteral("audio/x-speex"), QStringLiteral("application/ogg"));
+      return TranscoderPreset(filetype, u"Ogg Speex"_s,              u"spx"_s,  u"audio/x-speex"_s, u"application/ogg"_s);
     case Song::FileType::MPEG:
-      return TranscoderPreset(filetype, QStringLiteral("MP3"),                    QStringLiteral("mp3"),  QStringLiteral("audio/mpeg, mpegversion=(int)1, layer=(int)3"));
+      return TranscoderPreset(filetype, u"MP3"_s,                    u"mp3"_s,  u"audio/mpeg, mpegversion=(int)1, layer=(int)3"_s);
     case Song::FileType::MP4:
-      return TranscoderPreset(filetype, QStringLiteral("M4A AAC"),                QStringLiteral("mp4"),  QStringLiteral("audio/mpeg, mpegversion=(int)4"), QStringLiteral("audio/mp4"));
+      return TranscoderPreset(filetype, u"M4A AAC"_s,                u"mp4"_s,  u"audio/mpeg, mpegversion=(int)4"_s, u"audio/mp4"_s);
     case Song::FileType::ASF:
-      return TranscoderPreset(filetype, QStringLiteral("Windows Media audio"),    QStringLiteral("wma"),  QStringLiteral("audio/x-wma"), QStringLiteral("video/x-ms-asf"));
+      return TranscoderPreset(filetype, u"Windows Media audio"_s,    u"wma"_s,  u"audio/x-wma"_s, u"video/x-ms-asf"_s);
     default:
       qLog(Warning) << "Unsupported format in PresetForFileType:" << static_cast<int>(filetype);
       return TranscoderPreset();
@@ -417,13 +417,13 @@ bool Transcoder::StartJob(const Job &job) {
   if (!state->pipeline_) return false;
 
   // Create all the elements
-  GstElement *src      = CreateElement(QStringLiteral("filesrc"), state->pipeline_);
-  GstElement *decode   = CreateElement(QStringLiteral("decodebin"), state->pipeline_);
-  GstElement *convert  = CreateElement(QStringLiteral("audioconvert"), state->pipeline_);
-  GstElement *resample = CreateElement(QStringLiteral("audioresample"), state->pipeline_);
+  GstElement *src      = CreateElement(u"filesrc"_s, state->pipeline_);
+  GstElement *decode   = CreateElement(u"decodebin"_s, state->pipeline_);
+  GstElement *convert  = CreateElement(u"audioconvert"_s, state->pipeline_);
+  GstElement *resample = CreateElement(u"audioresample"_s, state->pipeline_);
   GstElement *codec    = CreateElementForMimeType(GST_ELEMENT_FACTORY_TYPE_AUDIO_ENCODER, job.preset.codec_mimetype_, state->pipeline_);
   GstElement *muxer    = CreateElementForMimeType(GST_ELEMENT_FACTORY_TYPE_MUXER, job.preset.muxer_mimetype_, state->pipeline_);
-  GstElement *sink     = CreateElement(QStringLiteral("filesink"), state->pipeline_);
+  GstElement *sink     = CreateElement(u"filesink"_s, state->pipeline_);
 
   if (!src || !decode || !convert || !sink) return false;
 

@@ -123,22 +123,22 @@ void TidalStreamURLRequest::GetStreamURL() {
 
   switch (stream_url_method()) {
     case TidalSettingsPage::StreamUrlMethod::StreamUrl:
-      params << Param(QStringLiteral("soundQuality"), quality());
+      params << Param(u"soundQuality"_s, quality());
       reply_ = CreateRequest(QStringLiteral("tracks/%1/streamUrl").arg(song_id_), params);
       QObject::connect(reply_, &QNetworkReply::finished, this, &TidalStreamURLRequest::StreamURLReceived);
       break;
     case TidalSettingsPage::StreamUrlMethod::UrlPostPaywall:
-      params << Param(QStringLiteral("audioquality"), quality());
-      params << Param(QStringLiteral("playbackmode"), QStringLiteral("STREAM"));
-      params << Param(QStringLiteral("assetpresentation"), QStringLiteral("FULL"));
-      params << Param(QStringLiteral("urlusagemode"), QStringLiteral("STREAM"));
+      params << Param(u"audioquality"_s, quality());
+      params << Param(u"playbackmode"_s, u"STREAM"_s);
+      params << Param(u"assetpresentation"_s, u"FULL"_s);
+      params << Param(u"urlusagemode"_s, u"STREAM"_s);
       reply_ = CreateRequest(QStringLiteral("tracks/%1/urlpostpaywall").arg(song_id_), params);
       QObject::connect(reply_, &QNetworkReply::finished, this, &TidalStreamURLRequest::StreamURLReceived);
       break;
     case TidalSettingsPage::StreamUrlMethod::PlaybackInfoPostPaywall:
-      params << Param(QStringLiteral("audioquality"), quality());
-      params << Param(QStringLiteral("playbackmode"), QStringLiteral("STREAM"));
-      params << Param(QStringLiteral("assetpresentation"), QStringLiteral("FULL"));
+      params << Param(u"audioquality"_s, quality());
+      params << Param(u"playbackmode"_s, u"STREAM"_s);
+      params << Param(u"assetpresentation"_s, u"FULL"_s);
       reply_ = CreateRequest(QStringLiteral("tracks/%1/playbackinfopostpaywall").arg(song_id_), params);
       QObject::connect(reply_, &QNetworkReply::finished, this, &TidalStreamURLRequest::StreamURLReceived);
       break;
@@ -172,7 +172,7 @@ void TidalStreamURLRequest::StreamURLReceived() {
   }
 
   if (!json_obj.contains("trackId"_L1)) {
-    Error(QStringLiteral("Invalid Json reply, stream missing trackId."), json_obj);
+    Error(u"Invalid Json reply, stream missing trackId."_s, json_obj);
     Q_EMIT StreamURLFailure(id_, media_url_, errors_.constFirst());
     return;
   }
@@ -204,7 +204,7 @@ void TidalStreamURLRequest::StreamURLReceived() {
     QXmlStreamReader xml_reader(data_manifest);
     if (xml_reader.readNextStartElement()) {
       QUrl url;
-      url.setScheme(QStringLiteral("data"));
+      url.setScheme(u"data"_s);
       url.setPath(QStringLiteral("application/dash+xml;base64,%1").arg(manifest));
       urls << url;
     }
@@ -228,7 +228,7 @@ void TidalStreamURLRequest::StreamURLReceived() {
       }
 
       if (!json_obj.contains("mimeType"_L1)) {
-        Error(QStringLiteral("Invalid Json reply, stream url reply manifest is missing mimeType."), json_obj);
+        Error(u"Invalid Json reply, stream url reply manifest is missing mimeType."_s, json_obj);
         Q_EMIT StreamURLFailure(id_, media_url_, errors_.constFirst());
         return;
       }
@@ -251,7 +251,7 @@ void TidalStreamURLRequest::StreamURLReceived() {
   if (json_obj.contains("urls"_L1)) {
     QJsonValue json_urls = json_obj["urls"_L1];
     if (!json_urls.isArray()) {
-      Error(QStringLiteral("Invalid Json reply, urls is not an array."), json_urls);
+      Error(u"Invalid Json reply, urls is not an array."_s, json_urls);
       Q_EMIT StreamURLFailure(id_, media_url_, errors_.constFirst());
       return;
     }
@@ -291,7 +291,7 @@ void TidalStreamURLRequest::StreamURLReceived() {
   }
 
   if (urls.isEmpty()) {
-    Error(QStringLiteral("Missing stream urls."), json_obj);
+    Error(u"Missing stream urls."_s, json_obj);
     Q_EMIT StreamURLFailure(id_, media_url_, errors_.constFirst());
     return;
   }

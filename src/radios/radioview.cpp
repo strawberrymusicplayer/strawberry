@@ -35,6 +35,8 @@
 #include "radiomimedata.h"
 #include "collection/collectionitemdelegate.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 RadioView::RadioView(QWidget *parent)
     : AutoExpandingTreeView(parent),
       menu_(nullptr),
@@ -70,27 +72,27 @@ void RadioView::contextMenuEvent(QContextMenuEvent *e) {
   if (!menu_) {
     menu_ = new QMenu;
 
-    action_playlist_append_ = new QAction(IconLoader::Load(QStringLiteral("media-playback-start")), tr("Append to current playlist"), this);
+    action_playlist_append_ = new QAction(IconLoader::Load(u"media-playback-start"_s), tr("Append to current playlist"), this);
     QObject::connect(action_playlist_append_, &QAction::triggered, this, &RadioView::AddToPlaylist);
     menu_->addAction(action_playlist_append_);
 
-    action_playlist_replace_ = new QAction(IconLoader::Load(QStringLiteral("media-playback-start")), tr("Replace current playlist"), this);
+    action_playlist_replace_ = new QAction(IconLoader::Load(u"media-playback-start"_s), tr("Replace current playlist"), this);
     QObject::connect(action_playlist_replace_, &QAction::triggered, this, &RadioView::ReplacePlaylist);
     menu_->addAction(action_playlist_replace_);
 
-    action_playlist_new_ = new QAction(IconLoader::Load(QStringLiteral("document-new")), tr("Open in new playlist"), this);
+    action_playlist_new_ = new QAction(IconLoader::Load(u"document-new"_s), tr("Open in new playlist"), this);
     QObject::connect(action_playlist_new_, &QAction::triggered, this, &RadioView::OpenInNewPlaylist);
     menu_->addAction(action_playlist_new_);
 
-    action_homepage_ = new QAction(IconLoader::Load(QStringLiteral("download")), tr("Open homepage"), this);
+    action_homepage_ = new QAction(IconLoader::Load(u"download"_s), tr("Open homepage"), this);
     QObject::connect(action_homepage_, &QAction::triggered, this, &RadioView::Homepage);
     menu_->addAction(action_homepage_);
 
-    action_donate_ = new QAction(IconLoader::Load(QStringLiteral("download")), tr("Donate"), this);
+    action_donate_ = new QAction(IconLoader::Load(u"download"_s), tr("Donate"), this);
     QObject::connect(action_donate_, &QAction::triggered, this, &RadioView::Donate);
     menu_->addAction(action_donate_);
 
-    menu_->addAction(IconLoader::Load(QStringLiteral("view-refresh")), tr("Refresh channels"), this, &RadioView::GetChannels);
+    menu_->addAction(IconLoader::Load(u"view-refresh"_s), tr("Refresh channels"), this, &RadioView::GetChannels);
   }
 
   const bool channels_selected = !selectedIndexes().isEmpty();

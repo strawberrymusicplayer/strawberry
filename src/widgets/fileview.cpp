@@ -50,6 +50,7 @@
 #include "settings/appearancesettingspage.h"
 
 using std::make_unique;
+using namespace Qt::Literals::StringLiterals;
 
 const char *FileView::kFileFilter =
     "*.wav *.flac *.wv *.ogg *.oga *.opus *.spx *.ape *.mpc "
@@ -66,15 +67,15 @@ FileView::FileView(QWidget *parent)
       model_(nullptr),
       undo_stack_(new QUndoStack(this)),
       task_manager_(nullptr),
-      storage_(new FilesystemMusicStorage(Song::Source::LocalFile, QStringLiteral("/"))) {
+      storage_(new FilesystemMusicStorage(Song::Source::LocalFile, u"/"_s)) {
 
   ui_->setupUi(this);
 
   // Icons
-  ui_->back->setIcon(IconLoader::Load(QStringLiteral("go-previous")));
-  ui_->forward->setIcon(IconLoader::Load(QStringLiteral("go-next")));
-  ui_->home->setIcon(IconLoader::Load(QStringLiteral("go-home")));
-  ui_->up->setIcon(IconLoader::Load(QStringLiteral("go-up")));
+  ui_->back->setIcon(IconLoader::Load(u"go-previous"_s));
+  ui_->forward->setIcon(IconLoader::Load(u"go-next"_s));
+  ui_->home->setIcon(IconLoader::Load(u"go-home"_s));
+  ui_->up->setIcon(IconLoader::Load(u"go-up"_s));
 
   QObject::connect(ui_->back, &QToolButton::clicked, undo_stack_, &QUndoStack::undo);
   QObject::connect(ui_->forward, &QToolButton::clicked, undo_stack_, &QUndoStack::redo);
@@ -216,6 +217,7 @@ FileView::UndoCommand::UndoCommand(FileView *view, const QString &new_path) : vi
   old_state_.index = view_->ui_->list->currentIndex();
 
   new_state_.path = new_path;
+
 }
 
 void FileView::UndoCommand::redo() {

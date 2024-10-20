@@ -59,7 +59,7 @@ AlbumCoverExport::DialogResult AlbumCoverExport::Exec() {
   s.beginGroup(kSettingsGroup);
 
   // Restore last accepted settings
-  ui_->fileName->setText(s.value("fileName", QStringLiteral("cover")).toString());
+  ui_->fileName->setText(s.value("fileName", u"cover"_s).toString());
   ui_->doNotOverwrite->setChecked(static_cast<OverwriteMode>(s.value("overwrite", static_cast<int>(OverwriteMode::None)).toInt()) == OverwriteMode::None);
   ui_->overwriteAll->setChecked(static_cast<OverwriteMode>(s.value("overwrite", static_cast<int>(OverwriteMode::All)).toInt()) == OverwriteMode::All);
   ui_->overwriteSmaller->setChecked(static_cast<OverwriteMode>(s.value("overwrite", static_cast<int>(OverwriteMode::Smaller)).toInt()) == OverwriteMode::Smaller);
@@ -77,7 +77,7 @@ AlbumCoverExport::DialogResult AlbumCoverExport::Exec() {
   if (!result.cancelled_) {
     QString fileName = ui_->fileName->text();
     if (fileName.isEmpty()) {
-      fileName = QStringLiteral("cover");
+      fileName = u"cover"_s;
     }
     OverwriteMode overwrite_mode = ui_->doNotOverwrite->isChecked() ? OverwriteMode::None : (ui_->overwriteAll->isChecked() ? OverwriteMode::All : OverwriteMode::Smaller);
     bool forceSize = ui_->forceSize->isChecked();

@@ -119,7 +119,7 @@ void FancyTabWidget::LoadSettings(const QString &settings_group) {
   s.beginGroup(settings_group);
   QMultiMap <int, FancyTabData*> tabs;
   for (FancyTabData *tab : std::as_const(tabs_)) {
-    int idx = s.value(QStringLiteral("tab_") + tab->name(), tab->index()).toInt();
+    int idx = s.value(u"tab_"_s + tab->name(), tab->index()).toInt();
     while (tabs.contains(idx)) { ++idx; }
     tabs.insert(idx, tab);
   }
@@ -143,7 +143,7 @@ void FancyTabWidget::SaveSettings(const QString &settings_group) {
   s.setValue("current_tab", currentIndex());
 
   for (FancyTabData *tab : std::as_const(tabs_)) {
-    QString k = QStringLiteral("tab_") + tab->name();
+    QString k = u"tab_"_s + tab->name();
     int idx = QTabWidget::indexOf(tab->page());
     if (idx < 0) {
       if (s.contains(k)) s.remove(k);

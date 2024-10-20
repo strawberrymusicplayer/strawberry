@@ -52,6 +52,8 @@
 #include "settingsdialog.h"
 #include "ui_appearancesettingspage.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 const char *AppearanceSettingsPage::kSettingsGroup = "Appearance";
 
 const char *AppearanceSettingsPage::kStyle = "style";
@@ -90,9 +92,9 @@ AppearanceSettingsPage::AppearanceSettingsPage(SettingsDialog *dialog, QWidget *
       background_image_type_(BackgroundImageType::Default) {
 
   ui_->setupUi(this);
-  setWindowIcon(IconLoader::Load(QStringLiteral("view-media-visualization"), true, 0, 32));
+  setWindowIcon(IconLoader::Load(u"view-media-visualization"_s, true, 0, 32));
 
-  ui_->combobox_style->addItem(QStringLiteral("default"), QStringLiteral("default"));
+  ui_->combobox_style->addItem(u"default"_s, u"default"_s);
   const QStringList styles = QStyleFactory::keys();
   for (const QString &style : styles) {
     ui_->combobox_style->addItem(style, style);
@@ -146,7 +148,7 @@ void AppearanceSettingsPage::Load() {
   Settings s;
   s.beginGroup(kSettingsGroup);
 
-  ComboBoxLoadFromSettings(s, ui_->combobox_style, QLatin1String(kStyle), QStringLiteral("default"));
+  ComboBoxLoadFromSettings(s, ui_->combobox_style, QLatin1String(kStyle), u"default"_s);
 
 #if !defined(Q_OS_MACOS) && !defined(Q_OS_WIN)
   ui_->checkbox_system_icons->setChecked(s.value(kSystemThemeIcons, false).toBool());
@@ -301,7 +303,7 @@ void AppearanceSettingsPage::UpdateColorSelectorColor(QWidget *color_selector, c
 
 void AppearanceSettingsPage::SelectBackgroundImage() {
 
-  QString selected_filename = QFileDialog::getOpenFileName(this, tr("Select background image"), background_image_filename_, tr(AlbumCoverChoiceController::kLoadImageFileFilter) + QStringLiteral(";;") + tr(AlbumCoverChoiceController::kAllFilesFilter));
+  QString selected_filename = QFileDialog::getOpenFileName(this, tr("Select background image"), background_image_filename_, tr(AlbumCoverChoiceController::kLoadImageFileFilter) + u";;"_s + tr(AlbumCoverChoiceController::kAllFilesFilter));
   if (selected_filename.isEmpty()) return;
   background_image_filename_ = selected_filename;
   ui_->background_image_filename->setText(background_image_filename_);

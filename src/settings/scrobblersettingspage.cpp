@@ -42,6 +42,8 @@
 #include "scrobbler/librefmscrobbler.h"
 #include "scrobbler/listenbrainzscrobbler.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 const char *ScrobblerSettingsPage::kSettingsGroup = "Scrobbler";
 
 ScrobblerSettingsPage::ScrobblerSettingsPage(SettingsDialog *dialog, QWidget *parent)
@@ -56,7 +58,7 @@ ScrobblerSettingsPage::ScrobblerSettingsPage(SettingsDialog *dialog, QWidget *pa
       listenbrainz_waiting_for_auth_(false) {
 
   ui_->setupUi(this);
-  setWindowIcon(IconLoader::Load(QStringLiteral("scrobble"), true, 0, 32));
+  setWindowIcon(IconLoader::Load(u"scrobble"_s, true, 0, 32));
 
   // Last.fm
   QObject::connect(&*lastfmscrobbler_, &LastFMScrobbler::AuthenticationComplete, this, &ScrobblerSettingsPage::LastFM_AuthenticationComplete);
@@ -79,7 +81,7 @@ ScrobblerSettingsPage::ScrobblerSettingsPage(SettingsDialog *dialog, QWidget *pa
   QObject::connect(ui_->widget_listenbrainz_login_state, &LoginStateWidget::LogoutClicked, this, &ScrobblerSettingsPage::ListenBrainz_Logout);
   ui_->widget_listenbrainz_login_state->AddCredentialGroup(ui_->widget_listenbrainz_login);
 
-  ui_->label_listenbrainz_token->setText(QStringLiteral("<html><head/><body><p>") + tr("Enter your user token from") + QLatin1Char(' ') + QStringLiteral("<a href=\"https://listenbrainz.org/profile/\"><span style=\"text-decoration: underline; color:#0000ff;\">https://listenbrainz.org/profile/</span></a></p></body></html>"));
+  ui_->label_listenbrainz_token->setText(u"<html><head/><body><p>"_s + tr("Enter your user token from") + QLatin1Char(' ') + u"<a href=\"https://listenbrainz.org/profile/\"><span style=\"text-decoration: underline; color:#0000ff;\">https://listenbrainz.org/profile/</span></a></p></body></html>"_s);
 
   resize(sizeHint());
 
@@ -201,7 +203,7 @@ void ScrobblerSettingsPage::LastFM_AuthenticationComplete(const bool success, co
     Save();
   }
   else {
-    if (!error.isEmpty()) QMessageBox::warning(this, QStringLiteral("Authentication failed"), error);
+    if (!error.isEmpty()) QMessageBox::warning(this, u"Authentication failed"_s, error);
   }
 
   LastFM_RefreshControls(success);
@@ -236,7 +238,7 @@ void ScrobblerSettingsPage::LibreFM_AuthenticationComplete(const bool success, c
     Save();
   }
   else {
-    QMessageBox::warning(this, QStringLiteral("Authentication failed"), error);
+    QMessageBox::warning(this, u"Authentication failed"_s, error);
   }
 
   LibreFM_RefreshControls(success);
@@ -271,7 +273,7 @@ void ScrobblerSettingsPage::ListenBrainz_AuthenticationComplete(const bool succe
     Save();
   }
   else {
-    QMessageBox::warning(this, QStringLiteral("Authentication failed"), error);
+    QMessageBox::warning(this, u"Authentication failed"_s, error);
   }
 
   ListenBrainz_RefreshControls(success);

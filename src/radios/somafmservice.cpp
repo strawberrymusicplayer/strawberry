@@ -43,14 +43,14 @@ constexpr char kApiChannelsUrl[] = "https://somafm.com/channels.json";
 }
 
 SomaFMService::SomaFMService(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : RadioService(Song::Source::SomaFM, QStringLiteral("SomaFM"), IconLoader::Load(QStringLiteral("somafm")), app, network, parent) {}
+    : RadioService(Song::Source::SomaFM, u"SomaFM"_s, IconLoader::Load(u"somafm"_s), app, network, parent) {}
 
 SomaFMService::~SomaFMService() {
   Abort();
 }
 
-QUrl SomaFMService::Homepage() { return QUrl(QStringLiteral("https://somafm.com/")); }
-QUrl SomaFMService::Donate() { return QUrl(QStringLiteral("https://somafm.com/support/")); }
+QUrl SomaFMService::Homepage() { return QUrl(u"https://somafm.com/"_s); }
+QUrl SomaFMService::Donate() { return QUrl(u"https://somafm.com/support/"_s); }
 
 void SomaFMService::Abort() {
 
@@ -91,7 +91,7 @@ void SomaFMService::GetChannelsReply(QNetworkReply *reply, const int task_id) {
   }
 
   if (!object.contains("channels"_L1) || !object["channels"_L1].isArray()) {
-    Error(QStringLiteral("Missing JSON channels array."), object);
+    Error(u"Missing JSON channels array."_s, object);
     app_->task_manager()->SetTaskFinished(task_id);
     Q_EMIT NewChannels();
     return;

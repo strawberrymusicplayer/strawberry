@@ -304,57 +304,57 @@ QString SmartPlaylistSearchTerm::FieldColumnName(const Field field) {
 
   switch (field) {
     case Field::AlbumArtist:
-      return QStringLiteral("albumartist");
+      return u"albumartist"_s;
     case Field::Artist:
-      return QStringLiteral("artist");
+      return u"artist"_s;
     case Field::Album:
-      return QStringLiteral("album");
+      return u"album"_s;
     case Field::Title:
-      return QStringLiteral("title");
+      return u"title"_s;
     case Field::Track:
-      return QStringLiteral("track");
+      return u"track"_s;
     case Field::Disc:
-      return QStringLiteral("disc");
+      return u"disc"_s;
     case Field::Year:
-      return QStringLiteral("year");
+      return u"year"_s;
     case Field::OriginalYear:
-      return QStringLiteral("originalyear");
+      return u"originalyear"_s;
     case Field::Genre:
-      return QStringLiteral("genre");
+      return u"genre"_s;
     case Field::Composer:
-      return QStringLiteral("composer");
+      return u"composer"_s;
     case Field::Performer:
-      return QStringLiteral("performer");
+      return u"performer"_s;
     case Field::Grouping:
-      return QStringLiteral("grouping");
+      return u"grouping"_s;
     case Field::Comment:
-      return QStringLiteral("comment");
+      return u"comment"_s;
     case Field::Length:
-      return QStringLiteral("length");
+      return u"length"_s;
     case Field::Filepath:
-      return QStringLiteral("url");
+      return u"url"_s;
     case Field::Filetype:
-      return QStringLiteral("filetype");
+      return u"filetype"_s;
     case Field::Filesize:
-      return QStringLiteral("filesize");
+      return u"filesize"_s;
     case Field::DateCreated:
-      return QStringLiteral("ctime");
+      return u"ctime"_s;
     case Field::DateModified:
-      return QStringLiteral("mtime");
+      return u"mtime"_s;
     case Field::PlayCount:
-      return QStringLiteral("playcount");
+      return u"playcount"_s;
     case Field::SkipCount:
-      return QStringLiteral("skipcount");
+      return u"skipcount"_s;
     case Field::LastPlayed:
-      return QStringLiteral("lastplayed");
+      return u"lastplayed"_s;
     case Field::Rating:
-      return QStringLiteral("rating");
+      return u"rating"_s;
     case Field::Samplerate:
-      return QStringLiteral("samplerate");
+      return u"samplerate"_s;
     case Field::Bitdepth:
-      return QStringLiteral("bitdepth");
+      return u"bitdepth"_s;
     case Field::Bitrate:
-      return QStringLiteral("bitrate");
+      return u"bitrate"_s;
     case Field::FieldCount:
       Q_ASSERT(0);
   }
@@ -450,15 +450,15 @@ QString SmartPlaylistSearchTerm::DateName(const DateType datetype, const bool fo
   // If forQuery is true, untranslated keywords are returned
   switch (datetype) {
     case DateType::Hour:
-      return (forQuery ? QStringLiteral("hours") : QObject::tr("Hours"));
+      return (forQuery ? u"hours"_s : QObject::tr("Hours"));
     case DateType::Day:
-      return (forQuery ? QStringLiteral("days") : QObject::tr("Days"));
+      return (forQuery ? u"days"_s : QObject::tr("Days"));
     case DateType::Week:
-      return (forQuery ? QStringLiteral("weeks") : QObject::tr("Weeks"));
+      return (forQuery ? u"weeks"_s : QObject::tr("Weeks"));
     case DateType::Month:
-      return (forQuery ? QStringLiteral("months") : QObject::tr("Months"));
+      return (forQuery ? u"months"_s : QObject::tr("Months"));
     case DateType::Year:
-      return (forQuery ? QStringLiteral("years") : QObject::tr("Years"));
+      return (forQuery ? u"years"_s : QObject::tr("Years"));
   }
 
   return QString();

@@ -95,26 +95,26 @@ void StyleSheetLoader::UpdateStyleSheet(QWidget *widget, SharedPtr<StyleSheetDat
     stylesheet.replace("%palette-alternate-base"_L1, QStringLiteral("rgba(%1,%2,%3,%4)").arg(alt.red()).arg(alt.green()).arg(alt.blue()).arg(alt.alpha()));
   }
 
-  ReplaceColor(&stylesheet, QStringLiteral("Window"), p, QPalette::Window);
-  ReplaceColor(&stylesheet, QStringLiteral("Background"), p, QPalette::Window);
-  ReplaceColor(&stylesheet, QStringLiteral("WindowText"), p, QPalette::WindowText);
-  ReplaceColor(&stylesheet, QStringLiteral("Base"), p, QPalette::Base);
-  ReplaceColor(&stylesheet, QStringLiteral("AlternateBase"), p, QPalette::AlternateBase);
-  ReplaceColor(&stylesheet, QStringLiteral("ToolTipBase"), p, QPalette::ToolTipBase);
-  ReplaceColor(&stylesheet, QStringLiteral("ToolTipText"), p, QPalette::ToolTipText);
-  ReplaceColor(&stylesheet, QStringLiteral("Text"), p, QPalette::Text);
-  ReplaceColor(&stylesheet, QStringLiteral("Button"), p, QPalette::Button);
-  ReplaceColor(&stylesheet, QStringLiteral("ButtonText"), p, QPalette::ButtonText);
-  ReplaceColor(&stylesheet, QStringLiteral("BrightText"), p, QPalette::BrightText);
-  ReplaceColor(&stylesheet, QStringLiteral("Light"), p, QPalette::Light);
-  ReplaceColor(&stylesheet, QStringLiteral("Midlight"), p, QPalette::Midlight);
-  ReplaceColor(&stylesheet, QStringLiteral("Dark"), p, QPalette::Dark);
-  ReplaceColor(&stylesheet, QStringLiteral("Mid"), p, QPalette::Mid);
-  ReplaceColor(&stylesheet, QStringLiteral("Shadow"), p, QPalette::Shadow);
-  ReplaceColor(&stylesheet, QStringLiteral("Highlight"), p, QPalette::Highlight);
-  ReplaceColor(&stylesheet, QStringLiteral("HighlightedText"), p, QPalette::HighlightedText);
-  ReplaceColor(&stylesheet, QStringLiteral("Link"), p, QPalette::Link);
-  ReplaceColor(&stylesheet, QStringLiteral("LinkVisited"), p, QPalette::LinkVisited);
+  ReplaceColor(&stylesheet, u"Window"_s, p, QPalette::Window);
+  ReplaceColor(&stylesheet, u"Background"_s, p, QPalette::Window);
+  ReplaceColor(&stylesheet, u"WindowText"_s, p, QPalette::WindowText);
+  ReplaceColor(&stylesheet, u"Base"_s, p, QPalette::Base);
+  ReplaceColor(&stylesheet, u"AlternateBase"_s, p, QPalette::AlternateBase);
+  ReplaceColor(&stylesheet, u"ToolTipBase"_s, p, QPalette::ToolTipBase);
+  ReplaceColor(&stylesheet, u"ToolTipText"_s, p, QPalette::ToolTipText);
+  ReplaceColor(&stylesheet, u"Text"_s, p, QPalette::Text);
+  ReplaceColor(&stylesheet, u"Button"_s, p, QPalette::Button);
+  ReplaceColor(&stylesheet, u"ButtonText"_s, p, QPalette::ButtonText);
+  ReplaceColor(&stylesheet, u"BrightText"_s, p, QPalette::BrightText);
+  ReplaceColor(&stylesheet, u"Light"_s, p, QPalette::Light);
+  ReplaceColor(&stylesheet, u"Midlight"_s, p, QPalette::Midlight);
+  ReplaceColor(&stylesheet, u"Dark"_s, p, QPalette::Dark);
+  ReplaceColor(&stylesheet, u"Mid"_s, p, QPalette::Mid);
+  ReplaceColor(&stylesheet, u"Shadow"_s, p, QPalette::Shadow);
+  ReplaceColor(&stylesheet, u"Highlight"_s, p, QPalette::Highlight);
+  ReplaceColor(&stylesheet, u"HighlightedText"_s, p, QPalette::HighlightedText);
+  ReplaceColor(&stylesheet, u"Link"_s, p, QPalette::Link);
+  ReplaceColor(&stylesheet, u"LinkVisited"_s, p, QPalette::LinkVisited);
 
 #ifdef Q_OS_MACOS
   stylesheet.replace(QLatin1String("macos"), QLatin1String("*"));
@@ -129,9 +129,9 @@ void StyleSheetLoader::UpdateStyleSheet(QWidget *widget, SharedPtr<StyleSheetDat
 
 void StyleSheetLoader::ReplaceColor(QString *css, const QString &name, const QPalette &palette, const QPalette::ColorRole role) {
 
-  css->replace(QStringLiteral("%palette-") + name + QStringLiteral("-lighter"), palette.color(role).lighter().name(), Qt::CaseInsensitive);
-  css->replace(QStringLiteral("%palette-") + name + QStringLiteral("-darker"), palette.color(role).darker().name(), Qt::CaseInsensitive);
-  css->replace(QStringLiteral("%palette-") + name, palette.color(role).name(), Qt::CaseInsensitive);
+  css->replace(u"%palette-"_s + name + u"-lighter"_s, palette.color(role).lighter().name(), Qt::CaseInsensitive);
+  css->replace(u"%palette-"_s + name + u"-darker"_s, palette.color(role).darker().name(), Qt::CaseInsensitive);
+  css->replace(u"%palette-"_s + name, palette.color(role).name(), Qt::CaseInsensitive);
 
 }
 

@@ -29,6 +29,8 @@
 #include "lyricssearchrequest.h"
 #include "azlyricscomlyricsprovider.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 namespace {
 constexpr char kUrl[] = "https://www.azlyrics.com/lyrics/";
 constexpr char kStartTag[] = "<div>";
@@ -37,11 +39,11 @@ constexpr char kLyricsStart[] = "<!-- Usage of azlyrics.com content by any third
 }  // namespace
 
 AzLyricsComLyricsProvider::AzLyricsComLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : HtmlLyricsProvider(QStringLiteral("azlyrics.com"), true, QLatin1String(kStartTag), QLatin1String(kEndTag), QLatin1String(kLyricsStart), false, network, parent) {}
+    : HtmlLyricsProvider(u"azlyrics.com"_s, true, QLatin1String(kStartTag), QLatin1String(kEndTag), QLatin1String(kLyricsStart), false, network, parent) {}
 
 QUrl AzLyricsComLyricsProvider::Url(const LyricsSearchRequest &request) {
 
-  return QUrl(QLatin1String(kUrl) + StringFixup(request.artist) + QLatin1Char('/') + StringFixup(request.title) + QStringLiteral(".html"));
+  return QUrl(QLatin1String(kUrl) + StringFixup(request.artist) + QLatin1Char('/') + StringFixup(request.title) + u".html"_s);
 
 }
 
@@ -49,7 +51,7 @@ QString AzLyricsComLyricsProvider::StringFixup(const QString &text) {
 
   Q_ASSERT(QThread::currentThread() != qApp->thread());
 
-  static const QRegularExpression regex_words_numbers_and_dash(QStringLiteral("[^\\w0-9\\-]"));
+  static const QRegularExpression regex_words_numbers_and_dash(u"[^\\w0-9\\-]"_s);
   return Utilities::Transliterate(text).remove(regex_words_numbers_and_dash).toLower();
 
 }

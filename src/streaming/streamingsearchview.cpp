@@ -85,6 +85,7 @@
 #include "settings/appearancesettingspage.h"
 
 using std::make_unique;
+using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr int kSwapModelsTimeoutMsec = 250;
@@ -117,12 +118,12 @@ StreamingSearchView::StreamingSearchView(QWidget *parent)
   ui_->search->installEventFilter(this);
   ui_->results_stack->installEventFilter(this);
 
-  ui_->settings->setIcon(IconLoader::Load(QStringLiteral("configure")));
+  ui_->settings->setIcon(IconLoader::Load(u"configure"_s));
 
   // Set the appearance of the results list
   ui_->results->setItemDelegate(new StreamingSearchItemDelegate(this));
   ui_->results->setAttribute(Qt::WA_MacShowFocusRect, false);
-  ui_->results->setStyleSheet(QStringLiteral("QTreeView::item{padding-top:1px;}"));
+  ui_->results->setStyleSheet(u"QTreeView::item{padding-top:1px;}"_s);
 
   // Show the help page initially
   ui_->results_stack->setCurrentWidget(ui_->help_page);
@@ -179,7 +180,7 @@ void StreamingSearchView::Init(Application *app, StreamingServicePtr service) {
   QMenu *settings_menu = new QMenu(this);
   settings_menu->addActions(group_by_actions_->actions());
   settings_menu->addSeparator();
-  settings_menu->addAction(IconLoader::Load(QStringLiteral("configure")), tr("Configure %1...").arg(Song::DescriptionForSource(service_->source())), this, &StreamingSearchView::OpenSettingsDialog);
+  settings_menu->addAction(IconLoader::Load(u"configure"_s), tr("Configure %1...").arg(Song::DescriptionForSource(service_->source())), this, &StreamingSearchView::OpenSettingsDialog);
   ui_->settings->setMenu(settings_menu);
 
   swap_models_timer_->setSingleShot(true);
@@ -316,36 +317,36 @@ bool StreamingSearchView::ResultsContextMenuEvent(QContextMenuEvent *e) {
 
   if (!context_menu_) {
     context_menu_ = new QMenu(this);
-    context_actions_ << context_menu_->addAction(IconLoader::Load(QStringLiteral("media-playback-start")), tr("Append to current playlist"), this, &StreamingSearchView::AddSelectedToPlaylist);
-    context_actions_ << context_menu_->addAction(IconLoader::Load(QStringLiteral("media-playback-start")), tr("Replace current playlist"), this, &StreamingSearchView::LoadSelected);
-    context_actions_ << context_menu_->addAction(IconLoader::Load(QStringLiteral("document-new")), tr("Open in new playlist"), this, &StreamingSearchView::OpenSelectedInNewPlaylist);
+    context_actions_ << context_menu_->addAction(IconLoader::Load(u"media-playback-start"_s), tr("Append to current playlist"), this, &StreamingSearchView::AddSelectedToPlaylist);
+    context_actions_ << context_menu_->addAction(IconLoader::Load(u"media-playback-start"_s), tr("Replace current playlist"), this, &StreamingSearchView::LoadSelected);
+    context_actions_ << context_menu_->addAction(IconLoader::Load(u"document-new"_s), tr("Open in new playlist"), this, &StreamingSearchView::OpenSelectedInNewPlaylist);
 
     context_menu_->addSeparator();
-    context_actions_ << context_menu_->addAction(IconLoader::Load(QStringLiteral("go-next")), tr("Queue track"), this, &StreamingSearchView::AddSelectedToPlaylistEnqueue);
+    context_actions_ << context_menu_->addAction(IconLoader::Load(u"go-next"_s), tr("Queue track"), this, &StreamingSearchView::AddSelectedToPlaylistEnqueue);
 
     context_menu_->addSeparator();
 
     if (service_->artists_collection_model() || service_->albums_collection_model() || service_->songs_collection_model()) {
       if (service_->artists_collection_model()) {
-        context_actions_ << context_menu_->addAction(IconLoader::Load(QStringLiteral("folder-new")), tr("Add to artists"), this, &StreamingSearchView::AddArtists);
+        context_actions_ << context_menu_->addAction(IconLoader::Load(u"folder-new"_s), tr("Add to artists"), this, &StreamingSearchView::AddArtists);
       }
       if (service_->albums_collection_model()) {
-        context_actions_ << context_menu_->addAction(IconLoader::Load(QStringLiteral("folder-new")), tr("Add to albums"), this, &StreamingSearchView::AddAlbums);
+        context_actions_ << context_menu_->addAction(IconLoader::Load(u"folder-new"_s), tr("Add to albums"), this, &StreamingSearchView::AddAlbums);
       }
       if (service_->songs_collection_model()) {
-        context_actions_ << context_menu_->addAction(IconLoader::Load(QStringLiteral("folder-new")), tr("Add to songs"), this, &StreamingSearchView::AddSongs);
+        context_actions_ << context_menu_->addAction(IconLoader::Load(u"folder-new"_s), tr("Add to songs"), this, &StreamingSearchView::AddSongs);
       }
       context_menu_->addSeparator();
     }
 
     if (ui_->results->selectionModel() && ui_->results->selectionModel()->selectedRows().length() == 1) {
-      context_actions_ << context_menu_->addAction(IconLoader::Load(QStringLiteral("search")), tr("Search for this"), this, &StreamingSearchView::SearchForThis);
+      context_actions_ << context_menu_->addAction(IconLoader::Load(u"search"_s), tr("Search for this"), this, &StreamingSearchView::SearchForThis);
     }
 
     context_menu_->addSeparator();
     context_menu_->addMenu(tr("Group by"))->addActions(group_by_actions_->actions());
 
-    context_menu_->addAction(IconLoader::Load(QStringLiteral("configure")), tr("Configure %1...").arg(Song::TextForSource(service_->source())), this, &StreamingSearchView::OpenSettingsDialog);
+    context_menu_->addAction(IconLoader::Load(u"configure"_s), tr("Configure %1...").arg(Song::TextForSource(service_->source())), this, &StreamingSearchView::OpenSettingsDialog);
 
   }
 
@@ -436,7 +437,7 @@ void StreamingSearchView::SwapModels() {
 
 QStringList StreamingSearchView::TokenizeQuery(const QString &query) {
 
-  static const QRegularExpression regex_whitespaces(QStringLiteral("\\s+"));
+  static const QRegularExpression regex_whitespaces(u"\\s+"_s);
   QStringList tokens = query.split(regex_whitespaces);
 
   for (QStringList::iterator it = tokens.begin(); it != tokens.end(); ++it) {

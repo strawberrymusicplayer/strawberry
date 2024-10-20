@@ -49,6 +49,8 @@
 #include "equalizerslider.h"
 #include "ui_equalizer.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 namespace {
 constexpr char kSettingsGroup[] = "Equalizer";
 const char *kGainText[] = { "60", "170", "310", "600", "1k", "3k", "6k", "12k", "14k", "16k" };
@@ -62,8 +64,8 @@ Equalizer::Equalizer(QWidget *parent)
   ui_->setupUi(this);
 
   // Icons
-  ui_->preset_del->setIcon(IconLoader::Load(QStringLiteral("list-remove")));
-  ui_->preset_save->setIcon(IconLoader::Load(QStringLiteral("document-save")));
+  ui_->preset_del->setIcon(IconLoader::Load(u"list-remove"_s));
+  ui_->preset_save->setIcon(IconLoader::Load(u"document-save"_s));
 
   preamp_ = AddSlider(tr("Pre-amp"));
 
@@ -114,7 +116,7 @@ void Equalizer::ReloadSettings() {
   if (count == 0) LoadDefaultPresets();
 
   // Selected preset
-  QString selected_preset = s.value("selected_preset", QStringLiteral("Custom")).toString();
+  QString selected_preset = s.value("selected_preset", u"Custom"_s).toString();
   QString selected_preset_display_name = tr(qUtf8Printable(selected_preset));
   int selected_index = ui_->preset->findText(selected_preset_display_name);
   if (selected_index != -1) ui_->preset->setCurrentIndex(selected_index);

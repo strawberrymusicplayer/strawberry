@@ -91,10 +91,10 @@ SmartPlaylistSearchTermWidget::SmartPlaylistSearchTermWidget(SharedPtr<Collectio
   }
 
   // Icons on the buttons
-  ui_->remove->setIcon(IconLoader::Load(QStringLiteral("list-remove")));
+  ui_->remove->setIcon(IconLoader::Load(u"list-remove"_s));
 
   // Set stylesheet
-  QFile stylesheet_file(QStringLiteral(":/style/smartplaylistsearchterm.css"));
+  QFile stylesheet_file(u":/style/smartplaylistsearchterm.css"_s);
   if (stylesheet_file.open(QIODevice::ReadOnly)) {
     QString stylesheet = QString::fromLatin1(stylesheet_file.readAll());
     stylesheet_file.close();
@@ -389,7 +389,7 @@ void SmartPlaylistSearchTermWidget::RelativeValueChanged() {
   }
   // Explain the user why he can't proceed
   if (ui_->value_date_numeric1->value() >= ui_->value_date_numeric2->value()) {
-    QMessageBox::warning(this, QStringLiteral("Strawberry"), tr("The second value must be greater than the first one!"));
+    QMessageBox::warning(this, u"Strawberry"_s, tr("The second value must be greater than the first one!"));
   }
   // Emit the signal in any case, so the Next button will be disabled
   Q_EMIT Changed();

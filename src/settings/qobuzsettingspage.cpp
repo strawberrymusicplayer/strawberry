@@ -41,6 +41,8 @@
 #include "streaming/streamingservices.h"
 #include "qobuz/qobuzservice.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 const char *QobuzSettingsPage::kSettingsGroup = "Qobuz";
 
 QobuzSettingsPage::QobuzSettingsPage(SettingsDialog *dialog, QWidget *parent)
@@ -49,7 +51,7 @@ QobuzSettingsPage::QobuzSettingsPage(SettingsDialog *dialog, QWidget *parent)
       service_(dialog->app()->streaming_services()->Service<QobuzService>()) {
 
   ui_->setupUi(this);
-  setWindowIcon(IconLoader::Load(QStringLiteral("qobuz"), true, 0, 32));
+  setWindowIcon(IconLoader::Load(u"qobuz"_s, true, 0, 32));
 
   QObject::connect(ui_->button_login, &QPushButton::clicked, this, &QobuzSettingsPage::LoginClicked);
   QObject::connect(ui_->login_state, &LoginStateWidget::LogoutClicked, this, &QobuzSettingsPage::LogoutClicked);
@@ -61,10 +63,10 @@ QobuzSettingsPage::QobuzSettingsPage(SettingsDialog *dialog, QWidget *parent)
 
   dialog->installEventFilter(this);
 
-  ui_->format->addItem(QStringLiteral("MP3 320"), 5);
-  ui_->format->addItem(QStringLiteral("FLAC Lossless"), 6);
-  ui_->format->addItem(QStringLiteral("FLAC Hi-Res <= 96kHz"), 7);
-  ui_->format->addItem(QStringLiteral("FLAC Hi-Res > 96kHz"), 27);
+  ui_->format->addItem(u"MP3 320"_s, 5);
+  ui_->format->addItem(u"FLAC Lossless"_s, 6);
+  ui_->format->addItem(u"FLAC Hi-Res <= 96kHz"_s, 7);
+  ui_->format->addItem(u"FLAC Hi-Res > 96kHz"_s, 27);
 
 }
 
@@ -85,7 +87,7 @@ void QobuzSettingsPage::Load() {
   if (password.isEmpty()) ui_->password->clear();
   else ui_->password->setText(QString::fromUtf8(QByteArray::fromBase64(password)));
 
-  ComboBoxLoadFromSettings(s, ui_->format, QStringLiteral("format"), 27);
+  ComboBoxLoadFromSettings(s, ui_->format, u"format"_s, 27);
   ui_->searchdelay->setValue(s.value("searchdelay", 1500).toInt());
   ui_->artistssearchlimit->setValue(s.value("artistssearchlimit", 4).toInt());
   ui_->albumssearchlimit->setValue(s.value("albumssearchlimit", 10).toInt());

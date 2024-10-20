@@ -171,7 +171,7 @@ void TidalRequest::Process() {
       SongsSearch();
       break;
     default:
-      Error(QStringLiteral("Invalid query type."));
+      Error(u"Invalid query type."_s);
       break;
   }
 
@@ -254,15 +254,15 @@ void TidalRequest::FlushArtistsRequests() {
     Request request = artists_requests_queue_.dequeue();
 
     ParamList parameters;
-    if (query_type_ == Type::SearchArtists) parameters << Param(QStringLiteral("query"), search_text_);
-    if (request.limit > 0) parameters << Param(QStringLiteral("limit"), QString::number(request.limit));
-    if (request.offset > 0) parameters << Param(QStringLiteral("offset"), QString::number(request.offset));
+    if (query_type_ == Type::SearchArtists) parameters << Param(u"query"_s, search_text_);
+    if (request.limit > 0) parameters << Param(u"limit"_s, QString::number(request.limit));
+    if (request.offset > 0) parameters << Param(u"offset"_s, QString::number(request.offset));
     QNetworkReply *reply = nullptr;
     if (query_type_ == Type::FavouriteArtists) {
       reply = CreateRequest(QStringLiteral("users/%1/favorites/artists").arg(service_->user_id()), parameters);
     }
     if (query_type_ == Type::SearchArtists) {
-      reply = CreateRequest(QStringLiteral("search/artists"), parameters);
+      reply = CreateRequest(u"search/artists"_s, parameters);
     }
     if (!reply) continue;
     replies_ << reply;
@@ -302,15 +302,15 @@ void TidalRequest::FlushAlbumsRequests() {
     Request request = albums_requests_queue_.dequeue();
 
     ParamList parameters;
-    if (query_type_ == Type::SearchAlbums) parameters << Param(QStringLiteral("query"), search_text_);
-    if (request.limit > 0) parameters << Param(QStringLiteral("limit"), QString::number(request.limit));
-    if (request.offset > 0) parameters << Param(QStringLiteral("offset"), QString::number(request.offset));
+    if (query_type_ == Type::SearchAlbums) parameters << Param(u"query"_s, search_text_);
+    if (request.limit > 0) parameters << Param(u"limit"_s, QString::number(request.limit));
+    if (request.offset > 0) parameters << Param(u"offset"_s, QString::number(request.offset));
     QNetworkReply *reply = nullptr;
     if (query_type_ == Type::FavouriteAlbums) {
       reply = CreateRequest(QStringLiteral("users/%1/favorites/albums").arg(service_->user_id()), parameters);
     }
     if (query_type_ == Type::SearchAlbums) {
-      reply = CreateRequest(QStringLiteral("search/albums"), parameters);
+      reply = CreateRequest(u"search/albums"_s, parameters);
     }
     if (!reply) continue;
     replies_ << reply;
@@ -350,15 +350,15 @@ void TidalRequest::FlushSongsRequests() {
     Request request = songs_requests_queue_.dequeue();
 
     ParamList parameters;
-    if (query_type_ == Type::SearchSongs) parameters << Param(QStringLiteral("query"), search_text_);
-    if (request.limit > 0) parameters << Param(QStringLiteral("limit"), QString::number(request.limit));
-    if (request.offset > 0) parameters << Param(QStringLiteral("offset"), QString::number(request.offset));
+    if (query_type_ == Type::SearchSongs) parameters << Param(u"query"_s, search_text_);
+    if (request.limit > 0) parameters << Param(u"limit"_s, QString::number(request.limit));
+    if (request.offset > 0) parameters << Param(u"offset"_s, QString::number(request.offset));
     QNetworkReply *reply = nullptr;
     if (query_type_ == Type::FavouriteSongs) {
       reply = CreateRequest(QStringLiteral("users/%1/favorites/tracks").arg(service_->user_id()), parameters);
     }
     if (query_type_ == Type::SearchSongs) {
-      reply = CreateRequest(QStringLiteral("search/tracks"), parameters);
+      reply = CreateRequest(u"search/tracks"_s, parameters);
     }
     if (!reply) continue;
     replies_ << reply;
@@ -441,7 +441,7 @@ void TidalRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_re
       !json_obj.contains("offset"_L1) ||
       !json_obj.contains("totalNumberOfItems"_L1) ||
       !json_obj.contains("items"_L1)) {
-    Error(QStringLiteral("Json object missing values."), json_obj);
+    Error(u"Json object missing values."_s, json_obj);
     ArtistsFinishCheck();
     return;
   }
@@ -486,7 +486,7 @@ void TidalRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_re
     ++artists_received;
 
     if (!value_item.isObject()) {
-      Error(QStringLiteral("Invalid Json reply, item in array is not a object."));
+      Error(u"Invalid Json reply, item in array is not a object."_s);
       continue;
     }
     QJsonObject obj_item = value_item.toObject();
@@ -494,14 +494,14 @@ void TidalRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_re
     if (obj_item.contains("item"_L1)) {
       QJsonValue json_item = obj_item["item"_L1];
       if (!json_item.isObject()) {
-        Error(QStringLiteral("Invalid Json reply, item in array is not a object."), json_item);
+        Error(u"Invalid Json reply, item in array is not a object."_s, json_item);
         continue;
       }
       obj_item = json_item.toObject();
     }
 
     if (!obj_item.contains("id"_L1) || !obj_item.contains("name"_L1)) {
-      Error(QStringLiteral("Invalid Json reply, item missing id or album."), obj_item);
+      Error(u"Invalid Json reply, item missing id or album."_s, obj_item);
       continue;
     }
 
@@ -590,7 +590,7 @@ void TidalRequest::FlushArtistAlbumsRequests() {
     const ArtistAlbumsRequest request = artist_albums_requests_queue_.dequeue();
 
     ParamList parameters;
-    if (request.offset > 0) parameters << Param(QStringLiteral("offset"), QString::number(request.offset));
+    if (request.offset > 0) parameters << Param(u"offset"_s, QString::number(request.offset));
     QNetworkReply *reply = CreateRequest(QStringLiteral("artists/%1/albums").arg(request.artist.artist_id), parameters);
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { ArtistAlbumsReplyReceived(reply, request.artist, request.offset); });
     replies_ << reply;
@@ -636,7 +636,7 @@ void TidalRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_req
       !json_obj.contains("offset"_L1) ||
       !json_obj.contains("totalNumberOfItems"_L1) ||
       !json_obj.contains("items"_L1)) {
-    Error(QStringLiteral("Json object missing values."), json_obj);
+    Error(u"Json object missing values."_s, json_obj);
     AlbumsFinishCheck(artist_requested);
     return;
   }
@@ -668,7 +668,7 @@ void TidalRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_req
     ++albums_received;
 
     if (!value_item.isObject()) {
-      Error(QStringLiteral("Invalid Json reply, item in array is not a object."));
+      Error(u"Invalid Json reply, item in array is not a object."_s);
       continue;
     }
     QJsonObject obj_item = value_item.toObject();
@@ -676,7 +676,7 @@ void TidalRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_req
     if (obj_item.contains("item"_L1)) {
       QJsonValue json_item = obj_item["item"_L1];
       if (!json_item.isObject()) {
-        Error(QStringLiteral("Invalid Json reply, item in array is not a object."), json_item);
+        Error(u"Invalid Json reply, item in array is not a object."_s, json_item);
         continue;
       }
       obj_item = json_item.toObject();
@@ -685,7 +685,7 @@ void TidalRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_req
     Album album;
     if (obj_item.contains("type"_L1)) {  // This was an albums request or search
       if (!obj_item.contains("id"_L1) || !obj_item.contains("title"_L1)) {
-        Error(QStringLiteral("Invalid Json reply, item is missing ID or title."), obj_item);
+        Error(u"Invalid Json reply, item is missing ID or title."_s, obj_item);
         continue;
       }
       if (obj_item["id"_L1].isString()) {
@@ -705,12 +705,12 @@ void TidalRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_req
     else if (obj_item.contains("album"_L1)) {  // This was a tracks request or search
       QJsonValue value_album = obj_item["album"_L1];
       if (!value_album.isObject()) {
-        Error(QStringLiteral("Invalid Json reply, item album is not a object."), value_album);
+        Error(u"Invalid Json reply, item album is not a object."_s, value_album);
         continue;
       }
       QJsonObject obj_album = value_album.toObject();
       if (!obj_album.contains("id"_L1) || !obj_album.contains("title"_L1)) {
-        Error(QStringLiteral("Invalid Json reply, item album is missing ID or title."), obj_album);
+        Error(u"Invalid Json reply, item album is missing ID or title."_s, obj_album);
         continue;
       }
       if (obj_album["id"_L1].isString()) {
@@ -728,24 +728,24 @@ void TidalRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_req
       }
     }
     else {
-      Error(QStringLiteral("Invalid Json reply, item missing type or album."), obj_item);
+      Error(u"Invalid Json reply, item missing type or album."_s, obj_item);
       continue;
     }
 
     if (album_songs_requests_pending_.contains(album.album_id)) continue;
 
     if (!obj_item.contains("artist"_L1) || !obj_item.contains("title"_L1) || !obj_item.contains("audioQuality"_L1)) {
-      Error(QStringLiteral("Invalid Json reply, item missing artist, title or audioQuality."), obj_item);
+      Error(u"Invalid Json reply, item missing artist, title or audioQuality."_s, obj_item);
       continue;
     }
     QJsonValue value_artist = obj_item["artist"_L1];
     if (!value_artist.isObject()) {
-      Error(QStringLiteral("Invalid Json reply, item artist is not a object."), value_artist);
+      Error(u"Invalid Json reply, item artist is not a object."_s, value_artist);
       continue;
     }
     QJsonObject obj_artist = value_artist.toObject();
     if (!obj_artist.contains("id"_L1) || !obj_artist.contains("name"_L1)) {
-      Error(QStringLiteral("Invalid Json reply, item artist missing id or name."), obj_artist);
+      Error(u"Invalid Json reply, item artist missing id or name."_s, obj_artist);
       continue;
     }
 
@@ -865,7 +865,7 @@ void TidalRequest::FlushAlbumSongsRequests() {
 
     AlbumSongsRequest request = album_songs_requests_queue_.dequeue();
     ParamList parameters;
-    if (request.offset > 0) parameters << Param(QStringLiteral("offset"), QString::number(request.offset));
+    if (request.offset > 0) parameters << Param(u"offset"_s, QString::number(request.offset));
     QNetworkReply *reply = CreateRequest(QStringLiteral("albums/%1/tracks").arg(request.album.album_id), parameters);
     replies_ << reply;
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { AlbumSongsReplyReceived(reply, request.artist, request.album, request.offset); });
@@ -913,7 +913,7 @@ void TidalRequest::SongsReceived(QNetworkReply *reply, const Artist &artist, con
       !json_obj.contains("offset"_L1) ||
       !json_obj.contains("totalNumberOfItems"_L1) ||
       !json_obj.contains("items"_L1)) {
-    Error(QStringLiteral("Json object missing values."), json_obj);
+    Error(u"Json object missing values."_s, json_obj);
     SongsFinishCheck(artist, album, limit_requested, offset_requested);
     return;
   }
@@ -947,7 +947,7 @@ void TidalRequest::SongsReceived(QNetworkReply *reply, const Artist &artist, con
   for (const QJsonValue &value_item : array_items) {
 
     if (!value_item.isObject()) {
-      Error(QStringLiteral("Invalid Json reply, track is not a object."));
+      Error(u"Invalid Json reply, track is not a object."_s);
       continue;
     }
     QJsonObject obj_item = value_item.toObject();
@@ -955,7 +955,7 @@ void TidalRequest::SongsReceived(QNetworkReply *reply, const Artist &artist, con
     if (obj_item.contains("item"_L1)) {
       QJsonValue item = obj_item["item"_L1];
       if (!item.isObject()) {
-        Error(QStringLiteral("Invalid Json reply, item is not a object."), item);
+        Error(u"Invalid Json reply, item is not a object."_s, item);
         continue;
       }
       obj_item = item.toObject();
@@ -1037,7 +1037,7 @@ void TidalRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Arti
       !json_obj.contains("volumeNumber"_L1) ||
       !json_obj.contains("copyright"_L1)
     ) {
-    Error(QStringLiteral("Invalid Json reply, track is missing one or more values."), json_obj);
+    Error(u"Invalid Json reply, track is missing one or more values."_s, json_obj);
     return;
   }
 
@@ -1063,12 +1063,12 @@ void TidalRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Arti
   QString copyright = json_obj["copyright"_L1].toString();
 
   if (!value_artist.isObject()) {
-    Error(QStringLiteral("Invalid Json reply, track artist is not a object."), value_artist);
+    Error(u"Invalid Json reply, track artist is not a object."_s, value_artist);
     return;
   }
   QJsonObject obj_artist = value_artist.toObject();
   if (!obj_artist.contains("id"_L1) || !obj_artist.contains("name"_L1)) {
-    Error(QStringLiteral("Invalid Json reply, track artist is missing id or name."), obj_artist);
+    Error(u"Invalid Json reply, track artist is missing id or name."_s, obj_artist);
     return;
   }
   QString artist_id;
@@ -1081,12 +1081,12 @@ void TidalRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Arti
   QString artist = obj_artist["name"_L1].toString();
 
   if (!value_album.isObject()) {
-    Error(QStringLiteral("Invalid Json reply, track album is not a object."), value_album);
+    Error(u"Invalid Json reply, track album is not a object."_s, value_album);
     return;
   }
   QJsonObject obj_album = value_album.toObject();
   if (!obj_album.contains("id"_L1) || !obj_album.contains("title"_L1)) {
-    Error(QStringLiteral("Invalid Json reply, track album is missing ID or title."), obj_album);
+    Error(u"Invalid Json reply, track album is missing ID or title."_s, obj_album);
     return;
   }
   QString album_id;
@@ -1097,7 +1097,7 @@ void TidalRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Arti
     album_id = QString::number(obj_album["id"_L1].toInt());
   }
   if (!album.album_id.isEmpty() && album.album_id != album_id) {
-    Error(QStringLiteral("Invalid Json reply, track album id is wrong."), obj_album);
+    Error(u"Invalid Json reply, track album id is wrong."_s, obj_album);
     return;
   }
   QString album_title = obj_album["title"_L1].toString();
@@ -1123,7 +1123,7 @@ void TidalRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Arti
     duration = q_duration.toLongLong() * kNsecPerSec;
   }
   else {
-    Error(QStringLiteral("Invalid duration for song."), json_duration);
+    Error(u"Invalid duration for song."_s, json_duration);
     return;
   }
 

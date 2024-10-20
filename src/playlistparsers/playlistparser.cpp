@@ -125,7 +125,7 @@ QString PlaylistParser::FilterForParser(const ParserBase *parser, QStringList *a
   QStringList extensions;
   extensions.reserve(file_extensions.count());
   for (const QString &extension : file_extensions) {
-    extensions << QStringLiteral("*.") + extension;
+    extensions << u"*."_s + extension;
   }
 
   if (all_extensions) *all_extensions << extensions;

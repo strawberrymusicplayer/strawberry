@@ -41,6 +41,8 @@
 #include "tidal/tidalservice.h"
 #include "widgets/loginstatewidget.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 const char *TidalSettingsPage::kSettingsGroup = "Tidal";
 
 TidalSettingsPage::TidalSettingsPage(SettingsDialog *dialog, QWidget *parent)
@@ -49,7 +51,7 @@ TidalSettingsPage::TidalSettingsPage(SettingsDialog *dialog, QWidget *parent)
       service_(dialog->app()->streaming_services()->Service<TidalService>()) {
 
   ui_->setupUi(this);
-  setWindowIcon(IconLoader::Load(QStringLiteral("tidal"), true, 0, 32));
+  setWindowIcon(IconLoader::Load(u"tidal"_s, true, 0, 32));
 
   QObject::connect(ui_->button_login, &QPushButton::clicked, this, &TidalSettingsPage::LoginClicked);
   QObject::connect(ui_->login_state, &LoginStateWidget::LogoutClicked, this, &TidalSettingsPage::LogoutClicked);
@@ -63,20 +65,20 @@ TidalSettingsPage::TidalSettingsPage(SettingsDialog *dialog, QWidget *parent)
 
   dialog->installEventFilter(this);
 
-  ui_->quality->addItem(QStringLiteral("Low"), QStringLiteral("LOW"));
-  ui_->quality->addItem(QStringLiteral("High"), QStringLiteral("HIGH"));
-  ui_->quality->addItem(QStringLiteral("Lossless"), QStringLiteral("LOSSLESS"));
-  ui_->quality->addItem(QStringLiteral("Hi resolution"), QStringLiteral("HI_RES"));
+  ui_->quality->addItem(u"Low"_s, u"LOW"_s);
+  ui_->quality->addItem(u"High"_s, u"HIGH"_s);
+  ui_->quality->addItem(u"Lossless"_s, u"LOSSLESS"_s);
+  ui_->quality->addItem(u"Hi resolution"_s, u"HI_RES"_s);
 
-  ui_->coversize->addItem(QStringLiteral("160x160"), QStringLiteral("160x160"));
-  ui_->coversize->addItem(QStringLiteral("320x320"), QStringLiteral("320x320"));
-  ui_->coversize->addItem(QStringLiteral("640x640"), QStringLiteral("640x640"));
-  ui_->coversize->addItem(QStringLiteral("750x750"), QStringLiteral("750x750"));
-  ui_->coversize->addItem(QStringLiteral("1280x1280"), QStringLiteral("1280x1280"));
+  ui_->coversize->addItem(u"160x160"_s, u"160x160"_s);
+  ui_->coversize->addItem(u"320x320"_s, u"320x320"_s);
+  ui_->coversize->addItem(u"640x640"_s, u"640x640"_s);
+  ui_->coversize->addItem(u"750x750"_s, u"750x750"_s);
+  ui_->coversize->addItem(u"1280x1280"_s, u"1280x1280"_s);
 
-  ui_->streamurl->addItem(QStringLiteral("streamurl"), static_cast<int>(StreamUrlMethod::StreamUrl));
-  ui_->streamurl->addItem(QStringLiteral("urlpostpaywall"), static_cast<int>(StreamUrlMethod::UrlPostPaywall));
-  ui_->streamurl->addItem(QStringLiteral("playbackinfopostpaywall"), static_cast<int>(StreamUrlMethod::PlaybackInfoPostPaywall));
+  ui_->streamurl->addItem(u"streamurl"_s, static_cast<int>(StreamUrlMethod::StreamUrl));
+  ui_->streamurl->addItem(u"urlpostpaywall"_s, static_cast<int>(StreamUrlMethod::UrlPostPaywall));
+  ui_->streamurl->addItem(u"playbackinfopostpaywall"_s, static_cast<int>(StreamUrlMethod::PlaybackInfoPostPaywall));
 
 }
 
@@ -97,14 +99,14 @@ void TidalSettingsPage::Load() {
   if (password.isEmpty()) ui_->password->clear();
   else ui_->password->setText(QString::fromUtf8(QByteArray::fromBase64(password)));
 
-  ComboBoxLoadFromSettings(s, ui_->quality, QStringLiteral("quality"), QStringLiteral("LOSSLESS"));
+  ComboBoxLoadFromSettings(s, ui_->quality, u"quality"_s, u"LOSSLESS"_s);
   ui_->searchdelay->setValue(s.value("searchdelay", 1500).toInt());
   ui_->artistssearchlimit->setValue(s.value("artistssearchlimit", 4).toInt());
   ui_->albumssearchlimit->setValue(s.value("albumssearchlimit", 10).toInt());
   ui_->songssearchlimit->setValue(s.value("songssearchlimit", 10).toInt());
   ui_->checkbox_fetchalbums->setChecked(s.value("fetchalbums", false).toBool());
   ui_->checkbox_download_album_covers->setChecked(s.value("downloadalbumcovers", true).toBool());
-  ComboBoxLoadFromSettings(s, ui_->coversize, QStringLiteral("coversize"), QStringLiteral("640x640"));
+  ComboBoxLoadFromSettings(s, ui_->coversize, u"coversize"_s, u"640x640"_s);
   ui_->streamurl->setCurrentIndex(ui_->streamurl->findData(s.value("streamurl", static_cast<int>(StreamUrlMethod::StreamUrl)).toInt()));
   ui_->checkbox_album_explicit->setChecked(s.value("album_explicit", false).toBool());
 
