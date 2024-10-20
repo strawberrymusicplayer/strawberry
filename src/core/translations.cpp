@@ -30,7 +30,7 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-Translations::Translations(QObject *parent) : QObject(parent) {}
+Translations::Translations() {}
 
 Translations::~Translations() {
 

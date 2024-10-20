@@ -22,18 +22,15 @@
 
 #include "config.h"
 
-#include <QObject>
 #include <QList>
 #include <QString>
 
 class QTranslator;
 
-class Translations : public QObject {
-  Q_OBJECT
-
+class Translations {
  public:
-  explicit Translations(QObject *parent = nullptr);
-  ~Translations() override;
+  explicit Translations();
+  ~Translations();
   void LoadTranslation(const QString &prefix, const QString &path, const QString &language);
 
  private:

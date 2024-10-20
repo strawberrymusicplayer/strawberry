@@ -771,7 +771,6 @@ set(HEADERS
   src/core/thread.h
   src/core/urlhandler.h
   src/core/standarditemiconloader.h
-  src/core/translations.h
   src/core/mimedata.h
   src/core/stylesheetloader.h
   src/core/localredirectserver.h
