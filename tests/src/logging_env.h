@@ -25,12 +25,14 @@
 
 #include "core/logging.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 class LoggingEnvironment : public ::testing::Environment {
  public:
   LoggingEnvironment() = default;
   void SetUp() override {
     logging::Init();
-    logging::SetLevels(QStringLiteral("*:4"));
+    logging::SetLevels(u"*:4"_s);
   }
  private:
   Q_DISABLE_COPY(LoggingEnvironment)

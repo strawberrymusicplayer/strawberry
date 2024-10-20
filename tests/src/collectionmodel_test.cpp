@@ -67,11 +67,11 @@ class CollectionModelTest : public ::testing::Test {
     song.set_directory_id(1);
     if (song.mtime() == 0) song.set_mtime(1);
     if (song.ctime() == 0) song.set_ctime(1);
-    if (song.url().isEmpty()) song.set_url(QUrl(QStringLiteral("file:///tmp/foo")));
+    if (song.url().isEmpty()) song.set_url(QUrl(u"file:///tmp/foo"_s));
     if (song.filesize() == -1) song.set_filesize(1);
 
     if (!added_dir_) {
-      backend_->AddDirectory(QStringLiteral("/tmp"));
+      backend_->AddDirectory(u"/tmp"_s);
       added_dir_ = true;
     }
 
@@ -105,23 +105,23 @@ TEST_F(CollectionModelTest, Initialization) {
 
 TEST_F(CollectionModelTest, WithInitialArtists) {
 
-  AddSong(QStringLiteral("Title"), QStringLiteral("Artist 1"), QStringLiteral("Album"), 123);
-  AddSong(QStringLiteral("Title"), QStringLiteral("Artist 2"), QStringLiteral("Album"), 123);
-  AddSong(QStringLiteral("Title"), QStringLiteral("Foo"), QStringLiteral("Album"), 123);
+  AddSong(u"Title"_s, u"Artist 1"_s, u"Album"_s, 123);
+  AddSong(u"Title"_s, u"Artist 2"_s, u"Album"_s, 123);
+  AddSong(u"Title"_s, u"Foo"_s, u"Album"_s, 123);
 
   ASSERT_EQ(5, collection_filter_->rowCount(QModelIndex()));
-  EXPECT_EQ(QStringLiteral("A"), collection_filter_->index(0, 0, QModelIndex()).data().toString());
-  EXPECT_EQ(QStringLiteral("Artist 1"), collection_filter_->index(1, 0, QModelIndex()).data().toString());
-  EXPECT_EQ(QStringLiteral("Artist 2"), collection_filter_->index(2, 0, QModelIndex()).data().toString());
-  EXPECT_EQ(QStringLiteral("F"), collection_filter_->index(3, 0, QModelIndex()).data().toString());
-  EXPECT_EQ(QStringLiteral("Foo"), collection_filter_->index(4, 0, QModelIndex()).data().toString());
+  EXPECT_EQ(u"A"_s, collection_filter_->index(0, 0, QModelIndex()).data().toString());
+  EXPECT_EQ(u"Artist 1"_s, collection_filter_->index(1, 0, QModelIndex()).data().toString());
+  EXPECT_EQ(u"Artist 2"_s, collection_filter_->index(2, 0, QModelIndex()).data().toString());
+  EXPECT_EQ(u"F"_s, collection_filter_->index(3, 0, QModelIndex()).data().toString());
+  EXPECT_EQ(u"Foo"_s, collection_filter_->index(4, 0, QModelIndex()).data().toString());
 
 }
 
 TEST_F(CollectionModelTest, CompilationAlbums) {
 
   Song song;
-  song.Init(QStringLiteral("Title"), QStringLiteral("Artist"), QStringLiteral("Album"), 123);
+  song.Init(u"Title"_s, u"Artist"_s, u"Album"_s, 123);
   song.set_compilation(true);
   song.set_mtime(0);
   song.set_ctime(0);
@@ -131,62 +131,62 @@ TEST_F(CollectionModelTest, CompilationAlbums) {
   ASSERT_EQ(1, model_->rowCount(QModelIndex()));
 
   QModelIndex va_index = model_->index(0, 0, QModelIndex());
-  EXPECT_EQ(QStringLiteral("Various artists"), va_index.data().toString());
+  EXPECT_EQ(u"Various artists"_s, va_index.data().toString());
   EXPECT_TRUE(model_->hasChildren(va_index));
   ASSERT_EQ(model_->rowCount(va_index), 1);
 
   QModelIndex album_index = model_->index(0, 0, va_index);
-  EXPECT_EQ(model_->data(album_index).toString(), QStringLiteral("Album"));
+  EXPECT_EQ(model_->data(album_index).toString(), u"Album"_s);
   EXPECT_TRUE(model_->hasChildren(album_index));
 
 }
 
 TEST_F(CollectionModelTest, NumericHeaders) {
 
-  AddSong(QStringLiteral("Title"), QStringLiteral("1artist"), QStringLiteral("Album"), 123);
-  AddSong(QStringLiteral("Title"), QStringLiteral("2artist"), QStringLiteral("Album"), 123);
-  AddSong(QStringLiteral("Title"), QStringLiteral("0artist"), QStringLiteral("Album"), 123);
-  AddSong(QStringLiteral("Title"), QStringLiteral("zartist"), QStringLiteral("Album"), 123);
+  AddSong(u"Title"_s, u"1artist"_s, u"Album"_s, 123);
+  AddSong(u"Title"_s, u"2artist"_s, u"Album"_s, 123);
+  AddSong(u"Title"_s, u"0artist"_s, u"Album"_s, 123);
+  AddSong(u"Title"_s, u"zartist"_s, u"Album"_s, 123);
 
   ASSERT_EQ(6, collection_filter_->rowCount(QModelIndex()));
-  EXPECT_EQ(QStringLiteral("0-9"), collection_filter_->index(0, 0, QModelIndex()).data().toString());
-  EXPECT_EQ(QStringLiteral("0artist"), collection_filter_->index(1, 0, QModelIndex()).data().toString());
-  EXPECT_EQ(QStringLiteral("1artist"), collection_filter_->index(2, 0, QModelIndex()).data().toString());
-  EXPECT_EQ(QStringLiteral("2artist"), collection_filter_->index(3, 0, QModelIndex()).data().toString());
-  EXPECT_EQ(QStringLiteral("Z"), collection_filter_->index(4, 0, QModelIndex()).data().toString());
-  EXPECT_EQ(QStringLiteral("zartist"), collection_filter_->index(5, 0, QModelIndex()).data().toString());
+  EXPECT_EQ(u"0-9"_s, collection_filter_->index(0, 0, QModelIndex()).data().toString());
+  EXPECT_EQ(u"0artist"_s, collection_filter_->index(1, 0, QModelIndex()).data().toString());
+  EXPECT_EQ(u"1artist"_s, collection_filter_->index(2, 0, QModelIndex()).data().toString());
+  EXPECT_EQ(u"2artist"_s, collection_filter_->index(3, 0, QModelIndex()).data().toString());
+  EXPECT_EQ(u"Z"_s, collection_filter_->index(4, 0, QModelIndex()).data().toString());
+  EXPECT_EQ(u"zartist"_s, collection_filter_->index(5, 0, QModelIndex()).data().toString());
 
 }
 
 TEST_F(CollectionModelTest, MixedCaseHeaders) {
 
-  AddSong(QStringLiteral("Title"), QStringLiteral("Artist"), QStringLiteral("Album"), 123);
-  AddSong(QStringLiteral("Title"), QStringLiteral("artist"), QStringLiteral("Album"), 123);
+  AddSong(u"Title"_s, u"Artist"_s, u"Album"_s, 123);
+  AddSong(u"Title"_s, u"artist"_s, u"Album"_s, 123);
 
   ASSERT_EQ(3, collection_filter_->rowCount(QModelIndex()));
-  EXPECT_EQ(QStringLiteral("A"), collection_filter_->index(0, 0, QModelIndex()).data().toString());
-  EXPECT_EQ(QStringLiteral("Artist"), collection_filter_->index(1, 0, QModelIndex()).data().toString());
-  EXPECT_EQ(QStringLiteral("artist"), collection_filter_->index(2, 0, QModelIndex()).data().toString());
+  EXPECT_EQ(u"A"_s, collection_filter_->index(0, 0, QModelIndex()).data().toString());
+  EXPECT_EQ(u"Artist"_s, collection_filter_->index(1, 0, QModelIndex()).data().toString());
+  EXPECT_EQ(u"artist"_s, collection_filter_->index(2, 0, QModelIndex()).data().toString());
 
 }
 
 TEST_F(CollectionModelTest, UnknownArtists) {
 
-  AddSong(QStringLiteral("Title"), ""_L1, QStringLiteral("Album"), 123);
+  AddSong(u"Title"_s, ""_L1, u"Album"_s, 123);
 
   ASSERT_EQ(1, model_->rowCount(QModelIndex()));
   QModelIndex unknown_index = model_->index(0, 0, QModelIndex());
-  EXPECT_EQ(QStringLiteral("Unknown"), unknown_index.data().toString());
+  EXPECT_EQ(u"Unknown"_s, unknown_index.data().toString());
 
   ASSERT_EQ(1, model_->rowCount(unknown_index));
-  EXPECT_EQ(QStringLiteral("Album"), model_->index(0, 0, unknown_index).data().toString());
+  EXPECT_EQ(u"Album"_s, model_->index(0, 0, unknown_index).data().toString());
 
 }
 
 TEST_F(CollectionModelTest, UnknownAlbums) {
 
-  AddSong(QStringLiteral("Title"), QStringLiteral("Artist"), ""_L1, 123);
-  AddSong(QStringLiteral("Title"), QStringLiteral("Artist"), QStringLiteral("Album"), 123);
+  AddSong(u"Title"_s, u"Artist"_s, ""_L1, 123);
+  AddSong(u"Title"_s, u"Artist"_s, u"Album"_s, 123);
 
   QModelIndex artist_index = model_->index(1, 0, QModelIndex());
   EXPECT_EQ(artist_index.isValid(), true);
@@ -195,8 +195,8 @@ TEST_F(CollectionModelTest, UnknownAlbums) {
   QModelIndex unknown_album_index = model_->index(0, 0, artist_index);
   QModelIndex real_album_index = model_->index(1, 0, artist_index);
 
-  EXPECT_EQ(QStringLiteral("Unknown"), unknown_album_index.data().toString());
-  EXPECT_EQ(QStringLiteral("Album"), real_album_index.data().toString());
+  EXPECT_EQ(u"Unknown"_s, unknown_album_index.data().toString());
+  EXPECT_EQ(u"Album"_s, real_album_index.data().toString());
 
 }
 
@@ -206,7 +206,7 @@ TEST_F(CollectionModelTest, VariousArtistSongs) {
   for (int i=0 ; i < 4 ; ++i) {
     QString n = QString::number(i+1);
     Song song;
-    song.Init(QStringLiteral("Title ") + n, QStringLiteral("Artist ") + n, QStringLiteral("Album"), 0);
+    song.Init(u"Title "_s + n, u"Artist "_s + n, u"Album"_s, 0);
     song.set_mtime(0);
     song.set_ctime(0);
     songs << song;  // clazy:exclude=reserve-candidates
@@ -216,7 +216,7 @@ TEST_F(CollectionModelTest, VariousArtistSongs) {
   songs[0].set_compilation_detected(true);
   songs[1].set_compilation(true);
   songs[2].set_compilation_on(true);
-  songs[3].set_compilation_detected(true); songs[3].set_artist(QStringLiteral("Various Artists"));
+  songs[3].set_compilation_detected(true); songs[3].set_artist(u"Various Artists"_s);
 
   for (int i=0 ; i < 4 ; ++i)
     AddSong(songs[i]);
@@ -227,18 +227,18 @@ TEST_F(CollectionModelTest, VariousArtistSongs) {
   QModelIndex album_index = model_->index(0, 0, artist_index);
   ASSERT_EQ(4, model_->rowCount(album_index));
 
-  EXPECT_EQ(QStringLiteral("Artist 1 - Title 1"), model_->index(0, 0, album_index).data().toString());
-  EXPECT_EQ(QStringLiteral("Artist 2 - Title 2"), model_->index(1, 0, album_index).data().toString());
-  EXPECT_EQ(QStringLiteral("Artist 3 - Title 3"), model_->index(2, 0, album_index).data().toString());
-  EXPECT_EQ(QStringLiteral("Title 4"), model_->index(3, 0, album_index).data().toString());
+  EXPECT_EQ(u"Artist 1 - Title 1"_s, model_->index(0, 0, album_index).data().toString());
+  EXPECT_EQ(u"Artist 2 - Title 2"_s, model_->index(1, 0, album_index).data().toString());
+  EXPECT_EQ(u"Artist 3 - Title 3"_s, model_->index(2, 0, album_index).data().toString());
+  EXPECT_EQ(u"Title 4"_s, model_->index(3, 0, album_index).data().toString());
 
 }
 
 TEST_F(CollectionModelTest, RemoveSongs) {
 
-  Song one = AddSong(QStringLiteral("Title 1"), QStringLiteral("Artist"), QStringLiteral("Album"), 123); one.set_id(1);
-  Song two = AddSong(QStringLiteral("Title 2"), QStringLiteral("Artist"), QStringLiteral("Album"), 123); two.set_id(2);
-  AddSong(QStringLiteral("Title 3"), QStringLiteral("Artist"), QStringLiteral("Album"), 123);
+  Song one = AddSong(u"Title 1"_s, u"Artist"_s, u"Album"_s, 123); one.set_id(1);
+  Song two = AddSong(u"Title 2"_s, u"Artist"_s, u"Album"_s, 123); two.set_id(2);
+  AddSong(u"Title 3"_s, u"Artist"_s, u"Album"_s, 123);
 
   QModelIndex artist_index = model_->index(1, 0, QModelIndex());
   ASSERT_EQ(1, model_->rowCount(artist_index));
@@ -264,15 +264,15 @@ TEST_F(CollectionModelTest, RemoveSongs) {
   ASSERT_EQ(1, model_->rowCount(artist_index));
   album_index = model_->index(0, 0, artist_index);
   ASSERT_EQ(1, model_->rowCount(album_index));
-  EXPECT_EQ(QStringLiteral("Title 3"), model_->index(0, 0, album_index).data().toString());
+  EXPECT_EQ(u"Title 3"_s, model_->index(0, 0, album_index).data().toString());
 
 }
 
 TEST_F(CollectionModelTest, RemoveEmptyAlbums) {
 
-  Song one = AddSong(QStringLiteral("Title 1"), QStringLiteral("Artist"), QStringLiteral("Album 1"), 123); one.set_id(1);
-  Song two = AddSong(QStringLiteral("Title 2"), QStringLiteral("Artist"), QStringLiteral("Album 2"), 123); two.set_id(2);
-  Song three = AddSong(QStringLiteral("Title 3"), QStringLiteral("Artist"), QStringLiteral("Album 2"), 123); three.set_id(3);
+  Song one = AddSong(u"Title 1"_s, u"Artist"_s, u"Album 1"_s, 123); one.set_id(1);
+  Song two = AddSong(u"Title 2"_s, u"Artist"_s, u"Album 2"_s, 123); two.set_id(2);
+  Song three = AddSong(u"Title 3"_s, u"Artist"_s, u"Album 2"_s, 123); three.set_id(3);
 
   QModelIndex artist_index = model_->index(1, 0, QModelIndex());
   ASSERT_EQ(2, model_->rowCount(artist_index));
@@ -288,16 +288,16 @@ TEST_F(CollectionModelTest, RemoveEmptyAlbums) {
   ASSERT_EQ(1, model_->rowCount(artist_index));
 
   QModelIndex album_index = model_->index(0, 0, artist_index);
-  EXPECT_EQ(QStringLiteral("Album 2"), album_index.data().toString());
+  EXPECT_EQ(u"Album 2"_s, album_index.data().toString());
 
   ASSERT_EQ(1, model_->rowCount(album_index));
-  EXPECT_EQ(QStringLiteral("Title 3"), model_->index(0, 0, album_index).data().toString());
+  EXPECT_EQ(u"Title 3"_s, model_->index(0, 0, album_index).data().toString());
 
 }
 
 TEST_F(CollectionModelTest, RemoveEmptyArtists) {
 
-  Song one = AddSong(QStringLiteral("Title"), QStringLiteral("Artist"), QStringLiteral("Album"), 123); one.set_id(1);
+  Song one = AddSong(u"Title"_s, u"Artist"_s, u"Album"_s, 123); one.set_id(1);
 
   QModelIndex artist_index = model_->index(1, 0, QModelIndex());
   ASSERT_EQ(1, model_->rowCount(artist_index));

@@ -42,137 +42,137 @@ protected:
 
 TEST_F(OrganizeFormatTest, BasicReplace) {
 
-  song_.set_title(QStringLiteral("title"));
-  song_.set_album(QStringLiteral("album"));
-  song_.set_artist(QStringLiteral("artist"));
-  song_.set_albumartist(QStringLiteral("albumartist"));
+  song_.set_title(u"title"_s);
+  song_.set_album(u"album"_s);
+  song_.set_artist(u"artist"_s);
+  song_.set_albumartist(u"albumartist"_s);
   song_.set_track(321);
   song_.set_disc(789);
   song_.set_year(2010);
   song_.set_originalyear(1995);
-  song_.set_genre(QStringLiteral("genre"));
-  song_.set_composer(QStringLiteral("composer"));
-  song_.set_performer(QStringLiteral("performer"));
-  song_.set_grouping(QStringLiteral("grouping"));
-  song_.set_comment(QStringLiteral("comment"));
+  song_.set_genre(u"genre"_s);
+  song_.set_composer(u"composer"_s);
+  song_.set_performer(u"performer"_s);
+  song_.set_grouping(u"grouping"_s);
+  song_.set_comment(u"comment"_s);
   song_.set_length_nanosec(987 * kNsecPerSec);
   song_.set_samplerate(654);
   song_.set_bitdepth(32);
   song_.set_bitrate(123);
 
-  format_.set_format(QStringLiteral("%album %albumartist %artist %bitrate %comment %composer %performer %grouping %disc %genre %length %samplerate %bitdepth %title %track %year"));
+  format_.set_format(u"%album %albumartist %artist %bitrate %comment %composer %performer %grouping %disc %genre %length %samplerate %bitdepth %title %track %year"_s);
 
   ASSERT_TRUE(format_.IsValid());
 
-  EXPECT_EQ(QStringLiteral("album_albumartist_artist_123_comment_composer_performer_grouping_789_genre_987_654_32_title_321_2010"), format_.GetFilenameForSong(song_).filename);
+  EXPECT_EQ(u"album_albumartist_artist_123_comment_composer_performer_grouping_789_genre_987_654_32_title_321_2010"_s, format_.GetFilenameForSong(song_).filename);
 
 }
 
 TEST_F(OrganizeFormatTest, BasicReplacePaths) {
 
-  song_.set_title(QStringLiteral("title"));
-  song_.set_album(QStringLiteral("album"));
-  song_.set_artist(QStringLiteral("artist"));
-  song_.set_albumartist(QStringLiteral("albumartist"));
+  song_.set_title(u"title"_s);
+  song_.set_album(u"album"_s);
+  song_.set_artist(u"artist"_s);
+  song_.set_albumartist(u"albumartist"_s);
   song_.set_track(321);
 
-  format_.set_format(QStringLiteral("%albumartist/%album/%track %albumartist %artist %album %title"));
+  format_.set_format(u"%albumartist/%album/%track %albumartist %artist %album %title"_s);
 
   ASSERT_TRUE(format_.IsValid());
 
-  EXPECT_EQ(QStringLiteral("albumartist/album/321_albumartist_artist_album_title"), format_.GetFilenameForSong(song_).filename);
+  EXPECT_EQ(u"albumartist/album/321_albumartist_artist_album_title"_s, format_.GetFilenameForSong(song_).filename);
 
 }
 
 TEST_F(OrganizeFormatTest, ArtistInitial) {
 
-  song_.set_artist(QStringLiteral("bob"));
+  song_.set_artist(u"bob"_s);
 
-  format_.set_format(QStringLiteral("%artistinitial"));
+  format_.set_format(u"%artistinitial"_s);
   ASSERT_TRUE(format_.IsValid());
-  EXPECT_EQ(QStringLiteral("B"), format_.GetFilenameForSong(song_).filename);
+  EXPECT_EQ(u"B"_s, format_.GetFilenameForSong(song_).filename);
 
 }
 
 TEST_F(OrganizeFormatTest, AlbumArtistInitial) {
 
-  song_.set_albumartist(QStringLiteral("bob"));
+  song_.set_albumartist(u"bob"_s);
 
-  format_.set_format(QStringLiteral("%artistinitial"));
+  format_.set_format(u"%artistinitial"_s);
   ASSERT_TRUE(format_.IsValid());
-  EXPECT_EQ(QStringLiteral("B"), format_.GetFilenameForSong(song_).filename);
+  EXPECT_EQ(u"B"_s, format_.GetFilenameForSong(song_).filename);
 
 }
 
 TEST_F(OrganizeFormatTest, InvalidTag) {
 
-  format_.set_format(QStringLiteral("%invalid"));
+  format_.set_format(u"%invalid"_s);
   EXPECT_FALSE(format_.IsValid());
 
 }
 
 TEST_F(OrganizeFormatTest, Blocks) {
 
-  format_.set_format(QStringLiteral("Before{Inside%year}After"));
+  format_.set_format(u"Before{Inside%year}After"_s);
   ASSERT_TRUE(format_.IsValid());
 
   song_.set_year(-1);
-  EXPECT_EQ(QStringLiteral("BeforeAfter"), format_.GetFilenameForSong(song_).filename);
+  EXPECT_EQ(u"BeforeAfter"_s, format_.GetFilenameForSong(song_).filename);
 
   song_.set_year(0);
-  EXPECT_EQ(QStringLiteral("BeforeAfter"), format_.GetFilenameForSong(song_).filename);
+  EXPECT_EQ(u"BeforeAfter"_s, format_.GetFilenameForSong(song_).filename);
 
   song_.set_year(123);
-  EXPECT_EQ(QStringLiteral("BeforeInside123After"), format_.GetFilenameForSong(song_).filename);
+  EXPECT_EQ(u"BeforeInside123After"_s, format_.GetFilenameForSong(song_).filename);
 
 }
 
 TEST_F(OrganizeFormatTest, ReplaceSpaces) {
 
-  song_.set_title(QStringLiteral("The Song Title"));
-  format_.set_format(QStringLiteral("The Format String %title"));
+  song_.set_title(u"The Song Title"_s);
+  format_.set_format(u"The Format String %title"_s);
 
   format_.set_replace_spaces(false);
-  EXPECT_EQ(QStringLiteral("The Format String The Song Title"), format_.GetFilenameForSong(song_).filename);
+  EXPECT_EQ(u"The Format String The Song Title"_s, format_.GetFilenameForSong(song_).filename);
   format_.set_replace_spaces(true);
-  EXPECT_EQ(QStringLiteral("The_Format_String_The_Song_Title"), format_.GetFilenameForSong(song_).filename);
+  EXPECT_EQ(u"The_Format_String_The_Song_Title"_s, format_.GetFilenameForSong(song_).filename);
 
 }
 
 TEST_F(OrganizeFormatTest, ReplaceNonAscii) {
 
-  song_.set_artist(QStringLiteral("Röyksopp"));
-  format_.set_format(QStringLiteral("%artist"));
+  song_.set_artist(u"Röyksopp"_s);
+  format_.set_format(u"%artist"_s);
 
   format_.set_remove_non_ascii(false);
-  EXPECT_EQ(QStringLiteral("Röyksopp"), format_.GetFilenameForSong(song_).filename);
+  EXPECT_EQ(u"Röyksopp"_s, format_.GetFilenameForSong(song_).filename);
 
   format_.set_remove_non_ascii(true);
-  EXPECT_EQ(QStringLiteral("Royksopp"), format_.GetFilenameForSong(song_).filename);
+  EXPECT_EQ(u"Royksopp"_s, format_.GetFilenameForSong(song_).filename);
 
   song_.set_artist(""_L1);
   EXPECT_EQ(QLatin1String(""), format_.GetFilenameForSong(song_).filename);
 
-  song_.set_artist(QStringLiteral("Владимир Высоцкий"));
-  EXPECT_EQ(QStringLiteral("Vladimir_Vysockij"), format_.GetFilenameForSong(song_).filename);
+  song_.set_artist(u"Владимир Высоцкий"_s);
+  EXPECT_EQ(u"Vladimir_Vysockij"_s, format_.GetFilenameForSong(song_).filename);
 
-  song_.set_artist(QStringLiteral("エックス・ジャパン"));
-  EXPECT_EQ(QStringLiteral("ekkusujapan"), format_.GetFilenameForSong(song_).filename);
+  song_.set_artist(u"エックス・ジャパン"_s);
+  EXPECT_EQ(u"ekkusujapan"_s, format_.GetFilenameForSong(song_).filename);
 
 }
 
 TEST_F(OrganizeFormatTest, TrackNumberPadding) {
 
-  format_.set_format(QStringLiteral("%track"));
+  format_.set_format(u"%track"_s);
 
   song_.set_track(9);
-  EXPECT_EQ(QStringLiteral("09"), format_.GetFilenameForSong(song_).filename);
+  EXPECT_EQ(u"09"_s, format_.GetFilenameForSong(song_).filename);
 
   song_.set_track(99);
-  EXPECT_EQ(QStringLiteral("99"), format_.GetFilenameForSong(song_).filename);
+  EXPECT_EQ(u"99"_s, format_.GetFilenameForSong(song_).filename);
 
   song_.set_track(999);
-  EXPECT_EQ(QStringLiteral("999"), format_.GetFilenameForSong(song_).filename);
+  EXPECT_EQ(u"999"_s, format_.GetFilenameForSong(song_).filename);
 
   song_.set_track(0);
   EXPECT_EQ(QLatin1String(""), format_.GetFilenameForSong(song_).filename);
@@ -181,8 +181,8 @@ TEST_F(OrganizeFormatTest, TrackNumberPadding) {
 
 TEST_F(OrganizeFormatTest, ReplaceSlashes) {
 
-  format_.set_format(QStringLiteral("%title"));
-  song_.set_title(QStringLiteral("foo/bar\\baz"));
-  EXPECT_EQ(QStringLiteral("foobarbaz"), format_.GetFilenameForSong(song_).filename);
+  format_.set_format(u"%title"_s);
+  song_.set_title(u"foo/bar\\baz"_s);
+  EXPECT_EQ(u"foobarbaz"_s, format_.GetFilenameForSong(song_).filename);
 
 }

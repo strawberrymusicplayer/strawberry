@@ -35,6 +35,8 @@
 
 using std::make_unique;
 
+using namespace Qt::Literals::StringLiterals;
+
 // clazy:excludeall=non-pod-global-static
 
 namespace {
@@ -49,7 +51,7 @@ class SongPlaylistItemTest : public ::testing::TestWithParam<const char*> {
 
     absolute_file_name_ = QFileInfo(temp_file_.fileName()).absoluteFilePath();
 
-    song_.Init(QStringLiteral("Title"), QStringLiteral("Artist"), QStringLiteral("Album"), 123);
+    song_.Init(u"Title"_s, u"Artist"_s, u"Album"_s, 123);
     song_.set_url(QUrl::fromLocalFile(absolute_file_name_));
 
     item_ = make_unique<SongPlaylistItem>(song_);
@@ -73,7 +75,7 @@ INSTANTIATE_TEST_SUITE_P(RealFiles, SongPlaylistItemTest, testing::Values(  // c
 
 TEST_P(SongPlaylistItemTest, Url) {
   QUrl expected;
-  expected.setScheme(QStringLiteral("file"));
+  expected.setScheme(u"file"_s);
   expected.setPath(absolute_file_name_);
 
   EXPECT_EQ(expected, item_->Url());

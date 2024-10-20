@@ -26,6 +26,8 @@
 #include <QStandardItemModel>
 #include <QSignalSpy>
 
+using namespace Qt::Literals::StringLiterals;
+
 // clazy:excludeall=non-pod-global-static,returning-void-expression,function-args-by-value
 
 class MergedProxyModelTest : public ::testing::Test {
@@ -41,15 +43,15 @@ class MergedProxyModelTest : public ::testing::Test {
 
 TEST_F(MergedProxyModelTest, Flat) {
 
-  source_.appendRow(new QStandardItem(QStringLiteral("one")));
-  source_.appendRow(new QStandardItem(QStringLiteral("two")));
+  source_.appendRow(new QStandardItem(u"one"_s));
+  source_.appendRow(new QStandardItem(u"two"_s));
 
   ASSERT_EQ(2, merged_.rowCount(QModelIndex()));
   QModelIndex one_i = merged_.index(0, 0, QModelIndex());
   QModelIndex two_i = merged_.index(1, 0, QModelIndex());
 
-  EXPECT_EQ(QStringLiteral("one"), one_i.data().toString());
-  EXPECT_EQ(QStringLiteral("two"), two_i.data().toString());
+  EXPECT_EQ(u"one"_s, one_i.data().toString());
+  EXPECT_EQ(u"two"_s, two_i.data().toString());
   EXPECT_FALSE(merged_.parent(one_i).isValid());
   EXPECT_FALSE(merged_.hasChildren(one_i));
 
@@ -57,8 +59,8 @@ TEST_F(MergedProxyModelTest, Flat) {
 
 TEST_F(MergedProxyModelTest, Tree) {
 
-  QStandardItem* one = new QStandardItem(QStringLiteral("one"));
-  QStandardItem* two = new QStandardItem(QStringLiteral("two"));
+  QStandardItem* one = new QStandardItem(u"one"_s);
+  QStandardItem* two = new QStandardItem(u"two"_s);
   source_.appendRow(one);
   one->appendRow(two);
 
@@ -68,31 +70,31 @@ TEST_F(MergedProxyModelTest, Tree) {
   ASSERT_EQ(1, merged_.rowCount(one_i));
   QModelIndex two_i = merged_.index(0, 0, one_i);
 
-  EXPECT_EQ(QStringLiteral("one"), one_i.data().toString());
-  EXPECT_EQ(QStringLiteral("two"), two_i.data().toString());
-  EXPECT_EQ(QStringLiteral("one"), two_i.parent().data().toString());
+  EXPECT_EQ(u"one"_s, one_i.data().toString());
+  EXPECT_EQ(u"two"_s, two_i.data().toString());
+  EXPECT_EQ(u"one"_s, two_i.parent().data().toString());
 
 }
 
 TEST_F(MergedProxyModelTest, Merged) {
 
-  source_.appendRow(new QStandardItem(QStringLiteral("one")));
+  source_.appendRow(new QStandardItem(u"one"_s));
 
   QStandardItemModel submodel;
-  submodel.appendRow(new QStandardItem(QStringLiteral("two")));
+  submodel.appendRow(new QStandardItem(u"two"_s));
 
   merged_.AddSubModel(source_.index(0, 0, QModelIndex()), &submodel);
 
   ASSERT_EQ(1, merged_.rowCount(QModelIndex()));
   QModelIndex one_i = merged_.index(0, 0, QModelIndex());
 
-  EXPECT_EQ(QStringLiteral("one"), merged_.data(one_i).toString());
+  EXPECT_EQ(u"one"_s, merged_.data(one_i).toString());
   EXPECT_TRUE(merged_.hasChildren(one_i));
 
   ASSERT_EQ(1, merged_.rowCount(one_i));
   QModelIndex two_i = merged_.index(0, 0, one_i);
 
-  EXPECT_EQ(QStringLiteral("two"), merged_.data(two_i).toString());
+  EXPECT_EQ(u"two"_s, merged_.data(two_i).toString());
   EXPECT_EQ(0, merged_.rowCount(two_i));
   EXPECT_FALSE(merged_.hasChildren(two_i));
 
@@ -103,7 +105,7 @@ TEST_F(MergedProxyModelTest, SourceInsert) {
   QSignalSpy before_spy(&merged_, &MergedProxyModel::rowsAboutToBeInserted);
   QSignalSpy after_spy(&merged_, &MergedProxyModel::rowsInserted);
 
-  source_.appendRow(new QStandardItem(QStringLiteral("one")));
+  source_.appendRow(new QStandardItem(u"one"_s));
 
   ASSERT_EQ(1, before_spy.count());
   ASSERT_EQ(1, after_spy.count());
@@ -118,7 +120,7 @@ TEST_F(MergedProxyModelTest, SourceInsert) {
 
 TEST_F(MergedProxyModelTest, SourceRemove) {
 
-  source_.appendRow(new QStandardItem(QStringLiteral("one")));
+  source_.appendRow(new QStandardItem(u"one"_s));
 
   QSignalSpy before_spy(&merged_, &MergedProxyModel::rowsAboutToBeRemoved);
   QSignalSpy after_spy(&merged_, &MergedProxyModel::rowsRemoved);
@@ -138,21 +140,21 @@ TEST_F(MergedProxyModelTest, SourceRemove) {
 
 TEST_F(MergedProxyModelTest, SubInsert) {
 
-  source_.appendRow(new QStandardItem(QStringLiteral("one")));
+  source_.appendRow(new QStandardItem(u"one"_s));
   QStandardItemModel submodel;
   merged_.AddSubModel(source_.index(0, 0, QModelIndex()), &submodel);
 
   QSignalSpy before_spy(&merged_, &MergedProxyModel::rowsAboutToBeInserted);
   QSignalSpy after_spy(&merged_, &MergedProxyModel::rowsInserted);
 
-  submodel.appendRow(new QStandardItem(QStringLiteral("two")));
+  submodel.appendRow(new QStandardItem(u"two"_s));
 
   ASSERT_EQ(1, before_spy.count());
   ASSERT_EQ(1, after_spy.count());
-  EXPECT_EQ(QStringLiteral("one"), before_spy[0][0].toModelIndex().data());
+  EXPECT_EQ(u"one"_s, before_spy[0][0].toModelIndex().data());
   EXPECT_EQ(0, before_spy[0][1].toInt());
   EXPECT_EQ(0, before_spy[0][2].toInt());
-  EXPECT_EQ(QStringLiteral("one"), after_spy[0][0].toModelIndex().data());
+  EXPECT_EQ(u"one"_s, after_spy[0][0].toModelIndex().data());
   EXPECT_EQ(0, after_spy[0][1].toInt());
   EXPECT_EQ(0, after_spy[0][2].toInt());
 
@@ -160,11 +162,11 @@ TEST_F(MergedProxyModelTest, SubInsert) {
 
 TEST_F(MergedProxyModelTest, SubRemove) {
 
-  source_.appendRow(new QStandardItem(QStringLiteral("one")));
+  source_.appendRow(new QStandardItem(u"one"_s));
   QStandardItemModel submodel;
   merged_.AddSubModel(source_.index(0, 0, QModelIndex()), &submodel);
 
-  submodel.appendRow(new QStandardItem(QStringLiteral("two")));
+  submodel.appendRow(new QStandardItem(u"two"_s));
 
   QSignalSpy before_spy(&merged_, &MergedProxyModel::rowsAboutToBeRemoved);
   QSignalSpy after_spy(&merged_, &MergedProxyModel::rowsRemoved);
@@ -173,10 +175,10 @@ TEST_F(MergedProxyModelTest, SubRemove) {
 
   ASSERT_EQ(1, before_spy.count());
   ASSERT_EQ(1, after_spy.count());
-  EXPECT_EQ(QStringLiteral("one"), before_spy[0][0].toModelIndex().data());
+  EXPECT_EQ(u"one"_s, before_spy[0][0].toModelIndex().data());
   EXPECT_EQ(0, before_spy[0][1].toInt());
   EXPECT_EQ(0, before_spy[0][2].toInt());
-  EXPECT_EQ(QStringLiteral("one"), after_spy[0][0].toModelIndex().data());
+  EXPECT_EQ(u"one"_s, after_spy[0][0].toModelIndex().data());
   EXPECT_EQ(0, after_spy[0][1].toInt());
   EXPECT_EQ(0, after_spy[0][2].toInt());
 
