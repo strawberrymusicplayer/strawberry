@@ -178,7 +178,7 @@
     </message>
     <message>
       <source>Output</source>
-      <translation type="unfinished">Output</translation>
+      <translation>Çıktı</translation>
     </message>
     <message>
       <source>Enter a filename for exported covers (no extension):</source>
