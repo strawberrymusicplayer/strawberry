@@ -44,7 +44,10 @@
 
 class QNetworkReply;
 
-class Application;
+class TaskManager;
+class Database;
+class UrlHandlers;
+class AlbumCoverLoader;
 class SubsonicUrlHandler;
 class SubsonicRequest;
 class SubsonicScrobbleRequest;
@@ -56,7 +59,12 @@ class SubsonicService : public StreamingService {
   Q_OBJECT
 
  public:
-  explicit SubsonicService(Application *app, QObject *parent = nullptr);
+  explicit SubsonicService(SharedPtr<TaskManager> task_manager,
+                           SharedPtr<Database> database,
+                           SharedPtr<UrlHandlers> url_handlers,
+                           SharedPtr<AlbumCoverLoader> album_cover_loader,
+                           QObject *parent = nullptr);
+
   ~SubsonicService() override;
 
   static const Song::Source kSource;
@@ -65,8 +73,6 @@ class SubsonicService : public StreamingService {
 
   void ReloadSettings() override;
   void Exit() override;
-
-  Application *app() const { return app_; }
 
   QUrl server_url() const { return server_url_; }
   QString username() const { return username_; }
@@ -88,7 +94,6 @@ class SubsonicService : public StreamingService {
   void Scrobble(const QString &song_id, const bool submission, const QDateTime &time);
 
  public Q_SLOTS:
-  void ShowConfig() override;
   void SendPing();
   void SendPingWithCredentials(QUrl url, const QString &username, const QString &password, const SubsonicSettingsPage::AuthMethod auth_method, const bool redirect = false);
   void GetSongs() override;
@@ -103,7 +108,6 @@ class SubsonicService : public StreamingService {
  private:
   void PingError(const QString &error = QString(), const QVariant &debug = QVariant());
 
-  Application *app_;
   ScopedPtr<QNetworkAccessManager> network_;
   SubsonicUrlHandler *url_handler_;
 

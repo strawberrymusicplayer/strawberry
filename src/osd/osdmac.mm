@@ -53,7 +53,7 @@ void SendNotificationCenterMessage(NSString *title, NSString *subtitle) {
 
 }  // namespace
 
-OSDMac::OSDMac(SharedPtr<SystemTrayIcon> tray_icon, Application *app, QObject *parent) : OSDBase(tray_icon, app, parent) {}
+OSDMac::OSDMac(SharedPtr<SystemTrayIcon> tray_icon, QObject *parent) : OSDBase(tray_icon, parent) {}
 
 OSDMac::~OSDMac() = default;
 

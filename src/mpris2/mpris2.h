@@ -37,10 +37,13 @@
 #include <QDBusArgument>
 #include <QJsonObject>
 
+#include "core/shared_ptr.h"
 #include "engine/enginebase.h"
 #include "covermanager/albumcoverloaderresult.h"
 
-class Application;
+class Player;
+class PlaylistManager;
+class CurrentAlbumCoverLoader;
 class Song;
 class Playlist;
 
@@ -75,7 +78,7 @@ class Mpris2 : public QObject {
   Q_OBJECT
 
  public:
-  explicit Mpris2(Application *app, QObject *parent = nullptr);
+  explicit Mpris2(SharedPtr<Player> player, SharedPtr<PlaylistManager> playlist_manager, SharedPtr<CurrentAlbumCoverLoader> current_albumcover_loader, QObject *parent = nullptr);
 
   // org.mpris.MediaPlayer2 MPRIS 2.0 Root interface
   Q_PROPERTY(bool CanQuit READ CanQuit)
@@ -231,7 +234,9 @@ class Mpris2 : public QObject {
   QString DesktopEntryAbsolutePath() const;
 
  private:
-  Application *app_;
+  SharedPtr<Player> player_;
+  SharedPtr<PlaylistManager> playlist_manager_;
+  SharedPtr<CurrentAlbumCoverLoader> current_albumcover_loader_;
 
   QString app_name_;
   QString desktopfilepath_;

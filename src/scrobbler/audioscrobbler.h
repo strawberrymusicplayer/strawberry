@@ -34,7 +34,6 @@
 #include "core/song.h"
 #include "scrobblersettings.h"
 
-class Application;
 class ScrobblerService;
 class Song;
 
@@ -42,7 +41,7 @@ class AudioScrobbler : public QObject {
   Q_OBJECT
 
  public:
-  explicit AudioScrobbler(Application *app, QObject *parent = nullptr);
+  explicit AudioScrobbler(QObject *parent = nullptr);
   ~AudioScrobbler();
 
   void AddService(SharedPtr<ScrobblerService> service);
@@ -71,8 +70,6 @@ class AudioScrobbler : public QObject {
   bool strip_remastered() const { return settings_->strip_remastered(); }
   QList<Song::Source> sources() const { return settings_->sources(); }
 
-  void ShowConfig();
-
   void UpdateNowPlaying(const Song &song);
   void ClearPlaying();
   void Scrobble(const Song &song, const qint64 scrobble_point);
@@ -89,7 +86,6 @@ class AudioScrobbler : public QObject {
   void ErrorMessage(const QString &error);
 
  private:
-  Application *app_;
   SharedPtr<ScrobblerSettings> settings_;
   QMap<QString, SharedPtr<ScrobblerService>> services_;
 

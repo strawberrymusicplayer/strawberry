@@ -43,7 +43,6 @@
 
 class QNetworkReply;
 class QTimer;
-class Application;
 class NetworkAccessManager;
 class QobuzService;
 class QobuzUrlHandler;
@@ -53,7 +52,7 @@ class QobuzRequest : public QobuzBaseRequest {
 
  public:
 
-  explicit QobuzRequest(QobuzService *service, QobuzUrlHandler *url_handler, Application *app, SharedPtr<NetworkAccessManager> network, const Type query_type, QObject *parent = nullptr);
+  explicit QobuzRequest(QobuzService *service, QobuzUrlHandler *url_handler, SharedPtr<NetworkAccessManager> network, const Type query_type, QObject *parent = nullptr);
   ~QobuzRequest() override;
 
   void ReloadSettings();
@@ -173,7 +172,6 @@ class QobuzRequest : public QobuzBaseRequest {
 
   QobuzService *service_;
   QobuzUrlHandler *url_handler_;
-  Application *app_;
   SharedPtr<NetworkAccessManager> network_;
   QTimer *timer_flush_requests_;
 

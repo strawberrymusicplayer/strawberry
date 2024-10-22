@@ -29,10 +29,8 @@
 #include <QList>
 #include <QString>
 
-#include "scoped_ptr.h"
-#include "shared_ptr.h"
-
-#include "settings/settingsdialog.h"
+#include "core/scoped_ptr.h"
+#include "core/shared_ptr.h"
 
 class QThread;
 
@@ -41,6 +39,7 @@ class ApplicationImpl;
 class TagReaderClient;
 class Database;
 class DeviceFinders;
+class UrlHandlers;
 class Player;
 class NetworkAccessManager;
 class SCollection;
@@ -48,9 +47,7 @@ class CollectionBackend;
 class CollectionModel;
 class PlaylistBackend;
 class PlaylistManager;
-#ifndef Q_OS_WIN
 class DeviceManager;
-#endif
 class CoverProviders;
 class AlbumCoverLoader;
 class CurrentAlbumCoverLoader;
@@ -78,9 +75,8 @@ class Application : public QObject {
   SharedPtr<Player> player() const;
   SharedPtr<NetworkAccessManager> network() const;
   SharedPtr<DeviceFinders> device_finders() const;
-#ifndef Q_OS_WIN
+  SharedPtr<UrlHandlers> url_handlers() const;
   SharedPtr<DeviceManager> device_manager() const;
-#endif
 
   SharedPtr<SCollection> collection() const;
   SharedPtr<CollectionBackend> collection_backend() const;
@@ -115,23 +111,13 @@ class Application : public QObject {
  private Q_SLOTS:
   void ExitReceived();
 
- public Q_SLOTS:
-  void AddError(const QString &message);
-  void ReloadSettings();
-  void OpenSettingsDialogAtPage(SettingsDialog::Page page);
-
  Q_SIGNALS:
-  void ErrorAdded(const QString &message);
-  void SettingsChanged();
-  void SettingsDialogRequested(const SettingsDialog::Page page);
   void ExitFinished();
-  void ClearPixmapDiskCache();
 
  private:
   ScopedPtr<ApplicationImpl> p_;
   QList<QThread*> threads_;
   QList<QObject*> wait_for_exit_;
-
 };
 
 #endif  // APPLICATION_H

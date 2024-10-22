@@ -19,7 +19,7 @@
 
 #include "core/logging.h"
 #include "core/iconloader.h"
-#include "core/mainwindow.h"
+#include "application/mainwindow.h"
 #include "utilities/screenutils.h"
 
 #include "snapdialog.h"

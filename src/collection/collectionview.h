@@ -31,9 +31,11 @@
 #include <QSet>
 
 #include "core/scoped_ptr.h"
+#include "core/shared_ptr.h"
 #include "core/song.h"
 #include "widgets/autoexpandingtreeview.h"
 
+class QSortFilterProxyModel;
 class QMenu;
 class QAction;
 class QContextMenuEvent;
@@ -41,8 +43,15 @@ class QMouseEvent;
 class QPaintEvent;
 class QKeyEvent;
 
-class Application;
+class TaskManager;
+class NetworkAccessManager;
+class CollectionModel;
 class CollectionFilterWidget;
+class DeviceManager;
+class AlbumCoverLoader;
+class CurrentAlbumCoverLoader;
+class CoverProviders;
+class LyricsProviders;
 class EditTagDialog;
 class OrganizeDialog;
 
@@ -57,7 +66,10 @@ class CollectionView : public AutoExpandingTreeView {
   // Please note that the selection is recursive meaning that if for example an album is selected this will return all of it's songs.
   SongList GetSelectedSongs() const;
 
-  void SetApplication(Application *app);
+  void Init(SharedPtr<TaskManager> task_manager,
+            SharedPtr<NetworkAccessManager> network,
+            SharedPtr<DeviceManager> device_manager);
+
   void SetFilter(CollectionFilterWidget *filter);
 
   // QTreeView
@@ -114,14 +126,23 @@ class CollectionView : public AutoExpandingTreeView {
   void DeleteFilesFinished(const SongList &songs_with_errors);
 
  private:
+  QSortFilterProxyModel *sort_filter_proxy_model() const;
+  CollectionModel *collection_model() const;
   void RecheckIsEmpty();
   void SetShowInVarious(const bool on);
   bool RestoreLevelFocus(const QModelIndex &parent = QModelIndex());
   void SaveContainerPath(const QModelIndex &child);
 
  private:
-  Application *app_;
   CollectionFilterWidget *filter_;
+
+  SharedPtr<TaskManager> task_manager_;
+  SharedPtr<NetworkAccessManager> network_;
+  SharedPtr<DeviceManager> device_manager_;
+  SharedPtr<AlbumCoverLoader> albumcover_loader_;
+  SharedPtr<CurrentAlbumCoverLoader> current_albumcover_loader_;
+  SharedPtr<CoverProviders> cover_providers_;
+  SharedPtr<LyricsProviders> lyrics_providers_;
 
   int total_song_count_;
   int total_artist_count_;

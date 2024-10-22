@@ -36,6 +36,8 @@
 #include <QJsonObject>
 #include <QJsonValue>
 
+#include "core/shared_ptr.h"
+
 #include "spotifyservice.h"
 
 class QNetworkReply;
@@ -45,7 +47,7 @@ class SpotifyBaseRequest : public QObject {
   Q_OBJECT
 
  public:
-  explicit SpotifyBaseRequest(SpotifyService *service, NetworkAccessManager *network, QObject *parent = nullptr);
+  explicit SpotifyBaseRequest(SpotifyService *service, SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
 
   enum class Type {
     None,
@@ -84,7 +86,7 @@ class SpotifyBaseRequest : public QObject {
 
  private:
   SpotifyService *service_;
-  NetworkAccessManager *network_;
+  SharedPtr<NetworkAccessManager> network_;
 
 };
 

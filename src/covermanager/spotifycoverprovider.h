@@ -39,14 +39,13 @@
 #include "spotify/spotifyservice.h"
 
 class QNetworkReply;
-class Application;
 class NetworkAccessManager;
 
 class SpotifyCoverProvider : public JsonCoverProvider {
   Q_OBJECT
 
  public:
-  explicit SpotifyCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
+  explicit SpotifyCoverProvider(SpotifyServicePtr service, SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~SpotifyCoverProvider() override;
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;

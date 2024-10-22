@@ -37,7 +37,6 @@
 #include <QJsonArray>
 
 #include "core/shared_ptr.h"
-#include "core/application.h"
 #include "core/networkaccessmanager.h"
 #include "core/logging.h"
 #include "albumcoverfetcher.h"
@@ -53,8 +52,8 @@ constexpr int kLimit = 8;
 constexpr int kRequestsDelay = 1000;
 }  // namespace
 
-MusicbrainzCoverProvider::MusicbrainzCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : JsonCoverProvider(u"MusicBrainz"_s, true, false, 1.5, true, false, app, network, parent),
+MusicbrainzCoverProvider::MusicbrainzCoverProvider(SharedPtr<NetworkAccessManager> network, QObject *parent)
+    : JsonCoverProvider(u"MusicBrainz"_s, true, false, 1.5, true, false, network, parent),
       timer_flush_requests_(new QTimer(this)) {
 
   timer_flush_requests_->setInterval(kRequestsDelay);

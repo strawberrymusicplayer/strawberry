@@ -29,7 +29,7 @@
 #include <QTextStream>
 
 #include "core/shared_ptr.h"
-#include "utilities/timeconstants.h"
+#include "constants/timeconstants.h"
 #include "settings/playlistsettingspage.h"
 #include "parserbase.h"
 #include "plsparser.h"

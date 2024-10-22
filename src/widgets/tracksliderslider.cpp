@@ -31,7 +31,7 @@
 #include <QEnterEvent>
 
 #include "utilities/timeutils.h"
-#include "utilities/timeconstants.h"
+#include "constants/timeconstants.h"
 #ifndef Q_OS_MACOS
 #  include "tracksliderpopup.h"
 #endif

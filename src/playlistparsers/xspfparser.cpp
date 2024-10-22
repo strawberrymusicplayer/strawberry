@@ -32,7 +32,7 @@
 #include "core/shared_ptr.h"
 #include "core/settings.h"
 #include "utilities/xmlutils.h"
-#include "utilities/timeconstants.h"
+#include "constants/timeconstants.h"
 #include "settings/playlistsettingspage.h"
 #include "xmlparser.h"
 #include "xspfparser.h"

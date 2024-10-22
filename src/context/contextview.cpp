@@ -50,8 +50,6 @@
 #include <QDragEnterEvent>
 #include <QDropEvent>
 
-#include "core/application.h"
-#include "core/player.h"
 #include "core/song.h"
 #include "core/settings.h"
 #include "utilities/strutils.h"
@@ -73,7 +71,6 @@ constexpr int kWidgetSpacing = 50;
 
 ContextView::ContextView(QWidget *parent)
     : QWidget(parent),
-      app_(nullptr),
       collectionview_(nullptr),
       album_cover_choice_controller_(nullptr),
       lyrics_fetcher_(nullptr),
@@ -241,14 +238,13 @@ ContextView::ContextView(QWidget *parent)
 
 }
 
-void ContextView::Init(Application *app, CollectionView *collectionview, AlbumCoverChoiceController *album_cover_choice_controller) {
+void ContextView::Init(CollectionView *collectionview, AlbumCoverChoiceController *album_cover_choice_controller, SharedPtr<LyricsProviders> lyrics_providers) {
 
-  app_ = app;
   collectionview_ = collectionview;
   album_cover_choice_controller_ = album_cover_choice_controller;
 
   widget_album_->Init(this, album_cover_choice_controller_);
-  lyrics_fetcher_ = new LyricsFetcher(app_->lyrics_providers(), this);
+  lyrics_fetcher_ = new LyricsFetcher(lyrics_providers, this);
 
   QObject::connect(collectionview_, &CollectionView::TotalSongCountUpdated_, this, &ContextView::UpdateNoSong);
   QObject::connect(collectionview_, &CollectionView::TotalArtistCountUpdated_, this, &ContextView::UpdateNoSong);

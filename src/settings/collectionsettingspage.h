@@ -82,6 +82,9 @@ class CollectionSettingsPage : public SettingsPage {
   void WriteAllSongsStatisticsToFiles();
 
  private:
+  void UpdateIconDiskCacheSize();
+
+ private:
   Ui_CollectionSettingsPage *ui_;
   SharedPtr<CollectionBackend> collection_backend_;
   CollectionSettingsDirectoryModel *collectionsettings_directory_model_;

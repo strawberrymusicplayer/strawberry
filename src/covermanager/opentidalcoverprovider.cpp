@@ -38,11 +38,11 @@
 #include <QTimer>
 
 #include "core/shared_ptr.h"
-#include "core/application.h"
 #include "core/networkaccessmanager.h"
 #include "core/logging.h"
 #include "core/settings.h"
-#include "utilities/timeconstants.h"
+#include "core/song.h"
+#include "constants/timeconstants.h"
 #include "albumcoverfetcher.h"
 #include "jsoncoverprovider.h"
 #include "opentidalcoverprovider.h"
@@ -61,8 +61,8 @@ constexpr const int kRequestsDelay = 1000;
 
 using std::make_shared;
 
-OpenTidalCoverProvider::OpenTidalCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : JsonCoverProvider(u"OpenTidal"_s, true, false, 2.5, true, false, app, network, parent),
+OpenTidalCoverProvider::OpenTidalCoverProvider(SharedPtr<NetworkAccessManager> network, QObject *parent)
+    : JsonCoverProvider(u"OpenTidal"_s, true, false, 2.5, true, false, network, parent),
       login_timer_(new QTimer(this)),
       timer_flush_requests_(new QTimer(this)),
       login_in_progress_(false),

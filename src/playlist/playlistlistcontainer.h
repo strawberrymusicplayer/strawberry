@@ -31,6 +31,7 @@
 #include <QModelIndex>
 
 #include "core/scoped_ptr.h"
+#include "core/shared_ptr.h"
 
 class QStandardItem;
 class QSortFilterProxyModel;
@@ -39,7 +40,11 @@ class QAction;
 class QContextMenuEvent;
 class QShowEvent;
 
-class Application;
+class TaskManager;
+class Player;
+class DeviceManager;
+class PlaylistManager;
+class PlaylistBackend;
 class Playlist;
 class PlaylistListModel;
 class Ui_PlaylistListContainer;
@@ -52,7 +57,8 @@ class PlaylistListContainer : public QWidget {
   explicit PlaylistListContainer(QWidget *parent = nullptr);
   ~PlaylistListContainer() override;
 
-  void SetApplication(Application *app);
+  void Init(SharedPtr<TaskManager> task_manager, SharedPtr<Player> player, SharedPtr<PlaylistManager> playlist_manager, SharedPtr<PlaylistBackend> playlist_backend, SharedPtr<DeviceManager> device_manager);
+
   void ReloadSettings();
 
  protected:
@@ -97,7 +103,11 @@ class PlaylistListContainer : public QWidget {
 
   void UpdateActiveIcon(int id, const QIcon &icon);
 
-  Application *app_;
+  SharedPtr<TaskManager> task_manager_;
+  SharedPtr<PlaylistManager> playlist_manager_;
+  SharedPtr<PlaylistBackend> playlist_backend_;
+  SharedPtr<DeviceManager> device_manager_;
+
   Ui_PlaylistListContainer *ui_;
   QMenu *menu_;
 

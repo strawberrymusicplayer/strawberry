@@ -28,14 +28,13 @@
 
 class QWizard;
 
-class Application;
 class CollectionBackend;
 
 class SmartPlaylistWizardPlugin : public QObject {
   Q_OBJECT
 
  public:
-  explicit SmartPlaylistWizardPlugin(Application *app, SharedPtr<CollectionBackend> collection_backend, QObject *parent);
+  explicit SmartPlaylistWizardPlugin(SharedPtr<CollectionBackend> collection_backend, QObject *parent);
 
   virtual PlaylistGenerator::Type type() const = 0;
   virtual QString name() const = 0;
@@ -51,7 +50,6 @@ class SmartPlaylistWizardPlugin : public QObject {
  protected:
   virtual int CreatePages(QWizard *wizard, const int finish_page_id) = 0;
 
-  Application *app_;
   SharedPtr<CollectionBackend> collection_backend_;
 
  private:

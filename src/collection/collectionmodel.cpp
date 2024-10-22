@@ -55,11 +55,9 @@
 
 #include "core/scoped_ptr.h"
 #include "core/shared_ptr.h"
-#include "core/application.h"
 #include "core/database.h"
 #include "core/iconloader.h"
 #include "core/logging.h"
-#include "core/sqlrow.h"
 #include "core/settings.h"
 #include "collectionfilteroptions.h"
 #include "collectionquery.h"
@@ -85,12 +83,10 @@ constexpr char kPixmapDiskCacheDir[] = "pixmapcache";
 constexpr char kVariousArtists[] = QT_TR_NOOP("Various artists");
 }  // namespace
 
-QNetworkDiskCache *CollectionModel::sIconCache = nullptr;
-
-CollectionModel::CollectionModel(SharedPtr<CollectionBackend> backend, Application *app, QObject *parent)
+CollectionModel::CollectionModel(SharedPtr<CollectionBackend> backend, SharedPtr<AlbumCoverLoader> album_cover_loader, QObject *parent)
     : SimpleTreeModel<CollectionItem>(new CollectionItem(this), parent),
       backend_(backend),
-      app_(app),
+      album_cover_loader_(album_cover_loader),
       dir_model_(new CollectionDirectoryModel(backend, this)),
       filter_(new CollectionFilter(this)),
       timer_reload_(new QTimer(this)),
@@ -100,7 +96,8 @@ CollectionModel::CollectionModel(SharedPtr<CollectionBackend> backend, Applicati
       total_song_count_(0),
       total_artist_count_(0),
       total_album_count_(0),
-      loading_(false) {
+      loading_(false),
+      icon_disk_cache_(nullptr) {
 
   setObjectName(backend_->source() == Song::Source::Collection ? QLatin1String(metaObject()->className()) : QStringLiteral("%1%2").arg(Song::DescriptionForSource(backend_->source()), QLatin1String(metaObject()->className())));
 
@@ -108,8 +105,8 @@ CollectionModel::CollectionModel(SharedPtr<CollectionBackend> backend, Applicati
   filter_->setSortRole(Role_SortText);
   filter_->sort(0);
 
-  if (app_) {
-    QObject::connect(&*app_->album_cover_loader(), &AlbumCoverLoader::AlbumCoverLoaded, this, &CollectionModel::AlbumCoverLoaded);
+  if (album_cover_loader_) {
+    QObject::connect(&*album_cover_loader_, &AlbumCoverLoader::AlbumCoverLoaded, this, &CollectionModel::AlbumCoverLoaded);
   }
 
   QIcon nocover = IconLoader::Load(u"cdcase"_s);
@@ -118,10 +115,9 @@ CollectionModel::CollectionModel(SharedPtr<CollectionBackend> backend, Applicati
     pixmap_no_cover_ = nocover.pixmap(nocover_sizes.last()).scaled(kPrettyCoverSize, kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
   }
 
-  if (app_ && !sIconCache) {
-    sIconCache = new QNetworkDiskCache(this);
-    sIconCache->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + u'/' + QLatin1String(kPixmapDiskCacheDir));
-    QObject::connect(app_, &Application::ClearPixmapDiskCache, this, &CollectionModel::ClearDiskCache);
+  if (!qgetenv("DISPLAY").isEmpty() && !icon_disk_cache_) {
+    icon_disk_cache_ = new QNetworkDiskCache(this);
+    icon_disk_cache_->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + u'/' + QLatin1String(kPixmapDiskCacheDir) + u'-' + Song::TextForSource(backend_->source()));
   }
 
   QObject::connect(&*backend_, &CollectionBackend::SongsAdded, this, &CollectionModel::AddReAddOrUpdate);
@@ -238,8 +234,8 @@ void CollectionModel::ReloadSettings() {
 
   use_disk_cache_ = settings.value(CollectionSettingsPage::kSettingsDiskCacheEnable, false).toBool();
   QPixmapCache::setCacheLimit(static_cast<int>(MaximumCacheSize(&settings, CollectionSettingsPage::kSettingsCacheSize, CollectionSettingsPage::kSettingsCacheSizeUnit, CollectionSettingsPage::kSettingsCacheSizeDefault) / 1024));
-  if (sIconCache) {
-    sIconCache->setMaximumCacheSize(MaximumCacheSize(&settings, CollectionSettingsPage::kSettingsDiskCacheSize, CollectionSettingsPage::kSettingsDiskCacheSizeUnit, CollectionSettingsPage::kSettingsDiskCacheSizeDefault));
+  if (icon_disk_cache_) {
+    icon_disk_cache_->setMaximumCacheSize(MaximumCacheSize(&settings, CollectionSettingsPage::kSettingsDiskCacheSize, CollectionSettingsPage::kSettingsDiskCacheSizeUnit, CollectionSettingsPage::kSettingsDiskCacheSizeDefault));
   }
 
   settings.endGroup();
@@ -258,7 +254,7 @@ void CollectionModel::ReloadSettings() {
   }
 
   if (!use_disk_cache_) {
-    ClearDiskCache();
+    ClearIconDiskCache();
   }
 
 }
@@ -778,7 +774,7 @@ void CollectionModel::CreateSongItem(const Song &song, CollectionItem *parent) {
 
 }
 
-void CollectionModel::SetSongItemData(CollectionItem *item, const Song &song) {
+void CollectionModel::SetSongItemData(CollectionItem *item, const Song &song) const {
 
   item->display_text = song.TitleWithCompilationArtist();
   item->sort_text = HasParentAlbumGroupBy(item->parent) ? SortTextForSong(song) : SortText(song.title());
@@ -879,7 +875,7 @@ void CollectionModel::ClearItemPixmapCache(CollectionItem *item) {
   // Remove from pixmap cache
   const QString cache_key = AlbumIconPixmapCacheKey(ItemToIndex(item));
   QPixmapCache::remove(cache_key);
-  if (use_disk_cache_ && sIconCache) sIconCache->remove(AlbumIconPixmapDiskCacheKey(cache_key));
+  if (use_disk_cache_ && icon_disk_cache_) icon_disk_cache_->remove(AlbumIconPixmapDiskCacheKey(cache_key));
   if (pending_cache_keys_.contains(cache_key)) {
     pending_cache_keys_.remove(cache_key);
   }
@@ -910,8 +906,8 @@ QVariant CollectionModel::AlbumIcon(const QModelIndex &idx) {
   }
 
   // Try to load it from the disk cache
-  if (use_disk_cache_ && sIconCache) {
-    ScopedPtr<QIODevice> disk_cache_img(sIconCache->data(AlbumIconPixmapDiskCacheKey(cache_key)));
+  if (use_disk_cache_ && icon_disk_cache_) {
+    ScopedPtr<QIODevice> disk_cache_img(icon_disk_cache_->data(AlbumIconPixmapDiskCacheKey(cache_key)));
     if (disk_cache_img) {
       QImage cached_image;
       if (cached_image.load(&*disk_cache_img, "XPM")) {
@@ -932,7 +928,7 @@ QVariant CollectionModel::AlbumIcon(const QModelIndex &idx) {
     AlbumCoverLoaderOptions cover_loader_options(AlbumCoverLoaderOptions::Option::ScaledImage | AlbumCoverLoaderOptions::Option::PadScaledImage);
     cover_loader_options.desired_scaled_size = QSize(kPrettyCoverSize, kPrettyCoverSize);
     cover_loader_options.types = cover_types_;
-    const quint64 id = app_->album_cover_loader()->LoadImageAsync(cover_loader_options, songs.first());
+    const quint64 id = album_cover_loader_->LoadImageAsync(cover_loader_options, songs.first());
     pending_art_[id] = ItemAndCacheKey(item, cache_key);
     pending_cache_keys_.insert(cache_key);
   }
@@ -965,19 +961,19 @@ void CollectionModel::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderR
   }
 
   // If we have a valid cover not already in the disk cache
-  if (use_disk_cache_ && sIconCache && result.success && !result.image_scaled.isNull()) {
+  if (use_disk_cache_ && icon_disk_cache_ && result.success && !result.image_scaled.isNull()) {
     const QUrl disk_cache_key = AlbumIconPixmapDiskCacheKey(cache_key);
-    ScopedPtr<QIODevice> disk_cache_img(sIconCache->data(disk_cache_key));
+    ScopedPtr<QIODevice> disk_cache_img(icon_disk_cache_->data(disk_cache_key));
     if (!disk_cache_img) {
       QNetworkCacheMetaData disk_cache_metadata;
       disk_cache_metadata.setSaveToDisk(true);
       disk_cache_metadata.setUrl(disk_cache_key);
       // Qt 6 now ignores any entry without headers, so add a fake header.
       disk_cache_metadata.setRawHeaders(QNetworkCacheMetaData::RawHeaderList() << qMakePair(QByteArray("collection-thumbnail"), cache_key.toUtf8()));
-      QIODevice *device_iconcache = sIconCache->prepare(disk_cache_metadata);
+      QIODevice *device_iconcache = icon_disk_cache_->prepare(disk_cache_metadata);
       if (device_iconcache) {
         result.image_scaled.save(device_iconcache, "XPM");
-        sIconCache->insert(device_iconcache);
+        icon_disk_cache_->insert(device_iconcache);
       }
     }
   }
@@ -1553,8 +1549,11 @@ void CollectionModel::TotalAlbumCountUpdatedSlot(const int count) {
 
 }
 
-void CollectionModel::ClearDiskCache() {
-  if (sIconCache) sIconCache->clear();
+void CollectionModel::ClearIconDiskCache() {
+
+  if (icon_disk_cache_) icon_disk_cache_->clear();
+  QPixmapCache::clear();
+
 }
 
 void CollectionModel::RowsInserted(const QModelIndex &parent, const int first, const int last) {

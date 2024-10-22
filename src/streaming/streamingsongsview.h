@@ -34,7 +34,6 @@
 
 class QContextMenuEvent;
 
-class Application;
 class StreamingService;
 class StreamingCollectionView;
 
@@ -42,7 +41,7 @@ class StreamingSongsView : public QWidget {
   Q_OBJECT
 
  public:
-  explicit StreamingSongsView(Application *app, SharedPtr<StreamingService> service, const QString &settings_group, const SettingsDialog::Page settings_page, QWidget *parent = nullptr);
+  explicit StreamingSongsView(SharedPtr<StreamingService> service, const QString &settings_group, const SettingsDialog::Page settings_page, QWidget *parent = nullptr);
   ~StreamingSongsView() override;
 
   void ReloadSettings();
@@ -58,8 +57,10 @@ class StreamingSongsView : public QWidget {
   void AbortGetSongs();
   void SongsFinished(const SongMap &songs, const QString &error);
 
+ Q_SIGNALS:
+  void ShowConfig(const Song::Source source);
+
  private:
-  Application *app_;
   SharedPtr<StreamingService> service_;
   QString settings_group_;
   SettingsDialog::Page settings_page_;

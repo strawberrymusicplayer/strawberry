@@ -31,7 +31,6 @@
 
 #include "settingsdialog.h"
 #include "settingspage.h"
-#include "core/application.h"
 #include "core/iconloader.h"
 #include "core/song.h"
 #include "core/settings.h"
@@ -48,10 +47,10 @@ const char *ScrobblerSettingsPage::kSettingsGroup = "Scrobbler";
 
 ScrobblerSettingsPage::ScrobblerSettingsPage(SettingsDialog *dialog, QWidget *parent)
     : SettingsPage(dialog, parent),
-      scrobbler_(dialog->app()->scrobbler()),
-      lastfmscrobbler_(dialog->app()->scrobbler()->Service<LastFMScrobbler>()),
-      librefmscrobbler_(dialog->app()->scrobbler()->Service<LibreFMScrobbler>()),
-      listenbrainzscrobbler_(dialog->app()->scrobbler()->Service<ListenBrainzScrobbler>()),
+      scrobbler_(dialog->scrobbler()),
+      lastfmscrobbler_(dialog->scrobbler()->Service<LastFMScrobbler>()),
+      librefmscrobbler_(dialog->scrobbler()->Service<LibreFMScrobbler>()),
+      listenbrainzscrobbler_(dialog->scrobbler()->Service<ListenBrainzScrobbler>()),
       ui_(new Ui_ScrobblerSettingsPage),
       lastfm_waiting_for_auth_(false),
       librefm_waiting_for_auth_(false),

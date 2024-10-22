@@ -28,12 +28,10 @@
 #include <QTimer>
 
 #include "core/shared_ptr.h"
-#include "core/application.h"
 #include "core/song.h"
 #include "core/logging.h"
-#include "utilities/timeconstants.h"
+#include "constants/timeconstants.h"
 #include "settings/subsonicsettingspage.h"
-#include "streaming/streamingservices.h"
 #include "subsonic/subsonicservice.h"
 
 #include "scrobblersettings.h"
@@ -44,10 +42,9 @@ namespace {
 constexpr char kName[] = "Subsonic";
 }
 
-SubsonicScrobbler::SubsonicScrobbler(SharedPtr<ScrobblerSettings> settings, Application *app, QObject *parent)
+SubsonicScrobbler::SubsonicScrobbler(SharedPtr<ScrobblerSettings> settings, SharedPtr<SubsonicService> service, QObject *parent)
     : ScrobblerService(QLatin1String(kName), settings, parent),
-      app_(app),
-      service_(nullptr),
+      service_(service),
       enabled_(false),
       submitted_(false) {
 
@@ -68,10 +65,6 @@ void SubsonicScrobbler::ReloadSettings() {
 }
 
 SubsonicServicePtr SubsonicScrobbler::service() {
-
-  if (!service_) {
-    service_ = app_->streaming_services()->Service<SubsonicService>();
-  }
 
   return service_;
 

@@ -35,11 +35,9 @@
 #include <QJsonArray>
 
 #include "core/shared_ptr.h"
-#include "core/application.h"
 #include "core/networkaccessmanager.h"
 #include "core/logging.h"
 #include "core/song.h"
-#include "streaming/streamingservices.h"
 #include "tidal/tidalservice.h"
 #include "albumcoverfetcher.h"
 #include "jsoncoverprovider.h"
@@ -51,9 +49,9 @@ namespace {
 constexpr int kLimit = 10;
 }
 
-TidalCoverProvider::TidalCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : JsonCoverProvider(u"Tidal"_s, true, true, 2.5, true, true, app, network, parent),
-      service_(app->streaming_services()->Service<TidalService>()) {}
+TidalCoverProvider::TidalCoverProvider(TidalServicePtr service, SharedPtr<NetworkAccessManager> network, QObject *parent)
+    : JsonCoverProvider(u"Tidal"_s, true, true, 2.5, true, true, network, parent),
+      service_(service) {}
 
 TidalCoverProvider::~TidalCoverProvider() {
 

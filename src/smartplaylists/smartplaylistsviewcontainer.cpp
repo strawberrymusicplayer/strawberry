@@ -24,7 +24,6 @@
 #include <QSettings>
 #include <QShowEvent>
 
-#include "core/application.h"
 #include "core/iconloader.h"
 #include "core/mimedata.h"
 #include "core/settings.h"
@@ -39,10 +38,23 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-SmartPlaylistsViewContainer::SmartPlaylistsViewContainer(Application *app, QWidget *parent)
+SmartPlaylistsViewContainer::SmartPlaylistsViewContainer(SharedPtr<Player> player,
+                                                         SharedPtr<PlaylistManager> playlist_manager,
+                                                         SharedPtr<CollectionBackend> collection_backend,
+#ifdef HAVE_MOODBAR
+                                                         SharedPtr<MoodbarLoader> moodbar_loader,
+#endif
+                                                         SharedPtr<CurrentAlbumCoverLoader> current_albumcover_loader,
+                                                         QWidget *parent)
     : QWidget(parent),
       ui_(new Ui_SmartPlaylistsViewContainer),
-      app_(app),
+      player_(player),
+      playlist_manager_(playlist_manager),
+      collection_backend_(collection_backend),
+#ifdef HAVE_MOODBAR
+      moodbar_loader_(moodbar_loader),
+#endif
+      current_albumcover_loader_(current_albumcover_loader),
       context_menu_(new QMenu(this)),
       context_menu_selected_(new QMenu(this)),
       action_new_smart_playlist_(nullptr),
@@ -56,7 +68,7 @@ SmartPlaylistsViewContainer::SmartPlaylistsViewContainer(Application *app, QWidg
 
   ui_->setupUi(this);
 
-  model_ = new SmartPlaylistsModel(app_->collection_backend(), this);
+  model_ = new SmartPlaylistsModel(collection_backend, this);
   ui_->view->setModel(model_);
 
   model_->Init();
@@ -188,7 +200,7 @@ void SmartPlaylistsViewContainer::AddToPlaylistEnqueueNext() {
 
 void SmartPlaylistsViewContainer::NewSmartPlaylist() {
 
-  SmartPlaylistWizard *wizard = new SmartPlaylistWizard(app_, app_->collection_backend(), this);
+  SmartPlaylistWizard *wizard = new SmartPlaylistWizard(player_, playlist_manager_, collection_backend_, moodbar_loader_, current_albumcover_loader_, this);
   wizard->setAttribute(Qt::WA_DeleteOnClose);
   QObject::connect(wizard, &SmartPlaylistWizard::accepted, this, &SmartPlaylistsViewContainer::NewSmartPlaylistFinished);
 
@@ -200,7 +212,7 @@ void SmartPlaylistsViewContainer::EditSmartPlaylist(const QModelIndex &idx) {
 
   if (!idx.isValid()) return;
 
-  SmartPlaylistWizard *wizard = new SmartPlaylistWizard(app_, app_->collection_backend(), this);
+  SmartPlaylistWizard *wizard = new SmartPlaylistWizard(player_, playlist_manager_, collection_backend_, moodbar_loader_, current_albumcover_loader_, this);
   wizard->setAttribute(Qt::WA_DeleteOnClose);
   QObject::connect(wizard, &SmartPlaylistWizard::accepted, this, &SmartPlaylistsViewContainer::EditSmartPlaylistFinished);
 

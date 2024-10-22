@@ -33,7 +33,7 @@
 #include "core/logging.h"
 #include "core/scoped_ptr.h"
 #include "core/shared_ptr.h"
-#include "core/database.h"
+#include "core/memorydatabase.h"
 #include "collection/collection.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"

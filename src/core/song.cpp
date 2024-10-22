@@ -55,7 +55,7 @@
 #include "utilities/strutils.h"
 #include "utilities/timeutils.h"
 #include "utilities/coverutils.h"
-#include "utilities/timeconstants.h"
+#include "constants/timeconstants.h"
 #include "utilities/sqlhelper.h"
 
 #include "song.h"

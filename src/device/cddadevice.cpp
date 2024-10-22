@@ -30,12 +30,11 @@
 #include "connecteddevice.h"
 #include "cddadevice.h"
 
-class Application;
 class DeviceLister;
 class DeviceManager;
 
-CddaDevice::CddaDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, SharedPtr<DeviceManager> manager, Application *app, int database_id, bool first_time, QObject *parent)
-    : ConnectedDevice(url, lister, unique_id, manager, app, database_id, first_time, parent),
+CddaDevice::CddaDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, SharedPtr<DeviceManager> manager, SharedPtr<TaskManager> task_manager, SharedPtr<Database> database, SharedPtr<AlbumCoverLoader> album_cover_loader, int database_id, bool first_time, QObject *parent)
+    : ConnectedDevice(url, lister, unique_id, manager, task_manager, database, album_cover_loader, database_id, first_time, parent),
       cdda_song_loader_(url) {
 
   QObject::connect(&cdda_song_loader_, &CddaSongLoader::SongsLoaded, this, &CddaDevice::SongsLoaded);

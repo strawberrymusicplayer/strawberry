@@ -35,16 +35,16 @@
 
 class QContextMenuEvent;
 
-class Application;
 class StreamingService;
 class StreamingCollectionView;
 class StreamingSearchView;
+class AlbumCoverLoader;
 
 class StreamingTabsView : public QWidget {
   Q_OBJECT
 
  public:
-  explicit StreamingTabsView(Application *app, SharedPtr<StreamingService> service, const QString &settings_group, const SettingsDialog::Page settings_page, QWidget *parent = nullptr);
+  explicit StreamingTabsView(SharedPtr<StreamingService> service, SharedPtr<AlbumCoverLoader> album_cover_loader, const QString &settings_group, const SettingsDialog::Page settings_page, QWidget *parent = nullptr);
   ~StreamingTabsView() override;
 
   void ReloadSettings();
@@ -69,8 +69,10 @@ class StreamingTabsView : public QWidget {
   void AlbumsFinished(const SongMap &songs, const QString &error);
   void SongsFinished(const SongMap &songs, const QString &error);
 
+ Q_SIGNALS:
+  void ShowConfig(const Song::Source source);
+
  private:
-  Application *app_;
   SharedPtr <StreamingService> service_;
   QString settings_group_;
   SettingsDialog::Page settings_page_;

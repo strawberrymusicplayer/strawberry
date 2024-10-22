@@ -30,7 +30,6 @@
 #include <QSettings>
 #include <QtConcurrentRun>
 
-#include "core/application.h"
 #include "core/taskmanager.h"
 #include "core/database.h"
 #include "core/thread.h"
@@ -43,7 +42,6 @@
 #include "collectionwatcher.h"
 #include "collectionbackend.h"
 #include "collectionmodel.h"
-#include "scrobbler/lastfmimport.h"
 #include "settings/collectionsettingspage.h"
 
 using std::make_shared;
@@ -52,9 +50,9 @@ const char *SCollection::kSongsTable = "songs";
 const char *SCollection::kDirsTable = "directories";
 const char *SCollection::kSubdirsTable = "subdirectories";
 
-SCollection::SCollection(Application *app, QObject *parent)
+SCollection::SCollection(SharedPtr<Database> database, SharedPtr<TaskManager> task_manager, SharedPtr<AlbumCoverLoader> album_cover_loader, QObject *parent)
     : QObject(parent),
-      app_(app),
+      task_manager_(task_manager),
       backend_(nullptr),
       model_(nullptr),
       watcher_(nullptr),
@@ -68,12 +66,12 @@ SCollection::SCollection(Application *app, QObject *parent)
   original_thread_ = thread();
 
   backend_ = make_shared<CollectionBackend>();
-  backend()->moveToThread(app->database()->thread());
-  qLog(Debug) << &*backend_ << "moved to thread" << app->database()->thread();
+  backend()->moveToThread(database->thread());
+  qLog(Debug) << &*backend_ << "moved to thread" << database->thread();
 
-  backend_->Init(app->database(), app->task_manager(), Song::Source::Collection, QLatin1String(kSongsTable), QLatin1String(kDirsTable), QLatin1String(kSubdirsTable));
+  backend_->Init(database, task_manager, Song::Source::Collection, QLatin1String(kSongsTable), QLatin1String(kDirsTable), QLatin1String(kSubdirsTable));
 
-  model_ = new CollectionModel(backend_, app_, this);
+  model_ = new CollectionModel(backend_, album_cover_loader, this);
 
   ReloadSettings();
 
@@ -107,7 +105,7 @@ void SCollection::Init() {
   watcher_thread_->start(QThread::IdlePriority);
 
   watcher_->set_backend(backend_);
-  watcher_->set_task_manager(app_->task_manager());
+  watcher_->set_task_manager(task_manager_);
 
   QObject::connect(&*backend_, &CollectionBackend::Error, this, &SCollection::Error);
   QObject::connect(&*backend_, &CollectionBackend::DirectoryAdded, watcher_, &CollectionWatcher::AddDirectory);
@@ -124,9 +122,6 @@ void SCollection::Init() {
   QObject::connect(watcher_, &CollectionWatcher::SubdirsMTimeUpdated, &*backend_, &CollectionBackend::AddOrUpdateSubdirs);
   QObject::connect(watcher_, &CollectionWatcher::CompilationsNeedUpdating, &*backend_, &CollectionBackend::CompilationsNeedUpdating);
   QObject::connect(watcher_, &CollectionWatcher::UpdateLastSeen, &*backend_, &CollectionBackend::UpdateLastSeen);
-
-  QObject::connect(&*app_->lastfm_import(), &LastFMImport::UpdateLastPlayed, &*backend_, &CollectionBackend::UpdateLastPlayed);
-  QObject::connect(&*app_->lastfm_import(), &LastFMImport::UpdatePlayCount, &*backend_, &CollectionBackend::UpdatePlayCount);
 
   // This will start the watcher checking for updates
   backend_->LoadDirectoriesAsync();
@@ -198,8 +193,8 @@ void SCollection::SyncPlaycountAndRatingToFilesAsync() {
 
 void SCollection::SyncPlaycountAndRatingToFiles() {
 
-  const int task_id = app_->task_manager()->StartTask(tr("Saving playcounts and ratings"));
-  app_->task_manager()->SetTaskBlocksCollectionScans(task_id);
+  const int task_id = task_manager_->StartTask(tr("Saving playcounts and ratings"));
+  task_manager_->SetTaskBlocksCollectionScans(task_id);
 
   const SongList songs = backend_->GetAllSongs();
   const qint64 nb_songs = songs.size();
@@ -207,16 +202,16 @@ void SCollection::SyncPlaycountAndRatingToFiles() {
   for (const Song &song : songs) {
     (void)TagReaderClient::Instance()->SaveSongPlaycountBlocking(song.url().toLocalFile(), song.playcount());
     (void)TagReaderClient::Instance()->SaveSongRatingBlocking(song.url().toLocalFile(), song.rating());
-    app_->task_manager()->SetTaskProgress(task_id, ++i, nb_songs);
+    task_manager_->SetTaskProgress(task_id, ++i, nb_songs);
   }
-  app_->task_manager()->SetTaskFinished(task_id);
+  task_manager_->SetTaskFinished(task_id);
 
 }
 
 void SCollection::SongsPlaycountChanged(const SongList &songs, const bool save_tags) {
 
   if (save_tags || save_playcounts_to_files_) {
-    app_->tag_reader_client()->SaveSongsPlaycountAsync(songs);
+    TagReaderClient::Instance()->SaveSongsPlaycountAsync(songs);
   }
 
 }
@@ -224,7 +219,7 @@ void SCollection::SongsPlaycountChanged(const SongList &songs, const bool save_t
 void SCollection::SongsRatingChanged(const SongList &songs, const bool save_tags) {
 
   if (save_tags || save_ratings_to_files_) {
-    app_->tag_reader_client()->SaveSongsRatingAsync(songs);
+    TagReaderClient::Instance()->SaveSongsRatingAsync(songs);
   }
 
 }

@@ -39,10 +39,8 @@
 #include <QMessageBox>
 
 #include "core/shared_ptr.h"
-#include "core/application.h"
 #include "core/networkaccessmanager.h"
 #include "core/logging.h"
-#include "streaming/streamingservices.h"
 #include "spotify/spotifyservice.h"
 #include "albumcoverfetcher.h"
 #include "jsoncoverprovider.h"
@@ -55,9 +53,9 @@ constexpr char kApiUrl[] = "https://api.spotify.com/v1";
 constexpr int kLimit = 10;
 }  // namespace
 
-SpotifyCoverProvider::SpotifyCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : JsonCoverProvider(u"Spotify"_s, true, true, 2.5, true, true, app, network, parent),
-      service_(app->streaming_services()->Service<SpotifyService>()) {}
+SpotifyCoverProvider::SpotifyCoverProvider(SpotifyServicePtr service, SharedPtr<NetworkAccessManager> network, QObject *parent)
+    : JsonCoverProvider(u"Spotify"_s, true, true, 2.5, true, true, network, parent),
+      service_(service) {}
 
 SpotifyCoverProvider::~SpotifyCoverProvider() {
 

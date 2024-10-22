@@ -28,13 +28,15 @@
 #include "radiochannel.h"
 
 class QNetworkReply;
+
+class TaskManager;
 class NetworkAccessManager;
 
 class SomaFMService : public RadioService {
   Q_OBJECT
 
  public:
-  explicit SomaFMService(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
+  explicit SomaFMService(SharedPtr<TaskManager> task_manager, SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~SomaFMService();
 
   QUrl Homepage() override;

@@ -31,8 +31,8 @@
 #include "core/scoped_ptr.h"
 #include "core/shared_ptr.h"
 #include "core/song.h"
-#include "core/database.h"
-#include "utilities/timeconstants.h"
+#include "core/memorydatabase.h"
+#include "constants/timeconstants.h"
 #include "collection/collectionbackend.h"
 #include "collection/collection.h"
 

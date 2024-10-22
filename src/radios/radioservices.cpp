@@ -24,7 +24,6 @@
 
 #include "core/logging.h"
 #include "core/shared_ptr.h"
-#include "core/application.h"
 #include "core/database.h"
 #include "core/networkaccessmanager.h"
 #include "radioservices.h"
@@ -37,16 +36,16 @@
 
 using std::make_shared;
 
-RadioServices::RadioServices(Application *app, QObject *parent)
+RadioServices::RadioServices(SharedPtr<TaskManager> task_manager, SharedPtr<NetworkAccessManager> network, SharedPtr<Database> database, SharedPtr<AlbumCoverLoader> album_cover_loader, QObject *parent)
     : QObject(parent),
-      network_(app->network()),
+      network_(network),
       backend_(nullptr),
-      model_(new RadioModel(app, this)),
+      model_(new RadioModel(album_cover_loader, SharedPtr<RadioServices>(this))),
       sort_model_(new QSortFilterProxyModel(this)),
       channels_refresh_(false) {
 
-  backend_ = make_shared<RadioBackend>(app->database());
-  app->MoveToThread(&*backend_, app->database()->thread());
+  backend_ = make_shared<RadioBackend>(database);
+  backend_->moveToThread(database->thread());
 
   QObject::connect(&*backend_, &RadioBackend::NewChannels, this, &RadioServices::GotChannelsFromBackend);
 
@@ -56,8 +55,8 @@ RadioServices::RadioServices(Application *app, QObject *parent)
   sort_model_->setSortLocaleAware(true);
   sort_model_->sort(0);
 
-  AddService(new SomaFMService(app, network_, this));
-  AddService(new RadioParadiseService(app, network_, this));
+  AddService(new SomaFMService(task_manager, network_, this));
+  AddService(new RadioParadiseService(task_manager, network_, this));
 
 }
 

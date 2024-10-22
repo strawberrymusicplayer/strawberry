@@ -33,7 +33,6 @@
 #include <QAction>
 #include <QSettings>
 
-#include "core/application.h"
 #include "core/iconloader.h"
 #include "core/settings.h"
 #include "collection/collectionbackend.h"
@@ -48,9 +47,8 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-StreamingTabsView::StreamingTabsView(Application *app, StreamingServicePtr service, const QString &settings_group, const SettingsDialog::Page settings_page, QWidget *parent)
+StreamingTabsView::StreamingTabsView(StreamingServicePtr service, SharedPtr<AlbumCoverLoader> album_cover_loader, const QString &settings_group, const SettingsDialog::Page settings_page, QWidget *parent)
     : QWidget(parent),
-      app_(app),
       service_(service),
       settings_group_(settings_group),
       settings_page_(settings_page),
@@ -58,7 +56,7 @@ StreamingTabsView::StreamingTabsView(Application *app, StreamingServicePtr servi
 
   ui_->setupUi(this);
 
-  ui_->search_view->Init(app, service);
+  ui_->search_view->Init(service, album_cover_loader);
   QObject::connect(ui_->search_view, &StreamingSearchView::AddArtistsSignal, &*service_, &StreamingService::AddArtists);
   QObject::connect(ui_->search_view, &StreamingSearchView::AddAlbumsSignal, &*service_, &StreamingService::AddAlbums);
   QObject::connect(ui_->search_view, &StreamingSearchView::AddSongsSignal, &*service_, &StreamingService::AddSongs);
@@ -68,7 +66,7 @@ StreamingTabsView::StreamingTabsView(Application *app, StreamingServicePtr servi
 
   if (service_->artists_collection_model()) {
     ui_->artists_collection->stacked()->setCurrentWidget(ui_->artists_collection->streamingcollection_page());
-    ui_->artists_collection->view()->Init(app_, service_->artists_collection_backend(), service_->artists_collection_model(), true);
+    ui_->artists_collection->view()->Init(service_->artists_collection_backend(), service_->artists_collection_model(), true);
     ui_->artists_collection->view()->setModel(service_->artists_collection_filter_model());
     ui_->artists_collection->view()->SetFilter(ui_->artists_collection->filter_widget());
     ui_->artists_collection->filter_widget()->SetSettingsGroup(settings_group);
@@ -100,7 +98,7 @@ StreamingTabsView::StreamingTabsView(Application *app, StreamingServicePtr servi
 
   if (service_->albums_collection_model()) {
     ui_->albums_collection->stacked()->setCurrentWidget(ui_->albums_collection->streamingcollection_page());
-    ui_->albums_collection->view()->Init(app_, service_->albums_collection_backend(), service_->albums_collection_model(), true);
+    ui_->albums_collection->view()->Init(service_->albums_collection_backend(), service_->albums_collection_model(), true);
     ui_->albums_collection->view()->setModel(service_->albums_collection_filter_model());
     ui_->albums_collection->view()->SetFilter(ui_->albums_collection->filter_widget());
     ui_->albums_collection->filter_widget()->SetSettingsGroup(settings_group);
@@ -132,7 +130,7 @@ StreamingTabsView::StreamingTabsView(Application *app, StreamingServicePtr servi
 
   if (service_->songs_collection_model()) {
     ui_->songs_collection->stacked()->setCurrentWidget(ui_->songs_collection->streamingcollection_page());
-    ui_->songs_collection->view()->Init(app_, service_->songs_collection_backend(), service_->songs_collection_model(), true);
+    ui_->songs_collection->view()->Init(service_->songs_collection_backend(), service_->songs_collection_model(), true);
     ui_->songs_collection->view()->setModel(service_->songs_collection_filter_model());
     ui_->songs_collection->view()->SetFilter(ui_->songs_collection->filter_widget());
     ui_->songs_collection->filter_widget()->SetSettingsGroup(settings_group);
@@ -362,5 +360,5 @@ void StreamingTabsView::SongsFinished(const SongMap &songs, const QString &error
 }
 
 void StreamingTabsView::OpenSettingsDialog() {
-  app_->OpenSettingsDialogAtPage(service_->settings_page());
+  Q_EMIT ShowConfig(service_->source());
 }

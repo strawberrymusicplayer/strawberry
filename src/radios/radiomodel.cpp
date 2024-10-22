@@ -28,7 +28,6 @@
 #include <QPixmapCache>
 #include <QRegularExpression>
 
-#include "core/application.h"
 #include "core/simpletreemodel.h"
 #include "playlist/playlistmanager.h"
 #include "covermanager/albumcoverloader.h"
@@ -45,12 +44,13 @@ namespace {
 constexpr int kTreeIconSize = 22;
 }
 
-RadioModel::RadioModel(Application *app, QObject *parent)
+RadioModel::RadioModel(SharedPtr<AlbumCoverLoader> album_cover_loader, SharedPtr<RadioServices> radio_services, QObject *parent)
     : SimpleTreeModel<RadioItem>(new RadioItem(this), parent),
-      app_(app) {
+      album_cover_loader_(album_cover_loader),
+      radio_services_(radio_services) {
 
-  if (app_) {
-    QObject::connect(&*app_->album_cover_loader(), &AlbumCoverLoader::AlbumCoverLoaded, this, &RadioModel::AlbumCoverLoaded);
+  if (album_cover_loader_) {
+    QObject::connect(&*album_cover_loader, &AlbumCoverLoader::AlbumCoverLoaded, this, &RadioModel::AlbumCoverLoaded);
   }
 
 }
@@ -109,12 +109,12 @@ QVariant RadioModel::data(const RadioItem *item, int role) const {
       return QVariant::fromValue(item->source);
       break;
     case Role_Homepage:{
-      RadioService *service = app_->radio_services()->ServiceBySource(item->source);
+      RadioService *service = radio_services_->ServiceBySource(item->source);
       if (service) return service->Homepage();
       break;
     }
     case Role_Donate:{
-      RadioService *service = app_->radio_services()->ServiceBySource(item->source);
+      RadioService *service = radio_services_->ServiceBySource(item->source);
       if (service) return service->Donate();
       break;
     }
@@ -287,7 +287,7 @@ QPixmap RadioModel::ChannelIcon(const QModelIndex &idx) {
   if (!songs.isEmpty()) {
     Song song = songs.first();
     song.set_art_automatic(item->channel.thumbnail_url);
-    const quint64 id = app_->album_cover_loader()->LoadImageAsync(AlbumCoverLoaderOptions(AlbumCoverLoaderOptions::Option::ScaledImage | AlbumCoverLoaderOptions::Option::PadScaledImage, QSize(kTreeIconSize, kTreeIconSize)), song);
+    const quint64 id = album_cover_loader_->LoadImageAsync(AlbumCoverLoaderOptions(AlbumCoverLoaderOptions::Option::ScaledImage | AlbumCoverLoaderOptions::Option::PadScaledImage, QSize(kTreeIconSize, kTreeIconSize)), song);
     pending_art_[id] = ItemAndCacheKey(item, cache_key);
     pending_cache_keys_.insert(cache_key);
   }

@@ -25,21 +25,38 @@
 #include <QWidget>
 #include <QModelIndex>
 
+#include "core/shared_ptr.h"
+
 class QMimeData;
 class QMenu;
 class QAction;
 class QShowEvent;
 
-class Application;
+class Player;
+class PlaylistManager;
+class CollectionBackend;
+class CurrentAlbumCoverLoader;
 class SmartPlaylistsModel;
 class SmartPlaylistsView;
 class Ui_SmartPlaylistsViewContainer;
+
+#ifdef HAVE_MOODBAR
+class MoodbarLoader;
+#endif
 
 class SmartPlaylistsViewContainer : public QWidget {
   Q_OBJECT
 
  public:
-  explicit SmartPlaylistsViewContainer(Application *app, QWidget *parent = nullptr);
+  explicit SmartPlaylistsViewContainer(SharedPtr<Player> player,
+                                       SharedPtr<PlaylistManager> playlist_manager,
+                                       SharedPtr<CollectionBackend> collection_backend,
+#ifdef HAVE_MOODBAR
+                                       SharedPtr<MoodbarLoader> moodbar_loader,
+#endif
+                                       SharedPtr<CurrentAlbumCoverLoader> current_albumcover_loader,
+                                       QWidget *parent = nullptr);
+
   ~SmartPlaylistsViewContainer() override;
 
   SmartPlaylistsView *view() const;
@@ -80,7 +97,15 @@ class SmartPlaylistsViewContainer : public QWidget {
 
  private:
   Ui_SmartPlaylistsViewContainer *ui_;
-  Application *app_;
+
+  SharedPtr<Player> player_;
+  SharedPtr<PlaylistManager> playlist_manager_;
+  SharedPtr<CollectionBackend> collection_backend_;
+#ifdef HAVE_MOODBAR
+  SharedPtr<MoodbarLoader> moodbar_loader_;
+#endif
+  SharedPtr<CurrentAlbumCoverLoader> current_albumcover_loader_;
+
   SmartPlaylistsModel *model_;
 
   QMenu *context_menu_;

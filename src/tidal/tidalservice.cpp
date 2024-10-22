@@ -44,24 +44,26 @@
 
 #include "core/logging.h"
 #include "core/shared_ptr.h"
-#include "core/application.h"
-#include "core/player.h"
 #include "core/networkaccessmanager.h"
 #include "core/database.h"
 #include "core/song.h"
 #include "core/settings.h"
+#include "core/taskmanager.h"
+#include "core/database.h"
+#include "core/networkaccessmanager.h"
+#include "core/urlhandlers.h"
 #include "utilities/randutils.h"
-#include "utilities/timeconstants.h"
+#include "constants/timeconstants.h"
 #include "streaming/streamingsearchview.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
+#include "covermanager/albumcoverloader.h"
 #include "tidalservice.h"
 #include "tidalurlhandler.h"
 #include "tidalbaserequest.h"
 #include "tidalrequest.h"
 #include "tidalfavoriterequest.h"
 #include "tidalstreamurlrequest.h"
-#include "settings/settingsdialog.h"
 #include "settings/tidalsettingspage.h"
 
 using namespace std::chrono_literals;
@@ -89,11 +91,15 @@ constexpr char kSongsTable[] = "tidal_songs";
 
 }  // namespace
 
-TidalService::TidalService(Application *app, QObject *parent)
-    : StreamingService(Song::Source::Tidal, u"Tidal"_s, u"tidal"_s, QLatin1String(TidalSettingsPage::kSettingsGroup), SettingsDialog::Page::Tidal, app, parent),
-      app_(app),
-      network_(app->network()),
-      url_handler_(new TidalUrlHandler(app, this)),
+TidalService::TidalService(SharedPtr<TaskManager> task_manager,
+                           SharedPtr<Database> database,
+                           SharedPtr<NetworkAccessManager> network,
+                           SharedPtr<UrlHandlers> url_handlers,
+                           SharedPtr<AlbumCoverLoader> album_cover_loader,
+                           QObject *parent)
+    : StreamingService(Song::Source::Tidal, u"Tidal"_s, u"tidal"_s, QLatin1String(TidalSettingsPage::kSettingsGroup), parent),
+      network_(network),
+      url_handler_(new TidalUrlHandler(task_manager, this)),
       artists_collection_backend_(nullptr),
       albums_collection_backend_(nullptr),
       songs_collection_backend_(nullptr),
@@ -124,26 +130,26 @@ TidalService::TidalService(Application *app, QObject *parent)
       login_attempts_(0),
       next_stream_url_request_id_(0) {
 
-  app->player()->RegisterUrlHandler(url_handler_);
+  url_handlers->Register(url_handler_);
 
   // Backends
 
   artists_collection_backend_ = make_shared<CollectionBackend>();
-  artists_collection_backend_->moveToThread(app_->database()->thread());
-  artists_collection_backend_->Init(app_->database(), app->task_manager(), Song::Source::Tidal, QLatin1String(kArtistsSongsTable));
+  artists_collection_backend_->moveToThread(database->thread());
+  artists_collection_backend_->Init(database, task_manager, Song::Source::Tidal, QLatin1String(kArtistsSongsTable));
 
   albums_collection_backend_ = make_shared<CollectionBackend>();
-  albums_collection_backend_->moveToThread(app_->database()->thread());
-  albums_collection_backend_->Init(app_->database(), app->task_manager(), Song::Source::Tidal, QLatin1String(kAlbumsSongsTable));
+  albums_collection_backend_->moveToThread(database->thread());
+  albums_collection_backend_->Init(database, task_manager, Song::Source::Tidal, QLatin1String(kAlbumsSongsTable));
 
   songs_collection_backend_ = make_shared<CollectionBackend>();
-  songs_collection_backend_->moveToThread(app_->database()->thread());
-  songs_collection_backend_->Init(app_->database(), app->task_manager(), Song::Source::Tidal, QLatin1String(kSongsTable));
+  songs_collection_backend_->moveToThread(database->thread());
+  songs_collection_backend_->Init(database, task_manager, Song::Source::Tidal, QLatin1String(kSongsTable));
 
   // Models
-  artists_collection_model_ = new CollectionModel(artists_collection_backend_, app_, this);
-  albums_collection_model_ = new CollectionModel(albums_collection_backend_, app_, this);
-  songs_collection_model_ = new CollectionModel(songs_collection_backend_, app_, this);
+  artists_collection_model_ = new CollectionModel(artists_collection_backend_, album_cover_loader, this);
+  albums_collection_model_ = new CollectionModel(albums_collection_backend_, album_cover_loader, this);
+  songs_collection_model_ = new CollectionModel(songs_collection_backend_, album_cover_loader, this);
 
   // Search
 
@@ -222,10 +228,6 @@ void TidalService::ExitReceived() {
   wait_for_exit_.removeAll(obj);
   if (wait_for_exit_.isEmpty()) Q_EMIT ExitFinished();
 
-}
-
-void TidalService::ShowConfig() {
-  app_->OpenSettingsDialogAtPage(SettingsDialog::Page::Tidal);
 }
 
 void TidalService::LoadSession() {
@@ -722,18 +724,18 @@ void TidalService::GetArtists() {
   if (!authenticated()) {
     if (oauth_) {
       Q_EMIT ArtistsResults(SongMap(), tr("Not authenticated with Tidal."));
-      ShowConfig();
+      Q_EMIT ShowConfig(kSource);
       return;
     }
     else if (api_token_.isEmpty() || username_.isEmpty() || password_.isEmpty()) {
       Q_EMIT ArtistsResults(SongMap(), tr("Missing Tidal API token, username or password."));
-      ShowConfig();
+      Q_EMIT ShowConfig(kSource);
       return;
     }
   }
 
   ResetArtistsRequest();
-  artists_request_.reset(new TidalRequest(this, url_handler_, app_, network_, TidalBaseRequest::Type::FavouriteArtists, this), [](TidalRequest *request) { request->deleteLater(); });
+  artists_request_.reset(new TidalRequest(this, url_handler_, network_, TidalBaseRequest::Type::FavouriteArtists, this), [](TidalRequest *request) { request->deleteLater(); });
   QObject::connect(&*artists_request_, &TidalRequest::RequestLogin, this, &TidalService::SendLogin);
   QObject::connect(&*artists_request_, &TidalRequest::Results, this, &TidalService::ArtistsResultsReceived);
   QObject::connect(&*artists_request_, &TidalRequest::UpdateStatus, this, &TidalService::ArtistsUpdateStatusReceived);
@@ -788,7 +790,7 @@ void TidalService::GetAlbums() {
   }
 
   ResetAlbumsRequest();
-  albums_request_.reset(new TidalRequest(this, url_handler_, app_, network_, TidalBaseRequest::Type::FavouriteAlbums, this), [](TidalRequest *request) { request->deleteLater(); });
+  albums_request_.reset(new TidalRequest(this, url_handler_, network_, TidalBaseRequest::Type::FavouriteAlbums, this), [](TidalRequest *request) { request->deleteLater(); });
   QObject::connect(&*albums_request_, &TidalRequest::RequestLogin, this, &TidalService::SendLogin);
   QObject::connect(&*albums_request_, &TidalRequest::Results, this, &TidalService::AlbumsResultsReceived);
   QObject::connect(&*albums_request_, &TidalRequest::UpdateStatus, this, &TidalService::AlbumsUpdateStatusReceived);
@@ -843,7 +845,7 @@ void TidalService::GetSongs() {
   }
 
   ResetSongsRequest();
-  songs_request_.reset(new TidalRequest(this, url_handler_, app_, network_, TidalBaseRequest::Type::FavouriteSongs, this), [](TidalRequest *request) { request->deleteLater(); });
+  songs_request_.reset(new TidalRequest(this, url_handler_, network_, TidalBaseRequest::Type::FavouriteSongs, this), [](TidalRequest *request) { request->deleteLater(); });
   QObject::connect(&*songs_request_, &TidalRequest::RequestLogin, this, &TidalService::SendLogin);
   QObject::connect(&*songs_request_, &TidalRequest::Results, this, &TidalService::SongsResultsReceived);
   QObject::connect(&*songs_request_, &TidalRequest::UpdateStatus, this, &TidalService::SongsUpdateStatusReceived);
@@ -934,7 +936,7 @@ void TidalService::SendSearch() {
       return;
   }
 
-  search_request_.reset(new TidalRequest(this, url_handler_, app_, network_, query_type, this), [](TidalRequest *request) { request->deleteLater(); });
+  search_request_.reset(new TidalRequest(this, url_handler_, network_, query_type, this), [](TidalRequest *request) { request->deleteLater(); });
 
   QObject::connect(&*search_request_, &TidalRequest::RequestLogin, this, &TidalService::SendLogin);
   QObject::connect(&*search_request_, &TidalRequest::Results, this, &TidalService::SearchResultsReceived);

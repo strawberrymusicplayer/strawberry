@@ -40,13 +40,13 @@
 #include <QEventLoop>
 
 #include "core/logging.h"
-
-#include "shared_ptr.h"
-#include "signalchecker.h"
-#include "player.h"
-#include "song.h"
+#include "core/shared_ptr.h"
+#include "core/signalchecker.h"
+#include "core/song.h"
+#include "core/database.h"
+#include "core/urlhandlers.h"
 #include "songloader.h"
-#include "database.h"
+#include "player/player.h"
 #include "engine/enginebase.h"
 #include "tagreader/tagreaderclient.h"
 #include "collection/collectionbackend.h"
@@ -66,8 +66,9 @@ constexpr int kDefaultTimeout = 5000;
 
 QSet<QString> SongLoader::sRawUriSchemes;
 
-SongLoader::SongLoader(SharedPtr<CollectionBackendInterface> collection_backend, const SharedPtr<Player> player, QObject *parent)
+SongLoader::SongLoader(const SharedPtr<UrlHandlers> url_handlers, const SharedPtr<Player> player, const SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent)
     : QObject(parent),
+      url_handlers_(url_handlers),
       player_(player),
       collection_backend_(collection_backend),
       timeout_timer_(new QTimer(this)),
@@ -114,7 +115,7 @@ SongLoader::Result SongLoader::Load(const QUrl &url) {
     return LoadLocal(url_.toLocalFile());
   }
 
-  if (sRawUriSchemes.contains(url_.scheme()) || player_->HandlerForUrl(url)) {
+  if (sRawUriSchemes.contains(url_.scheme()) || url_handlers_->CanHandle(url)) {
     // The URI scheme indicates that it can't possibly be a playlist,
     // or we have a custom handler for the URL, so add it as a raw stream.
     AddAsRawStream();

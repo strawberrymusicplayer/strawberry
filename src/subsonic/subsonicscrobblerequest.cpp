@@ -29,7 +29,6 @@
 #include <QJsonArray>
 #include <QJsonValue>
 
-#include "core/application.h"
 #include "core/logging.h"
 #include "subsonicservice.h"
 #include "subsonicbaserequest.h"
@@ -41,11 +40,10 @@ namespace {
 constexpr int kMaxConcurrentScrobbleRequests = 3;
 }
 
-SubsonicScrobbleRequest::SubsonicScrobbleRequest(SubsonicService *service, SubsonicUrlHandler *url_handler, Application *app, QObject *parent)
+SubsonicScrobbleRequest::SubsonicScrobbleRequest(SubsonicService *service, SubsonicUrlHandler *url_handler, QObject *parent)
     : SubsonicBaseRequest(service, parent),
       service_(service),
       url_handler_(url_handler),
-      app_(app),
       scrobble_requests_active_(0) {}
 
 SubsonicScrobbleRequest::~SubsonicScrobbleRequest() {

@@ -33,10 +33,16 @@
 
 class QShowEvent;
 
-class Application;
+class Player;
+class PlaylistManager;
 class CollectionBackend;
+class CurrentAlbumCoverLoader;
 class Playlist;
 class Ui_SmartPlaylistSearchPreview;
+
+#ifdef HAVE_MOODBAR
+class MoodbarLoader;
+#endif
 
 class SmartPlaylistSearchPreview : public QWidget {
   Q_OBJECT
@@ -45,8 +51,13 @@ class SmartPlaylistSearchPreview : public QWidget {
   explicit SmartPlaylistSearchPreview(QWidget *parent = nullptr);
   ~SmartPlaylistSearchPreview() override;
 
-  void set_application(Application *app);
-  void set_collection(SharedPtr<CollectionBackend> backend);
+  void Init(SharedPtr<Player> player,
+            SharedPtr<PlaylistManager> playlist_manager,
+            SharedPtr<CollectionBackend> collection_backend,
+#ifdef HAVE_MOODBAR
+            SharedPtr<MoodbarLoader> moodbar_loader,
+#endif
+            SharedPtr<CurrentAlbumCoverLoader> current_albumcover_loader);
 
   void Update(const SmartPlaylistSearch &search);
 

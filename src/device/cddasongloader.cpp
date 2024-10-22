@@ -43,7 +43,7 @@
 #include "core/logging.h"
 #include "core/shared_ptr.h"
 #include "core/networkaccessmanager.h"
-#include "utilities/timeconstants.h"
+#include "constants/timeconstants.h"
 
 using std::make_shared;
 

@@ -43,7 +43,7 @@
 #  include <QDBusArgument>
 #endif
 
-#include "song.h"
+#include "core/song.h"
 
 #include "engine/enginebase.h"
 #include "engine/enginemetadata.h"
@@ -57,7 +57,7 @@
 #include "equalizer/equalizer.h"
 
 #ifdef HAVE_DBUS
-#  include "dbus_metatypes.h"
+#  include "core/dbus_metatypes.h"
 #endif
 
 #ifdef HAVE_MPRIS2

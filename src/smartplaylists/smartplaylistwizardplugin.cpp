@@ -26,9 +26,8 @@
 #include "core/shared_ptr.h"
 #include "smartplaylistwizardplugin.h"
 
-SmartPlaylistWizardPlugin::SmartPlaylistWizardPlugin(Application *app, SharedPtr<CollectionBackend> collection_backend, QObject *parent)
+SmartPlaylistWizardPlugin::SmartPlaylistWizardPlugin(SharedPtr<CollectionBackend> collection_backend, QObject *parent)
     : QObject(parent),
-      app_(app),
       collection_backend_(collection_backend),
       start_page_(-1) {}
 

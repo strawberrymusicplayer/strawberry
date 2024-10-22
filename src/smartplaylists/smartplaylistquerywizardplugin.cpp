@@ -43,8 +43,22 @@
 using std::make_unique;
 using std::make_shared;
 
-SmartPlaylistQueryWizardPlugin::SmartPlaylistQueryWizardPlugin(Application *app, SharedPtr<CollectionBackend> collection_backend, QObject *parent)
-    : SmartPlaylistWizardPlugin(app, collection_backend, parent),
+SmartPlaylistQueryWizardPlugin::SmartPlaylistQueryWizardPlugin(SharedPtr<Player> player,
+                                                               SharedPtr<PlaylistManager> playlist_manager,
+                                                               SharedPtr<CollectionBackend> collection_backend,
+#ifdef HAVE_MOODBAR
+                                                               SharedPtr<MoodbarLoader> moodbar_loader,
+#endif
+                                                               SharedPtr<CurrentAlbumCoverLoader> current_albumcover_loader,
+                                                               QObject *parent)
+    : SmartPlaylistWizardPlugin(collection_backend, parent),
+      player_(player),
+      playlist_manager_(playlist_manager),
+      collection_backend_(collection_backend),
+#ifdef HAVE_MOODBAR
+      moodbar_loader_(moodbar_loader),
+#endif
+      current_albumcover_loader_(current_albumcover_loader),
       search_page_(nullptr),
       previous_scrollarea_max_(0) {}
 
@@ -86,8 +100,7 @@ int SmartPlaylistQueryWizardPlugin::CreatePages(QWizard *wizard, int finish_page
   QVBoxLayout *terms_page_layout = static_cast<QVBoxLayout*>(search_page_->layout());
   terms_page_layout->addStretch();
   search_page_->preview_ = new SmartPlaylistSearchPreview(search_page_);
-  search_page_->preview_->set_application(app_);
-  search_page_->preview_->set_collection(collection_backend_);
+  search_page_->preview_->Init(player_, playlist_manager_, collection_backend_, moodbar_loader_, current_albumcover_loader_);
   terms_page_layout->addWidget(search_page_->preview_);
 
   // Add sort field texts
@@ -105,8 +118,7 @@ int SmartPlaylistQueryWizardPlugin::CreatePages(QWizard *wizard, int finish_page
   sort_ui_->limit_none->setChecked(true);
 
   // Set up the preview widget that's already at the bottom of the sort page
-  sort_ui_->preview->set_application(app_);
-  sort_ui_->preview->set_collection(collection_backend_);
+  sort_ui_->preview->Init(player_, playlist_manager_, collection_backend_, moodbar_loader_, current_albumcover_loader_);
   QObject::connect(sort_ui_->field, &QRadioButton::toggled, this, &SmartPlaylistQueryWizardPlugin::UpdateSortPreview);
   QObject::connect(sort_ui_->field_value, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &SmartPlaylistQueryWizardPlugin::UpdateSortPreview);
   QObject::connect(sort_ui_->limit_limit, &QRadioButton::toggled, this, &SmartPlaylistQueryWizardPlugin::UpdateSortPreview);

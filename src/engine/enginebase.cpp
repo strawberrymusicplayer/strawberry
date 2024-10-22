@@ -31,7 +31,7 @@
 #include <QSettings>
 
 #include "utilities/envutils.h"
-#include "utilities/timeconstants.h"
+#include "constants/timeconstants.h"
 #include "core/networkproxyfactory.h"
 #include "core/settings.h"
 #include "enginebase.h"

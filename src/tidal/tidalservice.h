@@ -45,8 +45,11 @@
 class QNetworkReply;
 class QTimer;
 
-class Application;
+class TaskManager;
+class Database;
+class UrlHandlers;
 class NetworkAccessManager;
+class AlbumCoverLoader;
 class TidalUrlHandler;
 class TidalRequest;
 class TidalFavoriteRequest;
@@ -59,7 +62,13 @@ class TidalService : public StreamingService {
   Q_OBJECT
 
  public:
-  explicit TidalService(Application *app, QObject *parent = nullptr);
+  explicit TidalService(SharedPtr<TaskManager> task_manager,
+                        SharedPtr<Database> database,
+                        SharedPtr<NetworkAccessManager> network,
+                        SharedPtr<UrlHandlers> url_handlers,
+                        SharedPtr<AlbumCoverLoader> album_cover_loader,
+                        QObject *parent = nullptr);
+
   ~TidalService() override;
 
   static const Song::Source kSource;
@@ -75,8 +84,6 @@ class TidalService : public StreamingService {
   void CancelSearch() override;
 
   int max_login_attempts() const { return kLoginAttempts; }
-
-  Application *app() const { return app_; }
 
   bool oauth() const override { return oauth_; }
   QString client_id() const { return client_id_; }
@@ -117,7 +124,6 @@ class TidalService : public StreamingService {
   CollectionFilter *songs_collection_filter_model() override { return songs_collection_model_->filter(); }
 
  public Q_SLOTS:
-  void ShowConfig() override;
   void StartAuthorization(const QString &client_id);
   void TryLogin();
   void SendLogin();
@@ -160,7 +166,6 @@ class TidalService : public StreamingService {
   void SendSearch();
   void LoginError(const QString &error = QString(), const QVariant &debug = QVariant());
 
-  Application *app_;
   SharedPtr<NetworkAccessManager> network_;
   TidalUrlHandler *url_handler_;
 

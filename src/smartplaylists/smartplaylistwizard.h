@@ -29,17 +29,31 @@
 
 #include "playlistgenerator_fwd.h"
 
-class Application;
+class Player;
+class PlaylistManager;
 class CollectionBackend;
+class CurrentAlbumCoverLoader;
 class SmartPlaylistWizardPlugin;
 class SmartPlaylistWizardTypePage;
 class SmartPlaylistWizardFinishPage;
+
+#ifdef HAVE_MOODBAR
+class MoodbarLoader;
+#endif
 
 class SmartPlaylistWizard : public QWizard {
   Q_OBJECT
 
  public:
-  explicit SmartPlaylistWizard(Application *app, SharedPtr<CollectionBackend> collection_backend, QWidget *parent);
+  explicit SmartPlaylistWizard(SharedPtr<Player> player,
+                               SharedPtr<PlaylistManager> playlist_manager,
+                               SharedPtr<CollectionBackend> collection_backend,
+#ifdef HAVE_MOODBAR
+                               SharedPtr<MoodbarLoader> moodbar_loader,
+#endif
+                               SharedPtr<CurrentAlbumCoverLoader> current_albumcover_loader,
+                               QWidget *parent);
+
   ~SmartPlaylistWizard() override;
 
   void SetGenerator(PlaylistGeneratorPtr gen);
@@ -55,7 +69,6 @@ class SmartPlaylistWizard : public QWizard {
   void TypeChanged(const int index);
 
  private:
-  Application *app_;
   SharedPtr<CollectionBackend> collection_backend_;
   SmartPlaylistWizardTypePage *type_page_;
   SmartPlaylistWizardFinishPage *finish_page_;

@@ -46,12 +46,12 @@
 #include <QSettings>
 #include <QtEvents>
 
-#include "scoped_ptr.h"
-#include "shared_ptr.h"
-#include "lazy.h"
-#include "platforminterface.h"
-#include "song.h"
-#include "settings.h"
+#include "core/scoped_ptr.h"
+#include "core/shared_ptr.h"
+#include "core/lazy.h"
+#include "core/platforminterface.h"
+#include "core/song.h"
+#include "core/settings.h"
 #include "tagreader/tagreaderclient.h"
 #include "engine/enginebase.h"
 #include "osd/osdbase.h"
@@ -108,7 +108,6 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   ~MainWindow() override;
 
   static const char *kSettingsGroup;
-  static const char *kAllFilesFilterSpec;
 
   void SetHiddenInTray(const bool hidden);
   void CommandlineOptionsReceived(const CommandlineOptions &options);
@@ -205,6 +204,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void ShowCollectionConfig();
   void ReloadSettings();
   void ReloadAllSettings();
+  void MoodbarSettingsChanged();
   void RefreshStyleSheet();
   void SetHiddenInTray() { SetHiddenInTray(true); }
 

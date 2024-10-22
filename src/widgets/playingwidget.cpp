@@ -39,7 +39,6 @@
 #include <QSettings>
 #include <QtEvents>
 
-#include "core/application.h"
 #include "core/settings.h"
 #include "utilities/imageutils.h"
 #include "covermanager/albumcoverchoicecontroller.h"
@@ -66,7 +65,6 @@ constexpr int kTopBorder = 4;
 
 PlayingWidget::PlayingWidget(QWidget *parent)
     : QWidget(parent),
-      app_(nullptr),
       album_cover_choice_controller_(nullptr),
       mode_(Mode::LargeSongDetails),
       menu_(new QMenu(this)),
@@ -127,12 +125,10 @@ PlayingWidget::PlayingWidget(QWidget *parent)
 
 }
 
-void PlayingWidget::Init(Application *app, AlbumCoverChoiceController *album_cover_choice_controller) {
-
-  app_ = app;
+void PlayingWidget::Init(AlbumCoverChoiceController *album_cover_choice_controller) {
 
   album_cover_choice_controller_ = album_cover_choice_controller;
-  album_cover_choice_controller_->Init(app_);
+
   QList<QAction*> cover_actions = album_cover_choice_controller_->GetAllActions();
   menu_->addActions(cover_actions);
   menu_->addSeparator();

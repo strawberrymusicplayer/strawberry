@@ -36,7 +36,6 @@
 #include <QPainter>
 #include <QRect>
 
-#include "core/application.h"
 #include "core/settings.h"
 #include "playlist/playlist.h"
 #include "playlist/playlistview.h"
@@ -51,14 +50,15 @@
 
 MoodbarItemDelegate::Data::Data() : state_(State::None) {}
 
-MoodbarItemDelegate::MoodbarItemDelegate(Application *app, PlaylistView *view, QObject *parent)
+MoodbarItemDelegate::MoodbarItemDelegate(SharedPtr<MoodbarLoader> moodbar_loader, PlaylistView *playlist_view, QObject *parent)
     : QItemDelegate(parent),
-      app_(app),
-      view_(view),
+      moodbar_loader_(moodbar_loader),
+      playlist_view_(playlist_view),
       enabled_(false),
       style_(MoodbarRenderer::MoodbarStyle::Normal) {
 
-  QObject::connect(app_, &Application::SettingsChanged, this, &MoodbarItemDelegate::ReloadSettings);
+  QObject::connect(&*moodbar_loader, &MoodbarLoader::SettingsReloaded, this, &MoodbarItemDelegate::ReloadSettings);
+
   ReloadSettings();
 
 }
@@ -151,7 +151,7 @@ void MoodbarItemDelegate::StartLoadingData(const QUrl &url, const bool has_cue, 
   // Load a mood file for this song and generate some colors from it
   QByteArray bytes;
   MoodbarPipeline *pipeline = nullptr;
-  switch (app_->moodbar_loader()->Load(url, has_cue, &bytes, &pipeline)) {
+  switch (moodbar_loader_->Load(url, has_cue, &bytes, &pipeline)) {
     case MoodbarLoader::Result::CannotLoad:
       data->state_ = Data::State::CannotLoad;
       break;
@@ -278,7 +278,7 @@ void MoodbarItemDelegate::ImageLoaded(const QUrl &url, const QImage &image) {
   data->pixmap_ = QPixmap::fromImage(image);
   data->state_ = Data::State::Loaded;
 
-  Playlist *playlist = view_->playlist();
+  Playlist *playlist = playlist_view_->playlist();
   const PlaylistFilter *filter = playlist->filter();
 
   // Update all the indices with the new pixmap.

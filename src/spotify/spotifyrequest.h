@@ -37,11 +37,11 @@
 #include <QJsonObject>
 #include <QTimer>
 
+#include "core/shared_ptr.h"
 #include "core/song.h"
 #include "spotifybaserequest.h"
 
 class QNetworkReply;
-class Application;
 class NetworkAccessManager;
 class SpotifyService;
 
@@ -49,7 +49,7 @@ class SpotifyRequest : public SpotifyBaseRequest {
   Q_OBJECT
 
  public:
-  explicit SpotifyRequest(SpotifyService *service, Application *app, NetworkAccessManager *network, Type type, QObject *parent);
+  explicit SpotifyRequest(SpotifyService *service, SharedPtr<NetworkAccessManager> network, Type type, QObject *parent);
   ~SpotifyRequest() override;
 
   void ReloadSettings();
@@ -163,8 +163,7 @@ class SpotifyRequest : public SpotifyBaseRequest {
 
  private:
   SpotifyService *service_;
-  Application *app_;
-  NetworkAccessManager *network_;
+  SharedPtr<NetworkAccessManager> network_;
   QTimer *timer_flush_requests_;
 
   Type type_;

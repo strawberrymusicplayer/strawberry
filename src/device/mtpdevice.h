@@ -37,7 +37,9 @@
 #include "connecteddevice.h"
 
 class QThread;
-class Application;
+class TaskManager;
+class Database;
+class AlbumCoverLoader;
 class DeviceLister;
 class DeviceManager;
 class MtpLoader;
@@ -48,7 +50,7 @@ class MtpDevice : public ConnectedDevice {
   Q_OBJECT
 
  public:
-  Q_INVOKABLE MtpDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, SharedPtr<DeviceManager> manager, Application *app, const int database_id, const bool first_time, QObject *parent = nullptr);
+  Q_INVOKABLE MtpDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, SharedPtr<DeviceManager> manager, SharedPtr<TaskManager> task_manager, SharedPtr<Database> database, SharedPtr<AlbumCoverLoader> album_cover_loader, const int database_id, const bool first_time, QObject *parent = nullptr);
   ~MtpDevice() override;
 
   static QStringList url_schemes() { return QStringList() << QStringLiteral("mtp"); }
@@ -81,6 +83,8 @@ class MtpDevice : public ConnectedDevice {
 
  private:
   static bool sInitializedLibMTP;
+
+  SharedPtr<TaskManager> task_manager_;
 
   MtpLoader *loader_;
   QThread *loader_thread_;

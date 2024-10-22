@@ -35,14 +35,13 @@
 #include "qobuz/qobuzservice.h"
 
 class QNetworkReply;
-class Application;
 class NetworkAccessManager;
 
 class QobuzCoverProvider : public JsonCoverProvider {
   Q_OBJECT
 
  public:
-  explicit QobuzCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
+  explicit QobuzCoverProvider(QobuzServicePtr service, SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~QobuzCoverProvider() override;
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;

@@ -57,8 +57,8 @@
 #include <QCloseEvent>
 
 #include "core/iconloader.h"
-#include "core/mainwindow.h"
 #include "core/settings.h"
+#include "constants/filenameconstants.h"
 #include "utilities/screenutils.h"
 #include "widgets/fileview.h"
 #include "transcodedialog.h"
@@ -329,7 +329,7 @@ void TranscodeDialog::Add() {
 
   QStringList filenames = QFileDialog::getOpenFileNames(
       this, tr("Add files to transcode"), last_add_dir_,
-      QStringLiteral("%1 (%2);;%3").arg(tr("Music"), QLatin1String(FileView::kFileFilter), tr(MainWindow::kAllFilesFilterSpec)));
+      QStringLiteral("%1 (%2);;%3").arg(tr("Music"), QLatin1String(FileView::kFileFilter), tr(kAllFilesFilterSpec)));
 
   if (filenames.isEmpty()) return;
 

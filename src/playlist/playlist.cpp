@@ -59,12 +59,12 @@
 #include <QTimer>
 
 #include "core/shared_ptr.h"
-#include "core/application.h"
 #include "core/logging.h"
 #include "core/mimedata.h"
 #include "core/song.h"
 #include "core/settings.h"
-#include "utilities/timeconstants.h"
+#include "player/player.h"
+#include "constants/timeconstants.h"
 #include "tagreader/tagreaderclient.h"
 #include "collection/collection.h"
 #include "collection/collectionbackend.h"
@@ -120,14 +120,24 @@ constexpr int kMaxPlayedIndexes = 100;
 
 } // namespace
 
-Playlist::Playlist(SharedPtr<PlaylistBackend> backend, SharedPtr<TaskManager> task_manager, SharedPtr<CollectionBackend> collection_backend, const int id, const QString &special_type, const bool favorite, QObject *parent)
+Playlist::Playlist(SharedPtr<TaskManager> task_manager,
+                   SharedPtr<UrlHandlers> url_handlers,
+                   SharedPtr<Player> player,
+                   SharedPtr<PlaylistBackend> playlist_backend,
+                   SharedPtr<CollectionBackend> collection_backend,
+                   const int id,
+                   const QString &special_type,
+                   const bool favorite,
+                   QObject *parent)
     : QAbstractListModel(parent),
       is_loading_(false),
       filter_(new PlaylistFilter(this)),
       queue_(new Queue(this, this)),
       timer_save_(new QTimer(this)),
-      backend_(backend),
       task_manager_(task_manager),
+      url_handlers_(url_handlers),
+      player_(player),
+      playlist_backend_(playlist_backend),
       collection_backend_(collection_backend),
       id_(id),
       favorite_(favorite),
@@ -882,7 +892,7 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, const 
     }
   }
   else if (data->hasFormat(QLatin1String(kCddaMimeType))) {
-    SongLoaderInserter *inserter = new SongLoaderInserter(task_manager_, collection_backend_, backend_->app()->player());
+    SongLoaderInserter *inserter = new SongLoaderInserter(task_manager_, url_handlers_, player_, collection_backend_);
     QObject::connect(inserter, &SongLoaderInserter::Error, this, &Playlist::Error);
     inserter->LoadAudioCD(this, row, play_now, enqueue_now, enqueue_next_now);
   }
@@ -897,7 +907,7 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, const 
 
 void Playlist::InsertUrls(const QList<QUrl> &urls, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next) {
 
-  SongLoaderInserter *inserter = new SongLoaderInserter(task_manager_, collection_backend_, backend_->app()->player());
+  SongLoaderInserter *inserter = new SongLoaderInserter(task_manager_, url_handlers_, player_, collection_backend_);
   QObject::connect(inserter, &SongLoaderInserter::Error, this, &Playlist::Error);
 
   inserter->Load(this, pos, play_now, enqueue, enqueue_next, urls);
@@ -1541,7 +1551,7 @@ void Playlist::ScheduleSaveAsync() {
 
 void Playlist::ScheduleSave() {
 
-  if (!backend_ || is_loading_) return;
+  if (!playlist_backend_ || is_loading_) return;
 
   timer_save_->start();
 
@@ -1549,22 +1559,22 @@ void Playlist::ScheduleSave() {
 
 void Playlist::Save() {
 
-  if (!backend_ || is_loading_) return;
+  if (!playlist_backend_ || is_loading_) return;
 
-  backend_->SavePlaylistAsync(id_, items_, last_played_row(), dynamic_playlist_);
+  playlist_backend_->SavePlaylistAsync(id_, items_, last_played_row(), dynamic_playlist_);
 
 }
 
 void Playlist::Restore() {
 
-  if (!backend_) return;
+  if (!playlist_backend_) return;
 
   items_.clear();
   virtual_items_.clear();
   collection_items_by_id_.clear();
 
   cancel_restore_ = false;
-  QFuture<PlaylistItemPtrList> future = QtConcurrent::run(&PlaylistBackend::GetPlaylistItems, backend_, id_);
+  QFuture<PlaylistItemPtrList> future = QtConcurrent::run(&PlaylistBackend::GetPlaylistItems, playlist_backend_, id_);
   QFutureWatcher<PlaylistItemPtrList> *watcher = new QFutureWatcher<PlaylistItemPtrList>();
   QObject::connect(watcher, &QFutureWatcher<PlaylistItemPtrList>::finished, this, &Playlist::ItemsLoaded);
   watcher->setFuture(future);
@@ -1593,7 +1603,7 @@ void Playlist::ItemsLoaded() {
   InsertItems(items, 0);
   is_loading_ = false;
 
-  PlaylistBackend::Playlist p = backend_->GetPlaylist(id_);
+  PlaylistBackend::Playlist p = playlist_backend_->GetPlaylist(id_);
 
   // The newly loaded list of items might be shorter than it was before so look out for a bad last_played index
   last_played_item_index_ = p.last_played == -1 || p.last_played >= rowCount() ? QModelIndex() : index(p.last_played);

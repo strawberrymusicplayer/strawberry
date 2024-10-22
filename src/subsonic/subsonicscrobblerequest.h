@@ -23,8 +23,6 @@
 
 #include "config.h"
 
-#include <memory>
-
 #include <QtGlobal>
 #include <QObject>
 #include <QDateTime>
@@ -36,7 +34,6 @@
 #include "subsonicbaserequest.h"
 
 class QNetworkReply;
-class Application;
 class SubsonicService;
 class SubsonicUrlHandler;
 
@@ -44,7 +41,7 @@ class SubsonicScrobbleRequest : public SubsonicBaseRequest {
   Q_OBJECT
 
  public:
-  explicit SubsonicScrobbleRequest(SubsonicService *service, SubsonicUrlHandler *url_handler, Application *app, QObject *parent = nullptr);
+  explicit SubsonicScrobbleRequest(SubsonicService *service, SubsonicUrlHandler *url_handler, QObject *parent = nullptr);
   ~SubsonicScrobbleRequest() override;
 
   void CreateScrobbleRequest(const QString &song_id, const bool submission, const QDateTime &start_time);
@@ -71,7 +68,6 @@ class SubsonicScrobbleRequest : public SubsonicBaseRequest {
 
   SubsonicService *service_;
   SubsonicUrlHandler *url_handler_;
-  Application *app_;
 
   QQueue<Request> scrobble_requests_queue_;
 

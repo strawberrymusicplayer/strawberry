@@ -35,16 +35,18 @@
 #include "connecteddevice.h"
 
 class QThread;
-class Application;
+class TaskManager;
+class Database;
 class CollectionWatcher;
 class DeviceLister;
 class DeviceManager;
+class AlbumCoverLoader;
 
 class FilesystemDevice : public ConnectedDevice, public virtual FilesystemMusicStorage {
   Q_OBJECT
 
  public:
-  Q_INVOKABLE FilesystemDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, SharedPtr<DeviceManager> manager, Application *app, const int database_id, const bool first_time, QObject *parent = nullptr);
+  Q_INVOKABLE FilesystemDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, SharedPtr<DeviceManager> manager, SharedPtr<TaskManager> task_manager, SharedPtr<Database> database, SharedPtr<AlbumCoverLoader> album_cover_loader, const int database_id, const bool first_time, QObject *parent = nullptr);
   ~FilesystemDevice() override;
 
   Song::Source source() const final { return Song::Source::Device; }

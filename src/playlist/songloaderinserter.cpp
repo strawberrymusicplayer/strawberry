@@ -30,21 +30,23 @@
 
 #include "core/logging.h"
 #include "core/shared_ptr.h"
-#include "core/songloader.h"
+#include "core/urlhandlers.h"
+#include "application/songloader.h"
 #include "core/taskmanager.h"
 #include "playlist.h"
 #include "songloaderinserter.h"
 
-SongLoaderInserter::SongLoaderInserter(SharedPtr<TaskManager> task_manager, SharedPtr<CollectionBackendInterface> collection_backend, const SharedPtr<Player> player, QObject *parent)
+SongLoaderInserter::SongLoaderInserter(SharedPtr<TaskManager> task_manager, const SharedPtr<UrlHandlers> url_handlers, const SharedPtr<Player> player, SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent)
     : QObject(parent),
       task_manager_(task_manager),
+      url_handlers_(url_handlers),
+      player_(player),
+      collection_backend_(collection_backend),
       destination_(nullptr),
       row_(-1),
       play_now_(true),
       enqueue_(false),
-      enqueue_next_(false),
-      collection_backend_(collection_backend),
-      player_(player) {}
+      enqueue_next_(false) {}
 
 SongLoaderInserter::~SongLoaderInserter() { qDeleteAll(pending_); }
 
@@ -61,7 +63,7 @@ void SongLoaderInserter::Load(Playlist *destination, int row, bool play_now, boo
   QObject::connect(this, &SongLoaderInserter::EffectiveLoadFinished, destination, &Playlist::UpdateItems);
 
   for (const QUrl &url : urls) {
-    SongLoader *loader = new SongLoader(collection_backend_, player_, this);
+    SongLoader *loader = new SongLoader(url_handlers_, player_, collection_backend_, this);
 
     SongLoader::Result ret = loader->Load(url);
 
@@ -103,7 +105,7 @@ void SongLoaderInserter::LoadAudioCD(Playlist *destination, int row, bool play_n
   enqueue_ = enqueue;
   enqueue_next_ = enqueue_next;
 
-  SongLoader *loader = new SongLoader(collection_backend_, player_, this);
+  SongLoader *loader = new SongLoader(url_handlers_, player_, collection_backend_, this);
   QObject::connect(loader, &SongLoader::AudioCDTracksLoadFinished, this, [this, loader]() { AudioCDTracksLoadFinished(loader); });
   QObject::connect(loader, &SongLoader::LoadAudioCDFinished, this, &SongLoaderInserter::AudioCDTagsLoaded);
   qLog(Info) << "Loading audio CD...";

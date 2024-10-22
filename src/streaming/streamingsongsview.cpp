@@ -30,7 +30,6 @@
 #include <QPushButton>
 #include <QAction>
 
-#include "core/application.h"
 #include "core/iconloader.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
@@ -42,9 +41,8 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-StreamingSongsView::StreamingSongsView(Application *app, StreamingServicePtr service, const QString &settings_group, const SettingsDialog::Page settings_page, QWidget *parent)
+StreamingSongsView::StreamingSongsView(StreamingServicePtr service, const QString &settings_group, const SettingsDialog::Page settings_page, QWidget *parent)
     : QWidget(parent),
-      app_(app),
       service_(service),
       settings_group_(settings_group),
       settings_page_(settings_page),
@@ -53,7 +51,7 @@ StreamingSongsView::StreamingSongsView(Application *app, StreamingServicePtr ser
   ui_->setupUi(this);
 
   ui_->stacked->setCurrentWidget(ui_->streamingcollection_page);
-  ui_->view->Init(app_, service_->songs_collection_backend(), service_->songs_collection_model(), false);
+  ui_->view->Init(service_->songs_collection_backend(), service_->songs_collection_model(), false);
   ui_->view->setModel(service_->songs_collection_filter_model());
   ui_->view->SetFilter(ui_->filter_widget);
   ui_->filter_widget->SetSettingsGroup(settings_group);
@@ -94,7 +92,7 @@ void StreamingSongsView::ReloadSettings() {
 }
 
 void StreamingSongsView::OpenSettingsDialog() {
-  app_->OpenSettingsDialogAtPage(service_->settings_page());
+  Q_EMIT ShowConfig(service_->source());
 }
 
 

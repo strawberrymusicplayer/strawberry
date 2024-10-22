@@ -36,7 +36,6 @@
 #include "jsoncoverprovider.h"
 
 class QNetworkReply;
-class Application;
 class NetworkAccessManager;
 class QTimer;
 
@@ -44,7 +43,7 @@ class OpenTidalCoverProvider : public JsonCoverProvider {
   Q_OBJECT
 
  public:
-  explicit OpenTidalCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
+  explicit OpenTidalCoverProvider(SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~OpenTidalCoverProvider() override;
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;

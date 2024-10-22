@@ -26,7 +26,7 @@
 #include <QStandardPaths>
 #include <QCryptographicHash>
 
-#include "filenameconstants.h"
+#include "constants/filenameconstants.h"
 #include "transliterate.h"
 #include "coverutils.h"
 #include "core/logging.h"

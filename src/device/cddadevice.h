@@ -24,14 +24,13 @@
 
 #include "config.h"
 
+#include <cdio/cdio.h>
+#include <gst/audio/gstaudiocdsrc.h>
+
 #include <QObject>
 #include <QString>
 #include <QStringList>
 #include <QUrl>
-
-// These must come after Qt includes
-#include <cdio/cdio.h>
-#include <gst/audio/gstaudiocdsrc.h>
 
 #include "core/shared_ptr.h"
 #include "core/song.h"
@@ -39,7 +38,9 @@
 #include "cddasongloader.h"
 #include "connecteddevice.h"
 
-class Application;
+class TaskManager;
+class Database;
+class AlbumCoverLoader;
 class DeviceLister;
 class DeviceManager;
 
@@ -47,7 +48,7 @@ class CddaDevice : public ConnectedDevice {
   Q_OBJECT
 
  public:
-  Q_INVOKABLE explicit CddaDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, SharedPtr<DeviceManager> manager, Application *app, const int database_id, const bool first_time, QObject *parent = nullptr);
+  Q_INVOKABLE explicit CddaDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, SharedPtr<DeviceManager> manager, SharedPtr<TaskManager> task_manager, SharedPtr<Database> database, SharedPtr<AlbumCoverLoader> album_cover_loader, const int database_id, const bool first_time, QObject *parent = nullptr);
 
   bool Init() override;
   void Refresh() override;

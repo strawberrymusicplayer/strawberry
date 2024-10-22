@@ -42,7 +42,6 @@
 #include "gpodloader.h"
 
 class QThread;
-class Application;
 class DeviceLister;
 class DeviceManager;
 
@@ -50,7 +49,7 @@ class GPodDevice : public ConnectedDevice, public virtual MusicStorage {
   Q_OBJECT
 
  public:
-  Q_INVOKABLE GPodDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, SharedPtr<DeviceManager> manager, Application *app, const int database_id, const bool first_time, QObject *parent = nullptr);
+  Q_INVOKABLE GPodDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, SharedPtr<DeviceManager> manager, SharedPtr<TaskManager> task_manager, SharedPtr<Database> database, SharedPtr<AlbumCoverLoader> album_cover_loader, const int database_id, const bool first_time, QObject *parent = nullptr);
   ~GPodDevice() override;
 
   bool Init() override;
@@ -86,6 +85,7 @@ class GPodDevice : public ConnectedDevice, public virtual MusicStorage {
   bool WriteDatabase(QString &error_text);
 
  protected:
+  SharedPtr <TaskManager> task_manager_;
   GPodLoader *loader_;
   QThread *loader_thread_;
 

@@ -40,10 +40,12 @@
 
 #include "core/logging.h"
 #include "core/shared_ptr.h"
-#include "core/application.h"
 #include "core/temporaryfile.h"
+#include "core/taskmanager.h"
+#include "core/database.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
+#include "covermanager/albumcoverloader.h"
 #include "connecteddevice.h"
 #include "gpoddevice.h"
 #include "gpodloader.h"
@@ -54,8 +56,9 @@ class DeviceManager;
 using std::make_shared;
 using namespace Qt::Literals::StringLiterals;
 
-GPodDevice::GPodDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, SharedPtr<DeviceManager> manager, Application *app, const int database_id, const bool first_time, QObject *parent)
-    : ConnectedDevice(url, lister, unique_id, manager, app, database_id, first_time, parent),
+GPodDevice::GPodDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, SharedPtr<DeviceManager> manager, SharedPtr<TaskManager> task_manager, SharedPtr<Database> database, SharedPtr<AlbumCoverLoader> album_cover_loader, const int database_id, const bool first_time, QObject *parent)
+    : ConnectedDevice(url, lister, unique_id, manager, task_manager, database, album_cover_loader, database_id, first_time, parent),
+      task_manager_(task_manager),
       loader_(nullptr),
       loader_thread_(nullptr),
       db_(nullptr),
@@ -66,7 +69,7 @@ bool GPodDevice::Init() {
   InitBackendDirectory(url_.path(), first_time_);
   model_->Init();
 
-  loader_ = new GPodLoader(url_.path(), app_->task_manager(), backend_, shared_from_this());
+  loader_ = new GPodLoader(url_.path(), task_manager_, backend_, shared_from_this());
   loader_thread_ = new QThread();
   loader_->moveToThread(loader_thread_);
 
@@ -135,7 +138,9 @@ void GPodDevice::LoadFinished(Itdb_iTunesDB *db, const bool success) {
 
 }
 
-void GPodDevice::LoaderError(const QString &message) { app_->AddError(message); }
+void GPodDevice::LoaderError(const QString &message) {
+  Q_EMIT AddError(message);
+}
 
 void GPodDevice::Start() {
 
@@ -240,7 +245,7 @@ bool GPodDevice::CopyToStorage(const CopyJob &job, QString &error_text) {
     error_text = tr("Could not copy %1 to %2: %3").arg(job.metadata_.url().toLocalFile(), url_.path(), QString::fromUtf8(error->message));
     g_error_free(error);
     qLog(Error) << error_text;
-    app_->AddError(error_text);
+    Q_EMIT AddError(error_text);
 
     // Need to remove the track from the db again
     itdb_track_remove(track);
@@ -286,7 +291,7 @@ bool GPodDevice::WriteDatabase(QString &error_text) {
     else {
       error_text = tr("Writing database failed.");
     }
-    app_->AddError(error_text);
+    Q_EMIT AddError(error_text);
   }
 
   return success;

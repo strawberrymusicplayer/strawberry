@@ -34,13 +34,12 @@
 
 class NetworkAccessManager;
 class QNetworkReply;
-class Application;
 
 class LastFmCoverProvider : public JsonCoverProvider {
   Q_OBJECT
 
  public:
-  explicit LastFmCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
+  explicit LastFmCoverProvider(SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~LastFmCoverProvider() override;
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;

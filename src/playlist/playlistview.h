@@ -66,12 +66,18 @@ class QMouseEvent;
 class QPaintEvent;
 class QTimerEvent;
 
-class Application;
+class Player;
 class CollectionBackend;
+class PlaylistManager;
+class CurrentAlbumCoverLoader;
 class PlaylistHeader;
 class PlaylistProxyStyle;
 class DynamicPlaylistControls;
 class RatingItemDelegate;
+
+#ifdef HAVE_MOODBAR
+class MoodbarLoader;
+#endif
 
 class PlaylistView : public QTreeView {
   Q_OBJECT
@@ -82,7 +88,14 @@ class PlaylistView : public QTreeView {
 
   static ColumnAlignmentMap DefaultColumnAlignment();
 
-  void Init(Application *app);
+  void Init(SharedPtr<Player> player,
+            SharedPtr<PlaylistManager> playlist_manager,
+            SharedPtr<CollectionBackend> collection_backend,
+#ifdef HAVE_MOODBAR
+            SharedPtr<MoodbarLoader> moodbar_loader,
+#endif
+            SharedPtr<CurrentAlbumCoverLoader> current_albumcover_loader);
+
   void SetItemDelegates();
   void SetPlaylist(Playlist *playlist);
   void RemoveSelected();
@@ -192,7 +205,14 @@ class PlaylistView : public QTreeView {
 
   void RepositionDynamicControls();
 
-  Application *app_;
+  SharedPtr<Player> player_;
+  SharedPtr<PlaylistManager> playlist_manager_;
+  SharedPtr<CollectionBackend> collection_backend_;
+  SharedPtr<CurrentAlbumCoverLoader> current_albumcover_loader_;
+#ifdef HAVE_MOODBAR
+  SharedPtr<MoodbarLoader> moodbar_loader_;
+#endif
+
   PlaylistProxyStyle *style_;
   Playlist *playlist_;
   PlaylistHeader *header_;

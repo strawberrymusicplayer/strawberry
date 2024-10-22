@@ -49,7 +49,8 @@
 class QModelIndex;
 class QPersistentModelIndex;
 
-class Application;
+class TaskManager;
+class Database;
 class ConnectedDevice;
 class DeviceLister;
 class DeviceStateFilterModel;
@@ -58,7 +59,7 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
   Q_OBJECT
 
  public:
-  explicit DeviceManager(Application *app, QObject *parent = nullptr);
+  explicit DeviceManager(SharedPtr<TaskManager> task_manager, SharedPtr<Database> database, QObject *parent = nullptr);
   ~DeviceManager() override;
 
   enum Role {
@@ -123,6 +124,7 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
   void DeviceConnected(const QModelIndex idx);
   void DeviceDisconnected(const QModelIndex idx);
   void DeviceCreatedFromDB(DeviceInfo *info);
+  void AddError(const QString &error);
 
  private Q_SLOTS:
   void PhysicalDeviceAdded(const QString &id);
@@ -152,7 +154,10 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
   void CloseBackend();
 
  private:
-  Application *app_;
+  SharedPtr<TaskManager> task_manager_;
+  SharedPtr<Database> database_;
+  SharedPtr<AlbumCoverLoader> album_cover_loader_;
+
   ScopedPtr<DeviceDatabaseBackend> backend_;
 
   DeviceStateFilterModel *connected_devices_model_;

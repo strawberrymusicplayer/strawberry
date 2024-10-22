@@ -37,7 +37,6 @@
 #include "smartplaylistsitem.h"
 #include "playlistgenerator_fwd.h"
 
-class Application;
 class CollectionBackend;
 
 class QModelIndex;

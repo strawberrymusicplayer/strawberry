@@ -31,20 +31,22 @@
 
 #include "ui_console.h"
 
-class Application;
+#include "core/shared_ptr.h"
+
+class Database;
 
 class Console : public QDialog {
   Q_OBJECT
 
  public:
-  explicit Console(Application *app, QWidget *parent = nullptr);
+  explicit Console(SharedPtr<Database> database, QWidget *parent = nullptr);
 
  private Q_SLOTS:
   void RunQuery();
 
  private:
   Ui::Console ui_;
-  Application *app_;
+  SharedPtr<Database> database_;
 };
 
 #endif  // CONSOLE_H

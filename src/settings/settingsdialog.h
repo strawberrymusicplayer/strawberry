@@ -48,9 +48,15 @@ class QAbstractButton;
 class QShowEvent;
 class QCloseEvent;
 
-class Application;
 class Player;
+class SCollection;
+class CollectionBackend;
+class CollectionModel;
 class CollectionDirectoryModel;
+class CoverProviders;
+class LyricsProviders;
+class AudioScrobbler;
+class StreamingServices;
 class GlobalShortcutsManager;
 class SettingsPage;
 
@@ -70,7 +76,16 @@ class SettingsDialog : public QDialog {
   Q_OBJECT
 
  public:
-  explicit SettingsDialog(Application *app, OSDBase *osd, QMainWindow *mainwindow, QWidget *parent = nullptr);
+  explicit SettingsDialog(SharedPtr<Player> player,
+                          SharedPtr<DeviceFinders> device_finders,
+                          SharedPtr<SCollection> collection,
+                          SharedPtr<CoverProviders> cover_providers,
+                          SharedPtr<LyricsProviders> lyrics_providers,
+                          SharedPtr<AudioScrobbler> scrobbler,
+                          SharedPtr<StreamingServices> streaming_services,
+                          OSDBase *osd,
+                          QMainWindow *mainwindow,
+                          QWidget *parent = nullptr);
   ~SettingsDialog() override;
 
   enum class Page {
@@ -99,16 +114,25 @@ class SettingsDialog : public QDialog {
     Role_IsSeparator = Qt::UserRole
   };
 
-  void SetGlobalShortcutManager(GlobalShortcutsManager *manager) { manager_ = manager; }
+#ifdef HAVE_GLOBALSHORTCUTS
+  void SetGlobalShortcutManager(GlobalShortcutsManager *global_shortcuts_manager) { global_shortcuts_manager_ = global_shortcuts_manager; }
+#endif
 
   bool is_loading_settings() const { return loading_settings_; }
 
-  Application *app() const { return app_; }
-  OSDBase *osd() const { return osd_; }
   SharedPtr<Player> player() const { return player_; }
   SharedPtr<EngineBase> engine() const { return engine_; }
-  CollectionDirectoryModel *collection_directory_model() const { return model_; }
-  GlobalShortcutsManager *global_shortcuts_manager() const { return manager_; }
+  SharedPtr<DeviceFinders> device_finders() const { return device_finders_; }
+  SharedPtr<SCollection> collection() const { return collection_; }
+  SharedPtr<CoverProviders> cover_providers() const { return cover_providers_; }
+  SharedPtr<LyricsProviders> lyrics_providers() const { return lyrics_providers_; }
+  SharedPtr<AudioScrobbler> scrobbler() const { return scrobbler_; }
+  SharedPtr<StreamingServices> streaming_services() const { return streaming_services_; }
+  OSDBase *osd() const { return osd_; }
+
+#ifdef HAVE_GLOBALSHORTCUTS
+  GlobalShortcutsManager *global_shortcuts_manager() const { return global_shortcuts_manager_; }
+#endif
 
   void OpenAtPage(Page page);
 
@@ -148,13 +172,19 @@ class SettingsDialog : public QDialog {
  private:
   static const char *kSettingsGroup;
 
-  QMainWindow *mainwindow_;
-  Application *app_;
-  OSDBase *osd_;
   SharedPtr<Player> player_;
   SharedPtr<EngineBase> engine_;
-  CollectionDirectoryModel *model_;
-  GlobalShortcutsManager *manager_;
+  SharedPtr<DeviceFinders> device_finders_;
+  SharedPtr<SCollection> collection_;
+  SharedPtr<CoverProviders> cover_providers_;
+  SharedPtr<LyricsProviders> lyrics_providers_;
+  SharedPtr<AudioScrobbler> scrobbler_;
+  SharedPtr<StreamingServices> streaming_services_;
+#ifdef HAVE_GLOBALSHORTCUTS
+  GlobalShortcutsManager *global_shortcuts_manager_;
+#endif
+  OSDBase *osd_;
+  QMainWindow *mainwindow_;
 
   Ui_SettingsDialog *ui_;
   bool loading_settings_;

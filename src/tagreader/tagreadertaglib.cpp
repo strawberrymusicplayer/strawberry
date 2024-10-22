@@ -96,7 +96,7 @@
 
 #include "core/logging.h"
 #include "core/song.h"
-#include "utilities/timeconstants.h"
+#include "constants/timeconstants.h"
 
 #include "albumcovertagdata.h"
 

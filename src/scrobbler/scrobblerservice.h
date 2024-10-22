@@ -72,6 +72,7 @@ class ScrobblerService : public QObject {
 
  Q_SIGNALS:
   void ErrorMessage(const QString &error);
+  void ShowConfig();
 
  protected:
   QString name_;

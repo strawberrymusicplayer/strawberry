@@ -27,7 +27,7 @@
 #include <QModelIndex>
 
 #include "core/song.h"
-#include "core/songloader.h"
+#include "application/songloader.h"
 #include "collection/collectiondirectory.h"
 
 class MetatypesEnvironment : public ::testing::Environment {

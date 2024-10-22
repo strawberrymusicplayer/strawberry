@@ -31,7 +31,6 @@
 class QLabel;
 class QEvent;
 
-class Application;
 #ifdef HAVE_MOODBAR
 class MoodbarProxyStyle;
 #endif
@@ -44,7 +43,7 @@ class TrackSlider : public QWidget {
   explicit TrackSlider(QWidget *parent = nullptr);
   ~TrackSlider() override;
 
-  void SetApplication(Application *app);
+  void Init();
 
   // QWidget
   QSize sizeHint() const override;

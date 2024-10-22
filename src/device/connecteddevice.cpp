@@ -28,7 +28,7 @@
 
 #include "core/logging.h"
 #include "core/shared_ptr.h"
-#include "core/application.h"
+#include "core/taskmanager.h"
 #include "core/database.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
@@ -41,9 +41,8 @@
 using namespace Qt::Literals::StringLiterals;
 using std::make_shared;
 
-ConnectedDevice::ConnectedDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, SharedPtr<DeviceManager> manager, Application *app, const int database_id, const bool first_time, QObject *parent)
+ConnectedDevice::ConnectedDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, SharedPtr<DeviceManager> manager, SharedPtr<TaskManager> task_manager, SharedPtr<Database> database, SharedPtr<AlbumCoverLoader> album_cover_loader, const int database_id, const bool first_time, QObject *parent)
     : QObject(parent),
-      app_(app),
       url_(url),
       first_time_(first_time),
       lister_(lister),
@@ -58,22 +57,22 @@ ConnectedDevice::ConnectedDevice(const QUrl &url, DeviceLister *lister, const QS
 
   // Create the backend in the database thread.
   backend_ = make_shared<CollectionBackend>();
-  backend_->moveToThread(app_->database()->thread());
-  qLog(Debug) << &*backend_ << "for device" << unique_id_ << "moved to thread" << app_->database()->thread();
+  backend_->moveToThread(database->thread());
+  qLog(Debug) << &*backend_ << "for device" << unique_id_ << "moved to thread" << database->thread();
 
   if (url_.scheme() != "cdda"_L1) {
     QObject::connect(&*backend_, &CollectionBackend::TotalSongCountUpdated, this, &ConnectedDevice::BackendTotalSongCountUpdated);
   }
 
-  backend_->Init(app_->database(),
-                 app_->task_manager(),
+  backend_->Init(database,
+                 task_manager,
                  Song::Source::Device,
                  QStringLiteral("device_%1_songs").arg(database_id),
                  QStringLiteral("device_%1_directories").arg(database_id),
                  QStringLiteral("device_%1_subdirectories").arg(database_id));
 
   // Create the model
-  model_ = new CollectionModel(backend_, app_, this);
+  model_ = new CollectionModel(backend_, album_cover_loader, this);
 
 }
 

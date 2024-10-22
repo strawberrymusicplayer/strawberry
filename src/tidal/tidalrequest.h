@@ -44,7 +44,6 @@
 
 class QNetworkReply;
 class QTimer;
-class Application;
 class NetworkAccessManager;
 class TidalService;
 class TidalUrlHandler;
@@ -53,7 +52,7 @@ class TidalRequest : public TidalBaseRequest {
   Q_OBJECT
 
  public:
-  explicit TidalRequest(TidalService *service, TidalUrlHandler *url_handler, Application *app, SharedPtr<NetworkAccessManager> network, Type query_type, QObject *parent);
+  explicit TidalRequest(TidalService *service, TidalUrlHandler *url_handler, SharedPtr<NetworkAccessManager> network, Type query_type, QObject *parent);
   ~TidalRequest() override;
 
   void ReloadSettings();
@@ -174,7 +173,6 @@ class TidalRequest : public TidalBaseRequest {
 
   TidalService *service_;
   TidalUrlHandler *url_handler_;
-  Application *app_;
   SharedPtr<NetworkAccessManager> network_;
   QTimer *timer_flush_requests_;
 

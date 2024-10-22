@@ -55,8 +55,11 @@ class QEvent;
 class QCloseEvent;
 class QShowEvent;
 
-class Application;
+class NetworkAccessManager;
 class CollectionBackend;
+class AlbumCoverLoader;
+class CurrentAlbumCoverLoader;
+class CoverProviders;
 class SongMimeData;
 class AlbumCoverExport;
 class AlbumCoverExporter;
@@ -78,7 +81,15 @@ class AlbumCoverManager : public QMainWindow {
   Q_OBJECT
 
  public:
-  explicit AlbumCoverManager(Application *app, SharedPtr<CollectionBackend> collection_backend, QMainWindow *mainwindow, QWidget *parent = nullptr);
+  explicit AlbumCoverManager(SharedPtr<NetworkAccessManager> network,
+                             SharedPtr<CollectionBackend> collection_backend,
+                             SharedPtr<TagReaderClient> tagreader_client,
+                             SharedPtr<AlbumCoverLoader> album_cover_loader,
+                             SharedPtr<CurrentAlbumCoverLoader> current_albumcover_loader,
+                             SharedPtr<CoverProviders> cover_providers,
+                             SharedPtr<StreamingServices> streaming_services,
+                             QMainWindow *mainwindow,
+                             QWidget *parent = nullptr);
   ~AlbumCoverManager() override;
 
   void Reset();
@@ -190,8 +201,11 @@ class AlbumCoverManager : public QMainWindow {
  private:
   Ui_CoverManager *ui_;
   QMainWindow *mainwindow_;
-  Application *app_;
+  SharedPtr<NetworkAccessManager> network_;
   SharedPtr<CollectionBackend> collection_backend_;
+  SharedPtr<TagReaderClient> tagreader_client_;
+  SharedPtr<AlbumCoverLoader> album_cover_loader_;
+  SharedPtr<CoverProviders> cover_providers_;
   AlbumCoverChoiceController *album_cover_choice_controller_;
   QTimer *timer_album_cover_load_;
 

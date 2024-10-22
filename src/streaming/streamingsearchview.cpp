@@ -64,7 +64,6 @@
 #include <QShowEvent>
 #include <QHideEvent>
 
-#include "core/application.h"
 #include "core/mimedata.h"
 #include "core/iconloader.h"
 #include "core/song.h"
@@ -95,7 +94,6 @@ constexpr int kArtHeight = 32;
 
 StreamingSearchView::StreamingSearchView(QWidget *parent)
     : QWidget(parent),
-      app_(nullptr),
       service_(nullptr),
       ui_(new Ui_StreamingSearchView),
       context_menu_(nullptr),
@@ -149,10 +147,10 @@ StreamingSearchView::StreamingSearchView(QWidget *parent)
 
 StreamingSearchView::~StreamingSearchView() { delete ui_; }
 
-void StreamingSearchView::Init(Application *app, StreamingServicePtr service) {
+void StreamingSearchView::Init(StreamingServicePtr service, SharedPtr<AlbumCoverLoader> album_cover_loader) {
 
-  app_ = app;
   service_ = service;
+  album_cover_loader_ = album_cover_loader;
 
   front_model_ = new StreamingSearchModel(service, this);
   back_model_ = new StreamingSearchModel(service, this);
@@ -202,8 +200,7 @@ void StreamingSearchView::Init(Application *app, StreamingServicePtr service) {
   QObject::connect(&*service_, &StreamingService::SearchUpdateProgress, this, &StreamingSearchView::UpdateProgress);
   QObject::connect(&*service_, &StreamingService::SearchResults, this, &StreamingSearchView::SearchDone);
 
-  QObject::connect(app_, &Application::SettingsChanged, this, &StreamingSearchView::ReloadSettings);
-  QObject::connect(&*app_->album_cover_loader(), &AlbumCoverLoader::AlbumCoverLoaded, this, &StreamingSearchView::AlbumCoverLoaded);
+  QObject::connect(&*album_cover_loader_, &AlbumCoverLoader::AlbumCoverLoaded, this, &StreamingSearchView::AlbumCoverLoaded);
 
   QObject::connect(ui_->settings, &QToolButton::clicked, ui_->settings, &QToolButton::showMenu);
 
@@ -678,7 +675,7 @@ void StreamingSearchView::FocusOnFilter(QKeyEvent *e) {
 }
 
 void StreamingSearchView::OpenSettingsDialog() {
-  app_->OpenSettingsDialogAtPage(service_->settings_page());
+  Q_EMIT ShowConfig(service_->source());
 }
 
 void StreamingSearchView::GroupByClicked(QAction *action) {
@@ -857,7 +854,7 @@ void StreamingSearchView::LazyLoadAlbumCover(const QModelIndex &proxy_index) {
   else {
     AlbumCoverLoaderOptions cover_loader_options(AlbumCoverLoaderOptions::Option::ScaledImage | AlbumCoverLoaderOptions::Option::PadScaledImage);
     cover_loader_options.desired_scaled_size = QSize(kArtHeight, kArtHeight);
-    quint64 loader_id = app_->album_cover_loader()->LoadImageAsync(cover_loader_options, result.metadata_);
+    quint64 loader_id = album_cover_loader_->LoadImageAsync(cover_loader_options, result.metadata_);
     cover_loader_tasks_[loader_id] = qMakePair(source_index, result.pixmap_cache_key_);
   }
 

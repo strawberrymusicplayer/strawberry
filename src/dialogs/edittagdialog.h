@@ -51,7 +51,12 @@ class QEvent;
 class QShowEvent;
 class QHideEvent;
 
-class Application;
+class NetworkAccessManager;
+class CollectionBackend;
+class AlbumCoverLoader;
+class CurrentAlbumCoverLoader;
+class CoverProviders;
+class LyricsProviders;
 class AlbumCoverChoiceController;
 class Ui_EditTagDialog;
 #ifdef HAVE_MUSICBRAINZ
@@ -64,7 +69,13 @@ class EditTagDialog : public QDialog {
   Q_OBJECT
 
  public:
-  explicit EditTagDialog(Application *app, QWidget *parent = nullptr);
+  explicit EditTagDialog(SharedPtr<NetworkAccessManager> network,
+                         SharedPtr<CollectionBackend> collection_backend,
+                         SharedPtr<AlbumCoverLoader> albumcover_loader,
+                         SharedPtr<CurrentAlbumCoverLoader> current_albumcover_loader,
+                         SharedPtr<CoverProviders> cover_providers,
+                         SharedPtr<LyricsProviders> lyrics_providers,
+                         QWidget *parent = nullptr);
   ~EditTagDialog() override;
 
   void SetSongs(const SongList &songs, const PlaylistItemPtrList &items = PlaylistItemPtrList());
@@ -180,7 +191,11 @@ class EditTagDialog : public QDialog {
 
   Ui_EditTagDialog *ui_;
 
-  Application *app_;
+  SharedPtr<CollectionBackend> collection_backend_;
+  SharedPtr<AlbumCoverLoader> album_cover_loader_;
+  SharedPtr<CurrentAlbumCoverLoader> current_albumcover_loader_;
+  SharedPtr<CoverProviders> cover_providers_;
+
   AlbumCoverChoiceController *album_cover_choice_controller_;
 #ifdef HAVE_MUSICBRAINZ
   TagFetcher *tag_fetcher_;

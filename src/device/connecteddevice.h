@@ -34,11 +34,13 @@
 #include "core/musicstorage.h"
 #include "core/song.h"
 
-class Application;
+class TaskManager;
+class Database;
 class CollectionBackend;
 class CollectionModel;
 class DeviceLister;
 class DeviceManager;
+class AlbumCoverLoader;
 
 using std::enable_shared_from_this;
 
@@ -46,7 +48,7 @@ class ConnectedDevice : public QObject, public virtual MusicStorage, public enab
   Q_OBJECT
 
  public:
-  explicit ConnectedDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, SharedPtr<DeviceManager> manager, Application *app, const int database_id, const bool first_time, QObject *parent = nullptr);
+  explicit ConnectedDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, SharedPtr<DeviceManager> manager, SharedPtr<TaskManager> task_manager, SharedPtr<Database> database, SharedPtr<AlbumCoverLoader> album_cover_loader, const int database_id, const bool first_time, QObject *parent = nullptr);
 
   Song::Source source() const override { return Song::Source::Device; }
 
@@ -81,13 +83,12 @@ class ConnectedDevice : public QObject, public virtual MusicStorage, public enab
   void SongCountUpdated(const int count);
   void DeviceConnectFinished(const QString &id, const bool success);
   void DeviceCloseFinished(const QString &id);
+  void AddError(const QString &error);
 
  protected:
   void InitBackendDirectory(const QString &mount_point, const bool first_time, const bool rewrite_path = true);
 
  protected:
-  Application *app_;
-
   QUrl url_;
   bool first_time_;
   DeviceLister *lister_;

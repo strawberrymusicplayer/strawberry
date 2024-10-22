@@ -51,7 +51,7 @@
 #include "core/logging.h"
 #include "core/settings.h"
 #include "core/localredirectserver.h"
-#include "utilities/timeconstants.h"
+#include "constants/timeconstants.h"
 #include "settings/scrobblersettingspage.h"
 
 #include "scrobblersettings.h"
@@ -828,7 +828,10 @@ void ScrobblingAPI20::Love() {
 
   if (!song_playing_.is_valid() || !song_playing_.is_metadata_good()) return;
 
-  if (!authenticated()) settings_->ShowConfig();
+  if (!authenticated()) {
+    Q_EMIT ShowConfig();
+    return;
+  }
 
   qLog(Debug) << name_ << "Sending love for song" << song_playing_.artist() << song_playing_.album() << song_playing_.title();
 

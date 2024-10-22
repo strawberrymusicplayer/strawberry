@@ -28,12 +28,11 @@
 
 #include "core/logging.h"
 #include "core/shared_ptr.h"
-#include "core/application.h"
 #include "radioservice.h"
 
-RadioService::RadioService(const Song::Source source, const QString &name, const QIcon &icon, Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
+RadioService::RadioService(const Song::Source source, const QString &name, const QIcon &icon, SharedPtr<TaskManager> task_manager, SharedPtr<NetworkAccessManager> network, QObject *parent)
     : QObject(parent),
-      app_(app),
+      task_manager_(task_manager),
       network_(network),
       source_(source),
       name_(name),

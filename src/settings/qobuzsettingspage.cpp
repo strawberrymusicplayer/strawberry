@@ -34,7 +34,6 @@
 #include "settingsdialog.h"
 #include "qobuzsettingspage.h"
 #include "ui_qobuzsettingspage.h"
-#include "core/application.h"
 #include "core/iconloader.h"
 #include "core/settings.h"
 #include "widgets/loginstatewidget.h"
@@ -48,7 +47,7 @@ const char *QobuzSettingsPage::kSettingsGroup = "Qobuz";
 QobuzSettingsPage::QobuzSettingsPage(SettingsDialog *dialog, QWidget *parent)
     : SettingsPage(dialog, parent),
       ui_(new Ui::QobuzSettingsPage),
-      service_(dialog->app()->streaming_services()->Service<QobuzService>()) {
+      service_(dialog->streaming_services()->Service<QobuzService>()) {
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load(u"qobuz"_s, true, 0, 32));

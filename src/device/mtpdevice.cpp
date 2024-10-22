@@ -35,7 +35,6 @@
 
 #include "core/logging.h"
 #include "core/shared_ptr.h"
-#include "core/application.h"
 #include "core/musicstorage.h"
 #include "collection/collectionmodel.h"
 #include "collection/collectionbackend.h"
@@ -46,13 +45,17 @@
 
 using namespace Qt::Literals::StringLiterals;
 
+class TaskManager;
+class Database;
+class AlbumCoverLoader;
 class DeviceLister;
 class DeviceManager;
 
 bool MtpDevice::sInitializedLibMTP = false;
 
-MtpDevice::MtpDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, SharedPtr<DeviceManager> manager, Application *app, const int database_id, const bool first_time, QObject *parent)
-    : ConnectedDevice(url, lister, unique_id, manager, app, database_id, first_time, parent),
+MtpDevice::MtpDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, SharedPtr<DeviceManager> manager, SharedPtr<TaskManager> task_manager, SharedPtr<Database> database, SharedPtr<AlbumCoverLoader> album_cover_loader, const int database_id, const bool first_time, QObject *parent)
+    : ConnectedDevice(url, lister, unique_id, manager, task_manager, database, album_cover_loader, database_id, first_time, parent),
+      task_manager_(task_manager),
       loader_(nullptr),
       loader_thread_(nullptr),
       closing_(false) {
@@ -81,7 +84,7 @@ bool MtpDevice::Init() {
   InitBackendDirectory(u"/"_s, first_time_, false);
   model_->Init();
 
-  loader_ = new MtpLoader(url_, app_->task_manager(), backend_);
+  loader_ = new MtpLoader(url_, task_manager_, backend_);
   loader_thread_ = new QThread();
   loader_->moveToThread(loader_thread_);
 
@@ -132,7 +135,7 @@ void MtpDevice::LoadFinished(const bool success, MtpConnection *connection) {
 }
 
 void MtpDevice::LoaderError(const QString &message) {
-  app_->AddError(message);
+  Q_EMIT AddError(message);
 }
 
 bool MtpDevice::StartCopy(QList<Song::FileType> *supported_types) {

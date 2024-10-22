@@ -40,9 +40,15 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-SmartPlaylistWizard::SmartPlaylistWizard(Application *app, SharedPtr<CollectionBackend> collection_backend, QWidget *parent)
+SmartPlaylistWizard::SmartPlaylistWizard(SharedPtr<Player> player,
+                                         SharedPtr<PlaylistManager> playlist_manager,
+                                         SharedPtr<CollectionBackend> collection_backend,
+#ifdef HAVE_MOODBAR
+                                        SharedPtr<MoodbarLoader> moodbar_loader,
+#endif
+                                        SharedPtr<CurrentAlbumCoverLoader> current_albumcover_loader,
+                                        QWidget *parent)
     : QWizard(parent),
-      app_(app),
       collection_backend_(collection_backend),
       type_page_(new SmartPlaylistWizardTypePage(this)),
       finish_page_(new SmartPlaylistWizardFinishPage(this)),
@@ -75,7 +81,7 @@ SmartPlaylistWizard::SmartPlaylistWizard(Application *app, SharedPtr<CollectionB
   finish_id_ = addPage(finish_page_);
 
   new QVBoxLayout(type_page_);
-  AddPlugin(new SmartPlaylistQueryWizardPlugin(app_, collection_backend, this));
+  AddPlugin(new SmartPlaylistQueryWizardPlugin(player, playlist_manager, collection_backend, moodbar_loader, current_albumcover_loader, this));
 
   // Skip the type page - remove this when we have more than one type
   setStartId(2);

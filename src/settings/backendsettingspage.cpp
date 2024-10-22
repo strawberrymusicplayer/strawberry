@@ -41,11 +41,10 @@
 
 #include "backendsettingspage.h"
 
-#include "core/application.h"
 #include "core/iconloader.h"
-#include "core/player.h"
 #include "core/logging.h"
 #include "core/settings.h"
+#include "player/player.h"
 #include "engine/enginebase.h"
 #include "engine/enginedevice.h"
 #include "engine/devicefinders.h"
@@ -129,7 +128,7 @@ void BackendSettingsPage::Load() {
   s.beginGroup(kSettingsGroup);
 
   EngineBase::Type enginetype = EngineBase::TypeFromName(s.value("engine", EngineBase::Name(EngineBase::Type::None)).toString());
-  if (enginetype == EngineBase::Type::None && engine()) enginetype = engine()->type();
+  if (enginetype == EngineBase::Type::None && dialog()->engine()) enginetype = dialog()->engine()->type();
 
   ui_->combobox_engine->clear();
   ui_->combobox_engine->addItem(IconLoader::Load(u"gstreamer"_s), EngineBase::Description(EngineBase::Type::GStreamer), static_cast<int>(EngineBase::Type::GStreamer));
@@ -206,7 +205,7 @@ void BackendSettingsPage::Load() {
 
   if (!EngineInitialized()) return;
 
-  if (engine()->state() == EngineBase::State::Empty) {
+  if (dialog()->engine()->state() == EngineBase::State::Empty) {
     if (ui_->combobox_engine->count() > 1) ui_->combobox_engine->setEnabled(true);
     else ui_->combobox_engine->setEnabled(false);
   }
@@ -229,7 +228,7 @@ void BackendSettingsPage::Load() {
   enginetype = ui_->combobox_engine->itemData(ui_->combobox_engine->currentIndex()).value<EngineBase::Type>();
   QString output_name;
   if (ui_->combobox_output->currentText().isEmpty()) {
-    output_name = engine()->DefaultOutput();
+    output_name = dialog()->engine()->DefaultOutput();
   }
   else {
     EngineBase::OutputDetails output = ui_->combobox_output->itemData(ui_->combobox_output->currentIndex()).value<EngineBase::OutputDetails>();
@@ -250,7 +249,7 @@ void BackendSettingsPage::Load() {
 
 bool BackendSettingsPage::EngineInitialized() {
 
-  if (!engine() || engine()->type() == EngineBase::Type::None) {
+  if (!dialog()->engine() || dialog()->engine()->type() == EngineBase::Type::None) {
     errordialog_.ShowMessage(u"Engine is not initialized! Please restart."_s);
     return false;
   }
@@ -277,12 +276,12 @@ void BackendSettingsPage::Load_Engine(const EngineBase::Type enginetype) {
   ui_->groupbox_replaygain->setEnabled(false);
   ui_->groupbox_ebur128->setEnabled(false);
 
-  if (engine()->type() != enginetype) {
+  if (dialog()->engine()->type() != enginetype) {
     qLog(Debug) << "Switching engine.";
-    EngineBase::Type new_enginetype = dialog()->app()->player()->CreateEngine(enginetype);
-    dialog()->app()->player()->Init();
+    EngineBase::Type new_enginetype = dialog()->player()->CreateEngine(enginetype);
+    dialog()->player()->Init();
     if (new_enginetype != enginetype) {
-      ui_->combobox_engine->setCurrentIndex(ui_->combobox_engine->findData(static_cast<int>(engine()->type())));
+      ui_->combobox_engine->setCurrentIndex(ui_->combobox_engine->findData(static_cast<int>(dialog()->engine()->type())));
     }
     set_changed();
   }
@@ -297,10 +296,10 @@ void BackendSettingsPage::Load_Output(QString output, QVariant device) {
 
   if (!EngineInitialized()) return;
 
-  if (output.isEmpty()) output = engine()->DefaultOutput();
+  if (output.isEmpty()) output = dialog()->engine()->DefaultOutput();
 
   ui_->combobox_output->clear();
-  const EngineBase::OutputDetailsList outputs = engine()->GetOutputsList();
+  const EngineBase::OutputDetailsList outputs = dialog()->engine()->GetOutputsList();
   for (const EngineBase::OutputDetails &o : outputs) {
     ui_->combobox_output->addItem(IconLoader::Load(o.iconname), o.description, QVariant::fromValue(o));
   }
@@ -316,8 +315,8 @@ void BackendSettingsPage::Load_Output(QString output, QVariant device) {
     }
   }
   if (!found) {  // Output is invalid for this engine, reset to default output.
-    output = engine()->DefaultOutput();
-    device = (engine()->CustomDeviceSupport(output) ? QString() : QVariant());
+    output = dialog()->engine()->DefaultOutput();
+    device = (dialog()->engine()->CustomDeviceSupport(output) ? QString() : QVariant());
     for (int i = 0; i < ui_->combobox_output->count(); ++i) {
       EngineBase::OutputDetails o = ui_->combobox_output->itemData(i).value<EngineBase::OutputDetails>();
       if (o.name == output) {
@@ -327,7 +326,7 @@ void BackendSettingsPage::Load_Output(QString output, QVariant device) {
     }
   }
 
-  if (engine()->type() == EngineBase::Type::GStreamer) {
+  if (dialog()->engine()->type() == EngineBase::Type::GStreamer) {
     ui_->groupbox_buffer->setEnabled(true);
     ui_->groupbox_replaygain->setEnabled(true);
     ui_->groupbox_ebur128->setEnabled(true);
@@ -339,7 +338,7 @@ void BackendSettingsPage::Load_Output(QString output, QVariant device) {
   }
 
 #ifdef Q_OS_WIN32
-  ui_->widget_exclusive_mode->setEnabled(engine()->ExclusiveModeSupport(output));
+  ui_->widget_exclusive_mode->setEnabled(dialog()->engine()->ExclusiveModeSupport(output));
 #endif
 
   if (ui_->combobox_output->count() >= 1) Load_Device(output, device);
@@ -359,11 +358,11 @@ void BackendSettingsPage::Load_Device(const QString &output, const QVariant &dev
   ui_->lineedit_device->clear();
 
 #ifdef Q_OS_WIN
-  if (engine()->type() != EngineBase::Type::GStreamer)
+  if (dialog()->engine()->type() != EngineBase::Type::GStreamer)
 #endif
     ui_->combobox_device->addItem(IconLoader::Load(u"soundcard"_s), QLatin1String(kOutputAutomaticallySelect), QVariant());
 
-  const QList<DeviceFinder*> device_finders = dialog()->app()->device_finders()->ListFinders();
+  const QList<DeviceFinder*> device_finders = dialog()->device_finders()->ListFinders();
   for (DeviceFinder *f : device_finders) {
     if (!f->outputs().contains(output)) continue;
     const EngineDeviceList engine_devices = f->ListDevices();
@@ -374,7 +373,7 @@ void BackendSettingsPage::Load_Device(const QString &output, const QVariant &dev
     }
   }
 
-  if (engine()->CustomDeviceSupport(output)) {
+  if (dialog()->engine()->CustomDeviceSupport(output)) {
     ui_->combobox_device->addItem(IconLoader::Load(u"soundcard"_s), QLatin1String(kOutputCustom), QVariant());
     ui_->lineedit_device->setEnabled(true);
   }
@@ -383,7 +382,7 @@ void BackendSettingsPage::Load_Device(const QString &output, const QVariant &dev
   }
 
 #ifdef HAVE_ALSA
-  if (engine()->ALSADeviceSupport(output)) {
+  if (dialog()->engine()->ALSADeviceSupport(output)) {
     ui_->widget_alsa_plugin->setEnabled(true);
     ui_->radiobutton_alsa_hw->setEnabled(true);
     ui_->radiobutton_alsa_plughw->setEnabled(true);
@@ -435,7 +434,7 @@ void BackendSettingsPage::Load_Device(const QString &output, const QVariant &dev
   }
 
   // This allows a custom ALSA device string ie: "hw:0,0" even if it is not listed.
-  if (engine()->CustomDeviceSupport(output) && device.metaType().id() == QMetaType::QString && !device.toString().isEmpty()) {
+  if (dialog()->engine()->CustomDeviceSupport(output) && device.metaType().id() == QMetaType::QString && !device.toString().isEmpty()) {
     ui_->lineedit_device->setText(device.toString());
     if (!found) {
       for (int i = 0; i < ui_->combobox_device->count(); ++i) {
@@ -447,7 +446,7 @@ void BackendSettingsPage::Load_Device(const QString &output, const QVariant &dev
     }
   }
 
-  ui_->combobox_device->setEnabled(devices > 0 || engine()->CustomDeviceSupport(output));
+  ui_->combobox_device->setEnabled(devices > 0 || dialog()->engine()->CustomDeviceSupport(output));
 
   FadingOptionsChanged();
 
@@ -463,7 +462,7 @@ void BackendSettingsPage::Save() {
   QVariant device_value;
 
   if (ui_->combobox_output->currentText().isEmpty()) {
-    output_name = engine()->DefaultOutput();
+    output_name = dialog()->engine()->DefaultOutput();
   }
   else {
     EngineBase::OutputDetails output = ui_->combobox_output->itemData(ui_->combobox_output->currentIndex()).value<EngineBase::OutputDetails>();
@@ -529,9 +528,9 @@ void BackendSettingsPage::Save() {
 
 void BackendSettingsPage::Cancel() {
 
-  if (engine() && engine()->type() != enginetype_current_) {  // Reset engine back to the original because user cancelled.
-    dialog()->app()->player()->CreateEngine(enginetype_current_);
-    dialog()->app()->player()->Init();
+  if (dialog()->engine() && dialog()->engine()->type() != enginetype_current_) {  // Reset engine back to the original because user cancelled.
+    dialog()->player()->CreateEngine(enginetype_current_);
+    dialog()->player()->Init();
   }
 
 }
@@ -543,11 +542,11 @@ void BackendSettingsPage::EngineChanged(const int index) {
   QVariant v = ui_->combobox_engine->itemData(index);
   EngineBase::Type enginetype = v.value<EngineBase::Type>();
 
-  if (engine()->type() == enginetype) return;
+  if (dialog()->engine()->type() == enginetype) return;
 
-  if (engine()->state() != EngineBase::State::Empty) {
+  if (dialog()->engine()->state() != EngineBase::State::Empty) {
     errordialog_.ShowMessage(u"Can't switch engine while playing!"_s);
-    ui_->combobox_engine->setCurrentIndex(ui_->combobox_engine->findData(static_cast<int>(engine()->type())));
+    ui_->combobox_engine->setCurrentIndex(ui_->combobox_engine->findData(static_cast<int>(dialog()->engine()->type())));
     return;
   }
 
@@ -563,7 +562,7 @@ void BackendSettingsPage::OutputChanged(const int index) {
   EngineBase::OutputDetails output = ui_->combobox_output->itemData(index).value<EngineBase::OutputDetails>();
 
 #ifdef Q_OS_WIN32
-  ui_->widget_exclusive_mode->setEnabled(engine()->ExclusiveModeSupport(output.name));
+  ui_->widget_exclusive_mode->setEnabled(dialog()->engine()->ExclusiveModeSupport(output.name));
 #endif
 
   Load_Device(output.name, QVariant());
@@ -577,7 +576,7 @@ void BackendSettingsPage::DeviceSelectionChanged(int index) {
   EngineBase::OutputDetails output = ui_->combobox_output->itemData(ui_->combobox_output->currentIndex()).value<EngineBase::OutputDetails>();
   QVariant device = ui_->combobox_device->itemData(index).value<QVariant>();
 
-  if (engine()->CustomDeviceSupport(output.name)) {
+  if (dialog()->engine()->CustomDeviceSupport(output.name)) {
     ui_->lineedit_device->setEnabled(true);
     if (ui_->combobox_device->currentText() != QLatin1String(kOutputCustom)) {
       if (device.metaType().id() == QMetaType::QString)
@@ -602,7 +601,7 @@ void BackendSettingsPage::DeviceStringChanged() {
   bool found = false;
 
 #ifdef HAVE_ALSA
-  if (engine()->ALSADeviceSupport(output.name)) {
+  if (dialog()->engine()->ALSADeviceSupport(output.name)) {
     if (ui_->lineedit_device->text().contains(kRegex_ALSA_HW) && !ui_->radiobutton_alsa_hw->isChecked()) {
       ui_->radiobutton_alsa_hw->setChecked(true);
       SwitchALSADevices(ALSAPluginType::HW);
@@ -630,7 +629,7 @@ void BackendSettingsPage::DeviceStringChanged() {
     }
   }
 
-  if (engine()->CustomDeviceSupport(output.name)) {
+  if (dialog()->engine()->CustomDeviceSupport(output.name)) {
     ui_->lineedit_device->setEnabled(true);
     if ((!found) && (ui_->combobox_device->currentText() != QLatin1String(kOutputCustom))) {
       for (int i = 0; i < ui_->combobox_device->count(); ++i) {
@@ -711,7 +710,7 @@ void BackendSettingsPage::radiobutton_alsa_hw_clicked(const bool checked) {
   if (!configloaded_ || !EngineInitialized()) return;
 
   EngineBase::OutputDetails output = ui_->combobox_output->itemData(ui_->combobox_output->currentIndex()).value<EngineBase::OutputDetails>();
-  if (!engine()->ALSADeviceSupport(output.name)) return;
+  if (!dialog()->engine()->ALSADeviceSupport(output.name)) return;
 
   SwitchALSADevices(ALSAPluginType::HW);
 
@@ -740,7 +739,7 @@ void BackendSettingsPage::radiobutton_alsa_plughw_clicked(const bool checked) {
   if (!configloaded_ || !EngineInitialized()) return;
 
   EngineBase::OutputDetails output = ui_->combobox_output->itemData(ui_->combobox_output->currentIndex()).value<EngineBase::OutputDetails>();
-  if (!engine()->ALSADeviceSupport(output.name)) return;
+  if (!dialog()->engine()->ALSADeviceSupport(output.name)) return;
 
   SwitchALSADevices(ALSAPluginType::PlugHW);
 
@@ -769,7 +768,7 @@ void BackendSettingsPage::radiobutton_alsa_pcm_clicked(const bool checked) {
   if (!configloaded_ || !EngineInitialized()) return;
 
   EngineBase::OutputDetails output = ui_->combobox_output->itemData(ui_->combobox_output->currentIndex()).value<EngineBase::OutputDetails>();
-  if (!engine()->ALSADeviceSupport(output.name)) return;
+  if (!dialog()->engine()->ALSADeviceSupport(output.name)) return;
 
   SwitchALSADevices(ALSAPluginType::PCM);
 
@@ -827,8 +826,8 @@ void BackendSettingsPage::FadingOptionsChanged() {
   if (!configloaded_ || !EngineInitialized()) return;
 
   EngineBase::OutputDetails output = ui_->combobox_output->itemData(ui_->combobox_output->currentIndex()).value<EngineBase::OutputDetails>();
-  if (engine()->type() == EngineBase::Type::GStreamer &&
-      (!engine()->ALSADeviceSupport(output.name) || ui_->lineedit_device->text().isEmpty() || (!ui_->lineedit_device->text().contains(kRegex_ALSA_HW) && !ui_->lineedit_device->text().contains(kRegex_ALSA_PlugHW)))) {
+  if (dialog()->engine()->type() == EngineBase::Type::GStreamer &&
+      (!dialog()->engine()->ALSADeviceSupport(output.name) || ui_->lineedit_device->text().isEmpty() || (!ui_->lineedit_device->text().contains(kRegex_ALSA_HW) && !ui_->lineedit_device->text().contains(kRegex_ALSA_PlugHW)))) {
     ui_->groupbox_fading->setEnabled(true);
   }
   else {

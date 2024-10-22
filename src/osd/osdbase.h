@@ -35,7 +35,6 @@
 #include "core/song.h"
 #include "playlist/playlistsequence.h"
 
-class Application;
 class OSDPretty;
 class SystemTrayIcon;
 
@@ -43,7 +42,7 @@ class OSDBase : public QObject {
   Q_OBJECT
 
  public:
-  explicit OSDBase(SharedPtr<SystemTrayIcon> tray_icon, Application *app, QObject *parent = nullptr);
+  explicit OSDBase(SharedPtr<SystemTrayIcon> tray_icon, QObject *parent = nullptr);
   ~OSDBase() override;
 
   static const char *kSettingsGroup;
@@ -81,6 +80,8 @@ class OSDBase : public QObject {
 
   void ShowPreview(const OSDBase::Behaviour type, const QString &line1, const QString &line2, const Song &song);
 
+  void AlbumCoverLoaded(const Song &song, const QUrl &cover_url, const QImage &image);
+
  private:
   enum class MessageType {
     Summary,
@@ -91,11 +92,7 @@ class OSDBase : public QObject {
   QString ReplaceMessage(const MessageType type, const QString &message, const Song &song);
   virtual void ShowMessageNative(const QString &summary, const QString &message, const QString &icon = QString(), const QImage &image = QImage());
 
- private Q_SLOTS:
-  void AlbumCoverLoaded(const Song &song, const QUrl &cover_url, const QImage &image);
-
  private:
-  Application *app_;
   SharedPtr<SystemTrayIcon> tray_icon_;
   OSDPretty *pretty_popup_;
 

@@ -44,7 +44,7 @@ namespace {
 class PlaylistTest : public ::testing::Test {
  protected:
   PlaylistTest()
-    : playlist_(nullptr, nullptr, nullptr, 1),
+    : playlist_(nullptr, nullptr, nullptr, nullptr, nullptr, 1),
       sequence_(nullptr, new DummySettingsProvider)
   {
   }
@@ -53,7 +53,7 @@ class PlaylistTest : public ::testing::Test {
     playlist_.set_sequence(&sequence_);
   }
 
-  MockPlaylistItem* MakeMockItem(const QString &title, const QString &artist = QString(), const QString &album = QString(), int length = 123) const {
+  MockPlaylistItem *MakeMockItem(const QString &title, const QString &artist = QString(), const QString &album = QString(), int length = 123) const {
     Song metadata;
     metadata.Init(title, artist, album, length);
 

@@ -34,7 +34,6 @@
 #include "core/song.h"
 #include "scrobblerservice.h"
 
-class Application;
 class ScrobblerSettings;
 class SubsonicService;
 
@@ -42,7 +41,7 @@ class SubsonicScrobbler : public ScrobblerService {
   Q_OBJECT
 
  public:
-  explicit SubsonicScrobbler(SharedPtr<ScrobblerSettings> settings, Application *app, QObject *parent = nullptr);
+  explicit SubsonicScrobbler(SharedPtr<ScrobblerSettings> settings, SharedPtr<SubsonicService> service, QObject *parent = nullptr);
 
   void ReloadSettings() override;
 
@@ -63,7 +62,6 @@ class SubsonicScrobbler : public ScrobblerService {
   void Submit() override;
 
  private:
-  Application *app_;
   SharedPtr<SubsonicService> service_;
   bool enabled_;
   bool submitted_;

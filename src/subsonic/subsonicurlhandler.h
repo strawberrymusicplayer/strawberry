@@ -31,13 +31,11 @@
 #include "core/urlhandler.h"
 #include "subsonic/subsonicservice.h"
 
-class Application;
-
 class SubsonicUrlHandler : public UrlHandler {
   Q_OBJECT
 
  public:
-  explicit SubsonicUrlHandler(Application *app, SubsonicService *service);
+  explicit SubsonicUrlHandler(SubsonicService *service);
 
   QString scheme() const override { return service_->url_scheme(); }
   QUrl server_url() const { return service_->server_url(); }

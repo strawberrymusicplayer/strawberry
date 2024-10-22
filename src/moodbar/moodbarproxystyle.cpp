@@ -40,7 +40,6 @@
 #include <QEvent>
 #include <QContextMenuEvent>
 
-#include "core/application.h"
 #include "core/settings.h"
 
 #include "moodbarproxystyle.h"
@@ -54,9 +53,8 @@ constexpr int kArrowWidth = 17;
 constexpr int kArrowHeight = 13;
 }  // namespace
 
-MoodbarProxyStyle::MoodbarProxyStyle(Application *app, QSlider *slider, QObject *parent)
+MoodbarProxyStyle::MoodbarProxyStyle(QSlider *slider, QObject *parent)
     : QProxyStyle(nullptr),
-      app_(app),
       slider_(slider),
       enabled_(true),
       moodbar_style_(MoodbarRenderer::MoodbarStyle::Normal),
@@ -74,8 +72,6 @@ MoodbarProxyStyle::MoodbarProxyStyle(Application *app, QSlider *slider, QObject 
   slider->installEventFilter(this);
 
   QObject::connect(fade_timeline_, &QTimeLine::valueChanged, this, &MoodbarProxyStyle::FaderValueChanged);
-
-  QObject::connect(app, &Application::SettingsChanged, this, &MoodbarProxyStyle::ReloadSettings);
 
   ReloadSettings();
 
@@ -121,7 +117,7 @@ void MoodbarProxyStyle::SetMoodbarEnabled(const bool enabled) {
   s.setValue("show", enabled);
   s.endGroup();
 
-  app_->ReloadSettings();
+  Q_EMIT SettingsChanged();
 
 }
 
@@ -417,6 +413,6 @@ void MoodbarProxyStyle::ChangeStyle(QAction *action) {
   s.setValue("style", action->data().toInt());
   s.endGroup();
 
-  app_->ReloadSettings();
+  //app_->ReloadSettings();
 
 }

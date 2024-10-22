@@ -56,8 +56,8 @@ class QShowEvent;
 class QContextMenuEvent;
 class QTimerEvent;
 
-class Application;
 class MimeData;
+class AlbumCoverLoader;
 class GroupByDialog;
 class StreamingService;
 class StreamingSearchModel;
@@ -81,7 +81,7 @@ class StreamingSearchView : public QWidget {
   };
   using ResultList = QList<Result>;
 
-  void Init(Application *app, SharedPtr<StreamingService> service);
+  void Init(SharedPtr<StreamingService> service, SharedPtr<AlbumCoverLoader> album_cover_loader);
 
   bool SearchFieldHasFocus() const;
   void FocusSearchField();
@@ -141,6 +141,7 @@ class StreamingSearchView : public QWidget {
   void AddArtistsSignal(const SongList &songs);
   void AddAlbumsSignal(const SongList &songs);
   void AddSongsSignal(const SongList &songs);
+  void ShowConfig(const Song::Source source);
 
  private Q_SLOTS:
   void SwapModels();
@@ -177,8 +178,9 @@ class StreamingSearchView : public QWidget {
   void ReloadSettings();
 
  private:
-  Application *app_;
   SharedPtr<StreamingService> service_;
+  SharedPtr<AlbumCoverLoader> album_cover_loader_;
+
   Ui_StreamingSearchView *ui_;
   ScopedPtr<GroupByDialog> group_by_dialog_;
 

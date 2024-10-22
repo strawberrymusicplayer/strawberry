@@ -37,7 +37,7 @@
 #include <QSettings>
 
 #include "core/iconloader.h"
-#include "core/mainwindow.h"
+#include "application/mainwindow.h"
 #include "core/settings.h"
 #include "settingspage.h"
 #include "settingsdialog.h"

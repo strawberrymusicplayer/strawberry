@@ -42,8 +42,8 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-MusixmatchCoverProvider::MusixmatchCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : JsonCoverProvider(u"Musixmatch"_s, true, false, 1.0, true, false, app, network, parent) {}
+MusixmatchCoverProvider::MusixmatchCoverProvider(SharedPtr<NetworkAccessManager> network, QObject *parent)
+    : JsonCoverProvider(u"Musixmatch"_s, true, false, 1.0, true, false, network, parent) {}
 
 MusixmatchCoverProvider::~MusixmatchCoverProvider() {
 

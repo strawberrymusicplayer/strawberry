@@ -35,14 +35,13 @@
 
 class QNetworkReply;
 class QTimer;
-class Application;
 class NetworkAccessManager;
 
 class MusicbrainzCoverProvider : public JsonCoverProvider {
   Q_OBJECT
 
  public:
-  explicit MusicbrainzCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
+  explicit MusicbrainzCoverProvider(SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~MusicbrainzCoverProvider() override;
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;

@@ -34,7 +34,6 @@
 #include "settingsdialog.h"
 #include "tidalsettingspage.h"
 #include "ui_tidalsettingspage.h"
-#include "core/application.h"
 #include "core/iconloader.h"
 #include "core/settings.h"
 #include "streaming/streamingservices.h"
@@ -48,7 +47,7 @@ const char *TidalSettingsPage::kSettingsGroup = "Tidal";
 TidalSettingsPage::TidalSettingsPage(SettingsDialog *dialog, QWidget *parent)
     : SettingsPage(dialog, parent),
       ui_(new Ui::TidalSettingsPage),
-      service_(dialog->app()->streaming_services()->Service<TidalService>()) {
+      service_(dialog->streaming_services()->Service<TidalService>()) {
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load(u"tidal"_s, true, 0, 32));

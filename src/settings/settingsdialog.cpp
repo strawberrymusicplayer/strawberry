@@ -47,10 +47,9 @@
 #include <QShowEvent>
 #include <QCloseEvent>
 
-#include "core/application.h"
-#include "core/player.h"
 #include "core/settings.h"
 #include "utilities/screenutils.h"
+#include "player/player.h"
 #include "widgets/groupediconview.h"
 #include "collection/collectionmodel.h"
 
@@ -119,15 +118,28 @@ void SettingsItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
 
 }
 
-SettingsDialog::SettingsDialog(Application *app, OSDBase *osd, QMainWindow *mainwindow, QWidget *parent)
+SettingsDialog::SettingsDialog(SharedPtr<Player> player,
+                               SharedPtr<DeviceFinders> device_finders,
+                               SharedPtr<SCollection> collection,
+                               SharedPtr<CoverProviders> cover_providers,
+                               SharedPtr<LyricsProviders> lyrics_providers,
+                               SharedPtr<AudioScrobbler> scrobbler,
+                               SharedPtr<StreamingServices> streaming_services,
+                               OSDBase *osd,
+                               QMainWindow *mainwindow,
+                               QWidget *parent)
     : QDialog(parent),
-      mainwindow_(mainwindow),
-      app_(app),
+      player_(player),
+      engine_(player->engine()),
+      device_finders_(device_finders),
+      collection_(collection),
+      cover_providers_(cover_providers),
+      lyrics_providers_(lyrics_providers),
+      scrobbler_(scrobbler),
+      streaming_services_(streaming_services),
+      global_shortcuts_manager_(nullptr),
       osd_(osd),
-      player_(app_->player()),
-      engine_(app_->player()->engine()),
-      model_(app_->collection_model()->directory_model()),
-      manager_(nullptr),
+      mainwindow_(mainwindow),
       ui_(new Ui_SettingsDialog),
       loading_settings_(false) {
 

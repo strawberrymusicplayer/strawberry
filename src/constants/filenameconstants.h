@@ -20,6 +20,8 @@
 #ifndef FILENAMECONSTANTS_H
 #define FILENAMECONSTANTS_H
 
+#include <QtGlobal>
+
 #include "core/arraysize.h"
 
 constexpr char kProblematicCharactersRegex[] = "[:?*\"<>|]";
@@ -27,5 +29,6 @@ constexpr char kInvalidFatCharactersRegex[] = "[^a-zA-Z0-9!#\\$%&'()\\-@\\^_`{}~
 constexpr char kInvalidDirCharactersRegex[] = "[/\\\\]";
 constexpr char kInvalidPrefixCharacters[] = ".";
 constexpr int kInvalidPrefixCharactersCount = arraysize(kInvalidPrefixCharacters) - 1;
+constexpr char kAllFilesFilterSpec[] = QT_TR_NOOP("All Files (*)");
 
 #endif  // FILENAMECONSTANTS_H

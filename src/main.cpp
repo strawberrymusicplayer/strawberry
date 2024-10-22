@@ -87,11 +87,11 @@
 #ifdef HAVE_MPRIS2
 #  include "mpris2/mpris2.h"
 #endif
-#include "core/metatypes.h"
+#include "application/metatypes.h"
 #include "core/iconloader.h"
-#include "core/mainwindow.h"
+#include "application/mainwindow.h"
 #include "core/commandlineoptions.h"
-#include "core/application.h"
+#include "application/application.h"
 #include "core/networkproxyfactory.h"
 #ifdef Q_OS_MACOS
 #  include "core/macsystemtrayicon.h"
@@ -99,7 +99,7 @@
 #  include "core/qtsystemtrayicon.h"
 #endif
 #ifdef HAVE_TRANSLATIONS
-#  include "core/translations.h"
+#  include "translations/translations.h"
 #endif
 #include "settings/behavioursettingspage.h"
 #include "settings/appearancesettingspage.h"
@@ -307,7 +307,7 @@ int main(int argc, char *argv[]) {
 #endif
 
 #ifdef HAVE_MPRIS2
-  mpris::Mpris2 mpris2(&app);
+  mpris::Mpris2 mpris2(app.player(), app.playlist_manager(), app.current_albumcover_loader());
 #endif
 
   // Window

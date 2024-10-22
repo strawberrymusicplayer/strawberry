@@ -38,7 +38,6 @@
 #include "settingsdialog.h"
 #include "coverssettingspage.h"
 #include "ui_coverssettingspage.h"
-#include "core/application.h"
 #include "core/iconloader.h"
 #include "core/settings.h"
 #include "utilities/coveroptions.h"
@@ -101,7 +100,7 @@ void CoversSettingsPage::Load() {
 
   ui_->providers->clear();
 
-  QList<CoverProvider*> cover_providers_sorted = dialog()->app()->cover_providers()->List();
+  QList<CoverProvider*> cover_providers_sorted = dialog()->cover_providers()->List();
   std::stable_sort(cover_providers_sorted.begin(), cover_providers_sorted.end(), ProviderCompareOrder);
 
   for (CoverProvider *provider : std::as_const(cover_providers_sorted)) {
@@ -213,7 +212,7 @@ void CoversSettingsPage::Save() {
 void CoversSettingsPage::ProvidersCurrentItemChanged(QListWidgetItem *item_current, QListWidgetItem *item_previous) {
 
   if (item_previous) {
-    CoverProvider *provider = dialog()->app()->cover_providers()->ProviderByName(item_previous->text());
+    CoverProvider *provider = dialog()->cover_providers()->ProviderByName(item_previous->text());
     if (provider && provider->AuthenticationRequired()) DisconnectAuthentication(provider);
   }
 
@@ -221,7 +220,7 @@ void CoversSettingsPage::ProvidersCurrentItemChanged(QListWidgetItem *item_curre
     const int row = ui_->providers->row(item_current);
     ui_->providers_up->setEnabled(row != 0);
     ui_->providers_down->setEnabled(row != ui_->providers->count() - 1);
-    CoverProvider *provider = dialog()->app()->cover_providers()->ProviderByName(item_current->text());
+    CoverProvider *provider = dialog()->cover_providers()->ProviderByName(item_current->text());
     if (provider) {
       if (provider->AuthenticationRequired()) {
         if (provider->name() == "Tidal"_L1 && !provider->IsAuthenticated()) {
@@ -324,7 +323,7 @@ void CoversSettingsPage::DisconnectAuthentication(CoverProvider *provider) const
 void CoversSettingsPage::AuthenticateClicked() {
 
   if (!ui_->providers->currentItem()) return;
-  CoverProvider *provider = dialog()->app()->cover_providers()->ProviderByName(ui_->providers->currentItem()->text());
+  CoverProvider *provider = dialog()->cover_providers()->ProviderByName(ui_->providers->currentItem()->text());
   if (!provider) return;
   ui_->button_authenticate->setEnabled(false);
   ui_->login_state->SetLoggedIn(LoginStateWidget::State::LoginInProgress);
@@ -337,7 +336,7 @@ void CoversSettingsPage::AuthenticateClicked() {
 void CoversSettingsPage::LogoutClicked() {
 
   if (!ui_->providers->currentItem()) return;
-  CoverProvider *provider = dialog()->app()->cover_providers()->ProviderByName(ui_->providers->currentItem()->text());
+  CoverProvider *provider = dialog()->cover_providers()->ProviderByName(ui_->providers->currentItem()->text());
   if (!provider) return;
   provider->Deauthenticate();
 

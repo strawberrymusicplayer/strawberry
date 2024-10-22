@@ -45,8 +45,10 @@
 
 class QNetworkReply;
 
-class Application;
+class TaskManager;
+class Database;
 class NetworkAccessManager;
+class AlbumCoverLoader;
 class SpotifyRequest;
 class SpotifyFavoriteRequest;
 class SpotifyStreamURLRequest;
@@ -59,7 +61,12 @@ class SpotifyService : public StreamingService {
   Q_OBJECT
 
  public:
-  explicit SpotifyService(Application *app, QObject *parent = nullptr);
+  explicit SpotifyService(SharedPtr<TaskManager> task_manager,
+                          SharedPtr<Database> database,
+                          SharedPtr<NetworkAccessManager> network,
+                          SharedPtr<AlbumCoverLoader> album_cover_Loader,
+                          QObject *parent = nullptr);
+
   ~SpotifyService() override;
 
   static const Song::Source kSource;
@@ -70,8 +77,6 @@ class SpotifyService : public StreamingService {
 
   int Search(const QString &text, StreamingSearchView::SearchType type) override;
   void CancelSearch() override;
-
-  Application *app() { return app_; }
 
   int artistssearchlimit() const { return artistssearchlimit_; }
   int albumssearchlimit() const { return albumssearchlimit_; }
@@ -96,7 +101,6 @@ class SpotifyService : public StreamingService {
   CollectionFilter *songs_collection_filter_model() override { return songs_collection_model_->filter(); }
 
  public Q_SLOTS:
-  void ShowConfig() override;
   void Authenticate();
   void Deauthenticate();
   void GetArtists() override;
@@ -136,8 +140,7 @@ class SpotifyService : public StreamingService {
   void SendSearch();
   void LoginError(const QString &error = QString(), const QVariant &debug = QVariant());
 
-  Application *app_;
-  NetworkAccessManager *network_;
+  SharedPtr<NetworkAccessManager> network_;
 
   SharedPtr<CollectionBackend> artists_collection_backend_;
   SharedPtr<CollectionBackend> albums_collection_backend_;

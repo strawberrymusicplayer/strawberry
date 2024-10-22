@@ -43,10 +43,9 @@
 #include <QMessageBox>
 
 #include "core/shared_ptr.h"
-#include "core/application.h"
-#include "core/player.h"
 #include "core/settings.h"
-#include "utilities/filenameconstants.h"
+#include "player/player.h"
+#include "constants/filenameconstants.h"
 #include "utilities/timeutils.h"
 #include "collection/collectionbackend.h"
 #include "covermanager/currentalbumcoverloader.h"
@@ -65,11 +64,10 @@ using namespace Qt::Literals::StringLiterals;
 
 class ParserBase;
 
-PlaylistManager::PlaylistManager(Application *app, QObject *parent)
-    : PlaylistManagerInterface(app, parent),
-      app_(app),
-      playlist_backend_(nullptr),
-      collection_backend_(nullptr),
+PlaylistManager::PlaylistManager(SharedPtr<Player> player, SharedPtr<UrlHandlers> url_handlers, QObject *parent)
+    : PlaylistManagerInterface(player, parent),
+      player_(player),
+      url_handlers_(url_handlers),
       sequence_(nullptr),
       parser_(nullptr),
       playlist_container_(nullptr),
@@ -79,9 +77,9 @@ PlaylistManager::PlaylistManager(Application *app, QObject *parent)
 
   setObjectName(QLatin1String(metaObject()->className()));
 
-  QObject::connect(&*app_->player(), &Player::Paused, this, &PlaylistManager::SetActivePaused);
-  QObject::connect(&*app_->player(), &Player::Playing, this, &PlaylistManager::SetActivePlaying);
-  QObject::connect(&*app_->player(), &Player::Stopped, this, &PlaylistManager::SetActiveStopped);
+  QObject::connect(&*player_, &Player::Paused, this, &PlaylistManager::SetActivePaused);
+  QObject::connect(&*player_, &Player::Playing, this, &PlaylistManager::SetActivePlaying);
+  QObject::connect(&*player_, &Player::Stopped, this, &PlaylistManager::SetActiveStopped);
 
 }
 
@@ -92,10 +90,19 @@ PlaylistManager::~PlaylistManager() {
 
 }
 
-void PlaylistManager::Init(SharedPtr<CollectionBackend> collection_backend, SharedPtr<PlaylistBackend> playlist_backend, PlaylistSequence *sequence, PlaylistContainer *playlist_container) {
+void PlaylistManager::Init(SharedPtr<TaskManager> task_manager,
+                           SharedPtr<UrlHandlers> url_handlers,
+                           SharedPtr<CollectionBackend> collection_backend,
+                           SharedPtr<PlaylistBackend> playlist_backend,
+                           SharedPtr<CurrentAlbumCoverLoader> current_albumcover_loader,
+                           PlaylistSequence *sequence,
+                           PlaylistContainer *playlist_container) {
 
+  task_manager_ = task_manager;
+  url_handlers_ = url_handlers;
   collection_backend_ = collection_backend;
   playlist_backend_ = playlist_backend;
+  current_albumcover_loader_ = current_albumcover_loader;
   sequence_ = sequence;
   parser_ = new PlaylistParser(collection_backend, this);
   playlist_container_ = playlist_container;
@@ -153,7 +160,7 @@ QItemSelection PlaylistManager::selection(const int id) const {
 
 Playlist *PlaylistManager::AddPlaylist(const int id, const QString &name, const QString &special_type, const QString &ui_path, const bool favorite) {
 
-  Playlist *ret = new Playlist(playlist_backend_, app_->task_manager(), collection_backend_, id, special_type, favorite);
+  Playlist *ret = new Playlist(task_manager_, url_handlers_, player_, playlist_backend_, collection_backend_, id, special_type, favorite);
   ret->set_sequence(sequence_);
   ret->set_ui_path(ui_path);
 
@@ -165,7 +172,7 @@ Playlist *PlaylistManager::AddPlaylist(const int id, const QString &name, const 
   QObject::connect(ret, &Playlist::Error, this, &PlaylistManager::Error);
   QObject::connect(ret, &Playlist::PlayRequested, this, &PlaylistManager::PlayRequested);
   QObject::connect(playlist_container_->view(), &PlaylistView::ColumnAlignmentChanged, ret, &Playlist::SetColumnAlignment);
-  QObject::connect(&*app_->current_albumcover_loader(), &CurrentAlbumCoverLoader::AlbumCoverLoaded, ret, &Playlist::AlbumCoverLoaded);
+  QObject::connect(&*current_albumcover_loader_, &CurrentAlbumCoverLoader::AlbumCoverLoaded, ret, &Playlist::AlbumCoverLoaded);
 
   playlists_[id] = Data(ret, name);
 

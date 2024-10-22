@@ -33,17 +33,19 @@
 #include "core/song.h"
 
 class QThread;
-class Application;
+class TaskManager;
+class Database;
 class Thread;
 class CollectionBackend;
 class CollectionModel;
 class CollectionWatcher;
+class AlbumCoverLoader;
 
 class SCollection : public QObject {
   Q_OBJECT
 
  public:
-  explicit SCollection(Application *app, QObject *parent = nullptr);
+  explicit SCollection(SharedPtr<Database> database, SharedPtr<TaskManager> task_manager, SharedPtr<AlbumCoverLoader> album_cover_loader, QObject *parent = nullptr);
   ~SCollection() override;
 
   static const char *kSongsTable;
@@ -86,7 +88,7 @@ class SCollection : public QObject {
   void ExitFinished();
 
  private:
-  Application *app_;
+  SharedPtr<TaskManager> task_manager_;
   SharedPtr<CollectionBackend> backend_;
   CollectionModel *model_;
 

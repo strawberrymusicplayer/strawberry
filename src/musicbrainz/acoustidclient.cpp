@@ -45,7 +45,7 @@
 #include "core/shared_ptr.h"
 #include "core/networkaccessmanager.h"
 #include "core/networktimeouts.h"
-#include "utilities/timeconstants.h"
+#include "constants/timeconstants.h"
 
 #include "acoustidclient.h"
 

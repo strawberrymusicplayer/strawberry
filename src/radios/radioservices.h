@@ -29,8 +29,10 @@
 
 class QSortFilterProxyModel;
 
-class Application;
+class TaskManager;
+class Database;
 class NetworkAccessManager;
+class AlbumCoverLoader;
 class RadioBackend;
 class RadioModel;
 class RadioService;
@@ -39,7 +41,7 @@ class RadioServices : public QObject {
   Q_OBJECT
 
  public:
-  explicit RadioServices(Application *app, QObject *parent = nullptr);
+  explicit RadioServices(SharedPtr<TaskManager> task_manager, SharedPtr<NetworkAccessManager> network, SharedPtr<Database> database, SharedPtr<AlbumCoverLoader> album_cover_loader, QObject *parent = nullptr);
 
   void AddService(RadioService *service);
   void RemoveService(RadioService *service);

@@ -32,7 +32,6 @@
 #include "osdpretty.h"
 
 #include "core/shared_ptr.h"
-#include "core/application.h"
 #include "core/logging.h"
 #include "core/settings.h"
 #ifdef Q_OS_MACOS
@@ -41,15 +40,13 @@
 #  include "core/qtsystemtrayicon.h"
 #endif
 #include "utilities/strutils.h"
-#include "covermanager/currentalbumcoverloader.h"
 
 using namespace Qt::Literals::StringLiterals;
 
 const char *OSDBase::kSettingsGroup = "OSD";
 
-OSDBase::OSDBase(SharedPtr<SystemTrayIcon> tray_icon, Application *app, QObject *parent)
+OSDBase::OSDBase(SharedPtr<SystemTrayIcon> tray_icon, QObject *parent)
     : QObject(parent),
-      app_(app),
       tray_icon_(tray_icon),
       pretty_popup_(new OSDPretty(OSDPretty::Mode::Popup)),
       app_name_(QCoreApplication::applicationName()),
@@ -64,8 +61,6 @@ OSDBase::OSDBase(SharedPtr<SystemTrayIcon> tray_icon, Application *app, QObject 
       force_show_next_(false),
       ignore_next_stopped_(false),
       playing_(false) {
-
-  QObject::connect(&*app_->current_albumcover_loader(), &CurrentAlbumCoverLoader::ThumbnailLoaded, this, &OSDBase::AlbumCoverLoaded);
 
   app_name_[0] = app_name_[0].toUpper();
 

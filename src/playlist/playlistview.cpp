@@ -59,11 +59,10 @@
 #include <QtEvents>
 #include <QSettings>
 
-#include "core/application.h"
-#include "core/player.h"
 #include "core/qt_blurimage.h"
 #include "core/song.h"
 #include "core/settings.h"
+#include "player/player.h"
 #include "playlistmanager.h"
 #include "playlist.h"
 #include "playlistdelegates.h"
@@ -92,7 +91,6 @@ constexpr int kDropIndicatorGradientWidth = 5;
 
 PlaylistView::PlaylistView(QWidget *parent)
     : QTreeView(parent),
-      app_(nullptr),
       style_(new PlaylistProxyStyle(QApplication::style()->name())),
       playlist_(nullptr),
       header_(new PlaylistHeader(Qt::Horizontal, this, this)),
@@ -187,18 +185,27 @@ PlaylistView::~PlaylistView() {
   style_->deleteLater();
 }
 
-void PlaylistView::Init(Application *app) {
+void PlaylistView::Init(SharedPtr<Player> player,
+                        SharedPtr<PlaylistManager> playlist_manager,
+                        SharedPtr<CollectionBackend> collection_backend,
+#ifdef HAVE_MOODBAR
+                        SharedPtr<MoodbarLoader> moodbar_loader,
+#endif
+                        SharedPtr<CurrentAlbumCoverLoader> current_albumcover_loader) {
 
-  Q_ASSERT(app);
-  app_ = app;
+  player_ = player;
+  playlist_manager_ = playlist_manager;
+  collection_backend_ = collection_backend;
+  current_albumcover_loader_ = current_albumcover_loader;
+  moodbar_loader_ = moodbar_loader;
 
   SetItemDelegates();
 
-  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, this, &PlaylistView::SongChanged);
-  QObject::connect(&*app_->current_albumcover_loader(), &CurrentAlbumCoverLoader::AlbumCoverLoaded, this, &PlaylistView::AlbumCoverLoaded);
-  QObject::connect(&*app_->player(), &Player::Playing, this, &PlaylistView::StartGlowing);
-  QObject::connect(&*app_->player(), &Player::Paused, this, &PlaylistView::StopGlowing);
-  QObject::connect(&*app_->player(), &Player::Stopped, this, &PlaylistView::Stopped);
+  QObject::connect(&*playlist_manager, &PlaylistManager::CurrentSongChanged, this, &PlaylistView::SongChanged);
+  QObject::connect(&*current_albumcover_loader_, &CurrentAlbumCoverLoader::AlbumCoverLoaded, this, &PlaylistView::AlbumCoverLoaded);
+  QObject::connect(&*player, &Player::Playing, this, &PlaylistView::StartGlowing);
+  QObject::connect(&*player, &Player::Paused, this, &PlaylistView::StopGlowing);
+  QObject::connect(&*player, &Player::Stopped, this, &PlaylistView::Stopped);
 
 }
 
@@ -207,13 +214,13 @@ void PlaylistView::SetItemDelegates() {
   setItemDelegate(new PlaylistDelegateBase(this));
 
   setItemDelegateForColumn(static_cast<int>(Playlist::Column::Title), new TextItemDelegate(this));
-  setItemDelegateForColumn(static_cast<int>(Playlist::Column::Album), new TagCompletionItemDelegate(this, app_->collection_backend(), Playlist::Column::Album));
-  setItemDelegateForColumn(static_cast<int>(Playlist::Column::Artist), new TagCompletionItemDelegate(this, app_->collection_backend(), Playlist::Column::Artist));
-  setItemDelegateForColumn(static_cast<int>(Playlist::Column::AlbumArtist), new TagCompletionItemDelegate(this, app_->collection_backend(), Playlist::Column::AlbumArtist));
-  setItemDelegateForColumn(static_cast<int>(Playlist::Column::Genre), new TagCompletionItemDelegate(this, app_->collection_backend(), Playlist::Column::Genre));
-  setItemDelegateForColumn(static_cast<int>(Playlist::Column::Composer), new TagCompletionItemDelegate(this, app_->collection_backend(), Playlist::Column::Composer));
-  setItemDelegateForColumn(static_cast<int>(Playlist::Column::Performer), new TagCompletionItemDelegate(this, app_->collection_backend(), Playlist::Column::Performer));
-  setItemDelegateForColumn(static_cast<int>(Playlist::Column::Grouping), new TagCompletionItemDelegate(this, app_->collection_backend(), Playlist::Column::Grouping));
+  setItemDelegateForColumn(static_cast<int>(Playlist::Column::Album), new TagCompletionItemDelegate(this, collection_backend_, Playlist::Column::Album));
+  setItemDelegateForColumn(static_cast<int>(Playlist::Column::Artist), new TagCompletionItemDelegate(this, collection_backend_, Playlist::Column::Artist));
+  setItemDelegateForColumn(static_cast<int>(Playlist::Column::AlbumArtist), new TagCompletionItemDelegate(this, collection_backend_, Playlist::Column::AlbumArtist));
+  setItemDelegateForColumn(static_cast<int>(Playlist::Column::Genre), new TagCompletionItemDelegate(this, collection_backend_, Playlist::Column::Genre));
+  setItemDelegateForColumn(static_cast<int>(Playlist::Column::Composer), new TagCompletionItemDelegate(this, collection_backend_, Playlist::Column::Composer));
+  setItemDelegateForColumn(static_cast<int>(Playlist::Column::Performer), new TagCompletionItemDelegate(this, collection_backend_, Playlist::Column::Performer));
+  setItemDelegateForColumn(static_cast<int>(Playlist::Column::Grouping), new TagCompletionItemDelegate(this, collection_backend_, Playlist::Column::Grouping));
   setItemDelegateForColumn(static_cast<int>(Playlist::Column::Length), new LengthItemDelegate(this));
   setItemDelegateForColumn(static_cast<int>(Playlist::Column::Filesize), new SizeItemDelegate(this));
   setItemDelegateForColumn(static_cast<int>(Playlist::Column::Filetype), new FileTypeItemDelegate(this));
@@ -230,7 +237,7 @@ void PlaylistView::SetItemDelegates() {
   setItemDelegateForColumn(static_cast<int>(Playlist::Column::Source), new SongSourceDelegate(this));
 
 #ifdef HAVE_MOODBAR
-  setItemDelegateForColumn(static_cast<int>(Playlist::Column::Mood), new MoodbarItemDelegate(app_, this, this));
+  setItemDelegateForColumn(static_cast<int>(Playlist::Column::Mood), new MoodbarItemDelegate(moodbar_loader_, this, this));
 #endif
 
   rating_delegate_ = new RatingItemDelegate(this);
@@ -851,10 +858,10 @@ void PlaylistView::mousePressEvent(QMouseEvent *event) {
   if (idx.isValid()) {
     switch (event->button()) {
       case Qt::XButton1:
-        app_->player()->Previous();
+        player_->Previous();
         break;
       case Qt::XButton2:
-        app_->player()->Next();
+        player_->Next();
         break;
       case Qt::LeftButton:{
         if (idx.data(Playlist::Role_CanSetRating).toBool() && !rating_locked_) {

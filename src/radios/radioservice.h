@@ -36,14 +36,14 @@
 
 class QNetworkReply;
 
-class Application;
+class TaskManager;
 class NetworkAccessManager;
 
 class RadioService : public QObject {
   Q_OBJECT
 
  public:
-  explicit RadioService(const Song::Source source, const QString &name, const QIcon &icon, Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
+  explicit RadioService(const Song::Source source, const QString &name, const QIcon &icon, SharedPtr<TaskManager> task_manager, SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
 
   Song::Source source() const { return source_; }
   QString name() const { return name_; }
@@ -66,7 +66,7 @@ class RadioService : public QObject {
   void Error(const QString &error, const QVariant &debug = QVariant());
 
  protected:
-  Application *app_;
+  SharedPtr<TaskManager> task_manager_;
   SharedPtr<NetworkAccessManager> network_;
   Song::Source source_;
   QString name_;

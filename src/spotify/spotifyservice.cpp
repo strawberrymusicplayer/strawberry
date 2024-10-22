@@ -45,15 +45,14 @@
 #include <QSettings>
 #include <QMessageBox>
 
-#include "core/application.h"
-#include "core/player.h"
 #include "core/logging.h"
-#include "core/networkaccessmanager.h"
-#include "core/database.h"
 #include "core/song.h"
 #include "core/settings.h"
+#include "core/taskmanager.h"
+#include "core/database.h"
+#include "core/networkaccessmanager.h"
 #include "core/localredirectserver.h"
-#include "utilities/timeconstants.h"
+#include "constants/timeconstants.h"
 #include "utilities/randutils.h"
 #include "streaming/streamingsearchview.h"
 #include "collection/collectionbackend.h"
@@ -62,7 +61,6 @@
 #include "spotifybaserequest.h"
 #include "spotifyrequest.h"
 #include "spotifyfavoriterequest.h"
-#include "settings/settingsdialog.h"
 #include "settings/spotifysettingspage.h"
 
 using namespace Qt::Literals::StringLiterals;
@@ -87,10 +85,13 @@ constexpr char kSongsTable[] = "spotify_songs";
 using std::make_shared;
 using namespace std::chrono_literals;
 
-SpotifyService::SpotifyService(Application *app, QObject *parent)
-    : StreamingService(Song::Source::Spotify, u"Spotify"_s, u"spotify"_s, QLatin1String(SpotifySettingsPage::kSettingsGroup), SettingsDialog::Page::Spotify, app, parent),
-      app_(app),
-      network_(new NetworkAccessManager(this)),
+SpotifyService::SpotifyService(SharedPtr<TaskManager> task_manager,
+                               SharedPtr<Database> database,
+                               SharedPtr<NetworkAccessManager> network,
+                               SharedPtr<AlbumCoverLoader> album_cover_loader,
+                               QObject *parent)
+    : StreamingService(Song::Source::Spotify, u"Spotify"_s, u"spotify"_s, QLatin1String(SpotifySettingsPage::kSettingsGroup), parent),
+      network_(network),
       artists_collection_backend_(nullptr),
       albums_collection_backend_(nullptr),
       songs_collection_backend_(nullptr),
@@ -117,21 +118,21 @@ SpotifyService::SpotifyService(Application *app, QObject *parent)
   // Backends
 
   artists_collection_backend_ = make_shared<CollectionBackend>();
-  artists_collection_backend_->moveToThread(app_->database()->thread());
-  artists_collection_backend_->Init(app_->database(), app->task_manager(), Song::Source::Spotify, QLatin1String(kArtistsSongsTable));
+  artists_collection_backend_->moveToThread(database->thread());
+  artists_collection_backend_->Init(database, task_manager, Song::Source::Spotify, QLatin1String(kArtistsSongsTable));
 
   albums_collection_backend_ = make_shared<CollectionBackend>();
-  albums_collection_backend_->moveToThread(app_->database()->thread());
-  albums_collection_backend_->Init(app_->database(), app->task_manager(), Song::Source::Spotify, QLatin1String(kAlbumsSongsTable));
+  albums_collection_backend_->moveToThread(database->thread());
+  albums_collection_backend_->Init(database, task_manager, Song::Source::Spotify, QLatin1String(kAlbumsSongsTable));
 
   songs_collection_backend_ = make_shared<CollectionBackend>();
-  songs_collection_backend_->moveToThread(app_->database()->thread());
-  songs_collection_backend_->Init(app_->database(), app->task_manager(), Song::Source::Spotify, QLatin1String(kSongsTable));
+  songs_collection_backend_->moveToThread(database->thread());
+  songs_collection_backend_->Init(database, task_manager, Song::Source::Spotify, QLatin1String(kSongsTable));
 
   // Models
-  artists_collection_model_ = new CollectionModel(artists_collection_backend_, app_, this);
-  albums_collection_model_ = new CollectionModel(albums_collection_backend_, app_, this);
-  songs_collection_model_ = new CollectionModel(songs_collection_backend_, app_, this);
+  artists_collection_model_ = new CollectionModel(artists_collection_backend_, album_cover_loader, this);
+  albums_collection_model_ = new CollectionModel(albums_collection_backend_, album_cover_loader, this);
+  songs_collection_model_ = new CollectionModel(songs_collection_backend_, album_cover_loader, this);
 
   timer_refresh_login_->setSingleShot(true);
   QObject::connect(timer_refresh_login_, &QTimer::timeout, this, &SpotifyService::RequestNewAccessToken);
@@ -198,10 +199,6 @@ void SpotifyService::ExitReceived() {
   wait_for_exit_.removeAll(obj);
   if (wait_for_exit_.isEmpty()) Q_EMIT ExitFinished();
 
-}
-
-void SpotifyService::ShowConfig() {
-  app_->OpenSettingsDialogAtPage(SettingsDialog::Page::Spotify);
 }
 
 void SpotifyService::LoadSession() {
@@ -522,7 +519,7 @@ void SpotifyService::GetArtists() {
   }
 
   ResetArtistsRequest();
-  artists_request_.reset(new SpotifyRequest(this, app_, network_, SpotifyBaseRequest::Type::FavouriteArtists, this), [](SpotifyRequest *request) { request->deleteLater(); });
+  artists_request_.reset(new SpotifyRequest(this, network_, SpotifyBaseRequest::Type::FavouriteArtists, this), [](SpotifyRequest *request) { request->deleteLater(); });
   QObject::connect(&*artists_request_, &SpotifyRequest::Results, this, &SpotifyService::ArtistsResultsReceived);
   QObject::connect(&*artists_request_, &SpotifyRequest::UpdateStatus, this, &SpotifyService::ArtistsUpdateStatusReceived);
   QObject::connect(&*artists_request_, &SpotifyRequest::ProgressSetMaximum, this, &SpotifyService::ArtistsProgressSetMaximumReceived);
@@ -574,7 +571,7 @@ void SpotifyService::GetAlbums() {
   }
 
   ResetAlbumsRequest();
-  albums_request_.reset(new SpotifyRequest(this, app_, network_, SpotifyBaseRequest::Type::FavouriteAlbums, this), [](SpotifyRequest *request) { request->deleteLater(); });
+  albums_request_.reset(new SpotifyRequest(this, network_, SpotifyBaseRequest::Type::FavouriteAlbums, this), [](SpotifyRequest *request) { request->deleteLater(); });
   QObject::connect(&*albums_request_, &SpotifyRequest::Results, this, &SpotifyService::AlbumsResultsReceived);
   QObject::connect(&*albums_request_, &SpotifyRequest::UpdateStatus, this, &SpotifyService::AlbumsUpdateStatusReceived);
   QObject::connect(&*albums_request_, &SpotifyRequest::ProgressSetMaximum, this, &SpotifyService::AlbumsProgressSetMaximumReceived);
@@ -626,7 +623,7 @@ void SpotifyService::GetSongs() {
   }
 
   ResetSongsRequest();
-  songs_request_.reset(new SpotifyRequest(this, app_, network_, SpotifyBaseRequest::Type::FavouriteSongs, this), [](SpotifyRequest *request) { request->deleteLater(); });
+  songs_request_.reset(new SpotifyRequest(this, network_, SpotifyBaseRequest::Type::FavouriteSongs, this), [](SpotifyRequest *request) { request->deleteLater(); });
   QObject::connect(&*songs_request_, &SpotifyRequest::Results, this, &SpotifyService::SongsResultsReceived);
   QObject::connect(&*songs_request_, &SpotifyRequest::UpdateStatus, this, &SpotifyService::SongsUpdateStatusReceived);
   QObject::connect(&*songs_request_, &SpotifyRequest::ProgressSetMaximum, this, &SpotifyService::SongsProgressSetMaximumReceived);
@@ -714,7 +711,7 @@ void SpotifyService::SendSearch() {
       return;
   }
 
-  search_request_.reset(new SpotifyRequest(this, app_, network_, type, this), [](SpotifyRequest *request) { request->deleteLater(); });
+  search_request_.reset(new SpotifyRequest(this, network_, type, this), [](SpotifyRequest *request) { request->deleteLater(); });
 
   QObject::connect(search_request_.get(), &SpotifyRequest::Results, this, &SpotifyService::SearchResultsReceived);
   QObject::connect(search_request_.get(), &SpotifyRequest::UpdateStatus, this, &SpotifyService::SearchUpdateStatus);

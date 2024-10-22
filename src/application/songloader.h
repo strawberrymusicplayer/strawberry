@@ -38,10 +38,11 @@
 #include <QStringList>
 #include <QUrl>
 
-#include "shared_ptr.h"
-#include "song.h"
+#include "core/shared_ptr.h"
+#include "core/song.h"
 
 class QTimer;
+class UrlHandlers;
 class Player;
 class CollectionBackendInterface;
 class PlaylistParser;
@@ -56,7 +57,7 @@ class SongLoader : public QObject {
   Q_OBJECT
 
  public:
-  explicit SongLoader(SharedPtr<CollectionBackendInterface> collection_backend, const SharedPtr<Player> player, QObject *parent = nullptr);
+  explicit SongLoader(const SharedPtr<UrlHandlers> url_handlers, const SharedPtr<Player> player, const SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent = nullptr);
   ~SongLoader() override;
 
   enum class Result {
@@ -137,8 +138,9 @@ class SongLoader : public QObject {
   QUrl url_;
   SongList songs_;
 
+  const SharedPtr<UrlHandlers> url_handlers_;
   const SharedPtr<Player> player_;
-  SharedPtr<CollectionBackendInterface> collection_backend_;
+  const SharedPtr<CollectionBackendInterface> collection_backend_;
   QTimer *timeout_timer_;
   PlaylistParser *playlist_parser_;
   CueParser *cue_parser_;

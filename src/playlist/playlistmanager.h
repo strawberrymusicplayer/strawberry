@@ -41,8 +41,9 @@
 
 class QModelIndex;
 
-class Application;
+class Player;
 class CollectionBackend;
+class CurrentAlbumCoverLoader;
 class PlaylistBackend;
 class PlaylistContainer;
 class PlaylistParser;
@@ -52,7 +53,7 @@ class PlaylistManagerInterface : public QObject {
   Q_OBJECT
 
  public:
-  explicit PlaylistManagerInterface(Application *app, QObject *parent) : QObject(parent) { Q_UNUSED(app); }
+  explicit PlaylistManagerInterface(SharedPtr<Player> player, QObject *parent) : QObject(parent) { Q_UNUSED(player); }
 
   virtual int current_id() const = 0;
   virtual int active_id() const = 0;
@@ -145,7 +146,7 @@ class PlaylistManager : public PlaylistManagerInterface {
   Q_OBJECT
 
  public:
-  explicit PlaylistManager(Application *app, QObject *parent = nullptr);
+  explicit PlaylistManager(SharedPtr<Player> player, SharedPtr<UrlHandlers> url_handlers, QObject *parent = nullptr);
   ~PlaylistManager() override;
 
   int current_id() const override { return current_; }
@@ -176,7 +177,13 @@ class PlaylistManager : public PlaylistManagerInterface {
   QString GetPlaylistName(const int index) const override { return playlists_[index].name; }
   bool IsPlaylistFavorite(const int index) const { return playlists_[index].p->is_favorite(); }
 
-  void Init(SharedPtr<CollectionBackend> collection_backend, SharedPtr<PlaylistBackend> playlist_backend, PlaylistSequence *sequence, PlaylistContainer *playlist_container);
+  void Init(SharedPtr<TaskManager> task_manager,
+            SharedPtr<UrlHandlers> url_handlers,
+            SharedPtr<CollectionBackend> collection_backend,
+            SharedPtr<PlaylistBackend> playlist_backend,
+            SharedPtr<CurrentAlbumCoverLoader> current_albumcover_loader,
+            PlaylistSequence *sequence,
+            PlaylistContainer *playlist_container);
 
   SharedPtr<CollectionBackend> collection_backend() const override { return collection_backend_; }
   SharedPtr<PlaylistBackend> playlist_backend() const override { return playlist_backend_; }
@@ -253,9 +260,12 @@ class PlaylistManager : public PlaylistManagerInterface {
     int scroll_position;
   };
 
-  Application *app_;
+  SharedPtr<TaskManager> task_manager_;
+  SharedPtr<Player> player_;
+  SharedPtr<UrlHandlers> url_handlers_;
   SharedPtr<PlaylistBackend> playlist_backend_;
   SharedPtr<CollectionBackend> collection_backend_;
+  SharedPtr<CurrentAlbumCoverLoader> current_albumcover_loader_;
   PlaylistSequence *sequence_;
   PlaylistParser *parser_;
   PlaylistContainer *playlist_container_;

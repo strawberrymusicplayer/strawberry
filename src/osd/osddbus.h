@@ -39,14 +39,13 @@
 class OrgFreedesktopNotificationsInterface;
 class QDBusPendingCallWatcher;
 
-class Application;
 class SystemTrayIcon;
 
 class OSDDBus : public OSDBase {
   Q_OBJECT
 
  public:
-  explicit OSDDBus(SharedPtr<SystemTrayIcon> tray_icon, Application *app, QObject *parent = nullptr);
+  explicit OSDDBus(SharedPtr<SystemTrayIcon> tray_icon, QObject *parent = nullptr);
   ~OSDDBus() override;
 
   static const char *kSettingsGroup;

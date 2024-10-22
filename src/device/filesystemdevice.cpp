@@ -27,21 +27,25 @@
 
 #include "core/logging.h"
 #include "core/shared_ptr.h"
-#include "core/application.h"
 #include "core/song.h"
+#include "core/taskmanager.h"
+#include "core/database.h"
 
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
 #include "collection/collectionwatcher.h"
+
+#include "covermanager/albumcoverloader.h"
+
 #include "connecteddevice.h"
 #include "devicemanager.h"
 #include "filesystemdevice.h"
 
 class DeviceLister;
 
-FilesystemDevice::FilesystemDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, SharedPtr<DeviceManager> manager, Application *app, const int database_id, const bool first_time, QObject *parent)
+FilesystemDevice::FilesystemDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, SharedPtr<DeviceManager> manager, SharedPtr<TaskManager> task_manager, SharedPtr<Database> database, SharedPtr<AlbumCoverLoader> album_cover_loader, const int database_id, const bool first_time, QObject *parent)
     : FilesystemMusicStorage(Song::Source::Device, url.toLocalFile()),
-      ConnectedDevice(url, lister, unique_id, manager, app, database_id, first_time, parent),
+      ConnectedDevice(url, lister, unique_id, manager, task_manager, database, album_cover_loader, database_id, first_time, parent),
       watcher_(new CollectionWatcher(Song::Source::Device)),
       watcher_thread_(new QThread(this)) {
 
@@ -51,7 +55,7 @@ FilesystemDevice::FilesystemDevice(const QUrl &url, DeviceLister *lister, const 
 
   watcher_->set_device_name(manager->DeviceNameByID(unique_id));
   watcher_->set_backend(backend_);
-  watcher_->set_task_manager(app_->task_manager());
+  watcher_->set_task_manager(task_manager);
 
   QObject::connect(&*backend_, &CollectionBackend::DirectoryAdded, watcher_, &CollectionWatcher::AddDirectory);
   QObject::connect(&*backend_, &CollectionBackend::DirectoryDeleted, watcher_, &CollectionWatcher::RemoveDirectory);

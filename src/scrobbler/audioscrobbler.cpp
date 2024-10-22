@@ -26,7 +26,6 @@
 #include <QString>
 
 #include "core/shared_ptr.h"
-#include "core/application.h"
 #include "core/logging.h"
 #include "core/song.h"
 #include "settings/settingsdialog.h"
@@ -37,10 +36,9 @@
 
 using std::make_shared;
 
-AudioScrobbler::AudioScrobbler(Application *app, QObject *parent)
+AudioScrobbler::AudioScrobbler(QObject *parent)
     : QObject(parent),
-      app_(app),
-      settings_(make_shared<ScrobblerSettings>(app)) {
+      settings_(make_shared<ScrobblerSettings>()) {
 
   ReloadSettings();
 
@@ -120,10 +118,6 @@ void AudioScrobbler::ToggleOffline() {
 
   if (settings_->enabled() && !settings_->offline()) { Submit(); }
 
-}
-
-void AudioScrobbler::ShowConfig() {
-  app_->OpenSettingsDialogAtPage(SettingsDialog::Page::Scrobbler);
 }
 
 void AudioScrobbler::UpdateNowPlaying(const Song &song) {

@@ -54,11 +54,13 @@ class QMimeData;
 class QUndoStack;
 class QTimer;
 
+class TaskManager;
+class UrlHandlers;
+class Player;
 class CollectionBackend;
 class PlaylistBackend;
 class PlaylistFilter;
 class Queue;
-class TaskManager;
 class RadioService;
 
 namespace PlaylistUndoCommands {
@@ -83,7 +85,16 @@ class Playlist : public QAbstractListModel {
   friend class PlaylistUndoCommands::ReOrderItems;
 
  public:
-  explicit Playlist(SharedPtr<PlaylistBackend> playlist_backend, SharedPtr<TaskManager> task_manager, SharedPtr<CollectionBackend> collection_backend, const int id, const QString &special_type = QString(), const bool favorite = false, QObject *parent = nullptr);
+  explicit Playlist(SharedPtr<TaskManager> task_manager,
+                    SharedPtr<UrlHandlers> url_handlers,
+                    SharedPtr<Player> player,
+                    SharedPtr<PlaylistBackend> playlist_backend,
+                    SharedPtr<CollectionBackend> collection_backend,
+                    const int id,
+                    const QString &special_type = QString(),
+                    const bool favorite = false,
+                    QObject *parent = nullptr);
+
   ~Playlist() override;
 
   void SkipTracks(const QModelIndexList &source_indexes);
@@ -364,9 +375,12 @@ class Playlist : public QAbstractListModel {
 
   QList<QModelIndex> temp_dequeue_change_indexes_;
 
-  SharedPtr<PlaylistBackend> backend_;
   SharedPtr<TaskManager> task_manager_;
+  SharedPtr<UrlHandlers> url_handlers_;
+  SharedPtr<Player> player_;
+  SharedPtr<PlaylistBackend> playlist_backend_;
   SharedPtr<CollectionBackend> collection_backend_;
+
   int id_;
   QString ui_path_;
   bool favorite_;

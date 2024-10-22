@@ -37,14 +37,13 @@
 #include "tidal/tidalservice.h"
 
 class QNetworkReply;
-class Application;
 class NetworkAccessManager;
 
 class TidalCoverProvider : public JsonCoverProvider {
   Q_OBJECT
 
  public:
-  explicit TidalCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
+  explicit TidalCoverProvider(TidalServicePtr service, SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~TidalCoverProvider() override;
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;

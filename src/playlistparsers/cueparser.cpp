@@ -34,7 +34,7 @@
 
 #include "core/shared_ptr.h"
 #include "core/logging.h"
-#include "utilities/timeconstants.h"
+#include "constants/timeconstants.h"
 #include "utilities/textencodingutils.h"
 #include "settings/playlistsettingspage.h"
 #include "parserbase.h"

@@ -23,16 +23,14 @@
 #include <QString>
 #include <QSettings>
 
-#include "core/application.h"
 #include "core/song.h"
 #include "core/settings.h"
 #include "settings/settingsdialog.h"
 #include "settings/scrobblersettingspage.h"
 #include "scrobblersettings.h"
 
-ScrobblerSettings::ScrobblerSettings(Application *app, QObject *parent)
+ScrobblerSettings::ScrobblerSettings(QObject *parent)
     : QObject(parent),
-      app_(app),
       enabled_(false),
       offline_(false),
       scrobble_button_(false),
@@ -114,10 +112,6 @@ void ScrobblerSettings::ToggleOffline() {
 
   if (offline_ != offline_old_) { Q_EMIT ScrobblingOfflineChanged(offline_); }
 
-}
-
-void ScrobblerSettings::ShowConfig() {
-  app_->OpenSettingsDialogAtPage(SettingsDialog::Page::Scrobbler);
 }
 
 void ScrobblerSettings::ErrorReceived(const QString &error) {

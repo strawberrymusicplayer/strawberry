@@ -38,7 +38,6 @@
 #include "settingsdialog.h"
 #include "spotifysettingspage.h"
 #include "ui_spotifysettingspage.h"
-#include "core/application.h"
 #include "core/iconloader.h"
 #include "core/settings.h"
 #include "streaming/streamingservices.h"
@@ -52,7 +51,7 @@ const char *SpotifySettingsPage::kSettingsGroup = "Spotify";
 SpotifySettingsPage::SpotifySettingsPage(SettingsDialog *dialog, QWidget *parent)
     : SettingsPage(dialog, parent),
       ui_(new Ui::SpotifySettingsPage),
-      service_(dialog->app()->streaming_services()->Service<SpotifyService>()) {
+      service_(dialog->streaming_services()->Service<SpotifyService>()) {
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load(u"spotify"_s));

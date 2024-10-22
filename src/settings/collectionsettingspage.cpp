@@ -43,11 +43,9 @@
 #include <QSettings>
 #include <QMessageBox>
 
-#include "core/application.h"
 #include "core/iconloader.h"
 #include "core/settings.h"
 #include "utilities/strutils.h"
-#include "utilities/timeutils.h"
 #include "collection/collection.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
@@ -74,9 +72,9 @@ const int CollectionSettingsPage::kSettingsDiskCacheSizeDefault = 360;
 CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog, QWidget *parent)
     : SettingsPage(dialog, parent),
       ui_(new Ui_CollectionSettingsPage),
-      collection_backend_(dialog->app()->collection_backend()),
+      collection_backend_(dialog->collection()->backend()),
       collectionsettings_directory_model_(new CollectionSettingsDirectoryModel(this)),
-      collection_directory_model_(dialog->collection_directory_model()),
+      collection_directory_model_(dialog->collection()->model()->directory_model()),
       initialized_model_(false) {
 
   ui_->setupUi(this);
@@ -105,7 +103,7 @@ CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog, QWidget *
 #else
   QObject::connect(ui_->checkbox_disk_cache, &QCheckBox::stateChanged, this, &CollectionSettingsPage::DiskCacheEnable);
 #endif
-  QObject::connect(ui_->button_clear_disk_cache, &QPushButton::clicked, dialog->app(), &Application::ClearPixmapDiskCache);
+
   QObject::connect(ui_->button_clear_disk_cache, &QPushButton::clicked, this, &CollectionSettingsPage::ClearPixmapDiskCache);
 
   QObject::connect(ui_->combobox_cache_size, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &CollectionSettingsPage::CacheSizeUnitChanged);
@@ -179,7 +177,7 @@ void CollectionSettingsPage::Load() {
 
   DiskCacheEnable(ui_->checkbox_disk_cache->checkState());
 
-  ui_->disk_cache_in_use->setText((dialog()->app()->collection_model()->icon_cache_disk_size() == 0 ? u"empty"_s : Utilities::PrettySize(dialog()->app()->collection_model()->icon_cache_disk_size())));
+  UpdateIconDiskCacheSize();
 
   Init(ui_->layout_collectionsettingspage->parentWidget());
   if (!Settings().childGroups().contains(QLatin1String(kSettingsGroup))) set_changed();
@@ -297,7 +295,9 @@ void CollectionSettingsPage::DiskCacheEnable(const int state) {
 
 void CollectionSettingsPage::ClearPixmapDiskCache() {
 
-  ui_->disk_cache_in_use->setText(u"empty"_s);
+  dialog()->collection()->model()->ClearIconDiskCache();
+
+  UpdateIconDiskCacheSize();
 
 }
 
@@ -331,6 +331,12 @@ void CollectionSettingsPage::DiskCacheSizeUnitChanged(int index) {
 
 }
 
+void CollectionSettingsPage::UpdateIconDiskCacheSize() {
+
+  ui_->disk_cache_in_use->setText(dialog()->collection()->model()->icon_disk_cache_size() == 0 ? u"empty"_s : Utilities::PrettySize(dialog()->collection()->model()->icon_disk_cache_size()));
+
+}
+
 void CollectionSettingsPage::WriteAllSongsStatisticsToFiles() {
 
   QMessageBox confirmation_dialog(QMessageBox::Question, tr("Write all playcounts and ratings to files"), tr("Are you sure you want to write song playcounts and ratings to file for all songs in your collection?"), QMessageBox::Yes | QMessageBox::Cancel);
@@ -338,6 +344,6 @@ void CollectionSettingsPage::WriteAllSongsStatisticsToFiles() {
     return;
   }
 
-  dialog()->app()->collection()->SyncPlaycountAndRatingToFilesAsync();
+  dialog()->collection()->SyncPlaycountAndRatingToFilesAsync();
 
 }

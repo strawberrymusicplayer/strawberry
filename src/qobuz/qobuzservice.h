@@ -44,8 +44,11 @@
 
 class QTimer;
 class QNetworkReply;
-class Application;
+class TaskManager;
+class Database;
+class UrlHandlers;
 class NetworkAccessManager;
+class AlbumCoverLoader;
 class QobuzUrlHandler;
 class QobuzRequest;
 class QobuzFavoriteRequest;
@@ -58,7 +61,13 @@ class QobuzService : public StreamingService {
   Q_OBJECT
 
  public:
-  explicit QobuzService(Application *app, QObject *parent = nullptr);
+  explicit QobuzService(SharedPtr<TaskManager> task_manager,
+                        SharedPtr<Database> database,
+                        SharedPtr<NetworkAccessManager> network,
+                        SharedPtr<UrlHandlers> url_handlers,
+                        SharedPtr<AlbumCoverLoader> album_cover_loader,
+                        QObject *parent = nullptr);
+
   ~QobuzService();
 
   static const Song::Source kSource;
@@ -74,7 +83,6 @@ class QobuzService : public StreamingService {
 
   int max_login_attempts() const { return kLoginAttempts; }
 
-  Application *app() const { return app_; }
   QString app_id() const { return app_id_; }
   QString app_secret() const { return app_secret_; }
   QString username() const { return username_; }
@@ -110,7 +118,6 @@ class QobuzService : public StreamingService {
   CollectionFilter *songs_collection_filter_model() override { return songs_collection_model_->filter(); }
 
  public Q_SLOTS:
-  void ShowConfig() override;
   void TryLogin();
   void SendLogin();
   void SendLoginWithCredentials(const QString &app_id, const QString &username, const QString &password);
@@ -148,7 +155,6 @@ class QobuzService : public StreamingService {
   void SendSearch();
   void LoginError(const QString &error = QString(), const QVariant &debug = QVariant());
 
-  Application *app_;
   SharedPtr<NetworkAccessManager> network_;
   QobuzUrlHandler *url_handler_;
 

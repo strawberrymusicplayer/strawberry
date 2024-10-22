@@ -30,18 +30,19 @@
 #include <QImage>
 
 #include "core/scoped_ptr.h"
+#include "core/shared_ptr.h"
 #include "core/temporaryfile.h"
 #include "core/song.h"
 #include "albumcoverloaderoptions.h"
 #include "albumcoverloaderresult.h"
 
-class Application;
+class AlbumCoverLoader;
 
 class CurrentAlbumCoverLoader : public QObject {
   Q_OBJECT
 
  public:
-  explicit CurrentAlbumCoverLoader(Application *app, QObject *parent = nullptr);
+  explicit CurrentAlbumCoverLoader(SharedPtr<AlbumCoverLoader> albumcover_loader, QObject *parent = nullptr);
   ~CurrentAlbumCoverLoader() override;
 
   const AlbumCoverLoaderOptions &options() const { return options_; }
@@ -61,7 +62,7 @@ class CurrentAlbumCoverLoader : public QObject {
   void AlbumCoverReady(const quint64 id, AlbumCoverLoaderResult result);
 
  private:
-  Application *app_;
+  SharedPtr<AlbumCoverLoader> albumcover_loader_;
   AlbumCoverLoaderOptions options_;
 
   QString temp_file_pattern_;

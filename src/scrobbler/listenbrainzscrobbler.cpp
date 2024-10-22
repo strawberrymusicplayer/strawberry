@@ -47,7 +47,7 @@
 #include "core/logging.h"
 #include "core/settings.h"
 #include "core/localredirectserver.h"
-#include "utilities/timeconstants.h"
+#include "constants/timeconstants.h"
 #include "settings/scrobblersettingspage.h"
 
 #include "scrobblersettings.h"
@@ -632,7 +632,10 @@ void ListenBrainzScrobbler::Love() {
 
   if (!song_playing_.is_valid() || !song_playing_.is_metadata_good()) return;
 
-  if (!authenticated()) settings_->ShowConfig();
+  if (!authenticated()) {
+    Q_EMIT ShowConfig();
+    return;
+  }
 
   if (song_playing_.musicbrainz_recording_id().isEmpty()) {
     Error(tr("Missing MusicBrainz recording ID for %1 %2 %3").arg(song_playing_.artist(), song_playing_.album(), song_playing_.title()));

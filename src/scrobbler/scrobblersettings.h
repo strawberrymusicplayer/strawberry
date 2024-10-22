@@ -29,14 +29,13 @@
 
 #include "core/song.h"
 
-class Application;
 class Song;
 
 class ScrobblerSettings : public QObject {
   Q_OBJECT
 
  public:
-  explicit ScrobblerSettings(Application *app, QObject *parent = nullptr);
+  explicit ScrobblerSettings(QObject *parent = nullptr);
 
   void ReloadSettings();
 
@@ -49,8 +48,6 @@ class ScrobblerSettings : public QObject {
   bool show_error_dialog() const { return show_error_dialog_; }
   bool strip_remastered() const { return strip_remastered_; }
   QList<Song::Source> sources() const { return sources_; }
-
-  void ShowConfig();
 
  public Q_SLOTS:
   void ToggleScrobbling();
@@ -65,8 +62,6 @@ class ScrobblerSettings : public QObject {
   void LoveButtonVisibilityChanged(const bool value);
 
  private:
-  Application *app_;
-
   bool enabled_;
   bool offline_;
   bool scrobble_button_;

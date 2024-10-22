@@ -176,9 +176,11 @@ if(UNIX AND NOT APPLE)
 endif()
 pkg_check_modules(GLIB REQUIRED IMPORTED_TARGET glib-2.0)
 pkg_check_modules(GOBJECT REQUIRED IMPORTED_TARGET gobject-2.0)
-pkg_check_modules(GIO REQUIRED IMPORTED_TARGET gio-2.0)
-if(GIO_FOUND AND UNIX)
-  pkg_check_modules(GIO_UNIX IMPORTED_TARGET gio-unix-2.0)
+if(UNIX AND NOT APPLE)
+  pkg_check_modules(GIO REQUIRED IMPORTED_TARGET gio-2.0)
+  if(GIO_FOUND AND UNIX)
+    pkg_check_modules(GIO_UNIX IMPORTED_TARGET gio-unix-2.0)
+  endif()
 endif()
 pkg_check_modules(LIBCDIO IMPORTED_TARGET libcdio)
 pkg_check_modules(GSTREAMER REQUIRED IMPORTED_TARGET gstreamer-1.0)
@@ -327,12 +329,10 @@ optional_component(UDISKS2 ON "Devices: UDisks2 backend"
 
 optional_component(GIO ON "Devices: GIO device backend"
   DEPENDS "libgio" GIO_FOUND
-  DEPENDS "Unix or Windows" "NOT APPLE"
 )
 
 optional_component(GIO_UNIX ON "Devices: GIO device backend (Unix support)"
   DEPENDS "libgio-unix" GIO_UNIX_FOUND
-  DEPENDS "Unix or Windows" "NOT APPLE"
 )
 
 optional_component(AUDIOCD ON "Devices: Audio CD support"
@@ -404,14 +404,11 @@ endif()
 
 set(SOURCES
   src/core/logging.cpp
-  src/core/mainwindow.cpp
-  src/core/application.cpp
-  src/core/player.cpp
   src/core/commandlineoptions.cpp
   src/core/database.cpp
+  src/core/memorydatabase.cpp
   src/core/sqlquery.cpp
   src/core/sqlrow.cpp
-  src/core/metatypes.cpp
   src/core/deletefiles.cpp
   src/core/filesystemmusicstorage.cpp
   src/core/filesystemwatcherinterface.cpp
@@ -427,20 +424,29 @@ set(SOURCES
   src/core/settingsprovider.cpp
   src/core/signalchecker.cpp
   src/core/song.cpp
-  src/core/songloader.cpp
   src/core/stylehelper.cpp
   src/core/stylesheetloader.cpp
   src/core/taskmanager.cpp
   src/core/thread.cpp
+  src/core/urlhandlers.cpp
   src/core/urlhandler.cpp
   src/core/iconloader.cpp
   src/core/standarditemiconloader.cpp
   src/core/scopedtransaction.cpp
-  src/core/translations.cpp
+  src/translations/translations.cpp
   src/core/systemtrayicon.cpp
   src/core/localredirectserver.cpp
   src/core/mimedata.cpp
   src/core/temporaryfile.cpp
+
+  src/application/mainwindow.cpp
+  src/application/application.cpp
+  src/application/songloader.cpp
+  src/application/metatypes.cpp
+
+  src/player/playerinterface.cpp
+  src/player/player.cpp
+
   src/utilities/strutils.cpp
   src/utilities/envutils.cpp
   src/utilities/colorutils.cpp
@@ -749,14 +755,24 @@ set(SOURCES
   src/transcoder/transcoderoptionsaac.cpp
   src/transcoder/transcoderoptionsasf.cpp
   src/transcoder/transcoderoptionsmp3.cpp
+
+  src/device/connecteddevice.cpp
+  src/device/devicedatabasebackend.cpp
+  src/device/devicelister.cpp
+  src/device/devicemanager.cpp
+  src/device/devicestatefiltermodel.cpp
+  src/device/filesystemdevice.cpp
+  src/device/deviceviewcontainer.cpp
+  src/device/deviceview.cpp
+  src/device/deviceproperties.cpp
+  src/device/deviceinfo.cpp
+
 )
 
 set(HEADERS
   src/core/logging.h
-  src/core/mainwindow.h
-  src/core/application.h
-  src/core/player.h
   src/core/database.h
+  src/core/memorydatabase.h
   src/core/deletefiles.h
   src/core/filesystemwatcherinterface.h
   src/core/mergedproxymodel.h
@@ -766,14 +782,20 @@ set(HEADERS
   src/core/networktimeouts.h
   src/core/qtfslistener.h
   src/core/settings.h
-  src/core/songloader.h
   src/core/taskmanager.h
   src/core/thread.h
+  src/core/urlhandlers.h
   src/core/urlhandler.h
   src/core/standarditemiconloader.h
   src/core/mimedata.h
   src/core/stylesheetloader.h
   src/core/localredirectserver.h
+
+  src/application/mainwindow.h
+  src/application/application.h
+  src/application/songloader.h
+  src/player/playerinterface.h
+  src/player/player.h
 
   src/tagreader/tagreaderclient.h
   src/tagreader/tagreaderreply.h
@@ -1020,11 +1042,22 @@ set(HEADERS
   src/transcoder/transcoderoptionsaac.h
   src/transcoder/transcoderoptionsasf.h
   src/transcoder/transcoderoptionsmp3.h
+
+  src/device/connecteddevice.h
+  src/device/devicedatabasebackend.h
+  src/device/devicelister.h
+  src/device/devicemanager.h
+  src/device/devicestatefiltermodel.h
+  src/device/filesystemdevice.h
+  src/device/deviceviewcontainer.h
+  src/device/deviceview.h
+  src/device/deviceproperties.h
+
 )
 
 set(UI
 
-  src/core/mainwindow.ui
+  src/application/mainwindow.ui
 
   src/collection/groupbydialog.ui
   src/collection/collectionfilterwidget.ui
@@ -1106,6 +1139,10 @@ set(UI
   src/transcoder/transcoderoptionsspeex.ui
   src/transcoder/transcoderoptionsasf.ui
   src/transcoder/transcoderoptionsmp3.ui
+
+  src/device/deviceproperties.ui
+  src/device/deviceviewcontainer.ui
+
 )
 
 if(APPLE)
@@ -1233,33 +1270,6 @@ endif()
 if(HAVE_MATE_GLOBALSHORTCUTS)
   qt_add_dbus_interface(SOURCES src/globalshortcuts/org.mate.SettingsDaemon.MediaKeys.xml matesettingsdaemon)
 endif()
-
-optional_source(UNIX
-  SOURCES
-    src/device/connecteddevice.cpp
-    src/device/devicedatabasebackend.cpp
-    src/device/devicelister.cpp
-    src/device/devicemanager.cpp
-    src/device/devicestatefiltermodel.cpp
-    src/device/filesystemdevice.cpp
-    src/device/deviceviewcontainer.cpp
-    src/device/deviceview.cpp
-    src/device/deviceproperties.cpp
-    src/device/deviceinfo.cpp
-  HEADERS
-    src/device/connecteddevice.h
-    src/device/devicedatabasebackend.h
-    src/device/devicelister.h
-    src/device/devicemanager.h
-    src/device/devicestatefiltermodel.h
-    src/device/filesystemdevice.h
-    src/device/deviceviewcontainer.h
-    src/device/deviceview.h
-    src/device/deviceproperties.h
-  UI
-    src/device/deviceproperties.ui
-    src/device/deviceviewcontainer.ui
-)
 
 if(UNIX)
   optional_source(HAVE_GIO SOURCES src/device/giolister.cpp HEADERS src/device/giolister.h)

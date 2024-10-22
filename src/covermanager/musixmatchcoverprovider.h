@@ -39,7 +39,7 @@ class MusixmatchCoverProvider : public JsonCoverProvider, MusixmatchProvider {
   Q_OBJECT
 
  public:
-  explicit MusixmatchCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
+  explicit MusixmatchCoverProvider(SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~MusixmatchCoverProvider() override;
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;

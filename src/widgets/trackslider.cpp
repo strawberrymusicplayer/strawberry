@@ -31,7 +31,7 @@
 
 #include "core/settings.h"
 #include "utilities/timeutils.h"
-#include "utilities/timeconstants.h"
+#include "constants/timeconstants.h"
 #include "trackslider.h"
 #include "ui_trackslider.h"
 #include "clickablelabel.h"
@@ -86,12 +86,10 @@ TrackSlider::~TrackSlider() {
 
 }
 
-void TrackSlider::SetApplication(Application *app) {
+void TrackSlider::Init() {
 
 #ifdef HAVE_MOODBAR
-  if (!moodbar_style_) moodbar_style_ = new MoodbarProxyStyle(app, ui_->slider);
-#else
-  Q_UNUSED(app);
+  if (!moodbar_style_) moodbar_style_ = new MoodbarProxyStyle(ui_->slider);
 #endif
 
 }

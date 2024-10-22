@@ -46,13 +46,13 @@ class QTimeLine;
 class QWidget;
 class QEvent;
 
-class Application;
-
 class MoodbarProxyStyle : public QProxyStyle {
   Q_OBJECT
 
  public:
-  explicit MoodbarProxyStyle(Application *app, QSlider *slider, QObject *parent = nullptr);
+  explicit MoodbarProxyStyle(QSlider *slider, QObject *parent = nullptr);
+
+  void ReloadSettings();
 
   // QProxyStyle
   void drawComplexControl(ComplexControl control, const QStyleOptionComplex *option, QPainter *painter, const QWidget *widget) const override;
@@ -87,12 +87,13 @@ class MoodbarProxyStyle : public QProxyStyle {
   static QPixmap MoodbarPixmap(const ColorVector &colors, const QSize size, const QPalette &palette, const QStyleOptionSlider *opt);
 
  private Q_SLOTS:
-  void ReloadSettings();
   void FaderValueChanged(qreal value);
   void ChangeStyle(QAction *action);
 
+ Q_SIGNALS:
+  void SettingsChanged();
+
  private:
-  Application *app_;
   QSlider *slider_;
 
   bool enabled_;

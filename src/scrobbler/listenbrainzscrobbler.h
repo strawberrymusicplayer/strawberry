@@ -64,7 +64,6 @@ class ListenBrainzScrobbler : public ScrobblerService {
 
   void Authenticate();
   void Logout();
-  void ShowConfig();
   void Submit() override;
   void UpdateNowPlaying(const Song &song) override;
   void ClearPlaying() override;

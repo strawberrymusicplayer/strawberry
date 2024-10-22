@@ -44,11 +44,10 @@
 
 #include "core/logging.h"
 #include "core/shared_ptr.h"
-#include "core/application.h"
-#include "core/player.h"
 #include "core/database.h"
 #include "core/song.h"
 #include "core/settings.h"
+#include "core/urlhandlers.h"
 #include "utilities/randutils.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
@@ -56,7 +55,6 @@
 #include "subsonicurlhandler.h"
 #include "subsonicrequest.h"
 #include "subsonicscrobblerequest.h"
-#include "settings/settingsdialog.h"
 #include "settings/subsonicsettingspage.h"
 
 using namespace Qt::Literals::StringLiterals;
@@ -72,10 +70,13 @@ constexpr char kSongsTable[] = "subsonic_songs";
 constexpr int kMaxRedirects = 3;
 }  // namespace
 
-SubsonicService::SubsonicService(Application *app, QObject *parent)
-    : StreamingService(Song::Source::Subsonic, u"Subsonic"_s, u"subsonic"_s, QLatin1String(SubsonicSettingsPage::kSettingsGroup), SettingsDialog::Page::Subsonic, app, parent),
-      app_(app),
-      url_handler_(new SubsonicUrlHandler(app, this)),
+SubsonicService::SubsonicService(SharedPtr<TaskManager> task_manager,
+                                 SharedPtr<Database> database,
+                                 SharedPtr<UrlHandlers> url_handlers,
+                                 SharedPtr<AlbumCoverLoader> album_cover_loader,
+                                 QObject *parent)
+    : StreamingService(Song::Source::Subsonic, u"Subsonic"_s, u"subsonic"_s, QLatin1String(SubsonicSettingsPage::kSettingsGroup), parent),
+      url_handler_(new SubsonicUrlHandler(this)),
       collection_backend_(nullptr),
       collection_model_(nullptr),
       http2_(false),
@@ -84,12 +85,12 @@ SubsonicService::SubsonicService(Application *app, QObject *parent)
       auth_method_(SubsonicSettingsPage::AuthMethod::MD5),
       ping_redirects_(0) {
 
-  app->player()->RegisterUrlHandler(url_handler_);
+  url_handlers->Register(url_handler_);
 
   collection_backend_ = make_shared<CollectionBackend>();
-  collection_backend_->moveToThread(app_->database()->thread());
-  collection_backend_->Init(app_->database(), app->task_manager(), Song::Source::Subsonic, QLatin1String(kSongsTable));
-  collection_model_ = new CollectionModel(collection_backend_, app_, this);
+  collection_backend_->moveToThread(database->thread());
+  collection_backend_->Init(database, task_manager, Song::Source::Subsonic, QLatin1String(kSongsTable));
+  collection_model_ = new CollectionModel(collection_backend_, album_cover_loader, this);
 
   SubsonicService::ReloadSettings();
 
@@ -111,10 +112,6 @@ void SubsonicService::Exit() {
   QObject::connect(&*collection_backend_, &CollectionBackend::ExitFinished, this, &SubsonicService::ExitFinished);
   collection_backend_->ExitAsync();
 
-}
-
-void SubsonicService::ShowConfig() {
-  app_->OpenSettingsDialogAtPage(SettingsDialog::Page::Subsonic);
 }
 
 void SubsonicService::ReloadSettings() {
@@ -388,7 +385,7 @@ void SubsonicService::Scrobble(const QString &song_id, const bool submission, co
 
   if (!scrobble_request_) {
     // We're doing requests every 30-240s the whole time, so keep reusing this instance
-    scrobble_request_.reset(new SubsonicScrobbleRequest(this, url_handler_, app_), [](SubsonicScrobbleRequest *request) { request->deleteLater(); });
+    scrobble_request_.reset(new SubsonicScrobbleRequest(this, url_handler_), [](SubsonicScrobbleRequest *request) { request->deleteLater(); });
   }
 
   scrobble_request_->CreateScrobbleRequest(song_id, submission, time);
@@ -418,7 +415,7 @@ void SubsonicService::GetSongs() {
   }
 
   ResetSongsRequest();
-  songs_request_.reset(new SubsonicRequest(this, url_handler_, app_), [](SubsonicRequest *request) { request->deleteLater(); });
+  songs_request_.reset(new SubsonicRequest(this, url_handler_), [](SubsonicRequest *request) { request->deleteLater(); });
   QObject::connect(&*songs_request_, &SubsonicRequest::Results, this, &SubsonicService::SongsResultsReceived);
   QObject::connect(&*songs_request_, &SubsonicRequest::UpdateStatus, this, &SubsonicService::SongsUpdateStatus);
   QObject::connect(&*songs_request_, &SubsonicRequest::ProgressSetMaximum, this, &SubsonicService::SongsProgressSetMaximum);

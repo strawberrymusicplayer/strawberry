@@ -27,28 +27,34 @@
 #include <QString>
 #include <QUrl>
 
-class Application;
+#include "core/shared_ptr.h"
+
+class MoodbarLoader;
 class MoodbarPipeline;
 class Song;
+class Player;
 
 class MoodbarController : public QObject {
   Q_OBJECT
 
  public:
-  explicit MoodbarController(Application *app, QObject *parent = nullptr);
+  explicit MoodbarController(SharedPtr<Player> player, SharedPtr<MoodbarLoader> moodbar_loader, QObject *parent = nullptr);
 
   void ReloadSettings();
 
  Q_SIGNALS:
   void CurrentMoodbarDataChanged(const QByteArray &data);
 
- private Q_SLOTS:
+ public Q_SLOTS:
   void CurrentSongChanged(const Song &song);
   void PlaybackStopped();
+
+ private Q_SLOTS:
   void AsyncLoadComplete(MoodbarPipeline *pipeline, const QUrl &url);
 
  private:
-  Application *app_;
+  SharedPtr<Player> player_;
+  SharedPtr<MoodbarLoader> moodbar_loader_;
   bool enabled_;
 };
 
