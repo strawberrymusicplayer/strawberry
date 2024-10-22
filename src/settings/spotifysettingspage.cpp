@@ -38,21 +38,19 @@
 #include "settingsdialog.h"
 #include "spotifysettingspage.h"
 #include "ui_spotifysettingspage.h"
-#include "core/application.h"
 #include "core/iconloader.h"
 #include "core/settings.h"
-#include "streaming/streamingservices.h"
 #include "spotify/spotifyservice.h"
 #include "widgets/loginstatewidget.h"
+#include "constants/spotifysettings.h"
 
 using namespace Qt::Literals::StringLiterals;
+using namespace SpotifySettings;
 
-const char *SpotifySettingsPage::kSettingsGroup = "Spotify";
-
-SpotifySettingsPage::SpotifySettingsPage(SettingsDialog *dialog, QWidget *parent)
+SpotifySettingsPage::SpotifySettingsPage(SettingsDialog *dialog, const SharedPtr<SpotifyService> service, QWidget *parent)
     : SettingsPage(dialog, parent),
       ui_(new Ui::SpotifySettingsPage),
-      service_(dialog->app()->streaming_services()->Service<SpotifyService>()) {
+      service_(service) {
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load(u"spotify"_s));
@@ -87,14 +85,14 @@ void SpotifySettingsPage::Load() {
 
   Settings s;
   s.beginGroup(kSettingsGroup);
-  ui_->enable->setChecked(s.value("enabled", false).toBool());
+  ui_->enable->setChecked(s.value(kEnabled, false).toBool());
 
-  ui_->searchdelay->setValue(s.value("searchdelay", 1500).toInt());
-  ui_->artistssearchlimit->setValue(s.value("artistssearchlimit", 4).toInt());
-  ui_->albumssearchlimit->setValue(s.value("albumssearchlimit", 10).toInt());
-  ui_->songssearchlimit->setValue(s.value("songssearchlimit", 10).toInt());
-  ui_->checkbox_fetchalbums->setChecked(s.value("fetchalbums", false).toBool());
-  ui_->checkbox_download_album_covers->setChecked(s.value("downloadalbumcovers", true).toBool());
+  ui_->searchdelay->setValue(s.value(kSearchDelay, 1500).toInt());
+  ui_->artistssearchlimit->setValue(s.value(kArtistsSearchLimit, 4).toInt());
+  ui_->albumssearchlimit->setValue(s.value(kAlbumsSearchLimit, 10).toInt());
+  ui_->songssearchlimit->setValue(s.value(kSongsSearchLimit, 10).toInt());
+  ui_->checkbox_fetchalbums->setChecked(s.value(kFetchAlbums, false).toBool());
+  ui_->checkbox_download_album_covers->setChecked(s.value(kDownloadAlbumCovers, true).toBool());
 
   s.endGroup();
 
@@ -110,13 +108,13 @@ void SpotifySettingsPage::Save() {
 
   Settings s;
   s.beginGroup(kSettingsGroup);
-  s.setValue("enabled", ui_->enable->isChecked());
-  s.setValue("searchdelay", ui_->searchdelay->value());
-  s.setValue("artistssearchlimit", ui_->artistssearchlimit->value());
-  s.setValue("albumssearchlimit", ui_->albumssearchlimit->value());
-  s.setValue("songssearchlimit", ui_->songssearchlimit->value());
-  s.setValue("fetchalbums", ui_->checkbox_fetchalbums->isChecked());
-  s.setValue("downloadalbumcovers", ui_->checkbox_download_album_covers->isChecked());
+  s.setValue(kEnabled, ui_->enable->isChecked());
+  s.setValue(kSearchDelay, ui_->searchdelay->value());
+  s.setValue(kArtistsSearchLimit, ui_->artistssearchlimit->value());
+  s.setValue(kAlbumsSearchLimit, ui_->albumssearchlimit->value());
+  s.setValue(kSongsSearchLimit, ui_->songssearchlimit->value());
+  s.setValue(kFetchAlbums, ui_->checkbox_fetchalbums->isChecked());
+  s.setValue(kDownloadAlbumCovers, ui_->checkbox_download_album_covers->isChecked());
   s.endGroup();
 
 }

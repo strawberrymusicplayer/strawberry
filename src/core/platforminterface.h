@@ -1,7 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,8 +25,8 @@
 
 class PlatformInterface {
  public:
-  PlatformInterface() = default;
-  virtual ~PlatformInterface() {}
+  explicit PlatformInterface();
+  virtual ~PlatformInterface();
 
   // Called when the application should show itself.
   virtual void Activate() = 0;

@@ -37,13 +37,12 @@
 #include <QUrl>
 #include <QJsonObject>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/song.h"
 #include "qobuzbaserequest.h"
 
 class QNetworkReply;
 class QTimer;
-class Application;
 class NetworkAccessManager;
 class QobuzService;
 class QobuzUrlHandler;
@@ -53,7 +52,7 @@ class QobuzRequest : public QobuzBaseRequest {
 
  public:
 
-  explicit QobuzRequest(QobuzService *service, QobuzUrlHandler *url_handler, Application *app, SharedPtr<NetworkAccessManager> network, const Type query_type, QObject *parent = nullptr);
+  explicit QobuzRequest(QobuzService *service, QobuzUrlHandler *url_handler, const SharedPtr<NetworkAccessManager> network, const Type query_type, QObject *parent = nullptr);
   ~QobuzRequest() override;
 
   void ReloadSettings();
@@ -173,8 +172,7 @@ class QobuzRequest : public QobuzBaseRequest {
 
   QobuzService *service_;
   QobuzUrlHandler *url_handler_;
-  Application *app_;
-  SharedPtr<NetworkAccessManager> network_;
+  const SharedPtr<NetworkAccessManager> network_;
   QTimer *timer_flush_requests_;
 
   const Type query_type_;

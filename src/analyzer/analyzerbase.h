@@ -36,7 +36,7 @@
 #include <QString>
 #include <QPainter>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "analyzer/fht.h"
 #include "engine/enginebase.h"
 

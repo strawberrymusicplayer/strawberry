@@ -30,11 +30,13 @@
 
 #include "settingspage.h"
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 
 class QModelIndex;
 class SettingsDialog;
+class CollectionLibrary;
 class CollectionBackend;
+class CollectionModel;
 class CollectionDirectoryModel;
 class CollectionSettingsDirectoryModel;
 class Ui_CollectionSettingsPage;
@@ -43,24 +45,8 @@ class CollectionSettingsPage : public SettingsPage {
   Q_OBJECT
 
  public:
-  explicit CollectionSettingsPage(SettingsDialog *dialog, QWidget *parent = nullptr);
+  explicit CollectionSettingsPage(SettingsDialog *dialog, const SharedPtr<CollectionLibrary> collection, const SharedPtr<CollectionBackend> collection_backend, CollectionModel *collection_model, CollectionDirectoryModel *collection_directory_model, QWidget *parent = nullptr);
   ~CollectionSettingsPage() override;
-
-  static const char *kSettingsGroup;
-  static const char *kSettingsCacheSize;
-  static const char *kSettingsCacheSizeUnit;
-  static const char *kSettingsDiskCacheEnable;
-  static const char *kSettingsDiskCacheSize;
-  static const char *kSettingsDiskCacheSizeUnit;
-  static const int kSettingsCacheSizeDefault;
-  static const int kSettingsDiskCacheSizeDefault;
-
-  enum class CacheSizeUnit {
-    KB,
-    MB,
-    GB,
-    TB
-  };
 
   void Load() override;
   void Save() override;
@@ -82,8 +68,14 @@ class CollectionSettingsPage : public SettingsPage {
   void WriteAllSongsStatisticsToFiles();
 
  private:
+  void UpdateIconDiskCacheSize();
+
+ private:
   Ui_CollectionSettingsPage *ui_;
-  SharedPtr<CollectionBackend> collection_backend_;
+
+  const SharedPtr<CollectionLibrary> collection_;
+  const SharedPtr<CollectionBackend> collection_backend_;
+  CollectionModel *collection_model_;
   CollectionSettingsDirectoryModel *collectionsettings_directory_model_;
   CollectionDirectoryModel *collection_directory_model_;
   bool initialized_model_;

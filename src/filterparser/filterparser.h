@@ -23,8 +23,6 @@
 #ifndef FILTERPARSER_H
 #define FILTERPARSER_H
 
-#include "config.h"
-
 #include <QString>
 
 class FilterTree;

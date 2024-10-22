@@ -30,7 +30,8 @@
 #include <QIcon>
 #include <QModelIndex>
 
-#include "core/scoped_ptr.h"
+#include "includes/scoped_ptr.h"
+#include "includes/shared_ptr.h"
 
 class QStandardItem;
 class QSortFilterProxyModel;
@@ -39,7 +40,11 @@ class QAction;
 class QContextMenuEvent;
 class QShowEvent;
 
-class Application;
+class TaskManager;
+class TagReaderClient;
+class DeviceManager;
+class PlaylistManager;
+class PlaylistBackend;
 class Playlist;
 class PlaylistListModel;
 class Ui_PlaylistListContainer;
@@ -52,12 +57,23 @@ class PlaylistListContainer : public QWidget {
   explicit PlaylistListContainer(QWidget *parent = nullptr);
   ~PlaylistListContainer() override;
 
-  void SetApplication(Application *app);
+  void Init(const SharedPtr<TaskManager> task_manager,
+            const SharedPtr<TagReaderClient> tagreader_client,
+            const SharedPtr<PlaylistManager> playlist_manager,
+            const SharedPtr<PlaylistBackend> playlist_backend,
+            const SharedPtr<DeviceManager> device_manager);
+
   void ReloadSettings();
 
  protected:
   void showEvent(QShowEvent *e) override;
   void contextMenuEvent(QContextMenuEvent *e) override;
+
+ public Q_SLOTS:
+  // From the Player
+  void ActivePlaying();
+  void ActivePaused();
+  void ActiveStopped();
 
  private Q_SLOTS:
   // From the UI
@@ -77,11 +93,6 @@ class PlaylistListContainer : public QWidget {
   void CurrentChanged(Playlist *new_playlist);
   void ActiveChanged(Playlist *new_playlist);
 
-  // From the Player
-  void ActivePlaying();
-  void ActivePaused();
-  void ActiveStopped();
-
   void ItemsSelectedChanged(const bool selected);
 
   void SavePlaylist();
@@ -97,7 +108,12 @@ class PlaylistListContainer : public QWidget {
 
   void UpdateActiveIcon(int id, const QIcon &icon);
 
-  Application *app_;
+  SharedPtr<TaskManager> task_manager_;
+  SharedPtr<TagReaderClient> tagreader_client_;
+  SharedPtr<PlaylistManager> playlist_manager_;
+  SharedPtr<PlaylistBackend> playlist_backend_;
+  SharedPtr<DeviceManager> device_manager_;
+
   Ui_PlaylistListContainer *ui_;
   QMenu *menu_;
 

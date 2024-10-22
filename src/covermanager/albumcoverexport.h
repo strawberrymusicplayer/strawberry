@@ -78,8 +78,6 @@ class AlbumCoverExport : public QDialog {
 
  private:
   Ui_AlbumCoverExport *ui_;
-
-  static const char *kSettingsGroup;
 };
 
 #endif  // ALBUMCOVEREXPORT_H

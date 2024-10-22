@@ -572,7 +572,8 @@ QString GioLister::FindUniqueIdByVolume(GVolume *volume) const {
 
 }
 
-void GioLister::VolumeEjectFinished(GObject *object, GAsyncResult *result, gpointer) {
+void GioLister::VolumeEjectFinished(GObject *object, GAsyncResult *result, gpointer instance) {
+  Q_UNUSED(instance)
   OperationFinished<GVolume>(std::bind(g_volume_eject_with_operation_finish, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3), object, result);
 }
 

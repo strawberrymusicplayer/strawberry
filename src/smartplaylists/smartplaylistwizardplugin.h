@@ -23,19 +23,18 @@
 
 #include <QObject>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "playlistgenerator.h"
 
 class QWizard;
 
-class Application;
 class CollectionBackend;
 
 class SmartPlaylistWizardPlugin : public QObject {
   Q_OBJECT
 
  public:
-  explicit SmartPlaylistWizardPlugin(Application *app, SharedPtr<CollectionBackend> collection_backend, QObject *parent);
+  explicit SmartPlaylistWizardPlugin(const SharedPtr<CollectionBackend> collection_backend, QObject *parent);
 
   virtual PlaylistGenerator::Type type() const = 0;
   virtual QString name() const = 0;
@@ -51,8 +50,7 @@ class SmartPlaylistWizardPlugin : public QObject {
  protected:
   virtual int CreatePages(QWizard *wizard, const int finish_page_id) = 0;
 
-  Application *app_;
-  SharedPtr<CollectionBackend> collection_backend_;
+  const SharedPtr<CollectionBackend> collection_backend_;
 
  private:
   int start_page_;

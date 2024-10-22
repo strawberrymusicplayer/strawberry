@@ -36,13 +36,14 @@
 #include <QTextBrowser>
 
 #include "console.h"
+
+#include "includes/shared_ptr.h"
 #include "core/logging.h"
-#include "core/application.h"
 #include "core/database.h"
 
 using namespace Qt::Literals::StringLiterals;
 
-Console::Console(Application *app, QWidget *parent) : QDialog(parent), ui_{}, app_(app) {
+Console::Console(const SharedPtr<Database> database, QWidget *parent) : QDialog(parent), ui_{}, database_(database) {
 
   ui_.setupUi(this);
 
@@ -60,14 +61,16 @@ Console::Console(Application *app, QWidget *parent) : QDialog(parent), ui_{}, ap
 
 void Console::RunQuery() {
 
-  QSqlDatabase db = app_->database()->Connect();
+  QSqlDatabase db = database_->Connect();
   QSqlQuery query(db);
   if (!query.prepare(ui_.query->text())) {
     qLog(Error) << query.lastError();
+    Q_EMIT Error(query.lastError().text());
     return;
   }
   if (!query.exec()) {
     qLog(Error) << query.lastError();
+    Q_EMIT Error(query.lastError().text());
     return;
   }
 

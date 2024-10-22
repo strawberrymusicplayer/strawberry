@@ -27,7 +27,7 @@
 #include <QVariant>
 #include <QUrl>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/song.h"
 #include "core/sqlrow.h"
 #include "playlist/playlistitem.h"

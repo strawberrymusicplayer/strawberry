@@ -35,7 +35,7 @@
 #include <QString>
 #include <QStringList>
 
-#include "core/scoped_ptr.h"
+#include "includes/scoped_ptr.h"
 
 class QMimeData;
 

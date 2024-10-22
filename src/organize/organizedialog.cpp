@@ -55,8 +55,8 @@
 #include <QCloseEvent>
 #include <QSettings>
 
+#include "includes/shared_ptr.h"
 #include "core/logging.h"
-#include "core/shared_ptr.h"
 #include "core/iconloader.h"
 #include "core/musicstorage.h"
 #include "core/settings.h"
@@ -82,11 +82,16 @@ constexpr char kSettingsGroup[] = "OrganizeDialog";
 constexpr char kDefaultFormat[] = "%albumartist/%album{ (Disc %disc)}/{%track - }{%albumartist - }%album{ (Disc %disc)} - %title.%extension";
 }
 
-OrganizeDialog::OrganizeDialog(SharedPtr<TaskManager> task_manager, SharedPtr<CollectionBackend> collection_backend, QWidget *parentwindow, QWidget *parent)
+OrganizeDialog::OrganizeDialog(const SharedPtr<TaskManager> task_manager,
+                               const SharedPtr<TagReaderClient> tagreader_client,
+                               const SharedPtr<CollectionBackend> collection_backend,
+                               QWidget *parentwindow,
+                               QWidget *parent)
     : QDialog(parent),
       parentwindow_(parentwindow),
       ui_(new Ui_OrganizeDialog),
       task_manager_(task_manager),
+      tagreader_client_(tagreader_client),
       collection_backend_(collection_backend),
       total_size_(0),
       devices_(false) {
@@ -195,7 +200,7 @@ void OrganizeDialog::accept() {
 
   // It deletes itself when it's finished.
   const bool copy = ui_->aftercopying->currentIndex() == 0;
-  Organize *organize = new Organize(task_manager_, storage, format_, copy, ui_->overwrite->isChecked(), ui_->albumcover->isChecked(), new_songs_info_, ui_->eject_after->isChecked(), playlist_);
+  Organize *organize = new Organize(task_manager_, tagreader_client_, storage, format_, copy, ui_->overwrite->isChecked(), ui_->albumcover->isChecked(), new_songs_info_, ui_->eject_after->isChecked(), playlist_);
   QObject::connect(organize, &Organize::Finished, this, &OrganizeDialog::OrganizeFinished);
   QObject::connect(organize, &Organize::FileCopied, this, &OrganizeDialog::FileCopied);
   if (collection_backend_) {
@@ -377,7 +382,7 @@ bool OrganizeDialog::SetUrls(const QList<QUrl> &urls) {
 
 bool OrganizeDialog::SetFilenames(const QStringList &filenames) {
 
-  songs_future_ = QtConcurrent::run(&OrganizeDialog::LoadSongsBlocking, filenames);
+  songs_future_ = QtConcurrent::run(&OrganizeDialog::LoadSongsBlocking, this, filenames);
   QFutureWatcher<SongList> *watcher = new QFutureWatcher<SongList>();
   QObject::connect(watcher, &QFutureWatcher<SongList>::finished, this, [this, watcher]() {
     SetSongs(watcher->result());
@@ -403,7 +408,7 @@ void OrganizeDialog::SetLoadingSongs(const bool loading) {
 
 }
 
-SongList OrganizeDialog::LoadSongsBlocking(const QStringList &filenames) {
+SongList OrganizeDialog::LoadSongsBlocking(const QStringList &filenames) const {
 
   SongList songs;
   Song song;
@@ -422,7 +427,7 @@ SongList OrganizeDialog::LoadSongsBlocking(const QStringList &filenames) {
       continue;
     }
 
-    const TagReaderResult result = TagReaderClient::Instance()->ReadFileBlocking(filename, &song);
+    const TagReaderResult result = tagreader_client_->ReadFileBlocking(filename, &song);
     if (result.success() && song.is_valid()) {
       songs << song;
     }

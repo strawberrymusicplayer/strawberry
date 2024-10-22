@@ -42,8 +42,8 @@
 #include <QString>
 #include <QSettings>
 
+#include "includes/shared_ptr.h"
 #include "core/logging.h"
-#include "core/shared_ptr.h"
 #include "core/signalchecker.h"
 #include "core/settings.h"
 #include "transcoder.h"

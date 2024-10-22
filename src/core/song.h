@@ -509,6 +509,8 @@ class Song {
   static QString AlbumRemoveDiscMisc(const QString &album);
   static QString TitleRemoveMisc(const QString &title);
 
+  static QString GetNameForNewPlaylist(const QList<Song> &songs);
+
   static inline QString TagLibStringToQString(const TagLib::String &s) {
     return QString::fromUtf8((s).toCString(true));
   }

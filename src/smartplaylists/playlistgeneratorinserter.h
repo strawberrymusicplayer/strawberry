@@ -26,7 +26,7 @@
 #include <QObject>
 #include <QString>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 
 #include "playlist/playlist.h"
 #include "playlist/playlistitem.h"

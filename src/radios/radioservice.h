@@ -30,20 +30,25 @@
 #include <QIcon>
 #include <QJsonObject>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/song.h"
 #include "radiochannel.h"
 
 class QNetworkReply;
 
-class Application;
+class TaskManager;
 class NetworkAccessManager;
 
 class RadioService : public QObject {
   Q_OBJECT
 
  public:
-  explicit RadioService(const Song::Source source, const QString &name, const QIcon &icon, Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
+  explicit RadioService(const Song::Source source,
+                        const QString &name,
+                        const QIcon &icon,
+                        const SharedPtr<TaskManager> task_manager,
+                        const SharedPtr<NetworkAccessManager> network,
+                        QObject *parent = nullptr);
 
   Song::Source source() const { return source_; }
   QString name() const { return name_; }
@@ -66,11 +71,11 @@ class RadioService : public QObject {
   void Error(const QString &error, const QVariant &debug = QVariant());
 
  protected:
-  Application *app_;
-  SharedPtr<NetworkAccessManager> network_;
-  Song::Source source_;
-  QString name_;
-  QIcon icon_;
+  const SharedPtr<TaskManager> task_manager_;
+  const SharedPtr<NetworkAccessManager> network_;
+  const Song::Source source_;
+  const QString name_;
+  const QIcon icon_;
 };
 
 Q_DECLARE_METATYPE(RadioService*)

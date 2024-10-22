@@ -45,13 +45,11 @@
 #include <QSqlQuery>
 #include <QSqlError>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/logging.h"
 #include "core/database.h"
 #include "core/scopedtransaction.h"
 #include "core/song.h"
-#include "core/sqlrow.h"
-#include "smartplaylists/smartplaylistsearch.h"
 
 #include "collectiondirectory.h"
 #include "collectionbackend.h"
@@ -1932,37 +1930,26 @@ void CollectionBackend::DeleteAll() {
 
 }
 
-SongList CollectionBackend::SmartPlaylistsFindSongs(const SmartPlaylistSearch &search) {
+SongList CollectionBackend::ExecuteQuery(const QString &sql) {
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
 
-  // Build the query
-  QString sql = search.ToSql(songs_table());
-
-  // Run the query
-  SongList ret;
   SqlQuery query(db);
   query.prepare(sql);
   if (!query.Exec()) {
     db_->ReportErrors(query);
-    return ret;
+    return SongList();
   }
 
-  // Read the results
+  SongList songs;
   while (query.next()) {
     Song song;
     song.InitFromQuery(query, true);
-    ret << song;
+    songs << song;
   }
-  return ret;
 
-}
-
-SongList CollectionBackend::SmartPlaylistsGetAllSongs() {
-
-  // Get all the songs!
-  return SmartPlaylistsFindSongs(SmartPlaylistSearch(SmartPlaylistSearch::SearchType::All, SmartPlaylistSearch::TermList(), SmartPlaylistSearch::SortType::FieldAsc, SmartPlaylistSearchTerm::Field::Artist, -1));
+  return songs;
 
 }
 

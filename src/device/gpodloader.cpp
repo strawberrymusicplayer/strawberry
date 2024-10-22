@@ -29,14 +29,18 @@
 #include <QByteArray>
 #include <QString>
 
+#include "includes/shared_ptr.h"
 #include "core/logging.h"
-#include "core/shared_ptr.h"
 #include "core/song.h"
 #include "core/taskmanager.h"
 #include "collection/collectionbackend.h"
 #include "gpodloader.h"
 
-GPodLoader::GPodLoader(const QString &mount_point, SharedPtr<TaskManager> task_manager, SharedPtr<CollectionBackend> backend, SharedPtr<ConnectedDevice> device, QObject *parent)
+GPodLoader::GPodLoader(const QString &mount_point,
+                       const SharedPtr<TaskManager> task_manager,
+                       const SharedPtr<CollectionBackend> backend,
+                       const SharedPtr<ConnectedDevice> device,
+                       QObject *parent)
     : QObject(parent),
       device_(device),
       mount_point_(mount_point),

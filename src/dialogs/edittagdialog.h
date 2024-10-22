@@ -51,7 +51,13 @@ class QEvent;
 class QShowEvent;
 class QHideEvent;
 
-class Application;
+class NetworkAccessManager;
+class CollectionBackend;
+class AlbumCoverLoader;
+class CurrentAlbumCoverLoader;
+class CoverProviders;
+class LyricsProviders;
+class StreamingServices;
 class AlbumCoverChoiceController;
 class Ui_EditTagDialog;
 #ifdef HAVE_MUSICBRAINZ
@@ -64,7 +70,16 @@ class EditTagDialog : public QDialog {
   Q_OBJECT
 
  public:
-  explicit EditTagDialog(Application *app, QWidget *parent = nullptr);
+  explicit EditTagDialog(const SharedPtr<NetworkAccessManager> network,
+                         const SharedPtr<TagReaderClient> tagreader_client,
+                         const SharedPtr<CollectionBackend> collection_backend,
+                         const SharedPtr<AlbumCoverLoader> albumcover_loader,
+                         const SharedPtr<CurrentAlbumCoverLoader> current_albumcover_loader,
+                         const SharedPtr<CoverProviders> cover_providers,
+                         const SharedPtr<LyricsProviders> lyrics_providers,
+                         const SharedPtr<StreamingServices> streaming_services,
+                         QWidget *parent = nullptr);
+
   ~EditTagDialog() override;
 
   void SetSongs(const SongList &songs, const PlaylistItemPtrList &items = PlaylistItemPtrList());
@@ -168,7 +183,7 @@ class EditTagDialog : public QDialog {
   void SetSongListVisibility(bool visible);
 
   // Called by QtConcurrentRun
-  static QList<Data> LoadData(const SongList &songs);
+  QList<Data> LoadData(const SongList &songs) const;
   void SaveData();
 
   static void SetText(QLabel *label, const int value, const QString &suffix, const QString &def = QString());
@@ -180,7 +195,12 @@ class EditTagDialog : public QDialog {
 
   Ui_EditTagDialog *ui_;
 
-  Application *app_;
+  const SharedPtr<TagReaderClient> tagreader_client_;
+  const SharedPtr<CollectionBackend> collection_backend_;
+  const SharedPtr<AlbumCoverLoader> albumcover_loader_;
+  const SharedPtr<CurrentAlbumCoverLoader> current_albumcover_loader_;
+  const SharedPtr<CoverProviders> cover_providers_;
+
   AlbumCoverChoiceController *album_cover_choice_controller_;
 #ifdef HAVE_MUSICBRAINZ
   TagFetcher *tag_fetcher_;

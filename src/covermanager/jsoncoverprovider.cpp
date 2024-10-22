@@ -25,16 +25,15 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
-#include "core/shared_ptr.h"
-#include "core/application.h"
+#include "includes/shared_ptr.h"
 #include "core/networkaccessmanager.h"
 #include "coverprovider.h"
 #include "jsoncoverprovider.h"
 
 using namespace Qt::Literals::StringLiterals;
 
-JsonCoverProvider::JsonCoverProvider(const QString &name, const bool enabled, const bool authentication_required, const float quality, const bool batch, const bool allow_missing_album, Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : CoverProvider(name, enabled, authentication_required, quality, batch, allow_missing_album, app, network, parent) {}
+JsonCoverProvider::JsonCoverProvider(const QString &name, const bool enabled, const bool authentication_required, const float quality, const bool batch, const bool allow_missing_album, const SharedPtr<NetworkAccessManager> network, QObject *parent)
+    : CoverProvider(name, enabled, authentication_required, quality, batch, allow_missing_album, network, parent) {}
 
 QJsonObject JsonCoverProvider::ExtractJsonObj(const QByteArray &data) {
 

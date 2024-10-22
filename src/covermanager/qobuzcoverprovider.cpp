@@ -36,12 +36,10 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
-#include "core/shared_ptr.h"
-#include "core/application.h"
+#include "includes/shared_ptr.h"
 #include "core/networkaccessmanager.h"
 #include "core/logging.h"
 #include "core/song.h"
-#include "streaming/streamingservices.h"
 #include "qobuz/qobuzservice.h"
 #include "albumcoverfetcher.h"
 #include "jsoncoverprovider.h"
@@ -53,9 +51,9 @@ namespace {
 constexpr int kLimit = 10;
 }
 
-QobuzCoverProvider::QobuzCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : JsonCoverProvider(u"Qobuz"_s, true, true, 2.0, true, true, app, network, parent),
-      service_(app->streaming_services()->Service<QobuzService>()) {}
+QobuzCoverProvider::QobuzCoverProvider(const QobuzServicePtr service, SharedPtr<NetworkAccessManager> network, QObject *parent)
+    : JsonCoverProvider(u"Qobuz"_s, true, true, 2.0, true, true, network, parent),
+      service_(service) {}
 
 QobuzCoverProvider::~QobuzCoverProvider() {
 

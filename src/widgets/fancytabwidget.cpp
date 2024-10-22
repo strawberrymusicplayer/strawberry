@@ -44,9 +44,10 @@
 #include "fancytabwidget.h"
 #include "fancytabbar.h"
 #include "fancytabdata.h"
+#include "utilities/colorutils.h"
 #include "core/stylehelper.h"
 #include "core/settings.h"
-#include "settings/appearancesettingspage.h"
+#include "constants/appearancesettings.h"
 
 using namespace std::chrono_literals;
 using namespace Qt::Literals::StringLiterals;
@@ -160,15 +161,15 @@ void FancyTabWidget::SaveSettings(const QString &settings_group) {
 void FancyTabWidget::ReloadSettings() {
 
   Settings s;
-  s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
-  bg_color_system_ = s.value(AppearanceSettingsPage::kTabBarSystemColor, false).toBool();
-  bg_gradient_ = s.value(AppearanceSettingsPage::kTabBarGradient, true).toBool();
-  bg_color_ = AppearanceSettingsPage::DefaultTabbarBgColor();
+  s.beginGroup(AppearanceSettings::kSettingsGroup);
+  bg_color_system_ = s.value(AppearanceSettings::kTabBarSystemColor, false).toBool();
+  bg_gradient_ = s.value(AppearanceSettings::kTabBarGradient, true).toBool();
+  bg_color_ = DefaultTabbarBgColor();
   if (!bg_color_system_) {
-    bg_color_ = s.value(AppearanceSettingsPage::kTabBarColor, bg_color_).value<QColor>();
+    bg_color_ = s.value(AppearanceSettings::kTabBarColor, bg_color_).value<QColor>();
   }
-  iconsize_smallsidebar_ = s.value(AppearanceSettingsPage::kIconSizeTabbarSmallMode, IconSize_SmallSidebar).toInt();
-  iconsize_largesidebar_ = s.value(AppearanceSettingsPage::kIconSizeTabbarLargeMode, IconSize_LargeSidebar).toInt();
+  iconsize_smallsidebar_ = s.value(AppearanceSettings::kIconSizeTabbarSmallMode, IconSize_SmallSidebar).toInt();
+  iconsize_largesidebar_ = s.value(AppearanceSettings::kIconSizeTabbarLargeMode, IconSize_LargeSidebar).toInt();
   s.endGroup();
 
 #ifndef Q_OS_MACOS
@@ -394,5 +395,15 @@ void FancyTabWidget::contextMenuEvent(QContextMenuEvent *e) {
   }
 
   menu_->popup(e->globalPos());
+
+}
+
+QColor FancyTabWidget::DefaultTabbarBgColor() {
+
+  QColor color = StyleHelper::highlightColor();
+  if (Utilities::IsColorDark(color)) {
+    color = color.lighter(130);
+  }
+  return color;
 
 }

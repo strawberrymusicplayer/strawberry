@@ -30,7 +30,7 @@
 #include <QString>
 #include <QTimer>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/song.h"
 #include "scrobblerservice.h"
 #include "scrobblercache.h"
@@ -38,7 +38,7 @@
 
 class QNetworkReply;
 
-class ScrobblerSettings;
+class ScrobblerSettingsService;
 class NetworkAccessManager;
 class LocalRedirectServer;
 
@@ -46,7 +46,7 @@ class ScrobblingAPI20 : public ScrobblerService {
   Q_OBJECT
 
  public:
-  explicit ScrobblingAPI20(const QString &name, const QString &settings_group, const QString &auth_url, const QString &api_url, const bool batch, const QString &cache_file, SharedPtr<ScrobblerSettings> settings, SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
+  explicit ScrobblingAPI20(const QString &name, const QString &settings_group, const QString &auth_url, const QString &api_url, const bool batch, const QString &cache_file, const SharedPtr<ScrobblerSettingsService> settings, const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~ScrobblingAPI20() override;
 
   static const char *kApiKey;
@@ -138,7 +138,7 @@ class ScrobblingAPI20 : public ScrobblerService {
   QString api_url_;
   bool batch_;
 
-  SharedPtr<NetworkAccessManager> network_;
+  const SharedPtr<NetworkAccessManager> network_;
   ScrobblerCache *cache_;
   LocalRedirectServer *server_;
 

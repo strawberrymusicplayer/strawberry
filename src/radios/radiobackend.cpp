@@ -23,7 +23,7 @@
 #include <QMutexLocker>
 #include <QSqlDatabase>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/database.h"
 #include "core/sqlquery.h"
 #include "core/song.h"
@@ -32,7 +32,7 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-RadioBackend::RadioBackend(SharedPtr<Database> db, QObject *parent)
+RadioBackend::RadioBackend(const SharedPtr<Database> db, QObject *parent)
     : QObject(parent),
       db_(db),
       original_thread_(thread()) {}

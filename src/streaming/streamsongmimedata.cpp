@@ -19,7 +19,7 @@
  *
  */
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "streamsongmimedata.h"
 
 StreamSongMimeData::StreamSongMimeData(SharedPtr<StreamingService> _service, QObject *parent) : service(_service) {

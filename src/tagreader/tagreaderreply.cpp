@@ -34,7 +34,7 @@ TagReaderReply::TagReaderReply(const QString &filename, QObject *parent)
 
 TagReaderReply::~TagReaderReply() {
 
-  qLog(Debug) << "Deleting tagreader reply for" << filename_;
+  qLog(Debug) << "Tagreader reply for" << filename_ << "deleted";
 
 }
 
@@ -44,7 +44,13 @@ void TagReaderReply::Finish() {
 
   finished_ = true;
 
-  Q_EMIT Finished(filename_, result_);
+  QMetaObject::invokeMethod(this, &TagReaderReply::EmitFinished, Qt::QueuedConnection);
+
+}
+
+void TagReaderReply::EmitFinished() {
+
+  Q_EMIT TagReaderReply::Finished(filename_, result_);
 
   QObject::disconnect(this, &TagReaderReply::Finished, nullptr, nullptr);
 

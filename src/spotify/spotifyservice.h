@@ -37,16 +37,17 @@
 #include <QSslError>
 #include <QTimer>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/song.h"
 #include "streaming/streamingservice.h"
 #include "streaming/streamingsearchview.h"
-#include "settings/spotifysettingspage.h"
 
 class QNetworkReply;
 
-class Application;
+class TaskManager;
+class Database;
 class NetworkAccessManager;
+class AlbumCoverLoader;
 class SpotifyRequest;
 class SpotifyFavoriteRequest;
 class SpotifyStreamURLRequest;
@@ -59,7 +60,12 @@ class SpotifyService : public StreamingService {
   Q_OBJECT
 
  public:
-  explicit SpotifyService(Application *app, QObject *parent = nullptr);
+  explicit SpotifyService(const SharedPtr<TaskManager> task_manager,
+                          const SharedPtr<Database> database,
+                          const SharedPtr<NetworkAccessManager> network,
+                          const SharedPtr<AlbumCoverLoader> albumcover_Loader,
+                          QObject *parent = nullptr);
+
   ~SpotifyService() override;
 
   static const Song::Source kSource;
@@ -70,8 +76,6 @@ class SpotifyService : public StreamingService {
 
   int Search(const QString &text, StreamingSearchView::SearchType type) override;
   void CancelSearch() override;
-
-  Application *app() { return app_; }
 
   int artistssearchlimit() const { return artistssearchlimit_; }
   int albumssearchlimit() const { return albumssearchlimit_; }
@@ -96,7 +100,6 @@ class SpotifyService : public StreamingService {
   CollectionFilter *songs_collection_filter_model() override { return songs_collection_model_->filter(); }
 
  public Q_SLOTS:
-  void ShowConfig() override;
   void Authenticate();
   void Deauthenticate();
   void GetArtists() override;
@@ -128,16 +131,15 @@ class SpotifyService : public StreamingService {
   void SongsUpdateProgressReceived(const int id, const int progress);
 
  private:
-  typedef QPair<QString, QString> Param;
-  typedef QList<Param> ParamList;
+  using Param = QPair<QString, QString>;
+  using ParamList = QList<Param>;
 
   void LoadSession();
   void RequestAccessToken(const QString &code = QString(), const QUrl &redirect_url = QUrl());
   void SendSearch();
   void LoginError(const QString &error = QString(), const QVariant &debug = QVariant());
 
-  Application *app_;
-  NetworkAccessManager *network_;
+  const SharedPtr<NetworkAccessManager> network_;
 
   SharedPtr<CollectionBackend> artists_collection_backend_;
   SharedPtr<CollectionBackend> albums_collection_backend_;

@@ -29,9 +29,8 @@
 #include <QMimeData>
 #include <QSettings>
 
+#include "includes/shared_ptr.h"
 #include "core/logging.h"
-#include "core/shared_ptr.h"
-#include "core/application.h"
 #include "core/iconloader.h"
 #include "core/simpletreemodel.h"
 #include "core/settings.h"

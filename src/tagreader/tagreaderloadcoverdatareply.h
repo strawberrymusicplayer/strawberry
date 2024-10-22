@@ -22,9 +22,8 @@
 
 #include <QByteArray>
 #include <QString>
+#include <QSharedPointer>
 
-#include "core/shared_ptr.h"
-#include "core/song.h"
 #include "tagreaderreply.h"
 #include "tagreaderresult.h"
 
@@ -42,10 +41,13 @@ class TagReaderLoadCoverDataReply : public TagReaderReply {
  Q_SIGNALS:
   void Finished(const QString &filename, const QByteArray &data, const TagReaderResult &result);
 
+ private Q_SLOTS:
+  void EmitFinished() override;
+
  private:
   QByteArray data_;
 };
 
-using TagReaderLoadCoverDataReplyPtr = SharedPtr<TagReaderLoadCoverDataReply>;
+using TagReaderLoadCoverDataReplyPtr = QSharedPointer<TagReaderLoadCoverDataReply>;
 
 #endif  // TAGREADERLOADCOVERDATAREPLY_H

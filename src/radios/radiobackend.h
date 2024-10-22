@@ -22,7 +22,7 @@
 
 #include <QObject>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "radiochannel.h"
 
 class QThread;
@@ -32,7 +32,7 @@ class RadioBackend : public QObject {
   Q_OBJECT
 
  public:
-  explicit RadioBackend(SharedPtr<Database> db, QObject *parent = nullptr);
+  explicit RadioBackend(const SharedPtr<Database> db, QObject *parent = nullptr);
 
   void Close();
   void ExitAsync();
@@ -54,7 +54,7 @@ class RadioBackend : public QObject {
   void Exit();
 
  private:
-  SharedPtr<Database> db_;
+  const SharedPtr<Database> db_;
   QThread *original_thread_;
 };
 

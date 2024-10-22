@@ -27,7 +27,7 @@
 #include <QByteArray>
 #include <QString>
 
-#include "core/scoped_ptr.h"
+#include "includes/scoped_ptr.h"
 #include "transliterate.h"
 
 namespace Utilities {

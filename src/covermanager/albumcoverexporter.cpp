@@ -33,8 +33,9 @@ namespace {
 constexpr int kMaxConcurrentRequests = 3;
 }
 
-AlbumCoverExporter::AlbumCoverExporter(QObject *parent)
+AlbumCoverExporter::AlbumCoverExporter(const SharedPtr<TagReaderClient> tagreader_client, QObject *parent)
     : QObject(parent),
+      tagreader_client_(tagreader_client),
       thread_pool_(new QThreadPool(this)),
       exported_(0),
       skipped_(0),
@@ -52,7 +53,7 @@ void AlbumCoverExporter::SetCoverTypes(const AlbumCoverLoaderOptions::Types &cov
 
 void AlbumCoverExporter::AddExportRequest(const Song &song) {
 
-  requests_.append(new CoverExportRunnable(dialog_result_, cover_types_, song));
+  requests_.append(new CoverExportRunnable(tagreader_client_, dialog_result_, cover_types_, song));
   all_ = static_cast<int>(requests_.count());
 
 }

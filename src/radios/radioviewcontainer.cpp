@@ -23,7 +23,7 @@
 
 #include "core/iconloader.h"
 #include "core/settings.h"
-#include "settings/appearancesettingspage.h"
+#include "constants/appearancesettings.h"
 #include "radioviewcontainer.h"
 #include "ui_radioviewcontainer.h"
 
@@ -48,8 +48,8 @@ RadioViewContainer::~RadioViewContainer() { delete ui_; }
 void RadioViewContainer::ReloadSettings() {
 
   Settings s;
-  s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
-  int iconsize = s.value(AppearanceSettingsPage::kIconSizeLeftPanelButtons, 22).toInt();
+  s.beginGroup(AppearanceSettings::kSettingsGroup);
+  int iconsize = s.value(AppearanceSettings::kIconSizeLeftPanelButtons, 22).toInt();
   s.endGroup();
 
   ui_->refresh->setIconSize(QSize(iconsize, iconsize));

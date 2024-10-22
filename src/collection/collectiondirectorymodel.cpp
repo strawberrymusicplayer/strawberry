@@ -29,7 +29,7 @@
 #include <QVariant>
 #include <QString>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/filesystemmusicstorage.h"
 #include "core/iconloader.h"
 #include "core/musicstorage.h"

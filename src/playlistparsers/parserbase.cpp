@@ -27,17 +27,17 @@
 #include <QRegularExpression>
 #include <QUrl>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/logging.h"
 #include "tagreader/tagreaderclient.h"
 #include "collection/collectionbackend.h"
-#include "settings/playlistsettingspage.h"
+#include "constants/playlistsettings.h"
 #include "parserbase.h"
 
 using namespace Qt::Literals::StringLiterals;
 
-ParserBase::ParserBase(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent)
-    : QObject(parent), collection_backend_(collection_backend) {}
+ParserBase::ParserBase(const SharedPtr<TagReaderClient> tagreader_client, const SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent)
+    : QObject(parent), tagreader_client_(tagreader_client), collection_backend_(collection_backend) {}
 
 void ParserBase::LoadSong(const QString &filename_or_url, const qint64 beginning, const int track, const QDir &dir, Song *song, const bool collection_lookup) const {
 
@@ -105,9 +105,11 @@ void ParserBase::LoadSong(const QString &filename_or_url, const qint64 beginning
     }
   }
 
-  const TagReaderResult result = TagReaderClient::Instance()->ReadFileBlocking(filename, song);
-  if (!result.success()) {
-    qLog(Error) << "Could not read file" << filename << result.error_string();
+  if (tagreader_client_) {
+    const TagReaderResult result = tagreader_client_->ReadFileBlocking(filename, song);
+    if (!result.success()) {
+      qLog(Error) << "Could not read file" << filename << result.error_string();
+    }
   }
 
 }
@@ -121,16 +123,16 @@ Song ParserBase::LoadSong(const QString &filename_or_url, const qint64 beginning
 
 }
 
-QString ParserBase::URLOrFilename(const QUrl &url, const QDir &dir, const PlaylistSettingsPage::PathType path_type) {
+QString ParserBase::URLOrFilename(const QUrl &url, const QDir &dir, const PlaylistSettings::PathType path_type) {
 
   if (!url.isLocalFile()) return url.toString();
 
   const QString filename = url.toLocalFile();
 
-  if (path_type != PlaylistSettingsPage::PathType::Absolute && QDir::isAbsolutePath(filename)) {
+  if (path_type != PlaylistSettings::PathType::Absolute && QDir::isAbsolutePath(filename)) {
     const QString relative = dir.relativeFilePath(filename);
 
-    if (!relative.startsWith("../"_L1) || path_type == PlaylistSettingsPage::PathType::Relative) {
+    if (!relative.startsWith("../"_L1) || path_type == PlaylistSettings::PathType::Relative) {
       return relative;
     }
   }

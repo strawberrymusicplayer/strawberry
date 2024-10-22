@@ -91,8 +91,8 @@ int GlobalShortcut::nativeKeycode(const Qt::Key qt_keycode) {
 
 }
 
-int GlobalShortcut::nativeKeycode2(const Qt::Key key) {
-  Q_UNUSED(key)
+int GlobalShortcut::nativeKeycode2(const Qt::Key qt_keycode) {
+  Q_UNUSED(qt_keycode)
   return 0;
 }
 

@@ -53,9 +53,10 @@
 #include "trackselectiondialog.h"
 #include "ui_trackselectiondialog.h"
 
-TrackSelectionDialog::TrackSelectionDialog(QWidget *parent)
+TrackSelectionDialog::TrackSelectionDialog(const SharedPtr<TagReaderClient> tagreader_client, QWidget *parent)
     : QDialog(parent),
       ui_(new Ui_TrackSelectionDialog),
+      tagreader_client_(tagreader_client),
       save_on_close_(false) {
 
   // Setup dialog window
@@ -261,10 +262,10 @@ void TrackSelectionDialog::SetLoading(const QString &message) {
 
 }
 
-void TrackSelectionDialog::SaveData(const QList<Data> &data) {
+void TrackSelectionDialog::SaveData(const QList<Data> &_data) const {
 
-  for (int i = 0; i < data.count(); ++i) {
-    const Data &ref = data[i];
+  for (int i = 0; i < _data.count(); ++i) {
+    const Data &ref = _data[i];
     if (ref.pending_ || ref.results_.isEmpty() || ref.selected_result_ == -1) {
       continue;
     }
@@ -278,7 +279,7 @@ void TrackSelectionDialog::SaveData(const QList<Data> &data) {
     copy.set_track(new_metadata.track());
     copy.set_year(new_metadata.year());
 
-    const TagReaderResult result = TagReaderClient::Instance()->WriteFileBlocking(copy.url().toLocalFile(), copy, TagReaderClient::SaveOption::Tags, SaveTagCoverData());
+    const TagReaderResult result = tagreader_client_->WriteFileBlocking(copy.url().toLocalFile(), copy, TagReaderClient::SaveOption::Tags, SaveTagCoverData());
     if (!result.success()) {
       qLog(Error) << "Failed to write new auto-tags to" << copy.url().toLocalFile() << result.error_string();
     }
@@ -292,7 +293,7 @@ void TrackSelectionDialog::accept() {
     SetLoading(tr("Saving tracks") + QStringLiteral("..."));
 
     // Save tags in the background
-    QFuture<void> future = QtConcurrent::run(&TrackSelectionDialog::SaveData, data_);
+    QFuture<void> future = QtConcurrent::run(&TrackSelectionDialog::SaveData, this, data_);
     QFutureWatcher<void> *watcher = new QFutureWatcher<void>(this);
     QObject::connect(watcher, &QFutureWatcher<void>::finished, this, &TrackSelectionDialog::AcceptFinished);
     watcher->setFuture(future);

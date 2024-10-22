@@ -41,8 +41,7 @@
 #include <QJsonValue>
 #include <QJsonArray>
 
-#include "core/shared_ptr.h"
-#include "core/application.h"
+#include "includes/shared_ptr.h"
 #include "core/logging.h"
 #include "core/networkaccessmanager.h"
 #include "utilities/cryptutils.h"
@@ -58,8 +57,8 @@ const char *DiscogsCoverProvider::kAccessKeyB64 = "dGh6ZnljUGJlZ1NEeXBuSFFxSVk="
 const char *DiscogsCoverProvider::kSecretKeyB64 = "ZkFIcmlaSER4aHhRSlF2U3d0bm5ZVmdxeXFLWUl0UXI=";
 const int DiscogsCoverProvider::kRequestsDelay = 1000;
 
-DiscogsCoverProvider::DiscogsCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : JsonCoverProvider(u"Discogs"_s, false, false, 0.0, false, false, app, network, parent),
+DiscogsCoverProvider::DiscogsCoverProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent)
+    : JsonCoverProvider(u"Discogs"_s, false, false, 0.0, false, false, network, parent),
       timer_flush_requests_(new QTimer(this)) {
 
   timer_flush_requests_->setInterval(kRequestsDelay);

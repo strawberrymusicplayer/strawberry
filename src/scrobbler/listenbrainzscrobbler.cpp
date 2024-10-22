@@ -41,16 +41,16 @@
 #include <QJsonArray>
 #include <QJsonValue>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/networkaccessmanager.h"
 #include "core/song.h"
 #include "core/logging.h"
 #include "core/settings.h"
 #include "core/localredirectserver.h"
-#include "utilities/timeconstants.h"
-#include "settings/scrobblersettingspage.h"
+#include "constants/timeconstants.h"
+#include "constants/scrobblersettings.h"
 
-#include "scrobblersettings.h"
+#include "scrobblersettingsservice.h"
 #include "scrobblerservice.h"
 #include "scrobblercache.h"
 #include "scrobblercacheitem.h"
@@ -73,7 +73,7 @@ constexpr char kCacheFile[] = "listenbrainzscrobbler.cache";
 constexpr int kScrobblesPerRequest = 10;
 }  // namespace
 
-ListenBrainzScrobbler::ListenBrainzScrobbler(SharedPtr<ScrobblerSettings> settings, SharedPtr<NetworkAccessManager> network, QObject *parent)
+ListenBrainzScrobbler::ListenBrainzScrobbler(const SharedPtr<ScrobblerSettingsService> settings, const SharedPtr<NetworkAccessManager> network, QObject *parent)
     : ScrobblerService(QLatin1String(kName), settings, parent),
       network_(network),
       cache_(new ScrobblerCache(QLatin1String(kCacheFile), this)),
@@ -119,12 +119,12 @@ void ListenBrainzScrobbler::ReloadSettings() {
 
   Settings s;
   s.beginGroup(kSettingsGroup);
-  enabled_ = s.value("enabled", false).toBool();
-  user_token_ = s.value("user_token").toString();
+  enabled_ = s.value(ScrobblerSettings::kEnabled, false).toBool();
+  user_token_ = s.value(ScrobblerSettings::kUserToken).toString();
   s.endGroup();
 
-  s.beginGroup(ScrobblerSettingsPage::kSettingsGroup);
-  prefer_albumartist_ = s.value("albumartist", false).toBool();
+  s.beginGroup(ScrobblerSettings::kSettingsGroup);
+  prefer_albumartist_ = s.value(ScrobblerSettings::kAlbumArtist, false).toBool();
   s.endGroup();
 
 }
@@ -632,7 +632,10 @@ void ListenBrainzScrobbler::Love() {
 
   if (!song_playing_.is_valid() || !song_playing_.is_metadata_good()) return;
 
-  if (!authenticated()) settings_->ShowConfig();
+  if (!authenticated()) {
+    Q_EMIT OpenSettingsDialog();
+    return;
+  }
 
   if (song_playing_.musicbrainz_recording_id().isEmpty()) {
     Error(tr("Missing MusicBrainz recording ID for %1 %2 %3").arg(song_playing_.artist(), song_playing_.album(), song_playing_.title()));

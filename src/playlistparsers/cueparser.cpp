@@ -32,11 +32,11 @@
 #include <QTextStream>
 #include <QStringConverter>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
+#include "constants/timeconstants.h"
 #include "core/logging.h"
-#include "utilities/timeconstants.h"
 #include "utilities/textencodingutils.h"
-#include "settings/playlistsettingspage.h"
+#include "constants/playlistsettings.h"
 #include "parserbase.h"
 #include "cueparser.h"
 
@@ -63,8 +63,8 @@ constexpr char kDate[] = "date";
 constexpr char kDisc[] = "discnumber";
 }  // namespace
 
-CueParser::CueParser(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent)
-    : ParserBase(collection_backend, parent) {}
+CueParser::CueParser(const SharedPtr<TagReaderClient> tagreader_client, const SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent)
+    : ParserBase(tagreader_client, collection_backend, parent) {}
 
 SongList CueParser::Load(QIODevice *device, const QString &playlist_path, const QDir &dir, const bool collection_lookup) const {
 
@@ -378,7 +378,7 @@ qint64 CueParser::IndexToMarker(const QString &index) {
 
 }
 
-void CueParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, const PlaylistSettingsPage::PathType path_type) const {
+void CueParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, const PlaylistSettings::PathType path_type) const {
 
   Q_UNUSED(songs);
   Q_UNUSED(device);

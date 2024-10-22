@@ -61,7 +61,9 @@ TagReaderClient::TagReaderClient(QObject *parent)
 
   setObjectName(QLatin1String(metaObject()->className()));
 
-  sInstance = this;
+  if (!sInstance) {
+    sInstance = this;
+  }
 
 }
 
@@ -154,20 +156,20 @@ void TagReaderClient::ProcessRequest(TagReaderRequestPtr request) {
 
   TagReaderResult result;
 
-  if (TagReaderIsMediaFileRequestPtr is_media_file_request = std::dynamic_pointer_cast<TagReaderIsMediaFileRequest>(request)) {
+  if (TagReaderIsMediaFileRequestPtr is_media_file_request = dynamic_pointer_cast<TagReaderIsMediaFileRequest>(request)) {
     result = tagreader_.IsMediaFile(is_media_file_request->filename);
     if (result.error_code == TagReaderResult::ErrorCode::Unsupported) {
       result = gmereader_.IsMediaFile(is_media_file_request->filename);
     }
   }
-  else if (TagReaderReadFileRequestPtr read_file_request = std::dynamic_pointer_cast<TagReaderReadFileRequest>(request)) {
+  else if (TagReaderReadFileRequestPtr read_file_request = dynamic_pointer_cast<TagReaderReadFileRequest>(request)) {
     Song song;
     result = ReadFileBlocking(read_file_request->filename, &song);
     if (result.error_code == TagReaderResult::ErrorCode::Unsupported) {
       result = gmereader_.ReadFile(read_file_request->filename, &song);
     }
     if (result.success()) {
-      if (TagReaderReadFileReplyPtr read_file_reply = std::dynamic_pointer_cast<TagReaderReadFileReply>(reply)) {
+      if (TagReaderReadFileReplyPtr read_file_reply = qSharedPointerDynamicCast<TagReaderReadFileReply>(reply)) {
         read_file_reply->set_song(song);
       }
     }
@@ -179,7 +181,7 @@ void TagReaderClient::ProcessRequest(TagReaderRequestPtr request) {
     QByteArray cover_data;
     result = LoadCoverDataBlocking(load_cover_data_request->filename, cover_data);
     if (result.success()) {
-      if (TagReaderLoadCoverDataReplyPtr load_cover_data_reply = std::dynamic_pointer_cast<TagReaderLoadCoverDataReply>(reply)) {
+      if (TagReaderLoadCoverDataReplyPtr load_cover_data_reply = qSharedPointerDynamicCast<TagReaderLoadCoverDataReply>(reply)) {
         load_cover_data_reply->set_data(cover_data);
       }
     }
@@ -188,7 +190,7 @@ void TagReaderClient::ProcessRequest(TagReaderRequestPtr request) {
     QImage cover_image;
     result = LoadCoverImageBlocking(load_cover_image_request->filename, cover_image);
     if (result.success()) {
-      if (TagReaderLoadCoverImageReplyPtr load_cover_image_reply = std::dynamic_pointer_cast<TagReaderLoadCoverImageReply>(reply)) {
+      if (TagReaderLoadCoverImageReplyPtr load_cover_image_reply = qSharedPointerDynamicCast<TagReaderLoadCoverImageReply>(reply)) {
         load_cover_image_reply->set_image(cover_image);
       }
     }

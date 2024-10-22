@@ -29,6 +29,7 @@
 #include <QColor>
 
 #include "settingspage.h"
+#include "constants/appearancesettings.h"
 
 class QWidget;
 
@@ -42,59 +43,8 @@ class AppearanceSettingsPage : public SettingsPage {
   explicit AppearanceSettingsPage(SettingsDialog *dialog, QWidget *parent = nullptr);
   ~AppearanceSettingsPage() override;
 
-  static const char *kSettingsGroup;
-
-  static const char *kStyle;
-
-  static const char *kBackgroundImageType;
-  static const char *kBackgroundImageFilename;
-  static const char *kBackgroundImagePosition;
-  static const char *kBackgroundImageStretch;
-  static const char *kBackgroundImageDoNotCut;
-  static const char *kBackgroundImageKeepAspectRatio;
-  static const char *kBackgroundImageMaxSize;
-
-  static const char *kBlurRadius;
-  static const char *kOpacityLevel;
-
-  static const int kDefaultBlurRadius;
-  static const int kDefaultOpacityLevel;
-
-  static const char *kSystemThemeIcons;
-
-  static const char *kTabBarSystemColor;
-  static const char *kTabBarGradient;
-  static const char *kTabBarColor;
-
-  static const char *kIconSizeTabbarSmallMode;
-  static const char *kIconSizeTabbarLargeMode;
-  static const char *kIconSizePlayControlButtons;
-  static const char *kIconSizePlaylistButtons;
-  static const char *kIconSizeLeftPanelButtons;
-  static const char *kIconSizeConfigureButtons;
-
-  static const char *kPlaylistPlayingSongColor;
-
-  enum class BackgroundImageType {
-    Default,
-    None,
-    Custom,
-    Album,
-    Strawbs
-  };
-
-  enum class BackgroundImagePosition {
-    UpperLeft = 1,
-    UpperRight = 2,
-    Middle = 3,
-    BottomLeft = 4,
-    BottomRight = 5
-  };
-
   void Load() override;
   void Save() override;
-
-  static QColor DefaultTabbarBgColor();
 
  private Q_SLOTS:
   void SelectBackgroundImage();
@@ -112,7 +62,7 @@ class AppearanceSettingsPage : public SettingsPage {
   Ui_AppearanceSettingsPage *ui_;
 
   QColor current_tabbar_bg_color_;
-  BackgroundImageType background_image_type_;
+  AppearanceSettings::BackgroundImageType background_image_type_;
   QString background_image_filename_;
   QColor current_playlist_playing_song_color_;
 };

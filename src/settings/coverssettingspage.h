@@ -26,10 +26,12 @@
 #include <QString>
 #include <QStringList>
 
+#include "includes/shared_ptr.h"
 #include "settings/settingspage.h"
 
 class QListWidgetItem;
 
+class CoverProviders;
 class CoverProvider;
 class SettingsDialog;
 class Ui_CoversSettingsPage;
@@ -38,18 +40,8 @@ class CoversSettingsPage : public SettingsPage {
   Q_OBJECT
 
  public:
-  explicit CoversSettingsPage(SettingsDialog *dialog, QWidget *parent = nullptr);
+  explicit CoversSettingsPage(SettingsDialog *dialog, const SharedPtr<CoverProviders> cover_providers, QWidget *parent = nullptr);
   ~CoversSettingsPage() override;
-
-  static const char *kSettingsGroup;
-  static const char *kProviders;
-  static const char *kTypes;
-  static const char *kSaveType;
-  static const char *kSaveFilename;
-  static const char *kSavePattern;
-  static const char *kSaveOverwrite;
-  static const char *kSaveLowercase;
-  static const char *kSaveReplaceSpaces;
 
   void Load() override;
   void Save() override;
@@ -87,6 +79,9 @@ class CoversSettingsPage : public SettingsPage {
   };
 
   Ui_CoversSettingsPage *ui_;
+
+  const SharedPtr<CoverProviders> cover_providers_;
+
   bool provider_selected_;
   bool types_selected_;
 };

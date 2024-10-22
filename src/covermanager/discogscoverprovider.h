@@ -35,20 +35,19 @@
 #include <QString>
 #include <QJsonObject>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "jsoncoverprovider.h"
 #include "albumcoverfetcher.h"
 
 class NetworkAccessManager;
 class QNetworkReply;
 class QTimer;
-class Application;
 
 class DiscogsCoverProvider : public JsonCoverProvider {
   Q_OBJECT
 
  public:
-  explicit DiscogsCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
+  explicit DiscogsCoverProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~DiscogsCoverProvider() override;
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;

@@ -36,17 +36,20 @@
 #include <QDateTime>
 #include <QSslError>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/song.h"
 #include "streaming/streamingservice.h"
 #include "streaming/streamingsearchview.h"
-#include "settings/tidalsettingspage.h"
+#include "constants/tidalsettings.h"
 
 class QNetworkReply;
 class QTimer;
 
-class Application;
+class TaskManager;
+class Database;
+class UrlHandlers;
 class NetworkAccessManager;
+class AlbumCoverLoader;
 class TidalUrlHandler;
 class TidalRequest;
 class TidalFavoriteRequest;
@@ -59,7 +62,13 @@ class TidalService : public StreamingService {
   Q_OBJECT
 
  public:
-  explicit TidalService(Application *app, QObject *parent = nullptr);
+  explicit TidalService(const SharedPtr<TaskManager> task_manager,
+                        const SharedPtr<Database> database,
+                        const SharedPtr<NetworkAccessManager> network,
+                        const SharedPtr<UrlHandlers> url_handlers,
+                        const SharedPtr<AlbumCoverLoader> albumcover_loader,
+                        QObject *parent = nullptr);
+
   ~TidalService() override;
 
   static const Song::Source kSource;
@@ -76,8 +85,6 @@ class TidalService : public StreamingService {
 
   int max_login_attempts() const { return kLoginAttempts; }
 
-  Application *app() const { return app_; }
-
   bool oauth() const override { return oauth_; }
   QString client_id() const { return client_id_; }
   QString api_token() const { return api_token_; }
@@ -92,7 +99,7 @@ class TidalService : public StreamingService {
   bool fetchalbums() const { return fetchalbums_; }
   QString coversize() const { return coversize_; }
   bool download_album_covers() const { return download_album_covers_; }
-  TidalSettingsPage::StreamUrlMethod stream_url_method() const { return stream_url_method_; }
+  TidalSettings::StreamUrlMethod stream_url_method() const { return stream_url_method_; }
   bool album_explicit() const { return album_explicit_; }
 
   QString access_token() const { return access_token_; }
@@ -117,7 +124,6 @@ class TidalService : public StreamingService {
   CollectionFilter *songs_collection_filter_model() override { return songs_collection_model_->filter(); }
 
  public Q_SLOTS:
-  void ShowConfig() override;
   void StartAuthorization(const QString &client_id);
   void TryLogin();
   void SendLogin();
@@ -160,8 +166,7 @@ class TidalService : public StreamingService {
   void SendSearch();
   void LoginError(const QString &error = QString(), const QVariant &debug = QVariant());
 
-  Application *app_;
-  SharedPtr<NetworkAccessManager> network_;
+  const SharedPtr<NetworkAccessManager> network_;
   TidalUrlHandler *url_handler_;
 
   SharedPtr<CollectionBackend> artists_collection_backend_;
@@ -197,7 +202,7 @@ class TidalService : public StreamingService {
   bool fetchalbums_;
   QString coversize_;
   bool download_album_covers_;
-  TidalSettingsPage::StreamUrlMethod stream_url_method_;
+  TidalSettings::StreamUrlMethod stream_url_method_;
   bool album_explicit_;
 
   QString access_token_;

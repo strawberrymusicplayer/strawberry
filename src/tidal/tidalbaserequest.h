@@ -36,7 +36,7 @@
 #include <QJsonObject>
 #include <QJsonValue>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "tidalservice.h"
 
 class QNetworkReply;
@@ -46,7 +46,7 @@ class TidalBaseRequest : public QObject {
   Q_OBJECT
 
  public:
-  explicit TidalBaseRequest(TidalService *service, SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
+  explicit TidalBaseRequest(TidalService *service, const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
 
   enum class Type {
     None,
@@ -102,7 +102,7 @@ class TidalBaseRequest : public QObject {
 
  private:
   TidalService *service_;
-  SharedPtr<NetworkAccessManager> network_;
+  const SharedPtr<NetworkAccessManager> network_;
 };
 
 #endif  // TIDALBASEREQUEST_H

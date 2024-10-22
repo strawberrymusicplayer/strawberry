@@ -38,7 +38,7 @@
 #include "settingsdialog.h"
 #include "lyricssettingspage.h"
 #include "ui_lyricssettingspage.h"
-#include "core/application.h"
+#include "constants/lyricssettings.h"
 #include "core/iconloader.h"
 #include "core/settings.h"
 #include "lyrics/lyricsproviders.h"
@@ -46,12 +46,12 @@
 #include "widgets/loginstatewidget.h"
 
 using namespace Qt::Literals::StringLiterals;
+using namespace LyricsSettings;
 
-const char *LyricsSettingsPage::kSettingsGroup = "Lyrics";
-
-LyricsSettingsPage::LyricsSettingsPage(SettingsDialog *dialog, QWidget *parent)
+LyricsSettingsPage::LyricsSettingsPage(SettingsDialog *dialog, const SharedPtr<LyricsProviders> lyrics_providers, QWidget *parent)
     : SettingsPage(dialog, parent),
       ui_(new Ui::LyricsSettingsPage),
+      lyrics_providers_(lyrics_providers),
       provider_selected_(false) {
 
   ui_->setupUi(this);
@@ -81,7 +81,7 @@ void LyricsSettingsPage::Load() {
 
   ui_->providers->clear();
 
-  QList<LyricsProvider*> lyrics_providers_sorted = dialog()->app()->lyrics_providers()->List();
+  QList<LyricsProvider*> lyrics_providers_sorted = lyrics_providers_->List();
   std::stable_sort(lyrics_providers_sorted.begin(), lyrics_providers_sorted.end(), ProviderCompareOrder);
 
   for (LyricsProvider *provider : std::as_const(lyrics_providers_sorted)) {
@@ -107,7 +107,7 @@ void LyricsSettingsPage::Save() {
 
   Settings s;
   s.beginGroup(kSettingsGroup);
-  s.setValue("providers", providers);
+  s.setValue(kProviders, providers);
   s.endGroup();
 
 }
@@ -115,7 +115,7 @@ void LyricsSettingsPage::Save() {
 void LyricsSettingsPage::CurrentItemChanged(QListWidgetItem *item_current, QListWidgetItem *item_previous) {
 
   if (item_previous) {
-    LyricsProvider *provider = dialog()->app()->lyrics_providers()->ProviderByName(item_previous->text());
+    LyricsProvider *provider = lyrics_providers_->ProviderByName(item_previous->text());
     if (provider && provider->AuthenticationRequired()) DisconnectAuthentication(provider);
   }
 
@@ -123,7 +123,7 @@ void LyricsSettingsPage::CurrentItemChanged(QListWidgetItem *item_current, QList
     const int row = ui_->providers->row(item_current);
     ui_->providers_up->setEnabled(row != 0);
     ui_->providers_down->setEnabled(row != ui_->providers->count() - 1);
-    LyricsProvider *provider = dialog()->app()->lyrics_providers()->ProviderByName(item_current->text());
+    LyricsProvider *provider = lyrics_providers_->ProviderByName(item_current->text());
     if (provider) {
       if (provider->AuthenticationRequired()) {
         ui_->login_state->SetLoggedIn(provider->IsAuthenticated() ? LoginStateWidget::State::LoggedIn : LoginStateWidget::State::LoggedOut);
@@ -212,7 +212,7 @@ void LyricsSettingsPage::DisconnectAuthentication(LyricsProvider *provider) cons
 void LyricsSettingsPage::AuthenticateClicked() {
 
   if (!ui_->providers->currentItem()) return;
-  LyricsProvider *provider = dialog()->app()->lyrics_providers()->ProviderByName(ui_->providers->currentItem()->text());
+  LyricsProvider *provider = lyrics_providers_->ProviderByName(ui_->providers->currentItem()->text());
   if (!provider) return;
   ui_->button_authenticate->setEnabled(false);
   ui_->login_state->SetLoggedIn(LoginStateWidget::State::LoginInProgress);
@@ -225,7 +225,7 @@ void LyricsSettingsPage::AuthenticateClicked() {
 void LyricsSettingsPage::LogoutClicked() {
 
   if (!ui_->providers->currentItem()) return;
-  LyricsProvider *provider = dialog()->app()->lyrics_providers()->ProviderByName(ui_->providers->currentItem()->text());
+  LyricsProvider *provider = lyrics_providers_->ProviderByName(ui_->providers->currentItem()->text());
   if (!provider) return;
   provider->Deauthenticate();
 

@@ -45,7 +45,6 @@
 #include "core/logging.h"
 #include "taskmanager.h"
 #include "database.h"
-#include "application.h"
 #include "sqlquery.h"
 #include "scopedtransaction.h"
 
@@ -62,9 +61,9 @@ constexpr char kMagicAllSongsTables[] = "%allsongstables";
 int Database::sNextConnectionId = 1;
 QMutex Database::sNextConnectionIdMutex;
 
-Database::Database(Application *app, QObject *parent, const QString &database_name) :
+Database::Database(SharedPtr<TaskManager> task_manager, QObject *parent, const QString &database_name) :
       QObject(parent),
-      app_(app),
+      task_manager_(task_manager),
       injected_database_name_(database_name),
       query_hash_(0),
       startup_schema_version_(-1),
@@ -145,7 +144,7 @@ QSqlDatabase Database::Connect() {
   }
 
   if (!db.open()) {
-    app_->AddError(u"Database: "_s + db.lastError().text());
+    Q_EMIT Error(u"Database: "_s + db.lastError().text());
     return db;
   }
 
@@ -492,7 +491,7 @@ void Database::ReportErrors(const SqlQuery &query) {
 bool Database::IntegrityCheck(const QSqlDatabase &db) {
 
   qLog(Debug) << "Starting database integrity check";
-  const int task_id = app_->task_manager()->StartTask(tr("Integrity check"));
+  const int task_id = task_manager_->StartTask(tr("Integrity check"));
 
   bool ok = false;
   // Ask for 10 error messages at most.
@@ -509,8 +508,8 @@ bool Database::IntegrityCheck(const QSqlDatabase &db) {
         break;
       }
       else {
-        if (!error_reported) { app_->AddError(tr("Database corruption detected.")); }
-        app_->AddError(u"Database: "_s + message);
+        if (!error_reported) { Q_EMIT Error(tr("Database corruption detected.")); }
+        Q_EMIT Error(u"Database: "_s + message);
         error_reported = true;
       }
     }
@@ -519,7 +518,7 @@ bool Database::IntegrityCheck(const QSqlDatabase &db) {
     ReportErrors(q);
   }
 
-  app_->task_manager()->SetTaskFinished(task_id);
+  task_manager_->SetTaskFinished(task_id);
 
   return ok;
 
@@ -563,7 +562,7 @@ void Database::BackupFile(const QString &filename) {
 
   qLog(Debug) << "Starting database backup";
   QString dest_filename = QStringLiteral("%1.bak").arg(filename);
-  const int task_id = app_->task_manager()->StartTask(tr("Backing up database"));
+  const int task_id = task_manager_->StartTask(tr("Backing up database"));
 
   sqlite3 *source_connection = nullptr;
   sqlite3 *dest_connection = nullptr;
@@ -575,7 +574,7 @@ void Database::BackupFile(const QString &filename) {
     if (dest_connection) {
       sqlite3_close(dest_connection);
     }
-    app_->task_manager()->SetTaskFinished(task_id);
+    task_manager_->SetTaskFinished(task_id);
   });
 
   bool success = OpenDatabase(filename, &source_connection);
@@ -599,7 +598,7 @@ void Database::BackupFile(const QString &filename) {
   do {
     ret = sqlite3_backup_step(backup, 16);
     const int page_count = sqlite3_backup_pagecount(backup);
-    app_->task_manager()->SetTaskProgress(task_id, page_count - sqlite3_backup_remaining(backup), page_count);
+    task_manager_->SetTaskProgress(task_id, page_count - sqlite3_backup_remaining(backup), page_count);
   }
   while (ret == SQLITE_OK);
 

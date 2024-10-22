@@ -23,6 +23,8 @@
 
 #include "filtertree.h"
 
+#include "core/song.h"
+
 using namespace Qt::Literals::StringLiterals;
 
 FilterTree::FilterTree() = default;

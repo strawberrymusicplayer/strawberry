@@ -28,7 +28,6 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
-#include "core/application.h"
 #include "core/networkaccessmanager.h"
 #include "core/taskmanager.h"
 #include "core/iconloader.h"
@@ -42,8 +41,8 @@ namespace {
 constexpr char kApiChannelsUrl[] = "https://somafm.com/channels.json";
 }
 
-SomaFMService::SomaFMService(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : RadioService(Song::Source::SomaFM, u"SomaFM"_s, IconLoader::Load(u"somafm"_s), app, network, parent) {}
+SomaFMService::SomaFMService(const SharedPtr<TaskManager> task_manager, const SharedPtr<NetworkAccessManager> network, QObject *parent)
+    : RadioService(Song::Source::SomaFM, u"SomaFM"_s, IconLoader::Load(u"somafm"_s), task_manager, network, parent) {}
 
 SomaFMService::~SomaFMService() {
   Abort();
@@ -73,7 +72,7 @@ void SomaFMService::GetChannels() {
   QNetworkRequest req(url);
   QNetworkReply *reply = network_->get(req);
   replies_ << reply;
-  const int task_id = app_->task_manager()->StartTask(tr("Getting %1 channels").arg(name_));
+  const int task_id = task_manager_->StartTask(tr("Getting %1 channels").arg(name_));
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, task_id]() { GetChannelsReply(reply, task_id); });
 
 }
@@ -85,14 +84,14 @@ void SomaFMService::GetChannelsReply(QNetworkReply *reply, const int task_id) {
 
   QJsonObject object = ExtractJsonObj(reply);
   if (object.isEmpty()) {
-    app_->task_manager()->SetTaskFinished(task_id);
+    task_manager_->SetTaskFinished(task_id);
     Q_EMIT NewChannels();
     return;
   }
 
   if (!object.contains("channels"_L1) || !object["channels"_L1].isArray()) {
     Error(u"Missing JSON channels array."_s, object);
-    app_->task_manager()->SetTaskFinished(task_id);
+    task_manager_->SetTaskFinished(task_id);
     Q_EMIT NewChannels();
     return;
   }
@@ -129,7 +128,7 @@ void SomaFMService::GetChannelsReply(QNetworkReply *reply, const int task_id) {
   }
 
   if (channels.isEmpty()) {
-    app_->task_manager()->SetTaskFinished(task_id);
+    task_manager_->SetTaskFinished(task_id);
     Q_EMIT NewChannels();
   }
   else {
@@ -154,7 +153,7 @@ void SomaFMService::GetStreamUrlsReply(QNetworkReply *reply, const int task_id, 
   if (replies_.contains(reply)) replies_.removeAll(reply);
   reply->deleteLater();
 
-  PlaylistParser parser;
+  PlaylistParser parser(nullptr, nullptr);
   SongList songs = parser.LoadFromDevice(reply);
   if (!songs.isEmpty()) {
     channel.url = songs.first().url();
@@ -163,7 +162,7 @@ void SomaFMService::GetStreamUrlsReply(QNetworkReply *reply, const int task_id, 
   channels_ << channel;
 
   if (replies_.isEmpty()) {
-    app_->task_manager()->SetTaskFinished(task_id);
+    task_manager_->SetTaskFinished(task_id);
     Q_EMIT NewChannels(channels_);
     channels_.clear();
   }

@@ -29,7 +29,7 @@
 #include <QString>
 #include <QUrl>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/networkaccessmanager.h"
 #include "lyricsprovider.h"
 #include "lyricssearchrequest.h"
@@ -40,7 +40,7 @@ class HtmlLyricsProvider : public LyricsProvider {
   Q_OBJECT
 
  public:
-  explicit HtmlLyricsProvider(const QString &name, const bool enabled, const QString &start_tag, const QString &end_tag, const QString &lyrics_start, const bool multiple, SharedPtr<NetworkAccessManager> network, QObject *parent);
+  explicit HtmlLyricsProvider(const QString &name, const bool enabled, const QString &start_tag, const QString &end_tag, const QString &lyrics_start, const bool multiple, const SharedPtr<NetworkAccessManager> network, QObject *parent);
   ~HtmlLyricsProvider();
 
   virtual bool StartSearchAsync(const int id, const LyricsSearchRequest &request) override;

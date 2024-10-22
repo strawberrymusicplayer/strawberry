@@ -25,7 +25,7 @@
 #include <QObject>
 #include <QString>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "settings/settingspage.h"
 
 class QEvent;
@@ -37,10 +37,8 @@ class SpotifySettingsPage : public SettingsPage {
   Q_OBJECT
 
  public:
-  explicit SpotifySettingsPage(SettingsDialog *dialog, QWidget *parent = nullptr);
+  explicit SpotifySettingsPage(SettingsDialog *dialog, const SharedPtr<SpotifyService> service, QWidget *parent = nullptr);
   ~SpotifySettingsPage() override;
-
-  static const char *kSettingsGroup;
 
   void Load() override;
   void Save() override;
@@ -58,7 +56,7 @@ class SpotifySettingsPage : public SettingsPage {
 
  private:
   Ui_SpotifySettingsPage *ui_;
-  SharedPtr<SpotifyService> service_;
+  const SharedPtr<SpotifyService> service_;
 };
 
 #endif  // SPOTIFYSETTINGSPAGE_H

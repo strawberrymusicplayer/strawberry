@@ -39,7 +39,7 @@
 #include "core/logging.h"
 #include "core/iconloader.h"
 #include "core/settings.h"
-#include "settings/collectionsettingspage.h"
+#include "constants/collectionsettings.h"
 #include "collectionmodel.h"
 #include "savedgroupingmanager.h"
 #include "ui_savedgroupingmanager.h"
@@ -77,7 +77,7 @@ SavedGroupingManager::~SavedGroupingManager() {
 
 QString SavedGroupingManager::GetSavedGroupingsSettingsGroup(const QString &settings_group) {
 
-  if (settings_group.isEmpty() || settings_group == QLatin1String(CollectionSettingsPage::kSettingsGroup)) {
+  if (settings_group.isEmpty() || settings_group == QLatin1String(CollectionSettings::kSettingsGroup)) {
     return QLatin1String(kSavedGroupingsSettingsGroup);
   }
 

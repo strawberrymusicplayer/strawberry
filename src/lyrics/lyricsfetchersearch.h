@@ -27,7 +27,7 @@
 #include <QMap>
 #include <QString>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "lyricssearchrequest.h"
 #include "lyricssearchresult.h"
 
@@ -58,7 +58,7 @@ class LyricsFetcherSearch : public QObject {
 
  private:
   quint64 id_;
-  LyricsSearchRequest request_;
+  const LyricsSearchRequest request_;
   LyricsSearchResults results_;
   QMap<int, LyricsProvider*> pending_requests_;
   bool cancel_requested_;

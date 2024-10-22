@@ -30,11 +30,11 @@
 #include <QSignalSpy>
 #include <QtDebug>
 
+#include "includes/scoped_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/logging.h"
-#include "core/scoped_ptr.h"
-#include "core/shared_ptr.h"
-#include "core/database.h"
-#include "collection/collection.h"
+#include "core/memorydatabase.h"
+#include "collection/collectionlibrary.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
 #include "collection/collectionfilter.h"
@@ -55,7 +55,7 @@ class CollectionModelTest : public ::testing::Test {
   void SetUp() override {
     database_ = make_shared<MemoryDatabase>(nullptr);
     backend_ = make_shared<CollectionBackend>();
-    backend_->Init(database_, nullptr, Song::Source::Collection, QLatin1String(SCollection::kSongsTable), QLatin1String(SCollection::kDirsTable), QLatin1String(SCollection::kSubdirsTable));
+    backend_->Init(database_, nullptr, Song::Source::Collection, QLatin1String(CollectionLibrary::kSongsTable), QLatin1String(CollectionLibrary::kDirsTable), QLatin1String(CollectionLibrary::kSubdirsTable));
     model_ = make_unique<CollectionModel>(backend_, nullptr);
     collection_filter_ = model_->filter();
 

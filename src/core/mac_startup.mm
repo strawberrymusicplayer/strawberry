@@ -45,15 +45,6 @@
 
 #include "config.h"
 
-#include "platforminterface.h"
-#include "mac_delegate.h"
-#include "mac_startup.h"
-#include "scoped_cftyperef.h"
-#include "core/logging.h"
-#include "scoped_nsautorelease_pool.h"
-#include "globalshortcuts/globalshortcutsmanager.h"
-#include "globalshortcuts/globalshortcutsbackend-macos.h"
-
 #include <QApplication>
 #include <QCoreApplication>
 #include <QWidget>
@@ -61,7 +52,14 @@
 #include <QEvent>
 #include <QFile>
 
-#include <QtDebug>
+#include "includes/mac_delegate.h"
+#include "includes/scoped_cftyperef.h"
+#include "core/scoped_nsautorelease_pool.h"
+#include "core/logging.h"
+#include "core/platforminterface.h"
+#include "mac_startup.h"
+#include "globalshortcuts/globalshortcutsmanager.h"
+#include "globalshortcuts/globalshortcutsbackend-macos.h"
 
 QDebug operator<<(QDebug dbg, NSObject *object) {
 

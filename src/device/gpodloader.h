@@ -29,7 +29,7 @@
 #include <QObject>
 #include <QString>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/song.h"
 
 class QThread;
@@ -41,7 +41,12 @@ class GPodLoader : public QObject {
   Q_OBJECT
 
  public:
-  explicit GPodLoader(const QString &mount_point, SharedPtr<TaskManager> task_manager, SharedPtr<CollectionBackend> backend, SharedPtr<ConnectedDevice> device, QObject *parent = nullptr);
+  explicit GPodLoader(const QString &mount_point,
+                      const SharedPtr<TaskManager> task_manager,
+                      const SharedPtr<CollectionBackend> backend,
+                      const SharedPtr<ConnectedDevice> device,
+                      QObject *parent = nullptr);
+
   ~GPodLoader() override;
 
   void set_music_path_prefix(const QString &prefix) { path_prefix_ = prefix; }

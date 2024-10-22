@@ -38,9 +38,9 @@
 #include <QJsonArray>
 #include <QJsonObject>
 
-#include "core/scoped_ptr.h"
-#include "core/shared_ptr.h"
-#include "core/dbus_metatypes.h"
+#include "includes/scoped_ptr.h"
+#include "includes/shared_ptr.h"
+#include "includes/dbus_metatypes.h"
 
 #include "devicelister.h"
 

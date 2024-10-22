@@ -30,7 +30,7 @@
 #include <QIcon>
 #include <QPixmap>
 
-#include "core/scoped_ptr.h"
+#include "includes/scoped_ptr.h"
 
 class QMenu;
 class QAction;

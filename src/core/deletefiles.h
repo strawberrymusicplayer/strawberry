@@ -27,7 +27,7 @@
 #include <QObject>
 #include <QStringList>
 
-#include "shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "song.h"
 
 class QThread;

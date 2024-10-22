@@ -36,28 +36,32 @@
 #include <QMutex>
 
 #include "collectiondirectory.h"
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/song.h"
 
 class QThread;
 class QTimer;
 
+class TaskManager;
+class TagReaderClient;
 class CollectionBackend;
 class FileSystemWatcherInterface;
-class TaskManager;
 class CueParser;
 
 class CollectionWatcher : public QObject {
   Q_OBJECT
 
  public:
-  explicit CollectionWatcher(const Song::Source source, QObject *parent = nullptr);
+  explicit CollectionWatcher(const Song::Source source,
+                             const SharedPtr<TaskManager> task_manager,
+                             const SharedPtr<TagReaderClient> tagreader_client,
+                             const SharedPtr<CollectionBackend> backend,
+                             QObject *parent = nullptr);
+
   ~CollectionWatcher();
 
-  Song::Source source() { return source_; }
+  Song::Source source() const { return source_; }
 
-  void set_backend(SharedPtr<CollectionBackend> backend) { backend_ = backend; }
-  void set_task_manager(SharedPtr<TaskManager> task_manager) { task_manager_ = task_manager; }
   void set_device_name(const QString &device_name) { device_name_ = device_name; }
 
   void IncrementalScanAsync();
@@ -213,9 +217,12 @@ class CollectionWatcher : public QObject {
   QString FindCueFilename(const QString &filename);
 
  private:
-  Song::Source source_;
-  SharedPtr<CollectionBackend> backend_;
-  SharedPtr<TaskManager> task_manager_;
+  const Song::Source source_;
+
+  const SharedPtr<TaskManager> task_manager_;
+  const SharedPtr<TagReaderClient> tagreader_client_;
+  const SharedPtr<CollectionBackend> backend_;
+
   QString device_name_;
 
   FileSystemWatcherInterface *fs_watcher_;

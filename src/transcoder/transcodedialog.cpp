@@ -57,10 +57,10 @@
 #include <QCloseEvent>
 
 #include "core/iconloader.h"
-#include "core/mainwindow.h"
 #include "core/settings.h"
+#include "constants/filefilterconstants.h"
+#include "constants/transcodersettings.h"
 #include "utilities/screenutils.h"
-#include "widgets/fileview.h"
 #include "transcodedialog.h"
 #include "transcoder.h"
 #include "transcoderoptionsdialog.h"
@@ -68,13 +68,6 @@
 #include "ui_transcodelogdialog.h"
 
 using namespace Qt::Literals::StringLiterals;
-
-// winspool.h defines this :(
-#ifdef AddJob
-#  undef AddJob
-#endif
-
-const char *TranscodeDialog::kSettingsGroup = "Transcoder";
 
 namespace {
 constexpr int kProgressInterval = 500;
@@ -115,7 +108,7 @@ TranscodeDialog::TranscodeDialog(QMainWindow *mainwindow, QWidget *parent)
 
   // Load settings
   Settings s;
-  s.beginGroup(kSettingsGroup);
+  s.beginGroup(TranscoderSettings::kSettingsGroup);
   last_add_dir_ = s.value("last_add_dir", QDir::homePath()).toString();
   last_import_dir_ = s.value("last_import_dir", QDir::homePath()).toString();
   QString last_output_format = s.value("last_output_format", u"audio/x-vorbis"_s).toString();
@@ -194,7 +187,7 @@ void TranscodeDialog::reject() {
 void TranscodeDialog::LoadGeometry() {
 
   Settings s;
-  s.beginGroup(kSettingsGroup);
+  s.beginGroup(TranscoderSettings::kSettingsGroup);
   if (s.contains("geometry")) {
     restoreGeometry(s.value("geometry").toByteArray());
   }
@@ -208,7 +201,7 @@ void TranscodeDialog::LoadGeometry() {
 void TranscodeDialog::SaveGeometry() {
 
   Settings s;
-  s.beginGroup(kSettingsGroup);
+  s.beginGroup(TranscoderSettings::kSettingsGroup);
   s.setValue("geometry", saveGeometry());
   s.endGroup();
 
@@ -261,7 +254,7 @@ void TranscodeDialog::Start() {
 
   // Save the last output format
   Settings s;
-  s.beginGroup(kSettingsGroup);
+  s.beginGroup(TranscoderSettings::kSettingsGroup);
   s.setValue("last_output_format", preset.codec_mimetype_);
   s.endGroup();
 
@@ -329,7 +322,7 @@ void TranscodeDialog::Add() {
 
   QStringList filenames = QFileDialog::getOpenFileNames(
       this, tr("Add files to transcode"), last_add_dir_,
-      QStringLiteral("%1 (%2);;%3").arg(tr("Music"), QLatin1String(FileView::kFileFilter), tr(MainWindow::kAllFilesFilterSpec)));
+      QStringLiteral("%1 (%2);;%3").arg(tr("Music"), QLatin1String(kFileFilter), tr(kAllFilesFilterSpec)));
 
   if (filenames.isEmpty()) return;
 
@@ -337,7 +330,7 @@ void TranscodeDialog::Add() {
 
   last_add_dir_ = filenames[0];
   Settings s;
-  s.beginGroup(kSettingsGroup);
+  s.beginGroup(TranscoderSettings::kSettingsGroup);
   s.setValue("last_add_dir", last_add_dir_);
   s.endGroup();
 
@@ -351,7 +344,7 @@ void TranscodeDialog::Import() {
 
   QStringList filenames;
 
-  const QStringList audio_types = QString::fromLatin1(FileView::kFileFilter).split(u' ', Qt::SkipEmptyParts);
+  const QStringList audio_types = QString::fromLatin1(kFileFilter).split(u' ', Qt::SkipEmptyParts);
   QDirIterator files(path, audio_types, QDir::Files | QDir::Readable, QDirIterator::Subdirectories);
 
   while (files.hasNext()) {
@@ -362,7 +355,7 @@ void TranscodeDialog::Import() {
 
   last_import_dir_ = path;
   Settings s;
-  s.beginGroup(kSettingsGroup);
+  s.beginGroup(TranscoderSettings::kSettingsGroup);
   s.setValue("last_import_dir", last_import_dir_);
   s.endGroup();
 

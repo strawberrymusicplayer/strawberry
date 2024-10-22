@@ -30,7 +30,7 @@
 #include <QAction>
 #include <QActionGroup>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "engine/enginebase.h"
 
 class QTimer;

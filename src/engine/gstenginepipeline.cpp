@@ -61,8 +61,8 @@
 
 #include "core/logging.h"
 #include "core/signalchecker.h"
-#include "utilities/timeconstants.h"
-#include "settings/backendsettingspage.h"
+#include "constants/timeconstants.h"
+#include "constants/backendsettings.h"
 #include "gstengine.h"
 #include "gstenginepipeline.h"
 #include "gstbufferconsumer.h"
@@ -103,9 +103,9 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       volume_enabled_(true),
       fading_enabled_(false),
       strict_ssl_enabled_(false),
-      buffer_duration_nanosec_(BackendSettingsPage::kDefaultBufferDuration * kNsecPerMsec),
-      buffer_low_watermark_(BackendSettingsPage::kDefaultBufferLowWatermark),
-      buffer_high_watermark_(BackendSettingsPage::kDefaultBufferHighWatermark),
+      buffer_duration_nanosec_(BackendSettings::kDefaultBufferDuration * kNsecPerMsec),
+      buffer_low_watermark_(BackendSettings::kDefaultBufferLowWatermark),
+      buffer_high_watermark_(BackendSettings::kDefaultBufferHighWatermark),
       proxy_authentication_(false),
       channels_enabled_(false),
       channels_(0),

@@ -50,13 +50,13 @@
 #include "core/taskmanager.h"
 #include "core/settings.h"
 #include "utilities/imageutils.h"
-#include "utilities/timeconstants.h"
+#include "constants/timeconstants.h"
 #include "tagreader/tagreaderclient.h"
 #include "collectiondirectory.h"
 #include "collectionbackend.h"
 #include "collectionwatcher.h"
 #include "playlistparsers/cueparser.h"
-#include "settings/collectionsettingspage.h"
+#include "constants/collectionsettings.h"
 #include "engine/ebur128measures.h"
 #ifdef HAVE_SONGFINGERPRINTING
 #  include "engine/chromaprinter.h"
@@ -75,11 +75,16 @@ using namespace Qt::Literals::StringLiterals;
 
 QStringList CollectionWatcher::sValidImages = QStringList() << u"jpg"_s << u"png"_s << u"gif"_s << u"jpeg"_s;
 
-CollectionWatcher::CollectionWatcher(const Song::Source source, QObject *parent)
+CollectionWatcher::CollectionWatcher(const Song::Source source,
+                                     const SharedPtr<TaskManager> task_manager,
+                                     const SharedPtr<TagReaderClient> tagreader_client,
+                                     const SharedPtr<CollectionBackend> backend,
+                                     QObject *parent)
     : QObject(parent),
       source_(source),
-      backend_(nullptr),
-      task_manager_(nullptr),
+      task_manager_(task_manager),
+      tagreader_client_(tagreader_client),
+      backend_(backend),
       fs_watcher_(FileSystemWatcherInterface::Create(this)),
       original_thread_(nullptr),
       scan_on_startup_(true),
@@ -96,7 +101,7 @@ CollectionWatcher::CollectionWatcher(const Song::Source source, QObject *parent)
       periodic_scan_timer_(new QTimer(this)),
       rescan_paused_(false),
       total_watches_(0),
-      cue_parser_(new CueParser(backend_, this)),
+      cue_parser_(new CueParser(tagreader_client, backend, this)),
       last_scan_time_(0) {
 
   setObjectName(source_ == Song::Source::Collection ? QLatin1String(metaObject()->className()) : QStringLiteral("%1%2").arg(Song::DescriptionForSource(source_), QLatin1String(metaObject()->className())));
@@ -196,29 +201,29 @@ void CollectionWatcher::ReloadSettings() {
 
   const bool was_monitoring_before = monitor_;
   Settings s;
-  s.beginGroup(CollectionSettingsPage::kSettingsGroup);
+  s.beginGroup(CollectionSettings::kSettingsGroup);
   if (source_ == Song::Source::Collection) {
-    scan_on_startup_ = s.value("startup_scan", true).toBool();
-    monitor_ = s.value("monitor", true).toBool();
+    scan_on_startup_ = s.value(CollectionSettings::kStartupScan, true).toBool();
+    monitor_ = s.value(CollectionSettings::kMonitor, true).toBool();
   }
   else {
     scan_on_startup_ = true;
     monitor_ = true;
   }
-  const QStringList filters = s.value("cover_art_patterns", QStringList() << u"front"_s << u"cover"_s).toStringList();
+  const QStringList filters = s.value(CollectionSettings::kCoverArtPatterns, QStringList() << u"front"_s << u"cover"_s).toStringList();
   if (source_ == Song::Source::Collection) {
-    song_tracking_ = s.value("song_tracking", false).toBool();
-    song_ebur128_loudness_analysis_ = s.value("song_ebur128_loudness_analysis", false).toBool();
-    mark_songs_unavailable_ = song_tracking_ ? true : s.value("mark_songs_unavailable", true).toBool();
+    song_tracking_ = s.value(CollectionSettings::kSongTracking, false).toBool();
+    song_ebur128_loudness_analysis_ = s.value(CollectionSettings::kSongENUR128LoudnessAnalysis, false).toBool();
+    mark_songs_unavailable_ = song_tracking_ ? true : s.value(CollectionSettings::kMarkSongsUnavailable, true).toBool();
   }
   else {
     song_tracking_ = false;
     song_ebur128_loudness_analysis_ = false;
     mark_songs_unavailable_ = false;
   }
-  expire_unavailable_songs_days_ = s.value("expire_unavailable_songs", 60).toInt();
-  overwrite_playcount_ = s.value("overwrite_playcount", false).toBool();
-  overwrite_rating_ = s.value("overwrite_rating", false).toBool();
+  expire_unavailable_songs_days_ = s.value(CollectionSettings::kExpireUnavailableSongs, 60).toInt();
+  overwrite_playcount_ = s.value(CollectionSettings::kOverwritePlaycount, false).toBool();
+  overwrite_rating_ = s.value(CollectionSettings::kOverwriteRating, false).toBool();
   s.endGroup();
 
   best_art_filters_.clear();
@@ -575,7 +580,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const CollectionSu
         album_art[dir_part] << child;
         t->AddToProgress(1);
       }
-      else if (TagReaderClient::Instance()->IsMediaFileBlocking(child)) {
+      else if (tagreader_client_->IsMediaFileBlocking(child)) {
         files_on_disk << child;
       }
       else {
@@ -874,7 +879,7 @@ void CollectionWatcher::UpdateNonCueAssociatedSong(const QString &file,
   }
 
   Song song_on_disk(source_);
-  const TagReaderResult result = TagReaderClient::Instance()->ReadFileBlocking(file, &song_on_disk);
+  const TagReaderResult result = tagreader_client_->ReadFileBlocking(file, &song_on_disk);
   if (result.success() && song_on_disk.is_valid()) {
     song_on_disk.set_source(source_);
     song_on_disk.set_directory_id(t->dir());
@@ -927,7 +932,7 @@ SongList CollectionWatcher::ScanNewFile(const QString &file, const QString &path
   }
   else {  // It's a normal media file
     Song song(source_);
-    const TagReaderResult result = TagReaderClient::Instance()->ReadFileBlocking(file, &song);
+    const TagReaderResult result = tagreader_client_->ReadFileBlocking(file, &song);
     if (result.success() && song.is_valid()) {
       song.set_source(source_);
       PerformEBUR128Analysis(song);

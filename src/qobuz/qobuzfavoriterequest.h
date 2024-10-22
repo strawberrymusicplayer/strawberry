@@ -28,7 +28,7 @@
 #include <QString>
 
 #include "qobuzbaserequest.h"
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/song.h"
 
 class QNetworkReply;
@@ -81,7 +81,7 @@ class QobuzFavoriteRequest : public QobuzBaseRequest {
   void RemoveFavoritesRequest(const FavoriteType type, const QStringList &ids_list, const SongList &songs);
 
   QobuzService *service_;
-  SharedPtr<NetworkAccessManager> network_;
+  const SharedPtr<NetworkAccessManager> network_;
   QList<QNetworkReply*> replies_;
 };
 

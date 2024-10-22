@@ -30,7 +30,7 @@
 #include <QPalette>
 #include <QString>
 
-#include "shared_ptr.h"
+#include "includes/shared_ptr.h"
 
 class QWidget;
 class QEvent;

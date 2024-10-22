@@ -32,9 +32,9 @@
 #include <QString>
 #include <QSettings>
 
-#include "osd/osdbase.h"
 #include "core/logging.h"
 #include "core/settings.h"
+#include "constants/notificationssettings.h"
 
 class QCheckBox;
 class QComboBox;
@@ -81,7 +81,7 @@ class SettingsPage : public QWidget {
   bool eventFilter(QObject *obj, QEvent *e) override;
 
  Q_SIGNALS:
-  void NotificationPreview(const OSDBase::Behaviour, const QString&, const QString&);
+  void NotificationPreview(const OSDSettings::Type, const QString&, const QString&);
 
  private:
   SettingsDialog *dialog_;

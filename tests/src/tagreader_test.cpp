@@ -29,6 +29,7 @@
 #include <QThread>
 #include <QEventLoop>
 
+#include "core/logging.h"
 #include "core/song.h"
 #include "tagreader/tagreaderclient.h"
 
@@ -44,11 +45,18 @@ namespace {
 class TagReaderTest : public ::testing::Test {
  protected:
 
+  ~TagReaderTest() {
+    tagreader_client_thread_->exit();
+    tagreader_client_thread_->wait(5000);
+    tagreader_client_->deleteLater();
+    tagreader_client_thread_->deleteLater();
+  }
+
   void SetUp() override {
-    tagread_client_thread_ = new QThread();
-    tagreader_client_ = make_shared<TagReaderClient>();
-    tagreader_client_->moveToThread(tagread_client_thread_);
-    tagread_client_thread_->start();
+    tagreader_client_ = new TagReaderClient();
+    tagreader_client_thread_ = new QThread();
+    tagreader_client_->moveToThread(tagreader_client_thread_);
+    tagreader_client_thread_->start();
   }
 
   static void SetUpTestCase() {
@@ -56,9 +64,9 @@ class TagReaderTest : public ::testing::Test {
     testing::DefaultValue<TagLib::String>::Set("foobarbaz");
   }
 
-  static Song ReadSongFromFile(const QString &filename) {
+  Song ReadSongFromFile(const QString &filename) const {
 
-    TagReaderReadFileReplyPtr reply = TagReaderClient::Instance()->ReadFileAsync(filename);
+    TagReaderReadFileReplyPtr reply = tagreader_client_->ReadFileAsync(filename);
 
     QEventLoop loop;
     QObject::connect(&*reply, &TagReaderReadFileReply::Finished, &loop, &QEventLoop::quit);
@@ -68,9 +76,9 @@ class TagReaderTest : public ::testing::Test {
 
   }
 
-  static void WriteSongToFile(const Song &song, const QString &filename) {
+  void WriteSongToFile(const Song &song, const QString &filename) const {
 
-    TagReaderReplyPtr reply = TagReaderClient::Instance()->WriteFileAsync(filename, song, SaveTagsOption::Tags, SaveTagCoverData());
+    TagReaderReplyPtr reply = tagreader_client_->WriteFileAsync(filename, song, SaveTagsOption::Tags, SaveTagCoverData());
 
     QEventLoop loop;
     QObject::connect(&*reply, &TagReaderReply::Finished, &loop, &QEventLoop::quit);
@@ -95,27 +103,27 @@ class TagReaderTest : public ::testing::Test {
     return QString();
   }
 
-  static void WriteSongPlaycountToFile(const Song &song, const QString &filename) {
+  void WriteSongPlaycountToFile(const Song &song, const QString &filename) const {
 
-    TagReaderReplyPtr reply = TagReaderClient::Instance()->SaveSongPlaycountAsync(filename, song.playcount());
+    TagReaderReplyPtr reply = tagreader_client_->SaveSongPlaycountAsync(filename, song.playcount());
     QEventLoop loop;
     QObject::connect(&*reply, &TagReaderReply::Finished, &loop, &QEventLoop::quit);
     loop.exec();
 
   }
 
-  static void WriteSongRatingToFile(const Song &song, const QString &filename) {
+  void WriteSongRatingToFile(const Song &song, const QString &filename) const {
 
-    TagReaderReplyPtr reply = TagReaderClient::Instance()->SaveSongRatingAsync(filename, song.rating());
+    TagReaderReplyPtr reply = tagreader_client_->SaveSongRatingAsync(filename, song.rating());
     QEventLoop loop;
     QObject::connect(&*reply, &TagReaderReply::Finished, &loop, &QEventLoop::quit);
     loop.exec();
 
   }
 
-  static QImage ReadCoverFromFile(const QString &filename) {
+  QImage ReadCoverFromFile(const QString &filename) const {
 
-    TagReaderLoadCoverImageReplyPtr reply = TagReaderClient::Instance()->LoadCoverImageAsync(filename);
+    TagReaderLoadCoverImageReplyPtr reply = tagreader_client_->LoadCoverImageAsync(filename);
     QEventLoop loop;
     QObject::connect(&*reply, &TagReaderLoadCoverImageReply::Finished, &loop, &QEventLoop::quit);
     loop.exec();
@@ -124,9 +132,9 @@ class TagReaderTest : public ::testing::Test {
 
   }
 
-  static TagReaderResult WriteCoverToFile(const QString &filename, const SaveTagCoverData &save_tag_cover_data) {
+  TagReaderResult WriteCoverToFile(const QString &filename, const SaveTagCoverData &save_tag_cover_data) const {
 
-    TagReaderReplyPtr reply = TagReaderClient::Instance()->SaveCoverAsync(filename, save_tag_cover_data);
+    TagReaderReplyPtr reply = tagreader_client_->SaveCoverAsync(filename, save_tag_cover_data);
     QEventLoop loop;
     QObject::connect(&*reply, &TagReaderReply::Finished, &loop, &QEventLoop::quit);
     loop.exec();
@@ -135,8 +143,8 @@ class TagReaderTest : public ::testing::Test {
 
   }
 
-  QThread *tagread_client_thread_ = nullptr;
-  SharedPtr<TagReaderClient> tagreader_client_;
+  QThread *tagreader_client_thread_ = nullptr;
+  TagReaderClient *tagreader_client_ = nullptr;
 
 };
 

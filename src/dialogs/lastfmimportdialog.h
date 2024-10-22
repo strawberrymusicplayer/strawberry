@@ -26,7 +26,7 @@
 #include <QDialog>
 #include <QString>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 
 #include "ui_lastfmimportdialog.h"
 

@@ -28,8 +28,8 @@
 #include <QNetworkReply>
 #include <QJsonObject>
 
+#include "includes/shared_ptr.h"
 #include "core/logging.h"
-#include "core/shared_ptr.h"
 #include "core/networkaccessmanager.h"
 #include "utilities/strutils.h"
 #include "lyricssearchrequest.h"
@@ -43,7 +43,7 @@ namespace {
 constexpr char kUrlSearch[] = "https://api.lyrics.ovh/v1/";
 }
 
-OVHLyricsProvider::OVHLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent) : JsonLyricsProvider(u"Lyrics.ovh"_s, true, false, network, parent) {}
+OVHLyricsProvider::OVHLyricsProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent) : JsonLyricsProvider(u"Lyrics.ovh"_s, true, false, network, parent) {}
 
 OVHLyricsProvider::~OVHLyricsProvider() {
 

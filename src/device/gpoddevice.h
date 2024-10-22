@@ -34,7 +34,7 @@
 #include <QStringList>
 #include <QUrl>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/song.h"
 #include "core/musicstorage.h"
 #include "core/temporaryfile.h"
@@ -42,15 +42,29 @@
 #include "gpodloader.h"
 
 class QThread;
-class Application;
 class DeviceLister;
 class DeviceManager;
+class TaskManager;
+class Database;
+class TagReaderClient;
+class AlbumCoverLoader;
 
 class GPodDevice : public ConnectedDevice, public virtual MusicStorage {
   Q_OBJECT
 
  public:
-  Q_INVOKABLE GPodDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, SharedPtr<DeviceManager> manager, Application *app, const int database_id, const bool first_time, QObject *parent = nullptr);
+  Q_INVOKABLE GPodDevice(const QUrl &url,
+                         DeviceLister *lister,
+                         const QString &unique_id,
+                         DeviceManager *device_manager,
+                         const SharedPtr<TaskManager> task_manager,
+                         const SharedPtr<Database> database,
+                         const SharedPtr<TagReaderClient> tagreader_client,
+                         const SharedPtr<AlbumCoverLoader> albumcover_loader,
+                         const int database_id,
+                         const bool first_time,
+                         QObject *parent = nullptr);
+
   ~GPodDevice() override;
 
   bool Init() override;
@@ -86,6 +100,7 @@ class GPodDevice : public ConnectedDevice, public virtual MusicStorage {
   bool WriteDatabase(QString &error_text);
 
  protected:
+  SharedPtr <TaskManager> task_manager_;
   GPodLoader *loader_;
   QThread *loader_thread_;
 

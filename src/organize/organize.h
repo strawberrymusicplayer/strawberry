@@ -35,7 +35,7 @@
 #include <QString>
 #include <QStringList>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/song.h"
 #include "organizeformat.h"
 
@@ -43,8 +43,9 @@ class QThread;
 class QTimer;
 class QTimerEvent;
 
-class MusicStorage;
 class TaskManager;
+class TagReaderClient;
+class MusicStorage;
 class Transcoder;
 
 class Organize : public QObject {
@@ -60,7 +61,18 @@ class Organize : public QObject {
   };
   using NewSongInfoList = QList<NewSongInfo>;
 
-  explicit Organize(SharedPtr<TaskManager> task_manager, SharedPtr<MusicStorage> destination, const OrganizeFormat &format, const bool copy, const bool overwrite, const bool albumcover, const NewSongInfoList &songs, const bool eject_after, const QString &playlist = QString(), QObject *parent = nullptr);
+  explicit Organize(const SharedPtr<TaskManager> task_manager,
+                    const SharedPtr<TagReaderClient> tagreader_client,
+                    const SharedPtr<MusicStorage> destination,
+                    const OrganizeFormat &format,
+                    const bool copy,
+                    const bool overwrite,
+                    const bool albumcover,
+                    const NewSongInfoList &songs,
+                    const bool eject_after,
+                    const QString &playlist = QString(),
+                    QObject *parent = nullptr);
+
   ~Organize() override;
 
   void Start();
@@ -98,10 +110,11 @@ class Organize : public QObject {
 
   QThread *thread_;
   QThread *original_thread_;
-  SharedPtr<TaskManager> task_manager_;
+  const SharedPtr<TaskManager> task_manager_;
+  const SharedPtr<TagReaderClient> tagreader_client_;
   Transcoder *transcoder_;
   QTimer *process_files_timer_;
-  SharedPtr<MusicStorage> destination_;
+  const SharedPtr<MusicStorage> destination_;
   QList<Song::FileType> supported_filetypes_;
 
   const OrganizeFormat format_;

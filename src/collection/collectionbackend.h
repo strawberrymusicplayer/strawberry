@@ -36,7 +36,7 @@
 #include <QUrl>
 #include <QSqlDatabase>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/song.h"
 #include "collectionfilteroptions.h"
 #include "collectionquery.h"
@@ -45,7 +45,6 @@
 class QThread;
 class TaskManager;
 class Database;
-class SmartPlaylistSearch;
 
 class CollectionBackendInterface : public QObject {
   Q_OBJECT
@@ -227,8 +226,7 @@ class CollectionBackend : public CollectionBackendInterface {
 
   SongList GetSongsByFingerprint(const QString &fingerprint) override;
 
-  SongList SmartPlaylistsGetAllSongs();
-  SongList SmartPlaylistsFindSongs(const SmartPlaylistSearch &search);
+  SongList ExecuteQuery(const QString &sql);
 
   void AddOrUpdateSongsAsync(const SongList &songs);
   void UpdateSongsBySongIDAsync(const SongMap &new_songs);

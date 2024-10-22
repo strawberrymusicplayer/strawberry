@@ -22,7 +22,7 @@
 
 #include <QString>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "tagreaderrequest.h"
 
 using std::make_shared;

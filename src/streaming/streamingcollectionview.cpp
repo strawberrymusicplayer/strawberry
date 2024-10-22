@@ -38,8 +38,7 @@
 #include <QMenu>
 #include <QtEvents>
 
-#include "core/shared_ptr.h"
-#include "core/application.h"
+#include "includes/shared_ptr.h"
 #include "core/iconloader.h"
 #include "core/mimedata.h"
 #include "collection/collectionbackend.h"
@@ -53,7 +52,6 @@ using namespace Qt::Literals::StringLiterals;
 
 StreamingCollectionView::StreamingCollectionView(QWidget *parent)
     : AutoExpandingTreeView(parent),
-      app_(nullptr),
       collection_backend_(nullptr),
       collection_model_(nullptr),
       filter_(nullptr),
@@ -84,9 +82,8 @@ StreamingCollectionView::StreamingCollectionView(QWidget *parent)
 
 }
 
-void StreamingCollectionView::Init(Application *app, SharedPtr<CollectionBackend> collection_backend, CollectionModel *collection_model, const bool favorite) {
+void StreamingCollectionView::Init(const SharedPtr<CollectionBackend> collection_backend, CollectionModel *collection_model, const bool favorite) {
 
-  app_ = app;
   collection_backend_ = collection_backend;
   collection_model_ = collection_model;
   favorite_ = favorite;

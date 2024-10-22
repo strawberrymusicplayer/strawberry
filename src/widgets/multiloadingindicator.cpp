@@ -29,7 +29,7 @@
 #include <QSizePolicy>
 #include <QPaintEvent>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/taskmanager.h"
 #include "multiloadingindicator.h"
 #include "widgets/busyindicator.h"

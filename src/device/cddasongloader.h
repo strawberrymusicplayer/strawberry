@@ -35,7 +35,7 @@
 #include <gst/gstelement.h>
 #include <gst/audio/gstaudiocdsrc.h>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/song.h"
 #ifdef HAVE_MUSICBRAINZ
 #  include "musicbrainz/musicbrainzclient.h"

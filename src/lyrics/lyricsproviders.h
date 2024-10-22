@@ -31,7 +31,7 @@
 #include <QAtomicInt>
 #include <QThread>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 
 class NetworkAccessManager;
 class LyricsProvider;
@@ -63,7 +63,7 @@ class LyricsProviders : public QObject {
   static int NextOrderId;
 
   QThread *thread_;
-  SharedPtr<NetworkAccessManager> network_;
+  const SharedPtr<NetworkAccessManager> network_;
 
   QMap<LyricsProvider*, QString> lyrics_providers_;
   QList<LyricsProvider*> ordered_providers_;

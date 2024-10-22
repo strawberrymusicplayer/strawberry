@@ -32,7 +32,7 @@
 #include <QString>
 #include <QImage>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/song.h"
 #include "albumcoverloaderoptions.h"
 #include "albumcoverloaderresult.h"
@@ -42,12 +42,13 @@ class QThread;
 class QTimer;
 class QNetworkReply;
 class NetworkAccessManager;
+class TagReaderClient;
 
 class AlbumCoverLoader : public QObject {
   Q_OBJECT
 
  public:
-  explicit AlbumCoverLoader(QObject *parent = nullptr);
+  explicit AlbumCoverLoader(const SharedPtr<TagReaderClient> tagreader_client, QObject *parent = nullptr);
 
   void ExitAsync();
   void Stop() { stop_requested_ = true; }
@@ -125,7 +126,8 @@ class AlbumCoverLoader : public QObject {
   void LoadRemoteImageFinished(QNetworkReply *reply, AlbumCoverLoader::TaskPtr task, const AlbumCoverLoaderResult::Type result_type, const QUrl &cover_url);
 
  private:
-  SharedPtr<NetworkAccessManager> network_;
+  const SharedPtr<TagReaderClient> tagreader_client_;
+  const SharedPtr<NetworkAccessManager> network_;
   QTimer *timer_process_tasks_;
   bool stop_requested_;
   QMutex mutex_load_image_async_;

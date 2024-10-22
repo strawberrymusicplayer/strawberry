@@ -47,9 +47,7 @@
 #include <QKeySequence>
 #include <QtEvents>
 
-#include "core/application.h"
 #include "utilities/strutils.h"
-#include "utilities/timeutils.h"
 #include "utilities/mimeutils.h"
 #include "widgets/busyindicator.h"
 #include "widgets/forcescrollperpixel.h"
@@ -114,10 +112,10 @@ void SizeOverlayDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 
 }
 
-AlbumCoverSearcher::AlbumCoverSearcher(const QIcon &no_cover_icon, Application *app, QWidget *parent)
+AlbumCoverSearcher::AlbumCoverSearcher(const QIcon &no_cover_icon, const SharedPtr<AlbumCoverLoader> albumcover_loader, QWidget *parent)
     : QDialog(parent),
       ui_(new Ui_AlbumCoverSearcher),
-      app_(app),
+      albumcover_loader_(albumcover_loader),
       model_(new QStandardItemModel(this)),
       no_cover_icon_(no_cover_icon),
       fetcher_(nullptr),
@@ -132,7 +130,7 @@ AlbumCoverSearcher::AlbumCoverSearcher(const QIcon &no_cover_icon, Application *
   ui_->covers->setItemDelegate(new SizeOverlayDelegate(this));
   ui_->covers->setModel(model_);
 
-  QObject::connect(&*app_->album_cover_loader(), &AlbumCoverLoader::AlbumCoverLoaded, this, &AlbumCoverSearcher::AlbumCoverLoaded);
+  QObject::connect(&*albumcover_loader_, &AlbumCoverLoader::AlbumCoverLoaded, this, &AlbumCoverSearcher::AlbumCoverLoaded);
   QObject::connect(ui_->search, &QPushButton::clicked, this, &AlbumCoverSearcher::Search);
   QObject::connect(ui_->covers, &GroupedIconView::doubleClicked, this, &AlbumCoverSearcher::CoverDoubleClicked);
 
@@ -220,7 +218,7 @@ void AlbumCoverSearcher::SearchFinished(const quint64 id, const CoverProviderSea
 
     AlbumCoverLoaderOptions cover_options(AlbumCoverLoaderOptions::Option::RawImageData | AlbumCoverLoaderOptions::Option::OriginalImage | AlbumCoverLoaderOptions::Option::ScaledImage | AlbumCoverLoaderOptions::Option::PadScaledImage);
     cover_options.desired_scaled_size = ui_->covers->iconSize(), ui_->covers->iconSize();
-    quint64 new_id = app_->album_cover_loader()->LoadImageAsync(cover_options, false, result.image_url, QUrl(), false);
+    quint64 new_id = albumcover_loader_->LoadImageAsync(cover_options, false, result.image_url, QUrl(), false);
 
     QStandardItem *item = new QStandardItem;
     item->setIcon(no_cover_icon_);

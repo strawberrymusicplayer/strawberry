@@ -33,8 +33,8 @@
 #include <QPixmap>
 #include <QMovie>
 
-#include "core/scoped_ptr.h"
-#include "core/shared_ptr.h"
+#include "includes/scoped_ptr.h"
+#include "includes/shared_ptr.h"
 
 class QMenu;
 class QTimeLine;

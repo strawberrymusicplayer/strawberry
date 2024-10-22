@@ -20,6 +20,8 @@
 #ifndef COVEROPTIONS_H
 #define COVEROPTIONS_H
 
+#include <QString>
+
 class CoverOptions {
  public:
 
@@ -34,7 +36,7 @@ class CoverOptions {
     Pattern = 2
   };
 
-  explicit CoverOptions() : cover_type(CoverType::Cache), cover_filename(CoverFilename::Hash), cover_overwrite(false), cover_lowercase(true), cover_replace_spaces(true) {}
+  explicit CoverOptions();
   CoverType cover_type;
   CoverFilename cover_filename;
   QString cover_pattern;

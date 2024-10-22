@@ -26,10 +26,12 @@
 #include <QString>
 #include <QStringList>
 
+#include "includes/shared_ptr.h"
 #include "settings/settingspage.h"
 
 class QListWidgetItem;
 
+class LyricsProviders;
 class LyricsProvider;
 class SettingsDialog;
 class Ui_LyricsSettingsPage;
@@ -38,10 +40,8 @@ class LyricsSettingsPage : public SettingsPage {
   Q_OBJECT
 
  public:
-  explicit LyricsSettingsPage(SettingsDialog *dialog, QWidget *parent = nullptr);
+  explicit LyricsSettingsPage(SettingsDialog *dialog, const SharedPtr<LyricsProviders> lyrics_providers, QWidget *parent = nullptr);
   ~LyricsSettingsPage() override;
-
-  static const char *kSettingsGroup;
 
   void Load() override;
   void Save() override;
@@ -66,6 +66,7 @@ class LyricsSettingsPage : public SettingsPage {
 
  private:
   Ui_LyricsSettingsPage *ui_;
+  const SharedPtr<LyricsProviders> lyrics_providers_;
   bool provider_selected_;
 };
 

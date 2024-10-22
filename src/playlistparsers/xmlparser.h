@@ -28,16 +28,17 @@
 #include <QString>
 #include <QXmlStreamWriter>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "parserbase.h"
 
+class TagReaderClient;
 class CollectionBackendInterface;
 
 class XMLParser : public ParserBase {
   Q_OBJECT
 
  protected:
-  explicit XMLParser(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent);
+  explicit XMLParser(const SharedPtr<TagReaderClient> tagreader_client, const SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent);
 
   class StreamElement {
    public:

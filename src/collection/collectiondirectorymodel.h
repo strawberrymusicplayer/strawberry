@@ -33,7 +33,7 @@
 #include <QStringList>
 #include <QIcon>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "collectiondirectory.h"
 
 class QModelIndex;

@@ -34,13 +34,12 @@
 
 class NetworkAccessManager;
 class QNetworkReply;
-class Application;
 
 class DeezerCoverProvider : public JsonCoverProvider {
   Q_OBJECT
 
  public:
-  explicit DeezerCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
+  explicit DeezerCoverProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~DeezerCoverProvider() override;
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;

@@ -31,9 +31,16 @@ void TagReaderReadFileReply::Finish() {
 
   finished_ = true;
 
+  QMetaObject::invokeMethod(this, &TagReaderReadFileReply::EmitFinished, Qt::QueuedConnection);
+
+}
+
+void TagReaderReadFileReply::EmitFinished() {
+
   Q_EMIT TagReaderReply::Finished(filename_, result_);
   Q_EMIT TagReaderReadFileReply::Finished(filename_, song_, result_);
 
+  QObject::disconnect(this, &TagReaderReply::Finished, nullptr, nullptr);
   QObject::disconnect(this, &TagReaderReadFileReply::Finished, nullptr, nullptr);
 
 }

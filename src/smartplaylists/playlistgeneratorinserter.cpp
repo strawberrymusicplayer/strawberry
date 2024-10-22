@@ -26,7 +26,7 @@
 #include <QFuture>
 #include <QFutureWatcher>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/taskmanager.h"
 
 #include "playlist/playlist.h"

@@ -34,21 +34,19 @@
 #include "settingsdialog.h"
 #include "tidalsettingspage.h"
 #include "ui_tidalsettingspage.h"
-#include "core/application.h"
+#include "constants/tidalsettings.h"
 #include "core/iconloader.h"
 #include "core/settings.h"
-#include "streaming/streamingservices.h"
 #include "tidal/tidalservice.h"
 #include "widgets/loginstatewidget.h"
 
 using namespace Qt::Literals::StringLiterals;
+using namespace TidalSettings;
 
-const char *TidalSettingsPage::kSettingsGroup = "Tidal";
-
-TidalSettingsPage::TidalSettingsPage(SettingsDialog *dialog, QWidget *parent)
+TidalSettingsPage::TidalSettingsPage(SettingsDialog *dialog, SharedPtr<TidalService> service, QWidget *parent)
     : SettingsPage(dialog, parent),
       ui_(new Ui::TidalSettingsPage),
-      service_(dialog->app()->streaming_services()->Service<TidalService>()) {
+      service_(service) {
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load(u"tidal"_s, true, 0, 32));
@@ -88,27 +86,27 @@ void TidalSettingsPage::Load() {
 
   Settings s;
   s.beginGroup(kSettingsGroup);
-  ui_->enable->setChecked(s.value("enabled", false).toBool());
-  ui_->oauth->setChecked(s.value("oauth", true).toBool());
+  ui_->enable->setChecked(s.value(kEnabled, false).toBool());
+  ui_->oauth->setChecked(s.value(kOAuth, true).toBool());
 
-  ui_->client_id->setText(s.value("client_id").toString());
-  ui_->api_token->setText(s.value("api_token").toString());
+  ui_->client_id->setText(s.value(kClientId).toString());
+  ui_->api_token->setText(s.value(kApiToken).toString());
 
-  ui_->username->setText(s.value("username").toString());
-  QByteArray password = s.value("password").toByteArray();
+  ui_->username->setText(s.value(kUsername).toString());
+  QByteArray password = s.value(kPassword).toByteArray();
   if (password.isEmpty()) ui_->password->clear();
   else ui_->password->setText(QString::fromUtf8(QByteArray::fromBase64(password)));
 
-  ComboBoxLoadFromSettings(s, ui_->quality, u"quality"_s, u"LOSSLESS"_s);
-  ui_->searchdelay->setValue(s.value("searchdelay", 1500).toInt());
-  ui_->artistssearchlimit->setValue(s.value("artistssearchlimit", 4).toInt());
-  ui_->albumssearchlimit->setValue(s.value("albumssearchlimit", 10).toInt());
-  ui_->songssearchlimit->setValue(s.value("songssearchlimit", 10).toInt());
-  ui_->checkbox_fetchalbums->setChecked(s.value("fetchalbums", false).toBool());
-  ui_->checkbox_download_album_covers->setChecked(s.value("downloadalbumcovers", true).toBool());
-  ComboBoxLoadFromSettings(s, ui_->coversize, u"coversize"_s, u"640x640"_s);
-  ui_->streamurl->setCurrentIndex(ui_->streamurl->findData(s.value("streamurl", static_cast<int>(StreamUrlMethod::StreamUrl)).toInt()));
-  ui_->checkbox_album_explicit->setChecked(s.value("album_explicit", false).toBool());
+  ComboBoxLoadFromSettings(s, ui_->quality, QLatin1String(kQuality), u"LOSSLESS"_s);
+  ui_->searchdelay->setValue(s.value(kSearchDelay, 1500).toInt());
+  ui_->artistssearchlimit->setValue(s.value("kArtistsSearchLimit", 4).toInt());
+  ui_->albumssearchlimit->setValue(s.value(kAlbumsSearchLimit, 10).toInt());
+  ui_->songssearchlimit->setValue(s.value(kSongsSearchLimit, 10).toInt());
+  ui_->checkbox_fetchalbums->setChecked(s.value(kFetchAlbums, false).toBool());
+  ui_->checkbox_download_album_covers->setChecked(s.value(kDownloadAlbumCovers, true).toBool());
+  ComboBoxLoadFromSettings(s, ui_->coversize, QLatin1String(kCoverSize), u"640x640"_s);
+  ui_->streamurl->setCurrentIndex(ui_->streamurl->findData(s.value(kStreamUrl, static_cast<int>(StreamUrlMethod::StreamUrl)).toInt()));
+  ui_->checkbox_album_explicit->setChecked(s.value(kAlbumExplicit, false).toBool());
 
   s.endGroup();
 
@@ -125,24 +123,24 @@ void TidalSettingsPage::Save() {
 
   Settings s;
   s.beginGroup(kSettingsGroup);
-  s.setValue("enabled", ui_->enable->isChecked());
-  s.setValue("oauth", ui_->oauth->isChecked());
-  s.setValue("client_id", ui_->client_id->text());
-  s.setValue("api_token", ui_->api_token->text());
+  s.setValue(kEnabled, ui_->enable->isChecked());
+  s.setValue(kOAuth, ui_->oauth->isChecked());
+  s.setValue(kClientId, ui_->client_id->text());
+  s.setValue(kApiToken, ui_->api_token->text());
 
-  s.setValue("username", ui_->username->text());
-  s.setValue("password", QString::fromUtf8(ui_->password->text().toUtf8().toBase64()));
+  s.setValue(kUsername, ui_->username->text());
+  s.setValue(kPassword, QString::fromUtf8(ui_->password->text().toUtf8().toBase64()));
 
-  s.setValue("quality", ui_->quality->currentData().toString());
-  s.setValue("searchdelay", ui_->searchdelay->value());
-  s.setValue("artistssearchlimit", ui_->artistssearchlimit->value());
-  s.setValue("albumssearchlimit", ui_->albumssearchlimit->value());
-  s.setValue("songssearchlimit", ui_->songssearchlimit->value());
-  s.setValue("fetchalbums", ui_->checkbox_fetchalbums->isChecked());
-  s.setValue("downloadalbumcovers", ui_->checkbox_download_album_covers->isChecked());
-  s.setValue("coversize", ui_->coversize->currentData().toString());
-  s.setValue("streamurl", ui_->streamurl->currentData().toInt());
-  s.setValue("album_explicit", ui_->checkbox_album_explicit->isChecked());
+  s.setValue(kQuality, ui_->quality->currentData().toString());
+  s.setValue(kSearchDelay, ui_->searchdelay->value());
+  s.setValue(kArtistsSearchLimit, ui_->artistssearchlimit->value());
+  s.setValue(kAlbumsSearchLimit, ui_->albumssearchlimit->value());
+  s.setValue(kSongsSearchLimit, ui_->songssearchlimit->value());
+  s.setValue(kFetchAlbums, ui_->checkbox_fetchalbums->isChecked());
+  s.setValue(kDownloadAlbumCovers, ui_->checkbox_download_album_covers->isChecked());
+  s.setValue(kCoverSize, ui_->coversize->currentData().toString());
+  s.setValue(kStreamUrl, ui_->streamurl->currentData().toInt());
+  s.setValue(kAlbumExplicit, ui_->checkbox_album_explicit->isChecked());
   s.endGroup();
 
 }

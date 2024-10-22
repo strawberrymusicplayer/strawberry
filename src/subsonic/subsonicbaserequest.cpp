@@ -43,7 +43,7 @@
 #include "subsonicservice.h"
 #include "subsonicbaserequest.h"
 
-#include "settings/subsonicsettingspage.h"
+#include "constants/subsonicsettings.h"
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -56,7 +56,7 @@ SubsonicBaseRequest::SubsonicBaseRequest(SubsonicService *service, QObject *pare
 
 }
 
-QUrl SubsonicBaseRequest::CreateUrl(const QUrl &server_url, const SubsonicSettingsPage::AuthMethod auth_method, const QString &username, const QString &password, const QString &ressource_name, const ParamList &params_provided) {
+QUrl SubsonicBaseRequest::CreateUrl(const QUrl &server_url, const SubsonicSettings::AuthMethod auth_method, const QString &username, const QString &password, const QString &ressource_name, const ParamList &params_provided) {
 
   ParamList params = ParamList() << params_provided
                                  << Param(u"c"_s, QLatin1String(SubsonicService::kClientName))
@@ -64,7 +64,7 @@ QUrl SubsonicBaseRequest::CreateUrl(const QUrl &server_url, const SubsonicSettin
                                  << Param(u"f"_s, u"json"_s)
                                  << Param(u"u"_s, username);
 
-  if (auth_method == SubsonicSettingsPage::AuthMethod::Hex) {
+  if (auth_method == SubsonicSettings::AuthMethod::Hex) {
     params << Param(u"p"_s, u"enc:"_s + QString::fromUtf8(password.toUtf8().toHex()));
   }
   else {

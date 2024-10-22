@@ -30,7 +30,7 @@
 
 #include "test_utils.h"
 
-#include "core/scoped_ptr.h"
+#include "includes/scoped_ptr.h"
 #include "playlist/songplaylistitem.h"
 
 using std::make_unique;

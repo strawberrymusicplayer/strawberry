@@ -27,8 +27,8 @@
 
 #include <QString>
 
+#include "includes/scoped_cftyperef.h"
 #include "core/logging.h"
-#include "core/scoped_cftyperef.h"
 
 #include "macosdevicefinder.h"
 #include "enginedevice.h"

@@ -30,10 +30,9 @@
 #include <QString>
 #include <QStringList>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "albumcoverfetcher.h"
 
-class Application;
 class NetworkAccessManager;
 
 // Each implementation of this interface downloads covers from one online service.
@@ -42,7 +41,7 @@ class CoverProvider : public QObject {
   Q_OBJECT
 
  public:
-  explicit CoverProvider(const QString &name, const bool enabled, const bool authentication_required, const float quality, const bool batch, const bool allow_missing_album, Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent);
+  explicit CoverProvider(const QString &name, const bool enabled, const bool authentication_required, const float quality, const bool batch, const bool allow_missing_album, const SharedPtr<NetworkAccessManager> network, QObject *parent);
 
   // A name (very short description) of this provider, like "last.fm".
   QString name() const { return name_; }
@@ -79,15 +78,14 @@ class CoverProvider : public QObject {
   using Param = QPair<QString, QString>;
   using ParamList = QList<Param>;
 
-  Application *app_;
-  SharedPtr<NetworkAccessManager> network_;
-  QString name_;
+  const SharedPtr<NetworkAccessManager> network_;
+  const QString name_;
   bool enabled_;
   int order_;
-  bool authentication_required_;
-  float quality_;
-  bool batch_;
-  bool allow_missing_album_;
+  const bool authentication_required_;
+  const float quality_;
+  const bool batch_;
+  const bool allow_missing_album_;
 };
 
 #endif  // COVERPROVIDER_H

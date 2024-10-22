@@ -26,8 +26,8 @@
 #include <QString>
 #include <QTextStream>
 
-#include "core/shared_ptr.h"
-#include "settings/playlistsettingspage.h"
+#include "includes/shared_ptr.h"
+#include "constants/playlistsettings.h"
 #include "parserbase.h"
 #include "asxiniparser.h"
 
@@ -35,8 +35,8 @@ using namespace Qt::Literals::StringLiterals;
 
 class CollectionBackendInterface;
 
-AsxIniParser::AsxIniParser(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent)
-    : ParserBase(collection_backend, parent) {}
+AsxIniParser::AsxIniParser(const SharedPtr<TagReaderClient> tagreader_client, const SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent)
+    : ParserBase(tagreader_client, collection_backend, parent) {}
 
 bool AsxIniParser::TryMagic(const QByteArray &data) const {
   return data.toLower().contains("[reference]");
@@ -66,7 +66,7 @@ SongList AsxIniParser::Load(QIODevice *device, const QString &playlist_path, con
 
 }
 
-void AsxIniParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, const PlaylistSettingsPage::PathType path_type) const {
+void AsxIniParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, const PlaylistSettings::PathType path_type) const {
 
   QTextStream s(device);
   s << "[Reference]" << Qt::endl;

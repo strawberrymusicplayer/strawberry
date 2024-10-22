@@ -31,7 +31,7 @@
 #include <QShowEvent>
 #include <QResizeEvent>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/iconloader.h"
 #include "utilities/colorutils.h"
 #include "playlist/playlist.h"

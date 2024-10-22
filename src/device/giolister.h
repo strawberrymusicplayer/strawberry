@@ -38,7 +38,7 @@
 #include <QStringList>
 #include <QUrl>
 
-#include "core/scopedgobject.h"
+#include "includes/scopedgobject.h"
 #include "devicelister.h"
 
 class GioLister : public DeviceLister {

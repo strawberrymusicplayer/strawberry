@@ -29,8 +29,8 @@
 #include <QImage>
 #include <QMutex>
 
-#include "core/shared_ptr.h"
-#include "core/mutex_protected.h"
+#include "includes/shared_ptr.h"
+#include "includes/mutex_protected.h"
 #include "core/song.h"
 
 #include "tagreadertaglib.h"

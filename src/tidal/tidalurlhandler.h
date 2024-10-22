@@ -28,17 +28,18 @@
 #include <QString>
 #include <QUrl>
 
+#include "includes/shared_ptr.h"
 #include "core/urlhandler.h"
 #include "core/song.h"
 #include "tidal/tidalservice.h"
 
-class Application;
+class TaskManager;
 
 class TidalUrlHandler : public UrlHandler {
   Q_OBJECT
 
  public:
-  explicit TidalUrlHandler(Application *app, TidalService *service);
+  explicit TidalUrlHandler(const SharedPtr<TaskManager> task_manager, TidalService *service);
 
   QString scheme() const override { return service_->url_scheme(); }
   LoadResult StartLoading(const QUrl &url) override;
@@ -56,7 +57,7 @@ class TidalUrlHandler : public UrlHandler {
     uint id;
     int task_id;
   };
-  Application *app_;
+  const SharedPtr<TaskManager> task_manager_;
   TidalService *service_;
   QMap<uint, Request> requests_;
 };

@@ -96,7 +96,7 @@
 
 #include "core/logging.h"
 #include "core/song.h"
-#include "utilities/timeconstants.h"
+#include "constants/timeconstants.h"
 
 #include "albumcovertagdata.h"
 
@@ -278,7 +278,7 @@ TagReaderResult TagReaderTagLib::IsMediaFile(const QString &filename) const {
 
 }
 
-Song::FileType TagReaderTagLib::GuessFileType(TagLib::FileRef *fileref) const {
+Song::FileType TagReaderTagLib::GuessFileType(TagLib::FileRef *fileref) {
 
   if (dynamic_cast<TagLib::RIFF::WAV::File*>(fileref->file())) return Song::FileType::WAV;
   if (dynamic_cast<TagLib::FLAC::File*>(fileref->file())) return Song::FileType::FLAC;

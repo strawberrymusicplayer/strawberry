@@ -21,8 +21,8 @@
 #define TAGREADERREADFILEREPLY_H
 
 #include <QString>
+#include <QSharedPointer>
 
-#include "core/shared_ptr.h"
 #include "core/song.h"
 #include "tagreaderreply.h"
 #include "tagreaderresult.h"
@@ -41,10 +41,13 @@ class TagReaderReadFileReply : public TagReaderReply {
  Q_SIGNALS:
   void Finished(const QString &filename, const Song &song, const TagReaderResult &result);
 
+ private Q_SLOTS:
+  void EmitFinished() override;
+
  private:
   Song song_;
 };
 
-using TagReaderReadFileReplyPtr = SharedPtr<TagReaderReadFileReply>;
+using TagReaderReadFileReplyPtr = QSharedPointer<TagReaderReadFileReply>;
 
 #endif  // TAGREADERREADFILEREPLY_H

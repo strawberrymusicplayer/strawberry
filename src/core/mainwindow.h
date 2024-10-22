@@ -46,19 +46,19 @@
 #include <QSettings>
 #include <QtEvents>
 
-#include "scoped_ptr.h"
-#include "shared_ptr.h"
-#include "lazy.h"
-#include "platforminterface.h"
-#include "song.h"
-#include "settings.h"
+#include "includes/scoped_ptr.h"
+#include "includes/shared_ptr.h"
+#include "includes/lazy.h"
+#include "core/platforminterface.h"
+#include "core/song.h"
+#include "core/settings.h"
 #include "tagreader/tagreaderclient.h"
 #include "engine/enginebase.h"
 #include "osd/osdbase.h"
 #include "playlist/playlist.h"
 #include "playlist/playlistitem.h"
 #include "settings/settingsdialog.h"
-#include "settings/behavioursettingspage.h"
+#include "constants/behavioursettings.h"
 #include "covermanager/albumcoverloaderresult.h"
 #include "covermanager/albumcoverimageresult.h"
 
@@ -106,9 +106,6 @@ class MainWindow : public QMainWindow, public PlatformInterface {
  public:
   explicit MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OSDBase *osd, const CommandlineOptions &options, QWidget *parent = nullptr);
   ~MainWindow() override;
-
-  static const char *kSettingsGroup;
-  static const char *kAllFilesFilterSpec;
 
   void SetHiddenInTray(const bool hidden);
   void CommandlineOptionsReceived(const CommandlineOptions &options);
@@ -202,7 +199,9 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 
   void TaskCountChanged(const int count);
 
-  void ShowCollectionConfig();
+  void OpenCollectionSettingsDialog();
+  void OpenServiceSettingsDialog(const Song::Source source);
+
   void ReloadSettings();
   void ReloadAllSettings();
   void RefreshStyleSheet();
@@ -237,7 +236,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void Exit();
   void DoExit();
 
-  void HandleNotificationPreview(const OSDBase::Behaviour type, const QString &line1, const QString &line2);
+  void HandleNotificationPreview(const OSDSettings::Type type, const QString &line1, const QString &line2);
 
   void ShowConsole();
 
@@ -274,8 +273,8 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 
   void SaveSettings();
 
-  static void ApplyAddBehaviour(const BehaviourSettingsPage::AddBehaviour b, MimeData *mimedata);
-  void ApplyPlayBehaviour(const BehaviourSettingsPage::PlayBehaviour b, MimeData *mimedata) const;
+  static void ApplyAddBehaviour(const BehaviourSettings::AddBehaviour b, MimeData *mimedata);
+  void ApplyPlayBehaviour(const BehaviourSettings::PlayBehaviour b, MimeData *mimedata) const;
 
   void CheckFullRescanRevisions();
 
@@ -385,10 +384,10 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 #ifdef HAVE_DBUS
   bool taskbar_progress_;
 #endif
-  BehaviourSettingsPage::AddBehaviour doubleclick_addmode_;
-  BehaviourSettingsPage::PlayBehaviour doubleclick_playmode_;
-  BehaviourSettingsPage::PlaylistAddBehaviour doubleclick_playlist_addmode_;
-  BehaviourSettingsPage::PlayBehaviour menu_playmode_;
+  BehaviourSettings::AddBehaviour doubleclick_addmode_;
+  BehaviourSettings::PlayBehaviour doubleclick_playmode_;
+  BehaviourSettings::PlaylistAddBehaviour doubleclick_playlist_addmode_;
+  BehaviourSettings::PlayBehaviour menu_playmode_;
 
   bool initialized_;
   bool was_maximized_;

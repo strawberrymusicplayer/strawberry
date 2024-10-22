@@ -27,7 +27,7 @@
 #include <QSize>
 #include <QLocale>
 
-#include "timeconstants.h"
+#include "constants/timeconstants.h"
 #include "timeutils.h"
 
 namespace Utilities {

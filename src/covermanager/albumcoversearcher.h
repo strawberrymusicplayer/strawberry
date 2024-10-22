@@ -48,7 +48,7 @@ class QPainter;
 class QModelIndex;
 class QKeyEvent;
 
-class Application;
+class AlbumCoverLoader;
 class Ui_AlbumCoverSearcher;
 
 class SizeOverlayDelegate : public QStyledItemDelegate {
@@ -65,7 +65,7 @@ class AlbumCoverSearcher : public QDialog {
   Q_OBJECT
 
  public:
-  explicit AlbumCoverSearcher(const QIcon &no_cover_icon, Application *app, QWidget *parent);
+  explicit AlbumCoverSearcher(const QIcon &no_cover_icon, const SharedPtr<AlbumCoverLoader> albumcover_loader, QWidget *parent);
   ~AlbumCoverSearcher() override;
 
   enum Role {
@@ -95,7 +95,7 @@ class AlbumCoverSearcher : public QDialog {
  private:
   Ui_AlbumCoverSearcher *ui_;
 
-  Application *app_;
+  const SharedPtr<AlbumCoverLoader> albumcover_loader_;
   QStandardItemModel *model_;
 
   QIcon no_cover_icon_;

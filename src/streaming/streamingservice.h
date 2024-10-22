@@ -28,12 +28,10 @@
 #include <QUrl>
 #include <QIcon>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/song.h"
-#include "settings/settingsdialog.h"
 #include "streamingsearchview.h"
 
-class Application;
 class CollectionBackend;
 class CollectionModel;
 class CollectionFilter;
@@ -42,7 +40,7 @@ class StreamingService : public QObject {
   Q_OBJECT
 
  public:
-  explicit StreamingService(const Song::Source source, const QString &name, const QString &url_scheme, const QString &settings_group, const SettingsDialog::Page settings_page, Application *app, QObject *parent = nullptr);
+  explicit StreamingService(const Song::Source source, const QString &name, const QString &url_scheme, const QString &settings_group, QObject *parent = nullptr);
 
   ~StreamingService() override {}
   virtual void Exit() {}
@@ -51,7 +49,6 @@ class StreamingService : public QObject {
   virtual QString name() const { return name_; }
   virtual QString url_scheme() const { return url_scheme_; }
   virtual QString settings_group() const { return settings_group_; }
-  virtual SettingsDialog::Page settings_page() const { return settings_page_; }
   virtual bool has_initial_load_settings() const { return false; }
   virtual void InitialLoadSettings() {}
   virtual void ReloadSettings() {}
@@ -74,7 +71,7 @@ class StreamingService : public QObject {
   virtual CollectionFilter *songs_collection_filter_model() { return nullptr; }
 
  public Q_SLOTS:
-  virtual void ShowConfig() {}
+  virtual void Configure() {}
   virtual void GetArtists() {}
   virtual void GetAlbums() {}
   virtual void GetSongs() {}
@@ -133,15 +130,13 @@ class StreamingService : public QObject {
   void StreamURLFailure(const uint id, const QUrl &media_url, const QString &error);
   void StreamURLSuccess(const uint id, const QUrl &media_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration);
 
- protected:
-  Application *app_;
+  void OpenSettingsDialog(const Song::Source source);
 
  private:
   Song::Source source_;
   QString name_;
   QString url_scheme_;
   QString settings_group_;
-  SettingsDialog::Page settings_page_;
 };
 
 using StreamingServicePtr = SharedPtr<StreamingService>;

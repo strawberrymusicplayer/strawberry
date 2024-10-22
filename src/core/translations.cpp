@@ -30,7 +30,7 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-Translations::Translations() {}
+Translations::Translations() = default;
 
 Translations::~Translations() {
 

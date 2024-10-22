@@ -37,8 +37,7 @@
 #include "core/logging.h"
 #include "core/networkaccessmanager.h"
 #include "core/song.h"
-#include "core/application.h"
-#include "utilities/timeconstants.h"
+#include "constants/timeconstants.h"
 #include "utilities/imageutils.h"
 #include "utilities/coverutils.h"
 #include "spotifyservice.h"
@@ -57,10 +56,9 @@ const int kMaxConcurrentAlbumCoverRequests = 10;
 const int kFlushRequestsDelay = 200;
 }
 
-SpotifyRequest::SpotifyRequest(SpotifyService *service, Application *app, NetworkAccessManager *network, Type type, QObject *parent)
+SpotifyRequest::SpotifyRequest(SpotifyService *service, const SharedPtr<NetworkAccessManager> network, const Type type, QObject *parent)
     : SpotifyBaseRequest(service, network, parent),
       service_(service),
-      app_(app),
       network_(network),
       timer_flush_requests_(new QTimer(this)),
       type_(type),

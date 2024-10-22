@@ -45,10 +45,9 @@
 
 #include "devicemanager.h"
 
+#include "includes/scoped_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/logging.h"
-#include "core/scoped_ptr.h"
-#include "core/shared_ptr.h"
-#include "core/application.h"
 #include "core/database.h"
 #include "core/iconloader.h"
 #include "core/musicstorage.h"
@@ -88,20 +87,27 @@ using std::make_unique;
 const int DeviceManager::kDeviceIconSize = 32;
 const int DeviceManager::kDeviceIconOverlaySize = 16;
 
-DeviceManager::DeviceManager(Application *app, QObject *parent)
+DeviceManager::DeviceManager(const SharedPtr<TaskManager> task_manager,
+                             const SharedPtr<Database> database,
+                             const SharedPtr<TagReaderClient> tagreader_client,
+                             const SharedPtr<AlbumCoverLoader> albumcover_loader,
+                             QObject *parent)
     : SimpleTreeModel<DeviceInfo>(new DeviceInfo(this), parent),
-      app_(app),
+      task_manager_(task_manager),
+      database_(database),
+      tagreader_client_(tagreader_client),
+      albumcover_loader_(albumcover_loader),
       not_connected_overlay_(IconLoader::Load(u"edit-delete"_s)) {
 
   setObjectName(QLatin1String(metaObject()->className()));
 
   thread_pool_.setMaxThreadCount(1);
-  QObject::connect(&*app_->task_manager(), &TaskManager::TasksChanged, this, &DeviceManager::TasksChanged);
+  QObject::connect(&*task_manager, &TaskManager::TasksChanged, this, &DeviceManager::TasksChanged);
 
   // Create the backend in the database thread
   backend_ = make_unique<DeviceDatabaseBackend>();
-  backend_->moveToThread(app_->database()->thread());
-  backend_->Init(app_->database());
+  backend_->moveToThread(database->thread());
+  backend_->Init(database);
 
   QObject::connect(this, &DeviceManager::DeviceCreatedFromDB, this, &DeviceManager::AddDeviceFromDB);
 
@@ -225,6 +231,7 @@ void DeviceManager::DeviceDestroyed() {
   if (wait_for_exit_.isEmpty()) CloseListers();
 
 }
+
 void DeviceManager::LoadAllDevices() {
 
   Q_ASSERT(QThread::currentThread() != qApp->thread());
@@ -363,7 +370,7 @@ QVariant DeviceManager::data(const QModelIndex &idx, int role) const {
 
       QString ret = info->device_->url().path();
 #ifdef Q_OS_WIN32
-      if (ret.startsWith('/')) ret.remove(0, 1);
+      if (ret.startsWith(u'/')) ret.remove(0, 1);
 #endif
       return QDir::toNativeSeparators(ret);
     }
@@ -627,7 +634,7 @@ SharedPtr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *info) {
       url_strings << url.toString();
     }
 
-    app_->AddError(tr("This type of device is not supported: %1").arg(url_strings.join(", "_L1)));
+    Q_EMIT DeviceError(tr("This type of device is not supported: %1").arg(url_strings.join(", "_L1)));
     return ret;
   }
 
@@ -636,8 +643,11 @@ SharedPtr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *info) {
       Q_ARG(QUrl, device_url),
       Q_ARG(DeviceLister*, info->BestBackend()->lister_),
       Q_ARG(QString, info->BestBackend()->unique_id_),
-      Q_ARG(SharedPtr<DeviceManager>, app_->device_manager()),
-      Q_ARG(Application*, app_),
+      Q_ARG(DeviceManager*, this),
+      Q_ARG(SharedPtr<TaskManager>, task_manager_),
+      Q_ARG(SharedPtr<Database>, database_),
+      Q_ARG(SharedPtr<TagReaderClient>, tagreader_client_),
+      Q_ARG(SharedPtr<AlbumCoverLoader>, albumcover_loader_),
       Q_ARG(int, info->database_id_),
       Q_ARG(bool, first_time));
 
@@ -664,7 +674,10 @@ SharedPtr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *info) {
   QObject::connect(&*info->device_, &ConnectedDevice::SongCountUpdated, this, &DeviceManager::DeviceSongCountUpdated);
   QObject::connect(&*info->device_, &ConnectedDevice::DeviceConnectFinished, this, &DeviceManager::DeviceConnectFinished);
   QObject::connect(&*info->device_, &ConnectedDevice::DeviceCloseFinished, this, &DeviceManager::DeviceCloseFinished);
+  QObject::connect(&*info->device_, &ConnectedDevice::Error, this, &DeviceManager::DeviceError);
+
   ret->ConnectAsync();
+
   return ret;
 
 }
@@ -842,7 +855,7 @@ void DeviceManager::DeviceTaskStarted(const int id) {
 
 void DeviceManager::TasksChanged() {
 
-  const QList<TaskManager::Task> tasks = app_->task_manager()->GetTasks();
+  const QList<TaskManager::Task> tasks = task_manager_->GetTasks();
   QList<QPersistentModelIndex> finished_tasks = active_tasks_.values();
 
   for (const TaskManager::Task &task : tasks) {

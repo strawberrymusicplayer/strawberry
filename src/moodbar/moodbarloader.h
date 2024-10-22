@@ -33,14 +33,13 @@
 class QThread;
 class QByteArray;
 class QNetworkDiskCache;
-class Application;
 class MoodbarPipeline;
 
 class MoodbarLoader : public QObject {
   Q_OBJECT
 
  public:
-  explicit MoodbarLoader(Application *app, QObject *parent = nullptr);
+  explicit MoodbarLoader(QObject *parent = nullptr);
   ~MoodbarLoader() override;
 
   enum class Result {
@@ -56,17 +55,22 @@ class MoodbarLoader : public QObject {
     WillLoadAsync
   };
 
+  void ReloadSettings();
+
   Result Load(const QUrl &url, const bool has_cue, QByteArray *data, MoodbarPipeline **async_pipeline);
 
  private Q_SLOTS:
-  void ReloadSettings();
-
   void RequestFinished(MoodbarPipeline *request, const QUrl &url);
   void MaybeTakeNextRequest();
 
  private:
   static QStringList MoodFilenames(const QString &song_filename);
   static QUrl CacheUrlEntry(const QString &filename);
+
+ Q_SIGNALS:
+  void MoodbarEnabled(const bool enabled);
+  void StyleChanged();
+  void SettingsReloaded();
 
  private:
   QNetworkDiskCache *cache_;

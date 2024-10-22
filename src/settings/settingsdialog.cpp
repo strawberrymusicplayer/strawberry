@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2024, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -47,15 +47,17 @@
 #include <QShowEvent>
 #include <QCloseEvent>
 
-#include "core/application.h"
-#include "core/player.h"
 #include "core/settings.h"
+#include "core/player.h"
 #include "utilities/screenutils.h"
 #include "widgets/groupediconview.h"
+#include "collection/collectionlibrary.h"
 #include "collection/collectionmodel.h"
+#include "streaming/streamingservices.h"
 
 #include "settingsdialog.h"
 #include "settingspage.h"
+#include "settingsitemdelegate.h"
 #include "behavioursettingspage.h"
 #include "collectionsettingspage.h"
 #include "backendsettingspage.h"
@@ -73,15 +75,19 @@
 #  include "moodbarsettingspage.h"
 #endif
 #ifdef HAVE_SUBSONIC
+#  include "subsonic/subsonicservice.h"
 #  include "subsonicsettingspage.h"
 #endif
 #ifdef HAVE_TIDAL
+#  include "tidal/tidalservice.h"
 #  include "tidalsettingspage.h"
 #endif
 #ifdef HAVE_SPOTIFY
+#  include "spotify/spotifyservice.h"
 #  include "spotifysettingspage.h"
 #endif
 #ifdef HAVE_QOBUZ
+#  include "qobuz/qobuzservice.h"
 #  include "qobuzsettingspage.h"
 #endif
 
@@ -89,45 +95,25 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-const char *SettingsDialog::kSettingsGroup = "SettingsDialog";
-
-SettingsItemDelegate::SettingsItemDelegate(QObject *parent) : QStyledItemDelegate(parent) {}
-
-QSize SettingsItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &idx) const {
-
-  const bool is_separator = idx.data(SettingsDialog::Role_IsSeparator).toBool();
-  QSize ret = QStyledItemDelegate::sizeHint(option, idx);
-
-  if (is_separator) {
-    ret.setHeight(ret.height() * 2);
-  }
-
-  return ret;
-
+namespace {
+constexpr char kSettingsGroup[] = "SettingsDialog";
 }
 
-void SettingsItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const {
-
-  const bool is_separator = idx.data(SettingsDialog::Role_IsSeparator).toBool();
-
-  if (is_separator) {
-    GroupedIconView::DrawHeader(painter, option.rect, option.font, option.palette, idx.data().toString());
-  }
-  else {
-    QStyledItemDelegate::paint(painter, option, idx);
-  }
-
-}
-
-SettingsDialog::SettingsDialog(Application *app, OSDBase *osd, QMainWindow *mainwindow, QWidget *parent)
+SettingsDialog::SettingsDialog(const SharedPtr<Player> player,
+                               const SharedPtr<DeviceFinders> device_finders,
+                               const SharedPtr<CollectionLibrary> collection,
+                               const SharedPtr<CoverProviders> cover_providers,
+                               const SharedPtr<LyricsProviders> lyrics_providers,
+                               const SharedPtr<AudioScrobbler> scrobbler,
+                               const SharedPtr<StreamingServices> streaming_services,
+#ifdef HAVE_GLOBALSHORTCUTS
+                               GlobalShortcutsManager *global_shortcuts_manager,
+#endif
+                               OSDBase *osd,
+                               QMainWindow *mainwindow,
+                               QWidget *parent)
     : QDialog(parent),
       mainwindow_(mainwindow),
-      app_(app),
-      osd_(osd),
-      player_(app_->player()),
-      engine_(app_->player()->engine()),
-      model_(app_->collection_model()->directory_model()),
-      manager_(nullptr),
       ui_(new Ui_SettingsDialog),
       loading_settings_(false) {
 
@@ -136,22 +122,22 @@ SettingsDialog::SettingsDialog(Application *app, OSDBase *osd, QMainWindow *main
 
   QTreeWidgetItem *general = AddCategory(tr("General"));
   AddPage(Page::Behaviour, new BehaviourSettingsPage(this, this), general);
-  AddPage(Page::Collection, new CollectionSettingsPage(this, this), general);
-  AddPage(Page::Backend, new BackendSettingsPage(this, this), general);
+  AddPage(Page::Collection, new CollectionSettingsPage(this, collection, collection->backend(), collection->model(), collection->model()->directory_model(), this), general);
+  AddPage(Page::Backend, new BackendSettingsPage(this, player, device_finders, this), general);
   AddPage(Page::Playlist, new PlaylistSettingsPage(this, this), general);
-  AddPage(Page::Scrobbler, new ScrobblerSettingsPage(this, this), general);
-  AddPage(Page::Covers, new CoversSettingsPage(this, this), general);
-  AddPage(Page::Lyrics, new LyricsSettingsPage(this, this), general);
+  AddPage(Page::Scrobbler, new ScrobblerSettingsPage(this, scrobbler, this), general);
+  AddPage(Page::Covers, new CoversSettingsPage(this, cover_providers, this), general);
+  AddPage(Page::Lyrics, new LyricsSettingsPage(this, lyrics_providers, this), general);
   AddPage(Page::Transcoding, new TranscoderSettingsPage(this, this), general);
   AddPage(Page::Proxy, new NetworkProxySettingsPage(this, this), general);
 
   QTreeWidgetItem *iface = AddCategory(tr("User interface"));
   AddPage(Page::Appearance, new AppearanceSettingsPage(this, this), iface);
   AddPage(Page::Context, new ContextSettingsPage(this, this), iface);
-  AddPage(Page::Notifications, new NotificationsSettingsPage(this, this), iface);
+  AddPage(Page::Notifications, new NotificationsSettingsPage(this, osd, this), iface);
 
 #ifdef HAVE_GLOBALSHORTCUTS
-  AddPage(Page::GlobalShortcuts, new GlobalShortcutsSettingsPage(this, this), iface);
+  AddPage(Page::GlobalShortcuts, new GlobalShortcutsSettingsPage(this, global_shortcuts_manager, this), iface);
 #endif
 
 #ifdef HAVE_MOODBAR
@@ -163,16 +149,16 @@ SettingsDialog::SettingsDialog(Application *app, OSDBase *osd, QMainWindow *main
 #endif
 
 #ifdef HAVE_SUBSONIC
-  AddPage(Page::Subsonic, new SubsonicSettingsPage(this, this), streaming);
+  AddPage(Page::Subsonic, new SubsonicSettingsPage(this, streaming_services->Service<SubsonicService>(), this), streaming);
 #endif
 #ifdef HAVE_TIDAL
-  AddPage(Page::Tidal, new TidalSettingsPage(this, this), streaming);
+  AddPage(Page::Tidal, new TidalSettingsPage(this, streaming_services->Service<TidalService>(), this), streaming);
 #endif
 #ifdef HAVE_SPOTIFY
-  AddPage(Page::Spotify, new SpotifySettingsPage(this, this), streaming);
+  AddPage(Page::Spotify, new SpotifySettingsPage(this, streaming_services->Service<SpotifyService>(), this), streaming);
 #endif
 #ifdef HAVE_QOBUZ
-  AddPage(Page::Qobuz, new QobuzSettingsPage(this, this), streaming);
+  AddPage(Page::Qobuz, new QobuzSettingsPage(this, streaming_services->Service<QobuzService>(), this), streaming);
 #endif
 
   // List box
@@ -344,7 +330,7 @@ void SettingsDialog::DialogButtonClicked(QAbstractButton *button) {
 
 }
 
-void SettingsDialog::OpenAtPage(Page page) {
+void SettingsDialog::OpenAtPage(const Page page) {
 
   if (!pages_.contains(page)) {
     return;

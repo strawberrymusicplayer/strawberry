@@ -28,9 +28,9 @@
 #include <QRegularExpression>
 #include <QTextStream>
 
-#include "core/shared_ptr.h"
-#include "utilities/timeconstants.h"
-#include "settings/playlistsettingspage.h"
+#include "includes/shared_ptr.h"
+#include "constants/timeconstants.h"
+#include "constants/playlistsettings.h"
 #include "parserbase.h"
 #include "plsparser.h"
 
@@ -38,8 +38,8 @@ using namespace Qt::Literals::StringLiterals;
 
 class CollectionBackendInterface;
 
-PLSParser::PLSParser(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent)
-    : ParserBase(collection_backend, parent) {}
+PLSParser::PLSParser(const SharedPtr<TagReaderClient> tagreader_client, const SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent)
+    : ParserBase(tagreader_client, collection_backend, parent) {}
 
 SongList PLSParser::Load(QIODevice *device, const QString &playlist_path, const QDir &dir, const bool collection_lookup) const {
 
@@ -83,7 +83,7 @@ SongList PLSParser::Load(QIODevice *device, const QString &playlist_path, const 
 
 }
 
-void PLSParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, const PlaylistSettingsPage::PathType path_type) const {
+void PLSParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, const PlaylistSettings::PathType path_type) const {
 
   QTextStream s(device);
   s << "[playlist]" << Qt::endl;

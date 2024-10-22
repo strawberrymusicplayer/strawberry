@@ -26,7 +26,7 @@
 
 class LyricsSearchRequest {
  public:
-  explicit LyricsSearchRequest() {}
+  explicit LyricsSearchRequest() = default;
   QString albumartist;
   QString artist;
   QString album;

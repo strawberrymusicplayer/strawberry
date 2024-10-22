@@ -23,7 +23,7 @@
 #include <QUrl>
 #include <QRegularExpression>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/networkaccessmanager.h"
 #include "core/logging.h"
 #include "utilities/transliterate.h"
@@ -39,7 +39,7 @@ constexpr char kEndTag[] = "<\\/div>";
 constexpr char kLyricsStart[] = "<div id=\"letra-cnt\">";
 }  // namespace
 
-LetrasLyricsProvider::LetrasLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent)
+LetrasLyricsProvider::LetrasLyricsProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent)
     : HtmlLyricsProvider(u"letras.mus.br"_s, true, QLatin1String(kStartTag), QLatin1String(kEndTag), QLatin1String(kLyricsStart), false, network, parent) {}
 
 QUrl LetrasLyricsProvider::Url(const LyricsSearchRequest &request) {

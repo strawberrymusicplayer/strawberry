@@ -36,7 +36,7 @@
 #include <QString>
 #include <QEvent>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/song.h"
 
 struct TranscoderPreset {

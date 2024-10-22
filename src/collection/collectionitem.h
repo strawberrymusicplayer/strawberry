@@ -1,8 +1,6 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
- * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,8 +20,6 @@
 #ifndef COLLECTIONITEM_H
 #define COLLECTIONITEM_H
 
-#include "config.h"
-
 #include "core/simpletreeitem.h"
 #include "core/song.h"
 
@@ -37,17 +33,8 @@ class CollectionItem : public SimpleTreeItem<CollectionItem> {
     LoadingIndicator,
   };
 
-  explicit CollectionItem(SimpleTreeModel<CollectionItem> *_model)
-      : SimpleTreeItem<CollectionItem>(_model),
-        type(Type::Root),
-        container_level(-1),
-        compilation_artist_node_(nullptr) {}
-
-  explicit CollectionItem(const Type _type, CollectionItem *_parent = nullptr)
-      : SimpleTreeItem<CollectionItem>(_parent),
-        type(_type),
-        container_level(-1),
-        compilation_artist_node_(nullptr) {}
+  explicit CollectionItem(SimpleTreeModel<CollectionItem> *_model);
+  explicit CollectionItem(const Type _type, CollectionItem *_parent = nullptr);
 
   Type type;
   int container_level;

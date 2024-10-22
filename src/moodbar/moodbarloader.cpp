@@ -41,14 +41,13 @@
 #include <QUrl>
 #include <QSettings>
 
+#include "includes/scoped_ptr.h"
 #include "core/logging.h"
-#include "core/scoped_ptr.h"
-#include "core/application.h"
 #include "core/settings.h"
 
 #include "moodbarpipeline.h"
 
-#include "settings/moodbarsettingspage.h"
+#include "constants/moodbarsettings.h"
 
 using namespace std::chrono_literals;
 using namespace Qt::Literals::StringLiterals;
@@ -57,7 +56,7 @@ using namespace Qt::Literals::StringLiterals;
 #  include <windows.h>
 #endif
 
-MoodbarLoader::MoodbarLoader(Application *app, QObject *parent)
+MoodbarLoader::MoodbarLoader(QObject *parent)
     : QObject(parent),
       cache_(new QNetworkDiskCache(this)),
       thread_(new QThread(this)),
@@ -67,7 +66,6 @@ MoodbarLoader::MoodbarLoader(Application *app, QObject *parent)
   cache_->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + u"/moodbar"_s);
   cache_->setMaximumCacheSize(60LL * 1024LL * 1024LL);  // 60MB - enough for 20,000 moodbars
 
-  QObject::connect(app, &Application::SettingsChanged, this, &MoodbarLoader::ReloadSettings);
   ReloadSettings();
 
 }
@@ -80,11 +78,13 @@ MoodbarLoader::~MoodbarLoader() {
 void MoodbarLoader::ReloadSettings() {
 
   Settings s;
-  s.beginGroup(MoodbarSettingsPage::kSettingsGroup);
-  save_ = s.value("save", false).toBool();
+  s.beginGroup(MoodbarSettings::kSettingsGroup);
+  save_ = s.value(MoodbarSettings::kSave, false).toBool();
   s.endGroup();
 
   MaybeTakeNextRequest();
+
+  Q_EMIT SettingsReloaded();
 
 }
 

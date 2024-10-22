@@ -26,21 +26,15 @@
 
 #include <QObject>
 #include <QDialog>
-#include <QStyledItemDelegate>
-#include <QStyleOptionViewItem>
-#include <QStyleOption>
 #include <QMap>
-#include <QSize>
 #include <QString>
 
-#include "core/shared_ptr.h"
-#include "engine/enginebase.h"
+#include "includes/shared_ptr.h"
+#include "constants/notificationssettings.h"
 #include "osd/osdbase.h"
 
 class QMainWindow;
 class QWidget;
-class QModelIndex;
-class QPainter;
 class QTreeWidgetItem;
 class QComboBox;
 class QScrollArea;
@@ -48,29 +42,35 @@ class QAbstractButton;
 class QShowEvent;
 class QCloseEvent;
 
-class Application;
 class Player;
-class CollectionDirectoryModel;
+class DeviceFinders;
+class CollectionLibrary;
+class CoverProviders;
+class LyricsProviders;
+class AudioScrobbler;
+class StreamingServices;
 class GlobalShortcutsManager;
 class SettingsPage;
 
 class Ui_SettingsDialog;
 
-class SettingsItemDelegate : public QStyledItemDelegate {
-  Q_OBJECT
-
- public:
-  explicit SettingsItemDelegate(QObject *parent);
-  QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &idx) const override;
-  void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const override;
-};
-
-
 class SettingsDialog : public QDialog {
   Q_OBJECT
 
  public:
-  explicit SettingsDialog(Application *app, OSDBase *osd, QMainWindow *mainwindow, QWidget *parent = nullptr);
+  explicit SettingsDialog(const SharedPtr<Player> player,
+                          const SharedPtr<DeviceFinders> device_finders,
+                          const SharedPtr<CollectionLibrary> collection,
+                          const SharedPtr<CoverProviders> cover_providers,
+                          const SharedPtr<LyricsProviders> lyrics_providers,
+                          const SharedPtr<AudioScrobbler> scrobbler,
+                          const SharedPtr<StreamingServices> streaming_services,
+#ifdef HAVE_GLOBALSHORTCUTS
+                          GlobalShortcutsManager *global_shortcuts_manager,
+#endif
+                          OSDBase *osd,
+                          QMainWindow *mainwindow,
+                          QWidget *parent = nullptr);
   ~SettingsDialog() override;
 
   enum class Page {
@@ -99,22 +99,13 @@ class SettingsDialog : public QDialog {
     Role_IsSeparator = Qt::UserRole
   };
 
-  void SetGlobalShortcutManager(GlobalShortcutsManager *manager) { manager_ = manager; }
-
   bool is_loading_settings() const { return loading_settings_; }
 
-  Application *app() const { return app_; }
-  OSDBase *osd() const { return osd_; }
-  SharedPtr<Player> player() const { return player_; }
-  SharedPtr<EngineBase> engine() const { return engine_; }
-  CollectionDirectoryModel *collection_directory_model() const { return model_; }
-  GlobalShortcutsManager *global_shortcuts_manager() const { return manager_; }
-
-  void OpenAtPage(Page page);
+  void OpenAtPage(const Page page);
 
  protected:
   void showEvent(QShowEvent *e) override;
-  void closeEvent(QCloseEvent*) override;
+  void closeEvent(QCloseEvent *e) override;
 
  private:
   struct PageData {
@@ -139,26 +130,16 @@ class SettingsDialog : public QDialog {
 
  Q_SIGNALS:
   void ReloadSettings();
-  void NotificationPreview(const OSDBase::Behaviour, const QString&, const QString&);
+  void NotificationPreview(const OSDSettings::Type, const QString&, const QString&);
 
  private Q_SLOTS:
   void CurrentItemChanged(QTreeWidgetItem *item);
   void DialogButtonClicked(QAbstractButton *button);
 
  private:
-  static const char *kSettingsGroup;
-
   QMainWindow *mainwindow_;
-  Application *app_;
-  OSDBase *osd_;
-  SharedPtr<Player> player_;
-  SharedPtr<EngineBase> engine_;
-  CollectionDirectoryModel *model_;
-  GlobalShortcutsManager *manager_;
-
   Ui_SettingsDialog *ui_;
   bool loading_settings_;
-
   QMap<Page, PageData> pages_;
 };
 

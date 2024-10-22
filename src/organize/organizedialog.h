@@ -35,8 +35,8 @@
 #include <QUrl>
 #include <QtEvents>
 
-#include "core/scoped_ptr.h"
-#include "core/shared_ptr.h"
+#include "includes/scoped_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/song.h"
 #include "organize.h"
 #include "organizeformat.h"
@@ -56,7 +56,12 @@ class OrganizeDialog : public QDialog {
   Q_OBJECT
 
  public:
-  explicit OrganizeDialog(SharedPtr<TaskManager> task_manager, SharedPtr<CollectionBackend> collection_backend = nullptr, QWidget *parentwindow = nullptr, QWidget *parent = nullptr);
+  explicit OrganizeDialog(const SharedPtr<TaskManager> task_manager,
+                          const SharedPtr<TagReaderClient> tagreader_client,
+                          const SharedPtr<CollectionBackend> collection_backend = nullptr,
+                          QWidget *parentwindow = nullptr,
+                          QWidget *parent = nullptr);
+
   ~OrganizeDialog() override;
 
   void SetDestinationModel(QAbstractItemModel *model, const bool devices = false);
@@ -83,7 +88,7 @@ class OrganizeDialog : public QDialog {
   void LoadSettings();
   void AdjustSize();
 
-  static SongList LoadSongsBlocking(const QStringList &filenames);
+  SongList LoadSongsBlocking(const QStringList &filenames) const;
   void SetLoadingSongs(const bool loading);
 
  Q_SIGNALS:
@@ -107,8 +112,10 @@ class OrganizeDialog : public QDialog {
  private:
   QWidget *parentwindow_;
   Ui_OrganizeDialog *ui_;
-  SharedPtr<TaskManager> task_manager_;
-  SharedPtr<CollectionBackend> collection_backend_;
+
+  const SharedPtr<TaskManager> task_manager_;
+  const SharedPtr<TagReaderClient> tagreader_client_;
+  const SharedPtr<CollectionBackend> collection_backend_;
 
   OrganizeFormat format_;
 

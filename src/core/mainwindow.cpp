@@ -84,52 +84,46 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include "shared_ptr.h"
-#include "commandlineoptions.h"
-#include "mimedata.h"
-#include "iconloader.h"
-#include "taskmanager.h"
-#include "song.h"
-#include "stylehelper.h"
-#include "stylesheetloader.h"
+#include "constants/filefilterconstants.h"
+#include "constants/timeconstants.h"
+#include "constants/mainwindowsettings.h"
+#include "includes/shared_ptr.h"
+#include "core/commandlineoptions.h"
+#include "core/mimedata.h"
+#include "core/iconloader.h"
+#include "core/taskmanager.h"
+#include "core/song.h"
+#include "core/stylehelper.h"
+#include "core/stylesheetloader.h"
 #include "application.h"
-#include "database.h"
-#include "player.h"
-#include "filesystemmusicstorage.h"
-#include "deletefiles.h"
-#ifdef Q_OS_MACOS
-#  include "mac_startup.h"
-#  include "macsystemtrayicon.h"
-#  include "utilities/macosutils.h"
-#else
-#  include "qtsystemtrayicon.h"
-#endif
-#include "networkaccessmanager.h"
-#include "settings.h"
+#include "core/database.h"
+#include "core/filesystemmusicstorage.h"
+#include "core/deletefiles.h"
+#include "core/settings.h"
+#include "core/player.h"
 #include "utilities/envutils.h"
 #include "utilities/filemanagerutils.h"
-#include "utilities/timeconstants.h"
 #include "utilities/screenutils.h"
 #include "engine/enginebase.h"
 #include "dialogs/errordialog.h"
 #include "dialogs/about.h"
 #include "dialogs/console.h"
-#include "dialogs/trackselectiondialog.h"
-#include "dialogs/edittagdialog.h"
 #include "dialogs/addstreamdialog.h"
 #include "dialogs/deleteconfirmationdialog.h"
 #include "dialogs/lastfmimportdialog.h"
 #include "dialogs/snapdialog.h"
+#include "dialogs/edittagdialog.h"
+#include "dialogs/trackselectiondialog.h"
 #include "organize/organizedialog.h"
 #include "widgets/fancytabwidget.h"
 #include "widgets/playingwidget.h"
 #include "widgets/volumeslider.h"
-#include "widgets/fileview.h"
 #include "widgets/multiloadingindicator.h"
 #include "widgets/trackslider.h"
+#include "fileview/fileview.h"
 #include "osd/osdbase.h"
 #include "context/contextview.h"
-#include "collection/collection.h"
+#include "collection/collectionlibrary.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectiondirectorymodel.h"
 #include "collection/collectionviewcontainer.h"
@@ -160,30 +154,31 @@
 #include "covermanager/coverproviders.h"
 #include "covermanager/albumcoverimageresult.h"
 #include "lyrics/lyricsproviders.h"
+#include "device/devicemanager.h"
+#include "device/devicestatefiltermodel.h"
 #ifndef Q_OS_WIN
-#  include "device/devicemanager.h"
-#  include "device/devicestatefiltermodel.h"
 #  include "device/deviceview.h"
 #  include "device/deviceviewcontainer.h"
 #endif
 #include "transcoder/transcodedialog.h"
 #include "settings/settingsdialog.h"
-#include "settings/behavioursettingspage.h"
-#include "settings/backendsettingspage.h"
-#include "settings/collectionsettingspage.h"
-#include "settings/playlistsettingspage.h"
+#include "constants/behavioursettings.h"
+#include "constants/appearancesettings.h"
+#include "constants/backendsettings.h"
+#include "constants/collectionsettings.h"
+#include "constants/playlistsettings.h"
 #ifdef HAVE_SUBSONIC
-#  include "settings/subsonicsettingspage.h"
+#  include "constants/subsonicsettings.h"
 #endif
 #ifdef HAVE_TIDAL
 #  include "tidal/tidalservice.h"
-#  include "settings/tidalsettingspage.h"
+#  include "constants/tidalsettings.h"
 #endif
 #ifdef HAVE_SPOTIFY
-#  include "settings/spotifysettingspage.h"
+#  include "constants/spotifysettings.h"
 #endif
 #ifdef HAVE_QOBUZ
-#  include "settings/qobuzsettingspage.h"
+#  include "constants/qobuzsettings.h"
 #endif
 
 #include "streaming/streamingservices.h"
@@ -205,6 +200,7 @@
 
 #ifdef HAVE_MOODBAR
 #  include "moodbar/moodbarcontroller.h"
+#  include "moodbar/moodbarloader.h"
 #  include "moodbar/moodbarproxystyle.h"
 #endif
 
@@ -213,7 +209,15 @@
 #include "organize/organizeerrordialog.h"
 
 #ifdef Q_OS_WIN
-#  include "windows7thumbbar.h"
+#  include "core/windows7thumbbar.h"
+#endif
+
+#ifdef Q_OS_MACOS
+#  include "core/mac_startup.h"
+#  include "systemtrayicon/macsystemtrayicon.h"
+#  include "utilities/macosutils.h"
+#else
+#  include "systemtrayicon/qtsystemtrayicon.h"
 #endif
 
 #ifdef HAVE_QTSPARKLE
@@ -224,9 +228,6 @@ using std::make_unique;
 using std::make_shared;
 using namespace std::chrono_literals;
 using namespace Qt::Literals::StringLiterals;
-
-const char *MainWindow::kSettingsGroup = "MainWindow";
-const char *MainWindow::kAllFilesFilterSpec = QT_TR_NOOP("All Files (*)");
 
 namespace {
 const int kTrackSliderUpdateTimeMs = 200;
@@ -258,8 +259,9 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
       app_(app),
       tray_icon_(tray_icon),
       osd_(osd),
-      console_([app]() {
-        Console *console = new Console(app);
+      console_([app, this]() {
+        Console *console = new Console(app->database());
+        QObject::connect(console, &Console::Error, this, &MainWindow::ShowErrorDialog);
         return console;
       }),
       edit_tag_dialog_(std::bind(&MainWindow::CreateEditTagDialog, this)),
@@ -277,7 +279,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
       queue_view_(new QueueView(this)),
       settings_dialog_(std::bind(&MainWindow::CreateSettingsDialog, this)),
       cover_manager_([this, app]() {
-        AlbumCoverManager *cover_manager = new AlbumCoverManager(app, app->collection_backend(), this);
+        AlbumCoverManager *cover_manager = new AlbumCoverManager(app->network(), app->collection_backend(), app->tagreader_client(), app->albumcover_loader(), app->current_albumcover_loader(), app->cover_providers(), app->streaming_services(), this);
         cover_manager->Init();
 
         // Cover manager connections
@@ -287,7 +289,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
       }),
       equalizer_(new Equalizer),
       organize_dialog_([this, app]() {
-        OrganizeDialog *dialog = new OrganizeDialog(app->task_manager(), app->collection_backend(), this);
+        OrganizeDialog *dialog = new OrganizeDialog(app->task_manager(), app->tagreader_client(), app->collection_backend(), this);
         dialog->SetDestinationModel(app->collection()->model()->directory_model());
         return dialog;
       }),
@@ -300,18 +302,25 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
         QObject::connect(add_stream_dialog, &AddStreamDialog::accepted, this, &MainWindow::AddStreamAccepted);
         return add_stream_dialog;
       }),
-      smartplaylists_view_(new SmartPlaylistsViewContainer(app, this)),
+      smartplaylists_view_(new SmartPlaylistsViewContainer(app->player(),
+                                                           app->playlist_manager(),
+                                                           app->collection_backend(),
+#ifdef HAVE_MOODBAR
+                                                           app->moodbar_loader(),
+#endif
+                                                           app->current_albumcover_loader(),
+                                                           this)),
 #ifdef HAVE_SUBSONIC
-      subsonic_view_(new StreamingSongsView(app_, app->streaming_services()->ServiceBySource(Song::Source::Subsonic), QLatin1String(SubsonicSettingsPage::kSettingsGroup), SettingsDialog::Page::Subsonic, this)),
+      subsonic_view_(new StreamingSongsView(app->streaming_services()->ServiceBySource(Song::Source::Subsonic), QLatin1String(SubsonicSettings::kSettingsGroup), this)),
 #endif
 #ifdef HAVE_TIDAL
-      tidal_view_(new StreamingTabsView(app_, app->streaming_services()->ServiceBySource(Song::Source::Tidal), QLatin1String(TidalSettingsPage::kSettingsGroup), SettingsDialog::Page::Tidal, this)),
+      tidal_view_(new StreamingTabsView(app->streaming_services()->ServiceBySource(Song::Source::Tidal), app->albumcover_loader(), QLatin1String(TidalSettings::kSettingsGroup), this)),
 #endif
 #ifdef HAVE_SPOTIFY
-      spotify_view_(new StreamingTabsView(app_, app->streaming_services()->ServiceBySource(Song::Source::Spotify), QLatin1String(SpotifySettingsPage::kSettingsGroup), SettingsDialog::Page::Spotify, this)),
+      spotify_view_(new StreamingTabsView(app->streaming_services()->ServiceBySource(Song::Source::Spotify), app->albumcover_loader(), QLatin1String(SpotifySettings::kSettingsGroup), this)),
 #endif
 #ifdef HAVE_QOBUZ
-      qobuz_view_(new StreamingTabsView(app_, app->streaming_services()->ServiceBySource(Song::Source::Qobuz), QLatin1String(QobuzSettingsPage::kSettingsGroup), SettingsDialog::Page::Qobuz, this)),
+      qobuz_view_(new StreamingTabsView(app->streaming_services()->ServiceBySource(Song::Source::Qobuz), app->albumcover_loader(), QLatin1String(QobuzSettings::kSettingsGroup), this)),
 #endif
       radio_view_(new RadioViewContainer(this)),
       lastfm_import_dialog_(new LastFMImportDialog(app_->lastfm_import(), this)),
@@ -345,10 +354,10 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
 #ifdef HAVE_DBUS
       taskbar_progress_(false),
 #endif
-      doubleclick_addmode_(BehaviourSettingsPage::AddBehaviour::Append),
-      doubleclick_playmode_(BehaviourSettingsPage::PlayBehaviour::Never),
-      doubleclick_playlist_addmode_(BehaviourSettingsPage::PlaylistAddBehaviour::Play),
-      menu_playmode_(BehaviourSettingsPage::PlayBehaviour::Never),
+      doubleclick_addmode_(BehaviourSettings::AddBehaviour::Append),
+      doubleclick_playmode_(BehaviourSettings::PlayBehaviour::Never),
+      doubleclick_playlist_addmode_(BehaviourSettings::PlaylistAddBehaviour::Play),
+      menu_playmode_(BehaviourSettings::PlayBehaviour::Never),
       initialized_(false),
       was_maximized_(true),
       was_minimized_(false),
@@ -358,19 +367,18 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
 
   qLog(Debug) << "Starting";
 
-  QObject::connect(app, &Application::ErrorAdded, this, &MainWindow::ShowErrorDialog);
-  QObject::connect(app, &Application::SettingsDialogRequested, this, &MainWindow::OpenSettingsDialogAtPage);
-
   // Initialize the UI
   ui_->setupUi(this);
 
   setWindowIcon(IconLoader::Load(u"strawberry"_s));
 
-  album_cover_choice_controller_->Init(app);
+  QObject::connect(&*app->database(), &Database::Error, this, &MainWindow::ShowErrorDialog);
+
+  album_cover_choice_controller_->Init(app->network(), app->tagreader_client(), app->collection()->backend(), app->albumcover_loader(), app->current_albumcover_loader(), app->cover_providers(), app->streaming_services());
 
   ui_->multi_loading_indicator->SetTaskManager(app_->task_manager());
-  context_view_->Init(app_, collection_view_->view(), album_cover_choice_controller_);
-  ui_->widget_playing->Init(app_, album_cover_choice_controller_);
+  context_view_->Init(collection_view_->view(), album_cover_choice_controller_, app_->lyrics_providers());
+  ui_->widget_playing->Init(album_cover_choice_controller_);
 
   // Initialize the search widget
   StyleHelper::setBaseColor(palette().color(QPalette::Highlight).darker());
@@ -402,7 +410,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   // Add the playing widget to the fancy tab widget
   ui_->tabs->AddBottomWidget(ui_->widget_playing);
   ui_->tabs->SetBackgroundPixmap(QPixmap(u":/pictures/sidebar-background.png"_s));
-  ui_->tabs->LoadSettings(QLatin1String(kSettingsGroup));
+  ui_->tabs->LoadSettings(QLatin1String(MainWindowSettings::kSettingsGroup));
 
   track_position_timer_->setInterval(kTrackPositionUpdateTimeMs);
   QObject::connect(track_position_timer_, &QTimer::timeout, this, &MainWindow::UpdateTrackPosition);
@@ -423,14 +431,20 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
 
   ui_->playlist->SetManager(app_->playlist_manager());
 
-  ui_->playlist->view()->Init(app_);
+  ui_->playlist->view()->Init(app_->player(),
+                              app_->playlist_manager(),
+                              app_->collection_backend(),
+#ifdef HAVE_MOODBAR
+                              app_->moodbar_loader(),
+#endif
+                              app_->current_albumcover_loader());
 
   collection_view_->view()->setModel(app_->collection()->model()->filter());
-  collection_view_->view()->SetApplication(app_);
+  collection_view_->view()->Init(app->task_manager(), app->tagreader_client(), app->network(), app->albumcover_loader(), app->current_albumcover_loader(), app->cover_providers(), app->lyrics_providers(), app->collection(), app->device_manager(), app->streaming_services());
 #ifndef Q_OS_WIN
-  device_view_->view()->SetApplication(app_);
+  device_view_->view()->Init(app->task_manager(), app->tagreader_client(), app->device_manager(), app->collection_model()->directory_model());
 #endif
-  playlist_list_->SetApplication(app_);
+  playlist_list_->Init(app_->task_manager(), app->tagreader_client(), app_->playlist_manager(), app_->playlist_backend(), app_->device_manager());
 
   organize_dialog_->SetDestinationModel(app_->collection()->model()->directory_model());
 
@@ -541,9 +555,9 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   QObject::connect(ui_->action_equalizer, &QAction::triggered, this, &MainWindow::ShowEqualizer);
   QObject::connect(ui_->action_transcoder, &QAction::triggered, this, &MainWindow::ShowTranscodeDialog);
   QObject::connect(ui_->action_jump, &QAction::triggered, ui_->playlist->view(), &PlaylistView::JumpToCurrentlyPlayingTrack);
-  QObject::connect(ui_->action_update_collection, &QAction::triggered, &*app_->collection(), &SCollection::IncrementalScan);
-  QObject::connect(ui_->action_full_collection_scan, &QAction::triggered, &*app_->collection(), &SCollection::FullScan);
-  QObject::connect(ui_->action_stop_collection_scan, &QAction::triggered, &*app_->collection(), &SCollection::StopScan);
+  QObject::connect(ui_->action_update_collection, &QAction::triggered, &*app_->collection(), &CollectionLibrary::IncrementalScan);
+  QObject::connect(ui_->action_full_collection_scan, &QAction::triggered, &*app_->collection(), &CollectionLibrary::FullScan);
+  QObject::connect(ui_->action_stop_collection_scan, &QAction::triggered, &*app_->collection(), &CollectionLibrary::StopScan);
   QObject::connect(ui_->action_add_files_to_transcoder, &QAction::triggered, this, &MainWindow::AddFilesToTranscoder);
   ui_->action_add_files_to_transcoder->setIcon(IconLoader::Load(u"tools-wizard"_s));
 
@@ -597,6 +611,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   QObject::connect(&*app_->player(), &Player::Stopped, ui_->playlist, &PlaylistContainer::ActiveStopped);
 
   QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, osd_, &OSDBase::SongChanged);
+
   QObject::connect(&*app_->player(), &Player::Paused, osd_, &OSDBase::Paused);
   QObject::connect(&*app_->player(), &Player::Resumed, osd_, &OSDBase::Resumed);
   QObject::connect(&*app_->player(), &Player::Stopped, osd_, &OSDBase::Stopped);
@@ -604,6 +619,16 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   QObject::connect(&*app_->player(), &Player::VolumeChanged, osd_, &OSDBase::VolumeChanged);
   QObject::connect(&*app_->player(), &Player::VolumeChanged, ui_->volume, &VolumeSlider::SetValue);
   QObject::connect(&*app_->player(), &Player::ForceShowOSD, this, &MainWindow::ForceShowOSD);
+
+  QObject::connect(&*app_->current_albumcover_loader(), &CurrentAlbumCoverLoader::ThumbnailLoaded, osd_, &OSDBase::AlbumCoverLoaded);
+
+  QObject::connect(&*app_->player(), &Player::Paused, &*app_->playlist_manager(), &PlaylistManager::SetActivePaused);
+  QObject::connect(&*app_->player(), &Player::Playing, &*app_->playlist_manager(), &PlaylistManager::SetActivePlaying);
+  QObject::connect(&*app_->player(), &Player::Stopped, &*app_->playlist_manager(), &PlaylistManager::SetActiveStopped);
+
+  QObject::connect(&*app_->player(), &Player::Paused, playlist_list_, &PlaylistListContainer::ActivePaused);
+  QObject::connect(&*app_->player(), &Player::Playing, playlist_list_, &PlaylistListContainer::ActivePlaying);
+  QObject::connect(&*app_->player(), &Player::Stopped, playlist_list_, &PlaylistListContainer::ActiveStopped);
 
   QObject::connect(&*app_->playlist_manager(), &PlaylistManager::AllPlaylistsLoaded, &*app->player(), &Player::PlaylistsLoaded);
   QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, this, &MainWindow::SongChanged);
@@ -628,9 +653,9 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   QObject::connect(ui_->track_slider, &TrackSlider::Next, &*app_->player(), &Player::Next);
 
   // Collection connections
-  QObject::connect(&*app_->collection(), &SCollection::Error, this, &MainWindow::ShowErrorDialog);
+  QObject::connect(&*app_->collection(), &CollectionLibrary::Error, this, &MainWindow::ShowErrorDialog);
   QObject::connect(collection_view_->view(), &CollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
-  QObject::connect(collection_view_->view(), &CollectionView::ShowConfigDialog, this, &MainWindow::ShowCollectionConfig);
+  QObject::connect(collection_view_->view(), &CollectionView::ShowSettingsDialog, this, &MainWindow::OpenCollectionSettingsDialog);
   QObject::connect(collection_view_->view(), &CollectionView::Error, this, &MainWindow::ShowErrorDialog);
   QObject::connect(app_->collection_model(), &CollectionModel::TotalSongCountUpdated, collection_view_->view(), &CollectionView::TotalSongCountUpdated);
   QObject::connect(app_->collection_model(), &CollectionModel::TotalArtistCountUpdated, collection_view_->view(), &CollectionView::TotalArtistCountUpdated);
@@ -638,9 +663,10 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   QObject::connect(app_->collection_model(), &CollectionModel::modelAboutToBeReset, collection_view_->view(), &CollectionView::SaveFocus);
   QObject::connect(app_->collection_model(), &CollectionModel::modelReset, collection_view_->view(), &CollectionView::RestoreFocus);
 
-  QObject::connect(&*app_->task_manager(), &TaskManager::PauseCollectionWatchers, &*app_->collection(), &SCollection::PauseWatcher);
-  QObject::connect(&*app_->task_manager(), &TaskManager::ResumeCollectionWatchers, &*app_->collection(), &SCollection::ResumeWatcher);
+  QObject::connect(&*app_->task_manager(), &TaskManager::PauseCollectionWatchers, &*app_->collection(), &CollectionLibrary::PauseWatcher);
+  QObject::connect(&*app_->task_manager(), &TaskManager::ResumeCollectionWatchers, &*app_->collection(), &CollectionLibrary::ResumeWatcher);
 
+  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, &*app_->current_albumcover_loader(), &CurrentAlbumCoverLoader::LoadAlbumCover);
   QObject::connect(&*app_->current_albumcover_loader(), &CurrentAlbumCoverLoader::AlbumCoverLoaded, this, &MainWindow::AlbumCoverLoaded);
   QObject::connect(album_cover_choice_controller_, &AlbumCoverChoiceController::Error, this, &MainWindow::ShowErrorDialog);
   QObject::connect(album_cover_choice_controller_->cover_from_file_action(), &QAction::triggered, this, &MainWindow::LoadCoverFromFile);
@@ -674,8 +700,8 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   QObject::connect(collection_view_group, &QActionGroup::triggered, this, &MainWindow::ChangeCollectionFilterMode);
 
   QAction *collection_config_action = new QAction(IconLoader::Load(u"configure"_s), tr("Configure collection..."), this);
-  QObject::connect(collection_config_action, &QAction::triggered, this, &MainWindow::ShowCollectionConfig);
-  collection_view_->filter_widget()->SetSettingsGroup(QLatin1String(CollectionSettingsPage::kSettingsGroup));
+  QObject::connect(collection_config_action, &QAction::triggered, this, &MainWindow::OpenCollectionSettingsDialog);
+  collection_view_->filter_widget()->SetSettingsGroup(QLatin1String(CollectionSettings::kSettingsGroup));
   collection_view_->filter_widget()->Init(app_->collection()->model(), app_->collection()->model()->filter());
 
   QAction *separator = new QAction(this);
@@ -688,13 +714,16 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   collection_view_->filter_widget()->AddMenuAction(collection_config_action);
 
 #ifdef HAVE_SUBSONIC
+  QObject::connect(subsonic_view_, &StreamingSongsView::OpenSettingsDialog, this, &MainWindow::OpenServiceSettingsDialog);
   QObject::connect(subsonic_view_->view(), &StreamingCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
 #endif
 
 #ifdef HAVE_TIDAL
+  QObject::connect(tidal_view_, &StreamingTabsView::OpenSettingsDialog, this, &MainWindow::OpenServiceSettingsDialog);
   QObject::connect(tidal_view_->artists_collection_view(), &StreamingCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
   QObject::connect(tidal_view_->albums_collection_view(), &StreamingCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
   QObject::connect(tidal_view_->songs_collection_view(), &StreamingCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
+  QObject::connect(tidal_view_->search_view(), &StreamingSearchView::OpenSettingsDialog, this, &MainWindow::OpenServiceSettingsDialog);
   QObject::connect(tidal_view_->search_view(), &StreamingSearchView::AddToPlaylist, this, &MainWindow::AddToPlaylist);
   if (TidalServicePtr tidalservice = app_->streaming_services()->Service<TidalService>()) {
     QObject::connect(this, &MainWindow::AuthorizationUrlReceived, &*tidalservice, &TidalService::AuthorizationUrlReceived);
@@ -702,16 +731,20 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
 #endif
 
 #ifdef HAVE_QOBUZ
+  QObject::connect(qobuz_view_, &StreamingTabsView::OpenSettingsDialog, this, &MainWindow::OpenServiceSettingsDialog);
   QObject::connect(qobuz_view_->artists_collection_view(), &StreamingCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
   QObject::connect(qobuz_view_->albums_collection_view(), &StreamingCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
   QObject::connect(qobuz_view_->songs_collection_view(), &StreamingCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
+  QObject::connect(qobuz_view_->search_view(), &StreamingSearchView::OpenSettingsDialog, this, &MainWindow::OpenServiceSettingsDialog);
   QObject::connect(qobuz_view_->search_view(), &StreamingSearchView::AddToPlaylist, this, &MainWindow::AddToPlaylist);
 #endif
 
 #ifdef HAVE_SPOTIFY
+  QObject::connect(spotify_view_, &StreamingTabsView::OpenSettingsDialog, this, &MainWindow::OpenServiceSettingsDialog);
   QObject::connect(spotify_view_->artists_collection_view(), &StreamingCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
   QObject::connect(spotify_view_->albums_collection_view(), &StreamingCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
   QObject::connect(spotify_view_->songs_collection_view(), &StreamingCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
+  QObject::connect(spotify_view_->search_view(), &StreamingSearchView::OpenSettingsDialog, this, &MainWindow::OpenServiceSettingsDialog);
   QObject::connect(spotify_view_->search_view(), &StreamingSearchView::AddToPlaylist, this, &MainWindow::AddToPlaylist);
 #endif
 
@@ -773,14 +806,15 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
 
   QObject::connect(ui_->playlist, &PlaylistContainer::UndoRedoActionsChanged, this, &MainWindow::PlaylistUndoRedoChanged);
 
-#ifndef Q_OS_WIN
-  playlist_copy_to_device_->setDisabled(app_->device_manager()->connected_devices_model()->rowCount() == 0);
+  QObject::connect(&*app_->device_manager(), &DeviceManager::DeviceError, this, &MainWindow::ShowErrorDialog);
+#ifndef WIN32
   QObject::connect(app_->device_manager()->connected_devices_model(), &DeviceStateFilterModel::IsEmptyChanged, playlist_copy_to_device_, &QAction::setDisabled);
+  playlist_copy_to_device_->setDisabled(app_->device_manager()->connected_devices_model()->rowCount() == 0);
 #endif
 
-  QObject::connect(&*app_->scrobbler()->settings(), &ScrobblerSettings::ScrobblingEnabledChanged, this, &MainWindow::ScrobblingEnabledChanged);
-  QObject::connect(&*app_->scrobbler()->settings(), &ScrobblerSettings::ScrobbleButtonVisibilityChanged, this, &MainWindow::ScrobbleButtonVisibilityChanged);
-  QObject::connect(&*app_->scrobbler()->settings(), &ScrobblerSettings::LoveButtonVisibilityChanged, this, &MainWindow::LoveButtonVisibilityChanged);
+  QObject::connect(&*app_->scrobbler()->settings(), &ScrobblerSettingsService::ScrobblingEnabledChanged, this, &MainWindow::ScrobblingEnabledChanged);
+  QObject::connect(&*app_->scrobbler()->settings(), &ScrobblerSettingsService::ScrobbleButtonVisibilityChanged, this, &MainWindow::ScrobbleButtonVisibilityChanged);
+  QObject::connect(&*app_->scrobbler()->settings(), &ScrobblerSettingsService::LoveButtonVisibilityChanged, this, &MainWindow::LoveButtonVisibilityChanged);
 
 #ifdef Q_OS_MACOS
   mac::SetApplicationHandler(this);
@@ -849,11 +883,14 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   ui_->status_bar_stack->setCurrentWidget(ui_->playlist_summary_page);
   QObject::connect(ui_->multi_loading_indicator, &MultiLoadingIndicator::TaskCountChange, this, &MainWindow::TaskCountChanged);
 
-  ui_->track_slider->SetApplication(app);
+  ui_->track_slider->Init();
 
 #ifdef HAVE_MOODBAR
   // Moodbar connections
-  QObject::connect(&*app_->moodbar_controller(), &MoodbarController::CurrentMoodbarDataChanged, ui_->track_slider->moodbar_style(), &MoodbarProxyStyle::SetMoodbarData);
+  QObject::connect(&*app_->moodbar_controller(), &MoodbarController::CurrentMoodbarDataChanged, ui_->track_slider->moodbar_proxy_style(), &MoodbarProxyStyle::SetMoodbarData);
+  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, &*app_->moodbar_controller(), &MoodbarController::CurrentSongChanged);
+  QObject::connect(&*app_->player(), &Player::Stopped, &*app_->moodbar_controller(), &MoodbarController::PlaybackStopped);
+  QObject::connect(ui_->track_slider->moodbar_proxy_style(), &MoodbarProxyStyle::StyleChanged, &*app_->moodbar_loader(), &MoodbarLoader::StyleChanged);
 #endif
 
   // Playing widget
@@ -875,7 +912,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   css_loader->SetStyleSheet(this, u":/style/strawberry.css"_s);
 
   // Load playlists
-  app_->playlist_manager()->Init(app_->collection_backend(), app_->playlist_backend(), ui_->playlist_sequence, ui_->playlist);
+  app_->playlist_manager()->Init(ui_->playlist_sequence, ui_->playlist);
 
   queue_view_->SetPlaylistManager(app_->playlist_manager());
 
@@ -902,10 +939,12 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   QObject::connect(&*app_->lastfm_import(), &LastFMImport::FinishedWithError, lastfm_import_dialog_, &LastFMImportDialog::FinishedWithError);
   QObject::connect(&*app_->lastfm_import(), &LastFMImport::UpdateTotal, lastfm_import_dialog_, &LastFMImportDialog::UpdateTotal);
   QObject::connect(&*app_->lastfm_import(), &LastFMImport::UpdateProgress, lastfm_import_dialog_, &LastFMImportDialog::UpdateProgress);
+  QObject::connect(&*app_->lastfm_import(), &LastFMImport::UpdateLastPlayed, &*app_->collection_backend(), &CollectionBackend::UpdateLastPlayed);
+  QObject::connect(&*app_->lastfm_import(), &LastFMImport::UpdatePlayCount, &*app_->collection_backend(), &CollectionBackend::UpdatePlayCount);
 
   // Load settings
   qLog(Debug) << "Loading settings";
-  settings_.beginGroup(kSettingsGroup);
+  settings_.beginGroup(MainWindowSettings::kSettingsGroup);
 
   // Set last used geometry to position window on the correct monitor
   // Set window state only if the window was last maximized
@@ -913,7 +952,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
     restoreGeometry(settings_.value("geometry").toByteArray());
   }
 
-  if (!settings_.contains("splitter_state") || !ui_->splitter->restoreState(settings_.value("splitter_state").toByteArray())) {
+  if (!settings_.contains(MainWindowSettings::kSplitterState) || !ui_->splitter->restoreState(settings_.value(MainWindowSettings::kSplitterState).toByteArray())) {
     ui_->splitter->setSizes(QList<int>() << 20 << (width() - 20));
   }
 
@@ -941,40 +980,40 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
 #ifdef Q_OS_MACOS  // Always show the mainwindow on startup for macOS
   show();
 #else
-  BehaviourSettingsPage::StartupBehaviour startupbehaviour = BehaviourSettingsPage::StartupBehaviour::Remember;
+  BehaviourSettings::StartupBehaviour startupbehaviour = BehaviourSettings::StartupBehaviour::Remember;
   {
     Settings s;
-    s.beginGroup(BehaviourSettingsPage::kSettingsGroup);
-    startupbehaviour = static_cast<BehaviourSettingsPage::StartupBehaviour>(s.value("startupbehaviour", static_cast<int>(BehaviourSettingsPage::StartupBehaviour::Remember)).toInt());
+    s.beginGroup(BehaviourSettings::kSettingsGroup);
+    startupbehaviour = static_cast<BehaviourSettings::StartupBehaviour>(s.value(BehaviourSettings::kStartupBehaviour, static_cast<int>(BehaviourSettings::StartupBehaviour::Remember)).toInt());
     s.endGroup();
   }
   switch (startupbehaviour) {
-    case BehaviourSettingsPage::StartupBehaviour::Show:
+    case BehaviourSettings::StartupBehaviour::Show:
       show();
       break;
-    case BehaviourSettingsPage::StartupBehaviour::ShowMaximized:
+    case BehaviourSettings::StartupBehaviour::ShowMaximized:
       setWindowState(windowState() | Qt::WindowMaximized);
       show();
       break;
-    case BehaviourSettingsPage::StartupBehaviour::ShowMinimized:
+    case BehaviourSettings::StartupBehaviour::ShowMinimized:
       setWindowState(windowState() | Qt::WindowMinimized);
       show();
       break;
-    case BehaviourSettingsPage::StartupBehaviour::Hide:
+    case BehaviourSettings::StartupBehaviour::Hide:
       if (tray_icon_->IsSystemTrayAvailable() && tray_icon_->isVisible()) {
         break;
       }
       [[fallthrough]];
-    case BehaviourSettingsPage::StartupBehaviour::Remember:
+    case BehaviourSettings::StartupBehaviour::Remember:
     default:{
 
-      was_maximized_ = settings_.value("maximized", true).toBool();
+      was_maximized_ = settings_.value(MainWindowSettings::kMaximized, true).toBool();
       if (was_maximized_) setWindowState(windowState() | Qt::WindowMaximized);
 
-      was_minimized_ = settings_.value("minimized", false).toBool();
+      was_minimized_ = settings_.value(MainWindowSettings::kMinimized, false).toBool();
       if (was_minimized_) setWindowState(windowState() | Qt::WindowMinimized);
 
-      if (!tray_icon_->IsSystemTrayAvailable() || !tray_icon_->isVisible() || !settings_.value("hidden", false).toBool()) {
+      if (!tray_icon_->IsSystemTrayAvailable() || !tray_icon_->isVisible() || !settings_.value(MainWindowSettings::kHidden, false).toBool()) {
         show();
       }
       break;
@@ -982,7 +1021,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   }
 #endif
 
-  bool show_sidebar = settings_.value("show_sidebar", true).toBool();
+  bool show_sidebar = settings_.value(MainWindowSettings::kShowSidebar, true).toBool();
   ui_->sidebar_layout->setVisible(show_sidebar);
   ui_->action_toggle_show_sidebar->setChecked(show_sidebar);
 
@@ -1016,7 +1055,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
 #ifdef Q_OS_LINUX
   if (!Utilities::GetEnv(u"SNAP"_s).isEmpty() && !Utilities::GetEnv(u"SNAP_NAME"_s).isEmpty()) {
     Settings s;
-    s.beginGroup(kSettingsGroup);
+    s.beginGroup(MainWindowSettings::kSettingsGroup);
     const bool ignore_snap = s.value("ignore_snap", false).toBool();
     s.endGroup();
     if (!ignore_snap) {
@@ -1030,12 +1069,12 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
 #if defined(Q_OS_MACOS)
   if (Utilities::ProcessTranslated()) {
     Settings s;
-    s.beginGroup(kSettingsGroup);
+    s.beginGroup(MainWindowSettings::kSettingsGroup);
     const bool ignore_rosetta = s.value("ignore_rosetta", false).toBool();
     s.endGroup();
     if (!ignore_rosetta) {
       MessageDialog *rosetta_message = new MessageDialog(this);
-      rosetta_message->set_settings_group(QLatin1String(kSettingsGroup));
+      rosetta_message->set_settings_group(QLatin1String(MainWindowSettings::kSettingsGroup));
       rosetta_message->set_do_not_show_message_again(u"ignore_rosetta"_s);
       rosetta_message->setAttribute(Qt::WA_DeleteOnClose);
       rosetta_message->ShowMessage(tr("Strawberry running under Rosetta"), tr("You are running Strawberry under Rosetta. Running Strawberry under Rosetta is unsupported and known to have issues. You should download Strawberry for the correct CPU architecture from %1").arg(QLatin1String("<a href=\"https://downloads.strawberrymusicplayer.org/\">downloads.strawberrymusicplayer.org</a>")), IconLoader::Load(u"dialog-warning"_s));
@@ -1052,14 +1091,13 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
     s.endGroup();
 #endif
     if (asked_permission) {
-      s.beginGroup(kSettingsGroup);
-      constexpr char do_not_show_sponsor_message_key[] = "do_not_show_sponsor_message";
-      const bool do_not_show_sponsor_message = s.value(do_not_show_sponsor_message_key, false).toBool();
+      s.beginGroup(MainWindowSettings::kSettingsGroup);
+      const bool do_not_show_sponsor_message = s.value(MainWindowSettings::kDoNotShowSponsorMessage, false).toBool();
       s.endGroup();
       if (!do_not_show_sponsor_message) {
         MessageDialog *sponsor_message = new MessageDialog(this);
-        sponsor_message->set_settings_group(QLatin1String(kSettingsGroup));
-        sponsor_message->set_do_not_show_message_again(QLatin1String(do_not_show_sponsor_message_key));
+        sponsor_message->set_settings_group(QLatin1String(MainWindowSettings::kSettingsGroup));
+        sponsor_message->set_do_not_show_message_again(QLatin1String(MainWindowSettings::kDoNotShowSponsorMessage));
         sponsor_message->setAttribute(Qt::WA_DeleteOnClose);
         sponsor_message->ShowMessage(tr("Sponsoring Strawberry"), tr("Strawberry is free and open source software. If you like Strawberry, please consider sponsoring the project. For more information about sponsorship see our website %1").arg(u"<a href= \"https://www.strawberrymusicplayer.org/\">www.strawberrymusicplayer.org</a>"_s), IconLoader::Load(u"dialog-information"_s));
       }
@@ -1083,8 +1121,8 @@ void MainWindow::ReloadSettings() {
   constexpr bool keeprunning_available = true;
 #else
   const bool systemtray_available = tray_icon_->IsSystemTrayAvailable();
-  s.beginGroup(BehaviourSettingsPage::kSettingsGroup);
-  const bool showtrayicon = s.value("showtrayicon", systemtray_available).toBool();
+  s.beginGroup(BehaviourSettings::kSettingsGroup);
+  const bool showtrayicon = s.value(BehaviourSettings::kShowTrayIcon, systemtray_available).toBool();
   s.endGroup();
   const bool keeprunning_available = systemtray_available && showtrayicon;
   if (systemtray_available) {
@@ -1095,22 +1133,22 @@ void MainWindow::ReloadSettings() {
   }
 #endif
 
-  s.beginGroup(BehaviourSettingsPage::kSettingsGroup);
-  keep_running_ = keeprunning_available && s.value("keeprunning", false).toBool();
-  playing_widget_ = s.value("playing_widget", true).toBool();
-  bool trayicon_progress = s.value("trayicon_progress", false).toBool();
+  s.beginGroup(BehaviourSettings::kSettingsGroup);
+  keep_running_ = keeprunning_available && s.value(BehaviourSettings::kKeepRunning, false).toBool();
+  playing_widget_ = s.value(BehaviourSettings::kPlayingWidget, true).toBool();
+  bool trayicon_progress = s.value(BehaviourSettings::kTrayIconProgress, false).toBool();
 #ifdef HAVE_DBUS
-  const bool taskbar_progress = s.value("taskbar_progress", true).toBool();
+  const bool taskbar_progress = s.value(BehaviourSettings::kTaskbarProgress, true).toBool();
 #endif
   if (playing_widget_ != ui_->widget_playing->IsEnabled()) TabSwitched();
-  doubleclick_addmode_ = static_cast<BehaviourSettingsPage::AddBehaviour>(s.value("doubleclick_addmode", static_cast<int>(BehaviourSettingsPage::AddBehaviour::Append)).toInt());
-  doubleclick_playmode_ = static_cast<BehaviourSettingsPage::PlayBehaviour>(s.value("doubleclick_playmode", static_cast<int>(BehaviourSettingsPage::PlayBehaviour::Never)).toInt());
-  doubleclick_playlist_addmode_ = static_cast<BehaviourSettingsPage::PlaylistAddBehaviour>(s.value("doubleclick_playlist_addmode", static_cast<int>(BehaviourSettingsPage::PlayBehaviour::Never)).toInt());
-  menu_playmode_ = static_cast<BehaviourSettingsPage::PlayBehaviour>(s.value("menu_playmode", static_cast<int>(BehaviourSettingsPage::PlayBehaviour::Never)).toInt());
+  doubleclick_addmode_ = static_cast<BehaviourSettings::AddBehaviour>(s.value(BehaviourSettings::kDoubleClickAddMode, static_cast<int>(BehaviourSettings::AddBehaviour::Append)).toInt());
+  doubleclick_playmode_ = static_cast<BehaviourSettings::PlayBehaviour>(s.value(BehaviourSettings::kDoubleClickPlayMode, static_cast<int>(BehaviourSettings::PlayBehaviour::Never)).toInt());
+  doubleclick_playlist_addmode_ = static_cast<BehaviourSettings::PlaylistAddBehaviour>(s.value(BehaviourSettings::kDoubleClickPlaylistAddMode, static_cast<int>(BehaviourSettings::PlayBehaviour::Never)).toInt());
+  menu_playmode_ = static_cast<BehaviourSettings::PlayBehaviour>(s.value(BehaviourSettings::kMenuPlayMode, static_cast<int>(BehaviourSettings::PlayBehaviour::Never)).toInt());
   s.endGroup();
 
-  s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
-  int iconsize = s.value(AppearanceSettingsPage::kIconSizePlayControlButtons, 32).toInt();
+  s.beginGroup(AppearanceSettings::kSettingsGroup);
+  int iconsize = s.value(AppearanceSettings::kIconSizePlayControlButtons, 32).toInt();
   s.endGroup();
 
   tray_icon_->SetTrayiconProgress(trayicon_progress);
@@ -1128,7 +1166,7 @@ void MainWindow::ReloadSettings() {
   ui_->forward_button->setIconSize(QSize(iconsize, iconsize));
   ui_->button_love->setIconSize(QSize(iconsize, iconsize));
 
-  s.beginGroup(BackendSettingsPage::kSettingsGroup);
+  s.beginGroup(BackendSettings::kSettingsGroup);
   bool volume_control = s.value("volume_control", true).toBool();
   s.endGroup();
   if (volume_control != ui_->volume->isEnabled()) {
@@ -1143,17 +1181,17 @@ void MainWindow::ReloadSettings() {
     }
   }
 
-  s.beginGroup(PlaylistSettingsPage::kSettingsGroup);
-  delete_files_ = s.value("delete_files", false).toBool();
+  s.beginGroup(PlaylistSettings::kSettingsGroup);
+  delete_files_ = s.value(PlaylistSettings::kDeleteFiles, false).toBool();
   s.endGroup();
 
   osd_->ReloadSettings();
 
-  album_cover_choice_controller_->search_cover_auto_action()->setChecked(settings_.value("search_for_cover_auto", true).toBool());
+  album_cover_choice_controller_->search_cover_auto_action()->setChecked(settings_.value(MainWindowSettings::kSearchForCoverAuto, true).toBool());
 
 #ifdef HAVE_SUBSONIC
-  s.beginGroup(SubsonicSettingsPage::kSettingsGroup);
-  bool enable_subsonic = s.value("enabled", false).toBool();
+  s.beginGroup(SubsonicSettings::kSettingsGroup);
+  bool enable_subsonic = s.value(SubsonicSettings::kEnabled, false).toBool();
   s.endGroup();
   if (enable_subsonic) {
     ui_->tabs->EnableTab(subsonic_view_);
@@ -1164,8 +1202,8 @@ void MainWindow::ReloadSettings() {
 #endif
 
 #ifdef HAVE_TIDAL
-  s.beginGroup(TidalSettingsPage::kSettingsGroup);
-  bool enable_tidal = s.value("enabled", false).toBool();
+  s.beginGroup(TidalSettings::kSettingsGroup);
+  bool enable_tidal = s.value(TidalSettings::kEnabled, false).toBool();
   s.endGroup();
   if (enable_tidal) {
     ui_->tabs->EnableTab(tidal_view_);
@@ -1176,8 +1214,8 @@ void MainWindow::ReloadSettings() {
 #endif
 
 #ifdef HAVE_SPOTIFY
-  s.beginGroup(SpotifySettingsPage::kSettingsGroup);
-  bool enable_spotify = s.value("enabled", false).toBool();
+  s.beginGroup(SpotifySettings::kSettingsGroup);
+  bool enable_spotify = s.value(SpotifySettings::kEnabled, false).toBool();
   s.endGroup();
   if (enable_spotify) {
     ui_->tabs->EnableTab(spotify_view_);
@@ -1188,8 +1226,8 @@ void MainWindow::ReloadSettings() {
 #endif
 
 #ifdef HAVE_QOBUZ
-  s.beginGroup(QobuzSettingsPage::kSettingsGroup);
-  bool enable_qobuz = s.value("enabled", false).toBool();
+  s.beginGroup(QobuzSettings::kSettingsGroup);
+  bool enable_qobuz = s.value(QobuzSettings::kEnabled, false).toBool();
   s.endGroup();
   if (enable_qobuz) {
     ui_->tabs->EnableTab(qobuz_view_);
@@ -1208,7 +1246,6 @@ void MainWindow::ReloadAllSettings() {
   ReloadSettings();
 
   // Other settings
-  app_->ReloadSettings();
   app_->collection()->ReloadSettings();
   app_->player()->ReloadSettings();
   collection_view_->ReloadSettings();
@@ -1228,18 +1265,23 @@ void MainWindow::ReloadAllSettings() {
   app_->lyrics_providers()->ReloadSettings();
 #ifdef HAVE_MOODBAR
   app_->moodbar_controller()->ReloadSettings();
+  app_->moodbar_loader()->ReloadSettings();
+  ui_->track_slider->moodbar_proxy_style()->ReloadSettings();
 #endif
 #ifdef HAVE_SUBSONIC
   subsonic_view_->ReloadSettings();
 #endif
 #ifdef HAVE_TIDAL
   tidal_view_->ReloadSettings();
+  tidal_view_->search_view()->ReloadSettings();
 #endif
 #ifdef HAVE_SPOTIFY
   spotify_view_->ReloadSettings();
+  spotify_view_->search_view()->ReloadSettings();
 #endif
 #ifdef HAVE_QOBUZ
   qobuz_view_->ReloadSettings();
+  qobuz_view_->search_view()->ReloadSettings();
 #endif
 
 }
@@ -1255,12 +1297,12 @@ void MainWindow::SaveSettings() {
   SaveGeometry();
   app_->player()->SaveVolume();
   app_->player()->SavePlaybackStatus();
-  ui_->tabs->SaveSettings(QLatin1String(kSettingsGroup));
+  ui_->tabs->SaveSettings(QLatin1String(MainWindowSettings::kSettingsGroup));
   ui_->playlist->view()->SaveSettings();
   app_->scrobbler()->WriteCache();
 
-  settings_.setValue("show_sidebar", ui_->action_toggle_show_sidebar->isChecked());
-  settings_.setValue("search_for_cover_auto", album_cover_choice_controller_->search_cover_auto_action()->isChecked());
+  settings_.setValue(MainWindowSettings::kShowSidebar, ui_->action_toggle_show_sidebar->isChecked());
+  settings_.setValue(MainWindowSettings::kSearchForCoverAuto, album_cover_choice_controller_->search_cover_auto_action()->isChecked());
 
 }
 
@@ -1500,23 +1542,23 @@ void MainWindow::ToggleSidebar(const bool checked) {
 
   ui_->sidebar_layout->setVisible(checked);
   TabSwitched();
-  settings_.setValue("show_sidebar", checked);
+  settings_.setValue(MainWindowSettings::kShowSidebar, checked);
 
 }
 
 void MainWindow::ToggleSearchCoverAuto(const bool checked) {
-  settings_.setValue("search_for_cover_auto", checked);
+  settings_.setValue(MainWindowSettings::kSearchForCoverAuto, checked);
 }
 
 void MainWindow::SaveGeometry() {
 
   if (!initialized_) return;
 
-  settings_.setValue("maximized", isMaximized());
-  settings_.setValue("minimized", isMinimized());
-  settings_.setValue("hidden", isHidden());
-  settings_.setValue("geometry", saveGeometry());
-  settings_.setValue("splitter_state", ui_->splitter->saveState());
+  settings_.setValue(MainWindowSettings::kMaximized, isMaximized());
+  settings_.setValue(MainWindowSettings::kMinimized, isMinimized());
+  settings_.setValue(MainWindowSettings::kHidden, isHidden());
+  settings_.setValue(MainWindowSettings::kGeometry, saveGeometry());
+  settings_.setValue(MainWindowSettings::kSplitterState, ui_->splitter->saveState());
 
 }
 
@@ -1546,12 +1588,12 @@ void MainWindow::PlaylistDoubleClick(const QModelIndex &idx) {
   }
 
   switch (doubleclick_playlist_addmode_) {
-    case BehaviourSettingsPage::PlaylistAddBehaviour::Play:
+    case BehaviourSettings::PlaylistAddBehaviour::Play:
       app_->playlist_manager()->SetActiveToCurrent();
       app_->player()->PlayAt(source_idx.row(), false, 0, EngineBase::TrackChangeType::Manual, Playlist::AutoScroll::Never, true, true);
       break;
 
-    case BehaviourSettingsPage::PlaylistAddBehaviour::Enqueue:
+    case BehaviourSettings::PlaylistAddBehaviour::Enqueue:
       app_->playlist_manager()->current()->queue()->ToggleTracks(QModelIndexList() << source_idx);
       if (app_->player()->GetState() != EngineBase::State::Playing) {
         app_->playlist_manager()->SetActiveToCurrent();
@@ -1724,42 +1766,42 @@ void MainWindow::UpdateTaskbarProgress(const bool visible, const double progress
 }
 #endif
 
-void MainWindow::ApplyAddBehaviour(const BehaviourSettingsPage::AddBehaviour b, MimeData *mimedata) {
+void MainWindow::ApplyAddBehaviour(const BehaviourSettings::AddBehaviour b, MimeData *mimedata) {
 
   switch (b) {
-    case BehaviourSettingsPage::AddBehaviour::Append:
+    case BehaviourSettings::AddBehaviour::Append:
       mimedata->clear_first_ = false;
       mimedata->enqueue_now_ = false;
       break;
 
-    case BehaviourSettingsPage::AddBehaviour::Enqueue:
+    case BehaviourSettings::AddBehaviour::Enqueue:
       mimedata->clear_first_ = false;
       mimedata->enqueue_now_ = true;
       break;
 
-    case BehaviourSettingsPage::AddBehaviour::Load:
+    case BehaviourSettings::AddBehaviour::Load:
       mimedata->clear_first_ = true;
       mimedata->enqueue_now_ = false;
       break;
 
-    case BehaviourSettingsPage::AddBehaviour::OpenInNew:
+    case BehaviourSettings::AddBehaviour::OpenInNew:
       mimedata->open_in_new_playlist_ = true;
       break;
   }
 }
 
-void MainWindow::ApplyPlayBehaviour(const BehaviourSettingsPage::PlayBehaviour b, MimeData *mimedata) const {
+void MainWindow::ApplyPlayBehaviour(const BehaviourSettings::PlayBehaviour b, MimeData *mimedata) const {
 
   switch (b) {
-    case BehaviourSettingsPage::PlayBehaviour::Always:
+    case BehaviourSettings::PlayBehaviour::Always:
       mimedata->play_now_ = true;
       break;
 
-    case BehaviourSettingsPage::PlayBehaviour::Never:
+    case BehaviourSettings::PlayBehaviour::Never:
       mimedata->play_now_ = false;
       break;
 
-    case BehaviourSettingsPage::PlayBehaviour::IfStopped:
+    case BehaviourSettings::PlayBehaviour::IfStopped:
       mimedata->play_now_ = !(app_->player()->GetState() == EngineBase::State::Playing);
       break;
   }
@@ -1814,7 +1856,7 @@ void MainWindow::AddToPlaylistFromAction(QAction *action) {
     // Save the current playlist to reactivate it
     const int current_id = app_->playlist_manager()->current_id();
     // Get the name from selection
-    app_->playlist_manager()->New(app_->playlist_manager()->GetNameForNewPlaylist(songs));
+    app_->playlist_manager()->New(Song::GetNameForNewPlaylist(songs));
     if (app_->playlist_manager()->current()->id() != current_id) {
       // I'm sure the new playlist was created and is selected, so I can just insert items
       app_->playlist_manager()->current()->InsertItems(items);
@@ -2161,7 +2203,7 @@ void MainWindow::RenumberTracks() {
     Song song = item->OriginalMetadata();
     if (song.IsEditable()) {
       song.set_track(track);
-      TagReaderReplyPtr reply = TagReaderClient::Instance()->WriteFileAsync(song.url().toLocalFile(), song);
+      TagReaderReplyPtr reply = app_->tagreader_client()->WriteFileAsync(song.url().toLocalFile(), song);
       QPersistentModelIndex persistent_index = QPersistentModelIndex(source_index);
       QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, persistent_index]() { SongSaveComplete(reply, persistent_index); }, Qt::QueuedConnection);
     }
@@ -2192,7 +2234,7 @@ void MainWindow::SelectionSetValue() {
     Song song = item->OriginalMetadata();
     if (!song.is_valid()) continue;
     if (song.url().isLocalFile() && Playlist::set_column_value(song, column, column_value)) {
-      TagReaderReplyPtr reply = TagReaderClient::Instance()->WriteFileAsync(song.url().toLocalFile(), song);
+      TagReaderReplyPtr reply = app_->tagreader_client()->WriteFileAsync(song.url().toLocalFile(), song);
       QPersistentModelIndex persistent_index = QPersistentModelIndex(source_index);
       QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, persistent_index]() { SongSaveComplete(reply, persistent_index); }, Qt::QueuedConnection);
     }
@@ -2228,10 +2270,10 @@ void MainWindow::AddFile() {
   // Last used directory
   QString directory = settings_.value("add_media_path", QDir::currentPath()).toString();
 
-  PlaylistParser parser(app_->collection_backend());
+  PlaylistParser parser(app_->tagreader_client(), app_->collection_backend());
 
   // Show dialog
-  const QStringList filenames = QFileDialog::getOpenFileNames(this, tr("Add file"), directory, QStringLiteral("%1 (%2);;%3;;%4").arg(tr("Music"), QLatin1String(FileView::kFileFilter), parser.filters(PlaylistParser::Type::Load), tr(kAllFilesFilterSpec)));
+  const QStringList filenames = QFileDialog::getOpenFileNames(this, tr("Add file"), directory, QStringLiteral("%1 (%2);;%3;;%4").arg(tr("Music"), QLatin1String(kFileFilter), parser.filters(PlaylistParser::Type::Load), tr(kAllFilesFilterSpec)));
 
   if (filenames.isEmpty()) return;
 
@@ -2470,7 +2512,7 @@ void MainWindow::CommandlineOptionsReceived(const CommandlineOptions &options) {
         break;
       case CommandlineOptions::UrlListAction::CreateNew:
         mimedata->name_for_new_playlist_ = options.playlist_name();
-        ApplyAddBehaviour(BehaviourSettingsPage::AddBehaviour::OpenInNew, mimedata);
+        ApplyAddBehaviour(BehaviourSettings::AddBehaviour::OpenInNew, mimedata);
         break;
     }
 
@@ -2563,8 +2605,32 @@ void MainWindow::AddFilesToTranscoder() {
 
 }
 
-void MainWindow::ShowCollectionConfig() {
+void MainWindow::OpenCollectionSettingsDialog() {
   settings_dialog_->OpenAtPage(SettingsDialog::Page::Collection);
+}
+
+void MainWindow::OpenServiceSettingsDialog(const Song::Source source) {
+
+  switch (source) {
+    case Song::Source::Collection:
+      settings_dialog_->OpenAtPage(SettingsDialog::Page::Collection);
+      break;
+    case Song::Source::Subsonic:
+      settings_dialog_->OpenAtPage(SettingsDialog::Page::Subsonic);
+      break;
+    case Song::Source::Tidal:
+      settings_dialog_->OpenAtPage(SettingsDialog::Page::Tidal);
+      break;
+    case Song::Source::Qobuz:
+      settings_dialog_->OpenAtPage(SettingsDialog::Page::Qobuz);
+      break;
+    case Song::Source::Spotify:
+      settings_dialog_->OpenAtPage(SettingsDialog::Page::Spotify);
+      break;
+    default:
+      break;
+  }
+
 }
 
 void MainWindow::TaskCountChanged(const int count) {
@@ -2810,10 +2876,18 @@ void MainWindow::ShowEqualizer() {
 
 SettingsDialog *MainWindow::CreateSettingsDialog() {
 
-  SettingsDialog *settings_dialog = new SettingsDialog(app_, osd_, this);
+  SettingsDialog *settings_dialog = new SettingsDialog(app_->player(),
+                                                       app_->device_finders(),
+                                                       app_->collection(),
+                                                       app_->cover_providers(),
+                                                       app_->lyrics_providers(),
+                                                       app_->scrobbler(),
+                                                       app_->streaming_services(),
 #ifdef HAVE_GLOBALSHORTCUTS
-  settings_dialog->SetGlobalShortcutManager(globalshortcuts_manager_);
+                                                       globalshortcuts_manager_,
 #endif
+                                                       osd_,
+                                                       this);
 
   // Settings
   QObject::connect(settings_dialog, &SettingsDialog::ReloadSettings, this, &MainWindow::ReloadAllSettings);
@@ -2838,7 +2912,7 @@ void MainWindow::OpenSettingsDialogAtPage(SettingsDialog::Page page) {
 
 EditTagDialog *MainWindow::CreateEditTagDialog() {
 
-  EditTagDialog *edit_tag_dialog = new EditTagDialog(app_);
+  EditTagDialog *edit_tag_dialog = new EditTagDialog(app_->network(), app_->tagreader_client(), app_->collection_backend(), app_->albumcover_loader(), app_->current_albumcover_loader(), app_->cover_providers(), app_->lyrics_providers(), app_->streaming_services());
   QObject::connect(edit_tag_dialog, &EditTagDialog::accepted, this, &MainWindow::EditTagDialogAccepted);
   QObject::connect(edit_tag_dialog, &EditTagDialog::Error, this, &MainWindow::ShowErrorDialog);
   return edit_tag_dialog;
@@ -2938,7 +3012,7 @@ void MainWindow::AutoCompleteTags() {
   // Create the tag fetching stuff if it hasn't been already
   if (!tag_fetcher_) {
     tag_fetcher_ = make_unique<TagFetcher>(app_->network());
-    track_selection_dialog_ = make_unique<TrackSelectionDialog>();
+    track_selection_dialog_ = make_unique<TrackSelectionDialog>(app_->tagreader_client());
     track_selection_dialog_->set_save_on_close(true);
 
     QObject::connect(&*tag_fetcher_, &TagFetcher::ResultAvailable, &*track_selection_dialog_, &TrackSelectionDialog::FetchTagFinished, Qt::QueuedConnection);
@@ -2986,7 +3060,7 @@ void MainWindow::AutoCompleteTagsAccepted() {
 
 }
 
-void MainWindow::HandleNotificationPreview(const OSDBase::Behaviour type, const QString &line1, const QString &line2) {
+void MainWindow::HandleNotificationPreview(const OSDSettings::Type type, const QString &line1, const QString &line2) {
 
   if (!app_->playlist_manager()->current()->GetAllSongs().isEmpty()) {
     // Show a preview notification for the first song in the current playlist

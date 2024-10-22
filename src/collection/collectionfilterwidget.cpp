@@ -55,8 +55,8 @@
 #include "groupbydialog.h"
 #include "ui_collectionfilterwidget.h"
 #include "widgets/searchfield.h"
-#include "settings/collectionsettingspage.h"
-#include "settings/appearancesettingspage.h"
+#include "constants/collectionsettings.h"
+#include "constants/appearancesettings.h"
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -204,8 +204,8 @@ void CollectionFilterWidget::setFilter(CollectionFilter *filter) {
 void CollectionFilterWidget::ReloadSettings() {
 
   Settings s;
-  s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
-  int iconsize = s.value(AppearanceSettingsPage::kIconSizeConfigureButtons, 20).toInt();
+  s.beginGroup(AppearanceSettings::kSettingsGroup);
+  int iconsize = s.value(AppearanceSettings::kIconSizeConfigureButtons, 20).toInt();
   s.endGroup();
   ui_->options->setIconSize(QSize(iconsize, iconsize));
   ui_->search_field->setIconSize(iconsize);
@@ -345,7 +345,7 @@ void CollectionFilterWidget::SaveGroupBy() {
   qLog(Debug) << "Saving current grouping to" << name;
 
   Settings s;
-  if (settings_group_.isEmpty() || settings_group_ == QLatin1String(CollectionSettingsPage::kSettingsGroup)) {
+  if (settings_group_.isEmpty() || settings_group_ == QLatin1String(CollectionSettings::kSettingsGroup)) {
     s.beginGroup(SavedGroupingManager::kSavedGroupingsSettingsGroup);
   }
   else {

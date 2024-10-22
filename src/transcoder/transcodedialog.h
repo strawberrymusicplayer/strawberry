@@ -48,8 +48,6 @@ class TranscodeDialog : public QDialog {
   explicit TranscodeDialog(QMainWindow *mainwindow, QWidget *parent = nullptr);
   ~TranscodeDialog() override;
 
-  static const char *kSettingsGroup;
-
   void SetFilenames(const QStringList &filenames);
 
  protected:

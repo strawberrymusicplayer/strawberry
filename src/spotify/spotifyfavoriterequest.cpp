@@ -35,6 +35,7 @@
 #include <QJsonDocument>
 #include <QJsonArray>
 
+#include "includes/shared_ptr.h"
 #include "core/logging.h"
 #include "core/networkaccessmanager.h"
 #include "core/song.h"
@@ -44,7 +45,7 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-SpotifyFavoriteRequest::SpotifyFavoriteRequest(SpotifyService *service, NetworkAccessManager *network, QObject *parent)
+SpotifyFavoriteRequest::SpotifyFavoriteRequest(SpotifyService *service, const SharedPtr<NetworkAccessManager> network, QObject *parent)
     : SpotifyBaseRequest(service, network, parent),
       service_(service),
       network_(network) {}

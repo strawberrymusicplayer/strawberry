@@ -30,19 +30,20 @@
 #include <QStringList>
 #include <QDir>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
+#include "constants/playlistsettings.h"
 #include "core/song.h"
-#include "settings/playlistsettingspage.h"
 #include "parserbase.h"
 
 class QIODevice;
+class TagReaderClient;
 class CollectionBackendInterface;
 
 class M3UParser : public ParserBase {
   Q_OBJECT
 
  public:
-  explicit M3UParser(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent = nullptr);
+  explicit M3UParser(const SharedPtr<TagReaderClient> tagreader_client, const SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent = nullptr);
 
   QString name() const override { return QStringLiteral("M3U"); }
   QStringList file_extensions() const override { return QStringList() << QStringLiteral("m3u") << QStringLiteral("m3u8"); }
@@ -53,7 +54,7 @@ class M3UParser : public ParserBase {
   bool TryMagic(const QByteArray &data) const override;
 
   SongList Load(QIODevice *device, const QString &playlist_path = QLatin1String(""), const QDir &dir = QDir(), const bool collection_lookup = true) const override;
-  void Save(const SongList &songs, QIODevice *device, const QDir &dir = QDir(), const PlaylistSettingsPage::PathType path_type = PlaylistSettingsPage::PathType::Automatic) const override;
+  void Save(const SongList &songs, QIODevice *device, const QDir &dir = QDir(), const PlaylistSettings::PathType path_type = PlaylistSettings::PathType::Automatic) const override;
 
  private:
   enum class M3UType {

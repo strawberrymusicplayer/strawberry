@@ -35,7 +35,7 @@
 #include <QUrl>
 #include <QImage>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "albumcoverfetcher.h"
 #include "coversearchstatistics.h"
 #include "albumcoverimageresult.h"

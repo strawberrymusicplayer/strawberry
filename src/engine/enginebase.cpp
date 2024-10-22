@@ -31,14 +31,15 @@
 #include <QSettings>
 
 #include "utilities/envutils.h"
-#include "utilities/timeconstants.h"
-#include "core/networkproxyfactory.h"
+#include "constants/timeconstants.h"
+#include "core/logging.h"
 #include "core/settings.h"
+#include "core/networkproxyfactory.h"
 #include "enginebase.h"
-#include "settings/backendsettingspage.h"
-#include "settings/networkproxysettingspage.h"
+#include "constants/backendsettings.h"
+#include "constants/networkproxysettings.h"
 #ifdef HAVE_SPOTIFY
-#  include "settings/spotifysettingspage.h"
+#  include "constants/spotifysettings.h"
 #endif
 
 using namespace Qt::Literals::StringLiterals;
@@ -61,9 +62,9 @@ EngineBase::EngineBase(QObject *parent)
       rg_compression_(true),
       ebur128_loudness_normalization_(false),
       ebur128_target_level_lufs_(-23.0),
-      buffer_duration_nanosec_(BackendSettingsPage::kDefaultBufferDuration * kNsecPerMsec),
-      buffer_low_watermark_(BackendSettingsPage::kDefaultBufferLowWatermark),
-      buffer_high_watermark_(BackendSettingsPage::kDefaultBufferHighWatermark),
+      buffer_duration_nanosec_(BackendSettings::kDefaultBufferDuration * kNsecPerMsec),
+      buffer_low_watermark_(BackendSettings::kDefaultBufferLowWatermark),
+      buffer_high_watermark_(BackendSettings::kDefaultBufferHighWatermark),
       fadeout_enabled_(true),
       crossfade_enabled_(true),
       autocrossfade_enabled_(false),
@@ -167,59 +168,59 @@ void EngineBase::ReloadSettings() {
 
   Settings s;
 
-  s.beginGroup(BackendSettingsPage::kSettingsGroup);
+  s.beginGroup(BackendSettings::kSettingsGroup);
 
-  output_ = s.value("output").toString();
-  device_ = s.value("device");
+  output_ = s.value(BackendSettings::kOutput).toString();
+  device_ = s.value(BackendSettings::kDevice);
 
-  exclusive_mode_ = s.value("exclusive_mode", false).toBool();
+  exclusive_mode_ = s.value(BackendSettings::kExclusiveMode, false).toBool();
 
-  volume_control_ = s.value("volume_control", true).toBool();
+  volume_control_ = s.value(BackendSettings::kVolumeControl, true).toBool();
 
-  channels_enabled_ = s.value("channels_enabled", false).toBool();
-  channels_ = s.value("channels", 0).toInt();
+  channels_enabled_ = s.value(BackendSettings::kChannelsEnabled, false).toBool();
+  channels_ = s.value(BackendSettings::kChannels, 0).toInt();
 
-  buffer_duration_nanosec_ = s.value("bufferduration", BackendSettingsPage::kDefaultBufferDuration).toLongLong() * kNsecPerMsec;
-  buffer_low_watermark_ = s.value("bufferlowwatermark", BackendSettingsPage::kDefaultBufferLowWatermark).toDouble();
-  buffer_high_watermark_ = s.value("bufferhighwatermark", BackendSettingsPage::kDefaultBufferHighWatermark).toDouble();
+  buffer_duration_nanosec_ = s.value(BackendSettings::kBufferDuration, BackendSettings::kDefaultBufferDuration).toLongLong() * kNsecPerMsec;
+  buffer_low_watermark_ = s.value(BackendSettings::kBufferLowWatermark, BackendSettings::kDefaultBufferLowWatermark).toDouble();
+  buffer_high_watermark_ = s.value(BackendSettings::kBufferHighWatermark, BackendSettings::kDefaultBufferHighWatermark).toDouble();
 
-  rg_enabled_ = s.value("rgenabled", false).toBool();
-  rg_mode_ = s.value("rgmode", 0).toInt();
-  rg_preamp_ = s.value("rgpreamp", 0.0).toDouble();
-  rg_fallbackgain_ = s.value("rgfallbackgain", 0.0).toDouble();
-  rg_compression_ = s.value("rgcompression", true).toBool();
+  rg_enabled_ = s.value(BackendSettings::kRgEnabled, false).toBool();
+  rg_mode_ = s.value(BackendSettings::kRgMode, 0).toInt();
+  rg_preamp_ = s.value(BackendSettings::kRgPreamp, 0.0).toDouble();
+  rg_fallbackgain_ = s.value(BackendSettings::kRgFallbackGain, 0.0).toDouble();
+  rg_compression_ = s.value(BackendSettings::kRgCompression, true).toBool();
 
-  ebur128_loudness_normalization_ = s.value("ebur128_loudness_normalization", false).toBool();
-  ebur128_target_level_lufs_ = s.value("ebur128_target_level_lufs", -23.0).toDouble();
+  ebur128_loudness_normalization_ = s.value(BackendSettings::kEBUR128LoudnessNormalization, false).toBool();
+  ebur128_target_level_lufs_ = s.value(BackendSettings::kEBUR128TargetLevelLUFS, -23.0).toDouble();
 
-  fadeout_enabled_ = s.value("FadeoutEnabled", false).toBool();
-  crossfade_enabled_ = s.value("CrossfadeEnabled", false).toBool();
-  autocrossfade_enabled_ = s.value("AutoCrossfadeEnabled", false).toBool();
-  crossfade_same_album_ = !s.value("NoCrossfadeSameAlbum", true).toBool();
-  fadeout_pause_enabled_ = s.value("FadeoutPauseEnabled", false).toBool();
-  fadeout_duration_ = s.value("FadeoutDuration", 2000).toLongLong();
+  fadeout_enabled_ = s.value(BackendSettings::kFadeoutEnabled, false).toBool();
+  crossfade_enabled_ = s.value(BackendSettings::kCrossfadeEnabled, false).toBool();
+  autocrossfade_enabled_ = s.value(BackendSettings::kAutoCrossfadeEnabled, false).toBool();
+  crossfade_same_album_ = !s.value(BackendSettings::kNoCrossfadeSameAlbum, true).toBool();
+  fadeout_pause_enabled_ = s.value(BackendSettings::kFadeoutPauseEnabled, false).toBool();
+  fadeout_duration_ = s.value(BackendSettings::kFadeoutDuration, 2000).toLongLong();
   fadeout_duration_nanosec_ = (fadeout_duration_ * kNsecPerMsec);
-  fadeout_pause_duration_ = s.value("FadeoutPauseDuration", 250).toLongLong();
+  fadeout_pause_duration_ = s.value(BackendSettings::kFadeoutPauseDuration, 250).toLongLong();
   fadeout_pause_duration_nanosec_ = (fadeout_pause_duration_ * kNsecPerMsec);
 
-  bs2b_enabled_ = s.value("bs2b", false).toBool();
+  bs2b_enabled_ = s.value(BackendSettings::kBS2B, false).toBool();
 
-  bool http2_enabled = s.value("http2", false).toBool();
+  bool http2_enabled = s.value(BackendSettings::kHTTP2, false).toBool();
   if (http2_enabled != http2_enabled_) {
     http2_enabled_ = http2_enabled;
     Utilities::SetEnv("SOUP_FORCE_HTTP1", http2_enabled_ ? ""_L1 : u"1"_s);
     qLog(Debug) << "SOUP_FORCE_HTTP1:" << (http2_enabled_ ? "OFF" : "ON");
   }
 
-  strict_ssl_enabled_ = s.value("strict_ssl", false).toBool();
+  strict_ssl_enabled_ = s.value(BackendSettings::kStrictSSL, false).toBool();
 
   s.endGroup();
 
-  s.beginGroup(NetworkProxySettingsPage::kSettingsGroup);
+  s.beginGroup(NetworkProxySettings::kSettingsGroup);
   const NetworkProxyFactory::Mode proxy_mode = static_cast<NetworkProxyFactory::Mode>(s.value("mode", static_cast<int>(NetworkProxyFactory::Mode::System)).toInt());
-  if (proxy_mode == NetworkProxyFactory::Mode::Manual && s.contains("engine") && s.value("engine").toBool()) {
-    QString proxy_host = s.value("hostname").toString();
-    int proxy_port = s.value("port").toInt();
+  if (proxy_mode == NetworkProxyFactory::Mode::Manual && s.contains(NetworkProxySettings::kEngine) && s.value(NetworkProxySettings::kEngine).toBool()) {
+    QString proxy_host = s.value(NetworkProxySettings::kHostname).toString();
+    int proxy_port = s.value(NetworkProxySettings::kPort).toInt();
     if (proxy_host.isEmpty() || proxy_port <= 0) {
       proxy_address_.clear();
       proxy_authentication_ = false;
@@ -228,9 +229,9 @@ void EngineBase::ReloadSettings() {
     }
     else {
       proxy_address_ = QStringLiteral("%1:%2").arg(proxy_host).arg(proxy_port);
-      proxy_authentication_ = s.value("use_authentication").toBool();
-      proxy_user_ = s.value("username").toString();
-      proxy_pass_ = s.value("password").toString();
+      proxy_authentication_ = s.value(NetworkProxySettings::kUseAuthentication).toBool();
+      proxy_user_ = s.value(NetworkProxySettings::kUsername).toString();
+      proxy_pass_ = s.value(NetworkProxySettings::kPassword).toString();
     }
   }
   else {
@@ -243,8 +244,8 @@ void EngineBase::ReloadSettings() {
   s.endGroup();
 
 #ifdef HAVE_SPOTIFY
-  s.beginGroup(SpotifySettingsPage::kSettingsGroup);
-  spotify_access_token_ = s.value("access_token").toString();
+  s.beginGroup(SpotifySettings::kSettingsGroup);
+  spotify_access_token_ = s.value(SpotifySettings::kAccessToken).toString();
   s.endGroup();
 #endif
 

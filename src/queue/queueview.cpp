@@ -34,7 +34,7 @@
 #include <QLabel>
 #include <QToolButton>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/iconloader.h"
 #include "core/settings.h"
 #include "playlist/playlist.h"
@@ -43,7 +43,7 @@
 #include "queue.h"
 #include "queueview.h"
 #include "ui_queueview.h"
-#include "settings/appearancesettingspage.h"
+#include "constants/appearancesettings.h"
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -91,8 +91,8 @@ void QueueView::SetPlaylistManager(SharedPtr<PlaylistManager> playlist_manager) 
 void QueueView::ReloadSettings() {
 
   Settings s;
-  s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
-  int iconsize = s.value(AppearanceSettingsPage::kIconSizeLeftPanelButtons, 22).toInt();
+  s.beginGroup(AppearanceSettings::kSettingsGroup);
+  int iconsize = s.value(AppearanceSettings::kIconSizeLeftPanelButtons, 22).toInt();
   s.endGroup();
 
   ui_->move_down->setIconSize(QSize(iconsize, iconsize));

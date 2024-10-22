@@ -27,7 +27,7 @@
 
 #include "moodbarbuilder.h"
 #include "core/logging.h"
-#include "core/arraysize.h"
+#include "includes/arraysize.h"
 
 namespace {
 

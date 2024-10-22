@@ -35,8 +35,8 @@
 #include <QPalette>
 #include <QEvent>
 
-#include "shared_ptr.h"
-#include "core/logging.h"
+#include "includes/shared_ptr.h"
+#include "logging.h"
 #include "stylesheetloader.h"
 
 using namespace Qt::Literals::StringLiterals;

@@ -31,7 +31,7 @@
 
 #include "core/settings.h"
 #include "utilities/timeutils.h"
-#include "utilities/timeconstants.h"
+#include "constants/timeconstants.h"
 #include "trackslider.h"
 #include "ui_trackslider.h"
 #include "clickablelabel.h"
@@ -51,7 +51,7 @@ TrackSlider::TrackSlider(QWidget *parent)
     : QWidget(parent),
       ui_(new Ui_TrackSlider),
 #ifdef HAVE_MOODBAR
-      moodbar_style_(nullptr),
+      moodbar_proxy_style_(nullptr),
 #endif
       setting_value_(false),
       show_remaining_time_(true),
@@ -81,17 +81,15 @@ TrackSlider::~TrackSlider() {
 
   delete ui_;
 #ifdef HAVE_MOODBAR
-  if (moodbar_style_) moodbar_style_->deleteLater();
+  if (moodbar_proxy_style_) moodbar_proxy_style_->deleteLater();
 #endif
 
 }
 
-void TrackSlider::SetApplication(Application *app) {
+void TrackSlider::Init() {
 
 #ifdef HAVE_MOODBAR
-  if (!moodbar_style_) moodbar_style_ = new MoodbarProxyStyle(app, ui_->slider);
-#else
-  Q_UNUSED(app);
+  if (!moodbar_proxy_style_) moodbar_proxy_style_ = new MoodbarProxyStyle(ui_->slider);
 #endif
 
 }

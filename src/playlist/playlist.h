@@ -41,7 +41,7 @@
 #include <QColor>
 #include <QRgb>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/song.h"
 #include "tagreader/tagreaderclient.h"
 #include "covermanager/albumcoverloaderresult.h"
@@ -54,11 +54,12 @@ class QMimeData;
 class QUndoStack;
 class QTimer;
 
+class TaskManager;
+class UrlHandlers;
 class CollectionBackend;
 class PlaylistBackend;
 class PlaylistFilter;
 class Queue;
-class TaskManager;
 class RadioService;
 
 namespace PlaylistUndoCommands {
@@ -77,13 +78,22 @@ Q_DECLARE_METATYPE(ColumnAlignmentMap)
 class Playlist : public QAbstractListModel {
   Q_OBJECT
 
-  friend class PlaylistUndoCommands::InsertItems;
-  friend class PlaylistUndoCommands::RemoveItems;
-  friend class PlaylistUndoCommands::MoveItems;
-  friend class PlaylistUndoCommands::ReOrderItems;
+  friend class PlaylistUndoCommandInsertItems;
+  friend class PlaylistUndoCommandRemoveItems;
+  friend class PlaylistUndoCommandMoveItems;
+  friend class PlaylistUndoCommandReOrderItems;
 
  public:
-  explicit Playlist(SharedPtr<PlaylistBackend> playlist_backend, SharedPtr<TaskManager> task_manager, SharedPtr<CollectionBackend> collection_backend, const int id, const QString &special_type = QString(), const bool favorite = false, QObject *parent = nullptr);
+  explicit Playlist(const SharedPtr<TaskManager> task_manager,
+                    const SharedPtr<UrlHandlers> url_handlers,
+                    const SharedPtr<PlaylistBackend> playlist_backend,
+                    const SharedPtr<CollectionBackend> collection_backend,
+                    const SharedPtr<TagReaderClient> tagreader_client,
+                    const int id,
+                    const QString &special_type = QString(),
+                    const bool favorite = false,
+                    QObject *parent = nullptr);
+
   ~Playlist() override;
 
   void SkipTracks(const QModelIndexList &source_indexes);
@@ -141,7 +151,6 @@ class Playlist : public QAbstractListModel {
     Always
   };
 
-  static const char *kSettingsGroup;
   static const char *kCddaMimeType;
   static const char *kRowsMimetype;
   static const char *kPlayNowMimetype;
@@ -364,9 +373,12 @@ class Playlist : public QAbstractListModel {
 
   QList<QModelIndex> temp_dequeue_change_indexes_;
 
-  SharedPtr<PlaylistBackend> backend_;
-  SharedPtr<TaskManager> task_manager_;
-  SharedPtr<CollectionBackend> collection_backend_;
+  const SharedPtr<TaskManager> task_manager_;
+  const SharedPtr<UrlHandlers> url_handlers_;
+  const SharedPtr<PlaylistBackend> playlist_backend_;
+  const SharedPtr<CollectionBackend> collection_backend_;
+  const SharedPtr<TagReaderClient> tagreader_client_;
+
   int id_;
   QString ui_path_;
   bool favorite_;

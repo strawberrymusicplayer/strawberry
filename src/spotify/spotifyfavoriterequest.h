@@ -29,8 +29,10 @@
 #include <QByteArray>
 #include <QString>
 
-#include "spotifybaserequest.h"
+#include "includes/shared_ptr.h"
 #include "core/song.h"
+
+#include "spotifybaserequest.h"
 
 class QNetworkReply;
 class SpotifyService;
@@ -40,7 +42,7 @@ class SpotifyFavoriteRequest : public SpotifyBaseRequest {
   Q_OBJECT
 
  public:
-  explicit SpotifyFavoriteRequest(SpotifyService *service, NetworkAccessManager *network, QObject *parent = nullptr);
+  explicit SpotifyFavoriteRequest(SpotifyService *service, const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~SpotifyFavoriteRequest() override;
 
   enum FavoriteType {
@@ -82,7 +84,7 @@ class SpotifyFavoriteRequest : public SpotifyBaseRequest {
   void RemoveFavoritesRequest(const FavoriteType type, const QString &ids_list, const QByteArray &json_data, const SongList &songs);
 
   SpotifyService *service_;
-  NetworkAccessManager *network_;
+  const SharedPtr<NetworkAccessManager> network_;
   QList <QNetworkReply*> replies_;
 
 };

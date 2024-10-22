@@ -39,7 +39,7 @@
 #include <QUrl>
 
 #include "devicefinders.h"
-#include "enginemetadata.h"
+#include "core/enginemetadata.h"
 #include "core/song.h"
 
 class EngineBase : public QObject {

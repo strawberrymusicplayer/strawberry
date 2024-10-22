@@ -30,13 +30,13 @@
 #include "core/song.h"
 #include "qobuz/qobuzservice.h"
 
-class Application;
+class TaskManager;
 
 class QobuzUrlHandler : public UrlHandler {
   Q_OBJECT
 
  public:
-  explicit QobuzUrlHandler(Application *app, QobuzService *service);
+  explicit QobuzUrlHandler(const SharedPtr<TaskManager> task_manager, QobuzService *service);
 
   QString scheme() const { return service_->url_scheme(); }
   LoadResult StartLoading(const QUrl &url);
@@ -54,7 +54,7 @@ class QobuzUrlHandler : public UrlHandler {
     uint id;
     int task_id;
   };
-  Application *app_;
+  const SharedPtr<TaskManager> task_manager_;
   QobuzService *service_;
   QMap<uint, Request> requests_;
 };

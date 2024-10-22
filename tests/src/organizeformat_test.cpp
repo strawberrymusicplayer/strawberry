@@ -22,10 +22,10 @@
 #include <gtest/gtest.h>
 #include "test_utils.h"
 
-#include "organize/organizeformat.h"
-#include "utilities/timeconstants.h"
-#include "core/song.h"
+#include "constants/timeconstants.h"
 #include "core/logging.h"
+#include "core/song.h"
+#include "organize/organizeformat.h"
 
 #include <QUrl>
 

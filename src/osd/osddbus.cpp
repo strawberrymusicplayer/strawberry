@@ -40,8 +40,8 @@
 #include <QDBusPendingReply>
 #include <QDBusPendingCallWatcher>
 
+#include "includes/scoped_ptr.h"
 #include "core/logging.h"
-#include "core/scoped_ptr.h"
 #include "osddbus.h"
 
 #include "notification.h"
@@ -105,8 +105,8 @@ const QDBusArgument &operator>>(const QDBusArgument &arg, QImage &image) {
 
 }
 
-OSDDBus::OSDDBus(SharedPtr<SystemTrayIcon> tray_icon, Application *app, QObject *parent)
-    : OSDBase(tray_icon, app, parent),
+OSDDBus::OSDDBus(const SharedPtr<SystemTrayIcon> tray_icon, QObject *parent)
+    : OSDBase(tray_icon, parent),
       version_(1, 1),
       notification_id_(0) {
 

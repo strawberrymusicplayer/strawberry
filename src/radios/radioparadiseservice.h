@@ -26,7 +26,7 @@
 #include "radioservice.h"
 #include "radiochannel.h"
 
-class Application;
+class TaskManager;
 class NetworkAccessManager;
 class QNetworkReply;
 
@@ -34,7 +34,7 @@ class RadioParadiseService : public RadioService {
   Q_OBJECT
 
  public:
-  explicit RadioParadiseService(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
+  explicit RadioParadiseService(const SharedPtr<TaskManager> task_manager, const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
 
   QUrl Homepage() override;
   QUrl Donate() override;

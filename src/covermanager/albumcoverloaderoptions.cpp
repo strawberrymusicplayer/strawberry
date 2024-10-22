@@ -22,7 +22,7 @@
 #include <QSettings>
 
 #include "core/settings.h"
-#include "settings/coverssettingspage.h"
+#include "constants/coverssettings.h"
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -37,9 +37,9 @@ AlbumCoverLoaderOptions::Types AlbumCoverLoaderOptions::LoadTypes() {
   Types cover_types;
 
   Settings s;
-  s.beginGroup(CoversSettingsPage::kSettingsGroup);
+  s.beginGroup(CoversSettings::kSettingsGroup);
   const QStringList all_cover_types = QStringList() << u"art_unset"_s << u"art_embedded"_s << u"art_manual"_s << u"art_automatic"_s;
-  const QStringList cover_types_strlist = s.value(CoversSettingsPage::kTypes, all_cover_types).toStringList();
+  const QStringList cover_types_strlist = s.value(CoversSettings::kTypes, all_cover_types).toStringList();
   for (const QString &cover_type_str : cover_types_strlist) {
     if (cover_type_str == "art_unset"_L1) {
       cover_types << AlbumCoverLoaderOptions::Type::Unset;

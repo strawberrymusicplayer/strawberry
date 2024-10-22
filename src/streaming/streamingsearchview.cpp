@@ -64,11 +64,10 @@
 #include <QShowEvent>
 #include <QHideEvent>
 
-#include "core/application.h"
-#include "core/mimedata.h"
-#include "core/iconloader.h"
 #include "core/song.h"
+#include "core/iconloader.h"
 #include "core/settings.h"
+#include "core/mimedata.h"
 #include "collection/collectionfilterwidget.h"
 #include "collection/collectionmodel.h"
 #include "collection/groupbydialog.h"
@@ -82,7 +81,7 @@
 #include "streamingsearchsortmodel.h"
 #include "streamingsearchview.h"
 #include "ui_streamingsearchview.h"
-#include "settings/appearancesettingspage.h"
+#include "constants/appearancesettings.h"
 
 using std::make_unique;
 using namespace Qt::Literals::StringLiterals;
@@ -95,7 +94,6 @@ constexpr int kArtHeight = 32;
 
 StreamingSearchView::StreamingSearchView(QWidget *parent)
     : QWidget(parent),
-      app_(nullptr),
       service_(nullptr),
       ui_(new Ui_StreamingSearchView),
       context_menu_(nullptr),
@@ -149,10 +147,10 @@ StreamingSearchView::StreamingSearchView(QWidget *parent)
 
 StreamingSearchView::~StreamingSearchView() { delete ui_; }
 
-void StreamingSearchView::Init(Application *app, StreamingServicePtr service) {
+void StreamingSearchView::Init(const StreamingServicePtr service, const SharedPtr<AlbumCoverLoader> albumcover_loader) {
 
-  app_ = app;
   service_ = service;
+  albumcover_loader_ = albumcover_loader;
 
   front_model_ = new StreamingSearchModel(service, this);
   back_model_ = new StreamingSearchModel(service, this);
@@ -180,7 +178,7 @@ void StreamingSearchView::Init(Application *app, StreamingServicePtr service) {
   QMenu *settings_menu = new QMenu(this);
   settings_menu->addActions(group_by_actions_->actions());
   settings_menu->addSeparator();
-  settings_menu->addAction(IconLoader::Load(u"configure"_s), tr("Configure %1...").arg(Song::DescriptionForSource(service_->source())), this, &StreamingSearchView::OpenSettingsDialog);
+  settings_menu->addAction(IconLoader::Load(u"configure"_s), tr("Configure %1...").arg(Song::DescriptionForSource(service_->source())), this, &StreamingSearchView::Configure);
   ui_->settings->setMenu(settings_menu);
 
   swap_models_timer_->setSingleShot(true);
@@ -202,8 +200,7 @@ void StreamingSearchView::Init(Application *app, StreamingServicePtr service) {
   QObject::connect(&*service_, &StreamingService::SearchUpdateProgress, this, &StreamingSearchView::UpdateProgress);
   QObject::connect(&*service_, &StreamingService::SearchResults, this, &StreamingSearchView::SearchDone);
 
-  QObject::connect(app_, &Application::SettingsChanged, this, &StreamingSearchView::ReloadSettings);
-  QObject::connect(&*app_->album_cover_loader(), &AlbumCoverLoader::AlbumCoverLoaded, this, &StreamingSearchView::AlbumCoverLoaded);
+  QObject::connect(&*albumcover_loader_, &AlbumCoverLoader::AlbumCoverLoaded, this, &StreamingSearchView::AlbumCoverLoaded);
 
   QObject::connect(ui_->settings, &QToolButton::clicked, ui_->settings, &QToolButton::showMenu);
 
@@ -249,8 +246,8 @@ void StreamingSearchView::ReloadSettings() {
   }
   s.endGroup();
 
-  s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
-  int iconsize = s.value(AppearanceSettingsPage::kIconSizeConfigureButtons, 20).toInt();
+  s.beginGroup(AppearanceSettings::kSettingsGroup);
+  int iconsize = s.value(AppearanceSettings::kIconSizeConfigureButtons, 20).toInt();
   s.endGroup();
 
   ui_->settings->setIconSize(QSize(iconsize, iconsize));
@@ -346,7 +343,7 @@ bool StreamingSearchView::ResultsContextMenuEvent(QContextMenuEvent *e) {
     context_menu_->addSeparator();
     context_menu_->addMenu(tr("Group by"))->addActions(group_by_actions_->actions());
 
-    context_menu_->addAction(IconLoader::Load(u"configure"_s), tr("Configure %1...").arg(Song::TextForSource(service_->source())), this, &StreamingSearchView::OpenSettingsDialog);
+    context_menu_->addAction(IconLoader::Load(u"configure"_s), tr("Configure %1...").arg(Song::TextForSource(service_->source())), this, &StreamingSearchView::Configure);
 
   }
 
@@ -677,8 +674,8 @@ void StreamingSearchView::FocusOnFilter(QKeyEvent *e) {
 
 }
 
-void StreamingSearchView::OpenSettingsDialog() {
-  app_->OpenSettingsDialogAtPage(service_->settings_page());
+void StreamingSearchView::Configure() {
+  Q_EMIT OpenSettingsDialog(service_->source());
 }
 
 void StreamingSearchView::GroupByClicked(QAction *action) {
@@ -857,7 +854,7 @@ void StreamingSearchView::LazyLoadAlbumCover(const QModelIndex &proxy_index) {
   else {
     AlbumCoverLoaderOptions cover_loader_options(AlbumCoverLoaderOptions::Option::ScaledImage | AlbumCoverLoaderOptions::Option::PadScaledImage);
     cover_loader_options.desired_scaled_size = QSize(kArtHeight, kArtHeight);
-    quint64 loader_id = app_->album_cover_loader()->LoadImageAsync(cover_loader_options, result.metadata_);
+    quint64 loader_id = albumcover_loader_->LoadImageAsync(cover_loader_options, result.metadata_);
     cover_loader_tasks_[loader_id] = qMakePair(source_index, result.pixmap_cache_key_);
   }
 

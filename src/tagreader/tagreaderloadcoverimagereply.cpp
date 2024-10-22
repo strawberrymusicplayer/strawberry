@@ -31,9 +31,16 @@ void TagReaderLoadCoverImageReply::Finish() {
 
   finished_ = true;
 
+  QMetaObject::invokeMethod(this, &TagReaderLoadCoverImageReply::EmitFinished, Qt::QueuedConnection);
+
+}
+
+void TagReaderLoadCoverImageReply::EmitFinished() {
+
   Q_EMIT TagReaderReply::Finished(filename_, result_);
   Q_EMIT TagReaderLoadCoverImageReply::Finished(filename_, image_, result_);
 
+  QObject::disconnect(this, &TagReaderReply::Finished, nullptr, nullptr);
   QObject::disconnect(this, &TagReaderLoadCoverImageReply::Finished, nullptr, nullptr);
 
 }

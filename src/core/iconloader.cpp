@@ -30,11 +30,11 @@
 #include <QStandardPaths>
 #include <QSettings>
 
-#include "core/logging.h"
+#include "logging.h"
 #include "settings.h"
-#include "iconmapper.h"
-#include "settings/appearancesettingspage.h"
+#include "includes/iconmapper.h"
 #include "iconloader.h"
+#include "constants/appearancesettings.h"
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -45,7 +45,7 @@ void IconLoader::Init() {
 
 #if !defined(Q_OS_MACOS) && !defined(Q_OS_WIN)
   Settings s;
-  s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
+  s.beginGroup(AppearanceSettings::kSettingsGroup);
   system_icons_ = s.value("system_icons", false).toBool();
   s.endGroup();
 #endif

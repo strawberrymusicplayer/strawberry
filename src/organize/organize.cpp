@@ -35,8 +35,8 @@
 #include <QUrl>
 #include <QImage>
 
+#include "includes/shared_ptr.h"
 #include "core/logging.h"
-#include "core/shared_ptr.h"
 #include "core/taskmanager.h"
 #include "core/musicstorage.h"
 #include "core/song.h"
@@ -54,10 +54,22 @@ constexpr int kBatchSize = 10;
 constexpr int kTranscodeProgressInterval = 500;
 }  // namespace
 
-Organize::Organize(SharedPtr<TaskManager> task_manager, SharedPtr<MusicStorage> destination, const OrganizeFormat &format, const bool copy, const bool overwrite, const bool albumcover, const NewSongInfoList &songs_info, const bool eject_after, const QString &playlist, QObject *parent)
+Organize::Organize(const SharedPtr<TaskManager> task_manager,
+                   const SharedPtr<TagReaderClient> tagreader_client,
+                   const SharedPtr<MusicStorage> destination,
+                   const OrganizeFormat &format,
+                   const bool copy,
+                   const bool overwrite,
+                   const bool albumcover,
+                   const NewSongInfoList &songs_info,
+                   const bool eject_after,
+                   const QString &playlist,
+                   QObject *parent)
+
     : QObject(parent),
       thread_(nullptr),
       task_manager_(task_manager),
+      tagreader_client_(tagreader_client),
       transcoder_(new Transcoder(this)),
       process_files_timer_(new QTimer(this)),
       destination_(destination),
@@ -236,7 +248,7 @@ void Organize::ProcessSomeFiles() {
       }
     }
     else if (destination_->source() == Song::Source::Device) {
-      const TagReaderResult result = TagReaderClient::Instance()->LoadCoverImageBlocking(task.song_info_.song_.url().toLocalFile(), job.cover_image_);
+      const TagReaderResult result = tagreader_client_->LoadCoverImageBlocking(task.song_info_.song_.url().toLocalFile(), job.cover_image_);
       if (!result.success()) {
         qLog(Error) << "Could not load embedded art from" << task.song_info_.song_.url() << result.error_string();
       }

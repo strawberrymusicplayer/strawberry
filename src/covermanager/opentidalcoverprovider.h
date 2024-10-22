@@ -32,11 +32,10 @@
 #include <QSslError>
 #include <QJsonObject>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "jsoncoverprovider.h"
 
 class QNetworkReply;
-class Application;
 class NetworkAccessManager;
 class QTimer;
 
@@ -44,7 +43,7 @@ class OpenTidalCoverProvider : public JsonCoverProvider {
   Q_OBJECT
 
  public:
-  explicit OpenTidalCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
+  explicit OpenTidalCoverProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~OpenTidalCoverProvider() override;
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;

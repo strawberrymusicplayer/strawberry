@@ -46,9 +46,7 @@
 #include <QContextMenuEvent>
 #include <QMimeData>
 
-#include "core/application.h"
 #include "core/iconloader.h"
-#include "core/player.h"
 #include "core/settings.h"
 #include "playlist.h"
 #include "playlistbackend.h"
@@ -59,7 +57,7 @@
 #include "playlistmanager.h"
 #include "ui_playlistlistcontainer.h"
 #include "organize/organizedialog.h"
-#include "settings/appearancesettingspage.h"
+#include "constants/appearancesettings.h"
 #ifndef Q_OS_WIN
 #  include "device/devicemanager.h"
 #  include "device/devicestatefiltermodel.h"
@@ -70,7 +68,6 @@ using namespace Qt::Literals::StringLiterals;
 
 PlaylistListContainer::PlaylistListContainer(QWidget *parent)
     : QWidget(parent),
-      app_(nullptr),
       ui_(new Ui_PlaylistListContainer),
       menu_(nullptr),
       action_new_folder_(new QAction(this)),
@@ -123,26 +120,28 @@ PlaylistListContainer::PlaylistListContainer(QWidget *parent)
 
 PlaylistListContainer::~PlaylistListContainer() { delete ui_; }
 
-void PlaylistListContainer::SetApplication(Application *app) {
+void PlaylistListContainer::Init(const SharedPtr<TaskManager> task_manager,
+                                 const SharedPtr<TagReaderClient> tagreader_client,
+                                 const SharedPtr<PlaylistManager> playlist_manager,
+                                 const SharedPtr<PlaylistBackend> playlist_backend,
+                                 const SharedPtr<DeviceManager> device_manager) {
 
-  app_ = app;
-  PlaylistManager *manager = &*app_->playlist_manager();
-  Player *player = &*app_->player();
+  task_manager_ = task_manager;
+  tagreader_client_ = tagreader_client;
+  playlist_manager_ = playlist_manager;
+  playlist_backend_ = playlist_backend;
+  device_manager_ = device_manager;
 
-  QObject::connect(manager, &PlaylistManager::PlaylistAdded, this, &PlaylistListContainer::AddPlaylist);
-  QObject::connect(manager, &PlaylistManager::PlaylistFavorited, this, &PlaylistListContainer::PlaylistFavoriteStateChanged);
-  QObject::connect(manager, &PlaylistManager::PlaylistRenamed, this, &PlaylistListContainer::PlaylistRenamed);
-  QObject::connect(manager, &PlaylistManager::CurrentChanged, this, &PlaylistListContainer::CurrentChanged);
-  QObject::connect(manager, &PlaylistManager::ActiveChanged, this, &PlaylistListContainer::ActiveChanged);
+  QObject::connect(&*playlist_manager, &PlaylistManager::PlaylistAdded, this, &PlaylistListContainer::AddPlaylist);
+  QObject::connect(&*playlist_manager, &PlaylistManager::PlaylistFavorited, this, &PlaylistListContainer::PlaylistFavoriteStateChanged);
+  QObject::connect(&*playlist_manager, &PlaylistManager::PlaylistRenamed, this, &PlaylistListContainer::PlaylistRenamed);
+  QObject::connect(&*playlist_manager, &PlaylistManager::CurrentChanged, this, &PlaylistListContainer::CurrentChanged);
+  QObject::connect(&*playlist_manager, &PlaylistManager::ActiveChanged, this, &PlaylistListContainer::ActiveChanged);
 
-  QObject::connect(model_, &PlaylistListModel::PlaylistRenamed, manager, &PlaylistManager::Rename);
-
-  QObject::connect(player, &Player::Paused, this, &PlaylistListContainer::ActivePaused);
-  QObject::connect(player, &Player::Playing, this, &PlaylistListContainer::ActivePlaying);
-  QObject::connect(player, &Player::Stopped, this, &PlaylistListContainer::ActiveStopped);
+  QObject::connect(model_, &PlaylistListModel::PlaylistRenamed, &*playlist_manager, &PlaylistManager::Rename);
 
   // Get all playlists, even ones that are hidden in the UI.
-  const QList<PlaylistBackend::Playlist> playlists = app->playlist_backend()->GetAllFavoritePlaylists();
+  const QList<PlaylistBackend::Playlist> playlists = playlist_backend->GetAllFavoritePlaylists();
   for (const PlaylistBackend::Playlist &p : playlists) {
     QStandardItem *playlist_item = model_->NewPlaylist(p.name, p.id);
     QStandardItem *parent_folder = model_->FolderByPath(p.ui_path);
@@ -154,8 +153,8 @@ void PlaylistListContainer::SetApplication(Application *app) {
 void PlaylistListContainer::ReloadSettings() {
 
   Settings s;
-  s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
-  int iconsize = s.value(AppearanceSettingsPage::kIconSizeLeftPanelButtons, 22).toInt();
+  s.beginGroup(AppearanceSettings::kSettingsGroup);
+  int iconsize = s.value(AppearanceSettings::kIconSizeLeftPanelButtons, 22).toInt();
   s.endGroup();
 
   ui_->new_folder->setIconSize(QSize(iconsize, iconsize));
@@ -236,7 +235,7 @@ void PlaylistListContainer::AddPlaylist(const int id, const QString &name, const
     return;
   }
 
-  const QString &ui_path = app_->playlist_manager()->playlist(id)->ui_path();
+  const QString &ui_path = playlist_manager_->playlist(id)->ui_path();
 
   QStandardItem *playlist_item = model_->NewPlaylist(name, id);
   QStandardItem *parent_folder = model_->FolderByPath(ui_path);
@@ -280,7 +279,7 @@ void PlaylistListContainer::SavePlaylist() {
     const int playlist_id = idx.data(PlaylistListModel::Role_PlaylistId).toInt();
     QStandardItem *item = model_->PlaylistById(playlist_id);
     QString playlist_name = item ? item->text() : tr("Playlist");
-    app_->playlist_manager()->SaveWithUI(playlist_id, playlist_name);
+    playlist_manager_->SaveWithUI(playlist_id, playlist_name);
   }
 
 }
@@ -288,7 +287,7 @@ void PlaylistListContainer::SavePlaylist() {
 void PlaylistListContainer::PlaylistFavoriteStateChanged(const int id, const bool favorite) {
 
   if (favorite) {
-    const QString &name = app_->playlist_manager()->GetPlaylistName(id);
+    const QString &name = playlist_manager_->GetPlaylistName(id);
     AddPlaylist(id, name, favorite);
   }
   else {
@@ -330,8 +329,8 @@ void PlaylistListContainer::CurrentChanged(Playlist *new_playlist) {
 void PlaylistListContainer::PlaylistPathChanged(const int id, const QString &new_path) {
 
   // Update the path in the database
-  app_->playlist_backend()->SetPlaylistUiPath(id, new_path);
-  Playlist *playlist = app_->playlist_manager()->playlist(id);
+  playlist_backend_->SetPlaylistUiPath(id, new_path);
+  Playlist *playlist = playlist_manager_->playlist(id);
   // Check the playlist exists (if it's not opened it's not in the manager)
   if (playlist) {
     playlist->set_ui_path(new_path);
@@ -351,7 +350,7 @@ void PlaylistListContainer::ItemDoubleClicked(const QModelIndex &proxy_idx) {
 
   // Is it a playlist?
   if (idx.data(PlaylistListModel::Role_Type).toInt() == PlaylistListModel::Type_Playlist) {
-    app_->playlist_manager()->SetCurrentOrOpen(idx.data(PlaylistListModel::Role_PlaylistId).toInt());
+    playlist_manager_->SetCurrentOrOpen(idx.data(PlaylistListModel::Role_PlaylistId).toInt());
   }
 
 }
@@ -363,8 +362,8 @@ void PlaylistListContainer::ItemMimeDataDropped(const QModelIndex &proxy_idx, co
 
   // Drop playlist rows if type is playlist and it's not active, to prevent selfcopy
   int playlis_id = idx.data(PlaylistListModel::Role_PlaylistId).toInt();
-  if (idx.data(PlaylistListModel::Role_Type).toInt() == PlaylistListModel::Type_Playlist && playlis_id != app_->playlist_manager()->active_id()) {
-    app_->playlist_manager()->playlist(playlis_id)->dropMimeData(q_mimedata, Qt::CopyAction, -1, 0, QModelIndex());
+  if (idx.data(PlaylistListModel::Role_Type).toInt() == PlaylistListModel::Type_Playlist && playlis_id != playlist_manager_->active_id()) {
+    playlist_manager_->playlist(playlis_id)->dropMimeData(q_mimedata, Qt::CopyAction, -1, 0, QModelIndex());
   }
 
 }
@@ -382,7 +381,7 @@ void PlaylistListContainer::CopyToDevice() {
   if (idx.data(PlaylistListModel::Role_Type).toInt() == PlaylistListModel::Type_Playlist) {
     const int playlist_id = idx.data(PlaylistListModel::Role_PlaylistId).toInt();
 
-    Playlist *playlist = app_->playlist_manager()->playlist(playlist_id);
+    Playlist *playlist = playlist_manager_->playlist(playlist_id);
     if (!playlist) {
       QMessageBox::critical(this, tr("Copy to device"), tr("Playlist must be open first."));
       return;
@@ -393,9 +392,9 @@ void PlaylistListContainer::CopyToDevice() {
 
     // Reuse the organize dialog, but set the detail about the playlist name
     if (!organize_dialog_) {
-      organize_dialog_ = make_unique<OrganizeDialog>(app_->task_manager(), nullptr, this);
+      organize_dialog_ = make_unique<OrganizeDialog>(task_manager_, tagreader_client_, nullptr, this);
     }
-    organize_dialog_->SetDestinationModel(app_->device_manager()->connected_devices_model(), true);
+    organize_dialog_->SetDestinationModel(device_manager_->connected_devices_model(), true);
     organize_dialog_->SetCopy(true);
     organize_dialog_->SetPlaylist(playlist_name);
     organize_dialog_->SetSongs(playlist->GetAllSongs());
@@ -444,7 +443,7 @@ void PlaylistListContainer::Delete() {
 
   // Unfavorite the playlists
   for (const int id : std::as_const(ids)) {
-    app_->playlist_manager()->Favorite(id, false);
+    playlist_manager_->Favorite(id, false);
   }
 
   // Delete the top-level folders.

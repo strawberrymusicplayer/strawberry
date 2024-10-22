@@ -20,12 +20,15 @@
  *
  */
 
-#include "config.h"
-
 #include <QString>
 
 #include "filterparser.h"
-#include "filtertree.h"
+#include "filtertreenop.h"
+#include "filtertreeand.h"
+#include "filtertreeor.h"
+#include "filtertreenot.h"
+#include "filtertreeterm.h"
+#include "filtertreecolumnterm.h"
 #include "filterparsersearchcomparators.h"
 
 using namespace Qt::Literals::StringLiterals;
@@ -52,9 +55,9 @@ void FilterParser::advance() {
 FilterTree *FilterParser::parseOrGroup() {
 
   advance();
-  if (iter_ == end_) return new NopFilter;
+  if (iter_ == end_) return new FilterTreeNop;
 
-  OrFilter *group = new OrFilter;
+  FilterTreeOr *group = new FilterTreeOr;
   group->add(parseAndGroup());
   advance();
   while (checkOr()) {
@@ -69,9 +72,9 @@ FilterTree *FilterParser::parseOrGroup() {
 FilterTree *FilterParser::parseAndGroup() {
 
   advance();
-  if (iter_ == end_) return new NopFilter;
+  if (iter_ == end_) return new FilterTreeNop;
 
-  AndFilter *group = new AndFilter();
+  FilterTreeAnd *group = new FilterTreeAnd();
   do {
     group->add(parseSearchExpression());
     advance();
@@ -150,7 +153,7 @@ bool FilterParser::checkOr(const bool step_over) {
 FilterTree *FilterParser::parseSearchExpression() {
 
   advance();
-  if (iter_ == end_) return new NopFilter;
+  if (iter_ == end_) return new FilterTreeNop;
   if (*iter_ == u'(') {
     ++iter_;
     advance();
@@ -166,7 +169,7 @@ FilterTree *FilterParser::parseSearchExpression() {
   else if (*iter_ == u'-') {
     ++iter_;
     FilterTree *tree = parseSearchExpression();
-    if (tree->type() != FilterTree::FilterType::Nop) return new NotFilter(tree);
+    if (tree->type() != FilterTree::FilterType::Nop) return new FilterTreeNot(tree);
     return tree;
   }
   else {
@@ -232,7 +235,7 @@ FilterTree *FilterParser::parseSearchTerm() {
 FilterTree *FilterParser::createSearchTermTreeNode(const QString &column, const QString &prefix, const QString &value) const {
 
   if (value.isEmpty() && prefix != u'=') {
-    return new NopFilter;
+    return new FilterTreeNop;
   }
 
   FilterParserSearchTermComparator *cmp = nullptr;
@@ -360,10 +363,10 @@ FilterTree *FilterParser::createSearchTermTreeNode(const QString &column, const 
   }
 
   if (cmp) {
-    return new FilterColumnTerm(column, cmp);
+    return new FilterTreeColumnTerm(column, cmp);
   }
 
-  return new FilterTerm(new FilterParserTextContainsComparator(value));
+  return new FilterTreeTerm(new FilterParserTextContainsComparator(value));
 
 }
 

@@ -30,15 +30,18 @@
 #include <QString>
 #include <QUrl>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/musicstorage.h"
 #include "core/song.h"
 
-class Application;
+class TaskManager;
+class Database;
 class CollectionBackend;
 class CollectionModel;
 class DeviceLister;
 class DeviceManager;
+class TagReaderClient;
+class AlbumCoverLoader;
 
 using std::enable_shared_from_this;
 
@@ -46,7 +49,17 @@ class ConnectedDevice : public QObject, public virtual MusicStorage, public enab
   Q_OBJECT
 
  public:
-  explicit ConnectedDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, SharedPtr<DeviceManager> manager, Application *app, const int database_id, const bool first_time, QObject *parent = nullptr);
+  explicit ConnectedDevice(const QUrl &url,
+                           DeviceLister *lister,
+                           const QString &unique_id,
+                           DeviceManager *device_manager,
+                           const SharedPtr<TaskManager> task_manager,
+                           const SharedPtr<Database> database,
+                           const SharedPtr<TagReaderClient> tagreader_client,
+                           const SharedPtr<AlbumCoverLoader> albumcover_loader,
+                           const int database_id,
+                           const bool first_time,
+                           QObject *parent = nullptr);
 
   Song::Source source() const override { return Song::Source::Device; }
 
@@ -63,7 +76,7 @@ class ConnectedDevice : public QObject, public virtual MusicStorage, public enab
 
   DeviceLister *lister() const { return lister_; }
   QString unique_id() const { return unique_id_; }
-  CollectionModel *model() const { return model_; }
+  CollectionModel *collection_model() const { return collection_model_; }
   QUrl url() const { return url_; }
   qint64 song_count() const { return song_count_; }
 
@@ -81,23 +94,20 @@ class ConnectedDevice : public QObject, public virtual MusicStorage, public enab
   void SongCountUpdated(const int count);
   void DeviceConnectFinished(const QString &id, const bool success);
   void DeviceCloseFinished(const QString &id);
+  void Error(const QString &error);
 
  protected:
   void InitBackendDirectory(const QString &mount_point, const bool first_time, const bool rewrite_path = true);
 
  protected:
-  Application *app_;
-
   QUrl url_;
   bool first_time_;
   DeviceLister *lister_;
   QString unique_id_;
   int database_id_;
-  SharedPtr<DeviceManager> manager_;
-
-  SharedPtr<CollectionBackend> backend_;
-  CollectionModel *model_;
-
+  DeviceManager *device_manager_;
+  SharedPtr<CollectionBackend> collection_backend_;
+  CollectionModel *collection_model_;
   qint64 song_count_;
 
  private Q_SLOTS:

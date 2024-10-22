@@ -27,7 +27,6 @@
 #include <QString>
 
 #include "streamingcollectionview.h"
-#include "ui_streamingcollectionviewcontainer.h"
 
 class QStackedWidget;
 class QPushButton;
@@ -35,6 +34,8 @@ class QLabel;
 class QProgressBar;
 class QContextMenuEvent;
 class CollectionFilterWidget;
+
+#include "ui_streamingcollectionviewcontainer.h"
 
 class StreamingCollectionViewContainer : public QWidget {
   Q_OBJECT

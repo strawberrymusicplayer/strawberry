@@ -36,12 +36,11 @@
 #include <QMessageBox>
 #include <QPushButton>
 
-#include "config.h"
 #include "globalshortcutsmanager.h"
 #include "core/logging.h"
 #include "core/mac_startup.h"
 
-#import "core/SBSystemPreferences.h"
+#import "includes/SBSystemPreferences.h"
 
 class GlobalShortcutsBackendMacOSPrivate {
  public:

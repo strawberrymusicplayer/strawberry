@@ -44,7 +44,7 @@ class PlaylistView;
 
 class Ui_PlaylistContainer;
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/settings.h"
 
 class PlaylistContainer : public QWidget {

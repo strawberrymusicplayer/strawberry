@@ -36,16 +36,17 @@
 #include <QStringList>
 #include <QRecursiveMutex>
 
+#include "includes/shared_ptr.h"
 #include "sqlquery.h"
 
 class QThread;
-class Application;
+class TaskManager;
 
 class Database : public QObject {
   Q_OBJECT
 
  public:
-  explicit Database(Application *app, QObject *parent = nullptr, const QString &database_name = QString());
+  explicit Database(SharedPtr<TaskManager> task_manager, QObject *parent = nullptr, const QString &database_name = QString());
   ~Database() override;
 
   static const int kSchemaVersion;
@@ -102,7 +103,7 @@ class Database : public QObject {
   void BackupFile(const QString &filename);
   static bool OpenDatabase(const QString &filename, sqlite3 **connection);
 
-  Application *app_;
+  SharedPtr<TaskManager> task_manager_;
 
   // Alias -> filename
   QMap<QString, AttachedDatabase> attached_databases_;
@@ -128,18 +129,6 @@ class Database : public QObject {
 
   QThread *original_thread_;
 
-};
-
-class MemoryDatabase : public Database {
-  Q_OBJECT
-
- public:
-  explicit MemoryDatabase(Application *app, QObject *parent = nullptr)
-      : Database(app, parent, QStringLiteral(":memory:")) {}
-  ~MemoryDatabase() override {
-    // Make sure Qt doesn't reuse the same database
-    QSqlDatabase::removeDatabase(Connect().connectionName());
-  }
 };
 
 #endif  // DATABASE_H

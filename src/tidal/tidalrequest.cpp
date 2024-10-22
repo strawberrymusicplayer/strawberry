@@ -36,12 +36,11 @@
 #include <QJsonValue>
 #include <QTimer>
 
+#include "includes/shared_ptr.h"
 #include "core/logging.h"
-#include "core/shared_ptr.h"
 #include "core/networkaccessmanager.h"
 #include "core/song.h"
-#include "core/application.h"
-#include "utilities/timeconstants.h"
+#include "constants/timeconstants.h"
 #include "utilities/imageutils.h"
 #include "utilities/coverutils.h"
 #include "tidalservice.h"
@@ -62,11 +61,10 @@ constexpr int kMaxConcurrentAlbumCoverRequests = 1;
 constexpr int kFlushRequestsDelay = 200;
 }  // namespace
 
-TidalRequest::TidalRequest(TidalService *service, TidalUrlHandler *url_handler, Application *app, SharedPtr<NetworkAccessManager> network, Type query_type, QObject *parent)
+TidalRequest::TidalRequest(TidalService *service, TidalUrlHandler *url_handler, const SharedPtr<NetworkAccessManager> network, const Type query_type, QObject *parent)
     : TidalBaseRequest(service, network, parent),
       service_(service),
       url_handler_(url_handler),
-      app_(app),
       network_(network),
       timer_flush_requests_(new QTimer(this)),
       query_type_(query_type),

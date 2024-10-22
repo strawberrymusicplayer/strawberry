@@ -75,7 +75,7 @@ class TagReaderTagLib : public TagReaderBase {
   TagReaderResult SaveSongRating(const QString &filename, const float rating) const override;
 
  private:
-  Song::FileType GuessFileType(TagLib::FileRef *fileref) const;
+  static Song::FileType GuessFileType(TagLib::FileRef *fileref);
 
   void ParseID3v2Tags(TagLib::ID3v2::Tag *tag, QString *disc, QString *compilation, Song *song) const;
   void ParseVorbisComments(const TagLib::Ogg::FieldListMap &map, QString *disc, QString *compilation, Song *song) const;

@@ -176,9 +176,11 @@ if(UNIX AND NOT APPLE)
 endif()
 pkg_check_modules(GLIB REQUIRED IMPORTED_TARGET glib-2.0)
 pkg_check_modules(GOBJECT REQUIRED IMPORTED_TARGET gobject-2.0)
-pkg_check_modules(GIO REQUIRED IMPORTED_TARGET gio-2.0)
-if(GIO_FOUND AND UNIX)
-  pkg_check_modules(GIO_UNIX IMPORTED_TARGET gio-unix-2.0)
+if(UNIX AND NOT APPLE)
+  pkg_check_modules(GIO REQUIRED IMPORTED_TARGET gio-2.0)
+  if(GIO_FOUND AND UNIX)
+    pkg_check_modules(GIO_UNIX IMPORTED_TARGET gio-unix-2.0)
+  endif()
 endif()
 pkg_check_modules(LIBCDIO IMPORTED_TARGET libcdio)
 pkg_check_modules(GSTREAMER REQUIRED IMPORTED_TARGET gstreamer-1.0)
@@ -327,12 +329,10 @@ optional_component(UDISKS2 ON "Devices: UDisks2 backend"
 
 optional_component(GIO ON "Devices: GIO device backend"
   DEPENDS "libgio" GIO_FOUND
-  DEPENDS "Unix or Windows" "NOT APPLE"
 )
 
 optional_component(GIO_UNIX ON "Devices: GIO device backend (Unix support)"
   DEPENDS "libgio-unix" GIO_UNIX_FOUND
-  DEPENDS "Unix or Windows" "NOT APPLE"
 )
 
 optional_component(AUDIOCD ON "Devices: Audio CD support"
@@ -406,9 +406,11 @@ set(SOURCES
   src/core/logging.cpp
   src/core/mainwindow.cpp
   src/core/application.cpp
+  src/core/playerinterface.cpp
   src/core/player.cpp
   src/core/commandlineoptions.cpp
   src/core/database.cpp
+  src/core/memorydatabase.cpp
   src/core/sqlquery.cpp
   src/core/sqlrow.cpp
   src/core/metatypes.cpp
@@ -433,14 +435,18 @@ set(SOURCES
   src/core/taskmanager.cpp
   src/core/thread.cpp
   src/core/urlhandler.cpp
+  src/core/urlhandlers.cpp
   src/core/iconloader.cpp
   src/core/standarditemiconloader.cpp
   src/core/scopedtransaction.cpp
   src/core/translations.cpp
-  src/core/systemtrayicon.cpp
   src/core/localredirectserver.cpp
   src/core/mimedata.cpp
   src/core/temporaryfile.cpp
+  src/core/enginemetadata.cpp
+  src/core/songmimedata.cpp
+  src/core/platforminterface.cpp
+
   src/utilities/strutils.cpp
   src/utilities/envutils.cpp
   src/utilities/colorutils.cpp
@@ -459,6 +465,7 @@ set(SOURCES
   src/utilities/coverutils.cpp
   src/utilities/screenutils.cpp
   src/utilities/textencodingutils.cpp
+  src/utilities/coveroptions.cpp
 
   src/tagreader/tagreaderclient.cpp
   src/tagreader/tagreaderresult.cpp
@@ -483,12 +490,45 @@ set(SOURCES
 
   src/filterparser/filterparser.cpp
   src/filterparser/filtertree.cpp
+  src/filterparser/filtertreeand.cpp
+  src/filterparser/filtertreecolumnterm.cpp
+  src/filterparser/filtertreenop.cpp
+  src/filterparser/filtertreenot.cpp
+  src/filterparser/filtertreeor.cpp
+  src/filterparser/filtertreeterm.cpp
+  src/filterparser/filterparserfloateqcomparator.cpp
+  src/filterparser/filterparserfloatgecomparator.cpp
+  src/filterparser/filterparserfloatgtcomparator.cpp
+  src/filterparser/filterparserfloatlecomparator.cpp
+  src/filterparser/filterparserfloatltcomparator.cpp
+  src/filterparser/filterparserfloatnecomparator.cpp
+  src/filterparser/filterparserint64eqcomparator.cpp
+  src/filterparser/filterparserint64gecomparator.cpp
+  src/filterparser/filterparserint64gtcomparator.cpp
+  src/filterparser/filterparserint64lecomparator.cpp
+  src/filterparser/filterparserint64ltcomparator.cpp
+  src/filterparser/filterparserint64necomparator.cpp
+  src/filterparser/filterparserinteqcomparator.cpp
+  src/filterparser/filterparserintgecomparator.cpp
+  src/filterparser/filterparserintgtcomparator.cpp
+  src/filterparser/filterparserintlecomparator.cpp
+  src/filterparser/filterparserintltcomparator.cpp
+  src/filterparser/filterparserintnecomparator.cpp
+  src/filterparser/filterparsersearchtermcomparator.cpp
+  src/filterparser/filterparsertextcontainscomparator.cpp
+  src/filterparser/filterparsertexteqcomparator.cpp
+  src/filterparser/filterparsertextnecomparator.cpp
+  src/filterparser/filterparseruinteqcomparator.cpp
+  src/filterparser/filterparseruintgecomparator.cpp
+  src/filterparser/filterparseruintgtcomparator.cpp
+  src/filterparser/filterparseruintlecomparator.cpp
+  src/filterparser/filterparseruintltcomparator.cpp
+  src/filterparser/filterparseruintnecomparator.cpp
 
   src/engine/enginebase.cpp
   src/engine/enginedevice.cpp
   src/engine/devicefinders.cpp
   src/engine/devicefinder.cpp
-  src/engine/enginemetadata.cpp
   src/engine/gststartup.cpp
   src/engine/gstengine.cpp
   src/engine/gstenginepipeline.cpp
@@ -509,11 +549,12 @@ set(SOURCES
   src/context/contextview.cpp
   src/context/contextalbum.cpp
 
-  src/collection/collection.cpp
+  src/collection/collectionlibrary.cpp
   src/collection/collectionmodel.cpp
   src/collection/collectionbackend.cpp
   src/collection/collectionwatcher.cpp
   src/collection/collectionview.cpp
+  src/collection/collectionitem.cpp
   src/collection/collectionitemdelegate.cpp
   src/collection/collectionviewcontainer.cpp
   src/collection/collectiondirectorymodel.cpp
@@ -539,17 +580,23 @@ set(SOURCES
   src/playlist/playlistlistmodel.cpp
   src/playlist/playlistlistsortfiltermodel.cpp
   src/playlist/playlistlistview.cpp
+  src/playlist/playlistmanagerinterface.cpp
   src/playlist/playlistmanager.cpp
   src/playlist/playlistsaveoptionsdialog.cpp
   src/playlist/playlistsequence.cpp
   src/playlist/playlisttabbar.cpp
-  src/playlist/playlistundocommands.cpp
   src/playlist/playlistview.cpp
   src/playlist/playlistproxystyle.cpp
-  src/playlist/songmimedata.cpp
   src/playlist/songloaderinserter.cpp
   src/playlist/songplaylistitem.cpp
   src/playlist/dynamicplaylistcontrols.cpp
+  src/playlist/playlistundocommandbase.cpp
+  src/playlist/playlistundocommandinsertitems.cpp
+  src/playlist/playlistundocommandremoveitems.cpp
+  src/playlist/playlistundocommandmoveitems.cpp
+  src/playlist/playlistundocommandreorderitems.cpp
+  src/playlist/playlistundocommandsortitems.cpp
+  src/playlist/playlistundocommandshuffleitems.cpp
 
   src/queue/queue.cpp
   src/queue/queueview.cpp
@@ -633,6 +680,7 @@ set(SOURCES
 
   src/settings/settingsdialog.cpp
   src/settings/settingspage.cpp
+  src/settings/settingsitemdelegate.cpp
   src/settings/behavioursettingspage.cpp
   src/settings/collectionsettingspage.cpp
   src/settings/collectionsettingsdirectorymodel.cpp
@@ -667,8 +715,6 @@ set(SOURCES
   src/widgets/fancytabbar.cpp
   src/widgets/fancytabdata.cpp
   src/widgets/favoritewidget.cpp
-  src/widgets/fileview.cpp
-  src/widgets/fileviewlist.cpp
   src/widgets/forcescrollperpixel.cpp
   src/widgets/freespacebar.cpp
   src/widgets/groupediconview.cpp
@@ -719,7 +765,7 @@ set(SOURCES
   src/radios/radiomimedata.cpp
 
   src/scrobbler/audioscrobbler.cpp
-  src/scrobbler/scrobblersettings.cpp
+  src/scrobbler/scrobblersettingsservice.cpp
   src/scrobbler/scrobblerservice.cpp
   src/scrobbler/scrobblercache.cpp
   src/scrobbler/scrobblercacheitem.cpp
@@ -749,6 +795,22 @@ set(SOURCES
   src/transcoder/transcoderoptionsaac.cpp
   src/transcoder/transcoderoptionsasf.cpp
   src/transcoder/transcoderoptionsmp3.cpp
+
+  src/systemtrayicon/systemtrayicon.cpp
+
+  src/fileview/fileview.cpp
+  src/fileview/fileviewlist.cpp
+
+  src/device/devicemanager.cpp
+  src/device/devicelister.cpp
+  src/device/devicedatabasebackend.cpp
+  src/device/deviceinfo.cpp
+  src/device/deviceproperties.cpp
+  src/device/filesystemdevice.cpp
+  src/device/connecteddevice.cpp
+  src/device/devicestatefiltermodel.cpp
+  src/device/deviceviewcontainer.cpp
+  src/device/deviceview.cpp
 )
 
 set(HEADERS
@@ -756,7 +818,9 @@ set(HEADERS
   src/core/mainwindow.h
   src/core/application.h
   src/core/player.h
+  src/core/playerinterface.h
   src/core/database.h
+  src/core/memorydatabase.h
   src/core/deletefiles.h
   src/core/filesystemwatcherinterface.h
   src/core/mergedproxymodel.h
@@ -769,11 +833,13 @@ set(HEADERS
   src/core/songloader.h
   src/core/taskmanager.h
   src/core/thread.h
+  src/core/urlhandlers.h
   src/core/urlhandler.h
   src/core/standarditemiconloader.h
   src/core/mimedata.h
   src/core/stylesheetloader.h
   src/core/localredirectserver.h
+  src/core/songmimedata.h
 
   src/tagreader/tagreaderclient.h
   src/tagreader/tagreaderreply.h
@@ -802,7 +868,7 @@ set(HEADERS
   src/context/contextview.h
   src/context/contextalbum.h
 
-  src/collection/collection.h
+  src/collection/collectionlibrary.h
   src/collection/collectionmodel.h
   src/collection/collectionbackend.h
   src/collection/collectionwatcher.h
@@ -825,6 +891,7 @@ set(HEADERS
   src/playlist/playlistlistmodel.h
   src/playlist/playlistlistview.h
   src/playlist/playlistlistsortfiltermodel.h
+  src/playlist/playlistmanagerinterface.h
   src/playlist/playlistmanager.h
   src/playlist/playlistsaveoptionsdialog.h
   src/playlist/playlistsequence.h
@@ -833,7 +900,6 @@ set(HEADERS
   src/playlist/playlistproxystyle.h
   src/playlist/playlistitemmimedata.h
   src/playlist/songloaderinserter.h
-  src/playlist/songmimedata.h
   src/playlist/dynamicplaylistcontrols.h
 
   src/queue/queue.h
@@ -910,6 +976,7 @@ set(HEADERS
 
   src/settings/settingsdialog.h
   src/settings/settingspage.h
+  src/settings/settingsitemdelegate.h
   src/settings/behavioursettingspage.h
   src/settings/collectionsettingspage.h
   src/settings/collectionsettingsdirectorymodel.h
@@ -944,8 +1011,6 @@ set(HEADERS
   src/widgets/fancytabbar.h
   src/widgets/fancytabdata.h
   src/widgets/favoritewidget.h
-  src/widgets/fileview.h
-  src/widgets/fileviewlist.h
   src/widgets/freespacebar.h
   src/widgets/groupediconview.h
   src/widgets/lineedit.h
@@ -993,7 +1058,7 @@ set(HEADERS
   src/radios/radioparadiseservice.h
 
   src/scrobbler/audioscrobbler.h
-  src/scrobbler/scrobblersettings.h
+  src/scrobbler/scrobblersettingsservice.h
   src/scrobbler/scrobblerservice.h
   src/scrobbler/scrobblercache.h
   src/scrobbler/scrobblingapi20.h
@@ -1020,6 +1085,19 @@ set(HEADERS
   src/transcoder/transcoderoptionsaac.h
   src/transcoder/transcoderoptionsasf.h
   src/transcoder/transcoderoptionsmp3.h
+
+  src/fileview/fileview.h
+  src/fileview/fileviewlist.h
+
+  src/device/devicemanager.h
+  src/device/devicelister.h
+  src/device/devicedatabasebackend.h
+  src/device/deviceproperties.h
+  src/device/filesystemdevice.h
+  src/device/connecteddevice.h
+  src/device/devicestatefiltermodel.h
+  src/device/deviceviewcontainer.h
+  src/device/deviceview.h
 )
 
 set(UI
@@ -1081,7 +1159,6 @@ set(UI
   src/dialogs/saveplaylistsdialog.ui
 
   src/widgets/trackslider.ui
-  src/widgets/fileview.ui
   src/widgets/loginstatewidget.ui
 
   src/osd/osdpretty.ui
@@ -1106,6 +1183,11 @@ set(UI
   src/transcoder/transcoderoptionsspeex.ui
   src/transcoder/transcoderoptionsasf.ui
   src/transcoder/transcoderoptionsmp3.ui
+
+  src/fileview/fileview.ui
+
+  src/device/deviceproperties.ui
+  src/device/deviceviewcontainer.ui
 )
 
 if(APPLE)
@@ -1114,54 +1196,80 @@ if(APPLE)
       src/utilities/macosutils.mm
       src/core/scoped_nsautorelease_pool.mm
       src/core/mac_startup.mm
-      src/core/macsystemtrayicon.mm
+      src/systemtrayicon/macsystemtrayicon.mm
       src/osd/osdmac.mm
       src/widgets/searchfield_mac.mm
       src/engine/macosdevicefinder.cpp
       src/device/macosdevicelister.mm
     HEADERS
-      src/core/macsystemtrayicon.h
+      src/systemtrayicon/macsystemtrayicon.h
       src/osd/osdmac.h
       src/device/macosdevicelister.h
   )
 else()
-  list(APPEND SOURCES src/core/qtsystemtrayicon.cpp src/widgets/searchfield_qt.cpp src/widgets/searchfield_qt_private.cpp)
-  list(APPEND HEADERS src/core/qtsystemtrayicon.h src/widgets/searchfield_qt_private.h)
+  list(APPEND SOURCES src/systemtrayicon/qtsystemtrayicon.cpp src/widgets/searchfield_qt.cpp src/widgets/searchfield_qt_private.cpp)
+  list(APPEND HEADERS src/systemtrayicon/qtsystemtrayicon.h src/widgets/searchfield_qt_private.h)
 endif()
 
 optional_source(WIN32
   SOURCES
+    src/utilities/scopedwchararray.cpp
     src/utilities/winutils.cpp
     src/engine/directsounddevicefinder.cpp
     src/engine/mmdevicefinder.cpp
-    src/core/scopedwchararray.cpp
     src/core/windows7thumbbar.cpp
   HEADERS
     src/core/windows7thumbbar.h
 )
 
 if(HAVE_GLOBALSHORTCUTS)
+
   optional_source(HAVE_GLOBALSHORTCUTS
     SOURCES src/globalshortcuts/globalshortcutsmanager.cpp src/globalshortcuts/globalshortcutsbackend.cpp src/globalshortcuts/globalshortcutgrabber.cpp src/settings/globalshortcutssettingspage.cpp
     HEADERS src/globalshortcuts/globalshortcutsmanager.h src/globalshortcuts/globalshortcutsbackend.h src/globalshortcuts/globalshortcutgrabber.h src/settings/globalshortcutssettingspage.h
     UI src/globalshortcuts/globalshortcutgrabber.ui src/settings/globalshortcutssettingspage.ui
   )
-  optional_source(HAVE_KDE_GLOBALSHORTCUTS
-    SOURCES src/globalshortcuts/globalshortcutsbackend-kde.cpp src/globalshortcuts/globalshortcutsbackend-gnome.cpp src/globalshortcuts/globalshortcutsbackend-mate.cpp
-    HEADERS src/globalshortcuts/globalshortcutsbackend-kde.h src/globalshortcuts/globalshortcutsbackend-gnome.h src/globalshortcuts/globalshortcutsbackend-mate.h
-  )
+
+  if(HAVE_KDE_GLOBALSHORTCUTS)
+    optional_source(HAVE_KDE_GLOBALSHORTCUTS
+      SOURCES src/globalshortcuts/globalshortcutsbackend-kde.cpp
+      HEADERS src/globalshortcuts/globalshortcutsbackend-kde.h
+    )
+    qt_add_dbus_interface(SOURCES src/globalshortcuts/org.kde.KGlobalAccel.xml kglobalaccel)
+    qt_add_dbus_interface(SOURCES src/globalshortcuts/org.kde.KGlobalAccel.Component.xml kglobalaccelcomponent)
+  endif()
+
+  if(HAVE_GNOME_GLOBALSHORTCUTS)
+    optional_source(HAVE_GNOME_GLOBALSHORTCUTS
+      SOURCES src/globalshortcuts/globalshortcutsbackend-gnome.cpp
+      HEADERS src/globalshortcuts/globalshortcutsbackend-gnome.h
+    )
+    qt_add_dbus_interface(SOURCES src/globalshortcuts/org.gnome.SettingsDaemon.MediaKeys.xml gnomesettingsdaemon)
+  endif()
+
+  if(HAVE_MATE_GLOBALSHORTCUTS)
+    optional_source(HAVE_MATE_GLOBALSHORTCUTS
+      SOURCES src/globalshortcuts/globalshortcutsbackend-mate.cpp
+      HEADERS src/globalshortcuts/globalshortcutsbackend-mate.h
+    )
+    qt_add_dbus_interface(SOURCES src/globalshortcuts/org.mate.SettingsDaemon.MediaKeys.xml matesettingsdaemon)
+  endif()
+
   optional_source(HAVE_X11_GLOBALSHORTCUTS
     SOURCES src/globalshortcuts/globalshortcutsbackend-x11.cpp src/globalshortcuts/globalshortcut.cpp src/globalshortcuts/globalshortcut-x11.cpp
     HEADERS src/globalshortcuts/globalshortcutsbackend-x11.h src/globalshortcuts/globalshortcut.h
   )
+
   optional_source(APPLE
     SOURCES src/globalshortcuts/globalshortcutsbackend-macos.mm src/globalshortcuts/globalshortcutgrabber.mm
     HEADERS src/globalshortcuts/globalshortcutsbackend-macos.h src/globalshortcuts/globalshortcutgrabber.h
   )
+
   optional_source(WIN32
     SOURCES src/globalshortcuts/globalshortcutsbackend-win.cpp src/globalshortcuts/globalshortcut.cpp src/globalshortcuts/globalshortcut-win.cpp
     HEADERS src/globalshortcuts/globalshortcutsbackend-win.h src/globalshortcuts/globalshortcut.h
   )
+
 endif()
 
 optional_source(HAVE_ALSA SOURCES src/engine/alsadevicefinder.cpp src/engine/alsapcmdevicefinder.cpp)
@@ -1207,8 +1315,8 @@ optional_source(HAVE_MOODBAR
     src/moodbar/moodbarpipeline.cpp
     src/moodbar/moodbarproxystyle.cpp
     src/moodbar/moodbarrenderer.cpp
-    src/moodbar/gstfastspectrumplugin.cpp
-    src/moodbar/gstfastspectrum.cpp
+    src/engine/gstfastspectrumplugin.cpp
+    src/engine/gstfastspectrum.cpp
     src/settings/moodbarsettingspage.cpp
   HEADERS
     src/moodbar/moodbarcontroller.h
@@ -1221,57 +1329,17 @@ optional_source(HAVE_MOODBAR
     src/settings/moodbarsettingspage.ui
 )
 
-if(HAVE_KDE_GLOBALSHORTCUTS)
-  qt_add_dbus_interface(SOURCES src/globalshortcuts/org.kde.KGlobalAccel.xml kglobalaccel)
-  qt_add_dbus_interface(SOURCES src/globalshortcuts/org.kde.KGlobalAccel.Component.xml kglobalaccelcomponent)
-endif()
-
-if(HAVE_GNOME_GLOBALSHORTCUTS)
-  qt_add_dbus_interface(SOURCES src/globalshortcuts/org.gnome.SettingsDaemon.MediaKeys.xml gnomesettingsdaemon)
-endif()
-
-if(HAVE_MATE_GLOBALSHORTCUTS)
-  qt_add_dbus_interface(SOURCES src/globalshortcuts/org.mate.SettingsDaemon.MediaKeys.xml matesettingsdaemon)
-endif()
-
-optional_source(UNIX
-  SOURCES
-    src/device/connecteddevice.cpp
-    src/device/devicedatabasebackend.cpp
-    src/device/devicelister.cpp
-    src/device/devicemanager.cpp
-    src/device/devicestatefiltermodel.cpp
-    src/device/filesystemdevice.cpp
-    src/device/deviceviewcontainer.cpp
-    src/device/deviceview.cpp
-    src/device/deviceproperties.cpp
-    src/device/deviceinfo.cpp
-  HEADERS
-    src/device/connecteddevice.h
-    src/device/devicedatabasebackend.h
-    src/device/devicelister.h
-    src/device/devicemanager.h
-    src/device/devicestatefiltermodel.h
-    src/device/filesystemdevice.h
-    src/device/deviceviewcontainer.h
-    src/device/deviceview.h
-    src/device/deviceproperties.h
-  UI
-    src/device/deviceproperties.ui
-    src/device/deviceviewcontainer.ui
-)
-
 if(UNIX)
   optional_source(HAVE_GIO SOURCES src/device/giolister.cpp HEADERS src/device/giolister.h)
 endif()
 
 if(HAVE_UDISKS2)
   optional_source(HAVE_UDISKS2 SOURCES src/device/udisks2lister.cpp HEADERS src/device/udisks2lister.h)
-  set_source_files_properties(src/device/org.freedesktop.DBus.ObjectManager.xml PROPERTIES NO_NAMESPACE objectmanager INCLUDE core/dbus_metatypes.h)
-  set_source_files_properties(src/device/org.freedesktop.UDisks2.Filesystem.xml PROPERTIES NO_NAMESPACE udisks2filesystem INCLUDE core/dbus_metatypes.h)
-  set_source_files_properties(src/device/org.freedesktop.UDisks2.Block.xml PROPERTIES NO_NAMESPACE udisks2block INCLUDE core/dbus_metatypes.h)
-  set_source_files_properties(src/device/org.freedesktop.UDisks2.Drive.xml PROPERTIES NO_NAMESPACE udisks2drive INCLUDE core/dbus_metatypes.h)
-  set_source_files_properties(src/device/org.freedesktop.UDisks2.Job.xml PROPERTIES NO_NAMESPACE udisks2job INCLUDE core/dbus_metatypes.h)
+  set_source_files_properties(src/device/org.freedesktop.DBus.ObjectManager.xml PROPERTIES NO_NAMESPACE objectmanager INCLUDE includes/dbus_metatypes.h)
+  set_source_files_properties(src/device/org.freedesktop.UDisks2.Filesystem.xml PROPERTIES NO_NAMESPACE udisks2filesystem INCLUDE includes/dbus_metatypes.h)
+  set_source_files_properties(src/device/org.freedesktop.UDisks2.Block.xml PROPERTIES NO_NAMESPACE udisks2block INCLUDE includes/dbus_metatypes.h)
+  set_source_files_properties(src/device/org.freedesktop.UDisks2.Drive.xml PROPERTIES NO_NAMESPACE udisks2drive INCLUDE includes/dbus_metatypes.h)
+  set_source_files_properties(src/device/org.freedesktop.UDisks2.Job.xml PROPERTIES NO_NAMESPACE udisks2job INCLUDE includes/dbus_metatypes.h)
   qt_add_dbus_interface(SOURCES src/device/org.freedesktop.DBus.ObjectManager.xml objectmanager)
   qt_add_dbus_interface(SOURCES src/device/org.freedesktop.UDisks2.Filesystem.xml udisks2filesystem)
   qt_add_dbus_interface(SOURCES src/device/org.freedesktop.UDisks2.Block.xml udisks2block)
@@ -1420,7 +1488,7 @@ if(LINUX AND LSB_RELEASE_EXEC AND DPKG_BUILDPACKAGE)
 endif()
 
 if(HAVE_TRANSLATIONS)
-  qt_add_lupdate(strawberry TS_FILES "${CMAKE_SOURCE_DIR}/src/translations/strawberry_en_US.ts" OPTIONS -locations none -no-ui-lines -no-obsolete)
+  qt_add_lupdate(strawberry_lib TS_FILES "${CMAKE_SOURCE_DIR}/src/translations/strawberry_en_US.ts" OPTIONS -locations none -no-ui-lines -no-obsolete)
   file(GLOB_RECURSE ts_files ${CMAKE_SOURCE_DIR}/src/translations/*.ts)
   set_source_files_properties(${ts_files} PROPERTIES OUTPUT_LOCATION "${CMAKE_CURRENT_BINARY_DIR}/data")
   qt_add_lrelease(strawberry TS_FILES ${ts_files} QM_FILES_OUTPUT_VARIABLE INSTALL_TRANSLATIONS_FILES)
@@ -1429,14 +1497,7 @@ if(HAVE_TRANSLATIONS)
   endif()
 endif()
 
-target_include_directories(strawberry PRIVATE
-  ${CMAKE_SOURCE_DIR}
-  ${CMAKE_BINARY_DIR}
-  ${CMAKE_SOURCE_DIR}/src
-  ${CMAKE_BINARY_DIR}/src
-)
-
-target_include_directories(strawberry_lib PRIVATE
+target_include_directories(strawberry_lib PUBLIC
   ${CMAKE_SOURCE_DIR}
   ${CMAKE_BINARY_DIR}
   ${CMAKE_SOURCE_DIR}/src
@@ -1444,14 +1505,14 @@ target_include_directories(strawberry_lib PRIVATE
 )
 
 if(SINGLEAPPLICATION_INCLUDE_DIRS)
-  target_include_directories(strawberry SYSTEM PRIVATE ${SINGLEAPPLICATION_INCLUDE_DIRS})
+  target_include_directories(strawberry_lib SYSTEM PUBLIC ${SINGLEAPPLICATION_INCLUDE_DIRS})
 endif()
 
 if(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)
-  target_include_directories(strawberry_lib SYSTEM PRIVATE ${Qt${QT_VERSION_MAJOR}Gui_PRIVATE_INCLUDE_DIRS})
+  target_include_directories(strawberry_lib SYSTEM PUBLIC ${Qt${QT_VERSION_MAJOR}Gui_PRIVATE_INCLUDE_DIRS})
 endif()
 
-target_link_libraries(strawberry_lib PRIVATE
+target_link_libraries(strawberry_lib PUBLIC
   ${CMAKE_THREAD_LIBS_INIT}
   PkgConfig::GLIB
   PkgConfig::GOBJECT
@@ -1487,10 +1548,11 @@ target_link_libraries(strawberry_lib PRIVATE
   $<$<BOOL:${FREEBSD}>:execinfo>
   $<$<BOOL:${WIN32}>:dsound dwmapi getopt-win::getopt>
   $<$<BOOL:${MSVC}>:WindowsApp>
+  ${SINGLEAPPLICATION_LIBRARIES}
 )
 
 if(APPLE)
-  target_link_libraries(strawberry_lib PRIVATE
+  target_link_libraries(strawberry_lib PUBLIC
     "-framework Foundation"
     "-framework AppKit"
     "-framework Carbon"
@@ -1502,19 +1564,7 @@ if(APPLE)
   )
 endif()
 
-target_link_libraries(strawberry PRIVATE
-  ${CMAKE_THREAD_LIBS_INIT}
-  PkgConfig::GLIB
-  PkgConfig::GOBJECT
-  Qt${QT_VERSION_MAJOR}::Core
-  Qt${QT_VERSION_MAJOR}::Network
-  Qt${QT_VERSION_MAJOR}::Sql
-  Qt${QT_VERSION_MAJOR}::Gui
-  Qt${QT_VERSION_MAJOR}::Widgets
-  $<$<BOOL:${HAVE_DBUS}>:Qt${QT_VERSION_MAJOR}::DBus>
-  ${SINGLEAPPLICATION_LIBRARIES}
-  strawberry_lib
-)
+target_link_libraries(strawberry PUBLIC strawberry_lib)
 
 if(NOT APPLE)
   install(TARGETS strawberry RUNTIME DESTINATION bin)

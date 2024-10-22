@@ -28,8 +28,8 @@
 #include <QFileInfo>
 #include <QValidator>
 
-#include "utilities/filenameconstants.h"
-#include "utilities/timeconstants.h"
+#include "constants/filenameconstants.h"
+#include "constants/timeconstants.h"
 #include "utilities/transliterate.h"
 #include "core/song.h"
 

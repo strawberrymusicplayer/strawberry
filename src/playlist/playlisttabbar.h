@@ -46,7 +46,7 @@ class QTimerEvent;
 class PlaylistManager;
 class RenameTabLineEdit;
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 
 class PlaylistTabBar : public QTabBar {
   Q_OBJECT

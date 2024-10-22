@@ -36,6 +36,7 @@
 #include <QNetworkReply>
 #include <QNetworkRequest>
 
+#include "includes/shared_ptr.h"
 #include "core/logging.h"
 #include "core/networkaccessmanager.h"
 #include "core/song.h"
@@ -54,8 +55,9 @@ namespace {
 constexpr int kMaxRedirects = 3;
 }
 
-AlbumCoverLoader::AlbumCoverLoader(QObject *parent)
+AlbumCoverLoader::AlbumCoverLoader(const SharedPtr<TagReaderClient> tagreader_client, QObject *parent)
     : QObject(parent),
+      tagreader_client_(tagreader_client),
       network_(new NetworkAccessManager(this)),
       timer_process_tasks_(new QTimer(this)),
       stop_requested_(false),
@@ -318,7 +320,7 @@ AlbumCoverLoader::LoadImageResult AlbumCoverLoader::LoadImage(TaskPtr task, cons
 AlbumCoverLoader::LoadImageResult AlbumCoverLoader::LoadEmbeddedImage(TaskPtr task) {
 
   if (task->art_embedded && task->song_url.isValid() && task->song_url.isLocalFile()) {
-    const TagReaderResult result = TagReaderClient::Instance()->LoadCoverDataBlocking(task->song_url.toLocalFile(), task->album_cover.image_data);
+    const TagReaderResult result = tagreader_client_->LoadCoverDataBlocking(task->song_url.toLocalFile(), task->album_cover.image_data);
     if (result.success() && !task->album_cover.image_data.isEmpty() && task->album_cover.image.loadFromData(task->album_cover.image_data)) {
       return LoadImageResult(AlbumCoverLoaderResult::Type::Embedded, LoadImageResult::Status::Success);
     }

@@ -27,7 +27,7 @@
 #include <QObject>
 #include <QString>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 
 class SettingsDialog;
 class Ui_ScrobblerSettingsPage;
@@ -40,10 +40,8 @@ class ScrobblerSettingsPage : public SettingsPage {
   Q_OBJECT
 
  public:
-  explicit ScrobblerSettingsPage(SettingsDialog *dialog, QWidget *parent = nullptr);
+  explicit ScrobblerSettingsPage(SettingsDialog *dialog, const SharedPtr<AudioScrobbler> scrobbler, QWidget *parent = nullptr);
   ~ScrobblerSettingsPage() override;
-
-  static const char *kSettingsGroup;
 
   void Load() override;
   void Save() override;
@@ -60,11 +58,12 @@ class ScrobblerSettingsPage : public SettingsPage {
   void ListenBrainz_AuthenticationComplete(const bool success, const QString &error = QString());
 
  private:
-  SharedPtr<AudioScrobbler> scrobbler_;
-  SharedPtr<LastFMScrobbler> lastfmscrobbler_;
-  SharedPtr<LibreFMScrobbler> librefmscrobbler_;
-  SharedPtr<ListenBrainzScrobbler> listenbrainzscrobbler_;
   Ui_ScrobblerSettingsPage *ui_;
+
+  const SharedPtr<AudioScrobbler> scrobbler_;
+  const SharedPtr<LastFMScrobbler> lastfmscrobbler_;
+  const SharedPtr<LibreFMScrobbler> librefmscrobbler_;
+  const SharedPtr<ListenBrainzScrobbler> listenbrainzscrobbler_;
 
   bool lastfm_waiting_for_auth_;
   bool librefm_waiting_for_auth_;

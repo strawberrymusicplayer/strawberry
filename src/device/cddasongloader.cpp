@@ -40,10 +40,10 @@
 #include <gst/tag/tag.h>
 
 #include "cddasongloader.h"
+#include "includes/shared_ptr.h"
 #include "core/logging.h"
-#include "core/shared_ptr.h"
 #include "core/networkaccessmanager.h"
-#include "utilities/timeconstants.h"
+#include "constants/timeconstants.h"
 
 using std::make_shared;
 

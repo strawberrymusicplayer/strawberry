@@ -29,22 +29,23 @@
 #include <QString>
 #include <QStringList>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
+#include "constants/playlistsettings.h"
 #include "core/song.h"
-#include "settings/playlistsettingspage.h"
 #include "xmlparser.h"
 
 class QIODevice;
 class QXmlStreamReader;
 class QXmlStreamWriter;
 
+class TagReaderClient;
 class CollectionBackendInterface;
 
 class WplParser : public XMLParser {
   Q_OBJECT
 
  public:
-  explicit WplParser(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent = nullptr);
+  explicit WplParser(const SharedPtr<TagReaderClient> tagreader_client, const SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent = nullptr);
 
   QString name() const override { return QStringLiteral("WPL"); }
   QStringList file_extensions() const override { return QStringList() << QStringLiteral("wpl"); }
@@ -55,7 +56,7 @@ class WplParser : public XMLParser {
   bool TryMagic(const QByteArray &data) const override;
 
   SongList Load(QIODevice *device, const QString &playlist_path, const QDir &dir, const bool collection_lookup = true) const override;
-  void Save(const SongList &songs, QIODevice *device, const QDir &dir, const PlaylistSettingsPage::PathType path_type = PlaylistSettingsPage::PathType::Automatic) const override;
+  void Save(const SongList &songs, QIODevice *device, const QDir &dir, const PlaylistSettings::PathType path_type = PlaylistSettings::PathType::Automatic) const override;
 
  private:
   void ParseSeq(const QDir &dir, QXmlStreamReader *reader, SongList *songs, const bool collection_lookup) const;

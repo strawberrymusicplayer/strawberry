@@ -26,33 +26,25 @@
 #include <QVariant>
 #include <QString>
 
-#include "core/shared_ptr.h"
-#include "core/application.h"
-#include "core/player.h"
+#include "includes/shared_ptr.h"
 #include "engine/enginebase.h"
 #include "dialogs/errordialog.h"
 #include "settingspage.h"
 
 class SettingsDialog;
 class Ui_BackendSettingsPage;
+class Player;
 
 class BackendSettingsPage : public SettingsPage {
   Q_OBJECT
 
  public:
-  explicit BackendSettingsPage(SettingsDialog *dialog, QWidget *parent = nullptr);
+  explicit BackendSettingsPage(SettingsDialog *dialog, const SharedPtr<Player> player, const SharedPtr<DeviceFinders> device_finders, QWidget *parent = nullptr);
   ~BackendSettingsPage() override;
-
-  static const char *kSettingsGroup;
-  static const qint64 kDefaultBufferDuration;
-  static const double kDefaultBufferLowWatermark;
-  static const double kDefaultBufferHighWatermark;
 
   void Load() override;
   void Save() override;
   void Cancel() override;
-
-  SharedPtr<EngineBase> engine() const { return dialog()->app()->player()->engine(); }
 
 #ifdef HAVE_ALSA
   enum class ALSAPluginType {
@@ -90,6 +82,9 @@ class BackendSettingsPage : public SettingsPage {
 
  private:
   Ui_BackendSettingsPage *ui_;
+  const SharedPtr<Player> player_;
+  const SharedPtr<DeviceFinders> device_finders_;
+
   bool configloaded_;
   bool engineloaded_;
   ErrorDialog errordialog_;

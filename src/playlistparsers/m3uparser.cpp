@@ -27,11 +27,11 @@
 #include <QStringList>
 #include <QSettings>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/logging.h"
 #include "core/settings.h"
-#include "utilities/timeconstants.h"
-#include "settings/playlistsettingspage.h"
+#include "constants/timeconstants.h"
+#include "constants/playlistsettings.h"
 #include "parserbase.h"
 #include "m3uparser.h"
 
@@ -39,8 +39,8 @@ using namespace Qt::Literals::StringLiterals;
 
 class CollectionBackendInterface;
 
-M3UParser::M3UParser(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent)
-    : ParserBase(collection_backend, parent) {}
+M3UParser::M3UParser(const SharedPtr<TagReaderClient> tagreader_client, const SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent)
+    : ParserBase(tagreader_client, collection_backend, parent) {}
 
 SongList M3UParser::Load(QIODevice *device, const QString &playlist_path, const QDir &dir, const bool collection_lookup) const {
 
@@ -125,13 +125,13 @@ bool M3UParser::ParseMetadata(const QString &line, M3UParser::Metadata *metadata
 
 }
 
-void M3UParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, const PlaylistSettingsPage::PathType path_type) const {
+void M3UParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, const PlaylistSettings::PathType path_type) const {
 
   device->write("#EXTM3U\n");
 
   Settings s;
-  s.beginGroup(PlaylistSettingsPage::kSettingsGroup);
-  bool write_metadata = s.value("write_metadata", true).toBool();
+  s.beginGroup(PlaylistSettings::kSettingsGroup);
+  bool write_metadata = s.value(PlaylistSettings::kWriteMetadata, true).toBool();
   s.endGroup();
 
   for (const Song &song : songs) {

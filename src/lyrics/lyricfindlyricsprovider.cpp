@@ -45,7 +45,7 @@ constexpr char kLyricsStart[] = "<script id=\"__NEXT_DATA__\" type=\"application
 constexpr char kLyricsEnd[] = "</script>";
 }  // namespace
 
-LyricFindLyricsProvider::LyricFindLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent) : JsonLyricsProvider(u"lyricfind.com"_s, true, false, network, parent) {}
+LyricFindLyricsProvider::LyricFindLyricsProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent) : JsonLyricsProvider(u"lyricfind.com"_s, true, false, network, parent) {}
 
 LyricFindLyricsProvider::~LyricFindLyricsProvider() {
 

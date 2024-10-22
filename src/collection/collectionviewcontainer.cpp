@@ -31,7 +31,7 @@
 CollectionViewContainer::CollectionViewContainer(QWidget *parent) : QWidget(parent), ui_(new Ui_CollectionViewContainer) {
 
   ui_->setupUi(this);
-  view()->SetFilter(filter_widget());
+  view()->SetFilterWidget(filter_widget());
 
   QObject::connect(filter_widget(), &CollectionFilterWidget::UpPressed, view(), &CollectionView::UpAndFocus);
   QObject::connect(filter_widget(), &CollectionFilterWidget::DownPressed, view(), &CollectionView::DownAndFocus);

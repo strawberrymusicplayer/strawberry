@@ -37,7 +37,7 @@ class OSDMac : public OSDBase {
   Q_OBJECT
 
  public:
-  explicit OSDMac(SharedPtr<SystemTrayIcon> tray_icon, Application *app, QObject *parent = nullptr);
+  explicit OSDMac(const SharedPtr<SystemTrayIcon> tray_icon, QObject *parent = nullptr);
   ~OSDMac() override;
 
   bool SupportsNativeNotifications() override;

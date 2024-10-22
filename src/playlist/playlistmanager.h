@@ -27,125 +27,40 @@
 #include <QtGlobal>
 #include <QObject>
 #include <QItemSelectionModel>
-#include <QFuture>
 #include <QList>
 #include <QMap>
 #include <QString>
 #include <QUrl>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/song.h"
-#include "settings/playlistsettingspage.h"
+#include "constants/playlistsettings.h"
+#include "playlistmanagerinterface.h"
 #include "playlist.h"
 #include "smartplaylists/playlistgenerator.h"
 
-class QModelIndex;
-
-class Application;
+class TaskManager;
+class TagReaderClient;
+class UrlHandlers;
 class CollectionBackend;
+class CurrentAlbumCoverLoader;
 class PlaylistBackend;
 class PlaylistContainer;
 class PlaylistParser;
 class PlaylistSequence;
 
-class PlaylistManagerInterface : public QObject {
-  Q_OBJECT
-
- public:
-  explicit PlaylistManagerInterface(Application *app, QObject *parent) : QObject(parent) { Q_UNUSED(app); }
-
-  virtual int current_id() const = 0;
-  virtual int active_id() const = 0;
-
-  virtual QList<int> playlist_ids() const = 0;
-  virtual QString playlist_name(const int id) const = 0;
-  virtual Playlist *playlist(const int id) const = 0;
-  virtual Playlist *current() const = 0;
-  virtual Playlist *active() const = 0;
-
-  // Returns the collection of playlists managed by this PlaylistManager.
-  virtual QList<Playlist*> GetAllPlaylists() const = 0;
-  // Grays out and reloads all deleted songs in all playlists.
-  virtual void InvalidateDeletedSongs() = 0;
-  // Removes all deleted songs from all playlists.
-  virtual void RemoveDeletedSongs() = 0;
-
-  virtual QItemSelection selection(const int id) const = 0;
-  virtual QItemSelection current_selection() const = 0;
-  virtual QItemSelection active_selection() const = 0;
-
-  virtual QString GetPlaylistName(const int index) const = 0;
-
-  virtual SharedPtr<CollectionBackend> collection_backend() const = 0;
-  virtual SharedPtr<PlaylistBackend> playlist_backend() const = 0;
-  virtual PlaylistSequence *sequence() const = 0;
-  virtual PlaylistParser *parser() const = 0;
-  virtual PlaylistContainer *playlist_container() const = 0;
-
-  virtual void PlaySmartPlaylist(PlaylistGeneratorPtr generator, const bool as_new, const bool clear) = 0;
-
- public Q_SLOTS:
-  virtual void New(const QString &name, const SongList &songs = SongList(), const QString &special_type = QString()) = 0;
-  virtual void Load(const QString &filename) = 0;
-  virtual void Save(const int id, const QString &filename, const PlaylistSettingsPage::PathType path_type) = 0;
-  virtual void Rename(const int id, const QString &new_name) = 0;
-  virtual void Delete(const int id) = 0;
-  virtual bool Close(const int id) = 0;
-  virtual void Open(const int id) = 0;
-  virtual void ChangePlaylistOrder(const QList<int> &ids) = 0;
-
-  virtual void SongChangeRequestProcessed(const QUrl &url, const bool valid) = 0;
-
-  virtual void SetCurrentPlaylist(const int id) = 0;
-  virtual void SetActivePlaylist(const int id) = 0;
-  virtual void SetActiveToCurrent() = 0;
-
-  virtual void SelectionChanged(const QItemSelection &selection) = 0;
-
-  // Convenience slots that defer to either current() or active()
-  virtual void ClearCurrent() = 0;
-  virtual void ShuffleCurrent() = 0;
-  virtual void RemoveDuplicatesCurrent() = 0;
-  virtual void RemoveUnavailableCurrent() = 0;
-  virtual void SetActivePlaying() = 0;
-  virtual void SetActivePaused() = 0;
-  virtual void SetActiveStopped() = 0;
-
-  // Rate current song using 0.0 - 1.0 scale.
-  virtual void RateCurrentSong(const float rating) = 0;
-  // Rate current song using 0 - 5 scale.
-  virtual void RateCurrentSong2(const int rating) = 0;
-
- Q_SIGNALS:
-  void PlaylistManagerInitialized();
-  void AllPlaylistsLoaded();
-
-  void PlaylistAdded(const int id, const QString &name, const bool favorite);
-  void PlaylistDeleted(const int id);
-  void PlaylistClosed(const int id);
-  void PlaylistRenamed(const int id, const QString &new_name);
-  void PlaylistFavorited(const int id, const bool favorite);
-  void CurrentChanged(Playlist *new_playlist, const int scroll_position = 0);
-  void ActiveChanged(Playlist *new_playlist);
-
-  void Error(const QString &message);
-  void SummaryTextChanged(const QString &summary);
-
-  // Forwarded from individual playlists
-  void CurrentSongChanged(const Song &song);
-  void CurrentSongMetadataChanged(const Song &song);
-
-  // Signals that one of manager's playlists has changed (new items, new ordering etc.) - the argument shows which.
-  void PlaylistChanged(Playlist *playlist);
-  void EditingFinished(const int playlist_id, const QModelIndex idx);
-  void PlayRequested(const QModelIndex idx, const Playlist::AutoScroll autoscroll);
-};
-
 class PlaylistManager : public PlaylistManagerInterface {
   Q_OBJECT
 
  public:
-  explicit PlaylistManager(Application *app, QObject *parent = nullptr);
+  explicit PlaylistManager(const SharedPtr<TaskManager> task_manager,
+                           const SharedPtr<TagReaderClient> tagreader_client,
+                           const SharedPtr<UrlHandlers> url_handlers,
+                           const SharedPtr<PlaylistBackend> playlist_backend,
+                           const SharedPtr<CollectionBackend> collection_backend,
+                           const SharedPtr<CurrentAlbumCoverLoader> current_albumcover_loader,
+                           QObject *parent = nullptr);
+
   ~PlaylistManager() override;
 
   int current_id() const override { return current_; }
@@ -166,9 +81,6 @@ class PlaylistManager : public PlaylistManagerInterface {
   // Returns true if the playlist is open
   bool IsPlaylistOpen(const int id);
 
-  // Returns a pretty automatic name for playlist created from the given list of songs.
-  static QString GetNameForNewPlaylist(const SongList &songs);
-
   QItemSelection selection(const int id) const override;
   QItemSelection current_selection() const override { return selection(current_id()); }
   QItemSelection active_selection() const override { return selection(active_id()); }
@@ -176,7 +88,7 @@ class PlaylistManager : public PlaylistManagerInterface {
   QString GetPlaylistName(const int index) const override { return playlists_[index].name; }
   bool IsPlaylistFavorite(const int index) const { return playlists_[index].p->is_favorite(); }
 
-  void Init(SharedPtr<CollectionBackend> collection_backend, SharedPtr<PlaylistBackend> playlist_backend, PlaylistSequence *sequence, PlaylistContainer *playlist_container);
+  void Init(PlaylistSequence *sequence, PlaylistContainer *playlist_container);
 
   SharedPtr<CollectionBackend> collection_backend() const override { return collection_backend_; }
   SharedPtr<PlaylistBackend> playlist_backend() const override { return playlist_backend_; }
@@ -187,7 +99,7 @@ class PlaylistManager : public PlaylistManagerInterface {
  public Q_SLOTS:
   void New(const QString &name, const SongList &songs = SongList(), const QString &special_type = QString()) override;
   void Load(const QString &filename) override;
-  void Save(const int id, const QString &filename, const PlaylistSettingsPage::PathType path_type) override;
+  void Save(const int id, const QString &filename, const PlaylistSettings::PathType path_type) override;
   // Display a file dialog to let user choose a file before saving the file
   void SaveWithUI(const int id, const QString &playlist_name);
   void Rename(const int id, const QString &new_name) override;
@@ -230,15 +142,15 @@ class PlaylistManager : public PlaylistManagerInterface {
 
   void SaveAllPlaylists();
 
- private Q_SLOTS:
   void SetActivePlaying() override;
   void SetActivePaused() override;
   void SetActiveStopped() override;
 
+ private Q_SLOTS:
   void OneOfPlaylistsChanged();
   void UpdateSummaryText();
   void UpdateCollectionSongs(const SongList &songs);
-  void ItemsLoadedForSavePlaylist(const SongList &songs, const QString &filename, const PlaylistSettingsPage::PathType path_type);
+  void ItemsLoadedForSavePlaylist(const SongList &songs, const QString &filename, const PlaylistSettings::PathType path_type);
   void PlaylistLoaded();
 
  private:
@@ -253,9 +165,12 @@ class PlaylistManager : public PlaylistManagerInterface {
     int scroll_position;
   };
 
-  Application *app_;
-  SharedPtr<PlaylistBackend> playlist_backend_;
-  SharedPtr<CollectionBackend> collection_backend_;
+  const SharedPtr<TaskManager> task_manager_;
+  const SharedPtr<TagReaderClient> tagreader_client_;
+  const SharedPtr<UrlHandlers> url_handlers_;
+  const SharedPtr<PlaylistBackend> playlist_backend_;
+  const SharedPtr<CollectionBackend> collection_backend_;
+  const SharedPtr<CurrentAlbumCoverLoader> current_albumcover_loader_;
   PlaylistSequence *sequence_;
   PlaylistParser *parser_;
   PlaylistContainer *playlist_container_;

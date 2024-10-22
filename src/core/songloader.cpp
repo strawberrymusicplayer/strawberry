@@ -39,15 +39,13 @@
 #include <QUrl>
 #include <QEventLoop>
 
+#include "includes/shared_ptr.h"
 #include "core/logging.h"
-
-#include "shared_ptr.h"
-#include "signalchecker.h"
-#include "player.h"
-#include "song.h"
+#include "core/signalchecker.h"
+#include "core/song.h"
+#include "core/database.h"
+#include "core/urlhandlers.h"
 #include "songloader.h"
-#include "database.h"
-#include "engine/enginebase.h"
 #include "tagreader/tagreaderclient.h"
 #include "collection/collectionbackend.h"
 #include "playlistparsers/cueparser.h"
@@ -66,13 +64,17 @@ constexpr int kDefaultTimeout = 5000;
 
 QSet<QString> SongLoader::sRawUriSchemes;
 
-SongLoader::SongLoader(SharedPtr<CollectionBackendInterface> collection_backend, const SharedPtr<Player> player, QObject *parent)
+SongLoader::SongLoader(const SharedPtr<UrlHandlers> url_handlers,
+                       const SharedPtr<CollectionBackendInterface> collection_backend,
+                       const SharedPtr<TagReaderClient> tagreader_client,
+                       QObject *parent)
     : QObject(parent),
-      player_(player),
+      url_handlers_(url_handlers),
       collection_backend_(collection_backend),
+      tagreader_client_(tagreader_client),
       timeout_timer_(new QTimer(this)),
-      playlist_parser_(new PlaylistParser(collection_backend, this)),
-      cue_parser_(new CueParser(collection_backend, this)),
+      playlist_parser_(new PlaylistParser(tagreader_client, collection_backend, this)),
+      cue_parser_(new CueParser(tagreader_client, collection_backend, this)),
       parser_(nullptr),
       state_(State::WaitingForType),
       timeout_(kDefaultTimeout),
@@ -114,23 +116,16 @@ SongLoader::Result SongLoader::Load(const QUrl &url) {
     return LoadLocal(url_.toLocalFile());
   }
 
-  if (sRawUriSchemes.contains(url_.scheme()) || player_->HandlerForUrl(url)) {
+  if (sRawUriSchemes.contains(url_.scheme()) || url_handlers_->CanHandle(url)) {
     // The URI scheme indicates that it can't possibly be a playlist,
     // or we have a custom handler for the URL, so add it as a raw stream.
     AddAsRawStream();
     return Result::Success;
   }
 
-  if (player_->engine()->type() == EngineBase::Type::GStreamer) {
-    preload_func_ = std::bind(&SongLoader::LoadRemote, this);
-    return Result::BlockingLoadRequired;
-  }
-  else {
-    errors_ << tr("You need GStreamer for this URL.");
-    return Result::Error;
-  }
+  preload_func_ = std::bind(&SongLoader::LoadRemote, this);
 
-  return Result::Success;
+  return Result::BlockingLoadRequired;
 
 }
 
@@ -165,7 +160,7 @@ SongLoader::Result SongLoader::LoadLocalPartial(const QString &filename) {
 
   // Assume it's just a normal file
   if (!Song::kRejectedExtensions.contains(fileinfo.suffix(), Qt::CaseInsensitive) &&
-      (TagReaderClient::Instance()->IsMediaFileBlocking(filename) ||
+      (tagreader_client_->IsMediaFileBlocking(filename) ||
        Song::kAcceptedExtensions.contains(fileinfo.suffix(), Qt::CaseInsensitive))) {
     Song song(Song::Source::LocalFile);
     song.InitFromFilePartial(filename, fileinfo);
@@ -183,19 +178,14 @@ SongLoader::Result SongLoader::LoadLocalPartial(const QString &filename) {
 SongLoader::Result SongLoader::LoadAudioCD() {
 
 #ifdef HAVE_AUDIOCD
-  if (player_->engine()->type() == EngineBase::Type::GStreamer) {
-    CddaSongLoader *cdda_song_loader = new CddaSongLoader(QUrl(), this);
-    QObject::connect(cdda_song_loader, &CddaSongLoader::SongsDurationLoaded, this, &SongLoader::AudioCDTracksLoadFinishedSlot);
-    QObject::connect(cdda_song_loader, &CddaSongLoader::SongsMetadataLoaded, this, &SongLoader::AudioCDTracksTagsLoaded);
-    cdda_song_loader->LoadSongs();
-    return Result::Success;
-  }
-  else {
-#endif
-    errors_ << tr("CD playback is only available with the GStreamer engine.");
-    return Result::Error;
-#ifdef HAVE_AUDIOCD
-  }
+  CddaSongLoader *cdda_song_loader = new CddaSongLoader(QUrl(), this);
+  QObject::connect(cdda_song_loader, &CddaSongLoader::SongsDurationLoaded, this, &SongLoader::AudioCDTracksLoadFinishedSlot);
+  QObject::connect(cdda_song_loader, &CddaSongLoader::SongsMetadataLoaded, this, &SongLoader::AudioCDTracksTagsLoaded);
+  cdda_song_loader->LoadSongs();
+  return Result::Success;
+#else
+  errors_ << tr("Missing CDDA playback.");
+  return Result::Error;
 #endif
 
 }
@@ -306,7 +296,7 @@ SongLoader::Result SongLoader::LoadLocalAsync(const QString &filename) {
 
   // Assume it's just a normal file
   if (!Song::kRejectedExtensions.contains(fileinfo.suffix(), Qt::CaseInsensitive) &&
-      (TagReaderClient::Instance()->IsMediaFileBlocking(filename) ||
+      (tagreader_client_->IsMediaFileBlocking(filename) ||
        Song::kAcceptedExtensions.contains(fileinfo.suffix(), Qt::CaseInsensitive))) {
     Song song(Song::Source::LocalFile);
     song.InitFromFilePartial(filename, fileinfo);
@@ -346,7 +336,7 @@ void SongLoader::EffectiveSongLoad(Song *song) {
   else {
     // It's a normal media file
     const QString filename = song->url().toLocalFile();
-    const TagReaderResult result = TagReaderClient::Instance()->ReadFileBlocking(filename, song);
+    const TagReaderResult result = tagreader_client_->ReadFileBlocking(filename, song);
     if (!result.success()) {
       qLog(Error) << "Could not read file" << song->url() << result.error_string();
     }

@@ -35,8 +35,10 @@
 #include "transcoder/transcoderoptionsmp3.h"
 #include "transcodersettingspage.h"
 #include "ui_transcodersettingspage.h"
+#include "constants/transcodersettings.h"
 
 using namespace Qt::Literals::StringLiterals;
+using namespace TranscoderSettings;
 
 class SettingsDialog;
 

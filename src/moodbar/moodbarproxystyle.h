@@ -33,6 +33,7 @@
 #include <QPoint>
 #include <QStyle>
 
+#include "constants/moodbarsettings.h"
 #include "moodbarrenderer.h"
 
 class QAction;
@@ -46,13 +47,13 @@ class QTimeLine;
 class QWidget;
 class QEvent;
 
-class Application;
-
 class MoodbarProxyStyle : public QProxyStyle {
   Q_OBJECT
 
  public:
-  explicit MoodbarProxyStyle(Application *app, QSlider *slider, QObject *parent = nullptr);
+  explicit MoodbarProxyStyle(QSlider *slider, QObject *parent = nullptr);
+
+  void ReloadSettings();
 
   // QProxyStyle
   void drawComplexControl(ComplexControl control, const QStyleOptionComplex *option, QPainter *painter, const QWidget *widget) const override;
@@ -66,7 +67,11 @@ class MoodbarProxyStyle : public QProxyStyle {
   void SetMoodbarData(const QByteArray &data);
 
   // If the moodbar is disabled then a normal slider will always be shown.
-  void SetMoodbarEnabled(const bool enabled);
+  void SetShowMoodbar(const bool show);
+
+ Q_SIGNALS:
+  void MoodbarShow(const bool show);
+  void StyleChanged();
 
  private:
   enum class State {
@@ -87,17 +92,18 @@ class MoodbarProxyStyle : public QProxyStyle {
   static QPixmap MoodbarPixmap(const ColorVector &colors, const QSize size, const QPalette &palette, const QStyleOptionSlider *opt);
 
  private Q_SLOTS:
-  void ReloadSettings();
   void FaderValueChanged(qreal value);
-  void ChangeStyle(QAction *action);
+  void SetStyle(QAction *action);
+
+ Q_SIGNALS:
+  void SettingsChanged();
 
  private:
-  Application *app_;
   QSlider *slider_;
 
-  bool enabled_;
+  bool show_;
   QByteArray data_;
-  MoodbarRenderer::MoodbarStyle moodbar_style_;
+  MoodbarSettings::Style moodbar_style_;
 
   State state_;
   QTimeLine *fade_timeline_;

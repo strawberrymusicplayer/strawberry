@@ -43,9 +43,9 @@
 #include <QString>
 #include <QUrl>
 
-#include "core/shared_ptr.h"
-#include "core/mutex_protected.h"
-#include "enginemetadata.h"
+#include "includes/shared_ptr.h"
+#include "includes/mutex_protected.h"
+#include "core/enginemetadata.h"
 
 class QTimer;
 class QTimerEvent;

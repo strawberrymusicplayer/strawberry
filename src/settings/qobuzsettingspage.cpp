@@ -34,21 +34,19 @@
 #include "settingsdialog.h"
 #include "qobuzsettingspage.h"
 #include "ui_qobuzsettingspage.h"
-#include "core/application.h"
 #include "core/iconloader.h"
 #include "core/settings.h"
 #include "widgets/loginstatewidget.h"
-#include "streaming/streamingservices.h"
 #include "qobuz/qobuzservice.h"
+#include "constants/qobuzsettings.h"
 
 using namespace Qt::Literals::StringLiterals;
+using namespace QobuzSettings;
 
-const char *QobuzSettingsPage::kSettingsGroup = "Qobuz";
-
-QobuzSettingsPage::QobuzSettingsPage(SettingsDialog *dialog, QWidget *parent)
+QobuzSettingsPage::QobuzSettingsPage(SettingsDialog *dialog, const SharedPtr<QobuzService> service, QWidget *parent)
     : SettingsPage(dialog, parent),
       ui_(new Ui::QobuzSettingsPage),
-      service_(dialog->app()->streaming_services()->Service<QobuzService>()) {
+      service_(service) {
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load(u"qobuz"_s, true, 0, 32));
@@ -78,22 +76,22 @@ void QobuzSettingsPage::Load() {
   if (!s.contains(kSettingsGroup)) set_changed();
 
   s.beginGroup(kSettingsGroup);
-  ui_->enable->setChecked(s.value("enabled", false).toBool());
-  ui_->app_id->setText(s.value("app_id").toString());
-  ui_->app_secret->setText(s.value("app_secret").toString());
+  ui_->enable->setChecked(s.value(kEnabled, false).toBool());
+  ui_->app_id->setText(s.value(kAppId).toString());
+  ui_->app_secret->setText(s.value(kAppSecret).toString());
 
-  ui_->username->setText(s.value("username").toString());
-  QByteArray password = s.value("password").toByteArray();
+  ui_->username->setText(s.value(kUsername).toString());
+  QByteArray password = s.value(kPassword).toByteArray();
   if (password.isEmpty()) ui_->password->clear();
   else ui_->password->setText(QString::fromUtf8(QByteArray::fromBase64(password)));
 
-  ComboBoxLoadFromSettings(s, ui_->format, u"format"_s, 27);
-  ui_->searchdelay->setValue(s.value("searchdelay", 1500).toInt());
-  ui_->artistssearchlimit->setValue(s.value("artistssearchlimit", 4).toInt());
-  ui_->albumssearchlimit->setValue(s.value("albumssearchlimit", 10).toInt());
-  ui_->songssearchlimit->setValue(s.value("songssearchlimit", 10).toInt());
-  ui_->checkbox_base64_secret->setChecked(s.value("base64secret", false).toBool());
-  ui_->checkbox_download_album_covers->setChecked(s.value("downloadalbumcovers", true).toBool());
+  ComboBoxLoadFromSettings(s, ui_->format, QLatin1String(kFormat), 27);
+  ui_->searchdelay->setValue(s.value(kSearchDelay, 1500).toInt());
+  ui_->artistssearchlimit->setValue(s.value(kArtistsSearchLimit, 4).toInt());
+  ui_->albumssearchlimit->setValue(s.value(kAlbumsSearchLimit, 10).toInt());
+  ui_->songssearchlimit->setValue(s.value(kSongsSearchLimit, 10).toInt());
+  ui_->checkbox_base64_secret->setChecked(s.value(kBase64Secret, false).toBool());
+  ui_->checkbox_download_album_covers->setChecked(s.value(kDownloadAlbumCovers, true).toBool());
 
   s.endGroup();
 
@@ -110,19 +108,19 @@ void QobuzSettingsPage::Save() {
   Settings s;
   s.beginGroup(kSettingsGroup);
   s.setValue("enabled", ui_->enable->isChecked());
-  s.setValue("app_id", ui_->app_id->text());
-  s.setValue("app_secret", ui_->app_secret->text());
+  s.setValue(kAppId, ui_->app_id->text());
+  s.setValue(kAppSecret, ui_->app_secret->text());
 
-  s.setValue("username", ui_->username->text());
-  s.setValue("password", QString::fromUtf8(ui_->password->text().toUtf8().toBase64()));
+  s.setValue(kUsername, ui_->username->text());
+  s.setValue(kPassword, QString::fromUtf8(ui_->password->text().toUtf8().toBase64()));
 
-  s.setValue("format", ui_->format->itemData(ui_->format->currentIndex()));
-  s.setValue("searchdelay", ui_->searchdelay->value());
-  s.setValue("artistssearchlimit", ui_->artistssearchlimit->value());
-  s.setValue("albumssearchlimit", ui_->albumssearchlimit->value());
-  s.setValue("songssearchlimit", ui_->songssearchlimit->value());
-  s.setValue("base64secret", ui_->checkbox_base64_secret->isChecked());
-  s.setValue("downloadalbumcovers", ui_->checkbox_download_album_covers->isChecked());
+  s.setValue(kFormat, ui_->format->itemData(ui_->format->currentIndex()));
+  s.setValue(kSearchDelay, ui_->searchdelay->value());
+  s.setValue(kArtistsSearchLimit, ui_->artistssearchlimit->value());
+  s.setValue(kAlbumsSearchLimit, ui_->albumssearchlimit->value());
+  s.setValue(kSongsSearchLimit, ui_->songssearchlimit->value());
+  s.setValue(kBase64Secret, ui_->checkbox_base64_secret->isChecked());
+  s.setValue(kDownloadAlbumCovers, ui_->checkbox_download_album_covers->isChecked());
   s.endGroup();
 
 }

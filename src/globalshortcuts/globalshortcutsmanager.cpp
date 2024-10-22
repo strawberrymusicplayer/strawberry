@@ -31,6 +31,8 @@
 #include <QShortcut>
 #include <QKeySequence>
 
+#include "core/logging.h"
+
 #include "globalshortcutsmanager.h"
 #include "globalshortcutsbackend.h"
 
@@ -58,13 +60,13 @@
 #  include "globalshortcutsbackend-macos.h"
 #endif
 
-#include "settings/globalshortcutssettingspage.h"
+#include "constants/globalshortcutssettings.h"
 
 using namespace Qt::Literals::StringLiterals;
 
 GlobalShortcutsManager::GlobalShortcutsManager(QWidget *parent) : QWidget(parent) {
 
-  settings_.beginGroup(GlobalShortcutsSettingsPage::kSettingsGroup);
+  settings_.beginGroup(GlobalShortcutsSettings::kSettingsGroup);
 
   // Create actions
   AddShortcut(u"play"_s, tr("Play"), std::bind(&GlobalShortcutsManager::Play, this));
@@ -131,25 +133,25 @@ void GlobalShortcutsManager::ReloadSettings() {
 #endif
 
 #ifdef HAVE_KDE_GLOBALSHORTCUTS
-  if (settings_.value("use_kde", true).toBool()) {
+  if (settings_.value(GlobalShortcutsSettings::kUseKDE, true).toBool()) {
     backends_enabled_ << GlobalShortcutsBackend::Type::KDE;
   }
 #endif
 
 #ifdef HAVE_GNOME_GLOBALSHORTCUTS
-  if (settings_.value("use_gnome", true).toBool()) {
+  if (settings_.value(GlobalShortcutsSettings::kUseGnome, true).toBool()) {
     backends_enabled_ << GlobalShortcutsBackend::Type::Gnome;
   }
 #endif
 
 #ifdef HAVE_MATE_GLOBALSHORTCUTS
-  if (settings_.value("use_mate", true).toBool()) {
+  if (settings_.value(GlobalShortcutsSettings::kUseMate, true).toBool()) {
     backends_enabled_ << GlobalShortcutsBackend::Type::Mate;
   }
 #endif
 
 #ifdef HAVE_X11_GLOBALSHORTCUTS
-  if (settings_.value("use_x11", false).toBool()) {
+  if (settings_.value(GlobalShortcutsSettings::kUseX11, false).toBool()) {
     backends_enabled_ << GlobalShortcutsBackend::Type::X11;
   }
 #endif

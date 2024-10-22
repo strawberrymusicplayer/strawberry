@@ -33,10 +33,10 @@
 #include <QMimeData>
 #include <QDropEvent>
 
-#include "core/scoped_ptr.h"
+#include "includes/scoped_ptr.h"
 #include "core/song.h"
+#include "core/songmimedata.h"
 #include "collection/collectionbackend.h"
-#include "playlist/songmimedata.h"
 #include "albumcovermanager.h"
 #include "albumcovermanagerlist.h"
 

@@ -22,8 +22,8 @@
 
 #include <QObject>
 #include <QString>
+#include <QSharedPointer>
 
-#include "core/shared_ptr.h"
 #include "tagreaderresult.h"
 
 class TagReaderReply : public QObject {
@@ -34,12 +34,8 @@ class TagReaderReply : public QObject {
   virtual ~TagReaderReply() override;
 
   template<typename T>
-  static SharedPtr<T> Create(const QString &filename) {
-
-    SharedPtr<T> reply;
-    reply.reset(new T(filename), [](QObject *obj) { obj->deleteLater(); });
-    return reply;
-
+  static QSharedPointer<T> Create(const QString &filename) {
+    return QSharedPointer<T>(new T(filename));
   }
 
   QString filename() const { return filename_; }
@@ -56,12 +52,15 @@ class TagReaderReply : public QObject {
  Q_SIGNALS:
   void Finished(const QString &filename, const TagReaderResult &result);
 
+ private Q_SLOTS:
+  virtual void EmitFinished();
+
  protected:
   const QString filename_;
   bool finished_;
   TagReaderResult result_;
 };
 
-using TagReaderReplyPtr = SharedPtr<TagReaderReply>;
+using TagReaderReplyPtr = QSharedPointer<TagReaderReply>;
 
 #endif  // TAGREADERREPLY_H

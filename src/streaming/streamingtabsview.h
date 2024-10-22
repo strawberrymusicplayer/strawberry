@@ -27,24 +27,24 @@
 #include <QMap>
 #include <QString>
 
-#include "core/shared_ptr.h"
-#include "settings/settingsdialog.h"
+#include "includes/shared_ptr.h"
 #include "streamingcollectionviewcontainer.h"
-#include "ui_streamingtabsview.h"
 #include "core/song.h"
+
+#include "ui_streamingtabsview.h"
 
 class QContextMenuEvent;
 
-class Application;
 class StreamingService;
 class StreamingCollectionView;
 class StreamingSearchView;
+class AlbumCoverLoader;
 
 class StreamingTabsView : public QWidget {
   Q_OBJECT
 
  public:
-  explicit StreamingTabsView(Application *app, SharedPtr<StreamingService> service, const QString &settings_group, const SettingsDialog::Page settings_page, QWidget *parent = nullptr);
+  explicit StreamingTabsView(const SharedPtr<StreamingService> service, const SharedPtr<AlbumCoverLoader> albumcover_loader, const QString &settings_group, QWidget *parent = nullptr);
   ~StreamingTabsView() override;
 
   void ReloadSettings();
@@ -58,7 +58,7 @@ class StreamingTabsView : public QWidget {
   void FocusSearchField();
 
  private Q_SLOTS:
-  void OpenSettingsDialog();
+  void Configure();
   void GetArtists();
   void GetAlbums();
   void GetSongs();
@@ -69,11 +69,12 @@ class StreamingTabsView : public QWidget {
   void AlbumsFinished(const SongMap &songs, const QString &error);
   void SongsFinished(const SongMap &songs, const QString &error);
 
+ Q_SIGNALS:
+  void OpenSettingsDialog(const Song::Source source);
+
  private:
-  Application *app_;
-  SharedPtr <StreamingService> service_;
+  const SharedPtr <StreamingService> service_;
   QString settings_group_;
-  SettingsDialog::Page settings_page_;
   Ui_StreamingTabsView *ui_;
 };
 

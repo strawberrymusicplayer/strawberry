@@ -30,16 +30,16 @@
 #include <QString>
 #include <QJsonObject>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/song.h"
 
-#include "scrobblersettings.h"
+#include "scrobblersettingsservice.h"
 
 class ScrobblerService : public QObject {
   Q_OBJECT
 
  public:
-  explicit ScrobblerService(const QString &name, SharedPtr<ScrobblerSettings> settings, QObject *parent);
+  explicit ScrobblerService(const QString &name, const SharedPtr<ScrobblerSettingsService> settings, QObject *parent);
 
   QString name() const { return name_; }
 
@@ -72,10 +72,11 @@ class ScrobblerService : public QObject {
 
  Q_SIGNALS:
   void ErrorMessage(const QString &error);
+  void OpenSettingsDialog();
 
  protected:
-  QString name_;
-  SharedPtr<ScrobblerSettings> settings_;
+  const QString name_;
+  const SharedPtr<ScrobblerSettingsService> settings_;
 };
 
 using ScrobblerServicePtr = SharedPtr<ScrobblerService>;

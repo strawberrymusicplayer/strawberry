@@ -31,7 +31,7 @@
 #include <QAction>
 #include <QKeySequence>
 
-#include "core/scoped_ptr.h"
+#include "includes/scoped_ptr.h"
 
 class GlobalShortcutsBackendMacOSPrivate;
 

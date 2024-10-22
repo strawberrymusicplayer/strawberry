@@ -32,27 +32,28 @@
 #include <QSize>
 
 #include "moodbarrenderer.h"
+#include "constants/moodbarsettings.h"
 
-ColorVector MoodbarRenderer::Colors(const QByteArray &data, const MoodbarStyle style, const QPalette &palette) {
+ColorVector MoodbarRenderer::Colors(const QByteArray &data, const MoodbarSettings::Style style, const QPalette &palette) {
 
   const int samples = static_cast<int>(data.size() / 3);
 
   // Set some parameters based on the moodbar style
   StyleProperties properties;
   switch (style) {
-    case MoodbarStyle::Angry:
+    case MoodbarSettings::Style::Angry:
       properties = StyleProperties(samples / 360 * 9, 45, -45, 200, 100);
       break;
-    case MoodbarStyle::Frozen:
+    case MoodbarSettings::Style::Frozen:
       properties = StyleProperties(samples / 360 * 1, 140, 160, 50, 100);
       break;
-    case MoodbarStyle::Happy:
+    case MoodbarSettings::Style::Happy:
       properties = StyleProperties(samples / 360 * 2, 0, 359, 150, 250);
       break;
-    case MoodbarStyle::Normal:
+    case MoodbarSettings::Style::Normal:
       properties = StyleProperties(samples / 360 * 3, 0, 359, 100, 100);
       break;
-    case MoodbarStyle::SystemPalette:
+    case MoodbarSettings::Style::SystemPalette:
     default:{
       const QColor highlight_color(palette.color(QPalette::Active, QPalette::Highlight));
 
@@ -162,18 +163,18 @@ QImage MoodbarRenderer::RenderToImage(const ColorVector &colors, const QSize siz
 
 }
 
-QString MoodbarRenderer::StyleName(const MoodbarStyle style) {
+QString MoodbarRenderer::StyleName(const MoodbarSettings::Style style) {
 
   switch (style) {
-    case MoodbarStyle::Normal:
+    case MoodbarSettings::Style::Normal:
       return QObject::tr("Normal");
-    case MoodbarStyle::Angry:
+    case MoodbarSettings::Style::Angry:
       return QObject::tr("Angry");
-    case MoodbarStyle::Frozen:
+    case MoodbarSettings::Style::Frozen:
       return QObject::tr("Frozen");
-    case MoodbarStyle::Happy:
+    case MoodbarSettings::Style::Happy:
       return QObject::tr("Happy");
-    case MoodbarStyle::SystemPalette:
+    case MoodbarSettings::Style::SystemPalette:
       return QObject::tr("System colors");
 
     default:

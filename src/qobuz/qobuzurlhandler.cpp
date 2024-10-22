@@ -23,15 +23,14 @@
 #include <QString>
 #include <QUrl>
 
-#include "core/application.h"
 #include "core/taskmanager.h"
 #include "core/song.h"
 #include "qobuz/qobuzservice.h"
 #include "qobuzurlhandler.h"
 
-QobuzUrlHandler::QobuzUrlHandler(Application *app, QobuzService *service)
+QobuzUrlHandler::QobuzUrlHandler(const SharedPtr<TaskManager> task_manager, QobuzService *service)
     : UrlHandler(service),
-      app_(app),
+      task_manager_(task_manager),
       service_(service) {
 
   QObject::connect(service, &QobuzService::StreamURLFailure, this, &QobuzUrlHandler::GetStreamURLFailure);
@@ -42,7 +41,7 @@ QobuzUrlHandler::QobuzUrlHandler(Application *app, QobuzService *service)
 UrlHandler::LoadResult QobuzUrlHandler::StartLoading(const QUrl &url) {
 
   Request req;
-  req.task_id = app_->task_manager()->StartTask(QStringLiteral("Loading %1 stream...").arg(url.scheme()));
+  req.task_id = task_manager_->StartTask(QStringLiteral("Loading %1 stream...").arg(url.scheme()));
   QString error;
   req.id = service_->GetStreamURL(url, error);
   if (req.id == 0) {
@@ -80,5 +79,5 @@ void QobuzUrlHandler::GetStreamURLSuccess(const uint id, const QUrl &media_url, 
 }
 
 void QobuzUrlHandler::CancelTask(const int task_id) {
-  app_->task_manager()->SetTaskFinished(task_id);
+  task_manager_->SetTaskFinished(task_id);
 }

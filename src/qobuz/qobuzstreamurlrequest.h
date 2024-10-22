@@ -29,7 +29,7 @@
 #include <QStringList>
 #include <QUrl>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/song.h"
 #include "qobuzbaserequest.h"
 
@@ -41,7 +41,7 @@ class QobuzStreamURLRequest : public QobuzBaseRequest {
   Q_OBJECT
 
  public:
-  explicit QobuzStreamURLRequest(QobuzService *service, SharedPtr<NetworkAccessManager> network, const QUrl &media_url, const uint id, QObject *parent = nullptr);
+  explicit QobuzStreamURLRequest(QobuzService *service, const SharedPtr<NetworkAccessManager> network, const QUrl &media_url, const uint id, QObject *parent = nullptr);
   ~QobuzStreamURLRequest();
 
   void GetStreamURL();

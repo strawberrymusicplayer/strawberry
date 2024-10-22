@@ -28,7 +28,7 @@
 #include <QWidget>
 #include <QString>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 
 class Playlist;
 class PlaylistManager;

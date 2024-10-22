@@ -23,7 +23,7 @@
 
 #include "config.h"
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 
 class PlaylistGenerator;
 

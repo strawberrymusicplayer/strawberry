@@ -39,22 +39,11 @@ class PlaylistSettingsPage : public SettingsPage {
   explicit PlaylistSettingsPage(SettingsDialog *dialog, QWidget *parent = nullptr);
   ~PlaylistSettingsPage() override;
 
-  static const char *kSettingsGroup;
-
-  enum class PathType {
-    Automatic = 0,  // Automatically select path type
-    Absolute,       // Always use absolute paths
-    Relative,       // Always use relative paths
-    Ask_User        // Only used in preferences: to ask user which of the previous values he wants to use.
-  };
-
   void Load() override;
   void Save() override;
 
  private:
   Ui_PlaylistSettingsPage *ui_;
 };
-
-Q_DECLARE_METATYPE(PlaylistSettingsPage::PathType)
 
 #endif  // PLAYLISTSETTINGSPAGE_H

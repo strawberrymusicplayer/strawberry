@@ -22,9 +22,8 @@
 
 #include <QString>
 #include <QImage>
+#include <QSharedPointer>
 
-#include "core/shared_ptr.h"
-#include "core/song.h"
 #include "tagreaderreply.h"
 #include "tagreaderresult.h"
 
@@ -42,10 +41,13 @@ class TagReaderLoadCoverImageReply : public TagReaderReply {
  Q_SIGNALS:
   void Finished(const QString &filename, const QImage &image, const TagReaderResult &result);
 
+ private Q_SLOTS:
+  void EmitFinished() override;
+
  private:
   QImage image_;
 };
 
-using TagReaderLoadCoverImageReplyPtr = SharedPtr<TagReaderLoadCoverImageReply>;
+using TagReaderLoadCoverImageReplyPtr = QSharedPointer<TagReaderLoadCoverImageReply>;
 
 #endif  // TAGREADERLOADCOVERIMAGEREPLY_H

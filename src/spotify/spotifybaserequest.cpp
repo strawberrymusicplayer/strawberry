@@ -34,6 +34,7 @@
 #include <QJsonArray>
 #include <QJsonValue>
 
+#include "includes/shared_ptr.h"
 #include "core/logging.h"
 #include "core/networkaccessmanager.h"
 #include "spotifyservice.h"
@@ -41,7 +42,7 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-SpotifyBaseRequest::SpotifyBaseRequest(SpotifyService *service, NetworkAccessManager *network, QObject *parent)
+SpotifyBaseRequest::SpotifyBaseRequest(SpotifyService *service, const SharedPtr<NetworkAccessManager> network, QObject *parent)
     : QObject(parent),
       service_(service),
       network_(network) {}

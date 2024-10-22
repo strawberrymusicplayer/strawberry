@@ -45,16 +45,16 @@
 #include <QJsonValue>
 #include <QFlags>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/networkaccessmanager.h"
 #include "core/song.h"
 #include "core/logging.h"
 #include "core/settings.h"
 #include "core/localredirectserver.h"
-#include "utilities/timeconstants.h"
-#include "settings/scrobblersettingspage.h"
+#include "constants/timeconstants.h"
+#include "constants/scrobblersettings.h"
 
-#include "scrobblersettings.h"
+#include "scrobblersettingsservice.h"
 #include "scrobblerservice.h"
 #include "scrobblingapi20.h"
 #include "scrobblercache.h"
@@ -70,7 +70,7 @@ constexpr char kSecret[] = "80fd738f49596e9709b1bf9319c444a8";
 constexpr int kScrobblesPerRequest = 50;
 }
 
-ScrobblingAPI20::ScrobblingAPI20(const QString &name, const QString &settings_group, const QString &auth_url, const QString &api_url, const bool batch, const QString &cache_file, SharedPtr<ScrobblerSettings> settings, SharedPtr<NetworkAccessManager> network, QObject *parent)
+ScrobblingAPI20::ScrobblingAPI20(const QString &name, const QString &settings_group, const QString &auth_url, const QString &api_url, const bool batch, const QString &cache_file, const SharedPtr<ScrobblerSettingsService> settings, const SharedPtr<NetworkAccessManager> network, QObject *parent)
     : ScrobblerService(name, settings, parent),
       name_(name),
       settings_group_(settings_group),
@@ -118,11 +118,11 @@ void ScrobblingAPI20::ReloadSettings() {
   Settings s;
 
   s.beginGroup(settings_group_);
-  enabled_ = s.value("enabled", false).toBool();
+  enabled_ = s.value(ScrobblerSettings::kEnabled, false).toBool();
   s.endGroup();
 
-  s.beginGroup(ScrobblerSettingsPage::kSettingsGroup);
-  prefer_albumartist_ = s.value("albumartist", false).toBool();
+  s.beginGroup(ScrobblerSettings::kSettingsGroup);
+  prefer_albumartist_ = s.value(ScrobblerSettings::kAlbumArtist, false).toBool();
   s.endGroup();
 
 }
@@ -828,7 +828,10 @@ void ScrobblingAPI20::Love() {
 
   if (!song_playing_.is_valid() || !song_playing_.is_metadata_good()) return;
 
-  if (!authenticated()) settings_->ShowConfig();
+  if (!authenticated()) {
+    Q_EMIT OpenSettingsDialog();
+    return;
+  }
 
   qLog(Debug) << name_ << "Sending love for song" << song_playing_.artist() << song_playing_.album() << song_playing_.title();
 

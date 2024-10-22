@@ -32,7 +32,7 @@
 #include <QString>
 #include <QPixmap>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/song.h"
 
 #include "widgets/autoexpandingtreeview.h"
@@ -44,7 +44,6 @@ class QContextMenuEvent;
 class QMouseEvent;
 class QPaintEvent;
 
-class Application;
 class CollectionBackend;
 class CollectionModel;
 class CollectionFilterWidget;
@@ -55,13 +54,12 @@ class StreamingCollectionView : public AutoExpandingTreeView {
  public:
   explicit StreamingCollectionView(QWidget *parent = nullptr);
 
-  void Init(Application *app, SharedPtr<CollectionBackend> collection_backend, CollectionModel *collection_model, const bool favorite = false);
+  void Init(const SharedPtr<CollectionBackend> collection_backend, CollectionModel *collection_model, const bool favorite = false);
 
   // Returns Songs currently selected in the collection view.
   // Please note that the selection is recursive meaning that if for example an album is selected this will return all of it's songs.
   SongList GetSelectedSongs() const;
 
-  void SetApplication(Application *app);
   void SetFilter(CollectionFilterWidget *filter);
 
   // QTreeView
@@ -111,7 +109,6 @@ class StreamingCollectionView : public AutoExpandingTreeView {
   void SaveContainerPath(const QModelIndex &child);
 
  private:
-  Application *app_;
   SharedPtr<CollectionBackend> collection_backend_;
   CollectionModel *collection_model_;
   CollectionFilterWidget *filter_;

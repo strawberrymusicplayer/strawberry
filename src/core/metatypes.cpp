@@ -43,10 +43,9 @@
 #  include <QDBusArgument>
 #endif
 
-#include "song.h"
-
+#include "core/song.h"
+#include "core/enginemetadata.h"
 #include "engine/enginebase.h"
-#include "engine/enginemetadata.h"
 #include "engine/gstenginepipeline.h"
 #include "collection/collectiondirectory.h"
 #include "playlist/playlistitem.h"
@@ -57,7 +56,7 @@
 #include "equalizer/equalizer.h"
 
 #ifdef HAVE_DBUS
-#  include "dbus_metatypes.h"
+#  include "includes/dbus_metatypes.h"
 #endif
 
 #ifdef HAVE_MPRIS2
@@ -74,7 +73,7 @@
 #  include "device/mtpconnection.h"
 #endif
 
-#include "settings/playlistsettingspage.h"
+#include "constants/playlistsettings.h"
 
 #include "smartplaylists/smartplaylistsearchterm.h"
 #include "smartplaylists/smartplaylistsitem.h"
@@ -153,7 +152,7 @@ void RegisterMetaTypes() {
   qRegisterMetaType<MtpConnection*>("MtpConnection*");
 #endif
 
-  qRegisterMetaType<PlaylistSettingsPage::PathType>("PlaylistSettingsPage::PathType");
+  qRegisterMetaType<PlaylistSettings::PathType>("PlaylistSettings::PathType");
 
   qRegisterMetaType<PlaylistGeneratorPtr>("PlaylistGeneratorPtr");
   qRegisterMetaType<SmartPlaylistSearchTerm::Field>("SmartPlaylistSearchTerm::Field");

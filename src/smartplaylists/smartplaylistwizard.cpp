@@ -27,8 +27,8 @@
 #include <QVBoxLayout>
 #include <QStyle>
 
+#include "includes/shared_ptr.h"
 #include "core/logging.h"
-#include "core/shared_ptr.h"
 #include "core/iconloader.h"
 
 #include "smartplaylistquerywizardplugin.h"
@@ -40,9 +40,15 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-SmartPlaylistWizard::SmartPlaylistWizard(Application *app, SharedPtr<CollectionBackend> collection_backend, QWidget *parent)
+SmartPlaylistWizard::SmartPlaylistWizard(const SharedPtr<Player> player,
+                                         const SharedPtr<PlaylistManager> playlist_manager,
+                                         const SharedPtr<CollectionBackend> collection_backend,
+#ifdef HAVE_MOODBAR
+                                         const SharedPtr<MoodbarLoader> moodbar_loader,
+#endif
+                                         const SharedPtr<CurrentAlbumCoverLoader> current_albumcover_loader,
+                                         QWidget *parent)
     : QWizard(parent),
-      app_(app),
       collection_backend_(collection_backend),
       type_page_(new SmartPlaylistWizardTypePage(this)),
       finish_page_(new SmartPlaylistWizardFinishPage(this)),
@@ -75,7 +81,14 @@ SmartPlaylistWizard::SmartPlaylistWizard(Application *app, SharedPtr<CollectionB
   finish_id_ = addPage(finish_page_);
 
   new QVBoxLayout(type_page_);
-  AddPlugin(new SmartPlaylistQueryWizardPlugin(app_, collection_backend, this));
+  AddPlugin(new SmartPlaylistQueryWizardPlugin(player,
+                                               playlist_manager,
+                                               collection_backend,
+#ifdef HAVE_MOODBAR
+                                               moodbar_loader,
+#endif
+                                               current_albumcover_loader,
+                                               this));
 
   // Skip the type page - remove this when we have more than one type
   setStartId(2);

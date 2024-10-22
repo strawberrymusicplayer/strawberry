@@ -36,7 +36,7 @@
 #include "coverprovider.h"
 #include "coverproviders.h"
 
-#include "settings/coverssettingspage.h"
+#include "constants/coverssettings.h"
 
 int CoverProviders::NextOrderId = 0;
 
@@ -60,8 +60,8 @@ void CoverProviders::ReloadSettings() {
   }
 
   Settings s;
-  s.beginGroup(CoversSettingsPage::kSettingsGroup);
-  const QStringList providers_enabled = s.value(CoversSettingsPage::kProviders, QStringList() << all_providers.values()).toStringList();
+  s.beginGroup(CoversSettings::kSettingsGroup);
+  const QStringList providers_enabled = s.value(CoversSettings::kProviders, QStringList() << all_providers.values()).toStringList();
   s.endGroup();
 
   int i = 0;

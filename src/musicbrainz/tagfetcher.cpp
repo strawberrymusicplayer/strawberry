@@ -30,9 +30,9 @@
 #include <QFutureWatcher>
 #include <QString>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/networkaccessmanager.h"
-#include "utilities/timeconstants.h"
+#include "constants/timeconstants.h"
 #include "engine/chromaprinter.h"
 #include "acoustidclient.h"
 #include "musicbrainzclient.h"

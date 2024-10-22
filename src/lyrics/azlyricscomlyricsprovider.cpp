@@ -23,7 +23,7 @@
 #include <QUrl>
 #include <QRegularExpression>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/networkaccessmanager.h"
 #include "utilities/transliterate.h"
 #include "lyricssearchrequest.h"
@@ -38,7 +38,7 @@ constexpr char kEndTag[] = "</div>";
 constexpr char kLyricsStart[] = "<!-- Usage of azlyrics.com content by any third-party lyrics provider is prohibited by our licensing agreement. Sorry about that. -->";
 }  // namespace
 
-AzLyricsComLyricsProvider::AzLyricsComLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent)
+AzLyricsComLyricsProvider::AzLyricsComLyricsProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent)
     : HtmlLyricsProvider(u"azlyrics.com"_s, true, QLatin1String(kStartTag), QLatin1String(kEndTag), QLatin1String(kLyricsStart), false, network, parent) {}
 
 QUrl AzLyricsComLyricsProvider::Url(const LyricsSearchRequest &request) {

@@ -31,7 +31,7 @@
 #include <QNetworkRequest>
 #include <QUrl>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/networkaccessmanager.h"
 #include "utilities/mimeutils.h"
 #include "widgets/busyindicator.h"

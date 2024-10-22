@@ -23,7 +23,7 @@
 #include <QObject>
 #include <QString>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "settings/settingspage.h"
 
 class QEvent;
@@ -35,10 +35,8 @@ class QobuzSettingsPage : public SettingsPage {
   Q_OBJECT
 
  public:
-  explicit QobuzSettingsPage(SettingsDialog *dialog, QWidget *parent = nullptr);
+  explicit QobuzSettingsPage(SettingsDialog *dialog, const SharedPtr<QobuzService> service, QWidget *parent = nullptr);
   ~QobuzSettingsPage() override;
-
-  static const char *kSettingsGroup;
 
   void Load() override;
   void Save() override;
@@ -56,7 +54,7 @@ class QobuzSettingsPage : public SettingsPage {
 
  private:
   Ui_QobuzSettingsPage *ui_;
-  SharedPtr<QobuzService> service_;
+  const SharedPtr<QobuzService> service_;
 };
 
 #endif  // QOBUZSETTINGSPAGE_H

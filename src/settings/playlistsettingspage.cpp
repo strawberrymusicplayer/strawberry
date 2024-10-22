@@ -28,16 +28,15 @@
 
 #include "core/iconloader.h"
 #include "core/settings.h"
-#include "playlist/playlist.h"
+#include "constants/playlistsettings.h"
 #include "settingspage.h"
 #include "playlistsettingspage.h"
 #include "ui_playlistsettingspage.h"
 
 using namespace Qt::Literals::StringLiterals;
+using namespace PlaylistSettings;
 
 class SettingsDialog;
-
-const char *PlaylistSettingsPage::kSettingsGroup = "Playlist";
 
 PlaylistSettingsPage::PlaylistSettingsPage(SettingsDialog *dialog, QWidget *parent)
     : SettingsPage(dialog, parent),
@@ -57,8 +56,8 @@ void PlaylistSettingsPage::Load() {
   Settings s;
   s.beginGroup(kSettingsGroup);
 
-  ui_->checkbox_alternating_row_colors->setChecked(s.value("alternating_row_colors", true).toBool());
-  ui_->checkbox_barscurrenttrack->setChecked(s.value("show_bars", true).toBool());
+  ui_->checkbox_alternating_row_colors->setChecked(s.value(kAlternatingRowColors, true).toBool());
+  ui_->checkbox_barscurrenttrack->setChecked(s.value(kShowBars, true).toBool());
 
   ui_->checkbox_glowcurrenttrack->setEnabled(ui_->checkbox_barscurrenttrack->isChecked());
   if (ui_->checkbox_barscurrenttrack->isChecked()) {
@@ -67,19 +66,19 @@ void PlaylistSettingsPage::Load() {
 #else
     bool glow_effect = true;
 #endif
-    ui_->checkbox_glowcurrenttrack->setChecked(s.value("glow_effect", glow_effect).toBool());
+    ui_->checkbox_glowcurrenttrack->setChecked(s.value(kGlowEffect, glow_effect).toBool());
   }
 
-  ui_->checkbox_warncloseplaylist->setChecked(s.value("warn_close_playlist", true).toBool());
-  ui_->checkbox_continueonerror->setChecked(s.value("continue_on_error", false).toBool());
-  ui_->checkbox_greyout_songs_startup->setChecked(s.value("greyout_songs_startup", true).toBool());
-  ui_->checkbox_greyout_songs_play->setChecked(s.value("greyout_songs_play", true).toBool());
-  ui_->checkbox_select_track->setChecked(s.value("select_track", false).toBool());
-  ui_->checkbox_show_toolbar->setChecked(s.value("show_toolbar", true).toBool());
-  ui_->checkbox_playlist_clear->setChecked(s.value("playlist_clear", true).toBool());
-  ui_->checkbox_auto_sort->setChecked(s.value("auto_sort", false).toBool());
+  ui_->checkbox_warncloseplaylist->setChecked(s.value(kWarnClosePlaylist, true).toBool());
+  ui_->checkbox_continueonerror->setChecked(s.value(kContinueOnError, false).toBool());
+  ui_->checkbox_greyout_songs_startup->setChecked(s.value(kGreyoutSongsStartup, true).toBool());
+  ui_->checkbox_greyout_songs_play->setChecked(s.value(kGreyoutSongsPlay, true).toBool());
+  ui_->checkbox_select_track->setChecked(s.value(kSelectTrack, false).toBool());
+  ui_->checkbox_show_toolbar->setChecked(s.value(kShowToolbar, true).toBool());
+  ui_->checkbox_playlist_clear->setChecked(s.value(kPlaylistClear, true).toBool());
+  ui_->checkbox_auto_sort->setChecked(s.value(kAutoSort, false).toBool());
 
-  const PathType path_type = static_cast<PathType>(s.value("path_type", static_cast<int>(PathType::Automatic)).toInt());
+  const PathType path_type = static_cast<PathType>(s.value(kPathType, static_cast<int>(PathType::Automatic)).toInt());
   switch (path_type) {
     case PathType::Automatic:
       ui_->radiobutton_automaticpath->setChecked(true);
@@ -94,10 +93,10 @@ void PlaylistSettingsPage::Load() {
       ui_->radiobutton_askpath->setChecked(true);
   }
 
-  ui_->checkbox_editmetadatainline->setChecked(s.value("editmetadatainline", false).toBool());
-  ui_->checkbox_writemetadata->setChecked(s.value("write_metadata", false).toBool());
+  ui_->checkbox_editmetadatainline->setChecked(s.value(kEditMetadataInline, false).toBool());
+  ui_->checkbox_writemetadata->setChecked(s.value(kWriteMetadata, false).toBool());
 
-  ui_->checkbox_delete_files->setChecked(s.value("delete_files", false).toBool());
+  ui_->checkbox_delete_files->setChecked(s.value(kDeleteFiles, false).toBool());
 
   s.endGroup();
 
@@ -125,21 +124,21 @@ void PlaylistSettingsPage::Save() {
 
   Settings s;
   s.beginGroup(kSettingsGroup);
-  s.setValue("alternating_row_colors", ui_->checkbox_alternating_row_colors->isChecked());
-  s.setValue("show_bars", ui_->checkbox_barscurrenttrack->isChecked());
-  s.setValue("glow_effect", ui_->checkbox_glowcurrenttrack->isChecked());
-  s.setValue("warn_close_playlist", ui_->checkbox_warncloseplaylist->isChecked());
-  s.setValue("continue_on_error", ui_->checkbox_continueonerror->isChecked());
-  s.setValue("greyout_songs_startup", ui_->checkbox_greyout_songs_startup->isChecked());
-  s.setValue("greyout_songs_play", ui_->checkbox_greyout_songs_play->isChecked());
-  s.setValue("select_track", ui_->checkbox_select_track->isChecked());
-  s.setValue("show_toolbar", ui_->checkbox_show_toolbar->isChecked());
-  s.setValue("playlist_clear", ui_->checkbox_playlist_clear->isChecked());
-  s.setValue("path_type", static_cast<int>(path_type));
-  s.setValue("editmetadatainline", ui_->checkbox_editmetadatainline->isChecked());
-  s.setValue("write_metadata", ui_->checkbox_writemetadata->isChecked());
-  s.setValue("delete_files", ui_->checkbox_delete_files->isChecked());
-  s.setValue("auto_sort", ui_->checkbox_auto_sort->isChecked());
+  s.setValue(kAlternatingRowColors, ui_->checkbox_alternating_row_colors->isChecked());
+  s.setValue(kShowBars, ui_->checkbox_barscurrenttrack->isChecked());
+  s.setValue(kGlowEffect, ui_->checkbox_glowcurrenttrack->isChecked());
+  s.setValue(kWarnClosePlaylist, ui_->checkbox_warncloseplaylist->isChecked());
+  s.setValue(kContinueOnError, ui_->checkbox_continueonerror->isChecked());
+  s.setValue(kGreyoutSongsStartup, ui_->checkbox_greyout_songs_startup->isChecked());
+  s.setValue(kGreyoutSongsPlay, ui_->checkbox_greyout_songs_play->isChecked());
+  s.setValue(kSelectTrack, ui_->checkbox_select_track->isChecked());
+  s.setValue(kShowToolbar, ui_->checkbox_show_toolbar->isChecked());
+  s.setValue(kPlaylistClear, ui_->checkbox_playlist_clear->isChecked());
+  s.setValue(kPathType, static_cast<int>(path_type));
+  s.setValue(kEditMetadataInline, ui_->checkbox_editmetadatainline->isChecked());
+  s.setValue(kWriteMetadata, ui_->checkbox_writemetadata->isChecked());
+  s.setValue(kDeleteFiles, ui_->checkbox_delete_files->isChecked());
+  s.setValue(kAutoSort, ui_->checkbox_auto_sort->isChecked());
   s.endGroup();
 
 }

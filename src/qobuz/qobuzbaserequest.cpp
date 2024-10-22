@@ -37,15 +37,15 @@
 #include <QJsonArray>
 #include <QJsonValue>
 
+#include "includes/shared_ptr.h"
 #include "core/logging.h"
-#include "core/shared_ptr.h"
 #include "core/networkaccessmanager.h"
 #include "qobuzservice.h"
 #include "qobuzbaserequest.h"
 
 using namespace Qt::Literals::StringLiterals;
 
-QobuzBaseRequest::QobuzBaseRequest(QobuzService *service, SharedPtr<NetworkAccessManager> network, QObject *parent)
+QobuzBaseRequest::QobuzBaseRequest(QobuzService *service, const SharedPtr<NetworkAccessManager> network, QObject *parent)
     : QObject(parent),
       service_(service),
       network_(network) {}

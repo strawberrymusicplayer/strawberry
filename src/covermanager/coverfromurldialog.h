@@ -28,7 +28,7 @@
 #include <QDialog>
 #include <QString>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "albumcoverimageresult.h"
 
 class QWidget;

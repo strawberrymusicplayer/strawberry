@@ -45,8 +45,8 @@
 #include <QMessageBox>
 #include <QMutexLocker>
 
+#include "includes/shared_ptr.h"
 #include "core/logging.h"
-#include "core/shared_ptr.h"
 #include "core/networkaccessmanager.h"
 #include "core/settings.h"
 #include "core/localredirectserver.h"
@@ -68,7 +68,7 @@ constexpr char kClientIDB64[] = "RUNTNXU4U1VyMU1KUU5hdTZySEZteUxXY2hkanFiY3lfc2J
 constexpr char kClientSecretB64[] = "VE9pMU9vUjNtTXZ3eFR3YVN0QVRyUjVoUlhVWDI1Ylp5X240eEt1M0ZkYlNwRG5JUnd0LXFFbHdGZkZkRWY2VzJ1S011UnQzM3c2Y3hqY0tVZ3NGN2c=";
 }  // namespace
 
-GeniusLyricsProvider::GeniusLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent) : JsonLyricsProvider(u"Genius"_s, true, true, network, parent), server_(nullptr) {
+GeniusLyricsProvider::GeniusLyricsProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent) : JsonLyricsProvider(u"Genius"_s, true, true, network, parent), server_(nullptr) {
 
   Settings s;
   s.beginGroup(kSettingsGroup);

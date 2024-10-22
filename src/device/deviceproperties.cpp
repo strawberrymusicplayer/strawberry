@@ -46,7 +46,7 @@
 #include <QStackedWidget>
 #include <QTableWidget>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/iconloader.h"
 #include "core/musicstorage.h"
 #include "widgets/freespacebar.h"
@@ -62,7 +62,7 @@ using namespace Qt::Literals::StringLiterals;
 DeviceProperties::DeviceProperties(QWidget *parent)
     : QDialog(parent),
       ui_(new Ui_DeviceProperties),
-      manager_(nullptr),
+      device_manager_(nullptr),
       updating_formats_(false) {
 
   ui_->setupUi(this);
@@ -76,12 +76,12 @@ DeviceProperties::DeviceProperties(QWidget *parent)
 
 DeviceProperties::~DeviceProperties() { delete ui_; }
 
-void DeviceProperties::SetDeviceManager(SharedPtr<DeviceManager> manager) {
+void DeviceProperties::Init(const SharedPtr<DeviceManager> device_manager) {
 
-  manager_ = manager;
-  QObject::connect(&*manager_, &DeviceManager::dataChanged, this, &DeviceProperties::ModelChanged);
-  QObject::connect(&*manager_, &DeviceManager::rowsInserted, this, &DeviceProperties::ModelChanged);
-  QObject::connect(&*manager_, &DeviceManager::rowsRemoved, this, &DeviceProperties::ModelChanged);
+  device_manager_ = device_manager;
+  QObject::connect(&*device_manager_, &DeviceManager::dataChanged, this, &DeviceProperties::ModelChanged);
+  QObject::connect(&*device_manager_, &DeviceManager::rowsInserted, this, &DeviceProperties::ModelChanged);
+  QObject::connect(&*device_manager_, &DeviceManager::rowsRemoved, this, &DeviceProperties::ModelChanged);
 
 }
 
@@ -155,7 +155,7 @@ void DeviceProperties::UpdateHardwareInfo() {
 
   // Hardware information
   QString id = index_.data(DeviceManager::Role_UniqueId).toString();
-  if (DeviceLister *lister = manager_->GetLister(index_)) {
+  if (DeviceLister *lister = device_manager_->GetLister(index_)) {
     QVariantMap info = lister->DeviceHardwareInfo(id);
 
     // Remove empty items
@@ -202,8 +202,8 @@ void DeviceProperties::UpdateHardwareInfo() {
 
 void DeviceProperties::UpdateFormats() {
 
-  DeviceLister *lister = manager_->GetLister(index_);
-  SharedPtr<ConnectedDevice> device = manager_->GetConnectedDevice(index_);
+  DeviceLister *lister = device_manager_->GetLister(index_);
+  SharedPtr<ConnectedDevice> device = device_manager_->GetConnectedDevice(index_);
 
   // Transcode mode
   MusicStorage::TranscodeMode mode = static_cast<MusicStorage::TranscodeMode>(index_.data(DeviceManager::Role_TranscodeMode).toInt());
@@ -274,11 +274,11 @@ void DeviceProperties::accept() {
     icon_name = ui_->icon->currentItem()->data(Qt::UserRole).toString();
   }
 
-  manager_->SetDeviceOptions(index_, ui_->name->text(), icon_name, mode, format);
+  device_manager_->SetDeviceOptions(index_, ui_->name->text(), icon_name, mode, format);
 
 }
 
-void DeviceProperties::OpenDevice() { manager_->Connect(index_); }
+void DeviceProperties::OpenDevice() { device_manager_->Connect(index_); }
 
 void DeviceProperties::UpdateFormatsFinished() {
 

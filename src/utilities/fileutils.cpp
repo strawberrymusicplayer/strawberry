@@ -29,7 +29,7 @@
 #include <QFile>
 
 #include "core/logging.h"
-#include "core/scoped_ptr.h"
+#include "includes/scoped_ptr.h"
 
 #include "fileutils.h"
 

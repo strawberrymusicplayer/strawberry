@@ -44,10 +44,9 @@
 #include <QNetworkDiskCache>
 #include <QQueue>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/simpletreemodel.h"
 #include "core/song.h"
-#include "core/sqlrow.h"
 #include "covermanager/albumcoverloaderoptions.h"
 #include "covermanager/albumcoverloaderresult.h"
 #include "collectionmodelupdate.h"
@@ -57,16 +56,16 @@
 class QTimer;
 class Settings;
 
-class Application;
 class CollectionBackend;
 class CollectionDirectoryModel;
 class CollectionFilter;
+class AlbumCoverLoader;
 
 class CollectionModel : public SimpleTreeModel<CollectionItem> {
   Q_OBJECT
 
  public:
-  explicit CollectionModel(SharedPtr<CollectionBackend> backend, Application *app, QObject *parent = nullptr);
+  explicit CollectionModel(const SharedPtr<CollectionBackend> backend, const SharedPtr<AlbumCoverLoader> albumcover_loader, QObject *parent = nullptr);
   ~CollectionModel() override;
 
   static const int kPrettyCoverSize;
@@ -156,7 +155,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   int total_artist_count() const { return total_artist_count_; }
   int total_album_count() const { return total_album_count_; }
 
-  quint64 icon_cache_disk_size() { return sIconCache->cacheSize(); }
+  quint64 icon_disk_cache_size() { return icon_disk_cache_->cacheSize(); }
 
   const CollectionModel::Grouping GetGroupBy() const { return options_current_.group_by; }
   void SetGroupBy(const CollectionModel::Grouping g, const std::optional<bool> separate_albums_by_grouping = std::optional<bool>());
@@ -218,6 +217,8 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   void AddReAddOrUpdate(const SongList &songs);
   void RemoveSongs(const SongList &songs);
 
+  void ClearIconDiskCache();
+
  private:
   void Clear();
   void BeginReset();
@@ -238,7 +239,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   void CreateDividerItem(const QString &divider_key, const QString &display_text, CollectionItem *parent);
   CollectionItem *CreateContainerItem(const GroupBy group_by, const int container_level, const QString &container_key, const Song &song, CollectionItem *parent);
   void CreateSongItem(const Song &song, CollectionItem *parent);
-  void SetSongItemData(CollectionItem *item, const Song &song);
+  void SetSongItemData(CollectionItem *item, const Song &song) const;
   CollectionItem *CreateCompilationArtistNode(CollectionItem *parent);
 
   void LoadSongsFromSqlAsync();
@@ -267,15 +268,12 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   void TotalArtistCountUpdatedSlot(const int count);
   void TotalAlbumCountUpdatedSlot(const int count);
 
-  static void ClearDiskCache();
-
   void RowsInserted(const QModelIndex &parent, const int first, const int last);
   void RowsRemoved(const QModelIndex &parent, const int first, const int last);
 
  private:
-  static QNetworkDiskCache *sIconCache;
-  SharedPtr<CollectionBackend> backend_;
-  Application *app_;
+  const SharedPtr<CollectionBackend> backend_;
+  const SharedPtr<AlbumCoverLoader> albumcover_loader_;
   CollectionDirectoryModel *dir_model_;
   CollectionFilter *filter_;
   QTimer *timer_reload_;
@@ -310,6 +308,8 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   using ItemAndCacheKey = QPair<CollectionItem*, QString>;
   QMap<quint64, ItemAndCacheKey> pending_art_;
   QSet<QString> pending_cache_keys_;
+
+  QNetworkDiskCache *icon_disk_cache_;
 };
 
 Q_DECLARE_METATYPE(CollectionModel::Grouping)

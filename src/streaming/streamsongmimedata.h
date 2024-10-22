@@ -22,7 +22,7 @@
 #ifndef STREAMSONGMIMEDATA_H
 #define STREAMSONGMIMEDATA_H
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/mimedata.h"
 #include "core/song.h"
 

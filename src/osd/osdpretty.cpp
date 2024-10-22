@@ -56,6 +56,7 @@
 #endif
 
 #include "core/settings.h"
+#include "constants/notificationssettings.h"
 
 #include "osdpretty.h"
 #include "ui_osdpretty.h"
@@ -71,22 +72,20 @@
 using namespace std::chrono_literals;
 using namespace Qt::Literals::StringLiterals;
 
-const char *OSDPretty::kSettingsGroup = "OSDPretty";
+namespace {
 
-const int OSDPretty::kDropShadowSize = 13;
-const int OSDPretty::kBorderRadius = 10;
-const int OSDPretty::kMaxIconSize = 100;
+constexpr int kDropShadowSize = 13;
+constexpr int kBorderRadius = 10;
+constexpr int kMaxIconSize = 100;
+constexpr int kSnapProximity = 20;
 
-const int OSDPretty::kSnapProximity = 20;
+}  // namespace
 
-const QRgb OSDPretty::kPresetBlue = qRgb(102, 150, 227);
-const QRgb OSDPretty::kPresetRed = qRgb(202, 22, 16);
-
-OSDPretty::OSDPretty(Mode mode, QWidget *parent)
+OSDPretty::OSDPretty(const Mode mode, QWidget *parent)
     : QWidget(parent),
       ui_(new Ui_OSDPretty),
       mode_(mode),
-      background_color_(kPresetBlue),
+      background_color_(OSDPrettySettings::kPresetBlue),
       background_opacity_(0.85),
       popup_screen_(nullptr),
       disable_duration_(false),
@@ -232,20 +231,20 @@ bool OSDPretty::IsTransparencyAvailable() {
 void OSDPretty::Load() {
 
   Settings s;
-  s.beginGroup(kSettingsGroup);
-  foreground_color_ = QColor(s.value("foreground_color", 0).toInt());
-  background_color_ = QColor(s.value("background_color", kPresetBlue).toInt());
-  background_opacity_ = s.value("background_opacity", 0.85).toFloat();
-  font_.fromString(s.value("font", u"Verdana,9,-1,5,50,0,0,0,0,0"_s).toString());
-  disable_duration_ = s.value("disable_duration", false).toBool();
+  s.beginGroup(OSDPrettySettings::kSettingsGroup);
+  foreground_color_ = QColor(s.value(OSDPrettySettings::kForegroundColor, 0).toInt());
+  background_color_ = QColor(s.value(OSDPrettySettings::kBackgroundColor, OSDPrettySettings::kPresetBlue).toInt());
+  background_opacity_ = s.value(OSDPrettySettings::kBackgroundOpacity, 0.85).toFloat();
+  font_.fromString(s.value(OSDPrettySettings::kFont, u"Verdana,9,-1,5,50,0,0,0,0,0"_s).toString());
+  disable_duration_ = s.value(OSDPrettySettings::kDisableDuration, false).toBool();
 #ifdef Q_OS_WIN
-  fading_enabled_ = s.value("fading", true).toBool();
+  fading_enabled_ = s.value(OSDPrettySettings::kFading, true).toBool();
 #else
-  fading_enabled_ = s.value("fading", false).toBool();
+  fading_enabled_ = s.value(OSDPrettySettings::kFading, false).toBool();
 #endif
 
-  if (s.contains("popup_screen"_L1)) {
-    popup_screen_name_ = s.value("popup_screen").toString();
+  if (s.contains(OSDPrettySettings::kPopupScreen)) {
+    popup_screen_name_ = s.value(OSDPrettySettings::kPopupScreen).toString();
     if (screens_.contains(popup_screen_name_)) {
       popup_screen_ = screens_.value(popup_screen_name_);
     }
@@ -260,8 +259,8 @@ void OSDPretty::Load() {
     if (current_screen()) popup_screen_name_ = current_screen()->name();
   }
 
-  if (s.contains("popup_pos"_L1)) {
-    popup_pos_ = s.value("popup_pos").toPoint();
+  if (s.contains(OSDPrettySettings::kPopupPos)) {
+    popup_pos_ = s.value(OSDPrettySettings::kPopupPos).toPoint();
   }
   else {
     if (popup_screen_) {

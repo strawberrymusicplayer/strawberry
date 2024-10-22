@@ -31,6 +31,7 @@
 #include <QStringList>
 #include <QPixmap>
 
+#include "includes/shared_ptr.h"
 #include "core/song.h"
 #include "core/simpletreemodel.h"
 #include "covermanager/albumcoverloaderresult.h"
@@ -39,14 +40,14 @@
 
 class QMimeData;
 
-class Application;
-class Database;
+class AlbumCoverLoader;
+class RadioServices;
 
 class RadioModel : public SimpleTreeModel<RadioItem> {
   Q_OBJECT
 
  public:
-  explicit RadioModel(Application *app, QObject *parent = nullptr);
+  explicit RadioModel(const SharedPtr<AlbumCoverLoader> albumcover_loader, const SharedPtr<RadioServices> radio_services, QObject *parent = nullptr);
   ~RadioModel() override;
 
   enum Role {
@@ -88,7 +89,9 @@ class RadioModel : public SimpleTreeModel<RadioItem> {
  private:
   using ItemAndCacheKey = QPair<RadioItem*, QString>;
 
-  Application *app_;
+  const SharedPtr<AlbumCoverLoader> albumcover_loader_;
+  const SharedPtr<RadioServices> radio_services_;
+
   QMap<Song::Source, RadioItem*> container_nodes_;
   QList<RadioItem*> items_;
   QMap<quint64, ItemAndCacheKey> pending_art_;

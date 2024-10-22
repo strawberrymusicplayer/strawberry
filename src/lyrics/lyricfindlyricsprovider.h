@@ -39,7 +39,7 @@ class LyricFindLyricsProvider : public JsonLyricsProvider {
   Q_OBJECT
 
  public:
-  explicit LyricFindLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
+  explicit LyricFindLyricsProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~LyricFindLyricsProvider() override;
 
  private:

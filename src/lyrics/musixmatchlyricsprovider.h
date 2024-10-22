@@ -29,7 +29,7 @@
 #include <QString>
 #include <QUrl>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "jsonlyricsprovider.h"
 #include "lyricssearchrequest.h"
 #include "lyricssearchresult.h"
@@ -42,7 +42,7 @@ class MusixmatchLyricsProvider : public JsonLyricsProvider, public MusixmatchPro
   Q_OBJECT
 
  public:
-  explicit MusixmatchLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
+  explicit MusixmatchLyricsProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~MusixmatchLyricsProvider() override;
 
  private:

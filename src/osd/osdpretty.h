@@ -57,19 +57,8 @@ class OSDPretty : public QWidget {
     Draggable
   };
 
-  explicit OSDPretty(Mode mode, QWidget *parent = nullptr);
+  explicit OSDPretty(const Mode mode, QWidget *parent = nullptr);
   ~OSDPretty() override;
-
-  static const char *kSettingsGroup;
-
-  static const int kDropShadowSize;
-  static const int kBorderRadius;
-  static const int kMaxIconSize;
-
-  static const int kSnapProximity;
-
-  static const QRgb kPresetBlue;
-  static const QRgb kPresetRed;
 
   bool IsTransparencyAvailable();
 

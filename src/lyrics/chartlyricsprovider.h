@@ -27,7 +27,7 @@
 #include <QVariant>
 #include <QString>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "lyricsprovider.h"
 #include "lyricsfetcher.h"
 
@@ -38,7 +38,7 @@ class ChartLyricsProvider : public LyricsProvider {
   Q_OBJECT
 
  public:
-  explicit ChartLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
+  explicit ChartLyricsProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~ChartLyricsProvider() override;
 
  private:

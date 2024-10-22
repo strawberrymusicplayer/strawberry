@@ -59,16 +59,17 @@
 #include <QString>
 #include <QSettings>
 #include <QLoggingCategory>
+#include <QStyle>
 #ifdef HAVE_TRANSLATIONS
 #  include <QTranslator>
 #endif
 
 #include "main.h"
 
-#include "core/logging.h"
+#include "includes/scoped_ptr.h"
+#include "includes/shared_ptr.h"
 
-#include "core/scoped_ptr.h"
-#include "core/shared_ptr.h"
+#include "core/logging.h"
 #include "core/settings.h"
 
 #include "utilities/envutils.h"
@@ -87,22 +88,27 @@
 #ifdef HAVE_MPRIS2
 #  include "mpris2/mpris2.h"
 #endif
-#include "core/metatypes.h"
+
 #include "core/iconloader.h"
-#include "core/mainwindow.h"
 #include "core/commandlineoptions.h"
-#include "core/application.h"
 #include "core/networkproxyfactory.h"
+
+#include "core/application.h"
+#include "core/metatypes.h"
+#include "core/mainwindow.h"
+
 #ifdef Q_OS_MACOS
-#  include "core/macsystemtrayicon.h"
+#  include "systemtrayicon/macsystemtrayicon.h"
 #else
-#  include "core/qtsystemtrayicon.h"
+#  include "systemtrayicon/qtsystemtrayicon.h"
 #endif
+
 #ifdef HAVE_TRANSLATIONS
 #  include "core/translations.h"
 #endif
-#include "settings/behavioursettingspage.h"
-#include "settings/appearancesettingspage.h"
+
+#include "constants/behavioursettings.h"
+#include "constants/appearancesettings.h"
 
 #if defined(Q_OS_MACOS)
 #  include "osd/osdmac.h"
@@ -210,11 +216,11 @@ int main(int argc, char *argv[]) {
 
   {
     Settings s;
-    s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
-    QString style = s.value(AppearanceSettingsPage::kStyle).toString();
+    s.beginGroup(AppearanceSettings::kSettingsGroup);
+    QString style = s.value(AppearanceSettings::kStyle).toString();
     if (style.isEmpty()) {
       style = "default"_L1;
-      s.setValue(AppearanceSettingsPage::kStyle, style);
+      s.setValue(AppearanceSettings::kStyle, style);
     }
     s.endGroup();
     if (style != "default"_L1) {
@@ -252,8 +258,8 @@ int main(int argc, char *argv[]) {
   QString language = options.language();
   if (language.isEmpty()) {
     Settings s;
-    s.beginGroup(BehaviourSettingsPage::kSettingsGroup);
-    language = s.value("language").toString();
+    s.beginGroup(BehaviourSettings::kSettingsGroup);
+    language = s.value(BehaviourSettings::kLanguage).toString();
     s.endGroup();
   }
 
@@ -307,7 +313,7 @@ int main(int argc, char *argv[]) {
 #endif
 
 #ifdef HAVE_MPRIS2
-  mpris::Mpris2 mpris2(&app);
+  mpris::Mpris2 mpris2(app.player(), app.playlist_manager(), app.current_albumcover_loader());
 #endif
 
   // Window

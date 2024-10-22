@@ -30,7 +30,6 @@
 #include <QPushButton>
 #include <QAction>
 
-#include "core/application.h"
 #include "core/iconloader.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
@@ -42,25 +41,23 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-StreamingSongsView::StreamingSongsView(Application *app, StreamingServicePtr service, const QString &settings_group, const SettingsDialog::Page settings_page, QWidget *parent)
+StreamingSongsView::StreamingSongsView(const StreamingServicePtr service, const QString &settings_group, QWidget *parent)
     : QWidget(parent),
-      app_(app),
       service_(service),
       settings_group_(settings_group),
-      settings_page_(settings_page),
       ui_(new Ui_StreamingCollectionViewContainer) {
 
   ui_->setupUi(this);
 
   ui_->stacked->setCurrentWidget(ui_->streamingcollection_page);
-  ui_->view->Init(app_, service_->songs_collection_backend(), service_->songs_collection_model(), false);
+  ui_->view->Init(service_->songs_collection_backend(), service_->songs_collection_model(), false);
   ui_->view->setModel(service_->songs_collection_filter_model());
   ui_->view->SetFilter(ui_->filter_widget);
   ui_->filter_widget->SetSettingsGroup(settings_group);
   ui_->filter_widget->Init(service_->songs_collection_model(), service_->songs_collection_filter_model());
 
   QAction *action_configure = new QAction(IconLoader::Load(u"configure"_s), tr("Configure %1...").arg(Song::DescriptionForSource(service_->source())), this);
-  QObject::connect(action_configure, &QAction::triggered, this, &StreamingSongsView::OpenSettingsDialog);
+  QObject::connect(action_configure, &QAction::triggered, this, &StreamingSongsView::Configure);
   ui_->filter_widget->AddMenuAction(action_configure);
 
   QObject::connect(ui_->view, &StreamingCollectionView::GetSongs, this, &StreamingSongsView::GetSongs);
@@ -93,15 +90,14 @@ void StreamingSongsView::ReloadSettings() {
 
 }
 
-void StreamingSongsView::OpenSettingsDialog() {
-  app_->OpenSettingsDialogAtPage(service_->settings_page());
+void StreamingSongsView::Configure() {
+  Q_EMIT OpenSettingsDialog(service_->source());
 }
-
 
 void StreamingSongsView::GetSongs() {
 
   if (!service_->authenticated() && service_->oauth()) {
-    service_->ShowConfig();
+    Configure();
     return;
   }
 

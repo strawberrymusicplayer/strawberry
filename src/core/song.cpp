@@ -51,11 +51,11 @@
 #include <taglib/tstring.h>
 
 #include "core/iconloader.h"
-#include "engine/enginemetadata.h"
+#include "core/enginemetadata.h"
 #include "utilities/strutils.h"
 #include "utilities/timeutils.h"
 #include "utilities/coverutils.h"
-#include "utilities/timeconstants.h"
+#include "constants/timeconstants.h"
 #include "utilities/sqlhelper.h"
 
 #include "song.h"
@@ -1960,3 +1960,43 @@ QString Song::TitleRemoveMisc(const QString &title) {
   return StripRegexList(title, kTitleMisc);
 
 }
+
+QString Song::GetNameForNewPlaylist(const SongList &songs) {
+
+  if (songs.isEmpty()) {
+    return QObject::tr("Playlist");
+  }
+
+  QSet<QString> artists;
+  QSet<QString> albums;
+  artists.reserve(songs.count());
+  albums.reserve(songs.count());
+  for (const Song &song : songs) {
+    artists << (song.effective_albumartist().isEmpty() ? QObject::tr("Unknown") : song.effective_albumartist());
+    albums << (song.album().isEmpty() ? QObject::tr("Unknown") : song.album());
+
+    if (artists.size() > 1) {
+      break;
+    }
+  }
+
+  bool various_artists = artists.size() > 1;
+
+  QString result;
+  if (various_artists) {
+    result = QObject::tr("Various artists");
+  }
+  else {
+    QStringList artist_names = artists.values();
+    result = artist_names.first();
+  }
+
+  if (!various_artists && albums.size() == 1) {
+    QStringList album_names = albums.values();
+    result += " - "_L1 + album_names.first();
+  }
+
+  return result;
+
+}
+

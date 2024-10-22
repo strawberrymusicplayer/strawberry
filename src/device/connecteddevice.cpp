@@ -26,9 +26,9 @@
 #include <QString>
 #include <QUrl>
 
+#include "includes/shared_ptr.h"
 #include "core/logging.h"
-#include "core/shared_ptr.h"
-#include "core/application.h"
+#include "core/taskmanager.h"
 #include "core/database.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
@@ -41,47 +41,58 @@
 using namespace Qt::Literals::StringLiterals;
 using std::make_shared;
 
-ConnectedDevice::ConnectedDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, SharedPtr<DeviceManager> manager, Application *app, const int database_id, const bool first_time, QObject *parent)
+ConnectedDevice::ConnectedDevice(const QUrl &url,
+                                 DeviceLister *lister,
+                                 const QString &unique_id,
+                                 DeviceManager *device_manager,
+                                 const SharedPtr<TaskManager> task_manager,
+                                 const SharedPtr<Database> database,
+                                 const SharedPtr<TagReaderClient> tagreader_client,
+                                 const SharedPtr<AlbumCoverLoader> albumcover_loader,
+                                 const int database_id,
+                                 const bool first_time,
+                                 QObject *parent)
     : QObject(parent),
-      app_(app),
       url_(url),
       first_time_(first_time),
       lister_(lister),
       unique_id_(unique_id),
       database_id_(database_id),
-      manager_(manager),
-      backend_(nullptr),
-      model_(nullptr),
+      device_manager_(device_manager),
+      collection_backend_(nullptr),
+      collection_model_(nullptr),
       song_count_(0) {
+
+  Q_UNUSED(tagreader_client)
 
   qLog(Info) << "Connected" << url << unique_id << first_time;
 
   // Create the backend in the database thread.
-  backend_ = make_shared<CollectionBackend>();
-  backend_->moveToThread(app_->database()->thread());
-  qLog(Debug) << &*backend_ << "for device" << unique_id_ << "moved to thread" << app_->database()->thread();
+  collection_backend_ = make_shared<CollectionBackend>();
+  collection_backend_->moveToThread(database->thread());
+  qLog(Debug) << &*collection_backend_ << "for device" << unique_id_ << "moved to thread" << database->thread();
 
   if (url_.scheme() != "cdda"_L1) {
-    QObject::connect(&*backend_, &CollectionBackend::TotalSongCountUpdated, this, &ConnectedDevice::BackendTotalSongCountUpdated);
+    QObject::connect(&*collection_backend_, &CollectionBackend::TotalSongCountUpdated, this, &ConnectedDevice::BackendTotalSongCountUpdated);
   }
 
-  backend_->Init(app_->database(),
-                 app_->task_manager(),
-                 Song::Source::Device,
-                 QStringLiteral("device_%1_songs").arg(database_id),
-                 QStringLiteral("device_%1_directories").arg(database_id),
-                 QStringLiteral("device_%1_subdirectories").arg(database_id));
+  collection_backend_->Init(database,
+                            task_manager,
+                            Song::Source::Device,
+                            QStringLiteral("device_%1_songs").arg(database_id),
+                            QStringLiteral("device_%1_directories").arg(database_id),
+                            QStringLiteral("device_%1_subdirectories").arg(database_id));
 
   // Create the model
-  model_ = new CollectionModel(backend_, app_, this);
+  collection_model_ = new CollectionModel(collection_backend_, albumcover_loader, this);
 
 }
 
 void ConnectedDevice::InitBackendDirectory(const QString &mount_point, const bool first_time, const bool rewrite_path) {
 
-  QList<CollectionDirectory> directories = backend_->GetAllDirectories();
+  QList<CollectionDirectory> directories = collection_backend_->GetAllDirectories();
   if (first_time || directories.isEmpty()) {
-    backend_->AddDirectory(mount_point);
+    collection_backend_->AddDirectory(mount_point);
   }
   else {
     if (rewrite_path) {
@@ -95,12 +106,12 @@ void ConnectedDevice::InitBackendDirectory(const QString &mount_point, const boo
       if (dir.path != mount_point) {
         // The directory is different, commence the munging.
         qLog(Info) << "Changing path from" << dir.path << "to" << mount_point;
-        backend_->ChangeDirPath(dir.id, dir.path, mount_point);
+        collection_backend_->ChangeDirPath(dir.id, dir.path, mount_point);
       }
     }
 
     // Load the directory properly now
-    backend_->LoadDirectoriesAsync();
+    collection_backend_->LoadDirectoriesAsync();
   }
 
 }
@@ -109,8 +120,8 @@ void ConnectedDevice::ConnectAsync() { Q_EMIT DeviceConnectFinished(unique_id_, 
 
 void ConnectedDevice::Close() {
 
-  QObject::connect(&*backend_, &CollectionBackend::ExitFinished, this, &ConnectedDevice::BackendCloseFinished);
-  backend_->ExitAsync();
+  QObject::connect(&*collection_backend_, &CollectionBackend::ExitFinished, this, &ConnectedDevice::BackendCloseFinished);
+  collection_backend_->ExitAsync();
 
 }
 
@@ -122,13 +133,13 @@ void ConnectedDevice::BackendCloseFinished() {
 
 void ConnectedDevice::Eject() {
 
-  DeviceInfo *info = manager_->FindDeviceById(unique_id_);
+  DeviceInfo *info = device_manager_->FindDeviceById(unique_id_);
   if (!info) return;
 
-  QModelIndex idx = manager_->ItemToIndex(info);
+  QModelIndex idx = device_manager_->ItemToIndex(info);
   if (!idx.isValid()) return;
 
-  manager_->UnmountAsync(idx);
+  device_manager_->UnmountAsync(idx);
 
 }
 
@@ -150,10 +161,10 @@ bool ConnectedDevice::FinishDelete(bool success, QString &error_text) {
 
 MusicStorage::TranscodeMode ConnectedDevice::GetTranscodeMode() const {
 
-  DeviceInfo *info = manager_->FindDeviceById(unique_id_);
+  DeviceInfo *info = device_manager_->FindDeviceById(unique_id_);
   if (!info) return MusicStorage::TranscodeMode();
 
-  QModelIndex idx = manager_->ItemToIndex(info);
+  QModelIndex idx = device_manager_->ItemToIndex(info);
   if (!idx.isValid()) return MusicStorage::TranscodeMode();
 
   return static_cast<MusicStorage::TranscodeMode>(idx.data(DeviceManager::Role_TranscodeMode).toInt());
@@ -162,10 +173,10 @@ MusicStorage::TranscodeMode ConnectedDevice::GetTranscodeMode() const {
 
 Song::FileType ConnectedDevice::GetTranscodeFormat() const {
 
-  DeviceInfo *info = manager_->FindDeviceById(unique_id_);
+  DeviceInfo *info = device_manager_->FindDeviceById(unique_id_);
   if (!info) return Song::FileType::Unknown;
 
-  QModelIndex idx = manager_->ItemToIndex(info);
+  QModelIndex idx = device_manager_->ItemToIndex(info);
   if (!idx.isValid()) return Song::FileType::Unknown;
 
   return static_cast<Song::FileType>(idx.data(DeviceManager::Role_TranscodeFormat).toInt());

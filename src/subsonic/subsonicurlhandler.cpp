@@ -29,11 +29,7 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-class Application;
-
-SubsonicUrlHandler::SubsonicUrlHandler(Application *app, SubsonicService *service) : UrlHandler(service), service_(service) {
-  Q_UNUSED(app);
-}
+SubsonicUrlHandler::SubsonicUrlHandler(SubsonicService *service) : UrlHandler(service), service_(service) {}
 
 UrlHandler::LoadResult SubsonicUrlHandler::StartLoading(const QUrl &url) {
 

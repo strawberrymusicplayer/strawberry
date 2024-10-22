@@ -33,9 +33,8 @@
 #include <QString>
 #include <QUrl>
 
+#include "includes/shared_ptr.h"
 #include "core/logging.h"
-#include "core/shared_ptr.h"
-#include "core/application.h"
 #include "core/musicstorage.h"
 #include "collection/collectionmodel.h"
 #include "collection/collectionbackend.h"
@@ -46,13 +45,27 @@
 
 using namespace Qt::Literals::StringLiterals;
 
+class TaskManager;
+class Database;
+class AlbumCoverLoader;
 class DeviceLister;
 class DeviceManager;
 
 bool MtpDevice::sInitializedLibMTP = false;
 
-MtpDevice::MtpDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, SharedPtr<DeviceManager> manager, Application *app, const int database_id, const bool first_time, QObject *parent)
-    : ConnectedDevice(url, lister, unique_id, manager, app, database_id, first_time, parent),
+MtpDevice::MtpDevice(const QUrl &url,
+                     DeviceLister *lister,
+                     const QString &unique_id,
+                     DeviceManager *device_manager,
+                     const SharedPtr<TaskManager> task_manager,
+                     const SharedPtr<Database> database,
+                     const SharedPtr<TagReaderClient> tagreader_client,
+                     const SharedPtr<AlbumCoverLoader> albumcover_loader,
+                     const int database_id,
+                     const bool first_time,
+                     QObject *parent)
+    : ConnectedDevice(url, lister, unique_id, device_manager, task_manager, database, tagreader_client, albumcover_loader, database_id, first_time, parent),
+      task_manager_(task_manager),
       loader_(nullptr),
       loader_thread_(nullptr),
       closing_(false) {
@@ -79,9 +92,9 @@ MtpDevice::~MtpDevice() {
 bool MtpDevice::Init() {
 
   InitBackendDirectory(u"/"_s, first_time_, false);
-  model_->Init();
+  collection_model_->Init();
 
-  loader_ = new MtpLoader(url_, app_->task_manager(), backend_);
+  loader_ = new MtpLoader(url_, task_manager_, collection_backend_);
   loader_thread_ = new QThread();
   loader_->moveToThread(loader_thread_);
 
@@ -132,7 +145,7 @@ void MtpDevice::LoadFinished(const bool success, MtpConnection *connection) {
 }
 
 void MtpDevice::LoaderError(const QString &message) {
-  app_->AddError(message);
+  Q_EMIT Error(message);
 }
 
 bool MtpDevice::StartCopy(QList<Song::FileType> *supported_types) {
@@ -204,15 +217,15 @@ bool MtpDevice::CopyToStorage(const CopyJob &job, QString &error_text) {
 bool MtpDevice::FinishCopy(const bool success, QString &error_text) {
 
   if (success) {
-    if (!songs_to_add_.isEmpty()) backend_->AddOrUpdateSongs(songs_to_add_);
-    if (!songs_to_remove_.isEmpty()) backend_->DeleteSongs(songs_to_remove_);
+    if (!songs_to_add_.isEmpty()) collection_backend_->AddOrUpdateSongs(songs_to_add_);
+    if (!songs_to_remove_.isEmpty()) collection_backend_->DeleteSongs(songs_to_remove_);
   }
 
   songs_to_add_.clear();
   songs_to_remove_.clear();
 
   // This is done in the organize thread so close the unique DB connection.
-  backend_->Close();
+  collection_backend_->Close();
 
   db_busy_.unlock();
 

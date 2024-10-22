@@ -17,9 +17,9 @@
  *
  */
 
+#include "constants/mainwindowsettings.h"
 #include "core/logging.h"
 #include "core/iconloader.h"
-#include "core/mainwindow.h"
 #include "utilities/screenutils.h"
 
 #include "snapdialog.h"
@@ -84,7 +84,7 @@ SnapDialog::SnapDialog(QWidget *parent) : MessageDialog(parent) {
   ui_->label_text->adjustSize();
   adjustSize();
 
-  settings_group_ = QLatin1String(MainWindow::kSettingsGroup);
+  settings_group_ = QLatin1String(MainWindowSettings::kSettingsGroup);
   do_not_show_message_again_ = "ignore_snap"_L1;
 
   if (parent) {

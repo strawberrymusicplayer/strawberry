@@ -41,8 +41,6 @@ class TranscoderSettingsPage : public SettingsPage {
   explicit TranscoderSettingsPage(SettingsDialog *dialog, QWidget *parent = nullptr);
   ~TranscoderSettingsPage() override;
 
-  static const char *kSettingsGroup;
-
   void Load() override;
   void Save() override;
 

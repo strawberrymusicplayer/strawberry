@@ -32,7 +32,7 @@
 #include <QJsonDocument>
 #include <QTimer>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/song.h"
 #include "scrobblerservice.h"
 #include "scrobblercache.h"
@@ -40,7 +40,7 @@
 
 class QNetworkReply;
 
-class ScrobblerSettings;
+class ScrobblerSettingsService;
 class NetworkAccessManager;
 class LocalRedirectServer;
 
@@ -48,7 +48,7 @@ class ListenBrainzScrobbler : public ScrobblerService {
   Q_OBJECT
 
  public:
-  explicit ListenBrainzScrobbler(SharedPtr<ScrobblerSettings> settings, SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
+  explicit ListenBrainzScrobbler(const SharedPtr<ScrobblerSettingsService> settings, const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~ListenBrainzScrobbler() override;
 
   static const char *kName;
@@ -64,7 +64,6 @@ class ListenBrainzScrobbler : public ScrobblerService {
 
   void Authenticate();
   void Logout();
-  void ShowConfig();
   void Submit() override;
   void UpdateNowPlaying(const Song &song) override;
   void ClearPlaying() override;
@@ -101,7 +100,7 @@ class ListenBrainzScrobbler : public ScrobblerService {
   void StartSubmit(const bool initial = false) override;
   void CheckScrobblePrevSong();
 
-  SharedPtr<NetworkAccessManager> network_;
+  const SharedPtr<NetworkAccessManager> network_;
   ScrobblerCache *cache_;
   LocalRedirectServer *server_;
   bool enabled_;

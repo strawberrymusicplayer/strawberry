@@ -42,6 +42,7 @@
 #include "core/logging.h"
 #include "core/settings.h"
 #include "utilities/envutils.h"
+#include "constants/globalshortcutssettings.h"
 #include "globalshortcuts/globalshortcutgrabber.h"
 #include "globalshortcuts/globalshortcutsmanager.h"
 #include "settingspage.h"
@@ -51,11 +52,12 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-const char *GlobalShortcutsSettingsPage::kSettingsGroup = "GlobalShortcuts";
+using namespace GlobalShortcutsSettings;
 
-GlobalShortcutsSettingsPage::GlobalShortcutsSettingsPage(SettingsDialog *dialog, QWidget *parent)
+GlobalShortcutsSettingsPage::GlobalShortcutsSettingsPage(SettingsDialog *dialog, GlobalShortcutsManager *global_shortcuts_manager, QWidget *parent)
     : SettingsPage(dialog, parent),
       ui_(new Ui_GlobalShortcutsSettingsPage),
+      global_shortcuts_manager_(global_shortcuts_manager),
       initialized_(false),
       grabber_(new GlobalShortcutGrabber()) {
 
@@ -107,8 +109,6 @@ void GlobalShortcutsSettingsPage::Load() {
   Settings s;
   s.beginGroup(kSettingsGroup);
 
-  GlobalShortcutsManager *manager = dialog()->global_shortcuts_manager();
-
   if (!initialized_) {
     initialized_ = true;
 
@@ -116,7 +116,7 @@ void GlobalShortcutsSettingsPage::Load() {
     ui_->widget_warning->hide();
 
 #ifdef Q_OS_MACOS
-    QObject::connect(ui_->button_macos_preferences, &QPushButton::clicked, manager, &GlobalShortcutsManager::ShowMacAccessibilityDialog);
+    QObject::connect(ui_->button_macos_preferences, &QPushButton::clicked, global_shortcuts_manager_, &GlobalShortcutsManager::ShowMacAccessibilityDialog);
 #endif
 
 #ifdef HAVE_KDE_GLOBALSHORTCUTS
@@ -163,7 +163,7 @@ void GlobalShortcutsSettingsPage::Load() {
     }
 #endif
 
-    const QList<GlobalShortcutsManager::Shortcut> shortcuts = manager->shortcuts().values();
+    const QList<GlobalShortcutsManager::Shortcut> shortcuts = global_shortcuts_manager_->shortcuts().values();
     for (const GlobalShortcutsManager::Shortcut &i : shortcuts) {
       Shortcut shortcut;
       shortcut.s = i;
@@ -184,25 +184,25 @@ void GlobalShortcutsSettingsPage::Load() {
 
 #ifdef HAVE_KDE_GLOBALSHORTCUTS
   if (ui_->widget_kde->isVisibleTo(this)) {
-    ui_->checkbox_kde->setChecked(s.value("use_kde", true).toBool());
+    ui_->checkbox_kde->setChecked(s.value(kUseKDE, true).toBool());
   }
 #endif
 
 #ifdef HAVE_GNOME_GLOBALSHORTCUTS
   if (ui_->widget_gnome->isVisibleTo(this)) {
-    ui_->checkbox_gnome->setChecked(s.value("use_gnome", true).toBool());
+    ui_->checkbox_gnome->setChecked(s.value(kUseGnome, true).toBool());
   }
 #endif
 
 #ifdef HAVE_MATE_GLOBALSHORTCUTS
   if (ui_->widget_mate->isVisibleTo(this)) {
-    ui_->checkbox_mate->setChecked(s.value("use_mate", true).toBool());
+    ui_->checkbox_mate->setChecked(s.value(kUseMate, true).toBool());
   }
 #endif
 
 #ifdef HAVE_X11_GLOBALSHORTCUTS
   if (ui_->widget_x11->isVisibleTo(this)) {
-    ui_->checkbox_x11->setChecked(s.value("use_x11", false).toBool());
+    ui_->checkbox_x11->setChecked(s.value(kUseX11, false).toBool());
   }
 #endif
 
@@ -235,24 +235,24 @@ void GlobalShortcutsSettingsPage::Save() {
   }
 
 #ifdef HAVE_KDE_GLOBALSHORTCUTS
-  s.setValue("use_kde", ui_->checkbox_kde->isChecked());
+  s.setValue(kUseKDE, ui_->checkbox_kde->isChecked());
 #endif
 
 #ifdef HAVE_GNOME_GLOBALSHORTCUTS
-  s.setValue("use_gnome", ui_->checkbox_gnome->isChecked());
+  s.setValue(kUseGnome, ui_->checkbox_gnome->isChecked());
 #endif
 
 #ifdef HAVE_MATE_GLOBALSHORTCUTS
-  s.setValue("use_mate", ui_->checkbox_mate->isChecked());
+  s.setValue(kUseMate, ui_->checkbox_mate->isChecked());
 #endif
 
 #ifdef HAVE_X11_GLOBALSHORTCUTS
-  s.setValue("use_x11", ui_->checkbox_x11->isChecked());
+  s.setValue(kUseX11, ui_->checkbox_x11->isChecked());
 #endif
 
   s.endGroup();
 
-  dialog()->global_shortcuts_manager()->ReloadSettings();
+  global_shortcuts_manager_->ReloadSettings();
 
 }
 
@@ -342,10 +342,9 @@ void GlobalShortcutsSettingsPage::DefaultClicked() {
 
 void GlobalShortcutsSettingsPage::ChangeClicked() {
 
-  GlobalShortcutsManager *manager = dialog()->global_shortcuts_manager();
-  manager->Unregister();
+  global_shortcuts_manager_->Unregister();
   QKeySequence key = grabber_->GetKey(shortcuts_.value(current_id_).s.action->text());
-  manager->Register();
+  global_shortcuts_manager_->Register();
 
   if (key.isEmpty()) return;
 

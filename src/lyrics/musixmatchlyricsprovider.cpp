@@ -35,8 +35,8 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
+#include "includes/shared_ptr.h"
 #include "core/logging.h"
-#include "core/shared_ptr.h"
 #include "core/networkaccessmanager.h"
 #include "utilities/strutils.h"
 #include "jsonlyricsprovider.h"
@@ -48,7 +48,7 @@
 using namespace Qt::Literals::StringLiterals;
 using std::make_shared;
 
-MusixmatchLyricsProvider::MusixmatchLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent) : JsonLyricsProvider(u"Musixmatch"_s, true, false, network, parent), use_api_(true) {}
+MusixmatchLyricsProvider::MusixmatchLyricsProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent) : JsonLyricsProvider(u"Musixmatch"_s, true, false, network, parent), use_api_(true) {}
 
 MusixmatchLyricsProvider::~MusixmatchLyricsProvider() {
 

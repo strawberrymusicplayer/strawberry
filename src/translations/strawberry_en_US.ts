@@ -78,18 +78,6 @@
 <context>
     <name>AlbumCoverChoiceController</name>
     <message>
-        <source>Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>All files (*)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Load cover from disk...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1001,6 +989,13 @@
     </message>
     <message>
         <source>Grouping name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CollectionLibrary</name>
+    <message>
+        <source>Saving playcounts and ratings</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3375,10 +3370,6 @@ If there are no matches then it will use the largest image in the directory.</so
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>All Files (*)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Context</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4565,14 +4556,6 @@ If there are no matches then it will use the largest image in the directory.</so
             <numerusform></numerusform>
         </translation>
     </message>
-    <message>
-        <source>Unknown</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Various artists</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>PlaylistParser</name>
@@ -4827,50 +4810,6 @@ Are you sure you want to continue?</source>
     </message>
 </context>
 <context>
-    <name>PlaylistUndoCommands::InsertItems</name>
-    <message numerus="yes">
-        <source>add %n songs</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-</context>
-<context>
-    <name>PlaylistUndoCommands::MoveItems</name>
-    <message numerus="yes">
-        <source>move %n songs</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-</context>
-<context>
-    <name>PlaylistUndoCommands::RemoveItems</name>
-    <message numerus="yes">
-        <source>remove %n songs</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-</context>
-<context>
-    <name>PlaylistUndoCommands::ShuffleItems</name>
-    <message>
-        <source>shuffle songs</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>PlaylistUndoCommands::SortItems</name>
-    <message>
-        <source>sort songs</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>PlaylistView</name>
     <message>
         <source>Hz</source>
@@ -5049,6 +4988,14 @@ Are you sure you want to continue?</source>
     </message>
     <message>
         <source>LU</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Playlist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Various artists</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5309,6 +5256,35 @@ Are you sure you want to continue?</source>
     </message>
     <message>
         <source>System colors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <source>add %n songs</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>remove %n songs</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>move %n songs</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>sort songs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>shuffle songs</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5594,13 +5570,6 @@ Are you sure you want to continue?</source>
     <name>RadioViewContainer</name>
     <message>
         <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>SCollection</name>
-    <message>
-        <source>Saving playcounts and ratings</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6230,10 +6199,6 @@ Are you sure you want to continue?</source>
 <context>
     <name>SongLoader</name>
     <message>
-        <source>You need GStreamer for this URL.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Preload function was not set for blocking operation.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6242,7 +6207,7 @@ Are you sure you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>CD playback is only available with the GStreamer engine.</source>
+        <source>Missing CDDA playback.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

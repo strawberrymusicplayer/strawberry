@@ -43,8 +43,8 @@
 #include <QtEvents>
 #include <QSettings>
 
+#include "includes/shared_ptr.h"
 #include "core/logging.h"
-#include "core/shared_ptr.h"
 #include "core/iconloader.h"
 #include "core/mimedata.h"
 #include "core/settings.h"

@@ -27,11 +27,11 @@
 #include <QJsonObject>
 
 #include "scrobblerservice.h"
-#include "scrobblersettings.h"
+#include "scrobblersettingsservice.h"
 
 #include "core/song.h"
 
-ScrobblerService::ScrobblerService(const QString &name, SharedPtr<ScrobblerSettings> settings, QObject *parent) : QObject(parent), name_(name), settings_(settings) {}
+ScrobblerService::ScrobblerService(const QString &name, const SharedPtr<ScrobblerSettingsService> settings, QObject *parent) : QObject(parent), name_(name), settings_(settings) {}
 
 bool ScrobblerService::ExtractJsonObj(const QByteArray &data, QJsonObject &json_obj, QString &error_description) {
 

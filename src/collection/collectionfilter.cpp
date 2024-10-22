@@ -28,10 +28,9 @@
 #include <QUrl>
 
 #include "core/song.h"
+#include "core/songmimedata.h"
 #include "filterparser/filterparser.h"
 #include "filterparser/filtertree.h"
-#include "playlist/songmimedata.h"
-#include "playlist/playlistmanager.h"
 #include "collectionbackend.h"
 #include "collectionfilter.h"
 #include "collectionmodel.h"
@@ -95,7 +94,7 @@ QMimeData *CollectionFilter::mimeData(const QModelIndexList &indexes) const {
   }
 
   data->setUrls(urls);
-  data->name_for_new_playlist_ = PlaylistManager::GetNameForNewPlaylist(data->songs);
+  data->name_for_new_playlist_ = Song::GetNameForNewPlaylist(data->songs);
 
   return data;
 

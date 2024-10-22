@@ -29,7 +29,7 @@
 #include <QByteArray>
 #include <QString>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "playlist/playlistitem.h"
 
 class CollectionBackend;

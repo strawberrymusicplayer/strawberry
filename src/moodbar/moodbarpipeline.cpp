@@ -39,8 +39,7 @@
 #include "core/signalchecker.h"
 #include "utilities/threadutils.h"
 #include "moodbar/moodbarbuilder.h"
-
-#include "gstfastspectrum.h"
+#include "engine/gstfastspectrum.h"
 
 using namespace Qt::Literals::StringLiterals;
 using std::make_unique;

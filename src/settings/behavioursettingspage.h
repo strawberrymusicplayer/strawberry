@@ -40,40 +40,6 @@ class BehaviourSettingsPage : public SettingsPage {
   explicit BehaviourSettingsPage(SettingsDialog *dialog, QWidget *parent = nullptr);
   ~BehaviourSettingsPage() override;
 
-  static const char *kSettingsGroup;
-
-  // Don't change the values
-  enum class StartupBehaviour {
-    Remember = 1,
-    Show = 2,
-    Hide = 3,
-    ShowMaximized = 4,
-    ShowMinimized = 5
-  };
-
-  enum class PlayBehaviour {
-    Never = 1,
-    IfStopped = 2,
-    Always = 3
-  };
-
-  enum class PreviousBehaviour {
-    DontRestart = 1,
-    Restart = 2
-  };
-
-  enum class AddBehaviour {
-    Append = 1,
-    Enqueue = 2,
-    Load = 3,
-    OpenInNew = 4
-  };
-
-  enum class PlaylistAddBehaviour {
-    Play = 1,
-    Enqueue = 2
-  };
-
   void Load() override;
   void Save() override;
 

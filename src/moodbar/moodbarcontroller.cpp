@@ -23,25 +23,21 @@
 #include <QByteArray>
 #include <QUrl>
 
-#include "core/application.h"
-#include "core/player.h"
 #include "core/song.h"
 #include "core/settings.h"
+#include "core/player.h"
 #include "engine/enginebase.h"
-#include "settings/moodbarsettingspage.h"
-#include "playlist/playlistmanager.h"
+#include "constants/moodbarsettings.h"
 
 #include "moodbarcontroller.h"
 #include "moodbarloader.h"
 #include "moodbarpipeline.h"
 
-MoodbarController::MoodbarController(Application *app, QObject *parent)
+MoodbarController::MoodbarController(const SharedPtr<Player> player, const SharedPtr<MoodbarLoader> moodbar_loader, QObject *parent)
     : QObject(parent),
-      app_(app),
+      player_(player),
+      moodbar_loader_(moodbar_loader),
       enabled_(false) {
-
-  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, this, &MoodbarController::CurrentSongChanged);
-  QObject::connect(&*app_->player(), &Player::Stopped, this, &MoodbarController::PlaybackStopped);
 
   ReloadSettings();
 
@@ -50,8 +46,8 @@ MoodbarController::MoodbarController(Application *app, QObject *parent)
 void MoodbarController::ReloadSettings() {
 
   Settings s;
-  s.beginGroup(MoodbarSettingsPage::kSettingsGroup);
-  enabled_ = s.value("enabled", false).toBool();
+  s.beginGroup(MoodbarSettings::kSettingsGroup);
+  enabled_ = s.value(MoodbarSettings::kEnabled, false).toBool();
   s.endGroup();
 
 }
@@ -62,7 +58,7 @@ void MoodbarController::CurrentSongChanged(const Song &song) {
 
   QByteArray data;
   MoodbarPipeline *pipeline = nullptr;
-  const MoodbarLoader::Result result = app_->moodbar_loader()->Load(song.url(), song.has_cue(), &data, &pipeline);
+  const MoodbarLoader::Result result = moodbar_loader_->Load(song.url(), song.has_cue(), &data, &pipeline);
 
   switch (result) {
     case MoodbarLoader::Result::CannotLoad:
@@ -95,12 +91,12 @@ void MoodbarController::PlaybackStopped() {
 void MoodbarController::AsyncLoadComplete(MoodbarPipeline *pipeline, const QUrl &url) {
 
   // Is this song still playing?
-  PlaylistItemPtr current_item = app_->player()->GetCurrentItem();
+  PlaylistItemPtr current_item = player_->GetCurrentItem();
   if (current_item && current_item->Url() != url) {
     return;
   }
   // Did we stop the song?
-  switch (app_->player()->GetState()) {
+  switch (player_->GetState()) {
     case EngineBase::State::Error:
     case EngineBase::State::Empty:
     case EngineBase::State::Idle:

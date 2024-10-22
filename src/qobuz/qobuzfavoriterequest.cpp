@@ -28,8 +28,8 @@
 #include <QUrlQuery>
 #include <QNetworkReply>
 
+#include "includes/shared_ptr.h"
 #include "core/logging.h"
-#include "core/shared_ptr.h"
 #include "core/networkaccessmanager.h"
 #include "core/song.h"
 #include "qobuzservice.h"
@@ -38,7 +38,7 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-QobuzFavoriteRequest::QobuzFavoriteRequest(QobuzService *service, SharedPtr<NetworkAccessManager> network, QObject *parent)
+QobuzFavoriteRequest::QobuzFavoriteRequest(QobuzService *service, const SharedPtr<NetworkAccessManager> network, QObject *parent)
     : QobuzBaseRequest(service, network, parent),
       service_(service),
       network_(network) {}

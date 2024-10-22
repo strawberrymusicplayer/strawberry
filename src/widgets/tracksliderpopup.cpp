@@ -33,7 +33,7 @@
 #include <QPolygon>
 #include <QPaintEvent>
 
-#include "core/qt_blurimage.h"
+#include "includes/qt_blurimage.h"
 #include "tracksliderpopup.h"
 
 namespace {

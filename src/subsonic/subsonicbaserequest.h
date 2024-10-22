@@ -34,9 +34,9 @@
 #include <QSslError>
 #include <QJsonObject>
 
-#include "core/scoped_ptr.h"
+#include "includes/scoped_ptr.h"
 #include "subsonicservice.h"
-#include "settings/subsonicsettingspage.h"
+#include "constants/subsonicsettings.h"
 
 class QNetworkAccessManager;
 class QNetworkReply;
@@ -52,7 +52,7 @@ class SubsonicBaseRequest : public QObject {
   using ParamList = QList<Param>;
 
  public:
-  static QUrl CreateUrl(const QUrl &server_url, const SubsonicSettingsPage::AuthMethod auth_method, const QString &username, const QString &password, const QString &ressource_name, const ParamList &params_provided);
+  static QUrl CreateUrl(const QUrl &server_url, const SubsonicSettings::AuthMethod auth_method, const QString &username, const QString &password, const QString &ressource_name, const ParamList &params_provided);
 
  protected:
   QNetworkReply *CreateGetRequest(const QString &ressource_name, const ParamList &params_provided) const;
@@ -65,7 +65,7 @@ class SubsonicBaseRequest : public QObject {
   QUrl server_url() const { return service_->server_url(); }
   QString username() const { return service_->username(); }
   QString password() const { return service_->password(); }
-  SubsonicSettingsPage::AuthMethod auth_method() const { return service_->auth_method(); }
+  SubsonicSettings::AuthMethod auth_method() const { return service_->auth_method(); }
   bool http2() const { return service_->http2(); }
   bool verify_certificate() const { return service_->verify_certificate(); }
   bool download_album_covers() const { return service_->download_album_covers(); }

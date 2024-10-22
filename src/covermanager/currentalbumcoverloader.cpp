@@ -29,10 +29,9 @@
 #include <QImage>
 #include <QStandardPaths>
 
-#include "core/application.h"
+#include "core/logging.h"
 #include "core/song.h"
 #include "core/temporaryfile.h"
-#include "playlist/playlistmanager.h"
 #include "albumcoverloader.h"
 #include "albumcoverloaderresult.h"
 #include "currentalbumcoverloader.h"
@@ -40,9 +39,9 @@
 using std::make_unique;
 using namespace Qt::Literals::StringLiterals;
 
-CurrentAlbumCoverLoader::CurrentAlbumCoverLoader(Application *app, QObject *parent)
+CurrentAlbumCoverLoader::CurrentAlbumCoverLoader(const SharedPtr<AlbumCoverLoader> albumcover_loader, QObject *parent)
     : QObject(parent),
-      app_(app),
+      albumcover_loader_(albumcover_loader),
       temp_file_pattern_(QStandardPaths::writableLocation(QStandardPaths::TempLocation) + u"/strawberry-cover-XXXXXX.jpg"_s),
       id_(0) {
 
@@ -52,8 +51,7 @@ CurrentAlbumCoverLoader::CurrentAlbumCoverLoader(Application *app, QObject *pare
   options_.desired_scaled_size = QSize(120, 120);
   options_.default_cover = u":/pictures/cdcase.png"_s;
 
-  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, this, &CurrentAlbumCoverLoader::LoadAlbumCover);
-  QObject::connect(&*app_->album_cover_loader(), &AlbumCoverLoader::AlbumCoverLoaded, this, &CurrentAlbumCoverLoader::AlbumCoverReady);
+  QObject::connect(&*albumcover_loader, &AlbumCoverLoader::AlbumCoverLoaded, this, &CurrentAlbumCoverLoader::AlbumCoverReady);
 
   ReloadSettingsAsync();
 
@@ -76,7 +74,7 @@ void CurrentAlbumCoverLoader::ReloadSettings() {
 void CurrentAlbumCoverLoader::LoadAlbumCover(const Song &song) {
 
   last_song_ = song;
-  id_ = app_->album_cover_loader()->LoadImageAsync(options_, last_song_);
+  id_ = albumcover_loader_->LoadImageAsync(options_, last_song_);
 
 }
 

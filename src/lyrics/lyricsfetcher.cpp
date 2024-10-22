@@ -25,7 +25,7 @@
 #include <QTimer>
 #include <QString>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/song.h"
 #include "lyricsfetcher.h"
 #include "lyricsfetchersearch.h"
@@ -38,7 +38,7 @@ namespace {
 constexpr int kMaxConcurrentRequests = 5;
 }
 
-LyricsFetcher::LyricsFetcher(SharedPtr<LyricsProviders> lyrics_providers, QObject *parent)
+LyricsFetcher::LyricsFetcher(const SharedPtr<LyricsProviders> lyrics_providers, QObject *parent)
     : QObject(parent),
       lyrics_providers_(lyrics_providers),
       next_id_(0),

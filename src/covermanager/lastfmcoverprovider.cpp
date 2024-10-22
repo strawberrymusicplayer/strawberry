@@ -38,8 +38,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
-#include "core/shared_ptr.h"
-#include "core/application.h"
+#include "includes/shared_ptr.h"
 #include "core/networkaccessmanager.h"
 #include "core/logging.h"
 
@@ -55,8 +54,8 @@ constexpr char kApiKey[] = "211990b4c96782c05d1536e7219eb56e";
 constexpr char kSecret[] = "80fd738f49596e9709b1bf9319c444a8";
 }  // namespace
 
-LastFmCoverProvider::LastFmCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : JsonCoverProvider(u"Last.fm"_s, true, false, 1.0, true, false, app, network, parent) {}
+LastFmCoverProvider::LastFmCoverProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent)
+    : JsonCoverProvider(u"Last.fm"_s, true, false, 1.0, true, false, network, parent) {}
 
 LastFmCoverProvider::~LastFmCoverProvider() {
 

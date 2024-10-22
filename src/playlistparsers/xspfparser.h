@@ -29,20 +29,21 @@
 #include <QString>
 #include <QStringList>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
+#include "constants/playlistsettings.h"
 #include "core/song.h"
-#include "settings/playlistsettingspage.h"
 #include "xmlparser.h"
 
 class QIODevice;
 class QXmlStreamReader;
+class TagReaderClient;
 class CollectionBackendInterface;
 
 class XSPFParser : public XMLParser {
   Q_OBJECT
 
  public:
-  explicit XSPFParser(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent = nullptr);
+  explicit XSPFParser(const SharedPtr<TagReaderClient> tagreader_client, const SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent = nullptr);
 
   QString name() const override { return QStringLiteral("XSPF"); }
   QStringList file_extensions() const override { return QStringList() << QStringLiteral("xspf"); }
@@ -52,7 +53,7 @@ class XSPFParser : public XMLParser {
   bool TryMagic(const QByteArray &data) const override;
 
   SongList Load(QIODevice *device, const QString &playlist_path = QLatin1String(""), const QDir &dir = QDir(), const bool collection_lookup = true) const override;
-  void Save(const SongList &songs, QIODevice *device, const QDir &dir = QDir(), const PlaylistSettingsPage::PathType path_type = PlaylistSettingsPage::PathType::Automatic) const override;
+  void Save(const SongList &songs, QIODevice *device, const QDir &dir = QDir(), const PlaylistSettings::PathType path_type = PlaylistSettings::PathType::Automatic) const override;
 
  private:
   Song ParseTrack(QXmlStreamReader *reader, const QDir &dir, const bool collection_lookup) const;

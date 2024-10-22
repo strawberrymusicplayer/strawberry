@@ -35,7 +35,7 @@
 #include <QList>
 #include <QImage>
 
-#include "shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "song.h"
 
 class MusicStorage {

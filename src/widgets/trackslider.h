@@ -31,7 +31,6 @@
 class QLabel;
 class QEvent;
 
-class Application;
 #ifdef HAVE_MOODBAR
 class MoodbarProxyStyle;
 #endif
@@ -44,7 +43,7 @@ class TrackSlider : public QWidget {
   explicit TrackSlider(QWidget *parent = nullptr);
   ~TrackSlider() override;
 
-  void SetApplication(Application *app);
+  void Init();
 
   // QWidget
   QSize sizeHint() const override;
@@ -53,7 +52,7 @@ class TrackSlider : public QWidget {
   bool event(QEvent*) override;
 
 #ifdef HAVE_MOODBAR
-  MoodbarProxyStyle *moodbar_style() const { return moodbar_style_; }
+  MoodbarProxyStyle *moodbar_proxy_style() const { return moodbar_proxy_style_; }
 #endif
 
  public Q_SLOTS:
@@ -84,7 +83,7 @@ class TrackSlider : public QWidget {
   Ui_TrackSlider *ui_;
 
 #ifdef HAVE_MOODBAR
-  MoodbarProxyStyle *moodbar_style_;
+  MoodbarProxyStyle *moodbar_proxy_style_;
 #endif
 
   bool setting_value_;

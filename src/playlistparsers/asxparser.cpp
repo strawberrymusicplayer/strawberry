@@ -29,9 +29,9 @@
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "utilities/xmlutils.h"
-#include "settings/playlistsettingspage.h"
+#include "constants/playlistsettings.h"
 #include "xmlparser.h"
 #include "asxparser.h"
 
@@ -39,8 +39,8 @@ using namespace Qt::Literals::StringLiterals;
 
 class CollectionBackendInterface;
 
-ASXParser::ASXParser(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent)
-    : XMLParser(collection_backend, parent) {}
+ASXParser::ASXParser(const SharedPtr<TagReaderClient> tagreader_client, const SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent)
+    : XMLParser(tagreader_client, collection_backend, parent) {}
 
 SongList ASXParser::Load(QIODevice *device, const QString &playlist_path, const QDir &dir, const bool collection_lookup) const {
 
@@ -133,7 +133,7 @@ return_song:
 
 }
 
-void ASXParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, const PlaylistSettingsPage::PathType path_type) const {
+void ASXParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, const PlaylistSettings::PathType path_type) const {
 
   Q_UNUSED(dir)
   Q_UNUSED(path_type)

@@ -34,18 +34,17 @@
 #include "settingsdialog.h"
 #include "subsonicsettingspage.h"
 #include "ui_subsonicsettingspage.h"
-#include "core/application.h"
 #include "core/iconloader.h"
 #include "core/settings.h"
-#include "streaming/streamingservices.h"
 #include "subsonic/subsonicservice.h"
+#include "constants/subsonicsettings.h"
 
-const char *SubsonicSettingsPage::kSettingsGroup = "Subsonic";
+using namespace SubsonicSettings;
 
-SubsonicSettingsPage::SubsonicSettingsPage(SettingsDialog *dialog, QWidget *parent)
+SubsonicSettingsPage::SubsonicSettingsPage(SettingsDialog *dialog, const SharedPtr<SubsonicService> service, QWidget *parent)
     : SettingsPage(dialog, parent),
       ui_(new Ui::SubsonicSettingsPage),
-      service_(dialog->app()->streaming_services()->Service<SubsonicService>()) {
+      service_(service) {
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load(QStringLiteral("subsonic"), true, 0, 32));
@@ -70,18 +69,18 @@ void SubsonicSettingsPage::Load() {
 
   Settings s;
   s.beginGroup(kSettingsGroup);
-  ui_->enable->setChecked(s.value("enabled", false).toBool());
-  ui_->server_url->setText(s.value("url").toString());
-  ui_->username->setText(s.value("username").toString());
-  QByteArray password = s.value("password").toByteArray();
+  ui_->enable->setChecked(s.value(kEnabled, false).toBool());
+  ui_->server_url->setText(s.value(kUrl).toString());
+  ui_->username->setText(s.value(kUsername).toString());
+  QByteArray password = s.value(kPassword).toByteArray();
   if (password.isEmpty()) ui_->password->clear();
   else ui_->password->setText(QString::fromUtf8(QByteArray::fromBase64(password)));
-  ui_->checkbox_http2->setChecked(s.value("http2", false).toBool());
-  ui_->checkbox_verify_certificate->setChecked(s.value("verifycertificate", false).toBool());
-  ui_->checkbox_download_album_covers->setChecked(s.value("downloadalbumcovers", true).toBool());
-  ui_->checkbox_server_scrobbling->setChecked(s.value("serversidescrobbling", false).toBool());
+  ui_->checkbox_http2->setChecked(s.value(kHTTP2, false).toBool());
+  ui_->checkbox_verify_certificate->setChecked(s.value(kVerifyCertificate, false).toBool());
+  ui_->checkbox_download_album_covers->setChecked(s.value(kDownloadAlbumCovers, true).toBool());
+  ui_->checkbox_server_scrobbling->setChecked(s.value(kServerSideScrobbling, false).toBool());
 
-  const AuthMethod auth_method = static_cast<AuthMethod>(s.value("authmethod", static_cast<int>(AuthMethod::MD5)).toInt());
+  const AuthMethod auth_method = static_cast<AuthMethod>(s.value(kAuthMethod, static_cast<int>(AuthMethod::MD5)).toInt());
   switch (auth_method) {
     case AuthMethod::Hex:
       ui_->auth_method_hex->setChecked(true);
@@ -103,19 +102,19 @@ void SubsonicSettingsPage::Save() {
 
   Settings s;
   s.beginGroup(kSettingsGroup);
-  s.setValue("enabled", ui_->enable->isChecked());
-  s.setValue("url", QUrl(ui_->server_url->text()));
-  s.setValue("username", ui_->username->text());
-  s.setValue("password", QString::fromUtf8(ui_->password->text().toUtf8().toBase64()));
-  s.setValue("http2", ui_->checkbox_http2->isChecked());
-  s.setValue("verifycertificate", ui_->checkbox_verify_certificate->isChecked());
-  s.setValue("downloadalbumcovers", ui_->checkbox_download_album_covers->isChecked());
-  s.setValue("serversidescrobbling", ui_->checkbox_server_scrobbling->isChecked());
+  s.setValue(kEnabled, ui_->enable->isChecked());
+  s.setValue(kUrl, QUrl(ui_->server_url->text()));
+  s.setValue(kUsername, ui_->username->text());
+  s.setValue(kPassword, QString::fromUtf8(ui_->password->text().toUtf8().toBase64()));
+  s.setValue(kHTTP2, ui_->checkbox_http2->isChecked());
+  s.setValue(kVerifyCertificate, ui_->checkbox_verify_certificate->isChecked());
+  s.setValue(kDownloadAlbumCovers, ui_->checkbox_download_album_covers->isChecked());
+  s.setValue(kServerSideScrobbling, ui_->checkbox_server_scrobbling->isChecked());
   if (ui_->auth_method_hex->isChecked()) {
-    s.setValue("authmethod", static_cast<int>(AuthMethod::Hex));
+    s.setValue(kAuthMethod, static_cast<int>(AuthMethod::Hex));
   }
   else {
-    s.setValue("authmethod", static_cast<int>(AuthMethod::MD5));
+    s.setValue(kAuthMethod, static_cast<int>(AuthMethod::MD5));
   }
   s.endGroup();
 

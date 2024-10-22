@@ -22,24 +22,27 @@
 #ifndef TRACKSELECTIONDIALOG_H
 #define TRACKSELECTIONDIALOG_H
 
+#include "config.h"
+
 #include <QObject>
 #include <QDialog>
 #include <QList>
 #include <QString>
 
-#include "config.h"
+#include "includes/shared_ptr.h"
 #include "core/song.h"
 
 class QWidget;
 class QTreeWidget;
 class QPushButton;
 class Ui_TrackSelectionDialog;
+class TagReaderClient;
 
 class TrackSelectionDialog : public QDialog {
   Q_OBJECT
 
  public:
-  explicit TrackSelectionDialog(QWidget *parent = nullptr);
+  explicit TrackSelectionDialog(const SharedPtr<TagReaderClient> tagreader_client, QWidget *parent = nullptr);
   ~TrackSelectionDialog() override;
 
   void set_save_on_close(bool save_on_close) { save_on_close_ = save_on_close; }
@@ -83,9 +86,11 @@ class TrackSelectionDialog : public QDialog {
   static void AddSong(const Song &song, int result_index, QTreeWidget *parent);
 
   void SetLoading(const QString &message);
-  static void SaveData(const QList<Data> &data);
+  void SaveData(const QList<Data> &data) const;
 
  private:
+  const SharedPtr<TagReaderClient> tagreader_client_;
+
   QList<Data> data_;
 
   QPushButton *previous_button_;

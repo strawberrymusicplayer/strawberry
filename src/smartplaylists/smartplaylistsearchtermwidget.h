@@ -26,7 +26,7 @@
 #include <QWidget>
 #include <QPushButton>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "smartplaylistsearchterm.h"
 
 class QPropertyAnimation;

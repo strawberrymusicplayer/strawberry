@@ -41,9 +41,9 @@
 #include <QDBusArgument>
 #include <QJsonArray>
 
+#include "includes/scoped_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/logging.h"
-#include "core/scoped_ptr.h"
-#include "core/shared_ptr.h"
 #include "utilities/diskutils.h"
 
 #include "udisks2lister.h"

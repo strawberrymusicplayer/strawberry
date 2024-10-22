@@ -46,7 +46,7 @@
 #include <QtEvents>
 #include <QSettings>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/iconloader.h"
 #include "core/settings.h"
 #include "filterparser/filterparser.h"
@@ -59,7 +59,7 @@
 #include "playlistparsers/playlistparser.h"
 #include "ui_playlistcontainer.h"
 #include "widgets/searchfield.h"
-#include "settings/appearancesettingspage.h"
+#include "constants/appearancesettings.h"
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -245,8 +245,8 @@ void PlaylistContainer::SetViewModel(Playlist *playlist, const int scroll_positi
 void PlaylistContainer::ReloadSettings() {
 
   Settings s;
-  s.beginGroup(AppearanceSettingsPage::kSettingsGroup);
-  int iconsize = s.value(AppearanceSettingsPage::kIconSizePlaylistButtons, 20).toInt();
+  s.beginGroup(AppearanceSettings::kSettingsGroup);
+  int iconsize = s.value(AppearanceSettings::kIconSizePlaylistButtons, 20).toInt();
   s.endGroup();
 
   ui_->create_new->setIconSize(QSize(iconsize, iconsize));

@@ -31,13 +31,12 @@
 #include <QSettings>
 #include <QIcon>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/simpletreemodel.h"
 #include "core/settings.h"
 #include "smartplaylistsitem.h"
 #include "playlistgenerator_fwd.h"
 
-class Application;
 class CollectionBackend;
 
 class QModelIndex;

@@ -25,6 +25,7 @@
 #include "config.h"
 
 #include <QObject>
+#include <QHash>
 #include <QString>
 
 #include "settingspage.h"
@@ -42,22 +43,6 @@ class ContextSettingsPage : public SettingsPage {
   explicit ContextSettingsPage(SettingsDialog *dialog, QWidget *parent = nullptr);
   ~ContextSettingsPage() override;
 
-  enum class ContextSettingsOrder {
-    ALBUM,
-    TECHNICAL_DATA,
-    SONG_LYRICS,
-    SEARCH_COVER,
-    SEARCH_LYRICS,
-    NELEMS
-  };
-
-  static const char *kSettingsGroup;
-  static const char *kSettingsTitleFmt;
-  static const char *kSettingsSummaryFmt;
-  static const char *kSettingsGroupEnable[static_cast<int>(ContextSettingsOrder::NELEMS)];
-  static const char kDefaultFontFamily[];
-  static const qreal kDefaultFontSizeHeadline;
-
   void Load() override;
   void Save() override;
 
@@ -70,7 +55,7 @@ class ContextSettingsPage : public SettingsPage {
 
  private:
   Ui_ContextSettingsPage *ui_;
-  QCheckBox *checkboxes_[static_cast<int>(ContextSettingsOrder::NELEMS)] {};
+  QHash<QString, QCheckBox*> checkboxes_;
 };
 
 #endif  // CONTEXTSETTINGSPAGE_H

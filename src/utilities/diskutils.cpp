@@ -34,7 +34,7 @@
 #include "diskutils.h"
 
 #ifdef Q_OS_WIN32
-#  include "core/scopedwchararray.h"
+#  include "scopedwchararray.h"
 #endif
 
 namespace Utilities {

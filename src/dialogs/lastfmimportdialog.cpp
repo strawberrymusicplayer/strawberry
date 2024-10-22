@@ -27,7 +27,7 @@
 #include "lastfmimportdialog.h"
 #include "ui_lastfmimportdialog.h"
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/iconloader.h"
 #include "scrobbler/lastfmimport.h"
 

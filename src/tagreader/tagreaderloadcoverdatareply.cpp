@@ -31,6 +31,12 @@ void TagReaderLoadCoverDataReply::Finish() {
 
   finished_ = true;
 
+  QMetaObject::invokeMethod(this, &TagReaderLoadCoverDataReply::EmitFinished, Qt::QueuedConnection);
+
+}
+
+void TagReaderLoadCoverDataReply::EmitFinished() {
+
   Q_EMIT TagReaderReply::Finished(filename_, result_);
   Q_EMIT TagReaderLoadCoverDataReply::Finished(filename_, data_, result_);
 

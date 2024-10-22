@@ -58,15 +58,16 @@
 #include <QSettings>
 #include <QTimer>
 
-#include "core/shared_ptr.h"
-#include "core/application.h"
+#include "includes/shared_ptr.h"
 #include "core/logging.h"
 #include "core/mimedata.h"
 #include "core/song.h"
 #include "core/settings.h"
-#include "utilities/timeconstants.h"
+#include "core/songmimedata.h"
+#include "constants/timeconstants.h"
+#include "constants/playlistsettings.h"
 #include "tagreader/tagreaderclient.h"
-#include "collection/collection.h"
+#include "collection/collectionlibrary.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionplaylistitem.h"
 #include "covermanager/albumcoverloaderresult.h"
@@ -78,10 +79,14 @@
 #include "playlistbackend.h"
 #include "playlistfilter.h"
 #include "playlistitemmimedata.h"
-#include "playlistundocommands.h"
 #include "songloaderinserter.h"
-#include "songmimedata.h"
 #include "songplaylistitem.h"
+#include "playlistundocommandinsertitems.h"
+#include "playlistundocommandremoveitems.h"
+#include "playlistundocommandmoveitems.h"
+#include "playlistundocommandreorderitems.h"
+#include "playlistundocommandsortitems.h"
+#include "playlistundocommandshuffleitems.h"
 
 #include "smartplaylists/playlistgenerator.h"
 #include "smartplaylists/playlistgeneratorinserter.h"
@@ -98,7 +103,6 @@ using std::make_shared;
 using namespace std::chrono_literals;
 using namespace Qt::Literals::StringLiterals;
 
-const char *Playlist::kSettingsGroup = "Playlist";
 const char *Playlist::kCddaMimeType = "x-content/audio-cdda";
 const char *Playlist::kRowsMimetype = "application/x-strawberry-playlist-rows";
 const char *Playlist::kPlayNowMimetype = "application/x-strawberry-play-now";
@@ -120,15 +124,25 @@ constexpr int kMaxPlayedIndexes = 100;
 
 } // namespace
 
-Playlist::Playlist(SharedPtr<PlaylistBackend> backend, SharedPtr<TaskManager> task_manager, SharedPtr<CollectionBackend> collection_backend, const int id, const QString &special_type, const bool favorite, QObject *parent)
+Playlist::Playlist(const SharedPtr<TaskManager> task_manager,
+                   const SharedPtr<UrlHandlers> url_handlers,
+                   const SharedPtr<PlaylistBackend> playlist_backend,
+                   const SharedPtr<CollectionBackend> collection_backend,
+                   const SharedPtr<TagReaderClient> tagreader_client,
+                   const int id,
+                   const QString &special_type,
+                   const bool favorite,
+                   QObject *parent)
     : QAbstractListModel(parent),
       is_loading_(false),
       filter_(new PlaylistFilter(this)),
       queue_(new Queue(this, this)),
       timer_save_(new QTimer(this)),
-      backend_(backend),
       task_manager_(task_manager),
+      url_handlers_(url_handlers),
+      playlist_backend_(playlist_backend),
       collection_backend_(collection_backend),
+      tagreader_client_(tagreader_client),
       id_(id),
       favorite_(favorite),
       current_is_paused_(false),
@@ -418,7 +432,7 @@ bool Playlist::setData(const QModelIndex &idx, const QVariant &value, const int 
   if (!set_column_value(song, static_cast<Column>(idx.column()), value)) return false;
 
   if (song.url().isLocalFile()) {
-    TagReaderReplyPtr reply = TagReaderClient::Instance()->WriteFileAsync(song.url().toLocalFile(), song);
+    TagReaderReplyPtr reply = tagreader_client_->WriteFileAsync(song.url().toLocalFile(), song);
     QPersistentModelIndex persistent_index = QPersistentModelIndex(idx);
     QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, persistent_index, item]() { SongSaveComplete(reply, persistent_index, item->OriginalMetadata()); }, Qt::QueuedConnection);
   }
@@ -813,7 +827,7 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, const 
   if (const SongMimeData *song_data = qobject_cast<const SongMimeData*>(data)) {
     // Dragged from a collection
     // We want to check if these songs are from the actual local file backend, if they are we treat them differently.
-    if (song_data->backend && song_data->backend->songs_table() == QLatin1String(SCollection::kSongsTable)) {
+    if (song_data->backend && song_data->backend->songs_table() == QLatin1String(CollectionLibrary::kSongsTable)) {
       InsertSongItems<CollectionPlaylistItem>(song_data->songs, row, play_now, enqueue_now, enqueue_next_now);
     }
     else {
@@ -856,7 +870,7 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, const 
 
     if (source_playlist == this) {
       // Dragged from this playlist - rearrange the items
-      undo_stack_->push(new PlaylistUndoCommands::MoveItems(this, source_rows, row));
+      undo_stack_->push(new PlaylistUndoCommandMoveItems(this, source_rows, row));
     }
     else if (pid == own_pid) {
       // Drag from a different playlist
@@ -870,19 +884,19 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, const 
         undo_stack_->clear();
       }
       else {
-        undo_stack_->push(new PlaylistUndoCommands::InsertItems(this, items, row));
+        undo_stack_->push(new PlaylistUndoCommandInsertItems(this, items, row));
       }
 
       // Remove the items from the source playlist if it was a move event
       if (action == Qt::MoveAction) {
         for (const int i : std::as_const(source_rows)) {
-          source_playlist->undo_stack()->push(new PlaylistUndoCommands::RemoveItems(source_playlist, i, 1));
+          source_playlist->undo_stack()->push(new PlaylistUndoCommandRemoveItems(source_playlist, i, 1));
         }
       }
     }
   }
   else if (data->hasFormat(QLatin1String(kCddaMimeType))) {
-    SongLoaderInserter *inserter = new SongLoaderInserter(task_manager_, collection_backend_, backend_->app()->player());
+    SongLoaderInserter *inserter = new SongLoaderInserter(task_manager_, tagreader_client_, url_handlers_, collection_backend_);
     QObject::connect(inserter, &SongLoaderInserter::Error, this, &Playlist::Error);
     inserter->LoadAudioCD(this, row, play_now, enqueue_now, enqueue_next_now);
   }
@@ -897,7 +911,7 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, const 
 
 void Playlist::InsertUrls(const QList<QUrl> &urls, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next) {
 
-  SongLoaderInserter *inserter = new SongLoaderInserter(task_manager_, collection_backend_, backend_->app()->player());
+  SongLoaderInserter *inserter = new SongLoaderInserter(task_manager_, tagreader_client_, url_handlers_, collection_backend_);
   QObject::connect(inserter, &SongLoaderInserter::Error, this, &Playlist::Error);
 
   inserter->Load(this, pos, play_now, enqueue, enqueue_next, urls);
@@ -1095,7 +1109,7 @@ void Playlist::InsertItems(const PlaylistItemPtrList &itemsIn, const int pos, co
     undo_stack_->clear();
   }
   else {
-    undo_stack_->push(new PlaylistUndoCommands::InsertItems(this, items, pos, enqueue, enqueue_next));
+    undo_stack_->push(new PlaylistUndoCommandInsertItems(this, items, pos, enqueue, enqueue_next));
   }
 
   if (play_now) Q_EMIT PlayRequested(index(start, 0), AutoScroll::Maybe);
@@ -1254,7 +1268,7 @@ void Playlist::UpdateItems(SongList songs) {
         // Also update undo actions
         for (int y = 0; y < undo_stack_->count(); y++) {
           QUndoCommand *undo_action = const_cast<QUndoCommand*>(undo_stack_->command(i));
-          PlaylistUndoCommands::InsertItems *undo_action_insert = dynamic_cast<PlaylistUndoCommands::InsertItems*>(undo_action);
+          PlaylistUndoCommandInsertItems *undo_action_insert = dynamic_cast<PlaylistUndoCommandInsertItems*>(undo_action);
           if (undo_action_insert) {
             bool found_and_updated = undo_action_insert->UpdateItem(new_item);
             if (found_and_updated) break;
@@ -1464,7 +1478,7 @@ void Playlist::sort(const int column_number, const Qt::SortOrder order) {
     std::stable_sort(begin, new_items.end(), std::bind(&Playlist::CompareItems, column, order, std::placeholders::_1, std::placeholders::_2));
   }
 
-  undo_stack_->push(new PlaylistUndoCommands::SortItems(this, column, order, new_items));
+  undo_stack_->push(new PlaylistUndoCommandSortItems(this, column, order, new_items));
 
 }
 
@@ -1541,7 +1555,7 @@ void Playlist::ScheduleSaveAsync() {
 
 void Playlist::ScheduleSave() {
 
-  if (!backend_ || is_loading_) return;
+  if (!playlist_backend_ || is_loading_) return;
 
   timer_save_->start();
 
@@ -1549,22 +1563,22 @@ void Playlist::ScheduleSave() {
 
 void Playlist::Save() {
 
-  if (!backend_ || is_loading_) return;
+  if (!playlist_backend_ || is_loading_) return;
 
-  backend_->SavePlaylistAsync(id_, items_, last_played_row(), dynamic_playlist_);
+  playlist_backend_->SavePlaylistAsync(id_, items_, last_played_row(), dynamic_playlist_);
 
 }
 
 void Playlist::Restore() {
 
-  if (!backend_) return;
+  if (!playlist_backend_) return;
 
   items_.clear();
   virtual_items_.clear();
   collection_items_by_id_.clear();
 
   cancel_restore_ = false;
-  QFuture<PlaylistItemPtrList> future = QtConcurrent::run(&PlaylistBackend::GetPlaylistItems, backend_, id_);
+  QFuture<PlaylistItemPtrList> future = QtConcurrent::run(&PlaylistBackend::GetPlaylistItems, playlist_backend_, id_);
   QFutureWatcher<PlaylistItemPtrList> *watcher = new QFutureWatcher<PlaylistItemPtrList>();
   QObject::connect(watcher, &QFutureWatcher<PlaylistItemPtrList>::finished, this, &Playlist::ItemsLoaded);
   watcher->setFuture(future);
@@ -1593,7 +1607,7 @@ void Playlist::ItemsLoaded() {
   InsertItems(items, 0);
   is_loading_ = false;
 
-  PlaylistBackend::Playlist p = backend_->GetPlaylist(id_);
+  PlaylistBackend::Playlist p = playlist_backend_->GetPlaylist(id_);
 
   // The newly loaded list of items might be shorter than it was before so look out for a bad last_played index
   last_played_item_index_ = p.last_played == -1 || p.last_played >= rowCount() ? QModelIndex() : index(p.last_played);
@@ -1617,8 +1631,8 @@ void Playlist::ItemsLoaded() {
   Q_EMIT RestoreFinished();
 
   Settings s;
-  s.beginGroup(kSettingsGroup);
-  bool greyout = s.value("greyout_songs_startup", true).toBool();
+  s.beginGroup(PlaylistSettings::kSettingsGroup);
+  bool greyout = s.value(PlaylistSettings::kGreyoutSongsStartup, true).toBool();
   s.endGroup();
 
   // Should we gray out deleted songs asynchronously on startup?
@@ -1667,7 +1681,7 @@ bool Playlist::removeRows(const int row, const int count, const QModelIndex &par
     undo_stack_->clear();
   }
   else {
-    undo_stack_->push(new PlaylistUndoCommands::RemoveItems(this, row, count));
+    undo_stack_->push(new PlaylistUndoCommandRemoveItems(this, row, count));
   }
 
   return true;
@@ -1839,7 +1853,7 @@ void Playlist::Clear() {
     undo_stack_->clear();
   }
   else {
-    undo_stack_->push(new PlaylistUndoCommands::RemoveItems(this, 0, count));
+    undo_stack_->push(new PlaylistUndoCommandRemoveItems(this, 0, count));
   }
 
   TurnOffDynamicPlaylist();
@@ -1942,7 +1956,7 @@ void Playlist::Shuffle() {
     std::swap(new_items[i], new_items[new_pos]);
   }
 
-  undo_stack_->push(new PlaylistUndoCommands::ShuffleItems(this, new_items));
+  undo_stack_->push(new PlaylistUndoCommandShuffleItems(this, new_items));
 
 }
 

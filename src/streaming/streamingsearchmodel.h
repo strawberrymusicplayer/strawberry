@@ -36,7 +36,7 @@
 #include <QIcon>
 #include <QPixmap>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/song.h"
 #include "collection/collectionmodel.h"
 #include "streamingsearchview.h"

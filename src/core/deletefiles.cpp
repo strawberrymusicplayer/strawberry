@@ -28,7 +28,7 @@
 #include <QUrl>
 #include <QMetaObject>
 
-#include "shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "taskmanager.h"
 #include "song.h"
 #include "deletefiles.h"

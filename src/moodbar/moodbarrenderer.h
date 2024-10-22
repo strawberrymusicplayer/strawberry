@@ -32,25 +32,17 @@
 #include <QRect>
 #include <QSize>
 
+#include "constants/moodbarsettings.h"
+
 class QPainter;
 
 using ColorVector = QList<QColor>;
 
 class MoodbarRenderer {
  public:
-  // These values are persisted.  Remember to change moodbarsettingspage.ui when changing them.
-  enum class MoodbarStyle {
-    Normal = 0,
-    Angry,
-    Frozen,
-    Happy,
-    SystemPalette,
-    StyleCount
-  };
+  static QString StyleName(const MoodbarSettings::Style style);
 
-  static QString StyleName(const MoodbarStyle style);
-
-  static ColorVector Colors(const QByteArray &data, const MoodbarStyle style, const QPalette &palette);
+  static ColorVector Colors(const QByteArray &data, const MoodbarSettings::Style style, const QPalette &palette);
   static void Render(const ColorVector &colors, QPainter *p, const QRect rect);
   static QImage RenderToImage(const ColorVector &colors, const QSize size);
 

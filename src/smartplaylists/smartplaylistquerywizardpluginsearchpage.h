@@ -23,7 +23,7 @@
 
 #include <QWizardPage>
 
-#include "core/scoped_ptr.h"
+#include "includes/scoped_ptr.h"
 
 #include "ui_smartplaylistquerysearchpage.h"
 

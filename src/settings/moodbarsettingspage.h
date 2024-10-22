@@ -37,16 +37,11 @@ class MoodbarSettingsPage : public SettingsPage {
   explicit MoodbarSettingsPage(SettingsDialog *dialog, QWidget *parent = nullptr);
   ~MoodbarSettingsPage() override;
 
-  static const char *kSettingsGroup;
-
   void Load() override;
   void Save() override;
   void Cancel() override;
 
  private:
-  static const int kMoodbarPreviewWidth;
-  static const int kMoodbarPreviewHeight;
-
   void InitMoodbarPreviews();
 
   Ui_MoodbarSettingsPage *ui_;

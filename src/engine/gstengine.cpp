@@ -50,16 +50,16 @@
 #include <QMetaObject>
 #include <QTimerEvent>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/logging.h"
 #include "core/taskmanager.h"
 #include "core/signalchecker.h"
-#include "utilities/timeconstants.h"
+#include "core/enginemetadata.h"
+#include "constants/timeconstants.h"
 #include "enginebase.h"
 #include "gstengine.h"
 #include "gstenginepipeline.h"
 #include "gstbufferconsumer.h"
-#include "enginemetadata.h"
 
 using namespace Qt::Literals::StringLiterals;
 using std::make_shared;

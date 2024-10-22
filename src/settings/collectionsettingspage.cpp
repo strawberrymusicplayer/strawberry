@@ -43,12 +43,10 @@
 #include <QSettings>
 #include <QMessageBox>
 
-#include "core/application.h"
 #include "core/iconloader.h"
 #include "core/settings.h"
 #include "utilities/strutils.h"
-#include "utilities/timeutils.h"
-#include "collection/collection.h"
+#include "collection/collectionlibrary.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
 #include "collection/collectiondirectory.h"
@@ -58,25 +56,25 @@
 #include "playlist/playlistdelegates.h"
 #include "settings/settingsdialog.h"
 #include "settings/settingspage.h"
+#include "constants/collectionsettings.h"
 #include "ui_collectionsettingspage.h"
 
 using namespace Qt::Literals::StringLiterals;
+using namespace CollectionSettings;
 
-const char *CollectionSettingsPage::kSettingsGroup = "Collection";
-const char *CollectionSettingsPage::kSettingsCacheSize = "cache_size";
-const char *CollectionSettingsPage::kSettingsCacheSizeUnit = "cache_size_unit";
-const char *CollectionSettingsPage::kSettingsDiskCacheEnable = "disk_cache_enable";
-const char *CollectionSettingsPage::kSettingsDiskCacheSize = "disk_cache_size";
-const char *CollectionSettingsPage::kSettingsDiskCacheSizeUnit = "disk_cache_size_unit";
-const int CollectionSettingsPage::kSettingsCacheSizeDefault = 160;
-const int CollectionSettingsPage::kSettingsDiskCacheSizeDefault = 360;
-
-CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog, QWidget *parent)
+CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog,
+                                               const SharedPtr<CollectionLibrary> collection,
+                                               const SharedPtr<CollectionBackend> collection_backend,
+                                               CollectionModel *collection_model,
+                                               CollectionDirectoryModel *collection_directory_model,
+                                               QWidget *parent)
     : SettingsPage(dialog, parent),
       ui_(new Ui_CollectionSettingsPage),
-      collection_backend_(dialog->app()->collection_backend()),
+      collection_(collection),
+      collection_backend_(collection_backend),
+      collection_model_(collection_model),
       collectionsettings_directory_model_(new CollectionSettingsDirectoryModel(this)),
-      collection_directory_model_(dialog->collection_directory_model()),
+      collection_directory_model_(collection_directory_model),
       initialized_model_(false) {
 
   ui_->setupUi(this);
@@ -105,7 +103,7 @@ CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog, QWidget *
 #else
   QObject::connect(ui_->checkbox_disk_cache, &QCheckBox::stateChanged, this, &CollectionSettingsPage::DiskCacheEnable);
 #endif
-  QObject::connect(ui_->button_clear_disk_cache, &QPushButton::clicked, dialog->app(), &Application::ClearPixmapDiskCache);
+
   QObject::connect(ui_->button_clear_disk_cache, &QPushButton::clicked, this, &CollectionSettingsPage::ClearPixmapDiskCache);
 
   QObject::connect(ui_->combobox_cache_size, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &CollectionSettingsPage::CacheSizeUnitChanged);
@@ -147,19 +145,19 @@ void CollectionSettingsPage::Load() {
   Settings s;
 
   s.beginGroup(kSettingsGroup);
-  ui_->auto_open->setChecked(s.value("auto_open", true).toBool());
-  ui_->show_dividers->setChecked(s.value("show_dividers", true).toBool());
-  ui_->pretty_covers->setChecked(s.value("pretty_covers", true).toBool());
-  ui_->various_artists->setChecked(s.value("various_artists", true).toBool());
-  ui_->sort_skips_articles->setChecked(s.value("sort_skips_articles", true).toBool());
-  ui_->startup_scan->setChecked(s.value("startup_scan", true).toBool());
-  ui_->monitor->setChecked(s.value("monitor", true).toBool());
-  ui_->song_tracking->setChecked(s.value("song_tracking", false).toBool());
-  ui_->song_ebur128_loudness_analysis->setChecked(s.value("song_ebur128_loudness_analysis", false).toBool());
-  ui_->mark_songs_unavailable->setChecked(ui_->song_tracking->isChecked() ? true : s.value("mark_songs_unavailable", true).toBool());
-  ui_->expire_unavailable_songs_days->setValue(s.value("expire_unavailable_songs", 60).toInt());
+  ui_->auto_open->setChecked(s.value(kAutoOpen, true).toBool());
+  ui_->show_dividers->setChecked(s.value(kShowDividers, true).toBool());
+  ui_->pretty_covers->setChecked(s.value(kPrettyCovers, true).toBool());
+  ui_->various_artists->setChecked(s.value(kVariousArtists, true).toBool());
+  ui_->sort_skips_articles->setChecked(s.value(kSortSkipsArticles, true).toBool());
+  ui_->startup_scan->setChecked(s.value(kStartupScan, true).toBool());
+  ui_->monitor->setChecked(s.value(kMonitor, true).toBool());
+  ui_->song_tracking->setChecked(s.value(kSongTracking, false).toBool());
+  ui_->song_ebur128_loudness_analysis->setChecked(s.value(kSongENUR128LoudnessAnalysis, false).toBool());
+  ui_->mark_songs_unavailable->setChecked(ui_->song_tracking->isChecked() ? true : s.value(kMarkSongsUnavailable, true).toBool());
+  ui_->expire_unavailable_songs_days->setValue(s.value(kExpireUnavailableSongs, 60).toInt());
 
-  QStringList filters = s.value("cover_art_patterns", QStringList() << u"front"_s << u"cover"_s).toStringList();
+  QStringList filters = s.value(kCoverArtPatterns, QStringList() << u"front"_s << u"cover"_s).toStringList();
   ui_->cover_art_patterns->setText(filters.join(u','));
 
   ui_->spinbox_cache_size->setValue(s.value(kSettingsCacheSize, kSettingsCacheSizeDefault).toInt());
@@ -168,18 +166,18 @@ void CollectionSettingsPage::Load() {
   ui_->spinbox_disk_cache_size->setValue(s.value(kSettingsDiskCacheSize, kSettingsDiskCacheSizeDefault).toInt());
   ui_->combobox_disk_cache_size->setCurrentIndex(ui_->combobox_disk_cache_size->findData(s.value(kSettingsDiskCacheSizeUnit, static_cast<int>(CacheSizeUnit::MB)).toInt()));
 
-  ui_->checkbox_save_playcounts->setChecked(s.value("save_playcounts", false).toBool());
-  ui_->checkbox_save_ratings->setChecked(s.value("save_ratings", false).toBool());
-  ui_->checkbox_overwrite_playcount->setChecked(s.value("overwrite_playcount", false).toBool());
-  ui_->checkbox_overwrite_rating->setChecked(s.value("overwrite_rating", false).toBool());
+  ui_->checkbox_save_playcounts->setChecked(s.value(kSavePlayCounts, false).toBool());
+  ui_->checkbox_save_ratings->setChecked(s.value(kSaveRatings, false).toBool());
+  ui_->checkbox_overwrite_playcount->setChecked(s.value(kOverwritePlaycount, false).toBool());
+  ui_->checkbox_overwrite_rating->setChecked(s.value(kOverwriteRating, false).toBool());
 
-  ui_->checkbox_delete_files->setChecked(s.value("delete_files", false).toBool());
+  ui_->checkbox_delete_files->setChecked(s.value(kDeleteFiles, false).toBool());
 
   s.endGroup();
 
   DiskCacheEnable(ui_->checkbox_disk_cache->checkState());
 
-  ui_->disk_cache_in_use->setText((dialog()->app()->collection_model()->icon_cache_disk_size() == 0 ? u"empty"_s : Utilities::PrettySize(dialog()->app()->collection_model()->icon_cache_disk_size())));
+  UpdateIconDiskCacheSize();
 
   Init(ui_->layout_collectionsettingspage->parentWidget());
   if (!Settings().childGroups().contains(QLatin1String(kSettingsGroup))) set_changed();
@@ -191,23 +189,23 @@ void CollectionSettingsPage::Save() {
   Settings s;
 
   s.beginGroup(kSettingsGroup);
-  s.setValue("auto_open", ui_->auto_open->isChecked());
-  s.setValue("show_dividers", ui_->show_dividers->isChecked());
-  s.setValue("pretty_covers", ui_->pretty_covers->isChecked());
-  s.setValue("various_artists", ui_->various_artists->isChecked());
-  s.setValue("sort_skips_articles", ui_->sort_skips_articles->isChecked());
-  s.setValue("startup_scan", ui_->startup_scan->isChecked());
-  s.setValue("monitor", ui_->monitor->isChecked());
-  s.setValue("song_tracking", ui_->song_tracking->isChecked());
-  s.setValue("song_ebur128_loudness_analysis", ui_->song_ebur128_loudness_analysis->isChecked());
-  s.setValue("mark_songs_unavailable", ui_->song_tracking->isChecked() ? true : ui_->mark_songs_unavailable->isChecked());
-  s.setValue("expire_unavailable_songs", ui_->expire_unavailable_songs_days->value());
+  s.setValue(kAutoOpen, ui_->auto_open->isChecked());
+  s.setValue(kShowDividers, ui_->show_dividers->isChecked());
+  s.setValue(kPrettyCovers, ui_->pretty_covers->isChecked());
+  s.setValue(kVariousArtists, ui_->various_artists->isChecked());
+  s.setValue(kSortSkipsArticles, ui_->sort_skips_articles->isChecked());
+  s.setValue(kStartupScan, ui_->startup_scan->isChecked());
+  s.setValue(kMonitor, ui_->monitor->isChecked());
+  s.setValue(kSongTracking, ui_->song_tracking->isChecked());
+  s.setValue(kSongENUR128LoudnessAnalysis, ui_->song_ebur128_loudness_analysis->isChecked());
+  s.setValue(kMarkSongsUnavailable, ui_->song_tracking->isChecked() ? true : ui_->mark_songs_unavailable->isChecked());
+  s.setValue(kExpireUnavailableSongs, ui_->expire_unavailable_songs_days->value());
 
   QString filter_text = ui_->cover_art_patterns->text();
 
   const QStringList filters = filter_text.split(u',', Qt::SkipEmptyParts);
 
-  s.setValue("cover_art_patterns", filters);
+  s.setValue(kCoverArtPatterns, filters);
 
   s.setValue(kSettingsCacheSize, ui_->spinbox_cache_size->value());
   s.setValue(kSettingsCacheSizeUnit, ui_->combobox_cache_size->currentData().toInt());
@@ -215,12 +213,12 @@ void CollectionSettingsPage::Save() {
   s.setValue(kSettingsDiskCacheSize, ui_->spinbox_disk_cache_size->value());
   s.setValue(kSettingsDiskCacheSizeUnit, ui_->combobox_disk_cache_size->currentData().toInt());
 
-  s.setValue("save_playcounts", ui_->checkbox_save_playcounts->isChecked());
-  s.setValue("save_ratings", ui_->checkbox_save_ratings->isChecked());
-  s.setValue("overwrite_playcount", ui_->checkbox_overwrite_playcount->isChecked());
-  s.setValue("overwrite_rating", ui_->checkbox_overwrite_rating->isChecked());
+  s.setValue(kSavePlayCounts, ui_->checkbox_save_playcounts->isChecked());
+  s.setValue(kSaveRatings, ui_->checkbox_save_ratings->isChecked());
+  s.setValue(kOverwritePlaycount, ui_->checkbox_overwrite_playcount->isChecked());
+  s.setValue(kOverwriteRating, ui_->checkbox_overwrite_rating->isChecked());
 
-  s.setValue("delete_files", ui_->checkbox_delete_files->isChecked());
+  s.setValue(kDeleteFiles, ui_->checkbox_delete_files->isChecked());
 
   s.endGroup();
 
@@ -245,14 +243,14 @@ void CollectionSettingsPage::AddDirectory() {
   Settings s;
   s.beginGroup(kSettingsGroup);
 
-  QString path = s.value("last_path", QStandardPaths::writableLocation(QStandardPaths::MusicLocation)).toString();
+  QString path = s.value(kLastPath, QStandardPaths::writableLocation(QStandardPaths::MusicLocation)).toString();
   path = QDir::cleanPath(QFileDialog::getExistingDirectory(this, tr("Add directory..."), path));
 
   if (!path.isEmpty()) {
     collectionsettings_directory_model_->AddDirectory(path);
   }
 
-  s.setValue("last_path", path);
+  s.setValue(kLastPath, path);
 
   set_changed();
 
@@ -297,7 +295,9 @@ void CollectionSettingsPage::DiskCacheEnable(const int state) {
 
 void CollectionSettingsPage::ClearPixmapDiskCache() {
 
-  ui_->disk_cache_in_use->setText(u"empty"_s);
+  collection_model_->ClearIconDiskCache();
+
+  UpdateIconDiskCacheSize();
 
 }
 
@@ -331,6 +331,12 @@ void CollectionSettingsPage::DiskCacheSizeUnitChanged(int index) {
 
 }
 
+void CollectionSettingsPage::UpdateIconDiskCacheSize() {
+
+  ui_->disk_cache_in_use->setText(collection_model_->icon_disk_cache_size() == 0 ? u"empty"_s : Utilities::PrettySize(collection_model_->icon_disk_cache_size()));
+
+}
+
 void CollectionSettingsPage::WriteAllSongsStatisticsToFiles() {
 
   QMessageBox confirmation_dialog(QMessageBox::Question, tr("Write all playcounts and ratings to files"), tr("Are you sure you want to write song playcounts and ratings to file for all songs in your collection?"), QMessageBox::Yes | QMessageBox::Cancel);
@@ -338,6 +344,6 @@ void CollectionSettingsPage::WriteAllSongsStatisticsToFiles() {
     return;
   }
 
-  dialog()->app()->collection()->SyncPlaycountAndRatingToFilesAsync();
+  collection_->SyncPlaycountAndRatingToFilesAsync();
 
 }

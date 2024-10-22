@@ -39,7 +39,7 @@
 
 #include "core/settings.h"
 #include "widgets/stretchheaderview.h"
-#include "settings/playlistsettingspage.h"
+#include "constants/playlistsettings.h"
 
 PlaylistHeader::PlaylistHeader(Qt::Orientation orientation, PlaylistView *view, QWidget *parent)
     : StretchHeaderView(orientation, parent),
@@ -83,8 +83,8 @@ PlaylistHeader::PlaylistHeader(Qt::Orientation orientation, PlaylistView *view, 
   QObject::connect(this, &PlaylistHeader::StretchEnabledChanged, action_stretch_, &QAction::setChecked);
 
   Settings s;
-  s.beginGroup(PlaylistSettingsPage::kSettingsGroup);
-  action_rating_lock_->setChecked(s.value("rating_locked", false).toBool());
+  s.beginGroup(PlaylistSettings::kSettingsGroup);
+  action_rating_lock_->setChecked(s.value(PlaylistSettings::kRatingLocked, false).toBool());
   s.endGroup();
 
 }

@@ -36,10 +36,11 @@
 #include <QSize>
 #include <QStyleOption>
 
+#include "includes/shared_ptr.h"
+#include "constants/moodbarsettings.h"
+
 class QPainter;
-class QModelIndex;
-class QPersistentModelIndex;
-class Application;
+class MoodbarLoader;
 class MoodbarPipeline;
 class PlaylistView;
 
@@ -47,7 +48,7 @@ class MoodbarItemDelegate : public QItemDelegate {
   Q_OBJECT
 
  public:
-  explicit MoodbarItemDelegate(Application *app, PlaylistView *view, QObject *parent = nullptr);
+  explicit MoodbarItemDelegate(const SharedPtr<MoodbarLoader> moodbar_loader, PlaylistView *view, QObject *parent = nullptr);
 
   void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const override;
 
@@ -57,6 +58,9 @@ class MoodbarItemDelegate : public QItemDelegate {
   void DataLoaded(const QUrl &url, MoodbarPipeline *pipeline);
   void ColorsLoaded(const QUrl &url, const ColorVector &colors);
   void ImageLoaded(const QUrl &url, const QImage &image);
+
+ Q_SIGNALS:
+  void StyleChanged();
 
  private:
   struct Data {
@@ -90,12 +94,12 @@ class MoodbarItemDelegate : public QItemDelegate {
   void ReloadAllColors();
 
  private:
-  Application *app_;
-  PlaylistView *view_;
+  const SharedPtr<MoodbarLoader> moodbar_loader_;
+  PlaylistView *playlist_view_;
   QCache<QUrl, Data> data_;
 
   bool enabled_;
-  MoodbarRenderer::MoodbarStyle style_;
+  MoodbarSettings::Style style_;
 };
 
 #endif  // MOODBARITEMDELEGATE_H

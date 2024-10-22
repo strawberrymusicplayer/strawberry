@@ -70,6 +70,8 @@ class FancyTabWidget : public QTabWidget {
   void SetBackgroundPixmap(const QPixmap &pixmap);
   int IndexOfTab(QWidget *widget);
 
+  static QColor DefaultTabbarBgColor();
+
  public Q_SLOTS:
   void SetMode(const Mode mode);
   void SetCurrentIndex(int idx);

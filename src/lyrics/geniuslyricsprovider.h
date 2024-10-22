@@ -34,7 +34,7 @@
 #include <QJsonArray>
 #include <QMutex>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "jsonlyricsprovider.h"
 #include "lyricssearchrequest.h"
 #include "lyricssearchresult.h"
@@ -47,7 +47,7 @@ class GeniusLyricsProvider : public JsonLyricsProvider {
   Q_OBJECT
 
  public:
-  explicit GeniusLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
+  explicit GeniusLyricsProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~GeniusLyricsProvider() override;
 
   bool IsAuthenticated() const override { return !access_token().isEmpty(); }

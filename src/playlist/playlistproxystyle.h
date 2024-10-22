@@ -28,7 +28,7 @@
 #include <QCommonStyle>
 #include <QString>
 
-#include "core/scoped_ptr.h"
+#include "includes/scoped_ptr.h"
 
 class QPainter;
 

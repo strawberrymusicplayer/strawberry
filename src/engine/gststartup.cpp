@@ -39,7 +39,7 @@
 #include "utilities/envutils.h"
 
 #ifdef HAVE_MOODBAR
-#  include "moodbar/gstfastspectrumplugin.h"
+#  include "gstfastspectrumplugin.h"
 #endif
 
 #include "gststartup.h"

@@ -24,24 +24,33 @@
 #include <QString>
 #include <QUrl>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "collection/collectionmodel.h"
 #include "cddasongloader.h"
 #include "connecteddevice.h"
 #include "cddadevice.h"
 
-class Application;
 class DeviceLister;
 class DeviceManager;
 
-CddaDevice::CddaDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, SharedPtr<DeviceManager> manager, Application *app, int database_id, bool first_time, QObject *parent)
-    : ConnectedDevice(url, lister, unique_id, manager, app, database_id, first_time, parent),
+CddaDevice::CddaDevice(const QUrl &url,
+                       DeviceLister *lister,
+                       const QString &unique_id,
+                       DeviceManager *device_manager,
+                       const SharedPtr<TaskManager> task_manager,
+                       const SharedPtr<Database> database,
+                       const SharedPtr<TagReaderClient> tagreader_client,
+                       const SharedPtr<AlbumCoverLoader> albumcover_loader,
+                       const int database_id,
+                       const bool first_time,
+                       QObject *parent)
+    : ConnectedDevice(url, lister, unique_id, device_manager, task_manager, database, tagreader_client, albumcover_loader, database_id, first_time, parent),
       cdda_song_loader_(url) {
 
   QObject::connect(&cdda_song_loader_, &CddaSongLoader::SongsLoaded, this, &CddaDevice::SongsLoaded);
   QObject::connect(&cdda_song_loader_, &CddaSongLoader::SongsDurationLoaded, this, &CddaDevice::SongsLoaded);
   QObject::connect(&cdda_song_loader_, &CddaSongLoader::SongsMetadataLoaded, this, &CddaDevice::SongsLoaded);
-  QObject::connect(this, &CddaDevice::SongsDiscovered, model_, &CollectionModel::AddReAddOrUpdate);
+  QObject::connect(this, &CddaDevice::SongsDiscovered, collection_model_, &CollectionModel::AddReAddOrUpdate);
 
 }
 
@@ -64,7 +73,7 @@ void CddaDevice::Refresh() {
 
 void CddaDevice::SongsLoaded(const SongList &songs) {
 
-  model_->Reset();
+  collection_model_->Reset();
   Q_EMIT SongsDiscovered(songs);
   song_count_ = songs.size();
 

@@ -24,8 +24,7 @@
 #include <QObject>
 #include <QString>
 
-#include "core/shared_ptr.h"
-#include "core/application.h"
+#include "includes/shared_ptr.h"
 #include "coverprovider.h"
 
-CoverProvider::CoverProvider(const QString &name, const bool enabled, const bool authentication_required, const float quality, const bool batch, const bool allow_missing_album, Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent) : QObject(parent), app_(app), network_(network), name_(name), enabled_(enabled), order_(0), authentication_required_(authentication_required), quality_(quality), batch_(batch), allow_missing_album_(allow_missing_album) {}
+CoverProvider::CoverProvider(const QString &name, const bool enabled, const bool authentication_required, const float quality, const bool batch, const bool allow_missing_album, const SharedPtr<NetworkAccessManager> network, QObject *parent) : QObject(parent), network_(network), name_(name), enabled_(enabled), order_(0), authentication_required_(authentication_required), quality_(quality), batch_(batch), allow_missing_album_(allow_missing_album) {}

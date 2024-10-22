@@ -25,7 +25,7 @@
 #include <QString>
 #include <QUrl>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/networkaccessmanager.h"
 #include "htmllyricsprovider.h"
 #include "lyricssearchrequest.h"
@@ -34,7 +34,7 @@ class AzLyricsComLyricsProvider : public HtmlLyricsProvider {
   Q_OBJECT
 
  public:
-  explicit AzLyricsComLyricsProvider(SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
+  explicit AzLyricsComLyricsProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
 
  protected:
   QUrl Url(const LyricsSearchRequest &request) override;

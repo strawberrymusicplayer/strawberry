@@ -19,6 +19,8 @@
  *
  */
 
+#include "config.h"
+
 #include <libmtp.h>
 
 #include <AvailabilityMacros.h>
@@ -38,13 +40,12 @@
 #include <QUrl>
 #include <QScopeGuard>
 
-#include "config.h"
 #include "macosdevicelister.h"
 #include "mtpconnection.h"
+#include "includes/scoped_cftyperef.h"
+#include "includes/scoped_nsobject.h"
 #include "core/logging.h"
-#include "core/scoped_cftyperef.h"
 #include "core/scoped_nsautorelease_pool.h"
-#include "core/scoped_nsobject.h"
 
 #import <AppKit/NSWorkspace.h>
 #import <Foundation/NSDictionary.h>

@@ -40,12 +40,11 @@
 #include <QEvent>
 #include <QContextMenuEvent>
 
-#include "core/application.h"
 #include "core/settings.h"
 
 #include "moodbarproxystyle.h"
 #include "moodbarrenderer.h"
-#include "settings/moodbarsettingspage.h"
+#include "constants/moodbarsettings.h"
 
 namespace {
 constexpr int kMarginSize = 3;
@@ -54,12 +53,11 @@ constexpr int kArrowWidth = 17;
 constexpr int kArrowHeight = 13;
 }  // namespace
 
-MoodbarProxyStyle::MoodbarProxyStyle(Application *app, QSlider *slider, QObject *parent)
+MoodbarProxyStyle::MoodbarProxyStyle(QSlider *slider, QObject *parent)
     : QProxyStyle(nullptr),
-      app_(app),
       slider_(slider),
-      enabled_(true),
-      moodbar_style_(MoodbarRenderer::MoodbarStyle::Normal),
+      show_(true),
+      moodbar_style_(MoodbarSettings::Style::Normal),
       state_(State::MoodbarOff),
       fade_timeline_(new QTimeLine(1000, this)),
       moodbar_colors_dirty_(true),
@@ -75,8 +73,6 @@ MoodbarProxyStyle::MoodbarProxyStyle(Application *app, QSlider *slider, QObject 
 
   QObject::connect(fade_timeline_, &QTimeLine::valueChanged, this, &MoodbarProxyStyle::FaderValueChanged);
 
-  QObject::connect(app, &Application::SettingsChanged, this, &MoodbarProxyStyle::ReloadSettings);
-
   ReloadSettings();
 
 }
@@ -84,14 +80,13 @@ MoodbarProxyStyle::MoodbarProxyStyle(Application *app, QSlider *slider, QObject 
 void MoodbarProxyStyle::ReloadSettings() {
 
   Settings s;
-  s.beginGroup(MoodbarSettingsPage::kSettingsGroup);
-  // Get the enabled/disabled setting, and start the timelines if there's a change.
-  enabled_ = s.value("show", false).toBool();
+  s.beginGroup(MoodbarSettings::kSettingsGroup);
+  show_ = s.value(MoodbarSettings::kEnabled, false).toBool() && s.value(MoodbarSettings::kShow, false).toBool();
 
   NextState();
 
   // Get the style, and redraw if there's a change.
-  const MoodbarRenderer::MoodbarStyle new_style = static_cast<MoodbarRenderer::MoodbarStyle>(s.value("style", static_cast<int>(MoodbarRenderer::MoodbarStyle::Normal)).toInt());
+  const MoodbarSettings::Style new_style = static_cast<MoodbarSettings::Style>(s.value(MoodbarSettings::kStyle, static_cast<int>(MoodbarSettings::Style::Normal)).toInt());
 
   s.endGroup();
 
@@ -111,23 +106,25 @@ void MoodbarProxyStyle::SetMoodbarData(const QByteArray &data) {
 
 }
 
-void MoodbarProxyStyle::SetMoodbarEnabled(const bool enabled) {
+void MoodbarProxyStyle::SetShowMoodbar(const bool show) {
 
-  enabled_ = enabled;
+  if (show != show_) {
 
-  // Save the enabled setting.
-  Settings s;
-  s.beginGroup(MoodbarSettingsPage::kSettingsGroup);
-  s.setValue("show", enabled);
-  s.endGroup();
+    show_ = show;
 
-  app_->ReloadSettings();
+    Settings s;
+    s.beginGroup(MoodbarSettings::kSettingsGroup);
+    s.setValue(MoodbarSettings::kShow, show);
+    s.endGroup();
+
+    ReloadSettings();
+  }
 
 }
 
 void MoodbarProxyStyle::NextState() {
 
-  const bool visible = enabled_ && !data_.isEmpty();
+  const bool visible = show_ && !data_.isEmpty();
 
   // While the regular slider should stay at the standard size (Fixed),
   // moodbars should use all available space (MinimumExpanding).
@@ -135,7 +132,7 @@ void MoodbarProxyStyle::NextState() {
   slider_->updateGeometry();
 
   if (show_moodbar_action_) {
-    show_moodbar_action_->setChecked(enabled_);
+    show_moodbar_action_->setChecked(show_);
   }
 
   if ((visible && (state_ == State::MoodbarOn || state_ == State::FadingToOn)) || (!visible && (state_ == State::MoodbarOff || state_ == State::FadingToOff))) {
@@ -376,16 +373,16 @@ void MoodbarProxyStyle::ShowContextMenu(const QPoint pos) {
 
   if (!context_menu_) {
     context_menu_ = new QMenu(slider_);
-    show_moodbar_action_ = context_menu_->addAction(tr("Show moodbar"), this, &MoodbarProxyStyle::SetMoodbarEnabled);
+    show_moodbar_action_ = context_menu_->addAction(tr("Show moodbar"), this, &MoodbarProxyStyle::SetShowMoodbar);
 
     show_moodbar_action_->setCheckable(true);
-    show_moodbar_action_->setChecked(enabled_);
+    show_moodbar_action_->setChecked(show_);
 
     QMenu *styles_menu = context_menu_->addMenu(tr("Moodbar style"));
     style_action_group_ = new QActionGroup(styles_menu);
 
-    for (int i = 0; i < static_cast<int>(MoodbarRenderer::MoodbarStyle::StyleCount); ++i) {
-      const MoodbarRenderer::MoodbarStyle style = static_cast<MoodbarRenderer::MoodbarStyle>(i);
+    for (int i = 0; i < static_cast<int>(MoodbarSettings::Style::StyleCount); ++i) {
+      const MoodbarSettings::Style style = static_cast<MoodbarSettings::Style>(i);
 
       QAction *action = style_action_group_->addAction(MoodbarRenderer::StyleName(style));
       action->setCheckable(true);
@@ -394,13 +391,13 @@ void MoodbarProxyStyle::ShowContextMenu(const QPoint pos) {
 
     styles_menu->addActions(style_action_group_->actions());
 
-    QObject::connect(styles_menu, &QMenu::triggered, this, &MoodbarProxyStyle::ChangeStyle);
+    QObject::connect(styles_menu, &QMenu::triggered, this, &MoodbarProxyStyle::SetStyle);
   }
 
   // Update the currently selected style
   const QList<QAction*> actions = style_action_group_->actions();
   for (QAction *action : actions) {
-    if (static_cast<MoodbarRenderer::MoodbarStyle>(action->data().toInt()) == moodbar_style_) {
+    if (static_cast<MoodbarSettings::Style>(action->data().toInt()) == moodbar_style_) {
       action->setChecked(true);
       break;
     }
@@ -410,13 +407,15 @@ void MoodbarProxyStyle::ShowContextMenu(const QPoint pos) {
 
 }
 
-void MoodbarProxyStyle::ChangeStyle(QAction *action) {
+void MoodbarProxyStyle::SetStyle(QAction *action) {
 
   Settings s;
-  s.beginGroup(MoodbarSettingsPage::kSettingsGroup);
-  s.setValue("style", action->data().toInt());
+  s.beginGroup(MoodbarSettings::kSettingsGroup);
+  s.setValue(MoodbarSettings::kStyle, action->data().toInt());
   s.endGroup();
 
-  app_->ReloadSettings();
+  ReloadSettings();
+
+  Q_EMIT StyleChanged();
 
 }

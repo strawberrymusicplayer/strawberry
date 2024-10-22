@@ -33,7 +33,7 @@
 #include <QList>
 #include <QString>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/song.h"
 
 class QWidget;
@@ -48,7 +48,7 @@ class DeviceProperties : public QDialog {
   explicit DeviceProperties(QWidget *parent = nullptr);
   ~DeviceProperties() override;
 
-  void SetDeviceManager(SharedPtr<DeviceManager> manager);
+  void Init(const SharedPtr<DeviceManager> device_manager);
   void ShowDevice(const QModelIndex &idx);
 
  public Q_SLOTS:
@@ -67,7 +67,7 @@ class DeviceProperties : public QDialog {
  private:
   Ui_DeviceProperties *ui_;
 
-  SharedPtr<DeviceManager> manager_;
+  SharedPtr<DeviceManager> device_manager_;
   QPersistentModelIndex index_;
 
   bool updating_formats_;

@@ -43,8 +43,8 @@
 #include <QXmlStreamReader>
 #include <QTimer>
 
+#include "includes/shared_ptr.h"
 #include "core/logging.h"
-#include "core/shared_ptr.h"
 #include "core/networkaccessmanager.h"
 #include "core/networktimeouts.h"
 #include "utilities/xmlutils.h"

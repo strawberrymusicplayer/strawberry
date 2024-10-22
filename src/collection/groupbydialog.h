@@ -28,13 +28,13 @@
 #include <QObject>
 #include <QString>
 
-#include "core/scoped_ptr.h"
+#include "includes/scoped_ptr.h"
 #include "collectionmodel.h"
-#include "ui_groupbydialog.h"
 
 class QWidget;
 
 class GroupByDialogPrivate;
+class Ui_GroupByDialog;
 
 class GroupByDialog : public QDialog {
   Q_OBJECT

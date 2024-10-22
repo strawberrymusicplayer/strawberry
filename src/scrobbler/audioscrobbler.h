@@ -30,11 +30,10 @@
 #include <QMap>
 #include <QString>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/song.h"
-#include "scrobblersettings.h"
+#include "scrobblersettingsservice.h"
 
-class Application;
 class ScrobblerService;
 class Song;
 
@@ -42,7 +41,7 @@ class AudioScrobbler : public QObject {
   Q_OBJECT
 
  public:
-  explicit AudioScrobbler(Application *app, QObject *parent = nullptr);
+  explicit AudioScrobbler(QObject *parent = nullptr);
   ~AudioScrobbler();
 
   void AddService(SharedPtr<ScrobblerService> service);
@@ -59,7 +58,7 @@ class AudioScrobbler : public QObject {
   }
 
   void ReloadSettings();
-  SharedPtr<ScrobblerSettings> settings() { return settings_; }
+  SharedPtr<ScrobblerSettingsService> settings() { return settings_; }
 
   bool enabled() const { return settings_->enabled(); }
   bool offline() const { return settings_->offline(); }
@@ -70,8 +69,6 @@ class AudioScrobbler : public QObject {
   bool ShowErrorDialog() const { return settings_->show_error_dialog(); }
   bool strip_remastered() const { return settings_->strip_remastered(); }
   QList<Song::Source> sources() const { return settings_->sources(); }
-
-  void ShowConfig();
 
   void UpdateNowPlaying(const Song &song);
   void ClearPlaying();
@@ -89,8 +86,7 @@ class AudioScrobbler : public QObject {
   void ErrorMessage(const QString &error);
 
  private:
-  Application *app_;
-  SharedPtr<ScrobblerSettings> settings_;
+  SharedPtr<ScrobblerSettingsService> settings_;
   QMap<QString, SharedPtr<ScrobblerService>> services_;
 
   Q_DISABLE_COPY(AudioScrobbler)

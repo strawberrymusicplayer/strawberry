@@ -27,22 +27,21 @@
 #include <QMap>
 #include <QString>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/song.h"
-#include "settings/settingsdialog.h"
-#include "ui_streamingcollectionviewcontainer.h"
 
 class QContextMenuEvent;
 
-class Application;
 class StreamingService;
 class StreamingCollectionView;
+
+#include "ui_streamingcollectionviewcontainer.h"
 
 class StreamingSongsView : public QWidget {
   Q_OBJECT
 
  public:
-  explicit StreamingSongsView(Application *app, SharedPtr<StreamingService> service, const QString &settings_group, const SettingsDialog::Page settings_page, QWidget *parent = nullptr);
+  explicit StreamingSongsView(const SharedPtr<StreamingService> service, const QString &settings_group, QWidget *parent = nullptr);
   ~StreamingSongsView() override;
 
   void ReloadSettings();
@@ -53,16 +52,17 @@ class StreamingSongsView : public QWidget {
   void FocusSearchField() { ui_->filter_widget->FocusSearchField(); }
 
  private Q_SLOTS:
-  void OpenSettingsDialog();
+  void Configure();
   void GetSongs();
   void AbortGetSongs();
   void SongsFinished(const SongMap &songs, const QString &error);
 
+ Q_SIGNALS:
+  void OpenSettingsDialog(const Song::Source source);
+
  private:
-  Application *app_;
-  SharedPtr<StreamingService> service_;
+  const SharedPtr<StreamingService> service_;
   QString settings_group_;
-  SettingsDialog::Page settings_page_;
   Ui_StreamingCollectionViewContainer *ui_;
 };
 

@@ -36,7 +36,7 @@
 #include <QUrl>
 #include <QColor>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/song.h"
 
 class QAction;

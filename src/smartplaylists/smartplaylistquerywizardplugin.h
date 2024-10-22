@@ -25,23 +25,38 @@
 
 #include <QString>
 
-#include "core/scoped_ptr.h"
-#include "core/shared_ptr.h"
+#include "includes/scoped_ptr.h"
+#include "includes/shared_ptr.h"
 #include "smartplaylistwizardplugin.h"
 #include "smartplaylistsearch.h"
 
 class QWizard;
 
+class Player;
+class PlaylistManager;
 class CollectionBackend;
+class CurrentAlbumCoverLoader;
 class SmartPlaylistSearch;
 class SmartPlaylistQueryWizardPluginSearchPage;
 class Ui_SmartPlaylistQuerySortPage;
+
+#ifdef HAVE_MOODBAR
+class MoodbarLoader;
+#endif
 
 class SmartPlaylistQueryWizardPlugin : public SmartPlaylistWizardPlugin {
   Q_OBJECT
 
  public:
-  explicit SmartPlaylistQueryWizardPlugin(Application *app, SharedPtr<CollectionBackend> collection_backend, QObject *parent);
+  explicit SmartPlaylistQueryWizardPlugin(const SharedPtr<Player> player,
+                                          const SharedPtr<PlaylistManager> playlist_manager,
+                                          const SharedPtr<CollectionBackend> collection_backend,
+#ifdef HAVE_MOODBAR
+                                          const SharedPtr<MoodbarLoader> moodbar_loader,
+#endif
+                                          const SharedPtr<CurrentAlbumCoverLoader> current_albumcover_loader,
+                                          QObject *parent);
+
   ~SmartPlaylistQueryWizardPlugin() override;
 
   PlaylistGenerator::Type type() const override { return PlaylistGenerator::Type::Query; }
@@ -68,6 +83,14 @@ class SmartPlaylistQueryWizardPlugin : public SmartPlaylistWizardPlugin {
   void MoveTermListToBottom(const int min, const int max);
 
  private:
+  const SharedPtr<Player> player_;
+  const SharedPtr<PlaylistManager> playlist_manager_;
+  const SharedPtr<CollectionBackend> collection_backend_;
+#ifdef HAVE_MOODBAR
+  const SharedPtr<MoodbarLoader> moodbar_loader_;
+#endif
+  const SharedPtr<CurrentAlbumCoverLoader> current_albumcover_loader_;
+
   SmartPlaylistSearch MakeSearch() const;
 
   ScopedPtr<Ui_SmartPlaylistQuerySortPage> sort_ui_;

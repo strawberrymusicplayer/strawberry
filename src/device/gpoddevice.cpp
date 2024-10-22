@@ -38,12 +38,14 @@
 #include <QImage>
 #include <QStandardPaths>
 
+#include "includes/shared_ptr.h"
 #include "core/logging.h"
-#include "core/shared_ptr.h"
-#include "core/application.h"
 #include "core/temporaryfile.h"
+#include "core/taskmanager.h"
+#include "core/database.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
+#include "covermanager/albumcoverloader.h"
 #include "connecteddevice.h"
 #include "gpoddevice.h"
 #include "gpodloader.h"
@@ -54,8 +56,19 @@ class DeviceManager;
 using std::make_shared;
 using namespace Qt::Literals::StringLiterals;
 
-GPodDevice::GPodDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, SharedPtr<DeviceManager> manager, Application *app, const int database_id, const bool first_time, QObject *parent)
-    : ConnectedDevice(url, lister, unique_id, manager, app, database_id, first_time, parent),
+GPodDevice::GPodDevice(const QUrl &url,
+                       DeviceLister *lister,
+                       const QString &unique_id,
+                       DeviceManager *device_manager,
+                       const SharedPtr<TaskManager> task_manager,
+                       const SharedPtr<Database> database,
+                       const SharedPtr<TagReaderClient> tagreader_client,
+                       const SharedPtr<AlbumCoverLoader> albumcover_loader,
+                       const int database_id,
+                       const bool first_time,
+                       QObject *parent)
+    : ConnectedDevice(url, lister, unique_id, device_manager, task_manager, database, tagreader_client, albumcover_loader, database_id, first_time, parent),
+      task_manager_(task_manager),
       loader_(nullptr),
       loader_thread_(nullptr),
       db_(nullptr),
@@ -64,9 +77,9 @@ GPodDevice::GPodDevice(const QUrl &url, DeviceLister *lister, const QString &uni
 bool GPodDevice::Init() {
 
   InitBackendDirectory(url_.path(), first_time_);
-  model_->Init();
+  collection_model_->Init();
 
-  loader_ = new GPodLoader(url_.path(), app_->task_manager(), backend_, shared_from_this());
+  loader_ = new GPodLoader(url_.path(), task_manager_, collection_backend_, shared_from_this());
   loader_thread_ = new QThread();
   loader_->moveToThread(loader_thread_);
 
@@ -135,7 +148,9 @@ void GPodDevice::LoadFinished(Itdb_iTunesDB *db, const bool success) {
 
 }
 
-void GPodDevice::LoaderError(const QString &message) { app_->AddError(message); }
+void GPodDevice::LoaderError(const QString &message) {
+  Q_EMIT Error(message);
+}
 
 void GPodDevice::Start() {
 
@@ -240,7 +255,7 @@ bool GPodDevice::CopyToStorage(const CopyJob &job, QString &error_text) {
     error_text = tr("Could not copy %1 to %2: %3").arg(job.metadata_.url().toLocalFile(), url_.path(), QString::fromUtf8(error->message));
     g_error_free(error);
     qLog(Error) << error_text;
-    app_->AddError(error_text);
+    Q_EMIT Error(error_text);
 
     // Need to remove the track from the db again
     itdb_track_remove(track);
@@ -286,7 +301,7 @@ bool GPodDevice::WriteDatabase(QString &error_text) {
     else {
       error_text = tr("Writing database failed.");
     }
-    app_->AddError(error_text);
+    Q_EMIT Error(error_text);
   }
 
   return success;
@@ -297,12 +312,12 @@ void GPodDevice::Finish(const bool success) {
 
   // Update the collection model
   if (success) {
-    if (!songs_to_add_.isEmpty()) backend_->AddOrUpdateSongs(songs_to_add_);
-    if (!songs_to_remove_.isEmpty()) backend_->DeleteSongs(songs_to_remove_);
+    if (!songs_to_add_.isEmpty()) collection_backend_->AddOrUpdateSongs(songs_to_add_);
+    if (!songs_to_remove_.isEmpty()) collection_backend_->DeleteSongs(songs_to_remove_);
   }
 
   // This is done in the organize thread so close the unique DB connection.
-  backend_->Close();
+  collection_backend_->Close();
 
   songs_to_add_.clear();
   songs_to_remove_.clear();

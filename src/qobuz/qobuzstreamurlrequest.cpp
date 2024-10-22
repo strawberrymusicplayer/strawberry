@@ -34,18 +34,18 @@
 #include <QCryptographicHash>
 #include <QJsonObject>
 
+#include "includes/shared_ptr.h"
 #include "core/logging.h"
-#include "core/shared_ptr.h"
 #include "core/networkaccessmanager.h"
 #include "core/song.h"
-#include "utilities/timeconstants.h"
+#include "constants/timeconstants.h"
 #include "qobuzservice.h"
 #include "qobuzbaserequest.h"
 #include "qobuzstreamurlrequest.h"
 
 using namespace Qt::Literals::StringLiterals;
 
-QobuzStreamURLRequest::QobuzStreamURLRequest(QobuzService *service, SharedPtr<NetworkAccessManager> network, const QUrl &media_url, const uint id, QObject *parent)
+QobuzStreamURLRequest::QobuzStreamURLRequest(QobuzService *service, const SharedPtr<NetworkAccessManager> network, const QUrl &media_url, const uint id, QObject *parent)
     : QobuzBaseRequest(service, network, parent),
       service_(service),
       reply_(nullptr),

@@ -30,21 +30,35 @@
 #include <QStringList>
 #include <QUrl>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/filesystemmusicstorage.h"
 #include "connecteddevice.h"
 
 class QThread;
-class Application;
-class CollectionWatcher;
 class DeviceLister;
 class DeviceManager;
+class TaskManager;
+class Database;
+class TagReaderClient;
+class AlbumCoverLoader;
+class CollectionWatcher;
 
 class FilesystemDevice : public ConnectedDevice, public virtual FilesystemMusicStorage {
   Q_OBJECT
 
  public:
-  Q_INVOKABLE FilesystemDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, SharedPtr<DeviceManager> manager, Application *app, const int database_id, const bool first_time, QObject *parent = nullptr);
+  Q_INVOKABLE FilesystemDevice(const QUrl &url,
+                               DeviceLister *lister,
+                               const QString &unique_id,
+                               DeviceManager *device_manager,
+                               const SharedPtr<TaskManager> task_manager,
+                               const SharedPtr<Database> database,
+                               const SharedPtr<TagReaderClient> tagreader_client,
+                               const SharedPtr<AlbumCoverLoader> albumcover_loader,
+                               const int database_id,
+                               const bool first_time,
+                               QObject *parent = nullptr);
+
   ~FilesystemDevice() override;
 
   Song::Source source() const final { return Song::Source::Device; }
@@ -59,7 +73,7 @@ class FilesystemDevice : public ConnectedDevice, public virtual FilesystemMusicS
   void ExitFinished();
 
  private:
-  CollectionWatcher *watcher_;
+  CollectionWatcher *collection_watcher_;
   QThread *watcher_thread_;
   QList<QObject*> wait_for_exit_;
 };

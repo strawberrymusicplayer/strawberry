@@ -26,17 +26,23 @@
 #include <QWidget>
 #include <QList>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 
 #include "smartplaylistsearch.h"
 #include "playlistgenerator_fwd.h"
 
 class QShowEvent;
 
-class Application;
+class Player;
+class PlaylistManager;
 class CollectionBackend;
+class CurrentAlbumCoverLoader;
 class Playlist;
 class Ui_SmartPlaylistSearchPreview;
+
+#ifdef HAVE_MOODBAR
+class MoodbarLoader;
+#endif
 
 class SmartPlaylistSearchPreview : public QWidget {
   Q_OBJECT
@@ -45,8 +51,13 @@ class SmartPlaylistSearchPreview : public QWidget {
   explicit SmartPlaylistSearchPreview(QWidget *parent = nullptr);
   ~SmartPlaylistSearchPreview() override;
 
-  void set_application(Application *app);
-  void set_collection(SharedPtr<CollectionBackend> backend);
+  void Init(const SharedPtr<Player> player,
+            const SharedPtr<PlaylistManager> playlist_manager,
+            const SharedPtr<CollectionBackend> collection_backend,
+#ifdef HAVE_MOODBAR
+            const SharedPtr<MoodbarLoader> moodbar_loader,
+#endif
+            const SharedPtr<CurrentAlbumCoverLoader> current_albumcover_loader);
 
   void Update(const SmartPlaylistSearch &search);
 

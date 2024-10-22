@@ -29,6 +29,6 @@ TagReaderRequest::TagReaderRequest(const QString &_filename) : filename(_filenam
 
 TagReaderRequest::~TagReaderRequest() {
 
-  qLog(Debug) << "Deleting tagreader request for" << filename;
+  qLog(Debug) << "Tagreader request for" << filename << "deleted";
 
 }

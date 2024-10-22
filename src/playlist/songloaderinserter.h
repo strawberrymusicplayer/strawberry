@@ -29,12 +29,14 @@
 #include <QString>
 #include <QUrl>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/song.h"
 
-class Player;
-class SongLoader;
 class TaskManager;
+class UrlHandlers;
+class Player;
+class TagReaderClient;
+class SongLoader;
 class CollectionBackendInterface;
 class Playlist;
 
@@ -42,7 +44,12 @@ class SongLoaderInserter : public QObject {
   Q_OBJECT
 
  public:
-  explicit SongLoaderInserter(SharedPtr<TaskManager> task_manager, SharedPtr<CollectionBackendInterface> collection_backend, const SharedPtr<Player> player, QObject *parent = nullptr);
+  explicit SongLoaderInserter(const SharedPtr<TaskManager> task_manager,
+                              const SharedPtr<TagReaderClient> tagreader_client,
+                              const SharedPtr<UrlHandlers> url_handlers,
+                              const SharedPtr<CollectionBackendInterface> collection_backend,
+                              QObject *parent = nullptr);
+
   ~SongLoaderInserter() override;
 
   void Load(Playlist *destination, int row, bool play_now, bool enqueue, bool enqueue_next, const QList<QUrl> &urls);
@@ -63,7 +70,10 @@ class SongLoaderInserter : public QObject {
   void AsyncLoad();
 
  private:
-  SharedPtr<TaskManager> task_manager_;
+  const SharedPtr<TaskManager> task_manager_;
+  const SharedPtr<TagReaderClient> tagreader_client_;
+  const SharedPtr<UrlHandlers> url_handlers_;
+  const SharedPtr<CollectionBackendInterface> collection_backend_;
 
   Playlist *destination_;
   int row_;
@@ -74,8 +84,6 @@ class SongLoaderInserter : public QObject {
   SongList songs_;
 
   QList<SongLoader*> pending_;
-  SharedPtr<CollectionBackendInterface> collection_backend_;
-  const SharedPtr<Player> player_;
 };
 
 #endif  // SONGLOADERINSERTER_H

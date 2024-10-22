@@ -29,11 +29,11 @@
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/settings.h"
 #include "utilities/xmlutils.h"
-#include "utilities/timeconstants.h"
-#include "settings/playlistsettingspage.h"
+#include "constants/timeconstants.h"
+#include "constants/playlistsettings.h"
 #include "xmlparser.h"
 #include "xspfparser.h"
 
@@ -41,8 +41,8 @@ using namespace Qt::Literals::StringLiterals;
 
 class CollectionBackendInterface;
 
-XSPFParser::XSPFParser(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent)
-    : XMLParser(collection_backend, parent) {}
+XSPFParser::XSPFParser(const SharedPtr<TagReaderClient> tagreader_client, const SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent)
+    : XMLParser(tagreader_client, collection_backend, parent) {}
 
 SongList XSPFParser::Load(QIODevice *device, const QString &playlist_path, const QDir &dir, const bool collection_lookup) const {
 
@@ -140,7 +140,7 @@ return_song:
 
 }
 
-void XSPFParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, const PlaylistSettingsPage::PathType path_type) const {
+void XSPFParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, const PlaylistSettings::PathType path_type) const {
 
   QXmlStreamWriter writer(device);
   writer.setAutoFormatting(true);
@@ -151,8 +151,8 @@ void XSPFParser::Save(const SongList &songs, QIODevice *device, const QDir &dir,
   writer.writeDefaultNamespace("http://xspf.org/ns/0/"_L1);
 
   Settings s;
-  s.beginGroup(PlaylistSettingsPage::kSettingsGroup);
-  bool write_metadata = s.value("write_metadata", true).toBool();
+  s.beginGroup(PlaylistSettings::kSettingsGroup);
+  bool write_metadata = s.value(PlaylistSettings::kWriteMetadata, true).toBool();
   s.endGroup();
 
   StreamElement tracklist(u"trackList"_s, &writer);

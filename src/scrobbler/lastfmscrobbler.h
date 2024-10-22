@@ -25,17 +25,17 @@
 #include <QtGlobal>
 #include <QObject>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "scrobblingapi20.h"
 
-class AudioScrobbler;
+class ScrobblerSettingsService;
 class NetworkAccessManager;
 
 class LastFMScrobbler : public ScrobblingAPI20 {
   Q_OBJECT
 
  public:
-  explicit LastFMScrobbler(SharedPtr<ScrobblerSettings> settings, SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
+  explicit LastFMScrobbler(const SharedPtr<ScrobblerSettingsService> settings, const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
 
   static const char *kName;
   static const char *kSettingsGroup;

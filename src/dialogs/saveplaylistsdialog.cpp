@@ -30,16 +30,16 @@
 #include "ui_saveplaylistsdialog.h"
 
 #include "core/settings.h"
-#include "playlist/playlist.h"
+#include "constants/playlistsettings.h"
 
 SavePlaylistsDialog::SavePlaylistsDialog(const QStringList &types, const QString &default_extension, QWidget *parent) : QDialog(parent), ui_(new Ui_SavePlaylistsDialog) {
 
   ui_->setupUi(this);
 
   Settings s;
-  s.beginGroup(Playlist::kSettingsGroup);
-  QString last_save_path = s.value("last_save_all_path", QDir::homePath()).toString();
-  QString last_save_extension = s.value("last_save_all_extension", default_extension).toString();
+  s.beginGroup(PlaylistSettings::kSettingsGroup);
+  QString last_save_path = s.value(PlaylistSettings::kLastSaveAllPath, QDir::homePath()).toString();
+  QString last_save_extension = s.value(PlaylistSettings::kLastSaveAllExtension, default_extension).toString();
   s.endGroup();
 
   ui_->lineedit_path->setText(last_save_path);
@@ -81,9 +81,9 @@ void SavePlaylistsDialog::accept() {
   }
 
   Settings s;
-  s.beginGroup(Playlist::kSettingsGroup);
-  s.setValue("last_save_all_path", path);
-  s.setValue("last_save_all_extension", ui_->combobox_type->currentText());
+  s.beginGroup(PlaylistSettings::kSettingsGroup);
+  s.setValue(PlaylistSettings::kLastSaveAllPath, path);
+  s.setValue(PlaylistSettings::kLastSaveAllExtension, ui_->combobox_type->currentText());
   s.endGroup();
 
   QDialog::accept();

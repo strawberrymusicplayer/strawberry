@@ -32,7 +32,7 @@
 #include <QString>
 #include <QSqlDatabase>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/database.h"
 #include "core/sqlquery.h"
 #include "core/scopedtransaction.h"

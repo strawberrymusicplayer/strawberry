@@ -39,7 +39,7 @@
 #include <QString>
 #include <QUrl>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "enginebase.h"
 #include "gststartup.h"
 #include "gstenginepipeline.h"

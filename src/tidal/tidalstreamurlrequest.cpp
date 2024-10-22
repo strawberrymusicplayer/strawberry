@@ -33,18 +33,18 @@
 #include <QJsonArray>
 #include <QXmlStreamReader>
 
+#include "includes/shared_ptr.h"
 #include "core/logging.h"
-#include "core/shared_ptr.h"
 #include "core/networkaccessmanager.h"
 #include "core/song.h"
-#include "settings/tidalsettingspage.h"
+#include "constants/tidalsettings.h"
 #include "tidalservice.h"
 #include "tidalbaserequest.h"
 #include "tidalstreamurlrequest.h"
 
 using namespace Qt::Literals::StringLiterals;
 
-TidalStreamURLRequest::TidalStreamURLRequest(TidalService *service, SharedPtr<NetworkAccessManager> network, const QUrl &media_url, const uint id, QObject *parent)
+TidalStreamURLRequest::TidalStreamURLRequest(TidalService *service, const SharedPtr<NetworkAccessManager> network, const QUrl &media_url, const uint id, QObject *parent)
     : TidalBaseRequest(service, network, parent),
       service_(service),
       reply_(nullptr),
@@ -122,12 +122,12 @@ void TidalStreamURLRequest::GetStreamURL() {
   ParamList params;
 
   switch (stream_url_method()) {
-    case TidalSettingsPage::StreamUrlMethod::StreamUrl:
+    case TidalSettings::StreamUrlMethod::StreamUrl:
       params << Param(u"soundQuality"_s, quality());
       reply_ = CreateRequest(QStringLiteral("tracks/%1/streamUrl").arg(song_id_), params);
       QObject::connect(reply_, &QNetworkReply::finished, this, &TidalStreamURLRequest::StreamURLReceived);
       break;
-    case TidalSettingsPage::StreamUrlMethod::UrlPostPaywall:
+    case TidalSettings::StreamUrlMethod::UrlPostPaywall:
       params << Param(u"audioquality"_s, quality());
       params << Param(u"playbackmode"_s, u"STREAM"_s);
       params << Param(u"assetpresentation"_s, u"FULL"_s);
@@ -135,7 +135,7 @@ void TidalStreamURLRequest::GetStreamURL() {
       reply_ = CreateRequest(QStringLiteral("tracks/%1/urlpostpaywall").arg(song_id_), params);
       QObject::connect(reply_, &QNetworkReply::finished, this, &TidalStreamURLRequest::StreamURLReceived);
       break;
-    case TidalSettingsPage::StreamUrlMethod::PlaybackInfoPostPaywall:
+    case TidalSettings::StreamUrlMethod::PlaybackInfoPostPaywall:
       params << Param(u"audioquality"_s, quality());
       params << Param(u"playbackmode"_s, u"STREAM"_s);
       params << Param(u"assetpresentation"_s, u"FULL"_s);

@@ -29,7 +29,7 @@
 #include <QFuture>
 #include <QFutureWatcher>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 
 #include "smartplaylistsearchpreview.h"
 #include "ui_smartplaylistsearchpreview.h"
@@ -62,20 +62,28 @@ SmartPlaylistSearchPreview::~SmartPlaylistSearchPreview() {
   delete ui_;
 }
 
-void SmartPlaylistSearchPreview::set_application(Application *app) {
-
-  ui_->tree->Init(app);
-
-}
-
-void SmartPlaylistSearchPreview::set_collection(SharedPtr<CollectionBackend> collection_backend) {
+void SmartPlaylistSearchPreview::Init(const SharedPtr<Player> player,
+                                      const SharedPtr<PlaylistManager> playlist_manager,
+                                      const SharedPtr<CollectionBackend> collection_backend,
+#ifdef HAVE_MOODBAR
+                                      const SharedPtr<MoodbarLoader> moodbar_loader,
+#endif
+                                      const SharedPtr<CurrentAlbumCoverLoader> current_albumcover_loader) {
 
   collection_backend_ = collection_backend;
 
-  model_ = new Playlist(nullptr, nullptr, collection_backend_, -1, QString(), false, this);
+  model_ = new Playlist(nullptr, nullptr, nullptr, collection_backend_, nullptr, -1, QString(), false, this);
   ui_->tree->setModel(model_);
   ui_->tree->SetPlaylist(model_);
   ui_->tree->SetItemDelegates();
+
+  ui_->tree->Init(player,
+                  playlist_manager,
+                  collection_backend,
+#ifdef HAVE_MOODBAR
+                  moodbar_loader,
+#endif
+                  current_albumcover_loader);
 
 }
 

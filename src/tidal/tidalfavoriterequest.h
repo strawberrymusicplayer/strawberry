@@ -27,7 +27,7 @@
 #include <QVariant>
 #include <QString>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/song.h"
 
 #include "tidalbaserequest.h"
@@ -40,7 +40,7 @@ class TidalFavoriteRequest : public TidalBaseRequest {
   Q_OBJECT
 
  public:
-  explicit TidalFavoriteRequest(TidalService *service, SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
+  explicit TidalFavoriteRequest(TidalService *service, const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~TidalFavoriteRequest() override;
 
   bool need_login() const { return need_login_; }
@@ -87,7 +87,7 @@ class TidalFavoriteRequest : public TidalBaseRequest {
   void RemoveFavoritesRequest(const FavoriteType type, const QString &id, const SongList &songs);
 
   TidalService *service_;
-  SharedPtr<NetworkAccessManager> network_;
+  const SharedPtr<NetworkAccessManager> network_;
   QList <QNetworkReply*> replies_;
   bool need_login_;
 };

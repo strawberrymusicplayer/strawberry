@@ -42,13 +42,12 @@
 #include <QJsonObject>
 #include <QSettings>
 
+#include "includes/shared_ptr.h"
 #include "core/logging.h"
-#include "core/shared_ptr.h"
-#include "core/application.h"
-#include "core/player.h"
 #include "core/database.h"
 #include "core/song.h"
 #include "core/settings.h"
+#include "core/urlhandlers.h"
 #include "utilities/randutils.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
@@ -56,8 +55,7 @@
 #include "subsonicurlhandler.h"
 #include "subsonicrequest.h"
 #include "subsonicscrobblerequest.h"
-#include "settings/settingsdialog.h"
-#include "settings/subsonicsettingspage.h"
+#include "constants/subsonicsettings.h"
 
 using namespace Qt::Literals::StringLiterals;
 using std::make_unique;
@@ -72,24 +70,27 @@ constexpr char kSongsTable[] = "subsonic_songs";
 constexpr int kMaxRedirects = 3;
 }  // namespace
 
-SubsonicService::SubsonicService(Application *app, QObject *parent)
-    : StreamingService(Song::Source::Subsonic, u"Subsonic"_s, u"subsonic"_s, QLatin1String(SubsonicSettingsPage::kSettingsGroup), SettingsDialog::Page::Subsonic, app, parent),
-      app_(app),
-      url_handler_(new SubsonicUrlHandler(app, this)),
+SubsonicService::SubsonicService(const SharedPtr<TaskManager> task_manager,
+                                 const SharedPtr<Database> database,
+                                 const SharedPtr<UrlHandlers> url_handlers,
+                                 const SharedPtr<AlbumCoverLoader> albumcover_loader,
+                                 QObject *parent)
+    : StreamingService(Song::Source::Subsonic, u"Subsonic"_s, u"subsonic"_s, QLatin1String(SubsonicSettings::kSettingsGroup), parent),
+      url_handler_(new SubsonicUrlHandler(this)),
       collection_backend_(nullptr),
       collection_model_(nullptr),
       http2_(false),
       verify_certificate_(false),
       download_album_covers_(true),
-      auth_method_(SubsonicSettingsPage::AuthMethod::MD5),
+      auth_method_(SubsonicSettings::AuthMethod::MD5),
       ping_redirects_(0) {
 
-  app->player()->RegisterUrlHandler(url_handler_);
+  url_handlers->Register(url_handler_);
 
   collection_backend_ = make_shared<CollectionBackend>();
-  collection_backend_->moveToThread(app_->database()->thread());
-  collection_backend_->Init(app_->database(), app->task_manager(), Song::Source::Subsonic, QLatin1String(kSongsTable));
-  collection_model_ = new CollectionModel(collection_backend_, app_, this);
+  collection_backend_->moveToThread(database->thread());
+  collection_backend_->Init(database, task_manager, Song::Source::Subsonic, QLatin1String(kSongsTable));
+  collection_model_ = new CollectionModel(collection_backend_, albumcover_loader, this);
 
   SubsonicService::ReloadSettings();
 
@@ -113,25 +114,21 @@ void SubsonicService::Exit() {
 
 }
 
-void SubsonicService::ShowConfig() {
-  app_->OpenSettingsDialogAtPage(SettingsDialog::Page::Subsonic);
-}
-
 void SubsonicService::ReloadSettings() {
 
   Settings s;
-  s.beginGroup(SubsonicSettingsPage::kSettingsGroup);
+  s.beginGroup(SubsonicSettings::kSettingsGroup);
 
-  server_url_ = s.value("url").toUrl();
-  username_ = s.value("username").toString();
-  QByteArray password = s.value("password").toByteArray();
+  server_url_ = s.value(SubsonicSettings::kUrl).toUrl();
+  username_ = s.value(SubsonicSettings::kUsername).toString();
+  QByteArray password = s.value(SubsonicSettings::kPassword).toByteArray();
   if (password.isEmpty()) password_.clear();
   else password_ = QString::fromUtf8(QByteArray::fromBase64(password));
 
-  http2_ = s.value("http2", false).toBool();
-  verify_certificate_ = s.value("verifycertificate", false).toBool();
-  download_album_covers_ = s.value("downloadalbumcovers", true).toBool();
-  auth_method_ = static_cast<SubsonicSettingsPage::AuthMethod>(s.value("authmethod", static_cast<int>(SubsonicSettingsPage::AuthMethod::MD5)).toInt());
+  http2_ = s.value(SubsonicSettings::kHTTP2, false).toBool();
+  verify_certificate_ = s.value(SubsonicSettings::kVerifyCertificate, false).toBool();
+  download_album_covers_ = s.value(SubsonicSettings::kDownloadAlbumCovers, true).toBool();
+  auth_method_ = static_cast<SubsonicSettings::AuthMethod>(s.value(SubsonicSettings::kAuthMethod, static_cast<int>(SubsonicSettings::AuthMethod::MD5)).toInt());
 
   s.endGroup();
 
@@ -141,7 +138,7 @@ void SubsonicService::SendPing() {
   SendPingWithCredentials(server_url_, username_, password_, auth_method_, false);
 }
 
-void SubsonicService::SendPingWithCredentials(QUrl url, const QString &username, const QString &password, const SubsonicSettingsPage::AuthMethod auth_method, const bool redirect) {
+void SubsonicService::SendPingWithCredentials(QUrl url, const QString &username, const QString &password, const SubsonicSettings::AuthMethod auth_method, const bool redirect) {
 
   if (!network_ || !redirect) {
     network_ = make_unique<QNetworkAccessManager>();
@@ -157,7 +154,7 @@ void SubsonicService::SendPingWithCredentials(QUrl url, const QString &username,
                                  << Param(u"f"_s, u"json"_s)
                                  << Param(u"u"_s, username);
 
-  if (auth_method == SubsonicSettingsPage::AuthMethod::Hex) {
+  if (auth_method == SubsonicSettings::AuthMethod::Hex) {
     params << Param(u"p"_s, u"enc:"_s + QString::fromLatin1(password.toUtf8().toHex()));
   }
   else {
@@ -215,7 +212,7 @@ void SubsonicService::HandlePingSSLErrors(const QList<QSslError> &ssl_errors) {
 
 }
 
-void SubsonicService::HandlePingReply(QNetworkReply *reply, const QUrl &url, const QString &username, const QString &password, const SubsonicSettingsPage::AuthMethod auth_method) {
+void SubsonicService::HandlePingReply(QNetworkReply *reply, const QUrl &url, const QString &username, const QString &password, const SubsonicSettings::AuthMethod auth_method) {
 
   Q_UNUSED(url);
 
@@ -388,7 +385,7 @@ void SubsonicService::Scrobble(const QString &song_id, const bool submission, co
 
   if (!scrobble_request_) {
     // We're doing requests every 30-240s the whole time, so keep reusing this instance
-    scrobble_request_.reset(new SubsonicScrobbleRequest(this, url_handler_, app_), [](SubsonicScrobbleRequest *request) { request->deleteLater(); });
+    scrobble_request_.reset(new SubsonicScrobbleRequest(this, url_handler_), [](SubsonicScrobbleRequest *request) { request->deleteLater(); });
   }
 
   scrobble_request_->CreateScrobbleRequest(song_id, submission, time);
@@ -418,7 +415,7 @@ void SubsonicService::GetSongs() {
   }
 
   ResetSongsRequest();
-  songs_request_.reset(new SubsonicRequest(this, url_handler_, app_), [](SubsonicRequest *request) { request->deleteLater(); });
+  songs_request_.reset(new SubsonicRequest(this, url_handler_), [](SubsonicRequest *request) { request->deleteLater(); });
   QObject::connect(&*songs_request_, &SubsonicRequest::Results, this, &SubsonicService::SongsResultsReceived);
   QObject::connect(&*songs_request_, &SubsonicRequest::UpdateStatus, this, &SubsonicService::SongsUpdateStatus);
   QObject::connect(&*songs_request_, &SubsonicRequest::ProgressSetMaximum, this, &SubsonicService::SongsProgressSetMaximum);

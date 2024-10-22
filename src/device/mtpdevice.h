@@ -31,15 +31,18 @@
 #include <QStringList>
 #include <QUrl>
 
-#include "core/scoped_ptr.h"
-#include "core/shared_ptr.h"
+#include "includes/scoped_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/song.h"
 #include "connecteddevice.h"
 
 class QThread;
-class Application;
 class DeviceLister;
 class DeviceManager;
+class TaskManager;
+class Database;
+class TagReaderClient;
+class AlbumCoverLoader;
 class MtpLoader;
 class MtpConnection;
 struct LIBMTP_mtpdevice_struct;
@@ -48,7 +51,18 @@ class MtpDevice : public ConnectedDevice {
   Q_OBJECT
 
  public:
-  Q_INVOKABLE MtpDevice(const QUrl &url, DeviceLister *lister, const QString &unique_id, SharedPtr<DeviceManager> manager, Application *app, const int database_id, const bool first_time, QObject *parent = nullptr);
+  Q_INVOKABLE MtpDevice(const QUrl &url,
+                        DeviceLister *lister,
+                        const QString &unique_id,
+                        DeviceManager *device_manager,
+                        const SharedPtr<TaskManager> task_manager,
+                        const SharedPtr<Database> database,
+                        const SharedPtr<TagReaderClient> tagreader_client,
+                        const SharedPtr<AlbumCoverLoader> albumcover_loader,
+                        const int database_id,
+                        const bool first_time,
+                        QObject *parent = nullptr);
+
   ~MtpDevice() override;
 
   static QStringList url_schemes() { return QStringList() << QStringLiteral("mtp"); }
@@ -81,6 +95,8 @@ class MtpDevice : public ConnectedDevice {
 
  private:
   static bool sInitializedLibMTP;
+
+  SharedPtr<TaskManager> task_manager_;
 
   MtpLoader *loader_;
   QThread *loader_thread_;

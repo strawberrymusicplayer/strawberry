@@ -29,19 +29,20 @@
 #include <QStringList>
 #include <QDir>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
+#include "constants/playlistsettings.h"
 #include "core/song.h"
-#include "settings/playlistsettingspage.h"
 #include "parserbase.h"
 
 class QIODevice;
+class TagReaderClient;
 class CollectionBackendInterface;
 
 class AsxIniParser : public ParserBase {
   Q_OBJECT
 
  public:
-  explicit AsxIniParser(SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent = nullptr);
+  explicit AsxIniParser(const SharedPtr<TagReaderClient> tagreader_client, const SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent = nullptr);
 
   QString name() const override { return QStringLiteral("ASX/INI"); }
   QStringList file_extensions() const override { return QStringList() << QStringLiteral("asxini"); }
@@ -51,7 +52,7 @@ class AsxIniParser : public ParserBase {
   bool TryMagic(const QByteArray &data) const override;
 
   SongList Load(QIODevice *device, const QString &playlist_path = QLatin1String(""), const QDir &dir = QDir(), const bool collection_lookup = true) const override;
-  void Save(const SongList &songs, QIODevice *device, const QDir &dir = QDir(), const PlaylistSettingsPage::PathType path_type = PlaylistSettingsPage::PathType::Automatic) const override;
+  void Save(const SongList &songs, QIODevice *device, const QDir &dir = QDir(), const PlaylistSettings::PathType path_type = PlaylistSettings::PathType::Automatic) const override;
 };
 
 #endif  // ASXINIPARSER_H

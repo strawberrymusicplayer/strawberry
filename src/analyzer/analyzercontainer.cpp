@@ -44,8 +44,8 @@
 #include "waverubberanalyzer.h"
 #include "rainbowanalyzer.h"
 
+#include "includes/shared_ptr.h"
 #include "core/logging.h"
-#include "core/shared_ptr.h"
 #include "core/settings.h"
 #include "engine/enginebase.h"
 

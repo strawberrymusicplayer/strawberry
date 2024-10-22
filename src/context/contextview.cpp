@@ -50,8 +50,6 @@
 #include <QDragEnterEvent>
 #include <QDropEvent>
 
-#include "core/application.h"
-#include "core/player.h"
 #include "core/song.h"
 #include "core/settings.h"
 #include "utilities/strutils.h"
@@ -60,7 +58,7 @@
 #include "collection/collectionview.h"
 #include "covermanager/albumcoverchoicecontroller.h"
 #include "lyrics/lyricsfetcher.h"
-#include "settings/contextsettingspage.h"
+#include "constants/contextsettings.h"
 
 #include "contextview.h"
 #include "contextalbum.h"
@@ -69,11 +67,10 @@ using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr int kWidgetSpacing = 50;
-}
+}  // namespace
 
 ContextView::ContextView(QWidget *parent)
     : QWidget(parent),
-      app_(nullptr),
       collectionview_(nullptr),
       album_cover_choice_controller_(nullptr),
       lyrics_fetcher_(nullptr),
@@ -241,14 +238,13 @@ ContextView::ContextView(QWidget *parent)
 
 }
 
-void ContextView::Init(Application *app, CollectionView *collectionview, AlbumCoverChoiceController *album_cover_choice_controller) {
+void ContextView::Init(CollectionView *collectionview, AlbumCoverChoiceController *album_cover_choice_controller, SharedPtr<LyricsProviders> lyrics_providers) {
 
-  app_ = app;
   collectionview_ = collectionview;
   album_cover_choice_controller_ = album_cover_choice_controller;
 
   widget_album_->Init(this, album_cover_choice_controller_);
-  lyrics_fetcher_ = new LyricsFetcher(app_->lyrics_providers(), this);
+  lyrics_fetcher_ = new LyricsFetcher(lyrics_providers, this);
 
   QObject::connect(collectionview_, &CollectionView::TotalSongCountUpdated_, this, &ContextView::UpdateNoSong);
   QObject::connect(collectionview_, &CollectionView::TotalArtistCountUpdated_, this, &ContextView::UpdateNoSong);
@@ -295,27 +291,27 @@ void ContextView::AddActions() {
 void ContextView::ReloadSettings() {
 
   QString default_font;
-  if (QFontDatabase::families().contains(QLatin1String(ContextSettingsPage::kDefaultFontFamily))) {
-    default_font = QLatin1String(ContextSettingsPage::kDefaultFontFamily);
+  if (QFontDatabase::families().contains(QLatin1String(ContextSettings::kDefaultFontFamily))) {
+    default_font = QLatin1String(ContextSettings::kDefaultFontFamily);
   }
   else {
     default_font = font().family();
   }
 
   Settings s;
-  s.beginGroup(ContextSettingsPage::kSettingsGroup);
-  title_fmt_ = s.value(ContextSettingsPage::kSettingsTitleFmt, u"%title% - %artist%"_s).toString();
-  summary_fmt_ = s.value(ContextSettingsPage::kSettingsSummaryFmt, u"%album%"_s).toString();
-  action_show_album_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[static_cast<int>(ContextSettingsPage::ContextSettingsOrder::ALBUM)], true).toBool());
-  action_show_data_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[static_cast<int>(ContextSettingsPage::ContextSettingsOrder::TECHNICAL_DATA)], false).toBool());
-  action_show_lyrics_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[static_cast<int>(ContextSettingsPage::ContextSettingsOrder::SONG_LYRICS)], true).toBool());
-  action_search_lyrics_->setChecked(s.value(ContextSettingsPage::kSettingsGroupEnable[static_cast<int>(ContextSettingsPage::ContextSettingsOrder::SEARCH_LYRICS)], true).toBool());
-  font_headline_.setFamily(s.value("font_headline", default_font).toString());
-  font_headline_.setPointSizeF(s.value("font_size_headline", ContextSettingsPage::kDefaultFontSizeHeadline).toReal());
+  s.beginGroup(ContextSettings::kSettingsGroup);
+  title_fmt_ = s.value(ContextSettings::kSettingsTitleFmt, u"%title% - %artist%"_s).toString();
+  summary_fmt_ = s.value(ContextSettings::kSettingsSummaryFmt, u"%album%"_s).toString();
+  action_show_album_->setChecked(s.value(ContextSettings::kAlbum, true).toBool());
+  action_show_data_->setChecked(s.value(ContextSettings::kTechnicalData, false).toBool());
+  action_show_lyrics_->setChecked(s.value(ContextSettings::kSongLyrics, true).toBool());
+  action_search_lyrics_->setChecked(s.value(ContextSettings::kSearchLyrics, true).toBool());
+  font_headline_.setFamily(s.value(ContextSettings::kFontHeadline, default_font).toString());
+  font_headline_.setPointSizeF(s.value(ContextSettings::kFontSizeHeadline, ContextSettings::kDefaultFontSizeHeadline).toReal());
   font_nosong_.setFamily(font_headline_.family());
   font_nosong_.setPointSizeF(font_headline_.pointSizeF() * 1.6F);
-  font_normal_.setFamily(s.value("font_normal", default_font).toString());
-  font_normal_.setPointSizeF(s.value("font_size_normal", font().pointSizeF()).toReal());
+  font_normal_.setFamily(s.value(ContextSettings::kFontNormal, default_font).toString());
+  font_normal_.setPointSizeF(s.value(ContextSettings::kFontSizeNormal, font().pointSizeF()).toReal());
   s.endGroup();
 
   UpdateFonts();
@@ -697,9 +693,10 @@ void ContextView::AlbumCoverLoaded(const Song &song, const QImage &image) {
 void ContextView::ActionShowAlbum() {
 
   Settings s;
-  s.beginGroup(ContextSettingsPage::kSettingsGroup);
-  s.setValue(ContextSettingsPage::kSettingsGroupEnable[static_cast<int>(ContextSettingsPage::ContextSettingsOrder::ALBUM)], action_show_album_->isChecked());
+  s.beginGroup(ContextSettings::kSettingsGroup);
+  s.setValue(ContextSettings::kAlbum, action_show_album_->isChecked());
   s.endGroup();
+
   if (song_playing_.is_valid()) SetSong();
 
 }
@@ -707,9 +704,10 @@ void ContextView::ActionShowAlbum() {
 void ContextView::ActionShowData() {
 
   Settings s;
-  s.beginGroup(ContextSettingsPage::kSettingsGroup);
-  s.setValue(ContextSettingsPage::kSettingsGroupEnable[static_cast<int>(ContextSettingsPage::ContextSettingsOrder::TECHNICAL_DATA)], action_show_data_->isChecked());
+  s.beginGroup(ContextSettings::kSettingsGroup);
+  s.setValue(ContextSettings::kTechnicalData, action_show_data_->isChecked());
   s.endGroup();
+
   if (song_playing_.is_valid()) SetSong();
 
 }
@@ -717,8 +715,8 @@ void ContextView::ActionShowData() {
 void ContextView::ActionShowLyrics() {
 
   Settings s;
-  s.beginGroup(ContextSettingsPage::kSettingsGroup);
-  s.setValue(ContextSettingsPage::kSettingsGroupEnable[static_cast<int>(ContextSettingsPage::ContextSettingsOrder::SONG_LYRICS)], action_show_lyrics_->isChecked());
+  s.beginGroup(ContextSettings::kSettingsGroup);
+  s.setValue(ContextSettings::kSongLyrics, action_show_lyrics_->isChecked());
   s.endGroup();
 
   if (song_playing_.is_valid()) SetSong();
@@ -730,8 +728,8 @@ void ContextView::ActionShowLyrics() {
 void ContextView::ActionSearchLyrics() {
 
   Settings s;
-  s.beginGroup(ContextSettingsPage::kSettingsGroup);
-  s.setValue(ContextSettingsPage::kSettingsGroupEnable[static_cast<int>(ContextSettingsPage::ContextSettingsOrder::SEARCH_LYRICS)], action_search_lyrics_->isChecked());
+  s.beginGroup(ContextSettings::kSettingsGroup);
+  s.setValue(ContextSettings::kSearchLyrics, action_search_lyrics_->isChecked());
   s.endGroup();
 
   if (song_playing_.is_valid()) SetSong();

@@ -37,7 +37,9 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-const char *AlbumCoverExport::kSettingsGroup = "AlbumCoverExport";
+namespace {
+constexpr char kSettingsGroup[] = "AlbumCoverExport";
+}
 
 AlbumCoverExport::AlbumCoverExport(QWidget *parent) : QDialog(parent), ui_(new Ui_AlbumCoverExport) {
 

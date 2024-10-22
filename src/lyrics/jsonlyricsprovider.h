@@ -29,7 +29,7 @@
 #include <QString>
 #include <QJsonObject>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "lyricsprovider.h"
 
 class NetworkAccessManager;
@@ -39,7 +39,7 @@ class JsonLyricsProvider : public LyricsProvider {
   Q_OBJECT
 
  public:
-  explicit JsonLyricsProvider(const QString &name, const bool enabled, const bool authentication_required, SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
+  explicit JsonLyricsProvider(const QString &name, const bool enabled, const bool authentication_required, const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
 
  protected:
   QByteArray ExtractData(QNetworkReply *reply);

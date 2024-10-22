@@ -25,7 +25,7 @@
 #include <QtGlobal>
 #include <QMetaType>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "scrobblemetadata.h"
 
 class ScrobblerCacheItem {

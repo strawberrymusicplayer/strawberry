@@ -28,7 +28,7 @@
 #include <QObject>
 #include <QUrl>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/taskmanager.h"
 #include "core/song.h"
 #include "collection/collectionbackend.h"
@@ -37,7 +37,7 @@
 
 using std::make_unique;
 
-MtpLoader::MtpLoader(const QUrl &url, SharedPtr<TaskManager> task_manager, SharedPtr<CollectionBackend> backend, QObject *parent)
+MtpLoader::MtpLoader(const QUrl &url, const SharedPtr<TaskManager> task_manager, const SharedPtr<CollectionBackend> backend, QObject *parent)
     : QObject(parent),
       url_(url),
       task_manager_(task_manager),

@@ -32,18 +32,17 @@
 #include <QJsonParseError>
 #include <QJsonObject>
 
-#include "core/shared_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/logging.h"
 #include "core/networkaccessmanager.h"
-#include "providers/musixmatchprovider.h"
 #include "albumcoverfetcher.h"
 #include "jsoncoverprovider.h"
 #include "musixmatchcoverprovider.h"
 
 using namespace Qt::Literals::StringLiterals;
 
-MusixmatchCoverProvider::MusixmatchCoverProvider(Application *app, SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : JsonCoverProvider(u"Musixmatch"_s, true, false, 1.0, true, false, app, network, parent) {}
+MusixmatchCoverProvider::MusixmatchCoverProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent)
+    : JsonCoverProvider(u"Musixmatch"_s, true, false, 1.0, true, false, network, parent) {}
 
 MusixmatchCoverProvider::~MusixmatchCoverProvider() {
 

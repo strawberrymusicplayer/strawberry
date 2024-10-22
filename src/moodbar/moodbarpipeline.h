@@ -31,7 +31,7 @@
 #include <glib-object.h>
 #include <gst/gst.h>
 
-#include "core/scoped_ptr.h"
+#include "includes/scoped_ptr.h"
 
 class MoodbarBuilder;
 
