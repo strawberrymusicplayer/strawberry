@@ -4563,11 +4563,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message numerus="yes">
       <source>%n track(s)</source>
-      <translation type="unfinished">
-        <numerusform>%n трек(ов)</numerusform>
-        <numerusform>%n track(s)</numerusform>
-        <numerusform>%n track(s)</numerusform>
-        <numerusform>%n track(s)</numerusform>
+      <translation>
+        <numerusform>%n дорожка</numerusform>
+        <numerusform>%n дорожки</numerusform>
+        <numerusform>%n дорожек</numerusform>
+        <numerusform>%n дорожек</numerusform>
       </translation>
     </message>
     <message>
@@ -4836,11 +4836,11 @@ Are you sure you want to continue?</source>
     <name>PlaylistUndoCommands::InsertItems</name>
     <message numerus="yes">
       <source>add %n songs</source>
-      <translation type="unfinished">
+      <translation>
+        <numerusform>добавку %n песни</numerusform>
         <numerusform>добавку %n песен</numerusform>
-        <numerusform>add %n songs</numerusform>
-        <numerusform>add %n songs</numerusform>
-        <numerusform>add %n songs</numerusform>
+        <numerusform>добавку %n песен</numerusform>
+        <numerusform>добавку %n песен</numerusform>
       </translation>
     </message>
   </context>
@@ -4848,11 +4848,11 @@ Are you sure you want to continue?</source>
     <name>PlaylistUndoCommands::MoveItems</name>
     <message numerus="yes">
       <source>move %n songs</source>
-      <translation type="unfinished">
+      <translation>
+        <numerusform>перемещение %n песни</numerusform>
         <numerusform>перемещение %n песен</numerusform>
-        <numerusform>move %n songs</numerusform>
-        <numerusform>move %n songs</numerusform>
-        <numerusform>move %n songs</numerusform>
+        <numerusform>перемещение %n песен</numerusform>
+        <numerusform>перемещение %n песен</numerusform>
       </translation>
     </message>
   </context>
@@ -4860,11 +4860,11 @@ Are you sure you want to continue?</source>
     <name>PlaylistUndoCommands::RemoveItems</name>
     <message numerus="yes">
       <source>remove %n songs</source>
-      <translation type="unfinished">
+      <translation>
+        <numerusform>удаление %n песни</numerusform>
         <numerusform>удаление %n песен</numerusform>
-        <numerusform>remove %n songs</numerusform>
-        <numerusform>remove %n songs</numerusform>
-        <numerusform>remove %n songs</numerusform>
+        <numerusform>удаление %n песен</numerusform>
+        <numerusform>удаление %n песен</numerusform>
       </translation>
     </message>
   </context>
@@ -5527,11 +5527,11 @@ Are you sure you want to continue?</source>
     <name>Queue</name>
     <message numerus="yes">
       <source>%n track(s)</source>
-      <translation type="unfinished">
-        <numerusform>%n трек(ов)</numerusform>
-        <numerusform>%n track(s)</numerusform>
-        <numerusform>%n track(s)</numerusform>
-        <numerusform>%n track(s)</numerusform>
+      <translation>
+        <numerusform>%n дорожка</numerusform>
+        <numerusform>%n дорожки</numerusform>
+        <numerusform>%n дорожек</numerusform>
+        <numerusform>%n дорожек</numerusform>
       </translation>
     </message>
   </context>
@@ -7138,29 +7138,29 @@ Are you sure you want to continue?</source>
     </message>
     <message numerus="yes">
       <source>%n remaining</source>
-      <translation type="unfinished">
+      <translation>
         <numerusform>%n осталось</numerusform>
-        <numerusform>%n remaining</numerusform>
-        <numerusform>%n remaining</numerusform>
-        <numerusform>%n remaining</numerusform>
+        <numerusform>%n осталось</numerusform>
+        <numerusform>%n осталось</numerusform>
+        <numerusform>%n осталось</numerusform>
       </translation>
     </message>
     <message numerus="yes">
       <source>%n finished</source>
-      <translation type="unfinished">
+      <translation>
         <numerusform>%n завершено</numerusform>
-        <numerusform>%n finished</numerusform>
-        <numerusform>%n finished</numerusform>
-        <numerusform>%n finished</numerusform>
+        <numerusform>%n завершено</numerusform>
+        <numerusform>%n завершено</numerusform>
+        <numerusform>%n завершено</numerusform>
       </translation>
     </message>
     <message numerus="yes">
       <source>%n failed</source>
-      <translation type="unfinished">
+      <translation>
         <numerusform>%n с ошибкой</numerusform>
-        <numerusform>%n failed</numerusform>
-        <numerusform>%n failed</numerusform>
-        <numerusform>%n failed</numerusform>
+        <numerusform>%n с ошибкой</numerusform>
+        <numerusform>%n с ошибкой</numerusform>
+        <numerusform>%n с ошибкой</numerusform>
       </translation>
     </message>
     <message>
