@@ -5,7 +5,7 @@
     <name>About</name>
     <message>
       <source>About</source>
-      <translation>Programmist</translation>
+      <translation>Rakenduse teave</translation>
     </message>
     <message>
       <source>About Strawberry</source>
@@ -17,11 +17,11 @@
     </message>
     <message>
       <source>Strawberry is a music player and music collection organizer.</source>
-      <translation>Strawberry on muusikamängija ja helikogude haldur.</translation>
+      <translation>Strawberry on muusikamängija ja muusikakogu haldur.</translation>
     </message>
     <message>
       <source>It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles.</source>
-      <translation>See on 2018. aastal välja antud Clementine haru, mis on suunatud muusikakollektsionääridele ja audiofiilidele.</translation>
+      <translation>See on 2018. aastal välja antud Clementine haru, mis on mõeldud muusikakollektsionääridele ja audiofiilidele.</translation>
     </message>
     <message>
       <source>Strawberry is free software released under GPL. The source code is available on %1</source>
@@ -300,7 +300,7 @@
     </message>
     <message>
       <source>Album</source>
-      <translation type="unfinished">Album</translation>
+      <translation>Album</translation>
     </message>
     <message>
       <source>Search</source>
@@ -351,15 +351,15 @@
     </message>
     <message>
       <source>Turbine</source>
-      <translation type="unfinished">Turbine</translation>
+      <translation>Turbine</translation>
     </message>
     <message>
       <source>Sonogram</source>
-      <translation type="unfinished">Sonogram</translation>
+      <translation>Sonogram</translation>
     </message>
     <message>
       <source>WaveRubber</source>
-      <translation type="unfinished">WaveRubber</translation>
+      <translation>WaveRubber</translation>
     </message>
   </context>
   <context>
@@ -474,7 +474,7 @@
     </message>
     <message>
       <source>0px</source>
-      <translation type="unfinished">0px</translation>
+      <translation>0px</translation>
     </message>
     <message>
       <source>Opacity</source>
@@ -482,7 +482,7 @@
     </message>
     <message>
       <source>40%</source>
-      <translation type="unfinished">40%</translation>
+      <translation>40%</translation>
     </message>
     <message>
       <source>Icon sizes</source>
@@ -561,15 +561,15 @@
     </message>
     <message>
       <source>hw</source>
-      <translation type="unfinished">hw</translation>
+      <translation>hw</translation>
     </message>
     <message>
       <source>p&amp;lughw</source>
-      <translation type="unfinished">p&amp;lughw</translation>
+      <translation>p&amp;lughw</translation>
     </message>
     <message>
       <source>pcm</source>
-      <translation type="unfinished">pcm</translation>
+      <translation>pcm</translation>
     </message>
     <message>
       <source>Exclusive mode (Experimental)</source>
@@ -609,7 +609,7 @@
     </message>
     <message>
       <source> ms</source>
-      <translation type="unfinished"> ms</translation>
+      <translation> ms</translation>
     </message>
     <message>
       <source>Buffer duration</source>
@@ -840,7 +840,7 @@
     </message>
     <message>
       <source> s</source>
-      <translation type="unfinished"> s</translation>
+      <translation> s</translation>
     </message>
     <message>
       <source>Volume Increment</source>
@@ -889,7 +889,7 @@
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>Entire collection</source>
@@ -1296,7 +1296,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>Title</source>
@@ -1312,7 +1312,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Album</source>
-      <translation type="unfinished">Album</translation>
+      <translation>Album</translation>
     </message>
     <message>
       <source>Technical Data</source>
@@ -1416,7 +1416,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>%filename%</source>
-      <translation type="unfinished">%filename%</translation>
+      <translation>%filename%</translation>
     </message>
     <message>
       <source>Add song filename</source>
@@ -1424,7 +1424,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>%url%</source>
-      <translation type="unfinished">%url%</translation>
+      <translation>%url%</translation>
     </message>
     <message>
       <source>Add song URL</source>
@@ -1432,7 +1432,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>%rating%</source>
-      <translation type="unfinished">%rating%</translation>
+      <translation>%rating%</translation>
     </message>
     <message>
       <source>Add song rating</source>
@@ -1440,7 +1440,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>%originalyear%</source>
-      <translation type="unfinished">%originalyear%</translation>
+      <translation>%originalyear%</translation>
     </message>
     <message>
       <source>Add song original year tag</source>
@@ -1515,7 +1515,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>%1 album</source>
-      <translation type="unfinished">%1 album</translation>
+      <translation>%1 album</translation>
     </message>
     <message>
       <source>%1 albums</source>
@@ -1523,7 +1523,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>kbps</source>
-      <translation type="unfinished">kbps</translation>
+      <translation>kbps</translation>
     </message>
   </context>
   <context>
@@ -1561,7 +1561,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>View</source>
@@ -1577,7 +1577,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>0</source>
-      <translation type="unfinished">0</translation>
+      <translation>0</translation>
     </message>
     <message>
       <source>Fetch Missing Covers</source>
@@ -2105,7 +2105,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>Change art</source>
@@ -2129,7 +2129,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Album</source>
-      <translation type="unfinished">Album</translation>
+      <translation>Album</translation>
     </message>
     <message>
       <source>Year</source>
@@ -2185,11 +2185,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>(different across multiple songs)</source>
-      <translation type="unfinished">(different across multiple songs)</translation>
+      <translation>(erinev eri lugude puhul)</translation>
     </message>
     <message>
       <source>Different art across multiple songs.</source>
-      <translation type="unfinished">Different art across multiple songs.</translation>
+      <translation>Erinevatel lugudel erinevad pildid.</translation>
     </message>
     <message>
       <source>Previous</source>
@@ -2213,7 +2213,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>kbps</source>
-      <translation type="unfinished">kbps</translation>
+      <translation>kbps</translation>
     </message>
     <message>
       <source>Unknown</source>
@@ -2384,7 +2384,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Pop</source>
-      <translation type="unfinished">Pop</translation>
+      <translation>Pop</translation>
     </message>
     <message>
       <source>Reggae</source>
@@ -2400,7 +2400,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Ska</source>
-      <translation type="unfinished">Ska</translation>
+      <translation>Ska</translation>
     </message>
     <message>
       <source>Soft Rock</source>
@@ -2431,7 +2431,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>%1 dB</source>
-      <translation type="unfinished">%1 dB</translation>
+      <translation>%1 dB</translation>
     </message>
   </context>
   <context>
@@ -2601,7 +2601,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>URI</source>
-      <translation type="unfinished">URI</translation>
+      <translation>URI</translation>
     </message>
   </context>
   <context>
@@ -2814,7 +2814,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Album</source>
-      <translation type="unfinished">Album</translation>
+      <translation>Album</translation>
     </message>
     <message>
       <source>Album - Disc</source>
@@ -3093,7 +3093,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>&amp;Music</source>
@@ -3117,7 +3117,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>F5</source>
-      <translation type="unfinished">F5</translation>
+      <translation>F5</translation>
     </message>
     <message>
       <source>&amp;Play</source>
@@ -3125,7 +3125,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>F6</source>
-      <translation type="unfinished">F6</translation>
+      <translation>F6</translation>
     </message>
     <message>
       <source>&amp;Stop</source>
@@ -3133,7 +3133,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>F7</source>
-      <translation type="unfinished">F7</translation>
+      <translation>F7</translation>
     </message>
     <message>
       <source>&amp;Next track</source>
@@ -3141,7 +3141,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>F8</source>
-      <translation type="unfinished">F8</translation>
+      <translation>F8</translation>
     </message>
     <message>
       <source>&amp;Quit</source>
@@ -3149,7 +3149,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Ctrl+Q</source>
-      <translation type="unfinished">Ctrl+Q</translation>
+      <translation>Ctrl+Q</translation>
     </message>
     <message>
       <source>Stop after this track</source>
@@ -3157,7 +3157,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Ctrl+Alt+V</source>
-      <translation type="unfinished">Ctrl+Alt+V</translation>
+      <translation>Ctrl+Alt+V</translation>
     </message>
     <message>
       <source>Love</source>
@@ -3173,7 +3173,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Ctrl+K</source>
-      <translation type="unfinished">Ctrl+K</translation>
+      <translation>Ctrl+K</translation>
     </message>
     <message>
       <source>Edit track information...</source>
@@ -3181,7 +3181,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Ctrl+E</source>
-      <translation type="unfinished">Ctrl+E</translation>
+      <translation>Ctrl+E</translation>
     </message>
     <message>
       <source>Renumber tracks in this order...</source>
@@ -3201,7 +3201,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Ctrl+P</source>
-      <translation type="unfinished">Ctrl+P</translation>
+      <translation>Ctrl+P</translation>
     </message>
     <message>
       <source>&amp;About Strawberry</source>
@@ -3209,7 +3209,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>F1</source>
-      <translation type="unfinished">F1</translation>
+      <translation>F1</translation>
     </message>
     <message>
       <source>S&amp;huffle playlist</source>
@@ -3217,7 +3217,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Ctrl+H</source>
-      <translation type="unfinished">Ctrl+H</translation>
+      <translation>Ctrl+H</translation>
     </message>
     <message>
       <source>&amp;Add file...</source>
@@ -3225,7 +3225,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Ctrl+Shift+A</source>
-      <translation type="unfinished">Ctrl+Shift+A</translation>
+      <translation>Ctrl+Shift+A</translation>
     </message>
     <message>
       <source>&amp;Open file...</source>
@@ -3273,7 +3273,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Ctrl+J</source>
-      <translation type="unfinished">Ctrl+J</translation>
+      <translation>Ctrl+J</translation>
     </message>
     <message>
       <source>&amp;New playlist</source>
@@ -3281,7 +3281,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Ctrl+N</source>
-      <translation type="unfinished">Ctrl+N</translation>
+      <translation>Ctrl+N</translation>
     </message>
     <message>
       <source>Save &amp;playlist...</source>
@@ -3289,7 +3289,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Ctrl+S</source>
-      <translation type="unfinished">Ctrl+S</translation>
+      <translation>Ctrl+S</translation>
     </message>
     <message>
       <source>&amp;Load playlist...</source>
@@ -3297,7 +3297,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Ctrl+Shift+O</source>
-      <translation type="unfinished">Ctrl+Shift+O</translation>
+      <translation>Ctrl+Shift+O</translation>
     </message>
     <message>
       <source>&amp;Save all playlists...</source>
@@ -3325,7 +3325,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Ctrl+M</source>
-      <translation type="unfinished">Ctrl+M</translation>
+      <translation>Ctrl+M</translation>
     </message>
     <message>
       <source>&amp;Do a full collection rescan</source>
@@ -3341,7 +3341,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Ctrl+T</source>
-      <translation type="unfinished">Ctrl+T</translation>
+      <translation>Ctrl+T</translation>
     </message>
     <message>
       <source>Toggle scrobbling</source>
@@ -3413,19 +3413,19 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Subsonic</source>
-      <translation type="unfinished">Subsonic</translation>
+      <translation>Subsonic</translation>
     </message>
     <message>
       <source>Tidal</source>
-      <translation type="unfinished">Tidal</translation>
+      <translation>Tidal</translation>
     </message>
     <message>
       <source>Spotify</source>
-      <translation type="unfinished">Spotify</translation>
+      <translation>Spotify</translation>
     </message>
     <message>
       <source>Qobuz</source>
-      <translation type="unfinished">Qobuz</translation>
+      <translation>Qobuz</translation>
     </message>
     <message>
       <source>Show all songs</source>
@@ -3722,7 +3722,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Port</source>
-      <translation type="unfinished">Port</translation>
+      <translation>Port</translation>
     </message>
     <message>
       <source>Use authentication</source>
@@ -3822,7 +3822,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>Summary</source>
@@ -3938,7 +3938,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>%filename%</source>
-      <translation type="unfinished">%filename%</translation>
+      <translation>%filename%</translation>
     </message>
     <message>
       <source>Add song filename</source>
@@ -3946,7 +3946,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>%url%</source>
-      <translation type="unfinished">%url%</translation>
+      <translation>%url%</translation>
     </message>
     <message>
       <source>Add song URL</source>
@@ -3954,7 +3954,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>%originalyear%</source>
-      <translation type="unfinished">%originalyear%</translation>
+      <translation>%originalyear%</translation>
     </message>
     <message>
       <source>Add song original year tag</source>
@@ -4139,7 +4139,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Album</source>
-      <translation type="unfinished">Album</translation>
+      <translation>Album</translation>
     </message>
     <message>
       <source>Artist</source>
@@ -4276,7 +4276,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Album</source>
-      <translation type="unfinished">Album</translation>
+      <translation>Album</translation>
     </message>
     <message>
       <source>Track</source>
@@ -4384,7 +4384,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>CUE</source>
-      <translation type="unfinished">CUE</translation>
+      <translation>CUE</translation>
     </message>
     <message>
       <source>Integrated Loudness</source>
@@ -4563,9 +4563,9 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message numerus="yes">
       <source>%n track(s)</source>
-      <translation type="unfinished">
+      <translation>
         <numerusform>%n lugu</numerusform>
-        <numerusform>%n track(s)</numerusform>
+        <numerusform>%n lugu</numerusform>
       </translation>
     </message>
     <message>
@@ -4834,9 +4834,9 @@ Kas soovid jätkata?</translation>
     <name>PlaylistUndoCommands::InsertItems</name>
     <message numerus="yes">
       <source>add %n songs</source>
-      <translation type="unfinished">
+      <translation>
         <numerusform>lisa %n lugu</numerusform>
-        <numerusform>add %n songs</numerusform>
+        <numerusform>lisa %n lugu</numerusform>
       </translation>
     </message>
   </context>
@@ -4844,9 +4844,9 @@ Kas soovid jätkata?</translation>
     <name>PlaylistUndoCommands::MoveItems</name>
     <message numerus="yes">
       <source>move %n songs</source>
-      <translation type="unfinished">
-        <numerusform>liiguta %n lugu</numerusform>
-        <numerusform>move %n songs</numerusform>
+      <translation>
+        <numerusform>teisalda %n lugu</numerusform>
+        <numerusform>teisalda %n lugu</numerusform>
       </translation>
     </message>
   </context>
@@ -4854,9 +4854,9 @@ Kas soovid jätkata?</translation>
     <name>PlaylistUndoCommands::RemoveItems</name>
     <message numerus="yes">
       <source>remove %n songs</source>
-      <translation type="unfinished">
+      <translation>
         <numerusform>eemalda %n lugu</numerusform>
-        <numerusform>remove %n songs</numerusform>
+        <numerusform>eemalda %n lugu</numerusform>
       </translation>
     </message>
   </context>
@@ -4878,7 +4878,7 @@ Kas soovid jätkata?</translation>
     <name>PlaylistView</name>
     <message>
       <source>Hz</source>
-      <translation type="unfinished">Hz</translation>
+      <translation>Hz</translation>
     </message>
     <message>
       <source>Bit</source>
@@ -4886,7 +4886,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>kbps</source>
-      <translation type="unfinished">kbps</translation>
+      <translation>kbps</translation>
     </message>
   </context>
   <context>
@@ -5049,11 +5049,11 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>LUFS</source>
-      <translation type="unfinished">LUFS</translation>
+      <translation>LUFS</translation>
     </message>
     <message>
       <source>LU</source>
-      <translation type="unfinished">LU</translation>
+      <translation>LU</translation>
     </message>
     <message>
       <source>File %1 is not recognized as a valid audio file.</source>
@@ -5249,7 +5249,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Z-A</source>
-      <translation type="unfinished">Z-A</translation>
+      <translation>Z-A</translation>
     </message>
     <message>
       <source>oldest first</source>
@@ -5413,7 +5413,7 @@ Kas soovid jätkata?</translation>
     <name>QobuzSettingsPage</name>
     <message>
       <source>Qobuz</source>
-      <translation type="unfinished">Qobuz</translation>
+      <translation>Qobuz</translation>
     </message>
     <message>
       <source>Enable</source>
@@ -5461,7 +5461,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>ms</source>
-      <translation type="unfinished">ms</translation>
+      <translation>ms</translation>
     </message>
     <message>
       <source>Artists search limit</source>
@@ -5519,9 +5519,9 @@ Kas soovid jätkata?</translation>
     <name>Queue</name>
     <message numerus="yes">
       <source>%n track(s)</source>
-      <translation type="unfinished">
+      <translation>
         <numerusform>%n lugu</numerusform>
-        <numerusform>%n track(s)</numerusform>
+        <numerusform>%n lugu</numerusform>
       </translation>
     </message>
   </context>
@@ -5537,7 +5537,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Ctrl+Up</source>
-      <translation type="unfinished">Ctrl+Up</translation>
+      <translation>Ctrl+Nool üles</translation>
     </message>
     <message>
       <source>Move up</source>
@@ -5545,7 +5545,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Ctrl+Down</source>
-      <translation type="unfinished">Ctrl+Down</translation>
+      <translation>Ctrl+Nool alla</translation>
     </message>
     <message>
       <source>Remove</source>
@@ -5557,7 +5557,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Ctrl+K</source>
-      <translation type="unfinished">Ctrl+K</translation>
+      <translation>Ctrl+K</translation>
     </message>
   </context>
   <context>
@@ -5639,7 +5639,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Ctrl+Up</source>
-      <translation type="unfinished">Ctrl+Up</translation>
+      <translation>Ctrl+Nool üles</translation>
     </message>
     <message>
       <source>Name</source>
@@ -5671,7 +5671,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Album</source>
-      <translation type="unfinished">Album</translation>
+      <translation>Album</translation>
     </message>
     <message>
       <source>Album - Disc</source>
@@ -5806,7 +5806,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Subsonic</source>
-      <translation type="unfinished">Subsonic</translation>
+      <translation>Subsonic</translation>
     </message>
     <message>
       <source>Local file</source>
@@ -5814,7 +5814,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Tidal</source>
-      <translation type="unfinished">Tidal</translation>
+      <translation>Tidal</translation>
     </message>
     <message>
       <source>Device</source>
@@ -5822,15 +5822,15 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Qobuz</source>
-      <translation type="unfinished">Qobuz</translation>
+      <translation>Qobuz</translation>
     </message>
     <message>
       <source>CDDA</source>
-      <translation type="unfinished">CDDA</translation>
+      <translation>CDDA</translation>
     </message>
     <message>
       <source>SomaFM</source>
-      <translation type="unfinished">SomaFM</translation>
+      <translation>SomaFM</translation>
     </message>
     <message>
       <source>Stream</source>
@@ -5838,7 +5838,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Radio Paradise</source>
-      <translation type="unfinished">Radio Paradise</translation>
+      <translation>Radio Paradise</translation>
     </message>
     <message>
       <source>Unknown</source>
@@ -5846,7 +5846,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Last.fm</source>
-      <translation type="unfinished">Last.fm</translation>
+      <translation>Last.fm</translation>
     </message>
     <message>
       <source>Login</source>
@@ -5854,11 +5854,11 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Libre.fm</source>
-      <translation type="unfinished">Libre.fm</translation>
+      <translation>Libre.fm</translation>
     </message>
     <message>
       <source>Listenbrainz</source>
-      <translation type="unfinished">Listenbrainz</translation>
+      <translation>Listenbrainz</translation>
     </message>
     <message>
       <source>User token:</source>
@@ -6375,7 +6375,7 @@ Kas soovid jätkata?</translation>
     <name>SpotifySettingsPage</name>
     <message>
       <source>Spotify</source>
-      <translation type="unfinished">Spotify</translation>
+      <translation>Spotify</translation>
     </message>
     <message>
       <source>Enable</source>
@@ -6403,7 +6403,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>ms</source>
-      <translation type="unfinished">ms</translation>
+      <translation>ms</translation>
     </message>
     <message>
       <source>Artists search limit</source>
@@ -6499,7 +6499,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>artists</source>
@@ -6634,7 +6634,7 @@ Kas soovid jätkata?</translation>
     <name>SubsonicSettingsPage</name>
     <message>
       <source>Subsonic</source>
-      <translation type="unfinished">Subsonic</translation>
+      <translation>Subsonic</translation>
     </message>
     <message>
       <source>Enable</source>
@@ -6662,7 +6662,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Hex</source>
-      <translation type="unfinished">Hex</translation>
+      <translation>Hex</translation>
     </message>
     <message>
       <source>MD5 token (Recommended)</source>
@@ -6844,7 +6844,7 @@ Kas soovid jätkata?</translation>
     <name>TidalSettingsPage</name>
     <message>
       <source>Tidal</source>
-      <translation type="unfinished">Tidal</translation>
+      <translation>Tidal</translation>
     </message>
     <message>
       <source>Enable</source>
@@ -6896,7 +6896,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>ms</source>
-      <translation type="unfinished">ms</translation>
+      <translation>ms</translation>
     </message>
     <message>
       <source>Artists search limit</source>
@@ -7014,7 +7014,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Album</source>
-      <translation type="unfinished">Album</translation>
+      <translation>Album</translation>
     </message>
     <message>
       <source>Previous</source>
@@ -7045,7 +7045,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>0:00:00</source>
-      <translation type="unfinished">0:00:00</translation>
+      <translation>0:00:00</translation>
     </message>
     <message>
       <source>Click to toggle between remaining time and total time</source>
@@ -7128,23 +7128,23 @@ Kas soovid jätkata?</translation>
     </message>
     <message numerus="yes">
       <source>%n remaining</source>
-      <translation type="unfinished">
+      <translation>
         <numerusform>jäänud %n</numerusform>
-        <numerusform>%n remaining</numerusform>
+        <numerusform>jäänud %n</numerusform>
       </translation>
     </message>
     <message numerus="yes">
       <source>%n finished</source>
-      <translation type="unfinished">
+      <translation>
         <numerusform>%n lõpetatud</numerusform>
-        <numerusform>%n finished</numerusform>
+        <numerusform>%n lõpetatud</numerusform>
       </translation>
     </message>
     <message numerus="yes">
       <source>%n failed</source>
-      <translation type="unfinished">
+      <translation>
         <numerusform>%n ebaõnnestus</numerusform>
-        <numerusform>%n failed</numerusform>
+        <numerusform>%n ei õnnestunud</numerusform>
       </translation>
     </message>
     <message>
@@ -7214,7 +7214,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source> kbps</source>
-      <translation type="unfinished"> kbps</translation>
+      <translation> kbps</translation>
     </message>
     <message>
       <source>Profile</source>
@@ -7273,7 +7273,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source> kbps</source>
-      <translation type="unfinished"> kbps</translation>
+      <translation> kbps</translation>
     </message>
   </context>
   <context>
@@ -7328,7 +7328,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source> kbps</source>
-      <translation type="unfinished"> kbps</translation>
+      <translation> kbps</translation>
     </message>
     <message>
       <source>Constant bitrate</source>
@@ -7367,7 +7367,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source> kbps</source>
-      <translation type="unfinished"> kbps</translation>
+      <translation> kbps</translation>
     </message>
   </context>
   <context>
@@ -7391,7 +7391,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source> kbps</source>
-      <translation type="unfinished"> kbps</translation>
+      <translation> kbps</translation>
     </message>
     <message>
       <source>Average bitrate</source>
@@ -7463,7 +7463,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source> kbps</source>
-      <translation type="unfinished"> kbps</translation>
+      <translation> kbps</translation>
     </message>
     <message>
       <source>Minimum bitrate</source>
@@ -7497,35 +7497,35 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>FLAC</source>
-      <translation type="unfinished">FLAC</translation>
+      <translation>FLAC</translation>
     </message>
     <message>
       <source>WavPack</source>
-      <translation type="unfinished">WavPack</translation>
+      <translation>WavPack</translation>
     </message>
     <message>
       <source>Vorbis</source>
-      <translation type="unfinished">Vorbis</translation>
+      <translation>Vorbis</translation>
     </message>
     <message>
       <source>Opus</source>
-      <translation type="unfinished">Opus</translation>
+      <translation>Opus</translation>
     </message>
     <message>
       <source>Speex</source>
-      <translation type="unfinished">Speex</translation>
+      <translation>Speex</translation>
     </message>
     <message>
       <source>AAC</source>
-      <translation type="unfinished">AAC</translation>
+      <translation>AAC</translation>
     </message>
     <message>
       <source>ASF (WMA)</source>
-      <translation type="unfinished">ASF (WMA)</translation>
+      <translation>ASF (WMA)</translation>
     </message>
     <message>
       <source>MP3</source>
-      <translation type="unfinished">MP3</translation>
+      <translation>MP3</translation>
     </message>
   </context>
   <context>
@@ -7548,7 +7548,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>UUID</source>
-      <translation type="unfinished">UUID</translation>
+      <translation>UUID</translation>
     </message>
   </context>
   <context>
