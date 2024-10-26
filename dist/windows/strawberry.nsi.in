@@ -716,7 +716,7 @@ Section "Gstreamer plugins" gstreamer-plugins
   File "/oname=gstwavparse.dll" "gstreamer-plugins\gstwavparse.dll"
   File "/oname=gstxingmux.dll" "gstreamer-plugins\gstxingmux.dll"
 !ifdef arch_x64
-  File "/oname=gstspotify.dll" "gstreamer-plugins\gstspotify.dll"
+  ;File "/oname=gstspotify.dll" "gstreamer-plugins\gstspotify.dll"
 !endif
 !endif ; MSVC
 
