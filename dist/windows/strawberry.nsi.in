@@ -455,11 +455,11 @@ Section "Strawberry" Strawberry
 
   ; Common files
 
-  File "icudt75.dll"
+  File "icudt76.dll"
   File "libfftw3-3.dll"
 !ifdef msvc && debug
-  File "icuin75d.dll"
-  File "icuuc75d.dll"
+  File "icuin76d.dll"
+  File "icuuc76d.dll"
   File "libxml2d.dll"
   File "Qt6Concurrentd.dll"
   File "Qt6Cored.dll"
@@ -468,8 +468,8 @@ Section "Strawberry" Strawberry
   File "Qt6Sqld.dll"
   File "Qt6Widgetsd.dll"
 !else
-  File "icuin75.dll"
-  File "icuuc75.dll"
+  File "icuin76.dll"
+  File "icuuc76.dll"
   File "libxml2.dll"
   File "Qt6Concurrent.dll"
   File "Qt6Core.dll"
@@ -977,11 +977,11 @@ Section "Uninstall"
 
   ; Common files
 
-  Delete "$INSTDIR\icudt75.dll"
+  Delete "$INSTDIR\icudt76.dll"
   Delete "$INSTDIR\libfftw3-3.dll"
 !ifdef msvc && debug
-  Delete "$INSTDIR\icuin75d.dll"
-  Delete "$INSTDIR\icuuc75d.dll"
+  Delete "$INSTDIR\icuin76d.dll"
+  Delete "$INSTDIR\icuuc76d.dll"
   Delete "$INSTDIR\libxml2d.dll"
   Delete "$INSTDIR\Qt6Concurrentd.dll"
   Delete "$INSTDIR\Qt6Cored.dll"
@@ -990,8 +990,8 @@ Section "Uninstall"
   Delete "$INSTDIR\Qt6Sqld.dll"
   Delete "$INSTDIR\Qt6Widgetsd.dll"
 !else
-  Delete "$INSTDIR\icuin75.dll"
-  Delete "$INSTDIR\icuuc75.dll"
+  Delete "$INSTDIR\icuin76.dll"
+  Delete "$INSTDIR\icuuc76.dll"
   Delete "$INSTDIR\libxml2.dll"
   Delete "$INSTDIR\Qt6Concurrent.dll"
   Delete "$INSTDIR\Qt6Core.dll"
