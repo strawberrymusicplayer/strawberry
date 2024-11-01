@@ -96,7 +96,7 @@ class MtpDevice : public ConnectedDevice {
  private:
   static bool sInitializedLibMTP;
 
-  SharedPtr<TaskManager> task_manager_;
+  const SharedPtr<TaskManager> task_manager_;
 
   MtpLoader *loader_;
   QThread *loader_thread_;
