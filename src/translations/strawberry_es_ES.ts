@@ -2184,7 +2184,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>(different across multiple songs)</source>
-      <translation type="unfinished">(different across multiple songs)</translation>
+      <translation>(diferente a través de múltiples temas)</translation>
     </message>
     <message>
       <source>Different art across multiple songs.</source>
@@ -3588,7 +3588,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Error</source>
-      <translation type="unfinished">Error</translation>
+      <translation>Error</translation>
     </message>
     <message>
       <source>None of the selected songs were suitable for copying to a device</source>
@@ -3937,7 +3937,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>%filename%</source>
-      <translation type="unfinished">%filename%</translation>
+      <translation>%filename%</translation>
     </message>
     <message>
       <source>Add song filename</source>
@@ -3945,7 +3945,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>%url%</source>
-      <translation type="unfinished">%url%</translation>
+      <translation>%url%</translation>
     </message>
     <message>
       <source>Add song URL</source>
@@ -3953,7 +3953,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>%originalyear%</source>
-      <translation type="unfinished">%originalyear%</translation>
+      <translation>%originalyear%</translation>
     </message>
     <message>
       <source>Add song original year tag</source>
@@ -4562,9 +4562,9 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message numerus="yes">
       <source>%n track(s)</source>
-      <translation type="unfinished">
-        <numerusform>%n pista(s)</numerusform>
-        <numerusform>%n track(s)</numerusform>
+      <translation>
+        <numerusform>%n pista</numerusform>
+        <numerusform>%n pistas</numerusform>
       </translation>
     </message>
     <message>
@@ -4833,9 +4833,9 @@ Are you sure you want to continue?</source>
     <name>PlaylistUndoCommands::InsertItems</name>
     <message numerus="yes">
       <source>add %n songs</source>
-      <translation type="unfinished">
+      <translation>
         <numerusform>añadir %n temas</numerusform>
-        <numerusform>add %n songs</numerusform>
+        <numerusform>añadir %n temas</numerusform>
       </translation>
     </message>
   </context>
@@ -4843,9 +4843,9 @@ Are you sure you want to continue?</source>
     <name>PlaylistUndoCommands::MoveItems</name>
     <message numerus="yes">
       <source>move %n songs</source>
-      <translation type="unfinished">
+      <translation>
+        <numerusform>mover %n tema</numerusform>
         <numerusform>mover %n temas</numerusform>
-        <numerusform>move %n songs</numerusform>
       </translation>
     </message>
   </context>
@@ -4853,9 +4853,9 @@ Are you sure you want to continue?</source>
     <name>PlaylistUndoCommands::RemoveItems</name>
     <message numerus="yes">
       <source>remove %n songs</source>
-      <translation type="unfinished">
+      <translation>
+        <numerusform>quitar %n tema</numerusform>
         <numerusform>quitar %n temas</numerusform>
-        <numerusform>remove %n songs</numerusform>
       </translation>
     </message>
   </context>
@@ -5518,9 +5518,9 @@ Are you sure you want to continue?</source>
     <name>Queue</name>
     <message numerus="yes">
       <source>%n track(s)</source>
-      <translation type="unfinished">
-        <numerusform>%n pista(s)</numerusform>
-        <numerusform>%n track(s)</numerusform>
+      <translation>
+        <numerusform>%n pista</numerusform>
+        <numerusform>%n pistas</numerusform>
       </translation>
     </message>
   </context>
@@ -7044,7 +7044,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>0:00:00</source>
-      <translation type="unfinished">0:00:00</translation>
+      <translation>0:00:00</translation>
     </message>
     <message>
       <source>Click to toggle between remaining time and total time</source>
@@ -7524,7 +7524,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>MP3</source>
-      <translation type="unfinished">MP3</translation>
+      <translation>MP3</translation>
     </message>
   </context>
   <context>
