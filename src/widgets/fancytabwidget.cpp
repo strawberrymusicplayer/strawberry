@@ -234,16 +234,12 @@ int FancyTabWidget::InsertTab(const int preffered_index, FancyTabData *tab) {
   tabBar()->setTabData(actual_index, QVariant::fromValue<FancyTabData*>(tab));
 
   if (mode_ == Mode::IconOnlyTabs || mode_ == Mode::IconsSidebar) {
-    for (int i = 0; i < count(); ++i) {
-      tabBar()->setTabText(i, ""_L1);
-      tabBar()->setTabToolTip(i, tabBar()->tabData(i).value<FancyTabData*>()->label());
-    }
+    tabBar()->setTabText(actual_index, ""_L1);
+    tabBar()->setTabToolTip(actual_index, tabBar()->tabData(actual_index).value<FancyTabData*>()->label());
   }
   else {
-    for (int i = 0; i < count(); ++i) {
-      tabBar()->setTabText(i, tabBar()->tabData(i).value<FancyTabData*>()->label());
-      tabBar()->setTabToolTip(i, ""_L1);
-    }
+    tabBar()->setTabText(actual_index, tabBar()->tabData(actual_index).value<FancyTabData*>()->label());
+    tabBar()->setTabToolTip(actual_index, ""_L1);
   }
 
   return actual_index;
