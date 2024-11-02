@@ -57,6 +57,7 @@ class FancyTabWidget : public QTabWidget {
   int iconsize_largesidebar() const { return iconsize_largesidebar_; }
 
   void AddTab(QWidget *widget_view, const QString &name, const QIcon &icon, const QString &label);
+
   bool EnableTab(QWidget *widget_view);
   bool DisableTab(QWidget *widget_view);
 
@@ -64,7 +65,9 @@ class FancyTabWidget : public QTabWidget {
   void SaveSettings(const QString &settings_group);
   void ReloadSettings();
 
+  int InsertTab(const int preffered_index, FancyTabData *tab);
   int InsertTab(const int idx, QWidget *page, const QIcon &icon, const QString &label);
+
   void AddSpacer();
   void AddBottomWidget(QWidget *widget_view);
   void SetBackgroundPixmap(const QPixmap &pixmap);

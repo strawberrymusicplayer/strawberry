@@ -93,8 +93,8 @@ bool FancyTabWidget::EnableTab(QWidget *widget_view) {
   FancyTabData *tab = tabs_.value(widget_view);
 
   if (QTabWidget::indexOf(tab->page()) >= 0) return true;
-  const int idx = QTabWidget::insertTab(count(), tab->page(), tab->icon(), tab->label());
-  tabBar()->setTabData(idx, QVariant(tab->name()));
+
+  (void)InsertTab(count(), tab);
 
   return true;
 
@@ -126,11 +126,8 @@ void FancyTabWidget::LoadSettings(const QString &settings_group) {
   }
   s.endGroup();
 
-  QMultiMap <int, FancyTabData*> ::iterator i;
-  for (i = tabs.begin(); i != tabs.end(); ++i) {
-    FancyTabData *tab = i.value();
-    const int idx = insertTab(i.key(), tab->page(), tab->icon(), tab->label());
-    tabBar()->setTabData(idx, QVariant::fromValue<FancyTabData*>(tab));
+  for (QMultiMap <int, FancyTabData*> ::iterator it = tabs.begin(); it != tabs.end(); ++it) {
+    (void)InsertTab(it.key(), it.value());
   }
 
 }
@@ -208,15 +205,13 @@ void FancyTabWidget::SetMode(const Mode mode) {
   }
 #endif
 
-  if ((previous_mode == Mode::IconOnlyTabs || previous_mode == Mode::IconsSidebar) &&
-      (mode != Mode::IconOnlyTabs && mode != Mode::IconsSidebar)) {
+  if ((previous_mode == Mode::IconOnlyTabs || previous_mode == Mode::IconsSidebar) && (mode != Mode::IconOnlyTabs && mode != Mode::IconsSidebar)) {
     for (int i = 0; i < count(); ++i) {
       tabBar()->setTabText(i, tabBar()->tabData(i).value<FancyTabData*>()->label());
       tabBar()->setTabToolTip(i, ""_L1);
     }
   }
-  else if ((previous_mode != Mode::IconOnlyTabs && previous_mode != Mode::IconsSidebar) &&
-           (mode == Mode::IconOnlyTabs || mode == Mode::IconsSidebar)) {
+  else if ((previous_mode != Mode::IconOnlyTabs && previous_mode != Mode::IconsSidebar) && (mode == Mode::IconOnlyTabs || mode == Mode::IconsSidebar)) {
     for (int i = 0; i < count(); ++i) {
       tabBar()->setTabText(i, ""_L1);
       tabBar()->setTabToolTip(i, tabBar()->tabData(i).value<FancyTabData*>()->label());
@@ -230,6 +225,28 @@ void FancyTabWidget::SetMode(const Mode mode) {
   QTimer::singleShot(1ms, this, &FancyTabWidget::TabBarUpdateGeometry);
 
   Q_EMIT ModeChanged(mode);
+
+}
+
+int FancyTabWidget::InsertTab(const int preffered_index, FancyTabData *tab) {
+
+  const int actual_index = InsertTab(preffered_index, tab->page(), tab->icon(), QString());
+  tabBar()->setTabData(actual_index, QVariant::fromValue<FancyTabData*>(tab));
+
+  if (mode_ == Mode::IconOnlyTabs || mode_ == Mode::IconsSidebar) {
+    for (int i = 0; i < count(); ++i) {
+      tabBar()->setTabText(i, ""_L1);
+      tabBar()->setTabToolTip(i, tabBar()->tabData(i).value<FancyTabData*>()->label());
+    }
+  }
+  else {
+    for (int i = 0; i < count(); ++i) {
+      tabBar()->setTabText(i, tabBar()->tabData(i).value<FancyTabData*>()->label());
+      tabBar()->setTabToolTip(i, ""_L1);
+    }
+  }
+
+  return actual_index;
 
 }
 
