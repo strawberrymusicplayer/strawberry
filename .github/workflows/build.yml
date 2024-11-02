@@ -1051,7 +1051,7 @@ jobs:
 
       - name: Copy nsis files
         working-directory: build
-        run: cp ${GITHUB_WORKSPACE}/dist/windows/*.nsi ${GITHUB_WORKSPACE}/dist/windows/*.nsh ${GITHUB_WORKSPACE}/dist/windows/*.ico .
+        run: cp ${GITHUB_WORKSPACE}/dist/windows/*.nsh ${GITHUB_WORKSPACE}/dist/windows/*.ico .
 
       - name: Copy COPYING license file
         working-directory: build
@@ -1356,7 +1356,6 @@ jobs:
         shell: cmd
         working-directory: build
         run: |
-          copy ..\dist\windows\*.nsi .
           copy ..\dist\windows\*.nsh .
           copy ..\dist\windows\*.ico .
 
