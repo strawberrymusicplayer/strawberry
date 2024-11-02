@@ -52,7 +52,7 @@ FancyTabBar::FancyTabBar(QWidget *parent) :
 }
 
 QString FancyTabBar::TabText(const int index) const {
-  return tabText(index).isEmpty() ? ""_L1 : tabData(index).value<FancyTabData*>()->label();
+  return tabText(index).isEmpty() || !tabData(index).isValid() ? ""_L1 : tabData(index).value<FancyTabData*>()->label();
 }
 
 QSize FancyTabBar::sizeHint() const {
