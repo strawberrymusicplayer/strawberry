@@ -96,7 +96,7 @@ CollectionModel::CollectionModel(const SharedPtr<CollectionBackend> backend, con
       total_artist_count_(0),
       total_album_count_(0),
       loading_(false),
-      icon_disk_cache_(nullptr) {
+      icon_disk_cache_(new QNetworkDiskCache(this)) {
 
   setObjectName(backend_->source() == Song::Source::Collection ? QLatin1String(metaObject()->className()) : QStringLiteral("%1%2").arg(Song::DescriptionForSource(backend_->source()), QLatin1String(metaObject()->className())));
 
@@ -114,10 +114,7 @@ CollectionModel::CollectionModel(const SharedPtr<CollectionBackend> backend, con
     pixmap_no_cover_ = nocover.pixmap(nocover_sizes.last()).scaled(kPrettyCoverSize, kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
   }
 
-  if (!qgetenv("DISPLAY").isEmpty() && !icon_disk_cache_) {
-    icon_disk_cache_ = new QNetworkDiskCache(this);
-    icon_disk_cache_->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + u'/' + QLatin1String(kPixmapDiskCacheDir) + u'-' + Song::TextForSource(backend_->source()));
-  }
+  icon_disk_cache_->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + u'/' + QLatin1String(kPixmapDiskCacheDir) + u'-' + Song::TextForSource(backend_->source()));
 
   QObject::connect(&*backend_, &CollectionBackend::SongsAdded, this, &CollectionModel::AddReAddOrUpdate);
   QObject::connect(&*backend_, &CollectionBackend::SongsChanged, this, &CollectionModel::AddReAddOrUpdate);
