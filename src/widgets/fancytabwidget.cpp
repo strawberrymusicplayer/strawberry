@@ -87,33 +87,6 @@ void FancyTabWidget::AddTab(QWidget *widget_view, const QString &name, const QIc
 
 }
 
-bool FancyTabWidget::EnableTab(QWidget *widget_view) {
-
-  if (!tabs_.contains(widget_view)) return false;
-  FancyTabData *tab = tabs_.value(widget_view);
-
-  if (QTabWidget::indexOf(tab->page()) >= 0) return true;
-
-  (void)InsertTab(count(), tab);
-
-  return true;
-
-}
-
-bool FancyTabWidget::DisableTab(QWidget *widget_view) {
-
-  if (!tabs_.contains(widget_view)) return false;
-  FancyTabData *tab = tabs_.value(widget_view);
-
-  int idx = QTabWidget::indexOf(tab->page());
-  if (idx < 0) return false;
-
-  removeTab(idx);
-
-  return true;
-
-}
-
 void FancyTabWidget::LoadSettings(const QString &settings_group) {
 
   Settings s;
@@ -248,6 +221,33 @@ int FancyTabWidget::InsertTab(const int preffered_index, FancyTabData *tab) {
 
 int FancyTabWidget::InsertTab(const int idx, QWidget *page, const QIcon &icon, const QString &label) {
   return QTabWidget::insertTab(idx, page, icon, label);
+}
+
+bool FancyTabWidget::EnableTab(QWidget *widget_view) {
+
+  if (!tabs_.contains(widget_view)) return false;
+  FancyTabData *tab = tabs_.value(widget_view);
+
+  if (QTabWidget::indexOf(tab->page()) >= 0) return true;
+
+  (void)InsertTab(count(), tab);
+
+  return true;
+
+}
+
+bool FancyTabWidget::DisableTab(QWidget *widget_view) {
+
+  if (!tabs_.contains(widget_view)) return false;
+  FancyTabData *tab = tabs_.value(widget_view);
+
+  int idx = QTabWidget::indexOf(tab->page());
+  if (idx < 0) return false;
+
+  removeTab(idx);
+
+  return true;
+
 }
 
 void FancyTabWidget::AddSpacer() {
