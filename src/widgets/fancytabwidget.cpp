@@ -235,10 +235,10 @@ int FancyTabWidget::InsertTab(const int preffered_index, FancyTabData *tab) {
 
   if (mode_ == Mode::IconOnlyTabs || mode_ == Mode::IconsSidebar) {
     tabBar()->setTabText(actual_index, ""_L1);
-    tabBar()->setTabToolTip(actual_index, tabBar()->tabData(actual_index).value<FancyTabData*>()->label());
+    tabBar()->setTabToolTip(actual_index, tab->label());
   }
   else {
-    tabBar()->setTabText(actual_index, tabBar()->tabData(actual_index).value<FancyTabData*>()->label());
+    tabBar()->setTabText(actual_index, tab->label());
     tabBar()->setTabToolTip(actual_index, ""_L1);
   }
 
