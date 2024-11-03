@@ -292,5 +292,3 @@ void FancyTabBar::paintEvent(QPaintEvent *pe) {
   }
 
 }
-
-
