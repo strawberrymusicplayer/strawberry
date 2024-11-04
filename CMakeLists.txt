@@ -276,7 +276,7 @@ endif()
 
 if(WIN32)
   find_package(getopt-win REQUIRED)
-  pkg_check_modules(QTSPARKLE REQUIRED IMPORTED_TARGET qtsparkle-qt${QT_VERSION_MAJOR})
+  pkg_check_modules(QTSPARKLE IMPORTED_TARGET qtsparkle-qt${QT_VERSION_MAJOR})
   if(QTSPARKLE_FOUND)
     set(HAVE_QTSPARKLE ON)
   endif()
