@@ -91,17 +91,17 @@ FilterTree *FilterParser::parseAndGroup() {
 
 bool FilterParser::checkAnd() {
 
-  if (iter_ != end_) {
-    if (*iter_ == u'A') {
-      buf_ += *iter_;
-      ++iter_;
-      if (iter_ != end_ && *iter_ == u'N') {
-        buf_ += *iter_;
-        ++iter_;
-        if (iter_ != end_ && *iter_ == u'D') {
-          buf_ += *iter_;
-          ++iter_;
-          if (iter_ != end_ && (iter_->isSpace() || *iter_ == u'-' || *iter_ == u'(')) {
+  QString::const_iterator and_iter = iter_;
+
+  if (and_iter != end_) {
+    if (*and_iter == u'A') {
+      ++and_iter;
+      if (and_iter != end_ && *and_iter == u'N') {
+        ++and_iter;
+        if (and_iter != end_ && *and_iter == u'D') {
+          ++and_iter;
+          if (and_iter != end_ && (and_iter->isSpace() || *and_iter == u'-' || *and_iter == u'(')) {
+            iter_ = and_iter;
             advance();
             buf_.clear();
             return true;
@@ -127,17 +127,20 @@ bool FilterParser::checkOr(const bool step_over) {
     }
   }
   else {
-    if (iter_ != end_) {
-      if (*iter_ == u'O') {
-        buf_ += *iter_;
-        ++iter_;
-        if (iter_ != end_ && *iter_ == u'R') {
-          buf_ += *iter_;
-          ++iter_;
-          if (iter_ != end_ && (iter_->isSpace() || *iter_ == u'-' || *iter_ == u'(')) {
+    QString::const_iterator or_iter = iter_;
+    if (or_iter != end_) {
+      if (*or_iter == u'O') {
+        ++or_iter;
+        if (or_iter != end_ && *or_iter == u'R') {
+          ++or_iter;
+          if (or_iter != end_ && (or_iter->isSpace() || *or_iter == u'-' || *or_iter == u'(')) {
+            iter_ = or_iter;
             if (step_over) {
               buf_.clear();
               advance();
+            }
+            else {
+              buf_ += "OR"_L1;
             }
             return true;
           }
