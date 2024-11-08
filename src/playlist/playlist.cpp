@@ -461,8 +461,6 @@ void Playlist::SongSaveComplete(TagReaderReplyPtr reply, const QPersistentModelI
     }
   }
 
-  reply->deleteLater();
-
 }
 
 void Playlist::ItemReload(const QPersistentModelIndex &idx, const Song &old_metadata, const bool metadata_edit) {
