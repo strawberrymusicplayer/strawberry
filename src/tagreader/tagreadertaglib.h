@@ -116,7 +116,7 @@ class TagReaderTagLib : public TagReaderBase {
   void SetEmbeddedCover(TagLib::ID3v2::Tag *tag, const QByteArray &data, const QString &mimetype) const;
   void SetEmbeddedCover(TagLib::MP4::File *aac_file, TagLib::MP4::Tag *tag, const QByteArray &data, const QString &mimetype) const;
 
-  static TagLib::String TagLibStringListToSlashSeparatedString(const TagLib::StringList &taglib_string_list);
+  static TagLib::String TagLibStringListToSlashSeparatedString(const TagLib::StringList &taglib_string_list, const uint begin_index = 0);
 
  private:
   FileRefFactory *factory_;

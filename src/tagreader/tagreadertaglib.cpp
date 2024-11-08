@@ -597,7 +597,7 @@ void TagReaderTagLib::ParseID3v2Tags(TagLib::ID3v2::Tag *tag, QString *disc, QSt
     for (uint i = 0; i < map[kID3v2_UserDefinedTextInformationFrame].size(); ++i) {
       if (TagLib::ID3v2::UserTextIdentificationFrame *frame = dynamic_cast<TagLib::ID3v2::UserTextIdentificationFrame*>(map[kID3v2_UserDefinedTextInformationFrame][i])) {
         const TagLib::StringList frame_field_list = frame->fieldList();
-        if (frame_field_list.size() != 2) continue;
+        if (frame_field_list.size() < 2) continue;
         if (frame->description() == kID3v2_AcoustId) {
           song->set_acoustid_id(frame_field_list.back());
         }
@@ -605,13 +605,13 @@ void TagReaderTagLib::ParseID3v2Tags(TagLib::ID3v2::Tag *tag, QString *disc, QSt
           song->set_acoustid_fingerprint(frame_field_list.back());
         }
         if (frame->description() == kID3v2_MusicBrainz_AlbumArtistId) {
-          song->set_musicbrainz_album_artist_id(frame_field_list.back());
+          song->set_musicbrainz_album_artist_id(TagLibStringListToSlashSeparatedString(frame_field_list, 1));
         }
         if (frame->description() == kID3v2_MusicBrainz_ArtistId) {
-          song->set_musicbrainz_artist_id(frame_field_list.back());
+          song->set_musicbrainz_artist_id(TagLibStringListToSlashSeparatedString(frame_field_list, 1));
         }
         if (frame->description() == kID3v2_MusicBrainz_OriginalArtistId) {
-          song->set_musicbrainz_original_artist_id(frame_field_list.back());
+          song->set_musicbrainz_original_artist_id(TagLibStringListToSlashSeparatedString(frame_field_list, 1));
         }
         if (frame->description() == kID3v2_MusicBrainz_AlbumId) {
           song->set_musicbrainz_album_id(frame_field_list.back());
@@ -629,7 +629,7 @@ void TagReaderTagLib::ParseID3v2Tags(TagLib::ID3v2::Tag *tag, QString *disc, QSt
           song->set_musicbrainz_release_group_id(frame_field_list.back());
         }
         if (frame->description() == kID3v2_MusicBrainz_WorkId) {
-          song->set_musicbrainz_work_id(frame_field_list.back());
+          song->set_musicbrainz_work_id(TagLibStringListToSlashSeparatedString(frame_field_list, 1));
         }
       }
     }
@@ -1874,10 +1874,11 @@ TagReaderResult TagReaderTagLib::SaveSongRating(const QString &filename, const f
 
 }
 
-TagLib::String TagReaderTagLib::TagLibStringListToSlashSeparatedString(const TagLib::StringList &taglib_string_list) {
+TagLib::String TagReaderTagLib::TagLibStringListToSlashSeparatedString(const TagLib::StringList &taglib_string_list, const uint begin_index) {
 
   TagLib::String result_string;
-  for (const TagLib::String &taglib_string : taglib_string_list) {
+  for (uint i = begin_index ; i < taglib_string_list.size(); ++i) {
+    const TagLib::String &taglib_string = taglib_string_list[i];
     if (!result_string.isEmpty()) {
       result_string += '/';
     }
