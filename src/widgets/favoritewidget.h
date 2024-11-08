@@ -44,7 +44,7 @@ class FavoriteWidget : public QWidget {
   QSize sizeHint() const override;
 
  Q_SIGNALS:
-  void FavoriteStateChanged(const int, const bool);
+  void FavoriteStateChanged(const int tab_index, const bool favorite);
 
  protected:
   void paintEvent(QPaintEvent *e) override;
