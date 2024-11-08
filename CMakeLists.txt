@@ -72,6 +72,7 @@ option(USE_BUNDLE "Bundle dependencies" ${USE_BUNDLE_DEFAULT})
 
 if(WIN32)
   option(ENABLE_WIN32_CONSOLE "Show the windows console even outside Debug mode" ${ENABLE_WIN32_CONSOLE_DEFAULT})
+  option(USE_QTSPARKLE "Use Qt Sparkle updater" ON)
 endif()
 
 if(MSVC)
@@ -276,8 +277,8 @@ endif()
 
 if(WIN32)
   find_package(getopt-win REQUIRED)
-  pkg_check_modules(QTSPARKLE REQUIRED IMPORTED_TARGET qtsparkle-qt${QT_VERSION_MAJOR})
-  if(QTSPARKLE_FOUND)
+  if(USE_QTSPARKLE)
+    pkg_check_modules(QTSPARKLE REQUIRED IMPORTED_TARGET qtsparkle-qt${QT_VERSION_MAJOR})
     set(HAVE_QTSPARKLE ON)
   endif()
 endif()
