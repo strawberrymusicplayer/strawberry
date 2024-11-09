@@ -179,9 +179,8 @@ GstEnginePipeline::~GstEnginePipeline() {
   Disconnect();
 
   if (pipeline_) {
-    if (state() != GST_STATE_NULL) {
-      gst_element_set_state(pipeline_, GST_STATE_NULL);
-    }
+
+    gst_element_set_state(pipeline_, GST_STATE_NULL);
 
     GstElement *audiobin = nullptr;
     g_object_get(GST_OBJECT(pipeline_), "audio-sink", &audiobin, nullptr);
