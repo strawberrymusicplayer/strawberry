@@ -140,6 +140,7 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       volume_internal_(-1.0),
       volume_percent_(100),
       fader_active_(false),
+      fader_running_(false),
       use_fudge_timer_(false),
       pipeline_(nullptr),
       audiobin_(nullptr),
@@ -323,6 +324,7 @@ void GstEnginePipeline::Disconnect() {
 
     if (fader_) {
       fader_active_ = false;
+      fader_running_ = false;
       if (fader_->state() != QTimeLine::NotRunning) {
         fader_->stop();
       }
@@ -1690,7 +1692,7 @@ void GstEnginePipeline::StateChangedMessageReceived(GstMessage *msg) {
       SetStateAsync(pending_state_.value());
       pending_state_ = GST_STATE_NULL;
     }
-    if (fader_ && fader_->state() != QTimeLine::State::Running && new_state == GST_STATE_PLAYING) {
+    if (fader_ && fader_active_.value() && !fader_running_.value() && new_state == GST_STATE_PLAYING) {
       qLog(Debug) << "Resuming fader";
       ResumeFaderAsync();
     }
@@ -1993,6 +1995,7 @@ void GstEnginePipeline::StartFader(const qint64 duration_nanosec, const QTimeLin
     timeline->deleteLater();
   });
   QObject::connect(&*fader_, &QTimeLine::valueChanged, this, &GstEnginePipeline::SetFaderVolume);
+  QObject::connect(&*fader_, &QTimeLine::stateChanged, this, &GstEnginePipeline::FaderTimelineStateChanged);
   QObject::connect(&*fader_, &QTimeLine::finished, this, &GstEnginePipeline::FaderTimelineFinished);
   fader_->setDirection(direction);
   fader_->setEasingCurve(shape);
@@ -2021,9 +2024,15 @@ void GstEnginePipeline::SetFaderVolume(const qreal volume) {
 
 void GstEnginePipeline::ResumeFaderAsync() {
 
-  if (fader_active_.value()) {
-    QMetaObject::invokeMethod(&*fader_, "resume", Qt::QueuedConnection);
+  if (fader_active_.value() && !fader_running_.value()) {
+    QMetaObject::invokeMethod(&*fader_, &QTimeLine::resume, Qt::QueuedConnection);
   }
+
+}
+
+void GstEnginePipeline::FaderTimelineStateChanged(const QTimeLine::State state) {
+
+  fader_running_ = state == QTimeLine::Running;
 
 }
 
@@ -2032,6 +2041,8 @@ void GstEnginePipeline::FaderTimelineFinished() {
   qLog(Debug) << "Pipeline" << id() << "finished fading";
 
   fader_active_ = false;
+  fader_running_ = false;
+
   fader_.reset();
 
   // Wait a little while longer before emitting the finished signal (and probably destroying the pipeline) to account for delays in the audio server/driver.
