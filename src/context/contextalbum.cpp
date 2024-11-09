@@ -181,7 +181,7 @@ void ContextAlbum::SetImage(const QImage &image) {
     previous_cover->timeline->start();
   }
 
-  if (timeline_fade_->state() == QTimeLine::Running) {
+  if (timeline_fade_->state() != QTimeLine::State::NotRunning) {
     timeline_fade_->stop();
   }
   timeline_fade_->start();
