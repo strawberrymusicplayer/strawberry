@@ -1789,11 +1789,7 @@ bool GstEnginePipeline::IsStateNull() const {
   if (!pipeline_) return true;
 
   GstState s = GST_STATE_NULL, sp = GST_STATE_NULL;
-  if (gst_element_get_state(pipeline_, &s, &sp, kGstStateTimeoutNanosecs) == GST_STATE_CHANGE_FAILURE) {
-    return false;
-  }
-
-  return s == GST_STATE_NULL;
+  return gst_element_get_state(pipeline_, &s, &sp, kGstStateTimeoutNanosecs) == GST_STATE_CHANGE_SUCCESS && s == GST_STATE_NULL;
 
 }
 
