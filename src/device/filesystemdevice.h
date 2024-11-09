@@ -22,6 +22,11 @@
 #ifndef FILESYSTEMDEVICE_H
 #define FILESYSTEMDEVICE_H
 
+#ifdef _MSC_VER // FIXME
+#pragma warning(push)
+#pragma warning(disable : 4250)
+#endif
+
 #include "config.h"
 
 #include <QObject>
@@ -77,5 +82,9 @@ class FilesystemDevice : public ConnectedDevice, public virtual FilesystemMusicS
   QThread *watcher_thread_;
   QList<QObject*> wait_for_exit_;
 };
+
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 
 #endif  // FILESYSTEMDEVICE_H
