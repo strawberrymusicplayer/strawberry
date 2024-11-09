@@ -631,8 +631,9 @@ void GstEngine::HandlePipelineError(const int pipeline_id, const int domain, con
 
   if (current_pipeline_ && current_pipeline_->id() == pipeline_id) {
 
-    FinishPipeline(current_pipeline_);
+    GstEnginePipelinePtr pipeline = current_pipeline_;
     current_pipeline_ = GstEnginePipelinePtr();
+    FinishPipeline(pipeline);
 
     BufferingFinished();
     Q_EMIT StateChanged(State::Error);
@@ -962,7 +963,10 @@ void GstEngine::FinishPipeline(GstEnginePipelinePtr pipeline) {
 
   QObject::disconnect(&*pipeline, nullptr, this, nullptr);
 
-  if (!pipeline->Finish() && !old_pipelines_.contains(pipeline->id())) {
+  if (pipeline->Finish()) {
+    PipelineFinished(pipeline_id);
+  }
+  else if (!old_pipelines_.contains(pipeline->id())) {
     old_pipelines_.insert(pipeline_id, pipeline);
     QObject::connect(&*pipeline, &GstEnginePipeline::Finished, this, [this, pipeline_id]() {
       PipelineFinished(pipeline_id);
@@ -975,12 +979,19 @@ void GstEngine::PipelineFinished(const int pipeline_id) {
 
   qLog(Debug) << "Pipeline" << pipeline_id << "finished";
 
-  GstEnginePipelinePtr pipeline = old_pipelines_.value(pipeline_id);
-  old_pipelines_.remove(pipeline_id);
-  if (pipeline == fadeout_pause_pipeline_) {
-    StopFadeoutPause();
+  if (old_pipelines_.contains(pipeline_id)) {
+    GstEnginePipelinePtr pipeline = old_pipelines_.value(pipeline_id);
+    old_pipelines_.remove(pipeline_id);
+    if (pipeline == fadeout_pause_pipeline_) {
+      StopFadeoutPause();
+    }
   }
-  pipeline = GstEnginePipelinePtr();
+
+  qLog(Debug) << (current_pipeline_ ? 1 : 0) + old_pipelines_.count() << "pipelines are active";
+
+  if (!current_pipeline_ && old_pipelines_.isEmpty()) {
+    Q_EMIT Finished();
+  }
 
   if (current_pipeline_ && old_pipelines_.isEmpty() && delayed_state_ != State::Empty) {
     switch (delayed_state_) {
@@ -996,12 +1007,6 @@ void GstEngine::PipelineFinished(const int pipeline_id) {
     delayed_state_ = State::Empty;
     delayed_state_pause_ = false;
     delayed_state_offset_nanosec_ = 0;
-  }
-
-  qLog(Debug) << (current_pipeline_ ? 1 : 0) + old_pipelines_.count() << "pipelines are active";
-
-  if (!current_pipeline_ && old_pipelines_.isEmpty()) {
-    Q_EMIT Finished();
   }
 
 }
