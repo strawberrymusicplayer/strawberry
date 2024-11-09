@@ -177,7 +177,7 @@ PlaylistView::PlaylistView(QWidget *parent)
 
   // For fading
   QObject::connect(fade_animation_, &QTimeLine::valueChanged, this, &PlaylistView::FadePreviousBackgroundImage);
-  fade_animation_->setDirection(QTimeLine::Backward);  // 1.0 -> 0.0
+  fade_animation_->setDirection(QTimeLine::Direction::Backward);  // 1.0 -> 0.0
 
 }
 
@@ -1476,7 +1476,9 @@ void PlaylistView::set_background_image(const QImage &image) {
 
   if (isVisible()) {
     previous_background_image_opacity_ = 1.0;
-    if (fade_animation_->state() == QTimeLine::Running) fade_animation_->stop();
+    if (fade_animation_->state() != QTimeLine::State::NotRunning) {
+      fade_animation_->stop();
+    }
     fade_animation_->start();
   }
 
