@@ -182,9 +182,14 @@ GstEnginePipeline::~GstEnginePipeline() {
     if (state() != GST_STATE_NULL) {
       gst_element_set_state(pipeline_, GST_STATE_NULL);
     }
+
+    GstElement *audiobin = nullptr;
+    g_object_get(GST_OBJECT(pipeline_), "audio-sink", &audiobin, nullptr);
+
     gst_object_unref(GST_OBJECT(pipeline_));
     pipeline_ = nullptr;
-    if (audiobin_ && !pipeline_connected_.value()) {
+
+    if (audiobin_ && audiobin_ != audiobin) {
       gst_object_unref(GST_OBJECT(audiobin_));
     }
     audiobin_ = nullptr;
