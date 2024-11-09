@@ -200,6 +200,7 @@ class GstEnginePipeline : public QObject {
  private Q_SLOTS:
   void SetStateAsyncFinished(const GstState state, const GstStateChangeReturn state_change_return);
   void SetFaderVolume(const qreal volume);
+  void FaderTimelineStateChanged(const QTimeLine::State state);
   void FaderTimelineFinished();
 
  private:
@@ -328,6 +329,7 @@ class GstEnginePipeline : public QObject {
   mutex_protected<uint> volume_percent_;
 
   mutex_protected<bool> fader_active_;
+  mutex_protected<bool> fader_running_;
   SharedPtr<QTimeLine> fader_;
   QBasicTimer fader_fudge_timer_;
   bool use_fudge_timer_;
