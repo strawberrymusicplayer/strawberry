@@ -75,7 +75,7 @@ ContextAlbum::ContextAlbum(QWidget *parent)
     pixmap_current_ = QPixmap::fromImage(image);
   }
 
-  timeline_fade_->setDirection(QTimeLine::Forward);
+  timeline_fade_->setDirection(QTimeLine::Direction::Forward);
   QObject::connect(timeline_fade_, &QTimeLine::valueChanged, this, &ContextAlbum::FadeCurrentCover);
   QObject::connect(timeline_fade_, &QTimeLine::finished, this, &ContextAlbum::FadeCurrentCoverFinished);
 
@@ -173,8 +173,8 @@ void ContextAlbum::SetImage(const QImage &image) {
     previous_cover->pixmap = pixmap_previous;
     previous_cover->opacity = opacity_previous;
     previous_cover->timeline.reset(new QTimeLine(kFadeTimeLineMs), [](QTimeLine *timeline) { timeline->deleteLater(); });
-    previous_cover->timeline->setDirection(QTimeLine::Backward);
-    previous_cover->timeline->setCurrentTime(timeline_fade_->state() == QTimeLine::Running ? timeline_fade_->currentTime() : kFadeTimeLineMs);
+    previous_cover->timeline->setDirection(QTimeLine::Direction::Backward);
+    previous_cover->timeline->setCurrentTime(timeline_fade_->state() == QTimeLine::State::Running ? timeline_fade_->currentTime() : kFadeTimeLineMs);
     QObject::connect(&*previous_cover->timeline, &QTimeLine::valueChanged, this, [this, previous_cover]() { FadePreviousCover(previous_cover); });
     QObject::connect(&*previous_cover->timeline, &QTimeLine::finished, this, [this, previous_cover]() { FadePreviousCoverFinished(previous_cover); });
     previous_covers_ << previous_cover;
