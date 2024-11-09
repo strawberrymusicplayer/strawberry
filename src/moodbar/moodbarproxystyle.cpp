@@ -139,11 +139,14 @@ void MoodbarProxyStyle::NextState() {
     return;
   }
 
-  const QTimeLine::Direction direction = visible ? QTimeLine::Forward : QTimeLine::Backward;
+  const QTimeLine::Direction direction = visible ? QTimeLine::Direction::Forward : QTimeLine::Direction::Backward;
 
   if (state_ == State::MoodbarOn || state_ == State::MoodbarOff) {
     // Start the fade from the beginning.
     fade_timeline_->setDirection(direction);
+    if (fade_timeline_->state() != QTimeLine::State::NotRunning) {
+      fade_timeline_->stop();
+    }
     fade_timeline_->start();
 
     fade_source_ = QPixmap();
