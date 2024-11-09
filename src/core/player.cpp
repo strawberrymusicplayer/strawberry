@@ -64,6 +64,7 @@
 #include "analyzer/analyzercontainer.h"
 
 using namespace std::chrono_literals;
+using std::make_unique;
 
 namespace {
 constexpr char kSettingsGroup[] = "Player";
@@ -125,8 +126,7 @@ EngineBase::Type Player::CreateEngine(EngineBase::Type enginetype) {
       case EngineBase::Type::None:
       case EngineBase::Type::GStreamer:{
         use_enginetype=EngineBase::Type::GStreamer;
-        ScopedPtr<GstEngine> gst_engine(new GstEngine(task_manager_));
-        engine_.reset(gst_engine.release());
+        engine_ = make_unique<GstEngine>(task_manager_);
         break;
       }
       default:
