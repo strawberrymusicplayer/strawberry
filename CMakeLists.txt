@@ -850,7 +850,6 @@ set(HEADERS
 
   src/engine/enginebase.h
   src/engine/devicefinders.h
-  src/engine/gststartup.h
   src/engine/gstengine.h
   src/engine/gstenginepipeline.h
 

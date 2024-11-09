@@ -53,7 +53,6 @@
 
 #include "engine/enginebase.h"
 #include "engine/gstengine.h"
-#include "engine/gststartup.h"
 
 #include "collection/collectionbackend.h"
 #include "playlist/playlist.h"
@@ -80,7 +79,6 @@ Player::Player(const SharedPtr<TaskManager> task_manager, const SharedPtr<UrlHan
       url_handlers_(url_handlers),
       playlist_manager_(playlist_manager),
       engine_(nullptr),
-      gst_startup_(new GstStartup(this)),
       analyzer_(nullptr),
       equalizer_(nullptr),
       timer_save_volume_(new QTimer(this)),
@@ -128,7 +126,6 @@ EngineBase::Type Player::CreateEngine(EngineBase::Type enginetype) {
       case EngineBase::Type::GStreamer:{
         use_enginetype=EngineBase::Type::GStreamer;
         ScopedPtr<GstEngine> gst_engine(new GstEngine(task_manager_));
-        gst_engine->SetStartup(gst_startup_);
         engine_.reset(gst_engine.release());
         break;
       }

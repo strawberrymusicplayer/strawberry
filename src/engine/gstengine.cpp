@@ -2,7 +2,7 @@
  *   Copyright (C) 2003-2005 by Mark Kretschmann <markey@web.de>           *
  *   Copyright (C) 2005 by Jakub Stachowski <qbast@go2.pl>                 *
  *   Copyright (C) 2006 Paul Cifarelli <paul@cifarelli.net>                *
- *   Copyright (C) 2017-2021 Jonas Kvinge <jonas@jkvinge.net>              *
+ *   Copyright (C) 2017-2024 Jonas Kvinge <jonas@jkvinge.net>              *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -97,7 +97,6 @@ constexpr qint64 kSeekDelayNanosec = 100 * kNsecPerMsec;       // 100msec
 GstEngine::GstEngine(SharedPtr<TaskManager> task_manager, QObject *parent)
     : EngineBase(parent),
       task_manager_(task_manager),
-      gst_startup_(nullptr),
       discoverer_(nullptr),
       buffering_task_id_(-1),
       latest_buffer_(nullptr),
@@ -129,7 +128,6 @@ GstEngine::GstEngine(SharedPtr<TaskManager> task_manager, QObject *parent)
 
 GstEngine::~GstEngine() {
 
-  EnsureInitialized();
   current_pipeline_.reset();
 
   if (latest_buffer_) {
@@ -181,8 +179,6 @@ EngineBase::State GstEngine::state() const {
 
 void GstEngine::StartPreloading(const QUrl &media_url, const QUrl &stream_url, const bool force_stop_at_end, const qint64 beginning_nanosec, const qint64 end_nanosec) {
 
-  EnsureInitialized();
-
   const QByteArray gst_url = FixupUrl(stream_url);
 
   // No crossfading, so we can just queue the new URL in the existing pipeline and get gapless playback (hopefully)
@@ -199,8 +195,6 @@ void GstEngine::StartPreloading(const QUrl &media_url, const QUrl &stream_url, c
 }
 
 bool GstEngine::Load(const QUrl &media_url, const QUrl &stream_url, const EngineBase::TrackChangeFlags change, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec, const std::optional<double> ebur128_integrated_loudness_lufs) {
-
-  EnsureInitialized();
 
   EngineBase::Load(media_url, stream_url, change, force_stop_at_end, beginning_nanosec, end_nanosec, ebur128_integrated_loudness_lufs);
 
@@ -269,8 +263,6 @@ bool GstEngine::Load(const QUrl &media_url, const QUrl &stream_url, const Engine
 }
 
 bool GstEngine::Play(const bool pause, const quint64 offset_nanosec) {
-
-  EnsureInitialized();
 
   if (!current_pipeline_ || current_pipeline_->is_buffering() || current_pipeline_->state() == GstState::GST_STATE_PLAYING) return false;
 
@@ -458,8 +450,6 @@ const EngineBase::Scope &GstEngine::scope(const int chunk_length) {
 
 EngineBase::OutputDetailsList GstEngine::GetOutputsList() const {
 
-  const_cast<GstEngine*>(this)->EnsureInitialized();
-
   OutputDetailsList outputs;
 
   GstRegistry *registry = gst_registry_get();
@@ -497,8 +487,6 @@ EngineBase::OutputDetailsList GstEngine::GetOutputsList() const {
 }
 
 bool GstEngine::ValidOutput(const QString &output) {
-
-  EnsureInitialized();
 
   const OutputDetailsList output_details = GetOutputsList();
   return std::any_of(output_details.begin(), output_details.end(), [output](const OutputDetails &output_detail) { return output_detail.name == output; });
@@ -804,8 +792,6 @@ void GstEngine::BufferingFinished() {
 
 QByteArray GstEngine::FixupUrl(const QUrl &url) {
 
-  EnsureInitialized();
-
   QByteArray uri;
 
   // It's a file:// url with a hostname set.
@@ -900,8 +886,6 @@ void GstEngine::StopTimers() {
 }
 
 GstEnginePipelinePtr GstEngine::CreatePipeline() {
-
-  EnsureInitialized();
 
   GstEnginePipelinePtr pipeline = make_shared<GstEnginePipeline>();
   pipeline->set_output_device(output_, device_);

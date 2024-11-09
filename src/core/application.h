@@ -3,7 +3,7 @@
  * This file was part of Clementine.
  * Copyright 2012, David Sansome <me@davidsansome.com>
  * Copyright 2012, 2014, John Maguire <john.maguire@gmail.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,6 +24,8 @@
 #define APPLICATION_H
 
 #include "config.h"
+
+#include <glib.h>
 
 #include <QObject>
 #include <QList>
@@ -115,7 +117,11 @@ class Application : public QObject {
   void ExitFinished();
 
  private:
+  static gpointer GLibMainLoopThreadFunc(gpointer data);
+
+ private:
   ScopedPtr<ApplicationImpl> p_;
+  GThread *g_thread_;
   QList<QThread*> threads_;
   QList<QObject*> wait_for_exit_;
 };

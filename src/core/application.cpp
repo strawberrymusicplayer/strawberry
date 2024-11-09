@@ -3,7 +3,7 @@
  * This file was part of Clementine.
  * Copyright 2012, David Sansome <me@davidsansome.com>
  * Copyright 2012, 2014, John Maguire <john.maguire@gmail.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,9 +28,14 @@
 #include <functional>
 #include <chrono>
 
+#include <glib.h>
+
 #include <QObject>
 #include <QThread>
 #include <QString>
+#include <QMetaObject>
+#include <QCoreApplication>
+#include <QAbstractEventDispatcher>
 
 #include "core/logging.h"
 
@@ -241,9 +246,16 @@ class ApplicationImpl {
 };
 
 Application::Application(QObject *parent)
-    : QObject(parent), p_(new ApplicationImpl(this)) {
+    : QObject(parent),
+      p_(new ApplicationImpl(this)),
+      g_thread_(nullptr) {
 
   setObjectName(QLatin1String(metaObject()->className()));
+
+  const QMetaObject *mo = QAbstractEventDispatcher::instance(QCoreApplication::instance()->thread())->metaObject();
+  if (mo && strcmp(mo->className(), "QEventDispatcherGlib") != 0 && strcmp(mo->superClass()->className(), "QEventDispatcherGlib") != 0) {
+    g_thread_ = g_thread_new(nullptr, Application::GLibMainLoopThreadFunc, nullptr);
+  }
 
   device_finders()->Init();
   collection()->Init();
@@ -263,6 +275,22 @@ Application::~Application() {
     thread->wait();
     thread->deleteLater();
   }
+
+  if (g_thread_) g_thread_unref(g_thread_);
+
+}
+
+gpointer Application::GLibMainLoopThreadFunc(gpointer data) {
+
+  Q_UNUSED(data)
+
+  qLog(Info) << "Creating GLib main event loop.";
+
+  GMainLoop *gloop = g_main_loop_new(nullptr, false);
+  g_main_loop_run(gloop);
+  g_main_loop_unref(gloop);
+
+  return nullptr;
 
 }
 

@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,32 +20,9 @@
 #ifndef GSTSTARTUP_H
 #define GSTSTARTUP_H
 
-#include "config.h"
-
-#include <glib.h>
-#include <gst/gst.h>
-
-#include <QtGlobal>
-#include <QObject>
-#include <QFuture>
-
-class GstStartup : public QObject {
-  Q_OBJECT
-
- public:
-  explicit GstStartup(QObject *parent = nullptr);
-  ~GstStartup() override;
-
-  void EnsureInitialized() { initializing_.waitForFinished(); }
-
- private:
-  static GThread *kGThread;
-  static gpointer GLibMainLoopThreadFunc(gpointer data);
-
-  static void InitializeGStreamer();
-  static void SetEnvironment();
-
-  QFuture<void> initializing_;
-};
+namespace GstStartup {
+void Initialize();
+void SetEnvironment();
+}  // namespace
 
 #endif  // GSTSTARTUP_H

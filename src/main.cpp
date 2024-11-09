@@ -118,6 +118,8 @@
 #  include "osd/osdbase.h"
 #endif
 
+#include "engine/gststartup.h"
+
 using namespace Qt::Literals::StringLiterals;
 using std::make_shared;
 
@@ -190,6 +192,8 @@ int main(int argc, char *argv[]) {
   QGuiApplication::setApplicationDisplayName(u"Strawberry Music Player"_s);
   QGuiApplication::setDesktopFileName(u"org.strawberrymusicplayer.strawberry"_s);
   QGuiApplication::setQuitOnLastWindowClosed(false);
+
+  GstStartup::Initialize();
 
   QApplication a(argc, argv);
   KDSingleApplication single_app(QCoreApplication::applicationName(), KDSingleApplication::Option::IncludeUsernameInSocketName);

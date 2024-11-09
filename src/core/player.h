@@ -47,7 +47,6 @@ class UrlHandlers;
 class PlaylistManager;
 class AnalyzerContainer;
 class Equalizer;
-class GstStartup;
 
 class Player : public PlayerInterface {
   Q_OBJECT
@@ -144,7 +143,6 @@ class Player : public PlayerInterface {
   const SharedPtr<UrlHandlers> url_handlers_;
   const SharedPtr<PlaylistManager> playlist_manager_;
   SharedPtr<EngineBase> engine_;
-  GstStartup *gst_startup_;
   AnalyzerContainer *analyzer_;
   SharedPtr<Equalizer> equalizer_;
   QTimer *timer_save_volume_;

@@ -2,7 +2,7 @@
  *   Copyright (C) 2003-2005 by Mark Kretschmann <markey@web.de>           *
  *   Copyright (C) 2005 by Jakub Stachowski <qbast@go2.pl>                 *
  *   Copyright (C) 2006 Paul Cifarelli <paul@cifarelli.net>                *
- *   Copyright (C) 2017-2021 Jonas Kvinge <jonas@jkvinge.net>              *
+ *   Copyright (C) 2017-2024 Jonas Kvinge <jonas@jkvinge.net>              *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -41,7 +41,6 @@
 
 #include "includes/shared_ptr.h"
 #include "enginebase.h"
-#include "gststartup.h"
 #include "gstenginepipeline.h"
 #include "gstbufferconsumer.h"
 
@@ -84,9 +83,6 @@ class GstEngine : public EngineBase, public GstBufferConsumer {
   bool CustomDeviceSupport(const QString &output) const override;
   bool ALSADeviceSupport(const QString &output) const override;
   bool ExclusiveModeSupport(const QString &output) const override;
-
-  void SetStartup(GstStartup *gst_startup) { gst_startup_ = gst_startup; }
-  void EnsureInitialized() { gst_startup_->EnsureInitialized(); }
 
   void ConsumeBuffer(GstBuffer *buffer, const int pipeline_id, const QString &format) override;
 
@@ -153,7 +149,6 @@ class GstEngine : public EngineBase, public GstBufferConsumer {
 
  private:
   SharedPtr<TaskManager> task_manager_;
-  GstStartup *gst_startup_;
   GstDiscoverer *discoverer_;
 
   int buffering_task_id_;
