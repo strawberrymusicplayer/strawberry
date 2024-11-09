@@ -638,18 +638,18 @@ void Song::set_lyrics(const TagLib::String &v) { d->lyrics_ = TagLibStringToQStr
 void Song::set_artist_id(const TagLib::String &v) { d->artist_id_ = TagLibStringToQString(v); }
 void Song::set_album_id(const TagLib::String &v) { d->album_id_ = TagLibStringToQString(v); }
 void Song::set_song_id(const TagLib::String &v) { d->song_id_ = TagLibStringToQString(v); }
-void Song::set_acoustid_id(const TagLib::String &v) { d->acoustid_id_ = TagLibStringToQString(v); }
-void Song::set_acoustid_fingerprint(const TagLib::String &v) { d->acoustid_fingerprint_ = TagLibStringToQString(v); }
-void Song::set_musicbrainz_album_artist_id(const TagLib::String &v) { d->musicbrainz_album_artist_id_ = TagLibStringToQString(v); }
-void Song::set_musicbrainz_artist_id(const TagLib::String &v) { d->musicbrainz_artist_id_ = TagLibStringToQString(v); }
-void Song::set_musicbrainz_original_artist_id(const TagLib::String &v) { d->musicbrainz_original_artist_id_ = TagLibStringToQString(v); }
-void Song::set_musicbrainz_album_id(const TagLib::String &v) { d->musicbrainz_album_id_ = TagLibStringToQString(v); }
-void Song::set_musicbrainz_original_album_id(const TagLib::String &v) { d->musicbrainz_original_album_id_ = TagLibStringToQString(v); }
-void Song::set_musicbrainz_recording_id(const TagLib::String &v) { d->musicbrainz_recording_id_ = TagLibStringToQString(v); }
-void Song::set_musicbrainz_track_id(const TagLib::String &v) { d->musicbrainz_track_id_ = TagLibStringToQString(v); }
-void Song::set_musicbrainz_disc_id(const TagLib::String &v) { d->musicbrainz_disc_id_ = TagLibStringToQString(v); }
-void Song::set_musicbrainz_release_group_id(const TagLib::String &v) { d->musicbrainz_release_group_id_ = TagLibStringToQString(v); }
-void Song::set_musicbrainz_work_id(const TagLib::String &v) { d->musicbrainz_work_id_ = TagLibStringToQString(v); }
+void Song::set_acoustid_id(const TagLib::String &v) { d->acoustid_id_ = TagLibStringToQString(v).remove(u' ').replace(u';', u'/'); }
+void Song::set_acoustid_fingerprint(const TagLib::String &v) { d->acoustid_fingerprint_ = TagLibStringToQString(v).remove(u' ').replace(u';', u'/'); }
+void Song::set_musicbrainz_album_artist_id(const TagLib::String &v) { d->musicbrainz_album_artist_id_ = TagLibStringToQString(v).remove(u' ').replace(u';', u'/'); }
+void Song::set_musicbrainz_artist_id(const TagLib::String &v) { d->musicbrainz_artist_id_ = TagLibStringToQString(v).remove(u' ').replace(u';', u'/'); }
+void Song::set_musicbrainz_original_artist_id(const TagLib::String &v) { d->musicbrainz_original_artist_id_ = TagLibStringToQString(v).remove(u' ').replace(u';', u'/'); }
+void Song::set_musicbrainz_album_id(const TagLib::String &v) { d->musicbrainz_album_id_ = TagLibStringToQString(v).remove(u' ').replace(u';', u'/'); }
+void Song::set_musicbrainz_original_album_id(const TagLib::String &v) { d->musicbrainz_original_album_id_ = TagLibStringToQString(v).remove(u' ').replace(u';', u'/'); }
+void Song::set_musicbrainz_recording_id(const TagLib::String &v) { d->musicbrainz_recording_id_ = TagLibStringToQString(v).remove(u' ').replace(u';', u'/'); }
+void Song::set_musicbrainz_track_id(const TagLib::String &v) { d->musicbrainz_track_id_ = TagLibStringToQString(v).remove(u' ').replace(u';', u'/'); }
+void Song::set_musicbrainz_disc_id(const TagLib::String &v) { d->musicbrainz_disc_id_ = TagLibStringToQString(v).remove(u' ').replace(u';', u'/'); }
+void Song::set_musicbrainz_release_group_id(const TagLib::String &v) { d->musicbrainz_release_group_id_ = TagLibStringToQString(v).remove(u' ').replace(u';', u'/'); }
+void Song::set_musicbrainz_work_id(const TagLib::String &v) { d->musicbrainz_work_id_ = TagLibStringToQString(v).remove(u' ').replace(u';', u'/'); }
 
 const QUrl &Song::effective_stream_url() const { return !d->stream_url_.isEmpty() && d->stream_url_.isValid() ? d->stream_url_ : d->url_; }
 const QString &Song::effective_albumartist() const { return d->albumartist_.isEmpty() ? d->artist_ : d->albumartist_; }
