@@ -162,6 +162,7 @@ class GstEnginePipeline : public QObject {
  private:
   static QString GstStateText(const GstState state);
   GstElement *CreateElement(const QString &factory_name, const QString &name, GstElement *bin, QString &error) const;
+  bool IsStateNull() const;
   bool InitAudioBin(QString &error);
   void SetupVolume(GstElement *element);
 

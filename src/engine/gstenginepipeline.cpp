@@ -404,7 +404,7 @@ bool GstEnginePipeline::Finish() {
 
   Disconnect();
 
-  if (state() == GST_STATE_NULL) {
+  if (IsStateNull()) {
     finished_ = true;
   }
   else {
@@ -1781,6 +1781,19 @@ qint64 GstEnginePipeline::position() const {
   }
 
   return last_known_position_ns_;
+
+}
+
+bool GstEnginePipeline::IsStateNull() const {
+
+  if (!pipeline_) return true;
+
+  GstState s = GST_STATE_NULL, sp = GST_STATE_NULL;
+  if (gst_element_get_state(pipeline_, &s, &sp, kGstStateTimeoutNanosecs) == GST_STATE_CHANGE_FAILURE) {
+    return false;
+  }
+
+  return s == GST_STATE_NULL;
 
 }
 
