@@ -142,8 +142,9 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       volume_percent_(100),
       fader_active_(false),
       fader_running_(false),
+      fader_use_fudge_timer_(false),
       timer_fader_fudge_(new QTimer(this)),
-      use_fudge_timer_(false),
+      timer_fader_timeout_(new QTimer(this)),
       pipeline_(nullptr),
       audiobin_(nullptr),
       audiosink_(nullptr),
@@ -176,7 +177,10 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
 
   timer_fader_fudge_->setSingleShot(true);
   timer_fader_fudge_->setInterval(kFaderFudgeMsec);
-  QObject::connect(timer_fader_fudge_, &QTimer::timeout, this, &GstEnginePipeline::FaderTimelineFudgeFinished);
+  QObject::connect(timer_fader_fudge_, &QTimer::timeout, this, &GstEnginePipeline::FaderFudgeFinished);
+
+  timer_fader_timeout_->setSingleShot(true);
+  QObject::connect(timer_fader_timeout_, &QTimer::timeout, this, &GstEnginePipeline::FaderTimelineTimeout);
 
 }
 
@@ -2026,8 +2030,11 @@ void GstEnginePipeline::StartFader(const qint64 duration_nanosec, const QTimeLin
   fader_->setEasingCurve(shape);
   fader_->setCurrentTime(static_cast<int>(start_time));
 
+  timer_fader_timeout_->setInterval(static_cast<int>(duration_msec) + 1500);
+  timer_fader_timeout_->start();
+
   timer_fader_fudge_->stop();
-  use_fudge_timer_ = use_fudge_timer;
+  fader_use_fudge_timer_ = use_fudge_timer;
 
   SetFaderVolume(fader_->currentValue());
 
@@ -2070,24 +2077,25 @@ void GstEnginePipeline::FaderTimelineFinished() {
 
   fader_.reset();
 
+  timer_fader_timeout_->stop();
+
   // Wait a little while longer before emitting the finished signal (and probably destroying the pipeline) to account for delays in the audio server/driver.
-  if (use_fudge_timer_) {
-    timer_fader_fudge_->setInterval(kFaderFudgeMsec);
-    timer_fader_fudge_->start();
-  }
-  else {
-    // Even here we cannot emit the signal directly, as it result in a stutter when resuming playback.
-    // So use a quest small time, so you won't notice the difference when resuming playback
-    // (You get here when the pause fading is active)
-    timer_fader_fudge_->setInterval(250ms);
-    timer_fader_fudge_->start();
-  }
+  timer_fader_fudge_->setInterval(fader_use_fudge_timer_ ? kFaderFudgeMsec : 250ms);
+  timer_fader_fudge_->start();
 
 }
 
-void GstEnginePipeline::FaderTimelineFudgeFinished() {
+void GstEnginePipeline::FaderTimelineTimeout() {
 
-  qLog(Debug) << "Pipeline" << id() << "finished fading fudge";
+  qLog(Debug) << "Pipeline" << id() << "fading timed out";
+
+  FaderTimelineFinished();
+
+}
+
+void GstEnginePipeline::FaderFudgeFinished() {
+
+  qLog(Debug) << "Pipeline" << id() << "fading fudge finished";
 
   Q_EMIT FaderFinished(id());
 

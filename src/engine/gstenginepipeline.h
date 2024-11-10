@@ -199,7 +199,8 @@ class GstEnginePipeline : public QObject {
   void SetFaderVolume(const qreal volume);
   void FaderTimelineStateChanged(const QTimeLine::State state);
   void FaderTimelineFinished();
-  void FaderTimelineFudgeFinished();
+  void FaderTimelineTimeout();
+  void FaderFudgeFinished();
 
  private:
   // Using == to compare two pipelines is a bad idea, because new ones often get created in the same address as old ones.  This ID will be unique for each pipeline.
@@ -328,9 +329,10 @@ class GstEnginePipeline : public QObject {
 
   mutex_protected<bool> fader_active_;
   mutex_protected<bool> fader_running_;
+  bool fader_use_fudge_timer_;
   SharedPtr<QTimeLine> fader_;
   QTimer *timer_fader_fudge_;
-  bool use_fudge_timer_;
+  QTimer *timer_fader_timeout_;
 
   GstElement *pipeline_;
   GstElement *audiobin_;
