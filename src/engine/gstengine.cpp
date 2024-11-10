@@ -349,7 +349,7 @@ void GstEngine::Pause() {
       StartFadeoutPause();
     }
     else {
-      current_pipeline_->SetStateAsync(GST_STATE_PAUSED);
+      current_pipeline_->SetState(GST_STATE_PAUSED);
       Q_EMIT StateChanged(State::Paused);
       StopTimers();
     }
@@ -371,7 +371,7 @@ void GstEngine::Unpause() {
       has_faded_out_to_pause_ = false;
     }
 
-    current_pipeline_->SetStateAsync(GST_STATE_PLAYING);
+    current_pipeline_->SetState(GST_STATE_PLAYING);
 
     Q_EMIT StateChanged(State::Playing);
 
@@ -688,7 +688,7 @@ void GstEngine::FadeoutPauseFinished() {
 
   if (!fadeout_pause_pipeline_) return;
 
-  fadeout_pause_pipeline_->SetStateAsync(GST_STATE_PAUSED);
+  fadeout_pause_pipeline_->SetState(GST_STATE_PAUSED);
   Q_EMIT StateChanged(State::Paused);
   StopTimers();
   has_faded_out_to_pause_ = true;

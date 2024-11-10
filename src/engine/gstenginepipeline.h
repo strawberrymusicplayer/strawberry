@@ -93,7 +93,7 @@ class GstEnginePipeline : public QObject {
   void RemoveAllBufferConsumers();
 
   // Control the music playback
-  Q_INVOKABLE QFuture<GstStateChangeReturn> SetStateAsync(const GstState state);
+  Q_INVOKABLE QFuture<GstStateChangeReturn> SetState(const GstState state);
   Q_INVOKABLE QFuture<GstStateChangeReturn> Play(const bool pause, const quint64 offset_nanosec);
   Q_INVOKABLE bool Seek(const qint64 nanosec);
   void SeekAsync(const qint64 nanosec);
@@ -165,6 +165,7 @@ class GstEnginePipeline : public QObject {
   bool IsStateNull() const;
   bool InitAudioBin(QString &error);
   void SetupVolume(GstElement *element);
+  void SetStateAsync(const GstState state);
 
   // Static callbacks.  The GstEnginePipeline instance is passed in the last argument.
   static GstPadProbeReturn UpstreamEventsProbeCallback(GstPad *pad, GstPadProbeInfo *info, gpointer self);
@@ -199,7 +200,7 @@ class GstEnginePipeline : public QObject {
   void ResumeFaderAsync();
 
  private Q_SLOTS:
-  void SetStateAsyncFinished(const GstState state, const GstStateChangeReturn state_change_return);
+  void SetStateFinishedSlot(const GstState state, const GstStateChangeReturn state_change_return);
   void SetFaderVolume(const qreal volume);
   void FaderTimelineStateChanged(const QTimeLine::State state);
   void FaderTimelineFinished();

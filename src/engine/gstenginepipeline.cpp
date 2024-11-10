@@ -408,7 +408,7 @@ bool GstEnginePipeline::Finish() {
     finished_ = true;
   }
   else {
-    SetStateAsync(GST_STATE_NULL);
+    SetState(GST_STATE_NULL);
   }
 
   return finished_.value();
@@ -1793,7 +1793,13 @@ bool GstEnginePipeline::IsStateNull() const {
 
 }
 
-QFuture<GstStateChangeReturn> GstEnginePipeline::SetStateAsync(const GstState state) {
+void GstEnginePipeline::SetStateAsync(const GstState state) {
+
+  QMetaObject::invokeMethod(this, "SetState", Qt::QueuedConnection, Q_ARG(GstState, state));
+
+}
+
+QFuture<GstStateChangeReturn> GstEnginePipeline::SetState(const GstState state) {
 
   qLog(Debug) << "Setting pipeline" << id() << "state to" << GstStateText(state);
 
@@ -1801,7 +1807,7 @@ QFuture<GstStateChangeReturn> GstEnginePipeline::SetStateAsync(const GstState st
   QObject::connect(watcher, &QFutureWatcher<GstStateChangeReturn>::finished, this, [this, watcher, state]() {
     const GstStateChangeReturn state_change_return = watcher->result();
     watcher->deleteLater();
-    SetStateAsyncFinished(state, state_change_return);
+    SetStateFinishedSlot(state, state_change_return);
   });
   QFuture<GstStateChangeReturn> future = QtConcurrent::run(&set_state_threadpool_, &gst_element_set_state, pipeline_, state);
   watcher->setFuture(future);
@@ -1810,7 +1816,7 @@ QFuture<GstStateChangeReturn> GstEnginePipeline::SetStateAsync(const GstState st
 
 }
 
-void GstEnginePipeline::SetStateAsyncFinished(const GstState state, const GstStateChangeReturn state_change_return) {
+void GstEnginePipeline::SetStateFinishedSlot(const GstState state, const GstStateChangeReturn state_change_return) {
 
   switch (state_change_return) {
     case GST_STATE_CHANGE_SUCCESS:
@@ -1840,7 +1846,7 @@ QFuture<GstStateChangeReturn> GstEnginePipeline::Play(const bool pause, const qu
     pending_state_ = GST_STATE_PLAYING;
   }
 
-  return SetStateAsync(GST_STATE_PAUSED);
+  return SetState(GST_STATE_PAUSED);
 
 }
 
@@ -1858,7 +1864,7 @@ bool GstEnginePipeline::Seek(const qint64 nanosec) {
 
   if (next_uri_set_.value()) {
     pending_seek_nanosec_ = nanosec;
-    SetStateAsync(GST_STATE_READY);
+    SetState(GST_STATE_READY);
     return true;
   }
 
@@ -1873,7 +1879,7 @@ bool GstEnginePipeline::Seek(const qint64 nanosec) {
     qLog(Debug) << "Seek succeeded";
     if (pending_state_.value() != GST_STATE_NULL) {
       qLog(Debug) << "Setting state from pending state" << GstStateText(pending_state_.value());
-      SetStateAsync(pending_state_.value());
+      SetState(pending_state_.value());
       pending_state_ = GST_STATE_NULL;
     }
   }
