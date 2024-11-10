@@ -54,7 +54,6 @@ class Player : public PlayerInterface {
  public:
   explicit Player(const SharedPtr<TaskManager> task_manager, const SharedPtr<UrlHandlers> url_handlers, const SharedPtr<PlaylistManager> playlist_manager, QObject *parent = nullptr);
 
-  EngineBase::Type CreateEngine(EngineBase::Type Type);
   void Init();
 
   SharedPtr<EngineBase> engine() const override { return engine_; }

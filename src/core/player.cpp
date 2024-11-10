@@ -38,7 +38,6 @@
 #include <QSettings>
 
 #include "constants/behavioursettings.h"
-#include "constants/backendsettings.h"
 #include "constants/playlistsettings.h"
 #include "constants/timeconstants.h"
 
@@ -79,7 +78,7 @@ Player::Player(const SharedPtr<TaskManager> task_manager, const SharedPtr<UrlHan
       task_manager_(task_manager),
       url_handlers_(url_handlers),
       playlist_manager_(playlist_manager),
-      engine_(nullptr),
+      engine_(make_unique<GstEngine>(task_manager_)),
       analyzer_(nullptr),
       equalizer_(nullptr),
       timer_save_volume_(new QTimer(this)),
@@ -102,13 +101,6 @@ Player::Player(const SharedPtr<TaskManager> task_manager, const SharedPtr<UrlHan
 
   setObjectName(QLatin1String(metaObject()->className()));
 
-  Settings s;
-  s.beginGroup(BackendSettings::kSettingsGroup);
-  EngineBase::Type enginetype = EngineBase::TypeFromName(s.value(BackendSettings::kEngine, EngineBase::Name(EngineBase::Type::GStreamer)).toString().toLower());
-  s.endGroup();
-
-  CreateEngine(enginetype);
-
   timer_save_volume_->setSingleShot(true);
   timer_save_volume_->setInterval(5s);
   QObject::connect(timer_save_volume_, &QTimer::timeout, this, &Player::SaveVolume);
@@ -117,56 +109,7 @@ Player::Player(const SharedPtr<TaskManager> task_manager, const SharedPtr<UrlHan
 
 }
 
-EngineBase::Type Player::CreateEngine(EngineBase::Type enginetype) {
-
-  EngineBase::Type use_enginetype = EngineBase::Type::None;
-
-  for (int i = 0; use_enginetype == EngineBase::Type::None; i++) {
-    switch (enginetype) {
-      case EngineBase::Type::None:
-      case EngineBase::Type::GStreamer:{
-        use_enginetype=EngineBase::Type::GStreamer;
-        engine_ = make_unique<GstEngine>(task_manager_);
-        break;
-      }
-      default:
-        if (i > 0) {
-          qFatal("No engine available!");
-        }
-        enginetype = EngineBase::Type::None;
-        break;
-    }
-  }
-
-  if (use_enginetype != enginetype) {  // Engine was set to something else. Reset output and device.
-    Settings s;
-    s.beginGroup(BackendSettings::kSettingsGroup);
-    s.setValue(BackendSettings::kEngine, EngineBase::Name(use_enginetype));
-    s.setValue(BackendSettings::kOutput, engine_->DefaultOutput());
-    s.setValue(BackendSettings::kDevice, QVariant());
-    s.endGroup();
-  }
-
-  if (!engine_) {
-    qFatal("Failed to create engine!");
-  }
-
-  Q_EMIT EngineChanged(use_enginetype);
-
-  return use_enginetype;
-
-}
-
 void Player::Init() {
-
-  Settings s;
-
-  if (!engine_) {
-    s.beginGroup(BackendSettings::kSettingsGroup);
-    EngineBase::Type enginetype = EngineBase::TypeFromName(s.value("engine", EngineBase::Name(EngineBase::Type::GStreamer)).toString().toLower());
-    s.endGroup();
-    CreateEngine(enginetype);
-  }
 
   if (!engine_->Init()) {
     qFatal("Error initializing audio engine");
