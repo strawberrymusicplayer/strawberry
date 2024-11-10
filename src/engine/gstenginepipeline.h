@@ -329,7 +329,7 @@ class GstEnginePipeline : public QObject {
   mutex_protected<bool> fader_active_;
   mutex_protected<bool> fader_running_;
   SharedPtr<QTimeLine> fader_;
-  QTimer *timer_fader_fudge;
+  QTimer *timer_fader_fudge_;
   bool use_fudge_timer_;
 
   GstElement *pipeline_;
