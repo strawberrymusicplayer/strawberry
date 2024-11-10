@@ -37,12 +37,12 @@ class mutex_protected : public boost::noncopyable {
     return value_;
   }
 
-  T operator==(const mutex_protected &value) const {
+  bool operator==(const mutex_protected &value) const {
     QMutexLocker l(&mutex_);
-    return value == value_;
+    return value.value() == value_;
   }
 
-  T operator==(const T value) const {
+  bool operator==(const T value) const {
     QMutexLocker l(&mutex_);
     return value == value_;
   }
