@@ -62,12 +62,14 @@ using namespace BackendSettings;
 namespace {
 constexpr char kOutputAutomaticallySelect[] = "Automatically select";
 constexpr char kOutputCustom[] = "Custom";
-constexpr char kALSAHW[] = "hw:";
-constexpr char kALSAPlugHW[] = "plughw:";
 static const QRegularExpression kRegex_ALSA_HW(u"^hw:.*"_s);
 static const QRegularExpression kRegex_ALSA_PlugHW(u"^plughw:.*"_s);
+#ifdef HAVE_ALSA
+constexpr char kALSAHW[] = "hw:";
+constexpr char kALSAPlugHW[] = "plughw:";
 static const QRegularExpression kRegex_ALSA_PCM_Card(u"^.*:.*CARD=.*"_s);
 static const QRegularExpression kRegex_ALSA_PCM_Dev(u"^.*:.*DEV=.*"_s);
+#endif
 }  // namespace
 
 BackendSettingsPage::BackendSettingsPage(SettingsDialog *dialog, const SharedPtr<Player> player, const SharedPtr<DeviceFinders> device_finders, QWidget *parent)
