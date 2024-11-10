@@ -10,8 +10,13 @@ and dropping some unmaintained parts such as VLC.
 
 Bugfixes:
 
-    * Fixed playback of CUE continuing to play from the same file after the song has finished playing (#1568)
+    * Fixed playback of CUE continuing to play from the same file after the song has finished playing (#1568).
     * Fixed updating collection song sort text when disc is changed.
+    * Fixed current playing file left open when the next track errored (#1582).
+    * Fixed filter search not finding song containing uppercase "A" (#1599).
+    * Fixed crash when removing album from playlist when using shuffle albums (#1588).
+    * Fixed IDv3 MBID's tags with multiple entries being ignored.
+    * Fixed crash when enabling Tidal, Spotify, Qobuz or Subsonic services.
 
 Enhancements:
 
