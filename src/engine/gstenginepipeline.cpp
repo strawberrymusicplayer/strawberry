@@ -134,8 +134,10 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       buffering_(false),
       pending_state_(GST_STATE_NULL),
       pending_seek_nanosec_(-1),
+      pending_seek_ready_previous_state_(GST_STATE_NULL),
       last_known_position_ns_(0),
       next_uri_set_(false),
+      next_uri_need_reset_(false),
       next_uri_reset_(false),
       volume_set_(false),
       volume_internal_(-1.0),
@@ -1653,54 +1655,38 @@ void GstEnginePipeline::StateChangedMessageReceived(GstMessage *msg) {
 
   qLog(Debug) << "Pipeline state changed from" << GstStateText(old_state) << "to" << GstStateText(new_state);
 
-  if (!pipeline_active_.value() && (new_state == GST_STATE_PAUSED || new_state == GST_STATE_PLAYING)) {
-    qLog(Debug) << "Pipeline is active";
-    pipeline_active_ = true;
-    if (pipeline_connected_.value()) {
-      if (!volume_set_.value()) {
-        SetVolume(volume_percent_.value());
-      }
-      if (pending_seek_nanosec_.value() != -1) {
-        if (next_uri_reset_.value() && new_state == GST_STATE_PAUSED) {
-          qLog(Debug) << "Reverting next uri and going to playing state.";
-          next_uri_reset_ = false;
-          pending_state_ = GST_STATE_PLAYING;
-          SeekDelayed(pending_seek_nanosec_.value());
-          pending_seek_nanosec_ = -1;
-        }
-        else {
-          SeekAsync(pending_seek_nanosec_.value());
-          pending_seek_nanosec_ = -1;
-        }
-      }
-    }
+  const bool pipeline_active = new_state == GST_STATE_PAUSED || new_state == GST_STATE_PLAYING;
+  if (pipeline_active != pipeline_active_.value()) {
+    pipeline_active_ = pipeline_active;
+    qLog(Debug) << "Pipeline is" << (pipeline_active ? "active" : "inactive");
   }
 
-  else if (pipeline_active_.value() && new_state != GST_STATE_PAUSED && new_state != GST_STATE_PLAYING) {
-    qLog(Debug) << "Pipeline is inactive";
-    pipeline_active_ = false;
-    if (next_uri_set_.value() && new_state == GST_STATE_READY) {
-      next_uri_set_ = false;
-      {
-        QMutexLocker l(&mutex_url_);
-        g_object_set(G_OBJECT(pipeline_), "uri", gst_url_.constData(), nullptr);
-      }
-      if (pending_seek_nanosec_ == -1) {
-        qLog(Debug) << "Reverting next uri and going to playing state.";
-        SetStateAsync(GST_STATE_PLAYING);
-      }
-      else {
-        qLog(Debug) << "Reverting next uri and going to paused state.";
-        next_uri_reset_ = true;
-        SetStateAsync(GST_STATE_PAUSED);
-      }
-    }
+  if (new_state == GST_STATE_NULL && !finished_.value() && finish_requested_.value()) {
+    finished_ = true;
+    Q_EMIT Finished();
+    return;
   }
 
-  if (pipeline_active_.value() && !buffering_.value()) {
-    if (pending_seek_nanosec_.value() != -1 && new_state == GST_STATE_PAUSED) {
-      SeekAsync(pending_seek_nanosec_.value());
-      pending_seek_nanosec_ = -1;
+  if (pipeline_connected_.value() && pipeline_active_.value() && !volume_set_.value()) {
+    SetVolume(volume_percent_.value());
+  }
+
+  if (next_uri_set_.value() && next_uri_need_reset_.value() && new_state == GST_STATE_READY && pending_seek_nanosec_.value() != -1) {
+    qLog(Debug) << "Reverting next uri and going to pause state.";
+    next_uri_set_ = false;
+    {
+      QMutexLocker l(&mutex_url_);
+      g_object_set(G_OBJECT(pipeline_), "uri", gst_url_.constData(), nullptr);
+    }
+    next_uri_need_reset_ = false;
+    next_uri_reset_ = true;
+    SetStateAsync(GST_STATE_PAUSED);
+    return;
+  }
+
+  if (pipeline_active_.value() && !buffering_.value() && !next_uri_need_reset_.value()) {
+    if (pending_seek_nanosec_.value() != -1) {
+      ProcessPendingSeek(new_state);
     }
     else if (pending_state_.value() != GST_STATE_NULL) {
       SetStateAsync(pending_state_.value());
@@ -1710,11 +1696,6 @@ void GstEnginePipeline::StateChangedMessageReceived(GstMessage *msg) {
       qLog(Debug) << "Resuming fader";
       ResumeFaderAsync();
     }
-  }
-
-  if (new_state == GST_STATE_NULL && !finished_.value() && finish_requested_.value()) {
-    finished_ = true;
-    Q_EMIT Finished();
   }
 
 }
@@ -1746,9 +1727,8 @@ void GstEnginePipeline::BufferingMessageReceived(GstMessage *msg) {
     qLog(Debug) << "Buffering finished";
     buffering_ = false;
     Q_EMIT BufferingFinished();
-    if (pending_seek_nanosec_.value() != -1) {
-      SeekAsync(pending_seek_nanosec_.value());
-      pending_seek_nanosec_ = -1;
+    if (pending_seek_nanosec_.value() != -1 && !next_uri_need_reset_.value()) {
+      ProcessPendingSeek(state());
     }
     else if (pending_state_.value() != GST_STATE_NULL) {
       SetStateAsync(pending_state_.value());
@@ -1867,14 +1847,20 @@ bool GstEnginePipeline::Seek(const qint64 nanosec) {
     return true;
   }
 
-  if (!pipeline_connected_.value() || !pipeline_active_.value()) {
+  if (next_uri_set_.value() || next_uri_reset_.value()) {
+    qLog(Debug) << "Seek to" << nanosec << "requested, but next uri is set, adding to pending seek to revert next uri.";
     pending_seek_nanosec_ = nanosec;
+    if (!next_uri_need_reset_.value() && !next_uri_reset_.value()) {
+      next_uri_need_reset_ = true;
+      pending_seek_ready_previous_state_ = state();
+      SetState(GST_STATE_READY);
+    }
     return true;
   }
 
-  if (next_uri_set_.value()) {
+  if (!pipeline_connected_.value() || !pipeline_active_.value()) {
+    qLog(Debug) << "Seek to" << nanosec << "requested, but pipeline is not active, adding to pending seek.";
     pending_seek_nanosec_ = nanosec;
-    SetState(GST_STATE_READY);
     return true;
   }
 
@@ -1909,6 +1895,33 @@ void GstEnginePipeline::SeekDelayed(const qint64 nanosec) {
   QMetaObject::invokeMethod(this, [this, nanosec]() {
     QTimer::singleShot(100, this, [this, nanosec]() { Seek(nanosec); });
   }, Qt::QueuedConnection);
+
+}
+
+void GstEnginePipeline::ProcessPendingSeek(const GstState state) {
+
+  if (pending_seek_nanosec_.value() == -1) return;
+
+  if (next_uri_reset_.value()) {
+    if (state != GST_STATE_PAUSED) {
+      return;
+    }
+    if (pending_seek_ready_previous_state_.value() == GST_STATE_NULL) {
+      pending_seek_ready_previous_state_ = GST_STATE_PLAYING;
+    }
+    qLog(Debug) << "Next uri is reset, seeking and going back to" << GstStateText(pending_seek_ready_previous_state_.value());
+    if (pending_seek_ready_previous_state_.value() != GST_STATE_PAUSED) {
+      pending_state_ = pending_seek_ready_previous_state_.value();
+    }
+    pending_seek_ready_previous_state_ = GST_STATE_NULL;
+    next_uri_reset_ = false;
+    SeekDelayed(pending_seek_nanosec_.value());
+  }
+  else {
+    SeekAsync(pending_seek_nanosec_.value());
+  }
+
+  pending_seek_nanosec_ = -1;
 
 }
 
@@ -2171,4 +2184,3 @@ void GstEnginePipeline::RemoveAllBufferConsumers() {
   QMutexLocker l(&mutex_buffer_consumers_);
   buffer_consumers_.clear();
 }
-

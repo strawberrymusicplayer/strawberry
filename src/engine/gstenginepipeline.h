@@ -194,6 +194,8 @@ class GstEnginePipeline : public QObject {
   void Disconnect();
   void ResumeFaderAsync();
 
+  void ProcessPendingSeek(const GstState state);
+
  private Q_SLOTS:
   void SetStateFinishedSlot(const GstState state, const GstStateChangeReturn state_change_return);
   void SetFaderVolume(const qreal volume);
@@ -313,6 +315,7 @@ class GstEnginePipeline : public QObject {
 
   mutex_protected<GstState> pending_state_;
   mutex_protected<qint64> pending_seek_nanosec_;
+  mutex_protected<GstState> pending_seek_ready_previous_state_;
 
   // We can only use gst_element_query_position() when the pipeline is in
   // PAUSED nor PLAYING state. Whenever we get a new position (e.g. after a correct call to gst_element_query_position() or after a seek), we store
@@ -321,6 +324,7 @@ class GstEnginePipeline : public QObject {
 
   // Complete the transition to the next song when it starts playing
   mutex_protected<bool> next_uri_set_;
+  mutex_protected<bool> next_uri_need_reset_;
   mutex_protected<bool> next_uri_reset_;
 
   mutex_protected<bool> volume_set_;
