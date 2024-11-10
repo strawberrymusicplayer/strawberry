@@ -422,7 +422,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   app_->player()->SetAnalyzer(ui_->analyzer);
   app_->player()->SetEqualizer(equalizer_);
   app_->player()->Init();
-  EngineChanged(app_->player()->engine()->type());
+
   const uint volume = app_->player()->GetVolume();
   ui_->volume->SetValue(volume);
   VolumeChanged(volume);
@@ -595,7 +595,6 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   // Player connections
   QObject::connect(ui_->volume, &VolumeSlider::valueChanged, &*app_->player(), &Player::SetVolumeFromSlider);
 
-  QObject::connect(&*app_->player(), &Player::EngineChanged, this, &MainWindow::EngineChanged);
   QObject::connect(&*app_->player(), &Player::Error, this, &MainWindow::ShowErrorDialog);
   QObject::connect(&*app_->player(), &Player::SongChangeRequestProcessed, &*app_->playlist_manager(), &PlaylistManager::SongChangeRequestProcessed);
 
@@ -941,6 +940,11 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   QObject::connect(&*app_->lastfm_import(), &LastFMImport::UpdateProgress, lastfm_import_dialog_, &LastFMImportDialog::UpdateProgress);
   QObject::connect(&*app_->lastfm_import(), &LastFMImport::UpdateLastPlayed, &*app_->collection_backend(), &CollectionBackend::UpdateLastPlayed);
   QObject::connect(&*app_->lastfm_import(), &LastFMImport::UpdatePlayCount, &*app_->collection_backend(), &CollectionBackend::UpdatePlayCount);
+
+#if !defined(HAVE_AUDIOCD) || defined(Q_OS_WIN)
+  ui_->action_open_cd->setEnabled(false);
+  ui_->action_open_cd->setVisible(false);
+#endif
 
   // Load settings
   qLog(Debug) << "Loading settings";
@@ -1355,18 +1359,6 @@ void MainWindow::ExitFinished() {
 
   exit_ = true;
   QCoreApplication::quit();
-
-}
-
-void MainWindow::EngineChanged(const EngineBase::Type enginetype) {
-
-  ui_->action_equalizer->setEnabled(enginetype == EngineBase::Type::GStreamer);
-#if defined(HAVE_AUDIOCD) && !defined(Q_OS_WIN)
-  ui_->action_open_cd->setEnabled(enginetype == EngineBase::Type::GStreamer);
-#else
-  ui_->action_open_cd->setEnabled(false);
-  ui_->action_open_cd->setVisible(false);
-#endif
 
 }
 

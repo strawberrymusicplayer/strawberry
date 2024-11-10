@@ -53,7 +53,6 @@
 #include "core/song.h"
 #include "core/settings.h"
 #include "tagreader/tagreaderclient.h"
-#include "engine/enginebase.h"
 #include "osd/osdbase.h"
 #include "playlist/playlist.h"
 #include "playlist/playlistitem.h"
@@ -134,7 +133,6 @@ class MainWindow : public QMainWindow, public PlatformInterface {
  private Q_SLOTS:
   void FilePathChanged(const QString &path);
 
-  void EngineChanged(const EngineBase::Type enginetype);
   void MediaStopped();
   void MediaPaused();
   void MediaPlaying();
