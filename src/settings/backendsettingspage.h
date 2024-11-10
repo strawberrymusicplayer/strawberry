@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2013-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2013-2024, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,13 +27,13 @@
 #include <QString>
 
 #include "includes/shared_ptr.h"
-#include "engine/enginebase.h"
 #include "dialogs/errordialog.h"
 #include "settingspage.h"
 
 class SettingsDialog;
 class Ui_BackendSettingsPage;
 class Player;
+class DeviceFinders;
 
 class BackendSettingsPage : public SettingsPage {
   Q_OBJECT
@@ -44,7 +44,6 @@ class BackendSettingsPage : public SettingsPage {
 
   void Load() override;
   void Save() override;
-  void Cancel() override;
 
 #ifdef HAVE_ALSA
   enum class ALSAPluginType {
@@ -55,7 +54,6 @@ class BackendSettingsPage : public SettingsPage {
 #endif
 
  private Q_SLOTS:
-  void EngineChanged(const int index);
   void OutputChanged(const int index);
   void DeviceSelectionChanged(const int index);
   void DeviceStringChanged();
@@ -69,10 +67,6 @@ class BackendSettingsPage : public SettingsPage {
   void BufferDefaults();
 
  private:
-
-  bool EngineInitialized();
-
-  void Load_Engine(const EngineBase::Type enginetype);
   void Load_Output(QString output, QVariant device);
   void Load_Device(const QString &output, const QVariant &device);
 #ifdef HAVE_ALSA
@@ -86,10 +80,8 @@ class BackendSettingsPage : public SettingsPage {
   const SharedPtr<DeviceFinders> device_finders_;
 
   bool configloaded_;
-  bool engineloaded_;
   ErrorDialog errordialog_;
 
-  EngineBase::Type enginetype_current_;
   QString output_current_;
   QVariant device_current_;
 };
