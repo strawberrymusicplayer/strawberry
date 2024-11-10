@@ -102,7 +102,6 @@ void RegisterMetaTypes() {
   qRegisterMetaType<SongMap>("SongMap");
   qRegisterMetaType<Song::Source>("Song::Source");
   qRegisterMetaType<Song::FileType>("Song::FileType");
-  qRegisterMetaType<EngineBase::Type>("EngineBase::Type");
   qRegisterMetaType<EngineBase::State>("EngineBase::State");
   qRegisterMetaType<EngineBase::TrackChangeFlags>("EngineBase::TrackChangeFlags");
   qRegisterMetaType<EngineBase::OutputDetails>("EngineBase::OutputDetails");

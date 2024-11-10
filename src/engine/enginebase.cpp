@@ -84,34 +84,6 @@ EngineBase::EngineBase(QObject *parent)
 
 EngineBase::~EngineBase() = default;
 
-EngineBase::Type EngineBase::TypeFromName(const QString &name) {
-
-  if (name.compare("gstreamer"_L1, Qt::CaseInsensitive) == 0) return Type::GStreamer;
-
-  return Type::None;
-
-}
-
-QString EngineBase::Name(const Type type) {
-
-  switch (type) {
-    case Type::GStreamer:  return u"gstreamer"_s;
-    case Type::None:
-    default:               return u"None"_s;
-  }
-
-}
-
-QString EngineBase::Description(const Type type) {
-
-  switch (type) {
-    case Type::GStreamer:  return u"GStreamer"_s;
-    case Type::None:
-    default:               return u"None"_s;
-  }
-
-}
-
 bool EngineBase::Load(const QUrl &media_url, const QUrl &stream_url, const TrackChangeFlags track_change_flags, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec, const std::optional<double> ebur128_integrated_loudness_lufs) {
 
   Q_UNUSED(track_change_flags)

@@ -58,7 +58,6 @@ class GstEngine : public EngineBase, public GstBufferConsumer {
   static const char *kAutoSink;
   static const char *kALSASink;
 
-  Type type() const override { return Type::GStreamer; }
   bool Init() override;
   State state() const override;
   void StartPreloading(const QUrl &media_url, const QUrl &stream_url, const bool force_stop_at_end, const qint64 beginning_nanosec, const qint64 end_nanosec) override;

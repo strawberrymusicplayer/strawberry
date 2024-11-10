@@ -106,9 +106,6 @@ class Player : public PlayerInterface {
 
   void HandleAuthentication();
 
- Q_SIGNALS:
-  void EngineChanged(const EngineBase::Type Type);
-
  private Q_SLOTS:
   void UrlHandlerRegistered(UrlHandler *url_handler) const;
 

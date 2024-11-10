@@ -112,10 +112,6 @@ AnalyzerContainer::AnalyzerContainer(QWidget *parent)
 
 void AnalyzerContainer::mouseReleaseEvent(QMouseEvent *e) {
 
-  if (engine_->type() != EngineBase::Type::GStreamer) {
-    return;
-  }
-
   if (e->button() == Qt::RightButton) {
     context_menu_->popup(e->globalPosition().toPoint());
   }

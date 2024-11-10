@@ -38,7 +38,6 @@
 #include <QString>
 #include <QUrl>
 
-#include "devicefinders.h"
 #include "core/enginemetadata.h"
 #include "core/song.h"
 
@@ -50,13 +49,6 @@ class EngineBase : public QObject {
 
  public:
   ~EngineBase() override;
-
-  enum class Type {
-    None,
-    GStreamer,
-    VLC,
-    Xine
-  };
 
  // State:
  // Playing when playing,
@@ -96,11 +88,6 @@ class EngineBase : public QObject {
 
   using Scope = std::vector<int16_t>;
 
-  static Type TypeFromName(const QString &name);
-  static QString Name(const Type type);
-  static QString Description(const Type type);
-
-  virtual Type type() const = 0;
   virtual bool Init() = 0;
   virtual State state() const = 0;
   virtual void StartPreloading(const QUrl&, const QUrl&, const bool, const qint64, const qint64) {}
@@ -257,7 +244,6 @@ class EngineBase : public QObject {
   Q_DISABLE_COPY(EngineBase)
 };
 
-Q_DECLARE_METATYPE(EngineBase::Type)
 Q_DECLARE_METATYPE(EngineBase::State)
 Q_DECLARE_METATYPE(EngineBase::TrackChangeType)
 Q_DECLARE_METATYPE(EngineBase::OutputDetails)
