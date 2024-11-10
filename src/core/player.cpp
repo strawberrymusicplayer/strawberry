@@ -63,7 +63,7 @@
 #include "analyzer/analyzercontainer.h"
 
 using namespace std::chrono_literals;
-using std::make_unique;
+using std::make_shared;
 
 namespace {
 constexpr char kSettingsGroup[] = "Player";
@@ -78,7 +78,7 @@ Player::Player(const SharedPtr<TaskManager> task_manager, const SharedPtr<UrlHan
       task_manager_(task_manager),
       url_handlers_(url_handlers),
       playlist_manager_(playlist_manager),
-      engine_(make_unique<GstEngine>(task_manager_)),
+      engine_(make_shared<GstEngine>(task_manager_)),
       analyzer_(nullptr),
       equalizer_(nullptr),
       timer_save_volume_(new QTimer(this)),
