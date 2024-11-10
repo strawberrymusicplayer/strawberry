@@ -36,7 +36,6 @@
 #include <QFuture>
 #include <QTimeLine>
 #include <QEasingCurve>
-#include <QBasicTimer>
 #include <QList>
 #include <QByteArray>
 #include <QVariant>
@@ -48,7 +47,6 @@
 #include "core/enginemetadata.h"
 
 class QTimer;
-class QTimerEvent;
 class GstBufferConsumer;
 struct GstPlayBin;
 
@@ -156,9 +154,6 @@ class GstEnginePipeline : public QObject {
   void BufferingProgress(const int percent);
   void BufferingFinished();
 
- protected:
-  void timerEvent(QTimerEvent*) override;
-
  private:
   static QString GstStateText(const GstState state);
   GstElement *CreateElement(const QString &factory_name, const QString &name, GstElement *bin, QString &error) const;
@@ -204,6 +199,7 @@ class GstEnginePipeline : public QObject {
   void SetFaderVolume(const qreal volume);
   void FaderTimelineStateChanged(const QTimeLine::State state);
   void FaderTimelineFinished();
+  void FaderTimelineFudgeFinished();
 
  private:
   // Using == to compare two pipelines is a bad idea, because new ones often get created in the same address as old ones.  This ID will be unique for each pipeline.
@@ -333,7 +329,7 @@ class GstEnginePipeline : public QObject {
   mutex_protected<bool> fader_active_;
   mutex_protected<bool> fader_running_;
   SharedPtr<QTimeLine> fader_;
-  QBasicTimer fader_fudge_timer_;
+  QTimer *timer_fader_fudge;
   bool use_fudge_timer_;
 
   GstElement *pipeline_;
