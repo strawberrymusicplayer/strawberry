@@ -295,6 +295,7 @@ void GstEnginePipeline::set_fading_enabled(const bool enabled) {
 
 #ifdef HAVE_SPOTIFY
 void GstEnginePipeline::set_spotify_access_token(const QString &spotify_access_token) {
+  QMutexLocker l(&mutex_spotify_access_token_);
   spotify_access_token_ = spotify_access_token;
 }
 #endif  // HAVE_SPOTIFY
@@ -1065,11 +1066,12 @@ void GstEnginePipeline::SourceSetupCallback(GstElement *playbin, GstElement *sou
 
 #ifdef HAVE_SPOTIFY
   {
-    QMutexLocker l(&instance->mutex_url_);
+    QMutexLocker mutex_locker_url(&instance->mutex_url_);
     if (instance->media_url_.scheme() == u"spotify"_s) {
       if (g_object_class_find_property(G_OBJECT_GET_CLASS(source), "bitrate")) {
         g_object_set(source, "bitrate", 2, nullptr);
       }
+      QMutexLocker mutex_locker_spotify_access_token(&instance->mutex_spotify_access_token_);
       if (!instance->spotify_access_token_.isEmpty() && g_object_class_find_property(G_OBJECT_GET_CLASS(source), "access-token")) {
         const QByteArray access_token = instance->spotify_access_token_.toUtf8();
         g_object_set(source, "access-token", access_token.constData(), nullptr);

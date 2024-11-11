@@ -263,6 +263,7 @@ class GstEnginePipeline : public QObject {
   // Spotify
 #ifdef HAVE_SPOTIFY
   QString spotify_access_token_;
+  mutable QMutex mutex_spotify_access_token_;
 #endif
 
   // The URL that is currently playing, and the URL that is to be preloaded when the current track is close to finishing.
