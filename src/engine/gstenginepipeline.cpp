@@ -342,7 +342,7 @@ void GstEnginePipeline::Disconnect() {
     if (fader_) {
       fader_active_ = false;
       fader_running_ = false;
-      if (fader_->state() != QTimeLine::NotRunning) {
+      if (fader_->state() != QTimeLine::State::NotRunning) {
         fader_->stop();
       }
       fader_.reset();
@@ -2020,8 +2020,8 @@ void GstEnginePipeline::StartFader(const qint64 duration_nanosec, const QTimeLin
   const qint64 duration_msec = duration_nanosec / kNsecPerMsec;
 
   // If there's already another fader running then start from the same time that one was already at.
-  qint64 start_time = direction == QTimeLine::Forward ? 0 : duration_msec;
-  if (fader_ && fader_->state() == QTimeLine::Running) {
+  qint64 start_time = direction == QTimeLine::Direction::Forward ? 0 : duration_msec;
+  if (fader_ && fader_->state() == QTimeLine::State::Running) {
     if (duration_msec == fader_->duration()) {
       start_time = fader_->currentTime();
     }
@@ -2033,7 +2033,7 @@ void GstEnginePipeline::StartFader(const qint64 duration_nanosec, const QTimeLin
   }
 
   fader_.reset(new QTimeLine(static_cast<int>(duration_msec)), [](QTimeLine *timeline) {
-    if (timeline->state() != QTimeLine::NotRunning) {
+    if (timeline->state() != QTimeLine::State::NotRunning) {
       timeline->stop();
     }
     timeline->deleteLater();
@@ -2079,7 +2079,7 @@ void GstEnginePipeline::ResumeFaderAsync() {
 
 void GstEnginePipeline::FaderTimelineStateChanged(const QTimeLine::State state) {
 
-  fader_running_ = state == QTimeLine::Running;
+  fader_running_ = state == QTimeLine::State::Running;
 
 }
 
