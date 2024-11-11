@@ -85,6 +85,7 @@ constexpr int GST_PLAY_FLAG_SOFT_VOLUME = 0x00000010;
 
 constexpr int kGstStateTimeoutNanosecs = 10000000;
 constexpr std::chrono::milliseconds kFaderFudgeMsec = 2000ms;
+constexpr std::chrono::milliseconds kFaderTimeoutMsec = 3000ms;
 
 constexpr int kEqBandCount = 10;
 constexpr int kEqBandFrequencies[] = { 60, 170, 310, 600, 1000, 3000, 6000, 12000, 14000, 16000 };
@@ -2045,7 +2046,7 @@ void GstEnginePipeline::StartFader(const qint64 duration_nanosec, const QTimeLin
   fader_->setEasingCurve(shape);
   fader_->setCurrentTime(static_cast<int>(start_time));
 
-  timer_fader_timeout_->setInterval(static_cast<int>(duration_msec) + 1500);
+  timer_fader_timeout_->setInterval(std::chrono::milliseconds(duration_msec) + kFaderTimeoutMsec);
   timer_fader_timeout_->start();
 
   timer_fader_fudge_->stop();
