@@ -35,8 +35,6 @@ class GlobalShortcutsBackend : public QObject {
   enum class Type {
     None = 0,
     KDE,
-    Gnome,
-    Mate,
     X11,
     macOS,
     Win

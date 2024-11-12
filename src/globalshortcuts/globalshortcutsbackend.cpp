@@ -40,10 +40,6 @@ QString GlobalShortcutsBackend::name() const {
       return u"None"_s;
     case Type::KDE:
       return u"KDE"_s;
-    case Type::Gnome:
-      return u"Gnome"_s;
-    case Type::Mate:
-      return u"Mate"_s;
     case Type::X11:
       return u"X11"_s;
     case Type::macOS:

@@ -316,14 +316,6 @@ optional_component(KDE_GLOBALSHORTCUTS ON "KDE global shortcuts"
   DEPENDS "D-Bus support" HAVE_DBUS
 )
 
-optional_component(GNOME_GLOBALSHORTCUTS ON "Gnome global shortcuts"
-  DEPENDS "D-Bus support" HAVE_DBUS
-)
-
-optional_component(MATE_GLOBALSHORTCUTS ON "Mate global shortcuts"
-  DEPENDS "D-Bus support" HAVE_DBUS
-)
-
 optional_component(UDISKS2 ON "Devices: UDisks2 backend"
   DEPENDS "D-Bus support" HAVE_DBUS
 )
@@ -370,7 +362,7 @@ if(HAVE_SONGFINGERPRINTING OR HAVE_MUSICBRAINZ)
   set(HAVE_CHROMAPRINT ON)
 endif()
 
-if(HAVE_X11_GLOBALSHORTCUTS OR HAVE_KDE_GLOBALSHORTCUTS OR HAVE_GNOME_GLOBALSHORTCUTS OR HAVE_MATE_GLOBALSHORTCUTS OR APPLE OR WIN32)
+if(HAVE_X11_GLOBALSHORTCUTS OR HAVE_KDE_GLOBALSHORTCUTS OR APPLE OR WIN32)
   set(HAVE_GLOBALSHORTCUTS ON)
 endif()
 
@@ -1241,22 +1233,6 @@ if(HAVE_GLOBALSHORTCUTS)
     )
     qt_add_dbus_interface(SOURCES src/globalshortcuts/org.kde.KGlobalAccel.xml kglobalaccel)
     qt_add_dbus_interface(SOURCES src/globalshortcuts/org.kde.KGlobalAccel.Component.xml kglobalaccelcomponent)
-  endif()
-
-  if(HAVE_GNOME_GLOBALSHORTCUTS)
-    optional_source(HAVE_GNOME_GLOBALSHORTCUTS
-      SOURCES src/globalshortcuts/globalshortcutsbackend-gnome.cpp
-      HEADERS src/globalshortcuts/globalshortcutsbackend-gnome.h
-    )
-    qt_add_dbus_interface(SOURCES src/globalshortcuts/org.gnome.SettingsDaemon.MediaKeys.xml gnomesettingsdaemon)
-  endif()
-
-  if(HAVE_MATE_GLOBALSHORTCUTS)
-    optional_source(HAVE_MATE_GLOBALSHORTCUTS
-      SOURCES src/globalshortcuts/globalshortcutsbackend-mate.cpp
-      HEADERS src/globalshortcuts/globalshortcutsbackend-mate.h
-    )
-    qt_add_dbus_interface(SOURCES src/globalshortcuts/org.mate.SettingsDaemon.MediaKeys.xml matesettingsdaemon)
   endif()
 
   optional_source(HAVE_X11_GLOBALSHORTCUTS

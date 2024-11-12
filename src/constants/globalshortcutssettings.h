@@ -24,8 +24,6 @@ namespace GlobalShortcutsSettings {
 
 constexpr char kSettingsGroup[] = "GlobalShortcuts";
 constexpr char kUseKDE[] = "use_kde";
-constexpr char kUseGnome[] = "use_gnome";
-constexpr char kUseMate[] = "use_mate";
 constexpr char kUseX11[] = "use_x11";
 
 }  // namespace

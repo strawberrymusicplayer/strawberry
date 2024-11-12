@@ -50,8 +50,6 @@ class GlobalShortcutsSettingsPage : public SettingsPage {
 
  private Q_SLOTS:
   void ShortcutOptionsChanged();
-  void OpenGnomeKeybindingProperties();
-  void OpenMateKeybindingProperties();
 
   void ItemClicked(QTreeWidgetItem*);
   void NoneClicked();
