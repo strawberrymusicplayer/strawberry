@@ -17,6 +17,7 @@ Bugfixes:
     * Fixed crash when removing album from playlist when using shuffle albums (#1588).
     * Fixed IDv3 MBID's tags with multiple entries being ignored.
     * Fixed crash when enabling Tidal, Spotify, Qobuz or Subsonic services.
+    * Fixed passing filenames to strawberry on command line not resolving to absolute paths.
 
 Enhancements:
 
@@ -31,6 +32,7 @@ Enhancements:
     * Removed external tagreader and protobuf dependency.
     * Removed VLC support.
     * Ported to Qt translation (.ts) files and removed gettext dependency.
+    * Removed deprecated Gnome/Mate SettingsDaemon global shortcuts.
 
 Version 1.1.3 (2024.09.21):
 
