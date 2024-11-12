@@ -366,6 +366,10 @@ optional_component(EBUR128 ON "EBU R 128 loudness normalization"
   DEPENDS "libebur128" LIBEBUR128_FOUND
 )
 
+if(HAVE_SONGFINGERPRINTING OR HAVE_MUSICBRAINZ)
+  set(HAVE_CHROMAPRINT ON)
+endif()
+
 if(HAVE_X11_GLOBALSHORTCUTS OR HAVE_KDE_GLOBALSHORTCUTS OR HAVE_GNOME_GLOBALSHORTCUTS OR HAVE_MATE_GLOBALSHORTCUTS OR APPLE OR WIN32)
   set(HAVE_GLOBALSHORTCUTS ON)
 endif()
@@ -1275,10 +1279,7 @@ endif()
 optional_source(HAVE_ALSA SOURCES src/engine/alsadevicefinder.cpp src/engine/alsapcmdevicefinder.cpp)
 optional_source(HAVE_PULSE SOURCES src/engine/pulsedevicefinder.cpp)
 optional_source(MSVC SOURCES src/engine/uwpdevicefinder.cpp src/engine/asiodevicefinder.cpp)
-
-if(HAVE_SONGFINGERPRINTING OR HAVE_MUSICBRAINZ)
-  optional_source(CHROMAPRINT_FOUND SOURCES src/engine/chromaprinter.cpp)
-endif()
+optional_source(HAVE_CHROMAPRINT SOURCES src/engine/chromaprinter.cpp)
 
 optional_source(HAVE_MUSICBRAINZ
   SOURCES
@@ -1535,7 +1536,7 @@ target_link_libraries(strawberry_lib PUBLIC
   ICU::i18n
   $<$<BOOL:${HAVE_ALSA}>:ALSA::ALSA>
   $<$<BOOL:${HAVE_PULSE}>:PkgConfig::LIBPULSE>
-  $<$<BOOL:${HAVE_SONGFINGERPRINTING} OR ${HAVE_MUSICBRAINZ}>:PkgConfig::CHROMAPRINT>
+  $<$<BOOL:${HAVE_CHROMAPRINT}>:PkgConfig::CHROMAPRINT>
   $<$<BOOL:${HAVE_MOODBAR}>:PkgConfig::FFTW3>
   $<$<BOOL:${HAVE_EBUR128}>:PkgConfig::LIBEBUR128>
   $<$<BOOL:${HAVE_X11_GLOBALSHORTCUTS}>:X11::X11_xcb>
