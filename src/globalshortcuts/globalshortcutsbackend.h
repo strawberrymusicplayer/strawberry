@@ -34,7 +34,7 @@ class GlobalShortcutsBackend : public QObject {
  public:
   enum class Type {
     None = 0,
-    KDE,
+    KGlobalAccel,
     X11,
     macOS,
     Win

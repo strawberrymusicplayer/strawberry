@@ -75,10 +75,8 @@ Files: src/core/main.h
        src/covermanager/spotifycoverprovider.h
        src/covermanager/musixmatchcoverprovider.cpp
        src/covermanager/musixmatchcoverprovider.h
-       src/globalshortcuts/globalshortcutsbackend-kde.cpp
-       src/globalshortcuts/globalshortcutsbackend-kde.h
-       src/globalshortcuts/globalshortcutsbackend-mate.cpp
-       src/globalshortcuts/globalshortcutsbackend-mate.h
+       src/globalshortcuts/globalshortcutsbackend-kglobalaccel.cpp
+       src/globalshortcuts/globalshortcutsbackend-kglobalaccel.h
        src/globalshortcuts/globalshortcutsbackend-x11.cpp
        src/globalshortcuts/globalshortcutsbackend-x11.h
        src/globalshortcuts/globalshortcutsbackend-win.cpp

@@ -78,7 +78,6 @@ class GlobalShortcutsSettingsPage : public SettingsPage {
   QMap<QString, Shortcut> shortcuts_;
 
   QString current_id_;
-  QString de_;
 };
 
 #endif  // GLOBALSHORTCUTSSETTINGSPAGE_H

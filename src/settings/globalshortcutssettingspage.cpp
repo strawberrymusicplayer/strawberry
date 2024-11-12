@@ -41,7 +41,6 @@
 #include "core/iconloader.h"
 #include "core/logging.h"
 #include "core/settings.h"
-#include "utilities/envutils.h"
 #include "constants/globalshortcutssettings.h"
 #include "globalshortcuts/globalshortcutgrabber.h"
 #include "globalshortcuts/globalshortcutsmanager.h"
@@ -72,10 +71,10 @@ GlobalShortcutsSettingsPage::GlobalShortcutsSettingsPage(SettingsDialog *dialog,
   QObject::connect(ui_->radio_custom, &QRadioButton::clicked, this, &GlobalShortcutsSettingsPage::ChangeClicked);
   QObject::connect(ui_->button_change, &QPushButton::clicked, this, &GlobalShortcutsSettingsPage::ChangeClicked);
 
-#ifdef HAVE_KDE_GLOBALSHORTCUTS
-  QObject::connect(ui_->checkbox_kde, &QCheckBox::toggled, this, &GlobalShortcutsSettingsPage::ShortcutOptionsChanged);
+#ifdef HAVE_KGLOBALACCEL_GLOBALSHORTCUTS
+  QObject::connect(ui_->checkbox_kglobalaccel, &QCheckBox::toggled, this, &GlobalShortcutsSettingsPage::ShortcutOptionsChanged);
 #else
-  ui_->widget_kde->hide();
+  ui_->widget_kglobalaccel->hide();
 #endif
 
 #ifdef HAVE_X11_GLOBALSHORTCUTS
@@ -100,21 +99,20 @@ void GlobalShortcutsSettingsPage::Load() {
   if (!initialized_) {
     initialized_ = true;
 
-    de_ = Utilities::DesktopEnvironment();
     ui_->widget_warning->hide();
 
 #ifdef Q_OS_MACOS
     QObject::connect(ui_->button_macos_preferences, &QPushButton::clicked, global_shortcuts_manager_, &GlobalShortcutsManager::ShowMacAccessibilityDialog);
 #endif
 
-#ifdef HAVE_KDE_GLOBALSHORTCUTS
-    if (GlobalShortcutsManager::IsKdeAvailable()) {
-      qLog(Debug) << "KDE (KGlobalAccel) backend is available.";
-      ui_->widget_kde->show();
+#ifdef HAVE_KGLOBALACCEL_GLOBALSHORTCUTS
+    if (GlobalShortcutsManager::IsKGlobalAccelAvailable()) {
+      qLog(Debug) << "KGlobalAccel backend is available.";
+      ui_->widget_kglobalaccel->show();
     }
     else {
-      qLog(Debug) << "KDE (KGlobalAccel) backend is unavailable.";
-      ui_->widget_kde->hide();
+      qLog(Debug) << "KGlobalAccel backend is unavailable.";
+      ui_->widget_kglobalaccel->hide();
     }
 #endif
 
@@ -148,9 +146,9 @@ void GlobalShortcutsSettingsPage::Load() {
     SetShortcut(shortcut.s.id, shortcut.s.action->shortcut());
   }
 
-#ifdef HAVE_KDE_GLOBALSHORTCUTS
-  if (ui_->widget_kde->isVisibleTo(this)) {
-    ui_->checkbox_kde->setChecked(s.value(kUseKDE, true).toBool());
+#ifdef HAVE_KGLOBALACCEL_GLOBALSHORTCUTS
+  if (ui_->widget_kglobalaccel->isVisibleTo(this)) {
+    ui_->checkbox_kglobalaccel->setChecked(s.value(kUseKGlobalAccel, true).toBool());
   }
 #endif
 
@@ -160,7 +158,7 @@ void GlobalShortcutsSettingsPage::Load() {
   }
 #endif
 
-#if defined(HAVE_KDE_GLOBALSHORTCUTS) || defined(HAVE_X11_GLOBALSHORTCUTS)
+#if defined(HAVE_KGLOBALACCEL_GLOBALSHORTCUTS) || defined(HAVE_X11_GLOBALSHORTCUTS)
   ShortcutOptionsChanged();
 #endif
 
@@ -188,8 +186,8 @@ void GlobalShortcutsSettingsPage::Save() {
     s.setValue(shortcut.s.id, shortcut.key.toString());
   }
 
-#ifdef HAVE_KDE_GLOBALSHORTCUTS
-  s.setValue(kUseKDE, ui_->checkbox_kde->isChecked());
+#ifdef HAVE_KGLOBALACCEL_GLOBALSHORTCUTS
+  s.setValue(kUseKGlobalAccel, ui_->checkbox_kglobalaccel->isChecked());
 #endif
 
 #ifdef HAVE_X11_GLOBALSHORTCUTS
@@ -204,7 +202,7 @@ void GlobalShortcutsSettingsPage::Save() {
 
 void GlobalShortcutsSettingsPage::ShortcutOptionsChanged() {
 
-  bool configure_shortcuts = (ui_->widget_kde->isVisibleTo(this) && ui_->checkbox_kde->isChecked()) ||
+  bool configure_shortcuts = (ui_->widget_kglobalaccel->isVisibleTo(this) && ui_->checkbox_kglobalaccel->isChecked()) ||
                              (ui_->widget_x11->isVisibleTo(this) && ui_->checkbox_x11->isChecked());
 
   ui_->list->setEnabled(configure_shortcuts);
@@ -289,15 +287,7 @@ void GlobalShortcutsSettingsPage::ChangeClicked() {
 
 void GlobalShortcutsSettingsPage::X11Warning() {
 
-  QString de = de_.toLower();
-  if (de == "kde"_L1 || de == "gnome"_L1 || de == "x-cinnamon"_L1 || de == "mate"_L1) {
-    QString text(tr("Using X11 shortcuts on %1 is not recommended and can cause keyboard to become unresponsive!").arg(de_));
-    text += tr(" Shortcuts on %1 are usually used through MPRIS and KGlobalAccel.").arg(de_);
-    ui_->label_warn_text->setText(text);
-    ui_->widget_warning->show();
-  }
-  else {
-    ui_->widget_warning->hide();
-  }
+  ui_->label_warn_text->setText(tr("Using X11 shortcuts is not recommended and can cause keyboard to become unresponsive! Shortcuts on should usually be used through MPRIS2 / KGlobalAccel."));
+  ui_->widget_warning->show();
 
 }

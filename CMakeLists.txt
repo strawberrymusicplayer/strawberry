@@ -312,7 +312,7 @@ optional_component(X11_GLOBALSHORTCUTS ON "X11 global shortcuts"
   DEPENDS "QX11Application" HAVE_QX11APPLICATION
 )
 
-optional_component(KDE_GLOBALSHORTCUTS ON "KDE global shortcuts"
+optional_component(KGLOBALACCEL_GLOBALSHORTCUTS ON "KGlobalAccel global shortcuts"
   DEPENDS "D-Bus support" HAVE_DBUS
 )
 
@@ -362,7 +362,7 @@ if(HAVE_SONGFINGERPRINTING OR HAVE_MUSICBRAINZ)
   set(HAVE_CHROMAPRINT ON)
 endif()
 
-if(HAVE_X11_GLOBALSHORTCUTS OR HAVE_KDE_GLOBALSHORTCUTS OR APPLE OR WIN32)
+if(HAVE_X11_GLOBALSHORTCUTS OR HAVE_KGLOBALACCEL_GLOBALSHORTCUTS OR APPLE OR WIN32)
   set(HAVE_GLOBALSHORTCUTS ON)
 endif()
 
@@ -1226,10 +1226,10 @@ if(HAVE_GLOBALSHORTCUTS)
     UI src/globalshortcuts/globalshortcutgrabber.ui src/settings/globalshortcutssettingspage.ui
   )
 
-  if(HAVE_KDE_GLOBALSHORTCUTS)
-    optional_source(HAVE_KDE_GLOBALSHORTCUTS
-      SOURCES src/globalshortcuts/globalshortcutsbackend-kde.cpp
-      HEADERS src/globalshortcuts/globalshortcutsbackend-kde.h
+  if(HAVE_KGLOBALACCEL_GLOBALSHORTCUTS)
+    optional_source(HAVE_KGLOBALACCEL_GLOBALSHORTCUTS
+      SOURCES src/globalshortcuts/globalshortcutsbackend-kglobalaccel.cpp
+      HEADERS src/globalshortcuts/globalshortcutsbackend-kglobalaccel.h
     )
     qt_add_dbus_interface(SOURCES src/globalshortcuts/org.kde.KGlobalAccel.xml kglobalaccel)
     qt_add_dbus_interface(SOURCES src/globalshortcuts/org.kde.KGlobalAccel.Component.xml kglobalaccelcomponent)

@@ -37,14 +37,14 @@ class QAction;
 class OrgKdeKGlobalAccelInterface;
 class OrgKdeKglobalaccelComponentInterface;
 
-class GlobalShortcutsBackendKDE : public GlobalShortcutsBackend {
+class GlobalShortcutsBackendKGlobalAccel : public GlobalShortcutsBackend {
   Q_OBJECT
 
  public:
-  explicit GlobalShortcutsBackendKDE(GlobalShortcutsManager *manager, QObject *parent = nullptr);
+  explicit GlobalShortcutsBackendKGlobalAccel(GlobalShortcutsManager *manager, QObject *parent = nullptr);
 
   bool IsAvailable() const override;
-  static bool IsKDEAvailable();
+  static bool IsKGlobalAccelAvailable();
 
  protected:
   bool DoRegister() override;

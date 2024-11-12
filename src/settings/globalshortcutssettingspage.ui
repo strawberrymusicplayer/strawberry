@@ -19,7 +19,7 @@
   </property>
   <layout class="QVBoxLayout" name="layout_globalshortcutssettingspage">
    <item>
-    <widget class="QWidget" name="widget_kde" native="true">
+    <widget class="QWidget" name="widget_kglobalaccel" native="true">
      <layout class="QVBoxLayout" name="verticalLayout">
       <property name="leftMargin">
        <number>0</number>
@@ -34,9 +34,9 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="QCheckBox" name="checkbox_kde">
+       <widget class="QCheckBox" name="checkbox_kglobalaccel">
         <property name="text">
-         <string>Use KDE (KGlobalAccel) shortcuts when available</string>
+         <string>Use KGlobalAccel shortcuts when available</string>
         </property>
        </widget>
       </item>

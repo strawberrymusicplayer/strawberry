@@ -36,8 +36,8 @@
 #include "globalshortcutsmanager.h"
 #include "globalshortcutsbackend.h"
 
-#ifdef HAVE_KDE_GLOBALSHORTCUTS
-#include "globalshortcutsbackend-kde.h"
+#ifdef HAVE_KGLOBALACCEL_GLOBALSHORTCUTS
+#include "globalshortcutsbackend-kglobalaccel.h"
 #endif
 
 #ifdef HAVE_X11_GLOBALSHORTCUTS
@@ -84,8 +84,8 @@ GlobalShortcutsManager::GlobalShortcutsManager(QWidget *parent) : QWidget(parent
 
   // Create backends - these do the actual shortcut registration
 
-#ifdef HAVE_KDE_GLOBALSHORTCUTS
-  backends_ << new GlobalShortcutsBackendKDE(this, this);
+#ifdef HAVE_KGLOBALACCEL_GLOBALSHORTCUTS
+  backends_ << new GlobalShortcutsBackendKGlobalAccel(this, this);
 #endif
 
 #ifdef Q_OS_MACOS
@@ -116,9 +116,9 @@ void GlobalShortcutsManager::ReloadSettings() {
   backends_enabled_ << GlobalShortcutsBackend::Type::Win;
 #endif
 
-#ifdef HAVE_KDE_GLOBALSHORTCUTS
-  if (settings_.value(GlobalShortcutsSettings::kUseKDE, true).toBool()) {
-    backends_enabled_ << GlobalShortcutsBackend::Type::KDE;
+#ifdef HAVE_KGLOBALACCEL_GLOBALSHORTCUTS
+  if (settings_.value(GlobalShortcutsSettings::kUseKGlobalAccel, true).toBool()) {
+    backends_enabled_ << GlobalShortcutsBackend::Type::KGlobalAccel;
   }
 #endif
 
@@ -159,11 +159,11 @@ GlobalShortcutsManager::Shortcut GlobalShortcutsManager::AddShortcut(const QStri
 
 }
 
-#ifdef HAVE_KDE_GLOBALSHORTCUTS
+#ifdef HAVE_KGLOBALACCEL_GLOBALSHORTCUTS
 
-bool GlobalShortcutsManager::IsKdeAvailable() {
+bool GlobalShortcutsManager::IsKGlobalAccelAvailable() {
 
-  return GlobalShortcutsBackendKDE::IsKDEAvailable();
+  return GlobalShortcutsBackendKGlobalAccel::IsKGlobalAccelAvailable();
 
 }
 

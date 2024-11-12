@@ -57,7 +57,7 @@ class GlobalShortcutsManager : public QWidget {
   QMap<QString, Shortcut> shortcuts() const { return shortcuts_; }
 
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS) && defined(HAVE_DBUS)
-  static bool IsKdeAvailable();
+  static bool IsKGlobalAccelAvailable();
 #endif
 
 #ifdef HAVE_X11_GLOBALSHORTCUTS
