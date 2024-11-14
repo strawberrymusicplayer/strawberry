@@ -2054,7 +2054,7 @@ void GstEnginePipeline::StartFader(const qint64 duration_nanosec, const QTimeLin
 
   SetFaderVolume(fader_->currentValue());
 
-  qLog(Debug) << "Pipeline" << id() << "with state" << GstStateText(state()) << "set to fade from" << start_time;
+  qLog(Debug) << "Pipeline" << id() << "with state" << GstStateText(state()) << "set to fade from" << fader_->currentValue() << "time" << start_time << "direction" << (direction == QTimeLine::Direction::Forward ? "forward" : "backward");
 
   if (pipeline_active_.value()) {
     fader_->resume();
