@@ -379,6 +379,7 @@ Section "Strawberry" Strawberry
   File "glib-2.0-0.dll"
   File "gme.dll"
   File "gmodule-2.0-0.dll"
+  File "gnutls.dll"
   File "gobject-2.0-0.dll"
   File "gstadaptivedemux-1.0-0.dll"
   File "gstapp-1.0-0.dll"
@@ -526,6 +527,7 @@ Section "GIO modules" gio-modules
   File "/oname=libgioopenssl.dll" "gio-modules\libgioopenssl.dll"
 !endif
 !ifdef msvc
+  File "/oname=giognutls.dll" "gio-modules\giognutls.dll"
   File "/oname=gioopenssl.dll" "gio-modules\gioopenssl.dll"
 !endif
 SectionEnd
@@ -901,6 +903,7 @@ Section "Uninstall"
   Delete "$INSTDIR\glib-2.0-0.dll"
   Delete "$INSTDIR\gme.dll"
   Delete "$INSTDIR\gmodule-2.0-0.dll"
+  Delete "$INSTDIR\gnutls.dll"
   Delete "$INSTDIR\gobject-2.0-0.dll"
   Delete "$INSTDIR\gstadaptivedemux-1.0-0.dll"
   Delete "$INSTDIR\gstapp-1.0-0.dll"
@@ -1013,6 +1016,7 @@ Section "Uninstall"
   Delete "$INSTDIR\gio-modules\libgioopenssl.dll"
 !endif
 !ifdef msvc
+  Delete "$INSTDIR\gio-modules\giognutls.dll"
   Delete "$INSTDIR\gio-modules\gioopenssl.dll"
 !endif
 
