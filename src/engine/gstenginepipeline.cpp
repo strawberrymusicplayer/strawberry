@@ -2106,7 +2106,8 @@ void GstEnginePipeline::FaderTimelineTimeout() {
   qLog(Debug) << "Pipeline" << id() << "fading timed out";
 
   if (volume_fading_) {
-    g_object_set(G_OBJECT(volume_fading_), "volume", QTimeLine::Direction::Forward ? 1.0 : 0.0, nullptr);
+    qLog(Debug) << "Pipeline" << id() << "setting volume" << (fader_->direction() == QTimeLine::Direction::Forward ? 1.0 : 0.0);
+    g_object_set(G_OBJECT(volume_fading_), "volume", fader_->direction() == QTimeLine::Direction::Forward ? 1.0 : 0.0, nullptr);
   }
 
   FaderTimelineFinished();
