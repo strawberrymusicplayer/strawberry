@@ -1298,7 +1298,7 @@ jobs:
       - name: Copy GIO modules
         shell: cmd
         working-directory: build
-        run: copy ${{env.prefix_path_backslash}}\lib\gio\modules\gioopenssl.dll .\gio-modules\
+        run: copy ${{env.prefix_path_backslash}}\lib\gio\modules\*.dll .\gio-modules\
 
       - name: Copy Qt platform plugins
         shell: cmd
