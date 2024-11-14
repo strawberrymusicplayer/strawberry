@@ -193,8 +193,6 @@ int main(int argc, char *argv[]) {
   QGuiApplication::setDesktopFileName(u"org.strawberrymusicplayer.strawberry"_s);
   QGuiApplication::setQuitOnLastWindowClosed(false);
 
-  GstStartup::Initialize();
-
   QApplication a(argc, argv);
   KDSingleApplication single_app(QCoreApplication::applicationName(), KDSingleApplication::Option::IncludeUsernameInSocketName);
   if (!single_app.isPrimaryInstance()) {
@@ -214,6 +212,8 @@ int main(int argc, char *argv[]) {
 #if defined(USE_BUNDLE)
   qLog(Debug) << "Looking for resources in" << QCoreApplication::libraryPaths();
 #endif
+
+  GstStartup::Initialize();
 
   // Gnome on Ubuntu has menu icons disabled by default.  I think that's a bad idea, and makes some menus in Strawberry look confusing.
   QCoreApplication::setAttribute(Qt::AA_DontShowIconsInMenus, false);
