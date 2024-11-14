@@ -526,7 +526,6 @@ Section "GIO modules" gio-modules
   File "/oname=libgioopenssl.dll" "gio-modules\libgioopenssl.dll"
 !endif
 !ifdef msvc
-  File "/oname=giognutls.dll" "gio-modules\giognutls.dll"
   File "/oname=gioopenssl.dll" "gio-modules\gioopenssl.dll"
 !endif
 SectionEnd
@@ -1014,7 +1013,6 @@ Section "Uninstall"
   Delete "$INSTDIR\gio-modules\libgioopenssl.dll"
 !endif
 !ifdef msvc
-  Delete "$INSTDIR\gio-modules\giognutls.dll"
   Delete "$INSTDIR\gio-modules\gioopenssl.dll"
 !endif
 
