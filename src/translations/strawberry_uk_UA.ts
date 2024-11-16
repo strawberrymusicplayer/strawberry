@@ -167,7 +167,7 @@
     </message>
     <message>
       <source>Could not save cover to file %1.</source>
-      <translation type="unfinished">Could not save cover to file %1.</translation>
+      <translation>Не вдалося зберегти обкладинку в файл %1.</translation>
     </message>
   </context>
   <context>
@@ -285,7 +285,7 @@
     </message>
     <message>
       <source>Could not save cover to file %1.</source>
-      <translation type="unfinished">Could not save cover to file %1.</translation>
+      <translation>Не вдалося зберегти обкладинку в файл %1.</translation>
     </message>
   </context>
   <context>
@@ -351,15 +351,15 @@
     </message>
     <message>
       <source>Turbine</source>
-      <translation type="unfinished">Turbine</translation>
+      <translation>Турбіна</translation>
     </message>
     <message>
       <source>Sonogram</source>
-      <translation type="unfinished">Sonogram</translation>
+      <translation>Сонограма</translation>
     </message>
     <message>
       <source>WaveRubber</source>
-      <translation type="unfinished">WaveRubber</translation>
+      <translation>Гумова хвиля</translation>
     </message>
   </context>
   <context>
@@ -482,7 +482,7 @@
     </message>
     <message>
       <source>40%</source>
-      <translation type="unfinished">40%</translation>
+      <translation>40%</translation>
     </message>
     <message>
       <source>Icon sizes</source>
@@ -561,23 +561,23 @@
     </message>
     <message>
       <source>hw</source>
-      <translation type="unfinished">hw</translation>
+      <translation>hw</translation>
     </message>
     <message>
       <source>p&amp;lughw</source>
-      <translation type="unfinished">p&amp;lughw</translation>
+      <translation>p&amp;lughw</translation>
     </message>
     <message>
       <source>pcm</source>
-      <translation type="unfinished">pcm</translation>
+      <translation>pcm</translation>
     </message>
     <message>
       <source>Exclusive mode (Experimental)</source>
-      <translation type="unfinished">Exclusive mode (Experimental)</translation>
+      <translation>Ексклюзивний режим (експериментально)</translation>
     </message>
     <message>
       <source>Options</source>
-      <translation type="unfinished">Options</translation>
+      <translation>Налаштування</translation>
     </message>
     <message>
       <source>Enable volume control</source>
@@ -593,15 +593,15 @@
     </message>
     <message>
       <source>Improve headphone listening of stereo audio records (bs2b)</source>
-      <translation type="unfinished">Improve headphone listening of stereo audio records (bs2b)</translation>
+      <translation>Поліпшити прослуховування стереозвукових записів (bs2b)</translation>
     </message>
     <message>
       <source>Enable HTTP/2 for streaming</source>
-      <translation type="unfinished">Enable HTTP/2 for streaming</translation>
+      <translation>Увімкнути HTTP/2 для трансляції</translation>
     </message>
     <message>
       <source>Use strict SSL mode</source>
-      <translation type="unfinished">Use strict SSL mode</translation>
+      <translation>Використовувати суворий режим SSL</translation>
     </message>
     <message>
       <source>Buffer</source>
@@ -629,11 +629,11 @@
     </message>
     <message>
       <source>Audio normalization</source>
-      <translation type="unfinished">Audio normalization</translation>
+      <translation>Нормалізація звуку</translation>
     </message>
     <message>
       <source>No audio normalization</source>
-      <translation type="unfinished">No audio normalization</translation>
+      <translation>Без нормалізації звуку</translation>
     </message>
     <message>
       <source>Replay Gain</source>
@@ -669,15 +669,15 @@
     </message>
     <message>
       <source>EBU R 128 Loudness Normalization</source>
-      <translation type="unfinished">EBU R 128 Loudness Normalization</translation>
+      <translation>Нормалізація гучності EBU R 128</translation>
     </message>
     <message>
       <source>Perform track loudness normalization</source>
-      <translation type="unfinished">Perform track loudness normalization</translation>
+      <translation>Нормалізувати гучність композиції</translation>
     </message>
     <message>
       <source>Target Level</source>
-      <translation type="unfinished">Target Level</translation>
+      <translation>Цільовий рівень</translation>
     </message>
     <message>
       <source>Fading</source>
@@ -697,7 +697,7 @@
     </message>
     <message>
       <source>Except between tracks on the same album or in the same CUE sheet</source>
-      <translation>Крім як між композиціями у одному альбомі, або в тому ж CUE-листі</translation>
+      <translation>Крім як між композиціями в одному альбомі, або в тому ж CUE-листі</translation>
     </message>
     <message>
       <source>Fading duration</source>
@@ -728,7 +728,7 @@
     </message>
     <message>
       <source>Show song progress on taskbar</source>
-      <translation type="unfinished">Show song progress on taskbar</translation>
+      <translation>Показувати прогрес пісні на панелі завдань</translation>
     </message>
     <message>
       <source>Resume playback on start</source>
@@ -744,7 +744,7 @@
     </message>
     <message>
       <source>Remember from &amp;last time</source>
-      <translation>Запам&apos;ятати &amp;останній варіант</translation>
+      <translation>Запам'ятати &amp;останній варіант</translation>
     </message>
     <message>
       <source>Show the main window</source>
@@ -844,7 +844,7 @@
     </message>
     <message>
       <source>Volume Increment</source>
-      <translation type="unfinished">Volume Increment</translation>
+      <translation>Приріст гучності</translation>
     </message>
   </context>
   <context>
@@ -866,11 +866,11 @@
     <name>CollectionBackend</name>
     <message>
       <source>Unable to execute collection SQL query: %1</source>
-      <translation type="unfinished">Unable to execute collection SQL query: %1</translation>
+      <translation>Не вдалось виконати SQL-запит для збору даних: %1</translation>
     </message>
     <message>
       <source>Failed SQL query: %1</source>
-      <translation type="unfinished">Failed SQL query: %1</translation>
+      <translation>Помилка SQL-запиту: %1</translation>
     </message>
     <message>
       <source>Updating %1 database.</source>
@@ -889,7 +889,7 @@
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>Entire collection</source>
@@ -1059,7 +1059,7 @@
     </message>
     <message>
       <source>Perform song EBU R 128 analysis (required for EBU R 128 loudness normalization)</source>
-      <translation type="unfinished">Perform song EBU R 128 analysis (required for EBU R 128 loudness normalization)</translation>
+      <translation>Аналізувати композицій згідно EBU R 128 (потрібно для нормалізації гучності EBU R 128)</translation>
     </message>
     <message>
       <source>Expire unavailable songs after</source>
@@ -1097,11 +1097,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Use various artists for compilation albums</source>
-      <translation type="unfinished">Use various artists for compilation albums</translation>
+      <translation>Використовувати різних виконавців для альбомів-збірок</translation>
     </message>
     <message>
       <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artist names</source>
-      <translation type="unfinished">Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artist names</translation>
+      <translation>Пропускати початкові артиклі (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) під час сортування імен виконавців</translation>
     </message>
     <message>
       <source>Album cover pixmap cache</source>
@@ -1141,7 +1141,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Overwrite database playcount when songs are re-read from disk</source>
-      <translation type="unfinished">Overwrite database playcount when songs are re-read from disk</translation>
+      <translation>Перезаписувати кількість відтворень в базі даних, коли композиції повторно зчитуються з диска</translation>
     </message>
     <message>
       <source>Overwrite database rating when songs are re-read from disk</source>
@@ -1296,7 +1296,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>Title</source>
@@ -1416,7 +1416,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>%filename%</source>
-      <translation type="unfinished">%filename%</translation>
+      <translation>%filename%</translation>
     </message>
     <message>
       <source>Add song filename</source>
@@ -1424,7 +1424,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>%url%</source>
-      <translation type="unfinished">%url%</translation>
+      <translation>%url%</translation>
     </message>
     <message>
       <source>Add song URL</source>
@@ -1432,7 +1432,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>%rating%</source>
-      <translation type="unfinished">%rating%</translation>
+      <translation>%rating%</translation>
     </message>
     <message>
       <source>Add song rating</source>
@@ -1440,7 +1440,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>%originalyear%</source>
-      <translation type="unfinished">%originalyear%</translation>
+      <translation>%originalyear%</translation>
     </message>
     <message>
       <source>Add song original year tag</source>
@@ -1471,11 +1471,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>EBU R 128 Integrated Loudness</source>
-      <translation type="unfinished">EBU R 128 Integrated Loudness</translation>
+      <translation>Вбудована гучність EBU R 128</translation>
     </message>
     <message>
       <source>EBU R 128 Loudness Range</source>
-      <translation type="unfinished">EBU R 128 Loudness Range</translation>
+      <translation>Діапазон гучності EBU R 128</translation>
     </message>
     <message>
       <source>Show album cover</source>
@@ -1561,7 +1561,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>View</source>
@@ -1577,7 +1577,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>0</source>
-      <translation type="unfinished">0</translation>
+      <translation>0</translation>
     </message>
     <message>
       <source>Fetch Missing Covers</source>
@@ -1659,7 +1659,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Album cover types</source>
-      <translation type="unfinished">Album cover types</translation>
+      <translation>Типи обкладинок альбомів</translation>
     </message>
     <message>
       <source>Saving album covers</source>
@@ -1707,7 +1707,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Use Spotify settings to authenticate.</source>
-      <translation type="unfinished">Use Spotify settings to authenticate.</translation>
+      <translation>Використовувати налаштування Spotify для автентифікації.</translation>
     </message>
     <message>
       <source>Use Qobuz settings to authenticate.</source>
@@ -1731,37 +1731,37 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Manually unset (%1)</source>
-      <translation type="unfinished">Manually unset (%1)</translation>
+      <translation>Знято вручну (%1)</translation>
     </message>
     <message>
       <source>Set through album cover search (%1)</source>
-      <translation type="unfinished">Set through album cover search (%1)</translation>
+      <translation>Встановлено через пошук обкладинок альбомів (%1)</translation>
     </message>
     <message>
       <source>Automatically picked up from album directory (%1)</source>
-      <translation type="unfinished">Automatically picked up from album directory (%1)</translation>
+      <translation>Автоматично підібрано з теки альбому (%1)</translation>
     </message>
     <message>
       <source>Embedded album cover art (%1)</source>
-      <translation type="unfinished">Embedded album cover art (%1)</translation>
+      <translation>Вбудована обкладинка альбому (%1)</translation>
     </message>
   </context>
   <context>
     <name>CueParser</name>
     <message>
       <source>Saving CUE files is not supported.</source>
-      <translation type="unfinished">Saving CUE files is not supported.</translation>
+      <translation>Збереження CUE-файлів не підтримується.</translation>
     </message>
   </context>
   <context>
     <name>Database</name>
     <message>
       <source>Unable to execute SQL query: %1</source>
-      <translation type="unfinished">Unable to execute SQL query: %1</translation>
+      <translation>Не вдалось виконати SQL-запит: %1</translation>
     </message>
     <message>
       <source>Failed SQL query: %1</source>
-      <translation type="unfinished">Failed SQL query: %1</translation>
+      <translation>Помилка SQL-запиту: %1</translation>
     </message>
     <message>
       <source>Integrity check</source>
@@ -2032,7 +2032,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Art Embedded</source>
-      <translation type="unfinished">Art Embedded</translation>
+      <translation>Вбудована обкладинка</translation>
     </message>
     <message>
       <source>Last played</source>
@@ -2057,7 +2057,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>EBU R 128 integrated loudness</source>
-      <translation type="unfinished">EBU R 128 integrated loudness</translation>
+      <translation>Вбудована гучність EBU R 128</translation>
     </message>
     <message>
       <source>Bit rate</source>
@@ -2081,7 +2081,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Art Unset</source>
-      <translation type="unfinished">Art Unset</translation>
+      <translation>Обкладинку знято</translation>
     </message>
     <message>
       <source>File size</source>
@@ -2093,7 +2093,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>EBU R 128 loudness range</source>
-      <translation type="unfinished">EBU R 128 loudness range</translation>
+      <translation>Діапазон гучності EBU R 128</translation>
     </message>
     <message>
       <source>Reset play counts</source>
@@ -2105,7 +2105,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>Change art</source>
@@ -2181,15 +2181,15 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Complete lyrics automatically</source>
-      <translation type="unfinished">Complete lyrics automatically</translation>
+      <translation>Завантажити текст пісні</translation>
     </message>
     <message>
       <source>(different across multiple songs)</source>
-      <translation type="unfinished">(different across multiple songs)</translation>
+      <translation>(відрізняється поміж кількох композицій)</translation>
     </message>
     <message>
       <source>Different art across multiple songs.</source>
-      <translation type="unfinished">Different art across multiple songs.</translation>
+      <translation>Різні обкладинки поміж кількох композицій.</translation>
     </message>
     <message>
       <source>Previous</source>
@@ -2221,11 +2221,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Yes</source>
-      <translation type="unfinished">Yes</translation>
+      <translation>Так</translation>
     </message>
     <message>
       <source>No</source>
-      <translation type="unfinished">No</translation>
+      <translation>Ні</translation>
     </message>
     <message>
       <source>None</source>
@@ -2233,15 +2233,15 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Cover is unset.</source>
-      <translation type="unfinished">Cover is unset.</translation>
+      <translation>Обкладинку знято.</translation>
     </message>
     <message>
       <source>Cover from embedded image.</source>
-      <translation type="unfinished">Cover from embedded image.</translation>
+      <translation>Обкладинка з вбудованого зображення.</translation>
     </message>
     <message>
       <source>Cover from %1</source>
-      <translation type="unfinished">Cover from %1</translation>
+      <translation>Обкладинка з %1</translation>
     </message>
     <message>
       <source>Cover art not set</source>
@@ -2273,27 +2273,27 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Reset song play statistics</source>
-      <translation type="unfinished">Reset song play statistics</translation>
+      <translation>Скинути статистику відтворення композиції</translation>
     </message>
     <message>
       <source>Are you sure you want to reset this song&apos;s play statistics?</source>
-      <translation type="unfinished">Are you sure you want to reset this song&apos;s play statistics?</translation>
+      <translation>Дійсно скинути статистику відтворення композиції?</translation>
     </message>
     <message>
       <source>loading...</source>
-      <translation type="unfinished">loading...</translation>
+      <translation>завантаження...</translation>
     </message>
     <message>
       <source>Not found.</source>
-      <translation type="unfinished">Not found.</translation>
+      <translation>Не знайдено.</translation>
     </message>
     <message>
       <source>Could not write metadata to %1</source>
-      <translation type="unfinished">Could not write metadata to %1</translation>
+      <translation>Не вдалось записати метадані в %1</translation>
     </message>
     <message>
       <source>Could not write metadata to %1: %2</source>
-      <translation type="unfinished">Could not write metadata to %1: %2</translation>
+      <translation>Не вдалось записати метадані в %1: %2</translation>
     </message>
   </context>
   <context>
@@ -2412,7 +2412,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Zero</source>
-      <translation type="unfinished">Zero</translation>
+      <translation>Нуль</translation>
     </message>
     <message>
       <source>Name</source>
@@ -2449,7 +2449,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Icons sidebar</source>
-      <translation type="unfinished">Icons sidebar</translation>
+      <translation>Значки на бічній панелі</translation>
     </message>
     <message>
       <source>Small sidebar</source>
@@ -2533,7 +2533,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Exceeded by</source>
-      <translation type="unfinished">Exceeded by</translation>
+      <translation>Перевищено за</translation>
     </message>
     <message>
       <source>Used</source>
@@ -2544,15 +2544,15 @@ If there are no matches then it will use the largest image in the directory.</so
     <name>GPodDevice</name>
     <message>
       <source>Could not copy %1 to %2: %3</source>
-      <translation type="unfinished">Could not copy %1 to %2: %3</translation>
+      <translation>Не вдалося скопіювати %1 в %2: %3</translation>
     </message>
     <message>
       <source>Writing database failed: %1</source>
-      <translation type="unfinished">Writing database failed: %1</translation>
+      <translation>Помилка запису в базу даних: %1</translation>
     </message>
     <message>
       <source>Writing database failed.</source>
-      <translation type="unfinished">Writing database failed.</translation>
+      <translation>Помилка запису в базу даних.</translation>
     </message>
   </context>
   <context>
@@ -2627,19 +2627,19 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Play/Pause</source>
-      <translation type="unfinished">Play/Pause</translation>
+      <translation>Відтворення/Пауза</translation>
     </message>
     <message>
       <source>Stop</source>
-      <translation type="unfinished">Stop</translation>
+      <translation>Зупинити</translation>
     </message>
     <message>
       <source>Stop playing after current track</source>
-      <translation type="unfinished">Stop playing after current track</translation>
+      <translation>Зупинити відтворення після поточної композиції</translation>
     </message>
     <message>
       <source>Next track</source>
-      <translation type="unfinished">Next track</translation>
+      <translation>Наступна композиція</translation>
     </message>
     <message>
       <source>Previous track</source>
@@ -2647,15 +2647,15 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Restart or previous track</source>
-      <translation type="unfinished">Restart or previous track</translation>
+      <translation>Перезапустити або повернутись до попередньої композиції</translation>
     </message>
     <message>
       <source>Increase volume</source>
-      <translation type="unfinished">Increase volume</translation>
+      <translation>Збільшити гучність</translation>
     </message>
     <message>
       <source>Decrease volume</source>
-      <translation type="unfinished">Decrease volume</translation>
+      <translation>Зменшити гучність</translation>
     </message>
     <message>
       <source>Mute</source>
@@ -2663,35 +2663,35 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Seek forward</source>
-      <translation type="unfinished">Seek forward</translation>
+      <translation>Перемотати вперед</translation>
     </message>
     <message>
       <source>Seek backward</source>
-      <translation type="unfinished">Seek backward</translation>
+      <translation>Перемотати назад</translation>
     </message>
     <message>
       <source>Show/Hide</source>
-      <translation type="unfinished">Show/Hide</translation>
+      <translation>Показати/сховати</translation>
     </message>
     <message>
       <source>Show OSD</source>
-      <translation type="unfinished">Show OSD</translation>
+      <translation>Показати OSD</translation>
     </message>
     <message>
       <source>Toggle Pretty OSD</source>
-      <translation type="unfinished">Toggle Pretty OSD</translation>
+      <translation>Показати або сховати OSD</translation>
     </message>
     <message>
       <source>Change shuffle mode</source>
-      <translation type="unfinished">Change shuffle mode</translation>
+      <translation>Змінити режим перемішування</translation>
     </message>
     <message>
       <source>Change repeat mode</source>
-      <translation type="unfinished">Change repeat mode</translation>
+      <translation>Змінити режим повторення</translation>
     </message>
     <message>
       <source>Enable/disable scrobbling</source>
-      <translation type="unfinished">Enable/disable scrobbling</translation>
+      <translation>Увімкнути/вимкнути скроблінг</translation>
     </message>
     <message>
       <source>Love</source>
@@ -2890,7 +2890,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Separate albums by grouping tag</source>
-      <translation type="unfinished">Separate albums by grouping tag</translation>
+      <translation>Розділяти альбоми за тегом групування</translation>
     </message>
   </context>
   <context>
@@ -3004,15 +3004,15 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Unable to scrobble %1 - %2 because of error: %3</source>
-      <translation type="unfinished">Unable to scrobble %1 - %2 because of error: %3</translation>
+      <translation>Не вдалось надіслати дані скроблінгу %1 - %2 через помилку: %3</translation>
     </message>
     <message>
       <source>Missing MusicBrainz recording ID for %1 %2 %3</source>
-      <translation type="unfinished">Missing MusicBrainz recording ID for %1 %2 %3</translation>
+      <translation>Відсутній ідентифікатор запису MusicBrainz для %1 %2 %3</translation>
     </message>
     <message>
       <source>ListenBrainz error: %1</source>
-      <translation type="unfinished">ListenBrainz error: %1</translation>
+      <translation>Помилка ListenBrainz: %1</translation>
     </message>
   </context>
   <context>
@@ -3093,7 +3093,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>&amp;Music</source>
@@ -3117,7 +3117,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>F5</source>
-      <translation type="unfinished">F5</translation>
+      <translation>F5</translation>
     </message>
     <message>
       <source>&amp;Play</source>
@@ -3125,7 +3125,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>F6</source>
-      <translation type="unfinished">F6</translation>
+      <translation>F6</translation>
     </message>
     <message>
       <source>&amp;Stop</source>
@@ -3133,7 +3133,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>F7</source>
-      <translation type="unfinished">F7</translation>
+      <translation>F7</translation>
     </message>
     <message>
       <source>&amp;Next track</source>
@@ -3141,7 +3141,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>F8</source>
-      <translation type="unfinished">F8</translation>
+      <translation>F8</translation>
     </message>
     <message>
       <source>&amp;Quit</source>
@@ -3149,7 +3149,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Ctrl+Q</source>
-      <translation type="unfinished">Ctrl+Q</translation>
+      <translation>Ctrl+Q</translation>
     </message>
     <message>
       <source>Stop after this track</source>
@@ -3157,7 +3157,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Ctrl+Alt+V</source>
-      <translation type="unfinished">Ctrl+Alt+V</translation>
+      <translation>Ctrl+Alt+V</translation>
     </message>
     <message>
       <source>Love</source>
@@ -3173,7 +3173,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Ctrl+K</source>
-      <translation type="unfinished">Ctrl+K</translation>
+      <translation>Ctrl+K</translation>
     </message>
     <message>
       <source>Edit track information...</source>
@@ -3181,7 +3181,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Ctrl+E</source>
-      <translation type="unfinished">Ctrl+E</translation>
+      <translation>Ctrl+E</translation>
     </message>
     <message>
       <source>Renumber tracks in this order...</source>
@@ -3201,7 +3201,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Ctrl+P</source>
-      <translation type="unfinished">Ctrl+P</translation>
+      <translation>Ctrl+P</translation>
     </message>
     <message>
       <source>&amp;About Strawberry</source>
@@ -3209,7 +3209,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>F1</source>
-      <translation type="unfinished">F1</translation>
+      <translation>F1</translation>
     </message>
     <message>
       <source>S&amp;huffle playlist</source>
@@ -3217,7 +3217,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Ctrl+H</source>
-      <translation type="unfinished">Ctrl+H</translation>
+      <translation>Ctrl+H</translation>
     </message>
     <message>
       <source>&amp;Add file...</source>
@@ -3225,7 +3225,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Ctrl+Shift+A</source>
-      <translation type="unfinished">Ctrl+Shift+A</translation>
+      <translation>Ctrl+Shift+A</translation>
     </message>
     <message>
       <source>&amp;Open file...</source>
@@ -3273,7 +3273,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Ctrl+J</source>
-      <translation type="unfinished">Ctrl+J</translation>
+      <translation>Ctrl+J</translation>
     </message>
     <message>
       <source>&amp;New playlist</source>
@@ -3281,7 +3281,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Ctrl+N</source>
-      <translation type="unfinished">Ctrl+N</translation>
+      <translation>Ctrl+N</translation>
     </message>
     <message>
       <source>Save &amp;playlist...</source>
@@ -3289,7 +3289,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Ctrl+S</source>
-      <translation type="unfinished">Ctrl+S</translation>
+      <translation>Ctrl+S</translation>
     </message>
     <message>
       <source>&amp;Load playlist...</source>
@@ -3297,11 +3297,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Ctrl+Shift+O</source>
-      <translation type="unfinished">Ctrl+Shift+O</translation>
+      <translation>Ctrl+Shift+O</translation>
     </message>
     <message>
       <source>&amp;Save all playlists...</source>
-      <translation type="unfinished">&amp;Save all playlists...</translation>
+      <translation>&amp;Зберегти всі списки відтворення...</translation>
     </message>
     <message>
       <source>Go to next playlist tab</source>
@@ -3325,7 +3325,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Ctrl+M</source>
-      <translation type="unfinished">Ctrl+M</translation>
+      <translation>Ctrl+M</translation>
     </message>
     <message>
       <source>&amp;Do a full collection rescan</source>
@@ -3333,7 +3333,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Stop collection scan</source>
-      <translation type="unfinished">Stop collection scan</translation>
+      <translation>Зупинити сканування фонотеки</translation>
     </message>
     <message>
       <source>Complete tags automatically...</source>
@@ -3341,7 +3341,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Ctrl+T</source>
-      <translation type="unfinished">Ctrl+T</translation>
+      <translation>Ctrl+T</translation>
     </message>
     <message>
       <source>Toggle scrobbling</source>
@@ -3413,19 +3413,19 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Subsonic</source>
-      <translation type="unfinished">Subsonic</translation>
+      <translation>Subsonic</translation>
     </message>
     <message>
       <source>Tidal</source>
-      <translation type="unfinished">Tidal</translation>
+      <translation>Tidal</translation>
     </message>
     <message>
       <source>Spotify</source>
-      <translation type="unfinished">Spotify</translation>
+      <translation>Spotify</translation>
     </message>
     <message>
       <source>Qobuz</source>
-      <translation type="unfinished">Qobuz</translation>
+      <translation>Qobuz</translation>
     </message>
     <message>
       <source>Show all songs</source>
@@ -3501,19 +3501,19 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Strawberry running under Rosetta</source>
-      <translation type="unfinished">Strawberry running under Rosetta</translation>
+      <translation>Strawberry запущений в трансляторі Rosetta</translation>
     </message>
     <message>
       <source>You are running Strawberry under Rosetta. Running Strawberry under Rosetta is unsupported and known to have issues. You should download Strawberry for the correct CPU architecture from %1</source>
-      <translation type="unfinished">You are running Strawberry under Rosetta. Running Strawberry under Rosetta is unsupported and known to have issues. You should download Strawberry for the correct CPU architecture from %1</translation>
+      <translation>Strawberry запущений в трансляторі Rosetta. Такий режим не є підтримуваним, можуть бути помилки. Вам слід завантажити версію Strawberry для відповідної архітектури CPU з сайту %1</translation>
     </message>
     <message>
       <source>Sponsoring Strawberry</source>
-      <translation type="unfinished">Sponsoring Strawberry</translation>
+      <translation>Підтримати Strawberry</translation>
     </message>
     <message>
       <source>Strawberry is free and open source software. If you like Strawberry, please consider sponsoring the project. For more information about sponsorship see our website %1</source>
-      <translation type="unfinished">Strawberry is free and open source software. If you like Strawberry, please consider sponsoring the project. For more information about sponsorship see our website %1</translation>
+      <translation>Strawberry є безкоштовним та відкритим програмним забезпеченням. Якщо вам подобається Strawberry, ми будемо раді вашій підтримці. Додаткові відомості дивіться на нашому веб-сайті %1</translation>
     </message>
     <message>
       <source>Pause</source>
@@ -3612,7 +3612,7 @@ If there are no matches then it will use the largest image in the directory.</so
     <name>MessageDialog</name>
     <message>
       <source>Message Dialog</source>
-      <translation type="unfinished">Message Dialog</translation>
+      <translation>Діалог повідомлення</translation>
     </message>
     <message>
       <source>Do not show this message again.</source>
@@ -3664,19 +3664,19 @@ If there are no matches then it will use the largest image in the directory.</so
     <name>MtpConnection</name>
     <message>
       <source>Invalid MTP device: %1</source>
-      <translation type="unfinished">Invalid MTP device: %1</translation>
+      <translation>Неприпустимий пристрій MTP: %1</translation>
     </message>
     <message>
       <source>Could not open MTP device.</source>
-      <translation type="unfinished">Could not open MTP device.</translation>
+      <translation>Не вдалося відкрити пристрій MTP.</translation>
     </message>
     <message>
       <source>MTP error: %1</source>
-      <translation type="unfinished">MTP error: %1</translation>
+      <translation>Помилка MTP: %1</translation>
     </message>
     <message>
       <source>MTP device not found.</source>
-      <translation type="unfinished">MTP device not found.</translation>
+      <translation>Пристрій MTP не знайдено.</translation>
     </message>
   </context>
   <context>
@@ -3691,7 +3691,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Error connecting MTP device %1: %2</source>
-      <translation type="unfinished">Error connecting MTP device %1: %2</translation>
+      <translation>Не вдалося підключитись до MTP-пристрою %1: %2</translation>
     </message>
   </context>
   <context>
@@ -3822,7 +3822,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>Summary</source>
@@ -3938,7 +3938,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>%filename%</source>
-      <translation type="unfinished">%filename%</translation>
+      <translation>%filename%</translation>
     </message>
     <message>
       <source>Add song filename</source>
@@ -3946,7 +3946,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>%url%</source>
-      <translation type="unfinished">%url%</translation>
+      <translation>%url%</translation>
     </message>
     <message>
       <source>Add song URL</source>
@@ -3954,7 +3954,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>%originalyear%</source>
-      <translation type="unfinished">%originalyear%</translation>
+      <translation>%originalyear%</translation>
     </message>
     <message>
       <source>Add song original year tag</source>
@@ -4234,7 +4234,7 @@ If there are no matches then it will use the largest image in the directory.</so
     <name>ParserBase</name>
     <message>
       <source>Don&apos;t know how to handle %1</source>
-      <translation type="unfinished">Don&apos;t know how to handle %1</translation>
+      <translation>Не знаю, як працювати з %1</translation>
     </message>
   </context>
   <context>
@@ -4260,11 +4260,11 @@ If there are no matches then it will use the largest image in the directory.</so
     <name>Playlist</name>
     <message>
       <source>Could not write metadata to %1</source>
-      <translation type="unfinished">Could not write metadata to %1</translation>
+      <translation>Не вдалося записати метадані в %1</translation>
     </message>
     <message>
       <source>Could not write metadata to %1: %2</source>
-      <translation type="unfinished">Could not write metadata to %1: %2</translation>
+      <translation>Не вдалося записати метадані в %1: %2</translation>
     </message>
     <message>
       <source>Title</source>
@@ -4296,7 +4296,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Original Year</source>
-      <translation type="unfinished">Original Year</translation>
+      <translation>Оригінальний рік</translation>
     </message>
     <message>
       <source>Genre</source>
@@ -4304,7 +4304,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Album Artist</source>
-      <translation type="unfinished">Album Artist</translation>
+      <translation>Виконавець альбому</translation>
     </message>
     <message>
       <source>Composer</source>
@@ -4320,23 +4320,23 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Play Count</source>
-      <translation type="unfinished">Play Count</translation>
+      <translation>Кількість відтворень</translation>
     </message>
     <message>
       <source>Skip Count</source>
-      <translation type="unfinished">Skip Count</translation>
+      <translation>Кількість пропусків</translation>
     </message>
     <message>
       <source>Last Played</source>
-      <translation type="unfinished">Last Played</translation>
+      <translation>Востаннє відтворено</translation>
     </message>
     <message>
       <source>Sample Rate</source>
-      <translation type="unfinished">Sample Rate</translation>
+      <translation>Частота дискретизації</translation>
     </message>
     <message>
       <source>Bit Depth</source>
-      <translation type="unfinished">Bit Depth</translation>
+      <translation>Розрядна глибина</translation>
     </message>
     <message>
       <source>Bitrate</source>
@@ -4344,27 +4344,27 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>File Name</source>
-      <translation type="unfinished">File Name</translation>
+      <translation>Ім'я файлу</translation>
     </message>
     <message>
       <source>File Name (without path)</source>
-      <translation type="unfinished">File Name (without path)</translation>
+      <translation>Ім'я файлу (без шляху)</translation>
     </message>
     <message>
       <source>File Size</source>
-      <translation type="unfinished">File Size</translation>
+      <translation>Розмір файлу</translation>
     </message>
     <message>
       <source>File Type</source>
-      <translation type="unfinished">File Type</translation>
+      <translation>Тип файлу</translation>
     </message>
     <message>
       <source>Date Modified</source>
-      <translation type="unfinished">Date Modified</translation>
+      <translation>Дата зміни</translation>
     </message>
     <message>
       <source>Date Created</source>
-      <translation type="unfinished">Date Created</translation>
+      <translation>Дата створення</translation>
     </message>
     <message>
       <source>Comment</source>
@@ -4384,15 +4384,15 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>CUE</source>
-      <translation type="unfinished">CUE</translation>
+      <translation>CUE</translation>
     </message>
     <message>
       <source>Integrated Loudness</source>
-      <translation type="unfinished">Integrated Loudness</translation>
+      <translation>Вбудована гучність</translation>
     </message>
     <message>
       <source>Loudness Range</source>
-      <translation type="unfinished">Loudness Range</translation>
+      <translation>Діапазон гучності</translation>
     </message>
   </context>
   <context>
@@ -4403,11 +4403,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Undo</source>
-      <translation type="unfinished">Undo</translation>
+      <translation>Скасувати</translation>
     </message>
     <message>
       <source>Redo</source>
-      <translation type="unfinished">Redo</translation>
+      <translation>Повторити</translation>
     </message>
     <message>
       <source>Playlist</source>
@@ -4492,7 +4492,7 @@ If there are no matches then it will use the largest image in the directory.</so
     <message>
       <source>Save playlist</source>
       <comment>Save playlist menu action.</comment>
-      <translation type="unfinished">Save playlist</translation>
+      <translation>Зберегти список відтворення</translation>
     </message>
     <message>
       <source>Copy to device...</source>
@@ -4547,15 +4547,15 @@ If there are no matches then it will use the largest image in the directory.</so
     <message>
       <source>Save playlist</source>
       <comment>Title of the playlist save dialog.</comment>
-      <translation type="unfinished">Save playlist</translation>
+      <translation>Зберегти список відтворення</translation>
     </message>
     <message>
       <source>Unknown playlist extension</source>
-      <translation type="unfinished">Unknown playlist extension</translation>
+      <translation>Невідоме розширення списку відтворення</translation>
     </message>
     <message>
       <source>Unknown file extension for playlist.</source>
-      <translation type="unfinished">Unknown file extension for playlist.</translation>
+      <translation>Невідоме розширення файлу для списку відтворення.</translation>
     </message>
     <message>
       <source>%1 selected of</source>
@@ -4563,11 +4563,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message numerus="yes">
       <source>%n track(s)</source>
-      <translation type="unfinished">
-        <numerusform>%n track(s)</numerusform>
-        <numerusform>%n track(s)</numerusform>
-        <numerusform>%n track(s)</numerusform>
-        <numerusform>%n track(s)</numerusform>
+      <translation>
+        <numerusform>%n композиція</numerusform>
+        <numerusform>%n композиції</numerusform>
+        <numerusform>%n композицій</numerusform>
+        <numerusform>%n композицій</numerusform>
       </translation>
     </message>
     <message>
@@ -4591,19 +4591,19 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Unknown filetype: %1</source>
-      <translation type="unfinished">Unknown filetype: %1</translation>
+      <translation>Невідомий тип файлу: %1</translation>
     </message>
     <message>
       <source>Could not open file %1</source>
-      <translation type="unfinished">Could not open file %1</translation>
+      <translation>Не вдалося відкрити файл %1</translation>
     </message>
     <message>
       <source>Directory %1 does not exist.</source>
-      <translation type="unfinished">Directory %1 does not exist.</translation>
+      <translation>Каталог %1 не існує.</translation>
     </message>
     <message>
       <source>Failed to open %1 for writing.</source>
-      <translation type="unfinished">Failed to open %1 for writing.</translation>
+      <translation>Не вдалося відкрити %1 для запису.</translation>
     </message>
   </context>
   <context>
@@ -4700,11 +4700,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Show bars on the currently playing track</source>
-      <translation type="unfinished">Show bars on the currently playing track</translation>
+      <translation>Показувати смужки на композиції, що зараз відтворюється</translation>
     </message>
     <message>
       <source>Show a glowing animation on the currently playing track</source>
-      <translation type="unfinished">Show a glowing animation on the currently playing track</translation>
+      <translation>Показувати анімацію підсвічування на композиції, що зараз відтворюється</translation>
     </message>
     <message>
       <source>Warn me when closing a playlist tab</source>
@@ -4836,11 +4836,11 @@ Are you sure you want to continue?</source>
     <name>PlaylistUndoCommands::InsertItems</name>
     <message numerus="yes">
       <source>add %n songs</source>
-      <translation type="unfinished">
+      <translation>
+        <numerusform>додати %n композицію</numerusform>
+        <numerusform>додати %n композиції</numerusform>
         <numerusform>додати %n композицій</numerusform>
-        <numerusform>add %n songs</numerusform>
-        <numerusform>add %n songs</numerusform>
-        <numerusform>add %n songs</numerusform>
+        <numerusform>додати %n композицій</numerusform>
       </translation>
     </message>
   </context>
@@ -4848,11 +4848,11 @@ Are you sure you want to continue?</source>
     <name>PlaylistUndoCommands::MoveItems</name>
     <message numerus="yes">
       <source>move %n songs</source>
-      <translation type="unfinished">
+      <translation>
+        <numerusform>пересунути %n композицію</numerusform>
+        <numerusform>пересунути %n композиції</numerusform>
         <numerusform>пересунути %n композицій</numerusform>
-        <numerusform>move %n songs</numerusform>
-        <numerusform>move %n songs</numerusform>
-        <numerusform>move %n songs</numerusform>
+        <numerusform>пересунути %n композицій</numerusform>
       </translation>
     </message>
   </context>
@@ -4860,11 +4860,11 @@ Are you sure you want to continue?</source>
     <name>PlaylistUndoCommands::RemoveItems</name>
     <message numerus="yes">
       <source>remove %n songs</source>
-      <translation type="unfinished">
+      <translation>
+        <numerusform>вилучити %n композицію</numerusform>
+        <numerusform>вилучити %n композиції</numerusform>
         <numerusform>вилучити %n композицій</numerusform>
-        <numerusform>remove %n songs</numerusform>
-        <numerusform>remove %n songs</numerusform>
-        <numerusform>remove %n songs</numerusform>
+        <numerusform>вилучити %n композицій</numerusform>
       </translation>
     </message>
   </context>
@@ -4886,11 +4886,11 @@ Are you sure you want to continue?</source>
     <name>PlaylistView</name>
     <message>
       <source>Hz</source>
-      <translation type="unfinished">Hz</translation>
+      <translation>Гц</translation>
     </message>
     <message>
       <source>Bit</source>
-      <translation type="unfinished">Bit</translation>
+      <translation>Біт</translation>
     </message>
     <message>
       <source>kbps</source>
@@ -5037,19 +5037,19 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Failed to create directory %1.</source>
-      <translation type="unfinished">Failed to create directory %1.</translation>
+      <translation>Не вдалося створити каталог: %1.</translation>
     </message>
     <message>
       <source>Destination file %1 exists, but not allowed to overwrite.</source>
-      <translation type="unfinished">Destination file %1 exists, but not allowed to overwrite.</translation>
+      <translation>Файл призначення %1 існує, але його не можна перезаписати.</translation>
     </message>
     <message>
       <source>Destination file %1 exists, but not allowed to overwrite</source>
-      <translation type="unfinished">Destination file %1 exists, but not allowed to overwrite</translation>
+      <translation>Файл призначення %1 існує, але його не можна перезаписати</translation>
     </message>
     <message>
       <source>Could not copy file %1 to %2.</source>
-      <translation type="unfinished">Could not copy file %1 to %2.</translation>
+      <translation>Не вдалося скопіювати файл %1 в %2.</translation>
     </message>
     <message>
       <source>Unknown</source>
@@ -5057,11 +5057,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>LUFS</source>
-      <translation type="unfinished">LUFS</translation>
+      <translation>LUFS</translation>
     </message>
     <message>
       <source>LU</source>
-      <translation type="unfinished">LU</translation>
+      <translation>LU</translation>
     </message>
     <message>
       <source>File %1 is not recognized as a valid audio file.</source>
@@ -5117,35 +5117,35 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Failed to load image from data for %1</source>
-      <translation type="unfinished">Failed to load image from data for %1</translation>
+      <translation>Не вдалося завантажити зображення для %1</translation>
     </message>
     <message>
       <source>Success</source>
-      <translation type="unfinished">Success</translation>
+      <translation>Успішно</translation>
     </message>
     <message>
       <source>File is unsupported</source>
-      <translation type="unfinished">File is unsupported</translation>
+      <translation>Файл не підтримується</translation>
     </message>
     <message>
       <source>Filename is missing</source>
-      <translation type="unfinished">Filename is missing</translation>
+      <translation>Відсутнє ім'я файлу</translation>
     </message>
     <message>
       <source>File does not exist</source>
-      <translation type="unfinished">File does not exist</translation>
+      <translation>Файлу не існує</translation>
     </message>
     <message>
       <source>File could not be opened</source>
-      <translation type="unfinished">File could not be opened</translation>
+      <translation>Не вдалося відкрити файл</translation>
     </message>
     <message>
       <source>Could not parse file</source>
-      <translation type="unfinished">Could not parse file</translation>
+      <translation>Не вдалося проаналізувати файл</translation>
     </message>
     <message>
       <source>Could save file</source>
-      <translation type="unfinished">Could save file</translation>
+      <translation>Не вдалося зберегти файл</translation>
     </message>
     <message>
       <source>Unknown error</source>
@@ -5153,7 +5153,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Prefix a search term with a field name to limit the search to that field, e.g.:</source>
-      <translation type="unfinished">Prefix a search term with a field name to limit the search to that field, e.g.:</translation>
+      <translation>Додайте перед словом назву поля, щоб обмежити пошук до цього поля, наприклад:</translation>
     </message>
     <message>
       <source>artist</source>
@@ -5161,19 +5161,19 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>searches for all artists containing the word %1. </source>
-      <translation type="unfinished">searches for all artists containing the word %1. </translation>
+      <translation>шукати всіх виконавців, що містять слово %1. </translation>
     </message>
     <message>
       <source>Search terms for numerical fields can be prefixed with %1 or %2 to refine the search, e.g.: </source>
-      <translation type="unfinished">Search terms for numerical fields can be prefixed with %1 or %2 to refine the search, e.g.: </translation>
+      <translation>Для уточнення пошуку перед пошуковими термінами для числових полів можна додати %1 або %2, наприклад: </translation>
     </message>
     <message>
       <source>rating</source>
-      <translation type="unfinished">rating</translation>
+      <translation>рейтинг</translation>
     </message>
     <message>
       <source>Multiple search terms can also be combined with &quot;%1&quot; (default) and &quot;%2&quot;, as well as grouped with parentheses. </source>
-      <translation type="unfinished">Multiple search terms can also be combined with &quot;%1&quot; (default) and &quot;%2&quot;, as well as grouped with parentheses. </translation>
+      <translation>Кілька пошукових термінів також можна об'єднати за допомогою &quot;%1&quot; (за замовчуванням) та &quot;%2&quot;, а також згрупувати за допомогою дужок. </translation>
     </message>
     <message>
       <source>Available fields</source>
@@ -5339,15 +5339,15 @@ Are you sure you want to continue?</source>
     <name>QobuzRequest</name>
     <message>
       <source>Receiving artists...</source>
-      <translation type="unfinished">Receiving artists...</translation>
+      <translation>Завантаження виконавців...</translation>
     </message>
     <message>
       <source>Receiving albums...</source>
-      <translation type="unfinished">Receiving albums...</translation>
+      <translation>Завантаження альбомів...</translation>
     </message>
     <message>
       <source>Receiving songs...</source>
-      <translation type="unfinished">Receiving songs...</translation>
+      <translation>Завантаження композицій...</translation>
     </message>
     <message>
       <source>Searching...</source>
@@ -5355,27 +5355,27 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Receiving albums for %1 artist...</source>
-      <translation type="unfinished">Receiving albums for %1 artist...</translation>
+      <translation>Завантаження альбомів для %1 виконавця...</translation>
     </message>
     <message>
       <source>Receiving albums for %1 artists...</source>
-      <translation type="unfinished">Receiving albums for %1 artists...</translation>
+      <translation>Завантаження альбомів для %1 виконавців...</translation>
     </message>
     <message>
       <source>Receiving songs for %1 album...</source>
-      <translation type="unfinished">Receiving songs for %1 album...</translation>
+      <translation>Завантаження композицій для %1 альбому...</translation>
     </message>
     <message>
       <source>Receiving songs for %1 albums...</source>
-      <translation type="unfinished">Receiving songs for %1 albums...</translation>
+      <translation>Завантаження композицій для %1 альбомів...</translation>
     </message>
     <message>
       <source>Receiving album cover for %1 album...</source>
-      <translation type="unfinished">Receiving album cover for %1 album...</translation>
+      <translation>Завантаження обкладинки для %1 альбому...</translation>
     </message>
     <message>
       <source>Receiving album covers for %1 albums...</source>
-      <translation type="unfinished">Receiving album covers for %1 albums...</translation>
+      <translation>Завантаження обкладинок для %1 альбомів...</translation>
     </message>
     <message>
       <source>No match.</source>
@@ -5421,7 +5421,7 @@ Are you sure you want to continue?</source>
     <name>QobuzSettingsPage</name>
     <message>
       <source>Qobuz</source>
-      <translation type="unfinished">Qobuz</translation>
+      <translation>Qobuz</translation>
     </message>
     <message>
       <source>Enable</source>
@@ -5489,7 +5489,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Base64 encoded secret</source>
-      <translation type="unfinished">Base64 encoded secret</translation>
+      <translation>Секрет, закодований у base64</translation>
     </message>
     <message>
       <source>Configuration incomplete</source>
@@ -5527,11 +5527,11 @@ Are you sure you want to continue?</source>
     <name>Queue</name>
     <message numerus="yes">
       <source>%n track(s)</source>
-      <translation type="unfinished">
-        <numerusform>%n track(s)</numerusform>
-        <numerusform>%n track(s)</numerusform>
-        <numerusform>%n track(s)</numerusform>
-        <numerusform>%n track(s)</numerusform>
+      <translation>
+        <numerusform>%n композиція</numerusform>
+        <numerusform>%n композиції</numerusform>
+        <numerusform>%n композицій</numerusform>
+        <numerusform>%n композицій</numerusform>
       </translation>
     </message>
   </context>
@@ -5567,7 +5567,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Ctrl+K</source>
-      <translation type="unfinished">Ctrl+K</translation>
+      <translation>Ctrl+K</translation>
     </message>
   </context>
   <context>
@@ -5622,19 +5622,19 @@ Are you sure you want to continue?</source>
     <name>SavePlaylistsDialog</name>
     <message>
       <source>Select directory for saving playlists</source>
-      <translation type="unfinished">Select directory for saving playlists</translation>
+      <translation>Виберіть теку для збереження списків відтворення</translation>
     </message>
     <message>
       <source>Type</source>
-      <translation type="unfinished">Type</translation>
+      <translation>Тип</translation>
     </message>
     <message>
       <source>Select directory for the playlists</source>
-      <translation type="unfinished">Select directory for the playlists</translation>
+      <translation>Виберіть теку для списків відтворення</translation>
     </message>
     <message>
       <source>Directory does not exist.</source>
-      <translation type="unfinished">Directory does not exist.</translation>
+      <translation>Тека не існує.</translation>
     </message>
   </context>
   <context>
@@ -5804,7 +5804,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Strip &quot;remastered&quot; and similar from album and title</source>
-      <translation type="unfinished">Strip &quot;remastered&quot; and similar from album and title</translation>
+      <translation>Вирізати &quot;remastered&quot; і подібні речі з назв альбомів і заголовків</translation>
     </message>
     <message>
       <source>Enable scrobbling for the following sources:</source>
@@ -5816,7 +5816,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Subsonic</source>
-      <translation type="unfinished">Subsonic</translation>
+      <translation>Subsonic</translation>
     </message>
     <message>
       <source>Local file</source>
@@ -5824,7 +5824,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Tidal</source>
-      <translation type="unfinished">Tidal</translation>
+      <translation>Tidal</translation>
     </message>
     <message>
       <source>Device</source>
@@ -5832,15 +5832,15 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Qobuz</source>
-      <translation type="unfinished">Qobuz</translation>
+      <translation>Qobuz</translation>
     </message>
     <message>
       <source>CDDA</source>
-      <translation type="unfinished">CDDA</translation>
+      <translation>CDDA</translation>
     </message>
     <message>
       <source>SomaFM</source>
-      <translation type="unfinished">SomaFM</translation>
+      <translation>SomaFM</translation>
     </message>
     <message>
       <source>Stream</source>
@@ -5856,7 +5856,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Last.fm</source>
-      <translation type="unfinished">Last.fm</translation>
+      <translation>Last.fm</translation>
     </message>
     <message>
       <source>Login</source>
@@ -5864,11 +5864,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Libre.fm</source>
-      <translation type="unfinished">Libre.fm</translation>
+      <translation>Libre.fm</translation>
     </message>
     <message>
       <source>Listenbrainz</source>
-      <translation type="unfinished">Listenbrainz</translation>
+      <translation>Listenbrainz</translation>
     </message>
     <message>
       <source>User token:</source>
@@ -5903,7 +5903,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Received invalid reply from web browser. Try another browser.</source>
-      <translation type="unfinished">Received invalid reply from web browser. Try another browser.</translation>
+      <translation>Отримано неприпустиму відповідь з веб-браузера. Спробуйте інший браузер.</translation>
     </message>
     <message>
       <source>Scrobbler %1 is not authenticated!</source>
@@ -6231,7 +6231,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Install strawberry through PPA:</source>
-      <translation type="unfinished">Install strawberry through PPA:</translation>
+      <translation>Встановити Strawberry із PPA:</translation>
     </message>
   </context>
   <context>
@@ -6277,15 +6277,15 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Couldn&apos;t create GStreamer typefind element for %1</source>
-      <translation type="unfinished">Couldn&apos;t create GStreamer typefind element for %1</translation>
+      <translation>Не вдалося створити елемент typefind GStreamer для %1</translation>
     </message>
     <message>
       <source>Couldn&apos;t create GStreamer fakesink element for %1</source>
-      <translation type="unfinished">Couldn&apos;t create GStreamer fakesink element for %1</translation>
+      <translation>Не вдалося створити елемент fakesink GStreamer для %1</translation>
     </message>
     <message>
       <source>Couldn&apos;t link GStreamer source, typefind and fakesink elements for %1</source>
-      <translation type="unfinished">Couldn&apos;t link GStreamer source, typefind and fakesink elements for %1</translation>
+      <translation>Не вдалося зв'язати елементи source, typefind та fakesink GStreamer для %1</translation>
     </message>
   </context>
   <context>
@@ -6311,15 +6311,15 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Receiving artists...</source>
-      <translation type="unfinished">Receiving artists...</translation>
+      <translation>Завантаження виконавців...</translation>
     </message>
     <message>
       <source>Receiving albums...</source>
-      <translation type="unfinished">Receiving albums...</translation>
+      <translation>Завантаження альбомів...</translation>
     </message>
     <message>
       <source>Receiving songs...</source>
-      <translation type="unfinished">Receiving songs...</translation>
+      <translation>Завантаження композицій...</translation>
     </message>
     <message>
       <source>Searching...</source>
@@ -6327,27 +6327,27 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Receiving albums for %1 artist...</source>
-      <translation type="unfinished">Receiving albums for %1 artist...</translation>
+      <translation>Завантаження альбомів для %1 виконавця...</translation>
     </message>
     <message>
       <source>Receiving albums for %1 artists...</source>
-      <translation type="unfinished">Receiving albums for %1 artists...</translation>
+      <translation>Завантаження альбомів для %1 виконавців...</translation>
     </message>
     <message>
       <source>Receiving songs for %1 album...</source>
-      <translation type="unfinished">Receiving songs for %1 album...</translation>
+      <translation>Завантаження композицій для %1 альбому...</translation>
     </message>
     <message>
       <source>Receiving songs for %1 albums...</source>
-      <translation type="unfinished">Receiving songs for %1 albums...</translation>
+      <translation>Завантаження композицій для %1 альбомів...</translation>
     </message>
     <message>
       <source>Receiving album cover for %1 album...</source>
-      <translation type="unfinished">Receiving album cover for %1 album...</translation>
+      <translation>Завантаження обкладинки для %1 альбому...</translation>
     </message>
     <message>
       <source>Receiving album covers for %1 albums...</source>
-      <translation type="unfinished">Receiving album covers for %1 albums...</translation>
+      <translation>Завантаження обкладинок для %1 альбомів...</translation>
     </message>
     <message>
       <source>No match.</source>
@@ -6355,7 +6355,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Data missing error</source>
-      <translation type="unfinished">Data missing error</translation>
+      <translation>Помилка: дані відсутні</translation>
     </message>
   </context>
   <context>
@@ -6378,14 +6378,14 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Not authenticated with Spotify.</source>
-      <translation type="unfinished">Not authenticated with Spotify.</translation>
+      <translation>Помилка автентифікації на Spotify.</translation>
     </message>
   </context>
   <context>
     <name>SpotifySettingsPage</name>
     <message>
       <source>Spotify</source>
-      <translation type="unfinished">Spotify</translation>
+      <translation>Spotify</translation>
     </message>
     <message>
       <source>Enable</source>
@@ -6393,15 +6393,15 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Basic authentication</source>
-      <translation type="unfinished">Basic authentication</translation>
+      <translation>Базова автентифікація</translation>
     </message>
     <message>
       <source>Authenticate</source>
-      <translation type="unfinished">Authenticate</translation>
+      <translation>Автентифікація</translation>
     </message>
     <message>
       <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The GStreamer Spotify plugin is not detected, you will not be able to stream songs from Spotify without it. See &lt;a href=&quot;https://wiki.strawberrymusicplayer.org/wiki/Installing_GStreamer_Spotify_plugin&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;Wiki&lt;/span&gt;&lt;/a&gt; for instructions on how to install the plugin.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-      <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The GStreamer Spotify plugin is not detected, you will not be able to stream songs from Spotify without it. See &lt;a href=&quot;https://wiki.strawberrymusicplayer.org/wiki/Installing_GStreamer_Spotify_plugin&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;Wiki&lt;/span&gt;&lt;/a&gt; for instructions on how to install the plugin.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+      <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Плагін GStreamer Spotify не знайдено. Без нього неможливо транслювати композиції зі Spotify. Інструкції по встановленню плагіна дивіться на &lt;a href=&quot;https://wiki.strawberrymusicplayer.org/wiki/Installing_GStreamer_Spotify_plugin&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;цій вікі-сторінці&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
       <source>Preferences</source>
@@ -6444,7 +6444,7 @@ Are you sure you want to continue?</source>
     <name>StreamingCollectionView</name>
     <message>
       <source>The streaming collection is empty!</source>
-      <translation type="unfinished">The streaming collection is empty!</translation>
+      <translation>Колекція трансляцій порожня!</translation>
     </message>
     <message>
       <source>Click here to retrieve music</source>
@@ -6505,11 +6505,11 @@ Are you sure you want to continue?</source>
     <name>StreamingSearchView</name>
     <message>
       <source>Streaming Search View</source>
-      <translation type="unfinished">Streaming Search View</translation>
+      <translation>Подання пошуку трансляцій</translation>
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>artists</source>
@@ -6579,7 +6579,7 @@ Are you sure you want to continue?</source>
     <name>StreamingTabsView</name>
     <message>
       <source>Streaming Tabs View</source>
-      <translation type="unfinished">Streaming Tabs View</translation>
+      <translation>Подання з вкладками трансляцій</translation>
     </message>
     <message>
       <source>Artists</source>
@@ -6644,7 +6644,7 @@ Are you sure you want to continue?</source>
     <name>SubsonicSettingsPage</name>
     <message>
       <source>Subsonic</source>
-      <translation type="unfinished">Subsonic</translation>
+      <translation>Subsonic</translation>
     </message>
     <message>
       <source>Enable</source>
@@ -6676,7 +6676,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>MD5 token (Recommended)</source>
-      <translation type="unfinished">MD5 token (Recommended)</translation>
+      <translation>Токен MD5 (рекомендовано)</translation>
     </message>
     <message>
       <source>Preferences</source>
@@ -6757,15 +6757,15 @@ Are you sure you want to continue?</source>
     <name>TagFetcher</name>
     <message>
       <source>Identifying song</source>
-      <translation type="unfinished">Identifying song</translation>
+      <translation>Визначаю композицію</translation>
     </message>
     <message>
       <source>Fingerprinting song</source>
-      <translation type="unfinished">Fingerprinting song</translation>
+      <translation>Роблю відбиток композиції</translation>
     </message>
     <message>
       <source>Downloading metadata</source>
-      <translation type="unfinished">Downloading metadata</translation>
+      <translation>Завантаження метаданих</translation>
     </message>
   </context>
   <context>
@@ -6776,15 +6776,15 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Receiving artists...</source>
-      <translation type="unfinished">Receiving artists...</translation>
+      <translation>Завантаження виконавців...</translation>
     </message>
     <message>
       <source>Receiving albums...</source>
-      <translation type="unfinished">Receiving albums...</translation>
+      <translation>Завантаження альбомів...</translation>
     </message>
     <message>
       <source>Receiving songs...</source>
-      <translation type="unfinished">Receiving songs...</translation>
+      <translation>Завантаження композицій...</translation>
     </message>
     <message>
       <source>Searching...</source>
@@ -6792,27 +6792,27 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Receiving albums for %1 artist...</source>
-      <translation type="unfinished">Receiving albums for %1 artist...</translation>
+      <translation>Завантаження альбомів для %1 виконавця...</translation>
     </message>
     <message>
       <source>Receiving albums for %1 artists...</source>
-      <translation type="unfinished">Receiving albums for %1 artists...</translation>
+      <translation>Завантаження альбомів для %1 виконавців...</translation>
     </message>
     <message>
       <source>Receiving songs for %1 album...</source>
-      <translation type="unfinished">Receiving songs for %1 album...</translation>
+      <translation>Завантаження композицій для %1 альбому...</translation>
     </message>
     <message>
       <source>Receiving songs for %1 albums...</source>
-      <translation type="unfinished">Receiving songs for %1 albums...</translation>
+      <translation>Завантаження композицій для %1 альбомів...</translation>
     </message>
     <message>
       <source>Receiving album cover for %1 album...</source>
-      <translation type="unfinished">Receiving album cover for %1 album...</translation>
+      <translation>Завантаження обкладинки для %1 альбому...</translation>
     </message>
     <message>
       <source>Receiving album covers for %1 albums...</source>
-      <translation type="unfinished">Receiving album covers for %1 albums...</translation>
+      <translation>Завантаження обкладинок для %1 альбомів...</translation>
     </message>
     <message>
       <source>No match.</source>
@@ -6854,7 +6854,7 @@ Are you sure you want to continue?</source>
     <name>TidalSettingsPage</name>
     <message>
       <source>Tidal</source>
-      <translation type="unfinished">Tidal</translation>
+      <translation>Tidal</translation>
     </message>
     <message>
       <source>Enable</source>
@@ -7055,7 +7055,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>0:00:00</source>
-      <translation type="unfinished">0:00:00</translation>
+      <translation>0:00:00</translation>
     </message>
     <message>
       <source>Click to toggle between remaining time and total time</source>
@@ -7138,29 +7138,29 @@ Are you sure you want to continue?</source>
     </message>
     <message numerus="yes">
       <source>%n remaining</source>
-      <translation type="unfinished">
+      <translation>
+        <numerusform>%n залишилась</numerusform>
         <numerusform>%n залишилось</numerusform>
-        <numerusform>%n remaining</numerusform>
-        <numerusform>%n remaining</numerusform>
-        <numerusform>%n remaining</numerusform>
+        <numerusform>%n залишилось</numerusform>
+        <numerusform>%n залишилось</numerusform>
       </translation>
     </message>
     <message numerus="yes">
       <source>%n finished</source>
-      <translation type="unfinished">
+      <translation>
+        <numerusform>%n завершена</numerusform>
         <numerusform>%n завершено</numerusform>
-        <numerusform>%n finished</numerusform>
-        <numerusform>%n finished</numerusform>
-        <numerusform>%n finished</numerusform>
+        <numerusform>%n завершено</numerusform>
+        <numerusform>%n завершено</numerusform>
       </translation>
     </message>
     <message numerus="yes">
       <source>%n failed</source>
-      <translation type="unfinished">
-        <numerusform>%n з помилкою</numerusform>
-        <numerusform>%n failed</numerusform>
-        <numerusform>%n failed</numerusform>
-        <numerusform>%n failed</numerusform>
+      <translation>
+        <numerusform>%n не вдалось</numerusform>
+        <numerusform>%n не вдалось</numerusform>
+        <numerusform>%n не вдалось</numerusform>
+        <numerusform>%n не вдалось</numerusform>
       </translation>
     </message>
     <message>
@@ -7191,7 +7191,7 @@ Are you sure you want to continue?</source>
     <name>Transcoder</name>
     <message>
       <source>Could not create the GStreamer element &quot;%1&quot; - make sure you have all the required GStreamer plugins installed</source>
-      <translation>Не вдалось створити елемент GStreamer «%1». Переконайтесь, що встановлені всі потрібні для GStreamer модулі</translation>
+      <translation>Не вдалось створити елемент GStreamer «%1». Переконайтесь, що встановлені всі потрібні плагіни GStreamer</translation>
     </message>
     <message>
       <source>Successfully written %1</source>
@@ -7211,11 +7211,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Couldn&apos;t find an encoder for %1, check you have the correct GStreamer plugins installed</source>
-      <translation>Не вдалось знайти кодер для %1. Перевірте чи правильно встановлений модуль GStreamer</translation>
+      <translation>Не вдалось знайти кодер для %1. Перевірте чи встановлено відповідні плагіни GStreamer</translation>
     </message>
     <message>
       <source>Couldn&apos;t find a muxer for %1, check you have the correct GStreamer plugins installed</source>
-      <translation>Не вдалось знайти ущільнювач для %1. Перевірте чи правильно встановлений модуль GStreamer</translation>
+      <translation>Не вдалось знайти ущільнювач для %1. Перевірте чи встановлено відповідні плагіни GStreamer</translation>
     </message>
   </context>
   <context>
@@ -7513,35 +7513,35 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>FLAC</source>
-      <translation type="unfinished">FLAC</translation>
+      <translation>FLAC</translation>
     </message>
     <message>
       <source>WavPack</source>
-      <translation type="unfinished">WavPack</translation>
+      <translation>WavPack</translation>
     </message>
     <message>
       <source>Vorbis</source>
-      <translation type="unfinished">Vorbis</translation>
+      <translation>Vorbis</translation>
     </message>
     <message>
       <source>Opus</source>
-      <translation type="unfinished">Opus</translation>
+      <translation>Opus</translation>
     </message>
     <message>
       <source>Speex</source>
-      <translation type="unfinished">Speex</translation>
+      <translation>Speex</translation>
     </message>
     <message>
       <source>AAC</source>
-      <translation type="unfinished">AAC</translation>
+      <translation>AAC</translation>
     </message>
     <message>
       <source>ASF (WMA)</source>
-      <translation type="unfinished">ASF (WMA)</translation>
+      <translation>ASF (WMA)</translation>
     </message>
     <message>
       <source>MP3</source>
-      <translation type="unfinished">MP3</translation>
+      <translation>MP3</translation>
     </message>
   </context>
   <context>
@@ -7564,7 +7564,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>UUID</source>
-      <translation type="unfinished">UUID</translation>
+      <translation>UUID</translation>
     </message>
   </context>
   <context>
