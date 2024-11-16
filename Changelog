@@ -18,6 +18,7 @@ Bugfixes:
     * Fixed IDv3 MBID's tags with multiple entries being ignored.
     * Fixed crash when enabling Tidal, Spotify, Qobuz or Subsonic services.
     * Fixed passing filenames to strawberry on command line not resolving to absolute paths.
+    * (Unix/macOS) Fixed program not starting for users with long usernames.
 
 Enhancements:
 
