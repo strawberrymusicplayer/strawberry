@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+Version 1.2.1-rc1 (2024.11.16):
 
 This release features major restructuring of the codebase, moving source files,
 rewriting CMake build files, dropping Qt 5 support, external tagreader,
