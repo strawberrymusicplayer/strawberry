@@ -4,11 +4,11 @@ ChangeLog
 
 Unreleased:
 
-This release features major restructuring of the codebase, moving files,
+This release features major restructuring of the codebase, moving source files,
 rewriting CMake build files, dropping Qt 5 support, external tagreader,
 and dropping some unmaintained parts such as VLC.
 
-Bugfixes:
+  Bugfixes:
 
     * Fixed playback of CUE continuing to play from the same file after the song has finished playing (#1568).
     * Fixed updating collection song sort text when disc is changed.
@@ -20,7 +20,7 @@ Bugfixes:
     * Fixed passing filenames to strawberry on command line not resolving to absolute paths.
     * (macOS) Fixed program not starting for users with long usernames.
 
-Enhancements:
+  Enhancements:
 
     * Resolve symbolic links when dragging files to the playlist to match collection song.
     * Replaced Spotify username/password with access token.
@@ -37,7 +37,7 @@ Enhancements:
 
 Version 1.1.3 (2024.09.21):
 
-Bugfixes:
+  Bugfixes:
     * Fixed gstreamer registry lookup leak in Spotify settings.
     * Fixed all songs in a CUE sheet starting playback at the zero position (#1549).
     * Fixed playback going to pause and back to play on song change.
