@@ -72,10 +72,10 @@ BehaviourSettingsPage::BehaviourSettingsPage(SettingsDialog *dialog, QWidget *pa
   ui_->checkbox_showtrayicon->hide();
   ui_->checkbox_trayicon_progress->hide();
   ui_->groupbox_startup->hide();
-#else
-#  ifndef HAVE_DBUS
+#endif
+
+#if !defined(HAVE_DBUS) || defined(Q_OS_MACOS)
   ui_->checkbox_taskbar_progress->hide();
-#  endif
 #endif
 
 #ifdef HAVE_TRANSLATIONS
@@ -161,9 +161,10 @@ void BehaviourSettingsPage::Load() {
   ui_->checkbox_trayicon_progress->setEnabled(systemtray_available && ui_->checkbox_showtrayicon->isChecked());
   ui_->checkbox_trayicon_progress->setChecked(systemtray_available && ui_->checkbox_showtrayicon->isChecked() && s.value(kTrayIconProgress, false).toBool());
   ui_->radiobutton_hide->setEnabled(systemtray_available && ui_->checkbox_showtrayicon->isChecked());
-#ifdef HAVE_DBUS
-  ui_->checkbox_taskbar_progress->setChecked(s.value(kTaskbarProgress, true).toBool());
 #endif
+
+#if defined(HAVE_DBUS) && !defined(Q_OS_MACOS)
+  ui_->checkbox_taskbar_progress->setChecked(s.value(kTaskbarProgress, true).toBool());
 #endif
 
   ui_->checkbox_resumeplayback->setChecked(s.value(kResumePlayback, false).toBool());
