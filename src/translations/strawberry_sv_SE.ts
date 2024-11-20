@@ -78,18 +78,6 @@
   <context>
     <name>AlbumCoverChoiceController</name>
     <message>
-      <source>Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)</source>
-      <translation>Bilder (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)</translation>
-    </message>
-    <message>
-      <source>Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)</source>
-      <translation>Bilder (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)</translation>
-    </message>
-    <message>
-      <source>All files (*)</source>
-      <translation>Alla filer (*)</translation>
-    </message>
-    <message>
       <source>Load cover from disk...</source>
       <translation>Läs in omslag från disk...</translation>
     </message>
@@ -552,10 +540,6 @@
       <translation>Utgång</translation>
     </message>
     <message>
-      <source>Engine</source>
-      <translation>Motor</translation>
-    </message>
-    <message>
       <source>ALSA plugin:</source>
       <translation>ALSA-insticksmodul:</translation>
     </message>
@@ -1002,6 +986,13 @@
     <message>
       <source>Grouping name:</source>
       <translation>Grupperingsnamn:</translation>
+    </message>
+  </context>
+  <context>
+    <name>CollectionLibrary</name>
+    <message>
+      <source>Saving playcounts and ratings</source>
+      <translation type="unfinished">Saving playcounts and ratings</translation>
     </message>
   </context>
   <context>
@@ -2705,20 +2696,8 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
       <translation>Globala genvägar</translation>
     </message>
     <message>
-      <source>Use Gnome (GSD) shortcuts when available</source>
-      <translation>Använd Gnome (GSD)-genvägar när de är tillgängliga</translation>
-    </message>
-    <message>
       <source>Open...</source>
       <translation>Öppna...</translation>
-    </message>
-    <message>
-      <source>Use MATE shortcuts when available</source>
-      <translation>Använd MATE-genvägar när de är tillgängliga</translation>
-    </message>
-    <message>
-      <source>Use KDE (KGlobalAccel) shortcuts when available</source>
-      <translation>Använd KDE (KGlobalAccel) genvägar när de är tillgängliga</translation>
     </message>
     <message>
       <source>Use X11 shortcuts when available</source>
@@ -2758,28 +2737,12 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
       <translation>Byt genväg...</translation>
     </message>
     <message>
-      <source>The &quot;%1&quot; command could not be started.</source>
-      <translation>Kommandot &quot;%1&quot; kunde inte startas.</translation>
+      <source>Use KGlobalAccel shortcuts when available</source>
+      <translation type="unfinished">Use KGlobalAccel shortcuts when available</translation>
     </message>
     <message>
-      <source>Using X11 shortcuts on %1 is not recommended and can cause keyboard to become unresponsive!</source>
-      <translation>Användning av X11-genvägar på %1 rekommenderas inte och kan orsaka att tangentbordet inte svarar!</translation>
-    </message>
-    <message>
-      <source> Shortcuts on %1 are usually used through MPRIS and KGlobalAccel.</source>
-      <translation> Genvägar på %1 används vanligtvis via MPRIS och KGlobalAccel.</translation>
-    </message>
-    <message>
-      <source> Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in gnome-settings-daemon instead.</source>
-      <translation> Genvägar till %1 används vanligtvis via Gnome-inställningsdemon och ska istället anpassas i gnome-settings-daemon.</translation>
-    </message>
-    <message>
-      <source> Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in cinnamon-settings-daemon instead.</source>
-      <translation> Genvägar till %1 används vanligtvis via Gnome-inställningsdemon och ska istället anpassas i cinnamon-settings-daemon.</translation>
-    </message>
-    <message>
-      <source> Shortcuts on %1 are usually used through MATE Settings Daemon and should be configured there instead.</source>
-      <translation> Genvägar till %1 används vanligtvis via Mate-inställningsdemon och ska istället anpassas där.</translation>
+      <source>Using X11 shortcuts is not recommended and can cause keyboard to become unresponsive! Shortcuts on should usually be used through MPRIS2 / KGlobalAccel.</source>
+      <translation type="unfinished">Using X11 shortcuts is not recommended and can cause keyboard to become unresponsive! Shortcuts on should usually be used through MPRIS2 / KGlobalAccel.</translation>
     </message>
   </context>
   <context>
@@ -3374,10 +3337,6 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     <message>
       <source>Import data from last.fm...</source>
       <translation>Importera data från last.fm...</translation>
-    </message>
-    <message>
-      <source>All Files (*)</source>
-      <translation>Alla filer (*)</translation>
     </message>
     <message>
       <source>Context</source>
@@ -4568,14 +4527,6 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
         <numerusform>%n track(s)</numerusform>
       </translation>
     </message>
-    <message>
-      <source>Unknown</source>
-      <translation>Okänt</translation>
-    </message>
-    <message>
-      <source>Various artists</source>
-      <translation>Diverse artister</translation>
-    </message>
   </context>
   <context>
     <name>PlaylistParser</name>
@@ -4828,50 +4779,6 @@ Are you sure you want to continue?</source>
     <message>
       <source>Playlist</source>
       <translation>Spellista</translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::InsertItems</name>
-    <message numerus="yes">
-      <source>add %n songs</source>
-      <translation type="unfinished">
-        <numerusform>lägg till %n låtar</numerusform>
-        <numerusform>add %n songs</numerusform>
-      </translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::MoveItems</name>
-    <message numerus="yes">
-      <source>move %n songs</source>
-      <translation type="unfinished">
-        <numerusform>flytta %n låtar</numerusform>
-        <numerusform>move %n songs</numerusform>
-      </translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::RemoveItems</name>
-    <message numerus="yes">
-      <source>remove %n songs</source>
-      <translation type="unfinished">
-        <numerusform>ta bort %n låtar</numerusform>
-        <numerusform>remove %n songs</numerusform>
-      </translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::ShuffleItems</name>
-    <message>
-      <source>shuffle songs</source>
-      <translation>blanda låtar</translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::SortItems</name>
-    <message>
-      <source>sort songs</source>
-      <translation>sortera låtar</translation>
     </message>
   </context>
   <context>
@@ -5315,6 +5222,43 @@ Are you sure you want to continue?</source>
       <source>System colors</source>
       <translation>Systemfärger</translation>
     </message>
+    <message>
+      <source>Playlist</source>
+      <translation type="unfinished">Playlist</translation>
+    </message>
+    <message>
+      <source>Various artists</source>
+      <translation type="unfinished">Various artists</translation>
+    </message>
+    <message numerus="yes">
+      <source>add %n songs</source>
+      <translation type="unfinished">
+        <numerusform>add %n songs</numerusform>
+        <numerusform>add %n songs</numerusform>
+      </translation>
+    </message>
+    <message numerus="yes">
+      <source>remove %n songs</source>
+      <translation type="unfinished">
+        <numerusform>remove %n songs</numerusform>
+        <numerusform>remove %n songs</numerusform>
+      </translation>
+    </message>
+    <message numerus="yes">
+      <source>move %n songs</source>
+      <translation type="unfinished">
+        <numerusform>move %n songs</numerusform>
+        <numerusform>move %n songs</numerusform>
+      </translation>
+    </message>
+    <message>
+      <source>sort songs</source>
+      <translation type="unfinished">sort songs</translation>
+    </message>
+    <message>
+      <source>shuffle songs</source>
+      <translation type="unfinished">shuffle songs</translation>
+    </message>
   </context>
   <context>
     <name>QWidget</name>
@@ -5599,13 +5543,6 @@ Are you sure you want to continue?</source>
     <message>
       <source>Form</source>
       <translation>Formulär</translation>
-    </message>
-  </context>
-  <context>
-    <name>SCollection</name>
-    <message>
-      <source>Saving playcounts and ratings</source>
-      <translation>Sparar antal spelningar och betyg</translation>
     </message>
   </context>
   <context>
@@ -6234,20 +6171,12 @@ Are you sure you want to continue?</source>
   <context>
     <name>SongLoader</name>
     <message>
-      <source>You need GStreamer for this URL.</source>
-      <translation>Du behöver GStreamer för den här webbadressen.</translation>
-    </message>
-    <message>
       <source>Preload function was not set for blocking operation.</source>
       <translation>Förinläsningsfunktionen var inte inställd för blockering.</translation>
     </message>
     <message>
       <source>File %1 does not exist.</source>
       <translation>Filen %1 finns inte.</translation>
-    </message>
-    <message>
-      <source>CD playback is only available with the GStreamer engine.</source>
-      <translation>CD-uppspelning är endast tillgänglig med GStreamer-motorn.</translation>
     </message>
     <message>
       <source>Could not open file %1 for reading: %2</source>
@@ -6276,6 +6205,10 @@ Are you sure you want to continue?</source>
     <message>
       <source>Couldn&apos;t link GStreamer source, typefind and fakesink elements for %1</source>
       <translation>Det gick inte att länka GStreamer-källa, typfind och fakesink-element för %1</translation>
+    </message>
+    <message>
+      <source>Missing CDDA playback.</source>
+      <translation type="unfinished">Missing CDDA playback.</translation>
     </message>
   </context>
   <context>
