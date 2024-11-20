@@ -78,18 +78,6 @@
   <context>
     <name>AlbumCoverChoiceController</name>
     <message>
-      <source>Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)</source>
-      <translation>画像 (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)</translation>
-    </message>
-    <message>
-      <source>Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)</source>
-      <translation>画像 (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)</translation>
-    </message>
-    <message>
-      <source>All files (*)</source>
-      <translation>すべてのファイル (*)</translation>
-    </message>
-    <message>
       <source>Load cover from disk...</source>
       <translation>ディスクからカバーの読み込み...</translation>
     </message>
@@ -552,10 +540,6 @@
       <translation>出力</translation>
     </message>
     <message>
-      <source>Engine</source>
-      <translation>エンジン</translation>
-    </message>
-    <message>
       <source>ALSA plugin:</source>
       <translation>ALSA プラグイン</translation>
     </message>
@@ -1002,6 +986,13 @@
     <message>
       <source>Grouping name:</source>
       <translation>分類名:</translation>
+    </message>
+  </context>
+  <context>
+    <name>CollectionLibrary</name>
+    <message>
+      <source>Saving playcounts and ratings</source>
+      <translation type="unfinished">Saving playcounts and ratings</translation>
     </message>
   </context>
   <context>
@@ -2705,20 +2696,8 @@ If there are no matches then it will use the largest image in the directory.</so
       <translation>グローバルショートカット</translation>
     </message>
     <message>
-      <source>Use Gnome (GSD) shortcuts when available</source>
-      <translation>可能なら Gnome (GSD) のショートカットを使用する</translation>
-    </message>
-    <message>
       <source>Open...</source>
       <translation>開く...</translation>
-    </message>
-    <message>
-      <source>Use MATE shortcuts when available</source>
-      <translation>可能なら MATE のショートカットを使用する</translation>
-    </message>
-    <message>
-      <source>Use KDE (KGlobalAccel) shortcuts when available</source>
-      <translation>可能なら KDE (KGlobalAccel) のショートカットを使用する</translation>
     </message>
     <message>
       <source>Use X11 shortcuts when available</source>
@@ -2758,28 +2737,12 @@ If there are no matches then it will use the largest image in the directory.</so
       <translation>ショートカットの変更...</translation>
     </message>
     <message>
-      <source>The &quot;%1&quot; command could not be started.</source>
-      <translation>コマンド「%1」を開始できませんでした。</translation>
+      <source>Use KGlobalAccel shortcuts when available</source>
+      <translation type="unfinished">Use KGlobalAccel shortcuts when available</translation>
     </message>
     <message>
-      <source>Using X11 shortcuts on %1 is not recommended and can cause keyboard to become unresponsive!</source>
-      <translation type="unfinished">Using X11 shortcuts on %1 is not recommended and can cause keyboard to become unresponsive!</translation>
-    </message>
-    <message>
-      <source> Shortcuts on %1 are usually used through MPRIS and KGlobalAccel.</source>
-      <translation>%1 のショートカットは通常 MPRIS と KGlobalAccel で利用されます。</translation>
-    </message>
-    <message>
-      <source> Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in gnome-settings-daemon instead.</source>
-      <translation>%1 のショートカットは通常 Gnome Settings Daemon で利用されるため、gnome-settings-daemon で構成する必要があります。</translation>
-    </message>
-    <message>
-      <source> Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in cinnamon-settings-daemon instead.</source>
-      <translation>%1 のショートカットは通常 Gnome Settings Daemon で利用されるため、cinnamon-settings-daemon で構成する必要があります。</translation>
-    </message>
-    <message>
-      <source> Shortcuts on %1 are usually used through MATE Settings Daemon and should be configured there instead.</source>
-      <translation>%1 のショートカットは通常 Mate Settings Daemon で利用されるため、そちらで構成する必要があります。</translation>
+      <source>Using X11 shortcuts is not recommended and can cause keyboard to become unresponsive! Shortcuts on should usually be used through MPRIS2 / KGlobalAccel.</source>
+      <translation type="unfinished">Using X11 shortcuts is not recommended and can cause keyboard to become unresponsive! Shortcuts on should usually be used through MPRIS2 / KGlobalAccel.</translation>
     </message>
   </context>
   <context>
@@ -3374,10 +3337,6 @@ If there are no matches then it will use the largest image in the directory.</so
     <message>
       <source>Import data from last.fm...</source>
       <translation>last.fm からデータをインポート中...</translation>
-    </message>
-    <message>
-      <source>All Files (*)</source>
-      <translation>すべてのファイル (*)</translation>
     </message>
     <message>
       <source>Context</source>
@@ -4567,14 +4526,6 @@ If there are no matches then it will use the largest image in the directory.</so
         <numerusform>%n track(s)</numerusform>
       </translation>
     </message>
-    <message>
-      <source>Unknown</source>
-      <translation>不明</translation>
-    </message>
-    <message>
-      <source>Various artists</source>
-      <translation>さまざまなアーティスト</translation>
-    </message>
   </context>
   <context>
     <name>PlaylistParser</name>
@@ -4827,47 +4778,6 @@ Are you sure you want to continue?</source>
     <message>
       <source>Playlist</source>
       <translation>プレイリスト</translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::InsertItems</name>
-    <message numerus="yes">
-      <source>add %n songs</source>
-      <translation>
-        <numerusform>%n 曲の追加</numerusform>
-      </translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::MoveItems</name>
-    <message numerus="yes">
-      <source>move %n songs</source>
-      <translation>
-        <numerusform>%n 曲の移動</numerusform>
-      </translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::RemoveItems</name>
-    <message numerus="yes">
-      <source>remove %n songs</source>
-      <translation>
-        <numerusform>%n 曲の削除</numerusform>
-      </translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::ShuffleItems</name>
-    <message>
-      <source>shuffle songs</source>
-      <translation>曲のシャッフル</translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::SortItems</name>
-    <message>
-      <source>sort songs</source>
-      <translation>曲の並び替え</translation>
     </message>
   </context>
   <context>
@@ -5311,6 +5221,40 @@ Are you sure you want to continue?</source>
       <source>System colors</source>
       <translation>システムの色</translation>
     </message>
+    <message>
+      <source>Playlist</source>
+      <translation type="unfinished">Playlist</translation>
+    </message>
+    <message>
+      <source>Various artists</source>
+      <translation type="unfinished">Various artists</translation>
+    </message>
+    <message numerus="yes">
+      <source>add %n songs</source>
+      <translation type="unfinished">
+        <numerusform>add %n songs</numerusform>
+      </translation>
+    </message>
+    <message numerus="yes">
+      <source>remove %n songs</source>
+      <translation type="unfinished">
+        <numerusform>remove %n songs</numerusform>
+      </translation>
+    </message>
+    <message numerus="yes">
+      <source>move %n songs</source>
+      <translation type="unfinished">
+        <numerusform>move %n songs</numerusform>
+      </translation>
+    </message>
+    <message>
+      <source>sort songs</source>
+      <translation type="unfinished">sort songs</translation>
+    </message>
+    <message>
+      <source>shuffle songs</source>
+      <translation type="unfinished">shuffle songs</translation>
+    </message>
   </context>
   <context>
     <name>QWidget</name>
@@ -5594,13 +5538,6 @@ Are you sure you want to continue?</source>
     <message>
       <source>Form</source>
       <translation>フォーム</translation>
-    </message>
-  </context>
-  <context>
-    <name>SCollection</name>
-    <message>
-      <source>Saving playcounts and ratings</source>
-      <translation>再生回数と評価</translation>
     </message>
   </context>
   <context>
@@ -6229,20 +6166,12 @@ Are you sure you want to continue?</source>
   <context>
     <name>SongLoader</name>
     <message>
-      <source>You need GStreamer for this URL.</source>
-      <translation type="unfinished">You need GStreamer for this URL.</translation>
-    </message>
-    <message>
       <source>Preload function was not set for blocking operation.</source>
       <translation>ブロッキング操作にプリロード機能が設定されていません</translation>
     </message>
     <message>
       <source>File %1 does not exist.</source>
       <translation>ファイル %1 は存在しません。</translation>
-    </message>
-    <message>
-      <source>CD playback is only available with the GStreamer engine.</source>
-      <translation>CD の再生は GStreamer エンジンでのみ使用できます</translation>
     </message>
     <message>
       <source>Could not open file %1 for reading: %2</source>
@@ -6271,6 +6200,10 @@ Are you sure you want to continue?</source>
     <message>
       <source>Couldn&apos;t link GStreamer source, typefind and fakesink elements for %1</source>
       <translation type="unfinished">Couldn&apos;t link GStreamer source, typefind and fakesink elements for %1</translation>
+    </message>
+    <message>
+      <source>Missing CDDA playback.</source>
+      <translation type="unfinished">Missing CDDA playback.</translation>
     </message>
   </context>
   <context>
