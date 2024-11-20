@@ -271,9 +271,9 @@ else()
   add_definitions(-DKDSINGLEAPPLICATION_STATIC_BUILD)
 endif()
 
-if(APPLE)
-  find_package(SPMediaKeyTap REQUIRED)
-endif()
+# if(APPLE)
+#   find_package(SPMediaKeyTap REQUIRED)
+# endif()
 
 if(WIN32)
   find_package(getopt-win REQUIRED)
@@ -1537,7 +1537,6 @@ if(APPLE)
     "-framework DiskArbitration"
     "-framework IOKit"
     "-framework ScriptingBridge"
-    SPMediaKeyTap
   )
 endif()
 

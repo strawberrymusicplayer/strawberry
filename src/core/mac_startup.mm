@@ -41,7 +41,7 @@
 
 #import <QuartzCore/CALayer.h>
 
-#import <SPMediaKeyTap.h>
+//#import <SPMediaKeyTap.h>
 
 #include "config.h"
 
@@ -145,18 +145,18 @@ QDebug operator<<(QDebug dbg, NSObject *object) {
 
   [[NSAppleEventManager sharedAppleEventManager] setEventHandler:self andSelector:@selector(handleURLEvent:withReplyEvent:) forEventClass:kInternetEventClass andEventID:kAEGetURL];
 
-  key_tap_ = [[SPMediaKeyTap alloc] initWithDelegate:self];
-  if ([SPMediaKeyTap usesGlobalMediaKeyTap]) {
-    if ([key_tap_ startWatchingMediaKeys]) {
-        qLog(Debug) << "Media key monitoring started";
-    }
-    else {
-        qLog(Warning) << "Failed to start media key monitoring";
-    }
-  }
-  else {
-    qLog(Warning) << "Media key monitoring disabled";
-  }
+  // key_tap_ = [[SPMediaKeyTap alloc] initWithDelegate:self];
+  // if ([SPMediaKeyTap usesGlobalMediaKeyTap]) {
+  //   if ([key_tap_ startWatchingMediaKeys]) {
+  //       qLog(Debug) << "Media key monitoring started";
+  //   }
+  //   else {
+  //       qLog(Warning) << "Failed to start media key monitoring";
+  //   }
+  // }
+  // else {
+  //   qLog(Warning) << "Media key monitoring disabled";
+  // }
 
 }
 
@@ -192,10 +192,10 @@ QDebug operator<<(QDebug dbg, NSObject *object) {
 
 }
 
-- (void) mediaKeyTap: (SPMediaKeyTap*)keyTap receivedMediaKeyEvent:(NSEvent*)event {
-  #pragma unused(keyTap)
-  [self handleMediaEvent:event];
-}
+// - (void) mediaKeyTap: (SPMediaKeyTap*)keyTap receivedMediaKeyEvent:(NSEvent*)event {
+//   #pragma unused(keyTap)
+//   [self handleMediaEvent:event];
+// }
 
 - (BOOL) handleMediaEvent:(NSEvent*)event {
   // if it is not a media key event, then ignore
