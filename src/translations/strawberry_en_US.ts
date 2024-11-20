@@ -78,6 +78,18 @@
 <context>
     <name>AlbumCoverChoiceController</name>
     <message>
+        <source>Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All files (*)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Load cover from disk...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -540,6 +552,10 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Engine</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>ALSA plugin:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -985,13 +1001,6 @@
     </message>
     <message>
         <source>Grouping name:</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>CollectionLibrary</name>
-    <message>
-        <source>Saving playcounts and ratings</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2695,7 +2704,19 @@ If there are no matches then it will use the largest image in the directory.</so
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Use Gnome (GSD) shortcuts when available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Open...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use MATE shortcuts when available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use KDE (KGlobalAccel) shortcuts when available</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2736,11 +2757,27 @@ If there are no matches then it will use the largest image in the directory.</so
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Use KGlobalAccel shortcuts when available</source>
+        <source>The &quot;%1&quot; command could not be started.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Using X11 shortcuts is not recommended and can cause keyboard to become unresponsive! Shortcuts on should usually be used through MPRIS2 / KGlobalAccel.</source>
+        <source>Using X11 shortcuts on %1 is not recommended and can cause keyboard to become unresponsive!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> Shortcuts on %1 are usually used through MPRIS and KGlobalAccel.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in gnome-settings-daemon instead.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in cinnamon-settings-daemon instead.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> Shortcuts on %1 are usually used through MATE Settings Daemon and should be configured there instead.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3335,6 +3372,10 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
         <source>Import data from last.fm...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All Files (*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4524,6 +4565,14 @@ If there are no matches then it will use the largest image in the directory.</so
             <numerusform></numerusform>
         </translation>
     </message>
+    <message>
+        <source>Unknown</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Various artists</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PlaylistParser</name>
@@ -4774,6 +4823,50 @@ Are you sure you want to continue?</source>
     </message>
     <message>
         <source>Playlist</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PlaylistUndoCommands::InsertItems</name>
+    <message numerus="yes">
+        <source>add %n songs</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+</context>
+<context>
+    <name>PlaylistUndoCommands::MoveItems</name>
+    <message numerus="yes">
+        <source>move %n songs</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+</context>
+<context>
+    <name>PlaylistUndoCommands::RemoveItems</name>
+    <message numerus="yes">
+        <source>remove %n songs</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+</context>
+<context>
+    <name>PlaylistUndoCommands::ShuffleItems</name>
+    <message>
+        <source>shuffle songs</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PlaylistUndoCommands::SortItems</name>
+    <message>
+        <source>sort songs</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5218,43 +5311,6 @@ Are you sure you want to continue?</source>
         <source>System colors</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Playlist</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Various artists</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message numerus="yes">
-        <source>add %n songs</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>remove %n songs</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>move %n songs</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>sort songs</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>shuffle songs</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>QWidget</name>
@@ -5538,6 +5594,13 @@ Are you sure you want to continue?</source>
     <name>RadioViewContainer</name>
     <message>
         <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SCollection</name>
+    <message>
+        <source>Saving playcounts and ratings</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6167,11 +6230,19 @@ Are you sure you want to continue?</source>
 <context>
     <name>SongLoader</name>
     <message>
+        <source>You need GStreamer for this URL.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Preload function was not set for blocking operation.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>File %1 does not exist.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>CD playback is only available with the GStreamer engine.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6200,10 +6271,6 @@ Are you sure you want to continue?</source>
     </message>
     <message>
         <source>Couldn&apos;t link GStreamer source, typefind and fakesink elements for %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Missing CDDA playback.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
