@@ -78,18 +78,6 @@
   <context>
     <name>AlbumCoverChoiceController</name>
     <message>
-      <source>Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)</source>
-      <translation>Изображения (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)</translation>
-    </message>
-    <message>
-      <source>Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)</source>
-      <translation>Изображения (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)</translation>
-    </message>
-    <message>
-      <source>All files (*)</source>
-      <translation>Все файлы (*)</translation>
-    </message>
-    <message>
       <source>Load cover from disk...</source>
       <translation>Загрузить обложку с диска…</translation>
     </message>
@@ -552,10 +540,6 @@
       <translation>Вывод</translation>
     </message>
     <message>
-      <source>Engine</source>
-      <translation>Движок</translation>
-    </message>
-    <message>
       <source>ALSA plugin:</source>
       <translation>Модуль ALSA:</translation>
     </message>
@@ -1002,6 +986,13 @@
     <message>
       <source>Grouping name:</source>
       <translation>Имя группы:</translation>
+    </message>
+  </context>
+  <context>
+    <name>CollectionLibrary</name>
+    <message>
+      <source>Saving playcounts and ratings</source>
+      <translation type="unfinished">Saving playcounts and ratings</translation>
     </message>
   </context>
   <context>
@@ -2705,20 +2696,8 @@ If there are no matches then it will use the largest image in the directory.</so
       <translation>Глобальные клавиши</translation>
     </message>
     <message>
-      <source>Use Gnome (GSD) shortcuts when available</source>
-      <translation>Использовать сочетания клавиш Gnome (GSD) по возможности</translation>
-    </message>
-    <message>
       <source>Open...</source>
       <translation>Открыть…</translation>
-    </message>
-    <message>
-      <source>Use MATE shortcuts when available</source>
-      <translation>Использовать сочетания клавиш MATE по возможности</translation>
-    </message>
-    <message>
-      <source>Use KDE (KGlobalAccel) shortcuts when available</source>
-      <translation>Использовать сочетания клавиш KDE (KGlobalAccel) по возможности</translation>
     </message>
     <message>
       <source>Use X11 shortcuts when available</source>
@@ -2758,28 +2737,12 @@ If there are no matches then it will use the largest image in the directory.</so
       <translation>Изменить сочетание…</translation>
     </message>
     <message>
-      <source>The &quot;%1&quot; command could not be started.</source>
-      <translation>Команда «%1» не может быть выполнена.</translation>
+      <source>Use KGlobalAccel shortcuts when available</source>
+      <translation type="unfinished">Use KGlobalAccel shortcuts when available</translation>
     </message>
     <message>
-      <source>Using X11 shortcuts on %1 is not recommended and can cause keyboard to become unresponsive!</source>
-      <translation>Использование сочетаний клавиш X11 на %1 не рекомендуется и может привести к тому, что клавиатура перестанет отвечать!</translation>
-    </message>
-    <message>
-      <source> Shortcuts on %1 are usually used through MPRIS and KGlobalAccel.</source>
-      <translation> Горячие клавиши на %1 обычно работают через MPRIS и KGlobalAccel.</translation>
-    </message>
-    <message>
-      <source> Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in gnome-settings-daemon instead.</source>
-      <translation> Горячие клавиши на %1 обычно работают через Gnome Settings Daemon и должны быть настроены в gnome-settings-daemon.</translation>
-    </message>
-    <message>
-      <source> Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in cinnamon-settings-daemon instead.</source>
-      <translation> Горячие клавиши на %1 обычно работают через Gnome Settings Daemon и должны быть настроены в cinnamon-settings-daemon.</translation>
-    </message>
-    <message>
-      <source> Shortcuts on %1 are usually used through MATE Settings Daemon and should be configured there instead.</source>
-      <translation> Горячие клавиши на %1 обычно работают через MATE Settings Daemon и должны быть настроены в нём.</translation>
+      <source>Using X11 shortcuts is not recommended and can cause keyboard to become unresponsive! Shortcuts on should usually be used through MPRIS2 / KGlobalAccel.</source>
+      <translation type="unfinished">Using X11 shortcuts is not recommended and can cause keyboard to become unresponsive! Shortcuts on should usually be used through MPRIS2 / KGlobalAccel.</translation>
     </message>
   </context>
   <context>
@@ -3374,10 +3337,6 @@ If there are no matches then it will use the largest image in the directory.</so
     <message>
       <source>Import data from last.fm...</source>
       <translation>Импорт данных из Last.fm…</translation>
-    </message>
-    <message>
-      <source>All Files (*)</source>
-      <translation>Все файлы (*)</translation>
     </message>
     <message>
       <source>Context</source>
@@ -4570,14 +4529,6 @@ If there are no matches then it will use the largest image in the directory.</so
         <numerusform>%n дорожек</numerusform>
       </translation>
     </message>
-    <message>
-      <source>Unknown</source>
-      <translation>Неизвестный</translation>
-    </message>
-    <message>
-      <source>Various artists</source>
-      <translation>Различные артисты</translation>
-    </message>
   </context>
   <context>
     <name>PlaylistParser</name>
@@ -4830,56 +4781,6 @@ Are you sure you want to continue?</source>
     <message>
       <source>Playlist</source>
       <translation>Плейлист</translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::InsertItems</name>
-    <message numerus="yes">
-      <source>add %n songs</source>
-      <translation>
-        <numerusform>добавку %n песни</numerusform>
-        <numerusform>добавку %n песен</numerusform>
-        <numerusform>добавку %n песен</numerusform>
-        <numerusform>добавку %n песен</numerusform>
-      </translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::MoveItems</name>
-    <message numerus="yes">
-      <source>move %n songs</source>
-      <translation>
-        <numerusform>перемещение %n песни</numerusform>
-        <numerusform>перемещение %n песен</numerusform>
-        <numerusform>перемещение %n песен</numerusform>
-        <numerusform>перемещение %n песен</numerusform>
-      </translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::RemoveItems</name>
-    <message numerus="yes">
-      <source>remove %n songs</source>
-      <translation>
-        <numerusform>удаление %n песни</numerusform>
-        <numerusform>удаление %n песен</numerusform>
-        <numerusform>удаление %n песен</numerusform>
-        <numerusform>удаление %n песен</numerusform>
-      </translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::ShuffleItems</name>
-    <message>
-      <source>shuffle songs</source>
-      <translation>перемешивание песен</translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::SortItems</name>
-    <message>
-      <source>sort songs</source>
-      <translation>сортировку песен</translation>
     </message>
   </context>
   <context>
@@ -5323,6 +5224,49 @@ Are you sure you want to continue?</source>
       <source>System colors</source>
       <translation>Системные цвета</translation>
     </message>
+    <message>
+      <source>Playlist</source>
+      <translation type="unfinished">Playlist</translation>
+    </message>
+    <message>
+      <source>Various artists</source>
+      <translation type="unfinished">Various artists</translation>
+    </message>
+    <message numerus="yes">
+      <source>add %n songs</source>
+      <translation type="unfinished">
+        <numerusform>add %n songs</numerusform>
+        <numerusform>add %n songs</numerusform>
+        <numerusform>add %n songs</numerusform>
+        <numerusform>add %n songs</numerusform>
+      </translation>
+    </message>
+    <message numerus="yes">
+      <source>remove %n songs</source>
+      <translation type="unfinished">
+        <numerusform>remove %n songs</numerusform>
+        <numerusform>remove %n songs</numerusform>
+        <numerusform>remove %n songs</numerusform>
+        <numerusform>remove %n songs</numerusform>
+      </translation>
+    </message>
+    <message numerus="yes">
+      <source>move %n songs</source>
+      <translation type="unfinished">
+        <numerusform>move %n songs</numerusform>
+        <numerusform>move %n songs</numerusform>
+        <numerusform>move %n songs</numerusform>
+        <numerusform>move %n songs</numerusform>
+      </translation>
+    </message>
+    <message>
+      <source>sort songs</source>
+      <translation type="unfinished">sort songs</translation>
+    </message>
+    <message>
+      <source>shuffle songs</source>
+      <translation type="unfinished">shuffle songs</translation>
+    </message>
   </context>
   <context>
     <name>QWidget</name>
@@ -5609,13 +5553,6 @@ Are you sure you want to continue?</source>
     <message>
       <source>Form</source>
       <translation>Форма</translation>
-    </message>
-  </context>
-  <context>
-    <name>SCollection</name>
-    <message>
-      <source>Saving playcounts and ratings</source>
-      <translation>Сохранение счётчиков прослушивания и оценок</translation>
     </message>
   </context>
   <context>
@@ -6244,20 +6181,12 @@ Are you sure you want to continue?</source>
   <context>
     <name>SongLoader</name>
     <message>
-      <source>You need GStreamer for this URL.</source>
-      <translation>Вам нужен GStreamer для этого адреса.</translation>
-    </message>
-    <message>
       <source>Preload function was not set for blocking operation.</source>
       <translation>Функция предварительной нагрузки не была установлена ​​для операции блокировки.</translation>
     </message>
     <message>
       <source>File %1 does not exist.</source>
       <translation>Файл %1 не существует.</translation>
-    </message>
-    <message>
-      <source>CD playback is only available with the GStreamer engine.</source>
-      <translation>Воспроизведение CD доступно только с движком GStreamer.</translation>
     </message>
     <message>
       <source>Could not open file %1 for reading: %2</source>
@@ -6286,6 +6215,10 @@ Are you sure you want to continue?</source>
     <message>
       <source>Couldn&apos;t link GStreamer source, typefind and fakesink elements for %1</source>
       <translation>Не удалось связать элементы GStreamer источник, typefind и fakesink для %1</translation>
+    </message>
+    <message>
+      <source>Missing CDDA playback.</source>
+      <translation type="unfinished">Missing CDDA playback.</translation>
     </message>
   </context>
   <context>
