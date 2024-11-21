@@ -78,18 +78,6 @@
   <context>
     <name>AlbumCoverChoiceController</name>
     <message>
-      <source>Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)</source>
-      <translation>Pildid (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)</translation>
-    </message>
-    <message>
-      <source>Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)</source>
-      <translation>Pildid (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)</translation>
-    </message>
-    <message>
-      <source>All files (*)</source>
-      <translation>Kõik failid (*)</translation>
-    </message>
-    <message>
       <source>Load cover from disk...</source>
       <translation>Laadi kaanepilt kettalt...</translation>
     </message>
@@ -552,10 +540,6 @@
       <translation>Väljund</translation>
     </message>
     <message>
-      <source>Engine</source>
-      <translation>Mootor</translation>
-    </message>
-    <message>
       <source>ALSA plugin:</source>
       <translation>ALSA pistikprogramm:</translation>
     </message>
@@ -1002,6 +986,13 @@
     <message>
       <source>Grouping name:</source>
       <translation>Rühmituse nimi:</translation>
+    </message>
+  </context>
+  <context>
+    <name>CollectionLibrary</name>
+    <message>
+      <source>Saving playcounts and ratings</source>
+      <translation>Salvestame esituskordi ja hinnanguid</translation>
     </message>
   </context>
   <context>
@@ -2705,20 +2696,8 @@ If there are no matches then it will use the largest image in the directory.</so
       <translation>Globaalsed kiirklahvid</translation>
     </message>
     <message>
-      <source>Use Gnome (GSD) shortcuts when available</source>
-      <translation>Kasuta võimalusel Gnome kiirklahve</translation>
-    </message>
-    <message>
       <source>Open...</source>
       <translation>Ava...</translation>
-    </message>
-    <message>
-      <source>Use MATE shortcuts when available</source>
-      <translation>Kasuta võimalusel MATE kiirklahve</translation>
-    </message>
-    <message>
-      <source>Use KDE (KGlobalAccel) shortcuts when available</source>
-      <translation>Kasuta võimalusel KDE kiirklahve</translation>
     </message>
     <message>
       <source>Use X11 shortcuts when available</source>
@@ -2758,28 +2737,12 @@ If there are no matches then it will use the largest image in the directory.</so
       <translation>Muuda kiirklahvi...</translation>
     </message>
     <message>
-      <source>The &quot;%1&quot; command could not be started.</source>
-      <translation>Käsku &quot;%1&quot; ei saanud käivitada.</translation>
+      <source>Use KGlobalAccel shortcuts when available</source>
+      <translation>Kasuta võimalusel KGlobalAccel kiirklahve</translation>
     </message>
     <message>
-      <source>Using X11 shortcuts on %1 is not recommended and can cause keyboard to become unresponsive!</source>
-      <translation>X11 otseteede kasutamine asukohas %1 ei ole soovitatav ja see võib põhjustada klaviatuuri hangumise!</translation>
-    </message>
-    <message>
-      <source> Shortcuts on %1 are usually used through MPRIS and KGlobalAccel.</source>
-      <translation> %1 otseteid kasutatakse tavaliselt MPRIS ja KGlobalAccel kaudu.</translation>
-    </message>
-    <message>
-      <source> Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in gnome-settings-daemon instead.</source>
-      <translation> %1 otseteid kasutatakse tavaliselt Gnome sätete deemoni kaudu ja need tuleks seadistada hoopis gnome-settings-daemon&apos;i abil.</translation>
-    </message>
-    <message>
-      <source> Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in cinnamon-settings-daemon instead.</source>
-      <translation> %1 otseteid kasutatakse tavaliselt Gnome sätete deemoni kaudu ja need tuleks seadistada hoopis cinnamon-settings-daemon&apos;i abil.</translation>
-    </message>
-    <message>
-      <source> Shortcuts on %1 are usually used through MATE Settings Daemon and should be configured there instead.</source>
-      <translation> %1 otseteid kasutatakse tavaliselt MATE sätete deemoni kaudu ja need tuleks seadistada hoopis seal.</translation>
+      <source>Using X11 shortcuts is not recommended and can cause keyboard to become unresponsive! Shortcuts on should usually be used through MPRIS2 / KGlobalAccel.</source>
+      <translation>Kuna see võib põhjustada klahvistiku hangumist, siis X11 kiirklahvide kasutame pole soovitatav! Tavaliselt peaksid kasutama kiirklahve MPRIS2 või KGlobalAccel vahendusel.</translation>
     </message>
   </context>
   <context>
@@ -3374,10 +3337,6 @@ If there are no matches then it will use the largest image in the directory.</so
     <message>
       <source>Import data from last.fm...</source>
       <translation>Impordi last.fm andmed...</translation>
-    </message>
-    <message>
-      <source>All Files (*)</source>
-      <translation>Kõik failid (*)</translation>
     </message>
     <message>
       <source>Context</source>
@@ -4568,14 +4527,6 @@ If there are no matches then it will use the largest image in the directory.</so
         <numerusform>%n lugu</numerusform>
       </translation>
     </message>
-    <message>
-      <source>Unknown</source>
-      <translation>Tundmatu</translation>
-    </message>
-    <message>
-      <source>Various artists</source>
-      <translation>Erinevad esitajad</translation>
-    </message>
   </context>
   <context>
     <name>PlaylistParser</name>
@@ -4828,50 +4779,6 @@ Kas soovid jätkata?</translation>
     <message>
       <source>Playlist</source>
       <translation>Esitusloend</translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::InsertItems</name>
-    <message numerus="yes">
-      <source>add %n songs</source>
-      <translation>
-        <numerusform>lisa %n lugu</numerusform>
-        <numerusform>lisa %n lugu</numerusform>
-      </translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::MoveItems</name>
-    <message numerus="yes">
-      <source>move %n songs</source>
-      <translation>
-        <numerusform>teisalda %n lugu</numerusform>
-        <numerusform>teisalda %n lugu</numerusform>
-      </translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::RemoveItems</name>
-    <message numerus="yes">
-      <source>remove %n songs</source>
-      <translation>
-        <numerusform>eemalda %n lugu</numerusform>
-        <numerusform>eemalda %n lugu</numerusform>
-      </translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::ShuffleItems</name>
-    <message>
-      <source>shuffle songs</source>
-      <translation>lugude juhuesitus</translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::SortItems</name>
-    <message>
-      <source>sort songs</source>
-      <translation>sordi lugusi</translation>
     </message>
   </context>
   <context>
@@ -5315,6 +5222,43 @@ Kas soovid jätkata?</translation>
       <source>System colors</source>
       <translation>Süsteemi värvid</translation>
     </message>
+    <message>
+      <source>Playlist</source>
+      <translation>Esitusloend</translation>
+    </message>
+    <message>
+      <source>Various artists</source>
+      <translation>Erinevad esitajad</translation>
+    </message>
+    <message numerus="yes">
+      <source>add %n songs</source>
+      <translation>
+        <numerusform>lisa %n lugu</numerusform>
+        <numerusform>lisa %n lugu</numerusform>
+      </translation>
+    </message>
+    <message numerus="yes">
+      <source>remove %n songs</source>
+      <translation>
+        <numerusform>eemalda %n lugu</numerusform>
+        <numerusform>eemalda %n lugu</numerusform>
+      </translation>
+    </message>
+    <message numerus="yes">
+      <source>move %n songs</source>
+      <translation>
+        <numerusform>teisalda %n lugu</numerusform>
+        <numerusform>teisalda %n lugu</numerusform>
+      </translation>
+    </message>
+    <message>
+      <source>sort songs</source>
+      <translation>sordi lugusid</translation>
+    </message>
+    <message>
+      <source>shuffle songs</source>
+      <translation>sega lood</translation>
+    </message>
   </context>
   <context>
     <name>QWidget</name>
@@ -5599,13 +5543,6 @@ Kas soovid jätkata?</translation>
     <message>
       <source>Form</source>
       <translation>Vorm</translation>
-    </message>
-  </context>
-  <context>
-    <name>SCollection</name>
-    <message>
-      <source>Saving playcounts and ratings</source>
-      <translation>Salvestame esituskordi ja hinnanguid</translation>
     </message>
   </context>
   <context>
@@ -6234,20 +6171,12 @@ Kas soovid jätkata?</translation>
   <context>
     <name>SongLoader</name>
     <message>
-      <source>You need GStreamer for this URL.</source>
-      <translation>Selle URL-i jaoks vajad GStreamerit.</translation>
-    </message>
-    <message>
       <source>Preload function was not set for blocking operation.</source>
       <translation>Eellaadimise funktsionaalsus polnud määratud blokeerimiseks.</translation>
     </message>
     <message>
       <source>File %1 does not exist.</source>
       <translation>Faili %1 pole olemas.</translation>
-    </message>
-    <message>
-      <source>CD playback is only available with the GStreamer engine.</source>
-      <translation>CD taasesitus on võimalik ainult GStreameri mootoriga.</translation>
     </message>
     <message>
       <source>Could not open file %1 for reading: %2</source>
@@ -6276,6 +6205,10 @@ Kas soovid jätkata?</translation>
     <message>
       <source>Couldn&apos;t link GStreamer source, typefind and fakesink elements for %1</source>
       <translation>GStreameri fakesink, typefind ja lähteelementide linkimine %1 jaoks nurjus</translation>
+    </message>
+    <message>
+      <source>Missing CDDA playback.</source>
+      <translation>Taasesituse jaoks puuduvad CDDA andmed.</translation>
     </message>
   </context>
   <context>

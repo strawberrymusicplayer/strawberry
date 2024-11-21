@@ -78,18 +78,6 @@
   <context>
     <name>AlbumCoverChoiceController</name>
     <message>
-      <source>Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)</source>
-      <translation>Изображения (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)</translation>
-    </message>
-    <message>
-      <source>Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)</source>
-      <translation>Изображения (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)</translation>
-    </message>
-    <message>
-      <source>All files (*)</source>
-      <translation>Все файлы (*)</translation>
-    </message>
-    <message>
       <source>Load cover from disk...</source>
       <translation>Загрузить обложку с диска…</translation>
     </message>
@@ -552,10 +540,6 @@
       <translation>Вывод</translation>
     </message>
     <message>
-      <source>Engine</source>
-      <translation>Движок</translation>
-    </message>
-    <message>
       <source>ALSA plugin:</source>
       <translation>Модуль ALSA:</translation>
     </message>
@@ -780,7 +764,7 @@
     </message>
     <message>
       <source>Never start playing</source>
-      <translation>Никогда не начинать воспроизведение</translation>
+      <translation>Никогда не начинать проигрывание</translation>
     </message>
     <message>
       <source>Play if there is nothing already playing</source>
@@ -1005,6 +989,13 @@
     </message>
   </context>
   <context>
+    <name>CollectionLibrary</name>
+    <message>
+      <source>Saving playcounts and ratings</source>
+      <translation>Сохраняются счётчики прослушивания и оценки</translation>
+    </message>
+  </context>
+  <context>
     <name>CollectionModel</name>
     <message>
       <source>Various artists</source>
@@ -1051,7 +1042,7 @@
     </message>
     <message>
       <source>Song fingerprinting and tracking</source>
-      <translation>Отпечаток и отслеживание песни</translation>
+      <translation>Отпечатки и отслеживания песен</translation>
     </message>
     <message>
       <source>Mark disappeared songs unavailable</source>
@@ -1059,7 +1050,7 @@
     </message>
     <message>
       <source>Perform song EBU R 128 analysis (required for EBU R 128 loudness normalization)</source>
-      <translation>Выполнить анализ композиции EBU R 128 (требуется для нормализации громкости EBU R 128)</translation>
+      <translation>Выполнить анализ песни EBU R 128 (для нормализации громкости EBU R 128)</translation>
     </message>
     <message>
       <source>Expire unavailable songs after</source>
@@ -1149,7 +1140,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Save playcounts and ratings to files now</source>
-      <translation>Записать счётчики прослушивания и оценки в файлы сейчас</translation>
+      <translation>Записать счётчики и оценки в файлы сейчас</translation>
     </message>
     <message>
       <source>Enable delete files in the right click context menu</source>
@@ -2705,20 +2696,8 @@ If there are no matches then it will use the largest image in the directory.</so
       <translation>Глобальные клавиши</translation>
     </message>
     <message>
-      <source>Use Gnome (GSD) shortcuts when available</source>
-      <translation>Использовать сочетания клавиш Gnome (GSD) по возможности</translation>
-    </message>
-    <message>
       <source>Open...</source>
       <translation>Открыть…</translation>
-    </message>
-    <message>
-      <source>Use MATE shortcuts when available</source>
-      <translation>Использовать сочетания клавиш MATE по возможности</translation>
-    </message>
-    <message>
-      <source>Use KDE (KGlobalAccel) shortcuts when available</source>
-      <translation>Использовать сочетания клавиш KDE (KGlobalAccel) по возможности</translation>
     </message>
     <message>
       <source>Use X11 shortcuts when available</source>
@@ -2758,28 +2737,12 @@ If there are no matches then it will use the largest image in the directory.</so
       <translation>Изменить сочетание…</translation>
     </message>
     <message>
-      <source>The &quot;%1&quot; command could not be started.</source>
-      <translation>Команда «%1» не может быть выполнена.</translation>
+      <source>Use KGlobalAccel shortcuts when available</source>
+      <translation>Использовать сочетания клавиш KGlobalAccel по возможности</translation>
     </message>
     <message>
-      <source>Using X11 shortcuts on %1 is not recommended and can cause keyboard to become unresponsive!</source>
-      <translation>Использование сочетаний клавиш X11 на %1 не рекомендуется и может привести к тому, что клавиатура перестанет отвечать!</translation>
-    </message>
-    <message>
-      <source> Shortcuts on %1 are usually used through MPRIS and KGlobalAccel.</source>
-      <translation> Горячие клавиши на %1 обычно работают через MPRIS и KGlobalAccel.</translation>
-    </message>
-    <message>
-      <source> Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in gnome-settings-daemon instead.</source>
-      <translation> Горячие клавиши на %1 обычно работают через Gnome Settings Daemon и должны быть настроены в gnome-settings-daemon.</translation>
-    </message>
-    <message>
-      <source> Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in cinnamon-settings-daemon instead.</source>
-      <translation> Горячие клавиши на %1 обычно работают через Gnome Settings Daemon и должны быть настроены в cinnamon-settings-daemon.</translation>
-    </message>
-    <message>
-      <source> Shortcuts on %1 are usually used through MATE Settings Daemon and should be configured there instead.</source>
-      <translation> Горячие клавиши на %1 обычно работают через MATE Settings Daemon и должны быть настроены в нём.</translation>
+      <source>Using X11 shortcuts is not recommended and can cause keyboard to become unresponsive! Shortcuts on should usually be used through MPRIS2 / KGlobalAccel.</source>
+      <translation>Использование сочетаний клавиш X11 не рекомендуется и может привести к невосприимчивости клавиатуры! Обычно сочетания следует использовать через MPRIS2 / KGlobalAccel.</translation>
     </message>
   </context>
   <context>
@@ -2927,7 +2890,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Warning: Play counts and last played from last.fm will completely replace the same data for the matched songs. Play counts will replace the data based on artist and song title for the same albums! Please backup your database before you start.</source>
-      <translation>Предупреждение: Счётчики прослушиваний и последнее проигрывание с Last.fm полностью заменят те же данные в соответствующих песнях. Счётчики прослушиваний заменят данные, основанные на артисте и названии песни для тех же альбомов! Пожалуйста, сделайте резервную копию вашей базы данных перед началом работы.</translation>
+      <translation>Предупреждение: Счётчики прослушиваний и последние проигрывания с Last.fm полностью заменят те же данные в соответствующих песнях. Счётчики прослушиваний заменят данные, основанные на артисте и названии песни для тех же альбомов! Пожалуйста, сделайте резервную копию вашей базы данных перед запуском.</translation>
     </message>
     <message>
       <source>Go!</source>
@@ -3374,10 +3337,6 @@ If there are no matches then it will use the largest image in the directory.</so
     <message>
       <source>Import data from last.fm...</source>
       <translation>Импорт данных из Last.fm…</translation>
-    </message>
-    <message>
-      <source>All Files (*)</source>
-      <translation>Все файлы (*)</translation>
     </message>
     <message>
       <source>Context</source>
@@ -4372,7 +4331,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Source</source>
-      <translation>Источник</translation>
+      <translation>Исток</translation>
     </message>
     <message>
       <source>Mood</source>
@@ -4456,7 +4415,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>&amp;Align text</source>
-      <translation>Выровнять &amp;текст</translation>
+      <translation>&amp;Выравнивание текста</translation>
     </message>
     <message>
       <source>&amp;Left</source>
@@ -4569,14 +4528,6 @@ If there are no matches then it will use the largest image in the directory.</so
         <numerusform>%n дорожек</numerusform>
         <numerusform>%n дорожек</numerusform>
       </translation>
-    </message>
-    <message>
-      <source>Unknown</source>
-      <translation>Неизвестный</translation>
-    </message>
-    <message>
-      <source>Various artists</source>
-      <translation>Различные артисты</translation>
     </message>
   </context>
   <context>
@@ -4812,7 +4763,7 @@ If there are no matches then it will use the largest image in the directory.</so
     <message>
       <source>You are about to remove a playlist which is not part of your favorite playlists: the playlist will be deleted (this action cannot be undone). 
 Are you sure you want to continue?</source>
-      <translation>Вы хотите убрать плейлист, не являющийся избранным: список удалится полностью (действие необратимо).
+      <translation>Вы хотите убрать плейлист, не являющийся избранным: список удалится безвозвратно.
 Продолжить?</translation>
     </message>
     <message>
@@ -4830,56 +4781,6 @@ Are you sure you want to continue?</source>
     <message>
       <source>Playlist</source>
       <translation>Плейлист</translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::InsertItems</name>
-    <message numerus="yes">
-      <source>add %n songs</source>
-      <translation>
-        <numerusform>добавку %n песни</numerusform>
-        <numerusform>добавку %n песен</numerusform>
-        <numerusform>добавку %n песен</numerusform>
-        <numerusform>добавку %n песен</numerusform>
-      </translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::MoveItems</name>
-    <message numerus="yes">
-      <source>move %n songs</source>
-      <translation>
-        <numerusform>перемещение %n песни</numerusform>
-        <numerusform>перемещение %n песен</numerusform>
-        <numerusform>перемещение %n песен</numerusform>
-        <numerusform>перемещение %n песен</numerusform>
-      </translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::RemoveItems</name>
-    <message numerus="yes">
-      <source>remove %n songs</source>
-      <translation>
-        <numerusform>удаление %n песни</numerusform>
-        <numerusform>удаление %n песен</numerusform>
-        <numerusform>удаление %n песен</numerusform>
-        <numerusform>удаление %n песен</numerusform>
-      </translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::ShuffleItems</name>
-    <message>
-      <source>shuffle songs</source>
-      <translation>перемешивание песен</translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::SortItems</name>
-    <message>
-      <source>sort songs</source>
-      <translation>сортировку песен</translation>
     </message>
   </context>
   <context>
@@ -5323,6 +5224,49 @@ Are you sure you want to continue?</source>
       <source>System colors</source>
       <translation>Системные цвета</translation>
     </message>
+    <message>
+      <source>Playlist</source>
+      <translation>Плейлист</translation>
+    </message>
+    <message>
+      <source>Various artists</source>
+      <translation>Различные артисты</translation>
+    </message>
+    <message numerus="yes">
+      <source>add %n songs</source>
+      <translation>
+        <numerusform>добавку %n песни</numerusform>
+        <numerusform>добавку %n песен</numerusform>
+        <numerusform>добавку %n песен</numerusform>
+        <numerusform>добавку %n песен</numerusform>
+      </translation>
+    </message>
+    <message numerus="yes">
+      <source>remove %n songs</source>
+      <translation>
+        <numerusform>удаление %n песни</numerusform>
+        <numerusform>удаление %n песен</numerusform>
+        <numerusform>удаление %n песен</numerusform>
+        <numerusform>удаление %n песен</numerusform>
+      </translation>
+    </message>
+    <message numerus="yes">
+      <source>move %n songs</source>
+      <translation>
+        <numerusform>перемещение %n песни</numerusform>
+        <numerusform>перемещение %n песен</numerusform>
+        <numerusform>перемещение %n песен</numerusform>
+        <numerusform>перемещение %n песен</numerusform>
+      </translation>
+    </message>
+    <message>
+      <source>sort songs</source>
+      <translation>сортировку песен</translation>
+    </message>
+    <message>
+      <source>shuffle songs</source>
+      <translation>перемешивание песен</translation>
+    </message>
   </context>
   <context>
     <name>QWidget</name>
@@ -5612,13 +5556,6 @@ Are you sure you want to continue?</source>
     </message>
   </context>
   <context>
-    <name>SCollection</name>
-    <message>
-      <source>Saving playcounts and ratings</source>
-      <translation>Сохранение счётчиков прослушивания и оценок</translation>
-    </message>
-  </context>
-  <context>
     <name>SavePlaylistsDialog</name>
     <message>
       <source>Select directory for saving playlists</source>
@@ -5792,7 +5729,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>(This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately).</source>
-      <translation>(Это задержка между моментами, когда песня заскробблится и когда скроббл отправится на сервер. Установка времени в 0 секунд сделает отправку скроббла мгновенной).</translation>
+      <translation>(Это задержка между моментами, когда песня заскробблится, и когда скроббл отправится на сервер. Если сделать время равным 0 секунд, то отправка скроббла будет мгновенной).</translation>
     </message>
     <message>
       <source>Prefer album artist when sending scrobbles</source>
@@ -6244,20 +6181,12 @@ Are you sure you want to continue?</source>
   <context>
     <name>SongLoader</name>
     <message>
-      <source>You need GStreamer for this URL.</source>
-      <translation>Вам нужен GStreamer для этого адреса.</translation>
-    </message>
-    <message>
       <source>Preload function was not set for blocking operation.</source>
       <translation>Функция предварительной нагрузки не была установлена ​​для операции блокировки.</translation>
     </message>
     <message>
       <source>File %1 does not exist.</source>
       <translation>Файл %1 не существует.</translation>
-    </message>
-    <message>
-      <source>CD playback is only available with the GStreamer engine.</source>
-      <translation>Воспроизведение CD доступно только с движком GStreamer.</translation>
     </message>
     <message>
       <source>Could not open file %1 for reading: %2</source>
@@ -6286,6 +6215,10 @@ Are you sure you want to continue?</source>
     <message>
       <source>Couldn&apos;t link GStreamer source, typefind and fakesink elements for %1</source>
       <translation>Не удалось связать элементы GStreamer источник, typefind и fakesink для %1</translation>
+    </message>
+    <message>
+      <source>Missing CDDA playback.</source>
+      <translation>Отсутствует воспроизведение CDDA.</translation>
     </message>
   </context>
   <context>
@@ -7471,7 +7404,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Use bitrate management engine</source>
-      <translation>Использовать движок управления битрейтом</translation>
+      <translation>Включить движок управления битрейтом</translation>
     </message>
     <message>
       <source>Target bitrate</source>

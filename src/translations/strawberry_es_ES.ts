@@ -78,18 +78,6 @@
   <context>
     <name>AlbumCoverChoiceController</name>
     <message>
-      <source>Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)</source>
-      <translation>Imágenes (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)</translation>
-    </message>
-    <message>
-      <source>Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)</source>
-      <translation>Imágenes (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)</translation>
-    </message>
-    <message>
-      <source>All files (*)</source>
-      <translation>Todos los archivos (*)</translation>
-    </message>
-    <message>
       <source>Load cover from disk...</source>
       <translation>Cargar portada desde disco…</translation>
     </message>
@@ -552,16 +540,12 @@
       <translation>Salida</translation>
     </message>
     <message>
-      <source>Engine</source>
-      <translation>Motor</translation>
-    </message>
-    <message>
       <source>ALSA plugin:</source>
       <translation>Complemento de ALSA:</translation>
     </message>
     <message>
       <source>hw</source>
-      <translation type="unfinished">hw</translation>
+      <translation>hw</translation>
     </message>
     <message>
       <source>p&amp;lughw</source>
@@ -569,7 +553,7 @@
     </message>
     <message>
       <source>pcm</source>
-      <translation type="unfinished">pcm</translation>
+      <translation>pcm</translation>
     </message>
     <message>
       <source>Exclusive mode (Experimental)</source>
@@ -609,7 +593,7 @@
     </message>
     <message>
       <source> ms</source>
-      <translation type="unfinished"> ms</translation>
+      <translation> ms</translation>
     </message>
     <message>
       <source>Buffer duration</source>
@@ -840,7 +824,7 @@
     </message>
     <message>
       <source> s</source>
-      <translation type="unfinished"> s</translation>
+      <translation> s</translation>
     </message>
     <message>
       <source>Volume Increment</source>
@@ -1002,6 +986,13 @@
     <message>
       <source>Grouping name:</source>
       <translation>Nombre de agrupamiento:</translation>
+    </message>
+  </context>
+  <context>
+    <name>CollectionLibrary</name>
+    <message>
+      <source>Saving playcounts and ratings</source>
+      <translation>Guardando contadores de reproducción y valoraciones</translation>
     </message>
   </context>
   <context>
@@ -1247,7 +1238,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Error</source>
-      <translation type="unfinished">Error</translation>
+      <translation>Error</translation>
     </message>
     <message>
       <source>None of the selected songs were suitable for copying to a device</source>
@@ -1343,7 +1334,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source> pt</source>
-      <translation type="unfinished"> pt</translation>
+      <translation> pt</translation>
     </message>
     <message>
       <source>Preview</source>
@@ -1415,7 +1406,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>%filename%</source>
-      <translation type="unfinished">%filename%</translation>
+      <translation>%filename%</translation>
     </message>
     <message>
       <source>Add song filename</source>
@@ -1423,7 +1414,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>%url%</source>
-      <translation type="unfinished">%url%</translation>
+      <translation>%url%</translation>
     </message>
     <message>
       <source>Add song URL</source>
@@ -1431,7 +1422,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>%rating%</source>
-      <translation type="unfinished">%rating%</translation>
+      <translation>%rating%</translation>
     </message>
     <message>
       <source>Add song rating</source>
@@ -1439,7 +1430,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>%originalyear%</source>
-      <translation type="unfinished">%originalyear%</translation>
+      <translation>%originalyear%</translation>
     </message>
     <message>
       <source>Add song original year tag</source>
@@ -1576,7 +1567,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>0</source>
-      <translation type="unfinished">0</translation>
+      <translation>0</translation>
     </message>
     <message>
       <source>Fetch Missing Covers</source>
@@ -2224,7 +2215,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>No</source>
-      <translation type="unfinished">No</translation>
+      <translation>No</translation>
     </message>
     <message>
       <source>None</source>
@@ -2383,15 +2374,15 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Pop</source>
-      <translation type="unfinished">Pop</translation>
+      <translation>Pop</translation>
     </message>
     <message>
       <source>Reggae</source>
-      <translation type="unfinished">Reggae</translation>
+      <translation>Reggae</translation>
     </message>
     <message>
       <source>Rock</source>
-      <translation type="unfinished">Rock</translation>
+      <translation>Rock</translation>
     </message>
     <message>
       <source>Soft</source>
@@ -2399,7 +2390,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Ska</source>
-      <translation type="unfinished">Ska</translation>
+      <translation>Ska</translation>
     </message>
     <message>
       <source>Soft Rock</source>
@@ -2430,7 +2421,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>%1 dB</source>
-      <translation type="unfinished">%1 dB</translation>
+      <translation>%1 dB</translation>
     </message>
   </context>
   <context>
@@ -2600,7 +2591,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>URI</source>
-      <translation type="unfinished">URI</translation>
+      <translation>URI</translation>
     </message>
   </context>
   <context>
@@ -2704,20 +2695,8 @@ If there are no matches then it will use the largest image in the directory.</so
       <translation>Atajos generales</translation>
     </message>
     <message>
-      <source>Use Gnome (GSD) shortcuts when available</source>
-      <translation>Utilizar atajos de Gnome (GSD) cuando sea posible</translation>
-    </message>
-    <message>
       <source>Open...</source>
       <translation>Abrir…</translation>
-    </message>
-    <message>
-      <source>Use MATE shortcuts when available</source>
-      <translation>Utilizar atajos de MATE si están disponibles</translation>
-    </message>
-    <message>
-      <source>Use KDE (KGlobalAccel) shortcuts when available</source>
-      <translation>Utilizar atajos de KDE (GSD) cuando sea posible</translation>
     </message>
     <message>
       <source>Use X11 shortcuts when available</source>
@@ -2757,28 +2736,12 @@ If there are no matches then it will use the largest image in the directory.</so
       <translation>Cambiar atajo…</translation>
     </message>
     <message>
-      <source>The &quot;%1&quot; command could not be started.</source>
-      <translation>No se pudo iniciar la orden «%1».</translation>
+      <source>Use KGlobalAccel shortcuts when available</source>
+      <translation>Utilizar atajos de KDE (KGlobalAccel) cuando sea posible</translation>
     </message>
     <message>
-      <source>Using X11 shortcuts on %1 is not recommended and can cause keyboard to become unresponsive!</source>
-      <translation>Usar atajos de X11 en %1 no es recomendable y puede hacer que el teclado no responda eficientemente!</translation>
-    </message>
-    <message>
-      <source> Shortcuts on %1 are usually used through MPRIS and KGlobalAccel.</source>
-      <translation> Los atajos en %1 se usan normalmente a través de GMPRIS y KGlobalAccel.</translation>
-    </message>
-    <message>
-      <source> Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in gnome-settings-daemon instead.</source>
-      <translation> Los atajos en %1 se utilizan habitualmente a través de Gnome Settings Daemon y deben configurarse en gnome-settings-daemon.</translation>
-    </message>
-    <message>
-      <source> Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in cinnamon-settings-daemon instead.</source>
-      <translation> Los atajos en %1 se utilizan habitualmente a través de Gnome Settings Daemon y deben configurarse en cinnamon-settings-daemon.</translation>
-    </message>
-    <message>
-      <source> Shortcuts on %1 are usually used through MATE Settings Daemon and should be configured there instead.</source>
-      <translation> Los atajos en %1 se utilizan habitualmente a través de MATE Settings Daemon y deben configurarse allí.</translation>
+      <source>Using X11 shortcuts is not recommended and can cause keyboard to become unresponsive! Shortcuts on should usually be used through MPRIS2 / KGlobalAccel.</source>
+      <translation>El uso de los atajos de X11 no es recomendable y puede causar que el teclado deje de responder. Los atajos deben ser usados generalmente a través de MPRIS2 / KGlobalAccel.</translation>
     </message>
   </context>
   <context>
@@ -3116,7 +3079,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>F5</source>
-      <translation type="unfinished">F5</translation>
+      <translation>F5</translation>
     </message>
     <message>
       <source>&amp;Play</source>
@@ -3124,7 +3087,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>F6</source>
-      <translation type="unfinished">F6</translation>
+      <translation>F6</translation>
     </message>
     <message>
       <source>&amp;Stop</source>
@@ -3132,7 +3095,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>F7</source>
-      <translation type="unfinished">F7</translation>
+      <translation>F7</translation>
     </message>
     <message>
       <source>&amp;Next track</source>
@@ -3140,7 +3103,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>F8</source>
-      <translation type="unfinished">F8</translation>
+      <translation>F8</translation>
     </message>
     <message>
       <source>&amp;Quit</source>
@@ -3148,7 +3111,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Ctrl+Q</source>
-      <translation type="unfinished">Ctrl+Q</translation>
+      <translation>Ctrl+Q</translation>
     </message>
     <message>
       <source>Stop after this track</source>
@@ -3156,7 +3119,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Ctrl+Alt+V</source>
-      <translation type="unfinished">Ctrl+Alt+V</translation>
+      <translation>Ctrl+Alt+V</translation>
     </message>
     <message>
       <source>Love</source>
@@ -3172,7 +3135,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Ctrl+K</source>
-      <translation type="unfinished">Ctrl+K</translation>
+      <translation>Ctrl+K</translation>
     </message>
     <message>
       <source>Edit track information...</source>
@@ -3180,7 +3143,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Ctrl+E</source>
-      <translation type="unfinished">Ctrl+E</translation>
+      <translation>Ctrl+E</translation>
     </message>
     <message>
       <source>Renumber tracks in this order...</source>
@@ -3200,7 +3163,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Ctrl+P</source>
-      <translation type="unfinished">Ctrl+P</translation>
+      <translation>Ctrl+P</translation>
     </message>
     <message>
       <source>&amp;About Strawberry</source>
@@ -3208,7 +3171,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>F1</source>
-      <translation type="unfinished">F1</translation>
+      <translation>F1</translation>
     </message>
     <message>
       <source>S&amp;huffle playlist</source>
@@ -3216,7 +3179,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Ctrl+H</source>
-      <translation type="unfinished">Ctrl+H</translation>
+      <translation>Ctrl+H</translation>
     </message>
     <message>
       <source>&amp;Add file...</source>
@@ -3224,7 +3187,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Ctrl+Shift+A</source>
-      <translation type="unfinished">Ctrl+Shift+A</translation>
+      <translation>Ctrl+Shift+A</translation>
     </message>
     <message>
       <source>&amp;Open file...</source>
@@ -3272,7 +3235,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Ctrl+J</source>
-      <translation type="unfinished">Ctrl+J</translation>
+      <translation>Ctrl+J</translation>
     </message>
     <message>
       <source>&amp;New playlist</source>
@@ -3280,7 +3243,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Ctrl+N</source>
-      <translation type="unfinished">Ctrl+N</translation>
+      <translation>Ctrl+N</translation>
     </message>
     <message>
       <source>Save &amp;playlist...</source>
@@ -3288,7 +3251,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Ctrl+S</source>
-      <translation type="unfinished">Ctrl+S</translation>
+      <translation>Ctrl+S</translation>
     </message>
     <message>
       <source>&amp;Load playlist...</source>
@@ -3296,7 +3259,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Ctrl+Shift+O</source>
-      <translation type="unfinished">Ctrl+Shift+O</translation>
+      <translation>Ctrl+Shift+O</translation>
     </message>
     <message>
       <source>&amp;Save all playlists...</source>
@@ -3324,7 +3287,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Ctrl+M</source>
-      <translation type="unfinished">Ctrl+M</translation>
+      <translation>Ctrl+M</translation>
     </message>
     <message>
       <source>&amp;Do a full collection rescan</source>
@@ -3340,7 +3303,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Ctrl+T</source>
-      <translation type="unfinished">Ctrl+T</translation>
+      <translation>Ctrl+T</translation>
     </message>
     <message>
       <source>Toggle scrobbling</source>
@@ -3373,10 +3336,6 @@ If there are no matches then it will use the largest image in the directory.</so
     <message>
       <source>Import data from last.fm...</source>
       <translation>Importar datos de Last.fm…</translation>
-    </message>
-    <message>
-      <source>All Files (*)</source>
-      <translation>Todos los archivos (*)</translation>
     </message>
     <message>
       <source>Context</source>
@@ -3420,7 +3379,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Spotify</source>
-      <translation type="unfinished">Spotify</translation>
+      <translation>Spotify</translation>
     </message>
     <message>
       <source>Qobuz</source>
@@ -4383,7 +4342,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>CUE</source>
-      <translation type="unfinished">CUE</translation>
+      <translation>CUE</translation>
     </message>
     <message>
       <source>Integrated Loudness</source>
@@ -4566,14 +4525,6 @@ If there are no matches then it will use the largest image in the directory.</so
         <numerusform>%n pista</numerusform>
         <numerusform>%n pistas</numerusform>
       </translation>
-    </message>
-    <message>
-      <source>Unknown</source>
-      <translation>Desconocido</translation>
-    </message>
-    <message>
-      <source>Various artists</source>
-      <translation>Varios artistas</translation>
     </message>
   </context>
   <context>
@@ -4830,58 +4781,14 @@ Are you sure you want to continue?</source>
     </message>
   </context>
   <context>
-    <name>PlaylistUndoCommands::InsertItems</name>
-    <message numerus="yes">
-      <source>add %n songs</source>
-      <translation>
-        <numerusform>añadir %n temas</numerusform>
-        <numerusform>añadir %n temas</numerusform>
-      </translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::MoveItems</name>
-    <message numerus="yes">
-      <source>move %n songs</source>
-      <translation>
-        <numerusform>mover %n tema</numerusform>
-        <numerusform>mover %n temas</numerusform>
-      </translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::RemoveItems</name>
-    <message numerus="yes">
-      <source>remove %n songs</source>
-      <translation>
-        <numerusform>quitar %n tema</numerusform>
-        <numerusform>quitar %n temas</numerusform>
-      </translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::ShuffleItems</name>
-    <message>
-      <source>shuffle songs</source>
-      <translation>mezclar temas</translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::SortItems</name>
-    <message>
-      <source>sort songs</source>
-      <translation>ordenar temas</translation>
-    </message>
-  </context>
-  <context>
     <name>PlaylistView</name>
     <message>
       <source>Hz</source>
-      <translation type="unfinished">Hz</translation>
+      <translation>Hz</translation>
     </message>
     <message>
       <source>Bit</source>
-      <translation type="unfinished">Bit</translation>
+      <translation>Bit</translation>
     </message>
     <message>
       <source>kbps</source>
@@ -5244,11 +5151,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>A-Z</source>
-      <translation type="unfinished">A-Z</translation>
+      <translation>A-Z</translation>
     </message>
     <message>
       <source>Z-A</source>
-      <translation type="unfinished">Z-A</translation>
+      <translation>Z-A</translation>
     </message>
     <message>
       <source>oldest first</source>
@@ -5296,7 +5203,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Normal</source>
-      <translation type="unfinished">Normal</translation>
+      <translation>Normal</translation>
     </message>
     <message>
       <source>Angry</source>
@@ -5313,6 +5220,43 @@ Are you sure you want to continue?</source>
     <message>
       <source>System colors</source>
       <translation>Colores del sistema</translation>
+    </message>
+    <message>
+      <source>Playlist</source>
+      <translation>Lista de reproducción</translation>
+    </message>
+    <message>
+      <source>Various artists</source>
+      <translation>Artistas varios</translation>
+    </message>
+    <message numerus="yes">
+      <source>add %n songs</source>
+      <translation type="unfinished">
+        <numerusform>añadir %n canciones</numerusform>
+        <numerusform>add %n songs</numerusform>
+      </translation>
+    </message>
+    <message numerus="yes">
+      <source>remove %n songs</source>
+      <translation type="unfinished">
+        <numerusform>eliminar %n canciones</numerusform>
+        <numerusform>remove %n songs</numerusform>
+      </translation>
+    </message>
+    <message numerus="yes">
+      <source>move %n songs</source>
+      <translation type="unfinished">
+        <numerusform>mover %n canciones</numerusform>
+        <numerusform>move %n songs</numerusform>
+      </translation>
+    </message>
+    <message>
+      <source>sort songs</source>
+      <translation>ordenar canciones</translation>
+    </message>
+    <message>
+      <source>shuffle songs</source>
+      <translation type="unfinished">shuffle songs</translation>
     </message>
   </context>
   <context>
@@ -5460,7 +5404,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>ms</source>
-      <translation type="unfinished">ms</translation>
+      <translation>ms</translation>
     </message>
     <message>
       <source>Artists search limit</source>
@@ -5544,7 +5488,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Ctrl+Down</source>
-      <translation type="unfinished">Ctrl+Down</translation>
+      <translation>Ctrl+Abajo</translation>
     </message>
     <message>
       <source>Remove</source>
@@ -5556,7 +5500,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Ctrl+K</source>
-      <translation type="unfinished">Ctrl+K</translation>
+      <translation>Ctrl+K</translation>
     </message>
   </context>
   <context>
@@ -5598,13 +5542,6 @@ Are you sure you want to continue?</source>
     <message>
       <source>Form</source>
       <translation>Formulario</translation>
-    </message>
-  </context>
-  <context>
-    <name>SCollection</name>
-    <message>
-      <source>Saving playcounts and ratings</source>
-      <translation>Guardando nº de reproducciones y valoraciones</translation>
     </message>
   </context>
   <context>
@@ -6233,20 +6170,12 @@ Are you sure you want to continue?</source>
   <context>
     <name>SongLoader</name>
     <message>
-      <source>You need GStreamer for this URL.</source>
-      <translation>Necesita GStreamer para este URL.</translation>
-    </message>
-    <message>
       <source>Preload function was not set for blocking operation.</source>
       <translation>La función de precarga no se ajustó para un funcionamiento con bloqueo.</translation>
     </message>
     <message>
       <source>File %1 does not exist.</source>
       <translation>El archivo %1 no existe.</translation>
-    </message>
-    <message>
-      <source>CD playback is only available with the GStreamer engine.</source>
-      <translation>La reproducción de CD solo es posible con el motor GStreamer.</translation>
     </message>
     <message>
       <source>Could not open file %1 for reading: %2</source>
@@ -6275,6 +6204,10 @@ Are you sure you want to continue?</source>
     <message>
       <source>Couldn&apos;t link GStreamer source, typefind and fakesink elements for %1</source>
       <translation>No se pudieron vincular los elementos fuente, typefind y fakesink de GStreamer para %1</translation>
+    </message>
+    <message>
+      <source>Missing CDDA playback.</source>
+      <translation type="unfinished">Missing CDDA playback.</translation>
     </message>
   </context>
   <context>
@@ -6402,7 +6335,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>ms</source>
-      <translation type="unfinished">ms</translation>
+      <translation>ms</translation>
     </message>
     <message>
       <source>Artists search limit</source>
@@ -7127,23 +7060,23 @@ Are you sure you want to continue?</source>
     </message>
     <message numerus="yes">
       <source>%n remaining</source>
-      <translation type="unfinished">
+      <translation>
+        <numerusform>%n pendiente</numerusform>
         <numerusform>%n pendientes</numerusform>
-        <numerusform>%n remaining</numerusform>
       </translation>
     </message>
     <message numerus="yes">
       <source>%n finished</source>
-      <translation type="unfinished">
+      <translation>
         <numerusform>%n completados</numerusform>
-        <numerusform>%n finished</numerusform>
+        <numerusform>%n completados</numerusform>
       </translation>
     </message>
     <message numerus="yes">
       <source>%n failed</source>
-      <translation type="unfinished">
+      <translation>
         <numerusform>%n falló</numerusform>
-        <numerusform>%n failed</numerusform>
+        <numerusform>%n fallaron</numerusform>
       </translation>
     </message>
     <message>
