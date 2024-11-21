@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Version 1.2.1-rc1 (2024.11.16):
+Version 1.2.1 (2024.11.21):
 
 This release features major restructuring of the codebase, moving source files,
 rewriting CMake build files, dropping Qt 5 support, external tagreader,
@@ -19,6 +19,8 @@ and dropping some unmaintained parts such as VLC.
     * Fixed crash when enabling Tidal, Spotify, Qobuz or Subsonic services.
     * Fixed passing filenames to strawberry on command line not resolving to absolute paths.
     * (macOS) Fixed program not starting for users with long usernames.
+    * (macoS) Fixed crash when pressing caps lock (#1606).
+    * (macOS) Remove "song progress on taskbar" option in behaviour settings.
 
   Enhancements:
 
