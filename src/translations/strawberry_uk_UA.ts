@@ -78,18 +78,6 @@
   <context>
     <name>AlbumCoverChoiceController</name>
     <message>
-      <source>Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)</source>
-      <translation>Зображення (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)</translation>
-    </message>
-    <message>
-      <source>Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)</source>
-      <translation>Зображення (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)</translation>
-    </message>
-    <message>
-      <source>All files (*)</source>
-      <translation>Всі файли (*)</translation>
-    </message>
-    <message>
       <source>Load cover from disk...</source>
       <translation>Завантажити обкладинку з диска...</translation>
     </message>
@@ -552,10 +540,6 @@
       <translation>Результат</translation>
     </message>
     <message>
-      <source>Engine</source>
-      <translation>Обробник</translation>
-    </message>
-    <message>
       <source>ALSA plugin:</source>
       <translation>Плагін ALSA:</translation>
     </message>
@@ -1002,6 +986,13 @@
     <message>
       <source>Grouping name:</source>
       <translation>Назва групування:</translation>
+    </message>
+  </context>
+  <context>
+    <name>CollectionLibrary</name>
+    <message>
+      <source>Saving playcounts and ratings</source>
+      <translation>Збереження кількостей відтворювань і рейтингів композицій</translation>
     </message>
   </context>
   <context>
@@ -2705,20 +2696,8 @@ If there are no matches then it will use the largest image in the directory.</so
       <translation>Глобальні сполучення клавіш</translation>
     </message>
     <message>
-      <source>Use Gnome (GSD) shortcuts when available</source>
-      <translation>Використовувати сполучення клавіш Gnome (GSD), якщо можливо</translation>
-    </message>
-    <message>
       <source>Open...</source>
       <translation>Відкрити...</translation>
-    </message>
-    <message>
-      <source>Use MATE shortcuts when available</source>
-      <translation>Використовувати сполучення клавіш MATE, якщо можливо</translation>
-    </message>
-    <message>
-      <source>Use KDE (KGlobalAccel) shortcuts when available</source>
-      <translation>Використовувати сполучення клавіш KDE (KGlobalAccel), якщо можливо</translation>
     </message>
     <message>
       <source>Use X11 shortcuts when available</source>
@@ -2758,28 +2737,12 @@ If there are no matches then it will use the largest image in the directory.</so
       <translation>Змінити комбінацію клавіш...</translation>
     </message>
     <message>
-      <source>The &quot;%1&quot; command could not be started.</source>
-      <translation>Команду &quot;%1&quot; не вдалось виконати.</translation>
+      <source>Use KGlobalAccel shortcuts when available</source>
+      <translation>Використовувати сполучення клавіш KGlobalAccel, якщо можливо</translation>
     </message>
     <message>
-      <source>Using X11 shortcuts on %1 is not recommended and can cause keyboard to become unresponsive!</source>
-      <translation>Сполучення клавіш X11 не рекомендується використовувати у %1, оскільки це може призвести до того, що клавіатура перестане працювати!</translation>
-    </message>
-    <message>
-      <source> Shortcuts on %1 are usually used through MPRIS and KGlobalAccel.</source>
-      <translation> Ярлики на %1 зазвичай використовують через MPRIS та KGlobalAccel.</translation>
-    </message>
-    <message>
-      <source> Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in gnome-settings-daemon instead.</source>
-      <translation> Ярлики на %1 зазвичай використовуються через GSD, і замість цього їх слід налаштовувати у gnome-settings-daemon.</translation>
-    </message>
-    <message>
-      <source> Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in cinnamon-settings-daemon instead.</source>
-      <translation> Ярлики на %1 зазвичай використовуються через GSD, і замість цього їх слід налаштовувати у cinnamon-settings-daemon.</translation>
-    </message>
-    <message>
-      <source> Shortcuts on %1 are usually used through MATE Settings Daemon and should be configured there instead.</source>
-      <translation> Ярлики на %1 зазвичай використовуються через MSD, і замість цього їх слід налаштовувати там.</translation>
+      <source>Using X11 shortcuts is not recommended and can cause keyboard to become unresponsive! Shortcuts on should usually be used through MPRIS2 / KGlobalAccel.</source>
+      <translation>Не рекомендується використовувати сполучення клавіш X11, оскільки клавіатура може перестати реагувати на натискання! Скорочення краще використовувати через MPRIS2 або KGlobalAccel.</translation>
     </message>
   </context>
   <context>
@@ -3374,10 +3337,6 @@ If there are no matches then it will use the largest image in the directory.</so
     <message>
       <source>Import data from last.fm...</source>
       <translation>Імпортувати дані з last.fm...</translation>
-    </message>
-    <message>
-      <source>All Files (*)</source>
-      <translation>Всі файли (*)</translation>
     </message>
     <message>
       <source>Context</source>
@@ -4570,14 +4529,6 @@ If there are no matches then it will use the largest image in the directory.</so
         <numerusform>%n композицій</numerusform>
       </translation>
     </message>
-    <message>
-      <source>Unknown</source>
-      <translation>Невідомо</translation>
-    </message>
-    <message>
-      <source>Various artists</source>
-      <translation>Різні виконавці</translation>
-    </message>
   </context>
   <context>
     <name>PlaylistParser</name>
@@ -4830,56 +4781,6 @@ Are you sure you want to continue?</source>
     <message>
       <source>Playlist</source>
       <translation>Список відтворення</translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::InsertItems</name>
-    <message numerus="yes">
-      <source>add %n songs</source>
-      <translation>
-        <numerusform>додати %n композицію</numerusform>
-        <numerusform>додати %n композиції</numerusform>
-        <numerusform>додати %n композицій</numerusform>
-        <numerusform>додати %n композицій</numerusform>
-      </translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::MoveItems</name>
-    <message numerus="yes">
-      <source>move %n songs</source>
-      <translation>
-        <numerusform>пересунути %n композицію</numerusform>
-        <numerusform>пересунути %n композиції</numerusform>
-        <numerusform>пересунути %n композицій</numerusform>
-        <numerusform>пересунути %n композицій</numerusform>
-      </translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::RemoveItems</name>
-    <message numerus="yes">
-      <source>remove %n songs</source>
-      <translation>
-        <numerusform>вилучити %n композицію</numerusform>
-        <numerusform>вилучити %n композиції</numerusform>
-        <numerusform>вилучити %n композицій</numerusform>
-        <numerusform>вилучити %n композицій</numerusform>
-      </translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::ShuffleItems</name>
-    <message>
-      <source>shuffle songs</source>
-      <translation>перемішати композиції</translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::SortItems</name>
-    <message>
-      <source>sort songs</source>
-      <translation>сортувати композиції</translation>
     </message>
   </context>
   <context>
@@ -5323,6 +5224,49 @@ Are you sure you want to continue?</source>
       <source>System colors</source>
       <translation>Системні кольори</translation>
     </message>
+    <message>
+      <source>Playlist</source>
+      <translation>Список відтворення</translation>
+    </message>
+    <message>
+      <source>Various artists</source>
+      <translation>Різні виконавці</translation>
+    </message>
+    <message numerus="yes">
+      <source>add %n songs</source>
+      <translation>
+        <numerusform>додати %n композицію</numerusform>
+        <numerusform>додати %n композиції</numerusform>
+        <numerusform>додати %n композицій</numerusform>
+        <numerusform>додати %n композицій</numerusform>
+      </translation>
+    </message>
+    <message numerus="yes">
+      <source>remove %n songs</source>
+      <translation>
+        <numerusform>вилучити %n композицію</numerusform>
+        <numerusform>вилучити %n композиції</numerusform>
+        <numerusform>вилучити %n композицій</numerusform>
+        <numerusform>вилучити %n композицій</numerusform>
+      </translation>
+    </message>
+    <message numerus="yes">
+      <source>move %n songs</source>
+      <translation>
+        <numerusform>перемістити %n композицію</numerusform>
+        <numerusform>перемістити %n композиції</numerusform>
+        <numerusform>перемістити %n композицій</numerusform>
+        <numerusform>перемістити %n композицій</numerusform>
+      </translation>
+    </message>
+    <message>
+      <source>sort songs</source>
+      <translation>сортувати композиції</translation>
+    </message>
+    <message>
+      <source>shuffle songs</source>
+      <translation>перемішати композиції</translation>
+    </message>
   </context>
   <context>
     <name>QWidget</name>
@@ -5609,13 +5553,6 @@ Are you sure you want to continue?</source>
     <message>
       <source>Form</source>
       <translation>Форма</translation>
-    </message>
-  </context>
-  <context>
-    <name>SCollection</name>
-    <message>
-      <source>Saving playcounts and ratings</source>
-      <translation>Збереження кількостей відтворювань і рейтингів композицій</translation>
     </message>
   </context>
   <context>
@@ -6244,20 +6181,12 @@ Are you sure you want to continue?</source>
   <context>
     <name>SongLoader</name>
     <message>
-      <source>You need GStreamer for this URL.</source>
-      <translation>Для цієї адреси потрібен GStreamer.</translation>
-    </message>
-    <message>
       <source>Preload function was not set for blocking operation.</source>
       <translation>Для блокування не була встановлена функція попереднього завантаження.</translation>
     </message>
     <message>
       <source>File %1 does not exist.</source>
       <translation>Файл %1 не існує.</translation>
-    </message>
-    <message>
-      <source>CD playback is only available with the GStreamer engine.</source>
-      <translation>Відтворення компакт-дисків доступне лише з обробником GStreamer.</translation>
     </message>
     <message>
       <source>Could not open file %1 for reading: %2</source>
@@ -6286,6 +6215,10 @@ Are you sure you want to continue?</source>
     <message>
       <source>Couldn&apos;t link GStreamer source, typefind and fakesink elements for %1</source>
       <translation>Не вдалося зв'язати елементи source, typefind та fakesink GStreamer для %1</translation>
+    </message>
+    <message>
+      <source>Missing CDDA playback.</source>
+      <translation>Відтворення CDDA відсутнє.</translation>
     </message>
   </context>
   <context>
