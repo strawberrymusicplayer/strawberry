@@ -384,8 +384,7 @@ void TagReaderClient::SaveSongsPlaycountAsync(const SongList &songs) {
   Q_ASSERT(QThread::currentThread() != thread());
 
   for (const Song &song : songs) {
-    TagReaderReplyPtr reply = SaveSongPlaycountAsync(song.url().toLocalFile(), song.playcount());
-    QObject::connect(&*reply, &TagReaderReply::Finished, &*reply, &TagReaderReply::deleteLater);
+    SaveSongPlaycountAsync(song.url().toLocalFile(), song.playcount());
   }
 
 }
@@ -418,8 +417,7 @@ void TagReaderClient::SaveSongsRatingAsync(const SongList &songs) {
   Q_ASSERT(QThread::currentThread() != thread());
 
   for (const Song &song : songs) {
-    TagReaderReplyPtr reply = SaveSongRatingAsync(song.url().toLocalFile(), song.rating());
-    QObject::connect(&*reply, &TagReaderReply::Finished, &*reply, &TagReaderReply::deleteLater);
+    SaveSongRatingAsync(song.url().toLocalFile(), song.rating());
   }
 
 }

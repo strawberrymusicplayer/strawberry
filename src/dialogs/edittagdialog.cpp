@@ -26,6 +26,7 @@
 #include <functional>
 #include <iterator>
 #include <limits>
+#include <memory>
 
 #include <QtGlobal>
 #include <QtConcurrentRun>
@@ -99,6 +100,7 @@
 #include "edittagdialog.h"
 #include "ui_edittagdialog.h"
 
+using std::make_shared;
 using namespace Qt::Literals::StringLiterals;
 
 namespace {
@@ -1311,7 +1313,11 @@ void EditTagDialog::SaveData() {
         save_tags_options |= TagReaderClient::SaveOption::Cover;
       }
       TagReaderReplyPtr reply = tagreader_client_->WriteFileAsync(ref.current_.url().toLocalFile(), ref.current_, save_tags_options, save_tag_cover_data);
-      QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, ref]() { SongSaveTagsComplete(reply, ref.current_.url().toLocalFile(), ref.current_, ref.cover_action_); }, Qt::QueuedConnection);
+      SharedPtr<QMetaObject::Connection> connection = make_shared<QMetaObject::Connection>();
+      *connection = QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, ref, connection]() {
+        SongSaveTagsComplete(reply, ref.current_.url().toLocalFile(), ref.current_, ref.cover_action_);
+        QObject::disconnect(*connection);
+      }, Qt::QueuedConnection);
     }
     // If the cover was changed, but no tags written, make sure to update the collection.
     else if (ref.cover_action_ != UpdateCoverAction::None && !ref.current_.effective_albumartist().isEmpty() && !ref.current_.album().isEmpty()) {

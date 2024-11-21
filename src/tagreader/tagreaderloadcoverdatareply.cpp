@@ -40,7 +40,4 @@ void TagReaderLoadCoverDataReply::EmitFinished() {
   Q_EMIT TagReaderReply::Finished(filename_, result_);
   Q_EMIT TagReaderLoadCoverDataReply::Finished(filename_, data_, result_);
 
-  QObject::disconnect(this, &TagReaderReply::Finished, nullptr, nullptr);
-  QObject::disconnect(this, &TagReaderLoadCoverDataReply::Finished, nullptr, nullptr);
-
 }

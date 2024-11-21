@@ -2197,7 +2197,11 @@ void MainWindow::RenumberTracks() {
       song.set_track(track);
       TagReaderReplyPtr reply = app_->tagreader_client()->WriteFileAsync(song.url().toLocalFile(), song);
       QPersistentModelIndex persistent_index = QPersistentModelIndex(source_index);
-      QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, persistent_index]() { SongSaveComplete(reply, persistent_index); }, Qt::QueuedConnection);
+      SharedPtr<QMetaObject::Connection> connection = make_shared<QMetaObject::Connection>();
+      *connection = QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, persistent_index, connection]() {
+        SongSaveComplete(reply, persistent_index);
+        QObject::disconnect(*connection);
+      }, Qt::QueuedConnection);
     }
     ++track;
   }
@@ -2228,7 +2232,11 @@ void MainWindow::SelectionSetValue() {
     if (song.url().isLocalFile() && Playlist::set_column_value(song, column, column_value)) {
       TagReaderReplyPtr reply = app_->tagreader_client()->WriteFileAsync(song.url().toLocalFile(), song);
       QPersistentModelIndex persistent_index = QPersistentModelIndex(source_index);
-      QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, persistent_index]() { SongSaveComplete(reply, persistent_index); }, Qt::QueuedConnection);
+      SharedPtr<QMetaObject::Connection> connection = make_shared<QMetaObject::Connection>();
+      *connection = QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, persistent_index, connection]() {
+        SongSaveComplete(reply, persistent_index);
+        QObject::disconnect(*connection);
+      }, Qt::QueuedConnection);
     }
     else if (song.source() == Song::Source::Stream) {
       app_->playlist_manager()->current()->setData(source_index, column_value, 0);

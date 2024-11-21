@@ -22,6 +22,7 @@
 #include "config.h"
 
 #include <utility>
+#include <memory>
 
 #include <QtGlobal>
 #include <QGuiApplication>
@@ -79,6 +80,7 @@
 #include "coverfromurldialog.h"
 #include "currentalbumcoverloader.h"
 
+using std::make_shared;
 using namespace Qt::Literals::StringLiterals;
 
 QSet<QString> *AlbumCoverChoiceController::sImageExtensions = nullptr;
@@ -743,7 +745,11 @@ void AlbumCoverChoiceController::SaveCoverEmbeddedToSong(const Song &song, const
   cover_save_tasks_.append(song);
   const bool art_embedded = !image_data.isNull();
   TagReaderReplyPtr reply = tagreader_client_->SaveCoverAsync(song.url().toLocalFile(), SaveTagCoverData(cover_filename, image_data, mime_type));
-  QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, song, art_embedded]() { SaveEmbeddedCoverFinished(reply, song, art_embedded); });
+  SharedPtr<QMetaObject::Connection> connection = make_shared<QMetaObject::Connection>();
+  *connection = QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, song, art_embedded, connection]() {
+    SaveEmbeddedCoverFinished(reply, song, art_embedded);
+    QObject::disconnect(*connection);
+  });
 
 }
 

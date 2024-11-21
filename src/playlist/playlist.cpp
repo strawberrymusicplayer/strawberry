@@ -434,7 +434,11 @@ bool Playlist::setData(const QModelIndex &idx, const QVariant &value, const int 
   if (song.url().isLocalFile()) {
     TagReaderReplyPtr reply = tagreader_client_->WriteFileAsync(song.url().toLocalFile(), song);
     QPersistentModelIndex persistent_index = QPersistentModelIndex(idx);
-    QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, persistent_index, item]() { SongSaveComplete(reply, persistent_index, item->OriginalMetadata()); }, Qt::QueuedConnection);
+    SharedPtr<QMetaObject::Connection> connection = make_shared<QMetaObject::Connection>();
+    *connection = QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, persistent_index, item, connection]() {
+      SongSaveComplete(reply, persistent_index, item->OriginalMetadata());
+      QObject::disconnect(*connection);
+    }, Qt::QueuedConnection);
   }
   else if (song.is_radio()) {
     item->SetMetadata(song);

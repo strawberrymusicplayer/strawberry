@@ -24,6 +24,7 @@
 #include <algorithm>
 #include <utility>
 #include <chrono>
+#include <memory>
 
 #include <QObject>
 #include <QMainWindow>
@@ -96,6 +97,7 @@
 
 using namespace std::literals::chrono_literals;
 using namespace Qt::Literals::StringLiterals;
+using std::make_shared;
 
 namespace {
 constexpr char kSettingsGroup[] = "CoverManager";
@@ -855,8 +857,10 @@ void AlbumCoverManager::SaveImageToAlbums(Song *song, const AlbumCoverImageResul
         for (const QUrl &url : std::as_const(album_item->urls)) {
           const bool art_embedded = !result.image_data.isEmpty();
           TagReaderReplyPtr reply = tagreader_client_->SaveCoverAsync(url.toLocalFile(), SaveTagCoverData(result.image_data, result.mime_type));
-          QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, album_item, url, art_embedded]() {
+          SharedPtr<QMetaObject::Connection> connection = make_shared<QMetaObject::Connection>();
+          *connection = QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, album_item, url, art_embedded, connection]() {
             SaveEmbeddedCoverFinished(reply, album_item, url, art_embedded);
+            QObject::disconnect(*connection);
           });
           cover_save_tasks_.insert(album_item, url);
         }
@@ -1005,8 +1009,10 @@ void AlbumCoverManager::SaveAndSetCover(AlbumItem *album_item, const AlbumCoverI
     for (const QUrl &url : urls) {
       const bool art_embedded = !result.image_data.isEmpty();
       TagReaderReplyPtr reply = tagreader_client_->SaveCoverAsync(url.toLocalFile(), SaveTagCoverData(result.cover_url.isValid() ? result.cover_url.toLocalFile() : QString(), result.image_data, result.mime_type));
-      QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, album_item, url, art_embedded]() {
+      SharedPtr<QMetaObject::Connection> connection = std::make_shared<QMetaObject::Connection>();
+      *connection = QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, album_item, url, art_embedded, connection]() {
         SaveEmbeddedCoverFinished(reply, album_item, url, art_embedded);
+        QObject::disconnect(*connection);
       });
       cover_save_tasks_.insert(album_item, url);
     }

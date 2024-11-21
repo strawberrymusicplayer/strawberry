@@ -52,6 +52,4 @@ void TagReaderReply::EmitFinished() {
 
   Q_EMIT TagReaderReply::Finished(filename_, result_);
 
-  QObject::disconnect(this, &TagReaderReply::Finished, nullptr, nullptr);
-
 }
