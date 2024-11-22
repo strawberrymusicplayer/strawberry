@@ -75,7 +75,6 @@ void SmartPlaylistSearchPreview::Init(const SharedPtr<Player> player,
   model_ = new Playlist(nullptr, nullptr, nullptr, collection_backend_, nullptr, -1, QString(), false, this);
   ui_->tree->setModel(model_);
   ui_->tree->SetPlaylist(model_);
-  ui_->tree->SetItemDelegates();
 
   ui_->tree->Init(player,
                   playlist_manager,
