@@ -160,6 +160,7 @@ class PlaylistView : public QTreeView {
  private Q_SLOTS:
   void Update() { update(); }
   void SetHeaderState();
+  void HeaderSectionResized(const int logical_index, const int old_size, const int new_size);
   void InhibitAutoscrollTimeout();
   void MaybeAutoscroll(const Playlist::AutoScroll autoscroll);
   void InvalidateCachedCurrentPixmap();

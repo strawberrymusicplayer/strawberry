@@ -150,7 +150,7 @@ PlaylistView::PlaylistView(QWidget *parent)
   setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 #endif
 
-  QObject::connect(header_, &PlaylistHeader::sectionResized, this, &PlaylistView::SetHeaderState);
+  QObject::connect(header_, &PlaylistHeader::sectionResized, this, &PlaylistView::HeaderSectionResized);
   QObject::connect(header_, &PlaylistHeader::sectionMoved, this, &PlaylistView::SetHeaderState);
   QObject::connect(header_, &PlaylistHeader::sortIndicatorChanged, this, &PlaylistView::SetHeaderState);
   QObject::connect(header_, &PlaylistHeader::SectionVisibilityChanged, this, &PlaylistView::SetHeaderState);
@@ -420,6 +420,17 @@ void PlaylistView::RestoreHeaderState() {
   header_state_restored_ = true;
 
   Q_EMIT ColumnAlignmentChanged(column_alignment_);
+
+}
+
+void PlaylistView::HeaderSectionResized(const int logical_index, const int old_size, const int new_size) {
+
+  Q_UNUSED(logical_index)
+  Q_UNUSED(old_size)
+
+  if (new_size != 0) {
+    SetHeaderState();
+  }
 
 }
 
