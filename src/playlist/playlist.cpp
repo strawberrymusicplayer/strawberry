@@ -1295,8 +1295,6 @@ QMimeData *Playlist::mimeData(const QModelIndexList &indexes) const {
   // We only want one index per row, but we can't just take column 0 because the user might have hidden it.
   const int first_column = indexes.first().column();
 
-  QMimeData *mimedata = new QMimeData;
-
   QList<QUrl> urls;
   QList<int> rows;
   for (const QModelIndex &idx : indexes) {
@@ -1308,7 +1306,6 @@ QMimeData *Playlist::mimeData(const QModelIndexList &indexes) const {
 
   QBuffer buf;
   if (!buf.open(QIODevice::WriteOnly)) {
-    delete mimedata;
     return nullptr;
   }
   QDataStream stream(&buf);
@@ -1321,6 +1318,7 @@ QMimeData *Playlist::mimeData(const QModelIndexList &indexes) const {
   stream.writeRawData(reinterpret_cast<const char*>(&pid), sizeof(pid));
   buf.close();
 
+  QMimeData *mimedata = new QMimeData;
   mimedata->setUrls(urls);
   mimedata->setData(QLatin1String(kRowsMimetype), buf.data());
 
