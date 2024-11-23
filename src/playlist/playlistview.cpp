@@ -1294,9 +1294,9 @@ void PlaylistView::SaveSettings() {
 
   Settings s;
   s.beginGroup(PlaylistSettings::kSettingsGroup);
-  s.setValue("state_version", header_state_version_);
-  s.setValue("state", header_->SaveState());
-  s.setValue("column_alignments", QVariant::fromValue<ColumnAlignmentMap>(column_alignment_));
+  s.setValue(PlaylistSettings::kStateVersion, header_state_version_);
+  s.setValue(PlaylistSettings::kState, header_->SaveState());
+  s.setValue(PlaylistSettings::kColumnAlignments, QVariant::fromValue<ColumnAlignmentMap>(column_alignment_));
   s.setValue(PlaylistSettings::kRatingLocked, rating_locked_);
   s.endGroup();
 
