@@ -24,13 +24,14 @@
 
 #include "config.h"
 
-#include <cdio/cdio.h>
-#include <gst/audio/gstaudiocdsrc.h>
-
 #include <QObject>
 #include <QString>
 #include <QStringList>
 #include <QUrl>
+
+// These must come after Qt includes
+#include <cdio/cdio.h>
+#include <gst/audio/gstaudiocdsrc.h>
 
 #include "includes/shared_ptr.h"
 #include "core/song.h"
