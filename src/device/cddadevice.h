@@ -24,9 +24,6 @@
 
 #include "config.h"
 
-#include <cdio/cdio.h>
-#include <gst/audio/gstaudiocdsrc.h>
-
 #include <QObject>
 #include <QString>
 #include <QStringList>

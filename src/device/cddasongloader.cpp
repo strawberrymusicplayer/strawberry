@@ -24,9 +24,15 @@
 #include <memory>
 
 #include <cstddef>
+
 #include <glib.h>
 #include <glib/gtypes.h>
 #include <glib-object.h>
+
+#include <cdio/cdio.h>
+
+#include <gst/gst.h>
+#include <gst/tag/tag.h>
 
 #include <QtGlobal>
 #include <QObject>
@@ -34,10 +40,6 @@
 #include <QByteArray>
 #include <QString>
 #include <QUrl>
-
-#include <cdio/cdio.h>
-#include <gst/gst.h>
-#include <gst/tag/tag.h>
 
 #include "cddasongloader.h"
 #include "includes/shared_ptr.h"

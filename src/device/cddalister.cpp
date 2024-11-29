@@ -21,6 +21,11 @@
 
 #include <config.h>
 
+#include <cstddef>
+
+#include <cdio/cdio.h>
+#include <cdio/device.h>
+
 #include <QtGlobal>
 #include <QFileInfo>
 #include <QByteArray>
@@ -29,10 +34,6 @@
 #include <QStringList>
 #include <QRegularExpression>
 #include <QUrl>
-
-// This must come after Qt includes
-#include <cdio/cdio.h>
-#include <cdio/device.h>
 
 #include "cddalister.h"
 #include "core/logging.h"
