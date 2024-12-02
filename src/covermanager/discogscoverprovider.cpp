@@ -52,10 +52,12 @@
 using namespace Qt::Literals::StringLiterals;
 using std::make_shared;
 
-const char *DiscogsCoverProvider::kUrlSearch = "https://api.discogs.com/database/search";
-const char *DiscogsCoverProvider::kAccessKeyB64 = "dGh6ZnljUGJlZ1NEeXBuSFFxSVk=";
-const char *DiscogsCoverProvider::kSecretKeyB64 = "ZkFIcmlaSER4aHhRSlF2U3d0bm5ZVmdxeXFLWUl0UXI=";
-const int DiscogsCoverProvider::kRequestsDelay = 1000;
+namespace {
+constexpr char kUrlSearch[] = "https://api.discogs.com/database/search";
+constexpr char kAccessKeyB64[] = "dGh6ZnljUGJlZ1NEeXBuSFFxSVk=";
+constexpr char kSecretKeyB64[] = "ZkFIcmlaSER4aHhRSlF2U3d0bm5ZVmdxeXFLWUl0UXI=";
+constexpr int kRequestsDelay = 1000;
+}  // namespace
 
 DiscogsCoverProvider::DiscogsCoverProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent)
     : JsonCoverProvider(u"Discogs"_s, false, false, 0.0, false, false, network, parent),

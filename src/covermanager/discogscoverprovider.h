@@ -89,11 +89,6 @@ class DiscogsCoverProvider : public JsonCoverProvider {
   void HandleReleaseReply(QNetworkReply *reply, const int search_id, const quint64 release_id);
 
  private:
-  static const char *kUrlSearch;
-  static const char *kAccessKeyB64;
-  static const char *kSecretKeyB64;
-  static const int kRequestsDelay;
-
   QTimer *timer_flush_requests_;
   QQueue<SharedPtr<DiscogsCoverSearchContext>> queue_search_requests_;
   QQueue<DiscogsCoverReleaseContext> queue_release_requests_;
