@@ -25,14 +25,15 @@
 
 #include "mimedata.h"
 
-MimeData::MimeData(const bool clear, const bool play_now, const bool enqueue, const bool enqueue_next_now, const bool open_in_new_playlist, QObject *parent)
+MimeData::MimeData(const bool clear, const bool play_now, const bool enqueue, const bool enqueue_next_now, const bool open_in_new_playlist, const int playlist_id, QObject *parent)
       : override_user_settings_(false),
         clear_first_(clear),
         play_now_(play_now),
         enqueue_now_(enqueue),
         enqueue_next_now_(enqueue_next_now),
         open_in_new_playlist_(open_in_new_playlist),
-        from_doubleclick_(false) {
+        from_doubleclick_(false),
+        playlist_id_(playlist_id) {
 
   Q_UNUSED(parent);
 

@@ -109,6 +109,10 @@
 #  include "moodbar/moodbarloader.h"
 #endif
 
+#ifdef HAVE_NETWORKREMOTE
+#  include "networkremote/networkremote.h"
+#endif
+
 #include "radios/radioservices.h"
 #include "radios/radiobackend.h"
 
@@ -216,6 +220,13 @@ class ApplicationImpl {
         moodbar_loader_([app]() { return new MoodbarLoader(app); }),
         moodbar_controller_([app]() { return new MoodbarController(app->player(), app->moodbar_loader()); }),
 #endif
+#ifdef HAVE_NETWORKREMOTE
+        network_remote_([app]() {
+          NetworkRemote *networkremote = new NetworkRemote(app->database(), app->player(), app->collection_backend(), app->playlist_manager(), app->playlist_backend(), app->current_albumcover_loader(), app->scrobbler());
+          app->MoveToNewThread(networkremote);
+          return networkremote;
+        }),
+#endif
         lastfm_import_([app]() { return new LastFMImport(app->network()); })
   {}
 
@@ -240,6 +251,9 @@ class ApplicationImpl {
 #ifdef HAVE_MOODBAR
   Lazy<MoodbarLoader> moodbar_loader_;
   Lazy<MoodbarController> moodbar_controller_;
+#endif
+#ifdef HAVE_NETWORKREMOTE
+  Lazy<NetworkRemote> network_remote_;
 #endif
   Lazy<LastFMImport> lastfm_import_;
 
@@ -388,4 +402,7 @@ SharedPtr<LastFMImport> Application::lastfm_import() const { return p_->lastfm_i
 #ifdef HAVE_MOODBAR
 SharedPtr<MoodbarController> Application::moodbar_controller() const { return p_->moodbar_controller_.ptr(); }
 SharedPtr<MoodbarLoader> Application::moodbar_loader() const { return p_->moodbar_loader_.ptr(); }
+#endif
+#ifdef HAVE_NETWORKREMOTE
+SharedPtr<NetworkRemote> Application::network_remote() const { return p_->network_remote_.ptr(); }
 #endif

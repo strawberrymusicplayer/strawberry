@@ -1,6 +1,8 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * This file was part of Clementine.
+ * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2024, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,22 +19,28 @@
  *
  */
 
-#ifndef CRYPTUTILS_H
-#define CRYPTUTILS_H
+#ifndef NETWORKREMOTESETTINGSPAGE_H
+#define NETWORKREMOTESETTINGSPAGE_H
 
-#include <QByteArray>
-#include <QString>
-#include <QCryptographicHash>
-#include <QFile>
+#include "settingspage.h"
 
-namespace Utilities {
+class Ui_NetworkRemoteSettingsPage;
 
-QByteArray Hmac(const QByteArray &key, const QByteArray &data, const QCryptographicHash::Algorithm method);
-QByteArray HmacMd5(const QByteArray &key, const QByteArray &data);
-QByteArray HmacSha256(const QByteArray &key, const QByteArray &data);
-QByteArray HmacSha1(const QByteArray &key, const QByteArray &data);
-QByteArray Sha1File(QFile &file);
+class NetworkRemoteSettingsPage : public SettingsPage {
+  Q_OBJECT
 
-}  // namespace Utilities
+ public:
+  explicit NetworkRemoteSettingsPage(SettingsDialog *dialog);
+  ~NetworkRemoteSettingsPage();
 
-#endif  // CRYPTUTILS_H
+  void Load();
+  void Save();
+
+ private Q_SLOTS:
+  void Options();
+
+ private:
+  Ui_NetworkRemoteSettingsPage *ui_;
+};
+
+#endif  // NETWORKREMOTESETTINGSPAGE_H

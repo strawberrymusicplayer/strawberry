@@ -90,6 +90,9 @@
 #  include "qobuz/qobuzservice.h"
 #  include "qobuzsettingspage.h"
 #endif
+#ifdef HAVE_NETWORKREMOTE
+#  include "networkremotesettingspage.h"
+#endif
 
 #include "ui_settingsdialog.h"
 
@@ -159,6 +162,10 @@ SettingsDialog::SettingsDialog(const SharedPtr<Player> player,
 #endif
 #ifdef HAVE_QOBUZ
   AddPage(Page::Qobuz, new QobuzSettingsPage(this, streaming_services->Service<QobuzService>(), this), streaming);
+#endif
+
+#ifdef HAVE_NETWORKREMOTE
+  AddPage(Page::NetworkRemote, new NetworkRemoteSettingsPage(this));
 #endif
 
   // List box

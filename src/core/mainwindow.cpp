@@ -946,6 +946,10 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   ui_->action_open_cd->setVisible(false);
 #endif
 
+#ifdef HAVE_NETWORKREMOTE
+  app_->network_remote();
+#endif
+
   // Load settings
   qLog(Debug) << "Loading settings";
   settings_.beginGroup(MainWindowSettings::kSettingsGroup);
