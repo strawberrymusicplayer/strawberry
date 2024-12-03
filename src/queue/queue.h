@@ -51,7 +51,6 @@ class Queue : public QAbstractProxyModel {
 
   // Modify the queue
   int TakeNext();
-  void ToggleTracks(const QModelIndexList &source_indexes);
   void InsertFirst(const QModelIndexList &source_indexes);
   void Clear();
   void Move(const QList<int> &proxy_rows, int pos);
@@ -79,6 +78,7 @@ class Queue : public QAbstractProxyModel {
 
  public Q_SLOTS:
   void UpdateSummaryText();
+  void ToggleTracks(const QModelIndexList &source_indexes);
 
  Q_SIGNALS:
   void TotalLengthChanged(const quint64 length);
