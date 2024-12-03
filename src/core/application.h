@@ -65,6 +65,9 @@ class MoodbarLoader;
 class WaveformController;
 class WaveformLoader;
 #endif
+#ifdef HAVE_NETWORKREMOTE
+class NetworkRemote;
+#endif
 class AudioScrobbler;
 
 class Application : public QObject {
@@ -107,6 +110,10 @@ class Application : public QObject {
 #ifdef HAVE_WAVEFORM
   SharedPtr<WaveformController> waveform_controller() const;
   SharedPtr<WaveformLoader> waveform_loader() const;
+#endif
+
+#ifdef HAVE_NETWORKREMOTE
+  SharedPtr<NetworkRemote> network_remote() const;
 #endif
 
   SharedPtr<AudioScrobbler> scrobbler() const;

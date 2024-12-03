@@ -97,6 +97,7 @@ class SettingsDialog : public QDialog {
     Qobuz,
     Spotify,
     Radio,
+    NetworkRemote
   };
 
   enum Role {

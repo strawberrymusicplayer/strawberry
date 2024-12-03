@@ -110,6 +110,10 @@
 #  include "waveform/waveformloader.h"
 #endif
 
+#ifdef HAVE_NETWORKREMOTE
+#  include "networkremote/networkremote.h"
+#endif
+
 #include "radios/radioservices.h"
 #include "radios/radiobackend.h"
 
@@ -209,6 +213,13 @@ class ApplicationImpl {
         waveform_loader_([app]() { return new WaveformLoader(app); }),
         waveform_controller_([app]() { return new WaveformController(app->player(), app->waveform_loader()); }),
 #endif
+#ifdef HAVE_NETWORKREMOTE
+        network_remote_([app]() {
+          NetworkRemote *networkremote = new NetworkRemote(app->database(), app->player(), app->collection_backend(), app->playlist_manager(), app->playlist_backend(), app->current_albumcover_loader(), app->scrobbler());
+          app->MoveToNewThread(networkremote);
+          return networkremote;
+        }),
+#endif
         scrobbler_([app]() {
           AudioScrobbler *scrobbler = new AudioScrobbler(app);
           scrobbler->AddService(make_shared<LastFMScrobbler>(scrobbler->settings(), app->network()));
@@ -244,6 +255,9 @@ class ApplicationImpl {
 #ifdef HAVE_WAVEFORM
   Lazy<WaveformLoader> waveform_loader_;
   Lazy<WaveformController> waveform_controller_;
+#endif
+#ifdef HAVE_NETWORKREMOTE
+  Lazy<NetworkRemote> network_remote_;
 #endif
   Lazy<AudioScrobbler> scrobbler_;
 
@@ -394,5 +408,8 @@ SharedPtr<MoodbarLoader> Application::moodbar_loader() const { return p_->moodba
 #ifdef HAVE_WAVEFORM
 SharedPtr<WaveformController> Application::waveform_controller() const { return p_->waveform_controller_.ptr(); }
 SharedPtr<WaveformLoader> Application::waveform_loader() const { return p_->waveform_loader_.ptr(); }
+#endif
+#ifdef HAVE_NETWORKREMOTE
+SharedPtr<NetworkRemote> Application::network_remote() const { return p_->network_remote_.ptr(); }
 #endif
 SharedPtr<AudioScrobbler> Application::scrobbler() const { return p_->scrobbler_.ptr(); }

@@ -94,6 +94,9 @@
 #  include "qobuz/qobuzservice.h"
 #  include "qobuzsettingspage.h"
 #endif
+#ifdef HAVE_NETWORKREMOTE
+#  include "networkremotesettingspage.h"
+#endif
 
 #include "radiosettingspage.h"
 
@@ -171,6 +174,10 @@ SettingsDialog::SettingsDialog(const SharedPtr<Player> player,
 #endif
 
   AddPage(Page::Radio, new RadioSettingsPage(this, this), streaming);
+
+#ifdef HAVE_NETWORKREMOTE
+  AddPage(Page::NetworkRemote, new NetworkRemoteSettingsPage(this));
+#endif
 
   // List box
   QObject::connect(ui_->list, &QTreeWidget::currentItemChanged, this, &SettingsDialog::CurrentItemChanged);
