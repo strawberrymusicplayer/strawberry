@@ -63,6 +63,9 @@ class RadioServices;
 class MoodbarController;
 class MoodbarLoader;
 #endif
+#ifdef HAVE_NETWORKREMOTE
+class NetworkRemote;
+#endif
 
 class Application : public QObject {
   Q_OBJECT
@@ -101,6 +104,10 @@ class Application : public QObject {
 #ifdef HAVE_MOODBAR
   SharedPtr<MoodbarController> moodbar_controller() const;
   SharedPtr<MoodbarLoader> moodbar_loader() const;
+#endif
+
+#ifdef HAVE_NETWORKREMOTE
+  SharedPtr<NetworkRemote> network_remote() const;
 #endif
 
   SharedPtr<LastFMImport> lastfm_import() const;

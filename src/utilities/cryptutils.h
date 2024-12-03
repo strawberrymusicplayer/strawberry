@@ -23,6 +23,7 @@
 #include <QByteArray>
 #include <QString>
 #include <QCryptographicHash>
+#include <QFile>
 
 namespace Utilities {
 
@@ -30,6 +31,7 @@ QByteArray Hmac(const QByteArray &key, const QByteArray &data, const QCryptograp
 QByteArray HmacMd5(const QByteArray &key, const QByteArray &data);
 QByteArray HmacSha256(const QByteArray &key, const QByteArray &data);
 QByteArray HmacSha1(const QByteArray &key, const QByteArray &data);
+QByteArray Sha1File(QFile &file);
 
 }  // namespace Utilities
 

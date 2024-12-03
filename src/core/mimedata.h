@@ -29,7 +29,7 @@ class MimeData : public QMimeData {
   Q_OBJECT
 
  public:
-  explicit MimeData(const bool clear = false, const bool play_now = false, const bool enqueue = false, const bool enqueue_next_now = false, const bool open_in_new_playlist = false, QObject *parent = nullptr);
+  explicit MimeData(const bool clear = false, const bool play_now = false, const bool enqueue = false, const bool enqueue_next_now = false, const bool open_in_new_playlist = false, const int playlist_id = -1, QObject *parent = nullptr);
 
   // If this is set then MainWindow will not touch any of the other flags.
   bool override_user_settings_;
@@ -56,6 +56,9 @@ class MimeData : public QMimeData {
   // This can be set if this MimeData goes via MainWindow (ie. it is created manually in a double-click).
   // The MainWindow will set the above flags to the defaults set by the user.
   bool from_doubleclick_;
+
+  // The Network Remote can use this MimeData to drop songs on another playlist than the one currently opened on the server
+  int playlist_id_;
 
   // Returns a pretty name for a playlist containing songs described by this MimeData object.
   // By pretty name we mean the value of 'name_for_new_playlist_' or generic "Playlist" string if the 'name_for_new_playlist_' attribute is empty.

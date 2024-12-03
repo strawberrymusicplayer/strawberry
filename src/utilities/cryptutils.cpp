@@ -20,6 +20,8 @@
 #include <QByteArray>
 #include <QString>
 #include <QCryptographicHash>
+#include <QFile>
+#include <QIODevice>
 
 #include "cryptutils.h"
 
@@ -60,6 +62,19 @@ QByteArray HmacMd5(const QByteArray &key, const QByteArray &data) {
 
 QByteArray HmacSha1(const QByteArray &key, const QByteArray &data) {
   return Hmac(key, data, QCryptographicHash::Sha1);
+}
+
+QByteArray Sha1File(QFile &file) {
+
+  file.open(QIODevice::ReadOnly);
+  QCryptographicHash hash(QCryptographicHash::Sha1);
+  while (!file.atEnd()) {
+    hash.addData(file.read(1000000));
+  }
+  file.close();
+
+  return hash.result();
+
 }
 
 }  // namespace Utilities

@@ -218,7 +218,7 @@ set(QT_VERSION_MAJOR 6)
 set(QT_MIN_VERSION 6.4.0)
 set(QT_DEFAULT_MAJOR_VERSION ${QT_VERSION_MAJOR})
 set(QT_COMPONENTS Core Concurrent Gui Widgets Network Sql)
-set(QT_OPTIONAL_COMPONENTS GuiPrivate LinguistTools Test)
+set(QT_OPTIONAL_COMPONENTS GuiPrivate LinguistTools Test Protobuf)
 if(UNIX AND NOT APPLE)
   list(APPEND QT_OPTIONAL_COMPONENTS DBus)
 endif()
@@ -278,6 +278,7 @@ if(APPLE OR WIN32)
   if(TARGET "qtsparkle-qt${QT_VERSION_MAJOR}::qtsparkle")
     set(QTSPARKLE_FOUND ON)
   endif()
+  pkg_check_modules(TINYSVCMDNS IMPORTED_TARGET tinysvcmdns)
 endif()
 
 if(UNIX AND NOT APPLE)
@@ -380,6 +381,18 @@ optional_component(STREAMTAGREADER ON "Stream tagreader"
 optional_component(DISCORD_RPC ON "Discord Rich Presence"
   DEPENDS "RapidJSON" RapidJSON_FOUND
 )
+
+if(WIN32)
+  optional_component(NETWORKREMOTE ON "Network remote"
+    DEPENDS "Qt Protobuf" Qt${QT_VERSION_MAJOR}Protobuf_FOUND
+    DEPENDS "tinysvcmdns" TINYSVCMDNS_FOUND
+  )
+else()
+  optional_component(NETWORKREMOTE ON "Network remote"
+    DEPENDS "Qt Protobuf" Qt${QT_VERSION_MAJOR}Protobuf_FOUND
+  )
+endif()
+
 
 if(HAVE_SONGFINGERPRINTING OR HAVE_MUSICBRAINZ)
   set(HAVE_CHROMAPRINT ON)
@@ -759,6 +772,7 @@ set(SOURCES
   src/widgets/loginstatewidget.cpp
   src/widgets/ratingwidget.cpp
   src/widgets/resizabletextedit.cpp
+  src/widgets/filechooserwidget.cpp
 
   src/osd/osdbase.cpp
   src/osd/osdpretty.cpp
@@ -1057,6 +1071,7 @@ set(HEADERS
   src/widgets/ratingwidget.h
   src/widgets/forcescrollperpixel.h
   src/widgets/resizabletextedit.h
+  src/widgets/filechooserwidget.h
 
   src/osd/osdbase.h
   src/osd/osdpretty.h
@@ -1480,6 +1495,57 @@ optional_source(HAVE_QOBUZ
     src/settings/qobuzsettingspage.ui
 )
 
+if(HAVE_NETWORKREMOTE)
+  optional_source(HAVE_NETWORKREMOTE
+    SOURCES
+      src/core/zeroconf.cpp
+      src/networkremote/incomingdataparser.cpp
+      src/networkremote/networkremote.cpp
+      src/networkremote/outgoingdatacreator.cpp
+      src/networkremote/networkremoteclient.cpp
+      src/networkremote/songsender.cpp
+      src/settings/networkremotesettingspage.cpp
+    HEADERS
+      src/networkremote/networkremote.h
+      src/networkremote/incomingdataparser.h
+      src/networkremote/outgoingdatacreator.h
+      src/networkremote/networkremoteclient.h
+      src/networkremote/songsender.h
+      src/settings/networkremotesettingspage.h
+    UI
+      src/settings/networkremotesettingspage.ui
+  )
+  if(UNIX AND NOT APPLE)
+    get_target_property(QT_DBUSXML2CPP_EXECUTABLE Qt${QT_VERSION_MAJOR}::qdbusxml2cpp LOCATION)
+    add_custom_command(
+        OUTPUT
+        ${CMAKE_CURRENT_BINARY_DIR}/avahi/avahiserver.cpp
+        ${CMAKE_CURRENT_BINARY_DIR}/avahi/avahiserver.h
+        COMMAND ${QT_DBUSXML2CPP_EXECUTABLE}
+        ${CMAKE_SOURCE_DIR}/src/avahi/org.freedesktop.Avahi.Server.xml
+        -p ${CMAKE_CURRENT_BINARY_DIR}/avahi/avahiserver
+        -i includes/dbus_metatypes.h
+        DEPENDS src/avahi/org.freedesktop.Avahi.Server.xml
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    )
+    add_custom_command(
+        OUTPUT
+        ${CMAKE_CURRENT_BINARY_DIR}/avahi/avahientrygroup.cpp
+        ${CMAKE_CURRENT_BINARY_DIR}/avahi/avahientrygroup.h
+        COMMAND ${QT_DBUSXML2CPP_EXECUTABLE}
+        ${CMAKE_SOURCE_DIR}/src/avahi/org.freedesktop.Avahi.EntryGroup.xml
+        -p ${CMAKE_CURRENT_BINARY_DIR}/avahi/avahientrygroup
+        -i includes/dbus_metatypes.h
+        DEPENDS src/avahi/org.freedesktop.Avahi.EntryGroup.xml
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    )
+    list(APPEND SOURCES src/avahi/avahi.cpp ${CMAKE_CURRENT_BINARY_DIR}/avahi/avahientrygroup.cpp ${CMAKE_CURRENT_BINARY_DIR}/avahi/avahiserver.cpp)
+    list(APPEND HEADERS src/avahi/avahi.h ${CMAKE_CURRENT_BINARY_DIR}/avahi/avahientrygroup.h ${CMAKE_CURRENT_BINARY_DIR}/avahi/avahiserver.h)
+  endif()
+  optional_source(APPLE SOURCES src/core/bonjour.mm HEADERS src/core/bonjour.h)
+  optional_source(WIN32 SOURCES src/core/tinysvcmdns.cpp HEADERS src/core/tinysvcmdns.h)
+endif()
+
 qt_wrap_cpp(SOURCES ${HEADERS})
 qt_wrap_ui(SOURCES ${UI})
 qt_add_resources(SOURCES data/data.qrc data/icons.qrc)
@@ -1518,6 +1584,12 @@ if(HAVE_TRANSLATIONS)
   endif()
 endif()
 
+if(HAVE_NETWORKREMOTE)
+  qt_add_protobuf(NetworkRemoteMessages
+    PROTO_FILES src/networkremote/networkremotemessages.proto
+  )
+endif()
+
 target_include_directories(strawberry_lib PUBLIC
   ${CMAKE_SOURCE_DIR}
   ${CMAKE_BINARY_DIR}
@@ -1550,6 +1622,7 @@ target_link_libraries(strawberry_lib PUBLIC
   Qt${QT_VERSION_MAJOR}::Sql
   $<$<BOOL:${HAVE_DBUS}>:Qt${QT_VERSION_MAJOR}::DBus>
   $<$<BOOL:${HAVE_QPA_QPLATFORMNATIVEINTERFACE}>:Qt${QT_VERSION_MAJOR}::GuiPrivate>
+  $<$<BOOL:${HAVE_NETWORKREMOTE}>:Qt${QT_VERSION_MAJOR}::Protobuf>
   ICU::uc
   ICU::i18n
   $<$<BOOL:${HAVE_STREAMTAGREADER}>:PkgConfig::LIBSPARSEHASH>
@@ -1569,6 +1642,7 @@ target_link_libraries(strawberry_lib PUBLIC
   $<$<BOOL:${MSVC}>:WindowsApp>
   KDAB::kdsingleapplication
   $<$<BOOL:${HAVE_DISCORD_RPC}>:discord-rpc>
+  $<$<BOOL:${HAVE_NETWORKREMOTE}>:NetworkRemoteMessages>
 )
 
 if(APPLE)
@@ -1585,6 +1659,10 @@ if(APPLE)
     target_include_directories(strawberry_lib SYSTEM PRIVATE ${SPARKLE}/Headers)
     target_link_libraries(strawberry_lib PRIVATE ${SPARKLE})
   endif()
+endif()
+
+if(WIN32 AND HAVE_NETWORKREMOTE)
+  target_link_libraries(strawberry_lib PUBLIC PkgConfig::TINYSVCMDNS)
 endif()
 
 target_link_libraries(strawberry PUBLIC strawberry_lib)

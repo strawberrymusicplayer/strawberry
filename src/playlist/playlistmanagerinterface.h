@@ -77,7 +77,7 @@ class PlaylistManagerInterface : public QObject {
   virtual void PlaySmartPlaylist(PlaylistGeneratorPtr generator, const bool as_new, const bool clear) = 0;
 
  public Q_SLOTS:
-  virtual void New(const QString &name, const SongList &songs = SongList(), const QString &special_type = QString()) = 0;
+  virtual int New(const QString &name, const SongList &songs = SongList(), const QString &special_type = QString()) = 0;
   virtual void Load(const QString &filename) = 0;
   virtual void Save(const int id, const QString &playlist_name, const QString &filename, const PlaylistSettings::PathType path_type) = 0;
   virtual void Rename(const int id, const QString &new_name) = 0;

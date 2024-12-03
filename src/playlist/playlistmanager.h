@@ -95,7 +95,7 @@ class PlaylistManager : public PlaylistManagerInterface {
   PlaylistContainer *playlist_container() const override { return playlist_container_; }
 
  public Q_SLOTS:
-  void New(const QString &name, const SongList &songs = SongList(), const QString &special_type = QString()) override;
+  int New(const QString &name, const SongList &songs = SongList(), const QString &special_type = QString()) override;
   void Load(const QString &filename) override;
   void Save(const int id, const QString &playlist_name, const QString &filename, const PlaylistSettings::PathType path_type) override;
   // Display a file dialog to let user choose a file before saving the file
@@ -143,6 +143,9 @@ class PlaylistManager : public PlaylistManagerInterface {
   void SetActivePlaying() override;
   void SetActivePaused() override;
   void SetActiveStopped() override;
+
+  void Clear(const int id);
+  void Enqueue(const int id, const int i);
 
  private Q_SLOTS:
   void OneOfPlaylistsChanged();

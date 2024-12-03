@@ -93,6 +93,7 @@ class SettingsDialog : public QDialog {
     Tidal,
     Qobuz,
     Spotify,
+    NetworkRemote
   };
 
   enum Role {

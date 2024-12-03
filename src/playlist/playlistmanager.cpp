@@ -57,6 +57,7 @@
 #include "playlistview.h"
 #include "playlistsaveoptionsdialog.h"
 #include "playlistparsers/playlistparser.h"
+#include "queue/queue.h"
 #include "dialogs/saveplaylistsdialog.h"
 
 using namespace Qt::Literals::StringLiterals;
@@ -185,9 +186,9 @@ Playlist *PlaylistManager::AddPlaylist(const int id, const QString &name, const 
 
 }
 
-void PlaylistManager::New(const QString &name, const SongList &songs, const QString &special_type) {
+int PlaylistManager::New(const QString &name, const SongList &songs, const QString &special_type) {
 
-  if (name.isNull()) return;
+  if (name.isNull()) return -1;
 
   int id = playlist_backend_->CreatePlaylist(name, special_type);
 
@@ -202,6 +203,8 @@ void PlaylistManager::New(const QString &name, const SongList &songs, const QStr
   if (name == tr("Playlist")) {
     Rename(id, QStringLiteral("%1 %2").arg(name).arg(id));
   }
+
+  return id;
 
 }
 
@@ -614,3 +617,22 @@ void PlaylistManager::SaveAllPlaylists() {
   }
 
 }
+
+void PlaylistManager::Clear(const int id) {
+
+  if (playlists_.count() <= 1 || !playlists_.contains(id)) return;
+  playlists_[id].p->Clear();
+
+}
+
+void PlaylistManager::Enqueue(const int id, const int i) {
+
+  QModelIndexList dummyIndexList;
+
+  Q_ASSERT(playlists_.contains(id));
+
+  dummyIndexList.append(playlist(id)->index(i, 0));
+  playlist(id)->queue()->ToggleTracks(dummyIndexList);
+
+}
+

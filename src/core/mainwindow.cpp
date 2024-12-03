@@ -977,6 +977,10 @@ MainWindow::MainWindow(Application *app,
   ui_->action_open_cd->setVisible(false);
 #endif
 
+#ifdef HAVE_NETWORKREMOTE
+  app_->network_remote();
+#endif
+
   // Load settings
   qLog(Debug) << "Loading settings";
   Settings settings;
