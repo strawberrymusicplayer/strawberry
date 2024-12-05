@@ -5,90 +5,78 @@
     <name>About</name>
     <message>
       <source>About</source>
-      <translation type="unfinished">About</translation>
+      <translation>Sobre</translation>
     </message>
     <message>
       <source>About Strawberry</source>
-      <translation>Sobre o Strawberry</translation>
+      <translation>Sobre o Morango</translation>
     </message>
     <message>
       <source>Version %1</source>
-      <translation type="unfinished">Version %1</translation>
+      <translation>Versão %1</translation>
     </message>
     <message>
       <source>Strawberry is a music player and music collection organizer.</source>
-      <translation type="unfinished">Strawberry is a music player and music collection organizer.</translation>
+      <translation>O morango é um organizador de músicas e colecionador de música.</translation>
     </message>
     <message>
       <source>It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles.</source>
-      <translation type="unfinished">It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles.</translation>
+      <translation>É um garfo Clementino lançado em 2018 destinado a coletores de música e áudios.</translation>
     </message>
     <message>
       <source>Strawberry is free software released under GPL. The source code is available on %1</source>
-      <translation type="unfinished">Strawberry is free software released under GPL. The source code is available on %1</translation>
+      <translation>O morango é um ''software'' livre liberado com GPL. O código-fonte está disponível na %1</translation>
     </message>
     <message>
       <source>You should have received a copy of the GNU General Public License along with this program.  If not, see %1</source>
-      <translation type="unfinished">You should have received a copy of the GNU General Public License along with this program.  If not, see %1</translation>
+      <translation>Você deve ter recebido uma cópia da Licença Pública Geral GNU com este programa. Se não, veja %1</translation>
     </message>
     <message>
       <source>If you like Strawberry and can make use of it, consider sponsoring or donating.</source>
-      <translation type="unfinished">If you like Strawberry and can make use of it, consider sponsoring or donating.</translation>
+      <translation>Se você gosta de morango e pode utilizá-lo, considere patrocinar ou doar.</translation>
     </message>
     <message>
       <source>You can sponsor the author on %1. You can also make a one-time payment through %2.</source>
-      <translation type="unfinished">You can sponsor the author on %1. You can also make a one-time payment through %2.</translation>
+      <translation>Você pode patrocinar o autor na %1. Você também pode fazer um pagamento único por meio do %2.</translation>
     </message>
     <message>
       <source>Author and maintainer</source>
-      <translation type="unfinished">Author and maintainer</translation>
+      <translation>Autor e mantenedor</translation>
     </message>
     <message>
       <source>Contributors</source>
-      <translation type="unfinished">Contributors</translation>
+      <translation>Colaboradores</translation>
     </message>
     <message>
       <source>Clementine authors</source>
-      <translation type="unfinished">Clementine authors</translation>
+      <translation>Autores do Clementino</translation>
     </message>
     <message>
       <source>Clementine contributors</source>
-      <translation type="unfinished">Clementine contributors</translation>
+      <translation>Contribuidores do Clementino</translation>
     </message>
     <message>
       <source>Thanks to</source>
-      <translation type="unfinished">Thanks to</translation>
+      <translation>Obrigado a</translation>
     </message>
     <message>
       <source>Thanks to all the other Amarok and Clementine contributors.</source>
-      <translation type="unfinished">Thanks to all the other Amarok and Clementine contributors.</translation>
+      <translation>Graças a todos os outros contribuidores do Amaro e do Clementino.</translation>
     </message>
   </context>
   <context>
     <name>AddStreamDialog</name>
     <message>
       <source>Add Stream</source>
-      <translation type="unfinished">Add Stream</translation>
+      <translation>Adicionar transmissão</translation>
     </message>
     <message>
       <source>Enter the URL of a stream:</source>
-      <translation type="unfinished">Enter the URL of a stream:</translation>
+      <translation>Insira a URL de uma transmissão:</translation>
     </message>
   </context>
   <context>
     <name>AlbumCoverChoiceController</name>
-    <message>
-      <source>Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)</source>
-      <translation>Imagens (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)</translation>
-    </message>
-    <message>
-      <source>Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)</source>
-      <translation>Imagens (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)</translation>
-    </message>
-    <message>
-      <source>All files (*)</source>
-      <translation>Todos os arquivos (*)</translation>
-    </message>
     <message>
       <source>Load cover from disk...</source>
       <translation>Carregar capa do disco...</translation>
@@ -99,7 +87,7 @@
     </message>
     <message>
       <source>Load cover from URL...</source>
-      <translation>Carregar capa da URL...</translation>
+      <translation>Carregar capa do URL...</translation>
     </message>
     <message>
       <source>Search for album covers...</source>
@@ -111,11 +99,11 @@
     </message>
     <message>
       <source>Delete cover</source>
-      <translation type="unfinished">Delete cover</translation>
+      <translation>Excluir capa</translation>
     </message>
     <message>
       <source>Clear cover</source>
-      <translation type="unfinished">Clear cover</translation>
+      <translation>Limpar capa</translation>
     </message>
     <message>
       <source>Show fullsize...</source>
@@ -131,11 +119,11 @@
     </message>
     <message>
       <source>Failed to open cover file %1 for reading: %2</source>
-      <translation type="unfinished">Failed to open cover file %1 for reading: %2</translation>
+      <translation>Falha ao abrir o arquivo de capa %1 para leitura: %2</translation>
     </message>
     <message>
       <source>Cover file %1 is empty.</source>
-      <translation type="unfinished">Cover file %1 is empty.</translation>
+      <translation>O arquivo de capa %1 está vazio.</translation>
     </message>
     <message>
       <source>unknown</source>
@@ -147,27 +135,27 @@
     </message>
     <message>
       <source>Failed to open cover file %1 for writing: %2</source>
-      <translation type="unfinished">Failed to open cover file %1 for writing: %2</translation>
+      <translation>Falha ao abrir o arquivo de cobertura %1 para escrita: %2</translation>
     </message>
     <message>
       <source>Failed writing cover to file %1: %2</source>
-      <translation type="unfinished">Failed writing cover to file %1: %2</translation>
+      <translation>Falha ao escrever capa para o arquivo %1: %2</translation>
     </message>
     <message>
       <source>Failed writing cover to file %1.</source>
-      <translation type="unfinished">Failed writing cover to file %1.</translation>
+      <translation>Falha ao escrever capa para o arquivo %1.</translation>
     </message>
     <message>
       <source>Failed to delete cover file %1: %2</source>
-      <translation type="unfinished">Failed to delete cover file %1: %2</translation>
+      <translation>Falha ao excluir arquivo de capa %1: %2</translation>
     </message>
     <message>
       <source>Failed to write cover to file %1: %2</source>
-      <translation type="unfinished">Failed to write cover to file %1: %2</translation>
+      <translation>Falha ao escrever a capa do arquivo %1: %2</translation>
     </message>
     <message>
       <source>Could not save cover to file %1.</source>
-      <translation type="unfinished">Could not save cover to file %1.</translation>
+      <translation>Não foi possível salvar a capa do arquivo %1.</translation>
     </message>
   </context>
   <context>
@@ -202,11 +190,11 @@
     </message>
     <message>
       <source>O&amp;verwrite all</source>
-      <translation type="unfinished">O&amp;verwrite all</translation>
+      <translation>Substituir tudo</translation>
     </message>
     <message>
       <source>Overwrite s&amp;maller ones only</source>
-      <translation type="unfinished">Overwrite s&amp;maller ones only</translation>
+      <translation>Substituir somente os menores</translation>
     </message>
     <message>
       <source>Size</source>
@@ -222,7 +210,7 @@
     </message>
     <message>
       <source>Pixel</source>
-      <translation type="unfinished">Pixel</translation>
+      <translation>''píxel''</translation>
     </message>
   </context>
   <context>
@@ -285,7 +273,7 @@
     </message>
     <message>
       <source>Could not save cover to file %1.</source>
-      <translation type="unfinished">Could not save cover to file %1.</translation>
+      <translation>Não foi possível salvar a capa do arquivo %1.</translation>
     </message>
   </context>
   <context>
@@ -351,15 +339,15 @@
     </message>
     <message>
       <source>Turbine</source>
-      <translation type="unfinished">Turbine</translation>
+      <translation>Turbina</translation>
     </message>
     <message>
       <source>Sonogram</source>
-      <translation type="unfinished">Sonogram</translation>
+      <translation>Sonograma</translation>
     </message>
     <message>
       <source>WaveRubber</source>
-      <translation type="unfinished">WaveRubber</translation>
+      <translation>Ondulador</translation>
     </message>
   </context>
   <context>
@@ -370,35 +358,35 @@
     </message>
     <message>
       <source>Style</source>
-      <translation type="unfinished">Style</translation>
+      <translation>Estilo</translation>
     </message>
     <message>
       <source>Use system theme icons</source>
-      <translation type="unfinished">Use system theme icons</translation>
+      <translation>Usar ícones do tema do sistema</translation>
     </message>
     <message>
       <source>Settings require restart.</source>
-      <translation type="unfinished">Settings require restart.</translation>
+      <translation>Configurações requerem reinicialização.</translation>
     </message>
     <message>
       <source>Tabbar colors</source>
-      <translation type="unfinished">Tabbar colors</translation>
+      <translation>Cores da barra</translation>
     </message>
     <message>
       <source>&amp;Use the system default color</source>
-      <translation type="unfinished">&amp;Use the system default color</translation>
+      <translation>&amp;Usar a cor padrão do sistema</translation>
     </message>
     <message>
       <source>Use custom color</source>
-      <translation type="unfinished">Use custom color</translation>
+      <translation>Usar cor personalizada</translation>
     </message>
     <message>
       <source>Use gradient background</source>
-      <translation type="unfinished">Use gradient background</translation>
+      <translation>Usar fundo gradiente</translation>
     </message>
     <message>
       <source>Select tabbar color:</source>
-      <translation type="unfinished">Select tabbar color:</translation>
+      <translation>Selecionar cor da barra:</translation>
     </message>
     <message>
       <source>Background image</source>
@@ -406,11 +394,11 @@
     </message>
     <message>
       <source>Default bac&amp;kground image</source>
-      <translation type="unfinished">Default bac&amp;kground image</translation>
+      <translation>Escolha uma imagem de fundo</translation>
     </message>
     <message>
       <source>&amp;No background image</source>
-      <translation type="unfinished">&amp;No background image</translation>
+      <translation>&amp; Sem imagem de fundo</translation>
     </message>
     <message>
       <source>The album cover of the currently playing song</source>
@@ -418,7 +406,7 @@
     </message>
     <message>
       <source>Albu&amp;m cover</source>
-      <translation type="unfinished">Albu&amp;m cover</translation>
+      <translation>&amp;Capa de Álbum</translation>
     </message>
     <message>
       <source>Custom image:</source>
@@ -430,19 +418,19 @@
     </message>
     <message>
       <source>Position</source>
-      <translation type="unfinished">Position</translation>
+      <translation>Posição</translation>
     </message>
     <message>
       <source>Upper Left</source>
-      <translation type="unfinished">Upper Left</translation>
+      <translation>Canto superior esquerdo</translation>
     </message>
     <message>
       <source>Upper Right</source>
-      <translation type="unfinished">Upper Right</translation>
+      <translation>Canto Superior Direito</translation>
     </message>
     <message>
       <source>Middle</source>
-      <translation type="unfinished">Middle</translation>
+      <translation>Meio</translation>
     </message>
     <message>
       <source>Bottom Left</source>
@@ -454,15 +442,15 @@
     </message>
     <message>
       <source>Max cover size</source>
-      <translation type="unfinished">Max cover size</translation>
+      <translation>Tamanho máximo da capa</translation>
     </message>
     <message>
       <source>Stretch image to fill playlist</source>
-      <translation type="unfinished">Stretch image to fill playlist</translation>
+      <translation>Esticar a imagem para preencher a lista de reprodução</translation>
     </message>
     <message>
       <source>Keep aspect ratio</source>
-      <translation type="unfinished">Keep aspect ratio</translation>
+      <translation>Manter proporção de aspecto</translation>
     </message>
     <message>
       <source>Do not cut image</source>
@@ -550,10 +538,6 @@
     <message>
       <source>Output</source>
       <translation>Saída</translation>
-    </message>
-    <message>
-      <source>Engine</source>
-      <translation>Mecanismo</translation>
     </message>
     <message>
       <source>ALSA plugin:</source>
@@ -859,7 +843,7 @@
     </message>
     <message>
       <source>Error while querying CDDA tracks.</source>
-      <translation type="unfinished">Error while querying CDDA tracks.</translation>
+      <translation/>
     </message>
   </context>
   <context>
@@ -1002,6 +986,13 @@
     <message>
       <source>Grouping name:</source>
       <translation>Nome do agrupamento:</translation>
+    </message>
+  </context>
+  <context>
+    <name>CollectionLibrary</name>
+    <message>
+      <source>Saving playcounts and ratings</source>
+      <translation type="unfinished">Saving playcounts and ratings</translation>
     </message>
   </context>
   <context>
@@ -2705,20 +2696,8 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
       <translation type="unfinished">Global Shortcuts</translation>
     </message>
     <message>
-      <source>Use Gnome (GSD) shortcuts when available</source>
-      <translation type="unfinished">Use Gnome (GSD) shortcuts when available</translation>
-    </message>
-    <message>
       <source>Open...</source>
       <translation>Abrir...</translation>
-    </message>
-    <message>
-      <source>Use MATE shortcuts when available</source>
-      <translation type="unfinished">Use MATE shortcuts when available</translation>
-    </message>
-    <message>
-      <source>Use KDE (KGlobalAccel) shortcuts when available</source>
-      <translation type="unfinished">Use KDE (KGlobalAccel) shortcuts when available</translation>
     </message>
     <message>
       <source>Use X11 shortcuts when available</source>
@@ -2758,28 +2737,12 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
       <translation>Mudar atalho...</translation>
     </message>
     <message>
-      <source>The &quot;%1&quot; command could not be started.</source>
-      <translation>O comando &quot;%1&quot; não pôde ser iniciado.</translation>
+      <source>Use KGlobalAccel shortcuts when available</source>
+      <translation type="unfinished">Use KGlobalAccel shortcuts when available</translation>
     </message>
     <message>
-      <source>Using X11 shortcuts on %1 is not recommended and can cause keyboard to become unresponsive!</source>
-      <translation type="unfinished">Using X11 shortcuts on %1 is not recommended and can cause keyboard to become unresponsive!</translation>
-    </message>
-    <message>
-      <source> Shortcuts on %1 are usually used through MPRIS and KGlobalAccel.</source>
-      <translation type="unfinished"> Shortcuts on %1 are usually used through MPRIS and KGlobalAccel.</translation>
-    </message>
-    <message>
-      <source> Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in gnome-settings-daemon instead.</source>
-      <translation type="unfinished"> Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in gnome-settings-daemon instead.</translation>
-    </message>
-    <message>
-      <source> Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in cinnamon-settings-daemon instead.</source>
-      <translation type="unfinished"> Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in cinnamon-settings-daemon instead.</translation>
-    </message>
-    <message>
-      <source> Shortcuts on %1 are usually used through MATE Settings Daemon and should be configured there instead.</source>
-      <translation type="unfinished"> Shortcuts on %1 are usually used through MATE Settings Daemon and should be configured there instead.</translation>
+      <source>Using X11 shortcuts is not recommended and can cause keyboard to become unresponsive! Shortcuts on should usually be used through MPRIS2 / KGlobalAccel.</source>
+      <translation type="unfinished">Using X11 shortcuts is not recommended and can cause keyboard to become unresponsive! Shortcuts on should usually be used through MPRIS2 / KGlobalAccel.</translation>
     </message>
   </context>
   <context>
@@ -3374,10 +3337,6 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     <message>
       <source>Import data from last.fm...</source>
       <translation type="unfinished">Import data from last.fm...</translation>
-    </message>
-    <message>
-      <source>All Files (*)</source>
-      <translation>Todos os arquivos (*)</translation>
     </message>
     <message>
       <source>Context</source>
@@ -4568,14 +4527,6 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
         <numerusform>%n track(s)</numerusform>
       </translation>
     </message>
-    <message>
-      <source>Unknown</source>
-      <translation>Desconhecido</translation>
-    </message>
-    <message>
-      <source>Various artists</source>
-      <translation>Vários artistas</translation>
-    </message>
   </context>
   <context>
     <name>PlaylistParser</name>
@@ -4828,50 +4779,6 @@ Deseja continuar?</translation>
     <message>
       <source>Playlist</source>
       <translation>Lista de Reprodução</translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::InsertItems</name>
-    <message numerus="yes">
-      <source>add %n songs</source>
-      <translation type="unfinished">
-        <numerusform>Adicionar %n músicas</numerusform>
-        <numerusform>add %n songs</numerusform>
-      </translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::MoveItems</name>
-    <message numerus="yes">
-      <source>move %n songs</source>
-      <translation type="unfinished">
-        <numerusform>mover %n músicas</numerusform>
-        <numerusform>move %n songs</numerusform>
-      </translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::RemoveItems</name>
-    <message numerus="yes">
-      <source>remove %n songs</source>
-      <translation type="unfinished">
-        <numerusform>Remover %n músicas</numerusform>
-        <numerusform>remove %n songs</numerusform>
-      </translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::ShuffleItems</name>
-    <message>
-      <source>shuffle songs</source>
-      <translation>músicas aleatórias</translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::SortItems</name>
-    <message>
-      <source>sort songs</source>
-      <translation>Classificação das músicas</translation>
     </message>
   </context>
   <context>
@@ -5315,6 +5222,43 @@ Deseja continuar?</translation>
       <source>System colors</source>
       <translation type="unfinished">System colors</translation>
     </message>
+    <message>
+      <source>Playlist</source>
+      <translation type="unfinished">Playlist</translation>
+    </message>
+    <message>
+      <source>Various artists</source>
+      <translation type="unfinished">Various artists</translation>
+    </message>
+    <message numerus="yes">
+      <source>add %n songs</source>
+      <translation type="unfinished">
+        <numerusform>add %n songs</numerusform>
+        <numerusform>add %n songs</numerusform>
+      </translation>
+    </message>
+    <message numerus="yes">
+      <source>remove %n songs</source>
+      <translation type="unfinished">
+        <numerusform>remove %n songs</numerusform>
+        <numerusform>remove %n songs</numerusform>
+      </translation>
+    </message>
+    <message numerus="yes">
+      <source>move %n songs</source>
+      <translation type="unfinished">
+        <numerusform>move %n songs</numerusform>
+        <numerusform>move %n songs</numerusform>
+      </translation>
+    </message>
+    <message>
+      <source>sort songs</source>
+      <translation type="unfinished">sort songs</translation>
+    </message>
+    <message>
+      <source>shuffle songs</source>
+      <translation type="unfinished">shuffle songs</translation>
+    </message>
   </context>
   <context>
     <name>QWidget</name>
@@ -5599,13 +5543,6 @@ Deseja continuar?</translation>
     <message>
       <source>Form</source>
       <translation>Formulário</translation>
-    </message>
-  </context>
-  <context>
-    <name>SCollection</name>
-    <message>
-      <source>Saving playcounts and ratings</source>
-      <translation type="unfinished">Saving playcounts and ratings</translation>
     </message>
   </context>
   <context>
@@ -6234,20 +6171,12 @@ Deseja continuar?</translation>
   <context>
     <name>SongLoader</name>
     <message>
-      <source>You need GStreamer for this URL.</source>
-      <translation type="unfinished">You need GStreamer for this URL.</translation>
-    </message>
-    <message>
       <source>Preload function was not set for blocking operation.</source>
       <translation type="unfinished">Preload function was not set for blocking operation.</translation>
     </message>
     <message>
       <source>File %1 does not exist.</source>
       <translation type="unfinished">File %1 does not exist.</translation>
-    </message>
-    <message>
-      <source>CD playback is only available with the GStreamer engine.</source>
-      <translation>A reprodução de CDs só está disponível com o mecanismo GStreamer.</translation>
     </message>
     <message>
       <source>Could not open file %1 for reading: %2</source>
@@ -6276,6 +6205,10 @@ Deseja continuar?</translation>
     <message>
       <source>Couldn&apos;t link GStreamer source, typefind and fakesink elements for %1</source>
       <translation type="unfinished">Couldn&apos;t link GStreamer source, typefind and fakesink elements for %1</translation>
+    </message>
+    <message>
+      <source>Missing CDDA playback.</source>
+      <translation type="unfinished">Missing CDDA playback.</translation>
     </message>
   </context>
   <context>
