@@ -49,8 +49,8 @@ EngineBase::EngineBase(QObject *parent)
       exclusive_mode_(false),
       volume_control_(true),
       volume_(100),
-      beginning_nanosec_(0),
-      end_nanosec_(0),
+      beginning_offset_nanosec_(0),
+      end_offset_nanosec_(0),
       ebur128_loudness_normalizing_gain_db_(0.0),
       scope_(kScopeSize),
       buffering_(false),
@@ -84,15 +84,15 @@ EngineBase::EngineBase(QObject *parent)
 
 EngineBase::~EngineBase() = default;
 
-bool EngineBase::Load(const QUrl &media_url, const QUrl &stream_url, const TrackChangeFlags track_change_flags, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec, const std::optional<double> ebur128_integrated_loudness_lufs) {
+bool EngineBase::Load(const QUrl &media_url, const QUrl &stream_url, const TrackChangeFlags track_change_flags, const bool force_stop_at_end, const quint64 beginning_offset_nanosec, const qint64 end_offset_nanosec, const std::optional<double> ebur128_integrated_loudness_lufs) {
 
   Q_UNUSED(track_change_flags)
   Q_UNUSED(force_stop_at_end);
 
   media_url_ = media_url;
   stream_url_ = stream_url;
-  beginning_nanosec_ = beginning_nanosec;
-  end_nanosec_ = end_nanosec;
+  beginning_offset_nanosec_ = beginning_offset_nanosec;
+  end_offset_nanosec_ = end_offset_nanosec;
 
   ebur128_loudness_normalizing_gain_db_ = 0.0;
   if (ebur128_loudness_normalization_ && ebur128_integrated_loudness_lufs) {
@@ -112,9 +112,9 @@ bool EngineBase::Load(const QUrl &media_url, const QUrl &stream_url, const Track
 
 }
 
-bool EngineBase::Play(const QUrl &media_url, const QUrl &stream_url, const bool pause, const TrackChangeFlags flags, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec, const quint64 offset_nanosec, const std::optional<double> ebur128_integrated_loudness_lufs) {
+bool EngineBase::Play(const QUrl &media_url, const QUrl &stream_url, const bool pause, const TrackChangeFlags flags, const bool force_stop_at_end, const quint64 beginning_offset_nanosec, const qint64 end_offset_nanosec, const quint64 offset_nanosec, const std::optional<double> ebur128_integrated_loudness_lufs) {
 
-  if (!Load(media_url, stream_url, flags, force_stop_at_end, beginning_nanosec, end_nanosec, ebur128_integrated_loudness_lufs)) {
+  if (!Load(media_url, stream_url, flags, force_stop_at_end, beginning_offset_nanosec, end_offset_nanosec, ebur128_integrated_loudness_lufs)) {
     return false;
   }
 

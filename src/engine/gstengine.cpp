@@ -177,13 +177,13 @@ EngineBase::State GstEngine::state() const {
 
 }
 
-void GstEngine::StartPreloading(const QUrl &media_url, const QUrl &stream_url, const bool force_stop_at_end, const qint64 beginning_nanosec, const qint64 end_nanosec) {
+void GstEngine::StartPreloading(const QUrl &media_url, const QUrl &stream_url, const bool force_stop_at_end, const qint64 beginning_offset_nanosec, const qint64 end_offset_nanosec) {
 
   const QByteArray gst_url = FixupUrl(stream_url);
 
   // No crossfading, so we can just queue the new URL in the existing pipeline and get gapless playback (hopefully)
   if (current_pipeline_) {
-    current_pipeline_->PrepareNextUrl(media_url, stream_url, gst_url, beginning_nanosec, force_stop_at_end ? end_nanosec : 0);
+    current_pipeline_->PrepareNextUrl(media_url, stream_url, gst_url, beginning_offset_nanosec, force_stop_at_end ? end_offset_nanosec : 0);
     // Add request to discover the stream
     if (discoverer_ && media_url.scheme() != u"spotify"_s) {
       if (!gst_discoverer_discover_uri_async(discoverer_, gst_url.constData())) {
@@ -194,9 +194,9 @@ void GstEngine::StartPreloading(const QUrl &media_url, const QUrl &stream_url, c
 
 }
 
-bool GstEngine::Load(const QUrl &media_url, const QUrl &stream_url, const EngineBase::TrackChangeFlags change, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec, const std::optional<double> ebur128_integrated_loudness_lufs) {
+bool GstEngine::Load(const QUrl &media_url, const QUrl &stream_url, const EngineBase::TrackChangeFlags change, const bool force_stop_at_end, const quint64 beginning_offset_nanosec, const qint64 end_offset_nanosec, const std::optional<double> ebur128_integrated_loudness_lufs) {
 
-  EngineBase::Load(media_url, stream_url, change, force_stop_at_end, beginning_nanosec, end_nanosec, ebur128_integrated_loudness_lufs);
+  EngineBase::Load(media_url, stream_url, change, force_stop_at_end, beginning_offset_nanosec, end_offset_nanosec, ebur128_integrated_loudness_lufs);
 
   const QByteArray gst_url = FixupUrl(stream_url);
 
@@ -215,7 +215,7 @@ bool GstEngine::Load(const QUrl &media_url, const QUrl &stream_url, const Engine
     }
   }
 
-  GstEnginePipelinePtr pipeline = CreatePipeline(media_url, stream_url, gst_url, force_stop_at_end ? end_nanosec : 0, ebur128_loudness_normalizing_gain_db_);
+  GstEnginePipelinePtr pipeline = CreatePipeline(media_url, stream_url, gst_url, static_cast<qint64>(beginning_offset_nanosec), force_stop_at_end ? end_offset_nanosec : 0, ebur128_loudness_normalizing_gain_db_);
   if (!pipeline) return false;
 
   GstEnginePipelinePtr old_pipeline = current_pipeline_;
@@ -289,7 +289,7 @@ bool GstEngine::Play(const bool pause, const quint64 offset_nanosec) {
     watcher->deleteLater();
     PlayDone(ret, pause, offset_nanosec, pipeline_id);
   });
-  QFuture<GstStateChangeReturn> future = current_pipeline_->Play(pause, beginning_nanosec_ + offset_nanosec);
+  QFuture<GstStateChangeReturn> future = current_pipeline_->Play(pause, beginning_offset_nanosec_ + offset_nanosec);
   watcher->setFuture(future);
 
   return true;
@@ -306,7 +306,7 @@ void GstEngine::Stop(const bool stop_after) {
 
   media_url_.clear();
   stream_url_.clear();  // To ensure we return Empty from state()
-  beginning_nanosec_ = end_nanosec_ = 0;
+  beginning_offset_nanosec_ = end_offset_nanosec_ = 0;
 
   // Check if we started a fade out. If it isn't finished yet and the user pressed stop, we cancel the fader and just stop the playback.
   if (fadeout_pause_pipeline_) {
@@ -384,7 +384,7 @@ void GstEngine::Seek(const quint64 offset_nanosec) {
 
   if (!current_pipeline_) return;
 
-  seek_pos_ = beginning_nanosec_ + offset_nanosec;
+  seek_pos_ = beginning_offset_nanosec_ + offset_nanosec;
   waiting_to_seek_ = true;
 
   if (!seek_timer_->isActive()) {
@@ -402,7 +402,7 @@ qint64 GstEngine::position_nanosec() const {
 
   if (!current_pipeline_) return 0;
 
-  const qint64 result = current_pipeline_->position() - static_cast<qint64>(beginning_nanosec_);
+  const qint64 result = current_pipeline_->position() - static_cast<qint64>(beginning_offset_nanosec_);
   return std::max(0LL, result);
 
 }
@@ -411,7 +411,7 @@ qint64 GstEngine::length_nanosec() const {
 
   if (!current_pipeline_) return 0;
 
-  const qint64 result = end_nanosec_ - static_cast<qint64>(beginning_nanosec_);
+  const qint64 result = end_offset_nanosec_ - static_cast<qint64>(beginning_offset_nanosec_);
 
   if (result > 0) {
     return result;
@@ -742,7 +742,7 @@ void GstEngine::PlayDone(const GstStateChangeReturn ret, const bool pause, const
         stream_url = old_pipeline->stream_url();
         stream_url.detach();
       }
-      current_pipeline_ = CreatePipeline(media_url, stream_url, redirect_url, end_nanosec_, old_pipeline->ebur128_loudness_normalizing_gain_db());
+      current_pipeline_ = CreatePipeline(media_url, stream_url, redirect_url, beginning_offset_nanosec_, end_offset_nanosec_, old_pipeline->ebur128_loudness_normalizing_gain_db());
       FinishPipeline(old_pipeline);
       Play(pause, offset_nanosec);
       return;
@@ -761,7 +761,7 @@ void GstEngine::PlayDone(const GstStateChangeReturn ret, const bool pause, const
 
   Q_EMIT StateChanged(pause ? State::Paused : State::Playing);
 
-  // We've successfully started playing a media stream with this url
+  // We've successfully started playing a media stream with this URL
   Q_EMIT ValidSongRequested(stream_url_);
 
 }
@@ -926,11 +926,11 @@ GstEnginePipelinePtr GstEngine::CreatePipeline() {
 
 }
 
-GstEnginePipelinePtr GstEngine::CreatePipeline(const QUrl &media_url, const QUrl &stream_url, const QByteArray &gst_url, const qint64 end_nanosec, const double ebur128_loudness_normalizing_gain_db) {
+GstEnginePipelinePtr GstEngine::CreatePipeline(const QUrl &media_url, const QUrl &stream_url, const QByteArray &gst_url, const qint64 beginning_offset_nanosec, const qint64 end_offset_nanosec, const double ebur128_loudness_normalizing_gain_db) {
 
   GstEnginePipelinePtr ret = CreatePipeline();
   QString error;
-  if (!ret->InitFromUrl(media_url, stream_url, gst_url, end_nanosec, ebur128_loudness_normalizing_gain_db, error)) {
+  if (!ret->InitFromUrl(media_url, stream_url, gst_url, beginning_offset_nanosec, end_offset_nanosec, ebur128_loudness_normalizing_gain_db, error)) {
     ret.reset();
     Q_EMIT Error(error);
     Q_EMIT StateChanged(State::Error);

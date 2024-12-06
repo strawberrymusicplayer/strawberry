@@ -91,7 +91,7 @@ class EngineBase : public QObject {
   virtual bool Init() = 0;
   virtual State state() const = 0;
   virtual void StartPreloading(const QUrl&, const QUrl&, const bool, const qint64, const qint64) {}
-  virtual bool Load(const QUrl &media_url, const QUrl &stream_url, const TrackChangeFlags track_change_flags, const bool force_stop_at_end, const quint64 beginning_nanosec, const qint64 end_nanosec, const std::optional<double> ebur128_integrated_loudness_lufs);
+  virtual bool Load(const QUrl &media_url, const QUrl &stream_url, const TrackChangeFlags track_change_flags, const bool force_stop_at_end, const quint64 beginning_offset_nanosec, const qint64 end_offset_nanosec, const std::optional<double> ebur128_integrated_loudness_lufs);
   virtual bool Play(const bool pause, const quint64 offset_nanosec) = 0;
   virtual void Stop(const bool stop_after = false) = 0;
   virtual void Pause() = 0;
@@ -106,9 +106,9 @@ class EngineBase : public QObject {
 
   // Sets new values for the beginning and end markers of the currently playing song.
   // This doesn't change the state of engine or the stream's current position.
-  virtual void RefreshMarkers(const quint64 beginning_nanosec, const qint64 end_nanosec) {
-    beginning_nanosec_ = beginning_nanosec;
-    end_nanosec_ = end_nanosec;
+  virtual void RefreshMarkers(const quint64 beginning_offset_nanosec, const qint64 end_offset_nanosec) {
+    beginning_offset_nanosec_ = beginning_offset_nanosec;
+    end_offset_nanosec_ = end_offset_nanosec;
   }
 
   virtual OutputDetailsList GetOutputsList() const = 0;
@@ -179,8 +179,8 @@ class EngineBase : public QObject {
   bool exclusive_mode_;
   bool volume_control_;
   uint volume_;
-  quint64 beginning_nanosec_;
-  qint64 end_nanosec_;
+  quint64 beginning_offset_nanosec_;
+  qint64 end_offset_nanosec_;
   QUrl media_url_;
   QUrl stream_url_;
   double ebur128_loudness_normalizing_gain_db_;

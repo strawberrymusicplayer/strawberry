@@ -125,6 +125,7 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       ebur128_loudness_normalizing_gain_db_(0.0),
       segment_start_(0),
       segment_start_received_(false),
+      beginning_offset_nanosec_(-1),
       end_offset_nanosec_(-1),
       next_beginning_offset_nanosec_(-1),
       next_end_offset_nanosec_(-1),
@@ -429,7 +430,7 @@ bool GstEnginePipeline::Finish() {
 
 }
 
-bool GstEnginePipeline::InitFromUrl(const QUrl &media_url, const QUrl &stream_url, const QByteArray &gst_url, const qint64 end_nanosec, const double ebur128_loudness_normalizing_gain_db, QString &error) {
+bool GstEnginePipeline::InitFromUrl(const QUrl &media_url, const QUrl &stream_url, const QByteArray &gst_url, const qint64 beginning_offset_nanosec, const qint64 end_offset_nanosec, const double ebur128_loudness_normalizing_gain_db, QString &error) {
 
   {
     QMutexLocker l(&mutex_url_);
@@ -438,7 +439,8 @@ bool GstEnginePipeline::InitFromUrl(const QUrl &media_url, const QUrl &stream_ur
     gst_url_ = gst_url;
   }
 
-  end_offset_nanosec_ = end_nanosec;
+  beginning_offset_nanosec_ = beginning_offset_nanosec;
+  end_offset_nanosec_ = end_offset_nanosec;
   ebur128_loudness_normalizing_gain_db_ = ebur128_loudness_normalizing_gain_db;
 
   guint version_major = 0, version_minor = 0, version_micro = 0, version_nano = 0;
@@ -1328,6 +1330,7 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
   if (instance->end_offset_nanosec_.value() > 0 && end_time > instance->end_offset_nanosec_.value()) {
     if (instance->HasMatchingNextUrl() && instance->next_beginning_offset_nanosec_.value() == instance->end_offset_nanosec_.value()) {
       // The "next" song is actually the next segment of this file - so cheat and keep on playing, but just tell the Engine we've moved on.
+      instance->beginning_offset_nanosec_ = instance->next_beginning_offset_nanosec_;
       instance->end_offset_nanosec_ = instance->next_end_offset_nanosec_;
       instance->next_media_url_.clear();
       instance->next_stream_url_.clear();
@@ -1477,6 +1480,7 @@ void GstEnginePipeline::StreamStartMessageReceived() {
       next_media_url_.clear();
       next_gst_url_.clear();
     }
+    beginning_offset_nanosec_ = next_beginning_offset_nanosec_;
     end_offset_nanosec_ = next_end_offset_nanosec_;
     next_beginning_offset_nanosec_ = 0;
     next_end_offset_nanosec_ = 0;
@@ -2137,7 +2141,7 @@ bool GstEnginePipeline::HasMatchingNextUrl() const {
 
 }
 
-void GstEnginePipeline::PrepareNextUrl(const QUrl &media_url, const QUrl &stream_url, const QByteArray &gst_url, const qint64 beginning_nanosec, const qint64 end_nanosec) {
+void GstEnginePipeline::PrepareNextUrl(const QUrl &media_url, const QUrl &stream_url, const QByteArray &gst_url, const qint64 beginning_offset_nanosec, const qint64 end_offset_nanosec) {
 
   {
     QMutexLocker l(&mutex_next_url_);
@@ -2146,8 +2150,8 @@ void GstEnginePipeline::PrepareNextUrl(const QUrl &media_url, const QUrl &stream
     next_gst_url_ = gst_url;
   }
 
-  next_beginning_offset_nanosec_ = beginning_nanosec;
-  next_end_offset_nanosec_ = end_nanosec;
+  next_beginning_offset_nanosec_ = beginning_offset_nanosec;
+  next_end_offset_nanosec_ = end_offset_nanosec;
 
   if (about_to_finish_.value()) {
     SetNextUrl();

@@ -83,7 +83,7 @@ class GstEnginePipeline : public QObject {
   bool Finish();
 
   // Creates the pipeline, returns false on error
-  bool InitFromUrl(const QUrl &media_url, const QUrl &stream_url, const QByteArray &gst_url, const qint64 end_nanosec, const double ebur128_loudness_normalizing_gain_db, QString &error);
+  bool InitFromUrl(const QUrl &media_url, const QUrl &stream_url, const QByteArray &gst_url, const qint64 beginning_offset_nanosec, const qint64 end_offset_nanosec, const double ebur128_loudness_normalizing_gain_db, QString &error);
 
   // GstBufferConsumers get fed audio data.  Thread-safe.
   void AddBufferConsumer(GstBufferConsumer *consumer);
@@ -105,7 +105,7 @@ class GstEnginePipeline : public QObject {
   // If this is set then it will be loaded automatically when playback finishes for gapless playback
   bool HasNextUrl() const;
   bool HasMatchingNextUrl() const;
-  void PrepareNextUrl(const QUrl &media_url, const QUrl &stream_url, const QByteArray &gst_url, const qint64 beginning_nanosec, const qint64 end_nanosec);
+  void PrepareNextUrl(const QUrl &media_url, const QUrl &stream_url, const QByteArray &gst_url, const qint64 beginning_offset_nanosec, const qint64 end_offset_nanosec);
   void SetNextUrl();
 
   void SetSourceDevice(const QString &device);
@@ -287,6 +287,7 @@ class GstEnginePipeline : public QObject {
   mutex_protected<bool> segment_start_received_;
   GstSegment last_playbin_segment_{};
 
+  mutex_protected<qint64> beginning_offset_nanosec_;
   // If this is > 0 then the pipeline will be forced to stop when playback goes past this position.
   mutex_protected<qint64> end_offset_nanosec_;
 
