@@ -158,7 +158,7 @@ ScrobblingAPI20::ReplyResult ScrobblingAPI20::GetJsonObject(QNetworkReply *reply
   ReplyResult reply_error_type = ReplyResult::ServerError;
 
   if (reply->error() == QNetworkReply::NoError) {
-    if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 200) {
+    if (!reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).isValid() || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 200) {
       reply_error_type = ReplyResult::Success;
     }
     else {
