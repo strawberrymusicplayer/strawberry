@@ -264,7 +264,17 @@ bool GstEngine::Load(const QUrl &media_url, const QUrl &stream_url, const Engine
 
 bool GstEngine::Play(const bool pause, const quint64 offset_nanosec) {
 
-  if (!current_pipeline_ || current_pipeline_->is_buffering() || current_pipeline_->state() == GstState::GST_STATE_PLAYING) return false;
+  if (!current_pipeline_ || current_pipeline_->is_buffering()) {
+    return false;
+  }
+
+  if (current_pipeline_->state() == GstState::GST_STATE_PLAYING) {
+    if (offset_nanosec != 0 || beginning_offset_nanosec_ != 0) {
+      Seek(offset_nanosec);
+      PlayDone(GST_STATE_CHANGE_SUCCESS, false, offset_nanosec, current_pipeline_->id());
+    }
+    return true;
+  }
 
   if (OldExclusivePipelineActive()) {
     qLog(Debug) << "Delaying play because a exclusive pipeline is already active...";
