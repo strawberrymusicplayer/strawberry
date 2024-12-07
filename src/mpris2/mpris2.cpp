@@ -386,8 +386,12 @@ void Mpris2::SetRating(double rating) {
 
 }
 
-QDBusObjectPath Mpris2::current_track_id() const {
-  return QDBusObjectPath(QStringLiteral("/org/strawberrymusicplayer/strawberry/Track/%1").arg(QString::number(playlist_manager_->active()->current_row())));
+int Mpris2::current_playlist_row() const {
+  return playlist_manager_->active()->current_row();
+}
+
+QDBusObjectPath Mpris2::current_track_id(const int current_row) const {
+  return QDBusObjectPath(QStringLiteral("/org/strawberrymusicplayer/strawberry/Track/%1").arg(current_row));
 }
 
 // We send Metadata change notification as soon as the process of changing song starts...
@@ -405,11 +409,14 @@ void Mpris2::CurrentSongChanged(const Song &song) {
 // ... and we add the cover information later, when it's available.
 void Mpris2::AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult &result) {
 
+  const int current_row = current_playlist_row();
+  if (current_row == -1) return;
+
   last_metadata_ = QVariantMap();
   song.ToXesam(&last_metadata_);
 
   using mpris::AddMetadata;
-  AddMetadata(u"mpris:trackid"_s, current_track_id(), &last_metadata_);
+  AddMetadata(u"mpris:trackid"_s, current_track_id(current_row), &last_metadata_);
 
   QUrl cover_url;
   if (result.album_cover.cover_url.isValid() && result.album_cover.cover_url.isLocalFile() && QFile(result.album_cover.cover_url.toLocalFile()).exists()) {
@@ -519,7 +526,11 @@ void Mpris2::Seek(qint64 offset) {
 
 void Mpris2::SetPosition(const QDBusObjectPath &trackId, qint64 offset) {
 
-  if (CanSeek() && trackId == current_track_id() && offset >= 0) {
+  const int current_row = current_playlist_row();
+
+  if (current_row == -1) return;
+
+  if (CanSeek() && trackId == current_track_id(current_row) && offset >= 0) {
     offset *= kNsecPerUsec;
 
     if (offset < player_->GetCurrentItem()->Metadata().length_nanosec()) {
