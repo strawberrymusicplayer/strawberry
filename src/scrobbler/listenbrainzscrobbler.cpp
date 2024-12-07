@@ -237,11 +237,17 @@ ListenBrainzScrobbler::ReplyResult ListenBrainzScrobbler::GetJsonObject(QNetwork
   ReplyResult reply_error_type = ReplyResult::ServerError;
 
   if (reply->error() == QNetworkReply::NoError) {
-    if (!reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).isValid() || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 200) {
-      reply_error_type = ReplyResult::Success;
+    if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).isValid()) {
+      const int http_status_code = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+      if (http_status_code == 200) {
+        reply_error_type = ReplyResult::Success;
+      }
+      else {
+        error_description = QStringLiteral("Received HTTP code %1").arg(http_status_code);
+      }
     }
     else {
-      error_description = QStringLiteral("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
+      error_description = u"Missing HTTP status code"_s;
     }
   }
   else {
