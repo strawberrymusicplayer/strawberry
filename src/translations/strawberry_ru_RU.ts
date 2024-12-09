@@ -194,7 +194,7 @@
     </message>
     <message>
       <source>Overwrite s&amp;maller ones only</source>
-      <translation>Перезаписать только более маленькие</translation>
+      <translation>Перезаписат&amp;ь только более маленькие</translation>
     </message>
     <message>
       <source>Size</source>

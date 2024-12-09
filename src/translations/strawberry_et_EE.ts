@@ -21,15 +21,15 @@
     </message>
     <message>
       <source>It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles.</source>
-      <translation>See on 2018. aastal välja antud Clementine haru, mis on mõeldud muusikakollektsionääridele ja audiofiilidele.</translation>
+      <translation>See on 2018. aastal välja antud Clementine'i haru, mis on mõeldud muusikakollektsionääridele ja audiofiilidele.</translation>
     </message>
     <message>
       <source>Strawberry is free software released under GPL. The source code is available on %1</source>
-      <translation>Strawberry on tasuta tarkvara, mis on välja antud GPL litsentsi all.  Lähtekood on saadaval aadressil %1</translation>
+      <translation>Strawberry on vaba ja tasuta tarkvara, mis on välja antud GPL litsentsi all. Lähtekood on saadaval aadressil %1</translation>
     </message>
     <message>
       <source>You should have received a copy of the GNU General Public License along with this program.  If not, see %1</source>
-      <translation>Sai ilmselt koos selle programmiga ka GNU üldise avaliku litsentsi koopia. Kui ei, vaata %1</translation>
+      <translation>Said ilmselt koos selle programmiga ka GNU Üldine Avalik Litsentsi koopia. Kui ei, siis leiad ta siit: %1</translation>
     </message>
     <message>
       <source>If you like Strawberry and can make use of it, consider sponsoring or donating.</source>
@@ -49,11 +49,11 @@
     </message>
     <message>
       <source>Clementine authors</source>
-      <translation>Clementine autorid</translation>
+      <translation>Clementine'i autorid</translation>
     </message>
     <message>
       <source>Clementine contributors</source>
-      <translation>Clementine toetajad</translation>
+      <translation>Clementine'i toetajad</translation>
     </message>
     <message>
       <source>Thanks to</source>
@@ -61,7 +61,7 @@
     </message>
     <message>
       <source>Thanks to all the other Amarok and Clementine contributors.</source>
-      <translation>Täname kõiki teisi Amaroki ja Clementine&apos; kaastöölisi.</translation>
+      <translation>Täname kõiki teisi Amaroki ja Clementine'i kaasautoreid.</translation>
     </message>
   </context>
   <context>
@@ -366,7 +366,7 @@
     </message>
     <message>
       <source>Settings require restart.</source>
-      <translation>Seaded nõuavad taaskäivitamist.</translation>
+      <translation>Seadistused eeldavad rakenduse taaskäivitamist.</translation>
     </message>
     <message>
       <source>Tabbar colors</source>
@@ -402,7 +402,7 @@
     </message>
     <message>
       <source>The album cover of the currently playing song</source>
-      <translation>Hetkel mängitava loo kaanepilt</translation>
+      <translation>Hetkel esitamisel oleva loo kaanepilt</translation>
     </message>
     <message>
       <source>Albu&amp;m cover</source>
@@ -850,7 +850,7 @@
     <name>CollectionBackend</name>
     <message>
       <source>Unable to execute collection SQL query: %1</source>
-      <translation>Helikogu SQL päring ei õnnestunud: %1</translation>
+      <translation>Muusikakogu SQL päring ei õnnestunud: %1</translation>
     </message>
     <message>
       <source>Failed SQL query: %1</source>
@@ -865,7 +865,7 @@
     <name>CollectionFilterWidget</name>
     <message>
       <source>Collection Filter</source>
-      <translation>Helikogu filter</translation>
+      <translation>Muusikakogu filter</translation>
     </message>
     <message>
       <source>Enter search terms here</source>
@@ -877,7 +877,7 @@
     </message>
     <message>
       <source>Entire collection</source>
-      <translation>Terve helikogu</translation>
+      <translation>Terve muusikakogu</translation>
     </message>
     <message>
       <source>Added today</source>
@@ -981,11 +981,11 @@
     </message>
     <message>
       <source>Grouping Name</source>
-      <translation>Rühmituse nimi</translation>
+      <translation>Rühmitamise nimi</translation>
     </message>
     <message>
       <source>Grouping name:</source>
-      <translation>Rühmituse nimi:</translation>
+      <translation>Rühmitamise nimi:</translation>
     </message>
   </context>
   <context>
@@ -1003,7 +1003,7 @@
     </message>
     <message>
       <source>Loading...</source>
-      <translation>Laadimine...</translation>
+      <translation>Laadime...</translation>
     </message>
     <message>
       <source>Unknown</source>
@@ -1014,11 +1014,11 @@
     <name>CollectionSettingsPage</name>
     <message>
       <source>Collection</source>
-      <translation>Helikogu</translation>
+      <translation>Muusikakogu</translation>
     </message>
     <message>
       <source>These folders will be scanned for music to make up your collection</source>
-      <translation>Helikogu moodustamiseks skaneeritakse muusikat nendest kaustadest</translation>
+      <translation>Muusikakogu moodustamiseks skaneeritakse muusikat nendest kaustadest</translation>
     </message>
     <message>
       <source>Add new folder...</source>
@@ -1034,11 +1034,11 @@
     </message>
     <message>
       <source>Update the collection when Strawberry starts</source>
-      <translation>Värskenda helikogu Strawberry käivitumisel</translation>
+      <translation>Värskenda muusikakogu Strawberry käivitumisel</translation>
     </message>
     <message>
       <source>Monitor the collection for changes</source>
-      <translation>Jälgi muudatusi helikogus</translation>
+      <translation>Jälgi muudatusi muusikakogus</translation>
     </message>
     <message>
       <source>Song fingerprinting and tracking</source>
@@ -1068,7 +1068,7 @@
       <source>When looking for album art Strawberry will first look for picture files that contain one of these words.
 If there are no matches then it will use the largest image in the directory.</source>
       <translation>Kaanepilte otsides vaatab Strawberry esmalt pildifaile, mis sisaldavad ühte neist sõnadest.
- Kui vasteid pole, kasutab see kataloogi suurimat pilti.</translation>
+ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Display options</source>
@@ -1084,7 +1084,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Show album cover art in collection</source>
-      <translation>Kuva helikogus kaanepilte</translation>
+      <translation>Kuva muusikakogus kaanepilte</translation>
     </message>
     <message>
       <source>Use various artists for compilation albums</source>
@@ -1092,7 +1092,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artist names</source>
-      <translation>Esitajate nimede sortimisel eira eesliiteid (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;)</translation>
+      <translation>Esitajate nimede järjestamisel eira eesliiteid („the“, „a“, „an“)</translation>
     </message>
     <message>
       <source>Album cover pixmap cache</source>
@@ -1148,7 +1148,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Add directory...</source>
-      <translation>Lisa kataloog...</translation>
+      <translation>Lisa kaust...</translation>
     </message>
     <message>
       <source>Write all playcounts and ratings to files</source>
@@ -1156,18 +1156,18 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Are you sure you want to write song playcounts and ratings to file for all songs in your collection?</source>
-      <translation>Kas soovid salvestada esituskorrad ja hinnangud kõigi oma helikogus olevate lugude jaoks?</translation>
+      <translation>Kas soovid salvestada esituskorrad ja hinnangud kõigi oma muusikakogus olevate lugude jaoks?</translation>
     </message>
   </context>
   <context>
     <name>CollectionView</name>
     <message>
       <source>Your collection is empty!</source>
-      <translation>Su helikogu on tühi!</translation>
+      <translation>Su muusikakogu on tühi!</translation>
     </message>
     <message>
       <source>Click here to add some music</source>
-      <translation>Klõpsa muusika lisamiseks siia</translation>
+      <translation>Muusika lisamiseks klõpsa siin</translation>
     </message>
     <message>
       <source>Append to current playlist</source>
@@ -1187,7 +1187,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Queue to play next</source>
-      <translation>Lisa järgmiseks esitamiseks järjekorda</translation>
+      <translation>Lisa järgmisena esitamiseks järjekorda</translation>
     </message>
     <message>
       <source>Search for this</source>
@@ -1215,7 +1215,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Show in file browser...</source>
-      <translation>Kuva failihalduris...</translation>
+      <translation>Näita failihalduris...</translation>
     </message>
     <message>
       <source>Rescan song(s)</source>
@@ -1257,7 +1257,7 @@ If there are no matches then it will use the largest image in the directory.</so
     <name>CollectionWatcher</name>
     <message>
       <source>Updating collection</source>
-      <translation>Helikogu värskendamine</translation>
+      <translation>Uuendame muusikakogu</translation>
     </message>
     <message>
       <source>Updating %1</source>
@@ -1283,7 +1283,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Custom text settings</source>
-      <translation>Kohandatud teksti seaded</translation>
+      <translation>Kohandatud seadistused teksti jaoks</translation>
     </message>
     <message>
       <source>MenuPopupToolButton</source>
@@ -1462,7 +1462,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>EBU R 128 Integrated Loudness</source>
-      <translation>EBU R 128 integreeritud valjus</translation>
+      <translation>EBU R 128 lõimitud valjus</translation>
     </message>
     <message>
       <source>EBU R 128 Loudness Range</source>
@@ -1486,7 +1486,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>No song playing</source>
-      <translation>Midagi ei mängita</translation>
+      <translation>Mitte midagi pole esitamisel</translation>
     </message>
     <message>
       <source>%1 song</source>
@@ -1658,11 +1658,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Save album covers in album directory</source>
-      <translation>Salvesta kaanepildid albumi kataloogi</translation>
+      <translation>Salvesta kaanepildid albumi kausta</translation>
     </message>
     <message>
       <source>Save album covers in cache directory</source>
-      <translation>Salvesta kaanepildid vahemälu kataloogi</translation>
+      <translation>Salvesta kaanepildid vahemälu kausta</translation>
     </message>
     <message>
       <source>Save album covers as embedded cover</source>
@@ -1694,15 +1694,15 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Use Tidal settings to authenticate.</source>
-      <translation>Kasuta autentimiseks Tidali seadeid.</translation>
+      <translation>Kasuta autentimiseks Tidali seadistusi.</translation>
     </message>
     <message>
       <source>Use Spotify settings to authenticate.</source>
-      <translation>Kasuta autentimiseks Spotify seadeid.</translation>
+      <translation>Kasuta autentimiseks Spotify seadistusi.</translation>
     </message>
     <message>
       <source>Use Qobuz settings to authenticate.</source>
-      <translation>Kasuta autentimiseks Qobuzi seadeid.</translation>
+      <translation>Kasuta autentimiseks Qobuzi seadistusi.</translation>
     </message>
     <message>
       <source>%1 needs authentication.</source>
@@ -1730,7 +1730,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Automatically picked up from album directory (%1)</source>
-      <translation>Automaatselt võetud albumi kataloogist (%1)</translation>
+      <translation>Automaatselt võetud albumi kaustast (%1)</translation>
     </message>
     <message>
       <source>Embedded album cover art (%1)</source>
@@ -1950,7 +1950,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Copy to collection...</source>
-      <translation>Kopeeri helikogusse...</translation>
+      <translation>Kopeeri muusikakogusse...</translation>
     </message>
     <message>
       <source>Delete from device...</source>
@@ -2048,7 +2048,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>EBU R 128 integrated loudness</source>
-      <translation>EBU R 128 integreeritud valjus</translation>
+      <translation>EBU R 128 lõimitud valjus</translation>
     </message>
     <message>
       <source>Bit rate</source>
@@ -2108,7 +2108,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Disc</source>
-      <translation>Ketas</translation>
+      <translation>Plaat</translation>
     </message>
     <message>
       <source>Grouping</source>
@@ -2240,7 +2240,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Album cover editing is only available for collection songs.</source>
-      <translation>Kaanepildi muutmine on võimalik ainult helikogu lugudel.</translation>
+      <translation>Kaanepildi muutmine on võimalik ainult muusikakogu lugudel.</translation>
     </message>
     <message>
       <source>Cover changed: Will be cleared when saved.</source>
@@ -2299,7 +2299,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Save preset</source>
-      <translation>Eelmääratluse salvestamine</translation>
+      <translation>Salvesta valmisseadistus</translation>
     </message>
     <message>
       <source>Delete preset</source>
@@ -2307,11 +2307,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Enable equalizer</source>
-      <translation>Luba ekvalaiser</translation>
+      <translation>Kasuta ekvalaiserit</translation>
     </message>
     <message>
       <source>Enable stereo balancer</source>
-      <translation>Stereo tasakaalustamine</translation>
+      <translation>Kasuta stereo tasakaalustamist</translation>
     </message>
     <message>
       <source>Left</source>
@@ -2379,7 +2379,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Reggae</source>
-      <translation>Regemuusika</translation>
+      <translation>Reggae</translation>
     </message>
     <message>
       <source>Rock</source>
@@ -2411,7 +2411,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Are you sure you want to delete the &quot;%1&quot; preset?</source>
-      <translation>Kas soovid kustutada eelseadistuse &quot;%1&quot;?</translation>
+      <translation>Kas oled kindel, et soovid kustutada eelseadistuse „%1“?</translation>
     </message>
   </context>
   <context>
@@ -2489,11 +2489,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Copy to collection...</source>
-      <translation>Kopeeri helikogusse...</translation>
+      <translation>Kopeeri muusikakogusse...</translation>
     </message>
     <message>
       <source>Move to collection...</source>
-      <translation>Teisalda helikogusse...</translation>
+      <translation>Teisalda muusikakogusse...</translation>
     </message>
     <message>
       <source>Copy to device...</source>
@@ -2610,7 +2610,7 @@ If there are no matches then it will use the largest image in the directory.</so
     <name>GlobalShortcutsManager</name>
     <message>
       <source>Play</source>
-      <translation>Mängi</translation>
+      <translation>Esita</translation>
     </message>
     <message>
       <source>Pause</source>
@@ -2749,15 +2749,15 @@ If there are no matches then it will use the largest image in the directory.</so
     <name>GroupByDialog</name>
     <message>
       <source>Collection advanced grouping</source>
-      <translation>Helikogu täpsem rühmitamine</translation>
+      <translation>Muusikakogu täpsem rühmitamine</translation>
     </message>
     <message>
       <source>You can change the way the songs in the collection are organized.</source>
-      <translation>Saad muuta viisi, kuidas helikogus olevad lood on korraldatud.</translation>
+      <translation>Saad muuta viisi, kuidas muusikakogus olevad lood on korraldatud.</translation>
     </message>
     <message>
       <source>Group Collection by...</source>
-      <translation>Järjesta helikogu...</translation>
+      <translation>Järjesta muusikakogu...</translation>
     </message>
     <message>
       <source>First level</source>
@@ -2785,7 +2785,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Disc</source>
-      <translation>Ketas</translation>
+      <translation>Plaat</translation>
     </message>
     <message>
       <source>Format</source>
@@ -2890,7 +2890,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Warning: Play counts and last played from last.fm will completely replace the same data for the matched songs. Play counts will replace the data based on artist and song title for the same albums! Please backup your database before you start.</source>
-      <translation>Hoiatus: Esituskordade ja viimati mängitud lugude statistikasaidilt last.fm asendab täielikult samad andmed vastega lugude jaoks. Andmed asendatakse sama albumi esitaja ja loo pealkirja järgi! Enne alustamist varunda oma andmebaas.</translation>
+      <translation>Hoiatus: Esituskordade ja viimati esitatud lugude statistika saidilt last.fm asendab täielikult samad andmed vastega lugude jaoks. Andmed asendatakse sama albumi esitaja ja loo pealkirja järgi! Enne alustamist varunda oma andmebaas.</translation>
     </message>
     <message>
       <source>Go!</source>
@@ -3160,7 +3160,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>&amp;Settings...</source>
-      <translation>&amp;Seaded...</translation>
+      <translation>&amp;Seadistused...</translation>
     </message>
     <message>
       <source>Ctrl+P</source>
@@ -3276,7 +3276,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>&amp;Update changed collection folders</source>
-      <translation>&amp;Värskenda muudetud kaustu helikogus</translation>
+      <translation>&amp;Värskenda muudetud kaustu muusikakogus</translation>
     </message>
     <message>
       <source>About &amp;Qt</source>
@@ -3292,11 +3292,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>&amp;Do a full collection rescan</source>
-      <translation>&amp;Skaneeri kogu helikogu</translation>
+      <translation>&amp;Skaneeri kogu muusikakogu</translation>
     </message>
     <message>
       <source>Stop collection scan</source>
-      <translation>Peata helikogu skaneerimine</translation>
+      <translation>Peata muusikakogu skaneerimine</translation>
     </message>
     <message>
       <source>Complete tags automatically...</source>
@@ -3344,7 +3344,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Collection</source>
-      <translation>Helikogu</translation>
+      <translation>Muusikakogu</translation>
     </message>
     <message>
       <source>Queue</source>
@@ -3400,11 +3400,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Configure collection...</source>
-      <translation>Helikogu seadistamine...</translation>
+      <translation>Seadista muusikakogu...</translation>
     </message>
     <message>
       <source>Play</source>
-      <translation>Mängi</translation>
+      <translation>Esita</translation>
     </message>
     <message>
       <source>Toggle queue status</source>
@@ -3428,7 +3428,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Show in collection...</source>
-      <translation>Kuva helikogus...</translation>
+      <translation>Kuva muusikakogus...</translation>
     </message>
     <message>
       <source>Show in file browser...</source>
@@ -3440,11 +3440,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Copy to collection...</source>
-      <translation>Kopeeri helikogusse...</translation>
+      <translation>Kopeeri muusikakogusse...</translation>
     </message>
     <message>
       <source>Move to collection...</source>
-      <translation>Teisalda helikogusse...</translation>
+      <translation>Teisalda muusikakogusse...</translation>
     </message>
     <message>
       <source>Copy to device...</source>
@@ -3472,7 +3472,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Strawberry is free and open source software. If you like Strawberry, please consider sponsoring the project. For more information about sponsorship see our website %1</source>
-      <translation>Strawberry on tasuta ja avatud lähtekoodiga tarkvara.  Kui sulle meeldib Strawberry, kaalu projekti toetamist.  Lisateavet sponsorluse kohta leiab meie veebisaidilt %1</translation>
+      <translation>Strawberry on tasuta ja avatud lähtekoodiga tarkvara. Kui sulle meeldib Strawberry, kaalu projekti toetamist. Lisateavet sponsorluse kohta leiad meie veebisaidilt %1</translation>
     </message>
     <message>
       <source>Pause</source>
@@ -3564,7 +3564,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Collection rescan notice</source>
-      <translation>Helikogu uuesti skaneerimise teatis</translation>
+      <translation>Muusikakogu uuesti skaneerimise teade</translation>
     </message>
   </context>
   <context>
@@ -3661,7 +3661,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>&amp;Use the system proxy settings</source>
-      <translation>&amp;Kasuta süsteemi puhverserveri seadeid</translation>
+      <translation>&amp;Kasuta süsteemi puhverserveri seadistusi</translation>
     </message>
     <message>
       <source>Direct internet connection</source>
@@ -3697,7 +3697,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Use proxy settings for streaming</source>
-      <translation>Kasuta voogesituseks puhverserveri seadeid</translation>
+      <translation>Kasuta voogesituseks puhverserveri seadistusi</translation>
     </message>
   </context>
   <context>
@@ -3769,7 +3769,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Custom message settings</source>
-      <translation>Kohandatud sõnumi seaded</translation>
+      <translation>Kohandatud seadistused sõnumite jaoks</translation>
     </message>
     <message>
       <source>Use a custom message for notifications</source>
@@ -3992,11 +3992,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Repeat album</source>
-      <translation>Korda album</translation>
+      <translation>Korda albumit</translation>
     </message>
     <message>
       <source>Repeat playlist</source>
-      <translation>Korda esitusloend</translation>
+      <translation>Korda esitusloendit</translation>
     </message>
     <message>
       <source>Stop after every track</source>
@@ -4130,7 +4130,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Disc</source>
-      <translation>Ketas</translation>
+      <translation>Plaat</translation>
     </message>
     <message>
       <source>Year</source>
@@ -4243,7 +4243,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Disc</source>
-      <translation>Ketas</translation>
+      <translation>Plaat</translation>
     </message>
     <message>
       <source>Length</source>
@@ -4347,7 +4347,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Integrated Loudness</source>
-      <translation>Integreeritud valjus</translation>
+      <translation>Lõimitud valjus</translation>
     </message>
     <message>
       <source>Loudness Range</source>
@@ -4820,7 +4820,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Play if stopped, pause if playing</source>
-      <translation>Mängi, kui on peatatud, paus, kui mängitakse</translation>
+      <translation>Peatamise korral esita, esitamise korral peata</translation>
     </message>
     <message>
       <source>Pause playback</source>
@@ -4936,7 +4936,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Failed to create directory %1.</source>
-      <translation>Kataloogi %1 loomine ei õnnestunud.</translation>
+      <translation>„%1“ kausta loomine ei õnnestunud.</translation>
     </message>
     <message>
       <source>Destination file %1 exists, but not allowed to overwrite.</source>
@@ -5549,7 +5549,7 @@ Kas soovid jätkata?</translation>
     <name>SavePlaylistsDialog</name>
     <message>
       <source>Select directory for saving playlists</source>
-      <translation>Vali esitusloendite salvestamise kataloog</translation>
+      <translation>Vali esitusloendite salvestamise kaust</translation>
     </message>
     <message>
       <source>Type</source>
@@ -5561,7 +5561,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Directory does not exist.</source>
-      <translation>Kataloogi pole olemas.</translation>
+      <translation>Kausta pole olemas.</translation>
     </message>
   </context>
   <context>
@@ -5632,7 +5632,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Disc</source>
-      <translation>Ketas</translation>
+      <translation>Plaat</translation>
     </message>
     <message>
       <source>Year</source>
@@ -5695,7 +5695,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Songs are scrobbled if they have valid metadata and are longer than 30 seconds, have been playing for at least half its duration or for 4 minutes (whichever occurs earlier).</source>
-      <translation>Lood kraasitakse, kui neil on kehtivad metaandmed ja need on pikemad kui 30 sekundit, neid on mängitud vähemalt pool kestusest või 4 minutit (olenevalt sellest, kumb saabub varem).</translation>
+      <translation>Lood kraasitakse, kui neil on kehtivad metaandmed ja need on pikemad kui 30 sekundit, neid on esitatud vähemalt pool kestusest või 4 minutit (olenevalt sellest, kumb saabub varem).</translation>
     </message>
     <message>
       <source>Work in offline mode (Only cache scrobbles)</source>
@@ -5715,11 +5715,11 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source> seconds</source>
-      <translation> sekundit</translation>
+      <translation> sekundi järel</translation>
     </message>
     <message>
       <source>(This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately).</source>
-      <translation>(See on viivitus loo kraasimise ja selle serverisse esitamise vahel. Kui määrata ajaks 0 sekundit, esitatakse kraasimised kohe).</translation>
+      <translation>(See on viivitus loo kraasimise ja selle serverisse esitamise vahel. Kui määrad ajaks 0 sekundit, esitatakse kraasimised kohe).</translation>
     </message>
     <message>
       <source>Prefer album artist when sending scrobbles</source>
@@ -5739,7 +5739,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Collection</source>
-      <translation>Helikogu</translation>
+      <translation>Muusikakogu</translation>
     </message>
     <message>
       <source>Subsonic</source>
@@ -5845,7 +5845,7 @@ Kas soovid jätkata?</translation>
     <name>SettingsDialog</name>
     <message>
       <source>Settings</source>
-      <translation>Seaded</translation>
+      <translation>Seadistused</translation>
     </message>
     <message>
       <source>General</source>
@@ -5926,11 +5926,11 @@ Kas soovid jätkata?</translation>
     <name>SmartPlaylistQueryWizardPlugin</name>
     <message>
       <source>Collection search</source>
-      <translation>Helikogu otsing</translation>
+      <translation>Muusikakogu otsing</translation>
     </message>
     <message>
       <source>Find songs in your collection that match the criteria you specify.</source>
-      <translation>Otsi oma helikogust laule, mis vastavad määratud kriteeriumidele.</translation>
+      <translation>Otsi oma muusikakogust lugusid, mis vastavad sinu määratud tingimustele.</translation>
     </message>
     <message>
       <source>Search terms</source>
@@ -6010,7 +6010,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>A smart playlist is a dynamic list of songs that come from your collection.  There are different types of smart playlist that offer different ways of selecting songs.</source>
-      <translation>Nutikas esitusloend on dünaamiline loend lugudest sinu helikogust. On olemas erinevat tüüpi nutikaid esitusloendeid, mis pakuvad erinevaid viise lugude valimiseks.</translation>
+      <translation>Nutikas esitusloend on dünaamiline loend lugudest sinu muusikakogus. On olemas erinevat tüüpi nutikaid esitusloendeid, mis pakuvad erinevaid viise lugude valimiseks.</translation>
     </message>
     <message>
       <source>Finish</source>
@@ -6150,7 +6150,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Copy your strawberry.conf and strawberry.db from your ~/snap directory to avoid losing configuration before you uninstall the snap:</source>
-      <translation>Varunda strawberry.conf ja strawberry.db kataloogist ~/snap, et vältida seadistuse kaotamist enne snapi eemaldamist:</translation>
+      <translation>Varunda strawberry.conf ja strawberry.db kaustast ~/snap, et vältida seadistuse kaotamist enne snapi eemaldamist:</translation>
     </message>
     <message>
       <source>Uninstall the snap with:</source>
@@ -6391,7 +6391,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Queue to play next</source>
-      <translation>Lisa järgmiseks esitamiseks järjekorda</translation>
+      <translation>Lisa järgmisena esitamiseks järjekorda</translation>
     </message>
     <message>
       <source>Remove from favorites</source>
@@ -6673,7 +6673,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Play</source>
-      <translation>Mängi</translation>
+      <translation>Esita</translation>
     </message>
   </context>
   <context>
@@ -7001,7 +7001,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Directory</source>
-      <translation>Kataloog</translation>
+      <translation>Kaust</translation>
     </message>
     <message>
       <source>Add...</source>
@@ -7013,7 +7013,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Add all tracks from a directory and all its subdirectories</source>
-      <translation>Lisa kõik lood kataloogist ja kõigist selle alamkataloogidest</translation>
+      <translation>Lisa kõik lood kaustast ja kõigist tema alamkaustadest</translation>
     </message>
     <message>
       <source>Import...</source>
@@ -7090,7 +7090,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Open a directory to import music from</source>
-      <translation>Ava kataloog, kust muusika importida</translation>
+      <translation>Ava kaust, millest impordime muusikat</translation>
     </message>
     <message>
       <source>Add folder</source>
@@ -7426,7 +7426,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>These settings are used in the &quot;Transcode Music&quot; dialog, and when converting music before copying it to a device.</source>
-      <translation>Neid sätteid kasutatakse aknas &quot;Teisenda muusikat&quot; ja muusika teisendamisel enne selle seadmesse kopeerimist.</translation>
+      <translation>Neid seadistusi kasutatakse aknas &quot;Teisenda muusikat&quot; ja muusika teisendamisel enne selle seadmesse kopeerimist.</translation>
     </message>
     <message>
       <source>FLAC</source>
