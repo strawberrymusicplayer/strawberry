@@ -21,15 +21,15 @@
     </message>
     <message>
       <source>It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles.</source>
-      <translation>See on 2018. aastal välja antud Clementine haru, mis on mõeldud muusikakollektsionääridele ja audiofiilidele.</translation>
+      <translation>See on 2018. aastal välja antud Clementine'i haru, mis on mõeldud muusikakollektsionääridele ja audiofiilidele.</translation>
     </message>
     <message>
       <source>Strawberry is free software released under GPL. The source code is available on %1</source>
-      <translation>Strawberry on tasuta tarkvara, mis on välja antud GPL litsentsi all.  Lähtekood on saadaval aadressil %1</translation>
+      <translation>Strawberry on vaba ja tasuta tarkvara, mis on välja antud GPL litsentsi all. Lähtekood on saadaval aadressil %1</translation>
     </message>
     <message>
       <source>You should have received a copy of the GNU General Public License along with this program.  If not, see %1</source>
-      <translation>Sai ilmselt koos selle programmiga ka GNU üldise avaliku litsentsi koopia. Kui ei, vaata %1</translation>
+      <translation>Said ilmselt koos selle programmiga ka GNU Üldine Avalik Litsentsi koopia. Kui ei, siis leiad ta siit: %1</translation>
     </message>
     <message>
       <source>If you like Strawberry and can make use of it, consider sponsoring or donating.</source>
