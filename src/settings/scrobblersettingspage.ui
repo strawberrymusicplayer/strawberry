@@ -180,6 +180,27 @@
         </property>
        </widget>
       </item>
+      <item row="5" column="1">
+       <widget class="QCheckBox" name="checkbox_source_somafm">
+        <property name="text">
+         <string>SomaFM</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="QCheckBox" name="checkbox_source_radioparadise">
+        <property name="text">
+         <string>Radio Paradise</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QCheckBox" name="checkbox_source_spotify">
+        <property name="text">
+         <string>Spotify</string>
+        </property>
+       </widget>
+      </item>
       <item row="4" column="0">
        <widget class="QCheckBox" name="checkbox_source_cdda">
         <property name="text">
@@ -187,24 +208,10 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="1">
-       <widget class="QCheckBox" name="checkbox_source_somafm">
-        <property name="text">
-         <string>SomaFM</string>
-        </property>
-       </widget>
-      </item>
       <item row="5" column="0">
        <widget class="QCheckBox" name="checkbox_source_stream">
         <property name="text">
          <string>Stream</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="1">
-       <widget class="QCheckBox" name="checkbox_source_radioparadise">
-        <property name="text">
-         <string>Radio Paradise</string>
         </property>
        </widget>
       </item>
@@ -426,6 +433,7 @@
   <tabstop>spinbox_submit</tabstop>
   <tabstop>checkbox_albumartist</tabstop>
   <tabstop>checkbox_show_error_dialog</tabstop>
+  <tabstop>checkbox_strip_remastered</tabstop>
   <tabstop>checkbox_source_collection</tabstop>
   <tabstop>checkbox_source_local</tabstop>
   <tabstop>checkbox_source_device</tabstop>
@@ -435,6 +443,7 @@
   <tabstop>checkbox_source_subsonic</tabstop>
   <tabstop>checkbox_source_tidal</tabstop>
   <tabstop>checkbox_source_qobuz</tabstop>
+  <tabstop>checkbox_source_spotify</tabstop>
   <tabstop>checkbox_source_somafm</tabstop>
   <tabstop>checkbox_source_radioparadise</tabstop>
   <tabstop>checkbox_lastfm_enable</tabstop>

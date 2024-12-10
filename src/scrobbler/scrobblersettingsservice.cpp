@@ -70,6 +70,7 @@ void ScrobblerSettingsService::ReloadSettings() {
              << Song::Source::Tidal
              << Song::Source::Subsonic
              << Song::Source::Qobuz
+             << Song::Source::Spotify
              << Song::Source::SomaFM
              << Song::Source::RadioParadise;
   }
