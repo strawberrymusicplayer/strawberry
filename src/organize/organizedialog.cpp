@@ -411,7 +411,6 @@ void OrganizeDialog::SetLoadingSongs(const bool loading) {
 SongList OrganizeDialog::LoadSongsBlocking(const QStringList &filenames) const {
 
   SongList songs;
-  Song song;
 
   QStringList filenames_copy = filenames;
   while (!filenames_copy.isEmpty()) {
@@ -427,6 +426,7 @@ SongList OrganizeDialog::LoadSongsBlocking(const QStringList &filenames) const {
       continue;
     }
 
+    Song song;
     const TagReaderResult result = tagreader_client_->ReadFileBlocking(filename, &song);
     if (result.success() && song.is_valid()) {
       songs << song;
@@ -476,6 +476,7 @@ Organize::NewSongInfoList OrganizeDialog::ComputeNewSongsFilenames(const SongLis
     }
     new_songs_info << Organize::NewSongInfo(song, result.filename, result.unique_filename);
   }
+
   return new_songs_info;
 
 }

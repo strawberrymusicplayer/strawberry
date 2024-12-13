@@ -248,6 +248,7 @@ void ScrobblingAPI20::Authenticate() {
     default:
       break;
   }
+
 }
 
 void ScrobblingAPI20::RedirectArrived() {
@@ -474,6 +475,7 @@ void ScrobblingAPI20::Scrobble(const Song &song) {
   }
 
   StartSubmit(true);
+
 }
 
 void ScrobblingAPI20::StartSubmit(const bool initial) {
@@ -693,7 +695,7 @@ void ScrobblingAPI20::ScrobbleRequestFinished(QNetworkReply *reply, ScrobblerCac
       qLog(Debug) << name_ << "Scrobble for" << song << "accepted";
     }
 
- }
+  }
 
   StartSubmit();
 
@@ -922,6 +924,7 @@ void ScrobblingAPI20::Error(const QString &error, const QVariant &debug) {
   if (settings_->show_error_dialog()) {
     Q_EMIT ErrorMessage(tr("Scrobbler %1 error: %2").arg(name_, error));
   }
+
 }
 
 QString ScrobblingAPI20::ErrorString(const ScrobbleErrorCode error) {

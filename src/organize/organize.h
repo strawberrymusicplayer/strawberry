@@ -87,13 +87,13 @@ class Organize : public QObject {
 
  private Q_SLOTS:
   void ProcessSomeFiles();
-  void FileTranscoded(const QString &input, const QString &output, bool success);
+  void FileTranscoded(const QString &input, const QString &output, const bool success);
   void LogLine(const QString &message);
 
  private:
-  void SetSongProgress(float progress, bool transcoded = false);
+  void SetSongProgress(const float progress, const bool transcoded = false);
   void UpdateProgress();
-  Song::FileType CheckTranscode(Song::FileType original_type) const;
+  Song::FileType CheckTranscode(const Song::FileType original_type) const;
 
  private:
   struct Task {

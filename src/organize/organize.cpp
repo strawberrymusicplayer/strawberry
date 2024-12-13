@@ -292,7 +292,7 @@ void Organize::ProcessSomeFiles() {
 
 }
 
-Song::FileType Organize::CheckTranscode(Song::FileType original_type) const {
+Song::FileType Organize::CheckTranscode(const Song::FileType original_type) const {
 
   if (original_type == Song::FileType::Stream) return Song::FileType::Unknown;
 
@@ -319,7 +319,7 @@ Song::FileType Organize::CheckTranscode(Song::FileType original_type) const {
 
 }
 
-void Organize::SetSongProgress(float progress, bool transcoded) {
+void Organize::SetSongProgress(const float progress, const bool transcoded) {
 
   const int max = transcoded ? 50 : 100;
   current_copy_progress_ = (transcoded ? 50 : 0) + qBound(0, static_cast<int>(progress * static_cast<float>(max)), max - 1);
@@ -359,7 +359,7 @@ void Organize::UpdateProgress() {
 
 }
 
-void Organize::FileTranscoded(const QString &input, const QString &output, bool success) {
+void Organize::FileTranscoded(const QString &input, const QString &output, const bool success) {
 
   Q_UNUSED(output);
 

@@ -77,11 +77,7 @@ void AudioScrobbler::RemoveService(ScrobblerServicePtr service) {
 
 QList<ScrobblerServicePtr> AudioScrobbler::GetAll() {
 
-  QList<ScrobblerServicePtr> services;
-
-    services = services_.values();
-
-  return services;
+  return services_.values();
 
 }
 
