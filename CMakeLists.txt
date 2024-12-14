@@ -154,7 +154,7 @@ endif()
 find_package(PkgConfig REQUIRED)
 find_package(Threads REQUIRED)
 find_package(Backtrace)
-if(TARGET Backtrace::Backtrace)
+if(Backtrace_FOUND)
   set(HAVE_BACKTRACE ON)
 endif()
 find_package(Boost CONFIG)
@@ -1486,7 +1486,7 @@ endif()
 
 target_link_libraries(strawberry_lib PUBLIC
   ${CMAKE_THREAD_LIBS_INIT}
-  $<$<BOOL:${HAVE_BACKTRACE}>:Backtrace::Backtrace>
+  $<$<BOOL:${HAVE_BACKTRACE}>:${Backtrace_LIBRARIES}>
   PkgConfig::GLIB
   PkgConfig::GOBJECT
   PkgConfig::SQLITE
