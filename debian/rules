@@ -1,17 +1,7 @@
 #!/usr/bin/make -f
 
+export DH_VERBOSE=1
+export DEB_BUILD_MAINT_OPTIONS   = hardening=+all
+
 %:
-	dh $@ --buildsystem=cmake -builddirectory=build
-
-override_dh_auto_clean:
-	rm -f dist/macos/Info.plist
-	rm -f dist/unix/strawberry.spec
-	rm -f dist/scripts/maketarball.sh
-	rm -f dist/windows/strawberry.nsi
-	rm -f src/translations/translations.pot
-	dh_auto_clean
-
-override_dh_installchangelogs:
-	dh_installchangelogs Changelog
-
-override_dh_auto_test:
+	dh $@

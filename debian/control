@@ -3,6 +3,7 @@ Section: sound
 Priority: optional
 Maintainer: Jonas Kvinge <jonas@jkvinge.net>
 Build-Depends: debhelper (>= 11),
+               debhelper-compat (= 13),
                git,
                make,
                cmake,
@@ -28,7 +29,7 @@ Build-Depends: debhelper (>= 11),
                libchromaprint-dev,
                libfftw3-dev,
                libebur128-dev
-Standards-Version: 4.6.1
+Standards-Version: 4.7.0
 
 Package: strawberry
 Architecture: any

@@ -102,14 +102,14 @@ jobs:
       - name: Build RPM (Tumbleweed)
         if: matrix.opensuse_version == 'tumbleweed'
         working-directory: build
-        run: rpmbuild -ba ../dist/unix/strawberry.spec
+        run: rpmbuild -ba strawberry.spec
       - name: Build RPM (Leap)
         if: matrix.opensuse_version != 'tumbleweed'
         working-directory: build
         env:
           CC: gcc-13
           CXX: g++-13
-        run: rpmbuild -ba ../dist/unix/strawberry.spec
+        run: rpmbuild -ba strawberry.spec
       - name: Set subdir
         id: set-subdir
         run: echo "subdir=$(echo ${{matrix.opensuse_version}} | sed 's/leap:/lp/g' | sed 's/\.//g')" > $GITHUB_OUTPUT
@@ -209,7 +209,7 @@ jobs:
         env:
           RPM_BUILD_NCPUS: "2"
         working-directory: build
-        run: rpmbuild -ba ../dist/unix/strawberry.spec
+        run: rpmbuild -ba strawberry.spec
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -302,7 +302,7 @@ jobs:
         env:
           RPM_BUILD_NCPUS: "2"
         working-directory: build
-        run: rpmbuild -ba ../dist/unix/strawberry.spec
+        run: rpmbuild -ba strawberry.spec
       - name: Upload artifacts
         if: matrix.openmandriva_version != 'cooker'
         uses: actions/upload-artifact@v4
@@ -398,7 +398,7 @@ jobs:
         env:
           RPM_BUILD_NCPUS: "2"
         working-directory: build
-        run: rpmbuild -ba ../dist/unix/strawberry.spec
+        run: rpmbuild -ba strawberry.spec
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -471,11 +471,10 @@ jobs:
       - name: Create Build Environment
         run: cmake -E make_directory build
       - name: Configure CMake
-        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_WERROR=ON
       - name: make deb
-        run: dpkg-buildpackage -b -d -uc -us -nc -j2
-      - name: Copy deb
-        run: cp ../*.deb .
+        working-directory: build
+        run: dpkg-buildpackage -b -d -uc -us -nc -j4
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -549,11 +548,10 @@ jobs:
       - name: Create Build Environment
         run: cmake -E make_directory build
       - name: Configure CMake
-        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_WERROR=ON
       - name: make deb
+        working-directory: build
         run: dpkg-buildpackage -b -d -uc -us -nc -j2
-      - name: Copy deb
-        run: cp ../*.deb ../*.ddeb .
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -634,18 +632,17 @@ jobs:
       - name: Create Build Environment
         run: cmake -E make_directory build
       - name: Configure CMake
-        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DBUILD_WERROR=ON
-      - name: Delete build directory
-        run: rm -rf build
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_WERROR=ON
       - name: Import Ubuntu PPA GPG private key
         uses: crazy-max/ghaction-import-gpg@v6
         with:
           gpg_private_key: ${{secrets.UBUNTU_PPA_GPG_PRIVATE_KEY}}
       - name: dpkg-buildpackage
+        working-directory: build
         run: dpkg-buildpackage -S -d -k573D197B5EA20EDF
       - name: Upload Unstable PPA
         if: github.event_name == 'push'
-        run: dput ppa:jonaski/strawberry-unstable ../*_source.changes
+        run: dput ppa:jonaski/strawberry-unstable *_source.changes
       - name: Upload Stable PPA
         if: github.event_name == 'release'
         run: dput ppa:jonaski/strawberry ../*_source.changes
