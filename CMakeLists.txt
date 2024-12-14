@@ -25,17 +25,12 @@ include(cmake/ParseArguments.cmake)
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
   set(LINUX ON)
 endif()
-if(CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
-  set(FREEBSD ON)
-endif()
-if(CMAKE_SYSTEM_NAME STREQUAL "OpenBSD")
-  set(OPENBSD ON)
-endif()
 
 if(LINUX)
   include(cmake/Rpm.cmake)
   include(cmake/Deb.cmake)
 endif()
+
 if(APPLE)
   include(cmake/Dmg.cmake)
 endif()
@@ -1491,6 +1486,7 @@ endif()
 
 target_link_libraries(strawberry_lib PUBLIC
   ${CMAKE_THREAD_LIBS_INIT}
+  $<$<BOOL:${HAVE_BACKTRACE}>:Backtrace::Backtrace>
   PkgConfig::GLIB
   PkgConfig::GOBJECT
   PkgConfig::SQLITE
@@ -1522,7 +1518,6 @@ target_link_libraries(strawberry_lib PUBLIC
   $<$<BOOL:${HAVE_MTP}>:PkgConfig::LIBMTP>
   $<$<BOOL:${HAVE_GPOD}>:PkgConfig::LIBGPOD PkgConfig::GDK_PIXBUF>
   $<$<BOOL:${HAVE_QTSPARKLE}>:PkgConfig::QTSPARKLE>
-  $<$<BOOL:${FREEBSD}>:execinfo>
   $<$<BOOL:${WIN32}>:dsound dwmapi getopt-win::getopt>
   $<$<BOOL:${MSVC}>:WindowsApp>
   ${SINGLEAPPLICATION_LIBRARIES}
