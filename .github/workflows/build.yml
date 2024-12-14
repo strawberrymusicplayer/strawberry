@@ -551,7 +551,7 @@ jobs:
         run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_WERROR=ON
       - name: make deb
         working-directory: build
-        run: dpkg-buildpackage -b -d -uc -us -nc -j2
+        run: dpkg-buildpackage -b -d -uc -us -nc -j4
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
