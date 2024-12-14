@@ -651,6 +651,55 @@ jobs:
         run: dput ppa:jonaski/strawberry ../*_source.changes
 
 
+  build-freebsd:
+    name: Build FreeBSD
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        submodules: recursive
+    - name: Build FreeBSD
+      id: build-freebsd
+      uses: vmactions/freebsd-vm@v1.1.5
+      with:
+        usesh: true
+        mem: 4096
+        prepare: pkg install -y git cmake pkgconf boost-libs alsa-lib glib qt6-base qt6-tools sqlite gstreamer1 gstreamer1-plugins chromaprint libebur128 taglib libcdio libmtp gdk-pixbuf2 libgpod fftw3 icu kdsingleapplication googletest pulseaudio
+        run: |
+          set -e
+          git config --global --add safe.directory ${GITHUB_WORKSPACE}
+          cmake -E make_directory build
+          cmake -S . -B build -DCMAKE_BUILD_TYPE="Debug"
+          cmake --build build --config Debug --parallel 4
+
+
+  build-openbsd:
+    name: Build OpenBSD
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        submodules: recursive
+    - name: Build OpenBSD
+      id: build-openbsd
+      uses: vmactions/openbsd-vm@v1.1.4
+      with:
+        usesh: true
+        mem: 4096
+        prepare: pkg_add git cmake pkgconf boost glib2 qt6-qtbase qt6-qttools sqlite gstreamer1 gstreamer1-plugins-base chromaprint libebur128 taglib libcdio libmtp gdk-pixbuf libgpod fftw3 icu4c kdsingleapplication pulseaudio
+        run: |
+          set -e
+          export LDFLAGS="-L/usr/local/lib"
+          git config --global --add safe.directory ${GITHUB_WORKSPACE}
+          cmake -E make_directory build
+          cmake -S . -B build -DCMAKE_BUILD_TYPE="Debug"
+          cmake --build build --config Debug --parallel 4
+
+
   build-macos-public:
     name: Build macOS Public
     if: github.repository != 'strawberrymusicplayer/strawberry-private' && (!(github.event.pusher.name == 'strawbsbot' && contains(github.event.head_commit.message, 'New translations')))
