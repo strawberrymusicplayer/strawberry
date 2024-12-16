@@ -472,14 +472,18 @@ jobs:
         run: cmake -E make_directory build
       - name: Configure CMake
         run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_WERROR=ON
+      - name: Delete build directory
+        run: rm -rf build
       - name: make deb
-        working-directory: build
         run: dpkg-buildpackage -b -d -uc -us -nc -j4
+      - name: Copy deb
+        run: cp ../*.deb
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: debian-${{matrix.debian_version}}
-          path: "*.deb"
+          path: |
+            *.deb
 
 
   build-ubuntu:
@@ -549,9 +553,12 @@ jobs:
         run: cmake -E make_directory build
       - name: Configure CMake
         run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_WERROR=ON
+      - name: Delete build directory
+        run: rm -rf build
       - name: make deb
-        working-directory: build
         run: dpkg-buildpackage -b -d -uc -us -nc -j4
+      - name: Copy deb
+        run: cp ../*.deb ../*.ddeb .
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -633,16 +640,17 @@ jobs:
         run: cmake -E make_directory build
       - name: Configure CMake
         run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_WERROR=ON
+      - name: Delete build directory
+        run: rm -rf build
       - name: Import Ubuntu PPA GPG private key
         uses: crazy-max/ghaction-import-gpg@v6
         with:
           gpg_private_key: ${{secrets.UBUNTU_PPA_GPG_PRIVATE_KEY}}
       - name: dpkg-buildpackage
-        working-directory: build
         run: dpkg-buildpackage -S -d -k573D197B5EA20EDF
       - name: Upload Unstable PPA
         if: github.event_name == 'push'
-        run: dput ppa:jonaski/strawberry-unstable *_source.changes
+        run: dput ppa:jonaski/strawberry-unstable ../*_source.changes
       - name: Upload Stable PPA
         if: github.event_name == 'release'
         run: dput ppa:jonaski/strawberry ../*_source.changes

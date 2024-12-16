@@ -4,11 +4,7 @@ if(LSB_RELEASE_EXEC AND DPKG_BUILDPACKAGE)
   execute_process(COMMAND /bin/sh "-c" "${LSB_RELEASE_EXEC} -cs" OUTPUT_VARIABLE DEB_CODENAME OUTPUT_STRIP_TRAILING_WHITESPACE)
 
   if(DEB_CODENAME AND DEB_DATE)
-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/control ${CMAKE_CURRENT_BINARY_DIR}/control COPYONLY)
-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/rules ${CMAKE_CURRENT_BINARY_DIR}/rules COPYONLY)
-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/changelog.in ${CMAKE_CURRENT_BINARY_DIR}/changelog)
-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/copyright ${CMAKE_CURRENT_BINARY_DIR}/copyright COPYONLY)
-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/clean ${CMAKE_CURRENT_BINARY_DIR}/clean COPYONLY)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/changelog.in ${CMAKE_CURRENT_SOURCE_DIR}/changelog)
   endif()
 
 endif()
