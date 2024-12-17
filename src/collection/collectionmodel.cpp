@@ -1095,7 +1095,7 @@ QString CollectionModel::SortText(const GroupBy group_by, const Song &song, cons
     case GroupBy::Artist:
       return SortTextForArtist(song.artist(), sort_skips_articles);
     case GroupBy::Album:
-      return SortTextForArtist(song.album(), sort_skips_articles);
+      return SortText(song.album());
     case GroupBy::AlbumDisc:
       return song.album() + SortTextForNumber(std::max(0, song.disc()));
     case GroupBy::YearAlbum:
