@@ -78,18 +78,6 @@
   <context>
     <name>AlbumCoverChoiceController</name>
     <message>
-      <source>Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)</source>
-      <translation>Képek (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)</translation>
-    </message>
-    <message>
-      <source>Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)</source>
-      <translation>Képek (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)</translation>
-    </message>
-    <message>
-      <source>All files (*)</source>
-      <translation>Minden fájl (*)</translation>
-    </message>
-    <message>
       <source>Load cover from disk...</source>
       <translation>Borító betöltése lemezről…</translation>
     </message>
@@ -552,10 +540,6 @@
       <translation>Kimenet</translation>
     </message>
     <message>
-      <source>Engine</source>
-      <translation>Motor</translation>
-    </message>
-    <message>
       <source>ALSA plugin:</source>
       <translation>ALSA bővítmény:</translation>
     </message>
@@ -1002,6 +986,13 @@
     <message>
       <source>Grouping name:</source>
       <translation>Csoportosítás neve:</translation>
+    </message>
+  </context>
+  <context>
+    <name>CollectionLibrary</name>
+    <message>
+      <source>Saving playcounts and ratings</source>
+      <translation type="unfinished">Saving playcounts and ratings</translation>
     </message>
   </context>
   <context>
@@ -2705,20 +2696,8 @@ Ha nincs egyezés, akkor a legnagyobb képet veszi a könyvtárból.</translatio
       <translation>Globális gyorsbillentyűk</translation>
     </message>
     <message>
-      <source>Use Gnome (GSD) shortcuts when available</source>
-      <translation>Gnome (GSD) gyorsbillentyűk használata, ha elérhető</translation>
-    </message>
-    <message>
       <source>Open...</source>
       <translation>Megnyitás…</translation>
-    </message>
-    <message>
-      <source>Use MATE shortcuts when available</source>
-      <translation>MATE gyorsbillentyűk használata, ha elérhető</translation>
-    </message>
-    <message>
-      <source>Use KDE (KGlobalAccel) shortcuts when available</source>
-      <translation>KDE (KGlobalAccel) gyorsbillentyűk használata, ha elérhető</translation>
     </message>
     <message>
       <source>Use X11 shortcuts when available</source>
@@ -2758,28 +2737,12 @@ Ha nincs egyezés, akkor a legnagyobb képet veszi a könyvtárból.</translatio
       <translation>Gyorsbillentyű módosítása…</translation>
     </message>
     <message>
-      <source>The &quot;%1&quot; command could not be started.</source>
-      <translation>A(z) „%1” parancsot nem lehetett elindítani.</translation>
+      <source>Use KGlobalAccel shortcuts when available</source>
+      <translation type="unfinished">Use KGlobalAccel shortcuts when available</translation>
     </message>
     <message>
-      <source>Using X11 shortcuts on %1 is not recommended and can cause keyboard to become unresponsive!</source>
-      <translation>Az X11 gyorsbillentyűk használata %1 esetén nem ajánlott, és lehet, hogy a billentyűzet nem fog reagálni.</translation>
-    </message>
-    <message>
-      <source> Shortcuts on %1 are usually used through MPRIS and KGlobalAccel.</source>
-      <translation>A %1 gyorsbillentyűi általában az MPRIS és a KGlobalAccel összetevőkön keresztül használatosak.</translation>
-    </message>
-    <message>
-      <source> Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in gnome-settings-daemon instead.</source>
-      <translation>A %1 gyorsbillentyűi általában a GNOME Beállításdémonon keresztül használatosak, és a gnome-settings-daemon használatával kell őket beállítani.</translation>
-    </message>
-    <message>
-      <source> Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in cinnamon-settings-daemon instead.</source>
-      <translation>A %1 gyorsbillentyűi általában a GNOME Beállításdémonon keresztül használatosak, és a cinnamon-settings-daemon használatával kell őket beállítani.</translation>
-    </message>
-    <message>
-      <source> Shortcuts on %1 are usually used through MATE Settings Daemon and should be configured there instead.</source>
-      <translation>A %1 gyorsbillentyűi általában a MATE Beállításdémonon keresztül használatosak, így annak használatával kell őket beállítani.</translation>
+      <source>Using X11 shortcuts is not recommended and can cause keyboard to become unresponsive! Shortcuts on should usually be used through MPRIS2 / KGlobalAccel.</source>
+      <translation type="unfinished">Using X11 shortcuts is not recommended and can cause keyboard to become unresponsive! Shortcuts on should usually be used through MPRIS2 / KGlobalAccel.</translation>
     </message>
   </context>
   <context>
@@ -3374,10 +3337,6 @@ Ha nincs egyezés, akkor a legnagyobb képet veszi a könyvtárból.</translatio
     <message>
       <source>Import data from last.fm...</source>
       <translation>Adatok importálása last.fm-ből…</translation>
-    </message>
-    <message>
-      <source>All Files (*)</source>
-      <translation>Minden fájl (*)</translation>
     </message>
     <message>
       <source>Context</source>
@@ -4568,14 +4527,6 @@ Ha nincs egyezés, akkor a legnagyobb képet veszi a könyvtárból.</translatio
         <numerusform>%n track(s)</numerusform>
       </translation>
     </message>
-    <message>
-      <source>Unknown</source>
-      <translation>Ismeretlen</translation>
-    </message>
-    <message>
-      <source>Various artists</source>
-      <translation>Különböző előadók</translation>
-    </message>
   </context>
   <context>
     <name>PlaylistParser</name>
@@ -4828,50 +4779,6 @@ Biztos, hogy folytatja?</translation>
     <message>
       <source>Playlist</source>
       <translation>Lejátszólista</translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::InsertItems</name>
-    <message numerus="yes">
-      <source>add %n songs</source>
-      <translation type="unfinished">
-        <numerusform>%n szám hozzáadása</numerusform>
-        <numerusform>add %n songs</numerusform>
-      </translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::MoveItems</name>
-    <message numerus="yes">
-      <source>move %n songs</source>
-      <translation type="unfinished">
-        <numerusform>%n szám áthelyezése</numerusform>
-        <numerusform>move %n songs</numerusform>
-      </translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::RemoveItems</name>
-    <message numerus="yes">
-      <source>remove %n songs</source>
-      <translation type="unfinished">
-        <numerusform>%n szám eltávolítása</numerusform>
-        <numerusform>remove %n songs</numerusform>
-      </translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::ShuffleItems</name>
-    <message>
-      <source>shuffle songs</source>
-      <translation>számok keverése</translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::SortItems</name>
-    <message>
-      <source>sort songs</source>
-      <translation>számok rendezése</translation>
     </message>
   </context>
   <context>
@@ -5315,6 +5222,51 @@ Biztos, hogy folytatja?</translation>
       <source>System colors</source>
       <translation>Rendszerszínek</translation>
     </message>
+    <message>
+      <source>Playlist</source>
+      <translation type="unfinished">Playlist</translation>
+    </message>
+    <message>
+      <source>Various artists</source>
+      <translation type="unfinished">Various artists</translation>
+    </message>
+    <message numerus="yes">
+      <source>add %n songs</source>
+      <translation type="unfinished">
+        <numerusform>add %n songs</numerusform>
+        <numerusform>add %n songs</numerusform>
+      </translation>
+    </message>
+    <message numerus="yes">
+      <source>remove %n songs</source>
+      <translation type="unfinished">
+        <numerusform>remove %n songs</numerusform>
+        <numerusform>remove %n songs</numerusform>
+      </translation>
+    </message>
+    <message numerus="yes">
+      <source>move %n songs</source>
+      <translation type="unfinished">
+        <numerusform>move %n songs</numerusform>
+        <numerusform>move %n songs</numerusform>
+      </translation>
+    </message>
+    <message>
+      <source>sort songs</source>
+      <translation type="unfinished">sort songs</translation>
+    </message>
+    <message>
+      <source>shuffle songs</source>
+      <translation type="unfinished">shuffle songs</translation>
+    </message>
+    <message>
+      <source>Invalid collection directory</source>
+      <translation type="unfinished">Invalid collection directory</translation>
+    </message>
+    <message>
+      <source>Can&apos;t add directory %1 with special filesystem %2 to collection</source>
+      <translation type="unfinished">Can&apos;t add directory %1 with special filesystem %2 to collection</translation>
+    </message>
   </context>
   <context>
     <name>QWidget</name>
@@ -5602,13 +5554,6 @@ Biztos, hogy folytatja?</translation>
     </message>
   </context>
   <context>
-    <name>SCollection</name>
-    <message>
-      <source>Saving playcounts and ratings</source>
-      <translation>Lejátszásszámok és értékelések mentése</translation>
-    </message>
-  </context>
-  <context>
     <name>SavePlaylistsDialog</name>
     <message>
       <source>Select directory for saving playlists</source>
@@ -5762,10 +5707,6 @@ Biztos, hogy folytatja?</translation>
 másodpercnél hosszabbak, illetve legalább a felükig vagy 4 percig vannak lejátszva (amelyik korábban teljesül).</translation>
     </message>
     <message>
-      <source>Work in offline mode (Only cache scrobbles)</source>
-      <translation>Működés kapcsolat nélküli módban (csak gyorsítótárazás)</translation>
-    </message>
-    <message>
       <source>Show scrobble button</source>
       <translation>Scrobble gomb megjelenítése</translation>
     </message>
@@ -5780,10 +5721,6 @@ másodpercnél hosszabbak, illetve legalább a felükig vagy 4 percig vannak lej
     <message>
       <source> seconds</source>
       <translation> másodperc</translation>
-    </message>
-    <message>
-      <source>(This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately).</source>
-      <translation>(Ez a szám scrobble-ozása és a scrobble kiszolgáló felé elküldése közti késleltetés. Az idő 0-ra állítása azt eredményezi, hogy azonnal elküldi.)</translation>
     </message>
     <message>
       <source>Prefer album artist when sending scrobbles</source>
@@ -5868,6 +5805,22 @@ másodpercnél hosszabbak, illetve legalább a felükig vagy 4 percig vannak lej
     <message>
       <source>Enter your user token from</source>
       <translation>Adja meg az itteni felhasználói tokenjét:</translation>
+    </message>
+    <message>
+      <source>With this option enabled, scrobbles will be cached to disk but not sent to the server. This option can be enabled in cases where the server or the internet connection is unstable, the scrobbles will be sent when the option is disabled.</source>
+      <translation type="unfinished">With this option enabled, scrobbles will be cached to disk but not sent to the server. This option can be enabled in cases where the server or the internet connection is unstable, the scrobbles will be sent when the option is disabled.</translation>
+    </message>
+    <message>
+      <source>Offline mode (Only cache scrobbles)</source>
+      <translation type="unfinished">Offline mode (Only cache scrobbles)</translation>
+    </message>
+    <message>
+      <source>This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately.</source>
+      <translation type="unfinished">This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately.</translation>
+    </message>
+    <message>
+      <source>Spotify</source>
+      <translation type="unfinished">Spotify</translation>
     </message>
   </context>
   <context>
@@ -6235,20 +6188,12 @@ másodpercnél hosszabbak, illetve legalább a felükig vagy 4 percig vannak lej
   <context>
     <name>SongLoader</name>
     <message>
-      <source>You need GStreamer for this URL.</source>
-      <translation>Ehhez az URL-hez szüksége van a GStreamerre.</translation>
-    </message>
-    <message>
       <source>Preload function was not set for blocking operation.</source>
       <translation>Nem volt előtöltési függvény beállítva a blokkoló művelethez.</translation>
     </message>
     <message>
       <source>File %1 does not exist.</source>
       <translation>A(z) %1 fájl nem létezik.</translation>
-    </message>
-    <message>
-      <source>CD playback is only available with the GStreamer engine.</source>
-      <translation>A CD-lejátszás csak a GStreamer motorral érhető el.</translation>
     </message>
     <message>
       <source>Could not open file %1 for reading: %2</source>
@@ -6277,6 +6222,10 @@ másodpercnél hosszabbak, illetve legalább a felükig vagy 4 percig vannak lej
     <message>
       <source>Couldn&apos;t link GStreamer source, typefind and fakesink elements for %1</source>
       <translation>Nem sikerült a GStreamer source, typefind és fakesink elemek hivatkozása a(z) %1 számára</translation>
+    </message>
+    <message>
+      <source>Missing CDDA playback.</source>
+      <translation type="unfinished">Missing CDDA playback.</translation>
     </message>
   </context>
   <context>

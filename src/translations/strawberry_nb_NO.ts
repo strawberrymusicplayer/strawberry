@@ -17,7 +17,7 @@
     </message>
     <message>
       <source>Strawberry is a music player and music collection organizer.</source>
-      <translation type="unfinished">Strawberry is a music player and music collection organizer.</translation>
+      <translation>Strawberry er en musikkspiller og musikksamlingsbehandler.</translation>
     </message>
     <message>
       <source>It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles.</source>
@@ -41,7 +41,7 @@
     </message>
     <message>
       <source>Author and maintainer</source>
-      <translation type="unfinished">Author and maintainer</translation>
+      <translation>Utvikler og vedlikeholder</translation>
     </message>
     <message>
       <source>Contributors</source>
@@ -49,11 +49,11 @@
     </message>
     <message>
       <source>Clementine authors</source>
-      <translation type="unfinished">Clementine authors</translation>
+      <translation>Clementine-utviklere</translation>
     </message>
     <message>
       <source>Clementine contributors</source>
-      <translation type="unfinished">Clementine contributors</translation>
+      <translation>Clementine-bidragsytere</translation>
     </message>
     <message>
       <source>Thanks to</source>
@@ -61,7 +61,7 @@
     </message>
     <message>
       <source>Thanks to all the other Amarok and Clementine contributors.</source>
-      <translation>Takk til alle andre Amarok og Clementine bidragsytere.</translation>
+      <translation>Takk til alle de andre Amarok- og Clementine-bidragsyterne.</translation>
     </message>
   </context>
   <context>
@@ -78,32 +78,20 @@
   <context>
     <name>AlbumCoverChoiceController</name>
     <message>
-      <source>Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)</source>
-      <translation>Bilder (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)</translation>
-    </message>
-    <message>
-      <source>Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)</source>
-      <translation>Bilder (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)</translation>
-    </message>
-    <message>
-      <source>All files (*)</source>
-      <translation>Alle filer (*)</translation>
-    </message>
-    <message>
       <source>Load cover from disk...</source>
-      <translation>Hent omslag fra disk…</translation>
+      <translation>Last inn omslag fra disk...</translation>
     </message>
     <message>
       <source>Save cover to disk...</source>
-      <translation>Lagre bilde til disk…</translation>
+      <translation>Lagre omslag til disk...</translation>
     </message>
     <message>
       <source>Load cover from URL...</source>
-      <translation>Hent omslag fra URL…</translation>
+      <translation>Last inn omslag fra URL...</translation>
     </message>
     <message>
       <source>Search for album covers...</source>
-      <translation>Søk etter albumomslag…</translation>
+      <translation>Søk etter plateomslag...</translation>
     </message>
     <message>
       <source>Unset cover</source>
@@ -111,15 +99,15 @@
     </message>
     <message>
       <source>Delete cover</source>
-      <translation>Slett kover</translation>
+      <translation>Slett omslag</translation>
     </message>
     <message>
       <source>Clear cover</source>
-      <translation>Fjern kover</translation>
+      <translation>Fjern omslag</translation>
     </message>
     <message>
       <source>Show fullsize...</source>
-      <translation>Fullskjermvisning…</translation>
+      <translation>Fullskjermvisning...</translation>
     </message>
     <message>
       <source>Search automatically</source>
@@ -131,11 +119,11 @@
     </message>
     <message>
       <source>Failed to open cover file %1 for reading: %2</source>
-      <translation>Feil ved åpning av kover fil %1 for lesing: %2</translation>
+      <translation>Feil ved åpning av omslagsfil %1 for lesing: %2</translation>
     </message>
     <message>
       <source>Cover file %1 is empty.</source>
-      <translation>Kover fil %1 er tom.</translation>
+      <translation>Omslagsfil %1 er tom.</translation>
     </message>
     <message>
       <source>unknown</source>
@@ -143,31 +131,31 @@
     </message>
     <message>
       <source>Save album cover</source>
-      <translation>Lagre albumomslag</translation>
+      <translation>Lagre plateomslag</translation>
     </message>
     <message>
       <source>Failed to open cover file %1 for writing: %2</source>
-      <translation>Feil ved åpning av kover fil %1 for skriving: %2</translation>
+      <translation>Feil ved åpning av omslagsfil %1 for skriving: %2</translation>
     </message>
     <message>
       <source>Failed writing cover to file %1: %2</source>
-      <translation>Feil ved lagring av kover fil %1: %2</translation>
+      <translation>Feil ved lagring av omslagsfil %1: %2</translation>
     </message>
     <message>
       <source>Failed writing cover to file %1.</source>
-      <translation>Feil ved lagring til kover fil %1</translation>
+      <translation>Feil ved lagring av omslagsfil %1.</translation>
     </message>
     <message>
       <source>Failed to delete cover file %1: %2</source>
-      <translation>Feil ved sletting av kover fil %1: %2</translation>
+      <translation>Feil ved sletting av omslagsfil %1: %2</translation>
     </message>
     <message>
       <source>Failed to write cover to file %1: %2</source>
-      <translation>Feil ved lagring til kover fil %1: %2</translation>
+      <translation>Feil ved lagring av omslagsfil %1: %2</translation>
     </message>
     <message>
       <source>Could not save cover to file %1.</source>
-      <translation type="unfinished">Could not save cover to file %1.</translation>
+      <translation>Klarte ikke lagre omslaget til fil %1.</translation>
     </message>
   </context>
   <context>
@@ -182,7 +170,7 @@
     </message>
     <message>
       <source>Enter a filename for exported covers (no extension):</source>
-      <translation>Skriv inn et filnavn for eksportert albumomslag (uten filendelse):</translation>
+      <translation>Angi et filnavn for eksporterte plateomslag (uten filendelse):</translation>
     </message>
     <message>
       <source>Export downloaded covers</source>
@@ -249,7 +237,7 @@
     </message>
     <message>
       <source>Closing this window will stop searching for album covers.</source>
-      <translation>Lukking av dette vinduet vil medføre stopp i søk etter albumomslag.</translation>
+      <translation>Lukking av dette vinduet vil medføre stopp i søk etter plateomslag.</translation>
     </message>
     <message>
       <source>Don&apos;t stop!</source>
@@ -296,11 +284,11 @@
     </message>
     <message>
       <source>Artist</source>
-      <translation type="unfinished">Artist</translation>
+      <translation>Artist</translation>
     </message>
     <message>
       <source>Album</source>
-      <translation type="unfinished">Album</translation>
+      <translation>Album</translation>
     </message>
     <message>
       <source>Search</source>
@@ -414,11 +402,11 @@
     </message>
     <message>
       <source>The album cover of the currently playing song</source>
-      <translation>Albumomslaget til sangen som spilles av for øyeblikket</translation>
+      <translation>Plateomslaget til sangen som spilles av for øyeblikket</translation>
     </message>
     <message>
       <source>Albu&amp;m cover</source>
-      <translation>Albu&amp;m kover</translation>
+      <translation>Albu&amp;momslag</translation>
     </message>
     <message>
       <source>Custom image:</source>
@@ -454,7 +442,7 @@
     </message>
     <message>
       <source>Max cover size</source>
-      <translation>Maksimal kover størrelse</translation>
+      <translation>Maksimal omslagsstørrelse</translation>
     </message>
     <message>
       <source>Stretch image to fill playlist</source>
@@ -550,10 +538,6 @@
     <message>
       <source>Output</source>
       <translation>Utgang</translation>
-    </message>
-    <message>
-      <source>Engine</source>
-      <translation>Motor</translation>
     </message>
     <message>
       <source>ALSA plugin:</source>
@@ -1005,6 +989,13 @@
     </message>
   </context>
   <context>
+    <name>CollectionLibrary</name>
+    <message>
+      <source>Saving playcounts and ratings</source>
+      <translation type="unfinished">Saving playcounts and ratings</translation>
+    </message>
+  </context>
+  <context>
     <name>CollectionModel</name>
     <message>
       <source>Various artists</source>
@@ -1105,7 +1096,7 @@ Hvis ingen ord passer, blir det største bildet i mappen brukt.</translation>
     </message>
     <message>
       <source>Album cover pixmap cache</source>
-      <translation>Album kover pixmap cache</translation>
+      <translation>Plateomslag pixmap cache</translation>
     </message>
     <message>
       <source>Size</source>
@@ -1312,7 +1303,7 @@ Hvis ingen ord passer, blir det største bildet i mappen brukt.</translation>
     </message>
     <message>
       <source>Album</source>
-      <translation type="unfinished">Album</translation>
+      <translation>Album</translation>
     </message>
     <message>
       <source>Technical Data</source>
@@ -1324,7 +1315,7 @@ Hvis ingen ord passer, blir det største bildet i mappen brukt.</translation>
     </message>
     <message>
       <source>Automatically search for album cover</source>
-      <translation>Automatisk søk for album kover</translation>
+      <translation>Automatisk søk etter plateomslag</translation>
     </message>
     <message>
       <source>Automatically search for song lyrics</source>
@@ -1479,7 +1470,7 @@ Hvis ingen ord passer, blir det største bildet i mappen brukt.</translation>
     </message>
     <message>
       <source>Show album cover</source>
-      <translation>Vis album kover</translation>
+      <translation>Vis plateomslag</translation>
     </message>
     <message>
       <source>Show song technical data</source>
@@ -1631,15 +1622,15 @@ Hvis ingen ord passer, blir det største bildet i mappen brukt.</translation>
     <name>CoversSettingsPage</name>
     <message>
       <source>Covers</source>
-      <translation>Kover</translation>
+      <translation>Omslag</translation>
     </message>
     <message>
       <source>Cover providers</source>
-      <translation>Kover tilbydere</translation>
+      <translation>Omslagstilbydere</translation>
     </message>
     <message>
       <source>Choose the providers you want to use when searching for covers.</source>
-      <translation>Velg tilbydere du vil bruke for å søke etter kover</translation>
+      <translation>Velg tilbydere du vil bruke for å søke etter omslag.</translation>
     </message>
     <message>
       <source>Move up</source>
@@ -1659,15 +1650,15 @@ Hvis ingen ord passer, blir det største bildet i mappen brukt.</translation>
     </message>
     <message>
       <source>Album cover types</source>
-      <translation type="unfinished">Album cover types</translation>
+      <translation>Plateomslagstype</translation>
     </message>
     <message>
       <source>Saving album covers</source>
-      <translation>Lagrer album kover</translation>
+      <translation>Lagrer plateomslag</translation>
     </message>
     <message>
       <source>Save album covers in album directory</source>
-      <translation>Lagre album kover i album mappen</translation>
+      <translation>Lagre plateomslag i albummappen</translation>
     </message>
     <message>
       <source>Save album covers in cache directory</source>
@@ -1675,7 +1666,7 @@ Hvis ingen ord passer, blir det største bildet i mappen brukt.</translation>
     </message>
     <message>
       <source>Save album covers as embedded cover</source>
-      <translation>Lagre album kover som embedded kover</translation>
+      <translation>Lagre plateomslag som innebygd omslag</translation>
     </message>
     <message>
       <source>Filename:</source>
@@ -2024,7 +2015,7 @@ Hvis ingen ord passer, blir det største bildet i mappen brukt.</translation>
     </message>
     <message>
       <source>Art Automatic</source>
-      <translation>Automatisk kover</translation>
+      <translation>Automatisk omslag</translation>
     </message>
     <message>
       <source>Date modified</source>
@@ -2089,7 +2080,7 @@ Hvis ingen ord passer, blir det største bildet i mappen brukt.</translation>
     </message>
     <message>
       <source>Art Manual</source>
-      <translation>Manuelt kover</translation>
+      <translation>Manuelt omslag</translation>
     </message>
     <message>
       <source>EBU R 128 loudness range</source>
@@ -2109,11 +2100,11 @@ Hvis ingen ord passer, blir det største bildet i mappen brukt.</translation>
     </message>
     <message>
       <source>Change art</source>
-      <translation>Endre kover</translation>
+      <translation>Endre omslag</translation>
     </message>
     <message>
       <source>Embedded cover</source>
-      <translation>Embedded kover</translation>
+      <translation>Innebygd omslag</translation>
     </message>
     <message>
       <source>Disc</source>
@@ -2249,23 +2240,23 @@ Hvis ingen ord passer, blir det største bildet i mappen brukt.</translation>
     </message>
     <message>
       <source>Album cover editing is only available for collection songs.</source>
-      <translation>Album kover redigering er bare tilgjengelig for sanger i samlingen.</translation>
+      <translation>Redigering av plateomslag er bare tilgjengelig for sanger i samlingen.</translation>
     </message>
     <message>
       <source>Cover changed: Will be cleared when saved.</source>
-      <translation>Kover endret, vill bli fjernet når du lagrer.</translation>
+      <translation>Omslag endret: Fjernes ved lagring.</translation>
     </message>
     <message>
       <source>Cover changed: Will be unset when saved.</source>
-      <translation>Kover endret. Vil bli fjernet når lagret.</translation>
+      <translation>Omslag endret: Blir deaktivert når det lagres.</translation>
     </message>
     <message>
       <source>Cover changed: Will be deleted when saved.</source>
-      <translation>Kover endret, vill bli settet når du lagrer.</translation>
+      <translation>Omslag endret: Slettes ved lagring.</translation>
     </message>
     <message>
       <source>Cover changed: Will set new when saved.</source>
-      <translation>Kover er endret. Vil bli satt når lagret.</translation>
+      <translation>Omslag endret: Vil settes nytt når det lagres.</translation>
     </message>
     <message>
       <source>Never</source>
@@ -2705,20 +2696,8 @@ Hvis ingen ord passer, blir det største bildet i mappen brukt.</translation>
       <translation type="unfinished">Global Shortcuts</translation>
     </message>
     <message>
-      <source>Use Gnome (GSD) shortcuts when available</source>
-      <translation>Bruk Gnome (GSD) snarveier når tilgjengelige.</translation>
-    </message>
-    <message>
       <source>Open...</source>
       <translation>Åpne…</translation>
-    </message>
-    <message>
-      <source>Use MATE shortcuts when available</source>
-      <translation>Bruk MATE snarveier når tilgjengelige</translation>
-    </message>
-    <message>
-      <source>Use KDE (KGlobalAccel) shortcuts when available</source>
-      <translation>Bruk KDE (KGlobalAccel) snarveier når tilgjengelige</translation>
     </message>
     <message>
       <source>Use X11 shortcuts when available</source>
@@ -2758,28 +2737,12 @@ Hvis ingen ord passer, blir det største bildet i mappen brukt.</translation>
       <translation>Endre snarvei…</translation>
     </message>
     <message>
-      <source>The &quot;%1&quot; command could not be started.</source>
-      <translation>Kunne ikke starte kommandoen &quot;%1&quot;.</translation>
+      <source>Use KGlobalAccel shortcuts when available</source>
+      <translation type="unfinished">Use KGlobalAccel shortcuts when available</translation>
     </message>
     <message>
-      <source>Using X11 shortcuts on %1 is not recommended and can cause keyboard to become unresponsive!</source>
-      <translation>Hvis du bruker X11 snarveier på %1 kan det oppstå problemer med at tastaturet slutter å fungere!</translation>
-    </message>
-    <message>
-      <source> Shortcuts on %1 are usually used through MPRIS and KGlobalAccel.</source>
-      <translation>Snarveier på %1 er normalt brukt gjennom GSD D-Bus og bør konfigureres i gnome-settings-daemon i stedet</translation>
-    </message>
-    <message>
-      <source> Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in gnome-settings-daemon instead.</source>
-      <translation>Snarveier på %1 er normalt brukt gjennom GSD D-Bus og bør konfigureres i gnome-settings-daemon i stedet</translation>
-    </message>
-    <message>
-      <source> Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in cinnamon-settings-daemon instead.</source>
-      <translation>Snarveier på %1 er normalt brukt gjennom GSD D-Bus og bør konfigureres i cinnamon-settings-daemon i stedet</translation>
-    </message>
-    <message>
-      <source> Shortcuts on %1 are usually used through MATE Settings Daemon and should be configured there instead.</source>
-      <translation>Snarveier på %1 er normalt brukt gjennom GSD D-Bus og bør konfigureres i gnome-settings-daemon i stedet</translation>
+      <source>Using X11 shortcuts is not recommended and can cause keyboard to become unresponsive! Shortcuts on should usually be used through MPRIS2 / KGlobalAccel.</source>
+      <translation type="unfinished">Using X11 shortcuts is not recommended and can cause keyboard to become unresponsive! Shortcuts on should usually be used through MPRIS2 / KGlobalAccel.</translation>
     </message>
   </context>
   <context>
@@ -3374,10 +3337,6 @@ Hvis ingen ord passer, blir det største bildet i mappen brukt.</translation>
     <message>
       <source>Import data from last.fm...</source>
       <translation>Importer data fra last.fm...</translation>
-    </message>
-    <message>
-      <source>All Files (*)</source>
-      <translation>Alle filer (*)</translation>
     </message>
     <message>
       <source>Context</source>
@@ -4241,7 +4200,7 @@ Hvis ingen ord passer, blir det største bildet i mappen brukt.</translation>
     <name>PlayingWidget</name>
     <message>
       <source>Small album cover</source>
-      <translation>Lite albumomslag</translation>
+      <translation>Lite plateomslag</translation>
     </message>
     <message>
       <source>Large album cover</source>
@@ -4568,14 +4527,6 @@ Hvis ingen ord passer, blir det største bildet i mappen brukt.</translation>
         <numerusform>%n track(s)</numerusform>
       </translation>
     </message>
-    <message>
-      <source>Unknown</source>
-      <translation>Ukjent</translation>
-    </message>
-    <message>
-      <source>Various artists</source>
-      <translation>Diverse artister</translation>
-    </message>
   </context>
   <context>
     <name>PlaylistParser</name>
@@ -4828,50 +4779,6 @@ Er du sikker?</translation>
     <message>
       <source>Playlist</source>
       <translation>Spilleliste</translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::InsertItems</name>
-    <message numerus="yes">
-      <source>add %n songs</source>
-      <translation type="unfinished">
-        <numerusform>legg til %n sanger</numerusform>
-        <numerusform>add %n songs</numerusform>
-      </translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::MoveItems</name>
-    <message numerus="yes">
-      <source>move %n songs</source>
-      <translation type="unfinished">
-        <numerusform>flytt %n sanger</numerusform>
-        <numerusform>move %n songs</numerusform>
-      </translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::RemoveItems</name>
-    <message numerus="yes">
-      <source>remove %n songs</source>
-      <translation type="unfinished">
-        <numerusform>fjern %n sanger</numerusform>
-        <numerusform>remove %n songs</numerusform>
-      </translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::ShuffleItems</name>
-    <message>
-      <source>shuffle songs</source>
-      <translation>stokk spor</translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::SortItems</name>
-    <message>
-      <source>sort songs</source>
-      <translation>sorter sanger</translation>
     </message>
   </context>
   <context>
@@ -5315,6 +5222,51 @@ Er du sikker?</translation>
       <source>System colors</source>
       <translation>Systemfarger</translation>
     </message>
+    <message>
+      <source>Playlist</source>
+      <translation type="unfinished">Playlist</translation>
+    </message>
+    <message>
+      <source>Various artists</source>
+      <translation type="unfinished">Various artists</translation>
+    </message>
+    <message numerus="yes">
+      <source>add %n songs</source>
+      <translation type="unfinished">
+        <numerusform>add %n songs</numerusform>
+        <numerusform>add %n songs</numerusform>
+      </translation>
+    </message>
+    <message numerus="yes">
+      <source>remove %n songs</source>
+      <translation type="unfinished">
+        <numerusform>remove %n songs</numerusform>
+        <numerusform>remove %n songs</numerusform>
+      </translation>
+    </message>
+    <message numerus="yes">
+      <source>move %n songs</source>
+      <translation type="unfinished">
+        <numerusform>move %n songs</numerusform>
+        <numerusform>move %n songs</numerusform>
+      </translation>
+    </message>
+    <message>
+      <source>sort songs</source>
+      <translation type="unfinished">sort songs</translation>
+    </message>
+    <message>
+      <source>shuffle songs</source>
+      <translation type="unfinished">shuffle songs</translation>
+    </message>
+    <message>
+      <source>Invalid collection directory</source>
+      <translation type="unfinished">Invalid collection directory</translation>
+    </message>
+    <message>
+      <source>Can&apos;t add directory %1 with special filesystem %2 to collection</source>
+      <translation type="unfinished">Can&apos;t add directory %1 with special filesystem %2 to collection</translation>
+    </message>
   </context>
   <context>
     <name>QWidget</name>
@@ -5477,7 +5429,7 @@ Er du sikker?</translation>
     </message>
     <message>
       <source>Download album covers</source>
-      <translation>Last ned album kover</translation>
+      <translation>Last ned plateomslag</translation>
     </message>
     <message>
       <source>Base64 encoded secret</source>
@@ -5599,13 +5551,6 @@ Er du sikker?</translation>
     <message>
       <source>Form</source>
       <translation>Skjema</translation>
-    </message>
-  </context>
-  <context>
-    <name>SCollection</name>
-    <message>
-      <source>Saving playcounts and ratings</source>
-      <translation>Lagrer spilletellere og vurderinger</translation>
     </message>
   </context>
   <context>
@@ -5761,10 +5706,6 @@ Er du sikker?</translation>
       <translation>Sanger blir scrobblet når de har gyldig metadata, er lengre enn 30 seconds, og har blitt spilt for minst halve tiden, eller 30 sekunder (det som skjer tidligst).</translation>
     </message>
     <message>
-      <source>Work in offline mode (Only cache scrobbles)</source>
-      <translation>Jobb i frakoblet modus (bare cache scrobbler)</translation>
-    </message>
-    <message>
       <source>Show scrobble button</source>
       <translation>Vis knappen for rapportering av lyttevaner</translation>
     </message>
@@ -5779,10 +5720,6 @@ Er du sikker?</translation>
     <message>
       <source> seconds</source>
       <translation> sekunder</translation>
-    </message>
-    <message>
-      <source>(This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately).</source>
-      <translation>Tid mellom en sang er scrobbled og når skrobbler er sent til server. Setting av tid til 0 minutter vil sende skrobbler øyeblikkelig</translation>
     </message>
     <message>
       <source>Prefer album artist when sending scrobbles</source>
@@ -5867,6 +5804,22 @@ Er du sikker?</translation>
     <message>
       <source>Enter your user token from</source>
       <translation>Tast inn din bruker token fra</translation>
+    </message>
+    <message>
+      <source>With this option enabled, scrobbles will be cached to disk but not sent to the server. This option can be enabled in cases where the server or the internet connection is unstable, the scrobbles will be sent when the option is disabled.</source>
+      <translation type="unfinished">With this option enabled, scrobbles will be cached to disk but not sent to the server. This option can be enabled in cases where the server or the internet connection is unstable, the scrobbles will be sent when the option is disabled.</translation>
+    </message>
+    <message>
+      <source>Offline mode (Only cache scrobbles)</source>
+      <translation type="unfinished">Offline mode (Only cache scrobbles)</translation>
+    </message>
+    <message>
+      <source>This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately.</source>
+      <translation type="unfinished">This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately.</translation>
+    </message>
+    <message>
+      <source>Spotify</source>
+      <translation type="unfinished">Spotify</translation>
     </message>
   </context>
   <context>
@@ -6234,20 +6187,12 @@ Er du sikker?</translation>
   <context>
     <name>SongLoader</name>
     <message>
-      <source>You need GStreamer for this URL.</source>
-      <translation>Du trenge gstreamer for denne URLen</translation>
-    </message>
-    <message>
       <source>Preload function was not set for blocking operation.</source>
       <translation type="unfinished">Preload function was not set for blocking operation.</translation>
     </message>
     <message>
       <source>File %1 does not exist.</source>
       <translation>Fil %1 eksisterer ikke.</translation>
-    </message>
-    <message>
-      <source>CD playback is only available with the GStreamer engine.</source>
-      <translation>CD avspilling er kun mulig med gstreamer</translation>
     </message>
     <message>
       <source>Could not open file %1 for reading: %2</source>
@@ -6276,6 +6221,10 @@ Er du sikker?</translation>
     <message>
       <source>Couldn&apos;t link GStreamer source, typefind and fakesink elements for %1</source>
       <translation type="unfinished">Couldn&apos;t link GStreamer source, typefind and fakesink elements for %1</translation>
+    </message>
+    <message>
+      <source>Missing CDDA playback.</source>
+      <translation type="unfinished">Missing CDDA playback.</translation>
     </message>
   </context>
   <context>
@@ -6419,7 +6368,7 @@ Er du sikker?</translation>
     </message>
     <message>
       <source>Download album covers</source>
-      <translation>Last ned album kover</translation>
+      <translation>Last ned plateomslag</translation>
     </message>
     <message>
       <source>Fetch entire albums when searching songs</source>
@@ -6608,11 +6557,11 @@ Er du sikker?</translation>
     </message>
     <message>
       <source>Retrieving album cover for %1 album...</source>
-      <translation>Mottar album kover for %1 album...</translation>
+      <translation>Henter plateomslag for %1 album...</translation>
     </message>
     <message>
       <source>Retrieving album covers for %1 albums...</source>
-      <translation>Mottar album kover for %1 albums...</translation>
+      <translation>Henter plateomslag for %1 album...</translation>
     </message>
     <message>
       <source>Unknown error</source>
@@ -6682,7 +6631,7 @@ Er du sikker?</translation>
     </message>
     <message>
       <source>Download album covers</source>
-      <translation>Last ned album kover</translation>
+      <translation>Last ned plateomslag</translation>
     </message>
     <message>
       <source>Server-side scrobbling</source>
@@ -6912,7 +6861,7 @@ Er du sikker?</translation>
     </message>
     <message>
       <source>Download album covers</source>
-      <translation>Last ned album kover</translation>
+      <translation>Last ned plateomslag</translation>
     </message>
     <message>
       <source>Fetch entire albums when searching songs</source>
