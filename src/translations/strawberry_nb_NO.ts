@@ -17,7 +17,7 @@
     </message>
     <message>
       <source>Strawberry is a music player and music collection organizer.</source>
-      <translation type="unfinished">Strawberry is a music player and music collection organizer.</translation>
+      <translation>Strawberry er en musikkspiller og musikksamlingsbehandler.</translation>
     </message>
     <message>
       <source>It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles.</source>
@@ -41,7 +41,7 @@
     </message>
     <message>
       <source>Author and maintainer</source>
-      <translation type="unfinished">Author and maintainer</translation>
+      <translation>Utvikler og vedlikeholder</translation>
     </message>
     <message>
       <source>Contributors</source>
@@ -49,11 +49,11 @@
     </message>
     <message>
       <source>Clementine authors</source>
-      <translation type="unfinished">Clementine authors</translation>
+      <translation>Clementine-utviklere</translation>
     </message>
     <message>
       <source>Clementine contributors</source>
-      <translation type="unfinished">Clementine contributors</translation>
+      <translation>Clementine-bidragsytere</translation>
     </message>
     <message>
       <source>Thanks to</source>
@@ -61,7 +61,7 @@
     </message>
     <message>
       <source>Thanks to all the other Amarok and Clementine contributors.</source>
-      <translation>Takk til alle andre Amarok og Clementine bidragsytere.</translation>
+      <translation>Takk til alle de andre Amarok- og Clementine-bidragsyterne.</translation>
     </message>
   </context>
   <context>
@@ -79,7 +79,7 @@
     <name>AlbumCoverChoiceController</name>
     <message>
       <source>Load cover from disk...</source>
-      <translation>Hent omslag fra disk…</translation>
+      <translation>Last inn omslag fra disk...</translation>
     </message>
     <message>
       <source>Save cover to disk...</source>
@@ -87,11 +87,11 @@
     </message>
     <message>
       <source>Load cover from URL...</source>
-      <translation>Hent omslag fra URL…</translation>
+      <translation>Last inn omslag fra URL...</translation>
     </message>
     <message>
       <source>Search for album covers...</source>
-      <translation>Søk etter albumomslag…</translation>
+      <translation>Søk etter plateomslag...</translation>
     </message>
     <message>
       <source>Unset cover</source>
@@ -131,7 +131,7 @@
     </message>
     <message>
       <source>Save album cover</source>
-      <translation>Lagre albumomslag</translation>
+      <translation>Lagre plateomslag</translation>
     </message>
     <message>
       <source>Failed to open cover file %1 for writing: %2</source>
@@ -155,7 +155,7 @@
     </message>
     <message>
       <source>Could not save cover to file %1.</source>
-      <translation type="unfinished">Could not save cover to file %1.</translation>
+      <translation>Klarte ikke lagre omslaget til fil %1.</translation>
     </message>
   </context>
   <context>
@@ -170,7 +170,7 @@
     </message>
     <message>
       <source>Enter a filename for exported covers (no extension):</source>
-      <translation>Skriv inn et filnavn for eksportert albumomslag (uten filendelse):</translation>
+      <translation>Angi et filnavn for eksporterte plateomslag (uten filendelse):</translation>
     </message>
     <message>
       <source>Export downloaded covers</source>
@@ -237,7 +237,7 @@
     </message>
     <message>
       <source>Closing this window will stop searching for album covers.</source>
-      <translation>Lukking av dette vinduet vil medføre stopp i søk etter albumomslag.</translation>
+      <translation>Lukking av dette vinduet vil medføre stopp i søk etter plateomslag.</translation>
     </message>
     <message>
       <source>Don&apos;t stop!</source>
@@ -402,7 +402,7 @@
     </message>
     <message>
       <source>The album cover of the currently playing song</source>
-      <translation>Albumomslaget til sangen som spilles av for øyeblikket</translation>
+      <translation>Plateomslaget til sangen som spilles av for øyeblikket</translation>
     </message>
     <message>
       <source>Albu&amp;m cover</source>
@@ -1096,7 +1096,7 @@ Hvis ingen ord passer, blir det største bildet i mappen brukt.</translation>
     </message>
     <message>
       <source>Album cover pixmap cache</source>
-      <translation>Albumomslag pixmap cache</translation>
+      <translation>Plateomslag pixmap cache</translation>
     </message>
     <message>
       <source>Size</source>
@@ -1315,7 +1315,7 @@ Hvis ingen ord passer, blir det største bildet i mappen brukt.</translation>
     </message>
     <message>
       <source>Automatically search for album cover</source>
-      <translation>Automatisk søk for albumomslag</translation>
+      <translation>Automatisk søk etter plateomslag</translation>
     </message>
     <message>
       <source>Automatically search for song lyrics</source>
@@ -1470,7 +1470,7 @@ Hvis ingen ord passer, blir det største bildet i mappen brukt.</translation>
     </message>
     <message>
       <source>Show album cover</source>
-      <translation>Vis albumomslag</translation>
+      <translation>Vis plateomslag</translation>
     </message>
     <message>
       <source>Show song technical data</source>
@@ -1650,15 +1650,15 @@ Hvis ingen ord passer, blir det største bildet i mappen brukt.</translation>
     </message>
     <message>
       <source>Album cover types</source>
-      <translation type="unfinished">Album cover types</translation>
+      <translation>Plateomslagstype</translation>
     </message>
     <message>
       <source>Saving album covers</source>
-      <translation>Lagrer albumomslag</translation>
+      <translation>Lagrer plateomslag</translation>
     </message>
     <message>
       <source>Save album covers in album directory</source>
-      <translation>Lagre albumomslag i albummappen</translation>
+      <translation>Lagre plateomslag i albummappen</translation>
     </message>
     <message>
       <source>Save album covers in cache directory</source>
@@ -1666,7 +1666,7 @@ Hvis ingen ord passer, blir det største bildet i mappen brukt.</translation>
     </message>
     <message>
       <source>Save album covers as embedded cover</source>
-      <translation>Lagre albumomslag som innebygd omslag</translation>
+      <translation>Lagre plateomslag som innebygd omslag</translation>
     </message>
     <message>
       <source>Filename:</source>
@@ -2240,7 +2240,7 @@ Hvis ingen ord passer, blir det største bildet i mappen brukt.</translation>
     </message>
     <message>
       <source>Album cover editing is only available for collection songs.</source>
-      <translation>Redigering av albumomslag er bare tilgjengelig for sanger i samlingen.</translation>
+      <translation>Redigering av plateomslag er bare tilgjengelig for sanger i samlingen.</translation>
     </message>
     <message>
       <source>Cover changed: Will be cleared when saved.</source>
@@ -4200,7 +4200,7 @@ Hvis ingen ord passer, blir det største bildet i mappen brukt.</translation>
     <name>PlayingWidget</name>
     <message>
       <source>Small album cover</source>
-      <translation>Lite albumomslag</translation>
+      <translation>Lite plateomslag</translation>
     </message>
     <message>
       <source>Large album cover</source>
@@ -5421,7 +5421,7 @@ Er du sikker?</translation>
     </message>
     <message>
       <source>Download album covers</source>
-      <translation>Last ned albumomslag</translation>
+      <translation>Last ned plateomslag</translation>
     </message>
     <message>
       <source>Base64 encoded secret</source>
@@ -6352,7 +6352,7 @@ Er du sikker?</translation>
     </message>
     <message>
       <source>Download album covers</source>
-      <translation>Last ned albumomslag</translation>
+      <translation>Last ned plateomslag</translation>
     </message>
     <message>
       <source>Fetch entire albums when searching songs</source>
@@ -6541,11 +6541,11 @@ Er du sikker?</translation>
     </message>
     <message>
       <source>Retrieving album cover for %1 album...</source>
-      <translation>Mottar albumomslag for %1 album...</translation>
+      <translation>Henter plateomslag for %1 album...</translation>
     </message>
     <message>
       <source>Retrieving album covers for %1 albums...</source>
-      <translation>Mottar albumomslag for %1 album...</translation>
+      <translation>Henter plateomslag for %1 album...</translation>
     </message>
     <message>
       <source>Unknown error</source>
@@ -6615,7 +6615,7 @@ Er du sikker?</translation>
     </message>
     <message>
       <source>Download album covers</source>
-      <translation>Last ned albumomslag</translation>
+      <translation>Last ned plateomslag</translation>
     </message>
     <message>
       <source>Server-side scrobbling</source>
@@ -6845,7 +6845,7 @@ Er du sikker?</translation>
     </message>
     <message>
       <source>Download album covers</source>
-      <translation>Last ned albumomslag</translation>
+      <translation>Last ned plateomslag</translation>
     </message>
     <message>
       <source>Fetch entire albums when searching songs</source>
