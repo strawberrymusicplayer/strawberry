@@ -5259,6 +5259,14 @@ Are you sure you want to continue?</source>
       <source>shuffle songs</source>
       <translation>lecture aléatoire des morceaux</translation>
     </message>
+    <message>
+      <source>Invalid collection directory</source>
+      <translation type="unfinished">Invalid collection directory</translation>
+    </message>
+    <message>
+      <source>Can&apos;t add directory %1 with special filesystem %2 to collection</source>
+      <translation type="unfinished">Can&apos;t add directory %1 with special filesystem %2 to collection</translation>
+    </message>
   </context>
   <context>
     <name>QWidget</name>
@@ -5698,10 +5706,6 @@ Are you sure you want to continue?</source>
       <translation>Les musiques sont scrobblées si leurs métadonnées sont valides  et n&apos;ont pas plus de 30 secondes, ont été jouées pour un minimum de leur moitiés de leur longueur ou plus de 4 minutes (la première des conditions qui est vérifiée).</translation>
     </message>
     <message>
-      <source>Work in offline mode (Only cache scrobbles)</source>
-      <translation>Travailler en mode hors connexion (uniquement scrobbles en cache)</translation>
-    </message>
-    <message>
       <source>Show scrobble button</source>
       <translation>Afficher le bouton scrobble</translation>
     </message>
@@ -5716,10 +5720,6 @@ Are you sure you want to continue?</source>
     <message>
       <source> seconds</source>
       <translation> secondes</translation>
-    </message>
-    <message>
-      <source>(This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately).</source>
-      <translation>(Il s&apos;agit du délai entre le moment où une chanson est scrobbulée et celui où les scrobbles sont soumis au serveur. Si vous fixez ce délai à 0 seconde, les scrobbles seront soumis immédiatement.</translation>
     </message>
     <message>
       <source>Prefer album artist when sending scrobbles</source>
@@ -5804,6 +5804,22 @@ Are you sure you want to continue?</source>
     <message>
       <source>Enter your user token from</source>
       <translation>Entrez votre jeton d&apos;utilisateur depuis</translation>
+    </message>
+    <message>
+      <source>With this option enabled, scrobbles will be cached to disk but not sent to the server. This option can be enabled in cases where the server or the internet connection is unstable, the scrobbles will be sent when the option is disabled.</source>
+      <translation type="unfinished">With this option enabled, scrobbles will be cached to disk but not sent to the server. This option can be enabled in cases where the server or the internet connection is unstable, the scrobbles will be sent when the option is disabled.</translation>
+    </message>
+    <message>
+      <source>Offline mode (Only cache scrobbles)</source>
+      <translation type="unfinished">Offline mode (Only cache scrobbles)</translation>
+    </message>
+    <message>
+      <source>This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately.</source>
+      <translation type="unfinished">This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately.</translation>
+    </message>
+    <message>
+      <source>Spotify</source>
+      <translation type="unfinished">Spotify</translation>
     </message>
   </context>
   <context>
