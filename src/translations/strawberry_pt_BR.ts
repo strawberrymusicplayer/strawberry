@@ -4761,7 +4761,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     <message>
       <source>You are about to remove a playlist which is not part of your favorite playlists: the playlist will be deleted (this action cannot be undone). 
 Are you sure you want to continue?</source>
-      <translation>Você está prestes a remover uma lista de reprodução que não é parte de suas listas de reproduções favoritas: a lista de reprodução será removida (esta ação não pode ser desfeita).
+      <translation>Você está prestes a remover uma lista de reprodução que não é parte de suas listas de reprodução favoritas: a lista de reprodução será apagada (esta ação não pode ser desfeita).
 Deseja continuar?</translation>
     </message>
     <message>
