@@ -3037,7 +3037,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Login</source>
-      <translation type="unfinished">Login</translation>
+      <translation>Giriş yap</translation>
     </message>
     <message>
       <source>No provider selected.</source>
