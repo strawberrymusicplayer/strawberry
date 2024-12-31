@@ -1100,7 +1100,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Size</source>
-      <translation type="unfinished">Size</translation>
+      <translation>Boyut</translation>
     </message>
     <message>
       <source>Enable Disk Cache</source>
@@ -1175,7 +1175,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Replace current playlist</source>
-      <translation type="unfinished">Replace current playlist</translation>
+      <translation>Geçerli çalma listesinin yerine koy</translation>
     </message>
     <message>
       <source>Open in new playlist</source>
@@ -1187,7 +1187,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Queue to play next</source>
-      <translation type="unfinished">Queue to play next</translation>
+      <translation>Çalınacaklar sırası</translation>
     </message>
     <message>
       <source>Search for this</source>
@@ -1771,11 +1771,11 @@ If there are no matches then it will use the largest image in the directory.</tr
     <name>DeleteConfirmationDialog</name>
     <message>
       <source>Delete files</source>
-      <translation type="unfinished">Delete files</translation>
+      <translation>Dosyaları sil</translation>
     </message>
     <message>
       <source>The following files will be deleted from disk:</source>
-      <translation type="unfinished">The following files will be deleted from disk:</translation>
+      <translation>Şu dosyalar diskten silinecek:</translation>
     </message>
     <message>
       <source>Are you sure you want to continue?</source>
@@ -1895,7 +1895,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Convert all music</source>
-      <translation type="unfinished">Convert all music</translation>
+      <translation>Tüm müzikleri çevir</translation>
     </message>
     <message>
       <source>Preferred format</source>
@@ -3068,11 +3068,11 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Help</source>
-      <translation type="unfinished">Help</translation>
+      <translation>Yardım</translation>
     </message>
     <message>
       <source>&amp;Tools</source>
-      <translation type="unfinished">&amp;Tools</translation>
+      <translation>Araçlar</translation>
     </message>
     <message>
       <source>Previous track</source>
@@ -4618,7 +4618,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Intro tracks</source>
-      <translation type="unfinished">Intro tracks</translation>
+      <translation/>
     </message>
     <message>
       <source>Don&apos;t shuffle</source>
