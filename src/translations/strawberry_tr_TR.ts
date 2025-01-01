@@ -406,7 +406,7 @@
     </message>
     <message>
       <source>Albu&amp;m cover</source>
-      <translation type="unfinished">Albu&amp;m cover</translation>
+      <translation>Albüm kapağı</translation>
     </message>
     <message>
       <source>Custom image:</source>
@@ -617,7 +617,7 @@
     </message>
     <message>
       <source>No audio normalization</source>
-      <translation type="unfinished">No audio normalization</translation>
+      <translation>Ses normalleştirmesi yok</translation>
     </message>
     <message>
       <source>Replay Gain</source>
