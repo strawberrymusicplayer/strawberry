@@ -296,7 +296,7 @@
     </message>
     <message>
       <source>Covers from %1</source>
-      <translation type="unfinished">Covers from %1</translation>
+      <translation>%1'den kapaklar</translation>
     </message>
     <message>
       <source>Abort</source>
@@ -374,7 +374,7 @@
     </message>
     <message>
       <source>&amp;Use the system default color</source>
-      <translation type="unfinished">&amp;Use the system default color</translation>
+      <translation>Sistem varsayılanını kullan</translation>
     </message>
     <message>
       <source>Use custom color</source>
@@ -869,7 +869,7 @@
     </message>
     <message>
       <source>Enter search terms here</source>
-      <translation type="unfinished">Enter search terms here</translation>
+      <translation>Arama terimlerini girin</translation>
     </message>
     <message>
       <source>MenuPopupToolButton</source>
