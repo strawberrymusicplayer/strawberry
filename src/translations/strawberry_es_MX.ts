@@ -1155,7 +1155,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Are you sure you want to write song playcounts and ratings to file for all songs in your collection?</source>
-      <translation>¿Estás seguro de que quieres guardar en los archivos el conteo de reproducciones y las valoraciones para todas las canciones de tu colección?</translation>
+      <translation>¿Está seguro de que desea guardar en los archivos el conteo de reproducciones y las valoraciones para todas las canciones de su colección?</translation>
     </message>
   </context>
   <context>
@@ -1234,7 +1234,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Would you like to move the other songs on this album to Various Artists as well?</source>
-      <translation>¿Le gustaría mover también el resto de temas del álbum a Varios artistas?</translation>
+      <translation>¿También le gustaría mover el resto de canciones del álbum a Varios artistas?</translation>
     </message>
     <message>
       <source>Error</source>
@@ -1418,7 +1418,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Add song URL</source>
-      <translation>Añadir URL del tema</translation>
+      <translation>Añadir URL de la canción</translation>
     </message>
     <message>
       <source>%rating%</source>
@@ -2909,7 +2909,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Receiving playcount for %1 songs and last played for %2 songs.</source>
-      <translation>Recibiendo info de nº de reproducciones para %1 temas y última reproducción para %2 temas.</translation>
+      <translation>Recibiendo info de nº de reproducciones para %1 canciones y última reproducción para %2 canciones.</translation>
     </message>
     <message>
       <source>Receiving last played for %1 songs.</source>
@@ -2917,19 +2917,19 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Receiving playcounts for %1 songs.</source>
-      <translation>Recibiendo info de nº de reproducciones para %1 temas.</translation>
+      <translation>Recibiendo info de nº de reproducciones para %1 canciones.</translation>
     </message>
     <message>
       <source>Playcounts for %1 songs and last played for %2 songs received.</source>
-      <translation>Recuentos de %1 reproducciones y última reproducción para %2 temas recibida.</translation>
+      <translation>Conteos de %1 reproducciones y última reproducción para %2 canciones recibida.</translation>
     </message>
     <message>
       <source>Last played for %1 songs received.</source>
-      <translation>Info de última reproducción para %1 temas recibida.</translation>
+      <translation>Información de última reproducción para %1 canción recibida.</translation>
     </message>
     <message>
       <source>Playcounts for %1 songs received.</source>
-      <translation>Recuentos de reproducciones para %1 temas recibidos.</translation>
+      <translation>Conteos de reproducciones para %1 canciones recibidos.</translation>
     </message>
   </context>
   <context>
@@ -3543,7 +3543,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Playlist has %1 songs, too large to undo, are you sure you want to clear the playlist?</source>
-      <translation>La lista de reproducción tiene %1 temas, demasiadas para deshacer, ¿estás seguro de que quieres eliminarla?</translation>
+      <translation>La lista de reproducción tiene %1 canciones, demasiadas para deshacer, ¿está seguro de que desea eliminarla?</translation>
     </message>
     <message>
       <source>Error</source>
@@ -3908,7 +3908,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Add song URL</source>
-      <translation>Añadir URL del tema</translation>
+      <translation>Añadir URL de canción</translation>
     </message>
     <message>
       <source>%originalyear%</source>
@@ -4688,7 +4688,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Automatically sort playlist when inserting songs</source>
-      <translation>Ordenar la lista automáticamente al insertar temas</translation>
+      <translation>Ordenar la lista automáticamente al insertar canciones</translation>
     </message>
     <message>
       <source>When saving a playlist, file paths should be</source>
@@ -5011,7 +5011,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>%1 songs in %2 different directories selected, are you sure you want to open them all?</source>
-      <translation>Se han seleccionado %1 temas en %2 directorios. ¿Confirma que quiere abrirlos todos?</translation>
+      <translation>Se han seleccionado %1 canciones en %2 directorios. ¿Confirma que quiere abrirlos todos?</translation>
     </message>
     <message>
       <source>Failed to load image from data for %1</source>
@@ -5910,7 +5910,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Show all the songs</source>
-      <translation>Mostrar todos los temas</translation>
+      <translation>Mostrar todas las canciones</translation>
     </message>
     <message>
       <source>Only show the first</source>
@@ -5918,7 +5918,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source> songs</source>
-      <translation>temas</translation>
+      <translation> canciones</translation>
     </message>
   </context>
   <context>
@@ -5929,7 +5929,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Find songs in your collection that match the criteria you specify.</source>
-      <translation>Encuentre temas en la colección que coincidan con los criterios que especifique.</translation>
+      <translation>Encuentre canciones en la colección que coincidan con los criterios que especifique.</translation>
     </message>
     <message>
       <source>Search terms</source>
@@ -5937,7 +5937,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>A song will be included in the playlist if it matches these conditions.</source>
-      <translation>Se incluirá el tema si cumple estas condiciones.</translation>
+      <translation>Se incluirá la canción si cumple con estas condiciones.</translation>
     </message>
     <message>
       <source>Search options</source>
@@ -5945,7 +5945,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Choose how the playlist is sorted and how many songs it will contain.</source>
-      <translation>Selecciona como se ordenará la lista y qué temas contendrá</translation>
+      <translation>Selecciona como se ordenará la lista y qué canciones contendrá.</translation>
     </message>
   </context>
   <context>
@@ -6009,7 +6009,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>A smart playlist is a dynamic list of songs that come from your collection.  There are different types of smart playlist that offer different ways of selecting songs.</source>
-      <translation>Una lista inteligente es una lista dinámica de temas de la fonoteca. Hay distintos tipos de listas inteligentes que permiten seleccionar los temas de distintas maneras.</translation>
+      <translation>Una lista inteligente es una lista dinámica de canciones de la fonoteca. Hay distintos tipos de listas inteligentes que permiten seleccionar las canciones de distintas maneras.</translation>
     </message>
     <message>
       <source>Finish</source>
@@ -6036,7 +6036,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>In dynamic mode new tracks will be chosen and added to the playlist every time a song finishes.</source>
-      <translation>En el modo dinámico se escogerán y añadirán nuevas pistas cada vez que un tema finalice.</translation>
+      <translation>En el modo dinámico se escogerán y añadirán nuevas pistas cada vez que una canción finalice.</translation>
     </message>
   </context>
   <context>
@@ -6443,7 +6443,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>songs</source>
-      <translation>temas</translation>
+      <translation>canciones</translation>
     </message>
     <message>
       <source>Enter search terms above to find music</source>
@@ -6479,7 +6479,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Add to songs</source>
-      <translation>Añadir a temas</translation>
+      <translation>Añadir a canciones</translation>
     </message>
     <message>
       <source>Search for this</source>
