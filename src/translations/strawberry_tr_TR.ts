@@ -1347,59 +1347,59 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Add song artist tag</source>
-      <translation type="unfinished">Add song artist tag</translation>
+      <translation>Sanatçı etiketi ekle</translation>
     </message>
     <message>
       <source>Add song album tag</source>
-      <translation type="unfinished">Add song album tag</translation>
+      <translation>Albüm etiketi ekle</translation>
     </message>
     <message>
       <source>Add song title tag</source>
-      <translation type="unfinished">Add song title tag</translation>
+      <translation>Başlık etiketi ekle</translation>
     </message>
     <message>
       <source>Add song albumartist tag</source>
-      <translation type="unfinished">Add song albumartist tag</translation>
+      <translation>Albüm sanatçısı etiketi ekle</translation>
     </message>
     <message>
       <source>Add song year tag</source>
-      <translation type="unfinished">Add song year tag</translation>
+      <translation>Yıl etiketi ekle</translation>
     </message>
     <message>
       <source>Add song composer tag</source>
-      <translation type="unfinished">Add song composer tag</translation>
+      <translation>Besteci etiketi ekle</translation>
     </message>
     <message>
       <source>Add song performer tag</source>
-      <translation type="unfinished">Add song performer tag</translation>
+      <translation>Yapımcı etiketi ekle</translation>
     </message>
     <message>
       <source>Add song grouping tag</source>
-      <translation type="unfinished">Add song grouping tag</translation>
+      <translation>Gruplama etiketi ekle</translation>
     </message>
     <message>
       <source>Add song disc tag</source>
-      <translation type="unfinished">Add song disc tag</translation>
+      <translation>Disk etiketi ekle</translation>
     </message>
     <message>
       <source>Add song track tag</source>
-      <translation type="unfinished">Add song track tag</translation>
+      <translation>Parça sayısı etiketi ekle</translation>
     </message>
     <message>
       <source>Add song genre tag</source>
-      <translation type="unfinished">Add song genre tag</translation>
+      <translation>Tür etiketi ekle</translation>
     </message>
     <message>
       <source>Add song length tag</source>
-      <translation type="unfinished">Add song length tag</translation>
+      <translation>Uzunluk etiketi ekle</translation>
     </message>
     <message>
       <source>Add song play count</source>
-      <translation type="unfinished">Add song play count</translation>
+      <translation>Çalma sayısı ekle</translation>
     </message>
     <message>
       <source>Add song skip count</source>
-      <translation type="unfinished">Add song skip count</translation>
+      <translation>Geçme sayısı ekle</translation>
     </message>
     <message>
       <source>Add a new line if supported by the notification type</source>
@@ -1407,7 +1407,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>%filename%</source>
-      <translation type="unfinished">%filename%</translation>
+      <translation>%filename%</translation>
     </message>
     <message>
       <source>Add song filename</source>
@@ -1415,7 +1415,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>%url%</source>
-      <translation type="unfinished">%url%</translation>
+      <translation>%url%</translation>
     </message>
     <message>
       <source>Add song URL</source>
@@ -1423,7 +1423,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>%rating%</source>
-      <translation type="unfinished">%rating%</translation>
+      <translation>%rating%</translation>
     </message>
     <message>
       <source>Add song rating</source>
@@ -1431,11 +1431,11 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>%originalyear%</source>
-      <translation type="unfinished">%originalyear%</translation>
+      <translation>%originalyear%</translation>
     </message>
     <message>
       <source>Add song original year tag</source>
-      <translation type="unfinished">Add song original year tag</translation>
+      <translation>Orijinal yıl etiketi ekle</translation>
     </message>
   </context>
   <context>
@@ -1548,7 +1548,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Enter search terms here</source>
-      <translation type="unfinished">Enter search terms here</translation>
+      <translation>Arama terimlerini girin</translation>
     </message>
     <message>
       <source>MenuPopupToolButton</source>
@@ -1615,7 +1615,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Total bytes transferred</source>
-      <translation type="unfinished">Total bytes transferred</translation>
+      <translation>Aktarılan bit</translation>
     </message>
   </context>
   <context>
@@ -1630,15 +1630,15 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Choose the providers you want to use when searching for covers.</source>
-      <translation type="unfinished">Choose the providers you want to use when searching for covers.</translation>
+      <translation>Albüm kapağı aramak için istediğiniz sağlayıcıları seçin.</translation>
     </message>
     <message>
       <source>Move up</source>
-      <translation type="unfinished">Move up</translation>
+      <translation>Yukarıya taşı</translation>
     </message>
     <message>
       <source>Move down</source>
-      <translation type="unfinished">Move down</translation>
+      <translation>Aşağıya taşı</translation>
     </message>
     <message>
       <source>Authentication</source>
@@ -1654,19 +1654,19 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Saving album covers</source>
-      <translation type="unfinished">Saving album covers</translation>
+      <translation>Albüm kapakları kaydediliyor</translation>
     </message>
     <message>
       <source>Save album covers in album directory</source>
-      <translation type="unfinished">Save album covers in album directory</translation>
+      <translation>Albüm kapaklarını albüm dizinine kaydet</translation>
     </message>
     <message>
       <source>Save album covers in cache directory</source>
-      <translation type="unfinished">Save album covers in cache directory</translation>
+      <translation>Albüm kapaklarını önbellek dizinine kaydet</translation>
     </message>
     <message>
       <source>Save album covers as embedded cover</source>
-      <translation type="unfinished">Save album covers as embedded cover</translation>
+      <translation>Albüm kapaklarını gömülü olarak kaydet</translation>
     </message>
     <message>
       <source>Filename:</source>
@@ -1674,7 +1674,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Pattern</source>
-      <translation type="unfinished">Pattern</translation>
+      <translation>Desen</translation>
     </message>
     <message>
       <source>Random</source>
@@ -1682,7 +1682,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Overwrite existing file</source>
-      <translation type="unfinished">Overwrite existing file</translation>
+      <translation>Var olan dosyanın üzerine yaz</translation>
     </message>
     <message>
       <source>Lowercase filename</source>
@@ -1690,7 +1690,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Replace spaces with dashes</source>
-      <translation type="unfinished">Replace spaces with dashes</translation>
+      <translation>Boşluk yerine alt çizgi koy</translation>
     </message>
     <message>
       <source>Use Tidal settings to authenticate.</source>
@@ -3853,7 +3853,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Add song composer tag</source>
-      <translation type="unfinished">Add song composer tag</translation>
+      <translation>Besteci etiketi ekle</translation>
     </message>
     <message>
       <source>Add song performer tag</source>
