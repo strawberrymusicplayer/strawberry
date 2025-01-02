@@ -2267,7 +2267,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Are you sure you want to reset this song&apos;s play statistics?</source>
-      <translation>¿Estás seguro de que deseas reestablecer las estadísticas de reproducción de esta canción?</translation>
+      <translation>¿Está seguro de que desea reestablecer las estadísticas de reproducción de esta canción?</translation>
     </message>
     <message>
       <source>loading...</source>
@@ -3463,7 +3463,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>You are running Strawberry under Rosetta. Running Strawberry under Rosetta is unsupported and known to have issues. You should download Strawberry for the correct CPU architecture from %1</source>
-      <translation>Estás ejecutando Strawberry bajo Rosetta. Ejecutar Strawberry bajo Rosetta no está soportado y se sabe que presenta problemas. Deberías descargar Strawberry para la arquitectura de CPU correcta desde %1</translation>
+      <translation>Está ejecutando Strawberry bajo Rosetta. Ejecutar Strawberry bajo Rosetta no está soportado y se sabe que presenta problemas. Debería descargar Strawberry para la arquitectura de CPU correcta desde %1</translation>
     </message>
     <message>
       <source>Sponsoring Strawberry</source>
