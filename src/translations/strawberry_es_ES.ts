@@ -873,7 +873,7 @@
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>Entire collection</source>
@@ -1286,7 +1286,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>Title</source>
@@ -1551,7 +1551,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>View</source>
@@ -2095,7 +2095,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>Change art</source>
@@ -2267,7 +2267,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Are you sure you want to reset this song&apos;s play statistics?</source>
-      <translation>¿Estás seguro de que quieres restablecer las estadísticas de reproducción de este tema?</translation>
+      <translation>¿Está seguro de que desea reestablecer las estadísticas de reproducción de este tema?</translation>
     </message>
     <message>
       <source>loading...</source>
@@ -3055,7 +3055,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>&amp;Music</source>
@@ -3463,7 +3463,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>You are running Strawberry under Rosetta. Running Strawberry under Rosetta is unsupported and known to have issues. You should download Strawberry for the correct CPU architecture from %1</source>
-      <translation>Estás ejecutando Strawberry bajo Rosetta. Ejecutar Strawberry bajo Rosetta no está soportado y se sabe que da problemas. Deberías descargar Strawberry para la arquitectura de CPU correcta desde %1</translation>
+      <translation>Está ejecutando Strawberry bajo Rosetta. Ejecutar Strawberry bajo Rosetta no está soportado y se sabe que presenta problemas. Debería descargar Strawberry para la arquitectura de CPU correcta desde %1</translation>
     </message>
     <message>
       <source>Sponsoring Strawberry</source>
@@ -3543,7 +3543,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Playlist has %1 songs, too large to undo, are you sure you want to clear the playlist?</source>
-      <translation>La lista de reproducción tiene %1 temas, demasiados para deshacer, ¿estás seguro de que quiere eliminarla?</translation>
+      <translation>La lista de reproducción tiene %1 temas, demasiados para deshacer, ¿está seguro de que desea eliminarla?</translation>
     </message>
     <message>
       <source>Error</source>
@@ -3780,7 +3780,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>Summary</source>
@@ -6431,7 +6431,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>artists</source>
