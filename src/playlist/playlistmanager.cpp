@@ -525,15 +525,6 @@ void PlaylistManager::RemoveCurrentSong() const {
   active()->removeRows(active()->current_index().row(), 1);
 }
 
-void PlaylistManager::InvalidateDeletedSongs() {
-
-  const QList<Playlist*> playlists = GetAllPlaylists();
-  for (Playlist *playlist : playlists) {
-    playlist->InvalidateDeletedSongs();
-  }
-
-}
-
 void PlaylistManager::RemoveDeletedSongs() {
 
   const QList<Playlist*> playlists = GetAllPlaylists();

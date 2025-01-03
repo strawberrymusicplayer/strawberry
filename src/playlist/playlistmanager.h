@@ -74,8 +74,6 @@ class PlaylistManager : public PlaylistManagerInterface {
 
   // Returns the collection of playlists managed by this PlaylistManager.
   QList<Playlist*> GetAllPlaylists() const override;
-  // Grays out and reloads all deleted songs in all playlists.
-  void InvalidateDeletedSongs() override;
   // Removes all deleted songs from all playlists.
   void RemoveDeletedSongs() override;
   // Returns true if the playlist is open

@@ -59,8 +59,6 @@ class PlaylistManagerInterface : public QObject {
 
   // Returns the collection of playlists managed by this PlaylistManager.
   virtual QList<Playlist*> GetAllPlaylists() const = 0;
-  // Grays out and reloads all deleted songs in all playlists.
-  virtual void InvalidateDeletedSongs() = 0;
   // Removes all deleted songs from all playlists.
   virtual void RemoveDeletedSongs() = 0;
 
