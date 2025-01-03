@@ -239,14 +239,12 @@ class Playlist : public QAbstractListModel {
   // song will be reloaded to even out the situation because obviously something has changed.
   // This returns true if this playlist had current item when the method was invoked.
   bool ApplyValidityOnCurrentSong(const QUrl &url, bool valid);
-  // Grays out and reloads all deleted songs in all playlists. Also, "ungreys" those songs which were once deleted but now got restored somehow.
-  void InvalidateDeletedSongs();
+
   // Removes from the playlist all local files that don't exist anymore.
   void RemoveDeletedSongs();
 
   void StopAfter(const int row);
   void ReloadItems(const QList<int> &rows);
-  void ReloadItemsBlocking(const QList<int> &rows);
   void InformOfCurrentSongChange(const bool minor);
 
   // Just emits the dataChanged() signal so the mood column is repainted.
@@ -353,6 +351,9 @@ class Playlist : public QAbstractListModel {
 
   void TurnOnDynamicPlaylist(PlaylistGeneratorPtr gen);
   void InsertDynamicItems(const int count);
+
+  // Grays out and reloads all deleted songs in all playlists. Also, "ungreys" those songs which were once deleted but now got restored somehow.
+  void InvalidateDeletedSongs();
 
  private Q_SLOTS:
   void TracksAboutToBeDequeued(const QModelIndex&, const int begin, const int end);
