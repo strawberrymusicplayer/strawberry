@@ -313,8 +313,8 @@ QVariant Playlist::data(const QModelIndex &idx, const int role) const {
     case Qt::EditRole:
     case Qt::ToolTipRole:
     case Qt::DisplayRole:{
-      PlaylistItemPtr item = items_[idx.row()];
-      Song song = item->Metadata();
+      const PlaylistItemPtr item = items_[idx.row()];
+      const Song song = item->Metadata();
 
       // Don't forget to change Playlist::CompareItems when adding new columns
       switch (static_cast<Column>(idx.column())) {
@@ -423,8 +423,8 @@ bool Playlist::setData(const QModelIndex &idx, const QVariant &value, const int 
 
   Q_UNUSED(role);
 
-  int row = idx.row();
-  PlaylistItemPtr item = item_at(row);
+  const int row = idx.row();
+  const PlaylistItemPtr item = item_at(row);
   Song song = item->OriginalMetadata();
 
   if (idx.data() == value) return false;
@@ -487,7 +487,7 @@ void Playlist::ItemReload(const QPersistentModelIndex &idx, const Song &old_meta
 void Playlist::ItemReloadComplete(const QPersistentModelIndex &idx, const Song &old_metadata, const bool metadata_edit) {
 
   if (idx.isValid()) {
-    PlaylistItemPtr item = item_at(idx.row());
+    const PlaylistItemPtr item = item_at(idx.row());
     if (item) {
       ItemChanged(idx.row(), ChangedColumns(old_metadata, item->Metadata()));
       if (idx.row() == current_row()) {
@@ -555,12 +555,12 @@ int Playlist::NextVirtualIndex(int i, const bool ignore_repeat_track) const {
   }
 
   // We need to advance i until we get something else on the same album
-  Song last_song = current_item_metadata();
+  const Song last_song = current_item_metadata();
   for (int j = i + 1; j < virtual_items_.count(); ++j) {
     if (item_at(virtual_items_[j])->GetShouldSkip()) {
       continue;
     }
-    Song this_song = item_at(virtual_items_[j])->Metadata();
+    const Song this_song = item_at(virtual_items_[j])->Metadata();
     if (((last_song.is_compilation() && this_song.is_compilation()) ||
          last_song.effective_albumartist() == this_song.effective_albumartist()) &&
         last_song.album() == this_song.album() &&
@@ -677,13 +677,13 @@ int Playlist::previous_row(const bool ignore_repeat_track) {
 
 void Playlist::set_current_row(const int i, const AutoScroll autoscroll, const bool is_stopping, const bool force_inform) {
 
-  QPersistentModelIndex old_current_item_index = current_item_index_;
+  const QPersistentModelIndex old_current_item_index = current_item_index_;
   QPersistentModelIndex new_current_item_index;
   if (i != -1) new_current_item_index = QPersistentModelIndex(index(i, 0, QModelIndex()));
 
   if (new_current_item_index != current_item_index_) ClearStreamMetadata();
 
-  int nextrow = next_row();
+  const int nextrow = next_row();
   if (nextrow != -1 && nextrow != i) {
     PlaylistItemPtr next_item = item_at(nextrow);
     if (next_item) {
@@ -1127,7 +1127,7 @@ void Playlist::InsertItemsWithoutUndo(const PlaylistItemPtrList &items, const in
 
   beginInsertRows(QModelIndex(), start, end);
   for (int i = start; i <= end; ++i) {
-    PlaylistItemPtr item = items[i - start];
+    const PlaylistItemPtr item = items[i - start];
     items_.insert(i, item);
     virtual_items_ << static_cast<int>(virtual_items_.count());
 
@@ -1775,7 +1775,7 @@ PlaylistItemPtrList Playlist::RemoveItemsWithoutUndo(const int row, const int co
 
 void Playlist::StopAfter(const int row) {
 
-  QModelIndex old_stop_after = stop_after_;
+  const QModelIndex old_stop_after = stop_after_;
 
   if ((stop_after_.isValid() && stop_after_.row() == row) || row == -1) {
     stop_after_ = QModelIndex();
@@ -1911,9 +1911,9 @@ void Playlist::RemoveItemsNotInQueue() {
 
 void Playlist::ReloadItems(const QList<int> &rows) {
 
-  for (int row : rows) {
-    PlaylistItemPtr item = item_at(row);
-    QPersistentModelIndex idx = index(row, 0);
+  for (const int row : rows) {
+    const PlaylistItemPtr item = item_at(row);
+    const QPersistentModelIndex idx = index(row, 0);
     if (idx.isValid()) {
       ItemReload(idx, item->Metadata(), false);
     }
@@ -1923,9 +1923,9 @@ void Playlist::ReloadItems(const QList<int> &rows) {
 
 void Playlist::ReloadItemsBlocking(const QList<int> &rows) {
 
-  for (int row : rows) {
+  for (const int row : rows) {
     PlaylistItemPtr item = item_at(row);
-    Song old_metadata = item->Metadata();
+    const Song old_metadata = item->Metadata();
     item->Reload();
     QPersistentModelIndex idx = index(row, 0);
     ItemReloadComplete(idx, old_metadata, false);
@@ -1951,7 +1951,7 @@ void Playlist::Shuffle() {
 
   const int count = static_cast<int>(items_.count());
   for (int i = begin; i < count; ++i) {
-    int new_pos = i + (rand() % (count - i));
+    const int new_pos = i + (rand() % (count - i));
 
     std::swap(new_items[i], new_items[new_pos]);
   }
@@ -2113,7 +2113,7 @@ void Playlist::TracksEnqueued(const QModelIndex &parent_idx, const int begin, co
 void Playlist::QueueLayoutChanged() {
 
   for (int i = 0; i < queue_->rowCount(); ++i) {
-    const QModelIndex &idx = queue_->mapToSource(queue_->index(i, static_cast<int>(Column::Title)));
+    const QModelIndex idx = queue_->mapToSource(queue_->index(i, static_cast<int>(Column::Title)));
     Q_EMIT dataChanged(idx, idx);
   }
 
@@ -2310,7 +2310,7 @@ void Playlist::InvalidateDeletedSongs() {
 
   for (int row = 0; row < items_.count(); ++row) {
     PlaylistItemPtr item = items_.value(row);
-    Song song = item->Metadata();
+    const Song song = item->Metadata();
 
     if (song.url().isLocalFile()) {
       bool exists = QFile::exists(song.url().toLocalFile());
@@ -2343,8 +2343,8 @@ void Playlist::RemoveDeletedSongs() {
   QList<int> rows_to_remove;
 
   for (int row = 0; row < items_.count(); ++row) {
-    PlaylistItemPtr item = items_.value(row);
-    Song song = item->Metadata();
+    const PlaylistItemPtr item = items_.value(row);
+    const Song song = item->Metadata();
 
     if (song.url().isLocalFile() && !QFile::exists(song.url().toLocalFile())) {
       rows_to_remove.append(row);  // clazy:exclude=reserve-candidates
@@ -2377,7 +2377,7 @@ void Playlist::RemoveDuplicateSongs() {
   std::unordered_map<Song, int, SongSimilarHash, SongSimilarEqual> unique_songs;
 
   for (int row = 0; row < items_.count(); ++row) {
-    PlaylistItemPtr item = items_.value(row);
+    const PlaylistItemPtr item = items_.value(row);
     const Song &song = item->Metadata();
 
     bool found_duplicate = false;
@@ -2410,7 +2410,7 @@ void Playlist::RemoveUnavailableSongs() {
 
   QList<int> rows_to_remove;
   for (int row = 0; row < items_.count(); ++row) {
-    PlaylistItemPtr item = items_.value(row);
+    const PlaylistItemPtr item = items_.value(row);
     const Song &song = item->Metadata();
 
     // Check only local files
@@ -2425,10 +2425,10 @@ void Playlist::RemoveUnavailableSongs() {
 
 bool Playlist::ApplyValidityOnCurrentSong(const QUrl &url, const bool valid) {
 
-  PlaylistItemPtr current = current_item();
+  const PlaylistItemPtr current = current_item();
 
   if (current) {
-    Song current_song = current->Metadata();
+    const Song current_song = current->Metadata();
 
     // If validity has changed, reload the item
     if (current_song.source() == Song::Source::LocalFile || current_song.source() == Song::Source::Collection) {
@@ -2524,7 +2524,7 @@ void Playlist::TurnOffDynamicPlaylist() {
 void Playlist::RateSong(const QModelIndex &idx, const float rating) {
 
   if (has_item_at(idx.row())) {
-    PlaylistItemPtr item = item_at(idx.row());
+    const PlaylistItemPtr item = item_at(idx.row());
     if (item && item->IsLocalCollectionItem() && item->Metadata().id() != -1) {
       collection_backend_->UpdateSongRatingAsync(item->Metadata().id(), rating);
     }
@@ -2538,7 +2538,7 @@ void Playlist::RateSongs(const QModelIndexList &index_list, const float rating) 
   for (const QModelIndex &idx : index_list) {
     const int row = idx.row();
     if (has_item_at(row)) {
-      PlaylistItemPtr item = item_at(row);
+      const PlaylistItemPtr item = item_at(row);
       if (item && item->IsLocalCollectionItem() && item->Metadata().id() != -1) {
         id_list << item->Metadata().id();  // clazy:exclude=reserve-candidates
       }
