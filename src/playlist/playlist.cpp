@@ -1304,11 +1304,11 @@ QMimeData *Playlist::mimeData(const QModelIndexList &indexes) const {
     rows << idx.row();
   }
 
-  QBuffer buf;
-  if (!buf.open(QIODevice::WriteOnly)) {
+  QBuffer buffer;
+  if (!buffer.open(QIODevice::WriteOnly)) {
     return nullptr;
   }
-  QDataStream stream(&buf);
+  QDataStream stream(&buffer);
 
   const Playlist *self = this;
   const qint64 pid = QCoreApplication::applicationPid();
@@ -1316,11 +1316,11 @@ QMimeData *Playlist::mimeData(const QModelIndexList &indexes) const {
   stream.writeRawData(reinterpret_cast<char*>(&self), sizeof(self));  // NOLINT(bugprone-sizeof-expression)
   stream << rows;
   stream.writeRawData(reinterpret_cast<const char*>(&pid), sizeof(pid));
-  buf.close();
+  buffer.close();
 
   QMimeData *mimedata = new QMimeData;
   mimedata->setUrls(urls);
-  mimedata->setData(QLatin1String(kRowsMimetype), buf.data());
+  mimedata->setData(QLatin1String(kRowsMimetype), buffer.data());
 
   return mimedata;
 
@@ -1607,21 +1607,21 @@ void Playlist::ItemsLoaded() {
   InsertItems(items, 0);
   is_loading_ = false;
 
-  PlaylistBackend::Playlist p = playlist_backend_->GetPlaylist(id_);
+  const PlaylistBackend::Playlist playlist = playlist_backend_->GetPlaylist(id_);
 
   // The newly loaded list of items might be shorter than it was before so look out for a bad last_played index
-  last_played_item_index_ = p.last_played == -1 || p.last_played >= rowCount() ? QModelIndex() : index(p.last_played);
+  last_played_item_index_ = playlist.last_played == -1 || playlist.last_played >= rowCount() ? QModelIndex() : index(playlist.last_played);
 
-  if (p.dynamic_type == PlaylistGenerator::Type::Query) {
-    PlaylistGeneratorPtr gen = PlaylistGenerator::Create(p.dynamic_type);
+  if (playlist.dynamic_type == PlaylistGenerator::Type::Query) {
+    PlaylistGeneratorPtr gen = PlaylistGenerator::Create(playlist.dynamic_type);
     if (gen) {
 
       SharedPtr<CollectionBackend> backend = nullptr;
-      if (p.dynamic_backend == collection_backend_->songs_table()) backend = collection_backend_;
+      if (playlist.dynamic_backend == collection_backend_->songs_table()) backend = collection_backend_;
 
       if (backend) {
         gen->set_collection_backend(collection_backend_);
-        gen->Load(p.dynamic_data);
+        gen->Load(playlist.dynamic_data);
         TurnOnDynamicPlaylist(gen);
       }
 
@@ -1725,11 +1725,11 @@ PlaylistItemPtrList Playlist::RemoveItemsWithoutUndo(const int row, const int co
 
   // Remove items
   beginRemoveRows(QModelIndex(), row, row + count - 1);
-  PlaylistItemPtrList ret;
-  ret.reserve(count);
+  PlaylistItemPtrList items;
+  items.reserve(count);
   for (int i = 0; i < count; ++i) {
     PlaylistItemPtr item(items_.takeAt(row));
-    ret << item;
+    items << item;
 
     if (item->source() == Song::Source::Collection) {
       int id = item->Metadata().id();
@@ -1769,7 +1769,7 @@ PlaylistItemPtrList Playlist::RemoveItemsWithoutUndo(const int row, const int co
 
   ScheduleSave();
 
-  return ret;
+  return items;
 
 }
 
@@ -2053,12 +2053,12 @@ PlaylistFilter *Playlist::filter() const { return filter_; }
 
 SongList Playlist::GetAllSongs() const {
 
-  SongList ret;
-  ret.reserve(items_.count());
+  SongList songs;
+  songs.reserve(items_.count());
   for (PlaylistItemPtr item : items_) {  // clazy:exclude=range-loop-reference
-    ret << item->Metadata();
+    songs << item->Metadata();
   }
-  return ret;
+  return songs;
 
 }
 
@@ -2066,12 +2066,13 @@ PlaylistItemPtrList Playlist::GetAllItems() const { return items_; }
 
 quint64 Playlist::GetTotalLength() const {
 
-  quint64 ret = 0;
+  quint64 total_length = 0;
   for (PlaylistItemPtr item : items_) {  // clazy:exclude=range-loop-reference
     qint64 length = item->Metadata().length_nanosec();
-    if (length > 0) ret += length;
+    if (length > 0) total_length += length;
   }
-  return ret;
+
+  return total_length;
 
 }
 
