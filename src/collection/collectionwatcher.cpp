@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2023, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,6 +27,7 @@
 #include <QObject>
 #include <QThread>
 #include <QIODevice>
+#include <QStorageInfo>
 #include <QDir>
 #include <QDirIterator>
 #include <QFile>
@@ -51,6 +52,7 @@
 #include "core/settings.h"
 #include "utilities/imageutils.h"
 #include "constants/timeconstants.h"
+#include "constants/filesystemconstants.h"
 #include "tagreader/tagreaderclient.h"
 #include "collectiondirectory.h"
 #include "collectionbackend.h"
@@ -464,6 +466,24 @@ CollectionSubdirectoryList CollectionWatcher::ScanTransaction::GetAllSubdirs() {
 
 void CollectionWatcher::AddDirectory(const CollectionDirectory &dir, const CollectionSubdirectoryList &subdirs) {
 
+  {
+    const QFileInfo path_info(dir.path);
+    if (path_info.isSymbolicLink()) {
+      const QStorageInfo storage_info(path_info.symLinkTarget());
+      if (kRejectedFileSystems.contains(storage_info.fileSystemType())) {
+        qLog(Warning) << "Ignoring collection directory path" << dir.path << "which is a symbolic link to path" << path_info.symLinkTarget() << "with rejected filesystem type" << storage_info.fileSystemType();
+        return;
+      }
+    }
+    else {
+      const QStorageInfo storage_info(dir.path);
+      if (kRejectedFileSystems.contains(storage_info.fileSystemType())) {
+        qLog(Warning) << "Ignoring collection directory path" << dir.path << "with rejected filesystem type" << storage_info.fileSystemType();
+        return;
+      }
+    }
+  }
+
   CancelStop();
 
   watched_dirs_[dir.id] = dir;
@@ -506,15 +526,27 @@ void CollectionWatcher::AddDirectory(const CollectionDirectory &dir, const Colle
 
 void CollectionWatcher::ScanSubdirectory(const QString &path, const CollectionSubdirectory &subdir, const quint64 files_count, ScanTransaction *t, const bool force_noincremental) {
 
-  QFileInfo path_info(path);
+  const QFileInfo path_info(path);
 
-  // Do not scan symlinked dirs that are already in collection
   if (path_info.isSymLink()) {
-    QString real_path = path_info.symLinkTarget();
+    const QString real_path = path_info.symLinkTarget();
+    const QStorageInfo storage_info(real_path);
+    if (kRejectedFileSystems.contains(storage_info.fileSystemType())) {
+      qLog(Warning) << "Ignoring symbolic link" << path << "which links to" << real_path << "with rejected filesystem type" << storage_info.fileSystemType();
+      return;
+    }
+    // Do not scan symlinked dirs that are already in collection
     for (const CollectionDirectory &dir : std::as_const(watched_dirs_)) {
       if (real_path.startsWith(dir.path)) {
         return;
       }
+    }
+  }
+  else {
+    const QStorageInfo storage_info(path);
+    if (kRejectedFileSystems.contains(storage_info.fileSystemType())) {
+      qLog(Warning) << "Ignoring path" << path << "with rejected filesystem type" << storage_info.fileSystemType();
+      return;
     }
   }
 
@@ -556,32 +588,40 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const CollectionSu
 
     if (stop_or_abort_requested()) return;
 
-    QString child(it.next());
-    QFileInfo child_info(child);
+    const QString child_filepath = it.next();
+    const QFileInfo child_fileinfo(child_filepath);
 
-    if (child_info.isDir()) {
-      if (!t->HasSeenSubdir(child)) {
+    if (child_fileinfo.isSymLink()) {
+      QStorageInfo storage_info(child_fileinfo.symLinkTarget());
+      if (kRejectedFileSystems.contains(storage_info.fileSystemType())) {
+        qLog(Warning) << "Ignoring symbolic link" << child_filepath << "which links to" << child_fileinfo.symLinkTarget() << "with rejected filesystem type" << storage_info.fileSystemType();
+        continue;
+      }
+    }
+
+    if (child_fileinfo.isDir()) {
+      if (!t->HasSeenSubdir(child_filepath)) {
         // We haven't seen this subdirectory before - add it to a list, and later we'll tell the backend about it and scan it.
         CollectionSubdirectory new_subdir;
         new_subdir.directory_id = -1;
-        new_subdir.path = child;
-        new_subdir.mtime = child_info.lastModified().toSecsSinceEpoch();
+        new_subdir.path = child_filepath;
+        new_subdir.mtime = child_fileinfo.lastModified().toSecsSinceEpoch();
         my_new_subdirs << new_subdir;
       }
       t->AddToProgress(1);
     }
     else {
-      QString ext_part(ExtensionPart(child));
-      QString dir_part(DirectoryPart(child));
-      if (Song::kRejectedExtensions.contains(child_info.suffix(), Qt::CaseInsensitive) || child_info.baseName() == "qt_temp"_L1) {
+      QString ext_part(ExtensionPart(child_filepath));
+      QString dir_part(DirectoryPart(child_filepath));
+      if (Song::kRejectedExtensions.contains(child_fileinfo.suffix(), Qt::CaseInsensitive) || child_fileinfo.baseName() == "qt_temp"_L1) {
         t->AddToProgress(1);
       }
       else if (sValidImages.contains(ext_part)) {
-        album_art[dir_part] << child;
+        album_art[dir_part] << child_filepath;
         t->AddToProgress(1);
       }
-      else if (tagreader_client_->IsMediaFileBlocking(child)) {
-        files_on_disk << child;
+      else if (tagreader_client_->IsMediaFileBlocking(child_filepath)) {
+        files_on_disk << child_filepath;
       }
       else {
         t->AddToProgress(1);
@@ -1153,7 +1193,7 @@ void CollectionWatcher::RescanPathsNow() {
 
     QMap<QString, quint64> subdir_files_count;
     for (const QString &path : paths) {
-      quint64 files_count = FilesCountForPath(&transaction, path);
+      const quint64 files_count = FilesCountForPath(&transaction, path);
       subdir_files_count[path] = files_count;
       transaction.AddToProgressMax(files_count);
     }
@@ -1316,18 +1356,45 @@ void CollectionWatcher::PerformScan(const bool incremental, const bool ignore_mt
 
 quint64 CollectionWatcher::FilesCountForPath(ScanTransaction *t, const QString &path) {
 
+  const QFileInfo path_info(path);
+  if (path_info.isSymLink()) {
+    const QString real_path = path_info.symLinkTarget();
+    const QStorageInfo storage_info(real_path);
+    if (kRejectedFileSystems.contains(storage_info.fileSystemType())) {
+      return 0;
+    }
+    for (const CollectionDirectory &dir : std::as_const(watched_dirs_)) {
+      if (real_path.startsWith(dir.path)) {
+        return 0;
+      }
+    }
+  }
+  else {
+    const QStorageInfo storage_info(path);
+    if (kRejectedFileSystems.contains(storage_info.fileSystemType())) {
+      return 0;
+    }
+  }
+
   quint64 i = 0;
   QDirIterator it(path, QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot);
   while (it.hasNext()) {
 
     if (stop_or_abort_requested()) break;
 
-    QString child = it.next();
-    QFileInfo path_info(child);
+    const QString child_filepath = it.next();
+    const QFileInfo child_fileinfo(child_filepath);
 
-    if (path_info.isDir()) {
-      if (path_info.isSymLink()) {
-        QString real_path = path_info.symLinkTarget();
+    if (child_fileinfo.isDir()) {
+      if (child_fileinfo.isSymLink()) {
+
+        const QString real_path = child_fileinfo.symLinkTarget();
+
+        QStorageInfo storage_info(real_path);
+        if (kRejectedFileSystems.contains(storage_info.fileSystemType())) {
+          continue;
+        }
+
         for (const CollectionDirectory &dir : std::as_const(watched_dirs_)) {
           if (real_path.startsWith(dir.path)) {
             continue;
@@ -1335,9 +1402,9 @@ quint64 CollectionWatcher::FilesCountForPath(ScanTransaction *t, const QString &
         }
       }
 
-      if (!t->HasSeenSubdir(child) && !path_info.isHidden()) {
+      if (!t->HasSeenSubdir(child_filepath) && !child_fileinfo.isHidden()) {
         // We haven't seen this subdirectory before, so we need to include the file count for this directory too.
-        i += FilesCountForPath(t, child);
+        i += FilesCountForPath(t, child_filepath);
       }
 
     }
@@ -1385,7 +1452,7 @@ void CollectionWatcher::RescanSongs(const SongList &songs) {
       if (stop_or_abort_requested()) break;
       if (subdir.path != song_path) continue;
       qLog(Debug) << "Rescan for directory ID" << song.directory_id() << "directory" << subdir.path;
-      quint64 files_count = FilesCountForPath(&transaction, subdir.path);
+      const quint64 files_count = FilesCountForPath(&transaction, subdir.path);
       ScanSubdirectory(song_path, subdir, files_count, &transaction);
       scanned_paths << subdir.path;
     }
