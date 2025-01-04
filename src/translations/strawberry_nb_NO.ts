@@ -5259,6 +5259,14 @@ Er du sikker?</translation>
       <source>shuffle songs</source>
       <translation type="unfinished">shuffle songs</translation>
     </message>
+    <message>
+      <source>Invalid collection directory</source>
+      <translation type="unfinished">Invalid collection directory</translation>
+    </message>
+    <message>
+      <source>Can&apos;t add directory %1 with special filesystem %2 to collection</source>
+      <translation type="unfinished">Can&apos;t add directory %1 with special filesystem %2 to collection</translation>
+    </message>
   </context>
   <context>
     <name>QWidget</name>
@@ -5698,10 +5706,6 @@ Er du sikker?</translation>
       <translation>Sanger blir scrobblet når de har gyldig metadata, er lengre enn 30 seconds, og har blitt spilt for minst halve tiden, eller 30 sekunder (det som skjer tidligst).</translation>
     </message>
     <message>
-      <source>Work in offline mode (Only cache scrobbles)</source>
-      <translation>Jobb i frakoblet modus (bare cache scrobbler)</translation>
-    </message>
-    <message>
       <source>Show scrobble button</source>
       <translation>Vis knappen for rapportering av lyttevaner</translation>
     </message>
@@ -5716,10 +5720,6 @@ Er du sikker?</translation>
     <message>
       <source> seconds</source>
       <translation> sekunder</translation>
-    </message>
-    <message>
-      <source>(This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately).</source>
-      <translation>Tid mellom en sang er scrobbled og når skrobbler er sent til server. Setting av tid til 0 minutter vil sende skrobbler øyeblikkelig</translation>
     </message>
     <message>
       <source>Prefer album artist when sending scrobbles</source>
@@ -5804,6 +5804,22 @@ Er du sikker?</translation>
     <message>
       <source>Enter your user token from</source>
       <translation>Tast inn din bruker token fra</translation>
+    </message>
+    <message>
+      <source>With this option enabled, scrobbles will be cached to disk but not sent to the server. This option can be enabled in cases where the server or the internet connection is unstable, the scrobbles will be sent when the option is disabled.</source>
+      <translation type="unfinished">With this option enabled, scrobbles will be cached to disk but not sent to the server. This option can be enabled in cases where the server or the internet connection is unstable, the scrobbles will be sent when the option is disabled.</translation>
+    </message>
+    <message>
+      <source>Offline mode (Only cache scrobbles)</source>
+      <translation type="unfinished">Offline mode (Only cache scrobbles)</translation>
+    </message>
+    <message>
+      <source>This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately.</source>
+      <translation type="unfinished">This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately.</translation>
+    </message>
+    <message>
+      <source>Spotify</source>
+      <translation type="unfinished">Spotify</translation>
     </message>
   </context>
   <context>
