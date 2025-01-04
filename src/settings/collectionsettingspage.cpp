@@ -252,7 +252,7 @@ void CollectionSettingsPage::AddDirectory() {
   if (!path.isEmpty()) {
     const QByteArray filesystemtype = QStorageInfo(QFileInfo(path).canonicalFilePath()).fileSystemType();
     if (kRejectedFileSystems.contains(filesystemtype)) {
-      QMessageBox messagebox(QMessageBox::Critical, QObject::tr("Invalid collection directory"), QObject::tr("Can't add directory %1 with special filesystem %2 to collection").arg(path).arg(filesystemtype));
+      QMessageBox messagebox(QMessageBox::Critical, QObject::tr("Invalid collection directory"), QObject::tr("Can't add directory %1 with special filesystem %2 to collection").arg(path).arg(QString::fromUtf8(filesystemtype)));
       (void)messagebox.exec();
       return;
     }
