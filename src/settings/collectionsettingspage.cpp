@@ -29,6 +29,8 @@
 #include <QItemSelectionModel>
 #include <QString>
 #include <QStringList>
+#include <QStorageInfo>
+#include <QFileInfo>
 #include <QDir>
 #include <QFileDialog>
 #include <QCheckBox>
@@ -43,6 +45,7 @@
 #include <QSettings>
 #include <QMessageBox>
 
+#include "constants/filesystemconstants.h"
 #include "core/iconloader.h"
 #include "core/settings.h"
 #include "utilities/strutils.h"
@@ -247,6 +250,12 @@ void CollectionSettingsPage::AddDirectory() {
   path = QDir::cleanPath(QFileDialog::getExistingDirectory(this, tr("Add directory..."), path));
 
   if (!path.isEmpty()) {
+    const QByteArray filesystemtype = QStorageInfo(QFileInfo(path).canonicalFilePath()).fileSystemType();
+    if (kRejectedFileSystems.contains(filesystemtype)) {
+      QMessageBox messagebox(QMessageBox::Critical, QObject::tr("Invalid collection directory"), QObject::tr("Can't add directory %1 with special filesystem %2 to collection").arg(path).arg(filesystemtype));
+      (void)messagebox.exec();
+      return;
+    }
     collectionsettings_directory_model_->AddDirectory(path);
   }
 
