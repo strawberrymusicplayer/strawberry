@@ -17,27 +17,27 @@
     </message>
     <message>
       <source>Strawberry is a music player and music collection organizer.</source>
-      <translation>O morango é um organizador de músicas e colecionador de música.</translation>
+      <translation>O Strawberry é um colecionador e organizador de músicas.</translation>
     </message>
     <message>
       <source>It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles.</source>
-      <translation>É um garfo Clementino lançado em 2018 destinado a coletores de música e áudios.</translation>
+      <translation>É um fork do Clementine lançado em 2018 e destinado a colecionadores de música e audiófilos.</translation>
     </message>
     <message>
       <source>Strawberry is free software released under GPL. The source code is available on %1</source>
-      <translation>O morango é um ''software'' livre liberado com GPL. O código-fonte está disponível na %1</translation>
+      <translation>O Strawberry é um software livre sob a licença GPL. O código-fonte está disponível em %1</translation>
     </message>
     <message>
       <source>You should have received a copy of the GNU General Public License along with this program.  If not, see %1</source>
-      <translation>Você deve ter recebido uma cópia da Licença Pública Geral GNU com este programa. Se não, veja %1</translation>
+      <translation>Você deve ter recebido uma cópia da Licença Pública Geral GNU junto com este programa. Se não, veja %1</translation>
     </message>
     <message>
       <source>If you like Strawberry and can make use of it, consider sponsoring or donating.</source>
-      <translation>Se você gosta de morango e pode utilizá-lo, considere patrocinar ou doar.</translation>
+      <translation>Se você gosta do Strawberry e o acha útil, considere patrocinar o projeto ou fazer uma doação.</translation>
     </message>
     <message>
       <source>You can sponsor the author on %1. You can also make a one-time payment through %2.</source>
-      <translation>Você pode patrocinar o autor na %1. Você também pode fazer um pagamento único por meio do %2.</translation>
+      <translation>Você pode patrocinar o autor em %1. Você também pode fazer um pagamento único em %2.</translation>
     </message>
     <message>
       <source>Author and maintainer</source>
@@ -49,11 +49,11 @@
     </message>
     <message>
       <source>Clementine authors</source>
-      <translation>Autores do Clementino</translation>
+      <translation>Autores do Clementine</translation>
     </message>
     <message>
       <source>Clementine contributors</source>
-      <translation>Contribuidores do Clementino</translation>
+      <translation>Colaboradores do Clementine</translation>
     </message>
     <message>
       <source>Thanks to</source>
@@ -61,7 +61,7 @@
     </message>
     <message>
       <source>Thanks to all the other Amarok and Clementine contributors.</source>
-      <translation>Graças a todos os outros contribuidores do Amaro e do Clementino.</translation>
+      <translation>Obrigado a todos os outros colaboradores do Amarok e do Clementine.</translation>
     </message>
   </context>
   <context>
@@ -478,7 +478,7 @@
     </message>
     <message>
       <source>Playlist buttons</source>
-      <translation type="unfinished">Playlist buttons</translation>
+      <translation>Botões da playlist</translation>
     </message>
     <message>
       <source>Tabbar large mode</source>
@@ -506,11 +506,11 @@
     </message>
     <message>
       <source>System highlight color</source>
-      <translation type="unfinished">System highlight color</translation>
+      <translation>Cor de ênfase do sistema</translation>
     </message>
     <message>
       <source>Custom color</source>
-      <translation type="unfinished">Custom color</translation>
+      <translation>Cor personalizada</translation>
     </message>
     <message>
       <source>Select playlist playing song color:</source>
@@ -525,7 +525,7 @@
     <name>BackendSettingsPage</name>
     <message>
       <source>Backend</source>
-      <translation type="unfinished">Backend</translation>
+      <translation>Sistema de fundo:</translation>
     </message>
     <message>
       <source>Audio output</source>
@@ -541,7 +541,7 @@
     </message>
     <message>
       <source>ALSA plugin:</source>
-      <translation type="unfinished">ALSA plugin:</translation>
+      <translation>Plugin ALSA:</translation>
     </message>
     <message>
       <source>hw</source>
@@ -561,7 +561,7 @@
     </message>
     <message>
       <source>Options</source>
-      <translation type="unfinished">Options</translation>
+      <translation>Opções</translation>
     </message>
     <message>
       <source>Enable volume control</source>
@@ -573,7 +573,7 @@
     </message>
     <message>
       <source>channels</source>
-      <translation type="unfinished">channels</translation>
+      <translation>canais</translation>
     </message>
     <message>
       <source>Improve headphone listening of stereo audio records (bs2b)</source>
@@ -581,15 +581,15 @@
     </message>
     <message>
       <source>Enable HTTP/2 for streaming</source>
-      <translation type="unfinished">Enable HTTP/2 for streaming</translation>
+      <translation>Habilitar HTTP/2 para streaming</translation>
     </message>
     <message>
       <source>Use strict SSL mode</source>
-      <translation type="unfinished">Use strict SSL mode</translation>
+      <translation>SSL modo estrito</translation>
     </message>
     <message>
       <source>Buffer</source>
-      <translation type="unfinished">Buffer</translation>
+      <translation>Buffer</translation>
     </message>
     <message>
       <source> ms</source>
@@ -609,11 +609,11 @@
     </message>
     <message>
       <source>Defaults</source>
-      <translation type="unfinished">Defaults</translation>
+      <translation>Padrões</translation>
     </message>
     <message>
       <source>Audio normalization</source>
-      <translation type="unfinished">Audio normalization</translation>
+      <translation>Normalização de áudio</translation>
     </message>
     <message>
       <source>No audio normalization</source>
@@ -653,15 +653,15 @@
     </message>
     <message>
       <source>EBU R 128 Loudness Normalization</source>
-      <translation type="unfinished">EBU R 128 Loudness Normalization</translation>
+      <translation>Normalização de volume EBU R 128</translation>
     </message>
     <message>
       <source>Perform track loudness normalization</source>
-      <translation type="unfinished">Perform track loudness normalization</translation>
+      <translation>Normalizar o volume</translation>
     </message>
     <message>
       <source>Target Level</source>
-      <translation type="unfinished">Target Level</translation>
+      <translation>Nível alvo</translation>
     </message>
     <message>
       <source>Fading</source>
@@ -700,7 +700,7 @@
     </message>
     <message>
       <source>Show system tray icon</source>
-      <translation type="unfinished">Show system tray icon</translation>
+      <translation>Mostrar o ícone da bandeja de sistema</translation>
     </message>
     <message>
       <source>Keep running in the background when the window is closed</source>
@@ -708,11 +708,11 @@
     </message>
     <message>
       <source>Show song progress on system tray icon</source>
-      <translation type="unfinished">Show song progress on system tray icon</translation>
+      <translation>Mostrar o progresso da música no ícone da bandeja</translation>
     </message>
     <message>
       <source>Show song progress on taskbar</source>
-      <translation type="unfinished">Show song progress on taskbar</translation>
+      <translation>Mostrar o progresso da música na barra de tarefas</translation>
     </message>
     <message>
       <source>Resume playback on start</source>
@@ -720,7 +720,7 @@
     </message>
     <message>
       <source>Show playing widget</source>
-      <translation type="unfinished">Show playing widget</translation>
+      <translation>Mostrar o widget de reprodução</translation>
     </message>
     <message>
       <source>On startup</source>
@@ -732,19 +732,19 @@
     </message>
     <message>
       <source>Show the main window</source>
-      <translation type="unfinished">Show the main window</translation>
+      <translation>Mostrar a janela principal</translation>
     </message>
     <message>
       <source>Hide the main window</source>
-      <translation type="unfinished">Hide the main window</translation>
+      <translation>Esconder a janela principal</translation>
     </message>
     <message>
       <source>Show the main window maximized</source>
-      <translation type="unfinished">Show the main window maximized</translation>
+      <translation>Mostrar a janela principal maximizada</translation>
     </message>
     <message>
       <source>Show the main window minimized</source>
-      <translation type="unfinished">Show the main window minimized</translation>
+      <translation>Mostrar a janela principal minimizada</translation>
     </message>
     <message>
       <source>Language</source>
@@ -824,22 +824,22 @@
     </message>
     <message>
       <source> s</source>
-      <translation type="unfinished"> s</translation>
+      <translation> s</translation>
     </message>
     <message>
       <source>Volume Increment</source>
-      <translation type="unfinished">Volume Increment</translation>
+      <translation>Incremento de volume</translation>
     </message>
   </context>
   <context>
     <name>CddaSongLoader</name>
     <message>
       <source>Error while setting CDDA device to ready state.</source>
-      <translation type="unfinished">Error while setting CDDA device to ready state.</translation>
+      <translation>Erro ao tentar deixar o dispositivo CDDA pronto.</translation>
     </message>
     <message>
       <source>Error while setting CDDA device to pause state.</source>
-      <translation type="unfinished">Error while setting CDDA device to pause state.</translation>
+      <translation>Erro ao tentar pausar o dispositivo CDDA.</translation>
     </message>
     <message>
       <source>Error while querying CDDA tracks.</source>
@@ -3280,7 +3280,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>About &amp;Qt</source>
-      <translation type="unfinished">About &amp;Qt</translation>
+      <translation>Sobre o &amp;Qt</translation>
     </message>
     <message>
       <source>&amp;Mute</source>
@@ -3472,7 +3472,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Strawberry is free and open source software. If you like Strawberry, please consider sponsoring the project. For more information about sponsorship see our website %1</source>
-      <translation type="unfinished">Strawberry is free and open source software. If you like Strawberry, please consider sponsoring the project. For more information about sponsorship see our website %1</translation>
+      <translation>Strawberry é software livre, gratuito e de código aberto. Se você gosta do Strawberry, por favor considere patrocinar o projeto. Para mais informações sobre o patrocínio confira o nosso site %1</translation>
     </message>
     <message>
       <source>Pause</source>
@@ -4761,7 +4761,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     <message>
       <source>You are about to remove a playlist which is not part of your favorite playlists: the playlist will be deleted (this action cannot be undone). 
 Are you sure you want to continue?</source>
-      <translation>Você está prestes a remover uma lista de reprodução que não é parte de suas listas de reproduções favoritas: a lista de reprodução será removida (esta ação não pode ser desfeita).
+      <translation>Você está prestes a remover uma lista de reprodução que não é parte de suas listas de reprodução favoritas: a lista de reprodução será apagada (esta ação não pode ser desfeita).
 Deseja continuar?</translation>
     </message>
     <message>
@@ -5259,6 +5259,14 @@ Deseja continuar?</translation>
       <source>shuffle songs</source>
       <translation type="unfinished">shuffle songs</translation>
     </message>
+    <message>
+      <source>Invalid collection directory</source>
+      <translation type="unfinished">Invalid collection directory</translation>
+    </message>
+    <message>
+      <source>Can&apos;t add directory %1 with special filesystem %2 to collection</source>
+      <translation type="unfinished">Can&apos;t add directory %1 with special filesystem %2 to collection</translation>
+    </message>
   </context>
   <context>
     <name>QWidget</name>
@@ -5698,10 +5706,6 @@ Deseja continuar?</translation>
       <translation type="unfinished">Songs are scrobbled if they have valid metadata and are longer than 30 seconds, have been playing for at least half its duration or for 4 minutes (whichever occurs earlier).</translation>
     </message>
     <message>
-      <source>Work in offline mode (Only cache scrobbles)</source>
-      <translation type="unfinished">Work in offline mode (Only cache scrobbles)</translation>
-    </message>
-    <message>
       <source>Show scrobble button</source>
       <translation type="unfinished">Show scrobble button</translation>
     </message>
@@ -5716,10 +5720,6 @@ Deseja continuar?</translation>
     <message>
       <source> seconds</source>
       <translation> segundos</translation>
-    </message>
-    <message>
-      <source>(This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately).</source>
-      <translation type="unfinished">(This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately).</translation>
     </message>
     <message>
       <source>Prefer album artist when sending scrobbles</source>
@@ -5804,6 +5804,22 @@ Deseja continuar?</translation>
     <message>
       <source>Enter your user token from</source>
       <translation type="unfinished">Enter your user token from</translation>
+    </message>
+    <message>
+      <source>With this option enabled, scrobbles will be cached to disk but not sent to the server. This option can be enabled in cases where the server or the internet connection is unstable, the scrobbles will be sent when the option is disabled.</source>
+      <translation type="unfinished">With this option enabled, scrobbles will be cached to disk but not sent to the server. This option can be enabled in cases where the server or the internet connection is unstable, the scrobbles will be sent when the option is disabled.</translation>
+    </message>
+    <message>
+      <source>Offline mode (Only cache scrobbles)</source>
+      <translation type="unfinished">Offline mode (Only cache scrobbles)</translation>
+    </message>
+    <message>
+      <source>This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately.</source>
+      <translation type="unfinished">This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately.</translation>
+    </message>
+    <message>
+      <source>Spotify</source>
+      <translation type="unfinished">Spotify</translation>
     </message>
   </context>
   <context>

@@ -80,18 +80,6 @@ Puoi anche effettuare un pagamento una tantum tramite &apos;%2&apos;.</translati
   <context>
     <name>AlbumCoverChoiceController</name>
     <message>
-      <source>Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)</source>
-      <translation>Immagini (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)</translation>
-    </message>
-    <message>
-      <source>Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)</source>
-      <translation>Immagini (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)</translation>
-    </message>
-    <message>
-      <source>All files (*)</source>
-      <translation>Tutti i file (*)</translation>
-    </message>
-    <message>
       <source>Load cover from disk...</source>
       <translation>Carica copertina dal disco...</translation>
     </message>
@@ -554,10 +542,6 @@ Puoi anche effettuare un pagamento una tantum tramite &apos;%2&apos;.</translati
       <translation>Uscita</translation>
     </message>
     <message>
-      <source>Engine</source>
-      <translation>Motore</translation>
-    </message>
-    <message>
       <source>ALSA plugin:</source>
       <translation>Plugin ALSA:</translation>
     </message>
@@ -1004,6 +988,13 @@ Puoi anche effettuare un pagamento una tantum tramite &apos;%2&apos;.</translati
     <message>
       <source>Grouping name:</source>
       <translation>Nome raggruppamento:</translation>
+    </message>
+  </context>
+  <context>
+    <name>CollectionLibrary</name>
+    <message>
+      <source>Saving playcounts and ratings</source>
+      <translation type="unfinished">Saving playcounts and ratings</translation>
     </message>
   </context>
   <context>
@@ -2708,20 +2699,8 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
       <translation>Scorciatoie globali</translation>
     </message>
     <message>
-      <source>Use Gnome (GSD) shortcuts when available</source>
-      <translation>Usa le scorciatoie di Gnome (GSD) quando disponibili</translation>
-    </message>
-    <message>
       <source>Open...</source>
       <translation>Apri...</translation>
-    </message>
-    <message>
-      <source>Use MATE shortcuts when available</source>
-      <translation>Usa le scorciatoie MATE quando disponibili</translation>
-    </message>
-    <message>
-      <source>Use KDE (KGlobalAccel) shortcuts when available</source>
-      <translation>Usa le scorciatoie di KDE (KGlobalAccel) quando disponibili</translation>
     </message>
     <message>
       <source>Use X11 shortcuts when available</source>
@@ -2761,28 +2740,12 @@ Strawberry effettuerà una scansione del dispositivo alla ricerca di file musica
       <translation>Modifica scorciatoia...</translation>
     </message>
     <message>
-      <source>The &quot;%1&quot; command could not be started.</source>
-      <translation>Il comando &apos;%1&apos; non può essere avviato.</translation>
+      <source>Use KGlobalAccel shortcuts when available</source>
+      <translation type="unfinished">Use KGlobalAccel shortcuts when available</translation>
     </message>
     <message>
-      <source>Using X11 shortcuts on %1 is not recommended and can cause keyboard to become unresponsive!</source>
-      <translation>L&apos;uso delle scorciatoie di sistema in &apos;%1&apos; non è raccomandato e potrebbe rendere non reattiva la tastiera!</translation>
-    </message>
-    <message>
-      <source> Shortcuts on %1 are usually used through MPRIS and KGlobalAccel.</source>
-      <translation> Le scorciatoie in &apos;%1&apos; sono solitamente usate tramite MPRIS e KGlobalAccel.</translation>
-    </message>
-    <message>
-      <source> Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in gnome-settings-daemon instead.</source>
-      <translation> Le scorciatoie in &apos;%1&apos; vengono solitamente usate tramite il demone delle impostazioni di Gnome e dovrebbero invece essere configurate in gnome-settings-daemon.</translation>
-    </message>
-    <message>
-      <source> Shortcuts on %1 are usually used through Gnome Settings Daemon and should be configured in cinnamon-settings-daemon instead.</source>
-      <translation> Le scorciatoie in &apos;%1&apos; vengono solitamente usate tramite il demone delle impostazioni di Gnome e dovrebbero essere configurate invece in cinnamon-settings-daemon.</translation>
-    </message>
-    <message>
-      <source> Shortcuts on %1 are usually used through MATE Settings Daemon and should be configured there instead.</source>
-      <translation> Le scorciatoie in &apos;%1&apos; vengono solitamente usate tramite il demone delle impostazioni MATE e dovrebbero invece essere configurate lì.</translation>
+      <source>Using X11 shortcuts is not recommended and can cause keyboard to become unresponsive! Shortcuts on should usually be used through MPRIS2 / KGlobalAccel.</source>
+      <translation type="unfinished">Using X11 shortcuts is not recommended and can cause keyboard to become unresponsive! Shortcuts on should usually be used through MPRIS2 / KGlobalAccel.</translation>
     </message>
   </context>
   <context>
@@ -3379,10 +3342,6 @@ Prima di iniziare ti suggeriamo di eseguire il backup del database.</translation
     <message>
       <source>Import data from last.fm...</source>
       <translation>Importa dati da last.fm...</translation>
-    </message>
-    <message>
-      <source>All Files (*)</source>
-      <translation>Tutti i file (*)</translation>
     </message>
     <message>
       <source>Context</source>
@@ -4575,14 +4534,6 @@ Non è stato possibile eliminare i seguenti file:</translation>
         <numerusform>%n track(s)</numerusform>
       </translation>
     </message>
-    <message>
-      <source>Unknown</source>
-      <translation>Sconosciuto</translation>
-    </message>
-    <message>
-      <source>Various artists</source>
-      <translation>Artisti vari</translation>
-    </message>
   </context>
   <context>
     <name>PlaylistParser</name>
@@ -4835,50 +4786,6 @@ Sei sicuro di voler continuare?</translation>
     <message>
       <source>Playlist</source>
       <translation type="unfinished">Playlist</translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::InsertItems</name>
-    <message numerus="yes">
-      <source>add %n songs</source>
-      <translation type="unfinished">
-        <numerusform>aggiungi %n brani</numerusform>
-        <numerusform>add %n songs</numerusform>
-      </translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::MoveItems</name>
-    <message numerus="yes">
-      <source>move %n songs</source>
-      <translation type="unfinished">
-        <numerusform>sposta %n brani</numerusform>
-        <numerusform>move %n songs</numerusform>
-      </translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::RemoveItems</name>
-    <message numerus="yes">
-      <source>remove %n songs</source>
-      <translation type="unfinished">
-        <numerusform>rimuovi %n brani</numerusform>
-        <numerusform>remove %n songs</numerusform>
-      </translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::ShuffleItems</name>
-    <message>
-      <source>shuffle songs</source>
-      <translation>mescola i brani</translation>
-    </message>
-  </context>
-  <context>
-    <name>PlaylistUndoCommands::SortItems</name>
-    <message>
-      <source>sort songs</source>
-      <translation>ordina brani</translation>
     </message>
   </context>
   <context>
@@ -5322,6 +5229,51 @@ Sei sicuro di voler continuare?</translation>
       <source>System colors</source>
       <translation>Colori sistema</translation>
     </message>
+    <message>
+      <source>Playlist</source>
+      <translation type="unfinished">Playlist</translation>
+    </message>
+    <message>
+      <source>Various artists</source>
+      <translation type="unfinished">Various artists</translation>
+    </message>
+    <message numerus="yes">
+      <source>add %n songs</source>
+      <translation type="unfinished">
+        <numerusform>add %n songs</numerusform>
+        <numerusform>add %n songs</numerusform>
+      </translation>
+    </message>
+    <message numerus="yes">
+      <source>remove %n songs</source>
+      <translation type="unfinished">
+        <numerusform>remove %n songs</numerusform>
+        <numerusform>remove %n songs</numerusform>
+      </translation>
+    </message>
+    <message numerus="yes">
+      <source>move %n songs</source>
+      <translation type="unfinished">
+        <numerusform>move %n songs</numerusform>
+        <numerusform>move %n songs</numerusform>
+      </translation>
+    </message>
+    <message>
+      <source>sort songs</source>
+      <translation type="unfinished">sort songs</translation>
+    </message>
+    <message>
+      <source>shuffle songs</source>
+      <translation type="unfinished">shuffle songs</translation>
+    </message>
+    <message>
+      <source>Invalid collection directory</source>
+      <translation type="unfinished">Invalid collection directory</translation>
+    </message>
+    <message>
+      <source>Can&apos;t add directory %1 with special filesystem %2 to collection</source>
+      <translation type="unfinished">Can&apos;t add directory %1 with special filesystem %2 to collection</translation>
+    </message>
   </context>
   <context>
     <name>QWidget</name>
@@ -5610,13 +5562,6 @@ Non possiamo aiutarti a procurarteli.</translation>
     </message>
   </context>
   <context>
-    <name>SCollection</name>
-    <message>
-      <source>Saving playcounts and ratings</source>
-      <translation>Salvataggio numero riproduzioni valutazioni</translation>
-    </message>
-  </context>
-  <context>
     <name>SavePlaylistsDialog</name>
     <message>
       <source>Select directory for saving playlists</source>
@@ -5769,10 +5714,6 @@ Non possiamo aiutarti a procurarteli.</translation>
       <translation>I brani vengono inviate per lo scrobble se hanno dei metadata validi, durano più di 30 secondi e sono state riprodotti per almeno la metà della loro lunghezza totale o per 4 minuti (qualsiasi dei quali avvenga prima)</translation>
     </message>
     <message>
-      <source>Work in offline mode (Only cache scrobbles)</source>
-      <translation>Lavora in modalità offline (solo scrobble in cache)</translation>
-    </message>
-    <message>
       <source>Show scrobble button</source>
       <translation>Visualizza il pulsante di scrobble</translation>
     </message>
@@ -5787,10 +5728,6 @@ Non possiamo aiutarti a procurarteli.</translation>
     <message>
       <source> seconds</source>
       <translation> secondi</translation>
-    </message>
-    <message>
-      <source>(This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately).</source>
-      <translation>(questo è il ritardo tra il momento in cui un brano viene scrobbled e il momento in cui gli scrobble vengono inviati al server. L&apos;impostazione del tempo su 0 secondi invierà immediatamente gli scrobble).</translation>
     </message>
     <message>
       <source>Prefer album artist when sending scrobbles</source>
@@ -5875,6 +5812,22 @@ Non possiamo aiutarti a procurarteli.</translation>
     <message>
       <source>Enter your user token from</source>
       <translation>Inserisci il tuo token utente da</translation>
+    </message>
+    <message>
+      <source>With this option enabled, scrobbles will be cached to disk but not sent to the server. This option can be enabled in cases where the server or the internet connection is unstable, the scrobbles will be sent when the option is disabled.</source>
+      <translation type="unfinished">With this option enabled, scrobbles will be cached to disk but not sent to the server. This option can be enabled in cases where the server or the internet connection is unstable, the scrobbles will be sent when the option is disabled.</translation>
+    </message>
+    <message>
+      <source>Offline mode (Only cache scrobbles)</source>
+      <translation type="unfinished">Offline mode (Only cache scrobbles)</translation>
+    </message>
+    <message>
+      <source>This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately.</source>
+      <translation type="unfinished">This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately.</translation>
+    </message>
+    <message>
+      <source>Spotify</source>
+      <translation type="unfinished">Spotify</translation>
     </message>
   </context>
   <context>
@@ -6246,20 +6199,12 @@ Per ulteriori informazioni vedi &apos;%1&apos; .</translation>
   <context>
     <name>SongLoader</name>
     <message>
-      <source>You need GStreamer for this URL.</source>
-      <translation>Hai bisogno di GStreamer per questa URL.</translation>
-    </message>
-    <message>
       <source>Preload function was not set for blocking operation.</source>
       <translation>La funzione di pre-caricamento non è stata impostata per l&apos;operazione di blocco.</translation>
     </message>
     <message>
       <source>File %1 does not exist.</source>
       <translation>Il file &apos;%1&apos; non esiste.</translation>
-    </message>
-    <message>
-      <source>CD playback is only available with the GStreamer engine.</source>
-      <translation>La riproduzione CD è disponibile unicamente tramite motore GStreamer.</translation>
     </message>
     <message>
       <source>Could not open file %1 for reading: %2</source>
@@ -6288,6 +6233,10 @@ Per ulteriori informazioni vedi &apos;%1&apos; .</translation>
     <message>
       <source>Couldn&apos;t link GStreamer source, typefind and fakesink elements for %1</source>
       <translation>Impossibile collegare gli elementi sorgente, typefind e fakesink di GStreamer per &apos;%1&apos;</translation>
+    </message>
+    <message>
+      <source>Missing CDDA playback.</source>
+      <translation type="unfinished">Missing CDDA playback.</translation>
     </message>
   </context>
   <context>

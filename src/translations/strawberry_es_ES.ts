@@ -339,7 +339,7 @@
     </message>
     <message>
       <source>Turbine</source>
-      <translation type="unfinished">Turbine</translation>
+      <translation>Turbine</translation>
     </message>
     <message>
       <source>Sonogram</source>
@@ -347,7 +347,7 @@
     </message>
     <message>
       <source>WaveRubber</source>
-      <translation type="unfinished">WaveRubber</translation>
+      <translation>WaveRubber</translation>
     </message>
   </context>
   <context>
@@ -549,7 +549,7 @@
     </message>
     <message>
       <source>p&amp;lughw</source>
-      <translation type="unfinished">p&amp;lughw</translation>
+      <translation>p&amp;lughw</translation>
     </message>
     <message>
       <source>pcm</source>
@@ -712,7 +712,7 @@
     </message>
     <message>
       <source>Show song progress on taskbar</source>
-      <translation>Mostrar progreso de la canción en la barra de tareas</translation>
+      <translation>Mostrar progreso del tema en la barra de tareas</translation>
     </message>
     <message>
       <source>Resume playback on start</source>
@@ -873,7 +873,7 @@
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>Entire collection</source>
@@ -1050,7 +1050,7 @@
     </message>
     <message>
       <source>Perform song EBU R 128 analysis (required for EBU R 128 loudness normalization)</source>
-      <translation>Realizar análisis de canción EBU R 128 (requerido para la normalización de volumen EBU R 128)</translation>
+      <translation>Realizar análisis de tema EBU R 128 (requerido para la normalización de volumen EBU R 128)</translation>
     </message>
     <message>
       <source>Expire unavailable songs after</source>
@@ -1286,7 +1286,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>Title</source>
@@ -1551,7 +1551,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>View</source>
@@ -2027,7 +2027,7 @@ If there are no matches then it will use the largest image in the directory.</so
     <message>
       <source>Last played</source>
       <comment>A playlist&apos;s tag.</comment>
-      <translation type="unfinished">Last played</translation>
+      <translation>Última reproducción</translation>
     </message>
     <message>
       <source>File type</source>
@@ -2095,7 +2095,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>Change art</source>
@@ -2179,7 +2179,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Different art across multiple songs.</source>
-      <translation type="unfinished">Different art across multiple songs.</translation>
+      <translation>Arte diferente a través de múltiples temas.</translation>
     </message>
     <message>
       <source>Previous</source>
@@ -2263,11 +2263,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Reset song play statistics</source>
-      <translation>Reiniciar estadísticas de reproducción de la canción</translation>
+      <translation>Reiniciar estadísticas de reproducción del tema</translation>
     </message>
     <message>
       <source>Are you sure you want to reset this song&apos;s play statistics?</source>
-      <translation>¿Estás seguro de que quieres restablecer las estadísticas de reproducción de esta canción?</translation>
+      <translation>¿Está seguro de que desea reestablecer las estadísticas de reproducción de este tema?</translation>
     </message>
     <message>
       <source>loading...</source>
@@ -2338,7 +2338,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Club</source>
-      <translation type="unfinished">Club</translation>
+      <translation>Club</translation>
     </message>
     <message>
       <source>Dance</source>
@@ -2881,7 +2881,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Last played</source>
-      <translation type="unfinished">Last played</translation>
+      <translation>Última reproducción</translation>
     </message>
     <message>
       <source>Play counts</source>
@@ -3055,7 +3055,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>&amp;Music</source>
@@ -3363,7 +3363,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Radios</source>
-      <translation type="unfinished">Radios</translation>
+      <translation>Radios</translation>
     </message>
     <message>
       <source>Devices</source>
@@ -3371,11 +3371,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Subsonic</source>
-      <translation type="unfinished">Subsonic</translation>
+      <translation>Subsonic</translation>
     </message>
     <message>
       <source>Tidal</source>
-      <translation type="unfinished">Tidal</translation>
+      <translation>Tidal</translation>
     </message>
     <message>
       <source>Spotify</source>
@@ -3383,7 +3383,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Qobuz</source>
-      <translation type="unfinished">Qobuz</translation>
+      <translation>Qobuz</translation>
     </message>
     <message>
       <source>Show all songs</source>
@@ -3463,7 +3463,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>You are running Strawberry under Rosetta. Running Strawberry under Rosetta is unsupported and known to have issues. You should download Strawberry for the correct CPU architecture from %1</source>
-      <translation>Estás ejecutando Strawberry bajo Rosetta. Ejecutar Strawberry bajo Rosetta no está soportado y se sabe que da problemas. Deberías descargar Strawberry para la arquitectura de CPU correcta desde %1</translation>
+      <translation>Está ejecutando Strawberry bajo Rosetta. Ejecutar Strawberry bajo Rosetta no está soportado y se sabe que presenta problemas. Debería descargar Strawberry para la arquitectura de CPU correcta desde %1</translation>
     </message>
     <message>
       <source>Sponsoring Strawberry</source>
@@ -3543,7 +3543,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Playlist has %1 songs, too large to undo, are you sure you want to clear the playlist?</source>
-      <translation>La lista de reproducción tiene %1 temas, demasiados para deshacer, ¿estás seguro de que quiere eliminarla?</translation>
+      <translation>La lista de reproducción tiene %1 temas, demasiados para deshacer, ¿está seguro de que desea eliminarla?</translation>
     </message>
     <message>
       <source>Error</source>
@@ -3780,7 +3780,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>Summary</source>
@@ -4955,11 +4955,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>LUFS</source>
-      <translation type="unfinished">LUFS</translation>
+      <translation>LUFS</translation>
     </message>
     <message>
       <source>LU</source>
-      <translation type="unfinished">LU</translation>
+      <translation>LU</translation>
     </message>
     <message>
       <source>File %1 is not recognized as a valid audio file.</source>
@@ -5231,23 +5231,23 @@ Are you sure you want to continue?</source>
     </message>
     <message numerus="yes">
       <source>add %n songs</source>
-      <translation type="unfinished">
-        <numerusform>añadir %n canciones</numerusform>
-        <numerusform>add %n songs</numerusform>
+      <translation>
+        <numerusform>añadir %n tema</numerusform>
+        <numerusform>añadir %n temas</numerusform>
       </translation>
     </message>
     <message numerus="yes">
       <source>remove %n songs</source>
-      <translation type="unfinished">
-        <numerusform>eliminar %n canciones</numerusform>
-        <numerusform>remove %n songs</numerusform>
+      <translation>
+        <numerusform>eliminar %n tema</numerusform>
+        <numerusform>eliminar %n temas</numerusform>
       </translation>
     </message>
     <message numerus="yes">
       <source>move %n songs</source>
-      <translation type="unfinished">
-        <numerusform>mover %n canciones</numerusform>
-        <numerusform>move %n songs</numerusform>
+      <translation>
+        <numerusform>mover %n tema</numerusform>
+        <numerusform>mover %n temas</numerusform>
       </translation>
     </message>
     <message>
@@ -5256,7 +5256,15 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>shuffle songs</source>
-      <translation type="unfinished">shuffle songs</translation>
+      <translation>mezclas temas</translation>
+    </message>
+    <message>
+      <source>Invalid collection directory</source>
+      <translation type="unfinished">Invalid collection directory</translation>
+    </message>
+    <message>
+      <source>Can&apos;t add directory %1 with special filesystem %2 to collection</source>
+      <translation type="unfinished">Can&apos;t add directory %1 with special filesystem %2 to collection</translation>
     </message>
   </context>
   <context>
@@ -5356,7 +5364,7 @@ Are you sure you want to continue?</source>
     <name>QobuzSettingsPage</name>
     <message>
       <source>Qobuz</source>
-      <translation type="unfinished">Qobuz</translation>
+      <translation>Qobuz</translation>
     </message>
     <message>
       <source>Enable</source>
@@ -5697,10 +5705,6 @@ Are you sure you want to continue?</source>
       <translation>La reproducción de un tema se registra solo si dispone de metadatos válidos, dura más de 30 segundos y se ha reproducido al menos durante la mitad de su duración o 4 minutos (lo que ocurra primero).</translation>
     </message>
     <message>
-      <source>Work in offline mode (Only cache scrobbles)</source>
-      <translation>Trabajar sin conexión (solo registros de reproducción prealmacenados)</translation>
-    </message>
-    <message>
       <source>Show scrobble button</source>
       <translation>Mostrar botón de registro de reproducción</translation>
     </message>
@@ -5715,10 +5719,6 @@ Are you sure you want to continue?</source>
     <message>
       <source> seconds</source>
       <translation> segundos</translation>
-    </message>
-    <message>
-      <source>(This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately).</source>
-      <translation>(Este es el tiempo de espera hasta que los registros de reproducción se envían al servidor. Ajustar el tiempo a 0 segundos enviará los registros inmediatamente).</translation>
     </message>
     <message>
       <source>Prefer album artist when sending scrobbles</source>
@@ -5742,7 +5742,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Subsonic</source>
-      <translation type="unfinished">Subsonic</translation>
+      <translation>Subsonic</translation>
     </message>
     <message>
       <source>Local file</source>
@@ -5750,7 +5750,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Tidal</source>
-      <translation type="unfinished">Tidal</translation>
+      <translation>Tidal</translation>
     </message>
     <message>
       <source>Device</source>
@@ -5758,15 +5758,15 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Qobuz</source>
-      <translation type="unfinished">Qobuz</translation>
+      <translation>Qobuz</translation>
     </message>
     <message>
       <source>CDDA</source>
-      <translation type="unfinished">CDDA</translation>
+      <translation>CDDA</translation>
     </message>
     <message>
       <source>SomaFM</source>
-      <translation type="unfinished">SomaFM</translation>
+      <translation>SomaFM</translation>
     </message>
     <message>
       <source>Stream</source>
@@ -5774,7 +5774,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Radio Paradise</source>
-      <translation type="unfinished">Radio Paradise</translation>
+      <translation>Radio Paradise</translation>
     </message>
     <message>
       <source>Unknown</source>
@@ -5782,7 +5782,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Last.fm</source>
-      <translation type="unfinished">Last.fm</translation>
+      <translation>Last.fm</translation>
     </message>
     <message>
       <source>Login</source>
@@ -5790,7 +5790,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Libre.fm</source>
-      <translation type="unfinished">Libre.fm</translation>
+      <translation>Libre.fm</translation>
     </message>
     <message>
       <source>Listenbrainz</source>
@@ -5803,6 +5803,22 @@ Are you sure you want to continue?</source>
     <message>
       <source>Enter your user token from</source>
       <translation>Introduzca su token de usuario de</translation>
+    </message>
+    <message>
+      <source>With this option enabled, scrobbles will be cached to disk but not sent to the server. This option can be enabled in cases where the server or the internet connection is unstable, the scrobbles will be sent when the option is disabled.</source>
+      <translation type="unfinished">With this option enabled, scrobbles will be cached to disk but not sent to the server. This option can be enabled in cases where the server or the internet connection is unstable, the scrobbles will be sent when the option is disabled.</translation>
+    </message>
+    <message>
+      <source>Offline mode (Only cache scrobbles)</source>
+      <translation type="unfinished">Offline mode (Only cache scrobbles)</translation>
+    </message>
+    <message>
+      <source>This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately.</source>
+      <translation type="unfinished">This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately.</translation>
+    </message>
+    <message>
+      <source>Spotify</source>
+      <translation type="unfinished">Spotify</translation>
     </message>
   </context>
   <context>
@@ -5848,7 +5864,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>General</source>
-      <translation type="unfinished">General</translation>
+      <translation>General</translation>
     </message>
     <message>
       <source>User interface</source>
@@ -6059,7 +6075,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Last played</source>
-      <translation type="unfinished">Last played</translation>
+      <translation>Última reproducción</translation>
     </message>
     <message>
       <source>Most played</source>
@@ -6207,7 +6223,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Missing CDDA playback.</source>
-      <translation type="unfinished">Missing CDDA playback.</translation>
+      <translation>Falta la reproducción CDDA.</translation>
     </message>
   </context>
   <context>
@@ -6431,7 +6447,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>artists</source>
@@ -6566,7 +6582,7 @@ Are you sure you want to continue?</source>
     <name>SubsonicSettingsPage</name>
     <message>
       <source>Subsonic</source>
-      <translation type="unfinished">Subsonic</translation>
+      <translation>Subsónico</translation>
     </message>
     <message>
       <source>Enable</source>
@@ -6594,7 +6610,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Hex</source>
-      <translation type="unfinished">Hex</translation>
+      <translation>Hex</translation>
     </message>
     <message>
       <source>MD5 token (Recommended)</source>
@@ -6679,11 +6695,11 @@ Are you sure you want to continue?</source>
     <name>TagFetcher</name>
     <message>
       <source>Identifying song</source>
-      <translation>Identificando canción</translation>
+      <translation>Identificando tema</translation>
     </message>
     <message>
       <source>Fingerprinting song</source>
-      <translation>Creando huella digital de canción</translation>
+      <translation>Creando huella digital de tema</translation>
     </message>
     <message>
       <source>Downloading metadata</source>
@@ -6776,7 +6792,7 @@ Are you sure you want to continue?</source>
     <name>TidalSettingsPage</name>
     <message>
       <source>Tidal</source>
-      <translation type="unfinished">Tidal</translation>
+      <translation>Tidal</translation>
     </message>
     <message>
       <source>Enable</source>
@@ -7429,31 +7445,31 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>FLAC</source>
-      <translation type="unfinished">FLAC</translation>
+      <translation>FLAC</translation>
     </message>
     <message>
       <source>WavPack</source>
-      <translation type="unfinished">WavPack</translation>
+      <translation>WavPack</translation>
     </message>
     <message>
       <source>Vorbis</source>
-      <translation type="unfinished">Vorbis</translation>
+      <translation>Vorbis</translation>
     </message>
     <message>
       <source>Opus</source>
-      <translation type="unfinished">Opus</translation>
+      <translation>Opus</translation>
     </message>
     <message>
       <source>Speex</source>
-      <translation type="unfinished">Speex</translation>
+      <translation>Speex</translation>
     </message>
     <message>
       <source>AAC</source>
-      <translation type="unfinished">AAC</translation>
+      <translation>AAC</translation>
     </message>
     <message>
       <source>ASF (WMA)</source>
-      <translation type="unfinished">ASF (WMA)</translation>
+      <translation>ASF (WMA)</translation>
     </message>
     <message>
       <source>MP3</source>
@@ -7480,7 +7496,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>UUID</source>
-      <translation type="unfinished">UUID</translation>
+      <translation>UUID</translation>
     </message>
   </context>
   <context>

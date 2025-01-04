@@ -5259,6 +5259,14 @@ Kas soovid jätkata?</translation>
       <source>shuffle songs</source>
       <translation>sega lood</translation>
     </message>
+    <message>
+      <source>Invalid collection directory</source>
+      <translation type="unfinished">Invalid collection directory</translation>
+    </message>
+    <message>
+      <source>Can&apos;t add directory %1 with special filesystem %2 to collection</source>
+      <translation type="unfinished">Can&apos;t add directory %1 with special filesystem %2 to collection</translation>
+    </message>
   </context>
   <context>
     <name>QWidget</name>
@@ -5698,10 +5706,6 @@ Kas soovid jätkata?</translation>
       <translation>Lood kraasitakse, kui neil on kehtivad metaandmed ja need on pikemad kui 30 sekundit, neid on esitatud vähemalt pool kestusest või 4 minutit (olenevalt sellest, kumb saabub varem).</translation>
     </message>
     <message>
-      <source>Work in offline mode (Only cache scrobbles)</source>
-      <translation>Tööta võrguühenduseta režiimis (kraasi vahemällu)</translation>
-    </message>
-    <message>
       <source>Show scrobble button</source>
       <translation>Kuva kraasimise nupp</translation>
     </message>
@@ -5716,10 +5720,6 @@ Kas soovid jätkata?</translation>
     <message>
       <source> seconds</source>
       <translation> sekundi järel</translation>
-    </message>
-    <message>
-      <source>(This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately).</source>
-      <translation>(See on viivitus loo kraasimise ja selle serverisse esitamise vahel. Kui määrad ajaks 0 sekundit, esitatakse kraasimised kohe).</translation>
     </message>
     <message>
       <source>Prefer album artist when sending scrobbles</source>
@@ -5804,6 +5804,22 @@ Kas soovid jätkata?</translation>
     <message>
       <source>Enter your user token from</source>
       <translation>Sisesta oma tunnuskood saidilt</translation>
+    </message>
+    <message>
+      <source>With this option enabled, scrobbles will be cached to disk but not sent to the server. This option can be enabled in cases where the server or the internet connection is unstable, the scrobbles will be sent when the option is disabled.</source>
+      <translation type="unfinished">With this option enabled, scrobbles will be cached to disk but not sent to the server. This option can be enabled in cases where the server or the internet connection is unstable, the scrobbles will be sent when the option is disabled.</translation>
+    </message>
+    <message>
+      <source>Offline mode (Only cache scrobbles)</source>
+      <translation type="unfinished">Offline mode (Only cache scrobbles)</translation>
+    </message>
+    <message>
+      <source>This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately.</source>
+      <translation type="unfinished">This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately.</translation>
+    </message>
+    <message>
+      <source>Spotify</source>
+      <translation type="unfinished">Spotify</translation>
     </message>
   </context>
   <context>
