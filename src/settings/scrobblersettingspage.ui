@@ -39,8 +39,11 @@
    </item>
    <item>
     <widget class="QCheckBox" name="checkbox_offline">
+     <property name="toolTip">
+      <string>With this option enabled, scrobbles will be cached to disk but not sent to the server. This option can be enabled in cases where the server or the internet connection is unstable, the scrobbles will be sent when the option is disabled.</string>
+     </property>
      <property name="text">
-      <string>Work in offline mode (Only cache scrobbles)</string>
+      <string>Offline mode (Only cache scrobbles)</string>
      </property>
     </widget>
    </item>
@@ -62,6 +65,9 @@
     <layout class="QHBoxLayout" name="layout_submit">
      <item>
       <widget class="QLabel" name="label_submit">
+       <property name="toolTip">
+        <string>This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately.</string>
+       </property>
        <property name="text">
         <string>Submit scrobbles every</string>
        </property>
@@ -94,16 +100,6 @@
       </spacer>
      </item>
     </layout>
-   </item>
-   <item>
-    <widget class="QLabel" name="label_submit_info">
-     <property name="text">
-      <string>(This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately).</string>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
-     </property>
-    </widget>
    </item>
    <item>
     <widget class="QCheckBox" name="checkbox_albumartist">
