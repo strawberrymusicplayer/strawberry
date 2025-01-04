@@ -233,8 +233,11 @@ void TranscodeDialog::Start() {
   // Add jobs to the transcoder
   for (int i = 0; i < file_model->rowCount(); ++i) {
     const QString input_filepath = file_model->index(i, 0).data(Qt::UserRole).toString();
+
+    const QString input_import_dir = ui_->preserve_dir_structure->isChecked() ? file_model->index(i, 2).data(Qt::UserRole).toString() : ""_L1;
+
     if (input_filepath.isEmpty()) continue;
-    const QString output_filepath = GetOutputFileName(input_filepath, preset);
+    const QString output_filepath = GetOutputFileName(input_filepath, input_import_dir, preset);
     if (output_filepath.isEmpty()) continue;
     transcoder_->AddJob(input_filepath, preset, output_filepath);
   }
@@ -351,7 +354,7 @@ void TranscodeDialog::Import() {
     filenames << files.next();
   }
 
-  SetFilenames(filenames);
+  SetImportFilenames(filenames, path);
 
   last_import_dir_ = path;
   Settings s;
@@ -369,6 +372,20 @@ void TranscodeDialog::SetFilenames(const QStringList &filenames) {
 
     QTreeWidgetItem *item = new QTreeWidgetItem(ui_->files, QStringList() << name << path);
     item->setData(0, Qt::UserRole, filename);
+  }
+
+}
+
+void TranscodeDialog::SetImportFilenames(const QStringList &filenames, const QString &import_dir) {
+
+  for (const QString &filename : filenames) {
+    QString name = filename.section(u'/', -1, -1);
+    QString path = filename.section(u'/', 0, -2);
+    QString output_dir = filename.section(u'/', import_dir.count(u'/'), -2);
+
+    QTreeWidgetItem *item = new QTreeWidgetItem(ui_->files, QStringList() << name << path << output_dir);
+    item->setData(0, Qt::UserRole, filename);
+    item->setData(2, Qt::UserRole, output_dir);
   }
 
 }
@@ -436,7 +453,16 @@ QString TranscodeDialog::TrimPath(const QString &path) {
   return path.section(u'/', -1, -1, QString::SectionSkipEmpty);
 }
 
-QString TranscodeDialog::GetOutputFileName(const QString &input_filepath, const TranscoderPreset &preset) const {
+void TranscodeDialog::CreatePathIfNotExists(const QString &path) {
+
+  const QDir dir(path);
+  if (!dir.exists()) {
+    dir.mkpath("."_L1);
+  }
+
+}
+
+QString TranscodeDialog::GetOutputFileName(const QString &input_filepath, const QString &input_import_dir, const TranscoderPreset &preset) const {
 
   QString destination_path = ui_->destination->itemData(ui_->destination->currentIndex()).toString();
   QString output_filepath;
@@ -447,7 +473,16 @@ QString TranscodeDialog::GetOutputFileName(const QString &input_filepath, const 
   else {
     QString filename = TrimPath(input_filepath);
     filename = filename.section(u'.', 0, -2);
-    output_filepath = destination_path + QLatin1Char('/') + filename + QLatin1Char('.') + preset.extension_;
+    // If checkbox for preserving import directory structure is checked validate the path exists
+    if (ui_->preserve_dir_structure->isChecked()) {
+      QString path_to_validate = destination_path + u'/' + input_import_dir + u'/';
+      output_filepath = path_to_validate + filename + u'.' + preset.extension_;
+      CreatePathIfNotExists(path_to_validate);
+    }
+    // Otherwise no modifications to the output path
+    else {
+      output_filepath = destination_path + u'/' + filename + u'.' + preset.extension_;
+    }
   }
 
   if (output_filepath.isEmpty()) return QString();

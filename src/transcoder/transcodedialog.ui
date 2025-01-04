@@ -57,6 +57,11 @@
           <string>Directory</string>
          </property>
         </column>
+        <column>
+         <property name="text">
+          <string>Import Directory</string>
+         </property>
+        </column>
        </widget>
       </item>
       <item>
@@ -162,6 +167,13 @@
        <widget class="QPushButton" name="select">
         <property name="text">
          <string>Select...</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" colspan="3">
+       <widget class="QCheckBox" name="preserve_dir_structure">
+        <property name="text">
+         <string>Preserve directory structure in output directory (import only)</string>
         </property>
        </widget>
       </item>
