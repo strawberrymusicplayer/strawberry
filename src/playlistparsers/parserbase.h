@@ -46,6 +46,13 @@ class ParserBase : public QObject {
  public:
   explicit ParserBase(const SharedPtr<TagReaderClient> tagreader_client, const SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent = nullptr);
 
+  class LoadResult {
+   public:
+    LoadResult(const SongList &_songs = SongList(), const QString &_playlist_name = QString()) : songs(_songs), playlist_name(_playlist_name) {}
+    SongList songs;
+    QString playlist_name;
+  };
+
   virtual QString name() const = 0;
   virtual QStringList file_extensions() const = 0;
   virtual bool load_supported() const = 0;
@@ -59,7 +66,7 @@ class ParserBase : public QObject {
   // This method might not return all the songs found in the playlist.
   // Any playlist parser may decide to leave out some entries if it finds them incomplete or invalid.
   // This means that the final resulting SongList should be considered valid (at least from the parser's point of view).
-  virtual SongList Load(QIODevice *device, const QString &playlist_path = QLatin1String(""), const QDir &dir = QDir(), const bool collection_lookup = true) const = 0;
+  virtual LoadResult Load(QIODevice *device, const QString &playlist_path = QLatin1String(""), const QDir &dir = QDir(), const bool collection_lookup = true) const = 0;
   virtual void Save(const QString &playlist_name, const SongList &songs, QIODevice *device, const QDir &dir = QDir(), const PlaylistSettings::PathType path_type = PlaylistSettings::PathType::Automatic) const = 0;
 
  Q_SIGNALS:

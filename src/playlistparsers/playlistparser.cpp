@@ -195,7 +195,7 @@ SongList PlaylistParser::LoadFromFile(const QString &filename) const {
     return SongList();
   }
 
-  const SongList songs = parser->Load(&file, filename, fileinfo.absolutePath(), true);
+  const SongList songs = parser->Load(&file, filename, fileinfo.absolutePath(), true).songs;
   file.close();
 
   return songs;
@@ -210,7 +210,7 @@ SongList PlaylistParser::LoadFromDevice(QIODevice *device, const QString &path_h
     return SongList();
   }
 
-  return parser->Load(device, path_hint, dir_hint);
+  return parser->Load(device, path_hint, dir_hint).songs;
 
 }
 

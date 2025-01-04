@@ -42,7 +42,7 @@ class CollectionBackendInterface;
 ASXParser::ASXParser(const SharedPtr<TagReaderClient> tagreader_client, const SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent)
     : XMLParser(tagreader_client, collection_backend, parent) {}
 
-SongList ASXParser::Load(QIODevice *device, const QString &playlist_path, const QDir &dir, const bool collection_lookup) const {
+ParserBase::LoadResult ASXParser::Load(QIODevice *device, const QString &playlist_path, const QDir &dir, const bool collection_lookup) const {
 
   Q_UNUSED(playlist_path);
 

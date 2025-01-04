@@ -44,17 +44,27 @@ class CollectionBackendInterface;
 XSPFParser::XSPFParser(const SharedPtr<TagReaderClient> tagreader_client, const SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent)
     : XMLParser(tagreader_client, collection_backend, parent) {}
 
-SongList XSPFParser::Load(QIODevice *device, const QString &playlist_path, const QDir &dir, const bool collection_lookup) const {
+ParserBase::LoadResult XSPFParser::Load(QIODevice *device, const QString &playlist_path, const QDir &dir, const bool collection_lookup) const {
 
   Q_UNUSED(playlist_path);
 
-  SongList songs;
-
-  QXmlStreamReader reader(device);
-  if (!Utilities::ParseUntilElement(&reader, u"playlist"_s) || !Utilities::ParseUntilElement(&reader, u"trackList"_s)) {
-    return songs;
+  QString playlist_name;
+  {
+    QXmlStreamReader reader(device);
+    if (Utilities::ParseUntilElement(&reader, u"playlist"_s) && Utilities::ParseUntilElement(&reader, u"title"_s)) {
+      playlist_name = reader.readElementText();
+    }
   }
 
+  device->seek(0);
+  QXmlStreamReader reader(device);
+  if (!Utilities::ParseUntilElement(&reader, u"playlist"_s)) {
+    return LoadResult();
+  }
+  if (!Utilities::ParseUntilElement(&reader, u"trackList"_s)) {
+    return LoadResult();
+  }
+  SongList songs;
   while (!reader.atEnd() && Utilities::ParseUntilElement(&reader, u"track"_s)) {
     const Song song = ParseTrack(&reader, dir, collection_lookup);
     if (song.is_valid()) {
@@ -62,7 +72,7 @@ SongList XSPFParser::Load(QIODevice *device, const QString &playlist_path, const
     }
   }
 
-  return songs;
+  return LoadResult(songs, playlist_name);
 
 }
 

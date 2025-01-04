@@ -166,6 +166,7 @@ Playlist *PlaylistManager::AddPlaylist(const int id, const QString &name, const 
   QObject::connect(ret, &Playlist::EditingFinished, this, &PlaylistManager::EditingFinished);
   QObject::connect(ret, &Playlist::Error, this, &PlaylistManager::Error);
   QObject::connect(ret, &Playlist::PlayRequested, this, &PlaylistManager::PlayRequested);
+  QObject::connect(ret, &Playlist::Rename, this, &PlaylistManager::Rename);
   QObject::connect(playlist_container_->view(), &PlaylistView::ColumnAlignmentChanged, ret, &Playlist::SetColumnAlignment);
   QObject::connect(&*current_albumcover_loader_, &CurrentAlbumCoverLoader::AlbumCoverLoaded, ret, &Playlist::AlbumCoverLoaded);
 
@@ -208,7 +209,7 @@ void PlaylistManager::Load(const QString &filename) {
 
   QFileInfo fileinfo(filename);
 
-  int id = playlist_backend_->CreatePlaylist(fileinfo.completeBaseName(), QString());
+  const int id = playlist_backend_->CreatePlaylist(fileinfo.completeBaseName(), QString());
 
   if (id == -1) {
     Q_EMIT Error(tr("Couldn't create playlist"));

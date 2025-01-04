@@ -281,7 +281,7 @@ SongLoader::Result SongLoader::LoadLocalAsync(const QString &filename) {
     // It's a CUE - create virtual tracks
     QFile cue(matching_cue);
     if (cue.open(QIODevice::ReadOnly)) {
-      const SongList songs = cue_parser_->Load(&cue, matching_cue, QDir(filename.section(u'/', 0, -2)));
+      const SongList songs = cue_parser_->Load(&cue, matching_cue, QDir(filename.section(u'/', 0, -2))).songs;
       cue.close();
       for (const Song &song : songs) {
         if (song.is_valid()) songs_ << song;
@@ -348,7 +348,9 @@ void SongLoader::LoadPlaylist(ParserBase *parser, const QString &filename) {
 
   QFile file(filename);
   if (file.open(QIODevice::ReadOnly)) {
-    songs_ = parser->Load(&file, filename, QFileInfo(filename).path());
+    const ParserBase::LoadResult result = parser->Load(&file, filename, QFileInfo(filename).path());
+    songs_ = result.songs;
+    playlist_name_ = result.playlist_name;
     file.close();
   }
   else {
@@ -424,7 +426,9 @@ void SongLoader::StopTypefind() {
     // Parse the playlist
     QBuffer buf(&buffer_);
     if (buf.open(QIODevice::ReadOnly)) {
-      songs_ = parser_->Load(&buf);
+      const ParserBase::LoadResult result = parser_->Load(&buf);
+      songs_ = result.songs;
+      playlist_name_ = result.playlist_name;
       buf.close();
     }
 

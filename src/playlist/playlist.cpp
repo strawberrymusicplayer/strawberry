@@ -1180,7 +1180,11 @@ void Playlist::InsertSongs(const SongList &songs, const int pos, const bool play
   InsertSongItems<SongPlaylistItem>(songs, pos, play_now, enqueue, enqueue_next);
 }
 
-void Playlist::InsertSongsOrCollectionItems(const SongList &songs, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next) {
+void Playlist::InsertSongsOrCollectionItems(const SongList &songs, const QString &playlist_name, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next) {
+
+  if (!playlist_name.isEmpty()) {
+    Q_EMIT Rename(id_, playlist_name);
+  }
 
   PlaylistItemPtrList items;
   for (const Song &song : songs) {
@@ -1201,6 +1205,7 @@ void Playlist::InsertSongsOrCollectionItems(const SongList &songs, const int pos
       }
     }
   }
+
   InsertItems(items, pos, play_now, enqueue, enqueue_next);
 
 }

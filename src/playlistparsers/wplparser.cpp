@@ -46,21 +46,21 @@ bool WplParser::TryMagic(const QByteArray &data) const {
   return data.contains("<?wpl") || data.contains("<smil>");
 }
 
-SongList WplParser::Load(QIODevice *device, const QString &playlist_path, const QDir &dir, const bool collection_lookup) const {
+ParserBase::LoadResult WplParser::Load(QIODevice *device, const QString &playlist_path, const QDir &dir, const bool collection_lookup) const {
 
   Q_UNUSED(playlist_path);
 
-  SongList ret;
-
   QXmlStreamReader reader(device);
   if (!Utilities::ParseUntilElement(&reader, u"smil"_s) || !Utilities::ParseUntilElement(&reader, u"body"_s)) {
-    return ret;
+    return LoadResult();
   }
 
+  SongList songs;
   while (!reader.atEnd() && Utilities::ParseUntilElement(&reader, u"seq"_s)) {
-    ParseSeq(dir, &reader, &ret, collection_lookup);
+    ParseSeq(dir, &reader, &songs, collection_lookup);
   }
-  return ret;
+
+  return songs;
 
 }
 

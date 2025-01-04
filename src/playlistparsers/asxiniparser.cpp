@@ -42,7 +42,7 @@ bool AsxIniParser::TryMagic(const QByteArray &data) const {
   return data.toLower().contains("[reference]");
 }
 
-SongList AsxIniParser::Load(QIODevice *device, const QString &playlist_path, const QDir &dir, const bool collection_lookup) const {
+ParserBase::LoadResult AsxIniParser::Load(QIODevice *device, const QString &playlist_path, const QDir &dir, const bool collection_lookup) const {
 
   Q_UNUSED(playlist_path);
 

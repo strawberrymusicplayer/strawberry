@@ -72,6 +72,7 @@ class SongLoader : public QObject {
 
   const QUrl &url() const { return url_; }
   const SongList &songs() const { return songs_; }
+  const QString &playlist_name() const { return playlist_name_; }
 
   int timeout() const { return timeout_; }
   void set_timeout(int msec) { timeout_ = msec; }
@@ -141,6 +142,7 @@ class SongLoader : public QObject {
 
   QUrl url_;
   SongList songs_;
+  QString playlist_name_;
 
   const SharedPtr<UrlHandlers> url_handlers_;
   const SharedPtr<CollectionBackendInterface> collection_backend_;

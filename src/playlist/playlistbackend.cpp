@@ -298,7 +298,7 @@ PlaylistItemPtr PlaylistBackend::RestoreCueData(PlaylistItemPtr item, SharedPtr<
     return item;
   }
 
-  SongList song_list;
+  SongList songs;
   {
     QMutexLocker locker(&state->mutex_);
 
@@ -306,16 +306,16 @@ PlaylistItemPtr PlaylistBackend::RestoreCueData(PlaylistItemPtr item, SharedPtr<
       QFile cue_file(cue_path);
       if (!cue_file.open(QIODevice::ReadOnly)) return item;
 
-      song_list = cue_parser.Load(&cue_file, cue_path, QDir(cue_path.section(u'/', 0, -2)));
+      songs = cue_parser.Load(&cue_file, cue_path, QDir(cue_path.section(u'/', 0, -2))).songs;
       cue_file.close();
-      state->cached_cues_[cue_path] = song_list;
+      state->cached_cues_[cue_path] = songs;
     }
     else {
-      song_list = state->cached_cues_[cue_path];
+      songs = state->cached_cues_[cue_path];
     }
   }
 
-  for (const Song &from_list : std::as_const(song_list)) {
+  for (const Song &from_list : std::as_const(songs)) {
     if (from_list.url().toEncoded() == song.url().toEncoded() && from_list.beginning_nanosec() == song.beginning_nanosec()) {
       // We found a matching section; replace the input item with a new one containing CUE metadata
       return make_shared<SongPlaylistItem>(from_list);

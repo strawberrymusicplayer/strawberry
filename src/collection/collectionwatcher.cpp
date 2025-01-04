@@ -868,7 +868,7 @@ void CollectionWatcher::UpdateCueAssociatedSongs(const QString &file,
     qLog(Error) << "Could not open CUE file" << matching_cue << "for reading:" << cue_file.errorString();
     return;
   }
-  const SongList songs = cue_parser_->Load(&cue_file, matching_cue, path, false);
+  const SongList songs = cue_parser_->Load(&cue_file, matching_cue, path, false).songs;
   cue_file.close();
 
   // Update every song that's in the CUE and collection
@@ -955,7 +955,7 @@ SongList CollectionWatcher::ScanNewFile(const QString &file, const QString &path
     // Also, watch out for incorrect media files.
     // Playlist parser for CUEs considers every entry in sheet valid, and we don't want invalid media getting into collection!
     QString file_nfd = file.normalized(QString::NormalizationForm_D);
-    SongList cue_songs = cue_parser_->Load(&cue_file, matching_cue, path, false);
+    SongList cue_songs = cue_parser_->Load(&cue_file, matching_cue, path, false).songs;
     cue_file.close();
     songs.reserve(cue_songs.count());
     for (Song &cue_song : cue_songs) {

@@ -42,7 +42,7 @@ class CollectionBackendInterface;
 M3UParser::M3UParser(const SharedPtr<TagReaderClient> tagreader_client, const SharedPtr<CollectionBackendInterface> collection_backend, QObject *parent)
     : ParserBase(tagreader_client, collection_backend, parent) {}
 
-SongList M3UParser::Load(QIODevice *device, const QString &playlist_path, const QDir &dir, const bool collection_lookup) const {
+ParserBase::LoadResult M3UParser::Load(QIODevice *device, const QString &playlist_path, const QDir &dir, const bool collection_lookup) const {
 
   Q_UNUSED(playlist_path);
 
