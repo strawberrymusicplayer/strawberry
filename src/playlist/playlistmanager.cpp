@@ -255,7 +255,7 @@ void PlaylistManager::SaveWithUI(const int id, const QString &playlist_name) {
   s.endGroup();
 
   QString suggested_filename = playlist_name;
-  QString filename = last_save_path + QLatin1Char('/') + suggested_filename.remove(QRegularExpression(QLatin1String(kProblematicCharactersRegex), QRegularExpression::CaseInsensitiveOption)) + QLatin1Char('.') + last_save_extension;
+  QString filename = last_save_path + QLatin1Char('/') + suggested_filename.remove(u'/').remove(QRegularExpression(QLatin1String(kProblematicCharactersRegex), QRegularExpression::CaseInsensitiveOption)) + QLatin1Char('.') + last_save_extension;
 
   QFileInfo fileinfo;
   Q_FOREVER {
