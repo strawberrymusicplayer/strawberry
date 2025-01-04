@@ -140,7 +140,7 @@ return_song:
 
 }
 
-void XSPFParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, const PlaylistSettings::PathType path_type) const {
+void XSPFParser::Save(const QString &playlist_name, const SongList &songs, QIODevice *device, const QDir &dir, const PlaylistSettings::PathType path_type) const {
 
   QXmlStreamWriter writer(device);
   writer.setAutoFormatting(true);
@@ -149,6 +149,8 @@ void XSPFParser::Save(const SongList &songs, QIODevice *device, const QDir &dir,
   StreamElement playlist(u"playlist"_s, &writer);
   writer.writeAttribute("version"_L1, "1"_L1);
   writer.writeDefaultNamespace("http://xspf.org/ns/0/"_L1);
+
+  writer.writeTextElement("title"_L1, playlist_name);
 
   Settings s;
   s.beginGroup(PlaylistSettings::kSettingsGroup);

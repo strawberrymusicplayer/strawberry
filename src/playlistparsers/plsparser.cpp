@@ -83,7 +83,9 @@ SongList PLSParser::Load(QIODevice *device, const QString &playlist_path, const 
 
 }
 
-void PLSParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, const PlaylistSettings::PathType path_type) const {
+void PLSParser::Save(const QString &playlist_name, const SongList &songs, QIODevice *device, const QDir &dir, const PlaylistSettings::PathType path_type) const {
+
+  Q_UNUSED(playlist_name)
 
   QTextStream s(device);
   s << "[playlist]" << Qt::endl;

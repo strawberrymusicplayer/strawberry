@@ -133,8 +133,9 @@ return_song:
 
 }
 
-void ASXParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, const PlaylistSettings::PathType path_type) const {
+void ASXParser::Save(const QString &playlist_name, const SongList &songs, QIODevice *device, const QDir &dir, const PlaylistSettings::PathType path_type) const {
 
+  Q_UNUSED(playlist_name)
   Q_UNUSED(dir)
   Q_UNUSED(path_type)
 

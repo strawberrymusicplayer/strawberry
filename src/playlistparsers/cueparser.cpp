@@ -378,8 +378,9 @@ qint64 CueParser::IndexToMarker(const QString &index) {
 
 }
 
-void CueParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, const PlaylistSettings::PathType path_type) const {
+void CueParser::Save(const QString &playlist_name, const SongList &songs, QIODevice *device, const QDir &dir, const PlaylistSettings::PathType path_type) const {
 
+  Q_UNUSED(playlist_name);
   Q_UNUSED(songs);
   Q_UNUSED(device);
   Q_UNUSED(dir);

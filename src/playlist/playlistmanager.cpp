@@ -221,17 +221,17 @@ void PlaylistManager::Load(const QString &filename) {
 
 }
 
-void PlaylistManager::Save(const int id, const QString &filename, const PlaylistSettings::PathType path_type) {
+void PlaylistManager::Save(const int id, const QString &playlist_name, const QString &filename, const PlaylistSettings::PathType path_type) {
 
   if (playlists_.contains(id)) {
-    parser_->Save(playlist(id)->GetAllSongs(), filename, path_type);
+    parser_->Save(playlist_name, playlist(id)->GetAllSongs(), filename, path_type);
   }
   else {
     // Playlist is not in the playlist manager: probably save action was triggered from the left sidebar and the playlist isn't loaded.
     QFuture<SongList> future = QtConcurrent::run(&PlaylistBackend::GetPlaylistSongs, playlist_backend_, id);
     QFutureWatcher<SongList> *watcher = new QFutureWatcher<SongList>();
-    QObject::connect(watcher, &QFutureWatcher<SongList>::finished, this, [this, watcher, filename, path_type]() {
-      ItemsLoadedForSavePlaylist(watcher->result(), filename, path_type);
+    QObject::connect(watcher, &QFutureWatcher<SongList>::finished, this, [this, watcher, playlist_name, filename, path_type]() {
+      ItemsLoadedForSavePlaylist(playlist_name, watcher->result(), filename, path_type);
       watcher->deleteLater();
     });
     watcher->setFuture(future);
@@ -239,9 +239,9 @@ void PlaylistManager::Save(const int id, const QString &filename, const Playlist
 
 }
 
-void PlaylistManager::ItemsLoadedForSavePlaylist(const SongList &songs, const QString &filename, const PlaylistSettings::PathType path_type) {
+void PlaylistManager::ItemsLoadedForSavePlaylist(const QString &playlist_name, const SongList &songs, const QString &filename, const PlaylistSettings::PathType path_type) {
 
-  parser_->Save(songs, filename, path_type);
+  parser_->Save(playlist_name, songs, filename, path_type);
 
 }
 
@@ -283,7 +283,7 @@ void PlaylistManager::SaveWithUI(const int id, const QString &playlist_name) {
   s.setValue(PlaylistSettings::kLastSaveExtension, fileinfo.suffix());
   s.endGroup();
 
-  Save(id == -1 ? current_id() : id, filename, path_type);
+  Save(id == -1 ? current_id() : id, playlist_name, filename, path_type);
 
 }
 
@@ -609,7 +609,7 @@ void PlaylistManager::SaveAllPlaylists() {
   for (QMap<int, Data>::const_iterator it = playlists_.constBegin(); it != playlists_.constEnd(); ++it) {
     const Data &data = *it;
     const QString filepath = path + QLatin1Char('/') + data.name + QLatin1Char('.') + extension;
-    Save(it.key(), filepath, path_type);
+    Save(it.key(), data.name, filepath, path_type);
   }
 
 }

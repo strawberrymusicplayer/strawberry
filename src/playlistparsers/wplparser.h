@@ -56,7 +56,7 @@ class WplParser : public XMLParser {
   bool TryMagic(const QByteArray &data) const override;
 
   SongList Load(QIODevice *device, const QString &playlist_path, const QDir &dir, const bool collection_lookup = true) const override;
-  void Save(const SongList &songs, QIODevice *device, const QDir &dir, const PlaylistSettings::PathType path_type = PlaylistSettings::PathType::Automatic) const override;
+  void Save(const QString &playlist_name, const SongList &songs, QIODevice *device, const QDir &dir, const PlaylistSettings::PathType path_type = PlaylistSettings::PathType::Automatic) const override;
 
  private:
   void ParseSeq(const QDir &dir, QXmlStreamReader *reader, SongList *songs, const bool collection_lookup) const;

@@ -125,7 +125,9 @@ bool M3UParser::ParseMetadata(const QString &line, M3UParser::Metadata *metadata
 
 }
 
-void M3UParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, const PlaylistSettings::PathType path_type) const {
+void M3UParser::Save(const QString &playlist_name, const SongList &songs, QIODevice *device, const QDir &dir, const PlaylistSettings::PathType path_type) const {
+
+  Q_UNUSED(playlist_name)
 
   device->write("#EXTM3U\n");
 

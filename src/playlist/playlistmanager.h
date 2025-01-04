@@ -97,7 +97,7 @@ class PlaylistManager : public PlaylistManagerInterface {
  public Q_SLOTS:
   void New(const QString &name, const SongList &songs = SongList(), const QString &special_type = QString()) override;
   void Load(const QString &filename) override;
-  void Save(const int id, const QString &filename, const PlaylistSettings::PathType path_type) override;
+  void Save(const int id, const QString &playlist_name, const QString &filename, const PlaylistSettings::PathType path_type) override;
   // Display a file dialog to let user choose a file before saving the file
   void SaveWithUI(const int id, const QString &playlist_name);
   void Rename(const int id, const QString &new_name) override;
@@ -148,7 +148,7 @@ class PlaylistManager : public PlaylistManagerInterface {
   void OneOfPlaylistsChanged();
   void UpdateSummaryText();
   void UpdateCollectionSongs(const SongList &songs);
-  void ItemsLoadedForSavePlaylist(const SongList &songs, const QString &filename, const PlaylistSettings::PathType path_type);
+  void ItemsLoadedForSavePlaylist(const QString &playlist_name, const SongList &songs, const QString &filename, const PlaylistSettings::PathType path_type);
   void PlaylistLoaded();
 
  private:

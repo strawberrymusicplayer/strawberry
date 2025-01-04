@@ -60,7 +60,7 @@ class ParserBase : public QObject {
   // Any playlist parser may decide to leave out some entries if it finds them incomplete or invalid.
   // This means that the final resulting SongList should be considered valid (at least from the parser's point of view).
   virtual SongList Load(QIODevice *device, const QString &playlist_path = QLatin1String(""), const QDir &dir = QDir(), const bool collection_lookup = true) const = 0;
-  virtual void Save(const SongList &songs, QIODevice *device, const QDir &dir = QDir(), const PlaylistSettings::PathType path_type = PlaylistSettings::PathType::Automatic) const = 0;
+  virtual void Save(const QString &playlist_name, const SongList &songs, QIODevice *device, const QDir &dir = QDir(), const PlaylistSettings::PathType path_type = PlaylistSettings::PathType::Automatic) const = 0;
 
  Q_SIGNALS:
   void Error(const QString &error) const;

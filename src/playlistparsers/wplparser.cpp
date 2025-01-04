@@ -98,7 +98,9 @@ void WplParser::ParseSeq(const QDir &dir, QXmlStreamReader *reader, SongList *so
 
 }
 
-void WplParser::Save(const SongList &songs, QIODevice *device, const QDir &dir, const PlaylistSettings::PathType path_type) const {
+void WplParser::Save(const QString &playlist_name, const SongList &songs, QIODevice *device, const QDir &dir, const PlaylistSettings::PathType path_type) const {
+
+  Q_UNUSED(playlist_name)
 
   QXmlStreamWriter writer(device);
   writer.setAutoFormatting(true);
