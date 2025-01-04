@@ -5258,6 +5258,14 @@ Are you sure you want to continue?</source>
       <source>shuffle songs</source>
       <translation>mezclas temas</translation>
     </message>
+    <message>
+      <source>Invalid collection directory</source>
+      <translation type="unfinished">Invalid collection directory</translation>
+    </message>
+    <message>
+      <source>Can&apos;t add directory %1 with special filesystem %2 to collection</source>
+      <translation type="unfinished">Can&apos;t add directory %1 with special filesystem %2 to collection</translation>
+    </message>
   </context>
   <context>
     <name>QWidget</name>
@@ -5697,10 +5705,6 @@ Are you sure you want to continue?</source>
       <translation>La reproducción de un tema se registra solo si dispone de metadatos válidos, dura más de 30 segundos y se ha reproducido al menos durante la mitad de su duración o 4 minutos (lo que ocurra primero).</translation>
     </message>
     <message>
-      <source>Work in offline mode (Only cache scrobbles)</source>
-      <translation>Trabajar sin conexión (solo registros de reproducción prealmacenados)</translation>
-    </message>
-    <message>
       <source>Show scrobble button</source>
       <translation>Mostrar botón de registro de reproducción</translation>
     </message>
@@ -5715,10 +5719,6 @@ Are you sure you want to continue?</source>
     <message>
       <source> seconds</source>
       <translation> segundos</translation>
-    </message>
-    <message>
-      <source>(This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately).</source>
-      <translation>(Este es el tiempo de espera hasta que los registros de reproducción se envían al servidor. Ajustar el tiempo a 0 segundos enviará los registros inmediatamente).</translation>
     </message>
     <message>
       <source>Prefer album artist when sending scrobbles</source>
@@ -5803,6 +5803,22 @@ Are you sure you want to continue?</source>
     <message>
       <source>Enter your user token from</source>
       <translation>Introduzca su token de usuario de</translation>
+    </message>
+    <message>
+      <source>With this option enabled, scrobbles will be cached to disk but not sent to the server. This option can be enabled in cases where the server or the internet connection is unstable, the scrobbles will be sent when the option is disabled.</source>
+      <translation type="unfinished">With this option enabled, scrobbles will be cached to disk but not sent to the server. This option can be enabled in cases where the server or the internet connection is unstable, the scrobbles will be sent when the option is disabled.</translation>
+    </message>
+    <message>
+      <source>Offline mode (Only cache scrobbles)</source>
+      <translation type="unfinished">Offline mode (Only cache scrobbles)</translation>
+    </message>
+    <message>
+      <source>This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately.</source>
+      <translation type="unfinished">This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately.</translation>
+    </message>
+    <message>
+      <source>Spotify</source>
+      <translation type="unfinished">Spotify</translation>
     </message>
   </context>
   <context>
