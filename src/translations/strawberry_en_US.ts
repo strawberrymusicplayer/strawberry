@@ -5255,6 +5255,14 @@ Are you sure you want to continue?</source>
         <source>shuffle songs</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Invalid collection directory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Can&apos;t add directory %1 with special filesystem %2 to collection</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QWidget</name>
@@ -5694,10 +5702,6 @@ Are you sure you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Work in offline mode (Only cache scrobbles)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Show scrobble button</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5711,10 +5715,6 @@ Are you sure you want to continue?</source>
     </message>
     <message>
         <source> seconds</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>(This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5799,6 +5799,22 @@ Are you sure you want to continue?</source>
     </message>
     <message>
         <source>Enter your user token from</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>With this option enabled, scrobbles will be cached to disk but not sent to the server. This option can be enabled in cases where the server or the internet connection is unstable, the scrobbles will be sent when the option is disabled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Offline mode (Only cache scrobbles)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Spotify</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
