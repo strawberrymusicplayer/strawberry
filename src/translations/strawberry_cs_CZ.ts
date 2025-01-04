@@ -6644,6 +6644,10 @@ Opravdu chcete pokračovat?</translation>
       <translation>Stahovat obaly alb</translation>
     </message>
     <message>
+      <source>Use album ID for album covers</source>
+      <translation>Použijte ID alba pro obaly alb</translation>
+    </message>
+    <message>
       <source>Server-side scrobbling</source>
       <translation type="unfinished">Server-side scrobbling</translation>
     </message>

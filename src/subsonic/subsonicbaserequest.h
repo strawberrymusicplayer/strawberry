@@ -69,6 +69,7 @@ class SubsonicBaseRequest : public QObject {
   bool http2() const { return service_->http2(); }
   bool verify_certificate() const { return service_->verify_certificate(); }
   bool download_album_covers() const { return service_->download_album_covers(); }
+  bool use_album_id_for_album_covers() const { return service_->use_album_id_for_album_covers(); }
 
  private Q_SLOTS:
   void HandleSSLErrors(const QList<QSslError> &ssl_errors);

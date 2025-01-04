@@ -6629,6 +6629,10 @@ Apakah Anda yakin ingin melanjutkan?</translation>
       <translation>Unduh sampul album</translation>
     </message>
     <message>
+      <source>Use album ID for album covers</source>
+      <translation>Gunakan ID album untuk sampul album</translation>
+    </message>
+    <message>
       <source>Server-side scrobbling</source>
       <translation type="unfinished">Server-side scrobbling</translation>
     </message>

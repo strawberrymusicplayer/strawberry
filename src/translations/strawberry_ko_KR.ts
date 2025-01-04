@@ -6629,6 +6629,10 @@ Are you sure you want to continue?</source>
       <translation>앨범아트 다운로드 중</translation>
     </message>
     <message>
+      <source>Use album ID for album covers</source>
+      <translation>앨범 ID를 앨범 커버에 사용하세요</translation>
+    </message>
+    <message>
       <source>Server-side scrobbling</source>
       <translation>서버 사이드 스크로블링</translation>
     </message>

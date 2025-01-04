@@ -6634,6 +6634,10 @@ Haluatko varmasti jatkaa?</translation>
       <translation>Lataa albumien kansikuvat</translation>
     </message>
     <message>
+      <source>Use album ID for album covers</source>
+      <translation>Käytä albumin tunnusta albumin kansille</translation>
+    </message>
+    <message>
       <source>Server-side scrobbling</source>
       <translation type="unfinished">Server-side scrobbling</translation>
     </message>

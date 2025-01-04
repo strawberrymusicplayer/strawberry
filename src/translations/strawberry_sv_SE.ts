@@ -6634,6 +6634,10 @@ Are you sure you want to continue?</source>
       <translation>Hämta albumomslag</translation>
     </message>
     <message>
+      <source>Use album ID for album covers</source>
+      <translation>Använd album-ID för albumomslag</translation>
+    </message>
+    <message>
       <source>Server-side scrobbling</source>
       <translation>Skrobbling på serversidan</translation>
     </message>

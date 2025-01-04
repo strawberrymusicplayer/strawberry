@@ -172,6 +172,13 @@
        </widget>
       </item>
       <item>
+       <widget class="QCheckBox" name="checkbox_use_album_id_for_album_covers">
+        <property name="text">
+         <string>Use album ID for album covers</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QCheckBox" name="checkbox_server_scrobbling">
         <property name="text">
          <string>Server-side scrobbling</string>

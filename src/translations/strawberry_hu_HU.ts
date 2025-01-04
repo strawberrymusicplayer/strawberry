@@ -6635,6 +6635,10 @@ másodpercnél hosszabbak, illetve legalább a felükig vagy 4 percig vannak lej
       <translation>Albumborítók letöltése</translation>
     </message>
     <message>
+      <source>Use album ID for album covers</source>
+      <translation>Használja az album azonosítóját az album borítókhoz</translation>
+    </message>
+    <message>
       <source>Server-side scrobbling</source>
       <translation>Kiszolgálóoldali scrobble funkció</translation>
     </message>

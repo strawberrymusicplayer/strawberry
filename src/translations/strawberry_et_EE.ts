@@ -6634,6 +6634,10 @@ Kas soovid jätkata?</translation>
       <translation>Laadi alla albumi kaanepilte</translation>
     </message>
     <message>
+      <source>Use album ID for album covers</source>
+      <translation>Kasuta albumi ID-d albumi kaante jaoks</translation>
+    </message>
+    <message>
       <source>Server-side scrobbling</source>
       <translation>Serveripoolne kraasimine</translation>
     </message>

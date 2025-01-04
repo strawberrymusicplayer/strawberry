@@ -6634,6 +6634,10 @@ Deseja continuar?</translation>
       <translation type="unfinished">Download album covers</translation>
     </message>
     <message>
+      <source>Use album ID for album covers</source>
+      <translation>Usar o ID do álbum para as capas dos álbuns</translation>
+    </message>
+    <message>
       <source>Server-side scrobbling</source>
       <translation type="unfinished">Server-side scrobbling</translation>
     </message>

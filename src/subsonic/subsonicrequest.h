@@ -122,6 +122,7 @@ class SubsonicRequest : public SubsonicBaseRequest {
 
   QHash<QString, Request> album_songs_requests_pending_;
   QMultiMap<QString, QString> album_covers_requests_sent_;
+  QMultiMap<QString, QUrl> album_covers_retrieved_;
 
   int albums_requests_active_;
 

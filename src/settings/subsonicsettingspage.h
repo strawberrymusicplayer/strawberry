@@ -51,6 +51,7 @@ class SubsonicSettingsPage : public SettingsPage {
   void Test(const QUrl &url, const QString &username, const QString &password, const SubsonicSettings::AuthMethod auth_method, const bool redirect = false);
 
  private Q_SLOTS:
+  void CheckboxDownloadAlbumCoversToggled(bool enabled);
   void TestClicked();
   void TestSuccess();
   void TestFailure(const QString &failure_reason);

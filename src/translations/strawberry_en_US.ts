@@ -6630,6 +6630,10 @@ Are you sure you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Use album ID for album covers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Server-side scrobbling</source>
         <translation type="unfinished"></translation>
     </message>

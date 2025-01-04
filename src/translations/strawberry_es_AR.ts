@@ -6633,6 +6633,10 @@ Are you sure you want to continue?</source>
       <translation>Descargar las cubiertas de los álbumes</translation>
     </message>
     <message>
+      <source>Use album ID for album covers</source>
+      <translation>Usá el ID del álbum para las cubiertas de los álbumes</translation>
+    </message>
+    <message>
       <source>Server-side scrobbling</source>
       <translation>Seguimiento de reproducción en el servidor</translation>
     </message>

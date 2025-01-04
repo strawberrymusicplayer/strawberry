@@ -606,12 +606,20 @@ QString SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_obj, cons
   if (json_obj.contains("genre"_L1)) genre = json_obj["genre"_L1].toString();
 
   QString cover_id;
-  if (json_obj.contains("coverArt"_L1)) {
-    if (json_obj["coverArt"_L1].type() == QJsonValue::String) {
-      cover_id = json_obj["coverArt"_L1].toString();
+  if (use_album_id_for_album_covers()) {
+    cover_id = album_id;
+  }
+  else {
+    if (json_obj.contains("coverArt"_L1)) {
+      if (json_obj["coverArt"_L1].type() == QJsonValue::String) {
+        cover_id = json_obj["coverArt"_L1].toString();
+      }
+      else {
+        cover_id = QString::number(json_obj["coverArt"_L1].toInt());
+      }
     }
     else {
-      cover_id = QString::number(json_obj["coverArt"_L1].toInt());
+      cover_id = song_id;
     }
   }
 

@@ -6634,6 +6634,10 @@ Devam etmek istediğinizden emin misiniz?</translation>
       <translation type="unfinished">Download album covers</translation>
     </message>
     <message>
+      <source>Use album ID for album covers</source>
+      <translation>Albüm kapakları için albüm ID'sini kullanın</translation>
+    </message>
+    <message>
       <source>Server-side scrobbling</source>
       <translation type="unfinished">Server-side scrobbling</translation>
     </message>
