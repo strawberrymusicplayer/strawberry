@@ -37,6 +37,7 @@ constexpr char kPassword[] = "password";
 constexpr char kHTTP2[] = "http2";
 constexpr char kVerifyCertificate[] = "verifycertificate";
 constexpr char kDownloadAlbumCovers[] = "downloadalbumcovers";
+constexpr char kUseAlbumIdForAlbumCovers[] = "usealbumidforalbumcovers";
 constexpr char kServerSideScrobbling[] = "serversidescrobbling";
 constexpr char kAuthMethod[] = "authmethod";
 

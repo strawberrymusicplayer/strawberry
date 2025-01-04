@@ -6629,6 +6629,10 @@ Are you sure you want to continue?</translation>
       <translation type="unfinished">Download album covers</translation>
     </message>
     <message>
+      <source>Use album ID for album covers</source>
+      <translation>使用專輯ID來獲取專輯封面</translation>
+    </message>
+    <message>
       <source>Server-side scrobbling</source>
       <translation type="unfinished">Server-side scrobbling</translation>
     </message>

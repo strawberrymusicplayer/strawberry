@@ -82,6 +82,7 @@ SubsonicService::SubsonicService(const SharedPtr<TaskManager> task_manager,
       http2_(false),
       verify_certificate_(false),
       download_album_covers_(true),
+      use_album_id_for_album_covers_(false),
       auth_method_(SubsonicSettings::AuthMethod::MD5),
       ping_redirects_(0) {
 
@@ -128,6 +129,7 @@ void SubsonicService::ReloadSettings() {
   http2_ = s.value(SubsonicSettings::kHTTP2, false).toBool();
   verify_certificate_ = s.value(SubsonicSettings::kVerifyCertificate, false).toBool();
   download_album_covers_ = s.value(SubsonicSettings::kDownloadAlbumCovers, true).toBool();
+  use_album_id_for_album_covers_ = s.value(SubsonicSettings::kUseAlbumIdForAlbumCovers, false).toBool();
   auth_method_ = static_cast<SubsonicSettings::AuthMethod>(s.value(SubsonicSettings::kAuthMethod, static_cast<int>(SubsonicSettings::AuthMethod::MD5)).toInt());
 
   s.endGroup();

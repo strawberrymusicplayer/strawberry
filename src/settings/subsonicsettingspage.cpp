@@ -51,6 +51,7 @@ SubsonicSettingsPage::SubsonicSettingsPage(SettingsDialog *dialog, const SharedP
 
   QObject::connect(ui_->button_test, &QPushButton::clicked, this, &SubsonicSettingsPage::TestClicked);
   QObject::connect(ui_->button_deletesongs, &QPushButton::clicked, &*service_, &SubsonicService::DeleteSongs);
+  QObject::connect(ui_->checkbox_download_album_covers, &QCheckBox::toggled, this, &SubsonicSettingsPage::CheckboxDownloadAlbumCoversToggled);
 
   QObject::connect(this, &SubsonicSettingsPage::Test, &*service_, &SubsonicService::SendPingWithCredentials);
 
@@ -78,6 +79,7 @@ void SubsonicSettingsPage::Load() {
   ui_->checkbox_http2->setChecked(s.value(kHTTP2, false).toBool());
   ui_->checkbox_verify_certificate->setChecked(s.value(kVerifyCertificate, false).toBool());
   ui_->checkbox_download_album_covers->setChecked(s.value(kDownloadAlbumCovers, true).toBool());
+  ui_->checkbox_use_album_id_for_album_covers->setChecked(s.value(kUseAlbumIdForAlbumCovers, false).toBool());
   ui_->checkbox_server_scrobbling->setChecked(s.value(kServerSideScrobbling, false).toBool());
 
   const AuthMethod auth_method = static_cast<AuthMethod>(s.value(kAuthMethod, static_cast<int>(AuthMethod::MD5)).toInt());
@@ -89,6 +91,8 @@ void SubsonicSettingsPage::Load() {
       ui_->auth_method_md5->setChecked(true);
       break;
   }
+
+  ui_->checkbox_use_album_id_for_album_covers->setEnabled(ui_->checkbox_download_album_covers->isChecked());
 
   s.endGroup();
 
@@ -109,6 +113,7 @@ void SubsonicSettingsPage::Save() {
   s.setValue(kHTTP2, ui_->checkbox_http2->isChecked());
   s.setValue(kVerifyCertificate, ui_->checkbox_verify_certificate->isChecked());
   s.setValue(kDownloadAlbumCovers, ui_->checkbox_download_album_covers->isChecked());
+  s.setValue(kUseAlbumIdForAlbumCovers, ui_->checkbox_use_album_id_for_album_covers->isChecked());
   s.setValue(kServerSideScrobbling, ui_->checkbox_server_scrobbling->isChecked());
   if (ui_->auth_method_hex->isChecked()) {
     s.setValue(kAuthMethod, static_cast<int>(AuthMethod::Hex));
@@ -116,7 +121,16 @@ void SubsonicSettingsPage::Save() {
   else {
     s.setValue(kAuthMethod, static_cast<int>(AuthMethod::MD5));
   }
+  
+  ui_->checkbox_use_album_id_for_album_covers->setEnabled(ui_->checkbox_download_album_covers->isChecked());
+
   s.endGroup();
+
+}
+
+void SubsonicSettingsPage::CheckboxDownloadAlbumCoversToggled(bool enabled) {
+
+  ui_->checkbox_use_album_id_for_album_covers->setEnabled(enabled);
 
 }
 

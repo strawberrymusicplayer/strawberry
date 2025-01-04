@@ -6629,6 +6629,10 @@ Are you sure you want to continue?</source>
       <translation>アルバムカバーをダウンロード</translation>
     </message>
     <message>
+      <source>Use album ID for album covers</source>
+      <translation>アルバムのIDをアルバムカバーに使用する</translation>
+    </message>
+    <message>
       <source>Server-side scrobbling</source>
       <translation>サーバーサイドの scrobbling</translation>
     </message>

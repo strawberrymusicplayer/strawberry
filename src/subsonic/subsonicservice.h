@@ -80,6 +80,7 @@ class SubsonicService : public StreamingService {
   bool http2() const { return http2_; }
   bool verify_certificate() const { return verify_certificate_; }
   bool download_album_covers() const { return download_album_covers_; }
+  bool use_album_id_for_album_covers() const { return use_album_id_for_album_covers_; }
   SubsonicSettings::AuthMethod auth_method() const { return auth_method_; }
 
   SharedPtr<CollectionBackend> collection_backend() const { return collection_backend_; }
@@ -123,6 +124,7 @@ class SubsonicService : public StreamingService {
   bool http2_;
   bool verify_certificate_;
   bool download_album_covers_;
+  bool use_album_id_for_album_covers_;
   SubsonicSettings::AuthMethod auth_method_;
 
   QStringList errors_;

@@ -6646,6 +6646,10 @@ Per ulteriori informazioni vedi &apos;%1&apos; .</translation>
       <translation>Scarica copertine album</translation>
     </message>
     <message>
+      <source>Use album ID for album covers</source>
+      <translation>Usa l'ID dell'album per le copertine degli album</translation>
+    </message>
+    <message>
       <source>Server-side scrobbling</source>
       <translation>Scrobbling lato server</translation>
     </message>

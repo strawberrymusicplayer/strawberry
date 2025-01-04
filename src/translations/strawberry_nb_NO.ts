@@ -6634,6 +6634,10 @@ Er du sikker?</translation>
       <translation>Last ned plateomslag</translation>
     </message>
     <message>
+      <source>Use album ID for album covers</source>
+      <translation>Bruk album-ID for albumomslag</translation>
+    </message>
+    <message>
       <source>Server-side scrobbling</source>
       <translation>Server-siding skrobbling</translation>
     </message>
