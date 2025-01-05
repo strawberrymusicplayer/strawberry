@@ -6634,6 +6634,10 @@ Ertu viss um að þú viljir halda áfram?</translation>
       <translation>Sækja plötuumslög</translation>
     </message>
     <message>
+      <source>Use album ID for album covers</source>
+      <translation>Notaðu albumi ID fyrir album fyrirsagnir.</translation>
+    </message>
+    <message>
       <source>Server-side scrobbling</source>
       <translation>Skráning á hlustunarvenjum (scrobbling) á netþjóni</translation>
     </message>
