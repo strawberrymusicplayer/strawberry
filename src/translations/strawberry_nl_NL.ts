@@ -6634,6 +6634,10 @@ Weet je zeker dat je verder wilt gaan?</translation>
       <translation>Albumhoezen downloaden</translation>
     </message>
     <message>
+      <source>Use album ID for album covers</source>
+      <translation>Gebruik album-ID voor albumhoezen</translation>
+    </message>
+    <message>
       <source>Server-side scrobbling</source>
       <translation type="unfinished">Server-side scrobbling</translation>
     </message>
