@@ -6644,6 +6644,10 @@ Are you sure you want to continue?</source>
       <translation>Скачивать обложки альбомов</translation>
     </message>
     <message>
+      <source>Use album ID for album covers</source>
+      <translation>Используйте ID альбома для обложек альбомов</translation>
+    </message>
+    <message>
       <source>Server-side scrobbling</source>
       <translation>Скробблинг на стороне сервера</translation>
     </message>
