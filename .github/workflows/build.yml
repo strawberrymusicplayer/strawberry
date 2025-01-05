@@ -477,7 +477,7 @@ jobs:
       - name: make deb
         run: dpkg-buildpackage -b -d -uc -us -nc -j4
       - name: Copy deb
-        run: cp ../*.deb
+        run: cp ../*.deb .
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
