@@ -6646,6 +6646,10 @@ Na pewno chcesz usunąć?</translation>
       <translation>Pobieraj okładki albumów</translation>
     </message>
     <message>
+      <source>Use album ID for album covers</source>
+      <translation>Użyj identyfikatora albumu do okładek albumów</translation>
+    </message>
+    <message>
       <source>Server-side scrobbling</source>
       <translation>Scrobblowanie po stronie serwera.</translation>
     </message>
