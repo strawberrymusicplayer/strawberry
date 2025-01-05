@@ -174,7 +174,9 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       logged_unsupported_analyzer_format_(false),
       about_to_finish_(false),
       finish_requested_(false),
-      finished_(false) {
+      finished_(false),
+      set_state_in_progress_(0),
+      set_state_async_in_progress_(0) {
 
   eq_band_gains_.reserve(kEqBandCount);
   for (int i = 0; i < kEqBandCount; ++i) eq_band_gains_ << 0;
@@ -419,7 +421,7 @@ bool GstEnginePipeline::Finish() {
 
   Disconnect();
 
-  if (IsStateNull()) {
+  if (IsStateNull() && set_state_async_in_progress_ == 0 && set_state_in_progress_ == 0) {
     finished_ = true;
   }
   else {
@@ -1792,13 +1794,25 @@ bool GstEnginePipeline::IsStateNull() const {
 
 void GstEnginePipeline::SetStateAsync(const GstState state) {
 
-  QMetaObject::invokeMethod(this, "SetState", Qt::QueuedConnection, Q_ARG(GstState, state));
+  ++set_state_async_in_progress_;
+
+  QMetaObject::invokeMethod(this, "SetStateAsyncSlot", Qt::QueuedConnection, Q_ARG(GstState, state));
+
+}
+
+void GstEnginePipeline::SetStateAsyncSlot(const GstState state) {
+
+  --set_state_async_in_progress_;
+
+  SetState(state);
 
 }
 
 QFuture<GstStateChangeReturn> GstEnginePipeline::SetState(const GstState state) {
 
   qLog(Debug) << "Setting pipeline" << id() << "state to" << GstStateText(state);
+
+  ++set_state_in_progress_;
 
   QFutureWatcher<GstStateChangeReturn> *watcher = new QFutureWatcher<GstStateChangeReturn>();
   QObject::connect(watcher, &QFutureWatcher<GstStateChangeReturn>::finished, this, [this, watcher, state]() {
@@ -1815,13 +1829,15 @@ QFuture<GstStateChangeReturn> GstEnginePipeline::SetState(const GstState state) 
 
 void GstEnginePipeline::SetStateFinishedSlot(const GstState state, const GstStateChangeReturn state_change_return) {
 
+  --set_state_in_progress_;
+
   switch (state_change_return) {
     case GST_STATE_CHANGE_SUCCESS:
     case GST_STATE_CHANGE_ASYNC:
     case GST_STATE_CHANGE_NO_PREROLL:
       qLog(Debug) << "Pipeline" << id() << "state successfully set to" << GstStateText(state);
       Q_EMIT SetStateFinished(state_change_return);
-      if (!finished_.value() && finish_requested_.value()) {
+      if (!finished_.value() && finish_requested_.value() && set_state_async_in_progress_ == 0 && set_state_in_progress_ == 0) {
         finished_ = true;
         Q_EMIT Finished();
       }

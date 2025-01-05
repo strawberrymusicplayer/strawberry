@@ -197,6 +197,7 @@ class GstEnginePipeline : public QObject {
   void ProcessPendingSeek(const GstState state);
 
  private Q_SLOTS:
+  void SetStateAsyncSlot(const GstState state);
   void SetStateFinishedSlot(const GstState state, const GstStateChangeReturn state_change_return);
   void SetFaderVolume(const qreal volume);
   void FaderTimelineStateChanged(const QTimeLine::State state);
@@ -368,6 +369,9 @@ class GstEnginePipeline : public QObject {
   mutex_protected<bool> about_to_finish_;
   mutex_protected<bool> finish_requested_;
   mutex_protected<bool> finished_;
+
+  mutex_protected<int> set_state_in_progress_;
+  mutex_protected<int> set_state_async_in_progress_;
 };
 
 using GstEnginePipelinePtr = SharedPtr<GstEnginePipeline>;
