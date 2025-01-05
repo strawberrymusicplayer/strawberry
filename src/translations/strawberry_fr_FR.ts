@@ -6634,6 +6634,10 @@ Are you sure you want to continue?</source>
       <translation>Télécharger des pochettes d&apos;albums</translation>
     </message>
     <message>
+      <source>Use album ID for album covers</source>
+      <translation>Utilisez l'ID de l'album pour les couvertures d'album</translation>
+    </message>
+    <message>
       <source>Server-side scrobbling</source>
       <translation>Scrobbling côté serveur</translation>
     </message>
