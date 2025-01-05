@@ -62,7 +62,6 @@
 #include "gstbufferconsumer.h"
 
 using namespace Qt::Literals::StringLiterals;
-using std::make_shared;
 
 #ifdef __clang__
 #  pragma clang diagnostic push
@@ -897,7 +896,7 @@ void GstEngine::StopTimers() {
 
 GstEnginePipelinePtr GstEngine::CreatePipeline() {
 
-  GstEnginePipelinePtr pipeline = make_shared<GstEnginePipeline>();
+  GstEnginePipelinePtr pipeline = GstEnginePipelinePtr(new GstEnginePipeline);
   pipeline->set_output_device(output_, device_);
   pipeline->set_exclusive_mode(exclusive_mode_);
   pipeline->set_volume_enabled(volume_control_);

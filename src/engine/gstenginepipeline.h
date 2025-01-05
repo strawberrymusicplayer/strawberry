@@ -41,6 +41,7 @@
 #include <QVariant>
 #include <QString>
 #include <QUrl>
+#include <QSharedPointer>
 
 #include "includes/shared_ptr.h"
 #include "includes/mutex_protected.h"
@@ -374,6 +375,6 @@ class GstEnginePipeline : public QObject {
   mutex_protected<int> set_state_async_in_progress_;
 };
 
-using GstEnginePipelinePtr = SharedPtr<GstEnginePipeline>;
+using GstEnginePipelinePtr = QSharedPointer<GstEnginePipeline>;
 
 #endif  // GSTENGINEPIPELINE_H
