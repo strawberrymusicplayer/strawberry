@@ -296,8 +296,7 @@ void MoodbarItemDelegate::ImageLoaded(const QUrl &url, const QImage &image) {
       }
 
       if (source_index.model() != playlist) {
-        // The pixmap was for an index in a different playlist, maybe the user
-        // switched to a different one.
+        // The pixmap was for an index in a different playlist, maybe the user switched to a different one.
         continue;
       }
 
