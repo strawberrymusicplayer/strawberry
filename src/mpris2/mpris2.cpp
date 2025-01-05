@@ -106,8 +106,7 @@ Mpris2::Mpris2(const SharedPtr<Player> player,
     : QObject(parent),
       player_(player),
       playlist_manager_(playlist_manager),
-      current_albumcover_loader_(current_albumcover_loader),
-      app_name_(QCoreApplication::applicationName()) {
+      current_albumcover_loader_(current_albumcover_loader) {
 
   new Mpris2Root(this);
   new Mpris2TrackList(this);
@@ -134,8 +133,6 @@ Mpris2::Mpris2(const SharedPtr<Player> player,
   QObject::connect(&*playlist_manager_, &PlaylistManager::CurrentSongChanged, this, &Mpris2::CurrentSongChanged);
   QObject::connect(&*playlist_manager_, &PlaylistManager::PlaylistChanged, this, &Mpris2::PlaylistChangedSlot);
   QObject::connect(&*playlist_manager_, &PlaylistManager::CurrentChanged, this, &Mpris2::PlaylistCollectionChanged);
-
-  app_name_[0] = app_name_[0].toUpper();
 
   QStringList data_dirs = QString::fromUtf8(qgetenv("XDG_DATA_DIRS")).split(u':');
 
@@ -238,7 +235,7 @@ bool Mpris2::CanRaise() const { return true; }
 
 bool Mpris2::HasTrackList() const { return true; }
 
-QString Mpris2::Identity() const { return app_name_; }
+QString Mpris2::Identity() const { return QCoreApplication::applicationName(); }
 
 QString Mpris2::DesktopEntryAbsolutePath() const {
 

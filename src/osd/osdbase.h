@@ -53,8 +53,6 @@ class OSDBase : public QObject {
   virtual bool SupportsNativeNotifications();
   virtual bool SupportsTrayPopups();
 
-  QString app_name() { return app_name_; }
-
  public Q_SLOTS:
   void ReloadSettings();
 
@@ -88,7 +86,6 @@ class OSDBase : public QObject {
   const SharedPtr<SystemTrayIcon> tray_icon_;
   OSDPretty *pretty_popup_;
 
-  QString app_name_;
   int timeout_msec_;
   OSDSettings::Type type_;
   bool show_on_volume_change_;

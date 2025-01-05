@@ -48,7 +48,6 @@ OSDBase::OSDBase(const SharedPtr<SystemTrayIcon> tray_icon, QObject *parent)
     : QObject(parent),
       tray_icon_(tray_icon),
       pretty_popup_(new OSDPretty(OSDPretty::Mode::Popup)),
-      app_name_(QCoreApplication::applicationName()),
       timeout_msec_(5000),
       type_(OSDSettings::Type::Native),
       show_on_volume_change_(false),
@@ -59,11 +58,7 @@ OSDBase::OSDBase(const SharedPtr<SystemTrayIcon> tray_icon, QObject *parent)
       use_custom_text_(false),
       force_show_next_(false),
       ignore_next_stopped_(false),
-      playing_(false) {
-
-  app_name_[0] = app_name_[0].toUpper();
-
-}
+      playing_(false) {}
 
 OSDBase::~OSDBase() {
   delete pretty_popup_;
@@ -264,7 +259,7 @@ void OSDBase::Stopped() {
 }
 
 void OSDBase::StopAfterToggle(const bool stop) {
-  ShowMessage(app_name_, tr("Stop playing after track: %1").arg(stop ? tr("On") : tr("Off")));
+  ShowMessage(QCoreApplication::applicationName(), tr("Stop playing after track: %1").arg(stop ? tr("On") : tr("Off")));
 }
 
 void OSDBase::PlaylistFinished() {
@@ -272,7 +267,7 @@ void OSDBase::PlaylistFinished() {
   // We get a PlaylistFinished followed by a Stopped from the player
   ignore_next_stopped_ = true;
 
-  ShowMessage(app_name_, tr("Playlist finished"));
+  ShowMessage(QCoreApplication::applicationName(), tr("Playlist finished"));
 
 }
 
@@ -290,7 +285,7 @@ void OSDBase::VolumeChanged(const uint value) {
   }
 #endif
 
-  ShowMessage(app_name_, message);
+  ShowMessage(QCoreApplication::applicationName(), message);
 
 }
 
@@ -346,7 +341,7 @@ void OSDBase::ShuffleModeChanged(const PlaylistSequence::ShuffleMode mode) {
       case PlaylistSequence::ShuffleMode::InsideAlbum: current_mode = tr("Shuffle tracks in this album"); break;
       case PlaylistSequence::ShuffleMode::Albums:      current_mode = tr("Shuffle albums");  break;
     }
-    ShowMessage(app_name_, current_mode);
+    ShowMessage(QCoreApplication::applicationName(), current_mode);
   }
 
 }
@@ -363,7 +358,7 @@ void OSDBase::RepeatModeChanged(const PlaylistSequence::RepeatMode mode) {
       case PlaylistSequence::RepeatMode::OneByOne: current_mode = tr("Stop after every track"); break;
       case PlaylistSequence::RepeatMode::Intro:    current_mode = tr("Intro tracks"); break;
     }
-    ShowMessage(app_name_, current_mode);
+    ShowMessage(QCoreApplication::applicationName(), current_mode);
   }
 
 }

@@ -39,7 +39,6 @@ using namespace Qt::Literals::StringLiterals;
 SystemTrayIcon::SystemTrayIcon(QObject *parent)
     : QSystemTrayIcon(parent),
       menu_(new QMenu),
-      app_name_(QCoreApplication::applicationName()),
       pixmap_playing_(u":/pictures/tiny-play.png"_s),
       pixmap_paused_(u":/pictures/tiny-pause.png"_s),
       action_play_pause_(nullptr),
@@ -50,8 +49,6 @@ SystemTrayIcon::SystemTrayIcon(QObject *parent)
       available_(false),
       trayicon_progress_(false),
       song_progress_(0) {
-
-  app_name_[0] = app_name_[0].toUpper();
 
   const QIcon icon = IconLoader::Load(u"strawberry"_s);
   const QIcon icon_grey = IconLoader::Load(u"strawberry-grey"_s);
@@ -66,7 +63,7 @@ SystemTrayIcon::SystemTrayIcon(QObject *parent)
   if (isSystemTrayAvailable()) {
     available_ = true;
     setIcon(icon);
-    setToolTip(app_name_);
+    setToolTip(QCoreApplication::applicationName());
   }
 
   QObject::connect(this, &QSystemTrayIcon::activated, this, &SystemTrayIcon::Clicked);
@@ -198,7 +195,7 @@ void SystemTrayIcon::SetNowPlaying(const Song &song, const QUrl &url) {
 }
 
 void SystemTrayIcon::ClearNowPlaying() {
-  if (available_) setToolTip(app_name_);
+  if (available_) setToolTip(QCoreApplication::applicationName());
 }
 
 void SystemTrayIcon::LoveVisibilityChanged(const bool value) {

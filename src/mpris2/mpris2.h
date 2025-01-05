@@ -242,7 +242,6 @@ class Mpris2 : public QObject {
   const SharedPtr<PlaylistManager> playlist_manager_;
   const SharedPtr<CurrentAlbumCoverLoader> current_albumcover_loader_;
 
-  QString app_name_;
   QString desktopfilepath_;
   QVariantMap last_metadata_;
 
