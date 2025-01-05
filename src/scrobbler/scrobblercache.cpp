@@ -25,7 +25,6 @@
 #include <memory>
 
 #include <QObject>
-#include <QStandardPaths>
 #include <QString>
 #include <QFile>
 #include <QIODevice>
@@ -38,6 +37,7 @@
 
 #include "core/song.h"
 #include "core/logging.h"
+#include "core/standardpaths.h"
 
 #include "scrobblercache.h"
 #include "scrobblercacheitem.h"
@@ -49,7 +49,7 @@ using std::make_shared;
 ScrobblerCache::ScrobblerCache(const QString &filename, QObject *parent)
     : QObject(parent),
       timer_flush_(new QTimer(this)),
-      filename_(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + QLatin1Char('/') + filename),
+      filename_(StandardPaths::WritableLocation(StandardPaths::CacheLocation) + QLatin1Char('/') + filename),
       loaded_(false) {
 
   ReadCache();

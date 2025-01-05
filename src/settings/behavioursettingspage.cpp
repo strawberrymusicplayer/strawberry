@@ -37,7 +37,6 @@
 #include <QSpinBox>
 #include <QComboBox>
 #include <QGroupBox>
-#include <QStandardPaths>
 
 #include "constants/behavioursettings.h"
 #include "core/iconloader.h"

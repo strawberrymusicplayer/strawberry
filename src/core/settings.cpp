@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2024-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,13 +18,26 @@
  */
 
 #include <QSettings>
-#include <QVariant>
 #include <QString>
+#include <QCoreApplication>
 
 #include "settings.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 Settings::Settings(QObject *parent)
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
+    : QSettings(QCoreApplication::organizationName().toLower(), QCoreApplication::applicationName().toLower(), parent) {}
+#else
     : QSettings(parent) {}
+#endif
+
+Settings::Settings(const QSettings::Scope scope, QObject *parent)
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
+    : QSettings(scope, QCoreApplication::organizationName().toLower(), QCoreApplication::applicationName().toLower(), parent) {}
+#else
+    : QSettings(scope, parent) {}
+#endif
 
 Settings::Settings(const QString &filename, const Format format, QObject *parent)
     : QSettings(filename, format, parent) {}

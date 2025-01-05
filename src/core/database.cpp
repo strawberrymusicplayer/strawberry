@@ -39,10 +39,10 @@
 #include <QSqlDriver>
 #include <QSqlDatabase>
 #include <QSqlError>
-#include <QStandardPaths>
 #include <QScopeGuard>
 
-#include "core/logging.h"
+#include "logging.h"
+#include "standardpaths.h"
 #include "taskmanager.h"
 #include "database.h"
 #include "sqlquery.h"
@@ -78,7 +78,7 @@ Database::Database(SharedPtr<TaskManager> task_manager, QObject *parent, const Q
     connection_id_ = sNextConnectionId++;
   }
 
-  directory_ = QDir::toNativeSeparators(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
+  directory_ = QDir::toNativeSeparators(StandardPaths::WritableLocation(StandardPaths::AppLocalDataLocation)).replace(u"Strawberry"_s, u"strawberry"_s);
 
   QMutexLocker l(&mutex_);
   Connect();

@@ -24,7 +24,6 @@
 #include <utility>
 #include <limits>
 
-#include <QStandardPaths>
 #include <QAbstractItemModel>
 #include <QItemSelectionModel>
 #include <QString>
@@ -47,6 +46,7 @@
 
 #include "constants/filesystemconstants.h"
 #include "core/iconloader.h"
+#include "core/standardpaths.h"
 #include "core/settings.h"
 #include "utilities/strutils.h"
 #include "collection/collectionlibrary.h"
@@ -246,7 +246,7 @@ void CollectionSettingsPage::AddDirectory() {
   Settings s;
   s.beginGroup(kSettingsGroup);
 
-  QString path = s.value(kLastPath, QStandardPaths::writableLocation(QStandardPaths::MusicLocation)).toString();
+  QString path = s.value(kLastPath, StandardPaths::WritableLocation(StandardPaths::MusicLocation)).toString();
   path = QDir::cleanPath(QFileDialog::getExistingDirectory(this, tr("Add directory..."), path));
 
   if (!path.isEmpty()) {

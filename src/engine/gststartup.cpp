@@ -26,12 +26,12 @@
 #include <gst/pbutils/pbutils.h>
 
 #include <QCoreApplication>
-#include <QStandardPaths>
 #include <QString>
 #include <QDir>
 #include <QFile>
 
 #include "core/logging.h"
+#include "core/standardpaths.h"
 #include "utilities/envutils.h"
 
 #ifdef HAVE_MOODBAR
@@ -145,7 +145,7 @@ void SetEnvironment() {
 #endif  // USE_BUNDLE
 
 #if defined(Q_OS_WIN32) || defined(Q_OS_MACOS)
-  QString gst_registry_filename = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + QStringLiteral("/gst-registry-%1-bin").arg(QCoreApplication::applicationVersion());
+  QString gst_registry_filename = StandardPaths::WritableLocation(StandardPaths::AppLocalDataLocation) + QStringLiteral("/gst-registry-%1-bin").arg(QCoreApplication::applicationVersion());
   qLog(Debug) << "Setting GStreamer registry file to" << gst_registry_filename;
   Utilities::SetEnv("GST_REGISTRY", gst_registry_filename);
 #endif

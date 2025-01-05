@@ -23,13 +23,13 @@
 #include <QUrl>
 #include <QFileInfo>
 #include <QDir>
-#include <QStandardPaths>
 #include <QCryptographicHash>
 
 #include "constants/filenameconstants.h"
+#include "core/logging.h"
+#include "core/standardpaths.h"
 #include "transliterate.h"
 #include "coverutils.h"
-#include "core/logging.h"
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -85,7 +85,7 @@ QString CoverUtils::CoverFilePath(const CoverOptions &options, const Song::Sourc
   QDir dir;
   if (!QFileInfo::exists(path) && !dir.mkpath(path)) {
     qLog(Error) << "Unable to create directory" << path;
-    path = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
+    path = StandardPaths::WritableLocation(StandardPaths::TempLocation);
   }
 
   QString filename;

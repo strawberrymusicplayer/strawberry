@@ -28,7 +28,6 @@
 #include <QObject>
 #include <QThread>
 #include <QCoreApplication>
-#include <QStandardPaths>
 #include <QIODevice>
 #include <QDir>
 #include <QFile>
@@ -43,6 +42,7 @@
 #include "includes/scoped_ptr.h"
 #include "includes/shared_ptr.h"
 #include "core/logging.h"
+#include "core/standardpaths.h"
 #include "core/settings.h"
 
 #include "moodbarpipeline.h"
@@ -64,7 +64,7 @@ MoodbarLoader::MoodbarLoader(QObject *parent)
       kMaxActiveRequests(qMax(1, QThread::idealThreadCount() / 2)),
       save_(false) {
 
-  cache_->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + u"/moodbar"_s);
+  cache_->setCacheDirectory(StandardPaths::WritableLocation(StandardPaths::CacheLocation) + u"/moodbar"_s);
   cache_->setMaximumCacheSize(60LL * 1024LL * 1024LL);  // 60MB - enough for 20,000 moodbars
 
   ReloadSettings();

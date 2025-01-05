@@ -27,9 +27,9 @@
 #include <QObject>
 #include <QDir>
 #include <QImage>
-#include <QStandardPaths>
 
 #include "core/logging.h"
+#include "core/standardpaths.h"
 #include "core/song.h"
 #include "core/temporaryfile.h"
 #include "albumcoverloader.h"
@@ -42,7 +42,7 @@ using namespace Qt::Literals::StringLiterals;
 CurrentAlbumCoverLoader::CurrentAlbumCoverLoader(const SharedPtr<AlbumCoverLoader> albumcover_loader, QObject *parent)
     : QObject(parent),
       albumcover_loader_(albumcover_loader),
-      temp_file_pattern_(QStandardPaths::writableLocation(QStandardPaths::TempLocation) + u"/strawberry-cover-XXXXXX.jpg"_s),
+      temp_file_pattern_(StandardPaths::WritableLocation(StandardPaths::TempLocation) + u"/strawberry-cover-XXXXXX.jpg"_s),
       id_(0) {
 
   setObjectName(QLatin1String(metaObject()->className()));

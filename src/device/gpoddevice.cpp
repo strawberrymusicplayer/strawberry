@@ -36,10 +36,10 @@
 #include <QString>
 #include <QUrl>
 #include <QImage>
-#include <QStandardPaths>
 
 #include "includes/shared_ptr.h"
 #include "core/logging.h"
+#include "core/standardpaths.h"
 #include "core/temporaryfile.h"
 #include "core/taskmanager.h"
 #include "core/database.h"
@@ -211,9 +211,9 @@ bool GPodDevice::CopyToStorage(const CopyJob &job, QString &error_text) {
     bool result = false;
     if (!job.cover_image_.isNull()) {
 #ifdef Q_OS_LINUX
-      QString temp_path = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + u"/organize"_s;
+      QString temp_path = StandardPaths::WritableLocation(StandardPaths::CacheLocation) + u"/organize"_s;
 #else
-      QString temp_path = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
+      QString temp_path = StandardPaths::WritableLocation(StandardPaths::TempLocation);
 #endif
       if (!QDir(temp_path).exists()) QDir().mkpath(temp_path);
       SharedPtr<TemporaryFile> cover_file = make_shared<TemporaryFile>(temp_path + u"/track-albumcover-XXXXXX.jpg"_s);

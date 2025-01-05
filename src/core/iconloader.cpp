@@ -27,10 +27,10 @@
 #include <QString>
 #include <QIcon>
 #include <QSize>
-#include <QStandardPaths>
 #include <QSettings>
 
 #include "logging.h"
+#include "standardpaths.h"
 #include "settings.h"
 #include "includes/iconmapper.h"
 #include "iconloader.h"
@@ -51,7 +51,7 @@ void IconLoader::Init() {
 #endif
 
   QDir dir;
-  if (dir.exists(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + u"/icons"_s)) {
+  if (dir.exists(StandardPaths::WritableLocation(StandardPaths::AppLocalDataLocation) + u"/icons"_s)) {
     custom_icons_ = true;
   }
 
@@ -125,7 +125,7 @@ QIcon IconLoader::Load(const QString &name, const bool system_icon, const int fi
   }
 
   if (custom_icons_) {
-    QString custom_icon_path = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + u"/icons/%1x%2/%3.png"_s;
+    QString custom_icon_path = StandardPaths::WritableLocation(StandardPaths::AppLocalDataLocation) + u"/icons/%1x%2/%3.png"_s;
     for (int s : std::as_const(sizes)) {
       QString filename(custom_icon_path.arg(s).arg(s).arg(name));
       if (QFile::exists(filename)) ret.addFile(filename, QSize(s, s));

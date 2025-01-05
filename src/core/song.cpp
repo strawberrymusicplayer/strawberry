@@ -45,11 +45,11 @@
 #include <QRegularExpression>
 #include <QUrl>
 #include <QIcon>
-#include <QStandardPaths>
 #include <QSqlRecord>
 
 #include <taglib/tstring.h>
 
+#include "core/standardpaths.h"
 #include "core/iconloader.h"
 #include "core/enginemetadata.h"
 #include "utilities/strutils.h"
@@ -1335,24 +1335,24 @@ QString Song::ImageCacheDir(const Source source) {
 
   switch (source) {
     case Source::Collection:
-      return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + u"/collectionalbumcovers"_s;
+      return StandardPaths::WritableLocation(StandardPaths::AppLocalDataLocation) + u"/collectionalbumcovers"_s;
     case Source::Subsonic:
-      return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + u"/subsonicalbumcovers"_s;
+      return StandardPaths::WritableLocation(StandardPaths::AppLocalDataLocation) + u"/subsonicalbumcovers"_s;
     case Source::Tidal:
-      return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + u"/tidalalbumcovers"_s;
+      return StandardPaths::WritableLocation(StandardPaths::AppLocalDataLocation) + u"/tidalalbumcovers"_s;
     case Source::Spotify:
-      return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + u"/spotifyalbumcovers"_s;
+      return StandardPaths::WritableLocation(StandardPaths::AppLocalDataLocation) + u"/spotifyalbumcovers"_s;
     case Source::Qobuz:
-      return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + u"/qobuzalbumcovers"_s;
+      return StandardPaths::WritableLocation(StandardPaths::AppLocalDataLocation) + u"/qobuzalbumcovers"_s;
     case Source::Device:
-      return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + u"/devicealbumcovers"_s;
+      return StandardPaths::WritableLocation(StandardPaths::AppLocalDataLocation) + u"/devicealbumcovers"_s;
     case Source::LocalFile:
     case Source::CDDA:
     case Source::Stream:
     case Source::SomaFM:
     case Source::RadioParadise:
     case Source::Unknown:
-      return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + u"/albumcovers"_s;
+      return StandardPaths::WritableLocation(StandardPaths::AppLocalDataLocation) + u"/albumcovers"_s;
   }
 
   return QString();

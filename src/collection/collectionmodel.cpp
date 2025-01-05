@@ -50,14 +50,14 @@
 #include <QPixmapCache>
 #include <QNetworkDiskCache>
 #include <QSettings>
-#include <QStandardPaths>
 #include <QTimer>
 
 #include "includes/scoped_ptr.h"
 #include "includes/shared_ptr.h"
+#include "core/logging.h"
+#include "core/standardpaths.h"
 #include "core/database.h"
 #include "core/iconloader.h"
-#include "core/logging.h"
 #include "core/settings.h"
 #include "core/songmimedata.h"
 #include "collectionfilteroptions.h"
@@ -114,7 +114,7 @@ CollectionModel::CollectionModel(const SharedPtr<CollectionBackend> backend, con
     pixmap_no_cover_ = nocover.pixmap(nocover_sizes.last()).scaled(kPrettyCoverSize, kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
   }
 
-  icon_disk_cache_->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + u'/' + QLatin1String(kPixmapDiskCacheDir) + u'-' + Song::TextForSource(backend_->source()));
+  icon_disk_cache_->setCacheDirectory(StandardPaths::WritableLocation(StandardPaths::CacheLocation) + u'/' + QLatin1String(kPixmapDiskCacheDir) + u'-' + Song::TextForSource(backend_->source()));
 
   QObject::connect(&*backend_, &CollectionBackend::SongsAdded, this, &CollectionModel::AddReAddOrUpdate);
   QObject::connect(&*backend_, &CollectionBackend::SongsChanged, this, &CollectionModel::AddReAddOrUpdate);

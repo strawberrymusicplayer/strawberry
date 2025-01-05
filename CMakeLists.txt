@@ -438,6 +438,7 @@ set(SOURCES
   src/core/enginemetadata.cpp
   src/core/songmimedata.cpp
   src/core/platforminterface.cpp
+  src/core/standardpaths.cpp
 
   src/utilities/strutils.cpp
   src/utilities/envutils.cpp

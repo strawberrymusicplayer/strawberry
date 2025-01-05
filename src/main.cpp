@@ -48,7 +48,6 @@
 #include <QApplication>
 #include <QCoreApplication>
 #include <QSysInfo>
-#include <QStandardPaths>
 #include <QLibraryInfo>
 #include <QFileDevice>
 #include <QIODevice>
@@ -70,6 +69,7 @@
 #include "includes/shared_ptr.h"
 
 #include "core/logging.h"
+#include "core/standardpaths.h"
 #include "core/settings.h"
 
 #include "utilities/envutils.h"
@@ -131,13 +131,8 @@ int main(int argc, char *argv[]) {
   mac::MacMain();
 #endif
 
-#if defined(Q_OS_WIN32) || defined(Q_OS_MACOS)
   QCoreApplication::setApplicationName(u"Strawberry"_s);
   QCoreApplication::setOrganizationName(u"Strawberry"_s);
-#else
-  QCoreApplication::setApplicationName(u"strawberry"_s);
-  QCoreApplication::setOrganizationName(u"strawberry"_s);
-#endif
   QCoreApplication::setApplicationVersion(QStringLiteral(STRAWBERRY_VERSION_DISPLAY));
   QCoreApplication::setOrganizationDomain(u"strawberrymusicplayer.org"_s);
 
@@ -174,7 +169,7 @@ int main(int argc, char *argv[]) {
 
 #ifdef Q_OS_MACOS
   // Must happen after QCoreApplication::setOrganizationName().
-  Utilities::SetEnv("XDG_CONFIG_HOME", QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation));
+  Utilities::SetEnv("XDG_CONFIG_HOME", StandardPaths::WritableLocation(StandardPaths::AppConfigLocation));
 #endif
 
   // Output the version, so when people attach log output to bug reports they don't have to tell us which version they're using.
