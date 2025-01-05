@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2012, David Sansome <me@davidsansome.com>
- * Copyright 2019-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,13 +35,13 @@
 #include <QFileInfo>
 #include <QAbstractNetworkCache>
 #include <QNetworkDiskCache>
-#include <QTimer>
 #include <QByteArray>
 #include <QString>
 #include <QUrl>
 #include <QSettings>
 
 #include "includes/scoped_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/logging.h"
 #include "core/settings.h"
 
@@ -51,6 +51,7 @@
 
 using namespace std::chrono_literals;
 using namespace Qt::Literals::StringLiterals;
+using std::make_shared;
 
 #ifdef Q_OS_WIN32
 #  include <windows.h>
@@ -104,16 +105,15 @@ QUrl MoodbarLoader::CacheUrlEntry(const QString &filename) {
 
 }
 
-MoodbarLoader::Result MoodbarLoader::Load(const QUrl &url, const bool has_cue, QByteArray *data, MoodbarPipeline **async_pipeline) {
+MoodbarLoader::LoadResult MoodbarLoader::Load(const QUrl &url, const bool has_cue) {
 
   if (!url.isLocalFile() || has_cue) {
-    return Result::CannotLoad;
+    return LoadStatus::CannotLoad;
   }
 
   // Are we in the middle of loading this moodbar already?
   if (requests_.contains(url)) {
-    *async_pipeline = requests_.value(url);
-    return Result::WillLoadAsync;
+    return LoadResult(LoadStatus::WillLoadAsync, requests_.value(url));
   }
 
   // Check if a mood file exists for this file already
@@ -121,16 +121,18 @@ MoodbarLoader::Result MoodbarLoader::Load(const QUrl &url, const bool has_cue, Q
 
   const QStringList possible_mood_files = MoodFilenames(filename);
   for (const QString &possible_mood_file : possible_mood_files) {
-    QFile f(possible_mood_file);
-    if (f.exists()) {
-      if (f.open(QIODevice::ReadOnly)) {
+    QFile file(possible_mood_file);
+    if (file.exists()) {
+      if (file.open(QIODevice::ReadOnly)) {
         qLog(Info) << "Loading moodbar data from" << possible_mood_file;
-        *data = f.readAll();
-        f.close();
-        return Result::Loaded;
+        const QByteArray data = file.readAll();
+        file.close();
+        if (!data.isEmpty()) {
+          return LoadResult(LoadStatus::Loaded, data);
+        }
       }
       else {
-        qLog(Error) << "Failed to load moodbar data from" << possible_mood_file << f.errorString();
+        qLog(Error) << "Failed to load moodbar data from" << possible_mood_file << file.errorString();
       }
     }
   }
@@ -142,9 +144,9 @@ MoodbarLoader::Result MoodbarLoader::Load(const QUrl &url, const bool has_cue, Q
     ScopedPtr<QIODevice> device_cache_file(cache_->data(disk_cache_metadata.url()));
     if (device_cache_file) {
       qLog(Info) << "Loading cached moodbar data for" << filename;
-      *data = device_cache_file->readAll();
-      if (!data->isEmpty()) {
-        return Result::Loaded;
+      const QByteArray data = device_cache_file->readAll();
+      if (!data.isEmpty()) {
+        return LoadResult(LoadStatus::Loaded, data);
       }
     }
   }
@@ -152,17 +154,20 @@ MoodbarLoader::Result MoodbarLoader::Load(const QUrl &url, const bool has_cue, Q
   if (!thread_->isRunning()) thread_->start(QThread::IdlePriority);
 
   // There was no existing file, analyze the audio file and create one.
-  MoodbarPipeline *pipeline = new MoodbarPipeline(url);
+  MoodbarPipelinePtr pipeline = MoodbarPipelinePtr(new MoodbarPipeline(url));
   pipeline->moveToThread(thread_);
-  QObject::connect(pipeline, &MoodbarPipeline::Finished, this, [this, pipeline, url]() { RequestFinished(pipeline, url); });
+  SharedPtr<QMetaObject::Connection> connection = make_shared<QMetaObject::Connection>();
+  *connection = QObject::connect(&*pipeline, &MoodbarPipeline::Finished, this, [this, connection, pipeline, url]() {
+    RequestFinished(pipeline, url);
+    QObject::disconnect(*connection);
+  });
 
   requests_[url] = pipeline;
   queued_requests_ << url;
 
   MaybeTakeNextRequest();
 
-  *async_pipeline = pipeline;
-  return Result::WillLoadAsync;
+  return LoadResult(LoadStatus::WillLoadAsync, pipeline);
 
 }
 
@@ -178,15 +183,17 @@ void MoodbarLoader::MaybeTakeNextRequest() {
   active_requests_ << url;
 
   qLog(Info) << "Creating moodbar data for" << url.toLocalFile();
-  QMetaObject::invokeMethod(requests_.value(url), &MoodbarPipeline::Start, Qt::QueuedConnection);
+
+  MoodbarPipelinePtr pipeline = requests_.value(url);
+  QMetaObject::invokeMethod(&*pipeline, &MoodbarPipeline::Start, Qt::QueuedConnection);
 
 }
 
-void MoodbarLoader::RequestFinished(MoodbarPipeline *request, const QUrl &url) {
+void MoodbarLoader::RequestFinished(MoodbarPipelinePtr pipeline, const QUrl &url) {
 
   Q_ASSERT(QThread::currentThread() == qApp->thread());
 
-  if (request->success()) {
+  if (pipeline->success()) {
 
     const QString filename = url.toLocalFile();
 
@@ -201,7 +208,7 @@ void MoodbarLoader::RequestFinished(MoodbarPipeline *request, const QUrl &url) {
 
     QIODevice *device_cache_file = cache_->prepare(disk_cache_metadata);
     if (device_cache_file) {
-      const qint64 data_written = device_cache_file->write(request->data());
+      const qint64 data_written = device_cache_file->write(pipeline->data());
       if (data_written > 0) {
         cache_->insert(device_cache_file);
       }
@@ -213,7 +220,7 @@ void MoodbarLoader::RequestFinished(MoodbarPipeline *request, const QUrl &url) {
       const QString mood_filename(mood_filenames[0]);
       QFile mood_file(mood_filename);
       if (mood_file.open(QIODevice::WriteOnly)) {
-        if (mood_file.write(request->data()) <= 0) {
+        if (mood_file.write(pipeline->data()) <= 0) {
           qLog(Error) << "Error writing to mood file" << mood_filename << mood_file.errorString();
         }
         mood_file.close();
@@ -232,8 +239,6 @@ void MoodbarLoader::RequestFinished(MoodbarPipeline *request, const QUrl &url) {
   // Remove the request from the active list and delete it
   requests_.remove(url);
   active_requests_.remove(url);
-
-  QTimer::singleShot(1s, request, &MoodbarLoader::deleteLater);
 
   MaybeTakeNextRequest();
 

@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2012, David Sansome <me@davidsansome.com>
- * Copyright 2019-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,9 +28,9 @@
 #include <QUrl>
 
 #include "includes/shared_ptr.h"
+#include "moodbarpipeline.h"
 
 class MoodbarLoader;
-class MoodbarPipeline;
 class Song;
 class Player;
 
@@ -51,7 +51,7 @@ class MoodbarController : public QObject {
   void PlaybackStopped();
 
  private Q_SLOTS:
-  void AsyncLoadComplete(MoodbarPipeline *pipeline, const QUrl &url);
+  void AsyncLoadComplete(MoodbarPipelinePtr pipeline, const QUrl &url);
 
  private:
   const SharedPtr<Player> player_;

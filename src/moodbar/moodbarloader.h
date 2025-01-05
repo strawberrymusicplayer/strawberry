@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2012, David Sansome <me@davidsansome.com>
- * Copyright 2019-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,10 +30,11 @@
 #include <QStringList>
 #include <QUrl>
 
+#include "moodbarpipeline.h"
+
 class QThread;
 class QByteArray;
 class QNetworkDiskCache;
-class MoodbarPipeline;
 
 class MoodbarLoader : public QObject {
   Q_OBJECT
@@ -42,7 +43,7 @@ class MoodbarLoader : public QObject {
   explicit MoodbarLoader(QObject *parent = nullptr);
   ~MoodbarLoader() override;
 
-  enum class Result {
+  enum class LoadStatus {
     // The URL isn't a local file or the moodbar plugin was not available -
     // moodbar data can never be loaded.
     CannotLoad,
@@ -55,12 +56,22 @@ class MoodbarLoader : public QObject {
     WillLoadAsync
   };
 
+  class LoadResult {
+   public:
+    LoadResult(const LoadStatus _status) : status(_status) {}
+    LoadResult(const LoadStatus _status, MoodbarPipelinePtr _pipeline) : status(_status), pipeline(_pipeline) {}
+    LoadResult(const LoadStatus _status, const QByteArray &_data) : status(_status), data(_data) {}
+    LoadStatus status;
+    MoodbarPipelinePtr pipeline;
+    QByteArray data;
+  };
+
   void ReloadSettings();
 
-  Result Load(const QUrl &url, const bool has_cue, QByteArray *data, MoodbarPipeline **async_pipeline);
+  LoadResult Load(const QUrl &url, const bool has_cue);
 
  private Q_SLOTS:
-  void RequestFinished(MoodbarPipeline *request, const QUrl &url);
+  void RequestFinished(MoodbarPipelinePtr pipeline, const QUrl &url);
   void MaybeTakeNextRequest();
 
  private:
@@ -78,7 +89,7 @@ class MoodbarLoader : public QObject {
 
   const int kMaxActiveRequests;
 
-  QMap<QUrl, MoodbarPipeline*> requests_;
+  QMap<QUrl, MoodbarPipelinePtr> requests_;
   QList<QUrl> queued_requests_;
   QSet<QUrl> active_requests_;
 

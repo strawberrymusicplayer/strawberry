@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2012, David Sansome <me@davidsansome.com>
- * Copyright 2019-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,10 +38,10 @@
 
 #include "includes/shared_ptr.h"
 #include "constants/moodbarsettings.h"
+#include "moodbarpipeline.h"
 
 class QPainter;
 class MoodbarLoader;
-class MoodbarPipeline;
 class PlaylistView;
 
 class MoodbarItemDelegate : public QItemDelegate {
@@ -55,7 +55,7 @@ class MoodbarItemDelegate : public QItemDelegate {
  private Q_SLOTS:
   void ReloadSettings();
 
-  void DataLoaded(const QUrl &url, MoodbarPipeline *pipeline);
+  void DataLoaded(const QUrl &url, MoodbarPipelinePtr pipeline);
   void ColorsLoaded(const QUrl &url, const ColorVector &colors);
   void ImageLoaded(const QUrl &url, const QImage &image);
 

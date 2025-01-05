@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2012, David Sansome <me@davidsansome.com>
- * Copyright 2019-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@
 #include <QByteArray>
 #include <QUrl>
 
+#include "includes/shared_ptr.h"
 #include "core/song.h"
 #include "core/settings.h"
 #include "core/player.h"
@@ -32,6 +33,8 @@
 #include "moodbarcontroller.h"
 #include "moodbarloader.h"
 #include "moodbarpipeline.h"
+
+using std::make_shared;
 
 MoodbarController::MoodbarController(const SharedPtr<Player> player, const SharedPtr<MoodbarLoader> moodbar_loader, QObject *parent)
     : QObject(parent),
@@ -56,25 +59,27 @@ void MoodbarController::CurrentSongChanged(const Song &song) {
 
   if (!enabled_) return;
 
-  QByteArray data;
-  MoodbarPipeline *pipeline = nullptr;
-  const MoodbarLoader::Result result = moodbar_loader_->Load(song.url(), song.has_cue(), &data, &pipeline);
-
-  switch (result) {
-    case MoodbarLoader::Result::CannotLoad:
+  const MoodbarLoader::LoadResult load_result = moodbar_loader_->Load(song.url(), song.has_cue());
+  switch (load_result.status) {
+    case MoodbarLoader::LoadStatus::CannotLoad:
       Q_EMIT CurrentMoodbarDataChanged(QByteArray());
       break;
 
-    case MoodbarLoader::Result::Loaded:
-      Q_EMIT CurrentMoodbarDataChanged(data);
+    case MoodbarLoader::LoadStatus::Loaded:
+      Q_EMIT CurrentMoodbarDataChanged(load_result.data);
       break;
 
-    case MoodbarLoader::Result::WillLoadAsync:
-      // Emit an empty array for now so the GUI reverts to a normal progress
-      // bar.  Our slot will be called when the data is actually loaded.
+    case MoodbarLoader::LoadStatus::WillLoadAsync:
+      // Emit an empty array for now so the GUI reverts to a normal progressbar.  Our slot will be called when the data is actually loaded.
       Q_EMIT CurrentMoodbarDataChanged(QByteArray());
 
-      QObject::connect(pipeline, &MoodbarPipeline::Finished, this, [this, pipeline, song]() { AsyncLoadComplete(pipeline, song.url()); });
+      MoodbarPipelinePtr pipeline = load_result.pipeline;
+      Q_ASSERT(pipeline);
+      SharedPtr<QMetaObject::Connection> connection = make_shared<QMetaObject::Connection>();
+      *connection = QObject::connect(&*pipeline, &MoodbarPipeline::Finished, this, [this, connection, pipeline, song]() {
+        AsyncLoadComplete(pipeline, song.url());
+        QObject::disconnect(*connection);
+      });
       break;
   }
 
@@ -88,7 +93,7 @@ void MoodbarController::PlaybackStopped() {
 
 }
 
-void MoodbarController::AsyncLoadComplete(MoodbarPipeline *pipeline, const QUrl &url) {
+void MoodbarController::AsyncLoadComplete(MoodbarPipelinePtr pipeline, const QUrl &url) {
 
   // Is this song still playing?
   PlaylistItemPtr current_item = player_->GetCurrentItem();

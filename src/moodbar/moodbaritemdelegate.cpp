@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2012, David Sansome <me@davidsansome.com>
- * Copyright 2019-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,6 +36,7 @@
 #include <QPainter>
 #include <QRect>
 
+#include "includes/shared_ptr.h"
 #include "core/logging.h"
 #include "core/settings.h"
 #include "playlist/playlist.h"
@@ -48,6 +49,8 @@
 #include "moodbarrenderer.h"
 
 #include "constants/moodbarsettings.h"
+
+using std::make_shared;
 
 MoodbarItemDelegate::Data::Data() : state_(State::None) {}
 
@@ -155,21 +158,24 @@ void MoodbarItemDelegate::StartLoadingData(const QUrl &url, const bool has_cue, 
   data->state_ = Data::State::LoadingData;
 
   // Load a mood file for this song and generate some colors from it
-  QByteArray bytes;
-  MoodbarPipeline *pipeline = nullptr;
-  switch (moodbar_loader_->Load(url, has_cue, &bytes, &pipeline)) {
-    case MoodbarLoader::Result::CannotLoad:
+  const MoodbarLoader::LoadResult load_result = moodbar_loader_->Load(url, has_cue);
+  switch (load_result.status) {
+    case MoodbarLoader::LoadStatus::CannotLoad:
       data->state_ = Data::State::CannotLoad;
       break;
 
-    case MoodbarLoader::Result::Loaded:
-      // We got the data immediately.
-      StartLoadingColors(url, bytes, data);
+    case MoodbarLoader::LoadStatus::Loaded:
+      StartLoadingColors(url, load_result.data, data);
       break;
 
-    case MoodbarLoader::Result::WillLoadAsync:
-      // Maybe in a little while.
-      QObject::connect(pipeline, &MoodbarPipeline::Finished, this, [this, url, pipeline]() { DataLoaded(url, pipeline); });
+    case MoodbarLoader::LoadStatus::WillLoadAsync:
+      MoodbarPipelinePtr pipeline = load_result.pipeline;
+      Q_ASSERT(pipeline);
+      SharedPtr<QMetaObject::Connection> connection = make_shared<QMetaObject::Connection>();
+      *connection = QObject::connect(&*pipeline, &MoodbarPipeline::Finished, this, [this, connection, url, pipeline]() {
+        DataLoaded(url, pipeline);
+        QObject::disconnect(*connection);
+      });
       break;
   }
 
@@ -199,7 +205,7 @@ void MoodbarItemDelegate::ReloadAllColors() {
 
 }
 
-void MoodbarItemDelegate::DataLoaded(const QUrl &url, MoodbarPipeline *pipeline) {
+void MoodbarItemDelegate::DataLoaded(const QUrl &url, MoodbarPipelinePtr pipeline) {
 
   if (!data_.contains(url)) return;
 
