@@ -36,6 +36,7 @@
 #include <QPainter>
 #include <QRect>
 
+#include "core/logging.h"
 #include "core/settings.h"
 #include "playlist/playlist.h"
 #include "playlist/playlistview.h"
@@ -113,7 +114,11 @@ QPixmap MoodbarItemDelegate::PixmapForIndex(const QModelIndex &idx, const QSize 
   }
   else {
     data = new Data;
-    if (!data_.insert(url, data)) return QPixmap();
+    if (!data_.insert(url, data)) {
+      qLog(Error) << "Could not insert moodbar data for URL" << url << "into cache";
+      delete data;
+      return QPixmap();
+    }
   }
 
   data->indexes_.insert(idx);
