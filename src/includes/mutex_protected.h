@@ -57,6 +57,16 @@ class mutex_protected : public boost::noncopyable {
     value_ = value;
   }
 
+  void operator++() {
+    QMutexLocker l(&mutex_);
+    ++value_;
+  }
+
+  void operator--() {
+    QMutexLocker l(&mutex_);
+    --value_;
+  }
+
  private:
   T value_;
   mutable QMutex mutex_;
