@@ -6634,6 +6634,10 @@ Möchten Sie wirklich fortfahren?</translation>
       <translation>Titelbilder herunterladen</translation>
     </message>
     <message>
+      <source>Use album ID for album covers</source>
+      <translation>Verwenden Sie die Album-ID für Albumcover</translation>
+    </message>
+    <message>
       <source>Server-side scrobbling</source>
       <translation>Serverseitiges Scrobbling</translation>
     </message>
