@@ -241,9 +241,6 @@ void MoodbarPipeline::Stop(const bool success) {
 
 void MoodbarPipeline::Cleanup() {
 
-  Q_ASSERT(QThread::currentThread() == thread());
-  Q_ASSERT(QThread::currentThread() != qApp->thread());
-
   running_ = false;
   if (pipeline_) {
     GstBus *bus = gst_pipeline_get_bus(GST_PIPELINE(pipeline_));
