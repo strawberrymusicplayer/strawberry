@@ -62,18 +62,18 @@ MoodbarPipeline::~MoodbarPipeline() {
 
 }
 
-GstElement *MoodbarPipeline::CreateElement(const QString &factory_name) {
+GstElement *MoodbarPipeline::CreateElement(const QByteArray &factory_name) {
 
-  GstElement *ret = gst_element_factory_make(factory_name.toLatin1().constData(), nullptr);
+  GstElement *element = gst_element_factory_make(factory_name.constData(), nullptr);
 
-  if (ret) {
-    gst_bin_add(GST_BIN(pipeline_), ret);
+  if (element) {
+    gst_bin_add(GST_BIN(pipeline_), element);
   }
   else {
     qLog(Warning) << "Unable to create gstreamer element" << factory_name;
   }
 
-  return ret;
+  return element;
 
 }
 
@@ -100,10 +100,10 @@ void MoodbarPipeline::Start() {
 
   pipeline_ = gst_pipeline_new("moodbar-pipeline");
 
-  GstElement *decodebin = CreateElement(u"uridecodebin"_s);
-  convert_element_ = CreateElement(u"audioconvert"_s);
-  GstElement *spectrum = CreateElement(u"strawberry-fastspectrum"_s);
-  GstElement *fakesink = CreateElement(u"fakesink"_s);
+  GstElement *decodebin = CreateElement("uridecodebin");
+  convert_element_ = CreateElement("audioconvert");
+  GstElement *spectrum = CreateElement("strawberry-fastspectrum");
+  GstElement *fakesink = CreateElement("fakesink");
 
   if (!decodebin || !convert_element_ || !spectrum || !fakesink) {
     gst_object_unref(GST_OBJECT(pipeline_));

@@ -54,7 +54,7 @@ class MoodbarPipeline : public QObject {
   void Finished(const bool success);
 
  private:
-  GstElement *CreateElement(const QString &factory_name);
+  GstElement *CreateElement(const QByteArray &factory_name);
 
   QByteArray ToGstUrl(const QUrl &url);
   void ReportError(GstMessage *msg);
