@@ -64,6 +64,9 @@ MoodbarLoader::MoodbarLoader(QObject *parent)
       kMaxActiveRequests(qMax(1, QThread::idealThreadCount() / 2)),
       save_(false) {
 
+  setObjectName(QLatin1String(metaObject()->className()));
+  thread_->setObjectName(objectName());
+
   cache_->setCacheDirectory(StandardPaths::WritableLocation(StandardPaths::CacheLocation) + u"/moodbar"_s);
   cache_->setMaximumCacheSize(60LL * 1024LL * 1024LL);  // 60MB - enough for 20,000 moodbars
 
