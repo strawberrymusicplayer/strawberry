@@ -64,7 +64,8 @@ SmartPlaylistWizard::SmartPlaylistWizard(const SharedPtr<Player> player,
   setWizardStyle(QWizard::ClassicStyle);
 #endif
 #ifdef Q_OS_WIN32
-  if (QApplication::style() && QApplication::style()->objectName() == u"fusion"_s) {
+  // Workaround QTBUG-123853
+  if (QApplication::style() && QApplication::style()->objectName() != u"windowsvista"_s) {
     setWizardStyle(QWizard::ClassicStyle);
   }
 #endif
