@@ -42,7 +42,7 @@ using namespace Qt::Literals::StringLiterals;
 CurrentAlbumCoverLoader::CurrentAlbumCoverLoader(const SharedPtr<AlbumCoverLoader> albumcover_loader, QObject *parent)
     : QObject(parent),
       albumcover_loader_(albumcover_loader),
-      temp_file_pattern_(StandardPaths::WritableLocation(StandardPaths::TempLocation) + u"/strawberry-cover-XXXXXX.jpg"_s),
+      temp_file_pattern_(StandardPaths::WritableLocation(StandardPaths::StandardLocation::TempLocation) + u"/strawberry-cover-XXXXXX.jpg"_s),
       id_(0) {
 
   setObjectName(QLatin1String(metaObject()->className()));

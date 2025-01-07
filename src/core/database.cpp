@@ -78,7 +78,7 @@ Database::Database(SharedPtr<TaskManager> task_manager, QObject *parent, const Q
     connection_id_ = sNextConnectionId++;
   }
 
-  directory_ = QDir::toNativeSeparators(StandardPaths::WritableLocation(StandardPaths::AppLocalDataLocation)).replace(u"Strawberry"_s, u"strawberry"_s);
+  directory_ = QDir::toNativeSeparators(StandardPaths::WritableLocation(StandardPaths::StandardLocation::AppLocalDataLocation)).replace(u"Strawberry"_s, u"strawberry"_s);
 
   QMutexLocker l(&mutex_);
   Connect();

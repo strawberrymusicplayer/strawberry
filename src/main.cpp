@@ -169,7 +169,7 @@ int main(int argc, char *argv[]) {
 
 #ifdef Q_OS_MACOS
   // Must happen after QCoreApplication::setOrganizationName().
-  Utilities::SetEnv("XDG_CONFIG_HOME", StandardPaths::WritableLocation(StandardPaths::AppConfigLocation));
+  Utilities::SetEnv("XDG_CONFIG_HOME", StandardPaths::WritableLocation(StandardPaths::StandardLocation::AppConfigLocation));
 #endif
 
   // Output the version, so when people attach log output to bug reports they don't have to tell us which version they're using.

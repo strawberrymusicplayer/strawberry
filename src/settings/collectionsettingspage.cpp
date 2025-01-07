@@ -246,7 +246,7 @@ void CollectionSettingsPage::AddDirectory() {
   Settings s;
   s.beginGroup(kSettingsGroup);
 
-  QString path = s.value(kLastPath, StandardPaths::WritableLocation(StandardPaths::MusicLocation)).toString();
+  QString path = s.value(kLastPath, StandardPaths::WritableLocation(StandardPaths::StandardLocation::MusicLocation)).toString();
   path = QDir::cleanPath(QFileDialog::getExistingDirectory(this, tr("Add directory..."), path));
 
   if (!path.isEmpty()) {

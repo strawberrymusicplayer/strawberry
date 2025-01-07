@@ -85,7 +85,7 @@ QString CoverUtils::CoverFilePath(const CoverOptions &options, const Song::Sourc
   QDir dir;
   if (!QFileInfo::exists(path) && !dir.mkpath(path)) {
     qLog(Error) << "Unable to create directory" << path;
-    path = StandardPaths::WritableLocation(StandardPaths::TempLocation);
+    path = StandardPaths::WritableLocation(StandardPaths::StandardLocation::TempLocation);
   }
 
   QString filename;

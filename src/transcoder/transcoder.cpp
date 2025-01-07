@@ -283,7 +283,7 @@ QString Transcoder::GetFile(const QString &input, const TranscoderPreset &preset
 
   if (!fileinfo_output.isFile() || fileinfo_output.filePath().isEmpty() || fileinfo_output.path().isEmpty() || fileinfo_output.fileName().isEmpty() || fileinfo_output.suffix().isEmpty()) {
     QFileInfo fileinfo_input(input);
-    QString temp_dir = StandardPaths::WritableLocation(StandardPaths::CacheLocation) + "/transcoder"_L1;
+    QString temp_dir = StandardPaths::WritableLocation(StandardPaths::StandardLocation::CacheLocation) + "/transcoder"_L1;
     if (!QDir(temp_dir).exists()) QDir().mkpath(temp_dir);
     QString filename = fileinfo_input.completeBaseName() + QLatin1Char('.') + preset.extension_;
     fileinfo_output.setFile(temp_dir + QLatin1Char('/') + filename);

@@ -211,9 +211,9 @@ bool GPodDevice::CopyToStorage(const CopyJob &job, QString &error_text) {
     bool result = false;
     if (!job.cover_image_.isNull()) {
 #ifdef Q_OS_LINUX
-      QString temp_path = StandardPaths::WritableLocation(StandardPaths::CacheLocation) + u"/organize"_s;
+      QString temp_path = StandardPaths::WritableLocation(StandardPaths::StandardLocation::CacheLocation) + u"/organize"_s;
 #else
-      QString temp_path = StandardPaths::WritableLocation(StandardPaths::TempLocation);
+      QString temp_path = StandardPaths::WritableLocation(StandardPaths::StandardLocation::TempLocation);
 #endif
       if (!QDir(temp_path).exists()) QDir().mkpath(temp_path);
       SharedPtr<TemporaryFile> cover_file = make_shared<TemporaryFile>(temp_path + u"/track-albumcover-XXXXXX.jpg"_s);

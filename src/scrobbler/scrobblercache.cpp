@@ -49,7 +49,7 @@ using std::make_shared;
 ScrobblerCache::ScrobblerCache(const QString &filename, QObject *parent)
     : QObject(parent),
       timer_flush_(new QTimer(this)),
-      filename_(StandardPaths::WritableLocation(StandardPaths::CacheLocation) + QLatin1Char('/') + filename),
+      filename_(StandardPaths::WritableLocation(StandardPaths::StandardLocation::CacheLocation) + QLatin1Char('/') + filename),
       loaded_(false) {
 
   ReadCache();

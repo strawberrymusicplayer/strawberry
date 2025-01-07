@@ -1335,24 +1335,24 @@ QString Song::ImageCacheDir(const Source source) {
 
   switch (source) {
     case Source::Collection:
-      return StandardPaths::WritableLocation(StandardPaths::AppLocalDataLocation) + u"/collectionalbumcovers"_s;
+      return StandardPaths::WritableLocation(StandardPaths::StandardLocation::AppLocalDataLocation) + u"/collectionalbumcovers"_s;
     case Source::Subsonic:
-      return StandardPaths::WritableLocation(StandardPaths::AppLocalDataLocation) + u"/subsonicalbumcovers"_s;
+      return StandardPaths::WritableLocation(StandardPaths::StandardLocation::AppLocalDataLocation) + u"/subsonicalbumcovers"_s;
     case Source::Tidal:
-      return StandardPaths::WritableLocation(StandardPaths::AppLocalDataLocation) + u"/tidalalbumcovers"_s;
+      return StandardPaths::WritableLocation(StandardPaths::StandardLocation::AppLocalDataLocation) + u"/tidalalbumcovers"_s;
     case Source::Spotify:
-      return StandardPaths::WritableLocation(StandardPaths::AppLocalDataLocation) + u"/spotifyalbumcovers"_s;
+      return StandardPaths::WritableLocation(StandardPaths::StandardLocation::AppLocalDataLocation) + u"/spotifyalbumcovers"_s;
     case Source::Qobuz:
-      return StandardPaths::WritableLocation(StandardPaths::AppLocalDataLocation) + u"/qobuzalbumcovers"_s;
+      return StandardPaths::WritableLocation(StandardPaths::StandardLocation::AppLocalDataLocation) + u"/qobuzalbumcovers"_s;
     case Source::Device:
-      return StandardPaths::WritableLocation(StandardPaths::AppLocalDataLocation) + u"/devicealbumcovers"_s;
+      return StandardPaths::WritableLocation(StandardPaths::StandardLocation::AppLocalDataLocation) + u"/devicealbumcovers"_s;
     case Source::LocalFile:
     case Source::CDDA:
     case Source::Stream:
     case Source::SomaFM:
     case Source::RadioParadise:
     case Source::Unknown:
-      return StandardPaths::WritableLocation(StandardPaths::AppLocalDataLocation) + u"/albumcovers"_s;
+      return StandardPaths::WritableLocation(StandardPaths::StandardLocation::AppLocalDataLocation) + u"/albumcovers"_s;
   }
 
   return QString();

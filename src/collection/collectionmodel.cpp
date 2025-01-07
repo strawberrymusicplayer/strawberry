@@ -114,7 +114,7 @@ CollectionModel::CollectionModel(const SharedPtr<CollectionBackend> backend, con
     pixmap_no_cover_ = nocover.pixmap(nocover_sizes.last()).scaled(kPrettyCoverSize, kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
   }
 
-  icon_disk_cache_->setCacheDirectory(StandardPaths::WritableLocation(StandardPaths::CacheLocation) + u'/' + QLatin1String(kPixmapDiskCacheDir) + u'-' + Song::TextForSource(backend_->source()));
+  icon_disk_cache_->setCacheDirectory(StandardPaths::WritableLocation(StandardPaths::StandardLocation::CacheLocation) + u'/' + QLatin1String(kPixmapDiskCacheDir) + u'-' + Song::TextForSource(backend_->source()));
 
   QObject::connect(&*backend_, &CollectionBackend::SongsAdded, this, &CollectionModel::AddReAddOrUpdate);
   QObject::connect(&*backend_, &CollectionBackend::SongsChanged, this, &CollectionModel::AddReAddOrUpdate);

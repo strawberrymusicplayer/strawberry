@@ -22,12 +22,12 @@
 
 #include <QStandardPaths>
 
-class StandardPaths : public QStandardPaths {
+class StandardPaths {
   Q_GADGET
 
  public:
+  using StandardLocation = QStandardPaths::StandardLocation;
   static QString WritableLocation(const StandardLocation type);
-  static QString writableLocation(const StandardLocation type) = delete;
 
  private:
   static void AppendOrganizationAndApplication(QString &path);
