@@ -47,8 +47,7 @@ class MoodbarPipeline : public QObject {
   bool success() const { return success_; }
   const QByteArray &data() const { return data_; }
 
- public Q_SLOTS:
-  void Start();
+  Q_INVOKABLE void Start();
 
  Q_SIGNALS:
   void Finished(const bool success);
@@ -59,6 +58,7 @@ class MoodbarPipeline : public QObject {
   QByteArray ToGstUrl(const QUrl &url);
   void ReportError(GstMessage *msg);
   void Stop(const bool success);
+  Q_INVOKABLE void Finish(const bool success);
   void Cleanup();
 
   static void NewPadCallback(GstElement *element, GstPad *pad, gpointer self);
