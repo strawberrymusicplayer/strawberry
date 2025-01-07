@@ -43,8 +43,8 @@ QString StandardPaths::WritableLocation(const StandardLocation type) {
 
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
   switch (type) {
-    case CacheLocation:
-    case GenericCacheLocation:{
+    case StandardLocation::CacheLocation:
+    case StandardLocation::GenericCacheLocation:{
       QString cache_location = qEnvironmentVariable("XDG_CACHE_HOME");
       if (!cache_location.startsWith(u'/')) {
         cache_location.clear();
@@ -57,9 +57,9 @@ QString StandardPaths::WritableLocation(const StandardLocation type) {
       }
       return cache_location;
     }
-    case AppDataLocation:
-    case AppLocalDataLocation:
-    case GenericDataLocation:{
+    case StandardLocation::AppDataLocation:
+    case StandardLocation::AppLocalDataLocation:
+    case StandardLocation::GenericDataLocation:{
       QString data_location = qEnvironmentVariable("XDG_DATA_HOME");
       if (!data_location.startsWith(u'/')) {
         data_location.clear();
@@ -67,7 +67,7 @@ QString StandardPaths::WritableLocation(const StandardLocation type) {
       if (data_location.isEmpty()) {
         data_location = QDir::homePath() + "/.local/share"_L1;
       }
-      if (type == AppDataLocation || type == AppLocalDataLocation) {
+      if (type == StandardLocation::AppDataLocation || type == StandardLocation::AppLocalDataLocation) {
         AppendOrganizationAndApplication(data_location);
       }
       return data_location;
