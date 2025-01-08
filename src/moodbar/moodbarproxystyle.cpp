@@ -201,7 +201,7 @@ void MoodbarProxyStyle::drawComplexControl(ComplexControl control, const QStyleO
 
 }
 
-void MoodbarProxyStyle::Render(ComplexControl control, const QStyleOptionSlider *option, QPainter *painter, const QWidget *widget) {
+void MoodbarProxyStyle::Render(const ComplexControl control, const QStyleOptionSlider *option, QPainter *painter, const QWidget *widget) {
 
   const qreal fade_value = fade_timeline_->currentValue();
 
