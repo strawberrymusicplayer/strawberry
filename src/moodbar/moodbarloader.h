@@ -70,13 +70,11 @@ class MoodbarLoader : public QObject {
 
   LoadResult Load(const QUrl &url, const bool has_cue);
 
- private Q_SLOTS:
-  void RequestFinished(MoodbarPipelinePtr pipeline, const QUrl &url);
-  void MaybeTakeNextRequest();
-
  private:
   static QStringList MoodFilenames(const QString &song_filename);
   static QUrl CacheUrlEntry(const QString &filename);
+  void RequestFinished(MoodbarPipelinePtr pipeline, const QUrl &url);
+  void MaybeTakeNextRequest();
 
  Q_SIGNALS:
   void MoodbarEnabled(const bool enabled);

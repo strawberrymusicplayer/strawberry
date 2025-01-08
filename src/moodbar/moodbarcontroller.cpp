@@ -62,7 +62,7 @@ void MoodbarController::CurrentSongChanged(const Song &song) {
   const MoodbarLoader::LoadResult load_result = moodbar_loader_->Load(song.url(), song.has_cue());
   switch (load_result.status) {
     case MoodbarLoader::LoadStatus::CannotLoad:
-      Q_EMIT CurrentMoodbarDataChanged(QByteArray());
+      Q_EMIT CurrentMoodbarDataChanged();
       break;
 
     case MoodbarLoader::LoadStatus::Loaded:
@@ -71,7 +71,7 @@ void MoodbarController::CurrentSongChanged(const Song &song) {
 
     case MoodbarLoader::LoadStatus::WillLoadAsync:
       // Emit an empty array for now so the GUI reverts to a normal progressbar.  Our slot will be called when the data is actually loaded.
-      Q_EMIT CurrentMoodbarDataChanged(QByteArray());
+      Q_EMIT CurrentMoodbarDataChanged();
 
       MoodbarPipelinePtr pipeline = load_result.pipeline;
       Q_ASSERT(pipeline);
@@ -88,7 +88,7 @@ void MoodbarController::CurrentSongChanged(const Song &song) {
 void MoodbarController::PlaybackStopped() {
 
   if (enabled_) {
-    Q_EMIT CurrentMoodbarDataChanged(QByteArray());
+    Q_EMIT CurrentMoodbarDataChanged();
   }
 
 }

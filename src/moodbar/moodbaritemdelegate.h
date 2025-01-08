@@ -55,12 +55,13 @@ class MoodbarItemDelegate : public QItemDelegate {
  private Q_SLOTS:
   void ReloadSettings();
 
+ Q_SIGNALS:
+  void StyleChanged();
+
+ private:
   void DataLoaded(const QUrl &url, MoodbarPipelinePtr pipeline);
   void ColorsLoaded(const QUrl &url, const ColorVector &colors);
   void ImageLoaded(const QUrl &url, const QImage &image);
-
- Q_SIGNALS:
-  void StyleChanged();
 
  private:
   struct Data {

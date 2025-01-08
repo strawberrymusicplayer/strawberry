@@ -43,14 +43,14 @@ class MoodbarController : public QObject {
   void ReloadSettings();
 
  Q_SIGNALS:
-  void CurrentMoodbarDataChanged(const QByteArray &data);
+  void CurrentMoodbarDataChanged(const QByteArray &data = QByteArray());
   void StyleChanged();
 
  public Q_SLOTS:
   void CurrentSongChanged(const Song &song);
   void PlaybackStopped();
 
- private Q_SLOTS:
+ private:
   void AsyncLoadComplete(MoodbarPipelinePtr pipeline, const QUrl &url);
 
  private:
