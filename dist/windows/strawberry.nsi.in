@@ -208,14 +208,16 @@ FunctionEnd
 !ifdef msvc
 !define vc_redist_file "vc_redist.${arch}.exe"
 Function InstallMSVCRuntime
-  ${registry::Read} "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\${arch}" "Version" $R0 $R1
-  ${If} $R0 == ""
+  SetOutPath "$TEMP"
+  File "${vc_redist_file}"
+  ; ${registry::Read} "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\${arch}" "Version" $R0 $R1
+  ; ${If} $R0 == ""
     SetDetailsView hide
-    inetc::get /caption "Downloading..." "https://aka.ms/vs/17/release/${vc_redist_file}" "$TEMP\${vc_redist_file}" /end
+    ; inetc::get /caption "Downloading..." "https://aka.ms/vs/17/release/${vc_redist_file}" "$TEMP\${vc_redist_file}" /end
     ExecWait '"$TEMP\${vc_redist_file}" /install /passive'
     Delete "$TEMP\${vc_redist_file}"
     SetDetailsView show
-  ${EndIf}
+  ; ${EndIf}
 FunctionEnd
 !endif
 
