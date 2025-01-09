@@ -5260,11 +5260,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Invalid collection directory</source>
-      <translation type="unfinished">Invalid collection directory</translation>
+      <translation>Directorio de colección no válido</translation>
     </message>
     <message>
       <source>Can&apos;t add directory %1 with special filesystem %2 to collection</source>
-      <translation type="unfinished">Can&apos;t add directory %1 with special filesystem %2 to collection</translation>
+      <translation>No se puede añadir el directorio %1 con el sistema de archivos especial %2 a la colección</translation>
     </message>
   </context>
   <context>
@@ -5806,19 +5806,19 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>With this option enabled, scrobbles will be cached to disk but not sent to the server. This option can be enabled in cases where the server or the internet connection is unstable, the scrobbles will be sent when the option is disabled.</source>
-      <translation type="unfinished">With this option enabled, scrobbles will be cached to disk but not sent to the server. This option can be enabled in cases where the server or the internet connection is unstable, the scrobbles will be sent when the option is disabled.</translation>
+      <translation>Con esta opción activada, los registros de reproducción se almacenarán en caché en el disco pero no se enviarán al servidor. Esta opción puede activarse en casos en los que el servidor o la conexión a internet son inestables, los registros de reproducción se enviarán cuando la opción esté desactivada.</translation>
     </message>
     <message>
       <source>Offline mode (Only cache scrobbles)</source>
-      <translation type="unfinished">Offline mode (Only cache scrobbles)</translation>
+      <translation>Modo sin conexión (solo registros de reproducción prealmacenados)</translation>
     </message>
     <message>
       <source>This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately.</source>
-      <translation type="unfinished">This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately.</translation>
+      <translation>Este es el retardo hasta que los registros de reproducción se envían al servidor. Ajustar el tiempo a 0 segundos enviará los registros inmediatamente.</translation>
     </message>
     <message>
       <source>Spotify</source>
-      <translation type="unfinished">Spotify</translation>
+      <translation>Spotify</translation>
     </message>
   </context>
   <context>
