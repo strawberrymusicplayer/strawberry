@@ -160,7 +160,7 @@ TEST_F(TagReaderTest, TestFLACAudioFileTagging) {
     QByteArray temp_file_data;
     {
       QFile orig_file(u":/audio/strawberry.flac"_s);
-      orig_file.open(QIODevice::ReadOnly);
+      EXPECT_TRUE(orig_file.open(QIODevice::ReadOnly));
       EXPECT_TRUE(orig_file.isOpen());
       orig_file_data = orig_file.readAll();
       orig_file.close();
@@ -168,7 +168,7 @@ TEST_F(TagReaderTest, TestFLACAudioFileTagging) {
 
     {
       QFile temp_file(r.fileName());
-      temp_file.open(QIODevice::ReadOnly);
+      EXPECT_TRUE(temp_file.open(QIODevice::ReadOnly));
       EXPECT_TRUE(temp_file.isOpen());
       temp_file_data = temp_file.readAll();
       temp_file.close();
@@ -325,7 +325,7 @@ TEST_F(TagReaderTest, TestWavPackAudioFileTagging) {
     QByteArray temp_file_data;
     {
       QFile orig_file(u":/audio/strawberry.wv"_s);
-      orig_file.open(QIODevice::ReadOnly);
+      EXPECT_TRUE(orig_file.open(QIODevice::ReadOnly));
       EXPECT_TRUE(orig_file.isOpen());
       orig_file_data = orig_file.readAll();
       orig_file.close();
@@ -333,7 +333,7 @@ TEST_F(TagReaderTest, TestWavPackAudioFileTagging) {
 
     {
       QFile temp_file(r.fileName());
-      temp_file.open(QIODevice::ReadOnly);
+      EXPECT_TRUE(temp_file.open(QIODevice::ReadOnly));
       EXPECT_TRUE(temp_file.isOpen());
       temp_file_data = temp_file.readAll();
       temp_file.close();
@@ -490,7 +490,7 @@ TEST_F(TagReaderTest, TestOggFLACAudioFileTagging) {
     QByteArray temp_file_data;
     {
       QFile orig_file(u":/audio/strawberry.oga"_s);
-      orig_file.open(QIODevice::ReadOnly);
+      EXPECT_TRUE(orig_file.open(QIODevice::ReadOnly));
       EXPECT_TRUE(orig_file.isOpen());
       orig_file_data = orig_file.readAll();
       orig_file.close();
@@ -498,7 +498,7 @@ TEST_F(TagReaderTest, TestOggFLACAudioFileTagging) {
 
     {
       QFile temp_file(r.fileName());
-      temp_file.open(QIODevice::ReadOnly);
+      EXPECT_TRUE(temp_file.open(QIODevice::ReadOnly));
       EXPECT_TRUE(temp_file.isOpen());
       temp_file_data = temp_file.readAll();
       temp_file.close();
@@ -655,7 +655,7 @@ TEST_F(TagReaderTest, TestOggVorbisAudioFileTagging) {
     QByteArray temp_file_data;
     {
       QFile orig_file(u":/audio/strawberry.ogg"_s);
-      orig_file.open(QIODevice::ReadOnly);
+      EXPECT_TRUE(orig_file.open(QIODevice::ReadOnly));
       EXPECT_TRUE(orig_file.isOpen());
       orig_file_data = orig_file.readAll();
       orig_file.close();
@@ -663,7 +663,7 @@ TEST_F(TagReaderTest, TestOggVorbisAudioFileTagging) {
 
     {
       QFile temp_file(r.fileName());
-      temp_file.open(QIODevice::ReadOnly);
+      EXPECT_TRUE(temp_file.open(QIODevice::ReadOnly));
       EXPECT_TRUE(temp_file.isOpen());
       temp_file_data = temp_file.readAll();
       temp_file.close();
@@ -819,7 +819,7 @@ TEST_F(TagReaderTest, TestOggOpusAudioFileTagging) {
     QByteArray temp_file_data;
     {
       QFile orig_file(u":/audio/strawberry.opus"_s);
-      orig_file.open(QIODevice::ReadOnly);
+      EXPECT_TRUE(orig_file.open(QIODevice::ReadOnly));
       EXPECT_TRUE(orig_file.isOpen());
       orig_file_data = orig_file.readAll();
       orig_file.close();
@@ -827,7 +827,7 @@ TEST_F(TagReaderTest, TestOggOpusAudioFileTagging) {
 
     {
       QFile temp_file(r.fileName());
-      temp_file.open(QIODevice::ReadOnly);
+      EXPECT_TRUE(temp_file.open(QIODevice::ReadOnly));
       EXPECT_TRUE(temp_file.isOpen());
       temp_file_data = temp_file.readAll();
       temp_file.close();
@@ -984,7 +984,7 @@ TEST_F(TagReaderTest, TestOggSpeexAudioFileTagging) {
     QByteArray temp_file_data;
     {
       QFile orig_file(u":/audio/strawberry.spx"_s);
-      orig_file.open(QIODevice::ReadOnly);
+      EXPECT_TRUE(orig_file.open(QIODevice::ReadOnly));
       EXPECT_TRUE(orig_file.isOpen());
       orig_file_data = orig_file.readAll();
       orig_file.close();
@@ -992,7 +992,7 @@ TEST_F(TagReaderTest, TestOggSpeexAudioFileTagging) {
 
     {
       QFile temp_file(r.fileName());
-      temp_file.open(QIODevice::ReadOnly);
+      EXPECT_TRUE(temp_file.open(QIODevice::ReadOnly));
       EXPECT_TRUE(temp_file.isOpen());
       temp_file_data = temp_file.readAll();
       temp_file.close();
@@ -1149,7 +1149,7 @@ TEST_F(TagReaderTest, TestAIFFAudioFileTagging) {
     QByteArray temp_file_data;
     {
       QFile orig_file(u":/audio/strawberry.aif"_s);
-      orig_file.open(QIODevice::ReadOnly);
+      EXPECT_TRUE(orig_file.open(QIODevice::ReadOnly));
       EXPECT_TRUE(orig_file.isOpen());
       orig_file_data = orig_file.readAll();
       orig_file.close();
@@ -1157,7 +1157,7 @@ TEST_F(TagReaderTest, TestAIFFAudioFileTagging) {
 
     {
       QFile temp_file(r.fileName());
-      temp_file.open(QIODevice::ReadOnly);
+      EXPECT_TRUE(temp_file.open(QIODevice::ReadOnly));
       EXPECT_TRUE(temp_file.isOpen());
       temp_file_data = temp_file.readAll();
       temp_file.close();
@@ -1314,7 +1314,7 @@ TEST_F(TagReaderTest, TestASFAudioFileTagging) {
     QByteArray temp_file_data;
     {
       QFile orig_file(u":/audio/strawberry.asf"_s);
-      orig_file.open(QIODevice::ReadOnly);
+      EXPECT_TRUE(orig_file.open(QIODevice::ReadOnly));
       EXPECT_TRUE(orig_file.isOpen());
       orig_file_data = orig_file.readAll();
       orig_file.close();
@@ -1322,7 +1322,7 @@ TEST_F(TagReaderTest, TestASFAudioFileTagging) {
 
     {
       QFile temp_file(r.fileName());
-      temp_file.open(QIODevice::ReadOnly);
+      EXPECT_TRUE(temp_file.open(QIODevice::ReadOnly));
       EXPECT_TRUE(temp_file.isOpen());
       temp_file_data = temp_file.readAll();
       temp_file.close();
@@ -1480,7 +1480,7 @@ TEST_F(TagReaderTest, TestMP3AudioFileTagging) {
     QByteArray temp_file_data;
     {
       QFile orig_file(u":/audio/strawberry.mp3"_s);
-      orig_file.open(QIODevice::ReadOnly);
+      EXPECT_TRUE(orig_file.open(QIODevice::ReadOnly));
       EXPECT_TRUE(orig_file.isOpen());
       orig_file_data = orig_file.readAll();
       orig_file.close();
@@ -1488,7 +1488,7 @@ TEST_F(TagReaderTest, TestMP3AudioFileTagging) {
 
     {
       QFile temp_file(r.fileName());
-      temp_file.open(QIODevice::ReadOnly);
+      EXPECT_TRUE(temp_file.open(QIODevice::ReadOnly));
       EXPECT_TRUE(temp_file.isOpen());
       temp_file_data = temp_file.readAll();
       temp_file.close();
@@ -1645,7 +1645,7 @@ TEST_F(TagReaderTest, TestM4AAudioFileTagging) {
     QByteArray temp_file_data;
     {
       QFile orig_file(u":/audio/strawberry.m4a"_s);
-      orig_file.open(QIODevice::ReadOnly);
+      EXPECT_TRUE(orig_file.open(QIODevice::ReadOnly));
       EXPECT_TRUE(orig_file.isOpen());
       orig_file_data = orig_file.readAll();
       orig_file.close();
@@ -1653,7 +1653,7 @@ TEST_F(TagReaderTest, TestM4AAudioFileTagging) {
 
     {
       QFile temp_file(r.fileName());
-      temp_file.open(QIODevice::ReadOnly);
+      EXPECT_TRUE(temp_file.open(QIODevice::ReadOnly));
       EXPECT_TRUE(temp_file.isOpen());
       temp_file_data = temp_file.readAll();
       temp_file.close();

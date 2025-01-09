@@ -47,7 +47,7 @@ class SongPlaylistItemTest : public ::testing::TestWithParam<const char*> {
 
   void SetUp() override {
     // SongPlaylistItem::Url() checks if the file exists, so we need a real file
-    temp_file_.open();
+    EXPECT_TRUE(temp_file_.open());
 
     absolute_file_name_ = QFileInfo(temp_file_.fileName()).absoluteFilePath();
 
