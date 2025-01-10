@@ -63,7 +63,6 @@ class TranscodeDialog : public QDialog {
   void UpdateStatusText();
   void UpdateProgress();
   static QString TrimPath(const QString &path);
-  static void CreatePathIfNotExists(const QString &path);
   QString GetOutputFileName(const QString &input, const QString &input_import_dir, const TranscoderPreset &preset) const;
 
  private Q_SLOTS:

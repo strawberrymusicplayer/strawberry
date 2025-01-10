@@ -216,10 +216,12 @@ void TranscodeDialog::SetWorking(bool working) {
   ui_->output_group->setEnabled(!working);
   ui_->progress_group->setVisible(true);
 
-  if (working)
+  if (working) {
     progress_timer_.start(kProgressInterval, this);
-  else
+  }
+  else {
     progress_timer_.stop();
+  }
 
 }
 
@@ -233,9 +235,7 @@ void TranscodeDialog::Start() {
   // Add jobs to the transcoder
   for (int i = 0; i < file_model->rowCount(); ++i) {
     const QString input_filepath = file_model->index(i, 0).data(Qt::UserRole).toString();
-
-    const QString input_import_dir = ui_->preserve_dir_structure->isChecked() ? file_model->index(i, 2).data(Qt::UserRole).toString() : ""_L1;
-
+    const QString input_import_dir = ui_->preserve_dir_structure->isChecked() ? file_model->index(i, 2).data(Qt::UserRole).toString() : QString();
     if (input_filepath.isEmpty()) continue;
     const QString output_filepath = GetOutputFileName(input_filepath, input_import_dir, preset);
     if (output_filepath.isEmpty()) continue;
@@ -453,31 +453,25 @@ QString TranscodeDialog::TrimPath(const QString &path) {
   return path.section(u'/', -1, -1, QString::SectionSkipEmpty);
 }
 
-void TranscodeDialog::CreatePathIfNotExists(const QString &path) {
-
-  const QDir dir(path);
-  if (!dir.exists()) {
-    dir.mkpath("."_L1);
-  }
-
-}
-
 QString TranscodeDialog::GetOutputFileName(const QString &input_filepath, const QString &input_import_dir, const TranscoderPreset &preset) const {
 
   QString destination_path = ui_->destination->itemData(ui_->destination->currentIndex()).toString();
   QString output_filepath;
   if (destination_path.isEmpty()) {
     // Keep the original path.
-    output_filepath = input_filepath.section(QLatin1Char('.'), 0, -2) + QLatin1Char('.') + preset.extension_;
+    output_filepath = input_filepath.section(u'.', 0, -2) + u'.' + preset.extension_;
   }
   else {
     QString filename = TrimPath(input_filepath);
     filename = filename.section(u'.', 0, -2);
     // If checkbox for preserving import directory structure is checked validate the path exists
     if (ui_->preserve_dir_structure->isChecked()) {
-      QString path_to_validate = destination_path + u'/' + input_import_dir + u'/';
-      output_filepath = path_to_validate + filename + u'.' + preset.extension_;
-      CreatePathIfNotExists(path_to_validate);
+      const QString path = destination_path + u'/' + input_import_dir;
+      const QDir dir(path);
+      if (!dir.exists()) {
+        dir.mkpath(u"."_s);
+      }
+      output_filepath = path + u'/' + filename + u'.' + preset.extension_;
     }
     // Otherwise no modifications to the output path
     else {
