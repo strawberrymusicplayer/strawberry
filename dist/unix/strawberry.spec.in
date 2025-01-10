@@ -105,7 +105,7 @@ Features:
 
 %build
 %if 0%{?fedora} || 0%{?rhel_version} || 0%{?centos}
-  export CXXFLAGS="-fPIC $RPM_OPT_FLAGS"
+  export CXXFLAGS="-fPIC -Wno-maybe-uninitialized $RPM_OPT_FLAGS"
 %endif
 %if "%{?_vendor}" == "openmandriva"
 %{cmake} -DBUILD_WERROR=ON
