@@ -194,11 +194,13 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   QString ContainerKey(const GroupBy group_by, const Song &song, bool &has_unique_album_identifier) const;
 
   // Get information about the collection
-  void GetChildSongs(CollectionItem *item, QList<QUrl> *urls, SongList *songs, QSet<int> *song_ids) const;
+  void GetChildSongs(CollectionItem *item, SongList &songs, QSet<int> &song_ids, QList<QUrl> &urls) const;
+  SongList GetChildSongs(const QList<CollectionItem*> items) const;
+  SongList GetChildSongs(CollectionItem *item) const;
   SongList GetChildSongs(const QModelIndex &idx) const;
   SongList GetChildSongs(const QModelIndexList &indexes) const;
 
-  bool CompareItems(const CollectionItem *a, const CollectionItem *b) const;
+  bool CompareItems(CollectionItem *a, CollectionItem *b) const;
 
   bool HasParentAlbumGroupBy(CollectionItem *item) const;
 
@@ -224,7 +226,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   void BeginReset();
   void EndReset();
 
-  QVariant data(const CollectionItem *item, const int role) const;
+  QVariant data(CollectionItem *item, const int role) const;
 
   void ScheduleUpdate(const CollectionModelUpdate::Type type, const SongList &songs);
   void ScheduleAddSongs(const SongList &songs);
@@ -250,9 +252,9 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
 
   // Helpers
   static bool IsCompilationArtistNode(const CollectionItem *node) { return node == node->parent->compilation_artist_node_; }
-  QString AlbumIconPixmapCacheKey(const QModelIndex &idx) const;
+  QString AlbumIconPixmapCacheKey(const CollectionItem *item) const;
   static QUrl AlbumIconPixmapDiskCacheKey(const QString &cache_key);
-  QVariant AlbumIcon(const QModelIndex &idx);
+  QVariant AlbumIcon(CollectionItem *item);
   void ClearItemPixmapCache(CollectionItem *item);
   static qint64 MaximumCacheSize(Settings *s, const char *size_id, const char *size_unit_id, const qint64 cache_size_default);
 
