@@ -21,18 +21,18 @@ jobs:
     steps:
       - name: Refresh repositories
         run: zypper -n --gpg-auto-import-keys ref
-      - name: Upgrade packages
+      - name: Upgrade packages (Tumbleweed)
         if: matrix.opensuse_version == 'tumbleweed'
         run: zypper -n --gpg-auto-import-keys dup
-      - name: Upgrade packages
+      - name: Upgrade packages (Leap)
         if: matrix.opensuse_version != 'tumbleweed'
         run: zypper -n --gpg-auto-import-keys up
-      - name: Install gcc
+      - name: Install gcc (Tumbleweed)
         if: matrix.opensuse_version == 'tumbleweed'
         run: zypper -n --gpg-auto-import-keys in gcc gcc-c++
-      - name: Install gcc 13
+      - name: Install gcc (Leap)
         if: matrix.opensuse_version != 'tumbleweed'
-        run: zypper -n --gpg-auto-import-keys in gcc13 gcc13-c++
+        run: zypper -n --gpg-auto-import-keys in gcc14 gcc14-c++
       - name: Install packages
         run: >
             zypper -n --gpg-auto-import-keys in
@@ -111,8 +111,8 @@ jobs:
         if: matrix.opensuse_version != 'tumbleweed'
         env:
           RPM_BUILD_NCPUS: 4
-          CC: gcc-13
-          CXX: g++-13
+          CC: gcc-14
+          CXX: g++-14
         working-directory: build
         run: rpmbuild -ba strawberry.spec
       - name: Set subdir
