@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+Version 1.2.4 (2025.01.10):
 
   Bugfixes:
      * Fixed Spotify songs not being available for scrobbling.
