@@ -123,9 +123,11 @@ Features:
 %endif
 
 %check
+export QT_QPA_PLATFORM="offscreen"
 %if 0%{?fedora} || 0%{?rhel_version} || 0%{?centos}
+%{cmake_build} -t strawberry_tests
 %else
-QT_QPA_PLATFORM="offscreen" %{make_build} -j $(nproc) -C build strawberry_tests
+%{make_build} -j $(nproc) -C build strawberry_tests
 %endif
 desktop-file-validate %{buildroot}%{_datadir}/applications/org.strawberrymusicplayer.strawberry.desktop
 %if 0%{?suse_version}
