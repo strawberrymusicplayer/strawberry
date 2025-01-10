@@ -7115,6 +7115,14 @@ Are you sure you want to continue?</source>
       <source>Add folder</source>
       <translation>Añadir carpeta</translation>
     </message>
+    <message>
+      <source>Import Directory</source>
+      <translation>Importar directorio</translation>
+    </message>
+    <message>
+      <source>Preserve directory structure in output directory (import only)</source>
+      <translation>Conservar estructura de directorios en el directorio de salida (sólo importar)</translation>
+    </message>
   </context>
   <context>
     <name>TranscodeLogDialog</name>

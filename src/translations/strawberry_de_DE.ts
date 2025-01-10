@@ -1092,7 +1092,7 @@ Falls es keine Treffer gibt, wird das größte Bild aus dem Verzeichnis ausgewä
     </message>
     <message>
       <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artist names</source>
-      <translation type="unfinished">Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artist names</translation>
+      <translation>Führende Artikel (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) beim Sortieren von Interpreten überspringen</translation>
     </message>
     <message>
       <source>Album cover pixmap cache</source>
@@ -7115,6 +7115,14 @@ Möchten Sie wirklich fortfahren?</translation>
     <message>
       <source>Add folder</source>
       <translation>Ordner hinzufügen</translation>
+    </message>
+    <message>
+      <source>Import Directory</source>
+      <translation type="unfinished">Import Directory</translation>
+    </message>
+    <message>
+      <source>Preserve directory structure in output directory (import only)</source>
+      <translation type="unfinished">Preserve directory structure in output directory (import only)</translation>
     </message>
   </context>
   <context>

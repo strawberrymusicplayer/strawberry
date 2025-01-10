@@ -178,7 +178,7 @@
     </message>
     <message>
       <source>Export embedded covers</source>
-      <translation>Ekspordi põimitud kaanepildid</translation>
+      <translation>Ekspordi lõimitud kaanepildid</translation>
     </message>
     <message>
       <source>Existing covers</source>
@@ -1666,7 +1666,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Save album covers as embedded cover</source>
-      <translation>Salvesta kaanepildid põimitud kaanepildina</translation>
+      <translation>Salvesta kaanepildid lõimitud kaanepildina</translation>
     </message>
     <message>
       <source>Filename:</source>
@@ -1734,7 +1734,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Embedded album cover art (%1)</source>
-      <translation>Põimitud albumi kaanepilt (%1)</translation>
+      <translation>Albumi lõimitud kaanepilt (%1)</translation>
     </message>
   </context>
   <context>
@@ -2023,7 +2023,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Art Embedded</source>
-      <translation>Põimitud kaanepilt</translation>
+      <translation>Lõimitud kaanepilt</translation>
     </message>
     <message>
       <source>Last played</source>
@@ -2104,7 +2104,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Embedded cover</source>
-      <translation>Põimitud kaanepilt</translation>
+      <translation>Lõimitud kaanepilt</translation>
     </message>
     <message>
       <source>Disc</source>
@@ -2228,7 +2228,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Cover from embedded image.</source>
-      <translation>Kaanepilt põimitud pildilt.</translation>
+      <translation>Kaanepilt lõimitud pildist.</translation>
     </message>
     <message>
       <source>Cover from %1</source>
@@ -7115,6 +7115,14 @@ Kas soovid jätkata?</translation>
     <message>
       <source>Add folder</source>
       <translation>Lisa kaust</translation>
+    </message>
+    <message>
+      <source>Import Directory</source>
+      <translation>Impordikaust</translation>
+    </message>
+    <message>
+      <source>Preserve directory structure in output directory (import only)</source>
+      <translation>Säilita väljundkausta puhul kaustastruktuur (vaid importimisel)</translation>
     </message>
   </context>
   <context>
