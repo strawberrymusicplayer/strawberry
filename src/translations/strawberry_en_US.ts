@@ -7112,14 +7112,6 @@ Are you sure you want to continue?</source>
         <source>Add folder</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Import Directory</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Preserve directory structure in output directory (import only)</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>TranscodeLogDialog</name>
