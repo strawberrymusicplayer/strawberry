@@ -103,14 +103,17 @@ jobs:
         run: cp strawberry-*.tar.xz /usr/src/packages/SOURCES/
       - name: Build RPM (Tumbleweed)
         if: matrix.opensuse_version == 'tumbleweed'
+        env:
+          RPM_BUILD_NCPUS: 4
         working-directory: build
         run: rpmbuild -ba strawberry.spec
       - name: Build RPM (Leap)
         if: matrix.opensuse_version != 'tumbleweed'
-        working-directory: build
         env:
+          RPM_BUILD_NCPUS: 4
           CC: gcc-13
           CXX: g++-13
+        working-directory: build
         run: rpmbuild -ba strawberry.spec
       - name: Set subdir
         id: set-subdir
@@ -211,7 +214,7 @@ jobs:
         run: cp strawberry-*.tar.xz ~/rpmbuild/SOURCES/
       - name: Build RPM
         env:
-          RPM_BUILD_NCPUS: "2"
+          RPM_BUILD_NCPUS: 4
         working-directory: build
         run: rpmbuild -ba strawberry.spec
       - name: Upload artifacts
@@ -304,7 +307,7 @@ jobs:
         run: cp strawberry-*.tar.xz ~/rpmbuild/SOURCES/
       - name: Build RPM
         env:
-          RPM_BUILD_NCPUS: "2"
+          RPM_BUILD_NCPUS: 4
         working-directory: build
         run: rpmbuild -ba strawberry.spec
       - name: Upload artifacts
@@ -401,7 +404,7 @@ jobs:
         run: cp strawberry-*.tar.xz ~/rpmbuild/SOURCES/
       - name: Build RPM
         env:
-          RPM_BUILD_NCPUS: "2"
+          RPM_BUILD_NCPUS: 4
         working-directory: build
         run: rpmbuild -ba strawberry.spec
       - name: Upload artifacts
