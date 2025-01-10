@@ -2,6 +2,24 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+  Bugfixes:
+     * Fixed Spotify songs not being available for scrobbling.
+     * Fixed loading "A" and "The" articles being skipped for album sort text.
+     * Fixed thread safety issue when validating playlist songs on startup.
+     * Fixed filter search not ignoring space after colon when using column based search.
+     * Fixed KGlobalAccel to use capitalized application name.
+     * Fixed slash not properly handled when saving a playlist (#1624).
+     * (Unix) Fixed collection scanner to ignore special filesystem paths (/sys, /proc, /run, etc) (#1615).
+     * (Windows) Fixed smart playlist wizard not respecting dark mode with Windows 11 style (#1639).
+
+  Enhancements:
+     * Use XSPF "title" as playlist name when loading and saving playlists (#1624).
+     * Added support for using album ID when receving album covers for Subsonic songs (#1636).
+     * Added option for preserving directory structure when trascoding songs (#1637).
+     * (Windows) Always run MSVC runtime installer to possible fix issues when there is an older runtime installed.
+
 Version 1.2.3 (2024.12.08):
 
   Bugfixes:
