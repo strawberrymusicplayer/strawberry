@@ -77,6 +77,8 @@ jobs:
             qt6-base-common-devel
             qt6-sql-sqlite
             qt6-linguist-devel
+            gtest
+            gmock
       - name: Install kdsingleapplication-qt6-devel
         if: matrix.opensuse_version == 'tumbleweed'
         run: zypper -n --gpg-auto-import-keys in kdsingleapplication-qt6-devel
@@ -185,6 +187,8 @@ jobs:
             libappstream-glib
             hicolor-icon-theme
             kdsingleapplication-qt6-devel
+            gtest-devel
+            gmock-devel
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -374,6 +378,7 @@ jobs:
           desktop-file-utils
           appstream-util
           hicolor-icon-theme
+          gtest
       - name: Checkout
         uses: actions/checkout@v4
         with:
