@@ -1452,7 +1452,7 @@ endif()
 add_subdirectory(src)
 add_subdirectory(dist)
 
-if(TARGET GTest::GTest AND Qt${QT_VERSION_MAJOR}Test_FOUND)
+if(TARGET GTest::gtest AND TARGET GTest::gmock AND Qt${QT_VERSION_MAJOR}Test_FOUND)
   add_subdirectory(tests)
 endif()
 

@@ -23,7 +23,7 @@ target_include_directories(test_utils PRIVATE
   ${CMAKE_SOURCE_DIR}/src
 )
 target_link_libraries(test_utils PRIVATE
-  GTest::GTest
+  GTest::gtest
   GTest::gmock
   Qt${QT_VERSION_MAJOR}::Core
   Qt${QT_VERSION_MAJOR}::Widgets
