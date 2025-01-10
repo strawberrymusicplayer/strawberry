@@ -25,7 +25,7 @@
     </message>
     <message>
       <source>Strawberry is free software released under GPL. The source code is available on %1</source>
-      <translation>Strawberry, GPL altında yayınlanan özgür bir yazılımdır. Kaynak kodu %1&apos;de mevcuttur</translation>
+      <translation>Strawberry, GPL altında yayınlanan özgür bir yazılımdır. Kaynak kodu %1'da mevcuttur</translation>
     </message>
     <message>
       <source>You should have received a copy of the GNU General Public License along with this program.  If not, see %1</source>
@@ -339,7 +339,7 @@
     </message>
     <message>
       <source>Turbine</source>
-      <translation type="unfinished">Turbine</translation>
+      <translation>Türbin</translation>
     </message>
     <message>
       <source>Sonogram</source>
@@ -593,7 +593,7 @@
     </message>
     <message>
       <source> ms</source>
-      <translation type="unfinished"> ms</translation>
+      <translation> ms</translation>
     </message>
     <message>
       <source>Buffer duration</source>
@@ -641,7 +641,7 @@
     </message>
     <message>
       <source>Pre-amp</source>
-      <translation type="unfinished">Pre-amp</translation>
+      <translation>Ön-amfi</translation>
     </message>
     <message>
       <source>Apply compression to prevent clipping</source>
@@ -673,11 +673,11 @@
     </message>
     <message>
       <source>Cross-fade when changing tracks manually</source>
-      <translation type="unfinished">Cross-fade when changing tracks manually</translation>
+      <translation>Parçaları elle değiştirirken çapraz geç</translation>
     </message>
     <message>
       <source>Cross-fade when changing tracks automatically</source>
-      <translation type="unfinished">Cross-fade when changing tracks automatically</translation>
+      <translation>Parçaları otomatik değiştirirken çapraz geç</translation>
     </message>
     <message>
       <source>Except between tracks on the same album or in the same CUE sheet</source>
@@ -764,7 +764,7 @@
     </message>
     <message>
       <source>Never start playing</source>
-      <translation>Asla oynarken başlama</translation>
+      <translation>Asla oynatarak başlama</translation>
     </message>
     <message>
       <source>Play if there is nothing already playing</source>
@@ -992,7 +992,7 @@
     <name>CollectionLibrary</name>
     <message>
       <source>Saving playcounts and ratings</source>
-      <translation type="unfinished">Saving playcounts and ratings</translation>
+      <translation>Oynatma sayısı ve derecelendirmeler kaydediliyor</translation>
     </message>
   </context>
   <context>
@@ -1120,7 +1120,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Song playcounts and ratings</source>
-      <translation type="unfinished">Song playcounts and ratings</translation>
+      <translation>Çalma sayısı ve derecelendirmeler</translation>
     </message>
     <message>
       <source>Save playcounts to song tags when possible</source>
@@ -1307,7 +1307,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Technical Data</source>
-      <translation type="unfinished">Technical Data</translation>
+      <translation>Teknik Veri</translation>
     </message>
     <message>
       <source>Song Lyrics</source>
@@ -1335,7 +1335,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source> pt</source>
-      <translation type="unfinished"> pt</translation>
+      <translation> pt</translation>
     </message>
     <message>
       <source>Preview</source>
@@ -1734,7 +1734,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Embedded album cover art (%1)</source>
-      <translation type="unfinished">Embedded album cover art (%1)</translation>
+      <translation>Gömülü albüm kapagı (%1)</translation>
     </message>
   </context>
   <context>
@@ -1793,19 +1793,19 @@ If there are no matches then it will use the largest image in the directory.</tr
     <name>DeviceItemDelegate</name>
     <message>
       <source>Updating %1%...</source>
-      <translation type="unfinished">Updating %1%...</translation>
+      <translation>Güncelleniyor %1%</translation>
     </message>
     <message>
       <source>Not connected</source>
-      <translation type="unfinished">Not connected</translation>
+      <translation>Bağlı değil</translation>
     </message>
     <message>
       <source>Not mounted - double click to mount</source>
-      <translation type="unfinished">Not mounted - double click to mount</translation>
+      <translation>Bağlanmamış - bağlamak için çift tıklayın</translation>
     </message>
     <message>
       <source>Double click to open</source>
-      <translation type="unfinished">Double click to open</translation>
+      <translation>Açmak için çift tıklayın</translation>
     </message>
     <message>
       <source>%1 song%2</source>
@@ -1816,7 +1816,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     <name>DeviceManager</name>
     <message>
       <source>Connect device</source>
-      <translation type="unfinished">Connect device</translation>
+      <translation>Cihazı bağla</translation>
     </message>
     <message>
       <source>This is the first time you have connected this device.  Strawberry will now scan the device to find music files - this may take some time.</source>
@@ -1847,11 +1847,11 @@ If there are no matches then it will use the largest image in the directory.</tr
     <name>DeviceProperties</name>
     <message>
       <source>Device Properties</source>
-      <translation type="unfinished">Device Properties</translation>
+      <translation>Cihaz Seçenekleri</translation>
     </message>
     <message>
       <source>Information</source>
-      <translation type="unfinished">Information</translation>
+      <translation>Bilgi</translation>
     </message>
     <message>
       <source>Name</source>
@@ -1859,11 +1859,11 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Icon</source>
-      <translation type="unfinished">Icon</translation>
+      <translation>Simge</translation>
     </message>
     <message>
       <source>Hardware information</source>
-      <translation type="unfinished">Hardware information</translation>
+      <translation>Aygıt bilgisi</translation>
     </message>
     <message>
       <source>Hardware information is only available while the device is connected.</source>
@@ -1871,11 +1871,11 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>File formats</source>
-      <translation type="unfinished">File formats</translation>
+      <translation>Dosya biçimleri</translation>
     </message>
     <message>
       <source>Supported formats</source>
-      <translation type="unfinished">Supported formats</translation>
+      <translation>Desteklenen dosya biçimleri</translation>
     </message>
     <message>
       <source>This device supports the following file formats:</source>
@@ -1887,7 +1887,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Do not convert any music</source>
-      <translation type="unfinished">Do not convert any music</translation>
+      <translation>Müzik çevirme</translation>
     </message>
     <message>
       <source>Convert any music that the device can&apos;t play</source>
@@ -1899,7 +1899,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Preferred format</source>
-      <translation type="unfinished">Preferred format</translation>
+      <translation>Tercih edilen dosya biçimi</translation>
     </message>
     <message>
       <source>This device must be connected and opened before Strawberry can see what file formats it supports.</source>
@@ -1907,34 +1907,34 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Open device</source>
-      <translation type="unfinished">Open device</translation>
+      <translation>Cihazı aç</translation>
     </message>
     <message>
       <source>Querying device...</source>
-      <translation type="unfinished">Querying device...</translation>
+      <translation>Cihaz sorgulanıyor...</translation>
     </message>
     <message>
       <source>Model</source>
-      <translation type="unfinished">Model</translation>
+      <translation>Model</translation>
     </message>
     <message>
       <source>Manufacturer</source>
-      <translation type="unfinished">Manufacturer</translation>
+      <translation>Üretici</translation>
     </message>
   </context>
   <context>
     <name>DeviceView</name>
     <message>
       <source>Safely remove device</source>
-      <translation type="unfinished">Safely remove device</translation>
+      <translation>Cihazı güvenle kaldır</translation>
     </message>
     <message>
       <source>Forget device</source>
-      <translation type="unfinished">Forget device</translation>
+      <translation>Cihazı unut</translation>
     </message>
     <message>
       <source>Device properties...</source>
-      <translation type="unfinished">Device properties...</translation>
+      <translation>Cihaz seçenekleri...</translation>
     </message>
     <message>
       <source>Append to current playlist</source>
@@ -1942,7 +1942,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Replace current playlist</source>
-      <translation type="unfinished">Replace current playlist</translation>
+      <translation>Geçerli çalma listesinin yerine koy</translation>
     </message>
     <message>
       <source>Open in new playlist</source>
@@ -1954,7 +1954,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Delete from device...</source>
-      <translation type="unfinished">Delete from device...</translation>
+      <translation>Diskten sil...</translation>
     </message>
     <message>
       <source>Forgetting a device will remove it from this list and Strawberry will have to rescan all the songs again next time you connect it.</source>
@@ -1962,7 +1962,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Delete files</source>
-      <translation type="unfinished">Delete files</translation>
+      <translation>Dosyaları sil</translation>
     </message>
     <message>
       <source>These files will be deleted from the device, are you sure you want to continue?</source>
@@ -1973,18 +1973,18 @@ If there are no matches then it will use the largest image in the directory.</tr
     <name>DeviceViewContainer</name>
     <message>
       <source>Form</source>
-      <translation type="unfinished">Form</translation>
+      <translation>Biçim</translation>
     </message>
   </context>
   <context>
     <name>DynamicPlaylistControls</name>
     <message>
       <source>Dynamic mode is on</source>
-      <translation type="unfinished">Dynamic mode is on</translation>
+      <translation>Dinamik mod açık</translation>
     </message>
     <message>
       <source>New tracks will be added automatically.</source>
-      <translation type="unfinished">New tracks will be added automatically.</translation>
+      <translation>Yeni parçalar otomatik olarak eklenecek.</translation>
     </message>
     <message>
       <source>Expand</source>
@@ -2007,23 +2007,23 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Summary</source>
-      <translation type="unfinished">Summary</translation>
+      <translation>Özet</translation>
     </message>
     <message>
       <source>Date created</source>
-      <translation type="unfinished">Date created</translation>
+      <translation>Oluşturma tarihi</translation>
     </message>
     <message>
       <source>Art Automatic</source>
-      <translation type="unfinished">Art Automatic</translation>
+      <translation>Kapak Otomatik</translation>
     </message>
     <message>
       <source>Date modified</source>
-      <translation type="unfinished">Date modified</translation>
+      <translation>Değiştirilme tarihi</translation>
     </message>
     <message>
       <source>Art Embedded</source>
-      <translation type="unfinished">Art Embedded</translation>
+      <translation>Kapak Gömülü</translation>
     </message>
     <message>
       <source>Last played</source>
@@ -2040,7 +2040,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Play count</source>
-      <translation type="unfinished">Play count</translation>
+      <translation>Çalma sayısı</translation>
     </message>
     <message>
       <source>Bit depth</source>
@@ -2052,11 +2052,11 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Bit rate</source>
-      <translation type="unfinished">Bit rate</translation>
+      <translation>Bit hızı</translation>
     </message>
     <message>
       <source>Skip count</source>
-      <translation type="unfinished">Skip count</translation>
+      <translation>Atlama sayısı</translation>
     </message>
     <message>
       <source>Sample rate</source>
@@ -2064,23 +2064,23 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Path</source>
-      <translation type="unfinished">Path</translation>
+      <translation>Yol</translation>
     </message>
     <message>
       <source>Filename</source>
-      <translation type="unfinished">Filename</translation>
+      <translation>Dosya adı</translation>
     </message>
     <message>
       <source>Art Unset</source>
-      <translation type="unfinished">Art Unset</translation>
+      <translation>Kapak ayarlanmadı</translation>
     </message>
     <message>
       <source>File size</source>
-      <translation type="unfinished">File size</translation>
+      <translation>Dosya boyutu</translation>
     </message>
     <message>
       <source>Art Manual</source>
-      <translation type="unfinished">Art Manual</translation>
+      <translation>Kapak Elle</translation>
     </message>
     <message>
       <source>EBU R 128 loudness range</source>
@@ -2088,11 +2088,11 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Reset play counts</source>
-      <translation type="unfinished">Reset play counts</translation>
+      <translation>Çalma sayısını sıfırla</translation>
     </message>
     <message>
       <source>Tags</source>
-      <translation type="unfinished">Tags</translation>
+      <translation>Etiketler</translation>
     </message>
     <message>
       <source>MenuPopupToolButton</source>
@@ -2100,11 +2100,11 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Change art</source>
-      <translation type="unfinished">Change art</translation>
+      <translation>Kapağı değiştir</translation>
     </message>
     <message>
       <source>Embedded cover</source>
-      <translation type="unfinished">Embedded cover</translation>
+      <translation>Gömülü kapak</translation>
     </message>
     <message>
       <source>Disc</source>
@@ -2140,7 +2140,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Complete tags automatically</source>
-      <translation type="unfinished">Complete tags automatically</translation>
+      <translation>Etiketleri otomatik olarak tamamla</translation>
     </message>
     <message>
       <source>Genre</source>
@@ -2156,7 +2156,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Compilation</source>
-      <translation type="unfinished">Compilation</translation>
+      <translation>Derleme</translation>
     </message>
     <message>
       <source>Track</source>
@@ -2184,15 +2184,15 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Previous</source>
-      <translation type="unfinished">Previous</translation>
+      <translation>Önceki</translation>
     </message>
     <message>
       <source>Next</source>
-      <translation type="unfinished">Next</translation>
+      <translation>Sonraki</translation>
     </message>
     <message>
       <source>Saving tracks</source>
-      <translation type="unfinished">Saving tracks</translation>
+      <translation>Parçalar kaydediliyor</translation>
     </message>
     <message>
       <source>Loading tracks</source>
@@ -2200,11 +2200,11 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>%1 songs selected.</source>
-      <translation type="unfinished">%1 songs selected.</translation>
+      <translation>%1 şarkı seçildi.</translation>
     </message>
     <message>
       <source>kbps</source>
-      <translation type="unfinished">kbps</translation>
+      <translation>kbps</translation>
     </message>
     <message>
       <source>Unknown</source>
@@ -2212,11 +2212,11 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Yes</source>
-      <translation type="unfinished">Yes</translation>
+      <translation>Evet</translation>
     </message>
     <message>
       <source>No</source>
-      <translation type="unfinished">No</translation>
+      <translation>Hayır</translation>
     </message>
     <message>
       <source>None</source>
@@ -2224,23 +2224,23 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Cover is unset.</source>
-      <translation type="unfinished">Cover is unset.</translation>
+      <translation>Kapak ayarlanmadı.</translation>
     </message>
     <message>
       <source>Cover from embedded image.</source>
-      <translation type="unfinished">Cover from embedded image.</translation>
+      <translation>Gömülü resimden albüm kapağı.</translation>
     </message>
     <message>
       <source>Cover from %1</source>
-      <translation type="unfinished">Cover from %1</translation>
+      <translation>%1'dan kapak</translation>
     </message>
     <message>
       <source>Cover art not set</source>
-      <translation type="unfinished">Cover art not set</translation>
+      <translation>Kapak resmi seçilmedi</translation>
     </message>
     <message>
       <source>Album cover editing is only available for collection songs.</source>
-      <translation type="unfinished">Album cover editing is only available for collection songs.</translation>
+      <translation>Albüm kapağı düzenleme sadece koleksiyondaki şarkılar için geçerlidir.</translation>
     </message>
     <message>
       <source>Cover changed: Will be cleared when saved.</source>
@@ -2264,19 +2264,19 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Reset song play statistics</source>
-      <translation type="unfinished">Reset song play statistics</translation>
+      <translation>Şarkı çalma istatistiklerini sıfırla</translation>
     </message>
     <message>
       <source>Are you sure you want to reset this song&apos;s play statistics?</source>
-      <translation type="unfinished">Are you sure you want to reset this song&apos;s play statistics?</translation>
+      <translation>Bu şarkının çalma istatistiklerini silmek istediğinize emin misiniz?</translation>
     </message>
     <message>
       <source>loading...</source>
-      <translation type="unfinished">loading...</translation>
+      <translation>yükleniyor...</translation>
     </message>
     <message>
       <source>Not found.</source>
-      <translation type="unfinished">Not found.</translation>
+      <translation>Bulunamadı.</translation>
     </message>
     <message>
       <source>Could not write metadata to %1</source>
@@ -2291,11 +2291,11 @@ If there are no matches then it will use the largest image in the directory.</tr
     <name>Equalizer</name>
     <message>
       <source>Equalizer</source>
-      <translation type="unfinished">Equalizer</translation>
+      <translation>Ekolayzır</translation>
     </message>
     <message>
       <source>Preset:</source>
-      <translation type="unfinished">Preset:</translation>
+      <translation>Ön ayar:</translation>
     </message>
     <message>
       <source>Save preset</source>
@@ -2307,27 +2307,27 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Enable equalizer</source>
-      <translation type="unfinished">Enable equalizer</translation>
+      <translation>Ekolayzırı etkinleştir</translation>
     </message>
     <message>
       <source>Enable stereo balancer</source>
-      <translation type="unfinished">Enable stereo balancer</translation>
+      <translation>Stereo dengeleyiciyi etkinleştir</translation>
     </message>
     <message>
       <source>Left</source>
-      <translation type="unfinished">Left</translation>
+      <translation>Sol</translation>
     </message>
     <message>
       <source>Balance</source>
-      <translation type="unfinished">Balance</translation>
+      <translation>Denge</translation>
     </message>
     <message>
       <source>Right</source>
-      <translation type="unfinished">Right</translation>
+      <translation>Sağ</translation>
     </message>
     <message>
       <source>Pre-amp</source>
-      <translation type="unfinished">Pre-amp</translation>
+      <translation>Ön-amfi</translation>
     </message>
     <message>
       <source>Custom</source>
@@ -2347,15 +2347,15 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Full Bass</source>
-      <translation type="unfinished">Full Bass</translation>
+      <translation>Full Bass</translation>
     </message>
     <message>
       <source>Full Treble</source>
-      <translation type="unfinished">Full Treble</translation>
+      <translation>Full Treble</translation>
     </message>
     <message>
       <source>Full Bass + Treble</source>
-      <translation type="unfinished">Full Bass + Treble</translation>
+      <translation>Full Bass + Treble</translation>
     </message>
     <message>
       <source>Laptop/Headphones</source>
@@ -2375,27 +2375,27 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Pop</source>
-      <translation type="unfinished">Pop</translation>
+      <translation>Pop</translation>
     </message>
     <message>
       <source>Reggae</source>
-      <translation type="unfinished">Reggae</translation>
+      <translation>Reggae</translation>
     </message>
     <message>
       <source>Rock</source>
-      <translation type="unfinished">Rock</translation>
+      <translation>Rock</translation>
     </message>
     <message>
       <source>Soft</source>
-      <translation type="unfinished">Soft</translation>
+      <translation>Yumuşak</translation>
     </message>
     <message>
       <source>Ska</source>
-      <translation type="unfinished">Ska</translation>
+      <translation>Ska</translation>
     </message>
     <message>
       <source>Soft Rock</source>
-      <translation type="unfinished">Soft Rock</translation>
+      <translation>Soft Rock</translation>
     </message>
     <message>
       <source>Techno</source>
@@ -2418,45 +2418,45 @@ If there are no matches then it will use the largest image in the directory.</tr
     <name>EqualizerSlider</name>
     <message>
       <source>Equalizer</source>
-      <translation type="unfinished">Equalizer</translation>
+      <translation>Ekolayzır</translation>
     </message>
     <message>
       <source>%1 dB</source>
-      <translation type="unfinished">%1 dB</translation>
+      <translation>%1 dB</translation>
     </message>
   </context>
   <context>
     <name>ErrorDialog</name>
     <message>
       <source>Strawberry Error</source>
-      <translation type="unfinished">Strawberry Error</translation>
+      <translation>Strawberry Hatası</translation>
     </message>
   </context>
   <context>
     <name>FancyTabWidget</name>
     <message>
       <source>Large sidebar</source>
-      <translation type="unfinished">Large sidebar</translation>
+      <translation>Büyük kenar çubuğu</translation>
     </message>
     <message>
       <source>Icons sidebar</source>
-      <translation type="unfinished">Icons sidebar</translation>
+      <translation>Simge kenar çubuğu</translation>
     </message>
     <message>
       <source>Small sidebar</source>
-      <translation type="unfinished">Small sidebar</translation>
+      <translation>Küçük kenar çubuğu</translation>
     </message>
     <message>
       <source>Plain sidebar</source>
-      <translation type="unfinished">Plain sidebar</translation>
+      <translation>Düz kenar çubuğu</translation>
     </message>
     <message>
       <source>Tabs on top</source>
-      <translation type="unfinished">Tabs on top</translation>
+      <translation>Sekmeler üstte</translation>
     </message>
     <message>
       <source>Icons on top</source>
-      <translation type="unfinished">Icons on top</translation>
+      <translation>Simgeler üstte</translation>
     </message>
   </context>
   <context>
@@ -2470,7 +2470,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     <name>FileView</name>
     <message>
       <source>Form</source>
-      <translation type="unfinished">Form</translation>
+      <translation>Biçim</translation>
     </message>
   </context>
   <context>
@@ -2516,11 +2516,11 @@ If there are no matches then it will use the largest image in the directory.</tr
     <name>FreeSpaceBar</name>
     <message>
       <source>Available</source>
-      <translation type="unfinished">Available</translation>
+      <translation>Mevcut</translation>
     </message>
     <message>
       <source>New songs</source>
-      <translation type="unfinished">New songs</translation>
+      <translation>Yeni şarkılar</translation>
     </message>
     <message>
       <source>Exceeded by</source>
@@ -2528,7 +2528,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Used</source>
-      <translation type="unfinished">Used</translation>
+      <translation>Kullanılan</translation>
     </message>
   </context>
   <context>
@@ -2539,22 +2539,22 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Writing database failed: %1</source>
-      <translation type="unfinished">Writing database failed: %1</translation>
+      <translation>Veri tabanı yazma başarısız: %1</translation>
     </message>
     <message>
       <source>Writing database failed.</source>
-      <translation type="unfinished">Writing database failed.</translation>
+      <translation>Veri tabanı yazma başarısız.</translation>
     </message>
   </context>
   <context>
     <name>GPodLoader</name>
     <message>
       <source>Loading iPod database</source>
-      <translation type="unfinished">Loading iPod database</translation>
+      <translation>iPod veri tabanı yükleniyor</translation>
     </message>
     <message>
       <source>An error occurred loading the iTunes database</source>
-      <translation type="unfinished">An error occurred loading the iTunes database</translation>
+      <translation>iTunes veri tabanı yüklenirken bir hatayla karşılaşıldı</translation>
     </message>
   </context>
   <context>
@@ -2573,7 +2573,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Received invalid reply from web browser.</source>
-      <translation type="unfinished">Received invalid reply from web browser.</translation>
+      <translation>Tarayıcıdan geçersiz yanıt alındı.</translation>
     </message>
     <message>
       <source>Redirect from Genius is missing query items code or state.</source>
@@ -2584,26 +2584,26 @@ If there are no matches then it will use the largest image in the directory.</tr
     <name>GioLister</name>
     <message>
       <source>Mount point</source>
-      <translation type="unfinished">Mount point</translation>
+      <translation>Bağlama noktası</translation>
     </message>
     <message>
       <source>Device</source>
-      <translation type="unfinished">Device</translation>
+      <translation>Cihaz</translation>
     </message>
     <message>
       <source>URI</source>
-      <translation type="unfinished">URI</translation>
+      <translation>URI</translation>
     </message>
   </context>
   <context>
     <name>GlobalShortcutGrabber</name>
     <message>
       <source>Press a key</source>
-      <translation type="unfinished">Press a key</translation>
+      <translation>Bir tuşa basın</translation>
     </message>
     <message>
       <source>Press a key combination to use for %1...</source>
-      <translation type="unfinished">Press a key combination to use for %1...</translation>
+      <translation>%1 için kullanmak adına bir tuş kombinasyonuna basın...</translation>
     </message>
   </context>
   <context>
@@ -2618,43 +2618,43 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Play/Pause</source>
-      <translation type="unfinished">Play/Pause</translation>
+      <translation>Oynat/Duraklat</translation>
     </message>
     <message>
       <source>Stop</source>
-      <translation type="unfinished">Stop</translation>
+      <translation>Duraklat</translation>
     </message>
     <message>
       <source>Stop playing after current track</source>
-      <translation type="unfinished">Stop playing after current track</translation>
+      <translation>Geçerli parçadan sonra çalmayı durdur</translation>
     </message>
     <message>
       <source>Next track</source>
-      <translation type="unfinished">Next track</translation>
+      <translation>Sonraki parça</translation>
     </message>
     <message>
       <source>Previous track</source>
-      <translation type="unfinished">Previous track</translation>
+      <translation>Önceki parça</translation>
     </message>
     <message>
       <source>Restart or previous track</source>
-      <translation type="unfinished">Restart or previous track</translation>
+      <translation>Parçayı yeniden başlat veya önceki parçaya geç</translation>
     </message>
     <message>
       <source>Increase volume</source>
-      <translation type="unfinished">Increase volume</translation>
+      <translation>Sesi yükselt</translation>
     </message>
     <message>
       <source>Decrease volume</source>
-      <translation type="unfinished">Decrease volume</translation>
+      <translation>Sesi kıs</translation>
     </message>
     <message>
       <source>Mute</source>
-      <translation type="unfinished">Mute</translation>
+      <translation>Sessiz</translation>
     </message>
     <message>
       <source>Seek forward</source>
-      <translation type="unfinished">Seek forward</translation>
+      <translation>İleri sar</translation>
     </message>
     <message>
       <source>Seek backward</source>
@@ -2670,7 +2670,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Toggle Pretty OSD</source>
-      <translation type="unfinished">Toggle Pretty OSD</translation>
+      <translation>Şirin OSD'yi aç/kapa</translation>
     </message>
     <message>
       <source>Change shuffle mode</source>
@@ -2722,7 +2722,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>&amp;None</source>
-      <translation type="unfinished">&amp;None</translation>
+      <translation>Yok</translation>
     </message>
     <message>
       <source>&amp;Default</source>
@@ -2730,7 +2730,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>&amp;Custom</source>
-      <translation type="unfinished">&amp;Custom</translation>
+      <translation>Özel</translation>
     </message>
     <message>
       <source>Change shortcut...</source>
@@ -2757,7 +2757,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Group Collection by...</source>
-      <translation type="unfinished">Group Collection by...</translation>
+      <translation>Koleksiyonu sınıflandır...</translation>
     </message>
     <message>
       <source>First level</source>
@@ -2845,15 +2845,15 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Second level</source>
-      <translation type="unfinished">Second level</translation>
+      <translation>İkinci seviye</translation>
     </message>
     <message>
       <source>Third level</source>
-      <translation type="unfinished">Third level</translation>
+      <translation>Üçüncü seviye</translation>
     </message>
     <message>
       <source>Separate albums by grouping tag</source>
-      <translation type="unfinished">Separate albums by grouping tag</translation>
+      <translation>Albümleri sınıflandırma etiketine göre ayır</translation>
     </message>
   </context>
   <context>
@@ -2867,18 +2867,18 @@ If there are no matches then it will use the largest image in the directory.</tr
     <name>LastFMImport</name>
     <message>
       <source>Missing username, please login to last.fm first!</source>
-      <translation type="unfinished">Missing username, please login to last.fm first!</translation>
+      <translation>Kullanıcı adı eksik, lütfen last.fm'e giriş yapın!</translation>
     </message>
   </context>
   <context>
     <name>LastFMImportDialog</name>
     <message>
       <source>Import data from last.fm</source>
-      <translation type="unfinished">Import data from last.fm</translation>
+      <translation>Last.fm'den veri içeri aktar</translation>
     </message>
     <message>
       <source>Choose data to import from last.fm</source>
-      <translation type="unfinished">Choose data to import from last.fm</translation>
+      <translation>Last.fm'den içeri aktarmak için veri seçin</translation>
     </message>
     <message>
       <source>Last played</source>
@@ -2886,7 +2886,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Play counts</source>
-      <translation type="unfinished">Play counts</translation>
+      <translation>Çalma sayısı</translation>
     </message>
     <message>
       <source>Warning: Play counts and last played from last.fm will completely replace the same data for the matched songs. Play counts will replace the data based on artist and song title for the same albums! Please backup your database before you start.</source>
@@ -2894,15 +2894,15 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Go!</source>
-      <translation type="unfinished">Go!</translation>
+      <translation>Haydi!</translation>
     </message>
     <message>
       <source>Close</source>
-      <translation type="unfinished">Close</translation>
+      <translation>Kapat</translation>
     </message>
     <message>
       <source>Cancel</source>
-      <translation type="unfinished">Cancel</translation>
+      <translation>İptal</translation>
     </message>
     <message>
       <source>Receiving initial data from last.fm...</source>
@@ -2975,38 +2975,38 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>ListenBrainz error: %1</source>
-      <translation type="unfinished">ListenBrainz error: %1</translation>
+      <translation>ListenBrainz hatası: %1</translation>
     </message>
   </context>
   <context>
     <name>LoginStateWidget</name>
     <message>
       <source>Form</source>
-      <translation type="unfinished">Form</translation>
+      <translation>Biçim</translation>
     </message>
     <message>
       <source>You are not signed in.</source>
-      <translation type="unfinished">You are not signed in.</translation>
+      <translation>Giriş yapmadınız.</translation>
     </message>
     <message>
       <source>Sign out</source>
-      <translation type="unfinished">Sign out</translation>
+      <translation>Çıkış yap</translation>
     </message>
     <message>
       <source>Signing in...</source>
-      <translation type="unfinished">Signing in...</translation>
+      <translation>Giriş yapılıyor...</translation>
     </message>
     <message>
       <source>You are signed in.</source>
-      <translation type="unfinished">You are signed in.</translation>
+      <translation>Giriş yaptınız.</translation>
     </message>
     <message>
       <source>You are signed in as %1.</source>
-      <translation type="unfinished">You are signed in as %1.</translation>
+      <translation>%1 olarak giriş yaptınız.</translation>
     </message>
     <message>
       <source>Expires on %1</source>
-      <translation type="unfinished">Expires on %1</translation>
+      <translation>%1 tarihinde sona eriyor</translation>
     </message>
   </context>
   <context>
@@ -3064,7 +3064,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>P&amp;laylist</source>
-      <translation type="unfinished">P&amp;laylist</translation>
+      <translation>Çalma listesi</translation>
     </message>
     <message>
       <source>Help</source>
@@ -3076,43 +3076,43 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Previous track</source>
-      <translation type="unfinished">Previous track</translation>
+      <translation>Önceki parça</translation>
     </message>
     <message>
       <source>F5</source>
-      <translation type="unfinished">F5</translation>
+      <translation>F5</translation>
     </message>
     <message>
       <source>&amp;Play</source>
-      <translation type="unfinished">&amp;Play</translation>
+      <translation>Çal</translation>
     </message>
     <message>
       <source>F6</source>
-      <translation type="unfinished">F6</translation>
+      <translation>F6</translation>
     </message>
     <message>
       <source>&amp;Stop</source>
-      <translation type="unfinished">&amp;Stop</translation>
+      <translation>Duraklat</translation>
     </message>
     <message>
       <source>F7</source>
-      <translation type="unfinished">F7</translation>
+      <translation>F7</translation>
     </message>
     <message>
       <source>&amp;Next track</source>
-      <translation type="unfinished">&amp;Next track</translation>
+      <translation>Sıradaki parça</translation>
     </message>
     <message>
       <source>F8</source>
-      <translation type="unfinished">F8</translation>
+      <translation>F8</translation>
     </message>
     <message>
       <source>&amp;Quit</source>
-      <translation type="unfinished">&amp;Quit</translation>
+      <translation>Çık</translation>
     </message>
     <message>
       <source>Ctrl+Q</source>
-      <translation type="unfinished">Ctrl+Q</translation>
+      <translation>Kontrol+Q</translation>
     </message>
     <message>
       <source>Stop after this track</source>
@@ -3120,11 +3120,11 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Ctrl+Alt+V</source>
-      <translation type="unfinished">Ctrl+Alt+V</translation>
+      <translation>Kontrol+Alt+V</translation>
     </message>
     <message>
       <source>Love</source>
-      <translation type="unfinished">Love</translation>
+      <translation>Beğen</translation>
     </message>
     <message>
       <source>&amp;Clear playlist</source>
@@ -3136,7 +3136,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Ctrl+K</source>
-      <translation type="unfinished">Ctrl+K</translation>
+      <translation>Kontrol+K</translation>
     </message>
     <message>
       <source>Edit track information...</source>
@@ -3144,35 +3144,35 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Ctrl+E</source>
-      <translation type="unfinished">Ctrl+E</translation>
+      <translation>Kontrol+E</translation>
     </message>
     <message>
       <source>Renumber tracks in this order...</source>
-      <translation type="unfinished">Renumber tracks in this order...</translation>
+      <translation>Parçaları bu sırada hatırla...</translation>
     </message>
     <message>
       <source>Set value for all selected tracks...</source>
-      <translation type="unfinished">Set value for all selected tracks...</translation>
+      <translation>Seçilen parçalar için değer ata...</translation>
     </message>
     <message>
       <source>Edit tag...</source>
-      <translation type="unfinished">Edit tag...</translation>
+      <translation>Etiketi düzenle...</translation>
     </message>
     <message>
       <source>&amp;Settings...</source>
-      <translation type="unfinished">&amp;Settings...</translation>
+      <translation>Ayarlar...</translation>
     </message>
     <message>
       <source>Ctrl+P</source>
-      <translation type="unfinished">Ctrl+P</translation>
+      <translation>Ctrl+P</translation>
     </message>
     <message>
       <source>&amp;About Strawberry</source>
-      <translation type="unfinished">&amp;About Strawberry</translation>
+      <translation>Strawberry Hakkında</translation>
     </message>
     <message>
       <source>F1</source>
-      <translation type="unfinished">F1</translation>
+      <translation>F1</translation>
     </message>
     <message>
       <source>S&amp;huffle playlist</source>
@@ -3180,39 +3180,39 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Ctrl+H</source>
-      <translation type="unfinished">Ctrl+H</translation>
+      <translation>Kontrol+H</translation>
     </message>
     <message>
       <source>&amp;Add file...</source>
-      <translation type="unfinished">&amp;Add file...</translation>
+      <translation>Dosya ekle...</translation>
     </message>
     <message>
       <source>Ctrl+Shift+A</source>
-      <translation type="unfinished">Ctrl+Shift+A</translation>
+      <translation>Kontrol+Shift+A</translation>
     </message>
     <message>
       <source>&amp;Open file...</source>
-      <translation type="unfinished">&amp;Open file...</translation>
+      <translation>Dosya aç...</translation>
     </message>
     <message>
       <source>Open audio &amp;CD...</source>
-      <translation type="unfinished">Open audio &amp;CD...</translation>
+      <translation>Ses CDsi aç</translation>
     </message>
     <message>
       <source>&amp;Cover Manager</source>
-      <translation type="unfinished">&amp;Cover Manager</translation>
+      <translation>Kapak Yöneticisi</translation>
     </message>
     <message>
       <source>C&amp;onsole</source>
-      <translation type="unfinished">C&amp;onsole</translation>
+      <translation>Konsol</translation>
     </message>
     <message>
       <source>&amp;Shuffle mode</source>
-      <translation type="unfinished">&amp;Shuffle mode</translation>
+      <translation>Karıştırma modu</translation>
     </message>
     <message>
       <source>&amp;Repeat mode</source>
-      <translation type="unfinished">&amp;Repeat mode</translation>
+      <translation>Tekrarlama modu</translation>
     </message>
     <message>
       <source>Remove from playlist</source>
@@ -3220,23 +3220,23 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>&amp;Equalizer</source>
-      <translation type="unfinished">&amp;Equalizer</translation>
+      <translation>Ekolayzır</translation>
     </message>
     <message>
       <source>&amp;Transcode Music</source>
-      <translation type="unfinished">&amp;Transcode Music</translation>
+      <translation>Müzik Dönüştür</translation>
     </message>
     <message>
       <source>Add &amp;folder...</source>
-      <translation type="unfinished">Add &amp;folder...</translation>
+      <translation>Dizin ekle...</translation>
     </message>
     <message>
       <source>&amp;Jump to the currently playing track</source>
-      <translation type="unfinished">&amp;Jump to the currently playing track</translation>
+      <translation>Şu anda çalan parçaya atla</translation>
     </message>
     <message>
       <source>Ctrl+J</source>
-      <translation type="unfinished">Ctrl+J</translation>
+      <translation>Kontrol+J</translation>
     </message>
     <message>
       <source>&amp;New playlist</source>
@@ -3244,7 +3244,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Ctrl+N</source>
-      <translation type="unfinished">Ctrl+N</translation>
+      <translation>Kontrol+N</translation>
     </message>
     <message>
       <source>Save &amp;playlist...</source>
@@ -3252,7 +3252,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Ctrl+S</source>
-      <translation type="unfinished">Ctrl+S</translation>
+      <translation>Kontrol+S</translation>
     </message>
     <message>
       <source>&amp;Load playlist...</source>
@@ -3260,7 +3260,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Ctrl+Shift+O</source>
-      <translation type="unfinished">Ctrl+Shift+O</translation>
+      <translation>Kontrol+Shift+O</translation>
     </message>
     <message>
       <source>&amp;Save all playlists...</source>
@@ -3268,75 +3268,75 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Go to next playlist tab</source>
-      <translation type="unfinished">Go to next playlist tab</translation>
+      <translation>Sonraki çalma listesi sekmesine git</translation>
     </message>
     <message>
       <source>Go to previous playlist tab</source>
-      <translation type="unfinished">Go to previous playlist tab</translation>
+      <translation>Önceki çalma listesi sekmesine git</translation>
     </message>
     <message>
       <source>&amp;Update changed collection folders</source>
-      <translation type="unfinished">&amp;Update changed collection folders</translation>
+      <translation>Değiştirilmiş koleksiyon dizinlerini güncelle</translation>
     </message>
     <message>
       <source>About &amp;Qt</source>
-      <translation type="unfinished">About &amp;Qt</translation>
+      <translation>Qt Hakkında</translation>
     </message>
     <message>
       <source>&amp;Mute</source>
-      <translation type="unfinished">&amp;Mute</translation>
+      <translation>Sessiz</translation>
     </message>
     <message>
       <source>Ctrl+M</source>
-      <translation type="unfinished">Ctrl+M</translation>
+      <translation>Kontrol+M</translation>
     </message>
     <message>
       <source>&amp;Do a full collection rescan</source>
-      <translation type="unfinished">&amp;Do a full collection rescan</translation>
+      <translation>Tüm koleksiyonu yeniden tara</translation>
     </message>
     <message>
       <source>Stop collection scan</source>
-      <translation type="unfinished">Stop collection scan</translation>
+      <translation>Koleksiyon taramasını durdur</translation>
     </message>
     <message>
       <source>Complete tags automatically...</source>
-      <translation type="unfinished">Complete tags automatically...</translation>
+      <translation>Etiketleri otomatik olarak tamamla...</translation>
     </message>
     <message>
       <source>Ctrl+T</source>
-      <translation type="unfinished">Ctrl+T</translation>
+      <translation>Kontrol+T</translation>
     </message>
     <message>
       <source>Toggle scrobbling</source>
-      <translation type="unfinished">Toggle scrobbling</translation>
+      <translation>Skroplamayı aç/kapa</translation>
     </message>
     <message>
       <source>Remove &amp;duplicates from playlist</source>
-      <translation type="unfinished">Remove &amp;duplicates from playlist</translation>
+      <translation>Çalma listesindeki kopyaları kaldır</translation>
     </message>
     <message>
       <source>Remove &amp;unavailable tracks from playlist</source>
-      <translation type="unfinished">Remove &amp;unavailable tracks from playlist</translation>
+      <translation>Mevcut olmayan parçaları kaldır</translation>
     </message>
     <message>
       <source>Add file(s) to transcoder</source>
-      <translation type="unfinished">Add file(s) to transcoder</translation>
+      <translation>Dönüştürücüye dosya(lar) ekleyin</translation>
     </message>
     <message>
       <source>Add file to transcoder</source>
-      <translation type="unfinished">Add file to transcoder</translation>
+      <translation>Dönüştürücü dosya ekle</translation>
     </message>
     <message>
       <source>Add stream...</source>
-      <translation type="unfinished">Add stream...</translation>
+      <translation>Akış ekle...</translation>
     </message>
     <message>
       <source>Show sidebar</source>
-      <translation type="unfinished">Show sidebar</translation>
+      <translation>Kenar çubuğunu göster</translation>
     </message>
     <message>
       <source>Import data from last.fm...</source>
-      <translation type="unfinished">Import data from last.fm...</translation>
+      <translation>Last.fm'den veri içeri aktar</translation>
     </message>
     <message>
       <source>Context</source>
@@ -3372,19 +3372,19 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Subsonic</source>
-      <translation type="unfinished">Subsonic</translation>
+      <translation>Subsonic</translation>
     </message>
     <message>
       <source>Tidal</source>
-      <translation type="unfinished">Tidal</translation>
+      <translation>Tidal</translation>
     </message>
     <message>
       <source>Spotify</source>
-      <translation type="unfinished">Spotify</translation>
+      <translation>Spotify</translation>
     </message>
     <message>
       <source>Qobuz</source>
-      <translation type="unfinished">Qobuz</translation>
+      <translation>Qobuz</translation>
     </message>
     <message>
       <source>Show all songs</source>
@@ -3496,7 +3496,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Queue to play next</source>
-      <translation type="unfinished">Queue to play next</translation>
+      <translation>Çalınacaklar sırası</translation>
     </message>
     <message>
       <source>Unskip track</source>
@@ -3589,34 +3589,34 @@ If there are no matches then it will use the largest image in the directory.</tr
     <name>MoodbarProxyStyle</name>
     <message>
       <source>Show moodbar</source>
-      <translation type="unfinished">Show moodbar</translation>
+      <translation>Moodbar göster</translation>
     </message>
     <message>
       <source>Moodbar style</source>
-      <translation type="unfinished">Moodbar style</translation>
+      <translation>Moodbar tarzı</translation>
     </message>
   </context>
   <context>
     <name>MoodbarSettingsPage</name>
     <message>
       <source>Moodbar</source>
-      <translation type="unfinished">Moodbar</translation>
+      <translation>Moodbar</translation>
     </message>
     <message>
       <source>Show a moodbar in the track progress bar</source>
-      <translation type="unfinished">Show a moodbar in the track progress bar</translation>
+      <translation>Parça ilerleme çubuğunda moodbar göster</translation>
     </message>
     <message>
       <source>Moodbar style</source>
-      <translation type="unfinished">Moodbar style</translation>
+      <translation>Moodbar tarzı</translation>
     </message>
     <message>
       <source>Save the .mood files directly in the songs folders</source>
-      <translation type="unfinished">Save the .mood files directly in the songs folders</translation>
+      <translation>Şarkı klasörüne .mood dosyaları kaydet</translation>
     </message>
     <message>
       <source>Enabled</source>
-      <translation type="unfinished">Enabled</translation>
+      <translation>Etkin</translation>
     </message>
   </context>
   <context>
@@ -3657,15 +3657,15 @@ If there are no matches then it will use the largest image in the directory.</tr
     <name>NetworkProxySettingsPage</name>
     <message>
       <source>Network Proxy</source>
-      <translation type="unfinished">Network Proxy</translation>
+      <translation>Ağ Vekili</translation>
     </message>
     <message>
       <source>&amp;Use the system proxy settings</source>
-      <translation type="unfinished">&amp;Use the system proxy settings</translation>
+      <translation>Sistem vekil ayarlarını kullan</translation>
     </message>
     <message>
       <source>Direct internet connection</source>
-      <translation type="unfinished">Direct internet connection</translation>
+      <translation>Doğrudan internet bağlantısı</translation>
     </message>
     <message>
       <source>&amp;Manual proxy configuration</source>
@@ -3673,7 +3673,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>HTTP proxy</source>
-      <translation type="unfinished">HTTP proxy</translation>
+      <translation>HTTP vekili</translation>
     </message>
     <message>
       <source>SOCKS proxy</source>
@@ -3685,15 +3685,15 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Use authentication</source>
-      <translation type="unfinished">Use authentication</translation>
+      <translation>Kimlik doğrulaması kullan</translation>
     </message>
     <message>
       <source>Username</source>
-      <translation type="unfinished">Username</translation>
+      <translation>Kullanıcı adı</translation>
     </message>
     <message>
       <source>Password</source>
-      <translation type="unfinished">Password</translation>
+      <translation>Parola</translation>
     </message>
     <message>
       <source>Use proxy settings for streaming</source>
@@ -3704,36 +3704,36 @@ If there are no matches then it will use the largest image in the directory.</tr
     <name>NotificationsSettingsPage</name>
     <message>
       <source>Notifications</source>
-      <translation type="unfinished">Notifications</translation>
+      <translation>Bildirimler</translation>
     </message>
     <message>
       <source>Strawberry can show a message when the track changes.</source>
-      <translation type="unfinished">Strawberry can show a message when the track changes.</translation>
+      <translation>Parça değiştiğinde Strawberry bir ileti gösterebilir.</translation>
     </message>
     <message>
       <source>Notification type</source>
-      <translation type="unfinished">Notification type</translation>
+      <translation>Bildirim türü</translation>
     </message>
     <message>
       <source>Disabled</source>
       <comment>Refers to a disabled notification type in Notification settings.</comment>
-      <translation type="unfinished">Disabled</translation>
+      <translation>Devre dışı</translation>
     </message>
     <message>
       <source>Show a &amp;native desktop notification</source>
-      <translation type="unfinished">Show a &amp;native desktop notification</translation>
+      <translation>Yerel bir masaüstü bildirimi göster</translation>
     </message>
     <message>
       <source>Show a pretty OSD</source>
-      <translation type="unfinished">Show a pretty OSD</translation>
+      <translation>Şirin bir OSD göster</translation>
     </message>
     <message>
       <source>Show a popup fro&amp;m the system tray</source>
-      <translation type="unfinished">Show a popup fro&amp;m the system tray</translation>
+      <translation>Sistem tepsisinde bir açılır pencere göster</translation>
     </message>
     <message>
       <source>General settings</source>
-      <translation type="unfinished">General settings</translation>
+      <translation>Genel ayarlar</translation>
     </message>
     <message>
       <source>Popup duration</source>
@@ -3741,7 +3741,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source> seconds</source>
-      <translation type="unfinished"> seconds</translation>
+      <translation> saniye</translation>
     </message>
     <message>
       <source>Disable duration</source>
@@ -3761,11 +3761,11 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Show a notification when I resume playback</source>
-      <translation type="unfinished">Show a notification when I resume playback</translation>
+      <translation>Oynatmayı devam ettirdiğimde bir bildirim göster</translation>
     </message>
     <message>
       <source>Include album art in the notification</source>
-      <translation type="unfinished">Include album art in the notification</translation>
+      <translation>Bildirime albüm kapağını dahil et</translation>
     </message>
     <message>
       <source>Custom message settings</source>
@@ -3777,7 +3777,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Preview</source>
-      <translation type="unfinished">Preview</translation>
+      <translation>Ön izleme</translation>
     </message>
     <message>
       <source>MenuPopupToolButton</source>
@@ -3785,7 +3785,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Summary</source>
-      <translation type="unfinished">Summary</translation>
+      <translation>Özet</translation>
     </message>
     <message>
       <source>Body</source>
@@ -3793,11 +3793,11 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Pretty OSD options</source>
-      <translation type="unfinished">Pretty OSD options</translation>
+      <translation>Şirin OSD seçenekleri</translation>
     </message>
     <message>
       <source>Background color</source>
-      <translation type="unfinished">Background color</translation>
+      <translation>Arka plan rengi</translation>
     </message>
     <message>
       <source>Text options</source>
@@ -3805,15 +3805,15 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Choose font...</source>
-      <translation type="unfinished">Choose font...</translation>
+      <translation>Yazı tipi seçin...</translation>
     </message>
     <message>
       <source>Choose color...</source>
-      <translation type="unfinished">Choose color...</translation>
+      <translation>Renk seçin...</translation>
     </message>
     <message>
       <source>Background opacity</source>
-      <translation type="unfinished">Background opacity</translation>
+      <translation>Arka plan saydamlığı</translation>
     </message>
     <message>
       <source>Basic Blue</source>
@@ -3821,35 +3821,35 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Strawberry Red</source>
-      <translation type="unfinished">Strawberry Red</translation>
+      <translation>Çilek kırmızısı</translation>
     </message>
     <message>
       <source>Custom...</source>
-      <translation type="unfinished">Custom...</translation>
+      <translation>Özel...</translation>
     </message>
     <message>
       <source>Enable fading</source>
-      <translation type="unfinished">Enable fading</translation>
+      <translation>Çapraz geçişi etkinleştir</translation>
     </message>
     <message>
       <source>Add song artist tag</source>
-      <translation type="unfinished">Add song artist tag</translation>
+      <translation>Sanatçı etiketi ekle</translation>
     </message>
     <message>
       <source>Add song album tag</source>
-      <translation type="unfinished">Add song album tag</translation>
+      <translation>Albüm etiketi ekle</translation>
     </message>
     <message>
       <source>Add song title tag</source>
-      <translation type="unfinished">Add song title tag</translation>
+      <translation>Başlık etiketi ekle</translation>
     </message>
     <message>
       <source>Add song albumartist tag</source>
-      <translation type="unfinished">Add song albumartist tag</translation>
+      <translation>Albüm sanatçısı etiketi ekle</translation>
     </message>
     <message>
       <source>Add song year tag</source>
-      <translation type="unfinished">Add song year tag</translation>
+      <translation>Yıl etiketi ekle</translation>
     </message>
     <message>
       <source>Add song composer tag</source>
@@ -3857,39 +3857,39 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Add song performer tag</source>
-      <translation type="unfinished">Add song performer tag</translation>
+      <translation>Sanatçı etiketi ekle</translation>
     </message>
     <message>
       <source>Add song grouping tag</source>
-      <translation type="unfinished">Add song grouping tag</translation>
+      <translation>Sınıflandırma etiketi ekle</translation>
     </message>
     <message>
       <source>Add song disc tag</source>
-      <translation type="unfinished">Add song disc tag</translation>
+      <translation>Disk etiketi ekle</translation>
     </message>
     <message>
       <source>Add song track tag</source>
-      <translation type="unfinished">Add song track tag</translation>
+      <translation>Parça sayısı etiketi ekle</translation>
     </message>
     <message>
       <source>Add song genre tag</source>
-      <translation type="unfinished">Add song genre tag</translation>
+      <translation>Tür etiketi ekle</translation>
     </message>
     <message>
       <source>Add song length tag</source>
-      <translation type="unfinished">Add song length tag</translation>
+      <translation>Uzunluk etiketi ekle</translation>
     </message>
     <message>
       <source>Add song play count</source>
-      <translation type="unfinished">Add song play count</translation>
+      <translation>Çalma sayısı ekle</translation>
     </message>
     <message>
       <source>Add song skip count</source>
-      <translation type="unfinished">Add song skip count</translation>
+      <translation>Atlama sayısı ekle</translation>
     </message>
     <message>
       <source>Add song rating</source>
-      <translation type="unfinished">Add song rating</translation>
+      <translation>Derecelendirme ekle</translation>
     </message>
     <message>
       <source>Add a new line if supported by the notification type</source>
@@ -3897,23 +3897,23 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>%filename%</source>
-      <translation type="unfinished">%filename%</translation>
+      <translation>%filename%</translation>
     </message>
     <message>
       <source>Add song filename</source>
-      <translation type="unfinished">Add song filename</translation>
+      <translation>Şarkı dosya adı ekle</translation>
     </message>
     <message>
       <source>%url%</source>
-      <translation type="unfinished">%url%</translation>
+      <translation>%url%</translation>
     </message>
     <message>
       <source>Add song URL</source>
-      <translation type="unfinished">Add song URL</translation>
+      <translation>Şarkı bağlantısı ekle</translation>
     </message>
     <message>
       <source>%originalyear%</source>
-      <translation type="unfinished">%originalyear%</translation>
+      <translation>%originalyear%</translation>
     </message>
     <message>
       <source>Add song original year tag</source>
@@ -3921,7 +3921,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>OSD Preview</source>
-      <translation type="unfinished">OSD Preview</translation>
+      <translation>OSD ön izleme</translation>
     </message>
     <message>
       <source>Drag to reposition</source>
@@ -3932,31 +3932,31 @@ If there are no matches then it will use the largest image in the directory.</tr
     <name>OSDBase</name>
     <message>
       <source>disc %1</source>
-      <translation type="unfinished">disc %1</translation>
+      <translation>disk %1</translation>
     </message>
     <message>
       <source>track %1</source>
-      <translation type="unfinished">track %1</translation>
+      <translation>parça %1</translation>
     </message>
     <message>
       <source>Paused</source>
-      <translation type="unfinished">Paused</translation>
+      <translation>Duraklatıldı</translation>
     </message>
     <message>
       <source>Stopped</source>
-      <translation type="unfinished">Stopped</translation>
+      <translation>Duraklatıldı</translation>
     </message>
     <message>
       <source>Stop playing after track: %1</source>
-      <translation type="unfinished">Stop playing after track: %1</translation>
+      <translation>Parçadan sonra çalmayı durdur: %1</translation>
     </message>
     <message>
       <source>On</source>
-      <translation type="unfinished">On</translation>
+      <translation>Açık</translation>
     </message>
     <message>
       <source>Off</source>
-      <translation type="unfinished">Off</translation>
+      <translation>Kapalı</translation>
     </message>
     <message>
       <source>Playlist finished</source>
@@ -3964,35 +3964,35 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Volume %1%</source>
-      <translation type="unfinished">Volume %1%</translation>
+      <translation>Ses %1%</translation>
     </message>
     <message>
       <source>Don&apos;t shuffle</source>
-      <translation type="unfinished">Don&apos;t shuffle</translation>
+      <translation>Karıştırma</translation>
     </message>
     <message>
       <source>Shuffle all</source>
-      <translation type="unfinished">Shuffle all</translation>
+      <translation>Hepsini karıştır</translation>
     </message>
     <message>
       <source>Shuffle tracks in this album</source>
-      <translation type="unfinished">Shuffle tracks in this album</translation>
+      <translation>Bu albümdeki tüm parçaları karıştır</translation>
     </message>
     <message>
       <source>Shuffle albums</source>
-      <translation type="unfinished">Shuffle albums</translation>
+      <translation>Albümleri karıştır</translation>
     </message>
     <message>
       <source>Don&apos;t repeat</source>
-      <translation type="unfinished">Don&apos;t repeat</translation>
+      <translation>Tekrarlama</translation>
     </message>
     <message>
       <source>Repeat track</source>
-      <translation type="unfinished">Repeat track</translation>
+      <translation>Parçayı tekrarla</translation>
     </message>
     <message>
       <source>Repeat album</source>
-      <translation type="unfinished">Repeat album</translation>
+      <translation>Albümü tekrarla</translation>
     </message>
     <message>
       <source>Repeat playlist</source>
@@ -4000,7 +4000,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Stop after every track</source>
-      <translation type="unfinished">Stop after every track</translation>
+      <translation>Her parçadan sonra dur</translation>
     </message>
     <message>
       <source>Intro tracks</source>
@@ -4011,14 +4011,14 @@ If there are no matches then it will use the largest image in the directory.</tr
     <name>Organize</name>
     <message>
       <source>Organizing files</source>
-      <translation type="unfinished">Organizing files</translation>
+      <translation>Dosyalar düzenleniyor</translation>
     </message>
   </context>
   <context>
     <name>OrganizeDialog</name>
     <message>
       <source>Organize Files</source>
-      <translation type="unfinished">Organize Files</translation>
+      <translation>Dosyaları Düzenle</translation>
     </message>
     <message>
       <source>Destination</source>
@@ -4026,15 +4026,15 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>After copying...</source>
-      <translation type="unfinished">After copying...</translation>
+      <translation>Kopyaladıktan sonra...</translation>
     </message>
     <message>
       <source>Keep the original files</source>
-      <translation type="unfinished">Keep the original files</translation>
+      <translation>Orijinal dosyaları tut</translation>
     </message>
     <message>
       <source>Delete the original files</source>
-      <translation type="unfinished">Delete the original files</translation>
+      <translation>Orijinal dosyaları sil</translation>
     </message>
     <message>
       <source>Naming options</source>
@@ -4050,7 +4050,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Insert...</source>
-      <translation type="unfinished">Insert...</translation>
+      <translation>Tak...</translation>
     </message>
     <message>
       <source>Remove problematic characters from filenames</source>
@@ -4070,11 +4070,11 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Replace spaces with underscores</source>
-      <translation type="unfinished">Replace spaces with underscores</translation>
+      <translation>Boşlukların yerine alt çizgi koy</translation>
     </message>
     <message>
       <source>Overwrite existing files</source>
-      <translation type="unfinished">Overwrite existing files</translation>
+      <translation>Var olan dosyaların üstüne yaz</translation>
     </message>
     <message>
       <source>Copy album cover artwork</source>
@@ -4082,7 +4082,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Preview</source>
-      <translation type="unfinished">Preview</translation>
+      <translation>Ön izle</translation>
     </message>
     <message>
       <source>Loading...</source>
@@ -4182,7 +4182,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Error deleting songs</source>
-      <translation type="unfinished">Error deleting songs</translation>
+      <translation>Şarkı silme hatası</translation>
     </message>
     <message>
       <source>There were problems deleting some songs.  The following files could not be deleted:</source>
@@ -4200,11 +4200,11 @@ If there are no matches then it will use the largest image in the directory.</tr
     <name>PlayingWidget</name>
     <message>
       <source>Small album cover</source>
-      <translation type="unfinished">Small album cover</translation>
+      <translation>Küçük albüm kapağı</translation>
     </message>
     <message>
       <source>Large album cover</source>
-      <translation type="unfinished">Large album cover</translation>
+      <translation>Büyük albüm kapağı</translation>
     </message>
     <message>
       <source>Fit cover to width</source>
@@ -4358,7 +4358,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     <name>PlaylistContainer</name>
     <message>
       <source>Form</source>
-      <translation type="unfinished">Form</translation>
+      <translation>Biçim</translation>
     </message>
     <message>
       <source>Undo</source>
@@ -4438,7 +4438,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     <name>PlaylistListContainer</name>
     <message>
       <source>Form</source>
-      <translation type="unfinished">Form</translation>
+      <translation>Biçim</translation>
     </message>
     <message>
       <source>New folder</source>
@@ -4518,13 +4518,13 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>%1 selected of</source>
-      <translation type="unfinished">%1 selected of</translation>
+      <translation>%1 seçildi</translation>
     </message>
     <message numerus="yes">
       <source>%n track(s)</source>
-      <translation type="unfinished">
+      <translation>
         <numerusform>%n parça</numerusform>
-        <numerusform>%n track(s)</numerusform>
+        <numerusform>%n parça</numerusform>
       </translation>
     </message>
   </context>
@@ -4563,7 +4563,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>File paths</source>
-      <translation type="unfinished">File paths</translation>
+      <translation>Dosya yolu</translation>
     </message>
     <message>
       <source>This can be changed later through the preferences</source>
@@ -4697,7 +4697,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>A&amp;utomatic</source>
-      <translation type="unfinished">A&amp;utomatic</translation>
+      <translation>Otomatik</translation>
     </message>
     <message>
       <source>Absolu&amp;te</source>
@@ -4709,11 +4709,11 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>As&amp;k when saving</source>
-      <translation type="unfinished">As&amp;k when saving</translation>
+      <translation>Kaydederken sor</translation>
     </message>
     <message>
       <source>Metadata</source>
-      <translation type="unfinished">Metadata</translation>
+      <translation>Üstveri</translation>
     </message>
     <message>
       <source>If activated, clicking a selected song in the playlist view will let you edit the tag value directly</source>
@@ -4785,15 +4785,15 @@ Devam etmek istediğinizden emin misiniz?</translation>
     <name>PlaylistView</name>
     <message>
       <source>Hz</source>
-      <translation type="unfinished">Hz</translation>
+      <translation>Hz</translation>
     </message>
     <message>
       <source>Bit</source>
-      <translation type="unfinished">Bit</translation>
+      <translation>Bit</translation>
     </message>
     <message>
       <source>kbps</source>
-      <translation type="unfinished">kbps</translation>
+      <translation>kbps</translation>
     </message>
   </context>
   <context>
@@ -5020,23 +5020,23 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Success</source>
-      <translation type="unfinished">Success</translation>
+      <translation>Başarılı</translation>
     </message>
     <message>
       <source>File is unsupported</source>
-      <translation type="unfinished">File is unsupported</translation>
+      <translation>Dosya desteklenmiyor</translation>
     </message>
     <message>
       <source>Filename is missing</source>
-      <translation type="unfinished">Filename is missing</translation>
+      <translation>Dosya adı eksik</translation>
     </message>
     <message>
       <source>File does not exist</source>
-      <translation type="unfinished">File does not exist</translation>
+      <translation>Dosya mevcut değil</translation>
     </message>
     <message>
       <source>File could not be opened</source>
-      <translation type="unfinished">File could not be opened</translation>
+      <translation>Dosya açılamadı</translation>
     </message>
     <message>
       <source>Could not parse file</source>
@@ -5048,7 +5048,7 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Unknown error</source>
-      <translation type="unfinished">Unknown error</translation>
+      <translation>Bilinmeyen hata</translation>
     </message>
     <message>
       <source>Prefix a search term with a field name to limit the search to that field, e.g.:</source>
@@ -5152,11 +5152,11 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>A-Z</source>
-      <translation type="unfinished">A-Z</translation>
+      <translation>A-Z</translation>
     </message>
     <message>
       <source>Z-A</source>
-      <translation type="unfinished">Z-A</translation>
+      <translation>Z-A</translation>
     </message>
     <message>
       <source>oldest first</source>
@@ -5204,64 +5204,64 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Normal</source>
-      <translation type="unfinished">Normal</translation>
+      <translation>Normal</translation>
     </message>
     <message>
       <source>Angry</source>
-      <translation type="unfinished">Angry</translation>
+      <translation>Sinirli</translation>
     </message>
     <message>
       <source>Frozen</source>
-      <translation type="unfinished">Frozen</translation>
+      <translation>Donuk</translation>
     </message>
     <message>
       <source>Happy</source>
-      <translation type="unfinished">Happy</translation>
+      <translation>Mutlu</translation>
     </message>
     <message>
       <source>System colors</source>
-      <translation type="unfinished">System colors</translation>
+      <translation>Sistem renkleri</translation>
     </message>
     <message>
       <source>Playlist</source>
-      <translation type="unfinished">Playlist</translation>
+      <translation>Çalma listesi</translation>
     </message>
     <message>
       <source>Various artists</source>
-      <translation type="unfinished">Various artists</translation>
+      <translation>Çeşitli sanatçılar</translation>
     </message>
     <message numerus="yes">
       <source>add %n songs</source>
-      <translation type="unfinished">
-        <numerusform>add %n songs</numerusform>
-        <numerusform>add %n songs</numerusform>
+      <translation>
+        <numerusform>%n şarkı ekle</numerusform>
+        <numerusform>%n şarkı ekle</numerusform>
       </translation>
     </message>
     <message numerus="yes">
       <source>remove %n songs</source>
-      <translation type="unfinished">
-        <numerusform>remove %n songs</numerusform>
-        <numerusform>remove %n songs</numerusform>
+      <translation>
+        <numerusform>%n şarkı kaldır</numerusform>
+        <numerusform>%n şarkı kaldır</numerusform>
       </translation>
     </message>
     <message numerus="yes">
       <source>move %n songs</source>
-      <translation type="unfinished">
-        <numerusform>move %n songs</numerusform>
-        <numerusform>move %n songs</numerusform>
+      <translation>
+        <numerusform>%n şarkı taşı</numerusform>
+        <numerusform>%n şarkı taşı</numerusform>
       </translation>
     </message>
     <message>
       <source>sort songs</source>
-      <translation type="unfinished">sort songs</translation>
+      <translation>şarkıları sırala</translation>
     </message>
     <message>
       <source>shuffle songs</source>
-      <translation type="unfinished">shuffle songs</translation>
+      <translation>şarkıları karıştır</translation>
     </message>
     <message>
       <source>Invalid collection directory</source>
-      <translation type="unfinished">Invalid collection directory</translation>
+      <translation>Geçersiz koleksiyon dizini</translation>
     </message>
     <message>
       <source>Can&apos;t add directory %1 with special filesystem %2 to collection</source>
@@ -5272,69 +5272,69 @@ Devam etmek istediğinizden emin misiniz?</translation>
     <name>QWidget</name>
     <message>
       <source>Clear</source>
-      <translation type="unfinished">Clear</translation>
+      <translation>Temizle</translation>
     </message>
     <message>
       <source>Reset</source>
-      <translation type="unfinished">Reset</translation>
+      <translation>Sıfırla</translation>
     </message>
   </context>
   <context>
     <name>QobuzRequest</name>
     <message>
       <source>Receiving artists...</source>
-      <translation type="unfinished">Receiving artists...</translation>
+      <translation>Sanatçılar alınıyor...</translation>
     </message>
     <message>
       <source>Receiving albums...</source>
-      <translation type="unfinished">Receiving albums...</translation>
+      <translation>Albümler alınıyor...</translation>
     </message>
     <message>
       <source>Receiving songs...</source>
-      <translation type="unfinished">Receiving songs...</translation>
+      <translation>Şarkılar alınıyor...</translation>
     </message>
     <message>
       <source>Searching...</source>
-      <translation type="unfinished">Searching...</translation>
+      <translation>Aranıyor...</translation>
     </message>
     <message>
       <source>Receiving albums for %1 artist...</source>
-      <translation type="unfinished">Receiving albums for %1 artist...</translation>
+      <translation>%1 için albümler alınıyor...</translation>
     </message>
     <message>
       <source>Receiving albums for %1 artists...</source>
-      <translation type="unfinished">Receiving albums for %1 artists...</translation>
+      <translation>%1 için albümler alınıyor...</translation>
     </message>
     <message>
       <source>Receiving songs for %1 album...</source>
-      <translation type="unfinished">Receiving songs for %1 album...</translation>
+      <translation>%1 için şarkılar alınıyor...</translation>
     </message>
     <message>
       <source>Receiving songs for %1 albums...</source>
-      <translation type="unfinished">Receiving songs for %1 albums...</translation>
+      <translation>%1 için şarkılar alınıyor...</translation>
     </message>
     <message>
       <source>Receiving album cover for %1 album...</source>
-      <translation type="unfinished">Receiving album cover for %1 album...</translation>
+      <translation>%1 için albüm kapağı alınıyor...</translation>
     </message>
     <message>
       <source>Receiving album covers for %1 albums...</source>
-      <translation type="unfinished">Receiving album covers for %1 albums...</translation>
+      <translation>%1 için albüm kapağı alınıyor...</translation>
     </message>
     <message>
       <source>No match.</source>
-      <translation type="unfinished">No match.</translation>
+      <translation>Eşleşme yok.</translation>
     </message>
     <message>
       <source>Unknown error</source>
-      <translation type="unfinished">Unknown error</translation>
+      <translation>Bilinmeyen hata</translation>
     </message>
   </context>
   <context>
     <name>QobuzService</name>
     <message>
       <source>Authenticating...</source>
-      <translation type="unfinished">Authenticating...</translation>
+      <translation>Doğrulanıyor...</translation>
     </message>
     <message>
       <source>Maximum number of login attempts reached.</source>
@@ -5342,19 +5342,19 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Missing Qobuz app ID.</source>
-      <translation type="unfinished">Missing Qobuz app ID.</translation>
+      <translation>Qobuz uygulama kimliği eksik.</translation>
     </message>
     <message>
       <source>Missing Qobuz username.</source>
-      <translation type="unfinished">Missing Qobuz username.</translation>
+      <translation>Qobuz kullanıcı adı eksik.</translation>
     </message>
     <message>
       <source>Missing Qobuz password.</source>
-      <translation type="unfinished">Missing Qobuz password.</translation>
+      <translation>Qobuz şifresi eksik.</translation>
     </message>
     <message>
       <source>Not authenticated with Qobuz.</source>
-      <translation type="unfinished">Not authenticated with Qobuz.</translation>
+      <translation>Qobuz ile doğrulanmadı.</translation>
     </message>
     <message>
       <source>Missing Qobuz app ID or secret.</source>
@@ -5365,11 +5365,11 @@ Devam etmek istediğinizden emin misiniz?</translation>
     <name>QobuzSettingsPage</name>
     <message>
       <source>Qobuz</source>
-      <translation type="unfinished">Qobuz</translation>
+      <translation>Qobuz</translation>
     </message>
     <message>
       <source>Enable</source>
-      <translation type="unfinished">Enable</translation>
+      <translation>Etkinleştir</translation>
     </message>
     <message>
       <source>Qobuz support is not official and requires an API app ID and secret from a registered application to work. We can&apos;t help you getting these.</source>
@@ -5377,19 +5377,19 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Authentication</source>
-      <translation type="unfinished">Authentication</translation>
+      <translation>Doğrulama</translation>
     </message>
     <message>
       <source>App ID</source>
-      <translation type="unfinished">App ID</translation>
+      <translation>Uygulama kimliği</translation>
     </message>
     <message>
       <source>Username</source>
-      <translation type="unfinished">Username</translation>
+      <translation>Kullanıcı adı</translation>
     </message>
     <message>
       <source>Password</source>
-      <translation type="unfinished">Password</translation>
+      <translation>Parola</translation>
     </message>
     <message>
       <source>App Secret</source>
@@ -5397,11 +5397,11 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Login</source>
-      <translation type="unfinished">Login</translation>
+      <translation>Giriş yap</translation>
     </message>
     <message>
       <source>Preferences</source>
-      <translation type="unfinished">Preferences</translation>
+      <translation>Tercihler</translation>
     </message>
     <message>
       <source>Audio format</source>
@@ -5413,23 +5413,23 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>ms</source>
-      <translation type="unfinished">ms</translation>
+      <translation>ms</translation>
     </message>
     <message>
       <source>Artists search limit</source>
-      <translation type="unfinished">Artists search limit</translation>
+      <translation>Sanatçı arama sınırı</translation>
     </message>
     <message>
       <source>Albums search limit</source>
-      <translation type="unfinished">Albums search limit</translation>
+      <translation>Albüm arama sınırı</translation>
     </message>
     <message>
       <source>Songs search limit</source>
-      <translation type="unfinished">Songs search limit</translation>
+      <translation>Şarkı arama sınırı</translation>
     </message>
     <message>
       <source>Download album covers</source>
-      <translation type="unfinished">Download album covers</translation>
+      <translation>Albüm kapaklarını indir</translation>
     </message>
     <message>
       <source>Base64 encoded secret</source>
@@ -5441,15 +5441,15 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Missing app id.</source>
-      <translation type="unfinished">Missing app id.</translation>
+      <translation>Uygulama kimliği eksik.</translation>
     </message>
     <message>
       <source>Missing username.</source>
-      <translation type="unfinished">Missing username.</translation>
+      <translation>Kullanıcı adı eksik.</translation>
     </message>
     <message>
       <source>Missing password.</source>
-      <translation type="unfinished">Missing password.</translation>
+      <translation>Parola eksik.</translation>
     </message>
     <message>
       <source>Authentication failed</source>
@@ -5464,16 +5464,16 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Cancelled.</source>
-      <translation type="unfinished">Cancelled.</translation>
+      <translation>İptal edildi.</translation>
     </message>
   </context>
   <context>
     <name>Queue</name>
     <message numerus="yes">
       <source>%n track(s)</source>
-      <translation type="unfinished">
+      <translation>
         <numerusform>%n parça</numerusform>
-        <numerusform>%n track(s)</numerusform>
+        <numerusform>%n parça</numerusform>
       </translation>
     </message>
   </context>
@@ -5485,38 +5485,38 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Move down</source>
-      <translation type="unfinished">Move down</translation>
+      <translation>Aşağıya taşı</translation>
     </message>
     <message>
       <source>Ctrl+Up</source>
-      <translation type="unfinished">Ctrl+Up</translation>
+      <translation>Kontrol+Yukarı</translation>
     </message>
     <message>
       <source>Move up</source>
-      <translation type="unfinished">Move up</translation>
+      <translation>Yukarıya taşı</translation>
     </message>
     <message>
       <source>Ctrl+Down</source>
-      <translation type="unfinished">Ctrl+Down</translation>
+      <translation>Kontrol+Aşağı</translation>
     </message>
     <message>
       <source>Remove</source>
-      <translation type="unfinished">Remove</translation>
+      <translation>Kaldır</translation>
     </message>
     <message>
       <source>Clear</source>
-      <translation type="unfinished">Clear</translation>
+      <translation>Temizle</translation>
     </message>
     <message>
       <source>Ctrl+K</source>
-      <translation type="unfinished">Ctrl+K</translation>
+      <translation>Kontrol+K</translation>
     </message>
   </context>
   <context>
     <name>RadioParadiseService</name>
     <message>
       <source>Getting %1 channels</source>
-      <translation type="unfinished">Getting %1 channels</translation>
+      <translation>%1 kanalları alınıyor</translation>
     </message>
   </context>
   <context>
@@ -5527,7 +5527,7 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Replace current playlist</source>
-      <translation type="unfinished">Replace current playlist</translation>
+      <translation>Geçerli çalma listesinin yerine koy</translation>
     </message>
     <message>
       <source>Open in new playlist</source>
@@ -5535,29 +5535,29 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Open homepage</source>
-      <translation type="unfinished">Open homepage</translation>
+      <translation>Ana sayfayı aç</translation>
     </message>
     <message>
       <source>Donate</source>
-      <translation type="unfinished">Donate</translation>
+      <translation>Bağış yap</translation>
     </message>
     <message>
       <source>Refresh channels</source>
-      <translation type="unfinished">Refresh channels</translation>
+      <translation>Kanalları yenile</translation>
     </message>
   </context>
   <context>
     <name>RadioViewContainer</name>
     <message>
       <source>Form</source>
-      <translation type="unfinished">Form</translation>
+      <translation>Biçim</translation>
     </message>
   </context>
   <context>
     <name>SavePlaylistsDialog</name>
     <message>
       <source>Select directory for saving playlists</source>
-      <translation type="unfinished">Select directory for saving playlists</translation>
+      <translation>Çalma listelerini kaydetmek için bir dizin seçin</translation>
     </message>
     <message>
       <source>Type</source>
@@ -5565,11 +5565,11 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Select directory for the playlists</source>
-      <translation type="unfinished">Select directory for the playlists</translation>
+      <translation>Çalma listeleri için bir dizin seçin</translation>
     </message>
     <message>
       <source>Directory does not exist.</source>
-      <translation type="unfinished">Directory does not exist.</translation>
+      <translation>Dizin mevcut değil</translation>
     </message>
   </context>
   <context>
@@ -5580,11 +5580,11 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Remove</source>
-      <translation type="unfinished">Remove</translation>
+      <translation>Kaldır</translation>
     </message>
     <message>
       <source>Ctrl+Up</source>
-      <translation type="unfinished">Ctrl+Up</translation>
+      <translation>Kontrol+Yukarı</translation>
     </message>
     <message>
       <source>Name</source>
@@ -5719,23 +5719,23 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source> seconds</source>
-      <translation type="unfinished"> seconds</translation>
+      <translation> saniye</translation>
     </message>
     <message>
       <source>Prefer album artist when sending scrobbles</source>
-      <translation type="unfinished">Prefer album artist when sending scrobbles</translation>
+      <translation>Skropları gönderirken albüm sanatçısını tercih et</translation>
     </message>
     <message>
       <source>Show dialog for errors</source>
-      <translation type="unfinished">Show dialog for errors</translation>
+      <translation>Hatalar için mesaj göster</translation>
     </message>
     <message>
       <source>Strip &quot;remastered&quot; and similar from album and title</source>
-      <translation type="unfinished">Strip &quot;remastered&quot; and similar from album and title</translation>
+      <translation>Albüm ve başlıktan "remastered" ve benzeri yazıları çıkar</translation>
     </message>
     <message>
       <source>Enable scrobbling for the following sources:</source>
-      <translation type="unfinished">Enable scrobbling for the following sources:</translation>
+      <translation>Seçili kaynaklardan skropla:</translation>
     </message>
     <message>
       <source>Collection</source>
@@ -5803,7 +5803,7 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Enter your user token from</source>
-      <translation type="unfinished">Enter your user token from</translation>
+      <translation>Kullanıcı jetonunuzu şuradan girin</translation>
     </message>
     <message>
       <source>With this option enabled, scrobbles will be cached to disk but not sent to the server. This option can be enabled in cases where the server or the internet connection is unstable, the scrobbles will be sent when the option is disabled.</source>
@@ -5811,7 +5811,7 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Offline mode (Only cache scrobbles)</source>
-      <translation type="unfinished">Offline mode (Only cache scrobbles)</translation>
+      <translation>Çevrimdışı mod (yalnızca önbellek skropları)</translation>
     </message>
     <message>
       <source>This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately.</source>
@@ -5819,18 +5819,18 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Spotify</source>
-      <translation type="unfinished">Spotify</translation>
+      <translation>Spotify</translation>
     </message>
   </context>
   <context>
     <name>ScrobblingAPI20</name>
     <message>
       <source>%1 Scrobbler Authentication</source>
-      <translation type="unfinished">%1 Scrobbler Authentication</translation>
+      <translation>%1 Skroplayıcı Doğrulaması</translation>
     </message>
     <message>
       <source>Open URL in web browser?</source>
-      <translation type="unfinished">Open URL in web browser?</translation>
+      <translation>Bağlantı tarayıcıda açılsın mı?</translation>
     </message>
     <message>
       <source>Press &quot;Save&quot; to copy the URL to clipboard and manually open it in a web browser.</source>
@@ -5838,15 +5838,15 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Could not open URL. Please open this URL in your browser</source>
-      <translation type="unfinished">Could not open URL. Please open this URL in your browser</translation>
+      <translation>Bağlantı açılamadı. Lütfen bu bağlantıyı tarayıcınızda açın</translation>
     </message>
     <message>
       <source>Invalid reply from web browser. Missing token.</source>
-      <translation type="unfinished">Invalid reply from web browser. Missing token.</translation>
+      <translation>Tarayıcıdan geçersiz yanıt. Jeton eksik.</translation>
     </message>
     <message>
       <source>Received invalid reply from web browser. Try another browser.</source>
-      <translation type="unfinished">Received invalid reply from web browser. Try another browser.</translation>
+      <translation>Tarayıcıdan geçersiz yanıt alındı. Başka bir tarayıcıyı deneyin.</translation>
     </message>
     <message>
       <source>Scrobbler %1 is not authenticated!</source>
@@ -5854,14 +5854,14 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Scrobbler %1 error: %2</source>
-      <translation type="unfinished">Scrobbler %1 error: %2</translation>
+      <translation>Skroplayıcı %1 hata: %2</translation>
     </message>
   </context>
   <context>
     <name>SettingsDialog</name>
     <message>
       <source>Settings</source>
-      <translation type="unfinished">Settings</translation>
+      <translation>Ayarlar</translation>
     </message>
     <message>
       <source>General</source>
@@ -5880,11 +5880,11 @@ Devam etmek istediğinizden emin misiniz?</translation>
     <name>SmartPlaylistQuerySearchPage</name>
     <message>
       <source>Form</source>
-      <translation type="unfinished">Form</translation>
+      <translation>Biçim</translation>
     </message>
     <message>
       <source>Search mode</source>
-      <translation type="unfinished">Search mode</translation>
+      <translation>Arama modu</translation>
     </message>
     <message>
       <source>Match every search term (AND)</source>
@@ -5896,7 +5896,7 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Include all songs</source>
-      <translation type="unfinished">Include all songs</translation>
+      <translation>Tüm şarkıları dahil et</translation>
     </message>
     <message>
       <source>Search terms</source>
@@ -5907,35 +5907,35 @@ Devam etmek istediğinizden emin misiniz?</translation>
     <name>SmartPlaylistQuerySortPage</name>
     <message>
       <source>Form</source>
-      <translation type="unfinished">Form</translation>
+      <translation>Biçim</translation>
     </message>
     <message>
       <source>Sorting</source>
-      <translation type="unfinished">Sorting</translation>
+      <translation>Sınıflandırma</translation>
     </message>
     <message>
       <source>Put songs in a random order</source>
-      <translation type="unfinished">Put songs in a random order</translation>
+      <translation>Şarkıları rastgele sırala</translation>
     </message>
     <message>
       <source>Sort songs by</source>
-      <translation type="unfinished">Sort songs by</translation>
+      <translation>Şarkıları sırala</translation>
     </message>
     <message>
       <source>Limits</source>
-      <translation type="unfinished">Limits</translation>
+      <translation>Sınırlar</translation>
     </message>
     <message>
       <source>Show all the songs</source>
-      <translation type="unfinished">Show all the songs</translation>
+      <translation>Tüm şarkıları göster</translation>
     </message>
     <message>
       <source>Only show the first</source>
-      <translation type="unfinished">Only show the first</translation>
+      <translation>Sadece ilkini göster</translation>
     </message>
     <message>
       <source> songs</source>
-      <translation type="unfinished"> songs</translation>
+      <translation> şarkı</translation>
     </message>
   </context>
   <context>
@@ -5969,11 +5969,11 @@ Devam etmek istediğinizden emin misiniz?</translation>
     <name>SmartPlaylistSearchPreview</name>
     <message>
       <source>Form</source>
-      <translation type="unfinished">Form</translation>
+      <translation>Biçim</translation>
     </message>
     <message>
       <source>Preview</source>
-      <translation type="unfinished">Preview</translation>
+      <translation>Ön izle</translation>
     </message>
     <message>
       <source>Loading...</source>
@@ -5992,15 +5992,15 @@ Devam etmek istediğinizden emin misiniz?</translation>
     <name>SmartPlaylistSearchTermWidget</name>
     <message>
       <source>Form</source>
-      <translation type="unfinished">Form</translation>
+      <translation>Biçim</translation>
     </message>
     <message>
       <source>and</source>
-      <translation type="unfinished">and</translation>
+      <translation>ve</translation>
     </message>
     <message>
       <source>ago</source>
-      <translation type="unfinished">ago</translation>
+      <translation>önce</translation>
     </message>
     <message>
       <source>The second value must be greater than the first one!</source>
@@ -6041,7 +6041,7 @@ Devam etmek istediğinizden emin misiniz?</translation>
     <name>SmartPlaylistWizardFinishPage</name>
     <message>
       <source>Form</source>
-      <translation type="unfinished">Form</translation>
+      <translation>Biçim</translation>
     </message>
     <message>
       <source>Name</source>
@@ -6049,11 +6049,11 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Use dynamic mode</source>
-      <translation type="unfinished">Use dynamic mode</translation>
+      <translation>Dinamik modu kullan</translation>
     </message>
     <message>
       <source>In dynamic mode new tracks will be chosen and added to the playlist every time a song finishes.</source>
-      <translation type="unfinished">In dynamic mode new tracks will be chosen and added to the playlist every time a song finishes.</translation>
+      <translation>Dinamik modda şarkı bitince yeni parçalar seçilip çalma listesine eklenecektir.</translation>
     </message>
   </context>
   <context>
@@ -6068,7 +6068,7 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Ever played</source>
-      <translation type="unfinished">Ever played</translation>
+      <translation>Hiç çalınmamış</translation>
     </message>
     <message>
       <source>Never played</source>
@@ -6099,11 +6099,11 @@ Devam etmek istediğinizden emin misiniz?</translation>
     <name>SmartPlaylistsViewContainer</name>
     <message>
       <source>New smart playlist</source>
-      <translation type="unfinished">New smart playlist</translation>
+      <translation>Yeni akıllı çalma listesi</translation>
     </message>
     <message>
       <source>Edit smart playlist</source>
-      <translation type="unfinished">Edit smart playlist</translation>
+      <translation>Akıllı çalma listesini düzenle</translation>
     </message>
     <message>
       <source>Delete smart playlist</source>
@@ -6119,7 +6119,7 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Replace current playlist</source>
-      <translation type="unfinished">Replace current playlist</translation>
+      <translation>Geçerli çalma listesinin yerine koy</translation>
     </message>
     <message>
       <source>Open in new playlist</source>
@@ -6142,39 +6142,39 @@ Devam etmek istediğinizden emin misiniz?</translation>
     <name>SnapDialog</name>
     <message>
       <source>Strawberry is running as a Snap</source>
-      <translation type="unfinished">Strawberry is running as a Snap</translation>
+      <translation>Strawberry bir Snap olarak çalışıyor</translation>
     </message>
     <message>
       <source>It is detected that Strawberry is running as a Snap</source>
-      <translation type="unfinished">It is detected that Strawberry is running as a Snap</translation>
+      <translation>Strawberry'nin bir Snap olarak çalıştığı tespit edildi</translation>
     </message>
     <message>
       <source>Strawberry is slower, and has restrictions when running as a Snap. Accessing the root filesystem (/) will not work. There also might be other restrictions such as accessing certain devices or network shares.</source>
-      <translation type="unfinished">Strawberry is slower, and has restrictions when running as a Snap. Accessing the root filesystem (/) will not work. There also might be other restrictions such as accessing certain devices or network shares.</translation>
+      <translation>Strawberry, Snap olarak çalışırken daha yavaş olur ve kök dizinine (/) erişemez. Ayrıca belirli cihazlara veya ağ paylaşımlarına erişmede de sorun olabilir.</translation>
     </message>
     <message>
       <source>For Ubuntu there is an official PPA repository available at %1.</source>
-      <translation type="unfinished">For Ubuntu there is an official PPA repository available at %1.</translation>
+      <translation>Ubuntu için resmi PPA deposu %1 içinde mevcuttur.</translation>
     </message>
     <message>
       <source>Official releases are available for Debian and Ubuntu which also work on most of their derivatives. See %1 for more information.</source>
-      <translation type="unfinished">Official releases are available for Debian and Ubuntu which also work on most of their derivatives. See %1 for more information.</translation>
+      <translation>Debian ve Ubuntu ve türevleri için çalışan resmi sürümler de mevcuttur. Daha fazla bilgi için %1 bakın.</translation>
     </message>
     <message>
       <source>For a better experience please consider the other options above.</source>
-      <translation type="unfinished">For a better experience please consider the other options above.</translation>
+      <translation>Daha iyi bir deneyim için lütfen yukarıdaki seçenekleri göz önünde bulundurun.</translation>
     </message>
     <message>
       <source>Copy your strawberry.conf and strawberry.db from your ~/snap directory to avoid losing configuration before you uninstall the snap:</source>
-      <translation type="unfinished">Copy your strawberry.conf and strawberry.db from your ~/snap directory to avoid losing configuration before you uninstall the snap:</translation>
+      <translation>Snap'i kaldırırken yapılandırmalarınızı kaybetmemek için strawberry.conf ve strawberry.db dosyalarınızı ~/snap dizininden kopyalayın:</translation>
     </message>
     <message>
       <source>Uninstall the snap with:</source>
-      <translation type="unfinished">Uninstall the snap with:</translation>
+      <translation>Snapi kaldırmak için:</translation>
     </message>
     <message>
       <source>Install strawberry through PPA:</source>
-      <translation type="unfinished">Install strawberry through PPA:</translation>
+      <translation>Strawberry'yi PPA aracılığıyla kurun:</translation>
     </message>
   </context>
   <context>
@@ -6246,62 +6246,62 @@ Devam etmek istediğinizden emin misiniz?</translation>
     <name>SpotifyRequest</name>
     <message>
       <source>Authenticating...</source>
-      <translation type="unfinished">Authenticating...</translation>
+      <translation>Doğrulanıyor...</translation>
     </message>
     <message>
       <source>Receiving artists...</source>
-      <translation type="unfinished">Receiving artists...</translation>
+      <translation>Sanatçılar alınıyor...</translation>
     </message>
     <message>
       <source>Receiving albums...</source>
-      <translation type="unfinished">Receiving albums...</translation>
+      <translation>Albümler alınıyor...</translation>
     </message>
     <message>
       <source>Receiving songs...</source>
-      <translation type="unfinished">Receiving songs...</translation>
+      <translation>Şarkılar alınıyor...</translation>
     </message>
     <message>
       <source>Searching...</source>
-      <translation type="unfinished">Searching...</translation>
+      <translation>Aranıyor...</translation>
     </message>
     <message>
       <source>Receiving albums for %1 artist...</source>
-      <translation type="unfinished">Receiving albums for %1 artist...</translation>
+      <translation>%1 için albümler alınıyor...</translation>
     </message>
     <message>
       <source>Receiving albums for %1 artists...</source>
-      <translation type="unfinished">Receiving albums for %1 artists...</translation>
+      <translation>%1 için albümler alınıyor...</translation>
     </message>
     <message>
       <source>Receiving songs for %1 album...</source>
-      <translation type="unfinished">Receiving songs for %1 album...</translation>
+      <translation>%1 için şarkılar alınıyor...</translation>
     </message>
     <message>
       <source>Receiving songs for %1 albums...</source>
-      <translation type="unfinished">Receiving songs for %1 albums...</translation>
+      <translation>%1 için şarkılar alınıyor...</translation>
     </message>
     <message>
       <source>Receiving album cover for %1 album...</source>
-      <translation type="unfinished">Receiving album cover for %1 album...</translation>
+      <translation>%1 için albüm kapağı alınıyor...</translation>
     </message>
     <message>
       <source>Receiving album covers for %1 albums...</source>
-      <translation type="unfinished">Receiving album covers for %1 albums...</translation>
+      <translation>%1 için albüm kapağı alınıyor...</translation>
     </message>
     <message>
       <source>No match.</source>
-      <translation type="unfinished">No match.</translation>
+      <translation>Eşleşme yok.</translation>
     </message>
     <message>
       <source>Data missing error</source>
-      <translation type="unfinished">Data missing error</translation>
+      <translation>Eksik veri hatası</translation>
     </message>
   </context>
   <context>
     <name>SpotifyService</name>
     <message>
       <source>Spotify Authentication</source>
-      <translation type="unfinished">Spotify Authentication</translation>
+      <translation>Spotify Doğrulama</translation>
     </message>
     <message>
       <source>Please open this URL in your browser</source>
@@ -6313,30 +6313,30 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Received invalid reply from web browser.</source>
-      <translation type="unfinished">Received invalid reply from web browser.</translation>
+      <translation>Tarayıcınızdan geçersiz yanıt alındı.</translation>
     </message>
     <message>
       <source>Not authenticated with Spotify.</source>
-      <translation type="unfinished">Not authenticated with Spotify.</translation>
+      <translation>Spotify ile doğrulanmadı.</translation>
     </message>
   </context>
   <context>
     <name>SpotifySettingsPage</name>
     <message>
       <source>Spotify</source>
-      <translation type="unfinished">Spotify</translation>
+      <translation>Spotify</translation>
     </message>
     <message>
       <source>Enable</source>
-      <translation type="unfinished">Enable</translation>
+      <translation>Etkinleştir</translation>
     </message>
     <message>
       <source>Basic authentication</source>
-      <translation type="unfinished">Basic authentication</translation>
+      <translation>Temel doğrulama</translation>
     </message>
     <message>
       <source>Authenticate</source>
-      <translation type="unfinished">Authenticate</translation>
+      <translation>Doğrula</translation>
     </message>
     <message>
       <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The GStreamer Spotify plugin is not detected, you will not be able to stream songs from Spotify without it. See &lt;a href=&quot;https://wiki.strawberrymusicplayer.org/wiki/Installing_GStreamer_Spotify_plugin&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;Wiki&lt;/span&gt;&lt;/a&gt; for instructions on how to install the plugin.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
@@ -6344,7 +6344,7 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Preferences</source>
-      <translation type="unfinished">Preferences</translation>
+      <translation>Tercihler</translation>
     </message>
     <message>
       <source>Search delay</source>
@@ -6352,27 +6352,27 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>ms</source>
-      <translation type="unfinished">ms</translation>
+      <translation>ms</translation>
     </message>
     <message>
       <source>Artists search limit</source>
-      <translation type="unfinished">Artists search limit</translation>
+      <translation>Sanatçı arama sınırı</translation>
     </message>
     <message>
       <source>Albums search limit</source>
-      <translation type="unfinished">Albums search limit</translation>
+      <translation>Albüm arama sınırı</translation>
     </message>
     <message>
       <source>Songs search limit</source>
-      <translation type="unfinished">Songs search limit</translation>
+      <translation>Şarkı arama sınırı</translation>
     </message>
     <message>
       <source>Download album covers</source>
-      <translation type="unfinished">Download album covers</translation>
+      <translation>Albüm kapaklarını indir</translation>
     </message>
     <message>
       <source>Fetch entire albums when searching songs</source>
-      <translation type="unfinished">Fetch entire albums when searching songs</translation>
+      <translation>Şarkıları ararken tüm albümleri al</translation>
     </message>
     <message>
       <source>Authentication failed</source>
@@ -6383,11 +6383,11 @@ Devam etmek istediğinizden emin misiniz?</translation>
     <name>StreamingCollectionView</name>
     <message>
       <source>The streaming collection is empty!</source>
-      <translation type="unfinished">The streaming collection is empty!</translation>
+      <translation>Akış koleksiyonu boş!</translation>
     </message>
     <message>
       <source>Click here to retrieve music</source>
-      <translation type="unfinished">Click here to retrieve music</translation>
+      <translation>Müziğinizi geri getirmek için tıklayın</translation>
     </message>
     <message>
       <source>Append to current playlist</source>
@@ -6395,7 +6395,7 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Replace current playlist</source>
-      <translation type="unfinished">Replace current playlist</translation>
+      <translation>Geçerli çalma listesinin yerine koy</translation>
     </message>
     <message>
       <source>Open in new playlist</source>
@@ -6407,18 +6407,18 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Queue to play next</source>
-      <translation type="unfinished">Queue to play next</translation>
+      <translation>Çalınacaklar sırası</translation>
     </message>
     <message>
       <source>Remove from favorites</source>
-      <translation type="unfinished">Remove from favorites</translation>
+      <translation>Beğenilenlerden kaldır</translation>
     </message>
   </context>
   <context>
     <name>StreamingCollectionViewContainer</name>
     <message>
       <source>Form</source>
-      <translation type="unfinished">Form</translation>
+      <translation>Biçim</translation>
     </message>
     <message>
       <source>Close</source>
@@ -6549,23 +6549,23 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Retrieving songs for %1 album...</source>
-      <translation type="unfinished">Retrieving songs for %1 album...</translation>
+      <translation>%1 için şarkılar getiriliyor...</translation>
     </message>
     <message>
       <source>Retrieving songs for %1 albums...</source>
-      <translation type="unfinished">Retrieving songs for %1 albums...</translation>
+      <translation>%1 için şarkılar getiriliyor...</translation>
     </message>
     <message>
       <source>Retrieving album cover for %1 album...</source>
-      <translation type="unfinished">Retrieving album cover for %1 album...</translation>
+      <translation>%1 için albüm kapağı getiriliyor...</translation>
     </message>
     <message>
       <source>Retrieving album covers for %1 albums...</source>
-      <translation type="unfinished">Retrieving album covers for %1 albums...</translation>
+      <translation>%1 için albüm kapağı getiriliyor...</translation>
     </message>
     <message>
       <source>Unknown error</source>
-      <translation type="unfinished">Unknown error</translation>
+      <translation>Bilinmeyen hata</translation>
     </message>
   </context>
   <context>
@@ -6576,38 +6576,38 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Missing username or password.</source>
-      <translation type="unfinished">Missing username or password.</translation>
+      <translation>Kullanıcı adı ve şifresi eksik.</translation>
     </message>
   </context>
   <context>
     <name>SubsonicSettingsPage</name>
     <message>
       <source>Subsonic</source>
-      <translation type="unfinished">Subsonic</translation>
+      <translation>Subsonic</translation>
     </message>
     <message>
       <source>Enable</source>
-      <translation type="unfinished">Enable</translation>
+      <translation>Etkinleştir</translation>
     </message>
     <message>
       <source>Server URL</source>
-      <translation type="unfinished">Server URL</translation>
+      <translation>Sunucu Bağlantısı</translation>
     </message>
     <message>
       <source>Authentication</source>
-      <translation type="unfinished">Authentication</translation>
+      <translation>Doğrulama</translation>
     </message>
     <message>
       <source>Username</source>
-      <translation type="unfinished">Username</translation>
+      <translation>Kullanıcı adı</translation>
     </message>
     <message>
       <source>Password</source>
-      <translation type="unfinished">Password</translation>
+      <translation>Parola</translation>
     </message>
     <message>
       <source>Authentication method:</source>
-      <translation type="unfinished">Authentication method:</translation>
+      <translation>Doğrulama yöntemi:</translation>
     </message>
     <message>
       <source>Hex</source>
@@ -6647,42 +6647,42 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Delete songs</source>
-      <translation type="unfinished">Delete songs</translation>
+      <translation>Şarkıları sil</translation>
     </message>
     <message>
       <source>Configuration incomplete</source>
-      <translation type="unfinished">Configuration incomplete</translation>
+      <translation>Yapılandırma tamamlanmadı</translation>
     </message>
     <message>
       <source>Missing server url, username or password.</source>
-      <translation type="unfinished">Missing server url, username or password.</translation>
+      <translation>Sunucu bağlantısı, kullanıcı adı ve parola eksik.</translation>
     </message>
     <message>
       <source>Configuration incorrect</source>
-      <translation type="unfinished">Configuration incorrect</translation>
+      <translation>Yapılandırma geçersiz</translation>
     </message>
     <message>
       <source>Server URL is invalid.</source>
-      <translation type="unfinished">Server URL is invalid.</translation>
+      <translation>Sunucu bağlantısı geçersiz.</translation>
     </message>
     <message>
       <source>Test successful!</source>
-      <translation type="unfinished">Test successful!</translation>
+      <translation>Test başarılı!</translation>
     </message>
     <message>
       <source>Test failed!</source>
-      <translation type="unfinished">Test failed!</translation>
+      <translation>Test başarısız!</translation>
     </message>
   </context>
   <context>
     <name>SubsonicUrlHandler</name>
     <message>
       <source>Subsonic server URL is invalid.</source>
-      <translation type="unfinished">Subsonic server URL is invalid.</translation>
+      <translation>Subsonic sunucu bağlantısı geçersiz.</translation>
     </message>
     <message>
       <source>Missing Subsonic username or password.</source>
-      <translation type="unfinished">Missing Subsonic username or password.</translation>
+      <translation>Subsonic kullanıcı adı ve şifresi eksik.</translation>
     </message>
   </context>
   <context>
@@ -6700,7 +6700,7 @@ Devam etmek istediğinizden emin misiniz?</translation>
     <name>TagFetcher</name>
     <message>
       <source>Identifying song</source>
-      <translation type="unfinished">Identifying song</translation>
+      <translation>Şarkı tanınıyor</translation>
     </message>
     <message>
       <source>Fingerprinting song</source>
@@ -6708,58 +6708,58 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Downloading metadata</source>
-      <translation type="unfinished">Downloading metadata</translation>
+      <translation>Üstveri indiriliyor</translation>
     </message>
   </context>
   <context>
     <name>TidalRequest</name>
     <message>
       <source>Authenticating...</source>
-      <translation type="unfinished">Authenticating...</translation>
+      <translation>Doğrulanıyor...</translation>
     </message>
     <message>
       <source>Receiving artists...</source>
-      <translation type="unfinished">Receiving artists...</translation>
+      <translation>Sanatçılar alınıyor...</translation>
     </message>
     <message>
       <source>Receiving albums...</source>
-      <translation type="unfinished">Receiving albums...</translation>
+      <translation>Albümler alınıyor...</translation>
     </message>
     <message>
       <source>Receiving songs...</source>
-      <translation type="unfinished">Receiving songs...</translation>
+      <translation>Şarkılar alınıyor...</translation>
     </message>
     <message>
       <source>Searching...</source>
-      <translation type="unfinished">Searching...</translation>
+      <translation>Aranıyor...</translation>
     </message>
     <message>
       <source>Receiving albums for %1 artist...</source>
-      <translation type="unfinished">Receiving albums for %1 artist...</translation>
+      <translation>%1 için albümler alınıyor...</translation>
     </message>
     <message>
       <source>Receiving albums for %1 artists...</source>
-      <translation type="unfinished">Receiving albums for %1 artists...</translation>
+      <translation>%1 için albümler alınıyor...</translation>
     </message>
     <message>
       <source>Receiving songs for %1 album...</source>
-      <translation type="unfinished">Receiving songs for %1 album...</translation>
+      <translation>%1 için şarkılar alınıyor...</translation>
     </message>
     <message>
       <source>Receiving songs for %1 albums...</source>
-      <translation type="unfinished">Receiving songs for %1 albums...</translation>
+      <translation>%1 için şarkılar alınıyor...</translation>
     </message>
     <message>
       <source>Receiving album cover for %1 album...</source>
-      <translation type="unfinished">Receiving album cover for %1 album...</translation>
+      <translation>%1 için albüm kapağı alınıyor...</translation>
     </message>
     <message>
       <source>Receiving album covers for %1 albums...</source>
-      <translation type="unfinished">Receiving album covers for %1 albums...</translation>
+      <translation>%1 için albüm kapağı alınıyor...</translation>
     </message>
     <message>
       <source>No match.</source>
-      <translation type="unfinished">No match.</translation>
+      <translation>Eşleşme yok.</translation>
     </message>
   </context>
   <context>
@@ -6770,15 +6770,15 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Missing Tidal API token.</source>
-      <translation type="unfinished">Missing Tidal API token.</translation>
+      <translation>Tidal API jetonu eksik.</translation>
     </message>
     <message>
       <source>Missing Tidal username.</source>
-      <translation type="unfinished">Missing Tidal username.</translation>
+      <translation>Tidal kullanıcı adı eksik.</translation>
     </message>
     <message>
       <source>Missing Tidal password.</source>
-      <translation type="unfinished">Missing Tidal password.</translation>
+      <translation>Tidal parola eksik.</translation>
     </message>
     <message>
       <source>Not authenticated with Tidal and reached maximum number of login attempts.</source>
@@ -6786,62 +6786,62 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Not authenticated with Tidal.</source>
-      <translation type="unfinished">Not authenticated with Tidal.</translation>
+      <translation>Tidal ile doğrulanmadı.</translation>
     </message>
     <message>
       <source>Missing Tidal API token, username or password.</source>
-      <translation type="unfinished">Missing Tidal API token, username or password.</translation>
+      <translation>Tidal API jetonu, kullanıcı adı ve şifre eksik.</translation>
     </message>
   </context>
   <context>
     <name>TidalSettingsPage</name>
     <message>
       <source>Tidal</source>
-      <translation type="unfinished">Tidal</translation>
+      <translation>Tidal</translation>
     </message>
     <message>
       <source>Enable</source>
-      <translation type="unfinished">Enable</translation>
+      <translation>Etkinleştir</translation>
     </message>
     <message>
       <source>Tidal support is not official and requires a API token from a registered application to work. We can&apos;t help you getting these.</source>
-      <translation type="unfinished">Tidal support is not official and requires a API token from a registered application to work. We can&apos;t help you getting these.</translation>
+      <translation>Tidal desteği resmi değil ve çalışmak için kayıtlı bir uygulamadan API jetonuna ihtiyaç duyar. Bunları elde etmenize yardım edemeyiz.</translation>
     </message>
     <message>
       <source>Authentication</source>
-      <translation type="unfinished">Authentication</translation>
+      <translation>Doğrulama</translation>
     </message>
     <message>
       <source>Use OAuth</source>
-      <translation type="unfinished">Use OAuth</translation>
+      <translation>OAuth Kullan</translation>
     </message>
     <message>
       <source>Client ID</source>
-      <translation type="unfinished">Client ID</translation>
+      <translation>İstemci Kimliği</translation>
     </message>
     <message>
       <source>API Token</source>
-      <translation type="unfinished">API Token</translation>
+      <translation>API Jetonu</translation>
     </message>
     <message>
       <source>Username</source>
-      <translation type="unfinished">Username</translation>
+      <translation>Kullanıcı adı</translation>
     </message>
     <message>
       <source>Password</source>
-      <translation type="unfinished">Password</translation>
+      <translation>Parola</translation>
     </message>
     <message>
       <source>Login</source>
-      <translation type="unfinished">Login</translation>
+      <translation>Giriş yap</translation>
     </message>
     <message>
       <source>Preferences</source>
-      <translation type="unfinished">Preferences</translation>
+      <translation>Tercihler</translation>
     </message>
     <message>
       <source>Audio quality</source>
-      <translation type="unfinished">Audio quality</translation>
+      <translation>Ses kalitesi</translation>
     </message>
     <message>
       <source>Search delay</source>
@@ -6849,35 +6849,35 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>ms</source>
-      <translation type="unfinished">ms</translation>
+      <translation>ms</translation>
     </message>
     <message>
       <source>Artists search limit</source>
-      <translation type="unfinished">Artists search limit</translation>
+      <translation>Sanatçı arama sınırı</translation>
     </message>
     <message>
       <source>Albums search limit</source>
-      <translation type="unfinished">Albums search limit</translation>
+      <translation>Albüm arama sınırı</translation>
     </message>
     <message>
       <source>Songs search limit</source>
-      <translation type="unfinished">Songs search limit</translation>
+      <translation>Şarkı arama sınırı</translation>
     </message>
     <message>
       <source>Download album covers</source>
-      <translation type="unfinished">Download album covers</translation>
+      <translation>Albüm kapaklarını indir</translation>
     </message>
     <message>
       <source>Fetch entire albums when searching songs</source>
-      <translation type="unfinished">Fetch entire albums when searching songs</translation>
+      <translation>Şarkıları ararken albümleri de al</translation>
     </message>
     <message>
       <source>Album cover size</source>
-      <translation type="unfinished">Album cover size</translation>
+      <translation>Albüm kapağı boyutu</translation>
     </message>
     <message>
       <source>Stream URL method</source>
-      <translation type="unfinished">Stream URL method</translation>
+      <translation>Akış URL yöntemi</translation>
     </message>
     <message>
       <source>Append explicit to album title for explicit albums</source>
@@ -6885,23 +6885,23 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Configuration incomplete</source>
-      <translation type="unfinished">Configuration incomplete</translation>
+      <translation>Yapılandırma tamamlanmadı</translation>
     </message>
     <message>
       <source>Missing Tidal client ID.</source>
-      <translation type="unfinished">Missing Tidal client ID.</translation>
+      <translation>Tidal istemci kimliği eksik.</translation>
     </message>
     <message>
       <source>Missing API token.</source>
-      <translation type="unfinished">Missing API token.</translation>
+      <translation>API jetonu eksik.</translation>
     </message>
     <message>
       <source>Missing username.</source>
-      <translation type="unfinished">Missing username.</translation>
+      <translation>Kullanıcı adı eksik.</translation>
     </message>
     <message>
       <source>Missing password.</source>
-      <translation type="unfinished">Missing password.</translation>
+      <translation>Parola eksik.</translation>
     </message>
     <message>
       <source>Authentication failed</source>
@@ -6912,15 +6912,15 @@ Devam etmek istediğinizden emin misiniz?</translation>
     <name>TidalStreamURLRequest</name>
     <message>
       <source>Not authenticated with Tidal.</source>
-      <translation type="unfinished">Not authenticated with Tidal.</translation>
+      <translation>Tidal ile doğrulanmadı.</translation>
     </message>
     <message>
       <source>Missing Tidal API token, username or password.</source>
-      <translation type="unfinished">Missing Tidal API token, username or password.</translation>
+      <translation>Tidal API jetonu, kullanıcı adı ve şifresi eksik.</translation>
     </message>
     <message>
       <source>Cancelled.</source>
-      <translation type="unfinished">Cancelled.</translation>
+      <translation>İptal edildi.</translation>
     </message>
     <message>
       <source>Received URL with %1 encrypted stream from Tidal. Strawberry does not currently support encrypted streams.</source>
@@ -6935,19 +6935,19 @@ Devam etmek istediğinizden emin misiniz?</translation>
     <name>TrackSelectionDialog</name>
     <message>
       <source>Tag fetcher</source>
-      <translation type="unfinished">Tag fetcher</translation>
+      <translation>Etiket getirici</translation>
     </message>
     <message>
       <source>Sorry</source>
-      <translation type="unfinished">Sorry</translation>
+      <translation>Üzgünüm</translation>
     </message>
     <message>
       <source>Strawberry was unable to find results for this file</source>
-      <translation type="unfinished">Strawberry was unable to find results for this file</translation>
+      <translation>Strawberry bu dosya için sonuç bulamadı</translation>
     </message>
     <message>
       <source>Select best possible match</source>
-      <translation type="unfinished">Select best possible match</translation>
+      <translation>En iyi eşleşmeyi seç</translation>
     </message>
     <message>
       <source>Track</source>
@@ -6971,23 +6971,23 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Previous</source>
-      <translation type="unfinished">Previous</translation>
+      <translation>Önceki</translation>
     </message>
     <message>
       <source>Next</source>
-      <translation type="unfinished">Next</translation>
+      <translation>Sonraki</translation>
     </message>
     <message>
       <source>Original tags</source>
-      <translation type="unfinished">Original tags</translation>
+      <translation>Özgün etiketler</translation>
     </message>
     <message>
       <source>Suggested tags</source>
-      <translation type="unfinished">Suggested tags</translation>
+      <translation>Önerilen etiketler</translation>
     </message>
     <message>
       <source>Saving tracks</source>
-      <translation type="unfinished">Saving tracks</translation>
+      <translation>Parçalar kaydediliyor</translation>
     </message>
   </context>
   <context>
@@ -7017,31 +7017,31 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Filename</source>
-      <translation type="unfinished">Filename</translation>
+      <translation>Dosya adı</translation>
     </message>
     <message>
       <source>Directory</source>
-      <translation type="unfinished">Directory</translation>
+      <translation>Dizin</translation>
     </message>
     <message>
       <source>Add...</source>
-      <translation type="unfinished">Add...</translation>
+      <translation>Ekle...</translation>
     </message>
     <message>
       <source>Remove</source>
-      <translation type="unfinished">Remove</translation>
+      <translation>Kaldır</translation>
     </message>
     <message>
       <source>Add all tracks from a directory and all its subdirectories</source>
-      <translation type="unfinished">Add all tracks from a directory and all its subdirectories</translation>
+      <translation>Bir dizin ve alt dizinlerinden tüm şarkıları ekle</translation>
     </message>
     <message>
       <source>Import...</source>
-      <translation type="unfinished">Import...</translation>
+      <translation>İçe aktar...</translation>
     </message>
     <message>
       <source>Output options</source>
-      <translation type="unfinished">Output options</translation>
+      <translation>Çıktı seçenekleri</translation>
     </message>
     <message>
       <source>Audio format</source>
@@ -7049,7 +7049,7 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Options...</source>
-      <translation type="unfinished">Options...</translation>
+      <translation>Seçenekler...</translation>
     </message>
     <message>
       <source>Destination</source>
@@ -7061,48 +7061,48 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Select...</source>
-      <translation type="unfinished">Select...</translation>
+      <translation>Seç...</translation>
     </message>
     <message>
       <source>Progress</source>
-      <translation type="unfinished">Progress</translation>
+      <translation>İlerleme</translation>
     </message>
     <message>
       <source>Details...</source>
-      <translation type="unfinished">Details...</translation>
+      <translation>Detaylar...</translation>
     </message>
     <message>
       <source>Clear</source>
-      <translation type="unfinished">Clear</translation>
+      <translation>Temizle</translation>
     </message>
     <message>
       <source>Start transcoding</source>
-      <translation type="unfinished">Start transcoding</translation>
+      <translation>Dönüştürmeyi başlat</translation>
     </message>
     <message numerus="yes">
       <source>%n remaining</source>
-      <translation type="unfinished">
-        <numerusform>%n remaining</numerusform>
-        <numerusform>%n remaining</numerusform>
+      <translation>
+        <numerusform>%n kaldı</numerusform>
+        <numerusform>%n kaldı</numerusform>
       </translation>
     </message>
     <message numerus="yes">
       <source>%n finished</source>
-      <translation type="unfinished">
-        <numerusform>%n finished</numerusform>
-        <numerusform>%n finished</numerusform>
+      <translation>
+        <numerusform>%n bitti</numerusform>
+        <numerusform>%n bitti</numerusform>
       </translation>
     </message>
     <message numerus="yes">
       <source>%n failed</source>
-      <translation type="unfinished">
-        <numerusform>%n failed</numerusform>
-        <numerusform>%n failed</numerusform>
+      <translation>
+        <numerusform>%n başarısız</numerusform>
+        <numerusform>%n başarısız</numerusform>
       </translation>
     </message>
     <message>
       <source>Add files to transcode</source>
-      <translation type="unfinished">Add files to transcode</translation>
+      <translation>Dönüştürülecek dosyaları ekleyin</translation>
     </message>
     <message>
       <source>Music</source>
@@ -7110,11 +7110,19 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Open a directory to import music from</source>
-      <translation type="unfinished">Open a directory to import music from</translation>
+      <translation>Müzik içe aktarmak için bir klasör açın</translation>
     </message>
     <message>
       <source>Add folder</source>
       <translation>Klasör ekle</translation>
+    </message>
+    <message>
+      <source>Import Directory</source>
+      <translation>Dizini içe aktar</translation>
+    </message>
+    <message>
+      <source>Preserve directory structure in output directory (import only)</source>
+      <translation type="unfinished">Preserve directory structure in output directory (import only)</translation>
     </message>
   </context>
   <context>
@@ -7159,7 +7167,7 @@ Devam etmek istediğinizden emin misiniz?</translation>
     <name>TranscoderOptionsAAC</name>
     <message>
       <source>Form</source>
-      <translation type="unfinished">Form</translation>
+      <translation>Biçim</translation>
     </message>
     <message>
       <source>Bitrate</source>
@@ -7167,11 +7175,11 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source> kbps</source>
-      <translation type="unfinished"> kbps</translation>
+      <translation> kbps</translation>
     </message>
     <message>
       <source>Profile</source>
-      <translation type="unfinished">Profile</translation>
+      <translation>Profil</translation>
     </message>
     <message>
       <source>Main profile (MAIN)</source>
@@ -7233,7 +7241,7 @@ Devam etmek istediğinizden emin misiniz?</translation>
     <name>TranscoderOptionsDialog</name>
     <message>
       <source>Transcoding options</source>
-      <translation type="unfinished">Transcoding options</translation>
+      <translation>Dönüştürme seçenekleri</translation>
     </message>
   </context>
   <context>
@@ -7442,7 +7450,7 @@ Devam etmek istediğinizden emin misiniz?</translation>
     <name>TranscoderSettingsPage</name>
     <message>
       <source>Transcoding</source>
-      <translation type="unfinished">Transcoding</translation>
+      <translation>Dönüştürme</translation>
     </message>
     <message>
       <source>These settings are used in the &quot;Transcode Music&quot; dialog, and when converting music before copying it to a device.</source>

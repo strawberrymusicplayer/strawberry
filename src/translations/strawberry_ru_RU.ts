@@ -5269,11 +5269,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Invalid collection directory</source>
-      <translation type="unfinished">Invalid collection directory</translation>
+      <translation>Недопустимый каталог фонотеки</translation>
     </message>
     <message>
       <source>Can&apos;t add directory %1 with special filesystem %2 to collection</source>
-      <translation type="unfinished">Can&apos;t add directory %1 with special filesystem %2 to collection</translation>
+      <translation>Невозможно добавить каталог %1 со специальной файловой системой %2 в фонотеку</translation>
     </message>
   </context>
   <context>
@@ -5817,19 +5817,19 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>With this option enabled, scrobbles will be cached to disk but not sent to the server. This option can be enabled in cases where the server or the internet connection is unstable, the scrobbles will be sent when the option is disabled.</source>
-      <translation type="unfinished">With this option enabled, scrobbles will be cached to disk but not sent to the server. This option can be enabled in cases where the server or the internet connection is unstable, the scrobbles will be sent when the option is disabled.</translation>
+      <translation>Если этот параметр включён, скробблинг будет кэшироваться на диск, но не отправлен на сервер. Этот параметр можно включать в тех случаях, когда соединение с сервером или Интернетом нестабильны; скробблы будут отправлены, как только параметр будет отключён.</translation>
     </message>
     <message>
       <source>Offline mode (Only cache scrobbles)</source>
-      <translation type="unfinished">Offline mode (Only cache scrobbles)</translation>
+      <translation>Автономный режим (только кэшировать скробблы)</translation>
     </message>
     <message>
       <source>This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately.</source>
-      <translation type="unfinished">This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately.</translation>
+      <translation>Это задержка между моментами, когда песня заскробблится, и когда скроббл отправится на сервер. Если сделать время равным 0 секунд, то отправка скроббла будет мгновенной.</translation>
     </message>
     <message>
       <source>Spotify</source>
-      <translation type="unfinished">Spotify</translation>
+      <translation>Spotify</translation>
     </message>
   </context>
   <context>
@@ -7131,6 +7131,14 @@ Are you sure you want to continue?</source>
     <message>
       <source>Add folder</source>
       <translation>Добавление папки</translation>
+    </message>
+    <message>
+      <source>Import Directory</source>
+      <translation>Импорт каталога</translation>
+    </message>
+    <message>
+      <source>Preserve directory structure in output directory (import only)</source>
+      <translation>Сохранять структуру каталогов в выходном каталоге (только для импорта)</translation>
     </message>
   </context>
   <context>
