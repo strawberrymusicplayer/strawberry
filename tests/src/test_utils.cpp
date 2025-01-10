@@ -65,10 +65,12 @@ void PrintTo(const ::QUrl &url, std::ostream &os) {
 TemporaryResource::TemporaryResource(const QString &filename, QObject *parent) : QTemporaryFile(parent) {
 
   setFileTemplate(QDir::tempPath() + u"/strawberry_test-XXXXXX."_s + filename.section(u'.', -1, -1));
-  Q_ASSERT(open());
+  bool success = open();
+  Q_ASSERT(success);
 
   QFile resource(filename);
-  Q_ASSERT(resource.open(QIODevice::ReadOnly));
+  success = resource.open(QIODevice::ReadOnly);
+  Q_ASSERT(success);
   write(resource.readAll());
 
   reset();
