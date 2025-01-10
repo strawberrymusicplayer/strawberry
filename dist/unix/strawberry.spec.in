@@ -108,10 +108,10 @@ Features:
   export CXXFLAGS="-fPIC $RPM_OPT_FLAGS"
 %endif
 %if "%{?_vendor}" == "openmandriva"
-%{cmake}
+%{cmake} -DBUILD_WERROR=ON
 %make_build
 %else
-%{cmake}
+%{cmake} -DBUILD_WERROR=ON
 %cmake_build
 %endif
 
