@@ -1088,11 +1088,11 @@ Falls es keine Treffer gibt, wird das größte Bild aus dem Verzeichnis ausgewä
     </message>
     <message>
       <source>Use various artists for compilation albums</source>
-      <translation type="unfinished">Use various artists for compilation albums</translation>
+      <translation>Verschiedene Interpreten für Kompilationsalben verwenden</translation>
     </message>
     <message>
       <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artist names</source>
-      <translation type="unfinished">Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artist names</translation>
+      <translation>Führende Artikel (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) beim Sortieren von Interpreten überspringen</translation>
     </message>
     <message>
       <source>Album cover pixmap cache</source>
