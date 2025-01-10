@@ -484,16 +484,22 @@ void GioLister::DeviceInfo::ReadMountInfo(GMount *mount) {
   }
 
 #ifdef HAVE_GIO_UNIX
+#ifdef GLIB_VERSION_2_84
+  GUnixMountEntry *unix_mount = g_unix_mount_entry_for(g_file_get_path(root), nullptr);
+#else
   GUnixMountEntry *unix_mount = g_unix_mount_for(g_file_get_path(root), nullptr);
+#endif
   if (unix_mount) {
-    // the GIO's definition of system internal mounts include filesystems like
-    // autofs, tmpfs, sysfs, etc, and various system directories, including the root,
-    // /boot, /var, /home, etc.
+    // The GIO's definition of system internal mounts include filesystems like autofs, tmpfs, sysfs, etc,
+    // and various system directories, including the root, /boot, /var, /home, etc.
+#ifdef GLIB_VERSION_2_84
+    is_system_internal = g_unix_mount_entry_is_system_internal(unix_mount);
+    g_unix_mount_entry_free(unix_mount);
+#else
     is_system_internal = g_unix_mount_is_system_internal(unix_mount);
     g_unix_mount_free(unix_mount);
-    // Although checking most of the internal mounts is safe,
-    // we really don't want to touch autofs filesystems, as that would
-    // trigger automounting.
+#endif
+    // Although checking most of the internal mounts is safe, we really don't want to touch autofs filesystems, as that would trigger automounting.
     if (is_system_internal) return;
   }
 #endif
