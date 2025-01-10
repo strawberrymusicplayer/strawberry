@@ -63,6 +63,8 @@ BuildRequires:  pkgconfig(libcdio)
 BuildRequires:  pkgconfig(libebur128)
 BuildRequires:  pkgconfig(libgpod-1.0)
 BuildRequires:  pkgconfig(libmtp)
+BuildRequires:  cmake(GTest)
+BuildRequires:  pkgconfig(gmock)
 
 %if 0%{?suse_version}
 Requires:  qt6-sql-sqlite
@@ -106,10 +108,10 @@ Features:
   export CXXFLAGS="-fPIC $RPM_OPT_FLAGS"
 %endif
 %if "%{?_vendor}" == "openmandriva"
-%{cmake} -DQT_VERSION_MAJOR=@QT_VERSION_MAJOR@ -DENABLE_TRANSLATIONS=OFF
+%{cmake}
 %make_build
 %else
-%{cmake} -DQT_VERSION_MAJOR=@QT_VERSION_MAJOR@
+%{cmake}
 %cmake_build
 %endif
 
@@ -120,11 +122,11 @@ Features:
 %cmake_install
 %endif
 
-%if 0%{?suse_version}
-  %suse_update_desktop_file org.strawberrymusicplayer.strawberry Qt AudioVideo Audio Player
-%endif
-
 %check
+%if 0%{?fedora} || 0%{?rhel_version} || 0%{?centos}
+%else
+QT_QPA_PLATFORM="offscreen" %{make_build} -j $(nproc) -C build strawberry_tests
+%endif
 desktop-file-validate %{buildroot}%{_datadir}/applications/org.strawberrymusicplayer.strawberry.desktop
 %if 0%{?suse_version}
   appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/org.strawberrymusicplayer.strawberry.appdata.xml
