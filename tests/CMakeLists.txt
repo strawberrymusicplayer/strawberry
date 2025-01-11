@@ -93,7 +93,7 @@ macro(add_test_file test_source gui_required)
       target_link_libraries(${TEST_NAME} PRIVATE test_main)
     endif()
 
-    add_test(strawberry_tests ${TEST_NAME})
+    add_test(NAME ${TEST_NAME} COMMAND ${CMAKE_CURRENT_BINARY_DIR}/${TEST_NAME}${CMAKE_EXECUTABLE_SUFFIX})
     add_custom_command(TARGET strawberry_tests POST_BUILD COMMAND ./${TEST_NAME}${CMAKE_EXECUTABLE_SUFFIX})
     add_dependencies(build_tests ${TEST_NAME})
 endmacro(add_test_file)
