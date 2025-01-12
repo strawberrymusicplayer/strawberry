@@ -290,7 +290,7 @@ int main(int argc, char *argv[]) {
   translations->LoadTranslation(u"strawberry"_s, QDir::currentPath(), language);
 
 #  ifdef HAVE_QTSPARKLE
-  //qtsparkle::LoadTranslations(language);
+  qtsparkle::LoadTranslations(language);
 #  endif
 
 #endif

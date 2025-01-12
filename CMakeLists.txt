@@ -273,7 +273,7 @@ endif()
 if(WIN32)
   find_package(getopt-win REQUIRED)
   if(USE_QTSPARKLE)
-    pkg_check_modules(QTSPARKLE REQUIRED IMPORTED_TARGET qtsparkle-qt${QT_VERSION_MAJOR})
+    find_package(qtsparkle-qt${QT_VERSION_MAJOR} REQUIRED)
     set(HAVE_QTSPARKLE ON)
   endif()
 endif()
@@ -1518,7 +1518,7 @@ target_link_libraries(strawberry_lib PUBLIC
   $<$<BOOL:${HAVE_AUDIOCD}>:PkgConfig::LIBCDIO>
   $<$<BOOL:${HAVE_MTP}>:PkgConfig::LIBMTP>
   $<$<BOOL:${HAVE_GPOD}>:PkgConfig::LIBGPOD PkgConfig::GDK_PIXBUF>
-  $<$<BOOL:${HAVE_QTSPARKLE}>:PkgConfig::QTSPARKLE>
+  $<$<BOOL:${HAVE_QTSPARKLE}>:qtsparkle-qt${QT_VERSION_MAJOR}::qtsparkle>
   $<$<BOOL:${WIN32}>:dsound dwmapi getopt-win::getopt>
   $<$<BOOL:${MSVC}>:WindowsApp>
   ${SINGLEAPPLICATION_LIBRARIES}
