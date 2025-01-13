@@ -26,7 +26,8 @@
 
 #include <QVariant>
 #include <QString>
-#include <QSettings>
+
+#include "core/settings.h"
 
 class SettingsProvider {
  public:
@@ -60,7 +61,7 @@ class DefaultSettingsProvider : public SettingsProvider {
   void endArray() override;
 
  private:
-  QSettings backend_;
+  Settings backend_;
 
   Q_DISABLE_COPY(DefaultSettingsProvider)
 };
