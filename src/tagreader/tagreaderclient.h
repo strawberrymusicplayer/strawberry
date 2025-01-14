@@ -62,26 +62,26 @@ class TagReaderClient : public QObject {
   using SaveOptions = SaveTagsOptions;
 
   bool IsMediaFileBlocking(const QString &filename) const;
-  TagReaderReplyPtr IsMediaFileAsync(const QString &filename);
+  [[nodiscard]] TagReaderReplyPtr IsMediaFileAsync(const QString &filename);
 
   TagReaderResult ReadFileBlocking(const QString &filename, Song *song);
-  TagReaderReadFileReplyPtr ReadFileAsync(const QString &filename);
+  [[nodiscard]] TagReaderReadFileReplyPtr ReadFileAsync(const QString &filename);
 
   TagReaderResult WriteFileBlocking(const QString &filename, const Song &song, const SaveTagsOptions save_tags_options = SaveTagsOption::Tags, const SaveTagCoverData &save_tag_cover_data = SaveTagCoverData());
-  TagReaderReplyPtr WriteFileAsync(const QString &filename, const Song &song, const SaveTagsOptions save_tags_options = SaveTagsOption::Tags, const SaveTagCoverData &save_tag_cover_data = SaveTagCoverData());
+  [[nodiscard]] TagReaderReplyPtr WriteFileAsync(const QString &filename, const Song &song, const SaveTagsOptions save_tags_options = SaveTagsOption::Tags, const SaveTagCoverData &save_tag_cover_data = SaveTagCoverData());
 
   TagReaderResult LoadCoverDataBlocking(const QString &filename, QByteArray &data);
   TagReaderResult LoadCoverImageBlocking(const QString &filename, QImage &image);
-  TagReaderLoadCoverDataReplyPtr LoadCoverDataAsync(const QString &filename);
-  TagReaderLoadCoverImageReplyPtr LoadCoverImageAsync(const QString &filename);
+  [[nodiscard]] TagReaderLoadCoverDataReplyPtr LoadCoverDataAsync(const QString &filename);
+  [[nodiscard]] TagReaderLoadCoverImageReplyPtr LoadCoverImageAsync(const QString &filename);
 
   TagReaderResult SaveCoverBlocking(const QString &filename, const SaveTagCoverData &save_tag_cover_data);
-  TagReaderReplyPtr SaveCoverAsync(const QString &filename, const SaveTagCoverData &save_tag_cover_data);
+  [[nodiscard]] TagReaderReplyPtr SaveCoverAsync(const QString &filename, const SaveTagCoverData &save_tag_cover_data);
 
-  TagReaderReplyPtr SaveSongPlaycountAsync(const QString &filename, const uint playcount);
+  [[nodiscard]] TagReaderReplyPtr SaveSongPlaycountAsync(const QString &filename, const uint playcount);
   TagReaderResult SaveSongPlaycountBlocking(const QString &filename, const uint playcount);
 
-  TagReaderReplyPtr SaveSongRatingAsync(const QString &filename, const float rating);
+  [[nodiscard]] TagReaderReplyPtr SaveSongRatingAsync(const QString &filename, const float rating);
   TagReaderResult SaveSongRatingBlocking(const QString &filename, const float rating);
 
  private:
