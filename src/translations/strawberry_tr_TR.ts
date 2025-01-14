@@ -9,7 +9,7 @@
     </message>
     <message>
       <source>About Strawberry</source>
-      <translation>Strawberry hakkında</translation>
+      <translation>Strawberry Hakkında</translation>
     </message>
     <message>
       <source>Version %1</source>
@@ -5715,7 +5715,7 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Submit scrobbles every</source>
-      <translation type="unfinished">Submit scrobbles every</translation>
+      <translation>Skropları şu kadarda bir gönder</translation>
     </message>
     <message>
       <source> seconds</source>
@@ -6468,7 +6468,7 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Configure %1...</source>
-      <translation type="unfinished">Configure %1...</translation>
+      <translation>%1 yapılandır...</translation>
     </message>
     <message>
       <source>Append to current playlist</source>
@@ -6476,7 +6476,7 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Replace current playlist</source>
-      <translation type="unfinished">Replace current playlist</translation>
+      <translation>Geçerli çalma listesinin yerine koy</translation>
     </message>
     <message>
       <source>Open in new playlist</source>
@@ -6511,7 +6511,7 @@ Devam etmek istediğinizden emin misiniz?</translation>
     <name>StreamingSongsView</name>
     <message>
       <source>Configure %1...</source>
-      <translation type="unfinished">Configure %1...</translation>
+      <translation>%1 yapılandır...</translation>
     </message>
   </context>
   <context>
@@ -6538,7 +6538,7 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Configure %1...</source>
-      <translation type="unfinished">Configure %1...</translation>
+      <translation>%1 yapılandır...</translation>
     </message>
   </context>
   <context>
@@ -6619,7 +6619,7 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Preferences</source>
-      <translation type="unfinished">Preferences</translation>
+      <translation>Tercihler</translation>
     </message>
     <message>
       <source>Use HTTP/2 when possible</source>
@@ -6994,26 +6994,26 @@ Devam etmek istediğinizden emin misiniz?</translation>
     <name>TrackSlider</name>
     <message>
       <source>Form</source>
-      <translation type="unfinished">Form</translation>
+      <translation>Biçim</translation>
     </message>
     <message>
       <source>0:00:00</source>
-      <translation type="unfinished">0:00:00</translation>
+      <translation>0:00:00</translation>
     </message>
     <message>
       <source>Click to toggle between remaining time and total time</source>
-      <translation type="unfinished">Click to toggle between remaining time and total time</translation>
+      <translation>Kalan süre ile toplam süre arasında geçiş yapmak için tıklayın</translation>
     </message>
   </context>
   <context>
     <name>TranscodeDialog</name>
     <message>
       <source>Transcode Music</source>
-      <translation type="unfinished">Transcode Music</translation>
+      <translation>Müzik Dönüştür</translation>
     </message>
     <message>
       <source>Files to transcode</source>
-      <translation type="unfinished">Files to transcode</translation>
+      <translation>Dönüştürülecek dosyalar</translation>
     </message>
     <message>
       <source>Filename</source>
@@ -7045,7 +7045,7 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Audio format</source>
-      <translation type="unfinished">Audio format</translation>
+      <translation>Ses formatı</translation>
     </message>
     <message>
       <source>Options...</source>
@@ -7053,7 +7053,7 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Destination</source>
-      <translation type="unfinished">Destination</translation>
+      <translation>Hedef</translation>
     </message>
     <message>
       <source>Alongside the originals</source>
@@ -7129,7 +7129,7 @@ Devam etmek istediğinizden emin misiniz?</translation>
     <name>TranscodeLogDialog</name>
     <message>
       <source>Transcoder Log</source>
-      <translation type="unfinished">Transcoder Log</translation>
+      <translation>Dönüştürücü Günlüğü</translation>
     </message>
   </context>
   <context>
@@ -7140,7 +7140,7 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Successfully written %1</source>
-      <translation type="unfinished">Successfully written %1</translation>
+      <translation>Başarıyla yazıldı %1</translation>
     </message>
     <message>
       <source>Transcoding %1 files using %2 threads</source>
@@ -7152,7 +7152,7 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Starting %1</source>
-      <translation type="unfinished">Starting %1</translation>
+      <translation>%1 başlatılıyor</translation>
     </message>
     <message>
       <source>Couldn&apos;t find an encoder for %1, check you have the correct GStreamer plugins installed</source>
@@ -7234,7 +7234,7 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source> kbps</source>
-      <translation type="unfinished"> kbps</translation>
+      <translation> kbps</translation>
     </message>
   </context>
   <context>
@@ -7248,40 +7248,40 @@ Devam etmek istediğinizden emin misiniz?</translation>
     <name>TranscoderOptionsFLAC</name>
     <message>
       <source>Form</source>
-      <translation type="unfinished">Form</translation>
+      <translation>Biçim</translation>
     </message>
     <message>
       <source>Quality</source>
       <comment>Sound quality</comment>
-      <translation type="unfinished">Quality</translation>
+      <translation>Kalite</translation>
     </message>
     <message>
       <source>Fast</source>
-      <translation type="unfinished">Fast</translation>
+      <translation>Hızlı</translation>
     </message>
     <message>
       <source>Best</source>
-      <translation type="unfinished">Best</translation>
+      <translation>En İyi</translation>
     </message>
   </context>
   <context>
     <name>TranscoderOptionsMP3</name>
     <message>
       <source>Form</source>
-      <translation type="unfinished">Form</translation>
+      <translation>Biçim</translation>
     </message>
     <message>
       <source>Optimize for &amp;quality</source>
-      <translation type="unfinished">Optimize for &amp;quality</translation>
+      <translation>Kalite için optimize et</translation>
     </message>
     <message>
       <source>Quality</source>
       <comment>Sound quality</comment>
-      <translation type="unfinished">Quality</translation>
+      <translation>Kalite</translation>
     </message>
     <message>
       <source>Opti&amp;mize for bitrate</source>
-      <translation type="unfinished">Opti&amp;mize for bitrate</translation>
+      <translation>Bit oranı için optimize et</translation>
     </message>
     <message>
       <source>Bitrate</source>
@@ -7289,27 +7289,27 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source> kbps</source>
-      <translation type="unfinished"> kbps</translation>
+      <translation> kbps</translation>
     </message>
     <message>
       <source>Constant bitrate</source>
-      <translation type="unfinished">Constant bitrate</translation>
+      <translation>Sabit bit oranı</translation>
     </message>
     <message>
       <source>Encoding engine quality</source>
-      <translation type="unfinished">Encoding engine quality</translation>
+      <translation>Kodlama motoru kalitesi</translation>
     </message>
     <message>
       <source>Fast</source>
-      <translation type="unfinished">Fast</translation>
+      <translation>Hızlı</translation>
     </message>
     <message>
       <source>Standard</source>
-      <translation type="unfinished">Standard</translation>
+      <translation>Standart</translation>
     </message>
     <message>
       <source>High</source>
-      <translation type="unfinished">High</translation>
+      <translation>Yüksek</translation>
     </message>
     <message>
       <source>Force mono encoding</source>
@@ -7407,43 +7407,43 @@ Devam etmek istediğinizden emin misiniz?</translation>
     <name>TranscoderOptionsVorbis</name>
     <message>
       <source>Form</source>
-      <translation type="unfinished">Form</translation>
+      <translation>Biçim</translation>
     </message>
     <message>
       <source>Quality</source>
       <comment>Sound quality</comment>
-      <translation type="unfinished">Quality</translation>
+      <translation>Kalite</translation>
     </message>
     <message>
       <source>Use bitrate management engine</source>
-      <translation type="unfinished">Use bitrate management engine</translation>
+      <translation>Bit oranı yönetme motoru kullan</translation>
     </message>
     <message>
       <source>Target bitrate</source>
-      <translation type="unfinished">Target bitrate</translation>
+      <translation>Hedef bit oranı</translation>
     </message>
     <message>
       <source> kbps</source>
-      <translation type="unfinished"> kbps</translation>
+      <translation> kbps</translation>
     </message>
     <message>
       <source>Minimum bitrate</source>
-      <translation type="unfinished">Minimum bitrate</translation>
+      <translation>En düşük bit oranı</translation>
     </message>
     <message>
       <source>disabled</source>
-      <translation type="unfinished">disabled</translation>
+      <translation>devre dışı</translation>
     </message>
     <message>
       <source>Maximum bitrate</source>
-      <translation type="unfinished">Maximum bitrate</translation>
+      <translation>En yüksek bit oranı</translation>
     </message>
   </context>
   <context>
     <name>TranscoderOptionsWavPack</name>
     <message>
       <source>Form</source>
-      <translation type="unfinished">Form</translation>
+      <translation>Biçim</translation>
     </message>
   </context>
   <context>
@@ -7458,35 +7458,35 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>FLAC</source>
-      <translation type="unfinished">FLAC</translation>
+      <translation>FLAC</translation>
     </message>
     <message>
       <source>WavPack</source>
-      <translation type="unfinished">WavPack</translation>
+      <translation>WavPack</translation>
     </message>
     <message>
       <source>Vorbis</source>
-      <translation type="unfinished">Vorbis</translation>
+      <translation>Vorbis</translation>
     </message>
     <message>
       <source>Opus</source>
-      <translation type="unfinished">Opus</translation>
+      <translation>Opus</translation>
     </message>
     <message>
       <source>Speex</source>
-      <translation type="unfinished">Speex</translation>
+      <translation>Speex</translation>
     </message>
     <message>
       <source>AAC</source>
-      <translation type="unfinished">AAC</translation>
+      <translation>AAC</translation>
     </message>
     <message>
       <source>ASF (WMA)</source>
-      <translation type="unfinished">ASF (WMA)</translation>
+      <translation>ASF (WMA)</translation>
     </message>
     <message>
       <source>MP3</source>
-      <translation type="unfinished">MP3</translation>
+      <translation>MP3</translation>
     </message>
   </context>
   <context>
@@ -7497,11 +7497,11 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Serial number</source>
-      <translation type="unfinished">Serial number</translation>
+      <translation>Seri numarası</translation>
     </message>
     <message>
       <source>Mount points</source>
-      <translation type="unfinished">Mount points</translation>
+      <translation>Bağlama noktaları</translation>
     </message>
     <message>
       <source>Partition label</source>
@@ -7509,22 +7509,22 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>UUID</source>
-      <translation type="unfinished">UUID</translation>
+      <translation>UUID</translation>
     </message>
   </context>
   <context>
     <name>UserPassDialog</name>
     <message>
       <source>Enter username and password</source>
-      <translation type="unfinished">Enter username and password</translation>
+      <translation>Kullanıcı adı ve parola girin</translation>
     </message>
     <message>
       <source>Username</source>
-      <translation type="unfinished">Username</translation>
+      <translation>Kullanıcı adı</translation>
     </message>
     <message>
       <source>Password</source>
-      <translation type="unfinished">Password</translation>
+      <translation>Parola</translation>
     </message>
   </context>
 </TS>
