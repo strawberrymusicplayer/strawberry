@@ -373,6 +373,9 @@ class GstEnginePipeline : public QObject {
 
   mutex_protected<int> set_state_in_progress_;
   mutex_protected<int> set_state_async_in_progress_;
+
+  mutex_protected<GstState> last_set_state_in_progress_;
+  mutex_protected<GstState> last_set_state_async_in_progress_;
 };
 
 using GstEnginePipelinePtr = QSharedPointer<GstEnginePipeline>;

@@ -176,7 +176,9 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       finish_requested_(false),
       finished_(false),
       set_state_in_progress_(0),
-      set_state_async_in_progress_(0) {
+      set_state_async_in_progress_(0),
+      last_set_state_in_progress_(GST_STATE_VOID_PENDING),
+      last_set_state_async_in_progress_(GST_STATE_VOID_PENDING) {
 
   eq_band_gains_.reserve(kEqBandCount);
   for (int i = 0; i < kEqBandCount; ++i) eq_band_gains_ << 0;
@@ -425,7 +427,12 @@ bool GstEnginePipeline::Finish() {
     finished_ = true;
   }
   else {
-    SetState(GST_STATE_NULL);
+    if (set_state_async_in_progress_ > 0 && last_set_state_async_in_progress_ != GST_STATE_NULL) {
+      SetStateAsync(GST_STATE_NULL);
+    }
+    else if ((!IsStateNull() || set_state_in_progress_ > 0) && last_set_state_in_progress_ != GST_STATE_NULL) {
+      SetState(GST_STATE_NULL);
+    }
   }
 
   return finished_.value();
@@ -1794,6 +1801,7 @@ bool GstEnginePipeline::IsStateNull() const {
 
 void GstEnginePipeline::SetStateAsync(const GstState state) {
 
+  last_set_state_async_in_progress_ = state;
   ++set_state_async_in_progress_;
 
   QMetaObject::invokeMethod(this, "SetStateAsyncSlot", Qt::QueuedConnection, Q_ARG(GstState, state));
@@ -1802,6 +1810,7 @@ void GstEnginePipeline::SetStateAsync(const GstState state) {
 
 void GstEnginePipeline::SetStateAsyncSlot(const GstState state) {
 
+  last_set_state_async_in_progress_ = GST_STATE_VOID_PENDING;
   --set_state_async_in_progress_;
 
   SetState(state);
@@ -1812,6 +1821,7 @@ QFuture<GstStateChangeReturn> GstEnginePipeline::SetState(const GstState state) 
 
   qLog(Debug) << "Setting pipeline" << id() << "state to" << GstStateText(state);
 
+  last_set_state_in_progress_ = state;
   ++set_state_in_progress_;
 
   QFutureWatcher<GstStateChangeReturn> *watcher = new QFutureWatcher<GstStateChangeReturn>();
@@ -1829,6 +1839,7 @@ QFuture<GstStateChangeReturn> GstEnginePipeline::SetState(const GstState state) 
 
 void GstEnginePipeline::SetStateFinishedSlot(const GstState state, const GstStateChangeReturn state_change_return) {
 
+  last_set_state_in_progress_ = GST_STATE_VOID_PENDING;
   --set_state_in_progress_;
 
   switch (state_change_return) {
