@@ -18,6 +18,7 @@
 #cmakedefine HAVE_AUDIOCD
 #cmakedefine HAVE_MTP
 #cmakedefine HAVE_GPOD
+#cmakedefine HAVE_SPARKLE
 #cmakedefine HAVE_QTSPARKLE
 #cmakedefine HAVE_SONGFINGERPRINTING
 #cmakedefine HAVE_MUSICBRAINZ

@@ -220,6 +220,10 @@
 #  include "systemtrayicon/qtsystemtrayicon.h"
 #endif
 
+#ifdef HAVE_SPARKLE
+  #include "core/sparkleupdater.h"
+#endif
+
 #ifdef HAVE_QTSPARKLE
 #  include <qtsparkle-qt6/Updater>
 #endif  // HAVE_QTSPARKLE
@@ -833,9 +837,9 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   thumbbar_->SetActions(QList<QAction*>() << ui_->action_previous_track << ui_->action_play_pause << ui_->action_stop << ui_->action_next_track << nullptr << ui_->action_love);
 #endif
 
-#if defined(HAVE_QTSPARKLE)
-  QAction *check_updates = ui_->menu_tools->addAction(tr("Check for updates..."));
-  check_updates->setMenuRole(QAction::ApplicationSpecificRole);
+#if defined(HAVE_SPARKLE) || defined(HAVE_QTSPARKLE)
+  QAction *action_check_updates = ui_->menu_tools->addAction(tr("Check for updates..."));
+  action_check_updates->setMenuRole(QAction::ApplicationSpecificRole);
 #endif
 
 #ifdef HAVE_GLOBALSHORTCUTS
@@ -1046,13 +1050,18 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
     app_->scrobbler()->Submit();
   }
 
+#ifdef HAVE_SPARKLE
+  SparkleUpdater *sparkle_updater = new SparkleUpdater(action_check_updates, this);
+  QObject::connect(action_check_updates, &QAction::triggered, sparkle_updater, &SparkleUpdater::CheckForUpdates);
+#endif
+
 #ifdef HAVE_QTSPARKLE
   QUrl sparkle_url(QString::fromLatin1(QTSPARKLE_URL));
   if (!sparkle_url.isEmpty()) {
     qLog(Debug) << "Creating Qt Sparkle updater";
     qtsparkle::Updater *updater = new qtsparkle::Updater(sparkle_url, this);
     updater->SetVersion(QStringLiteral(STRAWBERRY_VERSION_PACKAGE));
-    QObject::connect(check_updates, &QAction::triggered, updater, &qtsparkle::Updater::CheckNow);
+    QObject::connect(action_check_updates, &QAction::triggered, updater, &qtsparkle::Updater::CheckNow);
   }
 #endif
 

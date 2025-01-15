@@ -266,9 +266,10 @@ else()
   add_definitions(-DKDSINGLEAPPLICATION_STATIC_BUILD)
 endif()
 
-# if(APPLE)
-#   find_package(SPMediaKeyTap REQUIRED)
-# endif()
+if(APPLE)
+  find_library(SPARKLE Sparkle)
+  #find_package(SPMediaKeyTap REQUIRED)
+endif()
 
 if(WIN32)
   find_package(getopt-win REQUIRED)
@@ -352,6 +353,13 @@ optional_component(MOODBAR ON "Moodbar"
 optional_component(EBUR128 ON "EBU R 128 loudness normalization"
   DEPENDS "libebur128" LIBEBUR128_FOUND
 )
+
+if(APPLE)
+  optional_component(SPARKLE ON "Sparkle integration"
+    DEPENDS "macOS" APPLE
+    DEPENDS "Sparkle" SPARKLE
+  )
+endif()
 
 if(HAVE_SONGFINGERPRINTING OR HAVE_MUSICBRAINZ)
   set(HAVE_CHROMAPRINT ON)
@@ -1198,6 +1206,7 @@ if(APPLE)
       src/osd/osdmac.h
       src/device/macosdevicelister.h
   )
+  optional_source(HAVE_SPARKLE SOURCES src/core/sparkleupdater.mm HEADERS src/core/sparkleupdater.h)
 else()
   list(APPEND SOURCES src/systemtrayicon/qtsystemtrayicon.cpp src/widgets/searchfield_qt.cpp src/widgets/searchfield_qt_private.cpp)
   list(APPEND HEADERS src/systemtrayicon/qtsystemtrayicon.h src/widgets/searchfield_qt_private.h)
@@ -1534,6 +1543,10 @@ if(APPLE)
     "-framework IOKit"
     "-framework ScriptingBridge"
   )
+  if(HAVE_SPARKLE)
+    target_include_directories(strawberry_lib SYSTEM PRIVATE ${SPARKLE}/Headers)
+    target_link_libraries(strawberry_lib PRIVATE ${SPARKLE})
+  endif()
 endif()
 
 target_link_libraries(strawberry PUBLIC strawberry_lib)
