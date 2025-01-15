@@ -47,6 +47,56 @@ class mutex_protected : public boost::noncopyable {
     return value == value_;
   }
 
+  bool operator!=(const mutex_protected &value) const {
+    QMutexLocker l(&mutex_);
+    return value.value() != value_;
+  }
+
+  bool operator!=(const T value) const {
+    QMutexLocker l(&mutex_);
+    return value != value_;
+  }
+
+  bool operator>(const mutex_protected &value) const {
+    QMutexLocker l(&mutex_);
+    return value_ > value.value();
+  }
+
+  bool operator>(const T value) const {
+    QMutexLocker l(&mutex_);
+    return value_ > value;
+  }
+
+  bool operator>=(const mutex_protected &value) const {
+    QMutexLocker l(&mutex_);
+    return value_ >= value.value();
+  }
+
+  bool operator>=(const T value) const {
+    QMutexLocker l(&mutex_);
+    return value_ >= value;
+  }
+
+  bool operator<(const mutex_protected &value) const {
+    QMutexLocker l(&mutex_);
+    return value_ < value.value();
+  }
+
+  bool operator<(const T value) const {
+    QMutexLocker l(&mutex_);
+    return value_ < value;
+  }
+
+  bool operator<=(const mutex_protected &value) const {
+    QMutexLocker l(&mutex_);
+    return value_ <= value.value();
+  }
+
+  bool operator<=(const T value) const {
+    QMutexLocker l(&mutex_);
+    return value_ <= value;
+  }
+
   void operator=(const mutex_protected &value) {
     QMutexLocker l(&mutex_);
     value_ = value.value();
@@ -62,9 +112,29 @@ class mutex_protected : public boost::noncopyable {
     ++value_;
   }
 
+  void operator+=(const T value) {
+    QMutexLocker l(&mutex_);
+    value_ += value;
+  }
+
+  void operator+=(const mutex_protected value) {
+    QMutexLocker l(&mutex_);
+    value_ += value.value();
+  }
+
   void operator--() {
     QMutexLocker l(&mutex_);
     --value_;
+  }
+
+  void operator-=(const T value) {
+    QMutexLocker l(&mutex_);
+    value_ -= value;
+  }
+
+  void operator-=(const mutex_protected value) {
+    QMutexLocker l(&mutex_);
+    value_ -= value.value();
   }
 
  private:
