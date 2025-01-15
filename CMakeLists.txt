@@ -18,7 +18,7 @@ include(CheckCXXSourceRuns)
 include(CheckIncludeFiles)
 include(FindPkgConfig)
 include(cmake/Version.cmake)
-include(cmake/Summary.cmake)
+include(cmake/OptionalComponent.cmake)
 include(cmake/OptionalSource.cmake)
 include(cmake/ParseArguments.cmake)
 
@@ -67,7 +67,6 @@ option(USE_BUNDLE "Bundle dependencies" ${USE_BUNDLE_DEFAULT})
 
 if(WIN32)
   option(ENABLE_WIN32_CONSOLE "Show the windows console even outside Debug mode" ${ENABLE_WIN32_CONSOLE_DEFAULT})
-  option(USE_QTSPARKLE "Use Qt Sparkle updater" ON)
 endif()
 
 if(MSVC)
@@ -162,17 +161,17 @@ if(NOT Boost_FOUND)
   find_package(Boost REQUIRED)
 endif()
 find_package(ICU COMPONENTS uc i18n REQUIRED)
-if(LINUX)
-  find_package(ALSA REQUIRED)
-else()
-  find_package(ALSA)
-endif()
 if(UNIX AND NOT APPLE)
+  if(LINUX)
+    find_package(ALSA REQUIRED)
+  else()
+    find_package(ALSA)
+  endif()
   find_package(X11 COMPONENTS X11_xcb)
 endif()
 pkg_check_modules(GLIB REQUIRED IMPORTED_TARGET glib-2.0)
 pkg_check_modules(GOBJECT REQUIRED IMPORTED_TARGET gobject-2.0)
-if(UNIX AND NOT APPLE)
+if(NOT APPLE)
   pkg_check_modules(GIO REQUIRED IMPORTED_TARGET gio-2.0)
   if(GIO_FOUND AND UNIX)
     pkg_check_modules(GIO_UNIX IMPORTED_TARGET gio-unix-2.0)
@@ -186,7 +185,9 @@ pkg_check_modules(GSTREAMER_APP REQUIRED IMPORTED_TARGET gstreamer-app-1.0)
 pkg_check_modules(GSTREAMER_TAG REQUIRED IMPORTED_TARGET gstreamer-tag-1.0)
 pkg_check_modules(GSTREAMER_PBUTILS REQUIRED IMPORTED_TARGET gstreamer-pbutils-1.0)
 pkg_check_modules(SQLITE REQUIRED IMPORTED_TARGET sqlite3>=3.9)
-pkg_check_modules(LIBPULSE IMPORTED_TARGET libpulse)
+if(UNIX AND NOT APPLE)
+  pkg_check_modules(LIBPULSE IMPORTED_TARGET libpulse)
+endif()
 pkg_check_modules(CHROMAPRINT IMPORTED_TARGET libchromaprint>=1.4)
 pkg_check_modules(FFTW3 IMPORTED_TARGET fftw3)
 pkg_check_modules(LIBEBUR128 IMPORTED_TARGET libebur128)
@@ -273,27 +274,29 @@ endif()
 
 if(WIN32)
   find_package(getopt-win REQUIRED)
-  if(USE_QTSPARKLE)
-    find_package(qtsparkle-qt${QT_VERSION_MAJOR} REQUIRED)
-    set(HAVE_QTSPARKLE ON)
+endif()
+
+if(APPLE OR WIN32)
+  find_package(qtsparkle-qt${QT_VERSION_MAJOR})
+  if(TARGET "qtsparkle-qt${QT_VERSION_MAJOR}::qtsparkle")
+    set(QTSPARKLE_FOUND ON)
   endif()
 endif()
 
-optional_component(ALSA ON "ALSA integration"
-  DEPENDS "alsa" ALSA_FOUND
-)
-
-optional_component(PULSE ON "PulseAudio integration"
-  DEPENDS "libpulse" LIBPULSE_FOUND
-)
-
-optional_component(DBUS ON "D-Bus support"
-  DEPENDS "Qt D-Bus" DBUS_FOUND
-)
-
-optional_component(MPRIS2 ON "MPRIS2 D-Bus Interface"
-  DEPENDS "D-Bus support" HAVE_DBUS
-)
+if(UNIX AND NOT APPLE)
+  optional_component(ALSA ON "ALSA integration"
+    DEPENDS "alsa" ALSA_FOUND
+  )
+  optional_component(PULSE ON "PulseAudio integration"
+    DEPENDS "libpulse" LIBPULSE_FOUND
+  )
+  optional_component(DBUS ON "D-Bus support"
+    DEPENDS "Qt D-Bus" DBUS_FOUND
+  )
+  optional_component(MPRIS2 ON "MPRIS2 D-Bus Interface"
+    DEPENDS "D-Bus support" HAVE_DBUS
+  )
+endif()
 
 optional_component(SONGFINGERPRINTING ON "Song fingerprinting and tracking"
   DEPENDS "chromaprint" CHROMAPRINT_FOUND
@@ -303,26 +306,29 @@ optional_component(MUSICBRAINZ ON "MusicBrainz integration"
   DEPENDS "chromaprint" CHROMAPRINT_FOUND
 )
 
-optional_component(X11_GLOBALSHORTCUTS ON "X11 global shortcuts"
-  DEPENDS "X11" X11_FOUND
-  DEPENDS "QX11Application" HAVE_QX11APPLICATION
-)
+if(UNIX AND NOT APPLE)
+  optional_component(X11_GLOBALSHORTCUTS ON "X11 global shortcuts"
+    DEPENDS "X11" X11_FOUND
+    DEPENDS "QX11Application" HAVE_QX11APPLICATION
+  )
+  optional_component(KGLOBALACCEL_GLOBALSHORTCUTS ON "KGlobalAccel global shortcuts"
+    DEPENDS "D-Bus support" HAVE_DBUS
+  )
+  optional_component(UDISKS2 ON "Devices: UDisks2 backend"
+    DEPENDS "D-Bus support" HAVE_DBUS
+  )
+endif()
 
-optional_component(KGLOBALACCEL_GLOBALSHORTCUTS ON "KGlobalAccel global shortcuts"
-  DEPENDS "D-Bus support" HAVE_DBUS
-)
-
-optional_component(UDISKS2 ON "Devices: UDisks2 backend"
-  DEPENDS "D-Bus support" HAVE_DBUS
-)
-
-optional_component(GIO ON "Devices: GIO device backend"
-  DEPENDS "libgio" GIO_FOUND
-)
-
-optional_component(GIO_UNIX ON "Devices: GIO device backend (Unix support)"
-  DEPENDS "libgio-unix" GIO_UNIX_FOUND
-)
+if(NOT APPLE)
+  optional_component(GIO ON "Devices: GIO device backend"
+    DEPENDS "libgio" GIO_FOUND
+  )
+  if(UNIX)
+    optional_component(GIO_UNIX ON "Devices: GIO device backend (Unix support)"
+      DEPENDS "libgio-unix" GIO_UNIX_FOUND
+    )
+  endif()
+endif()
 
 optional_component(AUDIOCD ON "Devices: Audio CD support"
   DEPENDS "libcdio" LIBCDIO_FOUND
@@ -356,8 +362,13 @@ optional_component(EBUR128 ON "EBU R 128 loudness normalization"
 
 if(APPLE)
   optional_component(SPARKLE ON "Sparkle integration"
-    DEPENDS "macOS" APPLE
     DEPENDS "Sparkle" SPARKLE
+  )
+endif()
+
+if(APPLE OR WIN32)
+  optional_component(QTSPARKLE ON "QtSparkle integration"
+    DEPENDS "QtSparkle" QTSPARKLE_FOUND
   )
 endif()
 
@@ -1311,9 +1322,7 @@ optional_source(HAVE_MOODBAR
     src/settings/moodbarsettingspage.ui
 )
 
-if(UNIX)
-  optional_source(HAVE_GIO SOURCES src/device/giolister.cpp HEADERS src/device/giolister.h)
-endif()
+optional_source(HAVE_GIO SOURCES src/device/giolister.cpp HEADERS src/device/giolister.h)
 
 if(HAVE_UDISKS2)
   optional_source(HAVE_UDISKS2 SOURCES src/device/udisks2lister.cpp HEADERS src/device/udisks2lister.h)
@@ -1562,7 +1571,7 @@ endif()
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in" "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake" IMMEDIATE @ONLY)
 add_custom_target(uninstall "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
 
-summary_show()
+optional_component_summary_show()
 
 if(NOT CMAKE_CROSSCOMPILING AND NOT QT_SQLITE_TEST)
   message(WARNING "The Qt sqlite driver test failed.")

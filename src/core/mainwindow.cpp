@@ -239,20 +239,41 @@ const int kTrackPositionUpdateTimeMs = 1000;
 }  // namespace
 
 #ifdef HAVE_QTSPARKLE
-#  ifdef _MSC_VER
-#    ifdef _M_X64
-constexpr char QTSPARKLE_URL[] = "https://www.strawberrymusicplayer.org/sparkle-windows-msvc-x64";
+namespace {
+
+#  if defined(__APPLE__)
+#    if defined(__x86_64__)
+constexpr char QTSPARKLE_URL[] = "https://www.strawberrymusicplayer.org/sparkle-macos-x86_64";
+#    elif defined(__aarch64__)
+constexpr char QTSPARKLE_URL[] = "https://www.strawberrymusicplayer.org/sparkle-macos-arm64";
 #    else
-constexpr char QTSPARKLE_URL[] = "https://www.strawberrymusicplayer.org/sparkle-windows-msvc-x86";
+#      error "Unsupported macOS arch for QtSparkle"
 #    endif
-#  else
-#    ifdef __x86_64__
+
+#  elif defined(__MINGW32__)
+#    if defined(__x86_64__)
 constexpr char QTSPARKLE_URL[] = "https://www.strawberrymusicplayer.org/sparkle-windows-mingw-x64";
-#    else
+#    elif defined(__i686__)
 constexpr char QTSPARKLE_URL[] = "https://www.strawberrymusicplayer.org/sparkle-windows-mingw-x86";
+#    else
+#      error "Unsupported MinGW arch for QtSparkle"
 #    endif
-#  endif
-#endif
+
+#  elif defined(_MSC_VER)
+#    if defined(_WIN64)
+constexpr char QTSPARKLE_URL[] = "https://www.strawberrymusicplayer.org/sparkle-windows-msvc-x64";
+#    elif defined(_WIN32)
+constexpr char QTSPARKLE_URL[] = "https://www.strawberrymusicplayer.org/sparkle-windows-msvc-x86";
+#    else
+#      error "Unsupported MSVC arch for QtSparkle"
+#    endif
+
+#  else
+#  error "Unsupported OS for QtSparkle"
+#  endif // OS
+
+}  // namespace
+#endif  // HAVE_QTSPARKLE
 
 MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OSDBase *osd, const CommandlineOptions &options, QWidget *parent)
     : QMainWindow(parent),
