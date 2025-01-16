@@ -2,6 +2,17 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+  Bugfixes:
+    * Fixed crash when saving playcount or rating to file (#1633).
+    * Fixed QFile::open failing in unit tests.
+    * Fixed playlist sequence settings saved to wrong configuration file (#1649).
+
+  Enhancements:
+    * Fixed use of deprecated GIO functions with GLib 2.84 and newer.
+    * (macOS) Added back Sparkle updater to check for new releases.
+
 Version 1.2.4 (2025.01.10):
 
   Bugfixes:
