@@ -1042,6 +1042,7 @@ jobs:
           -DBUILD_WERROR=ON
           -DARCH="${{matrix.arch}}"
           -DENABLE_WIN32_CONSOLE=$(test "${{matrix.buildtype}}" = "debug" && echo "ON" || echo "OFF")
+          -DENABLE_GIO=OFF
           -DENABLE_AUDIOCD=OFF
           -DENABLE_MTP=OFF
           -DENABLE_GPOD=OFF
@@ -1329,6 +1330,7 @@ jobs:
           -DENABLE_WIN32_CONSOLE=${{env.win32_console}}
           -DPKG_CONFIG_EXECUTABLE="${{env.prefix_path_forwardslash}}/bin/pkg-config.exe"
           -DICU_ROOT="${{env.prefix_path_forwardslash}}"
+          -DENABLE_GIO=OFF
           -DENABLE_AUDIOCD=OFF
           -DENABLE_MTP=OFF
           -DENABLE_GPOD=OFF
