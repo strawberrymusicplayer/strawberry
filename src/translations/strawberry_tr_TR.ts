@@ -3064,7 +3064,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>P&amp;laylist</source>
-      <translation>Çalma listesi</translation>
+      <translation>Çalma Listesi</translation>
     </message>
     <message>
       <source>Help</source>
