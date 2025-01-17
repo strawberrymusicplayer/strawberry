@@ -66,7 +66,7 @@ CollectionLibrary::CollectionLibrary(const SharedPtr<Database> database,
       save_playcounts_to_files_(false),
       save_ratings_to_files_(false) {
 
-  setObjectName(QLatin1String(metaObject()->className()));
+  setObjectName(QLatin1String(QObject::metaObject()->className()));
 
   original_thread_ = thread();
 

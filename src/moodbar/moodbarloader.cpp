@@ -64,7 +64,7 @@ MoodbarLoader::MoodbarLoader(QObject *parent)
       kMaxActiveRequests(qMax(1, QThread::idealThreadCount() / 2)),
       save_(false) {
 
-  setObjectName(QLatin1String(metaObject()->className()));
+  setObjectName(QLatin1String(QObject::metaObject()->className()));
   thread_->setObjectName(objectName());
 
   cache_->setCacheDirectory(StandardPaths::WritableLocation(StandardPaths::StandardLocation::CacheLocation) + u"/moodbar"_s);

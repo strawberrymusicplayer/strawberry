@@ -45,7 +45,7 @@ DeviceLister::DeviceLister(QObject *parent)
       original_thread_(nullptr),
       next_mount_request_id_(0) {
 
-  setObjectName(QLatin1String(metaObject()->className()));
+  setObjectName(QLatin1String(QObject::metaObject()->className()));
 
   original_thread_ = thread();
 

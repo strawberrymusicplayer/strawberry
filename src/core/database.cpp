@@ -69,7 +69,7 @@ Database::Database(SharedPtr<TaskManager> task_manager, QObject *parent, const Q
       startup_schema_version_(-1),
       original_thread_(nullptr) {
 
-  setObjectName(QLatin1String(metaObject()->className()));
+  setObjectName(QLatin1String(QObject::metaObject()->className()));
 
   original_thread_ = thread();
 

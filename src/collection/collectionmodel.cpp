@@ -98,7 +98,7 @@ CollectionModel::CollectionModel(const SharedPtr<CollectionBackend> backend, con
       loading_(false),
       icon_disk_cache_(new QNetworkDiskCache(this)) {
 
-  setObjectName(backend_->source() == Song::Source::Collection ? QLatin1String(metaObject()->className()) : QStringLiteral("%1%2").arg(Song::DescriptionForSource(backend_->source()), QLatin1String(metaObject()->className())));
+  setObjectName(backend_->source() == Song::Source::Collection ? QLatin1String(QObject::metaObject()->className()) : QStringLiteral("%1%2").arg(Song::DescriptionForSource(backend_->source()), QLatin1String(QObject::metaObject()->className())));
 
   filter_->setSourceModel(this);
   filter_->setSortRole(Role_SortText);

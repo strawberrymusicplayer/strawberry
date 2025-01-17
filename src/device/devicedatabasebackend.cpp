@@ -49,7 +49,7 @@ DeviceDatabaseBackend::DeviceDatabaseBackend(QObject *parent)
       db_(nullptr),
       original_thread_(nullptr) {
 
-  setObjectName(QLatin1String(metaObject()->className()));
+  setObjectName(QLatin1String(QObject::metaObject()->className()));
 
   original_thread_ = thread();
 

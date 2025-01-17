@@ -45,7 +45,7 @@ CurrentAlbumCoverLoader::CurrentAlbumCoverLoader(const SharedPtr<AlbumCoverLoade
       temp_file_pattern_(StandardPaths::WritableLocation(StandardPaths::StandardLocation::TempLocation) + u"/strawberry-cover-XXXXXX.jpg"_s),
       id_(0) {
 
-  setObjectName(QLatin1String(metaObject()->className()));
+  setObjectName(QLatin1String(QObject::metaObject()->className()));
 
   options_.options = AlbumCoverLoaderOptions::Option::RawImageData | AlbumCoverLoaderOptions::Option::OriginalImage | AlbumCoverLoaderOptions::Option::ScaledImage;
   options_.desired_scaled_size = QSize(120, 120);

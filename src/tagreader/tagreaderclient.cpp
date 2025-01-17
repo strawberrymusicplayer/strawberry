@@ -59,7 +59,7 @@ TagReaderClient::TagReaderClient(QObject *parent)
       abort_(false),
       processing_(false) {
 
-  setObjectName(QLatin1String(metaObject()->className()));
+  setObjectName(QLatin1String(QObject::metaObject()->className()));
 
   if (!sInstance) {
     sInstance = this;

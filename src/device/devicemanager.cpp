@@ -99,7 +99,7 @@ DeviceManager::DeviceManager(const SharedPtr<TaskManager> task_manager,
       albumcover_loader_(albumcover_loader),
       not_connected_overlay_(IconLoader::Load(u"edit-delete"_s)) {
 
-  setObjectName(QLatin1String(metaObject()->className()));
+  setObjectName(QLatin1String(QObject::metaObject()->className()));
 
   thread_pool_.setMaxThreadCount(1);
   QObject::connect(&*task_manager, &TaskManager::TasksChanged, this, &DeviceManager::TasksChanged);

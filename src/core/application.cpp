@@ -250,7 +250,7 @@ Application::Application(QObject *parent)
       p_(new ApplicationImpl(this)),
       g_thread_(nullptr) {
 
-  setObjectName(QLatin1String(metaObject()->className()));
+  setObjectName(QLatin1String(QObject::metaObject()->className()));
 
   const QMetaObject *mo = QAbstractEventDispatcher::instance(QCoreApplication::instance()->thread())->metaObject();
   if (mo && strcmp(mo->className(), "QEventDispatcherGlib") != 0 && strcmp(mo->superClass()->className(), "QEventDispatcherGlib") != 0) {

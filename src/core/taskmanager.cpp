@@ -34,7 +34,7 @@ using namespace Qt::Literals::StringLiterals;
 
 TaskManager::TaskManager(QObject *parent) : QObject(parent), next_task_id_(1) {
 
-  setObjectName(QLatin1String(metaObject()->className()));
+  setObjectName(QLatin1String(QObject::metaObject()->className()));
 
 }
 

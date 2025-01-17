@@ -69,7 +69,7 @@ PlaylistBackend::PlaylistBackend(const SharedPtr<Database> database,
       collection_backend_(collection_backend),
       original_thread_(nullptr) {
 
-  setObjectName(QLatin1String(metaObject()->className()));
+  setObjectName(QLatin1String(QObject::metaObject()->className()));
 
   original_thread_ = thread();
 

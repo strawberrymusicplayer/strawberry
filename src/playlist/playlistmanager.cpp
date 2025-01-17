@@ -84,7 +84,7 @@ PlaylistManager::PlaylistManager(const SharedPtr<TaskManager> task_manager,
       active_(-1),
       playlists_loading_(0) {
 
-  setObjectName(QLatin1String(metaObject()->className()));
+  setObjectName(QLatin1String(QObject::metaObject()->className()));
 
 }
 

@@ -64,7 +64,7 @@ AlbumCoverLoader::AlbumCoverLoader(const SharedPtr<TagReaderClient> tagreader_cl
       load_image_async_id_(1),
       original_thread_(nullptr) {
 
-  setObjectName(QLatin1String(metaObject()->className()));
+  setObjectName(QLatin1String(QObject::metaObject()->className()));
 
   original_thread_ = thread();
 

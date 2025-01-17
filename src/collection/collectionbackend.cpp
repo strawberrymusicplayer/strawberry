@@ -78,7 +78,7 @@ CollectionBackend::~CollectionBackend() {
 
 void CollectionBackend::Init(SharedPtr<Database> db, SharedPtr<TaskManager> task_manager, const Song::Source source, const QString &songs_table, const QString &dirs_table, const QString &subdirs_table) {
 
-  setObjectName(source == Song::Source::Collection ? QLatin1String(metaObject()->className()) : QStringLiteral("%1%2").arg(Song::DescriptionForSource(source), QLatin1String(metaObject()->className())));
+  setObjectName(source == Song::Source::Collection ? QLatin1String(QObject::metaObject()->className()) : QStringLiteral("%1%2").arg(Song::DescriptionForSource(source), QLatin1String(QObject::metaObject()->className())));
 
   db_ = db;
   task_manager_ = task_manager;

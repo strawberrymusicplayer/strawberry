@@ -53,7 +53,7 @@ using namespace Qt::Literals::StringLiterals;
 
 DeviceFinders::DeviceFinders(QObject *parent) : QObject(parent) {
 
-  setObjectName(QLatin1String(metaObject()->className()));
+  setObjectName(QLatin1String(QObject::metaObject()->className()));
 
 }
 

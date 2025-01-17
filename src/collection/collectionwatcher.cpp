@@ -106,7 +106,7 @@ CollectionWatcher::CollectionWatcher(const Song::Source source,
       cue_parser_(new CueParser(tagreader_client, backend, this)),
       last_scan_time_(0) {
 
-  setObjectName(source_ == Song::Source::Collection ? QLatin1String(metaObject()->className()) : QStringLiteral("%1%2").arg(Song::DescriptionForSource(source_), QLatin1String(metaObject()->className())));
+  setObjectName(source_ == Song::Source::Collection ? QLatin1String(QObject::metaObject()->className()) : QStringLiteral("%1%2").arg(Song::DescriptionForSource(source_), QLatin1String(QObject::metaObject()->className())));
 
   original_thread_ = thread();
 

@@ -44,7 +44,7 @@ using std::make_shared;
 
 LyricsProviders::LyricsProviders(QObject *parent) : QObject(parent), thread_(new QThread(this)), network_(make_shared<NetworkAccessManager>()) {
 
-  setObjectName(QLatin1String(metaObject()->className()));
+  setObjectName(QLatin1String(QObject::metaObject()->className()));
   thread_->setObjectName(objectName());
   network_->moveToThread(thread_);
   thread_->start();

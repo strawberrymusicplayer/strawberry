@@ -99,7 +99,7 @@ Player::Player(const SharedPtr<TaskManager> task_manager, const SharedPtr<UrlHan
       volume_increment_(5),
       play_offset_nanosec_(0) {
 
-  setObjectName(QLatin1String(metaObject()->className()));
+  setObjectName(QLatin1String(QObject::metaObject()->className()));
 
   timer_save_volume_->setSingleShot(true);
   timer_save_volume_->setInterval(5s);

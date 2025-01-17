@@ -108,7 +108,7 @@ CollectionView::CollectionView(QWidget *parent)
       is_in_keyboard_search_(false),
       delete_files_(false) {
 
-  setObjectName(QLatin1String(metaObject()->className()));
+  setObjectName(QLatin1String(QObject::metaObject()->className()));
 
   setItemDelegate(new CollectionItemDelegate(this));
   setAttribute(Qt::WA_MacShowFocusRect, false);
