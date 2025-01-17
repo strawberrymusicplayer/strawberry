@@ -49,7 +49,7 @@ class TranscodeDialog : public QDialog {
   ~TranscodeDialog() override;
 
   void SetFilenames(const QStringList &filenames);
-  void SetImportFilenames(const QStringList &filenames, const QString &path);
+  void SetImportFilenames(const QStringList &filenames, const QString &import_dir);
 
  protected:
   void showEvent(QShowEvent *e) override;
