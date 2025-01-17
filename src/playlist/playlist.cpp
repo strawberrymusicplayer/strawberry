@@ -859,7 +859,7 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, const 
     qint64 own_pid = QCoreApplication::applicationPid();
 
     QDataStream stream(data->data(QLatin1String(kRowsMimetype)));
-    stream.readRawData(reinterpret_cast<char*>(&source_playlist), sizeof(source_playlist));  // NOLINT(bugprone-sizeof-expression)
+    stream.readRawData(reinterpret_cast<char*>(&source_playlist), sizeof(&source_playlist));
     stream >> source_rows;
     if (!stream.atEnd()) {
       stream.readRawData(reinterpret_cast<char*>(&pid), sizeof(pid));
