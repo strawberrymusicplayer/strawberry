@@ -1318,7 +1318,7 @@ QMimeData *Playlist::mimeData(const QModelIndexList &indexes) const {
   const Playlist *self = this;
   const qint64 pid = QCoreApplication::applicationPid();
 
-  stream.writeRawData(reinterpret_cast<char*>(&self), sizeof(self));  // NOLINT(bugprone-sizeof-expression)
+  stream.writeRawData(reinterpret_cast<char*>(&self), sizeof(&self));
   stream << rows;
   stream.writeRawData(reinterpret_cast<const char*>(&pid), sizeof(pid));
   buffer.close();
