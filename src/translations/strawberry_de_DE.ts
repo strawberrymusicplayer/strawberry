@@ -13,7 +13,7 @@
     </message>
     <message>
       <source>Version %1</source>
-      <translation type="unfinished">Version %1</translation>
+      <translation>Version %1</translation>
     </message>
     <message>
       <source>Strawberry is a music player and music collection organizer.</source>
@@ -621,7 +621,7 @@
     </message>
     <message>
       <source>Replay Gain</source>
-      <translation type="unfinished">Replay Gain</translation>
+      <translation>Replay Gain</translation>
     </message>
     <message>
       <source>Use Replay Gain metadata if it is available</source>
@@ -6448,7 +6448,7 @@ Möchten Sie wirklich fortfahren?</translation>
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>artists</source>
