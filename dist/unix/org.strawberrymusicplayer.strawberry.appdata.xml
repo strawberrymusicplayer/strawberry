@@ -51,6 +51,7 @@
   </screenshots>
   <update_contact>eclipseo@fedoraproject.org</update_contact>
     <releases>
+        <release version="1.2.5" date="2025-01-17"/>
         <release version="1.2.4" date="2025-01-10"/>
         <release version="1.2.3" date="2024-12-08"/>
         <release version="1.2.2" date="2024-11-23"/>
