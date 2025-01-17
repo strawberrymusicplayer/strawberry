@@ -2,6 +2,11 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Version 1.2.6 (2025.01.17):
+
+   Bugfixes:
+    * Fixed dragging songs from playlist to queue.
+
 Version 1.2.5 (2025.01.17):
 
   Bugfixes:
