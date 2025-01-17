@@ -992,7 +992,7 @@
     <name>CollectionLibrary</name>
     <message>
       <source>Saving playcounts and ratings</source>
-      <translation type="unfinished">Saving playcounts and ratings</translation>
+      <translation>Vista fjölda spilana og einkunnir</translation>
     </message>
   </context>
   <context>
@@ -2738,11 +2738,11 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
     </message>
     <message>
       <source>Use KGlobalAccel shortcuts when available</source>
-      <translation type="unfinished">Use KGlobalAccel shortcuts when available</translation>
+      <translation>Nota flýtilykla KDE (KGlobalAccel) þegar þeir eru tiltækir</translation>
     </message>
     <message>
       <source>Using X11 shortcuts is not recommended and can cause keyboard to become unresponsive! Shortcuts on should usually be used through MPRIS2 / KGlobalAccel.</source>
-      <translation type="unfinished">Using X11 shortcuts is not recommended and can cause keyboard to become unresponsive! Shortcuts on should usually be used through MPRIS2 / KGlobalAccel.</translation>
+      <translation>Ekki er ráðlagt að nota X11-flýtilykla þar sem það getur valdið því að lyklaborð svari ekki! Flýtilykla ætti venjulega að nota í gegnum MPRIS2 / KGlobalAccel.</translation>
     </message>
   </context>
   <context>
@@ -2890,7 +2890,7 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
     </message>
     <message>
       <source>Warning: Play counts and last played from last.fm will completely replace the same data for the matched songs. Play counts will replace the data based on artist and song title for the same albums! Please backup your database before you start.</source>
-      <translation type="unfinished">Warning: Play counts and last played from last.fm will completely replace the same data for the matched songs. Play counts will replace the data based on artist and song title for the same albums! Please backup your database before you start.</translation>
+      <translation>Aðvörun: Spilanafjöldi og síðast spilað frá last.fm mun skipta alveg út sömu gögnum fyrir lögin sem samsvara. Spilanafjöldi mun skipta út sömu gögnum byggðum á flytjanda og titli lags fyrir sömu hljómplötur! Taktu öryggisafrit af gagnagrunninum þínum áður en þú byrjar.</translation>
     </message>
     <message>
       <source>Go!</source>
@@ -3464,7 +3464,7 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
     </message>
     <message>
       <source>You are running Strawberry under Rosetta. Running Strawberry under Rosetta is unsupported and known to have issues. You should download Strawberry for the correct CPU architecture from %1</source>
-      <translation type="unfinished">You are running Strawberry under Rosetta. Running Strawberry under Rosetta is unsupported and known to have issues. You should download Strawberry for the correct CPU architecture from %1</translation>
+      <translation>Þú ert að keyra Strawberry undir Rosetta. Að keyra Strawberry undir Rosetta er ekki með stuðning og eru þekkt vandamál við að gera slíkt. Þú ættir að sækja Strawberry fyrir rétta gerð örgjörva frá %1</translation>
     </message>
     <message>
       <source>Sponsoring Strawberry</source>
@@ -5052,7 +5052,7 @@ Ertu viss um að þú viljir halda áfram?</translation>
     </message>
     <message>
       <source>Prefix a search term with a field name to limit the search to that field, e.g.:</source>
-      <translation type="unfinished">Prefix a search term with a field name to limit the search to that field, e.g.:</translation>
+      <translation>Settu forskeyti á leitarstrenginn með heiti gagnasviðs til að takmarka leitina við gagnasviðið, t.d.:</translation>
     </message>
     <message>
       <source>artist</source>
@@ -5064,7 +5064,7 @@ Ertu viss um að þú viljir halda áfram?</translation>
     </message>
     <message>
       <source>Search terms for numerical fields can be prefixed with %1 or %2 to refine the search, e.g.: </source>
-      <translation type="unfinished">Search terms for numerical fields can be prefixed with %1 or %2 to refine the search, e.g.: </translation>
+      <translation>Hægt er að setja forskeytin %1 eða %2 á leitarorð fyrir tölureiti til að fínstilla leitina, t.d.: </translation>
     </message>
     <message>
       <source>rating</source>
@@ -5072,7 +5072,7 @@ Ertu viss um að þú viljir halda áfram?</translation>
     </message>
     <message>
       <source>Multiple search terms can also be combined with &quot;%1&quot; (default) and &quot;%2&quot;, as well as grouped with parentheses. </source>
-      <translation type="unfinished">Multiple search terms can also be combined with &quot;%1&quot; (default) and &quot;%2&quot;, as well as grouped with parentheses. </translation>
+      <translation>Mörg leitarorð er hægt að setja saman með with &quot;%1&quot; (sjálfgefið) og &quot;%2&quot; og einnig hópuð með svigum. </translation>
     </message>
     <message>
       <source>Available fields</source>
@@ -5224,48 +5224,48 @@ Ertu viss um að þú viljir halda áfram?</translation>
     </message>
     <message>
       <source>Playlist</source>
-      <translation type="unfinished">Playlist</translation>
+      <translation>Spilunarlisti</translation>
     </message>
     <message>
       <source>Various artists</source>
-      <translation type="unfinished">Various artists</translation>
+      <translation>Ýmsir flytjendur</translation>
     </message>
     <message numerus="yes">
       <source>add %n songs</source>
-      <translation type="unfinished">
-        <numerusform>add %n songs</numerusform>
-        <numerusform>add %n songs</numerusform>
+      <translation>
+        <numerusform>bæta við %n lagi</numerusform>
+        <numerusform>bæta við %n lögum</numerusform>
       </translation>
     </message>
     <message numerus="yes">
       <source>remove %n songs</source>
-      <translation type="unfinished">
-        <numerusform>remove %n songs</numerusform>
-        <numerusform>remove %n songs</numerusform>
+      <translation>
+        <numerusform>fjarlægja %n lag</numerusform>
+        <numerusform>fjarlægja %n lög</numerusform>
       </translation>
     </message>
     <message numerus="yes">
       <source>move %n songs</source>
-      <translation type="unfinished">
-        <numerusform>move %n songs</numerusform>
-        <numerusform>move %n songs</numerusform>
+      <translation>
+        <numerusform>færa %n lag</numerusform>
+        <numerusform>færa %n lög</numerusform>
       </translation>
     </message>
     <message>
       <source>sort songs</source>
-      <translation type="unfinished">sort songs</translation>
+      <translation>raða lögum</translation>
     </message>
     <message>
       <source>shuffle songs</source>
-      <translation type="unfinished">shuffle songs</translation>
+      <translation>stokka lög</translation>
     </message>
     <message>
       <source>Invalid collection directory</source>
-      <translation type="unfinished">Invalid collection directory</translation>
+      <translation>Ógild mappa safns</translation>
     </message>
     <message>
       <source>Can&apos;t add directory %1 with special filesystem %2 to collection</source>
-      <translation type="unfinished">Can&apos;t add directory %1 with special filesystem %2 to collection</translation>
+      <translation>Ekki er hægt að bæta möppunni %1 með sértæka skráakerfinu %2 við safnið</translation>
     </message>
   </context>
   <context>
@@ -5373,7 +5373,7 @@ Ertu viss um að þú viljir halda áfram?</translation>
     </message>
     <message>
       <source>Qobuz support is not official and requires an API app ID and secret from a registered application to work. We can&apos;t help you getting these.</source>
-      <translation type="unfinished">Qobuz support is not official and requires an API app ID and secret from a registered application to work. We can&apos;t help you getting these.</translation>
+      <translation>Stuðningur við Qobuz er ekki opinber og krefst API-auðkennis forrits og leynikóða frá skráðu forriti til að virka. Við erum ekki í aðstöðu til að hjálpa þér með þetta.</translation>
     </message>
     <message>
       <source>Authentication</source>
@@ -5807,19 +5807,19 @@ Ertu viss um að þú viljir halda áfram?</translation>
     </message>
     <message>
       <source>With this option enabled, scrobbles will be cached to disk but not sent to the server. This option can be enabled in cases where the server or the internet connection is unstable, the scrobbles will be sent when the option is disabled.</source>
-      <translation type="unfinished">With this option enabled, scrobbles will be cached to disk but not sent to the server. This option can be enabled in cases where the server or the internet connection is unstable, the scrobbles will be sent when the option is disabled.</translation>
+      <translation>Með þennan valkost virkan, verður skráning á hlustunarvenjum (scrobbles) sett í biðminni á disk en ekki sent til netþjónsins. Þetta má virkja í þeim tilfellum þegar netþjónninn eða internettengingin eru óstöðug, sé þetta óvirkt eru upplýsingarnar sendar.</translation>
     </message>
     <message>
       <source>Offline mode (Only cache scrobbles)</source>
-      <translation type="unfinished">Offline mode (Only cache scrobbles)</translation>
+      <translation>Ónettengdur hamur (einungis setja hlustunarvenjur í biðminni)</translation>
     </message>
     <message>
       <source>This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately.</source>
-      <translation type="unfinished">This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately.</translation>
+      <translation>Þetta er töfin frá því að hlustunarvenjur lags eru skráðar þangað til upplýsingar um hlustunarvenjur eru sendar til netþjónsins. Sé tíminn stilltur á 0 sekúndur verða hlustunarvenjur sendar strax.</translation>
     </message>
     <message>
       <source>Spotify</source>
-      <translation type="unfinished">Spotify</translation>
+      <translation>Spotify</translation>
     </message>
   </context>
   <context>
@@ -6150,7 +6150,7 @@ Ertu viss um að þú viljir halda áfram?</translation>
     </message>
     <message>
       <source>Strawberry is slower, and has restrictions when running as a Snap. Accessing the root filesystem (/) will not work. There also might be other restrictions such as accessing certain devices or network shares.</source>
-      <translation type="unfinished">Strawberry is slower, and has restrictions when running as a Snap. Accessing the root filesystem (/) will not work. There also might be other restrictions such as accessing certain devices or network shares.</translation>
+      <translation>Strawberry er hægvirkari og er með ýmsum takmörkunum þegar það er keyrt sem Snap-pakki. Aðgangur að rót skráakerfis (/) mun ekki virka. Það gætu einnig verið aðrar takmarkanir, til dæmis við aðgang að tilteknum tækjum eða sameignum á neti.</translation>
     </message>
     <message>
       <source>For Ubuntu there is an official PPA repository available at %1.</source>
@@ -6162,7 +6162,7 @@ Ertu viss um að þú viljir halda áfram?</translation>
     </message>
     <message>
       <source>For a better experience please consider the other options above.</source>
-      <translation type="unfinished">For a better experience please consider the other options above.</translation>
+      <translation>Þú ættir að íhuga aðra  valkosti hér að ofan sem gætu nýst þér betur.</translation>
     </message>
     <message>
       <source>Copy your strawberry.conf and strawberry.db from your ~/snap directory to avoid losing configuration before you uninstall the snap:</source>
@@ -6174,7 +6174,7 @@ Ertu viss um að þú viljir halda áfram?</translation>
     </message>
     <message>
       <source>Install strawberry through PPA:</source>
-      <translation>Settu Strawberry upp frá PPA:</translation>
+      <translation>Settu Strawberry upp úr PPA:</translation>
     </message>
   </context>
   <context>
@@ -6188,7 +6188,7 @@ Ertu viss um að þú viljir halda áfram?</translation>
     <name>SongLoader</name>
     <message>
       <source>Preload function was not set for blocking operation.</source>
-      <translation type="unfinished">Preload function was not set for blocking operation.</translation>
+      <translation>Forhleðsluaðgerð var ekki stillt fyrir blokkunaraðgerð.</translation>
     </message>
     <message>
       <source>File %1 does not exist.</source>
@@ -6208,23 +6208,23 @@ Ertu viss um að þú viljir halda áfram?</translation>
     </message>
     <message>
       <source>Couldn&apos;t create GStreamer source element for %1</source>
-      <translation type="unfinished">Couldn&apos;t create GStreamer source element for %1</translation>
+      <translation>Gat ekki búið til GStreamer-source-hluta fyrir %1</translation>
     </message>
     <message>
       <source>Couldn&apos;t create GStreamer typefind element for %1</source>
-      <translation type="unfinished">Couldn&apos;t create GStreamer typefind element for %1</translation>
+      <translation>Gat ekki búið til GStreamer-typefind-hluta fyrir %1</translation>
     </message>
     <message>
       <source>Couldn&apos;t create GStreamer fakesink element for %1</source>
-      <translation type="unfinished">Couldn&apos;t create GStreamer fakesink element for %1</translation>
+      <translation>Gat ekki búið til GStreamer-fakesink-hluta fyrir %1</translation>
     </message>
     <message>
       <source>Couldn&apos;t link GStreamer source, typefind and fakesink elements for %1</source>
-      <translation type="unfinished">Couldn&apos;t link GStreamer source, typefind and fakesink elements for %1</translation>
+      <translation>Gat ekki búið til GStreamer-source, typefind og fakesink-hluta fyrir %1</translation>
     </message>
     <message>
       <source>Missing CDDA playback.</source>
-      <translation type="unfinished">Missing CDDA playback.</translation>
+      <translation>CDDA-afspilun vantar.</translation>
     </message>
   </context>
   <context>
@@ -6340,7 +6340,7 @@ Ertu viss um að þú viljir halda áfram?</translation>
     </message>
     <message>
       <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The GStreamer Spotify plugin is not detected, you will not be able to stream songs from Spotify without it. See &lt;a href=&quot;https://wiki.strawberrymusicplayer.org/wiki/Installing_GStreamer_Spotify_plugin&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;Wiki&lt;/span&gt;&lt;/a&gt; for instructions on how to install the plugin.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-      <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The GStreamer Spotify plugin is not detected, you will not be able to stream songs from Spotify without it. See &lt;a href=&quot;https://wiki.strawberrymusicplayer.org/wiki/Installing_GStreamer_Spotify_plugin&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;Wiki&lt;/span&gt;&lt;/a&gt; for instructions on how to install the plugin.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+      <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Viðbótin í GStreamer fyrir Spotify fannst ekki, þú munt ekki geta streyt lög frá Spotify án hennar. Skoðaðu &lt;a href=&quot;https://wiki.strawberrymusicplayer.org/wiki/Installing_GStreamer_Spotify_plugin&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;Wiki&lt;/span&gt;&lt;/a&gt; til að sjá leiðbeiningar um hvernig eigi að setja inn þessa viðbót.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
       <source>Preferences</source>
@@ -6805,7 +6805,7 @@ Ertu viss um að þú viljir halda áfram?</translation>
     </message>
     <message>
       <source>Tidal support is not official and requires a API token from a registered application to work. We can&apos;t help you getting these.</source>
-      <translation type="unfinished">Tidal support is not official and requires a API token from a registered application to work. We can&apos;t help you getting these.</translation>
+      <translation>Stuðningur við Tidal er ekki opinber og krefst API-auðkennis forrits frá skráðu forriti til að virka. Við erum ekki í aðstöðu til að hjálpa þér með þetta.</translation>
     </message>
     <message>
       <source>Authentication</source>
@@ -7115,6 +7115,14 @@ Ertu viss um að þú viljir halda áfram?</translation>
     <message>
       <source>Add folder</source>
       <translation>Bæta við möppu</translation>
+    </message>
+    <message>
+      <source>Import Directory</source>
+      <translation>Flytja inn möppu</translation>
+    </message>
+    <message>
+      <source>Preserve directory structure in output directory (import only)</source>
+      <translation>Varðveita möppukerfi í útflutningsmöppu (einungis innflutningur)</translation>
     </message>
   </context>
   <context>
