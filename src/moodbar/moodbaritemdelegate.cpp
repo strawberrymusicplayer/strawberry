@@ -119,7 +119,6 @@ QPixmap MoodbarItemDelegate::PixmapForIndex(const QModelIndex &idx, const QSize 
     data = new Data;
     if (!data_.insert(url, data)) {
       qLog(Error) << "Could not insert moodbar data for URL" << url << "into cache";
-      delete data;
       return QPixmap();
     }
   }
