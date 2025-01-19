@@ -50,9 +50,9 @@
 // Make an INSTRUCTIONS file
 // can't mod scope in analyze you have to use transform for 2D use setErasePixmap Qt function insetead of m_background
 
-AnalyzerBase::AnalyzerBase(QWidget *parent, const uint scopeSize)
+AnalyzerBase::AnalyzerBase(QWidget *parent, const uint scope_size)
     : QWidget(parent),
-      fht_(new FHT(scopeSize)),
+      fht_(new FHT(scope_size)),
       engine_(nullptr),
       lastscope_(512),
       new_frame_(false),
@@ -211,28 +211,28 @@ void AnalyzerBase::demo(QPainter &p) {
 
 }
 
-void AnalyzerBase::interpolate(const Scope &inVec, Scope &outVec) {
+void AnalyzerBase::interpolate(const Scope &in_scope, Scope &out_scope) {
 
   double pos = 0.0;
-  const double step = static_cast<double>(inVec.size()) / static_cast<double>(outVec.size());
+  const double step = static_cast<double>(in_scope.size()) / static_cast<double>(out_scope.size());
 
-  for (uint i = 0; i < outVec.size(); ++i, pos += step) {
+  for (uint i = 0; i < out_scope.size(); ++i, pos += step) {
     const double error = pos - std::floor(pos);
     const uint64_t offset = static_cast<uint64_t>(pos);
 
     uint64_t indexLeft = offset + 0;
 
-    if (indexLeft >= inVec.size()) {
-      indexLeft = inVec.size() - 1;
+    if (indexLeft >= in_scope.size()) {
+      indexLeft = in_scope.size() - 1;
     }
 
     uint64_t indexRight = offset + 1;
 
-    if (indexRight >= inVec.size()) {
-      indexRight = inVec.size() - 1;
+    if (indexRight >= in_scope.size()) {
+      indexRight = in_scope.size() - 1;
     }
 
-    outVec[i] = inVec[indexLeft] * (1.0F - static_cast<float>(error)) + inVec[indexRight] * static_cast<float>(error);
+    out_scope[i] = in_scope[indexLeft] * (1.0F - static_cast<float>(error)) + in_scope[indexRight] * static_cast<float>(error);
   }
 
 }
