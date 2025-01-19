@@ -1695,7 +1695,7 @@ void MainWindow::closeEvent(QCloseEvent *e) {
 void MainWindow::SetHiddenInTray(const bool hidden) {
 
   if (hidden && isVisible()) {
-    close();
+    hide();
   }
   else if (!hidden && isHidden()) {
     if (was_minimized_) {
