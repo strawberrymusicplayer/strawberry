@@ -2906,7 +2906,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Receiving initial data from last.fm...</source>
-      <translation type="unfinished">Receiving initial data from last.fm...</translation>
+      <translation>Last.fm'den ilk veriler alınıyor...</translation>
     </message>
     <message>
       <source>Receiving playcount for %1 songs and last played for %2 songs.</source>
