@@ -2890,7 +2890,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Warning: Play counts and last played from last.fm will completely replace the same data for the matched songs. Play counts will replace the data based on artist and song title for the same albums! Please backup your database before you start.</source>
-      <translation type="unfinished">Warning: Play counts and last played from last.fm will completely replace the same data for the matched songs. Play counts will replace the data based on artist and song title for the same albums! Please backup your database before you start.</translation>
+      <translation>Uyarı: Last.fm'den aktarılan çalma sayısı ve son oynatılan bilgileri o şarkılar için şu anki verilerin yerine geçecektir. Çalma sayısı o aynı albümler için aynı sanatçı ve şarkı adının yerine geçecektir! Lütfen başlamadan önce veri tabanınızı yedekleyin.</translation>
     </message>
     <message>
       <source>Go!</source>
