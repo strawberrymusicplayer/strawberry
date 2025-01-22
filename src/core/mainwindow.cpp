@@ -1695,7 +1695,12 @@ void MainWindow::closeEvent(QCloseEvent *e) {
 void MainWindow::SetHiddenInTray(const bool hidden) {
 
   if (hidden && isVisible()) {
-    hide();
+    if (tray_icon_->IsSystemTrayAvailable() && tray_icon_->isVisible() && keep_running_) {
+      close();
+    }
+    else {
+      showMinimized();
+    }
   }
   else if (!hidden && isHidden()) {
     if (was_minimized_) {
