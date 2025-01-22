@@ -39,6 +39,7 @@ using namespace Qt::Literals::StringLiterals;
 
 ErrorDialog::ErrorDialog(QWidget *parent)
     : QDialog(parent),
+      parent_(parent),
       ui_(new Ui_ErrorDialog) {
 
   ui_->setupUi(this);
@@ -66,8 +67,11 @@ void ErrorDialog::ShowMessage(const QString &message) {
   UpdateContent();
 
   show();
-  raise();
-  activateWindow();
+
+  if (parent_ && parent_->isMaximized()) {
+    raise();
+    activateWindow();
+  }
 
 }
 

@@ -48,6 +48,7 @@ class ErrorDialog : public QDialog {
  private:
   void UpdateContent();
 
+  QWidget *parent_;
   Ui_ErrorDialog *ui_;
 
   QStringList current_messages_;
