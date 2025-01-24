@@ -21,7 +21,7 @@
 #ifndef MOCK_NETWORKACCESSMANAGER_H
 #define MOCK_NETWORKACCESSMANAGER_H
 
-#include <gmock/gmock.h>
+#include "gmock_include.h"
 
 #include <QtGlobal>
 #include <QMap>

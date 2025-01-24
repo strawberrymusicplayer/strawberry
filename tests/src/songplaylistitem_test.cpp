@@ -20,7 +20,7 @@
 
 #include <memory>
 
-#include <gtest/gtest.h>
+#include "gtest_include.h"
 
 #include <QTemporaryFile>
 #include <QFileInfo>

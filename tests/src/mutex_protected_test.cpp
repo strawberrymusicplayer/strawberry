@@ -1,4 +1,4 @@
-#include <gtest/gtest.h>
+#include "gtest_include.h"
 
 #include "includes/mutex_protected.h"
 

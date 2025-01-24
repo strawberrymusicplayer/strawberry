@@ -19,7 +19,8 @@
  *
  */
 
-#include <gtest/gtest.h>
+#include "gtest_include.h"
+
 #include "test_utils.h"
 
 #include "constants/timeconstants.h"

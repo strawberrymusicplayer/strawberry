@@ -21,7 +21,7 @@
 #ifndef METATYPES_ENV_H
 #define METATYPES_ENV_H
 
-#include <gtest/gtest.h>
+#include "gtest_include.h"
 
 #include <QMetaType>
 #include <QModelIndex>

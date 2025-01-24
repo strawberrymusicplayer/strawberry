@@ -18,7 +18,7 @@
  *
  */
 
-#include <gmock/gmock.h>
+#include "gmock_include.h"
 
 #ifdef GUI
 #  include <QApplication>

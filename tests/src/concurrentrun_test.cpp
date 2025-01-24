@@ -1,6 +1,6 @@
 #include <functional>
 
-#include <gtest/gtest.h>
+#include "gtest_include.h"
 
 #include <QtConcurrentRun>
 #include <QThreadPool>

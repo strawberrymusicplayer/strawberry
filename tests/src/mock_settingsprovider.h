@@ -21,7 +21,7 @@
 #ifndef MOCK_SETTINGSPROVIDER_H
 #define MOCK_SETTINGSPROVIDER_H
 
-#include <gmock/gmock.h>
+#include "gmock_include.h"
 
 #include "core/settingsprovider.h"
 

@@ -23,7 +23,7 @@
 
 #include "config.h"
 
-#include <gtest/gtest.h>
+#include "gtest_include.h"
 
 #include <QResource>
 

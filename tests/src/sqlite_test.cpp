@@ -1,4 +1,5 @@
-#include <gtest/gtest.h>
+#include "gtest_include.h"
+
 #include <sqlite3.h>
 
 // clazy:excludeall=returning-void-expression

@@ -21,7 +21,7 @@
 #ifndef MOCKCOLLECTIONBACKEND_H
 #define MOCKCOLLECTIONBACKEND_H
 
-#include <gmock/gmock.h>
+#include "gmock_include.h"
 
 #include "collection/collectionbackend.h"
 

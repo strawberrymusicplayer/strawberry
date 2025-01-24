@@ -19,8 +19,8 @@
 
 #include "config.h"
 
-#include <gmock/gmock.h>
-#include <gtest/gtest.h>
+#include "gtest_include.h"
+#include "gmock_include.h"
 
 #include <QFile>
 #include <QByteArray>
