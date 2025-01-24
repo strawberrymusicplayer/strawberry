@@ -25,7 +25,7 @@
     </message>
     <message>
       <source>Strawberry is free software released under GPL. The source code is available on %1</source>
-      <translation>Strawberry on vaba ja tasuta tarkvara, mis on välja antud GPL litsentsi all. Lähtekood on saadaval aadressil %1</translation>
+      <translation>Strawberry on avatud lähtekoodil põhinev tasuta tarkvara, mis on välja antud GPL litsentsi all. Lähtekood on saadaval aadressil %1</translation>
     </message>
     <message>
       <source>You should have received a copy of the GNU General Public License along with this program.  If not, see %1</source>
@@ -33,11 +33,11 @@
     </message>
     <message>
       <source>If you like Strawberry and can make use of it, consider sponsoring or donating.</source>
-      <translation>Kui sulle meeldib Strawberry ja leiad selle olevat kasulik, kaalu sponsoreerimist või annetamist.</translation>
+      <translation>Kui Strawberry sulle meeldib ja leiad ta olevat kasulik, kaalu rahalist toetust või annetamist.</translation>
     </message>
     <message>
       <source>You can sponsor the author on %1. You can also make a one-time payment through %2.</source>
-      <translation>Võid toetatada autorit saidil %1.  Samuti on võimalik ühekordne makse %2 kaudu.</translation>
+      <translation>Võid toetada autorit saidis %1. Samuti on võimalik ühekordne makse %2 kaudu.</translation>
     </message>
     <message>
       <source>Author and maintainer</source>
@@ -72,7 +72,7 @@
     </message>
     <message>
       <source>Enter the URL of a stream:</source>
-      <translation>Sisesta voo URL:</translation>
+      <translation>Sisesta voogedastuse võrguaadress:</translation>
     </message>
   </context>
   <context>
@@ -87,7 +87,7 @@
     </message>
     <message>
       <source>Load cover from URL...</source>
-      <translation>Laadi kaaanepilt aadressilt...</translation>
+      <translation>Laadi kaanepilt võrguaadressilt...</translation>
     </message>
     <message>
       <source>Search for album covers...</source>
@@ -1068,7 +1068,7 @@
       <source>When looking for album art Strawberry will first look for picture files that contain one of these words.
 If there are no matches then it will use the largest image in the directory.</source>
       <translation>Kaanepilte otsides vaatab Strawberry esmalt pildifaile, mis sisaldavad ühte neist sõnadest.
- Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
+Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Display options</source>
@@ -1152,7 +1152,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Write all playcounts and ratings to files</source>
-      <translation>Kirjuta failidesse kõik esituskorrad ja reitingud</translation>
+      <translation>Kirjuta kõik esituskorrad ja reitingud failidesse</translation>
     </message>
     <message>
       <source>Are you sure you want to write song playcounts and ratings to file for all songs in your collection?</source>
@@ -1219,15 +1219,15 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Rescan song(s)</source>
-      <translation>Skaneeri lugu uuesti</translation>
+      <translation>Skaneeri lugu või lood uuesti</translation>
     </message>
     <message>
       <source>Show in various artists</source>
-      <translation>Kuva nimistus &apos;Erinevad esitajad&apos;</translation>
+      <translation>Kuva loendis &apos;Erinevad esitajad&apos;</translation>
     </message>
     <message>
       <source>Don&apos;t show in various artists</source>
-      <translation>Ära kuva nimistus &apos;Erinevad esitajad&apos;</translation>
+      <translation>Ära kuva loendis &apos;Erinevad esitajad&apos;</translation>
     </message>
     <message>
       <source>There are other songs in this album</source>
@@ -1419,7 +1419,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Add song URL</source>
-      <translation>Lisa loo URL</translation>
+      <translation>Lisa loo võrguaadress</translation>
     </message>
     <message>
       <source>%rating%</source>
@@ -1521,11 +1521,11 @@ If there are no matches then it will use the largest image in the directory.</so
     <name>CoverFromURLDialog</name>
     <message>
       <source>Load cover from URL</source>
-      <translation>Laadi kaaanepilt aadressilt</translation>
+      <translation>Laadi kaanepilt võrguaadressilt</translation>
     </message>
     <message>
       <source>Enter a URL to download a cover from the Internet:</source>
-      <translation>Kaanepiltide laadimiseks internetist sisesta aadress:</translation>
+      <translation>Kaanepiltide laadimiseks internetist sisesta võrguaadress:</translation>
     </message>
     <message>
       <source>Fetching cover error</source>
@@ -1572,7 +1572,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Fetch Missing Covers</source>
-      <translation>Hangi puuduvad kaanepildid</translation>
+      <translation>Laadi puuduvad kaanepildid</translation>
     </message>
     <message>
       <source>Export Covers</source>
@@ -2878,7 +2878,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Choose data to import from last.fm</source>
-      <translation>Vali andmed saidilt last.fm importimiseks</translation>
+      <translation>Vali andmed last.fm saidist importimiseks</translation>
     </message>
     <message>
       <source>Last played</source>
@@ -3472,7 +3472,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Strawberry is free and open source software. If you like Strawberry, please consider sponsoring the project. For more information about sponsorship see our website %1</source>
-      <translation>Strawberry on tasuta ja avatud lähtekoodiga tarkvara. Kui sulle meeldib Strawberry, kaalu projekti toetamist. Lisateavet sponsorluse kohta leiad meie veebisaidilt %1</translation>
+      <translation>Strawberry on tasuta ja avatud lähtekoodiga tarkvara. Kui sulle meeldib Strawberry, kaalu projekti toetamist. Lisateavet sponsorluse kohta leiad meie veebisaidist %1</translation>
     </message>
     <message>
       <source>Pause</source>
@@ -3693,7 +3693,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Password</source>
-      <translation>Parool</translation>
+      <translation>Salasõna</translation>
     </message>
     <message>
       <source>Use proxy settings for streaming</source>
@@ -3909,7 +3909,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Add song URL</source>
-      <translation>Lisa loo URL</translation>
+      <translation>Lisa loo võrguaadress</translation>
     </message>
     <message>
       <source>%originalyear%</source>
@@ -4808,7 +4808,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>URL(s)</source>
-      <translation>URL(id)</translation>
+      <translation>Võrguaadress(id)</translation>
     </message>
     <message>
       <source>Player options</source>
@@ -4884,7 +4884,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Append files/URLs to the playlist</source>
-      <translation>Lisa failid/URL-id esitusloendisse</translation>
+      <translation>Lisa failid/võrguaadressid esitusloendisse</translation>
     </message>
     <message>
       <source>Loads files/URLs, replacing current playlist</source>
@@ -5350,7 +5350,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Missing Qobuz password.</source>
-      <translation>Qobuzi parool puudub.</translation>
+      <translation>Qobuzi salasõna puudub.</translation>
     </message>
     <message>
       <source>Not authenticated with Qobuz.</source>
@@ -5389,7 +5389,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Password</source>
-      <translation>Parool</translation>
+      <translation>Salasõna</translation>
     </message>
     <message>
       <source>App Secret</source>
@@ -5405,7 +5405,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Audio format</source>
-      <translation>Heli vorming</translation>
+      <translation>Helivorming</translation>
     </message>
     <message>
       <source>Search delay</source>
@@ -5449,7 +5449,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Missing password.</source>
-      <translation>Parool puudub.</translation>
+      <translation>Salasõna puudub.</translation>
     </message>
     <message>
       <source>Authentication failed</source>
@@ -5830,15 +5830,15 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Open URL in web browser?</source>
-      <translation>Kas avada URL veebibrauseris?</translation>
+      <translation>Kas avame võrguaadressi veebibrauseris?</translation>
     </message>
     <message>
       <source>Press &quot;Save&quot; to copy the URL to clipboard and manually open it in a web browser.</source>
-      <translation>URL-i lõikepuhvrisse kopeerimiseks ja veebilehitsejas käsitsi avamiseks vajuta nuppu &quot;Salvesta&quot;.</translation>
+      <translation>Võrguaadressi lõikepuhvrisse kopeerimiseks ja veebilehitsejas käsitsi avamiseks vajuta nuppu &quot;Salvesta&quot;.</translation>
     </message>
     <message>
       <source>Could not open URL. Please open this URL in your browser</source>
-      <translation>URL-i ei saanud avada. Ava see URL oma veebilehitseja</translation>
+      <translation>Võrguaadressi ei saanud avada. Ava see võrguaadress oma veebibrauseriga</translation>
     </message>
     <message>
       <source>Invalid reply from web browser. Missing token.</source>
@@ -5850,7 +5850,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Scrobbler %1 is not authenticated!</source>
-      <translation>Kraasija %1 ei ole autentitud!</translation>
+      <translation>Kraasija %1 ei ole autenditud!</translation>
     </message>
     <message>
       <source>Scrobbler %1 error: %2</source>
@@ -6146,11 +6146,11 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>It is detected that Strawberry is running as a Snap</source>
-      <translation>Tuvastati, et Strawberry töötab Snapina</translation>
+      <translation>Tuvastasime, et Strawberry töötab Snapina</translation>
     </message>
     <message>
       <source>Strawberry is slower, and has restrictions when running as a Snap. Accessing the root filesystem (/) will not work. There also might be other restrictions such as accessing certain devices or network shares.</source>
-      <translation>Strawberry on aeglasem ja omab Snapina käitamisel piiranguid.  Juurfailisüsteemile (/) ligipääs puudub.  Samuti võivad kehtida muud piirangud, näiteks juurdepääs teatud seadmetele või võrgujagudele.</translation>
+      <translation>Strawberry on aeglasem ja omab Snapina käitamisel piiranguid. Juurfailisüsteemile (/) ligipääs puudub. Samuti võivad kehtida muud piirangud, näiteks juurdepääs teatud seadmetele või võrgukestastele.</translation>
     </message>
     <message>
       <source>For Ubuntu there is an official PPA repository available at %1.</source>
@@ -6208,7 +6208,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Couldn&apos;t create GStreamer source element for %1</source>
-      <translation>GStreameri lähteelemendi loomine %1 jaoks nurjus</translation>
+      <translation>GStreameri lähteelemendi loomine %1 jaoks ebaõnnestus</translation>
     </message>
     <message>
       <source>Couldn&apos;t create GStreamer typefind element for %1</source>
@@ -6216,11 +6216,11 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Couldn&apos;t create GStreamer fakesink element for %1</source>
-      <translation>GStreameri fakesink elemendi loomine %1 jaoks nurjus</translation>
+      <translation>GStreameri fakesink elemendi loomine %1 jaoks ebaõnnestus</translation>
     </message>
     <message>
       <source>Couldn&apos;t link GStreamer source, typefind and fakesink elements for %1</source>
-      <translation>GStreameri fakesink, typefind ja lähteelementide linkimine %1 jaoks nurjus</translation>
+      <translation>GStreameri fakesink, typefind ja lähteelementide linkimine %1 jaoks ebaõnnestus</translation>
     </message>
     <message>
       <source>Missing CDDA playback.</source>
@@ -6305,7 +6305,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Please open this URL in your browser</source>
-      <translation>Ava see URL oma veebilehitsejas</translation>
+      <translation>Ava see võrguaadress oma veebibrauaseris</translation>
     </message>
     <message>
       <source>Redirect missing token code or state!</source>
@@ -6372,7 +6372,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Fetch entire albums when searching songs</source>
-      <translation>Lugude otsimisel hangi terved albumid</translation>
+      <translation>Lugude otsimisel laadi tervikalbumid</translation>
     </message>
     <message>
       <source>Authentication failed</source>
@@ -6530,7 +6530,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Songs</source>
-      <translation>lugu</translation>
+      <translation>Lood</translation>
     </message>
     <message>
       <source>Search</source>
@@ -6572,11 +6572,11 @@ Kas soovid jätkata?</translation>
     <name>SubsonicService</name>
     <message>
       <source>Server URL is invalid.</source>
-      <translation>Serveri URL on vigane.</translation>
+      <translation>Serveri võrguaadress on vigane.</translation>
     </message>
     <message>
       <source>Missing username or password.</source>
-      <translation>Kasutajanimi või parool puudub.</translation>
+      <translation>Kasutajanimi või salasõna puudub.</translation>
     </message>
   </context>
   <context>
@@ -6591,7 +6591,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Server URL</source>
-      <translation>Serveri URL</translation>
+      <translation>Serveri võrguaadress</translation>
     </message>
     <message>
       <source>Authentication</source>
@@ -6603,7 +6603,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Password</source>
-      <translation>Parool</translation>
+      <translation>Salasõna</translation>
     </message>
     <message>
       <source>Authentication method:</source>
@@ -6655,7 +6655,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Missing server url, username or password.</source>
-      <translation>Serveri URL, kasutajanimi või parool puudub.</translation>
+      <translation>Serveri võrguaadress, kasutajanimi või salasõna puudub.</translation>
     </message>
     <message>
       <source>Configuration incorrect</source>
@@ -6663,7 +6663,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Server URL is invalid.</source>
-      <translation>Serveri URL on vigane.</translation>
+      <translation>Serveri võrguaadress on vigane.</translation>
     </message>
     <message>
       <source>Test successful!</source>
@@ -6678,11 +6678,11 @@ Kas soovid jätkata?</translation>
     <name>SubsonicUrlHandler</name>
     <message>
       <source>Subsonic server URL is invalid.</source>
-      <translation>Subsonici serveri URL on kehtetu.</translation>
+      <translation>Subsonicu serveri võrguaadress on vigane.</translation>
     </message>
     <message>
       <source>Missing Subsonic username or password.</source>
-      <translation>Subsonic kasutajanimi või parool puudub.</translation>
+      <translation>Subsonicu kasutajanimi või salasõna puudub.</translation>
     </message>
   </context>
   <context>
@@ -6778,7 +6778,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Missing Tidal password.</source>
-      <translation>Tidali parool puudub.</translation>
+      <translation>Tidali salasõna puudub.</translation>
     </message>
     <message>
       <source>Not authenticated with Tidal and reached maximum number of login attempts.</source>
@@ -6786,11 +6786,11 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Not authenticated with Tidal.</source>
-      <translation>Pole Tidaliga autentitud.</translation>
+      <translation>Pole Tidalis autenditud.</translation>
     </message>
     <message>
       <source>Missing Tidal API token, username or password.</source>
-      <translation>Puuduv Tidal API tunnuskood, kasutajanimi või parool.</translation>
+      <translation>Puuduv Tidal API tunnuskood, kasutajanimi või salasõna.</translation>
     </message>
   </context>
   <context>
@@ -6813,7 +6813,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Use OAuth</source>
-      <translation>Kasuta OAuth</translation>
+      <translation>Kasuta OAuthi</translation>
     </message>
     <message>
       <source>Client ID</source>
@@ -6829,7 +6829,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Password</source>
-      <translation>Parool</translation>
+      <translation>Salasõna</translation>
     </message>
     <message>
       <source>Login</source>
@@ -6869,7 +6869,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Fetch entire albums when searching songs</source>
-      <translation>Lugude otsimisel hangi terved albumid</translation>
+      <translation>Lugude otsimisel laadi tervikalbumid</translation>
     </message>
     <message>
       <source>Album cover size</source>
@@ -6877,7 +6877,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Stream URL method</source>
-      <translation>Voo URL-i meetod</translation>
+      <translation>Voogedastuse võrguaadressi meetod</translation>
     </message>
     <message>
       <source>Append explicit to album title for explicit albums</source>
@@ -6901,7 +6901,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Missing password.</source>
-      <translation>Parool puudub.</translation>
+      <translation>Salasõna puudub.</translation>
     </message>
     <message>
       <source>Authentication failed</source>
@@ -6912,11 +6912,11 @@ Kas soovid jätkata?</translation>
     <name>TidalStreamURLRequest</name>
     <message>
       <source>Not authenticated with Tidal.</source>
-      <translation>Pole Tidaliga autentitud.</translation>
+      <translation>Pole Tidalis autenditud.</translation>
     </message>
     <message>
       <source>Missing Tidal API token, username or password.</source>
-      <translation>Puuduv Tidal API tunnuskood, kasutajanimi või parool.</translation>
+      <translation>Puuduv Tidal API tunnuskood, kasutajanimi või salasõna.</translation>
     </message>
     <message>
       <source>Cancelled.</source>
@@ -6924,11 +6924,11 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Received URL with %1 encrypted stream from Tidal. Strawberry does not currently support encrypted streams.</source>
-      <translation>Tidalilt saabus URL %1 krüptitud vooga . Strawberry ei toeta praegu krüptitud vooge.</translation>
+      <translation>Laadisime Tidalilst võrguaadressi %1 krüptitud meediavooga. Strawberry ei toeta praegu krüptitud voogedastust.</translation>
     </message>
     <message>
       <source>Received URL with encrypted stream from Tidal. Strawberry does not currently support encrypted streams.</source>
-      <translation>Tidalilt saabus URL krüptitud vooga . Strawberry ei toeta praegu krüptitud vooge.</translation>
+      <translation>Laadisime Tidalist võrguaadressi krüptitud meediavooga. Strawberry ei toeta praegu krüptitud voogedastust.</translation>
     </message>
   </context>
   <context>
@@ -7045,7 +7045,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Audio format</source>
-      <translation>Heli vorming</translation>
+      <translation>Helivorming</translation>
     </message>
     <message>
       <source>Options...</source>
@@ -7516,7 +7516,7 @@ Kas soovid jätkata?</translation>
     <name>UserPassDialog</name>
     <message>
       <source>Enter username and password</source>
-      <translation>Sisesta kasutajanimi ja parool</translation>
+      <translation>Sisesta kasutajanimi ja salasõna</translation>
     </message>
     <message>
       <source>Username</source>
@@ -7524,7 +7524,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Password</source>
-      <translation>Parool</translation>
+      <translation>Salasõna</translation>
     </message>
   </context>
 </TS>
