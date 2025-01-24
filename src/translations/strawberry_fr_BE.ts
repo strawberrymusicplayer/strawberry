@@ -13,7 +13,7 @@
     </message>
     <message>
       <source>Version %1</source>
-      <translation>Version %1</translation>
+      <translation type="unfinished">Version %1</translation>
     </message>
     <message>
       <source>Strawberry is a music player and music collection organizer.</source>
@@ -210,7 +210,7 @@
     </message>
     <message>
       <source>Pixel</source>
-      <translation>Pixel</translation>
+      <translation type="unfinished">Pixel</translation>
     </message>
   </context>
   <context>
@@ -288,7 +288,7 @@
     </message>
     <message>
       <source>Album</source>
-      <translation>Album</translation>
+      <translation type="unfinished">Album</translation>
     </message>
     <message>
       <source>Search</source>
@@ -339,7 +339,7 @@
     </message>
     <message>
       <source>Turbine</source>
-      <translation>Turbine</translation>
+      <translation type="unfinished">Turbine</translation>
     </message>
     <message>
       <source>Sonogram</source>
@@ -358,7 +358,7 @@
     </message>
     <message>
       <source>Style</source>
-      <translation>Style</translation>
+      <translation type="unfinished">Style</translation>
     </message>
     <message>
       <source>Use system theme icons</source>
@@ -418,7 +418,7 @@
     </message>
     <message>
       <source>Position</source>
-      <translation>Position</translation>
+      <translation type="unfinished">Position</translation>
     </message>
     <message>
       <source>Upper Left</source>
@@ -462,7 +462,7 @@
     </message>
     <message>
       <source>0px</source>
-      <translation>0px</translation>
+      <translation type="unfinished">0px</translation>
     </message>
     <message>
       <source>Opacity</source>
@@ -470,7 +470,7 @@
     </message>
     <message>
       <source>40%</source>
-      <translation>40%</translation>
+      <translation type="unfinished">40%</translation>
     </message>
     <message>
       <source>Icon sizes</source>
@@ -545,7 +545,7 @@
     </message>
     <message>
       <source>hw</source>
-      <translation>hw</translation>
+      <translation type="unfinished">hw</translation>
     </message>
     <message>
       <source>p&amp;lughw</source>
@@ -553,7 +553,7 @@
     </message>
     <message>
       <source>pcm</source>
-      <translation>pcm</translation>
+      <translation type="unfinished">pcm</translation>
     </message>
     <message>
       <source>Exclusive mode (Experimental)</source>
@@ -561,7 +561,7 @@
     </message>
     <message>
       <source>Options</source>
-      <translation>Options</translation>
+      <translation type="unfinished">Options</translation>
     </message>
     <message>
       <source>Enable volume control</source>
@@ -593,7 +593,7 @@
     </message>
     <message>
       <source> ms</source>
-      <translation> ms</translation>
+      <translation type="unfinished"> ms</translation>
     </message>
     <message>
       <source>Buffer duration</source>
@@ -824,7 +824,7 @@
     </message>
     <message>
       <source> s</source>
-      <translation> s</translation>
+      <translation type="unfinished"> s</translation>
     </message>
     <message>
       <source>Volume Increment</source>
@@ -1268,7 +1268,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     <name>Console</name>
     <message>
       <source>Console</source>
-      <translation>Console</translation>
+      <translation type="unfinished">Console</translation>
     </message>
     <message>
       <source>Run</source>
@@ -1303,7 +1303,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Album</source>
-      <translation>Album</translation>
+      <translation type="unfinished">Album</translation>
     </message>
     <message>
       <source>Technical Data</source>
@@ -1335,7 +1335,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source> pt</source>
-      <translation> pt</translation>
+      <translation type="unfinished"> pt</translation>
     </message>
     <message>
       <source>Preview</source>
@@ -1407,7 +1407,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>%filename%</source>
-      <translation>%filename%</translation>
+      <translation type="unfinished">%filename%</translation>
     </message>
     <message>
       <source>Add song filename</source>
@@ -1506,15 +1506,15 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>%1 album</source>
-      <translation>%1 album</translation>
+      <translation type="unfinished">%1 album</translation>
     </message>
     <message>
       <source>%1 albums</source>
-      <translation>%1 albums</translation>
+      <translation type="unfinished">%1 albums</translation>
     </message>
     <message>
       <source>kbps</source>
-      <translation>kbps</translation>
+      <translation type="unfinished">kbps</translation>
     </message>
   </context>
   <context>
@@ -1568,7 +1568,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>0</source>
-      <translation>0</translation>
+      <translation type="unfinished">0</translation>
     </message>
     <message>
       <source>Fetch Missing Covers</source>
@@ -1851,7 +1851,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Information</source>
-      <translation>Information</translation>
+      <translation type="unfinished">Information</translation>
     </message>
     <message>
       <source>Name</source>
@@ -2092,7 +2092,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Tags</source>
-      <translation>Tags</translation>
+      <translation type="unfinished">Tags</translation>
     </message>
     <message>
       <source>MenuPopupToolButton</source>
@@ -2120,7 +2120,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Album</source>
-      <translation>Album</translation>
+      <translation type="unfinished">Album</translation>
     </message>
     <message>
       <source>Year</source>
@@ -2144,7 +2144,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Genre</source>
-      <translation>Genre</translation>
+      <translation type="unfinished">Genre</translation>
     </message>
     <message>
       <source>Comment</source>
@@ -2156,7 +2156,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Compilation</source>
-      <translation>Compilation</translation>
+      <translation type="unfinished">Compilation</translation>
     </message>
     <message>
       <source>Track</source>
@@ -2204,7 +2204,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>kbps</source>
-      <translation>kbps</translation>
+      <translation type="unfinished">kbps</translation>
     </message>
     <message>
       <source>Unknown</source>
@@ -2319,7 +2319,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Balance</source>
-      <translation>Balance</translation>
+      <translation type="unfinished">Balance</translation>
     </message>
     <message>
       <source>Right</source>
@@ -2339,7 +2339,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Club</source>
-      <translation>Club</translation>
+      <translation type="unfinished">Club</translation>
     </message>
     <message>
       <source>Dance</source>
@@ -2375,15 +2375,15 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Pop</source>
-      <translation>Pop</translation>
+      <translation type="unfinished">Pop</translation>
     </message>
     <message>
       <source>Reggae</source>
-      <translation>Reggae</translation>
+      <translation type="unfinished">Reggae</translation>
     </message>
     <message>
       <source>Rock</source>
-      <translation>Rock</translation>
+      <translation type="unfinished">Rock</translation>
     </message>
     <message>
       <source>Soft</source>
@@ -2391,15 +2391,15 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Ska</source>
-      <translation>Ska</translation>
+      <translation type="unfinished">Ska</translation>
     </message>
     <message>
       <source>Soft Rock</source>
-      <translation>Soft Rock</translation>
+      <translation type="unfinished">Soft Rock</translation>
     </message>
     <message>
       <source>Techno</source>
-      <translation>Techno</translation>
+      <translation type="unfinished">Techno</translation>
     </message>
     <message>
       <source>Zero</source>
@@ -2422,7 +2422,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>%1 dB</source>
-      <translation>%1 dB</translation>
+      <translation type="unfinished">%1 dB</translation>
     </message>
   </context>
   <context>
@@ -2592,7 +2592,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>URI</source>
-      <translation>URI</translation>
+      <translation type="unfinished">URI</translation>
     </message>
   </context>
   <context>
@@ -2614,7 +2614,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Pause</source>
-      <translation>Pause</translation>
+      <translation type="unfinished">Pause</translation>
     </message>
     <message>
       <source>Play/Pause</source>
@@ -2710,7 +2710,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     <message>
       <source>Action</source>
       <comment>Category label</comment>
-      <translation>Action</translation>
+      <translation type="unfinished">Action</translation>
     </message>
     <message>
       <source>Shortcut</source>
@@ -2777,7 +2777,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Album</source>
-      <translation>Album</translation>
+      <translation type="unfinished">Album</translation>
     </message>
     <message>
       <source>Album - Disc</source>
@@ -2789,11 +2789,11 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Format</source>
-      <translation>Format</translation>
+      <translation type="unfinished">Format</translation>
     </message>
     <message>
       <source>Genre</source>
-      <translation>Genre</translation>
+      <translation type="unfinished">Genre</translation>
     </message>
     <message>
       <source>Year</source>
@@ -3092,7 +3092,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>&amp;Stop</source>
-      <translation>&amp;Stop</translation>
+      <translation type="unfinished">&amp;Stop</translation>
     </message>
     <message>
       <source>F7</source>
@@ -3204,7 +3204,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>C&amp;onsole</source>
-      <translation>C&amp;onsole</translation>
+      <translation type="unfinished">C&amp;onsole</translation>
     </message>
     <message>
       <source>&amp;Shuffle mode</source>
@@ -3364,7 +3364,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Radios</source>
-      <translation>Radios</translation>
+      <translation type="unfinished">Radios</translation>
     </message>
     <message>
       <source>Devices</source>
@@ -3372,19 +3372,19 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Subsonic</source>
-      <translation>Subsonic</translation>
+      <translation type="unfinished">Subsonic</translation>
     </message>
     <message>
       <source>Tidal</source>
-      <translation>Tidal</translation>
+      <translation type="unfinished">Tidal</translation>
     </message>
     <message>
       <source>Spotify</source>
-      <translation>Spotify</translation>
+      <translation type="unfinished">Spotify</translation>
     </message>
     <message>
       <source>Qobuz</source>
-      <translation>Qobuz</translation>
+      <translation type="unfinished">Qobuz</translation>
     </message>
     <message>
       <source>Show all songs</source>
@@ -3476,7 +3476,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Pause</source>
-      <translation>Pause</translation>
+      <translation type="unfinished">Pause</translation>
     </message>
     <message>
       <source>Dequeue track</source>
@@ -3704,7 +3704,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     <name>NotificationsSettingsPage</name>
     <message>
       <source>Notifications</source>
-      <translation>Notifications</translation>
+      <translation type="unfinished">Notifications</translation>
     </message>
     <message>
       <source>Strawberry can show a message when the track changes.</source>
@@ -3964,7 +3964,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Volume %1%</source>
-      <translation>Volume %1%</translation>
+      <translation type="unfinished">Volume %1%</translation>
     </message>
     <message>
       <source>Don&apos;t shuffle</source>
@@ -4022,7 +4022,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Destination</source>
-      <translation>Destination</translation>
+      <translation type="unfinished">Destination</translation>
     </message>
     <message>
       <source>After copying...</source>
@@ -4098,7 +4098,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Album</source>
-      <translation>Album</translation>
+      <translation type="unfinished">Album</translation>
     </message>
     <message>
       <source>Artist</source>
@@ -4142,7 +4142,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Genre</source>
-      <translation>Genre</translation>
+      <translation type="unfinished">Genre</translation>
     </message>
     <message>
       <source>Comment</source>
@@ -4235,7 +4235,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Album</source>
-      <translation>Album</translation>
+      <translation type="unfinished">Album</translation>
     </message>
     <message>
       <source>Track</source>
@@ -4259,7 +4259,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Genre</source>
-      <translation>Genre</translation>
+      <translation type="unfinished">Genre</translation>
     </message>
     <message>
       <source>Album Artist</source>
@@ -4331,7 +4331,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Source</source>
-      <translation>Source</translation>
+      <translation type="unfinished">Source</translation>
     </message>
     <message>
       <source>Mood</source>
@@ -4343,7 +4343,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>CUE</source>
-      <translation>CUE</translation>
+      <translation type="unfinished">CUE</translation>
     </message>
     <message>
       <source>Integrated Loudness</source>
@@ -4785,15 +4785,15 @@ Are you sure you want to continue?</source>
     <name>PlaylistView</name>
     <message>
       <source>Hz</source>
-      <translation>Hz</translation>
+      <translation type="unfinished">Hz</translation>
     </message>
     <message>
       <source>Bit</source>
-      <translation>Bit</translation>
+      <translation type="unfinished">Bit</translation>
     </message>
     <message>
       <source>kbps</source>
-      <translation>kbps</translation>
+      <translation type="unfinished">kbps</translation>
     </message>
   </context>
   <context>
@@ -4804,11 +4804,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>options</source>
-      <translation>options</translation>
+      <translation type="unfinished">options</translation>
     </message>
     <message>
       <source>URL(s)</source>
-      <translation>URL(s)</translation>
+      <translation type="unfinished">URL(s)</translation>
     </message>
     <message>
       <source>Player options</source>
@@ -5204,7 +5204,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Normal</source>
-      <translation>Normal</translation>
+      <translation type="unfinished">Normal</translation>
     </message>
     <message>
       <source>Angry</source>
@@ -5365,7 +5365,7 @@ Are you sure you want to continue?</source>
     <name>QobuzSettingsPage</name>
     <message>
       <source>Qobuz</source>
-      <translation>Qobuz</translation>
+      <translation type="unfinished">Qobuz</translation>
     </message>
     <message>
       <source>Enable</source>
@@ -5413,7 +5413,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>ms</source>
-      <translation>ms</translation>
+      <translation type="unfinished">ms</translation>
     </message>
     <message>
       <source>Artists search limit</source>
@@ -5561,7 +5561,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Type</source>
-      <translation>Type</translation>
+      <translation type="unfinished">Type</translation>
     </message>
     <message>
       <source>Select directory for the playlists</source>
@@ -5616,7 +5616,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Album</source>
-      <translation>Album</translation>
+      <translation type="unfinished">Album</translation>
     </message>
     <message>
       <source>Album - Disc</source>
@@ -5652,7 +5652,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Genre</source>
-      <translation>Genre</translation>
+      <translation type="unfinished">Genre</translation>
     </message>
     <message>
       <source>Composer</source>
@@ -5672,7 +5672,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Format</source>
-      <translation>Format</translation>
+      <translation type="unfinished">Format</translation>
     </message>
     <message>
       <source>Sample rate</source>
@@ -5743,7 +5743,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Subsonic</source>
-      <translation>Subsonic</translation>
+      <translation type="unfinished">Subsonic</translation>
     </message>
     <message>
       <source>Local file</source>
@@ -5751,7 +5751,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Tidal</source>
-      <translation>Tidal</translation>
+      <translation type="unfinished">Tidal</translation>
     </message>
     <message>
       <source>Device</source>
@@ -5759,15 +5759,15 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Qobuz</source>
-      <translation>Qobuz</translation>
+      <translation type="unfinished">Qobuz</translation>
     </message>
     <message>
       <source>CDDA</source>
-      <translation>CDDA</translation>
+      <translation type="unfinished">CDDA</translation>
     </message>
     <message>
       <source>SomaFM</source>
-      <translation>SomaFM</translation>
+      <translation type="unfinished">SomaFM</translation>
     </message>
     <message>
       <source>Stream</source>
@@ -5775,7 +5775,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Radio Paradise</source>
-      <translation>Radio Paradise</translation>
+      <translation type="unfinished">Radio Paradise</translation>
     </message>
     <message>
       <source>Unknown</source>
@@ -5783,7 +5783,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Last.fm</source>
-      <translation>Last.fm</translation>
+      <translation type="unfinished">Last.fm</translation>
     </message>
     <message>
       <source>Login</source>
@@ -5791,11 +5791,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Libre.fm</source>
-      <translation>Libre.fm</translation>
+      <translation type="unfinished">Libre.fm</translation>
     </message>
     <message>
       <source>Listenbrainz</source>
-      <translation>Listenbrainz</translation>
+      <translation type="unfinished">Listenbrainz</translation>
     </message>
     <message>
       <source>User token:</source>
@@ -6324,7 +6324,7 @@ Are you sure you want to continue?</source>
     <name>SpotifySettingsPage</name>
     <message>
       <source>Spotify</source>
-      <translation>Spotify</translation>
+      <translation type="unfinished">Spotify</translation>
     </message>
     <message>
       <source>Enable</source>
@@ -6352,7 +6352,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>ms</source>
-      <translation>ms</translation>
+      <translation type="unfinished">ms</translation>
     </message>
     <message>
       <source>Artists search limit</source>
@@ -6456,7 +6456,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>albums</source>
-      <translation>albums</translation>
+      <translation type="unfinished">albums</translation>
     </message>
     <message>
       <source>songs</source>
@@ -6526,7 +6526,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Albums</source>
-      <translation>Albums</translation>
+      <translation type="unfinished">Albums</translation>
     </message>
     <message>
       <source>Songs</source>
@@ -6583,7 +6583,7 @@ Are you sure you want to continue?</source>
     <name>SubsonicSettingsPage</name>
     <message>
       <source>Subsonic</source>
-      <translation>Subsonic</translation>
+      <translation type="unfinished">Subsonic</translation>
     </message>
     <message>
       <source>Enable</source>
@@ -6611,7 +6611,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Hex</source>
-      <translation>Hex</translation>
+      <translation type="unfinished">Hex</translation>
     </message>
     <message>
       <source>MD5 token (Recommended)</source>
@@ -6643,7 +6643,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Test</source>
-      <translation>Test</translation>
+      <translation type="unfinished">Test</translation>
     </message>
     <message>
       <source>Delete songs</source>
@@ -6689,7 +6689,7 @@ Are you sure you want to continue?</source>
     <name>SystemTrayIcon</name>
     <message>
       <source>Pause</source>
-      <translation>Pause</translation>
+      <translation type="unfinished">Pause</translation>
     </message>
     <message>
       <source>Play</source>
@@ -6797,7 +6797,7 @@ Are you sure you want to continue?</source>
     <name>TidalSettingsPage</name>
     <message>
       <source>Tidal</source>
-      <translation>Tidal</translation>
+      <translation type="unfinished">Tidal</translation>
     </message>
     <message>
       <source>Enable</source>
@@ -6849,7 +6849,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>ms</source>
-      <translation>ms</translation>
+      <translation type="unfinished">ms</translation>
     </message>
     <message>
       <source>Artists search limit</source>
@@ -6967,7 +6967,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Album</source>
-      <translation>Album</translation>
+      <translation type="unfinished">Album</translation>
     </message>
     <message>
       <source>Previous</source>
@@ -7049,11 +7049,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Options...</source>
-      <translation>Options...</translation>
+      <translation type="unfinished">Options...</translation>
     </message>
     <message>
       <source>Destination</source>
-      <translation>Destination</translation>
+      <translation type="unfinished">Destination</translation>
     </message>
     <message>
       <source>Alongside the originals</source>
@@ -7116,6 +7116,14 @@ Are you sure you want to continue?</source>
       <source>Add folder</source>
       <translation>Ajouter un dossier</translation>
     </message>
+    <message>
+      <source>Import Directory</source>
+      <translation type="unfinished">Import Directory</translation>
+    </message>
+    <message>
+      <source>Preserve directory structure in output directory (import only)</source>
+      <translation type="unfinished">Preserve directory structure in output directory (import only)</translation>
+    </message>
   </context>
   <context>
     <name>TranscodeLogDialog</name>
@@ -7167,7 +7175,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source> kbps</source>
-      <translation> kbps</translation>
+      <translation type="unfinished"> kbps</translation>
     </message>
     <message>
       <source>Profile</source>
@@ -7226,7 +7234,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source> kbps</source>
-      <translation> kbps</translation>
+      <translation type="unfinished"> kbps</translation>
     </message>
   </context>
   <context>
@@ -7281,7 +7289,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source> kbps</source>
-      <translation> kbps</translation>
+      <translation type="unfinished"> kbps</translation>
     </message>
     <message>
       <source>Constant bitrate</source>
@@ -7297,7 +7305,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Standard</source>
-      <translation>Standard</translation>
+      <translation type="unfinished">Standard</translation>
     </message>
     <message>
       <source>High</source>
@@ -7320,7 +7328,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source> kbps</source>
-      <translation> kbps</translation>
+      <translation type="unfinished"> kbps</translation>
     </message>
   </context>
   <context>
@@ -7344,7 +7352,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source> kbps</source>
-      <translation> kbps</translation>
+      <translation type="unfinished"> kbps</translation>
     </message>
     <message>
       <source>Average bitrate</source>
@@ -7360,7 +7368,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Auto</source>
-      <translation>Auto</translation>
+      <translation type="unfinished">Auto</translation>
     </message>
     <message>
       <source>Ultra wide band (UWB)</source>
@@ -7416,7 +7424,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source> kbps</source>
-      <translation> kbps</translation>
+      <translation type="unfinished"> kbps</translation>
     </message>
     <message>
       <source>Minimum bitrate</source>
@@ -7450,35 +7458,35 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>FLAC</source>
-      <translation>FLAC</translation>
+      <translation type="unfinished">FLAC</translation>
     </message>
     <message>
       <source>WavPack</source>
-      <translation>WavPack</translation>
+      <translation type="unfinished">WavPack</translation>
     </message>
     <message>
       <source>Vorbis</source>
-      <translation>Vorbis</translation>
+      <translation type="unfinished">Vorbis</translation>
     </message>
     <message>
       <source>Opus</source>
-      <translation>Opus</translation>
+      <translation type="unfinished">Opus</translation>
     </message>
     <message>
       <source>Speex</source>
-      <translation>Speex</translation>
+      <translation type="unfinished">Speex</translation>
     </message>
     <message>
       <source>AAC</source>
-      <translation>AAC</translation>
+      <translation type="unfinished">AAC</translation>
     </message>
     <message>
       <source>ASF (WMA)</source>
-      <translation>ASF (WMA)</translation>
+      <translation type="unfinished">ASF (WMA)</translation>
     </message>
     <message>
       <source>MP3</source>
-      <translation>MP3</translation>
+      <translation type="unfinished">MP3</translation>
     </message>
   </context>
   <context>
@@ -7501,7 +7509,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>UUID</source>
-      <translation>UUID</translation>
+      <translation type="unfinished">UUID</translation>
     </message>
   </context>
   <context>
