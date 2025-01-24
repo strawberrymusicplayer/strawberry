@@ -128,7 +128,10 @@ add_definitions(
 )
 
 if(WIN32)
-  add_definitions(-DUNICODE)
+  add_definitions(
+    -DUNICODE
+    -DNOMINMAX
+  )
 endif()
 
 if(BUILD_WERROR)
