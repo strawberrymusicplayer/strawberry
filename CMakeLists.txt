@@ -214,30 +214,23 @@ set(QT_VERSION_MAJOR 6)
 set(QT_MIN_VERSION 6.4.0)
 set(QT_DEFAULT_MAJOR_VERSION ${QT_VERSION_MAJOR})
 set(QT_COMPONENTS Core Concurrent Gui Widgets Network Sql)
-set(QT_OPTIONAL_COMPONENTS LinguistTools Test)
+set(QT_OPTIONAL_COMPONENTS GuiPrivate LinguistTools Test)
 if(UNIX AND NOT APPLE)
   list(APPEND QT_OPTIONAL_COMPONENTS DBus)
 endif()
+set(QT_NO_PRIVATE_MODULE_WARNING ON)
 
 find_package(Qt${QT_VERSION_MAJOR} ${QT_MIN_VERSION} COMPONENTS ${QT_COMPONENTS} REQUIRED OPTIONAL_COMPONENTS ${QT_OPTIONAL_COMPONENTS})
+
+if(TARGET "Qt${QT_VERSION_MAJOR}::GuiPrivate")
+  set(QT_GUI_PRIVATE_FOUND ON)
+endif()
 
 if(Qt${QT_VERSION_MAJOR}DBus_FOUND)
   set(DBUS_FOUND ON)
 endif()
 
 if(X11_FOUND)
-
-  find_path(QPA_QPLATFORMNATIVEINTERFACE_H qpa/qplatformnativeinterface.h PATHS ${Qt${QT_VERSION_MAJOR}Gui_INCLUDE_DIRS} ${Qt${QT_VERSION_MAJOR}Gui_PRIVATE_INCLUDE_DIRS})
-  if(NOT QPA_QPLATFORMNATIVEINTERFACE_H)
-    find_path(QPA_QPLATFORMNATIVEINTERFACE_H ${Qt${QT_VERSION_MAJOR}Gui_VERSION}/QtGui/qpa/qplatformnativeinterface.h PATHS ${Qt${QT_VERSION_MAJOR}Gui_INCLUDE_DIRS} ${Qt${QT_VERSION_MAJOR}Gui_PRIVATE_INCLUDE_DIRS})
-  endif()
-  if(QPA_QPLATFORMNATIVEINTERFACE_H)
-    set(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H ON)
-    message(STATUS "Have qpa/qplatformnativeinterface.h header.")
-  else()
-    message(STATUS "Missing qpa/qplatformnativeinterface.h header.")
-  endif()
-
   # Check for QX11Application (Qt 6 compiled with XCB).
   set(CMAKE_REQUIRED_FLAGS "-std=c++17")
   set(CMAKE_REQUIRED_LIBRARIES Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Gui)
@@ -252,7 +245,6 @@ if(X11_FOUND)
   )
   unset(CMAKE_REQUIRED_FLAGS)
   unset(CMAKE_REQUIRED_LIBRARIES)
-
 endif()
 
 # SingleApplication
@@ -374,6 +366,10 @@ if(APPLE OR WIN32)
     DEPENDS "QtSparkle" QTSPARKLE_FOUND
   )
 endif()
+
+optional_component(QPA_QPLATFORMNATIVEINTERFACE ON "QPA Platform interface"
+  DEPENDS "Qt Gui Private" QT_GUI_PRIVATE_FOUND
+)
 
 if(HAVE_SONGFINGERPRINTING OR HAVE_MUSICBRAINZ)
   set(HAVE_CHROMAPRINT ON)
@@ -1502,10 +1498,6 @@ if(SINGLEAPPLICATION_INCLUDE_DIRS)
   target_include_directories(strawberry_lib SYSTEM PUBLIC ${SINGLEAPPLICATION_INCLUDE_DIRS})
 endif()
 
-if(HAVE_QPA_QPLATFORMNATIVEINTERFACE_H)
-  target_include_directories(strawberry_lib SYSTEM PUBLIC ${Qt${QT_VERSION_MAJOR}Gui_PRIVATE_INCLUDE_DIRS})
-endif()
-
 target_link_libraries(strawberry_lib PUBLIC
   ${CMAKE_THREAD_LIBS_INIT}
   $<$<BOOL:${HAVE_BACKTRACE}>:${Backtrace_LIBRARIES}>
@@ -1526,6 +1518,7 @@ target_link_libraries(strawberry_lib PUBLIC
   Qt${QT_VERSION_MAJOR}::Network
   Qt${QT_VERSION_MAJOR}::Sql
   $<$<BOOL:${HAVE_DBUS}>:Qt${QT_VERSION_MAJOR}::DBus>
+  $<$<BOOL:${HAVE_QPA_QPLATFORMNATIVEINTERFACE}>:Qt${QT_VERSION_MAJOR}::GuiPrivate>
   ICU::uc
   ICU::i18n
   $<$<BOOL:${HAVE_ALSA}>:ALSA::ALSA>

@@ -68,6 +68,7 @@ jobs:
             hicolor-icon-theme
             qt6-core-devel
             qt6-gui-devel
+            qt6-gui-private-devel
             qt6-widgets-devel
             qt6-concurrent-devel
             qt6-network-devel
@@ -464,7 +465,9 @@ jobs:
             libcdio-dev
             libmtp-dev
             libgpod-dev
+            libxkbcommon-dev
             qt6-base-dev
+            qt6-base-private-dev
             qt6-base-dev-tools
             qt6-tools-dev
             qt6-tools-dev-tools
@@ -545,7 +548,9 @@ jobs:
             libcdio-dev
             libmtp-dev
             libgpod-dev
+            libxkbcommon-dev
             qt6-base-dev
+            qt6-base-private-dev
             qt6-base-dev-tools
             qt6-tools-dev
             qt6-tools-dev-tools
