@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,11 +22,6 @@
 
 #include "config.h"
 
-#include <QtGlobal>
-#include <QObject>
-#include <QPair>
-#include <QSet>
-#include <QList>
 #include <QHash>
 #include <QMap>
 #include <QMultiMap>
@@ -36,6 +31,7 @@
 #include <QStringList>
 #include <QUrl>
 #include <QJsonObject>
+#include <QScopedPointer>
 
 #include "includes/shared_ptr.h"
 #include "core/song.h"
@@ -51,9 +47,7 @@ class QobuzRequest : public QobuzBaseRequest {
   Q_OBJECT
 
  public:
-
   explicit QobuzRequest(QobuzService *service, QobuzUrlHandler *url_handler, const SharedPtr<NetworkAccessManager> network, const Type query_type, QObject *parent = nullptr);
-  ~QobuzRequest() override;
 
   void ReloadSettings();
 
@@ -98,8 +92,6 @@ class QobuzRequest : public QobuzBaseRequest {
   };
 
  Q_SIGNALS:
-  void LoginSuccess();
-  void LoginFailure(const QString &failure_reason);
   void Results(const int id, const SongMap &songs, const QString &error);
   void UpdateStatus(const int id, const QString &text);
   void UpdateProgress(const int id, const int max);
@@ -119,7 +111,6 @@ class QobuzRequest : public QobuzBaseRequest {
   void AlbumCoverReceived(QNetworkReply *reply, const QUrl &cover_url, const QString &filename);
 
  private:
-
   bool IsQuery() const { return (query_type_ == Type::FavouriteArtists || query_type_ == Type::FavouriteAlbums || query_type_ == Type::FavouriteSongs); }
   bool IsSearch() const { return (query_type_ == Type::SearchArtists || query_type_ == Type::SearchAlbums || query_type_ == Type::SearchSongs); }
 
@@ -144,9 +135,9 @@ class QobuzRequest : public QobuzBaseRequest {
   void AddSongsSearchRequest(const int offset = 0);
   void FlushSongsRequests();
 
-  void ArtistsFinishCheck(const int limit = 0, const int offset = 0, const int artists_received = 0);
-  void AlbumsFinishCheck(const Artist &artist, const int limit = 0, const int offset = 0, const int albums_total = 0, const int albums_received = 0);
-  void SongsFinishCheck(const Artist &artist, const Album &album, const int limit = 0, const int offset = 0, const int songs_total = 0, const int songs_received = 0);
+  void ArtistsFinishCheck(const int limit, const int offset, const int artists_received);
+  void AlbumsFinishCheck(const Artist &artist, const int limit, const int offset, const int albums_total, const int albums_received);
+  void SongsFinishCheck(const Artist &artist, const Album &album, const int limit, const int offset, const int songs_total, const int songs_received);
 
   void AddArtistAlbumsRequest(const Artist &artist, const int offset = 0);
   void FlushArtistAlbumsRequests();
@@ -167,12 +158,10 @@ class QobuzRequest : public QobuzBaseRequest {
   int GetProgress(const int count, const int total);
 
   void FinishCheck();
-  static void Warn(const QString &error, const QVariant &debug = QVariant());
-  void Error(const QString &error, const QVariant &debug = QVariant()) override;
+  static void Warn(const QString &error_message, const QVariant &debug_output = QVariant());
+  void Error(const QString &error_message, const QVariant &debug_output = QVariant());
 
-  QobuzService *service_;
   QobuzUrlHandler *url_handler_;
-  const SharedPtr<NetworkAccessManager> network_;
   QTimer *timer_flush_requests_;
 
   const Type query_type_;
@@ -228,10 +217,10 @@ class QobuzRequest : public QobuzBaseRequest {
   int album_covers_requests_received_;
 
   SongMap songs_;
-  QStringList errors_;
   bool no_results_;
-  QList<QNetworkReply*> replies_;
-  QList<QNetworkReply*> album_cover_replies_;
+  QString error_;
 };
+
+using QobuzRequestPtr = QScopedPointer<QobuzRequest, QScopedPointerDeleteLater>;
 
 #endif  // QOBUZREQUEST_H

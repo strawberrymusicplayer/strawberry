@@ -206,7 +206,7 @@ void CoversSettingsPage::ProvidersCurrentItemChanged(QListWidgetItem *item_curre
 
   if (item_previous) {
     CoverProvider *provider = cover_providers_->ProviderByName(item_previous->text());
-    if (provider && provider->AuthenticationRequired()) DisconnectAuthentication(provider);
+    if (provider && provider->authentication_required()) DisconnectAuthentication(provider);
   }
 
   if (item_current) {
@@ -215,21 +215,21 @@ void CoversSettingsPage::ProvidersCurrentItemChanged(QListWidgetItem *item_curre
     ui_->providers_down->setEnabled(row != ui_->providers->count() - 1);
     CoverProvider *provider = cover_providers_->ProviderByName(item_current->text());
     if (provider) {
-      if (provider->AuthenticationRequired()) {
-        if (provider->name() == "Tidal"_L1 && !provider->IsAuthenticated()) {
+      if (provider->authentication_required()) {
+        if (provider->name() == "Tidal"_L1 && !provider->authenticated()) {
           DisableAuthentication();
           ui_->label_auth_info->setText(tr("Use Tidal settings to authenticate."));
         }
-        else if (provider->name() == "Spotify"_L1 && !provider->IsAuthenticated()) {
+        else if (provider->name() == "Spotify"_L1 && !provider->authenticated()) {
           DisableAuthentication();
           ui_->label_auth_info->setText(tr("Use Spotify settings to authenticate."));
         }
-        else if (provider->name() == "Qobuz"_L1 && !provider->IsAuthenticated()) {
+        else if (provider->name() == "Qobuz"_L1 && !provider->authenticated()) {
           DisableAuthentication();
           ui_->label_auth_info->setText(tr("Use Qobuz settings to authenticate."));
         }
         else {
-          ui_->login_state->SetLoggedIn(provider->IsAuthenticated() ? LoginStateWidget::State::LoggedIn : LoginStateWidget::State::LoggedOut);
+          ui_->login_state->SetLoggedIn(provider->authenticated() ? LoginStateWidget::State::LoggedIn : LoginStateWidget::State::LoggedOut);
           ui_->button_authenticate->setEnabled(true);
           ui_->button_authenticate->show();
           ui_->login_state->show();
@@ -331,7 +331,7 @@ void CoversSettingsPage::LogoutClicked() {
   if (!ui_->providers->currentItem()) return;
   CoverProvider *provider = cover_providers_->ProviderByName(ui_->providers->currentItem()->text());
   if (!provider) return;
-  provider->Deauthenticate();
+  provider->ClearSession();
 
   if (provider->name() == "Tidal"_L1) {
     DisableAuthentication();
@@ -365,7 +365,7 @@ void CoversSettingsPage::AuthenticationSuccess() {
 
 }
 
-void CoversSettingsPage::AuthenticationFailure(const QStringList &errors) {
+void CoversSettingsPage::AuthenticationFailure(const QString &error) {
 
   CoverProvider *provider = qobject_cast<CoverProvider*>(sender());
   if (!provider) return;
@@ -373,7 +373,7 @@ void CoversSettingsPage::AuthenticationFailure(const QStringList &errors) {
 
   if (!isVisible() || !ui_->providers->currentItem() || ui_->providers->currentItem()->text() != provider->name()) return;
 
-  QMessageBox::warning(this, tr("Authentication failed"), errors.join(u'\n'));
+  QMessageBox::warning(this, tr("Authentication failed"), error);
 
   ui_->login_state->SetLoggedIn(LoginStateWidget::State::LoggedOut);
   ui_->button_authenticate->setEnabled(true);

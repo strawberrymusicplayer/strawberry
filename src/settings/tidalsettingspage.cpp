@@ -164,7 +164,7 @@ bool TidalSettingsPage::eventFilter(QObject *object, QEvent *event) {
 
 void TidalSettingsPage::LogoutClicked() {
 
-  service_->Logout();
+  service_->ClearSession();
   ui_->button_login->setEnabled(true);
   ui_->login_state->SetLoggedIn(LoginStateWidget::State::LoggedOut);
 

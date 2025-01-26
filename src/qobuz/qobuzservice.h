@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,8 +22,6 @@
 
 #include "config.h"
 
-#include <memory>
-
 #include <QtGlobal>
 #include <QObject>
 #include <QPair>
@@ -36,6 +34,8 @@
 #include <QStringList>
 #include <QUrl>
 #include <QSslError>
+#include <QScopedPointer>
+#include <QSharedPointer>
 
 #include "includes/shared_ptr.h"
 #include "core/song.h"
@@ -57,6 +57,8 @@ class CollectionBackend;
 class CollectionModel;
 class CollectionFilter;
 
+using QobuzRequestPtr = QScopedPointer<QobuzRequest, QScopedPointerDeleteLater>;
+
 class QobuzService : public StreamingService {
   Q_OBJECT
 
@@ -77,8 +79,8 @@ class QobuzService : public StreamingService {
   void Exit() override;
   void ReloadSettings() override;
 
-  void Logout();
-  int Search(const QString &text, StreamingSearchView::SearchType type) override;
+  void ClearSession();
+  int Search(const QString &text, const SearchType type) override;
   void CancelSearch() override;
 
   int max_login_attempts() const { return kLoginAttempts; }
@@ -169,10 +171,10 @@ class QobuzService : public StreamingService {
   QTimer *timer_search_delay_;
   QTimer *timer_login_attempt_;
 
-  SharedPtr<QobuzRequest> artists_request_;
-  SharedPtr<QobuzRequest> albums_request_;
-  SharedPtr<QobuzRequest> songs_request_;
-  SharedPtr<QobuzRequest> search_request_;
+  QobuzRequestPtr artists_request_;
+  QobuzRequestPtr albums_request_;
+  QobuzRequestPtr songs_request_;
+  QobuzRequestPtr search_request_;
   QobuzFavoriteRequest *favorite_request_;
 
   QString app_id_;
@@ -194,7 +196,7 @@ class QobuzService : public StreamingService {
   int pending_search_id_;
   int next_pending_search_id_;
   QString pending_search_text_;
-  StreamingSearchView::SearchType pending_search_type_;
+  SearchType pending_search_type_;
 
   int search_id_;
   QString search_text_;
@@ -202,9 +204,7 @@ class QobuzService : public StreamingService {
   int login_attempts_;
 
   uint next_stream_url_request_id_;
-  QMap<uint, SharedPtr<QobuzStreamURLRequest>> stream_url_requests_;
-
-  QStringList login_errors_;
+  QMap<uint, QSharedPointer<QobuzStreamURLRequest>> stream_url_requests_;
 
   QList<QObject*> wait_for_exit_;
   QList<QNetworkReply*> replies_;

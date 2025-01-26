@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2012, Martin Björklund <mbj4668@gmail.com>
- * Copyright 2016-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2016-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,16 +24,11 @@
 
 #include "config.h"
 
-#include <QObject>
-#include <QMetaType>
-#include <QPair>
-#include <QList>
 #include <QQueue>
 #include <QMap>
 #include <QVariant>
 #include <QByteArray>
 #include <QString>
-#include <QJsonObject>
 
 #include "includes/shared_ptr.h"
 #include "jsoncoverprovider.h"
@@ -77,9 +72,9 @@ class DiscogsCoverProvider : public JsonCoverProvider {
  private:
   void SendSearchRequest(SharedPtr<DiscogsCoverSearchContext> search);
   void SendReleaseRequest(const DiscogsCoverReleaseContext &release);
-  QNetworkReply *CreateRequest(QUrl url, const ParamList &params_provided = ParamList());
-  QByteArray GetReplyData(QNetworkReply *reply);
+  QNetworkReply *CreateRequest(const QUrl &url, const ParamList &params = ParamList());
   void StartReleaseRequest(SharedPtr<DiscogsCoverSearchContext> search, const quint64 release_id, const QUrl &url);
+  JsonObjectResult ParseJsonObject(QNetworkReply *reply);
   void EndSearch(SharedPtr<DiscogsCoverSearchContext> search, const quint64 release_id = 0);
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
@@ -93,7 +88,6 @@ class DiscogsCoverProvider : public JsonCoverProvider {
   QQueue<SharedPtr<DiscogsCoverSearchContext>> queue_search_requests_;
   QQueue<DiscogsCoverReleaseContext> queue_release_requests_;
   QMap<int, SharedPtr<DiscogsCoverSearchContext>> requests_search_;
-  QList<QNetworkReply*> replies_;
 };
 
 Q_DECLARE_METATYPE(DiscogsCoverProvider::DiscogsCoverSearchContext)

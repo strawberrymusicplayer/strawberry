@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,7 +22,6 @@
 
 #include "config.h"
 
-#include <QObject>
 #include <QByteArray>
 #include <QString>
 #include <QJsonObject>
@@ -39,7 +38,7 @@ class JsonCoverProvider : public CoverProvider {
   explicit JsonCoverProvider(const QString &name, const bool enabled, const bool authentication_required, const float quality, const bool batch, const bool allow_missing_album, const SharedPtr<NetworkAccessManager> network, QObject *parent);
 
  protected:
-  QJsonObject ExtractJsonObj(const QByteArray &data);
+  QJsonObject ExtractJsonObject(const QByteArray &data);
 };
 
 #endif  // JSONCOVERPROVIDER_H

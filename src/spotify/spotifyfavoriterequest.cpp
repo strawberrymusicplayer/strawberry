@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2022-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2022-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,12 +19,6 @@
 
 #include "config.h"
 
-#include <QtGlobal>
-#include <QObject>
-#include <QPair>
-#include <QList>
-#include <QMap>
-#include <QMultiMap>
 #include <QByteArray>
 #include <QString>
 #include <QStringList>
@@ -46,20 +40,7 @@
 using namespace Qt::Literals::StringLiterals;
 
 SpotifyFavoriteRequest::SpotifyFavoriteRequest(SpotifyService *service, const SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : SpotifyBaseRequest(service, network, parent),
-      service_(service),
-      network_(network) {}
-
-SpotifyFavoriteRequest::~SpotifyFavoriteRequest() {
-
-  while (!replies_.isEmpty()) {
-    QNetworkReply *reply = replies_.takeFirst();
-    QObject::disconnect(reply, nullptr, this, nullptr);
-    reply->abort();
-    reply->deleteLater();
-  }
-
-}
+    : SpotifyBaseRequest(service, network, parent) {}
 
 QString SpotifyFavoriteRequest::FavoriteText(const FavoriteType type) {
 
@@ -121,8 +102,8 @@ void SpotifyFavoriteRequest::AddFavorites(const FavoriteType type, const SongLis
 
   if (list_ids.isEmpty() || array_ids.isEmpty()) return;
 
-  QByteArray json_data = QJsonDocument(array_ids).toJson();
-  QString ids_list = list_ids.join(u',');
+  const QByteArray json_data = QJsonDocument(array_ids).toJson();
+  const QString ids_list = list_ids.join(u',');
 
   AddFavoritesRequest(type, ids_list, json_data, songs);
 
@@ -137,16 +118,18 @@ void SpotifyFavoriteRequest::AddFavoritesRequest(const FavoriteType type, const 
     url_query.addQueryItem(u"ids"_s, ids_list);
     url.setQuery(url_query);
   }
-  QNetworkRequest req(url);
-  req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  req.setHeader(QNetworkRequest::ContentTypeHeader, u"application/x-www-form-urlencoded"_s);
-  if (!access_token().isEmpty()) req.setRawHeader("authorization", "Bearer " + access_token().toUtf8());
+  QNetworkRequest network_request(url);
+  network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+  network_request.setHeader(QNetworkRequest::ContentTypeHeader, u"application/x-www-form-urlencoded"_s);
+  if (service_->authenticated()) {
+    network_request.setRawHeader("Authorization", service_->authorization_header());
+  }
   QNetworkReply *reply = nullptr;
   if (type == FavoriteType_Artists) {
-    reply = network_->put(req, "");
+    reply = network_->put(network_request, "");
   }
   else {
-    reply = network_->put(req, json_data);
+    reply = network_->put(network_request, json_data);
   }
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, type, songs]() { AddFavoritesReply(reply, type, songs); });
   replies_ << reply;
@@ -160,8 +143,9 @@ void SpotifyFavoriteRequest::AddFavoritesReply(QNetworkReply *reply, const Favor
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
-  GetReplyData(reply);
-  if (reply->error() != QNetworkReply::NoError) {
+  const JsonObjectResult json_object_result = ParseJsonObject(reply);
+  if (!json_object_result.success()) {
+    Error(json_object_result.error_message);
     return;
   }
 
@@ -233,8 +217,8 @@ void SpotifyFavoriteRequest::RemoveFavorites(const FavoriteType type, const Song
 
   if (list_ids.isEmpty() || array_ids.isEmpty()) return;
 
-  QByteArray json_data = QJsonDocument(array_ids).toJson();
-  QString ids_list = list_ids.join(u',');
+  const QByteArray json_data = QJsonDocument(array_ids).toJson();
+  const QString ids_list = list_ids.join(u',');
 
   RemoveFavoritesRequest(type, ids_list, json_data, songs);
 
@@ -251,17 +235,19 @@ void SpotifyFavoriteRequest::RemoveFavoritesRequest(const FavoriteType type, con
     url_query.addQueryItem(u"ids"_s, ids_list);
     url.setQuery(url_query);
   }
-  QNetworkRequest req(url);
-  req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  req.setHeader(QNetworkRequest::ContentTypeHeader, u"application/x-www-form-urlencoded"_s);
-  if (!access_token().isEmpty()) req.setRawHeader("authorization", "Bearer " + access_token().toUtf8());
+  QNetworkRequest network_request(url);
+  network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+  network_request.setHeader(QNetworkRequest::ContentTypeHeader, u"application/x-www-form-urlencoded"_s);
+  if (service_->authenticated()) {
+    network_request.setRawHeader("Authorization", service_->authorization_header());
+  }
   QNetworkReply *reply = nullptr;
   if (type == FavoriteType_Artists) {
-    reply = network_->deleteResource(req);
+    reply = network_->deleteResource(network_request);
   }
   else {
     // FIXME
-    reply = network_->deleteResource(req);
+    reply = network_->deleteResource(network_request);
   }
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, type, songs]() { RemoveFavoritesReply(reply, type, songs); });
   replies_ << reply;
@@ -275,8 +261,9 @@ void SpotifyFavoriteRequest::RemoveFavoritesReply(QNetworkReply *reply, const Fa
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
-  GetReplyData(reply);
-  if (reply->error() != QNetworkReply::NoError) {
+  const JsonObjectResult json_object_result = ParseJsonObject(reply);
+  if (!json_object_result.success()) {
+    Error(json_object_result.error_message);
     return;
   }
 
@@ -298,12 +285,5 @@ void SpotifyFavoriteRequest::RemoveFavoritesReply(QNetworkReply *reply, const Fa
       Q_EMIT SongsRemoved(songs);
       break;
   }
-
-}
-
-void SpotifyFavoriteRequest::Error(const QString &error, const QVariant &debug) {
-
-  qLog(Error) << "Spotify:" << error;
-  if (debug.isValid()) qLog(Debug) << debug;
 
 }

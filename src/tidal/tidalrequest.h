@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,20 +22,15 @@
 
 #include "config.h"
 
-#include <QtGlobal>
-#include <QObject>
-#include <QPair>
-#include <QSet>
-#include <QList>
 #include <QHash>
 #include <QMap>
 #include <QMultiMap>
 #include <QQueue>
 #include <QVariant>
 #include <QString>
-#include <QStringList>
 #include <QUrl>
 #include <QJsonObject>
+#include <QScopedPointer>
 
 #include "includes/shared_ptr.h"
 #include "core/song.h"
@@ -53,7 +48,6 @@ class TidalRequest : public TidalBaseRequest {
 
  public:
   explicit TidalRequest(TidalService *service, TidalUrlHandler *url_handler, const SharedPtr<NetworkAccessManager> network, const Type query_type, QObject *parent);
-  ~TidalRequest() override;
 
   void ReloadSettings();
 
@@ -164,8 +158,8 @@ class TidalRequest : public TidalBaseRequest {
   int GetProgress(const int count, const int total);
 
   void FinishCheck();
-  static void Warn(const QString &error, const QVariant &debug = QVariant());
-  void Error(const QString &error, const QVariant &debug = QVariant()) override;
+  static void Warn(const QString &error_message, const QVariant &debug_output = QVariant());
+  void Error(const QString &error_message, const QVariant &debug_output = QVariant()) override;
 
   TidalService *service_;
   TidalUrlHandler *url_handler_;
@@ -180,6 +174,7 @@ class TidalRequest : public TidalBaseRequest {
   QString search_text_;
 
   bool finished_;
+  QString error_;
 
   QQueue<Request> artists_requests_queue_;
   QQueue<Request> albums_requests_queue_;
@@ -228,9 +223,8 @@ class TidalRequest : public TidalBaseRequest {
   int album_covers_requests_received_;
 
   SongMap songs_;
-  QStringList errors_;
-  QList<QNetworkReply*> replies_;
-  QList<QNetworkReply*> album_cover_replies_;
 };
+
+using TidalRequestPtr = QScopedPointer<TidalRequest, QScopedPointerDeleteLater>;
 
 #endif  // TIDALREQUEST_H

@@ -139,7 +139,7 @@ bool SpotifySettingsPage::eventFilter(QObject *object, QEvent *event) {
 
 void SpotifySettingsPage::LogoutClicked() {
 
-  service_->Deauthenticate();
+  service_->ClearSession();
   ui_->button_login->setEnabled(true);
   ui_->login_state->SetLoggedIn(LoginStateWidget::State::LoggedOut);
 

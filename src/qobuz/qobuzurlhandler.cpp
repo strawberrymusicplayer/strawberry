@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,7 +19,6 @@
 
 #include "config.h"
 
-#include <QObject>
 #include <QString>
 #include <QUrl>
 

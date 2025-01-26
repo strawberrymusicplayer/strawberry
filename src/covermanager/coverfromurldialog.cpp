@@ -73,10 +73,10 @@ void CoverFromURLDialog::accept() {
 
   ui_->busy->show();
 
-  QNetworkRequest req(QUrl::fromUserInput(ui_->url->text()));
-  req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+  QNetworkRequest network_request(QUrl::fromUserInput(ui_->url->text()));
+  network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
 
-  QNetworkReply *reply = network_->get(req);
+  QNetworkReply *reply = network_->get(network_request);
   QObject::connect(reply, &QNetworkReply::finished, this, &CoverFromURLDialog::LoadCoverFromURLFinished);
 
 }

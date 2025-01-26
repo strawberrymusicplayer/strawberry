@@ -24,10 +24,9 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-const char *MusixmatchProvider::kApiUrl = "https://api.musixmatch.com/ws/1.1";
-const char *MusixmatchProvider::kApiKey = "Y2FhMDRlN2Y4OWE5OTIxYmZlOGMzOWQzOGI3ZGU4MjE=";
+namespace MusixmatchProvider {
 
-QString MusixmatchProvider::StringFixup(QString text) {
+QString StringFixup(QString text) {
 
   static const QRegularExpression regex_illegal_characters(u"[^\\w0-9\\- ]"_s, QRegularExpression::UseUnicodePropertiesOption);
   static const QRegularExpression regex_duplicate_whitespaces(u" {2,}"_s);
@@ -43,3 +42,5 @@ QString MusixmatchProvider::StringFixup(QString text) {
              .toLower();
 
 }
+
+}  // namespace

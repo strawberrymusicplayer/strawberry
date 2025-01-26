@@ -66,30 +66,30 @@ QJsonObject RadioService::ExtractJsonObj(const QByteArray &data) {
   }
 
   QJsonParseError json_error;
-  QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
+  const QJsonDocument json_document = QJsonDocument::fromJson(data, &json_error);
 
   if (json_error.error != QJsonParseError::NoError) {
     Error(QStringLiteral("Failed to parse Json data from %1: %2").arg(name_, json_error.errorString()));
     return QJsonObject();
   }
 
-  if (json_doc.isEmpty()) {
+  if (json_document.isEmpty()) {
     Error(QStringLiteral("%1: Received empty Json document.").arg(name_), data);
     return QJsonObject();
   }
 
-  if (!json_doc.isObject()) {
-    Error(QStringLiteral("%1: Json document is not an object.").arg(name_), json_doc);
+  if (!json_document.isObject()) {
+    Error(QStringLiteral("%1: Json document is not an object.").arg(name_), json_document);
     return QJsonObject();
   }
 
-  QJsonObject json_obj = json_doc.object();
-  if (json_obj.isEmpty()) {
-    Error(QStringLiteral("%1: Received empty Json object.").arg(name_), json_doc);
+  const QJsonObject json_object = json_document.object();
+  if (json_object.isEmpty()) {
+    Error(QStringLiteral("%1: Received empty Json object.").arg(name_), json_document);
     return QJsonObject();
   }
 
-  return json_obj;
+  return json_object;
 
 }
 

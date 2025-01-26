@@ -43,8 +43,8 @@ namespace {
 constexpr char kName[] = "Subsonic";
 }
 
-SubsonicScrobbler::SubsonicScrobbler(const SharedPtr<ScrobblerSettingsService> settings, const SharedPtr<SubsonicService> service, QObject *parent)
-    : ScrobblerService(QLatin1String(kName), settings, parent),
+SubsonicScrobbler::SubsonicScrobbler(const SharedPtr<ScrobblerSettingsService> settings, const SharedPtr<NetworkAccessManager> network, const SharedPtr<SubsonicService> service, QObject *parent)
+    : ScrobblerService(QLatin1String(kName), network, settings, parent),
       service_(service),
       enabled_(false),
       submitted_(false) {

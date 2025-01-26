@@ -20,8 +20,6 @@
 #ifndef LETRASLYRICSPROVIDER_H
 #define LETRASLYRICSPROVIDER_H
 
-#include <QtGlobal>
-#include <QObject>
 #include <QString>
 #include <QUrl>
 

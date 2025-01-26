@@ -157,7 +157,7 @@ bool QobuzSettingsPage::eventFilter(QObject *object, QEvent *event) {
 
 void QobuzSettingsPage::LogoutClicked() {
 
-  service_->Logout();
+  service_->ClearSession();
   ui_->login_state->SetLoggedIn(LoginStateWidget::State::LoggedOut);
   ui_->button_login->setEnabled(true);
 

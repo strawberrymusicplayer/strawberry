@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,8 +19,6 @@
 
 #include "config.h"
 
-#include <QObject>
-#include <QPair>
 #include <QByteArray>
 #include <QString>
 #include <QStringList>
@@ -39,20 +37,7 @@
 using namespace Qt::Literals::StringLiterals;
 
 QobuzFavoriteRequest::QobuzFavoriteRequest(QobuzService *service, const SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : QobuzBaseRequest(service, network, parent),
-      service_(service),
-      network_(network) {}
-
-QobuzFavoriteRequest::~QobuzFavoriteRequest() {
-
-  while (!replies_.isEmpty()) {
-    QNetworkReply *reply = replies_.takeFirst();
-    QObject::disconnect(reply, nullptr, this, nullptr);
-    reply->abort();
-    reply->deleteLater();
-  }
-
-}
+    : QobuzBaseRequest(service, network, parent) {}
 
 QString QobuzFavoriteRequest::FavoriteText(const FavoriteType type) {
 
@@ -134,8 +119,8 @@ void QobuzFavoriteRequest::AddFavorites(const FavoriteType type, const SongList 
 
 void QobuzFavoriteRequest::AddFavoritesRequest(const FavoriteType type, const QStringList &ids_list, const SongList &songs) {
 
-  const ParamList params = ParamList() << Param(u"app_id"_s, app_id())
-                                       << Param(u"user_auth_token"_s, user_auth_token())
+  const ParamList params = ParamList() << Param(u"app_id"_s, service_->app_id())
+                                       << Param(u"user_auth_token"_s, service_->user_auth_token())
                                        << Param(FavoriteMethod(type), ids_list.join(u','));
 
   QUrlQuery url_query;
@@ -159,9 +144,9 @@ void QobuzFavoriteRequest::AddFavoritesReply(QNetworkReply *reply, const Favorit
     return;
   }
 
-  GetReplyData(reply);
-
-  if (reply->error() != QNetworkReply::NoError) {
+  const JsonObjectResult json_object_result = ParseJsonObject(reply);
+  if (!json_object_result.success()) {
+    Error(json_object_result.error_message);
     return;
   }
 
@@ -229,8 +214,8 @@ void QobuzFavoriteRequest::RemoveFavorites(const FavoriteType type, const SongLi
 
 void QobuzFavoriteRequest::RemoveFavoritesRequest(const FavoriteType type, const QStringList &ids_list, const SongList &songs) {
 
-  const ParamList params = ParamList() << Param(u"app_id"_s, app_id())
-                                       << Param(u"user_auth_token"_s, user_auth_token())
+  const ParamList params = ParamList() << Param(u"app_id"_s, service_->app_id())
+                                       << Param(u"user_auth_token"_s, service_->user_auth_token())
                                        << Param(FavoriteMethod(type), ids_list.join(u','));
 
   QUrlQuery url_query;
@@ -254,8 +239,9 @@ void QobuzFavoriteRequest::RemoveFavoritesReply(QNetworkReply *reply, const Favo
     return;
   }
 
-  GetReplyData(reply);
-  if (reply->error() != QNetworkReply::NoError) {
+  const JsonObjectResult json_object_result = ParseJsonObject(reply);
+  if (!json_object_result.success()) {
+    Error(json_object_result.error_message);
     return;
   }
 

@@ -62,7 +62,7 @@ class LyricsSettingsPage : public SettingsPage {
   void AuthenticateClicked();
   void LogoutClicked();
   void AuthenticationSuccess();
-  void AuthenticationFailure(const QStringList &errors);
+  void AuthenticationFailure(const QString &error);
 
  private:
   Ui_LyricsSettingsPage *ui_;
