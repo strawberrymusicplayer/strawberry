@@ -56,6 +56,7 @@ class MultiLoadingIndicator : public QWidget {
   SharedPtr<TaskManager> task_manager_;
 
   BusyIndicator *spinner_;
+  qint64 task_count_;
   QString text_;
 };
 

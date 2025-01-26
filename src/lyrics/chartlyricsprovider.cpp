@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -46,17 +46,6 @@ constexpr char kUrlSearch[] = "http://api.chartlyrics.com/apiv1.asmx/SearchLyric
 
 ChartLyricsProvider::ChartLyricsProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent) : LyricsProvider(u"ChartLyrics"_s, false, false, network, parent) {}
 
-ChartLyricsProvider::~ChartLyricsProvider() {
-
-  while (!replies_.isEmpty()) {
-    QNetworkReply *reply = replies_.takeFirst();
-    QObject::disconnect(reply, nullptr, this, nullptr);
-    reply->abort();
-    reply->deleteLater();
-  }
-
-}
-
 void ChartLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &request) {
 
   Q_ASSERT(QThread::currentThread() != qApp->thread());
@@ -65,12 +54,7 @@ void ChartLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &r
   url_query.addQueryItem(u"artist"_s, QString::fromUtf8(QUrl::toPercentEncoding(request.artist)));
   url_query.addQueryItem(u"song"_s, QString::fromUtf8(QUrl::toPercentEncoding(request.title)));
 
-  QUrl url(QString::fromUtf8(kUrlSearch));
-  url.setQuery(url_query);
-  QNetworkRequest req(url);
-  req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  QNetworkReply *reply = network_->get(req);
-  replies_ << reply;
+  QNetworkReply *reply = CreateGetRequest(QUrl(QLatin1String(kUrlSearch)), url_query);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, id, request]() { HandleSearchReply(reply, id, request); });
 
 }
@@ -82,25 +66,21 @@ void ChartLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, 
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
-  if (reply->error() != QNetworkReply::NoError) {
-    Error(QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
-    Q_EMIT SearchFinished(id);
+  const QScopeGuard search_finished = qScopeGuard([this, id]() { Q_EMIT SearchFinished(id); });
+
+  const ReplyDataResult reply_data_result = GetReplyData(reply);
+  if (!reply_data_result.success()) {
+    Error(reply_data_result.error_message);
     return;
   }
 
-  if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
-    Error(QStringLiteral("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()));
-    Q_EMIT SearchFinished(id);
-    return;
-  }
-
-  QXmlStreamReader reader(reply);
+  QXmlStreamReader reader(reply_data_result.data);
   LyricsSearchResults results;
   LyricsSearchResult result;
 
   while (!reader.atEnd()) {
-    QXmlStreamReader::TokenType type = reader.readNext();
-    QString name = reader.name().toString();
+    const QXmlStreamReader::TokenType type = reader.readNext();
+    const QString name = reader.name().toString();
     if (type == QXmlStreamReader::StartElement) {
       if (name == "GetLyricResult"_L1) {
         result = LyricsSearchResult();
@@ -135,14 +115,5 @@ void ChartLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, 
   else {
     qLog(Debug) << "ChartLyrics: Got lyrics for" << request.artist << request.title;
   }
-
-  Q_EMIT SearchFinished(id, results);
-
-}
-
-void ChartLyricsProvider::Error(const QString &error, const QVariant &debug) {
-
-  qLog(Error) << "ChartLyrics:" << error;
-  if (debug.isValid()) qLog(Debug) << debug;
 
 }

@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2022-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2022-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,7 +43,6 @@ class SpotifyFavoriteRequest : public SpotifyBaseRequest {
 
  public:
   explicit SpotifyFavoriteRequest(SpotifyService *service, const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
-  ~SpotifyFavoriteRequest() override;
 
   enum FavoriteType {
     FavoriteType_Artists,
@@ -75,18 +74,12 @@ class SpotifyFavoriteRequest : public SpotifyBaseRequest {
   void RemoveSongs(const SongMap &songs);
 
  private:
-  void Error(const QString &error, const QVariant &debug = QVariant()) override;
   static QString FavoriteText(const FavoriteType type);
   void AddFavorites(const FavoriteType type, const SongList &songs);
   void AddFavoritesRequest(const FavoriteType type, const QString &ids_list, const QByteArray &json_data, const SongList &songs);
   void RemoveFavorites(const FavoriteType type, const SongList &songs);
   void RemoveFavorites(const FavoriteType type, const QString &id, const SongList &songs);
   void RemoveFavoritesRequest(const FavoriteType type, const QString &ids_list, const QByteArray &json_data, const SongList &songs);
-
-  SpotifyService *service_;
-  const SharedPtr<NetworkAccessManager> network_;
-  QList <QNetworkReply*> replies_;
-
 };
 
 #endif  // SPOTIFYFAVORITEREQUEST_H

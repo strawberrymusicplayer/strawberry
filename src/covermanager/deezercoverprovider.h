@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,13 +22,8 @@
 
 #include "config.h"
 
-#include <QObject>
-#include <QList>
 #include <QVariant>
-#include <QByteArray>
 #include <QString>
-#include <QJsonValue>
-#include <QJsonObject>
 
 #include "jsoncoverprovider.h"
 
@@ -40,7 +35,6 @@ class DeezerCoverProvider : public JsonCoverProvider {
 
  public:
   explicit DeezerCoverProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
-  ~DeezerCoverProvider() override;
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;
   void CancelSearch(const int id) override;
@@ -48,13 +42,11 @@ class DeezerCoverProvider : public JsonCoverProvider {
  private Q_SLOTS:
   void HandleSearchReply(QNetworkReply *reply, const int id);
 
- private:
-  QByteArray GetReplyData(QNetworkReply *reply);
-  QJsonValue ExtractData(const QByteArray &data);
-  void Error(const QString &error, const QVariant &debug = QVariant()) override;
+ protected:
+  JsonObjectResult ParseJsonObject(QNetworkReply *reply);
 
  private:
-  QList<QNetworkReply*> replies_;
+  void Error(const QString &error, const QVariant &debug = QVariant()) override;
 };
 
 #endif  // DEEZERCOVERPROVIDER_H

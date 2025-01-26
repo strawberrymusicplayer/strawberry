@@ -76,8 +76,11 @@ class Song {
     Qobuz = 8,
     SomaFM = 9,
     RadioParadise = 10,
-    Spotify = 11
+    Spotify = 11,
+    Dropbox = 12,
+    OneDrive = 13,
   };
+  static const int kSourceCount = 16;
 
   enum class FileType {
     Unknown = 0,
@@ -176,6 +179,7 @@ class Song {
   int bitdepth() const;
 
   Source source() const;
+  int source_id() const;
   int directory_id() const;
   const QUrl &url() const;
   const QString &basefilename() const;
@@ -372,7 +376,8 @@ class Song {
   const QString &playlist_albumartist_sortable() const;
 
   bool is_metadata_good() const;
-  bool is_collection_song() const;
+  bool is_local_collection_song() const;
+  bool is_linked_collection_song() const;
   bool is_stream() const;
   bool is_radio() const;
   bool is_cdda() const;
@@ -459,6 +464,7 @@ class Song {
   static FileType FiletypeByMimetype(const QString &mimetype);
   static FileType FiletypeByDescription(const QString &text);
   static FileType FiletypeByExtension(const QString &ext);
+  static bool IsLinkedCollectionSource(const Source source);
   static QString ImageCacheDir(const Source source);
 
   // Sort songs alphabetically using their pretty title

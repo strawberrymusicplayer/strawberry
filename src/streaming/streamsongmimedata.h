@@ -32,9 +32,9 @@ class StreamSongMimeData : public MimeData {
   Q_OBJECT
 
  public:
-  explicit StreamSongMimeData(SharedPtr<StreamingService> _service, QObject *parent = nullptr);
+  explicit StreamSongMimeData(const SharedPtr<StreamingService> _service, QObject *parent = nullptr);
 
-  SharedPtr<StreamingService> service;
+  const SharedPtr<StreamingService> service;
   SongList songs;
 };
 

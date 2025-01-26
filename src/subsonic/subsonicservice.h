@@ -38,9 +38,10 @@
 
 #include "includes/scoped_ptr.h"
 #include "includes/shared_ptr.h"
+#include "constants/subsonicsettings.h"
 #include "core/song.h"
 #include "streaming/streamingservice.h"
-#include "constants/subsonicsettings.h"
+#include "collection/collectionmodel.h"
 
 class QNetworkReply;
 

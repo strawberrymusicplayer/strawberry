@@ -29,6 +29,7 @@
 #include "settings/settingspage.h"
 
 class QEvent;
+class QShowEvent;
 class SpotifyService;
 class SettingsDialog;
 class Ui_SpotifySettingsPage;
@@ -44,6 +45,9 @@ class SpotifySettingsPage : public SettingsPage {
   void Save() override;
 
   bool eventFilter(QObject *object, QEvent *event) override;
+
+ protected:
+  void showEvent(QShowEvent *e) override;
 
  Q_SIGNALS:
   void Authorize();

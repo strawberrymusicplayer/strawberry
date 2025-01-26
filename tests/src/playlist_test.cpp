@@ -476,22 +476,22 @@ TEST_F(PlaylistTest, ShuffleThenNext) {
 
 TEST_F(PlaylistTest, CollectionIdMapSingle) {
 
-  Song song;
+  Song song(Song::Source::Collection);
   song.Init(u"title"_s, u"artist"_s, u"album"_s, 123);
   song.set_id(1);
 
   PlaylistItemPtr item(std::make_shared<CollectionPlaylistItem>(song));
   playlist_.InsertItems(PlaylistItemPtrList() << item);
 
-  EXPECT_EQ(0, playlist_.collection_items_by_id(-1).count());
-  EXPECT_EQ(0, playlist_.collection_items_by_id(0).count());
-  EXPECT_EQ(0, playlist_.collection_items_by_id(2).count());
-  ASSERT_EQ(1, playlist_.collection_items_by_id(1).count());
-  EXPECT_EQ(song.title(), playlist_.collection_items_by_id(1)[0]->Metadata().title());  // clazy:exclude=detaching-temporary
+  EXPECT_EQ(0, playlist_.collection_items(Song::Source::Collection, -1).count());
+  EXPECT_EQ(0, playlist_.collection_items(Song::Source::Collection, 0).count());
+  EXPECT_EQ(0, playlist_.collection_items(Song::Source::Collection, 2).count());
+  ASSERT_EQ(1, playlist_.collection_items(Song::Source::Collection, 1).count());
+  EXPECT_EQ(song.title(), playlist_.collection_items(Song::Source::Collection, 1)[0]->Metadata().title());  // clazy:exclude=detaching-temporary
 
   playlist_.Clear();
 
-  EXPECT_EQ(0, playlist_.collection_items_by_id(1).count());
+  EXPECT_EQ(0, playlist_.collection_items(Song::Source::Collection, 1).count());
 
 }
 
@@ -504,20 +504,20 @@ TEST_F(PlaylistTest, CollectionIdMapInvalid) {
   PlaylistItemPtr item(std::make_shared<CollectionPlaylistItem>(invalid));
   playlist_.InsertItems(PlaylistItemPtrList() << item);
 
-  EXPECT_EQ(0, playlist_.collection_items_by_id(-1).count());
-  EXPECT_EQ(0, playlist_.collection_items_by_id(0).count());
-  EXPECT_EQ(0, playlist_.collection_items_by_id(1).count());
-  EXPECT_EQ(0, playlist_.collection_items_by_id(2).count());
+  EXPECT_EQ(0, playlist_.collection_items(Song::Source::Collection, -1).count());
+  EXPECT_EQ(0, playlist_.collection_items(Song::Source::Collection, 0).count());
+  EXPECT_EQ(0, playlist_.collection_items(Song::Source::Collection, 1).count());
+  EXPECT_EQ(0, playlist_.collection_items(Song::Source::Collection, 2).count());
 
 }
 
 TEST_F(PlaylistTest, CollectionIdMapMulti) {
 
-  Song one;
+  Song one(Song::Source::Collection);
   one.Init(u"title"_s, u"artist"_s, u"album"_s, 123);
   one.set_id(1);
 
-  Song two;
+  Song two(Song::Source::Collection);
   two.Init(u"title 2"_s, u"artist 2"_s, u"album 2"_s, 123);
   two.set_id(2);
 
@@ -526,20 +526,20 @@ TEST_F(PlaylistTest, CollectionIdMapMulti) {
   PlaylistItemPtr item_three(std::make_shared<CollectionPlaylistItem>(one));
   playlist_.InsertItems(PlaylistItemPtrList() << item_one << item_two << item_three);
 
-  EXPECT_EQ(2, playlist_.collection_items_by_id(1).count());
-  EXPECT_EQ(1, playlist_.collection_items_by_id(2).count());
+  EXPECT_EQ(2, playlist_.collection_items(Song::Source::Collection, 1).count());
+  EXPECT_EQ(1, playlist_.collection_items(Song::Source::Collection, 2).count());
 
   playlist_.removeRow(1); // item_two
-  EXPECT_EQ(2, playlist_.collection_items_by_id(1).count());
-  EXPECT_EQ(0, playlist_.collection_items_by_id(2).count());
+  EXPECT_EQ(2, playlist_.collection_items(Song::Source::Collection, 1).count());
+  EXPECT_EQ(0, playlist_.collection_items(Song::Source::Collection, 2).count());
 
   playlist_.removeRow(1); // item_three
-  EXPECT_EQ(1, playlist_.collection_items_by_id(1).count());
-  EXPECT_EQ(0, playlist_.collection_items_by_id(2).count());
+  EXPECT_EQ(1, playlist_.collection_items(Song::Source::Collection, 1).count());
+  EXPECT_EQ(0, playlist_.collection_items(Song::Source::Collection, 2).count());
 
   playlist_.removeRow(0); // item_one
-  EXPECT_EQ(0, playlist_.collection_items_by_id(1).count());
-  EXPECT_EQ(0, playlist_.collection_items_by_id(2).count());
+  EXPECT_EQ(0, playlist_.collection_items(Song::Source::Collection, 1).count());
+  EXPECT_EQ(0, playlist_.collection_items(Song::Source::Collection, 2).count());
 
 }
 

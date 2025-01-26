@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -69,6 +69,13 @@ QobuzSettingsPage::QobuzSettingsPage(SettingsDialog *dialog, const SharedPtr<Qob
 }
 
 QobuzSettingsPage::~QobuzSettingsPage() { delete ui_; }
+
+void QobuzSettingsPage::showEvent(QShowEvent *e) {
+
+  ui_->login_state->SetLoggedIn(service_->authenticated() ? LoginStateWidget::State::LoggedIn : LoginStateWidget::State::LoggedOut);
+  SettingsPage::showEvent(e);
+
+}
 
 void QobuzSettingsPage::Load() {
 
@@ -157,7 +164,7 @@ bool QobuzSettingsPage::eventFilter(QObject *object, QEvent *event) {
 
 void QobuzSettingsPage::LogoutClicked() {
 
-  service_->Logout();
+  service_->ClearSession();
   ui_->login_state->SetLoggedIn(LoginStateWidget::State::LoggedOut);
   ui_->button_login->setEnabled(true);
 

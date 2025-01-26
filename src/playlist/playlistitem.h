@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ using std::enable_shared_from_this;
 
 class PlaylistItem : public enable_shared_from_this<PlaylistItem> {
  public:
-  explicit PlaylistItem(const Song::Source source) : should_skip_(false), source_(source) {}
+  explicit PlaylistItem(const Song::Source source);
   virtual ~PlaylistItem();
 
   static SharedPtr<PlaylistItem> NewFromSource(const Song::Source source);
@@ -80,7 +80,7 @@ class PlaylistItem : public enable_shared_from_this<PlaylistItem> {
   virtual Song OriginalMetadata() const = 0;
   virtual QUrl Url() const = 0;
 
-  virtual void SetMetadata(const Song&) {}
+  virtual void SetMetadata(const Song &song) { Q_UNUSED(song); }
 
   void SetTemporaryMetadata(const Song &metadata);
   void UpdateTemporaryMetadata(const Song &metadata);
@@ -114,21 +114,20 @@ class PlaylistItem : public enable_shared_from_this<PlaylistItem> {
   // Convenience function to find out whether this item is from the local collection, as opposed to a device, a file on disk, or a stream.
   // Remember that even if this returns true, the collection item might be invalid, so you might want to check that its id is not equal to -1 before actually using it.
   virtual bool IsLocalCollectionItem() const { return false; }
-  void SetShouldSkip(const bool val);
+  void SetShouldSkip(const bool should_skip);
   bool GetShouldSkip() const;
 
  protected:
   bool should_skip_;
 
-  enum DatabaseColumn { Column_CollectionId };
+  enum class DatabaseColumn {
+    CollectionId
+  };
 
-  virtual QVariant DatabaseValue(DatabaseColumn) const {
-    return QVariant(QString());
-  }
+  virtual QVariant DatabaseValue(const DatabaseColumn database_column) const { Q_UNUSED(database_column); return QVariant(QString()); }
   virtual Song DatabaseSongMetadata() const { return Song(); }
 
   Song::Source source_;
-
   Song temp_metadata_;
 
   QMap<short, QColor> background_colors_;

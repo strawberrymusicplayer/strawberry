@@ -30,6 +30,7 @@
 #include <QJsonObject>
 
 #include "includes/shared_ptr.h"
+#include "core/jsonbaserequest.h"
 #include "lyricsprovider.h"
 
 class NetworkAccessManager;
@@ -41,10 +42,19 @@ class JsonLyricsProvider : public LyricsProvider {
  public:
   explicit JsonLyricsProvider(const QString &name, const bool enabled, const bool authentication_required, const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
 
+  class JsonObjectResult : public ReplyDataResult {
+   public:
+    JsonObjectResult(const ErrorCode _error_code, const QString &_error_message = QString()) : ReplyDataResult(_error_code, _error_message) {}
+    JsonObjectResult(const QJsonObject &_json_object) : ReplyDataResult(ErrorCode::Success), json_object(_json_object) {}
+    QJsonObject json_object;
+  };
+
  protected:
-  QByteArray ExtractData(QNetworkReply *reply);
-  QJsonObject ExtractJsonObj(const QByteArray &data);
-  QJsonObject ExtractJsonObj(QNetworkReply *reply);
+  virtual JsonObjectResult GetJsonObject(const QByteArray &data);
+  virtual JsonObjectResult GetJsonObject(QNetworkReply *reply);
+  virtual QJsonValue GetJsonValue(const QJsonObject &json_object, const QString &name);
+  virtual QJsonArray GetJsonArray(const QJsonObject &json_object, const QString &name);
+
 };
 
 #endif  // JSONLYRICSPROVIDER_H

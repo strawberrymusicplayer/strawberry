@@ -31,25 +31,7 @@
 
 #include "core/song.h"
 
-ScrobblerService::ScrobblerService(const QString &name, const SharedPtr<ScrobblerSettingsService> settings, QObject *parent) : QObject(parent), name_(name), settings_(settings) {}
-
-bool ScrobblerService::ExtractJsonObj(const QByteArray &data, QJsonObject &json_obj, QString &error_description) {
-
-  QJsonParseError json_parse_error;
-  const QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_parse_error);
-
-  if (json_parse_error.error != QJsonParseError::NoError) {
-    error_description = json_parse_error.errorString();
-    return false;
-  }
-
-  if (json_doc.isObject()) {
-    json_obj = json_doc.object();
-  }
-
-  return true;
-
-}
+ScrobblerService::ScrobblerService(const QString &name, const SharedPtr<NetworkAccessManager> network, const SharedPtr<ScrobblerSettingsService> settings, QObject *parent) : JsonBaseRequest(network, parent), name_(name), settings_(settings) {}
 
 QString ScrobblerService::StripAlbum(const QString &album) const {
 

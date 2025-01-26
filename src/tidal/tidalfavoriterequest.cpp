@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,9 +19,6 @@
 
 #include "config.h"
 
-#include <QtGlobal>
-#include <QObject>
-#include <QMap>
 #include <QMultiMap>
 #include <QByteArray>
 #include <QString>
@@ -45,17 +42,6 @@ TidalFavoriteRequest::TidalFavoriteRequest(TidalService *service, const SharedPt
     : TidalBaseRequest(service, network, parent),
       service_(service),
       network_(network) {}
-
-TidalFavoriteRequest::~TidalFavoriteRequest() {
-
-  while (!replies_.isEmpty()) {
-    QNetworkReply *reply = replies_.takeFirst();
-    QObject::disconnect(reply, nullptr, this, nullptr);
-    reply->abort();
-    reply->deleteLater();
-  }
-
-}
 
 QString TidalFavoriteRequest::FavoriteText(const FavoriteType type) {
 
@@ -135,7 +121,7 @@ void TidalFavoriteRequest::AddFavorites(const FavoriteType type, const SongList 
 
 void TidalFavoriteRequest::AddFavoritesRequest(const FavoriteType type, const QStringList &id_list, const SongList &songs) {
 
-  const ParamList params = ParamList() << Param(u"countryCode"_s, country_code())
+  const ParamList params = ParamList() << Param(u"countryCode"_s, service_->country_code())
                                        << Param(FavoriteMethod(type), id_list.join(u','));
 
   QUrlQuery url_query;
@@ -143,15 +129,15 @@ void TidalFavoriteRequest::AddFavoritesRequest(const FavoriteType type, const QS
     url_query.addQueryItem(QString::fromLatin1(QUrl::toPercentEncoding(param.first)), QString::fromLatin1(QUrl::toPercentEncoding(param.second)));
   }
 
-  QUrl url(QLatin1String(TidalService::kApiUrl) + QLatin1Char('/') + "users/"_L1 + QString::number(service_->user_id()) + "/favorites/"_L1 + FavoriteText(type));
-  QNetworkRequest req(url);
-  req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  req.setHeader(QNetworkRequest::ContentTypeHeader, u"application/x-www-form-urlencoded"_s);
-  if (!token_type().isEmpty() && !access_token().isEmpty()) {
-    req.setRawHeader("Authorization", token_type().toUtf8() + " " + access_token().toUtf8());
+  const QUrl url(QLatin1String(TidalService::kApiUrl) + QLatin1Char('/') + "users/"_L1 + QString::number(service_->user_id()) + "/favorites/"_L1 + FavoriteText(type));
+  QNetworkRequest network_request(url);
+  network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+  network_request.setHeader(QNetworkRequest::ContentTypeHeader, u"application/x-www-form-urlencoded"_s);
+  if (authenticated()) {
+    network_request.setRawHeader("Authorization", authorization_header());
   }
-  QByteArray query = url_query.toString(QUrl::FullyEncoded).toUtf8();
-  QNetworkReply *reply = network_->post(req, query);
+  const QByteArray query = url_query.toString(QUrl::FullyEncoded).toUtf8();
+  QNetworkReply *reply = network_->post(network_request, query);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, type, songs]() { AddFavoritesReply(reply, type, songs); });
   replies_ << reply;
 
@@ -170,9 +156,9 @@ void TidalFavoriteRequest::AddFavoritesReply(QNetworkReply *reply, const Favorit
     return;
   }
 
-  GetReplyData(reply);
-
-  if (reply->error() != QNetworkReply::NoError) {
+  const JsonObjectResult json_object_result = ParseJsonObject(reply);
+  if (!json_object_result.success()) {
+    Error(json_object_result.error_message);
     return;
   }
 
@@ -246,7 +232,7 @@ void TidalFavoriteRequest::RemoveFavorites(const FavoriteType type, const SongLi
 
 void TidalFavoriteRequest::RemoveFavoritesRequest(const FavoriteType type, const QString &id, const SongList &songs) {
 
-  const ParamList params = ParamList() << Param(u"countryCode"_s, country_code());
+  const ParamList params = ParamList() << Param(u"countryCode"_s, service_->country_code());
 
   QUrlQuery url_query;
   for (const Param &param : params) {
@@ -255,13 +241,13 @@ void TidalFavoriteRequest::RemoveFavoritesRequest(const FavoriteType type, const
 
   QUrl url(QLatin1String(TidalService::kApiUrl) + "/users/"_L1 + QString::number(service_->user_id()) + "/favorites/"_L1 + FavoriteText(type) + "/"_L1 + id);
   url.setQuery(url_query);
-  QNetworkRequest req(url);
-  req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  req.setHeader(QNetworkRequest::ContentTypeHeader, u"application/x-www-form-urlencoded"_s);
-  if (!token_type().isEmpty() && !access_token().isEmpty()) {
-    req.setRawHeader("Authorization", token_type().toUtf8() + " " + access_token().toUtf8());
+  QNetworkRequest network_request(url);
+  network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+  network_request.setHeader(QNetworkRequest::ContentTypeHeader, u"application/x-www-form-urlencoded"_s);
+  if (authenticated()) {
+    network_request.setRawHeader("Authorization", authorization_header());
   }
-  QNetworkReply *reply = network_->deleteResource(req);
+  QNetworkReply *reply = network_->deleteResource(network_request);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, type, songs]() { RemoveFavoritesReply(reply, type, songs); });
   replies_ << reply;
 
@@ -280,8 +266,9 @@ void TidalFavoriteRequest::RemoveFavoritesReply(QNetworkReply *reply, const Favo
     return;
   }
 
-  GetReplyData(reply);
-  if (reply->error() != QNetworkReply::NoError) {
+  const JsonObjectResult json_object_result = ParseJsonObject(reply);
+  if (!json_object_result.success()) {
+    Error(json_object_result.error_message);
     return;
   }
 

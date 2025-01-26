@@ -20,8 +20,6 @@
 #ifndef SONGLYRICSCOMLYRICSPROVIDER_H
 #define SONGLYRICSCOMLYRICSPROVIDER_H
 
-#include <QtGlobal>
-#include <QObject>
 #include <QString>
 #include <QUrl>
 

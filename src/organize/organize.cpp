@@ -262,7 +262,7 @@ void Organize::ProcessSomeFiles() {
 
     QString error_text;
     if (destination_->CopyToStorage(job, error_text)) {
-      if (job.remove_original_ && song.is_collection_song() && destination_->source() == Song::Source::Collection) {
+      if (job.remove_original_ && song.is_local_collection_song() && destination_->source() == Song::Source::Collection) {
         // Notify other aspects of system that song has been invalidated
         QString root = destination_->LocalPath();
         QFileInfo new_file = QFileInfo(root + QLatin1Char('/') + task.song_info_.new_filename_);

@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,48 +22,41 @@
 
 #include "config.h"
 
-#include <QObject>
-#include <QPair>
-#include <QSet>
-#include <QList>
 #include <QVariant>
-#include <QByteArray>
 #include <QString>
-#include <QJsonValue>
-#include <QJsonObject>
 
 #include "includes/shared_ptr.h"
 #include "jsoncoverprovider.h"
-#include "tidal/tidalservice.h"
 
 class QNetworkReply;
 class NetworkAccessManager;
+class TidalService;
+
+using TidalServicePtr = SharedPtr<TidalService>;
 
 class TidalCoverProvider : public JsonCoverProvider {
   Q_OBJECT
 
  public:
   explicit TidalCoverProvider(const TidalServicePtr service, const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
-  ~TidalCoverProvider() override;
+
+  virtual bool authenticated() const override;
+  virtual bool use_authorization_header() const override;
+  virtual QByteArray authorization_header() const override;
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;
   void CancelSearch(const int id) override;
-
-  bool IsAuthenticated() const override { return service_ && service_->authenticated(); }
-  void Deauthenticate() override {
-    if (service_) service_->Logout();
-  }
+  void ClearSession() override;
 
  private Q_SLOTS:
   void HandleSearchReply(QNetworkReply *reply, const int id);
 
  private:
-  QByteArray GetReplyData(QNetworkReply *reply);
+  JsonObjectResult ParseJsonObject(QNetworkReply *reply);
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
  private:
   const TidalServicePtr service_;
-  QList<QNetworkReply*> replies_;
 };
 
 #endif  // TIDALCOVERPROVIDER_H

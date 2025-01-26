@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2020-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2020-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,6 +30,7 @@
 #include "settings/settingspage.h"
 
 class QListWidgetItem;
+class QShowEvent;
 
 class CoverProviders;
 class CoverProvider;
@@ -45,6 +46,9 @@ class CoversSettingsPage : public SettingsPage {
 
   void Load() override;
   void Save() override;
+
+ protected:
+  void showEvent(QShowEvent *e) override;
 
  private:
   void NoProviderSelected();
@@ -65,7 +69,7 @@ class CoversSettingsPage : public SettingsPage {
   void AuthenticateClicked();
   void LogoutClicked();
   void AuthenticationSuccess();
-  void AuthenticationFailure(const QStringList &errors);
+  void AuthenticationFailure(const QString &error);
   void CoverSaveInAlbumDirChanged();
   void TypesCurrentItemChanged(QListWidgetItem *item_current, QListWidgetItem *item_previous);
   void TypesItemSelectionChanged();

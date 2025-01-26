@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,14 +22,11 @@
 #include <algorithm>
 #include <utility>
 
-#include <QObject>
-#include <QMimeDatabase>
-#include <QPair>
 #include <QByteArray>
 #include <QString>
-#include <QChar>
 #include <QUrl>
 #include <QDateTime>
+#include <QMimeDatabase>
 #include <QNetworkReply>
 #include <QCryptographicHash>
 #include <QJsonObject>
@@ -47,7 +44,6 @@ using namespace Qt::Literals::StringLiterals;
 
 QobuzStreamURLRequest::QobuzStreamURLRequest(QobuzService *service, const SharedPtr<NetworkAccessManager> network, const QUrl &media_url, const uint id, QObject *parent)
     : QobuzBaseRequest(service, network, parent),
-      service_(service),
       reply_(nullptr),
       media_url_(media_url),
       id_(id),
@@ -81,7 +77,7 @@ void QobuzStreamURLRequest::LoginComplete(const bool success, const QString &err
 
 void QobuzStreamURLRequest::Process() {
 
-  if (app_id().isEmpty() || app_secret().isEmpty()) {
+  if (service_->app_id().isEmpty() || service_->app_secret().isEmpty()) {
     Q_EMIT StreamURLFailure(id_, media_url_, tr("Missing Qobuz app ID or secret."));
     return;
   }
@@ -116,9 +112,9 @@ void QobuzStreamURLRequest::GetStreamURL() {
     reply_->deleteLater();
   }
 
-  quint64 timestamp = QDateTime::currentSecsSinceEpoch();
+  const quint64 timestamp = QDateTime::currentSecsSinceEpoch();
 
-  ParamList params_to_sign = ParamList() << Param(u"format_id"_s, QString::number(format()))
+  ParamList params_to_sign = ParamList() << Param(u"format_id"_s, QString::number(service_->format()))
                                          << Param(u"track_id"_s, QString::number(song_id_));
 
   std::sort(params_to_sign.begin(), params_to_sign.end());
@@ -129,7 +125,7 @@ void QobuzStreamURLRequest::GetStreamURL() {
     data_to_sign += param.first + param.second;
   }
   data_to_sign += QString::number(timestamp);
-  data_to_sign += app_secret();
+  data_to_sign += service_->app_secret();
 
   QByteArray const digest = QCryptographicHash::hash(data_to_sign.toUtf8(), QCryptographicHash::Md5);
   const QString signature = QString::fromLatin1(digest.toHex()).rightJustified(32, u'0').toLower();
@@ -137,7 +133,7 @@ void QobuzStreamURLRequest::GetStreamURL() {
   ParamList params = params_to_sign;
     params << Param(u"request_ts"_s, QString::number(timestamp));
     params << Param(u"request_sig"_s, signature);
-    params << Param(u"user_auth_token"_s, user_auth_token());
+    params << Param(u"user_auth_token"_s, service_->user_auth_token());
 
   std::sort(params.begin(), params.end());
 
@@ -150,48 +146,49 @@ void QobuzStreamURLRequest::StreamURLReceived() {
 
   if (!reply_) return;
 
-  QByteArray data = GetReplyData(reply_);
+  Q_ASSERT(replies_.contains(reply_));
+  replies_.removeAll(reply_);
+
+  const JsonObjectResult json_object_result = ParseJsonObject(reply_);
 
   QObject::disconnect(reply_, nullptr, this, nullptr);
   reply_->deleteLater();
   reply_ = nullptr;
 
-  if (data.isEmpty()) {
-    if (!authenticated() && login_sent() && tries_ <= 1) {
+  if (!json_object_result.success()) {
+    if (!authenticated() && service_->login_sent() && tries_ <= 1) {
       need_login_ = true;
       return;
     }
-    Q_EMIT StreamURLFailure(id_, media_url_, errors_.constFirst());
+    Q_EMIT StreamURLFailure(id_, media_url_, json_object_result.error_message);
     return;
   }
 
-  QJsonObject json_obj = ExtractJsonObj(data);
-  if (json_obj.isEmpty()) {
-    Q_EMIT StreamURLFailure(id_, media_url_, errors_.constFirst());
+  const QJsonObject &json_object = json_object_result.json_object;
+
+  if (json_object.isEmpty()) {
+    Q_EMIT StreamURLFailure(id_, media_url_, u"Empty json object."_s);
     return;
   }
 
-  if (!json_obj.contains("track_id"_L1)) {
-    Error(u"Invalid Json reply, stream url is missing track_id."_s, json_obj);
-    Q_EMIT StreamURLFailure(id_, media_url_, errors_.constFirst());
+  if (!json_object.contains("track_id"_L1)) {
+    Q_EMIT StreamURLFailure(id_, media_url_, u"Invalid Json reply, stream url is missing track_id."_s);
     return;
   }
 
-  int track_id = json_obj["track_id"_L1].toInt();
+  const int track_id = json_object["track_id"_L1].toInt();
   if (track_id != song_id_) {
-    Error(u"Incorrect track ID returned."_s, json_obj);
-    Q_EMIT StreamURLFailure(id_, media_url_, errors_.constFirst());
+    Q_EMIT StreamURLFailure(id_, media_url_, u"Incorrect track ID returned."_s);
     return;
   }
 
-  if (!json_obj.contains("mime_type"_L1) || !json_obj.contains("url"_L1)) {
-    Error(u"Invalid Json reply, stream url is missing url or mime_type."_s, json_obj);
-    Q_EMIT StreamURLFailure(id_, media_url_, errors_.constFirst());
+  if (!json_object.contains("mime_type"_L1) || !json_object.contains("url"_L1)) {
+    Q_EMIT StreamURLFailure(id_, media_url_, u"Invalid Json reply, stream url is missing url or mime_type."_s);
     return;
   }
 
-  QUrl url(json_obj["url"_L1].toString());
-  QString mimetype = json_obj["mime_type"_L1].toString();
+  const QUrl url(json_object["url"_L1].toString());
+  const QString mimetype = json_object["mime_type"_L1].toString();
 
   Song::FileType filetype(Song::FileType::Unknown);
   QMimeDatabase mimedb;
@@ -206,34 +203,23 @@ void QobuzStreamURLRequest::StreamURLReceived() {
   }
 
   if (!url.isValid()) {
-    Error(u"Returned stream url is invalid."_s, json_obj);
-    Q_EMIT StreamURLFailure(id_, media_url_, errors_.constFirst());
+    Q_EMIT StreamURLFailure(id_, media_url_, u"Returned stream url is invalid."_s);
     return;
   }
 
   qint64 duration = -1;
-  if (json_obj.contains("duration"_L1)) {
-    duration = json_obj["duration"_L1].toInt() * kNsecPerSec;
+  if (json_object.contains("duration"_L1)) {
+    duration = json_object["duration"_L1].toInt() * kNsecPerSec;
   }
   int samplerate = -1;
-  if (json_obj.contains("sampling_rate"_L1)) {
-    samplerate = static_cast<int>(json_obj["sampling_rate"_L1].toDouble()) * 1000;
+  if (json_object.contains("sampling_rate"_L1)) {
+    samplerate = static_cast<int>(json_object["sampling_rate"_L1].toDouble()) * 1000;
   }
   int bit_depth = -1;
-  if (json_obj.contains("bit_depth"_L1)) {
-    bit_depth = static_cast<int>(json_obj["bit_depth"_L1].toDouble());
+  if (json_object.contains("bit_depth"_L1)) {
+    bit_depth = static_cast<int>(json_object["bit_depth"_L1].toDouble());
   }
 
   Q_EMIT StreamURLSuccess(id_, media_url_, url, filetype, samplerate, bit_depth, duration);
-
-}
-
-void QobuzStreamURLRequest::Error(const QString &error, const QVariant &debug) {
-
-  if (!error.isEmpty()) {
-    qLog(Error) << "Qobuz:" << error;
-    errors_ << error;
-  }
-  if (debug.isValid()) qLog(Debug) << debug;
 
 }

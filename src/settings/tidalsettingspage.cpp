@@ -81,6 +81,13 @@ TidalSettingsPage::TidalSettingsPage(SettingsDialog *dialog, SharedPtr<TidalServ
 
 TidalSettingsPage::~TidalSettingsPage() { delete ui_; }
 
+void TidalSettingsPage::showEvent(QShowEvent *e) {
+
+  ui_->login_state->SetLoggedIn(service_->authenticated() ? LoginStateWidget::State::LoggedIn : LoginStateWidget::State::LoggedOut);
+  SettingsPage::showEvent(e);
+
+}
+
 void TidalSettingsPage::Load() {
 
   Settings s;
@@ -164,7 +171,7 @@ bool TidalSettingsPage::eventFilter(QObject *object, QEvent *event) {
 
 void TidalSettingsPage::LogoutClicked() {
 
-  service_->Logout();
+  service_->ClearSession();
   ui_->button_login->setEnabled(true);
   ui_->login_state->SetLoggedIn(LoginStateWidget::State::LoggedOut);
 

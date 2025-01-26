@@ -397,13 +397,13 @@ QMimeData *CollectionModel::mimeData(const QModelIndexList &indexes) const {
     GetChildSongs(IndexToItem(idx), songs, song_ids, urls);
   }
 
-  SongMimeData *data = new SongMimeData;
-  data->setUrls(urls);
-  data->backend = backend_;
-  data->songs = songs;
-  data->name_for_new_playlist_ = Song::GetNameForNewPlaylist(data->songs);
+  SongMimeData *song_mime_data = new SongMimeData;
+  song_mime_data->setUrls(urls);
+  song_mime_data->backend = backend_;
+  song_mime_data->songs = songs;
+  song_mime_data->name_for_new_playlist_ = Song::GetNameForNewPlaylist(songs);
 
-  return data;
+  return song_mime_data;
 
 }
 

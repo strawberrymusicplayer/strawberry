@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,8 +22,6 @@
 
 #include "config.h"
 
-#include <QtGlobal>
-#include <QObject>
 #include <QMap>
 #include <QString>
 #include <QUrl>
@@ -31,9 +29,9 @@
 #include "includes/shared_ptr.h"
 #include "core/urlhandler.h"
 #include "core/song.h"
-#include "tidal/tidalservice.h"
 
 class TaskManager;
+class TidalService;
 
 class TidalUrlHandler : public UrlHandler {
   Q_OBJECT
@@ -41,7 +39,7 @@ class TidalUrlHandler : public UrlHandler {
  public:
   explicit TidalUrlHandler(const SharedPtr<TaskManager> task_manager, TidalService *service);
 
-  QString scheme() const override { return service_->url_scheme(); }
+  QString scheme() const override;
   LoadResult StartLoading(const QUrl &url) override;
 
  private:

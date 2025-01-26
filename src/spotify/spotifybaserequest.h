@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2022-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2022-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,28 +22,16 @@
 
 #include "config.h"
 
-#include <QtGlobal>
-#include <QObject>
-#include <QSet>
-#include <QList>
-#include <QPair>
-#include <QVariant>
-#include <QByteArray>
 #include <QString>
-#include <QStringList>
-#include <QUrl>
-#include <QSslError>
-#include <QJsonObject>
-#include <QJsonValue>
 
 #include "includes/shared_ptr.h"
-
-#include "spotifyservice.h"
+#include "core/jsonbaserequest.h"
 
 class QNetworkReply;
 class NetworkAccessManager;
+class SpotifyService;
 
-class SpotifyBaseRequest : public QObject {
+class SpotifyBaseRequest : public JsonBaseRequest {
   Q_OBJECT
 
  public:
@@ -61,32 +49,17 @@ class SpotifyBaseRequest : public QObject {
   };
 
  protected:
-  using Param = QPair<QString, QString>;
-  using ParamList = QList<Param>;
+  QString service_name() const override;
+  bool authentication_required() const override;
+  bool authenticated() const override;
+  bool use_authorization_header() const override;
+  QByteArray authorization_header() const override;
 
   QNetworkReply *CreateRequest(const QString &ressource_name, const ParamList &params_provided);
-  QByteArray GetReplyData(QNetworkReply *reply);
-  QJsonObject ExtractJsonObj(const QByteArray &data);
-  QJsonValue ExtractItems(const QByteArray &data);
-  QJsonValue ExtractItems(const QJsonObject &json_obj);
+  JsonObjectResult ParseJsonObject(QNetworkReply *reply);
 
-  virtual void Error(const QString &error, const QVariant &debug = QVariant()) = 0;
-  static QString ErrorsToHTML(const QStringList &errors);
-
-  int artistssearchlimit() const { return service_->artistssearchlimit(); }
-  int albumssearchlimit() const { return service_->albumssearchlimit(); }
-  int songssearchlimit() const { return service_->songssearchlimit(); }
-
-  QString access_token() const { return service_->access_token(); }
-
-  bool authenticated() const { return service_->authenticated(); }
-
- private Q_SLOTS:
-  void HandleSSLErrors(const QList<QSslError> &ssl_errors);
-
- private:
+ protected:
   SpotifyService *service_;
-  const SharedPtr<NetworkAccessManager> network_;
 };
 
 #endif  // SPOTIFYBASEREQUEST_H

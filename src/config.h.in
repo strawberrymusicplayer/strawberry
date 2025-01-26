@@ -32,6 +32,8 @@
 #cmakedefine HAVE_TIDAL
 #cmakedefine HAVE_SPOTIFY
 #cmakedefine HAVE_QOBUZ
+#cmakedefine HAVE_DROPBOX
+#cmakedefine HAVE_ONEDRIVE
 
 #cmakedefine HAVE_TAGLIB_DSFFILE
 #cmakedefine HAVE_TAGLIB_DSDIFFFILE
