@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2024-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@
 
 #include <QObject>
 #include <QString>
+#include <QUrl>
 #include <QSharedPointer>
 
 #include "tagreaderresult.h"
@@ -36,6 +37,11 @@ class TagReaderReply : public QObject {
   template<typename T>
   static QSharedPointer<T> Create(const QString &filename) {
     return QSharedPointer<T>(new T(filename));
+  }
+
+  template<typename T>
+  static QSharedPointer<T> Create(const QUrl &url, const QString &filename) {
+    return QSharedPointer<T>(new T(url, filename));
   }
 
   QString filename() const { return filename_; }

@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,6 +41,10 @@ class TagReaderBase {
   virtual TagReaderResult IsMediaFile(const QString &filename) const = 0;
 
   virtual TagReaderResult ReadFile(const QString &filename, Song *song) const = 0;
+#ifdef HAVE_STREAMTAGREADER
+  virtual TagReaderResult ReadStream(const QUrl &url, const QString &filename, const quint64 size, const quint64 mtime, const QString &token_type, const QString &access_token, Song *song) const = 0;
+#endif
+
   virtual TagReaderResult WriteFile(const QString &filename, const Song &song, const SaveTagsOptions save_tags_options, const SaveTagCoverData &save_tag_cover_data) const = 0;
 
   virtual TagReaderResult LoadEmbeddedCover(const QString &filename, QByteArray &data) const = 0;

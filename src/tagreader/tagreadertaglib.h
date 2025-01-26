@@ -1,7 +1,7 @@
 /*
  * Strawberry Music Player
  * Copyright 2013, David Sansome <me@davidsansome.com>
- * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,6 +40,8 @@
 #include <taglib/mp4tag.h>
 #include <taglib/asftag.h>
 
+#include "includes/scoped_ptr.h"
+#include "includes/shared_ptr.h"
 #include "core/song.h"
 
 #include "tagreaderbase.h"
@@ -66,6 +68,10 @@ class TagReaderTagLib : public TagReaderBase {
   TagReaderResult IsMediaFile(const QString &filename) const override;
 
   TagReaderResult ReadFile(const QString &filename, Song *song) const override;
+#ifdef HAVE_STREAMTAGREADER
+  TagReaderResult ReadStream(const QUrl &url, const QString &filename, const quint64 size, const quint64 mtime, const QString &token_type, const QString &access_token, Song *song) const override;
+#endif
+
   TagReaderResult WriteFile(const QString &filename, const Song &song, const SaveTagsOptions save_tags_options, const SaveTagCoverData &save_tag_cover_data) const override;
 
   TagReaderResult LoadEmbeddedCover(const QString &filename, QByteArray &data) const override;
@@ -76,6 +82,7 @@ class TagReaderTagLib : public TagReaderBase {
 
  private:
   static Song::FileType GuessFileType(TagLib::FileRef *fileref);
+  TagReaderResult Read(SharedPtr<TagLib::FileRef> fileref, Song *song) const;
 
   void ParseID3v2Tags(TagLib::ID3v2::Tag *tag, QString *disc, QString *compilation, Song *song) const;
   void ParseVorbisComments(const TagLib::Ogg::FieldListMap &map, QString *disc, QString *compilation, Song *song) const;

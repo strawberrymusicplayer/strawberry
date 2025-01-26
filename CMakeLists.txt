@@ -210,6 +210,8 @@ endif()
 
 find_package(GTest)
 
+pkg_check_modules(LIBSPARSEHASH IMPORTED_TARGET libsparsehash)
+
 set(QT_VERSION_MAJOR 6)
 set(QT_MIN_VERSION 6.4.0)
 set(QT_DEFAULT_MAJOR_VERSION ${QT_VERSION_MAJOR})
@@ -369,6 +371,10 @@ endif()
 
 optional_component(QPA_QPLATFORMNATIVEINTERFACE ON "QPA Platform Native Interface"
   DEPENDS "Qt Gui Private" QT_GUI_PRIVATE_FOUND
+)
+
+optional_component(STREAMTAGREADER ON "Stream tagreader"
+  DEPENDS "sparsehash" LIBSPARSEHASH_FOUND
 )
 
 if(HAVE_SONGFINGERPRINTING OR HAVE_MUSICBRAINZ)
@@ -1233,6 +1239,11 @@ optional_source(WIN32
     src/core/windows7thumbbar.h
 )
 
+optional_source(HAVE_STREAMTAGREADER
+  SOURCES src/tagreader/streamtagreader.cpp src/tagreader/tagreaderreadstreamrequest.cpp src/tagreader/tagreaderreadstreamreply.cpp
+  HEADERS src/tagreader/tagreaderreadstreamreply.h
+)
+
 if(HAVE_GLOBALSHORTCUTS)
 
   optional_source(HAVE_GLOBALSHORTCUTS
@@ -1521,6 +1532,7 @@ target_link_libraries(strawberry_lib PUBLIC
   $<$<BOOL:${HAVE_QPA_QPLATFORMNATIVEINTERFACE}>:Qt${QT_VERSION_MAJOR}::GuiPrivate>
   ICU::uc
   ICU::i18n
+  $<$<BOOL:${HAVE_STREAMTAGREADER}>:PkgConfig::LIBSPARSEHASH>
   $<$<BOOL:${HAVE_ALSA}>:ALSA::ALSA>
   $<$<BOOL:${HAVE_PULSE}>:PkgConfig::LIBPULSE>
   $<$<BOOL:${HAVE_CHROMAPRINT}>:PkgConfig::CHROMAPRINT>

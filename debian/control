@@ -29,7 +29,8 @@ Build-Depends: debhelper-compat (= 12),
                libmtp-dev,
                libchromaprint-dev,
                libfftw3-dev,
-               libebur128-dev
+               libebur128-dev,
+               libsparsehash-dev
 Standards-Version: 4.7.0
 
 Package: strawberry

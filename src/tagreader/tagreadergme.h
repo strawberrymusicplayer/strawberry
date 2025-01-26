@@ -102,6 +102,11 @@ class TagReaderGME : public TagReaderBase {
   TagReaderResult IsMediaFile(const QString &filename) const override;
 
   TagReaderResult ReadFile(const QString &filename, Song *song) const override;
+
+#ifdef HAVE_STREAMTAGREADER
+  TagReaderResult ReadStream(const QUrl &url, const QString &filename, const quint64 size, const quint64 mtime, const QString &token_type, const QString &access_token, Song *song) const override;
+#endif
+
   TagReaderResult WriteFile(const QString &filename, const Song &song, const SaveTagsOptions save_tags_options, const SaveTagCoverData &save_tag_cover_data) const override;
 
   TagReaderResult LoadEmbeddedCover(const QString &filename, QByteArray &data) const override;

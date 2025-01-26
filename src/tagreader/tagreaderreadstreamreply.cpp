@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2024-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,25 +17,28 @@
  *
  */
 
-#ifndef TAGREADERREQUEST_H
-#define TAGREADERREQUEST_H
-
 #include <QString>
 #include <QUrl>
 
-#include "includes/shared_ptr.h"
-#include "tagreaderreply.h"
+#include "core/logging.h"
+#include "tagreaderreadstreamreply.h"
 
-class TagReaderRequest {
- public:
-  explicit TagReaderRequest(const QString &_filename);
-  explicit TagReaderRequest(const QUrl &_url, const QString &_filename);
-  virtual ~TagReaderRequest();
-  QString filename;
-  QUrl url;
-  TagReaderReplyPtr reply;
-};
+TagReaderReadStreamReply::TagReaderReadStreamReply(const QUrl &_url, const QString &_filename, QObject *parent)
+    : TagReaderReply(_filename, parent), url_(_url) {}
 
-using TagReaderRequestPtr = SharedPtr<TagReaderRequest>;
+void TagReaderReadStreamReply::Finish() {
 
-#endif  // TAGREADERREQUEST_H
+  qLog(Debug) << "Finishing tagreader reply for" << url_;
+
+  finished_ = true;
+
+  QMetaObject::invokeMethod(this, &TagReaderReadStreamReply::EmitFinished, Qt::QueuedConnection);
+
+}
+
+void TagReaderReadStreamReply::EmitFinished() {
+
+  Q_EMIT TagReaderReply::Finished(filename_, result_);
+  Q_EMIT TagReaderReadStreamReply::Finished(url_, song_, result_);
+
+}

@@ -301,6 +301,22 @@ TagReaderResult TagReaderGME::ReadFile(const QString &filename, Song *song) cons
 
 }
 
+#ifdef HAVE_STREAMTAGREADER
+TagReaderResult TagReaderGME::ReadStream(const QUrl &url, const QString &filename, const quint64 size, const quint64 mtime, const QString &token_type, const QString &access_token, Song *song) const {
+
+  Q_UNUSED(url);
+  Q_UNUSED(filename);
+  Q_UNUSED(size);
+  Q_UNUSED(mtime);
+  Q_UNUSED(token_type);
+  Q_UNUSED(access_token);
+  Q_UNUSED(song);
+
+  return TagReaderResult::ErrorCode::Unsupported;
+
+}
+#endif
+
 TagReaderResult TagReaderGME::WriteFile(const QString &filename, const Song &song, const SaveTagsOptions save_tags_options, const SaveTagCoverData &save_tag_cover_data) const {
 
   Q_UNUSED(filename);

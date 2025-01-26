@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,7 +29,6 @@
 #include <QImage>
 #include <QMutex>
 
-#include "includes/shared_ptr.h"
 #include "includes/mutex_protected.h"
 #include "core/song.h"
 
@@ -39,6 +38,7 @@
 #include "tagreaderresult.h"
 #include "tagreaderreply.h"
 #include "tagreaderreadfilereply.h"
+#include "tagreaderreadstreamreply.h"
 #include "tagreaderloadcoverdatareply.h"
 #include "tagreaderloadcoverimagereply.h"
 #include "savetagsoptions.h"
@@ -66,6 +66,11 @@ class TagReaderClient : public QObject {
 
   TagReaderResult ReadFileBlocking(const QString &filename, Song *song);
   [[nodiscard]] TagReaderReadFileReplyPtr ReadFileAsync(const QString &filename);
+
+#ifdef HAVE_STREAMTAGREADER
+  TagReaderResult ReadStreamBlocking(const QUrl &url, const QString &filename, const quint64 size, const quint64 mtime, const QString &token_type, const QString &access_token, Song *song);
+  [[nodiscard]] TagReaderReadStreamReplyPtr ReadStreamAsync(const QUrl &url, const QString &filename, const quint64 size, const quint64 mtime, const QString &token_type, const QString &access_token);
+#endif
 
   TagReaderResult WriteFileBlocking(const QString &filename, const Song &song, const SaveTagsOptions save_tags_options = SaveTagsOption::Tags, const SaveTagCoverData &save_tag_cover_data = SaveTagCoverData());
   [[nodiscard]] TagReaderReplyPtr WriteFileAsync(const QString &filename, const Song &song, const SaveTagsOptions save_tags_options = SaveTagsOption::Tags, const SaveTagCoverData &save_tag_cover_data = SaveTagCoverData());

@@ -1,7 +1,7 @@
 /*
  * Strawberry Music Player
  * Copyright 2013, David Sansome <me@davidsansome.com>
- * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@
 #include "config.h"
 
 #include "tagreadertaglib.h"
+#include "streamtagreader.h"
 
 #include <memory>
 #include <algorithm>
@@ -94,13 +95,14 @@
 #include <QDateTime>
 #include <QtDebug>
 
+#include "includes/scoped_ptr.h"
 #include "core/logging.h"
 #include "core/song.h"
 #include "constants/timeconstants.h"
 
 #include "albumcovertagdata.h"
 
-using std::unique_ptr;
+using std::make_unique;
 using namespace Qt::Literals::StringLiterals;
 
 #undef TStringToQString
@@ -240,6 +242,7 @@ class FileRefFactory {
   FileRefFactory() = default;
   virtual ~FileRefFactory() = default;
   virtual TagLib::FileRef *GetFileRef(const QString &filename) = 0;
+  virtual TagLib::FileRef *GetFileRef(TagLib::IOStream *iostream) = 0;
 
  private:
   Q_DISABLE_COPY(FileRefFactory)
@@ -256,6 +259,10 @@ class TagLibFileRefFactory : public FileRefFactory {
 #endif
   }
 
+  TagLib::FileRef *GetFileRef(TagLib::IOStream *iostream) override {
+    return new TagLib::FileRef(iostream);
+  }
+
  private:
   Q_DISABLE_COPY(TagLibFileRefFactory)
 };
@@ -270,7 +277,7 @@ TagReaderResult TagReaderTagLib::IsMediaFile(const QString &filename) const {
 
   qLog(Debug) << "Checking for valid file" << filename;
 
-  unique_ptr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));
+  ScopedPtr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));
   return fileref &&
          !fileref->isNull() &&
          fileref->file() &&
@@ -309,41 +316,9 @@ Song::FileType TagReaderTagLib::GuessFileType(TagLib::FileRef *fileref) {
 
 }
 
-TagReaderResult TagReaderTagLib::ReadFile(const QString &filename, Song *song) const {
+TagReaderResult TagReaderTagLib::Read(SharedPtr<TagLib::FileRef> fileref, Song *song) const {
 
-  if (filename.isEmpty()) {
-    return TagReaderResult::ErrorCode::FilenameMissing;
-  }
-
-  qLog(Debug) << "Reading tags from" << filename;
-
-  const QFileInfo fileinfo(filename);
-  if (!fileinfo.exists()) {
-    qLog(Error) << "File" << filename << "does not exist";
-    return TagReaderResult::ErrorCode::FileDoesNotExist;
-  }
-
-  if (song->source() == Song::Source::Unknown) song->set_source(Song::Source::LocalFile);
-
-  const QUrl url = QUrl::fromLocalFile(filename);
-  song->set_basefilename(fileinfo.fileName());
-  song->set_url(url);
-  song->set_filesize(fileinfo.size());
-  song->set_mtime(fileinfo.lastModified().isValid() ? std::max(fileinfo.lastModified().toSecsSinceEpoch(), 0LL) : 0LL);
-  song->set_ctime(fileinfo.birthTime().isValid() ? std::max(fileinfo.birthTime().toSecsSinceEpoch(), 0LL) : fileinfo.lastModified().isValid() ? std::max(fileinfo.lastModified().toSecsSinceEpoch(), 0LL) : 0LL);
-  if (song->ctime() <= 0) {
-    song->set_ctime(song->mtime());
-  }
-  song->set_lastseen(QDateTime::currentSecsSinceEpoch());
-  song->set_init_from_file(true);
-
-  unique_ptr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));
-  if (!fileref || fileref->isNull()) {
-    qLog(Error) << "TagLib could not open file" << filename;
-    return TagReaderResult::ErrorCode::FileOpenError;
-  }
-
-  song->set_filetype(GuessFileType(fileref.get()));
+  song->set_filetype(GuessFileType(&*fileref));
 
   if (fileref->audioProperties()) {
     song->set_bitrate(fileref->audioProperties()->bitrate());
@@ -370,12 +345,14 @@ TagReaderResult TagReaderTagLib::ReadFile(const QString &filename, Song *song) c
   // apart, so we keep specific behavior for some formats by adding another "else if" block below.
   if (TagLib::Ogg::XiphComment *vorbis_comment = dynamic_cast<TagLib::Ogg::XiphComment*>(fileref->file()->tag())) {
     ParseVorbisComments(vorbis_comment->fieldListMap(), &disc, &compilation, song);
-    TagLib::List<TagLib::FLAC::Picture*> pictures = vorbis_comment->pictureList();
-    if (!pictures.isEmpty()) {
-      for (TagLib::FLAC::Picture *picture : pictures) {
-        if (picture->type() == TagLib::FLAC::Picture::FrontCover && picture->data().size() > 0) {
-          song->set_art_embedded(true);
-          break;
+    if (song->url().isLocalFile()) {
+      TagLib::List<TagLib::FLAC::Picture*> pictures = vorbis_comment->pictureList();
+      if (!pictures.isEmpty()) {
+        for (TagLib::FLAC::Picture *picture : pictures) {
+          if (picture->type() == TagLib::FLAC::Picture::FrontCover && picture->data().size() > 0) {
+            song->set_art_embedded(true);
+            break;
+          }
         }
       }
     }
@@ -385,12 +362,14 @@ TagReaderResult TagReaderTagLib::ReadFile(const QString &filename, Song *song) c
     song->set_bitdepth(file_flac->audioProperties()->bitsPerSample());
     if (file_flac->xiphComment()) {
       ParseVorbisComments(file_flac->xiphComment()->fieldListMap(), &disc, &compilation, song);
-      TagLib::List<TagLib::FLAC::Picture*> pictures = file_flac->pictureList();
-      if (!pictures.isEmpty()) {
-        for (TagLib::FLAC::Picture *picture : pictures) {
-          if (picture->type() == TagLib::FLAC::Picture::FrontCover && picture->data().size() > 0) {
-            song->set_art_embedded(true);
-            break;
+      if (song->url().isLocalFile()) {
+        TagLib::List<TagLib::FLAC::Picture*> pictures = file_flac->pictureList();
+        if (!pictures.isEmpty()) {
+          for (TagLib::FLAC::Picture *picture : pictures) {
+            if (picture->type() == TagLib::FLAC::Picture::FrontCover && picture->data().size() > 0) {
+              song->set_art_embedded(true);
+              break;
+            }
           }
         }
       }
@@ -497,15 +476,103 @@ TagReaderResult TagReaderTagLib::ReadFile(const QString &filename, Song *song) c
   if (song->lastplayed() <= 0) { song->set_lastplayed(-1); }
 
   if (song->filetype() == Song::FileType::Unknown) {
-    qLog(Error) << "Unknown audio filetype reading" << filename;
+    return TagReaderResult::ErrorCode::Unsupported;
+  }
+
+  return TagReaderResult::ErrorCode::Success;
+
+}
+
+TagReaderResult TagReaderTagLib::ReadFile(const QString &filename, Song *song) const {
+
+  if (filename.isEmpty()) {
+    return TagReaderResult::ErrorCode::FilenameMissing;
+  }
+
+  qLog(Debug) << "Reading tags from file" << filename;
+
+  const QFileInfo fileinfo(filename);
+  if (!fileinfo.exists()) {
+    qLog(Error) << "File" << filename << "does not exist";
+    return TagReaderResult::ErrorCode::FileDoesNotExist;
+  }
+
+  if (song->source() == Song::Source::Unknown) song->set_source(Song::Source::LocalFile);
+
+  const QUrl url = QUrl::fromLocalFile(filename);
+  song->set_basefilename(fileinfo.fileName());
+  song->set_url(url);
+  song->set_filesize(fileinfo.size());
+  song->set_mtime(fileinfo.lastModified().isValid() ? std::max(fileinfo.lastModified().toSecsSinceEpoch(), 0LL) : 0LL);
+  song->set_ctime(fileinfo.birthTime().isValid() ? std::max(fileinfo.birthTime().toSecsSinceEpoch(), 0LL) : fileinfo.lastModified().isValid() ? std::max(fileinfo.lastModified().toSecsSinceEpoch(), 0LL) : 0LL);
+  if (song->ctime() <= 0) {
+    song->set_ctime(song->mtime());
+  }
+  song->set_lastseen(QDateTime::currentSecsSinceEpoch());
+  song->set_init_from_file(true);
+
+  SharedPtr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));
+  if (!fileref || fileref->isNull()) {
+    qLog(Error) << "TagLib could not open file" << filename;
+    return TagReaderResult::ErrorCode::FileOpenError;
+  }
+
+  const TagReaderResult result = Read(fileref, song);
+  if (result.error_code == TagReaderResult::ErrorCode::Unsupported) {
+    qLog(Error) << "Unknown audio filetype reading file" << filename;
     return TagReaderResult::ErrorCode::Unsupported;
   }
 
   qLog(Debug) << "Got tags for" << filename;
 
-  return TagReaderResult::ErrorCode::Success;
+  return result;
 
 }
+
+#ifdef HAVE_STREAMTAGREADER
+
+TagReaderResult TagReaderTagLib::ReadStream(const QUrl &url,
+                                            const QString &filename,
+                                            const quint64 size,
+                                            const quint64 mtime,
+                                            const QString &token_type,
+                                            const QString &access_token,
+                                            Song *song) const {
+
+  qLog(Debug) << "Loading tags from stream" << url << filename;
+
+  song->set_url(url);
+  song->set_basefilename(QFileInfo(filename).baseName());
+  song->set_filesize(static_cast<qint64>(size));
+  song->set_ctime(static_cast<qint64>(mtime));
+  song->set_mtime(static_cast<qint64>(mtime));
+
+  ScopedPtr<StreamTagReader> stream = make_unique<StreamTagReader>(url, filename, size, token_type, access_token);
+  stream->PreCache();
+
+  if (stream->num_requests() > 2) {
+    qLog(Warning) << "Total requests for file" << filename << stream->num_requests() << stream->cached_bytes();
+  }
+
+  SharedPtr<TagLib::FileRef> fileref(factory_->GetFileRef(&*stream));
+  if (!fileref || fileref->isNull()) {
+    qLog(Error) << "TagLib could not open stream" << filename << url;
+    return TagReaderResult::ErrorCode::FileOpenError;
+  }
+
+  const TagReaderResult result = Read(fileref, song);
+  if (result.error_code == TagReaderResult::ErrorCode::Unsupported) {
+    qLog(Error) << "Unknown audio filetype reading stream" << filename << url;
+    return result;
+  }
+
+  qLog(Debug) << "Got tags for stream" << filename << url;
+
+  return result;
+
+}
+
+#endif  // HAVE_STREAMTAGREADER
 
 void TagReaderTagLib::ParseID3v2Tags(TagLib::ID3v2::Tag *tag, QString *disc, QString *compilation, Song *song) const {
 
@@ -538,7 +605,7 @@ void TagReaderTagLib::ParseID3v2Tags(TagLib::ID3v2::Tag *tag, QString *disc, QSt
     song->set_lyrics(map[kID3v2_UnsychronizedLyrics].front()->toString());
   }
 
-  if (map.contains(kID3v2_CoverArt)) song->set_art_embedded(true);
+  if (map.contains(kID3v2_CoverArt) && song->url().isLocalFile()) song->set_art_embedded(true);
 
   // Find a suitable comment tag.  For now we ignore iTunNORM comments.
   for (uint i = 0; i < map[kID3v2_CommercialFrame].size(); ++i) {
@@ -652,7 +719,7 @@ void TagReaderTagLib::ParseVorbisComments(const TagLib::Ogg::FieldListMap &map, 
 
   if (map.contains(kVorbisComment_Disc)) *disc = TagLibStringToQString(map[kVorbisComment_Disc].front()).trimmed();
   if (map.contains(kVorbisComment_Compilation)) *compilation = TagLibStringToQString(map[kVorbisComment_Compilation].front()).trimmed();
-  if (map.contains(kVorbisComment_CoverArt) || map.contains(kVorbisComment_MetadataBlockPicture)) song->set_art_embedded(true);
+  if ((map.contains(kVorbisComment_CoverArt) || map.contains(kVorbisComment_MetadataBlockPicture)) && song->url().isLocalFile()) song->set_art_embedded(true);
 
   if (map.contains(kVorbisComment_FMPS_Playcount) && song->playcount() <= 0) {
     const int playcount = TagLibStringToQString(map[kVorbisComment_FMPS_Playcount].front()).trimmed().toInt();
@@ -689,7 +756,7 @@ void TagReaderTagLib::ParseAPETags(const TagLib::APE::ItemListMap &map, QString 
     }
   }
 
-  if (map.find(kAPE_CoverArt) != map.end()) song->set_art_embedded(true);
+  if (map.find(kAPE_CoverArt) != map.end() && song->url().isLocalFile()) song->set_art_embedded(true);
   if (map.contains(kAPE_Compilation)) {
     *compilation = TagLibStringToQString(TagLib::String::number(map[kAPE_Compilation].toString().toInt()));
   }
@@ -757,7 +824,7 @@ void TagReaderTagLib::ParseMP4Tags(TagLib::MP4::Tag *tag, QString *disc, QString
   }
 
   // Find album cover art
-  if (tag->item(kMP4_CoverArt).isValid()) {
+  if (tag->item(kMP4_CoverArt).isValid() && song->url().isLocalFile()) {
     song->set_art_embedded(true);
   }
 
@@ -959,7 +1026,7 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
     cover = LoadAlbumCoverTagData(filename, save_tag_cover_data);
   }
 
-  unique_ptr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));
+  ScopedPtr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));
   if (!fileref || fileref->isNull()) {
     qLog(Error) << "TagLib could not open file" << filename;
     return TagReaderResult::ErrorCode::FileOpenError;
@@ -1310,7 +1377,7 @@ TagReaderResult TagReaderTagLib::LoadEmbeddedCover(const QString &filename, QByt
 
   qLog(Debug) << "Loading cover from" << filename;
 
-  unique_ptr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));
+  ScopedPtr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));
   if (!fileref || fileref->isNull()) {
     qLog(Error) << "TagLib could not open file" << filename;
     return TagReaderResult::ErrorCode::FileOpenError;
@@ -1532,7 +1599,7 @@ TagReaderResult TagReaderTagLib::SaveEmbeddedCover(const QString &filename, cons
     return TagReaderResult::ErrorCode::FileDoesNotExist;
   }
 
-  unique_ptr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));
+  ScopedPtr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));
   if (!fileref || fileref->isNull()) {
     qLog(Error) << "TagLib could not open file" << filename;
     return TagReaderResult::ErrorCode::FileOpenError;
@@ -1672,7 +1739,7 @@ TagReaderResult TagReaderTagLib::SaveSongPlaycount(const QString &filename, cons
     return TagReaderResult::ErrorCode::FileDoesNotExist;
   }
 
-  unique_ptr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));
+  ScopedPtr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));
   if (!fileref || fileref->isNull()) {
     qLog(Error) << "TagLib could not open file" << filename;
     return TagReaderResult::ErrorCode::FileOpenError;
@@ -1802,7 +1869,7 @@ TagReaderResult TagReaderTagLib::SaveSongRating(const QString &filename, const f
     return TagReaderResult::ErrorCode::Success;
   }
 
-  unique_ptr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));
+  ScopedPtr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));
   if (!fileref || fileref->isNull()) {
     qLog(Error) << "TagLib could not open file" << filename;
     return TagReaderResult::ErrorCode::FileOpenError;

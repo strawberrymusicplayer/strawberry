@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,6 +25,7 @@
 #include <QMutex>
 #include <QByteArray>
 #include <QString>
+#include <QUrl>
 #include <QImage>
 #include <QScopeGuard>
 
@@ -37,6 +38,7 @@
 #include "tagreaderrequest.h"
 #include "tagreaderismediafilerequest.h"
 #include "tagreaderreadfilerequest.h"
+#include "tagreaderreadstreamrequest.h"
 #include "tagreaderwritefilerequest.h"
 #include "tagreaderloadcoverdatarequest.h"
 #include "tagreaderloadcoverimagerequest.h"
@@ -45,6 +47,7 @@
 #include "tagreadersaveratingrequest.h"
 #include "tagreaderreply.h"
 #include "tagreaderreadfilereply.h"
+#include "tagreaderreadstreamreply.h"
 #include "tagreaderloadcoverdatareply.h"
 #include "tagreaderloadcoverimagereply.h"
 
@@ -174,6 +177,17 @@ void TagReaderClient::ProcessRequest(TagReaderRequestPtr request) {
       }
     }
   }
+#ifdef HAVE_STREAMTAGREADER
+  else if (TagReaderReadStreamRequestPtr read_stream_request = dynamic_pointer_cast<TagReaderReadStreamRequest>(request)) {
+    Song song;
+    result = ReadStreamBlocking(read_stream_request->url, read_stream_request->filename, read_stream_request->size, read_stream_request->mtime, read_stream_request->token_type, read_stream_request->access_token, &song);
+    if (result.success()) {
+      if (TagReaderReadStreamReplyPtr read_stream_reply = qSharedPointerDynamicCast<TagReaderReadStreamReply>(reply)) {
+        read_stream_reply->set_song(song);
+      }
+    }
+  }
+#endif  // HAVE_STREAMTAGREADER
   else if (TagReaderWriteFileRequestPtr write_file_request = dynamic_pointer_cast<TagReaderWriteFileRequest>(request)) {
     result = WriteFileBlocking(write_file_request->filename, write_file_request->song, write_file_request->save_tags_options, write_file_request->save_tag_cover_data);
   }
@@ -256,6 +270,33 @@ TagReaderReadFileReplyPtr TagReaderClient::ReadFileAsync(const QString &filename
   return reply;
 
 }
+
+#ifdef HAVE_STREAMTAGREADER
+TagReaderResult TagReaderClient::ReadStreamBlocking(const QUrl &url, const QString &filename, const quint64 size, const quint64 mtime, const QString &token_type, const QString &access_token, Song *song) {
+
+  return tagreader_.ReadStream(url, filename, size, mtime, token_type, access_token, song);
+
+}
+
+TagReaderReadStreamReplyPtr TagReaderClient::ReadStreamAsync(const QUrl &url, const QString &filename, const quint64 size, const quint64 mtime, const QString &token_type, const QString &access_token) {
+
+  Q_ASSERT(QThread::currentThread() != thread());
+
+  TagReaderReadStreamReplyPtr reply = TagReaderReply::Create<TagReaderReadStreamReply>(url, filename);
+
+  TagReaderReadStreamRequestPtr request = TagReaderReadStreamRequest::Create(url, filename);
+  request->reply = reply;
+  request->size = size;
+  request->mtime = mtime;
+  request->token_type = token_type;
+  request->access_token = access_token;
+
+  EnqueueRequest(request);
+
+  return reply;
+
+}
+#endif  // HAVE_STREAMTAGREADER
 
 TagReaderResult TagReaderClient::WriteFileBlocking(const QString &filename, const Song &song, const SaveTagsOptions save_tags_options, const SaveTagCoverData &save_tag_cover_data) {
 

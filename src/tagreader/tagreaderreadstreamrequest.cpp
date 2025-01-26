@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2024-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,29 +17,9 @@
  *
  */
 
-#include "core/logging.h"
+#include <QString>
+#include <QUrl>
 
-#include "tagreaderrequest.h"
+#include "tagreaderreadstreamrequest.h"
 
-TagReaderRequest::TagReaderRequest(const QString &_filename) : filename(_filename) {
-
-  qLog(Debug) << "New tagreader request for" << filename;
-
-}
-
-TagReaderRequest::TagReaderRequest(const QUrl &_url, const QString &_filename) : filename(_filename), url(_url) {
-
-  qLog(Debug) << "New tagreader request for" << filename << url;
-
-}
-
-TagReaderRequest::~TagReaderRequest() {
-
-  if (url.isValid()) {
-    qLog(Debug) << "Tagreader request for" << filename << url << "deleted";
-  }
-  else {
-    qLog(Debug) << "Tagreader request for" << filename << "deleted";
-  }
-
-}
+TagReaderReadStreamRequest::TagReaderReadStreamRequest(const QUrl &_url, const QString &_filename) : TagReaderRequest(_url, _filename), size(0), mtime(0) {}
