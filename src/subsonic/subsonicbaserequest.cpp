@@ -20,6 +20,7 @@
 #include "config.h"
 
 #include <utility>
+#include <memory>
 
 #include <QtGlobal>
 #include <QObject>
@@ -46,6 +47,7 @@
 #include "constants/subsonicsettings.h"
 
 using namespace Qt::Literals::StringLiterals;
+using std::make_shared;
 
 SubsonicBaseRequest::SubsonicBaseRequest(SubsonicService *service, QObject *parent)
     : QObject(parent),
@@ -98,20 +100,20 @@ QUrl SubsonicBaseRequest::CreateUrl(const QUrl &server_url, const SubsonicSettin
 
 QNetworkReply *SubsonicBaseRequest::CreateGetRequest(const QString &ressource_name, const ParamList &params_provided) const {
 
-  QUrl url = CreateUrl(server_url(), auth_method(), username(), password(), ressource_name, params_provided);
-  QNetworkRequest req(url);
+  const QUrl url = CreateUrl(server_url(), auth_method(), username(), password(), ressource_name, params_provided);
+  QNetworkRequest network_request(url);
 
   if (url.scheme() == "https"_L1 && !verify_certificate()) {
     QSslConfiguration sslconfig = QSslConfiguration::defaultConfiguration();
     sslconfig.setPeerVerifyMode(QSslSocket::VerifyNone);
-    req.setSslConfiguration(sslconfig);
+    network_request.setSslConfiguration(sslconfig);
   }
 
-  req.setHeader(QNetworkRequest::ContentTypeHeader, u"application/x-www-form-urlencoded"_s);
-  req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  req.setAttribute(QNetworkRequest::Http2AllowedAttribute, http2());
+  network_request.setHeader(QNetworkRequest::ContentTypeHeader, u"application/x-www-form-urlencoded"_s);
+  network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+  network_request.setAttribute(QNetworkRequest::Http2AllowedAttribute, http2());
 
-  QNetworkReply *reply = network_->get(req);
+  QNetworkReply *reply = network_->get(network_request);
   QObject::connect(reply, &QNetworkReply::sslErrors, this, &SubsonicBaseRequest::HandleSSLErrors);
 
   //qLog(Debug) << "Subsonic: Sending request" << url;
@@ -130,76 +132,70 @@ void SubsonicBaseRequest::HandleSSLErrors(const QList<QSslError> &ssl_errors) {
 
 QByteArray SubsonicBaseRequest::GetReplyData(QNetworkReply *reply) {
 
-  QByteArray data;
+  int http_status_code = 200;
+  if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).isValid()) {
+    http_status_code = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+  }
+  if (reply->error() == QNetworkReply::NoError && http_status_code == 200) {
+    return reply->readAll();
+  }
 
-  if (reply->error() == QNetworkReply::NoError && reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 200) {
-    data = reply->readAll();
+  if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
+    // This is a network error, there is nothing more to do.
+    Error(QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
+    return QByteArray();
+  }
+
+  // See if there is Json data containing "error" - then use that instead.
+  const QByteArray data = reply->readAll();
+  QJsonParseError json_parse_error;
+  const QJsonDocument json_document = QJsonDocument::fromJson(data, &json_parse_error);
+  if (json_parse_error.error == QJsonParseError::NoError && !json_document.isEmpty() && json_document.isObject()) {
+    const QJsonObject json_object = json_document.object();
+    if (!json_object.isEmpty() && json_object.contains("error"_L1) && json_object["error"_L1].isObject()) {
+      const QJsonObject object_error = json_object["error"_L1].toObject();
+      if (!object_error.isEmpty() && object_error.contains("code"_L1) && object_error.contains("message"_L1)) {
+        const int code = object_error["code"_L1].toInt();
+        const QString message = object_error["message"_L1].toString();
+        Error(QStringLiteral("%1 (%2)").arg(message).arg(code));
+        return QByteArray();
+      }
+    }
+  }
+
+  if (reply->error() != QNetworkReply::NoError) {
+    Error(QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
   }
   else {
-    if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
-      // This is a network error, there is nothing more to do.
-      Error(QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
-    }
-    else {
-
-      // See if there is Json data containing "error" - then use that instead.
-      data = reply->readAll();
-      QString error;
-      QJsonParseError parse_error;
-      QJsonDocument json_doc = QJsonDocument::fromJson(data, &parse_error);
-      if (parse_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
-        QJsonObject json_obj = json_doc.object();
-        if (!json_obj.isEmpty() && json_obj.contains("error"_L1)) {
-          QJsonValue json_error = json_obj["error"_L1];
-          if (json_error.isObject()) {
-            json_obj = json_error.toObject();
-            if (!json_obj.isEmpty() && json_obj.contains("code"_L1) && json_obj.contains("message"_L1)) {
-              int code = json_obj["code"_L1].toInt();
-              QString message = json_obj["message"_L1].toString();
-              error = QStringLiteral("%1 (%2)").arg(message).arg(code);
-            }
-          }
-        }
-      }
-      if (error.isEmpty()) {
-        if (reply->error() != QNetworkReply::NoError) {
-          error = QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error());
-        }
-        else {
-          error = QStringLiteral("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
-        }
-      }
-      Error(error);
-    }
+    Error(QStringLiteral("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()));
   }
 
-  return data;
+  return QByteArray();
 
 }
 
 QJsonObject SubsonicBaseRequest::ExtractJsonObj(QByteArray &data) {
 
   QJsonParseError json_error;
-  QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
-
+  const QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
   if (json_error.error != QJsonParseError::NoError) {
-    Error(u"Reply from server missing Json data."_s, data);
+    Error(json_error.errorString());
     return QJsonObject();
   }
 
   if (json_doc.isEmpty()) {
-    Error(u"Received empty Json document."_s, data);
+    Error("Received empty Json document."_L1, data);
     return QJsonObject();
   }
 
   if (!json_doc.isObject()) {
-    Error(u"Json document is not an object."_s, json_doc);
+    Error("Json document is not an object."_L1, json_doc);
     return QJsonObject();
   }
 
   QJsonObject json_obj = json_doc.object();
   if (json_obj.isEmpty()) {
-    Error(u"Received empty Json object."_s, json_doc);
+    Error("Received empty Json object."_L1, json_doc);
     return QJsonObject();
   }
 
@@ -216,15 +212,5 @@ QJsonObject SubsonicBaseRequest::ExtractJsonObj(QByteArray &data) {
   json_obj = json_response.toObject();
 
   return json_obj;
-
-}
-
-QString SubsonicBaseRequest::ErrorsToHTML(const QStringList &errors) {
-
-  QString error_html;
-  for (const QString &error : errors) {
-    error_html += error + "<br />"_L1;
-  }
-  return error_html;
 
 }

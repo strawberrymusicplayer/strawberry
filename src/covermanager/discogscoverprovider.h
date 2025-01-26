@@ -77,8 +77,7 @@ class DiscogsCoverProvider : public JsonCoverProvider {
  private:
   void SendSearchRequest(SharedPtr<DiscogsCoverSearchContext> search);
   void SendReleaseRequest(const DiscogsCoverReleaseContext &release);
-  QNetworkReply *CreateRequest(QUrl url, const ParamList &params_provided = ParamList());
-  QByteArray GetReplyData(QNetworkReply *reply);
+  QNetworkReply *CreateRequest(const QUrl &url, const ParamList &params = ParamList());
   void StartReleaseRequest(SharedPtr<DiscogsCoverSearchContext> search, const quint64 release_id, const QUrl &url);
   void EndSearch(SharedPtr<DiscogsCoverSearchContext> search, const quint64 release_id = 0);
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
@@ -93,7 +92,6 @@ class DiscogsCoverProvider : public JsonCoverProvider {
   QQueue<SharedPtr<DiscogsCoverSearchContext>> queue_search_requests_;
   QQueue<DiscogsCoverReleaseContext> queue_release_requests_;
   QMap<int, SharedPtr<DiscogsCoverSearchContext>> requests_search_;
-  QList<QNetworkReply*> replies_;
 };
 
 Q_DECLARE_METATYPE(DiscogsCoverProvider::DiscogsCoverSearchContext)

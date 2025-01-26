@@ -40,17 +40,10 @@ class LoloLyricsProvider : public LyricsProvider {
 
  public:
   explicit LoloLyricsProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
-  ~LoloLyricsProvider() override;
-
- private:
-  void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
  private Q_SLOTS:
   void StartSearch(const int id, const LyricsSearchRequest &request) override;
   void HandleSearchReply(QNetworkReply *reply, const int id, const LyricsSearchRequest &request);
-
- private:
-  QList<QNetworkReply*> replies_;
 };
 
 #endif  // LOLOLYRICSPROVIDER_H

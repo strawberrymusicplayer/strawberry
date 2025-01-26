@@ -34,36 +34,32 @@
 
 #include "includes/shared_ptr.h"
 #include "jsoncoverprovider.h"
-#include "tidal/tidalservice.h"
 
 class QNetworkReply;
 class NetworkAccessManager;
+class TidalService;
+
+using TidalServicePtr = SharedPtr<TidalService>;
 
 class TidalCoverProvider : public JsonCoverProvider {
   Q_OBJECT
 
  public:
   explicit TidalCoverProvider(const TidalServicePtr service, const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
-  ~TidalCoverProvider() override;
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;
   void CancelSearch(const int id) override;
-
-  bool IsAuthenticated() const override { return service_ && service_->authenticated(); }
-  void Deauthenticate() override {
-    if (service_) service_->Logout();
-  }
+  void Deauthenticate() override;
+  bool authenticated() const override;
 
  private Q_SLOTS:
   void HandleSearchReply(QNetworkReply *reply, const int id);
 
  private:
-  QByteArray GetReplyData(QNetworkReply *reply);
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
  private:
   const TidalServicePtr service_;
-  QList<QNetworkReply*> replies_;
 };
 
 #endif  // TIDALCOVERPROVIDER_H

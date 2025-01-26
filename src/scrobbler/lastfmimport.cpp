@@ -124,11 +124,10 @@ QNetworkReply *LastFMImport::CreateRequest(const ParamList &request_params) {
 
   QUrl url(QString::fromLatin1(LastFMScrobbler::kApiUrl));
   url.setQuery(url_query);
-  QNetworkRequest req(url);
-  req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  req.setHeader(QNetworkRequest::ContentTypeHeader, u"application/x-www-form-urlencoded"_s);
+  QNetworkRequest network_request(url);
+  network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
 
-  QNetworkReply *reply = network_->get(req);
+  QNetworkReply *reply = network_->get(network_request);
   replies_ << reply;
 
   //qLog(Debug) << "Sending request" << url_query.toString(QUrl::FullyDecoded);
@@ -183,7 +182,7 @@ QByteArray LastFMImport::GetReplyData(QNetworkReply *reply) {
 QJsonObject LastFMImport::ExtractJsonObj(const QByteArray &data) {
 
   QJsonParseError error;
-  QJsonDocument json_doc = QJsonDocument::fromJson(data, &error);
+  const QJsonDocument json_doc = QJsonDocument::fromJson(data, &error);
 
   if (error.error != QJsonParseError::NoError) {
     Error(u"Reply from server missing Json data."_s, data);
@@ -197,7 +196,7 @@ QJsonObject LastFMImport::ExtractJsonObj(const QByteArray &data) {
     Error(u"Json document is not an object."_s, json_doc);
     return QJsonObject();
   }
-  QJsonObject json_obj = json_doc.object();
+  const QJsonObject json_obj = json_doc.object();
   if (json_obj.isEmpty()) {
     Error(u"Received empty Json object."_s, json_doc);
     return QJsonObject();
@@ -279,7 +278,7 @@ void LastFMImport::GetRecentTracksRequestFinished(QNetworkReply *reply, const in
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
-  QByteArray data = GetReplyData(reply);
+  const QByteArray data = GetReplyData(reply);
   if (data.isEmpty()) {
     return;
   }
@@ -290,9 +289,9 @@ void LastFMImport::GetRecentTracksRequestFinished(QNetworkReply *reply, const in
   }
 
   if (json_obj.contains("error"_L1) && json_obj.contains("message"_L1)) {
-    int error_code = json_obj["error"_L1].toInt();
-    QString error_message = json_obj["message"_L1].toString();
-    QString error_reason = QStringLiteral("%1 (%2)").arg(error_message).arg(error_code);
+    const int error_code = json_obj["error"_L1].toInt();
+    const QString error_message = json_obj["message"_L1].toString();
+    const QString error_reason = QStringLiteral("%1 (%2)").arg(error_message).arg(error_code);
     Error(error_reason);
     return;
   }
@@ -328,7 +327,7 @@ void LastFMImport::GetRecentTracksRequestFinished(QNetworkReply *reply, const in
     return;
   }
 
-  QJsonObject obj_attr = json_obj["@attr"_L1].toObject();
+  const QJsonObject obj_attr = json_obj["@attr"_L1].toObject();
 
   if (!obj_attr.contains("page"_L1)) {
     Error(u"Failed to parse JSON: attr object is missing page."_s, json_obj);
@@ -343,8 +342,8 @@ void LastFMImport::GetRecentTracksRequestFinished(QNetworkReply *reply, const in
     return;
   }
 
-  int total = obj_attr["total"_L1].toString().toInt();
-  int pages = obj_attr["totalPages"_L1].toString().toInt();
+  const int total = obj_attr["total"_L1].toString().toInt();
+  const int pages = obj_attr["totalPages"_L1].toString().toInt();
 
   if (page == 0) {
     lastplayed_total_ = total;
@@ -374,19 +373,19 @@ void LastFMImport::GetRecentTracksRequestFinished(QNetworkReply *reply, const in
         continue;
       }
 
-      QJsonObject obj_artist = obj_track["artist"_L1].toObject();
-      QJsonObject obj_album = obj_track["album"_L1].toObject();
-      QJsonObject obj_date = obj_track["date"_L1].toObject();
+      const QJsonObject obj_artist = obj_track["artist"_L1].toObject();
+      const QJsonObject obj_album = obj_track["album"_L1].toObject();
+      const QJsonObject obj_date = obj_track["date"_L1].toObject();
 
       if (!obj_artist.contains("#text"_L1) || !obj_album.contains("#text"_L1) || !obj_date.contains("#text"_L1)) {
         continue;
       }
 
-      QString artist = obj_artist["#text"_L1].toString();
-      QString album = obj_album["#text"_L1].toString();
-      QString date = obj_date["#text"_L1].toString();
-      QString title = obj_track["name"_L1].toString();
-      QDateTime datetime = QDateTime::fromString(date, u"dd MMM yyyy, hh:mm"_s);
+      const QString artist = obj_artist["#text"_L1].toString();
+      const QString album = obj_album["#text"_L1].toString();
+      const QString date = obj_date["#text"_L1].toString();
+      const QString title = obj_track["name"_L1].toString();
+      const QDateTime datetime = QDateTime::fromString(date, u"dd MMM yyyy, hh:mm"_s);
       if (datetime.isValid()) {
         Q_EMIT UpdateLastPlayed(artist, album, title, datetime.toSecsSinceEpoch());
       }
@@ -442,7 +441,7 @@ void LastFMImport::GetTopTracksRequestFinished(QNetworkReply *reply, const int p
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
-  QByteArray data = GetReplyData(reply);
+  const QByteArray data = GetReplyData(reply);
   if (data.isEmpty()) {
     return;
   }
@@ -453,9 +452,9 @@ void LastFMImport::GetTopTracksRequestFinished(QNetworkReply *reply, const int p
   }
 
   if (json_obj.contains("error"_L1) && json_obj.contains("message"_L1)) {
-    int error_code = json_obj["error"_L1].toInt();
-    QString error_message = json_obj["message"_L1].toString();
-    QString error_reason = QStringLiteral("%1 (%2)").arg(error_message).arg(error_code);
+    const int error_code = json_obj["error"_L1].toInt();
+    const QString error_message = json_obj["message"_L1].toString();
+    const QString error_reason = QStringLiteral("%1 (%2)").arg(error_message).arg(error_code);
     Error(error_reason);
     return;
   }
@@ -506,8 +505,8 @@ void LastFMImport::GetTopTracksRequestFinished(QNetworkReply *reply, const int p
     return;
   }
 
-  int pages = obj_attr["totalPages"_L1].toString().toInt();
-  int total = obj_attr["total"_L1].toString().toInt();
+  const int pages = obj_attr["totalPages"_L1].toString().toInt();
+  const int total = obj_attr["total"_L1].toString().toInt();
 
   if (page == 0) {
     playcount_total_ = total;
@@ -516,8 +515,8 @@ void LastFMImport::GetTopTracksRequestFinished(QNetworkReply *reply, const int p
   }
   else {
 
-    QJsonArray array_track = json_obj["track"_L1].toArray();
-    for (QJsonArray::iterator it = array_track.begin(); it != array_track.end(); ++it) {
+    const QJsonArray array_track = json_obj["track"_L1].toArray();
+    for (QJsonArray::ConstIterator it = array_track.begin(); it != array_track.constEnd(); ++it) {
 
       const QJsonValue &value_track = *it;
 
@@ -527,7 +526,7 @@ void LastFMImport::GetTopTracksRequestFinished(QNetworkReply *reply, const int p
         continue;
       }
 
-      QJsonObject obj_track = value_track.toObject();
+      const QJsonObject obj_track = value_track.toObject();
       if (!obj_track.contains("artist"_L1) ||
           !obj_track.contains("name"_L1) ||
           !obj_track.contains("playcount"_L1) ||
@@ -536,14 +535,14 @@ void LastFMImport::GetTopTracksRequestFinished(QNetworkReply *reply, const int p
         continue;
       }
 
-      QJsonObject obj_artist = obj_track["artist"_L1].toObject();
+      const QJsonObject obj_artist = obj_track["artist"_L1].toObject();
       if (!obj_artist.contains("name"_L1)) {
         continue;
       }
 
-      QString artist = obj_artist["name"_L1].toString();
-      QString title = obj_track["name"_L1].toString();
-      int playcount = obj_track["playcount"_L1].toString().toInt();
+      const QString artist = obj_artist["name"_L1].toString();
+      const QString title = obj_track["name"_L1].toString();
+      const int playcount = obj_track["playcount"_L1].toString().toInt();
 
       if (playcount <= 0) continue;
 

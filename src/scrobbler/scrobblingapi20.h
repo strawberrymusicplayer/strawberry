@@ -22,13 +22,10 @@
 
 #include "config.h"
 
-#include <QtGlobal>
-#include <QObject>
 #include <QList>
 #include <QVariant>
 #include <QByteArray>
 #include <QString>
-#include <QTimer>
 
 #include "includes/shared_ptr.h"
 #include "core/song.h"
@@ -36,6 +33,7 @@
 #include "scrobblercache.h"
 #include "scrobblercacheitem.h"
 
+class QTimer;
 class QNetworkReply;
 
 class ScrobblerSettingsService;
@@ -53,15 +51,19 @@ class ScrobblingAPI20 : public ScrobblerService {
 
   void ReloadSettings() override;
   void LoadSession();
+  void ClearSession();
 
   bool enabled() const override { return enabled_; }
+  bool authentication_required() const override { return true; }
   bool authenticated() const override { return !username_.isEmpty() && !session_key_.isEmpty(); }
+  bool use_authorization_header() const override { return false; }
+  QByteArray authorization_header() const override { return QByteArray(); }
+
   bool subscriber() const { return subscriber_; }
   bool submitted() const override { return submitted_; }
   QString username() const { return username_; }
 
   void Authenticate();
-  void Logout();
   void UpdateNowPlaying(const Song &song) override;
   void ClearPlaying() override;
   void Scrobble(const Song &song) override;
@@ -83,12 +85,6 @@ class ScrobblingAPI20 : public ScrobblerService {
   void LoveRequestFinished(QNetworkReply *reply);
 
  private:
-  enum class ReplyResult {
-    Success,
-    ServerError,
-    APIError
-  };
-
   enum class ScrobbleErrorCode {
     NoError = 1,
     InvalidService = 2,
@@ -121,12 +117,11 @@ class ScrobblingAPI20 : public ScrobblerService {
   };
 
   QNetworkReply *CreateRequest(const ParamList &request_params);
-  ReplyResult GetJsonObject(QNetworkReply *reply, QJsonObject &json_obj, QString &error_description);
-
+  ReplyDataResult GetReplyData(QNetworkReply *reply) override;
   void RequestSession(const QString &token);
   void AuthError(const QString &error);
   void SendSingleScrobble(ScrobblerCacheItemPtr item);
-  void Error(const QString &error, const QVariant &debug = QVariant());
+  void Error(const QString &error, const QVariant &debug = QVariant()) override;
   static QString ErrorString(const ScrobbleErrorCode error);
   void StartSubmit(const bool initial = false) override;
   void CheckScrobblePrevSong();
@@ -140,7 +135,7 @@ class ScrobblingAPI20 : public ScrobblerService {
 
   const SharedPtr<NetworkAccessManager> network_;
   ScrobblerCache *cache_;
-  LocalRedirectServer *server_;
+  LocalRedirectServer *local_redirect_server_;
 
   bool enabled_;
   bool prefer_albumartist_;
@@ -155,9 +150,7 @@ class ScrobblingAPI20 : public ScrobblerService {
   quint64 timestamp_;
   bool submit_error_;
 
-  QTimer timer_submit_;
-
-  QList<QNetworkReply*> replies_;
+  QTimer *timer_submit_;
 };
 
 #endif  // SCROBBLINGAPI20_H

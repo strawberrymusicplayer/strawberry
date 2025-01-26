@@ -190,7 +190,7 @@ void ScrobblerSettingsPage::LastFM_Login() {
 
 void ScrobblerSettingsPage::LastFM_Logout() {
 
-  lastfmscrobbler_->Logout();
+  lastfmscrobbler_->ClearSession();
   LastFM_RefreshControls(false);
 
 }
@@ -225,7 +225,7 @@ void ScrobblerSettingsPage::LibreFM_Login() {
 
 void ScrobblerSettingsPage::LibreFM_Logout() {
 
-  librefmscrobbler_->Logout();
+  librefmscrobbler_->ClearSession();
   LibreFM_RefreshControls(false);
 
 }

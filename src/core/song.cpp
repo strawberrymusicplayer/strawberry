@@ -49,6 +49,7 @@
 
 #include <taglib/tstring.h>
 
+#include "core/logging.h"
 #include "core/standardpaths.h"
 #include "core/iconloader.h"
 #include "core/enginemetadata.h"
@@ -439,6 +440,7 @@ int Song::samplerate() const { return d->samplerate_; }
 int Song::bitdepth() const { return d->bitdepth_; }
 
 Song::Source Song::source() const { return d->source_; }
+int Song::source_id() const { return static_cast<int>(d->source_); }
 int Song::directory_id() const { return d->directory_id_; }
 const QUrl &Song::url() const { return d->url_; }
 const QString &Song::basefilename() const { return d->basefilename_; }
@@ -1065,6 +1067,8 @@ QString Song::TextForSource(const Source source) {
     case Source::Qobuz:         return u"qobuz"_s;
     case Source::SomaFM:        return u"somafm"_s;
     case Source::RadioParadise: return u"radioparadise"_s;
+    case Source::Dropbox:       return u"dropbox"_s;
+    case Source::OneDrive:      return u"onedrive"_s;
     case Source::Unknown:       return u"unknown"_s;
   }
   return u"unknown"_s;
@@ -1085,6 +1089,8 @@ QString Song::DescriptionForSource(const Source source) {
     case Source::Qobuz:         return u"Qobuz"_s;
     case Source::SomaFM:        return u"SomaFM"_s;
     case Source::RadioParadise: return u"Radio Paradise"_s;
+    case Source::Dropbox:       return u"Dropbox"_s;
+    case Source::OneDrive:      return u"OneDrive"_s;
     case Source::Unknown:       return u"Unknown"_s;
   }
   return u"unknown"_s;
@@ -1104,6 +1110,8 @@ Song::Source Song::SourceFromText(const QString &source) {
   if (source.compare("qobuz"_L1, Qt::CaseInsensitive) == 0) return Source::Qobuz;
   if (source.compare("somafm"_L1, Qt::CaseInsensitive) == 0) return Source::SomaFM;
   if (source.compare("radioparadise"_L1, Qt::CaseInsensitive) == 0) return Source::RadioParadise;
+  if (source.compare("dropbox"_L1, Qt::CaseInsensitive) == 0) return Source::Dropbox;
+  if (source.compare("onedrive"_L1, Qt::CaseInsensitive) == 0) return Source::OneDrive;
 
   return Source::Unknown;
 
@@ -1123,6 +1131,8 @@ QIcon Song::IconForSource(const Source source) {
     case Source::Qobuz:         return IconLoader::Load(u"qobuz"_s);
     case Source::SomaFM:        return IconLoader::Load(u"somafm"_s);
     case Source::RadioParadise: return IconLoader::Load(u"radioparadise"_s);
+    case Source::Dropbox:       return IconLoader::Load(u"dropbox"_s);
+    case Source::OneDrive:      return IconLoader::Load(u"onedrive"_s);
     case Source::Unknown:       return IconLoader::Load(u"edit-delete"_s);
   }
   return IconLoader::Load(u"edit-delete"_s);
@@ -1346,11 +1356,14 @@ QString Song::ImageCacheDir(const Source source) {
       return StandardPaths::WritableLocation(StandardPaths::StandardLocation::AppLocalDataLocation) + u"/qobuzalbumcovers"_s;
     case Source::Device:
       return StandardPaths::WritableLocation(StandardPaths::StandardLocation::AppLocalDataLocation) + u"/devicealbumcovers"_s;
+    case Source::Dropbox:
+      return StandardPaths::WritableLocation(StandardPaths::StandardLocation::AppLocalDataLocation) + u"/dropboxalbumcovers"_s;
     case Source::LocalFile:
     case Source::CDDA:
     case Source::Stream:
     case Source::SomaFM:
     case Source::RadioParadise:
+    case Source::OneDrive:
     case Source::Unknown:
       return StandardPaths::WritableLocation(StandardPaths::StandardLocation::AppLocalDataLocation) + u"/albumcovers"_s;
   }
@@ -1400,6 +1413,7 @@ void Song::InitFromQuery(const QSqlRecord &r, const bool reliable_metadata, cons
   d->id_ = SqlHelper::ValueToInt(r, ColumnIndex(u"ROWID"_s) + col);
 
   set_title(SqlHelper::ValueToString(r, ColumnIndex(u"title"_s) + col));
+
   set_album(SqlHelper::ValueToString(r, ColumnIndex(u"album"_s) + col));
   set_artist(SqlHelper::ValueToString(r, ColumnIndex(u"artist"_s) + col));
   set_albumartist(SqlHelper::ValueToString(r, ColumnIndex(u"albumartist"_s) + col));

@@ -47,17 +47,6 @@ constexpr char kLyricsEnd[] = "</script>";
 
 LyricFindLyricsProvider::LyricFindLyricsProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent) : JsonLyricsProvider(u"lyricfind.com"_s, true, false, network, parent) {}
 
-LyricFindLyricsProvider::~LyricFindLyricsProvider() {
-
-  while (!replies_.isEmpty()) {
-    QNetworkReply *reply = replies_.takeFirst();
-    QObject::disconnect(reply, nullptr, this, nullptr);
-    reply->abort();
-    reply->deleteLater();
-  }
-
-}
-
 QUrl LyricFindLyricsProvider::Url(const LyricsSearchRequest &request) {
 
   return QUrl(QLatin1String(kUrl) + QLatin1Char('/') + StringFixup(request.artist) + QLatin1Char('-') + StringFixup(request.title));
@@ -85,11 +74,7 @@ void LyricFindLyricsProvider::StartSearch(const int id, const LyricsSearchReques
   Q_ASSERT(QThread::currentThread() != qApp->thread());
 
   const QUrl url = Url(request);
-  QNetworkRequest req(url);
-  req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  req.setHeader(QNetworkRequest::UserAgentHeader, u"Mozilla/5.0 (X11; Linux x86_64; rv:122.0) Gecko/20100101 Firefox/122.0"_s);
-  QNetworkReply *reply = network_->get(req);
-  replies_ << reply;
+  QNetworkReply *reply = CreateGetRequest(url, true);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, id, request]() { HandleSearchReply(reply, id, request); });
 
   qLog(Debug) << "LyricFind: Sending request for" << url;
@@ -149,7 +134,7 @@ void LyricFindLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int 
     return;
   }
 
-  QJsonObject obj = ExtractJsonObj(content_json.toUtf8());
+  QJsonObject obj = GetJsonObject(content_json.toUtf8()).json_object;
   if (obj.isEmpty()) {
     return;
   }
@@ -196,13 +181,6 @@ void LyricFindLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int 
   result.title = obj_track["title"_L1].toString();
   result.lyrics = obj_track["lyrics"_L1].toString();
   results << result;
-
-}
-
-void LyricFindLyricsProvider::Error(const QString &error, const QVariant &debug) {
-
-  qLog(Error) << "LyricFind:" << error;
-  if (debug.isValid()) qLog(Debug) << debug;
 
 }
 

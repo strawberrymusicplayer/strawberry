@@ -35,8 +35,8 @@
 #include <QJsonObject>
 
 #include "includes/scoped_ptr.h"
-#include "subsonicservice.h"
 #include "constants/subsonicsettings.h"
+#include "subsonicservice.h"
 
 class QNetworkAccessManager;
 class QNetworkReply;
@@ -60,7 +60,6 @@ class SubsonicBaseRequest : public QObject {
   QJsonObject ExtractJsonObj(QByteArray &data);
 
   virtual void Error(const QString &error, const QVariant &debug = QVariant()) = 0;
-  static QString ErrorsToHTML(const QStringList &errors);
 
   QUrl server_url() const { return service_->server_url(); }
   QString username() const { return service_->username(); }

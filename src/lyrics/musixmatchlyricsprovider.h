@@ -33,17 +33,15 @@
 #include "jsonlyricsprovider.h"
 #include "lyricssearchrequest.h"
 #include "lyricssearchresult.h"
-#include "providers/musixmatchprovider.h"
 
 class QNetworkReply;
 class NetworkAccessManager;
 
-class MusixmatchLyricsProvider : public JsonLyricsProvider, public MusixmatchProvider {
+class MusixmatchLyricsProvider : public JsonLyricsProvider {
   Q_OBJECT
 
  public:
   explicit MusixmatchLyricsProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
-  ~MusixmatchLyricsProvider() override;
 
  private:
   struct LyricsSearchContext {
@@ -61,7 +59,6 @@ class MusixmatchLyricsProvider : public JsonLyricsProvider, public MusixmatchPro
   void SendLyricsRequest(const LyricsSearchRequest &request, const QString &artist, const QString &title);
   bool SendLyricsRequest(LyricsSearchContextPtr search, const QUrl &url);
   void EndSearch(LyricsSearchContextPtr search, const QUrl &url = QUrl());
-  void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
  protected Q_SLOTS:
   void StartSearch(const int id, const LyricsSearchRequest &request) override;
@@ -72,7 +69,6 @@ class MusixmatchLyricsProvider : public JsonLyricsProvider, public MusixmatchPro
 
  private:
   QList<LyricsSearchContextPtr> requests_search_;
-  QList<QNetworkReply*> replies_;
   bool use_api_;
 };
 

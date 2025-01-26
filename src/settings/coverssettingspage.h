@@ -65,7 +65,7 @@ class CoversSettingsPage : public SettingsPage {
   void AuthenticateClicked();
   void LogoutClicked();
   void AuthenticationSuccess();
-  void AuthenticationFailure(const QStringList &errors);
+  void AuthenticationFailure(const QString &error);
   void CoverSaveInAlbumDirChanged();
   void TypesCurrentItemChanged(QListWidgetItem *item_current, QListWidgetItem *item_previous);
   void TypesItemSelectionChanged();

@@ -38,29 +38,28 @@ JsonCoverProvider::JsonCoverProvider(const QString &name, const bool enabled, co
 QJsonObject JsonCoverProvider::ExtractJsonObj(const QByteArray &data) {
 
   QJsonParseError json_error;
-  QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
-
+  const QJsonDocument json_document = QJsonDocument::fromJson(data, &json_error);
   if (json_error.error != QJsonParseError::NoError) {
     Error(QStringLiteral("Failed to parse json data: %1").arg(json_error.errorString()));
     return QJsonObject();
   }
 
-  if (json_doc.isEmpty()) {
+  if (json_document.isEmpty()) {
     Error(u"Received empty Json document."_s, data);
     return QJsonObject();
   }
 
-  if (!json_doc.isObject()) {
-    Error(u"Json document is not an object."_s, json_doc);
+  if (!json_document.isObject()) {
+    Error(u"Json document is not an object."_s, json_document);
     return QJsonObject();
   }
 
-  QJsonObject json_obj = json_doc.object();
-  if (json_obj.isEmpty()) {
-    Error(u"Received empty Json object."_s, json_doc);
+  const QJsonObject json_object = json_document.object();
+  if (json_object.isEmpty()) {
+    Error(u"Received empty Json object."_s, json_document);
     return QJsonObject();
   }
 
-  return json_obj;
+  return json_object;
 
 }

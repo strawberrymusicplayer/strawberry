@@ -42,6 +42,7 @@
 #include "core/logging.h"
 #include "core/song.h"
 #include "core/networktimeouts.h"
+#include "utilities/strutils.h"
 #include "utilities/imageutils.h"
 #include "constants/timeconstants.h"
 #include "subsonicservice.h"
@@ -748,17 +749,17 @@ void SubsonicRequest::FlushAlbumCoverRequests() {
     AlbumCoverRequest request = album_cover_requests_queue_.dequeue();
     ++album_covers_requests_active_;
 
-    QNetworkRequest req(request.url);
-    req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-    req.setAttribute(QNetworkRequest::Http2AllowedAttribute, http2());
+    QNetworkRequest network_request(request.url);
+    network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+    network_request.setAttribute(QNetworkRequest::Http2AllowedAttribute, http2());
 
     if (!verify_certificate()) {
       QSslConfiguration sslconfig = QSslConfiguration::defaultConfiguration();
       sslconfig.setPeerVerifyMode(QSslSocket::VerifyNone);
-      req.setSslConfiguration(sslconfig);
+      network_request.setSslConfiguration(sslconfig);
     }
 
-    QNetworkReply *reply = network_->get(req);
+    QNetworkReply *reply = network_->get(network_request);
     album_cover_replies_ << reply;
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { AlbumCoverReceived(reply, request); });
     timeouts_->AddReply(reply);
@@ -888,7 +889,7 @@ void SubsonicRequest::FinishCheck() {
         Q_EMIT Results(songs_, tr("Unknown error"));
       }
       else {
-        Q_EMIT Results(songs_, ErrorsToHTML(errors_));
+        Q_EMIT Results(songs_, Utilities::StringListToHTML(errors_));
       }
     }
 

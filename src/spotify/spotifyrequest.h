@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2022-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2022-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,11 +22,6 @@
 
 #include "config.h"
 
-#include <QtGlobal>
-#include <QObject>
-#include <QPair>
-#include <QSet>
-#include <QList>
 #include <QMap>
 #include <QMultiMap>
 #include <QQueue>
@@ -36,6 +31,7 @@
 #include <QUrl>
 #include <QJsonObject>
 #include <QTimer>
+#include <QScopedPointer>
 
 #include "includes/shared_ptr.h"
 #include "core/song.h"
@@ -158,11 +154,9 @@ class SpotifyRequest : public SpotifyBaseRequest {
 
   int GetProgress(const int count, const int total);
   void FinishCheck();
-  static void Warn(const QString &error, const QVariant &debug = QVariant());
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
  private:
-  SpotifyService *service_;
   const SharedPtr<NetworkAccessManager> network_;
   QTimer *timer_flush_requests_;
 
@@ -222,11 +216,9 @@ class SpotifyRequest : public SpotifyBaseRequest {
   int album_covers_requests_received_;
 
   SongMap songs_;
-  QStringList errors_;
   bool no_results_;
-  QList<QNetworkReply*> replies_;
-  QList<QNetworkReply*> album_cover_replies_;
-
 };
+
+using SpotifyRequestPtr = QScopedPointer<SpotifyRequest, QScopedPointerDeleteLater>;
 
 #endif  // SPOTIFYREQUEST_H
