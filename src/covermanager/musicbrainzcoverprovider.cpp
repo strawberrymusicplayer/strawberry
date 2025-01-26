@@ -129,13 +129,13 @@ void MusicbrainzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int
 
   CoverProviderSearchResults results;
 
-  QByteArray data = GetReplyData(reply);
+  const QByteArray data = GetReplyData(reply).data;
   if (data.isEmpty()) {
     Q_EMIT SearchFinished(search_id, results);
     return;
   }
 
-  QJsonObject json_obj = ExtractJsonObj(data);
+  const QJsonObject json_obj = ExtractJsonObj(data);
   if (json_obj.isEmpty()) {
     Q_EMIT SearchFinished(search_id, results);
     return;
@@ -224,48 +224,6 @@ void MusicbrainzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int
     results.append(cover_result);
   }
   Q_EMIT SearchFinished(search_id, results);
-
-}
-
-QByteArray MusicbrainzCoverProvider::GetReplyData(QNetworkReply *reply) {
-
-  QByteArray data;
-
-  if (reply->error() == QNetworkReply::NoError && reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 200) {
-    data = reply->readAll();
-  }
-  else {
-    if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
-      // This is a network error, there is nothing more to do.
-      QString failure_reason = QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error());
-      Error(failure_reason);
-    }
-    else {
-      // See if there is Json data containing "error" - then use that instead.
-      data = reply->readAll();
-      QString error;
-      QJsonParseError json_error;
-      QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
-      if (json_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
-        QJsonObject json_obj = json_doc.object();
-        if (json_obj.contains("error"_L1)) {
-          error = json_obj["error"_L1].toString();
-        }
-      }
-      if (error.isEmpty()) {
-        if (reply->error() != QNetworkReply::NoError) {
-          error = QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error());
-        }
-        else {
-          error = QStringLiteral("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
-        }
-      }
-      Error(error);
-    }
-    return QByteArray();
-  }
-
-  return data;
 
 }
 

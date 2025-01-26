@@ -132,7 +132,7 @@ void LastFmCoverProvider::QueryFinished(QNetworkReply *reply, const int id, cons
 
   CoverProviderSearchResults results;
 
-  QByteArray data = GetReplyData(reply);
+  const QByteArray data = GetReplyData(reply).data;
   if (data.isEmpty()) {
     Q_EMIT SearchFinished(id, results);
     return;
@@ -286,49 +286,6 @@ void LastFmCoverProvider::QueryFinished(QNetworkReply *reply, const int id, cons
     results << cover_result;
   }
   Q_EMIT SearchFinished(id, results);
-
-}
-
-QByteArray LastFmCoverProvider::GetReplyData(QNetworkReply *reply) {
-
-  QByteArray data;
-
-  if (reply->error() == QNetworkReply::NoError && reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 200) {
-    data = reply->readAll();
-  }
-  else {
-    if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
-      // This is a network error, there is nothing more to do.
-      Error(QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
-    }
-    else {
-      // See if there is Json data containing "error" and "message" - then use that instead.
-      data = reply->readAll();
-      QString error;
-      QJsonParseError json_error;
-      QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
-      if (json_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
-        QJsonObject json_obj = json_doc.object();
-        if (json_obj.contains("error"_L1) && json_obj.contains("message"_L1)) {
-          int code = json_obj["error"_L1].toInt();
-          QString message = json_obj["message"_L1].toString();
-          error = "Error: "_L1 + QString::number(code) + ": "_L1 + message;
-        }
-      }
-      if (error.isEmpty()) {
-        if (reply->error() != QNetworkReply::NoError) {
-          error = QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error());
-        }
-        else {
-          error = QStringLiteral("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
-        }
-      }
-      Error(error);
-    }
-    return QByteArray();
-  }
-
-  return data;
 
 }
 

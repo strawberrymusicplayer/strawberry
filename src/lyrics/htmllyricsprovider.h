@@ -24,7 +24,6 @@
 
 #include <QtGlobal>
 #include <QObject>
-#include <QList>
 #include <QVariant>
 #include <QString>
 #include <QUrl>
@@ -49,14 +48,12 @@ class HtmlLyricsProvider : public LyricsProvider {
 
  protected:
   virtual QUrl Url(const LyricsSearchRequest &request) = 0;
-  void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
  protected Q_SLOTS:
   virtual void StartSearch(const int id, const LyricsSearchRequest &request) override;
   virtual void HandleLyricsReply(QNetworkReply *reply, const int id, const LyricsSearchRequest &request);
 
  protected:
-  QList<QNetworkReply*> replies_;
   const QString start_tag_;
   const QString end_tag_;
   const QString lyrics_start_;

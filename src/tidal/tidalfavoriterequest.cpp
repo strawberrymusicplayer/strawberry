@@ -144,14 +144,14 @@ void TidalFavoriteRequest::AddFavoritesRequest(const FavoriteType type, const QS
   }
 
   QUrl url(QLatin1String(TidalService::kApiUrl) + QLatin1Char('/') + "users/"_L1 + QString::number(service_->user_id()) + "/favorites/"_L1 + FavoriteText(type));
-  QNetworkRequest req(url);
-  req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  req.setHeader(QNetworkRequest::ContentTypeHeader, u"application/x-www-form-urlencoded"_s);
-  if (!token_type().isEmpty() && !access_token().isEmpty()) {
-    req.setRawHeader("Authorization", token_type().toUtf8() + " " + access_token().toUtf8());
+  QNetworkRequest request(url);
+  request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+  request.setHeader(QNetworkRequest::ContentTypeHeader, u"application/x-www-form-urlencoded"_s);
+  if (authenticated()) {
+    request.setRawHeader("Authorization", AuthorizationHeader());
   }
   QByteArray query = url_query.toString(QUrl::FullyEncoded).toUtf8();
-  QNetworkReply *reply = network_->post(req, query);
+  QNetworkReply *reply = network_->post(request, query);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, type, songs]() { AddFavoritesReply(reply, type, songs); });
   replies_ << reply;
 
@@ -258,8 +258,8 @@ void TidalFavoriteRequest::RemoveFavoritesRequest(const FavoriteType type, const
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
   req.setHeader(QNetworkRequest::ContentTypeHeader, u"application/x-www-form-urlencoded"_s);
-  if (!token_type().isEmpty() && !access_token().isEmpty()) {
-    req.setRawHeader("Authorization", token_type().toUtf8() + " " + access_token().toUtf8());
+  if (authenticated()) {
+    req.setRawHeader("Authorization", AuthorizationHeader());
   }
   QNetworkReply *reply = network_->deleteResource(req);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, type, songs]() { RemoveFavoritesReply(reply, type, songs); });

@@ -476,7 +476,7 @@ TEST_F(PlaylistTest, ShuffleThenNext) {
 
 TEST_F(PlaylistTest, CollectionIdMapSingle) {
 
-  Song song;
+  Song song(Song::Source::Collection);
   song.Init(u"title"_s, u"artist"_s, u"album"_s, 123);
   song.set_id(1);
 
@@ -513,11 +513,11 @@ TEST_F(PlaylistTest, CollectionIdMapInvalid) {
 
 TEST_F(PlaylistTest, CollectionIdMapMulti) {
 
-  Song one;
+  Song one(Song::Source::Collection);
   one.Init(u"title"_s, u"artist"_s, u"album"_s, 123);
   one.set_id(1);
 
-  Song two;
+  Song two(Song::Source::Collection);
   two.Init(u"title 2"_s, u"artist 2"_s, u"album 2"_s, 123);
   two.set_id(2);
 

@@ -32,21 +32,23 @@
 
 #include "includes/shared_ptr.h"
 #include "core/song.h"
+#include "core/jsonbaserequest.h"
 
 #include "scrobblersettingsservice.h"
 
-class ScrobblerService : public QObject {
+class ScrobblerService : public JsonBaseRequest {
   Q_OBJECT
 
  public:
-  explicit ScrobblerService(const QString &name, const SharedPtr<ScrobblerSettingsService> settings, QObject *parent);
+  explicit ScrobblerService(const QString &name, const SharedPtr<NetworkAccessManager> network, const SharedPtr<ScrobblerSettingsService> settings, QObject *parent);
 
   QString name() const { return name_; }
+  QString service_name() const override { return name_; }
 
   virtual void ReloadSettings() = 0;
 
   virtual bool enabled() const { return false; }
-  virtual bool authenticated() const { return false; }
+  virtual bool authenticated() const override { return false; }
 
   virtual void UpdateNowPlaying(const Song &song) = 0;
   virtual void ClearPlaying() = 0;
@@ -57,11 +59,7 @@ class ScrobblerService : public QObject {
   virtual bool submitted() const { return false; }
 
  protected:
-  using Param = QPair<QString, QString>;
-  using ParamList = QList<Param>;
   using EncodedParam = QPair<QByteArray, QByteArray>;
-
-  bool ExtractJsonObj(const QByteArray &data, QJsonObject &json_obj, QString &error_description);
 
   QString StripAlbum(const QString &album) const;
   QString StripTitle(const QString &title) const;

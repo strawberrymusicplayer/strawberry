@@ -23,7 +23,6 @@
 #include "config.h"
 
 #include <QObject>
-#include <QList>
 #include <QVariant>
 #include <QString>
 #include <QUrl>
@@ -47,13 +46,9 @@ class LyricFindLyricsProvider : public JsonLyricsProvider {
   static QString StringFixup(const QString &text);
   void StartSearch(const int id, const LyricsSearchRequest &request) override;
   void EndSearch(const int id, const LyricsSearchRequest &request, const LyricsSearchResults &results = LyricsSearchResults());
-  void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
  private Q_SLOTS:
   void HandleSearchReply(QNetworkReply *reply, const int id, const LyricsSearchRequest &request);
-
- private:
-  QList<QNetworkReply*> replies_;
 };
 
 #endif  // LYRICFINDLYRICSPROVIDER_H

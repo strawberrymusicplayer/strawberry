@@ -1,8 +1,6 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
- * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,44 +20,18 @@
 #ifndef COLLECTIONPLAYLISTITEM_H
 #define COLLECTIONPLAYLISTITEM_H
 
-#include "config.h"
-
-#include <QVariant>
-#include <QUrl>
-
 #include "core/song.h"
-#include "playlist/playlistitem.h"
+#include "playlist/databaseplaylistitem.h"
 
-class SqlRow;
-
-class CollectionPlaylistItem : public PlaylistItem {
+class CollectionPlaylistItem : public DatabasePlaylistItem {
  public:
   explicit CollectionPlaylistItem();
   explicit CollectionPlaylistItem(const Song &song);
 
-  bool InitFromQuery(const SqlRow &query) override;
-  void Reload() override;
-
-  Song Metadata() const override;
-  Song OriginalMetadata() const override { return song_; }
-  void SetMetadata(const Song &song) override { song_ = song; }
-
-  QUrl Url() const override;
-
   bool IsLocalCollectionItem() const override { return true; }
-
-  void SetArtManual(const QUrl &cover_url) override;
-
- protected:
-  QVariant DatabaseValue(DatabaseColumn column) const override;
-  Song DatabaseSongMetadata() const override { return Song(Song::Source::Collection); }
-
- protected:
-  Song song_;
 
  private:
   Q_DISABLE_COPY(CollectionPlaylistItem)
 };
 
 #endif  // COLLECTIONPLAYLISTITEM_H
-

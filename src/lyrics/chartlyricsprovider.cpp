@@ -46,17 +46,6 @@ constexpr char kUrlSearch[] = "http://api.chartlyrics.com/apiv1.asmx/SearchLyric
 
 ChartLyricsProvider::ChartLyricsProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent) : LyricsProvider(u"ChartLyrics"_s, false, false, network, parent) {}
 
-ChartLyricsProvider::~ChartLyricsProvider() {
-
-  while (!replies_.isEmpty()) {
-    QNetworkReply *reply = replies_.takeFirst();
-    QObject::disconnect(reply, nullptr, this, nullptr);
-    reply->abort();
-    reply->deleteLater();
-  }
-
-}
-
 void ChartLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &request) {
 
   Q_ASSERT(QThread::currentThread() != qApp->thread());
@@ -67,9 +56,9 @@ void ChartLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &r
 
   QUrl url(QString::fromUtf8(kUrlSearch));
   url.setQuery(url_query);
-  QNetworkRequest req(url);
-  req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  QNetworkReply *reply = network_->get(req);
+  QNetworkRequest network_request(url);
+  network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+  QNetworkReply *reply = network_->get(network_request);
   replies_ << reply;
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, id, request]() { HandleSearchReply(reply, id, request); });
 
@@ -137,12 +126,5 @@ void ChartLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, 
   }
 
   Q_EMIT SearchFinished(id, results);
-
-}
-
-void ChartLyricsProvider::Error(const QString &error, const QVariant &debug) {
-
-  qLog(Error) << "ChartLyrics:" << error;
-  if (debug.isValid()) qLog(Debug) << debug;
 
 }

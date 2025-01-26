@@ -46,17 +46,6 @@ constexpr char kUrlSearch[] = "http://api.lololyrics.com/0.5/getLyric";
 
 LoloLyricsProvider::LoloLyricsProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent) : LyricsProvider(u"LoloLyrics"_s, true, false, network, parent) {}
 
-LoloLyricsProvider::~LoloLyricsProvider() {
-
-  while (!replies_.isEmpty()) {
-    QNetworkReply *reply = replies_.takeFirst();
-    QObject::disconnect(reply, nullptr, this, nullptr);
-    reply->abort();
-    reply->deleteLater();
-  }
-
-}
-
 void LoloLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &request) {
 
   Q_ASSERT(QThread::currentThread() != qApp->thread());
@@ -143,12 +132,5 @@ void LoloLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, c
   }
 
   Q_EMIT SearchFinished(id, results);
-
-}
-
-void LoloLyricsProvider::Error(const QString &error, const QVariant &debug) {
-
-  qLog(Error) << "LoloLyrics:" << error;
-  if (debug.isValid()) qLog(Debug) << debug;
 
 }

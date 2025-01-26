@@ -41,6 +41,7 @@
 #include "core/song.h"
 #include "core/networkaccessmanager.h"
 #include "constants/timeconstants.h"
+#include "utilities/strutils.h"
 #include "utilities/imageutils.h"
 #include "utilities/coverutils.h"
 #include "qobuzservice.h"
@@ -405,7 +406,7 @@ void QobuzRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_re
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
-  QByteArray data = GetReplyData(reply);
+  const QByteArray data = GetReplyData(reply).data;
 
   --artists_requests_active_;
   ++artists_requests_received_;
@@ -417,20 +418,20 @@ void QobuzRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_re
     return;
   }
 
-  QJsonObject json_obj = ExtractJsonObj(data);
-  if (json_obj.isEmpty()) {
+  const QJsonObject json_object = GetJsonObject(data).json_object;
+  if (json_object.isEmpty()) {
     ArtistsFinishCheck();
     return;
   }
 
-  if (!json_obj.contains("artists"_L1)) {
+  if (!json_object.contains("artists"_L1)) {
     ArtistsFinishCheck();
-    Error(u"Json object is missing artists."_s, json_obj);
+    Error(u"Json object is missing artists."_s, json_object);
     return;
   }
-  QJsonValue value_artists = json_obj["artists"_L1];
+  QJsonValue value_artists = json_object["artists"_L1];
   if (!value_artists.isObject()) {
-    Error(u"Json artists is not an object."_s, json_obj);
+    Error(u"Json artists is not an object."_s, json_object);
     ArtistsFinishCheck();
     return;
   }
@@ -441,7 +442,7 @@ void QobuzRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_re
       !obj_artists.contains("total"_L1) ||
       !obj_artists.contains("items"_L1)) {
     ArtistsFinishCheck();
-    Error(u"Json artists object is missing values."_s, json_obj);
+    Error(u"Json artists object is missing values."_s, json_object);
     return;
   }
   //int limit = obj_artists["limit"].toInt();
@@ -619,7 +620,7 @@ void QobuzRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_req
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
-  QByteArray data = GetReplyData(reply);
+  const QByteArray data = GetReplyData(reply).data;
 
   if (finished_) return;
 
@@ -628,38 +629,38 @@ void QobuzRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_req
     return;
   }
 
-  QJsonObject json_obj = ExtractJsonObj(data);
-  if (json_obj.isEmpty()) {
+  const QJsonObject json_object = GetJsonObject(data).json_object;
+  if (json_object.isEmpty()) {
     AlbumsFinishCheck(artist_requested);
     return;
   }
 
   Artist artist = artist_requested;
 
-  if (json_obj.contains("id"_L1) && json_obj.contains("name"_L1)) {
-    if (json_obj["id"_L1].isString()) {
-      artist.artist_id = json_obj["id"_L1].toString();
+  if (json_object.contains("id"_L1) && json_object.contains("name"_L1)) {
+    if (json_object["id"_L1].isString()) {
+      artist.artist_id = json_object["id"_L1].toString();
     }
     else {
-      artist.artist_id = QString::number(json_obj["id"_L1].toInt());
+      artist.artist_id = QString::number(json_object["id"_L1].toInt());
     }
-    artist.artist = json_obj["name"_L1].toString();
+    artist.artist = json_object["name"_L1].toString();
   }
 
   if (artist.artist_id != artist_requested.artist_id) {
     AlbumsFinishCheck(artist_requested);
-    Error(u"Artist ID returned does not match artist ID requested."_s, json_obj);
+    Error(u"Artist ID returned does not match artist ID requested."_s, json_object);
     return;
   }
 
-  if (!json_obj.contains("albums"_L1)) {
+  if (!json_object.contains("albums"_L1)) {
     AlbumsFinishCheck(artist_requested);
-    Error(u"Json object is missing albums."_s, json_obj);
+    Error(u"Json object is missing albums."_s, json_object);
     return;
   }
-  QJsonValue value_albums = json_obj["albums"_L1];
+  QJsonValue value_albums = json_object["albums"_L1];
   if (!value_albums.isObject()) {
-    Error(u"Json albums is not an object."_s, json_obj);
+    Error(u"Json albums is not an object."_s, json_object);
     AlbumsFinishCheck(artist_requested);
     return;
   }
@@ -670,7 +671,7 @@ void QobuzRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_req
       !obj_albums.contains("total"_L1) ||
       !obj_albums.contains("items"_L1)) {
     AlbumsFinishCheck(artist_requested);
-    Error(u"Json albums object is missing values."_s, json_obj);
+    Error(u"Json albums object is missing values."_s, json_object);
     return;
   }
 
@@ -876,7 +877,7 @@ void QobuzRequest::SongsReceived(QNetworkReply *reply, const Artist &artist_requ
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
-  QByteArray data = GetReplyData(reply);
+  const QByteArray data = GetReplyData(reply).data;
 
   if (finished_) return;
 
@@ -885,14 +886,14 @@ void QobuzRequest::SongsReceived(QNetworkReply *reply, const Artist &artist_requ
     return;
   }
 
-  QJsonObject json_obj = ExtractJsonObj(data);
-  if (json_obj.isEmpty()) {
+  const QJsonObject json_object = GetJsonObject(data).json_object;
+  if (json_object.isEmpty()) {
     SongsFinishCheck(artist_requested, album_requested, limit_requested, offset_requested);
     return;
   }
 
-  if (!json_obj.contains("tracks"_L1)) {
-    Error(u"Json object is missing tracks."_s, json_obj);
+  if (!json_object.contains("tracks"_L1)) {
+    Error(u"Json object is missing tracks."_s, json_object);
     SongsFinishCheck(artist_requested, album_requested, limit_requested, offset_requested);
     return;
   }
@@ -900,18 +901,18 @@ void QobuzRequest::SongsReceived(QNetworkReply *reply, const Artist &artist_requ
   Artist album_artist = artist_requested;
   Album album = album_requested;
 
-  if (json_obj.contains("id"_L1) && json_obj.contains("title"_L1)) {
-    if (json_obj["id"_L1].isString()) {
-      album.album_id = json_obj["id"_L1].toString();
+  if (json_object.contains("id"_L1) && json_object.contains("title"_L1)) {
+    if (json_object["id"_L1].isString()) {
+      album.album_id = json_object["id"_L1].toString();
     }
     else {
-      album.album_id = QString::number(json_obj["id"_L1].toInt());
+      album.album_id = QString::number(json_object["id"_L1].toInt());
     }
-    album.album = json_obj["title"_L1].toString();
+    album.album = json_object["title"_L1].toString();
   }
 
-  if (json_obj.contains("artist"_L1)) {
-    QJsonValue value_artist = json_obj["artist"_L1];
+  if (json_object.contains("artist"_L1)) {
+    QJsonValue value_artist = json_object["artist"_L1];
     if (!value_artist.isObject()) {
       Error(u"Invalid Json reply, album artist is not a object."_s, value_artist);
       SongsFinishCheck(artist_requested, album_requested, limit_requested, offset_requested);
@@ -932,8 +933,8 @@ void QobuzRequest::SongsReceived(QNetworkReply *reply, const Artist &artist_requ
     album_artist.artist = obj_artist["name"_L1].toString();
   }
 
-  if (json_obj.contains("image"_L1)) {
-    QJsonValue value_image = json_obj["image"_L1];
+  if (json_object.contains("image"_L1)) {
+    QJsonValue value_image = json_object["image"_L1];
     if (!value_image.isObject()) {
       Error(u"Invalid Json reply, album image is not a object."_s, value_image);
       SongsFinishCheck(artist_requested, album_requested, limit_requested, offset_requested);
@@ -951,9 +952,9 @@ void QobuzRequest::SongsReceived(QNetworkReply *reply, const Artist &artist_requ
     }
   }
 
-  QJsonValue value_tracks = json_obj["tracks"_L1];
+  QJsonValue value_tracks = json_object["tracks"_L1];
   if (!value_tracks.isObject()) {
-    Error(u"Json tracks is not an object."_s, json_obj);
+    Error(u"Json tracks is not an object."_s, json_object);
     SongsFinishCheck(artist_requested, album_requested, limit_requested, offset_requested);
     return;
   }
@@ -964,7 +965,7 @@ void QobuzRequest::SongsReceived(QNetworkReply *reply, const Artist &artist_requ
       !obj_tracks.contains("total"_L1) ||
       !obj_tracks.contains("items"_L1)) {
     SongsFinishCheck(artist_requested, album_requested, limit_requested, offset_requested);
-    Error(u"Json songs object is missing values."_s, json_obj);
+    Error(u"Json songs object is missing values."_s, json_object);
     return;
   }
 
@@ -1433,7 +1434,7 @@ void QobuzRequest::FinishCheck() {
       if (songs_.isEmpty() && errors_.isEmpty())
         Q_EMIT Results(query_id_, songs_, tr("Unknown error"));
       else
-        Q_EMIT Results(query_id_, songs_, ErrorsToHTML(errors_));
+        Q_EMIT Results(query_id_, songs_, Utilities::StringListToHTML(errors_));
     }
   }
 

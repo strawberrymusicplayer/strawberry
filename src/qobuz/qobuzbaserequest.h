@@ -35,13 +35,13 @@
 #include <QJsonValue>
 
 #include "includes/shared_ptr.h"
-#include "core/song.h"
+#include "core/jsonbaserequest.h"
 #include "qobuzservice.h"
 
 class QNetworkReply;
 class NetworkAccessManager;
 
-class QobuzBaseRequest : public QObject {
+class QobuzBaseRequest : public JsonBaseRequest {
   Q_OBJECT
 
  public:
@@ -60,18 +60,7 @@ class QobuzBaseRequest : public QObject {
   };
 
  protected:
-  using Param = QPair<QString, QString>;
-  using ParamList = QList<Param>;
-
-  QNetworkReply *CreateRequest(const QString &ressource_name, const ParamList &params_provided);
-  QByteArray GetReplyData(QNetworkReply *reply);
-  QJsonObject ExtractJsonObj(QByteArray &data);
-  QJsonValue ExtractItems(QByteArray &data);
-  QJsonValue ExtractItems(QJsonObject &json_obj);
-
-  virtual void Error(const QString &error, const QVariant &debug = QVariant()) = 0;
-  static QString ErrorsToHTML(const QStringList &errors);
-
+  QString service_name() const override { return service_->name();  }
   QString app_id() const { return service_->app_id(); }
   QString app_secret() const { return service_->app_secret(); }
   QString username() const { return service_->username(); }
@@ -86,13 +75,15 @@ class QobuzBaseRequest : public QObject {
   QString device_id() const { return service_->device_id(); }
   qint64 credential_id() const { return service_->credential_id(); }
 
-  bool authenticated() const { return service_->authenticated(); }
+  bool authenticated() const override { return service_->authenticated(); }
+  bool use_authorization_header() const override { return false; }
+  QByteArray AuthorizationHeader() const override { return QByteArray(); }
   bool login_sent() const { return service_->login_sent(); }
   int max_login_attempts() const { return service_->max_login_attempts(); }
   int login_attempts() const { return service_->login_attempts(); }
 
- private Q_SLOTS:
-  void HandleSSLErrors(const QList<QSslError> &ssl_errors);
+  QNetworkReply *CreateRequest(const QString &ressource_name, const ParamList &params_provided);
+  QJsonValue ExtractItems(const QJsonObject &json_object);
 
  private:
   QobuzService *service_;

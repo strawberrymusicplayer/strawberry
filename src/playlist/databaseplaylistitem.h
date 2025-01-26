@@ -1,8 +1,6 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
- * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,48 +17,46 @@
  *
  */
 
-#ifndef STREAMPLAYLISTITEM_H
-#define STREAMPLAYLISTITEM_H
+#ifndef DATABASEPLAYLISTITEM_H
+#define DATABASEPLAYLISTITEM_H
 
 #include "config.h"
 
 #include <QVariant>
 #include <QUrl>
 
-#include "includes/shared_ptr.h"
 #include "core/song.h"
-#include "core/sqlrow.h"
 #include "playlist/playlistitem.h"
 
-class StreamingService;
+class SqlRow;
 
-class StreamPlaylistItem : public PlaylistItem {
-
+class DatabasePlaylistItem : public PlaylistItem {
  public:
-  explicit StreamPlaylistItem(const Song::Source source);
-  explicit StreamPlaylistItem(const Song &metadata);
-  explicit StreamPlaylistItem(SharedPtr<StreamingService> service, const Song &metadata);
+  explicit DatabasePlaylistItem(const Song::Source source);
+  explicit DatabasePlaylistItem(const Song &song);
 
-  bool InitFromQuery(const SqlRow &query) override;
-  Song Metadata() const override;
-  Song OriginalMetadata() const override { return metadata_; }
   QUrl Url() const override;
 
-  void SetMetadata(const Song &metadata) override { metadata_ = metadata; }
+  bool InitFromQuery(const SqlRow &query) override;
+  void Reload() override;
+
+  Song Metadata() const override;
+  Song OriginalMetadata() const override { return song_; }
+  void SetMetadata(const Song &song) override { song_ = song; }
+
+  bool IsDatabaseItem() const override { return true; }
+
   void SetArtManual(const QUrl &cover_url) override;
 
  protected:
-  QVariant DatabaseValue(DatabaseColumn) const override;
-  Song DatabaseSongMetadata() const override { return metadata_; }
+  QVariant DatabaseValue(const DatabaseColumn database_column) const override;
+  Song DatabaseSongMetadata() const override { return Song(source_); }
+
+ protected:
+  Song song_;
 
  private:
-  void InitMetadata();
-
- private:
-  Song::Source source_;
-  Song metadata_;
-
-  Q_DISABLE_COPY(StreamPlaylistItem)
+  Q_DISABLE_COPY(DatabasePlaylistItem)
 };
 
-#endif  // STREAMPLAYLISTITEM_H
+#endif  // DATABASEPLAYLISTITEM_H

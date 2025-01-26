@@ -182,48 +182,6 @@ QNetworkReply *DiscogsCoverProvider::CreateRequest(QUrl url, const ParamList &pa
 
 }
 
-QByteArray DiscogsCoverProvider::GetReplyData(QNetworkReply *reply) {
-
-  QByteArray data;
-
-  if (reply->error() == QNetworkReply::NoError && reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 200) {
-    data = reply->readAll();
-  }
-  else {
-    if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
-      // This is a network error, there is nothing more to do.
-      QString error = QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error());
-      Error(error);
-    }
-    else {
-      // See if there is Json data containing "message" - then use that instead.
-      data = reply->readAll();
-      QString error;
-      QJsonParseError json_error;
-      QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
-      if (json_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
-        QJsonObject json_obj = json_doc.object();
-        if (json_obj.contains("message"_L1)) {
-          error = json_obj["message"_L1].toString();
-        }
-      }
-      if (error.isEmpty()) {
-        if (reply->error() != QNetworkReply::NoError) {
-          error = QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error());
-        }
-        else {
-          error = QStringLiteral("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
-        }
-      }
-      Error(error);
-    }
-    return QByteArray();
-  }
-
-  return data;
-
-}
-
 void DiscogsCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
 
   if (!replies_.contains(reply)) return;
@@ -234,7 +192,7 @@ void DiscogsCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id)
   if (!requests_search_.contains(id)) return;
   SharedPtr<DiscogsCoverSearchContext> search = requests_search_.value(id);
 
-  QByteArray data = GetReplyData(reply);
+  const QByteArray data = GetReplyData(reply).data;
   if (data.isEmpty()) {
     EndSearch(search);
     return;
@@ -344,30 +302,30 @@ void DiscogsCoverProvider::HandleReleaseReply(QNetworkReply *reply, const int se
   if (!search->requests_release_.contains(release_id)) return;
   const DiscogsCoverReleaseContext &release = search->requests_release_.value(release_id);
 
-  QByteArray data = GetReplyData(reply);
+  const QByteArray data = GetReplyData(reply).data;
   if (data.isEmpty()) {
     EndSearch(search, release.id);
     return;
   }
 
-  QJsonObject json_obj = ExtractJsonObj(data);
-  if (json_obj.isEmpty()) {
+  const QJsonObject json_object = ExtractJsonObj(data);
+  if (json_object.isEmpty()) {
     EndSearch(search, release.id);
     return;
   }
 
-  if (!json_obj.contains("artists"_L1) || !json_obj.contains("title"_L1)) {
-    Error(u"Json reply object is missing artists or title."_s, json_obj);
+  if (!json_object.contains("artists"_L1) || !json_object.contains("title"_L1)) {
+    Error(u"Json reply object is missing artists or title."_s, json_object);
     EndSearch(search, release.id);
     return;
   }
 
-  if (!json_obj.contains("images"_L1)) {
+  if (!json_object.contains("images"_L1)) {
     EndSearch(search, release.id);
     return;
   }
 
-  QJsonValue value_artists = json_obj["artists"_L1];
+  QJsonValue value_artists = json_object["artists"_L1];
   if (!value_artists.isArray()) {
     Error(u"Json reply object artists is not a array."_s, value_artists);
     EndSearch(search, release.id);
@@ -397,13 +355,13 @@ void DiscogsCoverProvider::HandleReleaseReply(QNetworkReply *reply, const int se
   }
   if (i > 1 && artist != search->artist) artist = "Various artists"_L1;
 
-  QString album = json_obj["title"_L1].toString();
+  QString album = json_object["title"_L1].toString();
   if (artist != search->artist && album != search->album) {
     EndSearch(search, release.id);
     return;
   }
 
-  QJsonValue value_images = json_obj["images"_L1];
+  QJsonValue value_images = json_object["images"_L1];
   if (!value_images.isArray()) {
     Error(u"Json images is not an array."_s);
     EndSearch(search, release.id);

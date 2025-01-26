@@ -58,7 +58,6 @@ class TidalCoverProvider : public JsonCoverProvider {
   void HandleSearchReply(QNetworkReply *reply, const int id);
 
  private:
-  QByteArray GetReplyData(QNetworkReply *reply);
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
  private:

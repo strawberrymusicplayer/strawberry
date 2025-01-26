@@ -247,7 +247,7 @@ void LyricsSettingsPage::AuthenticationSuccess() {
 
 }
 
-void LyricsSettingsPage::AuthenticationFailure(const QStringList &errors) {
+void LyricsSettingsPage::AuthenticationFailure(const QString &error) {
 
   LyricsProvider *provider = qobject_cast<LyricsProvider*>(sender());
   if (!provider) return;
@@ -255,7 +255,7 @@ void LyricsSettingsPage::AuthenticationFailure(const QStringList &errors) {
 
   if (!isVisible() || !ui_->providers->currentItem() || ui_->providers->currentItem()->text() != provider->name()) return;
 
-  QMessageBox::warning(this, tr("Authentication failed"), errors.join(u'\n'));
+  QMessageBox::warning(this, tr("Authentication failed"), error);
 
   ui_->login_state->SetLoggedIn(LoginStateWidget::State::LoggedOut);
   ui_->button_authenticate->setEnabled(true);

@@ -41,6 +41,7 @@
 #include "core/networkaccessmanager.h"
 #include "core/song.h"
 #include "constants/timeconstants.h"
+#include "utilities/strutils.h"
 #include "utilities/imageutils.h"
 #include "utilities/coverutils.h"
 #include "tidalservice.h"
@@ -395,7 +396,7 @@ void TidalRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_re
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
-  QByteArray data = GetReplyData(reply);
+  const QByteArray data = GetReplyData(reply).data;
 
   --artists_requests_active_;
   ++artists_requests_received_;
@@ -407,23 +408,23 @@ void TidalRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_re
     return;
   }
 
-  QJsonObject json_obj = ExtractJsonObj(data);
-  if (json_obj.isEmpty()) {
+  const QJsonObject json_object = GetJsonObject(data).json_object;
+  if (json_object.isEmpty()) {
     ArtistsFinishCheck();
     return;
   }
 
-  if (!json_obj.contains("limit"_L1) ||
-      !json_obj.contains("offset"_L1) ||
-      !json_obj.contains("totalNumberOfItems"_L1) ||
-      !json_obj.contains("items"_L1)) {
-    Error(u"Json object missing values."_s, json_obj);
+  if (!json_object.contains("limit"_L1) ||
+      !json_object.contains("offset"_L1) ||
+      !json_object.contains("totalNumberOfItems"_L1) ||
+      !json_object.contains("items"_L1)) {
+    Error(u"Json object missing values."_s, json_object);
     ArtistsFinishCheck();
     return;
   }
-  //int limit = json_obj["limit"].toInt();
-  int offset = json_obj["offset"_L1].toInt();
-  int artists_total = json_obj["totalNumberOfItems"_L1].toInt();
+  //int limit = json_object["limit"].toInt();
+  int offset = json_object["offset"_L1].toInt();
+  int artists_total = json_object["totalNumberOfItems"_L1].toInt();
 
   if (offset_requested == 0) {
     artists_total_ = artists_total;
@@ -444,7 +445,7 @@ void TidalRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_re
     Q_EMIT UpdateProgress(query_id_, GetProgress(artists_received_, artists_total_));
   }
 
-  QJsonValue value_items = ExtractItems(json_obj);
+  const QJsonValue value_items = ExtractItems(json_object);
   if (!value_items.isArray()) {
     ArtistsFinishCheck();
     return;
@@ -593,7 +594,7 @@ void TidalRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_req
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
-  QByteArray data = GetReplyData(reply);
+  const QByteArray data = GetReplyData(reply).data;
 
   if (finished_) return;
 
@@ -602,24 +603,24 @@ void TidalRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_req
     return;
   }
 
-  QJsonObject json_obj = ExtractJsonObj(data);
-  if (json_obj.isEmpty()) {
+  const QJsonObject json_object = GetJsonObject(data).json_object;
+  if (json_object.isEmpty()) {
     AlbumsFinishCheck(artist_requested);
     return;
   }
 
-  if (!json_obj.contains("limit"_L1) ||
-      !json_obj.contains("offset"_L1) ||
-      !json_obj.contains("totalNumberOfItems"_L1) ||
-      !json_obj.contains("items"_L1)) {
-    Error(u"Json object missing values."_s, json_obj);
+  if (!json_object.contains("limit"_L1) ||
+      !json_object.contains("offset"_L1) ||
+      !json_object.contains("totalNumberOfItems"_L1) ||
+      !json_object.contains("items"_L1)) {
+    Error(u"Json object missing values."_s, json_object);
     AlbumsFinishCheck(artist_requested);
     return;
   }
 
   //int limit = json_obj["limit"].toInt();
-  int offset = json_obj["offset"_L1].toInt();
-  int albums_total = json_obj["totalNumberOfItems"_L1].toInt();
+  int offset = json_object["offset"_L1].toInt();
+  int albums_total = json_object["totalNumberOfItems"_L1].toInt();
 
   if (offset != offset_requested) {
     Error(QStringLiteral("Offset returned does not match offset requested! %1 != %2").arg(offset).arg(offset_requested));
@@ -627,7 +628,7 @@ void TidalRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_req
     return;
   }
 
-  QJsonValue value_items = ExtractItems(json_obj);
+  QJsonValue value_items = ExtractItems(json_object);
   if (!value_items.isArray()) {
     AlbumsFinishCheck(artist_requested);
     return;
@@ -870,7 +871,7 @@ void TidalRequest::SongsReceived(QNetworkReply *reply, const Artist &artist, con
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
-  QByteArray data = GetReplyData(reply);
+  const QByteArray data = GetReplyData(reply).data;
 
   if (finished_) return;
 
@@ -879,24 +880,24 @@ void TidalRequest::SongsReceived(QNetworkReply *reply, const Artist &artist, con
     return;
   }
 
-  QJsonObject json_obj = ExtractJsonObj(data);
-  if (json_obj.isEmpty()) {
+  const QJsonObject json_object = GetJsonObject(data).json_object;
+  if (json_object.isEmpty()) {
     SongsFinishCheck(artist, album, limit_requested, offset_requested);
     return;
   }
 
-  if (!json_obj.contains("limit"_L1) ||
-      !json_obj.contains("offset"_L1) ||
-      !json_obj.contains("totalNumberOfItems"_L1) ||
-      !json_obj.contains("items"_L1)) {
-    Error(u"Json object missing values."_s, json_obj);
+  if (!json_object.contains("limit"_L1) ||
+      !json_object.contains("offset"_L1) ||
+      !json_object.contains("totalNumberOfItems"_L1) ||
+      !json_object.contains("items"_L1)) {
+    Error(u"Json object missing values."_s, json_object);
     SongsFinishCheck(artist, album, limit_requested, offset_requested);
     return;
   }
 
   //int limit = json_obj["limit"].toInt();
-  int offset = json_obj["offset"_L1].toInt();
-  int songs_total = json_obj["totalNumberOfItems"_L1].toInt();
+  int offset = json_object["offset"_L1].toInt();
+  int songs_total = json_object["totalNumberOfItems"_L1].toInt();
 
   if (offset != offset_requested) {
     Error(QStringLiteral("Offset returned does not match offset requested! %1 != %2").arg(offset).arg(offset_requested));
@@ -904,7 +905,7 @@ void TidalRequest::SongsReceived(QNetworkReply *reply, const Artist &artist, con
     return;
   }
 
-  QJsonValue json_value = ExtractItems(json_obj);
+  const QJsonValue json_value = ExtractItems(json_object);
   if (!json_value.isArray()) {
     SongsFinishCheck(artist, album, limit_requested, offset_requested, songs_total, 0);
     return;
@@ -1017,10 +1018,10 @@ void TidalRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Arti
     return;
   }
 
-  QJsonValue value_artist = json_obj["artist"_L1];
-  QJsonValue value_album = json_obj["album"_L1];
-  QJsonValue json_duration = json_obj["duration"_L1];
-  //QJsonArray array_artists = json_obj["artists"].toArray();
+  const QJsonValue value_artist = json_obj["artist"_L1];
+  const QJsonValue value_album = json_obj["album"_L1];
+  const QJsonValue json_duration = json_obj["duration"_L1];
+  //const QJsonArray array_artists = json_obj["artists"].toArray();
 
   QString song_id;
   if (json_obj["id"_L1].isString()) {
@@ -1031,18 +1032,18 @@ void TidalRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Arti
   }
 
   QString title = json_obj["title"_L1].toString();
-  //QString urlstr = json_obj["url"].toString();
-  int track = json_obj["trackNumber"_L1].toInt();
-  int disc = json_obj["volumeNumber"_L1].toInt();
-  bool allow_streaming = json_obj["allowStreaming"_L1].toBool();
-  bool stream_ready = json_obj["streamReady"_L1].toBool();
-  QString copyright = json_obj["copyright"_L1].toString();
+  //const QString urlstr = json_obj["url"].toString();
+  const int track = json_obj["trackNumber"_L1].toInt();
+  const int disc = json_obj["volumeNumber"_L1].toInt();
+  const bool allow_streaming = json_obj["allowStreaming"_L1].toBool();
+  const bool stream_ready = json_obj["streamReady"_L1].toBool();
+  const QString copyright = json_obj["copyright"_L1].toString();
 
   if (!value_artist.isObject()) {
     Error(u"Invalid Json reply, track artist is not a object."_s, value_artist);
     return;
   }
-  QJsonObject obj_artist = value_artist.toObject();
+  const QJsonObject obj_artist = value_artist.toObject();
   if (!obj_artist.contains("id"_L1) || !obj_artist.contains("name"_L1)) {
     Error(u"Invalid Json reply, track artist is missing id or name."_s, obj_artist);
     return;
@@ -1060,7 +1061,7 @@ void TidalRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Arti
     Error(u"Invalid Json reply, track album is not a object."_s, value_album);
     return;
   }
-  QJsonObject obj_album = value_album.toObject();
+  const QJsonObject obj_album = value_album.toObject();
   if (!obj_album.contains("id"_L1) || !obj_album.contains("title"_L1)) {
     Error(u"Invalid Json reply, track album is missing ID or title."_s, obj_album);
     return;
@@ -1347,7 +1348,7 @@ void TidalRequest::FinishCheck() {
         }
       }
       else {
-        Q_EMIT Results(query_id_, SongMap(), ErrorsToHTML(errors_));
+        Q_EMIT Results(query_id_, SongMap(), Utilities::StringListToHTML(errors_));
       }
     }
     else {
@@ -1365,12 +1366,7 @@ int TidalRequest::GetProgress(const int count, const int total) {
 
 void TidalRequest::Error(const QString &error, const QVariant &debug) {
 
-  if (!error.isEmpty()) {
-    errors_ << error;
-    qLog(Error) << "Tidal:" << error;
-  }
-
-  if (debug.isValid()) qLog(Debug) << debug;
+  JsonBaseRequest::Error(error, debug);
 
   FinishCheck();
 

@@ -41,9 +41,9 @@ class StreamingService : public QObject {
 
  public:
   explicit StreamingService(const Song::Source source, const QString &name, const QString &url_scheme, const QString &settings_group, QObject *parent = nullptr);
-
   ~StreamingService() override {}
-  virtual void Exit() {}
+
+  virtual void Exit() = 0;
 
   virtual Song::Source source() const { return source_; }
   virtual QString name() const { return name_; }
@@ -57,6 +57,8 @@ class StreamingService : public QObject {
   virtual bool authenticated() const { return false; }
   virtual int Search(const QString &query, StreamingSearchView::SearchType type) { Q_UNUSED(query); Q_UNUSED(type); return 0; }
   virtual void CancelSearch() {}
+  virtual bool show_progress() const { return true; }
+  virtual bool enable_refresh_button() const { return true; }
 
   virtual SharedPtr<CollectionBackend> artists_collection_backend() { return nullptr; }
   virtual SharedPtr<CollectionBackend> albums_collection_backend() { return nullptr; }
@@ -92,7 +94,7 @@ class StreamingService : public QObject {
   void TestFailure(const QString &failure_reason);
   void TestComplete(const bool success, const QString &error = QString());
 
-  void Error(const QString &error);
+  void ShowErrorDialog(const QString &error);
   void Results(const SongMap &songs, const QString &error);
   void UpdateStatus(const QString &text);
   void ProgressSetMaximum(const int max);
@@ -129,6 +131,7 @@ class StreamingService : public QObject {
 
   void StreamURLFailure(const uint id, const QUrl &media_url, const QString &error);
   void StreamURLSuccess(const uint id, const QUrl &media_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration);
+  void StreamURLRequestFinished(const uint id, const QUrl &media_url, const bool success, const QUrl &stream_url, const QString &error = QString());
 
   void OpenSettingsDialog(const Song::Source source);
 

@@ -200,10 +200,3 @@ QString HtmlLyricsProvider::ParseLyricsFromHTML(const QString &content, const QR
   return Utilities::DecodeHtmlEntities(lyrics);
 
 }
-
-void HtmlLyricsProvider::Error(const QString &error, const QVariant &debug) {
-
-  qLog(Error) << name_ << error;
-  if (debug.isValid()) qLog(Debug) << name_ << debug;
-
-}

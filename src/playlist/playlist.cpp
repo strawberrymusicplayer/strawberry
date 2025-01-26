@@ -92,12 +92,16 @@
 #include "smartplaylists/playlistgeneratorinserter.h"
 #include "smartplaylists/playlistgeneratormimedata.h"
 
-#include "streaming/streamplaylistitem.h"
+#include "streaming/streamserviceplaylistitem.h"
 #include "streaming/streamsongmimedata.h"
 #include "streaming/streamingservice.h"
 
 #include "radios/radiomimedata.h"
-#include "radios/radioplaylistitem.h"
+#include "radios/radiostreamplaylistitem.h"
+
+#ifdef HAVE_DROPBOX
+#  include "dropbox/dropboxplaylistitem.h"
+#endif
 
 using std::make_shared;
 using namespace std::chrono_literals;
@@ -829,24 +833,29 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, const 
   if (const SongMimeData *song_data = qobject_cast<const SongMimeData*>(data)) {
     // Dragged from a collection
     // We want to check if these songs are from the actual local file backend, if they are we treat them differently.
-    if (song_data->backend && song_data->backend->songs_table() == QLatin1String(CollectionLibrary::kSongsTable)) {
+    if (song_data->backend && song_data->backend->source() == Song::Source::Collection) {
       InsertSongItems<CollectionPlaylistItem>(song_data->songs, row, play_now, enqueue_now, enqueue_next_now);
     }
+#ifdef HAVE_DROPBOX
+    else if (song_data->backend && song_data->backend->source() == Song::Source::Dropbox) {
+      InsertSongItems<DropboxPlaylistItem>(song_data->songs, row, play_now, enqueue_now, enqueue_next_now);
+    }
+#endif
     else {
       InsertSongItems<SongPlaylistItem>(song_data->songs, row, play_now, enqueue_now, enqueue_next_now);
     }
   }
-  else if (const PlaylistItemMimeData *item_data = qobject_cast<const PlaylistItemMimeData*>(data)) {
-    InsertItems(item_data->items_, row, play_now, enqueue_now, enqueue_next_now);
+  else if (const PlaylistItemMimeData *item_mimedata = qobject_cast<const PlaylistItemMimeData*>(data)) {
+    InsertItems(item_mimedata->items_, row, play_now, enqueue_now, enqueue_next_now);
   }
-  else if (const PlaylistGeneratorMimeData *generator_data = qobject_cast<const PlaylistGeneratorMimeData*>(data)) {
-    InsertSmartPlaylist(generator_data->generator_, row, play_now, enqueue_now, enqueue_next_now);
+  else if (const PlaylistGeneratorMimeData *generator_mimedata = qobject_cast<const PlaylistGeneratorMimeData*>(data)) {
+    InsertSmartPlaylist(generator_mimedata->generator_, row, play_now, enqueue_now, enqueue_next_now);
   }
-  else if (const StreamSongMimeData *stream_song_data = qobject_cast<const StreamSongMimeData*>(data)) {
-    InsertStreamingItems(stream_song_data->service, stream_song_data->songs, row, play_now, enqueue_now, enqueue_next_now);
+  else if (const StreamSongMimeData *stream_song_mimedata = qobject_cast<const StreamSongMimeData*>(data)) {
+    InsertStreamingItems(stream_song_mimedata->service, stream_song_mimedata->songs, row, play_now, enqueue_now, enqueue_next_now);
   }
-  else if (const RadioMimeData *radio_data = qobject_cast<const RadioMimeData*>(data)) {
-    InsertRadioItems(radio_data->songs, row, play_now, enqueue_now, enqueue_next_now);
+  else if (const RadioMimeData *radio_mimedata = qobject_cast<const RadioMimeData*>(data)) {
+    InsertRadioItems(radio_mimedata->songs, row, play_now, enqueue_now, enqueue_next_now);
   }
   else if (data->hasFormat(QLatin1String(kRowsMimetype))) {
     // Dragged from the playlist
@@ -1187,23 +1196,9 @@ void Playlist::InsertSongsOrCollectionItems(const SongList &songs, const QString
   }
 
   PlaylistItemPtrList items;
+  items.reserve(songs.count());
   for (const Song &song : songs) {
-    if (song.url().isLocalFile()) {
-      if (song.is_collection_song()) {
-        items << make_shared<CollectionPlaylistItem>(song);
-      }
-      else {
-        items << make_shared<SongPlaylistItem>(song);
-      }
-    }
-    else {
-      if (song.is_radio()) {
-        items << make_shared<RadioPlaylistItem>(song);
-      }
-      else {
-        items << make_shared<StreamPlaylistItem>(song);
-      }
-    }
+    items << PlaylistItem::NewFromSong(song);
   }
 
   InsertItems(items, pos, play_now, enqueue, enqueue_next);
@@ -1215,7 +1210,7 @@ void Playlist::InsertStreamingItems(StreamingServicePtr service, const SongList 
   PlaylistItemPtrList playlist_items;
   playlist_items.reserve(songs.count());
   for (const Song &song : songs) {
-    playlist_items << make_shared<StreamPlaylistItem>(service, song);
+    playlist_items << make_shared<StreamServicePlaylistItem>(service, song);
   }
 
   InsertItems(playlist_items, pos, play_now, enqueue, enqueue_next);
@@ -1227,7 +1222,7 @@ void Playlist::InsertRadioItems(const SongList &songs, const int pos, const bool
   PlaylistItemPtrList playlist_items;
   playlist_items.reserve(songs.count());
   for (const Song &song : songs) {
-    playlist_items << make_shared<RadioPlaylistItem>(song);
+    playlist_items << make_shared<RadioStreamPlaylistItem>(song);
   }
 
   InsertItems(playlist_items, pos, play_now, enqueue, enqueue_next);
@@ -1264,10 +1259,10 @@ void Playlist::UpdateItems(SongList songs) {
         }
         else {
           if (song.is_radio()) {
-            new_item = make_shared<RadioPlaylistItem>(song);
+            new_item = make_shared<RadioStreamPlaylistItem>(song);
           }
           else {
-            new_item = make_shared<StreamPlaylistItem>(song);
+            new_item = make_shared<StreamServicePlaylistItem>(song);
           }
         }
         items_[i] = new_item;

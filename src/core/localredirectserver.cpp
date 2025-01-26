@@ -1,8 +1,7 @@
 /*
- * This file was part of Clementine.
+ * Strawberry Music Player
  * Copyright 2012, 2014, John Maguire <john.maguire@gmail.com>
- * Copyright 2014, Krzysztof Sobiecki <sobkas@gmail.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -61,6 +60,7 @@ bool LocalRedirectServer::Listen() {
   url_.setHost(u"localhost"_s);
   url_.setPort(serverPort());
   url_.setPath(u"/"_s);
+  port_ = serverPort();
   QObject::connect(this, &QTcpServer::newConnection, this, &LocalRedirectServer::NewConnection);
 
   return true;
@@ -77,7 +77,7 @@ void LocalRedirectServer::NewConnection() {
 
 void LocalRedirectServer::incomingConnection(qintptr socket_descriptor) {
 
-  if (socket_) {
+  if (socket_ != nullptr) {
     if (socket_->state() == QAbstractSocket::ConnectedState) socket_->close();
     socket_->deleteLater();
     socket_ = nullptr;

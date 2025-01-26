@@ -22,28 +22,19 @@
 
 #include "config.h"
 
-#include <QtGlobal>
-#include <QObject>
-#include <QSet>
-#include <QList>
-#include <QPair>
-#include <QVariant>
-#include <QByteArray>
 #include <QString>
-#include <QStringList>
-#include <QUrl>
-#include <QSslError>
 #include <QJsonObject>
 #include <QJsonValue>
 
 #include "includes/shared_ptr.h"
+#include "core/jsonbaserequest.h"
 
 #include "spotifyservice.h"
 
 class QNetworkReply;
 class NetworkAccessManager;
 
-class SpotifyBaseRequest : public QObject {
+class SpotifyBaseRequest : public JsonBaseRequest {
   Q_OBJECT
 
  public:
@@ -61,32 +52,20 @@ class SpotifyBaseRequest : public QObject {
   };
 
  protected:
-  using Param = QPair<QString, QString>;
-  using ParamList = QList<Param>;
-
-  QNetworkReply *CreateRequest(const QString &ressource_name, const ParamList &params_provided);
-  QByteArray GetReplyData(QNetworkReply *reply);
-  QJsonObject ExtractJsonObj(const QByteArray &data);
-  QJsonValue ExtractItems(const QByteArray &data);
-  QJsonValue ExtractItems(const QJsonObject &json_obj);
-
-  virtual void Error(const QString &error, const QVariant &debug = QVariant()) = 0;
-  static QString ErrorsToHTML(const QStringList &errors);
-
+  QString service_name() const override { return service_->name();  }
+  bool authenticated() const override { return service_->authenticated(); }
+  QString access_token() const { return service_->access_token(); }
+  bool use_authorization_header() const override { return true; }
+  QByteArray AuthorizationHeader() const override { return "Bearer " + access_token().toUtf8(); }
   int artistssearchlimit() const { return service_->artistssearchlimit(); }
   int albumssearchlimit() const { return service_->albumssearchlimit(); }
   int songssearchlimit() const { return service_->songssearchlimit(); }
 
-  QString access_token() const { return service_->access_token(); }
-
-  bool authenticated() const { return service_->authenticated(); }
-
- private Q_SLOTS:
-  void HandleSSLErrors(const QList<QSslError> &ssl_errors);
+  QNetworkReply *CreateRequest(const QString &ressource_name, const ParamList &params_provided);
+  QJsonValue ExtractItems(const QJsonObject &json_object);
 
  private:
   SpotifyService *service_;
-  const SharedPtr<NetworkAccessManager> network_;
 };
 
 #endif  // SPOTIFYBASEREQUEST_H

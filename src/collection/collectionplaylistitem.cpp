@@ -1,8 +1,6 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
- * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,66 +17,8 @@
  *
  */
 
-#include "config.h"
-
-#include <QVariant>
-#include <QUrl>
-
-#include "core/logging.h"
 #include "collectionplaylistitem.h"
-#include "tagreader/tagreaderclient.h"
 
-class SqlRow;
+CollectionPlaylistItem::CollectionPlaylistItem() : DatabasePlaylistItem(Song::Source::Collection) {}
 
-CollectionPlaylistItem::CollectionPlaylistItem() : PlaylistItem(Song::Source::Collection) {
-  song_.set_source(Song::Source::Collection);
-}
-
-CollectionPlaylistItem::CollectionPlaylistItem(const Song &song) : PlaylistItem(Song::Source::Collection), song_(song) {
-  song_.set_source(Song::Source::Collection);
-}
-
-QUrl CollectionPlaylistItem::Url() const { return song_.url(); }
-
-void CollectionPlaylistItem::Reload() {
-
-  const TagReaderResult result = TagReaderClient::Instance()->ReadFileBlocking(song_.url().toLocalFile(), &song_);
-  if (!result.success()) {
-    qLog(Error) << "Could not reload file" << song_.url() << result.error_string();
-    return;
-  }
-  UpdateTemporaryMetadata(song_);
-
-}
-
-bool CollectionPlaylistItem::InitFromQuery(const SqlRow &query) {
-
-  // Rows from the songs tables come first
-  song_.InitFromQuery(query, true);
-  song_.set_source(Song::Source::Collection);
-  return song_.is_valid();
-
-}
-
-QVariant CollectionPlaylistItem::DatabaseValue(DatabaseColumn column) const {
-
-  switch (column) {
-    case Column_CollectionId: return song_.id();
-    default: return PlaylistItem::DatabaseValue(column);
-  }
-
-}
-
-Song CollectionPlaylistItem::Metadata() const {
-
-  if (HasTemporaryMetadata()) return temp_metadata_;
-  return song_;
-
-}
-
-void CollectionPlaylistItem::SetArtManual(const QUrl &cover_url) {
-
-  song_.set_art_manual(cover_url);
-  if (HasTemporaryMetadata()) temp_metadata_.set_art_manual(cover_url);
-
-}
+CollectionPlaylistItem::CollectionPlaylistItem(const Song &song) : DatabasePlaylistItem(song) {}

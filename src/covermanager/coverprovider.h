@@ -24,20 +24,19 @@
 
 #include "config.h"
 
-#include <QtGlobal>
-#include <QObject>
 #include <QVariant>
 #include <QString>
 #include <QStringList>
 
 #include "includes/shared_ptr.h"
+#include "core/httpbaserequest.h"
 #include "albumcoverfetcher.h"
 
 class NetworkAccessManager;
 
 // Each implementation of this interface downloads covers from one online service.
 // There are no limitations on what this service might be - last.fm, Amazon, Google Images - you name it.
-class CoverProvider : public QObject {
+class CoverProvider : public HttpBaseRequest {
   Q_OBJECT
 
  public:
@@ -54,8 +53,12 @@ class CoverProvider : public QObject {
   void set_enabled(const bool enabled) { enabled_ = enabled; }
   void set_order(const int order) { order_ = order; }
 
+  QString service_name() const override { return name_; }
   bool AuthenticationRequired() const { return authentication_required_; }
   virtual bool IsAuthenticated() const { return true; }
+  virtual bool authenticated() const { return true; }
+  virtual bool use_authorization_header() const override { return false; }
+  virtual QByteArray AuthorizationHeader() const override { return QByteArray(); }
   virtual void Authenticate() {}
   virtual void Deauthenticate() {}
 
@@ -64,8 +67,6 @@ class CoverProvider : public QObject {
   // The provider should remember the ID and emit it along with the result when it finishes.
   virtual bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) = 0;
   virtual void CancelSearch(const int id) { Q_UNUSED(id); }
-
-  virtual void Error(const QString &error, const QVariant &debug = QVariant()) = 0;
 
  Q_SIGNALS:
   void AuthenticationComplete(const bool success, const QStringList &errors = QStringList());

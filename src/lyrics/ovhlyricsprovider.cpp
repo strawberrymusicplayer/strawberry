@@ -45,17 +45,6 @@ constexpr char kUrlSearch[] = "https://api.lyrics.ovh/v1/";
 
 OVHLyricsProvider::OVHLyricsProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent) : JsonLyricsProvider(u"Lyrics.ovh"_s, true, false, network, parent) {}
 
-OVHLyricsProvider::~OVHLyricsProvider() {
-
-  while (!replies_.isEmpty()) {
-    QNetworkReply *reply = replies_.takeFirst();
-    QObject::disconnect(reply, nullptr, this, nullptr);
-    reply->abort();
-    reply->deleteLater();
-  }
-
-}
-
 void OVHLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &request) {
 
   Q_ASSERT(QThread::currentThread() != qApp->thread());
@@ -76,7 +65,7 @@ void OVHLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, co
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
-  QJsonObject json_obj = ExtractJsonObj(reply);
+  const QJsonObject json_obj = GetJsonObject(reply).json_object;
   if (json_obj.isEmpty()) {
     Q_EMIT SearchFinished(id);
     return;
@@ -106,12 +95,5 @@ void OVHLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, co
     qLog(Debug) << "OVHLyrics: Got lyrics for" << request.artist << request.title;
     Q_EMIT SearchFinished(id, LyricsSearchResults() << result);
  }
-
-}
-
-void OVHLyricsProvider::Error(const QString &error, const QVariant &debug) {
-
-  qLog(Error) << "OVHLyrics:" << error;
-  if (debug.isValid()) qLog(Debug) << debug;
 
 }

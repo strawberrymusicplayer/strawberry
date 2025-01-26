@@ -158,7 +158,6 @@ class SpotifyRequest : public SpotifyBaseRequest {
 
   int GetProgress(const int count, const int total);
   void FinishCheck();
-  static void Warn(const QString &error, const QVariant &debug = QVariant());
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
  private:

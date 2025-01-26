@@ -47,8 +47,7 @@ using namespace Qt::Literals::StringLiterals;
 
 SpotifyFavoriteRequest::SpotifyFavoriteRequest(SpotifyService *service, const SharedPtr<NetworkAccessManager> network, QObject *parent)
     : SpotifyBaseRequest(service, network, parent),
-      service_(service),
-      network_(network) {}
+      service_(service) {}
 
 SpotifyFavoriteRequest::~SpotifyFavoriteRequest() {
 
@@ -298,12 +297,5 @@ void SpotifyFavoriteRequest::RemoveFavoritesReply(QNetworkReply *reply, const Fa
       Q_EMIT SongsRemoved(songs);
       break;
   }
-
-}
-
-void SpotifyFavoriteRequest::Error(const QString &error, const QVariant &debug) {
-
-  qLog(Error) << "Spotify:" << error;
-  if (debug.isValid()) qLog(Debug) << debug;
 
 }

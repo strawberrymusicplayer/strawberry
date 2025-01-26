@@ -41,12 +41,14 @@ class SubsonicScrobbler : public ScrobblerService {
   Q_OBJECT
 
  public:
-  explicit SubsonicScrobbler(const SharedPtr<ScrobblerSettingsService> settings, const SharedPtr<SubsonicService> service, QObject *parent = nullptr);
+  explicit SubsonicScrobbler(const SharedPtr<ScrobblerSettingsService> settings, const SharedPtr<NetworkAccessManager> network, const SharedPtr<SubsonicService> service, QObject *parent = nullptr);
 
   void ReloadSettings() override;
 
   bool enabled() const override { return enabled_; }
   bool authenticated() const override { return true; }
+  bool use_authorization_header() const override { return false; }
+  QByteArray AuthorizationHeader() const override { return QByteArray(); }
 
   void UpdateNowPlaying(const Song &song) override;
   void ClearPlaying() override;

@@ -853,6 +853,10 @@ void CollectionBackend::UpdateMTimesOnly(const SongList &songs) {
 
 }
 
+void CollectionBackend::DeleteSongsAsync(const SongList &songs) {
+  QMetaObject::invokeMethod(this, "DeleteSongs", Qt::QueuedConnection, Q_ARG(SongList, songs));
+}
+
 void CollectionBackend::DeleteSongs(const SongList &songs) {
 
   QMutexLocker l(db_->Mutex());
@@ -876,6 +880,19 @@ void CollectionBackend::DeleteSongs(const SongList &songs) {
   UpdateTotalSongCountAsync();
   UpdateTotalArtistCountAsync();
   UpdateTotalAlbumCountAsync();
+
+}
+
+void CollectionBackend::DeleteSongsByUrlAsync(const QUrl &url) {
+  QMetaObject::invokeMethod(this, "DeleteSongs", Qt::QueuedConnection, Q_ARG(QUrl, url));
+}
+
+void CollectionBackend::DeleteSongsByUrl(const QUrl &url) {
+
+  const SongList songs = GetSongsByUrl(url);
+  if (!songs.isEmpty()) {
+    DeleteSongs(songs);
+  }
 
 }
 

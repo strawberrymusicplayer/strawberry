@@ -377,6 +377,14 @@ optional_component(STREAMTAGREADER ON "Stream tagreader"
   DEPENDS "sparsehash" LIBSPARSEHASH_FOUND
 )
 
+optional_component(DROPBOX ON "Streaming: Dropbox"
+  DEPENDS "Stream tagreader" HAVE_STREAMTAGREADER
+)
+
+optional_component(ONEDRIVE ON "Streaming: OneDrive"
+  DEPENDS "Stream tagreader" HAVE_STREAMTAGREADER
+)
+
 if(HAVE_SONGFINGERPRINTING OR HAVE_MUSICBRAINZ)
   set(HAVE_CHROMAPRINT ON)
 endif()
@@ -463,6 +471,9 @@ set(SOURCES
   src/core/songmimedata.cpp
   src/core/platforminterface.cpp
   src/core/standardpaths.cpp
+  src/core/httpbaserequest.cpp
+  src/core/jsonbaserequest.cpp
+  src/core/oauthenticator.cpp
 
   src/utilities/strutils.cpp
   src/utilities/envutils.cpp
@@ -592,6 +603,9 @@ set(SOURCES
   src/playlist/playlistfilter.cpp
   src/playlist/playlistheader.cpp
   src/playlist/playlistitem.cpp
+  src/playlist/databaseplaylistitem.cpp
+  src/playlist/songplaylistitem.cpp
+  src/playlist/streamplaylistitem.cpp
   src/playlist/playlistitemmimedata.cpp
   src/playlist/playlistlistcontainer.cpp
   src/playlist/playlistlistmodel.cpp
@@ -605,7 +619,6 @@ set(SOURCES
   src/playlist/playlistview.cpp
   src/playlist/playlistproxystyle.cpp
   src/playlist/songloaderinserter.cpp
-  src/playlist/songplaylistitem.cpp
   src/playlist/dynamicplaylistcontrols.cpp
   src/playlist/playlistundocommandbase.cpp
   src/playlist/playlistundocommandinsertitems.cpp
@@ -757,7 +770,7 @@ set(SOURCES
 
   src/streaming/streamingservices.cpp
   src/streaming/streamingservice.cpp
-  src/streaming/streamplaylistitem.cpp
+  src/streaming/streamserviceplaylistitem.cpp
   src/streaming/streamingsearchview.cpp
   src/streaming/streamingsearchmodel.cpp
   src/streaming/streamingsearchsortmodel.cpp
@@ -768,6 +781,7 @@ set(SOURCES
   src/streaming/streamingcollectionviewcontainer.cpp
   src/streaming/streamingsearchview.cpp
   src/streaming/streamsongmimedata.cpp
+  src/streaming/cloudstoragestreamingservice.cpp
 
   src/radios/radioservices.cpp
   src/radios/radiobackend.cpp
@@ -775,7 +789,7 @@ set(SOURCES
   src/radios/radioview.cpp
   src/radios/radioviewcontainer.cpp
   src/radios/radioservice.cpp
-  src/radios/radioplaylistitem.cpp
+  src/radios/radiostreamplaylistitem.cpp
   src/radios/radiochannel.cpp
   src/radios/somafmservice.cpp
   src/radios/radioparadiseservice.cpp
@@ -857,6 +871,9 @@ set(HEADERS
   src/core/stylesheetloader.h
   src/core/localredirectserver.h
   src/core/songmimedata.h
+  src/core/httpbaserequest.h
+  src/core/jsonbaserequest.h
+  src/core/oauthenticator.h
 
   src/tagreader/tagreaderclient.h
   src/tagreader/tagreaderreply.h
@@ -1053,6 +1070,7 @@ set(HEADERS
 
   src/streaming/streamingservices.h
   src/streaming/streamingservice.h
+  src/streaming/cloudstoragestreamingservice.h
   src/streaming/streamsongmimedata.h
   src/streaming/streamingsearchmodel.h
   src/streaming/streamingsearchsortmodel.h
@@ -1062,6 +1080,7 @@ set(HEADERS
   src/streaming/streamingtabsview.h
   src/streaming/streamingcollectionview.h
   src/streaming/streamingcollectionviewcontainer.h
+  src/streaming/cloudstoragestreamingservice.h
 
   src/radios/radioservices.h
   src/radios/radiobackend.h
@@ -1463,6 +1482,26 @@ optional_source(HAVE_QOBUZ
     src/covermanager/qobuzcoverprovider.h
   UI
     src/settings/qobuzsettingspage.ui
+)
+
+optional_source(HAVE_DROPBOX
+  SOURCES
+    src/dropbox/dropboxservice.cpp
+    src/dropbox/dropboxurlhandler.cpp
+    src/dropbox/dropboxbaserequest.cpp
+    src/dropbox/dropboxsongsrequest.cpp
+    src/dropbox/dropboxstreamurlrequest.cpp
+    src/dropbox/dropboxplaylistitem.cpp
+    src/settings/dropboxsettingspage.cpp
+  HEADERS
+    src/dropbox/dropboxservice.h
+    src/dropbox/dropboxurlhandler.h
+    src/dropbox/dropboxbaserequest.h
+    src/dropbox/dropboxsongsrequest.h
+    src/dropbox/dropboxstreamurlrequest.h
+    src/settings/dropboxsettingspage.h
+  UI
+    src/settings/dropboxsettingspage.ui
 )
 
 qt_wrap_cpp(SOURCES ${HEADERS})

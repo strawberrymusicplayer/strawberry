@@ -37,12 +37,13 @@
 #include <QJsonValue>
 
 #include "includes/shared_ptr.h"
+#include "core/jsonbaserequest.h"
 #include "tidalservice.h"
 
 class QNetworkReply;
 class NetworkAccessManager;
 
-class TidalBaseRequest : public QObject {
+class TidalBaseRequest : public JsonBaseRequest {
   Q_OBJECT
 
  public:
@@ -60,31 +61,20 @@ class TidalBaseRequest : public QObject {
   };
 
  protected:
-  using Param = QPair<QString, QString>;
-  using ParamList = QList<Param>;
-
-  QNetworkReply *CreateRequest(const QString &ressource_name, const ParamList &params_provided);
-  QByteArray GetReplyData(QNetworkReply *reply);
-  QJsonObject ExtractJsonObj(const QByteArray &data);
-  QJsonValue ExtractItems(const QByteArray &data);
-  QJsonValue ExtractItems(const QJsonObject &json_obj);
-
-  virtual void Error(const QString &error, const QVariant &debug = QVariant()) = 0;
-  static QString ErrorsToHTML(const QStringList &errors);
-
+  QString service_name() const override;
   QString client_id() const { return service_->client_id(); }
-  quint64 user_id() const { return service_->user_id(); }
-  QString country_code() const { return service_->country_code(); }
   QString quality() const { return service_->quality(); }
   int artistssearchlimit() const { return service_->artistssearchlimit(); }
   int albumssearchlimit() const { return service_->albumssearchlimit(); }
   int songssearchlimit() const { return service_->songssearchlimit(); }
-  QString token_type() const { return service_->token_type(); }
-  QString access_token() const { return service_->access_token(); }
-  bool authenticated() const { return service_->authenticated(); }
+  bool authenticated() const override { return service_->authenticated(); }
+  bool use_authorization_header() const override { return true; }
+  QByteArray AuthorizationHeader() const override;
+  quint64 user_id() const { return service_->user_id(); }
+  QString country_code() const { return service_->country_code(); }
 
- private Q_SLOTS:
-  void HandleSSLErrors(const QList<QSslError> &ssl_errors);
+  QNetworkReply *CreateRequest(const QString &ressource_name, const ParamList &params_provided);
+  QJsonValue ExtractItems(const QJsonObject &json_object);
 
  private:
   TidalService *service_;

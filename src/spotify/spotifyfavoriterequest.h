@@ -75,7 +75,6 @@ class SpotifyFavoriteRequest : public SpotifyBaseRequest {
   void RemoveSongs(const SongMap &songs);
 
  private:
-  void Error(const QString &error, const QVariant &debug = QVariant()) override;
   static QString FavoriteText(const FavoriteType type);
   void AddFavorites(const FavoriteType type, const SongList &songs);
   void AddFavoritesRequest(const FavoriteType type, const QString &ids_list, const QByteArray &json_data, const SongList &songs);
@@ -84,7 +83,6 @@ class SpotifyFavoriteRequest : public SpotifyBaseRequest {
   void RemoveFavoritesRequest(const FavoriteType type, const QString &ids_list, const QByteArray &json_data, const SongList &songs);
 
   SpotifyService *service_;
-  const SharedPtr<NetworkAccessManager> network_;
   QList <QNetworkReply*> replies_;
 
 };
