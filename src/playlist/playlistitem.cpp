@@ -47,6 +47,8 @@ PlaylistItemPtr PlaylistItem::NewFromSource(const Song::Source source) {
 
   switch (source) {
     case Song::Source::Collection:
+    case Song::Source::Dropbox:
+    case Song::Source::OneDrive:
       return make_shared<CollectionPlaylistItem>(source);
     case Song::Source::Subsonic:
     case Song::Source::Tidal:
@@ -72,6 +74,8 @@ PlaylistItemPtr PlaylistItem::NewFromSong(const Song &song) {
 
   switch (song.source()) {
     case Song::Source::Collection:
+    case Song::Source::Dropbox:
+    case Song::Source::OneDrive:
       return make_shared<CollectionPlaylistItem>(song);
     case Song::Source::Subsonic:
     case Song::Source::Tidal:

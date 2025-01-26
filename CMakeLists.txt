@@ -379,6 +379,13 @@ optional_component(STREAMTAGREADER ON "Stream tagreader"
 
 optional_component(DISCORD_RPC ON "Discord Rich Presence"
   DEPENDS "RapidJSON" RapidJSON_FOUND
+
+optional_component(DROPBOX ON "Streaming: Dropbox"
+  DEPENDS "Stream tagreader" HAVE_STREAMTAGREADER
+)
+
+optional_component(ONEDRIVE ON "Streaming: OneDrive"
+  DEPENDS "Stream tagreader" HAVE_STREAMTAGREADER
 )
 
 if(HAVE_SONGFINGERPRINTING OR HAVE_MUSICBRAINZ)
@@ -776,6 +783,7 @@ set(SOURCES
   src/streaming/streamingcollectionviewcontainer.cpp
   src/streaming/streamingsearchview.cpp
   src/streaming/streamsongmimedata.cpp
+  src/streaming/cloudstoragestreamingservice.cpp
 
   src/radios/radioservices.cpp
   src/radios/radiobackend.cpp
@@ -1072,6 +1080,7 @@ set(HEADERS
   src/streaming/streamingtabsview.h
   src/streaming/streamingcollectionview.h
   src/streaming/streamingcollectionviewcontainer.h
+  src/streaming/cloudstoragestreamingservice.h
 
   src/radios/radioservices.h
   src/radios/radiobackend.h
@@ -1478,6 +1487,25 @@ optional_source(HAVE_QOBUZ
     src/covermanager/qobuzcoverprovider.h
   UI
     src/settings/qobuzsettingspage.ui
+)
+
+optional_source(HAVE_DROPBOX
+  SOURCES
+    src/dropbox/dropboxservice.cpp
+    src/dropbox/dropboxurlhandler.cpp
+    src/dropbox/dropboxbaserequest.cpp
+    src/dropbox/dropboxsongsrequest.cpp
+    src/dropbox/dropboxstreamurlrequest.cpp
+    src/settings/dropboxsettingspage.cpp
+  HEADERS
+    src/dropbox/dropboxservice.h
+    src/dropbox/dropboxurlhandler.h
+    src/dropbox/dropboxbaserequest.h
+    src/dropbox/dropboxsongsrequest.h
+    src/dropbox/dropboxstreamurlrequest.h
+    src/settings/dropboxsettingspage.h
+  UI
+    src/settings/dropboxsettingspage.ui
 )
 
 qt_wrap_cpp(SOURCES ${HEADERS})

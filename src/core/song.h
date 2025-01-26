@@ -76,7 +76,9 @@ class Song {
     Qobuz = 8,
     SomaFM = 9,
     RadioParadise = 10,
-    Spotify = 11
+    Spotify = 11,
+    Dropbox = 12,
+    OneDrive = 13,
   };
   static const int kSourceCount = 16;
 

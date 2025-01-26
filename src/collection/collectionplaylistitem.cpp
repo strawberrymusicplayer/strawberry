@@ -41,8 +41,11 @@ bool CollectionPlaylistItem::InitFromQuery(const SqlRow &query) {
     case Song::Source::Collection:
       col = 0;
       break;
-    default:
+    case Song::Source::Dropbox:
       col = static_cast<int>(Song::kRowIdColumns.count());
+      break;
+    default:
+      col = static_cast<int>(Song::kRowIdColumns.count() * 2);
       break;
   }
 

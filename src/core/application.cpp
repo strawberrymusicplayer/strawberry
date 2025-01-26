@@ -105,6 +105,10 @@
 #  include "covermanager/qobuzcoverprovider.h"
 #endif
 
+#ifdef HAVE_DROPBOX
+#  include "dropbox/dropboxservice.h"
+#endif
+
 #ifdef HAVE_MOODBAR
 #  include "moodbar/moodbarcontroller.h"
 #  include "moodbar/moodbarloader.h"
@@ -200,6 +204,9 @@ class ApplicationImpl {
 #endif
 #ifdef HAVE_QOBUZ
           streaming_services->AddService(make_shared<QobuzService>(app->task_manager(), app->database(), app->network(), app->url_handlers(), app->albumcover_loader()));
+#endif
+#ifdef HAVE_DROPBOX
+          streaming_services->AddService(make_shared<DropboxService>(app->task_manager(), app->database(), app->network(), app->url_handlers(), app->tagreader_client(), app->albumcover_loader()));
 #endif
           return streaming_services;
         }),

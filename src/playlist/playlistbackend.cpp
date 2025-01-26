@@ -56,7 +56,7 @@ using namespace Qt::Literals::StringLiterals;
 using std::make_shared;
 
 namespace {
-constexpr int kSongTableJoins = 2;
+constexpr int kSongTableJoins = 3;
 }
 
 PlaylistBackend::PlaylistBackend(const SharedPtr<Database> database,
@@ -186,10 +186,12 @@ PlaylistBackend::Playlist PlaylistBackend::GetPlaylist(const int id) {
 
 QString PlaylistBackend::PlaylistItemsQuery() {
 
-  return QStringLiteral("SELECT %1, %2, p.type FROM playlist_items AS p "
+  return QStringLiteral("SELECT %1, %2, %3, p.type FROM playlist_items AS p "
                         "LEFT JOIN songs ON p.type = songs.source AND p.collection_id = songs.ROWID "
+                        "LEFT JOIN dropbox_songs ON p.type = dropbox_songs.source AND p.collection_id = dropbox_songs.ROWID "
                         "WHERE p.playlist = :playlist"
                         ).arg(Song::JoinSpec(u"songs"_s),
+                              Song::JoinSpec(u"dropbox_songs"_s),
                               Song::JoinSpec(u"p"_s));
 
 }

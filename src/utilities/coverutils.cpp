@@ -142,6 +142,8 @@ QString CoverUtils::CoverFilenameFromSource(const Song::Source source, const QUr
     case Song::Source::Stream:
     case Song::Source::SomaFM:
     case Song::Source::RadioParadise:
+    case Song::Source::Dropbox:
+    case Song::Source::OneDrive:
     case Song::Source::Unknown:
       filename = QString::fromLatin1(Sha1CoverHash(artist, album).toHex());
       break;

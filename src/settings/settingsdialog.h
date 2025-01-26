@@ -93,6 +93,8 @@ class SettingsDialog : public QDialog {
     Tidal,
     Qobuz,
     Spotify,
+    Dropbox,
+    OneDrive,
   };
 
   enum Role {
