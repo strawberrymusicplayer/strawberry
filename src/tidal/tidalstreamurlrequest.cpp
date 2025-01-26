@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -59,6 +59,29 @@ TidalStreamURLRequest::~TidalStreamURLRequest() {
     if (reply_->isRunning()) reply_->abort();
     reply_->deleteLater();
   }
+
+}
+
+bool TidalStreamURLRequest::oauth() const {
+
+  return service_->oauth();
+
+}
+TidalSettings::StreamUrlMethod TidalStreamURLRequest::stream_url_method() const {
+
+  return service_->stream_url_method();
+
+}
+
+QUrl TidalStreamURLRequest::media_url() const {
+
+  return media_url_;
+
+}
+
+int TidalStreamURLRequest::song_id() const {
+
+  return song_id_;
 
 }
 
@@ -123,7 +146,7 @@ void TidalStreamURLRequest::StreamURLReceived() {
 
   if (!reply_) return;
 
-  QByteArray data = GetReplyData(reply_);
+  const QByteArray data = GetReplyData(reply_).data;
 
   QObject::disconnect(reply_, nullptr, this, nullptr);
   reply_->deleteLater();
@@ -134,28 +157,28 @@ void TidalStreamURLRequest::StreamURLReceived() {
     return;
   }
 
-  QJsonObject json_obj = ExtractJsonObj(data);
-  if (json_obj.isEmpty()) {
+  const QJsonObject json_object = GetJsonObject(data).json_object;
+  if (json_object.isEmpty()) {
     Q_EMIT StreamURLFailure(id_, media_url_, errors_.constFirst());
     return;
   }
 
-  if (!json_obj.contains("trackId"_L1)) {
-    Error(u"Invalid Json reply, stream missing trackId."_s, json_obj);
+  if (!json_object.contains("trackId"_L1)) {
+    Error(u"Invalid Json reply, stream missing trackId."_s, json_object);
     Q_EMIT StreamURLFailure(id_, media_url_, errors_.constFirst());
     return;
   }
-  int track_id = json_obj["trackId"_L1].toInt();
+  const int track_id = json_object["trackId"_L1].toInt();
   if (track_id != song_id_) {
     qLog(Debug) << "Tidal returned track ID" << track_id << "for" << media_url_;
   }
 
   Song::FileType filetype(Song::FileType::Stream);
 
-  if (json_obj.contains("codec"_L1) || json_obj.contains("codecs"_L1)) {
+  if (json_object.contains("codec"_L1) || json_object.contains("codecs"_L1)) {
     QString codec;
-    if (json_obj.contains("codec"_L1)) codec = json_obj["codec"_L1].toString().toLower();
-    if (json_obj.contains("codecs"_L1)) codec = json_obj["codecs"_L1].toString().toLower();
+    if (json_object.contains("codec"_L1)) codec = json_object["codec"_L1].toString().toLower();
+    if (json_object.contains("codecs"_L1)) codec = json_object["codecs"_L1].toString().toLower();
     filetype = Song::FiletypeByExtension(codec);
     if (filetype == Song::FileType::Unknown) {
       qLog(Debug) << "Tidal: Unknown codec" << codec;
@@ -165,10 +188,10 @@ void TidalStreamURLRequest::StreamURLReceived() {
 
   QList<QUrl> urls;
 
-  if (json_obj.contains("manifest"_L1)) {
+  if (json_object.contains("manifest"_L1)) {
 
-    QString manifest(json_obj["manifest"_L1].toString());
-    QByteArray data_manifest = QByteArray::fromBase64(manifest.toUtf8());
+    const QString manifest(json_object["manifest"_L1].toString());
+    const QByteArray data_manifest = QByteArray::fromBase64(manifest.toUtf8());
 
     QXmlStreamReader xml_reader(data_manifest);
     if (xml_reader.readNextStartElement()) {
@@ -180,15 +203,15 @@ void TidalStreamURLRequest::StreamURLReceived() {
 
     else {
 
-      json_obj = ExtractJsonObj(data_manifest);
-      if (json_obj.isEmpty()) {
+      const QJsonObject object_manifest = GetJsonObject(data_manifest).json_object;
+      if (object_manifest.isEmpty()) {
         Q_EMIT StreamURLFailure(id_, media_url_, errors_.constFirst());
         return;
       }
 
-      if (json_obj.contains("encryptionType"_L1) && json_obj.contains("keyId"_L1)) {
-        QString encryption_type = json_obj["encryptionType"_L1].toString();
-        QString key_id = json_obj["keyId"_L1].toString();
+      if (object_manifest.contains("encryptionType"_L1) && object_manifest.contains("keyId"_L1)) {
+        QString encryption_type = object_manifest["encryptionType"_L1].toString();
+        QString key_id = object_manifest["keyId"_L1].toString();
         if (!encryption_type.isEmpty() && !key_id.isEmpty()) {
           Error(tr("Received URL with %1 encrypted stream from Tidal. Strawberry does not currently support encrypted streams.").arg(encryption_type));
           Q_EMIT StreamURLFailure(id_, media_url_, errors_.constFirst());
@@ -196,13 +219,13 @@ void TidalStreamURLRequest::StreamURLReceived() {
         }
       }
 
-      if (!json_obj.contains("mimeType"_L1)) {
-        Error(u"Invalid Json reply, stream url reply manifest is missing mimeType."_s, json_obj);
+      if (!object_manifest.contains("mimeType"_L1)) {
+        Error(u"Invalid Json reply, stream url reply manifest is missing mimeType."_s, object_manifest);
         Q_EMIT StreamURLFailure(id_, media_url_, errors_.constFirst());
         return;
       }
 
-      QString mimetype = json_obj["mimeType"_L1].toString();
+      const QString mimetype = object_manifest["mimeType"_L1].toString();
       QMimeDatabase mimedb;
       const QStringList suffixes = mimedb.mimeTypeForName(mimetype).suffixes();
       for (const QString &suffix : suffixes) {
@@ -217,8 +240,8 @@ void TidalStreamURLRequest::StreamURLReceived() {
 
   }
 
-  if (json_obj.contains("urls"_L1)) {
-    QJsonValue json_urls = json_obj["urls"_L1];
+  if (json_object.contains("urls"_L1)) {
+    const QJsonValue json_urls = json_object["urls"_L1];
     if (!json_urls.isArray()) {
       Error(u"Invalid Json reply, urls is not an array."_s, json_urls);
       Q_EMIT StreamURLFailure(id_, media_url_, errors_.constFirst());
@@ -230,8 +253,8 @@ void TidalStreamURLRequest::StreamURLReceived() {
       urls << QUrl(value.toString());
     }
   }
-  else if (json_obj.contains("url"_L1)) {
-    QUrl new_url(json_obj["url"_L1].toString());
+  else if (json_object.contains("url"_L1)) {
+    const QUrl new_url(json_object["url"_L1].toString());
     urls << new_url;
     if (filetype == Song::FileType::Stream) {
       // Guess filetype by filename extension in URL.
@@ -240,8 +263,8 @@ void TidalStreamURLRequest::StreamURLReceived() {
     }
   }
 
-  if (json_obj.contains("encryptionKey"_L1)) {
-    QString encryption_key = json_obj["encryptionKey"_L1].toString();
+  if (json_object.contains("encryptionKey"_L1)) {
+    const QString encryption_key = json_object["encryptionKey"_L1].toString();
     if (!encryption_key.isEmpty()) {
       Error(tr("Received URL with encrypted stream from Tidal. Strawberry does not currently support encrypted streams."));
       Q_EMIT StreamURLFailure(id_, media_url_, errors_.constFirst());
@@ -249,9 +272,9 @@ void TidalStreamURLRequest::StreamURLReceived() {
     }
   }
 
-  if (json_obj.contains("securityType"_L1) && json_obj.contains("securityToken"_L1)) {
-    QString security_type = json_obj["securityType"_L1].toString();
-    QString security_token = json_obj["securityToken"_L1].toString();
+  if (json_object.contains("securityType"_L1) && json_object.contains("securityToken"_L1)) {
+    const QString security_type = json_object["securityType"_L1].toString();
+    const QString security_token = json_object["securityToken"_L1].toString();
     if (!security_type.isEmpty() && !security_token.isEmpty()) {
       Error(tr("Received URL with encrypted stream from Tidal. Strawberry does not currently support encrypted streams."));
       Q_EMIT StreamURLFailure(id_, media_url_, errors_.constFirst());
@@ -260,7 +283,7 @@ void TidalStreamURLRequest::StreamURLReceived() {
   }
 
   if (urls.isEmpty()) {
-    Error(u"Missing stream urls."_s, json_obj);
+    Error(u"Missing stream urls."_s, json_object);
     Q_EMIT StreamURLFailure(id_, media_url_, errors_.constFirst());
     return;
   }

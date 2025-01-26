@@ -1,8 +1,7 @@
 /*
- * This file was part of Clementine.
+ * Strawberry Music Player
  * Copyright 2012, 2014, John Maguire <john.maguire@gmail.com>
- * Copyright 2014, Krzysztof Sobiecki <sobkas@gmail.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,11 +38,15 @@ class LocalRedirectServer : public QTcpServer {
   explicit LocalRedirectServer(QObject *parent = nullptr);
   ~LocalRedirectServer() override;
 
-  void set_port(const int port) { port_ = port; }
-  bool Listen();
   const QUrl &url() const { return url_; }
   const QUrl &request_url() const { return request_url_; }
+  bool success() const { return success_; }
   const QString &error() const { return error_; }
+
+  int port() const { return port_; }
+  void set_port(const int port) { port_ = port; }
+
+  bool Listen();
 
  Q_SIGNALS:
   void Finished();
@@ -66,6 +69,7 @@ class LocalRedirectServer : public QTcpServer {
   QUrl request_url_;
   QAbstractSocket *socket_;
   QByteArray buffer_;
+  bool success_;
   QString error_;
 };
 

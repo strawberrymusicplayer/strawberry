@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -53,7 +53,6 @@ class TidalRequest : public TidalBaseRequest {
 
  public:
   explicit TidalRequest(TidalService *service, TidalUrlHandler *url_handler, const SharedPtr<NetworkAccessManager> network, const Type query_type, QObject *parent);
-  ~TidalRequest() override;
 
   void ReloadSettings();
 
@@ -229,8 +228,6 @@ class TidalRequest : public TidalBaseRequest {
 
   SongMap songs_;
   QStringList errors_;
-  QList<QNetworkReply*> replies_;
-  QList<QNetworkReply*> album_cover_replies_;
 };
 
 #endif  // TIDALREQUEST_H

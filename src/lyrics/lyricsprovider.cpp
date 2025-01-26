@@ -26,7 +26,7 @@
 #include "lyricsprovider.h"
 
 LyricsProvider::LyricsProvider(const QString &name, const bool enabled, const bool authentication_required, const SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : QObject(parent), network_(network), name_(name), enabled_(enabled), order_(0), authentication_required_(authentication_required) {}
+    : HttpBaseRequest(network, parent), network_(network), name_(name), enabled_(enabled), order_(0), authentication_required_(authentication_required) {}
 
 bool LyricsProvider::StartSearchAsync(const int id, const LyricsSearchRequest &request) {
 

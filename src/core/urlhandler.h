@@ -56,7 +56,6 @@ class UrlHandler : public QObject {
     };
 
     explicit LoadResult(const QUrl &media_url = QUrl(), const Type type = Type::NoMoreTracks, const QUrl &stream_url = QUrl(), const Song::FileType filetype = Song::FileType::Stream, const int samplerate = -1, const int bit_depth = -1, const qint64 length_nanosec = -1, const QString &error = QString());
-
     explicit LoadResult(const QUrl &media_url, const Type type, const QString &error);
 
     // The url that the playlist item has in Url().

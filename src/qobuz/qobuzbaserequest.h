@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,18 +35,17 @@
 #include <QJsonValue>
 
 #include "includes/shared_ptr.h"
-#include "core/song.h"
-#include "qobuzservice.h"
+#include "core/jsonbaserequest.h"
 
 class QNetworkReply;
 class NetworkAccessManager;
+class QobuzService;
 
-class QobuzBaseRequest : public QObject {
+class QobuzBaseRequest : public JsonBaseRequest {
   Q_OBJECT
 
  public:
   explicit QobuzBaseRequest(QobuzService *service, const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
-  ~QobuzBaseRequest();
 
   enum class Type {
     None,
@@ -60,41 +59,34 @@ class QobuzBaseRequest : public QObject {
   };
 
  protected:
-  using Param = QPair<QString, QString>;
-  using ParamList = QList<Param>;
+  QString service_name() const override;
+  QString app_id() const;
+  QString app_secret() const;
+  QString username() const;
+  QString password() const;
+  int format() const;
+  int artistssearchlimit() const;
+  int albumssearchlimit() const;
+  int songssearchlimit() const;
+
+  qint64 user_id() const;
+  QString user_auth_token() const;
+  QString device_id() const;
+  qint64 credential_id() const;
+
+  bool authentication_required() const override;
+  bool authenticated() const override;
+  bool use_authorization_header() const override;
+  QByteArray authorization_header() const override;
+
+  bool login_sent() const;
+  int max_login_attempts() const;
+  int login_attempts() const;
 
   QNetworkReply *CreateRequest(const QString &ressource_name, const ParamList &params_provided);
-  QByteArray GetReplyData(QNetworkReply *reply);
-  QJsonObject ExtractJsonObj(QByteArray &data);
-  QJsonValue ExtractItems(QByteArray &data);
-  QJsonValue ExtractItems(QJsonObject &json_obj);
+  QJsonValue ExtractItems(const QJsonObject &json_object);
 
-  virtual void Error(const QString &error, const QVariant &debug = QVariant()) = 0;
-  static QString ErrorsToHTML(const QStringList &errors);
-
-  QString app_id() const { return service_->app_id(); }
-  QString app_secret() const { return service_->app_secret(); }
-  QString username() const { return service_->username(); }
-  QString password() const { return service_->password(); }
-  int format() const { return service_->format(); }
-  int artistssearchlimit() const { return service_->artistssearchlimit(); }
-  int albumssearchlimit() const { return service_->albumssearchlimit(); }
-  int songssearchlimit() const { return service_->songssearchlimit(); }
-
-  qint64 user_id() const { return service_->user_id(); }
-  QString user_auth_token() const { return service_->user_auth_token(); }
-  QString device_id() const { return service_->device_id(); }
-  qint64 credential_id() const { return service_->credential_id(); }
-
-  bool authenticated() const { return service_->authenticated(); }
-  bool login_sent() const { return service_->login_sent(); }
-  int max_login_attempts() const { return service_->max_login_attempts(); }
-  int login_attempts() const { return service_->login_attempts(); }
-
- private Q_SLOTS:
-  void HandleSSLErrors(const QList<QSslError> &ssl_errors);
-
- private:
+ protected:
   QobuzService *service_;
   const SharedPtr<NetworkAccessManager> network_;
 };

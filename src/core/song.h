@@ -76,7 +76,9 @@ class Song {
     Qobuz = 8,
     SomaFM = 9,
     RadioParadise = 10,
-    Spotify = 11
+    Spotify = 11,
+    Dropbox = 12,
+    OneDrive = 13,
   };
 
   enum class FileType {
@@ -176,6 +178,7 @@ class Song {
   int bitdepth() const;
 
   Source source() const;
+  int source_id() const;
   int directory_id() const;
   const QUrl &url() const;
   const QString &basefilename() const;

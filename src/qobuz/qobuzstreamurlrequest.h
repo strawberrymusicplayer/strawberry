@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,12 +22,11 @@
 
 #include "config.h"
 
-#include <QtGlobal>
-#include <QObject>
 #include <QVariant>
 #include <QString>
 #include <QStringList>
 #include <QUrl>
+#include <QSharedPointer>
 
 #include "includes/shared_ptr.h"
 #include "core/song.h"
@@ -67,7 +66,6 @@ class QobuzStreamURLRequest : public QobuzBaseRequest {
  private:
   void Error(const QString &error, const QVariant &debug = QVariant());
 
-  QobuzService *service_;
   QNetworkReply *reply_;
   QUrl media_url_;
   uint id_;
@@ -76,5 +74,7 @@ class QobuzStreamURLRequest : public QobuzBaseRequest {
   bool need_login_;
   QStringList errors_;
 };
+
+using QobuzStreamURLRequestPtr = QSharedPointer<QobuzStreamURLRequest>;
 
 #endif  // QOBUZSTREAMURLREQUEST_H

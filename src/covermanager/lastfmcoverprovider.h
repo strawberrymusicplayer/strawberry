@@ -40,7 +40,8 @@ class LastFmCoverProvider : public JsonCoverProvider {
 
  public:
   explicit LastFmCoverProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
-  ~LastFmCoverProvider() override;
+
+  bool authentication_required() const override { return true; }
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;
 
@@ -56,12 +57,8 @@ class LastFmCoverProvider : public JsonCoverProvider {
     ExtraLarge = 300
   };
 
-  QByteArray GetReplyData(QNetworkReply *reply);
   static LastFmImageSize ImageSizeFromString(const QString &size);
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
-
- private:
-  QList<QNetworkReply*> replies_;
 };
 
 #endif  // LASTFMCOVERPROVIDER_H

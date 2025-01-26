@@ -163,9 +163,9 @@ void MusicBrainzClient::StartDiscIdRequest(const QString &discid) {
   QUrl url(QString::fromLatin1(kDiscUrl) + discid);
   url.setQuery(url_query);
 
-  QNetworkRequest req(url);
-  req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  QNetworkReply *reply = network_->get(req);
+  QNetworkRequest network_request(url);
+  network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+  QNetworkReply *reply = network_->get(network_request);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, discid, reply]() { DiscIdRequestFinished(discid, reply); });
 
   timeouts_->AddReply(reply);
@@ -176,7 +176,7 @@ void MusicBrainzClient::FlushRequests() {
 
   if (!requests_.isEmpty() || requests_pending_.isEmpty()) return;
 
-  Request request = requests_pending_.take(requests_pending_.firstKey());
+  const Request request = requests_pending_.take(requests_pending_.firstKey());
 
   const ParamList params = ParamList() << Param(u"inc"_s, u"artists+releases+media"_s);
 
@@ -185,9 +185,9 @@ void MusicBrainzClient::FlushRequests() {
   QUrl url(QString::fromLatin1(kTrackUrl) + request.mbid);
   url.setQuery(url_query);
 
-  QNetworkRequest req(url);
-  req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  QNetworkReply *reply = network_->get(req);
+  QNetworkRequest network_request(url);
+  network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+  QNetworkReply *reply = network_->get(network_request);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { RequestFinished(reply, request.id, request.number); });
   requests_.insert(request.id, reply);
 

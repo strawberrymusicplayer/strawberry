@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,14 +22,11 @@
 #include <algorithm>
 #include <utility>
 
-#include <QObject>
-#include <QMimeDatabase>
-#include <QPair>
 #include <QByteArray>
 #include <QString>
-#include <QChar>
 #include <QUrl>
 #include <QDateTime>
+#include <QMimeDatabase>
 #include <QNetworkReply>
 #include <QCryptographicHash>
 #include <QJsonObject>
@@ -47,7 +44,6 @@ using namespace Qt::Literals::StringLiterals;
 
 QobuzStreamURLRequest::QobuzStreamURLRequest(QobuzService *service, const SharedPtr<NetworkAccessManager> network, const QUrl &media_url, const uint id, QObject *parent)
     : QobuzBaseRequest(service, network, parent),
-      service_(service),
       reply_(nullptr),
       media_url_(media_url),
       id_(id),
@@ -150,7 +146,7 @@ void QobuzStreamURLRequest::StreamURLReceived() {
 
   if (!reply_) return;
 
-  QByteArray data = GetReplyData(reply_);
+  const QByteArray data = GetReplyData(reply_).data;
 
   QObject::disconnect(reply_, nullptr, this, nullptr);
   reply_->deleteLater();
@@ -165,33 +161,33 @@ void QobuzStreamURLRequest::StreamURLReceived() {
     return;
   }
 
-  QJsonObject json_obj = ExtractJsonObj(data);
-  if (json_obj.isEmpty()) {
+  const QJsonObject json_object = GetJsonObject(data).json_object;
+  if (json_object.isEmpty()) {
     Q_EMIT StreamURLFailure(id_, media_url_, errors_.constFirst());
     return;
   }
 
-  if (!json_obj.contains("track_id"_L1)) {
-    Error(u"Invalid Json reply, stream url is missing track_id."_s, json_obj);
+  if (!json_object.contains("track_id"_L1)) {
+    Error(u"Invalid Json reply, stream url is missing track_id."_s, json_object);
     Q_EMIT StreamURLFailure(id_, media_url_, errors_.constFirst());
     return;
   }
 
-  int track_id = json_obj["track_id"_L1].toInt();
+  const int track_id = json_object["track_id"_L1].toInt();
   if (track_id != song_id_) {
-    Error(u"Incorrect track ID returned."_s, json_obj);
+    Error(u"Incorrect track ID returned."_s, json_object);
     Q_EMIT StreamURLFailure(id_, media_url_, errors_.constFirst());
     return;
   }
 
-  if (!json_obj.contains("mime_type"_L1) || !json_obj.contains("url"_L1)) {
-    Error(u"Invalid Json reply, stream url is missing url or mime_type."_s, json_obj);
+  if (!json_object.contains("mime_type"_L1) || !json_object.contains("url"_L1)) {
+    Error(u"Invalid Json reply, stream url is missing url or mime_type."_s, json_object);
     Q_EMIT StreamURLFailure(id_, media_url_, errors_.constFirst());
     return;
   }
 
-  QUrl url(json_obj["url"_L1].toString());
-  QString mimetype = json_obj["mime_type"_L1].toString();
+  const QUrl url(json_object["url"_L1].toString());
+  const QString mimetype = json_object["mime_type"_L1].toString();
 
   Song::FileType filetype(Song::FileType::Unknown);
   QMimeDatabase mimedb;
@@ -206,22 +202,22 @@ void QobuzStreamURLRequest::StreamURLReceived() {
   }
 
   if (!url.isValid()) {
-    Error(u"Returned stream url is invalid."_s, json_obj);
+    Error(u"Returned stream url is invalid."_s, json_object);
     Q_EMIT StreamURLFailure(id_, media_url_, errors_.constFirst());
     return;
   }
 
   qint64 duration = -1;
-  if (json_obj.contains("duration"_L1)) {
-    duration = json_obj["duration"_L1].toInt() * kNsecPerSec;
+  if (json_object.contains("duration"_L1)) {
+    duration = json_object["duration"_L1].toInt() * kNsecPerSec;
   }
   int samplerate = -1;
-  if (json_obj.contains("sampling_rate"_L1)) {
-    samplerate = static_cast<int>(json_obj["sampling_rate"_L1].toDouble()) * 1000;
+  if (json_object.contains("sampling_rate"_L1)) {
+    samplerate = static_cast<int>(json_object["sampling_rate"_L1].toDouble()) * 1000;
   }
   int bit_depth = -1;
-  if (json_obj.contains("bit_depth"_L1)) {
-    bit_depth = static_cast<int>(json_obj["bit_depth"_L1].toDouble());
+  if (json_object.contains("bit_depth"_L1)) {
+    bit_depth = static_cast<int>(json_object["bit_depth"_L1].toDouble());
   }
 
   Q_EMIT StreamURLSuccess(id_, media_url_, url, filetype, samplerate, bit_depth, duration);

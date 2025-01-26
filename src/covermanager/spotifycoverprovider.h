@@ -36,36 +36,31 @@
 
 #include "includes/shared_ptr.h"
 #include "jsoncoverprovider.h"
-#include "spotify/spotifyservice.h"
 
 class QNetworkReply;
 class NetworkAccessManager;
+class SpotifyService;
+
+using SpotifyServicePtr = SharedPtr<SpotifyService>;
 
 class SpotifyCoverProvider : public JsonCoverProvider {
   Q_OBJECT
 
  public:
   explicit SpotifyCoverProvider(const SpotifyServicePtr service, const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
-  ~SpotifyCoverProvider() override;
 
   bool StartSearch(const QString &artist, const QString &album, const QString &title, const int id) override;
   void CancelSearch(const int id) override;
-
-  bool IsAuthenticated() const override { return service_ && service_->authenticated(); }
-  void Deauthenticate() override {
-    if (service_) service_->Deauthenticate();
-  }
+  void Deauthenticate() override;
 
  private Q_SLOTS:
   void HandleSearchReply(QNetworkReply *reply, const int id, const QString &extract);
 
  private:
-  QByteArray GetReplyData(QNetworkReply *reply);
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
  private:
-  const SharedPtr<SpotifyService> service_;
-  QList<QNetworkReply*> replies_;
+  const SpotifyServicePtr service_;
 };
 
 #endif  // SPOTIFYCOVERPROVIDER_H

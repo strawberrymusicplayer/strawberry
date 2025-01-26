@@ -40,19 +40,12 @@ class OVHLyricsProvider : public JsonLyricsProvider {
 
  public:
   explicit OVHLyricsProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
-  ~OVHLyricsProvider() override;
-
- private:
-  void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
  protected Q_SLOTS:
   void StartSearch(const int id, const LyricsSearchRequest &request) override;
 
  private Q_SLOTS:
   void HandleSearchReply(QNetworkReply *reply, const int id, const LyricsSearchRequest &request);
-
- private:
-  QList<QNetworkReply*> replies_;
 };
 
 #endif  // OVHLYRICSPROVIDER_H

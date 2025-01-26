@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,7 +19,6 @@
 
 #include "config.h"
 
-#include <QObject>
 #include <QString>
 #include <QUrl>
 
@@ -39,18 +38,24 @@ TidalUrlHandler::TidalUrlHandler(const SharedPtr<TaskManager> task_manager, Tida
 
 }
 
+QString TidalUrlHandler::scheme() const {
+
+  return service_->url_scheme();
+
+}
+
 UrlHandler::LoadResult TidalUrlHandler::StartLoading(const QUrl &url) {
 
-  Request req;
-  req.task_id = task_manager_->StartTask(QStringLiteral("Loading %1 stream...").arg(url.scheme()));
+  Request request;
+  request.task_id = task_manager_->StartTask(QStringLiteral("Loading %1 stream...").arg(url.scheme()));
   QString error;
-  req.id = service_->GetStreamURL(url, error);
-  if (req.id == 0) {
-    CancelTask(req.task_id);
+  request.id = service_->GetStreamURL(url, error);
+  if (request.id == 0) {
+    CancelTask(request.task_id);
     return LoadResult(url, LoadResult::Type::Error, error);
   }
 
-  requests_.insert(req.id, req);
+  requests_.insert(request.id, request);
 
   LoadResult ret(url);
   ret.type_ = LoadResult::Type::WillLoadAsynchronously;

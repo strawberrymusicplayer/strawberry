@@ -41,17 +41,6 @@ using namespace Qt::Literals::StringLiterals;
 HtmlLyricsProvider::HtmlLyricsProvider(const QString &name, const bool enabled, const QString &start_tag, const QString &end_tag, const QString &lyrics_start, const bool multiple, const SharedPtr<NetworkAccessManager> network, QObject *parent)
     : LyricsProvider(name, enabled, false, network, parent), start_tag_(start_tag), end_tag_(end_tag), lyrics_start_(lyrics_start), multiple_(multiple) {}
 
-HtmlLyricsProvider::~HtmlLyricsProvider() {
-
-  while (!replies_.isEmpty()) {
-    QNetworkReply *reply = replies_.takeFirst();
-    QObject::disconnect(reply, nullptr, this, nullptr);
-    reply->abort();
-    reply->deleteLater();
-  }
-
-}
-
 bool HtmlLyricsProvider::StartSearchAsync(const int id, const LyricsSearchRequest &request) {
 
   if (request.artist.isEmpty() || request.title.isEmpty()) return false;
@@ -66,12 +55,8 @@ void HtmlLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &re
 
   Q_ASSERT(QThread::currentThread() != qApp->thread());
 
-  QUrl url(Url(request));
-  QNetworkRequest req(url);
-  req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  req.setHeader(QNetworkRequest::UserAgentHeader, u"Mozilla/5.0 (X11; Linux x86_64; rv:122.0) Gecko/20100101 Firefox/122.0"_s);
-  QNetworkReply *reply = network_->get(req);
-  replies_ << reply;
+  const QUrl url = Url(request);
+  QNetworkReply *reply = CreateGetRequest(url, true);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, id, request]() { HandleLyricsReply(reply, id, request); });
 
   qLog(Debug) << name_ << "Sending request for" << url;
@@ -87,6 +72,10 @@ void HtmlLyricsProvider::HandleLyricsReply(QNetworkReply *reply, const int id, c
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
+  LyricsSearchResults results;
+
+  const QScopeGuard search_finished = qScopeGuard([this, id, &results]() { Q_EMIT SearchFinished(id, results); });
+
   if (reply->error() != QNetworkReply::NoError) {
     if (reply->error() == QNetworkReply::ContentNotFoundError) {
       qLog(Debug) << name_ << "No lyrics for" << request.artist << request.album << request.title;
@@ -94,34 +83,29 @@ void HtmlLyricsProvider::HandleLyricsReply(QNetworkReply *reply, const int id, c
     else {
       qLog(Error) << name_ << reply->errorString() << reply->error();
     }
-    Q_EMIT SearchFinished(id);
     return;
   }
 
   if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
     qLog(Error) << name_ << "Received HTTP code" << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
-    Q_EMIT SearchFinished(id);
     return;
   }
 
-  QByteArray data = reply->readAll();
+  const QByteArray data = reply->readAll();
   if (data.isEmpty()) {
     qLog(Error) << name_ << "Empty reply received from server.";
-    Q_EMIT SearchFinished(id);
     return;
   }
 
   const QString lyrics = ParseLyricsFromHTML(QString::fromUtf8(data), QRegularExpression(start_tag_), QRegularExpression(end_tag_), QRegularExpression(lyrics_start_), multiple_);
   if (lyrics.isEmpty() || lyrics.contains("we do not have the lyrics for"_L1, Qt::CaseInsensitive)) {
     qLog(Debug) << name_ << "No lyrics for" << request.artist << request.album << request.title;
-    Q_EMIT SearchFinished(id);
     return;
   }
 
   qLog(Debug) << name_ << "Got lyrics for" << request.artist << request.album << request.title;
 
-  LyricsSearchResult result(lyrics);
-  Q_EMIT SearchFinished(id, LyricsSearchResults() << result);
+  results << LyricsSearchResult(lyrics);
 
 }
 
@@ -198,12 +182,5 @@ QString HtmlLyricsProvider::ParseLyricsFromHTML(const QString &content, const QR
   }
 
   return Utilities::DecodeHtmlEntities(lyrics);
-
-}
-
-void HtmlLyricsProvider::Error(const QString &error, const QVariant &debug) {
-
-  qLog(Error) << name_ << error;
-  if (debug.isValid()) qLog(Debug) << name_ << debug;
 
 }

@@ -224,7 +224,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   SettingsDialog *CreateSettingsDialog();
   EditTagDialog *CreateEditTagDialog();
   void OpenSettingsDialog();
-  void OpenSettingsDialogAtPage(SettingsDialog::Page page);
+  void OpenSettingsDialogAtPage(const SettingsDialog::Page page);
 
   void TabSwitched();
   void ToggleSidebar(const bool checked);
@@ -339,6 +339,9 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 #endif
 #ifdef HAVE_QOBUZ
   StreamingTabsView *qobuz_view_;
+#endif
+#ifdef HAVE_DROPBOX
+  StreamingSongsView *dropbox_view_;
 #endif
 
   RadioViewContainer *radio_view_;

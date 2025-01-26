@@ -46,17 +46,6 @@ constexpr char kUrlSearch[] = "http://api.lololyrics.com/0.5/getLyric";
 
 LoloLyricsProvider::LoloLyricsProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent) : LyricsProvider(u"LoloLyrics"_s, true, false, network, parent) {}
 
-LoloLyricsProvider::~LoloLyricsProvider() {
-
-  while (!replies_.isEmpty()) {
-    QNetworkReply *reply = replies_.takeFirst();
-    QObject::disconnect(reply, nullptr, this, nullptr);
-    reply->abort();
-    reply->deleteLater();
-  }
-
-}
-
 void LoloLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &request) {
 
   Q_ASSERT(QThread::currentThread() != qApp->thread());
@@ -65,12 +54,7 @@ void LoloLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &re
   url_query.addQueryItem(u"artist"_s, QString::fromLatin1(QUrl::toPercentEncoding(request.artist)));
   url_query.addQueryItem(u"track"_s, QString::fromLatin1(QUrl::toPercentEncoding(request.title)));
 
-  QUrl url(QString::fromLatin1(kUrlSearch));
-  url.setQuery(url_query);
-  QNetworkRequest req(url);
-  req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  QNetworkReply *reply = network_->get(req);
-  replies_ << reply;
+  QNetworkReply *reply = CreateGetRequest(QUrl(QLatin1String(kUrlSearch)), url_query);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, id, request]() { HandleSearchReply(reply, id, request); });
 
 }
@@ -82,12 +66,14 @@ void LoloLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, c
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
+  LyricsSearchResults results;
+  const QScopeGuard search_finished = qScopeGuard([this, id, &results]() { Q_EMIT SearchFinished(id, results); });
+
   QString failure_reason;
   if (reply->error() != QNetworkReply::NoError) {
     failure_reason = QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error());
     if (reply->error() < 200) {
       Error(failure_reason);
-      Q_EMIT SearchFinished(id);
       return;
     }
   }
@@ -95,8 +81,7 @@ void LoloLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, c
     failure_reason = QStringLiteral("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
   }
 
-  QByteArray data = reply->readAll();
-  LyricsSearchResults results;
+  const QByteArray data = reply->readAll();
 
   if (!data.isEmpty()) {
     QXmlStreamReader reader(data);
@@ -141,14 +126,5 @@ void LoloLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, c
   else {
     qLog(Debug) << "LoloLyrics: Got lyrics for" << request.artist << request.title;
   }
-
-  Q_EMIT SearchFinished(id, results);
-
-}
-
-void LoloLyricsProvider::Error(const QString &error, const QVariant &debug) {
-
-  qLog(Error) << "LoloLyrics:" << error;
-  if (debug.isValid()) qLog(Debug) << debug;
 
 }

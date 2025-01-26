@@ -204,4 +204,15 @@ QString ReplaceVariable(const QString &variable, const Song &song, const QString
 
 }
 
+QString StringListToHTML(const QStringList &string_list) {
+
+  QString html;
+  for (const QString &string : string_list) {
+    html += string + "<br />"_L1;
+  }
+
+  return html;
+
+}
+
 }  // namespace Utilities

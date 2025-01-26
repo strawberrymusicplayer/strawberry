@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,27 +22,20 @@
 
 #include "config.h"
 
-#include <QtGlobal>
-#include <QObject>
-#include <QSet>
-#include <QList>
-#include <QPair>
-#include <QVariant>
 #include <QByteArray>
 #include <QString>
-#include <QStringList>
-#include <QUrl>
-#include <QSslError>
-#include <QJsonObject>
 #include <QJsonValue>
+#include <QJsonObject>
 
 #include "includes/shared_ptr.h"
+#include "core/jsonbaserequest.h"
 #include "tidalservice.h"
 
 class QNetworkReply;
 class NetworkAccessManager;
+class TidalService;
 
-class TidalBaseRequest : public QObject {
+class TidalBaseRequest : public JsonBaseRequest {
   Q_OBJECT
 
  public:
@@ -60,31 +53,23 @@ class TidalBaseRequest : public QObject {
   };
 
  protected:
-  using Param = QPair<QString, QString>;
-  using ParamList = QList<Param>;
+  QString service_name() const override;
+  bool authentication_required() const override;
+  bool authenticated() const override;
+  bool use_authorization_header() const override;
+  QByteArray authorization_header() const override;
+
+  QString client_id() const;
+  QString quality() const;
+  int artistssearchlimit() const;
+  int albumssearchlimit() const;
+  int songssearchlimit() const;
+
+  quint64 user_id() const;
+  QString country_code() const;
 
   QNetworkReply *CreateRequest(const QString &ressource_name, const ParamList &params_provided);
-  QByteArray GetReplyData(QNetworkReply *reply);
-  QJsonObject ExtractJsonObj(const QByteArray &data);
-  QJsonValue ExtractItems(const QByteArray &data);
-  QJsonValue ExtractItems(const QJsonObject &json_obj);
-
-  virtual void Error(const QString &error, const QVariant &debug = QVariant()) = 0;
-  static QString ErrorsToHTML(const QStringList &errors);
-
-  QString client_id() const { return service_->client_id(); }
-  quint64 user_id() const { return service_->user_id(); }
-  QString country_code() const { return service_->country_code(); }
-  QString quality() const { return service_->quality(); }
-  int artistssearchlimit() const { return service_->artistssearchlimit(); }
-  int albumssearchlimit() const { return service_->albumssearchlimit(); }
-  int songssearchlimit() const { return service_->songssearchlimit(); }
-  QString token_type() const { return service_->token_type(); }
-  QString access_token() const { return service_->access_token(); }
-  bool authenticated() const { return service_->authenticated(); }
-
- private Q_SLOTS:
-  void HandleSSLErrors(const QList<QSslError> &ssl_errors);
+  QJsonValue ExtractItems(const QJsonObject &json_object);
 
  private:
   TidalService *service_;

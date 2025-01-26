@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,7 +19,6 @@
 
 #include "config.h"
 
-#include <QObject>
 #include <QPair>
 #include <QByteArray>
 #include <QString>
@@ -39,20 +38,7 @@
 using namespace Qt::Literals::StringLiterals;
 
 QobuzFavoriteRequest::QobuzFavoriteRequest(QobuzService *service, const SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : QobuzBaseRequest(service, network, parent),
-      service_(service),
-      network_(network) {}
-
-QobuzFavoriteRequest::~QobuzFavoriteRequest() {
-
-  while (!replies_.isEmpty()) {
-    QNetworkReply *reply = replies_.takeFirst();
-    QObject::disconnect(reply, nullptr, this, nullptr);
-    reply->abort();
-    reply->deleteLater();
-  }
-
-}
+    : QobuzBaseRequest(service, network, parent) {}
 
 QString QobuzFavoriteRequest::FavoriteText(const FavoriteType type) {
 

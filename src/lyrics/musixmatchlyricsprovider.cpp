@@ -36,30 +36,25 @@
 #include <QJsonArray>
 
 #include "includes/shared_ptr.h"
+#include "utilities/musixmatchprovider.h"
+#include "utilities/strutils.h"
 #include "core/logging.h"
 #include "core/networkaccessmanager.h"
-#include "utilities/strutils.h"
 #include "jsonlyricsprovider.h"
 #include "lyricssearchrequest.h"
 #include "lyricssearchresult.h"
 #include "musixmatchlyricsprovider.h"
-#include "providers/musixmatchprovider.h"
 
 using namespace Qt::Literals::StringLiterals;
 using std::make_shared;
+using namespace MusixmatchProvider;
+
+namespace {
+constexpr char kApiUrl[] = "https://api.musixmatch.com/ws/1.1";
+constexpr char kApiKey[] = "Y2FhMDRlN2Y4OWE5OTIxYmZlOGMzOWQzOGI3ZGU4MjE=";
+}  // namespace
 
 MusixmatchLyricsProvider::MusixmatchLyricsProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent) : JsonLyricsProvider(u"Musixmatch"_s, true, false, network, parent), use_api_(true) {}
-
-MusixmatchLyricsProvider::~MusixmatchLyricsProvider() {
-
-  while (!replies_.isEmpty()) {
-    QNetworkReply *reply = replies_.takeFirst();
-    QObject::disconnect(reply, nullptr, this, nullptr);
-    reply->abort();
-    reply->deleteLater();
-  }
-
-}
 
 void MusixmatchLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &request) {
 
@@ -81,18 +76,13 @@ void MusixmatchLyricsProvider::StartSearch(const int id, const LyricsSearchReque
 
 bool MusixmatchLyricsProvider::SendSearchRequest(LyricsSearchContextPtr search) {
 
+  const QUrl url(QLatin1String(kApiUrl) + "/track.search"_L1);
   QUrlQuery url_query;
   url_query.addQueryItem(u"apikey"_s, QString::fromLatin1(QByteArray::fromBase64(kApiKey)));
   url_query.addQueryItem(u"q_artist"_s, QString::fromLatin1(QUrl::toPercentEncoding(search->request.artist)));
   url_query.addQueryItem(u"q_track"_s, QString::fromLatin1(QUrl::toPercentEncoding(search->request.title)));
   url_query.addQueryItem(u"f_has_lyrics"_s, u"1"_s);
-
-  QUrl url(QString::fromLatin1(kApiUrl) + u"/track.search"_s);
-  url.setQuery(url_query);
-  QNetworkRequest req(url);
-  req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  QNetworkReply *reply = network_->get(req);
-  replies_ << reply;
+  QNetworkReply *reply = CreateGetRequest(url, url_query);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, search]() { HandleSearchReply(reply, search); });
 
   qLog(Debug) << "MusixmatchLyrics: Sending request for" << url;
@@ -104,6 +94,8 @@ bool MusixmatchLyricsProvider::SendSearchRequest(LyricsSearchContextPtr search) 
 void MusixmatchLyricsProvider::HandleSearchReply(QNetworkReply *reply, LyricsSearchContextPtr search) {
 
   Q_ASSERT(QThread::currentThread() != qApp->thread());
+
+  const QScopeGuard end_search = qScopeGuard([this, search]() { EndSearch(search); });
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
@@ -118,7 +110,6 @@ void MusixmatchLyricsProvider::HandleSearchReply(QNetworkReply *reply, LyricsSea
       return;
     }
     Error(QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
-    EndSearch(search);
     return;
   }
 
@@ -130,37 +121,31 @@ void MusixmatchLyricsProvider::HandleSearchReply(QNetworkReply *reply, LyricsSea
       return;
     }
     Error(QStringLiteral("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()));
-    EndSearch(search);
     return;
   }
 
-  QByteArray data = reply->readAll();
-  QJsonObject json_obj = ExtractJsonObj(data);
+  const QByteArray data = reply->readAll();
+  const QJsonObject json_obj = GetJsonObject(data).json_object;
   if (json_obj.isEmpty()) {
-    EndSearch(search);
     return;
   }
 
   if (!json_obj.contains("message"_L1)) {
     Error(u"Json reply is missing message object."_s, json_obj);
-    EndSearch(search);
     return;
   }
   if (!json_obj["message"_L1].isObject()) {
     Error(u"Json reply message is not an object."_s, json_obj);
-    EndSearch(search);
     return;
   }
   QJsonObject obj_message = json_obj["message"_L1].toObject();
 
   if (!obj_message.contains("header"_L1)) {
     Error(u"Json reply message object is missing header."_s, obj_message);
-    EndSearch(search);
     return;
   }
   if (!obj_message["header"_L1].isObject()) {
     Error(u"Json reply message header is not an object."_s, obj_message);
-    EndSearch(search);
     return;
   }
   QJsonObject obj_header = obj_message["header"_L1].toObject();
@@ -175,24 +160,20 @@ void MusixmatchLyricsProvider::HandleSearchReply(QNetworkReply *reply, LyricsSea
 
   if (!obj_message.contains("body"_L1)) {
     Error(u"Json reply is missing body."_s, json_obj);
-    EndSearch(search);
     return;
   }
   if (!obj_message["body"_L1].isObject()) {
     Error(u"Json body is not an object."_s, json_obj);
-    EndSearch(search);
     return;
   }
   QJsonObject obj_body = obj_message["body"_L1].toObject();
 
   if (!obj_body.contains("track_list"_L1)) {
     Error(u"Json response is missing body."_s, obj_body);
-    EndSearch(search);
     return;
   }
   if (!obj_body["track_list"_L1].isArray()) {
     Error(u"Json hits is not an array."_s, obj_body);
-    EndSearch(search);
     return;
   }
   const QJsonArray array_tracklist = obj_body["track_list"_L1].toArray();
@@ -201,25 +182,25 @@ void MusixmatchLyricsProvider::HandleSearchReply(QNetworkReply *reply, LyricsSea
     if (!value_track.isObject()) {
       continue;
     }
-    QJsonObject obj_track = value_track.toObject();
+    QJsonObject object_track = value_track.toObject();
 
-    if (!obj_track.contains("track"_L1) || !obj_track["track"_L1].isObject()) {
+    if (!object_track.contains("track"_L1) || !object_track["track"_L1].isObject()) {
       continue;
     }
 
-    obj_track = obj_track["track"_L1].toObject();
-    if (!obj_track.contains("artist_name"_L1) ||
-        !obj_track.contains("album_name"_L1) ||
-        !obj_track.contains("track_name"_L1) ||
-        !obj_track.contains("track_share_url"_L1)) {
-      Error(u"Missing one or more values in result object"_s, obj_track);
+    object_track = object_track["track"_L1].toObject();
+    if (!object_track.contains("artist_name"_L1) ||
+        !object_track.contains("album_name"_L1) ||
+        !object_track.contains("track_name"_L1) ||
+        !object_track.contains("track_share_url"_L1)) {
+      Error(u"Missing one or more values in result object"_s, object_track);
       continue;
     }
 
-    QString artist_name = obj_track["artist_name"_L1].toString();
-    QString album_name = obj_track["album_name"_L1].toString();
-    QString track_name = obj_track["track_name"_L1].toString();
-    QUrl track_share_url(obj_track["track_share_url"_L1].toString());
+    const QString artist_name = object_track["artist_name"_L1].toString();
+    const QString album_name = object_track["album_name"_L1].toString();
+    const QString track_name = object_track["track_name"_L1].toString();
+    const QUrl track_share_url(object_track["track_share_url"_L1].toString());
 
     // Ignore results where both the artist, album and title don't match.
     if (use_api_ &&
@@ -237,27 +218,22 @@ void MusixmatchLyricsProvider::HandleSearchReply(QNetworkReply *reply, LyricsSea
 
   }
 
-  if (search->requests_lyrics_.isEmpty()) {
-    EndSearch(search);
-  }
-  else {
-    for (const QUrl &url : std::as_const(search->requests_lyrics_)) {
-      SendLyricsRequest(search, url);
-    }
+  for (const QUrl &url : std::as_const(search->requests_lyrics_)) {
+    SendLyricsRequest(search, url);
   }
 
 }
 
 bool MusixmatchLyricsProvider::CreateLyricsRequest(LyricsSearchContextPtr search) {
 
-  QString artist_stripped = StringFixup(search->request.artist);
-  QString title_stripped = StringFixup(search->request.title);
+  const QString artist_stripped = StringFixup(search->request.artist);
+  const QString title_stripped = StringFixup(search->request.title);
   if (artist_stripped.isEmpty() || title_stripped.isEmpty()) {
     EndSearch(search);
     return false;
   }
 
-  QUrl url(QStringLiteral("https://www.musixmatch.com/lyrics/%1/%2").arg(artist_stripped, title_stripped));
+  const QUrl url(QStringLiteral("https://www.musixmatch.com/lyrics/%1/%2").arg(artist_stripped, title_stripped));
   search->requests_lyrics_.append(url);
   return SendLyricsRequest(search, url);
 
@@ -265,13 +241,10 @@ bool MusixmatchLyricsProvider::CreateLyricsRequest(LyricsSearchContextPtr search
 
 bool MusixmatchLyricsProvider::SendLyricsRequest(LyricsSearchContextPtr search, const QUrl &url) {
 
-  QNetworkRequest req(url);
-  req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  QNetworkReply *reply = network_->get(req);
-  replies_ << reply;
-  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, search, url]() { HandleLyricsReply(reply, search, url); });
-
   qLog(Debug) << "MusixmatchLyrics: Sending request for" << url;
+
+  QNetworkReply *reply = CreateGetRequest(url);
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, search, url]() { HandleLyricsReply(reply, search, url); });
 
   return true;
 
@@ -281,6 +254,8 @@ void MusixmatchLyricsProvider::HandleLyricsReply(QNetworkReply *reply, LyricsSea
 
   Q_ASSERT(QThread::currentThread() != qApp->thread());
 
+  const QScopeGuard end_search = qScopeGuard([this, search, url]() { EndSearch(search, url); });
+
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
   QObject::disconnect(reply, nullptr, this, nullptr);
@@ -288,19 +263,16 @@ void MusixmatchLyricsProvider::HandleLyricsReply(QNetworkReply *reply, LyricsSea
 
   if (reply->error() != QNetworkReply::NoError) {
     Error(QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
-    EndSearch(search, url);
     return;
   }
   if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
     Error(QStringLiteral("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()));
-    EndSearch(search, url);
     return;
   }
 
   const QByteArray data = reply->readAll();
   if (data.isEmpty()) {
     Error(u"Empty reply received from server."_s);
-    EndSearch(search, url);
     return;
   }
 
@@ -318,75 +290,64 @@ void MusixmatchLyricsProvider::HandleLyricsReply(QNetworkReply *reply, LyricsSea
   }
 
   if (content_json.isEmpty()) {
-    EndSearch(search, url);
     return;
   }
 
   static const QRegularExpression regex_html_tag(u"<[^>]*>"_s);
   if (content_json.contains(regex_html_tag)) {  // Make sure it's not HTML code.
-    EndSearch(search, url);
     return;
   }
 
-  QJsonObject obj_data = ExtractJsonObj(content_json.toUtf8());
-  if (obj_data.isEmpty()) {
-    EndSearch(search, url);
+  QJsonObject object_data = GetJsonObject(content_json.toUtf8()).json_object;
+  if (object_data.isEmpty()) {
     return;
   }
 
-  if (!obj_data.contains("props"_L1) || !obj_data["props"_L1].isObject()) {
-    Error(u"Json reply is missing props."_s, obj_data);
-    EndSearch(search, url);
+  if (!object_data.contains("props"_L1) || !object_data["props"_L1].isObject()) {
+    Error(u"Json reply is missing props."_s, object_data);
     return;
   }
-  obj_data = obj_data["props"_L1].toObject();
+  object_data = object_data["props"_L1].toObject();
 
-  if (!obj_data.contains("pageProps"_L1) || !obj_data["pageProps"_L1].isObject()) {
-    Error(u"Json props is missing pageProps."_s, obj_data);
-    EndSearch(search, url);
+  if (!object_data.contains("pageProps"_L1) || !object_data["pageProps"_L1].isObject()) {
+    Error(u"Json props is missing pageProps."_s, object_data);
     return;
   }
-  obj_data = obj_data["pageProps"_L1].toObject();
+  object_data = object_data["pageProps"_L1].toObject();
 
-  if (!obj_data.contains("data"_L1) || !obj_data["data"_L1].isObject()) {
-    Error(u"Json pageProps is missing data."_s, obj_data);
-    EndSearch(search, url);
+  if (!object_data.contains("data"_L1) || !object_data["data"_L1].isObject()) {
+    Error(u"Json pageProps is missing data."_s, object_data);
     return;
   }
-  obj_data = obj_data["data"_L1].toObject();
+  object_data = object_data["data"_L1].toObject();
 
 
-  if (!obj_data.contains("trackInfo"_L1) || !obj_data["trackInfo"_L1].isObject()) {
-    Error(u"Json data is missing trackInfo."_s, obj_data);
-    EndSearch(search, url);
+  if (!object_data.contains("trackInfo"_L1) || !object_data["trackInfo"_L1].isObject()) {
+    Error(u"Json data is missing trackInfo."_s, object_data);
     return;
   }
-  obj_data = obj_data["trackInfo"_L1].toObject();
+  object_data = object_data["trackInfo"_L1].toObject();
 
-  if (!obj_data.contains("data"_L1) || !obj_data["data"_L1].isObject()) {
-    Error(u"Json trackInfo reply is missing data."_s, obj_data);
-    EndSearch(search, url);
+  if (!object_data.contains("data"_L1) || !object_data["data"_L1].isObject()) {
+    Error(u"Json trackInfo reply is missing data."_s, object_data);
     return;
   }
-  obj_data = obj_data["data"_L1].toObject();
+  object_data = object_data["data"_L1].toObject();
 
-  if (!obj_data.contains("track"_L1) || !obj_data["track"_L1].isObject()) {
-    Error(u"Json data is missing track."_s, obj_data);
-    EndSearch(search, url);
+  if (!object_data.contains("track"_L1) || !object_data["track"_L1].isObject()) {
+    Error(u"Json data is missing track."_s, object_data);
     return;
   }
 
-  const QJsonObject obj_track = obj_data["track"_L1].toObject();
+  const QJsonObject obj_track = object_data["track"_L1].toObject();
 
   if (!obj_track.contains("hasLyrics"_L1) || !obj_track["hasLyrics"_L1].isBool()) {
     Error(u"Json track is missing hasLyrics."_s, obj_track);
-    EndSearch(search, url);
     return;
   }
 
   const bool has_lyrics = obj_track["hasLyrics"_L1].toBool();
   if (!has_lyrics) {
-    EndSearch(search, url);
     return;
   }
 
@@ -401,32 +362,28 @@ void MusixmatchLyricsProvider::HandleLyricsReply(QNetworkReply *reply, LyricsSea
     result.title = obj_track["name"_L1].toString();
   }
 
-  if (!obj_data.contains("lyrics"_L1) || !obj_data["lyrics"_L1].isObject()) {
-    Error(u"Json data is missing lyrics."_s, obj_data);
-    EndSearch(search, url);
+  if (!object_data.contains("lyrics"_L1) || !object_data["lyrics"_L1].isObject()) {
+    Error(u"Json data is missing lyrics."_s, object_data);
     return;
   }
-  QJsonObject obj_lyrics = obj_data["lyrics"_L1].toObject();
+  QJsonObject object_lyrics = object_data["lyrics"_L1].toObject();
 
-  if (!obj_lyrics.contains("body"_L1) || !obj_lyrics["body"_L1].isString()) {
-    Error(u"Json lyrics reply is missing body."_s, obj_lyrics);
-    EndSearch(search, url);
+  if (!object_lyrics.contains("body"_L1) || !object_lyrics["body"_L1].isString()) {
+    Error(u"Json lyrics reply is missing body."_s, object_lyrics);
     return;
   }
-  result.lyrics = obj_lyrics["body"_L1].toString();
+  result.lyrics = object_lyrics["body"_L1].toString();
 
   if (!result.lyrics.isEmpty()) {
     result.lyrics = Utilities::DecodeHtmlEntities(result.lyrics);
     search->results.append(result);
   }
 
-  EndSearch(search, url);
-
 }
 
 void MusixmatchLyricsProvider::EndSearch(LyricsSearchContextPtr search, const QUrl &url) {
 
-  if (search->requests_lyrics_.contains(url)) {
+  if (!url.isEmpty() && search->requests_lyrics_.contains(url)) {
     search->requests_lyrics_.removeAll(url);
   }
 
@@ -440,12 +397,5 @@ void MusixmatchLyricsProvider::EndSearch(LyricsSearchContextPtr search, const QU
     }
     Q_EMIT SearchFinished(search->id, search->results);
   }
-
-}
-
-void MusixmatchLyricsProvider::Error(const QString &error, const QVariant &debug) {
-
-  qLog(Error) << "MusixmatchLyrics:" << error;
-  if (debug.isValid()) qLog(Debug) << debug;
 
 }
