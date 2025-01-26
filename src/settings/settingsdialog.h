@@ -97,6 +97,8 @@ class SettingsDialog : public QDialog {
     Qobuz,
     Spotify,
     Radio,
+    Dropbox,
+    OneDrive,
   };
 
   enum Role {

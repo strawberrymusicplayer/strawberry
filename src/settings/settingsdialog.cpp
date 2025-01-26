@@ -94,6 +94,10 @@
 #  include "qobuz/qobuzservice.h"
 #  include "qobuzsettingspage.h"
 #endif
+#ifdef HAVE_DROPBOX
+#  include "dropbox/dropboxservice.h"
+#  include "dropboxsettingspage.h"
+#endif
 
 #include "radiosettingspage.h"
 
@@ -150,6 +154,7 @@ SettingsDialog::SettingsDialog(const SharedPtr<Player> player,
 #ifdef HAVE_MOODBAR
   AddPage(Page::Moodbar, new MoodbarSettingsPage(this, this), iface);
 #endif
+
 #ifdef HAVE_WAVEFORM
   AddPage(Page::Waveform, new WaveformSettingsPage(this, this), iface);
 #endif
@@ -168,6 +173,9 @@ SettingsDialog::SettingsDialog(const SharedPtr<Player> player,
 #endif
 #ifdef HAVE_QOBUZ
   AddPage(Page::Qobuz, new QobuzSettingsPage(this, streaming_services->Service<QobuzService>(), this), streaming);
+#endif
+#ifdef HAVE_DROPBOX
+  AddPage(Page::Dropbox, new DropboxSettingsPage(this, streaming_services->Service<DropboxService>(), this), streaming);
 #endif
 
   AddPage(Page::Radio, new RadioSettingsPage(this, this), streaming);
