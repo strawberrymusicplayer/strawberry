@@ -367,7 +367,7 @@ if(APPLE OR WIN32)
   )
 endif()
 
-optional_component(QPA_QPLATFORMNATIVEINTERFACE ON "QPA Platform interface"
+optional_component(QPA_QPLATFORMNATIVEINTERFACE ON "QPA Platform Native Interface"
   DEPENDS "Qt Gui Private" QT_GUI_PRIVATE_FOUND
 )
 
