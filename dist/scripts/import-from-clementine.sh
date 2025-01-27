@@ -62,9 +62,9 @@ INSERT INTO strawberry.subdirectories (directory_id, path, mtime) SELECT directo
 INSERT INTO strawberry.songs (ROWID, title, album, artist, albumartist, track, disc, year, originalyear, genre, compilation, composer, performer, grouping, comment, lyrics, beginning, length, bitrate, samplerate, directory_id, url, filetype, filesize, mtime, ctime, unavailable, playcount, skipcount, lastplayed, compilation_detected, compilation_on, compilation_off, compilation_effective, art_automatic, art_manual, effective_albumartist, effective_originalyear, cue_path, rating)
 SELECT ROWID, title, album, artist, albumartist, track, disc, year, originalyear, genre, compilation, composer, performer, grouping, comment, lyrics, beginning, length, bitrate, samplerate, directory, filename, filetype, filesize, mtime, ctime, unavailable, playcount, skipcount, lastplayed, sampler, forced_compilation_on, forced_compilation_off, effective_compilation, art_automatic, art_manual, effective_albumartist, effective_originalyear, cue_path, rating FROM clementine.songs WHERE unavailable = 0;
 UPDATE strawberry.songs SET source = 2;
-UPDATE strawberry.songs SET artist_id = "";
-UPDATE strawberry.songs SET album_id = "";
-UPDATE strawberry.songs SET song_id = "";
+UPDATE strawberry.songs SET artist_id = '';
+UPDATE strawberry.songs SET album_id = '';
+UPDATE strawberry.songs SET song_id = '';
 
 /* Import playlists */
 
@@ -140,7 +140,7 @@ SELECT ROWID,
    bitrate,
    samplerate,
    directory,
-   filename,
+   CASE WHEN filename IS NULL THEN '' ELSE filename END,
    filetype,
    filesize,
    mtime,
@@ -162,16 +162,9 @@ SELECT ROWID,
 
 UPDATE strawberry.playlist_items SET source = 2;
 UPDATE strawberry.playlist_items SET type = 2;
-UPDATE strawberry.playlist_items SET artist_id = "";
-UPDATE strawberry.playlist_items SET album_id = "";
-UPDATE strawberry.playlist_items SET song_id = "";
-
-/* Recreate the FTS tables */
-
-DELETE FROM strawberry.songs_fts;
-INSERT INTO strawberry.songs_fts (ROWID, ftstitle, ftsalbum, ftsartist, ftsalbumartist, ftscomposer, ftsperformer, ftsgrouping, ftsgenre, ftscomment)
-SELECT ROWID, title, album, artist, albumartist, composer, performer, grouping, genre, comment
-FROM strawberry.songs;
+UPDATE strawberry.playlist_items SET artist_id = '';
+UPDATE strawberry.playlist_items SET album_id = '';
+UPDATE strawberry.playlist_items SET song_id = '';
 
 EOF
 
