@@ -2,7 +2,7 @@
 
 # Strawberry Music Player
 # Copyright 2020, Jonas Kvinge <jonas@jkvinge.net>
-# 2021 Alexey Vazhnov
+# Copyright 2021, Alexey Vazhnov
 #
 # Strawberry is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 # SPDX-License-Identifier: GPL-3.0-only
 
 
-# Based on https://github.com/strawberrymusicplayer/strawberry/wiki/Import-collection-library-and-playlists-data-from-Clementine
+# Based on https://wiki.strawberrymusicplayer.org/wiki/Import_collection_library_and_playlists_from_Clementine
 
 set -o nounset
 set -o errexit
@@ -35,8 +35,8 @@ test -f "$FILE_DST" || { echo "No such file: $FILE_DST"; exit 1; }
 
 echo "Will try to copy information from $FILE_SRC to $FILE_DST."
 echo
-echo 'This script will **delete all information** from Strawberry database!'
-read -r -p 'Do you want to continue? (the only YES is accepted) ' answer
+echo 'This script will **delete all data** from the Strawberry database!'
+read -r -p 'Do you want to continue? (Only YES is accepted) ' answer
 if [ "$answer" != "YES" ]; then exit 1; fi
 
 # 'heredoc' with substitution of variables, see `man bash`, "Here Documents":
