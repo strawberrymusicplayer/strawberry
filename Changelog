@@ -2,6 +2,16 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+   Bugfixes:
+     * Fixed strawberry exiting when clicking tray icon.
+     * Fixed Clementine import script errors.
+
+  Enhancements:
+     * Only maximize error dialog if Strawberry is the active window (#1627).
+     * Added QPA Platform Native Interface as optional component.
+
 Version 1.2.6 (2025.01.17):
 
    Bugfixes:
