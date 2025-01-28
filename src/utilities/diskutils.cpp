@@ -24,7 +24,7 @@
 #  include <sys/statvfs.h>
 #endif
 
-#ifdef Q_OS_WIN
+#ifdef Q_OS_WIN32
 #  include <windows.h>
 #endif
 

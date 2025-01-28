@@ -70,7 +70,7 @@ class CollectionViewContainer;
 class CollectionFilter;
 class AlbumCoverChoiceController;
 class CommandlineOptions;
-#ifndef Q_OS_WIN
+#ifndef Q_OS_WIN32
 class DeviceViewContainer;
 #endif
 class EditTagDialog;
@@ -92,7 +92,7 @@ class Ui_MainWindow;
 class StreamingSongsView;
 class StreamingTabsView;
 class SmartPlaylistsViewContainer;
-#ifdef Q_OS_WIN
+#ifdef Q_OS_WIN32
 class Windows7ThumbBar;
 #endif
 class AddStreamDialog;
@@ -114,7 +114,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void hideEvent(QHideEvent *e) override;
   void closeEvent(QCloseEvent *e) override;
   void keyPressEvent(QKeyEvent *e) override;
-#ifdef Q_OS_WIN
+#ifdef Q_OS_WIN32
   bool nativeEvent(const QByteArray &eventType, void *message, qintptr *result) override;
 #endif
 
@@ -289,7 +289,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 
  private:
   Ui_MainWindow *ui_;
-#ifdef Q_OS_WIN
+#ifdef Q_OS_WIN32
   Windows7ThumbBar *thumbbar_;
 #endif
 
@@ -306,7 +306,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   ContextView *context_view_;
   CollectionViewContainer *collection_view_;
   FileView *file_view_;
-#ifndef Q_OS_WIN
+#ifndef Q_OS_WIN32
   DeviceViewContainer *device_view_;
 #endif
   PlaylistListContainer *playlist_list_;
@@ -359,7 +359,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   QAction *playlist_move_to_collection_;
   QAction *playlist_open_in_browser_;
   QAction *playlist_organize_;
-#ifndef Q_OS_WIN
+#ifndef Q_OS_WIN32
   QAction *playlist_copy_to_device_;
 #endif
   QAction *playlist_delete_;

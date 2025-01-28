@@ -58,7 +58,7 @@
 #include "ui_playlistlistcontainer.h"
 #include "organize/organizedialog.h"
 #include "constants/appearancesettings.h"
-#ifndef Q_OS_WIN
+#ifndef Q_OS_WIN32
 #  include "device/devicemanager.h"
 #  include "device/devicestatefiltermodel.h"
 #endif
@@ -73,7 +73,7 @@ PlaylistListContainer::PlaylistListContainer(QWidget *parent)
       action_new_folder_(new QAction(this)),
       action_remove_(new QAction(this)),
       action_save_playlist_(new QAction(this)),
-#ifndef Q_OS_WIN
+#ifndef Q_OS_WIN32
       action_copy_to_device_(new QAction(this)),
 #endif
       model_(new PlaylistListModel(this)),
@@ -87,7 +87,7 @@ PlaylistListContainer::PlaylistListContainer(QWidget *parent)
   action_new_folder_->setText(tr("New folder"));
   action_remove_->setText(tr("Delete"));
   action_save_playlist_->setText(tr("Save playlist", "Save playlist menu action."));
-#ifndef Q_OS_WIN
+#ifndef Q_OS_WIN32
   action_copy_to_device_->setText(tr("Copy to device..."));
 #endif
 
@@ -98,7 +98,7 @@ PlaylistListContainer::PlaylistListContainer(QWidget *parent)
   QObject::connect(action_new_folder_, &QAction::triggered, this, &PlaylistListContainer::NewFolderClicked);
   QObject::connect(action_remove_, &QAction::triggered, this, &PlaylistListContainer::Delete);
   QObject::connect(action_save_playlist_, &QAction::triggered, this, &PlaylistListContainer::SavePlaylist);
-#ifndef Q_OS_WIN
+#ifndef Q_OS_WIN32
   QObject::connect(action_copy_to_device_, &QAction::triggered, this, &PlaylistListContainer::CopyToDevice);
 #endif
   QObject::connect(model_, &PlaylistListModel::PlaylistPathChanged, this, &PlaylistListContainer::PlaylistPathChanged);
@@ -172,7 +172,7 @@ void PlaylistListContainer::showEvent(QShowEvent *e) {
     action_new_folder_->setIcon(IconLoader::Load(u"folder-new"_s));
     action_remove_->setIcon(IconLoader::Load(u"edit-delete"_s));
     action_save_playlist_->setIcon(IconLoader::Load(u"document-save"_s));
-#ifndef Q_OS_WIN
+#ifndef Q_OS_WIN32
     action_copy_to_device_->setIcon(IconLoader::Load(u"device"_s));
 #endif
 
@@ -370,7 +370,7 @@ void PlaylistListContainer::ItemMimeDataDropped(const QModelIndex &proxy_idx, co
 
 void PlaylistListContainer::CopyToDevice() {
 
-#ifndef Q_OS_WIN
+#ifndef Q_OS_WIN32
 
   const QModelIndex proxy_idx = ui_->tree->currentIndex();
   if (!proxy_idx.isValid()) return;
@@ -481,7 +481,7 @@ void PlaylistListContainer::contextMenuEvent(QContextMenuEvent *e) {
     menu_->addAction(action_remove_);
     menu_->addSeparator();
     menu_->addAction(action_save_playlist_);
-#ifndef Q_OS_WIN
+#ifndef Q_OS_WIN32
     menu_->addSeparator();
     menu_->addAction(action_copy_to_device_);
 #endif
@@ -489,7 +489,7 @@ void PlaylistListContainer::contextMenuEvent(QContextMenuEvent *e) {
 
   action_remove_->setVisible(ui_->tree->ItemsSelected());
   action_save_playlist_->setVisible(ui_->tree->ItemsSelected());
-#ifndef Q_OS_WIN
+#ifndef Q_OS_WIN32
   action_copy_to_device_->setVisible(ui_->tree->ItemsSelected());
 #endif
 

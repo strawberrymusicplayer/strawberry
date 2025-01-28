@@ -275,7 +275,7 @@ void BackendSettingsPage::Load_Device(const QString &output, const QVariant &dev
   ui_->combobox_device->clear();
   ui_->lineedit_device->clear();
 
-#ifndef Q_OS_WIN
+#ifndef Q_OS_WIN32
   ui_->combobox_device->addItem(IconLoader::Load(u"soundcard"_s), QLatin1String(kOutputAutomaticallySelect), QVariant());
 #endif
 

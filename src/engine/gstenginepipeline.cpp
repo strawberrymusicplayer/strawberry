@@ -1567,7 +1567,7 @@ void GstEnginePipeline::ErrorMessageReceived(GstMessage *msg) {
     }
   }
 
-#ifdef Q_OS_WIN
+#ifdef Q_OS_WIN32
   // Ignore non-error received for directsoundsink: "IDirectSoundBuffer_GetStatus The operation completed successfully"
   if (code == GST_RESOURCE_ERROR_OPEN_WRITE && message.contains(QLatin1String("IDirectSoundBuffer_GetStatus The operation completed successfully."))) {
     return;

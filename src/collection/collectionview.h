@@ -176,7 +176,7 @@ class CollectionView : public AutoExpandingTreeView {
   QAction *action_organize_;
   QAction *action_search_for_this_;
 
-#ifndef Q_OS_WIN
+#ifndef Q_OS_WIN32
   QAction *action_copy_to_device_;
 #endif
   QAction *action_edit_track_;

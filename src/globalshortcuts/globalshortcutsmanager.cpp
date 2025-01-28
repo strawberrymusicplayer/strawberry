@@ -44,7 +44,7 @@
 #  include "globalshortcutsbackend-x11.h"
 #endif
 
-#ifdef Q_OS_WIN
+#ifdef Q_OS_WIN32
 #  include "globalshortcutsbackend-win.h"
 #endif
 
@@ -92,7 +92,7 @@ GlobalShortcutsManager::GlobalShortcutsManager(QWidget *parent) : QWidget(parent
   backends_ << new GlobalShortcutsBackendMacOS(this, this);
 #endif
 
-#ifdef Q_OS_WIN
+#ifdef Q_OS_WIN32
   backends_ << new GlobalShortcutsBackendWin(this, this);
 #endif
 
@@ -112,7 +112,7 @@ void GlobalShortcutsManager::ReloadSettings() {
   backends_enabled_ << GlobalShortcutsBackend::Type::macOS;
 #endif
 
-#ifdef Q_OS_WIN
+#ifdef Q_OS_WIN32
   backends_enabled_ << GlobalShortcutsBackend::Type::Win;
 #endif
 

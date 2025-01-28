@@ -156,7 +156,7 @@
 #include "lyrics/lyricsproviders.h"
 #include "device/devicemanager.h"
 #include "device/devicestatefiltermodel.h"
-#ifndef Q_OS_WIN
+#ifndef Q_OS_WIN32
 #  include "device/deviceview.h"
 #  include "device/deviceviewcontainer.h"
 #endif
@@ -208,7 +208,7 @@
 
 #include "organize/organizeerrordialog.h"
 
-#ifdef Q_OS_WIN
+#ifdef Q_OS_WIN32
 #  include "core/windows7thumbbar.h"
 #endif
 
@@ -278,7 +278,7 @@ constexpr char QTSPARKLE_URL[] = "https://www.strawberrymusicplayer.org/sparkle-
 MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OSDBase *osd, const CommandlineOptions &options, QWidget *parent)
     : QMainWindow(parent),
       ui_(new Ui_MainWindow),
-#ifdef Q_OS_WIN
+#ifdef Q_OS_WIN32
       thumbbar_(new Windows7ThumbBar(this)),
 #endif
       app_(app),
@@ -297,7 +297,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
       context_view_(new ContextView(this)),
       collection_view_(new CollectionViewContainer(this)),
       file_view_(new FileView(this)),
-#ifndef Q_OS_WIN
+#ifndef Q_OS_WIN32
       device_view_(new DeviceViewContainer(this)),
 #endif
       playlist_list_(new PlaylistListContainer(this)),
@@ -362,7 +362,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
       playlist_move_to_collection_(nullptr),
       playlist_open_in_browser_(nullptr),
       playlist_organize_(nullptr),
-#ifndef Q_OS_WIN
+#ifndef Q_OS_WIN32
       playlist_copy_to_device_(nullptr),
 #endif
       playlist_delete_(nullptr),
@@ -416,7 +416,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   ui_->tabs->AddTab(smartplaylists_view_, u"smartplaylists"_s, IconLoader::Load(u"view-media-playlist"_s, true, 0, 32), tr("Smart playlists"));
   ui_->tabs->AddTab(file_view_, u"files"_s, IconLoader::Load(u"document-open"_s, true, 0, 32), tr("Files"));
   ui_->tabs->AddTab(radio_view_, u"radios"_s, IconLoader::Load(u"radio"_s, true, 0, 32), tr("Radios"));
-#ifndef Q_OS_WIN
+#ifndef Q_OS_WIN32
   ui_->tabs->AddTab(device_view_, u"devices"_s, IconLoader::Load(u"device"_s, true, 0, 32), tr("Devices"));
 #endif
 #ifdef HAVE_SUBSONIC
@@ -466,7 +466,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
 
   collection_view_->view()->setModel(app_->collection()->model()->filter());
   collection_view_->view()->Init(app->task_manager(), app->tagreader_client(), app->network(), app->albumcover_loader(), app->current_albumcover_loader(), app->cover_providers(), app->lyrics_providers(), app->collection(), app->device_manager(), app->streaming_services());
-#ifndef Q_OS_WIN
+#ifndef Q_OS_WIN32
   device_view_->view()->Init(app->task_manager(), app->tagreader_client(), app->device_manager(), app->collection_model()->directory_model());
 #endif
   playlist_list_->Init(app_->task_manager(), app->tagreader_client(), app_->playlist_manager(), app_->playlist_backend(), app_->device_manager());
@@ -540,7 +540,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   QObject::connect(file_view_, &FileView::CopyToCollection, this, &MainWindow::CopyFilesToCollection);
   QObject::connect(file_view_, &FileView::MoveToCollection, this, &MainWindow::MoveFilesToCollection);
   QObject::connect(file_view_, &FileView::EditTags, this, &MainWindow::EditFileTags);
-#ifndef Q_OS_WIN
+#ifndef Q_OS_WIN32
   QObject::connect(file_view_, &FileView::CopyToDevice, this, &MainWindow::CopyFilesToDevice);
 #endif
   file_view_->SetTaskManager(app_->task_manager());
@@ -704,7 +704,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   QObject::connect(album_cover_choice_controller_->search_cover_auto_action(), &QAction::triggered, this, &MainWindow::SearchCoverAutomatically);
   QObject::connect(album_cover_choice_controller_->search_cover_auto_action(), &QAction::toggled, this, &MainWindow::ToggleSearchCoverAuto);
 
-#ifndef Q_OS_WIN
+#ifndef Q_OS_WIN32
   // Devices connections
   QObject::connect(device_view_->view(), &DeviceView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
 #endif
@@ -810,7 +810,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   playlist_organize_ = playlist_menu_->addAction(IconLoader::Load(u"edit-copy"_s), tr("Organize files..."), this, &MainWindow::PlaylistMoveToCollection);
   playlist_copy_to_collection_ = playlist_menu_->addAction(IconLoader::Load(u"edit-copy"_s), tr("Copy to collection..."), this, &MainWindow::PlaylistCopyToCollection);
   playlist_move_to_collection_ = playlist_menu_->addAction(IconLoader::Load(u"go-jump"_s), tr("Move to collection..."), this, &MainWindow::PlaylistMoveToCollection);
-#ifndef Q_OS_WIN
+#ifndef Q_OS_WIN32
   playlist_copy_to_device_ = playlist_menu_->addAction(IconLoader::Load(u"device"_s), tr("Copy to device..."), this, &MainWindow::PlaylistCopyToDevice);
 #endif
   playlist_delete_ = playlist_menu_->addAction(IconLoader::Load(u"edit-delete"_s), tr("Delete from disk..."), this, &MainWindow::PlaylistDelete);
@@ -854,7 +854,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   QObject::connect(&*tray_icon_, &SystemTrayIcon::ChangeVolume, this, &MainWindow::VolumeWheelEvent);
 
   // Windows 7 thumbbar buttons
-#ifdef Q_OS_WIN
+#ifdef Q_OS_WIN32
   thumbbar_->SetActions(QList<QAction*>() << ui_->action_previous_track << ui_->action_play_pause << ui_->action_stop << ui_->action_next_track << nullptr << ui_->action_love);
 #endif
 
@@ -966,7 +966,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   QObject::connect(&*app_->lastfm_import(), &LastFMImport::UpdateLastPlayed, &*app_->collection_backend(), &CollectionBackend::UpdateLastPlayed);
   QObject::connect(&*app_->lastfm_import(), &LastFMImport::UpdatePlayCount, &*app_->collection_backend(), &CollectionBackend::UpdatePlayCount);
 
-#if !defined(HAVE_AUDIOCD) || defined(Q_OS_WIN)
+#if !defined(HAVE_AUDIOCD) || defined(Q_OS_WIN32)
   ui_->action_open_cd->setEnabled(false);
   ui_->action_open_cd->setVisible(false);
 #endif
@@ -2002,7 +2002,7 @@ void MainWindow::PlaylistRightClick(const QPoint global_pos, const QModelIndex &
   playlist_show_in_collection_->setVisible(false);
   playlist_copy_to_collection_->setVisible(false);
   playlist_move_to_collection_->setVisible(false);
-#ifndef Q_OS_WIN
+#ifndef Q_OS_WIN32
   playlist_copy_to_device_->setVisible(false);
 #endif
   playlist_organize_->setVisible(false);
@@ -2077,7 +2077,7 @@ void MainWindow::PlaylistRightClick(const QPoint global_pos, const QModelIndex &
       playlist_move_to_collection_->setVisible(local_songs > 0);
     }
 
-#ifndef Q_OS_WIN
+#ifndef Q_OS_WIN32
     playlist_copy_to_device_->setVisible(local_songs > 0);
 #endif
 
@@ -2716,7 +2716,7 @@ void MainWindow::MoveFilesToCollection(const QList<QUrl> &urls) {
 
 void MainWindow::CopyFilesToDevice(const QList<QUrl> &urls) {
 
-#ifndef Q_OS_WIN
+#ifndef Q_OS_WIN32
   organize_dialog_->SetDestinationModel(app_->device_manager()->connected_devices_model(), true);
   organize_dialog_->SetCopy(true);
   if (organize_dialog_->SetUrls(urls)) {
@@ -2856,7 +2856,7 @@ void MainWindow::PlaylistSkip() {
 
 void MainWindow::PlaylistCopyToDevice() {
 
-#ifndef Q_OS_WIN
+#ifndef Q_OS_WIN32
 
   SongList songs;
 
@@ -3032,7 +3032,7 @@ void MainWindow::Raise() {
 
 }
 
-#ifdef Q_OS_WIN
+#ifdef Q_OS_WIN32
 bool MainWindow::nativeEvent(const QByteArray &eventType, void *message, qintptr *result) {
 
   if (exit_count_ == 0 && message) {
@@ -3041,7 +3041,7 @@ bool MainWindow::nativeEvent(const QByteArray &eventType, void *message, qintptr
   }
   return QMainWindow::nativeEvent(eventType, message, result);
 }
-#endif  // Q_OS_WIN
+#endif  // Q_OS_WIN32
 
 void MainWindow::AutoCompleteTags() {
 

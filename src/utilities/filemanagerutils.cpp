@@ -107,7 +107,7 @@ void RevealFileInFinder(const QString &path) {
 }
 #endif  // Q_OS_MACOS
 
-#ifdef Q_OS_WIN
+#ifdef Q_OS_WIN32
 void ShowFileInExplorer(const QString &path);
 void ShowFileInExplorer(const QString &path) {
   QProcess::execute(u"explorer.exe"_s, QStringList() << u"/select,"_s << QDir::toNativeSeparators(path));

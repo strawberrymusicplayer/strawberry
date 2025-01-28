@@ -61,11 +61,11 @@
 #include "osdpretty.h"
 #include "ui_osdpretty.h"
 
-#ifdef Q_OS_WIN
+#ifdef Q_OS_WIN32
 #  include <windows.h>
 #endif
 
-#ifdef Q_OS_WIN
+#ifdef Q_OS_WIN32
 #  include "utilities/winutils.h"
 #endif
 
@@ -103,7 +103,7 @@ OSDPretty::OSDPretty(const Mode mode, QWidget *parent)
 
   ui_->setupUi(this);
 
-#ifdef Q_OS_WIN
+#ifdef Q_OS_WIN32
   // Don't show the window in the taskbar.  Qt::ToolTip does this too, but it adds an extra ugly shadow.
   int ex_style = GetWindowLong(reinterpret_cast<HWND>(winId()), GWL_EXSTYLE);
   ex_style |= WS_EX_NOACTIVATE;
@@ -238,7 +238,7 @@ void OSDPretty::Load() {
   background_opacity_ = s.value(OSDPrettySettings::kBackgroundOpacity, 0.85).toFloat();
   font_.fromString(s.value(OSDPrettySettings::kFont, u"Verdana,9,-1,5,50,0,0,0,0,0"_s).toString());
   disable_duration_ = s.value(OSDPrettySettings::kDisableDuration, false).toBool();
-#ifdef Q_OS_WIN
+#ifdef Q_OS_WIN32
   fading_enabled_ = s.value(OSDPrettySettings::kFading, true).toBool();
 #else
   fading_enabled_ = s.value(OSDPrettySettings::kFading, false).toBool();
@@ -432,7 +432,7 @@ void OSDPretty::Reposition() {
     int x = popup_pos_.x() < 0 ? geometry.right() - width() : geometry.left() + popup_pos_.x();
     int y = popup_pos_.y() < 0 ? geometry.bottom() - height() : geometry.top() + popup_pos_.y();
 
-#ifndef Q_OS_WIN
+#ifndef Q_OS_WIN32
     x = qBound(0, x, geometry.right() - width());
     y = qBound(0, y, geometry.bottom() - height());
 #endif
@@ -456,7 +456,7 @@ void OSDPretty::Reposition() {
   }
 
   // On windows, enable blurbehind on the masked area
-#ifdef Q_OS_WIN
+#ifdef Q_OS_WIN32
   Utilities::enableBlurBehindWindow(windowHandle(), QRegion(mask));
 #endif
 

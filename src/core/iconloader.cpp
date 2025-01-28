@@ -43,7 +43,7 @@ bool IconLoader::custom_icons_ = false;
 
 void IconLoader::Init() {
 
-#if !defined(Q_OS_MACOS) && !defined(Q_OS_WIN)
+#if !defined(Q_OS_MACOS) && !defined(Q_OS_WIN32)
   Settings s;
   s.beginGroup(AppearanceSettings::kSettingsGroup);
   system_icons_ = s.value("system_icons", false).toBool();

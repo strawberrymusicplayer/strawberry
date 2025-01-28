@@ -101,7 +101,7 @@ AppearanceSettingsPage::AppearanceSettingsPage(SettingsDialog *dialog, QWidget *
   QObject::connect(ui_->select_playlist_playing_song_color, &QPushButton::pressed, this, &AppearanceSettingsPage::PlaylistPlayingSongSelectColor);
   QObject::connect(ui_->playlist_playing_song_color_system, &QRadioButton::toggled, this, &AppearanceSettingsPage::PlaylistPlayingSongColorSystem);
 
-#if defined(Q_OS_MACOS) || defined(Q_OS_WIN)
+#if defined(Q_OS_MACOS) || defined(Q_OS_WIN32)
   ui_->checkbox_system_icons->hide();
 #endif
 
@@ -120,7 +120,7 @@ void AppearanceSettingsPage::Load() {
 
   ComboBoxLoadFromSettings(s, ui_->combobox_style, QLatin1String(kStyle), u"default"_s);
 
-#if !defined(Q_OS_MACOS) && !defined(Q_OS_WIN)
+#if !defined(Q_OS_MACOS) && !defined(Q_OS_WIN32)
   ui_->checkbox_system_icons->setChecked(s.value(kSystemThemeIcons, false).toBool());
 #endif
 
@@ -202,7 +202,7 @@ void AppearanceSettingsPage::Save() {
 
   s.setValue("style", ui_->combobox_style->currentText());
 
-#if defined(Q_OS_MACOS) || defined(Q_OS_WIN)
+#if defined(Q_OS_MACOS) || defined(Q_OS_WIN32)
   s.setValue(kSystemThemeIcons, false);
 #else
   s.setValue(kSystemThemeIcons, ui_->checkbox_system_icons->isChecked());
