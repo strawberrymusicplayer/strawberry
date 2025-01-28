@@ -94,12 +94,13 @@ OSDPretty::OSDPretty(const Mode mode, QWidget *parent)
       fader_(new QTimeLine(300, this)),
       toggle_mode_(false) {
 
-  Qt::WindowFlags flags = Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::X11BypassWindowManagerHint;
+  setWindowTitle(u"OSDPretty"_s);
+  setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::X11BypassWindowManagerHint);
 
-  setWindowFlags(flags);
   setAttribute(Qt::WA_TranslucentBackground, true);
   setAttribute(Qt::WA_X11NetWmWindowTypeNotification, true);
   setAttribute(Qt::WA_ShowWithoutActivating, true);
+
   ui_->setupUi(this);
 
 #ifdef Q_OS_WIN
