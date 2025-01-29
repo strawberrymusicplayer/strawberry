@@ -115,18 +115,9 @@ NotificationsSettingsPage::NotificationsSettingsPage(SettingsDialog *dialog, OSD
   QObject::connect(ui_->notifications_exp_chooser2, &QToolButton::triggered, this, &NotificationsSettingsPage::InsertVariableSecondLine);
   QObject::connect(ui_->notifications_disable_duration, &QCheckBox::toggled, ui_->notifications_duration, &NotificationsSettingsPage::setDisabled);
 
-#ifdef Q_OS_WIN32
-  if (!osd_->SupportsNativeNotifications() && !osd_->SupportsTrayPopups()) {
-    ui_->notifications_native->setEnabled(false);
-  }
-#else
-  if (!osd_->SupportsNativeNotifications()) {
-    ui_->notifications_native->setEnabled(false);
-  }
-#endif
-  if (!osd_->SupportsTrayPopups()) {
-    ui_->notifications_tray->setEnabled(false);
-  }
+  ui_->notifications_native->setEnabled(osd_->SupportsNativeNotifications());
+  ui_->notifications_tray->setEnabled(osd_->SupportsTrayPopups());
+  ui_->notifications_pretty->setEnabled(osd_->SupportsOSDPretty());
 
   QObject::connect(ui_->notifications_pretty, &QRadioButton::toggled, this, &NotificationsSettingsPage::UpdatePopupVisible);
 
@@ -161,30 +152,20 @@ void NotificationsSettingsPage::Load() {
   Settings s;
 
   s.beginGroup(OSDSettings::kSettingsGroup);
-  const OSDSettings::Type osd_type = static_cast<OSDSettings::Type>(s.value(OSDSettings::kType, static_cast<int>(OSDSettings::Type::Native)).toInt());
+  OSDSettings::Type osd_type = static_cast<OSDSettings::Type>(s.value(OSDSettings::kType, static_cast<int>(OSDSettings::Type::Native)).toInt());
+  if (!osd_->IsTypeSupported(osd_type)) {
+    osd_type = osd_->GetSupportedType();
+  }
   switch (osd_type) {
     case OSDSettings::Type::Native:
-#ifdef Q_OS_WIN32
-      if (osd_->SupportsNativeNotifications() || osd_->SupportsTrayPopups()) {
-#else
-      if (osd_->SupportsNativeNotifications()) {
-#endif
-        ui_->notifications_native->setChecked(true);
-        break;
-      }
-      // Fallthrough
-
+      ui_->notifications_native->setChecked(true);
+      break;
     case OSDSettings::Type::Pretty:
       ui_->notifications_pretty->setChecked(true);
       break;
-
     case OSDSettings::Type::TrayPopup:
-      if (osd_->SupportsTrayPopups()) {
-        ui_->notifications_tray->setChecked(true);
-        break;
-      }
-      // Fallthrough
-
+      ui_->notifications_tray->setChecked(true);
+      break;
     case OSDSettings::Type::Disabled:
     default:
       ui_->notifications_none->setChecked(true);
@@ -238,9 +219,9 @@ void NotificationsSettingsPage::Save() {
 
   OSDSettings::Type osd_type = OSDSettings::Type::Disabled;
   if      (ui_->notifications_none->isChecked())   osd_type = OSDSettings::Type::Disabled;
-  else if (ui_->notifications_native->isChecked()) osd_type = OSDSettings::Type::Native;
-  else if (ui_->notifications_tray->isChecked())   osd_type = OSDSettings::Type::TrayPopup;
-  else if (ui_->notifications_pretty->isChecked()) osd_type = OSDSettings::Type::Pretty;
+  else if (osd_->SupportsNativeNotifications() && ui_->notifications_native->isChecked()) osd_type = OSDSettings::Type::Native;
+  else if (osd_->SupportsTrayPopups() && ui_->notifications_tray->isChecked()) osd_type = OSDSettings::Type::TrayPopup;
+  else if (osd_->SupportsOSDPretty() && ui_->notifications_pretty->isChecked()) osd_type = OSDSettings::Type::Pretty;
 
   s.beginGroup(OSDSettings::kSettingsGroup);
   s.setValue(OSDSettings::kType, static_cast<int>(osd_type));

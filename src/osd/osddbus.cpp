@@ -136,9 +136,9 @@ void OSDDBus::Init() {
 
 }
 
-bool OSDDBus::SupportsNativeNotifications() { return true; }
+bool OSDDBus::SupportsNativeNotifications() const { return true; }
 
-bool OSDDBus::SupportsTrayPopups() { return true; }
+bool OSDDBus::SupportsTrayPopups() const { return true; }
 
 void OSDDBus::ShowMessageNative(const QString &summary, const QString &message, const QString &icon, const QImage &image) {
 

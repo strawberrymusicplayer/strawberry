@@ -50,8 +50,11 @@ class OSDBase : public QObject {
   void ReloadPrettyOSDSettings();
   void SetPrettyOSDToggleMode(bool toggle);
 
-  virtual bool SupportsNativeNotifications();
-  virtual bool SupportsTrayPopups();
+  OSDSettings::Type GetSupportedType() const;
+  bool IsTypeSupported(const OSDSettings::Type type) const;
+  virtual bool SupportsNativeNotifications() const;
+  virtual bool SupportsTrayPopups() const;
+  static bool SupportsOSDPretty();
 
  public Q_SLOTS:
   void ReloadSettings();

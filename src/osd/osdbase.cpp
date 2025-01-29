@@ -23,6 +23,7 @@
 
 #include <QObject>
 #include <QCoreApplication>
+#include <QGuiApplication>
 #include <QString>
 #include <QStringList>
 #include <QImage>
@@ -80,19 +81,45 @@ void OSDBase::ReloadSettings() {
   custom_text2_ = s.value("CustomText2").toString();
   s.endGroup();
 
-#ifdef Q_OS_WIN32
-  if (!SupportsNativeNotifications() && !SupportsTrayPopups() && type_ == OSDSettings::Type::Native) {
-#else
-  if (!SupportsNativeNotifications() && type_ == OSDSettings::Type::Native) {
-#endif
-    type_ = OSDSettings::Type::Pretty;
-  }
-
-  if (!SupportsTrayPopups() && type_ == OSDSettings::Type::TrayPopup) {
-    type_ = OSDSettings::Type::Disabled;
+  if (!IsTypeSupported(type_)) {
+    type_ = GetSupportedType();
   }
 
   ReloadPrettyOSDSettings();
+
+}
+
+OSDSettings::Type OSDBase::GetSupportedType() const {
+
+  if (SupportsNativeNotifications()) {
+    return OSDSettings::Type::Native;
+  }
+  if (SupportsOSDPretty()) {
+    return OSDSettings::Type::Pretty;
+  }
+  if (SupportsTrayPopups()) {
+    return OSDSettings::Type::TrayPopup;
+  }
+
+  return OSDSettings::Type::Disabled;
+
+}
+
+bool OSDBase::IsTypeSupported(const OSDSettings::Type type) const {
+
+  switch (type) {
+    case OSDSettings::Type::Native:
+      return SupportsNativeNotifications();
+    case OSDSettings::Type::TrayPopup:
+      return SupportsTrayPopups();
+    case OSDSettings::Type::Pretty:
+      return SupportsOSDPretty();
+      break;
+    case OSDSettings::Type::Disabled:
+      return true;
+  }
+
+  return false;
 
 }
 
@@ -432,12 +459,22 @@ void OSDBase::SetPrettyOSDToggleMode(const bool toggle) {
   pretty_popup_->set_toggle_mode(toggle);
 }
 
-bool OSDBase::SupportsNativeNotifications() {
+bool OSDBase::SupportsNativeNotifications() const {
+
+#ifdef Q_OS_WIN32
+  return SupportsTrayPopups();
+#endif
+
   return false;
+
 }
 
-bool OSDBase::SupportsTrayPopups() {
+bool OSDBase::SupportsTrayPopups() const {
   return tray_icon_->IsSystemTrayAvailable();
+}
+
+bool OSDBase::SupportsOSDPretty() {
+  return QGuiApplication::platformName() != "wayland"_L1;
 }
 
 void OSDBase::ShowMessageNative(const QString &summary, const QString &message, const QString &icon, const QImage &image) {

@@ -50,8 +50,8 @@ class OSDDBus : public OSDBase {
 
   static const char *kSettingsGroup;
 
-  bool SupportsNativeNotifications() override;
-  bool SupportsTrayPopups() override;
+  bool SupportsNativeNotifications() const override;
+  bool SupportsTrayPopups() const override;
 
  private:
   void Init();

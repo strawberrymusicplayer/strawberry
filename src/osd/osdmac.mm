@@ -57,11 +57,11 @@ OSDMac::OSDMac(const SharedPtr<SystemTrayIcon> tray_icon, QObject *parent) : OSD
 
 OSDMac::~OSDMac() = default;
 
-bool OSDMac::SupportsNativeNotifications() {
+bool OSDMac::SupportsNativeNotifications() const {
   return NotificationCenterSupported();
 }
 
-bool OSDMac::SupportsTrayPopups() { return false; }
+bool OSDMac::SupportsTrayPopups() const { return false; }
 
 void OSDMac::ShowMessageNative(const QString &summary, const QString &message, const QString &icon, const QImage &image) {
 

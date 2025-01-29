@@ -40,8 +40,8 @@ class OSDMac : public OSDBase {
   explicit OSDMac(const SharedPtr<SystemTrayIcon> tray_icon, QObject *parent = nullptr);
   ~OSDMac() override;
 
-  bool SupportsNativeNotifications() override;
-  bool SupportsTrayPopups() override;
+  bool SupportsNativeNotifications() const override;
+  bool SupportsTrayPopups() const override;
 
  private:
   void ShowMessageNative(const QString &summary, const QString &message, const QString &icon, const QImage &image) override;
