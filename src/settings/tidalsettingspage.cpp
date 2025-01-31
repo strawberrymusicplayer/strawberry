@@ -67,6 +67,7 @@ TidalSettingsPage::TidalSettingsPage(SettingsDialog *dialog, SharedPtr<TidalServ
   ui_->quality->addItem(u"High"_s, u"HIGH"_s);
   ui_->quality->addItem(u"Lossless"_s, u"LOSSLESS"_s);
   ui_->quality->addItem(u"Hi resolution"_s, u"HI_RES"_s);
+  ui_->quality->addItem(u"Hi resolution lossless"_s, u"HI_RES_LOSSLESS"_s);
 
   ui_->coversize->addItem(u"160x160"_s, u"160x160"_s);
   ui_->coversize->addItem(u"320x320"_s, u"320x320"_s);
