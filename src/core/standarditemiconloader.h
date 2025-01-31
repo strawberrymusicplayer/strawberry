@@ -46,8 +46,8 @@ class StandardItemIconLoader : public QObject {
 
   void SetModel(QAbstractItemModel *model);
 
-  void LoadIcon(const QUrl &art_automatic, const QUrl &art_manual, QStandardItem *for_item);
-  void LoadIcon(const Song &song, QStandardItem *for_item);
+  void LoadAlbumCover(const QUrl &art_automatic, const QUrl &art_manual, QStandardItem *for_item);
+  void LoadAlbumCover(const Song &song, QStandardItem *for_item);
 
  private Q_SLOTS:
   void AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderResult &result);

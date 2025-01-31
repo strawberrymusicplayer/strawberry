@@ -55,7 +55,7 @@ void StandardItemIconLoader::SetModel(QAbstractItemModel *model) {
 
 }
 
-void StandardItemIconLoader::LoadIcon(const QUrl &art_automatic, const QUrl &art_manual, QStandardItem *for_item) {
+void StandardItemIconLoader::LoadAlbumCover(const QUrl &art_automatic, const QUrl &art_manual, QStandardItem *for_item) {
 
   AlbumCoverLoaderOptions cover_options(AlbumCoverLoaderOptions::Option::ScaledImage);
   cover_options.desired_scaled_size = QSize(16, 16);
@@ -64,7 +64,7 @@ void StandardItemIconLoader::LoadIcon(const QUrl &art_automatic, const QUrl &art
 
 }
 
-void StandardItemIconLoader::LoadIcon(const Song &song, QStandardItem *for_item) {
+void StandardItemIconLoader::LoadAlbumCover(const Song &song, QStandardItem *for_item) {
 
   AlbumCoverLoaderOptions cover_options(AlbumCoverLoaderOptions::Option::ScaledImage);
   cover_options.desired_scaled_size = QSize(16, 16);
