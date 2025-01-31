@@ -26,9 +26,12 @@ namespace BackendSettings {
 
 constexpr char kSettingsGroup[] = "Backend";
 
-constexpr char kEngine[] = "Engine";
-constexpr char kOutput[] = "Output";
-constexpr char kDevice[] = "Device";
+constexpr char kEngine[] = "engine";
+constexpr char kEngineU[] = "Engine";
+constexpr char kOutput[] = "output";
+constexpr char kOutputU[] = "Output";
+constexpr char kDevice[] = "device";
+constexpr char kDeviceU[] = "Device";
 constexpr char kALSAPlugin[] = "alsaplugin";
 constexpr char kExclusiveMode[] = "exclusive_mode";
 constexpr char kVolumeControl[] = "volume_control";

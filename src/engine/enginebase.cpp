@@ -142,8 +142,19 @@ void EngineBase::ReloadSettings() {
 
   s.beginGroup(BackendSettings::kSettingsGroup);
 
-  output_ = s.value(BackendSettings::kOutput).toString();
-  device_ = s.value(BackendSettings::kDevice);
+  if (s.contains(BackendSettings::kOutputU)) {
+    output_ = s.value(BackendSettings::kOutputU).toString();
+  }
+  else if (s.contains(BackendSettings::kOutput)) {
+    output_ = s.value(BackendSettings::kOutput).toString();
+  }
+
+  if (s.contains(BackendSettings::kDeviceU)) {
+    device_ = s.value(BackendSettings::kDeviceU);
+  }
+  else if (s.contains(BackendSettings::kDevice)) {
+    device_ = s.value(BackendSettings::kDevice);
+  }
 
   exclusive_mode_ = s.value(BackendSettings::kExclusiveMode, false).toBool();
 
