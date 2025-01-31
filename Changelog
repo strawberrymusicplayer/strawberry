@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+Version 1.2.7 (2025.01.31):
 
    Bugfixes:
      * Fixed strawberry exiting when clicking tray icon.
