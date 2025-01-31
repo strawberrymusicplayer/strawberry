@@ -256,7 +256,7 @@ void DeviceManager::AddDeviceFromDB(DeviceInfo *info) {
   for (const QString &icon_name : icon_names) {
     icons << icon_name;
   }
-  info->LoadIcon(icons, info->friendly_name_);
+  info->SetIcon(icons, info->friendly_name_);
 
   DeviceInfo *existing = FindEquivalentDevice(info);
   if (existing) {
@@ -477,7 +477,7 @@ void DeviceManager::PhysicalDeviceAdded(const QString &id) {
       if (info->database_id_ == -1 && info->BestBackend() && info->BestBackend()->lister_ == lister) {
         info->friendly_name_ = lister->MakeFriendlyName(id);
         info->size_ = lister->DeviceCapacity(id);
-        info->LoadIcon(lister->DeviceIcons(id), info->friendly_name_);
+        info->SetIcon(lister->DeviceIcons(id), info->friendly_name_);
       }
       QModelIndex idx = ItemToIndex(info);
       if (idx.isValid()) Q_EMIT dataChanged(idx, idx);
@@ -488,7 +488,7 @@ void DeviceManager::PhysicalDeviceAdded(const QString &id) {
       info->backends_ << DeviceInfo::Backend(lister, id);
       info->friendly_name_ = lister->MakeFriendlyName(id);
       info->size_ = lister->DeviceCapacity(id);
-      info->LoadIcon(lister->DeviceIcons(id), info->friendly_name_);
+      info->SetIcon(lister->DeviceIcons(id), info->friendly_name_);
       beginInsertRows(ItemToIndex(root_), static_cast<int>(devices_.count()), static_cast<int>(devices_.count()));
       devices_ << info;
       endInsertRows();
@@ -808,7 +808,7 @@ void DeviceManager::RemoveFromDB(DeviceInfo *info, const QModelIndex &idx) {
     const QString id = info->BestBackend()->unique_id_;
 
     info->friendly_name_ = info->BestBackend()->lister_->MakeFriendlyName(id);
-    info->LoadIcon(info->BestBackend()->lister_->DeviceIcons(id), info->friendly_name_);
+    info->SetIcon(info->BestBackend()->lister_->DeviceIcons(id), info->friendly_name_);
     Q_EMIT dataChanged(idx, idx);
   }
 
@@ -822,7 +822,7 @@ void DeviceManager::SetDeviceOptions(const QModelIndex &idx, const QString &frie
   if (!info) return;
 
   info->friendly_name_ = friendly_name;
-  info->LoadIcon(QVariantList() << icon_name, friendly_name);
+  info->SetIcon(QVariantList() << icon_name, friendly_name);
   info->transcode_mode_ = mode;
   info->transcode_format_ = format;
 
