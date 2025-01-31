@@ -671,6 +671,7 @@ void TidalService::Logout() {
   user_id_ = 0;
   country_code_.clear();
   access_token_.clear();
+  refresh_token_.clear();
   session_id_.clear();
   expires_in_ = 0;
   login_time_ = 0;
@@ -680,6 +681,7 @@ void TidalService::Logout() {
   s.remove(kUserId);
   s.remove(kCountryCode);
   s.remove(kAccessToken);
+  s.remove(kRefreshToken);
   s.remove(kSessionId);
   s.remove(kExpiresIn);
   s.remove(kLoginTime);
