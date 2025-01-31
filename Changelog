@@ -7,6 +7,7 @@ Unreleased:
    Bugfixes:
      * Fixed strawberry exiting when clicking tray icon.
      * Fixed Clementine import script errors.
+     * Disabled OSD Pretty on Wayland since it's not working properly.
 
   Enhancements:
      * Only maximize error dialog if Strawberry is the active window (#1627).
