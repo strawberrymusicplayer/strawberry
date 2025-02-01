@@ -51,7 +51,7 @@
 #include <QFlags>
 #include <QtEvents>
 
-#ifdef HAVE_QPA_QPLATFORMNATIVEINTERFACE
+#ifdef HAVE_QT_XCB_QPA_PRIVATE
 #  include <qpa/qplatformnativeinterface.h>
 #endif
 
@@ -215,7 +215,7 @@ void OSDPretty::ScreenRemoved(QScreen *screen) {
 
 bool OSDPretty::IsTransparencyAvailable() {
 
-#ifdef HAVE_QPA_QPLATFORMNATIVEINTERFACE
+#ifdef HAVE_QT_XCB_QPA_PRIVATE
   if (qApp && QGuiApplication::platformName() == "xcb"_L1) {
     QPlatformNativeInterface *native = QGuiApplication::platformNativeInterface();
     QScreen *screen = popup_screen_ == nullptr ? QGuiApplication::primaryScreen() : popup_screen_;
