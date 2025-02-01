@@ -58,7 +58,6 @@ class TidalRequest : public TidalBaseRequest {
   void ReloadSettings();
 
   void Process();
-  void set_need_login() override { need_login_ = true; }
   void Search(const int query_id, const QString &search_text);
 
  private:
@@ -110,17 +109,14 @@ class TidalRequest : public TidalBaseRequest {
   void ArtistsReplyReceived(QNetworkReply *reply, const int limit_requested, const int offset_requested);
 
   void AlbumsReplyReceived(QNetworkReply *reply, const int limit_requested, const int offset_requested);
-  void AlbumsReceived(QNetworkReply *reply, const TidalRequest::Artist &artist_requested, const int limit_requested, const int offset_requested, const bool auto_login);
+  void AlbumsReceived(QNetworkReply *reply, const TidalRequest::Artist &artist_requested, const int limit_requested, const int offset_requested);
 
   void SongsReplyReceived(QNetworkReply *reply, const int limit_requested, const int offset_requested);
-  void SongsReceived(QNetworkReply *reply, const TidalRequest::Artist &artist, const TidalRequest::Album &album, const int limit_requested, const int offset_requested, const bool auto_login = false);
+  void SongsReceived(QNetworkReply *reply, const TidalRequest::Artist &artist, const TidalRequest::Album &album, const int limit_requested, const int offset_requested);
 
   void ArtistAlbumsReplyReceived(QNetworkReply *reply, const TidalRequest::Artist &artist, const int offset_requested);
   void AlbumSongsReplyReceived(QNetworkReply *reply, const TidalRequest::Artist &artist, const TidalRequest::Album &album, const int offset_requested);
   void AlbumCoverReceived(QNetworkReply *reply, const QString &album_id, const QUrl &url, const QString &filename);
-
- public Q_SLOTS:
-  void LoginComplete(const bool success, const QString &error = QString());
 
  private:
   bool IsQuery() const { return (query_type_ == Type::FavouriteArtists || query_type_ == Type::FavouriteAlbums || query_type_ == Type::FavouriteSongs); }
@@ -233,7 +229,6 @@ class TidalRequest : public TidalBaseRequest {
 
   SongMap songs_;
   QStringList errors_;
-  bool need_login_;
   QList<QNetworkReply*> replies_;
   QList<QNetworkReply*> album_cover_replies_;
 };

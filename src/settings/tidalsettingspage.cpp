@@ -53,10 +53,8 @@ TidalSettingsPage::TidalSettingsPage(SettingsDialog *dialog, SharedPtr<TidalServ
 
   QObject::connect(ui_->button_login, &QPushButton::clicked, this, &TidalSettingsPage::LoginClicked);
   QObject::connect(ui_->login_state, &LoginStateWidget::LogoutClicked, this, &TidalSettingsPage::LogoutClicked);
-  QObject::connect(ui_->oauth, &QCheckBox::toggled, this, &TidalSettingsPage::OAuthClicked);
 
   QObject::connect(this, &TidalSettingsPage::Authorize, &*service_, &TidalService::StartAuthorization);
-  QObject::connect(this, &TidalSettingsPage::Login, &*service_, &TidalService::SendLoginWithCredentials);
 
   QObject::connect(&*service_, &StreamingService::LoginFailure, this, &TidalSettingsPage::LoginFailure);
   QObject::connect(&*service_, &StreamingService::LoginSuccess, this, &TidalSettingsPage::LoginSuccess);
@@ -88,16 +86,7 @@ void TidalSettingsPage::Load() {
   Settings s;
   s.beginGroup(kSettingsGroup);
   ui_->enable->setChecked(s.value(kEnabled, false).toBool());
-  ui_->oauth->setChecked(s.value(kOAuth, true).toBool());
-
   ui_->client_id->setText(s.value(kClientId).toString());
-  ui_->api_token->setText(s.value(kApiToken).toString());
-
-  ui_->username->setText(s.value(kUsername).toString());
-  QByteArray password = s.value(kPassword).toByteArray();
-  if (password.isEmpty()) ui_->password->clear();
-  else ui_->password->setText(QString::fromUtf8(QByteArray::fromBase64(password)));
-
   ComboBoxLoadFromSettings(s, ui_->quality, QLatin1String(kQuality), u"LOSSLESS"_s);
   ui_->searchdelay->setValue(s.value(kSearchDelay, 1500).toInt());
   ui_->artistssearchlimit->setValue(s.value("kArtistsSearchLimit", 4).toInt());
@@ -108,11 +97,11 @@ void TidalSettingsPage::Load() {
   ComboBoxLoadFromSettings(s, ui_->coversize, QLatin1String(kCoverSize), u"640x640"_s);
   ui_->streamurl->setCurrentIndex(ui_->streamurl->findData(s.value(kStreamUrl, static_cast<int>(StreamUrlMethod::StreamUrl)).toInt()));
   ui_->checkbox_album_explicit->setChecked(s.value(kAlbumExplicit, false).toBool());
-
   s.endGroup();
 
-  OAuthClicked(ui_->oauth->isChecked());
-  if (service_->authenticated()) ui_->login_state->SetLoggedIn(LoginStateWidget::State::LoggedIn);
+  if (service_->authenticated()) {
+    ui_->login_state->SetLoggedIn(LoginStateWidget::State::LoggedIn);
+  }
 
   Init(ui_->layout_tidalsettingspage->parentWidget());
 
@@ -125,13 +114,19 @@ void TidalSettingsPage::Save() {
   Settings s;
   s.beginGroup(kSettingsGroup);
   s.setValue(kEnabled, ui_->enable->isChecked());
-  s.setValue(kOAuth, ui_->oauth->isChecked());
+  if (s.contains(kOAuth)) {
+    s.remove(kOAuth);
+  }
+  if (s.contains(kApiToken)) {
+    s.remove(kApiToken);
+  }
+  if (s.contains(kUsername)) {
+    s.remove(kUsername);
+  }
+  if (s.contains(kPassword)) {
+    s.remove(kPassword);
+  }
   s.setValue(kClientId, ui_->client_id->text());
-  s.setValue(kApiToken, ui_->api_token->text());
-
-  s.setValue(kUsername, ui_->username->text());
-  s.setValue(kPassword, QString::fromUtf8(ui_->password->text().toUtf8().toBase64()));
-
   s.setValue(kQuality, ui_->quality->currentData().toString());
   s.setValue(kSearchDelay, ui_->searchdelay->value());
   s.setValue(kArtistsSearchLimit, ui_->artistssearchlimit->value());
@@ -148,28 +143,11 @@ void TidalSettingsPage::Save() {
 
 void TidalSettingsPage::LoginClicked() {
 
-  if (ui_->oauth->isChecked()) {
-    if (ui_->client_id->text().isEmpty()) {
-      QMessageBox::critical(this, tr("Configuration incomplete"), tr("Missing Tidal client ID."));
-      return;
-    }
-    Q_EMIT Authorize(ui_->client_id->text());
+  if (ui_->client_id->text().isEmpty()) {
+    QMessageBox::critical(this, tr("Configuration incomplete"), tr("Missing Tidal client ID."));
+    return;
   }
-  else {
-    if (ui_->api_token->text().isEmpty()) {
-      QMessageBox::critical(this, tr("Configuration incomplete"), tr("Missing API token."));
-      return;
-    }
-    if (ui_->username->text().isEmpty()) {
-      QMessageBox::critical(this, tr("Configuration incomplete"), tr("Missing username."));
-      return;
-    }
-    if (ui_->password->text().isEmpty()) {
-      QMessageBox::critical(this, tr("Configuration incomplete"), tr("Missing password."));
-      return;
-    }
-    Q_EMIT Login(ui_->api_token->text(), ui_->username->text(), ui_->password->text());
-  }
+  Q_EMIT Authorize(ui_->client_id->text());
   ui_->button_login->setEnabled(false);
 
 }
@@ -181,15 +159,6 @@ bool TidalSettingsPage::eventFilter(QObject *object, QEvent *event) {
   }
 
   return SettingsPage::eventFilter(object, event);
-
-}
-
-void TidalSettingsPage::OAuthClicked(const bool enabled) {
-
-  ui_->client_id->setEnabled(enabled);
-  ui_->api_token->setEnabled(!enabled);
-  ui_->username->setEnabled(!enabled);
-  ui_->password->setEnabled(!enabled);
 
 }
 

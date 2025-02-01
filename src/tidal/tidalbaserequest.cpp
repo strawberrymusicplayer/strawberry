@@ -62,8 +62,7 @@ QNetworkReply *TidalBaseRequest::CreateRequest(const QString &ressource_name, co
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
   req.setHeader(QNetworkRequest::ContentTypeHeader, u"application/x-www-form-urlencoded"_s);
-  if (oauth() && !access_token().isEmpty()) req.setRawHeader("authorization", "Bearer " + access_token().toUtf8());
-  else if (!session_id().isEmpty()) req.setRawHeader("X-Tidal-SessionId", session_id().toUtf8());
+  if (!access_token().isEmpty()) req.setRawHeader("authorization", "Bearer " + access_token().toUtf8());
 
   QNetworkReply *reply = network_->get(req);
   QObject::connect(reply, &QNetworkReply::sslErrors, this, &TidalBaseRequest::HandleSSLErrors);
@@ -82,7 +81,7 @@ void TidalBaseRequest::HandleSSLErrors(const QList<QSslError> &ssl_errors) {
 
 }
 
-QByteArray TidalBaseRequest::GetReplyData(QNetworkReply *reply, const bool send_login) {
+QByteArray TidalBaseRequest::GetReplyData(QNetworkReply *reply) {
 
   QByteArray data;
 
@@ -121,24 +120,8 @@ QByteArray TidalBaseRequest::GetReplyData(QNetworkReply *reply, const bool send_
       }
       if (status == 401 && sub_status == 6001) {  // User does not have a valid session
         service_->Logout();
-        if (!oauth() && send_login && login_attempts() < max_login_attempts() && !api_token().isEmpty() && !username().isEmpty() && !password().isEmpty()) {
-          qLog(Error) << "Tidal:" << error;
-          set_need_login();
-          if (login_sent()) {
-            qLog(Info) << "Tidal:" << "Waiting for login.";
-          }
-          else {
-            qLog(Info) << "Tidal:" << "Attempting to login.";
-            Q_EMIT RequestLogin();
-          }
-        }
-        else {
-          Error(error);
-        }
       }
-      else {
-        Error(error);
-      }
+      Error(error);
     }
     return QByteArray();
   }

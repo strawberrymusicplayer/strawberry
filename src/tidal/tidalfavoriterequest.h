@@ -43,9 +43,6 @@ class TidalFavoriteRequest : public TidalBaseRequest {
   explicit TidalFavoriteRequest(TidalService *service, const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~TidalFavoriteRequest() override;
 
-  bool need_login() const { return need_login_; }
-  void set_need_login() override { need_login_ = true; }
-
  private:
   enum class FavoriteType {
     Artists,
@@ -89,7 +86,6 @@ class TidalFavoriteRequest : public TidalBaseRequest {
   TidalService *service_;
   const SharedPtr<NetworkAccessManager> network_;
   QList <QNetworkReply*> replies_;
-  bool need_login_;
 };
 
 #endif  // TIDALFAVORITEREQUEST_H

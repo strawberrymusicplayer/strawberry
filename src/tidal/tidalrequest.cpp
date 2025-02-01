@@ -99,8 +99,7 @@ TidalRequest::TidalRequest(TidalService *service, TidalUrlHandler *url_handler, 
       album_songs_received_(0),
       album_covers_requests_total_(0),
       album_covers_requests_active_(0),
-      album_covers_requests_received_(0),
-      need_login_(false) {
+      album_covers_requests_received_(0) {
 
   timer_flush_requests_->setInterval(kFlushRequestsDelay);
   timer_flush_requests_->setSingleShot(false);
@@ -126,28 +125,7 @@ TidalRequest::~TidalRequest() {
 
 }
 
-void TidalRequest::LoginComplete(const bool success, const QString &error) {
-
-  if (!need_login_) return;
-  need_login_ = false;
-
-  if (!success) {
-    Error(error);
-    return;
-  }
-
-  Process();
-
-}
-
 void TidalRequest::Process() {
-
-  if (!service_->authenticated()) {
-    Q_EMIT UpdateStatus(query_id_, tr("Authenticating..."));
-    need_login_ = true;
-    service_->TryLogin();
-    return;
-  }
 
   switch (query_type_) {
     case Type::FavouriteArtists:
@@ -417,7 +395,7 @@ void TidalRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_re
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
-  QByteArray data = GetReplyData(reply, (offset_requested == 0));
+  QByteArray data = GetReplyData(reply);
 
   --artists_requests_active_;
   ++artists_requests_received_;
@@ -564,7 +542,7 @@ void TidalRequest::AlbumsReplyReceived(QNetworkReply *reply, const int limit_req
 
   --albums_requests_active_;
   ++albums_requests_received_;
-  AlbumsReceived(reply, Artist(), limit_requested, offset_requested, offset_requested == 0);
+  AlbumsReceived(reply, Artist(), limit_requested, offset_requested);
 
 }
 
@@ -604,18 +582,18 @@ void TidalRequest::ArtistAlbumsReplyReceived(QNetworkReply *reply, const Artist 
   --artist_albums_requests_active_;
   ++artist_albums_requests_received_;
   Q_EMIT UpdateProgress(query_id_, GetProgress(artist_albums_requests_received_, artist_albums_requests_total_));
-  AlbumsReceived(reply, artist, 0, offset_requested, false);
+  AlbumsReceived(reply, artist, 0, offset_requested);
 
 }
 
-void TidalRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_requested, const int limit_requested, const int offset_requested, const bool auto_login) {
+void TidalRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_requested, const int limit_requested, const int offset_requested) {
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
-  QByteArray data = GetReplyData(reply, auto_login);
+  QByteArray data = GetReplyData(reply);
 
   if (finished_) return;
 
@@ -835,10 +813,10 @@ void TidalRequest::SongsReplyReceived(QNetworkReply *reply, const int limit_requ
   --songs_requests_active_;
   ++songs_requests_received_;
   if (query_type_ == Type::SearchSongs && fetchalbums_) {
-    AlbumsReceived(reply, Artist(), limit_requested, offset_requested, offset_requested == 0);
+    AlbumsReceived(reply, Artist(), limit_requested, offset_requested);
   }
   else {
-    SongsReceived(reply, Artist(), Album(), limit_requested, offset_requested, offset_requested == 0);
+    SongsReceived(reply, Artist(), Album(), limit_requested, offset_requested);
   }
 
 }
@@ -881,18 +859,18 @@ void TidalRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const Artist &a
   if (offset_requested == 0) {
     Q_EMIT UpdateProgress(query_id_, GetProgress(album_songs_requests_received_, album_songs_requests_total_));
   }
-  SongsReceived(reply, artist, album, 0, offset_requested, false);
+  SongsReceived(reply, artist, album, 0, offset_requested);
 
 }
 
-void TidalRequest::SongsReceived(QNetworkReply *reply, const Artist &artist, const Album &album, const int limit_requested, const int offset_requested, const bool auto_login) {
+void TidalRequest::SongsReceived(QNetworkReply *reply, const Artist &artist, const Album &album, const int limit_requested, const int offset_requested) {
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
-  QByteArray data = GetReplyData(reply, auto_login);
+  QByteArray data = GetReplyData(reply);
 
   if (finished_) return;
 
@@ -1339,7 +1317,6 @@ void TidalRequest::FinishCheck() {
 
   if (
       !finished_ &&
-      !need_login_ &&
       artists_requests_queue_.isEmpty() &&
       albums_requests_queue_.isEmpty() &&
       songs_requests_queue_.isEmpty() &&

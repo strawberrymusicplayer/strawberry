@@ -50,9 +50,7 @@ TidalStreamURLRequest::TidalStreamURLRequest(TidalService *service, const Shared
       reply_(nullptr),
       media_url_(media_url),
       id_(id),
-      song_id_(media_url.path().toInt()),
-      tries_(0),
-      need_login_(false) {}
+      song_id_(media_url.path().toInt()) {}
 
 TidalStreamURLRequest::~TidalStreamURLRequest() {
 
@@ -64,33 +62,10 @@ TidalStreamURLRequest::~TidalStreamURLRequest() {
 
 }
 
-void TidalStreamURLRequest::LoginComplete(const bool success, const QString &error) {
-
-  if (!need_login_) return;
-  need_login_ = false;
-
-  if (!success) {
-    Q_EMIT StreamURLFailure(id_, media_url_, error);
-    return;
-  }
-
-  Process();
-
-}
-
 void TidalStreamURLRequest::Process() {
 
   if (!authenticated()) {
-    if (oauth()) {
-      Q_EMIT StreamURLFailure(id_, media_url_, tr("Not authenticated with Tidal."));
-      return;
-    }
-    else if (api_token().isEmpty() || username().isEmpty() || password().isEmpty()) {
-      Q_EMIT StreamURLFailure(id_, media_url_, tr("Missing Tidal API token, username or password."));
-      return;
-    }
-    need_login_ = true;
-    Q_EMIT TryLogin();
+    Q_EMIT StreamURLFailure(id_, media_url_, tr("Not authenticated with Tidal."));
     return;
   }
 
@@ -110,8 +85,6 @@ void TidalStreamURLRequest::Cancel() {
 }
 
 void TidalStreamURLRequest::GetStreamURL() {
-
-  ++tries_;
 
   if (reply_) {
     QObject::disconnect(reply_, nullptr, this, nullptr);
@@ -150,17 +123,13 @@ void TidalStreamURLRequest::StreamURLReceived() {
 
   if (!reply_) return;
 
-  QByteArray data = GetReplyData(reply_, true);
+  QByteArray data = GetReplyData(reply_);
 
   QObject::disconnect(reply_, nullptr, this, nullptr);
   reply_->deleteLater();
   reply_ = nullptr;
 
   if (data.isEmpty()) {
-    if (!authenticated() && login_sent() && tries_ <= 1) {
-      need_login_ = true;
-      return;
-    }
     Q_EMIT StreamURLFailure(id_, media_url_, errors_.constFirst());
     return;
   }
