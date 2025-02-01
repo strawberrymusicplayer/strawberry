@@ -88,6 +88,7 @@ constexpr char kSongsTable[] = "tidal_songs";
 
 constexpr char kUserId[] = "user_id";
 constexpr char kCountryCode[] = "country_code";
+constexpr char kTokenType[] = "token_type";
 constexpr char kAccessToken[] = "access_token";
 constexpr char kRefreshToken[] = "refresh_token";
 constexpr char kSessionId[] = "session_id";
@@ -228,11 +229,16 @@ void TidalService::LoadSession() {
   s.beginGroup(TidalSettings::kSettingsGroup);
   user_id_ = s.value(kUserId).toInt();
   country_code_ = s.value(kCountryCode, u"US"_s).toString();
+  token_type_ = s.value(kTokenType).toString();
   access_token_ = s.value(kAccessToken).toString();
   refresh_token_ = s.value(kRefreshToken).toString();
   expires_in_ = s.value(kExpiresIn).toLongLong();
   login_time_ = s.value(kLoginTime).toLongLong();
   s.endGroup();
+
+  if (token_type_.isEmpty()) {
+    token_type_ = "Bearer"_L1;
+  }
 
   if (!refresh_token_.isEmpty()) {
     qint64 time = static_cast<qint64>(expires_in_) - (QDateTime::currentSecsSinceEpoch() - static_cast<qint64>(login_time_));
@@ -316,6 +322,7 @@ void TidalService::AuthorizationUrlReceived(const QUrl &url) {
 
     Settings s;
     s.beginGroup(TidalSettings::kSettingsGroup);
+    s.setValue(kTokenType, token_type_);
     s.setValue(kAccessToken, access_token_);
     s.setValue(kRefreshToken, refresh_token_);
     s.setValue(kExpiresIn, expires_in_);
@@ -454,16 +461,15 @@ void TidalService::AccessTokenRequestFinished(QNetworkReply *reply) {
     return;
   }
 
-  if (!json_obj.contains("access_token"_L1) || !json_obj.contains("expires_in"_L1)) {
-    LoginError(u"Authentication reply from server is missing access_token or expires_in"_s, json_obj);
+  if (!json_obj.contains("token_type"_L1) || !json_obj.contains("access_token"_L1) || !json_obj.contains("expires_in"_L1)) {
+    LoginError(u"Authentication reply from server is missing token_type, access_token or expires_in"_s, json_obj);
     return;
   }
 
+  token_type_ = json_obj["token_type"_L1].toString();
   access_token_ = json_obj["access_token"_L1].toString();
+  refresh_token_ = json_obj["refresh_token"_L1].toString();
   expires_in_ = json_obj["expires_in"_L1].toInt();
-  if (json_obj.contains("refresh_token"_L1)) {
-    refresh_token_ = json_obj["refresh_token"_L1].toString();
-  }
   login_time_ = QDateTime::currentSecsSinceEpoch();
 
   if (json_obj.contains("user"_L1) && json_obj["user"_L1].isObject()) {
@@ -476,6 +482,7 @@ void TidalService::AccessTokenRequestFinished(QNetworkReply *reply) {
 
   Settings s;
   s.beginGroup(TidalSettings::kSettingsGroup);
+  s.setValue(kTokenType, token_type_);
   s.setValue(kAccessToken, access_token_);
   s.setValue(kRefreshToken, refresh_token_);
   s.setValue(kExpiresIn, expires_in_);
@@ -483,8 +490,6 @@ void TidalService::AccessTokenRequestFinished(QNetworkReply *reply) {
   s.setValue(kCountryCode, country_code_);
   s.setValue(kUserId, user_id_);
   s.remove(kSessionId);
-  s.remove(kUserId);
-  s.remove(kCountryCode);
   s.endGroup();
 
   if (expires_in_ > 0) {
@@ -512,6 +517,7 @@ void TidalService::Logout() {
   s.beginGroup(TidalSettings::kSettingsGroup);
   s.remove(kUserId);
   s.remove(kCountryCode);
+  s.remove(kTokenType);
   s.remove(kAccessToken);
   s.remove(kRefreshToken);
   s.remove(kSessionId);

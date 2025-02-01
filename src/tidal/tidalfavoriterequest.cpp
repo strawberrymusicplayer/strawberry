@@ -147,7 +147,9 @@ void TidalFavoriteRequest::AddFavoritesRequest(const FavoriteType type, const QS
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
   req.setHeader(QNetworkRequest::ContentTypeHeader, u"application/x-www-form-urlencoded"_s);
-  if (!access_token().isEmpty()) req.setRawHeader("authorization", "Bearer " + access_token().toUtf8());
+  if (!token_type().isEmpty() && !access_token().isEmpty()) {
+    req.setRawHeader("Authorization", token_type().toUtf8() + " " + access_token().toUtf8());
+  }
   QByteArray query = url_query.toString(QUrl::FullyEncoded).toUtf8();
   QNetworkReply *reply = network_->post(req, query);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, type, songs]() { AddFavoritesReply(reply, type, songs); });
@@ -256,7 +258,9 @@ void TidalFavoriteRequest::RemoveFavoritesRequest(const FavoriteType type, const
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
   req.setHeader(QNetworkRequest::ContentTypeHeader, u"application/x-www-form-urlencoded"_s);
-  if (!access_token().isEmpty()) req.setRawHeader("authorization", "Bearer " + access_token().toUtf8());
+  if (!token_type().isEmpty() && !access_token().isEmpty()) {
+    req.setRawHeader("Authorization", token_type().toUtf8() + " " + access_token().toUtf8());
+  }
   QNetworkReply *reply = network_->deleteResource(req);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, type, songs]() { RemoveFavoritesReply(reply, type, songs); });
   replies_ << reply;

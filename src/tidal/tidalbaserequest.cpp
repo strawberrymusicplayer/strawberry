@@ -62,7 +62,9 @@ QNetworkReply *TidalBaseRequest::CreateRequest(const QString &ressource_name, co
   QNetworkRequest req(url);
   req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
   req.setHeader(QNetworkRequest::ContentTypeHeader, u"application/x-www-form-urlencoded"_s);
-  if (!access_token().isEmpty()) req.setRawHeader("authorization", "Bearer " + access_token().toUtf8());
+  if (!token_type().isEmpty() && !access_token().isEmpty()) {
+    req.setRawHeader("Authorization", token_type().toUtf8() + " " + access_token().toUtf8());
+  }
 
   QNetworkReply *reply = network_->get(req);
   QObject::connect(reply, &QNetworkReply::sslErrors, this, &TidalBaseRequest::HandleSSLErrors);

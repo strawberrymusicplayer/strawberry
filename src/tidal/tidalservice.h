@@ -95,9 +95,10 @@ class TidalService : public StreamingService {
   TidalSettings::StreamUrlMethod stream_url_method() const { return stream_url_method_; }
   bool album_explicit() const { return album_explicit_; }
 
+  QString token_type() const { return token_type_; }
   QString access_token() const { return access_token_; }
 
-  bool authenticated() const override { return !access_token_.isEmpty(); }
+  bool authenticated() const override { return !token_type_.isEmpty() && !access_token_.isEmpty(); }
 
   uint GetStreamURL(const QUrl &url, QString &error);
 
@@ -185,6 +186,7 @@ class TidalService : public StreamingService {
   TidalSettings::StreamUrlMethod stream_url_method_;
   bool album_explicit_;
 
+  QString token_type_;
   QString access_token_;
   QString refresh_token_;
   quint64 expires_in_;

@@ -79,6 +79,7 @@ class TidalBaseRequest : public QObject {
   int artistssearchlimit() const { return service_->artistssearchlimit(); }
   int albumssearchlimit() const { return service_->albumssearchlimit(); }
   int songssearchlimit() const { return service_->songssearchlimit(); }
+  QString token_type() const { return service_->token_type(); }
   QString access_token() const { return service_->access_token(); }
   bool authenticated() const { return service_->authenticated(); }
 
