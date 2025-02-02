@@ -71,7 +71,7 @@ void PlaylistSettingsPage::Load() {
 
   ui_->checkbox_warncloseplaylist->setChecked(s.value(kWarnClosePlaylist, true).toBool());
   ui_->checkbox_continueonerror->setChecked(s.value(kContinueOnError, false).toBool());
-  ui_->checkbox_greyout_songs_startup->setChecked(s.value(kGreyoutSongsStartup, true).toBool());
+  ui_->checkbox_greyout_songs_startup->setChecked(s.value(kGreyoutSongsStartup, false).toBool());
   ui_->checkbox_greyout_songs_play->setChecked(s.value(kGreyoutSongsPlay, true).toBool());
   ui_->checkbox_select_track->setChecked(s.value(kSelectTrack, false).toBool());
   ui_->checkbox_show_toolbar->setChecked(s.value(kShowToolbar, true).toBool());
