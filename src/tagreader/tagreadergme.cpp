@@ -39,12 +39,12 @@ using namespace Qt::Literals::StringLiterals;
 #undef QStringToTString
 
 bool GME::IsSupportedFormat(const QFileInfo &fileinfo) {
-  return fileinfo.exists() && (fileinfo.completeSuffix().endsWith("spc"_L1, Qt::CaseInsensitive) || fileinfo.completeSuffix().endsWith("vgm"_L1), Qt::CaseInsensitive);
+  return fileinfo.exists() && (fileinfo.completeSuffix().endsWith("spc"_L1, Qt::CaseInsensitive) || fileinfo.completeSuffix().endsWith("vgm"_L1, Qt::CaseInsensitive));
 }
 
 TagReaderResult GME::ReadFile(const QFileInfo &fileinfo, Song *song) {
 
-  if (fileinfo.completeSuffix().endsWith("spc"_L1), Qt::CaseInsensitive) {
+  if (fileinfo.completeSuffix().endsWith("spc"_L1, Qt::CaseInsensitive)) {
     return SPC::Read(fileinfo, song);
   }
   if (fileinfo.completeSuffix().endsWith("vgm"_L1, Qt::CaseInsensitive)) {
@@ -106,7 +106,7 @@ TagReaderResult GME::SPC::Read(const QFileInfo &fileinfo, Song *song) {
   if (length_bytes.size() >= INTRO_LENGTH_SIZE) {
     quint64 length_in_sec = ConvertSPCStringToNum(length_bytes);
 
-    if (!length_in_sec || length_in_sec >= 0x1FFF) {
+    if (length_in_sec <= 0 || length_in_sec >= 0x1FFF) {
       // This means that parsing the length as a string failed, so get value LE.
       length_in_sec = length_bytes[0] | (length_bytes[1] << 8) | (length_bytes[2] << 16);
     }
