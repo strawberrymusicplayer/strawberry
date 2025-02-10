@@ -21,7 +21,10 @@
 #include "config.h"
 
 #include "tagreadertaglib.h"
-#include "streamtagreader.h"
+
+#ifdef HAVE_STREAMTAGREADER
+#  include "streamtagreader.h"
+#endif
 
 #include <memory>
 #include <algorithm>
