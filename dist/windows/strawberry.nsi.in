@@ -259,7 +259,7 @@ Section "Strawberry" Strawberry
   File "libssl-3-x64.dll"
 !endif
 
-  File "libFLAC-12.dll"
+  File "libFLAC-14.dll"
   File "libbrotlicommon.dll"
   File "libbrotlidec.dll"
   File "libbrotlienc.dll"
@@ -783,7 +783,7 @@ Section "Uninstall"
   Delete "$INSTDIR\libssl-3-x64.dll"
 !endif
 
-  Delete "$INSTDIR\libFLAC-12.dll"
+  Delete "$INSTDIR\libFLAC-14.dll"
   Delete "$INSTDIR\libbrotlicommon.dll"
   Delete "$INSTDIR\libbrotlidec.dll"
   Delete "$INSTDIR\libbrotlienc.dll"
