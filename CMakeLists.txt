@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.13)
 
 project(strawberry C CXX)
 
+set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
+set(CMAKE_INSTALL_RPATH "$ORIGIN/../lib")
+
 if(APPLE)
   enable_language(OBJC OBJCXX)
 endif()
