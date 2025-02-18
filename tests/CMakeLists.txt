@@ -10,10 +10,9 @@ set(TESTUTILS-SOURCES
   src/mock_networkaccessmanager.cpp
   src/mock_playlistitem.cpp
   src/test_utils.cpp
-  src/testobjectdecorators.cpp
 )
 
-set(TESTUTILS-MOC-HEADERS src/mock_networkaccessmanager.h src/test_utils.h src/testobjectdecorators.h)
+set(TESTUTILS-MOC-HEADERS src/mock_networkaccessmanager.h src/test_utils.h)
 
 qt_wrap_cpp(TESTUTILS-SOURCES-MOC ${TESTUTILS-MOC-HEADERS})
 
