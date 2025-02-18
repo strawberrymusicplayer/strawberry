@@ -5,11 +5,11 @@
     <name>About</name>
     <message>
       <source>About</source>
-      <translation type="unfinished">About</translation>
+      <translation>Σχετικά με την εφαρμογή</translation>
     </message>
     <message>
       <source>About Strawberry</source>
-      <translation type="unfinished">About Strawberry</translation>
+      <translation>Σχετικά Με Strawberry</translation>
     </message>
     <message>
       <source>Version %1</source>
@@ -17,7 +17,7 @@
     </message>
     <message>
       <source>Strawberry is a music player and music collection organizer.</source>
-      <translation type="unfinished">Strawberry is a music player and music collection organizer.</translation>
+      <translation>Το Strawberry είναι ένα πρόγραμμα αναπαραγωγής μουσικής και οργανωτής μουσικής συλλογής.</translation>
     </message>
     <message>
       <source>It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles.</source>
@@ -49,7 +49,7 @@
     </message>
     <message>
       <source>Clementine authors</source>
-      <translation type="unfinished">Clementine authors</translation>
+      <translation>Συγγραφείς του Clementine</translation>
     </message>
     <message>
       <source>Clementine contributors</source>
@@ -127,7 +127,7 @@
     </message>
     <message>
       <source>unknown</source>
-      <translation type="unfinished">unknown</translation>
+      <translation>άγνωστο</translation>
     </message>
     <message>
       <source>Save album cover</source>
@@ -217,7 +217,7 @@
     <name>AlbumCoverManager</name>
     <message>
       <source>Abort</source>
-      <translation type="unfinished">Abort</translation>
+      <translation>Ματαίωση</translation>
     </message>
     <message>
       <source>All albums</source>
@@ -288,11 +288,11 @@
     </message>
     <message>
       <source>Album</source>
-      <translation type="unfinished">Album</translation>
+      <translation>Άλμπουμ</translation>
     </message>
     <message>
       <source>Search</source>
-      <translation type="unfinished">Search</translation>
+      <translation>Αναζήτηση</translation>
     </message>
     <message>
       <source>Covers from %1</source>
@@ -300,7 +300,7 @@
     </message>
     <message>
       <source>Abort</source>
-      <translation type="unfinished">Abort</translation>
+      <translation>Ματαίωση</translation>
     </message>
   </context>
   <context>
@@ -378,7 +378,7 @@
     </message>
     <message>
       <source>Use custom color</source>
-      <translation type="unfinished">Use custom color</translation>
+      <translation>Χρήση προσαρμοσμένου χρώματος</translation>
     </message>
     <message>
       <source>Use gradient background</source>
@@ -390,7 +390,7 @@
     </message>
     <message>
       <source>Background image</source>
-      <translation type="unfinished">Background image</translation>
+      <translation>Εικόνα φόντου</translation>
     </message>
     <message>
       <source>Default bac&amp;kground image</source>
@@ -418,7 +418,7 @@
     </message>
     <message>
       <source>Position</source>
-      <translation type="unfinished">Position</translation>
+      <translation>Θέση</translation>
     </message>
     <message>
       <source>Upper Left</source>
@@ -430,7 +430,7 @@
     </message>
     <message>
       <source>Middle</source>
-      <translation type="unfinished">Middle</translation>
+      <translation>Μεσαία</translation>
     </message>
     <message>
       <source>Bottom Left</source>
@@ -7324,11 +7324,11 @@ Are you sure you want to continue?</translation>
     </message>
     <message>
       <source>Bitrate</source>
-      <translation type="unfinished">Bitrate</translation>
+      <translation>Bitrate</translation>
     </message>
     <message>
       <source> kbps</source>
-      <translation type="unfinished"> kbps</translation>
+      <translation> kbps</translation>
     </message>
   </context>
   <context>
@@ -7368,7 +7368,7 @@ Are you sure you want to continue?</translation>
     </message>
     <message>
       <source>Auto</source>
-      <translation type="unfinished">Auto</translation>
+      <translation>Αυτόματα</translation>
     </message>
     <message>
       <source>Ultra wide band (UWB)</source>
@@ -7493,7 +7493,7 @@ Are you sure you want to continue?</translation>
     <name>Udisks2Lister</name>
     <message>
       <source>D-Bus path</source>
-      <translation type="unfinished">D-Bus path</translation>
+      <translation>Δίαυλος D-Bus</translation>
     </message>
     <message>
       <source>Serial number</source>
@@ -7520,11 +7520,11 @@ Are you sure you want to continue?</translation>
     </message>
     <message>
       <source>Username</source>
-      <translation type="unfinished">Username</translation>
+      <translation>Όνομα χρήστη</translation>
     </message>
     <message>
       <source>Password</source>
-      <translation type="unfinished">Password</translation>
+      <translation>Κωδικός πρόσβασης</translation>
     </message>
   </context>
 </TS>
