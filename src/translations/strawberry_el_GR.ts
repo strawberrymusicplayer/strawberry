@@ -221,7 +221,7 @@
     </message>
     <message>
       <source>All albums</source>
-      <translation type="unfinished">All albums</translation>
+      <translation>Όλα τα άλμπουμ</translation>
     </message>
     <message>
       <source>Albums with covers</source>
