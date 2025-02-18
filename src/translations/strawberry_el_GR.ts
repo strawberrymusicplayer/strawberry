@@ -155,7 +155,7 @@
     </message>
     <message>
       <source>Could not save cover to file %1.</source>
-      <translation type="unfinished">Could not save cover to file %1.</translation>
+      <translation>Δεν ήταν δυνατή η αποθήκευση του εξωφύλλου στο αρχείο %1.</translation>
     </message>
   </context>
   <context>
