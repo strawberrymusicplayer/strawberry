@@ -41,7 +41,7 @@
     </message>
     <message>
       <source>Author and maintainer</source>
-      <translation type="unfinished">Author and maintainer</translation>
+      <translation>Συγγραφέας και συντηρητής</translation>
     </message>
     <message>
       <source>Contributors</source>
@@ -756,7 +756,7 @@
     </message>
     <message>
       <source>You will need to restart Strawberry if you change the language.</source>
-      <translation type="unfinished">You will need to restart Strawberry if you change the language.</translation>
+      <translation>Θα χρειαστεί να επανεκκινήσετε το Strawberry αν αλλάξετε τη γλώσσα.</translation>
     </message>
     <message>
       <source>Using the menu to add a song will...</source>
@@ -1007,7 +1007,7 @@
     </message>
     <message>
       <source>Unknown</source>
-      <translation type="unfinished">Unknown</translation>
+      <translation>Άγνωστο</translation>
     </message>
   </context>
   <context>
@@ -1022,7 +1022,7 @@
     </message>
     <message>
       <source>Add new folder...</source>
-      <translation type="unfinished">Add new folder...</translation>
+      <translation>Προσθήκη νέου φακέλου...</translation>
     </message>
     <message>
       <source>Remove folder</source>
@@ -1215,7 +1215,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Show in file browser...</source>
-      <translation type="unfinished">Show in file browser...</translation>
+      <translation>Εμφάνιση στον περιηγητή αρχείων...</translation>
     </message>
     <message>
       <source>Rescan song(s)</source>
@@ -1670,7 +1670,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Filename:</source>
-      <translation type="unfinished">Filename:</translation>
+      <translation>Όνομα Αρχείου:</translation>
     </message>
     <message>
       <source>Pattern</source>
@@ -1851,15 +1851,15 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Information</source>
-      <translation type="unfinished">Information</translation>
+      <translation>Πληροφορίες</translation>
     </message>
     <message>
       <source>Name</source>
-      <translation type="unfinished">Name</translation>
+      <translation>Όνομα</translation>
     </message>
     <message>
       <source>Icon</source>
-      <translation type="unfinished">Icon</translation>
+      <translation>Εικονίδιο</translation>
     </message>
     <message>
       <source>Hardware information</source>
@@ -4227,11 +4227,11 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Title</source>
-      <translation type="unfinished">Title</translation>
+      <translation>Καλλιτέχνης</translation>
     </message>
     <message>
       <source>Artist</source>
-      <translation type="unfinished">Artist</translation>
+      <translation>Καλλιτέχνης</translation>
     </message>
     <message>
       <source>Album</source>
@@ -4303,11 +4303,11 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>File Name</source>
-      <translation type="unfinished">File Name</translation>
+      <translation>Όνομα αρχείου</translation>
     </message>
     <message>
       <source>File Name (without path)</source>
-      <translation type="unfinished">File Name (without path)</translation>
+      <translation>Όνομα Αρχείου (χωρίς διαδρομή)</translation>
     </message>
     <message>
       <source>File Size</source>
