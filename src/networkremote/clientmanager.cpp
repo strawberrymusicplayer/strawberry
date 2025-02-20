@@ -1,74 +1,85 @@
+/*
+ * Strawberry Music Player
+ * Copyright 2025, Leopold List <leo@zudiewiener.com>
+ *
+ * Strawberry is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Strawberry is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
 #include "clientmanager.h"
+#include "client.h"
 #include "core/application.h"
 #include "core/logging.h"
 
+NetworkRemoteClientManager::NetworkRemoteClientManager(const SharedPtr<Player>&  player, QObject *parent)
+    : QObject(parent),
+      player_(player),
+      clients_() {}
 
-ClientManager::ClientManager(Application *app, QObject *parent)
-    : QObject{parent},
-      app_(app)
-{
-    clients_ = new QVector<Client*>;
+NetworkRemoteClientManager::~NetworkRemoteClientManager() {
+  qDeleteAll(clients_);
+  clients_.clear();
 }
 
-ClientManager::~ClientManager()
-{}
-
-void ClientManager::AddClient(QTcpSocket *socket)
-{
+void NetworkRemoteClientManager::AddClient(QTcpSocket *socket) {
   qLog(Debug) << "New Client connection +++++++++++++++";
-  socket_ = socket;
-  QObject::connect(socket_, &QAbstractSocket::errorOccurred, this, &ClientManager::Error);
-  QObject::connect(socket_, &QAbstractSocket::stateChanged, this, &ClientManager::StateChanged);
-
-  client_ = new Client(app_);
-  client_->Init(socket_);
-  clients_->append(client_);
-  QObject::connect(client_, &Client::ClientIsLeaving, this, &ClientManager::RemoveClient);
-
-  qLog(Debug) << "Socket State is " << socket_->state();;
-  qLog(Debug) << "There are now +++++++++++++++" << clients_->count() << "clients connected";
+  QObject::connect(socket, &QAbstractSocket::errorOccurred, this, &NetworkRemoteClientManager::Error);
+  QObject::connect(socket, &QAbstractSocket::stateChanged, this, &NetworkRemoteClientManager::StateChanged);
+  NetworkRemoteClient *client = new NetworkRemoteClient(player_);
+  client->Init(socket);
+  clients_.append(client);
+  QObject::connect(client, &NetworkRemoteClient::ClientIsLeaving, this, [this, client](){RemoveClient(client);});
+  qLog(Debug) << "Socket State is " << socket->state();
+  qLog(Debug) << "There are now +++++++++++++++" << clients_.count() << "clients connected";
 }
 
-void ClientManager::RemoveClient()
-{
-  for (Client* client : *clients_)  {
-    if (client->GetSocket() == socket_){
-      clients_->removeAt(clients_->indexOf(client));
-      client->deleteLater();
-    }
-  }
-  socket_->close();
-
-  qLog(Debug) << "There are now +++++++++++++++" << clients_->count() << "clients connected";
+void NetworkRemoteClientManager::RemoveClient(NetworkRemoteClient *client) {
+  if (clients_.removeOne(client)) {
+    client->deleteLater();
+  }  
+  qLog(Debug) << "There are now +++++++++++++++" << clients_.count() << "clients connected";
 }
 
-void ClientManager::Ready()
-{
-  qLog(Debug) << "Socket Ready";
-}
-
-void ClientManager::Error(QAbstractSocket::SocketError socketError)
-{
-    switch (socketError) {
+void NetworkRemoteClientManager::Error(QAbstractSocket::SocketError socketError) {
+  QTcpSocket *socket = qobject_cast<QTcpSocket*>(sender());
+  if (!socket) return;
+  switch (socketError) {
     case QAbstractSocket::RemoteHostClosedError:
-        qLog(Debug) << "Remote Host closed";
-        break;
+      qLog(Debug) << "Remote Host closed";
+      break;
     case QAbstractSocket::HostNotFoundError:
-        qLog(Debug) << "The host was not found. Please check the host name and port settings.";
-        break;
+      qLog(Debug) << "The host was not found. Please check the host name and port settings.";
+      break;
     case QAbstractSocket::ConnectionRefusedError:
-        qLog(Debug) << "The connection was refused by the peer. ";
-        break;
+      qLog(Debug) << "The connection was refused by the peer.";
+      break;
     default:
-        qLog(Debug)  << "The following error occurred: %1." << socket_->errorString();
-    }
+      qLog(Debug) << "The following error occurred:" << socket->errorString();
+  }
 }
 
-void ClientManager::StateChanged()
-{
-  qLog(Debug) << socket_->state();
+void NetworkRemoteClientManager::StateChanged() {
+  QTcpSocket *socket = qobject_cast<QTcpSocket*>(sender());
+  if (!socket) return;
+  qLog(Debug) << socket->state();
   qLog(Debug) << "State Changed";
-  if (socket_->state() == QAbstractSocket::UnconnectedState){
-    RemoveClient();
+  if (socket->state() == QAbstractSocket::UnconnectedState) {
+  for (NetworkRemoteClient *client : std::as_const(clients_)) {
+    if (client->GetSocket() == socket) {
+      RemoveClient(client);
+      break; 
+      }
+    }
   }
 }

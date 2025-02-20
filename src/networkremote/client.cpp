@@ -1,54 +1,60 @@
+/*
+ * Strawberry Music Player
+ * Copyright 2025, Leopold List <leo@zudiewiener.com>
+ *
+ * Strawberry is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Strawberry is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
 #include "client.h"
 
-Client::Client(Application *app, QObject *parent)
-    : QObject{parent},
-      app_(app),
-      incomingMsg_(new IncomingMsg(app)),
-      outgoingMsg_(new OutgoingMsg(app)),
-      player_(app_->player())
-{
-}
+NetworkRemoteClient::NetworkRemoteClient(const SharedPtr<Player>& player, QObject *parent)
+    : QObject(parent),
+      player_(player),
+      incoming_msg_(new NetworkRemoteIncomingMsg(this)),
+      outgoing_msg_(new NetworkRemoteOutgoingMsg(player, this)) {}
 
-Client::~Client()
-{
-  incomingMsg_->deleteLater();
-  outgoingMsg_->deleteLater();
-}
+NetworkRemoteClient::~NetworkRemoteClient(){}
 
-void Client::Init(QTcpSocket *socket)
-{
+void NetworkRemoteClient::Init(QTcpSocket *socket){
   socket_ = socket;
-  QObject::connect(incomingMsg_,&IncomingMsg::InMsgParsed,this, &Client::ProcessIncoming);
-
-  incomingMsg_->Init(socket_);
-  outgoingMsg_->Init(socket_, player_);
+  QObject::connect(incoming_msg_,&NetworkRemoteIncomingMsg::InMsgParsed,this, &NetworkRemoteClient::ProcessIncoming);
+  incoming_msg_->Init(socket_);
+  outgoing_msg_->Init(socket_);
 }
 
-QTcpSocket* Client::GetSocket()
-{
+QTcpSocket* NetworkRemoteClient::GetSocket() {
   return socket_;
 }
 
-void Client::ProcessIncoming()
-{
-  msgType_ = incomingMsg_->GetMsgType();
-  switch (msgType_)
-  {
+void NetworkRemoteClient::ProcessIncoming() {
+  switch (incoming_msg_->GetMsgType()) {
     case nw::remote::MSG_TYPE_REQUEST_SONG_INFO:
-      outgoingMsg_->SendCurrentTrackInfo();
+      outgoing_msg_->SendCurrentTrackInfo();
       break;
     case nw::remote::MSG_TYPE_REQUEST_PLAY:
       player_->Play();
       // In case the player was paused when the client started send the song info again
-      outgoingMsg_->SendCurrentTrackInfo();
+      outgoing_msg_->SendCurrentTrackInfo();
       break;
     case nw::remote::MSG_TYPE_REQUEST_NEXT:
       player_->Next();
-      outgoingMsg_->SendCurrentTrackInfo();
+      outgoing_msg_->SendCurrentTrackInfo();
       break;
     case nw::remote::MSG_TYPE_REQUEST_PREVIOUS:
       player_->Previous();
-      outgoingMsg_->SendCurrentTrackInfo();
+      outgoing_msg_->SendCurrentTrackInfo();
       break;
     case nw::remote::MSG_TYPE_REQUEST_PAUSE:
       player_->Pause();
@@ -65,4 +71,3 @@ void Client::ProcessIncoming()
       break;
   }
 }
-

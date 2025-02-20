@@ -1,34 +1,49 @@
-#include <QThread>
+/*
+ * Strawberry Music Player
+ * Copyright 2025, Leopold List <leo@zudiewiener.com>
+ *
+ * Strawberry is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Strawberry is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 
+#include <QThread>
 #include "networkremote/networkremote.h"
 #include "core/application.h"
 #include "core/logging.h"
-#include "core/player.h"
 
-
-NetworkRemote* NetworkRemote::sInstance = nullptr;
-const char *NetworkRemote::kSettingsGroup = "Remote";
+NetworkRemote* NetworkRemote::sInstance_ = nullptr;
 
 NetworkRemote::NetworkRemote(Application* app, QObject *parent)
     : QObject(parent),
       app_(app),
-      original_thread_(nullptr)
-{
-  setObjectName("Strawberry Remote");
-  original_thread_ = thread();
-  sInstance = this;
-  server_ = new TcpServer(app_);
+      enabled_(false),
+      local_only_(false),
+      remote_port_(5050),
+      server_(nullptr),
+      settings_(new NetworkRemoteSettings()) {
+  setObjectName("NetworkRemote");
+  sInstance_ = this;
 }
 
-NetworkRemote::~NetworkRemote()
-{
+NetworkRemote::~NetworkRemote() {
   stopTcpServer();
 }
 
-void NetworkRemote::Init()
-{
+void NetworkRemote::Init() {
   LoadSettings();
-  if (use_remote_){
+  if (enabled_) {
+    server_ = new NetworkRemoteTcpServer(app_->player(),this);
     startTcpServer();
   }
   else {
@@ -37,10 +52,9 @@ void NetworkRemote::Init()
   qLog(Debug) << "NetworkRemote Init() ";
 }
 
-void NetworkRemote::Update()
-{
+void NetworkRemote::Update() {
   LoadSettings();
-  if (use_remote_){
+  if (enabled_) {
     stopTcpServer();
     startTcpServer();
   }
@@ -50,35 +64,30 @@ void NetworkRemote::Update()
   qLog(Debug) << "NetworkRemote Updated ==== ";
 }
 
-void NetworkRemote::LoadSettings()
-{
-  s_->Load();
-  use_remote_ = s_->UserRemote();
-  local_only_ = s_->LocalOnly();
-  remote_port_ = s_->GetPort();
-  ipAddr_.setAddress(s_->GetIpAddress());
+void NetworkRemote::LoadSettings() {
+  settings_->Load();
+  enabled_ = settings_->UserRemote();
+  local_only_ = settings_->LocalOnly();
+  remote_port_ = settings_->GetPort();
+  ipAddr_.setAddress(settings_->GetIpAddress());
 }
 
-void NetworkRemote::startTcpServer()
-{
+void NetworkRemote::startTcpServer() {
   server_->StartServer(ipAddr_,remote_port_);
 }
 
-void NetworkRemote::stopTcpServer()
-{
-  if (server_->ServerUp()){
+void NetworkRemote::stopTcpServer() {
+  if (server_ && server_->ServerUp()) {
     qLog(Debug) << "TcpServer stopped ";
     server_->StopServer();
   }
 }
 
 NetworkRemote* NetworkRemote::Instance() {
-  if (!sInstance) {
-    // Error
+  if (!sInstance_) {
+    qLog(Debug) << "NetworkRemote Fatal Instance Error ";
     return nullptr;
   }
-
   qLog(Debug) << "NetworkRemote instance is up ";
-  return sInstance;
+  return sInstance_;
 }
-

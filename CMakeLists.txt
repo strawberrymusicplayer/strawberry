@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.13)
 
 project(strawberry C CXX)
 
-
 if(APPLE)
   enable_language(OBJC OBJCXX)
 endif()
@@ -30,8 +29,6 @@ endif()
 if(LINUX)
   include(cmake/Rpm.cmake)
   include(cmake/Deb.cmake)
-  set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
-  set(CMAKE_INSTALL_RPATH "$ORIGIN/../lib")
 endif()
 
 if(APPLE)
@@ -176,11 +173,8 @@ if(UNIX AND NOT APPLE)
   find_package(X11 COMPONENTS X11_xcb)
 endif()
 
-find_package(Protobuf CONFIG)
+find_package(Qt6 COMPONENTS Protobuf)
 if(NOT Protobuf_FOUND)
-  find_package(Protobuf REQUIRED)
-endif()
-if(NOT TARGET protobuf::protoc)
   message(FATAL_ERROR "Missing Protobuf compiler.")
 endif()
 
@@ -380,6 +374,10 @@ optional_component(STREAMTAGREADER ON "Stream tagreader"
 
 optional_component(DISCORD_RPC ON "Discord Rich Presence"
   DEPENDS "RapidJSON" RapidJSON_FOUND
+)
+
+optional_component(NETWORKREMOTE ON "Network Remote"
+    DEPENDS "Protobuf" Protobuf_FOUND
 )
 
 if(HAVE_SONGFINGERPRINTING OR HAVE_MUSICBRAINZ)
@@ -1608,11 +1606,12 @@ endif()
 
 target_link_libraries(strawberry PUBLIC
     strawberry_lib
-    ${P${Protobuf_LIBRARIES}rotobuf_LIBRARIES}
     lib-networkremote
-
 )
 
+if(HAVE_NETWORKREMOTE)
+    target_link_libraries(strawberry PRIVATE lib-networkremote)
+endif()
 
 if(NOT APPLE)
   install(TARGETS strawberry RUNTIME DESTINATION bin)
