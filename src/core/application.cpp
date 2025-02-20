@@ -4,6 +4,7 @@
  * Copyright 2012, David Sansome <me@davidsansome.com>
  * Copyright 2012, 2014, John Maguire <john.maguire@gmail.com>
  * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2025, Leopold List <leo@zudiewiener.com>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -219,6 +220,7 @@ class ApplicationImpl {
 #endif
         lastfm_import_([app]() { return new LastFMImport(app->network()); }),
         network_remote_([app]() {
+            qLog(Debug) << "Moving to new thread";
             NetworkRemote *remote = new NetworkRemote(app);
             app->MoveToNewThread(remote);
             return remote;

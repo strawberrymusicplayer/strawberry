@@ -3,6 +3,7 @@
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
  * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2025, Leopold List <leo@zudiewiener.com>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -93,7 +94,7 @@ class SettingsDialog : public QDialog {
     Tidal,
     Qobuz,
     Spotify,
-    Remote,
+    NetworkRemote,
   };
 
   enum Role {

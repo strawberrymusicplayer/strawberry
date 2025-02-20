@@ -1615,6 +1615,10 @@ if(HAVE_NETWORKREMOTE)
 endif()
 
 
+if(HAVE_NETWORKREMOTE)
+    target_link_libraries(strawberry PRIVATE lib-networkremote)
+endif()
+
 if(NOT APPLE)
   install(TARGETS strawberry RUNTIME DESTINATION bin)
 endif()

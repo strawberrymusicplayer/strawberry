@@ -31,25 +31,25 @@ class Player;
 class QTcpSocket;
 
 class NetworkRemoteOutgoingMsg : public QObject{
-  Q_OBJECT
- public:
-     explicit NetworkRemoteOutgoingMsg(const SharedPtr<Player> player, QObject *parent = nullptr);
-     void Init(QTcpSocket *);
-     void SendCurrentTrackInfo();
-     void SendMsg();
+    Q_OBJECT
+public:
+    explicit NetworkRemoteOutgoingMsg(const SharedPtr<Player> player, QObject *parent = nullptr);
+    void Init(QTcpSocket *);
+    void SendCurrentTrackInfo();
+    void SendMsg();
 
- private:
-  PlaylistItemPtr current_item_;
-  Playlist *playlist_;
-  QTcpSocket *socket_;
-  qint32 msg_type_;
-  QByteArray msg_stream_;
-  nw::remote::Message *msg_;
-  long bytes_out_;
-  std::string msg_string_;
-  nw::remote::SongMetadata *song_;
-  nw::remote::ResponseSongMetadata *response_song_;
-  SharedPtr<Player> player_ ;
+private:
+    PlaylistItemPtr current_item_;
+    Playlist *playlist_;
+    QTcpSocket *socket_;
+    qint32 msg_type_;
+    QByteArray msg_stream_;
+    nw::remote::Message *msg_;
+    long bytes_out_;
+    std::string msg_string_;
+    nw::remote::SongMetadata *song_;
+    nw::remote::ResponseSongMetadata *response_song_;
+    SharedPtr<Player> player_ ;
 };
 
 #endif

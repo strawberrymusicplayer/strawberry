@@ -19,13 +19,11 @@
 
 #include "client.h"
 
-NetworkRemoteClient::NetworkRemoteClient(
-    const SharedPtr<Player> player, QObject *parent)
-    : QObject(parent)
-    , player_(player)
-    , incoming_msg_(new NetworkRemoteIncomingMsg(this))
-    , outgoing_msg_(new NetworkRemoteOutgoingMsg(player, this))
-{}
+NetworkRemoteClient::NetworkRemoteClient(const SharedPtr<Player>& player, QObject *parent)
+    : QObject(parent),
+      player_(player),
+      incoming_msg_(new NetworkRemoteIncomingMsg(this)),
+      outgoing_msg_(new NetworkRemoteOutgoingMsg(player, this)) {}
 
 NetworkRemoteClient::~NetworkRemoteClient(){}
 

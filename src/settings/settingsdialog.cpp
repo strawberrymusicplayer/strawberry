@@ -3,6 +3,7 @@
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
  * Copyright 2019-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2025, Leopold List <leo@zudiewiener.com>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -131,7 +132,7 @@ SettingsDialog::SettingsDialog(const SharedPtr<Player> player,
   AddPage(Page::Lyrics, new LyricsSettingsPage(this, lyrics_providers, this), general);
   AddPage(Page::Transcoding, new TranscoderSettingsPage(this, this), general);
   AddPage(Page::Proxy, new NetworkProxySettingsPage(this, this), general);
-  AddPage(Page::Remote, new NetworkRemoteSettingsPage(this, this), general);
+  AddPage(Page::NetworkRemote, new NetworkRemoteSettingsPage(this, this), general);
 
   QTreeWidgetItem *iface = AddCategory(tr("User interface"));
   AddPage(Page::Appearance, new AppearanceSettingsPage(this, this), iface);
