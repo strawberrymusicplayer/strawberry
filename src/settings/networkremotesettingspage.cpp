@@ -1,20 +1,20 @@
-#include <QHostInfo>
-#include <QHostAddress>
-#include <QNetworkInterface>
-
+#include <QStyle>
 #include "core/iconloader.h"
 #include "networkremote/networkremote.h"
 #include "settings/settingsdialog.h"
 #include "settings/networkremotesettingspage.h"
 #include "ui_networkremotesettingspage.h"
 
+using namespace Qt::Literals::StringLiterals;
+
 NetworkRemoteSettingsPage::NetworkRemoteSettingsPage(SettingsDialog *dialog, QWidget *parent) :
-    SettingsPage(dialog,parent),
-    ui_(new Ui_NetworkRemoteSettingsPage)
+  SettingsPage(dialog,parent),
+  ui_(new Ui_NetworkRemoteSettingsPage)
 {
 
   ui_->setupUi(this);
-  setWindowIcon(IconLoader::Load(QStringLiteral("network-remote"), true, 0,32));
+  const int iconSize = style()->pixelMetric(QStyle::PM_TabBarIconSize);
+  setWindowIcon(IconLoader::Load(QStringLiteral("network-remote"), true, 0,iconSize));
   QObject::connect(ui_->useRemoteClient,&QAbstractButton::clicked, this, &NetworkRemoteSettingsPage::RemoteButtonClicked);
   QObject::connect(ui_->localConnectionsOnly, &QAbstractButton::clicked, this, &NetworkRemoteSettingsPage::LocalConnectButtonClicked);
   QObject::connect(ui_->portSelected, &QAbstractSpinBox::editingFinished, this, &NetworkRemoteSettingsPage::PortChanged);

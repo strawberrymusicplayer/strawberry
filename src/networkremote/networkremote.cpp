@@ -1,23 +1,24 @@
 #include <QThread>
-
 #include "networkremote/networkremote.h"
 #include "core/application.h"
 #include "core/logging.h"
 #include "core/player.h"
 
-
 NetworkRemote* NetworkRemote::sInstance = nullptr;
 const char *NetworkRemote::kSettingsGroup = "Remote";
 
 NetworkRemote::NetworkRemote(Application* app, QObject *parent)
-    : QObject(parent),
-      app_(app),
-      original_thread_(nullptr)
+  : QObject(parent),
+    app_(app),
+    enabled_(false),
+    local_only_(false),
+    remote_port_(5050),
+    server_(new NetworkRemoteTcpServer(app_,this)),
+    original_thread_(thread()),
+    settings_(new NetworkRemoteSettings())
 {
-  setObjectName("Strawberry Remote");
-  original_thread_ = thread();
+  setObjectName("NetworkRemote");
   sInstance = this;
-  server_ = new TcpServer(app_);
 }
 
 NetworkRemote::~NetworkRemote()
@@ -28,7 +29,7 @@ NetworkRemote::~NetworkRemote()
 void NetworkRemote::Init()
 {
   LoadSettings();
-  if (use_remote_){
+  if (enabled_){
     startTcpServer();
   }
   else {
@@ -40,7 +41,7 @@ void NetworkRemote::Init()
 void NetworkRemote::Update()
 {
   LoadSettings();
-  if (use_remote_){
+  if (enabled_){
     stopTcpServer();
     startTcpServer();
   }
@@ -52,11 +53,11 @@ void NetworkRemote::Update()
 
 void NetworkRemote::LoadSettings()
 {
-  s_->Load();
-  use_remote_ = s_->UserRemote();
-  local_only_ = s_->LocalOnly();
-  remote_port_ = s_->GetPort();
-  ipAddr_.setAddress(s_->GetIpAddress());
+  settings_->Load();
+  enabled_ = settings_->UserRemote();
+  local_only_ = settings_->LocalOnly();
+  remote_port_ = settings_->GetPort();
+  ipAddr_.setAddress(settings_->GetIpAddress());
 }
 
 void NetworkRemote::startTcpServer()
@@ -74,10 +75,9 @@ void NetworkRemote::stopTcpServer()
 
 NetworkRemote* NetworkRemote::Instance() {
   if (!sInstance) {
-    // Error
+    qLog(Debug) << "NetworkRemote Fatal Instance Error ";
     return nullptr;
   }
-
   qLog(Debug) << "NetworkRemote instance is up ";
   return sInstance;
 }

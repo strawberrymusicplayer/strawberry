@@ -1,7 +1,6 @@
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.14)
 
 project(strawberry C CXX)
-
 
 if(APPLE)
   enable_language(OBJC OBJCXX)
@@ -30,8 +29,10 @@ endif()
 if(LINUX)
   include(cmake/Rpm.cmake)
   include(cmake/Deb.cmake)
+  # RPATH seems to be a requirement when using Ninja as the cmake generator.
+  # as Ubuntu currently comes with 6.4.2, but the QtCreator is on 6.8 I'm pulling in the library from the Creator
   set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
-  set(CMAKE_INSTALL_RPATH "$ORIGIN/../lib")
+  set(CMAKE_INSTALL_RPATH "/home/llist/Qt/6.9.0/gcc_64/lib")
 endif()
 
 if(APPLE)
@@ -176,7 +177,7 @@ if(UNIX AND NOT APPLE)
   find_package(X11 COMPONENTS X11_xcb)
 endif()
 
-find_package(Protobuf CONFIG)
+find_package(Qt6 REQUIRED COMPONENTS Protobuf)
 if(NOT Protobuf_FOUND)
   find_package(Protobuf REQUIRED)
 endif()
@@ -1600,11 +1601,10 @@ endif()
 
 target_link_libraries(strawberry PUBLIC
     strawberry_lib
-    ${P${Protobuf_LIBRARIES}rotobuf_LIBRARIES}
     lib-networkremote
-
 )
 
+target_link_libraries(strawberry PRIVATE Qt6::Protobuf)
 
 if(NOT APPLE)
   install(TARGETS strawberry RUNTIME DESTINATION bin)

@@ -2,10 +2,7 @@
 #define NETWORKREMOTE_H
 
 #include <QObject>
-#include <QTcpServer>
-#include <QTcpSocket>
 #include <QHostAddress>
-#include <QSettings>
 
 #include "tcpserver.h"
 #include "networkremote/remotesettings.h"
@@ -17,10 +14,10 @@ class NetworkRemote : public QObject
 {
      Q_OBJECT
 public:
-    static const char* kSettingsGroup;
-    explicit NetworkRemote(Application* app, QObject *parent = nullptr);
-    static NetworkRemote* Instance();
-    ~NetworkRemote() override;
+  static const char* kSettingsGroup;
+  explicit NetworkRemote(Application* app, QObject *parent = nullptr);
+  static NetworkRemote* Instance();
+  ~NetworkRemote() override;
 
 public Q_SLOTS:
   void Init();
@@ -31,15 +28,14 @@ public Q_SLOTS:
 
 private:
   Application *app_;
-  bool use_remote_;
+  bool enabled_;
   bool local_only_;
   int remote_port_;
   QHostAddress ipAddr_;
-  TcpServer *server_;
+  NetworkRemoteTcpServer *server_;
   QThread *original_thread_;
   static NetworkRemote* sInstance;
-  RemoteSettings *s_ = new RemoteSettings;
-
+  NetworkRemoteSettings* settings_;
 };
 
 #endif // NETWORKREMOTE_H

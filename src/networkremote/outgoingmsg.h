@@ -2,18 +2,29 @@
 #define OUTGOINGMSG_H
 
 #include <QObject>
-#include "core/application.h"
-#include "playlist/playlist.h"
+#include <QByteArray>
 #include "playlist/playlistitem.h"
-#include "qtcpsocket.h"
+#include "includes/shared_ptr.h"
 #include "networkremote/RemoteMessages.pb.h"
 
-class OutgoingMsg : public QObject
+class Application;
+class Playlist;
+class Player;
+class QTcpSocket;
+
+namespace nw {namespace remote {
+  class Message;
+  class RequestSongMetadata;
+  class ResponseSongMetadata;  
+}}
+
+
+class NetworkRemoteOutgoingMsg : public QObject
 {
      Q_OBJECT
 public:
-  explicit OutgoingMsg(Application *app, QObject *parent = nullptr);
-  ~OutgoingMsg();
+  explicit NetworkRemoteOutgoingMsg(Application *app, QObject *parent = nullptr);
+  ~NetworkRemoteOutgoingMsg();
   void Init(QTcpSocket*, SharedPtr<Player>);
   void SendCurrentTrackInfo();
   void SendMsg();

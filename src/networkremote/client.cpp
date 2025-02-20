@@ -1,38 +1,35 @@
 #include "client.h"
+#include "core/application.h"
 
-Client::Client(Application *app, QObject *parent)
-    : QObject{parent},
-      app_(app),
-      incomingMsg_(new IncomingMsg(app)),
-      outgoingMsg_(new OutgoingMsg(app)),
-      player_(app_->player())
+NetworkRemoteClient::NetworkRemoteClient(Application *app, QObject *parent)
+  : QObject(parent),
+    app_(app),
+    incomingMsg_(new NetworkRemoteIncomingMsg(app, this)),
+    outgoingMsg_(new NetworkRemoteOutgoingMsg(app, this))
+{
+  player_ = app_->player();
+}
+
+NetworkRemoteClient::~NetworkRemoteClient()
 {
 }
 
-Client::~Client()
-{
-  incomingMsg_->deleteLater();
-  outgoingMsg_->deleteLater();
-}
-
-void Client::Init(QTcpSocket *socket)
+void NetworkRemoteClient::Init(QTcpSocket *socket)
 {
   socket_ = socket;
-  QObject::connect(incomingMsg_,&IncomingMsg::InMsgParsed,this, &Client::ProcessIncoming);
-
+  QObject::connect(incomingMsg_,&NetworkRemoteIncomingMsg::InMsgParsed,this, &NetworkRemoteClient::ProcessIncoming);
   incomingMsg_->Init(socket_);
   outgoingMsg_->Init(socket_, player_);
 }
 
-QTcpSocket* Client::GetSocket()
+QTcpSocket* NetworkRemoteClient::GetSocket()
 {
   return socket_;
 }
 
-void Client::ProcessIncoming()
+void NetworkRemoteClient::ProcessIncoming()
 {
-  msgType_ = incomingMsg_->GetMsgType();
-  switch (msgType_)
+  switch (incomingMsg_->GetMsgType())
   {
     case nw::remote::MSG_TYPE_REQUEST_SONG_INFO:
       outgoingMsg_->SendCurrentTrackInfo();
