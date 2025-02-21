@@ -2092,7 +2092,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Tags</source>
-      <translation type="unfinished">Tags</translation>
+      <translation>Ετικέτες</translation>
     </message>
     <message>
       <source>MenuPopupToolButton</source>
