@@ -245,11 +245,11 @@
     </message>
     <message>
       <source>All artists</source>
-      <translation type="unfinished">All artists</translation>
+      <translation>Όλοι οι καλλιτέχνες</translation>
     </message>
     <message>
       <source>Various artists</source>
-      <translation type="unfinished">Various artists</translation>
+      <translation>Διάφοροι καλλιτέχνες</translation>
     </message>
     <message>
       <source>Got %1 covers out of %2 (%3 failed)</source>
@@ -696,7 +696,7 @@
     <name>BehaviourSettingsPage</name>
     <message>
       <source>Behavior</source>
-      <translation type="unfinished">Behavior</translation>
+      <translation>Συμπεριφορά</translation>
     </message>
     <message>
       <source>Show system tray icon</source>
@@ -724,7 +724,7 @@
     </message>
     <message>
       <source>On startup</source>
-      <translation type="unfinished">On startup</translation>
+      <translation>Κατά την εκκίνηση</translation>
     </message>
     <message>
       <source>Remember from &amp;last time</source>
@@ -913,7 +913,7 @@
     </message>
     <message>
       <source>Group by</source>
-      <translation type="unfinished">Group by</translation>
+      <translation>Ομαδοποίηση κατά</translation>
     </message>
     <message>
       <source>Display options</source>
@@ -977,7 +977,7 @@
     </message>
     <message>
       <source>Advanced grouping...</source>
-      <translation type="unfinished">Advanced grouping...</translation>
+      <translation>Προηγμένη ομαδοποίηση"..."</translation>
     </message>
     <message>
       <source>Grouping Name</source>
