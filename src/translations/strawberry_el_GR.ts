@@ -166,7 +166,7 @@
     </message>
     <message>
       <source>Output</source>
-      <translation type="unfinished">Output</translation>
+      <translation>Έξοδος</translation>
     </message>
     <message>
       <source>Enter a filename for exported covers (no extension):</source>
@@ -257,7 +257,7 @@
     </message>
     <message>
       <source>%1 transferred</source>
-      <translation type="unfinished">%1 transferred</translation>
+      <translation>%1 μεταφέρθηκε</translation>
     </message>
     <message>
       <source>Export finished</source>
@@ -1199,7 +1199,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Copy to device...</source>
-      <translation type="unfinished">Copy to device...</translation>
+      <translation>Αντιγραφή στη συσκευή...</translation>
     </message>
     <message>
       <source>Delete from disk...</source>
@@ -1478,7 +1478,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Show song lyrics</source>
-      <translation type="unfinished">Show song lyrics</translation>
+      <translation>Εμφάνιση στίχων τραγουδιού</translation>
     </message>
     <message>
       <source>Automatically search for song lyrics</source>
