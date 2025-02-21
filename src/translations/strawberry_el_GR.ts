@@ -3124,7 +3124,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Love</source>
-      <translation type="unfinished">Love</translation>
+      <translation>Αγάπη</translation>
     </message>
     <message>
       <source>&amp;Clear playlist</source>
@@ -7407,12 +7407,12 @@ Are you sure you want to continue?</translation>
     <name>TranscoderOptionsVorbis</name>
     <message>
       <source>Form</source>
-      <translation type="unfinished">Form</translation>
+      <translation>Φόρμα</translation>
     </message>
     <message>
       <source>Quality</source>
       <comment>Sound quality</comment>
-      <translation type="unfinished">Quality</translation>
+      <translation>Ποιότητα</translation>
     </message>
     <message>
       <source>Use bitrate management engine</source>
