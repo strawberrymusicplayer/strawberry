@@ -2088,7 +2088,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Reset play counts</source>
-      <translation type="unfinished">Reset play counts</translation>
+      <translation>Επαναφορά μετρήσεων αναπαραγωγής</translation>
     </message>
     <message>
       <source>Tags</source>
@@ -2112,7 +2112,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Grouping</source>
-      <translation type="unfinished">Grouping</translation>
+      <translation>Ομαδοποίηση</translation>
     </message>
     <message>
       <source>Album artist</source>
@@ -2196,7 +2196,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Loading tracks</source>
-      <translation type="unfinished">Loading tracks</translation>
+      <translation>Φόρτωση τραγουδιών</translation>
     </message>
     <message>
       <source>%1 songs selected.</source>
@@ -2224,7 +2224,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Cover is unset.</source>
-      <translation type="unfinished">Cover is unset.</translation>
+      <translation>Το εξώφυλλο απενεργοποιήθηκε.</translation>
     </message>
     <message>
       <source>Cover from embedded image.</source>
@@ -2429,7 +2429,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     <name>ErrorDialog</name>
     <message>
       <source>Strawberry Error</source>
-      <translation type="unfinished">Strawberry Error</translation>
+      <translation>Εξώφυλλο από ενσωματωμένη εικόνα</translation>
     </message>
   </context>
   <context>
@@ -2718,7 +2718,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Shortcut for %1</source>
-      <translation type="unfinished">Shortcut for %1</translation>
+      <translation>Συντόμευση για %1</translation>
     </message>
     <message>
       <source>&amp;None</source>
