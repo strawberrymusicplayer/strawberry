@@ -7073,7 +7073,7 @@ Are you sure you want to continue?</translation>
     </message>
     <message>
       <source>Clear</source>
-      <translation type="unfinished">Clear</translation>
+      <translation>Εκκαθάριση</translation>
     </message>
     <message>
       <source>Start transcoding</source>
@@ -7305,7 +7305,7 @@ Are you sure you want to continue?</translation>
     </message>
     <message>
       <source>Standard</source>
-      <translation type="unfinished">Standard</translation>
+      <translation>Κανονικό</translation>
     </message>
     <message>
       <source>High</source>
@@ -7320,7 +7320,7 @@ Are you sure you want to continue?</translation>
     <name>TranscoderOptionsOpus</name>
     <message>
       <source>Form</source>
-      <translation type="unfinished">Form</translation>
+      <translation>Φόρμα</translation>
     </message>
     <message>
       <source>Bitrate</source>
