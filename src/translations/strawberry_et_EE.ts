@@ -5405,7 +5405,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Audio format</source>
-      <translation>Heli vorming</translation>
+      <translation>Helivorming</translation>
     </message>
     <message>
       <source>Search delay</source>
@@ -7045,7 +7045,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Audio format</source>
-      <translation>Heli vorming</translation>
+      <translation>Helivorming</translation>
     </message>
     <message>
       <source>Options...</source>
