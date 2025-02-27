@@ -72,7 +72,7 @@
     </message>
     <message>
       <source>Enter the URL of a stream:</source>
-      <translation>Sisesta voo URL:</translation>
+      <translation>Sisesta voogedastuse võrguaadress:</translation>
     </message>
   </context>
   <context>
@@ -87,7 +87,7 @@
     </message>
     <message>
       <source>Load cover from URL...</source>
-      <translation>Laadi kaaanepilt aadressilt...</translation>
+      <translation>Laadi kaaanepilt võrguaadressilt...</translation>
     </message>
     <message>
       <source>Search for album covers...</source>
@@ -1419,7 +1419,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Add song URL</source>
-      <translation>Lisa loo URL</translation>
+      <translation>Lisa loo võrguaadress</translation>
     </message>
     <message>
       <source>%rating%</source>
@@ -1521,11 +1521,11 @@ If there are no matches then it will use the largest image in the directory.</so
     <name>CoverFromURLDialog</name>
     <message>
       <source>Load cover from URL</source>
-      <translation>Laadi kaaanepilt aadressilt</translation>
+      <translation>Laadi kaaanepilt võrguaadressilt</translation>
     </message>
     <message>
       <source>Enter a URL to download a cover from the Internet:</source>
-      <translation>Kaanepiltide laadimiseks internetist sisesta aadress:</translation>
+      <translation>Kaanepiltide laadimiseks internetist sisesta võrguaadress:</translation>
     </message>
     <message>
       <source>Fetching cover error</source>
@@ -3693,7 +3693,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Password</source>
-      <translation>Parool</translation>
+      <translation>Salasõna</translation>
     </message>
     <message>
       <source>Use proxy settings for streaming</source>
@@ -3909,7 +3909,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Add song URL</source>
-      <translation>Lisa loo URL</translation>
+      <translation>Lisa loo võrguaadress</translation>
     </message>
     <message>
       <source>%originalyear%</source>
@@ -4808,7 +4808,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>URL(s)</source>
-      <translation>URL(id)</translation>
+      <translation>Võrguaadress(id)</translation>
     </message>
     <message>
       <source>Player options</source>
@@ -4884,7 +4884,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Append files/URLs to the playlist</source>
-      <translation>Lisa failid/URL-id esitusloendisse</translation>
+      <translation>Lisa failid/võrguaadressid esitusloendisse</translation>
     </message>
     <message>
       <source>Loads files/URLs, replacing current playlist</source>
@@ -5350,7 +5350,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Missing Qobuz password.</source>
-      <translation>Qobuzi parool puudub.</translation>
+      <translation>Qobuzi salasõna puudub.</translation>
     </message>
     <message>
       <source>Not authenticated with Qobuz.</source>
@@ -5389,7 +5389,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Password</source>
-      <translation>Parool</translation>
+      <translation>Salasõna</translation>
     </message>
     <message>
       <source>App Secret</source>
@@ -5449,7 +5449,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Missing password.</source>
-      <translation>Parool puudub.</translation>
+      <translation>Salasõna puudub.</translation>
     </message>
     <message>
       <source>Authentication failed</source>
@@ -5830,7 +5830,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Open URL in web browser?</source>
-      <translation>Kas avada URL veebibrauseris?</translation>
+      <translation>Kas avame võrguaadressi veebibrauseris?</translation>
     </message>
     <message>
       <source>Press &quot;Save&quot; to copy the URL to clipboard and manually open it in a web browser.</source>
@@ -6576,7 +6576,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Missing username or password.</source>
-      <translation>Kasutajanimi või parool puudub.</translation>
+      <translation>Kasutajanimi või salasõna puudub.</translation>
     </message>
   </context>
   <context>
@@ -6603,7 +6603,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Password</source>
-      <translation>Parool</translation>
+      <translation>Salasõna</translation>
     </message>
     <message>
       <source>Authentication method:</source>
@@ -6655,7 +6655,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Missing server url, username or password.</source>
-      <translation>Serveri URL, kasutajanimi või parool puudub.</translation>
+      <translation>Serveri URL, kasutajanimi või salasõna puudub.</translation>
     </message>
     <message>
       <source>Configuration incorrect</source>
@@ -6682,7 +6682,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Missing Subsonic username or password.</source>
-      <translation>Subsonic kasutajanimi või parool puudub.</translation>
+      <translation>Subsonicu kasutajanimi või salasõna puudub.</translation>
     </message>
   </context>
   <context>
@@ -6778,7 +6778,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Missing Tidal password.</source>
-      <translation>Tidali parool puudub.</translation>
+      <translation>Tidali salasõna puudub.</translation>
     </message>
     <message>
       <source>Not authenticated with Tidal and reached maximum number of login attempts.</source>
@@ -6790,7 +6790,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Missing Tidal API token, username or password.</source>
-      <translation>Puuduv Tidal API tunnuskood, kasutajanimi või parool.</translation>
+      <translation>Puuduv Tidal API tunnuskood, kasutajanimi või salasõna.</translation>
     </message>
   </context>
   <context>
@@ -6813,7 +6813,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Use OAuth</source>
-      <translation>Kasuta OAuth</translation>
+      <translation>Kasuta OAuthi</translation>
     </message>
     <message>
       <source>Client ID</source>
@@ -6829,7 +6829,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Password</source>
-      <translation>Parool</translation>
+      <translation>Salasõna</translation>
     </message>
     <message>
       <source>Login</source>
@@ -6901,7 +6901,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Missing password.</source>
-      <translation>Parool puudub.</translation>
+      <translation>Salasõna puudub.</translation>
     </message>
     <message>
       <source>Authentication failed</source>
@@ -6916,7 +6916,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Missing Tidal API token, username or password.</source>
-      <translation>Puuduv Tidal API tunnuskood, kasutajanimi või parool.</translation>
+      <translation>Puuduv Tidal API tunnuskood, kasutajanimi või salasõna.</translation>
     </message>
     <message>
       <source>Cancelled.</source>
@@ -7516,7 +7516,7 @@ Kas soovid jätkata?</translation>
     <name>UserPassDialog</name>
     <message>
       <source>Enter username and password</source>
-      <translation>Sisesta kasutajanimi ja parool</translation>
+      <translation>Sisesta kasutajanimi ja salasõna</translation>
     </message>
     <message>
       <source>Username</source>
@@ -7524,7 +7524,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Password</source>
-      <translation>Parool</translation>
+      <translation>Salasõna</translation>
     </message>
   </context>
 </TS>
