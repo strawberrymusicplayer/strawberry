@@ -14,7 +14,7 @@ NetworkRemoteSettingsPage::NetworkRemoteSettingsPage(SettingsDialog *dialog, QWi
 {
 
   ui_->setupUi(this);
-  setWindowIcon(IconLoader::Load("network-remote", true, 0,32));
+  setWindowIcon(IconLoader::Load(QStringLiteral("network-remote"), true, 0,32));
   QObject::connect(ui_->useRemoteClient,&QAbstractButton::clicked, this, &NetworkRemoteSettingsPage::RemoteButtonClicked);
   QObject::connect(ui_->localConnectionsOnly, &QAbstractButton::clicked, this, &NetworkRemoteSettingsPage::LocalConnectButtonClicked);
   QObject::connect(ui_->portSelected, &QAbstractSpinBox::editingFinished, this, &NetworkRemoteSettingsPage::PortChanged);
@@ -28,7 +28,7 @@ NetworkRemoteSettingsPage::~NetworkRemoteSettingsPage()
 void NetworkRemoteSettingsPage::Load()
 {
   ui_->portSelected->setRange(5050, 65535);
-  ui_->ip_address->setText("0.0.0.0");
+  ui_->ip_address->setText(QStringLiteral("0.0.0.0"));
   s_->Load();
 
   ui_->useRemoteClient->setCheckable(true);
