@@ -231,7 +231,7 @@ jobs:
 
   build-openmandriva:
     name: Build OpenMandriva
-    if: github.repository != 'strawberrymusicplayer/strawberry-private' && github.ref != 'refs/heads/l10n_master' && false
+    if: github.repository != 'strawberrymusicplayer/strawberry-private' && github.ref != 'refs/heads/l10n_master'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -246,31 +246,30 @@ jobs:
         run: >
           dnf install -y
           which
-          glibc
           gcc-c++
           git
           gnutar
           make
           cmake
-          glib
           lsb-release
           rpmdevtools
           rpm-build
           glibc-devel
           boost-devel
-          sqlite-devel
-          libasound-devel
-          pulseaudio-devel
-          libGL-devel
-          libgst-plugins-base1.0-devel
-          taglib-devel
-          chromaprint-devel
-          libebur128-devel
-          fftw-devel
-          icu-devel
-          libcdio-devel
-          libgpod-devel
-          libmtp-devel
+          lib64glib2.0-devel
+          lib64asound-devel
+          lib64pulseaudio-devel
+          lib64sqlite3-devel
+          lib64gstreamer-devel
+          lib64gst-plugins-base1.0-devel
+          lib64taglib-devel
+          lib64chromaprint-devel
+          lib64ebur128-devel
+          lib64fftw-devel
+          lib64icu-devel
+          lib64cdio-devel
+          lib64gpod-devel
+          lib64mtp-devel
           lib64Qt6Core-devel
           lib64Qt6Concurrent-devel
           lib64Qt6Network-devel
@@ -279,6 +278,11 @@ jobs:
           lib64Qt6Gui-devel
           lib64Qt6Widgets-devel
           lib64Qt6Test-devel
+          lib64kdsingleapplication-devel
+          lib64xkbcommon-devel
+          lib64gtest-devel
+          lib64gmock-devel
+          sparsehash-devel
           qt6-cmake
           qt6-qtbase-tools
           qt6-qttools-linguist
@@ -334,12 +338,6 @@ jobs:
     container:
       image: mageia:${{matrix.mageia_version}}
     steps:
-      - name: Set media
-        run: |
-          urpmi.removemedia "Core Release"
-          urpmi.removemedia "Core Updates"
-          urpmi.addmedia "Core Release" "https://mirrors.kernel.org/mageia/distrib/${{matrix.mageia_version}}/x86_64/media/core/release/"
-          urpmi.addmedia "Core Updates" "https://mirrors.kernel.org/mageia/distrib/${{matrix.mageia_version}}/x86_64/media/core/updates/"
       - name: Update repositories
         run: urpmi.update -a
       - name: Upgrade packages

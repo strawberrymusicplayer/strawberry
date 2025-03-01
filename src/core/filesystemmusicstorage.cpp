@@ -113,7 +113,11 @@ bool FilesystemMusicStorage::DeleteFromStorage(const DeleteJob &job) {
   QString path = job.metadata_.url().toLocalFile();
   QFileInfo fileInfo(path);
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 9, 0)
+  if (job.use_trash_ && QFile::supportsMoveToTrash()) {
+#else
   if (job.use_trash_) {
+#endif
     return QFile::moveToTrash(path);
   }
 

@@ -56,12 +56,15 @@
    <item>
     <widget class="Line" name="line">
      <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+      <enum>Qt::Orientation::Horizontal</enum>
      </property>
     </widget>
    </item>
    <item>
     <widget class="QCheckBox" name="enable_equalizer">
+     <property name="toolTip">
+      <string>You need to restart playback for this setting to take affect.</string>
+     </property>
      <property name="text">
       <string>Enable equalizer</string>
      </property>
@@ -83,6 +86,9 @@
    </item>
    <item>
     <widget class="QCheckBox" name="enable_stereo_balancer">
+     <property name="toolTip">
+      <string>You need to restart playback for this setting to take affect.</string>
+     </property>
      <property name="text">
       <string>Enable stereo balancer</string>
      </property>
@@ -101,7 +107,7 @@
         <string>Left</string>
        </property>
        <property name="alignment">
-        <set>Qt::AlignBottom</set>
+        <set>Qt::AlignmentFlag::AlignBottom</set>
        </property>
       </widget>
      </item>
@@ -111,7 +117,7 @@
         <string>Balance</string>
        </property>
        <property name="alignment">
-        <set>Qt::AlignCenter</set>
+        <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
       </widget>
      </item>
@@ -126,7 +132,7 @@
         <string>Right</string>
        </property>
        <property name="alignment">
-        <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
+        <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing</set>
        </property>
       </widget>
      </item>
@@ -147,10 +153,10 @@
       <number>100</number>
      </property>
      <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+      <enum>Qt::Orientation::Horizontal</enum>
      </property>
      <property name="tickPosition">
-      <enum>QSlider::TicksBelow</enum>
+      <enum>QSlider::TickPosition::TicksBelow</enum>
      </property>
      <property name="tickInterval">
       <number>10</number>
@@ -164,7 +170,6 @@
   <tabstop>preset_save</tabstop>
  </tabstops>
  <resources>
-  <include location="../../data/data.qrc"/>
   <include location="../../data/icons.qrc"/>
  </resources>
  <connections/>

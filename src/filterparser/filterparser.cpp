@@ -476,13 +476,16 @@ float FilterParser::ParseRating(const QString &rating_str) {
 
 QString FilterParser::ToolTip() {
 
-  return QLatin1String("<html><head/><body><p>") +
+  return "<html><head/><body><p>"_L1 +
          QObject::tr("Prefix a search term with a field name to limit the search to that field, e.g.:") +
-         QLatin1Char(' ') +
+         u' ' +
          "<span style=\"font-weight:600;\">"_L1 +
          QObject::tr("artist") +
          ":</span><span style=\"font-style:italic;\">Strawbs</span> "_L1 +
-         QObject::tr("searches for all artists containing the word %1. ").arg("Strawbs"_L1) +
+         QObject::tr("searches for all artists containing the word %1.").arg("Strawbs"_L1) +
+         "</p><p>"_L1 +
+
+         QObject::tr("A word can be excluded with a preceding \"%1\", if you need to search for a word including \"%1\", place quotes around the word.").arg("-"_L1) +
          "</p><p>"_L1 +
 
          QObject::tr("Search terms for numerical fields can be prefixed with %1 or %2 to refine the search, e.g.: ")
@@ -494,7 +497,7 @@ QString FilterParser::ToolTip() {
          "<span style=\"font-weight:italic;\">4</span>"_L1 +
          "</p><p>"_L1 +
 
-         QObject::tr("Multiple search terms can also be combined with \"%1\" (default) and \"%2\", as well as grouped with parentheses. ")
+         QObject::tr("Multiple search terms can also be combined with \"%1\" (default) and \"%2\", as well as grouped with parentheses.")
                      .arg("AND"_L1, "OR"_L1) +
 
          "</p><p><span style=\"font-weight:600;\">"_L1 +
