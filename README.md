@@ -59,8 +59,8 @@ Funding developers is a way to contribute to open source projects you appreciate
   * Audio equalizer
   * Transfer music to mass-storage USB players, MTP compatible devices and iPod Nano/Classic
   * Scrobbler with support for [Last.fm](https://www.last.fm/), [Libre.fm](https://libre.fm/) and [ListenBrainz](https://listenbrainz.org/)
-  * Streaming from Subsonic compatible servers.
-  * Unofficial Tidal, Spotify and Qobuz integration.
+  * Streaming from Subsonic compatible servers
+  * Unofficial Tidal, Spotify and Qobuz integration
 
 
 It has so far been tested to work on Linux, OpenBSD, FreeBSD, macOS and Windows.
@@ -96,7 +96,7 @@ Optional dependencies:
 
 You should also install the gstreamer plugins base and good, and optionally bad, ugly and libav to support all audio formats.
 
-### :wrench: Compiling from source
+### :wrench: Build from source
 
 ### Get the code:
 
@@ -109,7 +109,7 @@ You should also install the gstreamer plugins base and good, and optionally bad,
     cmake --build build --parallel $(nproc)
     sudo cmake --install build
 
-To compile on Windows with Visual Studio 2019 or 2022, see https://github.com/strawberrymusicplayer/strawberry-msvc
+To build on Windows with Visual Studio 2022, see https://github.com/strawberrymusicplayer/strawberry-msvc
 
 ### :penguin: Packaging status
 
