@@ -1155,7 +1155,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Are you sure you want to write song playcounts and ratings to file for all songs in your collection?</source>
-      <translation type="unfinished">Are you sure you want to write song playcounts and ratings to file for all songs in your collection?</translation>
+      <translation>¿Está seguro que querés guardar el total de reproducciones y las valoraciones de todos las canciones en su colección?</translation>
     </message>
   </context>
   <context>
