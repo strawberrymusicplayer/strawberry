@@ -25,11 +25,11 @@
     </message>
     <message>
       <source>Strawberry is free software released under GPL. The source code is available on %1</source>
-      <translation type="unfinished">Strawberry is free software released under GPL. The source code is available on %1</translation>
+      <translation>Το Strawberry είναι ελεύθερο λογισμικό που διατίθεται στο πλαίσιο της GPL. Ο πηγαίος κώδικας είναι διαθέσιμος στο %1</translation>
     </message>
     <message>
       <source>You should have received a copy of the GNU General Public License along with this program.  If not, see %1</source>
-      <translation type="unfinished">You should have received a copy of the GNU General Public License along with this program.  If not, see %1</translation>
+      <translation>Θα πρέπει να έχετε λάβει ένα αντίγραφο της Γενικής Άδειας Δημόσιας Χρήσης GNU (GNU General Public License) μαζί με το πρόγραμμα. Αν όχι, ανατρέξτε στην ενότητα %1</translation>
     </message>
     <message>
       <source>If you like Strawberry and can make use of it, consider sponsoring or donating.</source>
@@ -37,7 +37,7 @@
     </message>
     <message>
       <source>You can sponsor the author on %1. You can also make a one-time payment through %2.</source>
-      <translation type="unfinished">You can sponsor the author on %1. You can also make a one-time payment through %2.</translation>
+      <translation>Μπορείτε να επιχορηγήσετε τον συγγραφέα στο %1. Μπορείτε επίσης να κάνετε μια εφάπαξ πληρωμή μέσω του %2.</translation>
     </message>
     <message>
       <source>Author and maintainer</source>
@@ -57,22 +57,22 @@
     </message>
     <message>
       <source>Thanks to</source>
-      <translation type="unfinished">Thanks to</translation>
+      <translation>Ευχαριστούμε</translation>
     </message>
     <message>
       <source>Thanks to all the other Amarok and Clementine contributors.</source>
-      <translation type="unfinished">Thanks to all the other Amarok and Clementine contributors.</translation>
+      <translation>Ευχαριστούμε όλους τους άλλους συνεισφέροντες Amarok και Clementine.</translation>
     </message>
   </context>
   <context>
     <name>AddStreamDialog</name>
     <message>
       <source>Add Stream</source>
-      <translation type="unfinished">Add Stream</translation>
+      <translation>Προσθήκη Ροής</translation>
     </message>
     <message>
       <source>Enter the URL of a stream:</source>
-      <translation type="unfinished">Enter the URL of a stream:</translation>
+      <translation>Εισάγετε το URL μιας ροής:</translation>
     </message>
   </context>
   <context>
@@ -91,7 +91,7 @@
     </message>
     <message>
       <source>Search for album covers...</source>
-      <translation type="unfinished">Search for album covers...</translation>
+      <translation>Αναζήτηση για καλύμματα άλμπουμ...</translation>
     </message>
     <message>
       <source>Unset cover</source>
@@ -115,15 +115,15 @@
     </message>
     <message>
       <source>Load cover from disk</source>
-      <translation type="unfinished">Load cover from disk</translation>
+      <translation>Φόρτωση εξώφυλλου από το δίσκο</translation>
     </message>
     <message>
       <source>Failed to open cover file %1 for reading: %2</source>
-      <translation type="unfinished">Failed to open cover file %1 for reading: %2</translation>
+      <translation>Αποτυχία ανοίγματος αρχείου εξώφυλλου %1 για ανάγνωση: %2</translation>
     </message>
     <message>
       <source>Cover file %1 is empty.</source>
-      <translation type="unfinished">Cover file %1 is empty.</translation>
+      <translation>Το αρχείο εξωφύλλου %1 είναι κενό.</translation>
     </message>
     <message>
       <source>unknown</source>
@@ -131,7 +131,7 @@
     </message>
     <message>
       <source>Save album cover</source>
-      <translation type="unfinished">Save album cover</translation>
+      <translation>Αποθήκευση εξώφυλλου</translation>
     </message>
     <message>
       <source>Failed to open cover file %1 for writing: %2</source>
