@@ -465,6 +465,7 @@ set(SOURCES
   src/core/standardpaths.cpp
   src/core/httpbaserequest.cpp
   src/core/jsonbaserequest.cpp
+  src/core/oauthenticator.cpp
 
   src/utilities/strutils.cpp
   src/utilities/envutils.cpp
@@ -862,6 +863,7 @@ set(HEADERS
   src/core/songmimedata.h
   src/core/httpbaserequest.h
   src/core/jsonbaserequest.h
+  src/core/oauthenticator.h
 
   src/tagreader/tagreaderclient.h
   src/tagreader/tagreaderreply.h
