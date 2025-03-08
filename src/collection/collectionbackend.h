@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -234,6 +234,9 @@ class CollectionBackend : public CollectionBackendInterface {
   void UpdateSongRatingAsync(const int id, const float rating, const bool save_tags = false);
   void UpdateSongsRatingAsync(const QList<int> &ids, const float rating, const bool save_tags = false);
 
+  void DeleteSongsAsync(const SongList &songs);
+  void DeleteSongsByUrlsAsync(const QList<QUrl> &url);
+
  public Q_SLOTS:
   void Exit();
   void GetAllSongs(const int id);
@@ -247,6 +250,7 @@ class CollectionBackend : public CollectionBackendInterface {
   void UpdateSongsBySongID(const SongMap &new_songs);
   void UpdateMTimesOnly(const SongList &songs);
   void DeleteSongs(const SongList &songs);
+  void DeleteSongsByUrls(const QList<QUrl> &url);
   void MarkSongsUnavailable(const SongList &songs, const bool unavailable = true);
   void AddOrUpdateSubdirs(const CollectionSubdirectoryList &subdirs);
   void CompilationsNeedUpdating();

@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -853,6 +853,10 @@ void CollectionBackend::UpdateMTimesOnly(const SongList &songs) {
 
 }
 
+void CollectionBackend::DeleteSongsAsync(const SongList &songs) {
+  QMetaObject::invokeMethod(this, "DeleteSongs", Qt::QueuedConnection, Q_ARG(SongList, songs));
+}
+
 void CollectionBackend::DeleteSongs(const SongList &songs) {
 
   QMutexLocker l(db_->Mutex());
@@ -876,6 +880,24 @@ void CollectionBackend::DeleteSongs(const SongList &songs) {
   UpdateTotalSongCountAsync();
   UpdateTotalArtistCountAsync();
   UpdateTotalAlbumCountAsync();
+
+}
+
+void CollectionBackend::DeleteSongsByUrlsAsync(const QList<QUrl> &urls) {
+  QMetaObject::invokeMethod(this, "DeleteSongsByUrl", Qt::QueuedConnection, Q_ARG(QList<QUrl>, urls));
+}
+
+void CollectionBackend::DeleteSongsByUrls(const QList<QUrl> &urls) {
+
+  SongList songs;
+  songs.reserve(urls.count());
+  for (const QUrl &url : urls) {
+    songs << GetSongsByUrl(url);
+  }
+
+  if (!songs.isEmpty()) {
+    DeleteSongs(songs);
+  }
 
 }
 
