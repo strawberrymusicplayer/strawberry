@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,17 +20,13 @@
 #ifndef STREAMINGSERVICE_H
 #define STREAMINGSERVICE_H
 
-#include <QtGlobal>
 #include <QObject>
-#include <QMetaType>
-#include <QMap>
 #include <QString>
 #include <QUrl>
 #include <QIcon>
 
 #include "includes/shared_ptr.h"
 #include "core/song.h"
-#include "streamingsearchview.h"
 
 class CollectionBackend;
 class CollectionModel;
@@ -41,9 +37,15 @@ class StreamingService : public QObject {
 
  public:
   explicit StreamingService(const Song::Source source, const QString &name, const QString &url_scheme, const QString &settings_group, QObject *parent = nullptr);
-
   ~StreamingService() override {}
-  virtual void Exit() {}
+
+  enum class SearchType {
+    Artists = 1,
+    Albums = 2,
+    Songs = 3
+  };
+
+  virtual void Exit() = 0;
 
   virtual Song::Source source() const { return source_; }
   virtual QString name() const { return name_; }
@@ -55,7 +57,7 @@ class StreamingService : public QObject {
   virtual QIcon Icon() const { return Song::IconForSource(source_); }
   virtual bool oauth() const { return false; }
   virtual bool authenticated() const { return false; }
-  virtual int Search(const QString &query, StreamingSearchView::SearchType type) { Q_UNUSED(query); Q_UNUSED(type); return 0; }
+  virtual int Search(const QString &query, const SearchType type) { Q_UNUSED(query); Q_UNUSED(type); return 0; }
   virtual void CancelSearch() {}
 
   virtual SharedPtr<CollectionBackend> artists_collection_backend() { return nullptr; }

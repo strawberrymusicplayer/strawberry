@@ -111,7 +111,7 @@ SpotifyService::SpotifyService(const SharedPtr<TaskManager> task_manager,
       login_time_(0),
       pending_search_id_(0),
       next_pending_search_id_(1),
-      pending_search_type_(StreamingSearchView::SearchType::Artists),
+      pending_search_type_(SearchType::Artists),
       search_id_(0),
       server_(nullptr) {
 
@@ -656,7 +656,7 @@ void SpotifyService::SongsUpdateProgressReceived(const int id, const int progres
   Q_EMIT SongsUpdateProgress(progress);
 }
 
-int SpotifyService::Search(const QString &text, StreamingSearchView::SearchType type) {
+int SpotifyService::Search(const QString &text, const SearchType type) {
 
   pending_search_id_ = next_pending_search_id_;
   pending_search_text_ = text;
@@ -697,13 +697,13 @@ void SpotifyService::SendSearch() {
   SpotifyBaseRequest::Type type = SpotifyBaseRequest::Type::None;
 
   switch (pending_search_type_) {
-    case StreamingSearchView::SearchType::Artists:
+    case SearchType::Artists:
       type = SpotifyBaseRequest::Type::SearchArtists;
       break;
-    case StreamingSearchView::SearchType::Albums:
+    case SearchType::Albums:
       type = SpotifyBaseRequest::Type::SearchAlbums;
       break;
-    case StreamingSearchView::SearchType::Songs:
+    case SearchType::Songs:
       type = SpotifyBaseRequest::Type::SearchSongs;
       break;
     default:

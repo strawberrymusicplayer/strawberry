@@ -39,6 +39,7 @@
 #include "includes/scoped_ptr.h"
 #include "includes/shared_ptr.h"
 #include "core/song.h"
+#include "collection/collectionmodel.h"
 #include "streaming/streamingservice.h"
 #include "constants/subsonicsettings.h"
 

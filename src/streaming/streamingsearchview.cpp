@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This code was part of Clementine (GlobalSearch)
  * Copyright 2012, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -106,7 +106,7 @@ StreamingSearchView::StreamingSearchView(QWidget *parent)
       current_proxy_(front_proxy_),
       swap_models_timer_(new QTimer(this)),
       use_pretty_covers_(true),
-      search_type_(StreamingSearchView::SearchType::Artists),
+      search_type_(StreamingService::SearchType::Artists),
       search_error_(false),
       last_search_id_(0),
       searches_next_id_(1) {
@@ -221,15 +221,15 @@ void StreamingSearchView::ReloadSettings() {
 
   // Streaming search settings
 
-  search_type_ = static_cast<StreamingSearchView::SearchType>(s.value("type", static_cast<int>(StreamingSearchView::SearchType::Artists)).toInt());
+  search_type_ = static_cast<StreamingService::SearchType>(s.value("type", static_cast<int>(StreamingService::SearchType::Artists)).toInt());
   switch (search_type_) {
-    case StreamingSearchView::SearchType::Artists:
+    case StreamingService::SearchType::Artists:
       ui_->radiobutton_search_artists->setChecked(true);
       break;
-    case StreamingSearchView::SearchType::Albums:
+    case StreamingService::SearchType::Albums:
       ui_->radiobutton_search_albums->setChecked(true);
       break;
-    case StreamingSearchView::SearchType::Songs:
+    case StreamingService::SearchType::Songs:
       ui_->radiobutton_search_songs->setChecked(true);
       break;
   }
@@ -464,7 +464,7 @@ bool StreamingSearchView::Matches(const QStringList &tokens, const QString &stri
 
 }
 
-int StreamingSearchView::SearchAsync(const QString &query, const SearchType type) {
+int StreamingSearchView::SearchAsync(const QString &query, const StreamingService::SearchType type) {
 
   const int id = searches_next_id_++;
 
@@ -477,7 +477,7 @@ int StreamingSearchView::SearchAsync(const QString &query, const SearchType type
 
 }
 
-void StreamingSearchView::SearchAsync(const int id, const QString &query, const SearchType type) {
+void StreamingSearchView::SearchAsync(const int id, const QString &query, const StreamingService::SearchType type) {
 
   const int service_id = service_->Search(query, type);
   pending_searches_[service_id] = PendingState(id, TokenizeQuery(query));
@@ -732,20 +732,20 @@ void StreamingSearchView::SetGroupBy(const CollectionModel::Grouping g) {
 
 void StreamingSearchView::SearchArtistsClicked(const bool checked) {
   Q_UNUSED(checked)
-  SetSearchType(StreamingSearchView::SearchType::Artists);
+  SetSearchType(StreamingService::SearchType::Artists);
 }
 
 void StreamingSearchView::SearchAlbumsClicked(const bool checked) {
   Q_UNUSED(checked)
-  SetSearchType(StreamingSearchView::SearchType::Albums);
+  SetSearchType(StreamingService::SearchType::Albums);
 }
 
 void StreamingSearchView::SearchSongsClicked(const bool checked) {
   Q_UNUSED(checked)
-  SetSearchType(StreamingSearchView::SearchType::Songs);
+  SetSearchType(StreamingService::SearchType::Songs);
 }
 
-void StreamingSearchView::SetSearchType(const StreamingSearchView::SearchType type) {
+void StreamingSearchView::SetSearchType(const StreamingService::SearchType type) {
 
   search_type_ = type;
 

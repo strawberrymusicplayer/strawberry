@@ -74,7 +74,7 @@ class SpotifyService : public StreamingService {
   void Exit() override;
   void ReloadSettings() override;
 
-  int Search(const QString &text, StreamingSearchView::SearchType type) override;
+  int Search(const QString &text, const SearchType type) override;
   void CancelSearch() override;
 
   int artistssearchlimit() const { return artistssearchlimit_; }
@@ -173,7 +173,7 @@ class SpotifyService : public StreamingService {
   int pending_search_id_;
   int next_pending_search_id_;
   QString pending_search_text_;
-  StreamingSearchView::SearchType pending_search_type_;
+  SearchType pending_search_type_;
 
   int search_id_;
   QString search_text_;

@@ -104,7 +104,7 @@ QobuzService::QobuzService(const SharedPtr<TaskManager> task_manager,
       credential_id_(-1),
       pending_search_id_(0),
       next_pending_search_id_(1),
-      pending_search_type_(StreamingSearchView::SearchType::Artists),
+      pending_search_type_(SearchType::Artists),
       search_id_(0),
       login_sent_(false),
       login_attempts_(0),
@@ -645,7 +645,7 @@ void QobuzService::SongsUpdateProgressReceived(const int id, const int progress)
   Q_EMIT SongsUpdateProgress(progress);
 }
 
-int QobuzService::Search(const QString &text, StreamingSearchView::SearchType type) {
+int QobuzService::Search(const QString &text, const SearchType type) {
 
   pending_search_id_ = next_pending_search_id_;
   pending_search_text_ = text;
@@ -686,13 +686,13 @@ void QobuzService::SendSearch() {
   QobuzBaseRequest::Type query_type = QobuzBaseRequest::Type::None;
 
   switch (pending_search_type_) {
-    case StreamingSearchView::SearchType::Artists:
+    case SearchType::Artists:
       query_type = QobuzBaseRequest::Type::SearchArtists;
       break;
-    case StreamingSearchView::SearchType::Albums:
+    case SearchType::Albums:
       query_type = QobuzBaseRequest::Type::SearchAlbums;
       break;
-    case StreamingSearchView::SearchType::Songs:
+    case SearchType::Songs:
       query_type = QobuzBaseRequest::Type::SearchSongs;
       break;
   }

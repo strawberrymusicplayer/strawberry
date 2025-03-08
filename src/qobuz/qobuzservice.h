@@ -78,7 +78,7 @@ class QobuzService : public StreamingService {
   void ReloadSettings() override;
 
   void Logout();
-  int Search(const QString &text, StreamingSearchView::SearchType type) override;
+  int Search(const QString &text, const SearchType type) override;
   void CancelSearch() override;
 
   int max_login_attempts() const { return kLoginAttempts; }
@@ -194,7 +194,7 @@ class QobuzService : public StreamingService {
   int pending_search_id_;
   int next_pending_search_id_;
   QString pending_search_text_;
-  StreamingSearchView::SearchType pending_search_type_;
+  SearchType pending_search_type_;
 
   int search_id_;
   QString search_text_;

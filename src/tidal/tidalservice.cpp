@@ -128,7 +128,7 @@ TidalService::TidalService(const SharedPtr<TaskManager> task_manager,
       login_time_(0),
       pending_search_id_(0),
       next_pending_search_id_(1),
-      pending_search_type_(StreamingSearchView::SearchType::Artists),
+      pending_search_type_(SearchType::Artists),
       search_id_(0),
       next_stream_url_request_id_(0) {
 
@@ -667,7 +667,7 @@ void TidalService::SongsUpdateProgressReceived(const int id, const int progress)
   Q_EMIT SongsUpdateProgress(progress);
 }
 
-int TidalService::Search(const QString &text, StreamingSearchView::SearchType type) {
+int TidalService::Search(const QString &text, const SearchType type) {
 
   pending_search_id_ = next_pending_search_id_;
   pending_search_text_ = text;
@@ -707,13 +707,13 @@ void TidalService::SendSearch() {
   TidalBaseRequest::Type query_type = TidalBaseRequest::Type::None;
 
   switch (pending_search_type_) {
-    case StreamingSearchView::SearchType::Artists:
+    case SearchType::Artists:
       query_type = TidalBaseRequest::Type::SearchArtists;
       break;
-    case StreamingSearchView::SearchType::Albums:
+    case SearchType::Albums:
       query_type = TidalBaseRequest::Type::SearchAlbums;
       break;
-    case StreamingSearchView::SearchType::Songs:
+    case SearchType::Songs:
       query_type = TidalBaseRequest::Type::SearchSongs;
       break;
     default:
