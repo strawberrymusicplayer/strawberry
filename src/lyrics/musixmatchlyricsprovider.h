@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2020-2022, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2020-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,10 +22,7 @@
 
 #include "config.h"
 
-#include <QtGlobal>
-#include <QObject>
 #include <QList>
-#include <QVariant>
 #include <QString>
 #include <QUrl>
 
@@ -42,7 +39,6 @@ class MusixmatchLyricsProvider : public JsonLyricsProvider {
 
  public:
   explicit MusixmatchLyricsProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
-  ~MusixmatchLyricsProvider() override;
 
  private:
   struct LyricsSearchContext {
@@ -56,11 +52,11 @@ class MusixmatchLyricsProvider : public JsonLyricsProvider {
   using LyricsSearchContextPtr = SharedPtr<LyricsSearchContext>;
 
   bool SendSearchRequest(LyricsSearchContextPtr search);
+  JsonObjectResult ParseJsonObject(QNetworkReply *reply);
   bool CreateLyricsRequest(LyricsSearchContextPtr search);
   void SendLyricsRequest(const LyricsSearchRequest &request, const QString &artist, const QString &title);
   bool SendLyricsRequest(LyricsSearchContextPtr search, const QUrl &url);
   void EndSearch(LyricsSearchContextPtr search, const QUrl &url = QUrl());
-  void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
  protected Q_SLOTS:
   void StartSearch(const int id, const LyricsSearchRequest &request) override;
@@ -71,7 +67,6 @@ class MusixmatchLyricsProvider : public JsonLyricsProvider {
 
  private:
   QList<LyricsSearchContextPtr> requests_search_;
-  QList<QNetworkReply*> replies_;
   bool use_api_;
 };
 

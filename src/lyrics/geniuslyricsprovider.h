@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2020-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2020-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,16 +22,9 @@
 
 #include "config.h"
 
-#include <QtGlobal>
-#include <QObject>
-#include <QList>
 #include <QMap>
-#include <QVariant>
 #include <QString>
-#include <QStringList>
 #include <QUrl>
-#include <QSslError>
-#include <QJsonArray>
 #include <QMutex>
 
 #include "includes/shared_ptr.h"
@@ -41,18 +34,20 @@
 
 class QNetworkReply;
 class NetworkAccessManager;
-class LocalRedirectServer;
+class OAuthenticator;
 
 class GeniusLyricsProvider : public JsonLyricsProvider {
   Q_OBJECT
 
  public:
   explicit GeniusLyricsProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
-  ~GeniusLyricsProvider() override;
 
-  bool IsAuthenticated() const override { return !access_token().isEmpty(); }
   void Authenticate() override;
-  void Deauthenticate() override { clear_access_token(); }
+  void ClearSession() override;
+
+  virtual bool authenticated() const override;
+  virtual bool use_authorization_header() const override;
+  virtual QByteArray authorization_header() const override;
 
  protected Q_SLOTS:
   void StartSearch(const int id, const LyricsSearchRequest &request) override;
@@ -75,30 +70,19 @@ class GeniusLyricsProvider : public JsonLyricsProvider {
   using GeniusLyricsSearchContextPtr = SharedPtr<GeniusLyricsSearchContext>;
 
  private:
-  QString access_token() const;
-  void clear_access_token();
-  void set_access_token(const QString &access_token);
-  void RequestAccessToken(const QUrl &url, const QUrl &redirect_url);
-  void AuthError(const QString &error = QString(), const QVariant &debug = QVariant());
-  void Error(const QString &error, const QVariant &debug = QVariant()) override;
+  JsonObjectResult ParseJsonObject(QNetworkReply *reply);
   void EndSearch(GeniusLyricsSearchContextPtr search, const GeniusLyricsLyricContext &lyric = GeniusLyricsLyricContext());
+  void EndSearch(const int id, const LyricsSearchRequest &request, const LyricsSearchResults &results = LyricsSearchResults());
 
  private Q_SLOTS:
-  void HandleLoginSSLErrors(const QList<QSslError> &ssl_errors);
-  void RedirectArrived();
-  void AccessTokenRequestFinished(QNetworkReply *reply);
+  void OAuthFinished(const bool success, const QString &error);
   void HandleSearchReply(QNetworkReply *reply, const int id);
   void HandleLyricReply(QNetworkReply *reply, const int search_id, const QUrl &url);
 
  private:
-  LocalRedirectServer *server_;
-  QString code_verifier_;
-  QString code_challenge_;
+  OAuthenticator *oauth_;
   mutable QMutex mutex_access_token_;
-  QString access_token_;
-  QStringList login_errors_;
   QMap<int, SharedPtr<GeniusLyricsSearchContext>> requests_search_;
-  QList<QNetworkReply*> replies_;
 };
 
 #endif  // GENIUSLYRICSPROVIDER_H
