@@ -17,11 +17,11 @@
     </message>
     <message>
       <source>Strawberry is a music player and music collection organizer.</source>
-      <translation>Το Strawberry είναι ένα πρόγραμμα αναπαραγωγής μουσικής και οργανωτής μουσικής συλλογής.</translation>
+      <translation>Το Strawberry είναι ένα πρόγραμμα αναπαραγωγής μουσικής και οργάνωσης μουσικής συλλογής.</translation>
     </message>
     <message>
       <source>It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles.</source>
-      <translation type="unfinished">It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles.</translation>
+      <translation>Είναι απόγονος του Clementine που κυκλοφόρησε το 2018 και απευθύνεται σε συλλέκτες μουσικής και ηχόφιλους.</translation>
     </message>
     <message>
       <source>Strawberry is free software released under GPL. The source code is available on %1</source>
@@ -135,23 +135,23 @@
     </message>
     <message>
       <source>Failed to open cover file %1 for writing: %2</source>
-      <translation type="unfinished">Failed to open cover file %1 for writing: %2</translation>
+      <translation>Αποτυχία ανοίγματος αρχείου εξώφυλλου %1 για ανάγνωση: %2</translation>
     </message>
     <message>
       <source>Failed writing cover to file %1: %2</source>
-      <translation type="unfinished">Failed writing cover to file %1: %2</translation>
+      <translation>Αποτυχία εγγραφής εξωφύλλου στο αρχείο %1: %2</translation>
     </message>
     <message>
       <source>Failed writing cover to file %1.</source>
-      <translation type="unfinished">Failed writing cover to file %1.</translation>
+      <translation>Αποτυχία εγγραφής εξωφύλλου στο αρχείο %1.</translation>
     </message>
     <message>
       <source>Failed to delete cover file %1: %2</source>
-      <translation type="unfinished">Failed to delete cover file %1: %2</translation>
+      <translation>Αποτυχία διαγραφής αρχείου εξωφύλλου %1: %2</translation>
     </message>
     <message>
       <source>Failed to write cover to file %1: %2</source>
-      <translation type="unfinished">Failed to write cover to file %1: %2</translation>
+      <translation>Αποτυχία εγγραφής εξωφύλλου στο αρχείο %1: %2</translation>
     </message>
     <message>
       <source>Could not save cover to file %1.</source>
@@ -170,7 +170,7 @@
     </message>
     <message>
       <source>Enter a filename for exported covers (no extension):</source>
-      <translation type="unfinished">Enter a filename for exported covers (no extension):</translation>
+      <translation>Εισάγετε ένα όνομα αρχείου για εξαγώγιμα εξώφυλλα (χωρίς επέκταση):</translation>
     </message>
     <message>
       <source>Export downloaded covers</source>
@@ -178,23 +178,23 @@
     </message>
     <message>
       <source>Export embedded covers</source>
-      <translation type="unfinished">Export embedded covers</translation>
+      <translation>Εξαγωγή ενσωματωμένων εξώφυλλων</translation>
     </message>
     <message>
       <source>Existing covers</source>
-      <translation type="unfinished">Existing covers</translation>
+      <translation>Υπάρχοντα εξώφυλλα</translation>
     </message>
     <message>
       <source>Do not overwrite</source>
-      <translation type="unfinished">Do not overwrite</translation>
+      <translation>Να μην αντικατασταθεί</translation>
     </message>
     <message>
       <source>O&amp;verwrite all</source>
-      <translation type="unfinished">O&amp;verwrite all</translation>
+      <translation>Αντικατάσταση όλων</translation>
     </message>
     <message>
       <source>Overwrite s&amp;maller ones only</source>
-      <translation type="unfinished">Overwrite s&amp;maller ones only</translation>
+      <translation>Αντικατάσταση μόνο μικρών</translation>
     </message>
     <message>
       <source>Size</source>
@@ -210,7 +210,7 @@
     </message>
     <message>
       <source>Pixel</source>
-      <translation type="unfinished">Pixel</translation>
+      <translation>Εικονοστοιχείο</translation>
     </message>
   </context>
   <context>
@@ -225,11 +225,11 @@
     </message>
     <message>
       <source>Albums with covers</source>
-      <translation type="unfinished">Albums with covers</translation>
+      <translation>Άλμπουμ με εξώφυλλα</translation>
     </message>
     <message>
       <source>Albums without covers</source>
-      <translation type="unfinished">Albums without covers</translation>
+      <translation>Άλμπουμ χωρίς εξώφυλλα</translation>
     </message>
     <message>
       <source>Really cancel?</source>
@@ -253,7 +253,7 @@
     </message>
     <message>
       <source>Got %1 covers out of %2 (%3 failed)</source>
-      <translation type="unfinished">Got %1 covers out of %2 (%3 failed)</translation>
+      <translation>Ανάκτηση %1 εξωφύλλων από %2 (%3 απέτυχαν)</translation>
     </message>
     <message>
       <source>%1 transferred</source>
@@ -265,22 +265,22 @@
     </message>
     <message>
       <source>No covers to export.</source>
-      <translation type="unfinished">No covers to export.</translation>
+      <translation>Δεν υπάρχουν εξώφυλλα για εξαγωγή.</translation>
     </message>
     <message>
       <source>Exported %1 covers out of %2 (%3 skipped)</source>
-      <translation type="unfinished">Exported %1 covers out of %2 (%3 skipped)</translation>
+      <translation>Ανάκτηση %1 εξωφύλλων από %2 (%3 απέτυχαν)</translation>
     </message>
     <message>
       <source>Could not save cover to file %1.</source>
-      <translation type="unfinished">Could not save cover to file %1.</translation>
+      <translation>Δεν ήταν δυνατή η αποθήκευση του εξωφύλλου στο αρχείο %1.</translation>
     </message>
   </context>
   <context>
     <name>AlbumCoverSearcher</name>
     <message>
       <source>Cover Manager</source>
-      <translation type="unfinished">Cover Manager</translation>
+      <translation>Διαχειριστής Εξωφύλλων</translation>
     </message>
     <message>
       <source>Artist</source>
@@ -296,7 +296,7 @@
     </message>
     <message>
       <source>Covers from %1</source>
-      <translation type="unfinished">Covers from %1</translation>
+      <translation>Εξώφυλλα από %1</translation>
     </message>
     <message>
       <source>Abort</source>
@@ -307,31 +307,31 @@
     <name>AnalyzerContainer</name>
     <message>
       <source>Framerate</source>
-      <translation type="unfinished">Framerate</translation>
+      <translation>Ρυθμός ανανέωσης</translation>
     </message>
     <message>
       <source>Low (%1 fps)</source>
-      <translation type="unfinished">Low (%1 fps)</translation>
+      <translation>Χαμηλή (%1 fps)</translation>
     </message>
     <message>
       <source>Medium (%1 fps)</source>
-      <translation type="unfinished">Medium (%1 fps)</translation>
+      <translation>Μεσαία (%1 fps)</translation>
     </message>
     <message>
       <source>High (%1 fps)</source>
-      <translation type="unfinished">High (%1 fps)</translation>
+      <translation>Υψηλή (%1 fps)</translation>
     </message>
     <message>
       <source>Super high (%1 fps)</source>
-      <translation type="unfinished">Super high (%1 fps)</translation>
+      <translation>Πολύ υψηλή (%1 fps)</translation>
     </message>
     <message>
       <source>No analyzer</source>
-      <translation type="unfinished">No analyzer</translation>
+      <translation>Χωρίς αναλυτή</translation>
     </message>
     <message>
       <source>Block analyzer</source>
-      <translation type="unfinished">Block analyzer</translation>
+      <translation>Αναλύτης Block</translation>
     </message>
     <message>
       <source>Boom analyzer</source>
@@ -339,42 +339,42 @@
     </message>
     <message>
       <source>Turbine</source>
-      <translation type="unfinished">Turbine</translation>
+      <translation>Turbine</translation>
     </message>
     <message>
       <source>Sonogram</source>
-      <translation type="unfinished">Sonogram</translation>
+      <translation>Σονόγραμμα</translation>
     </message>
     <message>
       <source>WaveRubber</source>
-      <translation type="unfinished">WaveRubber</translation>
+      <translation>Κυματοειδές</translation>
     </message>
   </context>
   <context>
     <name>AppearanceSettingsPage</name>
     <message>
       <source>Appearance</source>
-      <translation type="unfinished">Appearance</translation>
+      <translation>Εμφάνιση</translation>
     </message>
     <message>
       <source>Style</source>
-      <translation type="unfinished">Style</translation>
+      <translation>Στυλ</translation>
     </message>
     <message>
       <source>Use system theme icons</source>
-      <translation type="unfinished">Use system theme icons</translation>
+      <translation>Χρήση εικονιδίων συστήματος</translation>
     </message>
     <message>
       <source>Settings require restart.</source>
-      <translation type="unfinished">Settings require restart.</translation>
+      <translation>Οι ρυθμίσεις απαιτούν επανεκκίνηση.</translation>
     </message>
     <message>
       <source>Tabbar colors</source>
-      <translation type="unfinished">Tabbar colors</translation>
+      <translation>Χρώματα πλαισίου</translation>
     </message>
     <message>
       <source>&amp;Use the system default color</source>
-      <translation type="unfinished">&amp;Use the system default color</translation>
+      <translation>&amp;Χρησιμοποιήστε την προεπιλογή χρωμάτων του συστήματος</translation>
     </message>
     <message>
       <source>Use custom color</source>
@@ -382,11 +382,11 @@
     </message>
     <message>
       <source>Use gradient background</source>
-      <translation type="unfinished">Use gradient background</translation>
+      <translation>Χρήση βαθμιδωτού φόντου</translation>
     </message>
     <message>
       <source>Select tabbar color:</source>
-      <translation type="unfinished">Select tabbar color:</translation>
+      <translation>Επιλογή χρώματος πλαισίου:</translation>
     </message>
     <message>
       <source>Background image</source>
@@ -394,27 +394,27 @@
     </message>
     <message>
       <source>Default bac&amp;kground image</source>
-      <translation type="unfinished">Default bac&amp;kground image</translation>
+      <translation>Προεπιλεγμένη εικόνα φόντου</translation>
     </message>
     <message>
       <source>&amp;No background image</source>
-      <translation type="unfinished">&amp;No background image</translation>
+      <translation>&amp;Χωρίς εικόνα φόντου</translation>
     </message>
     <message>
       <source>The album cover of the currently playing song</source>
-      <translation type="unfinished">The album cover of the currently playing song</translation>
+      <translation>Το εξώφυλλο του τρέχοντος τραγουδιού</translation>
     </message>
     <message>
       <source>Albu&amp;m cover</source>
-      <translation type="unfinished">Albu&amp;m cover</translation>
+      <translation>Εξώφυλλο Albu&amp;m</translation>
     </message>
     <message>
       <source>Custom image:</source>
-      <translation type="unfinished">Custom image:</translation>
+      <translation>Προσαρμοσμένη εικόνα:</translation>
     </message>
     <message>
       <source>Browse...</source>
-      <translation type="unfinished">Browse...</translation>
+      <translation>Αναζήτηση...</translation>
     </message>
     <message>
       <source>Position</source>
@@ -422,7 +422,7 @@
     </message>
     <message>
       <source>Upper Left</source>
-      <translation type="unfinished">Upper Left</translation>
+      <translation>Άνω Αριστερά</translation>
     </message>
     <message>
       <source>Upper Right</source>
