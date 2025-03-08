@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -184,31 +184,38 @@ PlaylistBackend::Playlist PlaylistBackend::GetPlaylist(const int id) {
 
 }
 
+QString PlaylistBackend::PlaylistItemsQuery() {
+
+  return QStringLiteral("SELECT %1, %2, p.type FROM playlist_items AS p "
+                        "LEFT JOIN songs ON p.type = songs.source AND p.collection_id = songs.ROWID "
+                        "WHERE p.playlist = :playlist"
+                        ).arg(Song::JoinSpec(u"songs"_s),
+                              Song::JoinSpec(u"p"_s));
+
+}
+
 PlaylistItemPtrList PlaylistBackend::GetPlaylistItems(const int playlist) {
 
-  PlaylistItemPtrList playlistitems;
+  PlaylistItemPtrList playlist_items;
 
   {
 
     QMutexLocker l(database_->Mutex());
     QSqlDatabase db(database_->Connect());
-
-    QString query = QStringLiteral("SELECT %1, %2, p.type FROM playlist_items AS p LEFT JOIN songs ON p.collection_id = songs.ROWID WHERE p.playlist = :playlist").arg(Song::JoinSpec(QStringLiteral("songs")), Song::JoinSpec(QStringLiteral("p")));
-
     SqlQuery q(db);
     // Forward iterations only may be faster
     q.setForwardOnly(true);
-    q.prepare(query);
+    q.prepare(PlaylistItemsQuery());
     q.BindValue(u":playlist"_s, playlist);
     if (!q.Exec()) {
       database_->ReportErrors(q);
       return PlaylistItemPtrList();
     }
 
-    // it's probable that we'll have a few songs associated with the same CUE, so we're caching results of parsing CUEs
+    // It's probable that we'll have a few songs associated with the same CUE, so we're caching results of parsing CUEs
     SharedPtr<NewSongFromQueryState> state_ptr = make_shared<NewSongFromQueryState>();
     while (q.next()) {
-      playlistitems << NewPlaylistItemFromQuery(SqlRow(q), state_ptr);
+      playlist_items << NewPlaylistItemFromQuery(SqlRow(q), state_ptr);
     }
 
   }
@@ -217,7 +224,7 @@ PlaylistItemPtrList PlaylistBackend::GetPlaylistItems(const int playlist) {
     Close();
   }
 
-  return playlistitems;
+  return playlist_items;
 
 }
 
@@ -228,20 +235,17 @@ SongList PlaylistBackend::GetPlaylistSongs(const int playlist) {
   {
     QMutexLocker l(database_->Mutex());
     QSqlDatabase db(database_->Connect());
-
-    QString query = QStringLiteral("SELECT %1, %2, p.type FROM playlist_items AS p LEFT JOIN songs ON p.collection_id = songs.ROWID WHERE p.playlist = :playlist").arg(Song::JoinSpec(u"songs"_s), Song::JoinSpec(u"p"_s));
-
     SqlQuery q(db);
     // Forward iterations only may be faster
     q.setForwardOnly(true);
-    q.prepare(query);
+    q.prepare(PlaylistItemsQuery());
     q.BindValue(u":playlist"_s, playlist);
     if (!q.Exec()) {
       database_->ReportErrors(q);
       return SongList();
     }
 
-    // it's probable that we'll have a few songs associated with the same CUE, so we're caching results of parsing CUEs
+    // It's probable that we'll have a few songs associated with the same CUE, so we're caching results of parsing CUEs
     SharedPtr<NewSongFromQueryState> state_ptr = make_shared<NewSongFromQueryState>();
     while (q.next()) {
       songs << NewSongFromQuery(SqlRow(q), state_ptr);
@@ -259,16 +263,11 @@ SongList PlaylistBackend::GetPlaylistSongs(const int playlist) {
 
 PlaylistItemPtr PlaylistBackend::NewPlaylistItemFromQuery(const SqlRow &row, SharedPtr<NewSongFromQueryState> state) {
 
-  // The song tables get joined first, plus one each for the song ROWIDs
+  // The song tables get joined first
   const int playlist_row = static_cast<int>(Song::kRowIdColumns.count()) * kSongTableJoins;
-
-  PlaylistItemPtr item(PlaylistItem::NewFromSource(static_cast<Song::Source>(row.value(playlist_row).toInt())));
-  if (item) {
-    item->InitFromQuery(row);
-    return RestoreCueData(item, state);
-  }
-
-  return item;
+  PlaylistItemPtr item = PlaylistItem::NewFromSource(static_cast<Song::Source>(row.value(playlist_row).toInt()));
+  item->InitFromQuery(row);
+  return RestoreCueData(item, state);
 
 }
 
