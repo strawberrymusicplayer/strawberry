@@ -463,6 +463,8 @@ set(SOURCES
   src/core/songmimedata.cpp
   src/core/platforminterface.cpp
   src/core/standardpaths.cpp
+  src/core/httpbaserequest.cpp
+  src/core/jsonbaserequest.cpp
 
   src/utilities/strutils.cpp
   src/utilities/envutils.cpp
@@ -858,6 +860,8 @@ set(HEADERS
   src/core/stylesheetloader.h
   src/core/localredirectserver.h
   src/core/songmimedata.h
+  src/core/httpbaserequest.h
+  src/core/jsonbaserequest.h
 
   src/tagreader/tagreaderclient.h
   src/tagreader/tagreaderreply.h
