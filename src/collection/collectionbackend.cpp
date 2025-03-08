@@ -522,7 +522,7 @@ void CollectionBackend::SongPathChanged(const Song &song, const QFileInfo &new_f
   updated_song.set_url(QUrl::fromLocalFile(QDir::cleanPath(new_file.filePath())));
   updated_song.set_basefilename(new_file.fileName());
   updated_song.InitArtManual();
-  if (updated_song.is_collection_song() && new_collection_directory_id) {
+  if (updated_song.is_linked_collection_song() && new_collection_directory_id) {
     updated_song.set_directory_id(new_collection_directory_id.value());
   }
 

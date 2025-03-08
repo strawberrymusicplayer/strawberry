@@ -1,8 +1,6 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
- * Copyright 2011, David Sansome <me@davidsansome.com>
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2021-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,23 +17,23 @@
  *
  */
 
-#ifndef STREAMSONGMIMEDATA_H
-#define STREAMSONGMIMEDATA_H
+#ifndef RADIOSTREAMPLAYLISTITEM_H
+#define RADIOSTREAMPLAYLISTITEM_H
 
 #include "includes/shared_ptr.h"
-#include "core/mimedata.h"
 #include "core/song.h"
+#include "playlist/streamplaylistitem.h"
 
-class StreamingService;
+class RadioService;
 
-class StreamSongMimeData : public MimeData {
-  Q_OBJECT
-
+class RadioStreamPlaylistItem : public StreamPlaylistItem {
  public:
-  explicit StreamSongMimeData(const SharedPtr<StreamingService> _service, QObject *parent = nullptr);
+  explicit RadioStreamPlaylistItem(const Song &song);
+  explicit RadioStreamPlaylistItem(const SharedPtr<RadioService> service, const Song &song);
+  Q_DISABLE_COPY(RadioStreamPlaylistItem)
 
-  const SharedPtr<StreamingService> service;
-  SongList songs;
+ private:
+  const SharedPtr<RadioService> service_;
 };
 
-#endif  // STREAMSONGMIMEDATA_H
+#endif  // RADIOSTREAMPLAYLISTITEM_H

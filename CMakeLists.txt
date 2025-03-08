@@ -592,6 +592,8 @@ set(SOURCES
   src/playlist/playlistfilter.cpp
   src/playlist/playlistheader.cpp
   src/playlist/playlistitem.cpp
+  src/playlist/songplaylistitem.cpp
+  src/playlist/streamplaylistitem.cpp
   src/playlist/playlistitemmimedata.cpp
   src/playlist/playlistlistcontainer.cpp
   src/playlist/playlistlistmodel.cpp
@@ -605,7 +607,6 @@ set(SOURCES
   src/playlist/playlistview.cpp
   src/playlist/playlistproxystyle.cpp
   src/playlist/songloaderinserter.cpp
-  src/playlist/songplaylistitem.cpp
   src/playlist/dynamicplaylistcontrols.cpp
   src/playlist/playlistundocommandbase.cpp
   src/playlist/playlistundocommandinsertitems.cpp
@@ -757,7 +758,7 @@ set(SOURCES
 
   src/streaming/streamingservices.cpp
   src/streaming/streamingservice.cpp
-  src/streaming/streamplaylistitem.cpp
+  src/streaming/streamserviceplaylistitem.cpp
   src/streaming/streamingsearchview.cpp
   src/streaming/streamingsearchmodel.cpp
   src/streaming/streamingsearchsortmodel.cpp
@@ -775,7 +776,7 @@ set(SOURCES
   src/radios/radioview.cpp
   src/radios/radioviewcontainer.cpp
   src/radios/radioservice.cpp
-  src/radios/radioplaylistitem.cpp
+  src/radios/radiostreamplaylistitem.cpp
   src/radios/radiochannel.cpp
   src/radios/somafmservice.cpp
   src/radios/radioparadiseservice.cpp

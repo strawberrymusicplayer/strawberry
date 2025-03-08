@@ -1,8 +1,6 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
- * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,41 +28,52 @@
 
 class SqlRow;
 
-CollectionPlaylistItem::CollectionPlaylistItem() : PlaylistItem(Song::Source::Collection) {
-  song_.set_source(Song::Source::Collection);
+CollectionPlaylistItem::CollectionPlaylistItem(const Song::Source source) : PlaylistItem(source) {
+  song_.set_source(source);
 }
 
-CollectionPlaylistItem::CollectionPlaylistItem(const Song &song) : PlaylistItem(Song::Source::Collection), song_(song) {
-  song_.set_source(Song::Source::Collection);
-}
+CollectionPlaylistItem::CollectionPlaylistItem(const Song &song) : PlaylistItem(song.source()), song_(song) {}
 
 QUrl CollectionPlaylistItem::Url() const { return song_.url(); }
 
-void CollectionPlaylistItem::Reload() {
-
-  const TagReaderResult result = TagReaderClient::Instance()->ReadFileBlocking(song_.url().toLocalFile(), &song_);
-  if (!result.success()) {
-    qLog(Error) << "Could not reload file" << song_.url() << result.error_string();
-    return;
-  }
-  UpdateTemporaryMetadata(song_);
-
-}
-
 bool CollectionPlaylistItem::InitFromQuery(const SqlRow &query) {
 
-  // Rows from the songs tables come first
-  song_.InitFromQuery(query, true);
-  song_.set_source(Song::Source::Collection);
+  int col = 0;
+  switch (source_) {
+    case Song::Source::Collection:
+      col = 0;
+      break;
+    default:
+      col = static_cast<int>(Song::kRowIdColumns.count());
+      break;
+  }
+
+  song_.InitFromQuery(query, true, col);
+
   return song_.is_valid();
 
 }
 
-QVariant CollectionPlaylistItem::DatabaseValue(DatabaseColumn column) const {
+void CollectionPlaylistItem::Reload() {
 
-  switch (column) {
-    case Column_CollectionId: return song_.id();
-    default: return PlaylistItem::DatabaseValue(column);
+  if (song_.url().isLocalFile()) {
+    const TagReaderResult result = TagReaderClient::Instance()->ReadFileBlocking(song_.url().toLocalFile(), &song_);
+    if (!result.success()) {
+      qLog(Error) << "Could not reload file" << song_.url() << result.error_string();
+      return;
+    }
+    UpdateTemporaryMetadata(song_);
+  }
+
+}
+
+QVariant CollectionPlaylistItem::DatabaseValue(const DatabaseColumn database_column) const {
+
+  switch (database_column) {
+    case DatabaseColumn::CollectionId:
+      return song_.id();
+    default:
+      return PlaylistItem::DatabaseValue(database_column);
   }
 
 }

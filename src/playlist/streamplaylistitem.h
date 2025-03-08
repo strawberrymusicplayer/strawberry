@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,10 +17,8 @@
  *
  */
 
-#ifndef RADIOPLAYLISTITEM_H
-#define RADIOPLAYLISTITEM_H
-
-#include "config.h"
+#ifndef STREAMPLAYLISTITEM_H
+#define STREAMPLAYLISTITEM_H
 
 #include <QVariant>
 #include <QUrl>
@@ -29,34 +27,32 @@
 #include "core/sqlrow.h"
 #include "playlist/playlistitem.h"
 
-class RadioService;
-
-class RadioPlaylistItem : public PlaylistItem {
+class StreamPlaylistItem : public PlaylistItem {
 
  public:
-  explicit RadioPlaylistItem(const Song::Source source);
-  explicit RadioPlaylistItem(const Song &metadata);
+  explicit StreamPlaylistItem(const Song::Source source);
+  explicit StreamPlaylistItem(const Song &song);
 
   bool InitFromQuery(const SqlRow &query) override;
   Song Metadata() const override;
-  Song OriginalMetadata() const override { return metadata_; }
+  Song OriginalMetadata() const override { return song_; }
   QUrl Url() const override;
 
-  void SetMetadata(const Song &metadata) override { metadata_ = metadata; }
+  void SetMetadata(const Song &song) override { song_ = song; }
   void SetArtManual(const QUrl &cover_url) override;
 
  protected:
-  QVariant DatabaseValue(DatabaseColumn) const override;
-  Song DatabaseSongMetadata() const override { return metadata_; }
+  QVariant DatabaseValue(const DatabaseColumn column) const override;
+  Song DatabaseSongMetadata() const override { return song_; }
 
  private:
   void InitMetadata();
 
  private:
   Song::Source source_;
-  Song metadata_;
+  Song song_;
 
-  Q_DISABLE_COPY(RadioPlaylistItem)
+  Q_DISABLE_COPY(StreamPlaylistItem)
 };
 
-#endif  // RADIOPLAYLISTITEM_H
+#endif  // STREAMPLAYLISTITEM_H

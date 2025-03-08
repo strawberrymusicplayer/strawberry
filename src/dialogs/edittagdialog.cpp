@@ -716,7 +716,7 @@ void EditTagDialog::SelectionChanged() {
   }
   ui_->tags_summary->setText(summary);
 
-  const bool enable_change_art = first_song.is_collection_song();
+  const bool enable_change_art = first_song.is_local_collection_song();
   ui_->tags_art_button->setEnabled(enable_change_art);
   if ((art_different && first_cover_action != UpdateCoverAction::New) || action_different) {
     tags_cover_art_id_ = -1;  // Cancels any pending art load.
@@ -878,7 +878,7 @@ QString EditTagDialog::GetArtSummary(const Song &song, const AlbumCoverLoaderRes
     summary = tr("Cover art not set").toHtmlEscaped();
   }
 
-  if (!song.is_collection_song()) {
+  if (!song.is_local_collection_song()) {
     if (!summary.isEmpty()) summary += "<br />"_L1;
     summary = tr("Album cover editing is only available for collection songs.");
   }
@@ -962,7 +962,7 @@ void EditTagDialog::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderRes
         summary += GetArtSummary(cover_action);
       }
       ui_->tags_summary->setText(summary);
-      enable_change_art = first_song.is_collection_song() && !first_song.effective_albumartist().isEmpty() && !first_song.album().isEmpty();
+      enable_change_art = first_song.is_local_collection_song() && !first_song.effective_albumartist().isEmpty() && !first_song.album().isEmpty();
     }
     tags_cover_art_id_ = -1;
     album_cover_choice_controller_->show_cover_action()->setEnabled(result.success && result.type != AlbumCoverLoaderResult::Type::Unset);
@@ -1321,7 +1321,7 @@ void EditTagDialog::SaveData() {
     }
     // If the cover was changed, but no tags written, make sure to update the collection.
     else if (ref.cover_action_ != UpdateCoverAction::None && !ref.current_.effective_albumartist().isEmpty() && !ref.current_.album().isEmpty()) {
-      if (ref.current_.is_collection_song()) {
+      if (ref.current_.is_local_collection_song()) {
         collection_songs_.insert(ref.current_.id(), ref.current_);
       }
       if (ref.current_ == current_albumcover_loader_->last_song()) {
@@ -1476,7 +1476,7 @@ void EditTagDialog::SongSaveTagsComplete(TagReaderReplyPtr reply, const QString 
   const QString error = reply->error();
 
   if (success) {
-    if (song.is_collection_song()) {
+    if (song.is_local_collection_song()) {
       if (collection_songs_.contains(song.id())) {
         Song old_song = collection_songs_.take(song.id());
         song.set_art_automatic(old_song.art_automatic());

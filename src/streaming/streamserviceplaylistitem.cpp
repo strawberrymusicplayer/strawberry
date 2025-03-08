@@ -1,7 +1,5 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
- * Copyright 2011, David Sansome <me@davidsansome.com>
  * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
@@ -19,23 +17,11 @@
  *
  */
 
-#ifndef STREAMSONGMIMEDATA_H
-#define STREAMSONGMIMEDATA_H
+#include "streamserviceplaylistitem.h"
+#include "streamingservice.h"
 
-#include "includes/shared_ptr.h"
-#include "core/mimedata.h"
-#include "core/song.h"
+StreamServicePlaylistItem::StreamServicePlaylistItem(const Song &song)
+    : StreamPlaylistItem(song) {}
 
-class StreamingService;
-
-class StreamSongMimeData : public MimeData {
-  Q_OBJECT
-
- public:
-  explicit StreamSongMimeData(const SharedPtr<StreamingService> _service, QObject *parent = nullptr);
-
-  const SharedPtr<StreamingService> service;
-  SongList songs;
-};
-
-#endif  // STREAMSONGMIMEDATA_H
+StreamServicePlaylistItem::StreamServicePlaylistItem(const StreamingServicePtr service, const Song &song)
+    : StreamPlaylistItem(song), service_(service) {}
