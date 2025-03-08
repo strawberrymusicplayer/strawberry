@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2023, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -68,10 +68,10 @@ const char *ScrobblingAPI20::kApiKey = "211990b4c96782c05d1536e7219eb56e";
 namespace {
 constexpr char kSecret[] = "80fd738f49596e9709b1bf9319c444a8";
 constexpr int kScrobblesPerRequest = 50;
-}
+}  // namespace
 
 ScrobblingAPI20::ScrobblingAPI20(const QString &name, const QString &settings_group, const QString &auth_url, const QString &api_url, const bool batch, const QString &cache_file, const SharedPtr<ScrobblerSettingsService> settings, const SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : ScrobblerService(name, settings, parent),
+    : ScrobblerService(name, network, settings, parent),
       name_(name),
       settings_group_(settings_group),
       auth_url_(auth_url),
@@ -79,17 +79,18 @@ ScrobblingAPI20::ScrobblingAPI20(const QString &name, const QString &settings_gr
       batch_(batch),
       network_(network),
       cache_(new ScrobblerCache(cache_file, this)),
-      server_(nullptr),
+      local_redirect_server_(nullptr),
       enabled_(false),
       prefer_albumartist_(false),
       subscriber_(false),
       submitted_(false),
       scrobbled_(false),
       timestamp_(0),
-      submit_error_(false) {
+      submit_error_(false),
+      timer_submit_(new QTimer(this)) {
 
-  timer_submit_.setSingleShot(true);
-  QObject::connect(&timer_submit_, &QTimer::timeout, this, &ScrobblingAPI20::Submit);
+  timer_submit_->setSingleShot(true);
+  QObject::connect(timer_submit_, &QTimer::timeout, this, &ScrobblingAPI20::Submit);
 
   ScrobblingAPI20::ReloadSettings();
   LoadSession();
@@ -98,17 +99,10 @@ ScrobblingAPI20::ScrobblingAPI20(const QString &name, const QString &settings_gr
 
 ScrobblingAPI20::~ScrobblingAPI20() {
 
-  while (!replies_.isEmpty()) {
-    QNetworkReply *reply = replies_.takeFirst();
-    QObject::disconnect(reply, nullptr, this, nullptr);
-    reply->abort();
-    reply->deleteLater();
-  }
-
-  if (server_) {
-    QObject::disconnect(server_, nullptr, this, nullptr);
-    if (server_->isListening()) server_->close();
-    server_->deleteLater();
+  if (local_redirect_server_) {
+    QObject::disconnect(local_redirect_server_, nullptr, this, nullptr);
+    if (local_redirect_server_->isListening()) local_redirect_server_->close();
+    local_redirect_server_->deleteLater();
   }
 
 }
@@ -138,7 +132,7 @@ void ScrobblingAPI20::LoadSession() {
 
 }
 
-void ScrobblingAPI20::Logout() {
+void ScrobblingAPI20::ClearSession() {
 
   subscriber_ = false;
   username_.clear();
@@ -153,70 +147,22 @@ void ScrobblingAPI20::Logout() {
 
 }
 
-ScrobblingAPI20::ReplyResult ScrobblingAPI20::GetJsonObject(QNetworkReply *reply, QJsonObject &json_obj, QString &error_description) {
-
-  ReplyResult reply_error_type = ReplyResult::ServerError;
-
-  if (reply->error() == QNetworkReply::NoError) {
-    if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).isValid()) {
-      const int http_status_code = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
-      if (http_status_code == 200) {
-        reply_error_type = ReplyResult::Success;
-      }
-      else {
-        error_description = QStringLiteral("Received HTTP code %1").arg(http_status_code);
-      }
-    }
-    else {
-      error_description = u"Missing HTTP status code"_s;
-    }
-  }
-  else {
-    error_description = QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error());
-  }
-
-  // See if there is Json data containing "error" and "message" - then use that instead.
-  if (reply->error() == QNetworkReply::NoError || reply->error() >= 200) {
-    const QByteArray data = reply->readAll();
-    int error_code = 0;
-    if (!data.isEmpty() && ExtractJsonObj(data, json_obj, error_description) && json_obj.contains("error"_L1) && json_obj.contains("message"_L1)) {
-      error_code = json_obj["error"_L1].toInt();
-      QString error_message = json_obj["message"_L1].toString();
-      error_description = QStringLiteral("%1 (%2)").arg(error_message).arg(error_code);
-      reply_error_type = ReplyResult::APIError;
-    }
-    const ScrobbleErrorCode lastfm_error_code = static_cast<ScrobbleErrorCode>(error_code);
-    if (reply->error() == QNetworkReply::AuthenticationRequiredError ||
-        lastfm_error_code == ScrobbleErrorCode::InvalidSessionKey ||
-        lastfm_error_code == ScrobbleErrorCode::UnauthorizedToken ||
-        lastfm_error_code == ScrobbleErrorCode::LoginRequired ||
-        lastfm_error_code == ScrobbleErrorCode::APIKeySuspended
-    ) {
-      // Session is probably expired
-      Logout();
-    }
-  }
-
-  return reply_error_type;
-
-}
-
 void ScrobblingAPI20::Authenticate() {
 
-  if (!server_) {
-    server_ = new LocalRedirectServer(this);
-    if (!server_->Listen()) {
-      AuthError(server_->error());
-      delete server_;
-      server_ = nullptr;
+  if (!local_redirect_server_) {
+    local_redirect_server_ = new LocalRedirectServer(this);
+    if (!local_redirect_server_->Listen()) {
+      AuthError(local_redirect_server_->error());
+      delete local_redirect_server_;
+      local_redirect_server_ = nullptr;
       return;
     }
-    QObject::connect(server_, &LocalRedirectServer::Finished, this, &ScrobblingAPI20::RedirectArrived);
+    QObject::connect(local_redirect_server_, &LocalRedirectServer::Finished, this, &ScrobblingAPI20::RedirectArrived);
   }
 
   QUrlQuery url_query;
   url_query.addQueryItem(u"api_key"_s, QLatin1String(kApiKey));
-  url_query.addQueryItem(u"cb"_s, server_->url().toString());
+  url_query.addQueryItem(u"cb"_s, local_redirect_server_->url().toString());
   QUrl url(auth_url_);
   url.setQuery(url_query);
 
@@ -238,10 +184,10 @@ void ScrobblingAPI20::Authenticate() {
       QApplication::clipboard()->setText(url.toString());
       break;
     case QMessageBox::Cancel:
-      if (server_) {
-        server_->close();
-        server_->deleteLater();
-        server_ = nullptr;
+      if (local_redirect_server_) {
+        local_redirect_server_->close();
+        local_redirect_server_->deleteLater();
+        local_redirect_server_ = nullptr;
       }
       Q_EMIT AuthenticationComplete(false);
       break;
@@ -253,10 +199,10 @@ void ScrobblingAPI20::Authenticate() {
 
 void ScrobblingAPI20::RedirectArrived() {
 
-  if (!server_) return;
+  if (!local_redirect_server_) return;
 
-  if (server_->error().isEmpty()) {
-    QUrl url = server_->request_url();
+  if (local_redirect_server_->error().isEmpty()) {
+    const QUrl url = local_redirect_server_->request_url();
     if (url.isValid()) {
       QUrlQuery url_query(url);
       if (url_query.hasQueryItem(u"token"_s)) {
@@ -272,12 +218,12 @@ void ScrobblingAPI20::RedirectArrived() {
     }
   }
   else {
-    AuthError(server_->error());
+    AuthError(local_redirect_server_->error());
   }
 
-  server_->close();
-  server_->deleteLater();
-  server_ = nullptr;
+  local_redirect_server_->close();
+  local_redirect_server_->deleteLater();
+  local_redirect_server_ = nullptr;
 
 }
 
@@ -300,10 +246,7 @@ void ScrobblingAPI20::RequestSession(const QString &token) {
   session_url_query.addQueryItem(QString::fromLatin1(QUrl::toPercentEncoding(u"format"_s)), QString::fromLatin1(QUrl::toPercentEncoding(u"json"_s)));
   session_url.setQuery(session_url_query);
 
-  QNetworkRequest req(session_url);
-  req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  QNetworkReply *reply = network_->get(req);
-  replies_ << reply;
+  QNetworkReply *reply = CreateGetRequest(session_url);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() { AuthenticateReplyFinished(reply); });
 
 }
@@ -315,36 +258,36 @@ void ScrobblingAPI20::AuthenticateReplyFinished(QNetworkReply *reply) {
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
-  QJsonObject json_obj;
-  QString error_message;
-  if (GetJsonObject(reply, json_obj, error_message) != ReplyResult::Success) {
-    AuthError(error_message);
+  const JsonObjectResult json_object_result = ParseJsonObject(reply);
+  if (json_object_result.error_code != ErrorCode::Success) {
+    AuthError(json_object_result.error_message);
     return;
   }
+  const QJsonObject &json_object = json_object_result.json_object;
 
-  if (!json_obj.contains("session"_L1)) {
+  if (!json_object.contains("session"_L1)) {
     AuthError(u"Json reply from server is missing session."_s);
     return;
   }
 
-  QJsonValue json_session = json_obj["session"_L1];
-  if (!json_session.isObject()) {
+  const QJsonValue json_value_session = json_object["session"_L1];
+  if (!json_value_session.isObject()) {
     AuthError(u"Json session is not an object."_s);
     return;
   }
-  json_obj = json_session.toObject();
-  if (json_obj.isEmpty()) {
+  const QJsonObject json_object_session = json_value_session.toObject();
+  if (json_object_session.isEmpty()) {
     AuthError(u"Json session object is empty."_s);
     return;
   }
-  if (!json_obj.contains("subscriber"_L1) || !json_obj.contains("name"_L1) || !json_obj.contains("key"_L1)) {
+  if (!json_object_session.contains("subscriber"_L1) || !json_object_session.contains("name"_L1) || !json_object_session.contains("key"_L1)) {
     AuthError(u"Json session object is missing values."_s);
     return;
   }
 
-  subscriber_ = json_obj["subscriber"_L1].toBool();
-  username_ = json_obj["name"_L1].toString();
-  session_key_ = json_obj["key"_L1].toString();
+  subscriber_ = json_object_session["subscriber"_L1].toBool();
+  username_ = json_object_session["name"_L1].toString();
+  session_key_ = json_object_session["key"_L1].toString();
 
   Settings s;
   s.beginGroup(settings_group_);
@@ -384,17 +327,60 @@ QNetworkReply *ScrobblingAPI20::CreateRequest(const ParamList &request_params) {
   url_query.addQueryItem(u"api_sig"_s, QString::fromLatin1(QUrl::toPercentEncoding(signature)));
   url_query.addQueryItem(u"format"_s, u"json"_s);
 
-  QUrl url(api_url_);
-  QNetworkRequest req(url);
-  req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  req.setHeader(QNetworkRequest::ContentTypeHeader, u"application/x-www-form-urlencoded"_s);
-  QByteArray query = url_query.toString(QUrl::FullyEncoded).toUtf8();
-  QNetworkReply *reply = network_->post(req, query);
-  replies_ << reply;
+  return CreatePostRequest(QUrl(api_url_), url_query);
 
-  //qLog(Debug) << name_ << "Sending request" << url_query.toString(QUrl::FullyDecoded);
+}
 
-  return reply;
+JsonBaseRequest::JsonObjectResult ScrobblingAPI20::ParseJsonObject(QNetworkReply *reply) {
+
+  if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
+    return ReplyDataResult(ErrorCode::NetworkError, QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
+  }
+
+  JsonObjectResult result(ErrorCode::Success);
+  result.network_error = reply->error();
+  if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).isValid()) {
+    result.http_status_code = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+  }
+
+  const QByteArray data = reply->readAll();
+  if (!data.isEmpty()) {
+    QJsonParseError json_parse_error;
+    const QJsonDocument json_document = QJsonDocument::fromJson(data, &json_parse_error);
+    if (json_parse_error.error == QJsonParseError::NoError) {
+      const QJsonObject json_object = json_document.object();
+      if (json_object.contains("error"_L1) && json_object.contains("message"_L1)) {
+        const int error = json_object["error"_L1].toInt();
+        const QString message = json_object["message"_L1].toString();
+        result.error_code = ErrorCode::APIError;
+        result.error_message = QStringLiteral("%1 (%2)").arg(message).arg(error);
+      }
+      else {
+        result.json_object = json_document.object();
+      }
+    }
+    else {
+      result.error_code = ErrorCode::ParseError;
+      result.error_message = json_parse_error.errorString();
+    }
+  }
+
+  if (result.error_code != ErrorCode::APIError) {
+    if (reply->error() != QNetworkReply::NoError) {
+      result.error_code = ErrorCode::NetworkError;
+      result.error_message = QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+    }
+    else if (result.http_status_code != 200) {
+      result.error_code = ErrorCode::HttpError;
+      result.error_message = QStringLiteral("Received HTTP code %1").arg(result.http_status_code);
+    }
+  }
+
+  if (reply->error() == QNetworkReply::AuthenticationRequiredError) {
+    ClearSession();
+  }
+
+  return result;
 
 }
 
@@ -433,15 +419,15 @@ void ScrobblingAPI20::UpdateNowPlayingRequestFinished(QNetworkReply *reply) {
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
-  QJsonObject json_obj;
-  QString error_message;
-  if (GetJsonObject(reply, json_obj, error_message) != ReplyResult::Success) {
-    Error(error_message);
+  const JsonObjectResult json_object_result = ParseJsonObject(reply);
+  if (json_object_result.error_code != ErrorCode::Success) {
+    Error(json_object_result.error_message);
     return;
   }
+  const QJsonObject &json_object = json_object_result.json_object;
 
-  if (!json_obj.contains("nowplaying"_L1)) {
-    Error(u"Json reply from server is missing nowplaying."_s, json_obj);
+  if (!json_object.contains("nowplaying"_L1)) {
+    Error(u"Json reply from server is missing nowplaying."_s, json_object);
     return;
   }
 
@@ -482,15 +468,15 @@ void ScrobblingAPI20::StartSubmit(const bool initial) {
 
   if (!submitted_ && cache_->Count() > 0) {
     if (initial && (!batch_ || settings_->submit_delay() <= 0) && !submit_error_) {
-      if (timer_submit_.isActive()) {
-        timer_submit_.stop();
+      if (timer_submit_->isActive()) {
+        timer_submit_->stop();
       }
       Submit();
     }
-    else if (!timer_submit_.isActive()) {
+    else if (!timer_submit_->isActive()) {
       int submit_delay = static_cast<int>(std::max(settings_->submit_delay(), submit_error_ ? 30 : 5) * kMsecPerSec);
-      timer_submit_.setInterval(submit_delay);
-      timer_submit_.start();
+      timer_submit_->setInterval(submit_delay);
+      timer_submit_->start();
     }
   }
 
@@ -550,68 +536,68 @@ void ScrobblingAPI20::ScrobbleRequestFinished(QNetworkReply *reply, ScrobblerCac
 
   submitted_ = false;
 
-  QJsonObject json_obj;
-  QString error_message;
-  if (GetJsonObject(reply, json_obj, error_message) != ReplyResult::Success) {
-    Error(error_message);
+  const JsonObjectResult json_object_result = ParseJsonObject(reply);
+  if (!json_object_result.success()) {
+    Error(json_object_result.error_message);
     cache_->ClearSent(cache_items);
     submit_error_ = true;
     StartSubmit();
     return;
   }
+  const QJsonObject &json_object = json_object_result.json_object;
 
   cache_->Flush(cache_items);
   submit_error_ = false;
 
-  if (!json_obj.contains("scrobbles"_L1)) {
-    Error(u"Json reply from server is missing scrobbles."_s, json_obj);
+  if (!json_object.contains("scrobbles"_L1)) {
+    Error(u"Json reply from server is missing scrobbles."_s, json_object);
     StartSubmit();
     return;
   }
 
-  QJsonValue value_scrobbles = json_obj["scrobbles"_L1];
+  const QJsonValue value_scrobbles = json_object["scrobbles"_L1];
   if (!value_scrobbles.isObject()) {
-    Error(u"Json scrobbles is not an object."_s, json_obj);
+    Error(u"Json scrobbles is not an object."_s, json_object);
     StartSubmit();
     return;
   }
-  json_obj = value_scrobbles.toObject();
-  if (json_obj.isEmpty()) {
+  const QJsonObject object_scrobbles = value_scrobbles.toObject();
+  if (object_scrobbles.isEmpty()) {
     Error(u"Json scrobbles object is empty."_s, value_scrobbles);
     StartSubmit();
     return;
   }
-  if (!json_obj.contains("@attr"_L1) || !json_obj.contains("scrobble"_L1)) {
-    Error(u"Json scrobbles object is missing values."_s, json_obj);
+  if (!object_scrobbles.contains("@attr"_L1) || !object_scrobbles.contains("scrobble"_L1)) {
+    Error(u"Json scrobbles object is missing values."_s, object_scrobbles);
     StartSubmit();
     return;
   }
 
-  QJsonValue value_attr = json_obj["@attr"_L1];
+  const QJsonValue value_attr = object_scrobbles["@attr"_L1];
   if (!value_attr.isObject()) {
     Error(u"Json scrobbles attr is not an object."_s, value_attr);
     StartSubmit();
     return;
   }
-  QJsonObject obj_attr = value_attr.toObject();
-  if (obj_attr.isEmpty()) {
+  const QJsonObject object_attr = value_attr.toObject();
+  if (object_attr.isEmpty()) {
     Error(u"Json scrobbles attr is empty."_s, value_attr);
     StartSubmit();
     return;
   }
-  if (!obj_attr.contains("accepted"_L1) || !obj_attr.contains("ignored"_L1)) {
-    Error(u"Json scrobbles attr is missing values."_s, obj_attr);
+  if (!object_attr.contains("accepted"_L1) || !object_attr.contains("ignored"_L1)) {
+    Error(u"Json scrobbles attr is missing values."_s, object_attr);
     StartSubmit();
     return;
   }
-  int accepted = obj_attr["accepted"_L1].toInt();
-  int ignored = obj_attr["ignored"_L1].toInt();
+  int accepted = object_attr["accepted"_L1].toInt();
+  int ignored = object_attr["ignored"_L1].toInt();
 
   qLog(Debug) << name_ << "Scrobbles accepted:" << accepted << "ignored:" << ignored;
 
   QJsonArray array_scrobble;
 
-  QJsonValue value_scrobble = json_obj["scrobble"_L1];
+  const QJsonValue value_scrobble = object_scrobbles["scrobble"_L1];
   if (value_scrobble.isObject()) {
     QJsonObject obj_scrobble = value_scrobble.toObject();
     if (obj_scrobble.isEmpty()) {
@@ -657,36 +643,36 @@ void ScrobblingAPI20::ScrobbleRequestFinished(QNetworkReply *reply, ScrobblerCac
       continue;
     }
 
-    QJsonValue value_artist = json_track["artist"_L1];
-    QJsonValue value_album = json_track["album"_L1];
-    QJsonValue value_song = json_track["track"_L1];
-    QJsonValue value_ignoredmessage = json_track["ignoredMessage"_L1];
-    //quint64 timestamp = json_track[u"timestamp"_s].toVariant().toULongLong();
+    const QJsonValue value_artist = json_track["artist"_L1];
+    const QJsonValue value_album = json_track["album"_L1];
+    const QJsonValue value_song = json_track["track"_L1];
+    const QJsonValue value_ignoredmessage = json_track["ignoredMessage"_L1];
+    //const quint64 timestamp = json_track[u"timestamp"_s].toVariant().toULongLong();
 
     if (!value_artist.isObject() || !value_album.isObject() || !value_song.isObject() || !value_ignoredmessage.isObject()) {
       Error(u"Json scrobbles scrobble values are not objects."_s, json_track);
       continue;
     }
 
-    QJsonObject obj_artist = value_artist.toObject();
-    QJsonObject obj_album = value_album.toObject();
-    QJsonObject obj_song = value_song.toObject();
-    QJsonObject obj_ignoredmessage = value_ignoredmessage.toObject();
+    const QJsonObject object_artist = value_artist.toObject();
+    const QJsonObject object_album = value_album.toObject();
+    const QJsonObject object_song = value_song.toObject();
+    const QJsonObject object_ignoredmessage = value_ignoredmessage.toObject();
 
-    if (obj_artist.isEmpty() || obj_album.isEmpty() || obj_song.isEmpty() || obj_ignoredmessage.isEmpty()) {
+    if (object_artist.isEmpty() || object_album.isEmpty() || object_song.isEmpty() || object_ignoredmessage.isEmpty()) {
       Error(u"Json scrobbles scrobble values objects are empty."_s, json_track);
       continue;
     }
 
-    if (!obj_artist.contains("#text"_L1) || !obj_album.contains("#text"_L1) || !obj_song.contains("#text"_L1)) {
+    if (!object_artist.contains("#text"_L1) || !object_album.contains("#text"_L1) || !object_song.contains("#text"_L1)) {
       continue;
     }
 
-    //QString artist = obj_artist["#text"].toString();
-    //QString album = obj_album["#text"].toString();
-    QString song = obj_song["#text"_L1].toString();
-    bool ignoredmessage = obj_ignoredmessage["code"_L1].toVariant().toBool();
-    QString ignoredmessage_text = obj_ignoredmessage["#text"_L1].toString();
+    //const QString artist = obj_artist["#text"].toString();
+    //const QString album = obj_album["#text"].toString();
+    const QString song = object_song["#text"_L1].toString();
+    const bool ignoredmessage = object_ignoredmessage["code"_L1].toVariant().toBool();
+    const QString ignoredmessage_text = object_ignoredmessage["#text"_L1].toString();
 
     if (ignoredmessage) {
       Error(u"Scrobble for \"%1\" ignored: %2"_s.arg(song, ignoredmessage_text));
@@ -732,97 +718,97 @@ void ScrobblingAPI20::SingleScrobbleRequestFinished(QNetworkReply *reply, Scrobb
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
-  QJsonObject json_obj;
-  QString error_message;
-  if (GetJsonObject(reply, json_obj, error_message) != ReplyResult::Success) {
-    Error(error_message);
+  const JsonObjectResult json_object_result = ParseJsonObject(reply);
+  if (json_object_result.error_code != ErrorCode::Success) {
+    Error(json_object_result.error_message);
     cache_item->sent = false;
     return;
   }
+  const QJsonObject &json_object = json_object_result.json_object;
 
-  if (!json_obj.contains("scrobbles"_L1)) {
-    Error(u"Json reply from server is missing scrobbles."_s, json_obj);
+  if (!json_object.contains("scrobbles"_L1)) {
+    Error(u"Json reply from server is missing scrobbles."_s, json_object);
     cache_item->sent = false;
     return;
   }
 
   cache_->Remove(cache_item);
 
-  QJsonValue value_scrobbles = json_obj["scrobbles"_L1];
+  const QJsonValue value_scrobbles = json_object["scrobbles"_L1];
   if (!value_scrobbles.isObject()) {
-    Error(u"Json scrobbles is not an object."_s, json_obj);
+    Error(u"Json scrobbles is not an object."_s, json_object);
     return;
   }
-  json_obj = value_scrobbles.toObject();
-  if (json_obj.isEmpty()) {
+  const QJsonObject object_scrobbles = value_scrobbles.toObject();
+  if (object_scrobbles.isEmpty()) {
     Error(u"Json scrobbles object is empty."_s, value_scrobbles);
     return;
   }
-  if (!json_obj.contains("@attr"_L1) || !json_obj.contains("scrobble"_L1)) {
-    Error(u"Json scrobbles object is missing values."_s, json_obj);
+  if (!object_scrobbles.contains("@attr"_L1) || !object_scrobbles.contains("scrobble"_L1)) {
+    Error(u"Json scrobbles object is missing values."_s, object_scrobbles);
     return;
   }
 
-  QJsonValue value_attr = json_obj["@attr"_L1];
+  const QJsonValue value_attr = object_scrobbles["@attr"_L1];
   if (!value_attr.isObject()) {
     Error(u"Json scrobbles attr is not an object."_s, value_attr);
     return;
   }
-  QJsonObject obj_attr = value_attr.toObject();
-  if (obj_attr.isEmpty()) {
+  const QJsonObject object_attr = value_attr.toObject();
+  if (object_attr.isEmpty()) {
     Error(u"Json scrobbles attr is empty."_s, value_attr);
     return;
   }
 
-  QJsonValue value_scrobble = json_obj["scrobble"_L1];
+  const QJsonValue value_scrobble = object_scrobbles["scrobble"_L1];
   if (!value_scrobble.isObject()) {
     Error(u"Json scrobbles scrobble is not an object."_s, value_scrobble);
     return;
   }
-  QJsonObject json_obj_scrobble = value_scrobble.toObject();
-  if (json_obj_scrobble.isEmpty()) {
+  const QJsonObject json_object_scrobble = value_scrobble.toObject();
+  if (json_object_scrobble.isEmpty()) {
     Error(u"Json scrobbles scrobble is empty."_s, value_scrobble);
     return;
   }
 
-  if (!obj_attr.contains("accepted"_L1) || !obj_attr.contains("ignored"_L1)) {
-    Error(u"Json scrobbles attr is missing values."_s, obj_attr);
+  if (!object_attr.contains("accepted"_L1) || !object_attr.contains("ignored"_L1)) {
+    Error(u"Json scrobbles attr is missing values."_s, object_attr);
     return;
   }
 
-  if (!json_obj_scrobble.contains("artist"_L1) || !json_obj_scrobble.contains("album"_L1) || !json_obj_scrobble.contains("albumArtist"_L1) || !json_obj_scrobble.contains("track"_L1) || !json_obj_scrobble.contains("timestamp"_L1)) {
-    Error(u"Json scrobbles scrobble is missing values."_s, json_obj_scrobble);
+  if (!json_object_scrobble.contains("artist"_L1) || !json_object_scrobble.contains("album"_L1) || !json_object_scrobble.contains("albumArtist"_L1) || !json_object_scrobble.contains("track"_L1) || !json_object_scrobble.contains("timestamp"_L1)) {
+    Error(u"Json scrobbles scrobble is missing values."_s, json_object_scrobble);
     return;
   }
 
-  QJsonValue json_value_artist = json_obj_scrobble["artist"_L1];
-  QJsonValue json_value_album = json_obj_scrobble["album"_L1];
-  QJsonValue json_value_song = json_obj_scrobble["track"_L1];
+  const QJsonValue json_value_artist = json_object_scrobble["artist"_L1];
+  const QJsonValue json_value_album = json_object_scrobble["album"_L1];
+  const QJsonValue json_value_song = json_object_scrobble["track"_L1];
 
   if (!json_value_artist.isObject() || !json_value_album.isObject() || !json_value_song.isObject()) {
-    Error(u"Json scrobbles scrobble values are not objects."_s, json_obj_scrobble);
+    Error(u"Json scrobbles scrobble values are not objects."_s, json_object_scrobble);
     return;
   }
 
-  QJsonObject json_obj_artist = json_value_artist.toObject();
-  QJsonObject json_obj_album = json_value_album.toObject();
-  QJsonObject json_obj_song = json_value_song.toObject();
+  const QJsonObject json_object_artist = json_value_artist.toObject();
+  const QJsonObject json_object_album = json_value_album.toObject();
+  const QJsonObject json_object_song = json_value_song.toObject();
 
-  if (json_obj_artist.isEmpty() || json_obj_album.isEmpty() || json_obj_song.isEmpty()) {
-    Error(u"Json scrobbles scrobble values objects are empty."_s, json_obj_scrobble);
+  if (json_object_artist.isEmpty() || json_object_album.isEmpty() || json_object_song.isEmpty()) {
+    Error(u"Json scrobbles scrobble values objects are empty."_s, json_object_scrobble);
     return;
   }
 
-  if (!json_obj_artist.contains("#text"_L1) || !json_obj_album.contains("#text"_L1) || !json_obj_song.contains("#text"_L1)) {
-    Error(u"Json scrobbles scrobble values objects are missing #text."_s, json_obj_artist);
+  if (!json_object_artist.contains("#text"_L1) || !json_object_album.contains("#text"_L1) || !json_object_song.contains("#text"_L1)) {
+    Error(u"Json scrobbles scrobble values objects are missing #text."_s, json_object_artist);
     return;
   }
 
   //QString artist = json_obj_artist["#text"].toString();
   //QString album = json_obj_album["#text"].toString();
-  QString song = json_obj_song["#text"_L1].toString();
+  const QString song = json_object_song["#text"_L1].toString();
 
-  int accepted = obj_attr["accepted"_L1].toVariant().toInt();
+  const int accepted = object_attr["accepted"_L1].toVariant().toInt();
   if (accepted == 1) {
     qLog(Debug) << name_ << "Scrobble for" << song << "accepted";
   }
@@ -868,22 +854,22 @@ void ScrobblingAPI20::LoveRequestFinished(QNetworkReply *reply) {
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
-  QJsonObject json_obj;
-  QString error_message;
-  if (GetJsonObject(reply, json_obj, error_message) != ReplyResult::Success) {
-    Error(error_message);
+  const JsonObjectResult json_object_result = ParseJsonObject(reply);
+  if (json_object_result.error_code != ErrorCode::Success) {
+    Error(json_object_result.error_message);
     return;
   }
+  const QJsonObject &json_object = json_object_result.json_object;
 
-  if (json_obj.contains("error"_L1)) {
-    QJsonValue json_value = json_obj["error"_L1];
+  if (json_object.contains("error"_L1)) {
+    const QJsonValue json_value = json_object["error"_L1];
     if (!json_value.isObject()) {
       Error(u"Error is not on object."_s);
       return;
     }
-    QJsonObject json_obj_error = json_value.toObject();
+    const QJsonObject json_obj_error = json_value.toObject();
     if (json_obj_error.isEmpty()) {
-      Error(u"Received empty json error object."_s, json_obj);
+      Error(u"Received empty json error object."_s, json_object);
       return;
     }
     if (json_obj_error.contains("code"_L1) && json_obj_error.contains("#text"_L1)) {
@@ -895,12 +881,12 @@ void ScrobblingAPI20::LoveRequestFinished(QNetworkReply *reply) {
     }
   }
 
-  if (json_obj.contains("lfm"_L1)) {
-    QJsonValue json_value = json_obj["lfm"_L1];
+  if (json_object.contains("lfm"_L1)) {
+    const QJsonValue json_value = json_object["lfm"_L1];
     if (json_value.isObject()) {
-      QJsonObject json_obj_lfm = json_value.toObject();
+      const QJsonObject json_obj_lfm = json_value.toObject();
       if (json_obj_lfm.contains("status"_L1)) {
-        QString status = json_obj_lfm["status"_L1].toString();
+        const QString status = json_obj_lfm["status"_L1].toString();
         qLog(Debug) << name_ << "Received love status:" << status;
         return;
       }
@@ -918,8 +904,7 @@ void ScrobblingAPI20::AuthError(const QString &error) {
 
 void ScrobblingAPI20::Error(const QString &error, const QVariant &debug) {
 
-  qLog(Error) << name_ << error;
-  if (debug.isValid()) qLog(Debug) << debug;
+  JsonBaseRequest::Error(error, debug);
 
   if (settings_->show_error_dialog()) {
     Q_EMIT ErrorMessage(tr("Scrobbler %1 error: %2").arg(name_, error));
@@ -994,8 +979,7 @@ QString ScrobblingAPI20::ErrorString(const ScrobbleErrorCode error) {
 
 void ScrobblingAPI20::CheckScrobblePrevSong() {
 
-  qint64 duration = QDateTime::currentSecsSinceEpoch() - static_cast<qint64>(timestamp_);
-  if (duration < 0) duration = 0;
+  const qint64 duration = std::min(0LL, QDateTime::currentSecsSinceEpoch() - static_cast<qint64>(timestamp_));
 
   if (!scrobbled_ && song_playing_.is_metadata_good() && song_playing_.is_radio() && duration > 30) {
     Song song(song_playing_);

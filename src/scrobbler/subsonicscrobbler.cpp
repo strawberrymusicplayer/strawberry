@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  * Copyright 2020, Pascal Below <spezifisch@below.fr>
  *
  * Strawberry is free software: you can redistribute it and/or modify
@@ -43,8 +43,8 @@ namespace {
 constexpr char kName[] = "Subsonic";
 }
 
-SubsonicScrobbler::SubsonicScrobbler(const SharedPtr<ScrobblerSettingsService> settings, const SharedPtr<SubsonicService> service, QObject *parent)
-    : ScrobblerService(QLatin1String(kName), settings, parent),
+SubsonicScrobbler::SubsonicScrobbler(const SharedPtr<ScrobblerSettingsService> settings, const SharedPtr<NetworkAccessManager> network, const SharedPtr<SubsonicService> service, QObject *parent)
+    : ScrobblerService(QLatin1String(kName), network, settings, parent),
       service_(service),
       enabled_(false),
       submitted_(false) {
