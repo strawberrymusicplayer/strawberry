@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,7 +25,6 @@
 #include <utility>
 
 #include <QtGlobal>
-#include <QObject>
 #include <QPair>
 #include <QList>
 #include <QString>
@@ -86,9 +85,9 @@ void AcoustidClient::Start(const int id, const QString &fingerprint, int duratio
   QUrl url(QString::fromLatin1(kUrl));
   url.setQuery(url_query);
 
-  QNetworkRequest req(url);
-  req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  QNetworkReply *reply = network_->get(req);
+  QNetworkRequest network_request(url);
+  network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+  QNetworkReply *reply = network_->get(network_request);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, id]() { RequestFinished(reply, id); });
   requests_[id] = reply;
 
@@ -144,16 +143,16 @@ void AcoustidClient::RequestFinished(QNetworkReply *reply, const int request_id)
   }
 
   QJsonParseError error;
-  QJsonDocument json_document = QJsonDocument::fromJson(reply->readAll(), &error);
+  const QJsonDocument json_document = QJsonDocument::fromJson(reply->readAll(), &error);
 
   if (error.error != QJsonParseError::NoError) {
-    Q_EMIT Finished(request_id, QStringList());
+    Q_EMIT Finished(request_id, QStringList(), error.errorString());
     return;
   }
 
-  QJsonObject json_object = json_document.object();
+  const QJsonObject json_object = json_document.object();
 
-  QString status = json_object["status"_L1].toString();
+  const QString status = json_object["status"_L1].toString();
   if (status != "ok"_L1) {
     Q_EMIT Finished(request_id, QStringList(), status);
     return;
@@ -170,11 +169,11 @@ void AcoustidClient::RequestFinished(QNetworkReply *reply, const int request_id)
   QList<IdSource> id_source_list;
 
   for (const QJsonValue &v : json_results) {
-    QJsonObject r = v.toObject();
+    const QJsonObject r = v.toObject();
     if (!r["recordings"_L1].isUndefined()) {
       const QJsonArray json_recordings = r["recordings"_L1].toArray();
       for (const QJsonValue &recording : json_recordings) {
-        QJsonObject o = recording.toObject();
+        const QJsonObject o = recording.toObject();
         if (!o["id"_L1].isUndefined()) {
           id_source_list << IdSource(o["id"_L1].toString(), o["sources"_L1].toInt());
         }
