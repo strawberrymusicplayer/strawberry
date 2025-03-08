@@ -285,9 +285,9 @@ void AlbumCoverFetcherSearch::FetchMoreImages() {
 
     qLog(Debug) << "Loading" << result.artist << result.album << result.image_url << "from" << result.provider << "with current score" << result.score();
 
-    QNetworkRequest req(result.image_url);
-    req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-    QNetworkReply *image_reply = network_->get(req);
+    QNetworkRequest network_request(result.image_url);
+    network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+    QNetworkReply *image_reply = network_->get(network_request);
     QObject::connect(image_reply, &QNetworkReply::finished, this, [this, image_reply]() { ProviderCoverFetchFinished(image_reply); });
     pending_image_loads_[image_reply] = result;
     image_load_timeout_->AddReply(image_reply);
