@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,8 +35,9 @@
 #include <QJsonObject>
 
 #include "includes/scoped_ptr.h"
-#include "subsonicservice.h"
 #include "constants/subsonicsettings.h"
+#include "core/jsonbaserequest.h"
+#include "subsonicservice.h"
 
 class QNetworkAccessManager;
 class QNetworkReply;
@@ -47,6 +48,9 @@ class SubsonicBaseRequest : public QObject {
  public:
   explicit SubsonicBaseRequest(SubsonicService *service, QObject *parent = nullptr);
 
+  using JsonObjectResult = JsonBaseRequest::JsonObjectResult;
+  using ErrorCode = JsonBaseRequest::ErrorCode;
+
  protected:
   using Param = QPair<QString, QString>;
   using ParamList = QList<Param>;
@@ -56,11 +60,9 @@ class SubsonicBaseRequest : public QObject {
 
  protected:
   QNetworkReply *CreateGetRequest(const QString &ressource_name, const ParamList &params_provided) const;
-  QByteArray GetReplyData(QNetworkReply *reply);
-  QJsonObject ExtractJsonObj(QByteArray &data);
+  JsonObjectResult ParseJsonObject(QNetworkReply *reply);
 
   virtual void Error(const QString &error, const QVariant &debug = QVariant()) = 0;
-  static QString ErrorsToHTML(const QStringList &errors);
 
   QUrl server_url() const { return service_->server_url(); }
   QString username() const { return service_->username(); }

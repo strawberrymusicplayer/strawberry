@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2022-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2022-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -81,6 +81,13 @@ SpotifySettingsPage::SpotifySettingsPage(SettingsDialog *dialog, const SharedPtr
 
 SpotifySettingsPage::~SpotifySettingsPage() { delete ui_; }
 
+void SpotifySettingsPage::showEvent(QShowEvent *e) {
+
+  ui_->login_state->SetLoggedIn(service_->authenticated() ? LoginStateWidget::State::LoggedIn : LoginStateWidget::State::LoggedOut);
+  SettingsPage::showEvent(e);
+
+}
+
 void SpotifySettingsPage::Load() {
 
   Settings s;
@@ -139,7 +146,7 @@ bool SpotifySettingsPage::eventFilter(QObject *object, QEvent *event) {
 
 void SpotifySettingsPage::LogoutClicked() {
 
-  service_->Deauthenticate();
+  service_->ClearSession();
   ui_->button_login->setEnabled(true);
   ui_->login_state->SetLoggedIn(LoginStateWidget::State::LoggedOut);
 

@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2022-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2022-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,41 +19,21 @@
 
 #include "config.h"
 
-#include <utility>
 #include <memory>
-#include <chrono>
 
-#include <QObject>
-#include <QDesktopServices>
-#include <QCryptographicHash>
 #include <QByteArray>
-#include <QPair>
-#include <QList>
-#include <QMap>
 #include <QString>
-#include <QChar>
 #include <QUrl>
-#include <QUrlQuery>
-#include <QDateTime>
-#include <QNetworkRequest>
-#include <QNetworkReply>
-#include <QSslError>
 #include <QTimer>
-#include <QJsonValue>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QSettings>
-#include <QMessageBox>
 
+#include "constants/spotifysettings.h"
 #include "core/logging.h"
 #include "core/song.h"
 #include "core/settings.h"
 #include "core/taskmanager.h"
 #include "core/database.h"
 #include "core/networkaccessmanager.h"
-#include "core/localredirectserver.h"
-#include "constants/timeconstants.h"
-#include "utilities/randutils.h"
+#include "core/oauthenticator.h"
 #include "streaming/streamingsearchview.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
@@ -61,7 +41,6 @@
 #include "spotifybaserequest.h"
 #include "spotifyrequest.h"
 #include "spotifyfavoriterequest.h"
-#include "constants/spotifysettings.h"
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -73,9 +52,9 @@ namespace {
 constexpr char kOAuthAuthorizeUrl[] = "https://accounts.spotify.com/authorize";
 constexpr char kOAuthAccessTokenUrl[] = "https://accounts.spotify.com/api/token";
 constexpr char kOAuthRedirectUrl[] = "http://localhost:63111/";
+constexpr char kOAuthScope[] = "user-follow-read user-follow-modify user-library-read user-library-modify streaming";
 constexpr char kClientIDB64[] = "ZTZjY2Y2OTQ5NzY1NGE3NThjOTAxNWViYzdiMWQzMTc=";
 constexpr char kClientSecretB64[] = "N2ZlMDMxODk1NTBlNDE3ZGI1ZWQ1MzE3ZGZlZmU2MTE=";
-
 constexpr char kArtistsSongsTable[] = "spotify_artists_songs";
 constexpr char kAlbumsSongsTable[] = "spotify_albums_songs";
 constexpr char kSongsTable[] = "spotify_songs";
@@ -92,6 +71,7 @@ SpotifyService::SpotifyService(const SharedPtr<TaskManager> task_manager,
                                QObject *parent)
     : StreamingService(Song::Source::Spotify, u"Spotify"_s, u"spotify"_s, QLatin1String(SpotifySettings::kSettingsGroup), parent),
       network_(network),
+      oauth_(new OAuthenticator(network, this)),
       artists_collection_backend_(nullptr),
       albums_collection_backend_(nullptr),
       songs_collection_backend_(nullptr),
@@ -99,7 +79,6 @@ SpotifyService::SpotifyService(const SharedPtr<TaskManager> task_manager,
       albums_collection_model_(nullptr),
       songs_collection_model_(nullptr),
       timer_search_delay_(new QTimer(this)),
-      timer_refresh_login_(new QTimer(this)),
       favorite_request_(new SpotifyFavoriteRequest(this, network_, this)),
       enabled_(false),
       artistssearchlimit_(1),
@@ -107,13 +86,22 @@ SpotifyService::SpotifyService(const SharedPtr<TaskManager> task_manager,
       songssearchlimit_(1),
       fetchalbums_(true),
       download_album_covers_(true),
-      expires_in_(0),
-      login_time_(0),
       pending_search_id_(0),
       next_pending_search_id_(1),
       pending_search_type_(SearchType::Artists),
-      search_id_(0),
-      server_(nullptr) {
+      search_id_(0) {
+
+  oauth_->set_settings_group(QLatin1String(SpotifySettings::kSettingsGroup));
+  oauth_->set_type(OAuthenticator::Type::Authorization_Code);
+  oauth_->set_authorize_url(QUrl(QLatin1String(kOAuthAuthorizeUrl)));
+  oauth_->set_redirect_url(QUrl(QLatin1String(kOAuthRedirectUrl)));
+  oauth_->set_access_token_url(QUrl(QLatin1String(kOAuthAccessTokenUrl)));
+  oauth_->set_client_id(QString::fromLatin1(QByteArray::fromBase64(kClientIDB64)));
+  oauth_->set_client_secret(QString::fromLatin1(QByteArray::fromBase64(kClientSecretB64)));
+  oauth_->set_scope(QLatin1String(kOAuthScope));
+  oauth_->set_use_local_redirect_server(true);
+  oauth_->set_random_port(false);
+  QObject::connect(oauth_, &OAuthenticator::AuthenticationFinished, this, &SpotifyService::OAuthFinished);
 
   // Backends
 
@@ -133,9 +121,6 @@ SpotifyService::SpotifyService(const SharedPtr<TaskManager> task_manager,
   artists_collection_model_ = new CollectionModel(artists_collection_backend_, albumcover_loader, this);
   albums_collection_model_ = new CollectionModel(albums_collection_backend_, albumcover_loader, this);
   songs_collection_model_ = new CollectionModel(songs_collection_backend_, albumcover_loader, this);
-
-  timer_refresh_login_->setSingleShot(true);
-  QObject::connect(timer_refresh_login_, &QTimer::timeout, this, &SpotifyService::RequestNewAccessToken);
 
   timer_search_delay_->setSingleShot(true);
   QObject::connect(timer_search_delay_, &QTimer::timeout, this, &SpotifyService::StartSearch);
@@ -158,18 +143,11 @@ SpotifyService::SpotifyService(const SharedPtr<TaskManager> task_manager,
   QObject::connect(favorite_request_, &SpotifyFavoriteRequest::SongsRemoved, &*songs_collection_backend_, &CollectionBackend::DeleteSongs);
 
   SpotifyService::ReloadSettings();
-  LoadSession();
+  oauth_->LoadSession();
 
 }
 
 SpotifyService::~SpotifyService() {
-
-  while (!replies_.isEmpty()) {
-    QNetworkReply *reply = replies_.takeFirst();
-    QObject::disconnect(reply, nullptr, this, nullptr);
-    reply->abort();
-    reply->deleteLater();
-  }
 
   artists_collection_backend_->deleteLater();
   albums_collection_backend_->deleteLater();
@@ -201,25 +179,15 @@ void SpotifyService::ExitReceived() {
 
 }
 
-void SpotifyService::LoadSession() {
+bool SpotifyService::authenticated() const {
 
-  refresh_login_timer_.setSingleShot(true);
-  QObject::connect(&refresh_login_timer_, &QTimer::timeout, this, &SpotifyService::RequestNewAccessToken);
+  return oauth_->authenticated();
 
-  Settings s;
-  s.beginGroup(SpotifySettings::kSettingsGroup);
-  access_token_ = s.value(SpotifySettings::kAccessToken).toString();
-  refresh_token_ = s.value(SpotifySettings::kRefreshToken).toString();
-  expires_in_ = s.value(SpotifySettings::kExpiresIn).toLongLong();
-  login_time_ = s.value(SpotifySettings::kLoginTime).toLongLong();
-  s.endGroup();
+}
 
-  if (!refresh_token_.isEmpty()) {
-    qint64 time = static_cast<qint64>(expires_in_) - (QDateTime::currentSecsSinceEpoch() - static_cast<qint64>(login_time_));
-    if (time < 1) time = 1;
-    refresh_login_timer_.setInterval(static_cast<int>(time * kMsecPerSec));
-    refresh_login_timer_.start();
-  }
+QByteArray SpotifyService::authorization_header() const {
+
+  return oauth_->authorization_header();
 
 }
 
@@ -245,267 +213,25 @@ void SpotifyService::ReloadSettings() {
 
 void SpotifyService::Authenticate() {
 
-  QUrl redirect_url(QString::fromLatin1(kOAuthRedirectUrl));
-
-  if (!server_) {
-    server_ = new LocalRedirectServer(this);
-    int port = redirect_url.port();
-    int port_max = port + 10;
-    bool success = false;
-    Q_FOREVER {
-      server_->set_port(port);
-      if (server_->Listen()) {
-        success = true;
-        break;
-      }
-      ++port;
-      if (port > port_max) break;
-    }
-    if (!success) {
-      LoginError(server_->error());
-      server_->deleteLater();
-      server_ = nullptr;
-      return;
-    }
-    QObject::connect(server_, &LocalRedirectServer::Finished, this, &SpotifyService::RedirectArrived);
-  }
-
-  code_verifier_ = Utilities::CryptographicRandomString(44);
-  code_challenge_ = QString::fromLatin1(QCryptographicHash::hash(code_verifier_.toUtf8(), QCryptographicHash::Sha256).toBase64(QByteArray::Base64UrlEncoding));
-  if (code_challenge_.lastIndexOf(u'=') == code_challenge_.length() - 1) {
-    code_challenge_.chop(1);
-  }
-
-  const ParamList params = ParamList() << Param(u"client_id"_s, QString::fromLatin1(QByteArray::fromBase64(kClientIDB64)))
-                                       << Param(u"response_type"_s, u"code"_s)
-                                       << Param(u"redirect_uri"_s, redirect_url.toString())
-                                       << Param(u"state"_s, code_challenge_)
-                                       << Param(u"scope"_s, u"user-follow-read user-follow-modify user-library-read user-library-modify streaming"_s);
-
-  QUrlQuery url_query;
-  for (const Param &param : params) {
-    url_query.addQueryItem(QString::fromLatin1(QUrl::toPercentEncoding(param.first)), QString::fromLatin1(QUrl::toPercentEncoding(param.second)));
-  }
-
-  QUrl url(QString::fromLatin1(kOAuthAuthorizeUrl));
-  url.setQuery(url_query);
-
-  const bool result = QDesktopServices::openUrl(url);
-  if (!result) {
-    QMessageBox messagebox(QMessageBox::Information, tr("Spotify Authentication"), tr("Please open this URL in your browser") + QStringLiteral(":<br /><a href=\"%1\">%1</a>").arg(url.toString()), QMessageBox::Ok);
-    messagebox.setTextFormat(Qt::RichText);
-    messagebox.exec();
-  }
+  oauth_->Authenticate();
 
 }
 
-void SpotifyService::Deauthenticate() {
+void SpotifyService::ClearSession() {
 
-  access_token_.clear();
-  refresh_token_.clear();
-  expires_in_ = 0;
-  login_time_ = 0;
-
-  Settings s;
-  s.beginGroup(SpotifySettings::kSettingsGroup);
-  s.remove(SpotifySettings::kAccessToken);
-  s.remove(SpotifySettings::kRefreshToken);
-  s.remove(SpotifySettings::kExpiresIn);
-  s.remove(SpotifySettings::kLoginTime);
-  s.endGroup();
-
-  refresh_login_timer_.stop();
+  oauth_->ClearSession();
 
 }
 
-void SpotifyService::RedirectArrived() {
+void SpotifyService::OAuthFinished(const bool success, const QString &error) {
 
-  if (!server_) return;
-
-  if (server_->error().isEmpty()) {
-    QUrl url = server_->request_url();
-    if (url.isValid()) {
-      QUrlQuery url_query(url);
-      if (url_query.hasQueryItem(u"error"_s)) {
-        LoginError(QUrlQuery(url).queryItemValue(u"error"_s));
-      }
-      else if (url_query.hasQueryItem(u"code"_s) && url_query.hasQueryItem(u"state"_s)) {
-        qLog(Debug) << "Spotify: Authorization URL Received" << url;
-        QString code = url_query.queryItemValue(u"code"_s);
-        QUrl redirect_url(QString::fromLatin1(kOAuthRedirectUrl));
-        redirect_url.setPort(server_->url().port());
-        RequestAccessToken(code, redirect_url);
-      }
-      else {
-        LoginError(tr("Redirect missing token code or state!"));
-      }
-    }
-    else {
-      LoginError(tr("Received invalid reply from web browser."));
-    }
+  if (success) {
+    Q_EMIT LoginFinished(true);
+    Q_EMIT LoginSuccess();
   }
   else {
-    LoginError(server_->error());
-  }
-
-  server_->close();
-  server_->deleteLater();
-  server_ = nullptr;
-
-}
-
-void SpotifyService::RequestAccessToken(const QString &code, const QUrl &redirect_url) {
-
-  refresh_login_timer_.stop();
-
-  ParamList params = ParamList() << Param(u"client_id"_s, QString::fromLatin1(QByteArray::fromBase64(kClientIDB64)))
-                                 << Param(u"client_secret"_s, QString::fromLatin1(QByteArray::fromBase64(kClientSecretB64)));
-
-  if (!code.isEmpty() && !redirect_url.isEmpty()) {
-    params << Param(u"grant_type"_s, u"authorization_code"_s);
-    params << Param(u"code"_s, code);
-    params << Param(u"redirect_uri"_s, redirect_url.toString());
-  }
-  else if (!refresh_token_.isEmpty() && enabled_) {
-    params << Param(u"grant_type"_s, u"refresh_token"_s);
-    params << Param(u"refresh_token"_s, refresh_token_);
-  }
-  else {
-    return;
-  }
-
-  QUrlQuery url_query;
-  for (const Param &param : std::as_const(params)) {
-    url_query.addQueryItem(QString::fromLatin1(QUrl::toPercentEncoding(param.first)), QString::fromLatin1(QUrl::toPercentEncoding(param.second)));
-  }
-
-  QUrl new_url(QString::fromLatin1(kOAuthAccessTokenUrl));
-  QNetworkRequest req(new_url);
-  req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  req.setHeader(QNetworkRequest::ContentTypeHeader, u"application/x-www-form-urlencoded"_s);
-  QString auth_header_data = QString::fromLatin1(QByteArray::fromBase64(kClientIDB64)) + QLatin1Char(':') + QString::fromLatin1(QByteArray::fromBase64(kClientSecretB64));
-  req.setRawHeader("Authorization", "Basic " + auth_header_data.toUtf8().toBase64());
-
-  QByteArray query = url_query.toString(QUrl::FullyEncoded).toUtf8();
-
-  QNetworkReply *reply = network_->post(req, query);
-  replies_ << reply;
-  QObject::connect(reply, &QNetworkReply::sslErrors, this, &SpotifyService::HandleLoginSSLErrors);
-  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() { AccessTokenRequestFinished(reply); });
-
-}
-
-void SpotifyService::HandleLoginSSLErrors(const QList<QSslError> &ssl_errors) {
-
-  for (const QSslError &ssl_error : ssl_errors) {
-    login_errors_ += ssl_error.errorString();
-  }
-
-}
-
-void SpotifyService::AccessTokenRequestFinished(QNetworkReply *reply) {
-
-  if (!replies_.contains(reply)) return;
-  replies_.removeAll(reply);
-  QObject::disconnect(reply, nullptr, this, nullptr);
-  reply->deleteLater();
-
-  if (reply->error() != QNetworkReply::NoError || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
-    if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
-      // This is a network error, there is nothing more to do.
-      LoginError(QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
-      return;
-    }
-    else {
-      // See if there is Json data containing "error" and "error_description" then use that instead.
-      QByteArray data = reply->readAll();
-      QJsonParseError json_error;
-      QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
-      if (json_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
-        QJsonObject json_obj = json_doc.object();
-        if (!json_obj.isEmpty() && json_obj.contains("error"_L1) && json_obj.contains("error_description"_L1)) {
-          QString error = json_obj["error"_L1].toString();
-          QString error_description = json_obj["error_description"_L1].toString();
-          login_errors_ << QStringLiteral("Authentication failure: %1 (%2)").arg(error, error_description);
-        }
-      }
-      if (login_errors_.isEmpty()) {
-        if (reply->error() != QNetworkReply::NoError) {
-          login_errors_ << QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error());
-        }
-        else {
-          login_errors_ << QStringLiteral("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
-        }
-      }
-      LoginError();
-      return;
-    }
-  }
-
-  QByteArray data = reply->readAll();
-
-  QJsonParseError json_error;
-  QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
-
-  if (json_error.error != QJsonParseError::NoError) {
-    LoginError(QStringLiteral("Failed to parse Json data in authentication reply: %1").arg(json_error.errorString()));
-    return;
-  }
-
-  if (json_doc.isEmpty()) {
-    LoginError(u"Authentication reply from server has empty Json document."_s);
-    return;
-  }
-
-  if (!json_doc.isObject()) {
-    LoginError(u"Authentication reply from server has Json document that is not an object."_s, json_doc);
-    return;
-  }
-
-  QJsonObject json_obj = json_doc.object();
-  if (json_obj.isEmpty()) {
-    LoginError(u"Authentication reply from server has empty Json object."_s, json_doc);
-    return;
-  }
-
-  if (!json_obj.contains("access_token"_L1) || !json_obj.contains("expires_in"_L1)) {
-    LoginError(u"Authentication reply from server is missing access token or expires in."_s, json_obj);
-    return;
-  }
-
-  access_token_ = json_obj["access_token"_L1].toString();
-  if (json_obj.contains("refresh_token"_L1)) {
-    refresh_token_ = json_obj["refresh_token"_L1].toString();
-  }
-  expires_in_ = json_obj["expires_in"_L1].toInt();
-  login_time_ = QDateTime::currentSecsSinceEpoch();
-
-  Settings s;
-  s.beginGroup(SpotifySettings::kSettingsGroup);
-  s.setValue(SpotifySettings::kAccessToken, access_token_);
-  s.setValue(SpotifySettings::kRefreshToken, refresh_token_);
-  s.setValue(SpotifySettings::kExpiresIn, expires_in_);
-  s.setValue(SpotifySettings::kLoginTime, login_time_);
-  s.endGroup();
-
-  if (expires_in_ > 0) {
-    refresh_login_timer_.setInterval(static_cast<int>(expires_in_ * kMsecPerSec));
-    refresh_login_timer_.start();
-  }
-
-  qLog(Debug) << "Spotify: Authentication was successful, login expires in" << expires_in_;
-
-  Q_EMIT LoginComplete(true);
-  Q_EMIT LoginSuccess();
-
-}
-
-void SpotifyService::ResetArtistsRequest() {
-
-  if (artists_request_) {
-    QObject::disconnect(&*artists_request_, nullptr, this, nullptr);
-    QObject::disconnect(this, nullptr, &*artists_request_, nullptr);
-    artists_request_.reset();
+    Q_EMIT LoginFailure(error);
+    Q_EMIT LoginFinished(false);
   }
 
 }
@@ -518,14 +244,19 @@ void SpotifyService::GetArtists() {
     return;
   }
 
-  ResetArtistsRequest();
-  artists_request_.reset(new SpotifyRequest(this, network_, SpotifyBaseRequest::Type::FavouriteArtists, this), [](SpotifyRequest *request) { request->deleteLater(); });
+  artists_request_.reset(new SpotifyRequest(this, network_, SpotifyBaseRequest::Type::FavouriteArtists, this));
   QObject::connect(&*artists_request_, &SpotifyRequest::Results, this, &SpotifyService::ArtistsResultsReceived);
   QObject::connect(&*artists_request_, &SpotifyRequest::UpdateStatus, this, &SpotifyService::ArtistsUpdateStatusReceived);
   QObject::connect(&*artists_request_, &SpotifyRequest::ProgressSetMaximum, this, &SpotifyService::ArtistsProgressSetMaximumReceived);
   QObject::connect(&*artists_request_, &SpotifyRequest::UpdateProgress, this, &SpotifyService::ArtistsUpdateProgressReceived);
 
   artists_request_->Process();
+
+}
+
+void SpotifyService::ResetArtistsRequest() {
+
+  artists_request_.reset();
 
 }
 
@@ -552,16 +283,6 @@ void SpotifyService::ArtistsUpdateProgressReceived(const int id, const int progr
   Q_EMIT ArtistsUpdateProgress(progress);
 }
 
-void SpotifyService::ResetAlbumsRequest() {
-
-  if (albums_request_) {
-    QObject::disconnect(&*albums_request_, nullptr, this, nullptr);
-    QObject::disconnect(this, nullptr, &*albums_request_, nullptr);
-    albums_request_.reset();
-  }
-
-}
-
 void SpotifyService::GetAlbums() {
 
   if (!authenticated()) {
@@ -570,14 +291,19 @@ void SpotifyService::GetAlbums() {
     return;
   }
 
-  ResetAlbumsRequest();
-  albums_request_.reset(new SpotifyRequest(this, network_, SpotifyBaseRequest::Type::FavouriteAlbums, this), [](SpotifyRequest *request) { request->deleteLater(); });
+  albums_request_.reset(new SpotifyRequest(this, network_, SpotifyBaseRequest::Type::FavouriteAlbums, this));
   QObject::connect(&*albums_request_, &SpotifyRequest::Results, this, &SpotifyService::AlbumsResultsReceived);
   QObject::connect(&*albums_request_, &SpotifyRequest::UpdateStatus, this, &SpotifyService::AlbumsUpdateStatusReceived);
   QObject::connect(&*albums_request_, &SpotifyRequest::ProgressSetMaximum, this, &SpotifyService::AlbumsProgressSetMaximumReceived);
   QObject::connect(&*albums_request_, &SpotifyRequest::UpdateProgress, this, &SpotifyService::AlbumsUpdateProgressReceived);
 
   albums_request_->Process();
+
+}
+
+void SpotifyService::ResetAlbumsRequest() {
+
+  albums_request_.reset();
 
 }
 
@@ -604,16 +330,6 @@ void SpotifyService::AlbumsUpdateProgressReceived(const int id, const int progre
   Q_EMIT AlbumsUpdateProgress(progress);
 }
 
-void SpotifyService::ResetSongsRequest() {
-
-  if (songs_request_) {
-    QObject::disconnect(&*songs_request_, nullptr, this, nullptr);
-    QObject::disconnect(this, nullptr, &*songs_request_, nullptr);
-    songs_request_.reset();
-  }
-
-}
-
 void SpotifyService::GetSongs() {
 
   if (!authenticated()) {
@@ -622,14 +338,19 @@ void SpotifyService::GetSongs() {
     return;
   }
 
-  ResetSongsRequest();
-  songs_request_.reset(new SpotifyRequest(this, network_, SpotifyBaseRequest::Type::FavouriteSongs, this), [](SpotifyRequest *request) { request->deleteLater(); });
+  songs_request_.reset(new SpotifyRequest(this, network_, SpotifyBaseRequest::Type::FavouriteSongs, this));
   QObject::connect(&*songs_request_, &SpotifyRequest::Results, this, &SpotifyService::SongsResultsReceived);
   QObject::connect(&*songs_request_, &SpotifyRequest::UpdateStatus, this, &SpotifyService::SongsUpdateStatusReceived);
   QObject::connect(&*songs_request_, &SpotifyRequest::ProgressSetMaximum, this, &SpotifyService::SongsProgressSetMaximumReceived);
   QObject::connect(&*songs_request_, &SpotifyRequest::UpdateProgress, this, &SpotifyService::SongsUpdateProgressReceived);
 
   songs_request_->Process();
+
+}
+
+void SpotifyService::ResetSongsRequest() {
+
+  songs_request_.reset();
 
 }
 
@@ -689,8 +410,7 @@ void SpotifyService::StartSearch() {
 
 }
 
-void SpotifyService::CancelSearch() {
-}
+void SpotifyService::CancelSearch() {}
 
 void SpotifyService::SendSearch() {
 
@@ -711,12 +431,11 @@ void SpotifyService::SendSearch() {
       return;
   }
 
-  search_request_.reset(new SpotifyRequest(this, network_, type, this), [](SpotifyRequest *request) { request->deleteLater(); });
-
-  QObject::connect(search_request_.get(), &SpotifyRequest::Results, this, &SpotifyService::SearchResultsReceived);
-  QObject::connect(search_request_.get(), &SpotifyRequest::UpdateStatus, this, &SpotifyService::SearchUpdateStatus);
-  QObject::connect(search_request_.get(), &SpotifyRequest::ProgressSetMaximum, this, &SpotifyService::SearchProgressSetMaximum);
-  QObject::connect(search_request_.get(), &SpotifyRequest::UpdateProgress, this, &SpotifyService::SearchUpdateProgress);
+  search_request_.reset(new SpotifyRequest(this, network_, type, this));
+  QObject::connect(&*search_request_, &SpotifyRequest::Results, this, &SpotifyService::SearchResultsReceived);
+  QObject::connect(&*search_request_, &SpotifyRequest::UpdateStatus, this, &SpotifyService::SearchUpdateStatus);
+  QObject::connect(&*search_request_, &SpotifyRequest::ProgressSetMaximum, this, &SpotifyService::SearchProgressSetMaximum);
+  QObject::connect(&*search_request_, &SpotifyRequest::UpdateProgress, this, &SpotifyService::SearchUpdateProgress);
 
   search_request_->Search(search_id_, search_text_);
   search_request_->Process();
@@ -727,23 +446,5 @@ void SpotifyService::SearchResultsReceived(const int id, const SongMap &songs, c
 
   Q_EMIT SearchResults(id, songs, error);
   search_request_.reset();
-
-}
-
-void SpotifyService::LoginError(const QString &error, const QVariant &debug) {
-
-  if (!error.isEmpty()) login_errors_ << error;
-
-  QString error_html;
-  for (const QString &e : std::as_const(login_errors_)) {
-    qLog(Error) << "Spotify:" << e;
-    error_html += e + "<br />"_L1;
-  }
-  if (debug.isValid()) qLog(Debug) << debug;
-
-  Q_EMIT LoginFailure(error_html);
-  Q_EMIT LoginComplete(false);
-
-  login_errors_.clear();
 
 }

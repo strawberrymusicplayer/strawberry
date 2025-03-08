@@ -486,6 +486,7 @@ set(SOURCES
   src/utilities/screenutils.cpp
   src/utilities/textencodingutils.cpp
   src/utilities/coveroptions.cpp
+  src/utilities/musixmatchprovider.cpp
 
   src/tagreader/tagreaderclient.cpp
   src/tagreader/tagreaderresult.cpp
@@ -696,8 +697,6 @@ set(SOURCES
   src/lyrics/elyricsnetlyricsprovider.cpp
   src/lyrics/letraslyricsprovider.cpp
   src/lyrics/lyricfindlyricsprovider.cpp
-
-  src/providers/musixmatchprovider.cpp
 
   src/settings/settingsdialog.cpp
   src/settings/settingspage.cpp

@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,7 +41,6 @@ class TidalFavoriteRequest : public TidalBaseRequest {
 
  public:
   explicit TidalFavoriteRequest(TidalService *service, const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
-  ~TidalFavoriteRequest() override;
 
  private:
   enum class FavoriteType {
@@ -85,7 +84,6 @@ class TidalFavoriteRequest : public TidalBaseRequest {
 
   TidalService *service_;
   const SharedPtr<NetworkAccessManager> network_;
-  QList <QNetworkReply*> replies_;
 };
 
 #endif  // TIDALFAVORITEREQUEST_H

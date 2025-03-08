@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -80,6 +80,13 @@ TidalSettingsPage::TidalSettingsPage(SettingsDialog *dialog, SharedPtr<TidalServ
 }
 
 TidalSettingsPage::~TidalSettingsPage() { delete ui_; }
+
+void TidalSettingsPage::showEvent(QShowEvent *e) {
+
+  ui_->login_state->SetLoggedIn(service_->authenticated() ? LoginStateWidget::State::LoggedIn : LoginStateWidget::State::LoggedOut);
+  SettingsPage::showEvent(e);
+
+}
 
 void TidalSettingsPage::Load() {
 
@@ -164,7 +171,7 @@ bool TidalSettingsPage::eventFilter(QObject *object, QEvent *event) {
 
 void TidalSettingsPage::LogoutClicked() {
 
-  service_->Logout();
+  service_->ClearSession();
   ui_->button_login->setEnabled(true);
   ui_->login_state->SetLoggedIn(LoginStateWidget::State::LoggedOut);
 

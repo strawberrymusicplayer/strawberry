@@ -101,7 +101,7 @@ void AlbumCoverFetcherSearch::Start(SharedPtr<CoverProviders> cover_providers) {
     if (!provider->is_enabled()) continue;
 
     // Skip any provider that requires authentication but is not authenticated.
-    if (provider->AuthenticationRequired() && !provider->IsAuthenticated()) {
+    if (provider->authentication_required() && !provider->authenticated()) {
       continue;
     }
 

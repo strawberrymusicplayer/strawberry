@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,6 +28,7 @@
 #include "includes/shared_ptr.h"
 #include "settings/settingspage.h"
 
+class QShowEvent;
 class QEvent;
 class TidalService;
 class SettingsDialog;
@@ -44,6 +45,9 @@ class TidalSettingsPage : public SettingsPage {
   void Save() override;
 
   bool eventFilter(QObject *object, QEvent *event) override;
+
+ protected:
+  void showEvent(QShowEvent *e) override;
 
  Q_SIGNALS:
   void Authorize(const QString &client_id);

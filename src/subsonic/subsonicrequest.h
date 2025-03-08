@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -98,7 +98,7 @@ class SubsonicRequest : public SubsonicBaseRequest {
   void AddAlbumSongsRequest(const QString &artist_id, const QString &album_id, const QString &album_artist, const int offset = 0);
   void FlushAlbumSongsRequests();
 
-  QString ParseSong(Song &song, const QJsonObject &json_obj, const QString &artist_id_requested = QString(), const QString &album_id_requested = QString(), const QString &album_artist = QString(), const qint64 album_created = 0);
+  QString ParseSong(Song &song, const QJsonObject &json_object, const QString &artist_id_requested = QString(), const QString &album_id_requested = QString(), const QString &album_artist = QString(), const qint64 album_created = 0);
 
   void GetAlbumCovers();
   void AddAlbumCoverRequest(const Song &song);

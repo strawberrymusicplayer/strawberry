@@ -22,14 +22,10 @@
 
 #include <QString>
 
-class MusixmatchProvider {
+namespace MusixmatchProvider {
 
- protected:
-  static QString StringFixup(QString text);
+QString StringFixup(QString text);
 
- protected:
-  static const char *kApiUrl;
-  static const char *kApiKey;
-};
+}  // namespace
 
 #endif  // MUSIXMATCHPROVIDER_H

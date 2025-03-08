@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2022-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2022-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,11 +22,6 @@
 
 #include "config.h"
 
-#include <QtGlobal>
-#include <QObject>
-#include <QPair>
-#include <QSet>
-#include <QList>
 #include <QMap>
 #include <QMultiMap>
 #include <QQueue>
@@ -36,6 +31,7 @@
 #include <QUrl>
 #include <QJsonObject>
 #include <QTimer>
+#include <QScopedPointer>
 
 #include "includes/shared_ptr.h"
 #include "core/song.h"
@@ -138,9 +134,9 @@ class SpotifyRequest : public SpotifyBaseRequest {
   void AddSongsSearchRequest(const int offset = 0);
   void FlushSongsRequests();
 
-  void ArtistsFinishCheck(const int limit = 0, const int offset = 0, const int artists_received = 0);
-  void AlbumsFinishCheck(const Artist &artist, const int limit = 0, const int offset = 0, const int albums_total = 0, const int albums_received = 0);
-  void SongsFinishCheck(const Artist &artist, const Album &album, const int limit = 0, const int offset = 0, const int songs_total = 0, const int songs_received = 0);
+  void ArtistsFinishCheck(const int limit, const int offset, const int artists_received);
+  void AlbumsFinishCheck(const Artist &artist, const int limit, const int offset, const int albums_total, const int albums_received);
+  void SongsFinishCheck(const Artist &artist, const Album &album, const int limit, const int offset, const int songs_total, const int songs_received);
 
   void AddArtistAlbumsRequest(const Artist &artist, const int offset = 0);
   void FlushArtistAlbumsRequests();
@@ -158,11 +154,10 @@ class SpotifyRequest : public SpotifyBaseRequest {
 
   int GetProgress(const int count, const int total);
   void FinishCheck();
-  static void Warn(const QString &error, const QVariant &debug = QVariant());
-  void Error(const QString &error, const QVariant &debug = QVariant()) override;
+  void Error(const QString &error_message, const QVariant &debug_output = QVariant()) override;
+  void Warn(const QString &error_message, const QVariant &debug);
 
  private:
-  SpotifyService *service_;
   const SharedPtr<NetworkAccessManager> network_;
   QTimer *timer_flush_requests_;
 
@@ -222,11 +217,10 @@ class SpotifyRequest : public SpotifyBaseRequest {
   int album_covers_requests_received_;
 
   SongMap songs_;
-  QStringList errors_;
   bool no_results_;
-  QList<QNetworkReply*> replies_;
-  QList<QNetworkReply*> album_cover_replies_;
-
+  QString error_;
 };
+
+using SpotifyRequestPtr = QScopedPointer<SpotifyRequest, QScopedPointerDeleteLater>;
 
 #endif  // SPOTIFYREQUEST_H

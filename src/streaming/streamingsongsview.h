@@ -58,6 +58,7 @@ class StreamingSongsView : public QWidget {
   void SongsFinished(const SongMap &songs, const QString &error);
 
  Q_SIGNALS:
+  void ShowErrorDialog(const QString &error);
   void OpenSettingsDialog(const Song::Source source);
 
  private:

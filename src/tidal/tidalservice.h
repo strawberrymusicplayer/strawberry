@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,27 +22,20 @@
 
 #include "config.h"
 
-#include <QtGlobal>
-#include <QObject>
-#include <QPair>
-#include <QSet>
 #include <QList>
 #include <QMap>
-#include <QVariant>
 #include <QByteArray>
 #include <QString>
-#include <QStringList>
 #include <QUrl>
-#include <QDateTime>
-#include <QSslError>
+#include <QScopedPointer>
+#include <QSharedPointer>
 
 #include "includes/shared_ptr.h"
 #include "core/song.h"
 #include "streaming/streamingservice.h"
-#include "streaming/streamingsearchview.h"
 #include "constants/tidalsettings.h"
+#include "collection/collectionmodel.h"
 
-class QNetworkReply;
 class QTimer;
 
 class TaskManager;
@@ -57,6 +50,10 @@ class TidalStreamURLRequest;
 class CollectionBackend;
 class CollectionModel;
 class CollectionFilter;
+class OAuthenticator;
+
+using TidalRequestPtr = QScopedPointer<TidalRequest, QScopedPointerDeleteLater>;
+using TidalStreamURLRequestPtr = QSharedPointer<TidalStreamURLRequest>;
 
 class TidalService : public StreamingService {
   Q_OBJECT
@@ -78,13 +75,11 @@ class TidalService : public StreamingService {
   void Exit() override;
   void ReloadSettings() override;
 
-  void Logout();
+  void ClearSession();
   int Search(const QString &text, const SearchType type) override;
   void CancelSearch() override;
 
   QString client_id() const { return client_id_; }
-  quint64 user_id() const { return user_id_; }
-  QString country_code() const { return country_code_; }
   QString quality() const { return quality_; }
   int artistssearchlimit() const { return artistssearchlimit_; }
   int albumssearchlimit() const { return albumssearchlimit_; }
@@ -95,10 +90,10 @@ class TidalService : public StreamingService {
   TidalSettings::StreamUrlMethod stream_url_method() const { return stream_url_method_; }
   bool album_explicit() const { return album_explicit_; }
 
-  QString token_type() const { return token_type_; }
-  QString access_token() const { return access_token_; }
-
-  bool authenticated() const override { return !token_type_.isEmpty() && !access_token_.isEmpty(); }
+  bool authenticated() const override;
+  QByteArray authorization_header() const;
+  QString country_code() const;
+  quint64 user_id() const;
 
   uint GetStreamURL(const QUrl &url, QString &error);
 
@@ -116,19 +111,17 @@ class TidalService : public StreamingService {
 
  public Q_SLOTS:
   void StartAuthorization(const QString &client_id);
+  void AuthorizationUrlReceived(const QUrl &url);
   void GetArtists() override;
   void GetAlbums() override;
   void GetSongs() override;
   void ResetArtistsRequest() override;
   void ResetAlbumsRequest() override;
   void ResetSongsRequest() override;
-  void AuthorizationUrlReceived(const QUrl &url);
 
  private Q_SLOTS:
   void ExitReceived();
-  void RequestNewAccessToken() { RequestAccessToken(); }
-  void HandleLoginSSLErrors(const QList<QSslError> &ssl_errors);
-  void AccessTokenRequestFinished(QNetworkReply *reply);
+  void OAuthFinished(const bool success, const QString &error);
   void StartSearch();
   void ArtistsResultsReceived(const int id, const SongMap &songs, const QString &error);
   void AlbumsResultsReceived(const int id, const SongMap &songs, const QString &error);
@@ -144,16 +137,12 @@ class TidalService : public StreamingService {
   void HandleStreamURLSuccess(const uint id, const QUrl &media_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration);
 
  private:
-  using Param = QPair<QString, QString>;
-  using ParamList = QList<Param>;
-
-  void LoadSession();
-  void RequestAccessToken(const QString &code = QString());
   void SendSearch();
-  void LoginError(const QString &error = QString(), const QVariant &debug = QVariant());
 
+ private:
   const SharedPtr<NetworkAccessManager> network_;
   TidalUrlHandler *url_handler_;
+  OAuthenticator *oauth_;
 
   SharedPtr<CollectionBackend> artists_collection_backend_;
   SharedPtr<CollectionBackend> albums_collection_backend_;
@@ -164,18 +153,15 @@ class TidalService : public StreamingService {
   CollectionModel *songs_collection_model_;
 
   QTimer *timer_search_delay_;
-  QTimer *timer_refresh_login_;
 
-  SharedPtr<TidalRequest> artists_request_;
-  SharedPtr<TidalRequest> albums_request_;
-  SharedPtr<TidalRequest> songs_request_;
-  SharedPtr<TidalRequest> search_request_;
+  TidalRequestPtr artists_request_;
+  TidalRequestPtr albums_request_;
+  TidalRequestPtr songs_request_;
+  TidalRequestPtr search_request_;
   TidalFavoriteRequest *favorite_request_;
 
   bool enabled_;
   QString client_id_;
-  quint64 user_id_;
-  QString country_code_;
   QString quality_;
   int artistssearchlimit_;
   int albumssearchlimit_;
@@ -186,12 +172,6 @@ class TidalService : public StreamingService {
   TidalSettings::StreamUrlMethod stream_url_method_;
   bool album_explicit_;
 
-  QString token_type_;
-  QString access_token_;
-  QString refresh_token_;
-  quint64 expires_in_;
-  quint64 login_time_;
-
   int pending_search_id_;
   int next_pending_search_id_;
   QString pending_search_text_;
@@ -200,16 +180,10 @@ class TidalService : public StreamingService {
   int search_id_;
   QString search_text_;
 
-  QString code_verifier_;
-  QString code_challenge_;
-
   uint next_stream_url_request_id_;
-  QMap<uint, SharedPtr<TidalStreamURLRequest>> stream_url_requests_;
-
-  QStringList login_errors_;
+  QMap<uint, TidalStreamURLRequestPtr> stream_url_requests_;
 
   QList<QObject*> wait_for_exit_;
-  QList<QNetworkReply*> replies_;
 };
 
 using TidalServicePtr = SharedPtr<TidalService>;

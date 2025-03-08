@@ -33,12 +33,11 @@
 #include "jsonlyricsprovider.h"
 #include "lyricssearchrequest.h"
 #include "lyricssearchresult.h"
-#include "providers/musixmatchprovider.h"
 
 class QNetworkReply;
 class NetworkAccessManager;
 
-class MusixmatchLyricsProvider : public JsonLyricsProvider, public MusixmatchProvider {
+class MusixmatchLyricsProvider : public JsonLyricsProvider {
   Q_OBJECT
 
  public:

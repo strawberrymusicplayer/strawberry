@@ -36,17 +36,23 @@
 #include <QJsonArray>
 
 #include "includes/shared_ptr.h"
+#include "utilities/musixmatchprovider.h"
+#include "utilities/strutils.h"
 #include "core/logging.h"
 #include "core/networkaccessmanager.h"
-#include "utilities/strutils.h"
 #include "jsonlyricsprovider.h"
 #include "lyricssearchrequest.h"
 #include "lyricssearchresult.h"
 #include "musixmatchlyricsprovider.h"
-#include "providers/musixmatchprovider.h"
 
 using namespace Qt::Literals::StringLiterals;
 using std::make_shared;
+using namespace MusixmatchProvider;
+
+namespace {
+constexpr char kApiUrl[] = "https://api.musixmatch.com/ws/1.1";
+constexpr char kApiKey[] = "Y2FhMDRlN2Y4OWE5OTIxYmZlOGMzOWQzOGI3ZGU4MjE=";
+}  // namespace
 
 MusixmatchLyricsProvider::MusixmatchLyricsProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent) : JsonLyricsProvider(u"Musixmatch"_s, true, false, network, parent), use_api_(true) {}
 

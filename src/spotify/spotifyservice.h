@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2022-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2022-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,27 +22,16 @@
 
 #include "config.h"
 
-#include <QtGlobal>
-#include <QObject>
-#include <QPair>
-#include <QSet>
 #include <QList>
-#include <QMap>
-#include <QVariant>
-#include <QByteArray>
 #include <QString>
-#include <QStringList>
-#include <QUrl>
-#include <QDateTime>
-#include <QSslError>
-#include <QTimer>
+#include <QScopedPointer>
 
 #include "includes/shared_ptr.h"
 #include "core/song.h"
 #include "streaming/streamingservice.h"
-#include "streaming/streamingsearchview.h"
+#include "collection/collectionmodel.h"
 
-class QNetworkReply;
+class QTimer;
 
 class TaskManager;
 class Database;
@@ -54,7 +43,9 @@ class SpotifyStreamURLRequest;
 class CollectionBackend;
 class CollectionModel;
 class CollectionFilter;
-class LocalRedirectServer;
+class OAuthenticator;
+
+using SpotifyRequestPtr = QScopedPointer<SpotifyRequest, QScopedPointerDeleteLater>;
 
 class SpotifyService : public StreamingService {
   Q_OBJECT
@@ -83,9 +74,8 @@ class SpotifyService : public StreamingService {
   bool fetchalbums() const { return fetchalbums_; }
   bool download_album_covers() const { return download_album_covers_; }
 
-  QString access_token() const { return access_token_; }
-
-  bool authenticated() const override { return !access_token_.isEmpty(); }
+  bool authenticated() const override;
+  QByteArray authorization_header() const;
 
   SharedPtr<CollectionBackend> artists_collection_backend() override { return artists_collection_backend_; }
   SharedPtr<CollectionBackend> albums_collection_backend() override { return albums_collection_backend_; }
@@ -101,7 +91,7 @@ class SpotifyService : public StreamingService {
 
  public Q_SLOTS:
   void Authenticate();
-  void Deauthenticate();
+  void ClearSession();
   void GetArtists() override;
   void GetAlbums() override;
   void GetSongs() override;
@@ -111,10 +101,7 @@ class SpotifyService : public StreamingService {
 
  private Q_SLOTS:
   void ExitReceived();
-  void RedirectArrived();
-  void RequestNewAccessToken() { RequestAccessToken(); }
-  void HandleLoginSSLErrors(const QList<QSslError> &ssl_errors);
-  void AccessTokenRequestFinished(QNetworkReply *reply);
+  void OAuthFinished(const bool success, const QString &error = QString());
   void StartSearch();
   void ArtistsResultsReceived(const int id, const SongMap &songs, const QString &error);
   void AlbumsResultsReceived(const int id, const SongMap &songs, const QString &error);
@@ -131,15 +118,12 @@ class SpotifyService : public StreamingService {
   void SongsUpdateProgressReceived(const int id, const int progress);
 
  private:
-  using Param = QPair<QString, QString>;
-  using ParamList = QList<Param>;
-
-  void LoadSession();
-  void RequestAccessToken(const QString &code = QString(), const QUrl &redirect_url = QUrl());
   void SendSearch();
-  void LoginError(const QString &error = QString(), const QVariant &debug = QVariant());
 
+ private:
   const SharedPtr<NetworkAccessManager> network_;
+
+  OAuthenticator *oauth_;
 
   SharedPtr<CollectionBackend> artists_collection_backend_;
   SharedPtr<CollectionBackend> albums_collection_backend_;
@@ -150,12 +134,11 @@ class SpotifyService : public StreamingService {
   CollectionModel *songs_collection_model_;
 
   QTimer *timer_search_delay_;
-  QTimer *timer_refresh_login_;
 
-  SharedPtr<SpotifyRequest> artists_request_;
-  SharedPtr<SpotifyRequest> albums_request_;
-  SharedPtr<SpotifyRequest> songs_request_;
-  SharedPtr<SpotifyRequest> search_request_;
+  SpotifyRequestPtr artists_request_;
+  SpotifyRequestPtr albums_request_;
+  SpotifyRequestPtr songs_request_;
+  SpotifyRequestPtr search_request_;
   SpotifyFavoriteRequest *favorite_request_;
 
   bool enabled_;
@@ -165,11 +148,6 @@ class SpotifyService : public StreamingService {
   bool fetchalbums_;
   bool download_album_covers_;
 
-  QString access_token_;
-  QString refresh_token_;
-  quint64 expires_in_;
-  quint64 login_time_;
-
   int pending_search_id_;
   int next_pending_search_id_;
   QString pending_search_text_;
@@ -178,15 +156,7 @@ class SpotifyService : public StreamingService {
   int search_id_;
   QString search_text_;
 
-  QString code_verifier_;
-  QString code_challenge_;
-
-  LocalRedirectServer *server_;
-  QStringList login_errors_;
-  QTimer refresh_login_timer_;
-
   QList<QObject*> wait_for_exit_;
-  QList<QNetworkReply*> replies_;
 };
 
 using SpotifyServicePtr = SharedPtr<SpotifyService>;
