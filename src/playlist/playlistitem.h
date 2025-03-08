@@ -49,6 +49,7 @@ using std::enable_shared_from_this;
 class PlaylistItem : public enable_shared_from_this<PlaylistItem> {
  public:
   explicit PlaylistItem(const Song::Source source);
+  virtual ~PlaylistItem();
 
   static SharedPtr<PlaylistItem> NewFromSource(const Song::Source source);
   static SharedPtr<PlaylistItem> NewFromSong(const Song &song);

@@ -41,6 +41,8 @@ using namespace Qt::Literals::StringLiterals;
 
 PlaylistItem::PlaylistItem(const Song::Source source) : should_skip_(false), source_(source) {}
 
+PlaylistItem::~PlaylistItem() = default;
+
 PlaylistItemPtr PlaylistItem::NewFromSource(const Song::Source source) {
 
   switch (source) {
