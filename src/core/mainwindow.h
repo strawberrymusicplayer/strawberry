@@ -224,7 +224,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   SettingsDialog *CreateSettingsDialog();
   EditTagDialog *CreateEditTagDialog();
   void OpenSettingsDialog();
-  void OpenSettingsDialogAtPage(SettingsDialog::Page page);
+  void OpenSettingsDialogAtPage(const SettingsDialog::Page page);
 
   void TabSwitched();
   void ToggleSidebar(const bool checked);
