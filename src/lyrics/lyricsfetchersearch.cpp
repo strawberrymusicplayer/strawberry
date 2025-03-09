@@ -73,7 +73,7 @@ void LyricsFetcherSearch::Start(SharedPtr<LyricsProviders> lyrics_providers) {
   std::stable_sort(lyrics_providers_sorted.begin(), lyrics_providers_sorted.end(), ProviderCompareOrder);
 
   for (LyricsProvider *provider : std::as_const(lyrics_providers_sorted)) {
-    if (!provider->is_enabled() || !provider->authenticated()) continue;
+    if (!provider->is_enabled() || (provider->authentication_required() && !provider->authenticated())) continue;
     QObject::connect(provider, &LyricsProvider::SearchFinished, this, &LyricsFetcherSearch::ProviderSearchFinished);
     const int id = lyrics_providers->NextId();
     const bool success = provider->StartSearchAsync(id, request_);
