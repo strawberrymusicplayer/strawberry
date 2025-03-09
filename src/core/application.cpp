@@ -36,6 +36,7 @@
 #include <QMetaObject>
 #include <QCoreApplication>
 #include <QAbstractEventDispatcher>
+#include <QTimer>
 
 #include "core/logging.h"
 
