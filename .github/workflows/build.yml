@@ -733,7 +733,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        runner: [ 'macos-13', 'macos-14' ]
+        runner: [ 'macos-13', 'macos-15' ]
         buildtype: [ 'release' ]
 
     runs-on: ${{ matrix.runner }}
@@ -742,7 +742,7 @@ jobs:
 
       - name: Set MACOSX_DEPLOYMENT_TARGET
         run: |
-          for i in 12 13 14 15; do
+          for i in 13 14 15; do
             if [ -d "/Library/Developer/CommandLineTools/SDKs/MacOSX${i}.sdk" ]; then
               echo "Using macOS SDK ${i}"
               echo "MACOSX_DEPLOYMENT_TARGET=${i}.0" >> $GITHUB_ENV
@@ -841,7 +841,7 @@ jobs:
         run: codesign -s 383J84DVB6 -f strawberry.app/Contents/Frameworks/{libpcre2-8.0.dylib,libpcre2-16.0.dylib,libpng16.16.dylib,libfreetype.6.dylib,libzstd.1.dylib} strawberry.app/Contents/Frameworks/png.framework/png strawberry.app
 
       - name: Manually Codesign
-        if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && matrix.runner == 'macos-14'
+        if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && matrix.runner == 'macos-15'
         working-directory: build
         run: codesign -s 383J84DVB6 -f strawberry.app/Contents/Frameworks/png.framework/png strawberry.app
 
@@ -900,7 +900,7 @@ jobs:
 
       - name: Set MACOSX_DEPLOYMENT_TARGET
         run: |
-          for i in 12 13 14 15; do
+          for i in 13 14 15; do
             if [ -d "/Library/Developer/CommandLineTools/SDKs/MacOSX${i}.sdk" ]; then
               echo "Using macOS SDK ${i}"
               echo "MACOSX_DEPLOYMENT_TARGET=${i}.0" >> $GITHUB_ENV
