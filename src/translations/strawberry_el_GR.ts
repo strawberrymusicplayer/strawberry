@@ -241,7 +241,7 @@
     </message>
     <message>
       <source>Don&apos;t stop!</source>
-      <translation type="unfinished">Don&apos;t stop!</translation>
+      <translation>Μη παύση!</translation>
     </message>
     <message>
       <source>All artists</source>
@@ -426,7 +426,7 @@
     </message>
     <message>
       <source>Upper Right</source>
-      <translation type="unfinished">Upper Right</translation>
+      <translation>Πάνω Δεξιά</translation>
     </message>
     <message>
       <source>Middle</source>
@@ -434,31 +434,31 @@
     </message>
     <message>
       <source>Bottom Left</source>
-      <translation type="unfinished">Bottom Left</translation>
+      <translation>Κάτω Αριστερά</translation>
     </message>
     <message>
       <source>Bottom Right</source>
-      <translation type="unfinished">Bottom Right</translation>
+      <translation>Κάτω Δεξιά</translation>
     </message>
     <message>
       <source>Max cover size</source>
-      <translation type="unfinished">Max cover size</translation>
+      <translation>Μέγιστο μέγεθος εξωφύλλου</translation>
     </message>
     <message>
       <source>Stretch image to fill playlist</source>
-      <translation type="unfinished">Stretch image to fill playlist</translation>
+      <translation>Τέντωμα εικόνας για συμπλήρωση λίστας αναπαραγωγής</translation>
     </message>
     <message>
       <source>Keep aspect ratio</source>
-      <translation type="unfinished">Keep aspect ratio</translation>
+      <translation>Διατήρηση αναλογίας διαστάσεων</translation>
     </message>
     <message>
       <source>Do not cut image</source>
-      <translation type="unfinished">Do not cut image</translation>
+      <translation>Να μην κοπεί η εικόνα</translation>
     </message>
     <message>
       <source>Blur amount</source>
-      <translation type="unfinished">Blur amount</translation>
+      <translation>Ποσότητα θολώματος</translation>
     </message>
     <message>
       <source>0px</source>
@@ -466,7 +466,7 @@
     </message>
     <message>
       <source>Opacity</source>
-      <translation type="unfinished">Opacity</translation>
+      <translation>Αδιαφάνεια</translation>
     </message>
     <message>
       <source>40%</source>
@@ -478,58 +478,58 @@
     </message>
     <message>
       <source>Playlist buttons</source>
-      <translation type="unfinished">Playlist buttons</translation>
+      <translation>Κουμπιά λίστας αναπαραγωγής</translation>
     </message>
     <message>
       <source>Tabbar large mode</source>
-      <translation type="unfinished">Tabbar large mode</translation>
+      <translation>Λειτουργία μεγάλης γραμμής καρτέλας</translation>
     </message>
     <message>
       <source>Play control buttons</source>
-      <translation type="unfinished">Play control buttons</translation>
+      <translation>Κουμπιά ελέγχου αναπαραγωγής</translation>
     </message>
     <message>
       <source>Configure buttons</source>
-      <translation type="unfinished">Configure buttons</translation>
+      <translation>Ρύθμιση κουμπιών</translation>
     </message>
     <message>
       <source>Files, playlists and queue buttons</source>
-      <translation type="unfinished">Files, playlists and queue buttons</translation>
+      <translation>Κουμπιά αρχείων, λίστων αναπαραγωγής και ουράς</translation>
     </message>
     <message>
       <source>Tabbar small mode</source>
-      <translation type="unfinished">Tabbar small mode</translation>
+      <translation>Μικρή λειτουργία καρτέλας</translation>
     </message>
     <message>
       <source>Playlist playing song color</source>
-      <translation type="unfinished">Playlist playing song color</translation>
+      <translation>Χρώμα για το τραγουδι αναπαραγωγής</translation>
     </message>
     <message>
       <source>System highlight color</source>
-      <translation type="unfinished">System highlight color</translation>
+      <translation>Χρώμα επισήμανσης συστήματος</translation>
     </message>
     <message>
       <source>Custom color</source>
-      <translation type="unfinished">Custom color</translation>
+      <translation>Προσαρμοσμένο χρώμα</translation>
     </message>
     <message>
       <source>Select playlist playing song color:</source>
-      <translation type="unfinished">Select playlist playing song color:</translation>
+      <translation>Επιλογή χρώματος τραγουδιού αναπαραγωγής:</translation>
     </message>
     <message>
       <source>Select background image</source>
-      <translation type="unfinished">Select background image</translation>
+      <translation>Προεπιλεγμένη εικόνα φόντου</translation>
     </message>
   </context>
   <context>
     <name>BackendSettingsPage</name>
     <message>
       <source>Backend</source>
-      <translation type="unfinished">Backend</translation>
+      <translation>Backend</translation>
     </message>
     <message>
       <source>Audio output</source>
-      <translation type="unfinished">Audio output</translation>
+      <translation>Έξοδος ήχου</translation>
     </message>
     <message>
       <source>Device</source>
@@ -541,23 +541,23 @@
     </message>
     <message>
       <source>ALSA plugin:</source>
-      <translation type="unfinished">ALSA plugin:</translation>
+      <translation>Πρόσθετο ALSA:</translation>
     </message>
     <message>
       <source>hw</source>
-      <translation type="unfinished">hw</translation>
+      <translation>hw</translation>
     </message>
     <message>
       <source>p&amp;lughw</source>
-      <translation type="unfinished">p&amp;lughw</translation>
+      <translation>p&amp;lughw</translation>
     </message>
     <message>
       <source>pcm</source>
-      <translation type="unfinished">pcm</translation>
+      <translation>pcm</translation>
     </message>
     <message>
       <source>Exclusive mode (Experimental)</source>
-      <translation type="unfinished">Exclusive mode (Experimental)</translation>
+      <translation>Αποκλειστική λειτουργία (Πειραματικό)</translation>
     </message>
     <message>
       <source>Options</source>
@@ -569,7 +569,7 @@
     </message>
     <message>
       <source>Upmix / downmix to</source>
-      <translation type="unfinished">Upmix / downmix to</translation>
+      <translation>Upmix / downmix σε</translation>
     </message>
     <message>
       <source>channels</source>
@@ -593,11 +593,11 @@
     </message>
     <message>
       <source> ms</source>
-      <translation type="unfinished"> ms</translation>
+      <translation> ms</translation>
     </message>
     <message>
       <source>Buffer duration</source>
-      <translation type="unfinished">Buffer duration</translation>
+      <translation>Διάρκεια buffer</translation>
     </message>
     <message>
       <source>High watermark</source>
@@ -665,7 +665,7 @@
     </message>
     <message>
       <source>Fading</source>
-      <translation type="unfinished">Fading</translation>
+      <translation>Εξασθένιση</translation>
     </message>
     <message>
       <source>Fade out when stopping a track</source>
@@ -732,19 +732,19 @@
     </message>
     <message>
       <source>Show the main window</source>
-      <translation type="unfinished">Show the main window</translation>
+      <translation>Εμφάνιση του κύριου παραθύρου</translation>
     </message>
     <message>
       <source>Hide the main window</source>
-      <translation type="unfinished">Hide the main window</translation>
+      <translation>Απόκρυψη του κύριου παραθύρου</translation>
     </message>
     <message>
       <source>Show the main window maximized</source>
-      <translation type="unfinished">Show the main window maximized</translation>
+      <translation>Εμφάνιση μεγιστοποιημένου κύριου παραθύρου</translation>
     </message>
     <message>
       <source>Show the main window minimized</source>
-      <translation type="unfinished">Show the main window minimized</translation>
+      <translation>Εμφάνιση ελαχιστοποιημένου κύριου παραθύρου</translation>
     </message>
     <message>
       <source>Language</source>
@@ -760,7 +760,7 @@
     </message>
     <message>
       <source>Using the menu to add a song will...</source>
-      <translation type="unfinished">Using the menu to add a song will...</translation>
+      <translation>Χρήση του μενού για να προσθέσετε ένα τραγούδι θα...</translation>
     </message>
     <message>
       <source>Never start playing</source>
@@ -788,27 +788,27 @@
     </message>
     <message>
       <source>Double clicking a song will...</source>
-      <translation type="unfinished">Double clicking a song will...</translation>
+      <translation>Διπλό κλικ σε ένα τραγούδι θα...</translation>
     </message>
     <message>
       <source>Append to the playlist</source>
-      <translation type="unfinished">Append to the playlist</translation>
+      <translation>Προσάρτηση στη λίστα αναπαραγωγής</translation>
     </message>
     <message>
       <source>Replace the playlist</source>
-      <translation type="unfinished">Replace the playlist</translation>
+      <translation>Αντικατάσταση της λίστας αναπαραγωγής</translation>
     </message>
     <message>
       <source>Open in new playlist</source>
-      <translation type="unfinished">Open in new playlist</translation>
+      <translation>Άνοιγμα σε νέα λίστα αναπαραγωγής</translation>
     </message>
     <message>
       <source>Add to the queue</source>
-      <translation type="unfinished">Add to the queue</translation>
+      <translation>Προσθήκη στην ουρά</translation>
     </message>
     <message>
       <source>Double clicking a song in the playlist will...</source>
-      <translation type="unfinished">Double clicking a song in the playlist will...</translation>
+      <translation>Διπλό κλικ σε ένα τραγούδι στη λίστα αναπαραγωγής θα...</translation>
     </message>
     <message>
       <source>Change the currently playing song</source>
@@ -824,7 +824,7 @@
     </message>
     <message>
       <source> s</source>
-      <translation type="unfinished"> s</translation>
+      <translation> s</translation>
     </message>
     <message>
       <source>Volume Increment</source>
@@ -881,31 +881,31 @@
     </message>
     <message>
       <source>Added today</source>
-      <translation type="unfinished">Added today</translation>
+      <translation>Προστέθηκε σήμερα</translation>
     </message>
     <message>
       <source>Added this week</source>
-      <translation type="unfinished">Added this week</translation>
+      <translation>Προστέθηκε αυτή την εβδομάδα</translation>
     </message>
     <message>
       <source>Added within three months</source>
-      <translation type="unfinished">Added within three months</translation>
+      <translation>Προστέθηκε εντός τριών μηνών</translation>
     </message>
     <message>
       <source>Added this year</source>
-      <translation type="unfinished">Added this year</translation>
+      <translation>Προστέθηκε φέτος</translation>
     </message>
     <message>
       <source>Added this month</source>
-      <translation type="unfinished">Added this month</translation>
+      <translation>Προστέθηκε αυτό το μήνα</translation>
     </message>
     <message>
       <source>Save current grouping</source>
-      <translation type="unfinished">Save current grouping</translation>
+      <translation>Αποθήκευση τρέχουσας ομαδοποίησης</translation>
     </message>
     <message>
       <source>Manage saved groupings</source>
-      <translation type="unfinished">Manage saved groupings</translation>
+      <translation>Διαχείριση αποθηκευμένων ομαδοποιήσεων</translation>
     </message>
     <message>
       <source>Show</source>
@@ -985,7 +985,7 @@
     </message>
     <message>
       <source>Grouping name:</source>
-      <translation type="unfinished">Grouping name:</translation>
+      <translation>Όνομα Ομαδοποίησης:</translation>
     </message>
   </context>
   <context>
@@ -1018,7 +1018,7 @@
     </message>
     <message>
       <source>These folders will be scanned for music to make up your collection</source>
-      <translation type="unfinished">These folders will be scanned for music to make up your collection</translation>
+      <translation>Αυτοί οι φάκελοι θα σαρωθούν για μουσική για να φτιαχτεί η συλλογή σας</translation>
     </message>
     <message>
       <source>Add new folder...</source>
@@ -1026,11 +1026,11 @@
     </message>
     <message>
       <source>Remove folder</source>
-      <translation type="unfinished">Remove folder</translation>
+      <translation>Αφαίρεση φακέλου</translation>
     </message>
     <message>
       <source>Automatic updating</source>
-      <translation type="unfinished">Automatic updating</translation>
+      <translation>Αυτόματη ενημέρωση</translation>
     </message>
     <message>
       <source>Update the collection when Strawberry starts</source>
@@ -1116,7 +1116,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Clear Disk Cache</source>
-      <translation type="unfinished">Clear Disk Cache</translation>
+      <translation>Εκκαθάριση Cache Δίσκου</translation>
     </message>
     <message>
       <source>Song playcounts and ratings</source>
@@ -1261,7 +1261,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Updating %1</source>
-      <translation type="unfinished">Updating %1</translation>
+      <translation>Ενημέρωση Του %1</translation>
     </message>
   </context>
   <context>
@@ -1283,11 +1283,11 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Custom text settings</source>
-      <translation type="unfinished">Custom text settings</translation>
+      <translation>Προσαρμοσμένες ρυθμίσεις κειμένου</translation>
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>Title</source>
@@ -1315,7 +1315,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Automatically search for album cover</source>
-      <translation type="unfinished">Automatically search for album cover</translation>
+      <translation>Αυτόματη αναζήτηση εξώφυλλου άλμπουμ</translation>
     </message>
     <message>
       <source>Automatically search for song lyrics</source>
