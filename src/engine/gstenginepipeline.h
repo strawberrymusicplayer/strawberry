@@ -261,6 +261,7 @@ class GstEnginePipeline : public QObject {
 
   // EBU R 128 Loudness Normalization
   bool ebur128_loudness_normalization_;
+  bool gstreamer_supports_volume_full_range_;
 
   // Spotify
 #ifdef HAVE_SPOTIFY
