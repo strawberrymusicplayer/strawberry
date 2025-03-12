@@ -32,6 +32,7 @@
 #include <gst/gst.h>
 #include <gst/audio/audio-channels.h>
 #include <gst/app/gstappsink.h>
+#include <gst/pbutils/pbutils.h>
 #include <ebur128.h>
 
 #include <QCoreApplication>
@@ -88,6 +89,13 @@ channel gst_channel_to_ebur_channel(GstAudioChannelPosition pos) {
       return EBUR128_LEFT_SURROUND;
     case GST_AUDIO_CHANNEL_POSITION_SURROUND_RIGHT:
       return EBUR128_RIGHT_SURROUND;
+
+#if (GST_PLUGINS_BASE_VERSION_MAJOR > 1 || (GST_PLUGINS_BASE_VERSION_MAJOR == 1 && GST_PLUGINS_BASE_VERSION_MINOR >= 26))
+    case GST_AUDIO_CHANNEL_POSITION_TOP_SURROUND_LEFT:
+      return EBUR128_LEFT_SURROUND;
+    case GST_AUDIO_CHANNEL_POSITION_TOP_SURROUND_RIGHT:
+      return EBUR128_RIGHT_SURROUND;
+#endif
 
     case GST_AUDIO_CHANNEL_POSITION_BOTTOM_FRONT_CENTER:
       return EBUR128_Bp000;
