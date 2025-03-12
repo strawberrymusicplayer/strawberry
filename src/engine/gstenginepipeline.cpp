@@ -122,6 +122,7 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       rg_fallbackgain_(0.0),
       rg_compression_(true),
       ebur128_loudness_normalization_(false),
+      gstreamer_supports_volume_full_range_(false),
       ebur128_loudness_normalizing_gain_db_(0.0),
       segment_start_(0),
       segment_start_received_(false),
@@ -189,6 +190,11 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
 
   timer_fader_timeout_->setSingleShot(true);
   QObject::connect(timer_fader_timeout_, &QTimer::timeout, this, &GstEnginePipeline::FaderTimelineTimeout);
+
+  guint gst_plugins_base_version_major;
+  guint gst_plugins_base_version_minor;
+  gst_plugins_base_version(&gst_plugins_base_version_major, &gst_plugins_base_version_minor, nullptr, nullptr);
+  gstreamer_supports_volume_full_range_ = (gst_plugins_base_version_major > 1 || (gst_plugins_base_version_major == 1 && gst_plugins_base_version_minor >= 24));
 
 }
 
@@ -2040,7 +2046,7 @@ void GstEnginePipeline::UpdateEBUR128LoudnessNormalizingGaindB() {
   if (volume_ebur128_) {
     auto dB_to_mult = [](const double gain_dB) { return std::pow(10., gain_dB / 20.); };
 
-    g_object_set(G_OBJECT(volume_ebur128_), "volume", dB_to_mult(ebur128_loudness_normalizing_gain_db_), nullptr);
+    g_object_set(G_OBJECT(volume_ebur128_), gstreamer_supports_volume_full_range_ ? "volume-full-range" : "volume", dB_to_mult(ebur128_loudness_normalizing_gain_db_), nullptr);
   }
 
 }
