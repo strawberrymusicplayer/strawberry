@@ -107,7 +107,7 @@
     </message>
     <message>
       <source>Show fullsize...</source>
-      <translation type="unfinished">Show fullsize...</translation>
+      <translation>Show fullsize...</translation>
     </message>
     <message>
       <source>Search automatically</source>
@@ -162,7 +162,7 @@
     <name>AlbumCoverExport</name>
     <message>
       <source>Export covers</source>
-      <translation type="unfinished">Export covers</translation>
+      <translation>Εξαγωγή εξωφύλλων</translation>
     </message>
     <message>
       <source>Output</source>
@@ -174,7 +174,7 @@
     </message>
     <message>
       <source>Export downloaded covers</source>
-      <translation type="unfinished">Export downloaded covers</translation>
+      <translation>Εξαγωγή κατεβασμένων εξωφύλλων</translation>
     </message>
     <message>
       <source>Export embedded covers</source>
@@ -233,11 +233,11 @@
     </message>
     <message>
       <source>Really cancel?</source>
-      <translation type="unfinished">Really cancel?</translation>
+      <translation>Πραγματικά ακύρωση;</translation>
     </message>
     <message>
       <source>Closing this window will stop searching for album covers.</source>
-      <translation type="unfinished">Closing this window will stop searching for album covers.</translation>
+      <translation>Κλείσιμο αυτού του παραθύρου θα σταματήσει την αναζήτηση για εξώφυλλα άλμπουμ.</translation>
     </message>
     <message>
       <source>Don&apos;t stop!</source>
@@ -335,7 +335,7 @@
     </message>
     <message>
       <source>Boom analyzer</source>
-      <translation type="unfinished">Boom analyzer</translation>
+      <translation>Αναλυτής Boom</translation>
     </message>
     <message>
       <source>Turbine</source>
