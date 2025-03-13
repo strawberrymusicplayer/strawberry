@@ -1319,11 +1319,11 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Automatically search for song lyrics</source>
-      <translation type="unfinished">Automatically search for song lyrics</translation>
+      <translation>Αυτόματη αναζήτηση για στίχους τραγουδιών</translation>
     </message>
     <message>
       <source>Font for headline</source>
-      <translation type="unfinished">Font for headline</translation>
+      <translation>Γραμματοσειρά για την επικεφαλίδα</translation>
     </message>
     <message>
       <source>Font</source>
@@ -1335,7 +1335,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source> pt</source>
-      <translation type="unfinished"> pt</translation>
+      <translation> pt</translation>
     </message>
     <message>
       <source>Preview</source>
@@ -1343,19 +1343,19 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Font for data and lyrics</source>
-      <translation type="unfinished">Font for data and lyrics</translation>
+      <translation>Γραμματοσειρά για δεδομένα και στίχους</translation>
     </message>
     <message>
       <source>Add song artist tag</source>
-      <translation type="unfinished">Add song artist tag</translation>
+      <translation>Προσθήκη ετικέτας καλλιτέχνη τραγουδιού</translation>
     </message>
     <message>
       <source>Add song album tag</source>
-      <translation type="unfinished">Add song album tag</translation>
+      <translation>Προσθήκη ετικέτας άλμπουμ</translation>
     </message>
     <message>
       <source>Add song title tag</source>
-      <translation type="unfinished">Add song title tag</translation>
+      <translation>Προσθήκη ετικέτας τίτλου τραγουδιού</translation>
     </message>
     <message>
       <source>Add song albumartist tag</source>
@@ -1411,11 +1411,11 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Add song filename</source>
-      <translation type="unfinished">Add song filename</translation>
+      <translation>Προσθήκη ονόματος αρχείου τραγουδιού</translation>
     </message>
     <message>
       <source>%url%</source>
-      <translation type="unfinished">%url%</translation>
+      <translation>%url%</translation>
     </message>
     <message>
       <source>Add song URL</source>
@@ -1423,15 +1423,15 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>%rating%</source>
-      <translation type="unfinished">%rating%</translation>
+      <translation>%rating%</translation>
     </message>
     <message>
       <source>Add song rating</source>
-      <translation type="unfinished">Add song rating</translation>
+      <translation>Προσθήκη αξιολόγησης τραγουδιού</translation>
     </message>
     <message>
       <source>%originalyear%</source>
-      <translation type="unfinished">%originalyear%</translation>
+      <translation>%originalyear%</translation>
     </message>
     <message>
       <source>Add song original year tag</source>
@@ -1446,7 +1446,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Length</source>
-      <translation type="unfinished">Length</translation>
+      <translation>Διάρκεια</translation>
     </message>
     <message>
       <source>Samplerate</source>
@@ -1454,11 +1454,11 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Bit depth</source>
-      <translation type="unfinished">Bit depth</translation>
+      <translation>Βάθος bit</translation>
     </message>
     <message>
       <source>Bitrate</source>
-      <translation type="unfinished">Bitrate</translation>
+      <translation>Bitrate</translation>
     </message>
     <message>
       <source>EBU R 128 Integrated Loudness</source>
@@ -1470,11 +1470,11 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Show album cover</source>
-      <translation type="unfinished">Show album cover</translation>
+      <translation>Εμφάνιση εξωφύλλου άλμπουμ</translation>
     </message>
     <message>
       <source>Show song technical data</source>
-      <translation type="unfinished">Show song technical data</translation>
+      <translation>Εμφάνιση τεχνικών δεδομένων τραγουδιού</translation>
     </message>
     <message>
       <source>Show song lyrics</source>
@@ -1482,11 +1482,11 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Automatically search for song lyrics</source>
-      <translation type="unfinished">Automatically search for song lyrics</translation>
+      <translation>Αυτόματη αναζήτηση για στίχους τραγουδιών</translation>
     </message>
     <message>
       <source>No song playing</source>
-      <translation type="unfinished">No song playing</translation>
+      <translation>Δεν αναπαράγεται τραγούδι</translation>
     </message>
     <message>
       <source>%1 song</source>
@@ -1494,7 +1494,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>%1 songs</source>
-      <translation type="unfinished">%1 songs</translation>
+      <translation>Τραγούδια %1</translation>
     </message>
     <message>
       <source>%1 artist</source>
@@ -1506,73 +1506,73 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>%1 album</source>
-      <translation type="unfinished">%1 album</translation>
+      <translation>%1 άλμπουμ</translation>
     </message>
     <message>
       <source>%1 albums</source>
-      <translation type="unfinished">%1 albums</translation>
+      <translation>%1 άλμπουμ</translation>
     </message>
     <message>
       <source>kbps</source>
-      <translation type="unfinished">kbps</translation>
+      <translation>kbps</translation>
     </message>
   </context>
   <context>
     <name>CoverFromURLDialog</name>
     <message>
       <source>Load cover from URL</source>
-      <translation type="unfinished">Load cover from URL</translation>
+      <translation>Φόρτωση εξώφυλλου από URL</translation>
     </message>
     <message>
       <source>Enter a URL to download a cover from the Internet:</source>
-      <translation type="unfinished">Enter a URL to download a cover from the Internet:</translation>
+      <translation>Εισάγετε ένα URL για να κατεβάσετε ένα εξώφυλλο από το Διαδίκτυο:</translation>
     </message>
     <message>
       <source>Fetching cover error</source>
-      <translation type="unfinished">Fetching cover error</translation>
+      <translation>Σφάλμα ανάκτησης εξώφυλλου</translation>
     </message>
     <message>
       <source>The site you requested does not exist!</source>
-      <translation type="unfinished">The site you requested does not exist!</translation>
+      <translation>Η ιστοσελίδα που ζητήσατε δεν υπάρχει!</translation>
     </message>
     <message>
       <source>The site you requested is not an image!</source>
-      <translation type="unfinished">The site you requested is not an image!</translation>
+      <translation>Η σελίδα που ζητήσατε δεν είναι εικόνα!</translation>
     </message>
   </context>
   <context>
     <name>CoverManager</name>
     <message>
       <source>Cover Manager</source>
-      <translation type="unfinished">Cover Manager</translation>
+      <translation>Διαχειριστής Εξωφύλλων</translation>
     </message>
     <message>
       <source>Enter search terms here</source>
-      <translation type="unfinished">Enter search terms here</translation>
+      <translation>Εισάγετε εδώ όρους αναζήτησης</translation>
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>View</source>
-      <translation type="unfinished">View</translation>
+      <translation>Εμφάνιση</translation>
     </message>
     <message>
       <source>Total albums:</source>
-      <translation type="unfinished">Total albums:</translation>
+      <translation>Σύνολο άλμπουμ:</translation>
     </message>
     <message>
       <source>Without cover:</source>
-      <translation type="unfinished">Without cover:</translation>
+      <translation>Χωρίς εξώφυλλο:</translation>
     </message>
     <message>
       <source>0</source>
-      <translation type="unfinished">0</translation>
+      <translation>0</translation>
     </message>
     <message>
       <source>Fetch Missing Covers</source>
-      <translation type="unfinished">Fetch Missing Covers</translation>
+      <translation>Ανάκτηση Εξωφύλλων Που Λείπουν</translation>
     </message>
     <message>
       <source>Export Covers</source>
@@ -1682,7 +1682,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Overwrite existing file</source>
-      <translation type="unfinished">Overwrite existing file</translation>
+      <translation>Αντικατάσταση υπάρχοντος αρχείου</translation>
     </message>
     <message>
       <source>Lowercase filename</source>
