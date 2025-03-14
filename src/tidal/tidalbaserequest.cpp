@@ -89,7 +89,6 @@ JsonBaseRequest::JsonObjectResult TidalBaseRequest::ParseJsonObject(QNetworkRepl
   }
 
   const QByteArray data = reply->readAll();
-  bool clear_session = false;
   if (!data.isEmpty()) {
     QJsonParseError json_parse_error;
     const QJsonDocument json_document = QJsonDocument::fromJson(data, &json_parse_error);
@@ -102,9 +101,6 @@ JsonBaseRequest::JsonObjectResult TidalBaseRequest::ParseJsonObject(QNetworkRepl
         result.error_code = ErrorCode::APIError;
         result.api_error = status;
         result.error_message = QStringLiteral("%1 (%2) (%3)").arg(user_message).arg(status).arg(sub_status);
-        if (status == 401 && sub_status == 6001) {
-          clear_session = true;
-        }
       }
       else {
         result.json_object = json_document.object();
@@ -125,10 +121,6 @@ JsonBaseRequest::JsonObjectResult TidalBaseRequest::ParseJsonObject(QNetworkRepl
       result.error_code = ErrorCode::HttpError;
       result.error_message = QStringLiteral("Received HTTP code %1").arg(result.http_status_code);
     }
-  }
-
-  if (reply->error() == QNetworkReply::AuthenticationRequiredError || clear_session) {
-    service_->ClearSession();
   }
 
   return result;
