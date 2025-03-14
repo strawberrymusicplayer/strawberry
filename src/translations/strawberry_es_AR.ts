@@ -557,11 +557,11 @@
     </message>
     <message>
       <source>Exclusive mode (Experimental)</source>
-      <translation type="unfinished">Exclusive mode (Experimental)</translation>
+      <translation>Modo exclusivo (experimental)</translation>
     </message>
     <message>
       <source>Options</source>
-      <translation type="unfinished">Options</translation>
+      <translation>Opciones</translation>
     </message>
     <message>
       <source>Enable volume control</source>
@@ -613,11 +613,11 @@
     </message>
     <message>
       <source>Audio normalization</source>
-      <translation type="unfinished">Audio normalization</translation>
+      <translation>Normalización de audio</translation>
     </message>
     <message>
       <source>No audio normalization</source>
-      <translation type="unfinished">No audio normalization</translation>
+      <translation>Sin normalización de audio</translation>
     </message>
     <message>
       <source>Replay Gain</source>
@@ -828,7 +828,7 @@
     </message>
     <message>
       <source>Volume Increment</source>
-      <translation type="unfinished">Volume Increment</translation>
+      <translation>Incremento de volumen</translation>
     </message>
   </context>
   <context>
@@ -1155,7 +1155,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Are you sure you want to write song playcounts and ratings to file for all songs in your collection?</source>
-      <translation type="unfinished">Are you sure you want to write song playcounts and ratings to file for all songs in your collection?</translation>
+      <translation>¿Está seguro que querés guardar el total de reproducciones y las valoraciones de todos las canciones en su colección?</translation>
     </message>
   </context>
   <context>

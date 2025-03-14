@@ -462,7 +462,7 @@
     </message>
     <message>
       <source>0px</source>
-      <translation>0 пикс</translation>
+      <translation>0 пкс</translation>
     </message>
     <message>
       <source>Opacity</source>
