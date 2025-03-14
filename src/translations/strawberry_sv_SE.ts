@@ -13,7 +13,7 @@
     </message>
     <message>
       <source>Version %1</source>
-      <translation type="unfinished">Version %1</translation>
+      <translation>Version %1</translation>
     </message>
     <message>
       <source>Strawberry is a music player and music collection organizer.</source>
@@ -210,7 +210,7 @@
     </message>
     <message>
       <source>Pixel</source>
-      <translation type="unfinished">Pixel</translation>
+      <translation>Pixel</translation>
     </message>
   </context>
   <context>
@@ -284,11 +284,11 @@
     </message>
     <message>
       <source>Artist</source>
-      <translation type="unfinished">Artist</translation>
+      <translation>Artist</translation>
     </message>
     <message>
       <source>Album</source>
-      <translation type="unfinished">Album</translation>
+      <translation>Album</translation>
     </message>
     <message>
       <source>Search</source>
@@ -462,7 +462,7 @@
     </message>
     <message>
       <source>0px</source>
-      <translation type="unfinished">0px</translation>
+      <translation>0px</translation>
     </message>
     <message>
       <source>Opacity</source>
@@ -470,7 +470,7 @@
     </message>
     <message>
       <source>40%</source>
-      <translation type="unfinished">40%</translation>
+      <translation>40%</translation>
     </message>
     <message>
       <source>Icon sizes</source>
@@ -593,7 +593,7 @@
     </message>
     <message>
       <source> ms</source>
-      <translation type="unfinished"> ms</translation>
+      <translation> ms</translation>
     </message>
     <message>
       <source>Buffer duration</source>
@@ -824,7 +824,7 @@
     </message>
     <message>
       <source> s</source>
-      <translation type="unfinished"> s</translation>
+      <translation> s</translation>
     </message>
     <message>
       <source>Volume Increment</source>
@@ -1303,7 +1303,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Album</source>
-      <translation type="unfinished">Album</translation>
+      <translation>Album</translation>
     </message>
     <message>
       <source>Technical Data</source>
@@ -1498,7 +1498,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>%1 artist</source>
-      <translation type="unfinished">%1 artist</translation>
+      <translation>%1 artist</translation>
     </message>
     <message>
       <source>%1 artists</source>
@@ -1506,7 +1506,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>%1 album</source>
-      <translation type="unfinished">%1 album</translation>
+      <translation>%1 album</translation>
     </message>
     <message>
       <source>%1 albums</source>
@@ -1514,7 +1514,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>kbps</source>
-      <translation type="unfinished">kbps</translation>
+      <translation>kbps</translation>
     </message>
   </context>
   <context>
@@ -1568,7 +1568,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>0</source>
-      <translation type="unfinished">0</translation>
+      <translation>0</translation>
     </message>
     <message>
       <source>Fetch Missing Covers</source>
@@ -2120,7 +2120,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Album</source>
-      <translation type="unfinished">Album</translation>
+      <translation>Album</translation>
     </message>
     <message>
       <source>Year</source>
@@ -2132,7 +2132,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Artist</source>
-      <translation type="unfinished">Artist</translation>
+      <translation>Artist</translation>
     </message>
     <message>
       <source>Composer</source>
@@ -2144,7 +2144,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Genre</source>
-      <translation type="unfinished">Genre</translation>
+      <translation>Genre</translation>
     </message>
     <message>
       <source>Comment</source>
@@ -2204,7 +2204,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>kbps</source>
-      <translation type="unfinished">kbps</translation>
+      <translation>kbps</translation>
     </message>
     <message>
       <source>Unknown</source>
@@ -2367,7 +2367,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Live</source>
-      <translation type="unfinished">Live</translation>
+      <translation>Live</translation>
     </message>
     <message>
       <source>Party</source>
@@ -2375,31 +2375,31 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Pop</source>
-      <translation type="unfinished">Pop</translation>
+      <translation>Pop</translation>
     </message>
     <message>
       <source>Reggae</source>
-      <translation type="unfinished">Reggae</translation>
+      <translation>Reggae</translation>
     </message>
     <message>
       <source>Rock</source>
-      <translation type="unfinished">Rock</translation>
+      <translation>Rock</translation>
     </message>
     <message>
       <source>Soft</source>
-      <translation type="unfinished">Soft</translation>
+      <translation>Soft</translation>
     </message>
     <message>
       <source>Ska</source>
-      <translation type="unfinished">Ska</translation>
+      <translation>Ska</translation>
     </message>
     <message>
       <source>Soft Rock</source>
-      <translation type="unfinished">Soft Rock</translation>
+      <translation>Soft Rock</translation>
     </message>
     <message>
       <source>Techno</source>
-      <translation type="unfinished">Techno</translation>
+      <translation>Techno</translation>
     </message>
     <message>
       <source>Zero</source>
@@ -2422,7 +2422,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>%1 dB</source>
-      <translation type="unfinished">%1 dB</translation>
+      <translation>%1 dB</translation>
     </message>
   </context>
   <context>
@@ -2769,7 +2769,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Artist</source>
-      <translation type="unfinished">Artist</translation>
+      <translation>Artist</translation>
     </message>
     <message>
       <source>Album artist</source>
@@ -2777,7 +2777,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Album</source>
-      <translation type="unfinished">Album</translation>
+      <translation>Album</translation>
     </message>
     <message>
       <source>Album - Disc</source>
@@ -2793,7 +2793,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Genre</source>
-      <translation type="unfinished">Genre</translation>
+      <translation>Genre</translation>
     </message>
     <message>
       <source>Year</source>
@@ -3080,7 +3080,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>F5</source>
-      <translation type="unfinished">F5</translation>
+      <translation>F5</translation>
     </message>
     <message>
       <source>&amp;Play</source>
@@ -3088,7 +3088,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>F6</source>
-      <translation type="unfinished">F6</translation>
+      <translation>F6</translation>
     </message>
     <message>
       <source>&amp;Stop</source>
@@ -3096,7 +3096,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>F7</source>
-      <translation type="unfinished">F7</translation>
+      <translation>F7</translation>
     </message>
     <message>
       <source>&amp;Next track</source>
@@ -3104,7 +3104,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>F8</source>
-      <translation type="unfinished">F8</translation>
+      <translation>F8</translation>
     </message>
     <message>
       <source>&amp;Quit</source>
@@ -3112,7 +3112,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Ctrl+Q</source>
-      <translation type="unfinished">Ctrl+Q</translation>
+      <translation>Ctrl+Q</translation>
     </message>
     <message>
       <source>Stop after this track</source>
@@ -3120,7 +3120,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Ctrl+Alt+V</source>
-      <translation type="unfinished">Ctrl+Alt+V</translation>
+      <translation>Ctrl+Alt+V</translation>
     </message>
     <message>
       <source>Love</source>
@@ -3136,7 +3136,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Ctrl+K</source>
-      <translation type="unfinished">Ctrl+K</translation>
+      <translation>Ctrl+K</translation>
     </message>
     <message>
       <source>Edit track information...</source>
@@ -3144,7 +3144,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Ctrl+E</source>
-      <translation type="unfinished">Ctrl+E</translation>
+      <translation>Ctrl+E</translation>
     </message>
     <message>
       <source>Renumber tracks in this order...</source>
@@ -3164,7 +3164,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Ctrl+P</source>
-      <translation type="unfinished">Ctrl+P</translation>
+      <translation>Ctrl+P</translation>
     </message>
     <message>
       <source>&amp;About Strawberry</source>
@@ -3172,7 +3172,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>F1</source>
-      <translation type="unfinished">F1</translation>
+      <translation>F1</translation>
     </message>
     <message>
       <source>S&amp;huffle playlist</source>
@@ -3180,7 +3180,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Ctrl+H</source>
-      <translation type="unfinished">Ctrl+H</translation>
+      <translation>Ctrl+H</translation>
     </message>
     <message>
       <source>&amp;Add file...</source>
@@ -3236,7 +3236,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Ctrl+J</source>
-      <translation type="unfinished">Ctrl+J</translation>
+      <translation>Ctrl+J</translation>
     </message>
     <message>
       <source>&amp;New playlist</source>
@@ -3244,7 +3244,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Ctrl+N</source>
-      <translation type="unfinished">Ctrl+N</translation>
+      <translation>Ctrl+N</translation>
     </message>
     <message>
       <source>Save &amp;playlist...</source>
@@ -3252,7 +3252,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Ctrl+S</source>
-      <translation type="unfinished">Ctrl+S</translation>
+      <translation>Ctrl+S</translation>
     </message>
     <message>
       <source>&amp;Load playlist...</source>
@@ -3288,7 +3288,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Ctrl+M</source>
-      <translation type="unfinished">Ctrl+M</translation>
+      <translation>Ctrl+M</translation>
     </message>
     <message>
       <source>&amp;Do a full collection rescan</source>
@@ -3304,7 +3304,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Ctrl+T</source>
-      <translation type="unfinished">Ctrl+T</translation>
+      <translation>Ctrl+T</translation>
     </message>
     <message>
       <source>Toggle scrobbling</source>
@@ -3372,19 +3372,19 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Subsonic</source>
-      <translation type="unfinished">Subsonic</translation>
+      <translation>Subsonic</translation>
     </message>
     <message>
       <source>Tidal</source>
-      <translation type="unfinished">Tidal</translation>
+      <translation>Tidal</translation>
     </message>
     <message>
       <source>Spotify</source>
-      <translation type="unfinished">Spotify</translation>
+      <translation>Spotify</translation>
     </message>
     <message>
       <source>Qobuz</source>
-      <translation type="unfinished">Qobuz</translation>
+      <translation>Qobuz</translation>
     </message>
     <message>
       <source>Show all songs</source>
@@ -3681,7 +3681,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Port</source>
-      <translation type="unfinished">Port</translation>
+      <translation>Port</translation>
     </message>
     <message>
       <source>Use authentication</source>
@@ -4098,11 +4098,11 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Album</source>
-      <translation type="unfinished">Album</translation>
+      <translation>Album</translation>
     </message>
     <message>
       <source>Artist</source>
-      <translation type="unfinished">Artist</translation>
+      <translation>Artist</translation>
     </message>
     <message>
       <source>Artist&apos;s initial</source>
@@ -4142,7 +4142,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Genre</source>
-      <translation type="unfinished">Genre</translation>
+      <translation>Genre</translation>
     </message>
     <message>
       <source>Comment</source>
@@ -4231,11 +4231,11 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Artist</source>
-      <translation type="unfinished">Artist</translation>
+      <translation>Artist</translation>
     </message>
     <message>
       <source>Album</source>
-      <translation type="unfinished">Album</translation>
+      <translation>Album</translation>
     </message>
     <message>
       <source>Track</source>
@@ -4259,7 +4259,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Genre</source>
-      <translation type="unfinished">Genre</translation>
+      <translation>Genre</translation>
     </message>
     <message>
       <source>Album Artist</source>
@@ -5413,7 +5413,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>ms</source>
-      <translation type="unfinished">ms</translation>
+      <translation>ms</translation>
     </message>
     <message>
       <source>Artists search limit</source>
@@ -5509,7 +5509,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Ctrl+K</source>
-      <translation type="unfinished">Ctrl+K</translation>
+      <translation>Ctrl+K</translation>
     </message>
   </context>
   <context>
@@ -5612,11 +5612,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Artist</source>
-      <translation type="unfinished">Artist</translation>
+      <translation>Artist</translation>
     </message>
     <message>
       <source>Album</source>
-      <translation type="unfinished">Album</translation>
+      <translation>Album</translation>
     </message>
     <message>
       <source>Album - Disc</source>
@@ -5652,7 +5652,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Genre</source>
-      <translation type="unfinished">Genre</translation>
+      <translation>Genre</translation>
     </message>
     <message>
       <source>Composer</source>
@@ -5743,7 +5743,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Subsonic</source>
-      <translation type="unfinished">Subsonic</translation>
+      <translation>Subsonic</translation>
     </message>
     <message>
       <source>Local file</source>
@@ -5751,7 +5751,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Tidal</source>
-      <translation type="unfinished">Tidal</translation>
+      <translation>Tidal</translation>
     </message>
     <message>
       <source>Device</source>
@@ -5759,7 +5759,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Qobuz</source>
-      <translation type="unfinished">Qobuz</translation>
+      <translation>Qobuz</translation>
     </message>
     <message>
       <source>CDDA</source>
@@ -5767,7 +5767,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>SomaFM</source>
-      <translation type="unfinished">SomaFM</translation>
+      <translation>SomaFM</translation>
     </message>
     <message>
       <source>Stream</source>
@@ -5775,7 +5775,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Radio Paradise</source>
-      <translation type="unfinished">Radio Paradise</translation>
+      <translation>Radio Paradise</translation>
     </message>
     <message>
       <source>Unknown</source>
@@ -5783,7 +5783,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Last.fm</source>
-      <translation type="unfinished">Last.fm</translation>
+      <translation>Last.fm</translation>
     </message>
     <message>
       <source>Login</source>
@@ -5791,11 +5791,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Libre.fm</source>
-      <translation type="unfinished">Libre.fm</translation>
+      <translation>Libre.fm</translation>
     </message>
     <message>
       <source>Listenbrainz</source>
-      <translation type="unfinished">Listenbrainz</translation>
+      <translation>Listenbrainz</translation>
     </message>
     <message>
       <source>User token:</source>
@@ -5819,7 +5819,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Spotify</source>
-      <translation type="unfinished">Spotify</translation>
+      <translation>Spotify</translation>
     </message>
   </context>
   <context>
@@ -6324,7 +6324,7 @@ Are you sure you want to continue?</source>
     <name>SpotifySettingsPage</name>
     <message>
       <source>Spotify</source>
-      <translation type="unfinished">Spotify</translation>
+      <translation>Spotify</translation>
     </message>
     <message>
       <source>Enable</source>
@@ -6583,7 +6583,7 @@ Are you sure you want to continue?</source>
     <name>SubsonicSettingsPage</name>
     <message>
       <source>Subsonic</source>
-      <translation type="unfinished">Subsonic</translation>
+      <translation>Subsonic</translation>
     </message>
     <message>
       <source>Enable</source>
@@ -6797,7 +6797,7 @@ Are you sure you want to continue?</source>
     <name>TidalSettingsPage</name>
     <message>
       <source>Tidal</source>
-      <translation type="unfinished">Tidal</translation>
+      <translation>Tidal</translation>
     </message>
     <message>
       <source>Enable</source>
@@ -6849,7 +6849,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>ms</source>
-      <translation type="unfinished">ms</translation>
+      <translation>ms</translation>
     </message>
     <message>
       <source>Artists search limit</source>
@@ -6963,11 +6963,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Artist</source>
-      <translation type="unfinished">Artist</translation>
+      <translation>Artist</translation>
     </message>
     <message>
       <source>Album</source>
-      <translation type="unfinished">Album</translation>
+      <translation>Album</translation>
     </message>
     <message>
       <source>Previous</source>
@@ -6998,7 +6998,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>0:00:00</source>
-      <translation type="unfinished">0:00:00</translation>
+      <translation>0:00:00</translation>
     </message>
     <message>
       <source>Click to toggle between remaining time and total time</source>
