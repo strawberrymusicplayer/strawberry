@@ -249,20 +249,7 @@ if(X11_FOUND)
   unset(CMAKE_REQUIRED_LIBRARIES)
 endif()
 
-# SingleApplication
-set(KDSINGLEAPPLICATION_NAME "KDSingleApplication-qt${QT_VERSION_MAJOR}")
-find_package(${KDSINGLEAPPLICATION_NAME} 1.1.0)
-if(TARGET KDAB::kdsingleapplication)
-  set(KDSINGLEAPPLICATION_VERSION "${KDSingleApplication-qt6_VERSION}")
-  message(STATUS "Using system KDSingleApplication (Version ${KDSINGLEAPPLICATION_VERSION})")
-  set(SINGLEAPPLICATION_LIBRARIES KDAB::kdsingleapplication)
-else()
-  message(STATUS "Using 3rdparty KDSingleApplication")
-  add_subdirectory(3rdparty/kdsingleapplication)
-  set(SINGLEAPPLICATION_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/kdsingleapplication/KDSingleApplication/src)
-  set(SINGLEAPPLICATION_LIBRARIES kdsingleapplication)
-  add_definitions(-DKDSINGLEAPPLICATION_STATIC_BUILD)
-endif()
+find_package(KDSingleApplication-qt${QT_VERSION_MAJOR} 1.1.0 REQUIRED)
 
 if(APPLE)
   find_library(SPARKLE Sparkle)
@@ -1553,7 +1540,7 @@ target_link_libraries(strawberry_lib PUBLIC
   $<$<BOOL:${HAVE_QTSPARKLE}>:qtsparkle-qt${QT_VERSION_MAJOR}::qtsparkle>
   $<$<BOOL:${WIN32}>:dsound dwmapi getopt-win::getopt>
   $<$<BOOL:${MSVC}>:WindowsApp>
-  ${SINGLEAPPLICATION_LIBRARIES}
+  KDAB::kdsingleapplication
 )
 
 if(APPLE)

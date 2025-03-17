@@ -84,6 +84,17 @@ jobs:
       - name: Install kdsingleapplication-qt6-devel
         if: matrix.opensuse_version == 'tumbleweed'
         run: zypper -n --gpg-auto-import-keys in kdsingleapplication-qt6-devel
+      - name: Build and install KDSingleApplication
+        if: matrix.opensuse_version == 'leap:15.6'
+        env:
+          CC: gcc-14
+          CXX: g++-14
+        run: |
+          git clone --depth 1 --recurse-submodules https://github.com/KDAB/KDSingleApplication
+          cd KDSingleApplication
+          cmake -S . -B build -DCMAKE_BUILD_TYPE="Release" -DBUILD_SHARED_LIBS=OFF -DBUILD_STATIC_LIBS=ON -DKDSingleApplication_STATIC=ON
+          cmake --build build --config Release --parallel 4
+          cmake --install build
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -380,10 +391,19 @@ jobs:
           lib64qt6help-devel
           lib64qt6test-devel
           lib64sparsehash-devel
+          lib64kdsingleapplication-devel
           desktop-file-utils
           appstream-util
           hicolor-icon-theme
           gtest
+      - name: Build and install KDSingleApplication
+        if: matrix.mageia_version == '9'
+        run: |
+          git clone --depth 1 --recurse-submodules https://github.com/KDAB/KDSingleApplication
+          cd KDSingleApplication
+          cmake -S . -B build -DCMAKE_BUILD_TYPE="Release" -DBUILD_SHARED_LIBS=OFF -DBUILD_STATIC_LIBS=ON -DKDSingleApplication_STATIC=ON
+          cmake --build build --config Release --parallel 4
+          cmake --install build
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -474,6 +494,13 @@ jobs:
             qt6-tools-dev
             qt6-tools-dev-tools
             qt6-l10n-tools
+      - name: Build and install KDSingleApplication
+        run: |
+          git clone --depth 1 --recurse-submodules https://github.com/KDAB/KDSingleApplication
+          cd KDSingleApplication
+          cmake -S . -B build -DCMAKE_BUILD_TYPE="Release" -DBUILD_SHARED_LIBS=OFF -DBUILD_STATIC_LIBS=ON -DKDSingleApplication_STATIC=ON
+          cmake --build build --config Release --parallel 4
+          cmake --install build
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -558,6 +585,13 @@ jobs:
             qt6-tools-dev
             qt6-tools-dev-tools
             qt6-l10n-tools
+      - name: Build and install KDSingleApplication
+        run: |
+          git clone --depth 1 --recurse-submodules https://github.com/KDAB/KDSingleApplication
+          cd KDSingleApplication
+          cmake -S . -B build -DCMAKE_BUILD_TYPE="Release" -DBUILD_SHARED_LIBS=OFF -DBUILD_STATIC_LIBS=ON -DKDSingleApplication_STATIC=ON
+          cmake --build build --config Release --parallel 4
+          cmake --install build
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -643,6 +677,7 @@ jobs:
             qt6-l10n-tools
             gstreamer1.0-alsa
             gstreamer1.0-pulseaudio
+            libkdsingleapplication-qt6-dev
       - name: Install keyboxd
         if: matrix.ubuntu_version == 'noble'
         env:
@@ -655,6 +690,10 @@ jobs:
           submodules: recursive
       - name: Add safe git directory
         run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
+      - name: Modify required KDSingleApplication version
+        run: |
+          sed -i 's/^find_package(KDSingleApplication-qt\${QT_VERSION_MAJOR} 1.1.0 REQUIRED)$/find_package(KDSingleApplication-qt\${QT_VERSION_MAJOR} 1.0.0 REQUIRED)/g' CMakeLists.txt
+          sed -i 's/, KDSingleApplication::Option::IncludeUsernameInSocketName);$/);/g' src/main.cpp
       - name: Create Build Environment
         run: cmake -E make_directory build
       - name: Configure CMake
