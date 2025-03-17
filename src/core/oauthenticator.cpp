@@ -293,8 +293,6 @@ void OAuthenticator::Authenticate() {
   QUrl url(authorize_url_);
   url.setQuery(url_query);
 
-  qLog(Debug) << "OAuthenticator" << url.toDisplayString();
-
   const bool success = QDesktopServices::openUrl(url);
   if (!success) {
     QMessageBox messagebox(QMessageBox::Information, tr("Authentication"), tr("Please open this URL in your browser") + QStringLiteral(":<br /><a href=\"%1\">%1</a>").arg(url.toString()), QMessageBox::Ok);
@@ -365,7 +363,7 @@ void OAuthenticator::AuthorizationUrlReceived(const QUrl &request_url, const QUr
     return;
   }
 
-  qLog(Debug) << "Authorization URL Received" << request_url.toDisplayString();
+  qLog(Debug) << settings_group_ << "Authorization URL Received" << request_url.toDisplayString();
 
   QUrlQuery url_query(request_url);
 
@@ -457,7 +455,7 @@ void OAuthenticator::RenewAccessToken() {
 void OAuthenticator::HandleLoginSSLErrors(const QList<QSslError> &ssl_errors) {
 
   for (const QSslError &ssl_error : ssl_errors) {
-    qLog(Debug) << ssl_error.errorString();
+    qLog(Debug) << settings_group_ << ssl_error.errorString();
   }
 
 }
@@ -487,7 +485,7 @@ void OAuthenticator::AccessTokenRequestFinished(QNetworkReply *reply) {
           Q_EMIT AuthenticationFinished(false, QStringLiteral("%1 (%2)").arg(error, error_description));
           return;
         }
-        qLog(Debug) << "Unknown Json reply" << json_object;
+        qLog(Debug) << settings_group_ << "Unknown Json reply" << json_object;
       }
     }
     if (reply->error() == QNetworkReply::NoError) {
@@ -602,7 +600,7 @@ void OAuthenticator::AccessTokenRequestFinished(QNetworkReply *reply) {
 
   StartRefreshLoginTimer();
 
-  qLog(Debug) << "OAuthenticator: Authentication was successful, login expires in" << expires_in_;
+  qLog(Debug) << settings_group_ << "Authentication was successful, login expires in" << expires_in_;
 
   Q_EMIT AuthenticationFinished(true);
 
