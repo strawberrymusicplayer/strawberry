@@ -33,7 +33,7 @@
     </message>
     <message>
       <source>If you like Strawberry and can make use of it, consider sponsoring or donating.</source>
-      <translation type="unfinished">If you like Strawberry and can make use of it, consider sponsoring or donating.</translation>
+      <translation>'Αν σας είναι χρήσιμο το Strawberry εξετάστε το ενδεχόμενο επιχορήγησης ή δωρεά.</translation>
     </message>
     <message>
       <source>You can sponsor the author on %1. You can also make a one-time payment through %2.</source>
@@ -704,11 +704,11 @@
     </message>
     <message>
       <source>Keep running in the background when the window is closed</source>
-      <translation type="unfinished">Keep running in the background when the window is closed</translation>
+      <translation>Να εκτελείται στο παρασκήνιο όταν το παράθυρο είναι κλειστό</translation>
     </message>
     <message>
       <source>Show song progress on system tray icon</source>
-      <translation type="unfinished">Show song progress on system tray icon</translation>
+      <translation>Εμφάνιση προόδου τραγουδιού στο εικονίδιο συστήματος</translation>
     </message>
     <message>
       <source>Show song progress on taskbar</source>
@@ -716,11 +716,11 @@
     </message>
     <message>
       <source>Resume playback on start</source>
-      <translation type="unfinished">Resume playback on start</translation>
+      <translation>Συνέχιση αναπαραγωγής κατά την εκκίνηση</translation>
     </message>
     <message>
       <source>Show playing widget</source>
-      <translation type="unfinished">Show playing widget</translation>
+      <translation>Εμφάνιση widget αναπαραγωγής</translation>
     </message>
     <message>
       <source>On startup</source>
@@ -728,7 +728,7 @@
     </message>
     <message>
       <source>Remember from &amp;last time</source>
-      <translation type="unfinished">Remember from &amp;last time</translation>
+      <translation>Απομνημόνευση από &amp;τελευταία φορά</translation>
     </message>
     <message>
       <source>Show the main window</source>
@@ -764,11 +764,11 @@
     </message>
     <message>
       <source>Never start playing</source>
-      <translation type="unfinished">Never start playing</translation>
+      <translation>Ποτέ μην αρχίζετε να παίζετε</translation>
     </message>
     <message>
       <source>Play if there is nothing already playing</source>
-      <translation type="unfinished">Play if there is nothing already playing</translation>
+      <translation>Παίξτε αν δεν υπάρχει τίποτα που να παίζει ήδη</translation>
     </message>
     <message>
       <source>Always start playing</source>
@@ -1498,7 +1498,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>%1 artist</source>
-      <translation type="unfinished">%1 artist</translation>
+      <translation>%1 καλλιτέχνης</translation>
     </message>
     <message>
       <source>%1 artists</source>
@@ -1576,11 +1576,11 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Export Covers</source>
-      <translation type="unfinished">Export Covers</translation>
+      <translation>Εξαγωγή εξωφύλλων</translation>
     </message>
     <message>
       <source>Fetch automatically</source>
-      <translation type="unfinished">Fetch automatically</translation>
+      <translation>Αυτόματη λήψη</translation>
     </message>
     <message>
       <source>Load</source>
@@ -1678,7 +1678,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Random</source>
-      <translation type="unfinished">Random</translation>
+      <translation>Τυχαίο</translation>
     </message>
     <message>
       <source>Overwrite existing file</source>
@@ -1686,11 +1686,11 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Lowercase filename</source>
-      <translation type="unfinished">Lowercase filename</translation>
+      <translation>Πεζό όνομα αρχείου</translation>
     </message>
     <message>
       <source>Replace spaces with dashes</source>
-      <translation type="unfinished">Replace spaces with dashes</translation>
+      <translation>Αντικατάσταση κενών με παύλες</translation>
     </message>
     <message>
       <source>Use Tidal settings to authenticate.</source>
@@ -1718,7 +1718,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Authentication failed</source>
-      <translation type="unfinished">Authentication failed</translation>
+      <translation>Αποτυχία ταυτοποίησης</translation>
     </message>
     <message>
       <source>Manually unset (%1)</source>
@@ -1771,33 +1771,33 @@ If there are no matches then it will use the largest image in the directory.</tr
     <name>DeleteConfirmationDialog</name>
     <message>
       <source>Delete files</source>
-      <translation type="unfinished">Delete files</translation>
+      <translation>Διαγραφή αρχείων</translation>
     </message>
     <message>
       <source>The following files will be deleted from disk:</source>
-      <translation type="unfinished">The following files will be deleted from disk:</translation>
+      <translation>Τα ακόλουθα αρχεία θα διαγραφούν από το δίσκο:</translation>
     </message>
     <message>
       <source>Are you sure you want to continue?</source>
-      <translation type="unfinished">Are you sure you want to continue?</translation>
+      <translation>Είστε σίγουροι ότι θέλετε να συνεχίσετε;</translation>
     </message>
   </context>
   <context>
     <name>DeleteFiles</name>
     <message>
       <source>Deleting files</source>
-      <translation type="unfinished">Deleting files</translation>
+      <translation>Διαγραφή αρχείων</translation>
     </message>
   </context>
   <context>
     <name>DeviceItemDelegate</name>
     <message>
       <source>Updating %1%...</source>
-      <translation type="unfinished">Updating %1%...</translation>
+      <translation>Ενημέρωση %1%...</translation>
     </message>
     <message>
       <source>Not connected</source>
-      <translation type="unfinished">Not connected</translation>
+      <translation>Μη συνδεδεμένο</translation>
     </message>
     <message>
       <source>Not mounted - double click to mount</source>
