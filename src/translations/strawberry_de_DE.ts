@@ -708,7 +708,7 @@
     </message>
     <message>
       <source>Show song progress on system tray icon</source>
-      <translation>Zeigen Sie den Song-Fortschritt auf dem Taskleisten Symbol an</translation>
+      <translation>Song-Fortschritt auf dem Taskleisten-Symbol anzeigen</translation>
     </message>
     <message>
       <source>Show song progress on taskbar</source>
@@ -3753,7 +3753,7 @@ Falls es keine Treffer gibt, wird das größte Bild aus dem Verzeichnis ausgewä
     </message>
     <message>
       <source>Show a notification when I change the repeat/shuffle mode</source>
-      <translation>Eine Benachrichtigung, bei Änderung der Wiederholungsart bzw. des Zufallsmodus, anzeigen</translation>
+      <translation>Eine Benachrichtigung bei Änderung der Wiederholungsart bzw. des Zufallsmodus anzeigen</translation>
     </message>
     <message>
       <source>Show a notification when I pause playback</source>
