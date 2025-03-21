@@ -581,15 +581,15 @@
     </message>
     <message>
       <source>Enable HTTP/2 for streaming</source>
-      <translation type="unfinished">Enable HTTP/2 for streaming</translation>
+      <translation>Ενεργοποίηση ροής HTTP/2</translation>
     </message>
     <message>
       <source>Use strict SSL mode</source>
-      <translation type="unfinished">Use strict SSL mode</translation>
+      <translation>Χρήση αυστηρής λειτουργίας SSL</translation>
     </message>
     <message>
       <source>Buffer</source>
-      <translation type="unfinished">Buffer</translation>
+      <translation>Buffer</translation>
     </message>
     <message>
       <source> ms</source>
@@ -613,11 +613,11 @@
     </message>
     <message>
       <source>Audio normalization</source>
-      <translation type="unfinished">Audio normalization</translation>
+      <translation>Ομαλοποίηση ήχου</translation>
     </message>
     <message>
       <source>No audio normalization</source>
-      <translation type="unfinished">No audio normalization</translation>
+      <translation>Χωρίς ομαλοποίηση ήχου</translation>
     </message>
     <message>
       <source>Replay Gain</source>
@@ -641,7 +641,7 @@
     </message>
     <message>
       <source>Pre-amp</source>
-      <translation type="unfinished">Pre-amp</translation>
+      <translation>Pre-amp</translation>
     </message>
     <message>
       <source>Apply compression to prevent clipping</source>
@@ -700,7 +700,7 @@
     </message>
     <message>
       <source>Show system tray icon</source>
-      <translation type="unfinished">Show system tray icon</translation>
+      <translation>Εμφάνιση εικονιδίου πλαισίου συστήματος</translation>
     </message>
     <message>
       <source>Keep running in the background when the window is closed</source>
@@ -712,7 +712,7 @@
     </message>
     <message>
       <source>Show song progress on taskbar</source>
-      <translation type="unfinished">Show song progress on taskbar</translation>
+      <translation>Εμφάνιση προόδου τραγουδιού στη γραμμή εργασιών</translation>
     </message>
     <message>
       <source>Resume playback on start</source>
@@ -858,7 +858,7 @@
     </message>
     <message>
       <source>Updating %1 database.</source>
-      <translation type="unfinished">Updating %1 database.</translation>
+      <translation>Ενημέρωση βάσης δεδομένων %1.</translation>
     </message>
   </context>
   <context>
@@ -869,15 +869,15 @@
     </message>
     <message>
       <source>Enter search terms here</source>
-      <translation type="unfinished">Enter search terms here</translation>
+      <translation>Εισάγετε εδώ όρους αναζήτησης</translation>
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>Entire collection</source>
-      <translation type="unfinished">Entire collection</translation>
+      <translation>Ολόκληρη η συλλογή</translation>
     </message>
     <message>
       <source>Added today</source>
@@ -921,15 +921,15 @@
     </message>
     <message>
       <source>Group by Album artist/Album</source>
-      <translation type="unfinished">Group by Album artist/Album</translation>
+      <translation>Ομαδοποίηση κατά καλλιτέχνη 'Αλπουμ/Άλμπουμ</translation>
     </message>
     <message>
       <source>Group by Album artist/Album - Disc</source>
-      <translation type="unfinished">Group by Album artist/Album - Disc</translation>
+      <translation>Ομαδοποίηση ανά καλλιτέχνη 'Αλπουμ/Άλμπουμ - Δίσκος</translation>
     </message>
     <message>
       <source>Group by Album artist/Year - Album</source>
-      <translation type="unfinished">Group by Album artist/Year - Album</translation>
+      <translation>Ομαδοποίηση κατά καλλιτέχνη άλμπουμ/Έτος - Άλμπουμ</translation>
     </message>
     <message>
       <source>Group by Album artist/Year - Album - Disc</source>
@@ -1038,7 +1038,7 @@
     </message>
     <message>
       <source>Monitor the collection for changes</source>
-      <translation type="unfinished">Monitor the collection for changes</translation>
+      <translation>Παρακολούθηση της συλλογής για αλλαγές</translation>
     </message>
     <message>
       <source>Song fingerprinting and tracking</source>
@@ -1062,7 +1062,7 @@
     </message>
     <message>
       <source>Preferred album art filenames (comma separated)</source>
-      <translation type="unfinished">Preferred album art filenames (comma separated)</translation>
+      <translation>Προτιμώμενα ονόματα αρχείων εξωφύλλου (χωρισμένα με κόμμα)</translation>
     </message>
     <message>
       <source>When looking for album art Strawberry will first look for picture files that contain one of these words.
@@ -1072,7 +1072,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Display options</source>
-      <translation type="unfinished">Display options</translation>
+      <translation>Επιλογές προβολής</translation>
     </message>
     <message>
       <source>Automatically open single categories in the collection tree</source>
@@ -1080,11 +1080,11 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Show dividers</source>
-      <translation type="unfinished">Show dividers</translation>
+      <translation>Εμφάνιση διαχωριστικών</translation>
     </message>
     <message>
       <source>Show album cover art in collection</source>
-      <translation type="unfinished">Show album cover art in collection</translation>
+      <translation>Εμφάνιση εξώφυλλου άλμπουμ στη συλλογή</translation>
     </message>
     <message>
       <source>Use various artists for compilation albums</source>
@@ -1104,15 +1104,15 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Enable Disk Cache</source>
-      <translation type="unfinished">Enable Disk Cache</translation>
+      <translation>Ενεργοποίηση Cache Δίσκου</translation>
     </message>
     <message>
       <source>Disk Cache Size</source>
-      <translation type="unfinished">Disk Cache Size</translation>
+      <translation>Μέγεθος Προσωρινής Αποθήκευσης</translation>
     </message>
     <message>
       <source>Current disk cache in use:</source>
-      <translation type="unfinished">Current disk cache in use:</translation>
+      <translation>Τρέχουσα προσωρινή μνήμη δίσκου που χρησιμοποιείται:</translation>
     </message>
     <message>
       <source>Clear Disk Cache</source>
@@ -1163,11 +1163,11 @@ If there are no matches then it will use the largest image in the directory.</tr
     <name>CollectionView</name>
     <message>
       <source>Your collection is empty!</source>
-      <translation type="unfinished">Your collection is empty!</translation>
+      <translation>Η συλλογή σας είναι άδεια!</translation>
     </message>
     <message>
       <source>Click here to add some music</source>
-      <translation type="unfinished">Click here to add some music</translation>
+      <translation>Κάντε κλικ εδώ για να προσθέσετε μουσική</translation>
     </message>
     <message>
       <source>Append to current playlist</source>
@@ -1363,11 +1363,11 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Add song year tag</source>
-      <translation type="unfinished">Add song year tag</translation>
+      <translation>Προσθήκη ετικέτας τίτλου τραγουδιού</translation>
     </message>
     <message>
       <source>Add song composer tag</source>
-      <translation type="unfinished">Add song composer tag</translation>
+      <translation>Προσθήκη ετικέτας συνθέτη τραγουδιού</translation>
     </message>
     <message>
       <source>Add song performer tag</source>
@@ -1502,7 +1502,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>%1 artists</source>
-      <translation type="unfinished">%1 artists</translation>
+      <translation>%1 καλλιτέχνες</translation>
     </message>
     <message>
       <source>%1 album</source>
@@ -1584,65 +1584,65 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Load</source>
-      <translation type="unfinished">Load</translation>
+      <translation>Φόρτωση</translation>
     </message>
     <message>
       <source>Add to playlist</source>
-      <translation type="unfinished">Add to playlist</translation>
+      <translation>Προσθήκη στην λίστα αναπαραγωγής</translation>
     </message>
   </context>
   <context>
     <name>CoverSearchStatisticsDialog</name>
     <message>
       <source>Fetch completed</source>
-      <translation type="unfinished">Fetch completed</translation>
+      <translation>Η λήψη ολοκληρώθηκε</translation>
     </message>
     <message>
       <source>Got %1 covers out of %2 (%3 failed)</source>
-      <translation type="unfinished">Got %1 covers out of %2 (%3 failed)</translation>
+      <translation>Ανάκτηση %1 εξωφύλλων από %2 (%3 απέτυχαν)</translation>
     </message>
     <message>
       <source>Covers from %1</source>
-      <translation type="unfinished">Covers from %1</translation>
+      <translation>Εξώφυλλα από %1</translation>
     </message>
     <message>
       <source>Total network requests made</source>
-      <translation type="unfinished">Total network requests made</translation>
+      <translation>Συνολικές αιτήσεις δικτύου που υποβλήθηκαν</translation>
     </message>
     <message>
       <source>Average image size</source>
-      <translation type="unfinished">Average image size</translation>
+      <translation>Μέσο μέγεθος εικόνας</translation>
     </message>
     <message>
       <source>Total bytes transferred</source>
-      <translation type="unfinished">Total bytes transferred</translation>
+      <translation>Σύνολο μεταφερθέντων bytes</translation>
     </message>
   </context>
   <context>
     <name>CoversSettingsPage</name>
     <message>
       <source>Covers</source>
-      <translation type="unfinished">Covers</translation>
+      <translation>Εξώφυλλα</translation>
     </message>
     <message>
       <source>Cover providers</source>
-      <translation type="unfinished">Cover providers</translation>
+      <translation>Πάροχοι εξωφύλλων</translation>
     </message>
     <message>
       <source>Choose the providers you want to use when searching for covers.</source>
-      <translation type="unfinished">Choose the providers you want to use when searching for covers.</translation>
+      <translation>Επιλέξτε τους παρόχους που θέλετε να χρησιμοποιήσετε κατά την αναζήτηση καλύμματα.</translation>
     </message>
     <message>
       <source>Move up</source>
-      <translation type="unfinished">Move up</translation>
+      <translation>Μετακίνηση προς τα επάνω</translation>
     </message>
     <message>
       <source>Move down</source>
-      <translation type="unfinished">Move down</translation>
+      <translation>Μετακίνηση κάτω</translation>
     </message>
     <message>
       <source>Authentication</source>
-      <translation type="unfinished">Authentication</translation>
+      <translation>Έλεγχος ταυτότητας</translation>
     </message>
     <message>
       <source>Login</source>
