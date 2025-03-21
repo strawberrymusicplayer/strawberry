@@ -62,6 +62,7 @@ jobs:
             libchromaprint-devel
             fftw3-devel
             libebur128-devel
+            projectM-devel
             desktop-file-utils
             update-desktop-files
             appstream-glib
@@ -78,6 +79,7 @@ jobs:
             qt6-base-common-devel
             qt6-sql-sqlite
             qt6-linguist-devel
+            qt6-opengl-devel
             gtest
             gmock
             sparsehash-devel
@@ -199,6 +201,7 @@ jobs:
             libchromaprint-devel
             libebur128-devel
             fftw-devel
+            libprojectM-devel
             desktop-file-utils
             libappstream-glib
             hicolor-icon-theme
@@ -288,6 +291,7 @@ jobs:
           lib64Qt6DBus-devel
           lib64Qt6Gui-devel
           lib64Qt6Widgets-devel
+          lib64Qt6OpenGL-devel
           lib64Qt6Test-devel
           lib64kdsingleapplication-devel
           lib64xkbcommon-devel
@@ -381,6 +385,7 @@ jobs:
           lib64fftw-devel
           lib64dbus-devel
           lib64appstream-devel
+          lib64projectm-devel
           lib64qt6core-devel
           lib64qt6gui-devel
           lib64qt6widgets-devel
@@ -390,6 +395,7 @@ jobs:
           lib64qt6dbus-devel
           lib64qt6help-devel
           lib64qt6test-devel
+          lib64qt6opengl-devel
           lib64sparsehash-devel
           lib64kdsingleapplication-devel
           desktop-file-utils
@@ -494,6 +500,7 @@ jobs:
             qt6-tools-dev
             qt6-tools-dev-tools
             qt6-l10n-tools
+            libprojectm-dev
       - name: Build and install KDSingleApplication
         run: |
           git clone --depth 1 --recurse-submodules https://github.com/KDAB/KDSingleApplication
@@ -585,6 +592,7 @@ jobs:
             qt6-tools-dev
             qt6-tools-dev-tools
             qt6-l10n-tools
+            libprojectm-dev
       - name: Build and install KDSingleApplication
         run: |
           git clone --depth 1 --recurse-submodules https://github.com/KDAB/KDSingleApplication
@@ -678,6 +686,7 @@ jobs:
             gstreamer1.0-alsa
             gstreamer1.0-pulseaudio
             libkdsingleapplication-qt6-dev
+            libprojectm-dev
       - name: Install keyboxd
         if: matrix.ubuntu_version == 'noble'
         env:
