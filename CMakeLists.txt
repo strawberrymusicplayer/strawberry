@@ -364,6 +364,8 @@ optional_component(STREAMTAGREADER ON "Stream tagreader"
   DEPENDS "sparsehash" LIBSPARSEHASH_FOUND
 )
 
+optional_component(DISCORD_RPC ON "Discord Rich Presence")
+
 if(HAVE_SONGFINGERPRINTING OR HAVE_MUSICBRAINZ)
   set(HAVE_CHROMAPRINT ON)
 endif()
@@ -1237,6 +1239,11 @@ optional_source(HAVE_STREAMTAGREADER
   HEADERS src/tagreader/tagreaderreadstreamreply.h
 )
 
+optional_source(HAVE_DISCORD_RPC
+  SOURCES src/discord/richpresence.cpp
+  HEADERS src/discord/richpresence.h
+)
+
 if(HAVE_GLOBALSHORTCUTS)
 
   optional_source(HAVE_GLOBALSHORTCUTS
@@ -1481,6 +1488,11 @@ if(LINUX AND LSB_RELEASE_EXEC AND DPKG_BUILDPACKAGE)
   add_subdirectory(debian)
 endif()
 
+if(HAVE_DISCORD_RPC)
+  add_subdirectory(thirdparty/discord-rpc)
+  target_include_directories(strawberry_lib PUBLIC thirdparty/discord-rpc/include)
+endif()
+
 if(HAVE_TRANSLATIONS)
   qt_add_lupdate(strawberry_lib TS_FILES "${CMAKE_SOURCE_DIR}/src/translations/strawberry_en_US.ts" OPTIONS -locations none -no-ui-lines -no-obsolete)
   file(GLOB_RECURSE ts_files ${CMAKE_SOURCE_DIR}/src/translations/*.ts)
@@ -1557,6 +1569,10 @@ if(APPLE)
     target_include_directories(strawberry_lib SYSTEM PRIVATE ${SPARKLE}/Headers)
     target_link_libraries(strawberry_lib PRIVATE ${SPARKLE})
   endif()
+endif()
+
+if(HAVE_DISCORD_RPC)
+  target_link_libraries(strawberry_lib PRIVATE discord-rpc)
 endif()
 
 target_link_libraries(strawberry PUBLIC strawberry_lib)

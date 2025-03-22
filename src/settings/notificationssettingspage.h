@@ -70,6 +70,8 @@ class NotificationsSettingsPage : public SettingsPage {
 
   void PrettyOSDChanged();
 
+  void DiscordRPCChanged();
+
  private:
   Ui_NotificationsSettingsPage *ui_;
   OSDBase *osd_;
