@@ -65,4 +65,12 @@ constexpr QRgb kPresetRed = qRgb(202, 22, 16);
 
 }  // namespace
 
+namespace DiscordRPCSettings {
+
+constexpr char kSettingsGroup[] = "DiscordRPC";
+
+constexpr char kEnabled[] = "enabled";
+
+}  // namespace
+
 #endif  // NOTIFICATIONSSETTINGS_H
