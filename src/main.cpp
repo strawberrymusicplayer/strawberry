@@ -89,6 +89,10 @@
 #  include "mpris2/mpris2.h"
 #endif
 
+#ifdef HAVE_DISCORD_RPC
+#  include "discord/richpresence.h"
+#endif
+
 #include "core/iconloader.h"
 #include "core/commandlineoptions.h"
 #include "core/networkproxyfactory.h"
@@ -313,6 +317,9 @@ int main(int argc, char *argv[]) {
 
 #ifdef HAVE_MPRIS2
   mpris::Mpris2 mpris2(app.player(), app.playlist_manager(), app.current_albumcover_loader());
+#endif
+#ifdef HAVE_DISCORD_RPC
+  discord::RichPresence discord_rich_presence(app.player(), app.playlist_manager());
 #endif
 
   // Window
