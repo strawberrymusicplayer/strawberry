@@ -1,8 +1,6 @@
 #pragma once
 
-#include <stdint.h>
-
-#ifndef __MINGW32__
+#ifdef _MSC_VER
 #  pragma warning(push)
 
 #  pragma warning(disable : 4061)  // enum is not explicitly handled by a case label
@@ -10,15 +8,17 @@
 #  pragma warning(disable : 4464)  // relative include path contains
 #  pragma warning(disable : 4668)  // is not defined as a preprocessor macro
 #  pragma warning(disable : 6313)  // Incorrect operator
-#endif                             // __MINGW32__
+#endif
 
-#include "rapidjson/document.h"
-#include "rapidjson/stringbuffer.h"
-#include "rapidjson/writer.h"
+#include <rapidjson/document.h>
+#include <rapidjson/stringbuffer.h>
+#include <rapidjson/writer.h>
 
-#ifndef __MINGW32__
+#ifdef _MSC_VER
 #  pragma warning(pop)
-#endif  // __MINGW32__
+#endif
+
+namespace discord_rpc {
 
 // if only there was a standard library function for this
 template<size_t Len>
@@ -118,7 +118,7 @@ class DirectStringBuffer {
     }
   }
   void Flush() {}
-  size_t GetSize() const { return (size_t)(current_ - buffer_); }
+  size_t GetSize() const { return static_cast<size_t>(current_ - buffer_); }
 };
 
 using MallocAllocator = rapidjson::CrtAllocator;
@@ -193,3 +193,5 @@ inline const char *GetStrMember(JsonValue *obj,
   }
   return notFoundDefault;
 }
+
+}  // namespace discord_rpc

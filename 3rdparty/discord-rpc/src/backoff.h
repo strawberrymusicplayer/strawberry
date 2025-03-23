@@ -2,8 +2,10 @@
 
 #include <algorithm>
 #include <random>
-#include <stdint.h>
-#include <time.h>
+#include <cstdint>
+#include <ctime>
+
+namespace discord_rpc {
 
 struct Backoff {
     int64_t minAmount;
@@ -20,7 +22,7 @@ struct Backoff {
       , maxAmount(max)
       , current(min)
       , fails(0)
-      , randGenerator((uint64_t)time(0))
+      , randGenerator(static_cast<uint64_t>(time(0)))
     {
     }
 
@@ -33,8 +35,10 @@ struct Backoff {
     int64_t nextDelay()
     {
         ++fails;
-        int64_t delay = (int64_t)((double)current * 2.0 * rand01());
+        int64_t delay = static_cast<int64_t>(static_cast<double>(current) * 2.0 * rand01());
         current = std::min(current + delay, maxAmount);
         return current;
     }
 };
+
+}  // namespace discord_rpc

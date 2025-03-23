@@ -5,6 +5,8 @@
 
 // clang-format on
 
+namespace discord_rpc {
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -70,4 +72,6 @@ void Discord_UpdateHandlers(DiscordEventHandlers* handlers);
 
 #ifdef __cplusplus
 } /* extern "C" */
+}  // namespace discord_rpc
+
 #endif

@@ -1,13 +1,15 @@
 #include "discord_rpc.h"
 #include "discord_register.h"
-#include <stdio.h>
 
+#include <cstdio>
 #include <errno.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstring>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
+
+namespace {
 
 static bool Mkdir(const char *path) {
   int result = mkdir(path, 0755);
@@ -19,6 +21,8 @@ static bool Mkdir(const char *path) {
   }
   return false;
 }
+
+}  // namespace
 
 // we want to register games so we can run them from Discord client as discord-<appid>://
 extern "C" void Discord_Register(const char *applicationId, const char *command) {
@@ -32,14 +36,14 @@ extern "C" void Discord_Register(const char *applicationId, const char *command)
   char exePath[1024];
   if (!command || !command[0]) {
     ssize_t size = readlink("/proc/self/exe", exePath, sizeof(exePath));
-    if (size <= 0 || size >= (ssize_t)sizeof(exePath)) {
+    if (size <= 0 || size >= static_cast<ssize_t>(sizeof(exePath))) {
       return;
     }
     exePath[size] = '\0';
     command = exePath;
   }
 
-  const char *desktopFileFormat = "[Desktop Entry]\n"
+  constexpr char desktopFileFormat[] = "[Desktop Entry]\n"
                                   "Name=Game %s\n"
                                   "Exec=%s %%u\n"  // note: it really wants that %u in there
                                   "Type=Application\n"
@@ -54,10 +58,10 @@ extern "C" void Discord_Register(const char *applicationId, const char *command)
   }
 
   char desktopFilename[256];
-  snprintf(desktopFilename, sizeof(desktopFilename), "/discord-%s.desktop", applicationId);
+  (void)snprintf(desktopFilename, sizeof(desktopFilename), "/discord-%s.desktop", applicationId);
 
   char desktopFilePath[1024];
-  snprintf(desktopFilePath, sizeof(desktopFilePath), "%s/.local", home);
+  (void)snprintf(desktopFilePath, sizeof(desktopFilePath), "%s/.local", home);
   if (!Mkdir(desktopFilePath)) {
     return;
   }
@@ -97,3 +101,4 @@ extern "C" void Discord_RegisterSteamGame(const char *applicationId,
   sprintf(command, "xdg-open steam://rungameid/%s", steamId);
   Discord_Register(applicationId, command);
 }
+

@@ -13,6 +13,8 @@
 #include <condition_variable>
 #include <thread>
 
+namespace discord_rpc {
+
 constexpr size_t MaxMessageSize { 16 * 1024 };
 constexpr size_t MessageQueueSize { 8 };
 constexpr size_t JoinQueueSize { 8 };
@@ -472,3 +474,6 @@ extern "C" void Discord_UpdateHandlers(DiscordEventHandlers *newHandlers) {
   }
   return;
 }
+
+}  // namespace discord_rpc
+

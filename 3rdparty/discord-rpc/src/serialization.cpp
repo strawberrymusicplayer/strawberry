@@ -2,6 +2,8 @@
 #include "connection.h"
 #include "discord_rpc.h"
 
+namespace discord_rpc {
+
 template<typename T>
 void NumberToString(char *dest, T number) {
   if (!number) {
@@ -18,7 +20,7 @@ void NumberToString(char *dest, T number) {
   while (number) {
     auto digit = number % 10;
     number = number / 10;
-    temp[place++] = '0' + (char)digit;
+    temp[place++] = '0' + static_cast<char>(digit);
   }
   for (--place; place >= 0; --place) {
     *dest++ = temp[place];
@@ -242,3 +244,6 @@ size_t JsonWriteJoinReply(char *dest, size_t maxLen, const char *userId, int rep
 
   return writer.Size();
 }
+
+}  // namespace discord_rpc
+

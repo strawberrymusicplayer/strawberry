@@ -1,13 +1,15 @@
 #include "connection.h"
 
-#include <errno.h>
+#include <cerrno>
 #include <fcntl.h>
-#include <stdio.h>
-#include <string.h>
+#include <cstdio>
+#include <cstring>
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <sys/un.h>
 #include <unistd.h>
+
+namespace discord_rpc {
 
 int GetProcessId() {
   return ::getpid();
@@ -61,7 +63,7 @@ bool BaseConnection::Open() {
   for (int pipeNum = 0; pipeNum < 10; ++pipeNum) {
     snprintf(
       PipeAddr.sun_path, sizeof(PipeAddr.sun_path), "%s/discord-ipc-%d", tempPath, pipeNum);
-    int err = connect(self->sock, (const sockaddr *)&PipeAddr, sizeof(PipeAddr));
+    int err = connect(self->sock, reinterpret_cast<const sockaddr*>(&PipeAddr), sizeof(PipeAddr));
     if (err == 0) {
       self->isOpen = true;
       return true;
@@ -93,7 +95,7 @@ bool BaseConnection::Write(const void *data, size_t length) {
   if (sentBytes < 0) {
     Close();
   }
-  return sentBytes == (ssize_t)length;
+  return sentBytes == static_cast<ssize_t>(length);
 }
 
 bool BaseConnection::Read(void *data, size_t length) {
@@ -103,7 +105,7 @@ bool BaseConnection::Read(void *data, size_t length) {
     return false;
   }
 
-  int res = (int)recv(self->sock, data, length, MsgFlags);
+  long res = recv(self->sock, data, length, MsgFlags);
   if (res < 0) {
     if (errno == EAGAIN) {
       return false;
@@ -113,5 +115,8 @@ bool BaseConnection::Read(void *data, size_t length) {
   else if (res == 0) {
     Close();
   }
-  return res == (int)length;
+  return static_cast<size_t>(res) == length;
 }
+
+} // namespace discord_rpc
+

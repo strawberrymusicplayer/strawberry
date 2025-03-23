@@ -4,11 +4,13 @@
 #define NOMCX
 #define NOSERVICE
 #define NOIME
-#include <assert.h>
+#include <cassert>
 #include <windows.h>
 
+namespace discord_rpc {
+
 int GetProcessId() {
-  return (int)::GetCurrentProcessId();
+  return static_cast<int>(::GetCurrentProcessId());
 }
 
 struct BaseConnectionWin : public BaseConnection {
@@ -22,7 +24,7 @@ static BaseConnectionWin Connection;
 }
 
 /*static*/ void BaseConnection::Destroy(BaseConnection *&c) {
-  auto self = reinterpret_cast<BaseConnectionWin *>(c);
+  auto self = reinterpret_cast<BaseConnectionWin*>(c);
   self->Close();
   c = nullptr;
 }
@@ -81,7 +83,7 @@ bool BaseConnection::Write(const void *data, size_t length) {
   if (!data) {
     return false;
   }
-  const DWORD bytesLength = (DWORD)length;
+  const DWORD bytesLength = static_cast<DWORD>(length);
   DWORD bytesWritten = 0;
   return ::WriteFile(self->pipe, data, bytesLength, &bytesWritten, nullptr) == TRUE &&
     bytesWritten == bytesLength;
@@ -103,7 +105,7 @@ bool BaseConnection::Read(void *data, size_t length) {
   DWORD bytesAvailable = 0;
   if (::PeekNamedPipe(self->pipe, nullptr, 0, nullptr, &bytesAvailable, nullptr)) {
     if (bytesAvailable >= length) {
-      DWORD bytesToRead = (DWORD)length;
+      DWORD bytesToRead = static_cast<DWORD>(length);
       DWORD bytesRead = 0;
       if (::ReadFile(self->pipe, data, bytesToRead, &bytesRead, nullptr) == TRUE) {
         assert(bytesToRead == bytesRead);
@@ -119,3 +121,6 @@ bool BaseConnection::Read(void *data, size_t length) {
   }
   return false;
 }
+
+}  // namespace discord_rpc
+

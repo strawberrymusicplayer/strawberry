@@ -302,7 +302,7 @@ jobs:
           desktop-file-utils
           appstream
           appstream-util
-          hicolor-icon-themepen
+          hicolor-icon-theme
           rapidjson
       - name: Remove files
         run: rm -rf /usr/lib64/qt6/lib/cmake/Qt6Sql/{Qt6QMYSQL*,Qt6QODBCD*,Qt6QPSQL*,Qt6QIBase*}
@@ -768,7 +768,7 @@ jobs:
           export LDFLAGS="-L/usr/local/lib"
           git config --global --add safe.directory ${GITHUB_WORKSPACE}
           cmake -E make_directory build
-          cmake -S . -B build -DCMAKE_BUILD_TYPE="Debug" -DENABLE_ALSA=OFF
+          cmake -S . -B build -DCMAKE_BUILD_TYPE="Debug" -DENABLE_ALSA=OFF -DENABLE_DISCORD_RPC=OFF
           cmake --build build --config Debug --parallel 4
 
 

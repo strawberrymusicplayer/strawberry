@@ -45,6 +45,7 @@ static HRESULT StringCbPrintfW(LPWSTR pszDest, size_t cbDest, LPCWSTR pszFormat,
 #  undefine RegSetKeyValueW
 #endif
 #define RegSetKeyValueW regset
+
 static LSTATUS regset(HKEY hkey,
                       LPCWSTR subkey,
                       LPCWSTR name,
@@ -59,7 +60,7 @@ static LSTATUS regset(HKEY hkey,
       return ret;
     htkey = hsubkey;
   }
-  ret = RegSetValueExW(htkey, name, 0, type, (const BYTE *)data, len);
+  ret = RegSetValueExW(htkey, name, 0, type, static_cast<const BYTE*>(data), len);
   if (hsubkey && hsubkey != hkey)
     RegCloseKey(hsubkey);
   return ret;
@@ -100,14 +101,14 @@ static void Discord_RegisterW(const wchar_t *applicationId, const wchar_t *comma
   }
   DWORD len;
   LSTATUS result;
-  len = (DWORD)lstrlenW(protocolDescription) + 1;
+  len = static_cast<DWORD>(lstrlenW(protocolDescription) + 1);
   result =
     RegSetKeyValueW(key, nullptr, nullptr, REG_SZ, protocolDescription, len * sizeof(wchar_t));
   if (FAILED(result)) {
     fprintf(stderr, "Error writing description\n");
   }
 
-  len = (DWORD)lstrlenW(protocolDescription) + 1;
+  len = static_cast<DWORD>(lstrlenW(protocolDescription) + 1);
   result = RegSetKeyValueW(key, nullptr, L"URL Protocol", REG_SZ, &urlProtocol, sizeof(wchar_t));
   if (FAILED(result)) {
     fprintf(stderr, "Error writing description\n");
@@ -119,7 +120,7 @@ static void Discord_RegisterW(const wchar_t *applicationId, const wchar_t *comma
     fprintf(stderr, "Error writing icon\n");
   }
 
-  len = (DWORD)lstrlenW(openCommand) + 1;
+  len = static_cast<DWORD>(lstrlenW(openCommand) + 1);
   result = RegSetKeyValueW(
     key, L"shell\\open\\command", nullptr, REG_SZ, openCommand, len * sizeof(wchar_t));
   if (FAILED(result)) {
@@ -179,3 +180,4 @@ extern "C" void Discord_RegisterSteamGame(const char *applicationId,
 
   Discord_RegisterW(appId, command);
 }
+
