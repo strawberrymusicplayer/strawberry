@@ -5,7 +5,9 @@
 // A simple queue. No locks, but only works with a single thread as producer and a single thread as
 // a consumer. Mutex up as needed.
 
-template <typename ElementType, size_t QueueSize>
+namespace discord_rpc {
+
+template <typename ElementType, std::size_t QueueSize>
 class MsgQueue {
     ElementType queue_[QueueSize];
     std::atomic_uint nextAdd_{0};
@@ -34,3 +36,5 @@ public:
     }
     void CommitSend() { --pendingSends_; }
 };
+
+}  // namespace discord_rpc

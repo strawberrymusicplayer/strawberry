@@ -2,8 +2,9 @@
 
 // This is to wrap the platform specific kinds of connect/read/write.
 
-#include <stdint.h>
-#include <stdlib.h>
+#include <cstdlib>
+
+namespace discord_rpc {
 
 // not really connectiony, but need per-platform
 int GetProcessId();
@@ -17,3 +18,5 @@ struct BaseConnection {
   bool Write(const void *data, size_t length);
   bool Read(void *data, size_t length);
 };
+
+} // namespace discord_rpc

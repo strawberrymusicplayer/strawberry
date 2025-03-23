@@ -35,6 +35,8 @@ constexpr qint64 kDiscordPresenceUpdateRateLimitMs = 2000;
 
 }  // namespace
 
+using namespace discord_rpc;
+
 namespace discord {
 
 RichPresence::RichPresence(const SharedPtr<Player> player,
