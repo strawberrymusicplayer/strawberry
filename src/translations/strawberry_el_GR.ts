@@ -828,7 +828,7 @@
     </message>
     <message>
       <source>Volume Increment</source>
-      <translation type="unfinished">Volume Increment</translation>
+      <translation>Αύξηση Έντασης</translation>
     </message>
   </context>
   <context>
@@ -1148,7 +1148,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Add directory...</source>
-      <translation type="unfinished">Add directory...</translation>
+      <translation/>
     </message>
     <message>
       <source>Write all playcounts and ratings to files</source>
@@ -1171,15 +1171,15 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Append to current playlist</source>
-      <translation type="unfinished">Append to current playlist</translation>
+      <translation>Προσάρτηση στην τρέχουσα λίστα</translation>
     </message>
     <message>
       <source>Replace current playlist</source>
-      <translation type="unfinished">Replace current playlist</translation>
+      <translation>Αντικατάσταση της τρέχουσας λίστας</translation>
     </message>
     <message>
       <source>Open in new playlist</source>
-      <translation type="unfinished">Open in new playlist</translation>
+      <translation>Άνοιγμα σε νέα λίστα</translation>
     </message>
     <message>
       <source>Queue track</source>
@@ -1219,7 +1219,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Rescan song(s)</source>
-      <translation type="unfinished">Rescan song(s)</translation>
+      <translation>Επανασάρωση τραγουδιού(ών)</translation>
     </message>
     <message>
       <source>Show in various artists</source>
@@ -1231,7 +1231,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>There are other songs in this album</source>
-      <translation type="unfinished">There are other songs in this album</translation>
+      <translation>Υπάρχουν και άλλα τραγούδια σε αυτό το άλμπουμ</translation>
     </message>
     <message>
       <source>Would you like to move the other songs on this album to Various Artists as well?</source>
@@ -1250,14 +1250,14 @@ If there are no matches then it will use the largest image in the directory.</tr
     <name>CollectionViewContainer</name>
     <message>
       <source>Form</source>
-      <translation type="unfinished">Form</translation>
+      <translation>Φόρμα</translation>
     </message>
   </context>
   <context>
     <name>CollectionWatcher</name>
     <message>
       <source>Updating collection</source>
-      <translation type="unfinished">Updating collection</translation>
+      <translation>Ενημέρωση συλλογής</translation>
     </message>
     <message>
       <source>Updating %1</source>
@@ -1650,7 +1650,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Album cover types</source>
-      <translation type="unfinished">Album cover types</translation>
+      <translation>Τύποι εξωφύλλων άλμπουμ</translation>
     </message>
     <message>
       <source>Saving album covers</source>
@@ -1674,7 +1674,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Pattern</source>
-      <translation type="unfinished">Pattern</translation>
+      <translation>Μοτίβο</translation>
     </message>
     <message>
       <source>Random</source>
@@ -1752,19 +1752,19 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Failed SQL query: %1</source>
-      <translation type="unfinished">Failed SQL query: %1</translation>
+      <translation>Αποτυχία ερωτήματος SQL: %1</translation>
     </message>
     <message>
       <source>Integrity check</source>
-      <translation type="unfinished">Integrity check</translation>
+      <translation>Έλεγχος ακεραιότητας</translation>
     </message>
     <message>
       <source>Database corruption detected.</source>
-      <translation type="unfinished">Database corruption detected.</translation>
+      <translation>Εντοπίστηκε διαφθορά βάσης δεδομένων.</translation>
     </message>
     <message>
       <source>Backing up database</source>
-      <translation type="unfinished">Backing up database</translation>
+      <translation>Δημιουργία αντιγράφου ασφαλείας βάσης δεδομένων</translation>
     </message>
   </context>
   <context>
@@ -1805,7 +1805,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Double click to open</source>
-      <translation type="unfinished">Double click to open</translation>
+      <translation>Διπλό κλικ για άνοιγμα</translation>
     </message>
     <message>
       <source>%1 song%2</source>
@@ -1824,7 +1824,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>This device will not work properly</source>
-      <translation type="unfinished">This device will not work properly</translation>
+      <translation>Αυτή η συσκευή δεν θα λειτουργήσει σωστά</translation>
     </message>
     <message>
       <source>This is an MTP device, but you compiled Strawberry without libmtp support.</source>
