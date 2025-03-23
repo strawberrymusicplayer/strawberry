@@ -1840,14 +1840,14 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>This type of device is not supported: %1</source>
-      <translation type="unfinished">This type of device is not supported: %1</translation>
+      <translation/>
     </message>
   </context>
   <context>
     <name>DeviceProperties</name>
     <message>
       <source>Device Properties</source>
-      <translation type="unfinished">Device Properties</translation>
+      <translation>Ιδιότητες Συσκευής</translation>
     </message>
     <message>
       <source>Information</source>
@@ -1875,11 +1875,11 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Supported formats</source>
-      <translation type="unfinished">Supported formats</translation>
+      <translation>Υποστηριζόμενες μορφές</translation>
     </message>
     <message>
       <source>This device supports the following file formats:</source>
-      <translation type="unfinished">This device supports the following file formats:</translation>
+      <translation>Αυτή η συσκευή υποστηρίζει τις ακόλουθες μορφές αρχείων:</translation>
     </message>
     <message>
       <source>Strawberry can automatically convert the music you copy to this device into a format that it can play.</source>
@@ -1887,7 +1887,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Do not convert any music</source>
-      <translation type="unfinished">Do not convert any music</translation>
+      <translation>Μην μετατρέπετε μουσική</translation>
     </message>
     <message>
       <source>Convert any music that the device can&apos;t play</source>
@@ -1907,7 +1907,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Open device</source>
-      <translation type="unfinished">Open device</translation>
+      <translation>Άνοιγμα συσκευής</translation>
     </message>
     <message>
       <source>Querying device...</source>
@@ -1915,18 +1915,18 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Model</source>
-      <translation type="unfinished">Model</translation>
+      <translation>Μοντέλο</translation>
     </message>
     <message>
       <source>Manufacturer</source>
-      <translation type="unfinished">Manufacturer</translation>
+      <translation>Κατασκευαστής</translation>
     </message>
   </context>
   <context>
     <name>DeviceView</name>
     <message>
       <source>Safely remove device</source>
-      <translation type="unfinished">Safely remove device</translation>
+      <translation>Ασφαλής αφαίρεση συσκευής</translation>
     </message>
     <message>
       <source>Forget device</source>
@@ -1934,7 +1934,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Device properties...</source>
-      <translation type="unfinished">Device properties...</translation>
+      <translation>Ιδιότητες συσκευής...</translation>
     </message>
     <message>
       <source>Append to current playlist</source>
