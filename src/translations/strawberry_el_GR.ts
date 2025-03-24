@@ -6727,11 +6727,11 @@ Are you sure you want to continue?</translation>
     </message>
     <message>
       <source>Receiving songs...</source>
-      <translation type="unfinished">Receiving songs...</translation>
+      <translation>Λήψη τραγουδιών...</translation>
     </message>
     <message>
       <source>Searching...</source>
-      <translation type="unfinished">Searching...</translation>
+      <translation>Αναζήτηση...</translation>
     </message>
     <message>
       <source>Receiving albums for %1 artist...</source>
@@ -6797,11 +6797,11 @@ Are you sure you want to continue?</translation>
     <name>TidalSettingsPage</name>
     <message>
       <source>Tidal</source>
-      <translation type="unfinished">Tidal</translation>
+      <translation>Tidal</translation>
     </message>
     <message>
       <source>Enable</source>
-      <translation type="unfinished">Enable</translation>
+      <translation>Ενεργοποίηση</translation>
     </message>
     <message>
       <source>Tidal support is not official and requires a API token from a registered application to work. We can&apos;t help you getting these.</source>
@@ -6809,7 +6809,7 @@ Are you sure you want to continue?</translation>
     </message>
     <message>
       <source>Authentication</source>
-      <translation type="unfinished">Authentication</translation>
+      <translation>Ταυτοποίηση</translation>
     </message>
     <message>
       <source>Use OAuth</source>
@@ -6893,34 +6893,34 @@ Are you sure you want to continue?</translation>
     </message>
     <message>
       <source>Missing API token.</source>
-      <translation type="unfinished">Missing API token.</translation>
+      <translation>Λείπει το API token.</translation>
     </message>
     <message>
       <source>Missing username.</source>
-      <translation type="unfinished">Missing username.</translation>
+      <translation>Λείπει το όνομα χρήστη.</translation>
     </message>
     <message>
       <source>Missing password.</source>
-      <translation type="unfinished">Missing password.</translation>
+      <translation>Λείπει ο κωδικός πρόσβασης.</translation>
     </message>
     <message>
       <source>Authentication failed</source>
-      <translation type="unfinished">Authentication failed</translation>
+      <translation>Αποτυχία ταυτοποίησης</translation>
     </message>
   </context>
   <context>
     <name>TidalStreamURLRequest</name>
     <message>
       <source>Not authenticated with Tidal.</source>
-      <translation type="unfinished">Not authenticated with Tidal.</translation>
+      <translation>Δεν έχει πιστοποιηθεί με Tidal.</translation>
     </message>
     <message>
       <source>Missing Tidal API token, username or password.</source>
-      <translation type="unfinished">Missing Tidal API token, username or password.</translation>
+      <translation>Λείπει το Tidal API token, το όνομα χρήστη ή τον κωδικό.</translation>
     </message>
     <message>
       <source>Cancelled.</source>
-      <translation type="unfinished">Cancelled.</translation>
+      <translation>Ακυρώθηκε.</translation>
     </message>
     <message>
       <source>Received URL with %1 encrypted stream from Tidal. Strawberry does not currently support encrypted streams.</source>
@@ -6939,7 +6939,7 @@ Are you sure you want to continue?</translation>
     </message>
     <message>
       <source>Sorry</source>
-      <translation type="unfinished">Sorry</translation>
+      <translation>Λυπούμαστε</translation>
     </message>
     <message>
       <source>Strawberry was unable to find results for this file</source>
@@ -6951,54 +6951,54 @@ Are you sure you want to continue?</translation>
     </message>
     <message>
       <source>Track</source>
-      <translation type="unfinished">Track</translation>
+      <translation>Τραγούδι</translation>
     </message>
     <message>
       <source>Year</source>
-      <translation type="unfinished">Year</translation>
+      <translation>Έτος</translation>
     </message>
     <message>
       <source>Title</source>
-      <translation type="unfinished">Title</translation>
+      <translation>Τίτλος</translation>
     </message>
     <message>
       <source>Artist</source>
-      <translation type="unfinished">Artist</translation>
+      <translation>Καλλιτέχνης</translation>
     </message>
     <message>
       <source>Album</source>
-      <translation type="unfinished">Album</translation>
+      <translation>Άλμπουμ</translation>
     </message>
     <message>
       <source>Previous</source>
-      <translation type="unfinished">Previous</translation>
+      <translation>Προηγούμενο</translation>
     </message>
     <message>
       <source>Next</source>
-      <translation type="unfinished">Next</translation>
+      <translation>Επόμενο</translation>
     </message>
     <message>
       <source>Original tags</source>
-      <translation type="unfinished">Original tags</translation>
+      <translation>Αρχικές ετικέτες</translation>
     </message>
     <message>
       <source>Suggested tags</source>
-      <translation type="unfinished">Suggested tags</translation>
+      <translation>Προτεινόμενες ετικέτες</translation>
     </message>
     <message>
       <source>Saving tracks</source>
-      <translation type="unfinished">Saving tracks</translation>
+      <translation>Αποθήκευση τραγουδιών</translation>
     </message>
   </context>
   <context>
     <name>TrackSlider</name>
     <message>
       <source>Form</source>
-      <translation type="unfinished">Form</translation>
+      <translation>Φόρμα</translation>
     </message>
     <message>
       <source>0:00:00</source>
-      <translation type="unfinished">0:00:00</translation>
+      <translation>0:00:00</translation>
     </message>
     <message>
       <source>Click to toggle between remaining time and total time</source>
@@ -7017,19 +7017,19 @@ Are you sure you want to continue?</translation>
     </message>
     <message>
       <source>Filename</source>
-      <translation type="unfinished">Filename</translation>
+      <translation>Όνομα Αρχείου</translation>
     </message>
     <message>
       <source>Directory</source>
-      <translation type="unfinished">Directory</translation>
+      <translation>Φάκελος</translation>
     </message>
     <message>
       <source>Add...</source>
-      <translation type="unfinished">Add...</translation>
+      <translation>Προσθήκη...</translation>
     </message>
     <message>
       <source>Remove</source>
-      <translation type="unfinished">Remove</translation>
+      <translation>Διαγραφή</translation>
     </message>
     <message>
       <source>Add all tracks from a directory and all its subdirectories</source>
@@ -7106,7 +7106,7 @@ Are you sure you want to continue?</translation>
     </message>
     <message>
       <source>Music</source>
-      <translation type="unfinished">Music</translation>
+      <translation>Μουσική</translation>
     </message>
     <message>
       <source>Open a directory to import music from</source>
@@ -7167,7 +7167,7 @@ Are you sure you want to continue?</translation>
     <name>TranscoderOptionsAAC</name>
     <message>
       <source>Form</source>
-      <translation type="unfinished">Form</translation>
+      <translation>Φόρμα</translation>
     </message>
     <message>
       <source>Bitrate</source>
@@ -7226,15 +7226,15 @@ Are you sure you want to continue?</translation>
     <name>TranscoderOptionsASF</name>
     <message>
       <source>Form</source>
-      <translation type="unfinished">Form</translation>
+      <translation>Φόρμα</translation>
     </message>
     <message>
       <source>Bitrate</source>
-      <translation type="unfinished">Bitrate</translation>
+      <translation>Bitrate</translation>
     </message>
     <message>
       <source> kbps</source>
-      <translation type="unfinished"> kbps</translation>
+      <translation> kbps</translation>
     </message>
   </context>
   <context>
