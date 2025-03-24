@@ -1962,7 +1962,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Delete files</source>
-      <translation type="unfinished">Delete files</translation>
+      <translation>Διαγραφή αρχείων</translation>
     </message>
     <message>
       <source>These files will be deleted from the device, are you sure you want to continue?</source>
@@ -2761,11 +2761,11 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>First level</source>
-      <translation type="unfinished">First level</translation>
+      <translation>Πρώτο επίπεδο</translation>
     </message>
     <message>
       <source>None</source>
-      <translation type="unfinished">None</translation>
+      <translation>Κανένα</translation>
     </message>
     <message>
       <source>Artist</source>
@@ -2894,7 +2894,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Go!</source>
-      <translation type="unfinished">Go!</translation>
+      <translation>Go!</translation>
     </message>
     <message>
       <source>Close</source>
@@ -2975,18 +2975,18 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>ListenBrainz error: %1</source>
-      <translation type="unfinished">ListenBrainz error: %1</translation>
+      <translation>Λάθος από ListenBrainz: %1</translation>
     </message>
   </context>
   <context>
     <name>LoginStateWidget</name>
     <message>
       <source>Form</source>
-      <translation type="unfinished">Form</translation>
+      <translation>Φόρμα</translation>
     </message>
     <message>
       <source>You are not signed in.</source>
-      <translation type="unfinished">You are not signed in.</translation>
+      <translation>Δεν είστε συνδεδεμένοι.</translation>
     </message>
     <message>
       <source>Sign out</source>
@@ -3021,15 +3021,15 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Choose the providers you want to use when searching for lyrics.</source>
-      <translation type="unfinished">Choose the providers you want to use when searching for lyrics.</translation>
+      <translation>Επιλέξτε τους παρόχους που θέλετε να χρησιμοποιήσετε κατά την αναζήτηση στίχων.</translation>
     </message>
     <message>
       <source>Move up</source>
-      <translation type="unfinished">Move up</translation>
+      <translation>Μετακίνηση πάνω</translation>
     </message>
     <message>
       <source>Move down</source>
-      <translation type="unfinished">Move down</translation>
+      <translation>Μετακίνηση κάτω</translation>
     </message>
     <message>
       <source>Authentication</source>
@@ -3037,30 +3037,30 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Login</source>
-      <translation type="unfinished">Login</translation>
+      <translation>Σύνδεση</translation>
     </message>
     <message>
       <source>No provider selected.</source>
-      <translation type="unfinished">No provider selected.</translation>
+      <translation>Δεν επιλέχθηκε πάροχος.</translation>
     </message>
     <message>
       <source>Authentication failed</source>
-      <translation type="unfinished">Authentication failed</translation>
+      <translation>Αποτυχία ταυτοποίησης</translation>
     </message>
   </context>
   <context>
     <name>MainWindow</name>
     <message>
       <source>Strawberry Music Player</source>
-      <translation type="unfinished">Strawberry Music Player</translation>
+      <translation>Αναπαραγωγέας Μουσικής Strawberry</translation>
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>&amp;Music</source>
-      <translation type="unfinished">&amp;Music</translation>
+      <translation>&amp;Μουσική</translation>
     </message>
     <message>
       <source>P&amp;laylist</source>
@@ -3068,59 +3068,59 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Help</source>
-      <translation type="unfinished">Help</translation>
+      <translation>Βοήθεια</translation>
     </message>
     <message>
       <source>&amp;Tools</source>
-      <translation type="unfinished">&amp;Tools</translation>
+      <translation>&amp;Εργαλεία</translation>
     </message>
     <message>
       <source>Previous track</source>
-      <translation type="unfinished">Previous track</translation>
+      <translation>Προηγούμενο τραγούδι</translation>
     </message>
     <message>
       <source>F5</source>
-      <translation type="unfinished">F5</translation>
+      <translation>F5</translation>
     </message>
     <message>
       <source>&amp;Play</source>
-      <translation type="unfinished">&amp;Play</translation>
+      <translation>&amp;Έναρξη</translation>
     </message>
     <message>
       <source>F6</source>
-      <translation type="unfinished">F6</translation>
+      <translation>F6</translation>
     </message>
     <message>
       <source>&amp;Stop</source>
-      <translation type="unfinished">&amp;Stop</translation>
+      <translation>&amp;Παύση</translation>
     </message>
     <message>
       <source>F7</source>
-      <translation type="unfinished">F7</translation>
+      <translation>F7</translation>
     </message>
     <message>
       <source>&amp;Next track</source>
-      <translation type="unfinished">&amp;Next track</translation>
+      <translation>&amp;Επόμενο τραγούδι</translation>
     </message>
     <message>
       <source>F8</source>
-      <translation type="unfinished">F8</translation>
+      <translation>F8</translation>
     </message>
     <message>
       <source>&amp;Quit</source>
-      <translation type="unfinished">&amp;Quit</translation>
+      <translation>&amp;Έξοδος</translation>
     </message>
     <message>
       <source>Ctrl+Q</source>
-      <translation type="unfinished">Ctrl+Q</translation>
+      <translation>Ctrl+Q</translation>
     </message>
     <message>
       <source>Stop after this track</source>
-      <translation type="unfinished">Stop after this track</translation>
+      <translation>Σταμάτημα μετά από αυτό το κομμάτι</translation>
     </message>
     <message>
       <source>Ctrl+Alt+V</source>
-      <translation type="unfinished">Ctrl+Alt+V</translation>
+      <translation>Ctrl+Alt+V</translation>
     </message>
     <message>
       <source>Love</source>
@@ -3128,7 +3128,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>&amp;Clear playlist</source>
-      <translation type="unfinished">&amp;Clear playlist</translation>
+      <translation>&amp;Καθαρισμός λίστας</translation>
     </message>
     <message>
       <source>Clear playlist</source>
@@ -3216,7 +3216,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Remove from playlist</source>
-      <translation type="unfinished">Remove from playlist</translation>
+      <translation>Αφαίρεση από τη λίστα</translation>
     </message>
     <message>
       <source>&amp;Equalizer</source>
@@ -3244,7 +3244,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Ctrl+N</source>
-      <translation type="unfinished">Ctrl+N</translation>
+      <translation>Ctrl+Ν</translation>
     </message>
     <message>
       <source>Save &amp;playlist...</source>
@@ -3252,7 +3252,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Ctrl+S</source>
-      <translation type="unfinished">Ctrl+S</translation>
+      <translation>Ctrl+S</translation>
     </message>
     <message>
       <source>&amp;Load playlist...</source>
@@ -3260,7 +3260,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Ctrl+Shift+O</source>
-      <translation type="unfinished">Ctrl+Shift+O</translation>
+      <translation>Ctrl+Shift+O</translation>
     </message>
     <message>
       <source>&amp;Save all playlists...</source>
@@ -3304,7 +3304,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Ctrl+T</source>
-      <translation type="unfinished">Ctrl+T</translation>
+      <translation>Ctrl+T</translation>
     </message>
     <message>
       <source>Toggle scrobbling</source>
@@ -3360,15 +3360,15 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Files</source>
-      <translation type="unfinished">Files</translation>
+      <translation>Αρχεία</translation>
     </message>
     <message>
       <source>Radios</source>
-      <translation type="unfinished">Radios</translation>
+      <translation>Ραδιοφωνία</translation>
     </message>
     <message>
       <source>Devices</source>
-      <translation type="unfinished">Devices</translation>
+      <translation>Συσκευές</translation>
     </message>
     <message>
       <source>Subsonic</source>
@@ -3376,19 +3376,19 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Tidal</source>
-      <translation type="unfinished">Tidal</translation>
+      <translation>Tidal</translation>
     </message>
     <message>
       <source>Spotify</source>
-      <translation type="unfinished">Spotify</translation>
+      <translation>Spotify</translation>
     </message>
     <message>
       <source>Qobuz</source>
-      <translation type="unfinished">Qobuz</translation>
+      <translation>Qobuz</translation>
     </message>
     <message>
       <source>Show all songs</source>
-      <translation type="unfinished">Show all songs</translation>
+      <translation>Εμφάνιση όλων των τραγουδιών</translation>
     </message>
     <message>
       <source>Show only duplicates</source>
@@ -3396,15 +3396,15 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Show only untagged</source>
-      <translation type="unfinished">Show only untagged</translation>
+      <translation>Εμφάνιση μόνο χωρίς ετικέτα</translation>
     </message>
     <message>
       <source>Configure collection...</source>
-      <translation type="unfinished">Configure collection...</translation>
+      <translation>Ρύθμιση συλλογής...</translation>
     </message>
     <message>
       <source>Play</source>
-      <translation type="unfinished">Play</translation>
+      <translation>Έναρξη</translation>
     </message>
     <message>
       <source>Toggle queue status</source>
@@ -3476,7 +3476,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Pause</source>
-      <translation type="unfinished">Pause</translation>
+      <translation>Παύση</translation>
     </message>
     <message>
       <source>Dequeue track</source>
@@ -3528,31 +3528,31 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>New playlist</source>
-      <translation type="unfinished">New playlist</translation>
+      <translation>Νέα λίστα</translation>
     </message>
     <message>
       <source>Add file</source>
-      <translation type="unfinished">Add file</translation>
+      <translation>Προσθήκη Αρχείου</translation>
     </message>
     <message>
       <source>Music</source>
-      <translation type="unfinished">Music</translation>
+      <translation>Μουσική</translation>
     </message>
     <message>
       <source>Add folder</source>
-      <translation type="unfinished">Add folder</translation>
+      <translation>Προσθήκη φακέλου</translation>
     </message>
     <message>
       <source>Playlist has %1 songs, too large to undo, are you sure you want to clear the playlist?</source>
-      <translation type="unfinished">Playlist has %1 songs, too large to undo, are you sure you want to clear the playlist?</translation>
+      <translation>Η λίστα αναπαραγωγής έχει %1 τραγούδια, είναι πολύ μεγάλη για αναίρεση, είστε σίγουροι ότι θέλετε να καθαρίσετε τη λίστα αναπαραγωγής;</translation>
     </message>
     <message>
       <source>Error</source>
-      <translation type="unfinished">Error</translation>
+      <translation>Σφάλμα</translation>
     </message>
     <message>
       <source>None of the selected songs were suitable for copying to a device</source>
-      <translation type="unfinished">None of the selected songs were suitable for copying to a device</translation>
+      <translation>Κανένα από τα επιλεγμένα τραγούδια δεν ήταν κατάλληλο για αντιγραφή σε μια συσκευή</translation>
     </message>
     <message>
       <source>The version of Strawberry you&apos;ve just updated to requires a full collection rescan because of the new features listed below:</source>
@@ -3560,7 +3560,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Would you like to run a full rescan right now?</source>
-      <translation type="unfinished">Would you like to run a full rescan right now?</translation>
+      <translation>Θα θέλατε να εκτελέσετε μια πλήρη επανασάρωση τώρα;</translation>
     </message>
     <message>
       <source>Collection rescan notice</source>
@@ -3681,19 +3681,19 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Port</source>
-      <translation type="unfinished">Port</translation>
+      <translation>Θύρα</translation>
     </message>
     <message>
       <source>Use authentication</source>
-      <translation type="unfinished">Use authentication</translation>
+      <translation>Χρήση ταυτοποίησης</translation>
     </message>
     <message>
       <source>Username</source>
-      <translation type="unfinished">Username</translation>
+      <translation>Όνομα χρήστη</translation>
     </message>
     <message>
       <source>Password</source>
-      <translation type="unfinished">Password</translation>
+      <translation>Κωδικός πρόσβασης</translation>
     </message>
     <message>
       <source>Use proxy settings for streaming</source>
