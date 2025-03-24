@@ -1950,7 +1950,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Copy to collection...</source>
-      <translation type="unfinished">Copy to collection...</translation>
+      <translation>Αντιγραφή στη συλλογή...</translation>
     </message>
     <message>
       <source>Delete from device...</source>
@@ -1966,14 +1966,14 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>These files will be deleted from the device, are you sure you want to continue?</source>
-      <translation type="unfinished">These files will be deleted from the device, are you sure you want to continue?</translation>
+      <translation>Αυτά τα αρχεία θα διαγραφούν από τη συσκευή, είστε σίγουροι ότι θέλετε να συνεχίσετε;</translation>
     </message>
   </context>
   <context>
     <name>DeviceViewContainer</name>
     <message>
       <source>Form</source>
-      <translation type="unfinished">Form</translation>
+      <translation>Φόρμα</translation>
     </message>
   </context>
   <context>
