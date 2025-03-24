@@ -56,7 +56,7 @@ void MoodbarBuilder::Init(const int bands, const int rate_hz) {
       barkband++;
     }
 
-    barkband_table_.append(barkband);
+    barkband_table_.append(static_cast<uint>(barkband));
   }
 
 }

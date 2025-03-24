@@ -224,7 +224,7 @@ void TidalService::ReloadSettings() {
   enabled_ = s.value(TidalSettings::kEnabled, false).toBool();
   client_id_ = s.value(TidalSettings::kClientId).toString();
   quality_ = s.value(TidalSettings::kQuality, u"LOSSLESS"_s).toString();
-  quint64 search_delay = s.value(TidalSettings::kSearchDelay, 1500).toInt();
+  quint64 search_delay = s.value(TidalSettings::kSearchDelay, 1500).toULongLong();
   artistssearchlimit_ = s.value(TidalSettings::kArtistsSearchLimit, 4).toInt();
   albumssearchlimit_ = s.value(TidalSettings::kAlbumsSearchLimit, 10).toInt();
   songssearchlimit_ = s.value(TidalSettings::kSongsSearchLimit, 10).toInt();

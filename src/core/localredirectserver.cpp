@@ -52,7 +52,7 @@ LocalRedirectServer::~LocalRedirectServer() {
 
 bool LocalRedirectServer::Listen() {
 
-  if (!listen(QHostAddress::LocalHost, port_)) {
+  if (!listen(QHostAddress::LocalHost, static_cast<quint64>(port_))) {
     success_ = false;
     error_ = errorString();
     return false;

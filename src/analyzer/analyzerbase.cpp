@@ -100,7 +100,7 @@ void AnalyzerBase::transform(Scope &scope) {
   fht_->logSpectrum(scope.data(), aux.data());
   fht_->scale(scope.data(), 1.0F / 20);
 
-  scope.resize(fht_->size() / 2);  // second half of values are rubbish
+  scope.resize(static_cast<size_t>(fht_->size() / 2));  // second half of values are rubbish
 
 }
 
@@ -112,7 +112,7 @@ void AnalyzerBase::paintEvent(QPaintEvent *e) {
   switch (engine_->state()) {
     case EngineBase::State::Playing:{
       const EngineBase::Scope &thescope = engine_->scope(timeout_);
-      int i = 0;
+      size_t i = 0;
 
       // convert to mono here - our built in analyzers need mono, but the engines provide interleaved pcm
       for (uint x = 0; static_cast<int>(x) < fht_->size(); ++x) {
@@ -124,7 +124,7 @@ void AnalyzerBase::paintEvent(QPaintEvent *e) {
       transform(lastscope_);
       analyze(p, lastscope_, new_frame_);
 
-      lastscope_.resize(fht_->size());
+      lastscope_.resize(static_cast<size_t>(fht_->size()));
 
       break;
     }
@@ -153,7 +153,7 @@ int AnalyzerBase::resizeExponent(int exp) {
 
   if (exp != fht_->sizeExp()) {
     delete fht_;
-    fht_ = new FHT(exp);
+    fht_ = new FHT(static_cast<uint>(exp));
   }
   return exp;
 

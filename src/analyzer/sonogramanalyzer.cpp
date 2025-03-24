@@ -85,10 +85,10 @@ void SonogramAnalyzer::transform(Scope &scope) {
 
   fht_->power2(scope.data());
   fht_->scale(scope.data(), 1.0 / 256);
-  scope.resize(fht_->size() / 2);
+  scope.resize(static_cast<size_t>(fht_->size() / 2));
 
 }
 
 void SonogramAnalyzer::demo(QPainter &p) {
-  analyze(p, Scope(fht_->size(), 0), new_frame_);
+  analyze(p, Scope(static_cast<size_t>(fht_->size()), 0), new_frame_);
 }

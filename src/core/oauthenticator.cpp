@@ -182,7 +182,7 @@ void OAuthenticator::LoadSession() {
   expires_in_ = s.value(kExpiresIn, 0LL).toLongLong();
   login_time_ = s.value(kLoginTime, 0LL).toLongLong();
   country_code_ = s.value(kCountryCode).toString();
-  user_id_ = s.value(kUserId).toInt();
+  user_id_ = s.value(kUserId).toULongLong();
   s.endGroup();
 
   StartRefreshLoginTimer();
@@ -557,7 +557,7 @@ void OAuthenticator::AccessTokenRequestFinished(QNetworkReply *reply) {
     const QJsonObject object_user = json_object["user"_L1].toObject();
     if (object_user.contains("countryCode"_L1) && object_user.contains("userId"_L1)) {
       country_code_ = object_user["countryCode"_L1].toString();
-      user_id_ = object_user["userId"_L1].toInt();
+      user_id_ = static_cast<quint64>(object_user["userId"_L1].toInt());
     }
   }
 

@@ -198,7 +198,7 @@ void SpotifyService::ReloadSettings() {
 
   enabled_ = s.value(SpotifySettings::kEnabled, false).toBool();
 
-  quint64 search_delay = std::max(s.value(SpotifySettings::kSearchDelay, 1500).toInt(), 500);
+  quint64 search_delay = std::max(s.value(SpotifySettings::kSearchDelay, 1500).toULongLong(), 500ULL);
   artistssearchlimit_ = s.value(SpotifySettings::kArtistsSearchLimit, 4).toInt();
   albumssearchlimit_ = s.value(SpotifySettings::kAlbumsSearchLimit, 10).toInt();
   songssearchlimit_ = s.value(SpotifySettings::kSongsSearchLimit, 10).toInt();

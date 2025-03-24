@@ -463,9 +463,9 @@ bool OSDBase::SupportsNativeNotifications() const {
 
 #ifdef Q_OS_WIN32
   return SupportsTrayPopups();
-#endif
-
+#else
   return false;
+#endif
 
 }
 

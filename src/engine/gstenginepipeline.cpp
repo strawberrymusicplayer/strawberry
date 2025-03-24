@@ -163,15 +163,6 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       equalizer_(nullptr),
       equalizer_preamp_(nullptr),
       eventprobe_(nullptr),
-      upstream_events_probe_cb_id_(0),
-      buffer_probe_cb_id_(0),
-      pad_probe_cb_id_(0),
-      element_added_cb_id_(-1),
-      element_removed_cb_id_(-1),
-      pad_added_cb_id_(-1),
-      notify_source_cb_id_(-1),
-      about_to_finish_cb_id_(-1),
-      notify_volume_cb_id_(-1),
       logged_unsupported_analyzer_format_(false),
       about_to_finish_(false),
       finish_requested_(false),
@@ -360,52 +351,52 @@ void GstEnginePipeline::Disconnect() {
       fader_.reset();
     }
 
-    if (element_added_cb_id_ != -1) {
-      g_signal_handler_disconnect(G_OBJECT(audiobin_), element_added_cb_id_);
-      element_added_cb_id_ = -1;
+    if (element_added_cb_id_.has_value()) {
+      g_signal_handler_disconnect(G_OBJECT(audiobin_), element_added_cb_id_.value());
+      element_added_cb_id_.reset();
     }
 
-    if (element_removed_cb_id_ != -1) {
-      g_signal_handler_disconnect(G_OBJECT(audiobin_), element_removed_cb_id_);
-      element_removed_cb_id_ = -1;
+    if (element_removed_cb_id_.has_value()) {
+      g_signal_handler_disconnect(G_OBJECT(audiobin_), element_removed_cb_id_.value());
+      element_removed_cb_id_.reset();
     }
 
-    if (pad_added_cb_id_ != -1) {
-      g_signal_handler_disconnect(G_OBJECT(pipeline_), pad_added_cb_id_);
-      pad_added_cb_id_ = -1;
+    if (pad_added_cb_id_.has_value()) {
+      g_signal_handler_disconnect(G_OBJECT(pipeline_), pad_added_cb_id_.value());
+      pad_added_cb_id_.reset();
     }
 
-    if (notify_source_cb_id_ != -1) {
-      g_signal_handler_disconnect(G_OBJECT(pipeline_), notify_source_cb_id_);
-      notify_source_cb_id_ = -1;
+    if (notify_source_cb_id_.has_value()) {
+      g_signal_handler_disconnect(G_OBJECT(pipeline_), notify_source_cb_id_.value());
+      notify_source_cb_id_.reset();
     }
 
-    if (about_to_finish_cb_id_ != -1) {
-      g_signal_handler_disconnect(G_OBJECT(pipeline_), about_to_finish_cb_id_);
-      about_to_finish_cb_id_ = -1;
+    if (about_to_finish_cb_id_.has_value()) {
+      g_signal_handler_disconnect(G_OBJECT(pipeline_), about_to_finish_cb_id_.value());
+      about_to_finish_cb_id_.reset();
     }
 
-    if (notify_volume_cb_id_ != -1) {
-      g_signal_handler_disconnect(G_OBJECT(volume_), notify_volume_cb_id_);
-      notify_volume_cb_id_ = -1;
+    if (notify_volume_cb_id_.has_value()) {
+      g_signal_handler_disconnect(G_OBJECT(volume_), notify_volume_cb_id_.value());
+      notify_volume_cb_id_.reset();
     }
 
-    if (upstream_events_probe_cb_id_ != 0) {
+    if (upstream_events_probe_cb_id_.has_value()) {
       GstPad *pad = gst_element_get_static_pad(eventprobe_, "src");
       if (pad) {
-        gst_pad_remove_probe(pad, upstream_events_probe_cb_id_);
+        gst_pad_remove_probe(pad, upstream_events_probe_cb_id_.value());
         gst_object_unref(pad);
       }
-      upstream_events_probe_cb_id_ = 0;
+      upstream_events_probe_cb_id_.reset();
     }
 
-    if (buffer_probe_cb_id_ != 0) {
+    if (buffer_probe_cb_id_.has_value()) {
       GstPad *pad = gst_element_get_static_pad(audioqueueconverter_, "src");
       if (pad) {
-        gst_pad_remove_probe(pad, buffer_probe_cb_id_);
+        gst_pad_remove_probe(pad, buffer_probe_cb_id_.value());
         gst_object_unref(pad);
       }
-      buffer_probe_cb_id_ = 0;
+      buffer_probe_cb_id_.reset();
     }
 
     {
@@ -718,7 +709,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
     int last_band_frequency = 0;
     for (int i = 0; i < kEqBandCount; ++i) {
       const int index_in_eq = i + 1;
-      GstObject *band = GST_OBJECT(gst_child_proxy_get_child_by_index(GST_CHILD_PROXY(equalizer_), index_in_eq));
+      GstObject *band = GST_OBJECT(gst_child_proxy_get_child_by_index(GST_CHILD_PROXY(equalizer_), static_cast<guint>(index_in_eq)));
       if (band) {
         const float frequency = static_cast<float>(kEqBandFrequencies[i]);
         const float bandwidth = frequency - static_cast<float>(last_band_frequency);
@@ -943,13 +934,13 @@ void GstEnginePipeline::SetupVolume(GstElement *element) {
 
   if (volume_) {
     qLog(Debug) << "Disonnecting volume notify on" << volume_;
-    g_signal_handler_disconnect(G_OBJECT(volume_), notify_volume_cb_id_);
-    notify_volume_cb_id_ = -1;
+    g_signal_handler_disconnect(G_OBJECT(volume_), notify_volume_cb_id_.value());
+    notify_volume_cb_id_.reset();
     volume_ = nullptr;
   }
 
   qLog(Debug) << "Connecting volume notify on" << element;
-  notify_volume_cb_id_ = CHECKED_GCONNECT(G_OBJECT(element), "notify::volume", &NotifyVolumeCallback, this);
+  notify_volume_cb_id_ = static_cast<glong>(CHECKED_GCONNECT(G_OBJECT(element), "notify::volume", &NotifyVolumeCallback, this));
   volume_ = element;
   volume_set_ = false;
 
@@ -1029,10 +1020,10 @@ void GstEnginePipeline::ElementRemovedCallback(GstBin *bin, GstBin *sub_bin, Gst
 
   if (bin != GST_BIN(instance->audiobin_)) return;
 
-  if (instance->notify_volume_cb_id_ != -1 && element == instance->volume_) {
+  if (instance->notify_volume_cb_id_.has_value() && element == instance->volume_) {
     qLog(Debug) << "Disconnecting volume notify on" << instance->volume_;
-    g_signal_handler_disconnect(G_OBJECT(instance->volume_), instance->notify_volume_cb_id_);
-    instance->notify_volume_cb_id_ = -1;
+    g_signal_handler_disconnect(G_OBJECT(instance->volume_), instance->notify_volume_cb_id_.value());
+    instance->notify_volume_cb_id_.reset();
     instance->volume_ = nullptr;
     instance->volume_set_ = false;
   }
@@ -1239,14 +1230,14 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
     int32_t *s = reinterpret_cast<int32_t*>(map_info.data);
     int samples = static_cast<int>((map_info.size / sizeof(int32_t)) / channels);
     int buf16_size = samples * static_cast<int>(sizeof(int16_t)) * channels;
-    int16_t *d = static_cast<int16_t*>(g_malloc(buf16_size));
-    memset(d, 0, buf16_size);
+    int16_t *d = static_cast<int16_t*>(g_malloc(static_cast<gsize>(buf16_size)));
+    memset(d, 0, static_cast<size_t>(buf16_size));
     for (int i = 0; i < (samples * channels); ++i) {
       d[i] = static_cast<int16_t>((s[i] >> 16));
     }
     gst_buffer_unmap(buf, &map_info);
-    buf16 = gst_buffer_new_wrapped(d, buf16_size);
-    GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(samples * sizeof(int16_t) / channels, rate);
+    buf16 = gst_buffer_new_wrapped(d, static_cast<gsize>(buf16_size));
+    GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(static_cast<guint64>(samples * sizeof(int16_t) / channels), static_cast<guint64>(rate));
     buf = buf16;
 
     instance->logged_unsupported_analyzer_format_ = false;
@@ -1260,15 +1251,15 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
     float *s = reinterpret_cast<float*>(map_info.data);
     int samples = static_cast<int>((map_info.size / sizeof(float)) / channels);
     int buf16_size = samples * static_cast<int>(sizeof(int16_t)) * channels;
-    int16_t *d = static_cast<int16_t*>(g_malloc(buf16_size));
-    memset(d, 0, buf16_size);
+    int16_t *d = static_cast<int16_t*>(g_malloc(static_cast<gsize>(buf16_size)));
+    memset(d, 0, static_cast<size_t>(buf16_size));
     for (int i = 0; i < (samples * channels); ++i) {
       float sample_float = (s[i] * static_cast<float>(32768.0));
       d[i] = static_cast<int16_t>(sample_float);
     }
     gst_buffer_unmap(buf, &map_info);
-    buf16 = gst_buffer_new_wrapped(d, buf16_size);
-    GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(samples * sizeof(int16_t) / channels, rate);
+    buf16 = gst_buffer_new_wrapped(d, static_cast<gsize>(buf16_size));
+    GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(static_cast<guint64>(samples * sizeof(int16_t) / channels), static_cast<guint64>(rate));
     buf = buf16;
 
     instance->logged_unsupported_analyzer_format_ = false;
@@ -1282,16 +1273,16 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
     int8_t *s24e = s24 + map_info.size;
     int samples = static_cast<int>((map_info.size / sizeof(int8_t)) / channels);
     int buf16_size = samples * static_cast<int>(sizeof(int16_t)) * channels;
-    int16_t *s16 = static_cast<int16_t*>(g_malloc(buf16_size));
-    memset(s16, 0, buf16_size);
+    int16_t *s16 = static_cast<int16_t*>(g_malloc(static_cast<gsize>(buf16_size)));
+    memset(s16, 0, static_cast<size_t>(buf16_size));
     for (int i = 0; i < (samples * channels); ++i) {
       s16[i] = *(reinterpret_cast<int16_t*>(s24 + 1));
       s24 += 3;
       if (s24 >= s24e) break;
     }
     gst_buffer_unmap(buf, &map_info);
-    buf16 = gst_buffer_new_wrapped(s16, buf16_size);
-    GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(samples * sizeof(int16_t) / channels, rate);
+    buf16 = gst_buffer_new_wrapped(s16, static_cast<gsize>(buf16_size));
+    GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(static_cast<guint64>(samples * sizeof(int16_t) / channels), static_cast<guint64>(rate));
     buf = buf16;
 
     instance->logged_unsupported_analyzer_format_ = false;
@@ -1306,8 +1297,8 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
     int32_t *s32p = s32;
     int samples = static_cast<int>((map_info.size / sizeof(int32_t)) / channels);
     int buf16_size = samples * static_cast<int>(sizeof(int16_t)) * channels;
-    int16_t *s16 = static_cast<int16_t*>(g_malloc(buf16_size));
-    memset(s16, 0, buf16_size);
+    int16_t *s16 = static_cast<int16_t*>(g_malloc(static_cast<gsize>(buf16_size)));
+    memset(s16, 0, static_cast<size_t>(buf16_size));
     for (int i = 0; i < (samples * channels); ++i) {
       int8_t *s24 = reinterpret_cast<int8_t*>(s32p);
       s16[i] = *(reinterpret_cast<int16_t*>(s24 + 1));
@@ -1315,8 +1306,8 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
       if (s32p > s32e) break;
     }
     gst_buffer_unmap(buf, &map_info);
-    buf16 = gst_buffer_new_wrapped(s16, buf16_size);
-    GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(samples * sizeof(int16_t) / channels, rate);
+    buf16 = gst_buffer_new_wrapped(s16, static_cast<gsize>(buf16_size));
+    GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(static_cast<guint64>(samples * sizeof(int16_t) / channels), static_cast<guint64>(rate));
     buf = buf16;
 
     instance->logged_unsupported_analyzer_format_ = false;
@@ -2021,7 +2012,7 @@ void GstEnginePipeline::UpdateEqualizer() {
 
     const int index_in_eq = i + 1;
     // Offset because of the first dummy band we created.
-    GstObject *band = GST_OBJECT(gst_child_proxy_get_child_by_index(GST_CHILD_PROXY(equalizer_), index_in_eq));
+    GstObject *band = GST_OBJECT(gst_child_proxy_get_child_by_index(GST_CHILD_PROXY(equalizer_), static_cast<guint>(index_in_eq)));
     g_object_set(G_OBJECT(band), "gain", gain, nullptr);
     g_object_unref(G_OBJECT(band));
   }

@@ -59,7 +59,7 @@ bool Copy(QIODevice *source, QIODevice *destination) {
   if (!destination->open(QIODevice::WriteOnly)) return false;
 
   const qint64 bytes = source->size();
-  unique_ptr<char[]> data(new char[bytes]);
+  unique_ptr<char[]> data(new char[static_cast<size_t>(bytes)]);
   qint64 pos = 0;
 
   qint64 bytes_read = 0;

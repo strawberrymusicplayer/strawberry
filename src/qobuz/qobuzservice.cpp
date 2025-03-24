@@ -248,7 +248,7 @@ QString QobuzService::DecodeAppSecret(const QString &app_secret_base64) const {
 
   for (int x = 0, y = 0; x < app_secret_binary.length(); ++x , ++y) {
     if (y == appid.length()) y = 0;
-    const uint rc = app_secret_binary[x] ^ appid[y];
+    const uint rc = static_cast<uint>(app_secret_binary[x] ^ appid[y]);
     if (rc > 0xFFFF) {
       return app_secret_base64;
     }

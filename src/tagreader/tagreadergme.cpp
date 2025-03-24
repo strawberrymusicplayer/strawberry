@@ -108,7 +108,7 @@ TagReaderResult GME::SPC::Read(const QFileInfo &fileinfo, Song *song) {
 
     if (length_in_sec <= 0 || length_in_sec >= 0x1FFF) {
       // This means that parsing the length as a string failed, so get value LE.
-      length_in_sec = length_bytes[0] | (length_bytes[1] << 8) | (length_bytes[2] << 16);
+      length_in_sec = static_cast<quint64>(length_bytes[0] | (length_bytes[1] << 8) | (length_bytes[2] << 16));
     }
 
     if (length_in_sec < 0x1FFF) {
@@ -122,7 +122,7 @@ TagReaderResult GME::SPC::Read(const QFileInfo &fileinfo, Song *song) {
     quint64 fade_length_in_ms = ConvertSPCStringToNum(fade_bytes);
 
     if (fade_length_in_ms > 0x7FFF) {
-      fade_length_in_ms = fade_bytes[0] | (fade_bytes[1] << 8) | (fade_bytes[2] << 16) | (fade_bytes[3] << 24);
+      fade_length_in_ms = static_cast<quint64>(fade_bytes[0] | (fade_bytes[1] << 8) | (fade_bytes[2] << 16) | (fade_bytes[3] << 24));
     }
     Q_UNUSED(fade_length_in_ms)
   }
@@ -188,7 +188,7 @@ quint64 GME::SPC::ConvertSPCStringToNum(const QByteArray &arr) {
 
   quint64 result = 0;
   for (auto it = arr.begin(); it != arr.end(); it++) {
-    unsigned int num = *it - '0';
+    const uint num = static_cast<uint>(*it - '0');
     if (num > 9) break;
     result = (result * 10) + num;  // Shift Left and add.
   }
@@ -216,7 +216,7 @@ TagReaderResult GME::VGM::Read(const QFileInfo &fileinfo, Song *song) {
     return TagReaderResult::ErrorCode::FileParseError;
   }
 
-  quint64 pt = GME::UnpackBytes32(gd3_head.constData(), gd3_head.size());
+  quint64 pt = GME::UnpackBytes32(gd3_head.constData(), static_cast<size_t>(gd3_head.size()));
 
   file.seek(SAMPLE_COUNT);
   QByteArray sample_count_bytes = file.read(4);
@@ -234,7 +234,7 @@ TagReaderResult GME::VGM::Read(const QFileInfo &fileinfo, Song *song) {
 
   file.seek(file.pos() + 4);
   QByteArray gd3_length_bytes = file.read(4);
-  quint32 gd3_length = GME::UnpackBytes32(gd3_length_bytes.constData(), gd3_length_bytes.size());
+  quint32 gd3_length = GME::UnpackBytes32(gd3_length_bytes.constData(), static_cast<size_t>(gd3_length_bytes.size()));
 
   QByteArray gd3Data = file.read(gd3_length);
   QTextStream fileTagStream(gd3Data, QIODevice::ReadOnly);
@@ -265,11 +265,11 @@ bool GME::VGM::GetPlaybackLength(const QByteArray &sample_count_bytes, const QBy
   if (sample_count_bytes.size() != 4) return false;
   if (loop_count_bytes.size() != 4) return false;
 
-  quint64 sample_count = GME::UnpackBytes32(sample_count_bytes.constData(), sample_count_bytes.size());
+  quint64 sample_count = GME::UnpackBytes32(sample_count_bytes.constData(), static_cast<size_t>(sample_count_bytes.size()));
 
   if (sample_count == 0) return false;
 
-  quint64 loop_sample_count = GME::UnpackBytes32(loop_count_bytes.constData(), loop_count_bytes.size());
+  quint64 loop_sample_count = GME::UnpackBytes32(loop_count_bytes.constData(), static_cast<size_t>(loop_count_bytes.size()));
 
   if (loop_sample_count == 0) {
     out_length = sample_count * 1000 / SAMPLE_TIMEBASE;

@@ -296,8 +296,6 @@ QString SmartPlaylistSearchTerm::OperatorText(const Type type, const Operator op
       return QString();
   }
 
-  return QString();
-
 }
 
 QString SmartPlaylistSearchTerm::FieldColumnName(const Field field) {

@@ -625,7 +625,7 @@ void TagReaderTagLib::ParseID3v2Tags(TagLib::ID3v2::Tag *tag, QString *disc, QSt
     if (frame_field_list.size() > 1) {
       const int playcount = TagLibStringToQString(frame_field_list[1]).toInt();
       if (song->playcount() <= 0 && playcount > 0) {
-        song->set_playcount(playcount);
+        song->set_playcount(static_cast<uint>(playcount));
       }
     }
   }
@@ -1041,8 +1041,8 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
     fileref->tag()->setAlbum(song.album().isEmpty() ? TagLib::String() : QStringToTagLibString(song.album()));
     fileref->tag()->setGenre(song.genre().isEmpty() ? TagLib::String() : QStringToTagLibString(song.genre()));
     fileref->tag()->setComment(song.comment().isEmpty() ? TagLib::String() : QStringToTagLibString(song.comment()));
-    fileref->tag()->setYear(song.year() <= 0 ? 0 : song.year());
-    fileref->tag()->setTrack(song.track() <= 0 ? 0 : song.track());
+    fileref->tag()->setYear(song.year() <= 0 ? 0 : static_cast<uint>(song.year()));
+    fileref->tag()->setTrack(song.track() <= 0 ? 0 : static_cast<uint>(song.track()));
   }
 
   bool is_flac = false;
@@ -1523,7 +1523,7 @@ void TagReaderTagLib::SetEmbeddedCover(TagLib::FLAC::File *flac_file, TagLib::Og
     TagLib::FLAC::Picture *picture = new TagLib::FLAC::Picture();
     picture->setType(TagLib::FLAC::Picture::FrontCover);
     picture->setMimeType(QStringToTagLibString(mimetype));
-    picture->setData(TagLib::ByteVector(data.constData(), data.size()));
+    picture->setData(TagLib::ByteVector(data.constData(), static_cast<uint>(data.size())));
     flac_file->addPicture(picture);
   }
 
@@ -1537,7 +1537,7 @@ void TagReaderTagLib::SetEmbeddedCover(TagLib::Ogg::XiphComment *vorbis_comment,
     TagLib::FLAC::Picture *picture = new TagLib::FLAC::Picture();
     picture->setType(TagLib::FLAC::Picture::FrontCover);
     picture->setMimeType(QStringToTagLibString(mimetype));
-    picture->setData(TagLib::ByteVector(data.constData(), data.size()));
+    picture->setData(TagLib::ByteVector(data.constData(), static_cast<uint>(data.size())));
     vorbis_comment->addPicture(picture);
   }
 
@@ -1558,7 +1558,7 @@ void TagReaderTagLib::SetEmbeddedCover(TagLib::ID3v2::Tag *tag, const QByteArray
     frontcover = new TagLib::ID3v2::AttachedPictureFrame(kID3v2_CoverArt);
     frontcover->setType(TagLib::ID3v2::AttachedPictureFrame::FrontCover);
     frontcover->setMimeType(QStringToTagLibString(mimetype));
-    frontcover->setPicture(TagLib::ByteVector(data.constData(), data.size()));
+    frontcover->setPicture(TagLib::ByteVector(data.constData(), static_cast<uint>(data.size())));
     tag->addFrame(frontcover);
   }
 
@@ -1583,7 +1583,7 @@ void TagReaderTagLib::SetEmbeddedCover(TagLib::MP4::File *aac_file, TagLib::MP4:
     else {
       return;
     }
-    covers.append(TagLib::MP4::CoverArt(cover_format, TagLib::ByteVector(data.constData(), data.size())));
+    covers.append(TagLib::MP4::CoverArt(cover_format, TagLib::ByteVector(data.constData(), static_cast<uint>(data.size()))));
     tag->setItem(kMP4_CoverArt, covers);
   }
 

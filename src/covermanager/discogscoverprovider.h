@@ -54,7 +54,7 @@ class DiscogsCoverProvider : public JsonCoverProvider {
   };
 
   struct DiscogsCoverReleaseContext {
-    explicit DiscogsCoverReleaseContext(const quint64 _search_id = 0, const quint64 _id = 0, const QUrl &_url = QUrl()) : search_id(_search_id), id(_id), url(_url) {}
+    explicit DiscogsCoverReleaseContext(const int _search_id = 0, const quint64 _id = 0, const QUrl &_url = QUrl()) : search_id(_search_id), id(_id), url(_url) {}
     int search_id;
     quint64 id;
     QUrl url;

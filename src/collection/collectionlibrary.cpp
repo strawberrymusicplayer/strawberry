@@ -199,8 +199,8 @@ void CollectionLibrary::SyncPlaycountAndRatingToFiles() {
   task_manager_->SetTaskBlocksCollectionScans(task_id);
 
   const SongList songs = backend_->GetAllSongs();
-  const qint64 nb_songs = songs.size();
-  int i = 0;
+  const quint64 nb_songs = static_cast<quint64>(songs.size());
+  quint64 i = 0;
   for (const Song &song : songs) {
     (void)tagreader_client_->SaveSongPlaycountBlocking(song.url().toLocalFile(), song.playcount());
     (void)tagreader_client_->SaveSongRatingBlocking(song.url().toLocalFile(), song.rating());

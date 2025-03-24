@@ -163,7 +163,7 @@ void EngineBase::ReloadSettings() {
   channels_enabled_ = s.value(BackendSettings::kChannelsEnabled, false).toBool();
   channels_ = s.value(BackendSettings::kChannels, 0).toInt();
 
-  buffer_duration_nanosec_ = s.value(BackendSettings::kBufferDuration, BackendSettings::kDefaultBufferDuration).toLongLong() * kNsecPerMsec;
+  buffer_duration_nanosec_ = s.value(BackendSettings::kBufferDuration, BackendSettings::kDefaultBufferDuration).toULongLong() * kNsecPerMsec;
   buffer_low_watermark_ = s.value(BackendSettings::kBufferLowWatermark, BackendSettings::kDefaultBufferLowWatermark).toDouble();
   buffer_high_watermark_ = s.value(BackendSettings::kBufferHighWatermark, BackendSettings::kDefaultBufferHighWatermark).toDouble();
 

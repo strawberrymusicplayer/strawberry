@@ -389,7 +389,7 @@ void ScrobblingAPI20::UpdateNowPlaying(const Song &song) {
   CheckScrobblePrevSong();
 
   song_playing_ = song;
-  timestamp_ = QDateTime::currentSecsSinceEpoch();
+  timestamp_ = static_cast<quint64>(QDateTime::currentSecsSinceEpoch());
   scrobbled_ = false;
 
   if (!authenticated() || !song.is_metadata_good() || settings_->offline()) return;

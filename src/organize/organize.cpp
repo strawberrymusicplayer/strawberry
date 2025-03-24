@@ -78,7 +78,7 @@ Organize::Organize(const SharedPtr<TaskManager> task_manager,
       overwrite_(overwrite),
       albumcover_(albumcover),
       eject_after_(eject_after),
-      task_count_(songs_info.count()),
+      task_count_(static_cast<quint64>(songs_info.count())),
       playlist_(playlist),
       tasks_complete_(0),
       started_(false),
@@ -355,7 +355,7 @@ void Organize::UpdateProgress() {
   // Add the progress of the track that's currently copying
   progress += current_copy_progress_;
 
-  task_manager_->SetTaskProgress(task_id_, progress, total);
+  task_manager_->SetTaskProgress(task_id_, static_cast<quint64>(progress), total);
 
 }
 

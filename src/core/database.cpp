@@ -598,7 +598,7 @@ void Database::BackupFile(const QString &filename) {
   do {
     ret = sqlite3_backup_step(backup, 16);
     const int page_count = sqlite3_backup_pagecount(backup);
-    task_manager_->SetTaskProgress(task_id, page_count - sqlite3_backup_remaining(backup), page_count);
+    task_manager_->SetTaskProgress(task_id, static_cast<quint64>(page_count - sqlite3_backup_remaining(backup)), static_cast<quint64>(page_count));
   }
   while (ret == SQLITE_OK);
 

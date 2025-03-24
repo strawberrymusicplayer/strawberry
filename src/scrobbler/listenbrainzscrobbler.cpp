@@ -306,7 +306,7 @@ void ListenBrainzScrobbler::UpdateNowPlaying(const Song &song) {
 
   song_playing_ = song;
   scrobbled_ = false;
-  timestamp_ = QDateTime::currentSecsSinceEpoch();
+  timestamp_ = static_cast<quint64>(QDateTime::currentSecsSinceEpoch());
 
   if (!song.is_metadata_good() || !authenticated() || settings_->offline()) return;
 

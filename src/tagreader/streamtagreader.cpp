@@ -136,7 +136,7 @@ void StreamTagReader::seek(const TagLibOffsetType offset, const TagLib::IOStream
 
   switch (position) {
     case TagLib::IOStream::Beginning:
-      cursor_ = offset;
+      cursor_ = static_cast<TagLibLengthType>(offset);
       break;
 
     case TagLib::IOStream::Current:

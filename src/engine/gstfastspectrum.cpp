@@ -52,9 +52,16 @@ enum {
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wold-style-cast"
 #endif
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable : 4514)
+#endif
 G_DEFINE_TYPE(GstStrawberryFastSpectrum, gst_strawberry_fastspectrum, GST_TYPE_AUDIO_FILTER)
 #ifdef __GNUC__
 #pragma GCC diagnostic pop
+#endif
+#ifdef _MSC_VER
+#pragma warning(pop)
 #endif
 
 static void gst_strawberry_fastspectrum_finalize(GObject *object);
@@ -395,9 +402,9 @@ static GstFlowReturn gst_strawberry_fastspectrum_transform_ip(GstBaseTransform *
 
   GstStrawberryFastSpectrum *fastspectrum = reinterpret_cast<GstStrawberryFastSpectrum*>(transform);
 
-  const guint rate = GST_AUDIO_FILTER_RATE(fastspectrum);
-  const guint bps = GST_AUDIO_FILTER_BPS(fastspectrum);
-  const guint64 bpf = GST_AUDIO_FILTER_BPF(fastspectrum);
+  const guint rate = static_cast<guint>(GST_AUDIO_FILTER_RATE(fastspectrum));
+  const guint bps = static_cast<guint>(GST_AUDIO_FILTER_BPS(fastspectrum));
+  const guint64 bpf = static_cast<guint64>(GST_AUDIO_FILTER_BPF(fastspectrum));
   const double max_value = static_cast<double>((1UL << ((bps << 3) - 1)) - 1);
   const guint bands = fastspectrum->bands;
   const guint nfft = 2 * bands - 2;

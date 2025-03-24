@@ -2566,10 +2566,10 @@ void MainWindow::CommandlineOptionsReceived(const CommandlineOptions &options) {
   }
 
   if (options.seek_to() != -1) {
-    app_->player()->SeekTo(options.seek_to());
+    app_->player()->SeekTo(static_cast<quint64>(options.seek_to()));
   }
   else if (options.seek_by() != 0) {
-    app_->player()->SeekTo(app_->player()->engine()->position_nanosec() / kNsecPerSec + options.seek_by());
+    app_->player()->SeekTo(static_cast<quint64>(app_->player()->engine()->position_nanosec() / kNsecPerSec + options.seek_by()));
   }
 
   if (options.play_track_at() != -1) app_->player()->PlayAt(options.play_track_at(), false, 0, EngineBase::TrackChangeType::Manual, Playlist::AutoScroll::Maybe, true);

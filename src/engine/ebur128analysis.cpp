@@ -257,17 +257,17 @@ bool operator!=(const FrameFormat &lhs, const FrameFormat &rhs) {
 
 EBUR128State::EBUR128State(const FrameFormat &_dsc) : dsc(_dsc) {
 
-  st.reset(ebur128_init(dsc.channels, dsc.samplerate, EBUR128_MODE_I | EBUR128_MODE_LRA));
+  st.reset(ebur128_init(static_cast<uint>(dsc.channels), static_cast<ulong>(dsc.samplerate), EBUR128_MODE_I | EBUR128_MODE_LRA));
   Q_ASSERT(st);
 
-  std::vector<GstAudioChannelPosition> positions(dsc.channels, GST_AUDIO_CHANNEL_POSITION_INVALID);
+  std::vector<GstAudioChannelPosition> positions(static_cast<uint>(dsc.channels), GST_AUDIO_CHANNEL_POSITION_INVALID);
   gboolean success = gst_audio_channel_positions_from_mask(dsc.channels, dsc.channel_mask, positions.data());
   Q_ASSERT(success);
 
   // Propagate our knowledge of audio channel mapping to libebur128, doing so
   // is important because loudness measurement is channel-position dependent.
   for (int channel_number = 0; channel_number != dsc.channels; ++channel_number) {
-    ebur128_set_channel(&*st, channel_number, gst_channel_to_ebur_channel(positions[channel_number]));
+    ebur128_set_channel(&*st, static_cast<uint>(channel_number), gst_channel_to_ebur_channel(positions[static_cast<uint>(channel_number)]));
   }
 
 }
@@ -371,7 +371,7 @@ GstFlowReturn EBUR128AnalysisImpl::NewBufferCallback(GstAppSink *app_sink, gpoin
   if (buffer) {
     GstMapInfo map;
     if (gst_buffer_map(buffer, &map, GST_MAP_READ)) {
-      me->state->AddFrames(reinterpret_cast<const char*>(map.data), static_cast<qint64>(map.size));
+      me->state->AddFrames(reinterpret_cast<const char*>(map.data), static_cast<size_t>(map.size));
       gst_buffer_unmap(buffer, &map);
     }
   }

@@ -178,7 +178,7 @@ int main(int argc, char *argv[]) {
 
   // Seed the random number generators.
   time_t t = time(nullptr);
-  srand(t);
+  srand(static_cast<uint>(t));
 
 #ifdef Q_OS_MACOS
   Utilities::IncreaseFDLimit();

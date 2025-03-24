@@ -23,7 +23,7 @@
 #include "scopedwchararray.h"
 
 ScopedWCharArray::ScopedWCharArray(const QString &str)
-    : chars_(str.length()), data_(new wchar_t[chars_ + 1]) {
+    : chars_(str.length()), data_(new wchar_t[static_cast<size_t>(chars_ + 1)]) {
   str.toWCharArray(data_.get());
-  data_[chars_] = '\0';
+  data_[static_cast<size_t>(chars_)] = '\0';
 }

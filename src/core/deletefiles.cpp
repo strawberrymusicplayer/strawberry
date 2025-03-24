@@ -92,7 +92,7 @@ void DeleteFiles::ProcessSomeFiles() {
 
   // None left?
   if (progress_ >= songs_.count()) {
-    task_manager_->SetTaskProgress(task_id_, progress_, songs_.count());
+    task_manager_->SetTaskProgress(task_id_, static_cast<quint64>(progress_), static_cast<quint64>(songs_.count()));
 
     QString error_text;
     storage_->FinishCopy(songs_with_errors_.isEmpty(), error_text);
@@ -114,7 +114,7 @@ void DeleteFiles::ProcessSomeFiles() {
 
   const qint64 n = qMin(static_cast<qint64>(songs_.count()), static_cast<qint64>(progress_ + kBatchSize));
   for (; progress_ < n; ++progress_) {
-    task_manager_->SetTaskProgress(task_id_, progress_, songs_.count());
+    task_manager_->SetTaskProgress(task_id_, static_cast<quint64>(progress_), static_cast<quint64>(songs_.count()));
 
     const Song song = songs_.value(progress_);
 

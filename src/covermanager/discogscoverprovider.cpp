@@ -283,7 +283,7 @@ void DiscogsCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id)
       Error(QStringLiteral("Invalid Json reply, results value object is missing ID, title or resource_url."), object_result);
       continue;
     }
-    const quint64 release_id = object_result["id"_L1].toInt();
+    const quint64 release_id = static_cast<quint64>(object_result["id"_L1].toInt());
     const QUrl resource_url(object_result["resource_url"_L1].toString());
     QString title = object_result["title"_L1].toString();
 

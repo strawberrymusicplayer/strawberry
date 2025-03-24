@@ -1439,8 +1439,6 @@ QString Playlist::abbreviated_column_name(const Column column) {
       return column_name;
   }
 
-  return ""_L1;
-
 }
 
 void Playlist::sort(const int column_number, const Qt::SortOrder order) {
