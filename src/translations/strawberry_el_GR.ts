@@ -1980,34 +1980,34 @@ If there are no matches then it will use the largest image in the directory.</tr
     <name>DynamicPlaylistControls</name>
     <message>
       <source>Dynamic mode is on</source>
-      <translation type="unfinished">Dynamic mode is on</translation>
+      <translation>Δυναμική λειτουργία είναι ενεργή</translation>
     </message>
     <message>
       <source>New tracks will be added automatically.</source>
-      <translation type="unfinished">New tracks will be added automatically.</translation>
+      <translation>Τα νέα κομμάτια θα προστεθούν αυτόματα.</translation>
     </message>
     <message>
       <source>Expand</source>
-      <translation type="unfinished">Expand</translation>
+      <translation>Επέκταση</translation>
     </message>
     <message>
       <source>Repopulate</source>
-      <translation type="unfinished">Repopulate</translation>
+      <translation>Επαναδημιουργία</translation>
     </message>
     <message>
       <source>Turn off</source>
-      <translation type="unfinished">Turn off</translation>
+      <translation>Απενεργοποίηση</translation>
     </message>
   </context>
   <context>
     <name>EditTagDialog</name>
     <message>
       <source>Edit track information</source>
-      <translation type="unfinished">Edit track information</translation>
+      <translation>Επεξεργασία πληροφοριών τραγουδιού</translation>
     </message>
     <message>
       <source>Summary</source>
-      <translation type="unfinished">Summary</translation>
+      <translation>Σύνοψη</translation>
     </message>
     <message>
       <source>Date created</source>
@@ -2291,15 +2291,15 @@ If there are no matches then it will use the largest image in the directory.</tr
     <name>Equalizer</name>
     <message>
       <source>Equalizer</source>
-      <translation type="unfinished">Equalizer</translation>
+      <translation>Ισοσταθμιστής</translation>
     </message>
     <message>
       <source>Preset:</source>
-      <translation type="unfinished">Preset:</translation>
+      <translation>Προρύθμιση:</translation>
     </message>
     <message>
       <source>Save preset</source>
-      <translation type="unfinished">Save preset</translation>
+      <translation>Αποθήκευση προεπιλογής</translation>
     </message>
     <message>
       <source>Delete preset</source>
@@ -2371,35 +2371,35 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Party</source>
-      <translation type="unfinished">Party</translation>
+      <translation>Πάρτυ</translation>
     </message>
     <message>
       <source>Pop</source>
-      <translation type="unfinished">Pop</translation>
+      <translation>Ποπ</translation>
     </message>
     <message>
       <source>Reggae</source>
-      <translation type="unfinished">Reggae</translation>
+      <translation>Ρέγκε</translation>
     </message>
     <message>
       <source>Rock</source>
-      <translation type="unfinished">Rock</translation>
+      <translation>Ροκ</translation>
     </message>
     <message>
       <source>Soft</source>
-      <translation type="unfinished">Soft</translation>
+      <translation>Απαλό</translation>
     </message>
     <message>
       <source>Ska</source>
-      <translation type="unfinished">Ska</translation>
+      <translation>Σκα</translation>
     </message>
     <message>
       <source>Soft Rock</source>
-      <translation type="unfinished">Soft Rock</translation>
+      <translation>Απαλό Ροκ</translation>
     </message>
     <message>
       <source>Techno</source>
-      <translation type="unfinished">Techno</translation>
+      <translation>Techno</translation>
     </message>
     <message>
       <source>Zero</source>
@@ -2937,7 +2937,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     <name>LastPlayedItemDelegate</name>
     <message>
       <source>Never</source>
-      <translation type="unfinished">Never</translation>
+      <translation>Ποτέ</translation>
     </message>
   </context>
   <context>
