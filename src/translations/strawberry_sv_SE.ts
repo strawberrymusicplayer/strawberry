@@ -72,7 +72,7 @@
     </message>
     <message>
       <source>Enter the URL of a stream:</source>
-      <translation>Ange webbadressen till ett flöde:</translation>
+      <translation>Ange URL:n till ett flöde:</translation>
     </message>
   </context>
   <context>
@@ -87,7 +87,7 @@
     </message>
     <message>
       <source>Load cover from URL...</source>
-      <translation>Läs in omslag från webbadress...</translation>
+      <translation>Läs in omslag från URL...</translation>
     </message>
     <message>
       <source>Search for album covers...</source>
@@ -418,7 +418,7 @@
     </message>
     <message>
       <source>Position</source>
-      <translation type="unfinished">Position</translation>
+      <translation>Position</translation>
     </message>
     <message>
       <source>Upper Left</source>
@@ -557,7 +557,7 @@
     </message>
     <message>
       <source>Exclusive mode (Experimental)</source>
-      <translation type="unfinished">Exclusive mode (Experimental)</translation>
+      <translation>Exklusivt läge (experimentellt)</translation>
     </message>
     <message>
       <source>Options</source>
@@ -712,7 +712,7 @@
     </message>
     <message>
       <source>Show song progress on taskbar</source>
-      <translation type="unfinished">Show song progress on taskbar</translation>
+      <translation>Visa låtens framsteg i aktivitetsfältet</translation>
     </message>
     <message>
       <source>Resume playback on start</source>
@@ -828,7 +828,7 @@
     </message>
     <message>
       <source>Volume Increment</source>
-      <translation type="unfinished">Volume Increment</translation>
+      <translation>Volymökning</translation>
     </message>
   </context>
   <context>
@@ -992,7 +992,7 @@
     <name>CollectionLibrary</name>
     <message>
       <source>Saving playcounts and ratings</source>
-      <translation type="unfinished">Saving playcounts and ratings</translation>
+      <translation>Sparar antal spelningar och betyg</translation>
     </message>
   </context>
   <context>
@@ -1088,11 +1088,11 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Use various artists for compilation albums</source>
-      <translation type="unfinished">Use various artists for compilation albums</translation>
+      <translation>Använd olika artister för samlingsalbum</translation>
     </message>
     <message>
       <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artist names</source>
-      <translation type="unfinished">Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artist names</translation>
+      <translation>Hoppa över ledande artiklar (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) när du sorterar artistnamn</translation>
     </message>
     <message>
       <source>Album cover pixmap cache</source>
@@ -1407,7 +1407,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>%filename%</source>
-      <translation type="unfinished">%filename%</translation>
+      <translation>%filename%</translation>
     </message>
     <message>
       <source>Add song filename</source>
@@ -1415,11 +1415,11 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>%url%</source>
-      <translation type="unfinished">%url%</translation>
+      <translation>%url%</translation>
     </message>
     <message>
       <source>Add song URL</source>
-      <translation>Lägg till låtens webbadress</translation>
+      <translation>Lägg till låtens URL</translation>
     </message>
     <message>
       <source>%rating%</source>
@@ -1521,11 +1521,11 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     <name>CoverFromURLDialog</name>
     <message>
       <source>Load cover from URL</source>
-      <translation>Läs in omslag från webbadress</translation>
+      <translation>Läs in omslag från URL</translation>
     </message>
     <message>
       <source>Enter a URL to download a cover from the Internet:</source>
-      <translation>Ange en webbadress för att hämta ett omslag från Internet:</translation>
+      <translation>Ange en URL för att hämta ett omslag från Internet:</translation>
     </message>
     <message>
       <source>Fetching cover error</source>
@@ -1851,7 +1851,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Information</source>
-      <translation type="unfinished">Information</translation>
+      <translation>Information</translation>
     </message>
     <message>
       <source>Name</source>
@@ -2028,7 +2028,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     <message>
       <source>Last played</source>
       <comment>A playlist&apos;s tag.</comment>
-      <translation type="unfinished">Last played</translation>
+      <translation>Senast spelad</translation>
     </message>
     <message>
       <source>File type</source>
@@ -2172,7 +2172,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Complete lyrics automatically</source>
-      <translation type="unfinished">Complete lyrics automatically</translation>
+      <translation>Komplettera låttexter automatiskt</translation>
     </message>
     <message>
       <source>(different across multiple songs)</source>
@@ -2276,7 +2276,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Not found.</source>
-      <translation type="unfinished">Not found.</translation>
+      <translation>Hittade inte.</translation>
     </message>
     <message>
       <source>Could not write metadata to %1</source>
@@ -2524,7 +2524,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Exceeded by</source>
-      <translation type="unfinished">Exceeded by</translation>
+      <translation>Överskrids av</translation>
     </message>
     <message>
       <source>Used</source>
@@ -2565,7 +2565,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Please open this URL in your browser</source>
-      <translation>Öppna den här webbadressen i din webbläsare</translation>
+      <translation>Öppna den här URL:n i din webbläsare</translation>
     </message>
     <message>
       <source>Redirect missing token code!</source>
@@ -2592,7 +2592,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>URI</source>
-      <translation type="unfinished">URI</translation>
+      <translation>URI</translation>
     </message>
   </context>
   <context>
@@ -2638,7 +2638,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Restart or previous track</source>
-      <translation type="unfinished">Restart or previous track</translation>
+      <translation>Starta om eller föregående spår</translation>
     </message>
     <message>
       <source>Increase volume</source>
@@ -2742,7 +2742,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Using X11 shortcuts is not recommended and can cause keyboard to become unresponsive! Shortcuts on should usually be used through MPRIS2 / KGlobalAccel.</source>
-      <translation type="unfinished">Using X11 shortcuts is not recommended and can cause keyboard to become unresponsive! Shortcuts on should usually be used through MPRIS2 / KGlobalAccel.</translation>
+      <translation>Användning av X11-genvägar rekommenderas inte och kan göra att tangentbordet slutar svara! Genvägar på bör vanligtvis användas genom MPRIS2 / KGlobalAccel.</translation>
     </message>
   </context>
   <context>
@@ -2955,7 +2955,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Please open this URL in your browser</source>
-      <translation>Öppna den här webbadressen i din webbläsare</translation>
+      <translation>Öppna den här URL:n i din webbläsare</translation>
     </message>
     <message>
       <source>Redirect missing token code!</source>
@@ -3052,7 +3052,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     <name>MainWindow</name>
     <message>
       <source>Strawberry Music Player</source>
-      <translation type="unfinished">Strawberry Music Player</translation>
+      <translation>Strawberry musikspelare</translation>
     </message>
     <message>
       <source>MenuPopupToolButton</source>
@@ -3296,7 +3296,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Stop collection scan</source>
-      <translation type="unfinished">Stop collection scan</translation>
+      <translation>Stoppa insamlingsskanningen</translation>
     </message>
     <message>
       <source>Complete tags automatically...</source>
@@ -3424,7 +3424,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Copy URL(s)...</source>
-      <translation>Kopiera webbadress(er)...</translation>
+      <translation>Kopiera URL(er)...</translation>
     </message>
     <message>
       <source>Show in collection...</source>
@@ -3623,7 +3623,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     <name>MtpConnection</name>
     <message>
       <source>Invalid MTP device: %1</source>
-      <translation type="unfinished">Invalid MTP device: %1</translation>
+      <translation>Ogiltig MTP-enhet: %1</translation>
     </message>
     <message>
       <source>Could not open MTP device.</source>
@@ -3631,7 +3631,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>MTP error: %1</source>
-      <translation type="unfinished">MTP error: %1</translation>
+      <translation>MTP-fel: %1</translation>
     </message>
     <message>
       <source>MTP device not found.</source>
@@ -3905,11 +3905,11 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>%url%</source>
-      <translation type="unfinished">%url%</translation>
+      <translation>%url%</translation>
     </message>
     <message>
       <source>Add song URL</source>
-      <translation>Lägg till låtens webbadress</translation>
+      <translation>Lägg till låtens URL</translation>
     </message>
     <message>
       <source>%originalyear%</source>
@@ -4022,7 +4022,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Destination</source>
-      <translation type="unfinished">Destination</translation>
+      <translation>Destination</translation>
     </message>
     <message>
       <source>After copying...</source>
@@ -4522,9 +4522,9 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message numerus="yes">
       <source>%n track(s)</source>
-      <translation type="unfinished">
-        <numerusform>%n track(s)</numerusform>
-        <numerusform>%n track(s)</numerusform>
+      <translation>
+        <numerusform>%n spår</numerusform>
+        <numerusform>%n spår</numerusform>
       </translation>
     </message>
   </context>
@@ -4713,7 +4713,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Metadata</source>
-      <translation type="unfinished">Metadata</translation>
+      <translation>Metadata</translation>
     </message>
     <message>
       <source>If activated, clicking a selected song in the playlist view will let you edit the tag value directly</source>
@@ -4785,15 +4785,15 @@ Are you sure you want to continue?</source>
     <name>PlaylistView</name>
     <message>
       <source>Hz</source>
-      <translation type="unfinished">Hz</translation>
+      <translation>Hz</translation>
     </message>
     <message>
       <source>Bit</source>
-      <translation type="unfinished">Bit</translation>
+      <translation>Bit</translation>
     </message>
     <message>
       <source>kbps</source>
-      <translation type="unfinished">kbps</translation>
+      <translation>kbps</translation>
     </message>
   </context>
   <context>
@@ -4808,7 +4808,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>URL(s)</source>
-      <translation>Webbadress(er)</translation>
+      <translation>URL(er)</translation>
     </message>
     <message>
       <source>Player options</source>
@@ -4884,11 +4884,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Append files/URLs to the playlist</source>
-      <translation>Lägg till filer/webbadresser till spellistan</translation>
+      <translation>Lägg till filer/URL:er till spellistan</translation>
     </message>
     <message>
       <source>Loads files/URLs, replacing current playlist</source>
-      <translation>Läser in filer/webbadresser, ersätter aktuell spellista</translation>
+      <translation>Läser in filer/URL:er, ersätter aktuell spellista</translation>
     </message>
     <message>
       <source>Play the &lt;n&gt;th track in the playlist</source>
@@ -5056,7 +5056,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>artist</source>
-      <translation type="unfinished">artist</translation>
+      <translation>artist</translation>
     </message>
     <message>
       <source>searches for all artists containing the word %1. </source>
@@ -5224,40 +5224,40 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Playlist</source>
-      <translation type="unfinished">Playlist</translation>
+      <translation>Spellista</translation>
     </message>
     <message>
       <source>Various artists</source>
-      <translation type="unfinished">Various artists</translation>
+      <translation>Olika artister</translation>
     </message>
     <message numerus="yes">
       <source>add %n songs</source>
       <translation type="unfinished">
         <numerusform>add %n songs</numerusform>
-        <numerusform>add %n songs</numerusform>
+        <numerusform>lägg till %n låtar</numerusform>
       </translation>
     </message>
     <message numerus="yes">
       <source>remove %n songs</source>
-      <translation type="unfinished">
-        <numerusform>remove %n songs</numerusform>
-        <numerusform>remove %n songs</numerusform>
+      <translation>
+        <numerusform>ta bort %n låt</numerusform>
+        <numerusform>ta bort %n låtar</numerusform>
       </translation>
     </message>
     <message numerus="yes">
       <source>move %n songs</source>
-      <translation type="unfinished">
-        <numerusform>move %n songs</numerusform>
-        <numerusform>move %n songs</numerusform>
+      <translation>
+        <numerusform>flytta %n låt</numerusform>
+        <numerusform>flytta %n låtar</numerusform>
       </translation>
     </message>
     <message>
       <source>sort songs</source>
-      <translation type="unfinished">sort songs</translation>
+      <translation>sortera låtar</translation>
     </message>
     <message>
       <source>shuffle songs</source>
-      <translation type="unfinished">shuffle songs</translation>
+      <translation>blanda låtar</translation>
     </message>
     <message>
       <source>Invalid collection directory</source>
@@ -5365,7 +5365,7 @@ Are you sure you want to continue?</source>
     <name>QobuzSettingsPage</name>
     <message>
       <source>Qobuz</source>
-      <translation type="unfinished">Qobuz</translation>
+      <translation>Qobuz</translation>
     </message>
     <message>
       <source>Enable</source>
@@ -5471,9 +5471,9 @@ Are you sure you want to continue?</source>
     <name>Queue</name>
     <message numerus="yes">
       <source>%n track(s)</source>
-      <translation type="unfinished">
-        <numerusform>%n track(s)</numerusform>
-        <numerusform>%n track(s)</numerusform>
+      <translation>
+        <numerusform>%n spår</numerusform>
+        <numerusform>%n spår</numerusform>
       </translation>
     </message>
   </context>
@@ -5481,7 +5481,7 @@ Are you sure you want to continue?</source>
     <name>QueueView</name>
     <message>
       <source>QueueView</source>
-      <translation type="unfinished">QueueView</translation>
+      <translation>QueueView</translation>
     </message>
     <message>
       <source>Move down</source>
@@ -5830,15 +5830,15 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Open URL in web browser?</source>
-      <translation>Öppna webbadress i webbläsaren?</translation>
+      <translation>Öppna URL i webbläsaren?</translation>
     </message>
     <message>
       <source>Press &quot;Save&quot; to copy the URL to clipboard and manually open it in a web browser.</source>
-      <translation>Tryck på &quot;Spara&quot; för att kopiera webbadressen till urklipp och öppna den manuellt i en webbläsare.</translation>
+      <translation>Tryck på &quot;Spara&quot; för att kopiera URL:n till urklipp och öppna den manuellt i en webbläsare.</translation>
     </message>
     <message>
       <source>Could not open URL. Please open this URL in your browser</source>
-      <translation>Det gick inte att öppna webbadressen. Öppna den här webbadressen i din webbläsare</translation>
+      <translation>Det gick inte att öppna URL:n. Öppna den här URL:n i din webbläsare</translation>
     </message>
     <message>
       <source>Invalid reply from web browser. Missing token.</source>
@@ -6305,7 +6305,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Please open this URL in your browser</source>
-      <translation>Öppna den här webbadressen i din webbläsare</translation>
+      <translation>Öppna den här URL:n i din webbläsare</translation>
     </message>
     <message>
       <source>Redirect missing token code or state!</source>
@@ -6317,7 +6317,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Not authenticated with Spotify.</source>
-      <translation type="unfinished">Not authenticated with Spotify.</translation>
+      <translation>Inte autentiserad med Spotify.</translation>
     </message>
   </context>
   <context>
@@ -6336,7 +6336,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Authenticate</source>
-      <translation type="unfinished">Authenticate</translation>
+      <translation>Autentisera</translation>
     </message>
     <message>
       <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The GStreamer Spotify plugin is not detected, you will not be able to stream songs from Spotify without it. See &lt;a href=&quot;https://wiki.strawberrymusicplayer.org/wiki/Installing_GStreamer_Spotify_plugin&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;Wiki&lt;/span&gt;&lt;/a&gt; for instructions on how to install the plugin.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
@@ -6352,7 +6352,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>ms</source>
-      <translation type="unfinished">ms</translation>
+      <translation>ms</translation>
     </message>
     <message>
       <source>Artists search limit</source>
@@ -6572,7 +6572,7 @@ Are you sure you want to continue?</source>
     <name>SubsonicService</name>
     <message>
       <source>Server URL is invalid.</source>
-      <translation>Serverwebbadressen är ogiltig.</translation>
+      <translation>Server-URL:n är ogiltig.</translation>
     </message>
     <message>
       <source>Missing username or password.</source>
@@ -6591,7 +6591,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Server URL</source>
-      <translation>Serverwebbadress</translation>
+      <translation>Server-URL</translation>
     </message>
     <message>
       <source>Authentication</source>
@@ -6611,11 +6611,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Hex</source>
-      <translation type="unfinished">Hex</translation>
+      <translation>Hex</translation>
     </message>
     <message>
       <source>MD5 token (Recommended)</source>
-      <translation type="unfinished">MD5 token (Recommended)</translation>
+      <translation>MD5-token (rekommenderas)</translation>
     </message>
     <message>
       <source>Preferences</source>
@@ -6655,7 +6655,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Missing server url, username or password.</source>
-      <translation>Serveradress, användarnamn eller lösenord saknas.</translation>
+      <translation>Server-URL, användarnamn eller lösenord saknas.</translation>
     </message>
     <message>
       <source>Configuration incorrect</source>
@@ -6663,7 +6663,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Server URL is invalid.</source>
-      <translation>Serverwebbadressen är ogiltig.</translation>
+      <translation>URL:n är ogiltig.</translation>
     </message>
     <message>
       <source>Test successful!</source>
@@ -6678,7 +6678,7 @@ Are you sure you want to continue?</source>
     <name>SubsonicUrlHandler</name>
     <message>
       <source>Subsonic server URL is invalid.</source>
-      <translation>Subsonic-serverwebbadress är ogiltig.</translation>
+      <translation>Subsonic-server-URL:n är ogiltig.</translation>
     </message>
     <message>
       <source>Missing Subsonic username or password.</source>
@@ -6700,7 +6700,7 @@ Are you sure you want to continue?</source>
     <name>TagFetcher</name>
     <message>
       <source>Identifying song</source>
-      <translation type="unfinished">Identifying song</translation>
+      <translation>Identifierar låt</translation>
     </message>
     <message>
       <source>Fingerprinting song</source>
@@ -6877,7 +6877,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Stream URL method</source>
-      <translation>Metod för flödeswebbadress</translation>
+      <translation>Metod för flödes-URL</translation>
     </message>
     <message>
       <source>Append explicit to album title for explicit albums</source>
@@ -6924,11 +6924,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Received URL with %1 encrypted stream from Tidal. Strawberry does not currently support encrypted streams.</source>
-      <translation>Mottagen webbadress med %1 krypterad ström från Tidal. Strawberry stöder för närvarande inte krypterade flöden.</translation>
+      <translation>Mottagen URL med %1 krypterad ström från Tidal. Strawberry stöder för närvarande inte krypterade flöden.</translation>
     </message>
     <message>
       <source>Received URL with encrypted stream from Tidal. Strawberry does not currently support encrypted streams.</source>
-      <translation>Mottagen webbadress med krypterad ström från Tidal. Strawberry stöder för närvarande inte krypterade flöden.</translation>
+      <translation>Mottagen URL med krypterad ström från Tidal. Strawberry stöder för närvarande inte krypterade flöden.</translation>
     </message>
   </context>
   <context>
@@ -7053,7 +7053,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Destination</source>
-      <translation type="unfinished">Destination</translation>
+      <translation>Destination</translation>
     </message>
     <message>
       <source>Alongside the originals</source>
@@ -7175,7 +7175,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source> kbps</source>
-      <translation type="unfinished"> kbps</translation>
+      <translation> kbps</translation>
     </message>
     <message>
       <source>Profile</source>
@@ -7234,7 +7234,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source> kbps</source>
-      <translation type="unfinished"> kbps</translation>
+      <translation> kbps</translation>
     </message>
   </context>
   <context>
@@ -7289,7 +7289,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source> kbps</source>
-      <translation type="unfinished"> kbps</translation>
+      <translation> kbps</translation>
     </message>
     <message>
       <source>Constant bitrate</source>
@@ -7305,7 +7305,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Standard</source>
-      <translation type="unfinished">Standard</translation>
+      <translation>Standard</translation>
     </message>
     <message>
       <source>High</source>
@@ -7328,7 +7328,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source> kbps</source>
-      <translation type="unfinished"> kbps</translation>
+      <translation> kbps</translation>
     </message>
   </context>
   <context>
@@ -7352,7 +7352,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source> kbps</source>
-      <translation type="unfinished"> kbps</translation>
+      <translation> kbps</translation>
     </message>
     <message>
       <source>Average bitrate</source>
@@ -7424,7 +7424,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source> kbps</source>
-      <translation type="unfinished"> kbps</translation>
+      <translation> kbps</translation>
     </message>
     <message>
       <source>Minimum bitrate</source>
@@ -7458,35 +7458,35 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>FLAC</source>
-      <translation type="unfinished">FLAC</translation>
+      <translation>FLAC</translation>
     </message>
     <message>
       <source>WavPack</source>
-      <translation type="unfinished">WavPack</translation>
+      <translation>WavPack</translation>
     </message>
     <message>
       <source>Vorbis</source>
-      <translation type="unfinished">Vorbis</translation>
+      <translation>Vorbis</translation>
     </message>
     <message>
       <source>Opus</source>
-      <translation type="unfinished">Opus</translation>
+      <translation>Opus</translation>
     </message>
     <message>
       <source>Speex</source>
-      <translation type="unfinished">Speex</translation>
+      <translation>Speex</translation>
     </message>
     <message>
       <source>AAC</source>
-      <translation type="unfinished">AAC</translation>
+      <translation>AAC</translation>
     </message>
     <message>
       <source>ASF (WMA)</source>
-      <translation type="unfinished">ASF (WMA)</translation>
+      <translation>ASF (WMA)</translation>
     </message>
     <message>
       <source>MP3</source>
-      <translation type="unfinished">MP3</translation>
+      <translation>MP3</translation>
     </message>
   </context>
   <context>
@@ -7509,7 +7509,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>UUID</source>
-      <translation type="unfinished">UUID</translation>
+      <translation>UUID</translation>
     </message>
   </context>
   <context>
