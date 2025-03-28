@@ -577,7 +577,7 @@
     </message>
     <message>
       <source>Improve headphone listening of stereo audio records (bs2b)</source>
-      <translation type="unfinished">Improve headphone listening of stereo audio records (bs2b)</translation>
+      <translation>Βελτίωση ακρόασης με ακουστικά για στερεοφωνικεγγραφές (bs2b)</translation>
     </message>
     <message>
       <source>Enable HTTP/2 for streaming</source>
@@ -961,7 +961,7 @@
     </message>
     <message>
       <source>Group by Album Artist</source>
-      <translation type="unfinished">Group by Album Artist</translation>
+      <translation>Ομαδοποίηση κατά καλλιτέχνη άλμπουμ</translation>
     </message>
     <message>
       <source>Group by Artist</source>
@@ -1067,8 +1067,8 @@
     <message>
       <source>When looking for album art Strawberry will first look for picture files that contain one of these words.
 If there are no matches then it will use the largest image in the directory.</source>
-      <translation type="unfinished">When looking for album art Strawberry will first look for picture files that contain one of these words.
-If there are no matches then it will use the largest image in the directory.</translation>
+      <translation>Όταν ψάχνει για εξώφυλλο άλμπουμ ο Strawberry θα ψάξει πρώτα για αρχεία εικόνων που περιέχουν μία από αυτές τις λέξεις.
+Εάν δεν υπάρχουν αντιστοιχίες, τότε θα χρησιμοποιήσει τη μεγαλύτερη εικόνα στον κατάλογο.</translation>
     </message>
     <message>
       <source>Display options</source>
@@ -1191,11 +1191,11 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Search for this</source>
-      <translation type="unfinished">Search for this</translation>
+      <translation>Αναζήτηση για αυτό</translation>
     </message>
     <message>
       <source>Organize files...</source>
-      <translation type="unfinished">Organize files...</translation>
+      <translation>Οργάνωση αρχείων...</translation>
     </message>
     <message>
       <source>Copy to device...</source>
@@ -1203,15 +1203,15 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Delete from disk...</source>
-      <translation type="unfinished">Delete from disk...</translation>
+      <translation>Διαγραφή από το δίσκο...</translation>
     </message>
     <message>
       <source>Edit track information...</source>
-      <translation type="unfinished">Edit track information...</translation>
+      <translation>Επεξεργασία πληροφοριών τραγουδιού...</translation>
     </message>
     <message>
       <source>Edit tracks information...</source>
-      <translation type="unfinished">Edit tracks information...</translation>
+      <translation>Επεξεργασία πληροφοριών τραγουδιών...</translation>
     </message>
     <message>
       <source>Show in file browser...</source>
@@ -1407,7 +1407,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>%filename%</source>
-      <translation type="unfinished">%filename%</translation>
+      <translation>%filename%</translation>
     </message>
     <message>
       <source>Add song filename</source>
@@ -1863,15 +1863,15 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Hardware information</source>
-      <translation type="unfinished">Hardware information</translation>
+      <translation>Πληροφορίες υλικού</translation>
     </message>
     <message>
       <source>Hardware information is only available while the device is connected.</source>
-      <translation type="unfinished">Hardware information is only available while the device is connected.</translation>
+      <translation>Οι πληροφορίες υλικού είναι διαθέσιμες μόνο όταν η συσκευή είναι συνδεδεμένη.</translation>
     </message>
     <message>
       <source>File formats</source>
-      <translation type="unfinished">File formats</translation>
+      <translation>Μορφές αρχείων</translation>
     </message>
     <message>
       <source>Supported formats</source>
@@ -1883,7 +1883,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Strawberry can automatically convert the music you copy to this device into a format that it can play.</source>
-      <translation type="unfinished">Strawberry can automatically convert the music you copy to this device into a format that it can play.</translation>
+      <translation>Ο Strawberry μπορεί να μετατρέψει αυτόματα τη μουσική που αντιγράφετε σε αυτή τη συσκευή σε μια μορφή που μπορεί να παίξει.</translation>
     </message>
     <message>
       <source>Do not convert any music</source>
@@ -3148,7 +3148,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Renumber tracks in this order...</source>
-      <translation type="unfinished">Renumber tracks in this order...</translation>
+      <translation>Επαναρίθμηση κομματιών με αυτή τη σειρά...</translation>
     </message>
     <message>
       <source>Set value for all selected tracks...</source>
@@ -3180,39 +3180,39 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Ctrl+H</source>
-      <translation type="unfinished">Ctrl+H</translation>
+      <translation>Ctrl+H</translation>
     </message>
     <message>
       <source>&amp;Add file...</source>
-      <translation type="unfinished">&amp;Add file...</translation>
+      <translation>&amp;Προσθήκη Αρχείου...</translation>
     </message>
     <message>
       <source>Ctrl+Shift+A</source>
-      <translation type="unfinished">Ctrl+Shift+A</translation>
+      <translation>Ctrl+Shift+A</translation>
     </message>
     <message>
       <source>&amp;Open file...</source>
-      <translation type="unfinished">&amp;Open file...</translation>
+      <translation>&amp;Άνοιγμα αρχείου...</translation>
     </message>
     <message>
       <source>Open audio &amp;CD...</source>
-      <translation type="unfinished">Open audio &amp;CD...</translation>
+      <translation>Άνοιγμα &amp;CD...</translation>
     </message>
     <message>
       <source>&amp;Cover Manager</source>
-      <translation type="unfinished">&amp;Cover Manager</translation>
+      <translation>&amp;Διαχειριστής Εξωφύλλων</translation>
     </message>
     <message>
       <source>C&amp;onsole</source>
-      <translation type="unfinished">C&amp;onsole</translation>
+      <translation>Κ&amp;ονσόλα</translation>
     </message>
     <message>
       <source>&amp;Shuffle mode</source>
-      <translation type="unfinished">&amp;Shuffle mode</translation>
+      <translation>&amp;Τυχαία σειρά</translation>
     </message>
     <message>
       <source>&amp;Repeat mode</source>
-      <translation type="unfinished">&amp;Repeat mode</translation>
+      <translation>&amp;Λειτουργία επανάληψης</translation>
     </message>
     <message>
       <source>Remove from playlist</source>
@@ -3220,7 +3220,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>&amp;Equalizer</source>
-      <translation type="unfinished">&amp;Equalizer</translation>
+      <translation>&amp;Ισοσταθμιστής</translation>
     </message>
     <message>
       <source>&amp;Transcode Music</source>
@@ -3228,19 +3228,19 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Add &amp;folder...</source>
-      <translation type="unfinished">Add &amp;folder...</translation>
+      <translation>Προσθήκη &amp;φακέλου...</translation>
     </message>
     <message>
       <source>&amp;Jump to the currently playing track</source>
-      <translation type="unfinished">&amp;Jump to the currently playing track</translation>
+      <translation>&amp;Μετάβαση στο τρέχον κομμάτι</translation>
     </message>
     <message>
       <source>Ctrl+J</source>
-      <translation type="unfinished">Ctrl+J</translation>
+      <translation>Ctrl+J</translation>
     </message>
     <message>
       <source>&amp;New playlist</source>
-      <translation type="unfinished">&amp;New playlist</translation>
+      <translation>&amp;Νέα λίστα</translation>
     </message>
     <message>
       <source>Ctrl+N</source>
@@ -3280,7 +3280,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>About &amp;Qt</source>
-      <translation type="unfinished">About &amp;Qt</translation>
+      <translation>Σχετικά Με &amp;Qt</translation>
     </message>
     <message>
       <source>&amp;Mute</source>
@@ -3288,19 +3288,19 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Ctrl+M</source>
-      <translation type="unfinished">Ctrl+M</translation>
+      <translation>Ctrl+M</translation>
     </message>
     <message>
       <source>&amp;Do a full collection rescan</source>
-      <translation type="unfinished">&amp;Do a full collection rescan</translation>
+      <translation>&amp;Κάντε μια πλήρη επανασάρωση συλλογής</translation>
     </message>
     <message>
       <source>Stop collection scan</source>
-      <translation type="unfinished">Stop collection scan</translation>
+      <translation>Διακοπή σάρωσης συλλογής</translation>
     </message>
     <message>
       <source>Complete tags automatically...</source>
-      <translation type="unfinished">Complete tags automatically...</translation>
+      <translation>Αυτόματη συμπλήρωση ετικετών...</translation>
     </message>
     <message>
       <source>Ctrl+T</source>
@@ -3344,7 +3344,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Collection</source>
-      <translation type="unfinished">Collection</translation>
+      <translation>Συλλογή</translation>
     </message>
     <message>
       <source>Queue</source>
@@ -3352,11 +3352,11 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Playlists</source>
-      <translation type="unfinished">Playlists</translation>
+      <translation>Λίστες αναπαραγωγής</translation>
     </message>
     <message>
       <source>Smart playlists</source>
-      <translation type="unfinished">Smart playlists</translation>
+      <translation>Έξυπνες λίστες</translation>
     </message>
     <message>
       <source>Files</source>
