@@ -74,6 +74,11 @@ constexpr int kProgressInterval = 500;
 constexpr int kMaxDestinationItems = 10;
 }
 
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Warray-bounds"
+#endif
+
 static bool ComparePresetsByName(const TranscoderPreset &left, const TranscoderPreset &right) {
   return left.name_ < right.name_;
 }
@@ -493,3 +498,7 @@ QString TranscodeDialog::GetOutputFileName(const QString &input_filepath, const 
   return output_filepath;
 
 }
+
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
