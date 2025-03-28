@@ -2860,7 +2860,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     <name>GstEngine</name>
     <message>
       <source>Buffering</source>
-      <translation type="unfinished">Buffering</translation>
+      <translation>Yükleniyor</translation>
     </message>
   </context>
   <context>
