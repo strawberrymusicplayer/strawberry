@@ -66,6 +66,7 @@ BuildRequires:  pkgconfig(libmtp)
 BuildRequires:  pkgconfig(libsparsehash)
 BuildRequires:  cmake(GTest)
 BuildRequires:  pkgconfig(gmock)
+BuildRequires:  cmake(RapidJSON)
 
 %if 0%{?fedora} || (0%{?suse_version} && 0%{?suse_version} > 1600) || "%{?_vendor}" == "openmandriva"
 BuildRequires:  cmake(KDSingleApplication-qt6)
