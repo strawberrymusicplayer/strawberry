@@ -208,7 +208,7 @@ void NotificationsSettingsPage::Load() {
 
   // Discord
   s.beginGroup(DiscordRPCSettings::kSettingsGroup);
-  ui_->richpresence_enabled->setChecked(s.value(DiscordRPCSettings::kEnabled).toBool());
+  ui_->richpresence_enabled->setChecked(s.value(DiscordRPCSettings::kEnabled, false).toBool());
   s.endGroup();
 
   UpdatePopupVisible();

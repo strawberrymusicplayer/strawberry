@@ -323,7 +323,7 @@ int main(int argc, char *argv[]) {
 #endif
 
   // Window
-  MainWindow w(&app, tray_icon, &osd, options);
+  MainWindow w(&app, tray_icon, &osd, &discord_rich_presence, options);
 
 #ifdef Q_OS_MACOS
   mac::EnableFullScreen(w);

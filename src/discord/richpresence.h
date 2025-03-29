@@ -22,10 +22,15 @@
 #include "config.h"
 
 #include <QObject>
+#include <QString>
 
-#include "core/player.h"
-#include "playlist/playlistmanager.h"
 #include "includes/shared_ptr.h"
+#include "core/player.h"
+#include "engine/enginebase.h"
+
+class Song;
+class Player;
+class PlaylistManager;
 
 namespace discord {
 
@@ -38,17 +43,17 @@ class RichPresence : public QObject {
                         QObject *parent = nullptr);
   ~RichPresence();
 
+  void ReloadSettings();
   void Stop();
 
  private Q_SLOTS:
-  void EngineStateChanged(EngineBase::State newState);
+  void EngineStateChanged(const EngineBase::State state);
   void CurrentSongChanged(const Song &song);
-  void Seeked(const qint64 microseconds);
+  void Seeked(const qint64 seek_microseconds);
 
  private:
-  void CheckEnabled();
   void SendPresenceUpdate();
-  void SetTimestamp(const qint64 seekMicroseconds = 0);
+  void SetTimestamp(const qint64 seconds = 0);
 
   const SharedPtr<Player> player_;
   const SharedPtr<PlaylistManager> playlist_manager_;
@@ -62,7 +67,7 @@ class RichPresence : public QObject {
     qint64 seek_secs;
   } activity_;
   qint64 send_presence_timestamp_;
-  bool is_enabled_;
+  bool enabled_;
 };
 
 }  // namespace discord

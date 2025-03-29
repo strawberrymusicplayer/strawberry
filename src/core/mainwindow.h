@@ -99,11 +99,17 @@ class AddStreamDialog;
 class LastFMImportDialog;
 class RadioViewContainer;
 
+#ifdef HAVE_DISCORD_RPC
+namespace discord {
+class RichPresence;
+}
+#endif
+
 class MainWindow : public QMainWindow, public PlatformInterface {
   Q_OBJECT
 
  public:
-  explicit MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OSDBase *osd, const CommandlineOptions &options, QWidget *parent = nullptr);
+  explicit MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OSDBase *osd, discord::RichPresence *discord_rich_presence, const CommandlineOptions &options, QWidget *parent = nullptr);
   ~MainWindow() override;
 
   void SetHiddenInTray(const bool hidden);
@@ -296,6 +302,9 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   Application *app_;
   SharedPtr<SystemTrayIcon> tray_icon_;
   OSDBase *osd_;
+#ifdef HAVE_DISCORD_RPC
+  discord::RichPresence *discord_rich_presence_;
+#endif
   Lazy<About> about_dialog_;
   Lazy<Console> console_;
   Lazy<EditTagDialog> edit_tag_dialog_;

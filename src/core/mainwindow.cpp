@@ -228,6 +228,10 @@
 #  include <qtsparkle-qt6/Updater>
 #endif  // HAVE_QTSPARKLE
 
+#ifdef HAVE_DISCORD_RPC
+  #include "discord/richpresence.h"
+#endif
+
 using std::make_unique;
 using std::make_shared;
 using namespace std::chrono_literals;
@@ -275,7 +279,13 @@ constexpr char QTSPARKLE_URL[] = "https://www.strawberrymusicplayer.org/sparkle-
 }  // namespace
 #endif  // HAVE_QTSPARKLE
 
-MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OSDBase *osd, const CommandlineOptions &options, QWidget *parent)
+MainWindow::MainWindow(Application *app,
+                       SharedPtr<SystemTrayIcon> tray_icon, OSDBase *osd,
+#ifdef HAVE_DISCORD_RPC
+                       discord::RichPresence *discord_rich_presence,
+#endif
+                       const CommandlineOptions &options,
+                       QWidget *parent)
     : QMainWindow(parent),
       ui_(new Ui_MainWindow),
 #ifdef Q_OS_WIN32
@@ -284,6 +294,9 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
       app_(app),
       tray_icon_(tray_icon),
       osd_(osd),
+#ifdef HAVE_DISCORD_RPC
+      discord_rich_presence_(discord_rich_presence),
+#endif
       console_([app, this]() {
         Console *console = new Console(app->database());
         QObject::connect(console, &Console::Error, this, &MainWindow::ShowErrorDialog);
@@ -1316,6 +1329,9 @@ void MainWindow::ReloadAllSettings() {
 #ifdef HAVE_QOBUZ
   qobuz_view_->ReloadSettings();
   qobuz_view_->search_view()->ReloadSettings();
+#endif
+#ifdef HAVE_DISCORD_RPC
+  discord_rich_presence_->ReloadSettings();
 #endif
 
 }
