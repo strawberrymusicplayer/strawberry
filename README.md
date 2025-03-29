@@ -61,6 +61,7 @@ Funding developers is a way to contribute to open source projects you appreciate
   * Scrobbler with support for [Last.fm](https://www.last.fm/), [Libre.fm](https://libre.fm/) and [ListenBrainz](https://listenbrainz.org/)
   * Streaming from Subsonic compatible servers
   * Unofficial Tidal, Spotify and Qobuz integration
+  * Discord rich presence
 
 
 It has so far been tested to work on Linux, OpenBSD, FreeBSD, macOS and Windows.
@@ -93,6 +94,7 @@ Optional dependencies:
 * MTP devices: [libmtp](http://libmtp.sourceforge.net/)
 * iPod Classic devices: [libgpod](http://www.gtkpod.org/libgpod/)
 * EBU R 128 loudness normalization [libebur128](https://github.com/jiixyj/libebur128)
+* Discord rich presence [RapidJSON](https://rapidjson.org/)
 
 You should also install the gstreamer plugins base and good, and optionally bad, ugly and libav to support all audio formats.
 
