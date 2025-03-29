@@ -109,7 +109,14 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   Q_OBJECT
 
  public:
-  explicit MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OSDBase *osd, discord::RichPresence *discord_rich_presence, const CommandlineOptions &options, QWidget *parent = nullptr);
+  explicit MainWindow(Application *app,
+                      SharedPtr<SystemTrayIcon> tray_icon,
+                      OSDBase *osd,
+#ifdef HAVE_DISCORD_RPC
+                      discord::RichPresence *discord_rich_presence,
+#endif
+                      const CommandlineOptions &options,
+                      QWidget *parent = nullptr);
   ~MainWindow() override;
 
   void SetHiddenInTray(const bool hidden);
