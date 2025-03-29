@@ -47,4 +47,7 @@
 
 #cmakedefine ENABLE_WIN32_CONSOLE
 
+#cmakedefine HAVE_VISUALIZATIONS
+#cmakedefine HAVE_PROJECTM4
+
 #endif // CONFIG_H_IN

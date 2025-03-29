@@ -208,6 +208,15 @@ else()
   pkg_check_modules(TAGLIB REQUIRED IMPORTED_TARGET taglib>=1.12)
 endif()
 
+find_package(projectM4 COMPONENTS Playlist)
+if(projectM4_FOUND)
+  set(LIBPROJECTM_FOUND ON)
+  set(HAVE_PROJECTM4 ON)
+  set(LIBPROJECTM_LIBRARIES libprojectM::projectM libprojectM::playlist)
+else()
+  pkg_check_modules(LIBPROJECTM libprojectM)
+endif()
+
 find_package(GTest)
 
 pkg_check_modules(LIBSPARSEHASH IMPORTED_TARGET libsparsehash)
@@ -216,7 +225,7 @@ set(QT_VERSION_MAJOR 6)
 set(QT_MIN_VERSION 6.4.0)
 set(QT_DEFAULT_MAJOR_VERSION ${QT_VERSION_MAJOR})
 set(QT_COMPONENTS Core Concurrent Gui Widgets Network Sql)
-set(QT_OPTIONAL_COMPONENTS GuiPrivate LinguistTools Test)
+set(QT_OPTIONAL_COMPONENTS GuiPrivate OpenGLWidgets LinguistTools Test)
 if(UNIX AND NOT APPLE)
   list(APPEND QT_OPTIONAL_COMPONENTS DBus)
 endif()
@@ -371,6 +380,11 @@ endif()
 if(HAVE_X11_GLOBALSHORTCUTS OR HAVE_KGLOBALACCEL_GLOBALSHORTCUTS OR APPLE OR WIN32)
   set(HAVE_GLOBALSHORTCUTS ON)
 endif()
+
+optional_component(VISUALIZATIONS ON "Visualizations"
+  DEPENDS "libprojectm" LIBPROJECTM_FOUND
+  DEPENDS "QtOpenGLWidgets" Qt${QT_VERSION_MAJOR}OpenGLWidgets_FOUND
+)
 
 if(NOT CMAKE_CROSSCOMPILING)
   # Check that we have Qt with sqlite driver
@@ -1458,6 +1472,26 @@ optional_source(HAVE_QOBUZ
     src/settings/qobuzsettingspage.ui
 )
 
+optional_source(HAVE_VISUALIZATIONS
+  SOURCES
+    src/visualizations/projectmpresetmodel.cpp
+    src/visualizations/projectmvisualization.cpp
+    src/visualizations/visualizationcontainer.cpp
+    src/visualizations/visualizationoverlay.cpp
+    src/visualizations/visualizationselector.cpp
+    src/visualizations/visualizationopenglwidget.cpp
+  HEADERS
+    src/visualizations/projectmpresetmodel.h
+    src/visualizations/projectmvisualization.h
+    src/visualizations/visualizationcontainer.h
+    src/visualizations/visualizationoverlay.h
+    src/visualizations/visualizationselector.h
+    src/visualizations/visualizationopenglwidget.h
+  UI
+    src/visualizations/visualizationoverlay.ui
+    src/visualizations/visualizationselector.ui
+)
+
 qt_wrap_cpp(SOURCES ${HEADERS})
 qt_wrap_ui(SOURCES ${UI})
 qt_add_resources(SOURCES data/data.qrc data/icons.qrc)
@@ -1523,6 +1557,7 @@ target_link_libraries(strawberry_lib PUBLIC
   Qt${QT_VERSION_MAJOR}::Sql
   $<$<BOOL:${HAVE_DBUS}>:Qt${QT_VERSION_MAJOR}::DBus>
   $<$<BOOL:${HAVE_QPA_QPLATFORMNATIVEINTERFACE}>:Qt${QT_VERSION_MAJOR}::GuiPrivate>
+  $<$<BOOL:${HAVE_VISUALIZATIONS}>:Qt${QT_VERSION_MAJOR}::OpenGLWidgets>
   ICU::uc
   ICU::i18n
   $<$<BOOL:${HAVE_STREAMTAGREADER}>:PkgConfig::LIBSPARSEHASH>
@@ -1538,6 +1573,7 @@ target_link_libraries(strawberry_lib PUBLIC
   $<$<BOOL:${HAVE_MTP}>:PkgConfig::LIBMTP>
   $<$<BOOL:${HAVE_GPOD}>:PkgConfig::LIBGPOD PkgConfig::GDK_PIXBUF>
   $<$<BOOL:${HAVE_QTSPARKLE}>:qtsparkle-qt${QT_VERSION_MAJOR}::qtsparkle>
+  $<$<BOOL:${HAVE_VISUALIZATIONS}>:${LIBPROJECTM_LIBRARIES}>
   $<$<BOOL:${WIN32}>:dsound dwmapi getopt-win::getopt>
   $<$<BOOL:${MSVC}>:WindowsApp>
   KDAB::kdsingleapplication
