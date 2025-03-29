@@ -2,6 +2,21 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+  Bugfixes:
+    * Added "HI_RES_LOSSLESS" for Tidal quality setting.
+    * Increased backend settings device lineedit height.
+
+  Enhancements:
+     * Removed deprecated username/password login.
+     * Turned off "Grey out unavailable songs in playlists on startup" by default.
+     * Added support for reading tags from streams.
+     * Added tooltips in equalizer, backend and appearance settings.
+
+  New features:
+     * Added Discord rich presence support.
+
 Version 1.2.7 (2025.01.31):
 
    Bugfixes:
