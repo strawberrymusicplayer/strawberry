@@ -1029,8 +1029,10 @@ bool Song::IsOnSameAlbum(const Song &other) const {
 
 bool Song::IsSimilar(const Song &other) const {
   return title().compare(other.title(), Qt::CaseInsensitive) == 0 &&
-    artist().compare(other.artist(), Qt::CaseInsensitive) == 0 &&
-    album().compare(other.album(), Qt::CaseInsensitive) == 0;
+         artist().compare(other.artist(), Qt::CaseInsensitive) == 0 &&
+         album().compare(other.album(), Qt::CaseInsensitive) == 0 &&
+         fingerprint().compare(other.fingerprint()) == 0 &&
+         acoustid_fingerprint().compare(other.acoustid_fingerprint()) == 0;
 }
 
 Song::Source Song::SourceFromURL(const QUrl &url) {
@@ -1917,7 +1919,7 @@ size_t qHash(const Song &song) {
 
 size_t HashSimilar(const Song &song) {
   // Should compare the same fields as function IsSimilar
-  return qHash(song.title().toLower()) ^ qHash(song.artist().toLower()) ^ qHash(song.album().toLower());
+  return qHash(song.title().toLower()) ^ qHash(song.artist().toLower()) ^ qHash(song.album().toLower()) ^ qHash(song.fingerprint()) ^ qHash(song.acoustid_fingerprint());
 }
 
 bool Song::ContainsRegexList(const QString &str, const RegularExpressionList &regex_list) {
