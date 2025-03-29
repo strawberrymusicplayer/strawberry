@@ -1,22 +1,8 @@
 #pragma once
 
-#ifdef _MSC_VER
-#  pragma warning(push)
-
-#  pragma warning(disable : 4061)  // enum is not explicitly handled by a case label
-#  pragma warning(disable : 4365)  // signed/unsigned mismatch
-#  pragma warning(disable : 4464)  // relative include path contains
-#  pragma warning(disable : 4668)  // is not defined as a preprocessor macro
-#  pragma warning(disable : 6313)  // Incorrect operator
-#endif
-
 #include <rapidjson/document.h>
 #include <rapidjson/stringbuffer.h>
 #include <rapidjson/writer.h>
-
-#ifdef _MSC_VER
-#  pragma warning(pop)
-#endif
 
 namespace discord_rpc {
 
