@@ -130,6 +130,7 @@ Mpris2::Mpris2(const SharedPtr<Player> player,
   QObject::connect(&*player_, &Player::Seeked, this, &Mpris2::Seeked);
 
   QObject::connect(&*playlist_manager_, &PlaylistManager::PlaylistManagerInitialized, this, &Mpris2::PlaylistManagerInitialized);
+  QObject::connect(&*playlist_manager_, &PlaylistManager::AllPlaylistsLoaded, this, &Mpris2::AllPlaylistsLoaded);
   QObject::connect(&*playlist_manager_, &PlaylistManager::CurrentSongChanged, this, &Mpris2::CurrentSongChanged);
   QObject::connect(&*playlist_manager_, &PlaylistManager::PlaylistChanged, this, &Mpris2::PlaylistChangedSlot);
   QObject::connect(&*playlist_manager_, &PlaylistManager::CurrentChanged, this, &Mpris2::PlaylistCollectionChanged);
@@ -160,8 +161,22 @@ Mpris2::Mpris2(const SharedPtr<Player> player,
 
 // when PlaylistManager gets it ready, we connect PlaylistSequence with this
 void Mpris2::PlaylistManagerInitialized() {
+
   QObject::connect(playlist_manager_->sequence(), &PlaylistSequence::ShuffleModeChanged, this, &Mpris2::ShuffleModeChanged);
   QObject::connect(playlist_manager_->sequence(), &PlaylistSequence::RepeatModeChanged, this, &Mpris2::RepeatModeChanged);
+
+}
+
+void Mpris2::AllPlaylistsLoaded() {
+
+  qLog(Debug) << "MPRIS2: All playlists loaded, emitting MPRIS2 notifications";
+
+  EmitNotification(u"CanPlay"_s);
+  EmitNotification(u"CanPause"_s);
+  EmitNotification(u"CanGoNext"_s, CanGoNext());
+  EmitNotification(u"CanGoPrevious"_s, CanGoPrevious());
+  EmitNotification(u"CanSeek"_s, CanSeek());
+
 }
 
 void Mpris2::EngineStateChanged(EngineBase::State newState) {
@@ -201,7 +216,7 @@ void Mpris2::EmitNotification(const QString &name, const QVariant &value, const 
   QDBusMessage msg = QDBusMessage::createSignal(QLatin1String(kMprisObjectPath), QLatin1String(kFreedesktopPath), u"PropertiesChanged"_s);
   QVariantMap map;
   map.insert(name, value);
-  QVariantList args = QVariantList() << mprisEntity << map << QStringList();
+  const QVariantList args = QVariantList() << mprisEntity << map << QStringList();
   msg.setArguments(args);
   QDBusConnection::sessionBus().send(msg);
 
@@ -457,23 +472,45 @@ double Mpris2::MaximumRate() const { return 1.0; }
 double Mpris2::MinimumRate() const { return 1.0; }
 
 bool Mpris2::CanGoNext() const {
-  return playlist_manager_->active() && playlist_manager_->active()->next_row() != -1;
+
+  const bool can_go_next = playlist_manager_->active() && playlist_manager_->active()->next_row() != -1;
+  qLog(Debug) << "MPRIS2: Can go next" << can_go_next;
+  return can_go_next;
+
 }
 
 bool Mpris2::CanGoPrevious() const {
-  return playlist_manager_->active() && (playlist_manager_->active()->previous_row() != -1 || player_->PreviousWouldRestartTrack());
+
+  const bool can_go_previous = playlist_manager_->active() && (playlist_manager_->active()->previous_row() != -1 || player_->PreviousWouldRestartTrack());
+  qLog(Debug) << "MPRIS2: Can go previous" << can_go_previous;
+  return can_go_previous;
+
 }
 
 bool Mpris2::CanPlay() const {
-  return playlist_manager_->active() && playlist_manager_->active()->rowCount() != 0;
+
+  const bool can_play = playlist_manager_->active() && playlist_manager_->active()->rowCount() != 0;
+  qLog(Debug) << "MPRIS2: Can play" << can_play;
+  return can_play;
+
 }
 
 // This one's a bit different than MPRIS 1 - we want this to be true even when the song is already paused or stopped.
 bool Mpris2::CanPause() const {
-  return (player_->GetCurrentItem() && player_->GetState() == EngineBase::State::Playing && !(player_->GetCurrentItem()->options() & PlaylistItem::Option::PauseDisabled)) || PlaybackStatus() == "Paused"_L1 || PlaybackStatus() == "Stopped"_L1;
+
+  const bool can_pause = (player_->GetCurrentItem() && player_->GetState() == EngineBase::State::Playing && !(player_->GetCurrentItem()->options() & PlaylistItem::Option::PauseDisabled)) || PlaybackStatus() == "Paused"_L1 || PlaybackStatus() == "Stopped"_L1;
+  qLog(Debug) << "MPRIS2: Can pause" << can_pause;
+  return can_pause;
+
 }
 
-bool Mpris2::CanSeek() const { return CanSeek(player_->GetState()); }
+bool Mpris2::CanSeek() const {
+
+  const bool can_seek = CanSeek(player_->GetState());
+  qLog(Debug) << "MPRIS2: Can can seek" << can_seek;
+  return can_seek;
+
+}
 
 bool Mpris2::CanSeek(EngineBase::State state) const {
   return player_->GetCurrentItem() && state != EngineBase::State::Empty && !player_->GetCurrentItem()->Metadata().is_stream();
@@ -482,35 +519,45 @@ bool Mpris2::CanSeek(EngineBase::State state) const {
 bool Mpris2::CanControl() const { return true; }
 
 void Mpris2::Next() {
+
   if (CanGoNext()) {
     player_->Next();
   }
+
 }
 
 void Mpris2::Previous() {
+
   if (CanGoPrevious()) {
     player_->Previous();
   }
+
 }
 
 void Mpris2::Pause() {
+
   if (CanPause() && player_->GetState() != EngineBase::State::Paused) {
     player_->Pause();
   }
+
 }
 
 void Mpris2::PlayPause() {
+
   if (CanPause()) {
     player_->PlayPause();
   }
+
 }
 
 void Mpris2::Stop() { player_->Stop(); }
 
 void Mpris2::Play() {
+
   if (CanPlay()) {
     player_->Play();
   }
+
 }
 
 void Mpris2::Seek(qint64 offset) {

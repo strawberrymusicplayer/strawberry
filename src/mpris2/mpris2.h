@@ -217,6 +217,7 @@ class Mpris2 : public QObject {
   void VolumeChanged();
 
   void PlaylistManagerInitialized();
+  void AllPlaylistsLoaded();
   void CurrentSongChanged(const Song &song);
   void ShuffleModeChanged();
   void RepeatModeChanged();
