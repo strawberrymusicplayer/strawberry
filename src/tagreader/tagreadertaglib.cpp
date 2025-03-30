@@ -438,6 +438,12 @@ TagReaderResult TagReaderTagLib::Read(SharedPtr<TagLib::FileRef> fileref, Song *
     }
   }
 
+  else if (TagLib::RIFF::AIFF::File *file_aiff = dynamic_cast<TagLib::RIFF::AIFF::File*>(fileref->file())) {
+    if (file_aiff->hasID3v2Tag()) {
+      ParseID3v2Tags(file_aiff->tag(), &disc, &compilation, song);
+    }
+  }
+
   else if (tag) {
     song->set_comment(tag->comment());
   }
@@ -1168,6 +1174,25 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
       }
     }
   }
+
+  else if (TagLib::RIFF::AIFF::File *file_aiff = dynamic_cast<TagLib::RIFF::AIFF::File*>(fileref->file())) {
+    TagLib::ID3v2::Tag *tag = file_aiff->tag();
+    if (tag) {
+      if (save_tags) {
+        SetID3v2Tag(tag, song);
+      }
+      if (save_playcount) {
+        SetPlaycount(tag, song.playcount());
+      }
+      if (save_rating) {
+        SetRating(tag, song.rating());
+      }
+      if (save_cover) {
+        SetEmbeddedCover(tag, cover.data, cover.mimetype);
+      }
+    }
+  }
+
   else if (TagLib::ASF::File *file_asf = dynamic_cast<TagLib::ASF::File*>(fileref->file())) {
     TagLib::ASF::Tag *tag = file_asf->tag();
     if (tag) {
@@ -1387,9 +1412,9 @@ TagReaderResult TagReaderTagLib::LoadEmbeddedCover(const QString &filename, QByt
   }
 
   // FLAC
-  if (TagLib::FLAC::File *flac_file = dynamic_cast<TagLib::FLAC::File*>(fileref->file())) {
-    if (flac_file->xiphComment()) {
-      TagLib::List<TagLib::FLAC::Picture*> pictures = flac_file->pictureList();
+  if (TagLib::FLAC::File *file_flac = dynamic_cast<TagLib::FLAC::File*>(fileref->file())) {
+    if (file_flac->xiphComment()) {
+      TagLib::List<TagLib::FLAC::Picture*> pictures = file_flac->pictureList();
       if (!pictures.isEmpty()) {
         for (TagLib::FLAC::Picture *picture : pictures) {
           if (picture->type() == TagLib::FLAC::Picture::FrontCover && picture->data().size() > 0) {
@@ -1404,9 +1429,9 @@ TagReaderResult TagReaderTagLib::LoadEmbeddedCover(const QString &filename, QByt
   }
 
   // WavPack
-  if (TagLib::WavPack::File *wavpack_file = dynamic_cast<TagLib::WavPack::File*>(fileref->file())) {
-    if (wavpack_file->APETag()) {
-      data = LoadEmbeddedAPECover(wavpack_file->APETag()->itemListMap());
+  if (TagLib::WavPack::File *file_wavpack = dynamic_cast<TagLib::WavPack::File*>(fileref->file())) {
+    if (file_wavpack->APETag()) {
+      data = LoadEmbeddedCover(file_wavpack->APETag());
       if (!data.isEmpty()) {
         return TagReaderResult::ErrorCode::Success;
       }
@@ -1414,9 +1439,9 @@ TagReaderResult TagReaderTagLib::LoadEmbeddedCover(const QString &filename, QByt
   }
 
   // APE
-  if (TagLib::APE::File *ape_file = dynamic_cast<TagLib::APE::File*>(fileref->file())) {
-    if (ape_file->APETag()) {
-      data = LoadEmbeddedAPECover(ape_file->APETag()->itemListMap());
+  if (TagLib::APE::File *file_ape = dynamic_cast<TagLib::APE::File*>(fileref->file())) {
+    if (file_ape->APETag()) {
+      data = LoadEmbeddedCover(file_ape->APETag());
       if (!data.isEmpty()) {
         return TagReaderResult::ErrorCode::Success;
       }
@@ -1424,9 +1449,9 @@ TagReaderResult TagReaderTagLib::LoadEmbeddedCover(const QString &filename, QByt
   }
 
   // MPC
-  if (TagLib::MPC::File *mpc_file = dynamic_cast<TagLib::MPC::File*>(fileref->file())) {
-    if (mpc_file->APETag()) {
-      data = LoadEmbeddedAPECover(mpc_file->APETag()->itemListMap());
+  if (TagLib::MPC::File *file_mpc = dynamic_cast<TagLib::MPC::File*>(fileref->file())) {
+    if (file_mpc->APETag()) {
+      data = LoadEmbeddedCover(file_mpc->APETag());
       if (!data.isEmpty()) {
         return TagReaderResult::ErrorCode::Success;
       }
@@ -1462,14 +1487,7 @@ TagReaderResult TagReaderTagLib::LoadEmbeddedCover(const QString &filename, QByt
   // MP3
   if (TagLib::MPEG::File *file_mp3 = dynamic_cast<TagLib::MPEG::File*>(fileref->file())) {
     if (file_mp3->ID3v2Tag()) {
-      TagLib::ID3v2::FrameList apic_frames = file_mp3->ID3v2Tag()->frameListMap()[kID3v2_CoverArt];
-      if (apic_frames.isEmpty()) {
-        return TagReaderResult::ErrorCode::Success;
-      }
-
-      TagLib::ID3v2::AttachedPictureFrame *picture = static_cast<TagLib::ID3v2::AttachedPictureFrame*>(apic_frames.front());
-
-      data = QByteArray(reinterpret_cast<const char*>(picture->picture().data()), picture->picture().size());
+      data = LoadEmbeddedCover(file_mp3->ID3v2Tag());
       if (!data.isEmpty()) {
         return TagReaderResult::ErrorCode::Success;
       }
@@ -1477,8 +1495,8 @@ TagReaderResult TagReaderTagLib::LoadEmbeddedCover(const QString &filename, QByt
   }
 
   // MP4/AAC
-  if (TagLib::MP4::File *aac_file = dynamic_cast<TagLib::MP4::File*>(fileref->file())) {
-    TagLib::MP4::Tag *tag = aac_file->tag();
+  if (TagLib::MP4::File *file_aac = dynamic_cast<TagLib::MP4::File*>(fileref->file())) {
+    TagLib::MP4::Tag *tag = file_aac->tag();
     if (tag && tag->item(kMP4_CoverArt).isValid()) {
       const TagLib::MP4::CoverArtList &art_list = tag->item(kMP4_CoverArt).toCoverArtList();
 
@@ -1493,17 +1511,47 @@ TagReaderResult TagReaderTagLib::LoadEmbeddedCover(const QString &filename, QByt
     }
   }
 
+  // WAV
+  if (TagLib::RIFF::WAV::File *file_wav = dynamic_cast<TagLib::RIFF::WAV::File*>(fileref->file())) {
+    if (file_wav->hasID3v2Tag()) {
+      data = LoadEmbeddedCover(file_wav->ID3v2Tag());
+      if (!data.isEmpty()) {
+        return TagReaderResult::ErrorCode::Success;
+      }
+    }
+  }
+
+  // AIFF
+  if (TagLib::RIFF::AIFF::File *file_aiff = dynamic_cast<TagLib::RIFF::AIFF::File*>(fileref->file())) {
+    if (file_aiff->hasID3v2Tag()) {
+      data = LoadEmbeddedCover(file_aiff->tag());
+      if (!data.isEmpty()) {
+        return TagReaderResult::ErrorCode::Success;
+      }
+    }
+  }
+
   return TagReaderResult::ErrorCode::Success;
 
 }
 
-QByteArray TagReaderTagLib::LoadEmbeddedAPECover(const TagLib::APE::ItemListMap &map) const {
+QByteArray TagReaderTagLib::LoadEmbeddedCover(TagLib::ID3v2::Tag *tag) const {
 
-  TagLib::APE::ItemListMap::ConstIterator it = map.find(kAPE_CoverArt);
-  if (it != map.end()) {
+  const TagLib::ID3v2::FrameList apic_frames = tag->frameListMap()[kID3v2_CoverArt];
+  if (apic_frames.isEmpty()) {
+    return QByteArray();
+  }
+  TagLib::ID3v2::AttachedPictureFrame *picture = static_cast<TagLib::ID3v2::AttachedPictureFrame*>(apic_frames.front());
+  return QByteArray(reinterpret_cast<const char*>(picture->picture().data()), picture->picture().size());
+
+}
+
+QByteArray TagReaderTagLib::LoadEmbeddedCover(TagLib::APE::Tag *tag) const {
+
+  TagLib::APE::ItemListMap::ConstIterator it = tag->itemListMap().find(kAPE_CoverArt);
+  if (it != tag->itemListMap().end()) {
     TagLib::ByteVector data = it->second.binaryData();
-
-    int pos = data.find('\0') + 1;
+    const int pos = data.find('\0') + 1;
     if ((pos > 0) && (static_cast<uint>(pos) < data.size())) {
       return QByteArray(data.data() + pos, data.size() - pos);
     }
@@ -1611,10 +1659,10 @@ TagReaderResult TagReaderTagLib::SaveEmbeddedCover(const QString &filename, cons
   const AlbumCoverTagData cover = LoadAlbumCoverTagData(filename, save_tag_cover_data);
 
   // FLAC
-  if (TagLib::FLAC::File *flac_file = dynamic_cast<TagLib::FLAC::File*>(fileref->file())) {
-    TagLib::Ogg::XiphComment *vorbis_comment = flac_file->xiphComment(true);
+  if (TagLib::FLAC::File *file_flac = dynamic_cast<TagLib::FLAC::File*>(fileref->file())) {
+    TagLib::Ogg::XiphComment *vorbis_comment = file_flac->xiphComment(true);
     if (vorbis_comment) {
-      SetEmbeddedCover(flac_file, vorbis_comment, cover.data, cover.mimetype);
+      SetEmbeddedCover(file_flac, vorbis_comment, cover.data, cover.mimetype);
     }
   }
 
@@ -1632,10 +1680,24 @@ TagReaderResult TagReaderTagLib::SaveEmbeddedCover(const QString &filename, cons
   }
 
   // MP4/AAC
-  else if (TagLib::MP4::File *aac_file = dynamic_cast<TagLib::MP4::File*>(fileref->file())) {
-    TagLib::MP4::Tag *tag = aac_file->tag();
+  else if (TagLib::MP4::File *file_aac = dynamic_cast<TagLib::MP4::File*>(fileref->file())) {
+    TagLib::MP4::Tag *tag = file_aac->tag();
     if (tag) {
-      SetEmbeddedCover(aac_file, tag, cover.data, cover.mimetype);
+      SetEmbeddedCover(file_aac, tag, cover.data, cover.mimetype);
+    }
+  }
+
+  // WAV
+  else if (TagLib::RIFF::WAV::File *file_wav = dynamic_cast<TagLib::RIFF::WAV::File*>(fileref->file())) {
+    if (file_wav->ID3v2Tag()) {
+      SetEmbeddedCover(file_wav->ID3v2Tag(), cover.data, cover.mimetype);
+    }
+  }
+
+  // AIFF
+  else if (TagLib::RIFF::AIFF::File *file_aiff = dynamic_cast<TagLib::RIFF::AIFF::File*>(fileref->file())) {
+    if (file_aiff->tag()) {
+      SetEmbeddedCover(file_aiff->tag(), cover.data, cover.mimetype);
     }
   }
 
