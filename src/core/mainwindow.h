@@ -24,6 +24,8 @@
 
 #include "config.h"
 
+#include <optional>
+
 #include <QtGlobal>
 #include <QObject>
 #include <QWidget>
@@ -52,6 +54,7 @@
 #include "core/platforminterface.h"
 #include "core/song.h"
 #include "core/settings.h"
+#include "core/commandlineoptions.h"
 #include "tagreader/tagreaderclient.h"
 #include "osd/osdbase.h"
 #include "playlist/playlist.h"
@@ -144,6 +147,8 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void AuthorizationUrlReceived(const QUrl &url);
 
  private Q_SLOTS:
+  void PlaylistsLoaded();
+
   void FilePathChanged(const QString &path);
 
   void MediaStopped();
@@ -412,7 +417,9 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   AlbumCoverImageResult album_cover_;
   bool exit_;
   int exit_count_;
+  bool playlists_loaded_;
   bool delete_files_;
+  std::optional<CommandlineOptions> options_;
 
 };
 

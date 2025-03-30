@@ -401,6 +401,7 @@ MainWindow::MainWindow(Application *app,
       was_minimized_(false),
       exit_(false),
       exit_count_(0),
+      playlists_loaded_(false),
       delete_files_(false) {
 
   qLog(Debug) << "Starting";
@@ -667,7 +668,7 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(&*app_->player(), &Player::Playing, playlist_list_, &PlaylistListContainer::ActivePlaying);
   QObject::connect(&*app_->player(), &Player::Stopped, playlist_list_, &PlaylistListContainer::ActiveStopped);
 
-  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::AllPlaylistsLoaded, &*app->player(), &Player::PlaylistsLoaded);
+  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::AllPlaylistsLoaded, this, &MainWindow::PlaylistsLoaded);
   QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, this, &MainWindow::SongChanged);
   QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, &*app_->player(), &Player::CurrentMetadataChanged);
   QObject::connect(&*app_->playlist_manager(), &PlaylistManager::EditingFinished, this, &MainWindow::PlaylistEditFinished);
@@ -1405,6 +1406,19 @@ void MainWindow::ExitFinished() {
 
   exit_ = true;
   QCoreApplication::quit();
+
+}
+
+void MainWindow::PlaylistsLoaded() {
+
+  playlists_loaded_ = true;
+
+  if (options_.has_value()) {
+    CommandlineOptionsReceived(options_.value());
+    options_.reset();
+  }
+
+  app_->player()->PlaylistsLoaded();
 
 }
 
@@ -2462,6 +2476,11 @@ void MainWindow::CommandlineOptionsReceived(const QByteArray &string_options) {
 }
 
 void MainWindow::CommandlineOptionsReceived(const CommandlineOptions &options) {
+
+  if (!playlists_loaded_) {
+    options_ = options;
+    return;
+  }
 
   switch (options.player_action()) {
     case CommandlineOptions::PlayerAction::Play:
