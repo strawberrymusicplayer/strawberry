@@ -715,7 +715,8 @@ bool Song::additional_tags_supported() const {
     d->filetype_ == FileType::MP4 ||
     d->filetype_ == FileType::MPC ||
     d->filetype_ == FileType::APE ||
-    d->filetype_ == FileType::WAV;
+    d->filetype_ == FileType::WAV ||
+    d->filetype_ == FileType::AIFF;
 
 }
 
@@ -738,7 +739,8 @@ bool Song::performer_supported() const {
     d->filetype_ == FileType::MPEG ||
     d->filetype_ == FileType::MPC ||
     d->filetype_ == FileType::APE ||
-    d->filetype_ == FileType::WAV;
+    d->filetype_ == FileType::WAV ||
+    d->filetype_ == FileType::AIFF;
 
 }
 
@@ -766,7 +768,9 @@ bool Song::rating_supported() const {
     d->filetype_ == FileType::MP4 ||
     d->filetype_ == FileType::ASF ||
     d->filetype_ == FileType::MPC ||
-    d->filetype_ == FileType::APE;
+    d->filetype_ == FileType::APE ||
+    d->filetype_ == FileType::WAV ||
+    d->filetype_ == FileType::AIFF;
 
 }
 
@@ -784,7 +788,9 @@ bool Song::save_embedded_cover_supported(const FileType filetype) {
     filetype == FileType::OggVorbis ||
     filetype == FileType::OggOpus ||
     filetype == FileType::MPEG ||
-    filetype == FileType::MP4;
+    filetype == FileType::MP4 ||
+    filetype == FileType::WAV ||
+    filetype == FileType::AIFF;
 
 }
 
