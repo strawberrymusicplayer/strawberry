@@ -128,26 +128,22 @@ void RichPresence::SendPresenceUpdate() {
   presence_data.smallImageText = kStrawberryIconDescription;
   presence_data.instance = 0;
 
-  QByteArray artist;
-  QByteArray album;
-  QByteArray title;
   if (!activity_.artist.isEmpty()) {
-    artist = activity_.artist.toUtf8();
+    QByteArray artist = activity_.artist.toUtf8();
     artist.prepend(tr("by ").toUtf8());
     presence_data.state = artist.constData();
   }
 
-  if (!activity_.album.isEmpty() && !(activity_.album == activity_.title)) {
-    album = activity_.album.toUtf8();
+  if (!activity_.album.isEmpty() && activity_.album != activity_.title) {
+    QByteArray album = activity_.album.toUtf8();
     album.prepend(tr("on ").toUtf8());
     presence_data.largeImageText = album.constData();
   }
 
-  title = activity_.title.toUtf8();
+  const QByteArray title = activity_.title.toUtf8();
   presence_data.details = title.constData();
 
   const qint64 start_timestamp = activity_.start_timestamp - activity_.seek_secs;
-
   presence_data.startTimestamp = start_timestamp;
   presence_data.endTimestamp = start_timestamp + activity_.length_secs;
 
