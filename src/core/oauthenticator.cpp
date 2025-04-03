@@ -72,7 +72,7 @@ OAuthenticator::OAuthenticator(const SharedPtr<NetworkAccessManager> network, QO
       user_id_(0) {
 
   timer_refresh_login_->setSingleShot(true);
-  QObject::connect(timer_refresh_login_, &QTimer::timeout, this, &OAuthenticator::RenewAccessToken);
+  QObject::connect(timer_refresh_login_, &QTimer::timeout, this, &OAuthenticator::RerefreshAccessToken);
 
 }
 
@@ -430,7 +430,7 @@ void OAuthenticator::RequestAccessToken(const QString &code, const QUrl &redirec
 
 }
 
-void OAuthenticator::RenewAccessToken() {
+void OAuthenticator::RerefreshAccessToken() {
 
   if (timer_refresh_login_->isActive()) {
     timer_refresh_login_->stop();

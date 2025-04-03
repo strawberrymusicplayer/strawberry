@@ -82,7 +82,7 @@ class OAuthenticator : public QObject {
   void StartRefreshLoginTimer();
   QNetworkReply *CreateAccessTokenRequest(const ParamList &params, const bool refresh_token);
   void RequestAccessToken(const QString &code = QString(), const QUrl &redirect_url = QUrl());
-  void RenewAccessToken();
+  void RerefreshAccessToken();
   void AuthorizationUrlReceived(const QUrl &request_url, const QUrl &redirect_url);
 
  Q_SIGNALS:
