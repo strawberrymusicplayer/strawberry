@@ -302,30 +302,6 @@ void OAuthenticator::Authenticate() {
 
 }
 
-QNetworkReply *OAuthenticator::CreateRequest(const ParamList &params) {
-
-  QUrlQuery url_query;
-  for (const Param &param : std::as_const(params)) {
-    url_query.addQueryItem(QString::fromLatin1(QUrl::toPercentEncoding(param.first)), QString::fromLatin1(QUrl::toPercentEncoding(param.second)));
-  }
-
-  QNetworkRequest network_request(access_token_url_);
-  network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  network_request.setHeader(QNetworkRequest::ContentTypeHeader, u"application/x-www-form-urlencoded"_s);
-  if (type_ == Type::Client_Credentials && !client_id_.isEmpty() && !client_secret_.isEmpty()) {
-    const QString authorization_header = client_id_ + u':' + client_secret_;
-    network_request.setRawHeader("Authorization", "Basic " + authorization_header.toUtf8().toBase64());
-  }
-
-  QNetworkReply *reply = network_->post(network_request, url_query.toString(QUrl::FullyEncoded).toUtf8());
-  replies_ << reply;
-  QObject::connect(reply, &QNetworkReply::sslErrors, this, &OAuthenticator::HandleLoginSSLErrors);
-  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() { AccessTokenRequestFinished(reply); });
-
-  return reply;
-
-}
-
 void OAuthenticator::RedirectArrived() {
 
   if (local_redirect_server_.isNull()) {
@@ -396,6 +372,30 @@ void OAuthenticator::AuthorizationUrlReceived(const QUrl &request_url, const QUr
 
 }
 
+QNetworkReply *OAuthenticator::CreateAccessTokenRequest(const ParamList &params, const bool refresh_token) {
+
+  QUrlQuery url_query;
+  for (const Param &param : std::as_const(params)) {
+    url_query.addQueryItem(QString::fromLatin1(QUrl::toPercentEncoding(param.first)), QString::fromLatin1(QUrl::toPercentEncoding(param.second)));
+  }
+
+  QNetworkRequest network_request(access_token_url_);
+  network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+  network_request.setHeader(QNetworkRequest::ContentTypeHeader, u"application/x-www-form-urlencoded"_s);
+  if (type_ == Type::Client_Credentials && !client_id_.isEmpty() && !client_secret_.isEmpty()) {
+    const QString authorization_header = client_id_ + u':' + client_secret_;
+    network_request.setRawHeader("Authorization", "Basic " + authorization_header.toUtf8().toBase64());
+  }
+
+  QNetworkReply *reply = network_->post(network_request, url_query.toString(QUrl::FullyEncoded).toUtf8());
+  replies_ << reply;
+  QObject::connect(reply, &QNetworkReply::sslErrors, this, &OAuthenticator::HandleSSLErrors);
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, refresh_token]() { AccessTokenRequestFinished(reply, refresh_token); });
+
+  return reply;
+
+}
+
 void OAuthenticator::RequestAccessToken(const QString &code, const QUrl &redirect_url) {
 
   if (timer_refresh_login_->isActive()) {
@@ -426,7 +426,7 @@ void OAuthenticator::RequestAccessToken(const QString &code, const QUrl &redirec
 
   std::sort(params.begin(), params.end());
 
-  CreateRequest(params);
+  CreateAccessTokenRequest(params, false);
 
 }
 
@@ -448,11 +448,11 @@ void OAuthenticator::RenewAccessToken() {
     params << Param(u"client_secret"_s, client_secret_);
   }
 
-  CreateRequest(params);
+  CreateAccessTokenRequest(params, true);
 
 }
 
-void OAuthenticator::HandleLoginSSLErrors(const QList<QSslError> &ssl_errors) {
+void OAuthenticator::HandleSSLErrors(const QList<QSslError> &ssl_errors) {
 
   for (const QSslError &ssl_error : ssl_errors) {
     qLog(Debug) << settings_group_ << ssl_error.errorString();
@@ -460,7 +460,7 @@ void OAuthenticator::HandleLoginSSLErrors(const QList<QSslError> &ssl_errors) {
 
 }
 
-void OAuthenticator::AccessTokenRequestFinished(QNetworkReply *reply) {
+void OAuthenticator::AccessTokenRequestFinished(QNetworkReply *reply, const bool refresh_token) {
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
@@ -538,7 +538,7 @@ void OAuthenticator::AccessTokenRequestFinished(QNetworkReply *reply) {
   if (json_object.contains("refresh_token"_L1)) {
     refresh_token_ = json_object["refresh_token"_L1].toString();
   }
-  else {
+  else if (!refresh_token) {
     refresh_token_.clear();
   }
 

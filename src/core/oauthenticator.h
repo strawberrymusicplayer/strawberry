@@ -80,7 +80,7 @@ class OAuthenticator : public QObject {
 
   QString GrantType() const;
   void StartRefreshLoginTimer();
-  QNetworkReply *CreateRequest(const ParamList &params);
+  QNetworkReply *CreateAccessTokenRequest(const ParamList &params, const bool refresh_token);
   void RequestAccessToken(const QString &code = QString(), const QUrl &redirect_url = QUrl());
   void RenewAccessToken();
   void AuthorizationUrlReceived(const QUrl &request_url, const QUrl &redirect_url);
@@ -91,8 +91,8 @@ class OAuthenticator : public QObject {
 
  private Q_SLOTS:
   void RedirectArrived();
-  void HandleLoginSSLErrors(const QList<QSslError> &ssl_errors);
-  void AccessTokenRequestFinished(QNetworkReply *reply);
+  void HandleSSLErrors(const QList<QSslError> &ssl_errors);
+  void AccessTokenRequestFinished(QNetworkReply *reply, const bool refresh_token);
 
  private:
   const SharedPtr<NetworkAccessManager> network_;
