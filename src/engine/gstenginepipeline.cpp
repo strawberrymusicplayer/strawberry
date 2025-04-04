@@ -101,6 +101,8 @@ int GstEnginePipeline::sId = 1;
 GstEnginePipeline::GstEnginePipeline(QObject *parent)
     : QObject(parent),
       id_(sId++),
+      playbin3_support_(false),
+      volume_full_range_support_(false),
       exclusive_mode_(false),
       volume_enabled_(true),
       fading_enabled_(false),
@@ -122,7 +124,6 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       rg_fallbackgain_(0.0),
       rg_compression_(true),
       ebur128_loudness_normalization_(false),
-      gstreamer_supports_volume_full_range_(false),
       ebur128_loudness_normalizing_gain_db_(0.0),
       segment_start_(0),
       segment_start_received_(false),
@@ -172,6 +173,11 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       last_set_state_in_progress_(GST_STATE_VOID_PENDING),
       last_set_state_async_in_progress_(GST_STATE_VOID_PENDING) {
 
+  guint version_major = 0, version_minor = 0;
+  gst_plugins_base_version(&version_major, &version_minor, nullptr, nullptr);
+  playbin3_support_ = QVersionNumber::compare(QVersionNumber(static_cast<int>(version_major), static_cast<int>(version_minor)), QVersionNumber(1, 24)) >= 0;
+  volume_full_range_support_ = QVersionNumber::compare(QVersionNumber(static_cast<int>(version_major), static_cast<int>(version_minor)), QVersionNumber(1, 24)) >= 0;
+
   eq_band_gains_.reserve(kEqBandCount);
   for (int i = 0; i < kEqBandCount; ++i) eq_band_gains_ << 0;
 
@@ -181,11 +187,6 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
 
   timer_fader_timeout_->setSingleShot(true);
   QObject::connect(timer_fader_timeout_, &QTimer::timeout, this, &GstEnginePipeline::FaderTimelineTimeout);
-
-  guint gst_plugins_base_version_major;
-  guint gst_plugins_base_version_minor;
-  gst_plugins_base_version(&gst_plugins_base_version_major, &gst_plugins_base_version_minor, nullptr, nullptr);
-  gstreamer_supports_volume_full_range_ = (gst_plugins_base_version_major > 1 || (gst_plugins_base_version_major == 1 && gst_plugins_base_version_minor >= 24));
 
 }
 
@@ -449,15 +450,7 @@ bool GstEnginePipeline::InitFromUrl(const QUrl &media_url, const QUrl &stream_ur
   end_offset_nanosec_ = end_offset_nanosec;
   ebur128_loudness_normalizing_gain_db_ = ebur128_loudness_normalizing_gain_db;
 
-  guint version_major = 0, version_minor = 0, version_micro = 0, version_nano = 0;
-  gst_plugins_base_version(&version_major, &version_minor, &version_micro, &version_nano);
-  if (QVersionNumber::compare(QVersionNumber(static_cast<int>(version_major), static_cast<int>(version_minor)), QVersionNumber(1, 24)) >= 0) {
-    pipeline_ = CreateElement(u"playbin3"_s, u"pipeline"_s, nullptr, error);
-  }
-  else {
-    pipeline_ = CreateElement(u"playbin"_s, u"pipeline"_s, nullptr, error);
-  }
-
+  pipeline_ = CreateElement(playbin3_support_ ? u"playbin3"_s : u"playbin"_s, u"pipeline"_s, nullptr, error);
   if (!pipeline_) return false;
 
   pad_added_cb_id_ = CHECKED_GCONNECT(G_OBJECT(pipeline_), "pad-added", &PadAddedCallback, this);
@@ -2037,7 +2030,7 @@ void GstEnginePipeline::UpdateEBUR128LoudnessNormalizingGaindB() {
   if (volume_ebur128_) {
     auto dB_to_mult = [](const double gain_dB) { return std::pow(10., gain_dB / 20.); };
 
-    g_object_set(G_OBJECT(volume_ebur128_), gstreamer_supports_volume_full_range_ ? "volume-full-range" : "volume", dB_to_mult(ebur128_loudness_normalizing_gain_db_), nullptr);
+    g_object_set(G_OBJECT(volume_ebur128_), volume_full_range_support_ ? "volume-full-range" : "volume", dB_to_mult(ebur128_loudness_normalizing_gain_db_), nullptr);
   }
 
 }

@@ -216,6 +216,9 @@ class GstEnginePipeline : public QObject {
 
   QThreadPool set_state_threadpool_;
 
+  bool playbin3_support_;
+  bool volume_full_range_support_;
+
   // General settings for the pipeline
   QString output_;
   QVariant device_;
@@ -263,7 +266,6 @@ class GstEnginePipeline : public QObject {
 
   // EBU R 128 Loudness Normalization
   bool ebur128_loudness_normalization_;
-  bool gstreamer_supports_volume_full_range_;
 
   // Spotify
 #ifdef HAVE_SPOTIFY
