@@ -538,7 +538,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ubuntu_version: [ 'noble', 'oracular' ]
+        ubuntu_version: [ 'noble', 'oracular', 'plucky' ]
     container:
       image: ubuntu:${{matrix.ubuntu_version}}
     steps:
@@ -631,7 +631,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ubuntu_version: [ 'noble', 'oracular' ]
+        ubuntu_version: [ 'noble', 'oracular', 'plucky' ]
     container:
       image: ubuntu:${{matrix.ubuntu_version}}
     steps:
