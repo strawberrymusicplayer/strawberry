@@ -57,10 +57,19 @@
 #include "covermanager/currentalbumcoverloader.h"
 #include "covermanager/albumcoverloaderresult.h"
 
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Warray-bounds"
+#endif
+
 #include "mpris2_player.h"
 #include "mpris2_playlists.h"
 #include "mpris2_root.h"
 #include "mpris2_tracklist.h"
+
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
 
 using namespace Qt::Literals::StringLiterals;
 
