@@ -7,12 +7,17 @@ Unreleased:
   Bugfixes:
     * Added "HI_RES_LOSSLESS" for Tidal quality setting.
     * Increased backend settings device lineedit height.
+    * Possible fix for KGlobalAccel shortcuts sometimes not working.
 
   Enhancements:
-     * Removed deprecated username/password login.
+     * Removed deprecated Tidal username/password login.
      * Turned off "Grey out unavailable songs in playlists on startup" by default.
      * Added support for reading tags from streams.
      * Added tooltips in equalizer, backend and appearance settings.
+     * Added full tag support for AIFF including embedded covers.
+     * Use card ID instead of index for ALSA devices.
+     * Removed KDSingleApplication from 3rdparty.
+     * Support arbitrarily large EBU R 128 loudness normalization.
 
   New features:
      * Added Discord rich presence support.
