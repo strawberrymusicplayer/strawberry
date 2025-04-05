@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+Version 1.2.8 (2025.04.05):
 
   Bugfixes:
     * Added "HI_RES_LOSSLESS" for Tidal quality setting.
