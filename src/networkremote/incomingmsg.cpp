@@ -1,16 +1,13 @@
 #include "incomingmsg.h"
 #include <QTcpSocket>
 #include "networkremote/RemoteMessages.pb.h"
-#include "core/application.h"
 #include "core/logging.h"
-#include "core/player.h"
 
-NetworkRemoteIncomingMsg::NetworkRemoteIncomingMsg(Application *app, QObject *parent)
+NetworkRemoteIncomingMsg::NetworkRemoteIncomingMsg(QObject *parent)
   : QObject(parent),
     msg_(new nw::remote::Message),
     socket_(nullptr),
     bytesIn_(0),
-    app_(app),
     msgType_(0)
 {
 }

@@ -7,14 +7,14 @@
 
 // Forward declarations
 class QTcpSocket;
-class Application;
+
 namespace nw { namespace remote { class Message; } }
 
 class NetworkRemoteIncomingMsg : public QObject
 {
   Q_OBJECT
 public:
-  explicit NetworkRemoteIncomingMsg(Application *app, QObject *parent = nullptr);
+  explicit NetworkRemoteIncomingMsg(QObject *parent = nullptr);
   ~NetworkRemoteIncomingMsg(); 
   void Init(QTcpSocket* socket);
   void SetMsgType();
@@ -32,7 +32,6 @@ private:
   long bytesIn_;
   QByteArray msgStream_;
   std::string msgString_;
-  Application *app_;
   qint32 msgType_;
 };
 

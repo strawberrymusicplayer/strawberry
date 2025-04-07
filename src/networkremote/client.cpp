@@ -4,7 +4,7 @@
 NetworkRemoteClient::NetworkRemoteClient(Application *app, QObject *parent)
   : QObject(parent),
     app_(app),
-    incomingMsg_(new NetworkRemoteIncomingMsg(app, this)),
+    incomingMsg_(new NetworkRemoteIncomingMsg(this)),
     outgoingMsg_(new NetworkRemoteOutgoingMsg(app, this))
 {
   player_ = app_->player();

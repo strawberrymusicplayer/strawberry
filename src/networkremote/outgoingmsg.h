@@ -24,7 +24,6 @@ class NetworkRemoteOutgoingMsg : public QObject
      Q_OBJECT
 public:
   explicit NetworkRemoteOutgoingMsg(Application *app, QObject *parent = nullptr);
-  ~NetworkRemoteOutgoingMsg();
   void Init(QTcpSocket*, SharedPtr<Player>);
   void SendCurrentTrackInfo();
   void SendMsg();

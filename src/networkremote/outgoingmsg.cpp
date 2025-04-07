@@ -15,16 +15,11 @@ NetworkRemoteOutgoingMsg::NetworkRemoteOutgoingMsg(Application *app, QObject *pa
 {
 }
 
-NetworkRemoteOutgoingMsg::~NetworkRemoteOutgoingMsg()
-{
-}
-
 void NetworkRemoteOutgoingMsg::Init(QTcpSocket *socket, SharedPtr<Player> player)
 {
   socket_ = socket;
   player_ = player;
 }
-
 
 void NetworkRemoteOutgoingMsg::SendCurrentTrackInfo()
 {
@@ -71,7 +66,7 @@ void NetworkRemoteOutgoingMsg::SendMsg()
   if(socket_->isWritable())
   {
     socket_->write(QByteArray::fromStdString(msgOut));
-    qInfo() << socket_->bytesToWrite() << " bytes written to socket " << socket_->socketDescriptor();
+    qLog(Debug) << socket_->bytesToWrite() << " bytes written to socket " << socket_->socketDescriptor();
     statusOk_ = true;
     msg_->Clear();
   }

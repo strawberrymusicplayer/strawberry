@@ -4,7 +4,7 @@
 #include "core/logging.h"
 #include "core/player.h"
 
-NetworkRemote* NetworkRemote::sInstance = nullptr;
+NetworkRemote* NetworkRemote::sInstance_ = nullptr;
 const char *NetworkRemote::kSettingsGroup = "Remote";
 
 NetworkRemote::NetworkRemote(Application* app, QObject *parent)
@@ -18,7 +18,7 @@ NetworkRemote::NetworkRemote(Application* app, QObject *parent)
     settings_(new NetworkRemoteSettings())
 {
   setObjectName("NetworkRemote");
-  sInstance = this;
+  sInstance_ = this;
 }
 
 NetworkRemote::~NetworkRemote()
@@ -74,11 +74,11 @@ void NetworkRemote::stopTcpServer()
 }
 
 NetworkRemote* NetworkRemote::Instance() {
-  if (!sInstance) {
+  if (!sInstance_) {
     qLog(Debug) << "NetworkRemote Fatal Instance Error ";
     return nullptr;
   }
   qLog(Debug) << "NetworkRemote instance is up ";
-  return sInstance;
+  return sInstance_;
 }
 

@@ -2,8 +2,6 @@
 #define TCPSERVER_H
 
 #include <QObject>
-#include <QHostAddress>
-#include <QNetworkInterface>
 #include <QTcpServer>
 #include <QTcpSocket>
 #include "networkremote/clientmanager.h"
@@ -14,9 +12,7 @@ class NetworkRemoteTcpServer : public QObject
 {
   Q_OBJECT
 public:
-  static const char *kSettingsGroup;
   explicit NetworkRemoteTcpServer(Application* app, QObject *parent = nullptr);
-  ~NetworkRemoteTcpServer();
   bool ServerUp();
 
 public Q_SLOTS:

@@ -34,7 +34,7 @@ private:
   QHostAddress ipAddr_;
   NetworkRemoteTcpServer *server_;
   QThread *original_thread_;
-  static NetworkRemote* sInstance;
+  static NetworkRemote* sInstance_;
   NetworkRemoteSettings* settings_;
 };
 

@@ -1,9 +1,6 @@
 #ifndef NETWORKREMOTESETTINGSPAGE_H
 #define NETWORKREMOTESETTINGSPAGE_H
 
-#include <QWidget>
-#include <QObject>
-
 #include "settingspage.h"
 #include "networkremote/remotesettings.h"
 
@@ -27,7 +24,7 @@ Q_SIGNALS:
 
 private:
   Ui_NetworkRemoteSettingsPage *ui_;
-  NetworkRemoteSettings *s_ = new NetworkRemoteSettings;
+  NetworkRemoteSettings *settings_;
 
 private Q_SLOTS:
   void RemoteButtonClicked();
