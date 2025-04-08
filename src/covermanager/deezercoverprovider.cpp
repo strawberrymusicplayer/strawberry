@@ -158,16 +158,16 @@ void DeezerCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) 
   }
 
   const QJsonObject &json_object = json_object_result.json_object;
-  if (!json_object.isEmpty()) {
+  if (json_object.isEmpty()) {
     return;
   }
 
   QJsonArray array_data;
-  if (json_object.contains("data"_L1) && json_object["DATA"_L1].isArray()) {
+  if (json_object.contains("data"_L1) && json_object["data"_L1].isArray()) {
     array_data = json_object["data"_L1].toArray();
   }
   else if (json_object.contains("DATA"_L1) && json_object["DATA"_L1].isArray()) {
-    array_data = json_object["data"_L1].toArray();
+    array_data = json_object["DATA"_L1].toArray();
   }
   else {
     Error(u"Json reply object is missing data."_s, json_object);
@@ -180,23 +180,23 @@ void DeezerCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) 
 
   QMap<QUrl, CoverProviderSearchResult> cover_results;
   int i = 0;
-  for (const QJsonValue &json_value : std::as_const(array_data)) {
+  for (const QJsonValue &value_entry : std::as_const(array_data)) {
 
-    if (!json_value.isObject()) {
+    if (!value_entry.isObject()) {
       Error(u"Invalid Json reply, data array value is not a object."_s);
       continue;
     }
-    const QJsonObject value_object = json_value.toObject();
+    const QJsonObject object_entry = value_entry.toObject();
     QJsonObject object_album;
-    if (value_object.contains("album"_L1) && value_object["album"_L1].isObject()) {  // Song search, so extract the album.
-      object_album = value_object["album"_L1].toObject();
+    if (object_entry.contains("album"_L1) && object_entry["album"_L1].isObject()) {  // Song search, so extract the album.
+      object_album = object_entry["album"_L1].toObject();
     }
     else {
-      object_album = value_object;
+      object_album = object_entry;
     }
 
-    if (!value_object.contains("id"_L1) || !object_album.contains("id"_L1)) {
-      Error(u"Invalid Json reply, data array value object is missing ID."_s, value_object);
+    if (!object_entry.contains("id"_L1) || !object_album.contains("id"_L1)) {
+      Error(u"Invalid Json reply, data array value object is missing ID."_s, object_entry);
       continue;
     }
 
@@ -210,11 +210,11 @@ void DeezerCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) 
       continue;
     }
 
-    if (!json_object.contains("artist"_L1)) {
-      Error(u"Invalid Json reply, data array value object is missing artist."_s, json_object);
+    if (!object_entry.contains("artist"_L1)) {
+      Error(u"Invalid Json reply, data array value object is missing artist."_s, object_entry);
       continue;
     }
-    const QJsonValue value_artist = json_object["artist"_L1];
+    const QJsonValue value_artist = object_entry["artist"_L1];
     if (!value_artist.isObject()) {
       Error(u"Invalid Json reply, data array value artist is not a object."_s, value_artist);
       continue;
@@ -242,12 +242,12 @@ void DeezerCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) 
                                                                                     << qMakePair(u"cover_big"_s, QSize(500, 500));
     for (const QPair<QString, QSize> &cover_size : cover_sizes) {
       if (!object_album.contains(cover_size.first)) continue;
-      QString cover = object_album[cover_size.first].toString();
+      const QString cover = object_album[cover_size.first].toString();
       if (!have_cover) {
         have_cover = true;
         ++i;
       }
-      QUrl url(cover);
+      const QUrl url(cover);
       if (!cover_results.contains(url)) {
         cover_result.image_url = url;
         cover_result.image_size = cover_size.second;
