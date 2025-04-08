@@ -158,7 +158,12 @@ JsonBaseRequest::JsonObjectResult SubsonicBaseRequest::ParseJsonObject(QNetworkR
         }
       }
       else {
-        result.json_object = json_document.object();
+        if (json_object.contains("subsonic-response"_L1) && json_object["subsonic-response"_L1].isObject()) {
+          result.json_object = json_object["subsonic-response"_L1].toObject();
+        }
+        else {
+          result.json_object = json_object;
+        }
       }
     }
     else {
