@@ -899,6 +899,7 @@ GstEnginePipelinePtr GstEngine::CreatePipeline() {
 
   GstEnginePipelinePtr pipeline = GstEnginePipelinePtr(new GstEnginePipeline);
   pipeline->set_output_device(output_, device_);
+  pipeline->set_playbin3_enabled(playbin3_enabled_);
   pipeline->set_exclusive_mode(exclusive_mode_);
   pipeline->set_volume_enabled(volume_control_);
   pipeline->set_stereo_balancer_enabled(stereo_balancer_enabled_);

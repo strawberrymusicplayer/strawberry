@@ -46,6 +46,7 @@ using namespace Qt::Literals::StringLiterals;
 
 EngineBase::EngineBase(QObject *parent)
     : QObject(parent),
+      playbin3_enabled_(true),
       exclusive_mode_(false),
       volume_control_(true),
       volume_(100),
@@ -155,6 +156,8 @@ void EngineBase::ReloadSettings() {
   else if (s.contains(BackendSettings::kDevice)) {
     device_ = s.value(BackendSettings::kDevice);
   }
+
+  playbin3_enabled_ = s.value(BackendSettings::kPlaybin3, true).toBool();
 
   exclusive_mode_ = s.value(BackendSettings::kExclusiveMode, false).toBool();
 

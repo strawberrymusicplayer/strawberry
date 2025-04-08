@@ -65,6 +65,7 @@ class GstEnginePipeline : public QObject {
 
   // Call these setters before Init
   void set_output_device(const QString &output, const QVariant &device);
+  void set_playbin3_enabled(const bool playbin3_enabled);
   void set_exclusive_mode(const bool exclusive_mode);
   void set_volume_enabled(const bool enabled);
   void set_stereo_balancer_enabled(const bool enabled);
@@ -218,6 +219,8 @@ class GstEnginePipeline : public QObject {
 
   bool playbin3_support_;
   bool volume_full_range_support_;
+
+  bool playbin3_enabled_;
 
   // General settings for the pipeline
   QString output_;

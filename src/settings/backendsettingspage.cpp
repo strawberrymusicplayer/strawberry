@@ -178,6 +178,8 @@ void BackendSettingsPage::Load() {
 
   ui_->checkbox_bs2b->setChecked(s.value(kBS2B, false).toBool());
 
+  ui_->checkbox_playbin3->setChecked(s.value(kPlaybin3, true).toBool());
+
   ui_->checkbox_http2->setChecked(s.value(kHTTP2, false).toBool());
   ui_->checkbox_strict_ssl->setChecked(s.value(kStrictSSL, false).toBool());
 
@@ -439,6 +441,8 @@ void BackendSettingsPage::Save() {
   s.setValue(kChannels, ui_->spinbox_channels->value());
 
   s.setValue(kBS2B, ui_->checkbox_bs2b->isChecked());
+
+  s.setValue(kPlaybin3, ui_->checkbox_playbin3->isChecked());
 
   s.setValue(kHTTP2, ui_->checkbox_http2->isChecked());
   s.setValue(kStrictSSL, ui_->checkbox_strict_ssl->isChecked());

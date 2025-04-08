@@ -33,6 +33,7 @@ constexpr char kOutputU[] = "Output";
 constexpr char kDevice[] = "device";
 constexpr char kDeviceU[] = "Device";
 constexpr char kALSAPlugin[] = "alsaplugin";
+constexpr char kPlaybin3[] = "playbin3";
 constexpr char kExclusiveMode[] = "exclusive_mode";
 constexpr char kVolumeControl[] = "volume_control";
 constexpr char kChannelsEnabled[] = "channels_enabled";

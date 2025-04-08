@@ -176,6 +176,7 @@ class EngineBase : public QObject {
   void Finished();
 
  protected:
+  bool playbin3_enabled_;
   bool exclusive_mode_;
   bool volume_control_;
   uint volume_;

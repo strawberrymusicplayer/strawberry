@@ -103,6 +103,7 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       id_(sId++),
       playbin3_support_(false),
       volume_full_range_support_(false),
+      playbin3_enabled_(true),
       exclusive_mode_(false),
       volume_enabled_(true),
       fading_enabled_(false),
@@ -219,6 +220,10 @@ void GstEnginePipeline::set_output_device(const QString &output, const QVariant 
   output_ = output;
   device_ = device;
 
+}
+
+void GstEnginePipeline::set_playbin3_enabled(const bool playbin3_enabled) {
+  playbin3_enabled_ = playbin3_enabled;
 }
 
 void GstEnginePipeline::set_exclusive_mode(const bool exclusive_mode) {
@@ -450,7 +455,9 @@ bool GstEnginePipeline::InitFromUrl(const QUrl &media_url, const QUrl &stream_ur
   end_offset_nanosec_ = end_offset_nanosec;
   ebur128_loudness_normalizing_gain_db_ = ebur128_loudness_normalizing_gain_db;
 
-  pipeline_ = CreateElement(playbin3_support_ ? u"playbin3"_s : u"playbin"_s, u"pipeline"_s, nullptr, error);
+  const QString playbin_name = playbin3_support_ && playbin3_enabled_ ? u"playbin3"_s : u"playbin"_s;
+  qLog(Debug) << "Using" << playbin_name << "for pipeline";
+  pipeline_ = CreateElement(playbin_name, u"pipeline"_s, nullptr, error);
   if (!pipeline_) return false;
 
   pad_added_cb_id_ = CHECKED_GCONNECT(G_OBJECT(pipeline_), "pad-added", &PadAddedCallback, this);
