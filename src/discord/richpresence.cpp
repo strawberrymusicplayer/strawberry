@@ -49,7 +49,6 @@ RichPresence::RichPresence(const SharedPtr<Player> player,
     : QObject(parent),
       player_(player),
       playlist_manager_(playlist_manager),
-      activity_({ {}, {}, {}, 0, 0, 0 }),
       send_presence_timestamp_(0),
       enabled_(false) {
 

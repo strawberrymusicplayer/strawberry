@@ -58,14 +58,17 @@ class RichPresence : public QObject {
   const SharedPtr<Player> player_;
   const SharedPtr<PlaylistManager> playlist_manager_;
 
-  struct {
+  class Activity {
+   public:
+    explicit Activity() : start_timestamp(0), length_secs(0), seek_secs(0) {}
     QString title;
     QString artist;
     QString album;
     qint64 start_timestamp;
     qint64 length_secs;
     qint64 seek_secs;
-  } activity_;
+  };
+  Activity activity_;
   qint64 send_presence_timestamp_;
   bool enabled_;
 };
