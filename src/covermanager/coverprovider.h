@@ -41,7 +41,7 @@ class CoverProvider : public JsonBaseRequest {
   explicit CoverProvider(const QString &name, const bool enabled, const bool authentication_required, const float quality, const bool batch, const bool allow_missing_album, const SharedPtr<NetworkAccessManager> network, QObject *parent);
 
   QString name() const { return name_; }
-  bool is_enabled() const { return enabled_; }
+  bool enabled() const { return enabled_; }
   int order() const { return order_; }
   float quality() const { return quality_; }
   bool batch() const { return batch_; }

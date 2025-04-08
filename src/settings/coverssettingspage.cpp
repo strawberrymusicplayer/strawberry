@@ -107,8 +107,8 @@ void CoversSettingsPage::Load() {
   for (CoverProvider *provider : std::as_const(cover_providers_sorted)) {
     QListWidgetItem *item = new QListWidgetItem(ui_->providers);
     item->setText(provider->name());
-    item->setCheckState(provider->is_enabled() ? Qt::Checked : Qt::Unchecked);
-    item->setForeground(provider->is_enabled() ? palette().color(QPalette::Active, QPalette::Text) : palette().color(QPalette::Disabled, QPalette::Text));
+    item->setCheckState(provider->enabled() ? Qt::Checked : Qt::Unchecked);
+    item->setForeground(provider->enabled() ? palette().color(QPalette::Active, QPalette::Text) : palette().color(QPalette::Disabled, QPalette::Text));
   }
 
   Settings s;
