@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+Version 1.2.9 (2025.04.08):
 
   Bugfixes:
     * Fixed subsonic parse error (#1719).
