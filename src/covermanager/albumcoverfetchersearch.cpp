@@ -249,6 +249,8 @@ void AlbumCoverFetcherSearch::ProviderSearchFinished(const int id, const CoverPr
 
 void AlbumCoverFetcherSearch::AllProvidersFinished() {
 
+  qLog(Debug) << "Search finished, got" << results_.count() << "results";
+
   if (cancel_requested_) {
     return;
   }
