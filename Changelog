@@ -5,8 +5,9 @@ ChangeLog
 Unreleased:
 
   Bugfixes:
-    * Fixed subsonic parsing error (#1719).
-    * Fixed Deezer cover provider parsing error (#1716).
+    * Fixed subsonic parse error (#1719).
+    * Fixed Deezer cover provider parse error (#1716).
+    * Fixed last.fm import progress.
     * (Windows|MinGW) Switched from winpthreads to win32 threads, winpthreads are no longer working with Qt as of version 6.9 (QTBUG-131892).
 
   Enhancements:
