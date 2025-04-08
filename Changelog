@@ -2,6 +2,16 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+  Bugfixes:
+    * Fixed subsonic parsing error (#1719).
+    * Fixed Deezer cover provider parsing error (#1716).
+    * (Windows|MinGW) Switched from winpthreads to win32 threads, winpthreads are no longer working with Qt as of version 6.9 (QTBUG-131892).
+
+  Enhancements:
+    * Added option to disable playbin3.
+
 Version 1.2.8 (2025.04.05):
 
   Bugfixes:
