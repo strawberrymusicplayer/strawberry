@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.13)
 
 project(strawberry C CXX)
 
+
 if(APPLE)
   enable_language(OBJC OBJCXX)
 endif()
@@ -29,6 +30,8 @@ endif()
 if(LINUX)
   include(cmake/Rpm.cmake)
   include(cmake/Deb.cmake)
+  set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
+  set(CMAKE_INSTALL_RPATH "$ORIGIN/../lib")
 endif()
 
 if(APPLE)
@@ -172,6 +175,15 @@ if(UNIX AND NOT APPLE)
   endif()
   find_package(X11 COMPONENTS X11_xcb)
 endif()
+
+find_package(Protobuf CONFIG)
+if(NOT Protobuf_FOUND)
+  find_package(Protobuf REQUIRED)
+endif()
+if(NOT TARGET protobuf::protoc)
+  message(FATAL_ERROR "Missing Protobuf compiler.")
+endif()
+
 pkg_check_modules(GLIB REQUIRED IMPORTED_TARGET glib-2.0)
 pkg_check_modules(GOBJECT REQUIRED IMPORTED_TARGET gobject-2.0)
 if(NOT APPLE)
@@ -706,6 +718,7 @@ set(SOURCES
   src/settings/contextsettingspage.cpp
   src/settings/notificationssettingspage.cpp
   src/settings/transcodersettingspage.cpp
+  src/settings/networkremotesettingspage.cpp
 
   src/dialogs/about.cpp
   src/dialogs/console.cpp
@@ -823,6 +836,14 @@ set(SOURCES
   src/device/devicestatefiltermodel.cpp
   src/device/deviceviewcontainer.cpp
   src/device/deviceview.cpp
+
+  src/networkremote/networkremote.cpp
+  src/networkremote/tcpserver.cpp
+  src/networkremote/remotesettings.cpp
+  src/networkremote/client.cpp
+  src/networkremote/clientmanager.cpp
+  src/networkremote/incomingmsg.cpp
+  src/networkremote/outgoingmsg.cpp
 )
 
 set(HEADERS
@@ -1003,6 +1024,7 @@ set(HEADERS
   src/settings/contextsettingspage.h
   src/settings/notificationssettingspage.h
   src/settings/transcodersettingspage.h
+  src/settings/networkremotesettingspage.h
 
   src/dialogs/about.h
   src/dialogs/errordialog.h
@@ -1111,6 +1133,14 @@ set(HEADERS
   src/device/devicestatefiltermodel.h
   src/device/deviceviewcontainer.h
   src/device/deviceview.h
+
+  src/networkremote/networkremote.h
+  src/networkremote/tcpserver.h
+  src/networkremote/remotesettings.h
+  src/networkremote/client.h
+  src/networkremote/clientmanager.h
+  src/networkremote/incomingmsg.h
+  src/networkremote/outgoingmsg.h
 )
 
 set(UI
@@ -1156,6 +1186,7 @@ set(UI
   src/settings/appearancesettingspage.ui
   src/settings/notificationssettingspage.ui
   src/settings/transcodersettingspage.ui
+  src/settings/networkremotesettingspage.ui
 
   src/equalizer/equalizer.ui
   src/equalizer/equalizerslider.ui
@@ -1481,6 +1512,7 @@ endif()
 
 add_subdirectory(src)
 add_subdirectory(dist)
+add_subdirectory(src/networkremote)
 
 if(TARGET GTest::gtest AND TARGET GTest::gmock AND Qt${QT_VERSION_MAJOR}Test_FOUND)
   add_subdirectory(tests)
@@ -1574,7 +1606,13 @@ if(APPLE)
   endif()
 endif()
 
-target_link_libraries(strawberry PUBLIC strawberry_lib)
+target_link_libraries(strawberry PUBLIC
+    strawberry_lib
+    ${P${Protobuf_LIBRARIES}rotobuf_LIBRARIES}
+    lib-networkremote
+
+)
+
 
 if(NOT APPLE)
   install(TARGETS strawberry RUNTIME DESTINATION bin)

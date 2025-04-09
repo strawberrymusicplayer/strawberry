@@ -403,6 +403,7 @@
         <file>icons/32x32/somafm.png</file>
         <file>icons/32x32/radioparadise.png</file>
         <file>icons/32x32/musicbrainz.png</file>
+	<file>icons/32x32/network-remote.png</file>
         <file>icons/22x22/albums.png</file>
         <file>icons/22x22/alsa.png</file>
         <file>icons/22x22/application-exit.png</file>
