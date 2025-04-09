@@ -850,7 +850,7 @@
     <name>CollectionBackend</name>
     <message>
       <source>Unable to execute collection SQL query: %1</source>
-      <translation>Impossible d&apos;exécuter la requête SQL de la collection : %1</translation>
+      <translation>Impossible d&apos;exécuter la requête SQL de la bibliothèque : %1</translation>
     </message>
     <message>
       <source>Failed SQL query: %1</source>
@@ -1415,7 +1415,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>%url%</source>
-      <translation type="unfinished">%url%</translation>
+      <translation>%url%</translation>
     </message>
     <message>
       <source>Add song URL</source>
@@ -1423,7 +1423,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>%rating%</source>
-      <translation type="unfinished">%rating%</translation>
+      <translation>%rating%</translation>
     </message>
     <message>
       <source>Add song rating</source>
@@ -1431,7 +1431,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>%originalyear%</source>
-      <translation type="unfinished">%originalyear%</translation>
+      <translation>%originalyear%</translation>
     </message>
     <message>
       <source>Add song original year tag</source>
@@ -2276,7 +2276,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Not found.</source>
-      <translation>Non trouvé</translation>
+      <translation>Introuvable.</translation>
     </message>
     <message>
       <source>Could not write metadata to %1</source>
@@ -2753,7 +2753,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>You can change the way the songs in the collection are organized.</source>
-      <translation>Vous pouvez changer la façon dont les morceaux de la collection sont organisés.</translation>
+      <translation>Vous pouvez changer la façon dont les morceaux de la bibliothèque sont organisés.</translation>
     </message>
     <message>
       <source>Group Collection by...</source>
@@ -3080,7 +3080,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>F5</source>
-      <translation type="unfinished">F5</translation>
+      <translation>F5</translation>
     </message>
     <message>
       <source>&amp;Play</source>
@@ -3088,7 +3088,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>F6</source>
-      <translation type="unfinished">F6</translation>
+      <translation>F6</translation>
     </message>
     <message>
       <source>&amp;Stop</source>
@@ -3096,7 +3096,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>F7</source>
-      <translation type="unfinished">F7</translation>
+      <translation>F7</translation>
     </message>
     <message>
       <source>&amp;Next track</source>
@@ -3104,7 +3104,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>F8</source>
-      <translation type="unfinished">F8</translation>
+      <translation>F8</translation>
     </message>
     <message>
       <source>&amp;Quit</source>
@@ -3112,7 +3112,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Ctrl+Q</source>
-      <translation type="unfinished">Ctrl+Q</translation>
+      <translation>Ctrl+Q</translation>
     </message>
     <message>
       <source>Stop after this track</source>
@@ -3120,7 +3120,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Ctrl+Alt+V</source>
-      <translation type="unfinished">Ctrl+Alt+V</translation>
+      <translation>Ctrl+Alt+V</translation>
     </message>
     <message>
       <source>Love</source>
@@ -3136,7 +3136,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Ctrl+K</source>
-      <translation type="unfinished">Ctrl+K</translation>
+      <translation>Ctrl+K</translation>
     </message>
     <message>
       <source>Edit track information...</source>
@@ -3144,7 +3144,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Ctrl+E</source>
-      <translation type="unfinished">Ctrl+E</translation>
+      <translation>Ctrl+E</translation>
     </message>
     <message>
       <source>Renumber tracks in this order...</source>
@@ -3164,7 +3164,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Ctrl+P</source>
-      <translation type="unfinished">Ctrl+P</translation>
+      <translation>Ctrl+P</translation>
     </message>
     <message>
       <source>&amp;About Strawberry</source>
@@ -3172,7 +3172,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>F1</source>
-      <translation type="unfinished">F1</translation>
+      <translation>F1</translation>
     </message>
     <message>
       <source>S&amp;huffle playlist</source>
@@ -3180,7 +3180,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Ctrl+H</source>
-      <translation type="unfinished">Ctrl+H</translation>
+      <translation>Ctrl+H</translation>
     </message>
     <message>
       <source>&amp;Add file...</source>
@@ -3236,7 +3236,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Ctrl+J</source>
-      <translation type="unfinished">Ctrl+J</translation>
+      <translation>Ctrl+J</translation>
     </message>
     <message>
       <source>&amp;New playlist</source>
@@ -3244,7 +3244,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Ctrl+N</source>
-      <translation type="unfinished">Ctrl+N</translation>
+      <translation>Ctrl+N</translation>
     </message>
     <message>
       <source>Save &amp;playlist...</source>
@@ -3252,7 +3252,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Ctrl+S</source>
-      <translation type="unfinished">Ctrl+S</translation>
+      <translation>Ctrl+S</translation>
     </message>
     <message>
       <source>&amp;Load playlist...</source>
@@ -3288,7 +3288,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Ctrl+M</source>
-      <translation type="unfinished">Ctrl+M</translation>
+      <translation>Ctrl+M</translation>
     </message>
     <message>
       <source>&amp;Do a full collection rescan</source>
@@ -3304,7 +3304,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Ctrl+T</source>
-      <translation type="unfinished">Ctrl+T</translation>
+      <translation>Ctrl+T</translation>
     </message>
     <message>
       <source>Toggle scrobbling</source>
@@ -3623,7 +3623,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     <name>MtpConnection</name>
     <message>
       <source>Invalid MTP device: %1</source>
-      <translation>Dispositif MTP non valide : %1</translation>
+      <translation>Périphérique MTP non valide : %1</translation>
     </message>
     <message>
       <source>Could not open MTP device.</source>
@@ -3681,7 +3681,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Port</source>
-      <translation type="unfinished">Port</translation>
+      <translation>Port</translation>
     </message>
     <message>
       <source>Use authentication</source>
@@ -3721,7 +3721,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Show a &amp;native desktop notification</source>
-      <translation>Afficher une notification native au bureau</translation>
+      <translation>Afficher une notification &amp;native au bureau</translation>
     </message>
     <message>
       <source>Show a pretty OSD</source>
@@ -3897,7 +3897,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>%filename%</source>
-      <translation type="unfinished">%filename%</translation>
+      <translation>%filename%</translation>
     </message>
     <message>
       <source>Add song filename</source>
@@ -3905,7 +3905,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>%url%</source>
-      <translation type="unfinished">%url%</translation>
+      <translation>%url%</translation>
     </message>
     <message>
       <source>Add song URL</source>
@@ -3913,7 +3913,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>%originalyear%</source>
-      <translation type="unfinished">%originalyear%</translation>
+      <translation>%originalyear%</translation>
     </message>
     <message>
       <source>Add song original year tag</source>
@@ -4944,7 +4944,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Destination file %1 exists, but not allowed to overwrite</source>
-      <translation>Le fichier de destination %1 existe, mais il n&apos;est pas autorisé à l&apos;écraser.</translation>
+      <translation>Le fichier de destination %1 existe, mais il n&apos;est pas autorisé à l&apos;écraser</translation>
     </message>
     <message>
       <source>Could not copy file %1 to %2.</source>
@@ -5064,7 +5064,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Search terms for numerical fields can be prefixed with %1 or %2 to refine the search, e.g.: </source>
-      <translation>Les termes de recherche pour les champs numériques peuvent être préfixés par %1 ou %2 pour affiner la recherche, par exemple :</translation>
+      <translation>Les termes de recherche pour les champs numériques peuvent être préfixés par %1 ou %2 pour affiner la recherche, par exemple : </translation>
     </message>
     <message>
       <source>rating</source>
@@ -5072,7 +5072,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Multiple search terms can also be combined with &quot;%1&quot; (default) and &quot;%2&quot;, as well as grouped with parentheses. </source>
-      <translation>Plusieurs termes de recherche peuvent également être combinés avec &quot;%1&quot; (par défaut) et &quot;%2&quot;, ainsi que regroupés entre parenthèses.</translation>
+      <translation>Plusieurs termes de recherche peuvent également être combinés avec &quot;%1&quot; (par défaut) et &quot;%2&quot;, ainsi que regroupés entre parenthèses. </translation>
     </message>
     <message>
       <source>Available fields</source>
@@ -5152,11 +5152,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>A-Z</source>
-      <translation type="unfinished">A-Z</translation>
+      <translation>A-Z</translation>
     </message>
     <message>
       <source>Z-A</source>
-      <translation type="unfinished">Z-A</translation>
+      <translation>Z-A</translation>
     </message>
     <message>
       <source>oldest first</source>
@@ -5261,11 +5261,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Invalid collection directory</source>
-      <translation type="unfinished">Invalid collection directory</translation>
+      <translation>Répertoire de la bibliothèque invalide</translation>
     </message>
     <message>
       <source>Can&apos;t add directory %1 with special filesystem %2 to collection</source>
-      <translation type="unfinished">Can&apos;t add directory %1 with special filesystem %2 to collection</translation>
+      <translation>Impossible d&apos;ajouter un répertoire %1 avec le système de fichiers spécial %2 à la bibliothèque</translation>
     </message>
   </context>
   <context>
@@ -5509,7 +5509,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Ctrl+K</source>
-      <translation type="unfinished">Ctrl+K</translation>
+      <translation>Ctrl+K</translation>
     </message>
   </context>
   <context>
@@ -5695,7 +5695,7 @@ Are you sure you want to continue?</source>
     <name>ScrobblerSettingsPage</name>
     <message>
       <source>Scrobbler</source>
-      <translation type="unfinished">Scrobbler</translation>
+      <translation>Scrobbler</translation>
     </message>
     <message>
       <source>Enable</source>
@@ -5807,19 +5807,19 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>With this option enabled, scrobbles will be cached to disk but not sent to the server. This option can be enabled in cases where the server or the internet connection is unstable, the scrobbles will be sent when the option is disabled.</source>
-      <translation type="unfinished">With this option enabled, scrobbles will be cached to disk but not sent to the server. This option can be enabled in cases where the server or the internet connection is unstable, the scrobbles will be sent when the option is disabled.</translation>
+      <translation>Avec cette option activée, Scrobbles sera mis en cache sur le disque mais non envoyé au serveur. Cette option peut être activée dans les cas où le serveur ou la connexion Internet est instable, les Scrobbles seront envoyés lorsque l'option sera désactivée.</translation>
     </message>
     <message>
       <source>Offline mode (Only cache scrobbles)</source>
-      <translation type="unfinished">Offline mode (Only cache scrobbles)</translation>
+      <translation>Mode hors ligne (uniquement cache scrobbles)</translation>
     </message>
     <message>
       <source>This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately.</source>
-      <translation type="unfinished">This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately.</translation>
+      <translation>(Il s&apos;agit du délai entre le moment où un morceau est scrobblé et celui où les scrobbles sont soumis au serveur. Si vous fixez ce délai à 0 seconde, les scrobbles seront soumis immédiatement.</translation>
     </message>
     <message>
       <source>Spotify</source>
-      <translation type="unfinished">Spotify</translation>
+      <translation>Spotify</translation>
     </message>
   </context>
   <context>
@@ -5873,7 +5873,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Streaming</source>
-      <translation type="unfinished">Streaming</translation>
+      <translation>Streaming</translation>
     </message>
   </context>
   <context>
@@ -6068,7 +6068,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Ever played</source>
-      <translation>Jamais écouté</translation>
+      <translation>Déjà écouté</translation>
     </message>
     <message>
       <source>Never played</source>
@@ -6998,7 +6998,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>0:00:00</source>
-      <translation type="unfinished">0:00:00</translation>
+      <translation>0:00:00</translation>
     </message>
     <message>
       <source>Click to toggle between remaining time and total time</source>
@@ -7118,11 +7118,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Import Directory</source>
-      <translation type="unfinished">Import Directory</translation>
+      <translation>Répertoire d'importation</translation>
     </message>
     <message>
       <source>Preserve directory structure in output directory (import only)</source>
-      <translation type="unfinished">Preserve directory structure in output directory (import only)</translation>
+      <translation>Conserver la structure du répertoire dans le répertoire de sortie (importation uniquement)</translation>
     </message>
   </context>
   <context>
