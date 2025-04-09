@@ -850,7 +850,7 @@
     <name>CollectionBackend</name>
     <message>
       <source>Unable to execute collection SQL query: %1</source>
-      <translation>Impossible d&apos;exécuter la requête SQL de la collection : %1</translation>
+      <translation>Impossible d&apos;exécuter la requête SQL de la bibliothèque : %1</translation>
     </message>
     <message>
       <source>Failed SQL query: %1</source>
@@ -2276,7 +2276,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Not found.</source>
-      <translation>Non trouvé</translation>
+      <translation>Introuvable.</translation>
     </message>
     <message>
       <source>Could not write metadata to %1</source>
@@ -2753,7 +2753,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>You can change the way the songs in the collection are organized.</source>
-      <translation>Vous pouvez changer la façon dont les morceaux de la collection sont organisés.</translation>
+      <translation>Vous pouvez changer la façon dont les morceaux de la bibliothèque sont organisés.</translation>
     </message>
     <message>
       <source>Group Collection by...</source>
@@ -3721,7 +3721,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Show a &amp;native desktop notification</source>
-      <translation>Afficher une notification native au bureau</translation>
+      <translation>Afficher une notification &amp;native au bureau</translation>
     </message>
     <message>
       <source>Show a pretty OSD</source>
@@ -4944,7 +4944,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Destination file %1 exists, but not allowed to overwrite</source>
-      <translation>Le fichier de destination %1 existe, mais il n&apos;est pas autorisé à l&apos;écraser.</translation>
+      <translation>Le fichier de destination %1 existe, mais il n&apos;est pas autorisé à l&apos;écraser</translation>
     </message>
     <message>
       <source>Could not copy file %1 to %2.</source>
@@ -5064,7 +5064,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Search terms for numerical fields can be prefixed with %1 or %2 to refine the search, e.g.: </source>
-      <translation>Les termes de recherche pour les champs numériques peuvent être préfixés par %1 ou %2 pour affiner la recherche, par exemple :</translation>
+      <translation>Les termes de recherche pour les champs numériques peuvent être préfixés par %1 ou %2 pour affiner la recherche, par exemple : </translation>
     </message>
     <message>
       <source>rating</source>
@@ -5072,7 +5072,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Multiple search terms can also be combined with &quot;%1&quot; (default) and &quot;%2&quot;, as well as grouped with parentheses. </source>
-      <translation>Plusieurs termes de recherche peuvent également être combinés avec &quot;%1&quot; (par défaut) et &quot;%2&quot;, ainsi que regroupés entre parenthèses.</translation>
+      <translation>Plusieurs termes de recherche peuvent également être combinés avec &quot;%1&quot; (par défaut) et &quot;%2&quot;, ainsi que regroupés entre parenthèses. </translation>
     </message>
     <message>
       <source>Available fields</source>
