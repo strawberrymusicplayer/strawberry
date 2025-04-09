@@ -241,7 +241,7 @@
     </message>
     <message>
       <source>Don&apos;t stop!</source>
-      <translation>Ära peata!</translation>
+      <translation>Ära peatu!</translation>
     </message>
     <message>
       <source>All artists</source>
@@ -506,7 +506,7 @@
     </message>
     <message>
       <source>System highlight color</source>
-      <translation>Süsteemi esiletõstu värv</translation>
+      <translation>Süsteemne esiletõstmisvärv</translation>
     </message>
     <message>
       <source>Custom color</source>
@@ -1223,11 +1223,11 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Show in various artists</source>
-      <translation>Kuva loendis &apos;Erinevad esitajad&apos;</translation>
+      <translation>Näita loendis „Erinevad esitajad“</translation>
     </message>
     <message>
       <source>Don&apos;t show in various artists</source>
-      <translation>Ära kuva loendis &apos;Erinevad esitajad&apos;</translation>
+      <translation>Ära näita loendis „Erinevad esitajad“</translation>
     </message>
     <message>
       <source>There are other songs in this album</source>
@@ -1235,7 +1235,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Would you like to move the other songs on this album to Various Artists as well?</source>
-      <translation>Kas soovid teisaldada ka teised selle albumi lood nimistusse &apos;Erinevad esitajad&apos;?</translation>
+      <translation>Kas soovid teisaldada ka teised selle albumi lood loendisse „Erinevad esitajad“?</translation>
     </message>
     <message>
       <source>Error</source>
@@ -2535,7 +2535,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     <name>GPodDevice</name>
     <message>
       <source>Could not copy %1 to %2: %3</source>
-      <translation>%1 -&gt; %2 kopeeruimine ei õnnestunud: %3</translation>
+      <translation>%1 -&gt; %2 kopeerimine ei õnnestunud: %3</translation>
     </message>
     <message>
       <source>Writing database failed: %1</source>
@@ -2550,7 +2550,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     <name>GPodLoader</name>
     <message>
       <source>Loading iPod database</source>
-      <translation>Laadime iPodi andmekogu</translation>
+      <translation>Laadin iPodi andmekogu</translation>
     </message>
     <message>
       <source>An error occurred loading the iTunes database</source>
@@ -2561,7 +2561,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     <name>GeniusLyricsProvider</name>
     <message>
       <source>Genius Authentication</source>
-      <translation>Genius autentimine</translation>
+      <translation>Geniuse-põhine autentimine</translation>
     </message>
     <message>
       <source>Please open this URL in your browser</source>
@@ -2906,7 +2906,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Receiving initial data from last.fm...</source>
-      <translation>Algandmete vastuvõtmine saidilt last.fm...</translation>
+      <translation>Algandmete vastuvõtmine teenusest last.fm...</translation>
     </message>
     <message>
       <source>Receiving playcount for %1 songs and last played for %2 songs.</source>
@@ -2951,7 +2951,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     <name>ListenBrainzScrobbler</name>
     <message>
       <source>ListenBrainz Authentication</source>
-      <translation>ListenBrainz autentimine</translation>
+      <translation>ListenBrainzi-põhine autentimine</translation>
     </message>
     <message>
       <source>Please open this URL in your browser</source>
@@ -3320,7 +3320,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Add file(s) to transcoder</source>
-      <translation>Lisa failid teisendamiseks</translation>
+      <translation>Lisa fail(id) teisendamiseks</translation>
     </message>
     <message>
       <source>Add file to transcoder</source>
@@ -3396,7 +3396,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Show only untagged</source>
-      <translation>Kuva ainult sildistamata lood</translation>
+      <translation>Näita ainult sildistamata lugusid</translation>
     </message>
     <message>
       <source>Configure collection...</source>
@@ -3420,7 +3420,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Rescan song(s)...</source>
-      <translation>Skaneeri lugu uuesti...</translation>
+      <translation>Skaneeri lood uuesti...</translation>
     </message>
     <message>
       <source>Copy URL(s)...</source>
@@ -3560,7 +3560,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Would you like to run a full rescan right now?</source>
-      <translation>Kas teha uus täielik skaneering kohe?</translation>
+      <translation>Kas teeme täieliku skaneerimise kohe?</translation>
     </message>
     <message>
       <source>Collection rescan notice</source>
@@ -3642,11 +3642,11 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     <name>MtpLoader</name>
     <message>
       <source>Loading MTP device</source>
-      <translation>MTP-seadme laadimine</translation>
+      <translation>Laadin MTP-seadet</translation>
     </message>
     <message>
       <source>Error connecting MTP device %1</source>
-      <translation>Viga MTP seadme %1 ühendamiselug</translation>
+      <translation>Viga MTP seadme %1 ühendamisel</translation>
     </message>
     <message>
       <source>Error connecting MTP device %1: %2</source>
@@ -3765,7 +3765,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Include album art in the notification</source>
-      <translation>Kuva teavituses albumi kaanepilt</translation>
+      <translation>Kuva teavituses albumi kaanepilti</translation>
     </message>
     <message>
       <source>Custom message settings</source>
@@ -4030,7 +4030,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Keep the original files</source>
-      <translation>Säiilita algsed failid</translation>
+      <translation>Säilita algsed failid</translation>
     </message>
     <message>
       <source>Delete the original files</source>
@@ -5354,7 +5354,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Not authenticated with Qobuz.</source>
-      <translation>Pole Qobuziga autentitud.</translation>
+      <translation>Pole Qobuzi teenuses autenditud.</translation>
     </message>
     <message>
       <source>Missing Qobuz app ID or secret.</source>
@@ -5460,7 +5460,7 @@ Kas soovid jätkata?</translation>
     <name>QobuzStreamURLRequest</name>
     <message>
       <source>Missing Qobuz app ID or secret.</source>
-      <translation>Qobuzi rakenduse ID või võti puudub.</translation>
+      <translation>Qobuzi teenuse ID või võti puudub.</translation>
     </message>
     <message>
       <source>Cancelled.</source>
@@ -5803,7 +5803,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Enter your user token from</source>
-      <translation>Sisesta oma tunnuskood saidilt</translation>
+      <translation>Sisesta oma tunnusluba teenusest</translation>
     </message>
     <message>
       <source>With this option enabled, scrobbles will be cached to disk but not sent to the server. This option can be enabled in cases where the server or the internet connection is unstable, the scrobbles will be sent when the option is disabled.</source>
@@ -5834,7 +5834,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Press &quot;Save&quot; to copy the URL to clipboard and manually open it in a web browser.</source>
-      <translation>Võrguaadressi lõikepuhvrisse kopeerimiseks ja veebilehitsejas käsitsi avamiseks vajuta nuppu &quot;Salvesta&quot;.</translation>
+      <translation>Võrguaadressi lõikepuhvrisse kopeerimiseks ja veebibrauseris käsitsi avamiseks vajuta nuppu „Salvesta“.</translation>
     </message>
     <message>
       <source>Could not open URL. Please open this URL in your browser</source>
@@ -6142,11 +6142,11 @@ Kas soovid jätkata?</translation>
     <name>SnapDialog</name>
     <message>
       <source>Strawberry is running as a Snap</source>
-      <translation>Strawberry töötab Snapina</translation>
+      <translation>Strawberry töötab Snapi paketina</translation>
     </message>
     <message>
       <source>It is detected that Strawberry is running as a Snap</source>
-      <translation>Tuvastasime, et Strawberry töötab Snapina</translation>
+      <translation>Tuvastasin, et Strawberry töötab Snapi paketinana</translation>
     </message>
     <message>
       <source>Strawberry is slower, and has restrictions when running as a Snap. Accessing the root filesystem (/) will not work. There also might be other restrictions such as accessing certain devices or network shares.</source>
@@ -6166,11 +6166,11 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Copy your strawberry.conf and strawberry.db from your ~/snap directory to avoid losing configuration before you uninstall the snap:</source>
-      <translation>Varunda strawberry.conf ja strawberry.db kaustast ~/snap, et vältida seadistuse kaotamist enne snapi eemaldamist:</translation>
+      <translation>Varunda strawberry.conf ja strawberry.db kaustast ~/snap, et vältida seadistuse kaotamist enne snapi paketi eemaldamist:</translation>
     </message>
     <message>
       <source>Uninstall the snap with:</source>
-      <translation>Eemalda snap koos:</translation>
+      <translation>Eemalda snap kasutades:</translation>
     </message>
     <message>
       <source>Install strawberry through PPA:</source>
@@ -6305,7 +6305,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Please open this URL in your browser</source>
-      <translation>Ava see võrguaadress oma veebibrauaseris</translation>
+      <translation>Ava see võrguaadress oma veebibrauseris</translation>
     </message>
     <message>
       <source>Redirect missing token code or state!</source>
@@ -6317,7 +6317,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Not authenticated with Spotify.</source>
-      <translation>Pole Spotifyga autenditud.</translation>
+      <translation>Pole autenditud Spotify teenuses.</translation>
     </message>
   </context>
   <context>
@@ -6786,7 +6786,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Not authenticated with Tidal.</source>
-      <translation>Pole Tidalis autenditud.</translation>
+      <translation>Pole Tidali teenuses autenditud.</translation>
     </message>
     <message>
       <source>Missing Tidal API token, username or password.</source>
@@ -6881,7 +6881,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Append explicit to album title for explicit albums</source>
-      <translation>Lisa vajadusel albumi nimele silt &apos;explicit&apos;</translation>
+      <translation>Lisa vajadusel albumi nimele silt „explicit“</translation>
     </message>
     <message>
       <source>Configuration incomplete</source>
@@ -6912,11 +6912,11 @@ Kas soovid jätkata?</translation>
     <name>TidalStreamURLRequest</name>
     <message>
       <source>Not authenticated with Tidal.</source>
-      <translation>Pole Tidalis autenditud.</translation>
+      <translation>Pole Tidali teenuses autenditud.</translation>
     </message>
     <message>
       <source>Missing Tidal API token, username or password.</source>
-      <translation>Puuduv Tidal API tunnuskood, kasutajanimi või salasõna.</translation>
+      <translation>Puuduv Tidali teenuse API tunnuskood, kasutajanimi või salasõna.</translation>
     </message>
     <message>
       <source>Cancelled.</source>
@@ -7493,7 +7493,7 @@ Kas soovid jätkata?</translation>
     <name>Udisks2Lister</name>
     <message>
       <source>D-Bus path</source>
-      <translation>D-Bus asukoht</translation>
+      <translation>D-Busi asukoht</translation>
     </message>
     <message>
       <source>Serial number</source>

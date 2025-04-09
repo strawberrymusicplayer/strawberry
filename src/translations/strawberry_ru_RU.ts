@@ -1050,7 +1050,7 @@
     </message>
     <message>
       <source>Perform song EBU R 128 analysis (required for EBU R 128 loudness normalization)</source>
-      <translation>Выполнить анализ песни EBU R 128 (для нормализации громкости EBU R 128)</translation>
+      <translation>Анализировать песни по стандарту нормализации громкости EBU R 128</translation>
     </message>
     <message>
       <source>Expire unavailable songs after</source>
@@ -2208,7 +2208,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Unknown</source>
-      <translation>Неизвестный</translation>
+      <translation>Неизвестно</translation>
     </message>
     <message>
       <source>Yes</source>
