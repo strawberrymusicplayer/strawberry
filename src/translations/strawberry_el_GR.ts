@@ -772,7 +772,7 @@
     </message>
     <message>
       <source>Always start playing</source>
-      <translation type="unfinished">Always start playing</translation>
+      <translation>Να γίνεται πάντα αναπαραγωγή</translation>
     </message>
     <message>
       <source>Pressing &quot;Previous&quot; in player will...</source>
@@ -812,7 +812,7 @@
     </message>
     <message>
       <source>Change the currently playing song</source>
-      <translation type="unfinished">Change the currently playing song</translation>
+      <translation>Αλλαγή του τρέχοντος τραγουδιού</translation>
     </message>
     <message>
       <source>Seeking using a keyboard shortcut or mouse wheel</source>
@@ -854,7 +854,7 @@
     </message>
     <message>
       <source>Failed SQL query: %1</source>
-      <translation type="unfinished">Failed SQL query: %1</translation>
+      <translation>Απέτυχε το ερώτημα SQL: %1</translation>
     </message>
     <message>
       <source>Updating %1 database.</source>
@@ -949,11 +949,11 @@
     </message>
     <message>
       <source>Group by Artist/Year - Album - Disc</source>
-      <translation type="unfinished">Group by Artist/Year - Album - Disc</translation>
+      <translation>Ομαδοποίηση κατά καλλιτέχνη/Έτος - Άλμπουμ - Δίσκος</translation>
     </message>
     <message>
       <source>Group by Genre/Album artist/Album</source>
-      <translation type="unfinished">Group by Genre/Album artist/Album</translation>
+      <translation>Ομαδοποίηση κατά είδος/άλμπουμ καλλιτέχνη/άλμπουμ</translation>
     </message>
     <message>
       <source>Group by Genre/Artist/Album</source>
@@ -1054,7 +1054,7 @@
     </message>
     <message>
       <source>Expire unavailable songs after</source>
-      <translation type="unfinished">Expire unavailable songs after</translation>
+      <translation>Λήξη μη διαθέσιμων τραγουδιών μετά</translation>
     </message>
     <message>
       <source>days</source>
@@ -1152,7 +1152,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Write all playcounts and ratings to files</source>
-      <translation type="unfinished">Write all playcounts and ratings to files</translation>
+      <translation>Γράψτε όλους τους αριθμούς αναπαραγωγής και τις αξιολογήσεις σε αρχεία</translation>
     </message>
     <message>
       <source>Are you sure you want to write song playcounts and ratings to file for all songs in your collection?</source>
@@ -1706,7 +1706,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>%1 needs authentication.</source>
-      <translation type="unfinished">%1 needs authentication.</translation>
+      <translation>%1 χρειάζεται έλεγχο ταυτότητας.</translation>
     </message>
     <message>
       <source>%1 does not need authentication.</source>
@@ -1748,7 +1748,7 @@ If there are no matches then it will use the largest image in the directory.</so
     <name>Database</name>
     <message>
       <source>Unable to execute SQL query: %1</source>
-      <translation type="unfinished">Unable to execute SQL query: %1</translation>
+      <translation>Δεν είναι δυνατή η εκτέλεση ερωτήματος SQL: %1</translation>
     </message>
     <message>
       <source>Failed SQL query: %1</source>
@@ -1895,15 +1895,15 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Convert all music</source>
-      <translation type="unfinished">Convert all music</translation>
+      <translation>Μετατροπή όλης της μουσικής</translation>
     </message>
     <message>
       <source>Preferred format</source>
-      <translation type="unfinished">Preferred format</translation>
+      <translation>Προτιμώμενη μορφή</translation>
     </message>
     <message>
       <source>This device must be connected and opened before Strawberry can see what file formats it supports.</source>
-      <translation type="unfinished">This device must be connected and opened before Strawberry can see what file formats it supports.</translation>
+      <translation>Αυτή η συσκευή πρέπει να συνδεθεί και να ανοίξει πριν το Strawberry μπορεί να δει ποιες μορφές αρχείων υποστηρίζει.</translation>
     </message>
     <message>
       <source>Open device</source>
@@ -1911,7 +1911,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Querying device...</source>
-      <translation type="unfinished">Querying device...</translation>
+      <translation>Αναζήτηση συσκευής...</translation>
     </message>
     <message>
       <source>Model</source>
@@ -2060,7 +2060,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Sample rate</source>
-      <translation type="unfinished">Sample rate</translation>
+      <translation>Ρυθμός δειγματοληψίας</translation>
     </message>
     <message>
       <source>Path</source>
@@ -2104,7 +2104,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Embedded cover</source>
-      <translation type="unfinished">Embedded cover</translation>
+      <translation>Ενσωματωμένο εξώφυλλο</translation>
     </message>
     <message>
       <source>Disc</source>
@@ -2176,7 +2176,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>(different across multiple songs)</source>
-      <translation type="unfinished">(different across multiple songs)</translation>
+      <translation>(διαφορετικά μεταξύ πολλών τραγουδιών)</translation>
     </message>
     <message>
       <source>Different art across multiple songs.</source>
@@ -2236,11 +2236,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Cover art not set</source>
-      <translation type="unfinished">Cover art not set</translation>
+      <translation>Δεν έχει οριστεί εξώφυλλο</translation>
     </message>
     <message>
       <source>Album cover editing is only available for collection songs.</source>
-      <translation type="unfinished">Album cover editing is only available for collection songs.</translation>
+      <translation>Η επεξεργασία εξώφυλλου άλμπουμ είναι διαθέσιμη μόνο για τραγούδια συλλογής.</translation>
     </message>
     <message>
       <source>Cover changed: Will be cleared when saved.</source>
@@ -2481,19 +2481,19 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Replace current playlist</source>
-      <translation type="unfinished">Replace current playlist</translation>
+      <translation>Αντικατάσταση της τρέχουσας λίστας</translation>
     </message>
     <message>
       <source>Open in new playlist</source>
-      <translation type="unfinished">Open in new playlist</translation>
+      <translation>Άνοιγμα σε νέα λίστα</translation>
     </message>
     <message>
       <source>Copy to collection...</source>
-      <translation type="unfinished">Copy to collection...</translation>
+      <translation>Αντιγραφή στη συλλογή...</translation>
     </message>
     <message>
       <source>Move to collection...</source>
-      <translation type="unfinished">Move to collection...</translation>
+      <translation>Μετακίνηση στη συλλογή...</translation>
     </message>
     <message>
       <source>Copy to device...</source>
@@ -2554,7 +2554,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>An error occurred loading the iTunes database</source>
-      <translation type="unfinished">An error occurred loading the iTunes database</translation>
+      <translation>Παρουσιάστηκε σφάλμα κατά τη φόρτωση της βάσης δεδομένων iTunes</translation>
     </message>
   </context>
   <context>
@@ -2565,7 +2565,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Please open this URL in your browser</source>
-      <translation type="unfinished">Please open this URL in your browser</translation>
+      <translation>Παρακαλώ ανοίξτε αυτό το URL στο πρόγραμμα περιήγησης</translation>
     </message>
     <message>
       <source>Redirect missing token code!</source>
@@ -3164,15 +3164,15 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Ctrl+P</source>
-      <translation type="unfinished">Ctrl+P</translation>
+      <translation>Ctrl+P</translation>
     </message>
     <message>
       <source>&amp;About Strawberry</source>
-      <translation type="unfinished">&amp;About Strawberry</translation>
+      <translation>&amp;Σχετικά Με Strawberry</translation>
     </message>
     <message>
       <source>F1</source>
-      <translation type="unfinished">F1</translation>
+      <translation>F1</translation>
     </message>
     <message>
       <source>S&amp;huffle playlist</source>
@@ -3248,7 +3248,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Save &amp;playlist...</source>
-      <translation type="unfinished">Save &amp;playlist...</translation>
+      <translation>Αποθήκευση &amp;λίστας...</translation>
     </message>
     <message>
       <source>Ctrl+S</source>
@@ -3256,7 +3256,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>&amp;Load playlist...</source>
-      <translation type="unfinished">&amp;Load playlist...</translation>
+      <translation>&amp;Φόρτωση λίστας...</translation>
     </message>
     <message>
       <source>Ctrl+Shift+O</source>
@@ -3284,7 +3284,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>&amp;Mute</source>
-      <translation type="unfinished">&amp;Mute</translation>
+      <translation>&amp;Σίγαση</translation>
     </message>
     <message>
       <source>Ctrl+M</source>
@@ -3432,31 +3432,31 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Show in file browser...</source>
-      <translation type="unfinished">Show in file browser...</translation>
+      <translation>Εμφάνιση στον περιηγητή αρχείων...</translation>
     </message>
     <message>
       <source>Organize files...</source>
-      <translation type="unfinished">Organize files...</translation>
+      <translation>Οργάνωση αρχείων...</translation>
     </message>
     <message>
       <source>Copy to collection...</source>
-      <translation type="unfinished">Copy to collection...</translation>
+      <translation>Αντιγραφή στη συλλογή...</translation>
     </message>
     <message>
       <source>Move to collection...</source>
-      <translation type="unfinished">Move to collection...</translation>
+      <translation>Μετακίνηση στη συλλογή...</translation>
     </message>
     <message>
       <source>Copy to device...</source>
-      <translation type="unfinished">Copy to device...</translation>
+      <translation>Αντιγραφή στη συσκευή...</translation>
     </message>
     <message>
       <source>Delete from disk...</source>
-      <translation type="unfinished">Delete from disk...</translation>
+      <translation>Διαγραφή από το δίσκο...</translation>
     </message>
     <message>
       <source>Check for updates...</source>
-      <translation type="unfinished">Check for updates...</translation>
+      <translation>Έλεγχος για ενημερώσεις...</translation>
     </message>
     <message>
       <source>Strawberry running under Rosetta</source>
@@ -3582,7 +3582,7 @@ If there are no matches then it will use the largest image in the directory.</so
     <name>MimeData</name>
     <message>
       <source>Playlist</source>
-      <translation type="unfinished">Playlist</translation>
+      <translation>Λίστα αναπαραγωγής</translation>
     </message>
   </context>
   <context>
@@ -3704,7 +3704,7 @@ If there are no matches then it will use the largest image in the directory.</so
     <name>NotificationsSettingsPage</name>
     <message>
       <source>Notifications</source>
-      <translation type="unfinished">Notifications</translation>
+      <translation>Ειδοποιήσεις</translation>
     </message>
     <message>
       <source>Strawberry can show a message when the track changes.</source>
@@ -3717,7 +3717,7 @@ If there are no matches then it will use the largest image in the directory.</so
     <message>
       <source>Disabled</source>
       <comment>Refers to a disabled notification type in Notification settings.</comment>
-      <translation type="unfinished">Disabled</translation>
+      <translation>Ανενεργό</translation>
     </message>
     <message>
       <source>Show a &amp;native desktop notification</source>
@@ -3733,7 +3733,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>General settings</source>
-      <translation type="unfinished">General settings</translation>
+      <translation>Γενικές Ρυθμίσεις</translation>
     </message>
     <message>
       <source>Popup duration</source>
@@ -3741,7 +3741,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source> seconds</source>
-      <translation type="unfinished"> seconds</translation>
+      <translation> δευτερόλεπτα</translation>
     </message>
     <message>
       <source>Disable duration</source>
@@ -3785,11 +3785,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Summary</source>
-      <translation type="unfinished">Summary</translation>
+      <translation>Σύνοψη</translation>
     </message>
     <message>
       <source>Body</source>
-      <translation type="unfinished">Body</translation>
+      <translation>Κείμενο</translation>
     </message>
     <message>
       <source>Pretty OSD options</source>
@@ -3797,11 +3797,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Background color</source>
-      <translation type="unfinished">Background color</translation>
+      <translation>Χρώμα φόντου</translation>
     </message>
     <message>
       <source>Text options</source>
-      <translation type="unfinished">Text options</translation>
+      <translation>Επιλογές κειμένου</translation>
     </message>
     <message>
       <source>Choose font...</source>
@@ -3897,7 +3897,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>%filename%</source>
-      <translation type="unfinished">%filename%</translation>
+      <translation>%filename%</translation>
     </message>
     <message>
       <source>Add song filename</source>
@@ -3905,7 +3905,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>%url%</source>
-      <translation type="unfinished">%url%</translation>
+      <translation>%url%</translation>
     </message>
     <message>
       <source>Add song URL</source>
@@ -3932,7 +3932,7 @@ If there are no matches then it will use the largest image in the directory.</so
     <name>OSDBase</name>
     <message>
       <source>disc %1</source>
-      <translation type="unfinished">disc %1</translation>
+      <translation>δίσκος %1</translation>
     </message>
     <message>
       <source>track %1</source>
@@ -4026,19 +4026,19 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>After copying...</source>
-      <translation type="unfinished">After copying...</translation>
+      <translation>Μετά την αντιγραφή...</translation>
     </message>
     <message>
       <source>Keep the original files</source>
-      <translation type="unfinished">Keep the original files</translation>
+      <translation>Κρατήστε τα αρχικά αρχεία</translation>
     </message>
     <message>
       <source>Delete the original files</source>
-      <translation type="unfinished">Delete the original files</translation>
+      <translation>Διαγραφή των αρχικών αρχείων</translation>
     </message>
     <message>
       <source>Naming options</source>
-      <translation type="unfinished">Naming options</translation>
+      <translation>Επιλογές ονομασίας</translation>
     </message>
     <message>
       <source>&lt;p&gt;Tokens start with %, for example: %artist %album %title &lt;/p&gt;
@@ -4082,11 +4082,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Preview</source>
-      <translation type="unfinished">Preview</translation>
+      <translation>Προεπισκόπιση</translation>
     </message>
     <message>
       <source>Loading...</source>
-      <translation type="unfinished">Loading...</translation>
+      <translation>Φορτώνει...</translation>
     </message>
     <message>
       <source>Safely remove the device after copying</source>
@@ -4094,15 +4094,15 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Title</source>
-      <translation type="unfinished">Title</translation>
+      <translation>Τίτλος</translation>
     </message>
     <message>
       <source>Album</source>
-      <translation type="unfinished">Album</translation>
+      <translation>Άλμπουμ</translation>
     </message>
     <message>
       <source>Artist</source>
-      <translation type="unfinished">Artist</translation>
+      <translation>Καλλιτέχνης</translation>
     </message>
     <message>
       <source>Artist&apos;s initial</source>
@@ -4114,43 +4114,43 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Composer</source>
-      <translation type="unfinished">Composer</translation>
+      <translation>Συνθέτης</translation>
     </message>
     <message>
       <source>Performer</source>
-      <translation type="unfinished">Performer</translation>
+      <translation>Εκτελεστής</translation>
     </message>
     <message>
       <source>Grouping</source>
-      <translation type="unfinished">Grouping</translation>
+      <translation>Ομαδοποίηση</translation>
     </message>
     <message>
       <source>Track</source>
-      <translation type="unfinished">Track</translation>
+      <translation>Τραγούδι</translation>
     </message>
     <message>
       <source>Disc</source>
-      <translation type="unfinished">Disc</translation>
+      <translation>Δίσκος</translation>
     </message>
     <message>
       <source>Year</source>
-      <translation type="unfinished">Year</translation>
+      <translation>Έτος</translation>
     </message>
     <message>
       <source>Original year</source>
-      <translation type="unfinished">Original year</translation>
+      <translation>Αρχικό έτος</translation>
     </message>
     <message>
       <source>Genre</source>
-      <translation type="unfinished">Genre</translation>
+      <translation>Είδος</translation>
     </message>
     <message>
       <source>Comment</source>
-      <translation type="unfinished">Comment</translation>
+      <translation>Σχόλιο</translation>
     </message>
     <message>
       <source>Length</source>
-      <translation type="unfinished">Length</translation>
+      <translation>Διάρκεια</translation>
     </message>
     <message>
       <source>Bitrate</source>
@@ -4323,7 +4323,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Date Created</source>
-      <translation type="unfinished">Date Created</translation>
+      <translation>Ημερομηνία Δημιουργίας</translation>
     </message>
     <message>
       <source>Comment</source>
@@ -4343,7 +4343,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>CUE</source>
-      <translation type="unfinished">CUE</translation>
+      <translation>CUE</translation>
     </message>
     <message>
       <source>Integrated Loudness</source>
@@ -4358,11 +4358,11 @@ If there are no matches then it will use the largest image in the directory.</so
     <name>PlaylistContainer</name>
     <message>
       <source>Form</source>
-      <translation type="unfinished">Form</translation>
+      <translation>Φόρμα</translation>
     </message>
     <message>
       <source>Undo</source>
-      <translation type="unfinished">Undo</translation>
+      <translation>Αναίρεση</translation>
     </message>
     <message>
       <source>Redo</source>
@@ -4374,7 +4374,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Load playlist</source>
-      <translation type="unfinished">Load playlist</translation>
+      <translation>Φόρτωση λίστας</translation>
     </message>
     <message>
       <source>No matches found.  Clear the search box to show the whole playlist again.</source>
