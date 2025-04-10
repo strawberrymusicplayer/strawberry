@@ -772,7 +772,7 @@
     </message>
     <message>
       <source>Always start playing</source>
-      <translation type="unfinished">Always start playing</translation>
+      <translation>Να γίνεται πάντα αναπαραγωγή</translation>
     </message>
     <message>
       <source>Pressing &quot;Previous&quot; in player will...</source>
@@ -812,7 +812,7 @@
     </message>
     <message>
       <source>Change the currently playing song</source>
-      <translation type="unfinished">Change the currently playing song</translation>
+      <translation>Αλλαγή του τρέχοντος τραγουδιού</translation>
     </message>
     <message>
       <source>Seeking using a keyboard shortcut or mouse wheel</source>
