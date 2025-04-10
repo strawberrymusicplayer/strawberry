@@ -3623,7 +3623,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     <name>MtpConnection</name>
     <message>
       <source>Invalid MTP device: %1</source>
-      <translation>Dispositif MTP non valide : %1</translation>
+      <translation>Périphérique MTP non valide : %1</translation>
     </message>
     <message>
       <source>Could not open MTP device.</source>
