@@ -118,5 +118,4 @@ bool BaseConnection::Read(void *data, size_t length) {
   return static_cast<size_t>(res) == length;
 }
 
-} // namespace discord_rpc
-
+}  // namespace discord_rpc

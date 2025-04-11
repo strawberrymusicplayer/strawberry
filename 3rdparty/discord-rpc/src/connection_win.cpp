@@ -123,4 +123,3 @@ bool BaseConnection::Read(void *data, size_t length) {
 }
 
 }  // namespace discord_rpc
-

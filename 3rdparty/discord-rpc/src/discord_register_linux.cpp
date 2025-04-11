@@ -44,12 +44,12 @@ extern "C" void Discord_Register(const char *applicationId, const char *command)
   }
 
   constexpr char desktopFileFormat[] = "[Desktop Entry]\n"
-                                  "Name=Game %s\n"
-                                  "Exec=%s %%u\n"  // note: it really wants that %u in there
-                                  "Type=Application\n"
-                                  "NoDisplay=true\n"
-                                  "Categories=Discord;Games;\n"
-                                  "MimeType=x-scheme-handler/discord-%s;\n";
+                                       "Name=Game %s\n"
+                                       "Exec=%s %%u\n"  // note: it really wants that %u in there
+                                       "Type=Application\n"
+                                       "NoDisplay=true\n"
+                                       "Categories=Discord;Games;\n"
+                                       "MimeType=x-scheme-handler/discord-%s;\n";
   char desktopFile[2048];
   int fileLen = snprintf(
     desktopFile, sizeof(desktopFile), desktopFileFormat, applicationId, command, applicationId);
@@ -101,4 +101,3 @@ extern "C" void Discord_RegisterSteamGame(const char *applicationId,
   sprintf(command, "xdg-open steam://rungameid/%s", steamId);
   Discord_Register(applicationId, command);
 }
-

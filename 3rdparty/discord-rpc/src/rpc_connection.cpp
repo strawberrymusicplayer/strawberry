@@ -130,4 +130,3 @@ bool RpcConnection::Read(JsonDocument &message) {
 }
 
 }  // namespace discord_rpc
-

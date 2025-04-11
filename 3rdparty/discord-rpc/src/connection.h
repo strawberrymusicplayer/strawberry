@@ -19,4 +19,4 @@ struct BaseConnection {
   bool Read(void *data, size_t length);
 };
 
-} // namespace discord_rpc
+}  // namespace discord_rpc

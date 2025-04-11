@@ -346,8 +346,7 @@ extern "C" void Discord_Shutdown(void) {
 extern "C" void Discord_UpdatePresence(const DiscordRichPresence *presence) {
   {
     std::lock_guard<std::mutex> guard(PresenceMutex);
-    QueuedPresence.length = JsonWriteRichPresenceObj(
-      QueuedPresence.buffer, sizeof(QueuedPresence.buffer), Nonce++, Pid, presence);
+    QueuedPresence.length = JsonWriteRichPresenceObj(QueuedPresence.buffer, sizeof(QueuedPresence.buffer), Nonce++, Pid, presence);
     UpdatePresence.exchange(true);
   }
   SignalIOActivity();
@@ -476,4 +475,3 @@ extern "C" void Discord_UpdateHandlers(DiscordEventHandlers *newHandlers) {
 }
 
 }  // namespace discord_rpc
-

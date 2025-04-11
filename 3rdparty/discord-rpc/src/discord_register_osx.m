@@ -5,7 +5,7 @@
 
 #include "discord_register.h"
 
-static void RegisterCommand(const char* applicationId, const char* command)
+static void RegisterCommand(const char *applicationId, const char *command)
 {
     // There does not appear to be a way to register arbitrary commands on OSX, so instead we'll save the command
     // to a file in the Discord config path, and when it is needed, Discord can try to load the file there, open
@@ -29,7 +29,7 @@ static void RegisterCommand(const char* applicationId, const char* command)
     [jsonBuffer writeToFile:path atomically:NO encoding:NSUTF8StringEncoding error:nil];
 }
 
-static void RegisterURL(const char* applicationId)
+static void RegisterURL(const char *applicationId)
 {
     char url[256];
     snprintf(url, sizeof(url), "discord-%s", applicationId);
@@ -59,7 +59,7 @@ static void RegisterURL(const char* applicationId)
     }
 }
 
-void Discord_Register(const char* applicationId, const char* command)
+void Discord_Register(const char *applicationId, const char *command)
 {
     if (command) {
         RegisterCommand(applicationId, command);
@@ -72,7 +72,7 @@ void Discord_Register(const char* applicationId, const char* command)
     }
 }
 
-void Discord_RegisterSteamGame(const char* applicationId, const char* steamId)
+void Discord_RegisterSteamGame(const char *applicationId, const char *steamId)
 {
     char command[256];
     snprintf(command, 256, "steam://rungameid/%s", steamId);

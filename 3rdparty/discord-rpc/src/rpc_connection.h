@@ -61,4 +61,3 @@ struct RpcConnection {
 };
 
 }  // namespace discord_rpc
-

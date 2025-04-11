@@ -180,4 +180,3 @@ extern "C" void Discord_RegisterSteamGame(const char *applicationId,
 
   Discord_RegisterW(appId, command);
 }
-

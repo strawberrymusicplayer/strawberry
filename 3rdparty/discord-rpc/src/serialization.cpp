@@ -246,4 +246,3 @@ size_t JsonWriteJoinReply(char *dest, size_t maxLen, const char *userId, int rep
 }
 
 }  // namespace discord_rpc
-
