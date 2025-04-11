@@ -1,17 +1,15 @@
-#include "discord_rpc.h"
-
-#include "backoff.h"
-#include "discord_register.h"
-#include "msg_queue.h"
-#include "rpc_connection.h"
-#include "serialization.h"
-
 #include <atomic>
 #include <chrono>
 #include <mutex>
-
 #include <condition_variable>
 #include <thread>
+
+#include "discord_rpc.h"
+#include "discord_backoff.h"
+#include "discord_register.h"
+#include "discord_msg_queue.h"
+#include "discord_rpc_connection.h"
+#include "discord_serialization.h"
 
 namespace discord_rpc {
 
@@ -67,8 +65,7 @@ static MsgQueue<QueuedMessage, MessageQueueSize> SendQueue;
 static MsgQueue<User, JoinQueueSize> JoinAskQueue;
 static User connectedUser;
 
-// We want to auto connect, and retry on failure, but not as fast as possible. This does expoential
-// backoff from 0.5 seconds to 1 minute
+// We want to auto connect, and retry on failure, but not as fast as possible. This does expoential backoff from 0.5 seconds to 1 minute
 static Backoff ReconnectTimeMs(500, 60 * 1000);
 static auto NextConnect = std::chrono::system_clock::now();
 static int Pid { 0 };
@@ -111,11 +108,13 @@ class IoThreadHolder {
 static IoThreadHolder *IoThread { nullptr };
 
 static void UpdateReconnectTime() {
-  NextConnect = std::chrono::system_clock::now() +
-    std::chrono::duration<int64_t, std::milli> { ReconnectTimeMs.nextDelay() };
+
+  NextConnect = std::chrono::system_clock::now() + std::chrono::duration<int64_t, std::milli> { ReconnectTimeMs.nextDelay() };
+
 }
 
-static void Discord_UpdateConnection(void) {
+static void Discord_UpdateConnection() {
+
   if (!Connection) {
     return;
   }
@@ -217,54 +216,54 @@ static void Discord_UpdateConnection(void) {
       SendQueue.CommitSend();
     }
   }
+
 }
 
 static void SignalIOActivity() {
+
   if (IoThread != nullptr) {
     IoThread->Notify();
   }
+
 }
 
 static bool RegisterForEvent(const char *evtName) {
+
   auto qmessage = SendQueue.GetNextAddMessage();
   if (qmessage) {
-    qmessage->length =
-      JsonWriteSubscribeCommand(qmessage->buffer, sizeof(qmessage->buffer), Nonce++, evtName);
+    qmessage->length = JsonWriteSubscribeCommand(qmessage->buffer, sizeof(qmessage->buffer), Nonce++, evtName);
     SendQueue.CommitAdd();
     SignalIOActivity();
     return true;
   }
+
   return false;
+
 }
 
 static bool DeregisterForEvent(const char *evtName) {
+
   auto qmessage = SendQueue.GetNextAddMessage();
   if (qmessage) {
-    qmessage->length =
-      JsonWriteUnsubscribeCommand(qmessage->buffer, sizeof(qmessage->buffer), Nonce++, evtName);
+    qmessage->length = JsonWriteUnsubscribeCommand(qmessage->buffer, sizeof(qmessage->buffer), Nonce++, evtName);
     SendQueue.CommitAdd();
     SignalIOActivity();
     return true;
   }
+
   return false;
+
 }
 
-extern "C" void Discord_Initialize(const char *applicationId,
-                                   DiscordEventHandlers *handlers,
-                                   int autoRegister,
-                                   const char *optionalSteamId) {
+extern "C" void Discord_Initialize(const char *applicationId, DiscordEventHandlers *handlers, const int autoRegister) {
+
   IoThread = new (std::nothrow) IoThreadHolder();
   if (IoThread == nullptr) {
     return;
   }
 
   if (autoRegister) {
-    if (optionalSteamId && optionalSteamId[0]) {
-      Discord_RegisterSteamGame(applicationId, optionalSteamId);
-    }
-    else {
-      Discord_Register(applicationId, nullptr);
-    }
+    Discord_Register(applicationId, nullptr);
   }
 
   Pid = GetProcessId();
@@ -323,9 +322,11 @@ extern "C" void Discord_Initialize(const char *applicationId,
   };
 
   IoThread->Start();
+
 }
 
 extern "C" void Discord_Shutdown(void) {
+
   if (!Connection) {
     return;
   }
@@ -341,15 +342,19 @@ extern "C" void Discord_Shutdown(void) {
   }
 
   RpcConnection::Destroy(Connection);
+
 }
 
 extern "C" void Discord_UpdatePresence(const DiscordRichPresence *presence) {
+
   {
     std::lock_guard<std::mutex> guard(PresenceMutex);
     QueuedPresence.length = JsonWriteRichPresenceObj(QueuedPresence.buffer, sizeof(QueuedPresence.buffer), Nonce++, Pid, presence);
     UpdatePresence.exchange(true);
   }
+
   SignalIOActivity();
+
 }
 
 extern "C" void Discord_ClearPresence(void) {
@@ -357,20 +362,22 @@ extern "C" void Discord_ClearPresence(void) {
 }
 
 extern "C" void Discord_Respond(const char *userId, /* DISCORD_REPLY_ */ int reply) {
+
   // if we are not connected, let's not batch up stale messages for later
   if (!Connection || !Connection->IsOpen()) {
     return;
   }
   auto qmessage = SendQueue.GetNextAddMessage();
   if (qmessage) {
-    qmessage->length =
-      JsonWriteJoinReply(qmessage->buffer, sizeof(qmessage->buffer), userId, reply, Nonce++);
+    qmessage->length = JsonWriteJoinReply(qmessage->buffer, sizeof(qmessage->buffer), userId, reply, Nonce++);
     SendQueue.CommitAdd();
     SignalIOActivity();
   }
+
 }
 
-extern "C" void Discord_RunCallbacks(void) {
+extern "C" void Discord_RunCallbacks() {
+
   // Note on some weirdness: internally we might connect, get other signals, disconnect any number
   // of times inbetween calls here. Externally, we want the sequence to seem sane, so any other
   // signals are book-ended by calls to ready and disconnect.
@@ -379,8 +386,8 @@ extern "C" void Discord_RunCallbacks(void) {
     return;
   }
 
-  bool wasDisconnected = WasJustDisconnected.exchange(false);
-  bool isConnected = Connection->IsOpen();
+  const bool wasDisconnected = WasJustDisconnected.exchange(false);
+  const bool isConnected = Connection->IsOpen();
 
   if (isConnected) {
     // if we are connected, disconnect cb first
@@ -393,10 +400,7 @@ extern "C" void Discord_RunCallbacks(void) {
   if (WasJustConnected.exchange(false)) {
     std::lock_guard<std::mutex> guard(HandlerMutex);
     if (Handlers.ready) {
-      DiscordUser du { connectedUser.userId,
-                       connectedUser.username,
-                       connectedUser.discriminator,
-                       connectedUser.avatar };
+      DiscordUser du { connectedUser.userId, connectedUser.username, connectedUser.discriminator, connectedUser.avatar };
       Handlers.ready(&du);
     }
   }
@@ -428,7 +432,7 @@ extern "C" void Discord_RunCallbacks(void) {
   // maybe show them in one common dialog and/or start fetching the avatars in parallel, and if
   // not it should be trivial for the implementer to make a queue themselves.
   while (JoinAskQueue.HavePendingSends()) {
-    auto req = JoinAskQueue.GetNextSendMessage();
+    const auto req = JoinAskQueue.GetNextSendMessage();
     {
       std::lock_guard<std::mutex> guard(HandlerMutex);
       if (Handlers.joinRequest) {
@@ -446,9 +450,11 @@ extern "C" void Discord_RunCallbacks(void) {
       Handlers.disconnected(LastDisconnectErrorCode, LastDisconnectErrorMessage);
     }
   }
+
 }
 
 extern "C" void Discord_UpdateHandlers(DiscordEventHandlers *newHandlers) {
+
   if (newHandlers) {
 #define HANDLE_EVENT_REGISTRATION(handler_name, event)            \
   if (!Handlers.handler_name && newHandlers->handler_name) {      \
@@ -471,7 +477,7 @@ extern "C" void Discord_UpdateHandlers(DiscordEventHandlers *newHandlers) {
     std::lock_guard<std::mutex> guard(HandlerMutex);
     Handlers = {};
   }
-  return;
+
 }
 
 }  // namespace discord_rpc

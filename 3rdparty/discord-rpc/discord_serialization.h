@@ -25,11 +25,7 @@ size_t JsonWriteHandshakeObj(char *dest, size_t maxLen, int version, const char 
 
 // Commands
 struct DiscordRichPresence;
-size_t JsonWriteRichPresenceObj(char *dest,
-                                size_t maxLen,
-                                int nonce,
-                                int pid,
-                                const DiscordRichPresence *presence);
+size_t JsonWriteRichPresenceObj(char *dest, const size_t maxLen, const int nonce, const int pid, const DiscordRichPresence *presence);
 size_t JsonWriteSubscribeCommand(char *dest, size_t maxLen, int nonce, const char *evtName);
 
 size_t JsonWriteUnsubscribeCommand(char *dest, size_t maxLen, int nonce, const char *evtName);
@@ -149,35 +145,42 @@ class JsonDocument : public JsonDocumentBase {
 using JsonValue = rapidjson::GenericValue<UTF8, PoolAllocator>;
 
 inline JsonValue *GetObjMember(JsonValue *obj, const char *name) {
+
   if (obj) {
     auto member = obj->FindMember(name);
     if (member != obj->MemberEnd() && member->value.IsObject()) {
       return &member->value;
     }
   }
+
   return nullptr;
+
 }
 
 inline int GetIntMember(JsonValue *obj, const char *name, int notFoundDefault = 0) {
+
   if (obj) {
     auto member = obj->FindMember(name);
     if (member != obj->MemberEnd() && member->value.IsInt()) {
       return member->value.GetInt();
     }
   }
+
   return notFoundDefault;
+
 }
 
-inline const char *GetStrMember(JsonValue *obj,
-                                const char *name,
-                                const char *notFoundDefault = nullptr) {
+inline const char *GetStrMember(JsonValue *obj, const char *name, const char *notFoundDefault = nullptr) {
+
   if (obj) {
     auto member = obj->FindMember(name);
     if (member != obj->MemberEnd() && member->value.IsString()) {
       return member->value.GetString();
     }
   }
+
   return notFoundDefault;
+
 }
 
 }  // namespace discord_rpc

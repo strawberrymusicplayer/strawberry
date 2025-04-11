@@ -1,9 +1,10 @@
-#include "connection.h"
+#include "discord_connection.h"
 
 #define WIN32_LEAN_AND_MEAN
 #define NOMCX
 #define NOSERVICE
 #define NOIME
+
 #include <cassert>
 #include <windows.h>
 
@@ -19,24 +20,26 @@ struct BaseConnectionWin : public BaseConnection {
 
 static BaseConnectionWin Connection;
 
-/*static*/ BaseConnection *BaseConnection::Create() {
+BaseConnection *BaseConnection::Create() {
   return &Connection;
 }
 
-/*static*/ void BaseConnection::Destroy(BaseConnection *&c) {
+void BaseConnection::Destroy(BaseConnection *&c) {
+
   auto self = reinterpret_cast<BaseConnectionWin*>(c);
   self->Close();
   c = nullptr;
+
 }
 
 bool BaseConnection::Open() {
+
   wchar_t pipeName[] { L"\\\\?\\pipe\\discord-ipc-0" };
   const size_t pipeDigit = sizeof(pipeName) / sizeof(wchar_t) - 2;
   pipeName[pipeDigit] = L'0';
   auto self = reinterpret_cast<BaseConnectionWin *>(this);
   for (;;) {
-    self->pipe = ::CreateFileW(
-      pipeName, GENERIC_READ | GENERIC_WRITE, 0, nullptr, OPEN_EXISTING, 0, nullptr);
+    self->pipe = ::CreateFileW(pipeName, GENERIC_READ | GENERIC_WRITE, 0, nullptr, OPEN_EXISTING, 0, nullptr);
     if (self->pipe != INVALID_HANDLE_VALUE) {
       self->isOpen = true;
       return true;
@@ -57,17 +60,22 @@ bool BaseConnection::Open() {
     }
     return false;
   }
+
 }
 
 bool BaseConnection::Close() {
+
   auto self = reinterpret_cast<BaseConnectionWin *>(this);
   ::CloseHandle(self->pipe);
   self->pipe = INVALID_HANDLE_VALUE;
   self->isOpen = false;
+
   return true;
+
 }
 
 bool BaseConnection::Write(const void *data, size_t length) {
+
   if (length == 0) {
     return true;
   }
@@ -85,11 +93,13 @@ bool BaseConnection::Write(const void *data, size_t length) {
   }
   const DWORD bytesLength = static_cast<DWORD>(length);
   DWORD bytesWritten = 0;
-  return ::WriteFile(self->pipe, data, bytesLength, &bytesWritten, nullptr) == TRUE &&
-    bytesWritten == bytesLength;
+
+  return ::WriteFile(self->pipe, data, bytesLength, &bytesWritten, nullptr) == TRUE && bytesWritten == bytesLength;
+
 }
 
 bool BaseConnection::Read(void *data, size_t length) {
+
   assert(data);
   if (!data) {
     return false;
@@ -119,7 +129,9 @@ bool BaseConnection::Read(void *data, size_t length) {
   else {
     Close();
   }
+
   return false;
+
 }
 
 }  // namespace discord_rpc

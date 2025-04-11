@@ -1,11 +1,12 @@
-#include "serialization.h"
-#include "connection.h"
+#include "discord_serialization.h"
+#include "discord_connection.h"
 #include "discord_rpc.h"
 
 namespace discord_rpc {
 
 template<typename T>
 void NumberToString(char *dest, T number) {
+
   if (!number) {
     *dest++ = '0';
     *dest++ = 0;
@@ -26,6 +27,7 @@ void NumberToString(char *dest, T number) {
     *dest++ = temp[place];
   }
   *dest = 0;
+
 }
 
 // it's ever so slightly faster to not have to strlen the key
@@ -62,24 +64,25 @@ struct WriteArray {
 
 template<typename T>
 void WriteOptionalString(JsonWriter &w, T &k, const char *value) {
+
   if (value && value[0]) {
     w.Key(k, sizeof(T) - 1);
     w.String(value);
   }
+
 }
 
-static void JsonWriteNonce(JsonWriter &writer, int nonce) {
+static void JsonWriteNonce(JsonWriter &writer, const int nonce) {
+
   WriteKey(writer, "nonce");
   char nonceBuffer[32];
   NumberToString(nonceBuffer, nonce);
   writer.String(nonceBuffer);
+
 }
 
-size_t JsonWriteRichPresenceObj(char *dest,
-                                size_t maxLen,
-                                int nonce,
-                                int pid,
-                                const DiscordRichPresence *presence) {
+size_t JsonWriteRichPresenceObj(char *dest, const size_t maxLen, const int nonce, const int pid, const DiscordRichPresence *presence) {
+
   JsonWriter writer(dest, maxLen);
 
   {
@@ -168,6 +171,7 @@ size_t JsonWriteRichPresenceObj(char *dest,
 }
 
 size_t JsonWriteHandshakeObj(char *dest, size_t maxLen, int version, const char *applicationId) {
+
   JsonWriter writer(dest, maxLen);
 
   {
@@ -179,9 +183,11 @@ size_t JsonWriteHandshakeObj(char *dest, size_t maxLen, int version, const char 
   }
 
   return writer.Size();
+
 }
 
 size_t JsonWriteSubscribeCommand(char *dest, size_t maxLen, int nonce, const char *evtName) {
+
   JsonWriter writer(dest, maxLen);
 
   {
@@ -197,9 +203,11 @@ size_t JsonWriteSubscribeCommand(char *dest, size_t maxLen, int nonce, const cha
   }
 
   return writer.Size();
+
 }
 
 size_t JsonWriteUnsubscribeCommand(char *dest, size_t maxLen, int nonce, const char *evtName) {
+
   JsonWriter writer(dest, maxLen);
 
   {
@@ -215,9 +223,11 @@ size_t JsonWriteUnsubscribeCommand(char *dest, size_t maxLen, int nonce, const c
   }
 
   return writer.Size();
+
 }
 
-size_t JsonWriteJoinReply(char *dest, size_t maxLen, const char *userId, int reply, int nonce) {
+size_t JsonWriteJoinReply(char *dest, size_t maxLen, const char *userId, const int reply, const int nonce) {
+
   JsonWriter writer(dest, maxLen);
 
   {
@@ -243,6 +253,7 @@ size_t JsonWriteJoinReply(char *dest, size_t maxLen, const char *userId, int rep
   }
 
   return writer.Size();
+
 }
 
 }  // namespace discord_rpc

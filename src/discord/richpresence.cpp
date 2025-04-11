@@ -52,7 +52,7 @@ RichPresence::RichPresence(const SharedPtr<Player> player,
       send_presence_timestamp_(0),
       enabled_(false) {
 
-  Discord_Initialize(kDiscordApplicationId, nullptr, 1, nullptr);
+  Discord_Initialize(kDiscordApplicationId, nullptr, 1);
 
   QObject::connect(&*player_->engine(), &EngineBase::StateChanged, this, &RichPresence::EngineStateChanged);
   QObject::connect(&*playlist_manager_, &PlaylistManager::CurrentSongChanged, this, &RichPresence::CurrentSongChanged);

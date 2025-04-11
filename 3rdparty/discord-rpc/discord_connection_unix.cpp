@@ -1,4 +1,4 @@
-#include "connection.h"
+#include "discord_connection.h"
 
 #include <cerrno>
 #include <fcntl.h>
@@ -28,28 +28,34 @@ static int MsgFlags = 0;
 #endif
 
 static const char *GetTempPath() {
+
   const char *temp = getenv("XDG_RUNTIME_DIR");
   temp = temp ? temp : getenv("TMPDIR");
   temp = temp ? temp : getenv("TMP");
   temp = temp ? temp : getenv("TEMP");
   temp = temp ? temp : "/tmp";
+
   return temp;
+
 }
 
-/*static*/ BaseConnection *BaseConnection::Create() {
+BaseConnection *BaseConnection::Create() {
   PipeAddr.sun_family = AF_UNIX;
   return &Connection;
 }
 
-/*static*/ void BaseConnection::Destroy(BaseConnection *&c) {
-  auto self = reinterpret_cast<BaseConnectionUnix *>(c);
+void BaseConnection::Destroy(BaseConnection *&c) {
+
+  auto self = reinterpret_cast<BaseConnectionUnix*>(c);
   self->Close();
   c = nullptr;
+
 }
 
 bool BaseConnection::Open() {
+
   const char *tempPath = GetTempPath();
-  auto self = reinterpret_cast<BaseConnectionUnix *>(this);
+  auto self = reinterpret_cast<BaseConnectionUnix*>(this);
   self->sock = socket(AF_UNIX, SOCK_STREAM, 0);
   if (self->sock == -1) {
     return false;
@@ -61,8 +67,7 @@ bool BaseConnection::Open() {
 #endif
 
   for (int pipeNum = 0; pipeNum < 10; ++pipeNum) {
-    snprintf(
-      PipeAddr.sun_path, sizeof(PipeAddr.sun_path), "%s/discord-ipc-%d", tempPath, pipeNum);
+    snprintf(PipeAddr.sun_path, sizeof(PipeAddr.sun_path), "%s/discord-ipc-%d", tempPath, pipeNum);
     int err = connect(self->sock, reinterpret_cast<const sockaddr*>(&PipeAddr), sizeof(PipeAddr));
     if (err == 0) {
       self->isOpen = true;
@@ -70,10 +75,13 @@ bool BaseConnection::Open() {
     }
   }
   self->Close();
+
   return false;
+
 }
 
 bool BaseConnection::Close() {
+
   auto self = reinterpret_cast<BaseConnectionUnix *>(this);
   if (self->sock == -1) {
     return false;
@@ -81,11 +89,14 @@ bool BaseConnection::Close() {
   close(self->sock);
   self->sock = -1;
   self->isOpen = false;
+
   return true;
+
 }
 
 bool BaseConnection::Write(const void *data, size_t length) {
-  auto self = reinterpret_cast<BaseConnectionUnix *>(this);
+
+  auto self = reinterpret_cast<BaseConnectionUnix*>(this);
 
   if (self->sock == -1) {
     return false;
@@ -95,11 +106,14 @@ bool BaseConnection::Write(const void *data, size_t length) {
   if (sentBytes < 0) {
     Close();
   }
+
   return sentBytes == static_cast<ssize_t>(length);
+
 }
 
 bool BaseConnection::Read(void *data, size_t length) {
-  auto self = reinterpret_cast<BaseConnectionUnix *>(this);
+
+  auto self = reinterpret_cast<BaseConnectionUnix*>(this);
 
   if (self->sock == -1) {
     return false;
@@ -115,7 +129,9 @@ bool BaseConnection::Read(void *data, size_t length) {
   else if (res == 0) {
     Close();
   }
+
   return static_cast<size_t>(res) == length;
+
 }
 
 }  // namespace discord_rpc

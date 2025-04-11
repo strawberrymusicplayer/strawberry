@@ -1494,7 +1494,7 @@ endif()
 
 if(HAVE_DISCORD_RPC)
   add_subdirectory(3rdparty/discord-rpc)
-  target_include_directories(strawberry_lib PUBLIC 3rdparty/discord-rpc/include)
+  target_include_directories(strawberry_lib PUBLIC 3rdparty/discord-rpc)
 endif()
 
 if(HAVE_TRANSLATIONS)

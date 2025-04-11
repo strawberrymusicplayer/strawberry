@@ -1,10 +1,6 @@
 #pragma once
 #include <stdint.h>
 
-// clang-format off
-
-// clang-format on
-
 namespace discord_rpc {
 
 #ifdef __cplusplus
@@ -54,13 +50,10 @@ typedef struct DiscordEventHandlers {
 #define DISCORD_PARTY_PRIVATE 0
 #define DISCORD_PARTY_PUBLIC  1
 
-void Discord_Initialize(const char *applicationId,
-                        DiscordEventHandlers *handlers,
-                        int autoRegister,
-                        const char *optionalSteamId);
+void Discord_Initialize(const char *applicationId, DiscordEventHandlers *handlers, const int autoRegister);
 void Discord_Shutdown(void);
 
-/* checks for incoming messages, dispatches callbacks */
+// checks for incoming messages, dispatches callbacks
 void Discord_RunCallbacks(void);
 
 void Discord_UpdatePresence(const DiscordRichPresence *presence);

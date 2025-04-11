@@ -1,24 +1,29 @@
-#include "rpc_connection.h"
-#include "serialization.h"
+#include "discord_rpc_connection.h"
+#include "discord_serialization.h"
 
 namespace discord_rpc {
 
 static const int RpcVersion = 1;
 static RpcConnection Instance;
 
-/*static*/ RpcConnection *RpcConnection::Create(const char *applicationId) {
+RpcConnection *RpcConnection::Create(const char *applicationId) {
+
   Instance.connection = BaseConnection::Create();
   StringCopy(Instance.appId, applicationId);
   return &Instance;
+
 }
 
-/*static*/ void RpcConnection::Destroy(RpcConnection *&c) {
+void RpcConnection::Destroy(RpcConnection *&c) {
+
   c->Close();
   BaseConnection::Destroy(c->connection);
   c = nullptr;
+
 }
 
 void RpcConnection::Open() {
+
   if (state == State::Connected) {
     return;
   }
@@ -51,17 +56,21 @@ void RpcConnection::Open() {
       Close();
     }
   }
+
 }
 
 void RpcConnection::Close() {
+
   if (onDisconnect && (state == State::Connected || state == State::SentHandshake)) {
     onDisconnect(lastErrorCode, lastErrorMessage);
   }
   connection->Close();
   state = State::Disconnected;
+
 }
 
 bool RpcConnection::Write(const void *data, size_t length) {
+
   sendFrame.opcode = Opcode::Frame;
   memcpy(sendFrame.message, data, length);
   sendFrame.length = static_cast<uint32_t>(length);
@@ -69,14 +78,17 @@ bool RpcConnection::Write(const void *data, size_t length) {
     Close();
     return false;
   }
+
   return true;
+
 }
 
 bool RpcConnection::Read(JsonDocument &message) {
+
   if (state != State::Connected && state != State::SentHandshake) {
     return false;
   }
-  MessageFrame readFrame;
+  MessageFrame readFrame{};
   for (;;) {
     bool didRead = connection->Read(&readFrame, sizeof(MessageFrameHeader));
     if (!didRead) {
@@ -127,6 +139,7 @@ bool RpcConnection::Read(JsonDocument &message) {
         return false;
     }
   }
+
 }
 
 }  // namespace discord_rpc
