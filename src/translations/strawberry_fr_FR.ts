@@ -5152,7 +5152,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>A-Z</source>
-      <translation type="unfinished">A-Z</translation>
+      <translation>A-Z</translation>
     </message>
     <message>
       <source>Z-A</source>
@@ -5815,7 +5815,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately.</source>
-      <translation type="unfinished">This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately.</translation>
+      <translation>(Il s&apos;agit du délai entre le moment où un morceau est scrobblé et celui où les scrobbles sont soumis au serveur. Si vous fixez ce délai à 0 seconde, les scrobbles seront soumis immédiatement.</translation>
     </message>
     <message>
       <source>Spotify</source>
