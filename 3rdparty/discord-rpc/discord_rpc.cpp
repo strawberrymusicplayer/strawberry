@@ -34,7 +34,11 @@
 #include "discord_rpc_connection.h"
 #include "discord_serialization.h"
 
-namespace discord_rpc {
+using namespace discord_rpc;
+
+static void Discord_UpdateConnection();
+
+namespace {
 
 constexpr size_t MaxMessageSize { 16 * 1024 };
 constexpr size_t MessageQueueSize { 8 };
@@ -94,7 +98,6 @@ static auto NextConnect = std::chrono::system_clock::now();
 static int Pid { 0 };
 static int Nonce { 1 };
 
-static void Discord_UpdateConnection(void);
 class IoThreadHolder {
  private:
   std::atomic_bool keepRunning { true };
@@ -128,6 +131,7 @@ class IoThreadHolder {
 
   ~IoThreadHolder() { Stop(); }
 };
+
 static IoThreadHolder *IoThread { nullptr };
 
 static void UpdateReconnectTime() {
@@ -135,6 +139,44 @@ static void UpdateReconnectTime() {
   NextConnect = std::chrono::system_clock::now() + std::chrono::duration<int64_t, std::milli> { ReconnectTimeMs.nextDelay() };
 
 }
+
+static void SignalIOActivity() {
+
+  if (IoThread != nullptr) {
+    IoThread->Notify();
+  }
+
+}
+
+static bool RegisterForEvent(const char *evtName) {
+
+  auto qmessage = SendQueue.GetNextAddMessage();
+  if (qmessage) {
+    qmessage->length = JsonWriteSubscribeCommand(qmessage->buffer, sizeof(qmessage->buffer), Nonce++, evtName);
+    SendQueue.CommitAdd();
+    SignalIOActivity();
+    return true;
+  }
+
+  return false;
+
+}
+
+static bool DeregisterForEvent(const char *evtName) {
+
+  auto qmessage = SendQueue.GetNextAddMessage();
+  if (qmessage) {
+    qmessage->length = JsonWriteUnsubscribeCommand(qmessage->buffer, sizeof(qmessage->buffer), Nonce++, evtName);
+    SendQueue.CommitAdd();
+    SignalIOActivity();
+    return true;
+  }
+
+  return false;
+
+}
+
+} // namespace
 
 static void Discord_UpdateConnection() {
 
@@ -242,42 +284,6 @@ static void Discord_UpdateConnection() {
 
 }
 
-static void SignalIOActivity() {
-
-  if (IoThread != nullptr) {
-    IoThread->Notify();
-  }
-
-}
-
-static bool RegisterForEvent(const char *evtName) {
-
-  auto qmessage = SendQueue.GetNextAddMessage();
-  if (qmessage) {
-    qmessage->length = JsonWriteSubscribeCommand(qmessage->buffer, sizeof(qmessage->buffer), Nonce++, evtName);
-    SendQueue.CommitAdd();
-    SignalIOActivity();
-    return true;
-  }
-
-  return false;
-
-}
-
-static bool DeregisterForEvent(const char *evtName) {
-
-  auto qmessage = SendQueue.GetNextAddMessage();
-  if (qmessage) {
-    qmessage->length = JsonWriteUnsubscribeCommand(qmessage->buffer, sizeof(qmessage->buffer), Nonce++, evtName);
-    SendQueue.CommitAdd();
-    SignalIOActivity();
-    return true;
-  }
-
-  return false;
-
-}
-
 extern "C" void Discord_Initialize(const char *applicationId, DiscordEventHandlers *handlers, const int autoRegister) {
 
   IoThread = new (std::nothrow) IoThreadHolder();
@@ -348,7 +354,7 @@ extern "C" void Discord_Initialize(const char *applicationId, DiscordEventHandle
 
 }
 
-extern "C" void Discord_Shutdown(void) {
+extern "C" void Discord_Shutdown() {
 
   if (!Connection) {
     return;
@@ -502,5 +508,3 @@ extern "C" void Discord_UpdateHandlers(DiscordEventHandlers *newHandlers) {
   }
 
 }
-
-}  // namespace discord_rpc

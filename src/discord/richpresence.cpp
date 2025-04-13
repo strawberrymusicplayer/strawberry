@@ -38,8 +38,6 @@ constexpr char kStrawberryIconResourceName[] = "embedded_cover";
 constexpr char kStrawberryIconDescription[] = "Strawberry Music Player";
 }  // namespace
 
-using namespace discord_rpc;
-
 namespace discord {
 
 RichPresence::RichPresence(const SharedPtr<Player> player,

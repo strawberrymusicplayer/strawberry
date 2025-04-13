@@ -26,8 +26,6 @@
 
 #include <cstdint>
 
-namespace discord_rpc {
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -91,7 +89,5 @@ void Discord_UpdateHandlers(DiscordEventHandlers *handlers);
 #ifdef __cplusplus
 } /* extern "C" */
 #endif
-
-}  // namespace discord_rpc
 
 #endif  // DISCORD_RPC_H

@@ -28,6 +28,8 @@
 #include <rapidjson/stringbuffer.h>
 #include <rapidjson/writer.h>
 
+struct DiscordRichPresence;
+
 namespace discord_rpc {
 
 // if only there was a standard library function for this
@@ -48,7 +50,6 @@ inline size_t StringCopy(char (&dest)[Len], const char *src) {
 size_t JsonWriteHandshakeObj(char *dest, size_t maxLen, int version, const char *applicationId);
 
 // Commands
-struct DiscordRichPresence;
 size_t JsonWriteRichPresenceObj(char *dest, const size_t maxLen, const int nonce, const int pid, const DiscordRichPresence *presence);
 size_t JsonWriteSubscribeCommand(char *dest, size_t maxLen, int nonce, const char *evtName);
 
