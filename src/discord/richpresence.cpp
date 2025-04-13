@@ -49,7 +49,6 @@ RichPresence::RichPresence(const SharedPtr<Player> player,
     : QObject(parent),
       player_(player),
       playlist_manager_(playlist_manager),
-      send_presence_timestamp_(0),
       enabled_(false) {
 
   Discord_Initialize(kDiscordApplicationId, nullptr, 1);
@@ -110,14 +109,6 @@ void RichPresence::SendPresenceUpdate() {
   if (!enabled_) {
     return;
   }
-
-  const qint64 current_timestamp = QDateTime::currentMSecsSinceEpoch();
-  if (current_timestamp - send_presence_timestamp_ < kDiscordPresenceUpdateRateLimitMs) {
-    qLog(Info) << "Not sending rich presence due to rate limit of" << kDiscordPresenceUpdateRateLimitMs << "ms";
-    return;
-  }
-
-  send_presence_timestamp_ = current_timestamp;
 
   ::DiscordRichPresence presence_data{};
   memset(&presence_data, 0, sizeof(presence_data));

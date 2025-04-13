@@ -69,7 +69,6 @@ class RichPresence : public QObject {
     qint64 seek_secs;
   };
   Activity activity_;
-  qint64 send_presence_timestamp_;
   bool enabled_;
 };
 
