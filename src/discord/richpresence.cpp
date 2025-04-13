@@ -46,9 +46,7 @@ RichPresence::RichPresence(const SharedPtr<Player> player,
     : QObject(parent),
       player_(player),
       playlist_manager_(playlist_manager),
-      enabled_(false) {
-
-  Discord_Initialize(kDiscordApplicationId, nullptr, 1);
+      initialized_(false) {
 
   QObject::connect(&*player_->engine(), &EngineBase::StateChanged, this, &RichPresence::EngineStateChanged);
   QObject::connect(&*playlist_manager_, &PlaylistManager::CurrentSongChanged, this, &RichPresence::CurrentSongChanged);
@@ -59,7 +57,11 @@ RichPresence::RichPresence(const SharedPtr<Player> player,
 }
 
 RichPresence::~RichPresence() {
-  Discord_Shutdown();
+
+  if (initialized_) {
+    Discord_Shutdown();
+  }
+
 }
 
 void RichPresence::ReloadSettings() {
@@ -69,15 +71,21 @@ void RichPresence::ReloadSettings() {
   const bool enabled = s.value(DiscordRPCSettings::kEnabled, false).toBool();
   s.endGroup();
 
-  if (enabled_ && !enabled) {
-    Discord_ClearPresence();
+  if (enabled && !initialized_) {
+    Discord_Initialize(kDiscordApplicationId, nullptr, 1);
+    initialized_ = true;
   }
-
-  enabled_ = enabled;
+  else if (!enabled && initialized_) {
+    Discord_ClearPresence();
+    Discord_Shutdown();
+    initialized_ = false;
+  }
 
 }
 
 void RichPresence::EngineStateChanged(const EngineBase::State state) {
+
+  if (!initialized_) return;
 
   if (state == EngineBase::State::Playing) {
     SetTimestamp(player_->engine()->position_nanosec() / kNsecPerSec);
@@ -91,6 +99,8 @@ void RichPresence::EngineStateChanged(const EngineBase::State state) {
 
 void RichPresence::CurrentSongChanged(const Song &song) {
 
+  if (!initialized_) return;
+
   SetTimestamp(0LL);
   activity_.length_secs = song.length_nanosec() / kNsecPerSec;
   activity_.title = song.title();
@@ -103,9 +113,7 @@ void RichPresence::CurrentSongChanged(const Song &song) {
 
 void RichPresence::SendPresenceUpdate() {
 
-  if (!enabled_) {
-    return;
-  }
+  if (!initialized_) return;
 
   ::DiscordRichPresence presence_data{};
   memset(&presence_data, 0, sizeof(presence_data));
@@ -141,13 +149,19 @@ void RichPresence::SendPresenceUpdate() {
 }
 
 void RichPresence::SetTimestamp(const qint64 seconds) {
+
   activity_.start_timestamp = QDateTime::currentSecsSinceEpoch();
   activity_.seek_secs = seconds;
+
 }
 
 void RichPresence::Seeked(const qint64 seek_microseconds) {
+
+  if (!initialized_) return;
+
   SetTimestamp(seek_microseconds / 1000LL);
   SendPresenceUpdate();
+
 }
 
 }  // namespace discord

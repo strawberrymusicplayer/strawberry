@@ -69,7 +69,7 @@ class RichPresence : public QObject {
     qint64 seek_secs;
   };
   Activity activity_;
-  bool enabled_;
+  bool initialized_;
 };
 
 }  // namespace discord
