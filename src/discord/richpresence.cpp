@@ -36,7 +36,6 @@ namespace {
 constexpr char kDiscordApplicationId[] = "1352351827206733974";
 constexpr char kStrawberryIconResourceName[] = "embedded_cover";
 constexpr char kStrawberryIconDescription[] = "Strawberry Music Player";
-constexpr qint64 kDiscordPresenceUpdateRateLimitMs = 2000;
 }  // namespace
 
 using namespace discord_rpc;
