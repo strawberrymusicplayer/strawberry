@@ -21,58 +21,58 @@
     </message>
     <message>
       <source>It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles.</source>
-      <translation type="unfinished">It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles.</translation>
+      <translation>És una bifurcació de Clementine llançada el 2018 adreçada a col·leccionistes de música i audiòfils.</translation>
     </message>
     <message>
       <source>Strawberry is free software released under GPL. The source code is available on %1</source>
-      <translation type="unfinished">Strawberry is free software released under GPL. The source code is available on %1</translation>
+      <translation>Strawberry és programari lliure publicat sota GPL. El codi font està disponible a %1</translation>
     </message>
     <message>
       <source>You should have received a copy of the GNU General Public License along with this program.  If not, see %1</source>
-      <translation type="unfinished">You should have received a copy of the GNU General Public License along with this program.  If not, see %1</translation>
+      <translation>Hauríeu d'haver rebut una còpia de la Llicència Pública General de GNU juntament amb aquest programa. Si no, vegeu %1</translation>
     </message>
     <message>
       <source>If you like Strawberry and can make use of it, consider sponsoring or donating.</source>
-      <translation type="unfinished">If you like Strawberry and can make use of it, consider sponsoring or donating.</translation>
+      <translation>Si t'agrada Strawberry i pots fer-ne ús, considera patrocinar o donar.</translation>
     </message>
     <message>
       <source>You can sponsor the author on %1. You can also make a one-time payment through %2.</source>
-      <translation type="unfinished">You can sponsor the author on %1. You can also make a one-time payment through %2.</translation>
+      <translation>Podeu patrocinar l'autor a %1. També podeu fer un pagament únic a través de %2.</translation>
     </message>
     <message>
       <source>Author and maintainer</source>
-      <translation type="unfinished">Author and maintainer</translation>
+      <translation>Autor i mantenidor</translation>
     </message>
     <message>
       <source>Contributors</source>
-      <translation type="unfinished">Contributors</translation>
+      <translation>Col·laboradors</translation>
     </message>
     <message>
       <source>Clementine authors</source>
-      <translation type="unfinished">Clementine authors</translation>
+      <translation>Autors clementine</translation>
     </message>
     <message>
       <source>Clementine contributors</source>
-      <translation type="unfinished">Clementine contributors</translation>
+      <translation>Col·laboradors de Clementine</translation>
     </message>
     <message>
       <source>Thanks to</source>
-      <translation type="unfinished">Thanks to</translation>
+      <translation>Gràcies a</translation>
     </message>
     <message>
       <source>Thanks to all the other Amarok and Clementine contributors.</source>
-      <translation type="unfinished">Thanks to all the other Amarok and Clementine contributors.</translation>
+      <translation>Gràcies a tots els altres col·laboradors d'Amarok i Clementine.</translation>
     </message>
   </context>
   <context>
     <name>AddStreamDialog</name>
     <message>
       <source>Add Stream</source>
-      <translation type="unfinished">Add Stream</translation>
+      <translation>Afegeix el flux</translation>
     </message>
     <message>
       <source>Enter the URL of a stream:</source>
-      <translation type="unfinished">Enter the URL of a stream:</translation>
+      <translation>Introduïu l'URL d'un flux:</translation>
     </message>
   </context>
   <context>
@@ -103,7 +103,7 @@
     </message>
     <message>
       <source>Clear cover</source>
-      <translation type="unfinished">Clear cover</translation>
+      <translation>Coberta clara</translation>
     </message>
     <message>
       <source>Show fullsize...</source>
@@ -119,11 +119,11 @@
     </message>
     <message>
       <source>Failed to open cover file %1 for reading: %2</source>
-      <translation type="unfinished">Failed to open cover file %1 for reading: %2</translation>
+      <translation>No s'ha pogut obrir el fitxer de portada %1 per llegir: %2</translation>
     </message>
     <message>
       <source>Cover file %1 is empty.</source>
-      <translation type="unfinished">Cover file %1 is empty.</translation>
+      <translation>El fitxer de portada % 1 està buit.</translation>
     </message>
     <message>
       <source>unknown</source>
@@ -135,11 +135,11 @@
     </message>
     <message>
       <source>Failed to open cover file %1 for writing: %2</source>
-      <translation type="unfinished">Failed to open cover file %1 for writing: %2</translation>
+      <translation>No s'ha pogut obrir el fitxer de portada %1 per escriure: %2</translation>
     </message>
     <message>
       <source>Failed writing cover to file %1: %2</source>
-      <translation type="unfinished">Failed writing cover to file %1: %2</translation>
+      <translation>No s'ha pogut escriure la coberta al fitxer %1: %2</translation>
     </message>
     <message>
       <source>Failed writing cover to file %1.</source>
@@ -398,7 +398,7 @@
     </message>
     <message>
       <source>&amp;No background image</source>
-      <translation type="unfinished">&amp;No background image</translation>
+      <translation>&amp;Sense imatge de fons</translation>
     </message>
     <message>
       <source>The album cover of the currently playing song</source>
@@ -406,7 +406,7 @@
     </message>
     <message>
       <source>Albu&amp;m cover</source>
-      <translation type="unfinished">Albu&amp;m cover</translation>
+      <translation>Portada de l'àlbum</translation>
     </message>
     <message>
       <source>Custom image:</source>
@@ -422,23 +422,23 @@
     </message>
     <message>
       <source>Upper Left</source>
-      <translation type="unfinished">Upper Left</translation>
+      <translation>Superior Esquerra</translation>
     </message>
     <message>
       <source>Upper Right</source>
-      <translation type="unfinished">Upper Right</translation>
+      <translation>Superior Dreta</translation>
     </message>
     <message>
       <source>Middle</source>
-      <translation type="unfinished">Middle</translation>
+      <translation>Mitjà</translation>
     </message>
     <message>
       <source>Bottom Left</source>
-      <translation type="unfinished">Bottom Left</translation>
+      <translation>A baix a l'esquerra</translation>
     </message>
     <message>
       <source>Bottom Right</source>
-      <translation type="unfinished">Bottom Right</translation>
+      <translation>A baix a la dreta</translation>
     </message>
     <message>
       <source>Max cover size</source>
@@ -6659,19 +6659,19 @@ Esteu segur que voleu continuar?</translation>
     </message>
     <message>
       <source>Configuration incorrect</source>
-      <translation type="unfinished">Configuration incorrect</translation>
+      <translation>Configuració incorrecta</translation>
     </message>
     <message>
       <source>Server URL is invalid.</source>
-      <translation type="unfinished">Server URL is invalid.</translation>
+      <translation>L'URL del servidor no és vàlid.</translation>
     </message>
     <message>
       <source>Test successful!</source>
-      <translation type="unfinished">Test successful!</translation>
+      <translation>Prova reeixida!</translation>
     </message>
     <message>
       <source>Test failed!</source>
-      <translation type="unfinished">Test failed!</translation>
+      <translation>La prova ha fallat!</translation>
     </message>
   </context>
   <context>
@@ -6682,7 +6682,7 @@ Esteu segur que voleu continuar?</translation>
     </message>
     <message>
       <source>Missing Subsonic username or password.</source>
-      <translation type="unfinished">Missing Subsonic username or password.</translation>
+      <translation>Falta el nom d'usuari o la contrasenya de Subsonic.</translation>
     </message>
   </context>
   <context>
@@ -6700,7 +6700,7 @@ Esteu segur que voleu continuar?</translation>
     <name>TagFetcher</name>
     <message>
       <source>Identifying song</source>
-      <translation type="unfinished">Identifying song</translation>
+      <translation>Identificació cançó</translation>
     </message>
     <message>
       <source>Fingerprinting song</source>
@@ -6719,15 +6719,15 @@ Esteu segur que voleu continuar?</translation>
     </message>
     <message>
       <source>Receiving artists...</source>
-      <translation type="unfinished">Receiving artists...</translation>
+      <translation>Recepció d'artistes...</translation>
     </message>
     <message>
       <source>Receiving albums...</source>
-      <translation type="unfinished">Receiving albums...</translation>
+      <translation>S'estan rebent àlbums...</translation>
     </message>
     <message>
       <source>Receiving songs...</source>
-      <translation type="unfinished">Receiving songs...</translation>
+      <translation>S'estan rebent cançons...</translation>
     </message>
     <message>
       <source>Searching...</source>
@@ -7118,11 +7118,11 @@ Esteu segur que voleu continuar?</translation>
     </message>
     <message>
       <source>Import Directory</source>
-      <translation type="unfinished">Import Directory</translation>
+      <translation>Directori d'importació</translation>
     </message>
     <message>
       <source>Preserve directory structure in output directory (import only)</source>
-      <translation type="unfinished">Preserve directory structure in output directory (import only)</translation>
+      <translation>Conserva l'estructura del directori al directori de sortida (només importació)</translation>
     </message>
   </context>
   <context>
@@ -7272,7 +7272,7 @@ Esteu segur que voleu continuar?</translation>
     </message>
     <message>
       <source>Optimize for &amp;quality</source>
-      <translation type="unfinished">Optimize for &amp;quality</translation>
+      <translation>Optimitzar la &amp;qualitat</translation>
     </message>
     <message>
       <source>Quality</source>
@@ -7281,7 +7281,7 @@ Esteu segur que voleu continuar?</translation>
     </message>
     <message>
       <source>Opti&amp;mize for bitrate</source>
-      <translation type="unfinished">Opti&amp;mize for bitrate</translation>
+      <translation>Opti&amp;mitzeu la taxa de bits</translation>
     </message>
     <message>
       <source>Bitrate</source>
@@ -7368,7 +7368,7 @@ Esteu segur que voleu continuar?</translation>
     </message>
     <message>
       <source>Auto</source>
-      <translation type="unfinished">Auto</translation>
+      <translation>Automàtic</translation>
     </message>
     <message>
       <source>Ultra wide band (UWB)</source>
@@ -7458,35 +7458,35 @@ Esteu segur que voleu continuar?</translation>
     </message>
     <message>
       <source>FLAC</source>
-      <translation type="unfinished">FLAC</translation>
+      <translation>FLAC</translation>
     </message>
     <message>
       <source>WavPack</source>
-      <translation type="unfinished">WavPack</translation>
+      <translation>WavPack</translation>
     </message>
     <message>
       <source>Vorbis</source>
-      <translation type="unfinished">Vorbis</translation>
+      <translation>Vorbis</translation>
     </message>
     <message>
       <source>Opus</source>
-      <translation type="unfinished">Opus</translation>
+      <translation>Opus</translation>
     </message>
     <message>
       <source>Speex</source>
-      <translation type="unfinished">Speex</translation>
+      <translation>Speex</translation>
     </message>
     <message>
       <source>AAC</source>
-      <translation type="unfinished">AAC</translation>
+      <translation>AAC</translation>
     </message>
     <message>
       <source>ASF (WMA)</source>
-      <translation type="unfinished">ASF (WMA)</translation>
+      <translation>ASF (WMA)</translation>
     </message>
     <message>
       <source>MP3</source>
-      <translation type="unfinished">MP3</translation>
+      <translation>MP3</translation>
     </message>
   </context>
   <context>
@@ -7509,14 +7509,14 @@ Esteu segur que voleu continuar?</translation>
     </message>
     <message>
       <source>UUID</source>
-      <translation type="unfinished">UUID</translation>
+      <translation>UUID</translation>
     </message>
   </context>
   <context>
     <name>UserPassDialog</name>
     <message>
       <source>Enter username and password</source>
-      <translation type="unfinished">Enter username and password</translation>
+      <translation>Introduïu el nom d'usuari i la contrasenya</translation>
     </message>
     <message>
       <source>Username</source>
