@@ -125,7 +125,7 @@ void RichPresence::SendPresenceUpdate() {
   }
 
   QByteArray album;
-  if (!activity_.album.isEmpty() && activity_.album != activity_.title) {
+  if (!activity_.album.isEmpty()) {
     album = activity_.album.toUtf8();
     album.prepend(tr("on ").toUtf8());
     presence_data.largeImageText = album.constData();
