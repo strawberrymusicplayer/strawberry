@@ -720,7 +720,7 @@ Section "Gstreamer plugins" gstreamer-plugins
   File "/oname=gstwavparse.dll" "gstreamer-plugins\gstwavparse.dll"
   File "/oname=gstxingmux.dll" "gstreamer-plugins\gstxingmux.dll"
 !ifdef arch_x64
-  ;File "/oname=gstspotify.dll" "gstreamer-plugins\gstspotify.dll"
+  File "/oname=gstspotify.dll" "gstreamer-plugins\gstspotify.dll"
 !endif
 !endif ; MSVC
 
@@ -1179,7 +1179,7 @@ Section "Uninstall"
   Delete "$INSTDIR\gstreamer-plugins\gstwavparse.dll"
   Delete "$INSTDIR\gstreamer-plugins\gstxingmux.dll"
 !ifdef arch_x64
-  ;Delete "$INSTDIR\gstreamer-plugins\gstspotify.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gstspotify.dll"
 !endif
 !endif ; msvc
 
