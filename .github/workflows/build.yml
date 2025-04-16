@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        opensuse_version: [ 'tumbleweed', 'leap:15.6' ]
+        opensuse_version: [ 'tumbleweed', 'leap:15.6', 'leap:16.0' ]
     container:
       image: opensuse/${{matrix.opensuse_version}}
     steps:
@@ -27,11 +27,11 @@ jobs:
       - name: Upgrade packages (Leap)
         if: matrix.opensuse_version != 'tumbleweed'
         run: zypper -n --gpg-auto-import-keys up
-      - name: Install gcc (Tumbleweed)
-        if: matrix.opensuse_version == 'tumbleweed'
+      - name: Install gcc
+        if: matrix.opensuse_version != 'leap:15.6'
         run: zypper -n --gpg-auto-import-keys in gcc gcc-c++
-      - name: Install gcc (Leap)
-        if: matrix.opensuse_version != 'tumbleweed'
+      - name: Install gcc (leap:15.6)
+        if: matrix.opensuse_version == 'leap:15.6'
         run: zypper -n --gpg-auto-import-keys in gcc14 gcc14-c++
       - name: Install packages
         run: >
@@ -83,7 +83,7 @@ jobs:
             sparsehash-devel
             rapidjson-devel
       - name: Install kdsingleapplication-qt6-devel
-        if: matrix.opensuse_version == 'tumbleweed'
+        if: matrix.opensuse_version != 'leap:15.6'
         run: zypper -n --gpg-auto-import-keys in kdsingleapplication-qt6-devel
       - name: Build and install KDSingleApplication
         if: matrix.opensuse_version == 'leap:15.6'
@@ -115,14 +115,14 @@ jobs:
       - name: Copy source tarball
         working-directory: build
         run: cp strawberry-*.tar.xz /usr/src/packages/SOURCES/
-      - name: Build RPM (Tumbleweed)
-        if: matrix.opensuse_version == 'tumbleweed'
+      - name: Build RPM
+        if: matrix.opensuse_version != 'leap:15.6'
         env:
           RPM_BUILD_NCPUS: 4
         working-directory: build
         run: rpmbuild -ba strawberry.spec
-      - name: Build RPM (Leap)
-        if: matrix.opensuse_version != 'tumbleweed'
+      - name: Build RPM (leap:15.6)
+        if: matrix.opensuse_version == 'leap:15.6'
         env:
           RPM_BUILD_NCPUS: 4
           CC: gcc-14

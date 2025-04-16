@@ -102,7 +102,7 @@ Features:
   - Streaming support for Subsonic-compatible servers
   - Unofficial streaming support for Tidal and Qobuz
 
-%if 0%{?suse_version} && 0%{?suse_version} <= 1600
+%if 0%{?suse_version} && 0%{?suse_version} < 1600
 %debug_package
 %endif
 
