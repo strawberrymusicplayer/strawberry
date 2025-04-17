@@ -850,7 +850,7 @@
     <name>CollectionBackend</name>
     <message>
       <source>Unable to execute collection SQL query: %1</source>
-      <translation type="unfinished">Unable to execute collection SQL query: %1</translation>
+      <translation>Δεν είναι δυνατή η εκτέλεση ερωτήματος SQL: %1</translation>
     </message>
     <message>
       <source>Failed SQL query: %1</source>
@@ -957,7 +957,7 @@
     </message>
     <message>
       <source>Group by Genre/Artist/Album</source>
-      <translation type="unfinished">Group by Genre/Artist/Album</translation>
+      <translation>Ομαδοποίηση κατά είδος/καλλιτέχνη/άλμπουμ</translation>
     </message>
     <message>
       <source>Group by Album Artist</source>
@@ -1136,7 +1136,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Overwrite database rating when songs are re-read from disk</source>
-      <translation type="unfinished">Overwrite database rating when songs are re-read from disk</translation>
+      <translation>Αντικατάσταση βάσης δεδομένων όταν τα τραγούδια ξαναδιαβάζονται από το δίσκο</translation>
     </message>
     <message>
       <source>Save playcounts and ratings to files now</source>
