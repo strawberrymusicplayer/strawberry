@@ -2,6 +2,16 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+  Bugfixes:
+    * Fixed Discord rich presence showing bogus artist and album.
+    * Fixed incorrect ID3v2 comment tag.
+    * (macOS|Windows MSVC) Fixed stuck playback of some streams.
+
+  Enhancements:
+    * (macOS|Windows MSVC) Added back Spotify
+
 Version 1.2.9 (2025.04.08):
 
   Bugfixes:
