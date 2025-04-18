@@ -123,7 +123,6 @@ constexpr char kID3v2_OriginalReleaseTime[] = "TDOR";
 constexpr char kID3v2_OriginalReleaseYear[] = "TORY";
 constexpr char kID3v2_UnsychronizedLyrics[] = "USLT";
 constexpr char kID3v2_CoverArt[] = "APIC";
-constexpr char kID3v2_CommercialFrame[] = "COMM";
 constexpr char kID3v2_FMPS_Playcount[] = "FMPS_Playcount";
 constexpr char kID3v2_FMPS_Rating[] = "FMPS_Rating";
 constexpr char kID3v2_Unique_File_Identifier[] = "UFID";
@@ -337,6 +336,7 @@ TagReaderResult TagReaderTagLib::Read(SharedPtr<TagLib::FileRef> fileref, Song *
     song->set_genre(tag->genre());
     song->set_year(static_cast<int>(tag->year()));
     song->set_track(static_cast<int>(tag->track()));
+    song->set_comment(tag->comment());
     song->set_valid(true);
   }
 
@@ -615,16 +615,6 @@ void TagReaderTagLib::ParseID3v2Tags(TagLib::ID3v2::Tag *tag, QString *disc, QSt
   }
 
   if (map.contains(kID3v2_CoverArt) && song->url().isLocalFile()) song->set_art_embedded(true);
-
-  // Find a suitable comment tag.  For now we ignore iTunNORM comments.
-  for (uint i = 0; i < map[kID3v2_CommercialFrame].size(); ++i) {
-    const TagLib::ID3v2::CommentsFrame *frame = dynamic_cast<const TagLib::ID3v2::CommentsFrame*>(map[kID3v2_CommercialFrame][i]);
-
-    if (frame && TagLibStringToQString(frame->description()) != "iTunNORM"_L1) {
-      song->set_comment(TagLibStringToQString(frame->text()));
-      break;
-    }
-  }
 
   if (TagLib::ID3v2::UserTextIdentificationFrame *frame_fmps_playcount = TagLib::ID3v2::UserTextIdentificationFrame::find(tag, kID3v2_FMPS_Playcount)) {
     TagLib::StringList frame_field_list = frame_fmps_playcount->fieldList();
