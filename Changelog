@@ -10,6 +10,7 @@ Unreleased:
     * (macOS|Windows MSVC) Fixed stuck playback of some streams.
 
   Enhancements:
+    * Removed Genius lyrics (longer working properly because of website changes).
     * (macOS|Windows MSVC) Added back Spotify
 
 Version 1.2.9 (2025.04.08):
