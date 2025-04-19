@@ -80,10 +80,7 @@
   !ifdef arch_x86
     !define PRODUCT_INSTALL_DIR "$PROGRAMFILES\Strawberry Music Player Debug"
   !endif
-  !ifdef arch_x64
-    !define PRODUCT_INSTALL_DIR "$PROGRAMFILES64\Strawberry Music Player Debug"
-  !endif
-  !ifdef arch_arm64
+  !ifdef arch_x64 || arch_arm64
     !define PRODUCT_INSTALL_DIR "$PROGRAMFILES64\Strawberry Music Player Debug"
   !endif
 !else
@@ -93,10 +90,7 @@
   !ifdef arch_x86
     !define PRODUCT_INSTALL_DIR "$PROGRAMFILES\Strawberry Music Player"
   !endif
-  !ifdef arch_x64
-    !define PRODUCT_INSTALL_DIR "$PROGRAMFILES64\Strawberry Music Player"
-  !endif
-  !ifdef arch_arm64
+  !ifdef arch_x64 || arch_arm64
     !define PRODUCT_INSTALL_DIR "$PROGRAMFILES64\Strawberry Music Player"
   !endif
 !endif
@@ -487,7 +481,7 @@ Section "Strawberry" Strawberry
   ; Common files
 
   File "icudt77.dll"
-!ifdef arch_arm64
+!ifdef msvc && arch_arm64
   File "fftw3.dll"
 !else
   File "libfftw3-3.dll"
@@ -1031,7 +1025,7 @@ Section "Uninstall"
   ; Common files
 
   Delete "$INSTDIR\icudt77.dll"
-!ifdef arch_arm64
+!ifdef msvc && arch_arm64
   Delete "$INSTDIR\fftw3.dll"
 !else
   Delete "$INSTDIR\libfftw3-3.dll"
