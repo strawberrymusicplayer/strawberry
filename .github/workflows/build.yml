@@ -1246,12 +1246,42 @@ jobs:
   build-windows-msvc:
     name: Build Windows MSVC
     if: github.repository != 'strawberrymusicplayer/strawberry-private' && github.ref != 'refs/heads/l10n_master'
-    runs-on: windows-2022
     strategy:
       fail-fast: false
       matrix:
-        arch: [ 'x86', 'x86_64' ]
-        buildtype: [ 'release' ]
+       include:
+         - name: "x86_64 debug"
+           runner: windows-2022
+           arch: x86_64
+           buildtype: debug
+
+         - name: "x86_64 release"
+           runner: windows-2022
+           arch: x86_64
+           buildtype: release
+
+         - name: "x86 debug"
+           runner: windows-2022
+           arch: x86
+           buildtype: debug
+
+         - name: "x86 release"
+           runner: windows-2022
+           arch: x86
+           buildtype: release
+
+         - name: "arm64 debug"
+           runner: windows-11-arm
+           arch: arm64
+           buildtype: debug
+
+         - name: "arm64 release"
+           runner: windows-11-arm
+           arch: arm64
+           buildtype: release
+
+    runs-on: ${{matrix.runner}}
+
     steps:
 
       - name: Set prefix path
@@ -1364,15 +1394,18 @@ jobs:
         shell: cmd
         run: cmake -E make_directory build
 
-      - name: Set ENABLE_WIN32_CONSOLE (debug)
-        if: matrix.buildtype == 'debug'
+      - name: Set ENABLE_WIN32_CONSOLE
         shell: bash
-        run: echo "win32_console=ON" >> $GITHUB_ENV
+        run: echo "enable_win32_console=$(test "${{matrix.buildtype}}" = "debug" && echo "ON" || echo "OFF")" >> $GITHUB_ENV
 
-      - name: Set ENABLE_WIN32_CONSOLE (release)
-        if: matrix.buildtype == 'release'
+      - name: Set ENABLE_SPOTIFY
         shell: bash
-        run: echo "win32_console=OFF" >> $GITHUB_ENV
+        run: echo "enable_spotify=$(test -f "${{env.prefix_path_unix}}/lib/gstreamer-1.0/gstspotify.dll" && echo "ON" || echo "OFF")" >> $GITHUB_ENV
+
+      - name: Remove -lm from .pc files
+        if: matrix.arch == 'arm64'
+        shell: bash
+        run: sed -i 's/\-lm$//g' ${{env.prefix_path_unix}}/lib/pkgconfig/*.pc
 
       - name: Run CMake
         shell: cmd
@@ -1384,14 +1417,14 @@ jobs:
           -DCMAKE_BUILD_TYPE="${{env.cmake_buildtype}}"
           -DCMAKE_PREFIX_PATH="${{env.prefix_path_forwardslash}}/lib/cmake"
           -DARCH="${{matrix.arch}}"
-          -DENABLE_WIN32_CONSOLE=${{env.win32_console}}
+          -DENABLE_WIN32_CONSOLE=${{env.enable_win32_console}}
           -DPKG_CONFIG_EXECUTABLE="${{env.prefix_path_forwardslash}}/bin/pkg-config.exe"
           -DICU_ROOT="${{env.prefix_path_forwardslash}}"
           -DENABLE_GIO=OFF
           -DENABLE_AUDIOCD=OFF
           -DENABLE_MTP=OFF
           -DENABLE_GPOD=OFF
-          -DENABLE_SPOTIFY=ON
+          -DENABLE_SPOTIFY=${{env.enable_spotify}}
 
       - name: Run Make
         shell: cmd
@@ -1460,11 +1493,14 @@ jobs:
         run: copy ${{env.prefix_path_backslash}}\lib\gstreamer-1.0\*.dll .\gstreamer-plugins\
 
       - name: Download copydlldeps.sh
+        if: matrix.arch != 'arm64'
         shell: bash
         working-directory: build
         run: curl -f -O -L https://raw.githubusercontent.com/strawberrymusicplayer/strawberry-mxe/master/tools/copydlldeps.sh
 
       - name: Copy dependencies
+        # copydlldeps.sh doesn't work with arm64 binaries.
+        if: matrix.arch != 'arm64'
         shell: bash
         working-directory: build
         run: >
@@ -1480,6 +1516,12 @@ jobs:
           -F ./gio-modules
           -F ./gstreamer-plugins
           -R ${{env.prefix_path_unix}}/bin
+
+      - name: Copy dependencies
+        if: matrix.arch == 'arm64'
+        shell: bash
+        working-directory: build
+        run: cp -v ${{env.prefix_path_unix}}/bin/{avcodec*.dll,avfilter*.dll,avformat*.dll,avutil*.dll,brotlicommon.dll,brotlidec.dll,chromaprint.dll,ebur128.dll,faad-2.dll,fdk-aac.dll,ffi-7.dll,FLAC.dll,freetype*.dll,getopt.dll,gio-2.0-0.dll,glib-2.0-0.dll,gme.dll,gmodule-2.0-0.dll,gobject-2.0-0.dll,gst-discoverer-1.0.exe,gst-launch-1.0.exe,gst-play-1.0.exe,gstadaptivedemux-1.0-0.dll,gstapp-1.0-0.dll,gstaudio-1.0-0.dll,gstbadaudio-1.0-0.dll,gstbase-1.0-0.dll,gstcodecparsers-1.0-0.dll,gstfft-1.0-0.dll,gstisoff-1.0-0.dll,gstmpegts-1.0-0.dll,gstnet-1.0-0.dll,gstpbutils-1.0-0.dll,gstreamer-1.0-0.dll,gstriff-1.0-0.dll,gstrtp-1.0-0.dll,gstrtsp-1.0-0.dll,gstsdp-1.0-0.dll,gsttag-1.0-0.dll,gsturidownloader-1.0-0.dll,gstvideo-1.0-0.dll,gstwinrt-1.0-0.dll,harfbuzz.dll,icudt*.dll,icuin*.dll,icuuc*.dll,intl-8.dll,jpeg62.dll,kdsingleapplication*.dll,libbs2b.dll,libcrypto-3-*.dll,fftw3.dll,libiconv*.dll,liblzma.dll,libmp3lame.dll,libopenmpt.dll,libpng16*.dll,libspeex*.dll,libssl-3-*.dll,libxml2*.dll,mpcdec.dll,mpg123.dll,nghttp2.dll,ogg.dll,opus.dll,orc-0.4-0.dll,pcre2-16*.dll,pcre2-8*.dll,postproc*.dll,psl-5.dll,Qt6Concurrent*.dll,Qt6Core*.dll,Qt6Gui*.dll,Qt6Network*.dll,Qt6Sql*.dll,Qt6Widgets*.dll,qtsparkle-qt6.dll,soup-3.0-0.dll,sqlite3.dll,sqlite3.exe,swresample*.dll,swscale*.dll,tag.dll,vorbis.dll,vorbisfile.dll,wavpackdll.dll,zlib*.dll} .
 
       - name: Copy nsis files
         shell: cmd
