@@ -3,23 +3,21 @@
 
 #include <QObject>
 #include <QTcpSocket>
-
 #include "incomingmsg.h"
 #include "outgoingmsg.h"
 #include "core/player.h"
 
-
 class Application;
 
-class Client : public QObject
+class NetworkRemoteClient : public QObject
 {
-     Q_OBJECT
+  Q_OBJECT
 public:
-    explicit Client(Application *app, QObject *parent = nullptr);
-    ~Client();
-    void Init(QTcpSocket*);
-    QTcpSocket* GetSocket();
-    void ProcessIncoming();
+  explicit NetworkRemoteClient(Application *app, QObject *parent = nullptr);
+  ~NetworkRemoteClient();
+  void Init(QTcpSocket*);
+  QTcpSocket* GetSocket();
+  void ProcessIncoming();
 
 Q_SIGNALS:
   void ReceiveMsg();
@@ -29,9 +27,8 @@ Q_SIGNALS:
 private:
   Application *app_;
   QTcpSocket *socket_;
-  IncomingMsg *incomingMsg_;
-  OutgoingMsg *outgoingMsg_;
-  qint32 msgType_;
+  NetworkRemoteIncomingMsg *incomingMsg_;
+  NetworkRemoteOutgoingMsg *outgoingMsg_;
   SharedPtr<Player> player_;
 };
 

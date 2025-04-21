@@ -1,20 +1,21 @@
-#include <QHostInfo>
-#include <QHostAddress>
-#include <QNetworkInterface>
-
+#include <QStyle>
 #include "core/iconloader.h"
+#include "core/logging.h"
 #include "networkremote/networkremote.h"
 #include "settings/settingsdialog.h"
 #include "settings/networkremotesettingspage.h"
 #include "ui_networkremotesettingspage.h"
 
-NetworkRemoteSettingsPage::NetworkRemoteSettingsPage(SettingsDialog *dialog, QWidget *parent) :
-    SettingsPage(dialog,parent),
-    ui_(new Ui_NetworkRemoteSettingsPage)
-{
+using namespace Qt::Literals::StringLiterals;
 
+NetworkRemoteSettingsPage::NetworkRemoteSettingsPage(SettingsDialog *dialog, QWidget *parent) :
+  SettingsPage(dialog,parent),
+  ui_(new Ui_NetworkRemoteSettingsPage),
+  settings_(new NetworkRemoteSettings)
+{
   ui_->setupUi(this);
-  setWindowIcon(IconLoader::Load(QStringLiteral("network-remote"), true, 0,32));
+  const int iconSize = style()->pixelMetric(QStyle::PM_TabBarIconSize);
+  setWindowIcon(IconLoader::Load(QStringLiteral("network-remote"), true, 0,iconSize));
   QObject::connect(ui_->useRemoteClient,&QAbstractButton::clicked, this, &NetworkRemoteSettingsPage::RemoteButtonClicked);
   QObject::connect(ui_->localConnectionsOnly, &QAbstractButton::clicked, this, &NetworkRemoteSettingsPage::LocalConnectButtonClicked);
   QObject::connect(ui_->portSelected, &QAbstractSpinBox::editingFinished, this, &NetworkRemoteSettingsPage::PortChanged);
@@ -22,56 +23,56 @@ NetworkRemoteSettingsPage::NetworkRemoteSettingsPage(SettingsDialog *dialog, QWi
 
 NetworkRemoteSettingsPage::~NetworkRemoteSettingsPage()
 {
-    delete ui_;
+  delete ui_;
 }
 
 void NetworkRemoteSettingsPage::Load()
 {
   ui_->portSelected->setRange(5050, 65535);
   ui_->ip_address->setText(QStringLiteral("0.0.0.0"));
-  s_->Load();
+  settings_->Load();
 
   ui_->useRemoteClient->setCheckable(true);
-  ui_->useRemoteClient->setChecked(s_->UserRemote());
-  if (s_->UserRemote()){
+  ui_->useRemoteClient->setChecked(settings_->UserRemote());
+  if (settings_->UserRemote()){
     ui_->localConnectionsOnly->setCheckable(true);
-    ui_->localConnectionsOnly->setChecked(s_->LocalOnly());
+    ui_->localConnectionsOnly->setChecked(settings_->LocalOnly());
     ui_->portSelected->setReadOnly(false);
-    ui_->portSelected->setValue(s_->GetPort());
+    ui_->portSelected->setValue(settings_->GetPort());
   }
   else{
-      ui_->localConnectionsOnly->setCheckable(false);
-      ui_->portSelected->setReadOnly(true);
+    ui_->localConnectionsOnly->setCheckable(false);
+    ui_->portSelected->setReadOnly(true);
   }
 
   DisplayIP();
-  qInfo("SettingsPage Loaded QSettings ++++++++++++++++");
+  qLog(Debug) << "SettingsPage Loaded QSettings ++++++++++++++++";
 
   Init(ui_->layout_networkremotesettingspage->parentWidget());
 }
 
 void NetworkRemoteSettingsPage::Save()
 {
-  qInfo("Saving QSettings ++++++++++++++++");
+  qLog(Debug) << "Saving QSettings ++++++++++++++++";
 }
 
 void NetworkRemoteSettingsPage::Refresh()
 {
   if (NetworkRemote::Instance()) {
-    qInfo() << "NetworkRemote Instance is up";
+    qLog(Debug) << "NetworkRemote Instance is up";
     NetworkRemote::Instance()->Update();
   }
 }
 
 void NetworkRemoteSettingsPage::DisplayIP()
 {
-  ui_->ip_address->setText(s_->GetIpAddress());
+  ui_->ip_address->setText(settings_->GetIpAddress());
 }
 
 void NetworkRemoteSettingsPage::RemoteButtonClicked()
 {
-  s_->SetUseRemote(ui_->useRemoteClient->isChecked());
-  ui_->useRemoteClient->setChecked(s_->UserRemote());
+  settings_->SetUseRemote(ui_->useRemoteClient->isChecked());
+  ui_->useRemoteClient->setChecked(settings_->UserRemote());
   if (ui_->useRemoteClient->isChecked()){
     ui_->localConnectionsOnly->setCheckable(true);
     ui_->portSelected->setReadOnly(false);
@@ -86,13 +87,13 @@ void NetworkRemoteSettingsPage::RemoteButtonClicked()
 
 void NetworkRemoteSettingsPage::LocalConnectButtonClicked()
 {
-  s_->SetLocalOnly(ui_->localConnectionsOnly->isChecked());
+  settings_->SetLocalOnly(ui_->localConnectionsOnly->isChecked());
   Refresh();
 }
 
 void NetworkRemoteSettingsPage::PortChanged()
 {
-  s_->SetPort(ui_->portSelected->value());
+  settings_->SetPort(ui_->portSelected->value());
   Refresh();
 }
 

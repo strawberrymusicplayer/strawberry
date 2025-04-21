@@ -2,19 +2,23 @@
 #define INCOMINGMSG_H
 
 #include <QObject>
-#include <QTcpSocket>
-#include "networkremote/RemoteMessages.pb.h"
-#include "core/application.h"
+#include <QByteArray>
+#include <string>
 
-class IncomingMsg : public QObject
+// Forward declarations
+class QTcpSocket;
+
+namespace nw { namespace remote { class Message; } }
+
+class NetworkRemoteIncomingMsg : public QObject
 {
-     Q_OBJECT
+  Q_OBJECT
 public:
-  explicit IncomingMsg(Application *app, QObject *parent = nullptr);
-  void Init(QTcpSocket*);
+  explicit NetworkRemoteIncomingMsg(QObject *parent = nullptr);
+  ~NetworkRemoteIncomingMsg(); 
+  void Init(QTcpSocket* socket);
   void SetMsgType();
   qint32 GetMsgType();
-
 
 private Q_SLOTS:
   void ReadyRead();
@@ -28,7 +32,6 @@ private:
   long bytesIn_;
   QByteArray msgStream_;
   std::string msgString_;
-  Application *app_;
   qint32 msgType_;
 };
 

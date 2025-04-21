@@ -3,30 +3,27 @@
 
 #include <QObject>
 #include <QTcpSocket>
-#include <QVector>
-#include "networkremote/client.h"
+#include <QList>
 
 class Application;
+class NetworkRemoteClient;
 
-class ClientManager : public QObject
+class NetworkRemoteClientManager : public QObject
 {
-     Q_OBJECT
+  Q_OBJECT
 public:
-    explicit ClientManager(Application *app, QObject *parent = nullptr);
-    ~ClientManager();
-    void AddClient(QTcpSocket *socket);
-    void RemoveClient();
+  explicit NetworkRemoteClientManager(Application *app, QObject *parent = nullptr);
+  ~NetworkRemoteClientManager();
+  void AddClient(QTcpSocket *socket);
 
 private Q_SLOTS:
-  void Ready();
-  void Error(QAbstractSocket::SocketError);
+  void RemoveClient(NetworkRemoteClient *client);
+  void Error(QAbstractSocket::SocketError socketError);
   void StateChanged();
 
 private:
   Application *app_;
-  QVector<Client*> *clients_;
-  Client *client_ = nullptr;
-  QTcpSocket *socket_ = nullptr;
+  QList<NetworkRemoteClient*> clients_;
 };
 
 #endif // CLIENTMANAGER_H
