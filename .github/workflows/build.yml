@@ -788,7 +788,7 @@ jobs:
 
       - name: Set MACOSX_DEPLOYMENT_TARGET
         run: |
-          for i in 13 14 15; do
+          for i in 12 13 14 15; do
             if [ -d "/Library/Developer/CommandLineTools/SDKs/MacOSX${i}.sdk" ]; then
               echo "Using macOS SDK ${i}"
               echo "MACOSX_DEPLOYMENT_TARGET=${i}.0" >> $GITHUB_ENV
@@ -946,7 +946,7 @@ jobs:
 
       - name: Set MACOSX_DEPLOYMENT_TARGET
         run: |
-          for i in 13 14 15; do
+          for i in 12 13 14 15; do
             if [ -d "/Library/Developer/CommandLineTools/SDKs/MacOSX${i}.sdk" ]; then
               echo "Using macOS SDK ${i}"
               echo "MACOSX_DEPLOYMENT_TARGET=${i}.0" >> $GITHUB_ENV
