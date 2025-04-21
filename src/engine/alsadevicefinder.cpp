@@ -98,9 +98,9 @@ EngineDeviceList AlsaDeviceFinder::ListDevices() {
       device.card = card;
       device.device = dev;
 
-      device.value = QStringLiteral("hw:%1,%2").arg(card).arg(dev);
+      device.value = QStringLiteral("hw:%1,%2").arg(QString::fromUtf8(snd_ctl_card_info_get_id(cardinfo))).arg(dev);
       devices.append(device);
-      device.value = QStringLiteral("plughw:%1,%2").arg(card).arg(dev);
+      device.value = QStringLiteral("plughw:%1,%2").arg(QString::fromUtf8(snd_ctl_card_info_get_id(cardinfo))).arg(dev);
       devices.append(device);
 
     }

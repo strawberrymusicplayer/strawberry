@@ -439,6 +439,7 @@ int Song::samplerate() const { return d->samplerate_; }
 int Song::bitdepth() const { return d->bitdepth_; }
 
 Song::Source Song::source() const { return d->source_; }
+int Song::source_id() const { return static_cast<int>(d->source_); }
 int Song::directory_id() const { return d->directory_id_; }
 const QUrl &Song::url() const { return d->url_; }
 const QString &Song::basefilename() const { return d->basefilename_; }
@@ -661,7 +662,8 @@ const QString &Song::playlist_albumartist() const { return is_compilation() ? d-
 const QString &Song::playlist_albumartist_sortable() const { return is_compilation() ? d->albumartist_sortable_ : effective_albumartist_sortable(); }
 
 bool Song::is_metadata_good() const { return !d->url_.isEmpty() && !d->artist_.isEmpty() && !d->title_.isEmpty(); }
-bool Song::is_collection_song() const { return d->source_ == Source::Collection; }
+bool Song::is_local_collection_song() const { return d->source_ == Source::Collection; }
+bool Song::is_linked_collection_song() const { return IsLinkedCollectionSource(d->source_); }
 bool Song::is_stream() const { return is_radio() || d->source_ == Source::Tidal || d->source_ == Source::Subsonic || d->source_ == Source::Qobuz || d->source_ == Source::Spotify; }
 bool Song::is_radio() const { return d->source_ == Source::Stream || d->source_ == Source::SomaFM || d->source_ == Source::RadioParadise; }
 bool Song::is_cdda() const { return d->source_ == Source::CDDA; }
@@ -713,7 +715,8 @@ bool Song::additional_tags_supported() const {
     d->filetype_ == FileType::MP4 ||
     d->filetype_ == FileType::MPC ||
     d->filetype_ == FileType::APE ||
-    d->filetype_ == FileType::WAV;
+    d->filetype_ == FileType::WAV ||
+    d->filetype_ == FileType::AIFF;
 
 }
 
@@ -736,7 +739,8 @@ bool Song::performer_supported() const {
     d->filetype_ == FileType::MPEG ||
     d->filetype_ == FileType::MPC ||
     d->filetype_ == FileType::APE ||
-    d->filetype_ == FileType::WAV;
+    d->filetype_ == FileType::WAV ||
+    d->filetype_ == FileType::AIFF;
 
 }
 
@@ -764,7 +768,9 @@ bool Song::rating_supported() const {
     d->filetype_ == FileType::MP4 ||
     d->filetype_ == FileType::ASF ||
     d->filetype_ == FileType::MPC ||
-    d->filetype_ == FileType::APE;
+    d->filetype_ == FileType::APE ||
+    d->filetype_ == FileType::WAV ||
+    d->filetype_ == FileType::AIFF;
 
 }
 
@@ -782,7 +788,9 @@ bool Song::save_embedded_cover_supported(const FileType filetype) {
     filetype == FileType::OggVorbis ||
     filetype == FileType::OggOpus ||
     filetype == FileType::MPEG ||
-    filetype == FileType::MP4;
+    filetype == FileType::MP4 ||
+    filetype == FileType::WAV ||
+    filetype == FileType::AIFF;
 
 }
 
@@ -1027,8 +1035,10 @@ bool Song::IsOnSameAlbum(const Song &other) const {
 
 bool Song::IsSimilar(const Song &other) const {
   return title().compare(other.title(), Qt::CaseInsensitive) == 0 &&
-    artist().compare(other.artist(), Qt::CaseInsensitive) == 0 &&
-    album().compare(other.album(), Qt::CaseInsensitive) == 0;
+         artist().compare(other.artist(), Qt::CaseInsensitive) == 0 &&
+         album().compare(other.album(), Qt::CaseInsensitive) == 0 &&
+         fingerprint().compare(other.fingerprint()) == 0 &&
+         acoustid_fingerprint().compare(other.acoustid_fingerprint()) == 0;
 }
 
 Song::Source Song::SourceFromURL(const QUrl &url) {
@@ -1328,6 +1338,12 @@ Song::FileType Song::FiletypeByExtension(const QString &ext) {
   if (ext.compare("vgm"_L1, Qt::CaseInsensitive) == 0) return FileType::VGM;
 
   return FileType::Unknown;
+
+}
+
+bool Song::IsLinkedCollectionSource(const Source source) {
+
+  return source == Source::Collection;
 
 }
 
@@ -1831,8 +1847,8 @@ bool Song::MergeFromEngineMetadata(const EngineMetadata &engine_metadata) {
 
   bool minor = true;
 
-  if (d->init_from_file_ || is_collection_song() || d->url_.isLocalFile()) {
-    // This Song was already loaded using taglib. Our tags are probably better than the engine's.
+  if (d->init_from_file_ || is_local_collection_song() || d->url_.isLocalFile()) {
+    // This Song was already loaded using TagLib. Our tags are probably better than the engine's.
     if (title() != engine_metadata.title && title().isEmpty() && !engine_metadata.title.isEmpty()) {
       set_title(engine_metadata.title);
       minor = false;
@@ -1909,7 +1925,7 @@ size_t qHash(const Song &song) {
 
 size_t HashSimilar(const Song &song) {
   // Should compare the same fields as function IsSimilar
-  return qHash(song.title().toLower()) ^ qHash(song.artist().toLower()) ^ qHash(song.album().toLower());
+  return qHash(song.title().toLower()) ^ qHash(song.artist().toLower()) ^ qHash(song.album().toLower()) ^ qHash(song.fingerprint()) ^ qHash(song.acoustid_fingerprint());
 }
 
 bool Song::ContainsRegexList(const QString &str, const RegularExpressionList &regex_list) {

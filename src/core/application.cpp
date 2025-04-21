@@ -3,7 +3,7 @@
  * This file was part of Clementine.
  * Copyright 2012, David Sansome <me@davidsansome.com>
  * Copyright 2012, 2014, John Maguire <john.maguire@gmail.com>
- * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,6 +36,7 @@
 #include <QMetaObject>
 #include <QCoreApplication>
 #include <QAbstractEventDispatcher>
+#include <QTimer>
 
 #include "core/logging.h"
 
@@ -63,7 +64,6 @@
 #include "covermanager/opentidalcoverprovider.h"
 
 #include "lyrics/lyricsproviders.h"
-#include "lyrics/geniuslyricsprovider.h"
 #include "lyrics/ovhlyricsprovider.h"
 #include "lyrics/lololyricsprovider.h"
 #include "lyrics/musixmatchlyricsprovider.h"
@@ -174,7 +174,6 @@ class ApplicationImpl {
         lyrics_providers_([app]() {
           LyricsProviders *lyrics_providers = new LyricsProviders(app);
           // Initialize the repository of lyrics providers.
-          lyrics_providers->AddProvider(new GeniusLyricsProvider(lyrics_providers->network()));
           lyrics_providers->AddProvider(new OVHLyricsProvider(lyrics_providers->network()));
           lyrics_providers->AddProvider(new LoloLyricsProvider(lyrics_providers->network()));
           lyrics_providers->AddProvider(new MusixmatchLyricsProvider(lyrics_providers->network()));
@@ -210,7 +209,7 @@ class ApplicationImpl {
           scrobbler->AddService(make_shared<LibreFMScrobbler>(scrobbler->settings(), app->network()));
           scrobbler->AddService(make_shared<ListenBrainzScrobbler>(scrobbler->settings(), app->network()));
 #ifdef HAVE_SUBSONIC
-          scrobbler->AddService(make_shared<SubsonicScrobbler>(scrobbler->settings(), app->streaming_services()->Service<SubsonicService>(), app));
+          scrobbler->AddService(make_shared<SubsonicScrobbler>(scrobbler->settings(), app->network(), app->streaming_services()->Service<SubsonicService>(), app));
 #endif
           return scrobbler;
         }),

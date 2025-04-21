@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,21 +22,18 @@
 
 #include "config.h"
 
-#include <QtGlobal>
-#include <QObject>
 #include <QVariant>
 #include <QString>
-#include <QStringList>
 #include <QUrl>
+#include <QSharedPointer>
 
 #include "includes/shared_ptr.h"
 #include "core/song.h"
-#include "tidalservice.h"
 #include "tidalbaserequest.h"
-#include "settings/tidalsettingspage.h"
 
 class QNetworkReply;
 class NetworkAccessManager;
+class TidalService;
 
 class TidalStreamURLRequest : public TidalBaseRequest {
   Q_OBJECT
@@ -49,10 +46,10 @@ class TidalStreamURLRequest : public TidalBaseRequest {
   void Process();
   void Cancel();
 
-  bool oauth() const { return service_->oauth(); }
-  TidalSettings::StreamUrlMethod stream_url_method() const { return service_->stream_url_method(); }
-  QUrl media_url() const { return media_url_; }
-  int song_id() const { return song_id_; }
+  bool oauth() const;
+  TidalSettings::StreamUrlMethod stream_url_method() const;
+  QUrl media_url() const;
+  int song_id() const;
 
  Q_SIGNALS:
   void StreamURLFailure(const uint id, const QUrl &media_url, const QString &error);
@@ -62,15 +59,13 @@ class TidalStreamURLRequest : public TidalBaseRequest {
   void StreamURLReceived();
 
  private:
-  void Error(const QString &error, const QVariant &debug = QVariant()) override;
-
   TidalService *service_;
   QNetworkReply *reply_;
   QUrl media_url_;
   uint id_;
   int song_id_;
-  bool need_login_;
-  QStringList errors_;
 };
+
+using TidalStreamURLRequestPtr = QSharedPointer<TidalStreamURLRequest>;
 
 #endif  // TIDALSTREAMURLREQUEST_H

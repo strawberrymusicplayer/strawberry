@@ -137,10 +137,10 @@ GstEngine::~GstEngine() {
   if (discoverer_) {
 
     if (discovery_discovered_cb_id_ != -1) {
-      g_signal_handler_disconnect(G_OBJECT(discoverer_), discovery_discovered_cb_id_);
+      g_signal_handler_disconnect(G_OBJECT(discoverer_), static_cast<gulong>(discovery_discovered_cb_id_));
     }
     if (discovery_finished_cb_id_ != -1) {
-      g_signal_handler_disconnect(G_OBJECT(discoverer_), discovery_finished_cb_id_);
+      g_signal_handler_disconnect(G_OBJECT(discoverer_), static_cast<gulong>(discovery_finished_cb_id_));
     }
 
     gst_discoverer_stop(discoverer_);
@@ -244,8 +244,8 @@ bool GstEngine::Load(const QUrl &media_url, const QUrl &stream_url, const Engine
   if (!discoverer_) {
     discoverer_ = gst_discoverer_new(kDiscoveryTimeoutS * GST_SECOND, nullptr);
     if (discoverer_) {
-      discovery_discovered_cb_id_ = CHECKED_GCONNECT(G_OBJECT(discoverer_), "discovered", &StreamDiscovered, this);
-      discovery_finished_cb_id_ = CHECKED_GCONNECT(G_OBJECT(discoverer_), "finished", &StreamDiscoveryFinished, this);
+      discovery_discovered_cb_id_ = static_cast<int>(CHECKED_GCONNECT(G_OBJECT(discoverer_), "discovered", &StreamDiscovered, this));
+      discovery_finished_cb_id_ = static_cast<int>(CHECKED_GCONNECT(G_OBJECT(discoverer_), "finished", &StreamDiscoveryFinished, this));
       gst_discoverer_start(discoverer_);
     }
   }
@@ -315,7 +315,8 @@ void GstEngine::Stop(const bool stop_after) {
 
   media_url_.clear();
   stream_url_.clear();  // To ensure we return Empty from state()
-  beginning_offset_nanosec_ = end_offset_nanosec_ = 0;
+  beginning_offset_nanosec_ = 0;
+  end_offset_nanosec_ = 0;
 
   // Check if we started a fade out. If it isn't finished yet and the user pressed stop, we cancel the fader and just stop the playback.
   if (fadeout_pause_pipeline_) {
@@ -751,7 +752,7 @@ void GstEngine::PlayDone(const GstStateChangeReturn ret, const bool pause, const
         stream_url = old_pipeline->stream_url();
         stream_url.detach();
       }
-      current_pipeline_ = CreatePipeline(media_url, stream_url, redirect_url, beginning_offset_nanosec_, end_offset_nanosec_, old_pipeline->ebur128_loudness_normalizing_gain_db());
+      current_pipeline_ = CreatePipeline(media_url, stream_url, redirect_url, static_cast<qint64>(beginning_offset_nanosec_), end_offset_nanosec_, old_pipeline->ebur128_loudness_normalizing_gain_db());
       FinishPipeline(old_pipeline);
       Play(pause, offset_nanosec);
       return;
@@ -787,7 +788,7 @@ void GstEngine::BufferingStarted() {
 }
 
 void GstEngine::BufferingProgress(const int percent) {
-  task_manager_->SetTaskProgress(buffering_task_id_, percent, 100);
+  task_manager_->SetTaskProgress(buffering_task_id_, static_cast<quint64>(percent), 100UL);
 }
 
 void GstEngine::BufferingFinished() {
@@ -898,6 +899,7 @@ GstEnginePipelinePtr GstEngine::CreatePipeline() {
 
   GstEnginePipelinePtr pipeline = GstEnginePipelinePtr(new GstEnginePipeline);
   pipeline->set_output_device(output_, device_);
+  pipeline->set_playbin3_enabled(playbin3_enabled_);
   pipeline->set_exclusive_mode(exclusive_mode_);
   pipeline->set_volume_enabled(volume_control_);
   pipeline->set_stereo_balancer_enabled(stereo_balancer_enabled_);

@@ -2,6 +2,48 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Version 1.2.10 (2025.04.18):
+
+  Bugfixes:
+    * Fixed Discord rich presence showing bogus artist and album.
+    * Fixed incorrect ID3v2 comment tag.
+    * (macOS|Windows MSVC) Fixed stuck playback of some streams.
+
+  Enhancements:
+    * Removed Genius lyrics (longer working properly because of website changes).
+    * (macOS|Windows MSVC) Added back Spotify
+
+Version 1.2.9 (2025.04.08):
+
+  Bugfixes:
+    * Fixed subsonic parse error (#1719).
+    * Fixed Deezer cover provider parse error (#1716).
+    * Fixed last.fm import progress.
+    * (Windows|MinGW) Switched from winpthreads to win32 threads, winpthreads are no longer working with Qt as of version 6.9 (QTBUG-131892).
+
+  Enhancements:
+    * Added option to disable playbin3.
+
+Version 1.2.8 (2025.04.05):
+
+  Bugfixes:
+    * Added "HI_RES_LOSSLESS" for Tidal quality setting.
+    * Increased backend settings device lineedit height.
+    * Possible fix for KGlobalAccel shortcuts sometimes not working.
+
+  Enhancements:
+     * Removed deprecated Tidal username/password login.
+     * Turned off "Grey out unavailable songs in playlists on startup" by default.
+     * Added support for reading tags from streams.
+     * Added tooltips in equalizer, backend and appearance settings.
+     * Added full tag support for AIFF including embedded covers.
+     * Use card ID instead of index for ALSA devices.
+     * Removed KDSingleApplication from 3rdparty.
+     * Support arbitrarily large EBU R 128 loudness normalization.
+
+  New features:
+     * Added Discord rich presence support.
+
 Version 1.2.7 (2025.01.31):
 
    Bugfixes:

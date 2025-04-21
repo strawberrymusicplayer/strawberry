@@ -72,6 +72,11 @@ static const QRegularExpression kRegex_ALSA_PCM_Dev(u"^.*:.*DEV=.*"_s);
 #endif
 }  // namespace
 
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Warray-bounds"
+#endif
+
 BackendSettingsPage::BackendSettingsPage(SettingsDialog *dialog, const SharedPtr<Player> player, const SharedPtr<DeviceFinders> device_finders, QWidget *parent)
     : SettingsPage(dialog, parent),
       ui_(new Ui_BackendSettingsPage),
@@ -172,6 +177,8 @@ void BackendSettingsPage::Load() {
   ui_->widget_channels->setEnabled(ui_->checkbox_channels->isChecked());
 
   ui_->checkbox_bs2b->setChecked(s.value(kBS2B, false).toBool());
+
+  ui_->checkbox_playbin3->setChecked(s.value(kPlaybin3, true).toBool());
 
   ui_->checkbox_http2->setChecked(s.value(kHTTP2, false).toBool());
   ui_->checkbox_strict_ssl->setChecked(s.value(kStrictSSL, false).toBool());
@@ -434,6 +441,8 @@ void BackendSettingsPage::Save() {
   s.setValue(kChannels, ui_->spinbox_channels->value());
 
   s.setValue(kBS2B, ui_->checkbox_bs2b->isChecked());
+
+  s.setValue(kPlaybin3, ui_->checkbox_playbin3->isChecked());
 
   s.setValue(kHTTP2, ui_->checkbox_http2->isChecked());
   s.setValue(kStrictSSL, ui_->checkbox_strict_ssl->isChecked());
@@ -757,3 +766,7 @@ void BackendSettingsPage::BufferDefaults() {
   ui_->spinbox_high_watermark->setValue(kDefaultBufferHighWatermark);
 
 }
+
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif

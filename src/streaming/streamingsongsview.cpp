@@ -55,6 +55,7 @@ StreamingSongsView::StreamingSongsView(const StreamingServicePtr service, const 
   ui_->view->SetFilter(ui_->filter_widget);
   ui_->filter_widget->SetSettingsGroup(settings_group);
   ui_->filter_widget->Init(service_->songs_collection_model(), service_->songs_collection_filter_model());
+  ui_->refresh->setVisible(service_->enable_refresh_button());
 
   QAction *action_configure = new QAction(IconLoader::Load(u"configure"_s), tr("Configure %1...").arg(Song::DescriptionForSource(service_->source())), this);
   QObject::connect(action_configure, &QAction::triggered, this, &StreamingSongsView::Configure);
@@ -66,6 +67,7 @@ StreamingSongsView::StreamingSongsView(const StreamingServicePtr service, const 
   QObject::connect(ui_->refresh, &QPushButton::clicked, this, &StreamingSongsView::GetSongs);
   QObject::connect(ui_->close, &QPushButton::clicked, this, &StreamingSongsView::AbortGetSongs);
   QObject::connect(ui_->abort, &QPushButton::clicked, this, &StreamingSongsView::AbortGetSongs);
+  QObject::connect(&*service_, &StreamingService::ShowErrorDialog, this, &StreamingSongsView::ShowErrorDialog);
   QObject::connect(&*service_, &StreamingService::SongsResults, this, &StreamingSongsView::SongsFinished);
   QObject::connect(&*service_, &StreamingService::SongsUpdateStatus, ui_->status, &QLabel::setText);
   QObject::connect(&*service_, &StreamingService::SongsProgressSetMaximum, ui_->progressbar, &QProgressBar::setMaximum);
@@ -101,11 +103,14 @@ void StreamingSongsView::GetSongs() {
     return;
   }
 
-  ui_->status->clear();
-  ui_->progressbar->show();
-  ui_->abort->show();
-  ui_->close->hide();
-  ui_->stacked->setCurrentWidget(ui_->help_page);
+  if (service_->show_progress()) {
+    ui_->status->clear();
+    ui_->progressbar->show();
+    ui_->abort->show();
+    ui_->close->hide();
+    ui_->stacked->setCurrentWidget(ui_->help_page);
+  }
+
   service_->GetSongs();
 
 }
@@ -113,9 +118,12 @@ void StreamingSongsView::GetSongs() {
 void StreamingSongsView::AbortGetSongs() {
 
   service_->ResetSongsRequest();
-  ui_->progressbar->setValue(0);
-  ui_->status->clear();
-  ui_->stacked->setCurrentWidget(ui_->streamingcollection_page);
+
+  if (service_->show_progress()) {
+    ui_->progressbar->setValue(0);
+    ui_->status->clear();
+    ui_->stacked->setCurrentWidget(ui_->streamingcollection_page);
+  }
 
 }
 

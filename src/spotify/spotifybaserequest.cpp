@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2022-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2022-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,23 +19,10 @@
 
 #include "config.h"
 
-#include <QObject>
-#include <QByteArray>
-#include <QPair>
-#include <QList>
 #include <QString>
-#include <QUrl>
-#include <QUrlQuery>
-#include <QNetworkRequest>
 #include <QNetworkReply>
-#include <QSslError>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonArray>
-#include <QJsonValue>
 
 #include "includes/shared_ptr.h"
-#include "core/logging.h"
 #include "core/networkaccessmanager.h"
 #include "spotifyservice.h"
 #include "spotifybaserequest.h"
@@ -43,143 +30,97 @@
 using namespace Qt::Literals::StringLiterals;
 
 SpotifyBaseRequest::SpotifyBaseRequest(SpotifyService *service, const SharedPtr<NetworkAccessManager> network, QObject *parent)
-    : QObject(parent),
-      service_(service),
-      network_(network) {}
+    : JsonBaseRequest(network, parent),
+      service_(service) {}
+
+QString SpotifyBaseRequest::service_name() const {
+
+  return service_->name();
+
+}
+
+bool SpotifyBaseRequest::authentication_required() const {
+
+  return true;
+
+}
+
+bool SpotifyBaseRequest::authenticated() const {
+
+  return service_->authenticated();
+
+}
+
+bool SpotifyBaseRequest::use_authorization_header() const {
+
+  return true;
+
+}
+
+QByteArray SpotifyBaseRequest::authorization_header() const {
+
+  return service_->authorization_header();
+
+}
 
 QNetworkReply *SpotifyBaseRequest::CreateRequest(const QString &ressource_name, const ParamList &params_provided) {
 
-  QUrlQuery url_query;
-  for (const Param &param : params_provided) {
-    url_query.addQueryItem(QString::fromLatin1(QUrl::toPercentEncoding(param.first)), QString::fromLatin1(QUrl::toPercentEncoding(param.second)));
-  }
-
-  QUrl url(QLatin1String(SpotifyService::kApiUrl) + QLatin1Char('/') + ressource_name);
-  url.setQuery(url_query);
-  QNetworkRequest req(url);
-  req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  req.setHeader(QNetworkRequest::ContentTypeHeader, u"application/x-www-form-urlencoded"_s);
-  if (!access_token().isEmpty()) req.setRawHeader("authorization", "Bearer " + access_token().toUtf8());
-
-  QNetworkReply *reply = network_->get(req);
-  QObject::connect(reply, &QNetworkReply::sslErrors, this, &SpotifyBaseRequest::HandleSSLErrors);
-
-  qLog(Debug) << "Spotify: Sending request" << url;
-
-  return reply;
+  return CreateGetRequest(QUrl(QLatin1String(SpotifyService::kApiUrl) + QLatin1Char('/') + ressource_name), params_provided);
 
 }
 
-void SpotifyBaseRequest::HandleSSLErrors(const QList<QSslError> &ssl_errors) {
+JsonBaseRequest::JsonObjectResult SpotifyBaseRequest::ParseJsonObject(QNetworkReply *reply) {
 
-  for (const QSslError &ssl_error : ssl_errors) {
-    Error(ssl_error.errorString());
+  if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
+    return ReplyDataResult(ErrorCode::NetworkError, QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
   }
 
-}
-
-QByteArray SpotifyBaseRequest::GetReplyData(QNetworkReply *reply) {
-
-  QByteArray data;
-
-  if (reply->error() == QNetworkReply::NoError && reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 200) {
-    data = reply->readAll();
+  JsonObjectResult result(ErrorCode::Success);
+  result.network_error = reply->error();
+  if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).isValid()) {
+    result.http_status_code = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
   }
-  else {
-    if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
-      // This is a network error, there is nothing more to do.
-      Error(QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
+
+  const QByteArray data = reply->readAll();
+  if (!data.isEmpty()) {
+    QJsonParseError json_parse_error;
+    const QJsonDocument json_document = QJsonDocument::fromJson(data, &json_parse_error);
+    if (json_parse_error.error == QJsonParseError::NoError) {
+      const QJsonObject json_object = json_document.object();
+      if (json_object.contains("error"_L1) && json_object["error"_L1].isObject()) {
+        const QJsonObject object_error = json_object["error"_L1].toObject();
+        if (object_error.contains("status"_L1) && object_error.contains("message"_L1)) {
+          const int status = object_error["status"_L1].toInt();
+          const QString message = object_error["message"_L1].toString();
+          result.error_code = ErrorCode::APIError;
+          result.error_message = QStringLiteral("%1 (%2)").arg(message).arg(status);
+        }
+      }
+      else {
+        result.json_object = json_document.object();
+      }
     }
     else {
-      // See if there is Json data containing "error".
-      data = reply->readAll();
-      QString error;
-      QJsonParseError json_error;
-      QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
-      int status = 0;
-      if (json_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
-        QJsonObject json_obj = json_doc.object();
-        if (!json_obj.isEmpty() && json_obj.contains("error"_L1) && json_obj["error"_L1].isObject()) {
-          QJsonObject obj_error = json_obj["error"_L1].toObject();
-          if (!obj_error.isEmpty() && obj_error.contains("status"_L1) && obj_error.contains("message"_L1)) {
-            status = obj_error["status"_L1].toInt();
-            QString user_message = obj_error["message"_L1].toString();
-            error = QStringLiteral("%1 (%2)").arg(user_message).arg(status);
-          }
-        }
-      }
-      if (error.isEmpty()) {
-        if (reply->error() == QNetworkReply::NoError) {
-          error = QStringLiteral("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
-        }
-        else {
-          error = QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error());
-        }
-      }
-      Error(error);
+      result.error_code = ErrorCode::ParseError;
+      result.error_message = json_parse_error.errorString();
     }
-    return QByteArray();
   }
 
-  return data;
-
-}
-
-QJsonObject SpotifyBaseRequest::ExtractJsonObj(const QByteArray &data) {
-
-  QJsonParseError json_error;
-  QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
-
-  if (json_error.error != QJsonParseError::NoError) {
-    Error(u"Reply from server missing Json data."_s, data);
-    return QJsonObject();
+  if (result.error_code != ErrorCode::APIError) {
+    if (reply->error() != QNetworkReply::NoError) {
+      result.error_code = ErrorCode::NetworkError;
+      result.error_message = QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+    }
+    else if (result.http_status_code < 200 || result.http_status_code > 207) {
+      result.error_code = ErrorCode::HttpError;
+      result.error_message = QStringLiteral("Received HTTP code %1").arg(result.http_status_code);
+    }
   }
 
-  if (json_doc.isEmpty()) {
-    Error(u"Received empty Json document."_s, data);
-    return QJsonObject();
+  if (reply->error() == QNetworkReply::AuthenticationRequiredError) {
+    service_->ClearSession();
   }
 
-  if (!json_doc.isObject()) {
-    Error(u"Json document is not an object."_s, json_doc);
-    return QJsonObject();
-  }
-
-  QJsonObject json_obj = json_doc.object();
-  if (json_obj.isEmpty()) {
-    Error(u"Received empty Json object."_s, json_doc);
-    return QJsonObject();
-  }
-
-  return json_obj;
-
-}
-
-QJsonValue SpotifyBaseRequest::ExtractItems(const QByteArray &data) {
-
-  QJsonObject json_obj = ExtractJsonObj(data);
-  if (json_obj.isEmpty()) return QJsonValue();
-  return ExtractItems(json_obj);
-
-}
-
-QJsonValue SpotifyBaseRequest::ExtractItems(const QJsonObject &json_obj) {
-
-  if (!json_obj.contains("items"_L1)) {
-    Error(u"Json reply is missing items."_s, json_obj);
-    return QJsonArray();
-  }
-  QJsonValue json_items = json_obj["items"_L1];
-  return json_items;
-
-}
-
-QString SpotifyBaseRequest::ErrorsToHTML(const QStringList &errors) {
-
-  QString error_html;
-  for (const QString &error : errors) {
-    error_html += error + "<br />"_L1;
-  }
-  return error_html;
+  return result;
 
 }

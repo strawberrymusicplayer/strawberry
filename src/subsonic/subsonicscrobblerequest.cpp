@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
  * Copyright 2020-2021, Pascal Below <spezifisch@below.fr>
  *
  * Strawberry is free software: you can redistribute it and/or modify
@@ -98,38 +98,16 @@ void SubsonicScrobbleRequest::ScrobbleReplyReceived(QNetworkReply *reply) {
 
   // "subsonic-response" is empty on success, but some keys like status, version, or type might be present.
   // Therefore, we can only check for errors.
-  QByteArray data = GetReplyData(reply);
 
-  if (data.isEmpty()) {
+  const JsonObjectResult json_object_result = ParseJsonObject(reply);
+  if (!json_object_result.success()) {
+    Error(json_object_result.error_message);
     FinishCheck();
     return;
   }
-
-  QJsonObject json_obj = ExtractJsonObj(data);
-  if (json_obj.isEmpty()) {
+  const QJsonObject &json_object = json_object_result.json_object;
+  if (json_object.isEmpty()) {
     FinishCheck();
-    return;
-  }
-
-  if (json_obj.contains("error"_L1)) {
-    QJsonValue json_error = json_obj["error"_L1];
-    if (!json_error.isObject()) {
-      Error(u"Json error is not an object."_s, json_obj);
-      FinishCheck();
-      return;
-    }
-    json_obj = json_error.toObject();
-    if (!json_obj.isEmpty() && json_obj.contains("code"_L1) && json_obj.contains("message"_L1)) {
-      int code = json_obj["code"_L1].toInt();
-      QString message = json_obj["message"_L1].toString();
-      Error(QStringLiteral("%1 (%2)").arg(message).arg(code));
-      FinishCheck();
-    }
-    else {
-      Error(u"Json error object is missing code or message."_s, json_obj);
-      FinishCheck();
-      return;
-    }
     return;
   }
 

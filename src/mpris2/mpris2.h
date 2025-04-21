@@ -60,11 +60,20 @@ using MprisPlaylistList = QList<MprisPlaylist>;
 Q_DECLARE_METATYPE(MprisPlaylist)
 Q_DECLARE_METATYPE(MprisPlaylistList)
 
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Warray-bounds"
+#endif
+
 struct MaybePlaylist {
   bool valid;
   MprisPlaylist playlist;
 };
 Q_DECLARE_METATYPE(MaybePlaylist)
+
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
 
 QDBusArgument &operator<<(QDBusArgument &arg, const MprisPlaylist &playlist);
 const QDBusArgument &operator>>(const QDBusArgument &arg, MprisPlaylist &playlist);
@@ -217,6 +226,7 @@ class Mpris2 : public QObject {
   void VolumeChanged();
 
   void PlaylistManagerInitialized();
+  void AllPlaylistsLoaded();
   void CurrentSongChanged(const Song &song);
   void ShuffleModeChanged();
   void RepeatModeChanged();

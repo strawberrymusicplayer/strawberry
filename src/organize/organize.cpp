@@ -78,7 +78,7 @@ Organize::Organize(const SharedPtr<TaskManager> task_manager,
       overwrite_(overwrite),
       albumcover_(albumcover),
       eject_after_(eject_after),
-      task_count_(songs_info.count()),
+      task_count_(static_cast<quint64>(songs_info.count())),
       playlist_(playlist),
       tasks_complete_(0),
       started_(false),
@@ -262,7 +262,7 @@ void Organize::ProcessSomeFiles() {
 
     QString error_text;
     if (destination_->CopyToStorage(job, error_text)) {
-      if (job.remove_original_ && song.is_collection_song() && destination_->source() == Song::Source::Collection) {
+      if (job.remove_original_ && song.is_local_collection_song() && destination_->source() == Song::Source::Collection) {
         // Notify other aspects of system that song has been invalidated
         QString root = destination_->LocalPath();
         QFileInfo new_file = QFileInfo(root + QLatin1Char('/') + task.song_info_.new_filename_);
@@ -355,7 +355,7 @@ void Organize::UpdateProgress() {
   // Add the progress of the track that's currently copying
   progress += current_copy_progress_;
 
-  task_manager_->SetTaskProgress(task_id_, progress, total);
+  task_manager_->SetTaskProgress(task_id_, static_cast<quint64>(progress), total);
 
 }
 

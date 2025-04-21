@@ -31,7 +31,7 @@
       <li>Edit tags on audio files</li>
       <li>Automatically retrieve tags from MusicBrainz</li>
       <li>Album cover art from Last.fm, Musicbrainz, Discogs, Musixmatch, Deezer, Tidal, Qobuz and Spotify</li>
-      <li>Song lyrics from Genius, Musixmatch, ChartLyrics, lyrics.ovh, lololyrics.com, songlyrics.com, azlyrics.com and elyrics.net</li>
+      <li>Song lyrics from Musixmatch, ChartLyrics, lyrics.ovh, lololyrics.com, songlyrics.com, azlyrics.com and elyrics.net</li>
       <li>Audio analyzer and equalizer</li>
       <li>Transfer music to mass-storage USB players, MTP compatible devices and iPod Nano/Classic</li>
       <li>Scrobbler with support for Last.fm, Libre.fm and ListenBrainz</li>
@@ -51,6 +51,9 @@
   </screenshots>
   <update_contact>eclipseo@fedoraproject.org</update_contact>
     <releases>
+        <release version="1.2.10" date="2025-04-18"/>
+        <release version="1.2.9" date="2025-04-08"/>
+        <release version="1.2.8" date="2025-04-05"/>
         <release version="1.2.7" date="2025-01-31"/>
         <release version="1.2.6" date="2025-01-17"/>
         <release version="1.2.5" date="2025-01-17"/>

@@ -1,8 +1,6 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
- * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,60 +23,52 @@
 #include <QVariant>
 
 #include "streamplaylistitem.h"
-#include "streamingservice.h"
 #include "core/sqlrow.h"
 
 StreamPlaylistItem::StreamPlaylistItem(const Song::Source source)
     : PlaylistItem(source),
       source_(source) {}
 
-StreamPlaylistItem::StreamPlaylistItem(const Song &metadata)
-    : PlaylistItem(metadata.source()),
-      source_(metadata.source()),
-      metadata_(metadata) {
-  InitMetadata();
-}
-
-StreamPlaylistItem::StreamPlaylistItem(StreamingServicePtr service, const Song &metadata)
-    : PlaylistItem(metadata.source()),
-      source_(service->source()),
-      metadata_(metadata) {
+StreamPlaylistItem::StreamPlaylistItem(const Song &song)
+    : PlaylistItem(song.source()),
+      source_(song.source()),
+      song_(song) {
   InitMetadata();
 }
 
 bool StreamPlaylistItem::InitFromQuery(const SqlRow &query) {
 
-  metadata_.InitFromQuery(query, false, static_cast<int>(Song::kRowIdColumns.count()));
+  song_.InitFromQuery(query, false, static_cast<int>(Song::kRowIdColumns.count()));
   InitMetadata();
   return true;
 
 }
 
-QVariant StreamPlaylistItem::DatabaseValue(DatabaseColumn column) const {
+QVariant StreamPlaylistItem::DatabaseValue(const DatabaseColumn column) const {
   return PlaylistItem::DatabaseValue(column);
 }
 
 void StreamPlaylistItem::InitMetadata() {
 
-  if (metadata_.title().isEmpty()) metadata_.set_title(metadata_.url().toString());
-  if (metadata_.source() == Song::Source::Unknown) metadata_.set_source(Song::Source::Stream);
-  if (metadata_.filetype() == Song::FileType::Unknown) metadata_.set_filetype(Song::FileType::Stream);
-  metadata_.set_valid(true);
+  if (song_.title().isEmpty()) song_.set_title(song_.url().toString());
+  if (song_.source() == Song::Source::Unknown) song_.set_source(Song::Source::Stream);
+  if (song_.filetype() == Song::FileType::Unknown) song_.set_filetype(Song::FileType::Stream);
+  song_.set_valid(true);
 
 }
 
 Song StreamPlaylistItem::Metadata() const {
 
   if (HasTemporaryMetadata()) return temp_metadata_;
-  return metadata_;
+  return song_;
 
 }
 
-QUrl StreamPlaylistItem::Url() const { return metadata_.url(); }
+QUrl StreamPlaylistItem::Url() const { return song_.url(); }
 
 void StreamPlaylistItem::SetArtManual(const QUrl &cover_url) {
 
-  metadata_.set_art_manual(cover_url);
+  song_.set_art_manual(cover_url);
   temp_metadata_.set_art_manual(cover_url);
 
 }

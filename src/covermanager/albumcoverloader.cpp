@@ -397,9 +397,9 @@ AlbumCoverLoader::LoadImageResult AlbumCoverLoader::LoadRemoteUrlImage(TaskPtr t
 
   qLog(Debug) << "Loading remote cover from URL" << cover_url;
 
-  QNetworkRequest request(cover_url);
-  request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  QNetworkReply *reply = network_->get(request);
+  QNetworkRequest network_request(cover_url);
+  network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+  QNetworkReply *reply = network_->get(network_request);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, task, result_type, cover_url]() { LoadRemoteImageFinished(reply, task, result_type, cover_url); });
 
   return LoadImageResult(result_type, LoadImageResult::Status::Async);
@@ -418,10 +418,10 @@ void AlbumCoverLoader::LoadRemoteImageFinished(QNetworkReply *reply, TaskPtr tas
     }
     const QUrl redirect_url = redirect.toUrl();
     qLog(Debug) << "Loading remote cover from redirected URL" << redirect_url;
-    QNetworkRequest request = reply->request();
-    request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-    request.setUrl(redirect_url);
-    QNetworkReply *redirected_reply = network_->get(request);
+    QNetworkRequest network_request = reply->request();
+    network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+    network_request.setUrl(redirect_url);
+    QNetworkReply *redirected_reply = network_->get(network_request);
     QObject::connect(redirected_reply, &QNetworkReply::finished, this, [this, reply, task, result_type, redirect_url]() { LoadRemoteImageFinished(reply, task, result_type, redirect_url); });
     return;
   }

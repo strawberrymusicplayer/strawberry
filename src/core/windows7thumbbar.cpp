@@ -140,12 +140,12 @@ void Windows7ThumbBar::HandleWinEvent(MSG *msg) {
     for (int i = 0; i < actions_.count(); ++i) {
       const QAction *action = actions_[i];
       THUMBBUTTON *button = &buttons[i];
-      button->iId = i;
+      button->iId = static_cast<UINT>(i);
       SetupButton(action, button);
     }
 
     qLog(Debug) << "Adding" << actions_.count() << "buttons";
-    HRESULT hr = taskbar_list_->ThumbBarAddButtons(reinterpret_cast<HWND>(widget_->winId()), actions_.count(), buttons);
+    HRESULT hr = taskbar_list_->ThumbBarAddButtons(reinterpret_cast<HWND>(widget_->winId()), static_cast<UINT>(actions_.count()), buttons);
     if (hr != S_OK) {
       qLog(Debug) << "Failed to add buttons" << Qt::hex << DWORD(hr);
     }
@@ -185,11 +185,11 @@ void Windows7ThumbBar::ActionChanged() {
     QAction *action = actions_[i];
     THUMBBUTTON *button = &buttons[i];
 
-    button->iId = i;
+    button->iId = static_cast<UINT>(i);
     SetupButton(action, button);
   }
 
-  HRESULT hr = taskbar_list_->ThumbBarUpdateButtons(reinterpret_cast<HWND>(widget_->winId()), actions_.count(), buttons);
+  HRESULT hr = taskbar_list_->ThumbBarUpdateButtons(reinterpret_cast<HWND>(widget_->winId()), static_cast<UINT>(actions_.count()), buttons);
   if (hr != S_OK) {
     qLog(Debug) << "Failed to update buttons" << Qt::hex << DWORD(hr);
   }

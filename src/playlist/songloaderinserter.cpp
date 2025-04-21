@@ -177,12 +177,12 @@ void SongLoaderInserter::AsyncLoad() {
   // First, quick load raw songs.
   int async_progress = 0;
   int async_load_id = task_manager_->StartTask(tr("Loading tracks"));
-  task_manager_->SetTaskProgress(async_load_id, async_progress, pending_.count());
+  task_manager_->SetTaskProgress(async_load_id, static_cast<quint64>(async_progress), static_cast<quint64>(pending_.count()));
   bool first_loaded = false;
   for (int i = 0; i < pending_.count(); ++i) {
     SongLoader *loader = pending_.value(i);
     const SongLoader::Result result = loader->LoadFilenamesBlocking();
-    task_manager_->SetTaskProgress(async_load_id, ++async_progress);
+    task_manager_->SetTaskProgress(async_load_id, static_cast<quint64>(++async_progress));
 
     if (result == SongLoader::Result::Error) {
       const QStringList errors = loader->errors();
@@ -209,7 +209,7 @@ void SongLoaderInserter::AsyncLoad() {
   // Songs are inserted in playlist, now load them completely.
   async_progress = 0;
   async_load_id = task_manager_->StartTask(tr("Loading tracks info"));
-  task_manager_->SetTaskProgress(async_load_id, async_progress, songs_.count());
+  task_manager_->SetTaskProgress(async_load_id, static_cast<quint64>(async_progress), static_cast<quint64>(songs_.count()));
   SongList songs;
   for (int i = 0; i < pending_.count(); ++i) {
     SongLoader *loader = pending_.value(i);
@@ -218,7 +218,7 @@ void SongLoaderInserter::AsyncLoad() {
       loader->LoadMetadataBlocking();
     }
     songs << loader->songs();
-    task_manager_->SetTaskProgress(async_load_id, songs.count());
+    task_manager_->SetTaskProgress(async_load_id, static_cast<quint64>(songs.count()));
   }
   task_manager_->SetTaskFinished(async_load_id);
 

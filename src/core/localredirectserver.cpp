@@ -1,8 +1,7 @@
 /*
- * This file was part of Clementine.
+ * Strawberry Music Player
  * Copyright 2012, 2014, John Maguire <john.maguire@gmail.com>
- * Copyright 2014, Krzysztof Sobiecki <sobkas@gmail.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,7 +43,8 @@ using namespace Qt::Literals::StringLiterals;
 LocalRedirectServer::LocalRedirectServer(QObject *parent)
     : QTcpServer(parent),
       port_(0),
-      socket_(nullptr) {}
+      socket_(nullptr),
+      success_(false) {}
 
 LocalRedirectServer::~LocalRedirectServer() {
   if (isListening()) close();
@@ -52,7 +52,8 @@ LocalRedirectServer::~LocalRedirectServer() {
 
 bool LocalRedirectServer::Listen() {
 
-  if (!listen(QHostAddress::LocalHost, port_)) {
+  if (!listen(QHostAddress::LocalHost, static_cast<quint64>(port_))) {
+    success_ = false;
     error_ = errorString();
     return false;
   }
@@ -61,6 +62,7 @@ bool LocalRedirectServer::Listen() {
   url_.setHost(u"localhost"_s);
   url_.setPort(serverPort());
   url_.setPath(u"/"_s);
+  port_ = serverPort();
   QObject::connect(this, &QTcpServer::newConnection, this, &LocalRedirectServer::NewConnection);
 
   return true;
@@ -77,7 +79,7 @@ void LocalRedirectServer::NewConnection() {
 
 void LocalRedirectServer::incomingConnection(qintptr socket_descriptor) {
 
-  if (socket_) {
+  if (socket_ != nullptr) {
     if (socket_->state() == QAbstractSocket::ConnectedState) socket_->close();
     socket_->deleteLater();
     socket_ = nullptr;
@@ -88,6 +90,7 @@ void LocalRedirectServer::incomingConnection(qintptr socket_descriptor) {
   if (!tcp_socket->setSocketDescriptor(socket_descriptor)) {
     delete tcp_socket;
     close();
+    success_ = false;
     error_ = "Unable to set socket descriptor"_L1;
     Q_EMIT Finished();
     return;
@@ -115,6 +118,10 @@ void LocalRedirectServer::ReadyRead() {
     socket_->deleteLater();
     socket_ = nullptr;
     request_url_ = ParseUrlFromRequest(buffer_);
+    success_ = request_url_.isValid();
+    if (!request_url_.isValid()) {
+      error_ = "Invalid request URL"_L1;
+    }
     close();
     Q_EMIT Finished();
   }
@@ -169,9 +176,9 @@ QUrl LocalRedirectServer::ParseUrlFromRequest(const QByteArray &request) const {
 
   const QByteArrayList lines = request.split('\r');
   const QByteArray &request_line = lines[0];
-  QByteArray path = request_line.split(' ')[1];
-  QUrl base_url = url_;
-  QUrl request_url(base_url.toString() + QString::fromLatin1(path.mid(1)), QUrl::StrictMode);
+  const QByteArray path = request_line.split(' ')[1];
+  const QUrl base_url = url_;
+  const QUrl request_url(base_url.toString() + QString::fromLatin1(path.mid(1)), QUrl::StrictMode);
 
   return request_url;
 

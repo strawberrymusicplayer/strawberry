@@ -80,7 +80,7 @@ uint SqlHelper::ValueToUInt(const T &q, const int n) {
 
   Q_ASSERT(n < q.count());
 
-  return q.value(n).isNull() || q.value(n).toInt() < 0 ? 0 : q.value(n).toInt();
+  return q.value(n).isNull() || q.value(n).toInt() < 0 ? 0 : q.value(n).toUInt();
 
 }
 

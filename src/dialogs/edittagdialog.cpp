@@ -137,8 +137,8 @@ EditTagDialog::EditTagDialog(const SharedPtr<NetworkAccessManager> network,
       image_no_cover_thumbnail_(ImageUtils::GenerateNoCoverImage(QSize(128, 128), devicePixelRatioF())),
       loading_(false),
       ignore_edits_(false),
-      summary_cover_art_id_(-1),
-      tags_cover_art_id_(-1),
+      summary_cover_art_id_(0),
+      tags_cover_art_id_(0),
       cover_art_is_set_(false),
       save_tag_pending_(0),
       lyrics_id_(-1) {
@@ -716,10 +716,10 @@ void EditTagDialog::SelectionChanged() {
   }
   ui_->tags_summary->setText(summary);
 
-  const bool enable_change_art = first_song.is_collection_song();
+  const bool enable_change_art = first_song.is_local_collection_song();
   ui_->tags_art_button->setEnabled(enable_change_art);
   if ((art_different && first_cover_action != UpdateCoverAction::New) || action_different) {
-    tags_cover_art_id_ = -1;  // Cancels any pending art load.
+    tags_cover_art_id_ = 0;  // Cancels any pending art load.
     ui_->tags_art->clear();
     ui_->tags_art->setText(QLatin1String(kArtDifferentHintText));
     album_cover_choice_controller_->show_cover_action()->setEnabled(false);
@@ -784,9 +784,9 @@ void EditTagDialog::SetText(QLabel *label, const int value, const QString &suffi
   label->setText(value <= 0 ? def : (QString::number(value) + QLatin1Char(' ') + suffix));
 }
 
-void EditTagDialog::SetDate(QLabel *label, const uint time) {
+void EditTagDialog::SetDate(QLabel *label, const qint64 time) {
 
-  if (time == std::numeric_limits<uint>::max()) {  // -1
+  if (time == std::numeric_limits<qint64>::max()) {  // -1
     label->setText(QObject::tr("Unknown"));
   }
   else {
@@ -819,7 +819,7 @@ void EditTagDialog::UpdateSummaryTab(const Song &song) {
     ui_->filesize->setText(tr("Unknown"));
   }
   else {
-    ui_->filesize->setText(Utilities::PrettySize(song.filesize()));
+    ui_->filesize->setText(Utilities::PrettySize(static_cast<quint64>(song.filesize())));
   }
 
   ui_->filetype->setText(song.TextForFiletype());
@@ -878,7 +878,7 @@ QString EditTagDialog::GetArtSummary(const Song &song, const AlbumCoverLoaderRes
     summary = tr("Cover art not set").toHtmlEscaped();
   }
 
-  if (!song.is_collection_song()) {
+  if (!song.is_local_collection_song()) {
     if (!summary.isEmpty()) summary += "<br />"_L1;
     summary = tr("Album cover editing is only available for collection songs.");
   }
@@ -931,7 +931,7 @@ void EditTagDialog::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderRes
       summary += GetArtSummary(data_[idx.row()].current_, result.type);
       ui_->summary->setText(summary);
     }
-    summary_cover_art_id_ = -1;
+    summary_cover_art_id_ = 0;
   }
   else if (id == tags_cover_art_id_) {
     if (result.success && !result.image_scaled.isNull() && result.type != AlbumCoverLoaderResult::Type::Unset) {
@@ -962,9 +962,9 @@ void EditTagDialog::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderRes
         summary += GetArtSummary(cover_action);
       }
       ui_->tags_summary->setText(summary);
-      enable_change_art = first_song.is_collection_song() && !first_song.effective_albumartist().isEmpty() && !first_song.album().isEmpty();
+      enable_change_art = first_song.is_local_collection_song() && !first_song.effective_albumartist().isEmpty() && !first_song.album().isEmpty();
     }
-    tags_cover_art_id_ = -1;
+    tags_cover_art_id_ = 0;
     album_cover_choice_controller_->show_cover_action()->setEnabled(result.success && result.type != AlbumCoverLoaderResult::Type::Unset);
     album_cover_choice_controller_->cover_to_file_action()->setEnabled(result.success && result.type != AlbumCoverLoaderResult::Type::Unset);
     album_cover_choice_controller_->delete_cover_action()->setEnabled(enable_change_art && result.success && result.type != AlbumCoverLoaderResult::Type::Unset);
@@ -1321,7 +1321,7 @@ void EditTagDialog::SaveData() {
     }
     // If the cover was changed, but no tags written, make sure to update the collection.
     else if (ref.cover_action_ != UpdateCoverAction::None && !ref.current_.effective_albumartist().isEmpty() && !ref.current_.album().isEmpty()) {
-      if (ref.current_.is_collection_song()) {
+      if (ref.current_.is_local_collection_song()) {
         collection_songs_.insert(ref.current_.id(), ref.current_);
       }
       if (ref.current_ == current_albumcover_loader_->last_song()) {
@@ -1476,7 +1476,7 @@ void EditTagDialog::SongSaveTagsComplete(TagReaderReplyPtr reply, const QString 
   const QString error = reply->error();
 
   if (success) {
-    if (song.is_collection_song()) {
+    if (song.is_local_collection_song()) {
       if (collection_songs_.contains(song.id())) {
         Song old_song = collection_songs_.take(song.id());
         song.set_art_automatic(old_song.art_automatic());

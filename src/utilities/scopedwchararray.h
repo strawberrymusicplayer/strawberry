@@ -36,7 +36,7 @@ class ScopedWCharArray {
   explicit operator wchar_t *() const { return get(); }
 
   qint64 characters() const { return chars_; }
-  qint64 bytes() const { return (chars_ + 1) * sizeof(wchar_t); }
+  qint64 bytes() const { return (chars_ + 1) * static_cast<qint64>(sizeof(wchar_t)); }
 
  private:
   Q_DISABLE_COPY(ScopedWCharArray)

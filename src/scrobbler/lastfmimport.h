@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2020-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2020-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,8 +22,6 @@
 
 #include "config.h"
 
-#include <QtGlobal>
-#include <QObject>
 #include <QList>
 #include <QVariant>
 #include <QByteArray>
@@ -31,19 +29,27 @@
 #include <QQueue>
 #include <QDateTime>
 
+#include "core/jsonbaserequest.h"
 #include "includes/shared_ptr.h"
+#include "core/jsonbaserequest.h"
 
 class QTimer;
 class QNetworkReply;
 
 class NetworkAccessManager;
 
-class LastFMImport : public QObject {
+class LastFMImport : public JsonBaseRequest {
   Q_OBJECT
 
  public:
   explicit LastFMImport(const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~LastFMImport() override;
+
+  QString service_name() const override { return QStringLiteral("LastFMImport"); }
+  bool authentication_required() const override { return false; }
+  bool authenticated() const override { return false; }
+  bool use_authorization_header() const override { return false; }
+  QByteArray authorization_header() const override { return QByteArray(); }
 
   void ReloadSettings();
   void ImportData(const bool lastplayed = true, const bool playcount = true);
@@ -64,8 +70,7 @@ class LastFMImport : public QObject {
 
  private:
   QNetworkReply *CreateRequest(const ParamList &request_params);
-  QByteArray GetReplyData(QNetworkReply *reply);
-  QJsonObject ExtractJsonObj(const QByteArray &data);
+  JsonObjectResult ParseJsonObject(QNetworkReply *reply);
 
   void AddGetRecentTracksRequest(const int page = 0);
   void AddGetTopTracksRequest(const int page = 0);
@@ -73,7 +78,7 @@ class LastFMImport : public QObject {
   void SendGetRecentTracksRequest(GetRecentTracksRequest request);
   void SendGetTopTracksRequest(GetTopTracksRequest request);
 
-  void Error(const QString &error, const QVariant &debug = QVariant());
+  void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
   void UpdateTotalCheck();
   void UpdateProgressCheck();
@@ -86,7 +91,7 @@ class LastFMImport : public QObject {
   void UpdateTotal(const int, const int);
   void UpdateProgress(const int, const int);
   void Finished();
-  void FinishedWithError(const QString&);
+  void FinishedWithError(const QString &error);
 
  private Q_SLOTS:
   void FlushRequests();
@@ -106,7 +111,6 @@ class LastFMImport : public QObject {
   int lastplayed_received_;
   QQueue<GetRecentTracksRequest> recent_tracks_requests_;
   QQueue<GetTopTracksRequest> top_tracks_requests_;
-  QList<QNetworkReply*> replies_;
 };
 
 #endif  // LASTFMIMPORT_H

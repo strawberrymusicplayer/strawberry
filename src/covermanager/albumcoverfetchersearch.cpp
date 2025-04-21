@@ -98,10 +98,10 @@ void AlbumCoverFetcherSearch::Start(SharedPtr<CoverProviders> cover_providers) {
 
   for (CoverProvider *provider : std::as_const(cover_providers_sorted)) {
 
-    if (!provider->is_enabled()) continue;
+    if (!provider->enabled()) continue;
 
     // Skip any provider that requires authentication but is not authenticated.
-    if (provider->AuthenticationRequired() && !provider->IsAuthenticated()) {
+    if (provider->authentication_required() && !provider->authenticated()) {
       continue;
     }
 
@@ -249,6 +249,8 @@ void AlbumCoverFetcherSearch::ProviderSearchFinished(const int id, const CoverPr
 
 void AlbumCoverFetcherSearch::AllProvidersFinished() {
 
+  qLog(Debug) << "Search finished, got" << results_.count() << "results";
+
   if (cancel_requested_) {
     return;
   }
@@ -285,9 +287,9 @@ void AlbumCoverFetcherSearch::FetchMoreImages() {
 
     qLog(Debug) << "Loading" << result.artist << result.album << result.image_url << "from" << result.provider << "with current score" << result.score();
 
-    QNetworkRequest req(result.image_url);
-    req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-    QNetworkReply *image_reply = network_->get(req);
+    QNetworkRequest network_request(result.image_url);
+    network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+    QNetworkReply *image_reply = network_->get(network_request);
     QObject::connect(image_reply, &QNetworkReply::finished, this, [this, image_reply]() { ProviderCoverFetchFinished(image_reply); });
     pending_image_loads_[image_reply] = result;
     image_load_timeout_->AddReply(image_reply);

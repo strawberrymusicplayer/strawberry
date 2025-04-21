@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,9 +38,10 @@
 
 #include "includes/scoped_ptr.h"
 #include "includes/shared_ptr.h"
+#include "constants/subsonicsettings.h"
 #include "core/song.h"
 #include "streaming/streamingservice.h"
-#include "constants/subsonicsettings.h"
+#include "collection/collectionmodel.h"
 
 class QNetworkReply;
 

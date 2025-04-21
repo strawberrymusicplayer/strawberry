@@ -54,13 +54,13 @@ void WaveRubberAnalyzer::analyze(QPainter &p, const Scope &s, const bool new_fra
   const float *amplitude_data = s.data();
 
   const int mid_y = height() / 4;
-  const int num_samples = static_cast<int>(s.size());
+  const size_t num_samples = static_cast<size_t>(s.size());
 
   const float x_scale = static_cast<float>(width()) / static_cast<float>(num_samples);
   float prev_y = static_cast<float>(mid_y);
 
   // Draw the waveform
-  for (int i = 0; i < num_samples; ++i) {
+  for (size_t i = 0; i < num_samples; ++i) {
 
     // Normalize amplitude to 0-1 range
     const float color_factor = amplitude_data[i] / 2.0F + 0.5F;
@@ -88,5 +88,5 @@ void WaveRubberAnalyzer::transform(Scope &scope) {
 }
 
 void WaveRubberAnalyzer::demo(QPainter &p) {
-  analyze(p, Scope(fht_->size(), 0), new_frame_);
+  analyze(p, Scope(static_cast<size_t>(fht_->size()), 0), new_frame_);
 }

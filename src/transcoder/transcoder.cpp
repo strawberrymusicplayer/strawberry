@@ -604,7 +604,7 @@ void Transcoder::SetElementProperties(const QString &name, GObject *object) {
         break;
       }
       case G_TYPE_UINT:{
-        const guint g_value = static_cast<gint>(value.toUInt());
+        const guint g_value = static_cast<guint>(value.toUInt());
         qLog(Debug) << "Setting" << property->name << "(uint)" << "to" << g_value;
         g_object_set(object, property->name, g_value, nullptr);
         break;

@@ -49,6 +49,8 @@ QStringList Updateify(const QStringList &list);
 QString ReplaceMessage(const QString &message, const Song &song, const QString &newline, const bool html_escaped = false);
 QString ReplaceVariable(const QString &variable, const Song &song, const QString &newline, const bool html_escaped = false);
 
+QString StringListToHTML(const QStringList &errors);
+
 }  // namespace Utilities
 
 #endif  // STRUTILS_H

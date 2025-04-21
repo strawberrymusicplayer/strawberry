@@ -88,6 +88,4 @@ int MultiSortFilterProxy::Compare(const QVariant &left, const QVariant &right) c
       }
   }
 
-  return 0;
-
 }

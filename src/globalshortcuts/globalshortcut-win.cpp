@@ -42,7 +42,7 @@ int GlobalShortcut::nativeKeycode(const Qt::Key qt_keycode) {
 
   int key_code = 0;
   if (KeyMapperWin::keymapper_win_.contains(qt_keycode)) {
-    key_code = KeyMapperWin::keymapper_win_.value(qt_keycode);
+    key_code = static_cast<int>(KeyMapperWin::keymapper_win_.value(qt_keycode));
   }
   return key_code;
 
@@ -81,7 +81,7 @@ int GlobalShortcut::nativeKeycode2(const Qt::Key qt_keycode) {
 
 bool GlobalShortcut::registerShortcut(const int native_key, const int native_mods) {
 
-  return RegisterHotKey(0, native_mods ^ native_key, native_mods, native_key);
+  return RegisterHotKey(0, native_mods ^ native_key, static_cast<UINT>(native_mods), static_cast<UINT>(native_key));
 
 }
 

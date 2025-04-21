@@ -1,8 +1,6 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
- * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,8 +32,10 @@ class SqlRow;
 
 class CollectionPlaylistItem : public PlaylistItem {
  public:
-  explicit CollectionPlaylistItem();
+  explicit CollectionPlaylistItem(const Song::Source source);
   explicit CollectionPlaylistItem(const Song &song);
+
+  QUrl Url() const override;
 
   bool InitFromQuery(const SqlRow &query) override;
   void Reload() override;
@@ -44,15 +44,13 @@ class CollectionPlaylistItem : public PlaylistItem {
   Song OriginalMetadata() const override { return song_; }
   void SetMetadata(const Song &song) override { song_ = song; }
 
-  QUrl Url() const override;
-
-  bool IsLocalCollectionItem() const override { return true; }
-
   void SetArtManual(const QUrl &cover_url) override;
 
+  bool IsLocalCollectionItem() const override { return song_.source() == Song::Source::Collection; }
+
  protected:
-  QVariant DatabaseValue(DatabaseColumn column) const override;
-  Song DatabaseSongMetadata() const override { return Song(Song::Source::Collection); }
+  QVariant DatabaseValue(const DatabaseColumn database_column) const override;
+  Song DatabaseSongMetadata() const override { return Song(source_); }
 
  protected:
   Song song_;

@@ -173,7 +173,7 @@ void Player::LoadVolume() {
 
   Settings s;
   s.beginGroup(kSettingsGroup);
-  const uint volume = s.value(kVolume, 100).toInt();
+  const uint volume = s.value(kVolume, 100).toUInt();
   s.endGroup();
 
   SetVolume(volume);
@@ -240,7 +240,7 @@ void Player::ResumePlayback() {
   s.beginGroup(kSettingsGroup);
   const EngineBase::State playback_state = static_cast<EngineBase::State>(s.value(kPlaybackState, static_cast<int>(EngineBase::State::Empty)).toInt());
   const int playback_playlist = s.value(kPlaybackPlaylist, -1).toInt();
-  const int playback_position = s.value(kPlaybackPosition, 0).toInt();
+  const quint64 playback_position = s.value(kPlaybackPosition, 0).toULongLong();
   s.endGroup();
 
   if (playback_playlist == playlist_manager_->current()->id()) {
@@ -372,7 +372,7 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
 
       if (is_current) {
         qLog(Debug) << "Playing song" << current_item->Metadata().title() << result.stream_url_ << "position" << play_offset_nanosec_;
-        engine_->Play(result.media_url_, result.stream_url_, pause_, stream_change_type_, song.has_cue(), song.beginning_nanosec(), song.end_nanosec(), play_offset_nanosec_, song.ebur128_integrated_loudness_lufs());
+        engine_->Play(result.media_url_, result.stream_url_, pause_, stream_change_type_, song.has_cue(), static_cast<quint64>(song.beginning_nanosec()), song.end_nanosec(), play_offset_nanosec_, song.ebur128_integrated_loudness_lufs());
         current_item_ = current_item;
         play_offset_nanosec_ = 0;
       }
@@ -528,7 +528,7 @@ void Player::PlayPause(const quint64 offset_nanosec, const Playlist::AutoScroll 
       }
       else {
         pause_time_ = QDateTime::currentDateTime();
-        play_offset_nanosec_ = engine_->position_nanosec();
+        play_offset_nanosec_ = static_cast<quint64>(engine_->position_nanosec());
         engine_->Pause();
       }
       break;
@@ -556,10 +556,10 @@ void Player::UnPause() {
   if (current_item_ && pause_time_.isValid()) {
     const Song &song = current_item_->Metadata();
     if (url_handlers_->CanHandle(song.url()) && song.stream_url_can_expire()) {
-      const quint64 time = QDateTime::currentSecsSinceEpoch() - pause_time_.toSecsSinceEpoch();
+      const qint64 time = QDateTime::currentSecsSinceEpoch() - pause_time_.toSecsSinceEpoch();
       if (time >= 30) {  // Stream URL might be expired.
         qLog(Debug) << "Re-requesting stream URL for" << song.url();
-        play_offset_nanosec_ = engine_->position_nanosec();
+        play_offset_nanosec_ = static_cast<quint64>(engine_->position_nanosec());
         UrlHandler *url_handler = url_handlers_->GetUrlHandler(song.url());
         HandleLoadResult(url_handler->StartLoading(song.url()));
         return;
@@ -654,7 +654,7 @@ void Player::EngineStateChanged(const EngineBase::State state) {
   switch (state) {
     case EngineBase::State::Paused:
       pause_time_ = QDateTime::currentDateTime();
-      play_offset_nanosec_ = engine_->position_nanosec();
+      play_offset_nanosec_ = static_cast<quint64>(engine_->position_nanosec());
       Q_EMIT Paused();
       break;
     case EngineBase::State::Playing:
@@ -774,7 +774,7 @@ void Player::PlayAt(const int index, const bool pause, const quint64 offset_nano
   }
   else {
     qLog(Debug) << "Playing song" << current_item_->Metadata().title() << url << "position" << offset_nanosec;
-    engine_->Play(current_item_->Url(), url, pause, change, current_item_->Metadata().has_cue(), current_item_->effective_beginning_nanosec(), current_item_->effective_end_nanosec(), offset_nanosec, current_item_->effective_ebur128_integrated_loudness_lufs());
+    engine_->Play(current_item_->Url(), url, pause, change, current_item_->Metadata().has_cue(), static_cast<quint64>(current_item_->effective_beginning_nanosec()), current_item_->effective_end_nanosec(), offset_nanosec, current_item_->effective_ebur128_integrated_loudness_lufs());
   }
 
 }
@@ -782,7 +782,7 @@ void Player::PlayAt(const int index, const bool pause, const quint64 offset_nano
 void Player::CurrentMetadataChanged(const Song &metadata) {
 
   // Those things might have changed (especially when a previously invalid song was reloaded) so we push the latest version into Engine
-  engine_->RefreshMarkers(metadata.beginning_nanosec(), metadata.end_nanosec());
+  engine_->RefreshMarkers(static_cast<quint64>(metadata.beginning_nanosec()), metadata.end_nanosec());
 
 }
 
@@ -796,7 +796,7 @@ void Player::SeekTo(const quint64 seconds) {
   }
 
   const qint64 nanosec = qBound(0LL, static_cast<qint64>(seconds) * kNsecPerSec, length_nanosec);
-  engine_->Seek(nanosec);
+  engine_->Seek(static_cast<quint64>(nanosec));
 
   qLog(Debug) << "Track seeked to" << nanosec << "ns - updating scrobble point";
   playlist_manager_->active()->UpdateScrobblePoint(nanosec);
@@ -810,11 +810,11 @@ void Player::SeekTo(const quint64 seconds) {
 }
 
 void Player::SeekForward() {
-  SeekTo(engine()->position_nanosec() / kNsecPerSec + seek_step_sec_);
+  SeekTo(static_cast<quint64>(engine()->position_nanosec() / kNsecPerSec + seek_step_sec_));
 }
 
 void Player::SeekBackward() {
-  SeekTo(engine()->position_nanosec() / kNsecPerSec - seek_step_sec_);
+  SeekTo(static_cast<quint64>(engine()->position_nanosec() / kNsecPerSec - seek_step_sec_));
 }
 
 void Player::EngineMetadataReceived(const EngineMetadata &engine_metadata) {

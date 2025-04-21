@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  * Copyright 2020, Pascal Below <spezifisch@below.fr>
  *
  * Strawberry is free software: you can redistribute it and/or modify
@@ -23,8 +23,6 @@
 
 #include "config.h"
 
-#include <QtGlobal>
-#include <QObject>
 #include <QDateTime>
 #include <QVariant>
 #include <QString>
@@ -41,12 +39,15 @@ class SubsonicScrobbler : public ScrobblerService {
   Q_OBJECT
 
  public:
-  explicit SubsonicScrobbler(const SharedPtr<ScrobblerSettingsService> settings, const SharedPtr<SubsonicService> service, QObject *parent = nullptr);
+  explicit SubsonicScrobbler(const SharedPtr<ScrobblerSettingsService> settings, const SharedPtr<NetworkAccessManager> network, const SharedPtr<SubsonicService> service, QObject *parent = nullptr);
 
   void ReloadSettings() override;
 
   bool enabled() const override { return enabled_; }
+  bool authentication_required() const override { return true; }
   bool authenticated() const override { return true; }
+  bool use_authorization_header() const override { return false; }
+  QByteArray authorization_header() const override { return QByteArray(); }
 
   void UpdateNowPlaying(const Song &song) override;
   void ClearPlaying() override;

@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2023, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,9 +22,6 @@
 
 #include "config.h"
 
-#include <QtGlobal>
-#include <QObject>
-
 #include "includes/shared_ptr.h"
 #include "scrobblingapi20.h"
 
@@ -40,6 +37,7 @@ class LastFMScrobbler : public ScrobblingAPI20 {
   static const char *kName;
   static const char *kSettingsGroup;
   static const char *kApiUrl;
+
 };
 
 #endif  // LASTFMSCROBBLER_H

@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -522,7 +522,7 @@ void CollectionBackend::SongPathChanged(const Song &song, const QFileInfo &new_f
   updated_song.set_url(QUrl::fromLocalFile(QDir::cleanPath(new_file.filePath())));
   updated_song.set_basefilename(new_file.fileName());
   updated_song.InitArtManual();
-  if (updated_song.is_collection_song() && new_collection_directory_id) {
+  if (updated_song.is_linked_collection_song() && new_collection_directory_id) {
     updated_song.set_directory_id(new_collection_directory_id.value());
   }
 
@@ -853,6 +853,10 @@ void CollectionBackend::UpdateMTimesOnly(const SongList &songs) {
 
 }
 
+void CollectionBackend::DeleteSongsAsync(const SongList &songs) {
+  QMetaObject::invokeMethod(this, "DeleteSongs", Qt::QueuedConnection, Q_ARG(SongList, songs));
+}
+
 void CollectionBackend::DeleteSongs(const SongList &songs) {
 
   QMutexLocker l(db_->Mutex());
@@ -876,6 +880,24 @@ void CollectionBackend::DeleteSongs(const SongList &songs) {
   UpdateTotalSongCountAsync();
   UpdateTotalArtistCountAsync();
   UpdateTotalAlbumCountAsync();
+
+}
+
+void CollectionBackend::DeleteSongsByUrlsAsync(const QList<QUrl> &urls) {
+  QMetaObject::invokeMethod(this, "DeleteSongsByUrl", Qt::QueuedConnection, Q_ARG(QList<QUrl>, urls));
+}
+
+void CollectionBackend::DeleteSongsByUrls(const QList<QUrl> &urls) {
+
+  SongList songs;
+  songs.reserve(urls.count());
+  for (const QUrl &url : urls) {
+    songs << GetSongsByUrl(url);
+  }
+
+  if (!songs.isEmpty()) {
+    DeleteSongs(songs);
+  }
 
 }
 

@@ -4,7 +4,7 @@
 [![Patreon](https://img.shields.io/badge/patreon-donate-green.svg)](https://patreon.com/jonaskvinge)
 [![PayPal](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/jonaskvinge)
 
-Strawberry is a music player and music collection organizer. It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles. It's written in C++ using the Qt toolkit.
+Strawberry is a music player and music collection organizer. It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles. It's written in C++ using the Qt framework.
 
 ![Browse](https://raw.githubusercontent.com/strawberrymusicplayer/strawberry/master/data/screenshot/screenshot.png)
 
@@ -53,13 +53,15 @@ Funding developers is a way to contribute to open source projects you appreciate
   * Edit tags on audio files
   * Fetch tags from MusicBrainz
   * Album cover art from [Last.fm](https://www.last.fm/), [Musicbrainz](https://musicbrainz.org/), [Discogs](https://www.discogs.com/), [Musixmatch](https://www.musixmatch.com/), [Deezer](https://www.deezer.com/), [Tidal](https://www.tidal.com/), [Qobuz](https://www.qobuz.com/) and [Spotify](https://www.spotify.com/)
-  * Song lyrics from [Genius](https://genius.com/), [Musixmatch](https://www.musixmatch.com/), [ChartLyrics](http://www.chartlyrics.com/), [lyrics.ovh](https://lyrics.ovh/), [lololyrics.com](https://www.lololyrics.com/), [songlyrics.com](https://www.songlyrics.com/), [azlyrics.com](https://www.azlyrics.com/) and [elyrics.net](https://www.elyrics.net/)
+  * Song lyrics from [Musixmatch](https://www.musixmatch.com/), [ChartLyrics](http://www.chartlyrics.com/), [lyrics.ovh](https://lyrics.ovh/), [lololyrics.com](https://www.lololyrics.com/), [songlyrics.com](https://www.songlyrics.com/), [azlyrics.com](https://www.azlyrics.com/) and [elyrics.net](https://www.elyrics.net/)
   * Support for multiple backends
   * Audio analyzer
   * Audio equalizer
   * Transfer music to mass-storage USB players, MTP compatible devices and iPod Nano/Classic
   * Scrobbler with support for [Last.fm](https://www.last.fm/), [Libre.fm](https://libre.fm/) and [ListenBrainz](https://listenbrainz.org/)
-  * Subsonic, Tidal, Spotify and Qobuz streaming support
+  * Streaming from Subsonic compatible servers
+  * Unofficial Tidal, Spotify and Qobuz integration
+  * Discord rich presence
 
 
 It has so far been tested to work on Linux, OpenBSD, FreeBSD, macOS and Windows.
@@ -70,7 +72,7 @@ It has so far been tested to work on Linux, OpenBSD, FreeBSD, macOS and Windows.
 
 To build Strawberry from source you need the following installed on your system with the additional development packages/headers:
 
-* [CMake](https://cmake.org/)
+* [CMake 3.13 or higher](https://cmake.org/)
 * C/C++ compiler ([GCC](https://gcc.gnu.org/), [Clang](https://clang.llvm.org/) or [MSVC](https://visualstudio.microsoft.com/vs/features/cplusplus/))
 * [pkg-config](https://www.freedesktop.org/wiki/Software/pkg-config/) or [pkgconf](https://github.com/pkgconf/pkgconf)
 * [Boost](https://www.boost.org/)
@@ -81,7 +83,7 @@ To build Strawberry from source you need the following installed on your system 
 * [GStreamer](https://gstreamer.freedesktop.org/)
 * [TagLib 1.12 or higher](https://www.taglib.org/)
 * [ICU](https://unicode-org.github.io/icu/)
-* [KDSingleApplication](https://github.com/KDAB/KDSingleApplication)
+* [KDSingleApplication 1.1.0 or higher](https://github.com/KDAB/KDSingleApplication)
 
 Optional dependencies:
 
@@ -92,25 +94,24 @@ Optional dependencies:
 * MTP devices: [libmtp](http://libmtp.sourceforge.net/)
 * iPod Classic devices: [libgpod](http://www.gtkpod.org/libgpod/)
 * EBU R 128 loudness normalization [libebur128](https://github.com/jiixyj/libebur128)
+* Discord rich presence [RapidJSON](https://rapidjson.org/)
 
 You should also install the gstreamer plugins base and good, and optionally bad, ugly and libav to support all audio formats.
 
-### :wrench: Compiling from source
+### :wrench: Build from source
 
 ### Get the code:
 
     git clone --recursive https://github.com/strawberrymusicplayer/strawberry
 
-### Compile and install:
+### Build and install:
 
     cd strawberry
-    mkdir build
-    cd build
-    cmake ..
-    make -j $(nproc)
-    sudo make install
+    cmake -S . -B build
+    cmake --build build --parallel $(nproc)
+    sudo cmake --install build
 
-To compile on Windows with Visual Studio 2019 or 2022, see https://github.com/strawberrymusicplayer/strawberry-msvc
+To build on Windows with Visual Studio 2022, see https://github.com/strawberrymusicplayer/strawberry-msvc
 
 ### :penguin: Packaging status
 

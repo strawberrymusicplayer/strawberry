@@ -228,6 +228,10 @@
 #  include <qtsparkle-qt6/Updater>
 #endif  // HAVE_QTSPARKLE
 
+#ifdef HAVE_DISCORD_RPC
+  #include "discord/richpresence.h"
+#endif
+
 using std::make_unique;
 using std::make_shared;
 using namespace std::chrono_literals;
@@ -275,7 +279,13 @@ constexpr char QTSPARKLE_URL[] = "https://www.strawberrymusicplayer.org/sparkle-
 }  // namespace
 #endif  // HAVE_QTSPARKLE
 
-MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OSDBase *osd, const CommandlineOptions &options, QWidget *parent)
+MainWindow::MainWindow(Application *app,
+                       SharedPtr<SystemTrayIcon> tray_icon, OSDBase *osd,
+#ifdef HAVE_DISCORD_RPC
+                       discord::RichPresence *discord_rich_presence,
+#endif
+                       const CommandlineOptions &options,
+                       QWidget *parent)
     : QMainWindow(parent),
       ui_(new Ui_MainWindow),
 #ifdef Q_OS_WIN32
@@ -284,6 +294,9 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
       app_(app),
       tray_icon_(tray_icon),
       osd_(osd),
+#ifdef HAVE_DISCORD_RPC
+      discord_rich_presence_(discord_rich_presence),
+#endif
       console_([app, this]() {
         Console *console = new Console(app->database());
         QObject::connect(console, &Console::Error, this, &MainWindow::ShowErrorDialog);
@@ -388,6 +401,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
       was_minimized_(false),
       exit_(false),
       exit_count_(0),
+      playlists_loaded_(false),
       delete_files_(false) {
 
   qLog(Debug) << "Starting";
@@ -654,7 +668,7 @@ MainWindow::MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OS
   QObject::connect(&*app_->player(), &Player::Playing, playlist_list_, &PlaylistListContainer::ActivePlaying);
   QObject::connect(&*app_->player(), &Player::Stopped, playlist_list_, &PlaylistListContainer::ActiveStopped);
 
-  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::AllPlaylistsLoaded, &*app->player(), &Player::PlaylistsLoaded);
+  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::AllPlaylistsLoaded, this, &MainWindow::PlaylistsLoaded);
   QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, this, &MainWindow::SongChanged);
   QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, &*app_->player(), &Player::CurrentMetadataChanged);
   QObject::connect(&*app_->playlist_manager(), &PlaylistManager::EditingFinished, this, &MainWindow::PlaylistEditFinished);
@@ -1317,6 +1331,9 @@ void MainWindow::ReloadAllSettings() {
   qobuz_view_->ReloadSettings();
   qobuz_view_->search_view()->ReloadSettings();
 #endif
+#ifdef HAVE_DISCORD_RPC
+  discord_rich_presence_->ReloadSettings();
+#endif
 
 }
 
@@ -1389,6 +1406,19 @@ void MainWindow::ExitFinished() {
 
   exit_ = true;
   QCoreApplication::quit();
+
+}
+
+void MainWindow::PlaylistsLoaded() {
+
+  playlists_loaded_ = true;
+
+  if (options_.has_value()) {
+    CommandlineOptionsReceived(options_.value());
+    options_.reset();
+  }
+
+  app_->player()->PlaylistsLoaded();
 
 }
 
@@ -1516,7 +1546,7 @@ void MainWindow::SongChanged(const Song &song) {
 
   SendNowPlaying();
 
-  const bool enable_change_art = song.is_collection_song() && !song.effective_albumartist().isEmpty() && !song.album().isEmpty();
+  const bool enable_change_art = song.is_local_collection_song() && !song.effective_albumartist().isEmpty() && !song.album().isEmpty();
   album_cover_choice_controller_->show_cover_action()->setEnabled(song.has_valid_art() && !song.art_unset());
   album_cover_choice_controller_->cover_to_file_action()->setEnabled(song.has_valid_art() && !song.art_unset());
   album_cover_choice_controller_->cover_from_file_action()->setEnabled(enable_change_art);
@@ -2447,6 +2477,11 @@ void MainWindow::CommandlineOptionsReceived(const QByteArray &string_options) {
 
 void MainWindow::CommandlineOptionsReceived(const CommandlineOptions &options) {
 
+  if (!playlists_loaded_) {
+    options_ = options;
+    return;
+  }
+
   switch (options.player_action()) {
     case CommandlineOptions::PlayerAction::Play:
       if (options.urls().empty()) {
@@ -2566,10 +2601,10 @@ void MainWindow::CommandlineOptionsReceived(const CommandlineOptions &options) {
   }
 
   if (options.seek_to() != -1) {
-    app_->player()->SeekTo(options.seek_to());
+    app_->player()->SeekTo(static_cast<quint64>(options.seek_to()));
   }
   else if (options.seek_by() != 0) {
-    app_->player()->SeekTo(app_->player()->engine()->position_nanosec() / kNsecPerSec + options.seek_by());
+    app_->player()->SeekTo(static_cast<quint64>(app_->player()->engine()->position_nanosec() / kNsecPerSec + options.seek_by()));
   }
 
   if (options.play_track_at() != -1) app_->player()->PlayAt(options.play_track_at(), false, 0, EngineBase::TrackChangeType::Manual, Playlist::AutoScroll::Maybe, true);
@@ -2946,7 +2981,7 @@ void MainWindow::OpenSettingsDialog() {
 
 }
 
-void MainWindow::OpenSettingsDialogAtPage(SettingsDialog::Page page) {
+void MainWindow::OpenSettingsDialogAtPage(const SettingsDialog::Page page) {
   settings_dialog_->OpenAtPage(page);
 }
 
@@ -3197,7 +3232,7 @@ void MainWindow::AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult
 
   Q_EMIT AlbumCoverReady(song, result.album_cover.image);
 
-  const bool enable_change_art = song.is_collection_song() && !song.effective_albumartist().isEmpty() && !song.album().isEmpty();
+  const bool enable_change_art = song.is_local_collection_song() && !song.effective_albumartist().isEmpty() && !song.album().isEmpty();
   album_cover_choice_controller_->show_cover_action()->setEnabled(result.success && result.type != AlbumCoverLoaderResult::Type::Unset);
   album_cover_choice_controller_->cover_to_file_action()->setEnabled(result.success && result.type != AlbumCoverLoaderResult::Type::Unset);
   album_cover_choice_controller_->cover_from_file_action()->setEnabled(enable_change_art);

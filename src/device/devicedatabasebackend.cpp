@@ -99,7 +99,7 @@ DeviceDatabaseBackend::DeviceList DeviceDatabaseBackend::GetAllDevices() {
       dev.id_ = q.value(0).toInt();
       dev.unique_id_ = q.value(1).toString();
       dev.friendly_name_ = q.value(2).toString();
-      dev.size_ = q.value(3).toLongLong();
+      dev.size_ = q.value(3).toULongLong();
       dev.icon_name_ = q.value(4).toString();
       int schema_version = q.value(5).toInt();
       dev.transcode_mode_ = static_cast<MusicStorage::TranscodeMode>(q.value(6).toInt());

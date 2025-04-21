@@ -57,7 +57,7 @@ class NetworkProxyFactory : public QNetworkProxyFactory {
   Mode mode_;
   QNetworkProxy::ProxyType type_;
   QString hostname_;
-  int port_;
+  quint64 port_;
   bool use_authentication_;
   QString username_;
   QString password_;

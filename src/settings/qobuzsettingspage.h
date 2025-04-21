@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,6 +26,7 @@
 #include "includes/shared_ptr.h"
 #include "settings/settingspage.h"
 
+class QShowEvent;
 class QEvent;
 class SettingsDialog;
 class QobuzService;
@@ -42,6 +43,9 @@ class QobuzSettingsPage : public SettingsPage {
   void Save() override;
 
   bool eventFilter(QObject *object, QEvent *event) override;
+
+ protected:
+  void showEvent(QShowEvent *e) override;
 
  Q_SIGNALS:
   void Login(const QString &username, const QString &password, const QString &token);

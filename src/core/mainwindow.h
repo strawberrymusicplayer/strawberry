@@ -24,6 +24,8 @@
 
 #include "config.h"
 
+#include <optional>
+
 #include <QtGlobal>
 #include <QObject>
 #include <QWidget>
@@ -52,6 +54,7 @@
 #include "core/platforminterface.h"
 #include "core/song.h"
 #include "core/settings.h"
+#include "core/commandlineoptions.h"
 #include "tagreader/tagreaderclient.h"
 #include "osd/osdbase.h"
 #include "playlist/playlist.h"
@@ -99,11 +102,24 @@ class AddStreamDialog;
 class LastFMImportDialog;
 class RadioViewContainer;
 
+#ifdef HAVE_DISCORD_RPC
+namespace discord {
+class RichPresence;
+}
+#endif
+
 class MainWindow : public QMainWindow, public PlatformInterface {
   Q_OBJECT
 
  public:
-  explicit MainWindow(Application *app, SharedPtr<SystemTrayIcon> tray_icon, OSDBase *osd, const CommandlineOptions &options, QWidget *parent = nullptr);
+  explicit MainWindow(Application *app,
+                      SharedPtr<SystemTrayIcon> tray_icon,
+                      OSDBase *osd,
+#ifdef HAVE_DISCORD_RPC
+                      discord::RichPresence *discord_rich_presence,
+#endif
+                      const CommandlineOptions &options,
+                      QWidget *parent = nullptr);
   ~MainWindow() override;
 
   void SetHiddenInTray(const bool hidden);
@@ -131,6 +147,8 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void AuthorizationUrlReceived(const QUrl &url);
 
  private Q_SLOTS:
+  void PlaylistsLoaded();
+
   void FilePathChanged(const QString &path);
 
   void MediaStopped();
@@ -224,7 +242,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   SettingsDialog *CreateSettingsDialog();
   EditTagDialog *CreateEditTagDialog();
   void OpenSettingsDialog();
-  void OpenSettingsDialogAtPage(SettingsDialog::Page page);
+  void OpenSettingsDialogAtPage(const SettingsDialog::Page page);
 
   void TabSwitched();
   void ToggleSidebar(const bool checked);
@@ -296,6 +314,9 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   Application *app_;
   SharedPtr<SystemTrayIcon> tray_icon_;
   OSDBase *osd_;
+#ifdef HAVE_DISCORD_RPC
+  discord::RichPresence *discord_rich_presence_;
+#endif
   Lazy<About> about_dialog_;
   Lazy<Console> console_;
   Lazy<EditTagDialog> edit_tag_dialog_;
@@ -396,7 +417,9 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   AlbumCoverImageResult album_cover_;
   bool exit_;
   int exit_count_;
+  bool playlists_loaded_;
   bool delete_files_;
+  std::optional<CommandlineOptions> options_;
 
 };
 

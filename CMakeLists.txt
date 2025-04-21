@@ -85,7 +85,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 if(MSVC)
-  list(APPEND COMPILE_OPTIONS /MP)
+  list(APPEND COMPILE_OPTIONS -MP -W4 -wd4702)
 else()
   list(APPEND COMPILE_OPTIONS
     $<$<COMPILE_LANGUAGE:C>:-std=c11>
@@ -225,6 +225,8 @@ find_package(GTest)
 
 pkg_check_modules(LIBSPARSEHASH IMPORTED_TARGET libsparsehash)
 
+find_package(RapidJSON)
+
 set(QT_VERSION_MAJOR 6)
 set(QT_MIN_VERSION 6.4.0)
 set(QT_DEFAULT_MAJOR_VERSION ${QT_VERSION_MAJOR})
@@ -262,20 +264,7 @@ if(X11_FOUND)
   unset(CMAKE_REQUIRED_LIBRARIES)
 endif()
 
-# SingleApplication
-set(KDSINGLEAPPLICATION_NAME "KDSingleApplication-qt${QT_VERSION_MAJOR}")
-find_package(${KDSINGLEAPPLICATION_NAME} 1.1.0)
-if(TARGET KDAB::kdsingleapplication)
-  set(KDSINGLEAPPLICATION_VERSION "${KDSingleApplication-qt6_VERSION}")
-  message(STATUS "Using system KDSingleApplication (Version ${KDSINGLEAPPLICATION_VERSION})")
-  set(SINGLEAPPLICATION_LIBRARIES KDAB::kdsingleapplication)
-else()
-  message(STATUS "Using 3rdparty KDSingleApplication")
-  add_subdirectory(3rdparty/kdsingleapplication)
-  set(SINGLEAPPLICATION_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/kdsingleapplication/KDSingleApplication/src)
-  set(SINGLEAPPLICATION_LIBRARIES kdsingleapplication)
-  add_definitions(-DKDSINGLEAPPLICATION_STATIC_BUILD)
-endif()
+find_package(KDSingleApplication-qt${QT_VERSION_MAJOR} 1.1.0 REQUIRED)
 
 if(APPLE)
   find_library(SPARKLE Sparkle)
@@ -390,6 +379,10 @@ optional_component(STREAMTAGREADER ON "Stream tagreader"
   DEPENDS "sparsehash" LIBSPARSEHASH_FOUND
 )
 
+optional_component(DISCORD_RPC ON "Discord Rich Presence"
+  DEPENDS "RapidJSON" RapidJSON_FOUND
+)
+
 if(HAVE_SONGFINGERPRINTING OR HAVE_MUSICBRAINZ)
   set(HAVE_CHROMAPRINT ON)
 endif()
@@ -476,6 +469,9 @@ set(SOURCES
   src/core/songmimedata.cpp
   src/core/platforminterface.cpp
   src/core/standardpaths.cpp
+  src/core/httpbaserequest.cpp
+  src/core/jsonbaserequest.cpp
+  src/core/oauthenticator.cpp
 
   src/utilities/strutils.cpp
   src/utilities/envutils.cpp
@@ -496,6 +492,7 @@ set(SOURCES
   src/utilities/screenutils.cpp
   src/utilities/textencodingutils.cpp
   src/utilities/coveroptions.cpp
+  src/utilities/musixmatchprovider.cpp
 
   src/tagreader/tagreaderclient.cpp
   src/tagreader/tagreaderresult.cpp
@@ -605,6 +602,8 @@ set(SOURCES
   src/playlist/playlistfilter.cpp
   src/playlist/playlistheader.cpp
   src/playlist/playlistitem.cpp
+  src/playlist/songplaylistitem.cpp
+  src/playlist/streamplaylistitem.cpp
   src/playlist/playlistitemmimedata.cpp
   src/playlist/playlistlistcontainer.cpp
   src/playlist/playlistlistmodel.cpp
@@ -618,7 +617,6 @@ set(SOURCES
   src/playlist/playlistview.cpp
   src/playlist/playlistproxystyle.cpp
   src/playlist/songloaderinserter.cpp
-  src/playlist/songplaylistitem.cpp
   src/playlist/dynamicplaylistcontrols.cpp
   src/playlist/playlistundocommandbase.cpp
   src/playlist/playlistundocommandinsertitems.cpp
@@ -697,7 +695,6 @@ set(SOURCES
   src/lyrics/htmllyricsprovider.cpp
   src/lyrics/ovhlyricsprovider.cpp
   src/lyrics/lololyricsprovider.cpp
-  src/lyrics/geniuslyricsprovider.cpp
   src/lyrics/musixmatchlyricsprovider.cpp
   src/lyrics/chartlyricsprovider.cpp
   src/lyrics/songlyricscomlyricsprovider.cpp
@@ -705,8 +702,6 @@ set(SOURCES
   src/lyrics/elyricsnetlyricsprovider.cpp
   src/lyrics/letraslyricsprovider.cpp
   src/lyrics/lyricfindlyricsprovider.cpp
-
-  src/providers/musixmatchprovider.cpp
 
   src/settings/settingsdialog.cpp
   src/settings/settingspage.cpp
@@ -771,7 +766,7 @@ set(SOURCES
 
   src/streaming/streamingservices.cpp
   src/streaming/streamingservice.cpp
-  src/streaming/streamplaylistitem.cpp
+  src/streaming/streamserviceplaylistitem.cpp
   src/streaming/streamingsearchview.cpp
   src/streaming/streamingsearchmodel.cpp
   src/streaming/streamingsearchsortmodel.cpp
@@ -789,7 +784,7 @@ set(SOURCES
   src/radios/radioview.cpp
   src/radios/radioviewcontainer.cpp
   src/radios/radioservice.cpp
-  src/radios/radioplaylistitem.cpp
+  src/radios/radiostreamplaylistitem.cpp
   src/radios/radiochannel.cpp
   src/radios/somafmservice.cpp
   src/radios/radioparadiseservice.cpp
@@ -879,6 +874,9 @@ set(HEADERS
   src/core/stylesheetloader.h
   src/core/localredirectserver.h
   src/core/songmimedata.h
+  src/core/httpbaserequest.h
+  src/core/jsonbaserequest.h
+  src/core/oauthenticator.h
 
   src/tagreader/tagreaderclient.h
   src/tagreader/tagreaderreply.h
@@ -1003,7 +1001,6 @@ set(HEADERS
   src/lyrics/htmllyricsprovider.h
   src/lyrics/ovhlyricsprovider.h
   src/lyrics/lololyricsprovider.h
-  src/lyrics/geniuslyricsprovider.h
   src/lyrics/musixmatchlyricsprovider.h
   src/lyrics/chartlyricsprovider.h
   src/lyrics/songlyricscomlyricsprovider.h
@@ -1276,6 +1273,11 @@ optional_source(HAVE_STREAMTAGREADER
   HEADERS src/tagreader/tagreaderreadstreamreply.h
 )
 
+optional_source(HAVE_DISCORD_RPC
+  SOURCES src/discord/richpresence.cpp
+  HEADERS src/discord/richpresence.h
+)
+
 if(HAVE_GLOBALSHORTCUTS)
 
   optional_source(HAVE_GLOBALSHORTCUTS
@@ -1521,6 +1523,11 @@ if(LINUX AND LSB_RELEASE_EXEC AND DPKG_BUILDPACKAGE)
   add_subdirectory(debian)
 endif()
 
+if(HAVE_DISCORD_RPC)
+  add_subdirectory(3rdparty/discord-rpc)
+  target_include_directories(strawberry_lib PUBLIC 3rdparty/discord-rpc)
+endif()
+
 if(HAVE_TRANSLATIONS)
   qt_add_lupdate(strawberry_lib TS_FILES "${CMAKE_SOURCE_DIR}/src/translations/strawberry_en_US.ts" OPTIONS -locations none -no-ui-lines -no-obsolete)
   file(GLOB_RECURSE ts_files ${CMAKE_SOURCE_DIR}/src/translations/*.ts)
@@ -1580,7 +1587,7 @@ target_link_libraries(strawberry_lib PUBLIC
   $<$<BOOL:${HAVE_QTSPARKLE}>:qtsparkle-qt${QT_VERSION_MAJOR}::qtsparkle>
   $<$<BOOL:${WIN32}>:dsound dwmapi getopt-win::getopt>
   $<$<BOOL:${MSVC}>:WindowsApp>
-  ${SINGLEAPPLICATION_LIBRARIES}
+  KDAB::kdsingleapplication
 )
 
 if(APPLE)
@@ -1605,6 +1612,12 @@ target_link_libraries(strawberry PUBLIC
 )
 
 target_link_libraries(strawberry PRIVATE Qt6::Protobuf)
+
+if(HAVE_DISCORD_RPC)
+  target_link_libraries(strawberry_lib PRIVATE discord-rpc)
+endif()
+
+target_link_libraries(strawberry PUBLIC strawberry_lib)
 
 if(NOT APPLE)
   install(TARGETS strawberry RUNTIME DESTINATION bin)

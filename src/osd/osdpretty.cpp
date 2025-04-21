@@ -233,8 +233,8 @@ void OSDPretty::Load() {
 
   Settings s;
   s.beginGroup(OSDPrettySettings::kSettingsGroup);
-  foreground_color_ = QColor(s.value(OSDPrettySettings::kForegroundColor, 0).toInt());
-  background_color_ = QColor(s.value(OSDPrettySettings::kBackgroundColor, OSDPrettySettings::kPresetBlue).toInt());
+  foreground_color_ = QColor(static_cast<QRgb>(s.value(OSDPrettySettings::kForegroundColor, 0).toInt()));
+  background_color_ = QColor(static_cast<QRgb>(s.value(OSDPrettySettings::kBackgroundColor, OSDPrettySettings::kPresetBlue).toInt()));
   background_opacity_ = s.value(OSDPrettySettings::kBackgroundOpacity, 0.85).toFloat();
   font_.fromString(s.value(OSDPrettySettings::kFont, u"Verdana,9,-1,5,50,0,0,0,0,0"_s).toString());
   disable_duration_ = s.value(OSDPrettySettings::kDisableDuration, false).toBool();

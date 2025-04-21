@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2021-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@ using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr char kApiChannelsUrl[] = "https://somafm.com/channels.json";
-}
+}  // namespace
 
 SomaFMService::SomaFMService(const SharedPtr<TaskManager> task_manager, const SharedPtr<NetworkAccessManager> network, QObject *parent)
     : RadioService(Song::Source::SomaFM, u"SomaFM"_s, IconLoader::Load(u"somafm"_s), task_manager, network, parent) {}
@@ -68,9 +68,9 @@ void SomaFMService::GetChannels() {
 
   Abort();
 
-  QUrl url(QString::fromLatin1(kApiChannelsUrl));
-  QNetworkRequest req(url);
-  QNetworkReply *reply = network_->get(req);
+  const QUrl url(QString::fromLatin1(kApiChannelsUrl));
+  QNetworkRequest network_request(url);
+  QNetworkReply *reply = network_->get(network_request);
   replies_ << reply;
   const int task_id = task_manager_->StartTask(tr("Getting %1 channels").arg(name_));
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, task_id]() { GetChannelsReply(reply, task_id); });
@@ -82,7 +82,7 @@ void SomaFMService::GetChannelsReply(QNetworkReply *reply, const int task_id) {
   if (replies_.contains(reply)) replies_.removeAll(reply);
   reply->deleteLater();
 
-  QJsonObject object = ExtractJsonObj(reply);
+  const QJsonObject object = ExtractJsonObj(reply);
   if (object.isEmpty()) {
     task_manager_->SetTaskFinished(task_id);
     Q_EMIT NewChannels();
@@ -141,8 +141,8 @@ void SomaFMService::GetChannelsReply(QNetworkReply *reply, const int task_id) {
 
 void SomaFMService::GetStreamUrl(const int task_id, const RadioChannel &channel) {
 
-  QNetworkRequest req(channel.url);
-  QNetworkReply *reply = network_->get(req);
+  QNetworkRequest network_request(channel.url);
+  QNetworkReply *reply = network_->get(network_request);
   replies_ << reply;
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, task_id, channel]() { GetStreamUrlsReply(reply, task_id, channel); });
 

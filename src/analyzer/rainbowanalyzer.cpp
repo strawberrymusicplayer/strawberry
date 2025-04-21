@@ -129,7 +129,7 @@ void RainbowAnalyzer::analyze(QPainter &p, const Scope &s, const bool new_frame)
     // of band pass filters for this, so bands can leak into neighbouring bands,
     // but for now it's a series of separate square filters.
     const int samples_per_band = scope_size / kRainbowBands;
-    int sample = 0;
+    size_t sample = 0;
     for (int band = 0; band < kRainbowBands; ++band) {
       float accumulator = 0.0;
       for (int i = 0; i < samples_per_band; ++i) {

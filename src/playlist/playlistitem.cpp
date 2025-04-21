@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,30 +30,33 @@
 #include "core/sqlquery.h"
 #include "core/song.h"
 
-#include "collection/collectionplaylistitem.h"
 #include "playlistitem.h"
 #include "songplaylistitem.h"
-
-#include "streaming/streamplaylistitem.h"
-#include "radios/radioplaylistitem.h"
+#include "collection/collectionplaylistitem.h"
+#include "streaming/streamserviceplaylistitem.h"
+#include "radios/radiostreamplaylistitem.h"
 
 using std::make_shared;
 using namespace Qt::Literals::StringLiterals;
+
+PlaylistItem::PlaylistItem(const Song::Source source) : should_skip_(false), source_(source) {}
+
+PlaylistItem::~PlaylistItem() = default;
 
 PlaylistItemPtr PlaylistItem::NewFromSource(const Song::Source source) {
 
   switch (source) {
     case Song::Source::Collection:
-      return make_shared<CollectionPlaylistItem>();
+      return make_shared<CollectionPlaylistItem>(source);
     case Song::Source::Subsonic:
     case Song::Source::Tidal:
     case Song::Source::Spotify:
     case Song::Source::Qobuz:
-      return make_shared<StreamPlaylistItem>(source);
+      return make_shared<StreamServicePlaylistItem>(source);
     case Song::Source::Stream:
     case Song::Source::RadioParadise:
     case Song::Source::SomaFM:
-      return make_shared<RadioPlaylistItem>(source);
+      return make_shared<RadioStreamPlaylistItem>(source);
     case Song::Source::LocalFile:
     case Song::Source::CDDA:
     case Song::Source::Device:
@@ -74,11 +77,11 @@ PlaylistItemPtr PlaylistItem::NewFromSong(const Song &song) {
     case Song::Source::Tidal:
     case Song::Source::Spotify:
     case Song::Source::Qobuz:
-      return make_shared<StreamPlaylistItem>(song);
+      return make_shared<StreamServicePlaylistItem>(song);
     case Song::Source::Stream:
     case Song::Source::RadioParadise:
     case Song::Source::SomaFM:
-      return make_shared<RadioPlaylistItem>(song);
+      return make_shared<RadioStreamPlaylistItem>(song);
     case Song::Source::LocalFile:
     case Song::Source::CDDA:
     case Song::Source::Device:
@@ -90,12 +93,10 @@ PlaylistItemPtr PlaylistItem::NewFromSong(const Song &song) {
 
 }
 
-PlaylistItem::~PlaylistItem() = default;
-
 void PlaylistItem::BindToQuery(SqlQuery *query) const {
 
   query->BindValue(u":type"_s, static_cast<int>(source_));
-  query->BindValue(u":collection_id"_s, DatabaseValue(Column_CollectionId));
+  query->BindValue(u":collection_id"_s, DatabaseValue(DatabaseColumn::CollectionId));
 
   DatabaseSongMetadata().BindToQuery(query);
 
@@ -174,5 +175,5 @@ QColor PlaylistItem::GetCurrentForegroundColor() const {
 bool PlaylistItem::HasCurrentForegroundColor() const {
   return !foreground_colors_.isEmpty();
 }
-void PlaylistItem::SetShouldSkip(const bool val) { should_skip_ = val; }
+void PlaylistItem::SetShouldSkip(const bool should_skip) { should_skip_ = should_skip; }
 bool PlaylistItem::GetShouldSkip() const { return should_skip_; }

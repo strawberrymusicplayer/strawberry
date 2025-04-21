@@ -8,6 +8,9 @@
 #include <wrl.h>
 #include <windows.foundation.h>
 
+#pragma warning(push)
+#pragma warning(disable : 4100)
+
 // eg. TOperation   = IAsyncOperationWithProgress<UINT32, UINT32>
 // eg. THandler     = IAsyncOperationWithProgressCompletedHandler<UINT, UINT>
 template<typename TOperation, typename THandler>
@@ -83,3 +86,5 @@ template<typename TResult, typename TProgress>
 HRESULT SyncWait(_In_ ABI::Windows::Foundation::IAsyncOperationWithProgress<TResult, TProgress> *pOperation, _In_ DWORD dwMilliseconds = INFINITE) {
   return SyncWait<ABI::Windows::Foundation::IAsyncOperationWithProgress<TResult, TProgress>, ABI::Windows::Foundation::IAsyncOperationWithProgressCompletedHandler<TResult, TProgress>>(pOperation, dwMilliseconds);
 }
+
+#pragma warning(pop)

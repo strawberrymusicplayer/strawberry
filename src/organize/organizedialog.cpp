@@ -499,8 +499,8 @@ void OrganizeDialog::UpdatePreviews() {
   }
 
   // Update the free space bar
-  quint64 capacity = destination.data(MusicStorage::Role_Capacity).toLongLong();
-  quint64 free = destination.data(MusicStorage::Role_FreeSpace).toLongLong();
+  quint64 capacity = destination.data(MusicStorage::Role_Capacity).toULongLong();
+  quint64 free = destination.data(MusicStorage::Role_FreeSpace).toULongLong();
 
   if (capacity > 0) {
     ui_->free_space->show();

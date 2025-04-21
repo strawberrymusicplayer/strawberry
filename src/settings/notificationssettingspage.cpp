@@ -129,6 +129,7 @@ NotificationsSettingsPage::NotificationsSettingsPage(SettingsDialog *dialog, OSD
   ui_->notifications_exp_chooser2->setIcon(IconLoader::Load(u"list-add"_s));
 
   QObject::connect(pretty_popup_, &OSDPretty::PositionChanged, this, &NotificationsSettingsPage::PrettyOSDChanged);
+  QObject::connect(ui_->richpresence_enabled, &QCheckBox::toggled, this, &NotificationsSettingsPage::DiscordRPCChanged);
 
 }
 
@@ -205,6 +206,11 @@ void NotificationsSettingsPage::Load() {
 
   ui_->notifications_fading->setChecked(pretty_popup_->fading());
 
+  // Discord
+  s.beginGroup(DiscordRPCSettings::kSettingsGroup);
+  ui_->richpresence_enabled->setChecked(s.value(DiscordRPCSettings::kEnabled, false).toBool());
+  s.endGroup();
+
   UpdatePopupVisible();
 
   Init(ui_->layout_notificationssettingspage->parentWidget());
@@ -247,6 +253,9 @@ void NotificationsSettingsPage::Save() {
   s.setValue(OSDPrettySettings::kFading, ui_->notifications_fading->isChecked());
   s.endGroup();
 
+  s.beginGroup(DiscordRPCSettings::kSettingsGroup);
+  s.setValue(DiscordRPCSettings::kEnabled, ui_->richpresence_enabled->isChecked());
+  s.endGroup();
 }
 
 void NotificationsSettingsPage::PrettyOpacityChanged(int value) {
@@ -383,5 +392,9 @@ void NotificationsSettingsPage::NotificationTypeChanged() {
 }
 
 void NotificationsSettingsPage::PrettyOSDChanged() {
+  set_changed();
+}
+
+void NotificationsSettingsPage::DiscordRPCChanged() {
   set_changed();
 }

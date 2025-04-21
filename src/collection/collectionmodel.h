@@ -155,7 +155,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   int total_artist_count() const { return total_artist_count_; }
   int total_album_count() const { return total_album_count_; }
 
-  quint64 icon_disk_cache_size() { return icon_disk_cache_->cacheSize(); }
+  quint64 icon_disk_cache_size() { return static_cast<quint64>(icon_disk_cache_->cacheSize()); }
 
   const CollectionModel::Grouping GetGroupBy() const { return options_current_.group_by; }
   void SetGroupBy(const CollectionModel::Grouping g, const std::optional<bool> separate_albums_by_grouping = std::optional<bool>());

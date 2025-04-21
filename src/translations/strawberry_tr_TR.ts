@@ -2860,7 +2860,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     <name>GstEngine</name>
     <message>
       <source>Buffering</source>
-      <translation type="unfinished">Buffering</translation>
+      <translation>Yükleniyor</translation>
     </message>
   </context>
   <context>
@@ -2874,11 +2874,11 @@ If there are no matches then it will use the largest image in the directory.</tr
     <name>LastFMImportDialog</name>
     <message>
       <source>Import data from last.fm</source>
-      <translation>Last.fm'den veri içeri aktar</translation>
+      <translation>Last.fm'den veri içe aktar</translation>
     </message>
     <message>
       <source>Choose data to import from last.fm</source>
-      <translation>Last.fm'den içeri aktarmak için veri seçin</translation>
+      <translation>Last.fm'den içe aktarmak için veri seçin</translation>
     </message>
     <message>
       <source>Last played</source>
@@ -3336,7 +3336,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Import data from last.fm...</source>
-      <translation>Last.fm'den veri içeri aktar</translation>
+      <translation>Last.fm'den veri içe aktar...</translation>
     </message>
     <message>
       <source>Context</source>

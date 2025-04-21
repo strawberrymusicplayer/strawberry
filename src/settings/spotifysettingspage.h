@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2022-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2022-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@
 #include "settings/settingspage.h"
 
 class QEvent;
+class QShowEvent;
 class SpotifyService;
 class SettingsDialog;
 class Ui_SpotifySettingsPage;
@@ -44,6 +45,9 @@ class SpotifySettingsPage : public SettingsPage {
   void Save() override;
 
   bool eventFilter(QObject *object, QEvent *event) override;
+
+ protected:
+  void showEvent(QShowEvent *e) override;
 
  Q_SIGNALS:
   void Authorize();

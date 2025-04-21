@@ -368,6 +368,22 @@
     </widget>
    </item>
    <item>
+    <widget class="QGroupBox" name="groupbox_discord">
+     <property name="title">
+      <string>Discord</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <widget class="QCheckBox" name="richpresence_enabled">
+        <property name="text">
+         <string>Enable Rich Presence</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
     <spacer name="spacer_bottom">
      <property name="orientation">
       <enum>Qt::Orientation::Vertical</enum>

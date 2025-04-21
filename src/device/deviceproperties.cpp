@@ -184,11 +184,11 @@ void DeviceProperties::UpdateHardwareInfo() {
   }
 
   // Size
-  quint64 total = index_.data(DeviceManager::Role_Capacity).toLongLong();
+  quint64 total = index_.data(DeviceManager::Role_Capacity).toULongLong();
 
   QVariant free_var = index_.data(DeviceManager::Role_FreeSpace);
   if (free_var.isValid()) {
-    quint64 free = free_var.toLongLong();
+    quint64 free = free_var.toULongLong();
 
     ui_->free_space_bar->set_total_bytes(total);
     ui_->free_space_bar->set_free_bytes(free);

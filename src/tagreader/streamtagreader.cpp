@@ -75,15 +75,15 @@ TagLib::ByteVector StreamTagReader::readBlock(const TagLibLengthType length) {
     return cached;
   }
 
-  QNetworkRequest request(url_);
+  QNetworkRequest network_request(url_);
   if (!token_type_.isEmpty() && !access_token_.isEmpty()) {
-    request.setRawHeader("Authorization", token_type_.toUtf8() + " " + access_token_.toUtf8());
+    network_request.setRawHeader("Authorization", token_type_.toUtf8() + " " + access_token_.toUtf8());
   }
-  request.setRawHeader("Range", QStringLiteral("bytes=%1-%2").arg(start).arg(end).toUtf8());
-  request.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::AlwaysNetwork);
-  request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+  network_request.setRawHeader("Range", QStringLiteral("bytes=%1-%2").arg(start).arg(end).toUtf8());
+  network_request.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::AlwaysNetwork);
+  network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
 
-  QNetworkReply *reply = network_->get(request);
+  QNetworkReply *reply = network_->get(network_request);
   ++num_requests_;
 
   QEventLoop event_loop;
@@ -136,7 +136,7 @@ void StreamTagReader::seek(const TagLibOffsetType offset, const TagLib::IOStream
 
   switch (position) {
     case TagLib::IOStream::Beginning:
-      cursor_ = offset;
+      cursor_ = static_cast<TagLibLengthType>(offset);
       break;
 
     case TagLib::IOStream::Current:

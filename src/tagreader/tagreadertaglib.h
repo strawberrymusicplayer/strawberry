@@ -102,7 +102,8 @@ class TagReaderTagLib : public TagReaderBase {
   void SetAsfAttribute(TagLib::ASF::Tag *tag, const char *attribute, const QString &value) const;
   void SetAsfAttribute(TagLib::ASF::Tag *tag, const char *attribute, const int value) const;
 
-  QByteArray LoadEmbeddedAPECover(const TagLib::APE::ItemListMap &map) const;
+  QByteArray LoadEmbeddedCover(TagLib::ID3v2::Tag *tag) const;
+  QByteArray LoadEmbeddedCover(TagLib::APE::Tag *tag) const;
 
   static TagLib::ID3v2::PopularimeterFrame *GetPOPMFrameFromTag(TagLib::ID3v2::Tag *tag);
 

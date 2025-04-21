@@ -24,6 +24,8 @@
 
 #include "config.h"
 
+#include <optional>
+
 #include <glib.h>
 #include <glib-object.h>
 #include <glib/gtypes.h>
@@ -63,6 +65,7 @@ class GstEnginePipeline : public QObject {
 
   // Call these setters before Init
   void set_output_device(const QString &output, const QVariant &device);
+  void set_playbin3_enabled(const bool playbin3_enabled);
   void set_exclusive_mode(const bool exclusive_mode);
   void set_volume_enabled(const bool enabled);
   void set_stereo_balancer_enabled(const bool enabled);
@@ -214,6 +217,11 @@ class GstEnginePipeline : public QObject {
 
   QThreadPool set_state_threadpool_;
 
+  bool playbin3_support_;
+  bool volume_full_range_support_;
+
+  bool playbin3_enabled_;
+
   // General settings for the pipeline
   QString output_;
   QVariant device_;
@@ -356,15 +364,15 @@ class GstEnginePipeline : public QObject {
   GstElement *equalizer_preamp_;
   GstElement *eventprobe_;
 
-  gulong upstream_events_probe_cb_id_;
-  gulong buffer_probe_cb_id_;
-  gulong pad_probe_cb_id_;
-  glong element_added_cb_id_;
-  glong element_removed_cb_id_;
-  glong pad_added_cb_id_;
-  glong notify_source_cb_id_;
-  glong about_to_finish_cb_id_;
-  glong notify_volume_cb_id_;
+  std::optional<gulong> upstream_events_probe_cb_id_;
+  std::optional<gulong> buffer_probe_cb_id_;
+  std::optional<gulong> pad_probe_cb_id_;
+  std::optional<gulong> element_added_cb_id_;
+  std::optional<gulong> element_removed_cb_id_;
+  std::optional<gulong> pad_added_cb_id_;
+  std::optional<gulong> notify_source_cb_id_;
+  std::optional<gulong> about_to_finish_cb_id_;
+  std::optional<gulong> notify_volume_cb_id_;
 
   bool logged_unsupported_analyzer_format_;
   mutex_protected<bool> about_to_finish_;

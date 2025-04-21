@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2020-2022, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2021-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,19 +17,23 @@
  *
  */
 
-#ifndef MUSIXMATCHPROVIDER_H
-#define MUSIXMATCHPROVIDER_H
+#ifndef RADIOSTREAMPLAYLISTITEM_H
+#define RADIOSTREAMPLAYLISTITEM_H
 
-#include <QString>
+#include "includes/shared_ptr.h"
+#include "core/song.h"
+#include "playlist/streamplaylistitem.h"
 
-class MusixmatchProvider {
+class RadioService;
 
- protected:
-  static QString StringFixup(QString text);
+class RadioStreamPlaylistItem : public StreamPlaylistItem {
+ public:
+  explicit RadioStreamPlaylistItem(const Song &song);
+  explicit RadioStreamPlaylistItem(const SharedPtr<RadioService> service, const Song &song);
+  Q_DISABLE_COPY(RadioStreamPlaylistItem)
 
- protected:
-  static const char *kApiUrl;
-  static const char *kApiKey;
+ private:
+  const SharedPtr<RadioService> service_;
 };
 
-#endif  // MUSIXMATCHPROVIDER_H
+#endif  // RADIOSTREAMPLAYLISTITEM_H

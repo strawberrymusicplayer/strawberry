@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2023, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,15 +22,11 @@
 
 #include "config.h"
 
-#include <QtGlobal>
-#include <QObject>
-#include <QList>
 #include <QVariant>
 #include <QByteArray>
 #include <QString>
 #include <QUrl>
 #include <QJsonDocument>
-#include <QTimer>
 
 #include "includes/shared_ptr.h"
 #include "core/song.h"
@@ -38,43 +34,40 @@
 #include "scrobblercache.h"
 #include "scrobblemetadata.h"
 
+class QTimer;
 class QNetworkReply;
 
 class ScrobblerSettingsService;
 class NetworkAccessManager;
-class LocalRedirectServer;
+class OAuthenticator;
 
 class ListenBrainzScrobbler : public ScrobblerService {
   Q_OBJECT
 
  public:
   explicit ListenBrainzScrobbler(const SharedPtr<ScrobblerSettingsService> settings, const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
-  ~ListenBrainzScrobbler() override;
 
   static const char *kName;
   static const char *kSettingsGroup;
 
   void ReloadSettings() override;
-  void LoadSession();
 
   bool enabled() const override { return enabled_; }
-  bool authenticated() const override { return !access_token_.isEmpty() && !user_token_.isEmpty(); }
+  bool authentication_required() const override { return true; }
+  bool authenticated() const override;
+  bool use_authorization_header() const override { return true; }
+  QByteArray authorization_header() const override { return "Token " + user_token_.toUtf8(); }
   bool submitted() const override { return submitted_; }
   QString user_token() const { return user_token_; }
 
   void Authenticate();
+  void Deauthenticate();
   void Logout();
   void Submit() override;
   void UpdateNowPlaying(const Song &song) override;
   void ClearPlaying() override;
   void Scrobble(const Song &song) override;
   void Love() override;
-
-  enum class ReplyResult {
-    Success,
-    ServerError,
-    APIError
-  };
 
  Q_SIGNALS:
   void AuthenticationComplete(const bool success, const QString &error = QString());
@@ -83,44 +76,32 @@ class ListenBrainzScrobbler : public ScrobblerService {
   void WriteCache() override { cache_->WriteCache(); }
 
  private Q_SLOTS:
-  void RedirectArrived();
-  void AuthenticateReplyFinished(QNetworkReply *reply);
-  void RequestNewAccessToken() { RequestAccessToken(); }
+  void OAuthFinished(const bool success, const QString &error);
   void UpdateNowPlayingRequestFinished(QNetworkReply *reply);
   void ScrobbleRequestFinished(QNetworkReply *reply, ScrobblerCacheItemPtrList cache_items);
   void LoveRequestFinished(QNetworkReply *reply);
 
  private:
-  QNetworkReply *CreateRequest(const QUrl &url, const QJsonDocument &json_doc);
-  ReplyResult GetJsonObject(QNetworkReply *reply, QJsonObject &json_obj, QString &error_description);
+  QNetworkReply *CreateRequest(const QUrl &url, const QJsonDocument &json_document);
   QJsonObject JsonTrackMetadata(const ScrobbleMetadata &metadata) const;
-  void AuthError(const QString &error);
-  void Error(const QString &error, const QVariant &debug = QVariant());
-  void RequestAccessToken(const QUrl &redirect_url = QUrl(), const QString &code = QString());
+  JsonObjectResult ParseJsonObject(QNetworkReply *reply);
+  void Error(const QString &error_message, const QVariant &debug_output = QVariant()) override;
   void StartSubmit(const bool initial = false) override;
   void CheckScrobblePrevSong();
 
   const SharedPtr<NetworkAccessManager> network_;
+  OAuthenticator *oauth_;
   ScrobblerCache *cache_;
-  LocalRedirectServer *server_;
+  QTimer *timer_submit_;
   bool enabled_;
   QString user_token_;
-  QString access_token_;
-  qint64 expires_in_;
-  QString token_type_;
-  QString refresh_token_;
-  quint64 login_time_;
   bool submitted_;
   Song song_playing_;
   bool scrobbled_;
   quint64 timestamp_;
-  QTimer refresh_login_timer_;
-  QTimer timer_submit_;
   bool submit_error_;
 
   bool prefer_albumartist_;
-
-  QList<QNetworkReply*> replies_;
 };
 
 #endif  // LISTENBRAINZSCROBBLER_H

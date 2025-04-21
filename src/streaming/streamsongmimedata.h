@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2011, David Sansome <me@davidsansome.com>
- * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,9 +32,9 @@ class StreamSongMimeData : public MimeData {
   Q_OBJECT
 
  public:
-  explicit StreamSongMimeData(SharedPtr<StreamingService> _service, QObject *parent = nullptr);
+  explicit StreamSongMimeData(const SharedPtr<StreamingService> _service, QObject *parent = nullptr);
 
-  SharedPtr<StreamingService> service;
+  const SharedPtr<StreamingService> service;
   SongList songs;
 };
 

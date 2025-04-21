@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -203,7 +203,7 @@ class Playlist : public QAbstractListModel {
   PlaylistItem::Options current_item_options() const;
   Song current_item_metadata() const;
 
-  PlaylistItemPtrList collection_items_by_id(const int id) const;
+  PlaylistItemPtrList collection_items(const Song::Source source, const int song_id) const;
 
   SongList GetAllSongs() const;
   PlaylistItemPtrList GetAllItems() const;
@@ -357,6 +357,8 @@ class Playlist : public QAbstractListModel {
   // Grays out and reloads all deleted songs in all playlists. Also, "ungreys" those songs which were once deleted but now got restored somehow.
   void InvalidateDeletedSongs();
 
+  void ClearCollectionItems();
+
  private Q_SLOTS:
   void TracksAboutToBeDequeued(const QModelIndex&, const int begin, const int end);
   void TracksDequeued();
@@ -393,8 +395,7 @@ class Playlist : public QAbstractListModel {
 
   QList<QPersistentModelIndex> played_indexes_;
 
-  // A map of collection ID to playlist item - for fast lookups when collection items change.
-  QMultiMap<int, PlaylistItemPtr> collection_items_by_id_;
+  QMultiMap<int, PlaylistItemPtr> collection_items_[Song::kSourceCount];
 
   QPersistentModelIndex current_item_index_;
   QPersistentModelIndex last_played_item_index_;

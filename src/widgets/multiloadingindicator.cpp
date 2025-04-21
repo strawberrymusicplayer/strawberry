@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -45,7 +46,8 @@ constexpr int kSpacing = 6;
 MultiLoadingIndicator::MultiLoadingIndicator(QWidget *parent)
     : QWidget(parent),
       task_manager_(nullptr),
-      spinner_(new BusyIndicator(this)) {
+      spinner_(new BusyIndicator(this)),
+      task_count_(-1) {
 
   spinner_->move(kHorizontalPadding, kVerticalPadding);
   setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Fixed);
@@ -75,7 +77,7 @@ void MultiLoadingIndicator::UpdateText() {
   QStringList strings;
   strings.reserve(tasks.count());
   for (const TaskManager::Task &task : tasks) {
-    QString task_text(task.name);
+    QString task_text = task.name;
     task_text[0] = task_text[0].toLower();
 
     if (task.progress_max > 0) {
@@ -92,7 +94,11 @@ void MultiLoadingIndicator::UpdateText() {
     text_ += "..."_L1;
   }
 
-  Q_EMIT TaskCountChange(static_cast<int>(tasks.count()));
+  if (task_count_ != tasks.count()) {
+    task_count_ = tasks.count();
+    Q_EMIT TaskCountChange(static_cast<int>(tasks.count()));
+  }
+
   update();
   updateGeometry();
 

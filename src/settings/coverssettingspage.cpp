@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2020-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2020-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -89,6 +89,14 @@ CoversSettingsPage::CoversSettingsPage(SettingsDialog *dialog, const SharedPtr<C
 
 CoversSettingsPage::~CoversSettingsPage() { delete ui_; }
 
+void CoversSettingsPage::showEvent(QShowEvent *e) {
+
+  ProvidersCurrentItemChanged(ui_->providers->currentItem(), nullptr);
+
+  SettingsPage::showEvent(e);
+
+}
+
 void CoversSettingsPage::Load() {
 
   ui_->providers->clear();
@@ -99,8 +107,8 @@ void CoversSettingsPage::Load() {
   for (CoverProvider *provider : std::as_const(cover_providers_sorted)) {
     QListWidgetItem *item = new QListWidgetItem(ui_->providers);
     item->setText(provider->name());
-    item->setCheckState(provider->is_enabled() ? Qt::Checked : Qt::Unchecked);
-    item->setForeground(provider->is_enabled() ? palette().color(QPalette::Active, QPalette::Text) : palette().color(QPalette::Disabled, QPalette::Text));
+    item->setCheckState(provider->enabled() ? Qt::Checked : Qt::Unchecked);
+    item->setForeground(provider->enabled() ? palette().color(QPalette::Active, QPalette::Text) : palette().color(QPalette::Disabled, QPalette::Text));
   }
 
   Settings s;
@@ -206,7 +214,7 @@ void CoversSettingsPage::ProvidersCurrentItemChanged(QListWidgetItem *item_curre
 
   if (item_previous) {
     CoverProvider *provider = cover_providers_->ProviderByName(item_previous->text());
-    if (provider && provider->AuthenticationRequired()) DisconnectAuthentication(provider);
+    if (provider && provider->authentication_required()) DisconnectAuthentication(provider);
   }
 
   if (item_current) {
@@ -215,21 +223,21 @@ void CoversSettingsPage::ProvidersCurrentItemChanged(QListWidgetItem *item_curre
     ui_->providers_down->setEnabled(row != ui_->providers->count() - 1);
     CoverProvider *provider = cover_providers_->ProviderByName(item_current->text());
     if (provider) {
-      if (provider->AuthenticationRequired()) {
-        if (provider->name() == "Tidal"_L1 && !provider->IsAuthenticated()) {
+      if (provider->authentication_required()) {
+        if (provider->name() == "Tidal"_L1 && !provider->authenticated()) {
           DisableAuthentication();
           ui_->label_auth_info->setText(tr("Use Tidal settings to authenticate."));
         }
-        else if (provider->name() == "Spotify"_L1 && !provider->IsAuthenticated()) {
+        else if (provider->name() == "Spotify"_L1 && !provider->authenticated()) {
           DisableAuthentication();
           ui_->label_auth_info->setText(tr("Use Spotify settings to authenticate."));
         }
-        else if (provider->name() == "Qobuz"_L1 && !provider->IsAuthenticated()) {
+        else if (provider->name() == "Qobuz"_L1 && !provider->authenticated()) {
           DisableAuthentication();
           ui_->label_auth_info->setText(tr("Use Qobuz settings to authenticate."));
         }
         else {
-          ui_->login_state->SetLoggedIn(provider->IsAuthenticated() ? LoginStateWidget::State::LoggedIn : LoginStateWidget::State::LoggedOut);
+          ui_->login_state->SetLoggedIn(provider->authenticated() ? LoginStateWidget::State::LoggedIn : LoginStateWidget::State::LoggedOut);
           ui_->button_authenticate->setEnabled(true);
           ui_->button_authenticate->show();
           ui_->login_state->show();
@@ -331,7 +339,7 @@ void CoversSettingsPage::LogoutClicked() {
   if (!ui_->providers->currentItem()) return;
   CoverProvider *provider = cover_providers_->ProviderByName(ui_->providers->currentItem()->text());
   if (!provider) return;
-  provider->Deauthenticate();
+  provider->ClearSession();
 
   if (provider->name() == "Tidal"_L1) {
     DisableAuthentication();
@@ -365,7 +373,7 @@ void CoversSettingsPage::AuthenticationSuccess() {
 
 }
 
-void CoversSettingsPage::AuthenticationFailure(const QStringList &errors) {
+void CoversSettingsPage::AuthenticationFailure(const QString &error) {
 
   CoverProvider *provider = qobject_cast<CoverProvider*>(sender());
   if (!provider) return;
@@ -373,7 +381,7 @@ void CoversSettingsPage::AuthenticationFailure(const QStringList &errors) {
 
   if (!isVisible() || !ui_->providers->currentItem() || ui_->providers->currentItem()->text() != provider->name()) return;
 
-  QMessageBox::warning(this, tr("Authentication failed"), errors.join(u'\n'));
+  QMessageBox::warning(this, tr("Authentication failed"), error);
 
   ui_->login_state->SetLoggedIn(LoginStateWidget::State::LoggedOut);
   ui_->button_authenticate->setEnabled(true);

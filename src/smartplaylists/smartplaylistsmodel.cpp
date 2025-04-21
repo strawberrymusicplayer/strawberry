@@ -285,8 +285,6 @@ QVariant SmartPlaylistsModel::data(const QModelIndex &idx, const int role) const
       return QVariant();
   }
 
-  return QVariant();
-
 }
 
 QStringList SmartPlaylistsModel::mimeTypes() const {

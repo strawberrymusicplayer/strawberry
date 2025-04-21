@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,10 +19,8 @@
 
 #include "config.h"
 
-#include <utility>
 #include <memory>
 
-#include <QObject>
 #include <QByteArray>
 #include <QPair>
 #include <QList>
@@ -37,6 +35,7 @@
 #include <QJsonObject>
 #include <QSettings>
 #include <QSslError>
+#include <QScopedPointer>
 
 #include "includes/shared_ptr.h"
 #include "core/logging.h"
@@ -104,7 +103,7 @@ QobuzService::QobuzService(const SharedPtr<TaskManager> task_manager,
       credential_id_(-1),
       pending_search_id_(0),
       next_pending_search_id_(1),
-      pending_search_type_(StreamingSearchView::SearchType::Artists),
+      pending_search_type_(SearchType::Artists),
       search_id_(0),
       login_sent_(false),
       login_attempts_(0),
@@ -173,7 +172,7 @@ QobuzService::~QobuzService() {
   }
 
   while (!stream_url_requests_.isEmpty()) {
-    SharedPtr<QobuzStreamURLRequest> stream_url_req = stream_url_requests_.take(stream_url_requests_.firstKey());
+    QSharedPointer<QobuzStreamURLRequest> stream_url_req = stream_url_requests_.take(stream_url_requests_.firstKey());
     QObject::disconnect(&*stream_url_req, nullptr, this, nullptr);
   }
 
@@ -218,7 +217,7 @@ void QobuzService::ReloadSettings() {
   const bool base64_secret = s.value(QobuzSettings::kBase64Secret, false).toBool();;
 
   username_ = s.value(QobuzSettings::kUsername).toString();
-  QByteArray password = s.value(QobuzSettings::kPassword).toByteArray();
+  const QByteArray password = s.value(QobuzSettings::kPassword).toByteArray();
   if (password.isEmpty()) password_.clear();
   else password_ = QString::fromUtf8(QByteArray::fromBase64(password));
 
@@ -249,7 +248,7 @@ QString QobuzService::DecodeAppSecret(const QString &app_secret_base64) const {
 
   for (int x = 0, y = 0; x < app_secret_binary.length(); ++x , ++y) {
     if (y == appid.length()) y = 0;
-    const uint rc = app_secret_binary[x] ^ appid[y];
+    const uint rc = static_cast<uint>(app_secret_binary[x] ^ appid[y]);
     if (rc > 0xFFFF) {
       return app_secret_base64;
     }
@@ -267,7 +266,6 @@ void QobuzService::SendLogin() {
 void QobuzService::SendLoginWithCredentials(const QString &app_id, const QString &username, const QString &password) {
 
   Q_EMIT UpdateStatus(tr("Authenticating..."));
-  login_errors_.clear();
 
   login_sent_ = true;
   ++login_attempts_;
@@ -285,14 +283,13 @@ void QobuzService::SendLoginWithCredentials(const QString &app_id, const QString
     url_query.addQueryItem(QString::fromLatin1(QUrl::toPercentEncoding(param.first)), QString::fromLatin1(QUrl::toPercentEncoding(param.second)));
   }
 
-  QUrl url(QString::fromLatin1(kAuthUrl));
-  QNetworkRequest req(url);
-  req.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+  const QUrl url(QString::fromLatin1(kAuthUrl));
+  QNetworkRequest network_request(url);
+  network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+  network_request.setHeader(QNetworkRequest::ContentTypeHeader, u"application/x-www-form-urlencoded"_s);
 
-  req.setHeader(QNetworkRequest::ContentTypeHeader, u"application/x-www-form-urlencoded"_s);
-
-  QByteArray query = url_query.toString(QUrl::FullyEncoded).toUtf8();
-  QNetworkReply *reply = network_->post(req, query);
+  const QByteArray query = url_query.toString(QUrl::FullyEncoded).toUtf8();
+  QNetworkReply *reply = network_->post(network_request, query);
   replies_ << reply;
   QObject::connect(reply, &QNetworkReply::sslErrors, this, &QobuzService::HandleLoginSSLErrors);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() { HandleAuthReply(reply); });
@@ -304,7 +301,7 @@ void QobuzService::SendLoginWithCredentials(const QString &app_id, const QString
 void QobuzService::HandleLoginSSLErrors(const QList<QSslError> &ssl_errors) {
 
   for (const QSslError &ssl_error : ssl_errors) {
-    login_errors_ += ssl_error.errorString();
+    qLog(Debug) << "Qobuz" << ssl_error.errorString();
   }
 
 }
@@ -321,115 +318,111 @@ void QobuzService::HandleAuthReply(QNetworkReply *reply) {
       LoginError(QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
       return;
     }
-    else {
-      // See if there is Json data containing "status", "code" and "message" - then use that instead.
-      QByteArray data(reply->readAll());
-      QJsonParseError json_error;
-      QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
-      if (json_error.error == QJsonParseError::NoError && !json_doc.isEmpty() && json_doc.isObject()) {
-        QJsonObject json_obj = json_doc.object();
-        if (!json_obj.isEmpty() && json_obj.contains("status"_L1) && json_obj.contains("code"_L1) && json_obj.contains("message"_L1)) {
-          int code = json_obj["code"_L1].toInt();
-          QString message = json_obj["message"_L1].toString();
-          login_errors_ << QStringLiteral("%1 (%2)").arg(message).arg(code);
-        }
+    // See if there is Json data containing "status", "code" and "message" - then use that instead.
+    const QByteArray data = reply->readAll();
+    QString error_message;
+    QJsonParseError json_error;
+    const QJsonDocument json_document = QJsonDocument::fromJson(data, &json_error);
+    if (json_error.error == QJsonParseError::NoError && !json_document.isEmpty() && json_document.isObject()) {
+      const QJsonObject json_object = json_document.object();
+      if (!json_object.isEmpty() && json_object.contains("status"_L1) && json_object.contains("code"_L1) && json_object.contains("message"_L1)) {
+        const int code = json_object["code"_L1].toInt();
+        const QString message = json_object["message"_L1].toString();
+        error_message = QStringLiteral("%1 (%2)").arg(message).arg(code);
       }
-      if (login_errors_.isEmpty()) {
-        if (reply->error() != QNetworkReply::NoError) {
-          login_errors_ << QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error());
-        }
-        else {
-          login_errors_ << QStringLiteral("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
-        }
-      }
-      LoginError();
-      return;
     }
+    if (error_message.isEmpty()) {
+      if (reply->error() != QNetworkReply::NoError) {
+        error_message = QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+      }
+      else {
+        error_message = QStringLiteral("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
+      }
+    }
+    LoginError(error_message);
+    return;
   }
-
-  login_errors_.clear();
 
   const QByteArray data = reply->readAll();
   QJsonParseError json_error;
-  QJsonDocument json_doc = QJsonDocument::fromJson(data, &json_error);
-
+  const QJsonDocument json_document = QJsonDocument::fromJson(data, &json_error);
   if (json_error.error != QJsonParseError::NoError) {
     LoginError(u"Authentication reply from server missing Json data."_s);
     return;
   }
 
-  if (json_doc.isEmpty()) {
+  if (json_document.isEmpty()) {
     LoginError(u"Authentication reply from server has empty Json document."_s);
     return;
   }
 
-  if (!json_doc.isObject()) {
-    LoginError(u"Authentication reply from server has Json document that is not an object."_s, json_doc);
+  if (!json_document.isObject()) {
+    LoginError(u"Authentication reply from server has Json document that is not an object."_s, json_document);
     return;
   }
 
-  QJsonObject json_obj = json_doc.object();
-  if (json_obj.isEmpty()) {
-    LoginError(u"Authentication reply from server has empty Json object."_s, json_doc);
+  const QJsonObject json_object = json_document.object();
+  if (json_object.isEmpty()) {
+    LoginError(u"Authentication reply from server has empty Json object."_s, json_document);
     return;
   }
 
-  if (!json_obj.contains("user_auth_token"_L1)) {
-    LoginError(u"Authentication reply from server is missing user_auth_token"_s, json_obj);
+  if (!json_object.contains("user_auth_token"_L1)) {
+    LoginError(u"Authentication reply from server is missing user_auth_token"_s, json_object);
     return;
   }
-  user_auth_token_ = json_obj["user_auth_token"_L1].toString();
+  user_auth_token_ = json_object["user_auth_token"_L1].toString();
 
-  if (!json_obj.contains("user"_L1)) {
-    LoginError(u"Authentication reply from server is missing user"_s, json_obj);
+  if (!json_object.contains("user"_L1)) {
+    LoginError(u"Authentication reply from server is missing user"_s, json_object);
     return;
   }
-  QJsonValue value_user = json_obj["user"_L1];
+  const QJsonValue value_user = json_object["user"_L1];
   if (!value_user.isObject()) {
-    LoginError(u"Authentication reply user is not a object"_s, json_obj);
+    LoginError(u"Authentication reply user is not a object"_s, json_object);
     return;
   }
-  QJsonObject obj_user = value_user.toObject();
+  const QJsonObject object_user = value_user.toObject();
 
-  if (!obj_user.contains("id"_L1)) {
-    LoginError(u"Authentication reply from server is missing user id"_s, obj_user);
+  if (!object_user.contains("id"_L1)) {
+    LoginError(u"Authentication reply from server is missing user id"_s, object_user);
     return;
   }
-  user_id_ = obj_user["id"_L1].toInt();
+  user_id_ = object_user["id"_L1].toInt();
 
-  if (!obj_user.contains("device"_L1)) {
-    LoginError(u"Authentication reply from server is missing user device"_s, obj_user);
+  if (!object_user.contains("device"_L1)) {
+    LoginError(u"Authentication reply from server is missing user device"_s, object_user);
     return;
   }
-  QJsonValue value_device = obj_user["device"_L1];
+  const QJsonValue value_device = object_user["device"_L1];
   if (!value_device.isObject()) {
     LoginError(u"Authentication reply from server user device is not a object"_s, value_device);
     return;
   }
-  QJsonObject obj_device = value_device.toObject();
+  const QJsonObject object_device = value_device.toObject();
 
-  if (!obj_device.contains("device_manufacturer_id"_L1)) {
-    LoginError(u"Authentication reply from server device is missing device_manufacturer_id"_s, obj_device);
+  if (!object_device.contains("device_manufacturer_id"_L1)) {
+    LoginError(u"Authentication reply from server device is missing device_manufacturer_id"_s, object_device);
     return;
   }
-  device_id_ = obj_device["device_manufacturer_id"_L1].toString();
+  device_id_ = object_device["device_manufacturer_id"_L1].toString();
 
-  if (!obj_user.contains("credential"_L1)) {
-    LoginError(u"Authentication reply from server is missing user credential"_s, obj_user);
+  if (!object_user.contains("credential"_L1)) {
+    LoginError(u"Authentication reply from server is missing user credential"_s, object_user);
     return;
   }
-  QJsonValue value_credential = obj_user["credential"_L1];
+  const QJsonValue value_credential = object_user["credential"_L1];
   if (!value_credential.isObject()) {
     LoginError(u"Authentication reply from serve userr credential is not a object"_s, value_device);
     return;
   }
-  QJsonObject obj_credential = value_credential.toObject();
+  const QJsonObject object_credential = value_credential.toObject();
 
-  if (!obj_credential.contains("id"_L1)) {
-    LoginError(u"Authentication reply user credential from server is missing user credential id"_s, obj_credential);
+  if (!object_credential.contains("id"_L1)) {
+    LoginError(u"Authentication reply user credential from server is missing user credential id"_s, object_credential);
     return;
   }
-  credential_id_ = obj_credential["id"_L1].toInt();
+  credential_id_ = object_credential["id"_L1].toInt();
 
   Settings s;
   s.beginGroup(QobuzSettings::kSettingsGroup);
@@ -444,12 +437,12 @@ void QobuzService::HandleAuthReply(QNetworkReply *reply) {
   login_attempts_ = 0;
   if (timer_login_attempt_->isActive()) timer_login_attempt_->stop();
 
-  Q_EMIT LoginComplete(true);
+  Q_EMIT LoginFinished(true);
   Q_EMIT LoginSuccess();
 
 }
 
-void QobuzService::Logout() {
+void QobuzService::ClearSession() {
 
   user_auth_token_.clear();
   device_id_.clear();
@@ -475,19 +468,19 @@ void QobuzService::TryLogin() {
   if (authenticated() || login_sent_) return;
 
   if (login_attempts_ >= kLoginAttempts) {
-    Q_EMIT LoginComplete(false, tr("Maximum number of login attempts reached."));
+    Q_EMIT LoginFinished(false, tr("Maximum number of login attempts reached."));
     return;
   }
   if (app_id_.isEmpty()) {
-    Q_EMIT LoginComplete(false, tr("Missing Qobuz app ID."));
+    Q_EMIT LoginFinished(false, tr("Missing Qobuz app ID."));
     return;
   }
   if (username_.isEmpty()) {
-    Q_EMIT LoginComplete(false, tr("Missing Qobuz username."));
+    Q_EMIT LoginFinished(false, tr("Missing Qobuz username."));
     return;
   }
   if (password_.isEmpty()) {
-    Q_EMIT LoginComplete(false, tr("Missing Qobuz password."));
+    Q_EMIT LoginFinished(false, tr("Missing Qobuz password."));
     return;
   }
 
@@ -517,8 +510,7 @@ void QobuzService::GetArtists() {
     return;
   }
 
-  ResetArtistsRequest();
-  artists_request_.reset(new QobuzRequest(this, url_handler_, network_, QobuzBaseRequest::Type::FavouriteArtists), [](QobuzRequest *request) { request->deleteLater(); });
+  artists_request_.reset(new QobuzRequest(this, url_handler_, network_, QobuzBaseRequest::Type::FavouriteArtists));
   QObject::connect(&*artists_request_, &QobuzRequest::Results, this, &QobuzService::ArtistsResultsReceived);
   QObject::connect(&*artists_request_, &QobuzRequest::UpdateStatus, this, &QobuzService::ArtistsUpdateStatusReceived);
   QObject::connect(&*artists_request_, &QobuzRequest::UpdateProgress, this, &QobuzService::ArtistsUpdateProgressReceived);
@@ -567,8 +559,7 @@ void QobuzService::GetAlbums() {
     return;
   }
 
-  ResetAlbumsRequest();
-  albums_request_.reset(new QobuzRequest(this, url_handler_, network_, QobuzBaseRequest::Type::FavouriteAlbums), [](QobuzRequest *request) { request->deleteLater(); });
+  albums_request_.reset(new QobuzRequest(this, url_handler_, network_, QobuzBaseRequest::Type::FavouriteAlbums));
   QObject::connect(&*albums_request_, &QobuzRequest::Results, this, &QobuzService::AlbumsResultsReceived);
   QObject::connect(&*albums_request_, &QobuzRequest::UpdateStatus, this, &QobuzService::AlbumsUpdateStatusReceived);
   QObject::connect(&*albums_request_, &QobuzRequest::UpdateProgress, this, &QobuzService::AlbumsUpdateProgressReceived);
@@ -617,8 +608,7 @@ void QobuzService::GetSongs() {
     return;
   }
 
-  ResetSongsRequest();
-  songs_request_.reset(new QobuzRequest(this, url_handler_, network_, QobuzBaseRequest::Type::FavouriteSongs), [](QobuzRequest *request) { request->deleteLater(); });
+  songs_request_.reset(new QobuzRequest(this, url_handler_, network_, QobuzBaseRequest::Type::FavouriteSongs));
   QObject::connect(&*songs_request_, &QobuzRequest::Results, this, &QobuzService::SongsResultsReceived);
   QObject::connect(&*songs_request_, &QobuzRequest::UpdateStatus, this, &QobuzService::SongsUpdateStatusReceived);
   QObject::connect(&*songs_request_, &QobuzRequest::UpdateProgress, this, &QobuzService::SongsUpdateProgressReceived);
@@ -645,7 +635,7 @@ void QobuzService::SongsUpdateProgressReceived(const int id, const int progress)
   Q_EMIT SongsUpdateProgress(progress);
 }
 
-int QobuzService::Search(const QString &text, StreamingSearchView::SearchType type) {
+int QobuzService::Search(const QString &text, const SearchType type) {
 
   pending_search_id_ = next_pending_search_id_;
   pending_search_text_ = text;
@@ -678,31 +668,28 @@ void QobuzService::StartSearch() {
 
 }
 
-void QobuzService::CancelSearch() {
-}
+void QobuzService::CancelSearch() {}
 
 void QobuzService::SendSearch() {
 
   QobuzBaseRequest::Type query_type = QobuzBaseRequest::Type::None;
 
   switch (pending_search_type_) {
-    case StreamingSearchView::SearchType::Artists:
+    case SearchType::Artists:
       query_type = QobuzBaseRequest::Type::SearchArtists;
       break;
-    case StreamingSearchView::SearchType::Albums:
+    case SearchType::Albums:
       query_type = QobuzBaseRequest::Type::SearchAlbums;
       break;
-    case StreamingSearchView::SearchType::Songs:
+    case SearchType::Songs:
       query_type = QobuzBaseRequest::Type::SearchSongs;
       break;
   }
 
-  search_request_.reset(new QobuzRequest(this, url_handler_, network_, query_type), [](QobuzRequest *request) { request->deleteLater(); } );
-
+  search_request_.reset(new QobuzRequest(this, url_handler_, network_, query_type));
   QObject::connect(&*search_request_, &QobuzRequest::Results, this, &QobuzService::SearchResultsReceived);
   QObject::connect(&*search_request_, &QobuzRequest::UpdateStatus, this, &QobuzService::SearchUpdateStatus);
   QObject::connect(&*search_request_, &QobuzRequest::UpdateProgress, this, &QobuzService::SearchUpdateProgress);
-
   search_request_->Search(search_id_, search_text_);
   search_request_->Process();
 
@@ -724,16 +711,15 @@ uint QobuzService::GetStreamURL(const QUrl &url, QString &error) {
 
   uint id = 0;
   while (id == 0) id = ++next_stream_url_request_id_;
-  SharedPtr<QobuzStreamURLRequest> stream_url_req;
-  stream_url_req.reset(new QobuzStreamURLRequest(this, network_, url, id), [](QobuzStreamURLRequest *request) { request->deleteLater(); });
-  stream_url_requests_.insert(id, stream_url_req);
+  QobuzStreamURLRequestPtr stream_url_request = QobuzStreamURLRequestPtr(new QobuzStreamURLRequest(this, network_, url, id), &QObject::deleteLater);
+  stream_url_requests_.insert(id, stream_url_request);
 
-  QObject::connect(&*stream_url_req, &QobuzStreamURLRequest::TryLogin, this, &QobuzService::TryLogin);
-  QObject::connect(&*stream_url_req, &QobuzStreamURLRequest::StreamURLFailure, this, &QobuzService::HandleStreamURLFailure);
-  QObject::connect(&*stream_url_req, &QobuzStreamURLRequest::StreamURLSuccess, this, &QobuzService::HandleStreamURLSuccess);
-  QObject::connect(this, &QobuzService::LoginComplete, &*stream_url_req, &QobuzStreamURLRequest::LoginComplete);
+  QObject::connect(&*stream_url_request, &QobuzStreamURLRequest::TryLogin, this, &QobuzService::TryLogin);
+  QObject::connect(&*stream_url_request, &QobuzStreamURLRequest::StreamURLFailure, this, &QobuzService::HandleStreamURLFailure);
+  QObject::connect(&*stream_url_request, &QobuzStreamURLRequest::StreamURLSuccess, this, &QobuzService::HandleStreamURLSuccess);
+  QObject::connect(this, &QobuzService::LoginFinished, &*stream_url_request, &QobuzStreamURLRequest::LoginComplete);
 
-  stream_url_req->Process();
+  stream_url_request->Process();
 
   return id;
 
@@ -759,18 +745,10 @@ void QobuzService::HandleStreamURLSuccess(const uint id, const QUrl &media_url, 
 
 void QobuzService::LoginError(const QString &error, const QVariant &debug) {
 
-  if (!error.isEmpty()) login_errors_ << error;
-
-  QString error_html;
-  for (const QString &e : std::as_const(login_errors_)) {
-    qLog(Error) << "Qobuz:" << e;
-    error_html += e + u"<br />"_s;
-  }
+  qLog(Error) << "Qobuz:" << error;
   if (debug.isValid()) qLog(Debug) << debug;
 
-  Q_EMIT LoginFailure(error_html);
-  Q_EMIT LoginComplete(false, error_html);
-
-  login_errors_.clear();
+  Q_EMIT LoginFailure(error);
+  Q_EMIT LoginFinished(false, error);
 
 }
