@@ -1555,6 +1555,7 @@ target_link_libraries(strawberry_lib PUBLIC
   $<$<BOOL:${WIN32}>:dsound dwmapi getopt-win::getopt>
   $<$<BOOL:${MSVC}>:WindowsApp>
   KDAB::kdsingleapplication
+  $<$<BOOL:${HAVE_DISCORD_RPC}>:discord-rpc>
 )
 
 if(APPLE)
@@ -1571,10 +1572,6 @@ if(APPLE)
     target_include_directories(strawberry_lib SYSTEM PRIVATE ${SPARKLE}/Headers)
     target_link_libraries(strawberry_lib PRIVATE ${SPARKLE})
   endif()
-endif()
-
-if(HAVE_DISCORD_RPC)
-  target_link_libraries(strawberry_lib PRIVATE discord-rpc)
 endif()
 
 target_link_libraries(strawberry PUBLIC strawberry_lib)
