@@ -623,6 +623,7 @@ void CollectionBackend::AddOrUpdateSongs(const SongList &songs) {
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
 
+  CollectionTask task(task_manager_, tr("Updating %1 database.").arg(Song::TextForSource(source_)));
   ScopedTransaction transaction(&db);
 
   SongList added_songs;
