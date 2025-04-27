@@ -108,7 +108,7 @@ void MoodbarItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 QPixmap MoodbarItemDelegate::PixmapForIndex(const QModelIndex &idx, const QSize size) {
 
   // Pixmaps are keyed off URL.
-  const QUrl url = idx.sibling(idx.row(), static_cast<int>(Playlist::Column::Filename)).data().toUrl();
+  const QUrl url = idx.sibling(idx.row(), static_cast<int>(Playlist::Column::URL)).data().toUrl();
   const bool has_cue = idx.sibling(idx.row(), static_cast<int>(Playlist::Column::HasCUE)).data().toBool();
 
   Data *data = nullptr;
@@ -294,7 +294,7 @@ void MoodbarItemDelegate::ImageLoaded(const QUrl &url, const QImage &image) {
 
   // Update all the indices with the new pixmap.
   for (const QPersistentModelIndex &idx : std::as_const(data->indexes_)) {
-    if (idx.isValid() && idx.sibling(idx.row(), static_cast<int>(Playlist::Column::Filename)).data().toUrl() == url) {
+    if (idx.isValid() && idx.sibling(idx.row(), static_cast<int>(Playlist::Column::URL)).data().toUrl() == url) {
       QModelIndex source_index = idx;
       if (idx.model() == filter) {
         source_index = filter->mapToSource(source_index);

@@ -56,7 +56,7 @@ class PlaylistTest : public ::testing::Test {
     metadata.Init(title, artist, album, length);
 
     MockPlaylistItem *ret = new MockPlaylistItem;
-    EXPECT_CALL(*ret, Metadata()).WillRepeatedly(Return(metadata));
+    EXPECT_CALL(*ret, OriginalMetadata()).WillRepeatedly(Return(metadata));
 
     return ret;
   }
@@ -100,7 +100,7 @@ TEST_F(PlaylistTest, Indexes) {
   // Start "playing" track 1
   playlist_.set_current_row(0);
   EXPECT_EQ(0, playlist_.current_row());
-  EXPECT_EQ(u"One"_s, playlist_.current_item()->Metadata().title());
+  EXPECT_EQ(u"One"_s, playlist_.current_item()->EffectiveMetadata().title());
   EXPECT_EQ(-1, playlist_.previous_row());
   EXPECT_EQ(1, playlist_.next_row());
 
@@ -113,14 +113,14 @@ TEST_F(PlaylistTest, Indexes) {
   // Play track 2
   playlist_.set_current_row(1);
   EXPECT_EQ(1, playlist_.current_row());
-  EXPECT_EQ(u"Two"_s, playlist_.current_item()->Metadata().title());
+  EXPECT_EQ(u"Two"_s, playlist_.current_item()->EffectiveMetadata().title());
   EXPECT_EQ(0, playlist_.previous_row());
   EXPECT_EQ(2, playlist_.next_row());
 
   // Play track 3
   playlist_.set_current_row(2);
   EXPECT_EQ(2, playlist_.current_row());
-  EXPECT_EQ(u"Three"_s, playlist_.current_item()->Metadata().title());
+  EXPECT_EQ(u"Three"_s, playlist_.current_item()->EffectiveMetadata().title());
   EXPECT_EQ(1, playlist_.previous_row());
   EXPECT_EQ(-1, playlist_.next_row());
 
@@ -453,7 +453,7 @@ TEST_F(PlaylistTest, ShuffleThenNext) {
   }
 
   int index = playlist_.current_row();
-  EXPECT_EQ(u"Item 0"_s, playlist_.current_item()->Metadata().title());
+  EXPECT_EQ(u"Item 0"_s, playlist_.current_item()->EffectiveMetadata().title());
   EXPECT_EQ(u"Item 0"_s, playlist_.data(playlist_.index(index, static_cast<int>(Playlist::Column::Title))));
   EXPECT_EQ(index, playlist_.last_played_row());
   //EXPECT_EQ(index + 1, playlist_.next_row());
@@ -466,7 +466,7 @@ TEST_F(PlaylistTest, ShuffleThenNext) {
   //}
 
   index = playlist_.current_row();
-  EXPECT_EQ(u"Item 0"_s, playlist_.current_item()->Metadata().title());
+  EXPECT_EQ(u"Item 0"_s, playlist_.current_item()->EffectiveMetadata().title());
   EXPECT_EQ(u"Item 0"_s, playlist_.data(playlist_.index(index, static_cast<int>(Playlist::Column::Title))));
   EXPECT_EQ(index, playlist_.last_played_row());
   //EXPECT_EQ(-1, playlist_.next_row());
@@ -487,7 +487,7 @@ TEST_F(PlaylistTest, CollectionIdMapSingle) {
   EXPECT_EQ(0, playlist_.collection_items(Song::Source::Collection, 0).count());
   EXPECT_EQ(0, playlist_.collection_items(Song::Source::Collection, 2).count());
   ASSERT_EQ(1, playlist_.collection_items(Song::Source::Collection, 1).count());
-  EXPECT_EQ(song.title(), playlist_.collection_items(Song::Source::Collection, 1)[0]->Metadata().title());  // clazy:exclude=detaching-temporary
+  EXPECT_EQ(song.title(), playlist_.collection_items(Song::Source::Collection, 1)[0]->EffectiveMetadata().title());  // clazy:exclude=detaching-temporary
 
   playlist_.Clear();
 

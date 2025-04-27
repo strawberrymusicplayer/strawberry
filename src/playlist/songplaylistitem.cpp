@@ -38,8 +38,6 @@ bool SongPlaylistItem::InitFromQuery(const SqlRow &query) {
   return true;
 }
 
-QUrl SongPlaylistItem::Url() const { return song_.url(); }
-
 void SongPlaylistItem::Reload() {
 
   if (!song_.url().isLocalFile()) return;
@@ -49,18 +47,13 @@ void SongPlaylistItem::Reload() {
     qLog(Error) << "Could not reload file" << song_.url() << result.error_string();
   }
 
-  UpdateTemporaryMetadata(song_);
+  UpdateStreamMetadata(song_);
 
-}
-
-Song SongPlaylistItem::Metadata() const {
-  if (HasTemporaryMetadata()) return temp_metadata_;
-  return song_;
 }
 
 void SongPlaylistItem::SetArtManual(const QUrl &cover_url) {
 
   song_.set_art_manual(cover_url);
-  if (HasTemporaryMetadata()) temp_metadata_.set_art_manual(cover_url);
+  if (HasStreamMetadata()) stream_song_.set_art_manual(cover_url);
 
 }

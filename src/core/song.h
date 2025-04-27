@@ -365,7 +365,7 @@ class Song {
   void set_musicbrainz_release_group_id(const TagLib::String &v);
   void set_musicbrainz_work_id(const TagLib::String &v);
 
-  const QUrl &effective_stream_url() const;
+  const QUrl &effective_url() const;
   const QString &effective_albumartist() const;
   const QString &effective_albumartist_sortable() const;
   const QString &effective_album() const;
@@ -430,6 +430,7 @@ class Song {
   bool IsEditable() const;
 
   // Comparison functions
+  bool IsFileInfoEqual(const Song &other) const;
   bool IsMetadataEqual(const Song &other) const;
   bool IsPlayStatisticsEqual(const Song &other) const;
   bool IsRatingEqual(const Song &other) const;
@@ -438,7 +439,10 @@ class Song {
   bool IsMusicBrainzEqual(const Song &other) const;
   bool IsEBUR128Equal(const Song &other) const;
   bool IsArtEqual(const Song &other) const;
+  bool IsCompilationEqual(const Song &other) const;
+  bool IsSettingsEqual(const Song &other) const;
   bool IsAllMetadataEqual(const Song &other) const;
+  bool IsEqual(const Song &other) const;
 
   bool IsOnSameAlbum(const Song &other) const;
   bool IsSimilar(const Song &other) const;

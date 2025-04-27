@@ -342,7 +342,7 @@ struct Song::Private : public QSharedData {
   QString artist_sortable_;
   QString albumartist_sortable_;
 
-  QUrl stream_url_;             // Temporary stream url set by the URL handler.
+  QUrl stream_url_;             // Temporary stream URL set by the URL handler.
 
 };
 
@@ -653,7 +653,7 @@ void Song::set_musicbrainz_disc_id(const TagLib::String &v) { d->musicbrainz_dis
 void Song::set_musicbrainz_release_group_id(const TagLib::String &v) { d->musicbrainz_release_group_id_ = TagLibStringToQString(v).remove(u' ').replace(u';', u'/'); }
 void Song::set_musicbrainz_work_id(const TagLib::String &v) { d->musicbrainz_work_id_ = TagLibStringToQString(v).remove(u' ').replace(u';', u'/'); }
 
-const QUrl &Song::effective_stream_url() const { return !d->stream_url_.isEmpty() && d->stream_url_.isValid() ? d->stream_url_ : d->url_; }
+const QUrl &Song::effective_url() const { return !d->stream_url_.isEmpty() && d->stream_url_.isValid() ? d->stream_url_ : d->url_; }
 const QString &Song::effective_albumartist() const { return d->albumartist_.isEmpty() ? d->artist_ : d->albumartist_; }
 const QString &Song::effective_albumartist_sortable() const { return d->albumartist_.isEmpty() ? d->artist_sortable_ : d->albumartist_sortable_; }
 const QString &Song::effective_album() const { return d->album_.isEmpty() ? d->title_ : d->album_; }
@@ -923,39 +923,54 @@ bool Song::IsEditable() const {
   return d->valid_ && d->url_.isValid() && ((d->url_.isLocalFile() && write_tags_supported() && !has_cue()) || d->source_ == Source::Stream);
 }
 
+bool Song::IsFileInfoEqual(const Song &other) const {
+
+  return d->beginning_ == other.d->beginning_ &&
+         d->end_ == other.d->end_ &&
+         d->url_ == other.d->url_ &&
+         d->basefilename_ == other.d->basefilename_ &&
+         d->filetype_ == other.d->filetype_ &&
+         d->filesize_ == other.d->filesize_ &&
+         d->mtime_ == other.d->mtime_ &&
+         d->ctime_ == other.d->ctime_ &&
+         d->mtime_ == other.d->mtime_ &&
+         d->stream_url_ == other.d->stream_url_;
+
+}
+
 bool Song::IsMetadataEqual(const Song &other) const {
 
   return d->title_ == other.d->title_ &&
-    d->album_ == other.d->album_ &&
-    d->artist_ == other.d->artist_ &&
-    d->albumartist_ == other.d->albumartist_ &&
-    d->track_ == other.d->track_ &&
-    d->disc_ == other.d->disc_ &&
-    d->year_ == other.d->year_ &&
-    d->originalyear_ == other.d->originalyear_ &&
-    d->genre_ == other.d->genre_ &&
-    d->compilation_ == other.d->compilation_ &&
-    d->composer_ == other.d->composer_ &&
-    d->performer_ == other.d->performer_ &&
-    d->grouping_ == other.d->grouping_ &&
-    d->comment_ == other.d->comment_ &&
-    d->lyrics_ == other.d->lyrics_ &&
-    d->artist_id_ == other.d->artist_id_ &&
-    d->album_id_ == other.d->album_id_ &&
-    d->song_id_ == other.d->song_id_ &&
-    d->beginning_ == other.d->beginning_ &&
-    length_nanosec() == other.length_nanosec() &&
-    d->bitrate_ == other.d->bitrate_ &&
-    d->samplerate_ == other.d->samplerate_ &&
-    d->bitdepth_ == other.d->bitdepth_ &&
-    d->cue_path_ == other.d->cue_path_;
+         d->album_ == other.d->album_ &&
+         d->artist_ == other.d->artist_ &&
+         d->albumartist_ == other.d->albumartist_ &&
+         d->track_ == other.d->track_ &&
+         d->disc_ == other.d->disc_ &&
+         d->year_ == other.d->year_ &&
+         d->originalyear_ == other.d->originalyear_ &&
+         d->genre_ == other.d->genre_ &&
+         d->compilation_ == other.d->compilation_ &&
+         d->composer_ == other.d->composer_ &&
+         d->performer_ == other.d->performer_ &&
+         d->grouping_ == other.d->grouping_ &&
+         d->comment_ == other.d->comment_ &&
+         d->lyrics_ == other.d->lyrics_ &&
+         d->artist_id_ == other.d->artist_id_ &&
+         d->album_id_ == other.d->album_id_ &&
+         d->song_id_ == other.d->song_id_ &&
+         d->beginning_ == other.d->beginning_ &&
+         length_nanosec() == other.length_nanosec() &&
+         d->bitrate_ == other.d->bitrate_ &&
+         d->samplerate_ == other.d->samplerate_ &&
+         d->bitdepth_ == other.d->bitdepth_ &&
+         d->cue_path_ == other.d->cue_path_;
 }
 
 bool Song::IsPlayStatisticsEqual(const Song &other) const {
 
   return d->playcount_ == other.d->playcount_ &&
-    d->skipcount_ == other.d->skipcount_ &&
-    d->lastplayed_ == other.d->lastplayed_;
+         d->skipcount_ == other.d->skipcount_ &&
+         d->lastplayed_ == other.d->lastplayed_;
 
 }
 
@@ -980,42 +995,70 @@ bool Song::IsAcoustIdEqual(const Song &other) const {
 bool Song::IsMusicBrainzEqual(const Song &other) const {
 
   return d->musicbrainz_album_artist_id_ == other.d->musicbrainz_album_artist_id_ &&
-    d->musicbrainz_artist_id_ == other.d->musicbrainz_artist_id_ &&
-    d->musicbrainz_original_artist_id_ == other.d->musicbrainz_original_artist_id_ &&
-    d->musicbrainz_album_id_ == other.d->musicbrainz_album_id_ &&
-    d->musicbrainz_original_album_id_ == other.d->musicbrainz_original_album_id_ &&
-    d->musicbrainz_recording_id_ == other.d->musicbrainz_recording_id_ &&
-    d->musicbrainz_track_id_ == other.d->musicbrainz_track_id_ &&
-    d->musicbrainz_disc_id_ == other.d->musicbrainz_disc_id_ &&
-    d->musicbrainz_release_group_id_ == other.d->musicbrainz_release_group_id_ &&
-    d->musicbrainz_work_id_ == other.d->musicbrainz_work_id_;
+         d->musicbrainz_artist_id_ == other.d->musicbrainz_artist_id_ &&
+         d->musicbrainz_original_artist_id_ == other.d->musicbrainz_original_artist_id_ &&
+         d->musicbrainz_album_id_ == other.d->musicbrainz_album_id_ &&
+         d->musicbrainz_original_album_id_ == other.d->musicbrainz_original_album_id_ &&
+         d->musicbrainz_recording_id_ == other.d->musicbrainz_recording_id_ &&
+         d->musicbrainz_track_id_ == other.d->musicbrainz_track_id_ &&
+         d->musicbrainz_disc_id_ == other.d->musicbrainz_disc_id_ &&
+         d->musicbrainz_release_group_id_ == other.d->musicbrainz_release_group_id_ &&
+         d->musicbrainz_work_id_ == other.d->musicbrainz_work_id_;
 
 }
 
 bool Song::IsEBUR128Equal(const Song &other) const {
 
   return d->ebur128_integrated_loudness_lufs_ == other.d->ebur128_integrated_loudness_lufs_ &&
-    d->ebur128_loudness_range_lu_ == other.d->ebur128_loudness_range_lu_;
+         d->ebur128_loudness_range_lu_ == other.d->ebur128_loudness_range_lu_;
 
 }
 
 bool Song::IsArtEqual(const Song &other) const {
 
   return d->art_embedded_ == other.d->art_embedded_ &&
-    d->art_automatic_ == other.d->art_automatic_ &&
-    d->art_manual_ == other.d->art_manual_ &&
-    d->art_unset_ == other.d->art_unset_;
+         d->art_automatic_ == other.d->art_automatic_ &&
+         d->art_manual_ == other.d->art_manual_ &&
+         d->art_unset_ == other.d->art_unset_;
+
+}
+
+bool Song::IsCompilationEqual(const Song &other) const {
+
+  return d->compilation_ == other.d->compilation_ &&
+         d->compilation_detected_ == other.d->compilation_detected_ &&
+         d->compilation_on_ == other.d->compilation_on_ &&
+         d->compilation_off_ == other.d->compilation_off_;
+
+}
+
+bool Song::IsSettingsEqual(const Song &other) const {
+
+  return d->source_ == other.d->source_ &&
+         d->directory_id_ == other.d->directory_id_ &&
+         d->unavailable_ == other.d->unavailable_;
 
 }
 
 bool Song::IsAllMetadataEqual(const Song &other) const {
 
   return IsMetadataEqual(other) &&
-    IsPlayStatisticsEqual(other) &&
-    IsRatingEqual(other) &&
-    IsAcoustIdEqual(other) &&
-    IsMusicBrainzEqual(other) &&
-    IsArtEqual(other);
+         IsPlayStatisticsEqual(other) &&
+         IsRatingEqual(other) &&
+         IsAcoustIdEqual(other) &&
+         IsMusicBrainzEqual(other) &&
+         IsArtEqual(other) &&
+         IsEBUR128Equal(other);
+
+}
+
+bool Song::IsEqual(const Song &other) const {
+
+  return IsFileInfoEqual(other) &&
+         IsSettingsEqual(other) &&
+         IsAllMetadataEqual(other) &&
+         IsFingerprintEqual(other) &&
+         IsCompilationEqual(other);
 
 }
 
@@ -1819,7 +1862,7 @@ void Song::ToXesam(QVariantMap *map) const {
   using mpris::AddMetadataAsList;
   using mpris::AsMPRISDateTimeType;
 
-  AddMetadata(u"xesam:url"_s, effective_stream_url().toString(), map);
+  AddMetadata(u"xesam:url"_s, effective_url().toString(), map);
   AddMetadata(u"xesam:title"_s, PrettyTitle(), map);
   AddMetadataAsList(u"xesam:artist"_s, artist(), map);
   AddMetadata(u"xesam:album"_s, album(), map);

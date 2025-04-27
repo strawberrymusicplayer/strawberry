@@ -51,7 +51,7 @@ QVariant FilterTree::DataFromColumn(const QString &column, const Song &metadata)
   if (column == "playcount"_L1)   return metadata.playcount();
   if (column == "skipcount"_L1)   return metadata.skipcount();
   if (column == "filename"_L1)    return metadata.basefilename();
-  if (column == "url"_L1)         return metadata.effective_stream_url().toString();
+  if (column == "url"_L1)         return metadata.effective_url().toString();
 
   return QVariant();
 

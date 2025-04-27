@@ -66,36 +66,30 @@ class PlaylistItem : public enable_shared_from_this<PlaylistItem> {
   Q_DECLARE_FLAGS(Options, Option)
 
   virtual Song::Source source() const { return source_; }
-
   virtual Options options() const { return Option::Default; }
-
   virtual QList<QAction*> actions() { return QList<QAction*>(); }
+
+  virtual Song OriginalMetadata() const = 0;
+  virtual QUrl OriginalUrl() const = 0;
+  virtual void SetOriginalMetadata(const Song &song) { Q_UNUSED(song); }
+
+  Song EffectiveMetadata() const { return HasStreamMetadata() ? stream_song_ : OriginalMetadata(); }
+  QUrl EffectiveUrl() const { return stream_song_.effective_url().isValid() ? stream_song_.effective_url() : OriginalUrl(); }
+
+  void SetStreamMetadata(const Song &song);
+  void UpdateStreamMetadata(const Song &song);
+  void ClearStreamMetadata();
+  bool HasStreamMetadata() const { return stream_song_.is_valid(); }
+
+  qint64 effective_beginning_nanosec() const { return stream_song_.is_valid() && stream_song_.beginning_nanosec() != -1 ? stream_song_.beginning_nanosec() : OriginalMetadata().beginning_nanosec(); }
+  qint64 effective_end_nanosec() const { return stream_song_.is_valid() && stream_song_.end_nanosec() != -1 ? stream_song_.end_nanosec() : OriginalMetadata().end_nanosec(); }
+
+  virtual void SetArtManual(const QUrl &cover_url) = 0;
 
   virtual bool InitFromQuery(const SqlRow &query) = 0;
   void BindToQuery(SqlQuery *query) const;
   virtual void Reload() {}
   QFuture<void> BackgroundReload();
-
-  virtual Song Metadata() const = 0;
-  virtual Song OriginalMetadata() const = 0;
-  virtual QUrl Url() const = 0;
-
-  virtual void SetMetadata(const Song &song) { Q_UNUSED(song); }
-
-  void SetTemporaryMetadata(const Song &metadata);
-  void UpdateTemporaryMetadata(const Song &metadata);
-  void ClearTemporaryMetadata();
-  bool HasTemporaryMetadata() const { return temp_metadata_.is_valid(); }
-
-  Song StreamMetadata() { return HasTemporaryMetadata() ? temp_metadata_ : Metadata(); }
-  QUrl StreamUrl() const { return HasTemporaryMetadata() && temp_metadata_.effective_stream_url().isValid() ? temp_metadata_.effective_stream_url() : Url(); }
-
-  std::optional<double> effective_ebur128_integrated_loudness_lufs() const { return HasTemporaryMetadata() && temp_metadata_.is_valid() ? temp_metadata_.ebur128_integrated_loudness_lufs() : Metadata().ebur128_integrated_loudness_lufs(); }
-
-  qint64 effective_beginning_nanosec() const { return HasTemporaryMetadata() && temp_metadata_.is_valid() && temp_metadata_.beginning_nanosec() != -1 ? temp_metadata_.beginning_nanosec() : Metadata().beginning_nanosec(); }
-  qint64 effective_end_nanosec() const { return HasTemporaryMetadata() && temp_metadata_.is_valid() && temp_metadata_.end_nanosec() != -1 ? temp_metadata_.end_nanosec() : Metadata().end_nanosec(); }
-
-  virtual void SetArtManual(const QUrl &cover_url) = 0;
 
   // Background colors.
   void SetBackgroundColor(const short priority, const QColor &color);
@@ -128,7 +122,7 @@ class PlaylistItem : public enable_shared_from_this<PlaylistItem> {
   virtual Song DatabaseSongMetadata() const { return Song(); }
 
   Song::Source source_;
-  Song temp_metadata_;
+  Song stream_song_;
 
   QMap<short, QColor> background_colors_;
   QMap<short, QColor> foreground_colors_;

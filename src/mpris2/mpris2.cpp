@@ -522,7 +522,7 @@ bool Mpris2::CanSeek() const {
 }
 
 bool Mpris2::CanSeek(EngineBase::State state) const {
-  return player_->GetCurrentItem() && state != EngineBase::State::Empty && !player_->GetCurrentItem()->Metadata().is_stream();
+  return player_->GetCurrentItem() && state != EngineBase::State::Empty && !player_->GetCurrentItem()->EffectiveMetadata().is_stream();
 }
 
 bool Mpris2::CanControl() const { return true; }
@@ -586,7 +586,7 @@ void Mpris2::SetPosition(const QDBusObjectPath &trackId, qint64 offset) {
   if (CanSeek() && trackId == current_track_id(current_row) && offset >= 0) {
     offset *= kNsecPerUsec;
 
-    if (offset < player_->GetCurrentItem()->Metadata().length_nanosec()) {
+    if (offset < player_->GetCurrentItem()->EffectiveMetadata().length_nanosec()) {
       player_->SeekTo(offset / kNsecPerSec);
     }
   }

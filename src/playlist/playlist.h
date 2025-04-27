@@ -115,7 +115,7 @@ class Playlist : public QAbstractListModel {
     Samplerate,
     Bitdepth,
     Bitrate,
-    Filename,
+    URL,
     BaseFilename,
     Filesize,
     Filetype,
@@ -268,9 +268,9 @@ class Playlist : public QAbstractListModel {
 
   static Columns ChangedColumns(const Song &metadata1, const Song &metadata2);
   static bool MinorMetadataChange(const Song &old_metadata, const Song &new_metadata);
-  void UpdateItemMetadata(PlaylistItemPtr item, const Song &new_metadata, const bool temporary);
-  void UpdateItemMetadata(const int row, PlaylistItemPtr item, const Song &new_metadata, const bool temporary);
-  void ItemChanged(const int row, const Columns &columns);
+  void UpdateItemMetadata(PlaylistItemPtr item, const Song &new_metadata, const bool stream_metadata_update);
+  void UpdateItemMetadata(const int row, PlaylistItemPtr item, const Song &new_metadata, const bool stream_metadata_update);
+  void RowDataChanged(const int row, const Columns &columns);
 
   // Changes rating of a song to the given value asynchronously
   void RateSong(const QModelIndex &idx, const float rating);

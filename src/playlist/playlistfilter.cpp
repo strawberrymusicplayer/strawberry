@@ -64,7 +64,7 @@ bool PlaylistFilter::filterAcceptsRow(const int source_row, const QModelIndex &s
     query_hash_ = hash;
   }
 
-  return filter_tree_->accept(item->Metadata());
+  return filter_tree_->accept(item->EffectiveMetadata());
 
 }
 

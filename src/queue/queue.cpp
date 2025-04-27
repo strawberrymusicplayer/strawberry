@@ -241,7 +241,7 @@ void Queue::UpdateTotalLength() {
 
     Q_ASSERT(playlist_->has_item_at(id));
 
-    const qint64 length = playlist_->item_at(id)->Metadata().length_nanosec();
+    const qint64 length = playlist_->item_at(id)->EffectiveMetadata().length_nanosec();
     if (length > 0) total += static_cast<quint64>(length);
   }
 

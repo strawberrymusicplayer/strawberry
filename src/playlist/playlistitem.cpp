@@ -93,6 +93,28 @@ PlaylistItemPtr PlaylistItem::NewFromSong(const Song &song) {
 
 }
 
+void PlaylistItem::SetStreamMetadata(const Song &song) {
+  stream_song_ = song;
+}
+
+void PlaylistItem::UpdateStreamMetadata(const Song &song) {
+
+  if (!stream_song_.is_valid()) return;
+
+  const Song old_stream_song = stream_song_;
+  stream_song_ = song;
+
+  // Keep samplerate, bitdepth and bitrate from the old metadata if it's not present in the new.
+  if (stream_song_.samplerate() <= 0 && old_stream_song.samplerate() > 0) stream_song_.set_samplerate(old_stream_song.samplerate());
+  if (stream_song_.bitdepth() <= 0 && old_stream_song.bitdepth() > 0) stream_song_.set_bitdepth(old_stream_song.bitdepth());
+  if (stream_song_.bitrate() <= 0 && old_stream_song.bitrate() > 0) stream_song_.set_bitrate(old_stream_song.bitrate());
+
+}
+
+void PlaylistItem::ClearStreamMetadata() {
+  stream_song_ = Song();
+}
+
 void PlaylistItem::BindToQuery(SqlQuery *query) const {
 
   query->BindValue(u":type"_s, static_cast<int>(source_));
@@ -100,28 +122,6 @@ void PlaylistItem::BindToQuery(SqlQuery *query) const {
 
   DatabaseSongMetadata().BindToQuery(query);
 
-}
-
-void PlaylistItem::SetTemporaryMetadata(const Song &metadata) {
-  temp_metadata_ = metadata;
-}
-
-void PlaylistItem::UpdateTemporaryMetadata(const Song &metadata) {
-
-  if (!temp_metadata_.is_valid()) return;
-
-  const Song old_metadata = temp_metadata_;
-  temp_metadata_ = metadata;
-
-  // Keep samplerate, bitdepth and bitrate from the old metadata if it's not present in the new.
-  if (temp_metadata_.samplerate() <= 0 && old_metadata.samplerate() > 0) temp_metadata_.set_samplerate(old_metadata.samplerate());
-  if (temp_metadata_.bitdepth() <= 0 && old_metadata.bitdepth() > 0) temp_metadata_.set_bitdepth(old_metadata.bitdepth());
-  if (temp_metadata_.bitrate() <= 0 && old_metadata.bitrate() > 0) temp_metadata_.set_bitrate(old_metadata.bitrate());
-
-}
-
-void PlaylistItem::ClearTemporaryMetadata() {
-  temp_metadata_ = Song();
 }
 
 static void ReloadPlaylistItem(PlaylistItemPtr item) {
@@ -135,12 +135,15 @@ QFuture<void> PlaylistItem::BackgroundReload() {
 void PlaylistItem::SetBackgroundColor(short priority, const QColor &color) {
   background_colors_[priority] = color;
 }
+
 bool PlaylistItem::HasBackgroundColor(short priority) const {
   return background_colors_.contains(priority);
 }
+
 void PlaylistItem::RemoveBackgroundColor(short priority) {
   background_colors_.remove(priority);
 }
+
 QColor PlaylistItem::GetCurrentBackgroundColor() const {
 
   if (background_colors_.isEmpty()) {
@@ -151,6 +154,7 @@ QColor PlaylistItem::GetCurrentBackgroundColor() const {
   return background_colors_[background_colors_keys.last()];
 
 }
+
 bool PlaylistItem::HasCurrentBackgroundColor() const {
   return !background_colors_.isEmpty();
 }
@@ -158,12 +162,15 @@ bool PlaylistItem::HasCurrentBackgroundColor() const {
 void PlaylistItem::SetForegroundColor(const short priority, const QColor &color) {
   foreground_colors_[priority] = color;
 }
+
 bool PlaylistItem::HasForegroundColor(const short priority) const {
   return foreground_colors_.contains(priority);
 }
+
 void PlaylistItem::RemoveForegroundColor(const short priority) {
   foreground_colors_.remove(priority);
 }
+
 QColor PlaylistItem::GetCurrentForegroundColor() const {
 
   if (foreground_colors_.isEmpty()) return QColor();
@@ -172,8 +179,11 @@ QColor PlaylistItem::GetCurrentForegroundColor() const {
   return foreground_colors_[foreground_colors_keys.last()];
 
 }
+
 bool PlaylistItem::HasCurrentForegroundColor() const {
   return !foreground_colors_.isEmpty();
 }
+
 void PlaylistItem::SetShouldSkip(const bool should_skip) { should_skip_ = should_skip; }
+
 bool PlaylistItem::GetShouldSkip() const { return should_skip_; }

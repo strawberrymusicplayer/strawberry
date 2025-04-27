@@ -288,10 +288,10 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
   bool is_current = false;
   bool is_next = false;
 
-  if (result.media_url_ == current_item->Url()) {
+  if (result.media_url_ == current_item->OriginalUrl()) {
     is_current = true;
   }
-  else if (has_next_row && next_item->Url() == result.media_url_) {
+  else if (has_next_row && next_item->OriginalUrl() == result.media_url_) {
     is_next = true;
   }
   else {
@@ -316,8 +316,8 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
       qLog(Debug) << "URL handler for" << result.media_url_ << "returned" << result.stream_url_;
 
       Song song;
-      if (is_current) song = current_item->Metadata();
-      else if (is_next) song = next_item->Metadata();
+      if (is_current) song = current_item->EffectiveMetadata();
+      else if (is_next) song = next_item->EffectiveMetadata();
 
       bool update = false;
 
@@ -325,7 +325,7 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
       if (
         (result.stream_url_.isValid())
         &&
-        (result.stream_url_ != song.url())
+        (result.stream_url_ != song.effective_url())
          )
       {
         song.set_stream_url(result.stream_url_);
@@ -371,14 +371,14 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
       }
 
       if (is_current) {
-        qLog(Debug) << "Playing song" << current_item->Metadata().title() << result.stream_url_ << "position" << play_offset_nanosec_;
+        qLog(Debug) << "Playing song" << current_item->EffectiveMetadata().title() << result.stream_url_ << "position" << play_offset_nanosec_;
         engine_->Play(result.media_url_, result.stream_url_, pause_, stream_change_type_, song.has_cue(), static_cast<quint64>(song.beginning_nanosec()), song.end_nanosec(), play_offset_nanosec_, song.ebur128_integrated_loudness_lufs());
         current_item_ = current_item;
         play_offset_nanosec_ = 0;
       }
-      else if (is_next && !current_item->Metadata().is_module_music()) {
-        qLog(Debug) << "Preloading next song" << next_item->Metadata().title() << result.stream_url_;
-        engine_->StartPreloading(next_item->Url(), result.stream_url_, song.has_cue(), song.beginning_nanosec(), song.end_nanosec());
+      else if (is_next && !current_item->EffectiveMetadata().is_module_music()) {
+        qLog(Debug) << "Preloading next song" << next_item->EffectiveMetadata().title() << result.stream_url_;
+        engine_->StartPreloading(next_item->OriginalUrl(), result.stream_url_, song.has_cue(), song.beginning_nanosec(), song.end_nanosec());
       }
 
       break;
@@ -504,8 +504,8 @@ bool Player::HandleStopAfter(const Playlist::AutoScroll autoscroll) {
 
 void Player::TrackEnded() {
 
-  if (current_item_ && current_item_->IsLocalCollectionItem() && current_item_->Metadata().id() != -1) {
-    playlist_manager_->collection_backend()->IncrementPlayCountAsync(current_item_->Metadata().id());
+  if (current_item_ && current_item_->IsLocalCollectionItem() && current_item_->EffectiveMetadata().id() != -1) {
+    playlist_manager_->collection_backend()->IncrementPlayCountAsync(current_item_->EffectiveMetadata().id());
   }
 
   if (HandleStopAfter(Playlist::AutoScroll::Maybe)) return;
@@ -554,7 +554,7 @@ void Player::PlayPause(const quint64 offset_nanosec, const Playlist::AutoScroll 
 void Player::UnPause() {
 
   if (current_item_ && pause_time_.isValid()) {
-    const Song &song = current_item_->Metadata();
+    const Song &song = current_item_->EffectiveMetadata();
     if (url_handlers_->CanHandle(song.url()) && song.stream_url_can_expire()) {
       const qint64 time = QDateTime::currentSecsSinceEpoch() - pause_time_.toSecsSinceEpoch();
       if (time >= 30) {  // Stream URL might be expired.
@@ -745,7 +745,7 @@ void Player::PlayAt(const int index, const bool pause, const quint64 offset_nano
     Q_EMIT TrackSkipped(current_item_);
   }
 
-  if (current_item_ && playlist_manager_->active()->has_item_at(index) && current_item_->Metadata().IsOnSameAlbum(playlist_manager_->active()->item_at(index)->Metadata())) {
+  if (current_item_ && playlist_manager_->active()->has_item_at(index) && current_item_->EffectiveMetadata().IsOnSameAlbum(playlist_manager_->active()->item_at(index)->EffectiveMetadata())) {
     change |= EngineBase::TrackChangeType::SameAlbum;
   }
 
@@ -758,7 +758,7 @@ void Player::PlayAt(const int index, const bool pause, const quint64 offset_nano
   }
 
   current_item_ = playlist_manager_->active()->current_item();
-  const QUrl url = current_item_->StreamUrl();
+  const QUrl url = current_item_->EffectiveUrl();
 
   if (url_handlers_->CanHandle(url)) {
     // It's already loading
@@ -773,8 +773,8 @@ void Player::PlayAt(const int index, const bool pause, const quint64 offset_nano
     HandleLoadResult(url_handler->StartLoading(url));
   }
   else {
-    qLog(Debug) << "Playing song" << current_item_->Metadata().title() << url << "position" << offset_nanosec;
-    engine_->Play(current_item_->Url(), url, pause, change, current_item_->Metadata().has_cue(), static_cast<quint64>(current_item_->effective_beginning_nanosec()), current_item_->effective_end_nanosec(), offset_nanosec, current_item_->effective_ebur128_integrated_loudness_lufs());
+    qLog(Debug) << "Playing song" << current_item_->EffectiveMetadata().title() << url << "position" << offset_nanosec;
+    engine_->Play(current_item_->OriginalUrl(), url, pause, change, current_item_->EffectiveMetadata().has_cue(), static_cast<quint64>(current_item_->effective_beginning_nanosec()), current_item_->effective_end_nanosec(), offset_nanosec, current_item_->EffectiveMetadata().ebur128_integrated_loudness_lufs());
   }
 
 }
@@ -823,8 +823,8 @@ void Player::EngineMetadataReceived(const EngineMetadata &engine_metadata) {
     const int current_row = playlist_manager_->active()->current_row();
     if (current_row != -1) {
       PlaylistItemPtr item = playlist_manager_->active()->current_item();
-      if (item && engine_metadata.media_url == item->Url()) {
-        Song song = item->Metadata();
+      if (item && engine_metadata.media_url == item->OriginalUrl()) {
+        Song song = item->EffectiveMetadata();
         song.MergeFromEngineMetadata(engine_metadata);
         playlist_manager_->active()->UpdateItemMetadata(current_row, item, song, true);
         return;
@@ -836,8 +836,8 @@ void Player::EngineMetadataReceived(const EngineMetadata &engine_metadata) {
     const int next_row = playlist_manager_->active()->next_row();
     if (next_row != -1) {
       PlaylistItemPtr next_item = playlist_manager_->active()->item_at(next_row);
-      if (engine_metadata.media_url == next_item->Url()) {
-        Song song = next_item->Metadata();
+      if (engine_metadata.media_url == next_item->OriginalUrl()) {
+        Song song = next_item->EffectiveMetadata();
         song.MergeFromEngineMetadata(engine_metadata);
         playlist_manager_->active()->UpdateItemMetadata(next_row, next_item, song, true);
       }
@@ -905,11 +905,11 @@ void Player::PlayWithPause(const quint64 offset_nanosec) {
 }
 
 void Player::ShowOSD() {
-  if (current_item_) Q_EMIT ForceShowOSD(current_item_->Metadata(), false);
+  if (current_item_) Q_EMIT ForceShowOSD(current_item_->EffectiveMetadata(), false);
 }
 
 void Player::TogglePrettyOSD() {
-  if (current_item_) Q_EMIT ForceShowOSD(current_item_->Metadata(), true);
+  if (current_item_) Q_EMIT ForceShowOSD(current_item_->EffectiveMetadata(), true);
 }
 
 void Player::TrackAboutToEnd() {
@@ -932,7 +932,7 @@ void Player::TrackAboutToEnd() {
 
     // If the next track is on the same album (or same cue file),
     // and the user doesn't want to crossfade between tracks on the same album, then don't do this automatic crossfading.
-    if (engine_->crossfade_same_album() || !has_next_row || !next_item || !current_item_->Metadata().IsOnSameAlbum(next_item->Metadata())) {
+    if (engine_->crossfade_same_album() || !has_next_row || !next_item || !current_item_->EffectiveMetadata().IsOnSameAlbum(next_item->EffectiveMetadata())) {
       TrackEnded();
       return;
     }
@@ -941,7 +941,7 @@ void Player::TrackAboutToEnd() {
   // Crossfade is off, so start preloading the next track, so we don't get a gap between songs.
   if (!has_next_row || !next_item) return;
 
-  QUrl url = next_item->StreamUrl();
+  QUrl url = next_item->EffectiveUrl();
 
   // Get the actual track URL rather than the stream URL.
   if (url_handlers_->CanHandle(url)) {
@@ -961,20 +961,20 @@ void Player::TrackAboutToEnd() {
       case UrlHandler::LoadResult::Type::TrackAvailable:
         qLog(Debug) << "URL handler for" << result.media_url_ << "returned" << result.stream_url_;
         url = result.stream_url_;
-        Song song = next_item->Metadata();
+        Song song = next_item->EffectiveMetadata();
         song.set_stream_url(url);
-        next_item->SetTemporaryMetadata(song);
+        next_item->SetStreamMetadata(song);
         break;
     }
   }
 
   // Preloading any format while currently playing module music is broken in GStreamer.
   // See: https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/769
-  if (current_item_ && current_item_->Metadata().is_module_music()) {
+  if (current_item_ && current_item_->EffectiveMetadata().is_module_music()) {
     return;
   }
 
-  engine_->StartPreloading(next_item->Url(), url, next_item->Metadata().has_cue(), next_item->effective_beginning_nanosec(), next_item->effective_end_nanosec());
+  engine_->StartPreloading(next_item->OriginalUrl(), url, next_item->EffectiveMetadata().has_cue(), next_item->effective_beginning_nanosec(), next_item->effective_end_nanosec());
 
 }
 
