@@ -376,6 +376,16 @@ void SubsonicRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const QStrin
     created = QDateTime::fromString(object_album["created"_L1].toString(), Qt::ISODate).toSecsSinceEpoch();
   }
 
+  QString album_cover_id;
+  if (object_album.contains("coverArt"_L1)) {
+    if (object_album["coverArt"_L1].type() == QJsonValue::String) {
+      album_cover_id = object_album["coverArt"_L1].toString();
+    }
+    else {
+      album_cover_id = QString::number(object_album["coverArt"_L1].toInt());
+    }
+  }
+
   bool compilation = false;
   bool multidisc = false;
   SongList songs;
@@ -388,7 +398,7 @@ void SubsonicRequest::AlbumSongsReplyReceived(QNetworkReply *reply, const QStrin
     const QJsonObject object_song = value_song.toObject();
 
     Song song(Song::Source::Subsonic);
-    ParseSong(song, object_song, artist_id, album_id, album_artist, created);
+    ParseSong(song, object_song, artist_id, album_id, album_artist, album_cover_id, created);
     if (!song.is_valid()) continue;
     if (song.disc() >= 2) multidisc = true;
     if (song.is_compilation()) compilation = true;
@@ -427,7 +437,7 @@ void SubsonicRequest::SongsFinishCheck() {
 
 }
 
-QString SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_object, const QString &artist_id_requested, const QString &album_id_requested, const QString &album_artist, const qint64 album_created) {
+QString SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_object, const QString &artist_id_requested, const QString &album_id_requested, const QString &album_artist, const QString &album_cover_id, const qint64 album_created) {
 
   Q_UNUSED(artist_id_requested);
   Q_UNUSED(album_id_requested);
@@ -548,20 +558,15 @@ QString SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_object, c
   if (json_object.contains("genre"_L1)) genre = json_object["genre"_L1].toString();
 
   QString cover_id;
-  if (use_album_id_for_album_covers()) {
-    cover_id = album_id;
+  if (use_album_id_for_album_covers()  && !album_cover_id.isEmpty()) {
+    cover_id = album_cover_id;
   }
   else {
-    if (json_object.contains("coverArt"_L1)) {
-      if (json_object["coverArt"_L1].type() == QJsonValue::String) {
-        cover_id = json_object["coverArt"_L1].toString();
-      }
-      else {
-        cover_id = QString::number(json_object["coverArt"_L1].toInt());
-      }
+    if (json_object["coverArt"_L1].type() == QJsonValue::String) {
+      cover_id = json_object["coverArt"_L1].toString();
     }
     else {
-      cover_id = song_id;
+      cover_id = QString::number(json_object["coverArt"_L1].toInt());
     }
   }
 
