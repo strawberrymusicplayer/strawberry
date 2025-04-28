@@ -548,17 +548,17 @@ QString SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_object, c
   if (json_object.contains("genre"_L1)) genre = json_object["genre"_L1].toString();
 
   QString cover_id;
-  if (use_album_id_for_album_covers()) {
-    cover_id = album_id;
+  if (json_object.contains("coverArt"_L1)) {
+    if (json_object["coverArt"_L1].type() == QJsonValue::String) {
+      cover_id = json_object["coverArt"_L1].toString();
+    }
+    else {
+      cover_id = QString::number(json_object["coverArt"_L1].toInt());
+    }
   }
   else {
-    if (json_object.contains("coverArt"_L1)) {
-      if (json_object["coverArt"_L1].type() == QJsonValue::String) {
-        cover_id = json_object["coverArt"_L1].toString();
-      }
-      else {
-        cover_id = QString::number(json_object["coverArt"_L1].toInt());
-      }
+    if (use_album_id_for_album_covers()) {
+      cover_id = album_id;
     }
     else {
       cover_id = song_id;
