@@ -1978,7 +1978,7 @@ void Playlist::ReshuffleIndices() {
           auto item = item_at(trackID);
           if (!item) continue;
 
-          auto metadata = item->Metadata();
+          auto metadata = item->EffectiveMetadata();
           playCounts[trackID] = metadata.playcount();
 
           qint64 ts = metadata.lastplayed();
@@ -2097,7 +2097,7 @@ void Playlist::ReshuffleIndices() {
       for (int idx : virtual_items_) {
           if (shown++ >= 11) break;
 
-          auto meta = item_at(idx)->Metadata();
+          auto meta = item_at(idx)->EffectiveMetadata();
           int plays = playCounts[idx];
           int weight = totalWeights[idx];
 
