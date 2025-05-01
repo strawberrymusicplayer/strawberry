@@ -1515,8 +1515,8 @@ void MainWindow::SendNowPlaying() {
 
   // Send now playing to scrobble services
   Playlist *playlist = app_->playlist_manager()->active();
-  if (app_->scrobbler()->enabled() && playlist && playlist->current_item() && playlist->current_item()->Metadata().is_metadata_good()) {
-    app_->scrobbler()->UpdateNowPlaying(playlist->current_item()->Metadata());
+  if (app_->scrobbler()->enabled() && playlist && playlist->current_item() && playlist->current_item()->EffectiveMetadata().is_metadata_good()) {
+    app_->scrobbler()->UpdateNowPlaying(playlist->current_item()->EffectiveMetadata());
     ui_->action_love->setEnabled(true);
     ui_->button_love->setEnabled(true);
     tray_icon_->LoveStateChanged(true);
@@ -1562,9 +1562,9 @@ void MainWindow::TrackSkipped(PlaylistItemPtr item) {
 
   // If it was a collection item then we have to increment its skipped count in the database.
 
-  if (item && item->IsLocalCollectionItem() && item->Metadata().id() != -1) {
+  if (item && item->IsLocalCollectionItem() && item->EffectiveMetadata().id() != -1) {
 
-    Song song = item->Metadata();
+    Song song = item->EffectiveMetadata();
     const qint64 position = app_->player()->engine()->position_nanosec();
     const qint64 length = app_->player()->engine()->length_nanosec();
     const float percentage = (length == 0 ? 1 : static_cast<float>(position) / static_cast<float>(length));
@@ -1758,7 +1758,7 @@ void MainWindow::FilePathChanged(const QString &path) {
 void MainWindow::Seeked(const qint64 microseconds) {
 
   const qint64 position = microseconds / kUsecPerSec;
-  const qint64 length = app_->player()->GetCurrentItem()->Metadata().length_nanosec() / kNsecPerSec;
+  const qint64 length = app_->player()->GetCurrentItem()->EffectiveMetadata().length_nanosec() / kNsecPerSec;
   tray_icon_->SetProgress(static_cast<int>(static_cast<double>(position) / static_cast<double>(length) * 100.0));
 
 #ifdef HAVE_DBUS
@@ -1774,7 +1774,7 @@ void MainWindow::UpdateTrackPosition() {
   PlaylistItemPtr item(app_->player()->GetCurrentItem());
   if (!item) return;
 
-  const qint64 length = (item->Metadata().length_nanosec() / kNsecPerSec);
+  const qint64 length = (item->EffectiveMetadata().length_nanosec() / kNsecPerSec);
   if (length <= 0) return;
   const int position = std::floor(static_cast<float>(app_->player()->engine()->position_nanosec()) / static_cast<float>(kNsecPerSec) + 0.5);
 
@@ -1788,12 +1788,12 @@ void MainWindow::UpdateTrackPosition() {
 #endif
 
   // Send Scrobble
-  if (app_->scrobbler()->enabled() && item->Metadata().is_metadata_good()) {
+  if (app_->scrobbler()->enabled() && item->EffectiveMetadata().is_metadata_good()) {
     Playlist *playlist = app_->playlist_manager()->active();
     if (playlist && !playlist->scrobbled()) {
       const qint64 scrobble_point = (playlist->scrobble_point_nanosec() / kNsecPerSec);
       if (position >= scrobble_point) {
-        app_->scrobbler()->Scrobble(item->Metadata(), scrobble_point);
+        app_->scrobbler()->Scrobble(item->EffectiveMetadata(), scrobble_point);
         playlist->set_scrobbled(true);
       }
     }
@@ -1910,7 +1910,7 @@ void MainWindow::AddToPlaylistFromAction(QAction *action) {
     PlaylistItemPtr item = app_->playlist_manager()->current()->item_at(source_index.row());
     if (!item) continue;
     items << item;
-    songs << item->Metadata();
+    songs << item->EffectiveMetadata();
   }
 
   // We're creating a new playlist
@@ -1989,12 +1989,12 @@ void MainWindow::PlaylistRightClick(const QPoint global_pos, const QModelIndex &
     PlaylistItemPtr item = app_->playlist_manager()->current()->item_at(src_idx.row());
     if (!item) continue;
 
-    if (item->Metadata().url().isLocalFile()) ++local_songs;
+    if (item->EffectiveMetadata().url().isLocalFile()) ++local_songs;
 
-    if (item->Metadata().has_cue()) {
+    if (item->EffectiveMetadata().has_cue()) {
       cue_selected = true;
     }
-    else if (item->Metadata().IsEditable()) {
+    else if (item->EffectiveMetadata().IsEditable()) {
       ++editable;
     }
 
@@ -2097,7 +2097,7 @@ void MainWindow::PlaylistRightClick(const QPoint global_pos, const QModelIndex &
 
     // Is it a collection item?
     PlaylistItemPtr item = app_->playlist_manager()->current()->item_at(source_index.row());
-    if (item && item->IsLocalCollectionItem() && item->Metadata().id() != -1) {
+    if (item && item->IsLocalCollectionItem() && item->EffectiveMetadata().id() != -1) {
       playlist_organize_->setVisible(local_songs > 0 && editable > 0 && !cue_selected);
       playlist_show_in_collection_->setVisible(true);
       playlist_open_in_browser_->setVisible(true);
@@ -2189,9 +2189,9 @@ void MainWindow::RescanSongs() {
     PlaylistItemPtr item(app_->playlist_manager()->current()->item_at(source_index.row()));
     if (!item) continue;
     if (item->IsLocalCollectionItem()) {
-      songs << item->Metadata();
+      songs << item->EffectiveMetadata();
     }
-    else if (item->Metadata().source() == Song::Source::LocalFile) {
+    else if (item->EffectiveMetadata().source() == Song::Source::LocalFile) {
       QPersistentModelIndex persistent_index = QPersistentModelIndex(source_index);
       app_->playlist_manager()->current()->ItemReload(persistent_index, item->OriginalMetadata(), false);
     }
@@ -2823,7 +2823,7 @@ void MainWindow::PlaylistOpenInBrowser() {
   for (const QModelIndex &proxy_index : proxy_indexes) {
     const QModelIndex source_index = app_->playlist_manager()->current()->filter()->mapToSource(proxy_index);
     if (!source_index.isValid()) continue;
-    urls << QUrl(source_index.sibling(source_index.row(), static_cast<int>(Playlist::Column::Filename)).data().toString());
+    urls << QUrl(source_index.sibling(source_index.row(), static_cast<int>(Playlist::Column::URL)).data().toString());
   }
 
   Utilities::OpenInFileBrowser(urls);
@@ -2839,7 +2839,7 @@ void MainWindow::PlaylistCopyUrl() {
     if (!source_index.isValid()) continue;
     PlaylistItemPtr item = app_->playlist_manager()->current()->item_at(source_index.row());
     if (!item) continue;
-    urls << item->StreamUrl();
+    urls << item->EffectiveUrl();
   }
 
   if (urls.count() > 0) {
@@ -3321,10 +3321,10 @@ void MainWindow::PlaylistDelete() {
   for (const QModelIndex &proxy_idx : proxy_indexes) {
     QModelIndex source_idx = app_->playlist_manager()->current()->filter()->mapToSource(proxy_idx);
     PlaylistItemPtr item = app_->playlist_manager()->current()->item_at(source_idx.row());
-    if (!item || !item->Metadata().url().isLocalFile()) continue;
-    QString filename = item->Metadata().url().toLocalFile();
+    if (!item || !item->EffectiveMetadata().url().isLocalFile()) continue;
+    QString filename = item->EffectiveMetadata().url().toLocalFile();
     if (files.contains(filename)) continue;
-    selected_songs << item->Metadata();
+    selected_songs << item->EffectiveMetadata();
     files << filename;
     if (item == app_->player()->GetCurrentItem()) is_current_item = true;
   }

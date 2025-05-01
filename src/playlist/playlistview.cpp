@@ -234,7 +234,7 @@ void PlaylistView::SetItemDelegates() {
   setItemDelegateForColumn(static_cast<int>(Playlist::Column::Bitdepth), new PlaylistDelegateBase(this, tr("Bit")));
   setItemDelegateForColumn(static_cast<int>(Playlist::Column::Bitrate), new PlaylistDelegateBase(this, tr("kbps")));
 
-  setItemDelegateForColumn(static_cast<int>(Playlist::Column::Filename), new NativeSeparatorsDelegate(this));
+  setItemDelegateForColumn(static_cast<int>(Playlist::Column::URL), new NativeSeparatorsDelegate(this));
   setItemDelegateForColumn(static_cast<int>(Playlist::Column::LastPlayed), new LastPlayedItemDelegate(this));
 
   setItemDelegateForColumn(static_cast<int>(Playlist::Column::Source), new SongSourceDelegate(this));
@@ -354,7 +354,7 @@ void PlaylistView::RestoreHeaderState() {
     header_->HideSection(static_cast<int>(Playlist::Column::OriginalYear));
     header_->HideSection(static_cast<int>(Playlist::Column::Disc));
     header_->HideSection(static_cast<int>(Playlist::Column::Genre));
-    header_->HideSection(static_cast<int>(Playlist::Column::Filename));
+    header_->HideSection(static_cast<int>(Playlist::Column::URL));
     header_->HideSection(static_cast<int>(Playlist::Column::BaseFilename));
     header_->HideSection(static_cast<int>(Playlist::Column::Filesize));
     header_->HideSection(static_cast<int>(Playlist::Column::DateCreated));
@@ -1406,7 +1406,7 @@ void PlaylistView::CopyCurrentSongToClipboard() const {
   }
 
   // Get the song's URL
-  const QUrl url = model()->data(currentIndex().sibling(currentIndex().row(), static_cast<int>(Playlist::Column::Filename))).toUrl();
+  const QUrl url = model()->data(currentIndex().sibling(currentIndex().row(), static_cast<int>(Playlist::Column::URL))).toUrl();
 
   QMimeData *mime_data = new QMimeData;
   mime_data->setUrls(QList<QUrl>() << url);

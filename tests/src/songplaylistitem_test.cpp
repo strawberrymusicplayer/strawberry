@@ -78,7 +78,7 @@ TEST_P(SongPlaylistItemTest, Url) {
   expected.setScheme(u"file"_s);
   expected.setPath(absolute_file_name_);
 
-  EXPECT_EQ(expected, item_->Url());
+  EXPECT_EQ(expected, item_->OriginalUrl());
 }
 
 

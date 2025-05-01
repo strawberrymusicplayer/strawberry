@@ -36,6 +36,15 @@ StreamPlaylistItem::StreamPlaylistItem(const Song &song)
   InitMetadata();
 }
 
+void StreamPlaylistItem::InitMetadata() {
+
+  if (song_.title().isEmpty()) song_.set_title(song_.url().toString());
+  if (song_.source() == Song::Source::Unknown) song_.set_source(Song::Source::Stream);
+  if (song_.filetype() == Song::FileType::Unknown) song_.set_filetype(Song::FileType::Stream);
+  song_.set_valid(true);
+
+}
+
 bool StreamPlaylistItem::InitFromQuery(const SqlRow &query) {
 
   song_.InitFromQuery(query, false, static_cast<int>(Song::kRowIdColumns.count()));
@@ -48,27 +57,9 @@ QVariant StreamPlaylistItem::DatabaseValue(const DatabaseColumn column) const {
   return PlaylistItem::DatabaseValue(column);
 }
 
-void StreamPlaylistItem::InitMetadata() {
-
-  if (song_.title().isEmpty()) song_.set_title(song_.url().toString());
-  if (song_.source() == Song::Source::Unknown) song_.set_source(Song::Source::Stream);
-  if (song_.filetype() == Song::FileType::Unknown) song_.set_filetype(Song::FileType::Stream);
-  song_.set_valid(true);
-
-}
-
-Song StreamPlaylistItem::Metadata() const {
-
-  if (HasTemporaryMetadata()) return temp_metadata_;
-  return song_;
-
-}
-
-QUrl StreamPlaylistItem::Url() const { return song_.url(); }
-
 void StreamPlaylistItem::SetArtManual(const QUrl &cover_url) {
 
   song_.set_art_manual(cover_url);
-  temp_metadata_.set_art_manual(cover_url);
+  stream_song_.set_art_manual(cover_url);
 
 }

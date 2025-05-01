@@ -35,18 +35,16 @@ class CollectionPlaylistItem : public PlaylistItem {
   explicit CollectionPlaylistItem(const Song::Source source);
   explicit CollectionPlaylistItem(const Song &song);
 
-  QUrl Url() const override;
+  Song OriginalMetadata() const override { return song_; }
+  void SetOriginalMetadata(const Song &song) override { song_ = song; }
+
+  QUrl OriginalUrl() const override { return song_.url(); }
+  bool IsLocalCollectionItem() const override { return song_.source() == Song::Source::Collection; }
 
   bool InitFromQuery(const SqlRow &query) override;
   void Reload() override;
 
-  Song Metadata() const override;
-  Song OriginalMetadata() const override { return song_; }
-  void SetMetadata(const Song &song) override { song_ = song; }
-
   void SetArtManual(const QUrl &cover_url) override;
-
-  bool IsLocalCollectionItem() const override { return song_.source() == Song::Source::Collection; }
 
  protected:
   QVariant DatabaseValue(const DatabaseColumn database_column) const override;

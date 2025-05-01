@@ -48,7 +48,7 @@ bool PlaylistUndoCommandInsertItems::UpdateItem(const PlaylistItemPtr &updated_i
 
   for (int i = 0; i < items_.size(); i++) {
     PlaylistItemPtr item = items_.value(i);
-    if (item->Metadata().url() == updated_item->Metadata().url()) {
+    if (item->EffectiveMetadata().url() == updated_item->EffectiveMetadata().url()) {
       items_[i] = updated_item;
       return true;
     }

@@ -392,7 +392,7 @@ QString SmartPlaylistSearchTerm::FieldName(const Field field) {
     case Field::Length:
       return Playlist::column_name(Playlist::Column::Length);
     case Field::Filepath:
-      return Playlist::column_name(Playlist::Column::Filename);
+      return Playlist::column_name(Playlist::Column::URL);
     case Field::Filetype:
       return Playlist::column_name(Playlist::Column::Filetype);
     case Field::Filesize:

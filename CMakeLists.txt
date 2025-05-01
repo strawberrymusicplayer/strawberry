@@ -1588,6 +1588,7 @@ target_link_libraries(strawberry_lib PUBLIC
   $<$<BOOL:${WIN32}>:dsound dwmapi getopt-win::getopt>
   $<$<BOOL:${MSVC}>:WindowsApp>
   KDAB::kdsingleapplication
+  $<$<BOOL:${HAVE_DISCORD_RPC}>:discord-rpc>
 )
 
 if(APPLE)

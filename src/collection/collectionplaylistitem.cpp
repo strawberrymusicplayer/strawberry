@@ -34,8 +34,6 @@ CollectionPlaylistItem::CollectionPlaylistItem(const Song::Source source) : Play
 
 CollectionPlaylistItem::CollectionPlaylistItem(const Song &song) : PlaylistItem(song.source()), song_(song) {}
 
-QUrl CollectionPlaylistItem::Url() const { return song_.url(); }
-
 bool CollectionPlaylistItem::InitFromQuery(const SqlRow &query) {
 
   int col = 0;
@@ -62,7 +60,7 @@ void CollectionPlaylistItem::Reload() {
       qLog(Error) << "Could not reload file" << song_.url() << result.error_string();
       return;
     }
-    UpdateTemporaryMetadata(song_);
+    UpdateStreamMetadata(song_);
   }
 
 }
@@ -78,16 +76,9 @@ QVariant CollectionPlaylistItem::DatabaseValue(const DatabaseColumn database_col
 
 }
 
-Song CollectionPlaylistItem::Metadata() const {
-
-  if (HasTemporaryMetadata()) return temp_metadata_;
-  return song_;
-
-}
-
 void CollectionPlaylistItem::SetArtManual(const QUrl &cover_url) {
 
   song_.set_art_manual(cover_url);
-  if (HasTemporaryMetadata()) temp_metadata_.set_art_manual(cover_url);
+  if (HasStreamMetadata()) stream_song_.set_art_manual(cover_url);
 
 }

@@ -33,12 +33,10 @@ class StreamPlaylistItem : public PlaylistItem {
   explicit StreamPlaylistItem(const Song::Source source);
   explicit StreamPlaylistItem(const Song &song);
 
-  bool InitFromQuery(const SqlRow &query) override;
-  Song Metadata() const override;
   Song OriginalMetadata() const override { return song_; }
-  QUrl Url() const override;
-
-  void SetMetadata(const Song &song) override { song_ = song; }
+  QUrl OriginalUrl() const override { return song_.url(); }
+  void SetOriginalMetadata(const Song &song) override { song_ = song; }
+  bool InitFromQuery(const SqlRow &query) override;
   void SetArtManual(const QUrl &cover_url) override;
 
  protected:

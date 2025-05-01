@@ -273,7 +273,7 @@ PlaylistItemPtr PlaylistBackend::NewPlaylistItemFromQuery(const SqlRow &row, Sha
 
 Song PlaylistBackend::NewSongFromQuery(const SqlRow &row, SharedPtr<NewSongFromQueryState> state) {
 
-  return NewPlaylistItemFromQuery(row, state)->Metadata();
+  return NewPlaylistItemFromQuery(row, state)->EffectiveMetadata();
 
 }
 
@@ -286,7 +286,7 @@ PlaylistItemPtr PlaylistBackend::RestoreCueData(PlaylistItemPtr item, SharedPtr<
 
   CueParser cue_parser(tagreader_client_, collection_backend_);
 
-  Song song = item->Metadata();
+  Song song = item->EffectiveMetadata();
   // We're only interested in .cue songs here
   if (!song.has_cue()) return item;
 
