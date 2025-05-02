@@ -657,7 +657,7 @@
     </message>
     <message>
       <source>Perform track loudness normalization</source>
-      <translation type="unfinished">Perform track loudness normalization</translation>
+      <translation>Εκτέλεση εξομάλυνσης έντασης κομματιού</translation>
     </message>
     <message>
       <source>Target Level</source>
@@ -1666,7 +1666,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Save album covers as embedded cover</source>
-      <translation type="unfinished">Save album covers as embedded cover</translation>
+      <translation>Αποθήκευση εξώφυλλα άλμπουμ ως ενσωματωμένο εξώφυλλο</translation>
     </message>
     <message>
       <source>Filename:</source>
@@ -1730,7 +1730,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Automatically picked up from album directory (%1)</source>
-      <translation type="unfinished">Automatically picked up from album directory (%1)</translation>
+      <translation>Αυτόματη παραλαβή από τον κατάλογο άλμπουμ (%1)</translation>
     </message>
     <message>
       <source>Embedded album cover art (%1)</source>
@@ -2072,7 +2072,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Art Unset</source>
-      <translation type="unfinished">Art Unset</translation>
+      <translation>Αποεπιλογή Εξωφύλλων</translation>
     </message>
     <message>
       <source>File size</source>
@@ -2319,7 +2319,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Balance</source>
-      <translation type="unfinished">Balance</translation>
+      <translation>Εξισορρόπηση</translation>
     </message>
     <message>
       <source>Right</source>
@@ -2411,7 +2411,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Are you sure you want to delete the &quot;%1&quot; preset?</source>
-      <translation type="unfinished">Are you sure you want to delete the &quot;%1&quot; preset?</translation>
+      <translation>Είστε βέβαιοι ότι θέλετε να διαγράψετε το &quot;%1&quot; προεπιλογή?;</translation>
     </message>
   </context>
   <context>
@@ -2440,7 +2440,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Icons sidebar</source>
-      <translation type="unfinished">Icons sidebar</translation>
+      <translation>Πλαϊνή μπάρα εικονιδίων</translation>
     </message>
     <message>
       <source>Small sidebar</source>
@@ -2452,7 +2452,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Tabs on top</source>
-      <translation type="unfinished">Tabs on top</translation>
+      <translation>Καρτέλες στην κορυφή</translation>
     </message>
     <message>
       <source>Icons on top</source>
@@ -2550,7 +2550,7 @@ If there are no matches then it will use the largest image in the directory.</so
     <name>GPodLoader</name>
     <message>
       <source>Loading iPod database</source>
-      <translation type="unfinished">Loading iPod database</translation>
+      <translation>Φόρτωση βάσης δεδομένων iPod</translation>
     </message>
     <message>
       <source>An error occurred loading the iTunes database</source>
@@ -2573,7 +2573,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Received invalid reply from web browser.</source>
-      <translation type="unfinished">Received invalid reply from web browser.</translation>
+      <translation>Λήφθηκε μη έγκυρη απάντηση από το πρόγραμμα περιήγησης.</translation>
     </message>
     <message>
       <source>Redirect from Genius is missing query items code or state.</source>
@@ -2584,7 +2584,7 @@ If there are no matches then it will use the largest image in the directory.</so
     <name>GioLister</name>
     <message>
       <source>Mount point</source>
-      <translation type="unfinished">Mount point</translation>
+      <translation>Σημείο προσάρτησης</translation>
     </message>
     <message>
       <source>Device</source>
@@ -2603,7 +2603,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Press a key combination to use for %1...</source>
-      <translation type="unfinished">Press a key combination to use for %1...</translation>
+      <translation>Πατήστε ένα συνδυασμό πλήκτρων για να χρησιμοποιήσετε το %1...</translation>
     </message>
   </context>
   <context>
@@ -2674,15 +2674,15 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Change shuffle mode</source>
-      <translation type="unfinished">Change shuffle mode</translation>
+      <translation>Αλλαγή λειτουργίας τυχαίας αναπαραγωγής</translation>
     </message>
     <message>
       <source>Change repeat mode</source>
-      <translation type="unfinished">Change repeat mode</translation>
+      <translation>Αλλαγή λειτουργίας επανάληψης</translation>
     </message>
     <message>
       <source>Enable/disable scrobbling</source>
-      <translation type="unfinished">Enable/disable scrobbling</translation>
+      <translation>Ενεργοποίηση/απενεργοποίηση scrobbling</translation>
     </message>
     <message>
       <source>Love</source>
@@ -2693,7 +2693,7 @@ If there are no matches then it will use the largest image in the directory.</so
     <name>GlobalShortcutsSettingsPage</name>
     <message>
       <source>Global Shortcuts</source>
-      <translation type="unfinished">Global Shortcuts</translation>
+      <translation>Γενικές Συντομεύσεις</translation>
     </message>
     <message>
       <source>Open...</source>
@@ -2701,7 +2701,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Use X11 shortcuts when available</source>
-      <translation type="unfinished">Use X11 shortcuts when available</translation>
+      <translation>Χρήση συντομεύσεων X11 όταν είναι διαθέσιμες</translation>
     </message>
     <message>
       <source>You need to launch System Preferences and allow Strawberry to &quot;&lt;span style=&quot;font-style:italic&quot;&gt;control your computer&lt;/span&gt;&quot; to use global shortcuts in Strawberry.</source>
@@ -2730,7 +2730,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>&amp;Custom</source>
-      <translation type="unfinished">&amp;Custom</translation>
+      <translation>&amp;Προσαρμογή</translation>
     </message>
     <message>
       <source>Change shortcut...</source>
@@ -3392,7 +3392,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Show only duplicates</source>
-      <translation type="unfinished">Show only duplicates</translation>
+      <translation>Εμφάνιση μόνο διπλότυπων</translation>
     </message>
     <message>
       <source>Show only untagged</source>
@@ -3512,7 +3512,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Skip selected tracks</source>
-      <translation type="unfinished">Skip selected tracks</translation>
+      <translation>Παράκαμψη επιλεγμένων κομματιών</translation>
     </message>
     <message>
       <source>Set %1 to &quot;%2&quot;...</source>
@@ -3631,33 +3631,33 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>MTP error: %1</source>
-      <translation type="unfinished">MTP error: %1</translation>
+      <translation>Σφάλμα MTP: %1</translation>
     </message>
     <message>
       <source>MTP device not found.</source>
-      <translation type="unfinished">MTP device not found.</translation>
+      <translation>Η συσκευή MTP δεν βρέθηκε.</translation>
     </message>
   </context>
   <context>
     <name>MtpLoader</name>
     <message>
       <source>Loading MTP device</source>
-      <translation type="unfinished">Loading MTP device</translation>
+      <translation>Φόρτωση συσκευής MTP</translation>
     </message>
     <message>
       <source>Error connecting MTP device %1</source>
-      <translation type="unfinished">Error connecting MTP device %1</translation>
+      <translation>Σφάλμα κατά τη σύνδεση της συσκευής MTP %1</translation>
     </message>
     <message>
       <source>Error connecting MTP device %1: %2</source>
-      <translation type="unfinished">Error connecting MTP device %1: %2</translation>
+      <translation>Σφάλμα κατά τη σύνδεση της συσκευής MTP %1: %2</translation>
     </message>
   </context>
   <context>
     <name>NetworkProxySettingsPage</name>
     <message>
       <source>Network Proxy</source>
-      <translation type="unfinished">Network Proxy</translation>
+      <translation>Διαμεσολαβητής Δικτύου</translation>
     </message>
     <message>
       <source>&amp;Use the system proxy settings</source>
@@ -3665,19 +3665,19 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Direct internet connection</source>
-      <translation type="unfinished">Direct internet connection</translation>
+      <translation>Απευθείας σύνδεση στο διαδίκτυο</translation>
     </message>
     <message>
       <source>&amp;Manual proxy configuration</source>
-      <translation type="unfinished">&amp;Manual proxy configuration</translation>
+      <translation>&amp;Χειροκίνητη διαμόρφωση διαμεσολαβητή</translation>
     </message>
     <message>
       <source>HTTP proxy</source>
-      <translation type="unfinished">HTTP proxy</translation>
+      <translation>Διαμεσολαβητής HTTP</translation>
     </message>
     <message>
       <source>SOCKS proxy</source>
-      <translation type="unfinished">SOCKS proxy</translation>
+      <translation>Διαμεσολαβητής SOCKS</translation>
     </message>
     <message>
       <source>Port</source>
@@ -3712,7 +3712,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Notification type</source>
-      <translation type="unfinished">Notification type</translation>
+      <translation>Τύπος ειδοποίησης</translation>
     </message>
     <message>
       <source>Disabled</source>
@@ -3777,11 +3777,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Preview</source>
-      <translation type="unfinished">Preview</translation>
+      <translation>Προεπισκόπιση</translation>
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>Summary</source>
@@ -3793,7 +3793,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Pretty OSD options</source>
-      <translation type="unfinished">Pretty OSD options</translation>
+      <translation>Όμορφες επιλογές OSD</translation>
     </message>
     <message>
       <source>Background color</source>
@@ -3805,11 +3805,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Choose font...</source>
-      <translation type="unfinished">Choose font...</translation>
+      <translation>Επιλέξτε γραμματοσειρά...</translation>
     </message>
     <message>
       <source>Choose color...</source>
-      <translation type="unfinished">Choose color...</translation>
+      <translation>Επιλέξτε χρώμα...</translation>
     </message>
     <message>
       <source>Background opacity</source>
@@ -3817,7 +3817,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Basic Blue</source>
-      <translation type="unfinished">Basic Blue</translation>
+      <translation>Βασικό Μπλε</translation>
     </message>
     <message>
       <source>Strawberry Red</source>
@@ -3901,7 +3901,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Add song filename</source>
-      <translation type="unfinished">Add song filename</translation>
+      <translation>Προσθήκη αρχείου τραγουδιού</translation>
     </message>
     <message>
       <source>%url%</source>
@@ -3909,23 +3909,23 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Add song URL</source>
-      <translation type="unfinished">Add song URL</translation>
+      <translation>Προσθήκη URL τραγουδιού</translation>
     </message>
     <message>
       <source>%originalyear%</source>
-      <translation type="unfinished">%originalyear%</translation>
+      <translation>%originalyear%</translation>
     </message>
     <message>
       <source>Add song original year tag</source>
-      <translation type="unfinished">Add song original year tag</translation>
+      <translation>Προσθήκη ετικέτας αρχικού έτους τραγουδιού</translation>
     </message>
     <message>
       <source>OSD Preview</source>
-      <translation type="unfinished">OSD Preview</translation>
+      <translation>Προεπισκόπηση OSD</translation>
     </message>
     <message>
       <source>Drag to reposition</source>
-      <translation type="unfinished">Drag to reposition</translation>
+      <translation>Σύρετε για επανατοποθέτηση</translation>
     </message>
   </context>
   <context>
@@ -3936,35 +3936,35 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>track %1</source>
-      <translation type="unfinished">track %1</translation>
+      <translation>τραγούδι %1</translation>
     </message>
     <message>
       <source>Paused</source>
-      <translation type="unfinished">Paused</translation>
+      <translation>Σε παύση</translation>
     </message>
     <message>
       <source>Stopped</source>
-      <translation type="unfinished">Stopped</translation>
+      <translation>Διακόπηκε</translation>
     </message>
     <message>
       <source>Stop playing after track: %1</source>
-      <translation type="unfinished">Stop playing after track: %1</translation>
+      <translation>Διακοπή αναπαραγωγής μετά το τραγούδι: %1</translation>
     </message>
     <message>
       <source>On</source>
-      <translation type="unfinished">On</translation>
+      <translation>Ενεργό</translation>
     </message>
     <message>
       <source>Off</source>
-      <translation type="unfinished">Off</translation>
+      <translation>Ανενεργό</translation>
     </message>
     <message>
       <source>Playlist finished</source>
-      <translation type="unfinished">Playlist finished</translation>
+      <translation>Ολοκλήρωση λίστας</translation>
     </message>
     <message>
       <source>Volume %1%</source>
-      <translation type="unfinished">Volume %1%</translation>
+      <translation>Ένταση %1%</translation>
     </message>
     <message>
       <source>Don&apos;t shuffle</source>
@@ -3972,35 +3972,35 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Shuffle all</source>
-      <translation type="unfinished">Shuffle all</translation>
+      <translation>Τυχαία αναπαραγωγή όλων</translation>
     </message>
     <message>
       <source>Shuffle tracks in this album</source>
-      <translation type="unfinished">Shuffle tracks in this album</translation>
+      <translation>Τυχαία αναπαραγωγή τραγουδιών σε αυτό το άλμπουμ</translation>
     </message>
     <message>
       <source>Shuffle albums</source>
-      <translation type="unfinished">Shuffle albums</translation>
+      <translation>Τυχαίο άλμπουμ</translation>
     </message>
     <message>
       <source>Don&apos;t repeat</source>
-      <translation type="unfinished">Don&apos;t repeat</translation>
+      <translation>Μη επανάληψη</translation>
     </message>
     <message>
       <source>Repeat track</source>
-      <translation type="unfinished">Repeat track</translation>
+      <translation>Επανάληψη τραγουδιού</translation>
     </message>
     <message>
       <source>Repeat album</source>
-      <translation type="unfinished">Repeat album</translation>
+      <translation>Επανάληψη άλμπουμ</translation>
     </message>
     <message>
       <source>Repeat playlist</source>
-      <translation type="unfinished">Repeat playlist</translation>
+      <translation>Επανάληψη λίστας</translation>
     </message>
     <message>
       <source>Stop after every track</source>
-      <translation type="unfinished">Stop after every track</translation>
+      <translation>Παύση μετά από κάθε τραγούδι</translation>
     </message>
     <message>
       <source>Intro tracks</source>
