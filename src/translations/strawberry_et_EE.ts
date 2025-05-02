@@ -25,11 +25,11 @@
     </message>
     <message>
       <source>Strawberry is free software released under GPL. The source code is available on %1</source>
-      <translation>Strawberry on avatud lähtekoodil põhinev tasuta tarkvara, mis on välja antud GPL litsentsi all. Lähtekood on saadaval aadressil %1</translation>
+      <translation>Strawberry on avatud lähtekoodiga tasuta tarkvara, mis on avaldatud GPL-i alusel. Lähtekood on saadaval siin: %1</translation>
     </message>
     <message>
       <source>You should have received a copy of the GNU General Public License along with this program.  If not, see %1</source>
-      <translation>Said ilmselt koos selle programmiga ka GNU Üldine Avalik Litsentsi koopia. Kui ei, siis leiad ta siit: %1</translation>
+      <translation>Said ilmselt koos selle programmiga ka GNU Üldise Avaliku Litsentsi koopia. Kui ei, siis leiad ta siit: %1</translation>
     </message>
     <message>
       <source>If you like Strawberry and can make use of it, consider sponsoring or donating.</source>
