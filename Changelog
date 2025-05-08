@@ -2,6 +2,12 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+    * Fixed playlist songs sometimes not updated with new cover.
+    * Enable startup notify in desktop file.
+    * (Windows|MSVC) Add experimental support for native ARM64 builds.
+
 Version 1.2.10 (2025.04.18):
 
   Bugfixes:
