@@ -34,274 +34,274 @@
     </message>
     <message>
       <source>If you like Strawberry and can make use of it, consider sponsoring or donating.</source>
-      <translation type="unfinished">If you like Strawberry and can make use of it, consider sponsoring or donating.</translation>
+      <translation>如果您喜歡 Strawberry 並覺得它對您有幫助，歡迎考慮贊助或捐款支持。</translation>
     </message>
     <message>
       <source>You can sponsor the author on %1. You can also make a one-time payment through %2.</source>
-      <translation type="unfinished">You can sponsor the author on %1. You can also make a one-time payment through %2.</translation>
+      <translation>您可以在 %1 贊助作者，也可以透過 %2 進行一次性付款。</translation>
     </message>
     <message>
       <source>Author and maintainer</source>
-      <translation type="unfinished">Author and maintainer</translation>
+      <translation>作者與維護者</translation>
     </message>
     <message>
       <source>Contributors</source>
-      <translation type="unfinished">Contributors</translation>
+      <translation>貢獻者</translation>
     </message>
     <message>
       <source>Clementine authors</source>
-      <translation type="unfinished">Clementine authors</translation>
+      <translation>Clementine 開發團隊</translation>
     </message>
     <message>
       <source>Clementine contributors</source>
-      <translation type="unfinished">Clementine contributors</translation>
+      <translation>Clementine 貢獻者</translation>
     </message>
     <message>
       <source>Thanks to</source>
-      <translation type="unfinished">Thanks to</translation>
+      <translation>特別感謝</translation>
     </message>
     <message>
       <source>Thanks to all the other Amarok and Clementine contributors.</source>
-      <translation type="unfinished">Thanks to all the other Amarok and Clementine contributors.</translation>
+      <translation>特別感謝所有 Amarok 與 Clementine 的貢獻者</translation>
     </message>
   </context>
   <context>
     <name>AddStreamDialog</name>
     <message>
       <source>Add Stream</source>
-      <translation type="unfinished">Add Stream</translation>
+      <translation>新增串流</translation>
     </message>
     <message>
       <source>Enter the URL of a stream:</source>
-      <translation type="unfinished">Enter the URL of a stream:</translation>
+      <translation>請輸入串流網址：</translation>
     </message>
   </context>
   <context>
     <name>AlbumCoverChoiceController</name>
     <message>
       <source>Load cover from disk...</source>
-      <translation type="unfinished">Load cover from disk...</translation>
+      <translation>從硬碟載入封面…</translation>
     </message>
     <message>
       <source>Save cover to disk...</source>
-      <translation type="unfinished">Save cover to disk...</translation>
+      <translation>儲存封面至硬碟...</translation>
     </message>
     <message>
       <source>Load cover from URL...</source>
-      <translation type="unfinished">Load cover from URL...</translation>
+      <translation>從網址載入封面…</translation>
     </message>
     <message>
       <source>Search for album covers...</source>
-      <translation type="unfinished">Search for album covers...</translation>
+      <translation>搜尋專輯封面…</translation>
     </message>
     <message>
       <source>Unset cover</source>
-      <translation type="unfinished">Unset cover</translation>
+      <translation>取消封面</translation>
     </message>
     <message>
       <source>Delete cover</source>
-      <translation type="unfinished">Delete cover</translation>
+      <translation>刪除封面</translation>
     </message>
     <message>
       <source>Clear cover</source>
-      <translation type="unfinished">Clear cover</translation>
+      <translation>清除封面</translation>
     </message>
     <message>
       <source>Show fullsize...</source>
-      <translation type="unfinished">Show fullsize...</translation>
+      <translation>顯示完整尺寸…</translation>
     </message>
     <message>
       <source>Search automatically</source>
-      <translation type="unfinished">Search automatically</translation>
+      <translation>自動搜尋</translation>
     </message>
     <message>
       <source>Load cover from disk</source>
-      <translation type="unfinished">Load cover from disk</translation>
+      <translation>從硬碟載入封面</translation>
     </message>
     <message>
       <source>Failed to open cover file %1 for reading: %2</source>
-      <translation type="unfinished">Failed to open cover file %1 for reading: %2</translation>
+      <translation>無法開啟封面檔案 %1 進行讀取：%2</translation>
     </message>
     <message>
       <source>Cover file %1 is empty.</source>
-      <translation type="unfinished">Cover file %1 is empty.</translation>
+      <translation>封面檔案 %1 是空的。</translation>
     </message>
     <message>
       <source>unknown</source>
-      <translation type="unfinished">unknown</translation>
+      <translation>未知</translation>
     </message>
     <message>
       <source>Save album cover</source>
-      <translation type="unfinished">Save album cover</translation>
+      <translation>儲存專輯封面</translation>
     </message>
     <message>
       <source>Failed to open cover file %1 for writing: %2</source>
-      <translation type="unfinished">Failed to open cover file %1 for writing: %2</translation>
+      <translation>無法開啟封面檔案 %1 進行寫入：%2</translation>
     </message>
     <message>
       <source>Failed writing cover to file %1: %2</source>
-      <translation type="unfinished">Failed writing cover to file %1: %2</translation>
+      <translation>寫入封面至檔案 %1 失敗：%2</translation>
     </message>
     <message>
       <source>Failed writing cover to file %1.</source>
-      <translation type="unfinished">Failed writing cover to file %1.</translation>
+      <translation>無法將封面寫入檔案 %1</translation>
     </message>
     <message>
       <source>Failed to delete cover file %1: %2</source>
-      <translation type="unfinished">Failed to delete cover file %1: %2</translation>
+      <translation>刪除封面檔案 %1 失敗：%2</translation>
     </message>
     <message>
       <source>Failed to write cover to file %1: %2</source>
-      <translation type="unfinished">Failed to write cover to file %1: %2</translation>
+      <translation> 無法將封面寫入檔案 %1：%2</translation>
     </message>
     <message>
       <source>Could not save cover to file %1.</source>
-      <translation type="unfinished">Could not save cover to file %1.</translation>
+      <translation>無法將封面儲存至檔案 %1。</translation>
     </message>
   </context>
   <context>
     <name>AlbumCoverExport</name>
     <message>
       <source>Export covers</source>
-      <translation type="unfinished">Export covers</translation>
+      <translation>匯出封面</translation>
     </message>
     <message>
       <source>Output</source>
-      <translation type="unfinished">Output</translation>
+      <translation>輸出</translation>
     </message>
     <message>
       <source>Enter a filename for exported covers (no extension):</source>
-      <translation type="unfinished">Enter a filename for exported covers (no extension):</translation>
+      <translation>請輸入匯出封面的檔案名稱（不含副檔名）：</translation>
     </message>
     <message>
       <source>Export downloaded covers</source>
-      <translation type="unfinished">Export downloaded covers</translation>
+      <translation>匯出已下載的封面</translation>
     </message>
     <message>
       <source>Export embedded covers</source>
-      <translation type="unfinished">Export embedded covers</translation>
+      <translation>匯出內嵌封面</translation>
     </message>
     <message>
       <source>Existing covers</source>
-      <translation type="unfinished">Existing covers</translation>
+      <translation>現有封面</translation>
     </message>
     <message>
       <source>Do not overwrite</source>
-      <translation type="unfinished">Do not overwrite</translation>
+      <translation>不要覆蓋</translation>
     </message>
     <message>
       <source>O&amp;verwrite all</source>
-      <translation type="unfinished">O&amp;verwrite all</translation>
+      <translation> 全部覆寫(&amp;V)</translation>
     </message>
     <message>
       <source>Overwrite s&amp;maller ones only</source>
-      <translation type="unfinished">Overwrite s&amp;maller ones only</translation>
+      <translation>僅覆寫較小檔案</translation>
     </message>
     <message>
       <source>Size</source>
-      <translation type="unfinished">Size</translation>
+      <translation>大小</translation>
     </message>
     <message>
       <source>Scale size</source>
-      <translation type="unfinished">Scale size</translation>
+      <translation> 縮放大小</translation>
     </message>
     <message>
       <source>Size:</source>
-      <translation type="unfinished">Size:</translation>
+      <translation>實際大小 ：</translation>
     </message>
     <message>
       <source>Pixel</source>
-      <translation type="unfinished">Pixel</translation>
+      <translation>像素</translation>
     </message>
   </context>
   <context>
     <name>AlbumCoverManager</name>
     <message>
       <source>Abort</source>
-      <translation type="unfinished">Abort</translation>
+      <translation>中止</translation>
     </message>
     <message>
       <source>All albums</source>
-      <translation type="unfinished">All albums</translation>
+      <translation>所有專輯</translation>
     </message>
     <message>
       <source>Albums with covers</source>
-      <translation type="unfinished">Albums with covers</translation>
+      <translation>含封面的專輯</translation>
     </message>
     <message>
       <source>Albums without covers</source>
-      <translation type="unfinished">Albums without covers</translation>
+      <translation>無封面的專輯</translation>
     </message>
     <message>
       <source>Really cancel?</source>
-      <translation type="unfinished">Really cancel?</translation>
+      <translation>確定要取消？</translation>
     </message>
     <message>
       <source>Closing this window will stop searching for album covers.</source>
-      <translation type="unfinished">Closing this window will stop searching for album covers.</translation>
+      <translation>關閉此視窗將停止搜尋專輯封面</translation>
     </message>
     <message>
       <source>Don&apos;t stop!</source>
-      <translation type="unfinished">Don&apos;t stop!</translation>
+      <translation>不要停止！</translation>
     </message>
     <message>
       <source>All artists</source>
-      <translation type="unfinished">All artists</translation>
+      <translation>所有藝人</translation>
     </message>
     <message>
       <source>Various artists</source>
-      <translation type="unfinished">Various artists</translation>
+      <translation>合輯</translation>
     </message>
     <message>
       <source>Got %1 covers out of %2 (%3 failed)</source>
-      <translation type="unfinished">Got %1 covers out of %2 (%3 failed)</translation>
+      <translation>已取得 %1 張封面（共 %2 張，%3 張失敗）</translation>
     </message>
     <message>
       <source>%1 transferred</source>
-      <translation type="unfinished">%1 transferred</translation>
+      <translation>已傳輸 %1 項</translation>
     </message>
     <message>
       <source>Export finished</source>
-      <translation type="unfinished">Export finished</translation>
+      <translation>匯出完成</translation>
     </message>
     <message>
       <source>No covers to export.</source>
-      <translation type="unfinished">No covers to export.</translation>
+      <translation>無封面可匯出</translation>
     </message>
     <message>
       <source>Exported %1 covers out of %2 (%3 skipped)</source>
-      <translation type="unfinished">Exported %1 covers out of %2 (%3 skipped)</translation>
+      <translation>已匯出 %1 張封面（共 %2 張，%3 張略過）</translation>
     </message>
     <message>
       <source>Could not save cover to file %1.</source>
-      <translation type="unfinished">Could not save cover to file %1.</translation>
+      <translation>無法將封面儲存至檔案 %1</translation>
     </message>
   </context>
   <context>
     <name>AlbumCoverSearcher</name>
     <message>
       <source>Cover Manager</source>
-      <translation type="unfinished">Cover Manager</translation>
+      <translation>封面管理員</translation>
     </message>
     <message>
       <source>Artist</source>
-      <translation type="unfinished">Artist</translation>
+      <translation>藝人</translation>
     </message>
     <message>
       <source>Album</source>
-      <translation type="unfinished">Album</translation>
+      <translation>專輯</translation>
     </message>
     <message>
       <source>Search</source>
-      <translation type="unfinished">Search</translation>
+      <translation>搜尋</translation>
     </message>
     <message>
       <source>Covers from %1</source>
-      <translation type="unfinished">Covers from %1</translation>
+      <translation>來自 %1 的封面</translation>
     </message>
     <message>
       <source>Abort</source>
-      <translation type="unfinished">Abort</translation>
+      <translation>中止</translation>
     </message>
   </context>
   <context>
