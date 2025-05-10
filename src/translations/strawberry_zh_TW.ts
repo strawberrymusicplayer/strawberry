@@ -5,31 +5,32 @@
     <name>About</name>
     <message>
       <source>About</source>
-      <translation type="unfinished">About</translation>
+      <translation>關於我們</translation>
     </message>
     <message>
       <source>About Strawberry</source>
-      <translation type="unfinished">About Strawberry</translation>
+      <translation>關於本程式</translation>
     </message>
     <message>
       <source>Version %1</source>
-      <translation type="unfinished">Version %1</translation>
+      <translation> 版本 %1</translation>
     </message>
     <message>
       <source>Strawberry is a music player and music collection organizer.</source>
-      <translation type="unfinished">Strawberry is a music player and music collection organizer.</translation>
+      <translation>Strawberry 是一款用來播放與整理音樂收藏的程式</translation>
     </message>
     <message>
       <source>It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles.</source>
-      <translation type="unfinished">It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles.</translation>
+      <translation>這款程式源自於 Clementine 的分支，於 2018 年問世，針對音樂收藏與高音質需求的使用者而設計</translation>
     </message>
     <message>
       <source>Strawberry is free software released under GPL. The source code is available on %1</source>
-      <translation type="unfinished">Strawberry is free software released under GPL. The source code is available on %1</translation>
+      <translation>Strawberry 是一款依據 GPL 授權條款釋出的自由軟體。原始碼可在 %1 取得。
+</translation>
     </message>
     <message>
       <source>You should have received a copy of the GNU General Public License along with this program.  If not, see %1</source>
-      <translation type="unfinished">You should have received a copy of the GNU General Public License along with this program.  If not, see %1</translation>
+      <translation> 您應該已隨本程式一併收到 GNU 通用公共授權條款的副本。如未收到，請參閱 %1。</translation>
     </message>
     <message>
       <source>If you like Strawberry and can make use of it, consider sponsoring or donating.</source>
