@@ -5,6 +5,7 @@ ChangeLog
 Unreleased:
 
     * Fixed playlist songs sometimes not updated with new cover.
+    * Fixed context album cover showing even when it's disabled in the setting (#1744).
     * Enable startup notify in desktop file.
     * (Windows|MSVC) Add experimental support for native ARM64 builds.
 
