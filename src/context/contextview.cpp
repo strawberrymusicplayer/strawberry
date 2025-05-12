@@ -396,7 +396,7 @@ void ContextView::UpdateNoSong() {
 
 void ContextView::NoSong() {
 
-  if (!widget_album_->isVisible()) {
+  if (!widget_album_->isVisibleTo(this)) {
     widget_album_->show();
   }
 
@@ -440,11 +440,11 @@ void ContextView::SetSong() {
   label_stop_summary_->clear();
 
   bool widget_album_changed = !song_prev_.is_valid();
-  if (action_show_album_->isChecked() && !widget_album_->isVisible()) {
+  if (action_show_album_->isChecked() && !widget_album_->isVisibleTo(this)) {
     widget_album_->show();
     widget_album_changed = true;
   }
-  else if (!action_show_album_->isChecked() && widget_album_->isVisible()) {
+  else if (!action_show_album_->isChecked() && widget_album_->isVisibleTo(this)) {
     widget_album_->hide();
     widget_album_changed = true;
   }
