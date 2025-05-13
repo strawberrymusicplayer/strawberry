@@ -6,8 +6,10 @@ Unreleased:
 
     * Fixed playlist songs sometimes not updated with new cover.
     * Fixed context album cover showing even when it's disabled in the setting (#1744).
+    * Fixed crash when dragging songs to a closed playlist (#1741).
     * Enable startup notify in desktop file.
     * (Windows|MSVC) Add experimental support for native ARM64 builds.
+    * (Windows|MinGW) Fixed crash on exit.
 
 Version 1.2.10 (2025.04.18):
 
