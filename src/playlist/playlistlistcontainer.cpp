@@ -230,6 +230,10 @@ void PlaylistListContainer::AddPlaylist(const int id, const QString &name, const
     return;
   }
 
+  if (!playlist_manager_->IsPlaylistOpen(id)) {
+    return;
+  }
+
   if (model_->PlaylistById(id)) {
     // We know about this playlist already - it was probably one of the open ones that was loaded on startup.
     return;
@@ -330,8 +334,11 @@ void PlaylistListContainer::PlaylistPathChanged(const int id, const QString &new
 
   // Update the path in the database
   playlist_backend_->SetPlaylistUiPath(id, new_path);
+
+  if (!playlist_manager_->IsPlaylistOpen(id)) {
+    return;
+  }
   Playlist *playlist = playlist_manager_->playlist(id);
-  // Check the playlist exists (if it's not opened it's not in the manager)
   if (playlist) {
     playlist->set_ui_path(new_path);
   }
@@ -358,12 +365,16 @@ void PlaylistListContainer::ItemDoubleClicked(const QModelIndex &proxy_idx) {
 void PlaylistListContainer::ItemMimeDataDropped(const QModelIndex &proxy_idx, const QMimeData *q_mimedata) {
 
   const QModelIndex idx = proxy_->mapToSource(proxy_idx);
-  if (!idx.isValid()) return;
+  if (!idx.isValid() || !idx.data(PlaylistListModel::Role_PlaylistId).isValid()) return;
 
   // Drop playlist rows if type is playlist and it's not active, to prevent selfcopy
-  int playlis_id = idx.data(PlaylistListModel::Role_PlaylistId).toInt();
-  if (idx.data(PlaylistListModel::Role_Type).toInt() == PlaylistListModel::Type_Playlist && playlis_id != playlist_manager_->active_id()) {
-    playlist_manager_->playlist(playlis_id)->dropMimeData(q_mimedata, Qt::CopyAction, -1, 0, QModelIndex());
+  const int playlist_id = idx.data(PlaylistListModel::Role_PlaylistId).toInt();
+  if (idx.data(PlaylistListModel::Role_Type).toInt() == PlaylistListModel::Type_Playlist && playlist_id != playlist_manager_->active_id()) {
+    if (!playlist_manager_->IsPlaylistOpen(playlist_id)) {
+      QMessageBox::critical(this, tr("Copy songs to playlist"), tr("Playlist must be open first."));
+      return;
+    }
+    playlist_manager_->playlist(playlist_id)->dropMimeData(q_mimedata, Qt::CopyAction, -1, 0, QModelIndex());
   }
 
 }
@@ -381,9 +392,13 @@ void PlaylistListContainer::CopyToDevice() {
   if (idx.data(PlaylistListModel::Role_Type).toInt() == PlaylistListModel::Type_Playlist) {
     const int playlist_id = idx.data(PlaylistListModel::Role_PlaylistId).toInt();
 
+    if (!playlist_manager_->IsPlaylistOpen(playlist_id)) {
+      QMessageBox::critical(this, tr("Copy to device"), tr("Playlist must be open first."));
+      return;
+    }
+
     Playlist *playlist = playlist_manager_->playlist(playlist_id);
     if (!playlist) {
-      QMessageBox::critical(this, tr("Copy to device"), tr("Playlist must be open first."));
       return;
     }
 
