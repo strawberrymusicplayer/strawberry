@@ -125,7 +125,9 @@ void PlaylistListView::timerEvent(QTimerEvent *e) {
   QTreeView::timerEvent(e);
   if (e->timerId() == drag_hover_timer_.timerId()) {
     drag_hover_timer_.stop();
-    Q_EMIT doubleClicked(currentIndex());
+    if (currentIndex().isValid()) {
+      Q_EMIT doubleClicked(currentIndex());
+    }
   }
 
 }
@@ -136,7 +138,9 @@ void PlaylistListView::dropEvent(QDropEvent *e) {
     if (drag_hover_timer_.isActive()) {
       drag_hover_timer_.stop();
     }
-    Q_EMIT ItemMimeDataDroppedSignal(currentIndex(), e->mimeData());
+    if (currentIndex().isValid()) {
+      Q_EMIT ItemMimeDataDroppedSignal(currentIndex(), e->mimeData());
+    }
   }
   else  {
     AutoExpandingTreeView::dropEvent(e);
