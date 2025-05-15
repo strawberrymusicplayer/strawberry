@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+Version 1.2.11 (2025.05.15):
 
     * Fixed playlist songs sometimes not updated with new cover.
     * Fixed context album cover showing even when it's disabled in the setting (#1744).
