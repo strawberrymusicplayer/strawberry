@@ -105,6 +105,7 @@ class Song {
     IT = 21,
     SPC = 22,
     VGM = 23,
+    ALAC = 24, // MP4, with ALAC codec
     CDDA = 90,
     Stream = 91
   };
