@@ -113,6 +113,7 @@ RatingWidget::RatingWidget(QWidget *parent) : QWidget(parent), rating_(0.0), hov
 
   setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
   setMouseTracking(true);
+  setFocusPolicy(Qt::StrongFocus);
 
 }
 
@@ -171,5 +172,33 @@ void RatingWidget::leaveEvent(QEvent *e) {
 
   hover_rating_ = -1.0;
   update();
+
+}
+
+void RatingWidget::keyPressEvent(QKeyEvent *e) {
+
+  constexpr float arrow_incr = 0.5f / RatingPainter::kStarCount;
+
+  float rating = -1.0f;
+
+  if (e->key() >= Qt::Key_0 && e->key() <= Qt::Key_9) {
+    rating = qBound(0.0f, static_cast<float>(e->key() - Qt::Key_0) / RatingPainter::kStarCount, 1.0f);
+  }
+  else if (e->key() == Qt::Key_Left) {
+    rating = qBound(0.0f, rating_ - arrow_incr, 1.0f);
+  }
+  else if (e->key() == Qt::Key_Right) {
+    rating = qBound(0.0f, rating_ + arrow_incr, 1.0f);
+  }
+
+  if (rating != -1.0f) {
+    if (rating != rating_) {
+      rating_ = rating;
+      Q_EMIT RatingChanged(rating_);
+    }
+  }
+  else {
+    QWidget::keyPressEvent(e);
+  }
 
 }
