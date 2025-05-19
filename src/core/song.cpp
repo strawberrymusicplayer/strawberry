@@ -1209,6 +1209,7 @@ QString Song::TextForFiletype(const FileType filetype) {
     case FileType::CDDA:        return u"CDDA"_s;
     case FileType::SPC:         return u"SNES SPC700"_s;
     case FileType::VGM:         return u"VGM"_s;
+    case FileType::ALAC:        return u"ALAC"_s;
     case FileType::Stream:      return u"Stream"_s;
     case FileType::Unknown:
     default:                    return QObject::tr("Unknown");
@@ -1241,6 +1242,7 @@ QString Song::ExtensionForFiletype(const FileType filetype) {
     case FileType::IT:          return u"it"_s;
     case FileType::SPC:         return u"spc"_s;
     case FileType::VGM:         return u"vgm"_s;
+    case FileType::ALAC:        return u"m4a"_s;
     case FileType::Unknown:
     default:                    return u"dat"_s;
   }
@@ -1273,6 +1275,7 @@ QIcon Song::IconForFiletype(const FileType filetype) {
     case FileType::IT:          return IconLoader::Load(u"it"_s);
     case FileType::CDDA:        return IconLoader::Load(u"cd"_s);
     case FileType::Stream:      return IconLoader::Load(u"applications-internet"_s);
+    case FileType::ALAC:        return IconLoader::Load(u"alac"_s);
     case FileType::Unknown:
     default:                    return IconLoader::Load(u"edit-delete"_s);
   }
@@ -1293,6 +1296,7 @@ bool Song::IsFileLossless() const {
     case FileType::TrueAudio:
     case FileType::PCM:
     case FileType::CDDA:
+    case FileType::ALAC:
       return true;
     default:
       return false;
@@ -1322,6 +1326,7 @@ Song::FileType Song::FiletypeByMimetype(const QString &mimetype) {
   if (mimetype.compare("audio/x-s3m"_L1, Qt::CaseInsensitive) == 0) return FileType::S3M;
   if (mimetype.compare("audio/x-spc"_L1, Qt::CaseInsensitive) == 0) return FileType::SPC;
   if (mimetype.compare("audio/x-vgm"_L1, Qt::CaseInsensitive) == 0) return FileType::VGM;
+  if (mimetype.compare("audio/x-alac"_L1, Qt::CaseInsensitive) == 0) return FileType::ALAC;
 
   return FileType::Unknown;
 
@@ -1349,6 +1354,7 @@ Song::FileType Song::FiletypeByDescription(const QString &text) {
   if (text.compare("Module Music Format (MOD)"_L1, Qt::CaseInsensitive) == 0) return FileType::S3M;
   if (text.compare("SNES SPC700"_L1, Qt::CaseInsensitive) == 0) return FileType::SPC;
   if (text.compare("VGM"_L1, Qt::CaseInsensitive) == 0) return FileType::VGM;
+  if (text.compare("Apple Lossless Audio Codec (ALAC)"_L1, Qt::CaseInsensitive) == 0) return FileType::ALAC;
 
   return FileType::Unknown;
 
