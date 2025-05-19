@@ -63,6 +63,7 @@ class RatingWidget : public QWidget {
   void mousePressEvent(QMouseEvent *e) override;
   void mouseMoveEvent(QMouseEvent *e) override;
   void leaveEvent(QEvent *e) override;
+  void keyPressEvent(QKeyEvent *e) override;
 
  private:
   RatingPainter painter_;
