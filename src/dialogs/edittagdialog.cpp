@@ -199,6 +199,7 @@ EditTagDialog::EditTagDialog(const SharedPtr<NetworkAccessManager> network,
       }
       else if (RatingBox *ratingbox = qobject_cast<RatingBox*>(widget)) {
         QObject::connect(ratingbox, &RatingWidget::RatingChanged, this, &EditTagDialog::FieldValueEdited);
+        QObject::connect(ratingbox, &RatingBox::Reset, this, &EditTagDialog::ResetField);
       }
     }
   }
@@ -544,6 +545,20 @@ bool EditTagDialog::DoesValueVary(const QModelIndexList &sel, const QString &id)
 
 bool EditTagDialog::IsValueModified(const QModelIndexList &sel, const QString &id) const {
 
+  if (id == u"track"_s || id == u"disc"_s || id == u"year"_s) {
+    return std::any_of(sel.begin(), sel.end(), [this, id](const QModelIndex &i) {
+      const int original = data_[i.row()].original_value(id).toInt();
+      const int current = data_[i.row()].current_value(id).toInt();
+      return original != current && (original != -1 || current != 0);
+    });
+  }
+  else if (id == u"rating"_s) {
+    return std::any_of(sel.begin(), sel.end(), [this, id](const QModelIndex &i) {
+      const float original = data_[i.row()].original_value(id).toFloat();
+      const float current = data_[i.row()].current_value(id).toFloat();
+      return original != current && (original != -1 || current != 0);
+    });
+  }
   return std::any_of(sel.begin(), sel.end(), [this, id](const QModelIndex &i) { return data_[i.row()].original_value(id) != data_[i.row()].current_value(id); });
 
 }
@@ -605,7 +620,15 @@ void EditTagDialog::UpdateModifiedField(const FieldData &field, const QModelInde
   QFont new_font(font());
   new_font.setBold(modified);
   field.label_->setFont(new_font);
-  if (field.editor_) field.editor_->setFont(new_font);
+  if (field.editor_) {
+    if (ExtendedEditor *editor = dynamic_cast<ExtendedEditor*>(field.editor_)) {
+      editor->set_font(new_font);
+      editor->set_reset_button(modified);
+    }
+    else {
+      field.editor_->setFont(new_font);
+    }
+  }
 
 }
 
