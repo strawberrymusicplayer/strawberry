@@ -1235,7 +1235,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Would you like to move the other songs on this album to Various Artists as well?</source>
-      <translation type="unfinished">Would you like to move the other songs on this album to Various Artists as well?</translation>
+      <translation>Θα θέλατε να μετακινήσετε και τα άλλα τραγούδια σε αυτό το άλμπουμ σε Διάφορους Καλλιτέχνες?</translation>
     </message>
     <message>
       <source>Error</source>
@@ -1450,7 +1450,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Samplerate</source>
-      <translation type="unfinished">Samplerate</translation>
+      <translation>Ρυθμός Δείγματος (samplerate)</translation>
     </message>
     <message>
       <source>Bit depth</source>
@@ -2726,7 +2726,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>&amp;Default</source>
-      <translation type="unfinished">&amp;Default</translation>
+      <translation>&amp;Προεπιλογή</translation>
     </message>
     <message>
       <source>&amp;Custom</source>
@@ -2930,7 +2930,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Playcounts for %1 songs received.</source>
-      <translation type="unfinished">Playcounts for %1 songs received.</translation>
+      <translation>Οι μετρήσεις για τα τραγούδια %1 λήφθηκαν.</translation>
     </message>
   </context>
   <context>
@@ -2944,7 +2944,7 @@ If there are no matches then it will use the largest image in the directory.</so
     <name>Library</name>
     <message>
       <source>Least favourite tracks</source>
-      <translation type="unfinished">Least favourite tracks</translation>
+      <translation>Λιγότερα αγαπημένα κομμάτια</translation>
     </message>
   </context>
   <context>
@@ -3312,7 +3312,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Remove &amp;duplicates from playlist</source>
-      <translation type="unfinished">Remove &amp;duplicates from playlist</translation>
+      <translation>Αφαίρεση &amp;διπλότυπων από τη λίστα αναπαραγωγής</translation>
     </message>
     <message>
       <source>Remove &amp;unavailable tracks from playlist</source>
@@ -3460,7 +3460,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Strawberry running under Rosetta</source>
-      <translation type="unfinished">Strawberry running under Rosetta</translation>
+      <translation>Φράουλα που τρέχουν κάτω από Rosetta</translation>
     </message>
     <message>
       <source>You are running Strawberry under Rosetta. Running Strawberry under Rosetta is unsupported and known to have issues. You should download Strawberry for the correct CPU architecture from %1</source>
@@ -3472,7 +3472,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Strawberry is free and open source software. If you like Strawberry, please consider sponsoring the project. For more information about sponsorship see our website %1</source>
-      <translation type="unfinished">Strawberry is free and open source software. If you like Strawberry, please consider sponsoring the project. For more information about sponsorship see our website %1</translation>
+      <translation>Το Strawberry είναι ελεύθερο και ανοικτού κώδικα λογισμικό. Αν σας αρέσει το Strawberry, παρακαλώ σκεφτείτε τη χορηγία του έργου. Για περισσότερες πληροφορίες σχετικά με τη χορηγία δείτε την ιστοσελίδα μας %1</translation>
     </message>
     <message>
       <source>Pause</source>
@@ -3556,7 +3556,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>The version of Strawberry you&apos;ve just updated to requires a full collection rescan because of the new features listed below:</source>
-      <translation type="unfinished">The version of Strawberry you&apos;ve just updated to requires a full collection rescan because of the new features listed below:</translation>
+      <translation>Η έκδοση του Strawberry που μόλις ενημερώθηκε απαιτεί πλήρη επανασάρωση συλλογής λόγω των νέων χαρακτηριστικών που αναφέρονται παρακάτω:</translation>
     </message>
     <message>
       <source>Would you like to run a full rescan right now?</source>
@@ -3829,7 +3829,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Enable fading</source>
-      <translation type="unfinished">Enable fading</translation>
+      <translation>Ενεργοποίηση fading</translation>
     </message>
     <message>
       <source>Add song artist tag</source>
@@ -4070,7 +4070,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Replace spaces with underscores</source>
-      <translation type="unfinished">Replace spaces with underscores</translation>
+      <translation>Αντικατάσταση των κενών με κάτω παύλες</translation>
     </message>
     <message>
       <source>Overwrite existing files</source>
@@ -4174,7 +4174,7 @@ If there are no matches then it will use the largest image in the directory.</so
     <name>OrganizeErrorDialog</name>
     <message>
       <source>Error copying songs</source>
-      <translation type="unfinished">Error copying songs</translation>
+      <translation>Σφάλμα αντιγραφής τραγουδιών</translation>
     </message>
     <message>
       <source>There were problems copying some songs.  The following files could not be copied:</source>
@@ -4182,11 +4182,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Error deleting songs</source>
-      <translation type="unfinished">Error deleting songs</translation>
+      <translation>Σφάλμα διαγραφής τραγουδιών</translation>
     </message>
     <message>
       <source>There were problems deleting some songs.  The following files could not be deleted:</source>
-      <translation type="unfinished">There were problems deleting some songs.  The following files could not be deleted:</translation>
+      <translation>Υπήρξαν προβλήματα κατά τη διαγραφή μερικών τραγουδιών. Τα ακόλουθα αρχεία δεν μπόρεσαν να διαγραφούν:</translation>
     </message>
   </context>
   <context>
@@ -4385,7 +4385,7 @@ If there are no matches then it will use the largest image in the directory.</so
     <name>PlaylistDelegateBase</name>
     <message>
       <source>stop</source>
-      <translation type="unfinished">stop</translation>
+      <translation>παύση</translation>
     </message>
   </context>
   <context>
@@ -4419,30 +4419,30 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>&amp;Left</source>
-      <translation type="unfinished">&amp;Left</translation>
+      <translation>&amp;Αριστερά</translation>
     </message>
     <message>
       <source>&amp;Center</source>
-      <translation type="unfinished">&amp;Center</translation>
+      <translation>&amp;Κέντρο</translation>
     </message>
     <message>
       <source>&amp;Right</source>
-      <translation type="unfinished">&amp;Right</translation>
+      <translation>&amp;Δεξιά</translation>
     </message>
     <message>
       <source>&amp;Hide %1</source>
-      <translation type="unfinished">&amp;Hide %1</translation>
+      <translation>&amp;Απόκρυψη %1</translation>
     </message>
   </context>
   <context>
     <name>PlaylistListContainer</name>
     <message>
       <source>Form</source>
-      <translation type="unfinished">Form</translation>
+      <translation>Φόρμα</translation>
     </message>
     <message>
       <source>New folder</source>
-      <translation type="unfinished">New folder</translation>
+      <translation>Νέος φάκελος</translation>
     </message>
     <message>
       <source>Delete</source>
@@ -4548,7 +4548,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Directory %1 does not exist.</source>
-      <translation type="unfinished">Directory %1 does not exist.</translation>
+      <translation>Ο κατάλογος %1 δεν υπάρχει.</translation>
     </message>
     <message>
       <source>Failed to open %1 for writing.</source>
@@ -4563,58 +4563,58 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>File paths</source>
-      <translation type="unfinished">File paths</translation>
+      <translation>Διαδρομή αρχείου</translation>
     </message>
     <message>
       <source>This can be changed later through the preferences</source>
-      <translation type="unfinished">This can be changed later through the preferences</translation>
+      <translation>Αυτό μπορεί να αλλάξει αργότερα μέσω των προτιμήσεων</translation>
     </message>
     <message>
       <source>Remember my choice</source>
-      <translation type="unfinished">Remember my choice</translation>
+      <translation>Απομνημόνευση της επιλογής μου</translation>
     </message>
     <message>
       <source>Automatic</source>
-      <translation type="unfinished">Automatic</translation>
+      <translation>Αυτόματα</translation>
     </message>
     <message>
       <source>Relative</source>
-      <translation type="unfinished">Relative</translation>
+      <translation>Σχετικό</translation>
     </message>
     <message>
       <source>Absolute</source>
-      <translation type="unfinished">Absolute</translation>
+      <translation>Απόλυτο</translation>
     </message>
   </context>
   <context>
     <name>PlaylistSequence</name>
     <message>
       <source>Repeat</source>
-      <translation type="unfinished">Repeat</translation>
+      <translation>Επανάληψη</translation>
     </message>
     <message>
       <source>Shuffle</source>
-      <translation type="unfinished">Shuffle</translation>
+      <translation>Τυχαία Αναπαραγωγή</translation>
     </message>
     <message>
       <source>Don&apos;t repeat</source>
-      <translation type="unfinished">Don&apos;t repeat</translation>
+      <translation>Μη επανάληψη</translation>
     </message>
     <message>
       <source>Repeat track</source>
-      <translation type="unfinished">Repeat track</translation>
+      <translation>Επανάληψη τραγουδιού</translation>
     </message>
     <message>
       <source>Repeat album</source>
-      <translation type="unfinished">Repeat album</translation>
+      <translation>Επανάληψη άλμπουμ</translation>
     </message>
     <message>
       <source>Repeat playlist</source>
-      <translation type="unfinished">Repeat playlist</translation>
+      <translation>Επανάληψη λίστας</translation>
     </message>
     <message>
       <source>Stop after each track</source>
-      <translation type="unfinished">Stop after each track</translation>
+      <translation>Παύση μετά από κάθε τραγούδι</translation>
     </message>
     <message>
       <source>Intro tracks</source>
@@ -4673,7 +4673,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Automatically select current playing track</source>
-      <translation type="unfinished">Automatically select current playing track</translation>
+      <translation>Αυτόματη επιλογή τρέχοντος κομματιού</translation>
     </message>
     <message>
       <source>Enable playlist toolbar</source>
@@ -4713,7 +4713,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Metadata</source>
-      <translation type="unfinished">Metadata</translation>
+      <translation>Μεταδεδομένα</translation>
     </message>
     <message>
       <source>If activated, clicking a selected song in the playlist view will let you edit the tag value directly</source>
@@ -4761,8 +4761,8 @@ If there are no matches then it will use the largest image in the directory.</so
     <message>
       <source>You are about to remove a playlist which is not part of your favorite playlists: the playlist will be deleted (this action cannot be undone). 
 Are you sure you want to continue?</source>
-      <translation type="unfinished">You are about to remove a playlist which is not part of your favorite playlists: the playlist will be deleted (this action cannot be undone). 
-Are you sure you want to continue?</translation>
+      <translation>Πρόκειται να καταργήσετε μια λίστα αναπαραγωγής που δεν αποτελεί μέρος των αγαπημένων σας λιστών αναπαραγωγής: η λίστα αναπαραγωγής θα διαγραφεί (η ενέργεια αυτή δεν μπορεί να αναιρεθεί). 
+Είστε σίγουροι ότι θέλετε να συνεχίσετε;</translation>
     </message>
     <message>
       <source>Warn me when closing a playlist tab</source>
@@ -4916,7 +4916,7 @@ Are you sure you want to continue?</translation>
     </message>
     <message>
       <source>Resize the window</source>
-      <translation type="unfinished">Resize the window</translation>
+      <translation>Αλλαγή μεγέθους παραθύρου</translation>
     </message>
     <message>
       <source>Equivalent to --log-levels *:1</source>
