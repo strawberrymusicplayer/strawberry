@@ -784,7 +784,7 @@
     </message>
     <message>
       <source>Restart song, then jump to previous if pressed again</source>
-      <translation type="unfinished">Restart song, then jump to previous if pressed again</translation>
+      <translation>Επανεκκίνηση τραγουδιού και μετά μεταπήδηση στο προηγούμενο αν πατηθεί ξανά</translation>
     </message>
     <message>
       <source>Double clicking a song will...</source>
@@ -1132,7 +1132,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Overwrite database playcount when songs are re-read from disk</source>
-      <translation type="unfinished">Overwrite database playcount when songs are re-read from disk</translation>
+      <translation>Αντικατάσταση αριθμού αναπαραγωγής βάσης δεδομένων όταν τα τραγούδια ξανααναγνωστούν από το δίσκο</translation>
     </message>
     <message>
       <source>Overwrite database rating when songs are re-read from disk</source>
@@ -1836,7 +1836,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>This is an iPod, but you compiled Strawberry without libgpod support.</source>
-      <translation type="unfinished">This is an iPod, but you compiled Strawberry without libgpod support.</translation>
+      <translation>Αυτό είναι ένα iPod, αλλά έχετε συντάξει (compile) το Strawberry χωρίς υποστήριξη libgpod.</translation>
     </message>
     <message>
       <source>This type of device is not supported: %1</source>
@@ -1891,7 +1891,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Convert any music that the device can&apos;t play</source>
-      <translation type="unfinished">Convert any music that the device can&apos;t play</translation>
+      <translation>Μετατροπή οποιασδήποτε μουσικής που η συσκευή μπορεί να αναπαράξει</translation>
     </message>
     <message>
       <source>Convert all music</source>
@@ -2722,7 +2722,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>&amp;None</source>
-      <translation type="unfinished">&amp;None</translation>
+      <translation>&amp;Κανένα</translation>
     </message>
     <message>
       <source>&amp;Default</source>
