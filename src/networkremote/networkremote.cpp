@@ -43,7 +43,6 @@ NetworkRemote::~NetworkRemote() {
 void NetworkRemote::Init() {
   LoadSettings();
   if (enabled_) {
-    server_ = new NetworkRemoteTcpServer(app_->player(),this);
     startTcpServer();
   }
   else {
@@ -73,8 +72,8 @@ void NetworkRemote::LoadSettings() {
 }
 
 void NetworkRemote::startTcpServer() {
-  server_ = new NetworkRemoteTcpServer(app_->player(), this);
-  server_->StartServer(ipAddr_,remote_port_);
+    server_ = new NetworkRemoteTcpServer(app_->player(), this);
+    server_->StartServer(ipAddr_, remote_port_);
 }
 
 void NetworkRemote::stopTcpServer() {
