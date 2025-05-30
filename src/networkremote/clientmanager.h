@@ -30,9 +30,9 @@ class NetworkRemoteClient;
 class NetworkRemoteClientManager : public QObject{
   Q_OBJECT
  public:
-  explicit NetworkRemoteClientManager(const SharedPtr<Player>&  player, QObject *parent = nullptr);
-  ~NetworkRemoteClientManager();
-  void AddClient(QTcpSocket *socket);
+     explicit NetworkRemoteClientManager(const SharedPtr<Player> player, QObject *parent = nullptr);
+     ~NetworkRemoteClientManager();
+     void AddClient(QTcpSocket *socket);
 
  private Q_SLOTS:
   void RemoveClient(NetworkRemoteClient *client);
