@@ -33,10 +33,10 @@ class QTcpSocket;
 class NetworkRemoteOutgoingMsg : public QObject{
   Q_OBJECT
  public:
-  explicit NetworkRemoteOutgoingMsg(const SharedPtr<Player>& player, QObject *parent = nullptr);
-  void Init(QTcpSocket*);
-  void SendCurrentTrackInfo();
-  void SendMsg();
+     explicit NetworkRemoteOutgoingMsg(const SharedPtr<Player> player, QObject *parent = nullptr);
+     void Init(QTcpSocket *);
+     void SendCurrentTrackInfo();
+     void SendMsg();
 
  private:
   PlaylistItemPtr current_item_;

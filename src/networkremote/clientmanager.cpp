@@ -22,10 +22,12 @@
 #include "core/application.h"
 #include "core/logging.h"
 
-NetworkRemoteClientManager::NetworkRemoteClientManager(const SharedPtr<Player>&  player, QObject *parent)
-    : QObject(parent),
-      player_(player),
-      clients_() {}
+NetworkRemoteClientManager::NetworkRemoteClientManager(
+    const SharedPtr<Player> player, QObject *parent)
+    : QObject(parent)
+    , player_(player)
+    , clients_()
+{}
 
 NetworkRemoteClientManager::~NetworkRemoteClientManager() {
   qDeleteAll(clients_);
