@@ -90,7 +90,7 @@ void NetworkRemoteSettings::SetLocalOnly(bool localOnly) {
 
 void NetworkRemoteSettings::SetIpAdress() {
   bool found = false;
-  QList<QHostAddress> hostList = QNetworkInterface::allAddresses();
+  const QList<QHostAddress> hostList = QNetworkInterface::allAddresses();
   for (const QHostAddress &address : std::as_const(hostList)) {
     if (address.protocol() == QAbstractSocket::IPv4Protocol && address.isLoopback() == false && !found) {
     qInfo( "Warning: The code only picks the first IPv4 address");
