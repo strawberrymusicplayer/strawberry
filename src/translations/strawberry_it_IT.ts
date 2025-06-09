@@ -290,7 +290,7 @@ Puoi anche effettuare un pagamento una tantum tramite &apos;%2&apos;.</translati
     </message>
     <message>
       <source>Album</source>
-      <translation type="unfinished">Album</translation>
+      <translation>Album</translation>
     </message>
     <message>
       <source>Search</source>
