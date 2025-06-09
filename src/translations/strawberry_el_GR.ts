@@ -669,7 +669,7 @@
     </message>
     <message>
       <source>Fade out when stopping a track</source>
-      <translation type="unfinished">Fade out when stopping a track</translation>
+      <translation>Σταδιακό σβήσιμο κατά τη διακοπή ενός κομματιού</translation>
     </message>
     <message>
       <source>Cross-fade when changing tracks manually</source>
@@ -685,7 +685,7 @@
     </message>
     <message>
       <source>Fading duration</source>
-      <translation type="unfinished">Fading duration</translation>
+      <translation>Διάρκεια σβησίματος</translation>
     </message>
     <message>
       <source>Fade out on pause / fade in on resume</source>
@@ -2048,7 +2048,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>EBU R 128 integrated loudness</source>
-      <translation type="unfinished">EBU R 128 integrated loudness</translation>
+      <translation>EBU R 128 ενσωματωμένη ένταση</translation>
     </message>
     <message>
       <source>Bit rate</source>
@@ -2056,7 +2056,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Skip count</source>
-      <translation type="unfinished">Skip count</translation>
+      <translation>Παράλειψη καταμέτρησης</translation>
     </message>
     <message>
       <source>Sample rate</source>
@@ -2080,11 +2080,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Art Manual</source>
-      <translation type="unfinished">Art Manual</translation>
+      <translation>Χειροκίνητο Art</translation>
     </message>
     <message>
       <source>EBU R 128 loudness range</source>
-      <translation type="unfinished">EBU R 128 loudness range</translation>
+      <translation>EBU R 128 εύρος έντασης</translation>
     </message>
     <message>
       <source>Reset play counts</source>
@@ -2096,7 +2096,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>Change art</source>
@@ -2244,19 +2244,19 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Cover changed: Will be cleared when saved.</source>
-      <translation type="unfinished">Cover changed: Will be cleared when saved.</translation>
+      <translation>Το εξώφυλλο άλλαξε: Θα καθαριστεί όταν αποθηκευτεί.</translation>
     </message>
     <message>
       <source>Cover changed: Will be unset when saved.</source>
-      <translation type="unfinished">Cover changed: Will be unset when saved.</translation>
+      <translation>Το εξώφυλλο άλλαξε: Θα απενεργοποιηθεί όταν αποθηκευτεί.</translation>
     </message>
     <message>
       <source>Cover changed: Will be deleted when saved.</source>
-      <translation type="unfinished">Cover changed: Will be deleted when saved.</translation>
+      <translation>Το εξώφυλλο άλλαξε: Θα διαγραφεί όταν αποθηκευτεί.</translation>
     </message>
     <message>
       <source>Cover changed: Will set new when saved.</source>
-      <translation type="unfinished">Cover changed: Will set new when saved.</translation>
+      <translation>Το εξώφυλλο άλλαξε: Θα οριστεί νέο όταν αποθηκευτεί.</translation>
     </message>
     <message>
       <source>Never</source>
@@ -3488,11 +3488,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Queue track</source>
-      <translation type="unfinished">Queue track</translation>
+      <translation>Εισαγωγή στην ουρά</translation>
     </message>
     <message>
       <source>Queue selected tracks</source>
-      <translation type="unfinished">Queue selected tracks</translation>
+      <translation>Εισαγωγή στην ουρά επιλεγμένων τραγουδιών</translation>
     </message>
     <message>
       <source>Queue to play next</source>
@@ -3508,7 +3508,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Skip track</source>
-      <translation type="unfinished">Skip track</translation>
+      <translation>Παράλειψη κομματιού</translation>
     </message>
     <message>
       <source>Skip selected tracks</source>
@@ -3575,7 +3575,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Do not show this message again.</source>
-      <translation type="unfinished">Do not show this message again.</translation>
+      <translation>Να μην εμφανιστεί ξανά αυτό το μήνυμα.</translation>
     </message>
   </context>
   <context>
@@ -3616,18 +3616,18 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Enabled</source>
-      <translation type="unfinished">Enabled</translation>
+      <translation>Ενεργοποιημένο</translation>
     </message>
   </context>
   <context>
     <name>MtpConnection</name>
     <message>
       <source>Invalid MTP device: %1</source>
-      <translation type="unfinished">Invalid MTP device: %1</translation>
+      <translation>Μη έγκυρη συσκευή MTP: %1</translation>
     </message>
     <message>
       <source>Could not open MTP device.</source>
-      <translation type="unfinished">Could not open MTP device.</translation>
+      <translation>Αδυναμία ανοίγματος συσκευής MTP.</translation>
     </message>
     <message>
       <source>MTP error: %1</source>
@@ -3765,7 +3765,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Include album art in the notification</source>
-      <translation type="unfinished">Include album art in the notification</translation>
+      <translation>Συμπερίληψη εξώφυλλου άλμπουμ στην ειδοποίηση</translation>
     </message>
     <message>
       <source>Custom message settings</source>
@@ -3773,7 +3773,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Use a custom message for notifications</source>
-      <translation type="unfinished">Use a custom message for notifications</translation>
+      <translation>Χρήση προσαρμοσμένου μηνύματος για ειδοποιήσεις</translation>
     </message>
     <message>
       <source>Preview</source>
@@ -3813,7 +3813,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Background opacity</source>
-      <translation type="unfinished">Background opacity</translation>
+      <translation>Αδιαφάνεια υποβάθρου</translation>
     </message>
     <message>
       <source>Basic Blue</source>
@@ -3821,11 +3821,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Strawberry Red</source>
-      <translation type="unfinished">Strawberry Red</translation>
+      <translation>Srawberry Κόκκινο</translation>
     </message>
     <message>
       <source>Custom...</source>
-      <translation type="unfinished">Custom...</translation>
+      <translation>Προσαρμογή...</translation>
     </message>
     <message>
       <source>Enable fading</source>
@@ -3833,7 +3833,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Add song artist tag</source>
-      <translation type="unfinished">Add song artist tag</translation>
+      <translation>Προσθήκη ετικέτας καλλιτέχνη τραγουδιού</translation>
     </message>
     <message>
       <source>Add song album tag</source>
