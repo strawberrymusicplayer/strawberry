@@ -120,7 +120,7 @@ DeviceManager::DeviceManager(const SharedPtr<TaskManager> task_manager,
 
 // CD devices are detected via the DiskArbitration framework instead on MacOs.
 #if defined(HAVE_AUDIOCD) && !defined(Q_OS_MACOS)
-  AddLister(new CddaLister);
+  AddLister(new CDDALister);
 #endif
 #ifdef HAVE_UDISKS2
   AddLister(new Udisks2Lister);
@@ -133,7 +133,7 @@ DeviceManager::DeviceManager(const SharedPtr<TaskManager> task_manager,
 #endif
 
 #ifdef HAVE_AUDIOCD
-  AddDeviceClass<CddaDevice>();
+  AddDeviceClass<CDDADevice>();
 #endif
 
   AddDeviceClass<FilesystemDevice>();

@@ -44,7 +44,7 @@ class DeviceManager;
 
 using namespace std::chrono_literals;
 
-CddaDevice::CddaDevice(const QUrl &url,
+CDDADevice::CDDADevice(const QUrl &url,
                        DeviceLister *lister,
                        const QString &unique_id,
                        DeviceManager *device_manager,
@@ -62,16 +62,16 @@ CddaDevice::CddaDevice(const QUrl &url,
 
   timer_disc_changed_->setInterval(1s);
 
-  QObject::connect(&cdda_song_loader_, &CddaSongLoader::SongsLoaded, this, &CddaDevice::SongsLoaded);
-  QObject::connect(&cdda_song_loader_, &CddaSongLoader::SongsDurationLoaded, this, &CddaDevice::SongsLoaded);
-  QObject::connect(&cdda_song_loader_, &CddaSongLoader::SongsMetadataLoaded, this, &CddaDevice::SongsLoaded);
-  QObject::connect(&cdda_song_loader_, &CddaSongLoader::SongLoadingFinished, this, &CddaDevice::SongLoadingFinished);
-  QObject::connect(this, &CddaDevice::SongsDiscovered, collection_model_, &CollectionModel::AddReAddOrUpdate);
-  QObject::connect(timer_disc_changed_, &QTimer::timeout, this, &CddaDevice::CheckDiscChanged);
+  QObject::connect(&cdda_song_loader_, &CDDASongLoader::SongsLoaded, this, &CDDADevice::SongsLoaded);
+  QObject::connect(&cdda_song_loader_, &CDDASongLoader::SongsDurationLoaded, this, &CDDADevice::SongsLoaded);
+  QObject::connect(&cdda_song_loader_, &CDDASongLoader::SongsMetadataLoaded, this, &CDDADevice::SongsLoaded);
+  QObject::connect(&cdda_song_loader_, &CDDASongLoader::SongLoadingFinished, this, &CDDADevice::SongLoadingFinished);
+  QObject::connect(this, &CDDADevice::SongsDiscovered, collection_model_, &CollectionModel::AddReAddOrUpdate);
+  QObject::connect(timer_disc_changed_, &QTimer::timeout, this, &CDDADevice::CheckDiscChanged);
 
 }
 
-CddaDevice::~CddaDevice() {
+CDDADevice::~CDDADevice() {
 
   if (cdio_) {
     cdio_destroy(cdio_);
@@ -80,7 +80,7 @@ CddaDevice::~CddaDevice() {
 
 }
 
-bool CddaDevice::Init() {
+bool CDDADevice::Init() {
 
   if (!cdio_) {
     cdio_ = cdio_open(url_.path().toLocal8Bit().constData(), DRIVER_DEVICE);
@@ -95,7 +95,7 @@ bool CddaDevice::Init() {
 
 }
 
-void CddaDevice::WatchForDiscChanges(const bool watch) {
+void CDDADevice::WatchForDiscChanges(const bool watch) {
 
   if (watch && !timer_disc_changed_->isActive()) {
     timer_disc_changed_->start();
@@ -106,7 +106,7 @@ void CddaDevice::WatchForDiscChanges(const bool watch) {
 
 }
 
-void CddaDevice::CheckDiscChanged() {
+void CDDADevice::CheckDiscChanged() {
 
   if (!cdio_ || cdda_song_loader_.IsActive()) return;
 
@@ -118,14 +118,14 @@ void CddaDevice::CheckDiscChanged() {
 
 }
 
-void CddaDevice::LoadSongs() {
+void CDDADevice::LoadSongs() {
 
   cdda_song_loader_.LoadSongs();
   WatchForDiscChanges(false);
 
 }
 
-void CddaDevice::SongsLoaded(const SongList &songs) {
+void CDDADevice::SongsLoaded(const SongList &songs) {
 
   collection_model_->Reset();
   Q_EMIT SongsDiscovered(songs);
@@ -134,7 +134,7 @@ void CddaDevice::SongsLoaded(const SongList &songs) {
 
 }
 
-void CddaDevice::SongLoadingFinished() {
+void CDDADevice::SongLoadingFinished() {
 
   WatchForDiscChanges(true);
 

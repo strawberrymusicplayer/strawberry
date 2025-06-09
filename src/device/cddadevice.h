@@ -49,11 +49,11 @@ class Database;
 class TagReaderClient;
 class AlbumCoverLoader;
 
-class CddaDevice : public ConnectedDevice {
+class CDDADevice : public ConnectedDevice {
   Q_OBJECT
 
  public:
-  Q_INVOKABLE explicit CddaDevice(const QUrl &url,
+  Q_INVOKABLE explicit CDDADevice(const QUrl &url,
                                   DeviceLister *lister,
                                   const QString &unique_id,
                                   DeviceManager *device_manager,
@@ -65,7 +65,7 @@ class CddaDevice : public ConnectedDevice {
                                   const bool first_time,
                                   QObject *parent = nullptr);
 
-  ~CddaDevice();
+  ~CDDADevice();
 
   bool Init() override;
   bool CopyToStorage(const CopyJob&, QString&) override { return false; }
@@ -85,7 +85,7 @@ class CddaDevice : public ConnectedDevice {
   void SongLoadingFinished();
 
  private:
-  CddaSongLoader cdda_song_loader_;
+  CDDASongLoader cdda_song_loader_;
   CdIo_t *cdio_;
   QTimer *timer_disc_changed_;
 };

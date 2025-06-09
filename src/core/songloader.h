@@ -50,7 +50,7 @@ class ParserBase;
 class CueParser;
 
 #ifdef HAVE_AUDIOCD
-class CddaSongLoader;
+class CDDASongLoader;
 #endif
 
 class SongLoader : public QObject {

@@ -178,9 +178,9 @@ SongLoader::Result SongLoader::LoadLocalPartial(const QString &filename) {
 SongLoader::Result SongLoader::LoadAudioCD() {
 
 #ifdef HAVE_AUDIOCD
-  CddaSongLoader *cdda_song_loader = new CddaSongLoader(QUrl(), this);
-  QObject::connect(cdda_song_loader, &CddaSongLoader::SongsDurationLoaded, this, &SongLoader::AudioCDTracksLoadFinishedSlot);
-  QObject::connect(cdda_song_loader, &CddaSongLoader::SongsMetadataLoaded, this, &SongLoader::AudioCDTracksTagsLoaded);
+  CDDASongLoader *cdda_song_loader = new CDDASongLoader(QUrl(), this);
+  QObject::connect(cdda_song_loader, &CDDASongLoader::SongsDurationLoaded, this, &SongLoader::AudioCDTracksLoadFinishedSlot);
+  QObject::connect(cdda_song_loader, &CDDASongLoader::SongsMetadataLoaded, this, &SongLoader::AudioCDTracksTagsLoaded);
   cdda_song_loader->LoadSongs();
   return Result::Success;
 #else
@@ -202,7 +202,7 @@ void SongLoader::AudioCDTracksLoadFinishedSlot(const SongList &songs, const QStr
 
 void SongLoader::AudioCDTracksTagsLoaded(const SongList &songs) {
 
-  CddaSongLoader *cdda_song_loader = qobject_cast<CddaSongLoader*>(sender());
+  CDDASongLoader *cdda_song_loader = qobject_cast<CDDASongLoader*>(sender());
   cdda_song_loader->deleteLater();
   songs_ = songs;
   Q_EMIT LoadAudioCDFinished(true);

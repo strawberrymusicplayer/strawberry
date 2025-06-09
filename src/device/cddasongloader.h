@@ -41,12 +41,12 @@
 
 class NetworkAccessManager;
 
-class CddaSongLoader : public QObject {
+class CDDASongLoader : public QObject {
   Q_OBJECT
 
  public:
-  explicit CddaSongLoader(const QUrl &url, QObject *parent = nullptr);
-  ~CddaSongLoader() override;
+  explicit CDDASongLoader(const QUrl &url, QObject *parent = nullptr);
+  ~CDDASongLoader() override;
 
   void LoadSongs();
 

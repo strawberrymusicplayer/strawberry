@@ -49,21 +49,21 @@ using std::make_shared;
 
 using namespace Qt::Literals::StringLiterals;
 
-CddaSongLoader::CddaSongLoader(const QUrl &url, QObject *parent)
+CDDASongLoader::CDDASongLoader(const QUrl &url, QObject *parent)
     : QObject(parent),
       url_(url),
       network_(make_shared<NetworkAccessManager>()),
       cdda_(nullptr) {
 
-  QObject::connect(this, &CddaSongLoader::MusicBrainzDiscIdLoaded, this, &CddaSongLoader::LoadMusicBrainzCDTags);
+  QObject::connect(this, &CDDASongLoader::MusicBrainzDiscIdLoaded, this, &CDDASongLoader::LoadMusicBrainzCDTags);
 
 }
 
-CddaSongLoader::~CddaSongLoader() {
+CDDASongLoader::~CDDASongLoader() {
   loading_future_.waitForFinished();
 }
 
-QUrl CddaSongLoader::GetUrlFromTrack(int track_number) const {
+QUrl CDDASongLoader::GetUrlFromTrack(int track_number) const {
 
   if (url_.isEmpty()) {
     return QUrl(QStringLiteral("cdda://%1a").arg(track_number));
@@ -73,17 +73,17 @@ QUrl CddaSongLoader::GetUrlFromTrack(int track_number) const {
 
 }
 
-void CddaSongLoader::LoadSongs() {
+void CDDASongLoader::LoadSongs() {
 
   if (IsActive()) {
     return;
   }
 
-  loading_future_ = QtConcurrent::run(&CddaSongLoader::LoadSongsFromCDDA, this);
+  loading_future_ = QtConcurrent::run(&CDDASongLoader::LoadSongsFromCDDA, this);
 
 }
 
-void CddaSongLoader::LoadSongsFromCDDA() {
+void CDDASongLoader::LoadSongsFromCDDA() {
 
   QMutexLocker l(&mutex_load_);
 
@@ -243,15 +243,15 @@ void CddaSongLoader::LoadSongsFromCDDA() {
 
 #ifdef HAVE_MUSICBRAINZ
 
-void CddaSongLoader::LoadMusicBrainzCDTags(const QString &musicbrainz_discid) const {
+void CDDASongLoader::LoadMusicBrainzCDTags(const QString &musicbrainz_discid) const {
 
   MusicBrainzClient *musicbrainz_client = new MusicBrainzClient(network_);
-  QObject::connect(musicbrainz_client, &MusicBrainzClient::DiscIdFinished, this, &CddaSongLoader::MusicBrainzCDTagsLoaded);
+  QObject::connect(musicbrainz_client, &MusicBrainzClient::DiscIdFinished, this, &CDDASongLoader::MusicBrainzCDTagsLoaded);
   musicbrainz_client->StartDiscIdRequest(musicbrainz_discid);
 
 }
 
-void CddaSongLoader::MusicBrainzCDTagsLoaded(const QString &artist, const QString &album, const MusicBrainzClient::ResultList &results) {
+void CDDASongLoader::MusicBrainzCDTagsLoaded(const QString &artist, const QString &album, const MusicBrainzClient::ResultList &results) {
 
   MusicBrainzClient *musicbrainz_client = qobject_cast<MusicBrainzClient*>(sender());
   musicbrainz_client->deleteLater();
@@ -287,7 +287,7 @@ void CddaSongLoader::MusicBrainzCDTagsLoaded(const QString &artist, const QStrin
 
 #endif  // HAVE_MUSICBRAINZ
 
-void CddaSongLoader::Error(const QString &error) {
+void CDDASongLoader::Error(const QString &error) {
 
   qLog(Error) << error;
   Q_EMIT SongsDurationLoaded(SongList(), error);
