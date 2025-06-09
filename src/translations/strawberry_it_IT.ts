@@ -3101,7 +3101,7 @@ Prima di iniziare ti suggeriamo di eseguire il backup del database.</translation
     </message>
     <message>
       <source>F7</source>
-      <translation type="unfinished">F7</translation>
+      <translation>F7</translation>
     </message>
     <message>
       <source>&amp;Next track</source>
