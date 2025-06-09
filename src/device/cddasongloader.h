@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,11 +24,6 @@
 
 #include "config.h"
 
-#include <cstddef>
-
-#include <cdio/types.h>
-#include <cdio/cdio.h>
-
 #include <gst/gstelement.h>
 #include <gst/audio/gstaudiocdsrc.h>
 
@@ -36,6 +31,7 @@
 #include <QMutex>
 #include <QString>
 #include <QUrl>
+#include <QFuture>
 
 #include "includes/shared_ptr.h"
 #include "core/song.h"
@@ -45,7 +41,6 @@
 
 class NetworkAccessManager;
 
-// This class provides a (hopefully) nice, high level interface to get CD information and load tracks
 class CddaSongLoader : public QObject {
   Q_OBJECT
 
@@ -53,31 +48,35 @@ class CddaSongLoader : public QObject {
   explicit CddaSongLoader(const QUrl &url, QObject *parent = nullptr);
   ~CddaSongLoader() override;
 
-  // Load songs. Signals declared below will be emitted anytime new information will be available.
   void LoadSongs();
-  bool HasChanged();
+
+  bool IsActive() const { return loading_future_.isRunning(); }
 
  private:
+  void LoadSongsFromCDDA();
   void Error(const QString &error);
   QUrl GetUrlFromTrack(const int track_number) const;
 
  Q_SIGNALS:
   void SongsLoadError(const QString &error);
   void SongsLoaded(const SongList &songs);
+  void SongLoadingFinished();
   void SongsDurationLoaded(const SongList &songs, const QString &error = QString());
   void SongsMetadataLoaded(const SongList &songs);
+  void MusicBrainzDiscIdLoaded(const QString &musicbrainz_discid);
 
  private Q_SLOTS:
 #ifdef HAVE_MUSICBRAINZ
-  void AudioCDTagsLoaded(const QString &artist, const QString &album, const MusicBrainzClient::ResultList &results);
+  void LoadMusicBrainzCDTags(const QString &musicbrainz_discid) const;
+  void MusicBrainzCDTagsLoaded(const QString &artist, const QString &album, const MusicBrainzClient::ResultList &results);
 #endif
 
  private:
   const QUrl url_;
   SharedPtr<NetworkAccessManager> network_;
   GstElement *cdda_;
-  CdIo_t *cdio_;
   QMutex mutex_load_;
+  QFuture<void> loading_future_;
 };
 
 #endif  // CDDASONGLOADER_H

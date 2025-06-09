@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,6 +24,11 @@
 
 #include "config.h"
 
+#include <cstddef>
+
+#include <cdio/types.h>
+#include <cdio/cdio.h>
+
 #include <QObject>
 #include <QString>
 #include <QStringList>
@@ -34,6 +39,8 @@
 #include "core/musicstorage.h"
 #include "cddasongloader.h"
 #include "connecteddevice.h"
+
+class QTimer;
 
 class DeviceLister;
 class DeviceManager;
@@ -58,21 +65,29 @@ class CddaDevice : public ConnectedDevice {
                                   const bool first_time,
                                   QObject *parent = nullptr);
 
+  ~CddaDevice();
+
   bool Init() override;
-  void Refresh() override;
   bool CopyToStorage(const CopyJob&, QString&) override { return false; }
   bool DeleteFromStorage(const MusicStorage::DeleteJob&) override { return false; }
 
   static QStringList url_schemes() { return QStringList() << QStringLiteral("cdda"); }
 
+  void LoadSongs();
+  void WatchForDiscChanges(const bool watch);
+
  Q_SIGNALS:
   void SongsDiscovered(const SongList &songs);
 
  private Q_SLOTS:
-  void SongsLoaded(const SongList &songs);
+  void CheckDiscChanged();
+  void SongsLoaded(const SongList &songs = SongList());
+  void SongLoadingFinished();
 
  private:
   CddaSongLoader cdda_song_loader_;
+  CdIo_t *cdio_;
+  QTimer *timer_disc_changed_;
 };
 
 #endif  // CDDADEVICE_H

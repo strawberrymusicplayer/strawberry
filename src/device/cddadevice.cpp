@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,10 +21,19 @@
 
 #include "config.h"
 
+#include <cstddef>
+
+#include <cdio/types.h>
+#include <cdio/cdio.h>
+
+#include <chrono>
+
 #include <QString>
 #include <QUrl>
+#include <QTimer>
 
 #include "includes/shared_ptr.h"
+#include "core/logging.h"
 #include "collection/collectionmodel.h"
 #include "cddasongloader.h"
 #include "connecteddevice.h"
@@ -32,6 +41,8 @@
 
 class DeviceLister;
 class DeviceManager;
+
+using namespace std::chrono_literals;
 
 CddaDevice::CddaDevice(const QUrl &url,
                        DeviceLister *lister,
@@ -45,29 +56,72 @@ CddaDevice::CddaDevice(const QUrl &url,
                        const bool first_time,
                        QObject *parent)
     : ConnectedDevice(url, lister, unique_id, device_manager, task_manager, database, tagreader_client, albumcover_loader, database_id, first_time, parent),
-      cdda_song_loader_(url) {
+      cdda_song_loader_(url),
+      cdio_(nullptr),
+      timer_disc_changed_(new QTimer(this)) {
+
+  timer_disc_changed_->setInterval(1s);
 
   QObject::connect(&cdda_song_loader_, &CddaSongLoader::SongsLoaded, this, &CddaDevice::SongsLoaded);
   QObject::connect(&cdda_song_loader_, &CddaSongLoader::SongsDurationLoaded, this, &CddaDevice::SongsLoaded);
   QObject::connect(&cdda_song_loader_, &CddaSongLoader::SongsMetadataLoaded, this, &CddaDevice::SongsLoaded);
+  QObject::connect(&cdda_song_loader_, &CddaSongLoader::SongLoadingFinished, this, &CddaDevice::SongLoadingFinished);
   QObject::connect(this, &CddaDevice::SongsDiscovered, collection_model_, &CollectionModel::AddReAddOrUpdate);
+  QObject::connect(timer_disc_changed_, &QTimer::timeout, this, &CddaDevice::CheckDiscChanged);
+
+}
+
+CddaDevice::~CddaDevice() {
+
+  if (cdio_) {
+    cdio_destroy(cdio_);
+    cdio_ = nullptr;
+  }
 
 }
 
 bool CddaDevice::Init() {
 
-  song_count_ = 0;  // Reset song count, in case it was already set
-  cdda_song_loader_.LoadSongs();
+  if (!cdio_) {
+    cdio_ = cdio_open(url_.path().toLocal8Bit().constData(), DRIVER_DEVICE);
+    if (!cdio_) return false;
+  }
+
+  LoadSongs();
+
+  WatchForDiscChanges(true);
+
   return true;
 
 }
 
-void CddaDevice::Refresh() {
+void CddaDevice::WatchForDiscChanges(const bool watch) {
 
-  if (!cdda_song_loader_.HasChanged()) {
-    return;
+  if (watch && !timer_disc_changed_->isActive()) {
+    timer_disc_changed_->start();
   }
-  Init();
+  else if (!watch && timer_disc_changed_->isActive()) {
+    timer_disc_changed_->stop();
+  }
+
+}
+
+void CddaDevice::CheckDiscChanged() {
+
+  if (!cdio_ || cdda_song_loader_.IsActive()) return;
+
+  if (cdio_get_media_changed(cdio_) == 1) {
+    qLog(Debug) << "CD changed, reloading songs";
+    SongsLoaded();
+    LoadSongs();
+  }
+
+}
+
+void CddaDevice::LoadSongs() {
+
+  cdda_song_loader_.LoadSongs();
+  WatchForDiscChanges(false);
 
 }
 
@@ -76,5 +130,13 @@ void CddaDevice::SongsLoaded(const SongList &songs) {
   collection_model_->Reset();
   Q_EMIT SongsDiscovered(songs);
   song_count_ = songs.size();
+  (void)cdio_get_media_changed(cdio_);
 
 }
+
+void CddaDevice::SongLoadingFinished() {
+
+  WatchForDiscChanges(true);
+
+}
+

@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,25 +21,23 @@
 
 #include "config.h"
 
-#include <memory>
+#include <QtGlobal>
 
-#include <cstddef>
+#include <memory>
 
 #include <glib.h>
 #include <glib/gtypes.h>
 #include <glib-object.h>
 
-#include <cdio/cdio.h>
-
 #include <gst/gst.h>
 #include <gst/tag/tag.h>
 
-#include <QtGlobal>
 #include <QObject>
 #include <QMutex>
 #include <QByteArray>
 #include <QString>
 #include <QUrl>
+#include <QtConcurrentRun>
 
 #include "cddasongloader.h"
 #include "includes/shared_ptr.h"
@@ -55,11 +53,14 @@ CddaSongLoader::CddaSongLoader(const QUrl &url, QObject *parent)
     : QObject(parent),
       url_(url),
       network_(make_shared<NetworkAccessManager>()),
-      cdda_(nullptr),
-      cdio_(nullptr) {}
+      cdda_(nullptr) {
+
+  QObject::connect(this, &CddaSongLoader::MusicBrainzDiscIdLoaded, this, &CddaSongLoader::LoadMusicBrainzCDTags);
+
+}
 
 CddaSongLoader::~CddaSongLoader() {
-  if (cdio_) cdio_destroy(cdio_);
+  loading_future_.waitForFinished();
 }
 
 QUrl CddaSongLoader::GetUrlFromTrack(int track_number) const {
@@ -74,20 +75,27 @@ QUrl CddaSongLoader::GetUrlFromTrack(int track_number) const {
 
 void CddaSongLoader::LoadSongs() {
 
-  QMutexLocker locker(&mutex_load_);
-  cdio_ = cdio_open(url_.path().toLocal8Bit().constData(), DRIVER_DEVICE);
-  if (cdio_ == nullptr) {
-    Error(u"Unable to open CDIO device."_s);
+  if (IsActive()) {
     return;
   }
 
-  // Create gstreamer cdda element
+  loading_future_ = QtConcurrent::run(&CddaSongLoader::LoadSongsFromCDDA, this);
+
+}
+
+void CddaSongLoader::LoadSongsFromCDDA() {
+
+  QMutexLocker l(&mutex_load_);
+
   GError *error = nullptr;
   cdda_ = gst_element_make_from_uri(GST_URI_SRC, "cdda://", nullptr, &error);
   if (error) {
     Error(QStringLiteral("%1: %2").arg(error->code).arg(QString::fromUtf8(error->message)));
   }
-  if (!cdda_) return;
+  if (!cdda_) {
+    Q_EMIT SongLoadingFinished();
+    return;
+  }
 
   if (!url_.isEmpty()) {
     g_object_set(cdda_, "device", g_strdup(url_.path().toLocal8Bit().constData()), nullptr);
@@ -102,6 +110,7 @@ void CddaSongLoader::LoadSongs() {
     gst_object_unref(GST_OBJECT(cdda_));
     cdda_ = nullptr;
     Error(tr("Error while setting CDDA device to ready state."));
+    Q_EMIT SongLoadingFinished();
     return;
   }
 
@@ -110,6 +119,7 @@ void CddaSongLoader::LoadSongs() {
     gst_object_unref(GST_OBJECT(cdda_));
     cdda_ = nullptr;
     Error(tr("Error while setting CDDA device to pause state."));
+    Q_EMIT SongLoadingFinished();
     return;
   }
 
@@ -122,6 +132,7 @@ void CddaSongLoader::LoadSongs() {
     gst_object_unref(GST_OBJECT(cdda_));
     cdda_ = nullptr;
     Error(tr("Error while querying CDDA tracks."));
+    Q_EMIT SongLoadingFinished();
     return;
   }
 
@@ -131,6 +142,7 @@ void CddaSongLoader::LoadSongs() {
     gst_object_unref(GST_OBJECT(cdda_));
     cdda_ = nullptr;
     Error(tr("Error while querying CDDA tracks."));
+    Q_EMIT SongLoadingFinished();
     return;
   }
 
@@ -148,7 +160,6 @@ void CddaSongLoader::LoadSongs() {
     songs << song;
   }
   Q_EMIT SongsLoaded(songs);
-
 
   gst_tag_register_musicbrainz_tags();
 
@@ -180,14 +191,16 @@ void CddaSongLoader::LoadSongs() {
     gst_message_parse_toc(msg_toc, &toc, nullptr);
     if (toc) {
       GList *entries = gst_toc_get_entries(toc);
-      if (entries && static_cast<guint>(songs.size()) <= g_list_length(entries)) {
-        int i = 0;
-        for (GList *node = entries; node != nullptr; node = node->next) {
-          GstTocEntry *entry = static_cast<GstTocEntry*>(node->data);
-          qint64 duration = 0;
-          gint64 start = 0, stop = 0;
-          if (gst_toc_entry_get_start_stop_times(entry, &start, &stop)) duration = stop - start;
-          songs[i++].set_length_nanosec(duration);
+      if (entries) {
+        if (static_cast<guint>(songs.size()) <= g_list_length(entries)) {
+          int i = 0;
+          for (GList *node = entries; node != nullptr; node = node->next) {
+            GstTocEntry *entry = static_cast<GstTocEntry*>(node->data);
+            qint64 duration = 0;
+            gint64 start = 0, stop = 0;
+            if (gst_toc_entry_get_start_stop_times(entry, &start, &stop)) duration = stop - start;
+            songs[i++].set_length_nanosec(duration);
+          }
         }
       }
       gst_toc_unref(toc);
@@ -196,6 +209,7 @@ void CddaSongLoader::LoadSongs() {
   }
   Q_EMIT SongsDurationLoaded(songs);
 
+  QString musicbrainz_discid;
 #ifdef HAVE_MUSICBRAINZ
   // Handle TAG message: generate MusicBrainz DiscId
   if (msg_tag) {
@@ -204,15 +218,10 @@ void CddaSongLoader::LoadSongs() {
     if (tags) {
       char *string_mb = nullptr;
       if (gst_tag_list_get_string(tags, GST_TAG_CDDA_MUSICBRAINZ_DISCID, &string_mb)) {
-        QString musicbrainz_discid = QString::fromUtf8(string_mb);
-        qLog(Info) << "MusicBrainz Disc ID: " << musicbrainz_discid;
-
-        MusicBrainzClient *musicbrainz_client = new MusicBrainzClient(network_);
-        QObject::connect(musicbrainz_client, &MusicBrainzClient::DiscIdFinished, this, &CddaSongLoader::AudioCDTagsLoaded);
-        musicbrainz_client->StartDiscIdRequest(musicbrainz_discid);
+        musicbrainz_discid = QString::fromUtf8(string_mb);
         g_free(string_mb);
       }
-      gst_tag_list_unref(tags);
+      gst_tag_list_free(tags);
     }
     gst_message_unref(msg_tag);
   }
@@ -222,14 +231,36 @@ void CddaSongLoader::LoadSongs() {
   // This will also cause cdda_ to be unref'd.
   gst_object_unref(pipeline);
 
+  if (musicbrainz_discid.isEmpty()) {
+    Q_EMIT SongLoadingFinished();
+  }
+  else {
+    qLog(Info) << "MusicBrainz Disc ID:" << musicbrainz_discid;
+    Q_EMIT MusicBrainzDiscIdLoaded(musicbrainz_discid);
+  }
+
 }
 
 #ifdef HAVE_MUSICBRAINZ
-void CddaSongLoader::AudioCDTagsLoaded(const QString &artist, const QString &album, const MusicBrainzClient::ResultList &results) {
+
+void CddaSongLoader::LoadMusicBrainzCDTags(const QString &musicbrainz_discid) const {
+
+  MusicBrainzClient *musicbrainz_client = new MusicBrainzClient(network_);
+  QObject::connect(musicbrainz_client, &MusicBrainzClient::DiscIdFinished, this, &CddaSongLoader::MusicBrainzCDTagsLoaded);
+  musicbrainz_client->StartDiscIdRequest(musicbrainz_discid);
+
+}
+
+void CddaSongLoader::MusicBrainzCDTagsLoaded(const QString &artist, const QString &album, const MusicBrainzClient::ResultList &results) {
 
   MusicBrainzClient *musicbrainz_client = qobject_cast<MusicBrainzClient*>(sender());
   musicbrainz_client->deleteLater();
-  if (results.empty()) return;
+
+  if (results.empty()) {
+    Q_EMIT SongLoadingFinished();
+    return;
+  }
+
   SongList songs;
   songs.reserve(results.count());
   int track_number = 1;
@@ -244,29 +275,17 @@ void CddaSongLoader::AudioCDTagsLoaded(const QString &artist, const QString &alb
     song.set_id(track_number);
     song.set_filetype(Song::FileType::CDDA);
     song.set_valid(true);
-    // We need to set url: that's how playlist will find the correct item to update
+    // We need to set URL, that's how playlist will find the correct item to update
     song.set_url(GetUrlFromTrack(track_number++));
     songs << song;
   }
+
   Q_EMIT SongsMetadataLoaded(songs);
+  Q_EMIT SongLoadingFinished();
 
 }
-#endif
 
-bool CddaSongLoader::HasChanged() {
-
-  if (cdio_ && cdio_get_media_changed(cdio_) != 1) {
-    return false;
-  }
-  // Check if mutex is already token (i.e. init is already taking place)
-  if (!mutex_load_.tryLock()) {
-    return false;
-  }
-  mutex_load_.unlock();
-
-  return true;
-
-}
+#endif  // HAVE_MUSICBRAINZ
 
 void CddaSongLoader::Error(const QString &error) {
 
