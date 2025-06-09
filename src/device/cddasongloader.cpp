@@ -163,9 +163,9 @@ void CddaSongLoader::LoadSongs() {
   GstMessage *msg = nullptr;
   GstMessage *msg_toc = nullptr;
   GstMessage *msg_tag = nullptr;
-  while ((msg = gst_bus_timed_pop_filtered(GST_ELEMENT_BUS(pipeline), GST_SECOND, static_cast<GstMessageType>(GST_MESSAGE_TOC | GST_MESSAGE_TAG)))) {
+  while ((!msg_toc || !msg_tag) && (msg = gst_bus_timed_pop_filtered(GST_ELEMENT_BUS(pipeline), GST_SECOND * 5, static_cast<GstMessageType>(GST_MESSAGE_TOC | GST_MESSAGE_TAG)))) {
     if (GST_MESSAGE_TYPE(msg) == GST_MESSAGE_TOC) {
-      if (msg_toc) gst_message_unref(msg_toc);  // Shouldn't happen, but just in case
+      if (msg_toc) gst_message_unref(msg_toc);
       msg_toc = msg;
     }
     else if (GST_MESSAGE_TYPE(msg) == GST_MESSAGE_TAG) {
@@ -190,6 +190,7 @@ void CddaSongLoader::LoadSongs() {
           songs[i++].set_length_nanosec(duration);
         }
       }
+      gst_toc_unref(toc);
     }
     gst_message_unref(msg_toc);
   }
@@ -200,18 +201,20 @@ void CddaSongLoader::LoadSongs() {
   if (msg_tag) {
     GstTagList *tags = nullptr;
     gst_message_parse_tag(msg_tag, &tags);
-    char *string_mb = nullptr;
-    if (gst_tag_list_get_string(tags, GST_TAG_CDDA_MUSICBRAINZ_DISCID, &string_mb)) {
-      QString musicbrainz_discid = QString::fromUtf8(string_mb);
-      qLog(Info) << "MusicBrainz discid: " << musicbrainz_discid;
+    if (tags) {
+      char *string_mb = nullptr;
+      if (gst_tag_list_get_string(tags, GST_TAG_CDDA_MUSICBRAINZ_DISCID, &string_mb)) {
+        QString musicbrainz_discid = QString::fromUtf8(string_mb);
+        qLog(Info) << "MusicBrainz Disc ID: " << musicbrainz_discid;
 
-      MusicBrainzClient *musicbrainz_client = new MusicBrainzClient(network_);
-      QObject::connect(musicbrainz_client, &MusicBrainzClient::DiscIdFinished, this, &CddaSongLoader::AudioCDTagsLoaded);
-      musicbrainz_client->StartDiscIdRequest(musicbrainz_discid);
-      g_free(string_mb);
-      gst_message_unref(msg_tag);
+        MusicBrainzClient *musicbrainz_client = new MusicBrainzClient(network_);
+        QObject::connect(musicbrainz_client, &MusicBrainzClient::DiscIdFinished, this, &CddaSongLoader::AudioCDTagsLoaded);
+        musicbrainz_client->StartDiscIdRequest(musicbrainz_discid);
+        g_free(string_mb);
+      }
       gst_tag_list_unref(tags);
     }
+    gst_message_unref(msg_tag);
   }
 #endif
 
