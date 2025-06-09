@@ -228,7 +228,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
 
   QVariant data(CollectionItem *item, const int role) const;
 
-  void ScheduleUpdate(const CollectionModelUpdate::Type type, const SongList &songs);
+  void ScheduleUpdate(const CollectionModelUpdate::Type type, const SongList &songs = SongList());
   void ScheduleAddSongs(const SongList &songs);
   void ScheduleUpdateSongs(const SongList &songs);
   void ScheduleRemoveSongs(const SongList &songs);
@@ -259,7 +259,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   static qint64 MaximumCacheSize(Settings *s, const char *size_id, const char *size_unit_id, const qint64 cache_size_default);
 
  private Q_SLOTS:
-  void Reload();
+  void ResetInternal();
   void ScheduleReset();
   void ProcessUpdate();
   void LoadSongsFromSqlAsyncFinished();
@@ -278,7 +278,6 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   const SharedPtr<AlbumCoverLoader> albumcover_loader_;
   CollectionDirectoryModel *dir_model_;
   CollectionFilter *filter_;
-  QTimer *timer_reload_;
   QTimer *timer_update_;
 
   QPixmap pixmap_no_cover_;
