@@ -1183,11 +1183,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Queue track</source>
-      <translation type="unfinished">Queue track</translation>
+      <translation>Εισαγωγή στην ουρά</translation>
     </message>
     <message>
       <source>Queue to play next</source>
-      <translation type="unfinished">Queue to play next</translation>
+      <translation>Στην ουρά σαν επόμενο</translation>
     </message>
     <message>
       <source>Search for this</source>
@@ -1828,11 +1828,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>This is an MTP device, but you compiled Strawberry without libmtp support.</source>
-      <translation type="unfinished">This is an MTP device, but you compiled Strawberry without libmtp support.</translation>
+      <translation>Αυτή είναι μια συσκευή MTP, αλλά συντάξατε το Strawberry χωρίς υποστήριξη libmtp.</translation>
     </message>
     <message>
       <source>If you continue, this device will work slowly and songs copied to it may not work.</source>
-      <translation type="unfinished">If you continue, this device will work slowly and songs copied to it may not work.</translation>
+      <translation>Αν συνεχίσετε, αυτή η συσκευή θα λειτουργεί αργά και τα τραγούδια που αντιγράφονται σε αυτήν ενδέχεται να μην λειτουργούν.</translation>
     </message>
     <message>
       <source>This is an iPod, but you compiled Strawberry without libgpod support.</source>
@@ -2015,7 +2015,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Art Automatic</source>
-      <translation type="unfinished">Art Automatic</translation>
+      <translation>Αυτόματο Art</translation>
     </message>
     <message>
       <source>Date modified</source>
@@ -2023,7 +2023,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Art Embedded</source>
-      <translation type="unfinished">Art Embedded</translation>
+      <translation>Ενσωματωμένη Τέχνη</translation>
     </message>
     <message>
       <source>Last played</source>
