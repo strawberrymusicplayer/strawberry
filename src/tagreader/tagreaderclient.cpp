@@ -229,7 +229,7 @@ bool TagReaderClient::IsMediaFileBlocking(const QString &filename) const {
 
   Q_ASSERT(QThread::currentThread() != thread());
 
-  return tagreader_.IsMediaFile(filename).success();
+  return tagreader_.IsMediaFile(filename).success() || gmereader_.IsMediaFile(filename).success();
 
 }
 
@@ -250,9 +250,12 @@ TagReaderReplyPtr TagReaderClient::IsMediaFileAsync(const QString &filename) {
 }
 
 TagReaderResult TagReaderClient::ReadFileBlocking(const QString &filename, Song *song) {
-
-  return tagreader_.ReadFile(filename, song);
-
+  TagReaderResult taglib_result = tagreader_.ReadFile(filename, song);
+  if(taglib_result.error_code == TagReaderResult::ErrorCode::FileOpenError || taglib_result.error_code == TagReaderResult::ErrorCode::Unsupported) {
+    return gmereader_.ReadFile(filename, song);
+  } else {
+    return taglib_result;
+  }
 }
 
 TagReaderReadFileReplyPtr TagReaderClient::ReadFileAsync(const QString &filename) {
