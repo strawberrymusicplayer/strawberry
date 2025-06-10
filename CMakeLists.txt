@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.13)
 
 project(strawberry C CXX)
 
-
 if(APPLE)
   enable_language(OBJC OBJCXX)
 endif()
@@ -30,8 +29,6 @@ endif()
 if(LINUX)
   include(cmake/Rpm.cmake)
   include(cmake/Deb.cmake)
-  set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
-  set(CMAKE_INSTALL_RPATH "$ORIGIN/../lib")
 endif()
 
 if(APPLE)
@@ -176,12 +173,9 @@ if(UNIX AND NOT APPLE)
   find_package(X11 COMPONENTS X11_xcb)
 endif()
 
-find_package(Protobuf CONFIG)
+find_package(Qt6 REQUIRED COMPONENTS Protobuf)
 if(NOT Protobuf_FOUND)
-  find_package(Protobuf REQUIRED)
-endif()
-if(NOT TARGET protobuf::protoc)
-  message(FATAL_ERROR "Missing Protobuf compiler.")
+  message(STATUS "Missing Protobuf compiler.")
 endif()
 
 pkg_check_modules(GLIB REQUIRED IMPORTED_TARGET glib-2.0)
@@ -380,6 +374,10 @@ optional_component(STREAMTAGREADER ON "Stream tagreader"
 
 optional_component(DISCORD_RPC ON "Discord Rich Presence"
   DEPENDS "RapidJSON" RapidJSON_FOUND
+)
+
+optional_component(NETWORKREMOTE ON "Network Remote"
+    DEPENDS "Protobuf" Protobuf_FOUND
 )
 
 if(HAVE_SONGFINGERPRINTING OR HAVE_MUSICBRAINZ)
@@ -718,7 +716,6 @@ set(SOURCES
   src/settings/contextsettingspage.cpp
   src/settings/notificationssettingspage.cpp
   src/settings/transcodersettingspage.cpp
-  src/settings/networkremotesettingspage.cpp
 
   src/dialogs/about.cpp
   src/dialogs/console.cpp
@@ -836,14 +833,6 @@ set(SOURCES
   src/device/devicestatefiltermodel.cpp
   src/device/deviceviewcontainer.cpp
   src/device/deviceview.cpp
-
-  src/networkremote/networkremote.cpp
-  src/networkremote/tcpserver.cpp
-  src/networkremote/remotesettings.cpp
-  src/networkremote/client.cpp
-  src/networkremote/clientmanager.cpp
-  src/networkremote/incomingmsg.cpp
-  src/networkremote/outgoingmsg.cpp
 )
 
 set(HEADERS
@@ -1024,7 +1013,6 @@ set(HEADERS
   src/settings/contextsettingspage.h
   src/settings/notificationssettingspage.h
   src/settings/transcodersettingspage.h
-  src/settings/networkremotesettingspage.h
 
   src/dialogs/about.h
   src/dialogs/errordialog.h
@@ -1133,14 +1121,6 @@ set(HEADERS
   src/device/devicestatefiltermodel.h
   src/device/deviceviewcontainer.h
   src/device/deviceview.h
-
-  src/networkremote/networkremote.h
-  src/networkremote/tcpserver.h
-  src/networkremote/remotesettings.h
-  src/networkremote/client.h
-  src/networkremote/clientmanager.h
-  src/networkremote/incomingmsg.h
-  src/networkremote/outgoingmsg.h
 )
 
 set(UI
@@ -1186,7 +1166,6 @@ set(UI
   src/settings/appearancesettingspage.ui
   src/settings/notificationssettingspage.ui
   src/settings/transcodersettingspage.ui
-  src/settings/networkremotesettingspage.ui
 
   src/equalizer/equalizer.ui
   src/equalizer/equalizerslider.ui
@@ -1498,6 +1477,30 @@ optional_source(HAVE_QOBUZ
     src/settings/qobuzsettingspage.ui
 )
 
+optional_source(HAVE_NETWORKREMOTE
+  SOURCES
+    src/networkremote/networkremote.cpp
+    src/networkremote/tcpserver.cpp
+    src/networkremote/remotesettings.cpp
+    src/networkremote/client.cpp
+    src/networkremote/clientmanager.cpp
+    src/networkremote/incomingmsg.cpp
+    src/networkremote/outgoingmsg.cpp
+    src/networkremote/RemoteMessages.proto
+    src/settings/networkremotesettingspage.cpp
+  HEADERS
+    src/networkremote/networkremote.h
+    src/networkremote/tcpserver.h
+    src/networkremote/remotesettings.h
+    src/networkremote/client.h
+    src/networkremote/clientmanager.h
+    src/networkremote/incomingmsg.h
+    src/networkremote/outgoingmsg.h
+    src/settings/networkremotesettingspage.h
+  UI
+    src/settings/networkremotesettingspage.ui
+  )
+
 qt_wrap_cpp(SOURCES ${HEADERS})
 qt_wrap_ui(SOURCES ${UI})
 qt_add_resources(SOURCES data/data.qrc data/icons.qrc)
@@ -1512,7 +1515,6 @@ endif()
 
 add_subdirectory(src)
 add_subdirectory(dist)
-add_subdirectory(src/networkremote)
 
 if(TARGET GTest::gtest AND TARGET GTest::gmock AND Qt${QT_VERSION_MAJOR}Test_FOUND)
   add_subdirectory(tests)
@@ -1606,12 +1608,11 @@ if(APPLE)
   endif()
 endif()
 
-target_link_libraries(strawberry PUBLIC
-    strawberry_lib
-    ${P${Protobuf_LIBRARIES}rotobuf_LIBRARIES}
-    lib-networkremote
-
-)
+if(HAVE_NETWORKREMOTE)
+  add_subdirectory(src/networkremote)
+  target_link_libraries(strawberry_lib PRIVATE Qt6::Protobuf)
+  target_link_libraries(strawberry PUBLIC strawberry_lib lib-networkremote)
+endif()
 
 
 if(NOT APPLE)
