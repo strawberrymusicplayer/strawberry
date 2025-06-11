@@ -23,11 +23,12 @@
 #include "core/logging.h"
 #include "core/player.h"
 
-NetworkRemoteOutgoingMsg::NetworkRemoteOutgoingMsg(const SharedPtr<Player> player, QObject *parent)
-    : QObject(parent),
-    msg_(new nw::remote::Message),
-    response_song_(new nw::remote::ResponseSongMetadata),
-    player_(player)
+NetworkRemoteOutgoingMsg::NetworkRemoteOutgoingMsg(
+    const SharedPtr<Player> player, QObject *parent)
+    : QObject(parent)
+    , msg_(new nw::remote::Message)
+    , response_song_(new nw::remote::ResponseSongMetadata)
+    , player_(player)
 {}
 
 void NetworkRemoteOutgoingMsg::Init(QTcpSocket *socket) {
