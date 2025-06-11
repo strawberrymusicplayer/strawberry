@@ -27,10 +27,10 @@
 
 //using namespace Qt::Literals::StringLiterals;
 
-NetworkRemoteSettingsPage::NetworkRemoteSettingsPage(SettingsDialog *dialog, QWidget *parent)
-    : SettingsPage(dialog,parent),
-      ui_(new Ui_NetworkRemoteSettingsPage),
-      settings_(new NetworkRemoteSettings) {
+NetworkRemoteSettingsPage::NetworkRemoteSettingsPage(SettingsDialog *dialog, QWidget *parent) :
+    SettingsPage(dialog,parent),
+    ui_(new Ui_NetworkRemoteSettingsPage),
+    settings_(new NetworkRemoteSettings) {
   ui_->setupUi(this);
   const int iconSize = style()->pixelMetric(QStyle::PM_TabBarIconSize);
   setWindowIcon(IconLoader::Load(QStringLiteral("network-remote"), true, 0,iconSize));

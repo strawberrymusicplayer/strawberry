@@ -28,8 +28,8 @@
 class NetworkRemoteTcpServer : public QObject{
   Q_OBJECT
  public:
-     explicit NetworkRemoteTcpServer(const SharedPtr<Player> player, QObject *parent = nullptr);
-     bool ServerUp();
+  explicit NetworkRemoteTcpServer(const SharedPtr<Player> player, QObject *parent = nullptr);
+  bool ServerUp();
 
  public Q_SLOTS:
   void NewTcpConnection();

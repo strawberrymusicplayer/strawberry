@@ -24,10 +24,10 @@
 
 const char *NetworkRemoteSettings::kSettingsGroup = "NetworkRemote";
 
-NetworkRemoteSettings::NetworkRemoteSettings()
-    : enabled_(false),
-      local_only_(false),
-      remote_port_(5050) {}
+NetworkRemoteSettings::NetworkRemoteSettings() :
+    enabled_(false),
+    local_only_(false),
+    remote_port_(5050) {}
 
 NetworkRemoteSettings::~NetworkRemoteSettings() {}
 

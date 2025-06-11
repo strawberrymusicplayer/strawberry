@@ -24,14 +24,14 @@
 
 NetworkRemote* NetworkRemote::sInstance_ = nullptr;
 
-NetworkRemote::NetworkRemote(Application* app, QObject *parent)
-    : QObject(parent),
-      app_(app),
-      enabled_(false),
-      local_only_(false),
-      remote_port_(5050),
-      server_(nullptr),
-      settings_(new NetworkRemoteSettings()) {
+NetworkRemote::NetworkRemote(Application* app, QObject *parent) :
+    QObject(parent),
+    app_(app),
+    enabled_(false),
+    local_only_(false),
+    remote_port_(5050),
+    server_(nullptr),
+    settings_(new NetworkRemoteSettings()) {
   setObjectName("NetworkRemote");
   sInstance_ = this;
 }
@@ -72,8 +72,8 @@ void NetworkRemote::LoadSettings() {
 }
 
 void NetworkRemote::startTcpServer() {
-    server_ = new NetworkRemoteTcpServer(app_->player(), this);
-    server_->StartServer(ipAddr_, remote_port_);
+  server_ = new NetworkRemoteTcpServer(app_->player(), this);
+  server_->StartServer(ipAddr_, remote_port_);
 }
 
 void NetworkRemote::stopTcpServer() {

@@ -22,12 +22,12 @@
 #include "networkremote/RemoteMessages.pb.h"
 #include "core/logging.h"
 
-NetworkRemoteIncomingMsg::NetworkRemoteIncomingMsg(QObject *parent)
-    : QObject(parent),
-      msg_(new nw::remote::Message),
-      socket_(nullptr),
-      bytes_in_(0),
-      msg_type_(0) {}
+NetworkRemoteIncomingMsg::NetworkRemoteIncomingMsg(QObject *parent) :
+    QObject(parent),
+    msg_(new nw::remote::Message),
+    socket_(nullptr),
+    bytes_in_(0),
+    msg_type_(0) {}
 
 NetworkRemoteIncomingMsg::~NetworkRemoteIncomingMsg() {
   delete msg_;

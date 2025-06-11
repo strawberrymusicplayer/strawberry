@@ -29,11 +29,11 @@
 class NetworkRemoteClient : public QObject{
   Q_OBJECT
  public:
-     explicit NetworkRemoteClient(const SharedPtr<Player> player, QObject *parent = nullptr);
-     ~NetworkRemoteClient();
-     void Init(QTcpSocket *);
-     QTcpSocket *GetSocket();
-     void ProcessIncoming();
+  explicit NetworkRemoteClient(const SharedPtr<Player> player, QObject *parent = nullptr);
+  ~NetworkRemoteClient();
+  void Init(QTcpSocket *);
+  QTcpSocket *GetSocket();
+  void ProcessIncoming();
 
  Q_SIGNALS:
   void ReceiveMsg();
