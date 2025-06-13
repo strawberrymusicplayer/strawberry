@@ -40,31 +40,31 @@ QTcpSocket* NetworkRemoteClient::GetSocket() {
 
 void NetworkRemoteClient::ProcessIncoming() {
   switch (incoming_msg_->GetMsgType()) {
-    case nw::remote::MSG_TYPE_REQUEST_SONG_INFO:
+    case nw::remote::MsgTypeGadget::MsgType::MSG_TYPE_REQUEST_SONG_INFO:
       outgoing_msg_->SendCurrentTrackInfo();
       break;
-    case nw::remote::MSG_TYPE_REQUEST_PLAY:
+    case nw::remote::MsgTypeGadget::MsgType::MSG_TYPE_REQUEST_PLAY:
       player_->Play();
       // In case the player was paused when the client started send the song info again
       outgoing_msg_->SendCurrentTrackInfo();
       break;
-    case nw::remote::MSG_TYPE_REQUEST_NEXT:
+    case nw::remote::MsgTypeGadget::MsgType::MSG_TYPE_REQUEST_NEXT:
       player_->Next();
       outgoing_msg_->SendCurrentTrackInfo();
       break;
-    case nw::remote::MSG_TYPE_REQUEST_PREVIOUS:
+    case nw::remote::MsgTypeGadget::MsgType::MSG_TYPE_REQUEST_PREVIOUS:
       player_->Previous();
       outgoing_msg_->SendCurrentTrackInfo();
       break;
-    case nw::remote::MSG_TYPE_REQUEST_PAUSE:
+    case nw::remote::MsgTypeGadget::MsgType::MSG_TYPE_REQUEST_PAUSE:
       player_->Pause();
       break;
-    case nw::remote::MSG_TYPE_REQUEST_STOP:
+    case nw::remote::MsgTypeGadget::MsgType::MSG_TYPE_REQUEST_STOP:
       break;
-    case nw::remote::MSG_TYPE_REQUEST_FINISH:
+    case nw::remote::MsgTypeGadget::MsgType::MSG_TYPE_REQUEST_FINISH:
       Q_EMIT ClientIsLeaving();
       break;
-    case nw::remote::MSG_TYPE_DISCONNECT:
+    case nw::remote::MsgTypeGadget::MsgType::MSG_TYPE_DISCONNECT:
       break;
     default:
         qInfo("Unknown mwessage type");

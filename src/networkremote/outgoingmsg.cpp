@@ -18,6 +18,7 @@
  */
 
 #include <QTcpSocket>
+#include <QProtobufSerializer>
 #include "outgoingmsg.h"
 #include "core/application.h"
 #include "core/logging.h"
@@ -25,52 +26,63 @@
 
 NetworkRemoteOutgoingMsg::NetworkRemoteOutgoingMsg(const SharedPtr<Player> player, QObject *parent) :
     QObject(parent),
-    msg_(new nw::remote::Message),
-    response_song_(new nw::remote::ResponseSongMetadata),
-    player_(player) {}
+    player_(player),
+    bytes_out_(0),
+    msg_type_(0),
+    playlist_(nullptr),
+    socket_(nullptr) {}
 
 void NetworkRemoteOutgoingMsg::Init(QTcpSocket *socket) {
   socket_ = socket;
 }
 
 void NetworkRemoteOutgoingMsg::SendCurrentTrackInfo() {
-  msg_->Clear();
-  song_ = new nw::remote::SongMetadata;
-  response_song_->Clear();
+  msg_ =  nw::remote::Message();
+  response_song_ = nw::remote::ResponseSongMetadata();
   current_item_ = player_->GetCurrentItem();
 
   if (current_item_ != nullptr) {
-    song_->mutable_title()->assign(current_item_->EffectiveMetadata().PrettyTitle().toStdString());
-    song_->mutable_album()->assign(current_item_->EffectiveMetadata().album().toStdString());
-    song_->mutable_artist()->assign(current_item_->EffectiveMetadata().artist().toStdString());
-    song_->mutable_albumartist()->assign(current_item_->EffectiveMetadata().albumartist().toStdString());
-    song_->set_track(current_item_->EffectiveMetadata().track());
-    song_->mutable_stryear()->assign(current_item_->EffectiveMetadata().PrettyYear().toStdString());
-    song_->mutable_genre()->assign(current_item_->EffectiveMetadata().genre().toStdString());
-    song_->set_playcount(current_item_->EffectiveMetadata().playcount());
-    song_->mutable_songlength()->assign(current_item_->EffectiveMetadata().PrettyLength().toStdString());
-    msg_->set_type(nw::remote::MSG_TYPE_REPLY_SONG_INFO);
-    msg_->mutable_response_song_metadata()->set_player_state(nw::remote::PLAYER_STATUS_PLAYING);
-    msg_->mutable_response_song_metadata()->set_allocated_song_metadata(song_);
+    song_ = nw::remote::SongMetadata();
+    song_.setTitle(current_item_->EffectiveMetadata().PrettyTitle());
+    song_.setAlbum(current_item_->EffectiveMetadata().album());
+    song_.setArtist(current_item_->EffectiveMetadata().artist());
+    song_.setAlbumartist(current_item_->EffectiveMetadata().albumartist());
+    song_.setTrack(current_item_->EffectiveMetadata().track());
+    song_.setStryear(current_item_->EffectiveMetadata().PrettyYear());
+    song_.setGenre(current_item_->EffectiveMetadata().genre());
+    song_.setPlaycount(current_item_->EffectiveMetadata().playcount());
+    song_.setSonglength(current_item_->EffectiveMetadata().PrettyLength());
+
+    response_song_.setPlayerState(nw::remote::PlayerStateGadget::PlayerState::PLAYER_STATUS_PLAYING);
+    response_song_.setSongMetadata(song_);
+
+    msg_.setType(nw::remote::MsgTypeGadget::MsgType::MSG_TYPE_REPLY_SONG_INFO);
+    msg_.setResponseSongMetadata(response_song_);
   }
   else {
     qInfo("I cannnot figure out how to get the song data if the song isn't playing");
     /* NOTE:  TODO
      *
     * */
-      msg_->set_type(nw::remote::MSG_TYPE_UNSPECIFIED);
-      msg_->mutable_response_song_metadata()->set_player_state(nw::remote::PLAYER_STATUS_UNSPECIFIED);
+    response_song_.setPlayerState(nw::remote::PlayerStateGadget::PlayerState::PLAYER_STATUS_UNSPECIFIED);
+    msg_.setType(nw::remote::MsgTypeGadget::MsgType::MSG_TYPE_REPLY_SONG_INFO);
+    msg_.setResponseSongMetadata(response_song_);
   }
   SendMsg();
 }
 
 void NetworkRemoteOutgoingMsg::SendMsg() {
-  std::string  msgOut;
-  msg_->SerializeToString(&msgOut);
-  bytes_out_ = msg_->ByteSizeLong();
-  if (socket_->isWritable()) {
-    socket_->write(QByteArray::fromStdString(msgOut));
-      qLog(Debug) << socket_->bytesToWrite() << " bytes written to socket " << socket_->socketDescriptor();
-    msg_->Clear();
+  QProtobufSerializer serializer;
+  QByteArray data = serializer.serialize(&msg_);
+  if (serializer.lastError() != QAbstractProtobufSerializer::Error::None) {
+    qLog(Debug) << "Failed to serialize message:" << serializer.lastErrorString();
+    return;
+  }
+  bytes_out_ = data.size();
+  if (socket_ && socket_->isWritable()) {
+    socket_->write(data);
+    qLog(Debug) << bytes_out_ << "bytes written to socket" << socket_->socketDescriptor();
+  } else {
+    qWarning() << "Socket is not writable.";
   }
 }

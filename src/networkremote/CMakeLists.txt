@@ -1,11 +1,8 @@
-set(SOURCES RemoteMessages.proto)
+add_library(lib-networkremote STATIC)
 
-link_directories(
-  ${GLIB_LIBRARY_DIRS}
-  ${PROTOBUF_LIBRARY_DIRS}
+qt_add_protobuf(lib-networkremote
+    PROTO_FILES RemoteMessages.proto
 )
-
-add_library(lib-networkremote OBJECT ${PROTO_SOURCES} ${SOURCES})
 
 target_include_directories(lib-networkremote SYSTEM PRIVATE
   ${GLIB_INCLUDE_DIRS}
@@ -26,5 +23,3 @@ target_link_libraries(lib-networkremote PRIVATE
   Qt${QT_VERSION_MAJOR}::Network
   Qt${QT_VERSION_MAJOR}::Gui
 )
-
-protobuf_generate(TARGET lib-networkremote)

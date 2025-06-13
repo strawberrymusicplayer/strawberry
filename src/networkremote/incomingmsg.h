@@ -23,7 +23,7 @@
 #include <QObject>
 #include <QByteArray>
 #include <QString>
-#include "networkremote/RemoteMessages.pb.h"
+#include "networkremote/RemoteMessages.qpb.h"
 
 class QTcpSocket;
 
@@ -34,7 +34,7 @@ class NetworkRemoteIncomingMsg : public QObject{
   ~NetworkRemoteIncomingMsg(); 
   void Init(QTcpSocket* socket);
   void SetMsgType();
-  qint32 GetMsgType();
+  nw::remote::MsgTypeGadget::MsgType GetMsgType();
 
  private Q_SLOTS:
   void ReadyRead();
@@ -43,12 +43,12 @@ class NetworkRemoteIncomingMsg : public QObject{
   void InMsgParsed();
 
  private:
-  nw::remote::Message *msg_;
+  nw::remote::Message msg_;
+  nw::remote::MsgTypeGadget::MsgType msg_type_;
   QTcpSocket *socket_;
   long bytes_in_;
   QByteArray msg_stream_;
   std::string msg_string_;
-  qint32 msg_type_;
 };
 
 #endif

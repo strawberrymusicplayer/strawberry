@@ -18,20 +18,17 @@
  */
 
 #include <QTcpSocket>
+#include <QProtobufSerializer>
+
 #include "incomingmsg.h"
-#include "networkremote/RemoteMessages.pb.h"
 #include "core/logging.h"
 
 NetworkRemoteIncomingMsg::NetworkRemoteIncomingMsg(QObject *parent) :
     QObject(parent),
-    msg_(new nw::remote::Message),
     socket_(nullptr),
-    bytes_in_(0),
-    msg_type_(0) {}
+    bytes_in_(0) {}
 
-NetworkRemoteIncomingMsg::~NetworkRemoteIncomingMsg() {
-  delete msg_;
-}
+NetworkRemoteIncomingMsg::~NetworkRemoteIncomingMsg() = default;
 
 void NetworkRemoteIncomingMsg::Init(QTcpSocket *socket) {
   socket_ = socket;
@@ -39,17 +36,25 @@ void NetworkRemoteIncomingMsg::Init(QTcpSocket *socket) {
 }
 
 void NetworkRemoteIncomingMsg::SetMsgType() {
-  msg_string_ = msg_stream_.toStdString();
-  msg_->ParseFromString(msg_string_);
-  Q_EMIT InMsgParsed();
+  QProtobufSerializer serializer;
+  msg_.deserialize(&serializer, msg_stream_.constData());
+  if (serializer.lastError() == QAbstractProtobufSerializer::Error::None) {
+    msg_type_ = msg_.type();
+    Q_EMIT InMsgParsed();
+  } else {
+    qLog(Debug) << "Failed to deserialize message: ("
+      << qToUnderlying(serializer.lastError()) << ") "<< serializer.lastErrorString();
+    }
 }
 
-qint32 NetworkRemoteIncomingMsg::GetMsgType() {
-  return msg_->type();
+nw::remote::MsgTypeGadget::MsgType NetworkRemoteIncomingMsg::GetMsgType() {
+    return msg_type_;
 }
 
 void NetworkRemoteIncomingMsg::ReadyRead() {
-  qLog(Debug) << "Ready To Read";
-  msg_stream_ = socket_->readAll();
-  if (msg_stream_.length() > 0) SetMsgType();
+    qLog(Debug) << "Ready To Read";
+    msg_stream_ = socket_->readAll();
+    if (!msg_stream_.isEmpty()) {
+        SetMsgType();
+    }
 }

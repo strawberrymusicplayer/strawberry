@@ -24,7 +24,7 @@
 #include <QByteArray>
 #include "playlist/playlistitem.h"
 #include "includes/shared_ptr.h"
-#include "networkremote/RemoteMessages.pb.h"
+#include "networkremote/RemoteMessages.qpb.h"
 
 class Playlist;
 class Player;
@@ -39,17 +39,18 @@ class NetworkRemoteOutgoingMsg : public QObject{
   void SendMsg();
 
  private:
-  PlaylistItemPtr current_item_;
+  SharedPtr<Player> player_ ;
+  long bytes_out_;
+  qint32 msg_type_;
   Playlist *playlist_;
   QTcpSocket *socket_;
-  qint32 msg_type_;
+  PlaylistItemPtr current_item_;
   QByteArray msg_stream_;
-  nw::remote::Message *msg_;
-  long bytes_out_;
   std::string msg_string_;
-  nw::remote::SongMetadata *song_;
-  nw::remote::ResponseSongMetadata *response_song_;
-  SharedPtr<Player> player_ ;
+  nw::remote::Message msg_;
+  nw::remote::SongMetadata song_;
+  nw::remote::ResponseSongMetadata response_song_;
+
 };
 
 #endif
