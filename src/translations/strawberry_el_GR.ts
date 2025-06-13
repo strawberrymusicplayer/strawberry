@@ -601,11 +601,11 @@
     </message>
     <message>
       <source>High watermark</source>
-      <translation type="unfinished">High watermark</translation>
+      <translation>High watermark</translation>
     </message>
     <message>
       <source>Low watermark</source>
-      <translation type="unfinished">Low watermark</translation>
+      <translation>Low watermark</translation>
     </message>
     <message>
       <source>Defaults</source>
@@ -7215,11 +7215,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>No short blocks</source>
-      <translation type="unfinished">No short blocks</translation>
+      <translation>Χωρίς μικρά μπλοκ</translation>
     </message>
     <message>
       <source>No long blocks</source>
-      <translation type="unfinished">No long blocks</translation>
+      <translation>Χωρίς μακρύ μπλοκ</translation>
     </message>
   </context>
   <context>
@@ -7281,7 +7281,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Opti&amp;mize for bitrate</source>
-      <translation type="unfinished">Opti&amp;mize for bitrate</translation>
+      <translation>Βελτιστοποίηση ρυθμού bit</translation>
     </message>
     <message>
       <source>Bitrate</source>
@@ -7297,7 +7297,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Encoding engine quality</source>
-      <translation type="unfinished">Encoding engine quality</translation>
+      <translation>Ποιότητα κινητήρα κωδικοποίησης</translation>
     </message>
     <message>
       <source>Fast</source>
@@ -7313,7 +7313,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Force mono encoding</source>
-      <translation type="unfinished">Force mono encoding</translation>
+      <translation>Εξαναγκασμός κωδικοποίησης μονο</translation>
     </message>
   </context>
   <context>
@@ -7356,7 +7356,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Average bitrate</source>
-      <translation type="unfinished">Average bitrate</translation>
+      <translation>Μέσος ρυθμός bit</translation>
     </message>
     <message>
       <source>disabled</source>
@@ -7364,7 +7364,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Encoding mode</source>
-      <translation type="unfinished">Encoding mode</translation>
+      <translation>Λειτουργία κωδικοποίησης</translation>
     </message>
     <message>
       <source>Auto</source>
@@ -7372,7 +7372,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Ultra wide band (UWB)</source>
-      <translation type="unfinished">Ultra wide band (UWB)</translation>
+      <translation>Εξαιρετικά ευρεία ζώνη (UWB)</translation>
     </message>
     <message>
       <source>Wide band (WB)</source>
@@ -7384,23 +7384,23 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Variable bit rate</source>
-      <translation type="unfinished">Variable bit rate</translation>
+      <translation>Μεταβλητός ρυθμός bit</translation>
     </message>
     <message>
       <source>Voice activity detection</source>
-      <translation type="unfinished">Voice activity detection</translation>
+      <translation>Ανίχνευση φωνητικής δραστηριότητας</translation>
     </message>
     <message>
       <source>Discontinuous transmission</source>
-      <translation type="unfinished">Discontinuous transmission</translation>
+      <translation>Μη συνεχής μετάδοση</translation>
     </message>
     <message>
       <source>Encoding complexity</source>
-      <translation type="unfinished">Encoding complexity</translation>
+      <translation>Πολυπλοκότητα κωδικοποίησης</translation>
     </message>
     <message>
       <source>Frames per buffer</source>
-      <translation type="unfinished">Frames per buffer</translation>
+      <translation>Καρέ ανά buffer</translation>
     </message>
   </context>
   <context>
