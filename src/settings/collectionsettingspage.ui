@@ -25,6 +25,9 @@
     <layout class="QHBoxLayout" name="layout_collection_folders">
      <item>
       <widget class="QListView" name="list">
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
        <property name="iconSize">
         <size>
          <width>16</width>
@@ -58,7 +61,7 @@
        <item>
         <spacer name="spacer_collection_buttons">
          <property name="orientation">
-          <enum>Qt::Orientation::Vertical</enum>
+          <enum>Qt::Vertical</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
@@ -167,7 +170,7 @@
          <item>
           <spacer name="spacer_expire_unavailable_songs">
            <property name="orientation">
-            <enum>Qt::Orientation::Horizontal</enum>
+            <enum>Qt::Horizontal</enum>
            </property>
            <property name="sizeHint" stdset="0">
             <size>
@@ -295,7 +298,7 @@ If there are no matches then it will use the largest image in the directory.</st
         <item row="0" column="4">
          <spacer name="spacer_cache_size">
           <property name="orientation">
-           <enum>Qt::Orientation::Horizontal</enum>
+           <enum>Qt::Horizontal</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -319,7 +322,7 @@ If there are no matches then it will use the largest image in the directory.</st
         <item>
          <spacer name="spacer_disk_cache">
           <property name="orientation">
-           <enum>Qt::Orientation::Horizontal</enum>
+           <enum>Qt::Horizontal</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -378,7 +381,7 @@ If there are no matches then it will use the largest image in the directory.</st
         <item row="0" column="4">
          <spacer name="spacer_disk_cache_size">
           <property name="orientation">
-           <enum>Qt::Orientation::Horizontal</enum>
+           <enum>Qt::Horizontal</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -422,7 +425,7 @@ If there are no matches then it will use the largest image in the directory.</st
         <item>
          <spacer name="spacer_disk_cache_in_use">
           <property name="orientation">
-           <enum>Qt::Orientation::Horizontal</enum>
+           <enum>Qt::Horizontal</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -483,7 +486,7 @@ If there are no matches then it will use the largest image in the directory.</st
         <item>
          <spacer name="spacer_save_stats">
           <property name="orientation">
-           <enum>Qt::Orientation::Horizontal</enum>
+           <enum>Qt::Horizontal</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
