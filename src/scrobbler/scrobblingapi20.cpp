@@ -979,7 +979,7 @@ QString ScrobblingAPI20::ErrorString(const ScrobbleErrorCode error) {
 
 void ScrobblingAPI20::CheckScrobblePrevSong() {
 
-  const qint64 duration = std::min(0LL, QDateTime::currentSecsSinceEpoch() - static_cast<qint64>(timestamp_));
+  const qint64 duration = std::max(0LL, QDateTime::currentSecsSinceEpoch() - static_cast<qint64>(timestamp_));
 
   if (!scrobbled_ && song_playing_.is_metadata_good() && song_playing_.is_radio() && duration > 30) {
     Song song(song_playing_);
