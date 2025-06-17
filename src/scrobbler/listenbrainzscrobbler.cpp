@@ -531,8 +531,7 @@ void ListenBrainzScrobbler::Error(const QString &error_message, const QVariant &
 
 void ListenBrainzScrobbler::CheckScrobblePrevSong() {
 
-  qint64 duration = QDateTime::currentSecsSinceEpoch() - static_cast<qint64>(timestamp_);
-  if (duration < 0) duration = 0;
+  const qint64 duration = std::max(0LL, QDateTime::currentSecsSinceEpoch() - static_cast<qint64>(timestamp_));
 
   if (!scrobbled_ && song_playing_.is_metadata_good() && song_playing_.is_radio() && duration > 30) {
     Song song(song_playing_);
