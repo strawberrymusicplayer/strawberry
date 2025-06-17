@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        opensuse_version: [ 'tumbleweed', 'leap:15.6' ]
+        opensuse_version: [ 'tumbleweed', 'leap:15.6', 'leap:16.0' ]
     container:
       image: opensuse/${{matrix.opensuse_version}}
     steps:
