@@ -53,8 +53,7 @@ using namespace Qt::Literals::StringLiterals;
 CDDASongLoader::CDDASongLoader(const QUrl &url, QObject *parent)
     : QObject(parent),
       url_(url),
-      network_(make_shared<NetworkAccessManager>()),
-      cdda_(nullptr) {
+      network_(make_shared<NetworkAccessManager>()) {
 
   QObject::connect(this, &CDDASongLoader::MusicBrainzDiscIdLoaded, this, &CDDASongLoader::LoadMusicBrainzCDTags);
 
@@ -89,36 +88,36 @@ void CDDASongLoader::LoadSongsFromCDDA() {
   QMutexLocker l(&mutex_load_);
 
   GError *error = nullptr;
-  cdda_ = gst_element_make_from_uri(GST_URI_SRC, "cdda://", nullptr, &error);
+  GstElement *cdda = gst_element_factory_make("cdiocddasrc", nullptr);
   if (error) {
     Error(QStringLiteral("%1: %2").arg(error->code).arg(QString::fromUtf8(error->message)));
   }
-  if (!cdda_) {
+  if (!cdda) {
     Q_EMIT SongLoadingFinished();
     return;
   }
 
   if (!url_.isEmpty()) {
-    g_object_set(cdda_, "device", g_strdup(url_.path().toLocal8Bit().constData()), nullptr);
+    g_object_set(cdda, "device", g_strdup(url_.path().toLocal8Bit().constData()), nullptr);
   }
-  if (g_object_class_find_property(G_OBJECT_GET_CLASS(cdda_), "paranoia-mode")) {
-    g_object_set(cdda_, "paranoia-mode", 0, nullptr);
+  if (g_object_class_find_property(G_OBJECT_GET_CLASS(cdda), "paranoia-mode")) {
+    g_object_set(cdda, "paranoia-mode", 0, nullptr);
   }
 
   // Change the element's state to ready and paused, to be able to query it
-  if (gst_element_set_state(cdda_, GST_STATE_READY) == GST_STATE_CHANGE_FAILURE) {
-    gst_element_set_state(cdda_, GST_STATE_NULL);
-    gst_object_unref(GST_OBJECT(cdda_));
-    cdda_ = nullptr;
+  if (gst_element_set_state(cdda, GST_STATE_READY) == GST_STATE_CHANGE_FAILURE) {
+    gst_element_set_state(cdda, GST_STATE_NULL);
+    gst_object_unref(GST_OBJECT(cdda));
+    cdda = nullptr;
     Error(tr("Error while setting CDDA device to ready state."));
     Q_EMIT SongLoadingFinished();
     return;
   }
 
-  if (gst_element_set_state(cdda_, GST_STATE_PAUSED) == GST_STATE_CHANGE_FAILURE) {
-    gst_element_set_state(cdda_, GST_STATE_NULL);
-    gst_object_unref(GST_OBJECT(cdda_));
-    cdda_ = nullptr;
+  if (gst_element_set_state(cdda, GST_STATE_PAUSED) == GST_STATE_CHANGE_FAILURE) {
+    gst_element_set_state(cdda, GST_STATE_NULL);
+    gst_object_unref(GST_OBJECT(cdda));
+    cdda = nullptr;
     Error(tr("Error while setting CDDA device to pause state."));
     Q_EMIT SongLoadingFinished();
     return;
@@ -128,10 +127,10 @@ void CDDASongLoader::LoadSongsFromCDDA() {
   GstFormat format_track = gst_format_get_by_nick("track");
   GstFormat format_duration = format_track;
   gint64 total_tracks = 0;
-  if (!gst_element_query_duration(cdda_, format_duration, &total_tracks)) {
-    gst_element_set_state(cdda_, GST_STATE_NULL);
-    gst_object_unref(GST_OBJECT(cdda_));
-    cdda_ = nullptr;
+  if (!gst_element_query_duration(cdda, format_duration, &total_tracks)) {
+    gst_element_set_state(cdda, GST_STATE_NULL);
+    gst_object_unref(GST_OBJECT(cdda));
+    cdda = nullptr;
     Error(tr("Error while querying CDDA tracks."));
     Q_EMIT SongLoadingFinished();
     return;
@@ -139,9 +138,9 @@ void CDDASongLoader::LoadSongsFromCDDA() {
 
   if (format_duration != format_track) {
     qLog(Error) << "Error while querying CDDA GstElement (2).";
-    gst_element_set_state(cdda_, GST_STATE_NULL);
-    gst_object_unref(GST_OBJECT(cdda_));
-    cdda_ = nullptr;
+    gst_element_set_state(cdda, GST_STATE_NULL);
+    gst_object_unref(GST_OBJECT(cdda));
+    cdda = nullptr;
     Error(tr("Error while querying CDDA tracks."));
     Q_EMIT SongLoadingFinished();
     return;
@@ -164,8 +163,8 @@ void CDDASongLoader::LoadSongsFromCDDA() {
 
   GstElement *pipeline = gst_pipeline_new("pipeline");
   GstElement *sink = gst_element_factory_make("fakesink", nullptr);
-  gst_bin_add_many(GST_BIN(pipeline), cdda_, sink, nullptr);
-  gst_element_link(cdda_, sink);
+  gst_bin_add_many(GST_BIN(pipeline), cdda, sink, nullptr);
+  gst_element_link(cdda, sink);
   gst_element_set_state(pipeline, GST_STATE_READY);
   gst_element_set_state(pipeline, GST_STATE_PAUSED);
 
@@ -212,7 +211,7 @@ void CDDASongLoader::LoadSongsFromCDDA() {
       });
 
       gint64 track_index = 0;
-      gst_element_query_position(cdda_, format_track, &track_index);
+      gst_element_query_position(cdda, format_track, &track_index);
 
       char *tag = nullptr;
 
@@ -308,7 +307,7 @@ void CDDASongLoader::LoadSongsFromCDDA() {
   }
 
   gst_element_set_state(pipeline, GST_STATE_NULL);
-  // This will also cause cdda_ to be unref'd.
+  // This will also cause cdda to be unref'd.
   gst_object_unref(pipeline);
 
   Q_EMIT SongsMetadataLoaded(songs.values());

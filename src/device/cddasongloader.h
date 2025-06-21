@@ -74,7 +74,6 @@ class CDDASongLoader : public QObject {
  private:
   const QUrl url_;
   SharedPtr<NetworkAccessManager> network_;
-  GstElement *cdda_;
   QMutex mutex_load_;
   QFuture<void> loading_future_;
 };
