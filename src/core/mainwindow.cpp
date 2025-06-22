@@ -156,10 +156,8 @@
 #include "lyrics/lyricsproviders.h"
 #include "device/devicemanager.h"
 #include "device/devicestatefiltermodel.h"
-#ifndef Q_OS_WIN32
-#  include "device/deviceview.h"
-#  include "device/deviceviewcontainer.h"
-#endif
+#include "device/deviceview.h"
+#include "device/deviceviewcontainer.h"
 #include "transcoder/transcodedialog.h"
 #include "settings/settingsdialog.h"
 #include "constants/behavioursettings.h"
@@ -310,9 +308,7 @@ MainWindow::MainWindow(Application *app,
       context_view_(new ContextView(this)),
       collection_view_(new CollectionViewContainer(this)),
       file_view_(new FileView(this)),
-#ifndef Q_OS_WIN32
       device_view_(new DeviceViewContainer(this)),
-#endif
       playlist_list_(new PlaylistListContainer(this)),
       queue_view_(new QueueView(this)),
       settings_dialog_(std::bind(&MainWindow::CreateSettingsDialog, this)),
@@ -375,9 +371,7 @@ MainWindow::MainWindow(Application *app,
       playlist_move_to_collection_(nullptr),
       playlist_open_in_browser_(nullptr),
       playlist_organize_(nullptr),
-#ifndef Q_OS_WIN32
       playlist_copy_to_device_(nullptr),
-#endif
       playlist_delete_(nullptr),
       playlist_queue_(nullptr),
       playlist_queue_play_next_(nullptr),
@@ -430,9 +424,7 @@ MainWindow::MainWindow(Application *app,
   ui_->tabs->AddTab(smartplaylists_view_, u"smartplaylists"_s, IconLoader::Load(u"view-media-playlist"_s, true, 0, 32), tr("Smart playlists"));
   ui_->tabs->AddTab(file_view_, u"files"_s, IconLoader::Load(u"document-open"_s, true, 0, 32), tr("Files"));
   ui_->tabs->AddTab(radio_view_, u"radios"_s, IconLoader::Load(u"radio"_s, true, 0, 32), tr("Radios"));
-#ifndef Q_OS_WIN32
   ui_->tabs->AddTab(device_view_, u"devices"_s, IconLoader::Load(u"device"_s, true, 0, 32), tr("Devices"));
-#endif
 #ifdef HAVE_SUBSONIC
   ui_->tabs->AddTab(subsonic_view_, u"subsonic"_s, IconLoader::Load(u"subsonic"_s, true, 0, 32), tr("Subsonic"));
 #endif
@@ -480,9 +472,7 @@ MainWindow::MainWindow(Application *app,
 
   collection_view_->view()->setModel(app_->collection()->model()->filter());
   collection_view_->view()->Init(app->task_manager(), app->tagreader_client(), app->network(), app->albumcover_loader(), app->current_albumcover_loader(), app->cover_providers(), app->lyrics_providers(), app->collection(), app->device_manager(), app->streaming_services());
-#ifndef Q_OS_WIN32
   device_view_->view()->Init(app->task_manager(), app->tagreader_client(), app->device_manager(), app->collection_model()->directory_model());
-#endif
   playlist_list_->Init(app_->task_manager(), app->tagreader_client(), app_->playlist_manager(), app_->playlist_backend(), app_->device_manager());
 
   organize_dialog_->SetDestinationModel(app_->collection()->model()->directory_model());
@@ -554,9 +544,7 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(file_view_, &FileView::CopyToCollection, this, &MainWindow::CopyFilesToCollection);
   QObject::connect(file_view_, &FileView::MoveToCollection, this, &MainWindow::MoveFilesToCollection);
   QObject::connect(file_view_, &FileView::EditTags, this, &MainWindow::EditFileTags);
-#ifndef Q_OS_WIN32
   QObject::connect(file_view_, &FileView::CopyToDevice, this, &MainWindow::CopyFilesToDevice);
-#endif
   file_view_->SetTaskManager(app_->task_manager());
 
   // Action connections
@@ -718,10 +706,8 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(album_cover_choice_controller_->search_cover_auto_action(), &QAction::triggered, this, &MainWindow::SearchCoverAutomatically);
   QObject::connect(album_cover_choice_controller_->search_cover_auto_action(), &QAction::toggled, this, &MainWindow::ToggleSearchCoverAuto);
 
-#ifndef Q_OS_WIN32
   // Devices connections
   QObject::connect(device_view_->view(), &DeviceView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
-#endif
 
   // Collection filter widget
   QActionGroup *collection_view_group = new QActionGroup(this);
@@ -824,9 +810,7 @@ MainWindow::MainWindow(Application *app,
   playlist_organize_ = playlist_menu_->addAction(IconLoader::Load(u"edit-copy"_s), tr("Organize files..."), this, &MainWindow::PlaylistMoveToCollection);
   playlist_copy_to_collection_ = playlist_menu_->addAction(IconLoader::Load(u"edit-copy"_s), tr("Copy to collection..."), this, &MainWindow::PlaylistCopyToCollection);
   playlist_move_to_collection_ = playlist_menu_->addAction(IconLoader::Load(u"go-jump"_s), tr("Move to collection..."), this, &MainWindow::PlaylistMoveToCollection);
-#ifndef Q_OS_WIN32
   playlist_copy_to_device_ = playlist_menu_->addAction(IconLoader::Load(u"device"_s), tr("Copy to device..."), this, &MainWindow::PlaylistCopyToDevice);
-#endif
   playlist_delete_ = playlist_menu_->addAction(IconLoader::Load(u"edit-delete"_s), tr("Delete from disk..."), this, &MainWindow::PlaylistDelete);
   playlist_menu_->addSeparator();
   playlistitem_actions_separator_ = playlist_menu_->addSeparator();
@@ -845,10 +829,8 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(ui_->playlist, &PlaylistContainer::UndoRedoActionsChanged, this, &MainWindow::PlaylistUndoRedoChanged);
 
   QObject::connect(&*app_->device_manager(), &DeviceManager::DeviceError, this, &MainWindow::ShowErrorDialog);
-#ifndef WIN32
   QObject::connect(app_->device_manager()->connected_devices_model(), &DeviceStateFilterModel::IsEmptyChanged, playlist_copy_to_device_, &QAction::setDisabled);
   playlist_copy_to_device_->setDisabled(app_->device_manager()->connected_devices_model()->rowCount() == 0);
-#endif
 
   QObject::connect(&*app_->scrobbler()->settings(), &ScrobblerSettingsService::ScrobblingEnabledChanged, this, &MainWindow::ScrobblingEnabledChanged);
   QObject::connect(&*app_->scrobbler()->settings(), &ScrobblerSettingsService::ScrobbleButtonVisibilityChanged, this, &MainWindow::ScrobbleButtonVisibilityChanged);
@@ -980,7 +962,7 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(&*app_->lastfm_import(), &LastFMImport::UpdateLastPlayed, &*app_->collection_backend(), &CollectionBackend::UpdateLastPlayed);
   QObject::connect(&*app_->lastfm_import(), &LastFMImport::UpdatePlayCount, &*app_->collection_backend(), &CollectionBackend::UpdatePlayCount);
 
-#if !defined(HAVE_AUDIOCD) || defined(Q_OS_WIN32)
+#if !defined(HAVE_AUDIOCD)
   ui_->action_open_cd->setEnabled(false);
   ui_->action_open_cd->setVisible(false);
 #endif
@@ -2032,9 +2014,7 @@ void MainWindow::PlaylistRightClick(const QPoint global_pos, const QModelIndex &
   playlist_show_in_collection_->setVisible(false);
   playlist_copy_to_collection_->setVisible(false);
   playlist_move_to_collection_->setVisible(false);
-#ifndef Q_OS_WIN32
   playlist_copy_to_device_->setVisible(false);
-#endif
   playlist_organize_->setVisible(false);
   playlist_delete_->setVisible(false);
 
@@ -2107,9 +2087,7 @@ void MainWindow::PlaylistRightClick(const QPoint global_pos, const QModelIndex &
       playlist_move_to_collection_->setVisible(local_songs > 0);
     }
 
-#ifndef Q_OS_WIN32
     playlist_copy_to_device_->setVisible(local_songs > 0);
-#endif
 
     playlist_delete_->setVisible(delete_files_ && local_songs > 0);
 
@@ -2751,7 +2729,6 @@ void MainWindow::MoveFilesToCollection(const QList<QUrl> &urls) {
 
 void MainWindow::CopyFilesToDevice(const QList<QUrl> &urls) {
 
-#ifndef Q_OS_WIN32
   organize_dialog_->SetDestinationModel(app_->device_manager()->connected_devices_model(), true);
   organize_dialog_->SetCopy(true);
   if (organize_dialog_->SetUrls(urls)) {
@@ -2761,9 +2738,6 @@ void MainWindow::CopyFilesToDevice(const QList<QUrl> &urls) {
   else {
     QMessageBox::warning(this, tr("Error"), tr("None of the selected songs were suitable for copying to a device"));
   }
-#else
-  Q_UNUSED(urls);
-#endif
 
 }
 
@@ -2891,8 +2865,6 @@ void MainWindow::PlaylistSkip() {
 
 void MainWindow::PlaylistCopyToDevice() {
 
-#ifndef Q_OS_WIN32
-
   SongList songs;
 
   const QModelIndexList proxy_indexes = ui_->playlist->view()->selectionModel()->selectedRows();
@@ -2916,8 +2888,6 @@ void MainWindow::PlaylistCopyToDevice() {
   else {
     QMessageBox::warning(this, tr("Error"), tr("None of the selected songs were suitable for copying to a device"));
   }
-
-#endif
 
 }
 

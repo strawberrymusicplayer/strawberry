@@ -73,9 +73,7 @@ class CollectionViewContainer;
 class CollectionFilter;
 class AlbumCoverChoiceController;
 class CommandlineOptions;
-#ifndef Q_OS_WIN32
 class DeviceViewContainer;
-#endif
 class EditTagDialog;
 class Equalizer;
 class ErrorDialog;
@@ -327,9 +325,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   ContextView *context_view_;
   CollectionViewContainer *collection_view_;
   FileView *file_view_;
-#ifndef Q_OS_WIN32
   DeviceViewContainer *device_view_;
-#endif
   PlaylistListContainer *playlist_list_;
   QueueView *queue_view_;
 
@@ -380,9 +376,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   QAction *playlist_move_to_collection_;
   QAction *playlist_open_in_browser_;
   QAction *playlist_organize_;
-#ifndef Q_OS_WIN32
   QAction *playlist_copy_to_device_;
-#endif
   QAction *playlist_delete_;
   QAction *playlist_queue_;
   QAction *playlist_queue_play_next_;

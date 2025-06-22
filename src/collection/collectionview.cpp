@@ -65,10 +65,8 @@
 #include "collectionitem.h"
 #include "collectionitemdelegate.h"
 #include "collectionview.h"
-#ifndef Q_OS_WIN32
-#  include "device/devicemanager.h"
-#  include "device/devicestatefiltermodel.h"
-#endif
+#include "device/devicemanager.h"
+#include "device/devicestatefiltermodel.h"
 #include "dialogs/edittagdialog.h"
 #include "dialogs/deleteconfirmationdialog.h"
 #include "organize/organizedialog.h"
@@ -95,9 +93,7 @@ CollectionView::CollectionView(QWidget *parent)
       action_open_in_new_playlist_(nullptr),
       action_organize_(nullptr),
       action_search_for_this_(nullptr),
-#ifndef Q_OS_WIN32
       action_copy_to_device_(nullptr),
-#endif
       action_edit_track_(nullptr),
       action_edit_tracks_(nullptr),
       action_rescan_songs_(nullptr),
@@ -417,9 +413,7 @@ void CollectionView::contextMenuEvent(QContextMenuEvent *e) {
 
     context_menu_->addSeparator();
     action_organize_ = context_menu_->addAction(IconLoader::Load(u"edit-copy"_s), tr("Organize files..."), this, &CollectionView::Organize);
-#ifndef Q_OS_WIN32
     action_copy_to_device_ = context_menu_->addAction(IconLoader::Load(u"device"_s), tr("Copy to device..."), this, &CollectionView::CopyToDevice);
-#endif
     action_delete_files_ = context_menu_->addAction(IconLoader::Load(u"edit-delete"_s), tr("Delete from disk..."), this, &CollectionView::Delete);
 
     context_menu_->addSeparator();
@@ -439,10 +433,8 @@ void CollectionView::contextMenuEvent(QContextMenuEvent *e) {
 
     context_menu_->addMenu(filter_widget_->menu());
 
-#ifndef Q_OS_WIN32
     action_copy_to_device_->setDisabled(device_manager_->connected_devices_model()->rowCount() == 0);
     QObject::connect(device_manager_->connected_devices_model(), &DeviceStateFilterModel::IsEmptyChanged, action_copy_to_device_, &QAction::setDisabled);
-#endif
 
   }
 
@@ -481,9 +473,7 @@ void CollectionView::contextMenuEvent(QContextMenuEvent *e) {
   action_rescan_songs_->setEnabled(regular_editable > 0);
 
   action_organize_->setVisible(regular_elements == regular_editable);
-#ifndef Q_OS_WIN32
   action_copy_to_device_->setVisible(regular_elements == regular_editable);
-#endif
 
   action_delete_files_->setVisible(delete_files_);
 
@@ -492,9 +482,7 @@ void CollectionView::contextMenuEvent(QContextMenuEvent *e) {
 
   // only when all selected items are editable
   action_organize_->setEnabled(regular_elements == regular_editable);
-#ifndef Q_OS_WIN32
   action_copy_to_device_->setEnabled(regular_elements == regular_editable);
-#endif
 
   action_delete_files_->setEnabled(delete_files_);
 
@@ -759,7 +747,6 @@ void CollectionView::RescanSongs() {
 
 void CollectionView::CopyToDevice() {
 
-#ifndef Q_OS_WIN32
   if (!organize_dialog_) {
     organize_dialog_ = make_unique<OrganizeDialog>(task_manager_, tagreader_client_, nullptr, this);
   }
@@ -768,7 +755,6 @@ void CollectionView::CopyToDevice() {
   organize_dialog_->SetCopy(true);
   organize_dialog_->SetSongs(GetSelectedSongs());
   organize_dialog_->show();
-#endif
 
 }
 
