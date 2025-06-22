@@ -259,8 +259,9 @@ void DeviceManager::AddDeviceFromDB(DeviceInfo *device_info) {
   device_info->SetIcon(icons, device_info->friendly_name_);
 
   DeviceInfo *existing_device_info = FindEquivalentDevice(device_info);
-  if (existing_device_info) {
+  if (existing_device_info && existing_device_info->database_id_ == -1) {
     qLog(Info) << "Found existing device:" << device_info->friendly_name_;
+    existing_device_info->database_id_ = device_info->database_id_;
     existing_device_info->icon_name_ = device_info->icon_name_;
     existing_device_info->icon_ = device_info->icon_;
     QModelIndex idx = ItemToIndex(existing_device_info);
