@@ -138,7 +138,6 @@ class CollectionView : public AutoExpandingTreeView {
   void DeleteFilesFinished(const SongList &songs_with_errors);
 
  private:
-  void RecheckIsEmpty();
   void SetShowInVarious(const bool on);
   bool RestoreLevelFocus(const QModelIndex &parent = QModelIndex());
   void SaveContainerPath(const QModelIndex &child);
