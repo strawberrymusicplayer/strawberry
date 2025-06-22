@@ -36,6 +36,24 @@
 
 using namespace Qt::Literals::StringLiterals;
 
+void DeviceInfo::InitFromDb(const DeviceDatabaseBackend::Device &device) {
+
+  database_id_ = device.id_;
+  friendly_name_ = device.friendly_name_;
+  size_ = device.size_;
+  transcode_mode_ = device.transcode_mode_;
+  transcode_format_ = device.transcode_format_;
+  icon_name_ = device.icon_name_;
+
+  InitIcon();
+
+  const QStringList unique_ids = device.unique_id_.split(u',');
+  for (const QString &id : unique_ids) {
+    backends_ << Backend(nullptr, id);
+  }
+
+}
+
 DeviceDatabaseBackend::Device DeviceInfo::SaveToDb() const {
 
   DeviceDatabaseBackend::Device device;
@@ -57,22 +75,6 @@ DeviceDatabaseBackend::Device DeviceInfo::SaveToDb() const {
 
 }
 
-void DeviceInfo::InitFromDb(const DeviceDatabaseBackend::Device &dev) {
-
-  database_id_ = dev.id_;
-  friendly_name_ = dev.friendly_name_;
-  size_ = dev.size_;
-  transcode_mode_ = dev.transcode_mode_;
-  transcode_format_ = dev.transcode_format_;
-  icon_name_ = dev.icon_name_;
-
-  const QStringList unique_ids = dev.unique_id_.split(u',');
-  for (const QString &id : unique_ids) {
-    backends_ << Backend(nullptr, id);
-  }
-
-}
-
 const DeviceInfo::Backend *DeviceInfo::BestBackend() const {
 
   int best_priority = -1;
@@ -90,7 +92,19 @@ const DeviceInfo::Backend *DeviceInfo::BestBackend() const {
 
 }
 
-void DeviceInfo::SetIcon(const QVariantList &icons, const QString &name_hint) {
+void DeviceInfo::InitIcon() {
+
+  const QStringList icon_name_list = icon_name_.split(u',');
+  QVariantList icons;
+  icons.reserve(icon_name_list.count());
+  for (const QString &icon_name : icon_name_list) {
+    icons << icon_name;
+  }
+  LoadIcon(icons, friendly_name_);
+
+}
+
+void DeviceInfo::LoadIcon(const QVariantList &icons, const QString &name_hint) {
 
   icon_name_ = "device"_L1;
 

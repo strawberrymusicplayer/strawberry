@@ -109,7 +109,7 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
   DeviceInfo *FindDeviceById(const QString &id) const;
   DeviceInfo *FindDeviceByUrl(const QList<QUrl> &url) const;
   QString DeviceNameByID(const QString &unique_id);
-  DeviceInfo *FindEquivalentDevice(DeviceInfo *device_info) const;
+  DeviceInfo *FindEquivalentDevice(const QStringList &unique_ids) const;
 
   // Actions on devices
   SharedPtr<ConnectedDevice> Connect(DeviceInfo *device_info);
@@ -128,6 +128,7 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
 
  Q_SIGNALS:
   void ExitFinished();
+  void DevicesLoaded(const DeviceDatabaseBackend::DeviceList &devices);
   void DeviceConnected(const QModelIndex idx);
   void DeviceDisconnected(const QModelIndex idx);
   void DeviceCreatedFromDB(DeviceInfo *device_info);
@@ -143,7 +144,7 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
   void LoadAllDevices();
   void DeviceConnectFinished(const QString &id, bool success);
   void DeviceCloseFinished(const QString &id);
-  void AddDeviceFromDB(DeviceInfo *device_info);
+  void AddDevicesFromDB(const DeviceDatabaseBackend::DeviceList &devices);
   void BackendClosed();
   void ListerClosed();
   void DeviceDestroyed();

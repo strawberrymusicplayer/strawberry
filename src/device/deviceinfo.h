@@ -97,8 +97,9 @@ class DeviceInfo : public SimpleTreeItem<DeviceInfo> {
   void InitFromDb(const DeviceDatabaseBackend::Device &dev);
   DeviceDatabaseBackend::Device SaveToDb() const;
 
+  void InitIcon();
   // Tries to load a good icon for the device.  Sets icon_name_ and icon_.
-  void SetIcon(const QVariantList &icons, const QString &name_hint);
+  void LoadIcon(const QVariantList &icons, const QString &name_hint);
 
   // Gets the best backend available (the one with the highest priority)
   const Backend *BestBackend() const;

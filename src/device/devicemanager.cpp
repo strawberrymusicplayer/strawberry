@@ -109,7 +109,7 @@ DeviceManager::DeviceManager(const SharedPtr<TaskManager> task_manager,
   backend_->moveToThread(database->thread());
   backend_->Init(database);
 
-  QObject::connect(this, &DeviceManager::DeviceCreatedFromDB, this, &DeviceManager::AddDeviceFromDB);
+  QObject::connect(this, &DeviceManager::DevicesLoaded, this, &DeviceManager::AddDevicesFromDB);
 
   // This reads from the database and contents on the database mutex, which can be very slow on startup.
   (void)QtConcurrent::run(&thread_pool_, &DeviceManager::LoadAllDevices, this);
@@ -237,42 +237,37 @@ void DeviceManager::LoadAllDevices() {
   Q_ASSERT(QThread::currentThread() != qApp->thread());
 
   const DeviceDatabaseBackend::DeviceList devices = backend_->GetAllDevices();
-  for (const DeviceDatabaseBackend::Device &device : devices) {
-    DeviceInfo *device_info = new DeviceInfo(DeviceInfo::Type::Device, root_);
-    device_info->InitFromDb(device);
-    Q_EMIT DeviceCreatedFromDB(device_info);
-  }
+
+  Q_EMIT DevicesLoaded(devices);
 
   // This is done in a concurrent thread so close the unique DB connection.
   backend_->Close();
 
 }
 
-void DeviceManager::AddDeviceFromDB(DeviceInfo *device_info) {
+void DeviceManager::AddDevicesFromDB(const DeviceDatabaseBackend::DeviceList &devices) {
 
-  const QStringList icon_names = device_info->icon_name_.split(u',');
-  QVariantList icons;
-  icons.reserve(icon_names.count());
-  for (const QString &icon_name : icon_names) {
-    icons << icon_name;
-  }
-  device_info->SetIcon(icons, device_info->friendly_name_);
-
-  DeviceInfo *existing_device_info = FindEquivalentDevice(device_info);
-  if (existing_device_info && existing_device_info->database_id_ == -1) {
-    qLog(Info) << "Found existing device:" << device_info->friendly_name_;
-    existing_device_info->database_id_ = device_info->database_id_;
-    existing_device_info->icon_name_ = device_info->icon_name_;
-    existing_device_info->icon_ = device_info->icon_;
-    QModelIndex idx = ItemToIndex(existing_device_info);
-    if (idx.isValid()) Q_EMIT dataChanged(idx, idx);
-    root_->Delete(device_info->row);
-  }
-  else {
-    qLog(Info) << "Device added from database:" << device_info->friendly_name_;
-    beginInsertRows(ItemToIndex(root_), static_cast<int>(devices_.count()), static_cast<int>(devices_.count()));
-    devices_ << device_info;
-    endInsertRows();
+  for (const DeviceDatabaseBackend::Device &device : devices) {
+    const QStringList unique_ids = device.unique_id_.split(u',');
+    DeviceInfo *device_info = FindEquivalentDevice(unique_ids);
+    if (device_info && device_info->database_id_ == -1) {
+      qLog(Info) << "Database device linked to physical device:" << device.friendly_name_;
+      device_info->database_id_ = device.id_;
+      device_info->icon_name_ = device.icon_name_;
+      device_info->InitIcon();
+      const QModelIndex idx = ItemToIndex(device_info);
+      if (idx.isValid()) {
+        Q_EMIT dataChanged(idx, idx);
+      }
+    }
+    else {
+      qLog(Info) << "Database device:" << device.friendly_name_;
+      device_info = new DeviceInfo(DeviceInfo::Type::Device, root_);
+      device_info->InitFromDb(device);
+      beginInsertRows(ItemToIndex(root_), static_cast<int>(devices_.count()), static_cast<int>(devices_.count()));
+      devices_ << device_info;
+      endInsertRows();
+    }
   }
 
 }
@@ -440,10 +435,10 @@ DeviceInfo *DeviceManager::FindDeviceByUrl(const QList<QUrl> &urls) const {
 
 }
 
-DeviceInfo *DeviceManager::FindEquivalentDevice(DeviceInfo *device_info) const {
+DeviceInfo *DeviceManager::FindEquivalentDevice(const QStringList &unique_ids) const {
 
-  for (const DeviceInfo::Backend &backend : std::as_const(device_info->backends_)) {
-    DeviceInfo *device_info_match = FindDeviceById(backend.unique_id_);
+  for (const QString &unique_id : unique_ids) {
+    DeviceInfo *device_info_match = FindDeviceById(unique_id);
     if (device_info_match) {
       return device_info_match;
     }
@@ -483,7 +478,7 @@ void DeviceManager::PhysicalDeviceAdded(const QString &id) {
       if (device_info->database_id_ == -1 && device_info->BestBackend() && device_info->BestBackend()->lister_ == lister) {
         device_info->friendly_name_ = lister->MakeFriendlyName(id);
         device_info->size_ = lister->DeviceCapacity(id);
-        device_info->SetIcon(lister->DeviceIcons(id), device_info->friendly_name_);
+        device_info->LoadIcon(lister->DeviceIcons(id), device_info->friendly_name_);
       }
       QModelIndex idx = ItemToIndex(device_info);
       if (idx.isValid()) Q_EMIT dataChanged(idx, idx);
@@ -494,7 +489,7 @@ void DeviceManager::PhysicalDeviceAdded(const QString &id) {
       device_info->backends_ << DeviceInfo::Backend(lister, id);
       device_info->friendly_name_ = lister->MakeFriendlyName(id);
       device_info->size_ = lister->DeviceCapacity(id);
-      device_info->SetIcon(lister->DeviceIcons(id), device_info->friendly_name_);
+      device_info->LoadIcon(lister->DeviceIcons(id), device_info->friendly_name_);
       beginInsertRows(ItemToIndex(root_), static_cast<int>(devices_.count()), static_cast<int>(devices_.count()));
       devices_ << device_info;
       endInsertRows();
@@ -815,7 +810,7 @@ void DeviceManager::RemoveFromDB(DeviceInfo *device_info, const QModelIndex &idx
     const QString id = device_info->BestBackend()->unique_id_;
 
     device_info->friendly_name_ = device_info->BestBackend()->lister_->MakeFriendlyName(id);
-    device_info->SetIcon(device_info->BestBackend()->lister_->DeviceIcons(id), device_info->friendly_name_);
+    device_info->LoadIcon(device_info->BestBackend()->lister_->DeviceIcons(id), device_info->friendly_name_);
     Q_EMIT dataChanged(idx, idx);
   }
 
@@ -829,7 +824,7 @@ void DeviceManager::SetDeviceOptions(const QModelIndex &idx, const QString &frie
   if (!device_info) return;
 
   device_info->friendly_name_ = friendly_name;
-  device_info->SetIcon(QVariantList() << icon_name, friendly_name);
+  device_info->LoadIcon(QVariantList() << icon_name, friendly_name);
   device_info->transcode_mode_ = mode;
   device_info->transcode_format_ = format;
 
