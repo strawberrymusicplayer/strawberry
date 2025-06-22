@@ -326,12 +326,12 @@ QVariant DeviceManager::data(const QModelIndex &idx, int role) const {
       return ((device_info->BestBackend() && device_info->BestBackend()->lister_) ? device_info->BestBackend()->lister_->DeviceFreeSpace(device_info->BestBackend()->unique_id_) : QVariant());
 
     case Role_State:
-      if (device_info->device_) return State_Connected;
+      if (device_info->device_) return QVariant::fromValue(State::Connected);
       if (device_info->BestBackend() && device_info->BestBackend()->lister_) {
-        if (device_info->BestBackend()->lister_->DeviceNeedsMount(device_info->BestBackend()->unique_id_)) return State_NotMounted;
-        return State_NotConnected;
+        if (device_info->BestBackend()->lister_->DeviceNeedsMount(device_info->BestBackend()->unique_id_)) return QVariant::fromValue(State::NotMounted);
+        return QVariant::fromValue(State::NotConnected);
       }
-      return State_Remembered;
+      return QVariant::fromValue(State::Remembered);
 
     case Role_UpdatingPercentage:
       if (device_info->task_percentage_ == -1) return QVariant();

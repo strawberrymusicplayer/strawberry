@@ -128,19 +128,19 @@ void DeviceItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
   }
   else {
     switch (state) {
-      case DeviceManager::State_Remembered:
+      case DeviceManager::State::Remembered:
         status_text = tr("Not connected");
         break;
 
-      case DeviceManager::State_NotMounted:
+      case DeviceManager::State::NotMounted:
         status_text = tr("Not mounted - double click to mount");
         break;
 
-      case DeviceManager::State_NotConnected:
+      case DeviceManager::State::NotConnected:
         status_text = tr("Double click to open");
         break;
 
-      case DeviceManager::State_Connected:{
+      case DeviceManager::State::Connected:{
         QVariant song_count = idx.data(DeviceManager::Role_SongCount);
         if (song_count.isValid()) {
           int count = song_count.toInt();

@@ -85,11 +85,11 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
     LastRole,
   };
 
-  enum State {
-    State_Remembered,
-    State_NotMounted,
-    State_NotConnected,
-    State_Connected,
+  enum class State {
+    Remembered,
+    NotMounted,
+    NotConnected,
+    Connected,
   };
 
   static const int kDeviceIconSize;
