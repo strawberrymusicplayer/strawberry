@@ -38,22 +38,22 @@ using namespace Qt::Literals::StringLiterals;
 
 DeviceDatabaseBackend::Device DeviceInfo::SaveToDb() const {
 
-  DeviceDatabaseBackend::Device ret;
-  ret.friendly_name_ = friendly_name_;
-  ret.size_ = size_;
-  ret.id_ = database_id_;
-  ret.icon_name_ = icon_name_;
-  ret.transcode_mode_ = transcode_mode_;
-  ret.transcode_format_ = transcode_format_;
+  DeviceDatabaseBackend::Device device;
+  device.friendly_name_ = friendly_name_;
+  device.size_ = size_;
+  device.id_ = database_id_;
+  device.icon_name_ = icon_name_;
+  device.transcode_mode_ = transcode_mode_;
+  device.transcode_format_ = transcode_format_;
 
   QStringList unique_ids;
   unique_ids.reserve(backends_.count());
   for (const Backend &backend : backends_) {
     unique_ids << backend.unique_id_;
   }
-  ret.unique_id_ = unique_ids.join(u',');
+  device.unique_id_ = unique_ids.join(u',');
 
-  return ret;
+  return device;
 
 }
 
@@ -76,17 +76,17 @@ void DeviceInfo::InitFromDb(const DeviceDatabaseBackend::Device &dev) {
 const DeviceInfo::Backend *DeviceInfo::BestBackend() const {
 
   int best_priority = -1;
-  const Backend *ret = nullptr;
+  const Backend *backend = nullptr;
 
   for (int i = 0; i < backends_.count(); ++i) {
     if (backends_[i].lister_ && backends_[i].lister_->priority() > best_priority) {
       best_priority = backends_[i].lister_->priority();
-      ret = &(backends_[i]);
+      backend = &(backends_[i]);
     }
   }
 
-  if (!ret && !backends_.isEmpty()) return &(backends_[0]);
-  return ret;
+  if (!backend && !backends_.isEmpty()) return &(backends_[0]);
+  return backend;
 
 }
 
