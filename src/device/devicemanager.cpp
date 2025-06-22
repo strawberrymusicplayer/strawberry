@@ -258,17 +258,17 @@ void DeviceManager::AddDeviceFromDB(DeviceInfo *device_info) {
   }
   device_info->SetIcon(icons, device_info->friendly_name_);
 
-  DeviceInfo *existing = FindEquivalentDevice(device_info);
-  if (existing) {
-    qLog(Info) << "Found existing device: " << device_info->friendly_name_;
-    existing->icon_name_ = device_info->icon_name_;
-    existing->icon_ = device_info->icon_;
-    QModelIndex idx = ItemToIndex(existing);
+  DeviceInfo *existing_device_info = FindEquivalentDevice(device_info);
+  if (existing_device_info) {
+    qLog(Info) << "Found existing device:" << device_info->friendly_name_;
+    existing_device_info->icon_name_ = device_info->icon_name_;
+    existing_device_info->icon_ = device_info->icon_;
+    QModelIndex idx = ItemToIndex(existing_device_info);
     if (idx.isValid()) Q_EMIT dataChanged(idx, idx);
     root_->Delete(device_info->row);
   }
   else {
-    qLog(Info) << "Device added from database: " << device_info->friendly_name_;
+    qLog(Info) << "Device added from database:" << device_info->friendly_name_;
     beginInsertRows(ItemToIndex(root_), static_cast<int>(devices_.count()), static_cast<int>(devices_.count()));
     devices_ << device_info;
     endInsertRows();
@@ -409,7 +409,9 @@ DeviceInfo *DeviceManager::FindDeviceById(const QString &id) const {
 
   for (int i = 0; i < devices_.count(); ++i) {
     for (const DeviceInfo::Backend &backend : std::as_const(devices_[i]->backends_)) {
-      if (backend.unique_id_ == id) return devices_[i];
+      if (backend.unique_id_ == id) {
+        return devices_[i];
+      }
     }
   }
 
@@ -424,10 +426,11 @@ DeviceInfo *DeviceManager::FindDeviceByUrl(const QList<QUrl> &urls) const {
   for (int i = 0; i < devices_.count(); ++i) {
     for (const DeviceInfo::Backend &backend : std::as_const(devices_[i]->backends_)) {
       if (!backend.lister_) continue;
-
       const QList<QUrl> device_urls = backend.lister_->MakeDeviceUrls(backend.unique_id_);
       for (const QUrl &url : device_urls) {
-        if (urls.contains(url)) return devices_[i];
+        if (urls.contains(url)) {
+          return devices_[i];
+        }
       }
     }
   }
@@ -439,9 +442,12 @@ DeviceInfo *DeviceManager::FindDeviceByUrl(const QList<QUrl> &urls) const {
 DeviceInfo *DeviceManager::FindEquivalentDevice(DeviceInfo *device_info) const {
 
   for (const DeviceInfo::Backend &backend : std::as_const(device_info->backends_)) {
-    DeviceInfo *match = FindDeviceById(backend.unique_id_);
-    if (match) return match;
+    DeviceInfo *device_info_match = FindDeviceById(backend.unique_id_);
+    if (device_info_match) {
+      return device_info_match;
+    }
   }
+
   return nullptr;
 
 }
@@ -505,7 +511,7 @@ void DeviceManager::PhysicalDeviceRemoved(const QString &id) {
   DeviceInfo *device_info = FindDeviceById(id);
   if (!device_info) return;
 
-  QModelIndex idx = ItemToIndex(device_info);
+  const QModelIndex idx = ItemToIndex(device_info);
   if (!idx.isValid()) return;
 
   if (device_info->database_id_ != -1) {
@@ -569,23 +575,24 @@ SharedPtr<ConnectedDevice> DeviceManager::Connect(const QModelIndex &idx) {
 
 SharedPtr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *device_info) {
 
-  SharedPtr<ConnectedDevice> connected_device;
+  if (!device_info) {
+    return SharedPtr<ConnectedDevice>();
+  }
 
-  if (!device_info) return connected_device;
   if (device_info->device_) {  // Already connected
     return device_info->device_;
   }
 
   if (!device_info->BestBackend() || !device_info->BestBackend()->lister_) {  // Not physically connected
-    return connected_device;
+    return SharedPtr<ConnectedDevice>();
   }
 
   if (device_info->BestBackend()->lister_->DeviceNeedsMount(device_info->BestBackend()->unique_id_)) {  // Mount the device
     device_info->BestBackend()->lister_->MountDeviceAsync(device_info->BestBackend()->unique_id_);
-    return connected_device;
+    return SharedPtr<ConnectedDevice>();
   }
 
-  bool first_time = (device_info->database_id_ == -1);
+  const bool first_time = device_info->database_id_ == -1;
   if (first_time) {
     // We haven't stored this device in the database before
     device_info->database_id_ = backend_->AddDevice(device_info->SaveToDb());
@@ -593,7 +600,7 @@ SharedPtr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *device_info) {
 
   // Get the device URLs
   const QList<QUrl> urls = device_info->BestBackend()->lister_->MakeDeviceUrls(device_info->BestBackend()->unique_id_);
-  if (urls.isEmpty()) return connected_device;
+  if (urls.isEmpty()) return SharedPtr<ConnectedDevice>();
 
   // Take the first URL that we have a handler for
   QUrl device_url;
@@ -613,7 +620,7 @@ SharedPtr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *device_info) {
           tr("This is an MTP device, but you compiled Strawberry without libmtp support.") + u"  "_s +
           tr("If you continue, this device will work slowly and songs copied to it may not work."),
               QMessageBox::Abort, QMessageBox::Ignore) == QMessageBox::Abort)
-        return connected_device;
+        return SharedPtr<ConnectedDevice>();
     }
 
     if (url.scheme() == "ipod"_L1) {
@@ -621,7 +628,7 @@ SharedPtr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *device_info) {
           tr("This is an iPod, but you compiled Strawberry without libgpod support.") + "  "_L1 +
           tr("If you continue, this device will work slowly and songs copied to it may not work."),
               QMessageBox::Abort, QMessageBox::Ignore) == QMessageBox::Abort)
-        return connected_device;
+        return SharedPtr<ConnectedDevice>();
     }
   }
 
@@ -634,7 +641,7 @@ SharedPtr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *device_info) {
     }
 
     Q_EMIT DeviceError(tr("This type of device is not supported: %1").arg(url_strings.join(", "_L1)));
-    return connected_device;
+    return SharedPtr<ConnectedDevice>();
   }
 
   QMetaObject meta_object = device_classes_.value(device_url.scheme());
@@ -650,7 +657,7 @@ SharedPtr<ConnectedDevice> DeviceManager::Connect(DeviceInfo *device_info) {
       Q_ARG(int, device_info->database_id_),
       Q_ARG(bool, first_time));
 
-  connected_device.reset(qobject_cast<ConnectedDevice*>(instance));
+  SharedPtr<ConnectedDevice> connected_device = SharedPtr<ConnectedDevice>(qobject_cast<ConnectedDevice*>(instance));
 
   if (!connected_device) {
     qLog(Warning) << "Could not create device for" << device_url.toString();
