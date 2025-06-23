@@ -2,6 +2,20 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+  Bugfixes:
+    * Fixed scrobbling for radio streams.
+    * Fixed CDDA memory leaks.
+    * Fixed device view CDDA loading (#1676).
+    * Fixed collection directory editing (#1767).
+    * Fixed devices sometimes being duplicated in the database.
+
+  Enhancements:
+    * Implemented edit tag dialog reset for year, track, disc and rating.
+    * Added ALAC to supported filetypes for iPods.
+    * Added CD-TEXT support.
+
 Version 1.2.11 (2025.05.15):
 
     * Fixed playlist songs sometimes not updated with new cover.
