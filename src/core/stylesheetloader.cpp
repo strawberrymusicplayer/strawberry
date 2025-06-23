@@ -80,7 +80,10 @@ void StyleSheetLoader::UpdateStyleSheet(QWidget *widget, SharedPtr<StyleSheetDat
   QPalette p(widget->palette());
 
   {
-    const QColor color_altbase = p.color(QPalette::AlternateBase);
+    QColor color_altbase = p.color(QPalette::AlternateBase);
+#ifdef Q_OS_MACOS
+    color_altbase.setAlpha(color_altbase.lightness() > 180 ? 130 : 16);
+#endif
     stylesheet.replace("%palette-alternate-base"_L1, QStringLiteral("rgba(%1,%2,%3,%4)").arg(color_altbase.red()).arg(color_altbase.green()).arg(color_altbase.blue()).arg(color_altbase.alpha()));
   }
 
