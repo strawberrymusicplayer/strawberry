@@ -10,6 +10,7 @@ Unreleased:
     * Fixed device view CDDA loading (#1676).
     * Fixed collection directory editing (#1767).
     * Fixed devices sometimes being duplicated in the database.
+    * Fixed alternating playlist row colors with Windows 11 style.
 
   Enhancements:
     * Implemented edit tag dialog reset for year, track, disc and rating.
