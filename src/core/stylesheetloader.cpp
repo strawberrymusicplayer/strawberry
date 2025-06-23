@@ -79,6 +79,11 @@ void StyleSheetLoader::UpdateStyleSheet(QWidget *widget, SharedPtr<StyleSheetDat
   // Replace %palette-role with actual colours
   QPalette p(widget->palette());
 
+  {
+    const QColor color_altbase = p.color(QPalette::AlternateBase);
+    stylesheet.replace("%palette-alternate-base"_L1, QStringLiteral("rgba(%1,%2,%3,%4)").arg(color_altbase.red()).arg(color_altbase.green()).arg(color_altbase.blue()).arg(color_altbase.alpha()));
+  }
+
   ReplaceColor(&stylesheet, u"Window"_s, p, QPalette::Window);
   ReplaceColor(&stylesheet, u"Background"_s, p, QPalette::Window);
   ReplaceColor(&stylesheet, u"WindowText"_s, p, QPalette::WindowText);
