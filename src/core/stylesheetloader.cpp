@@ -31,7 +31,6 @@
 #include <QTextStream>
 #include <QFile>
 #include <QString>
-#include <QColor>
 #include <QPalette>
 #include <QEvent>
 
@@ -79,21 +78,6 @@ void StyleSheetLoader::UpdateStyleSheet(QWidget *widget, SharedPtr<StyleSheetDat
 
   // Replace %palette-role with actual colours
   QPalette p(widget->palette());
-
-  {
-    QColor alt = p.color(QPalette::AlternateBase);
-#ifdef Q_OS_MACOS
-    if (alt.lightness() > 180) {
-      alt.setAlpha(130);
-    }
-    else {
-      alt.setAlpha(16);
-    }
-#else
-    alt.setAlpha(130);
-#endif
-    stylesheet.replace("%palette-alternate-base"_L1, QStringLiteral("rgba(%1,%2,%3,%4)").arg(alt.red()).arg(alt.green()).arg(alt.blue()).arg(alt.alpha()));
-  }
 
   ReplaceColor(&stylesheet, u"Window"_s, p, QPalette::Window);
   ReplaceColor(&stylesheet, u"Background"_s, p, QPalette::Window);
