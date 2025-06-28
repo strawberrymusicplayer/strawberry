@@ -45,6 +45,10 @@ class ScrobbleMetadata {
   QString musicbrainz_disc_id;
   QString musicbrainz_release_group_id;    // release_group_mbid
   QString musicbrainz_work_id;             // work_mbids
+  QString music_service;
+  QString music_service_name;
+  QString share_url;
+  QString spotify_id;
   qint64 length_nanosec;
 
   QString effective_albumartist() const { return albumartist.isEmpty() ? artist : albumartist; }
