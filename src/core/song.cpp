@@ -1182,6 +1182,19 @@ QIcon Song::IconForSource(const Source source) {
 
 }
 
+QString Song::DomainForSource(const Source source) {
+
+  switch (source) {
+    case Song::Source::Tidal: return "tidal.com"_L1;
+    case Song::Source::Qobuz: return "qobuz.com"_L1;
+    case Song::Source::SomaFM: return "somafm.com"_L1;
+    case Song::Source::RadioParadise: return "radioparadise.com"_L1;
+    case Song::Source::Spotify: return "spotify.com"_L1;
+    default: return QString();
+  }
+
+}
+
 QString Song::TextForFiletype(const FileType filetype) {
 
   switch (filetype) {
@@ -1278,6 +1291,19 @@ QIcon Song::IconForFiletype(const FileType filetype) {
     case FileType::ALAC:        return IconLoader::Load(u"alac"_s);
     case FileType::Unknown:
     default:                    return IconLoader::Load(u"edit-delete"_s);
+  }
+
+}
+
+QString Song::ShareURL() const {
+
+  switch (this->source()) {
+    case Song::Source::Stream:
+    case Song::Source::SomaFM:  return this->url().toString();
+    case Song::Source::Tidal:   return "https://tidal.com/track/%1"_L1.arg(this->song_id());
+    case Song::Source::Qobuz:   return "https://open.qobuz.com/track/%1"_L1.arg(this->song_id());
+    case Song::Source::Spotify: return "https://open.spotify.com/track/%1"_L1.arg(this->song_id());
+    default:                    return QString();
   }
 
 }

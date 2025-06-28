@@ -453,6 +453,9 @@ class Song {
   static QString DescriptionForSource(const Source source);
   static Source SourceFromText(const QString &source);
   static QIcon IconForSource(const Source source);
+  // Convert a source to a music service domain name, for ListenBrainz.
+  // See the "Music service names" note on https://listenbrainz.readthedocs.io/en/latest/users/json.html.
+  static QString DomainForSource(const Source source);
   static QString TextForFiletype(const FileType filetype);
   static QString ExtensionForFiletype(const FileType filetype);
   static QIcon IconForFiletype(const FileType filetype);
@@ -460,8 +463,18 @@ class Song {
   QString TextForSource() const { return TextForSource(source()); }
   QString DescriptionForSource() const { return DescriptionForSource(source()); }
   QIcon IconForSource() const { return IconForSource(source()); }
+  // Convert a source to a music service domain name, for ListenBrainz.
+  // See the "Music service names" note on https://listenbrainz.readthedocs.io/en/latest/users/json.html.
+  QString DomainForSource() const { return DomainForSource(source()); }
   QString TextForFiletype() const { return TextForFiletype(filetype()); }
   QIcon IconForFiletype() const { return IconForFiletype(filetype()); }
+
+  // Get a URL usable for sharing this song with another user. This is only
+  // applicable when streaming from a streaming service, since we can't link to
+  // local content.
+  // Returns a web URL which points to the current streaming track or live
+  // stream, or an empty string if that is not applicable.
+  QString ShareURL() const;
 
   bool IsFileLossless() const;
   static FileType FiletypeByMimetype(const QString &mimetype);
