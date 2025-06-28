@@ -38,4 +38,8 @@ ScrobbleMetadata::ScrobbleMetadata(const Song &song)
       musicbrainz_disc_id(song.musicbrainz_disc_id()),
       musicbrainz_release_group_id(song.musicbrainz_release_group_id()),
       musicbrainz_work_id(song.musicbrainz_work_id()),
+      music_service(song.is_stream() ? song.DomainForSource() : QString()),
+      music_service_name(song.is_stream() ? song.DescriptionForSource() : QString()),
+      share_url(song.ShareURL()),
+      spotify_id(song.source() == Song::Source::Spotify ? song.song_id() : QString()),
       length_nanosec(song.length_nanosec()) {}

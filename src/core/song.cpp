@@ -1182,6 +1182,22 @@ QIcon Song::IconForSource(const Source source) {
 
 }
 
+// Convert a source to a music service domain name, for ListenBrainz.
+// See the "Music service names" note on https://listenbrainz.readthedocs.io/en/latest/users/json.html.
+
+QString Song::DomainForSource(const Source source) {
+
+  switch (source) {
+    case Song::Source::Tidal:         return u"tidal.com"_s;
+    case Song::Source::Qobuz:         return u"qobuz.com"_s;
+    case Song::Source::SomaFM:        return u"somafm.com"_s;
+    case Song::Source::RadioParadise: return u"radioparadise.com"_s;
+    case Song::Source::Spotify:       return u"spotify.com"_s;
+    default: return QString();
+  }
+
+}
+
 QString Song::TextForFiletype(const FileType filetype) {
 
   switch (filetype) {
@@ -1278,6 +1294,23 @@ QIcon Song::IconForFiletype(const FileType filetype) {
     case FileType::ALAC:        return IconLoader::Load(u"alac"_s);
     case FileType::Unknown:
     default:                    return IconLoader::Load(u"edit-delete"_s);
+  }
+
+}
+
+// Get a URL usable for sharing this song with another user.
+// This is only applicable when streaming from a streaming service, since we can't link to local content.
+// Returns a web URL which points to the current streaming track or live stream, or an empty string if that is not applicable.
+
+QString Song::ShareURL() const {
+
+  switch (source()) {
+    case Song::Source::Stream:
+    case Song::Source::SomaFM:  return url().toString();
+    case Song::Source::Tidal:   return "https://tidal.com/track/%1"_L1.arg(song_id());
+    case Song::Source::Qobuz:   return "https://open.qobuz.com/track/%1"_L1.arg(song_id());
+    case Song::Source::Spotify: return "https://open.spotify.com/track/%1"_L1.arg(song_id());
+    default:                    return QString();
   }
 
 }

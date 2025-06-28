@@ -453,6 +453,7 @@ class Song {
   static QString DescriptionForSource(const Source source);
   static Source SourceFromText(const QString &source);
   static QIcon IconForSource(const Source source);
+  static QString DomainForSource(const Source source);
   static QString TextForFiletype(const FileType filetype);
   static QString ExtensionForFiletype(const FileType filetype);
   static QIcon IconForFiletype(const FileType filetype);
@@ -460,8 +461,11 @@ class Song {
   QString TextForSource() const { return TextForSource(source()); }
   QString DescriptionForSource() const { return DescriptionForSource(source()); }
   QIcon IconForSource() const { return IconForSource(source()); }
+  QString DomainForSource() const { return DomainForSource(source()); }
   QString TextForFiletype() const { return TextForFiletype(filetype()); }
   QIcon IconForFiletype() const { return IconForFiletype(filetype()); }
+
+  QString ShareURL() const;
 
   bool IsFileLossless() const;
   static FileType FiletypeByMimetype(const QString &mimetype);
