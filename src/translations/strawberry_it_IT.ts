@@ -290,7 +290,7 @@ Puoi anche effettuare un pagamento una tantum tramite &apos;%2&apos;.</translati
     </message>
     <message>
       <source>Album</source>
-      <translation type="unfinished">Album</translation>
+      <translation>Album</translation>
     </message>
     <message>
       <source>Search</source>
@@ -3101,7 +3101,7 @@ Prima di iniziare ti suggeriamo di eseguire il backup del database.</translation
     </message>
     <message>
       <source>F7</source>
-      <translation type="unfinished">F7</translation>
+      <translation>F7</translation>
     </message>
     <message>
       <source>&amp;Next track</source>
