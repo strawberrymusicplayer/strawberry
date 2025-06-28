@@ -1124,6 +1124,20 @@ QString Song::TextForSource(const Source source) {
 
 }
 
+bool Song::SourceIsStreaming(const Source source) {
+  switch (source) {
+    case Source::Subsonic:
+    case Source::Tidal:
+    case Source::Spotify:
+    case Source::Qobuz:
+    case Source::SomaFM:
+    case Source::RadioParadise:
+      return true;
+    default:
+      return false;
+  }
+}
+
 QString Song::DescriptionForSource(const Source source) {
 
   switch (source) {
@@ -1180,6 +1194,17 @@ QIcon Song::IconForSource(const Source source) {
   }
   return IconLoader::Load(u"edit-delete"_s);
 
+}
+
+QString Song::DomainForSource(const Source source) {
+  switch (source) {
+    case Song::Source::Tidal: return "tidal.com"_L1;
+    case Song::Source::Qobuz: return "qobuz.com"_L1;
+    case Song::Source::SomaFM: return "somafm.com"_L1;
+    case Song::Source::RadioParadise: return "radioparadise.com"_L1;
+    case Song::Source::Spotify: return "spotify.com"_L1;
+    default: return QString();
+  }
 }
 
 QString Song::TextForFiletype(const FileType filetype) {
@@ -1280,6 +1305,17 @@ QIcon Song::IconForFiletype(const FileType filetype) {
     default:                    return IconLoader::Load(u"edit-delete"_s);
   }
 
+}
+
+QString Song::share_url() const {
+  switch (this->source()) {
+    case Song::Source::Stream: return this->url().toString();
+    case Song::Source::Tidal: return "https://tidal.com/track/%1"_L1.arg(this->song_id());
+    case Song::Source::Qobuz: return "https://open.qobuz.com/track/%1"_L1.arg(this->song_id());
+    case Song::Source::SomaFM: return this->url().toString();
+    case Song::Source::Spotify: return "https://open.spotify.com/track/%1"_L1.arg(this->song_id());
+    default: return QString();
+  }
 }
 
 bool Song::IsFileLossless() const {
