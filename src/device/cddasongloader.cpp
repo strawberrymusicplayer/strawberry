@@ -268,8 +268,8 @@ void CDDASongLoader::LoadSongsFromCDDA() {
       }
       if (gst_tag_list_get_string(tags, GST_TAG_GENRE, &tag)) {
         song.set_genre(QString::fromUtf8(tag));
-        tag = nullptr;
         g_free(tag);
+        tag = nullptr;
       }
       if (gst_tag_list_get_string(tags, GST_TAG_COMPOSER, &tag)) {
         song.set_composer(QString::fromUtf8(tag));
@@ -289,7 +289,6 @@ void CDDASongLoader::LoadSongsFromCDDA() {
       guint bitrate = 0;
       if (gst_tag_list_get_uint(tags, GST_TAG_BITRATE, &bitrate)) {
         song.set_bitrate(static_cast<int>(bitrate));
-        g_free(tag);
       }
 
       if (track_number >= total_tracks) {
