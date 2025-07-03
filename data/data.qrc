@@ -46,5 +46,6 @@
         <file>text/ghosts.txt</file>
         <file>pictures/sidebar-background.png</file>
         <file>style/dynamicplaylistcontrols.css</file>
+        <file>schema/schema-21.sql</file>
     </qresource>
 </RCC>

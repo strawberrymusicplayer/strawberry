@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS schema_version (
 
 DELETE FROM schema_version;
 
-INSERT INTO schema_version (version) VALUES (20);
+INSERT INTO schema_version (version) VALUES (21);
 
 CREATE TABLE IF NOT EXISTS directories (
   path TEXT NOT NULL,
@@ -22,7 +22,9 @@ CREATE TABLE IF NOT EXISTS songs (
   title TEXT,
   album TEXT,
   artist TEXT,
+  artistsort TEXT,
   albumartist TEXT,
+  albumartistsort TEXT,
   track INTEGER NOT NULL DEFAULT -1,
   disc INTEGER NOT NULL DEFAULT -1,
   year INTEGER NOT NULL DEFAULT -1,
@@ -103,7 +105,9 @@ CREATE TABLE IF NOT EXISTS subsonic_songs (
   title TEXT,
   album TEXT,
   artist TEXT,
+  artistsort TEXT,
   albumartist TEXT,
+  albumartistsort TEXT,
   track INTEGER NOT NULL DEFAULT -1,
   disc INTEGER NOT NULL DEFAULT -1,
   year INTEGER NOT NULL DEFAULT -1,
@@ -184,7 +188,9 @@ CREATE TABLE IF NOT EXISTS tidal_artists_songs (
   title TEXT,
   album TEXT,
   artist TEXT,
+  artistsort TEXT,
   albumartist TEXT,
+  albumartistsort TEXT,
   track INTEGER NOT NULL DEFAULT -1,
   disc INTEGER NOT NULL DEFAULT -1,
   year INTEGER NOT NULL DEFAULT -1,
@@ -265,7 +271,9 @@ CREATE TABLE IF NOT EXISTS tidal_albums_songs (
   title TEXT,
   album TEXT,
   artist TEXT,
+  artistsort TEXT,
   albumartist TEXT,
+  albumartistsort TEXT,
   track INTEGER NOT NULL DEFAULT -1,
   disc INTEGER NOT NULL DEFAULT -1,
   year INTEGER NOT NULL DEFAULT -1,
@@ -346,7 +354,9 @@ CREATE TABLE IF NOT EXISTS tidal_songs (
   title TEXT,
   album TEXT,
   artist TEXT,
+  artistsort TEXT,
   albumartist TEXT,
+  albumartistsort TEXT,
   track INTEGER NOT NULL DEFAULT -1,
   disc INTEGER NOT NULL DEFAULT -1,
   year INTEGER NOT NULL DEFAULT -1,
@@ -427,7 +437,9 @@ CREATE TABLE IF NOT EXISTS spotify_artists_songs (
   title TEXT,
   album TEXT,
   artist TEXT,
+  artistsort TEXT,
   albumartist TEXT,
+  albumartistsort TEXT,
   track INTEGER NOT NULL DEFAULT -1,
   disc INTEGER NOT NULL DEFAULT -1,
   year INTEGER NOT NULL DEFAULT -1,
@@ -508,7 +520,9 @@ CREATE TABLE IF NOT EXISTS spotify_albums_songs (
   title TEXT,
   album TEXT,
   artist TEXT,
+  artistsort TEXT,
   albumartist TEXT,
+  albumartistsort TEXT,
   track INTEGER NOT NULL DEFAULT -1,
   disc INTEGER NOT NULL DEFAULT -1,
   year INTEGER NOT NULL DEFAULT -1,
@@ -589,7 +603,9 @@ CREATE TABLE IF NOT EXISTS spotify_songs (
   title TEXT,
   album TEXT,
   artist TEXT,
+  artistsort TEXT,
   albumartist TEXT,
+  albumartistsort TEXT,
   track INTEGER NOT NULL DEFAULT -1,
   disc INTEGER NOT NULL DEFAULT -1,
   year INTEGER NOT NULL DEFAULT -1,
@@ -670,7 +686,9 @@ CREATE TABLE IF NOT EXISTS qobuz_artists_songs (
   title TEXT,
   album TEXT,
   artist TEXT,
+  artistsort TEXT,
   albumartist TEXT,
+  albumartistsort TEXT,
   track INTEGER NOT NULL DEFAULT -1,
   disc INTEGER NOT NULL DEFAULT -1,
   year INTEGER NOT NULL DEFAULT -1,
@@ -751,7 +769,9 @@ CREATE TABLE IF NOT EXISTS qobuz_albums_songs (
   title TEXT,
   album TEXT,
   artist TEXT,
+  artistsort TEXT,
   albumartist TEXT,
+  albumartistsort TEXT,
   track INTEGER NOT NULL DEFAULT -1,
   disc INTEGER NOT NULL DEFAULT -1,
   year INTEGER NOT NULL DEFAULT -1,
@@ -832,7 +852,9 @@ CREATE TABLE IF NOT EXISTS qobuz_songs (
   title TEXT,
   album TEXT,
   artist TEXT,
+  artistsort TEXT,
   albumartist TEXT,
+  albumartistsort TEXT,
   track INTEGER NOT NULL DEFAULT -1,
   disc INTEGER NOT NULL DEFAULT -1,
   year INTEGER NOT NULL DEFAULT -1,
@@ -933,7 +955,9 @@ CREATE TABLE IF NOT EXISTS playlist_items (
   title TEXT,
   album TEXT,
   artist TEXT,
+  artistsort TEXT,
   albumartist TEXT,
+  albumartistsort TEXT,
   track INTEGER,
   disc INTEGER,
   year INTEGER,
@@ -1032,7 +1056,11 @@ CREATE INDEX IF NOT EXISTS idx_comp_artist ON songs (compilation_effective, arti
 
 CREATE INDEX IF NOT EXISTS idx_albumartist ON songs (albumartist);
 
+CREATE INDEX IF NOT EXISTS idx_albumartistsort ON songs (albumartistsort);
+
 CREATE INDEX IF NOT EXISTS idx_artist ON songs (artist);
+
+CREATE INDEX IF NOT EXISTS idx_artistsort ON songs (artistsort);
 
 CREATE INDEX IF NOT EXISTS idx_album ON songs (album);
 
