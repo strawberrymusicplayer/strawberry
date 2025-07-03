@@ -71,7 +71,6 @@
 #include "covermanager/albumcoverloaderoptions.h"
 #include "covermanager/albumcoverloaderresult.h"
 #include "covermanager/albumcoverloader.h"
-#include "constants/collectionsettings.h"
 
 using namespace std::chrono_literals;
 using namespace Qt::Literals::StringLiterals;
@@ -209,7 +208,7 @@ void CollectionModel::ReloadSettings() {
   const bool show_pretty_covers = settings.value(CollectionSettings::kPrettyCovers, true).toBool();
   const bool show_dividers= settings.value(CollectionSettings::kShowDividers, true).toBool();
   const bool show_various_artists = settings.value(CollectionSettings::kVariousArtists, true).toBool();
-  const bool sort_skips_articles = settings.value(CollectionSettings::kSortSkipsArticles, true).toBool();
+  const CollectionSettings::SortShowArtists sort_show_artists = static_cast<CollectionSettings::SortShowArtists>(settings.value(CollectionSettings::kMenuSortArtists, static_cast<int>(CollectionSettings::SortShowArtists::AsIs)).toInt());
 
   use_disk_cache_ = settings.value(CollectionSettings::kSettingsDiskCacheEnable, false).toBool();
   QPixmapCache::setCacheLimit(static_cast<int>(MaximumCacheSize(&settings, CollectionSettings::kSettingsCacheSize, CollectionSettings::kSettingsCacheSizeUnit, CollectionSettings::kSettingsCacheSizeDefault) / 1024));
@@ -224,11 +223,11 @@ void CollectionModel::ReloadSettings() {
   if (show_pretty_covers != options_current_.show_pretty_covers ||
       show_dividers != options_current_.show_dividers ||
       show_various_artists != options_current_.show_various_artists ||
-      sort_skips_articles != options_current_.sort_skips_articles) {
+      sort_show_artists != options_current_.sort_show_artists) {
     options_current_.show_pretty_covers = show_pretty_covers;
     options_current_.show_dividers = show_dividers;
     options_current_.show_various_artists = show_various_artists;
-    options_current_.sort_skips_articles = sort_skips_articles;
+    options_current_.sort_show_artists = sort_show_artists;
     ScheduleReset();
   }
 
@@ -696,7 +695,7 @@ CollectionItem *CollectionModel::CreateContainerItem(const GroupBy group_by, con
 
   QString divider_key;
   if (options_active_.show_dividers && container_level == 0) {
-    divider_key = DividerKey(group_by, song, SortText(group_by, song, options_active_.sort_skips_articles));
+    divider_key = DividerKey(group_by, song, SortText(group_by, song, options_active_));
     if (!divider_key.isEmpty()) {
       if (!divider_nodes_.contains(divider_key)) {
         CreateDividerItem(divider_key, DividerDisplayText(group_by, divider_key), parent);
@@ -709,8 +708,8 @@ CollectionItem *CollectionModel::CreateContainerItem(const GroupBy group_by, con
   CollectionItem *item = new CollectionItem(CollectionItem::Type::Container, parent);
   item->container_level = container_level;
   item->container_key = container_key;
-  item->display_text = DisplayText(group_by, song);
-  item->sort_text = SortText(group_by, song, options_active_.sort_skips_articles);
+  item->display_text = DisplayText(group_by, song, options_active_);
+  item->sort_text = SortText(group_by, song, options_active_);
   if (!divider_key.isEmpty()) {
     item->sort_text.prepend(divider_key + QLatin1Char(' '));
   }
@@ -959,13 +958,31 @@ void CollectionModel::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderR
 
 }
 
-QString CollectionModel::DisplayText(const GroupBy group_by, const Song &song) {
+QString CollectionModel::DisplayText(const GroupBy group_by, const Song &song, const Options &options) {
 
   switch (group_by) {
     case GroupBy::AlbumArtist:
-      return TextOrUnknown(song.effective_albumartist());
+      switch (options.sort_show_artists) {
+        using namespace CollectionSettings;
+        case SortShowArtists::AsIs:
+        case SortShowArtists::SortSkipArticleShowArtist:
+        case SortShowArtists::SortByTagShowArtist:
+          return TextOrUnknown(song.effective_albumartist());
+        case SortShowArtists::SortByTagShowTag:
+          return TextOrUnknown(song.albumartistsort());
+      }
+      break;
     case GroupBy::Artist:
-      return TextOrUnknown(song.artist());
+      switch (options.sort_show_artists) {
+        using namespace CollectionSettings;
+        case SortShowArtists::AsIs:
+        case SortShowArtists::SortSkipArticleShowArtist:
+        case SortShowArtists::SortByTagShowArtist:
+          return TextOrUnknown(song.artist());
+        case SortShowArtists::SortByTagShowTag:
+          return TextOrUnknown(song.artistsort());
+      }
+      break;
     case GroupBy::Album:
       return TextOrUnknown(song.album());
     case GroupBy::AlbumDisc:
@@ -1065,13 +1082,35 @@ QString CollectionModel::PrettyFormat(const Song &song) {
 
 }
 
-QString CollectionModel::SortText(const GroupBy group_by, const Song &song, const bool sort_skips_articles) {
+QString CollectionModel::SortText(const GroupBy group_by, const Song &song, const Options &options) {
+
+  const bool sort_skips_articles = options.sort_show_artists == CollectionSettings::SortShowArtists::SortSkipArticleShowArtist;
 
   switch (group_by) {
     case GroupBy::AlbumArtist:
-      return SortTextForArtist(song.effective_albumartist(), sort_skips_articles);
+      switch (options.sort_show_artists) {
+        using namespace CollectionSettings;
+        case SortShowArtists::AsIs:
+          return SortTextForArtist(song.effective_albumartist(), false);
+        case SortShowArtists::SortSkipArticleShowArtist:
+          return SortTextForArtist(song.effective_albumartist(), true);
+        case SortShowArtists::SortByTagShowArtist:
+        case SortShowArtists::SortByTagShowTag:
+          return SortTextForArtist(song.albumartistsort(), false);
+      }
+      break;
     case GroupBy::Artist:
-      return SortTextForArtist(song.artist(), sort_skips_articles);
+      switch (options.sort_show_artists) {
+        using namespace CollectionSettings;
+        case SortShowArtists::AsIs:
+          return SortTextForArtist(song.artist(), false);
+        case SortShowArtists::SortSkipArticleShowArtist:
+          return SortTextForArtist(song.artist(), true);
+        case SortShowArtists::SortByTagShowArtist:
+        case SortShowArtists::SortByTagShowTag:
+          return SortTextForArtist(song.artistsort(), false);
+      }
+      break;
     case GroupBy::Album:
       return SortText(song.album());
     case GroupBy::AlbumDisc:
