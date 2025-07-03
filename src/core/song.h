@@ -152,7 +152,9 @@ class Song {
   const QString &title() const;
   const QString &album() const;
   const QString &artist() const;
+  const QString &artistsort() const;
   const QString &albumartist() const;
+  const QString &albumartistsort() const;
   int track() const;
   int disc() const;
   int year() const;
@@ -264,7 +266,9 @@ class Song {
   void set_title(const QString &v);
   void set_album(const QString &v);
   void set_artist(const QString &v);
+  void set_artistsort(const QString &v);
   void set_albumartist(const QString &v);
+  void set_albumartistsort(const QString &v);
   void set_track(const int v);
   void set_disc(const int v);
   void set_year(const int v);
@@ -343,7 +347,9 @@ class Song {
   void set_title(const TagLib::String &v);
   void set_album(const TagLib::String &v);
   void set_artist(const TagLib::String &v);
+  void set_artistsort(const TagLib::String &v);
   void set_albumartist(const TagLib::String &v);
+  void set_albumartistsort(const TagLib::String &v);
   void set_genre(const TagLib::String &v);
   void set_composer(const TagLib::String &v);
   void set_performer(const TagLib::String &v);
