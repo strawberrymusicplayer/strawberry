@@ -1187,7 +1187,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Queue to play next</source>
-      <translation>Çalınacaklar sırası</translation>
+      <translation>Bundan sonra çal</translation>
     </message>
     <message>
       <source>Search for this</source>
@@ -3496,7 +3496,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Queue to play next</source>
-      <translation>Çalınacaklar sırası</translation>
+      <translation>Bundan sonra çal</translation>
     </message>
     <message>
       <source>Unskip track</source>
@@ -6407,7 +6407,7 @@ Devam etmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
       <source>Queue to play next</source>
-      <translation>Çalınacaklar sırası</translation>
+      <translation>Bundan sonra çal</translation>
     </message>
     <message>
       <source>Remove from favorites</source>
