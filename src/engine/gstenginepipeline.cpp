@@ -1371,7 +1371,7 @@ void GstEnginePipeline::AboutToFinishCallback(GstPlayBin *playbin, gpointer self
 
   // When playing GME files it seems playbin3 emits about-to-finish early
   // This stops us from skipping when the song has just started.
-  if(instance->position() == 0) {
+  if (instance->position() == 0) {
     return;
   }
 
