@@ -220,8 +220,10 @@ bool Playlist::column_is_editable(const Playlist::Column column) {
   switch (column) {
     case Column::Title:
     case Column::Artist:
+    case Column::ArtistSort:
     case Column::Album:
     case Column::AlbumArtist:
+    case Column::AlbumArtistSort:
     case Column::Composer:
     case Column::Performer:
     case Column::Grouping:
@@ -250,11 +252,17 @@ bool Playlist::set_column_value(Song &song, const Playlist::Column column, const
     case Column::Artist:
       song.set_artist(value.toString());
       break;
+    case Column::ArtistSort:
+      song.set_artistsort(value.toString());
+      break;
     case Column::Album:
       song.set_album(value.toString());
       break;
     case Column::AlbumArtist:
       song.set_albumartist(value.toString());
+      break;
+    case Column::AlbumArtistSort:
+      song.set_albumartistsort(value.toString());
       break;
     case Column::Composer:
       song.set_composer(value.toString());
@@ -360,6 +368,9 @@ QVariant Playlist::data(const QModelIndex &idx, const int role) const {
         case Column::Rating:             return song.rating();
 
         case Column::HasCUE:             return song.has_cue();
+
+        case Column::ArtistSort:         return song.artistsort();
+        case Column::AlbumArtistSort:    return song.albumartistsort();
 
         case Column::Mood:
         case Column::ColumnCount:
@@ -1364,6 +1375,9 @@ bool Playlist::CompareItems(const Column column, const Qt::SortOrder order, Play
     case Column::EBUR128IntegratedLoudness: cmp(ebur128_integrated_loudness_lufs);
     case Column::EBUR128LoudnessRange: cmp(ebur128_loudness_range_lu);
 
+    case Column::ArtistSort:       strcmp(artistsort);
+    case Column::AlbumArtistSort:  strcmp(albumartistsort);
+
     case Column::Mood:
     case Column::ColumnCount:
       break;
@@ -1416,6 +1430,9 @@ QString Playlist::column_name(const Column column) {
 
     case Column::EBUR128IntegratedLoudness: return tr("Integrated Loudness");
     case Column::EBUR128LoudnessRange: return tr("Loudness Range");
+
+    case Column::ArtistSort:      return tr("Artist Sort");
+    case Column::AlbumArtistSort: return tr("Album Artist Sort");
 
     case Column::ColumnCount:
       break;
@@ -2197,6 +2214,12 @@ Playlist::Columns Playlist::ChangedColumns(const Song &metadata1, const Song &me
   }
   if (metadata1.ebur128_loudness_range_lu() != metadata2.ebur128_loudness_range_lu()) {
     columns << Column::EBUR128LoudnessRange;
+  }
+  if (metadata1.artistsort() != metadata2.artistsort()) {
+    columns << Column::ArtistSort;
+  }
+  if (metadata1.albumartistsort() != metadata2.albumartistsort()) {
+    columns << Column::AlbumArtistSort;
   }
 
   return columns;

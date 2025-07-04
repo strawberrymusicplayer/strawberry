@@ -132,6 +132,8 @@ class Playlist : public QAbstractListModel {
     HasCUE,
     EBUR128IntegratedLoudness,
     EBUR128LoudnessRange,
+    ArtistSort,
+    AlbumArtistSort,
     ColumnCount
   };
   using Columns = QList<Column>;
