@@ -172,6 +172,12 @@ if(UNIX AND NOT APPLE)
   endif()
   find_package(X11 COMPONENTS X11_xcb)
 endif()
+
+find_package(Qt6 REQUIRED COMPONENTS Protobuf)
+if(NOT Protobuf_FOUND)
+  message(STATUS "Missing Protobuf compiler.")
+endif()
+
 pkg_check_modules(GLIB REQUIRED IMPORTED_TARGET glib-2.0)
 pkg_check_modules(GOBJECT REQUIRED IMPORTED_TARGET gobject-2.0)
 if(NOT APPLE)
@@ -368,6 +374,10 @@ optional_component(STREAMTAGREADER ON "Stream tagreader"
 
 optional_component(DISCORD_RPC ON "Discord Rich Presence"
   DEPENDS "RapidJSON" RapidJSON_FOUND
+)
+
+optional_component(NETWORKREMOTE ON "Network Remote"
+    DEPENDS "Protobuf" Protobuf_FOUND
 )
 
 if(HAVE_SONGFINGERPRINTING OR HAVE_MUSICBRAINZ)
@@ -1467,6 +1477,30 @@ optional_source(HAVE_QOBUZ
     src/settings/qobuzsettingspage.ui
 )
 
+optional_source(HAVE_NETWORKREMOTE
+  SOURCES
+    src/networkremote/networkremote.cpp
+    src/networkremote/tcpserver.cpp
+    src/networkremote/remotesettings.cpp
+    src/networkremote/client.cpp
+    src/networkremote/clientmanager.cpp
+    src/networkremote/incomingmsg.cpp
+    src/networkremote/outgoingmsg.cpp
+    src/networkremote/RemoteMessages.proto
+    src/settings/networkremotesettingspage.cpp
+  HEADERS
+    src/networkremote/networkremote.h
+    src/networkremote/tcpserver.h
+    src/networkremote/remotesettings.h
+    src/networkremote/client.h
+    src/networkremote/clientmanager.h
+    src/networkremote/incomingmsg.h
+    src/networkremote/outgoingmsg.h
+    src/settings/networkremotesettingspage.h
+  UI
+    src/settings/networkremotesettingspage.ui
+  )
+
 qt_wrap_cpp(SOURCES ${HEADERS})
 qt_wrap_ui(SOURCES ${UI})
 qt_add_resources(SOURCES data/data.qrc data/icons.qrc)
@@ -1574,7 +1608,11 @@ if(APPLE)
   endif()
 endif()
 
-target_link_libraries(strawberry PUBLIC strawberry_lib)
+if(HAVE_NETWORKREMOTE)
+  add_subdirectory(src/networkremote)
+  target_link_libraries(strawberry_lib PRIVATE Qt6::Protobuf)
+  target_link_libraries(strawberry PUBLIC strawberry_lib lib-networkremote)
+endif()
 
 if(NOT APPLE)
   install(TARGETS strawberry RUNTIME DESTINATION bin)
