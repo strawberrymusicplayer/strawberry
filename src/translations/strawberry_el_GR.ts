@@ -621,23 +621,23 @@
     </message>
     <message>
       <source>Replay Gain</source>
-      <translation type="unfinished">Replay Gain</translation>
+      <translation>Ένταση αναπαραγωγής</translation>
     </message>
     <message>
       <source>Use Replay Gain metadata if it is available</source>
-      <translation type="unfinished">Use Replay Gain metadata if it is available</translation>
+      <translation>Χρήση μεταδεδομένων έντασης αναπαραγωγής εάν είναι διαθέσιμα</translation>
     </message>
     <message>
       <source>Replay Gain mode</source>
-      <translation type="unfinished">Replay Gain mode</translation>
+      <translation>Τρόπος έντασης αναπαραγωγής</translation>
     </message>
     <message>
       <source>Radio (equal loudness for all tracks)</source>
-      <translation type="unfinished">Radio (equal loudness for all tracks)</translation>
+      <translation>Ραδιόφωνο (ίση ένταση για όλα τα κομμάτια)</translation>
     </message>
     <message>
       <source>Album (ideal loudness for all tracks)</source>
-      <translation type="unfinished">Album (ideal loudness for all tracks)</translation>
+      <translation>Άλμπουμ (ιδανική ένταση για όλα τα κομμάτια)</translation>
     </message>
     <message>
       <source>Pre-amp</source>
@@ -645,15 +645,15 @@
     </message>
     <message>
       <source>Apply compression to prevent clipping</source>
-      <translation type="unfinished">Apply compression to prevent clipping</translation>
+      <translation>Εφαρμόστε συμπίεση για να αποφύγετε την αποκοπή</translation>
     </message>
     <message>
       <source>Fallback-gain</source>
-      <translation type="unfinished">Fallback-gain</translation>
+      <translation>Fallback-gain</translation>
     </message>
     <message>
       <source>EBU R 128 Loudness Normalization</source>
-      <translation type="unfinished">EBU R 128 Loudness Normalization</translation>
+      <translation>EBU R 128 Κανονικοποίηση Έντασης</translation>
     </message>
     <message>
       <source>Perform track loudness normalization</source>
@@ -661,7 +661,7 @@
     </message>
     <message>
       <source>Target Level</source>
-      <translation type="unfinished">Target Level</translation>
+      <translation>Target Level</translation>
     </message>
     <message>
       <source>Fading</source>
@@ -673,15 +673,15 @@
     </message>
     <message>
       <source>Cross-fade when changing tracks manually</source>
-      <translation type="unfinished">Cross-fade when changing tracks manually</translation>
+      <translation>Σταδιακή εξασθένιση κατά τη χειροκίνητη αλλαγή κομματιών</translation>
     </message>
     <message>
       <source>Cross-fade when changing tracks automatically</source>
-      <translation type="unfinished">Cross-fade when changing tracks automatically</translation>
+      <translation>Σταδιακή εξασθένιση κατά την αυτόματη αλλαγή κομματιών</translation>
     </message>
     <message>
       <source>Except between tracks on the same album or in the same CUE sheet</source>
-      <translation type="unfinished">Except between tracks on the same album or in the same CUE sheet</translation>
+      <translation>Εκτός από κομμάτια στο ίδιο άλμπουμ ή στο ίδιο φύλλο CUE</translation>
     </message>
     <message>
       <source>Fading duration</source>
@@ -689,7 +689,7 @@
     </message>
     <message>
       <source>Fade out on pause / fade in on resume</source>
-      <translation type="unfinished">Fade out on pause / fade in on resume</translation>
+      <translation>Ξεθώριασμα σε παύση / ξεθώριασμα σε συνέχιση</translation>
     </message>
   </context>
   <context>
@@ -776,7 +776,7 @@
     </message>
     <message>
       <source>Pressing &quot;Previous&quot; in player will...</source>
-      <translation type="unfinished">Pressing &quot;Previous&quot; in player will...</translation>
+      <translation>Πατώντας το &quot;Previous&quot; στον παίκτη...</translation>
     </message>
     <message>
       <source>Jump to previous song right away</source>
@@ -816,7 +816,7 @@
     </message>
     <message>
       <source>Seeking using a keyboard shortcut or mouse wheel</source>
-      <translation type="unfinished">Seeking using a keyboard shortcut or mouse wheel</translation>
+      <translation>Αναζήτηση με τη χρήση συντόμευσης πληκτρολογίου ή τροχού ποντικιού</translation>
     </message>
     <message>
       <source>Time step</source>
@@ -1042,15 +1042,15 @@
     </message>
     <message>
       <source>Song fingerprinting and tracking</source>
-      <translation type="unfinished">Song fingerprinting and tracking</translation>
+      <translation>Αποτύπωση και παρακολούθηση τραγουδιού</translation>
     </message>
     <message>
       <source>Mark disappeared songs unavailable</source>
-      <translation type="unfinished">Mark disappeared songs unavailable</translation>
+      <translation>Μη διαθέσιμη επισήμανση τραγουδιών</translation>
     </message>
     <message>
       <source>Perform song EBU R 128 analysis (required for EBU R 128 loudness normalization)</source>
-      <translation type="unfinished">Perform song EBU R 128 analysis (required for EBU R 128 loudness normalization)</translation>
+      <translation>Εκτελέστε ανάλυση EBU R 128 στο τραγούδι (απαιτείται για EBU R 128 ομαλοποίηση έντασης)</translation>
     </message>
     <message>
       <source>Expire unavailable songs after</source>
@@ -1076,7 +1076,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Automatically open single categories in the collection tree</source>
-      <translation type="unfinished">Automatically open single categories in the collection tree</translation>
+      <translation>Αυτόματο άνοιγμα μεμονωμένων κατηγοριών στο δέντρο συλλογής</translation>
     </message>
     <message>
       <source>Show dividers</source>
@@ -1088,15 +1088,15 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Use various artists for compilation albums</source>
-      <translation type="unfinished">Use various artists for compilation albums</translation>
+      <translation>Χρήση διαφόρων καλλιτεχνών σε μεταγλώττιση άλμπουμ</translation>
     </message>
     <message>
       <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artist names</source>
-      <translation type="unfinished">Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artist names</translation>
+      <translation>Παράκαμψη άρθρων (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) κατά τη διαλογή ονομάτων καλλιτέχνη</translation>
     </message>
     <message>
       <source>Album cover pixmap cache</source>
-      <translation type="unfinished">Album cover pixmap cache</translation>
+      <translation>Προσωρινή μνήμη εικονογραφήσεων εξώφυλλου άλμπουμ</translation>
     </message>
     <message>
       <source>Size</source>
@@ -1120,15 +1120,15 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Song playcounts and ratings</source>
-      <translation type="unfinished">Song playcounts and ratings</translation>
+      <translation>Καταμέτρηση και βαθμολογίες τραγουδιού</translation>
     </message>
     <message>
       <source>Save playcounts to song tags when possible</source>
-      <translation type="unfinished">Save playcounts to song tags when possible</translation>
+      <translation>Αποθήκευση πλήθους αναπαραγωγής σε ετικέτες τραγουδιών όταν είναι εφικτό</translation>
     </message>
     <message>
       <source>Save ratings to song tags when possible</source>
-      <translation type="unfinished">Save ratings to song tags when possible</translation>
+      <translation>Αποθήκευση πλήθους αναπαραγωγής σε ετικέτες τραγουδιών όταν είναι εφικτό</translation>
     </message>
     <message>
       <source>Overwrite database playcount when songs are re-read from disk</source>
@@ -1140,7 +1140,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Save playcounts and ratings to files now</source>
-      <translation type="unfinished">Save playcounts and ratings to files now</translation>
+      <translation>Αποθηκεύστε τους αριθμούς αναπαραγωγής και τις βαθμολογίες σε αρχεία τώρα</translation>
     </message>
     <message>
       <source>Enable delete files in the right click context menu</source>
@@ -2841,7 +2841,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Bitrate</source>
-      <translation type="unfinished">Bitrate</translation>
+      <translation>Bitrate</translation>
     </message>
     <message>
       <source>Second level</source>
@@ -3064,7 +3064,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>P&amp;laylist</source>
-      <translation type="unfinished">P&amp;laylist</translation>
+      <translation>&amp;Λίστα αναπαραγωγής</translation>
     </message>
     <message>
       <source>Help</source>
