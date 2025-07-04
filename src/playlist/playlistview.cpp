@@ -1468,10 +1468,10 @@ void PlaylistView::set_background_image(const QImage &image) {
   }
 
   if (!background_image_.isNull()) {
-    // Apply opacity filter
+    // Apply opacity filter: scale (not overwrite!) the alpha channel
     uchar *bits = background_image_.bits();
     for (int i = 0; i < background_image_.height() * background_image_.bytesPerLine(); i += 4) {
-      bits[i + 3] = static_cast<uchar>((opacity_level_ / 100.0) * 255);
+      bits[i + 3] = static_cast<uchar>(bits[i + 3] * (opacity_level_ / 100.0));
     }
 
     if (blur_radius_ != 0) {
