@@ -1423,7 +1423,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>%rating%</source>
-      <translation type="unfinished">%rating%</translation>
+      <translation>%rating%</translation>
     </message>
     <message>
       <source>Add song rating</source>
@@ -1431,7 +1431,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>%originalyear%</source>
-      <translation type="unfinished">%originalyear%</translation>
+      <translation>%originalyear%</translation>
     </message>
     <message>
       <source>Add song original year tag</source>
@@ -1698,7 +1698,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Use Spotify settings to authenticate.</source>
-      <translation type="unfinished">Use Spotify settings to authenticate.</translation>
+      <translation>Använd Spotify-inställningarna för att autentisera.</translation>
     </message>
     <message>
       <source>Use Qobuz settings to authenticate.</source>
@@ -2176,11 +2176,11 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>(different across multiple songs)</source>
-      <translation type="unfinished">(different across multiple songs)</translation>
+      <translation>(olika över flera låtar)</translation>
     </message>
     <message>
       <source>Different art across multiple songs.</source>
-      <translation type="unfinished">Different art across multiple songs.</translation>
+      <translation>Olika omslag över flera låtar.</translation>
     </message>
     <message>
       <source>Previous</source>
@@ -2272,7 +2272,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>loading...</source>
-      <translation type="unfinished">loading...</translation>
+      <translation>läser in...</translation>
     </message>
     <message>
       <source>Not found.</source>
@@ -2280,11 +2280,11 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Could not write metadata to %1</source>
-      <translation type="unfinished">Could not write metadata to %1</translation>
+      <translation>Det gick inte att skriva metadata till %1</translation>
     </message>
     <message>
       <source>Could not write metadata to %1: %2</source>
-      <translation type="unfinished">Could not write metadata to %1: %2</translation>
+      <translation>Det gick inte att skriva metadata till %1:%2</translation>
     </message>
   </context>
   <context>
@@ -2535,7 +2535,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     <name>GPodDevice</name>
     <message>
       <source>Could not copy %1 to %2: %3</source>
-      <translation type="unfinished">Could not copy %1 to %2: %3</translation>
+      <translation>Kunde inte kopiera %1 till %2: %3</translation>
     </message>
     <message>
       <source>Writing database failed: %1</source>
@@ -3224,7 +3224,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>&amp;Transcode Music</source>
-      <translation>&amp;Omkoda musik</translation>
+      <translation>&amp;Koda om musik</translation>
     </message>
     <message>
       <source>Add &amp;folder...</source>
@@ -3897,7 +3897,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>%filename%</source>
-      <translation type="unfinished">%filename%</translation>
+      <translation>%filename%</translation>
     </message>
     <message>
       <source>Add song filename</source>
@@ -3913,7 +3913,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>%originalyear%</source>
-      <translation type="unfinished">%originalyear%</translation>
+      <translation>%originalyear%</translation>
     </message>
     <message>
       <source>Add song original year tag</source>
@@ -4219,7 +4219,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     <name>Playlist</name>
     <message>
       <source>Could not write metadata to %1</source>
-      <translation type="unfinished">Could not write metadata to %1</translation>
+      <translation>Det gick inte att skriva metadata till %1</translation>
     </message>
     <message>
       <source>Could not write metadata to %1: %2</source>
@@ -4548,11 +4548,11 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Directory %1 does not exist.</source>
-      <translation type="unfinished">Directory %1 does not exist.</translation>
+      <translation>Mappen %1 finns inte.</translation>
     </message>
     <message>
       <source>Failed to open %1 for writing.</source>
-      <translation type="unfinished">Failed to open %1 for writing.</translation>
+      <translation>Misslyckades med att öppna %1 för skrivning.</translation>
     </message>
   </context>
   <context>
@@ -5204,7 +5204,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Normal</source>
-      <translation type="unfinished">Normal</translation>
+      <translation>Normal</translation>
     </message>
     <message>
       <source>Angry</source>
@@ -5232,8 +5232,8 @@ Are you sure you want to continue?</source>
     </message>
     <message numerus="yes">
       <source>add %n songs</source>
-      <translation type="unfinished">
-        <numerusform>add %n songs</numerusform>
+      <translation>
+        <numerusform>lägg till %n låt</numerusform>
         <numerusform>lägg till %n låtar</numerusform>
       </translation>
     </message>
@@ -5811,11 +5811,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Offline mode (Only cache scrobbles)</source>
-      <translation type="unfinished">Offline mode (Only cache scrobbles)</translation>
+      <translation>Frånkopplat läge (cacha endast skrobblingar)</translation>
     </message>
     <message>
       <source>This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately.</source>
-      <translation type="unfinished">This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately.</translation>
+      <translation>Detta är fördröjningen mellan när en låt skrobblas och när skrobblingar skickas till servern. Om tiden ställs in på 0 sekunder skickas skrobbling omedelbart.</translation>
     </message>
     <message>
       <source>Spotify</source>
@@ -6224,7 +6224,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Missing CDDA playback.</source>
-      <translation type="unfinished">Missing CDDA playback.</translation>
+      <translation>Saknar CDDA-uppspelning.</translation>
     </message>
   </context>
   <context>
@@ -6294,7 +6294,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Data missing error</source>
-      <translation type="unfinished">Data missing error</translation>
+      <translation>Data saknas fel</translation>
     </message>
   </context>
   <context>
@@ -6332,7 +6332,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Basic authentication</source>
-      <translation type="unfinished">Basic authentication</translation>
+      <translation>Grundläggande autentisering</translation>
     </message>
     <message>
       <source>Authenticate</source>
@@ -6340,7 +6340,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The GStreamer Spotify plugin is not detected, you will not be able to stream songs from Spotify without it. See &lt;a href=&quot;https://wiki.strawberrymusicplayer.org/wiki/Installing_GStreamer_Spotify_plugin&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;Wiki&lt;/span&gt;&lt;/a&gt; for instructions on how to install the plugin.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-      <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The GStreamer Spotify plugin is not detected, you will not be able to stream songs from Spotify without it. See &lt;a href=&quot;https://wiki.strawberrymusicplayer.org/wiki/Installing_GStreamer_Spotify_plugin&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;Wiki&lt;/span&gt;&lt;/a&gt; for instructions on how to install the plugin.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+      <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;GStreamer Spotify-tillägget upptäcks inte, du kommer inte att kunna streama låtar från Spotify utan det. Se &lt;a href=&quot;https://wiki.strawberrymusicplayer.org/wiki/Installing_GStreamer_Spotify_plugin&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;Wiki&lt;/span&gt;&lt;/a&gt; för instruktioner om hur man installerar tillägget.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
       <source>Preferences</source>
@@ -6383,7 +6383,7 @@ Are you sure you want to continue?</source>
     <name>StreamingCollectionView</name>
     <message>
       <source>The streaming collection is empty!</source>
-      <translation type="unfinished">The streaming collection is empty!</translation>
+      <translation>Flödessamlingen är tom!</translation>
     </message>
     <message>
       <source>Click here to retrieve music</source>
@@ -6444,7 +6444,7 @@ Are you sure you want to continue?</source>
     <name>StreamingSearchView</name>
     <message>
       <source>Streaming Search View</source>
-      <translation type="unfinished">Streaming Search View</translation>
+      <translation>Sökvy för flöden</translation>
     </message>
     <message>
       <source>MenuPopupToolButton</source>
@@ -6518,7 +6518,7 @@ Are you sure you want to continue?</source>
     <name>StreamingTabsView</name>
     <message>
       <source>Streaming Tabs View</source>
-      <translation type="unfinished">Streaming Tabs View</translation>
+      <translation>Vy för flödesflikar</translation>
     </message>
     <message>
       <source>Artists</source>
@@ -6708,7 +6708,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Downloading metadata</source>
-      <translation type="unfinished">Downloading metadata</translation>
+      <translation>Hämtar metadata</translation>
     </message>
   </context>
   <context>
@@ -7009,7 +7009,7 @@ Are you sure you want to continue?</source>
     <name>TranscodeDialog</name>
     <message>
       <source>Transcode Music</source>
-      <translation>Omkoda musik</translation>
+      <translation>Koda om musik</translation>
     </message>
     <message>
       <source>Files to transcode</source>
@@ -7081,23 +7081,23 @@ Are you sure you want to continue?</source>
     </message>
     <message numerus="yes">
       <source>%n remaining</source>
-      <translation type="unfinished">
+      <translation>
         <numerusform>%n återstår</numerusform>
-        <numerusform>%n remaining</numerusform>
+        <numerusform>%n återstår</numerusform>
       </translation>
     </message>
     <message numerus="yes">
       <source>%n finished</source>
-      <translation type="unfinished">
+      <translation>
         <numerusform>%n är klar</numerusform>
-        <numerusform>%n finished</numerusform>
+        <numerusform>%n är klara</numerusform>
       </translation>
     </message>
     <message numerus="yes">
       <source>%n failed</source>
-      <translation type="unfinished">
+      <translation>
         <numerusform>%n misslyckades</numerusform>
-        <numerusform>%n failed</numerusform>
+        <numerusform>%n misslyckades</numerusform>
       </translation>
     </message>
     <message>
@@ -7118,11 +7118,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Import Directory</source>
-      <translation type="unfinished">Import Directory</translation>
+      <translation>Importera mapp</translation>
     </message>
     <message>
       <source>Preserve directory structure in output directory (import only)</source>
-      <translation type="unfinished">Preserve directory structure in output directory (import only)</translation>
+      <translation>Bevara mappstrukturen i utmatningsmappen (endast import)</translation>
     </message>
   </context>
   <context>
@@ -7368,7 +7368,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Auto</source>
-      <translation type="unfinished">Auto</translation>
+      <translation>Automatisk</translation>
     </message>
     <message>
       <source>Ultra wide band (UWB)</source>
@@ -7454,7 +7454,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>These settings are used in the &quot;Transcode Music&quot; dialog, and when converting music before copying it to a device.</source>
-      <translation>Dessa inställningar används i dialogrutan &quot;Omkoda musik&quot; och vid konvertering av musik innan den kopieras till en enhet.</translation>
+      <translation>Dessa inställningar används i dialogrutan &quot;Koda om musik&quot; och vid konvertering av musik innan den kopieras till en enhet.</translation>
     </message>
     <message>
       <source>FLAC</source>
