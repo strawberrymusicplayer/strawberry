@@ -793,6 +793,16 @@ bool Song::lyrics_supported() const {
   return additional_tags_supported() || d->filetype_ == FileType::ASF;
 }
 
+bool Song::artistsort_supported() const {
+  // tested only with the following types, but could be more
+  return d->filetype_ == FileType::FLAC || d->filetype_ == FileType::OggVorbis;
+}
+
+bool Song::albumartistsort_supported() const {
+  // tested only with the following types, but could be more
+  return d->filetype_ == FileType::FLAC || d->filetype_ == FileType::OggVorbis;
+}
+
 bool Song::save_embedded_cover_supported(const FileType filetype) {
 
   return filetype == FileType::FLAC ||

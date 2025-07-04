@@ -31,8 +31,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>801</width>
-        <height>918</height>
+        <width>781</width>
+        <height>919</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
@@ -700,106 +700,17 @@
               <property name="sizeConstraint">
                <enum>QLayout::SetMinimumSize</enum>
               </property>
-              <item row="4" column="3">
-               <widget class="SpinBox" name="year">
-                <property name="correctionMode">
-                 <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
+              <item row="23" column="1">
+               <widget class="TextEdit" name="comment">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
                 </property>
-                <property name="maximum">
-                 <number>9999</number>
-                </property>
-                <property name="has_clear_button" stdset="0">
-                 <bool>false</bool>
-                </property>
-                <property name="has_reset_button" stdset="0">
+                <property name="tabChangesFocus">
                  <bool>true</bool>
                 </property>
-               </widget>
-              </item>
-              <item row="14" column="1">
-               <widget class="LineEdit" name="genre">
-                <property name="has_reset_button" stdset="0">
-                 <bool>true</bool>
-                </property>
-                <property name="has_clear_button" stdset="0">
-                 <bool>false</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="2">
-               <widget class="QLabel" name="label_disc">
-                <property name="text">
-                 <string>Disc</string>
-                </property>
-                <property name="buddy">
-                 <cstring>disc</cstring>
-                </property>
-               </widget>
-              </item>
-              <item row="8" column="1">
-               <widget class="LineEdit" name="composer">
-                <property name="has_reset_button" stdset="0">
-                 <bool>true</bool>
-                </property>
-                <property name="has_clear_button" stdset="0">
-                 <bool>false</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="13" column="0">
-               <widget class="QLabel" name="label_grouping">
-                <property name="minimumSize">
-                 <size>
-                  <width>80</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string>Grouping</string>
-                </property>
-                <property name="buddy">
-                 <cstring>grouping</cstring>
-                </property>
-               </widget>
-              </item>
-              <item row="5" column="0">
-               <widget class="QLabel" name="label_albumartist">
-                <property name="minimumSize">
-                 <size>
-                  <width>80</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string>Album artist</string>
-                </property>
-                <property name="buddy">
-                 <cstring>albumartist</cstring>
-                </property>
-               </widget>
-              </item>
-              <item row="13" column="1">
-               <widget class="LineEdit" name="grouping">
-                <property name="has_reset_button" stdset="0">
-                 <bool>true</bool>
-                </property>
-                <property name="has_clear_button" stdset="0">
-                 <bool>false</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="9" column="1">
-               <widget class="LineEdit" name="performer">
-                <property name="has_reset_button" stdset="0">
-                 <bool>true</bool>
-                </property>
-                <property name="has_clear_button" stdset="0">
-                 <bool>false</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="1">
-               <widget class="LineEdit" name="artist">
                 <property name="has_reset_button" stdset="0">
                  <bool>true</bool>
                 </property>
@@ -818,23 +729,75 @@
                 </property>
                </widget>
               </item>
-              <item row="0" column="3">
-               <widget class="SpinBox" name="track">
-                <property name="correctionMode">
-                 <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
+              <item row="14" column="0">
+               <widget class="QLabel" name="label_grouping">
+                <property name="minimumSize">
+                 <size>
+                  <width>80</width>
+                  <height>0</height>
+                 </size>
                 </property>
-                <property name="maximum">
-                 <number>9999</number>
+                <property name="text">
+                 <string>Grouping</string>
+                </property>
+                <property name="buddy">
+                 <cstring>grouping</cstring>
+                </property>
+               </widget>
+              </item>
+              <item row="15" column="0">
+               <widget class="QLabel" name="label_genre">
+                <property name="minimumSize">
+                 <size>
+                  <width>80</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Genre</string>
+                </property>
+                <property name="buddy">
+                 <cstring>genre</cstring>
+                </property>
+               </widget>
+              </item>
+              <item row="15" column="1">
+               <widget class="LineEdit" name="genre">
+                <property name="has_reset_button" stdset="0">
+                 <bool>true</bool>
                 </property>
                 <property name="has_clear_button" stdset="0">
                  <bool>false</bool>
                 </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
+               <widget class="LineEdit" name="artist">
                 <property name="has_reset_button" stdset="0">
                  <bool>true</bool>
                 </property>
+                <property name="has_clear_button" stdset="0">
+                 <bool>false</bool>
+                </property>
                </widget>
               </item>
-              <item row="4" column="0">
+              <item row="23" column="0">
+               <widget class="QLabel" name="label_comment">
+                <property name="minimumSize">
+                 <size>
+                  <width>80</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Comment</string>
+                </property>
+                <property name="buddy">
+                 <cstring>comment</cstring>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="0">
                <widget class="QLabel" name="label_album">
                 <property name="minimumSize">
                  <size>
@@ -850,13 +813,23 @@
                 </property>
                </widget>
               </item>
-              <item row="4" column="2">
-               <widget class="QLabel" name="label_year">
-                <property name="text">
-                 <string>Year</string>
+              <item row="10" column="1">
+               <widget class="LineEdit" name="performer">
+                <property name="has_reset_button" stdset="0">
+                 <bool>true</bool>
                 </property>
-                <property name="buddy">
-                 <cstring>year</cstring>
+                <property name="has_clear_button" stdset="0">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="14" column="1">
+               <widget class="LineEdit" name="grouping">
+                <property name="has_reset_button" stdset="0">
+                 <bool>true</bool>
+                </property>
+                <property name="has_clear_button" stdset="0">
+                 <bool>false</bool>
                 </property>
                </widget>
               </item>
@@ -876,6 +849,126 @@
                 </property>
                </widget>
               </item>
+              <item row="3" column="2">
+               <widget class="QLabel" name="label_disc">
+                <property name="text">
+                 <string>Disc</string>
+                </property>
+                <property name="buddy">
+                 <cstring>disc</cstring>
+                </property>
+               </widget>
+              </item>
+              <item row="10" column="0">
+               <widget class="QLabel" name="label_performer">
+                <property name="minimumSize">
+                 <size>
+                  <width>80</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Performer</string>
+                </property>
+                <property name="buddy">
+                 <cstring>performer</cstring>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="2">
+               <widget class="QLabel" name="label_track">
+                <property name="text">
+                 <string>Track</string>
+                </property>
+                <property name="buddy">
+                 <cstring>track</cstring>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="0">
+               <widget class="QLabel" name="label_albumartist">
+                <property name="minimumSize">
+                 <size>
+                  <width>80</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Album artist</string>
+                </property>
+                <property name="buddy">
+                 <cstring>albumartist</cstring>
+                </property>
+               </widget>
+              </item>
+              <item row="9" column="1">
+               <widget class="LineEdit" name="composer">
+                <property name="has_reset_button" stdset="0">
+                 <bool>true</bool>
+                </property>
+                <property name="has_clear_button" stdset="0">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="16" column="1">
+               <widget class="CheckBox" name="compilation">
+                <property name="has_reset_button" stdset="0">
+                 <bool>true</bool>
+                </property>
+                <property name="has_clear_button" stdset="0">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="9" column="0">
+               <widget class="QLabel" name="label_composer">
+                <property name="minimumSize">
+                 <size>
+                  <width>80</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Composer</string>
+                </property>
+                <property name="buddy">
+                 <cstring>composer</cstring>
+                </property>
+               </widget>
+              </item>
+              <item row="17" column="1">
+               <widget class="RatingBox" name="rating" native="true">
+                <property name="maximumSize">
+                 <size>
+                  <width>140</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="has_reset_button" stdset="0">
+                 <bool>true</bool>
+                </property>
+                <property name="has_clear_button" stdset="0">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="16" column="0">
+               <widget class="QLabel" name="label_compilation">
+                <property name="minimumSize">
+                 <size>
+                  <width>80</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Compilation</string>
+                </property>
+                <property name="buddy">
+                 <cstring>compilation</cstring>
+                </property>
+               </widget>
+              </item>
               <item row="3" column="0">
                <widget class="QLabel" name="label_artist">
                 <property name="minimumSize">
@@ -892,23 +985,7 @@
                 </property>
                </widget>
               </item>
-              <item row="8" column="0">
-               <widget class="QLabel" name="label_composer">
-                <property name="minimumSize">
-                 <size>
-                  <width>80</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string>Composer</string>
-                </property>
-                <property name="buddy">
-                 <cstring>composer</cstring>
-                </property>
-               </widget>
-              </item>
-              <item row="21" column="1">
+              <item row="22" column="1">
                <widget class="QPushButton" name="fetch_tag">
                 <property name="text">
                  <string>Complete tags automatically</string>
@@ -922,6 +999,22 @@
                   <width>38</width>
                   <height>22</height>
                  </size>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="3">
+               <widget class="SpinBox" name="track">
+                <property name="correctionMode">
+                 <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
+                </property>
+                <property name="maximum">
+                 <number>9999</number>
+                </property>
+                <property name="has_clear_button" stdset="0">
+                 <bool>false</bool>
+                </property>
+                <property name="has_reset_button" stdset="0">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
@@ -941,59 +1034,7 @@
                 </property>
                </widget>
               </item>
-              <item row="15" column="1">
-               <widget class="CheckBox" name="compilation">
-                <property name="has_reset_button" stdset="0">
-                 <bool>true</bool>
-                </property>
-                <property name="has_clear_button" stdset="0">
-                 <bool>false</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="14" column="0">
-               <widget class="QLabel" name="label_genre">
-                <property name="minimumSize">
-                 <size>
-                  <width>80</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string>Genre</string>
-                </property>
-                <property name="buddy">
-                 <cstring>genre</cstring>
-                </property>
-               </widget>
-              </item>
-              <item row="22" column="0">
-               <widget class="QLabel" name="label_comment">
-                <property name="minimumSize">
-                 <size>
-                  <width>80</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string>Comment</string>
-                </property>
-                <property name="buddy">
-                 <cstring>comment</cstring>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="1">
-               <widget class="LineEdit" name="album">
-                <property name="has_reset_button" stdset="0">
-                 <bool>true</bool>
-                </property>
-                <property name="has_clear_button" stdset="0">
-                 <bool>false</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="5" column="1">
+              <item row="6" column="1">
                <widget class="LineEdit" name="albumartist">
                 <property name="has_reset_button" stdset="0">
                  <bool>true</bool>
@@ -1003,68 +1044,7 @@
                 </property>
                </widget>
               </item>
-              <item row="22" column="1">
-               <widget class="TextEdit" name="comment">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="tabChangesFocus">
-                 <bool>true</bool>
-                </property>
-                <property name="has_reset_button" stdset="0">
-                 <bool>true</bool>
-                </property>
-                <property name="has_clear_button" stdset="0">
-                 <bool>false</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="9" column="0">
-               <widget class="QLabel" name="label_performer">
-                <property name="minimumSize">
-                 <size>
-                  <width>80</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string>Performer</string>
-                </property>
-                <property name="buddy">
-                 <cstring>performer</cstring>
-                </property>
-               </widget>
-              </item>
-              <item row="15" column="0">
-               <widget class="QLabel" name="label_compilation">
-                <property name="minimumSize">
-                 <size>
-                  <width>80</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string>Compilation</string>
-                </property>
-                <property name="buddy">
-                 <cstring>compilation</cstring>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="2">
-               <widget class="QLabel" name="label_track">
-                <property name="text">
-                 <string>Track</string>
-                </property>
-                <property name="buddy">
-                 <cstring>track</cstring>
-                </property>
-               </widget>
-              </item>
-              <item row="16" column="0">
+              <item row="17" column="0">
                <widget class="QLabel" name="label_rating">
                 <property name="text">
                  <string>Rating</string>
@@ -1074,19 +1054,79 @@
                 </property>
                </widget>
               </item>
-              <item row="16" column="1">
-               <widget class="RatingBox" name="rating" native="true">
-                <property name="maximumSize">
-                 <size>
-                  <width>140</width>
-                  <height>16777215</height>
-                 </size>
-                </property>
+              <item row="5" column="1">
+               <widget class="LineEdit" name="album">
                 <property name="has_reset_button" stdset="0">
                  <bool>true</bool>
                 </property>
                 <property name="has_clear_button" stdset="0">
                  <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0">
+               <widget class="QLabel" name="label_artistsort">
+                <property name="text">
+                 <string>Artist sort</string>
+                </property>
+                <property name="buddy">
+                 <cstring>artistsort</cstring>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="1">
+               <widget class="LineEdit" name="artistsort">
+                <property name="has_reset_button" stdset="0">
+                 <bool>true</bool>
+                </property>
+                <property name="has_clear_button" stdset="0">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="7" column="0">
+               <widget class="QLabel" name="label_albumartistsort">
+                <property name="text">
+                 <string>Album artist sort</string>
+                </property>
+                <property name="buddy">
+                 <cstring>albumartistsort</cstring>
+                </property>
+               </widget>
+              </item>
+              <item row="7" column="1">
+               <widget class="LineEdit" name="albumartistsort">
+                <property name="has_reset_button" stdset="0">
+                 <bool>true</bool>
+                </property>
+                <property name="has_clear_button" stdset="0">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="2">
+               <widget class="QLabel" name="label_year">
+                <property name="text">
+                 <string>Year</string>
+                </property>
+                <property name="buddy">
+                 <cstring>year</cstring>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="3">
+               <widget class="SpinBox" name="year">
+                <property name="correctionMode">
+                 <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
+                </property>
+                <property name="maximum">
+                 <number>9999</number>
+                </property>
+                <property name="has_clear_button" stdset="0">
+                 <bool>false</bool>
+                </property>
+                <property name="has_reset_button" stdset="0">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
@@ -1147,12 +1187,12 @@
               </property>
              </widget>
             </item>
-            <item row="21" column="1">
-              <widget class="QPushButton" name="fetch_lyrics">
-                <property name="text">
-                  <string>Complete lyrics automatically</string>
-                </property>
-              </widget>
+            <item>
+             <widget class="QPushButton" name="fetch_lyrics">
+              <property name="text">
+               <string>Complete lyrics automatically</string>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -1225,19 +1265,22 @@
   <tabstop>track</tabstop>
   <tabstop>artist</tabstop>
   <tabstop>disc</tabstop>
-  <tabstop>album</tabstop>
+  <tabstop>artistsort</tabstop>
   <tabstop>year</tabstop>
+  <tabstop>album</tabstop>
   <tabstop>albumartist</tabstop>
+  <tabstop>albumartistsort</tabstop>
   <tabstop>composer</tabstop>
   <tabstop>performer</tabstop>
   <tabstop>grouping</tabstop>
   <tabstop>genre</tabstop>
   <tabstop>compilation</tabstop>
-  <tabstop>rating</tabstop>
   <tabstop>fetch_tag</tabstop>
   <tabstop>comment</tabstop>
   <tabstop>lyrics</tabstop>
   <tabstop>fetch_lyrics</tabstop>
+  <tabstop>art_embedded</tabstop>
+  <tabstop>art_unset</tabstop>
  </tabstops>
  <resources>
   <include location="../../data/data.qrc"/>
