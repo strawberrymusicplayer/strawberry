@@ -66,7 +66,9 @@ ContextSettingsPage::ContextSettingsPage(SettingsDialog *dialog, QWidget *parent
   menu->addAction(ui_->action_title);
   menu->addAction(ui_->action_album);
   menu->addAction(ui_->action_artist);
+  menu->addAction(ui_->action_artistsort);
   menu->addAction(ui_->action_albumartist);
+  menu->addAction(ui_->action_albumartistsort);
   menu->addAction(ui_->action_track);
   menu->addAction(ui_->action_disc);
   menu->addAction(ui_->action_year);

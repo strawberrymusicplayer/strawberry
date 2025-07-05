@@ -148,8 +148,14 @@ QString ReplaceVariable(const QString &variable, const Song &song, const QString
   else if (variable == "%artist%"_L1) {
     value = song.artist();
   }
+  else if (variable == "%artistsort%"_L1) {
+    value = song.artistsort();
+  }
   else if (variable == "%albumartist%"_L1) {
     value = song.effective_albumartist();
+  }
+  else if (variable == "%albumartistsort%"_L1) {
+    value = song.albumartistsort();
   }
   else if (variable == "%track%"_L1) {
     value.setNum(song.track());
