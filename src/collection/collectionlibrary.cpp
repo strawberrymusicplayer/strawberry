@@ -78,6 +78,8 @@ CollectionLibrary::CollectionLibrary(const SharedPtr<Database> database,
 
   model_ = new CollectionModel(backend_, albumcover_loader, this);
 
+  full_rescan_revisions_[21] = tr("Support for artist and album artist sort tags");
+
   ReloadSettings();
 
 }

@@ -964,7 +964,9 @@ bool Song::IsMetadataEqual(const Song &other) const {
   return d->title_ == other.d->title_ &&
          d->album_ == other.d->album_ &&
          d->artist_ == other.d->artist_ &&
+         d->artistsort_ == other.d->artistsort_ &&
          d->albumartist_ == other.d->albumartist_ &&
+         d->albumartistsort_ == other.d->albumartistsort_ &&
          d->track_ == other.d->track_ &&
          d->disc_ == other.d->disc_ &&
          d->year_ == other.d->year_ &&
