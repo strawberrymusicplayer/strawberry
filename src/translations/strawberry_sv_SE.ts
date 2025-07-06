@@ -5707,11 +5707,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Show scrobble button</source>
-      <translation>Visa knappen skrobbla</translation>
+      <translation>Visa skrobbla-knappen</translation>
     </message>
     <message>
       <source>Show love button</source>
-      <translation>Visa knappen älska</translation>
+      <translation>Visa älska-knappen</translation>
     </message>
     <message>
       <source>Submit scrobbles every</source>
