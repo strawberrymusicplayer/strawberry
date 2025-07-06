@@ -2539,11 +2539,11 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Writing database failed: %1</source>
-      <translation type="unfinished">Writing database failed: %1</translation>
+      <translation>Misslyckades med att skriva till databasen: %1</translation>
     </message>
     <message>
       <source>Writing database failed.</source>
-      <translation type="unfinished">Writing database failed.</translation>
+      <translation>Misslyckades med att skriva till databasen.</translation>
     </message>
   </context>
   <context>
@@ -2738,7 +2738,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Use KGlobalAccel shortcuts when available</source>
-      <translation type="unfinished">Use KGlobalAccel shortcuts when available</translation>
+      <translation>Använd KGlobalAccel-genvägar när de är tillgängliga</translation>
     </message>
     <message>
       <source>Using X11 shortcuts is not recommended and can cause keyboard to become unresponsive! Shortcuts on should usually be used through MPRIS2 / KGlobalAccel.</source>
@@ -3627,7 +3627,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Could not open MTP device.</source>
-      <translation type="unfinished">Could not open MTP device.</translation>
+      <translation>Det gick inte att öppna MTP-enheten.</translation>
     </message>
     <message>
       <source>MTP error: %1</source>
@@ -4295,7 +4295,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Bit Depth</source>
-      <translation type="unfinished">Bit Depth</translation>
+      <translation>Bitdjup</translation>
     </message>
     <message>
       <source>Bitrate</source>
@@ -5265,7 +5265,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Can&apos;t add directory %1 with special filesystem %2 to collection</source>
-      <translation type="unfinished">Can&apos;t add directory %1 with special filesystem %2 to collection</translation>
+      <translation>Det går inte att lägga till mappen %1 med det speciella filsystemet %2 till samlingen</translation>
     </message>
   </context>
   <context>
@@ -5731,7 +5731,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Strip &quot;remastered&quot; and similar from album and title</source>
-      <translation type="unfinished">Strip &quot;remastered&quot; and similar from album and title</translation>
+      <translation>Rensa "remastrad" och liknande från album och titel</translation>
     </message>
     <message>
       <source>Enable scrobbling for the following sources:</source>
