@@ -162,11 +162,18 @@ void SmartPlaylistSearchTermWidget::FieldChanged(int index) {
     case SmartPlaylistSearchTerm::Field::Artist:
       new TagCompleter(collection_backend_, Playlist::Column::Artist, ui_->value_text);
       break;
-
+    case SmartPlaylistSearchTerm::Field::ArtistSort:
+      new TagCompleter(collection_backend_, Playlist::Column::ArtistSort, ui_->value_text);
+      break;
     case SmartPlaylistSearchTerm::Field::Album:
       new TagCompleter(collection_backend_, Playlist::Column::Album, ui_->value_text);
       break;
-
+    case SmartPlaylistSearchTerm::Field::AlbumArtist:
+      new TagCompleter(collection_backend_, Playlist::Column::AlbumArtist, ui_->value_text);
+      break;
+    case SmartPlaylistSearchTerm::Field::AlbumArtistSort:
+      new TagCompleter(collection_backend_, Playlist::Column::AlbumArtistSort, ui_->value_text);
+      break;
     default:
       ui_->value_text->setCompleter(nullptr);
   }
