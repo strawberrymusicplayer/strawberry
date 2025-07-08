@@ -109,7 +109,7 @@ void HtmlLyricsProvider::HandleLyricsReply(QNetworkReply *reply, const int id, c
 
 }
 
-QString HtmlLyricsProvider::ParseLyricsFromHTML(const QString &content, const QRegularExpression &start_tag, const QRegularExpression &end_tag, const QRegularExpression &lyrics_start, const bool multiple) {
+QString HtmlLyricsProvider::ParseLyricsFromHTML(const QString &content, const QRegularExpression &start_tag, const QRegularExpression &end_tag, const QRegularExpression &lyrics_start, const bool multiple, const QList<QRegularExpression> &regex_removes) {
 
   Q_ASSERT(QThread::currentThread() != qApp->thread());
 
@@ -153,29 +153,30 @@ QString HtmlLyricsProvider::ParseLyricsFromHTML(const QString &content, const QR
       if (!lyrics.isEmpty()) {
         lyrics.append(u'\n');
       }
-      static const QRegularExpression regex_html_tag_a(u"<a [^>]*>[^<]*</a>"_s);
-      static const QRegularExpression regex_html_tag_script(u"<script>[^>]*</script>"_s);
-      static const QRegularExpression regex_html_tag_div(u"<div [^>]*>×</div>"_s);
-      static const QRegularExpression regex_html_tag_br(u"<br[^>]*>"_s);
-      static const QRegularExpression regex_html_tag_p_close(u"</p>"_s);
-      static const QRegularExpression regex_html_tags(u"<[^>]*>"_s);
-      lyrics.append(content.mid(start_lyrics_idx, end_lyrics_idx - start_lyrics_idx)
-                           .remove(u'\r')
-                           .remove(u'\n')
-                           .remove(regex_html_tag_a)
-                           .remove(regex_html_tag_script)
-                           .remove(regex_html_tag_div)
-                           .replace(regex_html_tag_br, u"\n"_s)
-                           .replace(regex_html_tag_p_close, u"\n\n"_s)
-                           .remove(regex_html_tags)
-                           .trimmed());
-    }
-    else {
-      start_idx = -1;
+      lyrics.append(content.mid(start_lyrics_idx, end_lyrics_idx - start_lyrics_idx).remove(u'\r').remove(u'\n'));
     }
 
   }
   while (start_idx > 0 && multiple);
+
+  for (auto it = regex_removes.cbegin(); it != regex_removes.cend(); it++) {
+    lyrics.remove(*it);
+  }
+  static const QRegularExpression regex_html_tag_a(u"<a [^>]*>[^<]*</a>"_s);
+  static const QRegularExpression regex_html_tag_script(u"<script>[^>]*</script>"_s);
+  static const QRegularExpression regex_html_tag_div(u"<div [^>]*>×</div>"_s);
+  static const QRegularExpression regex_html_tag_br(u"<br[^>]*>"_s);
+  static const QRegularExpression regex_html_tag_p_close(u"</p>"_s);
+  static const QRegularExpression regex_html_tags(u"<[^>]*>"_s);
+  static const QRegularExpression regex_newlines_squash(u"\\n{3,}"_s);
+  lyrics.remove(regex_html_tag_a)
+        .remove(regex_html_tag_script)
+        .remove(regex_html_tag_div)
+        .replace(regex_html_tag_br, u"\n"_s)
+        .replace(regex_html_tag_p_close, u"\n\n"_s)
+        .remove(regex_html_tags)
+        .replace(regex_newlines_squash, u"\n\n"_s);
+  lyrics = lyrics.trimmed();
 
   if (lyrics.length() > 6000 || lyrics.contains("there are no lyrics to"_L1, Qt::CaseInsensitive)) {
     return QString();

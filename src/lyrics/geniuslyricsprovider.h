@@ -80,6 +80,9 @@ class GeniusLyricsProvider : public JsonLyricsProvider {
   void HandleLyricReply(QNetworkReply *reply, const int search_id, const QUrl &url);
 
  private:
+  static bool StartsOrEndsMatch(QString s, QString t);
+
+ private:
   OAuthenticator *oauth_;
   mutable QMutex mutex_access_token_;
   QMap<int, SharedPtr<GeniusLyricsSearchContext>> requests_search_;
