@@ -682,6 +682,7 @@ set(SOURCES
   src/lyrics/htmllyricsprovider.cpp
   src/lyrics/ovhlyricsprovider.cpp
   src/lyrics/lololyricsprovider.cpp
+  src/lyrics/geniuslyricsprovider.cpp
   src/lyrics/musixmatchlyricsprovider.cpp
   src/lyrics/chartlyricsprovider.cpp
   src/lyrics/songlyricscomlyricsprovider.cpp
@@ -979,6 +980,7 @@ set(HEADERS
   src/lyrics/htmllyricsprovider.h
   src/lyrics/ovhlyricsprovider.h
   src/lyrics/lololyricsprovider.h
+  src/lyrics/geniuslyricsprovider.h
   src/lyrics/musixmatchlyricsprovider.h
   src/lyrics/chartlyricsprovider.h
   src/lyrics/songlyricscomlyricsprovider.h
