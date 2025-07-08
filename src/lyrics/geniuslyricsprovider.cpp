@@ -148,6 +148,8 @@ void GeniusLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &
   QNetworkReply *reply = CreateGetRequest(QUrl(QLatin1String(kUrlSearch)), url_query);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, id]() { HandleSearchReply(reply, id); });
 
+  qLog(Debug) << name_ << "Sending request for" << url_query.query();
+
 }
 
 GeniusLyricsProvider::JsonObjectResult GeniusLyricsProvider::ParseJsonObject(QNetworkReply *reply) {
@@ -302,10 +304,8 @@ void GeniusLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id)
     const QString artist = primary_artist["name"_L1].toString();
     const QString title = object_result["title"_L1].toString();
 
-    // Ignore results where both the artist and title don't match.
-    if (!artist.startsWith(search->request.albumartist, Qt::CaseInsensitive) &&
-        !artist.startsWith(search->request.artist, Qt::CaseInsensitive) &&
-        !title.startsWith(search->request.title, Qt::CaseInsensitive)) {
+    // Ignore results where the artist or title don't begin or end the same
+    if (!StartsOrEndsMatch(artist, search->request.artist) || !StartsOrEndsMatch(title, search->request.title)) {
       continue;
     }
 
@@ -323,6 +323,12 @@ void GeniusLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id)
     QNetworkReply *new_reply = CreateGetRequest(url);
     QObject::connect(new_reply, &QNetworkReply::finished, this, [this, new_reply, search, url]() { HandleLyricReply(new_reply, search->id, url); });
 
+    qLog(Debug) << name_ << "Sending request for" << url;
+
+    // If full match, don't bother iterating further
+    if (artist == search->request.albumartist && artist == search->request.artist && title == search->request.title) {
+      break;
+    }
   }
 
 }
@@ -363,12 +369,18 @@ void GeniusLyricsProvider::HandleLyricReply(QNetworkReply *reply, const int sear
     return;
   }
 
-  const QString content = QString::fromUtf8(data);
-  QString lyrics = HtmlLyricsProvider::ParseLyricsFromHTML(content, QRegularExpression(u"<div[^>]*>"_s), QRegularExpression(u"<\\/div>"_s), QRegularExpression(u"<div data-lyrics-container=[^>]+>"_s), true);
-  if (lyrics.isEmpty()) {
-    lyrics = HtmlLyricsProvider::ParseLyricsFromHTML(content, QRegularExpression(u"<div[^>]*>"_s), QRegularExpression(u"<\\/div>"_s), QRegularExpression(u"<div class=\"lyrics\">"_s), true);
-  }
+  static const QRegularExpression start_tag(u"<div[^>]*>"_s);
+  static const QRegularExpression end_tag(u"<\\/div>"_s);
+  static const QRegularExpression lyrics_start(u"<div data-lyrics-container=[^>]+>"_s);
 
+  static const QRegularExpression regex_html_tag_span_trans(u"<span class=\"LyricsHeader__Translations[^>]*>[^<]*</span>"_s);
+  static const QRegularExpression regex_html_tag_div_ellipsis(u"<div class=\"LyricsHeader__TextEllipsis[^>]*>[^<]*</div>"_s);
+  static const QRegularExpression regex_html_tag_span_contribs(u"<span class=\"ContributorsCreditSong__Contributors[^>]*>[^<]*</span>"_s);
+  static const QRegularExpression regex_html_tag_div_bio(u"<div class=\"SongBioPreview__Container[^>]*>.*?</div>"_s);
+  static const QRegularExpression regex_html_tag_h2(u"<h2 [^>]*>[^<]*</h2>"_s);
+  static const QList<QRegularExpression> regex_removes{ regex_html_tag_span_trans, regex_html_tag_div_ellipsis, regex_html_tag_span_contribs, regex_html_tag_div_bio, regex_html_tag_h2 };
+
+  const QString lyrics = HtmlLyricsProvider::ParseLyricsFromHTML(QString::fromUtf8(data), start_tag, end_tag, lyrics_start, true, regex_removes);
   if (!lyrics.isEmpty()) {
     LyricsSearchResult result(lyrics);
     result.artist = lyric.artist;
@@ -402,5 +414,19 @@ void GeniusLyricsProvider::EndSearch(const int id, const LyricsSearchRequest &re
   }
 
   Q_EMIT SearchFinished(id, results);
+
+}
+
+bool GeniusLyricsProvider::StartsOrEndsMatch(QString s, QString t) {
+
+  constexpr Qt::CaseSensitivity cs = Qt::CaseInsensitive;
+
+  static const QRegularExpression puncts_regex(u"[!,.:;]"_s);
+  static const QRegularExpression quotes_regex(u"[’‘´`]"_s);
+
+  s.remove(puncts_regex).replace(quotes_regex, u"'"_s);
+  t.remove(puncts_regex).replace(quotes_regex, u"'"_s);
+
+  return (s.compare(t, cs) == 0 && !s.isEmpty()) || (!s.isEmpty() && !t.isEmpty() && (s.startsWith(t, cs) || t.startsWith(s, cs) || s.endsWith(t, cs) || t.endsWith(s, cs)));
 
 }
