@@ -31,14 +31,12 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QRegularExpression>
-#include <QSettings>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonValue>
 #include <QJsonParseError>
 #include <QMessageBox>
-#include <QMutexLocker>
 
 #include "includes/shared_ptr.h"
 #include "core/logging.h"
