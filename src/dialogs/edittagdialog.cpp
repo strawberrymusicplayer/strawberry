@@ -274,8 +274,10 @@ EditTagDialog::EditTagDialog(const SharedPtr<NetworkAccessManager> network,
       QKeySequence(QKeySequence::MoveToNextPage).toString(QKeySequence::NativeText)));
 
   new TagCompleter(collection_backend, Playlist::Column::Artist, ui_->artist);
+  new TagCompleter(collection_backend, Playlist::Column::ArtistSort, ui_->artistsort);
   new TagCompleter(collection_backend, Playlist::Column::Album, ui_->album);
   new TagCompleter(collection_backend, Playlist::Column::AlbumArtist, ui_->albumartist);
+  new TagCompleter(collection_backend, Playlist::Column::AlbumArtistSort, ui_->albumartistsort);
   new TagCompleter(collection_backend, Playlist::Column::Genre, ui_->genre);
   new TagCompleter(collection_backend, Playlist::Column::Composer, ui_->composer);
   new TagCompleter(collection_backend, Playlist::Column::Performer, ui_->performer);
@@ -494,8 +496,10 @@ QVariant EditTagDialog::Data::value(const Song &song, const QString &id) {
 
   if (id == "title"_L1) return song.title();
   if (id == "artist"_L1) return song.artist();
+  if (id == "artistsort"_L1) return song.artistsort();
   if (id == "album"_L1) return song.album();
   if (id == "albumartist"_L1) return song.albumartist();
+  if (id == "albumartistsort"_L1) return song.albumartistsort();
   if (id == "composer"_L1) return song.composer();
   if (id == "performer"_L1) return song.performer();
   if (id == "grouping"_L1) return song.grouping();
@@ -516,8 +520,10 @@ void EditTagDialog::Data::set_value(const QString &id, const QVariant &value) {
 
   if (id == "title"_L1) current_.set_title(value.toString());
   else if (id == "artist"_L1) current_.set_artist(value.toString());
+  else if (id == "artistsort"_L1) current_.set_artistsort(value.toString());
   else if (id == "album"_L1) current_.set_album(value.toString());
   else if (id == "albumartist"_L1) current_.set_albumartist(value.toString());
+  else if (id == "albumartistsort"_L1) current_.set_albumartistsort(value.toString());
   else if (id == "composer"_L1) current_.set_composer(value.toString());
   else if (id == "performer"_L1) current_.set_performer(value.toString());
   else if (id == "grouping"_L1) current_.set_grouping(value.toString());
@@ -683,6 +689,8 @@ void EditTagDialog::SelectionChanged() {
   bool rating_enabled = false;
   bool comment_enabled = false;
   bool lyrics_enabled = false;
+  bool artistsort_enabled = false;
+  bool albumartistsort_enabled = false;
   for (const QModelIndex &idx : indexes) {
     if (data_.value(idx.row()).cover_action_ == UpdateCoverAction::None) {
       data_[idx.row()].cover_result_ = AlbumCoverImageResult();
@@ -725,6 +733,12 @@ void EditTagDialog::SelectionChanged() {
     }
     if (song.lyrics_supported()) {
       lyrics_enabled = true;
+    }
+    if (song.artistsort_supported()) {
+      artistsort_enabled = true;
+    }
+    if (song.albumartistsort_supported()) {
+      albumartistsort_enabled = true;
     }
   }
 
@@ -790,6 +804,8 @@ void EditTagDialog::SelectionChanged() {
   ui_->rating->setEnabled(rating_enabled);
   ui_->comment->setEnabled(comment_enabled);
   ui_->lyrics->setEnabled(lyrics_enabled);
+  ui_->artistsort->setEnabled(artistsort_enabled);
+  ui_->albumartistsort->setEnabled(albumartistsort_enabled);
 
 }
 

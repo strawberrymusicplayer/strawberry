@@ -28,7 +28,7 @@ constexpr char kAutoOpen[] = "auto_open";
 constexpr char kShowDividers[] = "show_dividers";
 constexpr char kPrettyCovers[] = "pretty_covers";
 constexpr char kVariousArtists[] = "various_artists";
-constexpr char kSortSkipsArticles[] = "sort_skips_articles";
+constexpr char kMenuSortArtists[] = "menu_sort_artists";
 constexpr char kStartupScan[] = "startup_scan";
 constexpr char kMonitor[] = "monitor";
 constexpr char kSongTracking[] = "song_tracking";
@@ -49,6 +49,13 @@ constexpr char kOverwritePlaycount[] = "overwrite_playcount";
 constexpr char kOverwriteRating[] = "overwrite_rating";
 constexpr char kDeleteFiles[] = "delete_files";
 constexpr char kLastPath[] = "last_path";
+
+enum class SortShowArtists {
+  AsIs = 1,
+  SortSkipArticleShowArtist = 2,
+  SortByTagShowArtist = 3,
+  SortByTagShowTag = 4
+};
 
 enum class CacheSizeUnit {
   KB,

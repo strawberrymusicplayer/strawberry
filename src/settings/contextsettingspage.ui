@@ -486,6 +486,22 @@
     <string>Add song original year tag</string>
    </property>
   </action>
+  <action name="action_artistsort">
+   <property name="text">
+    <string>%artistsort%</string>
+   </property>
+   <property name="toolTip">
+    <string>Add song artistsort tag</string>
+   </property>
+  </action>
+  <action name="action_albumartistsort">
+   <property name="text">
+    <string>%albumartistsort%</string>
+   </property>
+   <property name="toolTip">
+    <string>Add song albumartistsort tag</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

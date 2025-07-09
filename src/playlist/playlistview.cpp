@@ -248,6 +248,8 @@ void PlaylistView::SetItemDelegates() {
 
   setItemDelegateForColumn(static_cast<int>(Playlist::Column::EBUR128IntegratedLoudness), new Ebur128LoudnessLUFSItemDelegate(this));
   setItemDelegateForColumn(static_cast<int>(Playlist::Column::EBUR128LoudnessRange), new Ebur128LoudnessRangeLUItemDelegate(this));
+  setItemDelegateForColumn(static_cast<int>(Playlist::Column::ArtistSort), new TagCompletionItemDelegate(this, collection_backend_, Playlist::Column::ArtistSort));
+  setItemDelegateForColumn(static_cast<int>(Playlist::Column::AlbumArtistSort), new TagCompletionItemDelegate(this, collection_backend_, Playlist::Column::AlbumArtistSort));
 }
 
 void PlaylistView::setModel(QAbstractItemModel *m) {
@@ -369,6 +371,8 @@ void PlaylistView::RestoreHeaderState() {
     header_->HideSection(static_cast<int>(Playlist::Column::HasCUE));
     header_->HideSection(static_cast<int>(Playlist::Column::EBUR128IntegratedLoudness));
     header_->HideSection(static_cast<int>(Playlist::Column::EBUR128LoudnessRange));
+    header_->HideSection(static_cast<int>(Playlist::Column::ArtistSort));
+    header_->HideSection(static_cast<int>(Playlist::Column::AlbumArtistSort));
 
     header_->ShowSection(static_cast<int>(Playlist::Column::Track));
     header_->ShowSection(static_cast<int>(Playlist::Column::Title));

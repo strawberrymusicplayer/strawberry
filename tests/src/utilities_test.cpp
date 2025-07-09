@@ -188,7 +188,9 @@ TEST(UtilitiesTest, ReplaceVariable) {
   song.set_title(Utilities::GetRandomStringWithChars(8));
   song.set_album(Utilities::GetRandomStringWithChars(8));
   song.set_artist(Utilities::GetRandomStringWithChars(8));
+  song.set_artistsort(Utilities::GetRandomStringWithChars(8));
   song.set_albumartist(Utilities::GetRandomStringWithChars(8));
+  song.set_albumartistsort(Utilities::GetRandomStringWithChars(8));
   song.set_track(5);
   song.set_disc(2);
   song.set_year(1999);
@@ -206,7 +208,9 @@ TEST(UtilitiesTest, ReplaceVariable) {
   ASSERT_EQ(Utilities::ReplaceVariable(u"%title%"_s, song, ""_L1), song.title());
   ASSERT_EQ(Utilities::ReplaceVariable(u"%album%"_s, song, ""_L1), song.album());
   ASSERT_EQ(Utilities::ReplaceVariable(u"%artist%"_s, song, ""_L1), song.artist());
+  ASSERT_EQ(Utilities::ReplaceVariable(u"%artistsort%"_s, song, ""_L1), song.artistsort());
   ASSERT_EQ(Utilities::ReplaceVariable(u"%albumartist%"_s, song, ""_L1), song.effective_albumartist());
+  ASSERT_EQ(Utilities::ReplaceVariable(u"%albumartistsort%"_s, song, ""_L1), song.albumartistsort());
   ASSERT_EQ(Utilities::ReplaceVariable(u"%track%"_s, song, ""_L1), QString::number(song.track()));
   ASSERT_EQ(Utilities::ReplaceVariable(u"%disc%"_s, song, ""_L1), QString::number(song.disc()));
   ASSERT_EQ(Utilities::ReplaceVariable(u"%year%"_s, song, ""_L1), QString::number(song.year()));
@@ -230,7 +234,9 @@ TEST(UtilitiesTest, ReplaceMessage) {
   song.set_title(Utilities::GetRandomStringWithChars(8));
   song.set_album(Utilities::GetRandomStringWithChars(8));
   song.set_artist(Utilities::GetRandomStringWithChars(8));
+  song.set_artistsort(Utilities::GetRandomStringWithChars(8));
   song.set_albumartist(Utilities::GetRandomStringWithChars(8));
+  song.set_albumartistsort(Utilities::GetRandomStringWithChars(8));
   song.set_track(5);
   song.set_disc(2);
   song.set_year(1999);
@@ -246,6 +252,7 @@ TEST(UtilitiesTest, ReplaceMessage) {
   song.set_rating(1.0);
 
   ASSERT_EQ(Utilities::ReplaceMessage(u"%title% - %artist%"_s, song, ""_L1), song.title() + u" - "_s + song.artist());
+  ASSERT_EQ(Utilities::ReplaceMessage(u"%artistsort% - %albumartistsort%"_s, song, ""_L1), song.artistsort() + u" - "_s + song.albumartistsort());
 
 }
 

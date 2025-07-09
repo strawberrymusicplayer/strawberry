@@ -248,11 +248,21 @@ void CDDASongLoader::LoadSongsFromCDDA() {
         g_free(tag);
         tag = nullptr;
       }
+      if (gst_tag_list_get_string(tags, GST_TAG_ALBUM_ARTIST_SORTNAME, &tag)) {
+        song.set_albumartistsort(QString::fromUtf8(tag));
+        g_free(tag);
+        tag = nullptr;
+      }
       if (gst_tag_list_get_string(tags, GST_TAG_ARTIST, &tag)) {
         song.set_artist(QString::fromUtf8(tag));
         g_free(tag);
         tag = nullptr;
         ++track_artist_tags;
+      }
+      if (gst_tag_list_get_string(tags, GST_TAG_ARTIST_SORTNAME, &tag)) {
+        song.set_artistsort(QString::fromUtf8(tag));
+        g_free(tag);
+        tag = nullptr;
       }
       if (gst_tag_list_get_string(tags, GST_TAG_ALBUM, &tag)) {
         song.set_album(QString::fromUtf8(tag));
