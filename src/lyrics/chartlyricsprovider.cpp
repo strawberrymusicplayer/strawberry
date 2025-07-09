@@ -66,7 +66,8 @@ void ChartLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, 
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
-  const QScopeGuard search_finished = qScopeGuard([this, id]() { Q_EMIT SearchFinished(id); });
+  LyricsSearchResults results;
+  const QScopeGuard search_finished = qScopeGuard([this, id, &results]() { Q_EMIT SearchFinished(id, results); });
 
   const ReplyDataResult reply_data_result = GetReplyData(reply);
   if (!reply_data_result.success()) {
@@ -75,9 +76,7 @@ void ChartLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, 
   }
 
   QXmlStreamReader reader(reply_data_result.data);
-  LyricsSearchResults results;
   LyricsSearchResult result;
-
   while (!reader.atEnd()) {
     const QXmlStreamReader::TokenType type = reader.readNext();
     const QString name = reader.name().toString();
