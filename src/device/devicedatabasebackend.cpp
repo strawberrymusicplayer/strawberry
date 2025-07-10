@@ -41,7 +41,7 @@
 using namespace Qt::Literals::StringLiterals;
 
 namespace {
-constexpr int kDeviceSchemaVersion = 5;
+constexpr int kDeviceSchemaVersion = 6;
 }
 
 DeviceDatabaseBackend::DeviceDatabaseBackend(QObject *parent)

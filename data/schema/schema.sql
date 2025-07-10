@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS schema_version (
 
 DELETE FROM schema_version;
 
-INSERT INTO schema_version (version) VALUES (20);
+INSERT INTO schema_version (version) VALUES (21);
 
 CREATE TABLE IF NOT EXISTS directories (
   path TEXT NOT NULL,
@@ -20,9 +20,13 @@ CREATE TABLE IF NOT EXISTS subdirectories (
 CREATE TABLE IF NOT EXISTS songs (
 
   title TEXT,
+  titlesort TEXT,
   album TEXT,
+  albumsort TEXT,
   artist TEXT,
+  artistsort TEXT,
   albumartist TEXT,
+  albumartistsort TEXT,
   track INTEGER NOT NULL DEFAULT -1,
   disc INTEGER NOT NULL DEFAULT -1,
   year INTEGER NOT NULL DEFAULT -1,
@@ -30,7 +34,9 @@ CREATE TABLE IF NOT EXISTS songs (
   genre TEXT,
   compilation INTEGER NOT NULL DEFAULT 0,
   composer TEXT,
+  composersort TEXT,
   performer TEXT,
+  performersort TEXT,
   grouping TEXT,
   comment TEXT,
   lyrics TEXT,
@@ -94,16 +100,24 @@ CREATE TABLE IF NOT EXISTS songs (
   musicbrainz_work_id TEXT,
 
   ebur128_integrated_loudness_lufs REAL,
-  ebur128_loudness_range_lu REAL
+  ebur128_loudness_range_lu REAL,
+
+  bpm REAL,
+  mood TEXT,
+  initial_key TEXT
 
 );
 
 CREATE TABLE IF NOT EXISTS subsonic_songs (
 
   title TEXT,
+  titlesort TEXT,
   album TEXT,
+  albumsort TEXT,
   artist TEXT,
+  artistsort TEXT,
   albumartist TEXT,
+  albumartistsort TEXT,
   track INTEGER NOT NULL DEFAULT -1,
   disc INTEGER NOT NULL DEFAULT -1,
   year INTEGER NOT NULL DEFAULT -1,
@@ -111,7 +125,9 @@ CREATE TABLE IF NOT EXISTS subsonic_songs (
   genre TEXT,
   compilation INTEGER NOT NULL DEFAULT 0,
   composer TEXT,
+  composersort TEXT,
   performer TEXT,
+  performersort TEXT,
   grouping TEXT,
   comment TEXT,
   lyrics TEXT,
@@ -175,16 +191,24 @@ CREATE TABLE IF NOT EXISTS subsonic_songs (
   musicbrainz_work_id TEXT,
 
   ebur128_integrated_loudness_lufs REAL,
-  ebur128_loudness_range_lu REAL
+  ebur128_loudness_range_lu REAL,
+
+  bpm REAL,
+  mood TEXT,
+  initial_key TEXT
 
 );
 
 CREATE TABLE IF NOT EXISTS tidal_artists_songs (
 
   title TEXT,
+  titlesort TEXT,
   album TEXT,
+  albumsort TEXT,
   artist TEXT,
+  artistsort TEXT,
   albumartist TEXT,
+  albumartistsort TEXT,
   track INTEGER NOT NULL DEFAULT -1,
   disc INTEGER NOT NULL DEFAULT -1,
   year INTEGER NOT NULL DEFAULT -1,
@@ -192,7 +216,9 @@ CREATE TABLE IF NOT EXISTS tidal_artists_songs (
   genre TEXT,
   compilation INTEGER NOT NULL DEFAULT 0,
   composer TEXT,
+  composersort TEXT,
   performer TEXT,
+  performersort TEXT,
   grouping TEXT,
   comment TEXT,
   lyrics TEXT,
@@ -256,16 +282,24 @@ CREATE TABLE IF NOT EXISTS tidal_artists_songs (
   musicbrainz_work_id TEXT,
 
   ebur128_integrated_loudness_lufs REAL,
-  ebur128_loudness_range_lu REAL
+  ebur128_loudness_range_lu REAL,
+
+  bpm REAL,
+  mood TEXT,
+  initial_key TEXT
 
 );
 
 CREATE TABLE IF NOT EXISTS tidal_albums_songs (
 
   title TEXT,
+  titlesort TEXT,
   album TEXT,
+  albumsort TEXT,
   artist TEXT,
+  artistsort TEXT,
   albumartist TEXT,
+  albumartistsort TEXT,
   track INTEGER NOT NULL DEFAULT -1,
   disc INTEGER NOT NULL DEFAULT -1,
   year INTEGER NOT NULL DEFAULT -1,
@@ -273,7 +307,9 @@ CREATE TABLE IF NOT EXISTS tidal_albums_songs (
   genre TEXT,
   compilation INTEGER NOT NULL DEFAULT 0,
   composer TEXT,
+  composersort TEXT,
   performer TEXT,
+  performersort TEXT,
   grouping TEXT,
   comment TEXT,
   lyrics TEXT,
@@ -337,16 +373,24 @@ CREATE TABLE IF NOT EXISTS tidal_albums_songs (
   musicbrainz_work_id TEXT,
 
   ebur128_integrated_loudness_lufs REAL,
-  ebur128_loudness_range_lu REAL
+  ebur128_loudness_range_lu REAL,
+
+  bpm REAL,
+  mood TEXT,
+  initial_key TEXT
 
 );
 
 CREATE TABLE IF NOT EXISTS tidal_songs (
 
   title TEXT,
+  titlesort TEXT,
   album TEXT,
+  albumsort TEXT,
   artist TEXT,
+  artistsort TEXT,
   albumartist TEXT,
+  albumartistsort TEXT,
   track INTEGER NOT NULL DEFAULT -1,
   disc INTEGER NOT NULL DEFAULT -1,
   year INTEGER NOT NULL DEFAULT -1,
@@ -354,7 +398,9 @@ CREATE TABLE IF NOT EXISTS tidal_songs (
   genre TEXT,
   compilation INTEGER NOT NULL DEFAULT 0,
   composer TEXT,
+  composersort TEXT,
   performer TEXT,
+  performersort TEXT,
   grouping TEXT,
   comment TEXT,
   lyrics TEXT,
@@ -418,16 +464,24 @@ CREATE TABLE IF NOT EXISTS tidal_songs (
   musicbrainz_work_id TEXT,
 
   ebur128_integrated_loudness_lufs REAL,
-  ebur128_loudness_range_lu REAL
+  ebur128_loudness_range_lu REAL,
+
+  bpm REAL,
+  mood TEXT,
+  initial_key TEXT
 
 );
 
 CREATE TABLE IF NOT EXISTS spotify_artists_songs (
 
   title TEXT,
+  titlesort TEXT,
   album TEXT,
+  albumsort TEXT,
   artist TEXT,
+  artistsort TEXT,
   albumartist TEXT,
+  albumartistsort TEXT,
   track INTEGER NOT NULL DEFAULT -1,
   disc INTEGER NOT NULL DEFAULT -1,
   year INTEGER NOT NULL DEFAULT -1,
@@ -435,7 +489,9 @@ CREATE TABLE IF NOT EXISTS spotify_artists_songs (
   genre TEXT,
   compilation INTEGER NOT NULL DEFAULT 0,
   composer TEXT,
+  composersort TEXT,
   performer TEXT,
+  performersort TEXT,
   grouping TEXT,
   comment TEXT,
   lyrics TEXT,
@@ -499,16 +555,24 @@ CREATE TABLE IF NOT EXISTS spotify_artists_songs (
   musicbrainz_work_id TEXT,
 
   ebur128_integrated_loudness_lufs REAL,
-  ebur128_loudness_range_lu REAL
+  ebur128_loudness_range_lu REAL,
+
+  bpm REAL,
+  mood TEXT,
+  initial_key TEXT
 
 );
 
 CREATE TABLE IF NOT EXISTS spotify_albums_songs (
 
   title TEXT,
+  titlesort TEXT,
   album TEXT,
+  albumsort TEXT,
   artist TEXT,
+  artistsort TEXT,
   albumartist TEXT,
+  albumartistsort TEXT,
   track INTEGER NOT NULL DEFAULT -1,
   disc INTEGER NOT NULL DEFAULT -1,
   year INTEGER NOT NULL DEFAULT -1,
@@ -516,7 +580,9 @@ CREATE TABLE IF NOT EXISTS spotify_albums_songs (
   genre TEXT,
   compilation INTEGER NOT NULL DEFAULT 0,
   composer TEXT,
+  composersort TEXT,
   performer TEXT,
+  performersort TEXT,
   grouping TEXT,
   comment TEXT,
   lyrics TEXT,
@@ -580,16 +646,24 @@ CREATE TABLE IF NOT EXISTS spotify_albums_songs (
   musicbrainz_work_id TEXT,
 
   ebur128_integrated_loudness_lufs REAL,
-  ebur128_loudness_range_lu REAL
+  ebur128_loudness_range_lu REAL,
+
+  bpm REAL,
+  mood TEXT,
+  initial_key TEXT
 
 );
 
 CREATE TABLE IF NOT EXISTS spotify_songs (
 
   title TEXT,
+  titlesort TEXT,
   album TEXT,
+  albumsort TEXT,
   artist TEXT,
+  artistsort TEXT,
   albumartist TEXT,
+  albumartistsort TEXT,
   track INTEGER NOT NULL DEFAULT -1,
   disc INTEGER NOT NULL DEFAULT -1,
   year INTEGER NOT NULL DEFAULT -1,
@@ -597,7 +671,9 @@ CREATE TABLE IF NOT EXISTS spotify_songs (
   genre TEXT,
   compilation INTEGER NOT NULL DEFAULT 0,
   composer TEXT,
+  composersort TEXT,
   performer TEXT,
+  performersort TEXT,
   grouping TEXT,
   comment TEXT,
   lyrics TEXT,
@@ -661,16 +737,24 @@ CREATE TABLE IF NOT EXISTS spotify_songs (
   musicbrainz_work_id TEXT,
 
   ebur128_integrated_loudness_lufs REAL,
-  ebur128_loudness_range_lu REAL
+  ebur128_loudness_range_lu REAL,
+
+  bpm REAL,
+  mood TEXT,
+  initial_key TEXT
 
 );
 
 CREATE TABLE IF NOT EXISTS qobuz_artists_songs (
 
   title TEXT,
+  titlesort TEXT,
   album TEXT,
+  albumsort TEXT,
   artist TEXT,
+  artistsort TEXT,
   albumartist TEXT,
+  albumartistsort TEXT,
   track INTEGER NOT NULL DEFAULT -1,
   disc INTEGER NOT NULL DEFAULT -1,
   year INTEGER NOT NULL DEFAULT -1,
@@ -678,7 +762,9 @@ CREATE TABLE IF NOT EXISTS qobuz_artists_songs (
   genre TEXT,
   compilation INTEGER NOT NULL DEFAULT 0,
   composer TEXT,
+  composersort TEXT,
   performer TEXT,
+  performersort TEXT,
   grouping TEXT,
   comment TEXT,
   lyrics TEXT,
@@ -742,16 +828,24 @@ CREATE TABLE IF NOT EXISTS qobuz_artists_songs (
   musicbrainz_work_id TEXT,
 
   ebur128_integrated_loudness_lufs REAL,
-  ebur128_loudness_range_lu REAL
+  ebur128_loudness_range_lu REAL,
+
+  bpm REAL,
+  mood TEXT,
+  initial_key TEXT
 
 );
 
 CREATE TABLE IF NOT EXISTS qobuz_albums_songs (
 
   title TEXT,
+  titlesort TEXT,
   album TEXT,
+  albumsort TEXT,
   artist TEXT,
+  artistsort TEXT,
   albumartist TEXT,
+  albumartistsort TEXT,
   track INTEGER NOT NULL DEFAULT -1,
   disc INTEGER NOT NULL DEFAULT -1,
   year INTEGER NOT NULL DEFAULT -1,
@@ -759,7 +853,9 @@ CREATE TABLE IF NOT EXISTS qobuz_albums_songs (
   genre TEXT,
   compilation INTEGER NOT NULL DEFAULT 0,
   composer TEXT,
+  composersort TEXT,
   performer TEXT,
+  performersort TEXT,
   grouping TEXT,
   comment TEXT,
   lyrics TEXT,
@@ -823,16 +919,24 @@ CREATE TABLE IF NOT EXISTS qobuz_albums_songs (
   musicbrainz_work_id TEXT,
 
   ebur128_integrated_loudness_lufs REAL,
-  ebur128_loudness_range_lu REAL
+  ebur128_loudness_range_lu REAL,
+
+  bpm REAL,
+  mood TEXT,
+  initial_key TEXT
 
 );
 
 CREATE TABLE IF NOT EXISTS qobuz_songs (
 
   title TEXT,
+  titlesort TEXT,
   album TEXT,
+  albumsort TEXT,
   artist TEXT,
+  artistsort TEXT,
   albumartist TEXT,
+  albumartistsort TEXT,
   track INTEGER NOT NULL DEFAULT -1,
   disc INTEGER NOT NULL DEFAULT -1,
   year INTEGER NOT NULL DEFAULT -1,
@@ -840,7 +944,9 @@ CREATE TABLE IF NOT EXISTS qobuz_songs (
   genre TEXT,
   compilation INTEGER NOT NULL DEFAULT 0,
   composer TEXT,
+  composersort TEXT,
   performer TEXT,
+  performersort TEXT,
   grouping TEXT,
   comment TEXT,
   lyrics TEXT,
@@ -904,7 +1010,11 @@ CREATE TABLE IF NOT EXISTS qobuz_songs (
   musicbrainz_work_id TEXT,
 
   ebur128_integrated_loudness_lufs REAL,
-  ebur128_loudness_range_lu REAL
+  ebur128_loudness_range_lu REAL,
+
+  bpm REAL,
+  mood TEXT,
+  initial_key TEXT
 
 );
 
@@ -931,9 +1041,13 @@ CREATE TABLE IF NOT EXISTS playlist_items (
   playlist_url TEXT,
 
   title TEXT,
+  titlesort TEXT,
   album TEXT,
+  albumsort TEXT,
   artist TEXT,
+  artistsort TEXT,
   albumartist TEXT,
+  albumartistsort TEXT,
   track INTEGER,
   disc INTEGER,
   year INTEGER,
@@ -941,7 +1055,9 @@ CREATE TABLE IF NOT EXISTS playlist_items (
   genre TEXT,
   compilation INTEGER DEFAULT 0,
   composer TEXT,
+  composersort TEXT,
   performer TEXT,
+  performersort TEXT,
   grouping TEXT,
   comment TEXT,
   lyrics TEXT,
@@ -1005,7 +1121,11 @@ CREATE TABLE IF NOT EXISTS playlist_items (
   musicbrainz_work_id TEXT,
 
   ebur128_integrated_loudness_lufs REAL,
-  ebur128_loudness_range_lu REAL
+  ebur128_loudness_range_lu REAL,
+
+  bpm REAL,
+  mood TEXT,
+  initial_key TEXT
 
 );
 
@@ -1032,10 +1152,22 @@ CREATE INDEX IF NOT EXISTS idx_comp_artist ON songs (compilation_effective, arti
 
 CREATE INDEX IF NOT EXISTS idx_albumartist ON songs (albumartist);
 
+CREATE INDEX IF NOT EXISTS idx_albumartistsort ON songs (albumartistsort);
+
 CREATE INDEX IF NOT EXISTS idx_artist ON songs (artist);
+
+CREATE INDEX IF NOT EXISTS idx_artistsort ON songs (artistsort);
 
 CREATE INDEX IF NOT EXISTS idx_album ON songs (album);
 
+CREATE INDEX IF NOT EXISTS idx_albumsort ON songs (album);
+
 CREATE INDEX IF NOT EXISTS idx_title ON songs (title);
+
+CREATE INDEX IF NOT EXISTS idx_titlesort ON songs (title);
+
+CREATE INDEX IF NOT EXISTS idx_composersort ON songs (title);
+
+CREATE INDEX IF NOT EXISTS idx_performersort ON songs (title);
 
 CREATE VIEW IF NOT EXISTS duplicated_songs as select artist dup_artist, album dup_album, title dup_title from songs as inner_songs where artist != '' and album != '' and title != '' and unavailable = 0 group by artist, album , title having count(*) > 1;
