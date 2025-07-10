@@ -12,9 +12,13 @@ CREATE TABLE device_%deviceid_subdirectories (
 CREATE TABLE device_%deviceid_songs (
 
   title TEXT,
+  titlesort TEXT,
   album TEXT,
+  albumsort TEXT,
   artist TEXT,
+  artistsort TEXT,
   albumartist TEXT,
+  albumartistsort TEXT,
   track INTEGER NOT NULL DEFAULT -1,
   disc INTEGER NOT NULL DEFAULT -1,
   year INTEGER NOT NULL DEFAULT -1,
@@ -22,7 +26,9 @@ CREATE TABLE device_%deviceid_songs (
   genre TEXT,
   compilation INTEGER NOT NULL DEFAULT 0,
   composer TEXT,
+  composersort TEXT,
   performer TEXT,
+  performersort TEXT,
   grouping TEXT,
   comment TEXT,
   lyrics TEXT,
@@ -86,7 +92,11 @@ CREATE TABLE device_%deviceid_songs (
   musicbrainz_work_id TEXT,
 
   ebur128_integrated_loudness_lufs REAL,
-  ebur128_loudness_range_lu REAL
+  ebur128_loudness_range_lu REAL,
+
+  bpm REAL,
+  mood TEXT,
+  initial_key TEXT
 
 );
 
@@ -94,4 +104,4 @@ CREATE INDEX idx_device_%deviceid_songs_album ON device_%deviceid_songs (album);
 
 CREATE INDEX idx_device_%deviceid_songs_comp_artist ON device_%deviceid_songs (compilation_effective, artist);
 
-UPDATE devices SET schema_version=5 WHERE ROWID=%deviceid;
+UPDATE devices SET schema_version=6 WHERE ROWID=%deviceid;
