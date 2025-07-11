@@ -1,7 +1,6 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
- * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2024, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,28 +17,23 @@
  *
  */
 
-#ifndef GSTBUFFERCONSUMER_H
-#define GSTBUFFERCONSUMER_H
-
 #include "config.h"
 
-#include <gst/gstbuffer.h>
+#include <QtGlobal>
 
-#include <QString>
+#include "visualizationopenglwidget.h"
+#include "projectmvisualization.h"
 
-class GstEnginePipeline;
+VisualizationOpenGLWidget::VisualizationOpenGLWidget(ProjectMVisualization *projectm_visualization, QWidget *parent, Qt::WindowFlags f)
+  : QOpenGLWidget(parent, f),
+    projectm_visualization_(projectm_visualization) {}
 
-class GstBufferConsumer {
- public:
-  GstBufferConsumer() {}
-  virtual ~GstBufferConsumer() {}
+void VisualizationOpenGLWidget::initializeGL() {
 
-  // This is called in some unspecified GStreamer thread.
-  // Ownership of the buffer is transferred to the BufferConsumer, and it should gst_buffer_unref it.
-  virtual void ConsumeBuffer(GstBuffer *buffer, const int pipeline_id, const QString &format, const int channels) = 0;
+  projectm_visualization_->Init();
 
- private:
-  Q_DISABLE_COPY(GstBufferConsumer)
-};
+  QOpenGLWidget::initializeGL();
 
-#endif  // GSTBUFFERCONSUMER_H
+  glEnable(GL_BLEND);
+
+}
