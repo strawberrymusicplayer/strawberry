@@ -1050,7 +1050,7 @@
     </message>
     <message>
       <source>Perform song EBU R 128 analysis (required for EBU R 128 loudness normalization)</source>
-      <translation type="unfinished">Perform song EBU R 128 analysis (required for EBU R 128 loudness normalization)</translation>
+      <translation>Εκτελέστε ανάλυση EBU R 128 στο τραγούδι (απαιτείται για EBU R 128 ομαλοποίηση έντασης)</translation>
     </message>
     <message>
       <source>Expire unavailable songs after</source>
@@ -1120,11 +1120,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Song playcounts and ratings</source>
-      <translation type="unfinished">Song playcounts and ratings</translation>
+      <translation>Καταμέτρηση και βαθμολογίες τραγουδιού</translation>
     </message>
     <message>
       <source>Save playcounts to song tags when possible</source>
-      <translation type="unfinished">Save playcounts to song tags when possible</translation>
+      <translation>Αποθήκευση πλήθους αναπαραγωγής σε ετικέτες τραγουδιών όταν είναι εφικτό</translation>
     </message>
     <message>
       <source>Save ratings to song tags when possible</source>
@@ -2841,7 +2841,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Bitrate</source>
-      <translation type="unfinished">Bitrate</translation>
+      <translation>Bitrate</translation>
     </message>
     <message>
       <source>Second level</source>
