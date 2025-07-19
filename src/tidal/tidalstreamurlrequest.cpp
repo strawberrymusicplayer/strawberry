@@ -142,6 +142,23 @@ void TidalStreamURLRequest::GetStreamURL() {
 
 }
 
+QList<QUrl> TidalStreamURLRequest::ParseUrls(const QJsonObject &json_object) {
+
+  const QJsonValue json_urls = json_object["urls"_L1];
+  if (!json_urls.isArray()) {
+    return QList<QUrl>();
+  }
+  const QJsonArray json_array_urls = json_urls.toArray();
+  QList<QUrl> urls;
+  urls.reserve(json_array_urls.count());
+  for (const QJsonValue &value : json_array_urls) {
+    urls << QUrl(value.toString());
+  }
+
+  return urls;
+
+}
+
 void TidalStreamURLRequest::StreamURLReceived() {
 
   if (!reply_) return;
@@ -170,7 +187,7 @@ void TidalStreamURLRequest::StreamURLReceived() {
     qLog(Debug) << "Tidal returned track ID" << track_id << "for" << media_url_;
   }
 
-  Song::FileType filetype(Song::FileType::Stream);
+  Song::FileType filetype = Song::FileType::Stream;
 
   if (json_object.contains("codec"_L1) || json_object.contains("codecs"_L1)) {
     QString codec;
@@ -183,11 +200,21 @@ void TidalStreamURLRequest::StreamURLReceived() {
     }
   }
 
+  int samplerate = -1;
+  if (json_object.contains("sampleRate"_L1)) {
+    samplerate = json_object["sampleRate"_L1].toInt();
+  }
+
+  int bit_depth = -1;
+  if (json_object.contains("bitDepth"_L1)) {
+    bit_depth = json_object["bitDepth"_L1].toInt();
+  }
+
   QList<QUrl> urls;
 
   if (json_object.contains("manifest"_L1)) {
 
-    const QString manifest(json_object["manifest"_L1].toString());
+    const QString manifest = json_object["manifest"_L1].toString();
     const QByteArray data_manifest = QByteArray::fromBase64(manifest.toUtf8());
 
     QXmlStreamReader xml_reader(data_manifest);
@@ -207,46 +234,46 @@ void TidalStreamURLRequest::StreamURLReceived() {
       }
       const QJsonObject &object_manifest = json_object_result_manifest.json_object;
 
-      if (object_manifest.contains("encryptionType"_L1) && object_manifest.contains("keyId"_L1)) {
-        QString encryption_type = object_manifest["encryptionType"_L1].toString();
-        QString key_id = object_manifest["keyId"_L1].toString();
-        if (!encryption_type.isEmpty() && !key_id.isEmpty()) {
+      if (object_manifest.contains("encryptionType"_L1)) {
+        const QString encryption_type = object_manifest["encryptionType"_L1].toString();
+        if (!encryption_type.isEmpty() && encryption_type != "NONE"_L1) {
           Q_EMIT StreamURLFailure(id_, media_url_, tr("Received URL with %1 encrypted stream from Tidal. Strawberry does not currently support encrypted streams.").arg(encryption_type));
           return;
         }
       }
 
-      if (!object_manifest.contains("mimeType"_L1)) {
-        Q_EMIT StreamURLFailure(id_, media_url_, u"Invalid Json reply, stream url reply manifest is missing mimeType."_s);
-        return;
+      if (object_manifest.contains("urls"_L1)) {
+        urls << ParseUrls(object_manifest);
       }
 
-      const QString mimetype = object_manifest["mimeType"_L1].toString();
-      QMimeDatabase mimedb;
-      const QStringList suffixes = mimedb.mimeTypeForName(mimetype).suffixes();
-      for (const QString &suffix : suffixes) {
-        filetype = Song::FiletypeByExtension(suffix);
-        if (filetype != Song::FileType::Unknown) break;
+      if (object_manifest.contains("mimeType_"_L1)) {
+        const QString mimetype = object_manifest["mimeType"_L1].toString();
+        QMimeDatabase mimedb;
+        const QStringList suffixes = mimedb.mimeTypeForName(mimetype).suffixes();
+        for (const QString &suffix : suffixes) {
+          filetype = Song::FiletypeByExtension(suffix);
+          if (filetype != Song::FileType::Unknown) break;
+        }
+        if (filetype == Song::FileType::Unknown) {
+          qLog(Debug) << "Tidal: Unknown mimetype" << mimetype;
+          filetype = Song::FileType::Stream;
+        }
       }
-      if (filetype == Song::FileType::Unknown) {
-        qLog(Debug) << "Tidal: Unknown mimetype" << mimetype;
-        filetype = Song::FileType::Stream;
+      else if (object_manifest.contains("codecs"_L1)) {
+        const QString codec = object_manifest["codecs"_L1].toString().toLower();
+        filetype = Song::FiletypeByExtension(codec);
+        if (filetype == Song::FileType::Unknown) {
+          qLog(Debug) << "Tidal: Unknown codec" << codec;
+          filetype = Song::FileType::Stream;
+        }
       }
+
     }
 
   }
 
   if (json_object.contains("urls"_L1)) {
-    const QJsonValue json_urls = json_object["urls"_L1];
-    if (!json_urls.isArray()) {
-      Q_EMIT StreamURLFailure(id_, media_url_, u"Invalid Json reply, urls is not an array."_s);
-      return;
-    }
-    const QJsonArray json_array_urls = json_urls.toArray();
-    urls.reserve(json_array_urls.count());
-    for (const QJsonValue &value : json_array_urls) {
-      urls << QUrl(value.toString());
-    }
+    urls << ParseUrls(json_object);
   }
   else if (json_object.contains("url"_L1)) {
     const QUrl new_url(json_object["url"_L1].toString());
@@ -280,6 +307,6 @@ void TidalStreamURLRequest::StreamURLReceived() {
     return;
   }
 
-  Q_EMIT StreamURLSuccess(id_, media_url_, urls.first(), filetype);
+  Q_EMIT StreamURLSuccess(id_, media_url_, urls.first(), filetype, samplerate, bit_depth);
 
 }
