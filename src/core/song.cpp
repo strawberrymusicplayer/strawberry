@@ -68,9 +68,13 @@
 using namespace Qt::Literals::StringLiterals;
 
 const QStringList Song::kColumns = QStringList() << u"title"_s
+                                                 << u"titlesort"_s
                                                  << u"album"_s
+                                                 << u"albumsort"_s
                                                  << u"artist"_s
+                                                 << u"artistsort"_s
                                                  << u"albumartist"_s
+                                                 << u"albumartistsort"_s
                                                  << u"track"_s
                                                  << u"disc"_s
                                                  << u"year"_s
@@ -78,7 +82,9 @@ const QStringList Song::kColumns = QStringList() << u"title"_s
                                                  << u"genre"_s
                                                  << u"compilation"_s
                                                  << u"composer"_s
+                                                 << u"composersort"_s
                                                  << u"performer"_s
+                                                 << u"performersort"_s
                                                  << u"grouping"_s
                                                  << u"comment"_s
                                                  << u"lyrics"_s
@@ -261,9 +267,13 @@ struct Song::Private : public QSharedData {
   bool valid_;
 
   QString title_;
+  QString titlesort_;
   QString album_;
+  QString albumsort_;
   QString artist_;
+  QString artistsort_;
   QString albumartist_;
+  QString albumartistsort_;
   int track_;
   int disc_;
   int year_;
@@ -271,7 +281,9 @@ struct Song::Private : public QSharedData {
   QString genre_;
   bool compilation_;  // From the file tag
   QString composer_;
+  QString composersort_;
   QString performer_;
+  QString performersort_;
   QString grouping_;
   QString comment_;
   QString lyrics_;
@@ -411,9 +423,13 @@ int Song::id() const { return d->id_; }
 bool Song::is_valid() const { return d->valid_; }
 
 const QString &Song::title() const { return d->title_; }
+const QString &Song::titlesort() const { return d->titlesort_; }
 const QString &Song::album() const { return d->album_; }
+const QString &Song::albumsort() const { return d->albumsort_; }
 const QString &Song::artist() const { return d->artist_; }
+const QString &Song::artistsort() const { return d->artistsort_; }
 const QString &Song::albumartist() const { return d->albumartist_; }
+const QString &Song::albumartistsort() const { return d->albumartistsort_; }
 int Song::track() const { return d->track_; }
 int Song::disc() const { return d->disc_; }
 int Song::year() const { return d->year_; }
@@ -421,7 +437,9 @@ int Song::originalyear() const { return d->originalyear_; }
 const QString &Song::genre() const { return d->genre_; }
 bool Song::compilation() const { return d->compilation_; }
 const QString &Song::composer() const { return d->composer_; }
+const QString &Song::composersort() const { return d->composersort_; }
 const QString &Song::performer() const { return d->performer_; }
+const QString &Song::performersort() const { return d->performersort_; }
 const QString &Song::grouping() const { return d->grouping_; }
 const QString &Song::comment() const { return d->comment_; }
 const QString &Song::lyrics() const { return d->lyrics_; }
@@ -522,9 +540,13 @@ void Song::set_id(const int id) { d->id_ = id; }
 void Song::set_valid(const bool v) { d->valid_ = v; }
 
 void Song::set_title(const QString &v) { d->title_sortable_ = sortable(v); d->title_ = v; }
+void Song::set_titlesort(const QString &v) { d->titlesort_ = v; }
 void Song::set_album(const QString &v) { d->album_sortable_ = sortable(v); d->album_ = v; }
+void Song::set_albumsort(const QString &v) { d->albumsort_ = v; }
 void Song::set_artist(const QString &v) { d->artist_sortable_ = sortable(v); d->artist_ = v; }
+void Song::set_artistsort(const QString &v) { d->artistsort_ = v; }
 void Song::set_albumartist(const QString &v) { d->albumartist_sortable_ = sortable(v); d->albumartist_ = v; }
+void Song::set_albumartistsort(const QString &v) { d->albumartistsort_ = v; }
 void Song::set_track(const int v) { d->track_ = v; }
 void Song::set_disc(const int v) { d->disc_ = v; }
 void Song::set_year(const int v) { d->year_ = v; }
@@ -532,7 +554,9 @@ void Song::set_originalyear(const int v) { d->originalyear_ = v; }
 void Song::set_genre(const QString &v) { d->genre_ = v; }
 void Song::set_compilation(const bool v) { d->compilation_ = v; }
 void Song::set_composer(const QString &v) { d->composer_ = v; }
+void Song::set_composersort(const QString &v) { d->composersort_ = v; }
 void Song::set_performer(const QString &v) { d->performer_ = v; }
+void Song::set_performersort(const QString &v) { d->performersort_ = v; }
 void Song::set_grouping(const QString &v) { d->grouping_ = v; }
 void Song::set_comment(const QString &v) { d->comment_ = v; }
 void Song::set_lyrics(const QString &v) { d->lyrics_ = v; }
@@ -608,6 +632,8 @@ void Song::set_title(const TagLib::String &v) {
 
 }
 
+void Song::set_titlesort(const TagLib::String &v) { d->titlesort_ = TagLibStringToQString(v); }
+
 void Song::set_album(const TagLib::String &v) {
 
   const QString album = TagLibStringToQString(v);
@@ -615,6 +641,9 @@ void Song::set_album(const TagLib::String &v) {
   d->album_ = album;
 
 }
+
+void Song::set_albumsort(const TagLib::String &v) { d->albumsort_ = TagLibStringToQString(v); }
+
 void Song::set_artist(const TagLib::String &v) {
 
   const QString artist = TagLibStringToQString(v);
@@ -622,6 +651,8 @@ void Song::set_artist(const TagLib::String &v) {
   d->artist_ = artist;
 
 }
+
+void Song::set_artistsort(const TagLib::String &v) { d->artistsort_ = TagLibStringToQString(v); }
 
 void Song::set_albumartist(const TagLib::String &v) {
 
@@ -631,9 +662,12 @@ void Song::set_albumartist(const TagLib::String &v) {
 
 }
 
+void Song::set_albumartistsort(const TagLib::String &v) { d->albumartistsort_ = TagLibStringToQString(v); }
 void Song::set_genre(const TagLib::String &v) { d->genre_ = TagLibStringToQString(v); }
 void Song::set_composer(const TagLib::String &v) { d->composer_ = TagLibStringToQString(v); }
+void Song::set_composersort(const TagLib::String &v) { d->composersort_ = TagLibStringToQString(v); }
 void Song::set_performer(const TagLib::String &v) { d->performer_ = TagLibStringToQString(v); }
+void Song::set_performersort(const TagLib::String &v) { d->performersort_ = TagLibStringToQString(v); }
 void Song::set_grouping(const TagLib::String &v) { d->grouping_ = TagLibStringToQString(v); }
 void Song::set_comment(const TagLib::String &v) { d->comment_ = TagLibStringToQString(v); }
 void Song::set_lyrics(const TagLib::String &v) { d->lyrics_ = TagLibStringToQString(v); }
@@ -1498,9 +1532,13 @@ void Song::InitFromQuery(const QSqlRecord &r, const bool reliable_metadata, cons
   d->id_ = SqlHelper::ValueToInt(r, ColumnIndex(u"ROWID"_s) + col);
 
   set_title(SqlHelper::ValueToString(r, ColumnIndex(u"title"_s) + col));
+  set_titlesort(SqlHelper::ValueToString(r, ColumnIndex(u"titlesort"_s) + col));
   set_album(SqlHelper::ValueToString(r, ColumnIndex(u"album"_s) + col));
+  set_albumsort(SqlHelper::ValueToString(r, ColumnIndex(u"albumsort"_s) + col));
   set_artist(SqlHelper::ValueToString(r, ColumnIndex(u"artist"_s) + col));
+  set_artistsort(SqlHelper::ValueToString(r, ColumnIndex(u"artistsort"_s) + col));
   set_albumartist(SqlHelper::ValueToString(r, ColumnIndex(u"albumartist"_s) + col));
+  set_albumartistsort(SqlHelper::ValueToString(r, ColumnIndex(u"albumartistsort"_s) + col));
   d->track_ = SqlHelper::ValueToInt(r, ColumnIndex(u"track"_s) + col);
   d->disc_ = SqlHelper::ValueToInt(r, ColumnIndex(u"disc"_s) + col);
   d->year_ = SqlHelper::ValueToInt(r, ColumnIndex(u"year"_s) + col);
@@ -1508,7 +1546,9 @@ void Song::InitFromQuery(const QSqlRecord &r, const bool reliable_metadata, cons
   d->genre_ = SqlHelper::ValueToString(r, ColumnIndex(u"genre"_s) + col);
   d->compilation_ = r.value(ColumnIndex(u"compilation"_s) + col).toBool();
   d->composer_ = SqlHelper::ValueToString(r, ColumnIndex(u"composer"_s) + col);
+  d->composersort_ = SqlHelper::ValueToString(r, ColumnIndex(u"composersort"_s) + col);
   d->performer_ = SqlHelper::ValueToString(r, ColumnIndex(u"performer"_s) + col);
+  d->performersort_ = SqlHelper::ValueToString(r, ColumnIndex(u"performersort"_s) + col);
   d->grouping_ = SqlHelper::ValueToString(r, ColumnIndex(u"grouping"_s) + col);
   d->comment_ = SqlHelper::ValueToString(r, ColumnIndex(u"comment"_s) + col);
   d->lyrics_ = SqlHelper::ValueToString(r, ColumnIndex(u"lyrics"_s) + col);
@@ -1816,9 +1856,13 @@ void Song::BindToQuery(SqlQuery *query) const {
   // Remember to bind these in the same order as kBindSpec
 
   query->BindStringValue(u":title"_s, d->title_);
+  query->BindStringValue(u":titlesort"_s, d->titlesort_);
   query->BindStringValue(u":album"_s, d->album_);
+  query->BindStringValue(u":albumsort"_s, d->albumsort_);
   query->BindStringValue(u":artist"_s, d->artist_);
+  query->BindStringValue(u":artistsort"_s, d->artistsort_);
   query->BindStringValue(u":albumartist"_s, d->albumartist_);
+  query->BindStringValue(u":albumartistsort"_s, d->albumartistsort_);
   query->BindIntValue(u":track"_s, d->track_);
   query->BindIntValue(u":disc"_s, d->disc_);
   query->BindIntValue(u":year"_s, d->year_);
@@ -1826,7 +1870,9 @@ void Song::BindToQuery(SqlQuery *query) const {
   query->BindStringValue(u":genre"_s, d->genre_);
   query->BindBoolValue(u":compilation"_s, d->compilation_);
   query->BindStringValue(u":composer"_s, d->composer_);
+  query->BindStringValue(u":composersort"_s, d->composersort_);
   query->BindStringValue(u":performer"_s, d->performer_);
+  query->BindStringValue(u":performersort"_s, d->performersort_);
   query->BindStringValue(u":grouping"_s, d->grouping_);
   query->BindStringValue(u":comment"_s, d->comment_);
   query->BindStringValue(u":lyrics"_s, d->lyrics_);
