@@ -97,7 +97,7 @@ QStandardItem *StreamingSearchModel::BuildContainers(const Song &s, QStandardIte
       }
       else {
         display_text = CollectionModel::TextOrUnknown(s.effective_albumartist());
-        sort_text = CollectionModel::SortTextForArtist(s.effective_albumartist(), true);
+        sort_text = CollectionModel::SortTextSkipArticles(s.effective_albumartist());
       }
       has_artist_icon = true;
       break;
@@ -109,14 +109,14 @@ QStandardItem *StreamingSearchModel::BuildContainers(const Song &s, QStandardIte
       }
       else {
         display_text = CollectionModel::TextOrUnknown(s.artist());
-        sort_text = CollectionModel::SortTextForArtist(s.artist(), true);
+        sort_text = CollectionModel::SortTextSkipArticles(s.artist());
       }
       has_artist_icon = true;
       break;
 
     case CollectionModel::GroupBy::Album:
       display_text = CollectionModel::TextOrUnknown(s.album());
-      sort_text = CollectionModel::SortTextForArtist(s.album(), true);
+      sort_text = CollectionModel::SortTextSkipArticles(s.album());
       unique_tag = s.album_id();
       has_album_icon = true;
       break;
@@ -170,7 +170,7 @@ QStandardItem *StreamingSearchModel::BuildContainers(const Song &s, QStandardIte
 
     case CollectionModel::GroupBy::Disc:
       display_text = CollectionModel::PrettyDisc(s.disc());
-      sort_text = CollectionModel::SortTextForArtist(display_text, true);
+      sort_text = CollectionModel::SortTextSkipArticles(display_text);
       has_album_icon = true;
       break;
 
@@ -190,25 +190,25 @@ QStandardItem *StreamingSearchModel::BuildContainers(const Song &s, QStandardIte
 
     case CollectionModel::GroupBy::Genre:
       display_text = CollectionModel::TextOrUnknown(s.genre());
-      sort_text = CollectionModel::SortTextForArtist(s.genre(), true);
+      sort_text = CollectionModel::SortTextSkipArticles(s.genre());
       has_album_icon = true;
       break;
 
     case CollectionModel::GroupBy::Composer:
       display_text = CollectionModel::TextOrUnknown(s.composer());
-      sort_text = CollectionModel::SortTextForArtist(s.composer(), true);
+      sort_text = CollectionModel::SortTextSkipArticles(s.composer());
       has_album_icon = true;
       break;
 
     case CollectionModel::GroupBy::Performer:
       display_text = CollectionModel::TextOrUnknown(s.performer());
-      sort_text = CollectionModel::SortTextForArtist(s.performer(), true);
+      sort_text = CollectionModel::SortTextSkipArticles(s.performer());
       has_album_icon = true;
       break;
 
     case CollectionModel::GroupBy::Grouping:
       display_text = CollectionModel::TextOrUnknown(s.grouping());
-      sort_text = CollectionModel::SortTextForArtist(s.grouping(), true);
+      sort_text = CollectionModel::SortTextSkipArticles(s.grouping());
       has_album_icon = true;
       break;
 
