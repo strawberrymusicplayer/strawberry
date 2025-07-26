@@ -87,6 +87,7 @@ constexpr int kGlowIntensitySteps = 24;
 constexpr int kAutoscrollGraceTimeout = 30;  // seconds
 constexpr int kDropIndicatorWidth = 2;
 constexpr int kDropIndicatorGradientWidth = 5;
+constexpr int kHeaderStateVersion = 2;
 }  // namespace
 
 PlaylistView::PlaylistView(QWidget *parent)
@@ -131,7 +132,6 @@ PlaylistView::PlaylistView(QWidget *parent)
       cached_current_row_row_(-1),
       drop_indicator_row_(-1),
       drag_over_(false),
-      header_state_version_(1),
       column_alignment_(DefaultColumnAlignment()),
       rating_locked_(false),
       dynamic_controls_(new DynamicPlaylistControls(this)),
@@ -217,12 +217,18 @@ void PlaylistView::SetItemDelegates() {
   setItemDelegate(new PlaylistDelegateBase(this));
 
   setItemDelegateForColumn(static_cast<int>(Playlist::Column::Title), new TextItemDelegate(this));
+  setItemDelegateForColumn(static_cast<int>(Playlist::Column::TitleSort), new TagCompletionItemDelegate(this, collection_backend_, Playlist::Column::TitleSort));
   setItemDelegateForColumn(static_cast<int>(Playlist::Column::Album), new TagCompletionItemDelegate(this, collection_backend_, Playlist::Column::Album));
+  setItemDelegateForColumn(static_cast<int>(Playlist::Column::AlbumSort), new TagCompletionItemDelegate(this, collection_backend_, Playlist::Column::AlbumSort));
   setItemDelegateForColumn(static_cast<int>(Playlist::Column::Artist), new TagCompletionItemDelegate(this, collection_backend_, Playlist::Column::Artist));
+  setItemDelegateForColumn(static_cast<int>(Playlist::Column::ArtistSort), new TagCompletionItemDelegate(this, collection_backend_, Playlist::Column::ArtistSort));
   setItemDelegateForColumn(static_cast<int>(Playlist::Column::AlbumArtist), new TagCompletionItemDelegate(this, collection_backend_, Playlist::Column::AlbumArtist));
+  setItemDelegateForColumn(static_cast<int>(Playlist::Column::AlbumArtistSort), new TagCompletionItemDelegate(this, collection_backend_, Playlist::Column::AlbumArtistSort));
   setItemDelegateForColumn(static_cast<int>(Playlist::Column::Genre), new TagCompletionItemDelegate(this, collection_backend_, Playlist::Column::Genre));
   setItemDelegateForColumn(static_cast<int>(Playlist::Column::Composer), new TagCompletionItemDelegate(this, collection_backend_, Playlist::Column::Composer));
+  setItemDelegateForColumn(static_cast<int>(Playlist::Column::ComposerSort), new TagCompletionItemDelegate(this, collection_backend_, Playlist::Column::ComposerSort));
   setItemDelegateForColumn(static_cast<int>(Playlist::Column::Performer), new TagCompletionItemDelegate(this, collection_backend_, Playlist::Column::Performer));
+  setItemDelegateForColumn(static_cast<int>(Playlist::Column::PerformerSort), new TagCompletionItemDelegate(this, collection_backend_, Playlist::Column::PerformerSort));
   setItemDelegateForColumn(static_cast<int>(Playlist::Column::Grouping), new TagCompletionItemDelegate(this, collection_backend_, Playlist::Column::Grouping));
   setItemDelegateForColumn(static_cast<int>(Playlist::Column::Length), new LengthItemDelegate(this));
   setItemDelegateForColumn(static_cast<int>(Playlist::Column::Filesize), new SizeItemDelegate(this));
@@ -304,11 +310,26 @@ void PlaylistView::LoadHeaderState() {
 
   Settings s;
   s.beginGroup(PlaylistSettings::kSettingsGroup);
+  // Since we use serialized internal data structures, we cannot read anything but the current version
+  const int header_state_version = s.value(PlaylistSettings::kStateVersion, 0).toInt();
   if (s.contains(PlaylistSettings::kState)) {
-    header_state_version_ = s.value(PlaylistSettings::kStateVersion, 0).toInt();
-    header_state_ = s.value(PlaylistSettings::kState).toByteArray();
+    if (header_state_version == kHeaderStateVersion) {
+      header_state_ = s.value(PlaylistSettings::kState).toByteArray();
+    }
+    else {
+      // Force header state reset since column indices may have changed between versions
+      header_state_.clear();
+    }
   }
-  if (s.contains(PlaylistSettings::kColumnAlignments)) column_alignment_ = s.value(PlaylistSettings::kColumnAlignments).value<ColumnAlignmentMap>();
+  if (s.contains(PlaylistSettings::kColumnAlignments)) {
+    if (header_state_version == kHeaderStateVersion) {
+      column_alignment_ = s.value(PlaylistSettings::kColumnAlignments).value<ColumnAlignmentMap>();
+    }
+    else {
+      // Force column alignment reset since column indices may have changed between versions
+      column_alignment_.clear();
+    }
+  }
   s.endGroup();
 
   if (column_alignment_.isEmpty()) {
@@ -329,7 +350,6 @@ void PlaylistView::SetHeaderState() {
 void PlaylistView::ResetHeaderState() {
 
   set_initial_header_layout_ = true;
-  header_state_version_ = 1;
   header_state_ = header_->ResetState();
   RestoreHeaderState();
 
@@ -347,9 +367,15 @@ void PlaylistView::RestoreHeaderState() {
 
     header_->SetStretchEnabled(true);
 
+    header_->HideSection(static_cast<int>(Playlist::Column::TitleSort));
+    header_->HideSection(static_cast<int>(Playlist::Column::ArtistSort));
+    header_->HideSection(static_cast<int>(Playlist::Column::AlbumSort));
     header_->HideSection(static_cast<int>(Playlist::Column::AlbumArtist));
+    header_->HideSection(static_cast<int>(Playlist::Column::AlbumArtistSort));
     header_->HideSection(static_cast<int>(Playlist::Column::Performer));
+    header_->HideSection(static_cast<int>(Playlist::Column::PerformerSort));
     header_->HideSection(static_cast<int>(Playlist::Column::Composer));
+    header_->HideSection(static_cast<int>(Playlist::Column::ComposerSort));
     header_->HideSection(static_cast<int>(Playlist::Column::Year));
     header_->HideSection(static_cast<int>(Playlist::Column::OriginalYear));
     header_->HideSection(static_cast<int>(Playlist::Column::Disc));
@@ -398,11 +424,6 @@ void PlaylistView::RestoreHeaderState() {
 
     set_initial_header_layout_ = false;
 
-  }
-
-  if (header_state_version_ < 1) {
-    header_->HideSection(static_cast<int>(Playlist::Column::Rating));
-    header_state_version_ = 1;
   }
 
   // Make sure at least one column is visible
@@ -1305,7 +1326,7 @@ void PlaylistView::SaveSettings() {
 
   Settings s;
   s.beginGroup(PlaylistSettings::kSettingsGroup);
-  s.setValue(PlaylistSettings::kStateVersion, header_state_version_);
+  s.setValue(PlaylistSettings::kStateVersion, kHeaderStateVersion);
   s.setValue(PlaylistSettings::kState, header_->SaveState());
   s.setValue(PlaylistSettings::kColumnAlignments, QVariant::fromValue<ColumnAlignmentMap>(column_alignment_));
   s.setValue(PlaylistSettings::kRatingLocked, rating_locked_);
