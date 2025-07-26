@@ -219,11 +219,17 @@ bool Playlist::column_is_editable(const Playlist::Column column) {
 
   switch (column) {
     case Column::Title:
+    case Column::TitleSort:
     case Column::Artist:
+    case Column::ArtistSort:
     case Column::Album:
+    case Column::AlbumSort:
     case Column::AlbumArtist:
+    case Column::AlbumArtistSort:
     case Column::Composer:
+    case Column::ComposerSort:
     case Column::Performer:
+    case Column::PerformerSort:
     case Column::Grouping:
     case Column::Track:
     case Column::Disc:
@@ -247,20 +253,38 @@ bool Playlist::set_column_value(Song &song, const Playlist::Column column, const
     case Column::Title:
       song.set_title(value.toString());
       break;
+    case Column::TitleSort:
+      song.set_titlesort(value.toString());
+      break;
     case Column::Artist:
       song.set_artist(value.toString());
+      break;
+    case Column::ArtistSort:
+      song.set_artistsort(value.toString());
       break;
     case Column::Album:
       song.set_album(value.toString());
       break;
+    case Column::AlbumSort:
+      song.set_albumsort(value.toString());
+      break;
     case Column::AlbumArtist:
       song.set_albumartist(value.toString());
+      break;
+    case Column::AlbumArtistSort:
+      song.set_albumartistsort(value.toString());
       break;
     case Column::Composer:
       song.set_composer(value.toString());
       break;
+    case Column::ComposerSort:
+      song.set_composersort(value.toString());
+      break;
     case Column::Performer:
       song.set_performer(value.toString());
+      break;
+    case Column::PerformerSort:
+      song.set_performersort(value.toString());
       break;
     case Column::Grouping:
       song.set_grouping(value.toString());
@@ -319,8 +343,11 @@ QVariant Playlist::data(const QModelIndex &idx, const int role) const {
       // Don't forget to change Playlist::CompareItems when adding new columns
       switch (static_cast<Column>(idx.column())) {
         case Column::Title:              return song.PrettyTitle();
+        case Column::TitleSort:          return song.titlesort();
         case Column::Artist:             return song.artist();
+        case Column::ArtistSort:         return song.artistsort();
         case Column::Album:              return song.album();
+        case Column::AlbumSort:          return song.albumsort();
         case Column::Length:             return song.length_nanosec();
         case Column::Track:              return song.track();
         case Column::Disc:               return song.disc();
@@ -328,8 +355,11 @@ QVariant Playlist::data(const QModelIndex &idx, const int role) const {
         case Column::OriginalYear:       return song.effective_originalyear();
         case Column::Genre:              return song.genre();
         case Column::AlbumArtist:        return song.playlist_albumartist();
+        case Column::AlbumArtistSort:    return song.albumartistsort();
         case Column::Composer:           return song.composer();
+        case Column::ComposerSort:       return song.composersort();
         case Column::Performer:          return song.performer();
+        case Column::PerformerSort:      return song.performersort();
         case Column::Grouping:           return song.grouping();
 
         case Column::PlayCount:          return song.playcount();
@@ -1326,8 +1356,11 @@ bool Playlist::CompareItems(const Column column, const Qt::SortOrder order, Play
 
   switch (column) {
     case Column::Title:        strcmp(title_sortable);
+    case Column::TitleSort:    strcmp(titlesort);
     case Column::Artist:       strcmp(artist_sortable);
+    case Column::ArtistSort:   strcmp(artistsort);
     case Column::Album:        strcmp(album_sortable);
+    case Column::AlbumSort:    strcmp(albumsort);
     case Column::Length:       cmp(length_nanosec);
     case Column::Track:        cmp(track);
     case Column::Disc:         cmp(disc);
@@ -1335,8 +1368,11 @@ bool Playlist::CompareItems(const Column column, const Qt::SortOrder order, Play
     case Column::OriginalYear: cmp(effective_originalyear);
     case Column::Genre:        strcmp(genre);
     case Column::AlbumArtist:  strcmp(playlist_albumartist_sortable);
+    case Column::AlbumArtistSort:  strcmp(albumartistsort);
     case Column::Composer:     strcmp(composer);
+    case Column::ComposerSort: strcmp(composersort);
     case Column::Performer:    strcmp(performer);
+    case Column::PerformerSort: strcmp(performersort);
     case Column::Grouping:     strcmp(grouping);
 
     case Column::PlayCount:    cmp(playcount);
@@ -1380,8 +1416,11 @@ QString Playlist::column_name(const Column column) {
 
   switch (column) {
     case Column::Title:        return tr("Title");
+    case Column::TitleSort:    return tr("Title Sort");
     case Column::Artist:       return tr("Artist");
+    case Column::ArtistSort:   return tr("Artist Sort");
     case Column::Album:        return tr("Album");
+    case Column::AlbumSort:    return tr("Album Sort");
     case Column::Track:        return tr("Track");
     case Column::Disc:         return tr("Disc");
     case Column::Length:       return tr("Length");
@@ -1389,8 +1428,11 @@ QString Playlist::column_name(const Column column) {
     case Column::OriginalYear: return tr("Original Year");
     case Column::Genre:        return tr("Genre");
     case Column::AlbumArtist:  return tr("Album Artist");
+    case Column::AlbumArtistSort: return tr("Album Artist Sort");
     case Column::Composer:     return tr("Composer");
+    case Column::ComposerSort: return tr("Composer Sort");
     case Column::Performer:    return tr("Performer");
+    case Column::PerformerSort: return tr("Performer Sort");
     case Column::Grouping:     return tr("Grouping");
 
     case Column::PlayCount:    return tr("Play Count");
@@ -2109,20 +2151,38 @@ Playlist::Columns Playlist::ChangedColumns(const Song &metadata1, const Song &me
   if (metadata1.title() != metadata2.title()) {
     columns << Column::Title;
   }
+  if (metadata1.titlesort() != metadata2.titlesort()) {
+    columns << Column::TitleSort;
+  }
   if (metadata1.artist() != metadata2.artist()) {
     columns << Column::Artist;
+  }
+  if (metadata1.artistsort() != metadata2.artistsort()) {
+    columns << Column::ArtistSort;
   }
   if (metadata1.album() != metadata2.album()) {
     columns << Column::Album;
   }
+  if (metadata1.albumsort() != metadata2.albumsort()) {
+    columns << Column::AlbumSort;
+  }
   if (metadata1.effective_albumartist() != metadata2.effective_albumartist()) {
     columns << Column::AlbumArtist;
+  }
+  if (metadata1.albumartistsort() != metadata2.albumartistsort()) {
+    columns << Column::AlbumArtistSort;
   }
   if (metadata1.performer() != metadata2.performer()) {
     columns << Column::Performer;
   }
+  if (metadata1.performersort() != metadata2.performersort()) {
+    columns << Column::PerformerSort;
+  }
   if (metadata1.composer() != metadata2.composer()) {
     columns << Column::Composer;
+  }
+  if (metadata1.composersort() != metadata2.composersort()) {
+    columns << Column::ComposerSort;
   }
   if (metadata1.year() != metadata2.year()) {
     columns << Column::Year;

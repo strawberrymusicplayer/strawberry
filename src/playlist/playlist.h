@@ -101,11 +101,17 @@ class Playlist : public QAbstractListModel {
   // Always add new columns to the end of this enum - the values are persisted
   enum class Column {
     Title = 0,
+    TitleSort,
     Artist,
+    ArtistSort,
     Album,
+    AlbumSort,
     AlbumArtist,
+    AlbumArtistSort,
     Performer,
+    PerformerSort,
     Composer,
+    ComposerSort,
     Year,
     OriginalYear,
     Track,
