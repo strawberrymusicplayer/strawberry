@@ -403,7 +403,9 @@ MainWindow::MainWindow(Application *app,
   // Initialize the UI
   ui_->setupUi(this);
 
-  setWindowIcon(IconLoader::Load(u"strawberry"_s));
+  if (QGuiApplication::platformName() != "wayland"_L1) {
+    setWindowIcon(IconLoader::Load(u"strawberry"_s));
+  }
 
   QObject::connect(&*app->database(), &Database::Error, this, &MainWindow::ShowErrorDialog);
 
