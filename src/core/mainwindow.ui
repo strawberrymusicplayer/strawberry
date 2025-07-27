@@ -13,10 +13,6 @@
   <property name="windowTitle">
    <string>Strawberry Music Player</string>
   </property>
-  <property name="windowIcon">
-   <iconset resource="../../data/icons.qrc">
-    <normaloff>:/icons/128x128/strawberry.png</normaloff>:/icons/128x128/strawberry.png</iconset>
-  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="layout_centralWidget">
     <property name="spacing">
