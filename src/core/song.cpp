@@ -1000,9 +1000,13 @@ bool Song::IsFileInfoEqual(const Song &other) const {
 bool Song::IsMetadataEqual(const Song &other) const {
 
   return d->title_ == other.d->title_ &&
+         d->titlesort_ == other.d->titlesort_ &&
          d->album_ == other.d->album_ &&
+         d->albumsort_ == other.d->albumsort_ &&
          d->artist_ == other.d->artist_ &&
+         d->artistsort_ == other.d->artistsort_ &&
          d->albumartist_ == other.d->albumartist_ &&
+         d->albumartistsort_ == other.d->albumartistsort_ &&
          d->track_ == other.d->track_ &&
          d->disc_ == other.d->disc_ &&
          d->year_ == other.d->year_ &&
@@ -1010,7 +1014,9 @@ bool Song::IsMetadataEqual(const Song &other) const {
          d->genre_ == other.d->genre_ &&
          d->compilation_ == other.d->compilation_ &&
          d->composer_ == other.d->composer_ &&
+         d->composersort_ == other.d->composersort_ &&
          d->performer_ == other.d->performer_ &&
+         d->performersort_ == other.d->performersort_ &&
          d->grouping_ == other.d->grouping_ &&
          d->comment_ == other.d->comment_ &&
          d->lyrics_ == other.d->lyrics_ &&
