@@ -62,7 +62,7 @@ QNetworkReply *NetworkAccessManager::createRequest(Operation op, const QNetworkR
   }
 
   // Prefer the cache unless the caller has changed the setting already
-  if (network_request.attribute(QNetworkRequest::CacheLoadControlAttribute).toInt() == QNetworkRequest::PreferNetwork) {
+  if (!network_request.attribute(QNetworkRequest::CacheLoadControlAttribute).isValid()) {
     new_network_request.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::PreferCache);
   }
 
