@@ -421,6 +421,13 @@ class Song {
   bool comment_supported() const;
   bool lyrics_supported() const;
 
+  bool albumartistsort_supported() const;
+  bool albumsort_supported() const;
+  bool artistsort_supported() const;
+  bool composersort_supported() const;
+  bool performersort_supported() const;
+  bool titlesort_supported() const;
+
   static bool save_embedded_cover_supported(const FileType filetype);
   bool save_embedded_cover_supported() const { return url().isLocalFile() && save_embedded_cover_supported(filetype()) && !has_cue(); };
 

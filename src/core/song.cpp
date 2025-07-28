@@ -816,6 +816,31 @@ bool Song::lyrics_supported() const {
   return additional_tags_supported() || d->filetype_ == FileType::ASF;
 }
 
+bool Song::albumartistsort_supported() const {
+  return d->filetype_ == FileType::FLAC || d->filetype_ == FileType::OggFlac || d->filetype_ == FileType::OggVorbis || d->filetype_ == FileType::MPEG;
+}
+
+bool Song::albumsort_supported() const {
+  return d->filetype_ == FileType::FLAC || d->filetype_ == FileType::OggFlac || d->filetype_ == FileType::OggVorbis || d->filetype_ == FileType::MPEG;
+}
+
+bool Song::artistsort_supported() const {
+  return d->filetype_ == FileType::FLAC || d->filetype_ == FileType::OggFlac || d->filetype_ == FileType::OggVorbis || d->filetype_ == FileType::MPEG;
+}
+
+bool Song::composersort_supported() const {
+  return d->filetype_ == FileType::FLAC || d->filetype_ == FileType::OggFlac || d->filetype_ == FileType::OggVorbis || d->filetype_ == FileType::MPEG;
+}
+
+bool Song::performersort_supported() const {
+  // Performer sort is a rare custom field even in vorbis comments, no write support in MPEG formats
+  return d->filetype_ == FileType::FLAC || d->filetype_ == FileType::OggFlac || d->filetype_ == FileType::OggVorbis;
+}
+
+bool Song::titlesort_supported() const {
+  return d->filetype_ == FileType::FLAC || d->filetype_ == FileType::OggFlac || d->filetype_ == FileType::OggVorbis || d->filetype_ == FileType::MPEG;
+}
+
 bool Song::save_embedded_cover_supported(const FileType filetype) {
 
   return filetype == FileType::FLAC ||
