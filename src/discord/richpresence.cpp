@@ -72,7 +72,7 @@ void RichPresence::ReloadSettings() {
   s.endGroup();
 
   if (enabled && !initialized_) {
-    Discord_Initialize(kDiscordApplicationId, nullptr, 1);
+    Discord_Initialize(kDiscordApplicationId, nullptr, 0);
     initialized_ = true;
   }
   else if (!enabled && initialized_) {
