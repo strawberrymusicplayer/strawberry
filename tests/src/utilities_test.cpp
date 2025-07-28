@@ -186,16 +186,22 @@ TEST(UtilitiesTest, ReplaceVariable) {
 
   Song song;
   song.set_title(Utilities::GetRandomStringWithChars(8));
+  song.set_titlesort(Utilities::GetRandomStringWithChars(8));
   song.set_album(Utilities::GetRandomStringWithChars(8));
+  song.set_albumsort(Utilities::GetRandomStringWithChars(8));
   song.set_artist(Utilities::GetRandomStringWithChars(8));
+  song.set_artistsort(Utilities::GetRandomStringWithChars(8));
   song.set_albumartist(Utilities::GetRandomStringWithChars(8));
+  song.set_albumartistsort(Utilities::GetRandomStringWithChars(8));
   song.set_track(5);
   song.set_disc(2);
   song.set_year(1999);
   song.set_originalyear(2000);
   song.set_genre(Utilities::GetRandomStringWithChars(8));
   song.set_composer(Utilities::GetRandomStringWithChars(8));
+  song.set_composersort(Utilities::GetRandomStringWithChars(8));
   song.set_performer(Utilities::GetRandomStringWithChars(8));
+  song.set_performersort(Utilities::GetRandomStringWithChars(8));
   song.set_grouping(Utilities::GetRandomStringWithChars(8));
   song.set_length_nanosec(900000000000);
   song.set_url(QUrl(u"file:///home/jonas/Music/test_song.flac"_s));
@@ -204,16 +210,22 @@ TEST(UtilitiesTest, ReplaceVariable) {
   song.set_rating(1.0);
 
   ASSERT_EQ(Utilities::ReplaceVariable(u"%title%"_s, song, ""_L1), song.title());
+  ASSERT_EQ(Utilities::ReplaceVariable(u"%titlesort%"_s, song, ""_L1), song.titlesort());
   ASSERT_EQ(Utilities::ReplaceVariable(u"%album%"_s, song, ""_L1), song.album());
+  ASSERT_EQ(Utilities::ReplaceVariable(u"%albumsort%"_s, song, ""_L1), song.albumsort());
   ASSERT_EQ(Utilities::ReplaceVariable(u"%artist%"_s, song, ""_L1), song.artist());
+  ASSERT_EQ(Utilities::ReplaceVariable(u"%artistsort%"_s, song, ""_L1), song.artistsort());
   ASSERT_EQ(Utilities::ReplaceVariable(u"%albumartist%"_s, song, ""_L1), song.effective_albumartist());
+  ASSERT_EQ(Utilities::ReplaceVariable(u"%albumartistsort%"_s, song, ""_L1), song.albumartistsort());
   ASSERT_EQ(Utilities::ReplaceVariable(u"%track%"_s, song, ""_L1), QString::number(song.track()));
   ASSERT_EQ(Utilities::ReplaceVariable(u"%disc%"_s, song, ""_L1), QString::number(song.disc()));
   ASSERT_EQ(Utilities::ReplaceVariable(u"%year%"_s, song, ""_L1), QString::number(song.year()));
   ASSERT_EQ(Utilities::ReplaceVariable(u"%originalyear%"_s, song, ""_L1), QString::number(song.originalyear()));
   ASSERT_EQ(Utilities::ReplaceVariable(u"%genre%"_s, song, ""_L1), song.genre());
   ASSERT_EQ(Utilities::ReplaceVariable(u"%composer%"_s, song, ""_L1), song.composer());
+  ASSERT_EQ(Utilities::ReplaceVariable(u"%composersort%"_s, song, ""_L1), song.composersort());
   ASSERT_EQ(Utilities::ReplaceVariable(u"%performer%"_s, song, ""_L1), song.performer());
+  ASSERT_EQ(Utilities::ReplaceVariable(u"%performersort%"_s, song, ""_L1), song.performersort());
   ASSERT_EQ(Utilities::ReplaceVariable(u"%grouping%"_s, song, ""_L1), song.grouping());
   ASSERT_EQ(Utilities::ReplaceVariable(u"%length%"_s, song, ""_L1), song.PrettyLength());
   ASSERT_EQ(Utilities::ReplaceVariable(u"%filename%"_s, song, ""_L1), song.basefilename());
@@ -230,7 +242,9 @@ TEST(UtilitiesTest, ReplaceMessage) {
   song.set_title(Utilities::GetRandomStringWithChars(8));
   song.set_album(Utilities::GetRandomStringWithChars(8));
   song.set_artist(Utilities::GetRandomStringWithChars(8));
+  song.set_artistsort(Utilities::GetRandomStringWithChars(8));
   song.set_albumartist(Utilities::GetRandomStringWithChars(8));
+  song.set_albumartistsort(Utilities::GetRandomStringWithChars(8));
   song.set_track(5);
   song.set_disc(2);
   song.set_year(1999);
@@ -246,6 +260,7 @@ TEST(UtilitiesTest, ReplaceMessage) {
   song.set_rating(1.0);
 
   ASSERT_EQ(Utilities::ReplaceMessage(u"%title% - %artist%"_s, song, ""_L1), song.title() + u" - "_s + song.artist());
+  ASSERT_EQ(Utilities::ReplaceMessage(u"%artistsort% - %albumartistsort%"_s, song, ""_L1), song.artistsort() + u" - "_s + song.albumartistsort());
 
 }
 

@@ -142,14 +142,26 @@ QString ReplaceVariable(const QString &variable, const Song &song, const QString
   if (variable == "%title%"_L1) {
     value = song.PrettyTitle();
   }
+  else if (variable == "%titlesort%"_L1) {
+    value = song.titlesort();
+  }
   else if (variable == "%album%"_L1) {
     value = song.album();
+  }
+  else if (variable == "%albumsort%"_L1) {
+    value = song.albumsort();
   }
   else if (variable == "%artist%"_L1) {
     value = song.artist();
   }
+  else if (variable == "%artistsort%"_L1) {
+    value = song.artistsort();
+  }
   else if (variable == "%albumartist%"_L1) {
     value = song.effective_albumartist();
+  }
+  else if (variable == "%albumartistsort%"_L1) {
+    value = song.albumartistsort();
   }
   else if (variable == "%track%"_L1) {
     value.setNum(song.track());
@@ -169,8 +181,14 @@ QString ReplaceVariable(const QString &variable, const Song &song, const QString
   else if (variable == "%composer%"_L1) {
     value = song.composer();
   }
+  else if (variable == "%composersort%"_L1) {
+    value = song.composersort();
+  }
   else if (variable == "%performer%"_L1) {
     value = song.performer();
+  }
+  else if (variable == "%performersort%"_L1) {
+    value = song.performersort();
   }
   else if (variable == "%grouping%"_L1) {
     value = song.grouping();
