@@ -30,6 +30,7 @@
 #include <QByteArray>
 #include <QString>
 #include <QStringList>
+#include <QUrl>
 #include <QIODevice>
 #include <QDataStream>
 #include <QKeySequence>
@@ -167,14 +168,15 @@ void SavedGroupingManager::UpdateModel() {
   if (version == 1) {
     QStringList saved = s.childKeys();
     for (int i = 0; i < saved.size(); ++i) {
-      if (saved.at(i) == "version"_L1) continue;
-      QByteArray bytes = s.value(saved.at(i)).toByteArray();
+      const QString &name = saved.at(i);
+      if (name == "version"_L1) continue;
+      QByteArray bytes = s.value(name).toByteArray();
       QDataStream ds(&bytes, QIODevice::ReadOnly);
       CollectionModel::Grouping g;
       ds >> g;
 
       QList<QStandardItem*> list;
-      list << new QStandardItem(saved.at(i))
+      list << new QStandardItem(QUrl::fromPercentEncoding(name.toUtf8()))
            << new QStandardItem(GroupByToString(g.first))
            << new QStandardItem(GroupByToString(g.second))
            << new QStandardItem(GroupByToString(g.third));
@@ -185,8 +187,9 @@ void SavedGroupingManager::UpdateModel() {
   else {
     QStringList saved = s.childKeys();
     for (int i = 0; i < saved.size(); ++i) {
-      if (saved.at(i) == "version"_L1) continue;
-      s.remove(saved.at(i));
+      const QString &name = saved.at(i);
+      if (name == "version"_L1) continue;
+      s.remove(name);
     }
   }
   s.endGroup();
