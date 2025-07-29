@@ -176,7 +176,12 @@ void SavedGroupingManager::UpdateModel() {
       ds >> g;
 
       QList<QStandardItem*> list;
-      list << new QStandardItem(QUrl::fromPercentEncoding(name.toUtf8()))
+
+      QStandardItem *item = new QStandardItem();
+      item->setText(QUrl::fromPercentEncoding(name.toUtf8()));
+      item->setData(name);
+
+      list << item
            << new QStandardItem(GroupByToString(g.first))
            << new QStandardItem(GroupByToString(g.second))
            << new QStandardItem(GroupByToString(g.third));
@@ -205,7 +210,7 @@ void SavedGroupingManager::Remove() {
     for (const QModelIndex &idx : indexes) {
       if (idx.isValid()) {
         qLog(Debug) << "Remove saved grouping: " << model_->item(idx.row(), 0)->text();
-        s.remove(model_->item(idx.row(), 0)->text());
+        s.remove(model_->item(idx.row(), 0)->data().toString());
       }
     }
     s.endGroup();
