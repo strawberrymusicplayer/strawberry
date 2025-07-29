@@ -226,13 +226,14 @@ void SpotifyService::ClearSession() {
 void SpotifyService::OAuthFinished(const bool success, const QString &error) {
 
   if (success) {
-    Q_EMIT LoginFinished(true);
     Q_EMIT LoginSuccess();
+    Q_EMIT UpdateSpotifyAccessToken(oauth_->access_token());
   }
   else {
     Q_EMIT LoginFailure(error);
-    Q_EMIT LoginFinished(false);
   }
+
+  Q_EMIT LoginFinished(success);
 
 }
 

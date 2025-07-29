@@ -146,6 +146,10 @@ class GstEngine : public EngineBase, public GstBufferConsumer {
   bool OldExclusivePipelineActive() const;
   bool AnyExclusivePipelineActive() const;
 
+#ifdef HAVE_SPOTIFY
+  void SetSpotifyAccessToken() override;
+#endif
+
  private:
   SharedPtr<TaskManager> task_manager_;
   GstDiscoverer *discoverer_;

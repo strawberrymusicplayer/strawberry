@@ -256,3 +256,19 @@ bool EngineBase::ValidOutput(const QString &output) {
   return (true);
 
 }
+
+void EngineBase::UpdateSpotifyAccessToken(const QString &spotify_access_token) {
+
+#ifdef HAVE_SPOTIFY
+
+  spotify_access_token_ = spotify_access_token;
+
+  SetSpotifyAccessToken();
+
+#else
+
+  Q_UNUSED(spotify_access_token)
+
+#endif  // HAVE_SPOTIFY
+
+}

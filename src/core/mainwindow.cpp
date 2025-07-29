@@ -173,6 +173,7 @@
 #  include "constants/tidalsettings.h"
 #endif
 #ifdef HAVE_SPOTIFY
+#  include "spotify/spotifyservice.h"
 #  include "constants/spotifysettings.h"
 #endif
 #ifdef HAVE_QOBUZ
@@ -772,6 +773,9 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(spotify_view_->songs_collection_view(), &StreamingCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
   QObject::connect(spotify_view_->search_view(), &StreamingSearchView::OpenSettingsDialog, this, &MainWindow::OpenServiceSettingsDialog);
   QObject::connect(spotify_view_->search_view(), &StreamingSearchView::AddToPlaylist, this, &MainWindow::AddToPlaylist);
+  if (SpotifyServicePtr spotifyservice = app_->streaming_services()->Service<SpotifyService>()) {
+    QObject::connect(&*spotifyservice, &SpotifyService::UpdateSpotifyAccessToken, &*app_->player()->engine(), &EngineBase::UpdateSpotifyAccessToken);
+  }
 #endif
 
   QObject::connect(radio_view_, &RadioViewContainer::Refresh, &*app_->radio_services(), &RadioServices::RefreshChannels);

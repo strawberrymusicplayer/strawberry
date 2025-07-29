@@ -127,6 +127,7 @@ class EngineBase : public QObject {
   virtual void ReloadSettings();
   void UpdateVolume(const uint volume);
   void EmitAboutToFinish();
+  void UpdateSpotifyAccessToken(const QString &spotify_access_token);
 
  public:
   // Simple accessors
@@ -174,6 +175,11 @@ class EngineBase : public QObject {
   void VolumeChanged(const uint volume);
 
   void Finished();
+
+ private:
+#ifdef HAVE_SPOTIFY
+  virtual void SetSpotifyAccessToken() {}
+#endif
 
  protected:
   bool playbin3_enabled_;
