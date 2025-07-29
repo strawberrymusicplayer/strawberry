@@ -77,6 +77,9 @@ void HtmlLyricsProvider::HandleLyricsReply(QNetworkReply *reply, const int id, c
   const QScopeGuard search_finished = qScopeGuard([this, id, &results]() { Q_EMIT SearchFinished(id, results); });
 
   if (reply->error() != QNetworkReply::NoError) {
+    if (reply->error() >= 200) {
+      reply->readAll(); // QTBUG-135641
+    }
     if (reply->error() == QNetworkReply::ContentNotFoundError) {
       qLog(Debug) << name_ << "No lyrics for" << request.artist << request.album << request.title;
     }
@@ -86,9 +89,13 @@ void HtmlLyricsProvider::HandleLyricsReply(QNetworkReply *reply, const int id, c
     return;
   }
 
-  if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
-    qLog(Error) << name_ << "Received HTTP code" << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
-    return;
+  if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).isValid()) {
+    const int http_status_code = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+    if (http_status_code < 200 || http_status_code > 207) {
+      qLog(Error) << name_ << "Received HTTP code" << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+      reply->readAll(); // QTBUG-135641
+      return;
+    }
   }
 
   const QByteArray data = reply->readAll();
