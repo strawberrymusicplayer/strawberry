@@ -256,3 +256,11 @@ bool EngineBase::ValidOutput(const QString &output) {
   return (true);
 
 }
+
+void EngineBase::UpdateSpotifyAccessToken(const QString &spotify_access_token) {
+
+  spotify_access_token_ = spotify_access_token;
+
+  SetSpotifyAccessToken();
+
+}

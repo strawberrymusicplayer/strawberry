@@ -517,9 +517,19 @@ bool GstEngine::ExclusiveModeSupport(const QString &output) const {
 
 void GstEngine::ReloadSettings() {
 
+#ifdef HAVE_SPOTIFY
+  const QString old_spotify_access_token = spotify_access_token_;
+#endif
+
   EngineBase::ReloadSettings();
 
   if (output_.isEmpty()) output_ = QLatin1String(kAutoSink);
+
+#ifdef HAVE_SPOTIFY
+  if (current_pipeline_ && old_spotify_access_token != spotify_access_token_) {
+    current_pipeline_->set_spotify_access_token(spotify_access_token_);
+  }
+#endif
 
 }
 
@@ -1197,5 +1207,15 @@ bool GstEngine::OldExclusivePipelineActive() const {
 bool GstEngine::AnyExclusivePipelineActive() const {
 
   return (current_pipeline_ && current_pipeline_->exclusive_mode()) || OldExclusivePipelineActive();
+
+}
+
+void GstEngine::SetSpotifyAccessToken() {
+
+#ifdef HAVE_SPOTIFY
+  if (current_pipeline_) {
+    current_pipeline_->set_spotify_access_token(spotify_access_token_);
+  }
+#endif
 
 }
