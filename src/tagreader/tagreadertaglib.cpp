@@ -114,8 +114,13 @@ using namespace Qt::Literals::StringLiterals;
 namespace {
 
 constexpr char kID3v2_AlbumArtist[] = "TPE2";
+constexpr char kID3v2_AlbumArtistSort[] = "TSO2";
+constexpr char kID3v2_AlbumSort[] = "TSOA";
+constexpr char kID3v2_ArtistSort[] = "TSOP";
+constexpr char kID3v2_TitleSort[] = "TSOT";
 constexpr char kID3v2_Disc[] = "TPOS";
 constexpr char kID3v2_Composer[] = "TCOM";
+constexpr char kID3v2_ComposerSort[] = "TSOC";
 constexpr char kID3v2_Performer[] = "TOPE";
 constexpr char kID3v2_Grouping[] = "TIT1";
 constexpr char kID3v2_Compilation[] = "TCMP";
@@ -143,8 +148,14 @@ constexpr char kID3v2_MusicBrainz_WorkId[] = "MusicBrainz Work Id";
 
 constexpr char kVorbisComment_AlbumArtist1[] = "ALBUMARTIST";
 constexpr char kVorbisComment_AlbumArtist2[] = "ALBUM ARTIST";
+constexpr char kVorbisComment_AlbumArtistSort[] = "ALBUMARTISTSORT";
+constexpr char kVorbisComment_AlbumSort[] = "ALBUMSORT";
+constexpr char kVorbisComment_ArtistSort[] = "ARTISTSORT";
+constexpr char kVorbisComment_TitleSort[] = "TITLESORT";
 constexpr char kVorbisComment_Composer[] = "COMPOSER";
+constexpr char kVorbisComment_ComposerSort[] = "COMPOSERSORT";
 constexpr char kVorbisComment_Performer[] = "PERFORMER";
+constexpr char kVorbisComment_PerformerSort[] = "PERFORMERSORT";
 constexpr char kVorbisComment_Grouping1[] = "GROUPING";
 constexpr char kVorbisComment_Grouping2[] = "CONTENT GROUP";
 constexpr char kVorbisComment_OriginalYear1[] = "ORIGINALDATE";
@@ -589,6 +600,7 @@ void TagReaderTagLib::ParseID3v2Tags(TagLib::ID3v2::Tag *tag, QString *disc, QSt
 
   if (map.contains(kID3v2_Disc)) *disc = TagLibStringToQString(map[kID3v2_Disc].front()->toString()).trimmed();
   if (map.contains(kID3v2_Composer)) song->set_composer(map[kID3v2_Composer].front()->toString());
+  if (map.contains(kID3v2_ComposerSort)) song->set_composersort(map[kID3v2_ComposerSort].front()->toString());
 
   // content group
   if (map.contains(kID3v2_Grouping)) song->set_grouping(map[kID3v2_Grouping].front()->toString());
@@ -600,6 +612,11 @@ void TagReaderTagLib::ParseID3v2Tags(TagLib::ID3v2::Tag *tag, QString *disc, QSt
 
   // non-standard: Apple, Microsoft
   if (map.contains(kID3v2_AlbumArtist)) song->set_albumartist(map[kID3v2_AlbumArtist].front()->toString());
+
+  if (map.contains(kID3v2_AlbumArtistSort)) song->set_albumartistsort(map[kID3v2_AlbumArtistSort].front()->toString());
+  if (map.contains(kID3v2_AlbumSort)) song->set_albumsort(map[kID3v2_AlbumSort].front()->toString());
+  if (map.contains(kID3v2_ArtistSort)) song->set_artistsort(map[kID3v2_ArtistSort].front()->toString());
+  if (map.contains(kID3v2_TitleSort)) song->set_titlesort(map[kID3v2_TitleSort].front()->toString());
 
   if (map.contains(kID3v2_Compilation)) *compilation = TagLibStringToQString(map[kID3v2_Compilation].front()->toString()).trimmed();
 
@@ -706,12 +723,19 @@ void TagReaderTagLib::ParseID3v2Tags(TagLib::ID3v2::Tag *tag, QString *disc, QSt
 void TagReaderTagLib::ParseVorbisComments(const TagLib::Ogg::FieldListMap &map, QString *disc, QString *compilation, Song *song) const {
 
   if (map.contains(kVorbisComment_Composer)) song->set_composer(map[kVorbisComment_Composer].front());
+  if (map.contains(kVorbisComment_ComposerSort)) song->set_composersort(map[kVorbisComment_ComposerSort].front());
   if (map.contains(kVorbisComment_Performer)) song->set_performer(map[kVorbisComment_Performer].front());
+  if (map.contains(kVorbisComment_PerformerSort)) song->set_performersort(map[kVorbisComment_PerformerSort].front());
   if (map.contains(kVorbisComment_Grouping2)) song->set_grouping(map[kVorbisComment_Grouping2].front());
   if (map.contains(kVorbisComment_Grouping1)) song->set_grouping(map[kVorbisComment_Grouping1].front());
 
   if (map.contains(kVorbisComment_AlbumArtist1)) song->set_albumartist(map[kVorbisComment_AlbumArtist1].front());
   else if (map.contains(kVorbisComment_AlbumArtist2)) song->set_albumartist(map[kVorbisComment_AlbumArtist2].front());
+
+  if (map.contains(kVorbisComment_AlbumArtistSort)) song->set_albumartistsort(map[kVorbisComment_AlbumArtistSort].front());
+  if (map.contains(kVorbisComment_AlbumSort)) song->set_albumsort(map[kVorbisComment_AlbumSort].front());
+  if (map.contains(kVorbisComment_ArtistSort)) song->set_artistsort(map[kVorbisComment_ArtistSort].front());
+  if (map.contains(kVorbisComment_TitleSort)) song->set_titlesort(map[kVorbisComment_TitleSort].front());
 
   if (map.contains(kVorbisComment_OriginalYear1)) song->set_originalyear(TagLibStringToQString(map[kVorbisComment_OriginalYear1].front()).left(4).toInt());
   else if (map.contains(kVorbisComment_OriginalYear2)) song->set_originalyear(TagLibStringToQString(map[kVorbisComment_OriginalYear2].front()).toInt());
@@ -1227,10 +1251,15 @@ void TagReaderTagLib::SetID3v2Tag(TagLib::ID3v2::Tag *tag, const Song &song) con
 
   SetTextFrame(kID3v2_Disc, song.disc() <= 0 ? QString() : QString::number(song.disc()), tag);
   SetTextFrame(kID3v2_Composer, song.composer().isEmpty() ? QString() : song.composer(), tag);
+  SetTextFrame(kID3v2_ComposerSort, song.composersort().isEmpty() ? QString() : song.composersort(), tag);
   SetTextFrame(kID3v2_Grouping, song.grouping().isEmpty() ? QString() : song.grouping(), tag);
   SetTextFrame(kID3v2_Performer, song.performer().isEmpty() ? QString() : song.performer(), tag);
   // Skip TPE1 (which is the artist) here because we already set it
   SetTextFrame(kID3v2_AlbumArtist, song.albumartist().isEmpty() ? QString() : song.albumartist(), tag);
+  SetTextFrame(kID3v2_AlbumArtistSort, song.albumartistsort().isEmpty() ? QString() : song.albumartistsort(), tag);
+  SetTextFrame(kID3v2_AlbumSort, song.albumsort().isEmpty() ? QString() : song.albumsort(), tag);
+  SetTextFrame(kID3v2_ArtistSort, song.artistsort().isEmpty() ? QString() : song.artistsort(), tag);
+  SetTextFrame(kID3v2_TitleSort, song.titlesort().isEmpty() ? QString() : song.titlesort(), tag);
   SetTextFrame(kID3v2_Compilation, song.compilation() ? QString::number(1) : QString(), tag);
   SetUnsyncLyricsFrame(song.lyrics().isEmpty() ? QString() : song.lyrics(), tag);
 
@@ -1318,7 +1347,9 @@ void TagReaderTagLib::SetUnsyncLyricsFrame(const QString &value, TagLib::ID3v2::
 void TagReaderTagLib::SetVorbisComments(TagLib::Ogg::XiphComment *vorbis_comment, const Song &song) const {
 
   vorbis_comment->addField(kVorbisComment_Composer, QStringToTagLibString(song.composer()), true);
+  vorbis_comment->addField(kVorbisComment_ComposerSort, QStringToTagLibString(song.composersort()), true);
   vorbis_comment->addField(kVorbisComment_Performer, QStringToTagLibString(song.performer()), true);
+  vorbis_comment->addField(kVorbisComment_PerformerSort, QStringToTagLibString(song.performersort()), true);
   vorbis_comment->addField(kVorbisComment_Grouping1, QStringToTagLibString(song.grouping()), true);
   vorbis_comment->addField(kVorbisComment_Disc, QStringToTagLibString(song.disc() <= 0 ? QString() : QString::number(song.disc())), true);
   vorbis_comment->addField(kVorbisComment_Compilation, QStringToTagLibString(song.compilation() ? u"1"_s : QString()), true);
@@ -1327,6 +1358,10 @@ void TagReaderTagLib::SetVorbisComments(TagLib::Ogg::XiphComment *vorbis_comment
 
   vorbis_comment->addField(kVorbisComment_AlbumArtist1, QStringToTagLibString(song.albumartist()), true);
   vorbis_comment->removeFields(kVorbisComment_AlbumArtist2);
+  vorbis_comment->addField(kVorbisComment_AlbumArtistSort, QStringToTagLibString(song.albumartistsort()), true);
+  vorbis_comment->addField(kVorbisComment_AlbumSort, QStringToTagLibString(song.albumsort()), true);
+  vorbis_comment->addField(kVorbisComment_ArtistSort, QStringToTagLibString(song.artistsort()), true);
+  vorbis_comment->addField(kVorbisComment_TitleSort, QStringToTagLibString(song.titlesort()), true);
 
   vorbis_comment->addField(kVorbisComment_Lyrics, QStringToTagLibString(song.lyrics()), true);
   vorbis_comment->removeFields(kVorbisComment_UnsyncedLyrics);

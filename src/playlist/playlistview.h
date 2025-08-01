@@ -284,7 +284,6 @@ class PlaylistView : public QTreeView {
   int drop_indicator_row_;
   bool drag_over_;
 
-  int header_state_version_;
   QByteArray header_state_;
   ColumnAlignmentMap column_alignment_;
   bool rating_locked_;

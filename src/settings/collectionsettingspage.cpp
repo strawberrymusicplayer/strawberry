@@ -87,6 +87,11 @@ CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog,
   setWindowIcon(IconLoader::Load(u"library-music"_s, true, 0, 32));
   ui_->add_directory->setIcon(IconLoader::Load(u"document-open-folder"_s));
 
+  ui_->combobox_sort->setItemData(0, static_cast<int>(SortBehaviour::AsIs));
+  ui_->combobox_sort->setItemData(1, static_cast<int>(SortBehaviour::SkipArticles));
+  ui_->combobox_sort->setItemData(2, static_cast<int>(SortBehaviour::UseSortTagForSort));
+  ui_->combobox_sort->setItemData(3, static_cast<int>(SortBehaviour::UseSortTagForDisplayAndSort));
+
   ui_->combobox_cache_size->addItem(u"KB"_s, static_cast<int>(CacheSizeUnit::KB));
   ui_->combobox_cache_size->addItem(u"MB"_s, static_cast<int>(CacheSizeUnit::MB));
 
@@ -152,7 +157,7 @@ void CollectionSettingsPage::Load() {
   ui_->show_dividers->setChecked(s.value(kShowDividers, true).toBool());
   ui_->pretty_covers->setChecked(s.value(kPrettyCovers, true).toBool());
   ui_->various_artists->setChecked(s.value(kVariousArtists, true).toBool());
-  ui_->sort_skips_articles->setChecked(s.value(kSortSkipsArticles, true).toBool());
+  ui_->combobox_sort->setCurrentIndex(ui_->combobox_sort->findData(s.value(kSortBehaviour, static_cast<int>(SortBehaviour::SkipArticles)).toInt()));
   ui_->startup_scan->setChecked(s.value(kStartupScan, true).toBool());
   ui_->monitor->setChecked(s.value(kMonitor, true).toBool());
   ui_->song_tracking->setChecked(s.value(kSongTracking, false).toBool());
@@ -196,7 +201,8 @@ void CollectionSettingsPage::Save() {
   s.setValue(kShowDividers, ui_->show_dividers->isChecked());
   s.setValue(kPrettyCovers, ui_->pretty_covers->isChecked());
   s.setValue(kVariousArtists, ui_->various_artists->isChecked());
-  s.setValue(kSortSkipsArticles, ui_->sort_skips_articles->isChecked());
+  const SortBehaviour menu_sort = static_cast<SortBehaviour>(ui_->combobox_sort->currentData().toInt());
+  s.setValue(kSortBehaviour, static_cast<int>(menu_sort));
   s.setValue(kStartupScan, ui_->startup_scan->isChecked());
   s.setValue(kMonitor, ui_->monitor->isChecked());
   s.setValue(kSongTracking, ui_->song_tracking->isChecked());

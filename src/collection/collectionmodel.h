@@ -52,6 +52,7 @@
 #include "collectionmodelupdate.h"
 #include "collectionfilteroptions.h"
 #include "collectionitem.h"
+#include "constants/collectionsettings.h"
 
 class QTimer;
 class Settings;
@@ -129,14 +130,14 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
                 show_dividers(true),
                 show_pretty_covers(true),
                 show_various_artists(true),
-                sort_skips_articles(true),
+                sort_behaviour(CollectionSettings::SortBehaviour::SkipArticles),
                 separate_albums_by_grouping(false) {}
 
     Grouping group_by;
     bool show_dividers;
     bool show_pretty_covers;
     bool show_various_artists;
-    bool sort_skips_articles;
+    CollectionSettings::SortBehaviour sort_behaviour;
     bool separate_albums_by_grouping;
     CollectionFilterOptions filter_options;
   };
@@ -176,17 +177,19 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   QMimeData *mimeData(const QModelIndexList &indexes) const override;
 
   // Utility functions for manipulating text
-  static QString DisplayText(const GroupBy group_by, const Song &song);
+  static QString DisplayText(const GroupBy group_by, const Song &song, const CollectionSettings::SortBehaviour &sort_behaviour);
+  static QString NameOrSortname(const QString &name, const QString &sort_name, const CollectionSettings::SortBehaviour &sort_behaviour);
   static QString TextOrUnknown(const QString &text);
   static QString PrettyYearAlbum(const int year, const QString &album);
   static QString PrettyAlbumDisc(const QString &album, const int disc);
   static QString PrettyYearAlbumDisc(const int year, const QString &album, const int disc);
   static QString PrettyDisc(const int disc);
   static QString PrettyFormat(const Song &song);
-  QString SortText(const GroupBy group_by, const Song &song, const bool sort_skips_articles);
+  QString SortText(const GroupBy group_by, const Song &song, const CollectionSettings::SortBehaviour &sort_behaviour);
   static QString SortText(QString text);
+  static QString SortTextForName(const QString &name, const QString &sort_name, const CollectionSettings::SortBehaviour &sort_behaviour);
   static QString SortTextForNumber(const int number);
-  static QString SortTextForArtist(QString artist, const bool skip_articles);
+  static QString SortTextSkipArticles(QString name);
   static QString SortTextForSong(const Song &song);
   static QString SortTextForYear(const int year);
   static QString SortTextForBitrate(const int bitrate);

@@ -248,11 +248,21 @@ void CDDASongLoader::LoadSongsFromCDDA() {
         g_free(tag);
         tag = nullptr;
       }
+      if (gst_tag_list_get_string(tags, GST_TAG_ALBUM_ARTIST_SORTNAME, &tag)) {
+        song.set_albumartistsort(QString::fromUtf8(tag));
+        g_free(tag);
+        tag = nullptr;
+      }
       if (gst_tag_list_get_string(tags, GST_TAG_ARTIST, &tag)) {
         song.set_artist(QString::fromUtf8(tag));
         g_free(tag);
         tag = nullptr;
         ++track_artist_tags;
+      }
+      if (gst_tag_list_get_string(tags, GST_TAG_ARTIST_SORTNAME, &tag)) {
+        song.set_artistsort(QString::fromUtf8(tag));
+        g_free(tag);
+        tag = nullptr;
       }
       if (gst_tag_list_get_string(tags, GST_TAG_ALBUM, &tag)) {
         song.set_album(QString::fromUtf8(tag));
@@ -260,11 +270,21 @@ void CDDASongLoader::LoadSongsFromCDDA() {
         tag = nullptr;
         ++track_album_tags;
       }
+      if (gst_tag_list_get_string(tags, GST_TAG_ALBUM_SORTNAME, &tag)) {
+        song.set_albumsort(QString::fromUtf8(tag));
+        g_free(tag);
+        tag = nullptr;
+      }
       if (gst_tag_list_get_string(tags, GST_TAG_TITLE, &tag)) {
         song.set_title(QString::fromUtf8(tag));
         g_free(tag);
         tag = nullptr;
         ++track_title_tags;
+      }
+      if (gst_tag_list_get_string(tags, GST_TAG_TITLE_SORTNAME, &tag)) {
+        song.set_titlesort(QString::fromUtf8(tag));
+        g_free(tag);
+        tag = nullptr;
       }
       if (gst_tag_list_get_string(tags, GST_TAG_GENRE, &tag)) {
         song.set_genre(QString::fromUtf8(tag));
@@ -273,6 +293,11 @@ void CDDASongLoader::LoadSongsFromCDDA() {
       }
       if (gst_tag_list_get_string(tags, GST_TAG_COMPOSER, &tag)) {
         song.set_composer(QString::fromUtf8(tag));
+        g_free(tag);
+        tag = nullptr;
+      }
+      if (gst_tag_list_get_string(tags, GST_TAG_COMPOSER_SORTNAME, &tag)) {
+        song.set_composersort(QString::fromUtf8(tag));
         g_free(tag);
         tag = nullptr;
       }

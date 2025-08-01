@@ -274,12 +274,18 @@ EditTagDialog::EditTagDialog(const SharedPtr<NetworkAccessManager> network,
       QKeySequence(QKeySequence::MoveToNextPage).toString(QKeySequence::NativeText)));
 
   new TagCompleter(collection_backend, Playlist::Column::Artist, ui_->artist);
+  new TagCompleter(collection_backend, Playlist::Column::ArtistSort, ui_->artistsort);
   new TagCompleter(collection_backend, Playlist::Column::Album, ui_->album);
+  new TagCompleter(collection_backend, Playlist::Column::AlbumSort, ui_->albumsort);
   new TagCompleter(collection_backend, Playlist::Column::AlbumArtist, ui_->albumartist);
+  new TagCompleter(collection_backend, Playlist::Column::AlbumArtistSort, ui_->albumartistsort);
   new TagCompleter(collection_backend, Playlist::Column::Genre, ui_->genre);
   new TagCompleter(collection_backend, Playlist::Column::Composer, ui_->composer);
+  new TagCompleter(collection_backend, Playlist::Column::ComposerSort, ui_->composersort);
   new TagCompleter(collection_backend, Playlist::Column::Performer, ui_->performer);
+  new TagCompleter(collection_backend, Playlist::Column::PerformerSort, ui_->performersort);
   new TagCompleter(collection_backend, Playlist::Column::Grouping, ui_->grouping);
+  new TagCompleter(collection_backend, Playlist::Column::TitleSort, ui_->titlesort);
 
 }
 
@@ -493,11 +499,17 @@ void EditTagDialog::SetSongListVisibility(bool visible) {
 QVariant EditTagDialog::Data::value(const Song &song, const QString &id) {
 
   if (id == "title"_L1) return song.title();
+  if (id == "titlesort"_L1) return song.titlesort();
   if (id == "artist"_L1) return song.artist();
+  if (id == "artistsort"_L1) return song.artistsort();
   if (id == "album"_L1) return song.album();
+  if (id == "albumsort"_L1) return song.albumsort();
   if (id == "albumartist"_L1) return song.albumartist();
+  if (id == "albumartistsort"_L1) return song.albumartistsort();
   if (id == "composer"_L1) return song.composer();
+  if (id == "composersort"_L1) return song.composersort();
   if (id == "performer"_L1) return song.performer();
+  if (id == "performersort"_L1) return song.performersort();
   if (id == "grouping"_L1) return song.grouping();
   if (id == "genre"_L1) return song.genre();
   if (id == "comment"_L1) return song.comment();
@@ -515,11 +527,17 @@ QVariant EditTagDialog::Data::value(const Song &song, const QString &id) {
 void EditTagDialog::Data::set_value(const QString &id, const QVariant &value) {
 
   if (id == "title"_L1) current_.set_title(value.toString());
+  else if (id == "titlesort"_L1) current_.set_titlesort(value.toString());
   else if (id == "artist"_L1) current_.set_artist(value.toString());
+  else if (id == "artistsort"_L1) current_.set_artistsort(value.toString());
   else if (id == "album"_L1) current_.set_album(value.toString());
+  else if (id == "albumsort"_L1) current_.set_albumsort(value.toString());
   else if (id == "albumartist"_L1) current_.set_albumartist(value.toString());
+  else if (id == "albumartistsort"_L1) current_.set_albumartistsort(value.toString());
   else if (id == "composer"_L1) current_.set_composer(value.toString());
+  else if (id == "composersort"_L1) current_.set_composersort(value.toString());
   else if (id == "performer"_L1) current_.set_performer(value.toString());
+  else if (id == "performersort"_L1) current_.set_performersort(value.toString());
   else if (id == "grouping"_L1) current_.set_grouping(value.toString());
   else if (id == "genre"_L1) current_.set_genre(value.toString());
   else if (id == "comment"_L1) current_.set_comment(value.toString());
@@ -675,14 +693,20 @@ void EditTagDialog::SelectionChanged() {
   bool art_different = false;
   bool action_different = false;
   bool albumartist_enabled = false;
+  bool albumartistsort_enabled = false;
   bool composer_enabled = false;
+  bool composersort_enabled = false;
   bool performer_enabled = false;
+  bool performersort_enabled = false;
   bool grouping_enabled = false;
   bool genre_enabled = false;
   bool compilation_enabled = false;
   bool rating_enabled = false;
   bool comment_enabled = false;
   bool lyrics_enabled = false;
+  bool titlesort_enabled = false;
+  bool artistsort_enabled = false;
+  bool albumsort_enabled = false;
   for (const QModelIndex &idx : indexes) {
     if (data_.value(idx.row()).cover_action_ == UpdateCoverAction::None) {
       data_[idx.row()].cover_result_ = AlbumCoverImageResult();
@@ -702,11 +726,20 @@ void EditTagDialog::SelectionChanged() {
     if (song.albumartist_supported()) {
       albumartist_enabled = true;
     }
+    if (song.albumartistsort_supported()) {
+      albumartistsort_enabled = true;
+    }
     if (song.composer_supported()) {
       composer_enabled = true;
     }
+    if (song.composersort_supported()) {
+      composersort_enabled = true;
+    }
     if (song.performer_supported()) {
       performer_enabled = true;
+    }
+    if (song.performersort_supported()) {
+      performersort_enabled = true;
     }
     if (song.grouping_supported()) {
       grouping_enabled = true;
@@ -725,6 +758,15 @@ void EditTagDialog::SelectionChanged() {
     }
     if (song.lyrics_supported()) {
       lyrics_enabled = true;
+    }
+    if (song.titlesort_supported()) {
+      titlesort_enabled = true;
+    }
+    if (song.artistsort_supported()) {
+      artistsort_enabled = true;
+    }
+    if (song.albumsort_supported()) {
+      albumsort_enabled = true;
     }
   }
 
@@ -782,14 +824,20 @@ void EditTagDialog::SelectionChanged() {
   album_cover_choice_controller_->set_save_embedded_cover_override(embedded_cover);
 
   ui_->albumartist->setEnabled(albumartist_enabled);
+  ui_->albumartistsort->setEnabled(albumartistsort_enabled);
   ui_->composer->setEnabled(composer_enabled);
+  ui_->composersort->setEnabled(composersort_enabled);
   ui_->performer->setEnabled(performer_enabled);
+  ui_->performersort->setEnabled(performersort_enabled);
   ui_->grouping->setEnabled(grouping_enabled);
   ui_->genre->setEnabled(genre_enabled);
   ui_->compilation->setEnabled(compilation_enabled);
   ui_->rating->setEnabled(rating_enabled);
   ui_->comment->setEnabled(comment_enabled);
   ui_->lyrics->setEnabled(lyrics_enabled);
+  ui_->titlesort->setEnabled(titlesort_enabled);
+  ui_->artistsort->setEnabled(artistsort_enabled);
+  ui_->albumsort->setEnabled(albumsort_enabled);
 
 }
 

@@ -185,11 +185,17 @@ TEST_F(TagReaderTest, TestFLACAudioFileTagging) {
   {  // Write tags
     Song song;
     song.set_title(u"strawberry title"_s);
+    song.set_titlesort(u"strawberry title sort"_s);
     song.set_artist(u"strawberry artist"_s);
+    song.set_artistsort(u"strawberry artist sort"_s);
     song.set_album(u"strawberry album"_s);
+    song.set_albumsort(u"strawberry album sort"_s);
     song.set_albumartist(u"strawberry album artist"_s);
+    song.set_albumartistsort(u"strawberry album artist sort"_s);
     song.set_composer(u"strawberry composer"_s);
+    song.set_composersort(u"strawberry composer sort"_s);
     song.set_performer(u"strawberry performer"_s);
+    song.set_performersort(u"strawberry performer sort"_s);
     song.set_grouping(u"strawberry grouping"_s);
     song.set_genre(u"strawberry genre"_s);
     song.set_comment(u"strawberry comment"_s);
@@ -208,11 +214,17 @@ TEST_F(TagReaderTest, TestFLACAudioFileTagging) {
   { // Read tags
     Song song = ReadSongFromFile(r.fileName());
     EXPECT_EQ(u"strawberry title"_s, song.title());
+    EXPECT_EQ(u"strawberry title sort"_s, song.titlesort());
     EXPECT_EQ(u"strawberry artist"_s, song.artist());
+    EXPECT_EQ(u"strawberry artist sort"_s, song.artistsort());
     EXPECT_EQ(u"strawberry album"_s, song.album());
+    EXPECT_EQ(u"strawberry album sort"_s, song.albumsort());
     EXPECT_EQ(u"strawberry album artist"_s, song.albumartist());
+    EXPECT_EQ(u"strawberry album artist sort"_s, song.albumartistsort());
     EXPECT_EQ(u"strawberry composer"_s, song.composer());
+    EXPECT_EQ(u"strawberry composer sort"_s, song.composersort());
     EXPECT_EQ(u"strawberry performer"_s, song.performer());
+    EXPECT_EQ(u"strawberry performer sort"_s, song.performersort());
     EXPECT_EQ(u"strawberry grouping"_s, song.grouping());
     EXPECT_EQ(u"strawberry genre"_s, song.genre());
     EXPECT_EQ(u"strawberry comment"_s, song.comment());
@@ -226,11 +238,17 @@ TEST_F(TagReaderTest, TestFLACAudioFileTagging) {
   { // Write new tags
     Song song;
     song.set_title(u"new title"_s);
+    song.set_titlesort(u"new title sort"_s);
     song.set_artist(u"new artist"_s);
+    song.set_artistsort(u"new artist sort"_s);
     song.set_album(u"new album"_s);
+    song.set_albumsort(u"new album sort"_s);
     song.set_albumartist(u"new album artist"_s);
+    song.set_albumartistsort(u"new album artist sort"_s);
     song.set_composer(u"new composer"_s);
+    song.set_composersort(u"new composer sort"_s);
     song.set_performer(u"new performer"_s);
+    song.set_performersort(u"new performer sort"_s);
     song.set_grouping(u"new grouping"_s);
     song.set_genre(u"new genre"_s);
     song.set_comment(u"new comment"_s);
@@ -245,11 +263,17 @@ TEST_F(TagReaderTest, TestFLACAudioFileTagging) {
   { // Read new tags
     Song song = ReadSongFromFile(r.fileName());
     EXPECT_EQ(u"new title"_s, song.title());
+    EXPECT_EQ(u"new title sort"_s, song.titlesort());
     EXPECT_EQ(u"new artist"_s, song.artist());
+    EXPECT_EQ(u"new artist sort"_s, song.artistsort());
     EXPECT_EQ(u"new album"_s, song.album());
+    EXPECT_EQ(u"new album sort"_s, song.albumsort());
     EXPECT_EQ(u"new album artist"_s, song.albumartist());
+    EXPECT_EQ(u"new album artist sort"_s, song.albumartistsort());
     EXPECT_EQ(u"new composer"_s, song.composer());
+    EXPECT_EQ(u"new composer sort"_s, song.composersort());
     EXPECT_EQ(u"new performer"_s, song.performer());
+    EXPECT_EQ(u"new performer sort"_s, song.performersort());
     EXPECT_EQ(u"new grouping"_s, song.grouping());
     EXPECT_EQ(u"new genre"_s, song.genre());
     EXPECT_EQ(u"new comment"_s, song.comment());
@@ -263,11 +287,17 @@ TEST_F(TagReaderTest, TestFLACAudioFileTagging) {
   { // Write original tags
     Song song;
     song.set_title(u"strawberry title"_s);
+    song.set_titlesort(u"strawberry title sort"_s);
     song.set_artist(u"strawberry artist"_s);
+    song.set_artistsort(u"strawberry artist sort"_s);
     song.set_album(u"strawberry album"_s);
+    song.set_albumsort(u"strawberry album sort"_s);
     song.set_albumartist(u"strawberry album artist"_s);
+    song.set_albumartistsort(u"strawberry album artist sort"_s);
     song.set_composer(u"strawberry composer"_s);
+    song.set_composersort(u"strawberry composer sort"_s);
     song.set_performer(u"strawberry performer"_s);
+    song.set_performersort(u"strawberry performer sort"_s);
     song.set_grouping(u"strawberry grouping"_s);
     song.set_genre(u"strawberry genre"_s);
     song.set_comment(u"strawberry comment"_s);
@@ -282,11 +312,17 @@ TEST_F(TagReaderTest, TestFLACAudioFileTagging) {
   { // Read original tags
     Song song = ReadSongFromFile(r.fileName());
     EXPECT_EQ(u"strawberry title"_s, song.title());
+    EXPECT_EQ(u"strawberry title sort"_s, song.titlesort());
     EXPECT_EQ(u"strawberry artist"_s, song.artist());
+    EXPECT_EQ(u"strawberry artist sort"_s, song.artistsort());
     EXPECT_EQ(u"strawberry album"_s, song.album());
+    EXPECT_EQ(u"strawberry album sort"_s, song.albumsort());
     EXPECT_EQ(u"strawberry album artist"_s, song.albumartist());
+    EXPECT_EQ(u"strawberry album artist sort"_s, song.albumartistsort());
     EXPECT_EQ(u"strawberry composer"_s, song.composer());
+    EXPECT_EQ(u"strawberry composer sort"_s, song.composersort());
     EXPECT_EQ(u"strawberry performer"_s, song.performer());
+    EXPECT_EQ(u"strawberry performer sort"_s, song.performersort());
     EXPECT_EQ(u"strawberry grouping"_s, song.grouping());
     EXPECT_EQ(u"strawberry genre"_s, song.genre());
     EXPECT_EQ(u"strawberry comment"_s, song.comment());
@@ -1505,10 +1541,15 @@ TEST_F(TagReaderTest, TestMP3AudioFileTagging) {
   { // Write tags
     Song song;
     song.set_title(u"strawberry title"_s);
+    song.set_titlesort(u"strawberry title sort"_s);
     song.set_artist(u"strawberry artist"_s);
+    song.set_artistsort(u"strawberry artist sort"_s);
     song.set_album(u"strawberry album"_s);
+    song.set_albumsort(u"strawberry album sort"_s);
     song.set_albumartist(u"strawberry album artist"_s);
+    song.set_albumartistsort(u"strawberry album artist sort"_s);
     song.set_composer(u"strawberry composer"_s);
+    song.set_composersort(u"strawberry composer sort"_s);
     song.set_performer(u"strawberry performer"_s);
     song.set_grouping(u"strawberry grouping"_s);
     song.set_genre(u"strawberry genre"_s);
@@ -1528,10 +1569,15 @@ TEST_F(TagReaderTest, TestMP3AudioFileTagging) {
   { // Read tags
     Song song = ReadSongFromFile(r.fileName());
     EXPECT_EQ(u"strawberry title"_s, song.title());
+    EXPECT_EQ(u"strawberry title sort"_s, song.titlesort());
     EXPECT_EQ(u"strawberry artist"_s, song.artist());
+    EXPECT_EQ(u"strawberry artist sort"_s, song.artistsort());
     EXPECT_EQ(u"strawberry album"_s, song.album());
+    EXPECT_EQ(u"strawberry album sort"_s, song.albumsort());
     EXPECT_EQ(u"strawberry album artist"_s, song.albumartist());
+    EXPECT_EQ(u"strawberry album artist sort"_s, song.albumartistsort());
     EXPECT_EQ(u"strawberry composer"_s, song.composer());
+    EXPECT_EQ(u"strawberry composer sort"_s, song.composersort());
     EXPECT_EQ(u"strawberry performer"_s, song.performer());
     EXPECT_EQ(u"strawberry grouping"_s, song.grouping());
     EXPECT_EQ(u"strawberry genre"_s, song.genre());
@@ -1546,10 +1592,15 @@ TEST_F(TagReaderTest, TestMP3AudioFileTagging) {
   { // Write new tags
     Song song;
     song.set_title(u"new title"_s);
+    song.set_titlesort(u"new title sort"_s);
     song.set_artist(u"new artist"_s);
+    song.set_artistsort(u"new artist sort"_s);
     song.set_album(u"new album"_s);
+    song.set_albumsort(u"new album sort"_s);
     song.set_albumartist(u"new album artist"_s);
+    song.set_albumartistsort(u"new album artist sort"_s);
     song.set_composer(u"new composer"_s);
+    song.set_composersort(u"new composer sort"_s);
     song.set_performer(u"new performer"_s);
     song.set_grouping(u"new grouping"_s);
     song.set_genre(u"new genre"_s);
@@ -1565,10 +1616,15 @@ TEST_F(TagReaderTest, TestMP3AudioFileTagging) {
   { // Read new tags
     Song song = ReadSongFromFile(r.fileName());
     EXPECT_EQ(u"new title"_s, song.title());
+    EXPECT_EQ(u"new title sort"_s, song.titlesort());
     EXPECT_EQ(u"new artist"_s, song.artist());
+    EXPECT_EQ(u"new artist sort"_s, song.artistsort());
     EXPECT_EQ(u"new album"_s, song.album());
+    EXPECT_EQ(u"new album sort"_s, song.albumsort());
     EXPECT_EQ(u"new album artist"_s, song.albumartist());
+    EXPECT_EQ(u"new album artist sort"_s, song.albumartistsort());
     EXPECT_EQ(u"new composer"_s, song.composer());
+    EXPECT_EQ(u"new composer sort"_s, song.composersort());
     EXPECT_EQ(u"new performer"_s, song.performer());
     EXPECT_EQ(u"new grouping"_s, song.grouping());
     EXPECT_EQ(4321, song.disc());
@@ -1583,10 +1639,15 @@ TEST_F(TagReaderTest, TestMP3AudioFileTagging) {
   { // Write original tags
     Song song;
     song.set_title(u"strawberry title"_s);
+    song.set_titlesort(u"strawberry title sort"_s);
     song.set_artist(u"strawberry artist"_s);
+    song.set_artistsort(u"strawberry artist sort"_s);
     song.set_album(u"strawberry album"_s);
+    song.set_albumsort(u"strawberry album sort"_s);
     song.set_albumartist(u"strawberry album artist"_s);
+    song.set_albumartistsort(u"strawberry album artist sort"_s);
     song.set_composer(u"strawberry composer"_s);
+    song.set_composersort(u"strawberry composer sort"_s);
     song.set_performer(u"strawberry performer"_s);
     song.set_grouping(u"strawberry grouping"_s);
     song.set_genre(u"strawberry genre"_s);
@@ -1602,10 +1663,15 @@ TEST_F(TagReaderTest, TestMP3AudioFileTagging) {
   { // Read original tags
     Song song = ReadSongFromFile(r.fileName());
     EXPECT_EQ(u"strawberry title"_s, song.title());
+    EXPECT_EQ(u"strawberry title sort"_s, song.titlesort());
     EXPECT_EQ(u"strawberry artist"_s, song.artist());
+    EXPECT_EQ(u"strawberry artist sort"_s, song.artistsort());
     EXPECT_EQ(u"strawberry album"_s, song.album());
+    EXPECT_EQ(u"strawberry album sort"_s, song.albumsort());
     EXPECT_EQ(u"strawberry album artist"_s, song.albumartist());
+    EXPECT_EQ(u"strawberry album artist sort"_s, song.albumartistsort());
     EXPECT_EQ(u"strawberry composer"_s, song.composer());
+    EXPECT_EQ(u"strawberry composer sort"_s, song.composersort());
     EXPECT_EQ(u"strawberry performer"_s, song.performer());
     EXPECT_EQ(u"strawberry grouping"_s, song.grouping());
     EXPECT_EQ(u"strawberry genre"_s, song.genre());

@@ -150,9 +150,13 @@ class Song {
   bool is_valid() const;
 
   const QString &title() const;
+  const QString &titlesort() const;
   const QString &album() const;
+  const QString &albumsort() const;
   const QString &artist() const;
+  const QString &artistsort() const;
   const QString &albumartist() const;
+  const QString &albumartistsort() const;
   int track() const;
   int disc() const;
   int year() const;
@@ -160,7 +164,9 @@ class Song {
   const QString &genre() const;
   bool compilation() const;
   const QString &composer() const;
+  const QString &composersort() const;
   const QString &performer() const;
+  const QString &performersort() const;
   const QString &grouping() const;
   const QString &comment() const;
   const QString &lyrics() const;
@@ -262,9 +268,13 @@ class Song {
   void set_valid(const bool v);
 
   void set_title(const QString &v);
+  void set_titlesort(const QString &v);
   void set_album(const QString &v);
+  void set_albumsort(const QString &v);
   void set_artist(const QString &v);
+  void set_artistsort(const QString &v);
   void set_albumartist(const QString &v);
+  void set_albumartistsort(const QString &v);
   void set_track(const int v);
   void set_disc(const int v);
   void set_year(const int v);
@@ -272,7 +282,9 @@ class Song {
   void set_genre(const QString &v);
   void set_compilation(bool v);
   void set_composer(const QString &v);
+  void set_composersort(const QString &v);
   void set_performer(const QString &v);
+  void set_performersort(const QString &v);
   void set_grouping(const QString &v);
   void set_comment(const QString &v);
   void set_lyrics(const QString &v);
@@ -341,12 +353,18 @@ class Song {
   void set_stream_url(const QUrl &v);
 
   void set_title(const TagLib::String &v);
+  void set_titlesort(const TagLib::String &v);
   void set_album(const TagLib::String &v);
+  void set_albumsort(const TagLib::String &v);
   void set_artist(const TagLib::String &v);
+  void set_artistsort(const TagLib::String &v);
   void set_albumartist(const TagLib::String &v);
+  void set_albumartistsort(const TagLib::String &v);
   void set_genre(const TagLib::String &v);
   void set_composer(const TagLib::String &v);
+  void set_composersort(const TagLib::String &v);
   void set_performer(const TagLib::String &v);
+  void set_performersort(const TagLib::String &v);
   void set_grouping(const TagLib::String &v);
   void set_comment(const TagLib::String &v);
   void set_lyrics(const TagLib::String &v);
@@ -402,6 +420,13 @@ class Song {
   bool rating_supported() const;
   bool comment_supported() const;
   bool lyrics_supported() const;
+
+  bool albumartistsort_supported() const;
+  bool albumsort_supported() const;
+  bool artistsort_supported() const;
+  bool composersort_supported() const;
+  bool performersort_supported() const;
+  bool titlesort_supported() const;
 
   static bool save_embedded_cover_supported(const FileType filetype);
   bool save_embedded_cover_supported() const { return url().isLocalFile() && save_embedded_cover_supported(filetype()) && !has_cue(); };

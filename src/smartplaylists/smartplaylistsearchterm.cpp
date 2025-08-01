@@ -353,6 +353,18 @@ QString SmartPlaylistSearchTerm::FieldColumnName(const Field field) {
       return u"bitdepth"_s;
     case Field::Bitrate:
       return u"bitrate"_s;
+    case Field::ArtistSort:
+      return u"artistsort"_s;
+    case Field::AlbumArtistSort:
+      return u"albumartistsort"_s;
+    case Field::AlbumSort:
+      return u"albumsort"_s;
+    case Field::ComposerSort:
+      return u"composersort"_s;
+    case Field::PerformerSort:
+      return u"performersort"_s;
+    case Field::TitleSort:
+      return u"titlesort"_s;
     case Field::FieldCount:
       Q_ASSERT(0);
   }
@@ -415,6 +427,18 @@ QString SmartPlaylistSearchTerm::FieldName(const Field field) {
       return Playlist::column_name(Playlist::Column::Bitdepth);
     case Field::Bitrate:
       return Playlist::column_name(Playlist::Column::Bitrate);
+    case Field::ArtistSort:
+      return Playlist::column_name(Playlist::Column::ArtistSort);
+    case Field::AlbumArtistSort:
+      return Playlist::column_name(Playlist::Column::AlbumArtistSort);
+    case Field::AlbumSort:
+      return Playlist::column_name(Playlist::Column::AlbumSort);
+    case Field::ComposerSort:
+      return Playlist::column_name(Playlist::Column::ComposerSort);
+    case Field::PerformerSort:
+      return Playlist::column_name(Playlist::Column::PerformerSort);
+    case Field::TitleSort:
+      return Playlist::column_name(Playlist::Column::TitleSort);
     case Field::FieldCount:
       Q_ASSERT(0);
   }
