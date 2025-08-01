@@ -689,7 +689,7 @@
     </message>
     <message>
       <source>Fade out on pause / fade in on resume</source>
-      <translation type="unfinished">Fade out on pause / fade in on resume</translation>
+      <translation>Ξεθώριασμα σε παύση / ξεθώριασμα σε συνέχιση</translation>
     </message>
   </context>
   <context>
@@ -776,7 +776,7 @@
     </message>
     <message>
       <source>Pressing &quot;Previous&quot; in player will...</source>
-      <translation type="unfinished">Pressing &quot;Previous&quot; in player will...</translation>
+      <translation>Πατώντας το &quot;Previous&quot; στον παίκτη...</translation>
     </message>
     <message>
       <source>Jump to previous song right away</source>
@@ -816,7 +816,7 @@
     </message>
     <message>
       <source>Seeking using a keyboard shortcut or mouse wheel</source>
-      <translation type="unfinished">Seeking using a keyboard shortcut or mouse wheel</translation>
+      <translation>Αναζήτηση με τη χρήση συντόμευσης πληκτρολογίου ή τροχού ποντικιού</translation>
     </message>
     <message>
       <source>Time step</source>
@@ -1042,11 +1042,11 @@
     </message>
     <message>
       <source>Song fingerprinting and tracking</source>
-      <translation type="unfinished">Song fingerprinting and tracking</translation>
+      <translation>Αποτύπωση και παρακολούθηση τραγουδιού</translation>
     </message>
     <message>
       <source>Mark disappeared songs unavailable</source>
-      <translation type="unfinished">Mark disappeared songs unavailable</translation>
+      <translation>Μη διαθέσιμη επισήμανση τραγουδιών</translation>
     </message>
     <message>
       <source>Perform song EBU R 128 analysis (required for EBU R 128 loudness normalization)</source>
@@ -1076,7 +1076,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Automatically open single categories in the collection tree</source>
-      <translation type="unfinished">Automatically open single categories in the collection tree</translation>
+      <translation>Αυτόματο άνοιγμα μεμονωμένων κατηγοριών στο δέντρο συλλογής</translation>
     </message>
     <message>
       <source>Show dividers</source>
@@ -1088,7 +1088,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Use various artists for compilation albums</source>
-      <translation type="unfinished">Use various artists for compilation albums</translation>
+      <translation>Χρήση διαφόρων καλλιτεχνών σε μεταγλώττιση άλμπουμ</translation>
     </message>
     <message>
       <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artist names</source>
