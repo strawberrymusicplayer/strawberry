@@ -621,23 +621,23 @@
     </message>
     <message>
       <source>Replay Gain</source>
-      <translation type="unfinished">Replay Gain</translation>
+      <translation>Ένταση αναπαραγωγής</translation>
     </message>
     <message>
       <source>Use Replay Gain metadata if it is available</source>
-      <translation type="unfinished">Use Replay Gain metadata if it is available</translation>
+      <translation>Χρήση μεταδεδομένων έντασης αναπαραγωγής εάν είναι διαθέσιμα</translation>
     </message>
     <message>
       <source>Replay Gain mode</source>
-      <translation type="unfinished">Replay Gain mode</translation>
+      <translation>Τρόπος έντασης αναπαραγωγής</translation>
     </message>
     <message>
       <source>Radio (equal loudness for all tracks)</source>
-      <translation type="unfinished">Radio (equal loudness for all tracks)</translation>
+      <translation>Ραδιόφωνο (ίση ένταση για όλα τα κομμάτια)</translation>
     </message>
     <message>
       <source>Album (ideal loudness for all tracks)</source>
-      <translation type="unfinished">Album (ideal loudness for all tracks)</translation>
+      <translation>Άλμπουμ (ιδανική ένταση για όλα τα κομμάτια)</translation>
     </message>
     <message>
       <source>Pre-amp</source>
@@ -645,15 +645,15 @@
     </message>
     <message>
       <source>Apply compression to prevent clipping</source>
-      <translation type="unfinished">Apply compression to prevent clipping</translation>
+      <translation>Εφαρμόστε συμπίεση για να αποφύγετε την αποκοπή</translation>
     </message>
     <message>
       <source>Fallback-gain</source>
-      <translation type="unfinished">Fallback-gain</translation>
+      <translation>Fallback-gain</translation>
     </message>
     <message>
       <source>EBU R 128 Loudness Normalization</source>
-      <translation type="unfinished">EBU R 128 Loudness Normalization</translation>
+      <translation>EBU R 128 Κανονικοποίηση Έντασης</translation>
     </message>
     <message>
       <source>Perform track loudness normalization</source>
@@ -661,7 +661,7 @@
     </message>
     <message>
       <source>Target Level</source>
-      <translation type="unfinished">Target Level</translation>
+      <translation>Target Level</translation>
     </message>
     <message>
       <source>Fading</source>
@@ -673,15 +673,15 @@
     </message>
     <message>
       <source>Cross-fade when changing tracks manually</source>
-      <translation type="unfinished">Cross-fade when changing tracks manually</translation>
+      <translation>Σταδιακή εξασθένιση κατά τη χειροκίνητη αλλαγή κομματιών</translation>
     </message>
     <message>
       <source>Cross-fade when changing tracks automatically</source>
-      <translation type="unfinished">Cross-fade when changing tracks automatically</translation>
+      <translation>Σταδιακή εξασθένιση κατά την αυτόματη αλλαγή κομματιών</translation>
     </message>
     <message>
       <source>Except between tracks on the same album or in the same CUE sheet</source>
-      <translation type="unfinished">Except between tracks on the same album or in the same CUE sheet</translation>
+      <translation>Εκτός από κομμάτια στο ίδιο άλμπουμ ή στο ίδιο φύλλο CUE</translation>
     </message>
     <message>
       <source>Fading duration</source>
