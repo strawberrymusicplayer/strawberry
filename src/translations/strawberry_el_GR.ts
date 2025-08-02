@@ -1092,11 +1092,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artist names</source>
-      <translation type="unfinished">Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artist names</translation>
+      <translation>Παράκαμψη άρθρων (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) κατά τη διαλογή ονομάτων καλλιτέχνη</translation>
     </message>
     <message>
       <source>Album cover pixmap cache</source>
-      <translation type="unfinished">Album cover pixmap cache</translation>
+      <translation>Προσωρινή μνήμη εικονογραφήσεων εξώφυλλου άλμπουμ</translation>
     </message>
     <message>
       <source>Size</source>
@@ -1128,7 +1128,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Save ratings to song tags when possible</source>
-      <translation type="unfinished">Save ratings to song tags when possible</translation>
+      <translation>Αποθήκευση πλήθους αναπαραγωγής σε ετικέτες τραγουδιών όταν είναι εφικτό</translation>
     </message>
     <message>
       <source>Overwrite database playcount when songs are re-read from disk</source>
@@ -1140,7 +1140,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Save playcounts and ratings to files now</source>
-      <translation type="unfinished">Save playcounts and ratings to files now</translation>
+      <translation>Αποθηκεύστε τους αριθμούς αναπαραγωγής και τις βαθμολογίες σε αρχεία τώρα</translation>
     </message>
     <message>
       <source>Enable delete files in the right click context menu</source>
@@ -3064,7 +3064,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>P&amp;laylist</source>
-      <translation type="unfinished">P&amp;laylist</translation>
+      <translation>&amp;Λίστα αναπαραγωγής</translation>
     </message>
     <message>
       <source>Help</source>
