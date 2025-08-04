@@ -958,7 +958,7 @@ void CollectionModel::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderR
 
 }
 
-QString CollectionModel::DisplayText(const GroupBy group_by, const Song &song, const CollectionSettings::SortBehaviour &sort_behaviour) {
+QString CollectionModel::DisplayText(const GroupBy group_by, const Song &song, const CollectionSettings::SortBehaviour sort_behaviour) {
 
   switch (group_by) {
     case GroupBy::AlbumArtist:
@@ -1010,7 +1010,7 @@ QString CollectionModel::DisplayText(const GroupBy group_by, const Song &song, c
 
 }
 
-QString CollectionModel::NameOrSortname(const QString &name, const QString &sort_name, const CollectionSettings::SortBehaviour &sort_behaviour) {
+QString CollectionModel::NameOrSortname(const QString &name, const QString &sort_name, const CollectionSettings::SortBehaviour sort_behaviour) {
 
   QString str;
 
@@ -1084,7 +1084,7 @@ QString CollectionModel::PrettyFormat(const Song &song) {
 
 }
 
-QString CollectionModel::SortText(const GroupBy group_by, const Song &song, const CollectionSettings::SortBehaviour &sort_behaviour) {
+QString CollectionModel::SortText(const GroupBy group_by, const Song &song, const CollectionSettings::SortBehaviour sort_behaviour) {
 
   switch (group_by) {
     case GroupBy::AlbumArtist:
@@ -1167,7 +1167,7 @@ QString CollectionModel::SortTextSkipArticles(QString name) {
 
 }
 
-QString CollectionModel::SortTextForName(const QString &name, const QString &sort_name, const CollectionSettings::SortBehaviour &sort_behaviour) {
+QString CollectionModel::SortTextForName(const QString &name, const QString &sort_name, const CollectionSettings::SortBehaviour sort_behaviour) {
 
   QString str;
 

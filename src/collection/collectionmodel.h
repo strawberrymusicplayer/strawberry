@@ -177,17 +177,17 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   QMimeData *mimeData(const QModelIndexList &indexes) const override;
 
   // Utility functions for manipulating text
-  static QString DisplayText(const GroupBy group_by, const Song &song, const CollectionSettings::SortBehaviour &sort_behaviour);
-  static QString NameOrSortname(const QString &name, const QString &sort_name, const CollectionSettings::SortBehaviour &sort_behaviour);
+  static QString DisplayText(const GroupBy group_by, const Song &song, const CollectionSettings::SortBehaviour sort_behaviour);
+  static QString NameOrSortname(const QString &name, const QString &sort_name, const CollectionSettings::SortBehaviour sort_behaviour);
   static QString TextOrUnknown(const QString &text);
   static QString PrettyYearAlbum(const int year, const QString &album);
   static QString PrettyAlbumDisc(const QString &album, const int disc);
   static QString PrettyYearAlbumDisc(const int year, const QString &album, const int disc);
   static QString PrettyDisc(const int disc);
   static QString PrettyFormat(const Song &song);
-  QString SortText(const GroupBy group_by, const Song &song, const CollectionSettings::SortBehaviour &sort_behaviour);
+  QString SortText(const GroupBy group_by, const Song &song, const CollectionSettings::SortBehaviour sort_behaviour);
   static QString SortText(QString text);
-  static QString SortTextForName(const QString &name, const QString &sort_name, const CollectionSettings::SortBehaviour &sort_behaviour);
+  static QString SortTextForName(const QString &name, const QString &sort_name, const CollectionSettings::SortBehaviour sort_behaviour);
   static QString SortTextForNumber(const int number);
   static QString SortTextSkipArticles(QString name);
   static QString SortTextForSong(const Song &song);
