@@ -17,24 +17,26 @@
  *
  */
 
-#include "client.h"
+#include "core/logging.h"
+#include "networkremoteclient.h"
+#include "core/player.h"
 
-NetworkRemoteClient::NetworkRemoteClient(const SharedPtr<Player> player, QObject *parent) :
-    QObject(parent),
-    player_(player),
-    incoming_msg_(new NetworkRemoteIncomingMsg(this)),
-    outgoing_msg_(new NetworkRemoteOutgoingMsg(player, this)) {}
+NetworkRemoteClient::NetworkRemoteClient(const SharedPtr<Player> player, QObject *parent)
+    : QObject(parent),
+      player_(player),
+      incoming_msg_(new NetworkRemoteIncomingMsg(this)),
+      outgoing_msg_(new NetworkRemoteOutgoingMsg(player, this)) {}
 
 NetworkRemoteClient::~NetworkRemoteClient(){}
 
 void NetworkRemoteClient::Init(QTcpSocket *socket){
   socket_ = socket;
-  QObject::connect(incoming_msg_,&NetworkRemoteIncomingMsg::InMsgParsed,this, &NetworkRemoteClient::ProcessIncoming);
+  QObject::connect(incoming_msg_, &NetworkRemoteIncomingMsg::InMsgParsed, this, &NetworkRemoteClient::ProcessIncoming);
   incoming_msg_->Init(socket_);
   outgoing_msg_->Init(socket_);
 }
 
-QTcpSocket* NetworkRemoteClient::GetSocket() {
+QTcpSocket *NetworkRemoteClient::GetSocket() {
   return socket_;
 }
 
@@ -67,7 +69,7 @@ void NetworkRemoteClient::ProcessIncoming() {
     case nw::remote::MsgTypeGadget::MsgType::MSG_TYPE_DISCONNECT:
       break;
     default:
-        qInfo("Unknown mwessage type");
+      qLog(Debug) << "Unknown message type";
       break;
   }
 }

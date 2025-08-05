@@ -20,13 +20,13 @@
 #include <QTcpSocket>
 #include <QProtobufSerializer>
 
-#include "incomingmsg.h"
+#include "networkremoteincomingmsg.h"
 #include "core/logging.h"
 
-NetworkRemoteIncomingMsg::NetworkRemoteIncomingMsg(QObject *parent) :
-    QObject(parent),
-    socket_(nullptr),
-    bytes_in_(0) {}
+NetworkRemoteIncomingMsg::NetworkRemoteIncomingMsg(QObject *parent)
+    : QObject(parent),
+      socket_(nullptr),
+      bytes_in_(0) {}
 
 NetworkRemoteIncomingMsg::~NetworkRemoteIncomingMsg() = default;
 

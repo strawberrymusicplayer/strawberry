@@ -23,18 +23,15 @@
 #include <QObject>
 #include <QHostAddress>
 
-#include "tcpserver.h"
-#include "networkremote/remotesettings.h"
+#include "networkremotetcpserver.h"
+#include "networkremote/networkremotesettings.h"
 
-class Application;
 class QThread;
 
-class NetworkRemote : public QObject
-{
+class NetworkRemote : public QObject {
   Q_OBJECT
  public:
-  explicit NetworkRemote(Application *app, QObject *parent = nullptr);
-  static NetworkRemote *Instance();
+  explicit NetworkRemote(const SharedPtr<Player> player, QObject *parent = nullptr);
   ~NetworkRemote() override;
 
  public Q_SLOTS:
@@ -45,13 +42,12 @@ class NetworkRemote : public QObject
   void stopTcpServer();
 
  private:
-  Application *app_;
+  const SharedPtr<Player> player_;
   bool enabled_;
   bool local_only_;
   int remote_port_;
   QHostAddress ipAddr_;
   NetworkRemoteTcpServer *server_;
-  static NetworkRemote *sInstance_;
   NetworkRemoteSettings *settings_;
 };
 

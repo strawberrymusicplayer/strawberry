@@ -22,18 +22,15 @@
 #include "core/application.h"
 #include "core/logging.h"
 
-NetworkRemote* NetworkRemote::sInstance_ = nullptr;
-
-NetworkRemote::NetworkRemote(Application* app, QObject *parent) :
-    QObject(parent),
-    app_(app),
-    enabled_(false),
-    local_only_(false),
-    remote_port_(5050),
-    server_(nullptr),
-    settings_(new NetworkRemoteSettings()) {
+NetworkRemote::NetworkRemote(const SharedPtr<Player> player, QObject *parent)
+    : QObject(parent),
+      player_(player),
+      enabled_(false),
+      local_only_(false),
+      remote_port_(5050),
+      server_(nullptr),
+      settings_(new NetworkRemoteSettings()) {
   setObjectName("NetworkRemote");
-  sInstance_ = this;
 }
 
 NetworkRemote::~NetworkRemote() {
@@ -41,6 +38,7 @@ NetworkRemote::~NetworkRemote() {
 }
 
 void NetworkRemote::Init() {
+  qLog(Debug) << "NetworkRemote Init() ";
   LoadSettings();
   if (enabled_) {
     startTcpServer();
@@ -48,7 +46,6 @@ void NetworkRemote::Init() {
   else {
     stopTcpServer();
   }
-  qLog(Debug) << "NetworkRemote Init() ";
 }
 
 void NetworkRemote::Update() {
@@ -72,7 +69,7 @@ void NetworkRemote::LoadSettings() {
 }
 
 void NetworkRemote::startTcpServer() {
-  server_ = new NetworkRemoteTcpServer(app_->player(), this);
+  server_ = new NetworkRemoteTcpServer(player_, this);
   server_->StartServer(ipAddr_, remote_port_);
 }
 
@@ -81,13 +78,4 @@ void NetworkRemote::stopTcpServer() {
     qLog(Debug) << "TcpServer stopped ";
     server_->StopServer();
   }
-}
-
-NetworkRemote* NetworkRemote::Instance() {
-  if (!sInstance_) {
-    qLog(Debug) << "NetworkRemote Fatal Instance Error ";
-    return nullptr;
-  }
-  qLog(Debug) << "NetworkRemote instance is up ";
-  return sInstance_;
 }

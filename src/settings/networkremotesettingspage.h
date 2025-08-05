@@ -21,7 +21,7 @@
 #define NETWORKREMOTESETTINGSPAGE_H
 
 #include "settingspage.h"
-#include "networkremote/remotesettings.h"
+#include "networkremote/networkremotesettings.h"
 
 class SettingsDialog;
 class Ui_NetworkRemoteSettingsPage;
@@ -34,7 +34,6 @@ class NetworkRemoteSettingsPage : public SettingsPage{
   ~NetworkRemoteSettingsPage() override;
   void Load() override;
   void Save() override;
-  void Refresh();
 
  Q_SIGNALS:
   void remoteSettingsChanged();

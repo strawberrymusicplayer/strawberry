@@ -19,44 +19,47 @@
 
 #include <QHostAddress>
 #include <QNetworkInterface>
-#include "remotesettings.h"
+#include "networkremotesettings.h"
 #include "core/logging.h"
+#include "core/settings.h"
 
 const char *NetworkRemoteSettings::kSettingsGroup = "NetworkRemote";
 
-NetworkRemoteSettings::NetworkRemoteSettings() :
-    enabled_(false),
-    local_only_(false),
-    remote_port_(5050) {}
+NetworkRemoteSettings::NetworkRemoteSettings()
+    : enabled_(false),
+      local_only_(false),
+      remote_port_(5050) {}
 
 NetworkRemoteSettings::~NetworkRemoteSettings() {}
 
 void NetworkRemoteSettings::Load() {
   SetIpAdress();
+  Settings s_;
   s_.beginGroup(NetworkRemoteSettings::kSettingsGroup);
   if (!s_.contains("useRemote")) {
     qLog(Debug) << "First time run the Network Remote";
     s_.setValue("useRemote", false);
-    s_.setValue("localOnly",false);
-    s_.setValue("remotePort",5050);
-    s_.setValue("ipAddress",ip_addr_);
+    s_.setValue("localOnly", false);
+    s_.setValue("remotePort", 5050);
+    s_.setValue("ipAddress", ip_addr_);
   }
   else {
     enabled_ = s_.value("useRemote").toBool();
     local_only_ = s_.value("localOnly").toBool();
     remote_port_ = s_.value("remotePort").toInt();
-    s_.setValue("ipAddress",ip_addr_);
+    s_.setValue("ipAddress", ip_addr_);
   }
   s_.endGroup();
   qLog(Debug) << "QSettings Loaded ++++++++++++++++";
 }
 
 void NetworkRemoteSettings::Save() {
+   Settings s_;
   s_.beginGroup(NetworkRemoteSettings::kSettingsGroup);
-  s_.setValue("useRemote",enabled_);
-  s_.setValue("localOnly",local_only_);
-  s_.setValue("remotePort",remote_port_);
-  s_.setValue("ipAddress",ip_addr_);
+  s_.setValue("useRemote", enabled_);
+  s_.setValue("localOnly", local_only_);
+  s_.setValue("remotePort", remote_port_);
+  s_.setValue("ipAddress", ip_addr_);
   s_.endGroup();
   s_.sync();
   qLog(Debug) << "Saving QSettings ++++++++++++++++";
@@ -90,10 +93,10 @@ void NetworkRemoteSettings::SetLocalOnly(bool localOnly) {
 
 void NetworkRemoteSettings::SetIpAdress() {
   bool found = false;
-  const QList<QHostAddress> hostList = QNetworkInterface::allAddresses();
-  for (const QHostAddress &address : std::as_const(hostList)) {
+  const QList<QHostAddress> host_list = QNetworkInterface::allAddresses();
+  for (const QHostAddress &address : host_list) {
     if (address.protocol() == QAbstractSocket::IPv4Protocol && address.isLoopback() == false && !found) {
-    qInfo( "Warning: The code only picks the first IPv4 address");
+      qInfo( "Warning: The code only picks the first IPv4 address");
       found = true;
       ip_addr_ = address.toString();
     }

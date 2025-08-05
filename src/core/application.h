@@ -60,7 +60,9 @@ class AudioScrobbler;
 class LastFMImport;
 class StreamingServices;
 class RadioServices;
+#ifdef HAVE_NETWORKREMOTE
 class NetworkRemote;
+#endif
 #ifdef HAVE_MOODBAR
 class MoodbarController;
 class MoodbarLoader;
@@ -107,8 +109,9 @@ class Application : public QObject {
 
   SharedPtr<LastFMImport> lastfm_import() const;
 
+#ifdef HAVE_NETWORKREMOTE
   SharedPtr<NetworkRemote> network_remote() const;
-
+#endif
 
   void Exit();
 

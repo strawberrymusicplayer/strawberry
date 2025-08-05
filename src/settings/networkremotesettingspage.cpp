@@ -20,7 +20,6 @@
 #include <QStyle>
 #include "core/iconloader.h"
 #include "core/logging.h"
-#include "networkremote/networkremote.h"
 #include "settings/settingsdialog.h"
 #include "settings/networkremotesettingspage.h"
 #include "ui_networkremotesettingspage.h"
@@ -56,7 +55,7 @@ void NetworkRemoteSettingsPage::Load() {
     ui_->portSelected->setReadOnly(false);
     ui_->portSelected->setValue(settings_->GetPort());
   }
-  else{
+  else {
     ui_->localConnectionsOnly->setCheckable(false);
     ui_->portSelected->setReadOnly(true);
   }
@@ -67,13 +66,6 @@ void NetworkRemoteSettingsPage::Load() {
 
 void NetworkRemoteSettingsPage::Save() {
   qLog(Debug) << "Saving QSettings ++++++++++++++++";
-}
-
-void NetworkRemoteSettingsPage::Refresh() {
-  if (NetworkRemote::Instance()) {
-    qLog(Debug) << "NetworkRemote Instance is up";
-    NetworkRemote::Instance()->Update();
-  }
 }
 
 void NetworkRemoteSettingsPage::DisplayIP() {
@@ -87,20 +79,17 @@ void NetworkRemoteSettingsPage::RemoteButtonClicked() {
     ui_->localConnectionsOnly->setCheckable(true);
     ui_->portSelected->setReadOnly(false);
   }
-  else{
+  else {
     ui_->localConnectionsOnly->setCheckable(false);
     ui_->portSelected->setReadOnly(true);
     }
-  Refresh();
 }
 
 void NetworkRemoteSettingsPage::LocalConnectButtonClicked() {
   settings_->SetLocalOnly(ui_->localConnectionsOnly->isChecked());
-  Refresh();
 }
 
 void NetworkRemoteSettingsPage::PortChanged() {
   settings_->SetPort(ui_->portSelected->value());
-  Refresh();
 }
 

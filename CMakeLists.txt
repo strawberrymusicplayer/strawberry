@@ -1480,22 +1480,22 @@ optional_source(HAVE_QOBUZ
 optional_source(HAVE_NETWORKREMOTE
   SOURCES
     src/networkremote/networkremote.cpp
-    src/networkremote/tcpserver.cpp
-    src/networkremote/remotesettings.cpp
-    src/networkremote/client.cpp
-    src/networkremote/clientmanager.cpp
-    src/networkremote/incomingmsg.cpp
-    src/networkremote/outgoingmsg.cpp
+    src/networkremote/networkremotetcpserver.cpp
+    src/networkremote/networkremotesettings.cpp
+    src/networkremote/networkremoteclient.cpp
+    src/networkremote/networkremoteclientmanager.cpp
+    src/networkremote/networkremoteincomingmsg.cpp
+    src/networkremote/networkremoteoutgoingmsg.cpp
     src/networkremote/RemoteMessages.proto
     src/settings/networkremotesettingspage.cpp
   HEADERS
     src/networkremote/networkremote.h
-    src/networkremote/tcpserver.h
-    src/networkremote/remotesettings.h
-    src/networkremote/client.h
-    src/networkremote/clientmanager.h
-    src/networkremote/incomingmsg.h
-    src/networkremote/outgoingmsg.h
+    src/networkremote/networkremotetcpserver.h
+    src/networkremote/networkremotesettings.h
+    src/networkremote/networkremoteclient.h
+    src/networkremote/networkremoteclientmanager.h
+    src/networkremote/networkremoteincomingmsg.h
+    src/networkremote/networkremoteoutgoingmsg.h
     src/settings/networkremotesettingspage.h
   UI
     src/settings/networkremotesettingspage.ui

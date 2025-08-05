@@ -19,18 +19,18 @@
 
 #include <QTcpSocket>
 #include <QProtobufSerializer>
-#include "outgoingmsg.h"
+#include "networkremoteoutgoingmsg.h"
 #include "core/application.h"
 #include "core/logging.h"
 #include "core/player.h"
 
-NetworkRemoteOutgoingMsg::NetworkRemoteOutgoingMsg(const SharedPtr<Player> player, QObject *parent) :
-    QObject(parent),
-    player_(player),
-    bytes_out_(0),
-    msg_type_(0),
-    playlist_(nullptr),
-    socket_(nullptr) {}
+NetworkRemoteOutgoingMsg::NetworkRemoteOutgoingMsg(const SharedPtr<Player> player, QObject *parent)
+    : QObject(parent),
+      player_(player),
+      bytes_out_(0),
+      msg_type_(0),
+      playlist_(nullptr),
+      socket_(nullptr) {}
 
 void NetworkRemoteOutgoingMsg::Init(QTcpSocket *socket) {
   socket_ = socket;
@@ -60,10 +60,6 @@ void NetworkRemoteOutgoingMsg::SendCurrentTrackInfo() {
     msg_.setResponseSongMetadata(response_song_);
   }
   else {
-    qInfo("I cannnot figure out how to get the song data if the song isn't playing");
-    /* NOTE:  TODO
-     *
-    * */
     response_song_.setPlayerState(nw::remote::PlayerStateGadget::PlayerState::PLAYER_STATUS_UNSPECIFIED);
     msg_.setType(nw::remote::MsgTypeGadget::MsgType::MSG_TYPE_REPLY_SONG_INFO);
     msg_.setResponseSongMetadata(response_song_);

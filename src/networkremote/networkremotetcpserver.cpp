@@ -18,19 +18,19 @@
  */
 
 #include <QNetworkProxy>
-#include "tcpserver.h"
+#include "networkremotetcpserver.h"
 #include "core/logging.h"
-#include "networkremote/clientmanager.h"
+#include "networkremote/networkremoteclientmanager.h"
 
-NetworkRemoteTcpServer::NetworkRemoteTcpServer(const SharedPtr<Player> player, QObject *parent) :
-    QObject(parent),
-    player_(player),
-    server_(new QTcpServer(this)),
-    client_mgr_(new NetworkRemoteClientManager(player_, this)){
-    connect(server_, &QTcpServer::newConnection, this, &NetworkRemoteTcpServer::NewTcpConnection);
+NetworkRemoteTcpServer::NetworkRemoteTcpServer(const SharedPtr<Player> player, QObject *parent)
+    : QObject(parent),
+      player_(player),
+      server_(new QTcpServer(this)),
+      client_mgr_(new NetworkRemoteClientManager(player_, this)){
+      connect(server_, &QTcpServer::newConnection, this, &NetworkRemoteTcpServer::NewTcpConnection);
 }
 
-void NetworkRemoteTcpServer::StartServer(QHostAddress ipAddr, int port) {
+void NetworkRemoteTcpServer::StartServer(const QHostAddress ipAddr, int port) {
   server_->setProxy(QNetworkProxy::NoProxy);
   if (server_->listen(ipAddr, port)) {
     qLog(Debug) << "TCP Server Started on --- " << ipAddr.toString() << " and port -- " << port;

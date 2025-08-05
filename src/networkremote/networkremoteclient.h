@@ -22,9 +22,11 @@
 
 #include <QObject>
 #include <QTcpSocket>
-#include "incomingmsg.h"
-#include "outgoingmsg.h"
-#include "core/player.h"
+#include "networkremoteincomingmsg.h"
+#include "networkremoteoutgoingmsg.h"
+#include "includes/shared_ptr.h"
+
+class Player;
 
 class NetworkRemoteClient : public QObject{
   Q_OBJECT

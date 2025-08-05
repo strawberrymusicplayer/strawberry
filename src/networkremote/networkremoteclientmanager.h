@@ -17,30 +17,33 @@
  *
  */
 
-#ifndef NETWORKREMOTETCPSERVER_H
-#define NETWORKREMOTETCPSERVER_H
+#ifndef NETWORKREMOTECLIENTMANAGER_H
+#define NETWORKREMOTECLIENTMANAGER_H
 
 #include <QObject>
-#include <QTcpServer>
 #include <QTcpSocket>
-#include "networkremote/clientmanager.h"
+#include <QList>
+#include "includes/shared_ptr.h"
 
-class NetworkRemoteTcpServer : public QObject{
+class Player;
+
+class NetworkRemoteClient;
+
+class NetworkRemoteClientManager : public QObject{
   Q_OBJECT
  public:
-  explicit NetworkRemoteTcpServer(const SharedPtr<Player> player, QObject *parent = nullptr);
-  bool ServerUp();
+  explicit NetworkRemoteClientManager(const SharedPtr<Player> player, QObject *parent = nullptr);
+  ~NetworkRemoteClientManager();
+  void AddClient(QTcpSocket *socket);
 
- public Q_SLOTS:
-  void NewTcpConnection();
-  void StartServer(QHostAddress ipAddr, int port);
-  void StopServer();
+ private Q_SLOTS:
+  void RemoveClient(const QSharedPointer<NetworkRemoteClient>& client);
+  void Error(QAbstractSocket::SocketError socketError);
+  void StateChanged();
 
  private:
   const SharedPtr<Player> player_;
-  QTcpServer *server_;
-  QTcpSocket *socket_;
-  NetworkRemoteClientManager *client_mgr_;
+  QList<QSharedPointer<NetworkRemoteClient>> clients_;
 };
 
 #endif

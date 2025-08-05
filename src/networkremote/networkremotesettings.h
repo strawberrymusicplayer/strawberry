@@ -21,7 +21,6 @@
 #define NETWORKREMOTESETTINGS_H
 
 #include <QObject>
-#include "core/settings.h"
 
 class NetworkRemoteSettings{
  public:
@@ -40,7 +39,6 @@ class NetworkRemoteSettings{
   void SetPort(int);
 
  private:
-  Settings s_;
   bool enabled_;
   bool local_only_;
   int remote_port_;

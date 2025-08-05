@@ -17,37 +17,37 @@
  *
  */
 
-#include "clientmanager.h"
-#include "client.h"
+#include "networkremoteclientmanager.h"
+#include "networkremoteclient.h"
 #include "core/application.h"
 #include "core/logging.h"
 
-NetworkRemoteClientManager::NetworkRemoteClientManager(const SharedPtr<Player> player, QObject *parent) :
-    QObject(parent),
-    player_(player),
-    clients_() {}
 
-NetworkRemoteClientManager::~NetworkRemoteClientManager() {
-  qDeleteAll(clients_);
-  clients_.clear();
-}
+NetworkRemoteClientManager::NetworkRemoteClientManager(const SharedPtr<Player> player, QObject *parent)
+    : QObject(parent),
+      player_(player),
+      clients_() {}
+
+NetworkRemoteClientManager::~NetworkRemoteClientManager() {}
 
 void NetworkRemoteClientManager::AddClient(QTcpSocket *socket) {
   qLog(Debug) << "New Client connection +++++++++++++++";
   QObject::connect(socket, &QAbstractSocket::errorOccurred, this, &NetworkRemoteClientManager::Error);
   QObject::connect(socket, &QAbstractSocket::stateChanged, this, &NetworkRemoteClientManager::StateChanged);
-  NetworkRemoteClient *client = new NetworkRemoteClient(player_);
+
+  QSharedPointer<NetworkRemoteClient> client = QSharedPointer<NetworkRemoteClient>::create(player_);
   client->Init(socket);
   clients_.append(client);
-  QObject::connect(client, &NetworkRemoteClient::ClientIsLeaving, this, [this, client](){RemoveClient(client);});
+
+  QObject::connect(client.data(), &NetworkRemoteClient::ClientIsLeaving, this, [this, client](){
+    RemoveClient(client);
+  });
   qLog(Debug) << "Socket State is " << socket->state();
   qLog(Debug) << "There are now +++++++++++++++" << clients_.count() << "clients connected";
 }
 
-void NetworkRemoteClientManager::RemoveClient(NetworkRemoteClient *client) {
-  if (clients_.removeOne(client)) {
-    client->deleteLater();
-  }  
+void NetworkRemoteClientManager::RemoveClient(const QSharedPointer<NetworkRemoteClient>& client) {
+  clients_.removeOne(client);
   qLog(Debug) << "There are now +++++++++++++++" << clients_.count() << "clients connected";
 }
 
@@ -70,16 +70,17 @@ void NetworkRemoteClientManager::Error(QAbstractSocket::SocketError socketError)
 }
 
 void NetworkRemoteClientManager::StateChanged() {
-  QTcpSocket *socket = qobject_cast<QTcpSocket*>(sender());
-  if (!socket) return;
-  qLog(Debug) << socket->state();
-  qLog(Debug) << "State Changed";
-  if (socket->state() == QAbstractSocket::UnconnectedState) {
-  for (NetworkRemoteClient *client : std::as_const(clients_)) {
-    if (client->GetSocket() == socket) {
-      RemoveClient(client);
-      break; 
+    QTcpSocket *socket = qobject_cast<QTcpSocket *>(sender());
+    if (!socket) return;
+    qLog(Debug) << socket->state();
+    qLog(Debug) << "State Changed";
+    if (socket->state() == QAbstractSocket::UnconnectedState) {
+      for (const QSharedPointer<NetworkRemoteClient> &client : std::as_const(clients_)) {
+        if (client->GetSocket() == socket) {
+            RemoveClient(client);
+              break;
       }
     }
   }
 }
+
