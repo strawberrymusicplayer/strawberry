@@ -61,18 +61,15 @@ ErrorDialog::~ErrorDialog() {
 
 void ErrorDialog::ShowMessage(const QString &message) {
 
-  if (message.isEmpty()) return;
+  if(message.isEmpty() || !parent_ || !parent_->isMaximized())
+    return;
 
   current_messages_ << message;
+
   UpdateContent();
-
   show();
-
-  if (parent_ && parent_->isMaximized()) {
-    raise();
-    activateWindow();
-  }
-
+  raise();
+  activateWindow();
 }
 
 void ErrorDialog::closeEvent(QCloseEvent *e) {
