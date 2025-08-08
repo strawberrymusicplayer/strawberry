@@ -259,7 +259,7 @@ if(APPLE)
 endif()
 
 if(WIN32)
-  find_package(getopt-win REQUIRED)
+  find_package(unofficial-getopt-win32 REQUIRED)
 endif()
 
 if(APPLE OR WIN32)
