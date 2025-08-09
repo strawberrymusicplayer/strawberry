@@ -133,11 +133,14 @@ class Playlist : public QAbstractListModel {
     Comment,
     Grouping,
     Source,
-    Mood,
+    Moodbar,
     Rating,
     HasCUE,
     EBUR128IntegratedLoudness,
     EBUR128LoudnessRange,
+    BPM,
+    Mood,
+    InitialKey,
     ColumnCount
   };
   using Columns = QList<Column>;

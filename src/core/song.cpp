@@ -132,6 +132,9 @@ const QStringList Song::kColumns = QStringList() << u"title"_s
                                                  << u"cue_path"_s
 
                                                  << u"rating"_s
+                                                 << u"bpm"_s
+                                                 << u"mood"_s
+                                                 << u"initial_key"_s
 
                                                  << u"acoustid_id"_s
                                                  << u"acoustid_fingerprint"_s
@@ -328,6 +331,9 @@ struct Song::Private : public QSharedData {
   QString cue_path_;            // If the song has a CUE, this contains it's path.
 
   float rating_;                // Database rating, initial rating read from tag.
+  float bpm_;
+  QString mood_;
+  QString initial_key_;
 
   QString acoustid_id_;
   QString acoustid_fingerprint_;
@@ -391,6 +397,7 @@ Song::Private::Private(const Source source)
       art_unset_(false),
 
       rating_(-1),
+      bpm_(-1),
 
       init_from_file_(false),
       suspicious_tags_(false)
@@ -481,6 +488,9 @@ bool Song::art_unset() const { return d->art_unset_; }
 const QString &Song::cue_path() const { return d->cue_path_; }
 
 float Song::rating() const { return d->rating_; }
+float Song::bpm() const { return d->bpm_; }
+const QString &Song::mood() const { return d->mood_; }
+const QString &Song::initial_key() const { return d->initial_key_; }
 
 const QString &Song::acoustid_id() const { return d->acoustid_id_; }
 const QString &Song::acoustid_fingerprint() const { return d->acoustid_fingerprint_; }
@@ -592,6 +602,9 @@ void Song::set_art_unset(const bool v) { d->art_unset_ = v; }
 void Song::set_cue_path(const QString &v) { d->cue_path_ = v; }
 
 void Song::set_rating(const float v) { d->rating_ = v; }
+void Song::set_bpm(const float v) { d->bpm_ = v; }
+void Song::set_mood(const QString &v) { d->mood_ = v; }
+void Song::set_initial_key(const QString &v) { d->initial_key_ = v; }
 
 void Song::set_acoustid_id(const QString &v) { d->acoustid_id_ = v; }
 void Song::set_acoustid_fingerprint(const QString &v) { d->acoustid_fingerprint_ = v; }
@@ -645,6 +658,8 @@ void Song::set_musicbrainz_track_id(const TagLib::String &v) { d->musicbrainz_tr
 void Song::set_musicbrainz_disc_id(const TagLib::String &v) { d->musicbrainz_disc_id_ = TagLibStringToQString(v).remove(u' ').replace(u';', u'/'); }
 void Song::set_musicbrainz_release_group_id(const TagLib::String &v) { d->musicbrainz_release_group_id_ = TagLibStringToQString(v).remove(u' ').replace(u';', u'/'); }
 void Song::set_musicbrainz_work_id(const TagLib::String &v) { d->musicbrainz_work_id_ = TagLibStringToQString(v).remove(u' ').replace(u';', u'/'); }
+void Song::set_mood(const TagLib::String &v) { d->mood_ = TagLibStringToQString(v); }
+void Song::set_initial_key(const TagLib::String &v) { d->initial_key_ = TagLibStringToQString(v); }
 
 const QUrl &Song::effective_url() const { return !d->stream_url_.isEmpty() && d->stream_url_.isValid() ? d->stream_url_ : d->url_; }
 const QString &Song::effective_titlesort() const { return d->titlesort_.isEmpty() ? d->title_ : d->titlesort_; }
@@ -977,6 +992,9 @@ bool Song::IsMetadataEqual(const Song &other) const {
          d->bitrate_ == other.d->bitrate_ &&
          d->samplerate_ == other.d->samplerate_ &&
          d->bitdepth_ == other.d->bitdepth_ &&
+         d->bpm_ == other.d->bpm_ &&
+         d->mood_ == other.d->mood_ &&
+         d->initial_key_ == other.d->initial_key_ &&
          d->cue_path_ == other.d->cue_path_;
 }
 
@@ -1570,7 +1588,11 @@ void Song::InitFromQuery(const QSqlRecord &r, const bool reliable_metadata, cons
   d->art_unset_ = SqlHelper::ValueToBool(r, ColumnIndex(u"art_unset"_s) + col);
 
   d->cue_path_ = SqlHelper::ValueToString(r, ColumnIndex(u"cue_path"_s) + col);
+
   d->rating_ = SqlHelper::ValueToFloat(r, ColumnIndex(u"rating"_s) + col);
+  d->bpm_ = SqlHelper::ValueToFloat(r, ColumnIndex(u"bpm"_s) + col);
+  d->mood_ = SqlHelper::ValueToString(r, ColumnIndex(u"mood"_s) + col);
+  d->initial_key_ = SqlHelper::ValueToString(r, ColumnIndex(u"initial_key"_s) + col);
 
   d->acoustid_id_ = SqlHelper::ValueToString(r, ColumnIndex(u"acoustid_id"_s) + col);
   d->acoustid_fingerprint_ = SqlHelper::ValueToString(r, ColumnIndex(u"acoustid_fingerprint"_s) + col);
@@ -1900,6 +1922,9 @@ void Song::BindToQuery(SqlQuery *query) const {
   query->BindValue(u":cue_path"_s, d->cue_path_);
 
   query->BindFloatValue(u":rating"_s, d->rating_);
+  query->BindFloatValue(u":bpm"_s, d->bpm_);
+  query->BindStringValue(u":mood"_s, d->mood_);
+  query->BindStringValue(u":initial_key"_s, d->initial_key_);
 
   query->BindStringValue(u":acoustid_id"_s, d->acoustid_id_);
   query->BindStringValue(u":acoustid_fingerprint"_s, d->acoustid_fingerprint_);

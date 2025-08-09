@@ -133,6 +133,9 @@ constexpr char kID3v2_FMPS_Rating[] = "FMPS_Rating";
 constexpr char kID3v2_Unique_File_Identifier[] = "UFID";
 constexpr char kID3v2_UserDefinedTextInformationFrame[] = "TXXX";
 constexpr char kID3v2_Popularimeter[] = "POPM";
+constexpr char kID3v2_BPM[] = "TBPM";
+constexpr char kID3v2_Mood[] = "TMOO";
+constexpr char kID3v2_Initial_Key[] = "TKEY";
 constexpr char kID3v2_AcoustId[] = "Acoustid Id";
 constexpr char kID3v2_AcoustId_Fingerprint[] = "Acoustid Fingerprint";
 constexpr char kID3v2_MusicBrainz_AlbumArtistId[] = "MusicBrainz Album Artist Id";
@@ -168,6 +171,9 @@ constexpr char kVorbisComment_FMPS_Playcount[] = "FMPS_PLAYCOUNT";
 constexpr char kVorbisComment_FMPS_Rating[] = "FMPS_RATING";
 constexpr char kVorbisComment_Lyrics[] = "LYRICS";
 constexpr char kVorbisComment_UnsyncedLyrics[] = "UNSYNCEDLYRICS";
+constexpr char kVorbisComment_BPM[] = "BPM";
+constexpr char kVorbisComment_Mood[] = "MOOD";
+constexpr char kVorbisComment_Initial_Key[] = "INITIALKEY";
 constexpr char kVorbisComment_AcoustId[] = "ACOUSTID_ID";
 constexpr char kVorbisComment_AcoustId_Fingerprint[] = "ACOUSTID_FINGERPRINT";
 constexpr char kVorbisComment_MusicBrainz_AlbumArtistId[] = "MUSICBRAINZ_ALBUMARTISTID";
@@ -191,6 +197,7 @@ constexpr char kMP4_CoverArt[] = "covr";
 constexpr char kMP4_OriginalYear[] = "----:com.apple.iTunes:ORIGINAL YEAR";
 constexpr char kMP4_FMPS_Playcount[] = "----:com.apple.iTunes:FMPS_Playcount";
 constexpr char kMP4_FMPS_Rating[] = "----:com.apple.iTunes:FMPS_Rating";
+constexpr char kMP4_BPM[] = "tmpo";
 constexpr char kMP4_AcoustId[] = "----:com.apple.iTunes:Acoustid Id";
 constexpr char kMP4_AcoustId_Fingerprint[] = "----:com.apple.iTunes:Acoustid Fingerprint";
 constexpr char kMP4_MusicBrainz_AlbumArtistId[] = "----:com.apple.iTunes:MusicBrainz Album Artist Id";
@@ -214,6 +221,7 @@ constexpr char kAPE_CoverArt[] = "COVER ART (FRONT)";
 constexpr char kAPE_FMPS_Playcount[] = "FMPS_PLAYCOUNT";
 constexpr char kAPE_FMPS_Rating[] = "FMPS_RATING";
 constexpr char kAPE_Lyrics[] = "LYRICS";
+constexpr char kAPE_BPM[] = "BPM";
 constexpr char kAPE_AcoustId[] = "ACOUSTID_ID";
 constexpr char kAPE_AcoustId_Fingerprint[] = "ACOUSTID_FINGERPRINT";
 constexpr char kAPE_MusicBrainz_AlbumArtistId[] = "MUSICBRAINZ_ALBUMARTISTID";
@@ -633,6 +641,10 @@ void TagReaderTagLib::ParseID3v2Tags(TagLib::ID3v2::Tag *tag, QString *disc, QSt
 
   if (map.contains(kID3v2_CoverArt) && song->url().isLocalFile()) song->set_art_embedded(true);
 
+  if (map.contains(kID3v2_BPM)) song->set_bpm(TagLibStringToQString(map[kID3v2_BPM].front()->toString()).trimmed().toFloat());
+  if (map.contains(kID3v2_Mood)) song->set_mood(map[kID3v2_Mood].front()->toString());
+  if (map.contains(kID3v2_Initial_Key)) song->set_initial_key(map[kID3v2_Initial_Key].front()->toString());
+
   if (TagLib::ID3v2::UserTextIdentificationFrame *frame_fmps_playcount = TagLib::ID3v2::UserTextIdentificationFrame::find(tag, kID3v2_FMPS_Playcount)) {
     TagLib::StringList frame_field_list = frame_fmps_playcount->fieldList();
     if (frame_field_list.size() > 1) {
@@ -753,6 +765,10 @@ void TagReaderTagLib::ParseVorbisComments(const TagLib::Ogg::FieldListMap &map, 
   if (map.contains(kVorbisComment_Lyrics)) song->set_lyrics(map[kVorbisComment_Lyrics].front());
   else if (map.contains(kVorbisComment_UnsyncedLyrics)) song->set_lyrics(map[kVorbisComment_UnsyncedLyrics].front());
 
+  if (map.contains(kVorbisComment_BPM)) song->set_bpm(TagLibStringToQString(map[kVorbisComment_BPM].front()).toFloat());
+  if (map.contains(kVorbisComment_Mood)) song->set_mood(map[kVorbisComment_Mood].front());
+  if (map.contains(kVorbisComment_Initial_Key)) song->set_initial_key(map[kVorbisComment_Initial_Key].front());
+
   if (map.contains(kVorbisComment_AcoustId)) song->set_acoustid_id(map[kVorbisComment_AcoustId].front());
   if (map.contains(kVorbisComment_AcoustId_Fingerprint)) song->set_acoustid_fingerprint(map[kVorbisComment_AcoustId_Fingerprint].front());
 
@@ -816,6 +832,10 @@ void TagReaderTagLib::ParseAPETags(const TagLib::APE::ItemListMap &map, QString 
     if (song->rating() <= 0 && rating > 0) {
       song->set_rating(rating);
     }
+  }
+
+  if (map.contains(kAPE_BPM)) {
+    song->set_bpm(TagLibStringToQString(map[kAPE_BPM].toString()).toFloat());
   }
 
   if (map.contains(kAPE_AcoustId)) song->set_acoustid_id(map[kAPE_AcoustId].toString());
@@ -894,6 +914,16 @@ void TagReaderTagLib::ParseMP4Tags(TagLib::MP4::Tag *tag, QString *disc, QString
   }
 
   song->set_comment(tag->comment());
+
+  if (tag->item(kMP4_BPM).isValid()) {
+    const TagLib::MP4::Item item = tag->item(kMP4_BPM);
+    if (item.isValid()) {
+      const float bpm = TagLibStringToQString(item.toStringList().toString('\n')).toFloat();
+      if (bpm > 0) {
+        song->set_bpm(bpm);
+      }
+    }
+  }
 
   if (tag->contains(kMP4_AcoustId)) {
     song->set_acoustid_id(tag->item(kMP4_AcoustId).toStringList().toString());

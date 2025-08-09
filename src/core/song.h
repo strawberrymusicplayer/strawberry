@@ -213,6 +213,9 @@ class Song {
   const QString &cue_path() const;
 
   float rating() const;
+  float bpm() const;
+  const QString &mood() const;
+  const QString &initial_key() const;
 
   const QString &acoustid_id() const;
   const QString &acoustid_fingerprint() const;
@@ -325,6 +328,9 @@ class Song {
   void set_cue_path(const QString &v);
 
   void set_rating(const float v);
+  void set_bpm(const float v);
+  void set_mood(const QString &v);
+  void set_initial_key(const QString &v);
 
   void set_acoustid_id(const QString &v);
   void set_acoustid_fingerprint(const QString &v);
@@ -378,6 +384,8 @@ class Song {
   void set_musicbrainz_disc_id(const TagLib::String &v);
   void set_musicbrainz_release_group_id(const TagLib::String &v);
   void set_musicbrainz_work_id(const TagLib::String &v);
+  void set_mood(const TagLib::String &v);
+  void set_initial_key(const TagLib::String &v);
 
   const QUrl &effective_url() const;
   const QString &effective_titlesort() const;

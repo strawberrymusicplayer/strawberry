@@ -391,7 +391,11 @@ QVariant Playlist::data(const QModelIndex &idx, const int role) const {
 
         case Column::HasCUE:             return song.has_cue();
 
-        case Column::Mood:
+        case Column::BPM:                return song.bpm();
+        case Column::Mood:               return song.mood();
+        case Column::InitialKey:         return song.initial_key();
+
+        case Column::Moodbar:
         case Column::ColumnCount:
           break;
 
@@ -445,7 +449,7 @@ QVariant Playlist::data(const QModelIndex &idx, const int role) const {
 
 #ifdef HAVE_MOODBAR
 void Playlist::MoodbarUpdated(const QModelIndex &idx) {
-  Q_EMIT dataChanged(idx.sibling(idx.row(), static_cast<int>(Column::Mood)), idx.sibling(idx.row(), static_cast<int>(Column::Mood)));
+  Q_EMIT dataChanged(idx.sibling(idx.row(), static_cast<int>(Column::Moodbar)), idx.sibling(idx.row(), static_cast<int>(Column::Moodbar)));
 }
 #endif
 
@@ -1412,7 +1416,11 @@ bool Playlist::CompareItems(const Column column, const Qt::SortOrder order, Play
     case Column::EBUR128IntegratedLoudness: return CompareVal(ma.ebur128_integrated_loudness_lufs(), mb.ebur128_integrated_loudness_lufs());
     case Column::EBUR128LoudnessRange:      return CompareVal(ma.ebur128_loudness_range_lu(), mb.ebur128_loudness_range_lu());
 
-    case Column::Mood:
+    case Column::BPM:                       return CompareVal(ma.bpm(), mb.bpm());
+    case Column::Mood:                      return CompareStr(ma.mood(), mb.mood());
+    case Column::InitialKey:                return CompareStr(ma.initial_key(), mb.initial_key());
+
+    case Column::Moodbar:
     case Column::ColumnCount:
       break;
   }
@@ -1460,12 +1468,16 @@ QString Playlist::column_name(const Column column) {
 
     case Column::Comment:                   return tr("Comment");
     case Column::Source:                    return tr("Source");
-    case Column::Mood:                      return tr("Mood");
+    case Column::Moodbar:                   return tr("Moodbar");
     case Column::Rating:                    return tr("Rating");
     case Column::HasCUE:                    return tr("CUE");
 
     case Column::EBUR128IntegratedLoudness: return tr("Integrated Loudness");
     case Column::EBUR128LoudnessRange:      return tr("Loudness Range");
+
+    case Column::BPM:                       return tr("BPM");
+    case Column::Mood:                      return tr("Mood");
+    case Column::InitialKey:                return tr("Initial key");
 
     case Column::ColumnCount:
       break;
@@ -2265,6 +2277,15 @@ Playlist::Columns Playlist::ChangedColumns(const Song &metadata1, const Song &me
   }
   if (metadata1.ebur128_loudness_range_lu() != metadata2.ebur128_loudness_range_lu()) {
     columns << Column::EBUR128LoudnessRange;
+  }
+  if (metadata1.bpm() != metadata2.bpm()) {
+    columns << Column::BPM;
+  }
+  if (metadata1.mood() != metadata2.mood()) {
+    columns << Column::Mood;
+  }
+  if (metadata1.initial_key() != metadata2.initial_key()) {
+    columns << Column::InitialKey;
   }
 
   return columns;

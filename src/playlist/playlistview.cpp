@@ -246,7 +246,7 @@ void PlaylistView::SetItemDelegates() {
   setItemDelegateForColumn(static_cast<int>(Playlist::Column::Source), new SongSourceDelegate(this));
 
 #ifdef HAVE_MOODBAR
-  setItemDelegateForColumn(static_cast<int>(Playlist::Column::Mood), new MoodbarItemDelegate(moodbar_loader_, this, this));
+  setItemDelegateForColumn(static_cast<int>(Playlist::Column::Moodbar), new MoodbarItemDelegate(moodbar_loader_, this, this));
 #endif
 
   rating_delegate_ = new RatingItemDelegate(this);
@@ -254,6 +254,7 @@ void PlaylistView::SetItemDelegates() {
 
   setItemDelegateForColumn(static_cast<int>(Playlist::Column::EBUR128IntegratedLoudness), new Ebur128LoudnessLUFSItemDelegate(this));
   setItemDelegateForColumn(static_cast<int>(Playlist::Column::EBUR128LoudnessRange), new Ebur128LoudnessRangeLUItemDelegate(this));
+
 }
 
 void PlaylistView::setModel(QAbstractItemModel *m) {
@@ -390,11 +391,14 @@ void PlaylistView::RestoreHeaderState() {
     header_->HideSection(static_cast<int>(Playlist::Column::LastPlayed));
     header_->HideSection(static_cast<int>(Playlist::Column::Comment));
     header_->HideSection(static_cast<int>(Playlist::Column::Grouping));
-    header_->HideSection(static_cast<int>(Playlist::Column::Mood));
+    header_->HideSection(static_cast<int>(Playlist::Column::Moodbar));
     header_->HideSection(static_cast<int>(Playlist::Column::Rating));
     header_->HideSection(static_cast<int>(Playlist::Column::HasCUE));
     header_->HideSection(static_cast<int>(Playlist::Column::EBUR128IntegratedLoudness));
     header_->HideSection(static_cast<int>(Playlist::Column::EBUR128LoudnessRange));
+    header_->HideSection(static_cast<int>(Playlist::Column::BPM));
+    header_->HideSection(static_cast<int>(Playlist::Column::Mood));
+    header_->HideSection(static_cast<int>(Playlist::Column::InitialKey));
 
     header_->ShowSection(static_cast<int>(Playlist::Column::Track));
     header_->ShowSection(static_cast<int>(Playlist::Column::Title));
@@ -1390,6 +1394,7 @@ ColumnAlignmentMap PlaylistView::DefaultColumnAlignment() {
   ret[static_cast<int>(Playlist::Column::Filesize)] =
   ret[static_cast<int>(Playlist::Column::PlayCount)] =
   ret[static_cast<int>(Playlist::Column::SkipCount)] =
+  ret[static_cast<int>(Playlist::Column::BPM)] =
  (Qt::AlignRight | Qt::AlignVCenter);
 
   return ret;

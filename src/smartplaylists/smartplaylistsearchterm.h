@@ -65,6 +65,9 @@ class SmartPlaylistSearchTerm {
     ComposerSort,
     PerformerSort,
     TitleSort,
+    BPM,
+    Mood,
+    InitialKey,
     FieldCount
   };
 
