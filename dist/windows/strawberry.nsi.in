@@ -418,7 +418,9 @@ Section "Strawberry" Strawberry
   File "gsttag-1.0-0.dll"
   File "gsturidownloader-1.0-0.dll"
   File "gstvideo-1.0-0.dll"
+!ifdef arch_arm64
   File "gstwinrt-1.0-0.dll"
+!endif
   File "harfbuzz.dll"
   File "intl-8.dll"
   File "jpeg62.dll"
@@ -963,7 +965,9 @@ Section "Uninstall"
   Delete "$INSTDIR\gsttag-1.0-0.dll"
   Delete "$INSTDIR\gsturidownloader-1.0-0.dll"
   Delete "$INSTDIR\gstvideo-1.0-0.dll"
+!ifdef arch_arm64
   Delete "$INSTDIR\gstwinrt-1.0-0.dll"
+!endif
   Delete "$INSTDIR\harfbuzz.dll"
   Delete "$INSTDIR\intl-8.dll"
   Delete "$INSTDIR\jpeg62.dll"
