@@ -206,9 +206,10 @@ void CollectionModel::ReloadSettings() {
   Settings settings;
   settings.beginGroup(CollectionSettings::kSettingsGroup);
   const bool show_pretty_covers = settings.value(CollectionSettings::kPrettyCovers, true).toBool();
-  const bool show_dividers= settings.value(CollectionSettings::kShowDividers, true).toBool();
+  const bool show_dividers = settings.value(CollectionSettings::kShowDividers, true).toBool();
   const bool show_various_artists = settings.value(CollectionSettings::kVariousArtists, true).toBool();
-  const CollectionSettings::SortBehaviour sort_behaviour = static_cast<CollectionSettings::SortBehaviour>(settings.value(CollectionSettings::kSortBehaviour, static_cast<int>(CollectionSettings::SortBehaviour::AsIs)).toInt());
+  const CollectionSettings::SortBehaviour artist_sort_behaviour = static_cast<CollectionSettings::SortBehaviour>(settings.value(CollectionSettings::kArtistSortBehaviour, static_cast<int>(CollectionSettings::SortBehaviour::AsIs)).toInt());
+  const CollectionSettings::SortBehaviour album_sort_behaviour = static_cast<CollectionSettings::SortBehaviour>(settings.value(CollectionSettings::kAlbumSortBehaviour, static_cast<int>(CollectionSettings::SortBehaviour::AsIs)).toInt());
 
   use_disk_cache_ = settings.value(CollectionSettings::kSettingsDiskCacheEnable, false).toBool();
   QPixmapCache::setCacheLimit(static_cast<int>(MaximumCacheSize(&settings, CollectionSettings::kSettingsCacheSize, CollectionSettings::kSettingsCacheSizeUnit, CollectionSettings::kSettingsCacheSizeDefault) / 1024));
@@ -223,11 +224,13 @@ void CollectionModel::ReloadSettings() {
   if (show_pretty_covers != options_current_.show_pretty_covers ||
       show_dividers != options_current_.show_dividers ||
       show_various_artists != options_current_.show_various_artists ||
-      sort_behaviour != options_current_.sort_behaviour) {
+      artist_sort_behaviour != options_current_.sort_behaviour.artist ||
+      album_sort_behaviour != options_current_.sort_behaviour.album) {
     options_current_.show_pretty_covers = show_pretty_covers;
     options_current_.show_dividers = show_dividers;
     options_current_.show_various_artists = show_various_artists;
-    options_current_.sort_behaviour = sort_behaviour;
+    options_current_.sort_behaviour.artist = artist_sort_behaviour;
+    options_current_.sort_behaviour.album = album_sort_behaviour;
     ScheduleReset();
   }
 
@@ -958,15 +961,15 @@ void CollectionModel::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderR
 
 }
 
-QString CollectionModel::DisplayText(const GroupBy group_by, const Song &song, const CollectionSettings::SortBehaviour sort_behaviour) {
+QString CollectionModel::DisplayText(const GroupBy group_by, const Song &song, const SortBehaviours sort_behaviour) {
 
   switch (group_by) {
     case GroupBy::AlbumArtist:
-      return NameOrSortname(song.effective_albumartist(), song.albumartistsort(), sort_behaviour);
+      return NameOrSortname(song.effective_albumartist(), song.albumartistsort(), sort_behaviour.artist);
     case GroupBy::Artist:
-      return NameOrSortname(song.artist(), song.artistsort(), sort_behaviour);
+      return NameOrSortname(song.artist(), song.artistsort(), sort_behaviour.artist);
     case GroupBy::Album:
-      return NameOrSortname(song.album(), song.albumsort(), sort_behaviour);
+      return NameOrSortname(song.album(), song.albumsort(), sort_behaviour.album);
     case GroupBy::AlbumDisc:
       return PrettyAlbumDisc(song.album(), song.disc());
     case GroupBy::YearAlbum:
@@ -986,9 +989,9 @@ QString CollectionModel::DisplayText(const GroupBy group_by, const Song &song, c
     case GroupBy::Genre:
       return TextOrUnknown(song.genre());
     case GroupBy::Composer:
-      return NameOrSortname(song.composer(), song.composersort(), sort_behaviour);
+      return NameOrSortname(song.composer(), song.composersort(), sort_behaviour.artist);
     case GroupBy::Performer:
-      return NameOrSortname(song.performer(), song.performersort(), sort_behaviour);
+      return NameOrSortname(song.performer(), song.performersort(), sort_behaviour.artist);
     case GroupBy::Grouping:
       return TextOrUnknown(song.grouping());
     case GroupBy::FileType:
@@ -1012,21 +1015,17 @@ QString CollectionModel::DisplayText(const GroupBy group_by, const Song &song, c
 
 QString CollectionModel::NameOrSortname(const QString &name, const QString &sort_name, const CollectionSettings::SortBehaviour sort_behaviour) {
 
-  QString str;
-
   switch (sort_behaviour) {
     using namespace CollectionSettings;
     case SortBehaviour::AsIs:
     case SortBehaviour::SkipArticles:
     case SortBehaviour::UseSortTagForSort:
-      str = name;
-      break;
+      return TextOrUnknown(name);
     case SortBehaviour::UseSortTagForDisplayAndSort:
-      str = sort_name;
-      break;
+      return TextOrUnknown(sort_name);
   }
 
-  return TextOrUnknown(str);
+  Q_UNREACHABLE();
 
 }
 
@@ -1084,15 +1083,15 @@ QString CollectionModel::PrettyFormat(const Song &song) {
 
 }
 
-QString CollectionModel::SortText(const GroupBy group_by, const Song &song, const CollectionSettings::SortBehaviour sort_behaviour) {
+QString CollectionModel::SortText(const GroupBy group_by, const Song &song, const SortBehaviours sort_behaviour) {
 
   switch (group_by) {
     case GroupBy::AlbumArtist:
-      return SortTextForName(song.effective_albumartist(), song.albumartistsort(), sort_behaviour);
+      return SortTextForName(song.effective_albumartist(), song.albumartistsort(), sort_behaviour.artist);
     case GroupBy::Artist:
-      return SortTextForName(song.artist(), song.artistsort(), sort_behaviour);
+      return SortTextForName(song.artist(), song.artistsort(), sort_behaviour.artist);
     case GroupBy::Album:
-      return SortTextForName(song.album(), song.albumsort(), sort_behaviour);
+      return SortTextForName(song.album(), song.albumsort(), sort_behaviour.album);
     case GroupBy::AlbumDisc:
       return song.album() + SortTextForNumber(std::max(0, song.disc()));
     case GroupBy::YearAlbum:
@@ -1110,13 +1109,13 @@ QString CollectionModel::SortText(const GroupBy group_by, const Song &song, cons
     case GroupBy::OriginalYear:
       return SortTextForNumber(std::max(0, song.effective_originalyear())) + QLatin1Char(' ');
     case GroupBy::Genre:
-      return SortTextForName(song.genre(), song.genre(), sort_behaviour);
+      return SortTextForName(song.genre(), song.genre(), sort_behaviour.artist);
     case GroupBy::Composer:
-      return SortTextForName(song.composer(), song.composersort(), sort_behaviour);
+      return SortTextForName(song.composer(), song.composersort(), sort_behaviour.artist);
     case GroupBy::Performer:
-      return SortTextForName(song.performer(), song.performersort(), sort_behaviour);
+      return SortTextForName(song.performer(), song.performersort(), sort_behaviour.artist);
     case GroupBy::Grouping:
-      return SortTextForName(song.grouping(), song.grouping(), sort_behaviour);
+      return SortTextForName(song.grouping(), song.grouping(), sort_behaviour.artist);
     case GroupBy::FileType:
       return song.TextForFiletype();
     case GroupBy::Format:
@@ -1169,25 +1168,19 @@ QString CollectionModel::SortTextSkipArticles(QString name) {
 
 QString CollectionModel::SortTextForName(const QString &name, const QString &sort_name, const CollectionSettings::SortBehaviour sort_behaviour) {
 
-  QString str;
-
   switch (sort_behaviour) {
     using namespace CollectionSettings;
     case SortBehaviour::AsIs:
-      str = SortText(name);
-      break;
+      return SortText(name);
     case SortBehaviour::SkipArticles:
-      str = SortTextSkipArticles(name);
-      break;
+      return SortTextSkipArticles(name);
     case SortBehaviour::UseSortTagForSort:
-      str = SortText(sort_name);
-      break;
+      return SortText(sort_name);
     case SortBehaviour::UseSortTagForDisplayAndSort:
-      str = SortText(sort_name);
-      break;
+      return SortText(sort_name);
   }
 
-  return str;
+  Q_UNREACHABLE();
 
 }
 

@@ -20,6 +20,8 @@
 #ifndef COLLECTIONSETTINGS_H
 #define COLLECTIONSETTINGS_H
 
+#include <QMetaType>
+
 namespace CollectionSettings {
 
 constexpr char kSettingsGroup[] = "Collection";
@@ -28,7 +30,8 @@ constexpr char kAutoOpen[] = "auto_open";
 constexpr char kShowDividers[] = "show_dividers";
 constexpr char kPrettyCovers[] = "pretty_covers";
 constexpr char kVariousArtists[] = "various_artists";
-constexpr char kSortBehaviour[] = "sort_behaviour";
+constexpr char kArtistSortBehaviour[] = "artist_sort_behaviour";
+constexpr char kAlbumSortBehaviour[] = "album_sort_behaviour";
 constexpr char kStartupScan[] = "startup_scan";
 constexpr char kMonitor[] = "monitor";
 constexpr char kSongTracking[] = "song_tracking";
@@ -65,5 +68,7 @@ enum class CacheSizeUnit {
 };
 
 }  // namespace
+
+Q_DECLARE_METATYPE(CollectionSettings::SortBehaviour);
 
 #endif  // COLLECTIONSETTINGS_H

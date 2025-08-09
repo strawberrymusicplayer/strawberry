@@ -125,19 +125,23 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
     bool operator!=(const Grouping other) const { return !(*this == other); }
   };
 
+  struct SortBehaviours {
+    CollectionSettings::SortBehaviour artist;
+    CollectionSettings::SortBehaviour album;
+  };
+
   struct Options {
     Options() : group_by(GroupBy::AlbumArtist, GroupBy::AlbumDisc, GroupBy::None),
                 show_dividers(true),
                 show_pretty_covers(true),
                 show_various_artists(true),
-                sort_behaviour(CollectionSettings::SortBehaviour::SkipArticles),
                 separate_albums_by_grouping(false) {}
 
     Grouping group_by;
     bool show_dividers;
     bool show_pretty_covers;
     bool show_various_artists;
-    CollectionSettings::SortBehaviour sort_behaviour;
+    SortBehaviours sort_behaviour;
     bool separate_albums_by_grouping;
     CollectionFilterOptions filter_options;
   };
@@ -177,7 +181,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   QMimeData *mimeData(const QModelIndexList &indexes) const override;
 
   // Utility functions for manipulating text
-  static QString DisplayText(const GroupBy group_by, const Song &song, const CollectionSettings::SortBehaviour sort_behaviour);
+  static QString DisplayText(const GroupBy group_by, const Song &song, const SortBehaviours sort_behaviour);
   static QString NameOrSortname(const QString &name, const QString &sort_name, const CollectionSettings::SortBehaviour sort_behaviour);
   static QString TextOrUnknown(const QString &text);
   static QString PrettyYearAlbum(const int year, const QString &album);
@@ -185,7 +189,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   static QString PrettyYearAlbumDisc(const int year, const QString &album, const int disc);
   static QString PrettyDisc(const int disc);
   static QString PrettyFormat(const Song &song);
-  QString SortText(const GroupBy group_by, const Song &song, const CollectionSettings::SortBehaviour sort_behaviour);
+  QString SortText(const GroupBy group_by, const Song &song, const SortBehaviours sort_behaviour);
   static QString SortText(QString text);
   static QString SortTextForName(const QString &name, const QString &sort_name, const CollectionSettings::SortBehaviour sort_behaviour);
   static QString SortTextForNumber(const int number);
