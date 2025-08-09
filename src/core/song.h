@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -256,11 +256,6 @@ class Song {
 
   bool init_from_file() const;
 
-  const QString &title_sortable() const;
-  const QString &album_sortable() const;
-  const QString &artist_sortable() const;
-  const QString &albumartist_sortable() const;
-
   const QUrl &stream_url() const;
 
   // Setters
@@ -385,12 +380,17 @@ class Song {
   void set_musicbrainz_work_id(const TagLib::String &v);
 
   const QUrl &effective_url() const;
+  const QString &effective_titlesort() const;
   const QString &effective_albumartist() const;
-  const QString &effective_albumartist_sortable() const;
+  const QString &effective_albumartistsort_only() const;
+  const QString &effective_albumartist_with_sort() const;
+  const QString &effective_artistsort() const;
   const QString &effective_album() const;
+  const QString &effective_albumsort() const;
+  const QString &effective_composersort() const;
+  const QString &effective_performersort() const;
   int effective_originalyear() const;
   const QString &playlist_albumartist() const;
-  const QString &playlist_albumartist_sortable() const;
 
   bool is_metadata_good() const;
   bool is_local_collection_song() const;
@@ -555,9 +555,6 @@ class Song {
 
  private:
   struct Private;
-
-  static QString sortable(const QString &v);
-
   QSharedDataPointer<Private> d;
 };
 

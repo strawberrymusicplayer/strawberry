@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>604</width>
-    <height>1035</height>
+    <height>1112</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -235,37 +235,18 @@ If there are no matches then it will use the largest image in the directory.</st
         </property>
        </widget>
       </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
-    <widget class="QGroupBox" name="groupbox_sort">
-     <property name="title">
-      <string>When sorting names like &quot;The Beatles&quot;...</string>
-     </property>
-     <layout class="QVBoxLayout" name="layout_sort">
       <item>
-       <widget class="QComboBox" name="combobox_sort">
-        <item>
-         <property name="text">
-          <string>Sort and show name as is</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Skip articles &quot;The, A, An&quot; for sorting but show name as is</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Use sort tag for sorting and show name as is</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Use sort tag for sorting and display</string>
-         </property>
-        </item>
+       <widget class="QCheckBox" name="checkbox_skip_articles_for_artists">
+        <property name="text">
+         <string>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artists, composers and performers</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkbox_skip_articles_for_albums">
+        <property name="text">
+         <string>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting albums</string>
+        </property>
        </widget>
       </item>
      </layout>
@@ -551,7 +532,8 @@ If there are no matches then it will use the largest image in the directory.</st
   <tabstop>show_dividers</tabstop>
   <tabstop>pretty_covers</tabstop>
   <tabstop>various_artists</tabstop>
-  <tabstop>combobox_sort</tabstop>
+  <tabstop>checkbox_skip_articles_for_artists</tabstop>
+  <tabstop>checkbox_skip_articles_for_albums</tabstop>
   <tabstop>spinbox_cache_size</tabstop>
   <tabstop>combobox_cache_size</tabstop>
   <tabstop>checkbox_disk_cache</tabstop>

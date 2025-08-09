@@ -378,12 +378,12 @@ QVariant Playlist::data(const QModelIndex &idx, const int role) const {
         case Column::DateCreated:        return song.ctime();
 
         case Column::Comment:
-          if (role == Qt::DisplayRole)  return song.comment().simplified();
+          if (role == Qt::DisplayRole)   return song.comment().simplified();
           return song.comment();
 
         case Column::EBUR128IntegratedLoudness: return song.ebur128_integrated_loudness_lufs().has_value() ? song.ebur128_integrated_loudness_lufs().value() : QVariant();
 
-        case Column::EBUR128LoudnessRange: return song.ebur128_loudness_range_lu().has_value() ? song.ebur128_loudness_range_lu().value() : QVariant();
+        case Column::EBUR128LoudnessRange:      return song.ebur128_loudness_range_lu().has_value() ? song.ebur128_loudness_range_lu().value() : QVariant();
 
         case Column::Source:             return QVariant::fromValue(song.source());
 
@@ -1346,118 +1346,126 @@ QMimeData *Playlist::mimeData(const QModelIndexList &indexes) const {
 
 }
 
+namespace {
+
+inline bool CompareStr(const QString &a, const QString &b) {
+  return QString::localeAwareCompare(a.toLower(), b.toLower()) < 0;
+}
+
+template<typename T>
+inline bool CompareVal(const T &a, const T &b) {
+  return a < b;
+}
+
+}  // namespace
+
 bool Playlist::CompareItems(const Column column, const Qt::SortOrder order, PlaylistItemPtr _a, PlaylistItemPtr _b) {
 
-  PlaylistItemPtr a = order == Qt::AscendingOrder ? _a : _b;
-  PlaylistItemPtr b = order == Qt::AscendingOrder ? _b : _a;
+  PlaylistItemPtr a = (order == Qt::AscendingOrder) ? _a : _b;
+  PlaylistItemPtr b = (order == Qt::AscendingOrder) ? _b : _a;
 
-#define cmp(field) return a->EffectiveMetadata().field() < b->EffectiveMetadata().field()
-#define strcmp(field) return QString::localeAwareCompare(a->EffectiveMetadata().field().toLower(), b->EffectiveMetadata().field().toLower()) < 0;
+  const auto &ma = a->EffectiveMetadata();
+  const auto &mb = b->EffectiveMetadata();
 
   switch (column) {
-    case Column::Title:        strcmp(title_sortable);
-    case Column::TitleSort:    strcmp(titlesort);
-    case Column::Artist:       strcmp(artist_sortable);
-    case Column::ArtistSort:   strcmp(artistsort);
-    case Column::Album:        strcmp(album_sortable);
-    case Column::AlbumSort:    strcmp(albumsort);
-    case Column::Length:       cmp(length_nanosec);
-    case Column::Track:        cmp(track);
-    case Column::Disc:         cmp(disc);
-    case Column::Year:         cmp(year);
-    case Column::OriginalYear: cmp(effective_originalyear);
-    case Column::Genre:        strcmp(genre);
-    case Column::AlbumArtist:  strcmp(playlist_albumartist_sortable);
-    case Column::AlbumArtistSort:  strcmp(albumartistsort);
-    case Column::Composer:     strcmp(composer);
-    case Column::ComposerSort: strcmp(composersort);
-    case Column::Performer:    strcmp(performer);
-    case Column::PerformerSort: strcmp(performersort);
-    case Column::Grouping:     strcmp(grouping);
+    case Column::Title:                     return CompareStr(ma.effective_titlesort(), mb.effective_titlesort());
+    case Column::TitleSort:                 return CompareStr(ma.titlesort(), mb.titlesort());
+    case Column::Artist:                    return CompareStr(ma.effective_artistsort(), mb.effective_artistsort());
+    case Column::ArtistSort:                return CompareStr(ma.artistsort(), mb.artistsort());
+    case Column::Album:                     return CompareStr(ma.effective_albumsort(), mb.effective_albumsort());
+    case Column::AlbumSort:                 return CompareStr(ma.albumsort(), mb.albumsort());
+    case Column::Length:                    return CompareVal(ma.length_nanosec(), mb.length_nanosec());
+    case Column::Track:                     return CompareVal(ma.track(), mb.track());
+    case Column::Disc:                      return CompareVal(ma.disc(), mb.disc());
+    case Column::Year:                      return CompareVal(ma.year(), mb.year());
+    case Column::OriginalYear:              return CompareVal(ma.effective_originalyear(), mb.effective_originalyear());
+    case Column::Genre:                     return CompareStr(ma.genre(), mb.genre());
+    case Column::AlbumArtist:               return CompareStr(ma.playlist_albumartist(), mb.playlist_albumartist());
+    case Column::AlbumArtistSort:           return CompareStr(ma.albumartistsort(), mb.albumartistsort());
+    case Column::Composer:                  return CompareStr(ma.effective_composersort(), mb.effective_composersort());
+    case Column::ComposerSort:              return CompareStr(ma.composersort(), mb.composersort());
+    case Column::Performer:                 return CompareStr(ma.effective_performersort(), mb.effective_performersort());
+    case Column::PerformerSort:             return CompareStr(ma.performersort(), mb.performersort());
+    case Column::Grouping:                  return CompareStr(ma.grouping(), mb.grouping());
 
-    case Column::PlayCount:    cmp(playcount);
-    case Column::SkipCount:    cmp(skipcount);
-    case Column::LastPlayed:   cmp(lastplayed);
+    case Column::PlayCount:                 return CompareVal(ma.playcount(), mb.playcount());
+    case Column::SkipCount:                 return CompareVal(ma.skipcount(), mb.skipcount());
+    case Column::LastPlayed:                return CompareVal(ma.lastplayed(), mb.lastplayed());
 
-    case Column::Bitrate:      cmp(bitrate);
-    case Column::Samplerate:   cmp(samplerate);
-    case Column::Bitdepth:     cmp(bitdepth);
-    case Column::URL:
-      return QString::localeAwareCompare(a->OriginalUrl().path(), b->OriginalUrl().path()) < 0;
-    case Column::BaseFilename: cmp(basefilename);
-    case Column::Filesize:     cmp(filesize);
-    case Column::Filetype:     cmp(filetype);
-    case Column::DateModified: cmp(mtime);
-    case Column::DateCreated:  cmp(ctime);
+    case Column::Bitrate:                   return CompareVal(ma.bitrate(), mb.bitrate());
+    case Column::Samplerate:                return CompareVal(ma.samplerate(), mb.samplerate());
+    case Column::Bitdepth:                  return CompareVal(ma.bitdepth(), mb.bitdepth());
+    case Column::URL:                       return CompareStr(a->OriginalUrl().path(), b->OriginalUrl().path());
+    case Column::BaseFilename:              return CompareVal(ma.basefilename(), mb.basefilename());
+    case Column::Filesize:                  return CompareVal(ma.filesize(), mb.filesize());
+    case Column::Filetype:                  return CompareVal(ma.filetype(), mb.filetype());
+    case Column::DateModified:              return CompareVal(ma.mtime(), mb.mtime());
+    case Column::DateCreated:               return CompareVal(ma.ctime(), mb.ctime());
 
-    case Column::Comment:      strcmp(comment);
-    case Column::Source:       cmp(source);
+    case Column::Comment:                   return CompareStr(ma.comment(), mb.comment());
+    case Column::Source:                    return CompareVal(ma.source(), mb.source());
 
-    case Column::Rating:       cmp(rating);
+    case Column::Rating:                    return CompareVal(ma.rating(), mb.rating());
 
-    case Column::HasCUE:       cmp(has_cue);
+    case Column::HasCUE:                    return CompareVal(ma.has_cue(), mb.has_cue());
 
-    case Column::EBUR128IntegratedLoudness: cmp(ebur128_integrated_loudness_lufs);
-    case Column::EBUR128LoudnessRange: cmp(ebur128_loudness_range_lu);
+    case Column::EBUR128IntegratedLoudness: return CompareVal(ma.ebur128_integrated_loudness_lufs(), mb.ebur128_integrated_loudness_lufs());
+    case Column::EBUR128LoudnessRange:      return CompareVal(ma.ebur128_loudness_range_lu(), mb.ebur128_loudness_range_lu());
 
     case Column::Mood:
     case Column::ColumnCount:
       break;
   }
 
-#undef cmp
-#undef strcmp
-
   return false;
-
 }
 
 QString Playlist::column_name(const Column column) {
 
   switch (column) {
-    case Column::Title:        return tr("Title");
-    case Column::TitleSort:    return tr("Title Sort");
-    case Column::Artist:       return tr("Artist");
-    case Column::ArtistSort:   return tr("Artist Sort");
-    case Column::Album:        return tr("Album");
-    case Column::AlbumSort:    return tr("Album Sort");
-    case Column::Track:        return tr("Track");
-    case Column::Disc:         return tr("Disc");
-    case Column::Length:       return tr("Length");
-    case Column::Year:         return tr("Year");
-    case Column::OriginalYear: return tr("Original Year");
-    case Column::Genre:        return tr("Genre");
-    case Column::AlbumArtist:  return tr("Album Artist");
-    case Column::AlbumArtistSort: return tr("Album Artist Sort");
-    case Column::Composer:     return tr("Composer");
-    case Column::ComposerSort: return tr("Composer Sort");
-    case Column::Performer:    return tr("Performer");
-    case Column::PerformerSort: return tr("Performer Sort");
-    case Column::Grouping:     return tr("Grouping");
+    case Column::Title:                     return tr("Title");
+    case Column::TitleSort:                 return tr("Title Sort");
+    case Column::Artist:                    return tr("Artist");
+    case Column::ArtistSort:                return tr("Artist Sort");
+    case Column::Album:                     return tr("Album");
+    case Column::AlbumSort:                 return tr("Album Sort");
+    case Column::Track:                     return tr("Track");
+    case Column::Disc:                      return tr("Disc");
+    case Column::Length:                    return tr("Length");
+    case Column::Year:                      return tr("Year");
+    case Column::OriginalYear:              return tr("Original Year");
+    case Column::Genre:                     return tr("Genre");
+    case Column::AlbumArtist:               return tr("Album Artist");
+    case Column::AlbumArtistSort:           return tr("Album Artist Sort");
+    case Column::Composer:                  return tr("Composer");
+    case Column::ComposerSort:              return tr("Composer Sort");
+    case Column::Performer:                 return tr("Performer");
+    case Column::PerformerSort:             return tr("Performer Sort");
+    case Column::Grouping:                  return tr("Grouping");
 
-    case Column::PlayCount:    return tr("Play Count");
-    case Column::SkipCount:    return tr("Skip Count");
-    case Column::LastPlayed:   return tr("Last Played");
+    case Column::PlayCount:                 return tr("Play Count");
+    case Column::SkipCount:                 return tr("Skip Count");
+    case Column::LastPlayed:                return tr("Last Played");
 
-    case Column::Samplerate:   return tr("Sample Rate");
-    case Column::Bitdepth:     return tr("Bit Depth");
-    case Column::Bitrate:      return tr("Bitrate");
+    case Column::Samplerate:                return tr("Sample Rate");
+    case Column::Bitdepth:                  return tr("Bit Depth");
+    case Column::Bitrate:                   return tr("Bitrate");
 
-    case Column::URL:     return tr("URL");
-    case Column::BaseFilename: return tr("File Name (without path)");
-    case Column::Filesize:     return tr("File Size");
-    case Column::Filetype:     return tr("File Type");
-    case Column::DateModified: return tr("Date Modified");
-    case Column::DateCreated:  return tr("Date Created");
+    case Column::URL:                       return tr("URL");
+    case Column::BaseFilename:              return tr("File Name (without path)");
+    case Column::Filesize:                  return tr("File Size");
+    case Column::Filetype:                  return tr("File Type");
+    case Column::DateModified:              return tr("Date Modified");
+    case Column::DateCreated:               return tr("Date Created");
 
-    case Column::Comment:      return tr("Comment");
-    case Column::Source:       return tr("Source");
-    case Column::Mood:         return tr("Mood");
-    case Column::Rating:       return tr("Rating");
-    case Column::HasCUE:       return tr("CUE");
+    case Column::Comment:                   return tr("Comment");
+    case Column::Source:                    return tr("Source");
+    case Column::Mood:                      return tr("Mood");
+    case Column::Rating:                    return tr("Rating");
+    case Column::HasCUE:                    return tr("CUE");
 
     case Column::EBUR128IntegratedLoudness: return tr("Integrated Loudness");
-    case Column::EBUR128LoudnessRange: return tr("Loudness Range");
+    case Column::EBUR128LoudnessRange:      return tr("Loudness Range");
 
     case Column::ColumnCount:
       break;
