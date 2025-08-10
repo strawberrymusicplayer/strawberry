@@ -224,7 +224,7 @@ Function InstallMSVCRuntime
   ; ${If} $R0 == ""
     SetDetailsView hide
     ; inetc::get /caption "Downloading..." "https://aka.ms/vs/17/release/${vc_redist_file}" "$TEMP\${vc_redist_file}" /end
-    ExecWait '"$TEMP\${vc_redist_file}" /install /passive'
+    ExecWait '"$TEMP\${vc_redist_file}" /install /passive /norestart'
     Delete "$TEMP\${vc_redist_file}"
     SetDetailsView show
   ; ${EndIf}
