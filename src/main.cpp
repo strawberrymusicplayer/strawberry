@@ -344,6 +344,11 @@ int main(int argc, char *argv[]) {
 
   int ret = QCoreApplication::exec();
 
+#ifdef __MINGW32__
+  // Workaround crash on exit with win32 threads
+  TerminateProcess(GetCurrentProcess(), 0);
+#endif
+
   return ret;
 
 }
