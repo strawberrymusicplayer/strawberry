@@ -11,11 +11,25 @@ Unreleased:
     * Fixed collection directory editing (#1767).
     * Fixed devices sometimes being duplicated in the database.
     * Fixed alternating playlist row colors with Windows 11 style.
+    * Fixed broken file filter for GME formats.
+    * Fixed scanning GME formats.
+    * Fixed Chartlyrics.
+    * Fixed file network cache descriptor leak on lyrics search with workaround for QTBUG-135641.
+    * Fixed parsing Tidal urls with certain stream URL replies.
+    * Fixed pixelated window icon on Wayland (#1753).
+    * Fixed saving collection grouping with special characters in the name (#1758).
+    * Fixed Spotify token not automatically updated on renewal when playing (#1769).
+    * (macOS/Windows) Fixed network cache file descriptor leak with patch for QTBUG-135641.
+    * (Windows|MSVC) Fixed installer to not restart the computer after installing Visual C++ Redistributable.
 
   Enhancements:
     * Implemented edit tag dialog reset for year, track, disc and rating.
     * Added ALAC to supported filetypes for iPods.
     * Added CD-TEXT support.
+    * Added back Genius lyrics.
+    * Added support for reporting more info to ListenBrainz.
+    * Added support for BPM, mood and initial key tags.
+    * Added support for sort tags to collection, playlists and smart playlists.
 
 Version 1.2.11 (2025.05.15):
 
