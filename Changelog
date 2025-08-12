@@ -12,9 +12,9 @@ Unreleased:
     * Fixed devices sometimes being duplicated in the database.
     * Fixed alternating playlist row colors with Windows 11 style.
     * Fixed broken file filter for GME formats.
-    * Fixed scanning GME formats.
+    * Fixed collection scanning for GME formats.
     * Fixed Chartlyrics.
-    * Fixed file network cache descriptor leak on lyrics search with workaround for QTBUG-135641.
+    * Fixed network cache file descriptor leak on lyrics search with workaround for QTBUG-135641.
     * Fixed parsing Tidal urls with certain stream URL replies.
     * Fixed pixelated window icon on Wayland (#1753).
     * Fixed saving collection grouping with special characters in the name (#1758).
