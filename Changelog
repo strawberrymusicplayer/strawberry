@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+Version 1.2.12 (2025.08.12):
 
   Bugfixes:
     * Fixed scrobbling for radio streams.
