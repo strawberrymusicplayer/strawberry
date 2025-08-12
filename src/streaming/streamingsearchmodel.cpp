@@ -97,7 +97,7 @@ QStandardItem *StreamingSearchModel::BuildContainers(const Song &s, QStandardIte
       }
       else {
         display_text = CollectionModel::TextOrUnknown(s.effective_albumartist());
-        sort_text = CollectionModel::SortTextForName(s.effective_albumartist_with_sort(), true);
+        sort_text = CollectionModel::SortTextForName(s.effective_albumartistsort(), true);
       }
       has_artist_icon = true;
       break;

@@ -354,7 +354,7 @@ QVariant Playlist::data(const QModelIndex &idx, const int role) const {
         case Column::Year:               return song.year();
         case Column::OriginalYear:       return song.effective_originalyear();
         case Column::Genre:              return song.genre();
-        case Column::AlbumArtist:        return song.playlist_albumartist();
+        case Column::AlbumArtist:        return song.playlist_effective_albumartist();
         case Column::AlbumArtistSort:    return song.albumartistsort();
         case Column::Composer:           return song.composer();
         case Column::ComposerSort:       return song.composersort();
@@ -1384,7 +1384,7 @@ bool Playlist::CompareItems(const Column column, const Qt::SortOrder order, Play
     case Column::Year:                      return CompareVal(ma.year(), mb.year());
     case Column::OriginalYear:              return CompareVal(ma.effective_originalyear(), mb.effective_originalyear());
     case Column::Genre:                     return CompareStr(ma.genre(), mb.genre());
-    case Column::AlbumArtist:               return CompareStr(ma.playlist_albumartist(), mb.playlist_albumartist());
+    case Column::AlbumArtist:               return CompareStr(ma.playlist_effective_albumartistsort(), mb.playlist_effective_albumartistsort());
     case Column::AlbumArtistSort:           return CompareStr(ma.albumartistsort(), mb.albumartistsort());
     case Column::Composer:                  return CompareStr(ma.effective_composersort(), mb.effective_composersort());
     case Column::ComposerSort:              return CompareStr(ma.composersort(), mb.composersort());

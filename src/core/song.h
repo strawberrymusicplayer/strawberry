@@ -390,15 +390,15 @@ class Song {
   const QUrl &effective_url() const;
   const QString &effective_titlesort() const;
   const QString &effective_albumartist() const;
-  const QString &effective_albumartistsort_only() const;
-  const QString &effective_albumartist_with_sort() const;
+  const QString &effective_albumartistsort() const;
   const QString &effective_artistsort() const;
   const QString &effective_album() const;
   const QString &effective_albumsort() const;
   const QString &effective_composersort() const;
   const QString &effective_performersort() const;
   int effective_originalyear() const;
-  const QString &playlist_albumartist() const;
+  const QString &playlist_effective_albumartist() const;
+  const QString &playlist_effective_albumartistsort() const;
 
   bool is_metadata_good() const;
   bool is_local_collection_song() const;

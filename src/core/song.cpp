@@ -664,15 +664,15 @@ void Song::set_initial_key(const TagLib::String &v) { d->initial_key_ = TagLibSt
 const QUrl &Song::effective_url() const { return !d->stream_url_.isEmpty() && d->stream_url_.isValid() ? d->stream_url_ : d->url_; }
 const QString &Song::effective_titlesort() const { return d->titlesort_.isEmpty() ? d->title_ : d->titlesort_; }
 const QString &Song::effective_albumartist() const { return d->albumartist_.isEmpty() ? d->artist_ : d->albumartist_; }
-const QString &Song::effective_albumartistsort_only() const { return d->albumartistsort_.isEmpty() ? d->albumartist_ : d->albumartistsort_; }
-const QString &Song::effective_albumartist_with_sort() const { return effective_albumartistsort_only().isEmpty() ? effective_artistsort() : effective_albumartistsort_only(); }
+const QString &Song::effective_albumartistsort() const { return !d->albumartistsort_.isEmpty() ? d->albumartistsort_ : !d->albumartist_.isEmpty() ? d->albumartist_ : effective_artistsort(); }
 const QString &Song::effective_artistsort() const { return d->artistsort_.isEmpty() ? d->artist_ : d->artistsort_; }
 const QString &Song::effective_album() const { return d->album_.isEmpty() ? d->title_ : d->album_; }
 const QString &Song::effective_albumsort() const { return d->albumsort_.isEmpty() ? d->album_ : d->albumsort_; }
 const QString &Song::effective_composersort() const { return d->composersort_.isEmpty() ? d->composer_ : d->composersort_; }
 const QString &Song::effective_performersort() const { return d->performersort_.isEmpty() ? d->performer_ : d->performersort_; }
 int Song::effective_originalyear() const { return d->originalyear_ < 0 ? d->year_ : d->originalyear_; }
-const QString &Song::playlist_albumartist() const { return is_compilation() ? effective_albumartistsort_only() : effective_albumartist_with_sort(); }
+const QString &Song::playlist_effective_albumartist() const { return is_compilation() ? d->albumartist_ : effective_albumartist(); }
+const QString &Song::playlist_effective_albumartistsort() const { return is_compilation() ? (!d->albumartistsort_.isEmpty() ? d->albumartistsort_ : d->albumartist_) : effective_albumartistsort(); }
 
 bool Song::is_metadata_good() const { return !d->url_.isEmpty() && !d->artist_.isEmpty() && !d->title_.isEmpty(); }
 bool Song::is_local_collection_song() const { return d->source_ == Source::Collection; }

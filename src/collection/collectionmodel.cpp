@@ -1073,7 +1073,7 @@ QString CollectionModel::SortText(const GroupBy group_by, const Song &song, cons
 
   switch (group_by) {
     case GroupBy::AlbumArtist:
-      return SortTextForName(song.effective_albumartist_with_sort(), sort_skip_articles_for_artists);
+      return SortTextForName(song.effective_albumartistsort(), sort_skip_articles_for_artists);
     case GroupBy::Artist:
       return SortTextForName(song.effective_artistsort(), sort_skip_articles_for_artists);
     case GroupBy::Album:
