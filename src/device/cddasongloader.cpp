@@ -55,8 +55,9 @@ CDDASongLoader::CDDASongLoader(const QUrl &url, QObject *parent)
       url_(url),
       network_(make_shared<NetworkAccessManager>()) {
 
+#ifdef HAVE_MUSICBRAINZ
   QObject::connect(this, &CDDASongLoader::MusicBrainzDiscIdLoaded, this, &CDDASongLoader::LoadMusicBrainzCDTags);
-
+#endif  // HAVE_MUSICBRAINZ
 }
 
 CDDASongLoader::~CDDASongLoader() {
@@ -159,7 +160,9 @@ void CDDASongLoader::LoadSongsFromCDDA() {
   }
   Q_EMIT SongsLoaded(songs.values());
 
+#ifdef HAVE_MUSICBRAINZ
   gst_tag_register_musicbrainz_tags();
+#endif  // HAVE_MUSICBRAINZ
 
   GstElement *pipeline = gst_pipeline_new("pipeline");
   GstElement *sink = gst_element_factory_make("fakesink", nullptr);
@@ -172,7 +175,9 @@ void CDDASongLoader::LoadSongsFromCDDA() {
   int track_artist_tags = 0;
   int track_album_tags = 0;
   int track_title_tags = 0;
+#ifdef HAVE_MUSICBRAINZ
   QString musicbrainz_discid;
+#endif  // HAVE_MUSICBRAINZ
   GstMessageType msg_filter = static_cast<GstMessageType>(GST_MESSAGE_TOC|GST_MESSAGE_TAG);
   while (msg_filter != 0 && (msg = gst_bus_timed_pop_filtered(GST_ELEMENT_BUS(pipeline), GST_SECOND * 5, msg_filter))) {
 
@@ -340,6 +345,7 @@ void CDDASongLoader::LoadSongsFromCDDA() {
     qLog(Info) << "Songs loaded from CD-Text";
     Q_EMIT SongLoadingFinished();
   }
+#ifdef HAVE_MUSICBRAINZ
   else {
     if (musicbrainz_discid.isEmpty()) {
       qLog(Info) << "CD is missing tags";
@@ -349,7 +355,7 @@ void CDDASongLoader::LoadSongsFromCDDA() {
       Q_EMIT MusicBrainzDiscIdLoaded(musicbrainz_discid);
     }
   }
-
+#endif  // HAVE_MUSICBRAINZ
 }
 
 #ifdef HAVE_MUSICBRAINZ
