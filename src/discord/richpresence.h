@@ -27,6 +27,8 @@
 #include "includes/shared_ptr.h"
 #include "core/player.h"
 #include "engine/enginebase.h"
+#include "covermanager/currentalbumcoverloader.h"
+#include "covermanager/albumcoverfetcher.h"
 
 class Song;
 class Player;
@@ -40,6 +42,9 @@ class RichPresence : public QObject {
  public:
   explicit RichPresence(const SharedPtr<Player> player,
                         const SharedPtr<PlaylistManager> playlist_manager,
+                        const SharedPtr<CurrentAlbumCoverLoader> current_albumcover_loader,
+                        SharedPtr<CoverProviders> cover_providers,
+                        SharedPtr<NetworkAccessManager> network,
                         QObject *parent = nullptr);
   ~RichPresence();
 
@@ -49,7 +54,11 @@ class RichPresence : public QObject {
  private Q_SLOTS:
   void EngineStateChanged(const EngineBase::State state);
   void CurrentSongChanged(const Song &song);
+  void AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult &result);
   void Seeked(const qint64 seek_microseconds);
+  void SearchFinished(const quint64 request_id,
+                      const CoverProviderSearchResults &results,
+                      const CoverSearchStatistics &statistics);
 
  private:
   void SendPresenceUpdate();
@@ -57,6 +66,9 @@ class RichPresence : public QObject {
 
   const SharedPtr<Player> player_;
   const SharedPtr<PlaylistManager> playlist_manager_;
+  const SharedPtr<CurrentAlbumCoverLoader> current_albumcover_loader_;
+
+  SharedPtr<AlbumCoverFetcher> cover_fetcher_;
 
   class Activity {
    public:
@@ -64,9 +76,12 @@ class RichPresence : public QObject {
     QString title;
     QString artist;
     QString album;
+    QString large_image; // either URL to cover art, or null
     qint64 start_timestamp;
     qint64 length_secs;
     qint64 seek_secs;
+
+    QString song_id;
   };
   Activity activity_;
   bool initialized_;
