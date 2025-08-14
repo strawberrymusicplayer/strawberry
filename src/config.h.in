@@ -33,6 +33,7 @@
 #cmakedefine HAVE_SPOTIFY
 #cmakedefine HAVE_QOBUZ
 #cmakedefine HAVE_DISCORD_RPC
+#cmakedefine HAVE_NETWORKREMOTE
 
 #cmakedefine HAVE_TAGLIB_DSFFILE
 #cmakedefine HAVE_TAGLIB_DSDIFFFILE
