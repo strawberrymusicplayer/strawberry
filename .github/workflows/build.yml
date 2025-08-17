@@ -1295,6 +1295,20 @@ jobs:
         shell: bash
         run: echo "cmake_buildtype=$(echo ${{matrix.buildtype}} | sed 's/.*/\u&/')" >> $GITHUB_ENV
 
+      - name: Show SDK versions
+        shell: bash
+        run: ls -la "c:/Program Files (x86)/Windows Kits/10/include"
+
+      - name: Set SDK version
+        if: matrix.arch != 'arm64'
+        shell: bash
+        run: echo "sdk_version=10.0.19041.0" >> $GITHUB_ENV
+
+      - name: Set SDK version
+        if: matrix.arch == 'arm64'
+        shell: bash
+        run: echo "sdk_version=10.0.26100.0" >> $GITHUB_ENV
+
       - name: Install rsync
         shell: cmd
         run: choco install --no-progress rsync
@@ -1377,7 +1391,7 @@ jobs:
         uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: ${{matrix.arch}}
-          sdk: 10.0.20348.0
+          sdk: ${{env.sdk_version}}
           vsversion: 2022
 
       - name: Checkout
