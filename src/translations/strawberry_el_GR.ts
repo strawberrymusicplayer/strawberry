@@ -3496,7 +3496,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Queue to play next</source>
-      <translation type="unfinished">Queue to play next</translation>
+      <translation>Στην ουρά σαν επόμενο</translation>
     </message>
     <message>
       <source>Unskip track</source>
