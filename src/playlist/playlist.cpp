@@ -2079,7 +2079,7 @@ void Playlist::ReshuffleIndices() {
   if (current_item_index_.isValid()) {
     current_virtual_index_ = static_cast<int>(virtual_items_.indexOf(current_item_index_.row()));
     // If currently playing album song is not the first one, remove the first song to prevent https://github.com/strawberrymusicplayer/strawberry/issues/1623 from happening
-    if (current_virtual_index_ > 0) {
+    if (current_virtual_index_ > 0 && shuffle_mode == PlaylistSequence::ShuffleMode::Albums) {
       virtual_items_.removeAt(virtual_items_.indexOf(current_item_index_.row()) - 1);
     }
   }
