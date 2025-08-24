@@ -259,7 +259,16 @@ if(APPLE)
 endif()
 
 if(WIN32)
-  find_package(getopt-win REQUIRED)
+  find_package(getopt NAMES getopt getopt-win unofficial-getopt-win32 REQUIRED)
+  if(TARGET getopt::getopt)
+    set(GETOPT_LIBRARIES getopt::getopt)
+  elseif(TARGET getopt-win::getopt)
+    set(GETOPT_LIBRARIES getopt-win::getopt)
+  elseif(TARGET getopt::getopt_shared)
+    set(GETOPT_LIBRARIES getopt::getopt_shared)
+  else()
+    message(FATAL_ERROR "Missing getopt")
+  endif()
 endif()
 
 if(APPLE OR WIN32)
@@ -1554,7 +1563,7 @@ target_link_libraries(strawberry_lib PUBLIC
   $<$<BOOL:${HAVE_MTP}>:PkgConfig::LIBMTP>
   $<$<BOOL:${HAVE_GPOD}>:PkgConfig::LIBGPOD PkgConfig::GDK_PIXBUF>
   $<$<BOOL:${HAVE_QTSPARKLE}>:qtsparkle-qt${QT_VERSION_MAJOR}::qtsparkle>
-  $<$<BOOL:${WIN32}>:dsound dwmapi getopt-win::getopt>
+  $<$<BOOL:${WIN32}>:dsound dwmapi ${GETOPT_LIBRARIES}>
   $<$<BOOL:${MSVC}>:WindowsApp>
   KDAB::kdsingleapplication
   $<$<BOOL:${HAVE_DISCORD_RPC}>:discord-rpc>
