@@ -32,6 +32,7 @@
 #include <QFile>
 #include <QString>
 #include <QPalette>
+#include <QColor>
 #include <QEvent>
 
 #include "includes/shared_ptr.h"
@@ -79,13 +80,13 @@ void StyleSheetLoader::UpdateStyleSheet(QWidget *widget, SharedPtr<StyleSheetDat
   // Replace %palette-role with actual colours
   QPalette p(widget->palette());
 
-  {
-    QColor color_altbase = p.color(QPalette::AlternateBase);
+  QColor color_altbase = p.color(QPalette::AlternateBase);
 #ifdef Q_OS_MACOS
-    color_altbase.setAlpha(color_altbase.lightness() > 180 ? 130 : 16);
+  color_altbase.setAlpha(color_altbase.alpha() >= 180 ? (color_altbase.lightness() > 180 ? 130 : 16) : color_altbase.alpha());
+#else
+  color_altbase.setAlpha(color_altbase.alpha() >= 180 ? 116 : color_altbase.alpha());
 #endif
-    stylesheet.replace("%palette-alternate-base"_L1, QStringLiteral("rgba(%1,%2,%3,%4)").arg(color_altbase.red()).arg(color_altbase.green()).arg(color_altbase.blue()).arg(color_altbase.alpha()));
-  }
+  stylesheet.replace("%palette-alternate-base"_L1, QStringLiteral("rgba(%1,%2,%3,%4)").arg(color_altbase.red()).arg(color_altbase.green()).arg(color_altbase.blue()).arg(color_altbase.alpha()));
 
   ReplaceColor(&stylesheet, u"Window"_s, p, QPalette::Window);
   ReplaceColor(&stylesheet, u"Background"_s, p, QPalette::Window);
