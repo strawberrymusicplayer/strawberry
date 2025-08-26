@@ -3635,7 +3635,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>MTP device not found.</source>
-      <translation type="unfinished">MTP device not found.</translation>
+      <translation>MTP-enheten hittades inte.</translation>
     </message>
   </context>
   <context>
@@ -5807,7 +5807,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>With this option enabled, scrobbles will be cached to disk but not sent to the server. This option can be enabled in cases where the server or the internet connection is unstable, the scrobbles will be sent when the option is disabled.</source>
-      <translation type="unfinished">With this option enabled, scrobbles will be cached to disk but not sent to the server. This option can be enabled in cases where the server or the internet connection is unstable, the scrobbles will be sent when the option is disabled.</translation>
+      <translation>Med det här alternativet aktiverat cachelagrass skrobblefiler på disken men skickas inte till servern. Det här alternativet kan aktiveras i de fall där servern eller internetanslutningen är instabil, skrobblefiler skickas när alternativet är inaktiverat.</translation>
     </message>
     <message>
       <source>Offline mode (Only cache scrobbles)</source>
