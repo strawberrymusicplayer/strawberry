@@ -2039,13 +2039,42 @@ void Playlist::ReshuffleIndices() {
     case PlaylistSequence::ShuffleMode::Albums:{
       QMap<int, QString> album_keys;  // real index -> key
       QSet<QString> album_key_set;    // unique keys
+      SongList playlistSongs = playlist_backend_->GetPlaylistSongs(id_); // list of songs from the current playlist
+      QList<int> songsToSkip;
+      // To avoid playing songs previously played when continuing after closing the app last time
+      int lastPlayedShuffleItem = playlist_backend_->GetPlaylist(id_).last_played;
+      int lastPlayedShuffleItemTrackNo = -1;
+      if (lastPlayedShuffleItem != -1 && playlistSongs[lastPlayedShuffleItem].track() > 1) {
+        lastPlayedShuffleItemTrackNo = playlistSongs[lastPlayedShuffleItem].track();
+      }
 
       // Find all the unique albums in the playlist
       for (QList<int>::const_iterator it = virtual_items_.constBegin(); it != virtual_items_.constEnd(); ++it) {
         const int index = *it;
         const QString key = items_[index]->EffectiveMetadata().AlbumKey();
-        album_keys[index] = key;
-        album_key_set << key;
+        // If we don't do this we will play songs from the album that were already played
+        if ( lastPlayedShuffleItemTrackNo > 1) { //last time we played something it wasn't the first track of the album, therefore we need to not add previous tracks of this album
+          // FIXME: don't need a nested if
+          // TODO: check if the artist is also the same otherwise false positive galore
+          // populating the album keys only with tracks that should go after this track based on track number or album
+          if ((playlistSongs[index].album() == playlistSongs[lastPlayedShuffleItem].album()) && (playlistSongs[index].track() >= lastPlayedShuffleItemTrackNo)) {
+            album_keys[index] = key;
+            album_key_set << key;
+          }
+          // if from different album then it doesn't matter
+          else if (playlistSongs[index].album() != playlistSongs[lastPlayedShuffleItem].album()) {
+            album_keys[index] = key;
+            album_key_set << key;
+          }
+          //tracks to skip
+          else {
+           songsToSkip.append(index);
+          }
+        }
+        else {
+          album_keys[index] = key;
+          album_key_set << key;
+        }
       }
 
       // Shuffle them
@@ -2067,21 +2096,24 @@ void Playlist::ReshuffleIndices() {
       for (int i = 0; i < shuffled_album_keys.count(); ++i) {
         album_key_positions[shuffled_album_keys[i]] = i;
       }
-
+      // Put the already played song at the end of the queue
+      // TODO: more elegant solution with setting the current index
+      if (songsToSkip.count() > 0 && virtual_items_.count() > 1) {
+        for (int i = 0; i < songsToSkip.count(); i++) {
+          virtual_items_.takeAt(songsToSkip[i]);
+          virtual_items_.append(i);
+        }
+      }
       // Sort the virtual items
-      std::stable_sort(virtual_items_.begin(), virtual_items_.end(), std::bind(AlbumShuffleComparator, album_key_positions, album_keys, std::placeholders::_1, std::placeholders::_2));
+      QList<int>::iterator iteratorEnd = virtual_items_.count() > lastPlayedShuffleItemTrackNo ? (virtual_items_.end() - lastPlayedShuffleItemTrackNo - 1) : virtual_items_.end();
+      std::stable_sort(virtual_items_.begin(), iteratorEnd, std::bind(AlbumShuffleComparator, album_key_positions, album_keys, std::placeholders::_1, std::placeholders::_2));
 
       break;
     }
   }
-
   // Update current virtual index
   if (current_item_index_.isValid()) {
     current_virtual_index_ = static_cast<int>(virtual_items_.indexOf(current_item_index_.row()));
-    // If currently playing album song is not the first one, remove the first song to prevent https://github.com/strawberrymusicplayer/strawberry/issues/1623 from happening
-    if (current_virtual_index_ > 0 && shuffle_mode == PlaylistSequence::ShuffleMode::Albums) {
-      virtual_items_.removeAt(virtual_items_.indexOf(current_item_index_.row()) - 1);
-    }
   }
   else {
     current_virtual_index_ = -1;
