@@ -209,6 +209,19 @@ void NotificationsSettingsPage::Load() {
   // Discord
   s.beginGroup(DiscordRPCSettings::kSettingsGroup);
   ui_->richpresence_enabled->setChecked(s.value(DiscordRPCSettings::kEnabled, false).toBool());
+
+  const DiscordRPCSettings::StatusDisplayType discord_status_display_type = static_cast<DiscordRPCSettings::StatusDisplayType>(s.value(DiscordRPCSettings::kStatusDisplayType, static_cast<int>(DiscordRPCSettings::StatusDisplayType::App)).toInt());
+  switch (discord_status_display_type) {
+    case DiscordRPCSettings::StatusDisplayType::App:
+      ui_->richpresence_listening_to_app->setChecked(true);
+      break;
+    case DiscordRPCSettings::StatusDisplayType::Artist:
+      ui_->richpresence_listening_to_artist->setChecked(true);
+      break;
+    case DiscordRPCSettings::StatusDisplayType::Song:
+      ui_->richpresence_listening_to_song->setChecked(true);
+      break;
+  }
   s.endGroup();
 
   UpdatePopupVisible();
@@ -228,6 +241,11 @@ void NotificationsSettingsPage::Save() {
   else if (osd_->SupportsNativeNotifications() && ui_->notifications_native->isChecked()) osd_type = OSDSettings::Type::Native;
   else if (osd_->SupportsTrayPopups() && ui_->notifications_tray->isChecked()) osd_type = OSDSettings::Type::TrayPopup;
   else if (osd_->SupportsOSDPretty() && ui_->notifications_pretty->isChecked()) osd_type = OSDSettings::Type::Pretty;
+
+  DiscordRPCSettings::StatusDisplayType discord_status_display_type = DiscordRPCSettings::StatusDisplayType::App;
+  if      (ui_->richpresence_listening_to_app->isChecked()) discord_status_display_type = DiscordRPCSettings::StatusDisplayType::App;
+  else if (ui_->richpresence_listening_to_artist->isChecked()) discord_status_display_type = DiscordRPCSettings::StatusDisplayType::Artist;
+  else if (ui_->richpresence_listening_to_song->isChecked()) discord_status_display_type = DiscordRPCSettings::StatusDisplayType::Song;
 
   s.beginGroup(OSDSettings::kSettingsGroup);
   s.setValue(OSDSettings::kType, static_cast<int>(osd_type));
@@ -255,7 +273,9 @@ void NotificationsSettingsPage::Save() {
 
   s.beginGroup(DiscordRPCSettings::kSettingsGroup);
   s.setValue(DiscordRPCSettings::kEnabled, ui_->richpresence_enabled->isChecked());
+  s.setValue(DiscordRPCSettings::kStatusDisplayType, static_cast<int>(discord_status_display_type));
   s.endGroup();
+
 }
 
 void NotificationsSettingsPage::PrettyOpacityChanged(int value) {
