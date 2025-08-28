@@ -209,6 +209,19 @@ void NotificationsSettingsPage::Load() {
   // Discord
   s.beginGroup(DiscordRPCSettings::kSettingsGroup);
   ui_->richpresence_enabled->setChecked(s.value(DiscordRPCSettings::kEnabled, false).toBool());
+
+  DiscordRPCSettings::Status status_display = static_cast<DiscordRPCSettings::Status>(s.value(DiscordRPCSettings::kStatus, static_cast<int>(DiscordRPCSettings::Status::App)).toInt());
+  switch (status_display) {
+    case DiscordRPCSettings::Status::App:
+      ui_->richpresence_listening_to_app->setChecked(true);
+      break;
+    case DiscordRPCSettings::Status::Artist:
+      ui_->richpresence_listening_to_artist->setChecked(true);
+      break;
+    case DiscordRPCSettings::Status::Song:
+      ui_->richpresence_listening_to_song->setChecked(true);
+      break;
+  }
   s.endGroup();
 
   UpdatePopupVisible();
@@ -228,6 +241,11 @@ void NotificationsSettingsPage::Save() {
   else if (osd_->SupportsNativeNotifications() && ui_->notifications_native->isChecked()) osd_type = OSDSettings::Type::Native;
   else if (osd_->SupportsTrayPopups() && ui_->notifications_tray->isChecked()) osd_type = OSDSettings::Type::TrayPopup;
   else if (osd_->SupportsOSDPretty() && ui_->notifications_pretty->isChecked()) osd_type = OSDSettings::Type::Pretty;
+
+  DiscordRPCSettings::Status status_display = DiscordRPCSettings::Status::App;
+  if      (ui_->richpresence_listening_to_app->isChecked()) status_display = DiscordRPCSettings::Status::App;
+  else if (ui_->richpresence_listening_to_artist->isChecked()) status_display = DiscordRPCSettings::Status::Artist;
+  else if (ui_->richpresence_listening_to_song->isChecked()) status_display = DiscordRPCSettings::Status::Song;
 
   s.beginGroup(OSDSettings::kSettingsGroup);
   s.setValue(OSDSettings::kType, static_cast<int>(osd_type));
@@ -255,6 +273,7 @@ void NotificationsSettingsPage::Save() {
 
   s.beginGroup(DiscordRPCSettings::kSettingsGroup);
   s.setValue(DiscordRPCSettings::kEnabled, ui_->richpresence_enabled->isChecked());
+  s.setValue(DiscordRPCSettings::kStatus, static_cast<int>(status_display));
   s.endGroup();
 }
 

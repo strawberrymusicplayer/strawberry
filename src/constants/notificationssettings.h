@@ -71,6 +71,14 @@ constexpr char kSettingsGroup[] = "DiscordRPC";
 
 constexpr char kEnabled[] = "enabled";
 
+constexpr char kStatus[] = "StatusDisplay";
+
+enum class Status {
+  App = 0,
+  Artist,
+  Song
+};
+
 }  // namespace
 
 #endif  // NOTIFICATIONSSETTINGS_H

@@ -128,6 +128,9 @@ size_t JsonWriteRichPresenceObj(char *dest, const size_t maxLen, const int nonce
         if (presence->type >= 0 && presence->type <= 5) {
           WriteKey(writer, "type");
           writer.Int(presence->type);
+
+          WriteKey(writer, "status_display_type");
+          writer.Int(presence->status_display_type);
         }
 
         WriteOptionalString(writer, "name", presence->name);
