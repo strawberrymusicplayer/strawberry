@@ -2040,7 +2040,7 @@ void Playlist::ReshuffleIndices() {
       QMap<int, QString> album_keys;  // real index -> key
       QSet<QString> album_key_set;    // unique keys
       SongList playlistSongs = playlist_backend_->GetPlaylistSongs(id_); // list of songs from the current playlist
-      // To avoid playing songs previously played when continuing after closing the app last time
+      // To avoid playing songs previously played when continuing after closing the app last time, we are looking through the current playlist to see what track number of the current album we are starting at
       const int lastPlayedShuffleItem = playlist_backend_->GetPlaylist(id_).last_played;
       int lastPlayedShuffleItemTrackNo = -1;
       if (lastPlayedShuffleItem != -1 && playlistSongs[lastPlayedShuffleItem].track() > 1) {
@@ -2051,9 +2051,8 @@ void Playlist::ReshuffleIndices() {
       for (QList<int>::const_iterator it = virtual_items_.constBegin(); it != virtual_items_.constEnd(); ++it) {
         const int index = *it;
         const QString key = items_[index]->EffectiveMetadata().AlbumKey();
-        // If we don't do this we will play songs from the album that were already played
+        // Setting a song to skip if it's track number in the album is lower than the first song we are playing with album shuffle on
         if ((lastPlayedShuffleItemTrackNo > 1) && (playlistSongs[index].album() == playlistSongs[lastPlayedShuffleItem].album()) && (playlistSongs[index].artist() == playlistSongs[lastPlayedShuffleItem].artist()) && (playlistSongs[index].track() < lastPlayedShuffleItemTrackNo)) { //last time we played something it wasn't the first track of the album, therefore we need to not add previous tracks of this album
-          // populating the album keys only with tracks that should go after this track based on track number or album
           items_[index]->SetShouldSkip(true);
         }
         album_keys[index] = key;
