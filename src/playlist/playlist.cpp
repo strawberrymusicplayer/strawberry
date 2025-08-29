@@ -2040,9 +2040,8 @@ void Playlist::ReshuffleIndices() {
       QMap<int, QString> album_keys;  // real index -> key
       QSet<QString> album_key_set;    // unique keys
       SongList playlistSongs = playlist_backend_->GetPlaylistSongs(id_); // list of songs from the current playlist
-      QList<int> songsToSkip;
       // To avoid playing songs previously played when continuing after closing the app last time
-      int lastPlayedShuffleItem = playlist_backend_->GetPlaylist(id_).last_played;
+      const int lastPlayedShuffleItem = playlist_backend_->GetPlaylist(id_).last_played;
       int lastPlayedShuffleItemTrackNo = -1;
       if (lastPlayedShuffleItem != -1 && playlistSongs[lastPlayedShuffleItem].track() > 1) {
         lastPlayedShuffleItemTrackNo = playlistSongs[lastPlayedShuffleItem].track();
@@ -2053,28 +2052,12 @@ void Playlist::ReshuffleIndices() {
         const int index = *it;
         const QString key = items_[index]->EffectiveMetadata().AlbumKey();
         // If we don't do this we will play songs from the album that were already played
-        if ( lastPlayedShuffleItemTrackNo > 1) { //last time we played something it wasn't the first track of the album, therefore we need to not add previous tracks of this album
-          // FIXME: don't need a nested if
-          // TODO: check if the artist is also the same otherwise false positive galore
+        if ((lastPlayedShuffleItemTrackNo > 1) && (playlistSongs[index].album() == playlistSongs[lastPlayedShuffleItem].album()) && (playlistSongs[index].artist() == playlistSongs[lastPlayedShuffleItem].artist()) && (playlistSongs[index].track() < lastPlayedShuffleItemTrackNo)) { //last time we played something it wasn't the first track of the album, therefore we need to not add previous tracks of this album
           // populating the album keys only with tracks that should go after this track based on track number or album
-          if ((playlistSongs[index].album() == playlistSongs[lastPlayedShuffleItem].album()) && (playlistSongs[index].track() >= lastPlayedShuffleItemTrackNo)) {
-            album_keys[index] = key;
-            album_key_set << key;
-          }
-          // if from different album then it doesn't matter
-          else if (playlistSongs[index].album() != playlistSongs[lastPlayedShuffleItem].album()) {
-            album_keys[index] = key;
-            album_key_set << key;
-          }
-          //tracks to skip
-          else {
-           songsToSkip.append(index);
-          }
+          items_[index]->SetShouldSkip(true);
         }
-        else {
-          album_keys[index] = key;
-          album_key_set << key;
-        }
+        album_keys[index] = key;
+        album_key_set << key;
       }
 
       // Shuffle them
@@ -2096,17 +2079,8 @@ void Playlist::ReshuffleIndices() {
       for (int i = 0; i < shuffled_album_keys.count(); ++i) {
         album_key_positions[shuffled_album_keys[i]] = i;
       }
-      // Put the already played song at the end of the queue
-      // TODO: more elegant solution with setting the current index
-      if (songsToSkip.count() > 0 && virtual_items_.count() > 1) {
-        for (int i = 0; i < songsToSkip.count(); i++) {
-          virtual_items_.takeAt(songsToSkip[i]);
-          virtual_items_.append(i);
-        }
-      }
       // Sort the virtual items
-      QList<int>::iterator iteratorEnd = virtual_items_.count() > lastPlayedShuffleItemTrackNo ? (virtual_items_.end() - lastPlayedShuffleItemTrackNo - 1) : virtual_items_.end();
-      std::stable_sort(virtual_items_.begin(), iteratorEnd, std::bind(AlbumShuffleComparator, album_key_positions, album_keys, std::placeholders::_1, std::placeholders::_2));
+      std::stable_sort(virtual_items_.begin(), virtual_items_.end(), std::bind(AlbumShuffleComparator, album_key_positions, album_keys, std::placeholders::_1, std::placeholders::_2));
 
       break;
     }
