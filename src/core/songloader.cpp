@@ -179,8 +179,10 @@ SongLoader::Result SongLoader::LoadAudioCD() {
 
 #ifdef HAVE_AUDIOCD
   CDDASongLoader *cdda_song_loader = new CDDASongLoader(QUrl(), this);
-  QObject::connect(cdda_song_loader, &CDDASongLoader::SongsDurationLoaded, this, &SongLoader::AudioCDTracksLoadFinishedSlot);
-  QObject::connect(cdda_song_loader, &CDDASongLoader::SongsMetadataLoaded, this, &SongLoader::AudioCDTracksTagsLoaded);
+  QObject::connect(cdda_song_loader, &CDDASongLoader::LoadError, this, &SongLoader::AudioCDTracksLoadErrorSlot);
+  QObject::connect(cdda_song_loader, &CDDASongLoader::SongsLoaded, this, &SongLoader::AudioCDTracksLoadedSlot);
+  QObject::connect(cdda_song_loader, &CDDASongLoader::SongsUpdated, this, &SongLoader::AudioCDTracksUpdatedSlot);
+  QObject::connect(cdda_song_loader, &CDDASongLoader::LoadingFinished, this, &SongLoader::AudioCDLoadingFinishedSlot);
   cdda_song_loader->LoadSongs();
   return Result::Success;
 #else
@@ -192,23 +194,38 @@ SongLoader::Result SongLoader::LoadAudioCD() {
 
 #ifdef HAVE_AUDIOCD
 
-void SongLoader::AudioCDTracksLoadFinishedSlot(const SongList &songs, const QString &error) {
+void SongLoader::AudioCDTracksLoadErrorSlot(const QString &error) {
 
-  songs_ = songs;
   errors_ << error;
-  Q_EMIT AudioCDTracksLoadFinished();
 
 }
 
-void SongLoader::AudioCDTracksTagsLoaded(const SongList &songs) {
+void SongLoader::AudioCDTracksLoadedSlot(const SongList &songs) {
+
+  songs_ = songs;
+
+  Q_EMIT AudioCDTracksLoaded();
+
+}
+
+void SongLoader::AudioCDTracksUpdatedSlot(const SongList &songs) {
+
+  songs_ = songs;
+
+  Q_EMIT AudioCDTracksUpdated();
+
+}
+
+void SongLoader::AudioCDLoadingFinishedSlot() {
 
   CDDASongLoader *cdda_song_loader = qobject_cast<CDDASongLoader*>(sender());
   cdda_song_loader->deleteLater();
-  songs_ = songs;
-  Q_EMIT LoadAudioCDFinished(true);
+
+  Q_EMIT AudioCDLoadingFinished(true);
 
 }
-#endif
+
+#endif  // HAVE_AUDIOCD
 
 SongLoader::Result SongLoader::LoadLocal(const QString &filename) {
 

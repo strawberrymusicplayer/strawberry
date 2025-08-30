@@ -90,17 +90,21 @@ class SongLoader : public QObject {
   QStringList errors() { return errors_; }
 
  Q_SIGNALS:
-  void AudioCDTracksLoadFinished();
-  void LoadAudioCDFinished(const bool success);
+  void AudioCDTracksLoaded();
+  void AudioCDTracksUpdated();
+  void AudioCDLoadingFinished(const bool success);
   void LoadRemoteFinished();
 
  private Q_SLOTS:
   void ScheduleTimeout();
   void Timeout();
   void StopTypefind();
+
 #ifdef HAVE_AUDIOCD
-  void AudioCDTracksLoadFinishedSlot(const SongList &songs, const QString &error);
-  void AudioCDTracksTagsLoaded(const SongList &songs);
+  void AudioCDTracksLoadErrorSlot(const QString &error);
+  void AudioCDTracksLoadedSlot(const SongList &songs);
+  void AudioCDTracksUpdatedSlot(const SongList &songs);
+  void AudioCDLoadingFinishedSlot();
 #endif  // HAVE_AUDIOCD
 
  private:

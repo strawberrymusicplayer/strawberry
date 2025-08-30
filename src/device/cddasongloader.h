@@ -58,17 +58,16 @@ class CDDASongLoader : public QObject {
   QUrl GetUrlFromTrack(const int track_number) const;
 
  Q_SIGNALS:
-  void SongsLoadError(const QString &error);
   void SongsLoaded(const SongList &songs);
-  void SongLoadingFinished();
-  void SongsDurationLoaded(const SongList &songs, const QString &error = QString());
-  void SongsMetadataLoaded(const SongList &songs);
-  void MusicBrainzDiscIdLoaded(const QString &musicbrainz_discid);
+  void SongsUpdated(const SongList &songs);
+  void LoadError(const QString &error);
+  void LoadingFinished();
+  void LoadTagsFromMusicBrainz(const QString &musicbrainz_discid);
 
  private Q_SLOTS:
 #ifdef HAVE_MUSICBRAINZ
-  void LoadMusicBrainzCDTags(const QString &musicbrainz_discid) const;
-  void MusicBrainzCDTagsLoaded(const QString &artist, const QString &album, const MusicBrainzClient::ResultList &results);
+  void LoadTagsFromMusicBrainzSlot(const QString &musicbrainz_discid) const;
+  void LoadTagsFromMusicBrainzFinished(const QString &artist, const QString &album, const MusicBrainzClient::ResultList &results, const QString &error);
 #endif
 
  private:

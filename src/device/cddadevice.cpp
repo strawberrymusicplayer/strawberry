@@ -63,9 +63,8 @@ CDDADevice::CDDADevice(const QUrl &url,
   timer_disc_changed_->setInterval(1s);
 
   QObject::connect(&cdda_song_loader_, &CDDASongLoader::SongsLoaded, this, &CDDADevice::SongsLoaded);
-  QObject::connect(&cdda_song_loader_, &CDDASongLoader::SongsDurationLoaded, this, &CDDADevice::SongsLoaded);
-  QObject::connect(&cdda_song_loader_, &CDDASongLoader::SongsMetadataLoaded, this, &CDDADevice::SongsLoaded);
-  QObject::connect(&cdda_song_loader_, &CDDASongLoader::SongLoadingFinished, this, &CDDADevice::SongLoadingFinished);
+  QObject::connect(&cdda_song_loader_, &CDDASongLoader::SongsUpdated, this, &CDDADevice::SongsLoaded);
+  QObject::connect(&cdda_song_loader_, &CDDASongLoader::LoadingFinished, this, &CDDADevice::SongLoadingFinished);
   QObject::connect(this, &CDDADevice::SongsDiscovered, collection_model_, &CollectionModel::AddReAddOrUpdate);
   QObject::connect(timer_disc_changed_, &QTimer::timeout, this, &CDDADevice::CheckDiscChanged);
 

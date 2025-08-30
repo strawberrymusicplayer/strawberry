@@ -56,7 +56,7 @@ CDDASongLoader::CDDASongLoader(const QUrl &url, QObject *parent)
       network_(make_shared<NetworkAccessManager>()) {
 
 #ifdef HAVE_MUSICBRAINZ
-  QObject::connect(this, &CDDASongLoader::MusicBrainzDiscIdLoaded, this, &CDDASongLoader::LoadMusicBrainzCDTags);
+  QObject::connect(this, &CDDASongLoader::LoadTagsFromMusicBrainz, this, &CDDASongLoader::LoadTagsFromMusicBrainzSlot);
 #endif  // HAVE_MUSICBRAINZ
 }
 
@@ -94,7 +94,7 @@ void CDDASongLoader::LoadSongsFromCDDA() {
     Error(QStringLiteral("%1: %2").arg(error->code).arg(QString::fromUtf8(error->message)));
   }
   if (!cdda) {
-    Q_EMIT SongLoadingFinished();
+    Error(tr("Could not create cdiocddasrc"));
     return;
   }
 
@@ -111,7 +111,6 @@ void CDDASongLoader::LoadSongsFromCDDA() {
     gst_object_unref(GST_OBJECT(cdda));
     cdda = nullptr;
     Error(tr("Error while setting CDDA device to ready state."));
-    Q_EMIT SongLoadingFinished();
     return;
   }
 
@@ -120,7 +119,6 @@ void CDDASongLoader::LoadSongsFromCDDA() {
     gst_object_unref(GST_OBJECT(cdda));
     cdda = nullptr;
     Error(tr("Error while setting CDDA device to pause state."));
-    Q_EMIT SongLoadingFinished();
     return;
   }
 
@@ -133,7 +131,6 @@ void CDDASongLoader::LoadSongsFromCDDA() {
     gst_object_unref(GST_OBJECT(cdda));
     cdda = nullptr;
     Error(tr("Error while querying CDDA tracks."));
-    Q_EMIT SongLoadingFinished();
     return;
   }
 
@@ -143,7 +140,6 @@ void CDDASongLoader::LoadSongsFromCDDA() {
     gst_object_unref(GST_OBJECT(cdda));
     cdda = nullptr;
     Error(tr("Error while querying CDDA tracks."));
-    Q_EMIT SongLoadingFinished();
     return;
   }
 
@@ -158,6 +154,7 @@ void CDDASongLoader::LoadSongsFromCDDA() {
     song.set_track(track_number);
     songs.insert(track_number, song);
   }
+
   Q_EMIT SongsLoaded(songs.values());
 
 #ifdef HAVE_MUSICBRAINZ
@@ -339,42 +336,50 @@ void CDDASongLoader::LoadSongsFromCDDA() {
   // This will also cause cdda to be unref'd.
   gst_object_unref(pipeline);
 
-  Q_EMIT SongsMetadataLoaded(songs.values());
-
   if ((track_artist_tags >= total_tracks && track_album_tags >= total_tracks && track_title_tags >= total_tracks)) {
     qLog(Info) << "Songs loaded from CD-Text";
-    Q_EMIT SongLoadingFinished();
+    Q_EMIT SongsUpdated(songs.values());
+    Q_EMIT LoadingFinished();
   }
-#ifdef HAVE_MUSICBRAINZ
   else {
+#ifdef HAVE_MUSICBRAINZ
     if (musicbrainz_discid.isEmpty()) {
       qLog(Info) << "CD is missing tags";
+      Q_EMIT LoadingFinished();
     }
     else {
       qLog(Info) << "MusicBrainz Disc ID:" << musicbrainz_discid;
-      Q_EMIT MusicBrainzDiscIdLoaded(musicbrainz_discid);
+      Q_EMIT LoadTagsFromMusicBrainz(musicbrainz_discid);
     }
-  }
+#else
+    Q_EMIT LoadingFinished();
 #endif  // HAVE_MUSICBRAINZ
+  }
+
 }
 
 #ifdef HAVE_MUSICBRAINZ
 
-void CDDASongLoader::LoadMusicBrainzCDTags(const QString &musicbrainz_discid) const {
+void CDDASongLoader::LoadTagsFromMusicBrainzSlot(const QString &musicbrainz_discid) const {
 
   MusicBrainzClient *musicbrainz_client = new MusicBrainzClient(network_);
-  QObject::connect(musicbrainz_client, &MusicBrainzClient::DiscIdFinished, this, &CDDASongLoader::MusicBrainzCDTagsLoaded);
+  QObject::connect(musicbrainz_client, &MusicBrainzClient::DiscIdFinished, this, &CDDASongLoader::LoadTagsFromMusicBrainzFinished);
   musicbrainz_client->StartDiscIdRequest(musicbrainz_discid);
 
 }
 
-void CDDASongLoader::MusicBrainzCDTagsLoaded(const QString &artist, const QString &album, const MusicBrainzClient::ResultList &results) {
+void CDDASongLoader::LoadTagsFromMusicBrainzFinished(const QString &artist, const QString &album, const MusicBrainzClient::ResultList &results, const QString &error) {
 
   MusicBrainzClient *musicbrainz_client = qobject_cast<MusicBrainzClient*>(sender());
   musicbrainz_client->deleteLater();
 
+  if (!error.isEmpty()) {
+    Error(error);
+    return;
+  }
+
   if (results.empty()) {
-    Q_EMIT SongLoadingFinished();
+    Q_EMIT LoadingFinished();
     return;
   }
 
@@ -398,8 +403,8 @@ void CDDASongLoader::MusicBrainzCDTagsLoaded(const QString &artist, const QStrin
     songs << song;
   }
 
-  Q_EMIT SongsMetadataLoaded(songs);
-  Q_EMIT SongLoadingFinished();
+  Q_EMIT SongsUpdated(songs);
+  Q_EMIT LoadingFinished();
 
 }
 
@@ -408,6 +413,8 @@ void CDDASongLoader::MusicBrainzCDTagsLoaded(const QString &artist, const QStrin
 void CDDASongLoader::Error(const QString &error) {
 
   qLog(Error) << error;
-  Q_EMIT SongsDurationLoaded(SongList(), error);
+
+  Q_EMIT LoadError(error);
+  Q_EMIT LoadingFinished();
 
 }

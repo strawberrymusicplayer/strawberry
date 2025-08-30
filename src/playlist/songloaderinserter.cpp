@@ -96,6 +96,7 @@ void SongLoaderInserter::Load(Playlist *destination, const int row, const bool p
   else {
     (void)QtConcurrent::run(&SongLoaderInserter::AsyncLoad, this);
   }
+
 }
 
 // Load audio CD tracks:
@@ -111,13 +112,15 @@ void SongLoaderInserter::LoadAudioCD(Playlist *destination, const int row, const
   enqueue_next_ = enqueue_next;
 
   SongLoader *loader = new SongLoader(url_handlers_, collection_backend_, tagreader_client_, this);
-  QObject::connect(loader, &SongLoader::AudioCDTracksLoadFinished, this, [this, loader]() { AudioCDTracksLoadFinished(loader); });
-  QObject::connect(loader, &SongLoader::LoadAudioCDFinished, this, &SongLoaderInserter::AudioCDTagsLoaded);
+  QObject::connect(loader, &SongLoader::AudioCDTracksLoaded, this, &SongLoaderInserter::AudioCDTracksLoadedSlot);
+  QObject::connect(loader, &SongLoader::AudioCDTracksUpdated, this, &SongLoaderInserter::AudioCDTracksUpdatedSlot);
+  QObject::connect(loader, &SongLoader::AudioCDLoadingFinished, this, &SongLoaderInserter::AudioCDLoadingFinishedSlot);
   qLog(Info) << "Loading audio CD...";
   const SongLoader::Result result = loader->LoadAudioCD();
   if (result == SongLoader::Result::Error) {
-    if (loader->errors().isEmpty())
+    if (loader->errors().isEmpty()) {
       Q_EMIT Error(tr("Error while loading audio CD."));
+    }
     else {
       const QStringList errors = loader->errors();
       for (const QString &error : errors) {
@@ -126,13 +129,17 @@ void SongLoaderInserter::LoadAudioCD(Playlist *destination, const int row, const
     }
     delete loader;
   }
+
   // Songs will be loaded later: see AudioCDTracksLoadFinished and AudioCDTagsLoaded slots
 
 }
 
 void SongLoaderInserter::DestinationDestroyed() { destination_ = nullptr; }
 
-void SongLoaderInserter::AudioCDTracksLoadFinished(SongLoader *loader) {
+void SongLoaderInserter::AudioCDTracksLoadedSlot() {
+
+  SongLoader *loader = qobject_cast<SongLoader*>(sender());
+  if (!loader) return;
 
   songs_ = loader->songs();
   if (songs_.isEmpty()) {
@@ -147,17 +154,18 @@ void SongLoaderInserter::AudioCDTracksLoadFinished(SongLoader *loader) {
 
 }
 
-void SongLoaderInserter::AudioCDTagsLoaded(const bool success) {
+void SongLoaderInserter::AudioCDTracksUpdatedSlot() {
 
   SongLoader *loader = qobject_cast<SongLoader*>(sender());
-  if (!loader || !destination_) return;
+  if (!loader || loader->songs().isEmpty() || !destination_) return;
 
-  if (success) {
-    destination_->UpdateItems(loader->songs());
-  }
-  else {
-    qLog(Error) << "Error while getting audio CD metadata from MusicBrainz";
-  }
+  destination_->UpdateItems(loader->songs());
+
+}
+
+void SongLoaderInserter::AudioCDLoadingFinishedSlot(const bool success) {
+
+  Q_UNUSED(success)
 
   deleteLater();
 
