@@ -279,7 +279,7 @@ constexpr char QTSPARKLE_URL[] = "https://www.strawberrymusicplayer.org/sparkle-
 #endif  // HAVE_QTSPARKLE
 
 MainWindow::MainWindow(Application *app,
-                       SharedPtr<SystemTrayIcon> tray_icon, OSDBase *osd,
+                       SharedPtr<SystemTrayIcon> systemtrayicon, OSDBase *osd,
 #ifdef HAVE_DISCORD_RPC
                        discord::RichPresence *discord_rich_presence,
 #endif
@@ -291,7 +291,7 @@ MainWindow::MainWindow(Application *app,
       thumbbar_(new Windows7ThumbBar(this)),
 #endif
       app_(app),
-      tray_icon_(tray_icon),
+      systemtrayicon_(systemtrayicon),
       osd_(osd),
 #ifdef HAVE_DISCORD_RPC
       discord_rich_presence_(discord_rich_presence),
@@ -846,14 +846,14 @@ MainWindow::MainWindow(Application *app,
   mac::SetApplicationHandler(this);
 #endif
   // Tray icon
-  tray_icon_->SetupMenu(ui_->action_previous_track, ui_->action_play_pause, ui_->action_stop, ui_->action_stop_after_this_track, ui_->action_next_track, ui_->action_mute, ui_->action_love, ui_->action_quit);
-  QObject::connect(&*tray_icon_, &SystemTrayIcon::PlayPause, &*app_->player(), &Player::PlayPauseHelper);
-  QObject::connect(&*tray_icon_, &SystemTrayIcon::SeekForward, &*app_->player(), &Player::SeekForward);
-  QObject::connect(&*tray_icon_, &SystemTrayIcon::SeekBackward, &*app_->player(), &Player::SeekBackward);
-  QObject::connect(&*tray_icon_, &SystemTrayIcon::NextTrack, &*app_->player(), &Player::Next);
-  QObject::connect(&*tray_icon_, &SystemTrayIcon::PreviousTrack, &*app_->player(), &Player::Previous);
-  QObject::connect(&*tray_icon_, &SystemTrayIcon::ShowHide, this, &MainWindow::ToggleShowHide);
-  QObject::connect(&*tray_icon_, &SystemTrayIcon::ChangeVolume, this, &MainWindow::VolumeWheelEvent);
+  systemtrayicon_->SetupMenu(ui_->action_previous_track, ui_->action_play_pause, ui_->action_stop, ui_->action_stop_after_this_track, ui_->action_next_track, ui_->action_mute, ui_->action_love, ui_->action_quit);
+  QObject::connect(&*systemtrayicon_, &SystemTrayIcon::PlayPause, &*app_->player(), &Player::PlayPauseHelper);
+  QObject::connect(&*systemtrayicon_, &SystemTrayIcon::SeekForward, &*app_->player(), &Player::SeekForward);
+  QObject::connect(&*systemtrayicon_, &SystemTrayIcon::SeekBackward, &*app_->player(), &Player::SeekBackward);
+  QObject::connect(&*systemtrayicon_, &SystemTrayIcon::NextTrack, &*app_->player(), &Player::Next);
+  QObject::connect(&*systemtrayicon_, &SystemTrayIcon::PreviousTrack, &*app_->player(), &Player::Previous);
+  QObject::connect(&*systemtrayicon_, &SystemTrayIcon::ShowHide, this, &MainWindow::ToggleShowHide);
+  QObject::connect(&*systemtrayicon_, &SystemTrayIcon::ChangeVolume, this, &MainWindow::VolumeWheelEvent);
 
   // Windows 7 thumbbar buttons
 #ifdef Q_OS_WIN32
@@ -1031,7 +1031,7 @@ MainWindow::MainWindow(Application *app,
       show();
       break;
     case BehaviourSettings::StartupBehaviour::Hide:
-      if (tray_icon_->IsSystemTrayAvailable() && tray_icon_->isVisible()) {
+      if (systemtrayicon_->IsSystemTrayAvailable() && systemtrayicon_->isVisible()) {
         break;
       }
       [[fallthrough]];
@@ -1044,7 +1044,7 @@ MainWindow::MainWindow(Application *app,
       was_minimized_ = settings_.value(MainWindowSettings::kMinimized, false).toBool();
       if (was_minimized_) setWindowState(windowState() | Qt::WindowMinimized);
 
-      if (!tray_icon_->IsSystemTrayAvailable() || !tray_icon_->isVisible() || !settings_.value(MainWindowSettings::kHidden, false).toBool()) {
+      if (!systemtrayicon_->IsSystemTrayAvailable() || !systemtrayicon_->isVisible() || !settings_.value(MainWindowSettings::kHidden, false).toBool()) {
         show();
       }
       break;
@@ -1156,13 +1156,13 @@ void MainWindow::ReloadSettings() {
 #ifdef Q_OS_MACOS
   constexpr bool keeprunning_available = true;
 #else
-  const bool systemtray_available = tray_icon_->IsSystemTrayAvailable();
+  const bool systemtray_available = systemtrayicon_->IsSystemTrayAvailable();
   s.beginGroup(BehaviourSettings::kSettingsGroup);
   const bool showtrayicon = s.value(BehaviourSettings::kShowTrayIcon, systemtray_available).toBool();
   s.endGroup();
   const bool keeprunning_available = systemtray_available && showtrayicon;
   if (systemtray_available) {
-    tray_icon_->setVisible(showtrayicon);
+    systemtrayicon_->setVisible(showtrayicon);
   }
   if ((!showtrayicon || !systemtray_available) && !isVisible()) {
     show();
@@ -1187,7 +1187,7 @@ void MainWindow::ReloadSettings() {
   int iconsize = s.value(AppearanceSettings::kIconSizePlayControlButtons, 32).toInt();
   s.endGroup();
 
-  tray_icon_->SetTrayiconProgress(trayicon_progress);
+  systemtrayicon_->SetTrayiconProgress(trayicon_progress);
 
 #ifdef HAVE_DBUS
   if (taskbar_progress_ && !taskbar_progress) {
@@ -1209,11 +1209,11 @@ void MainWindow::ReloadSettings() {
     ui_->volume->SetEnabled(volume_control);
     if (volume_control) {
       if (!ui_->action_mute->isVisible()) ui_->action_mute->setVisible(true);
-      if (!tray_icon_->MuteEnabled()) tray_icon_->SetMuteEnabled(true);
+      if (!systemtrayicon_->MuteEnabled()) systemtrayicon_->SetMuteEnabled(true);
     }
     else {
       if (ui_->action_mute->isVisible()) ui_->action_mute->setVisible(false);
-      if (tray_icon_->MuteEnabled()) tray_icon_->SetMuteEnabled(false);
+      if (systemtrayicon_->MuteEnabled()) systemtrayicon_->SetMuteEnabled(false);
     }
   }
 
@@ -1365,8 +1365,8 @@ void MainWindow::Exit() {
       if (app_->player()->GetState() == EngineBase::State::Playing) {
         app_->player()->Stop();
         hide();
-        if (tray_icon_->IsSystemTrayAvailable()) {
-          tray_icon_->setVisible(false);
+        if (systemtrayicon_->IsSystemTrayAvailable()) {
+          systemtrayicon_->setVisible(false);
         }
         return;  // Don't quit the application now: wait for the fadeout finished signal
       }
@@ -1423,7 +1423,7 @@ void MainWindow::MediaStopped() {
 
   ui_->action_love->setEnabled(false);
   ui_->button_love->setEnabled(false);
-  tray_icon_->LoveStateChanged(false);
+  systemtrayicon_->LoveStateChanged(false);
 
   if (track_position_timer_->isActive()) {
     track_position_timer_->stop();
@@ -1432,8 +1432,8 @@ void MainWindow::MediaStopped() {
     track_slider_timer_->stop();
   }
   ui_->track_slider->SetStopped();
-  tray_icon_->SetProgress(0);
-  tray_icon_->SetStopped();
+  systemtrayicon_->SetProgress(0);
+  systemtrayicon_->SetStopped();
 
 #ifdef HAVE_DBUS
   if (taskbar_progress_) {
@@ -1465,7 +1465,7 @@ void MainWindow::MediaPaused() {
     track_slider_timer_->start();
   }
 
-  tray_icon_->SetPaused();
+  systemtrayicon_->SetPaused();
 
 }
 
@@ -1486,7 +1486,7 @@ void MainWindow::MediaPlaying() {
   }
   ui_->action_play_pause->setEnabled(enable_play_pause);
   ui_->track_slider->SetCanSeek(can_seek);
-  tray_icon_->SetPlaying(enable_play_pause);
+  systemtrayicon_->SetPlaying(enable_play_pause);
 
   if (!track_position_timer_->isActive()) {
     track_position_timer_->start();
@@ -1507,14 +1507,14 @@ void MainWindow::SendNowPlaying() {
     app_->scrobbler()->UpdateNowPlaying(playlist->current_item()->EffectiveMetadata());
     ui_->action_love->setEnabled(true);
     ui_->button_love->setEnabled(true);
-    tray_icon_->LoveStateChanged(true);
+    systemtrayicon_->LoveStateChanged(true);
   }
 
 }
 
 void MainWindow::VolumeChanged(const uint volume) {
   ui_->action_mute->setChecked(volume == 0);
-  tray_icon_->MuteButtonStateChanged(volume == 0);
+  systemtrayicon_->MuteButtonStateChanged(volume == 0);
 }
 
 void MainWindow::SongChanged(const Song &song) {
@@ -1524,7 +1524,7 @@ void MainWindow::SongChanged(const Song &song) {
   song_playing_ = song;
   song_ = song;
   setWindowTitle(song.PrettyTitleWithArtist());
-  tray_icon_->SetProgress(0);
+  systemtrayicon_->SetProgress(0);
 
 #ifdef HAVE_DBUS
   if (taskbar_progress_) {
@@ -1707,7 +1707,7 @@ void MainWindow::hideEvent(QHideEvent *e) {
 
 void MainWindow::closeEvent(QCloseEvent *e) {
 
-  if (!exit_ && (!tray_icon_->IsSystemTrayAvailable() || !tray_icon_->isVisible() || !keep_running_)) {
+  if (!exit_ && (!systemtrayicon_->IsSystemTrayAvailable() || !systemtrayicon_->isVisible() || !keep_running_)) {
     Exit();
   }
 
@@ -1718,7 +1718,7 @@ void MainWindow::closeEvent(QCloseEvent *e) {
 void MainWindow::SetHiddenInTray(const bool hidden) {
 
   if (hidden && isVisible()) {
-    if (tray_icon_->IsSystemTrayAvailable() && tray_icon_->isVisible() && keep_running_) {
+    if (systemtrayicon_->IsSystemTrayAvailable() && systemtrayicon_->isVisible() && keep_running_) {
       close();
     }
     else {
@@ -1747,7 +1747,7 @@ void MainWindow::Seeked(const qint64 microseconds) {
 
   const qint64 position = microseconds / kUsecPerSec;
   const qint64 length = app_->player()->GetCurrentItem()->EffectiveMetadata().length_nanosec() / kNsecPerSec;
-  tray_icon_->SetProgress(static_cast<int>(static_cast<double>(position) / static_cast<double>(length) * 100.0));
+  systemtrayicon_->SetProgress(static_cast<int>(static_cast<double>(position) / static_cast<double>(length) * 100.0));
 
 #ifdef HAVE_DBUS
   if (taskbar_progress_) {
@@ -1767,7 +1767,7 @@ void MainWindow::UpdateTrackPosition() {
   const int position = std::floor(static_cast<float>(app_->player()->engine()->position_nanosec()) / static_cast<float>(kNsecPerSec) + 0.5);
 
   // Update the tray icon every 10 seconds
-  if (position % 10 == 0) tray_icon_->SetProgress(static_cast<int>(static_cast<double>(position) / static_cast<double>(length) * 100.0));
+  if (position % 10 == 0) systemtrayicon_->SetProgress(static_cast<int>(static_cast<double>(position) / static_cast<double>(length) * 100.0));
 
 #ifdef HAVE_DBUS
   if (taskbar_progress_) {
@@ -3259,7 +3259,7 @@ void MainWindow::LoveButtonVisibilityChanged(const bool value) {
   else
     ui_->widget_love->hide();
 
-  tray_icon_->LoveVisibilityChanged(value);
+  systemtrayicon_->LoveVisibilityChanged(value);
 
 }
 
@@ -3282,7 +3282,7 @@ void MainWindow::Love() {
   app_->scrobbler()->Love();
   ui_->button_love->setEnabled(false);
   ui_->action_love->setEnabled(false);
-  tray_icon_->LoveStateChanged(false);
+  systemtrayicon_->LoveStateChanged(false);
 
 }
 
