@@ -371,7 +371,7 @@ TagReaderResult TagReaderTagLib::Read(SharedPtr<TagLib::FileRef> fileref, Song *
       TagLib::List<TagLib::FLAC::Picture*> pictures = vorbis_comment->pictureList();
       if (!pictures.isEmpty()) {
         for (TagLib::FLAC::Picture *picture : pictures) {
-          if (picture->type() == TagLib::FLAC::Picture::FrontCover && picture->data().size() > 0) {
+          if ((picture->type() == TagLib::FLAC::Picture::FrontCover || picture->type() == TagLib::FLAC::Picture::Other) && picture->data().size() > 0) {
             song->set_art_embedded(true);
             break;
           }
@@ -388,7 +388,7 @@ TagReaderResult TagReaderTagLib::Read(SharedPtr<TagLib::FileRef> fileref, Song *
         TagLib::List<TagLib::FLAC::Picture*> pictures = file_flac->pictureList();
         if (!pictures.isEmpty()) {
           for (TagLib::FLAC::Picture *picture : pictures) {
-            if (picture->type() == TagLib::FLAC::Picture::FrontCover && picture->data().size() > 0) {
+            if ((picture->type() == TagLib::FLAC::Picture::FrontCover || picture->type() == TagLib::FLAC::Picture::Other) && picture->data().size() > 0) {
               song->set_art_embedded(true);
               break;
             }
@@ -1472,12 +1472,19 @@ TagReaderResult TagReaderTagLib::LoadEmbeddedCover(const QString &filename, QByt
       TagLib::List<TagLib::FLAC::Picture*> pictures = file_flac->pictureList();
       if (!pictures.isEmpty()) {
         for (TagLib::FLAC::Picture *picture : pictures) {
-          if (picture->type() == TagLib::FLAC::Picture::FrontCover && picture->data().size() > 0) {
-            data = QByteArray(picture->data().data(), picture->data().size());
-            if (!data.isEmpty()) {
-              return TagReaderResult::ErrorCode::Success;
-            }
+          if (picture->data().size() <= 0) {
+            continue;
           }
+          if (picture->type() == TagLib::FLAC::Picture::FrontCover) {
+            data = QByteArray(picture->data().data(), picture->data().size());
+            return TagReaderResult::ErrorCode::Success;
+          }
+          else if (picture->type() == TagLib::FLAC::Picture::Other) {
+            data = QByteArray(picture->data().data(), picture->data().size());
+          }
+        }
+        if (!data.isEmpty()) {
+          return TagReaderResult::ErrorCode::Success;
         }
       }
     }
@@ -1515,21 +1522,27 @@ TagReaderResult TagReaderTagLib::LoadEmbeddedCover(const QString &filename, QByt
 
   // Ogg Vorbis / Opus / Speex
   if (TagLib::Ogg::XiphComment *vorbis_comment = dynamic_cast<TagLib::Ogg::XiphComment*>(fileref->file()->tag())) {
-    TagLib::Ogg::FieldListMap map = vorbis_comment->fieldListMap();
-
     TagLib::List<TagLib::FLAC::Picture*> pictures = vorbis_comment->pictureList();
     if (!pictures.isEmpty()) {
       for (TagLib::FLAC::Picture *picture : pictures) {
-        if (picture->type() == TagLib::FLAC::Picture::FrontCover && picture->data().size() > 0) {
-          data = QByteArray(picture->data().data(), picture->data().size());
-          if (!data.isEmpty()) {
-            return TagReaderResult::ErrorCode::Success;
-          }
+        if (picture->data().size() <= 0) {
+          continue;
         }
+        if (picture->type() == TagLib::FLAC::Picture::FrontCover) {
+          data = QByteArray(picture->data().data(), picture->data().size());
+          return TagReaderResult::ErrorCode::Success;
+        }
+        else if (picture->type() == TagLib::FLAC::Picture::Other) {
+          data = QByteArray(picture->data().data(), picture->data().size());
+        }
+      }
+      if (!data.isEmpty()) {
+        return TagReaderResult::ErrorCode::Success;
       }
     }
 
     // Ogg lacks a definitive standard for embedding cover art, but it seems b64 encoding a field called COVERART is the general convention
+    const TagLib::Ogg::FieldListMap map = vorbis_comment->fieldListMap();
     if (map.contains(kVorbisComment_CoverArt)) {
       data = QByteArray::fromBase64(map[kVorbisComment_CoverArt].toString().toCString());
       if (!data.isEmpty()) {
