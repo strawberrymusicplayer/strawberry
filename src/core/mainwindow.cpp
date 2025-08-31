@@ -408,6 +408,8 @@ MainWindow::MainWindow(Application *app,
     setWindowIcon(IconLoader::Load(u"strawberry"_s));
   }
 
+  systemtrayicon_->SetDevicePixelRatioF(devicePixelRatioF());
+
   QObject::connect(&*app->database(), &Database::Error, this, &MainWindow::ShowErrorDialog);
 
   album_cover_choice_controller_->Init(app->network(), app->tagreader_client(), app->collection()->backend(), app->albumcover_loader(), app->current_albumcover_loader(), app->cover_providers(), app->streaming_services());
