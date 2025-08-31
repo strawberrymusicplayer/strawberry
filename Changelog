@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+Version 1.2.13 (2025.08.31):
 
   Bugfixes:
     * Fixed playlist alternating row colors no longer working with some styles (#1806)
