@@ -2,6 +2,19 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+  Bugfixes:
+    * Fixed playlist alternating row colors no longer working with some styles (#1806)
+    * Fixed "Open Audio CD" no longer working (#1803)
+    * Fixed systemtray icon playback status not working with scaling (#1782)
+    * Fixed build without MusicBrainz (#1799)
+    * Fixed build without MTP (#1804)
+
+  Enhancements:
+    * Added Discord status text option (#1796)
+    * Read Vorbis/FLAC "Other" embedded covers if front cover is not available (#1793)
+
 Version 1.2.12 (2025.08.12):
 
   Bugfixes:
