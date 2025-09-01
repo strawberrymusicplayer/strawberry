@@ -449,7 +449,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        debian_version: [ 'bookworm', 'trixie' ]
+        debian_version: [ 'bookworm', 'trixie', 'forky' ]
     container:
       image: debian:${{matrix.debian_version}}
     steps:
