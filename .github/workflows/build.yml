@@ -499,7 +499,11 @@ jobs:
             qt6-tools-dev-tools
             qt6-l10n-tools
             rapidjson-dev
+      - name: Install KDSingleApplication
+        if: matrix.debian_version != 'bookworm'
+        run: apt install -y libkdsingleapplication-qt6-dev
       - name: Build and install KDSingleApplication
+        if: matrix.debian_version == 'bookworm'
         run: |
           git clone --depth 1 --recurse-submodules https://github.com/KDAB/KDSingleApplication
           cd KDSingleApplication
