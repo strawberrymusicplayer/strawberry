@@ -2738,7 +2738,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Use KGlobalAccel shortcuts when available</source>
-      <translation type="unfinished">Use KGlobalAccel shortcuts when available</translation>
+      <translation>Χρήση συντομεύσεων KGlobalAccel όταν είναι διαθέσιμες</translation>
     </message>
     <message>
       <source>Using X11 shortcuts is not recommended and can cause keyboard to become unresponsive! Shortcuts on should usually be used through MPRIS2 / KGlobalAccel.</source>
@@ -2853,7 +2853,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Separate albums by grouping tag</source>
-      <translation type="unfinished">Separate albums by grouping tag</translation>
+      <translation>Διαχωρισμός άλμπουμ με ετικέτα ομαδοποίησης</translation>
     </message>
   </context>
   <context>
@@ -3769,7 +3769,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Custom message settings</source>
-      <translation type="unfinished">Custom message settings</translation>
+      <translation>Προσαρμοσμένες ρυθμίσεις μηνύματος</translation>
     </message>
     <message>
       <source>Use a custom message for notifications</source>
@@ -3837,35 +3837,35 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Add song album tag</source>
-      <translation type="unfinished">Add song album tag</translation>
+      <translation>Προσθήκη ετικέτας άλμπουμ</translation>
     </message>
     <message>
       <source>Add song title tag</source>
-      <translation type="unfinished">Add song title tag</translation>
+      <translation>Προσθήκη ετικέτας τίτλου τραγουδιού</translation>
     </message>
     <message>
       <source>Add song albumartist tag</source>
-      <translation type="unfinished">Add song albumartist tag</translation>
+      <translation>Προσθήκη ετικέτας καλλιτέχνη τραγουδιού</translation>
     </message>
     <message>
       <source>Add song year tag</source>
-      <translation type="unfinished">Add song year tag</translation>
+      <translation>Προσθήκη ετικέτας έτους τραγουδιού</translation>
     </message>
     <message>
       <source>Add song composer tag</source>
-      <translation type="unfinished">Add song composer tag</translation>
+      <translation>Προσθήκη ετικέτας συνθέτη τραγουδιού</translation>
     </message>
     <message>
       <source>Add song performer tag</source>
-      <translation type="unfinished">Add song performer tag</translation>
+      <translation>Προσθέστε ετικέτα ερμηνευτή τραγουδιού</translation>
     </message>
     <message>
       <source>Add song grouping tag</source>
-      <translation type="unfinished">Add song grouping tag</translation>
+      <translation>Προσθήκη ετικέτας ομαδοποίησης τραγουδιού</translation>
     </message>
     <message>
       <source>Add song disc tag</source>
-      <translation type="unfinished">Add song disc tag</translation>
+      <translation>Προσθήκη ετικέτας δίσκου τραγουδιού</translation>
     </message>
     <message>
       <source>Add song track tag</source>
@@ -3873,27 +3873,27 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Add song genre tag</source>
-      <translation type="unfinished">Add song genre tag</translation>
+      <translation>Προσθήκη ετικέτας είδους τραγουδιού</translation>
     </message>
     <message>
       <source>Add song length tag</source>
-      <translation type="unfinished">Add song length tag</translation>
+      <translation>Προσθήκη ετικέτας διάρκειας τραγουδιού</translation>
     </message>
     <message>
       <source>Add song play count</source>
-      <translation type="unfinished">Add song play count</translation>
+      <translation>Προσθήκη μετρητή αναπαραγωγής</translation>
     </message>
     <message>
       <source>Add song skip count</source>
-      <translation type="unfinished">Add song skip count</translation>
+      <translation>Προσθήκη αριθμού παράλειψης τραγουδιού</translation>
     </message>
     <message>
       <source>Add song rating</source>
-      <translation type="unfinished">Add song rating</translation>
+      <translation>Προσθήκη αξιολόγησης τραγουδιού</translation>
     </message>
     <message>
       <source>Add a new line if supported by the notification type</source>
-      <translation type="unfinished">Add a new line if supported by the notification type</translation>
+      <translation>Προσθήκη νέας γραμμής εάν υποστηρίζεται από τον τύπο ειδοποίησης</translation>
     </message>
     <message>
       <source>%filename%</source>
@@ -4074,11 +4074,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Overwrite existing files</source>
-      <translation type="unfinished">Overwrite existing files</translation>
+      <translation>Αντικατάσταση υφιστάμενων αρχείων</translation>
     </message>
     <message>
       <source>Copy album cover artwork</source>
-      <translation type="unfinished">Copy album cover artwork</translation>
+      <translation>Αντιγραφή εξώφυλλου άλμπουμ</translation>
     </message>
     <message>
       <source>Preview</source>
@@ -4090,7 +4090,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Safely remove the device after copying</source>
-      <translation type="unfinished">Safely remove the device after copying</translation>
+      <translation>Ασφαλής αφαίρεση της συσκευής μετά την αντιγραφή</translation>
     </message>
     <message>
       <source>Title</source>
@@ -4110,7 +4110,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Album artist</source>
-      <translation type="unfinished">Album artist</translation>
+      <translation>Καλλιτέχνης άλμπουμ</translation>
     </message>
     <message>
       <source>Composer</source>
@@ -4155,7 +4155,7 @@ If there are no matches then it will use the largest image in the directory.</so
     <message>
       <source>Bitrate</source>
       <comment>Refers to bitrate in file organize dialog.</comment>
-      <translation type="unfinished">Bitrate</translation>
+      <translation>Bitrate</translation>
     </message>
     <message>
       <source>Sample rate</source>
