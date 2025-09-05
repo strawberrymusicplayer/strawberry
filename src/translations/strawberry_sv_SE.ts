@@ -4223,7 +4223,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Could not write metadata to %1: %2</source>
-      <translation type="unfinished">Could not write metadata to %1: %2</translation>
+      <translation>Det gick inte att skriva metadata till %1:%2</translation>
     </message>
     <message>
       <source>Title</source>
@@ -5040,7 +5040,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Could not parse file</source>
-      <translation type="unfinished">Could not parse file</translation>
+      <translation>Kunde inte analysera filen</translation>
     </message>
     <message>
       <source>Could save file</source>
@@ -5060,7 +5060,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>searches for all artists containing the word %1. </source>
-      <translation type="unfinished">searches for all artists containing the word %1. </translation>
+      <translation>söker efter alla artister som innehåller ordet %1. </translation>
     </message>
     <message>
       <source>Search terms for numerical fields can be prefixed with %1 or %2 to refine the search, e.g.: </source>
@@ -5261,7 +5261,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Invalid collection directory</source>
-      <translation type="unfinished">Invalid collection directory</translation>
+      <translation>Ogiltig samlingsmapp</translation>
     </message>
     <message>
       <source>Can&apos;t add directory %1 with special filesystem %2 to collection</source>
@@ -5807,7 +5807,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>With this option enabled, scrobbles will be cached to disk but not sent to the server. This option can be enabled in cases where the server or the internet connection is unstable, the scrobbles will be sent when the option is disabled.</source>
-      <translation>Med det här alternativet aktiverat cachelagrass skrobblefiler på disken men skickas inte till servern. Det här alternativet kan aktiveras i de fall där servern eller internetanslutningen är instabil, skrobblefiler skickas när alternativet är inaktiverat.</translation>
+      <translation>Med det här alternativet aktiverat cachelagras skrobblefiler på disken men skickas inte till servern. Det här alternativet kan aktiveras i de fall där servern eller internetanslutningen är instabil, skrobblefiler skickas när alternativet är inaktiverat.</translation>
     </message>
     <message>
       <source>Offline mode (Only cache scrobbles)</source>
