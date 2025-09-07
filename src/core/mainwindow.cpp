@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2013-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2013-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -296,6 +296,9 @@ MainWindow::MainWindow(Application *app,
 #ifdef HAVE_DISCORD_RPC
       discord_rich_presence_(discord_rich_presence),
 #endif
+      error_dialog_([this]() {
+        return new ErrorDialog(this);
+      }),
       console_([app, this]() {
         Console *console = new Console(app->database());
         QObject::connect(console, &Console::Error, this, &MainWindow::ShowErrorDialog);
@@ -1684,17 +1687,6 @@ void MainWindow::StopAfterCurrent() {
   Q_EMIT StopAfterToggled(app_->playlist_manager()->active()->stop_after_current());
 }
 
-void MainWindow::showEvent(QShowEvent *e) {
-
-  if (error_dialog_ && error_dialog_->isVisible() && error_dialog_->isMinimized()) {
-    error_dialog_->raise();
-    error_dialog_->activateWindow();
-  }
-
-  QMainWindow::showEvent(e);
-
-}
-
 void MainWindow::hideEvent(QHideEvent *e) {
 
   // Some window managers don't remember maximized state between
@@ -1714,6 +1706,16 @@ void MainWindow::closeEvent(QCloseEvent *e) {
   }
 
   QMainWindow::closeEvent(e);
+
+}
+
+void MainWindow::changeEvent(QEvent *e) {
+
+  if (e->type() == QEvent::Show || e->type() == QEvent::WindowStateChange || e->type() == QEvent::WindowActivate) {
+    CheckShowErrorDialog();
+  }
+
+  QMainWindow::changeEvent(e);
 
 }
 
@@ -1737,6 +1739,7 @@ void MainWindow::SetHiddenInTray(const bool hidden) {
     else {
       show();
     }
+    CheckShowErrorDialog();
   }
 
 }
@@ -2988,6 +2991,14 @@ void MainWindow::ShowTranscodeDialog() {
 
 void MainWindow::ShowErrorDialog(const QString &message) {
   error_dialog_->ShowMessage(message);
+}
+
+void MainWindow::CheckShowErrorDialog() {
+
+  if (isVisible() && !isMinimized() && error_dialog_ && error_dialog_->isVisible() && !error_dialog_->isActiveWindow()) {
+    error_dialog_->ShowDialog();
+  }
+
 }
 
 void MainWindow::CheckFullRescanRevisions() {

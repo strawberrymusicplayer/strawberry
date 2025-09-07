@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2017-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,10 +37,11 @@ class ErrorDialog : public QDialog {
   Q_OBJECT
 
  public:
-  explicit ErrorDialog(QWidget *parent = nullptr);
+  explicit ErrorDialog(QWidget *mainwindow, QWidget *parent = nullptr);
   ~ErrorDialog() override;
 
  public Q_SLOTS:
+  void ShowDialog();
   void ShowMessage(const QString &message);
 
  protected:
@@ -48,7 +50,7 @@ class ErrorDialog : public QDialog {
  private:
   void UpdateContent();
 
-  QWidget *parent_;
+  QWidget *mainwindow_;
   Ui_ErrorDialog *ui_;
 
   QStringList current_messages_;

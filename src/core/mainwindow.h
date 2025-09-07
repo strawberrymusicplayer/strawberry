@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2013-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2013-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -124,9 +124,9 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void CommandlineOptionsReceived(const CommandlineOptions &options);
 
  protected:
-  void showEvent(QShowEvent *e) override;
   void hideEvent(QHideEvent *e) override;
   void closeEvent(QCloseEvent *e) override;
+  void changeEvent(QEvent *e) override;
   void keyPressEvent(QKeyEvent *e) override;
 #ifdef Q_OS_WIN32
   bool nativeEvent(const QByteArray &eventType, void *message, qintptr *result) override;
@@ -236,6 +236,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 
   void ShowAboutDialog();
   void ShowErrorDialog(const QString &message);
+  void CheckShowErrorDialog();
   void ShowTranscodeDialog();
   SettingsDialog *CreateSettingsDialog();
   EditTagDialog *CreateEditTagDialog();
@@ -315,6 +316,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 #ifdef HAVE_DISCORD_RPC
   discord::RichPresence *discord_rich_presence_;
 #endif
+  Lazy<ErrorDialog> error_dialog_;
   Lazy<About> about_dialog_;
   Lazy<Console> console_;
   Lazy<EditTagDialog> edit_tag_dialog_;
@@ -329,7 +331,6 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   PlaylistListContainer *playlist_list_;
   QueueView *queue_view_;
 
-  Lazy<ErrorDialog> error_dialog_;
   Lazy<SettingsDialog> settings_dialog_;
   Lazy<AlbumCoverManager> cover_manager_;
   SharedPtr<Equalizer> equalizer_;
