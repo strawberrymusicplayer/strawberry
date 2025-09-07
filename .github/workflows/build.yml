@@ -1321,6 +1321,10 @@ jobs:
         shell: cmd
         run: choco install --no-progress rsync
 
+      - name: Set SSH command
+        shell: bash
+        run: echo "ssh_command=/c/ProgramData/chocolatey/lib/rsync/tools/$(ls -1 /c/ProgramData/chocolatey/lib/rsync/tools/ | grep -v '\.zip$' | grep '^cwrsync' | tail -1)/bin/ssh.exe" >> $GITHUB_ENV
+
       - name: Cleanup PATH
         uses: egor-tensin/cleanup-path@v4
         with:
@@ -1626,7 +1630,7 @@ jobs:
       - name: rsync
         if: steps.set-upload-path.outputs.upload_path != ''
         shell: bash
-        run: rsync -e "/c/ProgramData/chocolatey/lib/rsync/tools/bin/ssh.exe -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var build/StrawberrySetup*.exe ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{steps.set-upload-path.outputs.upload_path}}/
+        run: rsync -e "${{env.ssh_command}} -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var build/StrawberrySetup*.exe ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{steps.set-upload-path.outputs.upload_path}}/
 
 
   upload:
