@@ -27,7 +27,6 @@
 #include <QString>
 
 #include "includes/shared_ptr.h"
-#include "dialogs/errordialog.h"
 #include "settingspage.h"
 
 class SettingsDialog;
