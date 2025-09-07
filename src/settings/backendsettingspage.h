@@ -80,7 +80,6 @@ class BackendSettingsPage : public SettingsPage {
   const SharedPtr<DeviceFinders> device_finders_;
 
   bool configloaded_;
-  ErrorDialog errordialog_;
 
   QString output_current_;
   QVariant device_current_;
