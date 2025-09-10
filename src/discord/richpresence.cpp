@@ -167,7 +167,7 @@ void RichPresence::Seeked(const qint64 seek_microseconds) {
 
   if (!initialized_) return;
 
-  SetTimestamp(seek_microseconds / 1000LL);
+  SetTimestamp(seek_microseconds / 1000000LL);
   SendPresenceUpdate();
 
 }
