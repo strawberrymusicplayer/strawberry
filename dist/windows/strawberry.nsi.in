@@ -395,9 +395,6 @@ Section "Strawberry" Strawberry
   File "glib-2.0-0.dll"
   File "gme.dll"
   File "gmodule-2.0-0.dll"
-!ifndef arch_arm64
-  File "gnutls.dll"
-!endif
   File "gobject-2.0-0.dll"
   File "gstadaptivedemux-1.0-0.dll"
   File "gstapp-1.0-0.dll"
@@ -456,6 +453,10 @@ Section "Strawberry" Strawberry
   File "pcre2-16.dll"
 !ifndef arch_arm64
   File "twolame.dll"
+  File "gmp.dll"
+  File "nettle.dll"
+  File "hogweed.dll"
+  File "gnutls.dll"
 !endif
   File "zlib1.dll"
 !endif
@@ -468,6 +469,10 @@ Section "Strawberry" Strawberry
   File "pcre2-16d.dll"
 !ifndef arch_arm64
   File "twolamed.dll"
+  File "gmpd.dll"
+  File "nettled.dll"
+  File "hogweedd.dll"
+  File "gnutlsd.dll"
 !endif
   File "zlibd1.dll"
 !endif
@@ -942,9 +947,6 @@ Section "Uninstall"
   Delete "$INSTDIR\glib-2.0-0.dll"
   Delete "$INSTDIR\gme.dll"
   Delete "$INSTDIR\gmodule-2.0-0.dll"
-!ifndef arch_arm64
-  Delete "$INSTDIR\gnutls.dll"
-!endif
   Delete "$INSTDIR\gobject-2.0-0.dll"
   Delete "$INSTDIR\gstadaptivedemux-1.0-0.dll"
   Delete "$INSTDIR\gstapp-1.0-0.dll"
@@ -1003,6 +1005,10 @@ Section "Uninstall"
   Delete "$INSTDIR\pcre2-16.dll"
 !ifndef arch_arm64
   Delete "$INSTDIR\twolame.dll"
+  Delete "$INSTDIR\gmp.dll"
+  Delete "$INSTDIR\nettle.dll"
+  Delete "$INSTDIR\hogweed.dll"
+  Delete "$INSTDIR\gnutls.dll"
 !endif
   Delete "$INSTDIR\zlib1.dll"
 !endif
@@ -1015,6 +1021,10 @@ Section "Uninstall"
   Delete "$INSTDIR\pcre2-16d.dll"
 !ifndef arch_arm64
   Delete "$INSTDIR\twolamed.dll"
+  Delete "$INSTDIR\gmpd.dll"
+  Delete "$INSTDIR\nettled.dll"
+  Delete "$INSTDIR\hogweedd.dll"
+  Delete "$INSTDIR\gnutlsd.dll"
 !endif
   Delete "$INSTDIR\zlibd1.dll"
 !endif
