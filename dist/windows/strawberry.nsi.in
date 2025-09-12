@@ -415,17 +415,11 @@ Section "Strawberry" Strawberry
   File "gsttag-1.0-0.dll"
   File "gsturidownloader-1.0-0.dll"
   File "gstvideo-1.0-0.dll"
-!ifdef arch_arm64
-  File "gstwinrt-1.0-0.dll"
-!endif
   File "harfbuzz.dll"
   File "intl-8.dll"
   File "jpeg62.dll"
   File "kdsingleapplication-qt6.dll"
   File "libbs2b.dll"
-!ifndef arch_arm64
-  File "libfaac_dll.dll"
-!endif
   File "liblzma.dll"
   File "libmp3lame.dll"
   File "libopenmpt.dll"
@@ -444,6 +438,15 @@ Section "Strawberry" Strawberry
   File "vorbisfile.dll"
   File "wavpackdll.dll"
 
+!ifndef arch_arm64
+  File "gnutls.dll"
+  File "libfaac_dll.dll"
+!endif
+
+!ifdef arch_arm64
+  File "gstwinrt-1.0-0.dll"
+!endif
+
 !ifdef release
   File "freetype.dll"
   File "libiconv.dll"
@@ -451,11 +454,10 @@ Section "Strawberry" Strawberry
   File "libspeex.dll"
   File "pcre2-8.dll"
   File "pcre2-16.dll"
+  File "zlib1.dll"
 !ifndef arch_arm64
   File "twolame.dll"
-  File "gnutls.dll"
 !endif
-  File "zlib1.dll"
 !endif
 !ifdef debug
   File "freetyped.dll"
@@ -464,11 +466,10 @@ Section "Strawberry" Strawberry
   File "libspeexd.dll"
   File "pcre2-8d.dll"
   File "pcre2-16d.dll"
+  File "zlibd1.dll"
 !ifndef arch_arm64
   File "twolamed.dll"
-  File "gnutls.dll"
 !endif
-  File "zlibd1.dll"
 !endif
 
   ; Used by libfftw3-3.dll because fftw is compiled with MinGW.
@@ -961,17 +962,11 @@ Section "Uninstall"
   Delete "$INSTDIR\gsttag-1.0-0.dll"
   Delete "$INSTDIR\gsturidownloader-1.0-0.dll"
   Delete "$INSTDIR\gstvideo-1.0-0.dll"
-!ifdef arch_arm64
-  Delete "$INSTDIR\gstwinrt-1.0-0.dll"
-!endif
   Delete "$INSTDIR\harfbuzz.dll"
   Delete "$INSTDIR\intl-8.dll"
   Delete "$INSTDIR\jpeg62.dll"
   Delete "$INSTDIR\kdsingleapplication-qt6.dll"
   Delete "$INSTDIR\libbs2b.dll"
-!ifndef arch_arm64
-  Delete "$INSTDIR\libfaac_dll.dll"
-!endif
   Delete "$INSTDIR\liblzma.dll"
   Delete "$INSTDIR\libmp3lame.dll"
   Delete "$INSTDIR\libopenmpt.dll"
@@ -990,6 +985,15 @@ Section "Uninstall"
   Delete "$INSTDIR\vorbisfile.dll"
   Delete "$INSTDIR\wavpackdll.dll"
 
+!ifndef arch_arm64
+  Delete "$INSTDIR\gnutls.dll"
+  Delete "$INSTDIR\libfaac_dll.dll"
+!endif
+
+!ifdef arch_arm64
+  Delete "$INSTDIR\gstwinrt-1.0-0.dll"
+!endif
+
 !ifdef release
   Delete "$INSTDIR\freetype.dll"
   Delete "$INSTDIR\libiconv.dll"
@@ -997,11 +1001,10 @@ Section "Uninstall"
   Delete "$INSTDIR\libspeex.dll"
   Delete "$INSTDIR\pcre2-8.dll"
   Delete "$INSTDIR\pcre2-16.dll"
+  Delete "$INSTDIR\zlib1.dll"
 !ifndef arch_arm64
   Delete "$INSTDIR\twolame.dll"
-  Delete "$INSTDIR\gnutls.dll"
 !endif
-  Delete "$INSTDIR\zlib1.dll"
 !endif
 !ifdef debug
   Delete "$INSTDIR\freetyped.dll"
@@ -1010,11 +1013,10 @@ Section "Uninstall"
   Delete "$INSTDIR\libspeexd.dll"
   Delete "$INSTDIR\pcre2-8d.dll"
   Delete "$INSTDIR\pcre2-16d.dll"
+  Delete "$INSTDIR\zlibd1.dll"
 !ifndef arch_arm64
   Delete "$INSTDIR\twolamed.dll"
-  Delete "$INSTDIR\gnutls.dll"
 !endif
-  Delete "$INSTDIR\zlibd1.dll"
 !endif
 
 !ifdef arch_x86
