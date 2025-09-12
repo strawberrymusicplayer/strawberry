@@ -453,9 +453,6 @@ Section "Strawberry" Strawberry
   File "pcre2-16.dll"
 !ifndef arch_arm64
   File "twolame.dll"
-  File "gmp.dll"
-  File "nettle.dll"
-  File "hogweed.dll"
   File "gnutls.dll"
 !endif
   File "zlib1.dll"
@@ -469,10 +466,7 @@ Section "Strawberry" Strawberry
   File "pcre2-16d.dll"
 !ifndef arch_arm64
   File "twolamed.dll"
-  File "gmpd.dll"
-  File "nettled.dll"
-  File "hogweedd.dll"
-  File "gnutlsd.dll"
+  File "gnutls.dll"
 !endif
   File "zlibd1.dll"
 !endif
@@ -1005,9 +999,6 @@ Section "Uninstall"
   Delete "$INSTDIR\pcre2-16.dll"
 !ifndef arch_arm64
   Delete "$INSTDIR\twolame.dll"
-  Delete "$INSTDIR\gmp.dll"
-  Delete "$INSTDIR\nettle.dll"
-  Delete "$INSTDIR\hogweed.dll"
   Delete "$INSTDIR\gnutls.dll"
 !endif
   Delete "$INSTDIR\zlib1.dll"
@@ -1021,10 +1012,7 @@ Section "Uninstall"
   Delete "$INSTDIR\pcre2-16d.dll"
 !ifndef arch_arm64
   Delete "$INSTDIR\twolamed.dll"
-  Delete "$INSTDIR\gmpd.dll"
-  Delete "$INSTDIR\nettled.dll"
-  Delete "$INSTDIR\hogweedd.dll"
-  Delete "$INSTDIR\gnutlsd.dll"
+  Delete "$INSTDIR\gnutls.dll"
 !endif
   Delete "$INSTDIR\zlibd1.dll"
 !endif
