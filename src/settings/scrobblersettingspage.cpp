@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,7 +38,6 @@
 
 #include "scrobbler/audioscrobbler.h"
 #include "scrobbler/lastfmscrobbler.h"
-#include "scrobbler/librefmscrobbler.h"
 #include "scrobbler/listenbrainzscrobbler.h"
 #include "constants/scrobblersettings.h"
 
@@ -50,10 +49,8 @@ ScrobblerSettingsPage::ScrobblerSettingsPage(SettingsDialog *dialog, const Share
       ui_(new Ui_ScrobblerSettingsPage),
       scrobbler_(scrobbler),
       lastfmscrobbler_(scrobbler_->Service<LastFMScrobbler>()),
-      librefmscrobbler_(scrobbler_->Service<LibreFMScrobbler>()),
       listenbrainzscrobbler_(scrobbler_->Service<ListenBrainzScrobbler>()),
       lastfm_waiting_for_auth_(false),
-      librefm_waiting_for_auth_(false),
       listenbrainz_waiting_for_auth_(false) {
 
   ui_->setupUi(this);
@@ -65,13 +62,6 @@ ScrobblerSettingsPage::ScrobblerSettingsPage(SettingsDialog *dialog, const Share
   QObject::connect(ui_->widget_lastfm_login_state, &LoginStateWidget::LoginClicked, this, &ScrobblerSettingsPage::LastFM_Login);
   QObject::connect(ui_->widget_lastfm_login_state, &LoginStateWidget::LogoutClicked, this, &ScrobblerSettingsPage::LastFM_Logout);
   ui_->widget_lastfm_login_state->AddCredentialGroup(ui_->widget_lastfm_login);
-
-  // Libre.fm
-  QObject::connect(&*librefmscrobbler_, &LibreFMScrobbler::AuthenticationComplete, this, &ScrobblerSettingsPage::LibreFM_AuthenticationComplete);
-  QObject::connect(ui_->button_librefm_login, &QPushButton::clicked, this, &ScrobblerSettingsPage::LibreFM_Login);
-  QObject::connect(ui_->widget_librefm_login_state, &LoginStateWidget::LoginClicked, this, &ScrobblerSettingsPage::LibreFM_Login);
-  QObject::connect(ui_->widget_librefm_login_state, &LoginStateWidget::LogoutClicked, this, &ScrobblerSettingsPage::LibreFM_Logout);
-  ui_->widget_librefm_login_state->AddCredentialGroup(ui_->widget_librefm_login);
 
   // ListenBrainz
   QObject::connect(&*listenbrainzscrobbler_, &ListenBrainzScrobbler::AuthenticationComplete, this, &ScrobblerSettingsPage::ListenBrainz_AuthenticationComplete);
@@ -117,9 +107,6 @@ void ScrobblerSettingsPage::Load() {
 
   ui_->checkbox_lastfm_enable->setChecked(lastfmscrobbler_->enabled());
   LastFM_RefreshControls(lastfmscrobbler_->authenticated());
-
-  ui_->checkbox_librefm_enable->setChecked(librefmscrobbler_->enabled());
-  LibreFM_RefreshControls(librefmscrobbler_->authenticated());
 
   ui_->checkbox_listenbrainz_enable->setChecked(listenbrainzscrobbler_->enabled());
   ui_->lineedit_listenbrainz_user_token->setText(listenbrainzscrobbler_->user_token());
@@ -167,10 +154,6 @@ void ScrobblerSettingsPage::Save() {
   s.setValue(kEnabled, ui_->checkbox_lastfm_enable->isChecked());
   s.endGroup();
 
-  s.beginGroup(LibreFMScrobbler::kSettingsGroup);
-  s.setValue(kEnabled, ui_->checkbox_librefm_enable->isChecked());
-  s.endGroup();
-
   s.beginGroup(ListenBrainzScrobbler::kSettingsGroup);
   s.setValue(kEnabled, ui_->checkbox_listenbrainz_enable->isChecked());
   s.setValue(kUserToken, ui_->lineedit_listenbrainz_user_token->text());
@@ -213,41 +196,6 @@ void ScrobblerSettingsPage::LastFM_AuthenticationComplete(const bool success, co
 
 void ScrobblerSettingsPage::LastFM_RefreshControls(const bool authenticated) {
   ui_->widget_lastfm_login_state->SetLoggedIn(authenticated ? LoginStateWidget::State::LoggedIn : LoginStateWidget::State::LoggedOut, lastfmscrobbler_->username());
-}
-
-void ScrobblerSettingsPage::LibreFM_Login() {
-
-  librefm_waiting_for_auth_ = true;
-  ui_->widget_librefm_login_state->SetLoggedIn(LoginStateWidget::State::LoginInProgress);
-  librefmscrobbler_->Authenticate();
-
-}
-
-void ScrobblerSettingsPage::LibreFM_Logout() {
-
-  librefmscrobbler_->ClearSession();
-  LibreFM_RefreshControls(false);
-
-}
-
-void ScrobblerSettingsPage::LibreFM_AuthenticationComplete(const bool success, const QString &error) {
-
-  if (!librefm_waiting_for_auth_) return;
-  librefm_waiting_for_auth_ = false;
-
-  if (success) {
-    Save();
-  }
-  else {
-    QMessageBox::warning(this, u"Authentication failed"_s, error);
-  }
-
-  LibreFM_RefreshControls(success);
-
-}
-
-void ScrobblerSettingsPage::LibreFM_RefreshControls(const bool authenticated) {
-  ui_->widget_librefm_login_state->SetLoggedIn(authenticated ? LoginStateWidget::State::LoggedIn : LoginStateWidget::State::LoggedOut, librefmscrobbler_->username());
 }
 
 void ScrobblerSettingsPage::ListenBrainz_Login() {

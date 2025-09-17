@@ -58,7 +58,7 @@ Funding developers is a way to contribute to open source projects you appreciate
   * Audio analyzer
   * Audio equalizer
   * Transfer music to mass-storage USB players, MTP compatible devices and iPod Nano/Classic
-  * Scrobbler with support for [Last.fm](https://www.last.fm/), [Libre.fm](https://libre.fm/) and [ListenBrainz](https://listenbrainz.org/)
+  * Scrobbler with support for [Last.fm](https://www.last.fm/) and [ListenBrainz](https://listenbrainz.org/)
   * Streaming from Subsonic compatible servers
   * Unofficial Tidal, Spotify and Qobuz integration
   * Discord rich presence

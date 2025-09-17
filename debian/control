@@ -64,7 +64,7 @@ Description: music player and music collection organizer
   - Audio analyzer
   - Audio equalizer
   - Transfer music to mass-storage USB players, MTP compatible devices and iPod Nano/Classic
-  - Scrobbler with support for Last.fm, Libre.fm and ListenBrainz
+  - Scrobbler with support for Last.fm and ListenBrainz
   - Streaming support for Subsonic-compatible servers
   - Unofficial streaming support for Tidal and Qobuz
  .

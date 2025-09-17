@@ -97,7 +97,7 @@ Features:
   - Support for multiple backends
   - Audio analyzer
   - Audio equalizer
-  - Scrobbler with support for Last.fm, Libre.fm and ListenBrainz
+  - Scrobbler with support for Last.fm and ListenBrainz
   - Transfer music to mass-storage USB players, MTP compatible devices and iPod Nano/Classic
   - Streaming support for Subsonic-compatible servers
   - Unofficial streaming support for Tidal and Qobuz

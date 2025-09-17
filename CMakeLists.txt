@@ -792,9 +792,7 @@ set(SOURCES
   src/scrobbler/scrobblercache.cpp
   src/scrobbler/scrobblercacheitem.cpp
   src/scrobbler/scrobblemetadata.cpp
-  src/scrobbler/scrobblingapi20.cpp
   src/scrobbler/lastfmscrobbler.cpp
-  src/scrobbler/librefmscrobbler.cpp
   src/scrobbler/listenbrainzscrobbler.cpp
   src/scrobbler/lastfmimport.cpp
 
@@ -1085,9 +1083,7 @@ set(HEADERS
   src/scrobbler/scrobblersettingsservice.h
   src/scrobbler/scrobblerservice.h
   src/scrobbler/scrobblercache.h
-  src/scrobbler/scrobblingapi20.h
   src/scrobbler/lastfmscrobbler.h
-  src/scrobbler/librefmscrobbler.h
   src/scrobbler/listenbrainzscrobbler.h
   src/scrobbler/lastfmimport.h
 
