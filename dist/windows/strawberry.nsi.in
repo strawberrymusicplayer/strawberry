@@ -442,10 +442,6 @@ Section "Strawberry" Strawberry
   File "libfaac_dll.dll"
 !endif
 
-!ifdef arch_arm64
-  File "gstwinrt-1.0-0.dll"
-!endif
-
 !ifdef release
   File "freetype.dll"
   File "libiconv.dll"
@@ -986,10 +982,6 @@ Section "Uninstall"
 !ifndef arch_arm64
   Delete "$INSTDIR\gnutls.dll"
   Delete "$INSTDIR\libfaac_dll.dll"
-!endif
-
-!ifdef arch_arm64
-  Delete "$INSTDIR\gstwinrt-1.0-0.dll"
 !endif
 
 !ifdef release
