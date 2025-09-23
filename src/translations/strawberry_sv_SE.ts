@@ -5040,7 +5040,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Could not parse file</source>
-      <translation>Kunde inte analysera filen</translation>
+      <translation>Kunde inte tolka filen</translation>
     </message>
     <message>
       <source>Could save file</source>
