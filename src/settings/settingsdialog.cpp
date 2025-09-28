@@ -94,7 +94,9 @@
 #  include "qobuz/qobuzservice.h"
 #  include "qobuzsettingspage.h"
 #endif
-
+#ifdef HAVE_NETWORKREMOTE
+#include "networkremotesettingspage.h"
+#endif
 #include "ui_settingsdialog.h"
 
 using namespace Qt::Literals::StringLiterals;

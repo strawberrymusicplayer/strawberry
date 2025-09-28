@@ -38,6 +38,8 @@
 #cmakedefine HAVE_TAGLIB_DSFFILE
 #cmakedefine HAVE_TAGLIB_DSDIFFFILE
 
+#cmakedefine HAVE_NETWORKREMOTE
+
 #cmakedefine USE_BUNDLE
 
 #cmakedefine HAVE_TRANSLATIONS
