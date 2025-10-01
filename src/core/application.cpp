@@ -289,7 +289,7 @@ class ApplicationImpl {
 #ifdef HAVE_NETWORKREMOTE
          network_remote_([app]() {
              qLog(Debug) << "Moving to new thread";
-             NetworkRemote *remote = new NetworkRemote(app);
+             NetworkRemote *remote = new NetworkRemote(app->player(), app);
              app->MoveToNewThread(remote);
              return remote;
          })
