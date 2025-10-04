@@ -1,0 +1,29 @@
+{
+  "screen_resolutions": [
+    {"name": "Phone Portrait", "width": 330, "min_height": 50},
+    {"name": "Phone Landscape", "width": 610, "min_height": 30},
+    {"name": "Tablet Portrait", "width": 738, "min_height": 25},
+    {"name": "Tablet Landscape", "width": 994, "min_height": 20},
+    {"name": "HD 720p", "width": 1250, "min_height": 20},
+    {"name": "HD 1080p cropped", "width": 1890, "min_height": 20},
+    {"name": "HD 1080p FULL", "width": 1920, "min_height": 20},
+    {"name": "2K", "width": 2530, "min_height": 20},
+    {"name": "4K", "width": 3810, "min_height": 20}
+  ],
+  "test_widths": {
+    "edge_cases": [50, 75, 100, 150, 200, 300, 500, 1000, 2000, 3000, 4000, 5000],
+    "standard": [200, 400, 600, 800, 1000, 1200, 1600, 1920],
+    "narrow": [100, 150, 200, 250, 300],
+    "wide": [1600, 1920, 2560, 3840]
+  },
+  "text_files": [
+    {"file": "short_text.txt", "widths": "standard", "min_height_multiplier": 1.0},
+    {"file": "medium_text.txt", "widths": "edge_cases", "min_height_multiplier": 1.5},
+    {"file": "long_lyrics.txt", "widths": "standard", "min_height_multiplier": 3.0},
+    {"file": "very_long_line.txt", "widths": "narrow", "min_height_multiplier": 5.0},
+    {"file": "unicode_text.txt", "widths": "standard", "min_height_multiplier": 2.0},
+    {"file": "long_words.txt", "widths": "narrow", "min_height_multiplier": 4.0},
+    {"file": "multiline_short.txt", "widths": "wide", "min_height_multiplier": 1.5},
+    {"file": "urls_text.txt", "widths": "standard", "min_height_multiplier": 2.0}
+  ]
+}

@@ -1,0 +1,1 @@
+This is a single extremely long line of text without any line breaks that should wrap multiple times when the width is constrained and it contains many words to properly test the wrapping algorithm across different screen widths ranging from very narrow phone screens to ultra-wide desktop monitors and everything in between to ensure robust text layout behavior in all scenarios

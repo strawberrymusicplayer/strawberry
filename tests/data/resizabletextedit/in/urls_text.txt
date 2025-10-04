@@ -1,0 +1,3 @@
+Check this link: https://www.verylongdomainname.com/with/a/very/long/path/to/some/resource/that/might/break/wrapping/if/not/handled/properly
+Another URL: https://github.com/strawberrymusicplayer/strawberry/issues/1234567890
+Short link: https://example.com

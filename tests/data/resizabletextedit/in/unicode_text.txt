@@ -1,0 +1,6 @@
+Testing with special characters: äöüß ñ ç é à
+Greek letters: αβγδεζηθικλμνξοπρστυφχψω
+Cyrillic: Привет мир как дела
+Japanese: 日本語のテキスト
+Emoji: 🎵 🎶 🎸 🎹 🎤 🎧 ♪ ♫ ♬
+Mixed content with various unicode characters that should wrap properly

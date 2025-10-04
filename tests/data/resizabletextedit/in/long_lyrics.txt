@@ -1,0 +1,12 @@
+Verse 1:
+This is the first line of the first verse with some long text that will wrap across multiple lines when the available width is constrained
+Second line continues the story with more words to trigger wrapping behavior and test proper height calculations
+
+Chorus:
+Repeating chorus line that is quite long and should wrap nicely when displayed in narrow windows or on small screens
+Another chorus line with even more text to ensure proper wrapping and height calculation across different resolutions
+
+Verse 2:
+Third verse brings more lyrics that need proper text wrapping support to display correctly on all screen sizes
+The text should flow naturally and wrap at word boundaries to maintain readability
+Final line of the verse completes the song with additional content for comprehensive testing
