@@ -312,8 +312,10 @@ void ContextView::resizeEvent(QResizeEvent *e) {
     widget_album_->UpdateWidth(width() - kWidgetSpacing);
 
     // Calculate available width for text wrapping
-    // scrollarea width minus scrollarea margins (15+15=30)
-    int available_width = scrollarea_->viewport()->width() - 30;
+    // scrollarea width minus scrollarea margins
+    int margin_left = layout_scrollarea_->contentsMargins().left();
+    int margin_right = layout_scrollarea_->contentsMargins().right();
+    int available_width = scrollarea_->viewport()->width() - margin_left - margin_right;
 
     // Update top text edit (title/summary) with new width
     if (available_width > 0) {
@@ -325,11 +327,7 @@ void ContextView::resizeEvent(QResizeEvent *e) {
     if (textedit_play_lyrics_->isVisible() && available_width > 0) {
       // Force document to update text width for proper word wrapping
       textedit_play_lyrics_->document()->setTextWidth(available_width);
-
-      // Update geometry to recalculate sizes based on new width
       textedit_play_lyrics_->updateGeometry();
-      widget_scrollarea_->updateGeometry();
-      layout_scrollarea_->activate();
     }
   }
 
@@ -384,7 +382,6 @@ void ContextView::FadeStopFinished() {
   widget_stacked_->setCurrentWidget(widget_stop_);
   NoSong();
   ResetSong();
-  widget_stacked_->updateGeometry();
 
 }
 
@@ -510,9 +507,6 @@ void ContextView::SetSong() {
   if (action_show_lyrics_->isChecked() && !lyrics_.isEmpty()) {
     textedit_play_lyrics_->SetText(lyrics_);
     textedit_play_lyrics_->show();
-    // Force layout update to ensure proper word wrapping
-    textedit_play_lyrics_->updateGeometry();
-    layout_play_->update();
   }
   else {
     textedit_play_lyrics_->clear();
@@ -520,7 +514,6 @@ void ContextView::SetSong() {
   }
 
   widget_stacked_->setCurrentWidget(widget_play_);
-  widget_stacked_->updateGeometry();
 
 }
 
@@ -585,8 +578,6 @@ void ContextView::UpdateSong(const Song &song) {
 
   song_playing_ = song;
 
-  widget_stacked_->updateGeometry();
-
 }
 
 void ContextView::ResetSong() {
@@ -619,9 +610,6 @@ void ContextView::UpdateLyrics(const quint64 id, const QString &provider, const 
   if (action_show_lyrics_->isChecked() && !lyrics_.isEmpty()) {
     textedit_play_lyrics_->SetText(lyrics_);
     textedit_play_lyrics_->show();
-    // Force layout update to ensure proper word wrapping
-    textedit_play_lyrics_->updateGeometry();
-    layout_play_->update();
   }
   else {
     textedit_play_lyrics_->clear();

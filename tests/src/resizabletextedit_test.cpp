@@ -19,18 +19,15 @@
 
 #include "gtest_include.h"
 
-#include <vector>
-#include <map>
-
-#include <QApplication>
 #include <QWidget>
-#include <QTextDocument>
 #include <QString>
 #include <QSize>
 #include <QFile>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QList>
+#include <QMap>
 
 #include "widgets/resizabletextedit.h"
 
@@ -110,13 +107,13 @@ TEST_F(ResizableTextEditTest, DataDrivenTests) {
 
   // Parse width categories
   QJsonObject test_widths = config[u"test_widths"_s].toObject();
-  std::map<QString, std::vector<int>> width_categories;
+  QMap<QString, QList<int>> width_categories;
 
   for (const QString &key : test_widths.keys()) {
     QJsonArray widths_array = test_widths[key].toArray();
-    std::vector<int> widths;
+    QList<int> widths;
     for (const QJsonValue &val : widths_array) {
-      widths.push_back(val.toInt());
+      widths.append(val.toInt());
     }
     width_categories[key] = widths;
   }
@@ -134,7 +131,7 @@ TEST_F(ResizableTextEditTest, DataDrivenTests) {
     ASSERT_FALSE(text.isEmpty()) << "Failed to load text file: " << filename.toStdString();
 
     // Get widths for this test
-    std::vector<int> widths = width_categories[width_category];
+    QList<int> widths = width_categories[width_category];
     ASSERT_FALSE(widths.empty()) << "No widths found for category: " << width_category.toStdString();
 
     // Set text

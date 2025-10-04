@@ -35,17 +35,11 @@ ResizableTextEdit::ResizableTextEdit(QWidget *parent)
 
 QSize ResizableTextEdit::sizeHint() const {
 
-  // Use the current document textWidth if set, otherwise use widget width
-  int doc_width = static_cast<int>(document()->textWidth());
-  int current_width = doc_width > 0 ? doc_width : width();
+  qreal doc_width = document()->textWidth();
+  int current_width = doc_width > 0 ? qRound(doc_width) : width();
 
   if (current_width <= 0) {
     current_width = 200; // Fallback width
-  }
-
-  // Only set textWidth if document doesn't have a valid one
-  if (doc_width <= 0) {
-    document()->setTextWidth(current_width);
   }
 
   QSize doc_size = document()->size().toSize();
@@ -60,12 +54,12 @@ void ResizableTextEdit::resizeEvent(QResizeEvent *e) {
   // Don't update document width here - it's controlled externally
   // from ContextView::resizeEvent()
 
-  int old_doc_height = static_cast<int>(document()->size().height());
+  qreal old_doc_height = document()->size().height();
 
   updateGeometry();
   QTextEdit::resizeEvent(e);
 
-  int new_doc_height = static_cast<int>(document()->size().height());
+  qreal new_doc_height = document()->size().height();
 
   // Force parent to update if height changed
   if (new_doc_height != old_doc_height && new_doc_height > 0) {
@@ -83,9 +77,9 @@ void ResizableTextEdit::SetText(const QString &text) {
   QTextEdit::setText(text);
 
   // Only set document width if it's not already set (i.e., controlled externally)
-  int current_doc_width = static_cast<int>(document()->textWidth());
+  qreal current_doc_width = document()->textWidth();
   if (current_doc_width <= 0) {
-    int doc_width = width() > 0 ? width() : 200;
+    qreal doc_width = width() > 0 ? width() : 200;
     document()->setTextWidth(doc_width);
   }
 
