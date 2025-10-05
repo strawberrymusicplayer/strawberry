@@ -542,7 +542,10 @@ void CollectionModel::AddSongsInternal(const SongList &songs) {
     // Sanity check to make sure we don't add songs that are outside the user's filter
     if (!options_active_.filter_options.Matches(song)) continue;
 
-    if (song_nodes_.contains(song.id())) continue;
+    if (song_nodes_.contains(song.id())) {
+      qLog(Debug) << song.id() << song.title() << "already exists, skipping";
+      continue;
+    }
 
     // Before we can add each song we need to make sure the required container items already exist in the tree.
     // These depend on which "group by" settings the user has on the collection.
