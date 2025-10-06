@@ -38,7 +38,7 @@ class ResizableTextEditTest : public ::testing::Test {
   void SetUp() override {
     widget_ = new QWidget();
     text_edit_ = new ResizableTextEdit(widget_);
-    test_data_dir_ = u"tests/data/resizabletextedit"_s;
+    test_data_dir_ = u":resizabletextedit"_s;
   }
 
   void TearDown() override {
