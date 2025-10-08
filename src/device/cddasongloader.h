@@ -29,9 +29,10 @@
 
 #include <QObject>
 #include <QMutex>
+#include <QFuture>
+#include <QMap>
 #include <QString>
 #include <QUrl>
-#include <QFuture>
 
 #include "includes/shared_ptr.h"
 #include "core/song.h"
@@ -62,19 +63,27 @@ class CDDASongLoader : public QObject {
   void SongsUpdated(const SongList &songs);
   void LoadError(const QString &error);
   void LoadingFinished();
-  void LoadTagsFromMusicBrainz(const QString &musicbrainz_discid);
+  void LoadTagsFromMusicBrainz(const QString &musicbrainz_discid, const QMap<int, Song> &songs);
 
  private Q_SLOTS:
 #ifdef HAVE_MUSICBRAINZ
-  void LoadTagsFromMusicBrainzSlot(const QString &musicbrainz_discid) const;
-  void LoadTagsFromMusicBrainzFinished(const QString &artist, const QString &album, const MusicBrainzClient::ResultList &results, const QString &error);
+  void LoadTagsFromMusicBrainzSlot(const QString &musicbrainz_discid, const QMap<int, Song> &songs);
+  void LoadTagsFromMusicBrainzFinished(const QString &musicbrainz_discid, const MusicBrainzClient::ResultList &results, const QString &error);
 #endif
 
  private:
   const QUrl url_;
   SharedPtr<NetworkAccessManager> network_;
+#ifdef HAVE_MUSICBRAINZ
+  MusicBrainzClient *musicbrainz_client_;
+#endif
   QMutex mutex_load_;
   QFuture<void> loading_future_;
+#ifdef HAVE_MUSICBRAINZ
+  QString musicbrainz_discid_;
+  QMap<int, Song> musicbrainz_songs_;
+#endif
+  bool whatever_;
 };
 
 #endif  // CDDASONGLOADER_H

@@ -212,6 +212,11 @@
           </column>
           <column>
            <property name="text">
+            <string>Album artist</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
             <string>Artist</string>
            </property>
           </column>
@@ -260,7 +265,6 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../../data/data.qrc"/>
   <include location="../../data/icons.qrc"/>
  </resources>
  <connections>

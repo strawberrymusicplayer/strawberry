@@ -53,11 +53,17 @@ using namespace Qt::Literals::StringLiterals;
 CDDASongLoader::CDDASongLoader(const QUrl &url, QObject *parent)
     : QObject(parent),
       url_(url),
-      network_(make_shared<NetworkAccessManager>()) {
+      network_(make_shared<NetworkAccessManager>()),
+#ifdef HAVE_MUSICBRAINZ
+      musicbrainz_client_(new MusicBrainzClient(network_, this)),
+#endif
+      whatever_(false) {
 
 #ifdef HAVE_MUSICBRAINZ
   QObject::connect(this, &CDDASongLoader::LoadTagsFromMusicBrainz, this, &CDDASongLoader::LoadTagsFromMusicBrainzSlot);
+  QObject::connect(musicbrainz_client_, &MusicBrainzClient::DiscIdFinished, this, &CDDASongLoader::LoadTagsFromMusicBrainzFinished);
 #endif  // HAVE_MUSICBRAINZ
+
 }
 
 CDDASongLoader::~CDDASongLoader() {
@@ -349,7 +355,7 @@ void CDDASongLoader::LoadSongsFromCDDA() {
     }
     else {
       qLog(Info) << "MusicBrainz Disc ID:" << musicbrainz_discid;
-      Q_EMIT LoadTagsFromMusicBrainz(musicbrainz_discid);
+      Q_EMIT LoadTagsFromMusicBrainz(musicbrainz_discid, songs);
     }
 #else
     Q_EMIT LoadingFinished();
@@ -360,18 +366,23 @@ void CDDASongLoader::LoadSongsFromCDDA() {
 
 #ifdef HAVE_MUSICBRAINZ
 
-void CDDASongLoader::LoadTagsFromMusicBrainzSlot(const QString &musicbrainz_discid) const {
+void CDDASongLoader::LoadTagsFromMusicBrainzSlot(const QString &musicbrainz_discid, const QMap<int, Song> &songs) {
 
-  MusicBrainzClient *musicbrainz_client = new MusicBrainzClient(network_);
-  QObject::connect(musicbrainz_client, &MusicBrainzClient::DiscIdFinished, this, &CDDASongLoader::LoadTagsFromMusicBrainzFinished);
-  musicbrainz_client->StartDiscIdRequest(musicbrainz_discid);
+  musicbrainz_discid_ = musicbrainz_discid;
+  musicbrainz_songs_ = songs;
+  musicbrainz_client_->StartDiscIdRequest(musicbrainz_discid);
 
 }
 
-void CDDASongLoader::LoadTagsFromMusicBrainzFinished(const QString &artist, const QString &album, const MusicBrainzClient::ResultList &results, const QString &error) {
+void CDDASongLoader::LoadTagsFromMusicBrainzFinished(const QString &musicbrainz_discid, const MusicBrainzClient::ResultList &results, const QString &error) {
 
-  MusicBrainzClient *musicbrainz_client = qobject_cast<MusicBrainzClient*>(sender());
-  musicbrainz_client->deleteLater();
+  if (musicbrainz_discid != musicbrainz_discid_) {
+    return;
+  }
+
+  QMap<int, Song> songs = musicbrainz_songs_;
+  musicbrainz_discid_.clear();
+  musicbrainz_songs_.clear();
 
   if (!error.isEmpty()) {
     Error(error);
@@ -383,27 +394,32 @@ void CDDASongLoader::LoadTagsFromMusicBrainzFinished(const QString &artist, cons
     return;
   }
 
-  SongList songs;
-  songs.reserve(results.count());
-  int track_number = 0;
   for (const MusicBrainzClient::Result &result : results) {
-    ++track_number;
-    Song song(Song::Source::CDDA);
-    song.set_artist(artist);
-    song.set_album(album);
-    song.set_title(result.title_);
-    song.set_length_nanosec(result.duration_msec_ * kNsecPerMsec);
-    song.set_track(track_number);
-    song.set_year(result.year_);
-    song.set_id(track_number);
-    song.set_filetype(Song::FileType::CDDA);
-    song.set_valid(true);
-    // We need to set URL, that's how playlist will find the correct item to update
-    song.set_url(GetUrlFromTrack(track_number));
-    songs << song;
+    if (songs.contains(result.track_)) {
+      Song &song = songs[result.track_];
+      song.set_valid(true);
+      song.set_id(result.track_);
+      song.set_track(result.track_);
+      song.set_artist(result.artist_);
+      song.set_artistsort(result.sort_artist_);
+      song.set_album(result.album_);
+      song.set_title(result.title_);
+      song.set_track(result.track_);
+      song.set_year(result.year_);
+      song.set_url(GetUrlFromTrack(song.track()));
+      if (song.length_nanosec() <= 0) {
+        song.set_length_nanosec(result.duration_msec_ * kNsecPerMsec);
+      }
+      if (!result.album_artist_.isEmpty() && result.album_artist_ != result.artist_) {
+        song.set_albumartist(result.album_artist_);
+      }
+      if (!result.sort_album_artist_.isEmpty() && result.sort_album_artist_ != result.sort_artist_) {
+        song.set_albumartistsort(result.sort_album_artist_);
+      }
+    }
   }
 
-  Q_EMIT SongsUpdated(songs);
+  Q_EMIT SongsUpdated(songs.values());
   Q_EMIT LoadingFinished();
 
 }
