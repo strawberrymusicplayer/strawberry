@@ -18,6 +18,7 @@
  */
 
 #include <QTextEdit>
+#include <QTextOption>
 #include <QResizeEvent>
 
 #include "resizabletextedit.h"
@@ -25,30 +26,62 @@
 ResizableTextEdit::ResizableTextEdit(QWidget *parent)
     : QTextEdit(parent) {
 
-  setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
+  setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
   setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  setWordWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
 
 }
 
 QSize ResizableTextEdit::sizeHint() const {
 
-  return QSize(std::max(QTextEdit::sizeHint().width(), 10), std::max(document()->size().toSize().height(), 10));
+  qreal doc_width = document()->textWidth();
+  int current_width = doc_width > 0 ? qRound(doc_width) : width();
+
+  if (current_width <= 0) {
+    current_width = 200; // Fallback width
+  }
+
+  QSize doc_size = document()->size().toSize();
+  QSize result = QSize(current_width, std::max(doc_size.height(), 10));
+
+  return result;
 
 }
 
 void ResizableTextEdit::resizeEvent(QResizeEvent *e) {
 
+  // Don't update document width here - it's controlled externally
+  // from ContextView::resizeEvent()
+
+  qreal old_doc_height = document()->size().height();
+
   updateGeometry();
   QTextEdit::resizeEvent(e);
+
+  qreal new_doc_height = document()->size().height();
+
+  // Force parent to update if height changed
+  if (new_doc_height != old_doc_height && new_doc_height > 0) {
+    if (parentWidget()) {
+      parentWidget()->updateGeometry();
+    }
+  }
 
 }
 
 void ResizableTextEdit::SetText(const QString &text) {
 
-  text_ = text;
+  text_ = text;  // Store the text for sizeHint calculations
 
   QTextEdit::setText(text);
+
+  // Only set document width if it's not already set (i.e., controlled externally)
+  qreal current_doc_width = document()->textWidth();
+  if (current_doc_width <= 0) {
+    qreal doc_width = width() > 0 ? width() : 200;
+    document()->setTextWidth(doc_width);
+  }
 
   updateGeometry();
 
