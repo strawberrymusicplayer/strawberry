@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>565</width>
-    <height>1003</height>
+    <width>604</width>
+    <height>1112</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -25,6 +25,9 @@
     <layout class="QHBoxLayout" name="layout_collection_folders">
      <item>
       <widget class="QListView" name="list">
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
        <property name="iconSize">
         <size>
          <width>16</width>
@@ -58,7 +61,7 @@
        <item>
         <spacer name="spacer_collection_buttons">
          <property name="orientation">
-          <enum>Qt::Orientation::Vertical</enum>
+          <enum>Qt::Vertical</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
@@ -167,7 +170,7 @@
          <item>
           <spacer name="spacer_expire_unavailable_songs">
            <property name="orientation">
-            <enum>Qt::Orientation::Horizontal</enum>
+            <enum>Qt::Horizontal</enum>
            </property>
            <property name="sizeHint" stdset="0">
             <size>
@@ -233,9 +236,16 @@ If there are no matches then it will use the largest image in the directory.</st
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="sort_skips_articles">
+       <widget class="QCheckBox" name="checkbox_skip_articles_for_artists">
         <property name="text">
-         <string>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artist names</string>
+         <string>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artists, composers and performers</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkbox_skip_articles_for_albums">
+        <property name="text">
+         <string>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting albums</string>
         </property>
        </widget>
       </item>
@@ -295,7 +305,7 @@ If there are no matches then it will use the largest image in the directory.</st
         <item row="0" column="4">
          <spacer name="spacer_cache_size">
           <property name="orientation">
-           <enum>Qt::Orientation::Horizontal</enum>
+           <enum>Qt::Horizontal</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -319,7 +329,7 @@ If there are no matches then it will use the largest image in the directory.</st
         <item>
          <spacer name="spacer_disk_cache">
           <property name="orientation">
-           <enum>Qt::Orientation::Horizontal</enum>
+           <enum>Qt::Horizontal</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -378,7 +388,7 @@ If there are no matches then it will use the largest image in the directory.</st
         <item row="0" column="4">
          <spacer name="spacer_disk_cache_size">
           <property name="orientation">
-           <enum>Qt::Orientation::Horizontal</enum>
+           <enum>Qt::Horizontal</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -422,7 +432,7 @@ If there are no matches then it will use the largest image in the directory.</st
         <item>
          <spacer name="spacer_disk_cache_in_use">
           <property name="orientation">
-           <enum>Qt::Orientation::Horizontal</enum>
+           <enum>Qt::Horizontal</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -483,7 +493,7 @@ If there are no matches then it will use the largest image in the directory.</st
         <item>
          <spacer name="spacer_save_stats">
           <property name="orientation">
-           <enum>Qt::Orientation::Horizontal</enum>
+           <enum>Qt::Horizontal</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -522,7 +532,8 @@ If there are no matches then it will use the largest image in the directory.</st
   <tabstop>show_dividers</tabstop>
   <tabstop>pretty_covers</tabstop>
   <tabstop>various_artists</tabstop>
-  <tabstop>sort_skips_articles</tabstop>
+  <tabstop>checkbox_skip_articles_for_artists</tabstop>
+  <tabstop>checkbox_skip_articles_for_albums</tabstop>
   <tabstop>spinbox_cache_size</tabstop>
   <tabstop>combobox_cache_size</tabstop>
   <tabstop>checkbox_disk_cache</tabstop>

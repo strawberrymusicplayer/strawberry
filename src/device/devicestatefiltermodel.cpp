@@ -28,7 +28,7 @@
 #include "devicemanager.h"
 #include "devicestatefiltermodel.h"
 
-DeviceStateFilterModel::DeviceStateFilterModel(QObject *parent, DeviceManager::State state)
+DeviceStateFilterModel::DeviceStateFilterModel(QObject *parent, const DeviceManager::State state)
     : QSortFilterProxyModel(parent),
       state_(state) {
 
@@ -40,7 +40,7 @@ DeviceStateFilterModel::DeviceStateFilterModel(QObject *parent, DeviceManager::S
 
 bool DeviceStateFilterModel::filterAcceptsRow(const int row, const QModelIndex &parent) const {
   Q_UNUSED(parent)
-  return sourceModel()->index(row, 0).data(DeviceManager::Role_State).toInt() != state_ && sourceModel()->index(row, 0).data(DeviceManager::Role_CopyMusic).toBool();
+  return sourceModel()->index(row, 0).data(DeviceManager::Role_State).value<DeviceManager::State>() != state_ && sourceModel()->index(row, 0).data(DeviceManager::Role_CopyMusic).toBool();
 }
 
 void DeviceStateFilterModel::ProxyRowCountChanged(const QModelIndex &idx, const int first, const int last) {

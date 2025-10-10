@@ -62,8 +62,9 @@ class SongLoaderInserter : public QObject {
 
  private Q_SLOTS:
   void DestinationDestroyed();
-  void AudioCDTracksLoadFinished(SongLoader *loader);
-  void AudioCDTagsLoaded(const bool success);
+  void AudioCDTracksLoadedSlot();
+  void AudioCDTracksUpdatedSlot();
+  void AudioCDLoadingFinishedSlot(const bool success);
   void InsertSongs();
 
  private:

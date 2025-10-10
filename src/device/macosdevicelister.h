@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -60,6 +60,7 @@ class MacOsDeviceLister : public DeviceLister {
 
   void UpdateDeviceFreeSpace(const QString &id);
 
+#ifdef HAVE_MTP
   struct MTPDevice {
     MTPDevice() : capacity(0), free_space(0) {}
     QString vendor;
@@ -74,6 +75,7 @@ class MacOsDeviceLister : public DeviceLister {
     quint64 capacity;
     quint64 free_space;
   };
+#endif  // HAVE_MTP
 
   void ExitAsync();
 
@@ -91,11 +93,12 @@ class MacOsDeviceLister : public DeviceLister {
 
   static void DiskUnmountCallback(DADiskRef disk, DADissenterRef dissenter, void *context);
 
-  void FoundMTPDevice(const MTPDevice &device, const QString &serial);
+#ifdef HAVE_MTP
+  void FoundMTPDevice(const MTPDevice &mtp_device, const QString &serial);
   void RemovedMTPDevice(const QString &serial);
-
   quint64 GetFreeSpace(const QUrl &url);
   quint64 GetCapacity(const QUrl &url);
+#endif  // HAVE_MTP
 
   bool IsCDDevice(const QString &serial) const;
 
@@ -103,18 +106,23 @@ class MacOsDeviceLister : public DeviceLister {
   CFRunLoopRef run_loop_;
 
   QMap<QString, QString> current_devices_;
+#ifdef HAVE_MTP
   QMap<QString, MTPDevice> mtp_devices_;
+#endif
   QSet<QString> cd_devices_;
 
+#ifdef HAVE_MTP
   QMutex libmtp_mutex_;
-
   static QSet<MTPDevice> sMTPDeviceList;
+#endif
 };
 
-size_t qHash(const MacOsDeviceLister::MTPDevice &device);
+#ifdef HAVE_MTP
+size_t qHash(const MacOsDeviceLister::MTPDevice &mtp_device);
 
 inline bool operator==(const MacOsDeviceLister::MTPDevice &a, const MacOsDeviceLister::MTPDevice &b) {
   return (a.vendor_id == b.vendor_id) && (a.product_id == b.product_id);
 }
+#endif  // HAVE_MTP
 
 #endif  // MACDEVICELISTER_H

@@ -46,7 +46,8 @@ RichPresence::RichPresence(const SharedPtr<Player> player,
     : QObject(parent),
       player_(player),
       playlist_manager_(playlist_manager),
-      initialized_(false) {
+      initialized_(false),
+      status_display_type_(0) {
 
   QObject::connect(&*player_->engine(), &EngineBase::StateChanged, this, &RichPresence::EngineStateChanged);
   QObject::connect(&*playlist_manager_, &PlaylistManager::CurrentSongChanged, this, &RichPresence::CurrentSongChanged);
@@ -69,10 +70,11 @@ void RichPresence::ReloadSettings() {
   Settings s;
   s.beginGroup(DiscordRPCSettings::kSettingsGroup);
   const bool enabled = s.value(DiscordRPCSettings::kEnabled, false).toBool();
+  status_display_type_ = s.value(DiscordRPCSettings::kStatusDisplayType, static_cast<int>(DiscordRPCSettings::StatusDisplayType::App)).toInt();
   s.endGroup();
 
   if (enabled && !initialized_) {
-    Discord_Initialize(kDiscordApplicationId, nullptr, 1);
+    Discord_Initialize(kDiscordApplicationId, nullptr, 0);
     initialized_ = true;
   }
   else if (!enabled && initialized_) {
@@ -117,7 +119,11 @@ void RichPresence::SendPresenceUpdate() {
 
   ::DiscordRichPresence presence_data{};
   memset(&presence_data, 0, sizeof(presence_data));
-  presence_data.type = 2; // Listening
+
+  // Listening to
+  presence_data.type = 2;
+  presence_data.status_display_type = status_display_type_;
+
   presence_data.largeImageKey = kStrawberryIconResourceName;
   presence_data.smallImageKey = kStrawberryIconResourceName;
   presence_data.smallImageText = kStrawberryIconDescription;
@@ -126,7 +132,9 @@ void RichPresence::SendPresenceUpdate() {
   QByteArray artist;
   if (!activity_.artist.isEmpty()) {
     artist = activity_.artist.toUtf8();
-    artist.prepend(tr("by ").toUtf8());
+    if (artist.size() < 2) { // Discord activity 2 char min. fix
+      artist.append(" ");
+    }
     presence_data.state = artist.constData();
   }
 
@@ -159,7 +167,7 @@ void RichPresence::Seeked(const qint64 seek_microseconds) {
 
   if (!initialized_) return;
 
-  SetTimestamp(seek_microseconds / 1000LL);
+  SetTimestamp(seek_microseconds / 1000000LL);
   SendPresenceUpdate();
 
 }

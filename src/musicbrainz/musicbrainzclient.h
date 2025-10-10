@@ -1,7 +1,5 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
- * Copyright 2010, David Sansome <me@davidsansome.com>
  * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
@@ -24,6 +22,8 @@
 
 #include "config.h"
 
+#include <tuple>
+
 #include <QtGlobal>
 #include <QObject>
 #include <QList>
@@ -34,48 +34,44 @@
 #include <QStringList>
 
 #include "includes/shared_ptr.h"
+#include "core/jsonbaserequest.h"
 
 class QNetworkReply;
 class QTimer;
-class QXmlStreamReader;
+class QJsonValue;
+class QJsonObject;
+class QJsonArray;
 class NetworkAccessManager;
 class NetworkTimeouts;
 
-class MusicBrainzClient : public QObject {
+class MusicBrainzClient : public JsonBaseRequest {
   Q_OBJECT
 
-  // Gets metadata for a particular MBID.
-  // An MBID is created from a fingerprint using MusicDnsClient.
-  // You can create one MusicBrainzClient and make multiple requests using it.
-  // IDs are provided by the caller when a request is started and included in the Finished signal - they have no meaning to MusicBrainzClient.
-
  public:
-  // The second argument allows for specifying a custom network access manager.
-  // It is used in tests. The ownership of network is not transferred.
   explicit MusicBrainzClient(SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
   ~MusicBrainzClient() override;
 
+  virtual QString service_name() const override { return QLatin1String("MusicBrainz"); }
+  virtual bool authentication_required() const override { return false; }
+  virtual bool authenticated() const override { return true; }
+  virtual bool use_authorization_header() const override { return false; }
+  virtual QByteArray authorization_header() const override { return QByteArray(); }
+
   struct Result {
+   public:
     Result() : duration_msec_(0), track_(0), year_(-1) {}
 
     bool operator<(const Result &other) const {
-#define cmp(field)                      \
-  if ((field) < other.field) return true; \
-  if ((field) > other.field) return false;
-
-      cmp(track_);
-      cmp(year_);
-      cmp(title_);
-      cmp(artist_);
-      return false;
-
-#undef cmp
+        return std::tie(title_, artist_, sort_artist_, album_artist_, sort_album_artist_, album_, duration_msec_, track_, year_)
+             < std::tie(other.title_, other.artist_, other.sort_artist_, other.album_artist_, other.sort_album_artist_, other.album_, other.duration_msec_, other.track_, other.year_);
     }
 
     bool operator==(const Result &other) const {
-      return
-             title_ == other.title_ &&
+      return title_ == other.title_ &&
              artist_ == other.artist_ &&
+             sort_artist_ == other.sort_artist_ &&
+             album_artist_ == other.album_artist_ &&
+             sort_album_artist_ == other.sort_album_artist_ &&
              album_ == other.album_ &&
              duration_msec_ == other.duration_msec_ &&
              track_ == other.track_ &&
@@ -84,6 +80,9 @@ class MusicBrainzClient : public QObject {
 
     QString title_;
     QString artist_;
+    QString sort_artist_;
+    QString album_artist_;
+    QString sort_album_artist_;
     QString album_;
     int duration_msec_;
     int track_;
@@ -91,97 +90,76 @@ class MusicBrainzClient : public QObject {
   };
   using ResultList = QList<Result>;
 
-  // Starts a request and returns immediately.  Finished() will be emitted later with the same ID.
-  void Start(const int id, const QStringList &mbid);
+  void StartMbIdRequest(const int id, const QStringList &mbid);
+  void CancelMbIdRequest(const int id);
+
   void StartDiscIdRequest(const QString &discid);
+  void CancelDiscIdRequest(const QString &disc_id);
 
-  // Cancels the request with the given ID.  Finished() will never be emitted for that ID.  Does nothing if there is no request with the given ID.
-  void Cancel(int id);
-
-  // Cancels all requests.  Finished() will never be emitted for any pending requests.
   void CancelAll();
 
  Q_SIGNALS:
-  // Finished signal emitted when fechting songs tags
-  void Finished(const int id, const MusicBrainzClient::ResultList &result, const QString &error = QString());
-  // Finished signal emitted when fechting album's songs tags using DiscId
-  void DiscIdFinished(const QString &artist, const QString &album, const MusicBrainzClient::ResultList &result, const QString &error = QString());
+  void MbIdFinished(const int id, const MusicBrainzClient::ResultList &result, const QString &error = QString());
+  void DiscIdFinished(const QString &disc_id, const MusicBrainzClient::ResultList &result, const QString &error = QString());
 
  private Q_SLOTS:
   void FlushRequests();
-  // id identifies the track, and request_number means it's the 'request_number'th request for this track
-  void RequestFinished(QNetworkReply *reply, const int id, const int request_number);
+  // ID identifies the track, and request_number means it's the 'request_number'th request for this track
+  void MbIdRequestFinished(QNetworkReply *reply, const int id, const int request_number);
   void DiscIdRequestFinished(const QString &discid, QNetworkReply *reply);
 
  private:
-  using Param = QPair<QString, QString>;
-  using ParamList = QList<Param>;
-
-  struct Request {
-    Request() : id(0), number(0) {}
-    Request(const int _id, const QString &_mbid, const int _number) : id(_id), mbid(_mbid), number(_number) {}
+  class MbIdRequest {
+   public:
+    MbIdRequest() : id(0), number(0) {}
+    MbIdRequest(const int _id, const QString &_mbid, const int _number) : id(_id), mbid(_mbid), number(_number) {}
     int id;
     QString mbid;
     int number;
   };
 
-  // Used as parameter for UniqueResults
   enum class UniqueResultsSortOption {
     SortResults = 0,
     KeepOriginalOrder
   };
 
-  struct Release {
-
-    enum class Status {
-      Unknown = 0,
-      PseudoRelease,
-      Bootleg,
-      Promotional,
-      Official
-    };
-
-    Release() : track_(0), year_(0), status_(Status::Unknown) {}
-
-    Result CopyAndMergeInto(const Result &orig) const {
-      Result ret(orig);
-      ret.album_ = album_;
-      ret.track_ = track_;
-      ret.year_ = year_;
-      return ret;
-    }
-
-    void SetStatusFromString(const QString &s) {
-      if (s.compare(QLatin1String("Official"), Qt::CaseInsensitive) == 0) {
-        status_ = Status::Official;
-      }
-      else if (s.compare(QLatin1String("Promotion"), Qt::CaseInsensitive) == 0) {
-        status_ = Status::Promotional;
-      }
-      else if (s.compare(QLatin1String("Bootleg"), Qt::CaseInsensitive) == 0) {
-        status_ = Status::Bootleg;
-      }
-      else if (s.compare(QLatin1String("Pseudo-release"), Qt::CaseInsensitive) == 0) {
-        status_ = Status::PseudoRelease;
-      }
-      else {
-        status_ = Status::Unknown;
-      }
-    }
-
-    bool operator<(const Release &other) const {
-      // Compare status so that "best" status (e.g. Official) will be first when sorting a list of releases.
-      return status_ > other.status_;
-    }
-
-    QString album_;
-    int track_;
-    int year_;
-    Status status_;
+  class Artist {
+   public:
+    QString name_;
+    QString sort_name_;
   };
 
-  struct PendingResults {
-    PendingResults(int sort_id, const ResultList &results) : sort_id_(sort_id), results_(results) {}
+  class Track {
+   public:
+    Track() : number_(0), duration_msec_(0) {}
+    int number_;
+    QString title_;
+    Artist artist_;
+    int duration_msec_;
+  };
+  using TrackList = QList<Track>;
+
+  class Media {
+   public:
+    QList<Track> tracks_;
+    QStringList disc_ids_;
+  };
+  using MediaList = QList<Media>;
+
+  class Release {
+   public:
+    Release() : year_(0) {}
+
+    Artist artist_;
+    QString album_;
+    int year_;
+    QList<Media> media_;
+  };
+  using ReleaseList = QList<Release>;
+
+  class PendingResults {
+   public:
+    PendingResults(const int sort_id, const ResultList &results) : sort_id_(sort_id), results_(results) {}
 
     bool operator<(const PendingResults &other) const {
       return sort_id_ < other.sort_id_;
@@ -191,29 +169,40 @@ class MusicBrainzClient : public QObject {
     ResultList results_;
   };
 
-  static QByteArray GetReplyData(QNetworkReply *reply, QString &error);
-  static bool MediumHasDiscid(const QString &discid, QXmlStreamReader *reader);
-  static ResultList ParseMedium(QXmlStreamReader *reader);
-  static Result ParseTrackFromDisc(QXmlStreamReader *reader);
-  static ResultList ParseTrack(QXmlStreamReader *reader);
-  static void ParseArtist(QXmlStreamReader *reader, QString *artist);
-  static Release ParseRelease(QXmlStreamReader *reader);
-  static ResultList UniqueResults(const ResultList &results, UniqueResultsSortOption opt = UniqueResultsSortOption::SortResults);
-  static void Error(const QString &error, const QVariant &debug = QVariant());
+  JsonObjectResult ParseJsonObject(QNetworkReply *reply);
+  void FlushMbIdRequests();
+  void FlushDiscIdRequests();
+  void SendMbIdRequest(const MbIdRequest &request);
+  void SendDiscIdRequest(const QString &disc_id);
+
+  static ReleaseList ParseReleases(const QJsonArray &array_releases);
+  static Release ParseRelease(const QJsonObject &object_release);
+  static MediaList ParseMediaList(const QJsonArray &array_media_list);
+  static Media ParseMedia(const QJsonObject &object_media);
+  static Artist ParseArtistCredit(const QJsonArray &array_artist_credits);
+  static QStringList ParseDiscIds(const QJsonArray &array_discs);
+  static TrackList ParseTracks(const QJsonArray &array_tracks);
+  static Track ParseTrack(const QJsonObject &object_track);
+  static QString ParseDate(const QString &date_str);
+  static ResultList ResultListFromReleases(const ReleaseList &releases, const QString &disc_id = QString());
+  static ResultList UniqueResults(const ResultList &results, const UniqueResultsSortOption opt = UniqueResultsSortOption::SortResults);
 
  private:
   SharedPtr<NetworkAccessManager> network_;
   NetworkTimeouts *timeouts_;
-  QMultiMap<int, Request> requests_pending_;
-  QMultiMap<int, QNetworkReply*> requests_;
-  // Results we received so far, kept here until all the replies are finished
+
+  QMultiMap<int, MbIdRequest> pending_mbid_requests_;
+  QList<QString> pending_discid_requests_;
+
+  QMultiMap<int, QNetworkReply*> mbid_requests_;
+  QMultiMap<QString, QNetworkReply*> discid_requests_;
+
   QMap<int, QList<PendingResults>> pending_results_;
   QTimer *timer_flush_requests_;
-
 };
 
 inline size_t qHash(const MusicBrainzClient::Result &result) {
-  return qHash(result.album_) ^ qHash(result.artist_) ^ result.duration_msec_ ^ qHash(result.title_) ^ result.track_ ^ result.year_;
+  return qHash(result.album_) ^ qHash(result.artist_) ^ qHash(result.sort_artist_) ^ qHash(result.album_artist_) ^ qHash(result.sort_album_artist_) ^ result.duration_msec_ ^ qHash(result.title_) ^ result.track_ ^ result.year_;
 }
 
 #endif  // MUSICBRAINZCLIENT_H

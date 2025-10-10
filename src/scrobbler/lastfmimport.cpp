@@ -45,7 +45,6 @@
 
 #include "lastfmimport.h"
 
-#include "scrobblingapi20.h"
 #include "lastfmscrobbler.h"
 
 using namespace Qt::Literals::StringLiterals;
@@ -109,7 +108,7 @@ void LastFMImport::ReloadSettings() {
 QNetworkReply *LastFMImport::CreateRequest(const ParamList &request_params) {
 
   ParamList params = ParamList()
-    << Param(u"api_key"_s, QLatin1String(ScrobblingAPI20::kApiKey))
+    << Param(u"api_key"_s, QLatin1String(LastFMScrobbler::kApiKey))
     << Param(u"user"_s, username_)
     << Param(u"lang"_s, QLocale().name().left(2).toLower())
     << Param(u"format"_s, u"json"_s)

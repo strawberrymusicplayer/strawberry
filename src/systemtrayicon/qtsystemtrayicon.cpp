@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,33 +36,30 @@
 
 using namespace Qt::Literals::StringLiterals;
 
+namespace {
+constexpr int kSystemTrayIconSize = 48;
+}
+
 SystemTrayIcon::SystemTrayIcon(QObject *parent)
     : QSystemTrayIcon(parent),
       menu_(new QMenu),
-      pixmap_playing_(u":/pictures/tiny-play.png"_s),
-      pixmap_paused_(u":/pictures/tiny-pause.png"_s),
+      icon_normal_(IconLoader::Load(u"strawberry"_s)),
+      icon_grey_(IconLoader::Load(u"strawberry-grey"_s)),
+      icon_playing_(QIcon(u":/pictures/tiny-play.png"_s)),
+      icon_paused_(QIcon(u":/pictures/tiny-pause.png"_s)),
       action_play_pause_(nullptr),
       action_stop_(nullptr),
       action_stop_after_this_track_(nullptr),
       action_mute_(nullptr),
       action_love_(nullptr),
       available_(false),
+      device_pixel_ratio_(1.0),
       trayicon_progress_(false),
       song_progress_(0) {
 
-  const QIcon icon = IconLoader::Load(u"strawberry"_s);
-  const QIcon icon_grey = IconLoader::Load(u"strawberry-grey"_s);
-  pixmap_normal_ = icon.pixmap(48, QIcon::Normal);
-  if (icon_grey.isNull()) {
-    pixmap_grey_ = icon.pixmap(48, QIcon::Disabled);
-  }
-  else {
-    pixmap_grey_ = icon_grey.pixmap(48, QIcon::Disabled);
-  }
-
   if (isSystemTrayAvailable()) {
     available_ = true;
-    setIcon(icon);
+    setIcon(icon_normal_);
     setToolTip(QCoreApplication::applicationName());
   }
 
@@ -72,6 +69,41 @@ SystemTrayIcon::SystemTrayIcon(QObject *parent)
 
 SystemTrayIcon::~SystemTrayIcon() {
   delete menu_;
+}
+
+void SystemTrayIcon::InitPixmaps() {
+
+  if (pixmap_normal_.isNull() || pixmap_normal_.devicePixelRatioF() != device_pixel_ratio_) {
+    pixmap_normal_ = icon_normal_.pixmap(QSize(kSystemTrayIconSize, kSystemTrayIconSize), device_pixel_ratio_, QIcon::Normal);
+  }
+
+  if (pixmap_grey_.isNull() || pixmap_grey_.devicePixelRatioF() != device_pixel_ratio_) {
+    if (icon_grey_.isNull()) {
+      pixmap_grey_ = icon_normal_.pixmap(QSize(kSystemTrayIconSize, kSystemTrayIconSize), device_pixel_ratio_, QIcon::Disabled);
+    }
+    else {
+      pixmap_grey_ = icon_grey_.pixmap(QSize(kSystemTrayIconSize, kSystemTrayIconSize), device_pixel_ratio_, QIcon::Disabled);
+    }
+  }
+
+  if (pixmap_playing_.isNull() || pixmap_playing_.devicePixelRatioF() != device_pixel_ratio_) {
+     pixmap_playing_ = icon_playing_.pixmap(icon_playing_.availableSizes().at(0));
+     pixmap_playing_.setDevicePixelRatio(device_pixel_ratio_);
+  }
+
+  if (pixmap_paused_.isNull() || pixmap_paused_.devicePixelRatioF() != device_pixel_ratio_) {
+    pixmap_paused_ = icon_paused_.pixmap(icon_paused_.availableSizes().at(0));
+    pixmap_paused_.setDevicePixelRatio(device_pixel_ratio_);
+  }
+
+}
+
+void SystemTrayIcon::SetDevicePixelRatioF(const qreal device_pixel_ratio) {
+
+  device_pixel_ratio_ = device_pixel_ratio;
+
+  InitPixmaps();
+
 }
 
 void SystemTrayIcon::SetTrayiconProgress(const bool enabled) {
@@ -131,13 +163,17 @@ void SystemTrayIcon::ShowPopup(const QString &summary, const QString &message, c
 
 void SystemTrayIcon::UpdateIcon() {
 
-  if (available_) setIcon(CreateIcon(pixmap_normal_, pixmap_grey_));
+  if (available_) {
+    InitPixmaps();
+    setIcon(CreateIcon(pixmap_normal_, pixmap_grey_));
+  }
 
 }
 
-void SystemTrayIcon::SetPlaying(bool enable_play_pause) {
+void SystemTrayIcon::SetPlaying(const bool enable_play_pause) {
 
   current_state_icon_ = pixmap_playing_;
+
   UpdateIcon();
 
   action_stop_->setEnabled(true);

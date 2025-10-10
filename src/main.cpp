@@ -206,7 +206,9 @@ int main(int argc, char *argv[]) {
 
   QThread::currentThread()->setObjectName(u"Main"_s);
 
-  QGuiApplication::setWindowIcon(IconLoader::Load(u"strawberry"_s));
+  if (QGuiApplication::platformName() != "wayland"_L1) {
+    QGuiApplication::setWindowIcon(IconLoader::Load(u"strawberry"_s));
+  }
 
 #if defined(USE_BUNDLE)
   qLog(Debug) << "Looking for resources in" << QCoreApplication::libraryPaths();
@@ -341,6 +343,11 @@ int main(int argc, char *argv[]) {
   QObject::connect(&single_app, &KDSingleApplication::messageReceived, &w, QOverload<const QByteArray&>::of(&MainWindow::CommandlineOptionsReceived));
 
   int ret = QCoreApplication::exec();
+
+#ifdef __MINGW32__
+  // Workaround crash on exit with win32 threads
+  TerminateProcess(GetCurrentProcess(), 0);
+#endif
 
   return ret;
 

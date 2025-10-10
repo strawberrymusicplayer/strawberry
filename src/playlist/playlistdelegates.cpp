@@ -387,13 +387,19 @@ TagCompletionModel::TagCompletionModel(SharedPtr<CollectionBackend> backend, con
 QString TagCompletionModel::database_column(const Playlist::Column column) {
 
   switch (column) {
-    case Playlist::Column::Artist:       return u"artist"_s;
-    case Playlist::Column::Album:        return u"album"_s;
-    case Playlist::Column::AlbumArtist:  return u"albumartist"_s;
-    case Playlist::Column::Composer:     return u"composer"_s;
-    case Playlist::Column::Performer:    return u"performer"_s;
-    case Playlist::Column::Grouping:     return u"grouping"_s;
-    case Playlist::Column::Genre:        return u"genre"_s;
+    case Playlist::Column::Artist:          return u"artist"_s;
+    case Playlist::Column::ArtistSort:      return u"artistsort"_s;
+    case Playlist::Column::Album:           return u"album"_s;
+    case Playlist::Column::AlbumSort:       return u"albumsort"_s;
+    case Playlist::Column::AlbumArtist:     return u"albumartist"_s;
+    case Playlist::Column::AlbumArtistSort: return u"albumartistsort"_s;
+    case Playlist::Column::Composer:        return u"composer"_s;
+    case Playlist::Column::ComposerSort:    return u"composersort"_s;
+    case Playlist::Column::Performer:       return u"performer"_s;
+    case Playlist::Column::PerformerSort:   return u"performersort"_s;
+    case Playlist::Column::Grouping:        return u"grouping"_s;
+    case Playlist::Column::Genre:           return u"genre"_s;
+    case Playlist::Column::TitleSort:       return u"titlesort"_s;
     default:
       qLog(Warning) << "Unknown column" << static_cast<int>(column);
       return QString();

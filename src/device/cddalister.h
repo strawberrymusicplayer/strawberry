@@ -34,11 +34,11 @@
 
 #include "devicelister.h"
 
-class CddaLister : public DeviceLister {
+class CDDALister : public DeviceLister {
   Q_OBJECT
 
  public:
-  explicit CddaLister(QObject *parent = nullptr) : DeviceLister(parent) {}
+  explicit CDDALister(QObject *parent = nullptr) : DeviceLister(parent) {}
 
   QStringList DeviceUniqueIDs() override;
   QVariantList DeviceIcons(const QString &id) override;

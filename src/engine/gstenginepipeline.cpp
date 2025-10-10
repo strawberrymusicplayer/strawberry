@@ -1369,6 +1369,12 @@ void GstEnginePipeline::AboutToFinishCallback(GstPlayBin *playbin, gpointer self
     qLog(Debug) << "Stream from URL" << instance->gst_url_ << "about to finish.";
   }
 
+  // When playing GME files it seems playbin3 emits about-to-finish early
+  // This stops us from skipping when the song has just started.
+  if (instance->position() == 0) {
+    return;
+  }
+
   instance->about_to_finish_ = true;
 
   if (instance->HasNextUrl() && !instance->next_uri_set_.value()) {

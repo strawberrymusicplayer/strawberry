@@ -85,11 +85,11 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
     LastRole,
   };
 
-  enum State {
-    State_Remembered,
-    State_NotMounted,
-    State_NotConnected,
-    State_Connected,
+  enum class State {
+    Remembered,
+    NotMounted,
+    NotConnected,
+    Connected,
   };
 
   static const int kDeviceIconSize;
@@ -104,17 +104,17 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
   DeviceLister *GetLister(const QModelIndex &idx) const;
   DeviceInfo *GetDevice(const QModelIndex &idx) const;
   SharedPtr<ConnectedDevice> GetConnectedDevice(const QModelIndex &idx) const;
-  SharedPtr<ConnectedDevice> GetConnectedDevice(DeviceInfo *info) const;
+  SharedPtr<ConnectedDevice> GetConnectedDevice(DeviceInfo *device_info) const;
 
   DeviceInfo *FindDeviceById(const QString &id) const;
   DeviceInfo *FindDeviceByUrl(const QList<QUrl> &url) const;
   QString DeviceNameByID(const QString &unique_id);
-  DeviceInfo *FindEquivalentDevice(DeviceInfo *info) const;
+  DeviceInfo *FindEquivalentDevice(const QStringList &unique_ids) const;
 
   // Actions on devices
-  SharedPtr<ConnectedDevice> Connect(DeviceInfo *info);
+  SharedPtr<ConnectedDevice> Connect(DeviceInfo *device_info);
   SharedPtr<ConnectedDevice> Connect(const QModelIndex &idx);
-  void Disconnect(DeviceInfo *info, const QModelIndex &idx);
+  void Disconnect(DeviceInfo *device_info, const QModelIndex &idx);
   void Forget(const QModelIndex &idx);
   void UnmountAsync(const QModelIndex &idx);
 
@@ -128,9 +128,10 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
 
  Q_SIGNALS:
   void ExitFinished();
+  void DevicesLoaded(const DeviceDatabaseBackend::DeviceList &devices);
   void DeviceConnected(const QModelIndex idx);
   void DeviceDisconnected(const QModelIndex idx);
-  void DeviceCreatedFromDB(DeviceInfo *info);
+  void DeviceCreatedFromDB(DeviceInfo *device_info);
   void DeviceError(const QString &error);
 
  private Q_SLOTS:
@@ -143,7 +144,7 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
   void LoadAllDevices();
   void DeviceConnectFinished(const QString &id, bool success);
   void DeviceCloseFinished(const QString &id);
-  void AddDeviceFromDB(DeviceInfo *info);
+  void AddDevicesFromDB(const DeviceDatabaseBackend::DeviceList &devices);
   void BackendClosed();
   void ListerClosed();
   void DeviceDestroyed();
@@ -154,7 +155,7 @@ class DeviceManager : public SimpleTreeModel<DeviceInfo> {
 
   DeviceDatabaseBackend::Device InfoToDatabaseDevice(const DeviceInfo &info) const;
 
-  void RemoveFromDB(DeviceInfo *info, const QModelIndex &idx);
+  void RemoveFromDB(DeviceInfo *device_info, const QModelIndex &idx);
 
   void CloseDevices();
   void CloseListers();

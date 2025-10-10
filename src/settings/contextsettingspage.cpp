@@ -64,15 +64,21 @@ ContextSettingsPage::ContextSettingsPage(SettingsDialog *dialog, QWidget *parent
   // Create and populate the helper menus
   QMenu *menu = new QMenu(this);
   menu->addAction(ui_->action_title);
+  menu->addAction(ui_->action_titlesort);
   menu->addAction(ui_->action_album);
+  menu->addAction(ui_->action_albumsort);
   menu->addAction(ui_->action_artist);
+  menu->addAction(ui_->action_artistsort);
   menu->addAction(ui_->action_albumartist);
+  menu->addAction(ui_->action_albumartistsort);
   menu->addAction(ui_->action_track);
   menu->addAction(ui_->action_disc);
   menu->addAction(ui_->action_year);
   menu->addAction(ui_->action_originalyear);
   menu->addAction(ui_->action_composer);
+  menu->addAction(ui_->action_composersort);
   menu->addAction(ui_->action_performer);
+  menu->addAction(ui_->action_performersort);
   menu->addAction(ui_->action_grouping);
   menu->addAction(ui_->action_filename);
   menu->addAction(ui_->action_url);

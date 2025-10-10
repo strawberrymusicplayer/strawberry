@@ -36,61 +36,75 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-DeviceDatabaseBackend::Device DeviceInfo::SaveToDb() const {
+void DeviceInfo::InitFromDb(const DeviceDatabaseBackend::Device &device) {
 
-  DeviceDatabaseBackend::Device ret;
-  ret.friendly_name_ = friendly_name_;
-  ret.size_ = size_;
-  ret.id_ = database_id_;
-  ret.icon_name_ = icon_name_;
-  ret.transcode_mode_ = transcode_mode_;
-  ret.transcode_format_ = transcode_format_;
+  database_id_ = device.id_;
+  friendly_name_ = device.friendly_name_;
+  size_ = device.size_;
+  transcode_mode_ = device.transcode_mode_;
+  transcode_format_ = device.transcode_format_;
+  icon_name_ = device.icon_name_;
 
-  QStringList unique_ids;
-  unique_ids.reserve(backends_.count());
-  for (const Backend &backend : backends_) {
-    unique_ids << backend.unique_id_;
-  }
-  ret.unique_id_ = unique_ids.join(u',');
+  InitIcon();
 
-  return ret;
-
-}
-
-void DeviceInfo::InitFromDb(const DeviceDatabaseBackend::Device &dev) {
-
-  database_id_ = dev.id_;
-  friendly_name_ = dev.friendly_name_;
-  size_ = dev.size_;
-  transcode_mode_ = dev.transcode_mode_;
-  transcode_format_ = dev.transcode_format_;
-  icon_name_ = dev.icon_name_;
-
-  const QStringList unique_ids = dev.unique_id_.split(u',');
+  const QStringList unique_ids = device.unique_id_.split(u',');
   for (const QString &id : unique_ids) {
     backends_ << Backend(nullptr, id);
   }
 
 }
 
+DeviceDatabaseBackend::Device DeviceInfo::SaveToDb() const {
+
+  DeviceDatabaseBackend::Device device;
+  device.friendly_name_ = friendly_name_;
+  device.size_ = size_;
+  device.id_ = database_id_;
+  device.icon_name_ = icon_name_;
+  device.transcode_mode_ = transcode_mode_;
+  device.transcode_format_ = transcode_format_;
+
+  QStringList unique_ids;
+  unique_ids.reserve(backends_.count());
+  for (const Backend &backend : backends_) {
+    unique_ids << backend.unique_id_;
+  }
+  device.unique_id_ = unique_ids.join(u',');
+
+  return device;
+
+}
+
 const DeviceInfo::Backend *DeviceInfo::BestBackend() const {
 
   int best_priority = -1;
-  const Backend *ret = nullptr;
+  const Backend *backend = nullptr;
 
   for (int i = 0; i < backends_.count(); ++i) {
     if (backends_[i].lister_ && backends_[i].lister_->priority() > best_priority) {
       best_priority = backends_[i].lister_->priority();
-      ret = &(backends_[i]);
+      backend = &(backends_[i]);
     }
   }
 
-  if (!ret && !backends_.isEmpty()) return &(backends_[0]);
-  return ret;
+  if (!backend && !backends_.isEmpty()) return &(backends_[0]);
+  return backend;
 
 }
 
-void DeviceInfo::SetIcon(const QVariantList &icons, const QString &name_hint) {
+void DeviceInfo::InitIcon() {
+
+  const QStringList icon_name_list = icon_name_.split(u',');
+  QVariantList icons;
+  icons.reserve(icon_name_list.count());
+  for (const QString &icon_name : icon_name_list) {
+    icons << icon_name;
+  }
+  LoadIcon(icons, friendly_name_);
+
+}
+
+void DeviceInfo::LoadIcon(const QVariantList &icons, const QString &name_hint) {
 
   icon_name_ = "device"_L1;
 

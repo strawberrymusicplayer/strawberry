@@ -40,9 +40,9 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-QStringList CddaLister::DeviceUniqueIDs() { return devices_list_; }
+QStringList CDDALister::DeviceUniqueIDs() { return devices_list_; }
 
-QVariantList CddaLister::DeviceIcons(const QString &id) {
+QVariantList CDDALister::DeviceIcons(const QString &id) {
 
   Q_UNUSED(id)
 
@@ -52,7 +52,7 @@ QVariantList CddaLister::DeviceIcons(const QString &id) {
 
 }
 
-QString CddaLister::DeviceManufacturer(const QString &id) {
+QString CDDALister::DeviceManufacturer(const QString &id) {
 
   CdIo_t *cdio = cdio_open(id.toLocal8Bit().constData(), DRIVER_DEVICE);
   cdio_hwinfo_t cd_info;
@@ -65,7 +65,7 @@ QString CddaLister::DeviceManufacturer(const QString &id) {
 
 }
 
-QString CddaLister::DeviceModel(const QString &id) {
+QString CDDALister::DeviceModel(const QString &id) {
 
   CdIo_t *cdio = cdio_open(id.toLocal8Bit().constData(), DRIVER_DEVICE);
   cdio_hwinfo_t cd_info;
@@ -78,7 +78,7 @@ QString CddaLister::DeviceModel(const QString &id) {
 
 }
 
-quint64 CddaLister::DeviceCapacity(const QString &id) {
+quint64 CDDALister::DeviceCapacity(const QString &id) {
 
   Q_UNUSED(id)
 
@@ -86,7 +86,7 @@ quint64 CddaLister::DeviceCapacity(const QString &id) {
 
 }
 
-quint64 CddaLister::DeviceFreeSpace(const QString &id) {
+quint64 CDDALister::DeviceFreeSpace(const QString &id) {
 
   Q_UNUSED(id)
 
@@ -94,37 +94,38 @@ quint64 CddaLister::DeviceFreeSpace(const QString &id) {
 
 }
 
-QVariantMap CddaLister::DeviceHardwareInfo(const QString &id) {
+QVariantMap CDDALister::DeviceHardwareInfo(const QString &id) {
   Q_UNUSED(id)
   return QVariantMap();
 }
 
-QString CddaLister::MakeFriendlyName(const QString &id) {
+QString CDDALister::MakeFriendlyName(const QString &id) {
 
   CdIo_t *cdio = cdio_open(id.toLocal8Bit().constData(), DRIVER_DEVICE);
   cdio_hwinfo_t cd_info;
   if (cdio_get_hwinfo(cdio, &cd_info)) {
+    const QString friendly_name = QString::fromUtf8(cd_info.psz_model).trimmed();
     cdio_destroy(cdio);
-    return QString::fromUtf8(cd_info.psz_model);
+    return friendly_name;
   }
   cdio_destroy(cdio);
   return u"CD ("_s + id + QLatin1Char(')');
 
 }
 
-QList<QUrl> CddaLister::MakeDeviceUrls(const QString &id) {
+QList<QUrl> CDDALister::MakeDeviceUrls(const QString &id) {
   return QList<QUrl>() << QUrl(u"cdda://"_s + id);
 }
 
-void CddaLister::UnmountDevice(const QString &id) {
+void CDDALister::UnmountDevice(const QString &id) {
   cdio_eject_media_drive(id.toLocal8Bit().constData());
 }
 
-void CddaLister::UpdateDeviceFreeSpace(const QString &id) {
+void CDDALister::UpdateDeviceFreeSpace(const QString &id) {
   Q_UNUSED(id)
 }
 
-bool CddaLister::Init() {
+bool CDDALister::Init() {
 
   cdio_init();
 #ifdef Q_OS_MACOS

@@ -265,7 +265,16 @@ if(APPLE)
 endif()
 
 if(WIN32)
-  find_package(getopt-win REQUIRED)
+  find_package(getopt NAMES getopt getopt-win unofficial-getopt-win32 REQUIRED)
+  if(TARGET getopt::getopt)
+    set(GETOPT_LIBRARIES getopt::getopt)
+  elseif(TARGET getopt-win::getopt)
+    set(GETOPT_LIBRARIES getopt-win::getopt)
+  elseif(TARGET getopt::getopt_shared)
+    set(GETOPT_LIBRARIES getopt::getopt_shared)
+  else()
+    message(FATAL_ERROR "Missing getopt")
+  endif()
 endif()
 
 if(APPLE OR WIN32)
@@ -692,6 +701,7 @@ set(SOURCES
   src/lyrics/htmllyricsprovider.cpp
   src/lyrics/ovhlyricsprovider.cpp
   src/lyrics/lololyricsprovider.cpp
+  src/lyrics/geniuslyricsprovider.cpp
   src/lyrics/musixmatchlyricsprovider.cpp
   src/lyrics/chartlyricsprovider.cpp
   src/lyrics/songlyricscomlyricsprovider.cpp
@@ -792,9 +802,7 @@ set(SOURCES
   src/scrobbler/scrobblercache.cpp
   src/scrobbler/scrobblercacheitem.cpp
   src/scrobbler/scrobblemetadata.cpp
-  src/scrobbler/scrobblingapi20.cpp
   src/scrobbler/lastfmscrobbler.cpp
-  src/scrobbler/librefmscrobbler.cpp
   src/scrobbler/listenbrainzscrobbler.cpp
   src/scrobbler/lastfmimport.cpp
 
@@ -989,6 +997,7 @@ set(HEADERS
   src/lyrics/htmllyricsprovider.h
   src/lyrics/ovhlyricsprovider.h
   src/lyrics/lololyricsprovider.h
+  src/lyrics/geniuslyricsprovider.h
   src/lyrics/musixmatchlyricsprovider.h
   src/lyrics/chartlyricsprovider.h
   src/lyrics/songlyricscomlyricsprovider.h
@@ -1084,9 +1093,7 @@ set(HEADERS
   src/scrobbler/scrobblersettingsservice.h
   src/scrobbler/scrobblerservice.h
   src/scrobbler/scrobblercache.h
-  src/scrobbler/scrobblingapi20.h
   src/scrobbler/lastfmscrobbler.h
-  src/scrobbler/librefmscrobbler.h
   src/scrobbler/listenbrainzscrobbler.h
   src/scrobbler/lastfmimport.h
 
@@ -1586,7 +1593,7 @@ target_link_libraries(strawberry_lib PUBLIC
   $<$<BOOL:${HAVE_MTP}>:PkgConfig::LIBMTP>
   $<$<BOOL:${HAVE_GPOD}>:PkgConfig::LIBGPOD PkgConfig::GDK_PIXBUF>
   $<$<BOOL:${HAVE_QTSPARKLE}>:qtsparkle-qt${QT_VERSION_MAJOR}::qtsparkle>
-  $<$<BOOL:${WIN32}>:dsound dwmapi getopt-win::getopt>
+  $<$<BOOL:${WIN32}>:dsound dwmapi ${GETOPT_LIBRARIES}>
   $<$<BOOL:${MSVC}>:WindowsApp>
   KDAB::kdsingleapplication
   $<$<BOOL:${HAVE_DISCORD_RPC}>:discord-rpc>

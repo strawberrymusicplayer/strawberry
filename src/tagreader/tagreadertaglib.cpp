@@ -114,8 +114,13 @@ using namespace Qt::Literals::StringLiterals;
 namespace {
 
 constexpr char kID3v2_AlbumArtist[] = "TPE2";
+constexpr char kID3v2_AlbumArtistSort[] = "TSO2";
+constexpr char kID3v2_AlbumSort[] = "TSOA";
+constexpr char kID3v2_ArtistSort[] = "TSOP";
+constexpr char kID3v2_TitleSort[] = "TSOT";
 constexpr char kID3v2_Disc[] = "TPOS";
 constexpr char kID3v2_Composer[] = "TCOM";
+constexpr char kID3v2_ComposerSort[] = "TSOC";
 constexpr char kID3v2_Performer[] = "TOPE";
 constexpr char kID3v2_Grouping[] = "TIT1";
 constexpr char kID3v2_Compilation[] = "TCMP";
@@ -128,6 +133,9 @@ constexpr char kID3v2_FMPS_Rating[] = "FMPS_Rating";
 constexpr char kID3v2_Unique_File_Identifier[] = "UFID";
 constexpr char kID3v2_UserDefinedTextInformationFrame[] = "TXXX";
 constexpr char kID3v2_Popularimeter[] = "POPM";
+constexpr char kID3v2_BPM[] = "TBPM";
+constexpr char kID3v2_Mood[] = "TMOO";
+constexpr char kID3v2_Initial_Key[] = "TKEY";
 constexpr char kID3v2_AcoustId[] = "Acoustid Id";
 constexpr char kID3v2_AcoustId_Fingerprint[] = "Acoustid Fingerprint";
 constexpr char kID3v2_MusicBrainz_AlbumArtistId[] = "MusicBrainz Album Artist Id";
@@ -143,8 +151,14 @@ constexpr char kID3v2_MusicBrainz_WorkId[] = "MusicBrainz Work Id";
 
 constexpr char kVorbisComment_AlbumArtist1[] = "ALBUMARTIST";
 constexpr char kVorbisComment_AlbumArtist2[] = "ALBUM ARTIST";
+constexpr char kVorbisComment_AlbumArtistSort[] = "ALBUMARTISTSORT";
+constexpr char kVorbisComment_AlbumSort[] = "ALBUMSORT";
+constexpr char kVorbisComment_ArtistSort[] = "ARTISTSORT";
+constexpr char kVorbisComment_TitleSort[] = "TITLESORT";
 constexpr char kVorbisComment_Composer[] = "COMPOSER";
+constexpr char kVorbisComment_ComposerSort[] = "COMPOSERSORT";
 constexpr char kVorbisComment_Performer[] = "PERFORMER";
+constexpr char kVorbisComment_PerformerSort[] = "PERFORMERSORT";
 constexpr char kVorbisComment_Grouping1[] = "GROUPING";
 constexpr char kVorbisComment_Grouping2[] = "CONTENT GROUP";
 constexpr char kVorbisComment_OriginalYear1[] = "ORIGINALDATE";
@@ -157,6 +171,9 @@ constexpr char kVorbisComment_FMPS_Playcount[] = "FMPS_PLAYCOUNT";
 constexpr char kVorbisComment_FMPS_Rating[] = "FMPS_RATING";
 constexpr char kVorbisComment_Lyrics[] = "LYRICS";
 constexpr char kVorbisComment_UnsyncedLyrics[] = "UNSYNCEDLYRICS";
+constexpr char kVorbisComment_BPM[] = "BPM";
+constexpr char kVorbisComment_Mood[] = "MOOD";
+constexpr char kVorbisComment_Initial_Key[] = "INITIALKEY";
 constexpr char kVorbisComment_AcoustId[] = "ACOUSTID_ID";
 constexpr char kVorbisComment_AcoustId_Fingerprint[] = "ACOUSTID_FINGERPRINT";
 constexpr char kVorbisComment_MusicBrainz_AlbumArtistId[] = "MUSICBRAINZ_ALBUMARTISTID";
@@ -180,6 +197,7 @@ constexpr char kMP4_CoverArt[] = "covr";
 constexpr char kMP4_OriginalYear[] = "----:com.apple.iTunes:ORIGINAL YEAR";
 constexpr char kMP4_FMPS_Playcount[] = "----:com.apple.iTunes:FMPS_Playcount";
 constexpr char kMP4_FMPS_Rating[] = "----:com.apple.iTunes:FMPS_Rating";
+constexpr char kMP4_BPM[] = "tmpo";
 constexpr char kMP4_AcoustId[] = "----:com.apple.iTunes:Acoustid Id";
 constexpr char kMP4_AcoustId_Fingerprint[] = "----:com.apple.iTunes:Acoustid Fingerprint";
 constexpr char kMP4_MusicBrainz_AlbumArtistId[] = "----:com.apple.iTunes:MusicBrainz Album Artist Id";
@@ -203,6 +221,7 @@ constexpr char kAPE_CoverArt[] = "COVER ART (FRONT)";
 constexpr char kAPE_FMPS_Playcount[] = "FMPS_PLAYCOUNT";
 constexpr char kAPE_FMPS_Rating[] = "FMPS_RATING";
 constexpr char kAPE_Lyrics[] = "LYRICS";
+constexpr char kAPE_BPM[] = "BPM";
 constexpr char kAPE_AcoustId[] = "ACOUSTID_ID";
 constexpr char kAPE_AcoustId_Fingerprint[] = "ACOUSTID_FINGERPRINT";
 constexpr char kAPE_MusicBrainz_AlbumArtistId[] = "MUSICBRAINZ_ALBUMARTISTID";
@@ -352,7 +371,7 @@ TagReaderResult TagReaderTagLib::Read(SharedPtr<TagLib::FileRef> fileref, Song *
       TagLib::List<TagLib::FLAC::Picture*> pictures = vorbis_comment->pictureList();
       if (!pictures.isEmpty()) {
         for (TagLib::FLAC::Picture *picture : pictures) {
-          if (picture->type() == TagLib::FLAC::Picture::FrontCover && picture->data().size() > 0) {
+          if ((picture->type() == TagLib::FLAC::Picture::FrontCover || picture->type() == TagLib::FLAC::Picture::Other) && picture->data().size() > 0) {
             song->set_art_embedded(true);
             break;
           }
@@ -369,7 +388,7 @@ TagReaderResult TagReaderTagLib::Read(SharedPtr<TagLib::FileRef> fileref, Song *
         TagLib::List<TagLib::FLAC::Picture*> pictures = file_flac->pictureList();
         if (!pictures.isEmpty()) {
           for (TagLib::FLAC::Picture *picture : pictures) {
-            if (picture->type() == TagLib::FLAC::Picture::FrontCover && picture->data().size() > 0) {
+            if ((picture->type() == TagLib::FLAC::Picture::FrontCover || picture->type() == TagLib::FLAC::Picture::Other) && picture->data().size() > 0) {
               song->set_art_embedded(true);
               break;
             }
@@ -589,6 +608,7 @@ void TagReaderTagLib::ParseID3v2Tags(TagLib::ID3v2::Tag *tag, QString *disc, QSt
 
   if (map.contains(kID3v2_Disc)) *disc = TagLibStringToQString(map[kID3v2_Disc].front()->toString()).trimmed();
   if (map.contains(kID3v2_Composer)) song->set_composer(map[kID3v2_Composer].front()->toString());
+  if (map.contains(kID3v2_ComposerSort)) song->set_composersort(map[kID3v2_ComposerSort].front()->toString());
 
   // content group
   if (map.contains(kID3v2_Grouping)) song->set_grouping(map[kID3v2_Grouping].front()->toString());
@@ -600,6 +620,11 @@ void TagReaderTagLib::ParseID3v2Tags(TagLib::ID3v2::Tag *tag, QString *disc, QSt
 
   // non-standard: Apple, Microsoft
   if (map.contains(kID3v2_AlbumArtist)) song->set_albumartist(map[kID3v2_AlbumArtist].front()->toString());
+
+  if (map.contains(kID3v2_AlbumArtistSort)) song->set_albumartistsort(map[kID3v2_AlbumArtistSort].front()->toString());
+  if (map.contains(kID3v2_AlbumSort)) song->set_albumsort(map[kID3v2_AlbumSort].front()->toString());
+  if (map.contains(kID3v2_ArtistSort)) song->set_artistsort(map[kID3v2_ArtistSort].front()->toString());
+  if (map.contains(kID3v2_TitleSort)) song->set_titlesort(map[kID3v2_TitleSort].front()->toString());
 
   if (map.contains(kID3v2_Compilation)) *compilation = TagLibStringToQString(map[kID3v2_Compilation].front()->toString()).trimmed();
 
@@ -615,6 +640,10 @@ void TagReaderTagLib::ParseID3v2Tags(TagLib::ID3v2::Tag *tag, QString *disc, QSt
   }
 
   if (map.contains(kID3v2_CoverArt) && song->url().isLocalFile()) song->set_art_embedded(true);
+
+  if (map.contains(kID3v2_BPM)) song->set_bpm(TagLibStringToQString(map[kID3v2_BPM].front()->toString()).trimmed().toFloat());
+  if (map.contains(kID3v2_Mood)) song->set_mood(map[kID3v2_Mood].front()->toString());
+  if (map.contains(kID3v2_Initial_Key)) song->set_initial_key(map[kID3v2_Initial_Key].front()->toString());
 
   if (TagLib::ID3v2::UserTextIdentificationFrame *frame_fmps_playcount = TagLib::ID3v2::UserTextIdentificationFrame::find(tag, kID3v2_FMPS_Playcount)) {
     TagLib::StringList frame_field_list = frame_fmps_playcount->fieldList();
@@ -706,12 +735,19 @@ void TagReaderTagLib::ParseID3v2Tags(TagLib::ID3v2::Tag *tag, QString *disc, QSt
 void TagReaderTagLib::ParseVorbisComments(const TagLib::Ogg::FieldListMap &map, QString *disc, QString *compilation, Song *song) const {
 
   if (map.contains(kVorbisComment_Composer)) song->set_composer(map[kVorbisComment_Composer].front());
+  if (map.contains(kVorbisComment_ComposerSort)) song->set_composersort(map[kVorbisComment_ComposerSort].front());
   if (map.contains(kVorbisComment_Performer)) song->set_performer(map[kVorbisComment_Performer].front());
+  if (map.contains(kVorbisComment_PerformerSort)) song->set_performersort(map[kVorbisComment_PerformerSort].front());
   if (map.contains(kVorbisComment_Grouping2)) song->set_grouping(map[kVorbisComment_Grouping2].front());
   if (map.contains(kVorbisComment_Grouping1)) song->set_grouping(map[kVorbisComment_Grouping1].front());
 
   if (map.contains(kVorbisComment_AlbumArtist1)) song->set_albumartist(map[kVorbisComment_AlbumArtist1].front());
   else if (map.contains(kVorbisComment_AlbumArtist2)) song->set_albumartist(map[kVorbisComment_AlbumArtist2].front());
+
+  if (map.contains(kVorbisComment_AlbumArtistSort)) song->set_albumartistsort(map[kVorbisComment_AlbumArtistSort].front());
+  if (map.contains(kVorbisComment_AlbumSort)) song->set_albumsort(map[kVorbisComment_AlbumSort].front());
+  if (map.contains(kVorbisComment_ArtistSort)) song->set_artistsort(map[kVorbisComment_ArtistSort].front());
+  if (map.contains(kVorbisComment_TitleSort)) song->set_titlesort(map[kVorbisComment_TitleSort].front());
 
   if (map.contains(kVorbisComment_OriginalYear1)) song->set_originalyear(TagLibStringToQString(map[kVorbisComment_OriginalYear1].front()).left(4).toInt());
   else if (map.contains(kVorbisComment_OriginalYear2)) song->set_originalyear(TagLibStringToQString(map[kVorbisComment_OriginalYear2].front()).toInt());
@@ -728,6 +764,10 @@ void TagReaderTagLib::ParseVorbisComments(const TagLib::Ogg::FieldListMap &map, 
 
   if (map.contains(kVorbisComment_Lyrics)) song->set_lyrics(map[kVorbisComment_Lyrics].front());
   else if (map.contains(kVorbisComment_UnsyncedLyrics)) song->set_lyrics(map[kVorbisComment_UnsyncedLyrics].front());
+
+  if (map.contains(kVorbisComment_BPM)) song->set_bpm(TagLibStringToQString(map[kVorbisComment_BPM].front()).toFloat());
+  if (map.contains(kVorbisComment_Mood)) song->set_mood(map[kVorbisComment_Mood].front());
+  if (map.contains(kVorbisComment_Initial_Key)) song->set_initial_key(map[kVorbisComment_Initial_Key].front());
 
   if (map.contains(kVorbisComment_AcoustId)) song->set_acoustid_id(map[kVorbisComment_AcoustId].front());
   if (map.contains(kVorbisComment_AcoustId_Fingerprint)) song->set_acoustid_fingerprint(map[kVorbisComment_AcoustId_Fingerprint].front());
@@ -792,6 +832,10 @@ void TagReaderTagLib::ParseAPETags(const TagLib::APE::ItemListMap &map, QString 
     if (song->rating() <= 0 && rating > 0) {
       song->set_rating(rating);
     }
+  }
+
+  if (map.contains(kAPE_BPM)) {
+    song->set_bpm(TagLibStringToQString(map[kAPE_BPM].toString()).toFloat());
   }
 
   if (map.contains(kAPE_AcoustId)) song->set_acoustid_id(map[kAPE_AcoustId].toString());
@@ -870,6 +914,16 @@ void TagReaderTagLib::ParseMP4Tags(TagLib::MP4::Tag *tag, QString *disc, QString
   }
 
   song->set_comment(tag->comment());
+
+  if (tag->item(kMP4_BPM).isValid()) {
+    const TagLib::MP4::Item item = tag->item(kMP4_BPM);
+    if (item.isValid()) {
+      const float bpm = TagLibStringToQString(item.toStringList().toString('\n')).toFloat();
+      if (bpm > 0) {
+        song->set_bpm(bpm);
+      }
+    }
+  }
 
   if (tag->contains(kMP4_AcoustId)) {
     song->set_acoustid_id(tag->item(kMP4_AcoustId).toStringList().toString());
@@ -1227,10 +1281,15 @@ void TagReaderTagLib::SetID3v2Tag(TagLib::ID3v2::Tag *tag, const Song &song) con
 
   SetTextFrame(kID3v2_Disc, song.disc() <= 0 ? QString() : QString::number(song.disc()), tag);
   SetTextFrame(kID3v2_Composer, song.composer().isEmpty() ? QString() : song.composer(), tag);
+  SetTextFrame(kID3v2_ComposerSort, song.composersort().isEmpty() ? QString() : song.composersort(), tag);
   SetTextFrame(kID3v2_Grouping, song.grouping().isEmpty() ? QString() : song.grouping(), tag);
   SetTextFrame(kID3v2_Performer, song.performer().isEmpty() ? QString() : song.performer(), tag);
   // Skip TPE1 (which is the artist) here because we already set it
   SetTextFrame(kID3v2_AlbumArtist, song.albumartist().isEmpty() ? QString() : song.albumartist(), tag);
+  SetTextFrame(kID3v2_AlbumArtistSort, song.albumartistsort().isEmpty() ? QString() : song.albumartistsort(), tag);
+  SetTextFrame(kID3v2_AlbumSort, song.albumsort().isEmpty() ? QString() : song.albumsort(), tag);
+  SetTextFrame(kID3v2_ArtistSort, song.artistsort().isEmpty() ? QString() : song.artistsort(), tag);
+  SetTextFrame(kID3v2_TitleSort, song.titlesort().isEmpty() ? QString() : song.titlesort(), tag);
   SetTextFrame(kID3v2_Compilation, song.compilation() ? QString::number(1) : QString(), tag);
   SetUnsyncLyricsFrame(song.lyrics().isEmpty() ? QString() : song.lyrics(), tag);
 
@@ -1318,7 +1377,9 @@ void TagReaderTagLib::SetUnsyncLyricsFrame(const QString &value, TagLib::ID3v2::
 void TagReaderTagLib::SetVorbisComments(TagLib::Ogg::XiphComment *vorbis_comment, const Song &song) const {
 
   vorbis_comment->addField(kVorbisComment_Composer, QStringToTagLibString(song.composer()), true);
+  vorbis_comment->addField(kVorbisComment_ComposerSort, QStringToTagLibString(song.composersort()), true);
   vorbis_comment->addField(kVorbisComment_Performer, QStringToTagLibString(song.performer()), true);
+  vorbis_comment->addField(kVorbisComment_PerformerSort, QStringToTagLibString(song.performersort()), true);
   vorbis_comment->addField(kVorbisComment_Grouping1, QStringToTagLibString(song.grouping()), true);
   vorbis_comment->addField(kVorbisComment_Disc, QStringToTagLibString(song.disc() <= 0 ? QString() : QString::number(song.disc())), true);
   vorbis_comment->addField(kVorbisComment_Compilation, QStringToTagLibString(song.compilation() ? u"1"_s : QString()), true);
@@ -1327,6 +1388,10 @@ void TagReaderTagLib::SetVorbisComments(TagLib::Ogg::XiphComment *vorbis_comment
 
   vorbis_comment->addField(kVorbisComment_AlbumArtist1, QStringToTagLibString(song.albumartist()), true);
   vorbis_comment->removeFields(kVorbisComment_AlbumArtist2);
+  vorbis_comment->addField(kVorbisComment_AlbumArtistSort, QStringToTagLibString(song.albumartistsort()), true);
+  vorbis_comment->addField(kVorbisComment_AlbumSort, QStringToTagLibString(song.albumsort()), true);
+  vorbis_comment->addField(kVorbisComment_ArtistSort, QStringToTagLibString(song.artistsort()), true);
+  vorbis_comment->addField(kVorbisComment_TitleSort, QStringToTagLibString(song.titlesort()), true);
 
   vorbis_comment->addField(kVorbisComment_Lyrics, QStringToTagLibString(song.lyrics()), true);
   vorbis_comment->removeFields(kVorbisComment_UnsyncedLyrics);
@@ -1407,12 +1472,19 @@ TagReaderResult TagReaderTagLib::LoadEmbeddedCover(const QString &filename, QByt
       TagLib::List<TagLib::FLAC::Picture*> pictures = file_flac->pictureList();
       if (!pictures.isEmpty()) {
         for (TagLib::FLAC::Picture *picture : pictures) {
-          if (picture->type() == TagLib::FLAC::Picture::FrontCover && picture->data().size() > 0) {
-            data = QByteArray(picture->data().data(), picture->data().size());
-            if (!data.isEmpty()) {
-              return TagReaderResult::ErrorCode::Success;
-            }
+          if (picture->data().size() <= 0) {
+            continue;
           }
+          if (picture->type() == TagLib::FLAC::Picture::FrontCover) {
+            data = QByteArray(picture->data().data(), picture->data().size());
+            return TagReaderResult::ErrorCode::Success;
+          }
+          else if (picture->type() == TagLib::FLAC::Picture::Other) {
+            data = QByteArray(picture->data().data(), picture->data().size());
+          }
+        }
+        if (!data.isEmpty()) {
+          return TagReaderResult::ErrorCode::Success;
         }
       }
     }
@@ -1450,21 +1522,27 @@ TagReaderResult TagReaderTagLib::LoadEmbeddedCover(const QString &filename, QByt
 
   // Ogg Vorbis / Opus / Speex
   if (TagLib::Ogg::XiphComment *vorbis_comment = dynamic_cast<TagLib::Ogg::XiphComment*>(fileref->file()->tag())) {
-    TagLib::Ogg::FieldListMap map = vorbis_comment->fieldListMap();
-
     TagLib::List<TagLib::FLAC::Picture*> pictures = vorbis_comment->pictureList();
     if (!pictures.isEmpty()) {
       for (TagLib::FLAC::Picture *picture : pictures) {
-        if (picture->type() == TagLib::FLAC::Picture::FrontCover && picture->data().size() > 0) {
-          data = QByteArray(picture->data().data(), picture->data().size());
-          if (!data.isEmpty()) {
-            return TagReaderResult::ErrorCode::Success;
-          }
+        if (picture->data().size() <= 0) {
+          continue;
         }
+        if (picture->type() == TagLib::FLAC::Picture::FrontCover) {
+          data = QByteArray(picture->data().data(), picture->data().size());
+          return TagReaderResult::ErrorCode::Success;
+        }
+        else if (picture->type() == TagLib::FLAC::Picture::Other) {
+          data = QByteArray(picture->data().data(), picture->data().size());
+        }
+      }
+      if (!data.isEmpty()) {
+        return TagReaderResult::ErrorCode::Success;
       }
     }
 
     // Ogg lacks a definitive standard for embedding cover art, but it seems b64 encoding a field called COVERART is the general convention
+    const TagLib::Ogg::FieldListMap map = vorbis_comment->fieldListMap();
     if (map.contains(kVorbisComment_CoverArt)) {
       data = QByteArray::fromBase64(map[kVorbisComment_CoverArt].toString().toCString());
       if (!data.isEmpty()) {

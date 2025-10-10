@@ -34,6 +34,7 @@
 #include <QVariant>
 #include <QString>
 #include <QStringList>
+#include <QUrl>
 #include <QRegularExpression>
 #include <QInputDialog>
 #include <QList>
@@ -295,19 +296,21 @@ QActionGroup *CollectionFilterWidget::CreateGroupByActions(const QString &saved_
   if (version == 1) {
     QStringList saved = s.childKeys();
     for (int i = 0; i < saved.size(); ++i) {
-      if (saved.at(i) == "version"_L1) continue;
-      QByteArray bytes = s.value(saved.at(i)).toByteArray();
+      const QString &name = saved.at(i);
+      if (name == "version"_L1) continue;
+      QByteArray bytes = s.value(name).toByteArray();
       QDataStream ds(&bytes, QIODevice::ReadOnly);
       CollectionModel::Grouping g;
       ds >> g;
-      ret->addAction(CreateGroupByAction(saved.at(i), parent, g));
+      ret->addAction(CreateGroupByAction(QUrl::fromPercentEncoding(name.toUtf8()), parent, g));
     }
   }
   else {
     QStringList saved = s.childKeys();
     for (int i = 0; i < saved.size(); ++i) {
-      if (saved.at(i) == "version"_L1) continue;
-      s.remove(saved.at(i));
+      const QString &name = saved.at(i);
+      if (name == "version"_L1) continue;
+      s.remove(name);
     }
   }
   s.endGroup();
@@ -339,7 +342,7 @@ void CollectionFilterWidget::SaveGroupBy() {
 
   if (!model_) return;
 
-  QString name = QInputDialog::getText(this, tr("Grouping Name"), tr("Grouping name:"));
+  const QString name = QInputDialog::getText(this, tr("Grouping Name"), tr("Grouping name:"));
   if (name.isEmpty()) return;
 
   qLog(Debug) << "Saving current grouping to" << name;
@@ -355,7 +358,7 @@ void CollectionFilterWidget::SaveGroupBy() {
   QDataStream datastream(&buffer, QIODevice::WriteOnly);
   datastream << model_->GetGroupBy();
   s.setValue("version", u"1"_s);
-  s.setValue(name, buffer);
+  s.setValue(QUrl::toPercentEncoding(name), buffer);
   s.endGroup();
 
   UpdateGroupByActions();

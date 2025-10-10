@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2013-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2013-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -156,10 +156,8 @@
 #include "lyrics/lyricsproviders.h"
 #include "device/devicemanager.h"
 #include "device/devicestatefiltermodel.h"
-#ifndef Q_OS_WIN32
-#  include "device/deviceview.h"
-#  include "device/deviceviewcontainer.h"
-#endif
+#include "device/deviceview.h"
+#include "device/deviceviewcontainer.h"
 #include "transcoder/transcodedialog.h"
 #include "settings/settingsdialog.h"
 #include "constants/behavioursettings.h"
@@ -175,6 +173,7 @@
 #  include "constants/tidalsettings.h"
 #endif
 #ifdef HAVE_SPOTIFY
+#  include "spotify/spotifyservice.h"
 #  include "constants/spotifysettings.h"
 #endif
 #ifdef HAVE_QOBUZ
@@ -280,7 +279,7 @@ constexpr char QTSPARKLE_URL[] = "https://www.strawberrymusicplayer.org/sparkle-
 #endif  // HAVE_QTSPARKLE
 
 MainWindow::MainWindow(Application *app,
-                       SharedPtr<SystemTrayIcon> tray_icon, OSDBase *osd,
+                       SharedPtr<SystemTrayIcon> systemtrayicon, OSDBase *osd,
 #ifdef HAVE_DISCORD_RPC
                        discord::RichPresence *discord_rich_presence,
 #endif
@@ -292,11 +291,14 @@ MainWindow::MainWindow(Application *app,
       thumbbar_(new Windows7ThumbBar(this)),
 #endif
       app_(app),
-      tray_icon_(tray_icon),
+      systemtrayicon_(systemtrayicon),
       osd_(osd),
 #ifdef HAVE_DISCORD_RPC
       discord_rich_presence_(discord_rich_presence),
 #endif
+      error_dialog_([this]() {
+        return new ErrorDialog(this);
+      }),
       console_([app, this]() {
         Console *console = new Console(app->database());
         QObject::connect(console, &Console::Error, this, &MainWindow::ShowErrorDialog);
@@ -310,9 +312,7 @@ MainWindow::MainWindow(Application *app,
       context_view_(new ContextView(this)),
       collection_view_(new CollectionViewContainer(this)),
       file_view_(new FileView(this)),
-#ifndef Q_OS_WIN32
       device_view_(new DeviceViewContainer(this)),
-#endif
       playlist_list_(new PlaylistListContainer(this)),
       queue_view_(new QueueView(this)),
       settings_dialog_(std::bind(&MainWindow::CreateSettingsDialog, this)),
@@ -375,9 +375,7 @@ MainWindow::MainWindow(Application *app,
       playlist_move_to_collection_(nullptr),
       playlist_open_in_browser_(nullptr),
       playlist_organize_(nullptr),
-#ifndef Q_OS_WIN32
       playlist_copy_to_device_(nullptr),
-#endif
       playlist_delete_(nullptr),
       playlist_queue_(nullptr),
       playlist_queue_play_next_(nullptr),
@@ -409,7 +407,11 @@ MainWindow::MainWindow(Application *app,
   // Initialize the UI
   ui_->setupUi(this);
 
-  setWindowIcon(IconLoader::Load(u"strawberry"_s));
+  if (QGuiApplication::platformName() != "wayland"_L1) {
+    setWindowIcon(IconLoader::Load(u"strawberry"_s));
+  }
+
+  systemtrayicon_->SetDevicePixelRatioF(devicePixelRatioF());
 
   QObject::connect(&*app->database(), &Database::Error, this, &MainWindow::ShowErrorDialog);
 
@@ -430,9 +432,7 @@ MainWindow::MainWindow(Application *app,
   ui_->tabs->AddTab(smartplaylists_view_, u"smartplaylists"_s, IconLoader::Load(u"view-media-playlist"_s, true, 0, 32), tr("Smart playlists"));
   ui_->tabs->AddTab(file_view_, u"files"_s, IconLoader::Load(u"document-open"_s, true, 0, 32), tr("Files"));
   ui_->tabs->AddTab(radio_view_, u"radios"_s, IconLoader::Load(u"radio"_s, true, 0, 32), tr("Radios"));
-#ifndef Q_OS_WIN32
   ui_->tabs->AddTab(device_view_, u"devices"_s, IconLoader::Load(u"device"_s, true, 0, 32), tr("Devices"));
-#endif
 #ifdef HAVE_SUBSONIC
   ui_->tabs->AddTab(subsonic_view_, u"subsonic"_s, IconLoader::Load(u"subsonic"_s, true, 0, 32), tr("Subsonic"));
 #endif
@@ -480,9 +480,7 @@ MainWindow::MainWindow(Application *app,
 
   collection_view_->view()->setModel(app_->collection()->model()->filter());
   collection_view_->view()->Init(app->task_manager(), app->tagreader_client(), app->network(), app->albumcover_loader(), app->current_albumcover_loader(), app->cover_providers(), app->lyrics_providers(), app->collection(), app->device_manager(), app->streaming_services());
-#ifndef Q_OS_WIN32
   device_view_->view()->Init(app->task_manager(), app->tagreader_client(), app->device_manager(), app->collection_model()->directory_model());
-#endif
   playlist_list_->Init(app_->task_manager(), app->tagreader_client(), app_->playlist_manager(), app_->playlist_backend(), app_->device_manager());
 
   organize_dialog_->SetDestinationModel(app_->collection()->model()->directory_model());
@@ -554,9 +552,7 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(file_view_, &FileView::CopyToCollection, this, &MainWindow::CopyFilesToCollection);
   QObject::connect(file_view_, &FileView::MoveToCollection, this, &MainWindow::MoveFilesToCollection);
   QObject::connect(file_view_, &FileView::EditTags, this, &MainWindow::EditFileTags);
-#ifndef Q_OS_WIN32
   QObject::connect(file_view_, &FileView::CopyToDevice, this, &MainWindow::CopyFilesToDevice);
-#endif
   file_view_->SetTaskManager(app_->task_manager());
 
   // Action connections
@@ -718,10 +714,8 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(album_cover_choice_controller_->search_cover_auto_action(), &QAction::triggered, this, &MainWindow::SearchCoverAutomatically);
   QObject::connect(album_cover_choice_controller_->search_cover_auto_action(), &QAction::toggled, this, &MainWindow::ToggleSearchCoverAuto);
 
-#ifndef Q_OS_WIN32
   // Devices connections
   QObject::connect(device_view_->view(), &DeviceView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
-#endif
 
   // Collection filter widget
   QActionGroup *collection_view_group = new QActionGroup(this);
@@ -784,6 +778,9 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(spotify_view_->songs_collection_view(), &StreamingCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
   QObject::connect(spotify_view_->search_view(), &StreamingSearchView::OpenSettingsDialog, this, &MainWindow::OpenServiceSettingsDialog);
   QObject::connect(spotify_view_->search_view(), &StreamingSearchView::AddToPlaylist, this, &MainWindow::AddToPlaylist);
+  if (SpotifyServicePtr spotifyservice = app_->streaming_services()->Service<SpotifyService>()) {
+    QObject::connect(&*spotifyservice, &SpotifyService::UpdateSpotifyAccessToken, &*app_->player()->engine(), &EngineBase::UpdateSpotifyAccessToken);
+  }
 #endif
 
   QObject::connect(radio_view_, &RadioViewContainer::Refresh, &*app_->radio_services(), &RadioServices::RefreshChannels);
@@ -824,9 +821,7 @@ MainWindow::MainWindow(Application *app,
   playlist_organize_ = playlist_menu_->addAction(IconLoader::Load(u"edit-copy"_s), tr("Organize files..."), this, &MainWindow::PlaylistMoveToCollection);
   playlist_copy_to_collection_ = playlist_menu_->addAction(IconLoader::Load(u"edit-copy"_s), tr("Copy to collection..."), this, &MainWindow::PlaylistCopyToCollection);
   playlist_move_to_collection_ = playlist_menu_->addAction(IconLoader::Load(u"go-jump"_s), tr("Move to collection..."), this, &MainWindow::PlaylistMoveToCollection);
-#ifndef Q_OS_WIN32
   playlist_copy_to_device_ = playlist_menu_->addAction(IconLoader::Load(u"device"_s), tr("Copy to device..."), this, &MainWindow::PlaylistCopyToDevice);
-#endif
   playlist_delete_ = playlist_menu_->addAction(IconLoader::Load(u"edit-delete"_s), tr("Delete from disk..."), this, &MainWindow::PlaylistDelete);
   playlist_menu_->addSeparator();
   playlistitem_actions_separator_ = playlist_menu_->addSeparator();
@@ -845,10 +840,8 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(ui_->playlist, &PlaylistContainer::UndoRedoActionsChanged, this, &MainWindow::PlaylistUndoRedoChanged);
 
   QObject::connect(&*app_->device_manager(), &DeviceManager::DeviceError, this, &MainWindow::ShowErrorDialog);
-#ifndef WIN32
   QObject::connect(app_->device_manager()->connected_devices_model(), &DeviceStateFilterModel::IsEmptyChanged, playlist_copy_to_device_, &QAction::setDisabled);
   playlist_copy_to_device_->setDisabled(app_->device_manager()->connected_devices_model()->rowCount() == 0);
-#endif
 
   QObject::connect(&*app_->scrobbler()->settings(), &ScrobblerSettingsService::ScrobblingEnabledChanged, this, &MainWindow::ScrobblingEnabledChanged);
   QObject::connect(&*app_->scrobbler()->settings(), &ScrobblerSettingsService::ScrobbleButtonVisibilityChanged, this, &MainWindow::ScrobbleButtonVisibilityChanged);
@@ -858,14 +851,14 @@ MainWindow::MainWindow(Application *app,
   mac::SetApplicationHandler(this);
 #endif
   // Tray icon
-  tray_icon_->SetupMenu(ui_->action_previous_track, ui_->action_play_pause, ui_->action_stop, ui_->action_stop_after_this_track, ui_->action_next_track, ui_->action_mute, ui_->action_love, ui_->action_quit);
-  QObject::connect(&*tray_icon_, &SystemTrayIcon::PlayPause, &*app_->player(), &Player::PlayPauseHelper);
-  QObject::connect(&*tray_icon_, &SystemTrayIcon::SeekForward, &*app_->player(), &Player::SeekForward);
-  QObject::connect(&*tray_icon_, &SystemTrayIcon::SeekBackward, &*app_->player(), &Player::SeekBackward);
-  QObject::connect(&*tray_icon_, &SystemTrayIcon::NextTrack, &*app_->player(), &Player::Next);
-  QObject::connect(&*tray_icon_, &SystemTrayIcon::PreviousTrack, &*app_->player(), &Player::Previous);
-  QObject::connect(&*tray_icon_, &SystemTrayIcon::ShowHide, this, &MainWindow::ToggleShowHide);
-  QObject::connect(&*tray_icon_, &SystemTrayIcon::ChangeVolume, this, &MainWindow::VolumeWheelEvent);
+  systemtrayicon_->SetupMenu(ui_->action_previous_track, ui_->action_play_pause, ui_->action_stop, ui_->action_stop_after_this_track, ui_->action_next_track, ui_->action_mute, ui_->action_love, ui_->action_quit);
+  QObject::connect(&*systemtrayicon_, &SystemTrayIcon::PlayPause, &*app_->player(), &Player::PlayPauseHelper);
+  QObject::connect(&*systemtrayicon_, &SystemTrayIcon::SeekForward, &*app_->player(), &Player::SeekForward);
+  QObject::connect(&*systemtrayicon_, &SystemTrayIcon::SeekBackward, &*app_->player(), &Player::SeekBackward);
+  QObject::connect(&*systemtrayicon_, &SystemTrayIcon::NextTrack, &*app_->player(), &Player::Next);
+  QObject::connect(&*systemtrayicon_, &SystemTrayIcon::PreviousTrack, &*app_->player(), &Player::Previous);
+  QObject::connect(&*systemtrayicon_, &SystemTrayIcon::ShowHide, this, &MainWindow::ToggleShowHide);
+  QObject::connect(&*systemtrayicon_, &SystemTrayIcon::ChangeVolume, this, &MainWindow::VolumeWheelEvent);
 
   // Windows 7 thumbbar buttons
 #ifdef Q_OS_WIN32
@@ -980,7 +973,7 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(&*app_->lastfm_import(), &LastFMImport::UpdateLastPlayed, &*app_->collection_backend(), &CollectionBackend::UpdateLastPlayed);
   QObject::connect(&*app_->lastfm_import(), &LastFMImport::UpdatePlayCount, &*app_->collection_backend(), &CollectionBackend::UpdatePlayCount);
 
-#if !defined(HAVE_AUDIOCD) || defined(Q_OS_WIN32)
+#if !defined(HAVE_AUDIOCD)
   ui_->action_open_cd->setEnabled(false);
   ui_->action_open_cd->setVisible(false);
 #endif
@@ -1043,7 +1036,7 @@ MainWindow::MainWindow(Application *app,
       show();
       break;
     case BehaviourSettings::StartupBehaviour::Hide:
-      if (tray_icon_->IsSystemTrayAvailable() && tray_icon_->isVisible()) {
+      if (systemtrayicon_->IsSystemTrayAvailable() && systemtrayicon_->isVisible()) {
         break;
       }
       [[fallthrough]];
@@ -1056,7 +1049,7 @@ MainWindow::MainWindow(Application *app,
       was_minimized_ = settings_.value(MainWindowSettings::kMinimized, false).toBool();
       if (was_minimized_) setWindowState(windowState() | Qt::WindowMinimized);
 
-      if (!tray_icon_->IsSystemTrayAvailable() || !tray_icon_->isVisible() || !settings_.value(MainWindowSettings::kHidden, false).toBool()) {
+      if (!systemtrayicon_->IsSystemTrayAvailable() || !systemtrayicon_->isVisible() || !settings_.value(MainWindowSettings::kHidden, false).toBool()) {
         show();
       }
       break;
@@ -1168,13 +1161,13 @@ void MainWindow::ReloadSettings() {
 #ifdef Q_OS_MACOS
   constexpr bool keeprunning_available = true;
 #else
-  const bool systemtray_available = tray_icon_->IsSystemTrayAvailable();
+  const bool systemtray_available = systemtrayicon_->IsSystemTrayAvailable();
   s.beginGroup(BehaviourSettings::kSettingsGroup);
   const bool showtrayicon = s.value(BehaviourSettings::kShowTrayIcon, systemtray_available).toBool();
   s.endGroup();
   const bool keeprunning_available = systemtray_available && showtrayicon;
   if (systemtray_available) {
-    tray_icon_->setVisible(showtrayicon);
+    systemtrayicon_->setVisible(showtrayicon);
   }
   if ((!showtrayicon || !systemtray_available) && !isVisible()) {
     show();
@@ -1199,7 +1192,7 @@ void MainWindow::ReloadSettings() {
   int iconsize = s.value(AppearanceSettings::kIconSizePlayControlButtons, 32).toInt();
   s.endGroup();
 
-  tray_icon_->SetTrayiconProgress(trayicon_progress);
+  systemtrayicon_->SetTrayiconProgress(trayicon_progress);
 
 #ifdef HAVE_DBUS
   if (taskbar_progress_ && !taskbar_progress) {
@@ -1221,11 +1214,11 @@ void MainWindow::ReloadSettings() {
     ui_->volume->SetEnabled(volume_control);
     if (volume_control) {
       if (!ui_->action_mute->isVisible()) ui_->action_mute->setVisible(true);
-      if (!tray_icon_->MuteEnabled()) tray_icon_->SetMuteEnabled(true);
+      if (!systemtrayicon_->MuteEnabled()) systemtrayicon_->SetMuteEnabled(true);
     }
     else {
       if (ui_->action_mute->isVisible()) ui_->action_mute->setVisible(false);
-      if (tray_icon_->MuteEnabled()) tray_icon_->SetMuteEnabled(false);
+      if (systemtrayicon_->MuteEnabled()) systemtrayicon_->SetMuteEnabled(false);
     }
   }
 
@@ -1377,8 +1370,8 @@ void MainWindow::Exit() {
       if (app_->player()->GetState() == EngineBase::State::Playing) {
         app_->player()->Stop();
         hide();
-        if (tray_icon_->IsSystemTrayAvailable()) {
-          tray_icon_->setVisible(false);
+        if (systemtrayicon_->IsSystemTrayAvailable()) {
+          systemtrayicon_->setVisible(false);
         }
         return;  // Don't quit the application now: wait for the fadeout finished signal
       }
@@ -1435,7 +1428,7 @@ void MainWindow::MediaStopped() {
 
   ui_->action_love->setEnabled(false);
   ui_->button_love->setEnabled(false);
-  tray_icon_->LoveStateChanged(false);
+  systemtrayicon_->LoveStateChanged(false);
 
   if (track_position_timer_->isActive()) {
     track_position_timer_->stop();
@@ -1444,8 +1437,8 @@ void MainWindow::MediaStopped() {
     track_slider_timer_->stop();
   }
   ui_->track_slider->SetStopped();
-  tray_icon_->SetProgress(0);
-  tray_icon_->SetStopped();
+  systemtrayicon_->SetProgress(0);
+  systemtrayicon_->SetStopped();
 
 #ifdef HAVE_DBUS
   if (taskbar_progress_) {
@@ -1477,7 +1470,7 @@ void MainWindow::MediaPaused() {
     track_slider_timer_->start();
   }
 
-  tray_icon_->SetPaused();
+  systemtrayicon_->SetPaused();
 
 }
 
@@ -1498,7 +1491,7 @@ void MainWindow::MediaPlaying() {
   }
   ui_->action_play_pause->setEnabled(enable_play_pause);
   ui_->track_slider->SetCanSeek(can_seek);
-  tray_icon_->SetPlaying(enable_play_pause);
+  systemtrayicon_->SetPlaying(enable_play_pause);
 
   if (!track_position_timer_->isActive()) {
     track_position_timer_->start();
@@ -1519,14 +1512,14 @@ void MainWindow::SendNowPlaying() {
     app_->scrobbler()->UpdateNowPlaying(playlist->current_item()->EffectiveMetadata());
     ui_->action_love->setEnabled(true);
     ui_->button_love->setEnabled(true);
-    tray_icon_->LoveStateChanged(true);
+    systemtrayicon_->LoveStateChanged(true);
   }
 
 }
 
 void MainWindow::VolumeChanged(const uint volume) {
   ui_->action_mute->setChecked(volume == 0);
-  tray_icon_->MuteButtonStateChanged(volume == 0);
+  systemtrayicon_->MuteButtonStateChanged(volume == 0);
 }
 
 void MainWindow::SongChanged(const Song &song) {
@@ -1536,7 +1529,7 @@ void MainWindow::SongChanged(const Song &song) {
   song_playing_ = song;
   song_ = song;
   setWindowTitle(song.PrettyTitleWithArtist());
-  tray_icon_->SetProgress(0);
+  systemtrayicon_->SetProgress(0);
 
 #ifdef HAVE_DBUS
   if (taskbar_progress_) {
@@ -1694,17 +1687,6 @@ void MainWindow::StopAfterCurrent() {
   Q_EMIT StopAfterToggled(app_->playlist_manager()->active()->stop_after_current());
 }
 
-void MainWindow::showEvent(QShowEvent *e) {
-
-  if (error_dialog_ && error_dialog_->isVisible() && error_dialog_->isMinimized()) {
-    error_dialog_->raise();
-    error_dialog_->activateWindow();
-  }
-
-  QMainWindow::showEvent(e);
-
-}
-
 void MainWindow::hideEvent(QHideEvent *e) {
 
   // Some window managers don't remember maximized state between
@@ -1719,7 +1701,7 @@ void MainWindow::hideEvent(QHideEvent *e) {
 
 void MainWindow::closeEvent(QCloseEvent *e) {
 
-  if (!exit_ && (!tray_icon_->IsSystemTrayAvailable() || !tray_icon_->isVisible() || !keep_running_)) {
+  if (!exit_ && (!systemtrayicon_->IsSystemTrayAvailable() || !systemtrayicon_->isVisible() || !keep_running_)) {
     Exit();
   }
 
@@ -1727,10 +1709,20 @@ void MainWindow::closeEvent(QCloseEvent *e) {
 
 }
 
+void MainWindow::changeEvent(QEvent *e) {
+
+  if (e->type() == QEvent::Show || e->type() == QEvent::WindowStateChange || e->type() == QEvent::WindowActivate) {
+    CheckShowErrorDialog();
+  }
+
+  QMainWindow::changeEvent(e);
+
+}
+
 void MainWindow::SetHiddenInTray(const bool hidden) {
 
   if (hidden && isVisible()) {
-    if (tray_icon_->IsSystemTrayAvailable() && tray_icon_->isVisible() && keep_running_) {
+    if (systemtrayicon_->IsSystemTrayAvailable() && systemtrayicon_->isVisible() && keep_running_) {
       close();
     }
     else {
@@ -1747,6 +1739,7 @@ void MainWindow::SetHiddenInTray(const bool hidden) {
     else {
       show();
     }
+    CheckShowErrorDialog();
   }
 
 }
@@ -1759,7 +1752,7 @@ void MainWindow::Seeked(const qint64 microseconds) {
 
   const qint64 position = microseconds / kUsecPerSec;
   const qint64 length = app_->player()->GetCurrentItem()->EffectiveMetadata().length_nanosec() / kNsecPerSec;
-  tray_icon_->SetProgress(static_cast<int>(static_cast<double>(position) / static_cast<double>(length) * 100.0));
+  systemtrayicon_->SetProgress(static_cast<int>(static_cast<double>(position) / static_cast<double>(length) * 100.0));
 
 #ifdef HAVE_DBUS
   if (taskbar_progress_) {
@@ -1779,7 +1772,7 @@ void MainWindow::UpdateTrackPosition() {
   const int position = std::floor(static_cast<float>(app_->player()->engine()->position_nanosec()) / static_cast<float>(kNsecPerSec) + 0.5);
 
   // Update the tray icon every 10 seconds
-  if (position % 10 == 0) tray_icon_->SetProgress(static_cast<int>(static_cast<double>(position) / static_cast<double>(length) * 100.0));
+  if (position % 10 == 0) systemtrayicon_->SetProgress(static_cast<int>(static_cast<double>(position) / static_cast<double>(length) * 100.0));
 
 #ifdef HAVE_DBUS
   if (taskbar_progress_) {
@@ -2032,9 +2025,7 @@ void MainWindow::PlaylistRightClick(const QPoint global_pos, const QModelIndex &
   playlist_show_in_collection_->setVisible(false);
   playlist_copy_to_collection_->setVisible(false);
   playlist_move_to_collection_->setVisible(false);
-#ifndef Q_OS_WIN32
   playlist_copy_to_device_->setVisible(false);
-#endif
   playlist_organize_->setVisible(false);
   playlist_delete_->setVisible(false);
 
@@ -2107,9 +2098,7 @@ void MainWindow::PlaylistRightClick(const QPoint global_pos, const QModelIndex &
       playlist_move_to_collection_->setVisible(local_songs > 0);
     }
 
-#ifndef Q_OS_WIN32
     playlist_copy_to_device_->setVisible(local_songs > 0);
-#endif
 
     playlist_delete_->setVisible(delete_files_ && local_songs > 0);
 
@@ -2751,7 +2740,6 @@ void MainWindow::MoveFilesToCollection(const QList<QUrl> &urls) {
 
 void MainWindow::CopyFilesToDevice(const QList<QUrl> &urls) {
 
-#ifndef Q_OS_WIN32
   organize_dialog_->SetDestinationModel(app_->device_manager()->connected_devices_model(), true);
   organize_dialog_->SetCopy(true);
   if (organize_dialog_->SetUrls(urls)) {
@@ -2761,9 +2749,6 @@ void MainWindow::CopyFilesToDevice(const QList<QUrl> &urls) {
   else {
     QMessageBox::warning(this, tr("Error"), tr("None of the selected songs were suitable for copying to a device"));
   }
-#else
-  Q_UNUSED(urls);
-#endif
 
 }
 
@@ -2891,8 +2876,6 @@ void MainWindow::PlaylistSkip() {
 
 void MainWindow::PlaylistCopyToDevice() {
 
-#ifndef Q_OS_WIN32
-
   SongList songs;
 
   const QModelIndexList proxy_indexes = ui_->playlist->view()->selectionModel()->selectedRows();
@@ -2916,8 +2899,6 @@ void MainWindow::PlaylistCopyToDevice() {
   else {
     QMessageBox::warning(this, tr("Error"), tr("None of the selected songs were suitable for copying to a device"));
   }
-
-#endif
 
 }
 
@@ -3010,6 +2991,14 @@ void MainWindow::ShowTranscodeDialog() {
 
 void MainWindow::ShowErrorDialog(const QString &message) {
   error_dialog_->ShowMessage(message);
+}
+
+void MainWindow::CheckShowErrorDialog() {
+
+  if (isVisible() && !isMinimized() && error_dialog_ && error_dialog_->isVisible() && !error_dialog_->isActiveWindow()) {
+    error_dialog_->ShowDialog();
+  }
+
 }
 
 void MainWindow::CheckFullRescanRevisions() {
@@ -3283,7 +3272,7 @@ void MainWindow::LoveButtonVisibilityChanged(const bool value) {
   else
     ui_->widget_love->hide();
 
-  tray_icon_->LoveVisibilityChanged(value);
+  systemtrayicon_->LoveVisibilityChanged(value);
 
 }
 
@@ -3306,7 +3295,7 @@ void MainWindow::Love() {
   app_->scrobbler()->Love();
   ui_->button_love->setEnabled(false);
   ui_->action_love->setEnabled(false);
-  tray_icon_->LoveStateChanged(false);
+  systemtrayicon_->LoveStateChanged(false);
 
 }
 

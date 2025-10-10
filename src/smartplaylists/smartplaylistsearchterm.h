@@ -59,6 +59,15 @@ class SmartPlaylistSearchTerm {
     Samplerate,
     Bitdepth,
     Bitrate,
+    ArtistSort,
+    AlbumArtistSort,
+    AlbumSort,
+    ComposerSort,
+    PerformerSort,
+    TitleSort,
+    BPM,
+    Mood,
+    InitialKey,
     FieldCount
   };
 

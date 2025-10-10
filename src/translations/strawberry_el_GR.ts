@@ -601,11 +601,11 @@
     </message>
     <message>
       <source>High watermark</source>
-      <translation type="unfinished">High watermark</translation>
+      <translation>High watermark</translation>
     </message>
     <message>
       <source>Low watermark</source>
-      <translation type="unfinished">Low watermark</translation>
+      <translation>Low watermark</translation>
     </message>
     <message>
       <source>Defaults</source>
@@ -621,23 +621,23 @@
     </message>
     <message>
       <source>Replay Gain</source>
-      <translation type="unfinished">Replay Gain</translation>
+      <translation>Ένταση αναπαραγωγής</translation>
     </message>
     <message>
       <source>Use Replay Gain metadata if it is available</source>
-      <translation type="unfinished">Use Replay Gain metadata if it is available</translation>
+      <translation>Χρήση μεταδεδομένων έντασης αναπαραγωγής εάν είναι διαθέσιμα</translation>
     </message>
     <message>
       <source>Replay Gain mode</source>
-      <translation type="unfinished">Replay Gain mode</translation>
+      <translation>Τρόπος έντασης αναπαραγωγής</translation>
     </message>
     <message>
       <source>Radio (equal loudness for all tracks)</source>
-      <translation type="unfinished">Radio (equal loudness for all tracks)</translation>
+      <translation>Ραδιόφωνο (ίση ένταση για όλα τα κομμάτια)</translation>
     </message>
     <message>
       <source>Album (ideal loudness for all tracks)</source>
-      <translation type="unfinished">Album (ideal loudness for all tracks)</translation>
+      <translation>Άλμπουμ (ιδανική ένταση για όλα τα κομμάτια)</translation>
     </message>
     <message>
       <source>Pre-amp</source>
@@ -645,15 +645,15 @@
     </message>
     <message>
       <source>Apply compression to prevent clipping</source>
-      <translation type="unfinished">Apply compression to prevent clipping</translation>
+      <translation>Εφαρμόστε συμπίεση για να αποφύγετε την αποκοπή</translation>
     </message>
     <message>
       <source>Fallback-gain</source>
-      <translation type="unfinished">Fallback-gain</translation>
+      <translation>Fallback-gain</translation>
     </message>
     <message>
       <source>EBU R 128 Loudness Normalization</source>
-      <translation type="unfinished">EBU R 128 Loudness Normalization</translation>
+      <translation>EBU R 128 Κανονικοποίηση Έντασης</translation>
     </message>
     <message>
       <source>Perform track loudness normalization</source>
@@ -661,7 +661,7 @@
     </message>
     <message>
       <source>Target Level</source>
-      <translation type="unfinished">Target Level</translation>
+      <translation>Target Level</translation>
     </message>
     <message>
       <source>Fading</source>
@@ -669,27 +669,27 @@
     </message>
     <message>
       <source>Fade out when stopping a track</source>
-      <translation type="unfinished">Fade out when stopping a track</translation>
+      <translation>Σταδιακό σβήσιμο κατά τη διακοπή ενός κομματιού</translation>
     </message>
     <message>
       <source>Cross-fade when changing tracks manually</source>
-      <translation type="unfinished">Cross-fade when changing tracks manually</translation>
+      <translation>Σταδιακή εξασθένιση κατά τη χειροκίνητη αλλαγή κομματιών</translation>
     </message>
     <message>
       <source>Cross-fade when changing tracks automatically</source>
-      <translation type="unfinished">Cross-fade when changing tracks automatically</translation>
+      <translation>Σταδιακή εξασθένιση κατά την αυτόματη αλλαγή κομματιών</translation>
     </message>
     <message>
       <source>Except between tracks on the same album or in the same CUE sheet</source>
-      <translation type="unfinished">Except between tracks on the same album or in the same CUE sheet</translation>
+      <translation>Εκτός από κομμάτια στο ίδιο άλμπουμ ή στο ίδιο φύλλο CUE</translation>
     </message>
     <message>
       <source>Fading duration</source>
-      <translation type="unfinished">Fading duration</translation>
+      <translation>Διάρκεια σβησίματος</translation>
     </message>
     <message>
       <source>Fade out on pause / fade in on resume</source>
-      <translation type="unfinished">Fade out on pause / fade in on resume</translation>
+      <translation>Ξεθώριασμα σε παύση / ξεθώριασμα σε συνέχιση</translation>
     </message>
   </context>
   <context>
@@ -776,7 +776,7 @@
     </message>
     <message>
       <source>Pressing &quot;Previous&quot; in player will...</source>
-      <translation type="unfinished">Pressing &quot;Previous&quot; in player will...</translation>
+      <translation>Πατώντας το &quot;Previous&quot; στον παίκτη...</translation>
     </message>
     <message>
       <source>Jump to previous song right away</source>
@@ -784,7 +784,7 @@
     </message>
     <message>
       <source>Restart song, then jump to previous if pressed again</source>
-      <translation type="unfinished">Restart song, then jump to previous if pressed again</translation>
+      <translation>Επανεκκίνηση τραγουδιού και μετά μεταπήδηση στο προηγούμενο αν πατηθεί ξανά</translation>
     </message>
     <message>
       <source>Double clicking a song will...</source>
@@ -816,7 +816,7 @@
     </message>
     <message>
       <source>Seeking using a keyboard shortcut or mouse wheel</source>
-      <translation type="unfinished">Seeking using a keyboard shortcut or mouse wheel</translation>
+      <translation>Αναζήτηση με τη χρήση συντόμευσης πληκτρολογίου ή τροχού ποντικιού</translation>
     </message>
     <message>
       <source>Time step</source>
@@ -1042,15 +1042,15 @@
     </message>
     <message>
       <source>Song fingerprinting and tracking</source>
-      <translation type="unfinished">Song fingerprinting and tracking</translation>
+      <translation>Αποτύπωση και παρακολούθηση τραγουδιού</translation>
     </message>
     <message>
       <source>Mark disappeared songs unavailable</source>
-      <translation type="unfinished">Mark disappeared songs unavailable</translation>
+      <translation>Μη διαθέσιμη επισήμανση τραγουδιών</translation>
     </message>
     <message>
       <source>Perform song EBU R 128 analysis (required for EBU R 128 loudness normalization)</source>
-      <translation type="unfinished">Perform song EBU R 128 analysis (required for EBU R 128 loudness normalization)</translation>
+      <translation>Εκτελέστε ανάλυση EBU R 128 στο τραγούδι (απαιτείται για EBU R 128 ομαλοποίηση έντασης)</translation>
     </message>
     <message>
       <source>Expire unavailable songs after</source>
@@ -1076,7 +1076,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Automatically open single categories in the collection tree</source>
-      <translation type="unfinished">Automatically open single categories in the collection tree</translation>
+      <translation>Αυτόματο άνοιγμα μεμονωμένων κατηγοριών στο δέντρο συλλογής</translation>
     </message>
     <message>
       <source>Show dividers</source>
@@ -1088,15 +1088,15 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Use various artists for compilation albums</source>
-      <translation type="unfinished">Use various artists for compilation albums</translation>
+      <translation>Χρήση διαφόρων καλλιτεχνών σε μεταγλώττιση άλμπουμ</translation>
     </message>
     <message>
       <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artist names</source>
-      <translation type="unfinished">Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artist names</translation>
+      <translation>Παράκαμψη άρθρων (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) κατά τη διαλογή ονομάτων καλλιτέχνη</translation>
     </message>
     <message>
       <source>Album cover pixmap cache</source>
-      <translation type="unfinished">Album cover pixmap cache</translation>
+      <translation>Προσωρινή μνήμη εικονογραφήσεων εξώφυλλου άλμπουμ</translation>
     </message>
     <message>
       <source>Size</source>
@@ -1120,19 +1120,19 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Song playcounts and ratings</source>
-      <translation type="unfinished">Song playcounts and ratings</translation>
+      <translation>Καταμέτρηση και βαθμολογίες τραγουδιού</translation>
     </message>
     <message>
       <source>Save playcounts to song tags when possible</source>
-      <translation type="unfinished">Save playcounts to song tags when possible</translation>
+      <translation>Αποθήκευση πλήθους αναπαραγωγής σε ετικέτες τραγουδιών όταν είναι εφικτό</translation>
     </message>
     <message>
       <source>Save ratings to song tags when possible</source>
-      <translation type="unfinished">Save ratings to song tags when possible</translation>
+      <translation>Αποθήκευση πλήθους αναπαραγωγής σε ετικέτες τραγουδιών όταν είναι εφικτό</translation>
     </message>
     <message>
       <source>Overwrite database playcount when songs are re-read from disk</source>
-      <translation type="unfinished">Overwrite database playcount when songs are re-read from disk</translation>
+      <translation>Αντικατάσταση αριθμού αναπαραγωγής βάσης δεδομένων όταν τα τραγούδια ξανααναγνωστούν από το δίσκο</translation>
     </message>
     <message>
       <source>Overwrite database rating when songs are re-read from disk</source>
@@ -1140,7 +1140,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Save playcounts and ratings to files now</source>
-      <translation type="unfinished">Save playcounts and ratings to files now</translation>
+      <translation>Αποθηκεύστε τους αριθμούς αναπαραγωγής και τις βαθμολογίες σε αρχεία τώρα</translation>
     </message>
     <message>
       <source>Enable delete files in the right click context menu</source>
@@ -1183,11 +1183,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Queue track</source>
-      <translation type="unfinished">Queue track</translation>
+      <translation>Εισαγωγή στην ουρά</translation>
     </message>
     <message>
       <source>Queue to play next</source>
-      <translation type="unfinished">Queue to play next</translation>
+      <translation>Στην ουρά σαν επόμενο</translation>
     </message>
     <message>
       <source>Search for this</source>
@@ -1235,7 +1235,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Would you like to move the other songs on this album to Various Artists as well?</source>
-      <translation type="unfinished">Would you like to move the other songs on this album to Various Artists as well?</translation>
+      <translation>Θα θέλατε να μετακινήσετε και τα άλλα τραγούδια σε αυτό το άλμπουμ σε Διάφορους Καλλιτέχνες?</translation>
     </message>
     <message>
       <source>Error</source>
@@ -1450,7 +1450,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Samplerate</source>
-      <translation type="unfinished">Samplerate</translation>
+      <translation>Ρυθμός Δείγματος (samplerate)</translation>
     </message>
     <message>
       <source>Bit depth</source>
@@ -1828,15 +1828,15 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>This is an MTP device, but you compiled Strawberry without libmtp support.</source>
-      <translation type="unfinished">This is an MTP device, but you compiled Strawberry without libmtp support.</translation>
+      <translation>Αυτή είναι μια συσκευή MTP, αλλά συντάξατε το Strawberry χωρίς υποστήριξη libmtp.</translation>
     </message>
     <message>
       <source>If you continue, this device will work slowly and songs copied to it may not work.</source>
-      <translation type="unfinished">If you continue, this device will work slowly and songs copied to it may not work.</translation>
+      <translation>Αν συνεχίσετε, αυτή η συσκευή θα λειτουργεί αργά και τα τραγούδια που αντιγράφονται σε αυτήν ενδέχεται να μην λειτουργούν.</translation>
     </message>
     <message>
       <source>This is an iPod, but you compiled Strawberry without libgpod support.</source>
-      <translation type="unfinished">This is an iPod, but you compiled Strawberry without libgpod support.</translation>
+      <translation>Αυτό είναι ένα iPod, αλλά έχετε συντάξει (compile) το Strawberry χωρίς υποστήριξη libgpod.</translation>
     </message>
     <message>
       <source>This type of device is not supported: %1</source>
@@ -1891,7 +1891,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Convert any music that the device can&apos;t play</source>
-      <translation type="unfinished">Convert any music that the device can&apos;t play</translation>
+      <translation>Μετατροπή οποιασδήποτε μουσικής που η συσκευή μπορεί να αναπαράξει</translation>
     </message>
     <message>
       <source>Convert all music</source>
@@ -2015,7 +2015,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Art Automatic</source>
-      <translation type="unfinished">Art Automatic</translation>
+      <translation>Αυτόματο Art</translation>
     </message>
     <message>
       <source>Date modified</source>
@@ -2023,7 +2023,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Art Embedded</source>
-      <translation type="unfinished">Art Embedded</translation>
+      <translation>Ενσωματωμένη Τέχνη</translation>
     </message>
     <message>
       <source>Last played</source>
@@ -2048,7 +2048,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>EBU R 128 integrated loudness</source>
-      <translation type="unfinished">EBU R 128 integrated loudness</translation>
+      <translation>EBU R 128 ενσωματωμένη ένταση</translation>
     </message>
     <message>
       <source>Bit rate</source>
@@ -2056,7 +2056,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Skip count</source>
-      <translation type="unfinished">Skip count</translation>
+      <translation>Παράλειψη καταμέτρησης</translation>
     </message>
     <message>
       <source>Sample rate</source>
@@ -2080,11 +2080,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Art Manual</source>
-      <translation type="unfinished">Art Manual</translation>
+      <translation>Χειροκίνητο Art</translation>
     </message>
     <message>
       <source>EBU R 128 loudness range</source>
-      <translation type="unfinished">EBU R 128 loudness range</translation>
+      <translation>EBU R 128 εύρος έντασης</translation>
     </message>
     <message>
       <source>Reset play counts</source>
@@ -2096,7 +2096,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>Change art</source>
@@ -2244,19 +2244,19 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Cover changed: Will be cleared when saved.</source>
-      <translation type="unfinished">Cover changed: Will be cleared when saved.</translation>
+      <translation>Το εξώφυλλο άλλαξε: Θα καθαριστεί όταν αποθηκευτεί.</translation>
     </message>
     <message>
       <source>Cover changed: Will be unset when saved.</source>
-      <translation type="unfinished">Cover changed: Will be unset when saved.</translation>
+      <translation>Το εξώφυλλο άλλαξε: Θα απενεργοποιηθεί όταν αποθηκευτεί.</translation>
     </message>
     <message>
       <source>Cover changed: Will be deleted when saved.</source>
-      <translation type="unfinished">Cover changed: Will be deleted when saved.</translation>
+      <translation>Το εξώφυλλο άλλαξε: Θα διαγραφεί όταν αποθηκευτεί.</translation>
     </message>
     <message>
       <source>Cover changed: Will set new when saved.</source>
-      <translation type="unfinished">Cover changed: Will set new when saved.</translation>
+      <translation>Το εξώφυλλο άλλαξε: Θα οριστεί νέο όταν αποθηκευτεί.</translation>
     </message>
     <message>
       <source>Never</source>
@@ -2722,11 +2722,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>&amp;None</source>
-      <translation type="unfinished">&amp;None</translation>
+      <translation>&amp;Κανένα</translation>
     </message>
     <message>
       <source>&amp;Default</source>
-      <translation type="unfinished">&amp;Default</translation>
+      <translation>&amp;Προεπιλογή</translation>
     </message>
     <message>
       <source>&amp;Custom</source>
@@ -2738,7 +2738,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Use KGlobalAccel shortcuts when available</source>
-      <translation type="unfinished">Use KGlobalAccel shortcuts when available</translation>
+      <translation>Χρήση συντομεύσεων KGlobalAccel όταν είναι διαθέσιμες</translation>
     </message>
     <message>
       <source>Using X11 shortcuts is not recommended and can cause keyboard to become unresponsive! Shortcuts on should usually be used through MPRIS2 / KGlobalAccel.</source>
@@ -2841,7 +2841,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Bitrate</source>
-      <translation type="unfinished">Bitrate</translation>
+      <translation>Bitrate</translation>
     </message>
     <message>
       <source>Second level</source>
@@ -2853,7 +2853,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Separate albums by grouping tag</source>
-      <translation type="unfinished">Separate albums by grouping tag</translation>
+      <translation>Διαχωρισμός άλμπουμ με ετικέτα ομαδοποίησης</translation>
     </message>
   </context>
   <context>
@@ -2930,7 +2930,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Playcounts for %1 songs received.</source>
-      <translation type="unfinished">Playcounts for %1 songs received.</translation>
+      <translation>Οι μετρήσεις για τα τραγούδια %1 λήφθηκαν.</translation>
     </message>
   </context>
   <context>
@@ -2944,7 +2944,7 @@ If there are no matches then it will use the largest image in the directory.</so
     <name>Library</name>
     <message>
       <source>Least favourite tracks</source>
-      <translation type="unfinished">Least favourite tracks</translation>
+      <translation>Λιγότερα αγαπημένα κομμάτια</translation>
     </message>
   </context>
   <context>
@@ -3064,7 +3064,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>P&amp;laylist</source>
-      <translation type="unfinished">P&amp;laylist</translation>
+      <translation>&amp;Λίστα αναπαραγωγής</translation>
     </message>
     <message>
       <source>Help</source>
@@ -3312,7 +3312,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Remove &amp;duplicates from playlist</source>
-      <translation type="unfinished">Remove &amp;duplicates from playlist</translation>
+      <translation>Αφαίρεση &amp;διπλότυπων από τη λίστα αναπαραγωγής</translation>
     </message>
     <message>
       <source>Remove &amp;unavailable tracks from playlist</source>
@@ -3460,7 +3460,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Strawberry running under Rosetta</source>
-      <translation type="unfinished">Strawberry running under Rosetta</translation>
+      <translation>Φράουλα που τρέχουν κάτω από Rosetta</translation>
     </message>
     <message>
       <source>You are running Strawberry under Rosetta. Running Strawberry under Rosetta is unsupported and known to have issues. You should download Strawberry for the correct CPU architecture from %1</source>
@@ -3472,7 +3472,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Strawberry is free and open source software. If you like Strawberry, please consider sponsoring the project. For more information about sponsorship see our website %1</source>
-      <translation type="unfinished">Strawberry is free and open source software. If you like Strawberry, please consider sponsoring the project. For more information about sponsorship see our website %1</translation>
+      <translation>Το Strawberry είναι ελεύθερο και ανοικτού κώδικα λογισμικό. Αν σας αρέσει το Strawberry, παρακαλώ σκεφτείτε τη χορηγία του έργου. Για περισσότερες πληροφορίες σχετικά με τη χορηγία δείτε την ιστοσελίδα μας %1</translation>
     </message>
     <message>
       <source>Pause</source>
@@ -3488,15 +3488,15 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Queue track</source>
-      <translation type="unfinished">Queue track</translation>
+      <translation>Εισαγωγή στην ουρά</translation>
     </message>
     <message>
       <source>Queue selected tracks</source>
-      <translation type="unfinished">Queue selected tracks</translation>
+      <translation>Εισαγωγή στην ουρά επιλεγμένων τραγουδιών</translation>
     </message>
     <message>
       <source>Queue to play next</source>
-      <translation type="unfinished">Queue to play next</translation>
+      <translation>Στην ουρά σαν επόμενο</translation>
     </message>
     <message>
       <source>Unskip track</source>
@@ -3508,7 +3508,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Skip track</source>
-      <translation type="unfinished">Skip track</translation>
+      <translation>Παράλειψη κομματιού</translation>
     </message>
     <message>
       <source>Skip selected tracks</source>
@@ -3556,7 +3556,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>The version of Strawberry you&apos;ve just updated to requires a full collection rescan because of the new features listed below:</source>
-      <translation type="unfinished">The version of Strawberry you&apos;ve just updated to requires a full collection rescan because of the new features listed below:</translation>
+      <translation>Η έκδοση του Strawberry που μόλις ενημερώθηκε απαιτεί πλήρη επανασάρωση συλλογής λόγω των νέων χαρακτηριστικών που αναφέρονται παρακάτω:</translation>
     </message>
     <message>
       <source>Would you like to run a full rescan right now?</source>
@@ -3575,7 +3575,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Do not show this message again.</source>
-      <translation type="unfinished">Do not show this message again.</translation>
+      <translation>Να μην εμφανιστεί ξανά αυτό το μήνυμα.</translation>
     </message>
   </context>
   <context>
@@ -3616,18 +3616,18 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Enabled</source>
-      <translation type="unfinished">Enabled</translation>
+      <translation>Ενεργοποιημένο</translation>
     </message>
   </context>
   <context>
     <name>MtpConnection</name>
     <message>
       <source>Invalid MTP device: %1</source>
-      <translation type="unfinished">Invalid MTP device: %1</translation>
+      <translation>Μη έγκυρη συσκευή MTP: %1</translation>
     </message>
     <message>
       <source>Could not open MTP device.</source>
-      <translation type="unfinished">Could not open MTP device.</translation>
+      <translation>Αδυναμία ανοίγματος συσκευής MTP.</translation>
     </message>
     <message>
       <source>MTP error: %1</source>
@@ -3725,7 +3725,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Show a pretty OSD</source>
-      <translation type="unfinished">Show a pretty OSD</translation>
+      <translation>Εμφάνιση όμορφου OSD</translation>
     </message>
     <message>
       <source>Show a popup fro&amp;m the system tray</source>
@@ -3765,15 +3765,15 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Include album art in the notification</source>
-      <translation type="unfinished">Include album art in the notification</translation>
+      <translation>Συμπερίληψη εξώφυλλου άλμπουμ στην ειδοποίηση</translation>
     </message>
     <message>
       <source>Custom message settings</source>
-      <translation type="unfinished">Custom message settings</translation>
+      <translation>Προσαρμοσμένες ρυθμίσεις μηνύματος</translation>
     </message>
     <message>
       <source>Use a custom message for notifications</source>
-      <translation type="unfinished">Use a custom message for notifications</translation>
+      <translation>Χρήση προσαρμοσμένου μηνύματος για ειδοποιήσεις</translation>
     </message>
     <message>
       <source>Preview</source>
@@ -3813,7 +3813,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Background opacity</source>
-      <translation type="unfinished">Background opacity</translation>
+      <translation>Αδιαφάνεια υποβάθρου</translation>
     </message>
     <message>
       <source>Basic Blue</source>
@@ -3821,51 +3821,51 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Strawberry Red</source>
-      <translation type="unfinished">Strawberry Red</translation>
+      <translation>Srawberry Κόκκινο</translation>
     </message>
     <message>
       <source>Custom...</source>
-      <translation type="unfinished">Custom...</translation>
+      <translation>Προσαρμογή...</translation>
     </message>
     <message>
       <source>Enable fading</source>
-      <translation type="unfinished">Enable fading</translation>
+      <translation>Ενεργοποίηση fading</translation>
     </message>
     <message>
       <source>Add song artist tag</source>
-      <translation type="unfinished">Add song artist tag</translation>
+      <translation>Προσθήκη ετικέτας καλλιτέχνη τραγουδιού</translation>
     </message>
     <message>
       <source>Add song album tag</source>
-      <translation type="unfinished">Add song album tag</translation>
+      <translation>Προσθήκη ετικέτας άλμπουμ</translation>
     </message>
     <message>
       <source>Add song title tag</source>
-      <translation type="unfinished">Add song title tag</translation>
+      <translation>Προσθήκη ετικέτας τίτλου τραγουδιού</translation>
     </message>
     <message>
       <source>Add song albumartist tag</source>
-      <translation type="unfinished">Add song albumartist tag</translation>
+      <translation>Προσθήκη ετικέτας καλλιτέχνη τραγουδιού</translation>
     </message>
     <message>
       <source>Add song year tag</source>
-      <translation type="unfinished">Add song year tag</translation>
+      <translation>Προσθήκη ετικέτας έτους τραγουδιού</translation>
     </message>
     <message>
       <source>Add song composer tag</source>
-      <translation type="unfinished">Add song composer tag</translation>
+      <translation>Προσθήκη ετικέτας συνθέτη τραγουδιού</translation>
     </message>
     <message>
       <source>Add song performer tag</source>
-      <translation type="unfinished">Add song performer tag</translation>
+      <translation>Προσθέστε ετικέτα ερμηνευτή τραγουδιού</translation>
     </message>
     <message>
       <source>Add song grouping tag</source>
-      <translation type="unfinished">Add song grouping tag</translation>
+      <translation>Προσθήκη ετικέτας ομαδοποίησης τραγουδιού</translation>
     </message>
     <message>
       <source>Add song disc tag</source>
-      <translation type="unfinished">Add song disc tag</translation>
+      <translation>Προσθήκη ετικέτας δίσκου τραγουδιού</translation>
     </message>
     <message>
       <source>Add song track tag</source>
@@ -3873,27 +3873,27 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Add song genre tag</source>
-      <translation type="unfinished">Add song genre tag</translation>
+      <translation>Προσθήκη ετικέτας είδους τραγουδιού</translation>
     </message>
     <message>
       <source>Add song length tag</source>
-      <translation type="unfinished">Add song length tag</translation>
+      <translation>Προσθήκη ετικέτας διάρκειας τραγουδιού</translation>
     </message>
     <message>
       <source>Add song play count</source>
-      <translation type="unfinished">Add song play count</translation>
+      <translation>Προσθήκη μετρητή αναπαραγωγής</translation>
     </message>
     <message>
       <source>Add song skip count</source>
-      <translation type="unfinished">Add song skip count</translation>
+      <translation>Προσθήκη αριθμού παράλειψης τραγουδιού</translation>
     </message>
     <message>
       <source>Add song rating</source>
-      <translation type="unfinished">Add song rating</translation>
+      <translation>Προσθήκη αξιολόγησης τραγουδιού</translation>
     </message>
     <message>
       <source>Add a new line if supported by the notification type</source>
-      <translation type="unfinished">Add a new line if supported by the notification type</translation>
+      <translation>Προσθήκη νέας γραμμής εάν υποστηρίζεται από τον τύπο ειδοποίησης</translation>
     </message>
     <message>
       <source>%filename%</source>
@@ -4070,15 +4070,15 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Replace spaces with underscores</source>
-      <translation type="unfinished">Replace spaces with underscores</translation>
+      <translation>Αντικατάσταση των κενών με κάτω παύλες</translation>
     </message>
     <message>
       <source>Overwrite existing files</source>
-      <translation type="unfinished">Overwrite existing files</translation>
+      <translation>Αντικατάσταση υφιστάμενων αρχείων</translation>
     </message>
     <message>
       <source>Copy album cover artwork</source>
-      <translation type="unfinished">Copy album cover artwork</translation>
+      <translation>Αντιγραφή εξώφυλλου άλμπουμ</translation>
     </message>
     <message>
       <source>Preview</source>
@@ -4090,7 +4090,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Safely remove the device after copying</source>
-      <translation type="unfinished">Safely remove the device after copying</translation>
+      <translation>Ασφαλής αφαίρεση της συσκευής μετά την αντιγραφή</translation>
     </message>
     <message>
       <source>Title</source>
@@ -4110,7 +4110,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Album artist</source>
-      <translation type="unfinished">Album artist</translation>
+      <translation>Καλλιτέχνης άλμπουμ</translation>
     </message>
     <message>
       <source>Composer</source>
@@ -4155,38 +4155,38 @@ If there are no matches then it will use the largest image in the directory.</so
     <message>
       <source>Bitrate</source>
       <comment>Refers to bitrate in file organize dialog.</comment>
-      <translation type="unfinished">Bitrate</translation>
+      <translation>Bitrate</translation>
     </message>
     <message>
       <source>Sample rate</source>
-      <translation type="unfinished">Sample rate</translation>
+      <translation>Ρυθμός δειγματοληψίας</translation>
     </message>
     <message>
       <source>Bit depth</source>
-      <translation type="unfinished">Bit depth</translation>
+      <translation>Βάθος bit</translation>
     </message>
     <message>
       <source>File extension</source>
-      <translation type="unfinished">File extension</translation>
+      <translation>Επέκταση αρχείου</translation>
     </message>
   </context>
   <context>
     <name>OrganizeErrorDialog</name>
     <message>
       <source>Error copying songs</source>
-      <translation type="unfinished">Error copying songs</translation>
+      <translation>Σφάλμα αντιγραφής τραγουδιών</translation>
     </message>
     <message>
       <source>There were problems copying some songs.  The following files could not be copied:</source>
-      <translation type="unfinished">There were problems copying some songs.  The following files could not be copied:</translation>
+      <translation>Υπήρξαν προβλήματα στην αντιγραφή κάποιων τραγουδιών. Τα ακόλουθα αρχεία δεν μπόρεσαν να αντιγραφούν:</translation>
     </message>
     <message>
       <source>Error deleting songs</source>
-      <translation type="unfinished">Error deleting songs</translation>
+      <translation>Σφάλμα διαγραφής τραγουδιών</translation>
     </message>
     <message>
       <source>There were problems deleting some songs.  The following files could not be deleted:</source>
-      <translation type="unfinished">There were problems deleting some songs.  The following files could not be deleted:</translation>
+      <translation>Υπήρξαν προβλήματα κατά τη διαγραφή μερικών τραγουδιών. Τα ακόλουθα αρχεία δεν μπόρεσαν να διαγραφούν:</translation>
     </message>
   </context>
   <context>
@@ -4200,30 +4200,30 @@ If there are no matches then it will use the largest image in the directory.</so
     <name>PlayingWidget</name>
     <message>
       <source>Small album cover</source>
-      <translation type="unfinished">Small album cover</translation>
+      <translation>Μικρό εξώφυλλο άλμπουμ</translation>
     </message>
     <message>
       <source>Large album cover</source>
-      <translation type="unfinished">Large album cover</translation>
+      <translation>Μεγάλο εξώφυλλο άλμπουμ</translation>
     </message>
     <message>
       <source>Fit cover to width</source>
-      <translation type="unfinished">Fit cover to width</translation>
+      <translation>Προσαρμόστε το κάλυμμα στο πλάτος</translation>
     </message>
     <message>
       <source>Show above status bar</source>
-      <translation type="unfinished">Show above status bar</translation>
+      <translation>Εμφάνιση πάνω από τη γραμμή κατάστασης</translation>
     </message>
   </context>
   <context>
     <name>Playlist</name>
     <message>
       <source>Could not write metadata to %1</source>
-      <translation type="unfinished">Could not write metadata to %1</translation>
+      <translation>Αδυναμία εγγραφής μεταδεδομένων στο %1</translation>
     </message>
     <message>
       <source>Could not write metadata to %1: %2</source>
-      <translation type="unfinished">Could not write metadata to %1: %2</translation>
+      <translation>Αδυναμία εγγραφής μεταδεδομένων στο %1: %2</translation>
     </message>
     <message>
       <source>Title</source>
@@ -4385,7 +4385,7 @@ If there are no matches then it will use the largest image in the directory.</so
     <name>PlaylistDelegateBase</name>
     <message>
       <source>stop</source>
-      <translation type="unfinished">stop</translation>
+      <translation>παύση</translation>
     </message>
   </context>
   <context>
@@ -4419,30 +4419,30 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>&amp;Left</source>
-      <translation type="unfinished">&amp;Left</translation>
+      <translation>&amp;Αριστερά</translation>
     </message>
     <message>
       <source>&amp;Center</source>
-      <translation type="unfinished">&amp;Center</translation>
+      <translation>&amp;Κέντρο</translation>
     </message>
     <message>
       <source>&amp;Right</source>
-      <translation type="unfinished">&amp;Right</translation>
+      <translation>&amp;Δεξιά</translation>
     </message>
     <message>
       <source>&amp;Hide %1</source>
-      <translation type="unfinished">&amp;Hide %1</translation>
+      <translation>&amp;Απόκρυψη %1</translation>
     </message>
   </context>
   <context>
     <name>PlaylistListContainer</name>
     <message>
       <source>Form</source>
-      <translation type="unfinished">Form</translation>
+      <translation>Φόρμα</translation>
     </message>
     <message>
       <source>New folder</source>
-      <translation type="unfinished">New folder</translation>
+      <translation>Νέος φάκελος</translation>
     </message>
     <message>
       <source>Delete</source>
@@ -4518,13 +4518,13 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>%1 selected of</source>
-      <translation type="unfinished">%1 selected of</translation>
+      <translation>%1 επιλέχθηκε από</translation>
     </message>
     <message numerus="yes">
       <source>%n track(s)</source>
-      <translation type="unfinished">
-        <numerusform>%n track(s)</numerusform>
-        <numerusform>%n track(s)</numerusform>
+      <translation>
+        <numerusform>%n κομμάτι(α)</numerusform>
+        <numerusform>%n κομμάτι(α)</numerusform>
       </translation>
     </message>
   </context>
@@ -4532,89 +4532,89 @@ If there are no matches then it will use the largest image in the directory.</so
     <name>PlaylistParser</name>
     <message>
       <source>All playlists (%1)</source>
-      <translation type="unfinished">All playlists (%1)</translation>
+      <translation>Όλες οι λίστες αναπαραγωγής (%1)</translation>
     </message>
     <message>
       <source>%1 playlists (%2)</source>
-      <translation type="unfinished">%1 playlists (%2)</translation>
+      <translation>%1 λίστες αναπαραγωγής (%2)</translation>
     </message>
     <message>
       <source>Unknown filetype: %1</source>
-      <translation type="unfinished">Unknown filetype: %1</translation>
+      <translation>Άγνωστος τύπος αρχείου: %1</translation>
     </message>
     <message>
       <source>Could not open file %1</source>
-      <translation type="unfinished">Could not open file %1</translation>
+      <translation>Αδυναμία ανοίγματος αρχείου %1</translation>
     </message>
     <message>
       <source>Directory %1 does not exist.</source>
-      <translation type="unfinished">Directory %1 does not exist.</translation>
+      <translation>Ο κατάλογος %1 δεν υπάρχει.</translation>
     </message>
     <message>
       <source>Failed to open %1 for writing.</source>
-      <translation type="unfinished">Failed to open %1 for writing.</translation>
+      <translation>Αποτυχία ανοίγματος %1 για εγγραφή.</translation>
     </message>
   </context>
   <context>
     <name>PlaylistSaveOptionsDialog</name>
     <message>
       <source>Playlist options</source>
-      <translation type="unfinished">Playlist options</translation>
+      <translation>Ρυθμίσεις λίστας αναπαραγωγής</translation>
     </message>
     <message>
       <source>File paths</source>
-      <translation type="unfinished">File paths</translation>
+      <translation>Διαδρομή αρχείου</translation>
     </message>
     <message>
       <source>This can be changed later through the preferences</source>
-      <translation type="unfinished">This can be changed later through the preferences</translation>
+      <translation>Αυτό μπορεί να αλλάξει αργότερα μέσω των προτιμήσεων</translation>
     </message>
     <message>
       <source>Remember my choice</source>
-      <translation type="unfinished">Remember my choice</translation>
+      <translation>Απομνημόνευση της επιλογής μου</translation>
     </message>
     <message>
       <source>Automatic</source>
-      <translation type="unfinished">Automatic</translation>
+      <translation>Αυτόματα</translation>
     </message>
     <message>
       <source>Relative</source>
-      <translation type="unfinished">Relative</translation>
+      <translation>Σχετικό</translation>
     </message>
     <message>
       <source>Absolute</source>
-      <translation type="unfinished">Absolute</translation>
+      <translation>Απόλυτο</translation>
     </message>
   </context>
   <context>
     <name>PlaylistSequence</name>
     <message>
       <source>Repeat</source>
-      <translation type="unfinished">Repeat</translation>
+      <translation>Επανάληψη</translation>
     </message>
     <message>
       <source>Shuffle</source>
-      <translation type="unfinished">Shuffle</translation>
+      <translation>Τυχαία Αναπαραγωγή</translation>
     </message>
     <message>
       <source>Don&apos;t repeat</source>
-      <translation type="unfinished">Don&apos;t repeat</translation>
+      <translation>Μη επανάληψη</translation>
     </message>
     <message>
       <source>Repeat track</source>
-      <translation type="unfinished">Repeat track</translation>
+      <translation>Επανάληψη τραγουδιού</translation>
     </message>
     <message>
       <source>Repeat album</source>
-      <translation type="unfinished">Repeat album</translation>
+      <translation>Επανάληψη άλμπουμ</translation>
     </message>
     <message>
       <source>Repeat playlist</source>
-      <translation type="unfinished">Repeat playlist</translation>
+      <translation>Επανάληψη λίστας</translation>
     </message>
     <message>
       <source>Stop after each track</source>
-      <translation type="unfinished">Stop after each track</translation>
+      <translation>Παύση μετά από κάθε τραγούδι</translation>
     </message>
     <message>
       <source>Intro tracks</source>
@@ -4626,26 +4626,26 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Shuffle tracks in this album</source>
-      <translation type="unfinished">Shuffle tracks in this album</translation>
+      <translation>Τυχαία αναπαραγωγή τραγουδιών σε αυτό το άλμπουμ</translation>
     </message>
     <message>
       <source>Shuffle all</source>
-      <translation type="unfinished">Shuffle all</translation>
+      <translation>Τυχαία αναπαραγωγή όλων</translation>
     </message>
     <message>
       <source>Shuffle albums</source>
-      <translation type="unfinished">Shuffle albums</translation>
+      <translation>Τυχαία αναπαραγωγή άλμπουμ</translation>
     </message>
   </context>
   <context>
     <name>PlaylistSettingsPage</name>
     <message>
       <source>Playlist</source>
-      <translation type="unfinished">Playlist</translation>
+      <translation>Λίστα αναπαραγωγής</translation>
     </message>
     <message>
       <source>Use alternating row colors</source>
-      <translation type="unfinished">Use alternating row colors</translation>
+      <translation>Χρήση εναλλασσόμενων χρωμάτων γραμμής</translation>
     </message>
     <message>
       <source>Show bars on the currently playing track</source>
@@ -4673,7 +4673,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Automatically select current playing track</source>
-      <translation type="unfinished">Automatically select current playing track</translation>
+      <translation>Αυτόματη επιλογή τρέχοντος κομματιού</translation>
     </message>
     <message>
       <source>Enable playlist toolbar</source>
@@ -4713,7 +4713,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Metadata</source>
-      <translation type="unfinished">Metadata</translation>
+      <translation>Μεταδεδομένα</translation>
     </message>
     <message>
       <source>If activated, clicking a selected song in the playlist view will let you edit the tag value directly</source>
@@ -4736,33 +4736,33 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Close playlist</source>
-      <translation type="unfinished">Close playlist</translation>
+      <translation>Κλείσιμο λίστας αναπαραγωγής</translation>
     </message>
     <message>
       <source>Rename playlist...</source>
-      <translation type="unfinished">Rename playlist...</translation>
+      <translation>Μετονομασία λίστας αναπαραγωγής...</translation>
     </message>
     <message>
       <source>Save playlist...</source>
-      <translation type="unfinished">Save playlist...</translation>
+      <translation>Αποθήκευση λίστας αναπαραγωγής...</translation>
     </message>
     <message>
       <source>Rename playlist</source>
-      <translation type="unfinished">Rename playlist</translation>
+      <translation>Μετονομασία λίστας αναπαραγωγής</translation>
     </message>
     <message>
       <source>Enter a new name for this playlist</source>
-      <translation type="unfinished">Enter a new name for this playlist</translation>
+      <translation>Εισάγετε ένα νέο όνομα για αυτή τη λίστα αναπαραγωγής</translation>
     </message>
     <message>
       <source>Remove playlist</source>
-      <translation type="unfinished">Remove playlist</translation>
+      <translation>Αφαίρεση λίστας αναπαραγωγής</translation>
     </message>
     <message>
       <source>You are about to remove a playlist which is not part of your favorite playlists: the playlist will be deleted (this action cannot be undone). 
 Are you sure you want to continue?</source>
-      <translation type="unfinished">You are about to remove a playlist which is not part of your favorite playlists: the playlist will be deleted (this action cannot be undone). 
-Are you sure you want to continue?</translation>
+      <translation>Πρόκειται να καταργήσετε μια λίστα αναπαραγωγής που δεν αποτελεί μέρος των αγαπημένων σας λιστών αναπαραγωγής: η λίστα αναπαραγωγής θα διαγραφεί (η ενέργεια αυτή δεν μπορεί να αναιρεθεί). 
+Είστε σίγουροι ότι θέλετε να συνεχίσετε;</translation>
     </message>
     <message>
       <source>Warn me when closing a playlist tab</source>
@@ -4778,37 +4778,37 @@ Are you sure you want to continue?</translation>
     </message>
     <message>
       <source>Playlist</source>
-      <translation type="unfinished">Playlist</translation>
+      <translation>Λίστα αναπαραγωγής</translation>
     </message>
   </context>
   <context>
     <name>PlaylistView</name>
     <message>
       <source>Hz</source>
-      <translation type="unfinished">Hz</translation>
+      <translation>Hz</translation>
     </message>
     <message>
       <source>Bit</source>
-      <translation type="unfinished">Bit</translation>
+      <translation>Bit</translation>
     </message>
     <message>
       <source>kbps</source>
-      <translation type="unfinished">kbps</translation>
+      <translation>kbps</translation>
     </message>
   </context>
   <context>
     <name>QObject</name>
     <message>
       <source>Usage</source>
-      <translation type="unfinished">Usage</translation>
+      <translation>Χρήση</translation>
     </message>
     <message>
       <source>options</source>
-      <translation type="unfinished">options</translation>
+      <translation>επιλογές</translation>
     </message>
     <message>
       <source>URL(s)</source>
-      <translation type="unfinished">URL(s)</translation>
+      <translation>URL(s)</translation>
     </message>
     <message>
       <source>Player options</source>
@@ -4916,7 +4916,7 @@ Are you sure you want to continue?</translation>
     </message>
     <message>
       <source>Resize the window</source>
-      <translation type="unfinished">Resize the window</translation>
+      <translation>Αλλαγή μεγέθους παραθύρου</translation>
     </message>
     <message>
       <source>Equivalent to --log-levels *:1</source>
@@ -4976,39 +4976,39 @@ Are you sure you want to continue?</translation>
     </message>
     <message>
       <source>Today</source>
-      <translation type="unfinished">Today</translation>
+      <translation>Σήμερα</translation>
     </message>
     <message>
       <source>Yesterday</source>
-      <translation type="unfinished">Yesterday</translation>
+      <translation>Χθες</translation>
     </message>
     <message>
       <source>%1 days ago</source>
-      <translation type="unfinished">%1 days ago</translation>
+      <translation>%1 ημέρες πριν</translation>
     </message>
     <message>
       <source>Tomorrow</source>
-      <translation type="unfinished">Tomorrow</translation>
+      <translation>Αύριο</translation>
     </message>
     <message>
       <source>In %1 days</source>
-      <translation type="unfinished">In %1 days</translation>
+      <translation>Σε %1 ημέρες</translation>
     </message>
     <message>
       <source>Next week</source>
-      <translation type="unfinished">Next week</translation>
+      <translation>Την επόμενη εβδομάδα</translation>
     </message>
     <message>
       <source>In %1 weeks</source>
-      <translation type="unfinished">In %1 weeks</translation>
+      <translation>Σε %1 εβδομάδες</translation>
     </message>
     <message>
       <source>Show in file browser</source>
-      <translation type="unfinished">Show in file browser</translation>
+      <translation>Εμφάνιση στον περιηγητή αρχείων</translation>
     </message>
     <message>
       <source>Too many songs selected.</source>
-      <translation type="unfinished">Too many songs selected.</translation>
+      <translation>Επιλέχθηκαν πάρα πολλά τραγούδια.</translation>
     </message>
     <message>
       <source>%1 songs in %2 different directories selected, are you sure you want to open them all?</source>
@@ -5020,15 +5020,15 @@ Are you sure you want to continue?</translation>
     </message>
     <message>
       <source>Success</source>
-      <translation type="unfinished">Success</translation>
+      <translation>Επιτυχία</translation>
     </message>
     <message>
       <source>File is unsupported</source>
-      <translation type="unfinished">File is unsupported</translation>
+      <translation>Το αρχείο δεν υποστηρίζεται</translation>
     </message>
     <message>
       <source>Filename is missing</source>
-      <translation type="unfinished">Filename is missing</translation>
+      <translation>Απουσία ονόματος αρχείου</translation>
     </message>
     <message>
       <source>File does not exist</source>
@@ -5168,100 +5168,100 @@ Are you sure you want to continue?</translation>
     </message>
     <message>
       <source>shortest first</source>
-      <translation type="unfinished">shortest first</translation>
+      <translation>μικρότερο πρώτα</translation>
     </message>
     <message>
       <source>longest first</source>
-      <translation type="unfinished">longest first</translation>
+      <translation>μεγαλύτερο πρώτα</translation>
     </message>
     <message>
       <source>smallest first</source>
-      <translation type="unfinished">smallest first</translation>
+      <translation>μικρότερο πρώτα</translation>
     </message>
     <message>
       <source>biggest first</source>
-      <translation type="unfinished">biggest first</translation>
+      <translation>μεγαλύτερο πρώτα</translation>
     </message>
     <message>
       <source>Hours</source>
-      <translation type="unfinished">Hours</translation>
+      <translation>Ώρες</translation>
     </message>
     <message>
       <source>Days</source>
-      <translation type="unfinished">Days</translation>
+      <translation>Ημέρες</translation>
     </message>
     <message>
       <source>Weeks</source>
-      <translation type="unfinished">Weeks</translation>
+      <translation>Εβδομάδες</translation>
     </message>
     <message>
       <source>Months</source>
-      <translation type="unfinished">Months</translation>
+      <translation>Μήνες</translation>
     </message>
     <message>
       <source>Years</source>
-      <translation type="unfinished">Years</translation>
+      <translation>Έτη</translation>
     </message>
     <message>
       <source>Normal</source>
-      <translation type="unfinished">Normal</translation>
+      <translation>Κανονικός</translation>
     </message>
     <message>
       <source>Angry</source>
-      <translation type="unfinished">Angry</translation>
+      <translation>Θυμωμένος</translation>
     </message>
     <message>
       <source>Frozen</source>
-      <translation type="unfinished">Frozen</translation>
+      <translation>Παγωμένο</translation>
     </message>
     <message>
       <source>Happy</source>
-      <translation type="unfinished">Happy</translation>
+      <translation>Χαρούμενος</translation>
     </message>
     <message>
       <source>System colors</source>
-      <translation type="unfinished">System colors</translation>
+      <translation>Χρώματα συστήματος</translation>
     </message>
     <message>
       <source>Playlist</source>
-      <translation type="unfinished">Playlist</translation>
+      <translation>Λίστα αναπαραγωγής</translation>
     </message>
     <message>
       <source>Various artists</source>
-      <translation type="unfinished">Various artists</translation>
+      <translation>Διάφοροι καλλιτέχνες</translation>
     </message>
     <message numerus="yes">
       <source>add %n songs</source>
-      <translation type="unfinished">
-        <numerusform>add %n songs</numerusform>
-        <numerusform>add %n songs</numerusform>
+      <translation>
+        <numerusform>προσθήκη %n τραγουδιών</numerusform>
+        <numerusform>προσθήκη %n τραγουδιών</numerusform>
       </translation>
     </message>
     <message numerus="yes">
       <source>remove %n songs</source>
-      <translation type="unfinished">
-        <numerusform>remove %n songs</numerusform>
-        <numerusform>remove %n songs</numerusform>
+      <translation>
+        <numerusform>αφαίρεση %n τραγουδιών</numerusform>
+        <numerusform>αφαίρεση %n τραγουδιών</numerusform>
       </translation>
     </message>
     <message numerus="yes">
       <source>move %n songs</source>
-      <translation type="unfinished">
-        <numerusform>move %n songs</numerusform>
-        <numerusform>move %n songs</numerusform>
+      <translation>
+        <numerusform>μετακίνηση %n τραγουδιών</numerusform>
+        <numerusform>μετακίνηση %n τραγουδιών</numerusform>
       </translation>
     </message>
     <message>
       <source>sort songs</source>
-      <translation type="unfinished">sort songs</translation>
+      <translation>ταξινόμηση τραγουδιών</translation>
     </message>
     <message>
       <source>shuffle songs</source>
-      <translation type="unfinished">shuffle songs</translation>
+      <translation>ανακάτεμα τραγουδιών</translation>
     </message>
     <message>
       <source>Invalid collection directory</source>
-      <translation type="unfinished">Invalid collection directory</translation>
+      <translation>Μη έγκυρος φάκελος συλλογής</translation>
     </message>
     <message>
       <source>Can&apos;t add directory %1 with special filesystem %2 to collection</source>
@@ -5272,38 +5272,38 @@ Are you sure you want to continue?</translation>
     <name>QWidget</name>
     <message>
       <source>Clear</source>
-      <translation type="unfinished">Clear</translation>
+      <translation>Εκκαθάριση</translation>
     </message>
     <message>
       <source>Reset</source>
-      <translation type="unfinished">Reset</translation>
+      <translation>Επαναφορά</translation>
     </message>
   </context>
   <context>
     <name>QobuzRequest</name>
     <message>
       <source>Receiving artists...</source>
-      <translation type="unfinished">Receiving artists...</translation>
+      <translation>Λήψη καλλιτεχνών...</translation>
     </message>
     <message>
       <source>Receiving albums...</source>
-      <translation type="unfinished">Receiving albums...</translation>
+      <translation>Λήψη άλμπουμ...</translation>
     </message>
     <message>
       <source>Receiving songs...</source>
-      <translation type="unfinished">Receiving songs...</translation>
+      <translation>Λήψη τραγουδιών...</translation>
     </message>
     <message>
       <source>Searching...</source>
-      <translation type="unfinished">Searching...</translation>
+      <translation>Αναζήτηση...</translation>
     </message>
     <message>
       <source>Receiving albums for %1 artist...</source>
-      <translation type="unfinished">Receiving albums for %1 artist...</translation>
+      <translation>Λήψη άλμπουμ για καλλιτέχνη %1...</translation>
     </message>
     <message>
       <source>Receiving albums for %1 artists...</source>
-      <translation type="unfinished">Receiving albums for %1 artists...</translation>
+      <translation/>
     </message>
     <message>
       <source>Receiving songs for %1 album...</source>
@@ -5323,18 +5323,18 @@ Are you sure you want to continue?</translation>
     </message>
     <message>
       <source>No match.</source>
-      <translation type="unfinished">No match.</translation>
+      <translation>Δεν ταιριάζει.</translation>
     </message>
     <message>
       <source>Unknown error</source>
-      <translation type="unfinished">Unknown error</translation>
+      <translation>Άγνωστο σφάλμα</translation>
     </message>
   </context>
   <context>
     <name>QobuzService</name>
     <message>
       <source>Authenticating...</source>
-      <translation type="unfinished">Authenticating...</translation>
+      <translation>Επαλήθευση ταυτότητας...</translation>
     </message>
     <message>
       <source>Maximum number of login attempts reached.</source>
@@ -5346,15 +5346,15 @@ Are you sure you want to continue?</translation>
     </message>
     <message>
       <source>Missing Qobuz username.</source>
-      <translation type="unfinished">Missing Qobuz username.</translation>
+      <translation>Λείπει το όνομα χρήστη Qobuz.</translation>
     </message>
     <message>
       <source>Missing Qobuz password.</source>
-      <translation type="unfinished">Missing Qobuz password.</translation>
+      <translation>Λείπει ο κωδικός πρόσβασης Qobuz.</translation>
     </message>
     <message>
       <source>Not authenticated with Qobuz.</source>
-      <translation type="unfinished">Not authenticated with Qobuz.</translation>
+      <translation>Δεν έχει πιστοποιηθεί με Qobuz.</translation>
     </message>
     <message>
       <source>Missing Qobuz app ID or secret.</source>
@@ -5385,7 +5385,7 @@ Are you sure you want to continue?</translation>
     </message>
     <message>
       <source>Username</source>
-      <translation type="unfinished">Username</translation>
+      <translation>Όνομα χρήστη</translation>
     </message>
     <message>
       <source>Password</source>
@@ -5561,15 +5561,15 @@ Are you sure you want to continue?</translation>
     </message>
     <message>
       <source>Type</source>
-      <translation type="unfinished">Type</translation>
+      <translation>Τύπος</translation>
     </message>
     <message>
       <source>Select directory for the playlists</source>
-      <translation type="unfinished">Select directory for the playlists</translation>
+      <translation>Επιλέξτε φάκελο για τις λίστες αναπαραγωγής</translation>
     </message>
     <message>
       <source>Directory does not exist.</source>
-      <translation type="unfinished">Directory does not exist.</translation>
+      <translation>Ο κατάλογος δεν υπάρχει.</translation>
     </message>
   </context>
   <context>
@@ -5580,126 +5580,126 @@ Are you sure you want to continue?</translation>
     </message>
     <message>
       <source>Remove</source>
-      <translation type="unfinished">Remove</translation>
+      <translation>Διαγραφή</translation>
     </message>
     <message>
       <source>Ctrl+Up</source>
-      <translation type="unfinished">Ctrl+Up</translation>
+      <translation>Ctrl+Up</translation>
     </message>
     <message>
       <source>Name</source>
-      <translation type="unfinished">Name</translation>
+      <translation>Όνομα</translation>
     </message>
     <message>
       <source>First level</source>
-      <translation type="unfinished">First level</translation>
+      <translation>Πρώτο επίπεδο</translation>
     </message>
     <message>
       <source>Second Level</source>
-      <translation type="unfinished">Second Level</translation>
+      <translation>Δεύτερο επίπεδο</translation>
     </message>
     <message>
       <source>Third Level</source>
-      <translation type="unfinished">Third Level</translation>
+      <translation>Τρίτο επίπεδο</translation>
     </message>
     <message>
       <source>None</source>
-      <translation type="unfinished">None</translation>
+      <translation>Κανένα</translation>
     </message>
     <message>
       <source>Album artist</source>
-      <translation type="unfinished">Album artist</translation>
+      <translation>Καλλιτέχνης άλμπουμ</translation>
     </message>
     <message>
       <source>Artist</source>
-      <translation type="unfinished">Artist</translation>
+      <translation>Καλλιτέχνης</translation>
     </message>
     <message>
       <source>Album</source>
-      <translation type="unfinished">Album</translation>
+      <translation>Άλμπουμ</translation>
     </message>
     <message>
       <source>Album - Disc</source>
-      <translation type="unfinished">Album - Disc</translation>
+      <translation>Άλμπουμ - Δίσκος</translation>
     </message>
     <message>
       <source>Year - Album</source>
-      <translation type="unfinished">Year - Album</translation>
+      <translation>Έτος - Άλμπουμ</translation>
     </message>
     <message>
       <source>Year - Album - Disc</source>
-      <translation type="unfinished">Year - Album - Disc</translation>
+      <translation>Έτος - Άλμπουμ - Δίσκος</translation>
     </message>
     <message>
       <source>Original year - Album</source>
-      <translation type="unfinished">Original year - Album</translation>
+      <translation>Αρχικό έτος - Άλμπουμ</translation>
     </message>
     <message>
       <source>Original year - Album - Disc</source>
-      <translation type="unfinished">Original year - Album - Disc</translation>
+      <translation>Αρχικό έτος - Άλμπουμ - Δίσκος</translation>
     </message>
     <message>
       <source>Disc</source>
-      <translation type="unfinished">Disc</translation>
+      <translation>Δίσκος</translation>
     </message>
     <message>
       <source>Year</source>
-      <translation type="unfinished">Year</translation>
+      <translation>Έτος</translation>
     </message>
     <message>
       <source>Original year</source>
-      <translation type="unfinished">Original year</translation>
+      <translation>Αρχικό έτος</translation>
     </message>
     <message>
       <source>Genre</source>
-      <translation type="unfinished">Genre</translation>
+      <translation>Είδος</translation>
     </message>
     <message>
       <source>Composer</source>
-      <translation type="unfinished">Composer</translation>
+      <translation>Συνθέτης</translation>
     </message>
     <message>
       <source>Performer</source>
-      <translation type="unfinished">Performer</translation>
+      <translation>Εκτελεστής</translation>
     </message>
     <message>
       <source>Grouping</source>
-      <translation type="unfinished">Grouping</translation>
+      <translation>Ομαδοποίηση</translation>
     </message>
     <message>
       <source>File type</source>
-      <translation type="unfinished">File type</translation>
+      <translation>Τύπος αρχείου</translation>
     </message>
     <message>
       <source>Format</source>
-      <translation type="unfinished">Format</translation>
+      <translation>Μορφή</translation>
     </message>
     <message>
       <source>Sample rate</source>
-      <translation type="unfinished">Sample rate</translation>
+      <translation>Ρυθμός δειγματοληψίας</translation>
     </message>
     <message>
       <source>Bit depth</source>
-      <translation type="unfinished">Bit depth</translation>
+      <translation>Βάθος bit</translation>
     </message>
     <message>
       <source>Bitrate</source>
-      <translation type="unfinished">Bitrate</translation>
+      <translation>Bitrate</translation>
     </message>
     <message>
       <source>Unknown</source>
-      <translation type="unfinished">Unknown</translation>
+      <translation>Άγνωστο</translation>
     </message>
   </context>
   <context>
     <name>ScrobblerSettingsPage</name>
     <message>
       <source>Scrobbler</source>
-      <translation type="unfinished">Scrobbler</translation>
+      <translation>Scrobbler</translation>
     </message>
     <message>
       <source>Enable</source>
-      <translation type="unfinished">Enable</translation>
+      <translation>Ενεργοποίηση</translation>
     </message>
     <message>
       <source>Songs are scrobbled if they have valid metadata and are longer than 30 seconds, have been playing for at least half its duration or for 4 minutes (whichever occurs earlier).</source>
@@ -5747,23 +5747,23 @@ Are you sure you want to continue?</translation>
     </message>
     <message>
       <source>Local file</source>
-      <translation type="unfinished">Local file</translation>
+      <translation>Τοπικό αρχείο</translation>
     </message>
     <message>
       <source>Tidal</source>
-      <translation type="unfinished">Tidal</translation>
+      <translation>Tidal</translation>
     </message>
     <message>
       <source>Device</source>
-      <translation type="unfinished">Device</translation>
+      <translation>Συσκευή</translation>
     </message>
     <message>
       <source>Qobuz</source>
-      <translation type="unfinished">Qobuz</translation>
+      <translation>Qobuz</translation>
     </message>
     <message>
       <source>CDDA</source>
-      <translation type="unfinished">CDDA</translation>
+      <translation>CDDA</translation>
     </message>
     <message>
       <source>SomaFM</source>
@@ -5931,26 +5931,26 @@ Are you sure you want to continue?</translation>
     </message>
     <message>
       <source>Only show the first</source>
-      <translation type="unfinished">Only show the first</translation>
+      <translation>Εμφάνιση μόνο του πρώτου</translation>
     </message>
     <message>
       <source> songs</source>
-      <translation type="unfinished"> songs</translation>
+      <translation> τραγούδια</translation>
     </message>
   </context>
   <context>
     <name>SmartPlaylistQueryWizardPlugin</name>
     <message>
       <source>Collection search</source>
-      <translation type="unfinished">Collection search</translation>
+      <translation>Αναζήτηση Συλλογής</translation>
     </message>
     <message>
       <source>Find songs in your collection that match the criteria you specify.</source>
-      <translation type="unfinished">Find songs in your collection that match the criteria you specify.</translation>
+      <translation>Βρείτε τραγούδια στη συλλογή σας που ταιριάζουν με τα κριτήρια που έχετε ορίσει.</translation>
     </message>
     <message>
       <source>Search terms</source>
-      <translation type="unfinished">Search terms</translation>
+      <translation>Όροι Αναζήτησης</translation>
     </message>
     <message>
       <source>A song will be included in the playlist if it matches these conditions.</source>
@@ -5969,15 +5969,15 @@ Are you sure you want to continue?</translation>
     <name>SmartPlaylistSearchPreview</name>
     <message>
       <source>Form</source>
-      <translation type="unfinished">Form</translation>
+      <translation>Φόρμα</translation>
     </message>
     <message>
       <source>Preview</source>
-      <translation type="unfinished">Preview</translation>
+      <translation>Προεπισκόπιση</translation>
     </message>
     <message>
       <source>Loading...</source>
-      <translation type="unfinished">Loading...</translation>
+      <translation>Φόρτωση...</translation>
     </message>
     <message>
       <source>%1 songs found (showing %2)</source>
@@ -5985,44 +5985,44 @@ Are you sure you want to continue?</translation>
     </message>
     <message>
       <source>%1 songs found</source>
-      <translation type="unfinished">%1 songs found</translation>
+      <translation>Βρέθηκαν %1 τραγούδια</translation>
     </message>
   </context>
   <context>
     <name>SmartPlaylistSearchTermWidget</name>
     <message>
       <source>Form</source>
-      <translation type="unfinished">Form</translation>
+      <translation>Φόρμα</translation>
     </message>
     <message>
       <source>and</source>
-      <translation type="unfinished">and</translation>
+      <translation>και</translation>
     </message>
     <message>
       <source>ago</source>
-      <translation type="unfinished">ago</translation>
+      <translation>πριν</translation>
     </message>
     <message>
       <source>The second value must be greater than the first one!</source>
-      <translation type="unfinished">The second value must be greater than the first one!</translation>
+      <translation>Η δεύτερη τιμή πρέπει να είναι μεγαλύτερη από την πρώτη!</translation>
     </message>
   </context>
   <context>
     <name>SmartPlaylistSearchTermWidgetOverlay</name>
     <message>
       <source>Add search term</source>
-      <translation type="unfinished">Add search term</translation>
+      <translation>Προσθήκη όρου αναζήτησης</translation>
     </message>
   </context>
   <context>
     <name>SmartPlaylistWizard</name>
     <message>
       <source>Smart playlist</source>
-      <translation type="unfinished">Smart playlist</translation>
+      <translation>Έξυπνη λίστα αναπαραγωγής</translation>
     </message>
     <message>
       <source>Playlist type</source>
-      <translation type="unfinished">Playlist type</translation>
+      <translation>Τύπος Λίστας Αναπαραγωγής</translation>
     </message>
     <message>
       <source>A smart playlist is a dynamic list of songs that come from your collection.  There are different types of smart playlist that offer different ways of selecting songs.</source>
@@ -6030,7 +6030,7 @@ Are you sure you want to continue?</translation>
     </message>
     <message>
       <source>Finish</source>
-      <translation type="unfinished">Finish</translation>
+      <translation>Τερματισμός</translation>
     </message>
     <message>
       <source>Choose a name for your smart playlist</source>
@@ -6045,7 +6045,7 @@ Are you sure you want to continue?</translation>
     </message>
     <message>
       <source>Name</source>
-      <translation type="unfinished">Name</translation>
+      <translation>Όνομα</translation>
     </message>
     <message>
       <source>Use dynamic mode</source>
@@ -7215,11 +7215,11 @@ Are you sure you want to continue?</translation>
     </message>
     <message>
       <source>No short blocks</source>
-      <translation type="unfinished">No short blocks</translation>
+      <translation>Χωρίς μικρά μπλοκ</translation>
     </message>
     <message>
       <source>No long blocks</source>
-      <translation type="unfinished">No long blocks</translation>
+      <translation>Χωρίς μακρύ μπλοκ</translation>
     </message>
   </context>
   <context>
@@ -7281,7 +7281,7 @@ Are you sure you want to continue?</translation>
     </message>
     <message>
       <source>Opti&amp;mize for bitrate</source>
-      <translation type="unfinished">Opti&amp;mize for bitrate</translation>
+      <translation>Βελτιστοποίηση ρυθμού bit</translation>
     </message>
     <message>
       <source>Bitrate</source>
@@ -7297,7 +7297,7 @@ Are you sure you want to continue?</translation>
     </message>
     <message>
       <source>Encoding engine quality</source>
-      <translation type="unfinished">Encoding engine quality</translation>
+      <translation>Ποιότητα κινητήρα κωδικοποίησης</translation>
     </message>
     <message>
       <source>Fast</source>
@@ -7313,7 +7313,7 @@ Are you sure you want to continue?</translation>
     </message>
     <message>
       <source>Force mono encoding</source>
-      <translation type="unfinished">Force mono encoding</translation>
+      <translation>Εξαναγκασμός κωδικοποίησης μονο</translation>
     </message>
   </context>
   <context>
@@ -7356,7 +7356,7 @@ Are you sure you want to continue?</translation>
     </message>
     <message>
       <source>Average bitrate</source>
-      <translation type="unfinished">Average bitrate</translation>
+      <translation>Μέσος ρυθμός bit</translation>
     </message>
     <message>
       <source>disabled</source>
@@ -7364,7 +7364,7 @@ Are you sure you want to continue?</translation>
     </message>
     <message>
       <source>Encoding mode</source>
-      <translation type="unfinished">Encoding mode</translation>
+      <translation>Λειτουργία κωδικοποίησης</translation>
     </message>
     <message>
       <source>Auto</source>
@@ -7372,7 +7372,7 @@ Are you sure you want to continue?</translation>
     </message>
     <message>
       <source>Ultra wide band (UWB)</source>
-      <translation type="unfinished">Ultra wide band (UWB)</translation>
+      <translation>Εξαιρετικά ευρεία ζώνη (UWB)</translation>
     </message>
     <message>
       <source>Wide band (WB)</source>
@@ -7384,23 +7384,23 @@ Are you sure you want to continue?</translation>
     </message>
     <message>
       <source>Variable bit rate</source>
-      <translation type="unfinished">Variable bit rate</translation>
+      <translation>Μεταβλητός ρυθμός bit</translation>
     </message>
     <message>
       <source>Voice activity detection</source>
-      <translation type="unfinished">Voice activity detection</translation>
+      <translation>Ανίχνευση φωνητικής δραστηριότητας</translation>
     </message>
     <message>
       <source>Discontinuous transmission</source>
-      <translation type="unfinished">Discontinuous transmission</translation>
+      <translation>Μη συνεχής μετάδοση</translation>
     </message>
     <message>
       <source>Encoding complexity</source>
-      <translation type="unfinished">Encoding complexity</translation>
+      <translation>Πολυπλοκότητα κωδικοποίησης</translation>
     </message>
     <message>
       <source>Frames per buffer</source>
-      <translation type="unfinished">Frames per buffer</translation>
+      <translation>Καρέ ανά buffer</translation>
     </message>
   </context>
   <context>

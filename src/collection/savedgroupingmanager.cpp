@@ -30,6 +30,7 @@
 #include <QByteArray>
 #include <QString>
 #include <QStringList>
+#include <QUrl>
 #include <QIODevice>
 #include <QDataStream>
 #include <QKeySequence>
@@ -167,14 +168,20 @@ void SavedGroupingManager::UpdateModel() {
   if (version == 1) {
     QStringList saved = s.childKeys();
     for (int i = 0; i < saved.size(); ++i) {
-      if (saved.at(i) == "version"_L1) continue;
-      QByteArray bytes = s.value(saved.at(i)).toByteArray();
+      const QString &name = saved.at(i);
+      if (name == "version"_L1) continue;
+      QByteArray bytes = s.value(name).toByteArray();
       QDataStream ds(&bytes, QIODevice::ReadOnly);
       CollectionModel::Grouping g;
       ds >> g;
 
       QList<QStandardItem*> list;
-      list << new QStandardItem(saved.at(i))
+
+      QStandardItem *item = new QStandardItem();
+      item->setText(QUrl::fromPercentEncoding(name.toUtf8()));
+      item->setData(name);
+
+      list << item
            << new QStandardItem(GroupByToString(g.first))
            << new QStandardItem(GroupByToString(g.second))
            << new QStandardItem(GroupByToString(g.third));
@@ -185,8 +192,9 @@ void SavedGroupingManager::UpdateModel() {
   else {
     QStringList saved = s.childKeys();
     for (int i = 0; i < saved.size(); ++i) {
-      if (saved.at(i) == "version"_L1) continue;
-      s.remove(saved.at(i));
+      const QString &name = saved.at(i);
+      if (name == "version"_L1) continue;
+      s.remove(name);
     }
   }
   s.endGroup();
@@ -202,7 +210,7 @@ void SavedGroupingManager::Remove() {
     for (const QModelIndex &idx : indexes) {
       if (idx.isValid()) {
         qLog(Debug) << "Remove saved grouping: " << model_->item(idx.row(), 0)->text();
-        s.remove(model_->item(idx.row(), 0)->text());
+        s.remove(model_->item(idx.row(), 0)->data().toString());
       }
     }
     s.endGroup();

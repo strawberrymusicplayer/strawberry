@@ -65,6 +65,7 @@
 #include "covermanager/opentidalcoverprovider.h"
 
 #include "lyrics/lyricsproviders.h"
+#include "lyrics/geniuslyricsprovider.h"
 #include "lyrics/ovhlyricsprovider.h"
 #include "lyrics/lololyricsprovider.h"
 #include "lyrics/musixmatchlyricsprovider.h"
@@ -77,7 +78,6 @@
 
 #include "scrobbler/audioscrobbler.h"
 #include "scrobbler/lastfmscrobbler.h"
-#include "scrobbler/librefmscrobbler.h"
 #include "scrobbler/listenbrainzscrobbler.h"
 #include "scrobbler/lastfmimport.h"
 #ifdef HAVE_SUBSONIC
@@ -197,37 +197,33 @@ class ApplicationImpl {
                  new QobuzCoverProvider(app->streaming_services()->Service<QobuzService>(),
                                         app->network()));
 #endif
-             cover_providers->ReloadSettings();
-             return cover_providers;
-         })
-         , albumcover_loader_([app]() {
-             AlbumCoverLoader *loader = new AlbumCoverLoader(app->tagreader_client());
-             app->MoveToNewThread(loader);
-             return loader;
-         })
-         , current_albumcover_loader_(
-               [app]() { return new CurrentAlbumCoverLoader(app->albumcover_loader()); })
-         , lyrics_providers_([app]() {
-             LyricsProviders *lyrics_providers = new LyricsProviders(app);
-             // Initialize the repository of lyrics providers.
-             lyrics_providers->AddProvider(new OVHLyricsProvider(lyrics_providers->network()));
-             lyrics_providers->AddProvider(new LoloLyricsProvider(lyrics_providers->network()));
-             lyrics_providers->AddProvider(
-                 new MusixmatchLyricsProvider(lyrics_providers->network()));
-             lyrics_providers->AddProvider(new ChartLyricsProvider(lyrics_providers->network()));
-             lyrics_providers->AddProvider(
-                 new SongLyricsComLyricsProvider(lyrics_providers->network()));
-             lyrics_providers->AddProvider(
-                 new AzLyricsComLyricsProvider(lyrics_providers->network()));
-             lyrics_providers->AddProvider(
-                 new ElyricsNetLyricsProvider(lyrics_providers->network()));
-             lyrics_providers->AddProvider(new LetrasLyricsProvider(lyrics_providers->network()));
-             lyrics_providers->AddProvider(new LyricFindLyricsProvider(lyrics_providers->network()));
-             lyrics_providers->ReloadSettings();
-             return lyrics_providers;
-         })
-         , streaming_services_([app]() {
-             StreamingServices *streaming_services = new StreamingServices();
+          cover_providers->ReloadSettings();
+          return cover_providers;
+        }),
+        albumcover_loader_([app]() {
+          AlbumCoverLoader *loader = new AlbumCoverLoader(app->tagreader_client());
+          app->MoveToNewThread(loader);
+          return loader;
+        }),
+        current_albumcover_loader_([app]() { return new CurrentAlbumCoverLoader(app->albumcover_loader()); }),
+        lyrics_providers_([app]() {
+          LyricsProviders *lyrics_providers = new LyricsProviders(app);
+          // Initialize the repository of lyrics providers.
+          lyrics_providers->AddProvider(new GeniusLyricsProvider(lyrics_providers->network()));
+          lyrics_providers->AddProvider(new OVHLyricsProvider(lyrics_providers->network()));
+          lyrics_providers->AddProvider(new LoloLyricsProvider(lyrics_providers->network()));
+          lyrics_providers->AddProvider(new MusixmatchLyricsProvider(lyrics_providers->network()));
+          lyrics_providers->AddProvider(new ChartLyricsProvider(lyrics_providers->network()));
+          lyrics_providers->AddProvider(new SongLyricsComLyricsProvider(lyrics_providers->network()));
+          lyrics_providers->AddProvider(new AzLyricsComLyricsProvider(lyrics_providers->network()));
+          lyrics_providers->AddProvider(new ElyricsNetLyricsProvider(lyrics_providers->network()));
+          lyrics_providers->AddProvider(new LetrasLyricsProvider(lyrics_providers->network()));
+          lyrics_providers->AddProvider(new LyricFindLyricsProvider(lyrics_providers->network()));
+          lyrics_providers->ReloadSettings();
+          return lyrics_providers;
+        }),
+        streaming_services_([app]() {
+          StreamingServices *streaming_services = new StreamingServices();
 #ifdef HAVE_SUBSONIC
              streaming_services->AddService(make_shared<SubsonicService>(app->task_manager(),
                                                                          app->database(),
@@ -254,22 +250,13 @@ class ApplicationImpl {
                                                                       app->url_handlers(),
                                                                       app->albumcover_loader()));
 #endif
-             return streaming_services;
-         })
-         , radio_services_([app]() {
-             return new RadioServices(app->task_manager(),
-                                      app->network(),
-                                      app->database(),
-                                      app->albumcover_loader());
-         })
-         , scrobbler_([app]() {
-             AudioScrobbler *scrobbler = new AudioScrobbler(app);
-             scrobbler->AddService(
-                 make_shared<LastFMScrobbler>(scrobbler->settings(), app->network()));
-             scrobbler->AddService(
-                 make_shared<LibreFMScrobbler>(scrobbler->settings(), app->network()));
-             scrobbler->AddService(
-                 make_shared<ListenBrainzScrobbler>(scrobbler->settings(), app->network()));
+          return streaming_services;
+        }),
+        radio_services_([app]() { return new RadioServices(app->task_manager(), app->network(), app->database(), app->albumcover_loader()); }),
+        scrobbler_([app]() {
+          AudioScrobbler *scrobbler = new AudioScrobbler(app);
+          scrobbler->AddService(make_shared<LastFMScrobbler>(scrobbler->settings(), app->network()));
+          scrobbler->AddService(make_shared<ListenBrainzScrobbler>(scrobbler->settings(), app->network()));
 #ifdef HAVE_SUBSONIC
              scrobbler->AddService(
                  make_shared<SubsonicScrobbler>(scrobbler->settings(),

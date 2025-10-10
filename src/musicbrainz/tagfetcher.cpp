@@ -45,7 +45,7 @@ TagFetcher::TagFetcher(SharedPtr<NetworkAccessManager> network, QObject *parent)
       musicbrainz_client_(new MusicBrainzClient(network, this)) {
 
   QObject::connect(acoustid_client_, &AcoustidClient::Finished, this, &TagFetcher::PuidsFound);
-  QObject::connect(musicbrainz_client_, &MusicBrainzClient::Finished, this, &TagFetcher::TagsFetched);
+  QObject::connect(musicbrainz_client_, &MusicBrainzClient::MbIdFinished, this, &TagFetcher::TagsFetched);
 
 }
 
@@ -130,7 +130,7 @@ void TagFetcher::PuidsFound(const int index, const QStringList &puid_list, const
   }
 
   Q_EMIT Progress(song, tr("Downloading metadata"));
-  musicbrainz_client_->Start(index, puid_list);
+  musicbrainz_client_->StartMbIdRequest(index, puid_list);
 
 }
 
@@ -146,8 +146,15 @@ void TagFetcher::TagsFetched(const int index, const MusicBrainzClient::ResultLis
   for (const MusicBrainzClient::Result &result : results) {
     Song song;
     song.Init(result.title_, result.artist_, result.album_, result.duration_msec_ * kNsecPerMsec);
+    song.set_artistsort(result.sort_artist_);
     song.set_track(result.track_);
     song.set_year(result.year_);
+    if (!result.album_artist_.isEmpty() && result.album_artist_ != result.artist_) {
+      song.set_albumartist(result.album_artist_);
+    }
+    if (!result.sort_album_artist_.isEmpty() && result.sort_album_artist_ != result.sort_artist_) {
+      song.set_albumartistsort(result.sort_album_artist_);
+    }
     songs_guessed << song;
   }
 

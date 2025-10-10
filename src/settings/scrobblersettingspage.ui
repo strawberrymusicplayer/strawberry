@@ -271,55 +271,6 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupbox_librefm">
-     <property name="title">
-      <string>Libre.fm</string>
-     </property>
-     <layout class="QVBoxLayout" name="layout_librefm">
-      <item>
-       <widget class="QCheckBox" name="checkbox_librefm_enable">
-        <property name="text">
-         <string>Enable</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="LoginStateWidget" name="widget_librefm_login_state" native="true"/>
-      </item>
-      <item>
-       <widget class="QWidget" name="widget_librefm_login" native="true">
-        <layout class="QVBoxLayout" name="layout_librefm_login">
-         <item>
-          <layout class="QHBoxLayout" name="layout_librefm_button_login">
-           <item>
-            <widget class="QPushButton" name="button_librefm_login">
-             <property name="text">
-              <string>Login</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <spacer name="spacer_librefm_login">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-          </layout>
-         </item>
-        </layout>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
     <widget class="QGroupBox" name="groupbox_listenbrainz">
      <property name="title">
       <string>Listenbrainz</string>
@@ -444,8 +395,6 @@
   <tabstop>checkbox_source_radioparadise</tabstop>
   <tabstop>checkbox_lastfm_enable</tabstop>
   <tabstop>button_lastfm_login</tabstop>
-  <tabstop>checkbox_librefm_enable</tabstop>
-  <tabstop>button_librefm_login</tabstop>
   <tabstop>checkbox_listenbrainz_enable</tabstop>
   <tabstop>lineedit_listenbrainz_user_token</tabstop>
   <tabstop>button_listenbrainz_login</tabstop>

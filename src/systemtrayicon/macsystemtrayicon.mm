@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -159,6 +159,7 @@ SystemTrayIcon::SystemTrayIcon(QObject *parent)
       grey_icon_(QPixmap(u":/pictures/strawberry-grey.png"_s).scaled(128, 128, Qt::KeepAspectRatio, Qt::SmoothTransformation)),
       playing_icon_(u":/pictures/tiny-play.png"_s),
       paused_icon_(u":/pictures/tiny-pause.png"_s),
+      device_pixel_ratio_(1.0),
       trayicon_progress_(false),
       song_progress_(0) {
 
@@ -167,6 +168,12 @@ SystemTrayIcon::SystemTrayIcon(QObject *parent)
 }
 
 SystemTrayIcon::~SystemTrayIcon() {}
+
+void SystemTrayIcon::SetDevicePixelRatioF(const qreal device_pixel_ratio) {
+
+  device_pixel_ratio_ = device_pixel_ratio;
+
+}
 
 void SystemTrayIcon::SetTrayiconProgress(const bool enabled) {
 

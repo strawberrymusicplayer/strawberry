@@ -37,7 +37,7 @@ class DeviceStateFilterModel : public QSortFilterProxyModel {
   Q_OBJECT
 
  public:
-  explicit DeviceStateFilterModel(QObject *parent, DeviceManager::State state = DeviceManager::State_Remembered);
+  explicit DeviceStateFilterModel(QObject *parent, const DeviceManager::State state = DeviceManager::State::Remembered);
 
   void setSourceModel(QAbstractItemModel *sourceModel) override;
 
@@ -52,7 +52,7 @@ class DeviceStateFilterModel : public QSortFilterProxyModel {
   void ProxyRowCountChanged(const QModelIndex &idx, const int first, const int last);
 
  private:
-  DeviceManager::State state_;
+  const DeviceManager::State state_;
 };
 
 #endif  // DEVICESTATEFILTERMODEL_H

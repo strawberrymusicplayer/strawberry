@@ -25,12 +25,13 @@
 class CollectionModelUpdate {
  public:
   enum class Type {
+    Reset,
     AddReAddOrUpdate,
     Add,
     Update,
     Remove,
   };
-  explicit CollectionModelUpdate(const Type _type, const SongList &_songs);
+  explicit CollectionModelUpdate(const Type _type, const SongList &_songs = SongList());
   Type type;
   SongList songs;
 };

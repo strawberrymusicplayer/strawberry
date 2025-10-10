@@ -89,6 +89,9 @@ class SpotifyService : public StreamingService {
   CollectionFilter *albums_collection_filter_model() override { return albums_collection_model_->filter(); }
   CollectionFilter *songs_collection_filter_model() override { return songs_collection_model_->filter(); }
 
+ Q_SIGNALS:
+  void UpdateSpotifyAccessToken(const QString &access_token);
+
  public Q_SLOTS:
   void Authenticate();
   void ClearSession();

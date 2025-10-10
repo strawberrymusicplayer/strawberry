@@ -43,29 +43,29 @@ NetworkAccessManager::NetworkAccessManager(QObject *parent)
 
 }
 
-QNetworkReply *NetworkAccessManager::createRequest(Operation op, const QNetworkRequest &request, QIODevice *outgoingData) {
+QNetworkReply *NetworkAccessManager::createRequest(Operation op, const QNetworkRequest &network_request, QIODevice *outgoing_data) {
 
   QByteArray user_agent;
-  if (request.hasRawHeader("User-Agent")) {
-    user_agent = request.header(QNetworkRequest::UserAgentHeader).toByteArray();
+  if (network_request.hasRawHeader("User-Agent")) {
+    user_agent = network_request.header(QNetworkRequest::UserAgentHeader).toByteArray();
   }
   else {
     user_agent = QStringLiteral("%1 %2").arg(QCoreApplication::applicationName(), QCoreApplication::applicationVersion()).toUtf8();
   }
 
-  QNetworkRequest new_request(request);
-  new_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  new_request.setHeader(QNetworkRequest::UserAgentHeader, user_agent);
+  QNetworkRequest new_network_request(network_request);
+  new_network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+  new_network_request.setHeader(QNetworkRequest::UserAgentHeader, user_agent);
 
-  if (op == QNetworkAccessManager::PostOperation && !new_request.header(QNetworkRequest::ContentTypeHeader).isValid()) {
-    new_request.setHeader(QNetworkRequest::ContentTypeHeader, u"application/x-www-form-urlencoded"_s);
+  if (op == QNetworkAccessManager::PostOperation && !new_network_request.header(QNetworkRequest::ContentTypeHeader).isValid()) {
+    new_network_request.setHeader(QNetworkRequest::ContentTypeHeader, u"application/x-www-form-urlencoded"_s);
   }
 
   // Prefer the cache unless the caller has changed the setting already
-  if (request.attribute(QNetworkRequest::CacheLoadControlAttribute).toInt() == QNetworkRequest::PreferNetwork) {
-    new_request.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::PreferCache);
+  if (!network_request.attribute(QNetworkRequest::CacheLoadControlAttribute).isValid()) {
+    new_network_request.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::PreferCache);
   }
 
-  return QNetworkAccessManager::createRequest(op, new_request, outgoingData);
+  return QNetworkAccessManager::createRequest(op, new_network_request, outgoing_data);
 
 }

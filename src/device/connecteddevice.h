@@ -67,9 +67,6 @@ class ConnectedDevice : public QObject, public virtual MusicStorage, public enab
   virtual bool IsLoading() { return false; }
   virtual void NewConnection() {}
   virtual void ConnectAsync();
-  // For some devices (e.g. CD devices) we don't have callbacks to be notified when something change:
-  // we can call this method to refresh device's state
-  virtual void Refresh() {}
 
   TranscodeMode GetTranscodeMode() const override;
   Song::FileType GetTranscodeFormat() const override;

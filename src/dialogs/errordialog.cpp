@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2017-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,14 +33,16 @@
 #include <QTextEdit>
 #include <QCloseEvent>
 
+#include "utilities/screenutils.h"
+
 #include "errordialog.h"
 #include "ui_errordialog.h"
 
 using namespace Qt::Literals::StringLiterals;
 
-ErrorDialog::ErrorDialog(QWidget *parent)
+ErrorDialog::ErrorDialog(QWidget *mainwindow, QWidget *parent)
     : QDialog(parent),
-      parent_(parent),
+      mainwindow_(mainwindow),
       ui_(new Ui_ErrorDialog) {
 
   ui_->setupUi(this);
@@ -59,6 +62,18 @@ ErrorDialog::~ErrorDialog() {
   delete ui_;
 }
 
+void ErrorDialog::ShowDialog() {
+
+  if (screen() && mainwindow_->screen() && screen() != mainwindow_->screen()) {
+    Utilities::CenterWidgetOnScreen(mainwindow_->screen(), this);
+  }
+  setWindowState((windowState() & ~Qt::WindowMinimized) | Qt::WindowActive);
+  show();
+  raise();
+  activateWindow();
+
+}
+
 void ErrorDialog::ShowMessage(const QString &message) {
 
   if (message.isEmpty()) return;
@@ -66,11 +81,11 @@ void ErrorDialog::ShowMessage(const QString &message) {
   current_messages_ << message;
   UpdateContent();
 
-  show();
-
-  if (parent_ && parent_->isMaximized()) {
-    raise();
-    activateWindow();
+  if (mainwindow_->isActiveWindow()) {
+    ShowDialog();
+  }
+  else if (!isVisible()) {
+    showMinimized();
   }
 
 }

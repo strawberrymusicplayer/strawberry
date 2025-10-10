@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -83,7 +83,6 @@ CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog,
   ui_->setupUi(this);
   ui_->list->setItemDelegate(new NativeSeparatorsDelegate(this));
 
-  // Icons
   setWindowIcon(IconLoader::Load(u"library-music"_s, true, 0, 32));
   ui_->add_directory->setIcon(IconLoader::Load(u"document-open-folder"_s));
 
@@ -148,20 +147,23 @@ void CollectionSettingsPage::Load() {
   Settings s;
 
   s.beginGroup(kSettingsGroup);
-  ui_->auto_open->setChecked(s.value(kAutoOpen, true).toBool());
-  ui_->show_dividers->setChecked(s.value(kShowDividers, true).toBool());
-  ui_->pretty_covers->setChecked(s.value(kPrettyCovers, true).toBool());
-  ui_->various_artists->setChecked(s.value(kVariousArtists, true).toBool());
-  ui_->sort_skips_articles->setChecked(s.value(kSortSkipsArticles, true).toBool());
+
   ui_->startup_scan->setChecked(s.value(kStartupScan, true).toBool());
   ui_->monitor->setChecked(s.value(kMonitor, true).toBool());
   ui_->song_tracking->setChecked(s.value(kSongTracking, false).toBool());
-  ui_->song_ebur128_loudness_analysis->setChecked(s.value(kSongENUR128LoudnessAnalysis, false).toBool());
   ui_->mark_songs_unavailable->setChecked(ui_->song_tracking->isChecked() ? true : s.value(kMarkSongsUnavailable, true).toBool());
+  ui_->song_ebur128_loudness_analysis->setChecked(s.value(kSongENUR128LoudnessAnalysis, false).toBool());
   ui_->expire_unavailable_songs_days->setValue(s.value(kExpireUnavailableSongs, 60).toInt());
 
   QStringList filters = s.value(kCoverArtPatterns, QStringList() << u"front"_s << u"cover"_s).toStringList();
   ui_->cover_art_patterns->setText(filters.join(u','));
+
+  ui_->auto_open->setChecked(s.value(kAutoOpen, true).toBool());
+  ui_->show_dividers->setChecked(s.value(kShowDividers, true).toBool());
+  ui_->pretty_covers->setChecked(s.value(kPrettyCovers, true).toBool());
+  ui_->various_artists->setChecked(s.value(kVariousArtists, true).toBool());
+  ui_->checkbox_skip_articles_for_artists->setChecked(s.value(kSkipArticlesForArtists, true).toBool());
+  ui_->checkbox_skip_articles_for_albums->setChecked(s.value(kSkipArticlesForAlbums, false).toBool());
 
   ui_->spinbox_cache_size->setValue(s.value(kSettingsCacheSize, kSettingsCacheSizeDefault).toInt());
   ui_->combobox_cache_size->setCurrentIndex(ui_->combobox_cache_size->findData(s.value(kSettingsCacheSizeUnit, static_cast<int>(CacheSizeUnit::MB)).toInt()));
@@ -192,23 +194,23 @@ void CollectionSettingsPage::Save() {
   Settings s;
 
   s.beginGroup(kSettingsGroup);
+
+  s.setValue(kStartupScan, ui_->startup_scan->isChecked());
+  s.setValue(kMonitor, ui_->monitor->isChecked());
+  s.setValue(kSongTracking, ui_->song_tracking->isChecked());
+  s.setValue(kMarkSongsUnavailable, ui_->song_tracking->isChecked() ? true : ui_->mark_songs_unavailable->isChecked());
+  s.setValue(kSongENUR128LoudnessAnalysis, ui_->song_ebur128_loudness_analysis->isChecked());
+  s.setValue(kExpireUnavailableSongs, ui_->expire_unavailable_songs_days->value());
+
+  const QString filter_text = ui_->cover_art_patterns->text();
+  s.setValue(kCoverArtPatterns, filter_text.split(u',', Qt::SkipEmptyParts));
+
   s.setValue(kAutoOpen, ui_->auto_open->isChecked());
   s.setValue(kShowDividers, ui_->show_dividers->isChecked());
   s.setValue(kPrettyCovers, ui_->pretty_covers->isChecked());
   s.setValue(kVariousArtists, ui_->various_artists->isChecked());
-  s.setValue(kSortSkipsArticles, ui_->sort_skips_articles->isChecked());
-  s.setValue(kStartupScan, ui_->startup_scan->isChecked());
-  s.setValue(kMonitor, ui_->monitor->isChecked());
-  s.setValue(kSongTracking, ui_->song_tracking->isChecked());
-  s.setValue(kSongENUR128LoudnessAnalysis, ui_->song_ebur128_loudness_analysis->isChecked());
-  s.setValue(kMarkSongsUnavailable, ui_->song_tracking->isChecked() ? true : ui_->mark_songs_unavailable->isChecked());
-  s.setValue(kExpireUnavailableSongs, ui_->expire_unavailable_songs_days->value());
-
-  QString filter_text = ui_->cover_art_patterns->text();
-
-  const QStringList filters = filter_text.split(u',', Qt::SkipEmptyParts);
-
-  s.setValue(kCoverArtPatterns, filters);
+  s.setValue(kSkipArticlesForArtists, ui_->checkbox_skip_articles_for_artists->isChecked());
+  s.setValue(kSkipArticlesForAlbums, ui_->checkbox_skip_articles_for_albums->isChecked());
 
   s.setValue(kSettingsCacheSize, ui_->spinbox_cache_size->value());
   s.setValue(kSettingsCacheSizeUnit, ui_->combobox_cache_size->currentData().toInt());

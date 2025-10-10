@@ -70,6 +70,7 @@ class RichPresence : public QObject {
   };
   Activity activity_;
   bool initialized_;
+  int status_display_type_;
 };
 
 }  // namespace discord

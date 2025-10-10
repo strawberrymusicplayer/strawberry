@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>518</width>
-    <height>778</height>
+    <height>844</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -378,6 +378,36 @@
         <property name="text">
          <string>Enable Rich Presence</string>
         </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="richpresence_listening_to">
+        <property name="title">
+         <string>&quot;Listening to...&quot;</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_11">
+         <item>
+          <widget class="QRadioButton" name="richpresence_listening_to_app">
+           <property name="text">
+            <string>Strawberry</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="richpresence_listening_to_artist">
+           <property name="text">
+            <string>Artist name</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="richpresence_listening_to_song">
+           <property name="text">
+            <string>Song title</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
      </layout>

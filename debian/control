@@ -60,11 +60,11 @@ Description: music player and music collection organizer
   - Edit tags on audio files
   - Automatically retrieve tags from MusicBrainz
   - Album cover art from Last.fm, Musicbrainz, Discogs, Musixmatch, Deezer, Tidal, Qobuz and Spotify
-  - Song lyrics from Musixmatch, ChartLyrics, lyrics.ovh, lololyrics.com, songlyrics.com, azlyrics.com and elyrics.net
+  - Song lyrics from Genius, Musixmatch, ChartLyrics, lyrics.ovh, lololyrics.com, songlyrics.com, azlyrics.com, elyrics.net, letras.mus.br and LyricFind
   - Audio analyzer
   - Audio equalizer
   - Transfer music to mass-storage USB players, MTP compatible devices and iPod Nano/Classic
-  - Scrobbler with support for Last.fm, Libre.fm and ListenBrainz
+  - Scrobbler with support for Last.fm and ListenBrainz
   - Streaming support for Subsonic-compatible servers
   - Unofficial streaming support for Tidal and Qobuz
  .

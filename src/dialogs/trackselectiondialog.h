@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -83,7 +83,7 @@ class TrackSelectionDialog : public QDialog {
   };
 
   void AddDivider(const QString &text, QTreeWidget *parent) const;
-  static void AddSong(const Song &song, int result_index, QTreeWidget *parent);
+  static void AddSong(const Song &song, const int result_index, QTreeWidget *parent);
 
   void SetLoading(const QString &message);
   void SaveData(const QList<Data> &data) const;

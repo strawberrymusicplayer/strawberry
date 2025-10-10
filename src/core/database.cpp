@@ -50,7 +50,7 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-const int Database::kSchemaVersion = 20;
+const int Database::kSchemaVersion = 21;
 
 namespace {
 constexpr char kDatabaseFilename[] = "strawberry.db";
@@ -414,11 +414,6 @@ void Database::ExecSongTablesCommands(QSqlDatabase &db, const QStringList &song_
     // We allow a magic value in the schema files to update all songs tables at once.
     if (command.contains(QLatin1String(kMagicAllSongsTables))) {
       for (const QString &table : song_tables) {
-        // Another horrible hack: device songs tables don't have matching _fts tables, so if this command tries to touch one, ignore it.
-        if (table.startsWith("device_"_L1) && command.contains(QLatin1String(kMagicAllSongsTables) + "_fts"_L1)) {
-          continue;
-        }
-
         qLog(Info) << "Updating" << table << "for" << kMagicAllSongsTables;
         QString new_command(command);
         new_command.replace(QLatin1String(kMagicAllSongsTables), table);

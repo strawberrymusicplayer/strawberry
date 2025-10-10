@@ -157,12 +157,16 @@ void HttpBaseRequest::HandleSSLErrors(const QList<QSslError> &ssl_errors) {
 HttpBaseRequest::ReplyDataResult HttpBaseRequest::GetReplyData(QNetworkReply *reply) {
 
   if (reply->error() != QNetworkReply::NoError) {
+    if (reply->error() >= 200) {
+      reply->readAll(); // QTBUG-135641
+    }
     return ReplyDataResult(ErrorCode::NetworkError, QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
   }
 
   if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).isValid()) {
     const int http_status_code = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
     if (http_status_code < 200 || http_status_code > 207) {
+      reply->readAll(); // QTBUG-135641
       return ReplyDataResult(ErrorCode::HttpError, QStringLiteral("Received HTTP code %1").arg(http_status_code));
     }
   }

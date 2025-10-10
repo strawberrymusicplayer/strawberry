@@ -235,6 +235,21 @@ QJsonObject ListenBrainzScrobbler::JsonTrackMetadata(const ScrobbleMetadata &met
     object_additional_info.insert("work_mbids"_L1, array_musicbrainz_work_id);
   }
 
+  if (!metadata.music_service.isEmpty()) {
+    object_additional_info.insert("music_service"_L1, metadata.music_service);
+  }
+  if (!metadata.music_service_name.isEmpty()) {
+    object_additional_info.insert("music_service_name"_L1, metadata.music_service_name);
+  }
+
+  if (!metadata.share_url.isEmpty()) {
+    object_additional_info.insert("origin_url"_L1,  metadata.share_url);
+  }
+
+  if (!metadata.spotify_id.isEmpty()) {
+    object_additional_info.insert("spotify_id"_L1, metadata.spotify_id);
+  }
+
   object_track_metadata.insert("additional_info"_L1, object_additional_info);
 
   return object_track_metadata;
@@ -531,8 +546,7 @@ void ListenBrainzScrobbler::Error(const QString &error_message, const QVariant &
 
 void ListenBrainzScrobbler::CheckScrobblePrevSong() {
 
-  qint64 duration = QDateTime::currentSecsSinceEpoch() - static_cast<qint64>(timestamp_);
-  if (duration < 0) duration = 0;
+  const qint64 duration = std::max(0LL, QDateTime::currentSecsSinceEpoch() - static_cast<qint64>(timestamp_));
 
   if (!scrobbled_ && song_playing_.is_metadata_good() && song_playing_.is_radio() && duration > 30) {
     Song song(song_playing_);

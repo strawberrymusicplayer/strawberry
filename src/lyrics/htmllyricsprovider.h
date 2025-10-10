@@ -41,7 +41,7 @@ class HtmlLyricsProvider : public LyricsProvider {
 
   virtual bool StartSearchAsync(const int id, const LyricsSearchRequest &request) override;
 
-  static QString ParseLyricsFromHTML(const QString &content, const QRegularExpression &start_tag, const QRegularExpression &end_tag, const QRegularExpression &lyrics_start, const bool multiple);
+  static QString ParseLyricsFromHTML(const QString &content, const QRegularExpression &start_tag, const QRegularExpression &end_tag, const QRegularExpression &lyrics_start, const bool multiple, const QList<QRegularExpression> &regex_removes = {});
 
  protected:
   virtual QUrl Url(const LyricsSearchRequest &request) = 0;

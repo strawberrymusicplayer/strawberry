@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -150,9 +150,13 @@ class Song {
   bool is_valid() const;
 
   const QString &title() const;
+  const QString &titlesort() const;
   const QString &album() const;
+  const QString &albumsort() const;
   const QString &artist() const;
+  const QString &artistsort() const;
   const QString &albumartist() const;
+  const QString &albumartistsort() const;
   int track() const;
   int disc() const;
   int year() const;
@@ -160,7 +164,9 @@ class Song {
   const QString &genre() const;
   bool compilation() const;
   const QString &composer() const;
+  const QString &composersort() const;
   const QString &performer() const;
+  const QString &performersort() const;
   const QString &grouping() const;
   const QString &comment() const;
   const QString &lyrics() const;
@@ -207,6 +213,9 @@ class Song {
   const QString &cue_path() const;
 
   float rating() const;
+  float bpm() const;
+  const QString &mood() const;
+  const QString &initial_key() const;
 
   const QString &acoustid_id() const;
   const QString &acoustid_fingerprint() const;
@@ -250,11 +259,6 @@ class Song {
 
   bool init_from_file() const;
 
-  const QString &title_sortable() const;
-  const QString &album_sortable() const;
-  const QString &artist_sortable() const;
-  const QString &albumartist_sortable() const;
-
   const QUrl &stream_url() const;
 
   // Setters
@@ -262,9 +266,13 @@ class Song {
   void set_valid(const bool v);
 
   void set_title(const QString &v);
+  void set_titlesort(const QString &v);
   void set_album(const QString &v);
+  void set_albumsort(const QString &v);
   void set_artist(const QString &v);
+  void set_artistsort(const QString &v);
   void set_albumartist(const QString &v);
+  void set_albumartistsort(const QString &v);
   void set_track(const int v);
   void set_disc(const int v);
   void set_year(const int v);
@@ -272,7 +280,9 @@ class Song {
   void set_genre(const QString &v);
   void set_compilation(bool v);
   void set_composer(const QString &v);
+  void set_composersort(const QString &v);
   void set_performer(const QString &v);
+  void set_performersort(const QString &v);
   void set_grouping(const QString &v);
   void set_comment(const QString &v);
   void set_lyrics(const QString &v);
@@ -318,6 +328,9 @@ class Song {
   void set_cue_path(const QString &v);
 
   void set_rating(const float v);
+  void set_bpm(const float v);
+  void set_mood(const QString &v);
+  void set_initial_key(const QString &v);
 
   void set_acoustid_id(const QString &v);
   void set_acoustid_fingerprint(const QString &v);
@@ -341,12 +354,18 @@ class Song {
   void set_stream_url(const QUrl &v);
 
   void set_title(const TagLib::String &v);
+  void set_titlesort(const TagLib::String &v);
   void set_album(const TagLib::String &v);
+  void set_albumsort(const TagLib::String &v);
   void set_artist(const TagLib::String &v);
+  void set_artistsort(const TagLib::String &v);
   void set_albumartist(const TagLib::String &v);
+  void set_albumartistsort(const TagLib::String &v);
   void set_genre(const TagLib::String &v);
   void set_composer(const TagLib::String &v);
+  void set_composersort(const TagLib::String &v);
   void set_performer(const TagLib::String &v);
+  void set_performersort(const TagLib::String &v);
   void set_grouping(const TagLib::String &v);
   void set_comment(const TagLib::String &v);
   void set_lyrics(const TagLib::String &v);
@@ -365,14 +384,21 @@ class Song {
   void set_musicbrainz_disc_id(const TagLib::String &v);
   void set_musicbrainz_release_group_id(const TagLib::String &v);
   void set_musicbrainz_work_id(const TagLib::String &v);
+  void set_mood(const TagLib::String &v);
+  void set_initial_key(const TagLib::String &v);
 
   const QUrl &effective_url() const;
+  const QString &effective_titlesort() const;
   const QString &effective_albumartist() const;
-  const QString &effective_albumartist_sortable() const;
+  const QString &effective_albumartistsort() const;
+  const QString &effective_artistsort() const;
   const QString &effective_album() const;
+  const QString &effective_albumsort() const;
+  const QString &effective_composersort() const;
+  const QString &effective_performersort() const;
   int effective_originalyear() const;
-  const QString &playlist_albumartist() const;
-  const QString &playlist_albumartist_sortable() const;
+  const QString &playlist_effective_albumartist() const;
+  const QString &playlist_effective_albumartistsort() const;
 
   bool is_metadata_good() const;
   bool is_local_collection_song() const;
@@ -402,6 +428,13 @@ class Song {
   bool rating_supported() const;
   bool comment_supported() const;
   bool lyrics_supported() const;
+
+  bool albumartistsort_supported() const;
+  bool albumsort_supported() const;
+  bool artistsort_supported() const;
+  bool composersort_supported() const;
+  bool performersort_supported() const;
+  bool titlesort_supported() const;
 
   static bool save_embedded_cover_supported(const FileType filetype);
   bool save_embedded_cover_supported() const { return url().isLocalFile() && save_embedded_cover_supported(filetype()) && !has_cue(); };
@@ -453,6 +486,7 @@ class Song {
   static QString DescriptionForSource(const Source source);
   static Source SourceFromText(const QString &source);
   static QIcon IconForSource(const Source source);
+  static QString DomainForSource(const Source source);
   static QString TextForFiletype(const FileType filetype);
   static QString ExtensionForFiletype(const FileType filetype);
   static QIcon IconForFiletype(const FileType filetype);
@@ -460,8 +494,11 @@ class Song {
   QString TextForSource() const { return TextForSource(source()); }
   QString DescriptionForSource() const { return DescriptionForSource(source()); }
   QIcon IconForSource() const { return IconForSource(source()); }
+  QString DomainForSource() const { return DomainForSource(source()); }
   QString TextForFiletype() const { return TextForFiletype(filetype()); }
   QIcon IconForFiletype() const { return IconForFiletype(filetype()); }
+
+  QString ShareURL() const;
 
   bool IsFileLossless() const;
   static FileType FiletypeByMimetype(const QString &mimetype);
@@ -526,9 +563,6 @@ class Song {
 
  private:
   struct Private;
-
-  static QString sortable(const QString &v);
-
   QSharedDataPointer<Private> d;
 };
 

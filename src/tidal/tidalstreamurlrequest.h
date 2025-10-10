@@ -58,6 +58,9 @@ class TidalStreamURLRequest : public TidalBaseRequest {
  private Q_SLOTS:
   void StreamURLReceived();
 
+private:
+  static QList<QUrl> ParseUrls(const QJsonObject &json_object);
+
  private:
   TidalService *service_;
   QNetworkReply *reply_;
