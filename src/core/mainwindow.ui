@@ -776,6 +776,11 @@
     <string>Go to last playlist tab</string>
    </property>
   </action>
+  <action name="action_active_playlist">
+   <property name="text">
+    <string>Go to active playlist tab</string>
+   </property>
+  </action>
   <action name="action_close_playlist">
    <property name="text">
     <string>Close current playlist tab</string>
