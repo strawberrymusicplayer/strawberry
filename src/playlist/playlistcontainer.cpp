@@ -139,7 +139,7 @@ PlaylistContainer::~PlaylistContainer() { delete ui_; }
 
 PlaylistView *PlaylistContainer::view() const { return ui_->playlist; }
 
-void PlaylistContainer::SetActions(QAction *new_playlist, QAction *load_playlist, QAction *save_playlist, QAction *clear_playlist, QAction *next_playlist, QAction *previous_playlist, QAction *last_playlist, QAction *save_all_playlists) {
+void PlaylistContainer::SetActions(QAction *new_playlist, QAction *load_playlist, QAction *save_playlist, QAction *clear_playlist, QAction *next_playlist, QAction *previous_playlist, QAction *last_playlist, QAction *close_playlist, QAction *save_all_playlists) {
 
   ui_->create_new->setDefaultAction(new_playlist);
   ui_->load->setDefaultAction(load_playlist);
@@ -157,6 +157,7 @@ void PlaylistContainer::SetActions(QAction *new_playlist, QAction *load_playlist
   QObject::connect(last_playlist, &QAction::triggered, this, &PlaylistContainer::GoToLastPlaylistTab);
   QObject::connect(clear_playlist, &QAction::triggered, this, &PlaylistContainer::ClearPlaylist);
   QObject::connect(save_all_playlists, &QAction::triggered, &*manager_, &PlaylistManager::SaveAllPlaylists);
+  QObject::connect(close_playlist, &QAction::triggered, &*ui_->tab_bar, &PlaylistTabBar::CloseCurrentTab);
 }
 
 void PlaylistContainer::SetManager(SharedPtr<PlaylistManager> manager) {
