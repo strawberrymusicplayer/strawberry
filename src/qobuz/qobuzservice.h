@@ -95,6 +95,7 @@ class QobuzService : public StreamingService {
   int albumssearchlimit() const { return albumssearchlimit_; }
   int songssearchlimit() const { return songssearchlimit_; }
   bool download_album_covers() const { return download_album_covers_; }
+  bool remove_remastered() const { return remove_remastered_; }
 
   QString user_auth_token() const { return user_auth_token_; }
   qint64 user_id() const { return user_id_; }
@@ -187,6 +188,7 @@ class QobuzService : public StreamingService {
   int albumssearchlimit_;
   int songssearchlimit_;
   bool download_album_covers_;
+  bool remove_remastered_;
 
   qint64 user_id_;
   QString user_auth_token_;

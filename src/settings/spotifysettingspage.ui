@@ -202,6 +202,13 @@
         </property>
        </widget>
       </item>
+      <item row="6" column="0">
+       <widget class="QCheckBox" name="checkbox_remove_remastered">
+        <property name="text">
+         <string>Remove (Remastered), etc from song titles</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>

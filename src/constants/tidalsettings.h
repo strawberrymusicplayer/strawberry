@@ -40,6 +40,7 @@ constexpr char kDownloadAlbumCovers[] = "downloadalbumcovers";
 constexpr char kCoverSize[] = "coversize";
 constexpr char kStreamUrl[] = "streamurl";
 constexpr char kAlbumExplicit[] = "album_explicit";
+constexpr char kRemoveRemastered[] = "remove_remastered";
 
 enum class StreamUrlMethod {
   StreamUrl,

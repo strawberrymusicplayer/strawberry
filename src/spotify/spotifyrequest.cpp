@@ -1115,7 +1115,9 @@ void SpotifyRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Ar
 
   QUrl url(uri);
 
-  title = Song::TitleRemoveMisc(title);
+  if (service_->remove_remastered()) {
+    title = Song::TitleRemoveMisc(title);
+  }
 
   song.set_source(Song::Source::Spotify);
   song.set_song_id(song_id);

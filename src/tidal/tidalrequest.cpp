@@ -1077,7 +1077,9 @@ void TidalRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Arti
     }
   }
 
-  title = Song::TitleRemoveMisc(title);
+  if (service_->remove_remastered()) {
+    title = Song::TitleRemoveMisc(title);
+  }
 
   //qLog(Debug) << "id" << song_id << "track" << track << "disc" << disc << "title" << title << "album" << album << "album artist" << album_artist << "artist" << artist << cover << allow_streaming << url;
 
