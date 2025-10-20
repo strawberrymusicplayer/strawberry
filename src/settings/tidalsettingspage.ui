@@ -172,6 +172,19 @@
         </property>
        </widget>
       </item>
+      <item row="4" column="1">
+       <widget class="QSpinBox" name="songssearchlimit">
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>1000</number>
+        </property>
+        <property name="value">
+         <number>50</number>
+        </property>
+       </widget>
+      </item>
       <item row="5" column="0">
        <widget class="QCheckBox" name="checkbox_download_album_covers">
         <property name="text">
@@ -186,13 +199,6 @@
         </property>
        </widget>
       </item>
-      <item row="7" column="1">
-       <widget class="QComboBox" name="coversize">
-        <property name="currentText">
-         <string notr="true"/>
-        </property>
-       </widget>
-      </item>
       <item row="7" column="0">
        <widget class="QLabel" name="label_coversize">
         <property name="text">
@@ -200,16 +206,10 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="1">
-       <widget class="QSpinBox" name="songssearchlimit">
-        <property name="minimum">
-         <number>1</number>
-        </property>
-        <property name="maximum">
-         <number>1000</number>
-        </property>
-        <property name="value">
-         <number>50</number>
+      <item row="7" column="1">
+       <widget class="QComboBox" name="coversize">
+        <property name="currentText">
+         <string notr="true"/>
         </property>
        </widget>
       </item>
@@ -231,6 +231,13 @@
        <widget class="QCheckBox" name="checkbox_album_explicit">
         <property name="text">
          <string>Append explicit to album title for explicit albums</string>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="0">
+       <widget class="QCheckBox" name="checkbox_remove_remastered">
+        <property name="text">
+         <string>Remove (Remastered), etc from song titles</string>
         </property>
        </widget>
       </item>

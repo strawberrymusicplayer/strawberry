@@ -96,6 +96,7 @@ TidalService::TidalService(const SharedPtr<TaskManager> task_manager,
       download_album_covers_(true),
       stream_url_method_(TidalSettings::StreamUrlMethod::StreamUrl),
       album_explicit_(false),
+      remove_remastered_(true),
       pending_search_id_(0),
       next_pending_search_id_(1),
       pending_search_type_(SearchType::Artists),
@@ -232,7 +233,8 @@ void TidalService::ReloadSettings() {
   coversize_ = s.value(TidalSettings::kCoverSize, u"640x640"_s).toString();
   download_album_covers_ = s.value(TidalSettings::kDownloadAlbumCovers, true).toBool();
   stream_url_method_ = static_cast<TidalSettings::StreamUrlMethod>(s.value(TidalSettings::kStreamUrl, static_cast<int>(TidalSettings::StreamUrlMethod::StreamUrl)).toInt());
-  album_explicit_ = s.value(TidalSettings::kAlbumExplicit).toBool();
+  album_explicit_ = s.value(TidalSettings::kAlbumExplicit, false).toBool();
+  remove_remastered_ = s.value(TidalSettings::kRemoveRemastered, true).toBool();
   s.endGroup();
 
   oauth_->set_client_id(client_id_);

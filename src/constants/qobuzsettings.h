@@ -36,6 +36,7 @@ constexpr char kAlbumsSearchLimit[] = "albumssearchlimit";
 constexpr char kSongsSearchLimit[] = "songssearchlimit";
 constexpr char kBase64Secret[] = "base64secret";
 constexpr char kDownloadAlbumCovers[] = "downloadalbumcovers";
+constexpr char kRemoveRemastered[] = "remove_remastered";
 
 constexpr char kUserId[] = "user_id";
 constexpr char kCredentialsId[] = "credentials_id";

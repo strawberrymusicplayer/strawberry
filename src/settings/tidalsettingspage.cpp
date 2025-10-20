@@ -104,6 +104,7 @@ void TidalSettingsPage::Load() {
   ComboBoxLoadFromSettings(s, ui_->coversize, QLatin1String(kCoverSize), u"640x640"_s);
   ui_->streamurl->setCurrentIndex(ui_->streamurl->findData(s.value(kStreamUrl, static_cast<int>(StreamUrlMethod::StreamUrl)).toInt()));
   ui_->checkbox_album_explicit->setChecked(s.value(kAlbumExplicit, false).toBool());
+  ui_->checkbox_remove_remastered->setChecked(s.value(kRemoveRemastered, true).toBool());
   s.endGroup();
 
   if (service_->authenticated()) {
@@ -144,6 +145,7 @@ void TidalSettingsPage::Save() {
   s.setValue(kCoverSize, ui_->coversize->currentData().toString());
   s.setValue(kStreamUrl, ui_->streamurl->currentData().toInt());
   s.setValue(kAlbumExplicit, ui_->checkbox_album_explicit->isChecked());
+  s.setValue(kRemoveRemastered, ui_->checkbox_remove_remastered->isChecked());
   s.endGroup();
 
 }

@@ -100,6 +100,7 @@ void SpotifySettingsPage::Load() {
   ui_->songssearchlimit->setValue(s.value(kSongsSearchLimit, 10).toInt());
   ui_->checkbox_fetchalbums->setChecked(s.value(kFetchAlbums, false).toBool());
   ui_->checkbox_download_album_covers->setChecked(s.value(kDownloadAlbumCovers, true).toBool());
+  ui_->checkbox_remove_remastered->setChecked(s.value(kRemoveRemastered, true).toBool());
 
   s.endGroup();
 
@@ -122,6 +123,7 @@ void SpotifySettingsPage::Save() {
   s.setValue(kSongsSearchLimit, ui_->songssearchlimit->value());
   s.setValue(kFetchAlbums, ui_->checkbox_fetchalbums->isChecked());
   s.setValue(kDownloadAlbumCovers, ui_->checkbox_download_album_covers->isChecked());
+  s.setValue(kRemoveRemastered, ui_->checkbox_remove_remastered->isChecked());
   s.endGroup();
 
 }

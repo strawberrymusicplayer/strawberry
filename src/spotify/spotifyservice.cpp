@@ -86,6 +86,7 @@ SpotifyService::SpotifyService(const SharedPtr<TaskManager> task_manager,
       songssearchlimit_(1),
       fetchalbums_(true),
       download_album_covers_(true),
+      remove_remastered_(true),
       pending_search_id_(0),
       next_pending_search_id_(1),
       pending_search_type_(SearchType::Artists),
@@ -204,6 +205,7 @@ void SpotifyService::ReloadSettings() {
   songssearchlimit_ = s.value(SpotifySettings::kSongsSearchLimit, 10).toInt();
   fetchalbums_ = s.value(SpotifySettings::kFetchAlbums, false).toBool();
   download_album_covers_ = s.value(SpotifySettings::kDownloadAlbumCovers, true).toBool();
+  remove_remastered_ = s.value(SpotifySettings::kRemoveRemastered, true).toBool();
 
   s.endGroup();
 

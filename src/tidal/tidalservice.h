@@ -89,6 +89,7 @@ class TidalService : public StreamingService {
   bool download_album_covers() const { return download_album_covers_; }
   TidalSettings::StreamUrlMethod stream_url_method() const { return stream_url_method_; }
   bool album_explicit() const { return album_explicit_; }
+  bool remove_remastered() const { return remove_remastered_; }
 
   bool authenticated() const override;
   QByteArray authorization_header() const;
@@ -171,6 +172,7 @@ class TidalService : public StreamingService {
   bool download_album_covers_;
   TidalSettings::StreamUrlMethod stream_url_method_;
   bool album_explicit_;
+  bool remove_remastered_;
 
   int pending_search_id_;
   int next_pending_search_id_;

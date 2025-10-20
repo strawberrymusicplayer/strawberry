@@ -1156,7 +1156,9 @@ void QobuzRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Arti
   url.setScheme(url_handler_->scheme());
   url.setPath(song_id);
 
-  title = Song::TitleRemoveMisc(title);
+  if (service_->remove_remastered()) {
+    title = Song::TitleRemoveMisc(title);
+  }
 
   //qLog(Debug) << "id" << song_id << "track" << track << "title" << title << "album" << album << "album artist" << album_artist << cover_url << streamable << url;
 
