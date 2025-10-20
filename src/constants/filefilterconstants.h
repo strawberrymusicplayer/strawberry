@@ -27,7 +27,7 @@ constexpr char kAllFilesFilterSpec[] = QT_TRANSLATE_NOOP("FileFilter", "All File
 constexpr char kFileFilter[] =
     "*.wav *.flac *.wv *.ogg *.oga *.opus *.spx *.ape *.mpc "
     "*.mp2 *.mp3 *.m4a *.mp4 *.aac *.asf *.asx *.wma "
-    "*.aif *.aiff *.mka *.tta *.dsf *.dsd "
+    "*.aif *.aiff *.mka *.tta *.dsf *.dsd *.webm "
     "*.cue *.m3u *.m3u8 *.pls *.xspf *.asxini "
     "*.ac3 *.dts "
     "*.mod *.s3m *.xm *.it "
