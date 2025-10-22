@@ -2,6 +2,23 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+  Bugfixes:
+    * Fixed showing error dialog minimized when main window is not current active window (#1739)
+    * Fixed Discord timestamp update when seeking (#1813)
+    * Fixed CD metadata lookup to respect MusicBrainz rate limiting
+    * (Windows) Fixed device selection with WASAPI2
+
+  Enhancements/Other:
+    * Removed libre.fm support
+    * Rewrote MusicBrainzClient to use Json instead of XML
+    * Subsonic will now use cover art from album when available
+    * Added option to remove "Remastered", etc from song titles for Tidal, Qobuz and Spotify
+    * Added webm to supported file extensions
+    * (Windows|MinGW) Added WASAPI2 support
+    * (Windows) Added experimental exclusive mode for WASAPI2
+
 Version 1.2.13 (2025.08.31):
 
   Bugfixes:
