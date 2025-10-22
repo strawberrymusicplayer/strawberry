@@ -88,6 +88,8 @@ void MusicBrainzClient::FlushRequests() {
 
 void MusicBrainzClient::CancelAll() {
 
+  replies_.clear();
+
   qDeleteAll(mbid_requests_);
   mbid_requests_.clear();
 
