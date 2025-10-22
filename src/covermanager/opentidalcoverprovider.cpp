@@ -271,8 +271,9 @@ void OpenTidalCoverProvider::HandleSearchReply(QNetworkReply *reply, SearchReque
   reply->deleteLater();
 
   const QScopeGuard search_finished = qScopeGuard([this, search_request]() {
-    if (search_request->albumcover_requests.isEmpty()) {
+    if (!search_request->finished && search_request->albumcover_requests.isEmpty()) {
       Q_EMIT SearchFinished(search_request->id, search_request->results);
+      search_request->finished = true;
     }
   });
 
@@ -355,8 +356,9 @@ void OpenTidalCoverProvider::HandleAlbumCoverReply(QNetworkReply *reply, SearchR
     if (albumcover_request->artwork_requests.isEmpty()) {
       search_request->albumcover_requests.removeAll(albumcover_request);
     }
-    if (search_request->albumcover_requests.isEmpty()) {
+    if (!search_request->finished && search_request->albumcover_requests.isEmpty()) {
       Q_EMIT SearchFinished(search_request->id, search_request->results);
+      search_request->finished = true;
     }
   });
 
@@ -436,8 +438,9 @@ void OpenTidalCoverProvider::HandleArtworkReply(QNetworkReply *reply, SearchRequ
     if (albumcover_request->artwork_requests.isEmpty()) {
       search_request->albumcover_requests.removeAll(albumcover_request);
     }
-    if (search_request->albumcover_requests.isEmpty()) {
+    if (!search_request->finished && search_request->albumcover_requests.isEmpty()) {
       Q_EMIT SearchFinished(search_request->id, search_request->results);
+      search_request->finished = true;
     }
   });
 
@@ -500,7 +503,10 @@ void OpenTidalCoverProvider::FinishAllSearches() {
     QueuedSearchRequestPtr queued_search_request = search_requests_queue_.dequeue();
     SearchRequestPtr search_request = queued_search_request->search;
     search_request->albumcover_requests.clear();
-    Q_EMIT SearchFinished(search_request->id, CoverProviderSearchResults());
+    if (!search_request->finished) {
+      Q_EMIT SearchFinished(search_request->id, CoverProviderSearchResults());
+      search_request->finished = true;
+    }
   }
 
   timer_flush_requests_->stop();

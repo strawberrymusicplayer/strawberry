@@ -63,13 +63,14 @@ class OpenTidalCoverProvider : public JsonCoverProvider {
 
   class SearchRequest {
    public:
-    explicit SearchRequest(const int _id, const QString &_artist, const QString &_album, const QString &_title) : id(_id), artist(_artist), album(_album), title(_title) {}
+    explicit SearchRequest(const int _id, const QString &_artist, const QString &_album, const QString &_title) : id(_id), artist(_artist), album(_album), title(_title), finished(false) {}
     int id;
     QString artist;
     QString album;
     QString title;
     QList<AlbumCoverRequestPtr> albumcover_requests;
     CoverProviderSearchResults results;
+    bool finished;
   };
   using SearchRequestPtr = SharedPtr<SearchRequest>;
 
