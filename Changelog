@@ -8,6 +8,7 @@ Unreleased:
     * Fixed showing error dialog minimized when main window is not current active window (#1739)
     * Fixed Discord timestamp update when seeking (#1813)
     * Fixed CD metadata lookup to respect MusicBrainz rate limiting
+    * Fixed Tidal Open API cover provider
     * (Windows) Fixed device selection with WASAPI2
 
   Enhancements/Other:
