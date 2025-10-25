@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+Version 1.2.14 (2025.10.25):
 
   Bugfixes:
     * Fixed showing error dialog minimized when main window is not current active window (#1739)
