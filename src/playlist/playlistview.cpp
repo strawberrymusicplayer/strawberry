@@ -1315,10 +1315,16 @@ void PlaylistView::ReloadSettings() {
     force_background_redraw_ = true;
   }
 
-  if (editmetadatainline)
-    setEditTriggers(editTriggers() | QAbstractItemView::SelectedClicked);
-  else
-    setEditTriggers(editTriggers() & ~QAbstractItemView::SelectedClicked);
+  EditTriggers edit_triggers = editTriggers();
+  if (editmetadatainline) {
+    edit_triggers |= QAbstractItemView::EditKeyPressed;
+    edit_triggers |= QAbstractItemView::SelectedClicked;
+  }
+  else {
+    edit_triggers &= ~QAbstractItemView::EditKeyPressed;
+    edit_triggers &= ~QAbstractItemView::SelectedClicked;
+  }
+  setEditTriggers(edit_triggers);
 
   if (playlist_) playlist_->set_auto_sort(auto_sort_);
 
