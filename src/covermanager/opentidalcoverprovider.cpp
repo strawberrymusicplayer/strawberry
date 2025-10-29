@@ -36,7 +36,6 @@
 #include "includes/shared_ptr.h"
 #include "core/networkaccessmanager.h"
 #include "core/logging.h"
-#include "core/song.h"
 #include "core/oauthenticator.h"
 #include "albumcoverfetcher.h"
 #include "jsoncoverprovider.h"
@@ -50,8 +49,9 @@ constexpr char kOAuthAccessTokenUrl[] = "https://auth.tidal.com/v1/oauth2/token"
 constexpr char kApiUrl[] = "https://openapi.tidal.com/v2";
 constexpr char kApiClientIdB64[] = "RHBwV3FpTEM4ZFJSV1RJaQ==";
 constexpr char kApiClientSecretB64[] = "cGk0QmxpclZXQWlteWpBc0RnWmZ5RmVlRzA2b3E1blVBVTljUW1IdFhDST0=";
-constexpr int kLimit = 10;
-constexpr const int kRequestsDelay = 1000;
+constexpr char kContentTypeHeader[] = "application/vnd.api+json";
+constexpr int kSearchLimit = 6;
+constexpr const int kRequestsDelay = 300;
 }  // namespace
 
 using std::make_shared;
@@ -87,8 +87,7 @@ bool OpenTidalCoverProvider::StartSearch(const QString &artist, const QString &a
     return false;
   }
 
-  SearchRequestPtr search_request = make_shared<SearchRequest>(id, artist, album, title);
-  search_requests_queue_ << search_request;
+  search_requests_queue_.enqueue(make_shared<QueuedSearchRequest>(make_shared<SearchRequest>(id, artist, album, title)));
 
   if (!timer_flush_requests_->isActive()) {
     timer_flush_requests_->start();
@@ -109,8 +108,21 @@ void OpenTidalCoverProvider::FlushRequests() {
     return;
   }
 
+  if (!artwork_requests_queue_.isEmpty()) {
+    QueuedArtworkRequestPtr queued_artwork_request = artwork_requests_queue_.dequeue();
+    SendArtworkRequest(queued_artwork_request->search, queued_artwork_request->albumcover, queued_artwork_request->artwork);
+    return;
+  }
+
+  if (!albumcover_requests_queue_.isEmpty()) {
+    QueuedAlbumCoverRequestPtr queued_albumcover_request = albumcover_requests_queue_.dequeue();
+    SendAlbumCoverRequest(queued_albumcover_request->search, queued_albumcover_request->albumcover);
+    return;
+  }
+
   if (!search_requests_queue_.isEmpty()) {
-    SendSearchRequest(search_requests_queue_.dequeue());
+    QueuedSearchRequestPtr queued_search_request = search_requests_queue_.dequeue();
+    SendSearchRequest(queued_search_request->search);
     return;
   }
 
@@ -233,14 +245,14 @@ void OpenTidalCoverProvider::SendSearchRequest(SearchRequestPtr search_request) 
   }
 
   QUrlQuery url_query;
-  url_query.addQueryItem(u"include"_s, u"albums"_s);
-  url_query.addQueryItem(u"limit"_s, QString::number(kLimit));
   url_query.addQueryItem(u"countryCode"_s, u"US"_s);
-  QUrl url(QLatin1String(kApiUrl) + "/searchresults/"_L1 + QString::fromUtf8(QUrl::toPercentEncoding(query)));
+  url_query.addQueryItem(u"limit"_s, QString::number(kSearchLimit));
+  url_query.addQueryItem(u"include"_s, u"albums"_s);
+  QUrl url(QLatin1String(kApiUrl) + "/searchResults/"_L1 + QString::fromUtf8(QUrl::toPercentEncoding(query)));
   url.setQuery(url_query);
   QNetworkRequest network_request(url);
   network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  network_request.setHeader(QNetworkRequest::ContentTypeHeader, u"application/vnd.tidal.v1+json"_s);
+  network_request.setHeader(QNetworkRequest::ContentTypeHeader, QLatin1String(kContentTypeHeader));
   if (oauth_->authenticated()) {
     network_request.setRawHeader("Authorization", oauth_->authorization_header());
   }
@@ -258,94 +270,246 @@ void OpenTidalCoverProvider::HandleSearchReply(QNetworkReply *reply, SearchReque
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
-  CoverProviderSearchResults results;
-  const QScopeGuard search_finished = qScopeGuard([this, search_request, &results]() { Q_EMIT SearchFinished(search_request->id, results); });
+  const QScopeGuard search_finished = qScopeGuard([this, search_request]() {
+    if (!search_request->finished && search_request->albumcover_requests.isEmpty()) {
+      Q_EMIT SearchFinished(search_request->id, search_request->results);
+      search_request->finished = true;
+    }
+  });
 
   const JsonObjectResult json_object_result = ParseJsonObject(reply);
   if (!json_object_result.success()) {
     Error(json_object_result.error_message);
     if (login_in_progress_) {
-      search_requests_queue_.prepend(search_request);
+      search_requests_queue_.prepend(make_shared<QueuedSearchRequest>(search_request));
     }
     return;
   }
   const QJsonObject &json_object = json_object_result.json_object;
-
   if (!json_object.contains("included"_L1) || !json_object["included"_L1].isArray()) {
-    qLog(Error) << "OpenTidal: Json object is missing included.";
     return;
   }
-
   const QJsonArray array_included = json_object["included"_L1].toArray();
   if (array_included.isEmpty()) {
     return;
   }
+  for (const auto &value : array_included) {
+    if (!value.isObject()) {
+      continue;
+    }
+    const QJsonObject object = value.toObject();
+    const QString id = object["id"_L1].toString();
+    const QString type = object["type"_L1].toString();
+    if (type == "albums"_L1) {
+      QString title;
+      if (object.contains("attributes"_L1)) {
+        const QJsonObject attributes = object["attributes"_L1].toObject();
+        if (attributes.contains("title"_L1)) {
+          title = attributes["title"_L1].toString();
+        }
+      }
+      AddAlbumCoverRequest(search_request, id, title);
+    }
+  }
 
+}
+
+void OpenTidalCoverProvider::AddAlbumCoverRequest(SearchRequestPtr search_request, const QString &album_id, const QString &album_title) {
+
+  AlbumCoverRequestPtr albumcover_request = make_shared<AlbumCoverRequest>(album_id, album_title);
+  search_request->albumcover_requests << albumcover_request;
+  albumcover_requests_queue_.enqueue(make_shared<QueuedAlbumCoverRequest>(search_request, albumcover_request));
+
+  if (!timer_flush_requests_->isActive()) {
+    timer_flush_requests_->start();
+  }
+
+}
+
+void OpenTidalCoverProvider::SendAlbumCoverRequest(SearchRequestPtr search_request, AlbumCoverRequestPtr albumcover_request) {
+
+  QUrlQuery url_query;
+  url_query.addQueryItem(u"countryCode"_s, u"US"_s);
+  QUrl url(QLatin1String(kApiUrl) + QLatin1String("/albums/%1/relationships/coverArt"_L1).arg(albumcover_request->album_id));
+  url.setQuery(url_query);
+  QNetworkRequest network_request(url);
+  network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+  network_request.setHeader(QNetworkRequest::ContentTypeHeader, QLatin1String(kContentTypeHeader));
+  if (oauth_->authenticated()) {
+    network_request.setRawHeader("Authorization", oauth_->authorization_header());
+  }
+
+  QNetworkReply *reply = network_->get(network_request);
+  replies_ << reply;
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, search_request, albumcover_request]() { HandleAlbumCoverReply(reply, search_request, albumcover_request); });
+
+}
+
+void OpenTidalCoverProvider::HandleAlbumCoverReply(QNetworkReply *reply, SearchRequestPtr search_request, AlbumCoverRequestPtr albumcover_request) {
+
+  if (!replies_.contains(reply)) return;
+  replies_.removeAll(reply);
+  QObject::disconnect(reply, nullptr, this, nullptr);
+  reply->deleteLater();
+
+  const QScopeGuard search_finished = qScopeGuard([this, search_request, albumcover_request]() {
+    if (albumcover_request->artwork_requests.isEmpty()) {
+      search_request->albumcover_requests.removeAll(albumcover_request);
+    }
+    if (!search_request->finished && search_request->albumcover_requests.isEmpty()) {
+      Q_EMIT SearchFinished(search_request->id, search_request->results);
+      search_request->finished = true;
+    }
+  });
+
+  const JsonObjectResult json_object_result = ParseJsonObject(reply);
+  if (!json_object_result.success()) {
+    Error(json_object_result.error_message);
+    if (login_in_progress_) {
+      albumcover_requests_queue_.prepend(make_shared<QueuedAlbumCoverRequest>(search_request, albumcover_request));
+    }
+    return;
+  }
+  const QJsonObject &json_object = json_object_result.json_object;
+  if (!json_object.contains("data"_L1) || !json_object["data"_L1].isArray()) {
+    return;
+  }
+  const QJsonArray array_data = json_object["data"_L1].toArray();
+  if (array_data.isEmpty()) {
+    return;
+  }
+  for (const auto &value : array_data) {
+    if (!value.isObject()) {
+      continue;
+    }
+    const QJsonObject object = value.toObject();
+    if (!object.contains("id"_L1) || !object.contains("type"_L1)) {
+      continue;
+    }
+    const QString id = object["id"_L1].toString();
+    const QString type = object["type"_L1].toString();
+    if (type == "artworks"_L1) {
+      AddArtworkRequest(search_request, albumcover_request, id);
+    }
+  }
+
+}
+
+void OpenTidalCoverProvider::AddArtworkRequest(SearchRequestPtr search_request, AlbumCoverRequestPtr albumcover_request, const QString &artwork_id) {
+
+  ArtworkRequestPtr artwork_request = make_shared<ArtworkRequest>(artwork_id);
+  albumcover_request->artwork_requests << artwork_request;
+  artwork_requests_queue_.enqueue(make_shared<QueuedArtworkRequest>(search_request, albumcover_request, artwork_request));
+
+  if (!timer_flush_requests_->isActive()) {
+    timer_flush_requests_->start();
+  }
+
+}
+
+void OpenTidalCoverProvider::SendArtworkRequest(SearchRequestPtr search_request, AlbumCoverRequestPtr albumcover_request, ArtworkRequestPtr artwork_request) {
+
+  QUrlQuery url_query;
+  url_query.addQueryItem(u"countryCode"_s, u"US"_s);
+  QUrl url(QLatin1String(kApiUrl) + QLatin1String("/artworks/%1").arg(artwork_request->artwork_id));
+  url.setQuery(url_query);
+  QNetworkRequest network_request(url);
+  network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+  network_request.setHeader(QNetworkRequest::ContentTypeHeader, QLatin1String(kContentTypeHeader));
+  if (oauth_->authenticated()) {
+    network_request.setRawHeader("Authorization", oauth_->authorization_header());
+  }
+
+  QNetworkReply *reply = network_->get(network_request);
+  replies_ << reply;
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, search_request, albumcover_request, artwork_request]() { HandleArtworkReply(reply, search_request, albumcover_request, artwork_request); });
+
+}
+
+void OpenTidalCoverProvider::HandleArtworkReply(QNetworkReply *reply, SearchRequestPtr search_request, AlbumCoverRequestPtr albumcover_request, ArtworkRequestPtr artwork_request) {
+
+  if (!replies_.contains(reply)) return;
+  replies_.removeAll(reply);
+  QObject::disconnect(reply, nullptr, this, nullptr);
+  reply->deleteLater();
+
+  const QScopeGuard search_finished = qScopeGuard([this, search_request, albumcover_request, artwork_request]() {
+    albumcover_request->artwork_requests.removeAll(artwork_request);
+    if (albumcover_request->artwork_requests.isEmpty()) {
+      search_request->albumcover_requests.removeAll(albumcover_request);
+    }
+    if (!search_request->finished && search_request->albumcover_requests.isEmpty()) {
+      Q_EMIT SearchFinished(search_request->id, search_request->results);
+      search_request->finished = true;
+    }
+  });
+
+  const JsonObjectResult json_object_result = ParseJsonObject(reply);
+  if (!json_object_result.success()) {
+    Error(json_object_result.error_message);
+    if (login_in_progress_) {
+      artwork_requests_queue_.prepend(make_shared<QueuedArtworkRequest>(search_request, albumcover_request, artwork_request));
+    }
+    return;
+  }
+  const QJsonObject &json_object = json_object_result.json_object;
+  if (!json_object.contains("data"_L1) || !json_object["data"_L1].isObject()) {
+    return;
+  }
+  const QJsonObject object_data = json_object["data"_L1].toObject();
+  if (!object_data.contains("attributes"_L1) || !object_data["attributes"_L1].isObject()) {
+    return;
+  }
+  const QJsonObject object_attributes = object_data["attributes"_L1].toObject();
+  if (!object_attributes.contains("files"_L1) || !object_attributes["files"_L1].isArray()) {
+    return;
+  }
+  const QJsonArray array_files = object_attributes["files"_L1].toArray();
   int i = 0;
-  for (const auto &value_included : array_included) {
-
-    if (!value_included.isObject()) {
-      qLog(Error) << "OpenTidal: Invalid Json reply: Albums array value is not a object.";
+  for (const auto &value_file : array_files) {
+    if (!value_file.isObject()) {
       continue;
     }
-    const QJsonObject object_included = value_included.toObject();
-
-    if (!object_included.contains("attributes"_L1) || !object_included["attributes"_L1].isObject()) {
-      qLog(Error) << "OpenTidal: Invalid Json reply: Included array item is missing attributes object." << object_included;
+    const QJsonObject object_file = value_file.toObject();
+    if (!object_file.contains("href"_L1) || !object_file["href"_L1].isString()) {
       continue;
     }
-    const QJsonObject object_attributes = object_included["attributes"_L1].toObject();
-
-    if (!object_attributes.contains("title"_L1) || !object_attributes["title"_L1].isString()) {
-      qLog(Error) << "OpenTidal: Invalid Json reply: Attributes is missing title string." << object_attributes;
+    if (!object_file.contains("meta"_L1) || !object_file["meta"_L1].isObject()) {
       continue;
     }
-
-    if (!object_attributes.contains("imageLinks"_L1) || !object_attributes["imageLinks"_L1].isArray()) {
-      qLog(Error) << "OpenTidal: Invalid Json reply: Attributes is missing imageLinks object." << object_attributes;
+    const QString href = object_file["href"_L1].toString();
+    const QJsonObject object_meta = object_file["meta"_L1].toObject();
+    if (!object_meta.contains("width"_L1) || !object_meta.contains("height"_L1)) {
       continue;
     }
-
-    const QString album = object_attributes["title"_L1].toString();
-    const QJsonArray array_imagelinks = object_attributes["imageLinks"_L1].toArray();
-
-    for (const auto &value_imagelink : array_imagelinks) {
-      if (!value_imagelink.isObject()) {
-        continue;
-      }
-      const QJsonObject object_imagelink = value_imagelink.toObject();
-      if (!object_imagelink.contains("href"_L1) || !object_imagelink.contains("meta"_L1) || !object_imagelink["meta"_L1].isObject()) {
-        continue;
-      }
-      QJsonObject object_meta = object_imagelink["meta"_L1].toObject();
-      if (!object_meta.contains("width"_L1) || !object_meta.contains("height"_L1)) {
-        continue;
-      }
-      const QUrl url(object_imagelink["href"_L1].toString());
-      const int width = object_meta["width"_L1].toInt();
-      const int height = object_meta["height"_L1].toInt();
-      if (!url.isValid()) continue;
-      if (width < 640 || height < 640) continue;
-      CoverProviderSearchResult cover_result;
-      cover_result.artist = search_request->artist;
-      cover_result.album = Song::AlbumRemoveDiscMisc(album);
-      cover_result.image_url = url;
-      cover_result.image_size = QSize(width, height);
-      cover_result.number = ++i;
-      results << cover_result;
-    }
+    const int width = object_meta["width"_L1].toInt();
+    const int height = object_meta["height"_L1].toInt();
+    const QUrl url(href);
+    if (!url.isValid() || width < 640 || height < 640) continue;
+    CoverProviderSearchResult cover_result;
+    cover_result.artist = search_request->artist;
+    cover_result.album = albumcover_request->album_title;
+    cover_result.image_url = url;
+    cover_result.image_size = QSize(width, height);
+    cover_result.number = ++i;
+    search_request->results << cover_result;
   }
 
 }
 
 void OpenTidalCoverProvider::FinishAllSearches() {
 
-  timer_flush_requests_->stop();
-
   while (!search_requests_queue_.isEmpty()) {
-    SearchRequestPtr search_request = search_requests_queue_.dequeue();
-    Q_EMIT SearchFinished(search_request->id, CoverProviderSearchResults());
+    QueuedSearchRequestPtr queued_search_request = search_requests_queue_.dequeue();
+    SearchRequestPtr search_request = queued_search_request->search;
+    search_request->albumcover_requests.clear();
+    if (!search_request->finished) {
+      Q_EMIT SearchFinished(search_request->id, CoverProviderSearchResults());
+      search_request->finished = true;
+    }
   }
+
+  timer_flush_requests_->stop();
 
 }
 
