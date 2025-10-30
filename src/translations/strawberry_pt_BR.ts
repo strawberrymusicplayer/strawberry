@@ -1088,7 +1088,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Use various artists for compilation albums</source>
-      <translation type="unfinished">Use various artists for compilation albums</translation>
+      <translation>Use vários artistas para álbuns de coletâneas</translation>
     </message>
     <message>
       <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artist names</source>

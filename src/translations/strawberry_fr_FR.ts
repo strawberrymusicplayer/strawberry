@@ -347,7 +347,7 @@
     </message>
     <message>
       <source>WaveRubber</source>
-      <translation type="unfinished">WaveRubber</translation>
+      <translation/>
     </message>
   </context>
   <context>
@@ -549,7 +549,7 @@
     </message>
     <message>
       <source>p&amp;lughw</source>
-      <translation type="unfinished">p&amp;lughw</translation>
+      <translation>p&amp;ghoul</translation>
     </message>
     <message>
       <source>pcm</source>
@@ -3056,7 +3056,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation/>
     </message>
     <message>
       <source>&amp;Music</source>
