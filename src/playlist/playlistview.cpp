@@ -1317,11 +1317,9 @@ void PlaylistView::ReloadSettings() {
 
   EditTriggers edit_triggers = editTriggers();
   if (editmetadatainline) {
-    edit_triggers |= QAbstractItemView::EditKeyPressed;
     edit_triggers |= QAbstractItemView::SelectedClicked;
   }
   else {
-    edit_triggers &= ~QAbstractItemView::EditKeyPressed;
     edit_triggers &= ~QAbstractItemView::SelectedClicked;
   }
   setEditTriggers(edit_triggers);
