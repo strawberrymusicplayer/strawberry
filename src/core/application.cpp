@@ -4,6 +4,7 @@
  * Copyright 2012, David Sansome <me@davidsansome.com>
  * Copyright 2012, 2014, John Maguire <john.maguire@gmail.com>
  * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2025, Leopold List <leo@zudiewiener.com>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -109,56 +110,92 @@
 #  include "moodbar/moodbarloader.h"
 #endif
 
+#ifdef HAVE_NETWORKREMOTE
+#   include "networkremote/networkremote.h"
+#endif
+
 #include "radios/radioservices.h"
 #include "radios/radiobackend.h"
+
+#ifdef HAVE_NETWORKREMOTE
+#include "networkremote/networkremote.h"
+#endif
 
 using std::make_shared;
 using namespace std::chrono_literals;
 
 class ApplicationImpl {
  public:
-  explicit ApplicationImpl(Application *app) :
-       tagreader_client_([app](){
-          TagReaderClient *client = new TagReaderClient();
-          app->MoveToNewThread(client);
-          return client;
-        }),
-        database_([app]() {
-          Database *database = new Database(app->task_manager());
-          app->MoveToNewThread(database);
-          QTimer::singleShot(30s, database, &Database::DoBackup);
-          return database;
-        }),
-        task_manager_([]() { return new TaskManager(); }),
-        player_([app]() { return new Player(app->task_manager(), app->url_handlers(), app->playlist_manager()); }),
-        network_([]() { return new NetworkAccessManager(); }),
-        device_finders_([]() { return new DeviceFinders(); }),
-        url_handlers_([]() { return new UrlHandlers(); }),
-        device_manager_([app]() { return new DeviceManager(app->task_manager(), app->database(), app->tagreader_client(), app->albumcover_loader()); }),
-        collection_([app]() { return new CollectionLibrary(app->database(), app->task_manager(), app->tagreader_client(), app->albumcover_loader()); }),
-        playlist_backend_([this, app]() {
-          PlaylistBackend *playlist_backend = new PlaylistBackend(app->database(), app->tagreader_client(), app->collection_backend());
-          app->MoveToThread(playlist_backend, database_->thread());
-          return playlist_backend;
-        }),
-        playlist_manager_([app]() { return new PlaylistManager(app->task_manager(), app->tagreader_client(), app->url_handlers(), app->playlist_backend(), app->collection_backend(), app->current_albumcover_loader()); }),
-        cover_providers_([app]() {
-          CoverProviders *cover_providers = new CoverProviders();
-          // Initialize the repository of cover providers.
-          cover_providers->AddProvider(new LastFmCoverProvider(app->network()));
-          cover_providers->AddProvider(new MusicbrainzCoverProvider(app->network()));
-          cover_providers->AddProvider(new DiscogsCoverProvider(app->network()));
-          cover_providers->AddProvider(new DeezerCoverProvider(app->network()));
-          cover_providers->AddProvider(new MusixmatchCoverProvider(app->network()));
-          cover_providers->AddProvider(new OpenTidalCoverProvider(app->network()));
+     explicit ApplicationImpl(
+         Application *app)
+         : tagreader_client_([app]() {
+             TagReaderClient *client = new TagReaderClient();
+             app->MoveToNewThread(client);
+             return client;
+         })
+         , database_([app]() {
+             Database *database = new Database(app->task_manager());
+             app->MoveToNewThread(database);
+             QTimer::singleShot(30s, database, &Database::DoBackup);
+             return database;
+         })
+         , task_manager_([]() { return new TaskManager(); })
+         , player_([app]() {
+             return new Player(app->task_manager(), app->url_handlers(), app->playlist_manager());
+         })
+         , network_([]() { return new NetworkAccessManager(); })
+         , device_finders_([]() { return new DeviceFinders(); })
+         , url_handlers_([]() { return new UrlHandlers(); })
+         , device_manager_([app]() {
+             return new DeviceManager(app->task_manager(),
+                                      app->database(),
+                                      app->tagreader_client(),
+                                      app->albumcover_loader());
+         })
+         , collection_([app]() {
+             return new CollectionLibrary(app->database(),
+                                          app->task_manager(),
+                                          app->tagreader_client(),
+                                          app->albumcover_loader());
+         })
+         , playlist_backend_([this, app]() {
+             PlaylistBackend *playlist_backend = new PlaylistBackend(app->database(),
+                                                                     app->tagreader_client(),
+                                                                     app->collection_backend());
+             app->MoveToThread(playlist_backend, database_->thread());
+             return playlist_backend;
+         })
+         , playlist_manager_([app]() {
+             return new PlaylistManager(app->task_manager(),
+                                        app->tagreader_client(),
+                                        app->url_handlers(),
+                                        app->playlist_backend(),
+                                        app->collection_backend(),
+                                        app->current_albumcover_loader());
+         })
+         , cover_providers_([app]() {
+             CoverProviders *cover_providers = new CoverProviders();
+             // Initialize the repository of cover providers.
+             cover_providers->AddProvider(new LastFmCoverProvider(app->network()));
+             cover_providers->AddProvider(new MusicbrainzCoverProvider(app->network()));
+             cover_providers->AddProvider(new DiscogsCoverProvider(app->network()));
+             cover_providers->AddProvider(new DeezerCoverProvider(app->network()));
+             cover_providers->AddProvider(new MusixmatchCoverProvider(app->network()));
+             cover_providers->AddProvider(new OpenTidalCoverProvider(app->network()));
 #ifdef HAVE_TIDAL
-          cover_providers->AddProvider(new TidalCoverProvider(app->streaming_services()->Service<TidalService>(), app->network()));
+             cover_providers->AddProvider(
+                 new TidalCoverProvider(app->streaming_services()->Service<TidalService>(),
+                                        app->network()));
 #endif
 #ifdef HAVE_SPOTIFY
-          cover_providers->AddProvider(new SpotifyCoverProvider(app->streaming_services()->Service<SpotifyService>(), app->network()));
+             cover_providers->AddProvider(
+                 new SpotifyCoverProvider(app->streaming_services()->Service<SpotifyService>(),
+                                          app->network()));
 #endif
 #ifdef HAVE_QOBUZ
-          cover_providers->AddProvider(new QobuzCoverProvider(app->streaming_services()->Service<QobuzService>(), app->network()));
+             cover_providers->AddProvider(
+                 new QobuzCoverProvider(app->streaming_services()->Service<QobuzService>(),
+                                        app->network()));
 #endif
           cover_providers->ReloadSettings();
           return cover_providers;
@@ -188,16 +225,30 @@ class ApplicationImpl {
         streaming_services_([app]() {
           StreamingServices *streaming_services = new StreamingServices();
 #ifdef HAVE_SUBSONIC
-          streaming_services->AddService(make_shared<SubsonicService>(app->task_manager(), app->database(), app->url_handlers(), app->albumcover_loader()));
+             streaming_services->AddService(make_shared<SubsonicService>(app->task_manager(),
+                                                                         app->database(),
+                                                                         app->url_handlers(),
+                                                                         app->albumcover_loader()));
 #endif
 #ifdef HAVE_TIDAL
-          streaming_services->AddService(make_shared<TidalService>(app->task_manager(), app->database(), app->network(), app->url_handlers(), app->albumcover_loader()));
+             streaming_services->AddService(make_shared<TidalService>(app->task_manager(),
+                                                                      app->database(),
+                                                                      app->network(),
+                                                                      app->url_handlers(),
+                                                                      app->albumcover_loader()));
 #endif
 #ifdef HAVE_SPOTIFY
-          streaming_services->AddService(make_shared<SpotifyService>(app->task_manager(), app->database(), app->network(), app->albumcover_loader()));
+             streaming_services->AddService(make_shared<SpotifyService>(app->task_manager(),
+                                                                        app->database(),
+                                                                        app->network(),
+                                                                        app->albumcover_loader()));
 #endif
 #ifdef HAVE_QOBUZ
-          streaming_services->AddService(make_shared<QobuzService>(app->task_manager(), app->database(), app->network(), app->url_handlers(), app->albumcover_loader()));
+             streaming_services->AddService(make_shared<QobuzService>(app->task_manager(),
+                                                                      app->database(),
+                                                                      app->network(),
+                                                                      app->url_handlers(),
+                                                                      app->albumcover_loader()));
 #endif
           return streaming_services;
         }),
@@ -207,41 +258,59 @@ class ApplicationImpl {
           scrobbler->AddService(make_shared<LastFMScrobbler>(scrobbler->settings(), app->network()));
           scrobbler->AddService(make_shared<ListenBrainzScrobbler>(scrobbler->settings(), app->network()));
 #ifdef HAVE_SUBSONIC
-          scrobbler->AddService(make_shared<SubsonicScrobbler>(scrobbler->settings(), app->network(), app->streaming_services()->Service<SubsonicService>(), app));
+             scrobbler->AddService(
+                 make_shared<SubsonicScrobbler>(scrobbler->settings(),
+                                                app->network(),
+                                                app->streaming_services()->Service<SubsonicService>(),
+                                                app));
 #endif
-          return scrobbler;
-        }),
+             return scrobbler;
+         })
+         ,
 #ifdef HAVE_MOODBAR
-        moodbar_loader_([app]() { return new MoodbarLoader(app); }),
-        moodbar_controller_([app]() { return new MoodbarController(app->player(), app->moodbar_loader()); }),
+         moodbar_loader_([app]() { return new MoodbarLoader(app); })
+         , moodbar_controller_(
+               [app]() { return new MoodbarController(app->player(), app->moodbar_loader()); })
+         ,
 #endif
-        lastfm_import_([app]() { return new LastFMImport(app->network()); })
-  {}
+#ifdef HAVE_NETWORKREMOTE
+         network_remote_([app]() {
+             qLog(Debug) << "Moving to new thread";
+             NetworkRemote *remote = new NetworkRemote(app->player(), app);
+             app->MoveToNewThread(remote);
+             return remote;
+         })
+         ,
+#endif
+         lastfm_import_([app]() { return new LastFMImport(app->network()); })
+     {}
 
-  Lazy<TagReaderClient> tagreader_client_;
-  Lazy<Database> database_;
-  Lazy<TaskManager> task_manager_;
-  Lazy<Player> player_;
-  Lazy<NetworkAccessManager> network_;
-  Lazy<DeviceFinders> device_finders_;
-  Lazy<UrlHandlers> url_handlers_;
-  Lazy<DeviceManager> device_manager_;
-  Lazy<CollectionLibrary> collection_;
-  Lazy<PlaylistBackend> playlist_backend_;
-  Lazy<PlaylistManager> playlist_manager_;
-  Lazy<CoverProviders> cover_providers_;
-  Lazy<AlbumCoverLoader> albumcover_loader_;
-  Lazy<CurrentAlbumCoverLoader> current_albumcover_loader_;
-  Lazy<LyricsProviders> lyrics_providers_;
-  Lazy<StreamingServices> streaming_services_;
-  Lazy<RadioServices> radio_services_;
-  Lazy<AudioScrobbler> scrobbler_;
+     Lazy<TagReaderClient> tagreader_client_;
+     Lazy<Database> database_;
+     Lazy<TaskManager> task_manager_;
+     Lazy<Player> player_;
+     Lazy<NetworkAccessManager> network_;
+     Lazy<DeviceFinders> device_finders_;
+     Lazy<UrlHandlers> url_handlers_;
+     Lazy<DeviceManager> device_manager_;
+     Lazy<CollectionLibrary> collection_;
+     Lazy<PlaylistBackend> playlist_backend_;
+     Lazy<PlaylistManager> playlist_manager_;
+     Lazy<CoverProviders> cover_providers_;
+     Lazy<AlbumCoverLoader> albumcover_loader_;
+     Lazy<CurrentAlbumCoverLoader> current_albumcover_loader_;
+     Lazy<LyricsProviders> lyrics_providers_;
+     Lazy<StreamingServices> streaming_services_;
+     Lazy<RadioServices> radio_services_;
+     Lazy<AudioScrobbler> scrobbler_;
 #ifdef HAVE_MOODBAR
   Lazy<MoodbarLoader> moodbar_loader_;
   Lazy<MoodbarController> moodbar_controller_;
 #endif
+#ifdef HAVE_NETWORKREMOTE
+  Lazy<NetworkRemote> network_remote_;
+#endif
   Lazy<LastFMImport> lastfm_import_;
-
 };
 
 Application::Application(QObject *parent)
@@ -259,6 +328,7 @@ Application::Application(QObject *parent)
   device_finders()->Init();
   collection()->Init();
   tagreader_client();
+  network_remote()->Init();
 
 }
 
@@ -322,6 +392,9 @@ void Application::Exit() {
                  << &*albumcover_loader()
                  << &*device_manager()
                  << &*streaming_services()
+#ifdef HAVE_NETWORKREMOTE
+                 << &*network_remote()
+#endif
                  << &*radio_services()->radio_backend();
 
   QObject::connect(&*tagreader_client(), &TagReaderClient::ExitFinished, this, &Application::ExitReceived);
@@ -384,6 +457,9 @@ SharedPtr<StreamingServices> Application::streaming_services() const { return p_
 SharedPtr<RadioServices> Application::radio_services() const { return p_->radio_services_.ptr(); }
 SharedPtr<AudioScrobbler> Application::scrobbler() const { return p_->scrobbler_.ptr(); }
 SharedPtr<LastFMImport> Application::lastfm_import() const { return p_->lastfm_import_.ptr(); }
+#ifdef HAVE_NETWORKREMOTE
+SharedPtr<NetworkRemote> Application::network_remote() const { return p_->network_remote_.ptr();}
+#endif
 #ifdef HAVE_MOODBAR
 SharedPtr<MoodbarController> Application::moodbar_controller() const { return p_->moodbar_controller_.ptr(); }
 SharedPtr<MoodbarLoader> Application::moodbar_loader() const { return p_->moodbar_loader_.ptr(); }
