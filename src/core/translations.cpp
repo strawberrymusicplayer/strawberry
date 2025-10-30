@@ -41,17 +41,19 @@ Translations::~Translations() {
 
 }
 
-void Translations::LoadTranslation(const QString &prefix, const QString &path, const QString &language) {
+bool Translations::LoadTranslation(const QString &prefix, const QString &path, const QString &language) {
 
   const QString basefilename = prefix + u'_' + language;
   QTranslator *t = new QTranslator;
-  if (t->load(basefilename, path)) {
-    qLog(Debug) << "Tranlations loaded from" << basefilename;
-    QCoreApplication::installTranslator(t);
-    translations_ << t;
-  }
-  else {
+  if (!t->load(basefilename, path)) {
     delete t;
+    return false;
   }
+
+  qLog(Debug) << "Tranlations loaded from" << basefilename;
+  QCoreApplication::installTranslator(t);
+  translations_ << t;
+
+  return true;
 
 }
