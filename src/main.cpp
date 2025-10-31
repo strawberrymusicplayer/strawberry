@@ -323,11 +323,13 @@ int main(int argc, char *argv[]) {
     }
   }
 
-#  ifdef HAVE_QTSPARKLE
-  if (!languages.isEmpty()) {
-    qtsparkle::LoadTranslations(languages.first());
+#ifdef HAVE_QTSPARKLE
+  for (const QString &language : std::as_const(languages)) {
+    if (qtsparkle::LoadTranslations(language)) {
+      break;
+    }
   }
-#  endif
+#endif  // HAVE_QTSPARKLE
 
 #endif  // HAVE_TRANSLATIONS
 
