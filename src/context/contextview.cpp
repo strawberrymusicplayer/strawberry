@@ -310,6 +310,25 @@ void ContextView::resizeEvent(QResizeEvent *e) {
 
   if (e->size().width() != e->oldSize().width()) {
     widget_album_->UpdateWidth(width() - kWidgetSpacing);
+
+    // Calculate available width for text wrapping
+    // scrollarea width minus scrollarea margins
+    int margin_left = layout_scrollarea_->contentsMargins().left();
+    int margin_right = layout_scrollarea_->contentsMargins().right();
+    int available_width = scrollarea_->viewport()->width() - margin_left - margin_right;
+
+    // Update top text edit (title/summary) with new width
+    if (available_width > 0) {
+      textedit_top_->document()->setTextWidth(available_width);
+      textedit_top_->updateGeometry();
+    }
+
+    // Force lyrics text edit to recalculate its layout for proper word wrapping
+    if (textedit_play_lyrics_->isVisible() && available_width > 0) {
+      // Force document to update text width for proper word wrapping
+      textedit_play_lyrics_->document()->setTextWidth(available_width);
+      textedit_play_lyrics_->updateGeometry();
+    }
   }
 
   QWidget::resizeEvent(e);
@@ -363,7 +382,6 @@ void ContextView::FadeStopFinished() {
   widget_stacked_->setCurrentWidget(widget_stop_);
   NoSong();
   ResetSong();
-  widget_stacked_->updateGeometry();
 
 }
 
@@ -496,7 +514,6 @@ void ContextView::SetSong() {
   }
 
   widget_stacked_->setCurrentWidget(widget_play_);
-  widget_stacked_->updateGeometry();
 
 }
 
@@ -560,8 +577,6 @@ void ContextView::UpdateSong(const Song &song) {
   }
 
   song_playing_ = song;
-
-  widget_stacked_->updateGeometry();
 
 }
 
