@@ -1064,7 +1064,7 @@ MainWindow::MainWindow(Application *app,
   ui_->action_toggle_show_sidebar->setChecked(show_sidebar);
 
   QShortcut *close_window_shortcut = new QShortcut(this);
-  close_window_shortcut->setKey(Qt::CTRL | Qt::Key_W);
+  close_window_shortcut->setKey(Qt::CTRL | Qt::Key_H);
   QObject::connect(close_window_shortcut, &QShortcut::activated, this, &MainWindow::ToggleHide);
 
   QAction *action_focus_search = new QAction(this);
