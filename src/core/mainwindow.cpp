@@ -635,10 +635,16 @@ MainWindow::MainWindow(Application *app,
   // Playlist view actions
   ui_->action_next_playlist->setShortcuts(QList<QKeySequence>() << QKeySequence::fromString(u"Ctrl+Tab"_s) << QKeySequence::fromString(u"Ctrl+PgDown"_s));
   ui_->action_previous_playlist->setShortcuts(QList<QKeySequence>() << QKeySequence::fromString(u"Ctrl+Shift+Tab"_s) << QKeySequence::fromString(u"Ctrl+PgUp"_s));
+  ui_->action_last_playlist->setShortcut(QKeySequence::fromString(u"Ctrl+9"_s));
+  ui_->action_active_playlist->setShortcut(QKeySequence::fromString(u"Ctrl+Shift+P"_s));
+  ui_->action_close_playlist->setShortcut(QKeySequence::fromString(u"Ctrl+W"_s));
 
   // Actions for switching tabs will be global to the entire window, so adding them here
   addAction(ui_->action_next_playlist);
   addAction(ui_->action_previous_playlist);
+  addAction(ui_->action_last_playlist);
+  addAction(ui_->action_active_playlist);
+  addAction(ui_->action_close_playlist);
 
   // Give actions to buttons
   ui_->forward_button->setDefaultAction(ui_->action_next_track);
@@ -648,7 +654,19 @@ MainWindow::MainWindow(Application *app,
   ui_->button_scrobble->setDefaultAction(ui_->action_toggle_scrobbling);
   ui_->button_love->setDefaultAction(ui_->action_love);
 
-  ui_->playlist->SetActions(ui_->action_new_playlist, ui_->action_load_playlist, ui_->action_save_playlist, ui_->action_clear_playlist, ui_->action_next_playlist, /* These two actions aren't associated */ ui_->action_previous_playlist /* to a button but to the main window */, ui_->action_save_all_playlists);
+  PlaylistContainer::Actions playlist_actions;
+  playlist_actions.new_playlist = ui_->action_new_playlist;
+  playlist_actions.load_playlist = ui_->action_load_playlist;
+  playlist_actions.save_playlist = ui_->action_save_playlist;
+  playlist_actions.clear_playlist = ui_->action_clear_playlist;
+  playlist_actions.next_playlist = ui_->action_next_playlist;
+  // These aren't associated to a button but to the main window
+  playlist_actions.previous_playlist = ui_->action_previous_playlist;
+  playlist_actions.last_playlist = ui_->action_last_playlist;
+  playlist_actions.active_playlist = ui_->action_active_playlist;
+  playlist_actions.close_playlist = ui_->action_close_playlist;
+  playlist_actions.save_all_playlists = ui_->action_save_all_playlists;
+  ui_->playlist->SetActions(playlist_actions);
   // Add the shuffle and repeat action groups to the menu
   ui_->action_shuffle_mode->setMenu(ui_->playlist_sequence->shuffle_menu());
   ui_->action_repeat_mode->setMenu(ui_->playlist_sequence->repeat_menu());
@@ -876,10 +894,6 @@ MainWindow::MainWindow(Application *app,
   playlist_menu_->addAction(ui_->action_shuffle);
   playlist_menu_->addAction(ui_->action_remove_duplicates);
   playlist_menu_->addAction(ui_->action_remove_unavailable);
-
-#ifdef Q_OS_MACOS
-  ui_->action_shuffle->setShortcut(QKeySequence());
-#endif
 
   // We have to add the actions on the playlist menu to this QWidget otherwise their shortcut keys don't work
   addActions(playlist_menu_->actions());
@@ -1114,8 +1128,11 @@ MainWindow::MainWindow(Application *app,
   ui_->action_toggle_show_sidebar->setChecked(show_sidebar);
 
   QShortcut *close_window_shortcut = new QShortcut(this);
-  close_window_shortcut->setKey(Qt::CTRL | Qt::Key_W);
+  close_window_shortcut->setKey(Qt::CTRL | Qt::SHIFT | Qt::Key_W);
   QObject::connect(close_window_shortcut, &QShortcut::activated, this, &MainWindow::ToggleHide);
+
+  // Ctrl+W closes the current playlist tab, but falls back to hiding the window when there is only one tab left, matching the "close tab, or the window if it's the last one" convention used by tabbed browsers.
+  QObject::connect(ui_->playlist, &PlaylistContainer::LastTabCloseRequested, this, &MainWindow::ToggleHide);
 
   QAction *action_focus_search = new QAction(this);
   action_focus_search->setShortcuts(QList<QKeySequence>() << QKeySequence(u"Ctrl+F"_s));

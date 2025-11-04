@@ -662,7 +662,7 @@
     <string>S&amp;huffle playlist</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+H</string>
+    <string>Ctrl+Shift+H</string>
    </property>
   </action>
   <action name="action_add_file">
@@ -768,6 +768,21 @@
   <action name="action_previous_playlist">
    <property name="text">
     <string>Go to previous playlist tab</string>
+   </property>
+  </action>
+  <action name="action_last_playlist">
+   <property name="text">
+    <string>Go to last playlist tab</string>
+   </property>
+  </action>
+  <action name="action_active_playlist">
+   <property name="text">
+    <string>Go to active playlist tab</string>
+   </property>
+  </action>
+  <action name="action_close_playlist">
+   <property name="text">
+    <string>Close current playlist tab</string>
    </property>
   </action>
   <action name="action_update_collection">

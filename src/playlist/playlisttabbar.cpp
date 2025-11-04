@@ -289,6 +289,23 @@ void PlaylistTabBar::CloseFromTabIndex(int index) {
 
 }
 
+void PlaylistTabBar::CloseCurrentTab() {
+
+  // We need to finish the renaming action before closing a tab, otherwise RenameInline() would later act on a stale menu_index_ once tab indices have shifted.
+  if (rename_editor_->isVisible()) {
+    // Discard any change
+    HideEditor();
+  }
+
+  if (count() <= 1) {
+    Q_EMIT LastTabCloseRequested();
+    return;
+  }
+
+  CloseFromTabIndex(currentIndex());
+
+}
+
 void PlaylistTabBar::SaveSlot() {
 
   if (menu_index_ == -1) return;
