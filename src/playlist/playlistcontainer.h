@@ -52,7 +52,20 @@ class PlaylistContainer : public QWidget {
   explicit PlaylistContainer(QWidget *parent = nullptr);
   ~PlaylistContainer() override;
 
-  void SetActions(QAction *new_playlist, QAction *load_playlist, QAction *save_playlist, QAction *clear_playlist, QAction *next_playlist, QAction *previous_playlist, QAction *save_all_playlists);
+  struct Actions {
+    QAction *new_playlist = nullptr;
+    QAction *load_playlist = nullptr;
+    QAction *save_playlist = nullptr;
+    QAction *clear_playlist = nullptr;
+    QAction *next_playlist = nullptr;
+    QAction *previous_playlist = nullptr;
+    QAction *last_playlist = nullptr;
+    QAction *active_playlist = nullptr;
+    QAction *close_playlist = nullptr;
+    QAction *save_all_playlists = nullptr;
+  };
+
+  void SetActions(const Actions &actions);
   void SetManager(SharedPtr<PlaylistManager> manager);
   void ReloadSettings();
 
@@ -66,6 +79,7 @@ class PlaylistContainer : public QWidget {
  Q_SIGNALS:
   void UndoRedoActionsChanged(QAction *undo, QAction *redo);
   void ViewSelectionModelChanged();
+  void LastTabCloseRequested();
 
  protected:
   // QWidget
@@ -79,6 +93,8 @@ class PlaylistContainer : public QWidget {
   void ClearPlaylist();
   void GoToNextPlaylistTab();
   void GoToPreviousPlaylistTab();
+  void GoToLastPlaylistTab();
+  void GoToActivePlaylistTab();
 
   void SetViewModel(Playlist *playlist, const int scroll_position);
   void PlaylistAdded(const int id, const QString &name, bool favorite);

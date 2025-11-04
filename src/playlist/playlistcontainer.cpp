@@ -140,22 +140,26 @@ PlaylistContainer::~PlaylistContainer() { delete ui_; }
 
 PlaylistView *PlaylistContainer::view() const { return ui_->playlist; }
 
-void PlaylistContainer::SetActions(QAction *new_playlist, QAction *load_playlist, QAction *save_playlist, QAction *clear_playlist, QAction *next_playlist, QAction *previous_playlist, QAction *save_all_playlists) {
+void PlaylistContainer::SetActions(const Actions &actions) {
 
-  ui_->create_new->setDefaultAction(new_playlist);
-  ui_->load->setDefaultAction(load_playlist);
-  ui_->save->setDefaultAction(save_playlist);
-  ui_->clear->setDefaultAction(clear_playlist);
+  ui_->create_new->setDefaultAction(actions.new_playlist);
+  ui_->load->setDefaultAction(actions.load_playlist);
+  ui_->save->setDefaultAction(actions.save_playlist);
+  ui_->clear->setDefaultAction(actions.clear_playlist);
 
-  ui_->tab_bar->SetActions(new_playlist, load_playlist);
+  ui_->tab_bar->SetActions(actions.new_playlist, actions.load_playlist);
 
-  QObject::connect(new_playlist, &QAction::triggered, this, &PlaylistContainer::NewPlaylist);
-  QObject::connect(save_playlist, &QAction::triggered, this, &PlaylistContainer::SaveCurrentPlaylist);
-  QObject::connect(load_playlist, &QAction::triggered, this, &PlaylistContainer::LoadPlaylist);
-  QObject::connect(clear_playlist, &QAction::triggered, this, &PlaylistContainer::ClearPlaylist);
-  QObject::connect(next_playlist, &QAction::triggered, this, &PlaylistContainer::GoToNextPlaylistTab);
-  QObject::connect(previous_playlist, &QAction::triggered, this, &PlaylistContainer::GoToPreviousPlaylistTab);
-  QObject::connect(save_all_playlists, &QAction::triggered, &*manager_, &PlaylistManager::SaveAllPlaylists);
+  QObject::connect(actions.new_playlist, &QAction::triggered, this, &PlaylistContainer::NewPlaylist);
+  QObject::connect(actions.load_playlist, &QAction::triggered, this, &PlaylistContainer::LoadPlaylist);
+  QObject::connect(actions.save_playlist, &QAction::triggered, this, &PlaylistContainer::SaveCurrentPlaylist);
+  QObject::connect(actions.clear_playlist, &QAction::triggered, this, &PlaylistContainer::ClearPlaylist);
+  QObject::connect(actions.next_playlist, &QAction::triggered, this, &PlaylistContainer::GoToNextPlaylistTab);
+  QObject::connect(actions.previous_playlist, &QAction::triggered, this, &PlaylistContainer::GoToPreviousPlaylistTab);
+  QObject::connect(actions.last_playlist, &QAction::triggered, this, &PlaylistContainer::GoToLastPlaylistTab);
+  QObject::connect(actions.active_playlist, &QAction::triggered, this, &PlaylistContainer::GoToActivePlaylistTab);
+  QObject::connect(actions.close_playlist, &QAction::triggered, &*ui_->tab_bar, &PlaylistTabBar::CloseCurrentTab);
+  QObject::connect(&*ui_->tab_bar, &PlaylistTabBar::LastTabCloseRequested, this, &PlaylistContainer::LastTabCloseRequested);
+  QObject::connect(actions.save_all_playlists, &QAction::triggered, &*manager_, &PlaylistManager::SaveAllPlaylists);
 
 }
 
@@ -394,6 +398,26 @@ void PlaylistContainer::GoToPreviousPlaylistTab() {
   int id_previous = ui_->tab_bar->id_of((ui_->tab_bar->currentIndex() + ui_->tab_bar->count() - 1) % ui_->tab_bar->count());
   // Switch to next tab
   manager_->SetCurrentPlaylist(id_previous);
+
+}
+
+void PlaylistContainer::GoToLastPlaylistTab() {
+
+  if (ui_->tab_bar->count() == 0) return;
+  const int id_last = ui_->tab_bar->id_of(ui_->tab_bar->count() - 1);
+  if (id_last == manager_->current_id()) return;
+  manager_->SetCurrentPlaylist(id_last);
+
+}
+
+void PlaylistContainer::GoToActivePlaylistTab() {
+
+  const int active_id = manager_->active_id();
+
+  // Do nothing if no playlist is currently playing: jumping to an arbitrary tab (e.g. the first one) would be surprising when the user asked to go to "the playing tab" and none exists.
+  if (active_id == -1 || active_id == manager_->current_id()) return;
+
+  manager_->SetCurrentPlaylist(active_id);
 
 }
 

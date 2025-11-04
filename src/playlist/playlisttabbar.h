@@ -70,6 +70,8 @@ class PlaylistTabBar : public QTabBar {
   void RemoveTab(const int id);
   void InsertTab(const int id, const int index, const QString &text, const bool favorite);
 
+  void CloseCurrentTab();
+
  Q_SIGNALS:
   void CurrentIdChanged(const int id);
   void Rename(const int id, const QString &name);
@@ -77,6 +79,7 @@ class PlaylistTabBar : public QTabBar {
   void Save(const int id);
   void PlaylistOrderChanged(const QList<int> &ids);
   void PlaylistFavorited(const int id, const bool favorite);
+  void LastTabCloseRequested();
 
  protected:
   void contextMenuEvent(QContextMenuEvent *e) override;
