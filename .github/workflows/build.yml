@@ -787,7 +787,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        runner: [ 'macos-15' ]
+        runner: [ 'macos-15-intel', 'macos-15' ]
         buildtype: [ 'release' ]
 
     runs-on: ${{ matrix.runner }}
@@ -839,7 +839,7 @@ jobs:
           p12-password: ${{ secrets.APPLE_DEVELOPER_ID_CERTIFICATE_PASSWORD }}
 
       - name: Download macOS dependencies
-        run: curl -f -O -L https://github.com/strawberrymusicplayer/strawberry-macos-dependencies/releases/latest/download/strawberry-macos-${{env.arch}}-${{env.buildtype}}.tar.xz
+        run: curl -f -O -L https://github.com/strawberrymusicplayer/strawberry-macos-dependencies$(test "${{env.arch}}" = "x86_64" && echo "-intel" || echo "")/releases/latest/download/strawberry-macos-${{env.arch}}-${{env.buildtype}}.tar.xz
 
       - name: Extract macOS dependencies
         run: sudo tar -C / -xf strawberry-macos-${{env.arch}}-${{env.buildtype}}.tar.xz
@@ -890,7 +890,12 @@ jobs:
         run: make deploy
 
       - name: Manually Codesign
-        if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false
+        if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && matrix.runner == 'macos-15-intel'
+        working-directory: build
+        run: codesign -s 383J84DVB6 -f strawberry.app/Contents/Frameworks/{libpcre2-8.0.dylib,libpcre2-16.0.dylib,libpng16.16.dylib,libfreetype.6.dylib,libzstd.1.dylib,libbrotlicommon.1.dylib,libbrotlienc.1.dylib} strawberry.app/Contents/Frameworks/png.framework/png strawberry.app
+
+      - name: Manually Codesign
+        if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && matrix.runner == 'macos-15'
         working-directory: build
         run: codesign -s 383J84DVB6 -f strawberry.app/Contents/Frameworks/png.framework/png strawberry.app
 
