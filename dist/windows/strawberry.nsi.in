@@ -477,15 +477,15 @@ Section "Strawberry" Strawberry
 
   ; Common files
 
-  File "icudt77.dll"
+  File "icudt78.dll"
 !ifdef msvc && arch_arm64
   File "fftw3.dll"
 !else
   File "libfftw3-3.dll"
 !endif
 !ifdef msvc && debug
-  File "icuin77d.dll"
-  File "icuuc77d.dll"
+  File "icuin78d.dll"
+  File "icuuc78d.dll"
   File "libxml2d.dll"
   File "Qt6Concurrentd.dll"
   File "Qt6Cored.dll"
@@ -494,8 +494,8 @@ Section "Strawberry" Strawberry
   File "Qt6Sqld.dll"
   File "Qt6Widgetsd.dll"
 !else
-  File "icuin77.dll"
-  File "icuuc77.dll"
+  File "icuin78.dll"
+  File "icuuc78.dll"
   File "libxml2.dll"
   File "Qt6Concurrent.dll"
   File "Qt6Core.dll"
@@ -505,6 +505,7 @@ Section "Strawberry" Strawberry
   File "Qt6Widgets.dll"
 !endif
 
+!ifdef msvc
   File "avcodec-61.dll"
   File "avfilter-10.dll"
   File "avformat-61.dll"
@@ -512,6 +513,14 @@ Section "Strawberry" Strawberry
   File "postproc-58.dll"
   File "swresample-5.dll"
   File "swscale-8.dll"
+!else
+  File "avcodec-62.dll"
+  File "avfilter-11.dll"
+  File "avformat-62.dll"
+  File "avutil-60.dll"
+  File "swresample-6.dll"
+  File "swscale-9.dll"
+!endif
 
   ; Register Strawberry with Default Programs
   Var /GLOBAL AppIcon
@@ -1019,15 +1028,15 @@ Section "Uninstall"
 
   ; Common files
 
-  Delete "$INSTDIR\icudt77.dll"
+  Delete "$INSTDIR\icudt78.dll"
 !ifdef msvc && arch_arm64
   Delete "$INSTDIR\fftw3.dll"
 !else
   Delete "$INSTDIR\libfftw3-3.dll"
 !endif
 !ifdef msvc && debug
-  Delete "$INSTDIR\icuin77d.dll"
-  Delete "$INSTDIR\icuuc77d.dll"
+  Delete "$INSTDIR\icuin78d.dll"
+  Delete "$INSTDIR\icuuc78d.dll"
   Delete "$INSTDIR\libxml2d.dll"
   Delete "$INSTDIR\Qt6Concurrentd.dll"
   Delete "$INSTDIR\Qt6Cored.dll"
@@ -1036,8 +1045,8 @@ Section "Uninstall"
   Delete "$INSTDIR\Qt6Sqld.dll"
   Delete "$INSTDIR\Qt6Widgetsd.dll"
 !else
-  Delete "$INSTDIR\icuin77.dll"
-  Delete "$INSTDIR\icuuc77.dll"
+  Delete "$INSTDIR\icuin78.dll"
+  Delete "$INSTDIR\icuuc78.dll"
   Delete "$INSTDIR\libxml2.dll"
   Delete "$INSTDIR\Qt6Concurrent.dll"
   Delete "$INSTDIR\Qt6Core.dll"
@@ -1047,6 +1056,7 @@ Section "Uninstall"
   Delete "$INSTDIR\Qt6Widgets.dll"
 !endif
 
+!ifdef msvc
   Delete "$INSTDIR\avcodec-61.dll"
   Delete "$INSTDIR\avfilter-10.dll"
   Delete "$INSTDIR\avformat-61.dll"
@@ -1054,6 +1064,14 @@ Section "Uninstall"
   Delete "$INSTDIR\postproc-58.dll"
   Delete "$INSTDIR\swresample-5.dll"
   Delete "$INSTDIR\swscale-8.dll"
+!else
+  Delete "$INSTDIR\avcodec-62.dll"
+  Delete "$INSTDIR\avfilter-11.dll"
+  Delete "$INSTDIR\avformat-62.dll"
+  Delete "$INSTDIR\avutil-60.dll"
+  Delete "$INSTDIR\swresample-6.dll"
+  Delete "$INSTDIR\swscale-9.dll"
+!endif
 
 !ifdef mingw
   Delete "$INSTDIR\gio-modules\libgiognutls.dll"

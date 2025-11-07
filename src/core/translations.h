@@ -31,7 +31,7 @@ class Translations {
  public:
   explicit Translations();
   ~Translations();
-  void LoadTranslation(const QString &prefix, const QString &path, const QString &language);
+  bool LoadTranslation(const QString &prefix, const QString &path, const QString &language);
 
  private:
   QList<QTranslator*> translations_;

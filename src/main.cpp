@@ -260,46 +260,78 @@ int main(int argc, char *argv[]) {
   IconLoader::Init();
 
 #ifdef HAVE_TRANSLATIONS
-  QString language = options.language();
-  if (language.isEmpty()) {
-    Settings s;
-    s.beginGroup(BehaviourSettings::kSettingsGroup);
-    language = s.value(BehaviourSettings::kLanguage).toString();
-    s.endGroup();
+
+  QStringList languages;
+
+  // Load language from command line options
+  if (!options.language().isEmpty()) {
+    languages << options.language();
   }
 
-  if (language.isEmpty()) {
+  // Load language from settings
+  if (languages.isEmpty()) {
+    Settings s;
+    s.beginGroup(BehaviourSettings::kSettingsGroup);
+    const QString language = s.value(BehaviourSettings::kLanguage).toString();
+    s.endGroup();
+    if (!language.isEmpty()) {
+      languages << language;
+    }
+  }
+
+  // Use system UI languages
+  if (languages.isEmpty()) {
 #if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
-    const QStringList system_languages = QLocale::system().uiLanguages(QLocale::TagSeparator::Underscore);
+     languages = QLocale::system().uiLanguages(QLocale::TagSeparator::Underscore);
 #else
     const QStringList system_languages = QLocale::system().uiLanguages();
-#endif
-    if (system_languages.isEmpty()) {
-      language = QLocale::system().name();
+    for (const QString &language : system_languages) {
+      QString language_underscore = language;
+      language_underscore = language_underscore.replace(u'-', u'_');
+      languages << language_underscore;
     }
-    else {
-#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
-      language = system_languages.first();
-#else
-      language = system_languages.first();
-      language = language.replace(u'-', u'_');
 #endif
-    }
+  }
+
+  if (languages.isEmpty()) {
+    languages << QLocale::system().name();
   }
 
   ScopedPtr<Translations> translations(new Translations);
 
-  translations->LoadTranslation(u"qt"_s, QLibraryInfo::path(QLibraryInfo::TranslationsPath), language);
-  translations->LoadTranslation(u"strawberry"_s, u":/i18n"_s, language);
-  translations->LoadTranslation(u"strawberry"_s, QStringLiteral(TRANSLATIONS_DIR), language);
-  translations->LoadTranslation(u"strawberry"_s, QCoreApplication::applicationDirPath(), language);
-  translations->LoadTranslation(u"strawberry"_s, QDir::currentPath(), language);
+  for (const QString &language : std::as_const(languages)) {
+    if (translations->LoadTranslation(u"qt"_s, QLibraryInfo::path(QLibraryInfo::TranslationsPath), language)) {
+      break;
+    }
+  }
 
-#  ifdef HAVE_QTSPARKLE
-  qtsparkle::LoadTranslations(language);
-#  endif
+  static const QStringList language_paths = QStringList() << u":/i18n"_s
+                                                          << QStringLiteral(TRANSLATIONS_DIR)
+                                                          << QCoreApplication::applicationDirPath()
+                                                          << QDir::currentPath();
 
-#endif
+  for (const QString &language : std::as_const(languages)) {
+    bool language_loaded = false;
+    for (const QString &language_path : language_paths) {
+      if (translations->LoadTranslation(u"strawberry"_s, language_path, language)) {
+        language_loaded = true;
+        break;
+      }
+    }
+    if (language_loaded) {
+      break;
+    }
+  }
+
+#ifdef HAVE_QTSPARKLE
+  for (const QString &language : std::as_const(languages)) {
+    if (qtsparkle::LoadTranslations(language)) {
+      break;
+    }
+  }
+#endif  // HAVE_QTSPARKLE
+
+#endif  // HAVE_TRANSLATIONS
 
   Application app;
 

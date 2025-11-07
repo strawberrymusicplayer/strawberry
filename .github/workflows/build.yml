@@ -134,14 +134,14 @@ jobs:
         run: echo "subdir=$(echo ${{matrix.opensuse_version}} | sed 's/leap:/lp/g' | sed 's/\.//g')" > $GITHUB_OUTPUT
       - name: Upload source
         if: matrix.opensuse_version == 'tumbleweed'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: source
           path: |
             /usr/src/packages/SOURCES/*.xz
       - name: Upload rpm
         if: matrix.opensuse_version != 'tumbleweed'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: opensuse-${{steps.set-subdir.outputs.subdir}}
           path: |
@@ -234,7 +234,7 @@ jobs:
         working-directory: build
         run: rpmbuild -ba strawberry.spec
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: fedora-${{matrix.fedora_version}}
           path: |
@@ -333,7 +333,7 @@ jobs:
         run: rpmbuild -ba strawberry.spec
       - name: Upload artifacts
         if: matrix.openmandriva_version != 'cooker'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: openmandriva-${{matrix.openmandriva_version}}
           path: |
@@ -434,7 +434,7 @@ jobs:
         working-directory: build
         run: rpmbuild -ba strawberry.spec
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: mageia-${{matrix.mageia_version}}
           path: |
@@ -528,7 +528,7 @@ jobs:
       - name: Copy deb
         run: cp ../*.deb .
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: debian-${{matrix.debian_version}}
           path: |
@@ -624,7 +624,7 @@ jobs:
       - name: Copy deb
         run: cp ../*.deb ../*.ddeb .
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: ubuntu-${{matrix.ubuntu_version}}
           path: |
@@ -741,7 +741,7 @@ jobs:
         submodules: recursive
     - name: Build FreeBSD
       id: build-freebsd
-      uses: vmactions/freebsd-vm@v1.2.4
+      uses: vmactions/freebsd-vm@v1.2.5
       with:
         usesh: true
         mem: 4096
@@ -766,7 +766,7 @@ jobs:
         submodules: recursive
     - name: Build OpenBSD
       id: build-openbsd
-      uses: vmactions/openbsd-vm@v1.2.1
+      uses: vmactions/openbsd-vm@v1.2.2
       with:
         usesh: true
         mem: 4096
@@ -892,7 +892,7 @@ jobs:
       - name: Manually Codesign
         if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && matrix.runner == 'macos-13'
         working-directory: build
-        run: codesign -s 383J84DVB6 -f strawberry.app/Contents/Frameworks/{libpcre2-8.0.dylib,libpcre2-16.0.dylib,libpng16.16.dylib,libfreetype.6.dylib,libzstd.1.dylib} strawberry.app/Contents/Frameworks/png.framework/png strawberry.app
+        run: codesign -s 383J84DVB6 -f strawberry.app/Contents/Frameworks/{libpcre2-8.0.dylib,libpcre2-16.0.dylib,libpng16.16.dylib,libfreetype.6.dylib,libzstd.1.dylib,libbrotlicommon.1.dylib,libbrotlienc.1.dylib} strawberry.app/Contents/Frameworks/png.framework/png strawberry.app
 
       - name: Manually Codesign
         if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && matrix.runner == 'macos-15'
@@ -1646,7 +1646,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Download artifacts
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           path: artifacts
       - name: SSH Setup
@@ -1698,7 +1698,7 @@ jobs:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: gh release view "${{github.event.release.tag_name}}" --json assets | jq -r '.assets[].name'
       - name: Download artifacts
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           path: artifacts
       - name: Add artifacts to release
