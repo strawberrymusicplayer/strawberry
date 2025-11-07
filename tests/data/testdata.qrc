@@ -12,5 +12,14 @@
       <file>audio/strawberry.mp3</file>
       <file>audio/strawberry.m4a</file>
       <file>audio/strawberry.mp4</file>
+      <file>resizabletextedit/test_config.json</file>
+      <file>resizabletextedit/in/short_text.txt</file>
+      <file>resizabletextedit/in/medium_text.txt</file>
+      <file>resizabletextedit/in/long_lyrics.txt</file>
+      <file>resizabletextedit/in/very_long_line.txt</file>
+      <file>resizabletextedit/in/unicode_text.txt</file>
+      <file>resizabletextedit/in/long_words.txt</file>
+      <file>resizabletextedit/in/multiline_short.txt</file>
+      <file>resizabletextedit/in/urls_text.txt</file>
     </qresource>
 </RCC>
