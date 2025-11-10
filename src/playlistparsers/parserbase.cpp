@@ -55,7 +55,14 @@ void ParserBase::LoadSong(const QString &filename_or_url, const qint64 beginning
       filename = url.toLocalFile();
     }
     else if (song->is_stream()) {
-      song->set_url(QUrl::fromUserInput(filename_or_url));
+      url = QUrl::fromUserInput(filename_or_url);
+      if (url.host() == "open.spotify.com"_L1 && url.path().startsWith("/track/"_L1)) {
+        song->set_source(Song::Source::Spotify);
+        url.setScheme("spotify"_L1);
+        url.setHost(QString());
+        url.setPath(url.path().removeFirst().replace(u'/', u':'));
+      }
+      song->set_url(url);
       song->set_filetype(Song::FileType::Stream);
       song->set_valid(true);
       return;
