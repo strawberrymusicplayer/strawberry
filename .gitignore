@@ -15,3 +15,5 @@
 /src/apicredentials.h
 /debian/changelog
 _codeql_detected_source_root
+.qtcreator/
+obj-x86_64-linux-gnu/
