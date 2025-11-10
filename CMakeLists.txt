@@ -172,6 +172,11 @@ if(UNIX AND NOT APPLE)
   endif()
   find_package(X11 COMPONENTS X11_xcb)
 endif()
+find_package(Qt6 REQUIRED COMPONENTS Protobuf)
+if(NOT Protobuf_FOUND)
+  message(STATUS "Missing Protobuf compiler.")
+endif()
+
 pkg_check_modules(GLIB REQUIRED IMPORTED_TARGET glib-2.0)
 pkg_check_modules(GOBJECT REQUIRED IMPORTED_TARGET gobject-2.0)
 if(NOT APPLE)
@@ -355,6 +360,10 @@ optional_component(MOODBAR ON "Moodbar"
 
 optional_component(EBUR128 ON "EBU R 128 loudness normalization"
   DEPENDS "libebur128" LIBEBUR128_FOUND
+)
+
+optional_component(NETWORKREMOTE ON "Network Remote"
+    DEPENDS "Protobuf" Protobuf_FOUND
 )
 
 if(APPLE)
@@ -1478,6 +1487,31 @@ optional_source(HAVE_QOBUZ
     src/settings/qobuzsettingspage.ui
 )
 
+optional_source(HAVE_NETWORKREMOTE
+  SOURCES
+    src/networkremote/networkremote.cpp
+    src/networkremote/networkremotetcpserver.cpp
+    src/networkremote/networkremotesettings.cpp
+    src/networkremote/networkremoteclient.cpp
+    src/networkremote/networkremoteclientmanager.cpp
+    src/networkremote/networkremoteincomingmsg.cpp
+    src/networkremote/networkremoteoutgoingmsg.cpp
+    src/networkremote/RemoteMessages.proto
+    src/settings/networkremotesettingspage.cpp
+  HEADERS
+    src/networkremote/networkremote.h
+    src/networkremote/networkremotetcpserver.h
+    src/networkremote/networkremotesettings.h
+    src/networkremote/networkremoteclient.h
+    src/networkremote/networkremoteclientmanager.h
+    src/networkremote/networkremoteincomingmsg.h
+    src/networkremote/networkremoteoutgoingmsg.h
+    src/settings/networkremotesettingspage.h
+  UI
+    src/settings/networkremotesettingspage.ui
+  )
+
+
 qt_wrap_cpp(SOURCES ${HEADERS})
 qt_wrap_ui(SOURCES ${UI})
 qt_add_resources(SOURCES data/data.qrc data/icons.qrc)
@@ -1583,6 +1617,12 @@ if(APPLE)
     target_include_directories(strawberry_lib SYSTEM PRIVATE ${SPARKLE}/Headers)
     target_link_libraries(strawberry_lib PRIVATE ${SPARKLE})
   endif()
+endif()
+
+if(HAVE_NETWORKREMOTE)
+  add_subdirectory(src/networkremote)
+  target_link_libraries(strawberry_lib PRIVATE Qt6::Protobuf)
+  target_link_libraries(strawberry PUBLIC strawberry_lib lib-networkremote)
 endif()
 
 target_link_libraries(strawberry PUBLIC strawberry_lib)
