@@ -67,6 +67,9 @@ class WaveformController;
 class WaveformLoader;
 #endif
 class AudioScrobbler;
+#ifdef HAVE_NETWORKREMOTE
+class NetworkRemote;
+#endif
 
 class Application : public QObject {
   Q_OBJECT
@@ -112,6 +115,10 @@ class Application : public QObject {
 #endif
 
   SharedPtr<AudioScrobbler> scrobbler() const;
+
+#ifdef HAVE_NETWORKREMOTE
+  SharedPtr<NetworkRemote> network_remote() const;
+#endif
 
   void Exit();
 
