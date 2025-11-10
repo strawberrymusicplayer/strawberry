@@ -1,0 +1,131 @@
+syntax = "proto3";
+
+package nw.remote;
+
+option java_multiple_files = true;
+
+enum MsgType {
+    MSG_TYPE_UNSPECIFIED = 0;
+
+    // Client message
+    MSG_TYPE_REQUEST_SONG_INFO = 1;
+    MSG_TYPE_REQUEST_PLAY = 2;
+    MSG_TYPE_REQUEST_NEXT = 3;
+    MSG_TYPE_REQUEST_PREVIOUS = 4;
+    MSG_TYPE_REQUEST_PAUSE = 5;
+    MSG_TYPE_REQUEST_STOP = 6;
+    MSG_TYPE_REQUEST_FINISH = 7;
+
+
+    // Server messages
+    MSG_TYPE_REPLY_SONG_INFO = 8;
+    MSG_TYPE_REPLY_PLAY = 9;
+    MSG_TYPE_REPLY_NEXT = 10;
+    MSG_TYPE_REPLY_PREVIOUS = 11;
+    MSG_TYPE_REPLY_PAUSE = 12;
+    MSG_TYPE_REPLY_STOP = 13;
+    MSG_TYPE_REPLY_FINISH = 14;
+    MSG_TYPE_ENGINE_STATE_CHANGE = 15;
+
+    // Bidirectional messages
+    MSG_TYPE_DISCONNECT = 16;
+}
+
+enum PlayerState{
+    PLAYER_STATUS_UNSPECIFIED = 0;
+    PLAYER_STATUS_PLAYING = 1;
+}
+
+enum EngineState {
+    ENGINE_STATE_EMPTY = 0;
+    ENGINE_STATE_IDELE = 1;
+    ENGINE_STATE_PLAYING = 2;
+    ENGINE_STATE_PAUSED = 3;
+}
+
+enum ReasonDisconnect {
+    REASON_DISCONNECT_SERVER_SHUTDOWN = 0;
+    REASON_DISCONNECT_CLIENT_SHUTDOWN = 1;
+}
+
+message RequestDisconnect {
+    ReasonDisconnect reason_disconnect = 1;
+}
+
+message SongMetadata{
+    uint32 id = 1;
+    string title = 2;
+    string album = 3;
+    string artist = 4;
+    string albumartist = 5;
+    uint32 track = 6;
+    string stryear = 7;
+    string genre = 8;
+    uint32 playcount = 9;
+    string songlength = 10;
+}
+message RequestSongMetadata {
+    bool send = 1;
+}
+
+message ResponseSongMetadata {
+    SongMetadata song_metadata = 1;
+    PlayerState player_state = 2;
+}
+
+message RequestNextTrack {
+    bool next = 1;
+}
+
+message ResponseNextTrack {
+    bool next = 1;
+}
+
+message RequestPreviousTrack {
+    bool previous = 1;
+}
+
+message ResponsePreviousTrack {
+    bool previous = 1;
+}
+
+message RequestPlay {
+    bool play = 1;
+}
+
+message ResponsePlay {
+    bool play = 1;
+}
+
+message RequestPause {
+    bool pause = 1;
+}
+
+message ResponsePause {
+    bool pause = 1;
+}
+
+message RequestStop {
+    bool stop = 1;
+}
+
+message EngineStateChange {
+    EngineState state = 1;
+}
+message Message {
+    MsgType type = 1;
+    RequestSongMetadata request_song_metadata = 2;
+    ResponseSongMetadata response_song_metadata = 3;
+    RequestNextTrack request_next_track = 4;
+    RequestPreviousTrack request_previous_track = 5;
+    RequestPlay request_play = 6;
+    RequestPause request_pause = 7;
+    RequestStop request_stop = 8;
+    EngineStateChange engine_state_change = 9;
+    RequestDisconnect request_disconnect = 10;
+    ResponseNextTrack response_next_track = 11;
+    ResponsePreviousTrack response_previous_track = 12;
+    ResponsePlay response_play = 13;
+    ResponsePause response_pause = 14;
+}
+
