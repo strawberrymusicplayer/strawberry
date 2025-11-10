@@ -99,6 +99,9 @@ class SettingsDialog : public QDialog {
     Plex,
     Jellyfin,
     Radio,
+#ifdef HAVE_NETWORKREMOTE
+    NetworkRemote,
+#endif
   };
 
   enum Role {
