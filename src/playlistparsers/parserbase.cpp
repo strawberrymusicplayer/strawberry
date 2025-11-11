@@ -60,7 +60,7 @@ void ParserBase::LoadSong(const QString &filename_or_url, const qint64 beginning
         song->set_source(Song::Source::Spotify);
         url.setScheme("spotify"_L1);
         url.setHost(QString());
-        url.setPath(url.path().removeFirst().replace(u'/', u':'));
+        url.setPath(url.path().remove(0, 1).replace(u'/', u':'));
       }
       song->set_url(url);
       song->set_filetype(Song::FileType::Stream);
