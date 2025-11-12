@@ -741,7 +741,7 @@ jobs:
         submodules: recursive
     - name: Build FreeBSD
       id: build-freebsd
-      uses: vmactions/freebsd-vm@v1.2.5
+      uses: vmactions/freebsd-vm@v1.2.6
       with:
         usesh: true
         mem: 4096
@@ -766,7 +766,7 @@ jobs:
         submodules: recursive
     - name: Build OpenBSD
       id: build-openbsd
-      uses: vmactions/openbsd-vm@v1.2.2
+      uses: vmactions/openbsd-vm@v1.2.3
       with:
         usesh: true
         mem: 4096
@@ -787,7 +787,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        runner: [ 'macos-13', 'macos-15' ]
+        runner: [ 'macos-15' ]
         buildtype: [ 'release' ]
 
     runs-on: ${{ matrix.runner }}
@@ -890,12 +890,7 @@ jobs:
         run: make deploy
 
       - name: Manually Codesign
-        if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && matrix.runner == 'macos-13'
-        working-directory: build
-        run: codesign -s 383J84DVB6 -f strawberry.app/Contents/Frameworks/{libpcre2-8.0.dylib,libpcre2-16.0.dylib,libpng16.16.dylib,libfreetype.6.dylib,libzstd.1.dylib,libbrotlicommon.1.dylib,libbrotlienc.1.dylib} strawberry.app/Contents/Frameworks/png.framework/png strawberry.app
-
-      - name: Manually Codesign
-        if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && matrix.runner == 'macos-15'
+        if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false
         working-directory: build
         run: codesign -s 383J84DVB6 -f strawberry.app/Contents/Frameworks/png.framework/png strawberry.app
 
@@ -1321,10 +1316,6 @@ jobs:
         shell: cmd
         run: choco install --no-progress rsync
 
-      - name: Set SSH command
-        shell: bash
-        run: echo "ssh_command=/c/ProgramData/chocolatey/lib/rsync/tools/$(ls -1 /c/ProgramData/chocolatey/lib/rsync/tools/ | grep -v '\.zip$' | grep '^cwrsync' | tail -1)/bin/ssh.exe" >> $GITHUB_ENV
-
       - name: Cleanup PATH
         uses: egor-tensin/cleanup-path@v4
         with:
@@ -1623,7 +1614,7 @@ jobs:
       - name: rsync
         if: steps.set-upload-path.outputs.upload_path != ''
         shell: bash
-        run: rsync -e "${{env.ssh_command}} -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var build/StrawberrySetup*.exe ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{steps.set-upload-path.outputs.upload_path}}/
+        run: rsync -e "/c/ProgramData/chocolatey/lib/rsync/tools/bin/ssh.exe -p ${{secrets.SSH_PORT}} -o StrictHostKeyChecking=no" -var build/StrawberrySetup*.exe ${{secrets.SSH_USER}}@${{secrets.SSH_HOST}}:${{steps.set-upload-path.outputs.upload_path}}/
 
 
   upload:

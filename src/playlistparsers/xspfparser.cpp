@@ -78,7 +78,7 @@ ParserBase::LoadResult XSPFParser::Load(QIODevice *device, const QString &playli
 
 Song XSPFParser::ParseTrack(QXmlStreamReader *reader, const QDir &dir, const bool collection_lookup) const {
 
-  QString title, artist, album, location, art;
+  QString platform, location, title, artist, album, art;
   qint64 nanosec = -1;
   int track_num = -1;
 
@@ -87,7 +87,10 @@ Song XSPFParser::ParseTrack(QXmlStreamReader *reader, const QDir &dir, const boo
     QString name = reader->name().toString();
     switch (type) {
       case QXmlStreamReader::StartElement:{
-        if (name == "location"_L1) {
+        if (name == "platform"_L1) {
+          platform = reader->readElementText().toLower();
+        }
+        else if (name == "location"_L1 || name == "url"_L1) {
           location = QUrl::fromPercentEncoding(reader->readElementText().toUtf8());
         }
         else if (name == "title"_L1) {
