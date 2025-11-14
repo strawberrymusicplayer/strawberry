@@ -2031,8 +2031,153 @@ void Playlist::ReshuffleIndices() {
 
     case PlaylistSequence::ShuffleMode::All:
     case PlaylistSequence::ShuffleMode::InsideAlbum:{
+      if (virtual_items_.isEmpty()) return;
+
+      QMap<int, int> playCounts;
+      QMap<int, QDateTime> lastPlayedTimes;
+
+      for (int trackID : virtual_items_) {
+          auto item = item_at(trackID);
+          if (!item) continue;
+
+          auto metadata = item->EffectiveMetadata();
+          playCounts[trackID] = metadata.playcount();
+
+          qint64 ts = metadata.lastplayed();
+          if (ts > 0 && ts < 10000000000) ts *= 1000;
+          lastPlayedTimes[trackID] = QDateTime::fromMSecsSinceEpoch(ts);
+      }
+
+      if (playCounts.isEmpty()) return;
+
+      int maxPlays = *std::max_element(playCounts.begin(), playCounts.end());
+      int minPlays = *std::min_element(playCounts.begin(), playCounts.end());
+
+      QMap<int, int> playcountGroups;
+      for (int plays : playCounts) playcountGroups[plays]++;
+
+      QList<int> sortedKeys = playcountGroups.keys();
+      std::sort(sortedKeys.begin(), sortedKeys.end(), std::greater<int>());
+
+      int topGroupCount = 0;
+      if (sortedKeys.size() > 0) topGroupCount += playcountGroups[sortedKeys[0]];
+      if (sortedKeys.size() > 1) topGroupCount += playcountGroups[sortedKeys[1]];
+
+      bool balanceWeights = (topGroupCount > 0.3 * playCounts.size());
+
+      double x1 = 2.0, y1 = 1.0;
+      double x2 = (maxPlays - minPlays < 3) ? 3.0 : maxPlays - minPlays;
+      if (x2 > 4) x1 = x2 - 2;
+      double y2 = std::pow((x2), 7) / 8000;
+      double B = std::log(y2 / y1) / (x2 - x1);
+      double A = y1 / std::exp(B * x1);
+
+      QMap<int, double> probPlay;
+      for (int plays = maxPlays; plays >= 0; --plays) {
+          int x = maxPlays - plays;
+          double weight = A * std::exp(B * x);
+          probPlay[plays] = weight;
+      }
+
+      QMap<int, double> adjustedGroups;
+      double maxGroup = 1.0;
+      for (auto it = playcountGroups.begin(); it != playcountGroups.end(); ++it) {
+          double adjusted = std::pow(it.value(), 2.0 / 7.0);
+          adjustedGroups[it.key()] = adjusted;
+          maxGroup = std::max(maxGroup, adjusted);
+      }
+
+      for (auto it = probPlay.begin(); it != probPlay.end(); ++it) {
+          double factor = maxGroup / adjustedGroups.value(it.key(), 1.0);
+          probPlay[it.key()] = it.value() / factor;
+      }
+
+      if (balanceWeights && probPlay.contains(0)) {
+          probPlay[maxPlays] = probPlay[0];
+      }
+
+      QDateTime oldest = QDateTime::currentDateTime();
+      QDateTime newest = QDateTime::fromMSecsSinceEpoch(0);
+      for (const auto& dt : lastPlayedTimes) {
+          if (dt > QDateTime::fromMSecsSinceEpoch(0)) {
+              oldest = std::min(oldest, dt);
+              newest = std::max(newest, dt);
+          }
+      }
+
+      int maxDays = qMax(0, oldest.daysTo(newest));
+      x1 = std::round(maxDays / 2); y1 = 1.0;
+      x2 = maxDays + 2; y2 = 720.0;
+      if (x1 >= x2) x1 = x2 - 2;
+
+      B = std::log(y2 / y1) / (x2 - x1);
+      A = y1 / std::exp(B * x1);
+
+      QMap<int, double> probTime;
+      for (int d = 0; d <= x2; ++d) {
+          probTime[d] = A * std::exp(B * d);
+      }
+
+      QMap<int, int> totalWeights;
+      for (int trackID : playCounts.keys()) {
+          int plays = playCounts.value(trackID, 0);
+          double groupW = probPlay.value(plays, 1.0);
+
+          int days;
+          if (!lastPlayedTimes.value(trackID).isValid() ||
+              lastPlayedTimes[trackID] < QDateTime::fromMSecsSinceEpoch(100000)) {
+              days = 3 * maxDays;
+          } else {
+              days = lastPlayedTimes[trackID].daysTo(newest);
+          }
+
+          double timeW = probTime.value(days, y2);
+          totalWeights[trackID] = static_cast<int>(std::round(groupW * timeW));
+      }
+
+      QVector<int> pool = virtual_items_.toVector();
+      QVector<int> weights;
+      for (int trackID : pool) {
+          weights.append(totalWeights.value(trackID, 1));
+      }
+
       std::random_device rd;
-      std::shuffle(virtual_items_.begin(), virtual_items_.end(), std::mt19937(rd()));
+      std::mt19937 gen(rd());
+      QVector<int> finalOrder;
+
+      while (!pool.isEmpty()) {
+          std::discrete_distribution<> dist(weights.begin(), weights.end());
+          int pos = dist(gen);
+          finalOrder.append(pool[pos]);
+          pool.remove(pos);
+          weights.remove(pos);
+      }
+
+      virtual_items_ = finalOrder.toList();
+      // === Debug ===
+      int shown = 0;
+      for (int idx : virtual_items_) {
+          if (shown++ >= 11) break;
+
+          auto meta = item_at(idx)->EffectiveMetadata();
+          int plays = playCounts[idx];
+          int weight = totalWeights[idx];
+
+          int days;
+          if (!lastPlayedTimes.value(idx).isValid() ||
+              lastPlayedTimes[idx] < QDateTime::fromMSecsSinceEpoch(100000)) {
+              days = 2 * maxDays;
+          } else {
+              days = lastPlayedTimes[idx].daysTo(newest);
+          }
+
+
+          qDebug() << "Track ID:" << idx
+                  << ", Título:" << meta.title()
+                  << ", Peso:" << weight
+                  << ", Playcount:" << plays
+                  << ", Días sin reproducirse:" << days;
+      }
       break;
     }
 
@@ -2077,7 +2222,7 @@ void Playlist::ReshuffleIndices() {
 
   // Update current virtual index
   if (current_item_index_.isValid()) {
-    current_virtual_index_ = static_cast<int>(virtual_items_.indexOf(current_item_index_.row()));
+    current_virtual_index_ = 0;//static_cast<int>(virtual_items_.indexOf(current_item_index_.row()));
   }
   else {
     current_virtual_index_ = -1;
