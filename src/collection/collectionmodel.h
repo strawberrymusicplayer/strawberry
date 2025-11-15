@@ -185,7 +185,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   static QString PrettyYearAlbumDisc(const int year, const QString &album, const int disc);
   static QString PrettyDisc(const int disc);
   static QString PrettyFormat(const Song &song);
-  QString SortText(const GroupBy group_by, const Song &song, const bool sort_skip_articles_for_artists, const bool sort_skip_articles_for_albums);
+  static QString SortText(const GroupBy group_by, const Song &song, const bool sort_skip_articles_for_artists, const bool sort_skip_articles_for_albums);
   static QString SortText(QString text);
   static QString SortTextForName(const QString &name, const bool sort_skip_articles);
   static QString SortTextForNumber(const int number);
