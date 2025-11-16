@@ -2039,11 +2039,22 @@ void Playlist::ReshuffleIndices() {
     case PlaylistSequence::ShuffleMode::Albums:{
       QMap<int, QString> album_keys;  // real index -> key
       QSet<QString> album_key_set;    // unique keys
+      SongList playlistSongs = playlist_backend_->GetPlaylistSongs(id_); // list of songs from the current playlist
+      // To avoid playing songs previously played when continuing after closing the app last time, we are looking through the current playlist to see what track number of the current album we are starting at
+      const int lastPlayedShuffleItem = playlist_backend_->GetPlaylist(id_).last_played;
+      int lastPlayedShuffleItemTrackNo = -1;
+      if (lastPlayedShuffleItem != -1 && playlistSongs[lastPlayedShuffleItem].track() > 1) {
+        lastPlayedShuffleItemTrackNo = playlistSongs[lastPlayedShuffleItem].track();
+      }
 
       // Find all the unique albums in the playlist
       for (QList<int>::const_iterator it = virtual_items_.constBegin(); it != virtual_items_.constEnd(); ++it) {
         const int index = *it;
         const QString key = items_[index]->EffectiveMetadata().AlbumKey();
+        // Setting a song to skip if it's track number in the album is lower than the first song we are playing with album shuffle on
+        if ((lastPlayedShuffleItemTrackNo > 1) && (playlistSongs[index].album() == playlistSongs[lastPlayedShuffleItem].album()) && (playlistSongs[index].artist() == playlistSongs[lastPlayedShuffleItem].artist()) && (playlistSongs[index].track() < lastPlayedShuffleItemTrackNo)) { //last time we played something it wasn't the first track of the album, therefore we need to not add previous tracks of this album
+          items_[index]->SetShouldSkip(true);
+        }
         album_keys[index] = key;
         album_key_set << key;
       }
@@ -2067,14 +2078,12 @@ void Playlist::ReshuffleIndices() {
       for (int i = 0; i < shuffled_album_keys.count(); ++i) {
         album_key_positions[shuffled_album_keys[i]] = i;
       }
-
       // Sort the virtual items
       std::stable_sort(virtual_items_.begin(), virtual_items_.end(), std::bind(AlbumShuffleComparator, album_key_positions, album_keys, std::placeholders::_1, std::placeholders::_2));
 
       break;
     }
   }
-
   // Update current virtual index
   if (current_item_index_.isValid()) {
     current_virtual_index_ = static_cast<int>(virtual_items_.indexOf(current_item_index_.row()));
