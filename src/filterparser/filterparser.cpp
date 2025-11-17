@@ -22,6 +22,7 @@
 
 #include <QString>
 
+#include "constants/timeconstants.h"
 #include "filterparser.h"
 #include "filtertreenop.h"
 #include "filtertreeand.h"
@@ -322,7 +323,7 @@ FilterTree *FilterParser::createSearchTermTreeNode(const QString &column, const 
     else if (Song::kInt64SearchColumns.contains(column, Qt::CaseInsensitive)) {
       qint64 number = 0;
       if (column == "length"_L1) {
-        number = ParseTime(value);
+        number = ParseTime(value) * kNsecPerSec;
       }
       else {
         number = value.toLongLong();
