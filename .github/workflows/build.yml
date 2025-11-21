@@ -97,7 +97,7 @@ jobs:
           cmake --build build --config Release --parallel 4
           cmake --install build
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
           submodules: recursive
@@ -209,7 +209,7 @@ jobs:
             sparsehash-devel
             rapidjson-devel
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
           submodules: recursive
@@ -307,7 +307,7 @@ jobs:
       - name: Remove files
         run: rm -rf /usr/lib64/qt6/lib/cmake/Qt6Sql/{Qt6QMYSQL*,Qt6QODBCD*,Qt6QPSQL*,Qt6QIBase*}
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
           submodules: recursive
@@ -409,7 +409,7 @@ jobs:
           cmake --build build --config Release --parallel 4
           cmake --install build
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
           submodules: recursive
@@ -511,7 +511,7 @@ jobs:
           cmake --build build --config Release --parallel 4
           cmake --install build
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
           submodules: recursive
@@ -607,7 +607,7 @@ jobs:
           cmake --build build --config Release --parallel 4
           cmake --install build
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
           submodules: recursive
@@ -699,7 +699,7 @@ jobs:
           DEBIAN_FRONTEND: noninteractive
         run: apt install -y keyboxd
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
           submodules: recursive
@@ -735,7 +735,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
       with:
         fetch-depth: 0
         submodules: recursive
@@ -760,7 +760,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
       with:
         fetch-depth: 0
         submodules: recursive
@@ -826,7 +826,7 @@ jobs:
           rm -f uninstall.sh
 
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
           submodules: recursive
@@ -972,7 +972,7 @@ jobs:
         run: echo "cmake_buildtype=$(echo ${{env.buildtype}} | awk '{print toupper(substr($0,0,1))tolower(substr($0,2))}')" >> $GITHUB_ENV
 
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
           submodules: recursive
@@ -1075,7 +1075,7 @@ jobs:
         run: echo "cmake_buildtype=$(echo ${{matrix.buildtype}} | sed 's/.*/\u&/')" >> $GITHUB_ENV
 
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
           submodules: recursive
@@ -1400,7 +1400,7 @@ jobs:
           vsversion: 2022
 
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
           submodules: recursive
@@ -1633,7 +1633,7 @@ jobs:
           DEBIAN_FRONTEND: noninteractive
         run: sudo apt install -y git rsync
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - name: Download artifacts
@@ -1681,7 +1681,7 @@ jobs:
           DEBIAN_FRONTEND: noninteractive
         run: sudo apt install -y git jq gh
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - name: Show release assets
