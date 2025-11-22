@@ -12,3 +12,4 @@
 /CMakeSettings.json
 /dist/scripts/maketarball.sh
 /debian/changelog
+.qtcreator/
