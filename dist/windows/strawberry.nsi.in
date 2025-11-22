@@ -505,7 +505,7 @@ Section "Strawberry" Strawberry
   File "Qt6Widgets.dll"
 !endif
 
-!ifdef msvc
+!ifdef msvc && arch_x86
   File "avcodec-61.dll"
   File "avfilter-10.dll"
   File "avformat-61.dll"
@@ -1056,7 +1056,7 @@ Section "Uninstall"
   Delete "$INSTDIR\Qt6Widgets.dll"
 !endif
 
-!ifdef msvc
+!ifdef msvc && arch_x86
   Delete "$INSTDIR\avcodec-61.dll"
   Delete "$INSTDIR\avfilter-10.dll"
   Delete "$INSTDIR\avformat-61.dll"
