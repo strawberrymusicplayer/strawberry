@@ -17,7 +17,9 @@ It’s written in **C++ using the Qt framework**, designed for **audiophiles and
 - **Forum:** https://forum.strawberrymusicplayer.org
 - **GitHub:** https://github.com/strawberrymusicplayer/strawberry
 - **Latest builds:** https://builds.strawberrymusicplayer.org
-- **openSUSE Build Service:** https://build.opensuse.org/package/show/home:jonaski:audio/strawberry
+- **openSUSE Build Service:**
+  - Stable: https://build.opensuse.org/package/show/home:jonaski:strawberry/strawberry
+  - Unstable: https://build.opensuse.org/package/show/home:jonaski:strawberry-dev/strawberry
 - **Ubuntu PPAs:**
   - Stable: https://launchpad.net/~jonaski/+archive/ubuntu/strawberry
   - Unstable: https://launchpad.net/~jonaski/+archive/ubuntu/strawberry-unstable
