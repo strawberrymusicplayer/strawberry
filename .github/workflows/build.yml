@@ -1310,7 +1310,7 @@ jobs:
       - name: Set SDK version
         if: matrix.arch != 'arm64'
         shell: bash
-        run: echo "sdk_version=10.0.19041.0" >> $GITHUB_ENV
+        run: echo "sdk_version=10.0.22621.0" >> $GITHUB_ENV
 
       - name: Set SDK version
         if: matrix.arch == 'arm64'
