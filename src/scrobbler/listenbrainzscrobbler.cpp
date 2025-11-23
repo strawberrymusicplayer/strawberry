@@ -346,6 +346,12 @@ void ListenBrainzScrobbler::UpdateNowPlayingRequestFinished(QNetworkReply *reply
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
+  // ListenBrainz frequently close the connection, ignore any connection closed errors to avoid error popups
+  if (reply->error() == QNetworkReply::NetworkError::RemoteHostClosedError) {
+    JsonBaseRequest::Error(QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
+    return;
+  }
+
   const JsonObjectResult json_object_result = ParseJsonObject(reply);
   if (!json_object_result.success()) {
     Error(json_object_result.error_message);
@@ -450,6 +456,14 @@ void ListenBrainzScrobbler::ScrobbleRequestFinished(QNetworkReply *reply, Scrobb
   reply->deleteLater();
 
   submitted_ = false;
+
+  // ListenBrainz frequently close the connection, ignore any connection closed errors to avoid error popups
+  if (reply->error() == QNetworkReply::NetworkError::RemoteHostClosedError) {
+    JsonBaseRequest::Error(QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
+    cache_->ClearSent(cache_items);
+    submit_error_ = true;
+    return;
+  }
 
   const JsonObjectResult json_object_result = ParseJsonObject(reply);
   if (json_object_result.success()) {
