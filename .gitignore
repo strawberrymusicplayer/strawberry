@@ -1,6 +1,7 @@
 /build
 /bin
 /CMakeLists.txt.user
+/.qtcreator
 /.kdev4
 /strawberry.kdev4
 /.vscode

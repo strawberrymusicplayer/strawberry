@@ -265,7 +265,6 @@ void GroupedIconView::paintEvent(QPaintEvent *e) {
   const QItemSelectionModel *selections = selectionModel();
   const bool focus = (hasFocus() || viewport()->hasFocus()) && current.isValid();
   const QStyle::State opt_state = option.state;
-  const QAbstractItemView::State viewState = state();
   const bool enabled = (opt_state & QStyle::State_Enabled) != 0;
 
   int maxSize = (flow() == TopToBottom) ? viewport()->size().width() - 2 * spacing() : viewport()->size().height() - 2 * spacing();
@@ -301,9 +300,6 @@ void GroupedIconView::paintEvent(QPaintEvent *e) {
     }
     if (focus && current == *it) {
       option.state |= QStyle::State_HasFocus;
-      if (viewState == EditingState) {
-        option.state |= QStyle::State_Editing;
-      }
     }
 
     itemDelegate()->paint(&painter, option, *it);
