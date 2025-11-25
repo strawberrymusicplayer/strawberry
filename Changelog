@@ -2,6 +2,15 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+    * Fixed system default language not respected
+    * Fixed length filter search
+    * Fixed playlist parser converting Spotify URL's
+    * Removed use of deprecated QStyle::State_Editing
+    * Ignore connection closed errors for ListenBrainz
+    * (Windows) Support building with vcpkg unofficial::getopt-win32::getopt
+
 Version 1.2.14 (2025.10.25):
 
   Bugfixes:
