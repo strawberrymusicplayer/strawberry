@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+Version 1.2.15 (2025.11.25):
 
     * Fixed system default language not respected
     * Fixed length filter search
