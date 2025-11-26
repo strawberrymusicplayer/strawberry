@@ -106,7 +106,7 @@ void RichPresence::CurrentSongChanged(const Song &song) {
 
   SetTimestamp(0LL);
   activity_.length_secs = song.length_nanosec() / kNsecPerSec;
-  activity_.title = song.title();
+  activity_.title = song.PrettyTitle();
   activity_.artist = song.artist();
   activity_.album = song.album();
 
