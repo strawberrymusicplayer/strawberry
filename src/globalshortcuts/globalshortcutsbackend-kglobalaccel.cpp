@@ -120,6 +120,7 @@ void GlobalShortcutsBackendKGlobalAccel::RegisterFinished(QDBusPendingCallWatche
   }
 
   QObject::connect(component_, &org::kde::kglobalaccel::Component::globalShortcutPressed, this, &GlobalShortcutsBackendKGlobalAccel::GlobalShortcutPressed, Qt::UniqueConnection);
+  QObject::connect(component_, &org::kde::kglobalaccel::Component::globalShortcutRepeated, this, &GlobalShortcutsBackendKGlobalAccel::GlobalShortcutPressed, Qt::UniqueConnection);
 
   qLog(Debug) << "Registered.";
 
