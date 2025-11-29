@@ -107,7 +107,7 @@
     </message>
     <message>
       <source>Show fullsize...</source>
-      <translation>Kuva täissuuruses...</translation>
+      <translation>Näita täissuuruses...</translation>
     </message>
     <message>
       <source>Search automatically</source>
