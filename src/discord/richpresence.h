@@ -1,5 +1,6 @@
 /*
  * Strawberry Music Player
+ * Copyright 2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
