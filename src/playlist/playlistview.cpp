@@ -690,12 +690,6 @@ void PlaylistView::showEvent(QShowEvent *e) {
 
 }
 
-namespace {
-bool CompareSelectionRanges(const QItemSelectionRange &a, const QItemSelectionRange &b) {
-  return b.bottom() < a.bottom();
-}
-}  // namespace
-
 void PlaylistView::keyPressEvent(QKeyEvent *event) {
 
   if (!model() || state() == QAbstractItemView::EditingState) {
@@ -758,7 +752,7 @@ void PlaylistView::RemoveSelected() {
   int last_row = selection.last().top();
 
   // Sort the selection, so we remove the items at the *bottom* first, ensuring we don't have to mess around with changing row numbers
-  std::sort(selection.begin(), selection.end(), CompareSelectionRanges);
+  std::sort(selection.begin(), selection.end(), [](const QItemSelectionRange &a, const QItemSelectionRange &b) { return b.bottom() < a.bottom(); });
 
   for (const QItemSelectionRange &range : selection) {
     if (range.top() < last_row) rows_removed += range.height();
