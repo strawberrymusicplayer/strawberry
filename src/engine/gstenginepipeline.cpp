@@ -1525,7 +1525,15 @@ void GstEnginePipeline::ElementMessageReceived(GstMessage *msg) {
 
   const GstStructure *structure = gst_message_get_structure(msg);
 
-  if (gst_structure_has_name(structure, "redirect")) {
+  if (gst_structure_has_name(structure, "missing-plugin")) {
+    gchar *description = gst_missing_plugin_message_get_description(msg);
+    gchar *detail = gst_missing_plugin_message_get_installer_detail(msg);
+    const QString message = QLatin1String("Missing GStreamer plugin for %1 (%2)").arg(QString::fromLocal8Bit(description)).arg(QString::fromLocal8Bit(detail));
+    g_free(description);
+    g_free(detail);
+    Q_EMIT Error(id(), static_cast<int>(GST_LIBRARY_ERROR), GST_CORE_ERROR_MISSING_PLUGIN, message, QString());
+  }
+  else if (gst_structure_has_name(structure, "redirect")) {
     const char *uri = gst_structure_get_string(structure, "new-location");
 
     // Set the redirect URL.  In mmssrc redirect messages come during the initial state change to PLAYING, so callers can pick up this URL after the state change has failed.
