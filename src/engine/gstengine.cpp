@@ -632,7 +632,10 @@ void GstEngine::HandlePipelineError(const int pipeline_id, const int domain, con
   qLog(Error) << "GStreamer error:" << domain << error_code << message;
 
   Q_EMIT Error(message);
-  Q_EMIT Error(debugstr);
+
+  if (!debugstr.isEmpty()) {
+    Q_EMIT Error(debugstr);
+  }
 
   if (fadeout_pause_pipeline_ && pipeline_id == fadeout_pause_pipeline_->id()) {
     StopFadeoutPause();
