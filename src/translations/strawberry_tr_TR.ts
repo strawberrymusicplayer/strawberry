@@ -2028,7 +2028,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     <message>
       <source>Last played</source>
       <comment>A playlist&apos;s tag.</comment>
-      <translation>En son çalınan</translation>
+      <translation>Son çalınma</translation>
     </message>
     <message>
       <source>File type</source>
@@ -2882,7 +2882,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Last played</source>
-      <translation>En son çalınan</translation>
+      <translation>Son çalınma</translation>
     </message>
     <message>
       <source>Play counts</source>
