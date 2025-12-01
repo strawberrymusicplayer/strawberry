@@ -28,6 +28,8 @@ ResizableTextEdit::ResizableTextEdit(QWidget *parent)
   setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
   setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  setWordWrapMode(QTextOption::WordWrap);
+  setLineWrapMode(QTextEdit::WidgetWidth);
 
 }
 
