@@ -3589,18 +3589,18 @@ If there are no matches then it will use the largest image in the directory.</so
     <name>MoodbarProxyStyle</name>
     <message>
       <source>Show moodbar</source>
-      <translation type="unfinished">Show moodbar</translation>
+      <translation>Show moodbar</translation>
     </message>
     <message>
       <source>Moodbar style</source>
-      <translation type="unfinished">Moodbar style</translation>
+      <translation>Στυλ μπάρας διάθεσης</translation>
     </message>
   </context>
   <context>
     <name>MoodbarSettingsPage</name>
     <message>
       <source>Moodbar</source>
-      <translation type="unfinished">Moodbar</translation>
+      <translation>Moodbar</translation>
     </message>
     <message>
       <source>Show a moodbar in the track progress bar</source>
@@ -3708,7 +3708,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Strawberry can show a message when the track changes.</source>
-      <translation type="unfinished">Strawberry can show a message when the track changes.</translation>
+      <translation>Το Strawberry μπορεί να εμφανίσει ένα μήνυμα όταν αλλάζει το τραγούδι.</translation>
     </message>
     <message>
       <source>Notification type</source>
@@ -4347,7 +4347,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Integrated Loudness</source>
-      <translation type="unfinished">Integrated Loudness</translation>
+      <translation>Ενσωματωμένη Ζωηρότητα</translation>
     </message>
     <message>
       <source>Loudness Range</source>
