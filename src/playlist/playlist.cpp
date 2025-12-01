@@ -750,10 +750,20 @@ void Playlist::set_current_row(const int i, const AutoScroll autoscroll, const b
     // This is the first thing we're playing so we want to make sure the array is shuffled
     ReshuffleIndices();
 
-    // Bring the one we've been asked to play to the start of the list
-    virtual_items_.takeAt(virtual_items_.indexOf(i));
-    virtual_items_.prepend(i);
-    current_virtual_index_ = 0;
+    // For shuffle modes that need to preserve track order within albums, don't move the track
+    if (ShuffleMode() == PlaylistSequence::ShuffleMode::Albums || ShuffleMode() == PlaylistSequence::ShuffleMode::InsideAlbum) {
+      // Just find where the track ended up after ReshuffleIndices
+      const int idx = static_cast<int>(virtual_items_.indexOf(i));
+      current_virtual_index_ = idx == -1 ? 0 : idx;
+    }
+    else {
+      const int idx = static_cast<int>(virtual_items_.indexOf(i));
+      if (idx != -1) {
+        virtual_items_.takeAt(idx);
+        virtual_items_.prepend(i);
+      }
+      current_virtual_index_ = 0;
+    }
   }
   else if (ShuffleMode() != PlaylistSequence::ShuffleMode::Off) {
     current_virtual_index_ = static_cast<int>(virtual_items_.indexOf(i));
@@ -2054,8 +2064,13 @@ void Playlist::ReshuffleIndices() {
       std::shuffle(shuffled_album_keys.begin(), shuffled_album_keys.end(), std::mt19937(rd()));
 
       // If the user is currently playing a song, force its album to be first
-      if (current_row() != -1) {
-        const QString key = items_[current_row()]->EffectiveMetadata().AlbumKey();
+      // Also check last_played_row() for cases where current_row() hasn't been set yet (e.g., on app startup)
+      int reference_row = current_row();
+      if (reference_row == -1 && last_played_row() != -1) {
+        reference_row = last_played_row();
+      }
+      if (reference_row != -1) {
+        const QString key = items_[reference_row]->EffectiveMetadata().AlbumKey();
         const qint64 pos = shuffled_album_keys.indexOf(key);
         if (pos >= 1) {
           std::swap(shuffled_album_keys[0], shuffled_album_keys[pos]);
