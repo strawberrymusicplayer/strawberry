@@ -39,8 +39,8 @@ QSize ResizableTextEdit::sizeHint() const {
 
 void ResizableTextEdit::resizeEvent(QResizeEvent *e) {
 
-  updateGeometry();
   QTextEdit::resizeEvent(e);
+  updateGeometry();
 
 }
 
