@@ -806,14 +806,14 @@ void AlbumCoverChoiceController::SaveCover(Song *song, const QDropEvent *e) {
 QUrl AlbumCoverChoiceController::SaveCoverAutomatic(Song *song, const AlbumCoverImageResult &result) {
 
   QUrl cover_url;
-    case CoverOptions::CoverType::Embedded:{
   switch (get_save_album_cover_type()) {
+    case CoverOptions::CoverType::Embedded:{
       if (song->save_embedded_cover_supported()) {
         SaveCoverEmbeddedToCollectionSongs(*song, result);
         break;
       }
-    }
       [[fallthrough]];
+    }
     case CoverOptions::CoverType::Cache:
     case CoverOptions::CoverType::Album:{
       cover_url = SaveCoverToFileAutomatic(song, result);
