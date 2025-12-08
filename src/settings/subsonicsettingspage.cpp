@@ -121,7 +121,7 @@ void SubsonicSettingsPage::Save() {
   else {
     s.setValue(kAuthMethod, static_cast<int>(AuthMethod::MD5));
   }
-  
+
   ui_->checkbox_use_album_id_for_album_covers->setEnabled(ui_->checkbox_download_album_covers->isChecked());
 
   s.endGroup();

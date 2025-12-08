@@ -34,4 +34,3 @@ class SmartPlaylistWizardTypePage : public QWizardPage {
 };
 
 #endif  // SMARTPLAYLISTWIZARDTYPEPAGE_H
-

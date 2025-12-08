@@ -93,7 +93,7 @@ QNetworkReply *HttpBaseRequest::CreateGetRequest(const QUrl &url, const QUrlQuer
   QObject::connect(reply, &QNetworkReply::sslErrors, this, &HttpBaseRequest::HandleSSLErrors);
   replies_ << reply;
 
-  //qLog(Debug) << service_name() << "Sending get request" << request_url;
+  // qLog(Debug) << service_name() << "Sending get request" << request_url;
 
   return reply;
 
@@ -111,7 +111,7 @@ QNetworkReply *HttpBaseRequest::CreatePostRequest(const QUrl &url, const QByteAr
   QObject::connect(reply, &QNetworkReply::sslErrors, this, &HttpBaseRequest::HandleSSLErrors);
   replies_ << reply;
 
-  //qLog(Debug) << service_name() << "Sending post request" << url << data;
+  // qLog(Debug) << service_name() << "Sending post request" << url << data;
 
   return reply;
 

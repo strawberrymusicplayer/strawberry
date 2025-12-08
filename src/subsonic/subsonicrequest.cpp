@@ -421,15 +421,13 @@ void SubsonicRequest::SongsFinishCheck() {
 
   if (!album_songs_requests_queue_.isEmpty() && album_songs_requests_active_ < kMaxConcurrentAlbumSongsRequests) FlushAlbumSongsRequests();
 
-  if (
-      download_album_covers() &&
+  if (download_album_covers() &&
       album_songs_requests_queue_.isEmpty() &&
       album_songs_requests_active_ <= 0 &&
       album_cover_requests_queue_.isEmpty() &&
       album_covers_received_ <= 0 &&
       album_covers_requests_sent_.isEmpty() &&
-      album_songs_received_ >= album_songs_requested_
-  ) {
+      album_songs_received_ >= album_songs_requested_) {
     GetAlbumCovers();
   }
 
@@ -442,14 +440,12 @@ QString SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_object, c
   Q_UNUSED(artist_id_requested);
   Q_UNUSED(album_id_requested);
 
-  if (
-      !json_object.contains("id"_L1) ||
+  if (!json_object.contains("id"_L1) ||
       !json_object.contains("title"_L1) ||
       !json_object.contains("size"_L1) ||
       !json_object.contains("suffix"_L1) ||
       !json_object.contains("duration"_L1) ||
-      !json_object.contains("type"_L1)
-    ) {
+      !json_object.contains("type"_L1)) {
     Error(u"Invalid Json reply, song is missing one or more values."_s, json_object);
     return QString();
   }
@@ -813,8 +809,7 @@ void SubsonicRequest::AlbumCoverFinishCheck() {
 
 void SubsonicRequest::FinishCheck() {
 
-  if (
-      !finished_ &&
+  if (!finished_ &&
       albums_requests_queue_.isEmpty() &&
       album_songs_requests_queue_.isEmpty() &&
       album_cover_requests_queue_.isEmpty() &&
@@ -824,8 +819,7 @@ void SubsonicRequest::FinishCheck() {
       album_songs_requests_active_ <= 0 &&
       album_songs_received_ >= album_songs_requested_ &&
       album_covers_requests_active_ <= 0 &&
-      album_covers_received_ >= album_covers_requested_
-  ) {
+      album_covers_received_ >= album_covers_requested_) {
     finished_ = true;
     if (no_results_ && songs_.isEmpty()) {
       Q_EMIT Results(SongMap(), QString());

@@ -40,9 +40,9 @@ static void Discord_UpdateConnection();
 
 namespace {
 
-constexpr size_t MaxMessageSize { 16 * 1024 };
-constexpr size_t MessageQueueSize { 8 };
-constexpr size_t JoinQueueSize { 8 };
+constexpr size_t MaxMessageSize{ 16 * 1024 };
+constexpr size_t MessageQueueSize{ 8 };
+constexpr size_t JoinQueueSize{ 8 };
 
 struct QueuedMessage {
   size_t length;
@@ -70,24 +70,24 @@ struct User {
   // Rounded way up because I'm paranoid about games breaking from future changes in these sizes
 };
 
-static RpcConnection *Connection { nullptr };
-static DiscordEventHandlers QueuedHandlers {};
-static DiscordEventHandlers Handlers {};
-static std::atomic_bool WasJustConnected { false };
-static std::atomic_bool WasJustDisconnected { false };
-static std::atomic_bool GotErrorMessage { false };
-static std::atomic_bool WasJoinGame { false };
-static std::atomic_bool WasSpectateGame { false };
-static std::atomic_bool UpdatePresence { false };
+static RpcConnection *Connection{ nullptr };
+static DiscordEventHandlers QueuedHandlers{};
+static DiscordEventHandlers Handlers{};
+static std::atomic_bool WasJustConnected{ false };
+static std::atomic_bool WasJustDisconnected{ false };
+static std::atomic_bool GotErrorMessage{ false };
+static std::atomic_bool WasJoinGame{ false };
+static std::atomic_bool WasSpectateGame{ false };
+static std::atomic_bool UpdatePresence{ false };
 static char JoinGameSecret[256];
 static char SpectateGameSecret[256];
-static int LastErrorCode { 0 };
+static int LastErrorCode{ 0 };
 static char LastErrorMessage[256];
-static int LastDisconnectErrorCode { 0 };
+static int LastDisconnectErrorCode{ 0 };
 static char LastDisconnectErrorMessage[256];
 static std::mutex PresenceMutex;
 static std::mutex HandlerMutex;
-static QueuedMessage QueuedPresence {};
+static QueuedMessage QueuedPresence{};
 static MsgQueue<QueuedMessage, MessageQueueSize> SendQueue;
 static MsgQueue<User, JoinQueueSize> JoinAskQueue;
 static User connectedUser;
@@ -95,12 +95,12 @@ static User connectedUser;
 // We want to auto connect, and retry on failure, but not as fast as possible. This does expoential backoff from 0.5 seconds to 1 minute
 static Backoff ReconnectTimeMs(500, 60 * 1000);
 static auto NextConnect = std::chrono::system_clock::now();
-static int Pid { 0 };
-static int Nonce { 1 };
+static int Pid{ 0 };
+static int Nonce{ 1 };
 
 class IoThreadHolder {
  private:
-  std::atomic_bool keepRunning { true };
+  std::atomic_bool keepRunning{ true };
   std::mutex waitForIOMutex;
   std::condition_variable waitForIOActivity;
   std::thread ioThread;
@@ -109,14 +109,14 @@ class IoThreadHolder {
   void Start() {
     keepRunning.store(true);
     ioThread = std::thread([&]() {
-      const std::chrono::duration<int64_t, std::milli> maxWait { 500LL };
-      Discord_UpdateConnection();
-      while (keepRunning.load()) {
-        std::unique_lock<std::mutex> lock(waitForIOMutex);
-        waitForIOActivity.wait_for(lock, maxWait);
+        const std::chrono::duration<int64_t, std::milli> maxWait { 500LL };
         Discord_UpdateConnection();
-      }
-    });
+        while (keepRunning.load()) {
+          std::unique_lock<std::mutex> lock(waitForIOMutex);
+          waitForIOActivity.wait_for(lock, maxWait);
+          Discord_UpdateConnection();
+        }
+      });
   }
 
   void Notify() { waitForIOActivity.notify_all(); }
@@ -132,7 +132,7 @@ class IoThreadHolder {
   ~IoThreadHolder() { Stop(); }
 };
 
-static IoThreadHolder *IoThread { nullptr };
+static IoThreadHolder *IoThread{ nullptr };
 
 static void UpdateReconnectTime() {
 
@@ -429,7 +429,7 @@ extern "C" void Discord_RunCallbacks() {
   if (WasJustConnected.exchange(false)) {
     std::lock_guard<std::mutex> guard(HandlerMutex);
     if (Handlers.ready) {
-      DiscordUser du { connectedUser.userId, connectedUser.username, connectedUser.discriminator, connectedUser.avatar };
+      DiscordUser du{ connectedUser.userId, connectedUser.username, connectedUser.discriminator, connectedUser.avatar };
       Handlers.ready(&du);
     }
   }
@@ -465,7 +465,7 @@ extern "C" void Discord_RunCallbacks() {
     {
       std::lock_guard<std::mutex> guard(HandlerMutex);
       if (Handlers.joinRequest) {
-        DiscordUser du { req->userId, req->username, req->discriminator, req->avatar };
+        DiscordUser du{ req->userId, req->username, req->discriminator, req->avatar };
         Handlers.joinRequest(&du);
       }
     }
@@ -486,12 +486,12 @@ extern "C" void Discord_UpdateHandlers(DiscordEventHandlers *newHandlers) {
 
   if (newHandlers) {
 #define HANDLE_EVENT_REGISTRATION(handler_name, event)            \
-  if (!Handlers.handler_name && newHandlers->handler_name) {      \
-    RegisterForEvent(event);                                      \
-  }                                                               \
-  else if (Handlers.handler_name && !newHandlers->handler_name) { \
-    DeregisterForEvent(event);                                    \
-  }
+        if (!Handlers.handler_name && newHandlers->handler_name) {      \
+          RegisterForEvent(event);                                      \
+        }                                                               \
+        else if (Handlers.handler_name && !newHandlers->handler_name) { \
+          DeregisterForEvent(event);                                    \
+        }
 
     std::lock_guard<std::mutex> guard(HandlerMutex);
     HANDLE_EVENT_REGISTRATION(joinGame, "ACTIVITY_JOIN")

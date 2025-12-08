@@ -451,7 +451,7 @@ void TidalService::SendSearch() {
       query_type = TidalBaseRequest::Type::SearchSongs;
       break;
     default:
-      //Error("Invalid search type.");
+      // Error("Invalid search type.");
       return;
   }
 

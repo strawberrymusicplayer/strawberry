@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "searchfield.h"
 
 SearchFieldPrivate::SearchFieldPrivate(SearchField *searchField, QLineEdit *lineedit, QPushButton *clearbutton)
-      : QObject(searchField), lineedit_(lineedit), clearbutton_(clearbutton) {}
+    : QObject(searchField), lineedit_(lineedit), clearbutton_(clearbutton) {}
 
 int SearchFieldPrivate::lineEditFrameWidth() const {
   return lineedit_->style()->pixelMetric(QStyle::PM_DefaultFrameWidth);

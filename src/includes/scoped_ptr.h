@@ -22,7 +22,7 @@
 
 #include <memory>
 
-template <typename T, typename D = std::default_delete<T>>
+template<typename T, typename D = std::default_delete<T>>
 using ScopedPtr = std::unique_ptr<T, D>;
 
 #endif  // SCOPED_PTR_H

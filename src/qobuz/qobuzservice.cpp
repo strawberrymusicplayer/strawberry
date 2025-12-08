@@ -248,7 +248,7 @@ QString QobuzService::DecodeAppSecret(const QString &app_secret_base64) const {
   const QByteArray app_secret_binary = QByteArray::fromBase64(app_secret_base64.toUtf8());
   QString app_secret_decoded;
 
-  for (int x = 0, y = 0; x < app_secret_binary.length(); ++x , ++y) {
+  for (int x = 0, y = 0; x < app_secret_binary.length(); ++x, ++y) {
     if (y == appid.length()) y = 0;
     const uint rc = static_cast<uint>(app_secret_binary[x] ^ appid[y]);
     if (rc > 0xFFFF) {
@@ -296,7 +296,7 @@ void QobuzService::SendLoginWithCredentials(const QString &app_id, const QString
   QObject::connect(reply, &QNetworkReply::sslErrors, this, &QobuzService::HandleLoginSSLErrors);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() { HandleAuthReply(reply); });
 
-  //qLog(Debug) << "Qobuz: Sending request" << url << query;
+  // qLog(Debug) << "Qobuz: Sending request" << url << query;
 
 }
 

@@ -43,9 +43,9 @@ namespace {
 constexpr int TabSize_LargeSidebarMinWidth = 70;
 }  // namespace
 
-FancyTabBar::FancyTabBar(QWidget *parent) :
-    QTabBar(parent),
-    mouseHoverTabIndex(-1) {
+FancyTabBar::FancyTabBar(QWidget *parent)
+    : QTabBar(parent),
+      mouseHoverTabIndex(-1) {
 
   setMouseTracking(true);
 
@@ -180,7 +180,7 @@ void FancyTabBar::paintEvent(QPaintEvent *pe) {
       QLinearGradient grad(selectionRect.topLeft(), selectionRect.topRight());
       grad.setColorAt(0, QColor(255, 255, 255, 140));
       grad.setColorAt(1, QColor(255, 255, 255, 210));
-      p.fillRect(selectionRect.adjusted(0,0,0,-1), grad);
+      p.fillRect(selectionRect.adjusted(0, 0, 0, -1), grad);
       p.restore();
 
       // shadow lines

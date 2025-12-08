@@ -202,7 +202,7 @@ void SubsonicService::SendPingWithCredentials(QUrl url, const QString &username,
   QObject::connect(reply, &QNetworkReply::sslErrors, this, &SubsonicService::HandlePingSSLErrors);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, url, username, password, auth_method]() { HandlePingReply(reply, url, username, password, auth_method); });
 
-  //qLog(Debug) << "Subsonic: Sending request" << url << url.query();
+  // qLog(Debug) << "Subsonic: Sending request" << url << url.query();
 
 }
 
@@ -332,7 +332,7 @@ void SubsonicService::HandlePingReply(QNetworkReply *reply, const QUrl &url, con
       PingError(u"Authentication error reply from server is missing status or message"_s, json_obj);
       return;
     }
-    //int status = obj_error["code"].toInt();
+    // int status = obj_error["code"].toInt();
     QString message = obj_error["message"_L1].toString();
     Q_EMIT TestComplete(false, message);
     Q_EMIT TestFailure(message);

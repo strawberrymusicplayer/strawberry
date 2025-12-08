@@ -233,7 +233,7 @@ QModelIndex GroupedIconView::indexAt(const QPoint &p) const {
   const QPoint viewport_p = p + QPoint(horizontalOffset(), verticalOffset());
 
   const int count = static_cast<int>(visual_rects_.count());
-  for (int i = 0; i<count; ++i) {
+  for (int i = 0; i < count; ++i) {
     if (visual_rects_[i].contains(viewport_p)) {
       return model()->index(i, 0);
     }
@@ -265,7 +265,7 @@ void GroupedIconView::paintEvent(QPaintEvent *e) {
   const QItemSelectionModel *selections = selectionModel();
   const bool focus = (hasFocus() || viewport()->hasFocus()) && current.isValid();
   const QStyle::State opt_state = option.state;
-  const bool enabled = (opt_state & QStyle::State_Enabled) != 0;
+  const bool enabled = (opt_state &QStyle::State_Enabled) != 0;
 
   int maxSize = (flow() == TopToBottom) ? viewport()->size().width() - 2 * spacing() : viewport()->size().height() - 2 * spacing();
 
@@ -381,10 +381,10 @@ QModelIndex GroupedIconView::moveCursor(CursorAction action, const Qt::KeyboardM
   switch (action) {
     case MoveUp:    ret = IndexAboveOrBelow(ret, -1); break;
     case MovePrevious:
-    case MoveLeft:  ret --; break;
+    case MoveLeft:  ret--; break;
     case MoveDown:  ret = IndexAboveOrBelow(ret, +1); break;
     case MoveNext:
-    case MoveRight: ret ++; break;
+    case MoveRight: ret++; break;
     case MovePageUp:
     case MoveHome:  ret = 0; break;
     case MovePageDown:

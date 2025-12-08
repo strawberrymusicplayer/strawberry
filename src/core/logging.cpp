@@ -13,7 +13,7 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
-*/
+ */
 
 #include <QtGlobal>
 
@@ -257,7 +257,7 @@ static QString ParsePrettyFunction(const char *pretty_function) {
 
 }
 
-template <class T>
+template<class T>
 static T CreateLogger(Level level, const QString &class_name, int line, const char *category) {
 
   // Map the level to a string

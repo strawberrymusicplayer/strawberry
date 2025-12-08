@@ -35,7 +35,7 @@ int GetProcessId();
 
 struct BaseConnection {
   static BaseConnection *Create();
-  static void Destroy(BaseConnection *&);
+  static void Destroy(BaseConnection*&);
   bool isOpen = false;
   bool Open();
   bool Close();

@@ -147,4 +147,3 @@ PulseDeviceFinder::~PulseDeviceFinder() {
     pa_mainloop_free(mainloop_);
   }
 }
-

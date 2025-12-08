@@ -61,8 +61,8 @@ constexpr char kMagicAllSongsTables[] = "%allsongstables";
 int Database::sNextConnectionId = 1;
 QMutex Database::sNextConnectionIdMutex;
 
-Database::Database(SharedPtr<TaskManager> task_manager, QObject *parent, const QString &database_name) :
-      QObject(parent),
+Database::Database(SharedPtr<TaskManager> task_manager, QObject *parent, const QString &database_name)
+    : QObject(parent),
       task_manager_(task_manager),
       injected_database_name_(database_name),
       query_hash_(0),
@@ -134,7 +134,7 @@ QSqlDatabase Database::Connect() {
     return db;
   }
   db.setConnectOptions(u"QSQLITE_BUSY_TIMEOUT=30000"_s);
-  //qLog(Debug) << "Opened database with connection id" << connection_id;
+  // qLog(Debug) << "Opened database with connection id" << connection_id;
 
   if (injected_database_name_.isNull()) {
     db.setDatabaseName(directory_ + u'/' + QLatin1String(kDatabaseFilename));
@@ -210,7 +210,7 @@ void Database::Close() {
       QSqlDatabase db = QSqlDatabase::database(connection_id);
       if (db.isOpen()) {
         db.close();
-        //qLog(Debug) << "Closed database with connection id" << connection_id;
+        // qLog(Debug) << "Closed database with connection id" << connection_id;
       }
     }
     QSqlDatabase::removeDatabase(connection_id);
@@ -594,8 +594,7 @@ void Database::BackupFile(const QString &filename) {
     ret = sqlite3_backup_step(backup, 16);
     const int page_count = sqlite3_backup_pagecount(backup);
     task_manager_->SetTaskProgress(task_id, static_cast<quint64>(page_count - sqlite3_backup_remaining(backup)), static_cast<quint64>(page_count));
-  }
-  while (ret == SQLITE_OK);
+  } while (ret == SQLITE_OK);
 
   if (ret != SQLITE_DONE) {
     qLog(Error) << "Database backup failed";

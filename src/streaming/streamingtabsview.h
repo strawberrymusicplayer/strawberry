@@ -73,7 +73,7 @@ class StreamingTabsView : public QWidget {
   void OpenSettingsDialog(const Song::Source source);
 
  private:
-  const SharedPtr <StreamingService> service_;
+  const SharedPtr<StreamingService> service_;
   QString settings_group_;
   Ui_StreamingTabsView *ui_;
 };

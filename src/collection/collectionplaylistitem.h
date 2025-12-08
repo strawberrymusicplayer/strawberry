@@ -58,4 +58,3 @@ class CollectionPlaylistItem : public PlaylistItem {
 };
 
 #endif  // COLLECTIONPLAYLISTITEM_H
-

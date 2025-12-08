@@ -18,7 +18,7 @@
 
    You should have received a copy of the GNU General Public License
    along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 #ifndef ANALYZERBASE_H
 #define ANALYZERBASE_H
@@ -90,4 +90,3 @@ class AnalyzerBase : public QWidget {
 };
 
 #endif  // ANALYZERBASE_H
-

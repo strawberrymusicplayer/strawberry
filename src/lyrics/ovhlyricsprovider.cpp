@@ -141,6 +141,6 @@ void OVHLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id, co
   else {
     qLog(Debug) << "OVHLyrics: Got lyrics for" << request.artist << request.title;
     results << LyricsSearchResult(Utilities::DecodeHtmlEntities(lyrics));
- }
+  }
 
 }

@@ -207,4 +207,3 @@ bool SettingsPage::eventFilter(QObject *obj, QEvent *e) {
   return false;
 
 }
-

@@ -45,19 +45,18 @@ CoverSearchStatisticsDialog::CoverSearchStatisticsDialog(QWidget *parent)
   details_layout_ = new QVBoxLayout(ui_->details);
   details_layout_->setSpacing(0);
 
-  setStyleSheet(
-      u"#details {"
-      "  background-color: palette(base);"
-      "}"
-      "#details QLabel[type=\"label\"] {"
-      "  border: 2px solid transparent;"
-      "  border-right: 2px solid palette(midlight);"
-      "  margin-right: 10px;"
-      "}"
-      "#details QLabel[type=\"value\"] {"
-      "  font-weight: bold;"
-      "  max-width: 100px;"
-      "}"_s);
+  setStyleSheet(u"#details {"
+                "  background-color: palette(base);"
+                "}"
+                "#details QLabel[type=\"label\"] {"
+                "  border: 2px solid transparent;"
+                "  border-right: 2px solid palette(midlight);"
+                "  margin-right: 10px;"
+                "}"
+                "#details QLabel[type=\"value\"] {"
+                "  font-weight: bold;"
+                "  max-width: 100px;"
+                "}"_s);
 }
 
 CoverSearchStatisticsDialog::~CoverSearchStatisticsDialog() { delete ui_; }
@@ -67,10 +66,7 @@ void CoverSearchStatisticsDialog::Show(const CoverSearchStatistics &statistics) 
   QStringList providers(statistics.total_images_by_provider_.keys());
   std::sort(providers.begin(), providers.end());
 
-  ui_->summary->setText(tr("Got %1 covers out of %2 (%3 failed)")
-          .arg(statistics.chosen_images_)
-          .arg(statistics.chosen_images_ + statistics.missing_images_)
-          .arg(statistics.missing_images_));
+  ui_->summary->setText(tr("Got %1 covers out of %2 (%3 failed)").arg(statistics.chosen_images_).arg(statistics.chosen_images_ + statistics.missing_images_).arg(statistics.missing_images_));
 
   for (const QString &provider : std::as_const(providers)) {
     AddLine(tr("Covers from %1").arg(provider), QString::number(statistics.chosen_images_by_provider_[provider]));

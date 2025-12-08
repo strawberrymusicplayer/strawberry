@@ -70,8 +70,7 @@ INSTANTIATE_TEST_SUITE_P(RealFiles, SongPlaylistItemTest, testing::Values(  // c
     "normalfile.flac",
     "file with spaces.flac",
     "file with # hash.flac",
-    "file with ? question.flac"
-));
+    "file with ? question.flac"));
 
 TEST_P(SongPlaylistItemTest, Url) {
   QUrl expected;
@@ -82,5 +81,4 @@ TEST_P(SongPlaylistItemTest, Url) {
 }
 
 
-}  //namespace
-
+}  // namespace

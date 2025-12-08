@@ -339,4 +339,3 @@ void AppearanceSettingsPage::PlaylistPlayingSongSelectColor() {
   set_changed();
 
 }
-

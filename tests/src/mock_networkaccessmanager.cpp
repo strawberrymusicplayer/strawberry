@@ -41,13 +41,13 @@ using ::testing::Return;
 
 class RequestForUrlMatcher : public MatcherInterface<const QNetworkRequest&> {
  public:
-  RequestForUrlMatcher(const QString& contains, const QMap<QString, QString> &expected_params)
+  RequestForUrlMatcher(const QString &contains, const QMap<QString, QString> &expected_params)
       : contains_(contains), expected_params_(expected_params) {}
 
   ~RequestForUrlMatcher() override = default;
 
-  virtual bool Matches(const QNetworkRequest& req) const {
-    const QUrl& url = req.url();
+  virtual bool Matches(const QNetworkRequest &req) const {
+    const QUrl &url = req.url();
 
     if (!url.toString().contains(contains_)) {
       return false;
@@ -62,12 +62,12 @@ class RequestForUrlMatcher : public MatcherInterface<const QNetworkRequest&> {
     return true;
   }
 
-  bool MatchAndExplain(const QNetworkRequest& req, MatchResultListener* listener) const override {
+  bool MatchAndExplain(const QNetworkRequest &req, MatchResultListener *listener) const override {
     *listener << "which is " << req.url().toString().toUtf8().constData();
     return Matches(req);
   }
 
-  void DescribeTo(::std::ostream* os) const override {
+  void DescribeTo(::std::ostream *os) const override {
     *os << "matches url";
   }
 
@@ -83,12 +83,12 @@ inline Matcher<const QNetworkRequest&> RequestForUrl(const QString &contains, co
   return MakeMatcher(new RequestForUrlMatcher(contains, params));
 }
 
-MockNetworkReply* MockNetworkAccessManager::ExpectGet(const QString &contains, const QMap<QString, QString> &expected_params, int status, const QByteArray &data) {
+MockNetworkReply *MockNetworkAccessManager::ExpectGet(const QString &contains, const QMap<QString, QString> &expected_params, int status, const QByteArray &data) {
 
-  MockNetworkReply* reply = new MockNetworkReply(data);
+  MockNetworkReply *reply = new MockNetworkReply(data);
   reply->setAttribute(QNetworkRequest::HttpStatusCodeAttribute, status);
 
-  EXPECT_CALL(*this, createRequest(GetOperation, RequestForUrl(contains, expected_params), nullptr)). WillOnce(Return(reply));
+  EXPECT_CALL(*this, createRequest(GetOperation, RequestForUrl(contains, expected_params), nullptr)).WillOnce(Return(reply));
 
   return reply;
 

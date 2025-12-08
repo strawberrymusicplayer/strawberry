@@ -19,7 +19,7 @@
    You should have received a copy of the GNU General Public License
    along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
 
-*/
+ */
 
 #include "blockanalyzer.h"
 
@@ -61,7 +61,7 @@ BlockAnalyzer::BlockAnalyzer(QWidget *parent)
       fade_intensity_(1 << 8, 32),
       step_(0) {
 
-  setMinimumSize(kMinColumns * (kWidth + 1) - 1, kMinRows * (kHeight + 1) - 1);  //-1 is padding, no drawing takes place there
+  setMinimumSize(kMinColumns * (kWidth + 1) - 1, kMinRows * (kHeight + 1) - 1);  // -1 is padding, no drawing takes place there
   setMaximumWidth(kMaxColumns * (kWidth + 1) - 1);
 
   // mxcl says null pixmaps cause crashes, so let's play it safe
@@ -237,7 +237,7 @@ static inline void adjustToLimits(const int b, int &f, int &amount) {
  * Clever contrast function
  *
  * It will try to adjust the foreground color such that it contrasts well with
- *the background
+ * the background
  * It won't modify the hue of fg unless absolutely necessary
  * @return the adjusted form of fg
  */

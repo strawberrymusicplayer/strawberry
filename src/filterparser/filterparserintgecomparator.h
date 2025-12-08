@@ -34,4 +34,3 @@ class FilterParserIntGeComparator : public FilterParserSearchTermComparator {
 };
 
 #endif  // FILTERPARSERINTGECOMPARATOR_H
-

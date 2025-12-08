@@ -193,4 +193,3 @@ void OSDDBus::CallFinished(QDBusPendingCallWatcher *watcher) {
   }
 
 }
-

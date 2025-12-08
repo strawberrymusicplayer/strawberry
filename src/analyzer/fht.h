@@ -18,7 +18,7 @@
 
    You should have received a copy of the GNU General Public License
    along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 #ifndef FHT_H
 #define FHT_H
@@ -59,10 +59,10 @@ class FHT {
 
  public:
   /**
-  * Prepare transform for data sets with @f$2^n@f$ numbers, whereby @f$n@f$
-  * should be at least 3. Values of more than 3 need a trigonometry table.
-  * @see makeCasTable()
-  */
+   * Prepare transform for data sets with @f$2^n@f$ numbers, whereby @f$n@f$
+   * should be at least 3. Values of more than 3 need a trigonometry table.
+   * @see makeCasTable()
+   */
   explicit FHT(uint);
 
   ~FHT();

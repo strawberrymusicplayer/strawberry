@@ -30,7 +30,7 @@
 #include "metatypes_env.h"
 #include "resources_env.h"
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
 
   testing::InitGoogleMock(&argc, argv);
 

@@ -53,4 +53,3 @@ UrlHandler::LoadResult::LoadResult(const QUrl &media_url, const Type type, const
       bit_depth_(-1),
       length_nanosec_(-1),
       error_(error) {}
-

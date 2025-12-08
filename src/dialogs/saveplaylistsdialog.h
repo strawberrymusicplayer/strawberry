@@ -28,7 +28,7 @@
 #include "ui_saveplaylistsdialog.h"
 
 class SavePlaylistsDialog : public QDialog {
- Q_OBJECT
+  Q_OBJECT
 
  public:
   explicit SavePlaylistsDialog(const QStringList &types, const QString &default_extension, QWidget *parent = nullptr);

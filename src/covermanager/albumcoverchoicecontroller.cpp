@@ -299,7 +299,7 @@ QString AlbumCoverChoiceController::GetInitialPathForFileDialog(const Song &song
   // Art automatic is first to show user which cover the album may be using now;
   // The song is using it if there's no manual path but we cannot use manual path here because it can contain cached paths
   if (song.art_automatic_is_valid()) {
-     return song.art_automatic().toLocalFile();
+    return song.art_automatic().toLocalFile();
   }
 
   // If no automatic art, start in the song's folder
@@ -757,7 +757,7 @@ bool AlbumCoverChoiceController::IsKnownImageExtension(const QString &suffix) {
 
   if (!sImageExtensions) {
     sImageExtensions = new QSet<QString>();
-   (*sImageExtensions) << u"png"_s << u"jpg"_s << u"jpeg"_s << u"bmp"_s << u"gif"_s << u"xpm"_s << u"pbm"_s << u"pgm"_s << u"ppm"_s << u"xbm"_s;
+    (*sImageExtensions) << u"png"_s << u"jpg"_s << u"jpeg"_s << u"bmp"_s << u"gif"_s << u"xpm"_s << u"pbm"_s << u"pgm"_s << u"ppm"_s << u"xbm"_s;
   }
 
   return sImageExtensions->contains(suffix);
@@ -806,14 +806,14 @@ void AlbumCoverChoiceController::SaveCover(Song *song, const QDropEvent *e) {
 QUrl AlbumCoverChoiceController::SaveCoverAutomatic(Song *song, const AlbumCoverImageResult &result) {
 
   QUrl cover_url;
-  switch(get_save_album_cover_type()) {
     case CoverOptions::CoverType::Embedded:{
+  switch (get_save_album_cover_type()) {
       if (song->save_embedded_cover_supported()) {
         SaveCoverEmbeddedToCollectionSongs(*song, result);
         break;
       }
     }
-    [[fallthrough]];
+      [[fallthrough]];
     case CoverOptions::CoverType::Cache:
     case CoverOptions::CoverType::Album:{
       cover_url = SaveCoverToFileAutomatic(song, result);

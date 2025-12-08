@@ -35,7 +35,7 @@ using namespace Qt::Literals::StringLiterals;
 // clazy:excludeall=returning-void-expression
 
 class OrganizeFormatTest : public ::testing::Test {
-protected:
+ protected:
   OrganizeFormat format_;
   Song song_;
 };

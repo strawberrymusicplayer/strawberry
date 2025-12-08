@@ -22,7 +22,7 @@
 #include "smartplaylistquerywizardpluginsortpage.h"
 
 SmartPlaylistQueryWizardPluginSortPage::SmartPlaylistQueryWizardPluginSortPage(SmartPlaylistQueryWizardPlugin *plugin, QWidget *parent, const int next_id)
-      : QWizardPage(parent), next_id_(next_id), plugin_(plugin) {}
+    : QWizardPage(parent), next_id_(next_id), plugin_(plugin) {}
 
 void SmartPlaylistQueryWizardPluginSortPage::showEvent(QShowEvent *e) {
 

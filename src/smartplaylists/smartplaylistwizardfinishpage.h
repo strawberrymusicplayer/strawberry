@@ -39,4 +39,3 @@ class SmartPlaylistWizardFinishPage : public QWizardPage {
 };
 
 #endif  // SMARTPLAYLISTWIZARDFINISHPAGE_H
-

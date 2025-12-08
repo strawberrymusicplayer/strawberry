@@ -20,7 +20,7 @@
    You should have received a copy of the GNU General Public License
    along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
 
-*/
+ */
 
 #include "boomanalyzer.h"
 
@@ -143,7 +143,7 @@ void BoomAnalyzer::analyze(QPainter &p, const Scope &scope, const bool new_frame
         bar_height_[i] = std::max(0.0, bar_height_[i]);
       }
 
-    peak_handling:
+      peak_handling:
 
       if (peak_height_[i] > 0.0) {
         peak_height_[i] -= peak_speed_[i];

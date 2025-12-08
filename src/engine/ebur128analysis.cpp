@@ -315,7 +315,7 @@ void EBUR128State::AddFrames(const char *data, size_t size) {
 
 }
 
-std::optional<EBUR128Measures> EBUR128State::Finalize(EBUR128State&& state)  {
+std::optional<EBUR128Measures> EBUR128State::Finalize(EBUR128State &&state) {
 
   ebur128_state *ebur128 = &*state.st;
 
@@ -419,10 +419,9 @@ std::optional<EBUR128Measures> EBUR128AnalysisImpl::Compute(const Song &song) {
   // Connect the elements
   gst_element_link_many(src, decode, nullptr);
 
-  GstStaticCaps static_caps = GST_STATIC_CAPS(
-    "audio/x-raw,"
-    "format = (string) { S16LE, S32LE, F32LE, F64LE },"
-    "layout = (string) interleaved");
+  GstStaticCaps static_caps = GST_STATIC_CAPS("audio/x-raw,"
+                                              "format = (string) { S16LE, S32LE, F32LE, F64LE },"
+                                              "layout = (string) interleaved");
 
   GstCaps *caps = gst_static_caps_get(&static_caps);
   // Place a queue before the sink. It really does matter for performance.

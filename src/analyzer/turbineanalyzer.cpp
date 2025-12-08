@@ -20,7 +20,7 @@
 
    You should have received a copy of the GNU General Public License
    along with Clementine.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 #include "config.h"
 
@@ -70,7 +70,7 @@ void TurbineAnalyzer::analyze(QPainter &p, const Scope &scope, const bool new_fr
         bar_height_[i] = std::max(0.0, bar_height_[i]);
       }
 
-    peak_handling:
+      peak_handling:
       if (peak_height_[i] > 0.0) {
         peak_height_[i] -= peak_speed_[i];
         peak_speed_[i] *= F_peakSpeed_;  // 1.12

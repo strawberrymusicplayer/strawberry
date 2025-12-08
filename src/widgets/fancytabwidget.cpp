@@ -91,7 +91,7 @@ void FancyTabWidget::LoadSettings(const QString &settings_group) {
 
   Settings s;
   s.beginGroup(settings_group);
-  QMultiMap <int, FancyTabData*> tabs;
+  QMultiMap<int, FancyTabData*> tabs;
   for (FancyTabData *tab : std::as_const(tabs_)) {
     int idx = s.value(u"tab_"_s + tab->name(), tab->index()).toInt();
     while (tabs.contains(idx)) { ++idx; }

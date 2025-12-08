@@ -44,13 +44,13 @@ class AlbumCoverLoaderResult {
                                   const AlbumCoverImageResult &_album_cover = AlbumCoverImageResult(),
                                   const QImage &_image_scaled = QImage(),
                                   const QUrl &_art_manual_updated = QUrl(),
-                                  const QUrl &_art_automatic_updated = QUrl()) :
-                                  success(_success),
-                                  type(_type),
-                                  album_cover(_album_cover),
-                                  image_scaled(_image_scaled),
-                                  art_manual_updated(_art_manual_updated),
-                                  art_automatic_updated(_art_automatic_updated) {}
+                                  const QUrl &_art_automatic_updated = QUrl())
+      : success(_success),
+        type(_type),
+        album_cover(_album_cover),
+        image_scaled(_image_scaled),
+        art_manual_updated(_art_manual_updated),
+        art_automatic_updated(_art_automatic_updated) {}
 
   bool success;
   Type type;

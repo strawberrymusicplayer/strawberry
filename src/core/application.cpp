@@ -117,8 +117,8 @@ using namespace std::chrono_literals;
 
 class ApplicationImpl {
  public:
-  explicit ApplicationImpl(Application *app) :
-       tagreader_client_([app](){
+  explicit ApplicationImpl(Application *app)
+    : tagreader_client_([app](){
           TagReaderClient *client = new TagReaderClient();
           app->MoveToNewThread(client);
           return client;
@@ -264,7 +264,7 @@ Application::Application(QObject *parent)
 
 Application::~Application() {
 
-   qLog(Debug) << "Terminating application";
+  qLog(Debug) << "Terminating application";
 
   for (QThread *thread : std::as_const(threads_)) {
     thread->quit();

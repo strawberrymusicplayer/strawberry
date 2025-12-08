@@ -158,7 +158,7 @@ void LyricFindLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int 
     Error(u"Missing response."_s);
     return;
   }
-  //const QJsonObject obj_response = obj[QLatin1String("response")].toObject();
+  // const QJsonObject obj_response = obj[QLatin1String("response")].toObject();
 
   if (!json_object.contains("track"_L1) || !json_object["track"_L1].isObject()) {
     Error(u"Missing track."_s);

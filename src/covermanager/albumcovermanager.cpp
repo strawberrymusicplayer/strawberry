@@ -604,10 +604,7 @@ void AlbumCoverManager::AlbumCoverFetched(const quint64 id, const AlbumCoverImag
 
 void AlbumCoverManager::UpdateStatusText() {
 
-  QString message = tr("Got %1 covers out of %2 (%3 failed)")
-                        .arg(fetch_statistics_.chosen_images_)
-                        .arg(jobs_)
-                        .arg(fetch_statistics_.missing_images_);
+  QString message = tr("Got %1 covers out of %2 (%3 failed)").arg(fetch_statistics_.chosen_images_).arg(jobs_).arg(fetch_statistics_.missing_images_);
 
   if (fetch_statistics_.bytes_transferred_ > 0) {
     message += ", "_L1 + tr("%1 transferred").arg(Utilities::PrettySize(fetch_statistics_.bytes_transferred_));
@@ -1083,10 +1080,7 @@ void AlbumCoverManager::UpdateExportStatus(const int exported, const int skipped
 
   progress_bar_->setValue(exported);
 
-  QString message = tr("Exported %1 covers out of %2 (%3 skipped)")
-                        .arg(exported)
-                        .arg(max)
-                        .arg(skipped);
+  QString message = tr("Exported %1 covers out of %2 (%3 skipped)").arg(exported).arg(max).arg(skipped);
   statusBar()->showMessage(message);
 
   // End of the current process
@@ -1131,4 +1125,3 @@ void AlbumCoverManager::SaveEmbeddedCoverFinished(TagReaderReplyPtr reply, Album
   LoadAlbumCoverAsync(album_item);
 
 }
-

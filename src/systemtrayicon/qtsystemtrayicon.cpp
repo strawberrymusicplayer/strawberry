@@ -87,8 +87,8 @@ void SystemTrayIcon::InitPixmaps() {
   }
 
   if (pixmap_playing_.isNull() || pixmap_playing_.devicePixelRatioF() != device_pixel_ratio_) {
-     pixmap_playing_ = icon_playing_.pixmap(icon_playing_.availableSizes().at(0));
-     pixmap_playing_.setDevicePixelRatio(device_pixel_ratio_);
+    pixmap_playing_ = icon_playing_.pixmap(icon_playing_.availableSizes().at(0));
+    pixmap_playing_.setDevicePixelRatio(device_pixel_ratio_);
   }
 
   if (pixmap_paused_.isNull() || pixmap_paused_.devicePixelRatioF() != device_pixel_ratio_) {

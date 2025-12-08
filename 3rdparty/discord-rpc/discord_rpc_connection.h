@@ -63,17 +63,17 @@ struct RpcConnection {
     Connected,
   };
 
-  BaseConnection *connection { nullptr };
-  State state { State::Disconnected };
+  BaseConnection *connection{ nullptr };
+  State state{ State::Disconnected };
   void (*onConnect)(JsonDocument &message) { nullptr };
   void (*onDisconnect)(int errorCode, const char *message) { nullptr };
-  char appId[64] {};
-  int lastErrorCode { 0 };
-  char lastErrorMessage[256] {};
+  char appId[64]{};
+  int lastErrorCode{ 0 };
+  char lastErrorMessage[256]{};
   RpcConnection::MessageFrame sendFrame;
 
   static RpcConnection *Create(const char *applicationId);
-  static void Destroy(RpcConnection *&);
+  static void Destroy(RpcConnection*&);
 
   inline bool IsOpen() const { return state == State::Connected; }
 

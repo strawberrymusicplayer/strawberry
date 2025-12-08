@@ -163,4 +163,3 @@ extern "C" void Discord_Register(const char *applicationId, const char *command)
   Discord_RegisterW(appId, wcommand);
 
 }
-

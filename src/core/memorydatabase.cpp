@@ -22,7 +22,7 @@
 using namespace Qt::Literals::StringLiterals;
 
 MemoryDatabase::MemoryDatabase(SharedPtr<TaskManager> task_manager, QObject *parent)
-      : Database(task_manager, parent, u":memory:"_s) {}
+    : Database(task_manager, parent, u":memory:"_s) {}
 
 MemoryDatabase::~MemoryDatabase() {
   // Make sure Qt doesn't reuse the same database

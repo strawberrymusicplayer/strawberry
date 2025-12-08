@@ -60,8 +60,8 @@ TEST_F(MergedProxyModelTest, Flat) {
 
 TEST_F(MergedProxyModelTest, Tree) {
 
-  QStandardItem* one = new QStandardItem(u"one"_s);
-  QStandardItem* two = new QStandardItem(u"two"_s);
+  QStandardItem *one = new QStandardItem(u"one"_s);
+  QStandardItem *two = new QStandardItem(u"two"_s);
   source_.appendRow(one);
   one->appendRow(two);
 

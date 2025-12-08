@@ -720,17 +720,17 @@ bool Song::write_tags_supported() const {
 bool Song::additional_tags_supported() const {
 
   return d->filetype_ == FileType::FLAC ||
-    d->filetype_ == FileType::WavPack ||
-    d->filetype_ == FileType::OggFlac ||
-    d->filetype_ == FileType::OggVorbis ||
-    d->filetype_ == FileType::OggOpus ||
-    d->filetype_ == FileType::OggSpeex ||
-    d->filetype_ == FileType::MPEG ||
-    d->filetype_ == FileType::MP4 ||
-    d->filetype_ == FileType::MPC ||
-    d->filetype_ == FileType::APE ||
-    d->filetype_ == FileType::WAV ||
-    d->filetype_ == FileType::AIFF;
+         d->filetype_ == FileType::WavPack ||
+         d->filetype_ == FileType::OggFlac ||
+         d->filetype_ == FileType::OggVorbis ||
+         d->filetype_ == FileType::OggOpus ||
+         d->filetype_ == FileType::OggSpeex ||
+         d->filetype_ == FileType::MPEG ||
+         d->filetype_ == FileType::MP4 ||
+         d->filetype_ == FileType::MPC ||
+         d->filetype_ == FileType::APE ||
+         d->filetype_ == FileType::WAV ||
+         d->filetype_ == FileType::AIFF;
 
 }
 
@@ -745,16 +745,16 @@ bool Song::composer_supported() const {
 bool Song::performer_supported() const {
 
   return d->filetype_ == FileType::FLAC ||
-    d->filetype_ == FileType::WavPack ||
-    d->filetype_ == FileType::OggFlac ||
-    d->filetype_ == FileType::OggVorbis ||
-    d->filetype_ == FileType::OggOpus ||
-    d->filetype_ == FileType::OggSpeex ||
-    d->filetype_ == FileType::MPEG ||
-    d->filetype_ == FileType::MPC ||
-    d->filetype_ == FileType::APE ||
-    d->filetype_ == FileType::WAV ||
-    d->filetype_ == FileType::AIFF;
+         d->filetype_ == FileType::WavPack ||
+         d->filetype_ == FileType::OggFlac ||
+         d->filetype_ == FileType::OggVorbis ||
+         d->filetype_ == FileType::OggOpus ||
+         d->filetype_ == FileType::OggSpeex ||
+         d->filetype_ == FileType::MPEG ||
+         d->filetype_ == FileType::MPC ||
+         d->filetype_ == FileType::APE ||
+         d->filetype_ == FileType::WAV ||
+         d->filetype_ == FileType::AIFF;
 
 }
 
@@ -773,18 +773,18 @@ bool Song::compilation_supported() const {
 bool Song::rating_supported() const {
 
   return d->filetype_ == FileType::FLAC ||
-    d->filetype_ == FileType::WavPack ||
-    d->filetype_ == FileType::OggFlac ||
-    d->filetype_ == FileType::OggVorbis ||
-    d->filetype_ == FileType::OggOpus ||
-    d->filetype_ == FileType::OggSpeex ||
-    d->filetype_ == FileType::MPEG ||
-    d->filetype_ == FileType::MP4 ||
-    d->filetype_ == FileType::ASF ||
-    d->filetype_ == FileType::MPC ||
-    d->filetype_ == FileType::APE ||
-    d->filetype_ == FileType::WAV ||
-    d->filetype_ == FileType::AIFF;
+         d->filetype_ == FileType::WavPack ||
+         d->filetype_ == FileType::OggFlac ||
+         d->filetype_ == FileType::OggVorbis ||
+         d->filetype_ == FileType::OggOpus ||
+         d->filetype_ == FileType::OggSpeex ||
+         d->filetype_ == FileType::MPEG ||
+         d->filetype_ == FileType::MP4 ||
+         d->filetype_ == FileType::ASF ||
+         d->filetype_ == FileType::MPC ||
+         d->filetype_ == FileType::APE ||
+         d->filetype_ == FileType::WAV ||
+         d->filetype_ == FileType::AIFF;
 
 }
 
@@ -824,12 +824,12 @@ bool Song::titlesort_supported() const {
 bool Song::save_embedded_cover_supported(const FileType filetype) {
 
   return filetype == FileType::FLAC ||
-    filetype == FileType::OggVorbis ||
-    filetype == FileType::OggOpus ||
-    filetype == FileType::MPEG ||
-    filetype == FileType::MP4 ||
-    filetype == FileType::WAV ||
-    filetype == FileType::AIFF;
+         filetype == FileType::OggVorbis ||
+         filetype == FileType::OggOpus ||
+         filetype == FileType::MPEG ||
+         filetype == FileType::MP4 ||
+         filetype == FileType::WAV ||
+         filetype == FileType::AIFF;
 
 }
 
@@ -1444,7 +1444,7 @@ Song::FileType Song::FiletypeByExtension(const QString &ext) {
   if (ext.compare("ape"_L1, Qt::CaseInsensitive) == 0) return FileType::APE;
   if (ext.compare("mod"_L1, Qt::CaseInsensitive) == 0 ||
       ext.compare("module"_L1, Qt::CaseInsensitive) == 0 ||
-      ext.compare("nst"_L1, Qt::CaseInsensitive) == 0||
+      ext.compare("nst"_L1, Qt::CaseInsensitive) == 0 ||
       ext.compare("wow"_L1, Qt::CaseInsensitive) == 0) return FileType::MOD;
   if (ext.compare("s3m"_L1, Qt::CaseInsensitive) == 0) return FileType::S3M;
   if (ext.compare("xm"_L1, Qt::CaseInsensitive) == 0) return FileType::XM;
@@ -1689,7 +1689,7 @@ void Song::InitFromItdb(Itdb_Track *track, const QString &prefix) {
 
   d->bitrate_ = track->bitrate;
   d->samplerate_ = track->samplerate;
-  d->bitdepth_ = -1; //track->bitdepth;
+  d->bitdepth_ = -1; // track->bitdepth;
 
   d->source_ = Source::Device;
   QString filename = QString::fromLocal8Bit(track->ipod_path);
@@ -2150,4 +2150,3 @@ QString Song::GetNameForNewPlaylist(const SongList &songs) {
   return result;
 
 }
-

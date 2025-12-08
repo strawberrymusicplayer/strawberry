@@ -203,8 +203,8 @@ TEST_F(CollectionModelTest, UnknownAlbums) {
 TEST_F(CollectionModelTest, VariousArtistSongs) {
 
   SongList songs;
-  for (int i=0 ; i < 4 ; ++i) {
-    QString n = QString::number(i+1);
+  for (int i = 0 ; i < 4 ; ++i) {
+    QString n = QString::number(i + 1);
     Song song;
     song.Init(u"Title "_s + n, u"Artist "_s + n, u"Album"_s, 0);
     song.set_mtime(0);
@@ -218,7 +218,7 @@ TEST_F(CollectionModelTest, VariousArtistSongs) {
   songs[2].set_compilation_on(true);
   songs[3].set_compilation_detected(true); songs[3].set_artist(u"Various Artists"_s);
 
-  for (int i=0 ; i < 4 ; ++i)
+  for (int i = 0 ; i < 4 ; ++i)
     AddSong(songs[i]);
 
   QModelIndex artist_index = model_->index(0, 0, QModelIndex());

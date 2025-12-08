@@ -118,7 +118,7 @@ QNetworkReply *LastFMImport::CreateRequest(const ParamList &request_params) {
 
   QNetworkReply *reply = CreateGetRequest(QUrl(QLatin1String(LastFMScrobbler::kApiUrl)), params);
 
-  //qLog(Debug) << "Sending request" << url_query.toString(QUrl::FullyDecoded);
+  // qLog(Debug) << "Sending request" << url_query.toString(QUrl::FullyDecoded);
 
   return reply;
 

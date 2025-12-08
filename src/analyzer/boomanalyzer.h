@@ -20,7 +20,7 @@
    You should have received a copy of the GNU General Public License
    along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
 
-*/
+ */
 
 #ifndef BOOMANALYZER_H
 #define BOOMANALYZER_H

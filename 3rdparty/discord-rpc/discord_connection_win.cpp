@@ -38,7 +38,7 @@ int GetProcessId() {
 }
 
 struct BaseConnectionWin : public BaseConnection {
-  HANDLE pipe { INVALID_HANDLE_VALUE };
+  HANDLE pipe{ INVALID_HANDLE_VALUE };
 };
 
 static BaseConnectionWin Connection;
@@ -57,10 +57,10 @@ void BaseConnection::Destroy(BaseConnection *&c) {
 
 bool BaseConnection::Open() {
 
-  wchar_t pipeName[] { L"\\\\?\\pipe\\discord-ipc-0" };
+  wchar_t pipeName[]{ L"\\\\?\\pipe\\discord-ipc-0" };
   const size_t pipeDigit = sizeof(pipeName) / sizeof(wchar_t) - 2;
   pipeName[pipeDigit] = L'0';
-  auto self = reinterpret_cast<BaseConnectionWin *>(this);
+  auto self = reinterpret_cast<BaseConnectionWin*>(this);
   for (;;) {
     self->pipe = ::CreateFileW(pipeName, GENERIC_READ | GENERIC_WRITE, 0, nullptr, OPEN_EXISTING, 0, nullptr);
     if (self->pipe != INVALID_HANDLE_VALUE) {
@@ -88,7 +88,7 @@ bool BaseConnection::Open() {
 
 bool BaseConnection::Close() {
 
-  auto self = reinterpret_cast<BaseConnectionWin *>(this);
+  auto self = reinterpret_cast<BaseConnectionWin*>(this);
   ::CloseHandle(self->pipe);
   self->pipe = INVALID_HANDLE_VALUE;
   self->isOpen = false;
@@ -102,7 +102,7 @@ bool BaseConnection::Write(const void *data, size_t length) {
   if (length == 0) {
     return true;
   }
-  auto self = reinterpret_cast<BaseConnectionWin *>(this);
+  auto self = reinterpret_cast<BaseConnectionWin*>(this);
   assert(self);
   if (!self) {
     return false;
@@ -127,7 +127,7 @@ bool BaseConnection::Read(void *data, size_t length) {
   if (!data) {
     return false;
   }
-  auto self = reinterpret_cast<BaseConnectionWin *>(this);
+  auto self = reinterpret_cast<BaseConnectionWin*>(this);
   assert(self);
   if (!self) {
     return false;

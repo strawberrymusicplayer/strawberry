@@ -22,15 +22,15 @@
 #include "playlistlistsortfiltermodel.h"
 
 PlaylistListSortFilterModel::PlaylistListSortFilterModel(QObject *parent)
-      : QSortFilterProxyModel(parent) {}
+    : QSortFilterProxyModel(parent) {}
 
 bool PlaylistListSortFilterModel::lessThan(const QModelIndex &left, const QModelIndex &right) const {
 
-    // Compare the display text first.
-    const int ret = left.data().toString().localeAwareCompare(right.data().toString());
-    if (ret < 0) return true;
-    if (ret > 0) return false;
+  // Compare the display text first.
+  const int ret = left.data().toString().localeAwareCompare(right.data().toString());
+  if (ret < 0) return true;
+  if (ret > 0) return false;
 
-    // Now use the source model row order to ensure we always get a deterministic sorting even when two items are named the same.
-    return left.row() < right.row();
+  // Now use the source model row order to ensure we always get a deterministic sorting even when two items are named the same.
+  return left.row() < right.row();
 }

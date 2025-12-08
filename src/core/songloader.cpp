@@ -667,9 +667,9 @@ void SongLoader::EndOfStreamReached() {
       // Do the magic on the data we have already
       MagicReady();
       if (state_ == State::Finished) break;
-    // It looks like a playlist, so parse it
+      // It looks like a playlist, so parse it
 
-    [[fallthrough]];
+      [[fallthrough]];
     case State::WaitingForData:
       // It's a playlist and we've got all the data - finish and parse it
       StopTypefindAsync(true);
@@ -784,4 +784,3 @@ void SongLoader::CleanupPipeline() {
   state_ = State::Finished;
 
 }
-

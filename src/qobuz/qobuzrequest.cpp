@@ -424,7 +424,7 @@ void QobuzRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_re
     Error(u"Json artists object is missing values."_s, json_object);
     return;
   }
-  //int limit = obj_artists["limit"].toInt();
+  // int limit = obj_artists["limit"].toInt();
   offset = object_artists["offset"_L1].toInt();
   int artists_total = object_artists["total"_L1].toInt();
 
@@ -648,7 +648,7 @@ void QobuzRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_req
     return;
   }
 
-  //int limit = obj_albums["limit"].toInt();
+  // int limit = obj_albums["limit"].toInt();
   offset = object_albums["offset"_L1].toInt();
   albums_total = object_albums["total"_L1].toInt();
 
@@ -936,7 +936,7 @@ void QobuzRequest::SongsReceived(QNetworkReply *reply, const Artist &artist_requ
     return;
   }
 
-  //int limit = obj_tracks["limit"].toInt();
+  // int limit = obj_tracks["limit"].toInt();
   const int offset = obj_tracks["offset"_L1].toInt();
   songs_total = obj_tracks["total"_L1].toInt();
 
@@ -1050,7 +1050,7 @@ void QobuzRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Arti
   int disc = 0;
   QString copyright = json_obj["copyright"_L1].toString();
   qint64 duration = json_obj["duration"_L1].toInt() * kNsecPerSec;
-  //bool streamable = json_obj["streamable"].toBool();
+  // bool streamable = json_obj["streamable"].toBool();
   QString composer;
   QString performer;
 
@@ -1148,9 +1148,9 @@ void QobuzRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Arti
     performer = obj_performer["name"_L1].toString();
   }
 
-  //if (!streamable) {
-  //Warn(QString("Song %1 %2 %3 is not streamable").arg(album_artist).arg(album).arg(title));
-  //}
+  // if (!streamable) {
+  // Warn(QString("Song %1 %2 %3 is not streamable").arg(album_artist).arg(album).arg(title));
+  // }
 
   QUrl url;
   url.setScheme(url_handler_->scheme());
@@ -1160,7 +1160,7 @@ void QobuzRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Arti
     title = Song::TitleRemoveMisc(title);
   }
 
-  //qLog(Debug) << "id" << song_id << "track" << track << "title" << title << "album" << album << "album artist" << album_artist << cover_url << streamable << url;
+  // qLog(Debug) << "id" << song_id << "track" << track << "title" << title << "album" << album << "album artist" << album_artist << cover_url << streamable << url;
 
   song.set_source(Song::Source::Qobuz);
   song.set_song_id(song_id);

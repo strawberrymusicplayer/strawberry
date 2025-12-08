@@ -135,4 +135,3 @@ class CollectionFilterWidget : public QWidget {
 };
 
 #endif  // COLLECTIONFILTERWIDGET_H
-

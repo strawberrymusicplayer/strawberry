@@ -21,7 +21,7 @@
 
    You should have received a copy of the GNU General Public License
    along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 #ifndef RAINBOWANALYZER_H
 #define RAINBOWANALYZER_H
@@ -85,7 +85,7 @@ class RainbowAnalyzer : public AnalyzerBase {
 
  private:
   // "constants" that get initialized in the constructor
-  float band_scale_[kRainbowBands] {};
+  float band_scale_[kRainbowBands]{};
   QPen colors_[kRainbowBands];
 
   // Rainbow Nyancat & Dash
@@ -96,7 +96,7 @@ class RainbowAnalyzer : public AnalyzerBase {
   int frame_;
 
   // The y positions of each point on the rainbow.
-  float history_[kHistorySize * kRainbowBands] {};
+  float history_[kHistorySize * kRainbowBands]{};
 
   // A cache of the last frame's rainbow,
   // so it can be used in the next frame.

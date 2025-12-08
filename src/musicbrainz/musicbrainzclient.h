@@ -62,7 +62,7 @@ class MusicBrainzClient : public JsonBaseRequest {
     Result() : duration_msec_(0), track_(0), year_(-1) {}
 
     bool operator<(const Result &other) const {
-        return std::tie(title_, artist_, sort_artist_, album_artist_, sort_album_artist_, album_, duration_msec_, track_, year_)
+      return std::tie(title_, artist_, sort_artist_, album_artist_, sort_album_artist_, album_, duration_msec_, track_, year_)
              < std::tie(other.title_, other.artist_, other.sort_artist_, other.album_artist_, other.sort_album_artist_, other.album_, other.duration_msec_, other.track_, other.year_);
     }
 

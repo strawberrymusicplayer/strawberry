@@ -39,11 +39,11 @@ int GetProcessId() {
 }
 
 struct BaseConnectionUnix : public BaseConnection {
-  int sock { -1 };
+  int sock{ -1 };
 };
 
 static BaseConnectionUnix Connection;
-static sockaddr_un PipeAddr {};
+static sockaddr_un PipeAddr{};
 #ifdef MSG_NOSIGNAL
 static int MsgFlags = MSG_NOSIGNAL;
 #else
@@ -105,7 +105,7 @@ bool BaseConnection::Open() {
 
 bool BaseConnection::Close() {
 
-  auto self = reinterpret_cast<BaseConnectionUnix *>(this);
+  auto self = reinterpret_cast<BaseConnectionUnix*>(this);
   if (self->sock == -1) {
     return false;
   }

@@ -29,7 +29,7 @@ class ScopedNSAutoreleasePool {
   // no longer needed.
   void Recycle();
  private:
-  NSAutoreleasePool* autorelease_pool_;
+  NSAutoreleasePool *autorelease_pool_;
 
  private:
   Q_DISABLE_COPY(ScopedNSAutoreleasePool);

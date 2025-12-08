@@ -232,7 +232,7 @@ TEST_F(TagReaderTest, TestFLACAudioFileTagging) {
     EXPECT_EQ(12, song.track());
     EXPECT_EQ(1234, song.disc());
     EXPECT_EQ(2019, song.year());
-    //EXPECT_EQ(2019, song.originalyear());
+    // EXPECT_EQ(2019, song.originalyear());
   }
 
   { // Write new tags
@@ -281,7 +281,7 @@ TEST_F(TagReaderTest, TestFLACAudioFileTagging) {
     EXPECT_EQ(21, song.track());
     EXPECT_EQ(4321, song.disc());
     EXPECT_EQ(9102, song.year());
-    //EXPECT_EQ(9102, song.originalyear());
+    // EXPECT_EQ(9102, song.originalyear());
   }
 
   { // Write original tags
@@ -330,7 +330,7 @@ TEST_F(TagReaderTest, TestFLACAudioFileTagging) {
     EXPECT_EQ(12, song.track());
     EXPECT_EQ(1234, song.disc());
     EXPECT_EQ(2019, song.year());
-    //EXPECT_EQ(2019, song.originalyear());
+    // EXPECT_EQ(2019, song.originalyear());
   }
 
   { // Compare checksums
@@ -344,7 +344,7 @@ TEST_F(TagReaderTest, TestFLACAudioFileTagging) {
   { // Compare checksums
     QString sha256sum = SHA256SUM(r.fileName());
     EXPECT_FALSE(sha256sum.isEmpty());
-    //EXPECT_EQ(sha256sum, sha256sum_notags);
+    // EXPECT_EQ(sha256sum, sha256sum_notags);
   }
 
 }
@@ -421,7 +421,7 @@ TEST_F(TagReaderTest, TestWavPackAudioFileTagging) {
     EXPECT_EQ(12, song.track());
     EXPECT_EQ(1234, song.disc());
     EXPECT_EQ(2019, song.year());
-    //EXPECT_EQ(2019, song.originalyear());
+    // EXPECT_EQ(2019, song.originalyear());
   }
 
   { // Write new tags
@@ -458,7 +458,7 @@ TEST_F(TagReaderTest, TestWavPackAudioFileTagging) {
     EXPECT_EQ(21, song.track());
     EXPECT_EQ(4321, song.disc());
     EXPECT_EQ(9102, song.year());
-    //EXPECT_EQ(9102, song.originalyear());
+    // EXPECT_EQ(9102, song.originalyear());
   }
 
   { // Write original tags
@@ -495,7 +495,7 @@ TEST_F(TagReaderTest, TestWavPackAudioFileTagging) {
     EXPECT_EQ(12, song.track());
     EXPECT_EQ(1234, song.disc());
     EXPECT_EQ(2019, song.year());
-    //EXPECT_EQ(2019, song.originalyear());
+    // EXPECT_EQ(2019, song.originalyear());
   }
 
   { // Compare checksums
@@ -509,7 +509,7 @@ TEST_F(TagReaderTest, TestWavPackAudioFileTagging) {
   { // Compare checksums
     QString sha256sum = SHA256SUM(r.fileName());
     EXPECT_FALSE(sha256sum.isEmpty());
-    //EXPECT_EQ(sha256sum, sha256sum_notags);
+    // EXPECT_EQ(sha256sum, sha256sum_notags);
   }
 
 }
@@ -586,7 +586,7 @@ TEST_F(TagReaderTest, TestOggFLACAudioFileTagging) {
     EXPECT_EQ(12, song.track());
     EXPECT_EQ(1234, song.disc());
     EXPECT_EQ(2019, song.year());
-    //EXPECT_EQ(2019, song.originalyear());
+    // EXPECT_EQ(2019, song.originalyear());
   }
 
   { // Write new tags
@@ -623,7 +623,7 @@ TEST_F(TagReaderTest, TestOggFLACAudioFileTagging) {
     EXPECT_EQ(21, song.track());
     EXPECT_EQ(4321, song.disc());
     EXPECT_EQ(9102, song.year());
-    //EXPECT_EQ(9102, song.originalyear());
+    // EXPECT_EQ(9102, song.originalyear());
   }
 
   { // Write original tags
@@ -660,7 +660,7 @@ TEST_F(TagReaderTest, TestOggFLACAudioFileTagging) {
     EXPECT_EQ(12, song.track());
     EXPECT_EQ(1234, song.disc());
     EXPECT_EQ(2019, song.year());
-    //EXPECT_EQ(2019, song.originalyear());
+    // EXPECT_EQ(2019, song.originalyear());
   }
 
   { // Compare checksums
@@ -674,7 +674,7 @@ TEST_F(TagReaderTest, TestOggFLACAudioFileTagging) {
   { // Compare checksums
     QString sha256sum = SHA256SUM(r.fileName());
     EXPECT_FALSE(sha256sum.isEmpty());
-    //EXPECT_EQ(sha256sum, sha256sum_notags);
+    // EXPECT_EQ(sha256sum, sha256sum_notags);
   }
 
 }
@@ -751,7 +751,7 @@ TEST_F(TagReaderTest, TestOggVorbisAudioFileTagging) {
     EXPECT_EQ(12, song.track());
     EXPECT_EQ(1234, song.disc());
     EXPECT_EQ(2019, song.year());
-    //EXPECT_EQ(2019, song.originalyear());
+    // EXPECT_EQ(2019, song.originalyear());
   }
 
   { // Write new tags
@@ -787,7 +787,7 @@ TEST_F(TagReaderTest, TestOggVorbisAudioFileTagging) {
     EXPECT_EQ(21, song.track());
     EXPECT_EQ(4321, song.disc());
     EXPECT_EQ(9102, song.year());
-    //EXPECT_EQ(9102, song.originalyear());
+    // EXPECT_EQ(9102, song.originalyear());
   }
 
   { // Write original tags
@@ -824,7 +824,7 @@ TEST_F(TagReaderTest, TestOggVorbisAudioFileTagging) {
     EXPECT_EQ(12, song.track());
     EXPECT_EQ(1234, song.disc());
     EXPECT_EQ(2019, song.year());
-    //EXPECT_EQ(2019, song.originalyear());
+    // EXPECT_EQ(2019, song.originalyear());
   }
 
   { // Compare checksums
@@ -838,7 +838,7 @@ TEST_F(TagReaderTest, TestOggVorbisAudioFileTagging) {
   {  // Compare checksums
     QString sha256sum = SHA256SUM(r.fileName());
     EXPECT_FALSE(sha256sum.isEmpty());
-    //EXPECT_EQ(sha256sum, sha256sum_notags);
+    // EXPECT_EQ(sha256sum, sha256sum_notags);
   }
 
 }
@@ -915,7 +915,7 @@ TEST_F(TagReaderTest, TestOggOpusAudioFileTagging) {
     EXPECT_EQ(12, song.track());
     EXPECT_EQ(1234, song.disc());
     EXPECT_EQ(2019, song.year());
-    //EXPECT_EQ(2019, song.originalyear());
+    // EXPECT_EQ(2019, song.originalyear());
   }
 
   { // Write new tags
@@ -952,7 +952,7 @@ TEST_F(TagReaderTest, TestOggOpusAudioFileTagging) {
     EXPECT_EQ(21, song.track());
     EXPECT_EQ(4321, song.disc());
     EXPECT_EQ(9102, song.year());
-    //EXPECT_EQ(9102, song.originalyear());
+    // EXPECT_EQ(9102, song.originalyear());
   }
 
   { // Write original tags
@@ -989,7 +989,7 @@ TEST_F(TagReaderTest, TestOggOpusAudioFileTagging) {
     EXPECT_EQ(12, song.track());
     EXPECT_EQ(1234, song.disc());
     EXPECT_EQ(2019, song.year());
-    //EXPECT_EQ(2019, song.originalyear());
+    // EXPECT_EQ(2019, song.originalyear());
   }
 
   { // Compare checksums
@@ -1003,7 +1003,7 @@ TEST_F(TagReaderTest, TestOggOpusAudioFileTagging) {
   { // Compare checksums
     QString sha256sum = SHA256SUM(r.fileName());
     EXPECT_FALSE(sha256sum.isEmpty());
-    //EXPECT_EQ(sha256sum, sha256sum_notags);
+    // EXPECT_EQ(sha256sum, sha256sum_notags);
   }
 
 }
@@ -1080,7 +1080,7 @@ TEST_F(TagReaderTest, TestOggSpeexAudioFileTagging) {
     EXPECT_EQ(12, song.track());
     EXPECT_EQ(1234, song.disc());
     EXPECT_EQ(2019, song.year());
-    //EXPECT_EQ(2019, song.originalyear());
+    // EXPECT_EQ(2019, song.originalyear());
   }
 
   { // Write new tags
@@ -1117,7 +1117,7 @@ TEST_F(TagReaderTest, TestOggSpeexAudioFileTagging) {
     EXPECT_EQ(21, song.track());
     EXPECT_EQ(4321, song.disc());
     EXPECT_EQ(9102, song.year());
-    //EXPECT_EQ(9102, song.originalyear());
+    // EXPECT_EQ(9102, song.originalyear());
   }
 
   { // Write original tags
@@ -1154,7 +1154,7 @@ TEST_F(TagReaderTest, TestOggSpeexAudioFileTagging) {
     EXPECT_EQ(12, song.track());
     EXPECT_EQ(1234, song.disc());
     EXPECT_EQ(2019, song.year());
-    //EXPECT_EQ(2019, song.originalyear());
+    // EXPECT_EQ(2019, song.originalyear());
   }
 
   { // Compare checksums
@@ -1168,7 +1168,7 @@ TEST_F(TagReaderTest, TestOggSpeexAudioFileTagging) {
   {  // Compare checksums
     QString sha256sum = SHA256SUM(r.fileName());
     EXPECT_FALSE(sha256sum.isEmpty());
-    //EXPECT_EQ(sha256sum, sha256sum_notags);
+    // EXPECT_EQ(sha256sum, sha256sum_notags);
   }
 
 }
@@ -1235,17 +1235,17 @@ TEST_F(TagReaderTest, TestAIFFAudioFileTagging) {
     EXPECT_EQ(u"strawberry title"_s, song.title());
     EXPECT_EQ(u"strawberry artist"_s, song.artist());
     EXPECT_EQ(u"strawberry album"_s, song.album());
-    //EXPECT_EQ(u"strawberry album artist"_s, song.albumartist());
-    //EXPECT_EQ(u"strawberry composer"_s, song.composer());
-    //EXPECT_EQ(u"strawberry performer"_s, song.performer());
-    //EXPECT_EQ(u"strawberry grouping"_s, song.grouping());
+    // EXPECT_EQ(u"strawberry album artist"_s, song.albumartist());
+    // EXPECT_EQ(u"strawberry composer"_s, song.composer());
+    // EXPECT_EQ(u"strawberry performer"_s, song.performer());
+    // EXPECT_EQ(u"strawberry grouping"_s, song.grouping());
     EXPECT_EQ(u"strawberry genre"_s, song.genre());
     EXPECT_EQ(u"strawberry comment"_s, song.comment());
-    //EXPECT_EQ(u"strawberry lyrics"_s, song.lyrics());
+    // EXPECT_EQ(u"strawberry lyrics"_s, song.lyrics());
     EXPECT_EQ(12, song.track());
-    //EXPECT_EQ(1234, song.disc());
+    // EXPECT_EQ(1234, song.disc());
     EXPECT_EQ(2019, song.year());
-    //EXPECT_EQ(2019, song.originalyear());
+    // EXPECT_EQ(2019, song.originalyear());
   }
 
   { // Write new tags
@@ -1272,17 +1272,17 @@ TEST_F(TagReaderTest, TestAIFFAudioFileTagging) {
     EXPECT_EQ(u"new title"_s, song.title());
     EXPECT_EQ(u"new artist"_s, song.artist());
     EXPECT_EQ(u"new album"_s, song.album());
-    //EXPECT_EQ(u"new album artist"_s, song.albumartist());
-    //EXPECT_EQ(u"new composer"_s, song.composer());
-    //EXPECT_EQ(u"new performer"_s, song.performer());
-    //EXPECT_EQ(u"new grouping"_s, song.grouping());
+    // EXPECT_EQ(u"new album artist"_s, song.albumartist());
+    // EXPECT_EQ(u"new composer"_s, song.composer());
+    // EXPECT_EQ(u"new performer"_s, song.performer());
+    // EXPECT_EQ(u"new grouping"_s, song.grouping());
     EXPECT_EQ(u"new genre"_s, song.genre());
     EXPECT_EQ(u"new comment"_s, song.comment());
-    //EXPECT_EQ(u"new lyrics"_s, song.lyrics());
+    // EXPECT_EQ(u"new lyrics"_s, song.lyrics());
     EXPECT_EQ(21, song.track());
-    //EXPECT_EQ(4321, song.disc());
+    // EXPECT_EQ(4321, song.disc());
     EXPECT_EQ(9102, song.year());
-    //EXPECT_EQ(9102, song.originalyear());
+    // EXPECT_EQ(9102, song.originalyear());
   }
 
   {  // Write original tags
@@ -1309,17 +1309,17 @@ TEST_F(TagReaderTest, TestAIFFAudioFileTagging) {
     EXPECT_EQ(u"strawberry title"_s, song.title());
     EXPECT_EQ(u"strawberry artist"_s, song.artist());
     EXPECT_EQ(u"strawberry album"_s, song.album());
-    //EXPECT_EQ(u"strawberry album artist"_s, song.albumartist());
-    //EXPECT_EQ(u"strawberry composer"_s, song.composer());
-    //EXPECT_EQ(u"strawberry performer"_s, song.performer());
-    //EXPECT_EQ(u"strawberry grouping"_s, song.grouping());
+    // EXPECT_EQ(u"strawberry album artist"_s, song.albumartist());
+    // EXPECT_EQ(u"strawberry composer"_s, song.composer());
+    // EXPECT_EQ(u"strawberry performer"_s, song.performer());
+    // EXPECT_EQ(u"strawberry grouping"_s, song.grouping());
     EXPECT_EQ(u"strawberry genre"_s, song.genre());
     EXPECT_EQ(u"strawberry comment"_s, song.comment());
-    //EXPECT_EQ(u"strawberry lyrics"_s, song.lyrics());
+    // EXPECT_EQ(u"strawberry lyrics"_s, song.lyrics());
     EXPECT_EQ(12, song.track());
-    //EXPECT_EQ(1234, song.disc());
+    // EXPECT_EQ(1234, song.disc());
     EXPECT_EQ(2019, song.year());
-    //EXPECT_EQ(2019, song.originalyear());
+    // EXPECT_EQ(2019, song.originalyear());
   }
 
   {  // Compare checksums
@@ -1402,8 +1402,8 @@ TEST_F(TagReaderTest, TestASFAudioFileTagging) {
     EXPECT_EQ(u"strawberry album"_s, song.album());
     EXPECT_EQ(u"strawberry album artist"_s, song.albumartist());
     EXPECT_EQ(u"strawberry composer"_s, song.composer());
-    //EXPECT_EQ(u"strawberry performer"_s, song.performer());
-    //EXPECT_EQ(u"strawberry grouping"_s, song.grouping());
+    // EXPECT_EQ(u"strawberry performer"_s, song.performer());
+    // EXPECT_EQ(u"strawberry grouping"_s, song.grouping());
     EXPECT_EQ(u"strawberry genre"_s, song.genre());
     EXPECT_EQ(u"strawberry comment"_s, song.comment());
     EXPECT_EQ(u"strawberry lyrics"_s, song.lyrics());
@@ -1440,8 +1440,8 @@ TEST_F(TagReaderTest, TestASFAudioFileTagging) {
     EXPECT_EQ(u"new album"_s, song.album());
     EXPECT_EQ(u"new album artist"_s, song.albumartist());
     EXPECT_EQ(u"new composer"_s, song.composer());
-    //EXPECT_EQ(u"new performer"_s, song.performer());
-    //EXPECT_EQ(u"new grouping"_s, song.grouping());
+    // EXPECT_EQ(u"new performer"_s, song.performer());
+    // EXPECT_EQ(u"new grouping"_s, song.grouping());
     EXPECT_EQ(u"new genre"_s, song.genre());
     EXPECT_EQ(u"new comment"_s, song.comment());
     EXPECT_EQ(u"new lyrics"_s, song.lyrics());
@@ -1477,8 +1477,8 @@ TEST_F(TagReaderTest, TestASFAudioFileTagging) {
     EXPECT_EQ(u"strawberry album"_s, song.album());
     EXPECT_EQ(u"strawberry album artist"_s, song.albumartist());
     EXPECT_EQ(u"strawberry composer"_s, song.composer());
-    //EXPECT_EQ(u"strawberry performer"_s, song.performer());
-    //EXPECT_EQ(u"strawberry grouping"_s, song.grouping());
+    // EXPECT_EQ(u"strawberry performer"_s, song.performer());
+    // EXPECT_EQ(u"strawberry grouping"_s, song.grouping());
     EXPECT_EQ(u"strawberry genre"_s, song.genre());
     EXPECT_EQ(u"strawberry comment"_s, song.comment());
     EXPECT_EQ(u"strawberry lyrics"_s, song.lyrics());
@@ -1491,7 +1491,7 @@ TEST_F(TagReaderTest, TestASFAudioFileTagging) {
   { // Compare checksums
     QString sha256sum = SHA256SUM(r.fileName());
     EXPECT_FALSE(sha256sum.isEmpty());
-    //EXPECT_EQ(sha256sum_tags, sha256sum);
+    // EXPECT_EQ(sha256sum_tags, sha256sum);
   }
 
   WriteSongToFile(orig_song, r.fileName());
@@ -1499,7 +1499,7 @@ TEST_F(TagReaderTest, TestASFAudioFileTagging) {
   { // Compare checksums
     QString sha256sum = SHA256SUM(r.fileName());
     EXPECT_FALSE(sha256sum.isEmpty());
-    //EXPECT_EQ(sha256sum, sha256sum_notags);
+    // EXPECT_EQ(sha256sum, sha256sum_notags);
   }
 
 }
@@ -1586,7 +1586,7 @@ TEST_F(TagReaderTest, TestMP3AudioFileTagging) {
     EXPECT_EQ(12, song.track());
     EXPECT_EQ(1234, song.disc());
     EXPECT_EQ(2019, song.year());
-    //EXPECT_EQ(2019, song.originalyear());
+    // EXPECT_EQ(2019, song.originalyear());
   }
 
   { // Write new tags
@@ -1633,7 +1633,7 @@ TEST_F(TagReaderTest, TestMP3AudioFileTagging) {
     EXPECT_EQ(u"new lyrics"_s, song.lyrics());
     EXPECT_EQ(21, song.track());
     EXPECT_EQ(9102, song.year());
-    //EXPECT_EQ(9102, song.originalyear());
+    // EXPECT_EQ(9102, song.originalyear());
   }
 
   { // Write original tags
@@ -1680,7 +1680,7 @@ TEST_F(TagReaderTest, TestMP3AudioFileTagging) {
     EXPECT_EQ(12, song.track());
     EXPECT_EQ(1234, song.disc());
     EXPECT_EQ(2019, song.year());
-    //EXPECT_EQ(2019, song.originalyear());
+    // EXPECT_EQ(2019, song.originalyear());
   }
 
   { // Compare checksums
@@ -1694,7 +1694,7 @@ TEST_F(TagReaderTest, TestMP3AudioFileTagging) {
   { // Compare checksums
     QString sha256sum = SHA256SUM(r.fileName());
     EXPECT_FALSE(sha256sum.isEmpty());
-    //EXPECT_EQ(sha256sum, sha256sum_notags);
+    // EXPECT_EQ(sha256sum, sha256sum_notags);
   }
 
 }
@@ -1763,7 +1763,7 @@ TEST_F(TagReaderTest, TestM4AAudioFileTagging) {
     EXPECT_EQ(u"strawberry album"_s, song.album());
     EXPECT_EQ(u"strawberry album artist"_s, song.albumartist());
     EXPECT_EQ(u"strawberry composer"_s, song.composer());
-    //EXPECT_EQ(u"strawberry performer"_s, song.performer());
+    // EXPECT_EQ(u"strawberry performer"_s, song.performer());
     EXPECT_EQ(u"strawberry grouping"_s, song.grouping());
     EXPECT_EQ(u"strawberry genre"_s, song.genre());
     EXPECT_EQ(u"strawberry comment"_s, song.comment());
@@ -1771,7 +1771,7 @@ TEST_F(TagReaderTest, TestM4AAudioFileTagging) {
     EXPECT_EQ(12, song.track());
     EXPECT_EQ(1234, song.disc());
     EXPECT_EQ(2019, song.year());
-    //EXPECT_EQ(2019, song.originalyear());
+    // EXPECT_EQ(2019, song.originalyear());
   }
 
   { // Write new tags
@@ -1800,7 +1800,7 @@ TEST_F(TagReaderTest, TestM4AAudioFileTagging) {
     EXPECT_EQ(u"new album"_s, song.album());
     EXPECT_EQ(u"new album artist"_s, song.albumartist());
     EXPECT_EQ(u"new composer"_s, song.composer());
-    //EXPECT_EQ(u"new performer"_s, song.performer());
+    // EXPECT_EQ(u"new performer"_s, song.performer());
     EXPECT_EQ(u"new grouping"_s, song.grouping());
     EXPECT_EQ(u"new genre"_s, song.genre());
     EXPECT_EQ(u"new comment"_s, song.comment());
@@ -1808,7 +1808,7 @@ TEST_F(TagReaderTest, TestM4AAudioFileTagging) {
     EXPECT_EQ(21, song.track());
     EXPECT_EQ(4321, song.disc());
     EXPECT_EQ(9102, song.year());
-    //EXPECT_EQ(9102, song.originalyear());
+    // EXPECT_EQ(9102, song.originalyear());
   }
 
   { // Write original tags
@@ -1837,7 +1837,7 @@ TEST_F(TagReaderTest, TestM4AAudioFileTagging) {
     EXPECT_EQ(u"strawberry album"_s, song.album());
     EXPECT_EQ(u"strawberry album artist"_s, song.albumartist());
     EXPECT_EQ(u"strawberry composer"_s, song.composer());
-    //EXPECT_EQ(u"strawberry performer"_s, song.performer());
+    // EXPECT_EQ(u"strawberry performer"_s, song.performer());
     EXPECT_EQ(u"strawberry grouping"_s, song.grouping());
     EXPECT_EQ(u"strawberry genre"_s, song.genre());
     EXPECT_EQ(u"strawberry comment"_s, song.comment());
@@ -1845,13 +1845,13 @@ TEST_F(TagReaderTest, TestM4AAudioFileTagging) {
     EXPECT_EQ(12, song.track());
     EXPECT_EQ(1234, song.disc());
     EXPECT_EQ(2019, song.year());
-    //EXPECT_EQ(2019, song.originalyear());
+    // EXPECT_EQ(2019, song.originalyear());
   }
 
   { // Compare checksums
     QString sha256sum = SHA256SUM(r.fileName());
     EXPECT_FALSE(sha256sum.isEmpty());
-    //EXPECT_EQ(sha256sum_tags, sha256sum);
+    // EXPECT_EQ(sha256sum_tags, sha256sum);
   }
 
   WriteSongToFile(orig_song, r.fileName());
@@ -1859,7 +1859,7 @@ TEST_F(TagReaderTest, TestM4AAudioFileTagging) {
   { // Compare checksums
     QString sha256sum = SHA256SUM(r.fileName());
     EXPECT_FALSE(sha256sum.isEmpty());
-    //EXPECT_EQ(sha256sum, sha256sum_notags);
+    // EXPECT_EQ(sha256sum, sha256sum_notags);
   }
 
 }

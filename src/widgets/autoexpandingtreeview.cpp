@@ -129,7 +129,7 @@ void AutoExpandingTreeView::mousePressEvent(QMouseEvent *event) {
 
   QTreeView::mousePressEvent(event);
 
-  //enqueue to playlist with middleClick
+  // enqueue to playlist with middleClick
   if (event->button() == Qt::MiddleButton) {
     QMimeData *q_mimedata = model()->mimeData(selectedIndexes());
     if (MimeData *mimedata = qobject_cast<MimeData*>(q_mimedata)) {

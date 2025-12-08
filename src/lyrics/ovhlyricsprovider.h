@@ -38,7 +38,7 @@ class OVHLyricsProvider : public JsonLyricsProvider {
  protected Q_SLOTS:
   void StartSearch(const int id, const LyricsSearchRequest &request) override;
 
-private:
+ private:
   OVHLyricsProvider::JsonObjectResult ParseJsonObject(QNetworkReply *reply);
 
  private Q_SLOTS:

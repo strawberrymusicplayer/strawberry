@@ -505,7 +505,7 @@ bool PlaylistContainer::eventFilter(QObject *objectWatched, QEvent *event) {
     if (event->type() == QEvent::KeyPress) {
       QKeyEvent *e = static_cast<QKeyEvent*>(event);
       switch (e->key()) {
-        //case Qt::Key_Up:
+        // case Qt::Key_Up:
         case Qt::Key_Down:
         case Qt::Key_PageUp:
         case Qt::Key_PageDown:

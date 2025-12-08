@@ -138,7 +138,7 @@ static void gst_strawberry_fastspectrum_alloc_channel_data(GstStrawberryFastSpec
   fastspectrum->fft_input = reinterpret_cast<double*>(fftw_malloc(sizeof(double) * nfft));
   fastspectrum->fft_output = reinterpret_cast<fftw_complex*>(fftw_malloc(sizeof(fftw_complex) * (nfft / 2 + 1)));
 
-  fastspectrum->spect_magnitude = new double[bands] {};
+  fastspectrum->spect_magnitude = new double[bands]{};
 
   GstStrawberryFastSpectrumClass *klass = reinterpret_cast<GstStrawberryFastSpectrumClass*>(G_OBJECT_GET_CLASS(fastspectrum));
   {

@@ -58,7 +58,7 @@ class OrganizeFormat {
     QString filename;
     bool unique_filename;
   };
-  GetFilenameForSongResult GetFilenameForSong(const Song& song, QString extension = QString()) const;
+  GetFilenameForSongResult GetFilenameForSong(const Song &song, QString extension = QString()) const;
 
  private:
   QString ParseBlock(QString block, const Song &song, bool *have_tagdata = nullptr, bool *any_empty = nullptr) const;

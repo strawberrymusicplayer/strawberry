@@ -524,4 +524,3 @@ MusicBrainzClient::ResultList MusicBrainzClient::UniqueResults(const ResultList 
   return unique_results;
 
 }
-

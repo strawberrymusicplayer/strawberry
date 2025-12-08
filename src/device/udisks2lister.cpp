@@ -411,10 +411,7 @@ Udisks2Lister::PartitionData Udisks2Lister::ReadPartitionData(const QDBusObjectP
 }
 
 QString Udisks2Lister::PartitionData::unique_id() const {
-  return u"Udisks2/%1/%2/%3/%4/%5"_s
-      .arg(serial, vendor, model)
-      .arg(capacity)
-      .arg(uuid);
+  return u"Udisks2/%1/%2/%3/%4/%5"_s.arg(serial, vendor, model).arg(capacity).arg(uuid);
 }
 
 Udisks2Lister::Udisks2Job::Udisks2Job() : is_mount(true) {}

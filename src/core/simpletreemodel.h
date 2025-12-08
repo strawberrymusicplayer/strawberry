@@ -70,7 +70,7 @@ QModelIndex SimpleTreeModel<T>::ItemToIndex(T *item) const {
   return createIndex(item->row, 0, item);
 }
 
-template <typename T>
+template<typename T>
 int SimpleTreeModel<T>::columnCount(const QModelIndex&) const {
   return 1;
 }

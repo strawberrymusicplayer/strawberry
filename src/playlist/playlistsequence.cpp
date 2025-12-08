@@ -234,11 +234,11 @@ void PlaylistSequence::CycleShuffleMode() {
 
 }
 
-//called from global shortcut
+// called from global shortcut
 void PlaylistSequence::CycleRepeatMode() {
 
   RepeatMode mode = RepeatMode::Off;
-  //we cycle through the repeat modes
+  // we cycle through the repeat modes
   switch (repeat_mode()) {
     case RepeatMode::Off:       mode = RepeatMode::Track;     break;
     case RepeatMode::Track:     mode = RepeatMode::Album;     break;

@@ -26,29 +26,29 @@
 
 class SqlHelper {
  public:
-  template <typename T>
+  template<typename T>
   static QString ValueToString(const T &q, const int n);
 
-  template <typename T>
+  template<typename T>
   static QUrl ValueToUrl(const T &q, const int n);
 
-  template <typename T>
+  template<typename T>
   static int ValueToInt(const T &q, const int n);
 
-  template <typename T>
+  template<typename T>
   static uint ValueToUInt(const T &q, const int n);
 
-  template <typename T>
+  template<typename T>
   static qint64 ValueToLongLong(const T &q, const int n);
 
-  template <typename T>
+  template<typename T>
   static float ValueToFloat(const T &q, const int n);
 
-  template <typename T>
+  template<typename T>
   static bool ValueToBool(const T &q, const int n);
 };
 
-template <typename T>
+template<typename T>
 QString SqlHelper::ValueToString(const T &q, const int n) {
 
   Q_ASSERT(n < q.count());
@@ -57,7 +57,7 @@ QString SqlHelper::ValueToString(const T &q, const int n) {
 
 }
 
-template <typename T>
+template<typename T>
 QUrl SqlHelper::ValueToUrl(const T &q, const int n) {
 
   Q_ASSERT(n < q.count());
@@ -66,7 +66,7 @@ QUrl SqlHelper::ValueToUrl(const T &q, const int n) {
 
 }
 
-template <typename T>
+template<typename T>
 int SqlHelper::ValueToInt(const T &q, const int n) {
 
   Q_ASSERT(n < q.count());
@@ -75,7 +75,7 @@ int SqlHelper::ValueToInt(const T &q, const int n) {
 
 }
 
-template <typename T>
+template<typename T>
 uint SqlHelper::ValueToUInt(const T &q, const int n) {
 
   Q_ASSERT(n < q.count());
@@ -84,7 +84,7 @@ uint SqlHelper::ValueToUInt(const T &q, const int n) {
 
 }
 
-template <typename T>
+template<typename T>
 qint64 SqlHelper::ValueToLongLong(const T &q, const int n) {
 
   Q_ASSERT(n < q.count());
@@ -93,7 +93,7 @@ qint64 SqlHelper::ValueToLongLong(const T &q, const int n) {
 
 }
 
-template <typename T>
+template<typename T>
 float SqlHelper::ValueToFloat(const T &q, const int n) {
 
   Q_ASSERT(n < q.count());
@@ -102,7 +102,7 @@ float SqlHelper::ValueToFloat(const T &q, const int n) {
 
 }
 
-template <typename T>
+template<typename T>
 bool SqlHelper::ValueToBool(const T &q, const int n) {
 
   Q_ASSERT(n < q.count());

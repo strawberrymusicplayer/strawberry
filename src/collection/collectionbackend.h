@@ -331,4 +331,3 @@ class CollectionBackend : public CollectionBackendInterface {
 };
 
 #endif  // COLLECTIONBACKEND_H
-

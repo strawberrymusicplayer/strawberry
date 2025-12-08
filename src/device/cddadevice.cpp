@@ -138,4 +138,3 @@ void CDDADevice::SongLoadingFinished() {
   WatchForDiscChanges(true);
 
 }
-

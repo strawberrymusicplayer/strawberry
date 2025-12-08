@@ -118,15 +118,13 @@ void ScrobblerCache::ReadCache() {
       continue;
     }
     QJsonObject json_obj_track = value.toObject();
-    if (
-        !json_obj_track.contains("timestamp"_L1) ||
+    if (!json_obj_track.contains("timestamp"_L1) ||
         !json_obj_track.contains("artist"_L1) ||
         !json_obj_track.contains("album"_L1) ||
         !json_obj_track.contains("title"_L1) ||
         !json_obj_track.contains("track"_L1) ||
         !json_obj_track.contains("albumartist"_L1) ||
-        !json_obj_track.contains("length_nanosec"_L1)
-    ) {
+        !json_obj_track.contains("length_nanosec"_L1)) {
       qLog(Error) << "Scrobbler cache JSON tracks array value is missing data.";
       qLog(Debug) << value;
       continue;

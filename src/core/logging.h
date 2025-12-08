@@ -13,7 +13,7 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
-*/
+ */
 
 #ifndef LOGGING_H
 #define LOGGING_H
@@ -67,10 +67,10 @@ enum Level {
   Level_Debug,
 };
 
-  void Init();
-  void SetLevels(const QString &levels);
+void Init();
+void SetLevels(const QString &levels);
 
-  void DumpStackTrace();
+void DumpStackTrace();
 
 QDebug CreateLoggerFatal(const int line, const char *pretty_function, const char *category);
 QDebug CreateLoggerError(const int line, const char *pretty_function, const char *category);

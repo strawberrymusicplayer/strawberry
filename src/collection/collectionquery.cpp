@@ -101,9 +101,9 @@ void CollectionQuery::AddCompilationRequirement(const bool compilation) {
 QString CollectionQuery::GetInnerQuery() const {
   return duplicates_only_
              ? QStringLiteral(" INNER JOIN (select * from duplicated_songs) dsongs        "
-                   "ON (%songs_table.artist = dsongs.dup_artist       "
-                   "AND %songs_table.album = dsongs.dup_album     "
-                   "AND %songs_table.title = dsongs.dup_title)    ")
+                              "ON (%songs_table.artist = dsongs.dup_artist       "
+                              "AND %songs_table.album = dsongs.dup_album     "
+                              "AND %songs_table.title = dsongs.dup_title)    ")
              : QString();
 }
 

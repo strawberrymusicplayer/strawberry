@@ -430,7 +430,7 @@ void SpotifyService::SendSearch() {
       type = SpotifyBaseRequest::Type::SearchSongs;
       break;
     default:
-      //Error("Invalid search type.");
+      // Error("Invalid search type.");
       return;
   }
 

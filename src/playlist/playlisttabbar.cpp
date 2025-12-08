@@ -127,7 +127,7 @@ void PlaylistTabBar::contextMenuEvent(QContextMenuEvent *e) {
 
   // We need to finish the renaming action before showing context menu
   if (rename_editor_->isVisible()) {
-    //discard any change
+    // discard any change
     HideEditor();
   }
 
@@ -231,11 +231,10 @@ void PlaylistTabBar::CloseSlot() {
     confirmation_box.setWindowIcon(QIcon(u":/icons/64x64/strawberry.png"_s));
     confirmation_box.setWindowTitle(tr("Remove playlist"));
     confirmation_box.setIcon(QMessageBox::Question);
-    confirmation_box.setText(
-        tr("You are about to remove a playlist which is not part of your "
-           "favorite playlists: "
-           "the playlist will be deleted (this action cannot be undone). \n"
-           "Are you sure you want to continue?"));
+    confirmation_box.setText(tr("You are about to remove a playlist which is not part of your "
+                                "favorite playlists: "
+                                "the playlist will be deleted (this action cannot be undone). \n"
+                                "Are you sure you want to continue?"));
     confirmation_box.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
 
     QCheckBox dont_prompt_again(tr("Warn me when closing a playlist tab"), &confirmation_box);

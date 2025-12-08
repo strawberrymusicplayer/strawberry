@@ -282,7 +282,7 @@ int main(int argc, char *argv[]) {
   // Use system UI languages
   if (languages.isEmpty()) {
 #if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
-     languages = QLocale::system().uiLanguages(QLocale::TagSeparator::Underscore);
+    languages = QLocale::system().uiLanguages(QLocale::TagSeparator::Underscore);
 #else
     const QStringList system_languages = QLocale::system().uiLanguages();
     for (const QString &language : system_languages) {

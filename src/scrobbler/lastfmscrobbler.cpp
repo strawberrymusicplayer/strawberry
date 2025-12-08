@@ -643,7 +643,7 @@ void LastFMScrobbler::ScrobbleRequestFinished(QNetworkReply *reply, ScrobblerCac
     const QJsonValue value_album = json_track["album"_L1];
     const QJsonValue value_song = json_track["track"_L1];
     const QJsonValue value_ignoredmessage = json_track["ignoredMessage"_L1];
-    //const quint64 timestamp = json_track[u"timestamp"_s].toVariant().toULongLong();
+    // const quint64 timestamp = json_track[u"timestamp"_s].toVariant().toULongLong();
 
     if (!value_artist.isObject() || !value_album.isObject() || !value_song.isObject() || !value_ignoredmessage.isObject()) {
       Error(u"Json scrobbles scrobble values are not objects."_s, json_track);
@@ -664,8 +664,8 @@ void LastFMScrobbler::ScrobbleRequestFinished(QNetworkReply *reply, ScrobblerCac
       continue;
     }
 
-    //const QString artist = obj_artist["#text"].toString();
-    //const QString album = obj_album["#text"].toString();
+    // const QString artist = obj_artist["#text"].toString();
+    // const QString album = obj_album["#text"].toString();
     const QString song = object_song["#text"_L1].toString();
     const bool ignoredmessage = object_ignoredmessage["code"_L1].toVariant().toBool();
     const QString ignoredmessage_text = object_ignoredmessage["#text"_L1].toString();
@@ -800,8 +800,8 @@ void LastFMScrobbler::SingleScrobbleRequestFinished(QNetworkReply *reply, Scrobb
     return;
   }
 
-  //QString artist = json_obj_artist["#text"].toString();
-  //QString album = json_obj_album["#text"].toString();
+  // QString artist = json_obj_artist["#text"].toString();
+  // QString album = json_obj_album["#text"].toString();
   const QString song = json_object_song["#text"_L1].toString();
 
   const int accepted = object_attr["accepted"_L1].toVariant().toInt();
@@ -839,7 +839,7 @@ void LastFMScrobbler::Love() {
   }
 
   QNetworkReply *reply = CreateRequest(params);
-  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply] { LoveRequestFinished(reply); });
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]{ LoveRequestFinished(reply); });
 
 }
 

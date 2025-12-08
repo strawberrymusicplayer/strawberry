@@ -116,7 +116,7 @@ QNetworkReply *SubsonicBaseRequest::CreateGetRequest(const QString &ressource_na
   QNetworkReply *reply = network_->get(network_request);
   QObject::connect(reply, &QNetworkReply::sslErrors, this, &SubsonicBaseRequest::HandleSSLErrors);
 
-  //qLog(Debug) << "Subsonic: Sending request" << url;
+  // qLog(Debug) << "Subsonic: Sending request" << url;
 
   return reply;
 
@@ -184,7 +184,7 @@ JsonBaseRequest::JsonObjectResult SubsonicBaseRequest::ParseJsonObject(QNetworkR
   }
 
   if (reply->error() == QNetworkReply::AuthenticationRequiredError) {
-    //service_->ClearSession();
+    // service_->ClearSession();
   }
 
   return result;

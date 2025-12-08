@@ -816,14 +816,12 @@ void SpotifyRequest::AlbumsFinishCheck(const Artist &artist, const int limit, co
     }
   }
 
-  if (
-      artists_requests_queue_.isEmpty() &&
+  if (artists_requests_queue_.isEmpty() &&
       artists_requests_active_ <= 0 &&
       albums_requests_queue_.isEmpty() &&
       albums_requests_active_ <= 0 &&
       artist_albums_requests_queue_.isEmpty() &&
-      artist_albums_requests_active_ <= 0
-      ) { // Artist albums query is finished, get all songs for all albums.
+      artist_albums_requests_active_ <= 0) {                                    // Artist albums query is finished, get all songs for all albums.
 
     // Get songs for all the albums.
 
@@ -1018,7 +1016,7 @@ void SpotifyRequest::SongsFinishCheck(const Artist &artist, const Album &album, 
             AddSongsSearchRequest(offset_next);
             break;
           }
-          // fallthrough
+        // fallthrough
         case Type::FavouriteArtists:
         case Type::SearchArtists:
         case Type::FavouriteAlbums:
@@ -1039,15 +1037,13 @@ void SpotifyRequest::SongsFinishCheck(const Artist &artist, const Album &album, 
 
 void SpotifyRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Artist &album_artist, const Album &album) {
 
-  if (
-      !json_obj.contains("type"_L1) ||
+  if (!json_obj.contains("type"_L1) ||
       !json_obj.contains("id"_L1) ||
       !json_obj.contains("name"_L1) ||
       !json_obj.contains("uri"_L1) ||
       !json_obj.contains("duration_ms"_L1) ||
       !json_obj.contains("track_number"_L1) ||
-      !json_obj.contains("disc_number"_L1)
-    ) {
+      !json_obj.contains("disc_number"_L1)) {
     Error(u"Invalid Json reply, track is missing one or more values."_s, json_obj);
     return;
   }
@@ -1058,13 +1054,13 @@ void SpotifyRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Ar
     const QJsonArray array_artists = json_obj["artists"_L1].toArray();
     for (const QJsonValue &value_artist : array_artists) {
       if (!value_artist.isObject()) continue;
-       QJsonObject obj_artist = value_artist.toObject();
-       if (!obj_artist.contains("type"_L1) || !obj_artist.contains("id"_L1) || !obj_artist.contains("name"_L1)) {
-         continue;
-       }
-       artist_id = obj_artist["id"_L1].toString();
-       artist_title = obj_artist["name"_L1].toString();
-       break;
+      QJsonObject obj_artist = value_artist.toObject();
+      if (!obj_artist.contains("type"_L1) || !obj_artist.contains("id"_L1) || !obj_artist.contains("name"_L1)) {
+        continue;
+      }
+      artist_id = obj_artist["id"_L1].toString();
+      artist_title = obj_artist["name"_L1].toString();
+      break;
     }
   }
 
@@ -1145,8 +1141,7 @@ void SpotifyRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Ar
 
 void SpotifyRequest::GetAlbumCoversCheck() {
 
-  if (
-      !finished_ &&
+  if (!finished_ &&
       service_->download_album_covers() &&
       IsQuery() &&
       artists_requests_queue_.isEmpty() &&
@@ -1163,8 +1158,7 @@ void SpotifyRequest::GetAlbumCoversCheck() {
       songs_requests_active_ <= 0 &&
       artist_albums_requests_active_ <= 0 &&
       album_songs_requests_active_ <= 0 &&
-      album_covers_requests_active_ <= 0
-  ) {
+      album_covers_requests_active_ <= 0) {
     GetAlbumCovers();
   }
 
@@ -1306,8 +1300,7 @@ void SpotifyRequest::AlbumCoverFinishCheck() {
 
 void SpotifyRequest::FinishCheck() {
 
-  if (
-      !finished_ &&
+  if (!finished_ &&
       artists_requests_queue_.isEmpty() &&
       albums_requests_queue_.isEmpty() &&
       songs_requests_queue_.isEmpty() &&
@@ -1322,8 +1315,7 @@ void SpotifyRequest::FinishCheck() {
       songs_requests_active_ <= 0 &&
       artist_albums_requests_active_ <= 0 &&
       album_songs_requests_active_ <= 0 &&
-      album_covers_requests_active_ <= 0
-  ) {
+      album_covers_requests_active_ <= 0) {
     if (timer_flush_requests_->isActive()) {
       timer_flush_requests_->stop();
     }

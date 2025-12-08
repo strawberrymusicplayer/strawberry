@@ -68,4 +68,3 @@ int EqualizerSlider::value() const {
 void EqualizerSlider::set_value(const int value) {
   ui_->slider->setValue(value);
 }
-

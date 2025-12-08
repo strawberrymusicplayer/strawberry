@@ -122,7 +122,7 @@ MtpConnection::~MtpConnection() {
 
 QString MtpConnection::ErrorString(const LIBMTP_error_number_t error_number) {
 
-  switch(error_number) {
+  switch (error_number) {
     case LIBMTP_ERROR_NO_DEVICE_ATTACHED:
       return u"No Devices have been found."_s;
     case LIBMTP_ERROR_CONNECTING:

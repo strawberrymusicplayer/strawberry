@@ -251,7 +251,7 @@ void Mpris2::EmitNotification(const QString &name) {
 
 }
 
-//------------------Root Interface--------------------------//
+// ------------------Root Interface--------------------------//
 
 bool Mpris2::CanQuit() const { return true; }
 

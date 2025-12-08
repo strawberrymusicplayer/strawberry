@@ -153,8 +153,7 @@ QString HtmlLyricsProvider::ParseLyricsFromHTML(const QString &content, const QR
           start_idx = rematch_end_tag.capturedEnd();
         }
       }
-    }
-    while (tags > 0 && (rematch_start_tag.hasMatch() || rematch_end_tag.hasMatch()));
+    } while (tags > 0 && (rematch_start_tag.hasMatch() || rematch_end_tag.hasMatch()));
 
     if (end_lyrics_idx != -1 && start_lyrics_idx < end_lyrics_idx) {
       if (!lyrics.isEmpty()) {
@@ -163,8 +162,7 @@ QString HtmlLyricsProvider::ParseLyricsFromHTML(const QString &content, const QR
       lyrics.append(content.mid(start_lyrics_idx, end_lyrics_idx - start_lyrics_idx).remove(u'\r').remove(u'\n'));
     }
 
-  }
-  while (start_idx > 0 && multiple);
+  } while (start_idx > 0 && multiple);
 
   for (auto it = regex_removes.cbegin(); it != regex_removes.cend(); it++) {
     lyrics.remove(*it);

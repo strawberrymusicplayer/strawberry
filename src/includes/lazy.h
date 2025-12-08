@@ -13,7 +13,7 @@
 
    You should have received a copy of the GNU General Public License
    along with Strawberry.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 #ifndef LAZY_H
 #define LAZY_H
@@ -37,7 +37,7 @@ class Lazy {
   // Convenience constructor that will lazily default construct the object.
   Lazy() : init_([]() { return new T; }) {}
 
-  T* get() const {
+  T *get() const {
     CheckInitialized();
     return ptr_.get();
   }
@@ -63,7 +63,7 @@ class Lazy {
  private:
   void CheckInitialized() const {
     if (!ptr_) {
-      ptr_ = SharedPtr<T>(init_(), [](T*obj) { qLog(Debug) << obj << "deleted"; delete obj; });
+      ptr_ = SharedPtr<T>(init_(), [](T *obj) { qLog(Debug) << obj << "deleted"; delete obj; });
       qLog(Debug) << &*ptr_ << "created";
     }
   }

@@ -41,4 +41,3 @@ class SongMimeData : public MimeData {
 };
 
 #endif  // SONGMIMEDATA_H
-

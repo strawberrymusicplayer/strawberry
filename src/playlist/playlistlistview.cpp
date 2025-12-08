@@ -142,7 +142,7 @@ void PlaylistListView::dropEvent(QDropEvent *e) {
       Q_EMIT ItemMimeDataDroppedSignal(currentIndex(), e->mimeData());
     }
   }
-  else  {
+  else {
     AutoExpandingTreeView::dropEvent(e);
   }
 

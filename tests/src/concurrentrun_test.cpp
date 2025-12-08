@@ -87,19 +87,19 @@ TEST(ConcurrentRunTest, ConcurrentRun3StartAndWait) {
 
 }
 
-void aFunction(int* n);
-void aFunction(int* n) {
+void aFunction(int *n);
+void aFunction(int *n) {
   *n = 1337;
 }
 
-void bFunction(int* n, int *m);
-void bFunction(int* n, int *m) {
+void bFunction(int *n, int *m);
+void bFunction(int *n, int *m) {
   aFunction(n);
   *m = 1338;
 }
 
-void cFunction(int* n, int *m, int *o);
-void cFunction(int* n, int *m, int *o) {
+void cFunction(int *n, int *m, int *o);
+void cFunction(int *n, int *m, int *o) {
   bFunction(n, m);
   *o = 1339;
 }
@@ -154,7 +154,7 @@ TEST(ConcurrentRunTest, ConcurrentRunVoidFunction3Start) {
 
 class A {
  public:
-  void f(int* i) {
+  void f(int *i) {
     *i = *i + 1;
   }
 };

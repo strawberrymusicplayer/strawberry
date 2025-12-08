@@ -100,7 +100,7 @@ QString SmartPlaylistSearch::ToSql(const QString &songs_table) const {
   else if (limit_ != -1) {
     sql += " LIMIT "_L1 + QString::number(limit_);
   }
-  //qLog(Debug) << sql;
+  // qLog(Debug) << sql;
 
   return sql;
 

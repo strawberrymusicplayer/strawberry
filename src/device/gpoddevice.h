@@ -100,7 +100,7 @@ class GPodDevice : public ConnectedDevice, public virtual MusicStorage {
   bool WriteDatabase(QString &error_text);
 
  protected:
-  const SharedPtr <TaskManager> task_manager_;
+  const SharedPtr<TaskManager> task_manager_;
   GPodLoader *loader_;
   QThread *loader_thread_;
 

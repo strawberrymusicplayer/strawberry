@@ -155,11 +155,7 @@ void LocalRedirectServer::WriteTemplate() const {
 
   QBuffer image_buffer;
   if (image_buffer.open(QIODevice::ReadWrite)) {
-    QApplication::style()
-        ->standardIcon(QStyle::SP_DialogOkButton)
-        .pixmap(16)
-        .toImage()
-        .save(&image_buffer, "PNG");
+    QApplication::style()->standardIcon(QStyle::SP_DialogOkButton).pixmap(16).toImage().save(&image_buffer, "PNG");
     page_data.replace("@IMAGE_DATA@"_L1, QString::fromUtf8(image_buffer.data().toBase64()));
     image_buffer.close();
   }

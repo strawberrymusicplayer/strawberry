@@ -59,7 +59,7 @@ bool MusixmatchCoverProvider::StartSearch(const QString &artist, const QString &
   QNetworkReply *reply = CreateGetRequest(QUrl(QStringLiteral("https://www.musixmatch.com/album/%1/%2").arg(artist_stripped, album_stripped)));
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, id, artist, album]() { HandleSearchReply(reply, id, artist, album); });
 
-  //qLog(Debug) << "Musixmatch: Sending request for" << artist_stripped << album_stripped << url;
+  // qLog(Debug) << "Musixmatch: Sending request for" << artist_stripped << album_stripped << url;
 
   return true;
 

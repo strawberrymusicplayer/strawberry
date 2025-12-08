@@ -441,7 +441,7 @@ class UpdateSongsBySongID : public CollectionBackendTest {
 
 TEST_F(UpdateSongsBySongID, UpdateSongsBySongID) {
 
-    const QStringList song_ids = QStringList() << u"song1"_s
+  const QStringList song_ids = QStringList()   << u"song1"_s
                                                << u"song2"_s
                                                << u"song3"_s
                                                << u"song4"_s

@@ -75,4 +75,3 @@ class AlbumCoverExporter : public QObject {
 };
 
 #endif  // ALBUMCOVEREXPORTER_H
-

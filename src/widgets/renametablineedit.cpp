@@ -44,8 +44,8 @@ void RenameTabLineEdit::focusOutEvent(QFocusEvent *e) {
 
   Q_UNUSED(e);
 
-  //if the user hasn't explicitly accepted, discard the value
+  // if the user hasn't explicitly accepted, discard the value
   Q_EMIT EditingCanceled();
-  //we don't call the default event since it will trigger editingFished()
+  // we don't call the default event since it will trigger editingFished()
 
 }
