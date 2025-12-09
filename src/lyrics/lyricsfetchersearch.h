@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,6 +31,7 @@
 #include "lyricssearchrequest.h"
 #include "lyricssearchresult.h"
 
+class QTimer;
 class LyricsProvider;
 class LyricsProviders;
 
@@ -45,23 +46,26 @@ class LyricsFetcherSearch : public QObject {
 
  Q_SIGNALS:
   void SearchFinished(const quint64 id, const LyricsSearchResults &results);
-  void LyricsFetched(const quint64 id, const QString &provider, const QString &lyrics);
+  void LyricsFetched(const quint64 id, const QString &provider = QString(), const QString &lyrics = QString());
 
  private Q_SLOTS:
   void ProviderSearchFinished(const int id, const LyricsSearchResults &results);
-  void TerminateSearch();
+  void SearchTimeout();
 
  private:
-  void AllProvidersFinished();
+  void CancelRequests();
+  void FinishSearch();
   static bool ProviderCompareOrder(LyricsProvider *a, LyricsProvider *b);
   static bool LyricsSearchResultCompareScore(const LyricsSearchResult &a, const LyricsSearchResult &b);
 
  private:
   quint64 id_;
   const LyricsSearchRequest request_;
+  QTimer *timer_search_timeout_;
   LyricsSearchResults results_;
   QMap<int, LyricsProvider*> pending_requests_;
   bool cancel_requested_;
+  bool finished_;
 };
 
 #endif  // LYRICSFETCHERSEARCH_H
