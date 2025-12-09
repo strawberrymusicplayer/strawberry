@@ -741,7 +741,7 @@ jobs:
         submodules: recursive
     - name: Build FreeBSD
       id: build-freebsd
-      uses: vmactions/freebsd-vm@v1.2.9
+      uses: vmactions/freebsd-vm@v1.3.0
       with:
         usesh: true
         mem: 4096
