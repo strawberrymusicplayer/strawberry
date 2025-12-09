@@ -59,6 +59,7 @@
 #include "covermanager/albumcoverchoicecontroller.h"
 #include "lyrics/lyricsfetcher.h"
 #include "constants/contextsettings.h"
+#include "constants/timeconstants.h"
 
 #include "contextview.h"
 #include "contextalbum.h"
@@ -353,7 +354,7 @@ void ContextView::SearchLyrics() {
   if (lyrics_.isEmpty() && action_show_lyrics_->isChecked() && action_search_lyrics_->isChecked() && !song_playing_.artist().isEmpty() && !song_playing_.title().isEmpty() && !lyrics_tried_ && lyrics_id_ == -1) {
     lyrics_fetcher_->Clear();
     lyrics_tried_ = true;
-    lyrics_id_ = static_cast<qint64>(lyrics_fetcher_->Search(song_playing_.effective_albumartist(), song_playing_.artist(), song_playing_.album(), song_playing_.title()));
+    lyrics_id_ = static_cast<qint64>(lyrics_fetcher_->Search(song_playing_.effective_albumartist(), song_playing_.artist(), song_playing_.album(), song_playing_.title(), song_playing_.length_nanosec() / kNsecPerSec));
   }
 
 }

@@ -26,11 +26,12 @@
 
 class LyricsSearchRequest {
  public:
-  explicit LyricsSearchRequest() = default;
+  explicit LyricsSearchRequest() : duration(-1) {}
   QString albumartist;
   QString artist;
   QString album;
   QString title;
+  qint64 duration;
 };
 
 Q_DECLARE_METATYPE(LyricsSearchRequest)

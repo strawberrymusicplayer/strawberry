@@ -53,7 +53,7 @@ class LyricsFetcher : public QObject {
     LyricsSearchRequest search_request;
   };
 
-  quint64 Search(const QString &effective_albumartist, const QString &artist, const QString &album, const QString &title);
+  quint64 Search(const QString &effective_albumartist, const QString &artist, const QString &album, const QString &title, const qint64 duration);
   void Clear();
 
  private:
