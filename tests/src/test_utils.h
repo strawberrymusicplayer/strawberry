@@ -52,11 +52,11 @@ void PrintTo(const ::QVariant &var, std::ostream &os);
 void PrintTo(const ::QUrl &url, std::ostream &os);
 
 #define EXPOSE_SIGNAL0(n) \
-    void Emit##n() { emit n(); }
+  void Emit##n() { emit n(); }
 #define EXPOSE_SIGNAL1(n, t1) \
-    void Emit##n(const t1& a1) { emit n(a1); }
+  void Emit##n(const t1 &a1) { emit n(a1); }
 #define EXPOSE_SIGNAL2(n, t1, t2) \
-    void Emit##n(const t1& a1, const t2& a2) { emit n(a1, a2); }
+  void Emit##n(const t1 &a1, const t2 &a2) { emit n(a1, a2); }
 
 Q_DECLARE_METATYPE(QModelIndex)
 

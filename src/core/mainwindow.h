@@ -285,7 +285,6 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void Raise();
 
  private:
-
   void SaveSettings();
 
   static void ApplyAddBehaviour(const BehaviourSettings::AddBehaviour b, MimeData *mimedata);
@@ -415,7 +414,6 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   bool playlists_loaded_;
   bool delete_files_;
   std::optional<CommandlineOptions> options_;
-
 };
 
 #endif  // MAINWINDOW_H

@@ -32,6 +32,6 @@ constexpr char kSaveOverwrite[] = "save_overwrite";
 constexpr char kSaveLowercase[] = "save_lowercase";
 constexpr char kSaveReplaceSpaces[] = "save_replace_spaces";
 
-}  // namespace
+}  // namespace CoversSettings
 
 #endif  // COVERSSETTINGS_H

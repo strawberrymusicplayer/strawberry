@@ -119,8 +119,8 @@ class GioLister : public DeviceLister {
   static void VolumeAddedCallback(GVolumeMonitor *volume_monitor, GVolume *volume, gpointer instance);
   static void VolumeRemovedCallback(GVolumeMonitor *volume_monitor, GVolume *volume, gpointer instance);
 
-  static void MountAddedCallback(GVolumeMonitor *volume_monitor, GMount*, gpointer instance);
-  static void MountChangedCallback(GVolumeMonitor *volume_monitor, GMount*, gpointer instance);
+  static void MountAddedCallback(GVolumeMonitor *volume_monitor, GMount *mount, gpointer instance);
+  static void MountChangedCallback(GVolumeMonitor *volume_monitor, GMount *mount, gpointer instance);
   static void MountRemovedCallback(GVolumeMonitor *volume_monitor, GMount *mount, gpointer instance);
 
   static void VolumeMountFinished(GObject *object, GAsyncResult *result, gpointer instance);

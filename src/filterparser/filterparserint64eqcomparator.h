@@ -28,6 +28,7 @@ class FilterParserInt64EqComparator : public FilterParserSearchTermComparator {
  public:
   explicit FilterParserInt64EqComparator(const qint64 search_term);
   bool Matches(const QVariant &value) const override;
+
  private:
   qint64 search_term_;
   Q_DISABLE_COPY(FilterParserInt64EqComparator)

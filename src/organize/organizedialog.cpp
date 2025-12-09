@@ -80,7 +80,7 @@ using namespace Qt::Literals::StringLiterals;
 namespace {
 constexpr char kSettingsGroup[] = "OrganizeDialog";
 constexpr char kDefaultFormat[] = "%albumartist/%album{ (Disc %disc)}/{%track - }{%albumartist - }%album{ (Disc %disc)} - %title.%extension";
-}
+}  // namespace
 
 OrganizeDialog::OrganizeDialog(const SharedPtr<TaskManager> task_manager,
                                const SharedPtr<TagReaderClient> tagreader_client,

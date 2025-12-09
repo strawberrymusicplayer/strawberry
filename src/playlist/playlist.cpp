@@ -122,7 +122,7 @@ constexpr qint64 kMaxScrobblePointNsecs = 240LL * kNsecPerSec;
 
 constexpr int kMaxPlayedIndexes = 100;
 
-} // namespace
+}  // namespace
 
 Playlist::Playlist(const SharedPtr<TaskManager> task_manager,
                    const SharedPtr<UrlHandlers> url_handlers,

@@ -28,6 +28,7 @@ class FilterParserUIntLtComparator : public FilterParserSearchTermComparator {
  public:
   explicit FilterParserUIntLtComparator(const uint search_term);
   bool Matches(const QVariant &value) const override;
+
  private:
   uint search_term_;
   Q_DISABLE_COPY(FilterParserUIntLtComparator)

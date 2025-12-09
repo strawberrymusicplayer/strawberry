@@ -52,7 +52,7 @@ using namespace MoodbarSettings;
 namespace {
 constexpr int kMoodbarPreviewWidth = 150;
 constexpr int kMoodbarPreviewHeight = 18;
-}
+}  // namespace
 
 MoodbarSettingsPage::MoodbarSettingsPage(SettingsDialog *dialog, QWidget *parent)
     : SettingsPage(dialog, parent),

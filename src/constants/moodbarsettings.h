@@ -38,6 +38,6 @@ constexpr char kShow[] = "show";
 constexpr char kStyle[] = "style";
 constexpr char kSave[] = "save";
 
-}  // namespace
+}  // namespace MoodbarSettings
 
 #endif  // MOODBARSETTINGS_H

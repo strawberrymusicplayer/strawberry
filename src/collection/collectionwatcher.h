@@ -137,7 +137,7 @@ class CollectionWatcher : public QObject {
     QStringList files_changed_path_;
 
    private:
-    ScanTransaction &operator=(const ScanTransaction&) { return *this; }
+    ScanTransaction &operator=(const ScanTransaction &transaction) { Q_UNUSED(transaction); return *this; }
 
     int task_id_;
     quint64 progress_;
@@ -261,7 +261,6 @@ class CollectionWatcher : public QObject {
   static QStringList sValidImages;
 
   qint64 last_scan_time_;
-
 };
 
 inline QString CollectionWatcher::NoExtensionPart(const QString &fileName) {

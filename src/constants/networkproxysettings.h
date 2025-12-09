@@ -32,6 +32,6 @@ constexpr char kUsername[] = "username";
 constexpr char kPassword[] = "password";
 constexpr char kEngine[] = "engine";
 
-}  // namespace
+}  // namespace NetworkProxySettings
 
 #endif  // NETWORKPROXYSETTINGS_H

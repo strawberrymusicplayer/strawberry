@@ -83,7 +83,7 @@ class AlbumCoverSearcher : public QDialog {
   AlbumCoverImageResult Exec(const QString &artist, const QString &album);
 
  protected:
-  void keyPressEvent(QKeyEvent*) override;
+  void keyPressEvent(QKeyEvent *e) override;
 
  private Q_SLOTS:
   void Search();

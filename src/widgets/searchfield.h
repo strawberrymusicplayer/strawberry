@@ -63,7 +63,7 @@ class SearchField : public QWidget {
   void returnPressed();
 
  protected:
-  void resizeEvent(QResizeEvent*) override;
+  void resizeEvent(QResizeEvent *e) override;
   bool eventFilter(QObject *o, QEvent *e) override;
 
  private:

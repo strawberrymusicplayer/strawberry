@@ -65,9 +65,9 @@ class ContextView : public QWidget {
 
  protected:
   void resizeEvent(QResizeEvent *e) override;
-  void contextMenuEvent(QContextMenuEvent*) override;
-  void dragEnterEvent(QDragEnterEvent*) override;
-  void dropEvent(QDropEvent*) override;
+  void contextMenuEvent(QContextMenuEvent *e) override;
+  void dragEnterEvent(QDragEnterEvent *e) override;
+  void dropEvent(QDropEvent *e) override;
 
  private:
   void AddActions();

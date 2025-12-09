@@ -34,6 +34,7 @@ class LoggingEnvironment : public ::testing::Environment {
     logging::Init();
     logging::SetLevels(u"*:4"_s);
   }
+
  private:
   Q_DISABLE_COPY(LoggingEnvironment)
 };

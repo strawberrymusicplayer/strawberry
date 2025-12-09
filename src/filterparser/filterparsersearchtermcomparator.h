@@ -27,6 +27,7 @@ class FilterParserSearchTermComparator {
   explicit FilterParserSearchTermComparator();
   virtual ~FilterParserSearchTermComparator();
   virtual bool Matches(const QVariant &value) const = 0;
+
  private:
   Q_DISABLE_COPY(FilterParserSearchTermComparator)
 };

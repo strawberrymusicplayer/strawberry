@@ -118,7 +118,7 @@ using namespace std::chrono_literals;
 class ApplicationImpl {
  public:
   explicit ApplicationImpl(Application *app)
-    : tagreader_client_([app](){
+      : tagreader_client_([app]() {
           TagReaderClient *client = new TagReaderClient();
           app->MoveToNewThread(client);
           return client;

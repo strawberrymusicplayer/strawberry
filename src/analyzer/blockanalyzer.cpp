@@ -107,7 +107,6 @@ void BlockAnalyzer::resizeEvent(QResizeEvent *e) {
   }
 
   drawBackground();
-
 }
 
 void BlockAnalyzer::determineStep() {
@@ -119,7 +118,6 @@ void BlockAnalyzer::determineStep() {
   const double fallTime = static_cast<double>(timeout() < 20 ? 20 * rows_ : 30 * rows_);
 
   step_ = static_cast<double>(rows_ * timeout()) / fallTime;
-
 }
 
 void BlockAnalyzer::framerateChanged() {
@@ -135,7 +133,6 @@ void BlockAnalyzer::transform(Scope &s) {
 
   // the second half is pretty dull, so only show it if the user has a large analyzer by setting to scope_.size() if large we prevent interpolation of large analyzers, this is good!
   s.resize(scope_.size() <= kMaxColumns / 2 ? kMaxColumns / 2 : scope_.size());
-
 }
 
 void BlockAnalyzer::analyze(QPainter &p, const Scope &s, const bool new_frame) {
@@ -203,7 +200,6 @@ void BlockAnalyzer::analyze(QPainter &p, const Scope &s, const bool new_frame) {
   }
 
   p.drawPixmap(0, 0, canvas_);
-
 }
 
 static inline void adjustToLimits(const int b, int &f, int &amount) {
@@ -230,7 +226,6 @@ static inline void adjustToLimits(const int b, int &f, int &amount) {
       f = 255;
     }
   }
-
 }
 
 /**
@@ -337,7 +332,6 @@ QColor ensureContrast(const QColor &bg, const QColor &fg, int amount) {
   }
 
   return Qt::blue;
-
 }
 
 void BlockAnalyzer::paletteChange(const QPalette &_palette) {
@@ -388,7 +382,6 @@ void BlockAnalyzer::paletteChange(const QPalette &_palette) {
   }
 
   drawBackground();
-
 }
 
 void BlockAnalyzer::drawBackground() {
@@ -411,5 +404,4 @@ void BlockAnalyzer::drawBackground() {
       p.fillRect(x * (kWidth + 1), y * (kHeight + 1) + y_, kWidth, kHeight, bgdark);
     }
   }
-
 }

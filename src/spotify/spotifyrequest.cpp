@@ -825,7 +825,7 @@ void SpotifyRequest::AlbumsFinishCheck(const Artist &artist, const int limit, co
 
     // Get songs for all the albums.
 
-    for (QMap<QString, AlbumSongsRequest> ::const_iterator it = album_songs_requests_pending_.constBegin(); it != album_songs_requests_pending_.constEnd(); ++it) {
+    for (QMap<QString, AlbumSongsRequest>::const_iterator it = album_songs_requests_pending_.constBegin(); it != album_songs_requests_pending_.constEnd(); ++it) {
       AlbumSongsRequest request = it.value();
       AddAlbumSongsRequest(request.artist, request.album);
     }

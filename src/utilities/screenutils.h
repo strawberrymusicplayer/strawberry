@@ -28,6 +28,6 @@ namespace Utilities {
 QScreen *GetScreen(QWidget *widget);
 void CenterWidgetOnScreen(QScreen *screen, QWidget *widget);
 
-} //  namespace Utilities
+}  //  namespace Utilities
 
 #endif  // SCREENUTILS_H

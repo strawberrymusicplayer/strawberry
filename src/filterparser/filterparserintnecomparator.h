@@ -28,6 +28,7 @@ class FilterParserIntNeComparator : public FilterParserSearchTermComparator {
  public:
   explicit FilterParserIntNeComparator(const int search_term);
   bool Matches(const QVariant &value) const override;
+
  private:
   int search_term_;
   Q_DISABLE_COPY(FilterParserIntNeComparator)

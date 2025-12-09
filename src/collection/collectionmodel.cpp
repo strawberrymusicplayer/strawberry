@@ -686,8 +686,8 @@ void CollectionModel::RemoveSongsInternal(const SongList &songs) {
     if (!divider_nodes_.contains(divider_key)) continue;
 
     // Look to see if there are any other items still under this divider
-    QList<CollectionItem*> container_nodes = container_nodes_[0].values();
-    if (std::any_of(container_nodes.begin(), container_nodes.end(), [this, divider_key](CollectionItem *node){ return DividerKey(options_active_.group_by[0], node->metadata, node->sort_text) == divider_key; })) {
+    QList<CollectionItem *> container_nodes = container_nodes_[0].values();
+    if (std::any_of(container_nodes.begin(), container_nodes.end(), [this, divider_key](CollectionItem *node) { return DividerKey(options_active_.group_by[0], node->metadata, node->sort_text) == divider_key; })) {
       continue;
     }
 

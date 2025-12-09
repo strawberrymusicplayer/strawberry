@@ -71,7 +71,7 @@ class PlaylistContainer : public QWidget {
 
  protected:
   // QWidget
-  void resizeEvent(QResizeEvent*) override;
+  void resizeEvent(QResizeEvent *e) override;
 
  private Q_SLOTS:
   void NewPlaylist();

@@ -26,6 +26,6 @@ constexpr char kSettingsGroup[] = "GlobalShortcuts";
 constexpr char kUseKGlobalAccel[] = "use_kglobalaccel";
 constexpr char kUseX11[] = "use_x11";
 
-}  // namespace
+}  // namespace GlobalShortcutsSettings
 
 #endif  // GLOBALSHORTCUTSSETTINGS_H

@@ -129,7 +129,7 @@ class StreamingSearchView : public QWidget {
   int LoadAlbumCoverAsync(const Result &result);
 
  Q_SIGNALS:
-  void AddToPlaylist(QMimeData*);
+  void AddToPlaylist(QMimeData *mimedata);
   void AddArtistsSignal(const SongList &songs);
   void AddAlbumsSignal(const SongList &songs);
   void AddSongsSignal(const SongList &songs);

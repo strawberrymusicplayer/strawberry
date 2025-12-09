@@ -28,6 +28,7 @@ class FilterParserTextContainsComparator : public FilterParserSearchTermComparat
  public:
   explicit FilterParserTextContainsComparator(const QString &search_term);
   bool Matches(const QVariant &value) const override;
+
  private:
   QString search_term_;
   Q_DISABLE_COPY(FilterParserTextContainsComparator)

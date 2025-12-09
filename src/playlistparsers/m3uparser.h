@@ -71,7 +71,6 @@ class M3UParser : public ParserBase {
   };
 
   static bool ParseMetadata(const QString &line, Metadata *metadata);
-
 };
 
 #endif  // M3UPARSER_H

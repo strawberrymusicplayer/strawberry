@@ -34,7 +34,7 @@ QString ScrobblerService::StripAlbum(const QString &album) const {
     return Song::AlbumRemoveDiscMisc(album);
   }
 
-  return Song::AlbumRemoveDisc(album);;
+  return Song::AlbumRemoveDisc(album);
 
 }
 

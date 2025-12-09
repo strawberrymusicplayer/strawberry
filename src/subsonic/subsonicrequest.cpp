@@ -554,7 +554,7 @@ QString SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_object, c
   if (json_object.contains("genre"_L1)) genre = json_object["genre"_L1].toString();
 
   QString cover_id;
-  if (use_album_id_for_album_covers()  && !album_cover_id.isEmpty()) {
+  if (use_album_id_for_album_covers() && !album_cover_id.isEmpty()) {
     cover_id = album_cover_id;
   }
   else {

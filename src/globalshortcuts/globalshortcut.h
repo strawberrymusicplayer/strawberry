@@ -54,7 +54,6 @@ class GlobalShortcut : public QObject, QAbstractNativeEventFilter {
   void activated();
 
  private:
-
   static void activateShortcut(const quint32 native_key, const quint32 native_mods);
 
   static int nativeModifiers(const Qt::KeyboardModifiers qt_mods);

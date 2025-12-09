@@ -72,11 +72,11 @@ using namespace Qt::Literals::StringLiterals;
 namespace {
 constexpr int kProgressInterval = 500;
 constexpr int kMaxDestinationItems = 10;
-}
+}  // namespace
 
 #ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Warray-bounds"
+#  pragma GCC diagnostic push
+#  pragma GCC diagnostic ignored "-Warray-bounds"
 #endif
 
 static bool ComparePresetsByName(const TranscoderPreset &left, const TranscoderPreset &right) {
@@ -500,5 +500,5 @@ QString TranscodeDialog::GetOutputFileName(const QString &input_filepath, const 
 }
 
 #ifdef __GNUC__
-#pragma GCC diagnostic pop
+#  pragma GCC diagnostic pop
 #endif

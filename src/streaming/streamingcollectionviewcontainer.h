@@ -64,7 +64,6 @@ class StreamingCollectionViewContainer : public QWidget {
 
  private:
   Ui_StreamingCollectionViewContainer *ui_;
-
 };
 
 #endif  // STREAMINGCOLLECTIONVIEWCONTAINER_H

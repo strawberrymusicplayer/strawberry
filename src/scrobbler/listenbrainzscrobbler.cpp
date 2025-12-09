@@ -243,7 +243,7 @@ QJsonObject ListenBrainzScrobbler::JsonTrackMetadata(const ScrobbleMetadata &met
   }
 
   if (!metadata.share_url.isEmpty()) {
-    object_additional_info.insert("origin_url"_L1,  metadata.share_url);
+    object_additional_info.insert("origin_url"_L1, metadata.share_url);
   }
 
   if (!metadata.spotify_id.isEmpty()) {

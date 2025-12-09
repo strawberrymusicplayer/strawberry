@@ -41,6 +41,6 @@ constexpr char kUseAlbumIdForAlbumCovers[] = "usealbumidforalbumcovers";
 constexpr char kServerSideScrobbling[] = "serversidescrobbling";
 constexpr char kAuthMethod[] = "authmethod";
 
-}  // namespace
+}  // namespace SubsonicSettings
 
 #endif  // SUBSONICETTINGS_H

@@ -70,6 +70,6 @@ enum class BackgroundImagePosition {
   BottomRight = 5
 };
 
-}  // namespace
+}  // namespace AppearanceSettings
 
 #endif  // APPEARANCESETTINGS_H

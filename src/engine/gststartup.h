@@ -23,6 +23,6 @@
 namespace GstStartup {
 void Initialize();
 void SetEnvironment();
-}  // namespace
+}  // namespace GstStartup
 
 #endif  // GSTSTARTUP_H

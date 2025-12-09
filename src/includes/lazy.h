@@ -52,7 +52,7 @@ class Lazy {
     return *ptr_;
   }
 
-  T* operator->() const { return get(); }
+  T *operator->() const { return get(); }
 
   // Returns true if the object is initialized.
   explicit operator bool() const { return ptr_ != nullptr; }

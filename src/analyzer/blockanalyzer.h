@@ -41,14 +41,14 @@ class BlockAnalyzer : public AnalyzerBase {
   Q_OBJECT
 
  public:
-  Q_INVOKABLE explicit BlockAnalyzer(QWidget*);
+  Q_INVOKABLE explicit BlockAnalyzer(QWidget *parent);
 
   static const char *kName;
 
  protected:
-  void transform(Scope&) override;
+  void transform(Scope &s) override;
   void analyze(QPainter &p, const Scope &s, const bool new_frame) override;
-  void resizeEvent(QResizeEvent*) override;
+  void resizeEvent(QResizeEvent *e) override;
   virtual void paletteChange(const QPalette &_palette);
   void framerateChanged() override;
 

@@ -36,4 +36,4 @@ class TemporaryFile {
   QString filename_;
 };
 
-#endif // TEMPORARYFILE_H
+#endif  // TEMPORARYFILE_H

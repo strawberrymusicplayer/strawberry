@@ -2077,7 +2077,7 @@ TagReaderResult TagReaderTagLib::SaveSongRating(const QString &filename, const f
 TagLib::String TagReaderTagLib::TagLibStringListToSlashSeparatedString(const TagLib::StringList &taglib_string_list, const uint begin_index) {
 
   TagLib::String result_string;
-  for (uint i = begin_index ; i < taglib_string_list.size(); ++i) {
+  for (uint i = begin_index; i < taglib_string_list.size(); ++i) {
     const TagLib::String &taglib_string = taglib_string_list[i];
     if (!result_string.isEmpty()) {
       result_string += '/';

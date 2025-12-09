@@ -71,6 +71,6 @@ constexpr char kDoubleClickPlaylistAddMode[] = "doubleclick_playlist_addmode";
 constexpr char kSeekStepSec[] = "seek_step_sec";
 constexpr char kVolumeIncrement[] = "volume_increment";
 
-}  // namespace
+}  // namespace BehaviourSettings
 
 #endif  // BEHAVIOURSETTINGS_H

@@ -503,7 +503,9 @@ bool Database::IntegrityCheck(const QSqlDatabase &db) {
         break;
       }
       else {
-        if (!error_reported) { Q_EMIT Error(tr("Database corruption detected.")); }
+        if (!error_reported) {
+          Q_EMIT Error(tr("Database corruption detected."));
+        }
         Q_EMIT Error(u"Database: "_s + message);
         error_reported = true;
       }

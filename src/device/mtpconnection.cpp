@@ -151,13 +151,13 @@ bool MtpConnection::GetSupportedFiletypes(QList<Song::FileType> *ret) {
 
   for (int i = 0; i < length; ++i) {
     switch (static_cast<LIBMTP_filetype_t>(list[i])) {
-      case LIBMTP_FILETYPE_WAV:  *ret << Song::FileType::WAV; break;
+      case LIBMTP_FILETYPE_WAV: *ret << Song::FileType::WAV; break;
       case LIBMTP_FILETYPE_MP2:
-      case LIBMTP_FILETYPE_MP3:  *ret << Song::FileType::MPEG; break;
-      case LIBMTP_FILETYPE_WMA:  *ret << Song::FileType::ASF; break;
+      case LIBMTP_FILETYPE_MP3: *ret << Song::FileType::MPEG; break;
+      case LIBMTP_FILETYPE_WMA: *ret << Song::FileType::ASF; break;
       case LIBMTP_FILETYPE_MP4:
       case LIBMTP_FILETYPE_M4A:
-      case LIBMTP_FILETYPE_AAC:  *ret << Song::FileType::MP4; break;
+      case LIBMTP_FILETYPE_AAC: *ret << Song::FileType::MP4; break;
       case LIBMTP_FILETYPE_FLAC:
         *ret << Song::FileType::FLAC;
         *ret << Song::FileType::OggFlac;

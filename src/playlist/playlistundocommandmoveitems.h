@@ -38,4 +38,4 @@ class PlaylistUndoCommandMoveItems : public PlaylistUndoCommandBase {
   int pos_;
 };
 
-#endif // PLAYLISTUNDOCOMMANDMOVEITEMS_H
+#endif  // PLAYLISTUNDOCOMMANDMOVEITEMS_H

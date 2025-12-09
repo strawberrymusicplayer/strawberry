@@ -171,7 +171,6 @@ class SongLoader : public QObject {
   QStringList errors_;
 
   bool success_;
-
 };
 
 #endif  // SONGLOADER_H

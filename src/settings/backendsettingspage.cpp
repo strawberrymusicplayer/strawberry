@@ -73,8 +73,8 @@ static const QRegularExpression kRegex_ALSA_PCM_Dev(u"^.*:.*DEV=.*"_s);
 }  // namespace
 
 #ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Warray-bounds"
+#  pragma GCC diagnostic push
+#  pragma GCC diagnostic ignored "-Warray-bounds"
 #endif
 
 BackendSettingsPage::BackendSettingsPage(SettingsDialog *dialog, const SharedPtr<Player> player, const SharedPtr<DeviceFinders> device_finders, QWidget *parent)

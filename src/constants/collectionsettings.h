@@ -59,6 +59,6 @@ enum class CacheSizeUnit {
   TB
 };
 
-}  // namespace
+}  // namespace CollectionSettings
 
 #endif  // COLLECTIONSETTINGS_H

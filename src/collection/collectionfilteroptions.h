@@ -26,7 +26,6 @@
 
 class CollectionFilterOptions {
  public:
-
   explicit CollectionFilterOptions();
 
   // Filter mode:

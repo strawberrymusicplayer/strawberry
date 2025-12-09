@@ -439,7 +439,7 @@ TEST_F(PlaylistTest, ShuffleThenNext) {
   // Add 100 items
   PlaylistItemPtrList items;
   items.reserve(100);
-  for (int i = 0 ; i < 100 ; ++i)
+  for (int i = 0; i < 100; ++i)
     items << MakeMockItemP(u"Item "_s + QString::number(i));
   playlist_.InsertItems(items);
 

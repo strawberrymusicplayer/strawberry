@@ -46,4 +46,4 @@ class PlaylistUndoCommandRemoveItems : public PlaylistUndoCommandBase {
   QList<Range> ranges_;
 };
 
-#endif // PLAYLISTUNDOCOMMANDREMOVEITEMS_H
+#endif  // PLAYLISTUNDOCOMMANDREMOVEITEMS_H

@@ -62,7 +62,7 @@ class SmartPlaylistSearchPreview : public QWidget {
   void Update(const SmartPlaylistSearch &search);
 
  protected:
-  void showEvent(QShowEvent*) override;
+  void showEvent(QShowEvent *e) override;
 
  private:
   void RunSearch(const SmartPlaylistSearch &search);

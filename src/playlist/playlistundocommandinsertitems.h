@@ -41,4 +41,4 @@ class PlaylistUndoCommandInsertItems : public PlaylistUndoCommandBase {
   bool enqueue_next_;
 };
 
-#endif // PLAYLISTUNDOCOMMANDINSERTITEMS_H
+#endif  // PLAYLISTUNDOCOMMANDINSERTITEMS_H

@@ -45,7 +45,7 @@ constexpr char kCustomTextEnabled[] = "CustomTextEnabled";
 constexpr char kCustomText1[] = "CustomText1";
 constexpr char kCustomText2[] = "CustomText2";
 
-}  // namespace
+}  // namespace OSDSettings
 
 namespace OSDPrettySettings {
 
@@ -63,7 +63,7 @@ constexpr char kFading[] = "fading";
 constexpr QRgb kPresetBlue = qRgb(102, 150, 227);
 constexpr QRgb kPresetRed = qRgb(202, 22, 16);
 
-}  // namespace
+}  // namespace OSDPrettySettings
 
 namespace DiscordRPCSettings {
 
@@ -79,6 +79,6 @@ enum class StatusDisplayType {
   Song
 };
 
-}  // namespace
+}  // namespace DiscordRPCSettings
 
 #endif  // NOTIFICATIONSSETTINGS_H

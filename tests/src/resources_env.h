@@ -35,6 +35,7 @@ class ResourcesEnvironment : public ::testing::Environment {
     Q_INIT_RESOURCE(icons);
     Q_INIT_RESOURCE(testdata);
   }
+
  private:
   Q_DISABLE_COPY(ResourcesEnvironment)
 };

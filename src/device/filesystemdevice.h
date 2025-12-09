@@ -22,9 +22,9 @@
 #ifndef FILESYSTEMDEVICE_H
 #define FILESYSTEMDEVICE_H
 
-#ifdef _MSC_VER // FIXME
-#pragma warning(push)
-#pragma warning(disable : 4250)
+#ifdef _MSC_VER  // FIXME
+#  pragma warning(push)
+#  pragma warning(disable : 4250)
 #endif
 
 #include "config.h"
@@ -84,7 +84,7 @@ class FilesystemDevice : public ConnectedDevice, public virtual FilesystemMusicS
 };
 
 #ifdef _MSC_VER
-#pragma warning(pop)
+#  pragma warning(pop)
 #endif
 
 #endif  // FILESYSTEMDEVICE_H

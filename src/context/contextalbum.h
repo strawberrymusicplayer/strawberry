@@ -61,7 +61,6 @@ class ContextAlbum : public QWidget {
   void contextMenuEvent(QContextMenuEvent *e) override;
 
  private:
-
   struct PreviousCover {
     explicit PreviousCover() : opacity(0.0) {}
     QImage image;

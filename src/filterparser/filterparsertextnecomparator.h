@@ -29,6 +29,7 @@ class FilterParserTextNeComparator : public FilterParserSearchTermComparator {
  public:
   explicit FilterParserTextNeComparator(const QString &search_term);
   bool Matches(const QVariant &value) const override;
+
  private:
   QString search_term_;
   Q_DISABLE_COPY(FilterParserTextNeComparator)

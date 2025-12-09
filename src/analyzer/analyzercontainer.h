@@ -101,8 +101,7 @@ void AnalyzerContainer::AddAnalyzerType() {
   group_->addAction(action);
   action->setCheckable(true);
   actions_ << action;
-  QObject::connect(action, &QAction::triggered, [this, id]() { ChangeAnalyzer(id); } );
-
+  QObject::connect(action, &QAction::triggered, [this, id]() { ChangeAnalyzer(id); });
 }
 
 #endif  // ANALYZERCONTAINER_H

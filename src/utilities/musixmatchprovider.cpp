@@ -43,4 +43,4 @@ QString StringFixup(QString text) {
 
 }
 
-}  // namespace
+}  // namespace MusixmatchProvider

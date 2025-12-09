@@ -37,4 +37,4 @@ class PlaylistUndoCommandReOrderItems : public PlaylistUndoCommandBase {
   PlaylistItemPtrList new_items_;
 };
 
-#endif // PLAYLISTUNDOCOMMANDREORDERITEMS_H
+#endif  // PLAYLISTUNDOCOMMANDREORDERITEMS_H

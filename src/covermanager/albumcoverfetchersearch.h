@@ -113,7 +113,6 @@ class AlbumCoverFetcherSearch : public QObject {
   SharedPtr<NetworkAccessManager> network_;
 
   bool cancel_requested_;
-
 };
 
 #endif  // ALBUMCOVERFETCHERSEARCH_H

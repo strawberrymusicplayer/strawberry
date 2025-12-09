@@ -102,7 +102,7 @@ using std::make_shared;
 namespace {
 constexpr char kSettingsGroup[] = "CoverManager";
 constexpr int kThumbnailSize = 120;
-}
+}  // namespace
 
 AlbumCoverManager::AlbumCoverManager(const SharedPtr<NetworkAccessManager> network,
                                      const SharedPtr<CollectionBackend> collection_backend,

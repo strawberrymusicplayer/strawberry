@@ -51,7 +51,7 @@ class GlobalShortcutsSettingsPage : public SettingsPage {
  private Q_SLOTS:
   void ShortcutOptionsChanged();
 
-  void ItemClicked(QTreeWidgetItem*);
+  void ItemClicked(QTreeWidgetItem *item);
   void NoneClicked();
   void DefaultClicked();
   void ChangeClicked();

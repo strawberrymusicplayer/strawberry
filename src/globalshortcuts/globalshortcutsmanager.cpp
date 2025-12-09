@@ -37,7 +37,7 @@
 #include "globalshortcutsbackend.h"
 
 #ifdef HAVE_KGLOBALACCEL_GLOBALSHORTCUTS
-#include "globalshortcutsbackend-kglobalaccel.h"
+#  include "globalshortcutsbackend-kglobalaccel.h"
 #endif
 
 #ifdef HAVE_X11_GLOBALSHORTCUTS

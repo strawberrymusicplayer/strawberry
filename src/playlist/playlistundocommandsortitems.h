@@ -29,4 +29,4 @@ class PlaylistUndoCommandSortItems : public PlaylistUndoCommandReOrderItems {
   explicit PlaylistUndoCommandSortItems(Playlist *playlist, const Playlist::Column column, const Qt::SortOrder order, const PlaylistItemPtrList &new_items);
 };
 
-#endif // PLAYLISTUNDOCOMMANDSORTITEMS_H
+#endif  // PLAYLISTUNDOCOMMANDSORTITEMS_H

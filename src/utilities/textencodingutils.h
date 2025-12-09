@@ -27,4 +27,4 @@ namespace Utilities {
 QByteArray TextEncodingFromData(const QByteArray &data);
 }  // namespace Utilities
 
-#endif // TEXTENCODINGUTILS_H
+#endif  // TEXTENCODINGUTILS_H

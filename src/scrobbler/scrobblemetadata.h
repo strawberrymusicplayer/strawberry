@@ -52,7 +52,6 @@ class ScrobbleMetadata {
   qint64 length_nanosec;
 
   QString effective_albumartist() const { return albumartist.isEmpty() ? artist : albumartist; }
-
 };
 
 #endif  // SCROBBLEMETADATA_H

@@ -204,7 +204,7 @@ bool CommandlineOptions::Parse() {
     { "version", no_argument, nullptr, LongOptions::Version },
     { nullptr, 0, nullptr, 0 }
 #endif
-};
+  };
 
   // Parse the arguments
   bool ok = false;

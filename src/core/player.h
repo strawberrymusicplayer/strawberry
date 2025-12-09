@@ -121,8 +121,8 @@ class Player : public PlayerInterface {
   void PlayPlaylistInternal(const EngineBase::TrackChangeFlags, const Playlist::AutoScroll autoscroll, const QString &playlist_name);
 
   void FatalError();
-  void ValidSongRequested(const QUrl&);
-  void InvalidSongRequested(const QUrl&);
+  void ValidSongRequested(const QUrl &url);
+  void InvalidSongRequested(const QUrl &url);
 
   void HandleLoadResult(const UrlHandler::LoadResult &result);
 

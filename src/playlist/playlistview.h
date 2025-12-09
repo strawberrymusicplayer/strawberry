@@ -136,7 +136,7 @@ class PlaylistView : public QTreeView {
   void timerEvent(QTimerEvent *event) override;
   void mouseMoveEvent(QMouseEvent *event) override;
   void mousePressEvent(QMouseEvent *event) override;
-  void leaveEvent(QEvent*) override;
+  void leaveEvent(QEvent *e) override;
   void paintEvent(QPaintEvent *event) override;
   void dragMoveEvent(QDragMoveEvent *event) override;
   void dragEnterEvent(QDragEnterEvent *event) override;

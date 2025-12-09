@@ -103,8 +103,8 @@ class OSDPretty : public QWidget {
 
  protected:
   void paintEvent(QPaintEvent *e) override;
-  void enterEvent(QEnterEvent*) override;
-  void leaveEvent(QEvent*) override;
+  void enterEvent(QEnterEvent *e) override;
+  void leaveEvent(QEvent *e) override;
   void mousePressEvent(QMouseEvent *e) override;
   void showEvent(QShowEvent *e) override;
   void mouseMoveEvent(QMouseEvent *e) override;

@@ -40,7 +40,7 @@ class BoomAnalyzer : public AnalyzerBase {
   Q_OBJECT
 
  public:
-  Q_INVOKABLE explicit BoomAnalyzer(QWidget*);
+  Q_INVOKABLE explicit BoomAnalyzer(QWidget *parent);
 
   static const char *kName;
 
@@ -70,7 +70,6 @@ class BoomAnalyzer : public AnalyzerBase {
 
   QPixmap barPixmap_;
   QPixmap canvas_;
-
 };
 
 #endif  // BOOMANALYZER_H

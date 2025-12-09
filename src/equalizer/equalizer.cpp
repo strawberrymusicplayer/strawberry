@@ -110,12 +110,12 @@ void Equalizer::ReloadSettings() {
   for (int i = 0; i < count; ++i) {
     s.setArrayIndex(i);
 #ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Warray-bounds"
+#  pragma GCC diagnostic push
+#  pragma GCC diagnostic ignored "-Warray-bounds"
 #endif
     AddPreset(s.value("name").toString(), s.value("params").value<Equalizer::Params>());
 #ifdef __GNUC__
-#pragma GCC diagnostic pop
+#  pragma GCC diagnostic pop
 #endif
   }
   s.endArray();

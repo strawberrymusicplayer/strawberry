@@ -25,6 +25,6 @@ namespace LyricsSettings {
 constexpr char kSettingsGroup[] = "Lyrics";
 constexpr char kProviders[] = "providers";
 
-}  // namespace
+}  // namespace LyricsSettings
 
 #endif  // LYRICSSETTINGS_H

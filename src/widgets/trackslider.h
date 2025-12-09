@@ -49,7 +49,7 @@ class TrackSlider : public QWidget {
   QSize sizeHint() const override;
 
   // QObject
-  bool event(QEvent*) override;
+  bool event(QEvent *e) override;
 
 #ifdef HAVE_MOODBAR
   MoodbarProxyStyle *moodbar_proxy_style() const { return moodbar_proxy_style_; }

@@ -26,6 +26,6 @@ namespace MusixmatchProvider {
 
 QString StringFixup(QString text);
 
-}  // namespace
+}  // namespace MusixmatchProvider
 
 #endif  // MUSIXMATCHPROVIDER_H

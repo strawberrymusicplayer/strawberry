@@ -49,19 +49,19 @@ enum {
 }  // namespace
 
 #ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wold-style-cast"
+#  pragma GCC diagnostic push
+#  pragma GCC diagnostic ignored "-Wold-style-cast"
 #endif
 #ifdef _MSC_VER
-#pragma warning(push)
-#pragma warning(disable : 4514)
+#  pragma warning(push)
+#  pragma warning(disable : 4514)
 #endif
 G_DEFINE_TYPE(GstStrawberryFastSpectrum, gst_strawberry_fastspectrum, GST_TYPE_AUDIO_FILTER)
 #ifdef __GNUC__
-#pragma GCC diagnostic pop
+#  pragma GCC diagnostic pop
 #endif
 #ifdef _MSC_VER
-#pragma warning(pop)
+#  pragma warning(pop)
 #endif
 
 static void gst_strawberry_fastspectrum_finalize(GObject *object);
@@ -97,13 +97,13 @@ static void gst_strawberry_fastspectrum_class_init(GstStrawberryFastSpectrumClas
   GST_DEBUG_CATEGORY_INIT(gst_strawberry_fastspectrum_debug, "spectrum", 0, "audio spectrum analyser element");
 
   gst_element_class_set_static_metadata(element_class,
-    "Fast spectrum analyzer using FFTW",
-    "Filter/Analyzer/Audio",
-    "Run an FFT on the audio signal, output spectrum data",
-    "Erik Walthinsen <omega@cse.ogi.edu>, "
-    "Stefan Kost <ensonic@users.sf.net>, "
-    "Sebastian Dröge <sebastian.droege@collabora.co.uk>, "
-    "Jonas Kvinge <jonas@jkvinge.net>");
+                                        "Fast spectrum analyzer using FFTW",
+                                        "Filter/Analyzer/Audio",
+                                        "Run an FFT on the audio signal, output spectrum data",
+                                        "Erik Walthinsen <omega@cse.ogi.edu>, "
+                                        "Stefan Kost <ensonic@users.sf.net>, "
+                                        "Sebastian Dröge <sebastian.droege@collabora.co.uk>, "
+                                        "Jonas Kvinge <jonas@jkvinge.net>");
 
 #if G_BYTE_ORDER == G_LITTLE_ENDIAN
   GstCaps *caps = gst_caps_from_string(GST_AUDIO_CAPS_MAKE("{ S16LE, S24LE, S32LE, F32LE, F64LE }") ", layout = (string) interleaved, channels = 1");
@@ -272,7 +272,7 @@ static gboolean gst_strawberry_fastspectrum_stop(GstBaseTransform *transform) {
 
 static void gst_strawberry_fastspectrum_input_data_mixed_float(const guint8 *_in, double *out, const guint64 len, const double max_value, guint op, const guint nfft) {
 
-  (void) max_value;
+  (void)max_value;
 
   const gfloat *in = reinterpret_cast<const gfloat*>(_in);
   guint ip = 0;
@@ -286,7 +286,7 @@ static void gst_strawberry_fastspectrum_input_data_mixed_float(const guint8 *_in
 
 static void gst_strawberry_fastspectrum_input_data_mixed_double(const guint8 *_in, double *out, const guint64 len, const double max_value, guint op, const guint nfft) {
 
-  (void) max_value;
+  (void)max_value;
 
   const gdouble *in = reinterpret_cast<const gdouble*>(_in);
   guint ip = 0;

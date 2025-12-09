@@ -27,6 +27,6 @@ namespace Utilities {
 
 QString MimeTypeFromData(const QByteArray &data);
 
-} //  namespace Utilities
+}  //  namespace Utilities
 
 #endif  // MIMEUTILS_H

@@ -220,7 +220,7 @@
 #endif
 
 #ifdef HAVE_SPARKLE
-  #include "core/sparkleupdater.h"
+#  include "core/sparkleupdater.h"
 #endif
 
 #ifdef HAVE_QTSPARKLE
@@ -228,7 +228,7 @@
 #endif  // HAVE_QTSPARKLE
 
 #ifdef HAVE_DISCORD_RPC
-  #include "discord/richpresence.h"
+#  include "discord/richpresence.h"
 #endif
 
 using std::make_unique;
@@ -272,8 +272,8 @@ constexpr char QTSPARKLE_URL[] = "https://www.strawberrymusicplayer.org/sparkle-
 #    endif
 
 #  else
-#  error "Unsupported OS for QtSparkle"
-#  endif // OS
+#    error "Unsupported OS for QtSparkle"
+#  endif  // OS
 
 }  // namespace
 #endif  // HAVE_QTSPARKLE

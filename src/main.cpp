@@ -281,16 +281,16 @@ int main(int argc, char *argv[]) {
 
   // Use system UI languages
   if (languages.isEmpty()) {
-#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+#  if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
     languages = QLocale::system().uiLanguages(QLocale::TagSeparator::Underscore);
-#else
+#  else
     const QStringList system_languages = QLocale::system().uiLanguages();
     for (const QString &language : system_languages) {
       QString language_underscore = language;
       language_underscore = language_underscore.replace(u'-', u'_');
       languages << language_underscore;
     }
-#endif
+#  endif
   }
 
   if (languages.isEmpty()) {
@@ -323,13 +323,13 @@ int main(int argc, char *argv[]) {
     }
   }
 
-#ifdef HAVE_QTSPARKLE
+#  ifdef HAVE_QTSPARKLE
   for (const QString &language : std::as_const(languages)) {
     if (qtsparkle::LoadTranslations(language)) {
       break;
     }
   }
-#endif  // HAVE_QTSPARKLE
+#  endif  // HAVE_QTSPARKLE
 
 #endif  // HAVE_TRANSLATIONS
 

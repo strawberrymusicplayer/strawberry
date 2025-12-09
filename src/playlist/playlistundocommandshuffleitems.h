@@ -30,4 +30,4 @@ class PlaylistUndoCommandShuffleItems : public PlaylistUndoCommandReOrderItems {
   explicit PlaylistUndoCommandShuffleItems(Playlist *playlist, const PlaylistItemPtrList &new_items);
 };
 
-#endif // PLAYLISTUNDOCOMMANDSHUFFLEITEMS_H
+#endif  // PLAYLISTUNDOCOMMANDSHUFFLEITEMS_H

@@ -41,7 +41,7 @@ namespace {
 constexpr int kVerticalPadding = 4;
 constexpr int kHorizontalPadding = 6;
 constexpr int kSpacing = 6;
-}
+}  // namespace
 
 MultiLoadingIndicator::MultiLoadingIndicator(QWidget *parent)
     : QWidget(parent),

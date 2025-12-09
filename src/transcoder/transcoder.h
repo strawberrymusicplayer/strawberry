@@ -106,6 +106,7 @@ class Transcoder : public QObject {
     Transcoder *parent_;
     GstElement *pipeline_;
     GstElement *convert_element_;
+
    private:
     Q_DISABLE_COPY(JobState)
   };
@@ -118,6 +119,7 @@ class Transcoder : public QObject {
 
     JobState *state_;
     bool success_;
+
    private:
     Q_DISABLE_COPY(JobFinishedEvent)
   };

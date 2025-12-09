@@ -28,6 +28,7 @@ class FilterParserFloatGeComparator : public FilterParserSearchTermComparator {
  public:
   explicit FilterParserFloatGeComparator(const float search_term);
   bool Matches(const QVariant &value) const override;
+
  private:
   float search_term_;
   Q_DISABLE_COPY(FilterParserFloatGeComparator)

@@ -265,7 +265,7 @@ void GroupedIconView::paintEvent(QPaintEvent *e) {
   const QItemSelectionModel *selections = selectionModel();
   const bool focus = (hasFocus() || viewport()->hasFocus()) && current.isValid();
   const QStyle::State opt_state = option.state;
-  const bool enabled = (opt_state &QStyle::State_Enabled) != 0;
+  const bool enabled = (opt_state & QStyle::State_Enabled) != 0;
 
   int maxSize = (flow() == TopToBottom) ? viewport()->size().width() - 2 * spacing() : viewport()->size().height() - 2 * spacing();
 

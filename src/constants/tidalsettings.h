@@ -48,6 +48,6 @@ enum class StreamUrlMethod {
   PlaybackInfoPostPaywall
 };
 
-}
+}  // namespace TidalSettings
 
 #endif  // TIDALSETTINGS_H

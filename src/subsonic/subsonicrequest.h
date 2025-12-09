@@ -88,7 +88,6 @@ class SubsonicRequest : public SubsonicBaseRequest {
   void AlbumCoverReceived(QNetworkReply *reply, const SubsonicRequest::AlbumCoverRequest &request);
 
  private:
-
   void AddAlbumsRequest(const int offset = 0, const int size = 500);
   void FlushAlbumsRequests();
 

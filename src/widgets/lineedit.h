@@ -268,7 +268,6 @@ class RatingBox : public RatingWidget, public ExtendedEditor {
 
  Q_SIGNALS:
   void Reset();
-
 };
 
 #endif  // LINEEDIT_H

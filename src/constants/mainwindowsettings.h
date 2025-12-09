@@ -32,6 +32,6 @@ constexpr char kGeometry[] = "geometry";
 constexpr char kSplitterState[] = "splitter_state";
 constexpr char kDoNotShowSponsorMessage[] = "do_not_show_sponsor_message";
 
-} // namespace
+}  // namespace MainWindowSettings
 
-#endif // MAINWINDOWSETTINGS_H
+#endif  // MAINWINDOWSETTINGS_H

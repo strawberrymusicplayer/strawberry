@@ -30,7 +30,6 @@ using std::make_shared;
 
 class TagReaderSaveCoverRequest : public TagReaderRequest {
  public:
-
   explicit TagReaderSaveCoverRequest(const QString &_filename);
 
   static SharedPtr<TagReaderSaveCoverRequest> Create(const QString &filename) { return make_shared<TagReaderSaveCoverRequest>(filename); }

@@ -50,7 +50,6 @@ class SubsonicScrobbleRequest : public SubsonicBaseRequest {
   void ScrobbleReplyReceived(QNetworkReply *reply);
 
  private:
-
   struct Request {
     explicit Request() : submission(false) {}
     // subsonic song id

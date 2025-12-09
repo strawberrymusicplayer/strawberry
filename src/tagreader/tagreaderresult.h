@@ -41,4 +41,4 @@ class TagReaderResult {
   QString error_string() const;
 };
 
-#endif // TAGREADERRESULT_H
+#endif  // TAGREADERRESULT_H

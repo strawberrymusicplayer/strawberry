@@ -61,8 +61,8 @@ Q_DECLARE_METATYPE(MprisPlaylist)
 Q_DECLARE_METATYPE(MprisPlaylistList)
 
 #ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Warray-bounds"
+#  pragma GCC diagnostic push
+#  pragma GCC diagnostic ignored "-Warray-bounds"
 #endif
 
 struct MaybePlaylist {
@@ -72,7 +72,7 @@ struct MaybePlaylist {
 Q_DECLARE_METATYPE(MaybePlaylist)
 
 #ifdef __GNUC__
-#pragma GCC diagnostic pop
+#  pragma GCC diagnostic pop
 #endif
 
 QDBusArgument &operator<<(QDBusArgument &arg, const MprisPlaylist &playlist);
@@ -254,7 +254,6 @@ class Mpris2 : public QObject {
 
   QString desktopfilepath_;
   QVariantMap last_metadata_;
-
 };
 
 }  // namespace mpris

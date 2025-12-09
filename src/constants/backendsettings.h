@@ -63,6 +63,6 @@ constexpr qint64 kDefaultBufferDuration = 4000;
 constexpr double kDefaultBufferLowWatermark = 0.33;
 constexpr double kDefaultBufferHighWatermark = 0.99;
 
-}  // namespace
+}  // namespace BackendSettings
 
 #endif  // BACKENDSETTINGS_H

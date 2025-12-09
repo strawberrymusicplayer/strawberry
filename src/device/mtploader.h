@@ -64,7 +64,6 @@ class MtpLoader : public QObject {
   ScopedPtr<MtpConnection> connection_;
   QThread *original_thread_;
   bool abort_;
-
 };
 
 #endif  // MTPLOADER_H

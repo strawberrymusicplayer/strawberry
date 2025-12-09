@@ -84,7 +84,7 @@ class FancyTabWidget : public QTabWidget {
   void CurrentTabChangedSlot(const int idx);
 
  protected:
-  void paintEvent(QPaintEvent*) override;
+  void paintEvent(QPaintEvent *e) override;
   void contextMenuEvent(QContextMenuEvent *e) override;
 
  private:

@@ -128,7 +128,6 @@ class Database : public QObject {
   int startup_schema_version_;
 
   QThread *original_thread_;
-
 };
 
 #endif  // DATABASE_H

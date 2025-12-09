@@ -43,6 +43,6 @@ constexpr char kCredentialsId[] = "credentials_id";
 constexpr char kDeviceId[] = "device_id";
 constexpr char kUserAuthToken[] = "user_auth_token";
 
-}  // namespace
+}  // namespace QobuzSettings
 
 #endif  // QOBUZSETTINGS_H

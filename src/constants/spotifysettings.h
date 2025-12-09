@@ -38,6 +38,6 @@ constexpr char kRefreshToken[] = "refresh_token";
 constexpr char kExpiresIn[] = "expires_in";
 constexpr char kLoginTime[] = "login_time";
 
-}  // namespace
+}  // namespace SpotifySettings
 
 #endif  // SPOTIFYSETTINGS_H

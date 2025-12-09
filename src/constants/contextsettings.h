@@ -43,6 +43,6 @@ constexpr char kSettingsSummaryFmt[] = "SummaryFmt";
 constexpr char kDefaultFontFamily[] = "Noto Sans";
 constexpr qreal kDefaultFontSizeHeadline = 11;
 
-}  // namespace
+}  // namespace ContextSettings
 
 #endif  // CONTEXTSETTINGS_H

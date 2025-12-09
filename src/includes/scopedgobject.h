@@ -53,7 +53,7 @@ class ScopedGObject {
   }
 
   T *get() const { return object_; }
-  operator T*() const { return get(); }
+  operator T *() const { return get(); }
   T *operator*() const { return get(); }
   operator bool() const { return get(); }
 

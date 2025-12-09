@@ -60,7 +60,7 @@ SavePlaylistsDialog::~SavePlaylistsDialog() {
 
 void SavePlaylistsDialog::SelectPath() {
 
-  const QString path = QFileDialog::getExistingDirectory(nullptr, tr("Select directory for the playlists"),  ui_->lineedit_path->text(), QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+  const QString path = QFileDialog::getExistingDirectory(nullptr, tr("Select directory for the playlists"), ui_->lineedit_path->text(), QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 
   if (path.isEmpty()) return;
 

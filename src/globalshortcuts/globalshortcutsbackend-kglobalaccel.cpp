@@ -43,7 +43,7 @@ using namespace Qt::Literals::StringLiterals;
 namespace {
 constexpr char kKGlobalAccelService[] = "org.kde.kglobalaccel";
 constexpr char kKGlobalAccelPath[] = "/kglobalaccel";
-}
+}  // namespace
 
 GlobalShortcutsBackendKGlobalAccel::GlobalShortcutsBackendKGlobalAccel(GlobalShortcutsManager *manager, QObject *parent)
     : GlobalShortcutsBackend(manager, GlobalShortcutsBackend::Type::KGlobalAccel, parent),

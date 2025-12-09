@@ -54,7 +54,6 @@ class JsonLyricsProvider : public LyricsProvider {
   virtual JsonObjectResult GetJsonObject(QNetworkReply *reply);
   virtual QJsonValue GetJsonValue(const QJsonObject &json_object, const QString &name);
   virtual QJsonArray GetJsonArray(const QJsonObject &json_object, const QString &name);
-
 };
 
 #endif  // JSONLYRICSPROVIDER_H

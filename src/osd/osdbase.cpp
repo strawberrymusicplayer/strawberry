@@ -346,7 +346,7 @@ void OSDBase::ShowMessage(const QString &summary, const QString &message, const 
       case OSDSettings::Type::Disabled:
         if (!force_show_next_) break;
         force_show_next_ = false;
-      [[fallthrough]];
+        [[fallthrough]];
       case OSDSettings::Type::Pretty:
         pretty_popup_->ShowMessage(summary, message, image);
         break;

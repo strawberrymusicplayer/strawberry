@@ -54,7 +54,7 @@ class VolumeSlider : public SliderSlider {
   virtual void paletteChange(const QPalette &palette);
   void slideEvent(QMouseEvent *e) override;
   void contextMenuEvent(QContextMenuEvent *e) override;
-  void mousePressEvent(QMouseEvent*) override;
+  void mousePressEvent(QMouseEvent *e) override;
   void wheelEvent(QWheelEvent *e) override;
 
  private Q_SLOTS:

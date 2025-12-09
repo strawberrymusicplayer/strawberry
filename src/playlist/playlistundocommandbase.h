@@ -36,4 +36,4 @@ class PlaylistUndoCommandBase : public QUndoCommand {
   Playlist *playlist_;
 };
 
-#endif // PLAYLISTUNDOCOMMANDBASE_H
+#endif  // PLAYLISTUNDOCOMMANDBASE_H

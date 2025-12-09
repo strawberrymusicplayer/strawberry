@@ -35,6 +35,6 @@ constexpr char kStripRemastered[] = "strip_remastered";
 constexpr char kSources[] = "sources";
 constexpr char kUserToken[] = "user_token";
 
-}  // namespace
+}  // namespace ScrobblerSettings
 
 #endif  // SCROBBLERSETTINGS_H

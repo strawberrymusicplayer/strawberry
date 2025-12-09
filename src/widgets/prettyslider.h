@@ -40,8 +40,8 @@ class PrettySlider : public SliderSlider {
   explicit PrettySlider(const Qt::Orientation orientation, const SliderMode mode, QWidget *parent, const uint max = 0);
 
  protected:
-  void slideEvent(QMouseEvent*) override;
-  void mousePressEvent(QMouseEvent*) override;
+  void slideEvent(QMouseEvent *e) override;
+  void mousePressEvent(QMouseEvent *e) override;
 
  private:
   PrettySlider(const PrettySlider&);             // undefined

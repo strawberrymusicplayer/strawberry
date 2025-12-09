@@ -32,4 +32,4 @@ class SaveTagCoverData {
   QString cover_mimetype;
 };
 
-#endif // SAVETAGCOVERDATA_H
+#endif  // SAVETAGCOVERDATA_H

@@ -58,5 +58,4 @@ AlbumCoverLoaderOptions::Types AlbumCoverLoaderOptions::LoadTypes() {
   s.endGroup();
 
   return cover_types;
-
 }
