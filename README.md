@@ -66,7 +66,7 @@ Supporting open-source developers helps ensure continued maintenance and improve
 - Loudness analysis and EBU R128 normalization
 - Editing tags and fetching missing tags via [MusicBrainz](https://musicbrainz.org/)
 - Album art from: [Last.fm](https://www.last.fm/), [MusicBrainz](https://musicbrainz.org/), [Discogs](https://www.discogs.com/), [Musixmatch](https://www.musixmatch.com/), [Deezer](https://www.deezer.com/), [Tidal](https://www.tidal.com/), [Qobuz](https://www.qobuz.com/), [Spotify](https://www.spotify.com/)
-- Lyrics from: [Genius](https://genius.com/), [Musixmatch](https://www.musixmatch.com/), [ChartLyrics](http://www.chartlyrics.com/), [lyrics.ovh](https://lyrics.ovh/), [lololyrics](https://www.lololyrics.com/), [songlyrics](https://www.songlyrics.com/), [azlyrics](https://www.azlyrics.com/), [elyrics](https://www.elyrics.net/), [letras](https://www.letras.mus.br), [LyricFind](https://lyrics.lyricfind.com)
+- Lyrics from: [Genius](https://genius.com/), [Musixmatch](https://www.musixmatch.com/), [ChartLyrics](http://www.chartlyrics.com/), [lyrics.ovh](https://lyrics.ovh/), [lololyrics](https://www.lololyrics.com/), [songlyrics](https://www.songlyrics.com/), [azlyrics](https://www.azlyrics.com/), [elyrics](https://www.elyrics.net/), [letras](https://www.letras.mus.br), [LyricFind](https://lyrics.lyricfind.com) and [lrclib.net](https://lrclib.net/)
 - Audio analyzer and equalizer
 - Transfer music to USB, MTP and iPod devices
 - Scrobbling to [Last.fm](https://www.last.fm/) and [ListenBrainz](https://listenbrainz.org/)
