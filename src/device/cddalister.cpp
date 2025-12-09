@@ -159,3 +159,11 @@ bool CDDALister::Init() {
   return true;
 
 }
+
+bool CDDALister::AskForScan(const QString &id) const {
+
+  Q_UNUSED(id)
+
+  return false;
+
+}

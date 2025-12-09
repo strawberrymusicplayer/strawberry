@@ -47,7 +47,7 @@ class CDDALister : public DeviceLister {
   quint64 DeviceCapacity(const QString &id) override;
   quint64 DeviceFreeSpace(const QString &id) override;
   QVariantMap DeviceHardwareInfo(const QString &id) override;
-  bool AskForScan(const QString &id) const override { return false; }
+  bool AskForScan(const QString &id) const override;
   QString MakeFriendlyName(const QString &id) override;
   QList<QUrl> MakeDeviceUrls(const QString &id) override;
   void UnmountDevice(const QString &id) override;
