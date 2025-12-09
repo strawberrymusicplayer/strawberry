@@ -9,35 +9,35 @@
     </message>
     <message>
       <source>About Strawberry</source>
-      <translation type="unfinished">About Strawberry</translation>
+      <translation>Giới thiệu về Strawberry</translation>
     </message>
     <message>
       <source>Version %1</source>
-      <translation type="unfinished">Version %1</translation>
+      <translation>Phiên bản %1</translation>
     </message>
     <message>
       <source>Strawberry is a music player and music collection organizer.</source>
-      <translation type="unfinished">Strawberry is a music player and music collection organizer.</translation>
+      <translation>Strawberry là một trình phát nhạc và tổ chức sưu tập nhạc.</translation>
     </message>
     <message>
       <source>It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles.</source>
-      <translation type="unfinished">It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles.</translation>
+      <translation>Nó là một nhánh của Clementine được phát hành vào năm 2018 nhằm vào những người sưu tập âm nhạc và những người đam mê âm thanh.</translation>
     </message>
     <message>
       <source>Strawberry is free software released under GPL. The source code is available on %1</source>
-      <translation type="unfinished">Strawberry is free software released under GPL. The source code is available on %1</translation>
+      <translation>Strawberry là phần mềm miễn phí được phát hành theo GPL. Mã nguồn có sẵn trên %1</translation>
     </message>
     <message>
       <source>You should have received a copy of the GNU General Public License along with this program.  If not, see %1</source>
-      <translation type="unfinished">You should have received a copy of the GNU General Public License along with this program.  If not, see %1</translation>
+      <translation>Bạn hẳn đã nhận được một bản sao Giấy phép Công cộng GNU cùng với chương trình này.  Nếu không, hãy xem %1</translation>
     </message>
     <message>
       <source>If you like Strawberry and can make use of it, consider sponsoring or donating.</source>
-      <translation type="unfinished">If you like Strawberry and can make use of it, consider sponsoring or donating.</translation>
+      <translation>Nếu bạn thích Strawberry và có thể sử dụng được thì hãy cân nhắc tài trợ hoặc quyên góp.</translation>
     </message>
     <message>
       <source>You can sponsor the author on %1. You can also make a one-time payment through %2.</source>
-      <translation type="unfinished">You can sponsor the author on %1. You can also make a one-time payment through %2.</translation>
+      <translation>Bạn có thể tài trợ cho tác giả trên %1. Bạn cũng có thể thực hiện thanh toán một lần thông qua %2.</translation>
     </message>
     <message>
       <source>Author and maintainer</source>
