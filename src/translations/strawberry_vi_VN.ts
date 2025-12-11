@@ -49,15 +49,15 @@
     </message>
     <message>
       <source>Clementine authors</source>
-      <translation type="unfinished">Clementine authors</translation>
+      <translation>Tác giả Clementine</translation>
     </message>
     <message>
       <source>Clementine contributors</source>
-      <translation type="unfinished">Clementine contributors</translation>
+      <translation>Người đóng góp Clementine</translation>
     </message>
     <message>
       <source>Thanks to</source>
-      <translation type="unfinished">Thanks to</translation>
+      <translation>Lời cảm ơn đến</translation>
     </message>
     <message>
       <source>Thanks to all the other Amarok and Clementine contributors.</source>
@@ -68,50 +68,50 @@
     <name>AddStreamDialog</name>
     <message>
       <source>Add Stream</source>
-      <translation type="unfinished">Add Stream</translation>
+      <translation>Thêm luồng</translation>
     </message>
     <message>
       <source>Enter the URL of a stream:</source>
-      <translation type="unfinished">Enter the URL of a stream:</translation>
+      <translation>Nhập URL của stream:</translation>
     </message>
   </context>
   <context>
     <name>AlbumCoverChoiceController</name>
     <message>
       <source>Load cover from disk...</source>
-      <translation type="unfinished">Load cover from disk...</translation>
+      <translation>Tải bìa từ đĩa...</translation>
     </message>
     <message>
       <source>Save cover to disk...</source>
-      <translation type="unfinished">Save cover to disk...</translation>
+      <translation>Lưu bìa vào đĩa...</translation>
     </message>
     <message>
       <source>Load cover from URL...</source>
-      <translation type="unfinished">Load cover from URL...</translation>
+      <translation>Tải bìa từ URL...</translation>
     </message>
     <message>
       <source>Search for album covers...</source>
-      <translation type="unfinished">Search for album covers...</translation>
+      <translation>Tìm kiếm bìa album...</translation>
     </message>
     <message>
       <source>Unset cover</source>
-      <translation type="unfinished">Unset cover</translation>
+      <translation>Bỏ đặt bìa</translation>
     </message>
     <message>
       <source>Delete cover</source>
-      <translation type="unfinished">Delete cover</translation>
+      <translation>Xoá bìa</translation>
     </message>
     <message>
       <source>Clear cover</source>
-      <translation type="unfinished">Clear cover</translation>
+      <translation>Dọn bìa</translation>
     </message>
     <message>
       <source>Show fullsize...</source>
-      <translation type="unfinished">Show fullsize...</translation>
+      <translation>Hiển thị kích thước đầy đủ...</translation>
     </message>
     <message>
       <source>Search automatically</source>
-      <translation type="unfinished">Search automatically</translation>
+      <translation>Tìm kiếm tự động</translation>
     </message>
     <message>
       <source>Load cover from disk</source>
