@@ -311,134 +311,134 @@
     </message>
     <message>
       <source>Low (%1 fps)</source>
-      <translation type="unfinished">Low (%1 fps)</translation>
+      <translation>Thấp (%1 fps)</translation>
     </message>
     <message>
       <source>Medium (%1 fps)</source>
-      <translation type="unfinished">Medium (%1 fps)</translation>
+      <translation>Trung bình (%1 fps)</translation>
     </message>
     <message>
       <source>High (%1 fps)</source>
-      <translation type="unfinished">High (%1 fps)</translation>
+      <translation>Cao (%1 fps)</translation>
     </message>
     <message>
       <source>Super high (%1 fps)</source>
-      <translation type="unfinished">Super high (%1 fps)</translation>
+      <translation>Rất cao (%1 fps)</translation>
     </message>
     <message>
       <source>No analyzer</source>
-      <translation type="unfinished">No analyzer</translation>
+      <translation>Không có trình phân tích</translation>
     </message>
     <message>
       <source>Block analyzer</source>
-      <translation type="unfinished">Block analyzer</translation>
+      <translation>Chặn trình phân tích</translation>
     </message>
     <message>
       <source>Boom analyzer</source>
-      <translation type="unfinished">Boom analyzer</translation>
+      <translation>Trình phân tích bùng nổ</translation>
     </message>
     <message>
       <source>Turbine</source>
-      <translation type="unfinished">Turbine</translation>
+      <translation>Tua bin</translation>
     </message>
     <message>
       <source>Sonogram</source>
-      <translation type="unfinished">Sonogram</translation>
+      <translation>Siêu âm</translation>
     </message>
     <message>
       <source>WaveRubber</source>
-      <translation type="unfinished">WaveRubber</translation>
+      <translation>Sóng Cao Su</translation>
     </message>
   </context>
   <context>
     <name>AppearanceSettingsPage</name>
     <message>
       <source>Appearance</source>
-      <translation type="unfinished">Appearance</translation>
+      <translation>Giao diện</translation>
     </message>
     <message>
       <source>Style</source>
-      <translation type="unfinished">Style</translation>
+      <translation>Phong cách</translation>
     </message>
     <message>
       <source>Use system theme icons</source>
-      <translation type="unfinished">Use system theme icons</translation>
+      <translation>Sử dụng biểu tượng chủ đề hệ thống</translation>
     </message>
     <message>
       <source>Settings require restart.</source>
-      <translation type="unfinished">Settings require restart.</translation>
+      <translation>Cài đặt yêu cầu khởi động lại.</translation>
     </message>
     <message>
       <source>Tabbar colors</source>
-      <translation type="unfinished">Tabbar colors</translation>
+      <translation>Màu thanh tab</translation>
     </message>
     <message>
       <source>&amp;Use the system default color</source>
-      <translation type="unfinished">&amp;Use the system default color</translation>
+      <translation>&amp;Dùng màu mặc định của hệ thống</translation>
     </message>
     <message>
       <source>Use custom color</source>
-      <translation type="unfinished">Use custom color</translation>
+      <translation>Dùng màu tùy chỉnh</translation>
     </message>
     <message>
       <source>Use gradient background</source>
-      <translation type="unfinished">Use gradient background</translation>
+      <translation>Dùng nền chuyển màu</translation>
     </message>
     <message>
       <source>Select tabbar color:</source>
-      <translation type="unfinished">Select tabbar color:</translation>
+      <translation>Chọn màu thanh tab:</translation>
     </message>
     <message>
       <source>Background image</source>
-      <translation type="unfinished">Background image</translation>
+      <translation>Hình nền</translation>
     </message>
     <message>
       <source>Default bac&amp;kground image</source>
-      <translation type="unfinished">Default bac&amp;kground image</translation>
+      <translation>Hình &amp;nền mặc định</translation>
     </message>
     <message>
       <source>&amp;No background image</source>
-      <translation type="unfinished">&amp;No background image</translation>
+      <translation>&amp;Không có hình nền</translation>
     </message>
     <message>
       <source>The album cover of the currently playing song</source>
-      <translation type="unfinished">The album cover of the currently playing song</translation>
+      <translation>Bìa album của bài nhạc đang phát</translation>
     </message>
     <message>
       <source>Albu&amp;m cover</source>
-      <translation type="unfinished">Albu&amp;m cover</translation>
+      <translation>Bìa albu&amp;m</translation>
     </message>
     <message>
       <source>Custom image:</source>
-      <translation type="unfinished">Custom image:</translation>
+      <translation>Ảnh tuỳ chỉnh:</translation>
     </message>
     <message>
       <source>Browse...</source>
-      <translation type="unfinished">Browse...</translation>
+      <translation>Duyệt...</translation>
     </message>
     <message>
       <source>Position</source>
-      <translation type="unfinished">Position</translation>
+      <translation>Vị trí</translation>
     </message>
     <message>
       <source>Upper Left</source>
-      <translation type="unfinished">Upper Left</translation>
+      <translation>Góc trên bên trái</translation>
     </message>
     <message>
       <source>Upper Right</source>
-      <translation type="unfinished">Upper Right</translation>
+      <translation>Phía trên bên phải</translation>
     </message>
     <message>
       <source>Middle</source>
-      <translation type="unfinished">Middle</translation>
+      <translation>Giữa</translation>
     </message>
     <message>
       <source>Bottom Left</source>
-      <translation type="unfinished">Bottom Left</translation>
+      <translation>Phía dưới bên trái</translation>
     </message>
     <message>
       <source>Bottom Right</source>
-      <translation type="unfinished">Bottom Right</translation>
+      <translation>Phía dưới bên phải</translation>
     </message>
     <message>
       <source>Max cover size</source>
@@ -1067,219 +1067,219 @@
     <message>
       <source>When looking for album art Strawberry will first look for picture files that contain one of these words.
 If there are no matches then it will use the largest image in the directory.</source>
-      <translation type="unfinished">When looking for album art Strawberry will first look for picture files that contain one of these words.
-If there are no matches then it will use the largest image in the directory.</translation>
+      <translation>Khi tìm ảnh bìa album, Strawberry trước tiên sẽ tìm các tệp hình ảnh có chứa một trong những từ này.
+Nếu không có kết quả trùng khớp thì nó sẽ sử dụng hình ảnh lớn nhất trong thư mục.</translation>
     </message>
     <message>
       <source>Display options</source>
-      <translation type="unfinished">Display options</translation>
+      <translation>Tùy chọn hiển thị</translation>
     </message>
     <message>
       <source>Automatically open single categories in the collection tree</source>
-      <translation type="unfinished">Automatically open single categories in the collection tree</translation>
+      <translation>Tự động mở các danh mục riêng lẻ trong cây bộ sưu tập</translation>
     </message>
     <message>
       <source>Show dividers</source>
-      <translation type="unfinished">Show dividers</translation>
+      <translation>Hiện dải phân cách</translation>
     </message>
     <message>
       <source>Show album cover art in collection</source>
-      <translation type="unfinished">Show album cover art in collection</translation>
+      <translation>Hiện ảnh bìa album trong bộ sưu tập</translation>
     </message>
     <message>
       <source>Use various artists for compilation albums</source>
-      <translation type="unfinished">Use various artists for compilation albums</translation>
+      <translation>Dùng nhiều nghệ sĩ khác nhau cho album tổng hợp</translation>
     </message>
     <message>
       <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artist names</source>
-      <translation type="unfinished">Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artist names</translation>
+      <translation>Bỏ qua các bài viết hàng đầu (&quot; &quot;, &quot; &quot;, &quot; &quot;) khi sắp xếp tên nghệ sĩ</translation>
     </message>
     <message>
       <source>Album cover pixmap cache</source>
-      <translation type="unfinished">Album cover pixmap cache</translation>
+      <translation>Bộ nhớ đệm pixmap bìa album</translation>
     </message>
     <message>
       <source>Size</source>
-      <translation type="unfinished">Size</translation>
+      <translation>Kích thước</translation>
     </message>
     <message>
       <source>Enable Disk Cache</source>
-      <translation type="unfinished">Enable Disk Cache</translation>
+      <translation>Bật bộ nhớ đệm đĩa</translation>
     </message>
     <message>
       <source>Disk Cache Size</source>
-      <translation type="unfinished">Disk Cache Size</translation>
+      <translation>Kích thước bộ nhớ đệm đĩa</translation>
     </message>
     <message>
       <source>Current disk cache in use:</source>
-      <translation type="unfinished">Current disk cache in use:</translation>
+      <translation>Bộ nhớ đệm đĩa hiện tại đang được sử dụng:</translation>
     </message>
     <message>
       <source>Clear Disk Cache</source>
-      <translation type="unfinished">Clear Disk Cache</translation>
+      <translation>Xóa bộ nhớ đệm trên đĩa</translation>
     </message>
     <message>
       <source>Song playcounts and ratings</source>
-      <translation type="unfinished">Song playcounts and ratings</translation>
+      <translation>Số lượt phát và xếp hạng bài nhạc</translation>
     </message>
     <message>
       <source>Save playcounts to song tags when possible</source>
-      <translation type="unfinished">Save playcounts to song tags when possible</translation>
+      <translation>Lưu số lượt phát vào thẻ bài hát khi có thể</translation>
     </message>
     <message>
       <source>Save ratings to song tags when possible</source>
-      <translation type="unfinished">Save ratings to song tags when possible</translation>
+      <translation>Lưu xếp hạng vào thẻ bài nhạc khi có thể</translation>
     </message>
     <message>
       <source>Overwrite database playcount when songs are re-read from disk</source>
-      <translation type="unfinished">Overwrite database playcount when songs are re-read from disk</translation>
+      <translation>Ghi đè số lần phát cơ sở dữ liệu khi bài hát được đọc lại từ đĩa</translation>
     </message>
     <message>
       <source>Overwrite database rating when songs are re-read from disk</source>
-      <translation type="unfinished">Overwrite database rating when songs are re-read from disk</translation>
+      <translation>Ghi đè xếp hạng cơ sở dữ liệu khi bài hát được đọc lại từ đĩa</translation>
     </message>
     <message>
       <source>Save playcounts and ratings to files now</source>
-      <translation type="unfinished">Save playcounts and ratings to files now</translation>
+      <translation>Lưu số lượt phát và xếp hạng vào tệp ngay bây giờ</translation>
     </message>
     <message>
       <source>Enable delete files in the right click context menu</source>
-      <translation type="unfinished">Enable delete files in the right click context menu</translation>
+      <translation>Cho phép xóa tệp trong menu ngữ cảnh nhấp chuột phải</translation>
     </message>
     <message>
       <source>Add directory...</source>
-      <translation type="unfinished">Add directory...</translation>
+      <translation>Thêm thư mục...</translation>
     </message>
     <message>
       <source>Write all playcounts and ratings to files</source>
-      <translation type="unfinished">Write all playcounts and ratings to files</translation>
+      <translation>Viết tất cả số lượt phát và xếp hạng vào tệp</translation>
     </message>
     <message>
       <source>Are you sure you want to write song playcounts and ratings to file for all songs in your collection?</source>
-      <translation type="unfinished">Are you sure you want to write song playcounts and ratings to file for all songs in your collection?</translation>
+      <translation>Bạn có chắc chắn muốn ghi số lượt phát bài hát và xếp hạng vào tệp cho tất cả các bài nhạc trong bộ sưu tập của mình không?</translation>
     </message>
   </context>
   <context>
     <name>CollectionView</name>
     <message>
       <source>Your collection is empty!</source>
-      <translation type="unfinished">Your collection is empty!</translation>
+      <translation>Bộ sưu tập của bạn trống rỗng!</translation>
     </message>
     <message>
       <source>Click here to add some music</source>
-      <translation type="unfinished">Click here to add some music</translation>
+      <translation>Nhấn vào đây để thêm nhạc</translation>
     </message>
     <message>
       <source>Append to current playlist</source>
-      <translation type="unfinished">Append to current playlist</translation>
+      <translation>Thêm vào danh sách phát hiện tại</translation>
     </message>
     <message>
       <source>Replace current playlist</source>
-      <translation type="unfinished">Replace current playlist</translation>
+      <translation>Thay thế danh sách phát hiện tại</translation>
     </message>
     <message>
       <source>Open in new playlist</source>
-      <translation type="unfinished">Open in new playlist</translation>
+      <translation>Mở trong danh sách phát mới</translation>
     </message>
     <message>
       <source>Queue track</source>
-      <translation type="unfinished">Queue track</translation>
+      <translation>Hàng chờ bài nhạc</translation>
     </message>
     <message>
       <source>Queue to play next</source>
-      <translation type="unfinished">Queue to play next</translation>
+      <translation>Hàng chờ để phát tiếp theo</translation>
     </message>
     <message>
       <source>Search for this</source>
-      <translation type="unfinished">Search for this</translation>
+      <translation>Tìm kiếm cái này</translation>
     </message>
     <message>
       <source>Organize files...</source>
-      <translation type="unfinished">Organize files...</translation>
+      <translation>Tổ chức tệp...</translation>
     </message>
     <message>
       <source>Copy to device...</source>
-      <translation type="unfinished">Copy to device...</translation>
+      <translation>Sao chép vào thiết bị...</translation>
     </message>
     <message>
       <source>Delete from disk...</source>
-      <translation type="unfinished">Delete from disk...</translation>
+      <translation>Xoá khỏi đĩa...</translation>
     </message>
     <message>
       <source>Edit track information...</source>
-      <translation type="unfinished">Edit track information...</translation>
+      <translation>Chỉnh sửa thông tin bài nhạc...</translation>
     </message>
     <message>
       <source>Edit tracks information...</source>
-      <translation type="unfinished">Edit tracks information...</translation>
+      <translation>Chỉnh sửa thông tin các bài nhạc...</translation>
     </message>
     <message>
       <source>Show in file browser...</source>
-      <translation type="unfinished">Show in file browser...</translation>
+      <translation>Hiển thị trong trình duyệt tệp...</translation>
     </message>
     <message>
       <source>Rescan song(s)</source>
-      <translation type="unfinished">Rescan song(s)</translation>
+      <translation>Quét lại (các) bài nhạc</translation>
     </message>
     <message>
       <source>Show in various artists</source>
-      <translation type="unfinished">Show in various artists</translation>
+      <translation>Hiện trong nhiều nghệ sĩ khác nhau</translation>
     </message>
     <message>
       <source>Don&apos;t show in various artists</source>
-      <translation type="unfinished">Don&apos;t show in various artists</translation>
+      <translation>Không hiện ở nhiều nghệ sĩ khác nhau</translation>
     </message>
     <message>
       <source>There are other songs in this album</source>
-      <translation type="unfinished">There are other songs in this album</translation>
+      <translation>Có những bài nhạc khác trong album này</translation>
     </message>
     <message>
       <source>Would you like to move the other songs on this album to Various Artists as well?</source>
-      <translation type="unfinished">Would you like to move the other songs on this album to Various Artists as well?</translation>
+      <translation>Bạn có muốn chuyển các bài hát khác trong album này sang các nghệ sĩ khác nhau không?</translation>
     </message>
     <message>
       <source>Error</source>
-      <translation type="unfinished">Error</translation>
+      <translation>Lỗi</translation>
     </message>
     <message>
       <source>None of the selected songs were suitable for copying to a device</source>
-      <translation type="unfinished">None of the selected songs were suitable for copying to a device</translation>
+      <translation>Không có bài nhạc nào được chọn phù hợp để sao chép vào thiết bị</translation>
     </message>
   </context>
   <context>
     <name>CollectionViewContainer</name>
     <message>
       <source>Form</source>
-      <translation type="unfinished">Form</translation>
+      <translation>Mẫu</translation>
     </message>
   </context>
   <context>
     <name>CollectionWatcher</name>
     <message>
       <source>Updating collection</source>
-      <translation type="unfinished">Updating collection</translation>
+      <translation>Đang cập nhật bộ sưu tập</translation>
     </message>
     <message>
       <source>Updating %1</source>
-      <translation type="unfinished">Updating %1</translation>
+      <translation>Đang cập nhật %1</translation>
     </message>
   </context>
   <context>
     <name>Console</name>
     <message>
       <source>Console</source>
-      <translation type="unfinished">Console</translation>
+      <translation>Bảng điều khiển</translation>
     </message>
     <message>
       <source>Run</source>
-      <translation type="unfinished">Run</translation>
+      <translation>Chạy</translation>
     </message>
   </context>
   <context>
     <name>ContextSettingsPage</name>
     <message>
       <source>Context</source>
-      <translation type="unfinished">Context</translation>
+      <translation>Ngữ cảnh</translation>
     </message>
     <message>
       <source>Custom text settings</source>
@@ -1560,77 +1560,77 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Total albums:</source>
-      <translation type="unfinished">Total albums:</translation>
+      <translation>Tổng số album:</translation>
     </message>
     <message>
       <source>Without cover:</source>
-      <translation type="unfinished">Without cover:</translation>
+      <translation>Không có ảnh bìa:</translation>
     </message>
     <message>
       <source>0</source>
-      <translation type="unfinished">0</translation>
+      <translation>0</translation>
     </message>
     <message>
       <source>Fetch Missing Covers</source>
-      <translation type="unfinished">Fetch Missing Covers</translation>
+      <translation>Tải ảnh bìa bị thiếu</translation>
     </message>
     <message>
       <source>Export Covers</source>
-      <translation type="unfinished">Export Covers</translation>
+      <translation>Xuất ảnh bìa</translation>
     </message>
     <message>
       <source>Fetch automatically</source>
-      <translation type="unfinished">Fetch automatically</translation>
+      <translation>Tải tự động</translation>
     </message>
     <message>
       <source>Load</source>
-      <translation type="unfinished">Load</translation>
+      <translation>Tải</translation>
     </message>
     <message>
       <source>Add to playlist</source>
-      <translation type="unfinished">Add to playlist</translation>
+      <translation>Thêm vào danh sách phát</translation>
     </message>
   </context>
   <context>
     <name>CoverSearchStatisticsDialog</name>
     <message>
       <source>Fetch completed</source>
-      <translation type="unfinished">Fetch completed</translation>
+      <translation>Tải hoàn tất</translation>
     </message>
     <message>
       <source>Got %1 covers out of %2 (%3 failed)</source>
-      <translation type="unfinished">Got %1 covers out of %2 (%3 failed)</translation>
+      <translation>Đã nhận được %1 trong số %2 (%3 không thành công)</translation>
     </message>
     <message>
       <source>Covers from %1</source>
-      <translation type="unfinished">Covers from %1</translation>
+      <translation>Ảnh bìa từ %1</translation>
     </message>
     <message>
       <source>Total network requests made</source>
-      <translation type="unfinished">Total network requests made</translation>
+      <translation>Tổng số yêu cầu mạng được thực hiện</translation>
     </message>
     <message>
       <source>Average image size</source>
-      <translation type="unfinished">Average image size</translation>
+      <translation>Kích thước hình ảnh trung bình</translation>
     </message>
     <message>
       <source>Total bytes transferred</source>
-      <translation type="unfinished">Total bytes transferred</translation>
+      <translation>Tổng số byte được chuyển</translation>
     </message>
   </context>
   <context>
     <name>CoversSettingsPage</name>
     <message>
       <source>Covers</source>
-      <translation type="unfinished">Covers</translation>
+      <translation>Ảnh bìa</translation>
     </message>
     <message>
       <source>Cover providers</source>
-      <translation type="unfinished">Cover providers</translation>
+      <translation>Trình cung cấp ảnh bìa</translation>
     </message>
     <message>
       <source>Choose the providers you want to use when searching for covers.</source>
-      <translation type="unfinished">Choose the providers you want to use when searching for covers.</translation>
+      <translation>Chọn trình cung cấp bạn muốn sử dụng khi tìm kiếm ảnh bìa.</translation>
     </message>
     <message>
       <source>Move up</source>
