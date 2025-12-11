@@ -645,134 +645,134 @@
     </message>
     <message>
       <source>Apply compression to prevent clipping</source>
-      <translation type="unfinished">Apply compression to prevent clipping</translation>
+      <translation>Áp dụng nén để ngăn chặn việc cắt</translation>
     </message>
     <message>
       <source>Fallback-gain</source>
-      <translation type="unfinished">Fallback-gain</translation>
+      <translation>Dự phòng-tăng</translation>
     </message>
     <message>
       <source>EBU R 128 Loudness Normalization</source>
-      <translation type="unfinished">EBU R 128 Loudness Normalization</translation>
+      <translation>Chuẩn hóa âm lượng EBU R 128</translation>
     </message>
     <message>
       <source>Perform track loudness normalization</source>
-      <translation type="unfinished">Perform track loudness normalization</translation>
+      <translation>Thực hiện chuẩn hóa âm lượng của bản nhạc</translation>
     </message>
     <message>
       <source>Target Level</source>
-      <translation type="unfinished">Target Level</translation>
+      <translation>Cấp độ mục tiêu</translation>
     </message>
     <message>
       <source>Fading</source>
-      <translation type="unfinished">Fading</translation>
+      <translation>Giảm dần</translation>
     </message>
     <message>
       <source>Fade out when stopping a track</source>
-      <translation type="unfinished">Fade out when stopping a track</translation>
+      <translation>Giảm dần khi dừng một bản nhạc</translation>
     </message>
     <message>
       <source>Cross-fade when changing tracks manually</source>
-      <translation type="unfinished">Cross-fade when changing tracks manually</translation>
+      <translation>Làm phai dần chéo khi thay đổi bản nhạc theo cách thủ công</translation>
     </message>
     <message>
       <source>Cross-fade when changing tracks automatically</source>
-      <translation type="unfinished">Cross-fade when changing tracks automatically</translation>
+      <translation>Làm phai dần chéo khi tự động thay đổi bản nhạc</translation>
     </message>
     <message>
       <source>Except between tracks on the same album or in the same CUE sheet</source>
-      <translation type="unfinished">Except between tracks on the same album or in the same CUE sheet</translation>
+      <translation>Ngoại trừ giữa các bài nhạc trong cùng một album hoặc trong cùng một bảng CUE</translation>
     </message>
     <message>
       <source>Fading duration</source>
-      <translation type="unfinished">Fading duration</translation>
+      <translation>Thời lượng phai dần</translation>
     </message>
     <message>
       <source>Fade out on pause / fade in on resume</source>
-      <translation type="unfinished">Fade out on pause / fade in on resume</translation>
+      <translation>Giản dần khi tạm dừng / tăng dần khi tiếp tục</translation>
     </message>
   </context>
   <context>
     <name>BehaviourSettingsPage</name>
     <message>
       <source>Behavior</source>
-      <translation type="unfinished">Behavior</translation>
+      <translation>Hành vi</translation>
     </message>
     <message>
       <source>Show system tray icon</source>
-      <translation type="unfinished">Show system tray icon</translation>
+      <translation>Hiện biểu tượng khay hệ thống</translation>
     </message>
     <message>
       <source>Keep running in the background when the window is closed</source>
-      <translation type="unfinished">Keep running in the background when the window is closed</translation>
+      <translation>Tiếp tục chạy ở chế độ nền khi cửa sổ đóng</translation>
     </message>
     <message>
       <source>Show song progress on system tray icon</source>
-      <translation type="unfinished">Show song progress on system tray icon</translation>
+      <translation>Hiện tiến trình bài hát trên biểu tượng khay hệ thống</translation>
     </message>
     <message>
       <source>Show song progress on taskbar</source>
-      <translation type="unfinished">Show song progress on taskbar</translation>
+      <translation>Hiện tiến trình bài hát trên thanh tác vụ</translation>
     </message>
     <message>
       <source>Resume playback on start</source>
-      <translation type="unfinished">Resume playback on start</translation>
+      <translation>Tiếp tục phát lại khi bắt đầu</translation>
     </message>
     <message>
       <source>Show playing widget</source>
-      <translation type="unfinished">Show playing widget</translation>
+      <translation>Hiển thị tiện ích đang phát</translation>
     </message>
     <message>
       <source>On startup</source>
-      <translation type="unfinished">On startup</translation>
+      <translation>Khi khởi động</translation>
     </message>
     <message>
       <source>Remember from &amp;last time</source>
-      <translation type="unfinished">Remember from &amp;last time</translation>
+      <translation>Nhớ từ &amp;lần trước</translation>
     </message>
     <message>
       <source>Show the main window</source>
-      <translation type="unfinished">Show the main window</translation>
+      <translation>Hiển thị cửa sổ chính</translation>
     </message>
     <message>
       <source>Hide the main window</source>
-      <translation type="unfinished">Hide the main window</translation>
+      <translation>Ẩn cửa sổ chính</translation>
     </message>
     <message>
       <source>Show the main window maximized</source>
-      <translation type="unfinished">Show the main window maximized</translation>
+      <translation>Hiển thị cửa sổ chính ở mức tối đa</translation>
     </message>
     <message>
       <source>Show the main window minimized</source>
-      <translation type="unfinished">Show the main window minimized</translation>
+      <translation>Hiển thị cửa sổ chính ở mức thu nhỏ</translation>
     </message>
     <message>
       <source>Language</source>
-      <translation type="unfinished">Language</translation>
+      <translation>Ngôn ngữ</translation>
     </message>
     <message>
       <source>Use the system default</source>
-      <translation type="unfinished">Use the system default</translation>
+      <translation>Dùng mặc định hệ thống</translation>
     </message>
     <message>
       <source>You will need to restart Strawberry if you change the language.</source>
-      <translation type="unfinished">You will need to restart Strawberry if you change the language.</translation>
+      <translation>Bạn sẽ cần phải khởi động lại Strawberry nếu thay đổi ngôn ngữ.</translation>
     </message>
     <message>
       <source>Using the menu to add a song will...</source>
-      <translation type="unfinished">Using the menu to add a song will...</translation>
+      <translation>Dùng menu để thêm bài hát sẽ...</translation>
     </message>
     <message>
       <source>Never start playing</source>
-      <translation type="unfinished">Never start playing</translation>
+      <translation>Không bao giờ bắt đầu chơi</translation>
     </message>
     <message>
       <source>Play if there is nothing already playing</source>
-      <translation type="unfinished">Play if there is nothing already playing</translation>
+      <translation>Chơi nếu chưa có gì đang chơi</translation>
     </message>
     <message>
       <source>Always start playing</source>
-      <translation type="unfinished">Always start playing</translation>
+      <translation>Bắt đầu phát luôn</translation>
     </message>
     <message>
       <source>Pressing &quot;Previous&quot; in player will...</source>
