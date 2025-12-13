@@ -249,6 +249,13 @@ If there are no matches then it will use the largest image in the directory.</st
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="QCheckBox" name="checkbox_use_sort_tags">
+        <property name="text">
+         <string>Use sort tags for sorting when available</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>

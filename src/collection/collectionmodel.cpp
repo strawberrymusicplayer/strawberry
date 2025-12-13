@@ -212,6 +212,7 @@ void CollectionModel::ReloadSettings() {
   const bool show_various_artists = settings.value(CollectionSettings::kVariousArtists, true).toBool();
   const bool sort_skip_articles_for_artists = settings.value(CollectionSettings::kSkipArticlesForArtists, true).toBool();
   const bool sort_skip_articles_for_albums = settings.value(CollectionSettings::kSkipArticlesForAlbums, false).toBool();
+  const bool use_sort_tags = settings.value(CollectionSettings::kUseSortTags, true).toBool();
 
   use_disk_cache_ = settings.value(CollectionSettings::kSettingsDiskCacheEnable, false).toBool();
   QPixmapCache::setCacheLimit(static_cast<int>(MaximumCacheSize(&settings, CollectionSettings::kSettingsCacheSize, CollectionSettings::kSettingsCacheSizeUnit, CollectionSettings::kSettingsCacheSizeDefault) / 1024));
@@ -227,12 +228,14 @@ void CollectionModel::ReloadSettings() {
       show_dividers != options_current_.show_dividers ||
       show_various_artists != options_current_.show_various_artists ||
       sort_skip_articles_for_artists != options_current_.sort_skip_articles_for_artists ||
-      sort_skip_articles_for_albums != options_current_.sort_skip_articles_for_albums) {
+      sort_skip_articles_for_albums != options_current_.sort_skip_articles_for_albums ||
+      use_sort_tags != options_current_.use_sort_tags) {
     options_current_.show_pretty_covers = show_pretty_covers;
     options_current_.show_dividers = show_dividers;
     options_current_.show_various_artists = show_various_artists;
     options_current_.sort_skip_articles_for_artists = sort_skip_articles_for_artists;
     options_current_.sort_skip_articles_for_albums = sort_skip_articles_for_albums;
+    options_current_.use_sort_tags = use_sort_tags;
     ScheduleReset();
   }
 
@@ -705,7 +708,7 @@ CollectionItem *CollectionModel::CreateContainerItem(const GroupBy group_by, con
 
   QString divider_key;
   if (options_active_.show_dividers && container_level == 0) {
-    divider_key = DividerKey(group_by, song, SortText(group_by, song, options_active_.sort_skip_articles_for_artists, options_active_.sort_skip_articles_for_albums));
+    divider_key = DividerKey(group_by, song, SortText(group_by, song, options_active_.sort_skip_articles_for_artists, options_active_.sort_skip_articles_for_albums, options_active_.use_sort_tags));
     if (!divider_key.isEmpty()) {
       if (!divider_nodes_.contains(divider_key)) {
         CreateDividerItem(divider_key, DividerDisplayText(group_by, divider_key), parent);
@@ -719,7 +722,7 @@ CollectionItem *CollectionModel::CreateContainerItem(const GroupBy group_by, con
   item->container_level = container_level;
   item->container_key = container_key;
   item->display_text = DisplayText(group_by, song);
-  item->sort_text = SortText(group_by, song, options_active_.sort_skip_articles_for_artists, options_active_.sort_skip_articles_for_albums);
+  item->sort_text = SortText(group_by, song, options_active_.sort_skip_articles_for_artists, options_active_.sort_skip_articles_for_albums, options_active_.use_sort_tags);
   if (!divider_key.isEmpty()) {
     item->sort_text.prepend(divider_key + QLatin1Char(' '));
   }
@@ -1074,37 +1077,37 @@ QString CollectionModel::PrettyFormat(const Song &song) {
 
 }
 
-QString CollectionModel::SortText(const GroupBy group_by, const Song &song, const bool sort_skip_articles_for_artists, const bool sort_skip_articles_for_albums) {
+QString CollectionModel::SortText(const GroupBy group_by, const Song &song, const bool sort_skip_articles_for_artists, const bool sort_skip_articles_for_albums, const bool use_sort_tags) {
 
   switch (group_by) {
     case GroupBy::AlbumArtist:
-      return SortTextForName(song.effective_albumartistsort(), sort_skip_articles_for_artists);
+      return SortTextForName(use_sort_tags ? song.effective_albumartistsort() : song.effective_albumartist(), sort_skip_articles_for_artists);
     case GroupBy::Artist:
-      return SortTextForName(song.effective_artistsort(), sort_skip_articles_for_artists);
+      return SortTextForName(use_sort_tags ? song.effective_artistsort() : song.artist(), sort_skip_articles_for_artists);
     case GroupBy::Album:
-      return SortTextForName(song.effective_albumsort(), sort_skip_articles_for_albums);
+      return SortTextForName(use_sort_tags ? song.effective_albumsort() : song.album(), sort_skip_articles_for_albums);
     case GroupBy::AlbumDisc:
-      return SortTextForName(song.effective_albumsort(), sort_skip_articles_for_albums) + SortTextForNumber(std::max(0, song.disc()));
+      return SortTextForName(use_sort_tags ? song.effective_albumsort() : song.album(), sort_skip_articles_for_albums) + SortTextForNumber(std::max(0, song.disc()));
     case GroupBy::YearAlbum:
-      return SortTextForNumber(std::max(0, song.year())) + song.grouping() + SortTextForName(song.effective_albumsort(), sort_skip_articles_for_albums);
+      return SortTextForYear(song.year()) + song.grouping() + SortTextForName(use_sort_tags ? song.effective_albumsort() : song.album(), sort_skip_articles_for_albums);
     case GroupBy::YearAlbumDisc:
-      return SortTextForNumber(std::max(0, song.year())) + SortTextForName(song.effective_albumsort(), sort_skip_articles_for_albums) + SortTextForNumber(std::max(0, song.disc()));
+      return SortTextForYear(song.year()) + SortTextForName(use_sort_tags ? song.effective_albumsort() : song.album(), sort_skip_articles_for_albums) + SortTextForNumber(std::max(0, song.disc()));
     case GroupBy::OriginalYearAlbum:
-      return SortTextForNumber(std::max(0, song.effective_originalyear())) + song.grouping() + SortTextForName(song.effective_albumsort(), sort_skip_articles_for_albums);
+      return SortTextForYear(song.effective_originalyear()) + song.grouping() + SortTextForName(use_sort_tags ? song.effective_albumsort() : song.album(), sort_skip_articles_for_albums);
     case GroupBy::OriginalYearAlbumDisc:
-      return SortTextForNumber(std::max(0, song.effective_originalyear())) + SortTextForName(song.effective_albumsort(), sort_skip_articles_for_albums) + SortTextForNumber(std::max(0, song.disc()));
+      return SortTextForYear(song.effective_originalyear()) + SortTextForName(use_sort_tags ? song.effective_albumsort() : song.album(), sort_skip_articles_for_albums) + SortTextForNumber(std::max(0, song.disc()));
     case GroupBy::Disc:
       return SortTextForNumber(std::max(0, song.disc()));
     case GroupBy::Year:
-      return SortTextForNumber(std::max(0, song.year())) + QLatin1Char(' ');
+      return SortTextForYear(song.year()) + QLatin1Char(' ');
     case GroupBy::OriginalYear:
-      return SortTextForNumber(std::max(0, song.effective_originalyear())) + QLatin1Char(' ');
+      return SortTextForYear(song.effective_originalyear()) + QLatin1Char(' ');
     case GroupBy::Genre:
       return SortText(song.genre());
     case GroupBy::Composer:
-      return SortTextForName(song.effective_composersort(), sort_skip_articles_for_artists);
+      return SortTextForName(use_sort_tags ? song.effective_composersort() : song.composer(), sort_skip_articles_for_artists);
     case GroupBy::Performer:
-      return SortTextForName(song.effective_performersort(), sort_skip_articles_for_artists);
+      return SortTextForName(use_sort_tags ? song.effective_performersort() : song.performer(), sort_skip_articles_for_artists);
     case GroupBy::Grouping:
       return SortText(song.grouping());
     case GroupBy::FileType:
@@ -1162,14 +1165,14 @@ QString CollectionModel::SortTextForSong(const Song &song) {
 
 QString CollectionModel::SortTextForYear(const int year) {
 
-  QString str = QString::number(year);
+  const QString str = QString::number(std::max(year, 0));
   return QStringLiteral("0").repeated(qMax(0, 4 - str.length())) + str;
 
 }
 
 QString CollectionModel::SortTextForBitrate(const int bitrate) {
 
-  QString str = QString::number(bitrate);
+  const QString str = QString::number(bitrate);
   return QStringLiteral("0").repeated(qMax(0, 3 - str.length())) + str;
 
 }
@@ -1206,39 +1209,50 @@ QString CollectionModel::ContainerKey(const GroupBy group_by, const Song &song, 
   switch (group_by) {
     case GroupBy::AlbumArtist:
       key = TextOrUnknown(song.effective_albumartist());
+      if (!song.effective_albumartistsort().isEmpty() && song.effective_albumartistsort() != song.effective_albumartist()) key.append(QLatin1Char('-') + TextOrUnknown(song.effective_albumartistsort()));
       has_unique_album_identifier = true;
       break;
     case GroupBy::Artist:
       key = TextOrUnknown(song.artist());
+      if (!song.artistsort().isEmpty() && song.artistsort() != song.artist()) key.append(QLatin1Char('-') + TextOrUnknown(song.artistsort()));
       has_unique_album_identifier = true;
       break;
     case GroupBy::Album:
       key = TextOrUnknown(song.album());
+      if (!song.albumsort().isEmpty() && song.albumsort() != song.album()) key.append(QLatin1Char('-') + TextOrUnknown(song.albumsort()));
       if (!song.album_id().isEmpty()) key.append(QLatin1Char('-') + song.album_id());
       if (options_active_.separate_albums_by_grouping && !song.grouping().isEmpty()) key.append(QLatin1Char('-') + song.grouping());
       break;
     case GroupBy::AlbumDisc:
-      key = PrettyAlbumDisc(song.album(), song.disc());
+      key = TextOrUnknown(song.album());
+      if (!song.albumsort().isEmpty() && song.albumsort() != song.album()) key.append(QLatin1Char('-') + TextOrUnknown(song.albumsort()));
+      key.append(QLatin1Char('-') + SortTextForNumber(song.disc()));
       if (!song.album_id().isEmpty()) key.append(QLatin1Char('-') + song.album_id());
       if (options_active_.separate_albums_by_grouping && !song.grouping().isEmpty()) key.append(QLatin1Char('-') + song.grouping());
       break;
     case GroupBy::YearAlbum:
-      key = PrettyYearAlbum(song.year(), song.album());
+      key = SortTextForYear(song.year()) + QLatin1Char('-') + TextOrUnknown(song.album());
+      if (!song.albumsort().isEmpty() && song.albumsort() != song.album()) key.append(QLatin1Char('-') + TextOrUnknown(song.albumsort()));
       if (!song.album_id().isEmpty()) key.append(QLatin1Char('-') + song.album_id());
       if (options_active_.separate_albums_by_grouping && !song.grouping().isEmpty()) key.append(QLatin1Char('-') + song.grouping());
       break;
     case GroupBy::YearAlbumDisc:
-      key = PrettyYearAlbumDisc(song.year(), song.album(), song.disc());
+      key = SortTextForYear(song.year()) + QLatin1Char('-') + TextOrUnknown(song.album());
+      if (!song.albumsort().isEmpty() && song.albumsort() != song.album()) key.append(QLatin1Char('-') + TextOrUnknown(song.albumsort()));
+      key.append(QLatin1Char('-') + SortTextForNumber(song.disc()));
       if (!song.album_id().isEmpty()) key.append(QLatin1Char('-') + song.album_id());
       if (options_active_.separate_albums_by_grouping && !song.grouping().isEmpty()) key.append(QLatin1Char('-') + song.grouping());
       break;
     case GroupBy::OriginalYearAlbum:
-      key = PrettyYearAlbum(song.effective_originalyear(), song.album());
+      key = SortTextForYear(song.effective_originalyear()) + QLatin1Char('-') + TextOrUnknown(song.album());
+      if (!song.albumsort().isEmpty() && song.albumsort() != song.album()) key.append(QLatin1Char('-') + TextOrUnknown(song.albumsort()));
       if (!song.album_id().isEmpty()) key.append(QLatin1Char('-') + song.album_id());
       if (options_active_.separate_albums_by_grouping && !song.grouping().isEmpty()) key.append(QLatin1Char('-') + song.grouping());
       break;
     case GroupBy::OriginalYearAlbumDisc:
-      key = PrettyYearAlbumDisc(song.effective_originalyear(), song.album(), song.disc());
+      key = SortTextForYear(song.effective_originalyear()) + QLatin1Char('-') + TextOrUnknown(song.album());
+      if (!song.albumsort().isEmpty() && song.albumsort() != song.album()) key.append(QLatin1Char('-') + TextOrUnknown(song.albumsort()));
+      key.append(QLatin1Char('-') + SortTextForNumber(song.disc()));
       if (!song.album_id().isEmpty()) key.append(QLatin1Char('-') + song.album_id());
       if (options_active_.separate_albums_by_grouping && !song.grouping().isEmpty()) key.append(QLatin1Char('-') + song.grouping());
       break;
@@ -1246,20 +1260,22 @@ QString CollectionModel::ContainerKey(const GroupBy group_by, const Song &song, 
       key = PrettyDisc(song.disc());
       break;
     case GroupBy::Year:
-      key = QString::number(std::max(0, song.year()));
+      key = SortTextForYear(song.year());
       break;
     case GroupBy::OriginalYear:
-      key = QString::number(std::max(0, song.effective_originalyear()));
+      key = SortTextForYear(song.effective_originalyear());
       break;
     case GroupBy::Genre:
       key = TextOrUnknown(song.genre());
       break;
     case GroupBy::Composer:
       key = TextOrUnknown(song.composer());
+      if (!song.composersort().isEmpty() && song.composersort() != song.composer()) key.append(QLatin1Char('-') + song.composersort());
       has_unique_album_identifier = true;
       break;
     case GroupBy::Performer:
       key = TextOrUnknown(song.performer());
+      if (!song.performersort().isEmpty() && song.performersort() != song.performer()) key.append(QLatin1Char('-') + song.performersort());
       has_unique_album_identifier = true;
       break;
     case GroupBy::Grouping:
@@ -1341,7 +1357,7 @@ QString CollectionModel::DividerKey(const GroupBy group_by, const Song &song, co
     case GroupBy::Bitdepth:
       return SortTextForNumber(song.bitdepth());
     case GroupBy::Bitrate:
-      return SortTextForNumber(song.bitrate());
+      return SortTextForBitrate(song.bitrate());
     case GroupBy::None:
     case GroupBy::GroupByCount:
       return QString();
