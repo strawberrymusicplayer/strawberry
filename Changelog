@@ -2,6 +2,15 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+    * Make Discord Rich presence use filename if song title is missing
+    * Added better error message when missing a GStreamer plugin
+    * Preserve track order in album shuffle mode when restarting playback (#1623)
+    * Possible fixes for context word wrap
+    * Added lyrics from lrclib.net
+    * Added option to turn off the use of sort tags for the collection
+
 Version 1.2.15 (2025.11.25):
 
     * Fixed system default language not respected
