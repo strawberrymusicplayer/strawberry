@@ -1371,8 +1371,9 @@ void PlaylistView::rowsInserted(const QModelIndex &parent, const int start, cons
 
   QTreeView::rowsInserted(parent, start, end);
 
-  if (at_end) {
+  if (at_end && playlist_ && !playlist_->is_dynamic()) {
     // If the rows were inserted at the end of the playlist then let's scroll the view so the user can see.
+    // However, don't do this for dynamic playlists as they continuously add items at the end, and we want to keep the current playing track visible instead.
     scrollTo(model()->index(start, 0, parent), QAbstractItemView::PositionAtTop);
   }
 
