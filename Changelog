@@ -10,6 +10,7 @@ Unreleased:
     * Possible fixes for context word wrap
     * Added lyrics from lrclib.net
     * Added option to turn off the use of sort tags for the collection
+    * Fixed Spotify login
 
 Version 1.2.15 (2025.11.25):
 
