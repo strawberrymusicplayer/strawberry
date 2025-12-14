@@ -58,6 +58,7 @@
 #include <QScrollBar>
 #include <QtEvents>
 #include <QSettings>
+#include <QDrag>
 
 #include "includes/qt_blurimage.h"
 #include "core/song.h"
@@ -1618,5 +1619,13 @@ void PlaylistView::RatingHoverOut() {
   if (old_index.data(Playlist::Role_IsCurrent).toBool()) {
     InvalidateCachedCurrentPixmap();
   }
+
+}
+
+void PlaylistView::startDrag(const Qt::DropActions drop_actions) {
+
+  QDrag *drag = new QDrag(this);
+  drag->setMimeData(model()->mimeData(selectedIndexes()));
+  drag->exec(drop_actions, Qt::CopyAction);
 
 }

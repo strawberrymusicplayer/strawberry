@@ -156,6 +156,7 @@ class PlaylistView : public QTreeView {
   // QAbstractItemView
   void rowsInserted(const QModelIndex &parent, const int start, const int end) override;
   void closeEditor(QWidget *editor, const QAbstractItemDelegate::EndEditHint hint) override;
+  void startDrag(const Qt::DropActions drop_actions) override;
 
  private Q_SLOTS:
   void Update() { update(); }
