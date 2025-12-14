@@ -1445,9 +1445,9 @@ void PlaylistView::SongChanged(const Song &song) {
   song_playing_ = song;
 
   if (select_track_ && playlist_) {
-    clearSelection();
-    QItemSelection selection(playlist_->index(playlist_->current_row(), 0), playlist_->index(playlist_->current_row(), Playlist::ColumnCount - 1));
-    selectionModel()->select(selection, QItemSelectionModel::Select);
+    const QModelIndex current_index = playlist_->filter()->mapFromSource(playlist_->index(playlist_->current_row(), 0));
+    if (!current_index.isValid()) return;
+    selectionModel()->setCurrentIndex(current_index, QItemSelectionModel::ClearAndSelect|QItemSelectionModel::Rows);
   }
 
 }
