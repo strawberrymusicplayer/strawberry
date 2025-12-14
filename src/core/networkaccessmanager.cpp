@@ -50,7 +50,7 @@ QNetworkReply *NetworkAccessManager::createRequest(Operation op, const QNetworkR
     user_agent = network_request.header(QNetworkRequest::UserAgentHeader).toByteArray();
   }
   else {
-    user_agent = QStringLiteral("%1 %2").arg(QCoreApplication::applicationName(), QCoreApplication::applicationVersion()).toUtf8();
+    user_agent = "Strawberry Music Player";
   }
 
   QNetworkRequest new_network_request(network_request);
