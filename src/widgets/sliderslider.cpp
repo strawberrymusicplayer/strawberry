@@ -67,22 +67,36 @@ void SliderSlider::slideEvent(QMouseEvent *e) {
 
   QStyleOptionSlider option;
   initStyleOption(&option);
-  QRect sliderRect(style()->subControlRect(QStyle::CC_Slider, &option, QStyle::SC_SliderHandle, this));
+  const QRect slider_groove = style()->subControlRect(QStyle::CC_Slider, &option, QStyle::SC_SliderGroove, this);
+  const QRect slider_handle = style()->subControlRect(QStyle::CC_Slider, &option, QStyle::SC_SliderHandle, this);
+  int pos = 0;
+  int span = 0;
+  bool upside_down = false;
+  if (orientation() == Qt::Horizontal) {
+    const int slider_length = slider_handle.width();
+    const int slider_min = slider_groove.x();
+    const int slider_max = slider_groove.right() - slider_length + 1;
+    if (QApplication::isRightToLeft()) {
+      pos = width() - (e->pos().x() - slider_length / 2);
+      span = width() + slider_length;
+      upside_down = true;
+    }
+    else {
+      pos = (e->pos().x() - slider_length / 2) - slider_min;
+      span = slider_max - slider_min;
+      upside_down = false;
+    }
+  }
+  else {
+    const int slider_length = slider_handle.height();
+    const int slider_min = slider_groove.y();
+    const int slider_max = slider_groove.bottom() - slider_length + 1;
+    pos = (e->pos().y() - slider_length / 2) - slider_min;
+    span = slider_max - slider_min;
+    upside_down = false;
+  }
 
-  QSlider::setValue(
-      orientation() == Qt::Horizontal
-          ? ((QApplication::layoutDirection() == Qt::RightToLeft)
-                 ? QStyle::sliderValueFromPosition(
-                       minimum(), maximum(),
-                       width() - (e->pos().x() - sliderRect.width() / 2),
-                       width() + sliderRect.width(), true)
-                 : QStyle::sliderValueFromPosition(
-                       minimum(), maximum(),
-                       e->pos().x() - sliderRect.width() / 2,
-                       width() - sliderRect.width()))
-          : QStyle::sliderValueFromPosition(
-                minimum(), maximum(), e->pos().y() - sliderRect.height() / 2,
-                height() - sliderRect.height()));
+  QSlider::setValue(QStyle::sliderValueFromPosition(minimum(), maximum(), pos, span, upside_down));
 
 }
 
