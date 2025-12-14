@@ -2311,7 +2311,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Enable stereo balancer</source>
-      <translation type="unfinished">Enable stereo balancer</translation>
+      <translation>Ενεργοποίηση στερεοφωνικού ισολογισμού</translation>
     </message>
     <message>
       <source>Left</source>
@@ -3408,7 +3408,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Toggle queue status</source>
-      <translation type="unfinished">Toggle queue status</translation>
+      <translation>Εναλλαγή κατάστασης ουράς</translation>
     </message>
     <message>
       <source>Queue selected tracks to play next</source>
@@ -3516,11 +3516,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Set %1 to &quot;%2&quot;...</source>
-      <translation type="unfinished">Set %1 to &quot;%2&quot;...</translation>
+      <translation>Όρισε το %1 σε &quot;%2&quot;...</translation>
     </message>
     <message>
       <source>Edit tag &quot;%1&quot;...</source>
-      <translation type="unfinished">Edit tag &quot;%1&quot;...</translation>
+      <translation>Επεξεργασία ετικέτας &quot;%1&quot;...</translation>
     </message>
     <message>
       <source>Add to another playlist</source>
@@ -3612,7 +3612,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Save the .mood files directly in the songs folders</source>
-      <translation type="unfinished">Save the .mood files directly in the songs folders</translation>
+      <translation>Αποθηκεύστε τα αρχεία .mood απευθείας στους φακέλους τραγουδιών</translation>
     </message>
     <message>
       <source>Enabled</source>
@@ -4050,7 +4050,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Insert...</source>
-      <translation type="unfinished">Insert...</translation>
+      <translation>Εισαγωγή...</translation>
     </message>
     <message>
       <source>Remove problematic characters from filenames</source>
@@ -4653,15 +4653,15 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Show a glowing animation on the currently playing track</source>
-      <translation type="unfinished">Show a glowing animation on the currently playing track</translation>
+      <translation>Εμφάνιση φωτεινού εφέ στο τρέχον κομμάτι αναπαραγωγής</translation>
     </message>
     <message>
       <source>Warn me when closing a playlist tab</source>
-      <translation type="unfinished">Warn me when closing a playlist tab</translation>
+      <translation>Προειδοποίηση κατά το κλείσιμο μιας καρτέλας λίστας</translation>
     </message>
     <message>
       <source>Continue to the next item in the playlist if a song is unavailable</source>
-      <translation type="unfinished">Continue to the next item in the playlist if a song is unavailable</translation>
+      <translation>Συνέχεια στο επόμενο αντικείμενο της λίστας αναπαραγωγής αν ένα τραγούδι δεν είναι διαθέσιμο</translation>
     </message>
     <message>
       <source>Grey out unavailable songs in playlists on playback</source>
@@ -4705,11 +4705,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Re&amp;lative</source>
-      <translation type="unfinished">Re&amp;lative</translation>
+      <translation>&amp;Σχετικό</translation>
     </message>
     <message>
       <source>As&amp;k when saving</source>
-      <translation type="unfinished">As&amp;k when saving</translation>
+      <translation>&amp;Ερώτηση κατά την αποθήκευση</translation>
     </message>
     <message>
       <source>Metadata</source>
@@ -4812,7 +4812,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Player options</source>
-      <translation type="unfinished">Player options</translation>
+      <translation>Επιλογές αναπαραγωγής</translation>
     </message>
     <message>
       <source>Start the playlist currently playing</source>
@@ -4904,7 +4904,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Display the on-screen-display</source>
-      <translation type="unfinished">Display the on-screen-display</translation>
+      <translation>Εμφάνιση της on-screen-display</translation>
     </message>
     <message>
       <source>Toggle visibility for the pretty on-screen-display</source>
@@ -4920,11 +4920,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Equivalent to --log-levels *:1</source>
-      <translation type="unfinished">Equivalent to --log-levels *:1</translation>
+      <translation>Ισοδύναμος με το --log-levels *:1</translation>
     </message>
     <message>
       <source>Equivalent to --log-levels *:3</source>
-      <translation type="unfinished">Equivalent to --log-levels *:3</translation>
+      <translation>Ισοδύναμος με το --log-levels *:3</translation>
     </message>
     <message>
       <source>Comma separated list of class:level, level is 0-3</source>
@@ -4936,7 +4936,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Failed to create directory %1.</source>
-      <translation type="unfinished">Failed to create directory %1.</translation>
+      <translation>Αποτυχία δημιουργίας καταλόγου %1.</translation>
     </message>
     <message>
       <source>Destination file %1 exists, but not allowed to overwrite.</source>
@@ -4948,7 +4948,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Could not copy file %1 to %2.</source>
-      <translation type="unfinished">Could not copy file %1 to %2.</translation>
+      <translation>Αδυναμία αντιγραφής αρχείου %1 στο %2.</translation>
     </message>
     <message>
       <source>Unknown</source>
@@ -5016,7 +5016,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Failed to load image from data for %1</source>
-      <translation type="unfinished">Failed to load image from data for %1</translation>
+      <translation>Αποτυχία φόρτωσης εικόνας από δεδομένα για %1</translation>
     </message>
     <message>
       <source>Success</source>
@@ -5040,7 +5040,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Could not parse file</source>
-      <translation type="unfinished">Could not parse file</translation>
+      <translation>Αδυναμία ανοίγματος αρχείου</translation>
     </message>
     <message>
       <source>Could save file</source>
@@ -5068,7 +5068,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>rating</source>
-      <translation type="unfinished">rating</translation>
+      <translation>αξιολόγηση</translation>
     </message>
     <message>
       <source>Multiple search terms can also be combined with &quot;%1&quot; (default) and &quot;%2&quot;, as well as grouped with parentheses. </source>
@@ -5307,11 +5307,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Receiving songs for %1 album...</source>
-      <translation type="unfinished">Receiving songs for %1 album...</translation>
+      <translation>Λήψη τραγουδιών για το άλμπουμ %1...</translation>
     </message>
     <message>
       <source>Receiving songs for %1 albums...</source>
-      <translation type="unfinished">Receiving songs for %1 albums...</translation>
+      <translation>Λήψη τραγουδιών για %1 άλμπουμς...</translation>
     </message>
     <message>
       <source>Receiving album cover for %1 album...</source>
@@ -5338,11 +5338,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Maximum number of login attempts reached.</source>
-      <translation type="unfinished">Maximum number of login attempts reached.</translation>
+      <translation>Ο μέγιστος αριθμός προσπαθειών σύνδεσης επιτεύχθηκε.</translation>
     </message>
     <message>
       <source>Missing Qobuz app ID.</source>
-      <translation type="unfinished">Missing Qobuz app ID.</translation>
+      <translation>Λείπει το αναγνωριστικό εφαρμογής Qobuz.</translation>
     </message>
     <message>
       <source>Missing Qobuz username.</source>
@@ -5358,18 +5358,18 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Missing Qobuz app ID or secret.</source>
-      <translation type="unfinished">Missing Qobuz app ID or secret.</translation>
+      <translation>Λείπει Qobuz app ID ή μυστικό.</translation>
     </message>
   </context>
   <context>
     <name>QobuzSettingsPage</name>
     <message>
       <source>Qobuz</source>
-      <translation type="unfinished">Qobuz</translation>
+      <translation>Qobuz</translation>
     </message>
     <message>
       <source>Enable</source>
-      <translation type="unfinished">Enable</translation>
+      <translation>Ενεργοποίηση</translation>
     </message>
     <message>
       <source>Qobuz support is not official and requires an API app ID and secret from a registered application to work. We can&apos;t help you getting these.</source>
@@ -5377,11 +5377,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Authentication</source>
-      <translation type="unfinished">Authentication</translation>
+      <translation>Ταυτοποίηση</translation>
     </message>
     <message>
       <source>App ID</source>
-      <translation type="unfinished">App ID</translation>
+      <translation>ID Εφαρμογής</translation>
     </message>
     <message>
       <source>Username</source>
@@ -5389,67 +5389,67 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Password</source>
-      <translation type="unfinished">Password</translation>
+      <translation>Κωδικός πρόσβασης</translation>
     </message>
     <message>
       <source>App Secret</source>
-      <translation type="unfinished">App Secret</translation>
+      <translation>Μυστικό App</translation>
     </message>
     <message>
       <source>Login</source>
-      <translation type="unfinished">Login</translation>
+      <translation>Σύνδεση</translation>
     </message>
     <message>
       <source>Preferences</source>
-      <translation type="unfinished">Preferences</translation>
+      <translation>Προτιμήσεις</translation>
     </message>
     <message>
       <source>Audio format</source>
-      <translation type="unfinished">Audio format</translation>
+      <translation>Μορφότυπο ήχου</translation>
     </message>
     <message>
       <source>Search delay</source>
-      <translation type="unfinished">Search delay</translation>
+      <translation>Καθυστέρηση αναζήτησης</translation>
     </message>
     <message>
       <source>ms</source>
-      <translation type="unfinished">ms</translation>
+      <translation>ms</translation>
     </message>
     <message>
       <source>Artists search limit</source>
-      <translation type="unfinished">Artists search limit</translation>
+      <translation>Όριο αναζήτησης καλλιτεχνών</translation>
     </message>
     <message>
       <source>Albums search limit</source>
-      <translation type="unfinished">Albums search limit</translation>
+      <translation>Όριο αναζήτησης άλμπουμ</translation>
     </message>
     <message>
       <source>Songs search limit</source>
-      <translation type="unfinished">Songs search limit</translation>
+      <translation>Όριο αναζήτησης τραγουδιών</translation>
     </message>
     <message>
       <source>Download album covers</source>
-      <translation type="unfinished">Download album covers</translation>
+      <translation>Λήψη εξώφυλλων άλμπουμ</translation>
     </message>
     <message>
       <source>Base64 encoded secret</source>
-      <translation type="unfinished">Base64 encoded secret</translation>
+      <translation>Base64 κωδικοποιημένο μυστικό</translation>
     </message>
     <message>
       <source>Configuration incomplete</source>
-      <translation type="unfinished">Configuration incomplete</translation>
+      <translation>Μη ολοκληρωμένη διαμόρφωση</translation>
     </message>
     <message>
       <source>Missing app id.</source>
-      <translation type="unfinished">Missing app id.</translation>
+      <translation>Λείπει το id εφαρμογής.</translation>
     </message>
     <message>
       <source>Missing username.</source>
-      <translation type="unfinished">Missing username.</translation>
+      <translation>Λείπει το όνομα χρήστη.</translation>
     </message>
     <message>
       <source>Missing password.</source>
-      <translation type="unfinished">Missing password.</translation>
+      <translation>Λείπει ο κωδικός πρόσβασης.</translation>
     </message>
     <message>
       <source>Authentication failed</source>
@@ -5460,11 +5460,11 @@ Are you sure you want to continue?</source>
     <name>QobuzStreamURLRequest</name>
     <message>
       <source>Missing Qobuz app ID or secret.</source>
-      <translation type="unfinished">Missing Qobuz app ID or secret.</translation>
+      <translation>Λείπει το αναγνωριστικό ή το μυστικό της εφαρμογής Qobuz.</translation>
     </message>
     <message>
       <source>Cancelled.</source>
-      <translation type="unfinished">Cancelled.</translation>
+      <translation>Ακυρώθηκε.</translation>
     </message>
   </context>
   <context>
@@ -5485,11 +5485,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Move down</source>
-      <translation type="unfinished">Move down</translation>
+      <translation>Μετακίνηση κάτω</translation>
     </message>
     <message>
       <source>Ctrl+Up</source>
-      <translation type="unfinished">Ctrl+Up</translation>
+      <translation>Ctrl+Up</translation>
     </message>
     <message>
       <source>Move up</source>
@@ -5539,11 +5539,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Donate</source>
-      <translation type="unfinished">Donate</translation>
+      <translation>Κάντε μια δωρεά</translation>
     </message>
     <message>
       <source>Refresh channels</source>
-      <translation type="unfinished">Refresh channels</translation>
+      <translation>Ανανέωση καναλιών</translation>
     </message>
   </context>
   <context>
@@ -5719,7 +5719,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source> seconds</source>
-      <translation type="unfinished"> seconds</translation>
+      <translation> δευτερόλεπτα</translation>
     </message>
     <message>
       <source>Prefer album artist when sending scrobbles</source>
@@ -5727,7 +5727,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Show dialog for errors</source>
-      <translation type="unfinished">Show dialog for errors</translation>
+      <translation>Εμφάνιση διαλόγου για σφάλματα</translation>
     </message>
     <message>
       <source>Strip &quot;remastered&quot; and similar from album and title</source>
@@ -5739,11 +5739,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Collection</source>
-      <translation type="unfinished">Collection</translation>
+      <translation>Συλλογή</translation>
     </message>
     <message>
       <source>Subsonic</source>
-      <translation type="unfinished">Subsonic</translation>
+      <translation>Subsonic</translation>
     </message>
     <message>
       <source>Local file</source>
@@ -5771,7 +5771,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Stream</source>
-      <translation type="unfinished">Stream</translation>
+      <translation>Ροή</translation>
     </message>
     <message>
       <source>Radio Paradise</source>
@@ -5787,7 +5787,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Login</source>
-      <translation type="unfinished">Login</translation>
+      <translation>Σύνδεση</translation>
     </message>
     <message>
       <source>Libre.fm</source>
@@ -5838,7 +5838,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Could not open URL. Please open this URL in your browser</source>
-      <translation type="unfinished">Could not open URL. Please open this URL in your browser</translation>
+      <translation>Αδυναμία ανοίγματος του URL. Παρακαλώ ανοίξτε αυτό το URL στο πρόγραμμα περιήγησης</translation>
     </message>
     <message>
       <source>Invalid reply from web browser. Missing token.</source>
@@ -5861,15 +5861,15 @@ Are you sure you want to continue?</source>
     <name>SettingsDialog</name>
     <message>
       <source>Settings</source>
-      <translation type="unfinished">Settings</translation>
+      <translation>Ρυθμίσεις</translation>
     </message>
     <message>
       <source>General</source>
-      <translation type="unfinished">General</translation>
+      <translation>Γενικά</translation>
     </message>
     <message>
       <source>User interface</source>
-      <translation type="unfinished">User interface</translation>
+      <translation>Διεπαφή Χρήστη</translation>
     </message>
     <message>
       <source>Streaming</source>
@@ -6107,7 +6107,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Delete smart playlist</source>
-      <translation type="unfinished">Delete smart playlist</translation>
+      <translation>Διαγραφή έξυπνης λίστας αναπαραγωγής</translation>
     </message>
     <message>
       <source>New smart playlist...</source>
@@ -6131,7 +6131,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Play next</source>
-      <translation type="unfinished">Play next</translation>
+      <translation>Επόμενο</translation>
     </message>
     <message>
       <source>Edit smart playlist...</source>
@@ -6422,22 +6422,22 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Close</source>
-      <translation type="unfinished">Close</translation>
+      <translation>Κλείσιμο</translation>
     </message>
     <message>
       <source>Abort</source>
-      <translation type="unfinished">Abort</translation>
+      <translation>Ματαίωση</translation>
     </message>
     <message>
       <source>Refresh catalogue</source>
-      <translation type="unfinished">Refresh catalogue</translation>
+      <translation>Ανανέωση καταλόγου</translation>
     </message>
   </context>
   <context>
     <name>StreamingSearchModel</name>
     <message>
       <source>Various artists</source>
-      <translation type="unfinished">Various artists</translation>
+      <translation>Διάφοροι καλλιτέχνες</translation>
     </message>
   </context>
   <context>
@@ -6472,7 +6472,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Append to current playlist</source>
-      <translation type="unfinished">Append to current playlist</translation>
+      <translation>Προσάρτηση στην τρέχουσα λίστα</translation>
     </message>
     <message>
       <source>Replace current playlist</source>
@@ -6480,15 +6480,15 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Open in new playlist</source>
-      <translation type="unfinished">Open in new playlist</translation>
+      <translation>Άνοιγμα σε νέα λίστα</translation>
     </message>
     <message>
       <source>Queue track</source>
-      <translation type="unfinished">Queue track</translation>
+      <translation>Εισαγωγή στην ουρά</translation>
     </message>
     <message>
       <source>Add to artists</source>
-      <translation type="unfinished">Add to artists</translation>
+      <translation>Προσθήκη στους καλλιτέχνες</translation>
     </message>
     <message>
       <source>Add to albums</source>
@@ -6500,18 +6500,18 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Search for this</source>
-      <translation type="unfinished">Search for this</translation>
+      <translation>Αναζήτηση για αυτό</translation>
     </message>
     <message>
       <source>Group by</source>
-      <translation type="unfinished">Group by</translation>
+      <translation>Ομαδοποίηση κατά</translation>
     </message>
   </context>
   <context>
     <name>StreamingSongsView</name>
     <message>
       <source>Configure %1...</source>
-      <translation type="unfinished">Configure %1...</translation>
+      <translation>Ρύθμιση %1...</translation>
     </message>
   </context>
   <context>
@@ -6572,70 +6572,70 @@ Are you sure you want to continue?</source>
     <name>SubsonicService</name>
     <message>
       <source>Server URL is invalid.</source>
-      <translation type="unfinished">Server URL is invalid.</translation>
+      <translation>Διεύθυνση URL διακομιστή δεν είναι έγκυρη.</translation>
     </message>
     <message>
       <source>Missing username or password.</source>
-      <translation type="unfinished">Missing username or password.</translation>
+      <translation>Λείπει το όνομα χρήστη ή ο κωδικός πρόσβασης.</translation>
     </message>
   </context>
   <context>
     <name>SubsonicSettingsPage</name>
     <message>
       <source>Subsonic</source>
-      <translation type="unfinished">Subsonic</translation>
+      <translation>Subsonic</translation>
     </message>
     <message>
       <source>Enable</source>
-      <translation type="unfinished">Enable</translation>
+      <translation>Ενεργοποίηση</translation>
     </message>
     <message>
       <source>Server URL</source>
-      <translation type="unfinished">Server URL</translation>
+      <translation>URL Διακομιστή</translation>
     </message>
     <message>
       <source>Authentication</source>
-      <translation type="unfinished">Authentication</translation>
+      <translation>Ταυτοποίηση</translation>
     </message>
     <message>
       <source>Username</source>
-      <translation type="unfinished">Username</translation>
+      <translation>Όνομα χρήστη</translation>
     </message>
     <message>
       <source>Password</source>
-      <translation type="unfinished">Password</translation>
+      <translation>Κωδικός πρόσβασης</translation>
     </message>
     <message>
       <source>Authentication method:</source>
-      <translation type="unfinished">Authentication method:</translation>
+      <translation>Μέθοδος ταυτοποίησης:</translation>
     </message>
     <message>
       <source>Hex</source>
-      <translation type="unfinished">Hex</translation>
+      <translation>Hex</translation>
     </message>
     <message>
       <source>MD5 token (Recommended)</source>
-      <translation type="unfinished">MD5 token (Recommended)</translation>
+      <translation>MD5 διακριτικό (συνιστάται)</translation>
     </message>
     <message>
       <source>Preferences</source>
-      <translation type="unfinished">Preferences</translation>
+      <translation>Προτιμήσεις</translation>
     </message>
     <message>
       <source>Use HTTP/2 when possible</source>
-      <translation type="unfinished">Use HTTP/2 when possible</translation>
+      <translation>Χρήση HTTP/2 όταν είναι εφικτό</translation>
     </message>
     <message>
       <source>Verify server certificate</source>
-      <translation type="unfinished">Verify server certificate</translation>
+      <translation>Επαλήθευση πιστοποιητικού διακομιστή</translation>
     </message>
     <message>
       <source>Download album covers</source>
-      <translation type="unfinished">Download album covers</translation>
+      <translation>Λήψη εξώφυλλων άλμπουμ</translation>
     </message>
     <message>
       <source>Use album ID for album covers</source>
-      <translation type="unfinished">Use album ID for album covers</translation>
+      <translation>Χρήση του ID άλμπουμ για εξώφυλλα άλμπουμ</translation>
     </message>
     <message>
       <source>Server-side scrobbling</source>
@@ -6643,15 +6643,15 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Test</source>
-      <translation type="unfinished">Test</translation>
+      <translation>Δοκιμή</translation>
     </message>
     <message>
       <source>Delete songs</source>
-      <translation type="unfinished">Delete songs</translation>
+      <translation>Διαγραφή τραγουδιών</translation>
     </message>
     <message>
       <source>Configuration incomplete</source>
-      <translation type="unfinished">Configuration incomplete</translation>
+      <translation>Μη ολοκληρωμένη διαμόρφωση</translation>
     </message>
     <message>
       <source>Missing server url, username or password.</source>
@@ -6659,7 +6659,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Configuration incorrect</source>
-      <translation type="unfinished">Configuration incorrect</translation>
+      <translation>Λανθασμένες ρυθμίσεις</translation>
     </message>
     <message>
       <source>Server URL is invalid.</source>
@@ -6678,11 +6678,11 @@ Are you sure you want to continue?</source>
     <name>SubsonicUrlHandler</name>
     <message>
       <source>Subsonic server URL is invalid.</source>
-      <translation type="unfinished">Subsonic server URL is invalid.</translation>
+      <translation>Το URL του Subsonic server δεν είναι έγκυρο.</translation>
     </message>
     <message>
       <source>Missing Subsonic username or password.</source>
-      <translation type="unfinished">Missing Subsonic username or password.</translation>
+      <translation>Λείπει το Subsonic όνομα χρήστη ή κωδικός.</translation>
     </message>
   </context>
   <context>
@@ -6873,7 +6873,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Album cover size</source>
-      <translation type="unfinished">Album cover size</translation>
+      <translation>Μέγεθος εξωφύλλου άλμπουμ</translation>
     </message>
     <message>
       <source>Stream URL method</source>
@@ -7110,7 +7110,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Open a directory to import music from</source>
-      <translation type="unfinished">Open a directory to import music from</translation>
+      <translation>Άνοιγμα φακέλου για εισαγωγή μουσικής από</translation>
     </message>
     <message>
       <source>Add folder</source>
@@ -7148,7 +7148,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Error processing %1: %2</source>
-      <translation type="unfinished">Error processing %1: %2</translation>
+      <translation>Επεξεργασίας σφάλματος %1: %2</translation>
     </message>
     <message>
       <source>Starting %1</source>
@@ -7171,7 +7171,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Bitrate</source>
-      <translation type="unfinished">Bitrate</translation>
+      <translation>Ρυθμός μετάδοσης bit</translation>
     </message>
     <message>
       <source> kbps</source>
@@ -7199,19 +7199,19 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Use temporal noise shaping</source>
-      <translation type="unfinished">Use temporal noise shaping</translation>
+      <translation>Χρησιμοποιήστε χρονική διαμόρφωση θορύβου</translation>
     </message>
     <message>
       <source>Allow mid/side encoding</source>
-      <translation type="unfinished">Allow mid/side encoding</translation>
+      <translation>Επίτρεψε μεσαία κωδικοποίηση</translation>
     </message>
     <message>
       <source>Block type</source>
-      <translation type="unfinished">Block type</translation>
+      <translation>Τύπος μπλοκ</translation>
     </message>
     <message>
       <source>Normal block type</source>
-      <translation type="unfinished">Normal block type</translation>
+      <translation>Κανονικός τύπος block</translation>
     </message>
     <message>
       <source>No short blocks</source>
