@@ -1642,7 +1642,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Download artifacts
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           path: artifacts
       - name: SSH Setup
@@ -1694,7 +1694,7 @@ jobs:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: gh release view "${{github.event.release.tag_name}}" --json assets | jq -r '.assets[].name'
       - name: Download artifacts
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           path: artifacts
       - name: Add artifacts to release
