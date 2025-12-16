@@ -24,6 +24,7 @@
 #include <utility>
 
 #include <QWidget>
+#include <QApplication>
 #include <QString>
 #include <QIcon>
 #include <QPalette>
@@ -40,9 +41,8 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-ErrorDialog::ErrorDialog(QWidget *mainwindow, QWidget *parent)
+ErrorDialog::ErrorDialog(QWidget *parent)
     : QDialog(parent),
-      mainwindow_(mainwindow),
       ui_(new Ui_ErrorDialog) {
 
   ui_->setupUi(this);
@@ -64,8 +64,9 @@ ErrorDialog::~ErrorDialog() {
 
 void ErrorDialog::ShowDialog() {
 
-  if (screen() && mainwindow_->screen() && screen() != mainwindow_->screen()) {
-    Utilities::CenterWidgetOnScreen(mainwindow_->screen(), this);
+  QWidget *active_window = QApplication::activeWindow();
+  if (active_window && screen() && active_window->screen() && screen() != active_window->screen()) {
+    Utilities::CenterWidgetOnScreen(active_window->screen(), this);
   }
   setWindowState((windowState() & ~Qt::WindowMinimized) | Qt::WindowActive);
   show();
@@ -81,7 +82,7 @@ void ErrorDialog::ShowMessage(const QString &message) {
   current_messages_ << message;
   UpdateContent();
 
-  if (mainwindow_->isActiveWindow()) {
+  if (QApplication::activeWindow()) {
     ShowDialog();
   }
   else if (!isVisible()) {

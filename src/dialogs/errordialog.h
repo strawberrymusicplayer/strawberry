@@ -37,7 +37,7 @@ class ErrorDialog : public QDialog {
   Q_OBJECT
 
  public:
-  explicit ErrorDialog(QWidget *mainwindow, QWidget *parent = nullptr);
+  explicit ErrorDialog(QWidget *parent = nullptr);
   ~ErrorDialog() override;
 
  public Q_SLOTS:
@@ -50,7 +50,6 @@ class ErrorDialog : public QDialog {
  private:
   void UpdateContent();
 
-  QWidget *mainwindow_;
   Ui_ErrorDialog *ui_;
 
   QStringList current_messages_;

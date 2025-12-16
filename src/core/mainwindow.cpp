@@ -296,9 +296,6 @@ MainWindow::MainWindow(Application *app,
 #ifdef HAVE_DISCORD_RPC
       discord_rich_presence_(discord_rich_presence),
 #endif
-      error_dialog_([this]() {
-        return new ErrorDialog(this);
-      }),
       console_([app, this]() {
         Console *console = new Console(app->database());
         QObject::connect(console, &Console::Error, this, &MainWindow::ShowErrorDialog);
