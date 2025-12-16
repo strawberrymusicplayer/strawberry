@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+Version 1.2.16 (2025.12.16):
 
     * Make Discord Rich presence use filename if song title is missing
     * Added better error message when a GStreamer plugin is missing
