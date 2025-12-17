@@ -23,6 +23,8 @@
 
 #include "config.h"
 
+#include <functional>
+
 #include <QByteArray>
 #include <QString>
 
@@ -125,6 +127,8 @@ class TagReaderTagLib : public TagReaderBase {
   void SetEmbeddedCover(TagLib::MP4::File *aac_file, TagLib::MP4::Tag *tag, const QByteArray &data, const QString &mimetype) const;
 
   static TagLib::String TagLibStringListToSlashSeparatedString(const TagLib::StringList &taglib_string_list, const uint begin_index = 0);
+
+  bool SaveFileWithFallback(const QString &filename, const std::function<bool(TagLib::FileRef*)> &save_function) const;
 
  private:
   FileRefFactory *factory_;

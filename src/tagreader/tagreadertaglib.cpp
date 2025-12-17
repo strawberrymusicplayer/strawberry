@@ -94,6 +94,8 @@
 #include <QStringList>
 #include <QFile>
 #include <QFileInfo>
+#include <QDir>
+#include <QTemporaryFile>
 #include <QUrl>
 #include <QDateTime>
 #include <QtDebug>
@@ -292,6 +294,93 @@ TagReaderTagLib::TagReaderTagLib() : factory_(new TagLibFileRefFactory) {}
 
 TagReaderTagLib::~TagReaderTagLib() {
   delete factory_;
+}
+
+bool TagReaderTagLib::SaveFileWithFallback(const QString &filename, const std::function<bool(TagLib::FileRef*)> &save_function) const {
+
+  // First, try the normal save operation directly on the file
+  {
+    ScopedPtr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));
+    if (!fileref || fileref->isNull()) {
+      qLog(Error) << "TagLib could not open file for saving" << filename;
+      return false;
+    }
+
+    if (fileref->save()) {
+      qLog(Debug) << "Successfully saved file directly" << filename;
+      return true;
+    }
+  }
+
+  qLog(Warning) << "Direct save failed, trying atomic write workaround for" << filename;
+
+  // If direct save fails (common on GVFS mounts), use atomic write workaround:
+  // 1. Copy file to temporary location in the same directory
+  // 2. Re-apply modifications and save to the temporary file
+  // 3. Replace original file with the temporary file
+
+  const QFileInfo file_info(filename);
+  const QString temp_pattern = file_info.dir().absoluteFilePath(file_info.fileName() + u".XXXXXX"_s);
+  
+  QTemporaryFile temp_file(temp_pattern);
+  temp_file.setAutoRemove(false);  // We'll handle removal manually
+  
+  if (!temp_file.open()) {
+    qLog(Error) << "Could not create temporary file for atomic write:" << temp_file.fileName();
+    return false;
+  }
+  
+  const QString temp_filename = temp_file.fileName();
+  temp_file.close();
+  
+  // Copy original file to temporary location
+  if (!QFile::copy(filename, temp_filename)) {
+    qLog(Error) << "Could not copy file to temporary location:" << filename << "->" << temp_filename;
+    QFile::remove(temp_filename);
+    return false;
+  }
+
+  // Try to modify and save the temporary file
+  {
+    ScopedPtr<TagLib::FileRef> temp_fileref(factory_->GetFileRef(temp_filename));
+    if (!temp_fileref || temp_fileref->isNull()) {
+      qLog(Error) << "TagLib could not open temporary file" << temp_filename;
+      QFile::remove(temp_filename);
+      return false;
+    }
+
+    // Apply modifications using the callback
+    if (!save_function(temp_fileref.get())) {
+      qLog(Error) << "Failed to apply modifications to temporary file" << temp_filename;
+      QFile::remove(temp_filename);
+      return false;
+    }
+
+    // Save the temporary file
+    if (!temp_fileref->save()) {
+      qLog(Error) << "Failed to save temporary file" << temp_filename;
+      QFile::remove(temp_filename);
+      return false;
+    }
+  }
+
+  // Replace the original file with the temporary file
+  // First remove the original, then rename temp to original
+  if (!QFile::remove(filename)) {
+    qLog(Error) << "Could not remove original file for replacement:" << filename;
+    QFile::remove(temp_filename);
+    return false;
+  }
+
+  if (!QFile::rename(temp_filename, filename)) {
+    qLog(Error) << "Could not rename temporary file to original:" << temp_filename << "->" << filename;
+    // This is a critical error - original file was removed but rename failed
+    return false;
+  }
+
+  qLog(Debug) << "Successfully saved file using atomic write workaround" << filename;
+  return true;
+
 }
 
 TagReaderResult TagReaderTagLib::IsMediaFile(const QString &filename) const {
@@ -1079,175 +1168,26 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
     cover = LoadAlbumCoverTagData(filename, save_tag_cover_data);
   }
 
-  ScopedPtr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));
-  if (!fileref || fileref->isNull()) {
-    qLog(Error) << "TagLib could not open file" << filename;
-    return TagReaderResult::ErrorCode::FileOpenError;
-  }
-
-  if (save_tags) {
-    fileref->tag()->setTitle(song.title().isEmpty() ? TagLib::String() : QStringToTagLibString(song.title()));
-    fileref->tag()->setArtist(song.artist().isEmpty() ? TagLib::String() : QStringToTagLibString(song.artist()));
-    fileref->tag()->setAlbum(song.album().isEmpty() ? TagLib::String() : QStringToTagLibString(song.album()));
-    fileref->tag()->setGenre(song.genre().isEmpty() ? TagLib::String() : QStringToTagLibString(song.genre()));
-    fileref->tag()->setComment(song.comment().isEmpty() ? TagLib::String() : QStringToTagLibString(song.comment()));
-    fileref->tag()->setYear(song.year() <= 0 ? 0 : static_cast<uint>(song.year()));
-    fileref->tag()->setTrack(song.track() <= 0 ? 0 : static_cast<uint>(song.track()));
-  }
-
-  bool is_flac = false;
-  if (TagLib::FLAC::File *file_flac = dynamic_cast<TagLib::FLAC::File*>(fileref->file())) {
-    is_flac = true;
-    TagLib::Ogg::XiphComment *vorbis_comment = file_flac->xiphComment(true);
-    if (vorbis_comment) {
-      if (save_tags) {
-        SetVorbisComments(vorbis_comment, song);
-      }
-      if (save_playcount) {
-        SetPlaycount(vorbis_comment, song.playcount());
-      }
-      if (save_rating) {
-        SetRating(vorbis_comment, song.rating());
-      }
-      if (save_cover) {
-        SetEmbeddedCover(file_flac, vorbis_comment, cover.data, cover.mimetype);
-      }
+  // Lambda function that applies all tag modifications to a FileRef
+  auto apply_modifications = [&](TagLib::FileRef *fileref) -> bool {
+    if (!fileref || fileref->isNull()) {
+      return false;
     }
-  }
 
-  else if (TagLib::WavPack::File *file_wavpack = dynamic_cast<TagLib::WavPack::File*>(fileref->file())) {
-    TagLib::APE::Tag *tag = file_wavpack->APETag(true);
-    if (tag) {
-      if (save_tags) {
-        SetAPETag(tag, song);
-      }
-      if (save_playcount) {
-        SetPlaycount(tag, song.playcount());
-      }
-      if (save_rating) {
-        SetRating(tag, song.rating());
-      }
+    if (save_tags) {
+      fileref->tag()->setTitle(song.title().isEmpty() ? TagLib::String() : QStringToTagLibString(song.title()));
+      fileref->tag()->setArtist(song.artist().isEmpty() ? TagLib::String() : QStringToTagLibString(song.artist()));
+      fileref->tag()->setAlbum(song.album().isEmpty() ? TagLib::String() : QStringToTagLibString(song.album()));
+      fileref->tag()->setGenre(song.genre().isEmpty() ? TagLib::String() : QStringToTagLibString(song.genre()));
+      fileref->tag()->setComment(song.comment().isEmpty() ? TagLib::String() : QStringToTagLibString(song.comment()));
+      fileref->tag()->setYear(song.year() <= 0 ? 0 : static_cast<uint>(song.year()));
+      fileref->tag()->setTrack(song.track() <= 0 ? 0 : static_cast<uint>(song.track()));
     }
-  }
 
-  else if (TagLib::APE::File *file_ape = dynamic_cast<TagLib::APE::File*>(fileref->file())) {
-    TagLib::APE::Tag *tag = file_ape->APETag(true);
-    if (tag) {
-      if (save_tags) {
-        SetAPETag(tag, song);
-      }
-      if (save_playcount) {
-        SetPlaycount(tag, song.playcount());
-      }
-      if (save_rating) {
-        SetRating(tag, song.rating());
-      }
-    }
-  }
-
-  else if (TagLib::MPC::File *file_mpc = dynamic_cast<TagLib::MPC::File*>(fileref->file())) {
-    TagLib::APE::Tag *tag = file_mpc->APETag(true);
-    if (tag) {
-      if (save_tags) {
-        SetAPETag(tag, song);
-      }
-      if (save_playcount) {
-        SetPlaycount(tag, song.playcount());
-      }
-      if (save_rating) {
-        SetRating(tag, song.rating());
-      }
-    }
-  }
-
-  else if (TagLib::MPEG::File *file_mpeg = dynamic_cast<TagLib::MPEG::File*>(fileref->file())) {
-    TagLib::ID3v2::Tag *tag = file_mpeg->ID3v2Tag(true);
-    if (tag) {
-      if (save_tags) {
-        SetID3v2Tag(tag, song);
-      }
-      if (save_playcount) {
-        SetPlaycount(tag, song.playcount());
-      }
-      if (save_rating) {
-        SetRating(tag, song.rating());
-      }
-      if (save_cover) {
-        SetEmbeddedCover(tag, cover.data, cover.mimetype);
-      }
-    }
-  }
-
-  else if (TagLib::MP4::File *file_mp4 = dynamic_cast<TagLib::MP4::File*>(fileref->file())) {
-    TagLib::MP4::Tag *tag = file_mp4->tag();
-    if (tag) {
-      if (save_tags) {
-        tag->setItem(kMP4_Disc, TagLib::MP4::Item(song.disc() <= 0 - 1 ? 0 : song.disc(), 0));
-        tag->setItem(kMP4_Composer, TagLib::StringList(QStringToTagLibString(song.composer())));
-        tag->setItem(kMP4_Grouping, TagLib::StringList(QStringToTagLibString(song.grouping())));
-        tag->setItem(kMP4_Lyrics, TagLib::StringList(QStringToTagLibString(song.lyrics())));
-        tag->setItem(kMP4_AlbumArtist, TagLib::StringList(QStringToTagLibString(song.albumartist())));
-        tag->setItem(kMP4_Compilation, TagLib::MP4::Item(song.compilation()));
-      }
-      if (save_playcount) {
-        SetPlaycount(tag, song.playcount());
-      }
-      if (save_rating) {
-        SetRating(tag, song.rating());
-      }
-      if (save_cover) {
-        SetEmbeddedCover(file_mp4, tag, cover.data, cover.mimetype);
-      }
-    }
-  }
-
-  else if (TagLib::RIFF::WAV::File *file_wav = dynamic_cast<TagLib::RIFF::WAV::File*>(fileref->file())) {
-    TagLib::ID3v2::Tag *tag = file_wav->ID3v2Tag();
-    if (tag) {
-      if (save_tags) {
-        SetID3v2Tag(tag, song);
-      }
-      if (save_playcount) {
-        SetPlaycount(tag, song.playcount());
-      }
-      if (save_rating) {
-        SetRating(tag, song.rating());
-      }
-      if (save_cover) {
-        SetEmbeddedCover(tag, cover.data, cover.mimetype);
-      }
-    }
-  }
-
-  else if (TagLib::RIFF::AIFF::File *file_aiff = dynamic_cast<TagLib::RIFF::AIFF::File*>(fileref->file())) {
-    TagLib::ID3v2::Tag *tag = file_aiff->tag();
-    if (tag) {
-      if (save_tags) {
-        SetID3v2Tag(tag, song);
-      }
-      if (save_playcount) {
-        SetPlaycount(tag, song.playcount());
-      }
-      if (save_rating) {
-        SetRating(tag, song.rating());
-      }
-      if (save_cover) {
-        SetEmbeddedCover(tag, cover.data, cover.mimetype);
-      }
-    }
-  }
-
-  else if (TagLib::ASF::File *file_asf = dynamic_cast<TagLib::ASF::File*>(fileref->file())) {
-    TagLib::ASF::Tag *tag = file_asf->tag();
-    if (tag) {
-      SetASFTag(tag, song);
-    }
-  }
-
-  // Handle all the files which have VorbisComments (Ogg, OPUS, ...) in the same way;
-  // apart, so we keep specific behavior for some formats by adding another "else if" block above.
-  if (!is_flac) {
-    if (TagLib::Ogg::XiphComment *vorbis_comment = dynamic_cast<TagLib::Ogg::XiphComment*>(fileref->file()->tag())) {
+    bool is_flac = false;
+    if (TagLib::FLAC::File *file_flac = dynamic_cast<TagLib::FLAC::File*>(fileref->file())) {
+      is_flac = true;
+      TagLib::Ogg::XiphComment *vorbis_comment = file_flac->xiphComment(true);
       if (vorbis_comment) {
         if (save_tags) {
           SetVorbisComments(vorbis_comment, song);
@@ -1259,13 +1199,167 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
           SetRating(vorbis_comment, song.rating());
         }
         if (save_cover) {
-          SetEmbeddedCover(vorbis_comment, cover.data, cover.mimetype);
+          SetEmbeddedCover(file_flac, vorbis_comment, cover.data, cover.mimetype);
         }
       }
     }
-  }
 
-  const bool success = fileref->save();
+    else if (TagLib::WavPack::File *file_wavpack = dynamic_cast<TagLib::WavPack::File*>(fileref->file())) {
+      TagLib::APE::Tag *tag = file_wavpack->APETag(true);
+      if (tag) {
+        if (save_tags) {
+          SetAPETag(tag, song);
+        }
+        if (save_playcount) {
+          SetPlaycount(tag, song.playcount());
+        }
+        if (save_rating) {
+          SetRating(tag, song.rating());
+        }
+      }
+    }
+
+    else if (TagLib::APE::File *file_ape = dynamic_cast<TagLib::APE::File*>(fileref->file())) {
+      TagLib::APE::Tag *tag = file_ape->APETag(true);
+      if (tag) {
+        if (save_tags) {
+          SetAPETag(tag, song);
+        }
+        if (save_playcount) {
+          SetPlaycount(tag, song.playcount());
+        }
+        if (save_rating) {
+          SetRating(tag, song.rating());
+        }
+      }
+    }
+
+    else if (TagLib::MPC::File *file_mpc = dynamic_cast<TagLib::MPC::File*>(fileref->file())) {
+      TagLib::APE::Tag *tag = file_mpc->APETag(true);
+      if (tag) {
+        if (save_tags) {
+          SetAPETag(tag, song);
+        }
+        if (save_playcount) {
+          SetPlaycount(tag, song.playcount());
+        }
+        if (save_rating) {
+          SetRating(tag, song.rating());
+        }
+      }
+    }
+
+    else if (TagLib::MPEG::File *file_mpeg = dynamic_cast<TagLib::MPEG::File*>(fileref->file())) {
+      TagLib::ID3v2::Tag *tag = file_mpeg->ID3v2Tag(true);
+      if (tag) {
+        if (save_tags) {
+          SetID3v2Tag(tag, song);
+        }
+        if (save_playcount) {
+          SetPlaycount(tag, song.playcount());
+        }
+        if (save_rating) {
+          SetRating(tag, song.rating());
+        }
+        if (save_cover) {
+          SetEmbeddedCover(tag, cover.data, cover.mimetype);
+        }
+      }
+    }
+
+    else if (TagLib::MP4::File *file_mp4 = dynamic_cast<TagLib::MP4::File*>(fileref->file())) {
+      TagLib::MP4::Tag *tag = file_mp4->tag();
+      if (tag) {
+        if (save_tags) {
+          tag->setItem(kMP4_Disc, TagLib::MP4::Item(song.disc() <= 0 - 1 ? 0 : song.disc(), 0));
+          tag->setItem(kMP4_Composer, TagLib::StringList(QStringToTagLibString(song.composer())));
+          tag->setItem(kMP4_Grouping, TagLib::StringList(QStringToTagLibString(song.grouping())));
+          tag->setItem(kMP4_Lyrics, TagLib::StringList(QStringToTagLibString(song.lyrics())));
+          tag->setItem(kMP4_AlbumArtist, TagLib::StringList(QStringToTagLibString(song.albumartist())));
+          tag->setItem(kMP4_Compilation, TagLib::MP4::Item(song.compilation()));
+        }
+        if (save_playcount) {
+          SetPlaycount(tag, song.playcount());
+        }
+        if (save_rating) {
+          SetRating(tag, song.rating());
+        }
+        if (save_cover) {
+          SetEmbeddedCover(file_mp4, tag, cover.data, cover.mimetype);
+        }
+      }
+    }
+
+    else if (TagLib::RIFF::WAV::File *file_wav = dynamic_cast<TagLib::RIFF::WAV::File*>(fileref->file())) {
+      TagLib::ID3v2::Tag *tag = file_wav->ID3v2Tag();
+      if (tag) {
+        if (save_tags) {
+          SetID3v2Tag(tag, song);
+        }
+        if (save_playcount) {
+          SetPlaycount(tag, song.playcount());
+        }
+        if (save_rating) {
+          SetRating(tag, song.rating());
+        }
+        if (save_cover) {
+          SetEmbeddedCover(tag, cover.data, cover.mimetype);
+        }
+      }
+    }
+
+    else if (TagLib::RIFF::AIFF::File *file_aiff = dynamic_cast<TagLib::RIFF::AIFF::File*>(fileref->file())) {
+      TagLib::ID3v2::Tag *tag = file_aiff->tag();
+      if (tag) {
+        if (save_tags) {
+          SetID3v2Tag(tag, song);
+        }
+        if (save_playcount) {
+          SetPlaycount(tag, song.playcount());
+        }
+        if (save_rating) {
+          SetRating(tag, song.rating());
+        }
+        if (save_cover) {
+          SetEmbeddedCover(tag, cover.data, cover.mimetype);
+        }
+      }
+    }
+
+    else if (TagLib::ASF::File *file_asf = dynamic_cast<TagLib::ASF::File*>(fileref->file())) {
+      TagLib::ASF::Tag *tag = file_asf->tag();
+      if (tag) {
+        SetASFTag(tag, song);
+      }
+    }
+
+    // Handle all the files which have VorbisComments (Ogg, OPUS, ...) in the same way;
+    // apart, so we keep specific behavior for some formats by adding another "else if" block above.
+    if (!is_flac) {
+      if (TagLib::Ogg::XiphComment *vorbis_comment = dynamic_cast<TagLib::Ogg::XiphComment*>(fileref->file()->tag())) {
+        if (vorbis_comment) {
+          if (save_tags) {
+            SetVorbisComments(vorbis_comment, song);
+          }
+          if (save_playcount) {
+            SetPlaycount(vorbis_comment, song.playcount());
+          }
+          if (save_rating) {
+            SetRating(vorbis_comment, song.rating());
+          }
+          if (save_cover) {
+            SetEmbeddedCover(vorbis_comment, cover.data, cover.mimetype);
+          }
+        }
+      }
+    }
+
+    return true;
+  };
+
+  // Use SaveFileWithFallback which tries direct save first, then atomic write workaround
+  const bool success = SaveFileWithFallback(filename, apply_modifications);
+
 #ifdef Q_OS_LINUX
   if (success) {
     // Linux: inotify doesn't seem to notice the change to the file unless we change the timestamps as well. (this is what touch does)
@@ -1718,64 +1812,69 @@ TagReaderResult TagReaderTagLib::SaveEmbeddedCover(const QString &filename, cons
     return TagReaderResult::ErrorCode::FileDoesNotExist;
   }
 
-  ScopedPtr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));
-  if (!fileref || fileref->isNull()) {
-    qLog(Error) << "TagLib could not open file" << filename;
-    return TagReaderResult::ErrorCode::FileOpenError;
-  }
-
   const AlbumCoverTagData cover = LoadAlbumCoverTagData(filename, save_tag_cover_data);
 
-  // FLAC
-  if (TagLib::FLAC::File *file_flac = dynamic_cast<TagLib::FLAC::File*>(fileref->file())) {
-    TagLib::Ogg::XiphComment *vorbis_comment = file_flac->xiphComment(true);
-    if (vorbis_comment) {
-      SetEmbeddedCover(file_flac, vorbis_comment, cover.data, cover.mimetype);
+  // Lambda function that applies cover modifications to a FileRef
+  auto apply_modifications = [&](TagLib::FileRef *fileref) -> bool {
+    if (!fileref || fileref->isNull()) {
+      return false;
     }
-  }
 
-  // Ogg Vorbis / Opus / Speex
-  else if (TagLib::Ogg::XiphComment *vorbis_comment = dynamic_cast<TagLib::Ogg::XiphComment*>(fileref->file()->tag())) {
-    SetEmbeddedCover(vorbis_comment, cover.data, cover.mimetype);
-  }
-
-  // MP3
-  else if (TagLib::MPEG::File *file_mp3 = dynamic_cast<TagLib::MPEG::File*>(fileref->file())) {
-    TagLib::ID3v2::Tag *tag = file_mp3->ID3v2Tag();
-    if (tag) {
-      SetEmbeddedCover(tag, cover.data, cover.mimetype);
+    // FLAC
+    if (TagLib::FLAC::File *file_flac = dynamic_cast<TagLib::FLAC::File*>(fileref->file())) {
+      TagLib::Ogg::XiphComment *vorbis_comment = file_flac->xiphComment(true);
+      if (vorbis_comment) {
+        SetEmbeddedCover(file_flac, vorbis_comment, cover.data, cover.mimetype);
+      }
     }
-  }
 
-  // MP4/AAC
-  else if (TagLib::MP4::File *file_aac = dynamic_cast<TagLib::MP4::File*>(fileref->file())) {
-    TagLib::MP4::Tag *tag = file_aac->tag();
-    if (tag) {
-      SetEmbeddedCover(file_aac, tag, cover.data, cover.mimetype);
+    // Ogg Vorbis / Opus / Speex
+    else if (TagLib::Ogg::XiphComment *vorbis_comment = dynamic_cast<TagLib::Ogg::XiphComment*>(fileref->file()->tag())) {
+      SetEmbeddedCover(vorbis_comment, cover.data, cover.mimetype);
     }
-  }
 
-  // WAV
-  else if (TagLib::RIFF::WAV::File *file_wav = dynamic_cast<TagLib::RIFF::WAV::File*>(fileref->file())) {
-    if (file_wav->ID3v2Tag()) {
-      SetEmbeddedCover(file_wav->ID3v2Tag(), cover.data, cover.mimetype);
+    // MP3
+    else if (TagLib::MPEG::File *file_mp3 = dynamic_cast<TagLib::MPEG::File*>(fileref->file())) {
+      TagLib::ID3v2::Tag *tag = file_mp3->ID3v2Tag();
+      if (tag) {
+        SetEmbeddedCover(tag, cover.data, cover.mimetype);
+      }
     }
-  }
 
-  // AIFF
-  else if (TagLib::RIFF::AIFF::File *file_aiff = dynamic_cast<TagLib::RIFF::AIFF::File*>(fileref->file())) {
-    if (file_aiff->tag()) {
-      SetEmbeddedCover(file_aiff->tag(), cover.data, cover.mimetype);
+    // MP4/AAC
+    else if (TagLib::MP4::File *file_aac = dynamic_cast<TagLib::MP4::File*>(fileref->file())) {
+      TagLib::MP4::Tag *tag = file_aac->tag();
+      if (tag) {
+        SetEmbeddedCover(file_aac, tag, cover.data, cover.mimetype);
+      }
     }
-  }
 
-  // Not supported.
-  else {
-    qLog(Error) << "Saving embedded art is not supported for %1" << filename;
-    return TagReaderResult::ErrorCode::Unsupported;
-  }
+    // WAV
+    else if (TagLib::RIFF::WAV::File *file_wav = dynamic_cast<TagLib::RIFF::WAV::File*>(fileref->file())) {
+      if (file_wav->ID3v2Tag()) {
+        SetEmbeddedCover(file_wav->ID3v2Tag(), cover.data, cover.mimetype);
+      }
+    }
 
-  const bool success = fileref->file()->save();
+    // AIFF
+    else if (TagLib::RIFF::AIFF::File *file_aiff = dynamic_cast<TagLib::RIFF::AIFF::File*>(fileref->file())) {
+      if (file_aiff->tag()) {
+        SetEmbeddedCover(file_aiff->tag(), cover.data, cover.mimetype);
+      }
+    }
+
+    // Not supported.
+    else {
+      qLog(Error) << "Saving embedded art is not supported for %1" << filename;
+      return false;
+    }
+
+    return true;
+  };
+
+  // Use SaveFileWithFallback which tries direct save first, then atomic write workaround
+  const bool success = SaveFileWithFallback(filename, apply_modifications);
+
 #ifdef Q_OS_LINUX
   if (success) {
     // Linux: inotify doesn't seem to notice the change to the file unless we change the timestamps as well. (this is what touch does)
@@ -1872,64 +1971,69 @@ TagReaderResult TagReaderTagLib::SaveSongPlaycount(const QString &filename, cons
     return TagReaderResult::ErrorCode::FileDoesNotExist;
   }
 
-  ScopedPtr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));
-  if (!fileref || fileref->isNull()) {
-    qLog(Error) << "TagLib could not open file" << filename;
-    return TagReaderResult::ErrorCode::FileOpenError;
-  }
+  // Lambda function that applies playcount modifications to a FileRef
+  auto apply_modifications = [&](TagLib::FileRef *fileref) -> bool {
+    if (!fileref || fileref->isNull()) {
+      return false;
+    }
 
-  if (TagLib::FLAC::File *flac_file = dynamic_cast<TagLib::FLAC::File*>(fileref->file())) {
-    TagLib::Ogg::XiphComment *vorbis_comment = flac_file->xiphComment(true);
-    if (vorbis_comment) {
-      SetPlaycount(vorbis_comment, playcount);
+    if (TagLib::FLAC::File *flac_file = dynamic_cast<TagLib::FLAC::File*>(fileref->file())) {
+      TagLib::Ogg::XiphComment *vorbis_comment = flac_file->xiphComment(true);
+      if (vorbis_comment) {
+        SetPlaycount(vorbis_comment, playcount);
+      }
     }
-  }
-  else if (TagLib::WavPack::File *wavpack_file = dynamic_cast<TagLib::WavPack::File*>(fileref->file())) {
-    TagLib::APE::Tag *tag = wavpack_file->APETag(true);
-    if (tag) {
-      SetPlaycount(tag, playcount);
+    else if (TagLib::WavPack::File *wavpack_file = dynamic_cast<TagLib::WavPack::File*>(fileref->file())) {
+      TagLib::APE::Tag *tag = wavpack_file->APETag(true);
+      if (tag) {
+        SetPlaycount(tag, playcount);
+      }
     }
-  }
-  else if (TagLib::APE::File *ape_file = dynamic_cast<TagLib::APE::File*>(fileref->file())) {
-    TagLib::APE::Tag *tag = ape_file->APETag(true);
-    if (tag) {
-      SetPlaycount(tag, playcount);
+    else if (TagLib::APE::File *ape_file = dynamic_cast<TagLib::APE::File*>(fileref->file())) {
+      TagLib::APE::Tag *tag = ape_file->APETag(true);
+      if (tag) {
+        SetPlaycount(tag, playcount);
+      }
     }
-  }
-  else if (TagLib::Ogg::XiphComment *vorbis_comment = dynamic_cast<TagLib::Ogg::XiphComment*>(fileref->file()->tag())) {
-    if (vorbis_comment) {
-      SetPlaycount(vorbis_comment, playcount);
+    else if (TagLib::Ogg::XiphComment *vorbis_comment = dynamic_cast<TagLib::Ogg::XiphComment*>(fileref->file()->tag())) {
+      if (vorbis_comment) {
+        SetPlaycount(vorbis_comment, playcount);
+      }
     }
-  }
-  else if (TagLib::MPEG::File *mpeg_file = dynamic_cast<TagLib::MPEG::File*>(fileref->file())) {
-    TagLib::ID3v2::Tag *tag = mpeg_file->ID3v2Tag(true);
-    if (tag) {
-      SetPlaycount(tag, playcount);
+    else if (TagLib::MPEG::File *mpeg_file = dynamic_cast<TagLib::MPEG::File*>(fileref->file())) {
+      TagLib::ID3v2::Tag *tag = mpeg_file->ID3v2Tag(true);
+      if (tag) {
+        SetPlaycount(tag, playcount);
+      }
     }
-  }
-  else if (TagLib::MP4::File *mp4_file = dynamic_cast<TagLib::MP4::File*>(fileref->file())) {
-    TagLib::MP4::Tag *tag = mp4_file->tag();
-    if (tag) {
-      SetPlaycount(tag, playcount);
+    else if (TagLib::MP4::File *mp4_file = dynamic_cast<TagLib::MP4::File*>(fileref->file())) {
+      TagLib::MP4::Tag *tag = mp4_file->tag();
+      if (tag) {
+        SetPlaycount(tag, playcount);
+      }
     }
-  }
-  else if (TagLib::MPC::File *mpc_file = dynamic_cast<TagLib::MPC::File*>(fileref->file())) {
-    TagLib::APE::Tag *tag = mpc_file->APETag(true);
-    if (tag) {
-      SetPlaycount(tag, playcount);
+    else if (TagLib::MPC::File *mpc_file = dynamic_cast<TagLib::MPC::File*>(fileref->file())) {
+      TagLib::APE::Tag *tag = mpc_file->APETag(true);
+      if (tag) {
+        SetPlaycount(tag, playcount);
+      }
     }
-  }
-  else if (TagLib::ASF::File *asf_file = dynamic_cast<TagLib::ASF::File*>(fileref->file())) {
-    TagLib::ASF::Tag *tag = asf_file->tag();
-    if (tag && playcount > 0) {
-      tag->addAttribute(kASF_FMPS_Playcount, TagLib::ASF::Attribute(QStringToTagLibString(QString::number(playcount))));
+    else if (TagLib::ASF::File *asf_file = dynamic_cast<TagLib::ASF::File*>(fileref->file())) {
+      TagLib::ASF::Tag *tag = asf_file->tag();
+      if (tag && playcount > 0) {
+        tag->addAttribute(kASF_FMPS_Playcount, TagLib::ASF::Attribute(QStringToTagLibString(QString::number(playcount))));
+      }
     }
-  }
-  else {
-    return TagReaderResult::ErrorCode::Unsupported;
-  }
+    else {
+      return false;
+    }
 
-  const bool success = fileref->save();
+    return true;
+  };
+
+  // Use SaveFileWithFallback which tries direct save first, then atomic write workaround
+  const bool success = SaveFileWithFallback(filename, apply_modifications);
+
 #ifdef Q_OS_LINUX
   if (success) {
     // Linux: inotify doesn't seem to notice the change to the file unless we change the timestamps as well. (this is what touch does)
@@ -2002,63 +2106,68 @@ TagReaderResult TagReaderTagLib::SaveSongRating(const QString &filename, const f
     return TagReaderResult::ErrorCode::Success;
   }
 
-  ScopedPtr<TagLib::FileRef> fileref(factory_->GetFileRef(filename));
-  if (!fileref || fileref->isNull()) {
-    qLog(Error) << "TagLib could not open file" << filename;
-    return TagReaderResult::ErrorCode::FileOpenError;
-  }
+  // Lambda function that applies rating modifications to a FileRef
+  auto apply_modifications = [&](TagLib::FileRef *fileref) -> bool {
+    if (!fileref || fileref->isNull()) {
+      return false;
+    }
 
-  if (TagLib::FLAC::File *flac_file = dynamic_cast<TagLib::FLAC::File*>(fileref->file())) {
-    TagLib::Ogg::XiphComment *vorbis_comment = flac_file->xiphComment(true);
-    if (vorbis_comment) {
+    if (TagLib::FLAC::File *flac_file = dynamic_cast<TagLib::FLAC::File*>(fileref->file())) {
+      TagLib::Ogg::XiphComment *vorbis_comment = flac_file->xiphComment(true);
+      if (vorbis_comment) {
+        SetRating(vorbis_comment, rating);
+      }
+    }
+    else if (TagLib::WavPack::File *wavpack_file = dynamic_cast<TagLib::WavPack::File*>(fileref->file())) {
+      TagLib::APE::Tag *tag = wavpack_file->APETag(true);
+      if (tag) {
+        SetRating(tag, rating);
+      }
+    }
+    else if (TagLib::APE::File *ape_file = dynamic_cast<TagLib::APE::File*>(fileref->file())) {
+      TagLib::APE::Tag *tag = ape_file->APETag(true);
+      if (tag) {
+        SetRating(tag, rating);
+      }
+    }
+    else if (TagLib::Ogg::XiphComment *vorbis_comment = dynamic_cast<TagLib::Ogg::XiphComment*>(fileref->file()->tag())) {
       SetRating(vorbis_comment, rating);
     }
-  }
-  else if (TagLib::WavPack::File *wavpack_file = dynamic_cast<TagLib::WavPack::File*>(fileref->file())) {
-    TagLib::APE::Tag *tag = wavpack_file->APETag(true);
-    if (tag) {
-      SetRating(tag, rating);
+    else if (TagLib::MPEG::File *mpeg_file = dynamic_cast<TagLib::MPEG::File*>(fileref->file())) {
+      TagLib::ID3v2::Tag *tag = mpeg_file->ID3v2Tag(true);
+      if (tag) {
+        SetRating(tag, rating);
+      }
     }
-  }
-  else if (TagLib::APE::File *ape_file = dynamic_cast<TagLib::APE::File*>(fileref->file())) {
-    TagLib::APE::Tag *tag = ape_file->APETag(true);
-    if (tag) {
-      SetRating(tag, rating);
+    else if (TagLib::MP4::File *mp4_file = dynamic_cast<TagLib::MP4::File*>(fileref->file())) {
+      TagLib::MP4::Tag *tag = mp4_file->tag();
+      if (tag) {
+        SetRating(tag, rating);
+      }
     }
-  }
-  else if (TagLib::Ogg::XiphComment *vorbis_comment = dynamic_cast<TagLib::Ogg::XiphComment*>(fileref->file()->tag())) {
-    SetRating(vorbis_comment, rating);
-  }
-  else if (TagLib::MPEG::File *mpeg_file = dynamic_cast<TagLib::MPEG::File*>(fileref->file())) {
-    TagLib::ID3v2::Tag *tag = mpeg_file->ID3v2Tag(true);
-    if (tag) {
-      SetRating(tag, rating);
+    else if (TagLib::ASF::File *asf_file = dynamic_cast<TagLib::ASF::File*>(fileref->file())) {
+      TagLib::ASF::Tag *tag = asf_file->tag();
+      if (tag) {
+        SetRating(tag, rating);
+      }
     }
-  }
-  else if (TagLib::MP4::File *mp4_file = dynamic_cast<TagLib::MP4::File*>(fileref->file())) {
-    TagLib::MP4::Tag *tag = mp4_file->tag();
-    if (tag) {
-      SetRating(tag, rating);
+    else if (TagLib::MPC::File *mpc_file = dynamic_cast<TagLib::MPC::File*>(fileref->file())) {
+      TagLib::APE::Tag *tag = mpc_file->APETag(true);
+      if (tag) {
+        SetRating(tag, rating);
+      }
     }
-  }
-  else if (TagLib::ASF::File *asf_file = dynamic_cast<TagLib::ASF::File*>(fileref->file())) {
-    TagLib::ASF::Tag *tag = asf_file->tag();
-    if (tag) {
-      SetRating(tag, rating);
+    else {
+      qLog(Error) << "Unsupported file for saving rating for" << filename;
+      return false;
     }
-  }
-  else if (TagLib::MPC::File *mpc_file = dynamic_cast<TagLib::MPC::File*>(fileref->file())) {
-    TagLib::APE::Tag *tag = mpc_file->APETag(true);
-    if (tag) {
-      SetRating(tag, rating);
-    }
-  }
-  else {
-    qLog(Error) << "Unsupported file for saving rating for" << filename;
-    return TagReaderResult::ErrorCode::Unsupported;
-  }
 
-  const bool success = fileref->save();
+    return true;
+  };
+
+  // Use SaveFileWithFallback which tries direct save first, then atomic write workaround
+  const bool success = SaveFileWithFallback(filename, apply_modifications);
+
 #ifdef Q_OS_LINUX
   if (success) {
     // Linux: inotify doesn't seem to notice the change to the file unless we change the timestamps as well. (this is what touch does)
@@ -2069,6 +2178,8 @@ TagReaderResult TagReaderTagLib::SaveSongRating(const QString &filename, const f
   if (!success) {
     qLog(Error) << "TagLib hasn't been able to save file" << filename;
   }
+
+  return success ? TagReaderResult::ErrorCode::Success : TagReaderResult::ErrorCode::FileSaveError;
 
   return success ? TagReaderResult::ErrorCode::Success : TagReaderResult::ErrorCode::FileSaveError;
 
