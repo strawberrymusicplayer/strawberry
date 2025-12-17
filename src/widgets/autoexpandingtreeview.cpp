@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -190,4 +190,27 @@ void AutoExpandingTreeView::UpAndFocus() {
 void AutoExpandingTreeView::DownAndFocus() {
   setCurrentIndex(moveCursor(QAbstractItemView::MoveDown, Qt::NoModifier));
   setFocus();
+}
+
+void AutoExpandingTreeView::currentChanged(const QModelIndex &current_index, const QModelIndex &previous_index) {
+
+  QTreeView::currentChanged(current_index, previous_index);
+
+  // Ensure the newly selected item is visible after keyboard navigation.
+  // This fixes the issue where the cursor highlight disappears off-screen when using arrow keys to navigate through expanded lists.
+  if (current_index.isValid()) {
+    const QRect current_index_rect = visualRect(current_index);
+    const QRect viewport_rect = viewport()->rect();
+
+    // Calculate if we need to scroll to keep the item visible
+    // If the item extends below the viewport, scroll it to the bottom
+    // If the item extends above the viewport, scroll it to the top
+    if (current_index_rect.bottom() > viewport_rect.bottom()) {
+      scrollTo(current_index, QAbstractItemView::PositionAtBottom);
+    }
+    else if (current_index_rect.top() < viewport_rect.top()) {
+      scrollTo(current_index, QAbstractItemView::PositionAtTop);
+    }
+  }
+
 }
