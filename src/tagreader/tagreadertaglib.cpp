@@ -306,6 +306,13 @@ bool TagReaderTagLib::SaveFileWithFallback(const QString &filename, const std::f
       return false;
     }
 
+    // Apply modifications using the callback
+    if (!save_function(fileref.get())) {
+      qLog(Error) << "Failed to apply modifications to file" << filename;
+      return false;
+    }
+
+    // Try direct save first
     if (fileref->save()) {
       qLog(Debug) << "Successfully saved file directly" << filename;
       return true;
@@ -2178,8 +2185,6 @@ TagReaderResult TagReaderTagLib::SaveSongRating(const QString &filename, const f
   if (!success) {
     qLog(Error) << "TagLib hasn't been able to save file" << filename;
   }
-
-  return success ? TagReaderResult::ErrorCode::Success : TagReaderResult::ErrorCode::FileSaveError;
 
   return success ? TagReaderResult::ErrorCode::Success : TagReaderResult::ErrorCode::FileSaveError;
 
