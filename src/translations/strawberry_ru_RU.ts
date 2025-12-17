@@ -5526,7 +5526,7 @@ Are you sure you want to continue?</source>
     <name>RadioParadiseService</name>
     <message>
       <source>Getting %1 channels</source>
-      <translation>Получение %1 каналов</translation>
+      <translation>Получение каналов %1</translation>
     </message>
   </context>
   <context>
@@ -6191,7 +6191,7 @@ Are you sure you want to continue?</source>
     <name>SomaFMService</name>
     <message>
       <source>Getting %1 channels</source>
-      <translation>Получение %1 каналов</translation>
+      <translation>Получение каналов %1</translation>
     </message>
   </context>
   <context>
