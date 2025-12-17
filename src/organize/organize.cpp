@@ -206,6 +206,15 @@ void Organize::ProcessSomeFiles() {
       if (dest_type != Song::FileType::Unknown) {
         // Get the preset
         TranscoderPreset preset = Transcoder::PresetForFileType(dest_type);
+
+        // Check if the destination file already exists and we're not allowed to overwrite
+        const QString dest_filename_with_new_ext = Utilities::FiddleFileExtension(task.song_info_.new_filename_, preset.extension_);
+        if (ShouldSkipFile(dest_filename_with_new_ext)) {
+          qLog(Debug) << "Skipping" << task.song_info_.song_.url().toLocalFile() << ", destination file already exists";
+          tasks_complete_++;
+          continue;
+        }
+
         qLog(Debug) << "Transcoding with" << preset.name_;
 
         task.transcoded_filename_ = transcoder_->GetFile(task.song_info_.song_.url().toLocalFile(), preset);
@@ -220,6 +229,13 @@ void Organize::ProcessSomeFiles() {
         transcoder_->Start();
         continue;
       }
+    }
+
+    // Check if the destination file already exists and we're not allowed to overwrite
+    if (ShouldSkipFile(task.song_info_.new_filename_)) {
+      qLog(Debug) << "Skipping" << task.song_info_.song_.url().toLocalFile() << ", destination file already exists";
+      tasks_complete_++;
+      continue;
     }
 
     MusicStorage::CopyJob job;
@@ -289,6 +305,16 @@ void Organize::ProcessSomeFiles() {
     process_files_timer_->start();
   }
 
+
+}
+
+bool Organize::ShouldSkipFile(const QString &filename) const {
+
+  if (overwrite_) {
+    return false;
+  }
+
+  return QFile::exists(destination_->LocalPath() + QLatin1Char('/') + filename);
 
 }
 
