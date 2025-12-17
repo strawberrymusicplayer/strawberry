@@ -278,8 +278,8 @@ void Organize::ProcessSomeFiles() {
 
     QString error_text;
     if (destination_->CopyToStorage(job, error_text)) {
-      if (job.remove_original_ && song.is_local_collection_song() && destination_->source() == Song::Source::Collection) {
-        // Notify other aspects of system that song has been invalidated
+      if (job.remove_original_ && !song.is_local_collection_song() && destination_->source() == Song::Source::Collection) {
+        // Notify other aspects of system that song path has changed
         QString root = destination_->LocalPath();
         QFileInfo new_file = QFileInfo(root + QLatin1Char('/') + task.song_info_.new_filename_);
         Q_EMIT SongPathChanged(song, new_file, destination_->collection_directory_id());
