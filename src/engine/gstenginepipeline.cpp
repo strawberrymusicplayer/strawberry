@@ -58,6 +58,7 @@
 #include <QMetaObject>
 #include <QUuid>
 #include <QVersionNumber>
+#include <QThreadPool>
 
 #include "core/logging.h"
 #include "core/signalchecker.h"
@@ -99,14 +100,22 @@ constexpr int kEqBandFrequencies[] = { 60, 170, 310, 600, 1000, 3000, 6000, 1200
 int GstEnginePipeline::sId = 1;
 
 QThreadPool *GstEnginePipeline::shared_state_threadpool() {
-  static QThreadPool *pool = nullptr;
-  if (!pool) {
-    pool = new QThreadPool();
-    // Limit the number of threads to prevent resource exhaustion
-    // Use 2 threads max since state changes are typically sequential per pipeline
-    pool->setMaxThreadCount(2);
+  // Thread-safe static local initialization (C++11 guarantees thread safety)
+  static QThreadPool pool;
+  static bool initialized = false;
+  static QMutex init_mutex;
+  
+  if (!initialized) {
+    QMutexLocker locker(&init_mutex);
+    if (!initialized) {
+      // Limit the number of threads to prevent resource exhaustion
+      // Use 2 threads max since state changes are typically sequential per pipeline
+      pool.setMaxThreadCount(2);
+      initialized = true;
+    }
   }
-  return pool;
+  
+  return &pool;
 }
 
 GstEnginePipeline::GstEnginePipeline(QObject *parent)
