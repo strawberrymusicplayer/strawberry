@@ -3318,7 +3318,8 @@ void MainWindow::PlaylistDelete() {
 
   if (DeleteConfirmationDialog::warning(files) != QDialogButtonBox::Yes) return;
 
-  if (app_->player()->GetState() == EngineBase::State::Playing && app_->playlist_manager()->current()->rowCount() == selected_songs.count() && app_->playlist_manager()->current() == app_->playlist_manager()->active()) {
+  bool is_current_playlist_active = app_->playlist_manager()->current() == app_->playlist_manager()->active();
+  if (app_->player()->GetState() == EngineBase::State::Playing && app_->playlist_manager()->current()->rowCount() == selected_songs.count() && is_current_playlist_active) {
     app_->player()->Stop();
   }
 
