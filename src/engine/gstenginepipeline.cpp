@@ -98,6 +98,17 @@ constexpr int kEqBandFrequencies[] = { 60, 170, 310, 600, 1000, 3000, 6000, 1200
 
 int GstEnginePipeline::sId = 1;
 
+QThreadPool *GstEnginePipeline::shared_state_threadpool() {
+  static QThreadPool *pool = nullptr;
+  if (!pool) {
+    pool = new QThreadPool();
+    // Limit the number of threads to prevent resource exhaustion
+    // Use 2 threads max since state changes are typically sequential per pipeline
+    pool->setMaxThreadCount(2);
+  }
+  return pool;
+}
+
 GstEnginePipeline::GstEnginePipeline(QObject *parent)
     : QObject(parent),
       id_(sId++),
@@ -1841,7 +1852,7 @@ QFuture<GstStateChangeReturn> GstEnginePipeline::SetState(const GstState state) 
     watcher->deleteLater();
     SetStateFinishedSlot(state, state_change_return);
   });
-  QFuture<GstStateChangeReturn> future = QtConcurrent::run(&set_state_threadpool_, &gst_element_set_state, pipeline_, state);
+  QFuture<GstStateChangeReturn> future = QtConcurrent::run(shared_state_threadpool(), &gst_element_set_state, pipeline_, state);
   watcher->setFuture(future);
 
   return future;
