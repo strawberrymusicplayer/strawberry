@@ -29,6 +29,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QNetworkInformation>
 
 #include "networkaccessmanager.h"
 #include "threadsafenetworkdiskcache.h"
@@ -40,6 +41,22 @@ NetworkAccessManager::NetworkAccessManager(QObject *parent)
 
   setRedirectPolicy(QNetworkRequest::NoLessSafeRedirectPolicy);
   setCache(new ThreadSafeNetworkDiskCache(this));
+
+  // Handle network state changes after system suspend/resume
+  // QNetworkInformation provides cross-platform network reachability monitoring in Qt 6
+  if (QNetworkInformation::loadDefaultBackend()) {
+    QNetworkInformation *network_info = QNetworkInformation::instance();
+    if (network_info) {
+      QObject::connect(network_info, &QNetworkInformation::reachabilityChanged, this, [this](QNetworkInformation::Reachability reachability) {
+        if (reachability == QNetworkInformation::Reachability::Online) {
+          // Clear connection cache to force reconnection after network becomes available
+          // This fixes issues after system suspend/resume
+          clearConnectionCache();
+          clearAccessCache();
+        }
+      });
+    }
+  }
 
 }
 
