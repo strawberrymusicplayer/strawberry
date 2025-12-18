@@ -106,6 +106,8 @@ class QobuzService : public StreamingService {
   bool login_sent() const { return login_sent_; }
   bool login_attempts() const { return login_attempts_; }
 
+  SharedPtr<NetworkAccessManager> network() const { return network_; }
+
   uint GetStreamURL(const QUrl &url, QString &error);
 
   SharedPtr<CollectionBackend> artists_collection_backend() override { return artists_collection_backend_; }

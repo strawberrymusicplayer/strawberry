@@ -30,6 +30,7 @@ class QShowEvent;
 class QEvent;
 class SettingsDialog;
 class QobuzService;
+class QobuzCredentialFetcher;
 class Ui_QobuzSettingsPage;
 
 class QobuzSettingsPage : public SettingsPage {
@@ -55,10 +56,14 @@ class QobuzSettingsPage : public SettingsPage {
   void LogoutClicked();
   void LoginSuccess();
   void LoginFailure(const QString &failure_reason);
+  void FetchCredentialsClicked();
+  void CredentialsFetched(const QString &app_id, const QString &app_secret);
+  void CredentialsFetchError(const QString &error);
 
  private:
   Ui_QobuzSettingsPage *ui_;
   const SharedPtr<QobuzService> service_;
+  QobuzCredentialFetcher *credential_fetcher_;
 };
 
 #endif  // QOBUZSETTINGSPAGE_H
