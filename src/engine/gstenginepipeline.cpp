@@ -100,20 +100,15 @@ constexpr int kEqBandFrequencies[] = { 60, 170, 310, 600, 1000, 3000, 6000, 1200
 int GstEnginePipeline::sId = 1;
 
 QThreadPool *GstEnginePipeline::shared_state_threadpool() {
-  // Thread-safe static local initialization (C++11 guarantees thread safety)
+  // C++11 guarantees thread-safe initialization of static local variables
   static QThreadPool pool;
-  static bool initialized = false;
-  static QMutex init_mutex;
-  
-  if (!initialized) {
-    QMutexLocker locker(&init_mutex);
-    if (!initialized) {
-      // Limit the number of threads to prevent resource exhaustion
-      // Use 2 threads max since state changes are typically sequential per pipeline
-      pool.setMaxThreadCount(2);
-      initialized = true;
-    }
-  }
+  static const auto init = []() {
+    // Limit the number of threads to prevent resource exhaustion
+    // Use 2 threads max since state changes are typically sequential per pipeline
+    pool.setMaxThreadCount(2);
+    return true;
+  }();
+  Q_UNUSED(init);
   
   return &pool;
 }
