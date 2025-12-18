@@ -109,7 +109,6 @@ QThreadPool *GstEnginePipeline::shared_state_threadpool() {
     return true;
   }();
   Q_UNUSED(init);
-  
   return &pool;
 }
 
