@@ -151,10 +151,6 @@ constexpr char kID3v2_MusicBrainz_DiscId[] = "MusicBrainz Disc Id";
 constexpr char kID3v2_MusicBrainz_ReleaseGroupId[] = "MusicBrainz Release Group Id";
 constexpr char kID3v2_MusicBrainz_WorkId[] = "MusicBrainz Work Id";
 
-// ID3v2 version constants
-constexpr int kID3v2_Version_3 = 3;
-constexpr int kID3v2_Version_4 = 4;
-
 constexpr char kVorbisComment_AlbumArtist1[] = "ALBUMARTIST";
 constexpr char kVorbisComment_AlbumArtist2[] = "ALBUM ARTIST";
 constexpr char kVorbisComment_AlbumArtistSort[] = "ALBUMARTISTSORT";
