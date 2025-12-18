@@ -215,11 +215,21 @@ GstEnginePipeline::~GstEnginePipeline() {
 
   if (pipeline_) {
 
-    // Wait for any ongoing state changes to complete before setting to NULL.
+    // Wait for any ongoing state changes for this pipeline to complete before setting to NULL.
     // This prevents race conditions with async state transitions, particularly
     // on macOS where GStreamer elements like mpg123 can crash if accessed
     // during concurrent state changes.
-    shared_state_threadpool()->waitForDone();
+    {
+      QMutexLocker locker(&mutex_pending_state_changes_);
+      for (const QFuture<GstStateChangeReturn> &future : pending_state_changes_) {
+        if (!future.isFinished()) {
+          locker.unlock();
+          future.waitForFinished();
+          locker.relock();
+        }
+      }
+      pending_state_changes_.clear();
+    }
 
     gst_element_set_state(pipeline_, GST_STATE_NULL);
 
@@ -1875,6 +1885,12 @@ QFuture<GstStateChangeReturn> GstEnginePipeline::SetState(const GstState state) 
   QFuture<GstStateChangeReturn> future = QtConcurrent::run(shared_state_threadpool(), &gst_element_set_state, pipeline_, state);
   watcher->setFuture(future);
 
+  // Track this future so destructor can wait for it
+  {
+    QMutexLocker locker(&mutex_pending_state_changes_);
+    pending_state_changes_.append(future);
+  }
+
   return future;
 
 }
@@ -1883,6 +1899,19 @@ void GstEnginePipeline::SetStateFinishedSlot(const GstState state, const GstStat
 
   last_set_state_in_progress_ = GST_STATE_VOID_PENDING;
   --set_state_in_progress_;
+
+  // Remove finished futures from tracking list to prevent unbounded growth
+  {
+    QMutexLocker locker(&mutex_pending_state_changes_);
+    for (auto it = pending_state_changes_.begin(); it != pending_state_changes_.end(); ) {
+      if (it->isFinished()) {
+        it = pending_state_changes_.erase(it);
+      }
+      else {
+        ++it;
+      }
+    }
+  }
 
   switch (state_change_return) {
     case GST_STATE_CHANGE_SUCCESS:
