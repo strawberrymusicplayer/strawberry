@@ -105,6 +105,11 @@
 using std::make_shared;
 using namespace Qt::Literals::StringLiterals;
 
+#ifdef __clang__
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wunused-const-variable"
+#endif
+
 namespace {
 constexpr char kSettingsGroup[] = "EditTagDialog";
 constexpr int kSmallImageSize = 128;
@@ -118,6 +123,10 @@ constexpr int kComboBoxIndex_ID3v2_4 = 1;
 
 const char EditTagDialog::kTagsDifferentHintText[] = QT_TR_NOOP("(different across multiple songs)");
 const char EditTagDialog::kArtDifferentHintText[] = QT_TR_NOOP("Different art across multiple songs.");
+
+#ifdef __clang_
+#  pragma clang diagnostic pop
+#endif
 
 EditTagDialog::EditTagDialog(const SharedPtr<NetworkAccessManager> network,
                              const SharedPtr<TagReaderClient> tagreader_client,
