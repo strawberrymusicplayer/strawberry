@@ -215,6 +215,12 @@ GstEnginePipeline::~GstEnginePipeline() {
 
   if (pipeline_) {
 
+    // Wait for any ongoing state changes to complete before setting to NULL.
+    // This prevents race conditions with async state transitions, particularly
+    // on macOS where GStreamer elements like mpg123 can crash if accessed
+    // during concurrent state changes.
+    set_state_threadpool_.waitForDone();
+
     gst_element_set_state(pipeline_, GST_STATE_NULL);
 
     GstElement *audiobin = nullptr;
