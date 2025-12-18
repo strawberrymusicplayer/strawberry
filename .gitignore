@@ -13,3 +13,4 @@
 /CMakeSettings.json
 /dist/scripts/maketarball.sh
 /debian/changelog
+_codeql_detected_source_root
