@@ -310,6 +310,10 @@ void QobuzService::HandleLoginSSLErrors(const QList<QSslError> &ssl_errors) {
 
 void QobuzService::HandleAuthReply(QNetworkReply *reply) {
 
+  if (replies_.contains(reply)) {
+     replies_.removeAll(reply);
+  }
+  QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
   login_sent_ = false;
