@@ -38,6 +38,7 @@
 #include "core/settings.h"
 #include "widgets/loginstatewidget.h"
 #include "qobuz/qobuzservice.h"
+#include "qobuz/qobuzcredentialfetcher.h"
 #include "constants/qobuzsettings.h"
 
 using namespace Qt::Literals::StringLiterals;
@@ -46,13 +47,15 @@ using namespace QobuzSettings;
 QobuzSettingsPage::QobuzSettingsPage(SettingsDialog *dialog, const SharedPtr<QobuzService> service, QWidget *parent)
     : SettingsPage(dialog, parent),
       ui_(new Ui::QobuzSettingsPage),
-      service_(service) {
+      service_(service),
+      credential_fetcher_(nullptr) {
 
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load(u"qobuz"_s, true, 0, 32));
 
   QObject::connect(ui_->button_login, &QPushButton::clicked, this, &QobuzSettingsPage::LoginClicked);
   QObject::connect(ui_->login_state, &LoginStateWidget::LogoutClicked, this, &QobuzSettingsPage::LogoutClicked);
+  QObject::connect(ui_->button_fetch_credentials, &QPushButton::clicked, this, &QobuzSettingsPage::FetchCredentialsClicked);
 
   QObject::connect(this, &QobuzSettingsPage::Login, &*service_, &StreamingService::LoginWithCredentials);
 
@@ -184,5 +187,42 @@ void QobuzSettingsPage::LoginFailure(const QString &failure_reason) {
 
   if (!isVisible()) return;
   QMessageBox::warning(this, tr("Authentication failed"), failure_reason);
+
+}
+
+void QobuzSettingsPage::FetchCredentialsClicked() {
+
+  ui_->button_fetch_credentials->setEnabled(false);
+  ui_->button_fetch_credentials->setText(tr("Fetching..."));
+
+  if (!credential_fetcher_) {
+    credential_fetcher_ = new QobuzCredentialFetcher(service_->network(), this);
+    QObject::connect(credential_fetcher_, &QobuzCredentialFetcher::CredentialsFetched, this, &QobuzSettingsPage::CredentialsFetched);
+    QObject::connect(credential_fetcher_, &QobuzCredentialFetcher::CredentialsFetchError, this, &QobuzSettingsPage::CredentialsFetchError);
+  }
+
+  credential_fetcher_->FetchCredentials();
+
+}
+
+void QobuzSettingsPage::CredentialsFetched(const QString &app_id, const QString &app_secret) {
+
+  ui_->app_id->setText(app_id);
+  ui_->app_secret->setText(app_secret);
+  ui_->checkbox_base64_secret->setChecked(false);
+
+  ui_->button_fetch_credentials->setEnabled(true);
+  ui_->button_fetch_credentials->setText(tr("Fetch Credentials"));
+
+  QMessageBox::information(this, tr("Credentials fetched"), tr("App ID and secret have been successfully fetched from the Qobuz web player."));
+
+}
+
+void QobuzSettingsPage::CredentialsFetchError(const QString &error) {
+
+  ui_->button_fetch_credentials->setEnabled(true);
+  ui_->button_fetch_credentials->setText(tr("Fetch Credentials"));
+
+  QMessageBox::warning(this, tr("Credential fetch failed"), error);
 
 }

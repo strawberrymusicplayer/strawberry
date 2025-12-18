@@ -115,6 +115,7 @@ void QobuzStreamURLRequest::GetStreamURL() {
   const quint64 timestamp = static_cast<quint64>(QDateTime::currentSecsSinceEpoch());
 
   ParamList params_to_sign = ParamList() << Param(u"format_id"_s, QString::number(service_->format()))
+                                         << Param(u"intent"_s, u"stream"_s)
                                          << Param(u"track_id"_s, QString::number(song_id_));
 
   std::sort(params_to_sign.begin(), params_to_sign.end());
