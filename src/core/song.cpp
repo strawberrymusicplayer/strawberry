@@ -353,6 +353,8 @@ struct Song::Private : public QSharedData {
   std::optional<double> ebur128_integrated_loudness_lufs_;
   std::optional<double> ebur128_loudness_range_lu_;
 
+  int id3v2_version_;  // ID3v2 tag version (3 or 4), 0 if not applicable or unknown
+
   bool init_from_file_;         // Whether this song was loaded from a file using taglib.
   bool suspicious_tags_;        // Whether our encoding guesser thinks these tags might be incorrectly encoded.
 
@@ -399,6 +401,8 @@ Song::Private::Private(const Source source)
 
       rating_(-1),
       bpm_(-1),
+
+      id3v2_version_(0),
 
       init_from_file_(false),
       suspicious_tags_(false)
@@ -509,6 +513,8 @@ const QString &Song::musicbrainz_work_id() const { return d->musicbrainz_work_id
 
 std::optional<double> Song::ebur128_integrated_loudness_lufs() const { return d->ebur128_integrated_loudness_lufs_; }
 std::optional<double> Song::ebur128_loudness_range_lu() const { return d->ebur128_loudness_range_lu_; }
+
+int Song::id3v2_version() const { return d->id3v2_version_; }
 
 QString *Song::mutable_title() { return &d->title_; }
 QString *Song::mutable_album() { return &d->album_; }
@@ -623,6 +629,8 @@ void Song::set_musicbrainz_work_id(const QString &v) { d->musicbrainz_work_id_ =
 
 void Song::set_ebur128_integrated_loudness_lufs(const std::optional<double> v) { d->ebur128_integrated_loudness_lufs_ = v; }
 void Song::set_ebur128_loudness_range_lu(const std::optional<double> v) { d->ebur128_loudness_range_lu_ = v; }
+
+void Song::set_id3v2_version(const int v) { d->id3v2_version_ = v; }
 
 void Song::set_init_from_file(const bool v) { d->init_from_file_ = v; }
 
@@ -831,6 +839,10 @@ bool Song::save_embedded_cover_supported(const FileType filetype) {
          filetype == FileType::WAV ||
          filetype == FileType::AIFF;
 
+}
+
+bool Song::id3v2_tags_supported() const {
+  return d->filetype_ == FileType::MPEG || d->filetype_ == FileType::WAV || d->filetype_ == FileType::AIFF;
 }
 
 int Song::ColumnIndex(const QString &field) {

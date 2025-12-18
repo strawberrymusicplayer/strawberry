@@ -234,6 +234,8 @@ class Song {
   std::optional<double> ebur128_integrated_loudness_lufs() const;
   std::optional<double> ebur128_loudness_range_lu() const;
 
+  int id3v2_version() const;
+
   QString *mutable_title();
   QString *mutable_album();
   QString *mutable_artist();
@@ -349,6 +351,8 @@ class Song {
   void set_ebur128_integrated_loudness_lufs(const std::optional<double> v);
   void set_ebur128_loudness_range_lu(const std::optional<double> v);
 
+  void set_id3v2_version(const int v);
+
   void set_init_from_file(const bool v);
 
   void set_stream_url(const QUrl &v);
@@ -438,6 +442,8 @@ class Song {
 
   static bool save_embedded_cover_supported(const FileType filetype);
   bool save_embedded_cover_supported() const { return url().isLocalFile() && save_embedded_cover_supported(filetype()) && !has_cue(); };
+
+  bool id3v2_tags_supported() const;
 
   static int ColumnIndex(const QString &field);
   static QString JoinSpec(const QString &table);
