@@ -215,7 +215,8 @@ class GstEnginePipeline : public QObject {
   static int sId;
   mutex_protected<int> id_;
 
-  QThreadPool set_state_threadpool_;
+  // Shared thread pool for all pipeline state changes to prevent thread/FD exhaustion
+  static QThreadPool *shared_state_threadpool();
 
   bool playbin3_support_;
   bool volume_full_range_support_;
