@@ -219,7 +219,7 @@ GstEnginePipeline::~GstEnginePipeline() {
     // This prevents race conditions with async state transitions, particularly
     // on macOS where GStreamer elements like mpg123 can crash if accessed
     // during concurrent state changes.
-    set_state_threadpool_.waitForDone();
+    shared_state_threadpool()->waitForDone();
 
     gst_element_set_state(pipeline_, GST_STATE_NULL);
 
