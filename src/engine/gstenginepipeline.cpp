@@ -23,6 +23,7 @@
 
 #include <QtGlobal>
 
+#include <algorithm>
 #include <cstdint>
 #include <cstring>
 #include <cmath>
@@ -220,15 +221,19 @@ GstEnginePipeline::~GstEnginePipeline() {
     // on macOS where GStreamer elements like mpg123 can crash if accessed
     // during concurrent state changes.
     {
-      QMutexLocker locker(&mutex_pending_state_changes_);
-      for (const QFuture<GstStateChangeReturn> &future : pending_state_changes_) {
+      // Copy futures to local list to avoid holding mutex during waitForFinished()
+      QList<QFuture<GstStateChangeReturn>> futures_to_wait;
+      {
+        QMutexLocker locker(&mutex_pending_state_changes_);
+        futures_to_wait = pending_state_changes_;
+        pending_state_changes_.clear();
+      }
+      
+      for (const QFuture<GstStateChangeReturn> &future : futures_to_wait) {
         if (!future.isFinished()) {
-          locker.unlock();
           future.waitForFinished();
-          locker.relock();
         }
       }
-      pending_state_changes_.clear();
     }
 
     gst_element_set_state(pipeline_, GST_STATE_NULL);
@@ -1903,14 +1908,11 @@ void GstEnginePipeline::SetStateFinishedSlot(const GstState state, const GstStat
   // Remove finished futures from tracking list to prevent unbounded growth
   {
     QMutexLocker locker(&mutex_pending_state_changes_);
-    for (auto it = pending_state_changes_.begin(); it != pending_state_changes_.end(); ) {
-      if (it->isFinished()) {
-        it = pending_state_changes_.erase(it);
-      }
-      else {
-        ++it;
-      }
-    }
+    pending_state_changes_.erase(
+      std::remove_if(pending_state_changes_.begin(), pending_state_changes_.end(),
+                     [](const QFuture<GstStateChangeReturn> &f) { return f.isFinished(); }),
+      pending_state_changes_.end()
+    );
   }
 
   switch (state_change_return) {
