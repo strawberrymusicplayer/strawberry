@@ -1364,6 +1364,13 @@ void GstEnginePipeline::AboutToFinishCallback(GstPlayBin *playbin, gpointer self
 
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
 
+  // Ignore about-to-finish if we're in the process of tearing down the pipeline
+  // This prevents race conditions in GStreamer's decodebin3 when rapidly switching tracks
+  // See: https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/4626
+  if (instance->finish_requested_.value()) {
+    return;
+  }
+
   {
     QMutexLocker l(&instance->mutex_url_);
     qLog(Debug) << "Stream from URL" << instance->gst_url_ << "about to finish.";
