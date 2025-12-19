@@ -230,7 +230,7 @@ GstEnginePipeline::~GstEnginePipeline() {
       }
       
       // Wait for all pending futures to complete
-      for (const QFuture<GstStateChangeReturn> &future : futures_to_wait) {
+      for (QFuture<GstStateChangeReturn> &future : futures_to_wait) {
         future.waitForFinished();
       }
     }
