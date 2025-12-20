@@ -385,6 +385,11 @@ void GstEnginePipeline::Disconnect() {
       element_removed_cb_id_.reset();
     }
 
+    if (pipeline_element_added_cb_id_.has_value()) {
+      g_signal_handler_disconnect(G_OBJECT(pipeline_), pipeline_element_added_cb_id_.value());
+      pipeline_element_added_cb_id_.reset();
+    }
+
     if (pad_added_cb_id_.has_value()) {
       g_signal_handler_disconnect(G_OBJECT(pipeline_), pad_added_cb_id_.value());
       pad_added_cb_id_.reset();
@@ -482,10 +487,8 @@ bool GstEnginePipeline::InitFromUrl(const QUrl &media_url, const QUrl &stream_ur
   notify_source_cb_id_ = CHECKED_GCONNECT(G_OBJECT(pipeline_), "source-setup", &SourceSetupCallback, this);
   about_to_finish_cb_id_ = CHECKED_GCONNECT(G_OBJECT(pipeline_), "about-to-finish", &AboutToFinishCallback, this);
 
-  // Monitor all elements added to the pipeline to catch decoders like flacdec
-  if (!element_added_cb_id_.has_value()) {
-    element_added_cb_id_ = CHECKED_GCONNECT(G_OBJECT(pipeline_), "deep-element-added", &ElementAddedCallback, this);
-  }
+  // Monitor all elements added to the pipeline to detect decoders like flacdec
+  pipeline_element_added_cb_id_ = CHECKED_GCONNECT(G_OBJECT(pipeline_), "deep-element-added", &ElementAddedCallback, this);
 
   if (!InitAudioBin(error)) return false;
 
