@@ -119,7 +119,12 @@ class CollectionLibrary : public QObject {
   // Track currently playing file to defer tag writes
   QUrl current_song_url_;
   // Queue of pending rating/playcount saves for currently playing file
-  QHash<QUrl, Song> pending_saves_;
+  struct PendingSave {
+    Song song;
+    bool save_playcount = false;
+    bool save_rating = false;
+  };
+  QHash<QUrl, PendingSave> pending_saves_;
 };
 
 #endif

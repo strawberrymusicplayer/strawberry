@@ -219,7 +219,9 @@ void CollectionLibrary::SongsPlaycountChanged(const SongList &songs, const bool 
     for (const Song &song : songs) {
       if (song.url().isLocalFile() && song.url() == current_song_url_) {
         // File is currently playing, queue it for later
-        pending_saves_[song.url()] = song;
+        PendingSave &pending = pending_saves_[song.url()];
+        pending.song = song;
+        pending.save_playcount = true;
         qLog(Debug) << "Deferring playcount save for currently playing file:" << song.url().toLocalFile();
       }
       else {
@@ -240,7 +242,9 @@ void CollectionLibrary::SongsRatingChanged(const SongList &songs, const bool sav
     for (const Song &song : songs) {
       if (song.url().isLocalFile() && song.url() == current_song_url_) {
         // File is currently playing, queue it for later
-        pending_saves_[song.url()] = song;
+        PendingSave &pending = pending_saves_[song.url()];
+        pending.song = song;
+        pending.save_rating = true;
         qLog(Debug) << "Deferring rating save for currently playing file:" << song.url().toLocalFile();
       }
       else {
@@ -279,11 +283,17 @@ void CollectionLibrary::Stopped() {
 
 void CollectionLibrary::SavePendingPlaycountsAndRatings(const QUrl &url) {
 
-  if (pending_saves_.contains(url)) {
-    const Song song = pending_saves_.take(url);
+  auto it = pending_saves_.find(url);
+  if (it != pending_saves_.end()) {
+    const PendingSave &pending = it.value();
     qLog(Debug) << "Saving deferred playcount/rating for:" << url.toLocalFile();
-    tagreader_client_->SaveSongPlaycountAsync(url.toLocalFile(), song.playcount());
-    tagreader_client_->SaveSongRatingAsync(url.toLocalFile(), song.rating());
+    if (pending.save_playcount) {
+      tagreader_client_->SaveSongPlaycountAsync(url.toLocalFile(), pending.song.playcount());
+    }
+    if (pending.save_rating) {
+      tagreader_client_->SaveSongRatingAsync(url.toLocalFile(), pending.song.rating());
+    }
+    pending_saves_.erase(it);
   }
 
 }
