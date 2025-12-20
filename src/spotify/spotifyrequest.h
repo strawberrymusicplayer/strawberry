@@ -57,11 +57,13 @@ class SpotifyRequest : public SpotifyBaseRequest {
   struct Artist {
     QString artist_id;
     QString artist;
+    QString genre;
   };
   struct Album {
     QString album_id;
     QString album;
     QUrl cover_url;
+    QString genre;
   };
   struct Request {
     Request() : offset(0), limit(0) {}

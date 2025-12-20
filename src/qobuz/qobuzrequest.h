@@ -65,6 +65,7 @@ class QobuzRequest : public QobuzBaseRequest {
     QString album;
     QUrl cover_url;
     bool album_explicit;
+    QString genre;
   };
   struct Request {
     Request() : offset(0), limit(0) {}
