@@ -1610,6 +1610,14 @@ void GstEnginePipeline::ErrorMessageReceived(GstMessage *msg) {
   }
 #endif
 
+  // Ignore "not-linked" errors which are transient pipeline state issues during track switching
+  // These occur when elements temporarily become disconnected during track transitions
+  // See: https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/3198
+  if (domain == GST_STREAM_ERROR && (debugstr.contains(QLatin1String("reason not-linked")) || debugstr.contains(QLatin1String("streaming stopped, reason not-linked")))) {
+    qLog(Info) << "Ignoring transient 'not-linked' error during track transition:" << message;
+    return;
+  }
+
   Q_EMIT Error(id(), static_cast<int>(domain), code, message, debugstr);
 
 }
