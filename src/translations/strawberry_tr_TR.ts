@@ -4431,7 +4431,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>&amp;Hide %1</source>
-      <translation>&amp;%1&apos;i sakla</translation>
+      <translation>&amp;%1 ögesini sakla</translation>
     </message>
   </context>
   <context>
