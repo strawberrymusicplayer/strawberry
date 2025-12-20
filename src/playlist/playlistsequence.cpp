@@ -33,9 +33,12 @@
 #include <QAction>
 #include <QActionGroup>
 #include <QToolButton>
+#include <QSettings>
 
 #include "core/iconloader.h"
+#include "core/settings.h"
 #include "core/settingsprovider.h"
+#include "constants/appearancesettings.h"
 #include "playlistsequence.h"
 #include "ui_playlistsequence.h"
 
@@ -60,9 +63,14 @@ PlaylistSequence::PlaylistSequence(QWidget *parent, SettingsProvider *settings)
   // Icons
   ui_->repeat->setIcon(AddDesaturatedIcon(IconLoader::Load(u"media-playlist-repeat"_s)));
   ui_->shuffle->setIcon(AddDesaturatedIcon(IconLoader::Load(u"media-playlist-shuffle"_s)));
-  const int base_icon_size = static_cast<int>(fontMetrics().height() * 1.2);
-  ui_->repeat->setIconSize(QSize(base_icon_size, base_icon_size));
-  ui_->shuffle->setIconSize(QSize(base_icon_size, base_icon_size));
+
+  // Read icon size from settings
+  Settings s;
+  s.beginGroup(AppearanceSettings::kSettingsGroup);
+  const int icon_size = s.value(AppearanceSettings::kIconSizePlaylistButtons, 20).toInt();
+  s.endGroup();
+  ui_->repeat->setIconSize(QSize(icon_size, icon_size));
+  ui_->shuffle->setIconSize(QSize(icon_size, icon_size));
 
   // Remove arrow indicators
   ui_->repeat->setStyleSheet(u"QToolButton::menu-indicator { image: none; }"_s);
