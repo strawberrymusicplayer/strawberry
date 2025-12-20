@@ -26,6 +26,7 @@
 #include <cstdint>
 #include <cstring>
 #include <cmath>
+#include <algorithm>
 
 #include <glib.h>
 #include <glib-object.h>
@@ -214,6 +215,23 @@ GstEnginePipeline::~GstEnginePipeline() {
   Disconnect();
 
   if (pipeline_) {
+
+    // Wait for any ongoing state changes for this pipeline to complete before setting to NULL.
+    // This prevents race conditions with async state transitions.
+    {
+      // Copy futures to local list to avoid holding mutex during waitForFinished()
+      QList<QFuture<GstStateChangeReturn>> futures_to_wait;
+      {
+        QMutexLocker locker(&mutex_pending_state_changes_);
+        futures_to_wait = pending_state_changes_;
+        pending_state_changes_.clear();
+      }
+
+      // Wait for all pending futures to complete
+      for (QFuture<GstStateChangeReturn> &future : futures_to_wait) {
+        future.waitForFinished();
+      }
+    }
 
     gst_element_set_state(pipeline_, GST_STATE_NULL);
 
@@ -1869,6 +1887,12 @@ QFuture<GstStateChangeReturn> GstEnginePipeline::SetState(const GstState state) 
   QFuture<GstStateChangeReturn> future = QtConcurrent::run(shared_state_threadpool(), &gst_element_set_state, pipeline_, state);
   watcher->setFuture(future);
 
+  // Track this future so destructor can wait for it
+  {
+    QMutexLocker locker(&mutex_pending_state_changes_);
+    pending_state_changes_.append(future);
+  }
+
   return future;
 
 }
@@ -1877,6 +1901,12 @@ void GstEnginePipeline::SetStateFinishedSlot(const GstState state, const GstStat
 
   last_set_state_in_progress_ = GST_STATE_VOID_PENDING;
   --set_state_in_progress_;
+
+  // Remove finished futures from tracking list to prevent unbounded growth
+  {
+    QMutexLocker locker(&mutex_pending_state_changes_);
+    pending_state_changes_.erase(std::remove_if(pending_state_changes_.begin(), pending_state_changes_.end(), [](const QFuture<GstStateChangeReturn> &f) { return f.isFinished(); }), pending_state_changes_.end());
+  }
 
   switch (state_change_return) {
     case GST_STATE_CHANGE_SUCCESS:

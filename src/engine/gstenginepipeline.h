@@ -385,6 +385,10 @@ class GstEnginePipeline : public QObject {
 
   mutex_protected<GstState> last_set_state_in_progress_;
   mutex_protected<GstState> last_set_state_async_in_progress_;
+
+  // Track futures for this pipeline's state changes to allow waiting for them in destructor
+  QList<QFuture<GstStateChangeReturn>> pending_state_changes_;
+  QMutex mutex_pending_state_changes_;
 };
 
 using GstEnginePipelinePtr = QSharedPointer<GstEnginePipeline>;
