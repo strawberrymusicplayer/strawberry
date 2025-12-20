@@ -118,7 +118,10 @@ bool FilesystemMusicStorage::DeleteFromStorage(const DeleteJob &job) {
 #else
   if (job.use_trash_) {
 #endif
-    return QFile::moveToTrash(path);
+    if (QFile::moveToTrash(path)) {
+      return true;
+    }
+    qLog(Warning) << "Moving file to trash failed for" << path << ", falling back to direct deletion";
   }
 
   if (fileInfo.isDir()) {
