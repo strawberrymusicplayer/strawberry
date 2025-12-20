@@ -1209,49 +1209,41 @@ QString CollectionModel::ContainerKey(const GroupBy group_by, const Song &song, 
   switch (group_by) {
     case GroupBy::AlbumArtist:
       key = TextOrUnknown(song.effective_albumartist());
-      if (!song.effective_albumartistsort().isEmpty() && song.effective_albumartistsort() != song.effective_albumartist()) key.append(QLatin1Char('-') + TextOrUnknown(song.effective_albumartistsort()));
       has_unique_album_identifier = true;
       break;
     case GroupBy::Artist:
       key = TextOrUnknown(song.artist());
-      if (!song.artistsort().isEmpty() && song.artistsort() != song.artist()) key.append(QLatin1Char('-') + TextOrUnknown(song.artistsort()));
       has_unique_album_identifier = true;
       break;
     case GroupBy::Album:
       key = TextOrUnknown(song.album());
-      if (!song.albumsort().isEmpty() && song.albumsort() != song.album()) key.append(QLatin1Char('-') + TextOrUnknown(song.albumsort()));
       if (!song.album_id().isEmpty()) key.append(QLatin1Char('-') + song.album_id());
       if (options_active_.separate_albums_by_grouping && !song.grouping().isEmpty()) key.append(QLatin1Char('-') + song.grouping());
       break;
     case GroupBy::AlbumDisc:
       key = TextOrUnknown(song.album());
-      if (!song.albumsort().isEmpty() && song.albumsort() != song.album()) key.append(QLatin1Char('-') + TextOrUnknown(song.albumsort()));
       key.append(QLatin1Char('-') + SortTextForNumber(song.disc()));
       if (!song.album_id().isEmpty()) key.append(QLatin1Char('-') + song.album_id());
       if (options_active_.separate_albums_by_grouping && !song.grouping().isEmpty()) key.append(QLatin1Char('-') + song.grouping());
       break;
     case GroupBy::YearAlbum:
       key = SortTextForYear(song.year()) + QLatin1Char('-') + TextOrUnknown(song.album());
-      if (!song.albumsort().isEmpty() && song.albumsort() != song.album()) key.append(QLatin1Char('-') + TextOrUnknown(song.albumsort()));
       if (!song.album_id().isEmpty()) key.append(QLatin1Char('-') + song.album_id());
       if (options_active_.separate_albums_by_grouping && !song.grouping().isEmpty()) key.append(QLatin1Char('-') + song.grouping());
       break;
     case GroupBy::YearAlbumDisc:
       key = SortTextForYear(song.year()) + QLatin1Char('-') + TextOrUnknown(song.album());
-      if (!song.albumsort().isEmpty() && song.albumsort() != song.album()) key.append(QLatin1Char('-') + TextOrUnknown(song.albumsort()));
       key.append(QLatin1Char('-') + SortTextForNumber(song.disc()));
       if (!song.album_id().isEmpty()) key.append(QLatin1Char('-') + song.album_id());
       if (options_active_.separate_albums_by_grouping && !song.grouping().isEmpty()) key.append(QLatin1Char('-') + song.grouping());
       break;
     case GroupBy::OriginalYearAlbum:
       key = SortTextForYear(song.effective_originalyear()) + QLatin1Char('-') + TextOrUnknown(song.album());
-      if (!song.albumsort().isEmpty() && song.albumsort() != song.album()) key.append(QLatin1Char('-') + TextOrUnknown(song.albumsort()));
       if (!song.album_id().isEmpty()) key.append(QLatin1Char('-') + song.album_id());
       if (options_active_.separate_albums_by_grouping && !song.grouping().isEmpty()) key.append(QLatin1Char('-') + song.grouping());
       break;
     case GroupBy::OriginalYearAlbumDisc:
       key = SortTextForYear(song.effective_originalyear()) + QLatin1Char('-') + TextOrUnknown(song.album());
-      if (!song.albumsort().isEmpty() && song.albumsort() != song.album()) key.append(QLatin1Char('-') + TextOrUnknown(song.albumsort()));
       key.append(QLatin1Char('-') + SortTextForNumber(song.disc()));
       if (!song.album_id().isEmpty()) key.append(QLatin1Char('-') + song.album_id());
       if (options_active_.separate_albums_by_grouping && !song.grouping().isEmpty()) key.append(QLatin1Char('-') + song.grouping());
@@ -1270,12 +1262,10 @@ QString CollectionModel::ContainerKey(const GroupBy group_by, const Song &song, 
       break;
     case GroupBy::Composer:
       key = TextOrUnknown(song.composer());
-      if (!song.composersort().isEmpty() && song.composersort() != song.composer()) key.append(QLatin1Char('-') + song.composersort());
       has_unique_album_identifier = true;
       break;
     case GroupBy::Performer:
       key = TextOrUnknown(song.performer());
-      if (!song.performersort().isEmpty() && song.performersort() != song.performer()) key.append(QLatin1Char('-') + song.performersort());
       has_unique_album_identifier = true;
       break;
     case GroupBy::Grouping:
