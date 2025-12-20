@@ -124,10 +124,18 @@ bool FilesystemMusicStorage::DeleteFromStorage(const DeleteJob &job) {
     qLog(Warning) << "Moving file to trash failed for" << path << ", falling back to direct deletion";
   }
 
+  bool result = false;
   if (fileInfo.isDir()) {
-    return Utilities::RemoveRecursive(path);
+    result = Utilities::RemoveRecursive(path);
+  }
+  else {
+    result = QFile::remove(path);
   }
 
-  return QFile::remove(path);
+  if (!result) {
+    qLog(Error) << "Failed to delete file" << path;
+  }
+
+  return result;
 
 }
