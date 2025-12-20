@@ -1026,11 +1026,10 @@ void GstEnginePipeline::ElementAddedCallback(GstBin *bin, GstBin *sub_bin, GstEl
   const gchar *factory_name_char = factory ? gst_plugin_feature_get_name(GST_PLUGIN_FEATURE(factory)) : nullptr;
   const QString factory_name = factory_name_char ? QString::fromUtf8(factory_name_char) : QString();
 
-  // Handle FLAC decoder elements to fix draining issues that cause noise/corruption
+  // Handle FLAC decoder elements - log detection for debugging
   if (factory_name == "flacdec"_L1 || factory_name == "avdec_flac"_L1) {
-    qLog(Debug) << "Detected FLAC decoder:" << factory_name << "(" << element_name << "), configuring for proper frame draining";
-    // Note: The draining issue in flacdec is handled internally by GStreamer's audiodecoder base class.
-    // We just log detection here for debugging purposes.
+    qLog(Debug) << "Detected FLAC decoder:" << factory_name << "(" << element_name << ")";
+    // The draining issues in FLAC decoders are handled by filtering errors in ErrorMessageReceived
   }
 
   // Handle volume elements in audiobin
@@ -1604,11 +1603,12 @@ void GstEnginePipeline::ErrorMessageReceived(GstMessage *msg) {
 
   // Ignore recoverable FLAC decoder errors that don't affect playback
   if (domain == GST_STREAM_ERROR && code == GST_STREAM_ERROR_DECODE) {
-    // Check if this is a FLAC decoder warning about residual frames or invalid residual
+    // Check if this is a FLAC decoder error by searching for FLAC-related keywords in the error details
     // These errors can occur with certain FLAC files but don't actually stop playback
     if (message.contains("flac"_L1, Qt::CaseInsensitive) || 
         debugstr.contains("flacdec"_L1, Qt::CaseInsensitive) ||
         debugstr.contains("avdec_flac"_L1, Qt::CaseInsensitive)) {
+      // Check for specific known recoverable error patterns
       if (debugstr.contains("invalid residual"_L1, Qt::CaseInsensitive) ||
           debugstr.contains("frames left after draining"_L1, Qt::CaseInsensitive)) {
         qLog(Warning) << "Ignoring recoverable FLAC decoder error:" << message;
