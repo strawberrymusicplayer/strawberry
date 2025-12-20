@@ -85,7 +85,7 @@ class EditTagDialog : public QDialog {
   void SetSongs(const SongList &songs, const PlaylistItemPtrList &items = PlaylistItemPtrList());
 
   PlaylistItemPtrList playlist_items() const { return playlist_items_; }
-
+  SongList songs() const;
   void accept() override;
 
  Q_SIGNALS:

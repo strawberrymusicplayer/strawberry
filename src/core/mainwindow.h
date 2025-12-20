@@ -276,6 +276,9 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 
   void DeleteFilesFinished(const SongList &songs_with_errors);
 
+  void FetchStreamingMetadata();
+  void ProcessMetadataQueue();
+
  public Q_SLOTS:
   void CommandlineOptionsReceived(const QByteArray &string_options);
   void Raise();
@@ -379,11 +382,13 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   QList<QAction*> playlistitem_actions_;
   QAction *playlistitem_actions_separator_;
   QAction *playlist_rescan_songs_;
+  QAction *playlist_fetch_metadata_;
 
   QModelIndex playlist_menu_index_;
 
   QTimer *track_position_timer_;
   QTimer *track_slider_timer_;
+  QTimer *metadata_queue_timer_;
 
   bool keep_running_;
   bool playing_widget_;
@@ -407,6 +412,14 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   bool playlists_loaded_;
   bool delete_files_;
   std::optional<CommandlineOptions> options_;
+
+  class MetadataQueueEntry {
+   public:
+    Song::Source source;
+    QString track_id;
+    QPersistentModelIndex persistent_index;
+  };
+  QList<MetadataQueueEntry> metadata_queue_;
 };
 
 #endif  // MAINWINDOW_H

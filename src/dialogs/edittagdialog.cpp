@@ -411,6 +411,17 @@ bool EditTagDialog::eventFilter(QObject *o, QEvent *e) {
 
 }
 
+SongList EditTagDialog::songs() const {
+
+  SongList result;
+  for (const Data &d : data_) {
+    result << d.current_;
+  }
+
+  return result;
+
+}
+
 bool EditTagDialog::SetLoading(const QString &message) {
 
   const bool loading = !message.isEmpty();
@@ -1399,6 +1410,12 @@ void EditTagDialog::SaveData() {
     }
 
     if (save_tags || save_playcount || save_rating || save_embedded_cover) {
+      // For streaming tracks, skip tag writing since there's no local file.
+      // The metadata will be applied directly to the playlist item in MainWindow::EditTagDialogAccepted.
+      if (ref.current_.is_stream()) {
+        continue;
+      }
+
       // Not to confuse the collection model.
       if (ref.current_.track() <= 0) { ref.current_.set_track(-1); }
       if (ref.current_.disc() <= 0) { ref.current_.set_disc(-1); }
