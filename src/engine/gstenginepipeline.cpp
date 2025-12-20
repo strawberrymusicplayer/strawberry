@@ -92,6 +92,9 @@ constexpr std::chrono::milliseconds kFaderTimeoutMsec = 3000ms;
 constexpr int kEqBandCount = 10;
 constexpr int kEqBandFrequencies[] = { 60, 170, 310, 600, 1000, 3000, 6000, 12000, 14000, 16000 };
 
+// When within this many seconds of track end during gapless playback, ignore buffering messages
+constexpr int kIgnoreBufferingNearEndSeconds = 5;
+
 }  // namespace
 
 #ifdef __clang_
@@ -1783,6 +1786,18 @@ void GstEnginePipeline::BufferingMessageReceived(GstMessage *msg) {
   const GstState current_state = state();
 
   if (percent < 100 && !buffering_.value()) {
+    // If we're near the end of the track and about-to-finish has been signaled, ignore buffering messages to prevent getting stuck in buffering state.
+    // This can happen with local files where spurious buffering messages appear near the end while the next track is being prepared for gapless playback.
+    if (about_to_finish_.value()) {
+      const qint64 current_position = position();
+      const qint64 track_length = length();
+      // Ignore buffering if we're within kIgnoreBufferingNearEndSeconds of the end
+      if (track_length > 0 && current_position > 0 && (track_length - current_position) < kIgnoreBufferingNearEndSeconds * kNsecPerSec) {
+        qLog(Debug) << "Ignoring buffering message near end of track (position:" << current_position << "length:" << track_length << ")";
+        return;
+      }
+    }
+
     qLog(Debug) << "Buffering started";
     buffering_ = true;
     Q_EMIT BufferingStarted();
