@@ -175,6 +175,7 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       audiosink_(nullptr),
       audioqueue_(nullptr),
       audioqueueconverter_(nullptr),
+      audioresample_(nullptr),
       volume_(nullptr),
       volume_sw_(nullptr),
       volume_fading_(nullptr),
@@ -658,6 +659,11 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
     return false;
   }
 
+  audioresample_ = CreateElement(u"audioresample"_s, u"audioresample"_s, audiobin_, error);
+  if (!audioresample_) {
+    return false;
+  }
+
   GstElement *audiosinkconverter = CreateElement(u"audioconvert"_s, u"audiosinkconverter"_s, audiobin_, error);
   if (!audiosinkconverter) {
     return false;
@@ -740,7 +746,7 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
 
   }
 
-  eventprobe_ = audioqueueconverter_;
+  eventprobe_ = audioresample_;
 
   // Create the replaygain elements if it's enabled.
   GstElement *rgvolume = nullptr;
@@ -831,7 +837,12 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
     return false;
   }
 
-  GstElement *element_link = audioqueueconverter_;  // The next element to link from.
+  if (!gst_element_link(audioqueueconverter_, audioresample_)) {
+    error = u"Failed to link audio queue converter to audio resample."_s;
+    return false;
+  }
+
+  GstElement *element_link = audioresample_;  // The next element to link from.
 
   // Link replaygain elements if enabled.
   if (rg_enabled_ && rgvolume && rglimiter && rgconverter) {
