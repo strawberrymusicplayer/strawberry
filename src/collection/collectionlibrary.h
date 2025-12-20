@@ -86,14 +86,18 @@ class CollectionLibrary : public QObject {
 
  private Q_SLOTS:
   void ExitReceived();
-  void SongsPlaycountChanged(const SongList &songs, const bool save_tags = false) const;
-  void SongsRatingChanged(const SongList &songs, const bool save_tags = false) const;
+  void SongsPlaycountChanged(const SongList &songs, const bool save_tags = false);
+  void SongsRatingChanged(const SongList &songs, const bool save_tags = false);
+  void CurrentSongChanged(const Song &song);
+  void Stopped();
 
  Q_SIGNALS:
   void Error(const QString &error);
   void ExitFinished();
 
  private:
+  void SavePendingPlaycountsAndRatings(const QUrl &url);
+
   const SharedPtr<TaskManager> task_manager_;
   const SharedPtr<TagReaderClient> tagreader_client_;
 
@@ -111,6 +115,11 @@ class CollectionLibrary : public QObject {
 
   bool save_playcounts_to_files_;
   bool save_ratings_to_files_;
+
+  // Track currently playing file to defer tag writes
+  QUrl current_song_url_;
+  // Queue of pending rating/playcount saves for currently playing file
+  QHash<QUrl, Song> pending_saves_;
 };
 
 #endif

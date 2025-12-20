@@ -212,18 +212,78 @@ void CollectionLibrary::SyncPlaycountAndRatingToFiles() {
 
 }
 
-void CollectionLibrary::SongsPlaycountChanged(const SongList &songs, const bool save_tags) const {
+void CollectionLibrary::SongsPlaycountChanged(const SongList &songs, const bool save_tags) {
 
   if (save_tags || save_playcounts_to_files_) {
-    tagreader_client_->SaveSongsPlaycountAsync(songs);
+    SongList songs_to_save_now;
+    for (const Song &song : songs) {
+      if (song.url().isLocalFile() && song.url() == current_song_url_) {
+        // File is currently playing, queue it for later
+        pending_saves_[song.url()] = song;
+        qLog(Debug) << "Deferring playcount save for currently playing file:" << song.url().toLocalFile();
+      }
+      else {
+        songs_to_save_now << song;
+      }
+    }
+    if (!songs_to_save_now.isEmpty()) {
+      tagreader_client_->SaveSongsPlaycountAsync(songs_to_save_now);
+    }
   }
 
 }
 
-void CollectionLibrary::SongsRatingChanged(const SongList &songs, const bool save_tags) const {
+void CollectionLibrary::SongsRatingChanged(const SongList &songs, const bool save_tags) {
 
   if (save_tags || save_ratings_to_files_) {
-    tagreader_client_->SaveSongsRatingAsync(songs);
+    SongList songs_to_save_now;
+    for (const Song &song : songs) {
+      if (song.url().isLocalFile() && song.url() == current_song_url_) {
+        // File is currently playing, queue it for later
+        pending_saves_[song.url()] = song;
+        qLog(Debug) << "Deferring rating save for currently playing file:" << song.url().toLocalFile();
+      }
+      else {
+        songs_to_save_now << song;
+      }
+    }
+    if (!songs_to_save_now.isEmpty()) {
+      tagreader_client_->SaveSongsRatingAsync(songs_to_save_now);
+    }
+  }
+
+}
+
+void CollectionLibrary::CurrentSongChanged(const Song &song) {
+
+  // Save any pending tags for the previous song
+  if (current_song_url_.isValid() && current_song_url_.isLocalFile()) {
+    SavePendingPlaycountsAndRatings(current_song_url_);
+  }
+
+  // Update current song
+  current_song_url_ = song.url();
+
+}
+
+void CollectionLibrary::Stopped() {
+
+  // Save any pending tags when playback stops
+  if (current_song_url_.isValid() && current_song_url_.isLocalFile()) {
+    SavePendingPlaycountsAndRatings(current_song_url_);
+  }
+
+  current_song_url_ = QUrl();
+
+}
+
+void CollectionLibrary::SavePendingPlaycountsAndRatings(const QUrl &url) {
+
+  if (pending_saves_.contains(url)) {
+    const Song song = pending_saves_.take(url);
+    qLog(Debug) << "Saving deferred playcount/rating for:" << url.toLocalFile();
+    tagreader_client_->SaveSongPlaycountAsync(url.toLocalFile(), song.playcount());
+    tagreader_client_->SaveSongRatingAsync(url.toLocalFile(), song.rating());
   }
 
 }

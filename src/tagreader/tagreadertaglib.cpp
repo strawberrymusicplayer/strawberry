@@ -1969,9 +1969,12 @@ TagReaderResult TagReaderTagLib::SaveSongPlaycount(const QString &filename, cons
   }
 
   const bool success = fileref->save();
-  // Note: utimensat() is not called here to avoid triggering file system watcher rescans
-  // which can cause playback stuttering, especially with OGG files.
-  // The playcount is already updated in the database directly, so no rescan is needed.
+#ifdef Q_OS_LINUX
+  if (success) {
+    // Linux: inotify doesn't seem to notice the change to the file unless we change the timestamps as well. (this is what touch does)
+    utimensat(0, QFile::encodeName(filename).constData(), nullptr, 0);
+  }
+#endif  // Q_OS_LINUX
 
   return success ? TagReaderResult::ErrorCode::Success : TagReaderResult::ErrorCode::FileSaveError;
 
@@ -2095,9 +2098,12 @@ TagReaderResult TagReaderTagLib::SaveSongRating(const QString &filename, const f
   }
 
   const bool success = fileref->save();
-  // Note: utimensat() is not called here to avoid triggering file system watcher rescans
-  // which can cause playback stuttering, especially with OGG files.
-  // The rating is already updated in the database directly, so no rescan is needed.
+#ifdef Q_OS_LINUX
+  if (success) {
+    // Linux: inotify doesn't seem to notice the change to the file unless we change the timestamps as well. (this is what touch does)
+    utimensat(0, QFile::encodeName(filename).constData(), nullptr, 0);
+  }
+#endif  // Q_OS_LINUX
 
   if (!success) {
     qLog(Error) << "TagLib hasn't been able to save file" << filename;
