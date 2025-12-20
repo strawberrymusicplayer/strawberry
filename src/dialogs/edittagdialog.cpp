@@ -1399,6 +1399,14 @@ void EditTagDialog::SaveData() {
     }
 
     if (save_tags || save_playcount || save_rating || save_embedded_cover) {
+      // For streaming tracks, skip tag writing since there's no local file.
+      // The metadata will be applied directly to the playlist item in MainWindow::EditTagDialogAccepted.
+      const Song::Source source = ref.current_.source();
+      if (source == Song::Source::Tidal || source == Song::Source::Subsonic ||
+          source == Song::Source::Qobuz || source == Song::Source::Spotify) {
+        continue;
+      }
+
       // Not to confuse the collection model.
       if (ref.current_.track() <= 0) { ref.current_.set_track(-1); }
       if (ref.current_.disc() <= 0) { ref.current_.set_disc(-1); }

@@ -384,6 +384,7 @@ MainWindow::MainWindow(Application *app,
       playlistitem_actions_separator_(nullptr),
       playlist_rescan_songs_(nullptr),
       playlist_fetch_metadata_(nullptr),
+      metadata_queue_timer_(new QTimer(this)),
       track_position_timer_(new QTimer(this)),
       track_slider_timer_(new QTimer(this)),
       keep_running_(false),
@@ -456,6 +457,10 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(track_position_timer_, &QTimer::timeout, this, &MainWindow::UpdateTrackPosition);
   track_slider_timer_->setInterval(kTrackSliderUpdateTimeMs);
   QObject::connect(track_slider_timer_, &QTimer::timeout, this, &MainWindow::UpdateTrackSliderPosition);
+
+  metadata_queue_timer_->setInterval(200);  // 200ms between requests to avoid rate limiting
+  metadata_queue_timer_->setSingleShot(true);
+  QObject::connect(metadata_queue_timer_, &QTimer::timeout, this, &MainWindow::ProcessMetadataQueue);
 
   // Start initializing the player
   qLog(Debug) << "Initializing player";
@@ -2216,78 +2221,126 @@ void MainWindow::FetchStreamingMetadata() {
     const Song &song = item->EffectiveMetadata();
     const Song::Source source = song.source();
     const QPersistentModelIndex persistent_index = QPersistentModelIndex(source_index);
+    QString track_id;
 
 #ifdef HAVE_QOBUZ
     if (source == Song::Source::Qobuz) {
-      if (QobuzServicePtr qobuz_service = app_->streaming_services()->Service<QobuzService>()) {
-        // Extract track ID from URL (format: qobuz://track_id)
-        QString track_id = song.url().path();
-        if (track_id.isEmpty()) {
-          qLog(Error) << "Failed to fetch Qobuz metadata: No track ID in URL";
-          continue;
-        }
-        QobuzMetadataRequest *request = new QobuzMetadataRequest(qobuz_service.get(), qobuz_service->network(), this);
-        QObject::connect(request, &QobuzMetadataRequest::MetadataReceived, this, [this, persistent_index, request](const QString &received_track_id, const QString &genre) {
-          Q_UNUSED(received_track_id);
-          if (persistent_index.isValid()) {
-            PlaylistItemPtr playlist_item = app_->playlist_manager()->current()->item_at(persistent_index.row());
-            if (playlist_item && !genre.isEmpty()) {
-              Song old_song = playlist_item->OriginalMetadata();
-              Song updated_song = old_song;
-              updated_song.set_genre(genre);
-              playlist_item->SetOriginalMetadata(updated_song);
-              app_->playlist_manager()->current()->ItemReload(persistent_index, old_song, false);
-            }
-          }
-          request->deleteLater();
-        });
-        QObject::connect(request, &QobuzMetadataRequest::MetadataFailure, this, [request](const QString &failed_track_id, const QString &error) {
-          Q_UNUSED(failed_track_id);
-          qLog(Error) << "Failed to fetch Qobuz metadata:" << error;
-          request->deleteLater();
-        });
-        request->FetchTrackMetadata(track_id);
+      track_id = song.url().path();
+      if (track_id.isEmpty()) {
+        qLog(Error) << "Failed to fetch Qobuz metadata: No track ID in URL";
+        continue;
       }
+      metadata_queue_.append({source, track_id, persistent_index});
     }
 #endif
 
 #ifdef HAVE_SPOTIFY
     if (source == Song::Source::Spotify) {
-      if (SpotifyServicePtr spotify_service = app_->streaming_services()->Service<SpotifyService>()) {
-        // Extract track ID from Spotify URI (format: spotify:track:track_id)
-        QString url_str = song.url().toString();
-        QString track_id;
-        if (url_str.startsWith(u"spotify:track:"_s)) {
-          track_id = url_str.mid(14);  // Length of "spotify:track:"
-        }
-        if (track_id.isEmpty()) {
-          qLog(Error) << "Failed to fetch Spotify metadata: No track ID in URL";
-          continue;
-        }
-        SpotifyMetadataRequest *request = new SpotifyMetadataRequest(spotify_service.get(), app_->network(), this);
-        QObject::connect(request, &SpotifyMetadataRequest::MetadataReceived, this, [this, persistent_index, request](const QString &received_track_id, const QString &genre) {
-          Q_UNUSED(received_track_id);
-          if (persistent_index.isValid()) {
-            PlaylistItemPtr playlist_item = app_->playlist_manager()->current()->item_at(persistent_index.row());
-            if (playlist_item && !genre.isEmpty()) {
-              Song old_song = playlist_item->OriginalMetadata();
-              Song updated_song = old_song;
-              updated_song.set_genre(genre);
-              playlist_item->SetOriginalMetadata(updated_song);
-              app_->playlist_manager()->current()->ItemReload(persistent_index, old_song, false);
-            }
-          }
-          request->deleteLater();
-        });
-        QObject::connect(request, &SpotifyMetadataRequest::MetadataFailure, this, [request](const QString &failed_track_id, const QString &error) {
-          Q_UNUSED(failed_track_id);
-          qLog(Error) << "Failed to fetch Spotify metadata:" << error;
-          request->deleteLater();
-        });
-        request->FetchTrackMetadata(track_id);
+      QString url_str = song.url().toString();
+      if (url_str.startsWith(u"spotify:track:"_s)) {
+        track_id = url_str.mid(14);  // Length of "spotify:track:"
       }
+      if (track_id.isEmpty()) {
+        qLog(Error) << "Failed to fetch Spotify metadata: No track ID in URL";
+        continue;
+      }
+      metadata_queue_.append({source, track_id, persistent_index});
     }
 #endif
+  }
+
+  // Start processing the queue if it's not already running
+  if (!metadata_queue_.isEmpty() && !metadata_queue_timer_->isActive()) {
+    ProcessMetadataQueue();
+  }
+
+}
+
+void MainWindow::ProcessMetadataQueue() {
+
+  if (metadata_queue_.isEmpty()) {
+    return;
+  }
+
+  MetadataQueueEntry entry = metadata_queue_.takeFirst();
+
+#ifdef HAVE_QOBUZ
+  if (entry.source == Song::Source::Qobuz) {
+    if (QobuzServicePtr qobuz_service = app_->streaming_services()->Service<QobuzService>()) {
+      QobuzMetadataRequest *request = new QobuzMetadataRequest(qobuz_service.get(), qobuz_service->network(), this);
+      QObject::connect(request, &QobuzMetadataRequest::MetadataReceived, this, [this, entry, request](const QString &received_track_id, const QString &genre) {
+        Q_UNUSED(received_track_id);
+        if (entry.persistent_index.isValid()) {
+          PlaylistItemPtr playlist_item = app_->playlist_manager()->current()->item_at(entry.persistent_index.row());
+          if (playlist_item && !genre.isEmpty()) {
+            Song old_song = playlist_item->OriginalMetadata();
+            Song updated_song = old_song;
+            updated_song.set_genre(genre);
+            playlist_item->SetOriginalMetadata(updated_song);
+            app_->playlist_manager()->current()->ItemReload(entry.persistent_index, old_song, false);
+          }
+        }
+        request->deleteLater();
+        // Process next item in queue
+        if (!metadata_queue_.isEmpty()) {
+          metadata_queue_timer_->start();
+        }
+      });
+      QObject::connect(request, &QobuzMetadataRequest::MetadataFailure, this, [this, request](const QString &failed_track_id, const QString &error) {
+        Q_UNUSED(failed_track_id);
+        qLog(Error) << "Failed to fetch Qobuz metadata:" << error;
+        request->deleteLater();
+        // Process next item in queue
+        if (!metadata_queue_.isEmpty()) {
+          metadata_queue_timer_->start();
+        }
+      });
+      request->FetchTrackMetadata(entry.track_id);
+      return;
+    }
+  }
+#endif
+
+#ifdef HAVE_SPOTIFY
+  if (entry.source == Song::Source::Spotify) {
+    if (SpotifyServicePtr spotify_service = app_->streaming_services()->Service<SpotifyService>()) {
+      SpotifyMetadataRequest *request = new SpotifyMetadataRequest(spotify_service.get(), app_->network(), this);
+      QObject::connect(request, &SpotifyMetadataRequest::MetadataReceived, this, [this, entry, request](const QString &received_track_id, const QString &genre) {
+        Q_UNUSED(received_track_id);
+        if (entry.persistent_index.isValid()) {
+          PlaylistItemPtr playlist_item = app_->playlist_manager()->current()->item_at(entry.persistent_index.row());
+          if (playlist_item && !genre.isEmpty()) {
+            Song old_song = playlist_item->OriginalMetadata();
+            Song updated_song = old_song;
+            updated_song.set_genre(genre);
+            playlist_item->SetOriginalMetadata(updated_song);
+            app_->playlist_manager()->current()->ItemReload(entry.persistent_index, old_song, false);
+          }
+        }
+        request->deleteLater();
+        // Process next item in queue
+        if (!metadata_queue_.isEmpty()) {
+          metadata_queue_timer_->start();
+        }
+      });
+      QObject::connect(request, &SpotifyMetadataRequest::MetadataFailure, this, [this, request](const QString &failed_track_id, const QString &error) {
+        Q_UNUSED(failed_track_id);
+        qLog(Error) << "Failed to fetch Spotify metadata:" << error;
+        request->deleteLater();
+        // Process next item in queue
+        if (!metadata_queue_.isEmpty()) {
+          metadata_queue_timer_->start();
+        }
+      });
+      request->FetchTrackMetadata(entry.track_id);
+      return;
+    }
+  }
+#endif
+
+  // If we get here, the source wasn't handled - try the next item
+  if (!metadata_queue_.isEmpty()) {
+    metadata_queue_timer_->start();
   }
 
 }
@@ -2321,8 +2374,21 @@ void MainWindow::EditTracks() {
 void MainWindow::EditTagDialogAccepted() {
 
   const PlaylistItemPtrList items = edit_tag_dialog_->playlist_items();
-  for (PlaylistItemPtr item : items) {
-    item->Reload();
+  const SongList songs = edit_tag_dialog_->songs();
+
+  for (int i = 0; i < items.count() && i < songs.count(); ++i) {
+    PlaylistItemPtr item = items[i];
+    const Song &updated_song = songs[i];
+    const Song::Source source = updated_song.source();
+
+    // For streaming tracks, apply the metadata directly since there's no file to reload from
+    if (source == Song::Source::Tidal || source == Song::Source::Subsonic ||
+        source == Song::Source::Qobuz || source == Song::Source::Spotify) {
+      item->SetOriginalMetadata(updated_song);
+    }
+    else {
+      item->Reload();
+    }
   }
 
   // FIXME: This is really lame but we don't know what rows have changed.
@@ -2397,8 +2463,12 @@ void MainWindow::SelectionSetValue() {
         QObject::disconnect(*connection);
       }, Qt::QueuedConnection);
     }
-    else if (song.source() == Song::Source::Stream) {
-      app_->playlist_manager()->current()->setData(source_index, column_value, 0);
+    else if (song.source() == Song::Source::Stream ||
+             song.source() == Song::Source::Tidal ||
+             song.source() == Song::Source::Subsonic ||
+             song.source() == Song::Source::Qobuz ||
+             song.source() == Song::Source::Spotify) {
+      app_->playlist_manager()->current()->setData(source_index.sibling(source_index.row(), static_cast<int>(column)), column_value, 0);
     }
   }
 

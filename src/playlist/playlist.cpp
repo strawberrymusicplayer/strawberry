@@ -474,8 +474,13 @@ bool Playlist::setData(const QModelIndex &idx, const QVariant &value, const int 
       QObject::disconnect(*connection);
     }, Qt::QueuedConnection);
   }
-  else if (song.is_radio()) {
+  else if (song.is_radio() ||
+           song.source() == Song::Source::Tidal ||
+           song.source() == Song::Source::Subsonic ||
+           song.source() == Song::Source::Qobuz ||
+           song.source() == Song::Source::Spotify) {
     item->SetOriginalMetadata(song);
+    Q_EMIT dataChanged(idx, idx);
     ScheduleSave();
   }
 

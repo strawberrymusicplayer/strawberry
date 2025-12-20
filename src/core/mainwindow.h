@@ -169,6 +169,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void PlaylistClearCurrent();
   void RescanSongs();
   void FetchStreamingMetadata();
+  void ProcessMetadataQueue();
   void EditTracks();
   void EditTagDialogAccepted();
   void RenumberTracks();
@@ -387,6 +388,14 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   QAction *playlistitem_actions_separator_;
   QAction *playlist_rescan_songs_;
   QAction *playlist_fetch_metadata_;
+
+  struct MetadataQueueEntry {
+    Song::Source source;
+    QString track_id;
+    QPersistentModelIndex persistent_index;
+  };
+  QList<MetadataQueueEntry> metadata_queue_;
+  QTimer *metadata_queue_timer_;
 
   QModelIndex playlist_menu_index_;
 
