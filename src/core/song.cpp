@@ -686,8 +686,9 @@ const QString &Song::playlist_effective_albumartistsort() const { return is_comp
 bool Song::is_metadata_good() const { return !d->url_.isEmpty() && !d->artist_.isEmpty() && !d->title_.isEmpty(); }
 bool Song::is_local_collection_song() const { return d->source_ == Source::Collection; }
 bool Song::is_linked_collection_song() const { return IsLinkedCollectionSource(d->source_); }
-bool Song::is_stream() const { return is_radio() || d->source_ == Source::Tidal || d->source_ == Source::Subsonic || d->source_ == Source::Qobuz || d->source_ == Source::Spotify; }
 bool Song::is_radio() const { return d->source_ == Source::Stream || d->source_ == Source::SomaFM || d->source_ == Source::RadioParadise; }
+bool Song::is_stream_service() const { return d->source_ == Source::Subsonic || d->source_ == Source::Tidal || d->source_ == Source::Qobuz || d->source_ == Source::Spotify; }
+bool Song::is_stream() const { return is_radio() || is_stream_service(); }
 bool Song::is_cdda() const { return d->source_ == Source::CDDA; }
 bool Song::is_compilation() const { return (d->compilation_ || d->compilation_detected_ || d->compilation_on_) && !d->compilation_off_; }
 bool Song::stream_url_can_expire() const { return d->source_ == Source::Tidal || d->source_ == Source::Qobuz; }
@@ -956,7 +957,7 @@ QString Song::PrettyRating() const {
 }
 
 bool Song::IsEditable() const {
-  return d->valid_ && d->url_.isValid() && ((d->url_.isLocalFile() && write_tags_supported() && !has_cue()) || d->source_ == Source::Stream);
+  return d->valid_ && d->url_.isValid() && ((d->url_.isLocalFile() && write_tags_supported() && !has_cue()) || is_stream());
 }
 
 bool Song::IsFileInfoEqual(const Song &other) const {

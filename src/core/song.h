@@ -407,8 +407,9 @@ class Song {
   bool is_metadata_good() const;
   bool is_local_collection_song() const;
   bool is_linked_collection_song() const;
-  bool is_stream() const;
   bool is_radio() const;
+  bool is_stream_service() const;
+  bool is_stream() const;
   bool is_cdda() const;
   bool is_compilation() const;
   bool stream_url_can_expire() const;
