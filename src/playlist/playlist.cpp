@@ -481,6 +481,7 @@ bool Playlist::setData(const QModelIndex &idx, const QVariant &value, const int 
            song.source() == Song::Source::Spotify) {
     item->SetOriginalMetadata(song);
     Q_EMIT dataChanged(index(row, 0), index(row, ColumnCount - 1));
+    Q_EMIT EditingFinished(id_, idx);
     ScheduleSave();
   }
 
