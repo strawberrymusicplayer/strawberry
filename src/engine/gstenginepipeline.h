@@ -368,6 +368,7 @@ class GstEnginePipeline : public QObject {
   std::optional<gulong> upstream_events_probe_cb_id_;
   std::optional<gulong> buffer_probe_cb_id_;
   std::optional<gulong> pad_probe_cb_id_;
+  std::optional<gulong> pipeline_element_added_cb_id_;
   std::optional<gulong> element_added_cb_id_;
   std::optional<gulong> element_removed_cb_id_;
   std::optional<gulong> pad_added_cb_id_;
