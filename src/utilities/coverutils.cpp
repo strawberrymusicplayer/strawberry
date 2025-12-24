@@ -19,10 +19,12 @@
 
 #include <QByteArray>
 #include <QString>
+#include <QStringList>
 #include <QRegularExpression>
 #include <QUrl>
 #include <QFileInfo>
 #include <QDir>
+#include <QImage>
 #include <QCryptographicHash>
 
 #include "constants/filenameconstants.h"
@@ -169,5 +171,50 @@ QString CoverUtils::CoverFilenameFromVariable(const CoverOptions &options, const
     filename.append(extension);
   }
   return filename;
+
+}
+
+QString CoverUtils::PickBestImageFromList(const QStringList &image_list, const QStringList &filter_patterns) {
+
+  // This is used when there is more than one image in a directory.
+  // Pick the biggest image that matches the most important filter pattern
+
+  QStringList filtered;
+
+  for (const QString &filter_text : filter_patterns) {
+    // The images in the image_list are represented by a full path, so we need to isolate just the filename
+    for (const QString &image_path : image_list) {
+      QFileInfo fileinfo(image_path);
+      QString filename(fileinfo.fileName());
+      if (filename.contains(filter_text, Qt::CaseInsensitive)) {
+        filtered << image_path;
+      }
+    }
+
+    // We assume the filters are given in the order best to worst, so if we've got a result, we go with it.
+    // Otherwise we might start capturing more generic rules
+    if (!filtered.isEmpty()) break;
+  }
+
+  if (filtered.isEmpty()) {
+    // The filter was too restrictive, just use the original list
+    filtered = image_list;
+  }
+
+  int biggest_size = 0;
+  QString biggest_path;
+
+  for (const QString &path : std::as_const(filtered)) {
+    QImage image(path);
+    if (image.isNull()) continue;
+
+    int size = image.width() * image.height();
+    if (size > biggest_size) {
+      biggest_size = size;
+      biggest_path = path;
+    }
+  }
+
+  return biggest_path;
 
 }

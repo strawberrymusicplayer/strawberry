@@ -46,6 +46,7 @@
 #include <QUrl>
 #include <QIcon>
 #include <QSqlRecord>
+#include <QSettings>
 
 #include <taglib/tstring.h>
 
@@ -1665,15 +1666,56 @@ void Song::InitArtManual() {
 
 }
 
-void Song::InitArtAutomatic() {
+void Song::InitArtAutomatic(const QStringList &filter_patterns) {
 
   if (d->art_automatic_.isEmpty() && d->source_ == Source::LocalFile && d->url_.isLocalFile()) {
-    // Pick the first image file in the album directory.
+    // Pick the best image file in the album directory based on filter patterns.
     QFileInfo file(d->url_.toLocalFile());
     QDir dir(file.path());
     QStringList files = dir.entryList(QStringList() << u"*.jpg"_s << u"*.png"_s << u"*.gif"_s << u"*.jpeg"_s, QDir::Files|QDir::Readable, QDir::Name);
     if (files.count() > 0) {
-      d->art_automatic_ = QUrl::fromLocalFile(file.path() + QDir::separator() + files.first());
+      QString best_image;
+      if (files.count() == 1) {
+        best_image = files.first();
+      }
+      else {
+        // Load filter patterns from settings if not provided
+        QStringList patterns = filter_patterns;
+        if (patterns.isEmpty()) {
+          QSettings s;
+          s.beginGroup("Collection"_L1);
+          patterns = s.value("cover_art_patterns"_L1, QStringList() << u"front"_s << u"cover"_s).toStringList();
+          s.endGroup();
+        }
+        
+        if (!patterns.isEmpty()) {
+          // Build full paths for CoverUtils::PickBestImageFromList
+          QStringList full_paths;
+          for (const QString &filename : files) {
+            full_paths << file.path() + QDir::separator() + filename;
+          }
+          best_image = CoverUtils::PickBestImageFromList(full_paths, patterns);
+          // Convert back to just filename if we got a full path
+          if (!best_image.isEmpty()) {
+            QFileInfo best_info(best_image);
+            if (best_info.path() == file.path()) {
+              best_image = best_info.fileName();
+            }
+          }
+        }
+        else {
+          // No filter patterns, use first file (backward compatibility)
+          best_image = files.first();
+        }
+      }
+      
+      if (!best_image.isEmpty()) {
+        // If best_image is just a filename, prepend the directory path
+        if (!best_image.contains(QDir::separator())) {
+          best_image = file.path() + QDir::separator() + best_image;
+        }
+        d->art_automatic_ = QUrl::fromLocalFile(best_image);
+      }
     }
   }
 
