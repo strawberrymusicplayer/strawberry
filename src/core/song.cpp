@@ -1674,9 +1674,9 @@ void Song::InitArtAutomatic(const QStringList &filter_patterns) {
     QDir dir(file.path());
     QStringList files = dir.entryList(QStringList() << u"*.jpg"_s << u"*.png"_s << u"*.gif"_s << u"*.jpeg"_s, QDir::Files|QDir::Readable, QDir::Name);
     if (files.count() > 0) {
-      QString best_image;
+      QString best_image_path;
       if (files.count() == 1) {
-        best_image = files.first();
+        best_image_path = file.path() + QDir::separator() + files.first();
       }
       else {
         // Load filter patterns from settings if not provided
@@ -1693,26 +1693,15 @@ void Song::InitArtAutomatic(const QStringList &filter_patterns) {
           for (const QString &filename : files) {
             full_paths << file.path() + QDir::separator() + filename;
           }
-          best_image = CoverUtils::PickBestImageFromList(full_paths, patterns);
-          // Convert back to just filename if we got a full path
-          if (!best_image.isEmpty()) {
-            QFileInfo best_info(best_image);
-            if (best_info.path() == file.path()) {
-              best_image = best_info.fileName();
-            }
-          }
+          best_image_path = CoverUtils::PickBestImageFromList(full_paths, patterns);
         }
         else {
           // No filter patterns, use first file (backward compatibility)
-          best_image = files.first();
+          best_image_path = file.path() + QDir::separator() + files.first();
         }
       }
-      if (!best_image.isEmpty()) {
-        // If best_image is just a filename, prepend the directory path
-        if (!best_image.contains(QDir::separator())) {
-          best_image = file.path() + QDir::separator() + best_image;
-        }
-        d->art_automatic_ = QUrl::fromLocalFile(best_image);
+      if (!best_image_path.isEmpty()) {
+        d->art_automatic_ = QUrl::fromLocalFile(best_image_path);
       }
     }
   }
