@@ -1687,7 +1687,6 @@ void Song::InitArtAutomatic(const QStringList &filter_patterns) {
           patterns = s.value("cover_art_patterns"_L1, QStringList() << u"front"_s << u"cover"_s).toStringList();
           s.endGroup();
         }
-        
         if (!patterns.isEmpty()) {
           // Build full paths for CoverUtils::PickBestImageFromList
           QStringList full_paths;
@@ -1708,7 +1707,6 @@ void Song::InitArtAutomatic(const QStringList &filter_patterns) {
           best_image = files.first();
         }
       }
-      
       if (!best_image.isEmpty()) {
         // If best_image is just a filename, prepend the directory path
         if (!best_image.contains(QDir::separator())) {
