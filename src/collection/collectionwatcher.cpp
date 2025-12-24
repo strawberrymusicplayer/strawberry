@@ -1352,13 +1352,26 @@ void CollectionWatcher::PerformScan(const bool incremental, const bool ignore_mt
       subdirs << subdir;
     }
 
-    QMap<QString, quint64> subdir_files_count;
-    quint64 files_count = FilesCountForSubdirs(&transaction, subdirs, subdir_files_count);
-    transaction.AddToProgressMax(files_count);
+    // When doing a full rescan (ignore_mtimes=true), scan the root directory to discover new subdirectories
+    if (ignore_mtimes) {
+      qLog(Debug) << "Full rescan: scanning root directory" << dir.path << "to discover new subdirectories";
+      const quint64 files_count = FilesCountForPath(&transaction, dir.path);
+      transaction.AddToProgressMax(files_count);
+      CollectionSubdirectory root_subdir;
+      root_subdir.path = dir.path;
+      root_subdir.directory_id = dir.id;
+      root_subdir.mtime = 0;
+      ScanSubdirectory(dir.path, root_subdir, files_count, &transaction);
+    }
+    else {
+      QMap<QString, quint64> subdir_files_count;
+      quint64 files_count = FilesCountForSubdirs(&transaction, subdirs, subdir_files_count);
+      transaction.AddToProgressMax(files_count);
 
-    for (const CollectionSubdirectory &subdir : std::as_const(subdirs)) {
-      if (stop_or_abort_requested()) break;
-      ScanSubdirectory(subdir.path, subdir, subdir_files_count[subdir.path], &transaction);
+      for (const CollectionSubdirectory &subdir : std::as_const(subdirs)) {
+        if (stop_or_abort_requested()) break;
+        ScanSubdirectory(subdir.path, subdir, subdir_files_count[subdir.path], &transaction);
+      }
     }
 
   }
