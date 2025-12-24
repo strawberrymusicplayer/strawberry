@@ -25,6 +25,7 @@
 #include <QFileInfo>
 #include <QDir>
 #include <QImage>
+#include <QImageReader>
 #include <QCryptographicHash>
 
 #include "constants/filenameconstants.h"
@@ -205,12 +206,15 @@ QString CoverUtils::PickBestImageFromList(const QStringList &image_list, const Q
   QString biggest_path;
 
   for (const QString &path : std::as_const(filtered)) {
-    QImage image(path);
-    if (image.isNull()) continue;
+    QImageReader reader(path);
+    if (!reader.canRead()) continue;
 
-    int size = image.width() * image.height();
-    if (size > biggest_size) {
-      biggest_size = size;
+    QSize size = reader.size();
+    if (!size.isValid()) continue;
+
+    int pixel_count = size.width() * size.height();
+    if (pixel_count > biggest_size) {
+      biggest_size = pixel_count;
       biggest_path = path;
     }
   }
