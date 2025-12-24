@@ -46,6 +46,7 @@
 #include <QUrl>
 #include <QIcon>
 #include <QSqlRecord>
+#include <QSettings>
 
 #include <taglib/tstring.h>
 
@@ -1665,15 +1666,43 @@ void Song::InitArtManual() {
 
 }
 
-void Song::InitArtAutomatic() {
+void Song::InitArtAutomatic(const QStringList &filter_patterns) {
 
   if (d->art_automatic_.isEmpty() && d->source_ == Source::LocalFile && d->url_.isLocalFile()) {
-    // Pick the first image file in the album directory.
+    // Pick the best image file in the album directory based on filter patterns.
     QFileInfo file(d->url_.toLocalFile());
     QDir dir(file.path());
     QStringList files = dir.entryList(QStringList() << u"*.jpg"_s << u"*.png"_s << u"*.gif"_s << u"*.jpeg"_s, QDir::Files|QDir::Readable, QDir::Name);
     if (files.count() > 0) {
-      d->art_automatic_ = QUrl::fromLocalFile(file.path() + QDir::separator() + files.first());
+      QString best_image_path;
+      if (files.count() == 1) {
+        best_image_path = file.path() + QDir::separator() + files.first();
+      }
+      else {
+        // Load filter patterns from settings if not provided
+        QStringList patterns = filter_patterns;
+        if (patterns.isEmpty()) {
+          QSettings s;
+          s.beginGroup("Collection"_L1);
+          patterns = s.value("cover_art_patterns"_L1, QStringList() << u"front"_s << u"cover"_s).toStringList();
+          s.endGroup();
+        }
+        if (!patterns.isEmpty()) {
+          // Build full paths for CoverUtils::PickBestImageFromList
+          QStringList full_paths;
+          for (const QString &filename : files) {
+            full_paths << file.path() + QDir::separator() + filename;
+          }
+          best_image_path = CoverUtils::PickBestImageFromList(full_paths, patterns);
+        }
+        else {
+          // No filter patterns, use first file (backward compatibility)
+          best_image_path = file.path() + QDir::separator() + files.first();
+        }
+      }
+      if (!best_image_path.isEmpty()) {
+        d->art_automatic_ = QUrl::fromLocalFile(best_image_path);
+      }
     }
   }
 

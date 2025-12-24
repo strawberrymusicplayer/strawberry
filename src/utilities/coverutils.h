@@ -22,6 +22,7 @@
 
 #include <QByteArray>
 #include <QString>
+#include <QStringList>
 #include <QUrl>
 
 #include "core/song.h"
@@ -36,6 +37,7 @@ class CoverUtils {
   static QString CoverFilenameFromVariable(const CoverOptions &options, const QString &artist, QString album, const QString &extension = QString());
   static QString CoverFilePath(const CoverOptions &options, const Song &song, const QString &album_dir, const QUrl &cover_url, const QString &extension = QString());
   static QString CoverFilePath(const CoverOptions &options, const Song::Source source, const QString &artist, const QString &album, const QString &album_id, const QString &album_dir, const QUrl &cover_url, const QString &extension = QString());
+  static QString PickBestImageFromList(const QStringList &image_list, const QStringList &filter_patterns);
 };
 
 #endif  // COVERUTILS_H

@@ -51,6 +51,7 @@
 #include "core/taskmanager.h"
 #include "core/settings.h"
 #include "utilities/imageutils.h"
+#include "utilities/coverutils.h"
 #include "constants/timeconstants.h"
 #include "constants/filesystemconstants.h"
 #include "tagreader/tagreaderclient.h"
@@ -1234,44 +1235,9 @@ QString CollectionWatcher::PickBestArt(const QStringList &art_automatic_list) {
   // This is used when there is more than one image in a directory.
   // Pick the biggest image that matches the most important filter
 
-  QStringList filtered;
+  if (stop_or_abort_requested()) return QString();
 
-  for (const QString &filter_text : std::as_const(best_art_filters_)) {
-    // The images in the images list are represented by a full path, so we need to isolate just the filename
-    for (const QString &art_automatic : art_automatic_list) {
-      QFileInfo fileinfo(art_automatic);
-      QString filename(fileinfo.fileName());
-      if (filename.contains(filter_text, Qt::CaseInsensitive))
-        filtered << art_automatic;
-    }
-
-    // We assume the filters are give in the order best to worst, so if we've got a result, we go with it.
-    // Otherwise we might start capturing more generic rules
-    if (!filtered.isEmpty()) break;
-  }
-
-  if (filtered.isEmpty()) {
-    // The filter was too restrictive, just use the original list
-    filtered = art_automatic_list;
-  }
-
-  int biggest_size = 0;
-  QString biggest_path;
-
-  for (const QString &path : std::as_const(filtered)) {
-    if (stop_or_abort_requested()) break;
-
-    QImage image(path);
-    if (image.isNull()) continue;
-
-    int size = image.width() * image.height();
-    if (size > biggest_size) {
-      biggest_size = size;
-      biggest_path = path;
-    }
-  }
-
-  return biggest_path;
+  return CoverUtils::PickBestImageFromList(art_automatic_list, best_art_filters_);
 
 }
 

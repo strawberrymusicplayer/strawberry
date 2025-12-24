@@ -525,7 +525,7 @@ class Song {
   void InitFromQuery(const SqlRow &row, const bool reliable_metadata, const int col = 0);
   void InitFromFilePartial(const QString &filename, const QFileInfo &fileinfo);
   void InitArtManual();
-  void InitArtAutomatic();
+  void InitArtAutomatic(const QStringList &filter_patterns = QStringList());
 
 #ifdef HAVE_GPOD
   void InitFromItdb(_Itdb_Track *track, const QString &prefix);
