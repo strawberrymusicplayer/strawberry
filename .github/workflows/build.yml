@@ -739,12 +739,18 @@ jobs:
       with:
         fetch-depth: 0
         submodules: recursive
+    - name: Free disk space
+      run: |
+        df -h
+        sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc
+        sudo apt-get clean
+        df -h
     - name: Build FreeBSD
       id: build-freebsd
-      uses: vmactions/freebsd-vm@v1.3.1
+      uses: vmactions/freebsd-vm@v1.3.2
       with:
         usesh: true
-        mem: 4096
+        mem: 8192
         prepare: pkg install -y git cmake pkgconf boost-libs alsa-lib glib qt6-base qt6-tools sqlite gstreamer1 gstreamer1-plugins chromaprint libebur128 taglib libcdio libmtp gdk-pixbuf2 libgpod fftw3 icu kdsingleapplication googletest pulseaudio sparsehash rapidjson
         run: |
           set -e
