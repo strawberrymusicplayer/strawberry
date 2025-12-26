@@ -80,10 +80,7 @@ WindowsMediaController::WindowsMediaController(HWND hwnd,
 
     // Get the SystemMediaTransportControls instance for this window
     // Use the interop interface
-    winrt::com_ptr<ISystemMediaTransportControlsInterop> interop;
-    winrt::check_hresult(winrt::get_activation_factory<SystemMediaTransportControls, ISystemMediaTransportControlsInterop>(
-      L"Windows.Media.SystemMediaTransportControls", interop.put_void()
-    ));
+    auto interop = winrt::get_activation_factory<SystemMediaTransportControls, ISystemMediaTransportControlsInterop>();
 
     if (!interop) {
       qLog(Warning) << "Failed to get ISystemMediaTransportControlsInterop";
