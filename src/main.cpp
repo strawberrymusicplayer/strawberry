@@ -93,7 +93,7 @@
 #  include "discord/richpresence.h"
 #endif
 
-#ifdef _MSC_VER
+#ifdef HAVE_WINDOWS_MEDIA_CONTROLS
 #  include "core/windowsmediacontroller.h"
 #endif
 
@@ -369,7 +369,7 @@ int main(int argc, char *argv[]) {
 #endif
                options);
 
-#ifdef _MSC_VER
+#ifdef HAVE_WINDOWS_MEDIA_CONTROLS
   // Initialize Windows Media Transport Controls
   WindowsMediaController windows_media_controller(reinterpret_cast<HWND>(w.winId()), app.player(), app.playlist_manager(), app.current_albumcover_loader());
 #endif
