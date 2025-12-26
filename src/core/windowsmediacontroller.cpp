@@ -25,14 +25,19 @@
 #include <QString>
 #include <QUrl>
 
+// Undefine 'interface' macro from windows.h before including WinRT headers
 #pragma push_macro("interface")
 #undef interface
+
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.Media.h>
 #include <winrt/Windows.Storage.h>
 #include <winrt/Windows.Storage.Streams.h>
-#include <SystemMediaTransportControlsInterop.h>
+
 #pragma pop_macro("interface")
+
+// Include the interop header for ISystemMediaTransportControlsInterop
+#include <systemmediatransportcontrolsinterop.h>
 
 #include "core/logging.h"
 #include "windowsmediacontroller.h"
@@ -49,6 +54,11 @@ using namespace Windows::Media;
 using namespace Windows::Storage;
 using namespace Windows::Storage::Streams;
 
+// Helper struct to hold the WinRT object
+struct WindowsMediaControllerPrivate {
+  SystemMediaTransportControls smtc{nullptr};
+};
+
 WindowsMediaController::WindowsMediaController(HWND hwnd,
                                                const SharedPtr<Player> player,
                                                const SharedPtr<PlaylistManager> playlist_manager,
@@ -64,23 +74,52 @@ WindowsMediaController::WindowsMediaController(HWND hwnd,
     // Initialize WinRT
     winrt::init_apartment();
 
-    // Get the SystemMediaTransportControls instance using the interop interface
-    auto interop = winrt::get_activation_factory<SystemMediaTransportControls, ISystemMediaTransportControlsInterop>();
-    winrt::com_ptr<IInspectable> smtc_inspectable;
-    winrt::check_hresult(interop->GetForWindow(hwnd, winrt::guid_of<SystemMediaTransportControls>(), smtc_inspectable.put_void()));
+    // Create private implementation
+    auto *priv = new WindowsMediaControllerPrivate();
+    smtc_ = priv;
+
+    // Get the SystemMediaTransportControls instance for this window
+    // Use the interop interface
+    winrt::com_ptr<ISystemMediaTransportControlsInterop> interop;
+    winrt::check_hresult(winrt::get_activation_factory<SystemMediaTransportControls, ISystemMediaTransportControlsInterop>(
+      L"Windows.Media.SystemMediaTransportControls", interop.put_void()
+    ));
+
+    if (!interop) {
+      qLog(Warning) << "Failed to get ISystemMediaTransportControlsInterop";
+      delete priv;
+      smtc_ = nullptr;
+      return;
+    }
+
+    // Get SMTC for the window
+    winrt::com_ptr<IInspectable> inspectable;
+    HRESULT hr = interop->GetForWindow(hwnd, winrt::guid_of<SystemMediaTransportControls>(), inspectable.put_void());
     
-    auto smtc = smtc_inspectable.as<SystemMediaTransportControls>();
-    smtc_ = new SystemMediaTransportControls(smtc);
+    if (FAILED(hr) || !inspectable) {
+      qLog(Warning) << "Failed to get SystemMediaTransportControls for window, HRESULT:" << Qt::hex << static_cast<unsigned int>(hr);
+      delete priv;
+      smtc_ = nullptr;
+      return;
+    }
+
+    // Convert to SystemMediaTransportControls
+    priv->smtc = inspectable.as<SystemMediaTransportControls>();
     
-    auto controls = static_cast<SystemMediaTransportControls*>(smtc_);
+    if (!priv->smtc) {
+      qLog(Warning) << "Failed to cast to SystemMediaTransportControls";
+      delete priv;
+      smtc_ = nullptr;
+      return;
+    }
     
     // Enable the controls
-    controls->IsEnabled(true);
-    controls->IsPlayEnabled(true);
-    controls->IsPauseEnabled(true);
-    controls->IsStopEnabled(true);
-    controls->IsNextEnabled(true);
-    controls->IsPreviousEnabled(true);
+    priv->smtc.IsEnabled(true);
+    priv->smtc.IsPlayEnabled(true);
+    priv->smtc.IsPauseEnabled(true);
+    priv->smtc.IsStopEnabled(true);
+    priv->smtc.IsNextEnabled(true);
+    priv->smtc.IsPreviousEnabled(true);
 
     // Setup button handlers
     SetupButtonHandlers();
@@ -94,17 +133,27 @@ WindowsMediaController::WindowsMediaController(HWND hwnd,
   }
   catch (const hresult_error &e) {
     qLog(Warning) << "Failed to initialize Windows Media Transport Controls:" << QString::fromWCharArray(e.message().c_str());
+    if (smtc_) {
+      delete static_cast<WindowsMediaControllerPrivate*>(smtc_);
+      smtc_ = nullptr;
+    }
   }
   catch (...) {
     qLog(Warning) << "Failed to initialize Windows Media Transport Controls: unknown error";
+    if (smtc_) {
+      delete static_cast<WindowsMediaControllerPrivate*>(smtc_);
+      smtc_ = nullptr;
+    }
   }
 }
 
 WindowsMediaController::~WindowsMediaController() {
   if (smtc_) {
-    auto controls = static_cast<SystemMediaTransportControls*>(smtc_);
-    controls->IsEnabled(false);
-    delete controls;
+    auto *priv = static_cast<WindowsMediaControllerPrivate*>(smtc_);
+    if (priv->smtc) {
+      priv->smtc.IsEnabled(false);
+    }
+    delete priv;
     smtc_ = nullptr;
   }
   winrt::uninit_apartment();
@@ -113,10 +162,11 @@ WindowsMediaController::~WindowsMediaController() {
 void WindowsMediaController::SetupButtonHandlers() {
   if (!smtc_) return;
 
-  auto controls = static_cast<SystemMediaTransportControls*>(smtc_);
+  auto *priv = static_cast<WindowsMediaControllerPrivate*>(smtc_);
+  if (!priv->smtc) return;
 
   // Handle button pressed events
-  controls->ButtonPressed([this](const SystemMediaTransportControls &, const SystemMediaTransportControlsButtonPressedEventArgs &args) {
+  priv->smtc.ButtonPressed([this](const SystemMediaTransportControls &, const SystemMediaTransportControlsButtonPressedEventArgs &args) {
     switch (args.Button()) {
       case SystemMediaTransportControlsButton::Play:
         player_->Play();
@@ -146,19 +196,20 @@ void WindowsMediaController::EngineStateChanged(EngineBase::State newState) {
 void WindowsMediaController::UpdatePlaybackStatus(EngineBase::State state) {
   if (!smtc_) return;
 
-  auto controls = static_cast<SystemMediaTransportControls*>(smtc_);
+  auto *priv = static_cast<WindowsMediaControllerPrivate*>(smtc_);
+  if (!priv->smtc) return;
 
   try {
     switch (state) {
       case EngineBase::State::Playing:
-        controls->PlaybackStatus(MediaPlaybackStatus::Playing);
+        priv->smtc.PlaybackStatus(MediaPlaybackStatus::Playing);
         break;
       case EngineBase::State::Paused:
-        controls->PlaybackStatus(MediaPlaybackStatus::Paused);
+        priv->smtc.PlaybackStatus(MediaPlaybackStatus::Paused);
         break;
       case EngineBase::State::Empty:
       case EngineBase::State::Idle:
-        controls->PlaybackStatus(MediaPlaybackStatus::Stopped);
+        priv->smtc.PlaybackStatus(MediaPlaybackStatus::Stopped);
         break;
     }
   }
@@ -190,11 +241,12 @@ void WindowsMediaController::AlbumCoverLoaded(const Song &song, const AlbumCover
 void WindowsMediaController::UpdateMetadata(const Song &song, const QUrl &art_url) {
   if (!smtc_) return;
 
-  auto controls = static_cast<SystemMediaTransportControls*>(smtc_);
+  auto *priv = static_cast<WindowsMediaControllerPrivate*>(smtc_);
+  if (!priv->smtc) return;
 
   try {
     // Get the updater
-    SystemMediaTransportControlsDisplayUpdater updater = controls->DisplayUpdater();
+    SystemMediaTransportControlsDisplayUpdater updater = priv->smtc.DisplayUpdater();
     updater.Type(MediaPlaybackType::Music);
 
     // Get the music properties
