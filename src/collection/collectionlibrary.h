@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,6 +27,7 @@
 #include <QObject>
 #include <QList>
 #include <QHash>
+#include <QMap>
 #include <QString>
 
 #include "includes/shared_ptr.h"
@@ -71,6 +72,7 @@ class CollectionLibrary : public QObject {
 
  private:
   void SyncPlaycountAndRatingToFiles();
+  void SavePendingPlaycountsAndRatings();
 
  public Q_SLOTS:
   void ReloadSettings();
@@ -84,16 +86,26 @@ class CollectionLibrary : public QObject {
 
   void IncrementalScan();
 
+  void CurrentSongChanged(const Song &song);
+  void Stopped();
+
  private Q_SLOTS:
   void ExitReceived();
-  void SongsPlaycountChanged(const SongList &songs, const bool save_tags = false) const;
-  void SongsRatingChanged(const SongList &songs, const bool save_tags = false) const;
+  void SongsPlaycountChanged(const SongList &songs, const bool save_tags = false);
+  void SongsRatingChanged(const SongList &songs, const bool save_tags = false);
 
  Q_SIGNALS:
   void Error(const QString &error);
   void ExitFinished();
 
  private:
+  class PendingSongSave {
+   public:
+    Song song;
+    bool save_playcount = false;
+    bool save_rating = false;
+  };
+
   const SharedPtr<TaskManager> task_manager_;
   const SharedPtr<TagReaderClient> tagreader_client_;
 
@@ -111,6 +123,10 @@ class CollectionLibrary : public QObject {
 
   bool save_playcounts_to_files_;
   bool save_ratings_to_files_;
+
+  QUrl current_song_url_;
+
+  QMap<QUrl, SharedPtr<PendingSongSave>> pending_song_saves_;
 };
 
 #endif

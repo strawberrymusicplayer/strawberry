@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -189,6 +189,26 @@ void CollectionLibrary::ReloadSettings() {
 
 }
 
+void CollectionLibrary::CurrentSongChanged(const Song &song) {
+
+  current_song_url_ = song.url();
+
+  if (!pending_song_saves_.isEmpty()) {
+    SavePendingPlaycountsAndRatings();
+  }
+
+}
+
+void CollectionLibrary::Stopped() {
+
+  current_song_url_ = QUrl();
+
+  if (!pending_song_saves_.isEmpty()) {
+    SavePendingPlaycountsAndRatings();
+  }
+
+}
+
 void CollectionLibrary::SyncPlaycountAndRatingToFilesAsync() {
 
   (void)QtConcurrent::run(&CollectionLibrary::SyncPlaycountAndRatingToFiles, this);
@@ -212,18 +232,85 @@ void CollectionLibrary::SyncPlaycountAndRatingToFiles() {
 
 }
 
-void CollectionLibrary::SongsPlaycountChanged(const SongList &songs, const bool save_tags) const {
+void CollectionLibrary::SongsPlaycountChanged(const SongList &songs, const bool save_tags) {
 
   if (save_tags || save_playcounts_to_files_) {
-    tagreader_client_->SaveSongsPlaycountAsync(songs);
+    SongList songs_to_save_now;
+    for (const Song &song : songs) {
+      if (song.url().isLocalFile() && song.url() == current_song_url_ &&
+          (song.filetype() == Song::FileType::OggFlac || song.filetype() == Song::FileType::OggVorbis || song.filetype() == Song::FileType::OggOpus)) {
+        qLog(Debug) << "Deferring playcount save for currently playing file" << song.url().toLocalFile();
+        if (pending_song_saves_.contains(song.url())) {
+          SharedPtr<PendingSongSave> pending_song_save = pending_song_saves_[song.url()];
+          pending_song_save->save_playcount = true;
+          pending_song_save->song.set_playcount(song.playcount());
+        }
+        else {
+          SharedPtr<PendingSongSave> pending_song_save = make_shared<PendingSongSave>();
+          pending_song_save->save_playcount = true;
+          pending_song_save->song = song;
+          pending_song_saves_.insert(song.url(), pending_song_save);
+        }
+      }
+      else {
+        songs_to_save_now << song;
+      }
+    }
+    if (!songs_to_save_now.isEmpty()) {
+      tagreader_client_->SaveSongsPlaycountAsync(songs_to_save_now);
+    }
   }
 
 }
 
-void CollectionLibrary::SongsRatingChanged(const SongList &songs, const bool save_tags) const {
+void CollectionLibrary::SongsRatingChanged(const SongList &songs, const bool save_tags) {
 
   if (save_tags || save_ratings_to_files_) {
-    tagreader_client_->SaveSongsRatingAsync(songs);
+    SongList songs_to_save_now;
+    for (const Song &song : songs) {
+      if (song.url().isLocalFile() && song.url() == current_song_url_ &&
+          (song.filetype() == Song::FileType::OggFlac || song.filetype() == Song::FileType::OggVorbis || song.filetype() == Song::FileType::OggOpus)) {
+        qLog(Debug) << "Deferring rating save for currently playing file" << song.url().toLocalFile();
+        if (pending_song_saves_.contains(song.url())) {
+          SharedPtr<PendingSongSave> pending_song_save = pending_song_saves_[song.url()];
+          pending_song_save->save_rating = true;
+          pending_song_save->song.set_rating(song.rating());
+        }
+        else {
+          SharedPtr<PendingSongSave> pending_song_save = make_shared<PendingSongSave>();
+          pending_song_save->save_rating = true;
+          pending_song_save->song = song;
+          pending_song_saves_.insert(song.url(), pending_song_save);
+        }
+      }
+      else {
+        songs_to_save_now << song;
+      }
+    }
+    if (!songs_to_save_now.isEmpty()) {
+      tagreader_client_->SaveSongsRatingAsync(songs_to_save_now);
+    }
+  }
+
+}
+
+void CollectionLibrary::SavePendingPlaycountsAndRatings() {
+
+  for (auto it = pending_song_saves_.constBegin(); it != pending_song_saves_.constEnd();) {
+    const QUrl url = it.key();
+    SharedPtr<PendingSongSave> pending_song_save = it.value();
+    if (url == current_song_url_) {
+      ++it;
+      continue;
+    }
+    qLog(Debug) << "Saving deferred playcount/rating for" << url.toLocalFile();
+    if (pending_song_save->save_playcount) {
+      tagreader_client_->SaveSongsPlaycountAsync(SongList() << pending_song_save->song);
+    }
+    if (pending_song_save->save_rating) {
+      tagreader_client_->SaveSongsRatingAsync(SongList() << pending_song_save->song);
+    }
+    it = pending_song_saves_.erase(it);
   }
 
 }
