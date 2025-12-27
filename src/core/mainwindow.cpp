@@ -697,6 +697,9 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(&*app_->task_manager(), &TaskManager::PauseCollectionWatchers, &*app_->collection(), &CollectionLibrary::PauseWatcher);
   QObject::connect(&*app_->task_manager(), &TaskManager::ResumeCollectionWatchers, &*app_->collection(), &CollectionLibrary::ResumeWatcher);
 
+  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, &*app_->collection(), &CollectionLibrary::CurrentSongChanged);
+  QObject::connect(&*app_->player(), &Player::Stopped, &*app_->collection(), &CollectionLibrary::Stopped);
+
   QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, &*app_->current_albumcover_loader(), &CurrentAlbumCoverLoader::LoadAlbumCover);
   QObject::connect(&*app_->current_albumcover_loader(), &CurrentAlbumCoverLoader::AlbumCoverLoaded, this, &MainWindow::AlbumCoverLoaded);
   QObject::connect(album_cover_choice_controller_, &AlbumCoverChoiceController::Error, this, &MainWindow::ShowErrorDialog);
