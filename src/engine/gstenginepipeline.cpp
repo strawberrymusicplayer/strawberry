@@ -176,6 +176,7 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       audioqueue_(nullptr),
       audioqueueconverter_(nullptr),
       audioresample_(nullptr),
+      audiosinkresample_(nullptr),
       volume_(nullptr),
       volume_sw_(nullptr),
       volume_fading_(nullptr),
@@ -669,6 +670,11 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
     return false;
   }
 
+  audiosinkresample_ = CreateElement(u"audioresample"_s, u"audiosinkresample"_s, audiobin_, error);
+  if (!audiosinkresample_) {
+    return false;
+  }
+
   // Create the volume element if it's enabled.
   if (volume_enabled_ && !volume_) {
     volume_sw_ = CreateElement(u"volume"_s, u"volume_sw"_s, audiobin_, error);
@@ -918,6 +924,11 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
     return false;
   }
 
+  if (!gst_element_link(audiosinkconverter, audiosinkresample_)) {
+    error = "Failed to link audio sink converter to audio sink resample."_L1;
+    return false;
+  }
+
   {
     GstCaps *caps = gst_caps_new_empty_simple("audio/x-raw");
     if (!caps) {
@@ -928,10 +939,10 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
       qLog(Debug) << "Setting channels to" << channels_;
       gst_caps_set_simple(caps, "channels", G_TYPE_INT, channels_, nullptr);
     }
-    const bool link_filtered_result = gst_element_link_filtered(audiosinkconverter, audiosink_, caps);
+    const bool link_filtered_result = gst_element_link_filtered(audiosinkresample_, audiosink_, caps);
     gst_caps_unref(caps);
     if (!link_filtered_result) {
-      error = "Failed to link audio sink converter to audio sink with filter for "_L1 + output_;
+      error = "Failed to link audio sink resample to audio sink with filter for "_L1 + output_;
       return false;
     }
   }
