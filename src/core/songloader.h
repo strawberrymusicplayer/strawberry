@@ -99,6 +99,7 @@ class SongLoader : public QObject {
   void ScheduleTimeout();
   void Timeout();
   void StopTypefind();
+  void ParserError(const QString &error);
 
 #ifdef HAVE_AUDIOCD
   void AudioCDTracksLoadErrorSlot(const QString &error);
