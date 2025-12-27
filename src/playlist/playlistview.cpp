@@ -57,7 +57,6 @@
 #include <QLinearGradient>
 #include <QScrollBar>
 #include <QtEvents>
-#include <QSettings>
 #include <QDrag>
 
 #include "includes/qt_blurimage.h"

@@ -32,14 +32,13 @@
 #include <QMap>
 #include <QString>
 #include <QKeySequence>
-#include <QSettings>
 
 #include "globalshortcutsbackend.h"
 
-#include "core/settings.h"
-
 class QShortcut;
 class QAction;
+
+class Settings;
 
 class GlobalShortcutsManager : public QWidget {
   Q_OBJECT
@@ -99,12 +98,11 @@ class GlobalShortcutsManager : public QWidget {
   void Love();
 
  private:
-  void AddShortcut(const QString &id, const QString &name, std::function<void()> signal, const QKeySequence &default_key = QKeySequence(0));
-  Shortcut AddShortcut(const QString &id, const QString &name, const QKeySequence &default_key);
+  void AddShortcut(Settings &s, const QString &id, const QString &name, std::function<void()> signal, const QKeySequence &default_key = QKeySequence(0));
+  Shortcut AddShortcut(Settings &s, const QString &id, const QString &name, const QKeySequence &default_key);
 
  private:
   QList<GlobalShortcutsBackend*> backends_;
-  Settings settings_;
   QList<GlobalShortcutsBackend::Type> backends_enabled_;
   QMap<QString, Shortcut> shortcuts_;
 };

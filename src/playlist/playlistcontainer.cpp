@@ -106,8 +106,6 @@ PlaylistContainer::PlaylistContainer(QWidget *parent)
   no_matches_font.setBold(true);
   no_matches_label_->setFont(no_matches_font);
 
-  settings_.beginGroup(kSettingsGroup);
-
   // Tab bar
   ui_->tab_bar->setExpanding(false);
   ui_->tab_bar->setMovable(true);
@@ -257,7 +255,11 @@ void PlaylistContainer::ReloadSettings() {
   ui_->redo->setIconSize(QSize(iconsize, iconsize));
   ui_->search_field->setIconSize(iconsize);
 
-  bool playlist_clear = settings_.value("playlist_clear", true).toBool();
+  s.beginGroup(kSettingsGroup);
+  const bool playlist_clear = s.value("playlist_clear", true).toBool();
+  const bool show_toolbar = s.value("show_toolbar", true).toBool();
+  s.endGroup();
+
   if (playlist_clear) {
     ui_->clear->show();
   }
@@ -265,7 +267,6 @@ void PlaylistContainer::ReloadSettings() {
     ui_->clear->hide();
   }
 
-  bool show_toolbar = settings_.value("show_toolbar", true).toBool();
   ui_->toolbar->setVisible(show_toolbar);
 
   if (!show_toolbar) ui_->search_field->clear();
@@ -308,7 +309,12 @@ void PlaylistContainer::PlaylistAdded(const int id, const QString &name, const b
   ui_->tab_bar->InsertTab(id, index, name, favorite);
 
   // Are we start up, should we select this tab?
-  if (starting_up_ && settings_.value("current_playlist", 1).toInt() == id) {
+  Settings s;
+  s.beginGroup(kSettingsGroup);
+  const int current_playlist = s.value("current_playlist", 1).toInt();
+  s.endGroup();
+
+  if (starting_up_ && current_playlist == id) {
     starting_up_ = false;
     ui_->tab_bar->set_current_id(id);
   }
@@ -347,12 +353,14 @@ void PlaylistContainer::NewPlaylist() { manager_->New(tr("Playlist")); }
 
 void PlaylistContainer::LoadPlaylist() {
 
-  QString filename = settings_.value("last_load_playlist").toString();
+  Settings s;
+  s.beginGroup(kSettingsGroup);
+  QString filename = s.value("last_load_playlist").toString();
   filename = QFileDialog::getOpenFileName(this, tr("Load playlist"), filename, manager_->parser()->filters(PlaylistParser::Type::Load));
 
   if (filename.isNull()) return;
 
-  settings_.setValue("last_load_playlist", filename);
+  s.setValue("last_load_playlist", filename);
 
   manager_->Load(filename);
 
@@ -391,7 +399,10 @@ void PlaylistContainer::Save() {
 
   if (starting_up_) return;
 
-  settings_.setValue("current_playlist", ui_->tab_bar->current_id());
+  Settings s;
+  s.beginGroup(kSettingsGroup);
+  s.setValue("current_playlist", ui_->tab_bar->current_id());
+  s.endGroup();
 
 }
 

@@ -45,7 +45,6 @@
 #include <QImage>
 #include <QPixmap>
 #include <QTimer>
-#include <QSettings>
 #include <QtEvents>
 
 #include "includes/scoped_ptr.h"
@@ -53,7 +52,6 @@
 #include "includes/lazy.h"
 #include "core/platforminterface.h"
 #include "core/song.h"
-#include "core/settings.h"
 #include "core/commandlineoptions.h"
 #include "tagreader/tagreaderclient.h"
 #include "osd/osdbase.h"
@@ -390,7 +388,6 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 
   QTimer *track_position_timer_;
   QTimer *track_slider_timer_;
-  Settings settings_;
 
   bool keep_running_;
   bool playing_widget_;
