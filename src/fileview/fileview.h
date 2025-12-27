@@ -40,10 +40,12 @@ class QFileIconProvider;
 class QUndoStack;
 class QKeyEvent;
 class QShowEvent;
+class QSpacerItem;
 
 class MusicStorage;
 class TaskManager;
 class Ui_FileView;
+class FileViewTreeModel;
 
 class FileView : public QWidget {
   Q_OBJECT
@@ -76,12 +78,22 @@ class FileView : public QWidget {
   void ChangeFilePath(const QString &new_path);
   void ItemActivated(const QModelIndex &idx);
   void ItemDoubleClick(const QModelIndex &idx);
+  void ToggleViewMode();
 
   void Delete(const QStringList &filenames);
   void DeleteFinished(const SongList &songs_with_errors);
 
+ public Q_SLOTS:
+  void AddTreeRootPath(const QString &path);
+  void RemoveTreeRootPath(const QString &path);
+
  private:
   void ChangeFilePathWithoutUndo(const QString &new_path);
+  void SetupTreeView();
+  void SaveTreeRootPaths();
+  void AddRootButtonClicked();
+  void RemoveRootButtonClicked();
+  void UpdateViewModeUI();
 
  private:
   class UndoCommand : public QUndoCommand {
@@ -110,16 +122,21 @@ class FileView : public QWidget {
   Ui_FileView *ui_;
 
   QFileSystemModel *model_;
+  FileViewTreeModel *tree_model_;
   QUndoStack *undo_stack_;
 
   SharedPtr<TaskManager> task_manager_;
   SharedPtr<MusicStorage> storage_;
 
   QString lazy_set_path_;
+  QStringList tree_root_paths_;
 
   QStringList filter_list_;
 
   ScopedPtr<QFileIconProvider> file_icon_provider_;
+
+  bool tree_view_active_;
+  QSpacerItem *view_mode_spacer_;
 };
 
 #endif  // FILEVIEW_H
