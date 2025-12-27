@@ -1334,6 +1334,7 @@ void PlaylistView::SaveSettings() {
   s.setValue(PlaylistSettings::kColumnAlignments, QVariant::fromValue<ColumnAlignmentMap>(column_alignment_));
   s.setValue(PlaylistSettings::kRatingLocked, rating_locked_);
   s.endGroup();
+  s.sync();
 
 }
 
