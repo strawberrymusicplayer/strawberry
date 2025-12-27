@@ -1000,6 +1000,11 @@ void TidalRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Arti
   const bool stream_ready = json_obj["streamReady"_L1].toBool();
   const QString copyright = json_obj["copyright"_L1].toString();
 
+  QString genre;
+  if (json_obj.contains("genre"_L1)) {
+    genre = json_obj["genre"_L1].toString();
+  }
+
   if (!value_artist.isObject()) {
     Error(u"Invalid Json reply, track artist is not a object."_s, value_artist);
     return;
@@ -1095,6 +1100,7 @@ void TidalRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Arti
     song.set_art_automatic(cover_url);
   }
   song.set_comment(copyright);
+  song.set_genre(genre);
   song.set_directory_id(0);
   song.set_filetype(Song::FileType::Stream);
   song.set_filesize(0);

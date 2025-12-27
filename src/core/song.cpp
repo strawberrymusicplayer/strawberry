@@ -956,7 +956,14 @@ QString Song::PrettyRating() const {
 }
 
 bool Song::IsEditable() const {
-  return d->valid_ && d->url_.isValid() && ((d->url_.isLocalFile() && write_tags_supported() && !has_cue()) || d->source_ == Source::Stream);
+  return d->valid_ && d->url_.isValid() && (
+    (d->url_.isLocalFile() && write_tags_supported() && !has_cue()) ||
+    d->source_ == Source::Stream ||
+    d->source_ == Source::Tidal ||
+    d->source_ == Source::Subsonic ||
+    d->source_ == Source::Qobuz ||
+    d->source_ == Source::Spotify
+  );
 }
 
 bool Song::IsFileInfoEqual(const Song &other) const {

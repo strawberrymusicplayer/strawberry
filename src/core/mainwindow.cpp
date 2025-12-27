@@ -173,9 +173,12 @@
 #endif
 #ifdef HAVE_SPOTIFY
 #  include "spotify/spotifyservice.h"
+#  include "spotify/spotifymetadatarequest.h"
 #  include "constants/spotifysettings.h"
 #endif
 #ifdef HAVE_QOBUZ
+#  include "qobuz/qobuzservice.h"
+#  include "qobuz/qobuzmetadatarequest.h"
 #  include "constants/qobuzsettings.h"
 #endif
 
@@ -379,6 +382,8 @@ MainWindow::MainWindow(Application *app,
       playlist_add_to_another_(nullptr),
       playlistitem_actions_separator_(nullptr),
       playlist_rescan_songs_(nullptr),
+      playlist_fetch_metadata_(nullptr),
+      metadata_queue_timer_(new QTimer(this)),
       track_position_timer_(new QTimer(this)),
       track_slider_timer_(new QTimer(this)),
       keep_running_(false),
@@ -451,6 +456,10 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(track_position_timer_, &QTimer::timeout, this, &MainWindow::UpdateTrackPosition);
   track_slider_timer_->setInterval(kTrackSliderUpdateTimeMs);
   QObject::connect(track_slider_timer_, &QTimer::timeout, this, &MainWindow::UpdateTrackSliderPosition);
+
+  metadata_queue_timer_->setInterval(200);  // 200ms between requests to avoid rate limiting
+  metadata_queue_timer_->setSingleShot(true);
+  QObject::connect(metadata_queue_timer_, &QTimer::timeout, this, &MainWindow::ProcessMetadataQueue);
 
   // Start initializing the player
   qLog(Debug) << "Initializing player";
@@ -809,6 +818,8 @@ MainWindow::MainWindow(Application *app,
 #endif
   playlist_rescan_songs_ = playlist_menu_->addAction(IconLoader::Load(u"view-refresh"_s), tr("Rescan song(s)..."), this, &MainWindow::RescanSongs);
   playlist_menu_->addAction(playlist_rescan_songs_);
+  playlist_fetch_metadata_ = playlist_menu_->addAction(IconLoader::Load(u"download"_s), tr("Fetch metadata from service"), this, &MainWindow::FetchStreamingMetadata);
+  playlist_menu_->addAction(playlist_fetch_metadata_);
   playlist_menu_->addAction(ui_->action_add_files_to_transcoder);
   playlist_menu_->addSeparator();
   playlist_copy_url_ = playlist_menu_->addAction(IconLoader::Load(u"edit-copy"_s), tr("Copy URL(s)..."), this, &MainWindow::PlaylistCopyUrl);
@@ -1992,6 +2003,7 @@ void MainWindow::PlaylistRightClick(const QPoint global_pos, const QModelIndex &
   int in_skipped = 0;
   int not_in_skipped = 0;
   int local_songs = 0;
+  int streaming_songs = 0;
 
   for (const QModelIndex &idx : selection) {
 
@@ -2002,6 +2014,11 @@ void MainWindow::PlaylistRightClick(const QPoint global_pos, const QModelIndex &
     if (!item) continue;
 
     if (item->EffectiveMetadata().url().isLocalFile()) ++local_songs;
+
+    const Song::Source source = item->EffectiveMetadata().source();
+    if (source == Song::Source::Spotify || source == Song::Source::Qobuz) {
+      ++streaming_songs;
+    }
 
     if (item->EffectiveMetadata().has_cue()) {
       cue_selected = true;
@@ -2028,6 +2045,9 @@ void MainWindow::PlaylistRightClick(const QPoint global_pos, const QModelIndex &
 
   playlist_rescan_songs_->setEnabled(local_songs > 0 && editable > 0);
   playlist_rescan_songs_->setVisible(local_songs > 0 && editable > 0);
+
+  playlist_fetch_metadata_->setEnabled(streaming_songs > 0);
+  playlist_fetch_metadata_->setVisible(streaming_songs > 0);
 
   ui_->action_add_files_to_transcoder->setEnabled(local_songs > 0 && editable > 0);
   ui_->action_add_files_to_transcoder->setVisible(local_songs > 0 && editable > 0);
@@ -2211,6 +2231,142 @@ void MainWindow::RescanSongs() {
 
 }
 
+void MainWindow::FetchStreamingMetadata() {
+
+  const QModelIndexList proxy_indexes = ui_->playlist->view()->selectionModel()->selectedRows();
+  for (const QModelIndex &proxy_index : proxy_indexes) {
+    const QModelIndex source_index = app_->playlist_manager()->current()->filter()->mapToSource(proxy_index);
+    if (!source_index.isValid()) continue;
+    PlaylistItemPtr item(app_->playlist_manager()->current()->item_at(source_index.row()));
+    if (!item) continue;
+
+    const Song &song = item->EffectiveMetadata();
+    const Song::Source source = song.source();
+    const QPersistentModelIndex persistent_index = QPersistentModelIndex(source_index);
+    QString track_id;
+
+#ifdef HAVE_QOBUZ
+    if (source == Song::Source::Qobuz) {
+      track_id = song.url().path();
+      if (track_id.isEmpty()) {
+        qLog(Error) << "Failed to fetch Qobuz metadata: No track ID in URL";
+        continue;
+      }
+      metadata_queue_.append({source, track_id, persistent_index});
+    }
+#endif
+
+#ifdef HAVE_SPOTIFY
+    if (source == Song::Source::Spotify) {
+      QString url_str = song.url().toString();
+      if (url_str.startsWith(u"spotify:track:"_s)) {
+        track_id = url_str.mid(14);  // Length of "spotify:track:"
+      }
+      if (track_id.isEmpty()) {
+        qLog(Error) << "Failed to fetch Spotify metadata: No track ID in URL";
+        continue;
+      }
+      metadata_queue_.append({source, track_id, persistent_index});
+    }
+#endif
+  }
+
+  // Start processing the queue if it's not already running
+  if (!metadata_queue_.isEmpty() && !metadata_queue_timer_->isActive()) {
+    ProcessMetadataQueue();
+  }
+
+}
+
+void MainWindow::ProcessMetadataQueue() {
+
+  if (metadata_queue_.isEmpty()) {
+    return;
+  }
+
+  MetadataQueueEntry entry = metadata_queue_.takeFirst();
+
+#ifdef HAVE_QOBUZ
+  if (entry.source == Song::Source::Qobuz) {
+    if (QobuzServicePtr qobuz_service = app_->streaming_services()->Service<QobuzService>()) {
+      QobuzMetadataRequest *request = new QobuzMetadataRequest(qobuz_service.get(), qobuz_service->network(), this);
+      QObject::connect(request, &QobuzMetadataRequest::MetadataReceived, this, [this, entry, request](const QString &received_track_id, const QString &genre) {
+        Q_UNUSED(received_track_id);
+        if (entry.persistent_index.isValid()) {
+          PlaylistItemPtr playlist_item = app_->playlist_manager()->current()->item_at(entry.persistent_index.row());
+          if (playlist_item && !genre.isEmpty()) {
+            Song old_song = playlist_item->OriginalMetadata();
+            Song updated_song = old_song;
+            updated_song.set_genre(genre);
+            playlist_item->SetOriginalMetadata(updated_song);
+            app_->playlist_manager()->current()->ItemReload(entry.persistent_index, old_song, false);
+          }
+        }
+        request->deleteLater();
+        // Process next item in queue
+        if (!metadata_queue_.isEmpty()) {
+          metadata_queue_timer_->start();
+        }
+      });
+      QObject::connect(request, &QobuzMetadataRequest::MetadataFailure, this, [this, request](const QString &failed_track_id, const QString &error) {
+        Q_UNUSED(failed_track_id);
+        qLog(Error) << "Failed to fetch Qobuz metadata:" << error;
+        request->deleteLater();
+        // Process next item in queue
+        if (!metadata_queue_.isEmpty()) {
+          metadata_queue_timer_->start();
+        }
+      });
+      request->FetchTrackMetadata(entry.track_id);
+      return;
+    }
+  }
+#endif
+
+#ifdef HAVE_SPOTIFY
+  if (entry.source == Song::Source::Spotify) {
+    if (SpotifyServicePtr spotify_service = app_->streaming_services()->Service<SpotifyService>()) {
+      SpotifyMetadataRequest *request = new SpotifyMetadataRequest(spotify_service.get(), app_->network(), this);
+      QObject::connect(request, &SpotifyMetadataRequest::MetadataReceived, this, [this, entry, request](const QString &received_track_id, const QString &genre) {
+        Q_UNUSED(received_track_id);
+        if (entry.persistent_index.isValid()) {
+          PlaylistItemPtr playlist_item = app_->playlist_manager()->current()->item_at(entry.persistent_index.row());
+          if (playlist_item && !genre.isEmpty()) {
+            Song old_song = playlist_item->OriginalMetadata();
+            Song updated_song = old_song;
+            updated_song.set_genre(genre);
+            playlist_item->SetOriginalMetadata(updated_song);
+            app_->playlist_manager()->current()->ItemReload(entry.persistent_index, old_song, false);
+          }
+        }
+        request->deleteLater();
+        // Process next item in queue
+        if (!metadata_queue_.isEmpty()) {
+          metadata_queue_timer_->start();
+        }
+      });
+      QObject::connect(request, &SpotifyMetadataRequest::MetadataFailure, this, [this, request](const QString &failed_track_id, const QString &error) {
+        Q_UNUSED(failed_track_id);
+        qLog(Error) << "Failed to fetch Spotify metadata:" << error;
+        request->deleteLater();
+        // Process next item in queue
+        if (!metadata_queue_.isEmpty()) {
+          metadata_queue_timer_->start();
+        }
+      });
+      request->FetchTrackMetadata(entry.track_id);
+      return;
+    }
+  }
+#endif
+
+  // If we get here, the source wasn't handled - try the next item
+  if (!metadata_queue_.isEmpty()) {
+    metadata_queue_timer_->start();
+  }
+
+}
+
 void MainWindow::EditTracks() {
 
   SongList songs;
@@ -2240,8 +2396,21 @@ void MainWindow::EditTracks() {
 void MainWindow::EditTagDialogAccepted() {
 
   const PlaylistItemPtrList items = edit_tag_dialog_->playlist_items();
-  for (PlaylistItemPtr item : items) {
-    item->Reload();
+  const SongList songs = edit_tag_dialog_->songs();
+
+  for (int i = 0; i < items.count() && i < songs.count(); ++i) {
+    PlaylistItemPtr item = items[i];
+    const Song &updated_song = songs[i];
+    const Song::Source source = updated_song.source();
+
+    // For streaming tracks, apply the metadata directly since there's no file to reload from
+    if (source == Song::Source::Tidal || source == Song::Source::Subsonic ||
+        source == Song::Source::Qobuz || source == Song::Source::Spotify) {
+      item->SetOriginalMetadata(updated_song);
+    }
+    else {
+      item->Reload();
+    }
   }
 
   // FIXME: This is really lame but we don't know what rows have changed.
@@ -2316,8 +2485,12 @@ void MainWindow::SelectionSetValue() {
         QObject::disconnect(*connection);
       }, Qt::QueuedConnection);
     }
-    else if (song.source() == Song::Source::Stream) {
-      app_->playlist_manager()->current()->setData(source_index, column_value, 0);
+    else if (song.source() == Song::Source::Stream ||
+             song.source() == Song::Source::Tidal ||
+             song.source() == Song::Source::Subsonic ||
+             song.source() == Song::Source::Qobuz ||
+             song.source() == Song::Source::Spotify) {
+      app_->playlist_manager()->current()->setData(source_index.sibling(source_index.row(), static_cast<int>(column)), column_value, 0);
     }
   }
 
