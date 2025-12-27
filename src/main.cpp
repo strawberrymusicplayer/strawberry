@@ -93,6 +93,10 @@
 #  include "discord/richpresence.h"
 #endif
 
+#ifdef HAVE_WINDOWS_MEDIA_CONTROLS
+#  include "core/windowsmediacontroller.h"
+#endif
+
 #include "core/iconloader.h"
 #include "core/commandlineoptions.h"
 #include "core/networkproxyfactory.h"
@@ -364,6 +368,11 @@ int main(int argc, char *argv[]) {
                &discord_rich_presence,
 #endif
                options);
+
+#ifdef HAVE_WINDOWS_MEDIA_CONTROLS
+  // Initialize Windows Media Transport Controls
+  WindowsMediaController windows_media_controller(reinterpret_cast<HWND>(w.winId()), app.player(), app.playlist_manager(), app.current_albumcover_loader());
+#endif
 
 #ifdef Q_OS_MACOS
   mac::EnableFullScreen(w);
