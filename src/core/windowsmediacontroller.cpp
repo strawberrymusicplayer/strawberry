@@ -50,6 +50,7 @@
 #include "covermanager/albumcoverloaderresult.h"
 
 using namespace winrt;
+using namespace Windows::Foundation;
 using namespace Windows::Media;
 using namespace Windows::Storage;
 using namespace Windows::Storage::Streams;
@@ -279,8 +280,10 @@ void WindowsMediaController::UpdateMetadata(const Song &song, const QUrl &art_ur
       QString artPath = art_url.toLocalFile();
       if (!artPath.isEmpty()) {
         try {
-          auto thumbnailStream = RandomAccessStreamReference::CreateFromFile(
-            StorageFile::GetFileFromPathAsync(winrt::hstring(artPath.toStdWString())).get()
+          // Use file:// URI to avoid async blocking in STA thread
+          QString fileUri = QUrl::fromLocalFile(artPath).toString();
+          auto thumbnailStream = RandomAccessStreamReference::CreateFromUri(
+            winrt::Windows::Foundation::Uri(winrt::hstring(fileUri.toStdWString()))
           );
           updater.Thumbnail(thumbnailStream);
           current_song_art_url_ = artPath;
