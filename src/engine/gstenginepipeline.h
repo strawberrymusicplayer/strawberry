@@ -355,7 +355,6 @@ class GstEnginePipeline : public QObject {
   GstElement *audiobin_;
   GstElement *audiosink_;
   GstElement *audioqueue_;
-  GstElement *audioqueueconverter_;
   GstElement *volume_;
   GstElement *volume_sw_;
   GstElement *volume_fading_;
@@ -364,6 +363,7 @@ class GstEnginePipeline : public QObject {
   GstElement *equalizer_;
   GstElement *equalizer_preamp_;
   GstElement *eventprobe_;
+  GstElement *bufferprobe_;
 
   std::optional<gulong> upstream_events_probe_cb_id_;
   std::optional<gulong> buffer_probe_cb_id_;

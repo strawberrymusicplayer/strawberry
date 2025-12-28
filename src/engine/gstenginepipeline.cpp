@@ -178,7 +178,6 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       audiobin_(nullptr),
       audiosink_(nullptr),
       audioqueue_(nullptr),
-      audioqueueconverter_(nullptr),
       volume_(nullptr),
       volume_sw_(nullptr),
       volume_fading_(nullptr),
@@ -187,6 +186,7 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       equalizer_(nullptr),
       equalizer_preamp_(nullptr),
       eventprobe_(nullptr),
+      bufferprobe_(nullptr),
       logged_unsupported_analyzer_format_(false),
       about_to_finish_(false),
       finish_requested_(false),
@@ -436,7 +436,7 @@ void GstEnginePipeline::Disconnect() {
     }
 
     if (buffer_probe_cb_id_.has_value()) {
-      GstPad *pad = gst_element_get_static_pad(audioqueueconverter_, "src");
+      GstPad *pad = gst_element_get_static_pad(bufferprobe_, "src");
       if (pad) {
         gst_pad_remove_probe(pad, buffer_probe_cb_id_.value());
         gst_object_unref(pad);
@@ -674,13 +674,23 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
     return false;
   }
 
-  audioqueueconverter_ = CreateElement(u"audioconvert"_s, u"audioqueueconverter"_s, audiobin_, error);
-  if (!audioqueueconverter_) {
+  GstElement *audioqueueconverter = CreateElement(u"audioconvert"_s, u"audioqueueconverter"_s, audiobin_, error);
+  if (!audioqueueconverter) {
+    return false;
+  }
+
+  GstElement *audioqueueresampler = CreateElement(u"audioresample"_s, u"audioqueueresampler"_s, audiobin_, error);
+  if (!audioqueueresampler) {
     return false;
   }
 
   GstElement *audiosinkconverter = CreateElement(u"audioconvert"_s, u"audiosinkconverter"_s, audiobin_, error);
   if (!audiosinkconverter) {
+    return false;
+  }
+
+  GstElement *audiosinkresampler = CreateElement(u"audioresample"_s, u"audiosinkresampler"_s, audiobin_, error);
+  if (!audiosinkresampler) {
     return false;
   }
 
@@ -761,7 +771,8 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
 
   }
 
-  eventprobe_ = audioqueueconverter_;
+  eventprobe_ = audioqueueconverter;
+  bufferprobe_ = audioqueueconverter;
 
   // Create the replaygain elements if it's enabled.
   GstElement *rgvolume = nullptr;
@@ -847,12 +858,17 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
 
   // Link all elements
 
-  if (!gst_element_link(audioqueue_, audioqueueconverter_)) {
+  if (!gst_element_link(audioqueue_, audioqueueconverter)) {
     error = u"Failed to link audio queue to audio queue converter."_s;
     return false;
   }
 
-  GstElement *element_link = audioqueueconverter_;  // The next element to link from.
+  if (!gst_element_link(audioqueueconverter, audioqueueresampler)) {
+    error = u"Failed to link audio queue converter to audio queue resampler."_s;
+    return false;
+  }
+
+  GstElement *element_link = audioqueueresampler;  // The next element to link from.
 
   // Link replaygain elements if enabled.
   if (rg_enabled_ && rgvolume && rglimiter && rgconverter) {
@@ -928,6 +944,11 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
     return false;
   }
 
+  if (!gst_element_link(audiosinkconverter, audiosinkresampler)) {
+    error = "Failed to link audio sink converter to audio sink resampler."_L1;
+    return false;
+  }
+
   {
     GstCaps *caps = gst_caps_new_empty_simple("audio/x-raw");
     if (!caps) {
@@ -938,16 +959,16 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
       qLog(Debug) << "Setting channels to" << channels_;
       gst_caps_set_simple(caps, "channels", G_TYPE_INT, channels_, nullptr);
     }
-    const bool link_filtered_result = gst_element_link_filtered(audiosinkconverter, audiosink_, caps);
+    const bool link_filtered_result = gst_element_link_filtered(audiosinkresampler, audiosink_, caps);
     gst_caps_unref(caps);
     if (!link_filtered_result) {
-      error = "Failed to link audio sink converter to audio sink with filter for "_L1 + output_;
+      error = "Failed to link audio sink resampler to audio sink with filter for "_L1 + output_;
       return false;
     }
   }
 
   {  // Add probes and handlers.
-    GstPad *pad = gst_element_get_static_pad(audioqueueconverter_, "src");
+    GstPad *pad = gst_element_get_static_pad(bufferprobe_, "src");
     if (pad) {
       buffer_probe_cb_id_ = gst_pad_add_probe(pad, GST_PAD_PROBE_TYPE_BUFFER, BufferProbeCallback, this, nullptr);
       gst_object_unref(pad);
