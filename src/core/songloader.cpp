@@ -98,12 +98,19 @@ SongLoader::SongLoader(const SharedPtr<UrlHandlers> url_handlers,
 
   QObject::connect(timeout_timer_, &QTimer::timeout, this, &SongLoader::Timeout);
 
+  QObject::connect(playlist_parser_, &PlaylistParser::Error, this, &SongLoader::ParserError);
+  QObject::connect(cue_parser_, &CueParser::Error, this, &SongLoader::ParserError);
+
 }
 
 SongLoader::~SongLoader() {
 
   CleanupPipeline();
 
+}
+
+void SongLoader::ParserError(const QString &error) {
+  errors_ << error;
 }
 
 SongLoader::Result SongLoader::Load(const QUrl &url) {
@@ -287,6 +294,7 @@ SongLoader::Result SongLoader::LoadLocalAsync(const QString &filename) {
   }
 
   if (parser) {  // It's a playlist!
+    QObject::connect(parser, &ParserBase::Error, this, &SongLoader::ParserError, static_cast<Qt::ConnectionType>(Qt::QueuedConnection | Qt::UniqueConnection));
     qLog(Debug) << "Parsing using" << parser->name();
     LoadPlaylist(parser, filename);
     return Result::Success;
@@ -704,6 +712,10 @@ void SongLoader::MagicReady() {
     parser_ = nullptr;
     url_.setScheme(u"mms"_s);
     StopTypefindAsync(true);
+  }
+
+  if (parser_) {
+    QObject::connect(parser_, &ParserBase::Error, this, &SongLoader::ParserError, static_cast<Qt::ConnectionType>(Qt::QueuedConnection | Qt::UniqueConnection));
   }
 
   state_ = State::WaitingForData;
