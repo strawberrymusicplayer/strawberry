@@ -125,7 +125,6 @@ void FancyTabWidget::SaveSettings(const QString &settings_group) {
   }
 
   s.endGroup();
-  s.sync();
 
 }
 

@@ -1345,8 +1345,6 @@ void MainWindow::SaveSettings() {
   settings_.setValue(MainWindowSettings::kShowSidebar, ui_->action_toggle_show_sidebar->isChecked());
   settings_.setValue(MainWindowSettings::kSearchForCoverAuto, album_cover_choice_controller_->search_cover_auto_action()->isChecked());
 
-  settings_.sync();
-
 }
 
 void MainWindow::Exit() {
