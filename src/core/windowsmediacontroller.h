@@ -63,6 +63,7 @@ class WindowsMediaController : public QObject {
   const SharedPtr<CurrentAlbumCoverLoader> current_albumcover_loader_;
   void *smtc_;  // Pointer to SystemMediaTransportControls (opaque to avoid WinRT headers in public header)
   QString current_song_art_url_;
+  bool apartment_initialized_;  // Track if we initialized the WinRT apartment
 };
 
 #endif  // WINDOWSMEDIACONTROLLER_H

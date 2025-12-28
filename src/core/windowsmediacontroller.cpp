@@ -68,11 +68,22 @@ WindowsMediaController::WindowsMediaController(HWND hwnd,
       player_(player),
       playlist_manager_(playlist_manager),
       current_albumcover_loader_(current_albumcover_loader),
-      smtc_(nullptr) {
+      smtc_(nullptr),
+      apartment_initialized_(false) {
 
   try {
-    // Initialize WinRT
-    winrt::init_apartment();
+    // Initialize WinRT apartment if not already initialized
+    // Qt or other components may have already initialized it
+    try {
+      winrt::init_apartment(winrt::apartment_type::single_threaded);
+      apartment_initialized_ = true;
+    }
+    catch (const hresult_error &e) {
+      // Apartment already initialized - this is fine, continue
+      if (e.code() != RPC_E_CHANGED_MODE) {
+        throw;
+      }
+    }
 
     // Create private implementation
     auto *priv = new WindowsMediaControllerPrivate();
@@ -153,7 +164,10 @@ WindowsMediaController::~WindowsMediaController() {
     delete priv;
     smtc_ = nullptr;
   }
-  winrt::uninit_apartment();
+  // Only uninit if we initialized the apartment
+  if (apartment_initialized_) {
+    winrt::uninit_apartment();
+  }
 }
 
 void WindowsMediaController::SetupButtonHandlers() {
