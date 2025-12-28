@@ -115,7 +115,7 @@ class DebugBase : public QDebug {
 class BufferedDebug : public DebugBase<BufferedDebug> {
  public:
   BufferedDebug() = default;
-  explicit BufferedDebug(QtMsgType msg_type) : buf_(new QBuffer, later_deleter) {
+  explicit BufferedDebug(QtMsgType msg_type) : buf_(new QBuffer) {
 
     Q_UNUSED(msg_type)
 
@@ -125,10 +125,6 @@ class BufferedDebug : public DebugBase<BufferedDebug> {
     QDebug other(buf_.get());
     swap(other);
   }
-
-  // Delete function for the buffer. Since a base class is holding a reference to the raw pointer,
-  // it shouldn't be deleted until after the deletion of this object is complete.
-  static void later_deleter(QBuffer *b) { b->deleteLater(); }
 
   std::shared_ptr<QBuffer> buf_;
 };
