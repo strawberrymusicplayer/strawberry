@@ -805,19 +805,19 @@ bool Song::lyrics_supported() const {
 }
 
 bool Song::albumartistsort_supported() const {
-  return d->filetype_ == FileType::FLAC || d->filetype_ == FileType::OggFlac || d->filetype_ == FileType::OggVorbis || d->filetype_ == FileType::MPEG;
+  return d->filetype_ == FileType::FLAC || d->filetype_ == FileType::OggFlac || d->filetype_ == FileType::OggVorbis || d->filetype_ == FileType::OggOpus || d->filetype_ == FileType::MPEG;
 }
 
 bool Song::albumsort_supported() const {
-  return d->filetype_ == FileType::FLAC || d->filetype_ == FileType::OggFlac || d->filetype_ == FileType::OggVorbis || d->filetype_ == FileType::MPEG;
+  return d->filetype_ == FileType::FLAC || d->filetype_ == FileType::OggFlac || d->filetype_ == FileType::OggVorbis || d->filetype_ == FileType::OggOpus || d->filetype_ == FileType::MPEG;
 }
 
 bool Song::artistsort_supported() const {
-  return d->filetype_ == FileType::FLAC || d->filetype_ == FileType::OggFlac || d->filetype_ == FileType::OggVorbis || d->filetype_ == FileType::MPEG;
+  return d->filetype_ == FileType::FLAC || d->filetype_ == FileType::OggFlac || d->filetype_ == FileType::OggVorbis || d->filetype_ == FileType::OggOpus || d->filetype_ == FileType::MPEG;
 }
 
 bool Song::composersort_supported() const {
-  return d->filetype_ == FileType::FLAC || d->filetype_ == FileType::OggFlac || d->filetype_ == FileType::OggVorbis || d->filetype_ == FileType::MPEG;
+  return d->filetype_ == FileType::FLAC || d->filetype_ == FileType::OggFlac || d->filetype_ == FileType::OggVorbis || d->filetype_ == FileType::OggOpus || d->filetype_ == FileType::MPEG;
 }
 
 bool Song::performersort_supported() const {
@@ -826,7 +826,7 @@ bool Song::performersort_supported() const {
 }
 
 bool Song::titlesort_supported() const {
-  return d->filetype_ == FileType::FLAC || d->filetype_ == FileType::OggFlac || d->filetype_ == FileType::OggVorbis || d->filetype_ == FileType::MPEG;
+  return d->filetype_ == FileType::FLAC || d->filetype_ == FileType::OggFlac || d->filetype_ == FileType::OggVorbis || d->filetype_ == FileType::OggOpus || d->filetype_ == FileType::MPEG;
 }
 
 bool Song::save_embedded_cover_supported(const FileType filetype) {
