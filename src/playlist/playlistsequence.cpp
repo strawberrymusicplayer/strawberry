@@ -112,10 +112,10 @@ PlaylistSequence::~PlaylistSequence() {
   delete ui_;
 }
 
-int PlaylistSequence::CalculateIconSize() const {
+int PlaylistSequence::CalculateIconSize() {
 
   // Get screen information for the widget
-  QScreen *screen = Utilities::GetScreen(const_cast<PlaylistSequence*>(this));
+  QScreen *screen = Utilities::GetScreen(this);
   if (!screen) {
     screen = QGuiApplication::primaryScreen();
   }
@@ -141,7 +141,9 @@ int PlaylistSequence::CalculateIconSize() const {
   const qreal dpi_factor = device_pixel_ratio / kReferenceDevicePixelRatio;
   
   // Calculate final icon size with combined scaling
-  // Use a balanced approach: resolution contributes 50%, DPI contributes 50%
+  // Formula: 50% from resolution scaling + 50% from DPI scaling + 50% base multiplier
+  // The 0.5 base ensures icons scale up appropriately across different displays
+  // Without it, icons would be too small on average displays
   const qreal combined_factor = (resolution_factor * 0.5) + (dpi_factor * 0.5) + 0.5;
   int calculated_size = static_cast<int>(kBaseIconSize * combined_factor);
   
