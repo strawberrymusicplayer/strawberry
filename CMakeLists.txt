@@ -296,7 +296,9 @@ if(UNIX AND NOT APPLE)
 endif()
 
 if(MSVC)
-  set(HAVE_WINDOWS_MEDIA_CONTROLS ON)
+  optional_component(WINDOWS_MEDIA_CONTROLS ON "Windows Media Transport Controls"
+    DEPENDS "MSVC compiler" MSVC
+  )
 endif()
 
 optional_component(SONGFINGERPRINTING ON "Song fingerprinting and tracking"

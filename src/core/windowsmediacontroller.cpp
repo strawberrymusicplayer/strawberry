@@ -246,7 +246,7 @@ void WindowsMediaController::AlbumCoverLoaded(const Song &song, const AlbumCover
   }
 
   // Update metadata with album cover
-  UpdateMetadata(song, result.temp_cover_url.isEmpty() ? result.cover_url : result.temp_cover_url);
+  UpdateMetadata(song, result.temp_cover_url.isEmpty() ? result.album_cover.cover_url : result.temp_cover_url);
 }
 
 void WindowsMediaController::UpdateMetadata(const Song &song, const QUrl &art_url) {
