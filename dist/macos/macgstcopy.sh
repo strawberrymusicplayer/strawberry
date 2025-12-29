@@ -71,6 +71,7 @@ libgstasf
 libgstasfmux
 libgstaudioconvert
 libgstaudiofx
+libgstaudiointerleave
 libgstaudioparsers
 libgstaudioresample
 libgstautodetect
