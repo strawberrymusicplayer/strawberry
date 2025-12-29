@@ -43,7 +43,6 @@
 #include <QString>
 #include <QUrl>
 #include <QImage>
-#include <QPixmap>
 #include <QTimer>
 #include <QtEvents>
 
@@ -289,9 +288,6 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void ApplyPlayBehaviour(const BehaviourSettings::PlayBehaviour b, MimeData *mimedata) const;
 
   void CheckFullRescanRevisions();
-
-  // creates the icon by painting the full one depending on the current position
-  QPixmap CreateOverlayedIcon(const int position, const int scrobble_point);
 
   void GetCoverAutomatically();
 
