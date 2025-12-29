@@ -1668,12 +1668,24 @@ void Song::InitArtManual() {
 void Song::InitArtAutomatic() {
 
   if (d->art_automatic_.isEmpty() && d->source_ == Source::LocalFile && d->url_.isLocalFile()) {
-    // Pick the first image file in the album directory.
-    QFileInfo file(d->url_.toLocalFile());
-    QDir dir(file.path());
-    QStringList files = dir.entryList(QStringList() << u"*.jpg"_s << u"*.png"_s << u"*.gif"_s << u"*.jpeg"_s, QDir::Files|QDir::Readable, QDir::Name);
-    if (files.count() > 0) {
-      d->art_automatic_ = QUrl::fromLocalFile(file.path() + QDir::separator() + files.first());
+    const QFileInfo fileinfo(d->url_.toLocalFile());
+    const QDir dir(fileinfo.path());
+    const QStringList cover_files = dir.entryList(QStringList() << u"*.jpg"_s << u"*.png"_s << u"*.gif"_s << u"*.jpeg"_s, QDir::Files|QDir::Readable, QDir::Name);
+    QString best_cover_file;
+    for (const QString &cover_file : cover_files) {
+      if (cover_file.contains("back"_L1, Qt::CaseInsensitive)) {
+        continue;
+      }
+      if (cover_file.contains("front"_L1, Qt::CaseInsensitive) || cover_file.startsWith("cover"_L1, Qt::CaseInsensitive)) {
+        best_cover_file = cover_file;
+        break;
+      }
+      if (best_cover_file.isEmpty()) {
+        best_cover_file = cover_file;
+      }
+    }
+    if (!best_cover_file.isEmpty()) {
+      d->art_automatic_ = QUrl::fromLocalFile(fileinfo.path() + QDir::separator() + best_cover_file);
     }
   }
 
