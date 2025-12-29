@@ -845,7 +845,7 @@ jobs:
           p12-password: ${{ secrets.APPLE_DEVELOPER_ID_CERTIFICATE_PASSWORD }}
 
       - name: Download macOS dependencies
-        run: curl -f -O -L https://github.com/strawberrymusicplayer/strawberry-macos-dependencies$(test "${{env.arch}}" = "x86_64" && echo "-intel" || echo "")/releases/latest/download/strawberry-macos-${{env.arch}}-${{env.buildtype}}.tar.xz
+        run: curl -f -O -L https://github.com/strawberrymusicplayer/strawberry-macos-dependencies/releases/latest/download/strawberry-macos-${{env.arch}}-${{env.buildtype}}.tar.xz
 
       - name: Extract macOS dependencies
         run: sudo tar -C / -xf strawberry-macos-${{env.arch}}-${{env.buildtype}}.tar.xz
