@@ -295,6 +295,12 @@ if(UNIX AND NOT APPLE)
   )
 endif()
 
+if(MSVC)
+  optional_component(WINDOWS_MEDIA_CONTROLS ON "Windows Media Transport Controls"
+    DEPENDS "MSVC compiler" MSVC
+  )
+endif()
+
 optional_component(SONGFINGERPRINTING ON "Song fingerprinting and tracking"
   DEPENDS "chromaprint" CHROMAPRINT_FOUND
 )
@@ -1294,6 +1300,7 @@ endif()
 optional_source(HAVE_ALSA SOURCES src/engine/alsadevicefinder.cpp src/engine/alsapcmdevicefinder.cpp)
 optional_source(HAVE_PULSE SOURCES src/engine/pulsedevicefinder.cpp)
 optional_source(MSVC SOURCES src/engine/uwpdevicefinder.cpp src/engine/asiodevicefinder.cpp)
+optional_source(HAVE_WINDOWS_MEDIA_CONTROLS SOURCES src/core/windowsmediacontroller.cpp HEADERS src/core/windowsmediacontroller.h)
 optional_source(HAVE_CHROMAPRINT SOURCES src/engine/chromaprinter.cpp)
 
 optional_source(HAVE_MUSICBRAINZ
