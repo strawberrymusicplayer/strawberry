@@ -33,7 +33,7 @@ constexpr char kFileFilter[] =
     "*.mod *.s3m *.xm *.it "
     "*.spc *.vgm";
 
-constexpr char kLoadImageFileFilter[] = QT_TRANSLATE_NOOP("FileFilter", "Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm)");
-constexpr char kSaveImageFileFilter[] = QT_TRANSLATE_NOOP("FileFilter", "Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm)");
+constexpr char kLoadImageFileFilter[] = QT_TRANSLATE_NOOP("FileFilter", "Images (*.png *.jpg *.jpeg *.bmp *.gif *.xpm *.pbm *.pgm *.ppm *.xbm *.webp)");
+constexpr char kSaveImageFileFilter[] = QT_TRANSLATE_NOOP("FileFilter", "Images (*.png *.jpg *.jpeg *.bmp *.xpm *.pbm *.ppm *.xbm *.webp)");
 
 #endif  // FILEFILTERCONSTANTS_H
