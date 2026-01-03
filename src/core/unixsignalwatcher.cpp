@@ -22,6 +22,7 @@
 #include <unistd.h>
 #include <csignal>
 #include <cerrno>
+#include <fcntl.h>
 
 #include <QSocketNotifier>
 
@@ -36,15 +37,16 @@ UnixSignalWatcher::UnixSignalWatcher(QObject *parent)
     : QObject(parent),
       socket_notifier_(nullptr) {
 
-  signal_fd_[0] = -1;
-  signal_fd_[1] = -1;
-
   // Create a socket pair for the self-pipe trick
   if (::socketpair(AF_UNIX, SOCK_STREAM, 0, signal_fd_) != 0) {
     qLog(Error) << "Failed to create socket pair for signal handling:" << ::strerror(errno);
-    signal_fd_[0] = -1;
-    signal_fd_[1] = -1;
     return;
+  }
+
+  // Set the read end to non-blocking mode
+  int flags = ::fcntl(signal_fd_[0], F_GETFL, 0);
+  if (flags != -1) {
+    ::fcntl(signal_fd_[0], F_SETFL, flags | O_NONBLOCK);
   }
 
   // Set up QSocketNotifier to monitor the read end of the socket
@@ -54,6 +56,11 @@ UnixSignalWatcher::UnixSignalWatcher(QObject *parent)
 }
 
 UnixSignalWatcher::~UnixSignalWatcher() {
+
+  // Restore original signal handlers
+  for (int i = 0; i < watched_signals_.size(); ++i) {
+    ::sigaction(watched_signals_[i], &original_signal_actions_[i], nullptr);
+  }
 
   if (signal_fd_[0] != -1) {
     ::close(signal_fd_[0]);
@@ -83,12 +90,15 @@ void UnixSignalWatcher::WatchForSignal(const int signal) {
   sigemptyset(&signal_action.sa_mask);
   signal_action.sa_handler = UnixSignalWatcher::SignalHandler;
   signal_action.sa_flags = SA_RESTART;
-  if (::sigaction(signal, &signal_action, nullptr) != 0) {
+  
+  struct sigaction old_action{};
+  if (::sigaction(signal, &signal_action, &old_action) != 0) {
     qLog(Error) << "sigaction error:" << ::strerror(errno);
     return;
   }
 
   watched_signals_ << signal;
+  original_signal_actions_ << old_action;
 
 }
 
@@ -109,15 +119,19 @@ void UnixSignalWatcher::HandleSignalNotification() {
 
   // Read all pending signals from the socket
   // Multiple signals could arrive before the notifier triggers
-  int signal = 0;
   while (true) {
+    int signal = 0;
     const ssize_t bytes_read = ::read(signal_fd_[0], &signal, sizeof(signal));
     if (bytes_read == sizeof(signal)) {
       qLog(Debug) << "Caught signal:" << ::strsignal(signal);
       Q_EMIT UnixSignal(signal);
     }
+    else if (bytes_read == -1 && (errno == EAGAIN || errno == EWOULDBLOCK)) {
+      // No more data available (expected with non-blocking socket)
+      break;
+    }
     else {
-      // No more data or error occurred
+      // Error occurred or partial read
       break;
     }
   }

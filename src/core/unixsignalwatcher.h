@@ -34,16 +34,16 @@ class UnixSignalWatcher : public QObject {
 
   void WatchForSignal(const int signal);
 
- private:
-  static void SignalHandler(const int signal);
-  void HandleSignalNotification();
-
  Q_SIGNALS:
   void UnixSignal(const int signal);
 
  private:
+  static void SignalHandler(const int signal);
+  void HandleSignalNotification();
+
   QSocketNotifier *socket_notifier_;
   QList<int> watched_signals_;
+  QList<struct sigaction> original_signal_actions_;
 };
 
 #endif  // UNIXSIGNALWATCHER_H
