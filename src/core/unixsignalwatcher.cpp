@@ -28,11 +28,18 @@
 #include "core/logging.h"
 #include "unixsignalwatcher.h"
 
-int UnixSignalWatcher::signal_fd_[2] = {-1, -1};
+UnixSignalWatcher *UnixSignalWatcher::s_instance_ = nullptr;
 
 UnixSignalWatcher::UnixSignalWatcher(QObject *parent)
     : QObject(parent),
+      signal_fd_{-1, -1},
       socket_notifier_(nullptr) {
+
+  // Only allow one instance since signal handlers are global
+  if (s_instance_) {
+    qLog(Error) << "UnixSignalWatcher can only have one instance";
+    return;
+  }
 
   // Create a socket pair for the self-pipe trick
   if (::socketpair(AF_UNIX, SOCK_STREAM, 0, signal_fd_) != 0) {
@@ -42,6 +49,8 @@ UnixSignalWatcher::UnixSignalWatcher(QObject *parent)
     return;
   }
 
+  s_instance_ = this;
+
   // Set up QSocketNotifier to monitor the read end of the socket
   socket_notifier_ = new QSocketNotifier(signal_fd_[0], QSocketNotifier::Read, this);
   connect(socket_notifier_, &QSocketNotifier::activated, this, &UnixSignalWatcher::HandleSignalNotification);
@@ -50,16 +59,28 @@ UnixSignalWatcher::UnixSignalWatcher(QObject *parent)
 
 UnixSignalWatcher::~UnixSignalWatcher() {
 
+  if (s_instance_ == this) {
+    s_instance_ = nullptr;
+  }
+
   if (signal_fd_[0] != -1) {
     ::close(signal_fd_[0]);
+    signal_fd_[0] = -1;
   }
   if (signal_fd_[1] != -1) {
     ::close(signal_fd_[1]);
+    signal_fd_[1] = -1;
   }
 
 }
 
 void UnixSignalWatcher::WatchForSignal(const int signal) {
+
+  // Check if socket pair was created successfully
+  if (signal_fd_[0] == -1 || signal_fd_[1] == -1) {
+    qLog(Error) << "Cannot watch for signal: socket pair not initialized";
+    return;
+  }
 
   if (watched_signals_.contains(signal)) {
     qLog(Debug) << "Already watching for signal" << signal;
@@ -81,22 +102,32 @@ void UnixSignalWatcher::WatchForSignal(const int signal) {
 
 void UnixSignalWatcher::SignalHandler(const int signal) {
 
+  if (!s_instance_ || s_instance_->signal_fd_[1] == -1) {
+    return;
+  }
+
   // Write the signal number to the socket pair (async-signal-safe)
   // This is the only operation we perform in the signal handler
   // Ignore errors as there's nothing we can safely do about them in a signal handler
-  (void)::write(signal_fd_[1], &signal, sizeof(signal));
+  (void)::write(s_instance_->signal_fd_[1], &signal, sizeof(signal));
 
 }
 
 void UnixSignalWatcher::HandleSignalNotification() {
 
-  // Read the signal number from the socket
+  // Read all pending signals from the socket
+  // Multiple signals could arrive before the notifier triggers
   int signal = 0;
-  const ssize_t bytes_read = ::read(signal_fd_[0], &signal, sizeof(signal));
-
-  if (bytes_read == sizeof(signal)) {
-    qLog(Debug) << "Caught signal:" << ::strsignal(signal);
-    Q_EMIT UnixSignal(signal);
+  while (true) {
+    const ssize_t bytes_read = ::read(signal_fd_[0], &signal, sizeof(signal));
+    if (bytes_read == sizeof(signal)) {
+      qLog(Debug) << "Caught signal:" << ::strsignal(signal);
+      Q_EMIT UnixSignal(signal);
+    }
+    else {
+      // No more data or error occurred
+      break;
+    }
   }
 
 }

@@ -42,7 +42,8 @@ class UnixSignalWatcher : public QObject {
   void UnixSignal(const int signal);
 
  private:
-  static int signal_fd_[2];
+  static UnixSignalWatcher *s_instance_;
+  int signal_fd_[2];
   QSocketNotifier *socket_notifier_;
   QList<int> watched_signals_;
 };
