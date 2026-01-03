@@ -4766,11 +4766,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Warn me when closing a playlist tab</source>
-      <translation type="unfinished">Warn me when closing a playlist tab</translation>
+      <translation>Προειδοποίηση κατά το κλείσιμο μιας καρτέλας λίστας αναπαραγωγής</translation>
     </message>
     <message>
       <source>This option can be changed in the &quot;Behavior&quot; preferences</source>
-      <translation type="unfinished">This option can be changed in the &quot;Behavior&quot; preferences</translation>
+      <translation/>
     </message>
     <message>
       <source>Double-click here to favorite this playlist so it will be saved and remain accessible through the &quot;Playlists&quot; panel on the left side bar</source>
