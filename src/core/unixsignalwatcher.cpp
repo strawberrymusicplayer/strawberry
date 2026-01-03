@@ -37,11 +37,13 @@ UnixSignalWatcher::UnixSignalWatcher(QObject *parent)
   // Create a socket pair for the self-pipe trick
   if (::socketpair(AF_UNIX, SOCK_STREAM, 0, signal_fd_) != 0) {
     qLog(Error) << "Failed to create socket pair for signal handling:" << ::strerror(errno);
+    signal_fd_[0] = -1;
+    signal_fd_[1] = -1;
     return;
   }
 
   // Set up QSocketNotifier to monitor the read end of the socket
-  socket_notifier_ = new QSocketNotifier(signal_fd_[1], QSocketNotifier::Read, this);
+  socket_notifier_ = new QSocketNotifier(signal_fd_[0], QSocketNotifier::Read, this);
   connect(socket_notifier_, &QSocketNotifier::activated, this, &UnixSignalWatcher::HandleSignalNotification);
 
 }
@@ -65,6 +67,7 @@ void UnixSignalWatcher::WatchForSignal(const int signal) {
   }
 
   struct sigaction signal_action{};
+  ::sigemptyset(&signal_action.sa_mask);
   signal_action.sa_handler = UnixSignalWatcher::SignalHandler;
   signal_action.sa_flags = SA_RESTART;
   if (::sigaction(signal, &signal_action, nullptr) != 0) {
@@ -80,7 +83,8 @@ void UnixSignalWatcher::SignalHandler(const int signal) {
 
   // Write the signal number to the socket pair (async-signal-safe)
   // This is the only operation we perform in the signal handler
-  ::write(signal_fd_[0], &signal, sizeof(signal));
+  // Ignore errors as there's nothing we can safely do about them in a signal handler
+  (void)::write(signal_fd_[1], &signal, sizeof(signal));
 
 }
 
@@ -88,7 +92,7 @@ void UnixSignalWatcher::HandleSignalNotification() {
 
   // Read the signal number from the socket
   int signal = 0;
-  const ssize_t bytes_read = ::read(signal_fd_[1], &signal, sizeof(signal));
+  const ssize_t bytes_read = ::read(signal_fd_[0], &signal, sizeof(signal));
 
   if (bytes_read == sizeof(signal)) {
     qLog(Debug) << "Caught signal:" << ::strsignal(signal);
