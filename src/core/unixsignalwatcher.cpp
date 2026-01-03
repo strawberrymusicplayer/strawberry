@@ -74,13 +74,11 @@ UnixSignalWatcher::UnixSignalWatcher(QObject *parent)
 }
 
 UnixSignalWatcher::~UnixSignalWatcher() {
-
-  // Disable and delete socket notifier first to prevent it from triggering
+  // Disable socket notifier first to prevent it from triggering
   // after file descriptors are closed or during signal handler restoration
+  // The notifier will be automatically deleted by Qt's parent-child ownership
   if (socket_notifier_) {
     socket_notifier_->setEnabled(false);
-    delete socket_notifier_;
-    socket_notifier_ = nullptr;
   }
 
   // Restore original signal handlers
@@ -100,7 +98,6 @@ UnixSignalWatcher::~UnixSignalWatcher() {
   }
 
   sInstance = nullptr;
-
 }
 
 void UnixSignalWatcher::WatchForSignal(const int signal) {
