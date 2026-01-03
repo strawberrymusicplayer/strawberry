@@ -37,13 +37,10 @@ UnixSignalWatcher::UnixSignalWatcher(QObject *parent)
       socket_notifier_(nullptr) {
 
   Q_ASSERT(!sInstance);
-  sInstance = this;
 
   // Create a socket pair for the self-pipe trick
   if (::socketpair(AF_UNIX, SOCK_STREAM, 0, signal_fd_) != 0) {
     qLog(Error) << "Failed to create socket pair for signal handling:" << ::strerror(errno);
-    // Initialization failed; prevent use of this partially initialized instance
-    sInstance = nullptr;
     return;
   }
 
@@ -70,6 +67,9 @@ UnixSignalWatcher::UnixSignalWatcher(QObject *parent)
     socket_notifier_ = new QSocketNotifier(signal_fd_[0], QSocketNotifier::Read, this);
     QObject::connect(socket_notifier_, &QSocketNotifier::activated, this, &UnixSignalWatcher::HandleSignalNotification);
   }
+
+  // Set the singleton instance only after successful initialization
+  sInstance = this;
 
 }
 
