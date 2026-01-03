@@ -447,6 +447,14 @@ MainWindow::MainWindow(Application *app,
   ui_->tabs->SetBackgroundPixmap(QPixmap(u":/pictures/sidebar-background.png"_s));
   ui_->tabs->LoadSettings(QLatin1String(MainWindowSettings::kSettingsGroup));
 
+  // Save tab mode immediately when changed to avoid losing the setting
+  QObject::connect(ui_->tabs, &FancyTabWidget::ModeChanged, this, [this](FancyTabWidget::Mode mode) {
+    Settings s;
+    s.beginGroup(MainWindowSettings::kSettingsGroup);
+    s.setValue("tab_mode", static_cast<int>(mode));
+    s.endGroup();
+  });
+
   track_position_timer_->setInterval(kTrackPositionUpdateTimeMs);
   QObject::connect(track_position_timer_, &QTimer::timeout, this, &MainWindow::UpdateTrackPosition);
   track_slider_timer_->setInterval(kTrackSliderUpdateTimeMs);
