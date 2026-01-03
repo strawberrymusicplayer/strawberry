@@ -29,40 +29,38 @@
 #include "core/logging.h"
 #include "unixsignalwatcher.h"
 
-namespace {
-int signal_fd_[2]{-1, -1};
-}
+UnixSignalWatcher *UnixSignalWatcher::sInstance = nullptr;
 
 UnixSignalWatcher::UnixSignalWatcher(QObject *parent)
     : QObject(parent),
+      signal_fd_{-1, -1},
       socket_notifier_(nullptr) {
 
-  if (signal_fd_[0] == -1 && signal_fd_[1] == -1) {
+  Q_ASSERT(!sInstance);
+  sInstance = this;
 
-    // Create a socket pair for the self-pipe trick
-    if (::socketpair(AF_UNIX, SOCK_STREAM, 0, signal_fd_) != 0) {
-      qLog(Error) << "Failed to create socket pair for signal handling:" << ::strerror(errno);
-      return;
-    }
+  // Create a socket pair for the self-pipe trick
+  if (::socketpair(AF_UNIX, SOCK_STREAM, 0, signal_fd_) != 0) {
+    qLog(Error) << "Failed to create socket pair for signal handling:" << ::strerror(errno);
+    return;
+  }
 
-    // Set the read end to non-blocking mode
-    int flags = ::fcntl(signal_fd_[0], F_GETFL, 0);
-    if (flags == -1) {
-      qLog(Error) << "Failed to get socket flags:" << ::strerror(errno);
-    }
-    else if (::fcntl(signal_fd_[0], F_SETFL, flags | O_NONBLOCK) == -1) {
-      qLog(Error) << "Failed to set socket to non-blocking:" << ::strerror(errno);
-    }
+  // Set the read end to non-blocking mode
+  int flags = ::fcntl(signal_fd_[0], F_GETFL, 0);
+  if (flags == -1) {
+    qLog(Error) << "Failed to get socket flags:" << ::strerror(errno);
+  }
+  else if (::fcntl(signal_fd_[0], F_SETFL, flags | O_NONBLOCK) == -1) {
+    qLog(Error) << "Failed to set socket to non-blocking:" << ::strerror(errno);
+  }
 
-    // Set the write end to non-blocking mode as well (used in signal handler)
-    flags = ::fcntl(signal_fd_[1], F_GETFL, 0);
-    if (flags == -1) {
-      qLog(Error) << "Failed to get socket flags for write end:" << ::strerror(errno);
-    }
-    else if (::fcntl(signal_fd_[1], F_SETFL, flags | O_NONBLOCK) == -1) {
-      qLog(Error) << "Failed to set write end of socket to non-blocking:" << ::strerror(errno);
-    }
-
+  // Set the write end to non-blocking mode as well (used in signal handler)
+  flags = ::fcntl(signal_fd_[1], F_GETFL, 0);
+  if (flags == -1) {
+    qLog(Error) << "Failed to get socket flags for write end:" << ::strerror(errno);
+  }
+  else if (::fcntl(signal_fd_[1], F_SETFL, flags | O_NONBLOCK) == -1) {
+    qLog(Error) << "Failed to set write end of socket to non-blocking:" << ::strerror(errno);
   }
 
   // Set up QSocketNotifier to monitor the read end of the socket
@@ -90,6 +88,8 @@ UnixSignalWatcher::~UnixSignalWatcher() {
     ::close(signal_fd_[1]);
     signal_fd_[1] = -1;
   }
+
+  sInstance = nullptr;
 
 }
 
@@ -126,14 +126,14 @@ void UnixSignalWatcher::WatchForSignal(const int signal) {
 
 void UnixSignalWatcher::SignalHandler(const int signal) {
 
-  if (signal_fd_[1] == -1) {
+  if (!sInstance || sInstance->signal_fd_[1] == -1) {
     return;
   }
 
   // Write the signal number to the socket pair (async-signal-safe)
   // This is the only operation we perform in the signal handler
   // Ignore errors as there's nothing we can safely do about them in a signal handler
-  (void)::write(signal_fd_[1], &signal, sizeof(signal));
+  (void)::write(sInstance->signal_fd_[1], &signal, sizeof(signal));
 
 }
 
@@ -145,7 +145,7 @@ void UnixSignalWatcher::HandleSignalNotification() {
     int signal = 0;
     const ssize_t bytes_read = ::read(signal_fd_[0], &signal, sizeof(signal));
     if (bytes_read == sizeof(signal)) {
-      qLog(Debug) << "Caught signal:" << ::strsignal(signal);
+      qLog(Debug) << "Caught signal:" << signal;
       Q_EMIT UnixSignal(signal);
     }
     else if (bytes_read == -1 && (errno == EAGAIN || errno == EWOULDBLOCK)) {
