@@ -32,7 +32,7 @@ UnixSignalWatcher::UnixSignalWatcher(QObject *parent)
     : QObject(parent) {
 
   UnixSignalWatcher *expected = nullptr;
-  if (!sInstance.compare_exchange_strong(expected, this)) {
+  if (!sInstance.compare_exchange_strong(expected, this, std::memory_order_release, std::memory_order_relaxed)) {
     Q_ASSERT(false && "UnixSignalWatcher singleton already exists");
   }
 
@@ -41,7 +41,7 @@ UnixSignalWatcher::UnixSignalWatcher(QObject *parent)
 UnixSignalWatcher::~UnixSignalWatcher() {
 
   UnixSignalWatcher *expected = this;
-  sInstance.compare_exchange_strong(expected, nullptr);
+  sInstance.compare_exchange_strong(expected, nullptr, std::memory_order_release, std::memory_order_relaxed);
 
 }
 
