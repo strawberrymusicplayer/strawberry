@@ -42,15 +42,22 @@
 #include "core/logging.h"
 #include "core/networkaccessmanager.h"
 #include "core/settings.h"
+#include "constants/scrobblersettings.h"
 
 #include "lastfmimport.h"
 
 #include "lastfmscrobbler.h"
 
 using namespace Qt::Literals::StringLiterals;
+using namespace ScrobblerSettings;
 
 namespace {
 constexpr int kRequestsDelay = 2000;
+constexpr int kMaxRetries = 5;
+constexpr int kInitialBackoffMs = 5000;
+constexpr int kMaxBackoffShift = 10;  // Maximum shift value to prevent overflow
+constexpr int kRetryHttpStatusCode1 = 500;  // Internal Server Error
+constexpr int kRetryHttpStatusCode2 = 503;  // Service Unavailable
 }
 
 LastFMImport::LastFMImport(const SharedPtr<NetworkAccessManager> network, QObject *parent)
@@ -101,14 +108,17 @@ void LastFMImport::ReloadSettings() {
   Settings s;
   s.beginGroup(LastFMScrobbler::kSettingsGroup);
   username_ = s.value("username").toString();
+  api_key_ = s.value(ScrobblerSettings::kApiKey).toString();
   s.endGroup();
 
 }
 
 QNetworkReply *LastFMImport::CreateRequest(const ParamList &request_params) {
 
+  const QString api_key = !api_key_.isEmpty() ? api_key_ : QLatin1String(LastFMScrobbler::kApiKey);
+
   ParamList params = ParamList()
-    << Param(u"api_key"_s, QLatin1String(LastFMScrobbler::kApiKey))
+    << Param(u"api_key"_s, api_key)
     << Param(u"user"_s, username_)
     << Param(u"lang"_s, QLocale().name().left(2).toLower())
     << Param(u"format"_s, u"json"_s)
@@ -234,11 +244,11 @@ void LastFMImport::SendGetRecentTracksRequest(GetRecentTracksRequest request) {
   }
 
   QNetworkReply *reply = CreateRequest(params);
-  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { GetRecentTracksRequestFinished(reply, request.page); });
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { GetRecentTracksRequestFinished(reply, request); });
 
 }
 
-void LastFMImport::GetRecentTracksRequestFinished(QNetworkReply *reply, const int page) {
+void LastFMImport::GetRecentTracksRequestFinished(QNetworkReply *reply, GetRecentTracksRequest request) {
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
@@ -247,9 +257,20 @@ void LastFMImport::GetRecentTracksRequestFinished(QNetworkReply *reply, const in
 
   const JsonObjectResult json_object_result = ParseJsonObject(reply);
   if (!json_object_result.success()) {
+    if (ShouldRetryRequest(json_object_result) && request.retry_count < kMaxRetries) {
+      const int delay_ms = CalculateBackoffDelay(request.retry_count);
+      LogRetryAttempt(json_object_result.http_status_code, request.retry_count, delay_ms);
+      QTimer::singleShot(delay_ms, this, [this, request]() {
+        GetRecentTracksRequest retry_request(request.page, request.retry_count + 1);
+        SendGetRecentTracksRequest(retry_request);
+      });
+      return;
+    }
     Error(json_object_result.error_message);
     return;
   }
+
+  const int page = request.page;
 
   QJsonObject json_object = json_object_result.json_object;
   if (json_object.isEmpty()) {
@@ -390,11 +411,11 @@ void LastFMImport::SendGetTopTracksRequest(GetTopTracksRequest request) {
   }
 
   QNetworkReply *reply = CreateRequest(params);
-  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { GetTopTracksRequestFinished(reply, request.page); });
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { GetTopTracksRequestFinished(reply, request); });
 
 }
 
-void LastFMImport::GetTopTracksRequestFinished(QNetworkReply *reply, const int page) {
+void LastFMImport::GetTopTracksRequestFinished(QNetworkReply *reply, GetTopTracksRequest request) {
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
@@ -403,9 +424,20 @@ void LastFMImport::GetTopTracksRequestFinished(QNetworkReply *reply, const int p
 
   const JsonObjectResult json_object_result = ParseJsonObject(reply);
   if (!json_object_result.success()) {
+    if (ShouldRetryRequest(json_object_result) && request.retry_count < kMaxRetries) {
+      const int delay_ms = CalculateBackoffDelay(request.retry_count);
+      LogRetryAttempt(json_object_result.http_status_code, request.retry_count, delay_ms);
+      QTimer::singleShot(delay_ms, this, [this, request]() {
+        GetTopTracksRequest retry_request(request.page, request.retry_count + 1);
+        SendGetTopTracksRequest(retry_request);
+      });
+      return;
+    }
     Error(json_object_result.error_message);
     return;
   }
+
+  const int page = request.page;
 
   QJsonObject json_object = json_object_result.json_object;
   if (json_object.isEmpty()) {
@@ -514,6 +546,23 @@ void LastFMImport::GetTopTracksRequestFinished(QNetworkReply *reply, const int p
 
   FinishCheck();
 
+}
+
+bool LastFMImport::ShouldRetryRequest(const JsonObjectResult &result) const {
+  return result.http_status_code == kRetryHttpStatusCode1 ||
+         result.http_status_code == kRetryHttpStatusCode2 ||
+         result.network_error == QNetworkReply::TemporaryNetworkFailureError;
+}
+
+void LastFMImport::LogRetryAttempt(const int http_status_code, const int retry_count, const int delay_ms) const {
+  qLog(Warning) << "Last.fm request failed with status" << http_status_code
+                << ", retrying in" << delay_ms << "ms (attempt"
+                << (retry_count + 1) << "of" << kMaxRetries << ")";
+}
+
+int LastFMImport::CalculateBackoffDelay(const int retry_count) const {
+  const int safe_shift = std::min(retry_count, kMaxBackoffShift);
+  return kInitialBackoffMs * (1 << safe_shift);
 }
 
 void LastFMImport::UpdateTotalCheck() {

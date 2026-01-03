@@ -235,6 +235,43 @@
        </widget>
       </item>
       <item>
+       <layout class="QHBoxLayout" name="layout_lastfm_api_key">
+        <item>
+         <widget class="QLabel" name="label_lastfm_api_key">
+          <property name="minimumSize">
+           <size>
+            <width>80</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>API key:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineedit_lastfm_api_key">
+          <property name="placeholderText">
+           <string>Optional - your own Last.fm API key</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_lastfm_api_key_info">
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Using your own API key can help avoid rate limiting for large libraries. Get one at &lt;/span&gt;&lt;a href=&quot;https://www.last.fm/api/account/create&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;https://www.last.fm/api/account/create&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+        <property name="openExternalLinks">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="LoginStateWidget" name="widget_lastfm_login_state" native="true"/>
       </item>
       <item>
@@ -394,6 +431,7 @@
   <tabstop>checkbox_source_somafm</tabstop>
   <tabstop>checkbox_source_radioparadise</tabstop>
   <tabstop>checkbox_lastfm_enable</tabstop>
+  <tabstop>lineedit_lastfm_api_key</tabstop>
   <tabstop>button_lastfm_login</tabstop>
   <tabstop>checkbox_listenbrainz_enable</tabstop>
   <tabstop>lineedit_listenbrainz_user_token</tabstop>
