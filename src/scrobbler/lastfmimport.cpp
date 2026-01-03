@@ -49,6 +49,7 @@
 #include "lastfmscrobbler.h"
 
 using namespace Qt::Literals::StringLiterals;
+using namespace ScrobblerSettings;
 
 namespace {
 constexpr int kRequestsDelay = 2000;
@@ -253,16 +254,14 @@ void LastFMImport::GetRecentTracksRequestFinished(QNetworkReply *reply, GetRecen
 
   const JsonObjectResult json_object_result = ParseJsonObject(reply);
   if (!json_object_result.success()) {
-    if (json_object_result.http_status_code == 500 || json_object_result.http_status_code == 503 || json_object_result.network_error == QNetworkReply::TemporaryNetworkFailureError) {
-      if (request.retry_count < kMaxRetries) {
-        const int delay_ms = kInitialBackoffMs * (1 << request.retry_count);
-        qLog(Warning) << "Last.fm request failed with status" << json_object_result.http_status_code << ", retrying in" << delay_ms << "ms (attempt" << (request.retry_count + 1) << "of" << kMaxRetries << ")";
-        QTimer::singleShot(delay_ms, this, [this, request]() {
-          GetRecentTracksRequest retry_request(request.page, request.retry_count + 1);
-          SendGetRecentTracksRequest(retry_request);
-        });
-        return;
-      }
+    if (ShouldRetryRequest(json_object_result) && request.retry_count < kMaxRetries) {
+      const int delay_ms = CalculateBackoffDelay(request.retry_count);
+      qLog(Warning) << "Last.fm request failed with status" << json_object_result.http_status_code << ", retrying in" << delay_ms << "ms (attempt" << (request.retry_count + 1) << "of" << kMaxRetries << ")";
+      QTimer::singleShot(delay_ms, this, [this, request]() {
+        GetRecentTracksRequest retry_request(request.page, request.retry_count + 1);
+        SendGetRecentTracksRequest(retry_request);
+      });
+      return;
     }
     Error(json_object_result.error_message);
     return;
@@ -422,16 +421,14 @@ void LastFMImport::GetTopTracksRequestFinished(QNetworkReply *reply, GetTopTrack
 
   const JsonObjectResult json_object_result = ParseJsonObject(reply);
   if (!json_object_result.success()) {
-    if (json_object_result.http_status_code == 500 || json_object_result.http_status_code == 503 || json_object_result.network_error == QNetworkReply::TemporaryNetworkFailureError) {
-      if (request.retry_count < kMaxRetries) {
-        const int delay_ms = kInitialBackoffMs * (1 << request.retry_count);
-        qLog(Warning) << "Last.fm request failed with status" << json_object_result.http_status_code << ", retrying in" << delay_ms << "ms (attempt" << (request.retry_count + 1) << "of" << kMaxRetries << ")";
-        QTimer::singleShot(delay_ms, this, [this, request]() {
-          GetTopTracksRequest retry_request(request.page, request.retry_count + 1);
-          SendGetTopTracksRequest(retry_request);
-        });
-        return;
-      }
+    if (ShouldRetryRequest(json_object_result) && request.retry_count < kMaxRetries) {
+      const int delay_ms = CalculateBackoffDelay(request.retry_count);
+      qLog(Warning) << "Last.fm request failed with status" << json_object_result.http_status_code << ", retrying in" << delay_ms << "ms (attempt" << (request.retry_count + 1) << "of" << kMaxRetries << ")";
+      QTimer::singleShot(delay_ms, this, [this, request]() {
+        GetTopTracksRequest retry_request(request.page, request.retry_count + 1);
+        SendGetTopTracksRequest(retry_request);
+      });
+      return;
     }
     Error(json_object_result.error_message);
     return;
@@ -546,6 +543,14 @@ void LastFMImport::GetTopTracksRequestFinished(QNetworkReply *reply, GetTopTrack
 
   FinishCheck();
 
+}
+
+bool LastFMImport::ShouldRetryRequest(const JsonObjectResult &result) const {
+  return result.http_status_code == 500 || result.http_status_code == 503 || result.network_error == QNetworkReply::TemporaryNetworkFailureError;
+}
+
+int LastFMImport::CalculateBackoffDelay(const int retry_count) const {
+  return kInitialBackoffMs * (1 << retry_count);
 }
 
 void LastFMImport::UpdateTotalCheck() {

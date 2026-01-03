@@ -80,6 +80,9 @@ class LastFMImport : public JsonBaseRequest {
   void SendGetRecentTracksRequest(GetRecentTracksRequest request);
   void SendGetTopTracksRequest(GetTopTracksRequest request);
 
+  bool ShouldRetryRequest(const JsonObjectResult &result) const;
+  int CalculateBackoffDelay(const int retry_count) const;
+
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
   void UpdateTotalCheck();
