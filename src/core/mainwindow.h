@@ -245,7 +245,6 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void ToggleSearchCoverAuto(const bool checked);
   void SaveGeometry();
 
-  void Exit();
   void DoExit();
 
   void HandleNotificationPreview(const OSDSettings::Type type, const QString &line1, const QString &line2);
@@ -280,6 +279,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
  public Q_SLOTS:
   void CommandlineOptionsReceived(const QByteArray &string_options);
   void Raise();
+  void Exit();
 
  private:
   void SaveSettings();
