@@ -19,27 +19,29 @@
 
 #include <csignal>
 #include <cerrno>
+#include <atomic>
 
 #include "core/logging.h"
 #include "unixsignalwatcher.h"
 
 namespace {
-static UnixSignalWatcher *sInstance = nullptr;
+static std::atomic<UnixSignalWatcher*> sInstance{nullptr};
 }  // namespace
 
 UnixSignalWatcher::UnixSignalWatcher(QObject *parent)
     : QObject(parent) {
 
-  Q_ASSERT(!sInstance);
-  sInstance = this;
+  UnixSignalWatcher *expected = nullptr;
+  if (!sInstance.compare_exchange_strong(expected, this)) {
+    Q_ASSERT(false && "UnixSignalWatcher singleton already exists");
+  }
 
 }
 
 UnixSignalWatcher::~UnixSignalWatcher() {
 
-  if (sInstance == this) {
-    sInstance = nullptr;
-  }
+  UnixSignalWatcher *expected = this;
+  sInstance.compare_exchange_strong(expected, nullptr);
 
 }
 
@@ -67,8 +69,9 @@ void UnixSignalWatcher::SignalHandler(const int signal) {
 
   qLog(Debug) << "Caught signal:" << ::strsignal(signal);
 
-  if (sInstance) {
-    Q_EMIT sInstance->UnixSignal(signal);
+  UnixSignalWatcher *instance = sInstance.load();
+  if (instance) {
+    Q_EMIT instance->UnixSignal(signal);
   }
 
 }
