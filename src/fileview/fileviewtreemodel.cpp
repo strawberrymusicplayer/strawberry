@@ -145,13 +145,12 @@ void FileViewTreeModel::LazyLoad(FileViewTreeItem *item) {
   }
 
   // Apply name filters
-  QDir::Filters filters = QDir::AllDirs | QDir::Files | QDir::NoDotAndDotDot;
+  const QDir::Filters filters = QDir::AllDirs | QDir::Files | QDir::NoDotAndDotDot;
   if (!name_filters_.isEmpty()) {
     dir.setNameFilters(name_filters_);
   }
 
-  QFileInfoList entries = dir.entryInfoList(filters, QDir::Name | QDir::DirsFirst);
-
+  const QFileInfoList entries = dir.entryInfoList(filters, QDir::Name | QDir::DirsFirst);
   if (!entries.isEmpty()) {
     BeginInsert(item, 0, static_cast<int>(entries.count()) - 1);
 
