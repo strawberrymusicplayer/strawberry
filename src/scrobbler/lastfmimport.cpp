@@ -259,7 +259,7 @@ void LastFMImport::GetRecentTracksRequestFinished(QNetworkReply *reply, GetRecen
   if (!json_object_result.success()) {
     if (ShouldRetryRequest(json_object_result) && request.retry_count < kMaxRetries) {
       const int delay_ms = CalculateBackoffDelay(request.retry_count);
-      qLog(Warning) << "Last.fm request failed with status" << json_object_result.http_status_code << ", retrying in" << delay_ms << "ms (attempt" << (request.retry_count + 1) << "of" << kMaxRetries << ")";
+      LogRetryAttempt(json_object_result.http_status_code, request.retry_count, delay_ms);
       QTimer::singleShot(delay_ms, this, [this, request]() {
         GetRecentTracksRequest retry_request(request.page, request.retry_count + 1);
         SendGetRecentTracksRequest(retry_request);
@@ -426,7 +426,7 @@ void LastFMImport::GetTopTracksRequestFinished(QNetworkReply *reply, GetTopTrack
   if (!json_object_result.success()) {
     if (ShouldRetryRequest(json_object_result) && request.retry_count < kMaxRetries) {
       const int delay_ms = CalculateBackoffDelay(request.retry_count);
-      qLog(Warning) << "Last.fm request failed with status" << json_object_result.http_status_code << ", retrying in" << delay_ms << "ms (attempt" << (request.retry_count + 1) << "of" << kMaxRetries << ")";
+      LogRetryAttempt(json_object_result.http_status_code, request.retry_count, delay_ms);
       QTimer::singleShot(delay_ms, this, [this, request]() {
         GetTopTracksRequest retry_request(request.page, request.retry_count + 1);
         SendGetTopTracksRequest(retry_request);
@@ -549,9 +549,15 @@ void LastFMImport::GetTopTracksRequestFinished(QNetworkReply *reply, GetTopTrack
 }
 
 bool LastFMImport::ShouldRetryRequest(const JsonObjectResult &result) const {
-  return result.http_status_code == kRetryHttpStatusCode1 || 
-         result.http_status_code == kRetryHttpStatusCode2 || 
+  return result.http_status_code == kRetryHttpStatusCode1 ||
+         result.http_status_code == kRetryHttpStatusCode2 ||
          result.network_error == QNetworkReply::TemporaryNetworkFailureError;
+}
+
+void LastFMImport::LogRetryAttempt(const int http_status_code, const int retry_count, const int delay_ms) const {
+  qLog(Warning) << "Last.fm request failed with status" << http_status_code
+                << ", retrying in" << delay_ms << "ms (attempt"
+                << (retry_count + 1) << "of" << kMaxRetries << ")";
 }
 
 int LastFMImport::CalculateBackoffDelay(const int retry_count) const {

@@ -82,6 +82,7 @@ class LastFMImport : public JsonBaseRequest {
 
   bool ShouldRetryRequest(const JsonObjectResult &result) const;
   int CalculateBackoffDelay(const int retry_count) const;
+  void LogRetryAttempt(const int http_status_code, const int retry_count, const int delay_ms) const;
 
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
