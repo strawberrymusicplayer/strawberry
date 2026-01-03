@@ -69,7 +69,7 @@ void UnixSignalWatcher::SignalHandler(const int signal) {
 
   qLog(Debug) << "Caught signal:" << ::strsignal(signal);
 
-  UnixSignalWatcher *instance = sInstance.load();
+  UnixSignalWatcher *instance = sInstance.load(std::memory_order_acquire);
   if (instance) {
     Q_EMIT instance->UnixSignal(signal);
   }
