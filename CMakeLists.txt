@@ -1218,6 +1218,10 @@ set(UI
   src/device/deviceviewcontainer.ui
 )
 
+if(UNIX)
+  optional_source(UNIX SOURCES src/core/unixsignalwatcher.cpp HEADERS src/core/unixsignalwatcher.h)
+endif()
+
 if(APPLE)
   optional_source(APPLE
     SOURCES
