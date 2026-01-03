@@ -45,6 +45,7 @@ UnixSignalWatcher::UnixSignalWatcher(QObject *parent)
   }
 
   // Set the read end to non-blocking mode
+  // Non-blocking mode is important to prevent HandleSignalNotification from blocking
   int flags = ::fcntl(signal_fd_[0], F_GETFL, 0);
   if (flags == -1) {
     qLog(Error) << "Failed to get socket flags:" << ::strerror(errno);
@@ -54,6 +55,7 @@ UnixSignalWatcher::UnixSignalWatcher(QObject *parent)
   }
 
   // Set the write end to non-blocking mode as well (used in signal handler)
+  // Non-blocking mode prevents the signal handler from blocking if buffer is full
   flags = ::fcntl(signal_fd_[1], F_GETFL, 0);
   if (flags == -1) {
     qLog(Error) << "Failed to get socket flags for write end:" << ::strerror(errno);
@@ -63,10 +65,12 @@ UnixSignalWatcher::UnixSignalWatcher(QObject *parent)
   }
 
   // Set up QSocketNotifier to monitor the read end of the socket
+  // Note: We proceed even if fcntl failed above, as the socket pair is still functional
+  // (just in blocking mode). fcntl failures are extremely rare in practice.
   socket_notifier_ = new QSocketNotifier(signal_fd_[0], QSocketNotifier::Read, this);
   QObject::connect(socket_notifier_, &QSocketNotifier::activated, this, &UnixSignalWatcher::HandleSignalNotification);
 
-  // Set the singleton instance only after successful initialization
+  // Set the singleton instance only after successful core initialization (socketpair succeeded)
   sInstance = this;
 
 }
