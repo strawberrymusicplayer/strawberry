@@ -23,21 +23,27 @@
 #include <QObject>
 #include <QList>
 
+class QSocketNotifier;
+
 class UnixSignalWatcher : public QObject {
   Q_OBJECT
 
  public:
   explicit UnixSignalWatcher(QObject *parent = nullptr);
+  ~UnixSignalWatcher() override;
 
   void WatchForSignal(const int signal);
 
  private:
   static void SignalHandler(const int signal);
+  void HandleSignalNotification();
 
  Q_SIGNALS:
   void UnixSignal(const int signal);
 
  private:
+  static int signal_fd_[2];
+  QSocketNotifier *socket_notifier_;
   QList<int> watched_signals_;
 };
 
