@@ -63,10 +63,8 @@ UnixSignalWatcher::UnixSignalWatcher(QObject *parent)
   }
 
   // Set up QSocketNotifier to monitor the read end of the socket
-  if (signal_fd_[0] != -1) {
-    socket_notifier_ = new QSocketNotifier(signal_fd_[0], QSocketNotifier::Read, this);
-    QObject::connect(socket_notifier_, &QSocketNotifier::activated, this, &UnixSignalWatcher::HandleSignalNotification);
-  }
+  socket_notifier_ = new QSocketNotifier(signal_fd_[0], QSocketNotifier::Read, this);
+  QObject::connect(socket_notifier_, &QSocketNotifier::activated, this, &UnixSignalWatcher::HandleSignalNotification);
 
   // Set the singleton instance only after successful initialization
   sInstance = this;
@@ -139,7 +137,9 @@ void UnixSignalWatcher::SignalHandler(const int signal) {
   // which would cause a segmentation fault when accessing signal_fd_[1].
   // In practice, this window is extremely small and unlikely to occur during
   // normal shutdown. This trade-off is acceptable given the constraints of
-  // signal handler safety and the typical shutdown sequence.
+  // signal handler safety and the typical shutdown sequence. Applications can
+  // minimize this risk by ensuring signal processing completes before destroying
+  // the UnixSignalWatcher instance during shutdown.
   if (!sInstance || sInstance->signal_fd_[1] == -1) {
     return;
   }
