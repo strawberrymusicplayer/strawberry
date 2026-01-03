@@ -45,8 +45,11 @@ UnixSignalWatcher::UnixSignalWatcher(QObject *parent)
 
   // Set the read end to non-blocking mode
   int flags = ::fcntl(signal_fd_[0], F_GETFL, 0);
-  if (flags != -1) {
-    ::fcntl(signal_fd_[0], F_SETFL, flags | O_NONBLOCK);
+  if (flags == -1) {
+    qLog(Error) << "Failed to get socket flags:" << ::strerror(errno);
+  }
+  else if (::fcntl(signal_fd_[0], F_SETFL, flags | O_NONBLOCK) == -1) {
+    qLog(Error) << "Failed to set socket to non-blocking:" << ::strerror(errno);
   }
 
   // Set up QSocketNotifier to monitor the read end of the socket
@@ -59,7 +62,9 @@ UnixSignalWatcher::~UnixSignalWatcher() {
 
   // Restore original signal handlers
   for (int i = 0; i < watched_signals_.size(); ++i) {
-    ::sigaction(watched_signals_[i], &original_signal_actions_[i], nullptr);
+    if (::sigaction(watched_signals_[i], &original_signal_actions_[i], nullptr) != 0) {
+      qLog(Debug) << "Failed to restore signal handler for signal" << watched_signals_[i] << ":" << ::strerror(errno);
+    }
   }
 
   if (signal_fd_[0] != -1) {
@@ -87,11 +92,13 @@ void UnixSignalWatcher::WatchForSignal(const int signal) {
   }
 
   struct sigaction signal_action{};
+  ::memset(&signal_action, 0, sizeof(signal_action));
   sigemptyset(&signal_action.sa_mask);
   signal_action.sa_handler = UnixSignalWatcher::SignalHandler;
   signal_action.sa_flags = SA_RESTART;
   
   struct sigaction old_action{};
+  ::memset(&old_action, 0, sizeof(old_action));
   if (::sigaction(signal, &signal_action, &old_action) != 0) {
     qLog(Error) << "sigaction error:" << ::strerror(errno);
     return;
