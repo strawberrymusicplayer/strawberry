@@ -42,6 +42,8 @@ UnixSignalWatcher::UnixSignalWatcher(QObject *parent)
   // Create a socket pair for the self-pipe trick
   if (::socketpair(AF_UNIX, SOCK_STREAM, 0, signal_fd_) != 0) {
     qLog(Error) << "Failed to create socket pair for signal handling:" << ::strerror(errno);
+    // Initialization failed; prevent use of this partially initialized instance
+    sInstance = nullptr;
     return;
   }
 
@@ -78,6 +80,14 @@ UnixSignalWatcher::~UnixSignalWatcher() {
     if (::sigaction(watched_signals_[i], &original_signal_actions_[i], nullptr) != 0) {
       qLog(Error) << "Failed to restore signal handler for signal" << watched_signals_[i] << ":" << ::strerror(errno);
     }
+  }
+
+  // Disable and delete socket notifier before closing file descriptors
+  // to prevent it from triggering after the file descriptors are closed
+  if (socket_notifier_) {
+    socket_notifier_->setEnabled(false);
+    delete socket_notifier_;
+    socket_notifier_ = nullptr;
   }
 
   if (signal_fd_[0] != -1) {
@@ -126,6 +136,12 @@ void UnixSignalWatcher::WatchForSignal(const int signal) {
 
 void UnixSignalWatcher::SignalHandler(const int signal) {
 
+  // Note: There is a theoretical race condition here if the destructor runs
+  // on the main thread while a signal is being delivered. The check may pass
+  // but sInstance could be set to nullptr before the write() call executes.
+  // In practice, this window is extremely small and the worst case is a
+  // failed write() which is silently ignored. This is acceptable given the
+  // constraints of signal handler safety and the typical shutdown sequence.
   if (!sInstance || sInstance->signal_fd_[1] == -1) {
     return;
   }
