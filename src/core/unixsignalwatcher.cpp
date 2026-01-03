@@ -67,6 +67,8 @@ UnixSignalWatcher::UnixSignalWatcher(QObject *parent)
   // Set up QSocketNotifier to monitor the read end of the socket
   // Note: We proceed even if fcntl failed above, as the socket pair is still functional
   // (just in blocking mode). fcntl failures are extremely rare in practice.
+  // At this point, socketpair has succeeded, so signal_fd_[0] is guaranteed to be valid (>= 0)
+  Q_ASSERT(signal_fd_[0] != -1);
   socket_notifier_ = new QSocketNotifier(signal_fd_[0], QSocketNotifier::Read, this);
   QObject::connect(socket_notifier_, &QSocketNotifier::activated, this, &UnixSignalWatcher::HandleSignalNotification);
 
