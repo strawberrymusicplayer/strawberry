@@ -1446,6 +1446,7 @@ optional_source(HAVE_SPOTIFY
     src/spotify/spotifybaserequest.cpp
     src/spotify/spotifyrequest.cpp
     src/spotify/spotifyfavoriterequest.cpp
+    src/spotify/spotifymetadatarequest.cpp
     src/settings/spotifysettingspage.cpp
     src/covermanager/spotifycoverprovider.cpp
   HEADERS
@@ -1453,6 +1454,7 @@ optional_source(HAVE_SPOTIFY
     src/spotify/spotifybaserequest.h
     src/spotify/spotifyrequest.h
     src/spotify/spotifyfavoriterequest.h
+    src/spotify/spotifymetadatarequest.h
     src/settings/spotifysettingspage.h
     src/covermanager/spotifycoverprovider.h
   UI
@@ -1467,6 +1469,7 @@ optional_source(HAVE_QOBUZ
     src/qobuz/qobuzrequest.cpp
     src/qobuz/qobuzstreamurlrequest.cpp
     src/qobuz/qobuzfavoriterequest.cpp
+    src/qobuz/qobuzmetadatarequest.cpp
     src/qobuz/qobuzcredentialfetcher.cpp
     src/settings/qobuzsettingspage.cpp
     src/covermanager/qobuzcoverprovider.cpp
@@ -1477,6 +1480,7 @@ optional_source(HAVE_QOBUZ
     src/qobuz/qobuzrequest.h
     src/qobuz/qobuzstreamurlrequest.h
     src/qobuz/qobuzfavoriterequest.h
+    src/qobuz/qobuzmetadatarequest.h
     src/qobuz/qobuzcredentialfetcher.h
     src/settings/qobuzsettingspage.h
     src/covermanager/qobuzcoverprovider.h

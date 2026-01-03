@@ -695,6 +695,16 @@ void QobuzRequest::AlbumsReceived(QNetworkReply *reply, const Artist &artist_req
     }
     album.album = obj_item["title"_L1].toString();
 
+    if (obj_item.contains("genre"_L1)) {
+      QJsonValue value_genre = obj_item["genre"_L1];
+      if (value_genre.isObject()) {
+        QJsonObject obj_genre = value_genre.toObject();
+        if (obj_genre.contains("name"_L1)) {
+          album.genre = obj_genre["name"_L1].toString();
+        }
+      }
+    }
+
     if (album_songs_requests_pending_.contains(album.album_id)) continue;
 
     QJsonValue value_artist = obj_item["artist"_L1];
@@ -921,6 +931,17 @@ void QobuzRequest::SongsReceived(QNetworkReply *reply, const Artist &artist_requ
     }
   }
 
+  // Extract genre from album/get response if not already set
+  if (album.genre.isEmpty() && json_object.contains("genre"_L1)) {
+    QJsonValue value_genre = json_object["genre"_L1];
+    if (value_genre.isObject()) {
+      QJsonObject obj_genre = value_genre.toObject();
+      if (obj_genre.contains("name"_L1)) {
+        album.genre = obj_genre["name"_L1].toString();
+      }
+    }
+  }
+
   QJsonValue value_tracks = json_object["tracks"_L1];
   if (!value_tracks.isObject()) {
     Error(u"Json tracks is not an object."_s, json_object);
@@ -1053,6 +1074,7 @@ void QobuzRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Arti
   // bool streamable = json_obj["streamable"].toBool();
   QString composer;
   QString performer;
+  QString genre;
 
   if (json_obj.contains("media_number"_L1)) {
     disc = json_obj["media_number"_L1].toInt();
@@ -1118,6 +1140,21 @@ void QobuzRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Arti
         song_album.cover_url.setUrl(album_image);
       }
     }
+
+    if (obj_album.contains("genre"_L1)) {
+      QJsonValue value_genre = obj_album["genre"_L1];
+      if (value_genre.isObject()) {
+        QJsonObject obj_genre = value_genre.toObject();
+        if (obj_genre.contains("name"_L1)) {
+          genre = obj_genre["name"_L1].toString();
+        }
+      }
+    }
+  }
+
+  // Fall back to genre from the Album struct if not found in the track's album object
+  if (genre.isEmpty() && !album.genre.isEmpty()) {
+    genre = album.genre;
   }
 
   if (json_obj.contains("composer"_L1)) {
@@ -1180,6 +1217,7 @@ void QobuzRequest::ParseSong(Song &song, const QJsonObject &json_obj, const Arti
   song.set_performer(performer);
   song.set_composer(composer);
   song.set_comment(copyright);
+  song.set_genre(genre);
   song.set_directory_id(0);
   song.set_filetype(Song::FileType::Stream);
   song.set_filesize(0);
