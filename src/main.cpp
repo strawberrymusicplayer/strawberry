@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -75,6 +75,10 @@
 #include "utilities/envutils.h"
 
 #include <kdsingleapplication.h>
+
+#ifdef Q_OS_UNIX
+  #include "core/unixsignalwatcher.h"
+#endif
 
 #ifdef HAVE_QTSPARKLE
 #  include <qtsparkle-qt6/Updater>
@@ -364,6 +368,12 @@ int main(int argc, char *argv[]) {
                &discord_rich_presence,
 #endif
                options);
+
+#ifdef Q_OS_UNIX
+  UnixSignalWatcher unix_signal_watcher;
+  unix_signal_watcher.WatchForSignal(SIGTERM);
+  QObject::connect(&unix_signal_watcher, &UnixSignalWatcher::UnixSignal, &w, &MainWindow::Exit);
+#endif
 
 #ifdef Q_OS_MACOS
   mac::EnableFullScreen(w);
