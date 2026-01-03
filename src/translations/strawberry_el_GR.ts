@@ -1227,7 +1227,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Don&apos;t show in various artists</source>
-      <translation type="unfinished">Don&apos;t show in various artists</translation>
+      <translation>Όχι εμφάνιση σε διάφορους καλλιτέχνες</translation>
     </message>
     <message>
       <source>There are other songs in this album</source>
@@ -1726,7 +1726,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Set through album cover search (%1)</source>
-      <translation type="unfinished">Set through album cover search (%1)</translation>
+      <translation>Ορισμός μέσω αναζήτησης εξωφύλλου άλμπουμ (%1)</translation>
     </message>
     <message>
       <source>Automatically picked up from album directory (%1)</source>
@@ -1741,7 +1741,7 @@ If there are no matches then it will use the largest image in the directory.</so
     <name>CueParser</name>
     <message>
       <source>Saving CUE files is not supported.</source>
-      <translation type="unfinished">Saving CUE files is not supported.</translation>
+      <translation>Η αποθήκευση αρχείων CUE δεν υποστηρίζεται.</translation>
     </message>
   </context>
   <context>
@@ -2180,7 +2180,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Different art across multiple songs.</source>
-      <translation type="unfinished">Different art across multiple songs.</translation>
+      <translation>Διαφορετική τέχνη σε πολλαπλά τραγούδια.</translation>
     </message>
     <message>
       <source>Previous</source>
@@ -3416,7 +3416,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Toggle skip status</source>
-      <translation type="unfinished">Toggle skip status</translation>
+      <translation>Εναλλαγή κατάστασης παράκαμψης</translation>
     </message>
     <message>
       <source>Rescan song(s)...</source>
@@ -3464,7 +3464,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>You are running Strawberry under Rosetta. Running Strawberry under Rosetta is unsupported and known to have issues. You should download Strawberry for the correct CPU architecture from %1</source>
-      <translation type="unfinished">You are running Strawberry under Rosetta. Running Strawberry under Rosetta is unsupported and known to have issues. You should download Strawberry for the correct CPU architecture from %1</translation>
+      <translation>Τρέχετε το Strawberry κάτω από Rosetta. Η χρήση του Strawberry κάτω από Rosetta δεν υποστηρίζεται και είναι γνωστό ότι παρουσιάζει προβλήματα. Θα πρέπει να λάβετε το Strawberry για τη σωστή αρχιτεκτονική CPU από %1</translation>
     </message>
     <message>
       <source>Sponsoring Strawberry</source>
@@ -4351,7 +4351,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Loudness Range</source>
-      <translation type="unfinished">Loudness Range</translation>
+      <translation>Loudness Range</translation>
     </message>
   </context>
   <context>
@@ -4501,7 +4501,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Couldn&apos;t create playlist</source>
-      <translation type="unfinished">Couldn&apos;t create playlist</translation>
+      <translation>Αδυναμία δημιουργίας λίστας αναπαραγωγής</translation>
     </message>
     <message>
       <source>Save playlist</source>
@@ -4766,11 +4766,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Warn me when closing a playlist tab</source>
-      <translation type="unfinished">Warn me when closing a playlist tab</translation>
+      <translation>Προειδοποίηση κατά το κλείσιμο μιας καρτέλας λίστας αναπαραγωγής</translation>
     </message>
     <message>
       <source>This option can be changed in the &quot;Behavior&quot; preferences</source>
-      <translation type="unfinished">This option can be changed in the &quot;Behavior&quot; preferences</translation>
+      <translation/>
     </message>
     <message>
       <source>Double-click here to favorite this playlist so it will be saved and remain accessible through the &quot;Playlists&quot; panel on the left side bar</source>
@@ -4888,7 +4888,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Loads files/URLs, replacing current playlist</source>
-      <translation type="unfinished">Loads files/URLs, replacing current playlist</translation>
+      <translation>Φόρτωση αρχείων/URL, αντικατάσταση της τρέχουσας λίστας αναπαραγωγής</translation>
     </message>
     <message>
       <source>Play the &lt;n&gt;th track in the playlist</source>
@@ -4940,11 +4940,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Destination file %1 exists, but not allowed to overwrite.</source>
-      <translation type="unfinished">Destination file %1 exists, but not allowed to overwrite.</translation>
+      <translation>Το αρχείο προορισμού %1 υπάρχει, αλλά δεν επιτρέπεται να αντικατασταθεί.</translation>
     </message>
     <message>
       <source>Destination file %1 exists, but not allowed to overwrite</source>
-      <translation type="unfinished">Destination file %1 exists, but not allowed to overwrite</translation>
+      <translation>Το αρχείο προορισμού %1 υπάρχει, αλλά δεν επιτρέπεται να αντικατασταθεί</translation>
     </message>
     <message>
       <source>Could not copy file %1 to %2.</source>
@@ -5012,7 +5012,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>%1 songs in %2 different directories selected, are you sure you want to open them all?</source>
-      <translation type="unfinished">%1 songs in %2 different directories selected, are you sure you want to open them all?</translation>
+      <translation>%1 τραγούδια σε διαφορετικούς καταλόγους %2 επιλέχθηκαν, είστε σίγουροι ότι θέλετε να τα ανοίξετε όλα;</translation>
     </message>
     <message>
       <source>Failed to load image from data for %1</source>
@@ -5315,11 +5315,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Receiving album cover for %1 album...</source>
-      <translation type="unfinished">Receiving album cover for %1 album...</translation>
+      <translation>Λήψη εξωφύλλου για το άλμπουμ %1...</translation>
     </message>
     <message>
       <source>Receiving album covers for %1 albums...</source>
-      <translation type="unfinished">Receiving album covers for %1 albums...</translation>
+      <translation>Λήψη εξώφυλλων για άλμπουμ %1...</translation>
     </message>
     <message>
       <source>No match.</source>
@@ -5472,7 +5472,7 @@ Are you sure you want to continue?</source>
     <message numerus="yes">
       <source>%n track(s)</source>
       <translation type="unfinished">
-        <numerusform>%n track(s)</numerusform>
+        <numerusform>%n κομμάτι(α)</numerusform>
         <numerusform>%n track(s)</numerusform>
       </translation>
     </message>
@@ -5493,15 +5493,15 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Move up</source>
-      <translation type="unfinished">Move up</translation>
+      <translation>Μετακίνηση πάνω</translation>
     </message>
     <message>
       <source>Ctrl+Down</source>
-      <translation type="unfinished">Ctrl+Down</translation>
+      <translation>Ctrl+Down</translation>
     </message>
     <message>
       <source>Remove</source>
-      <translation type="unfinished">Remove</translation>
+      <translation>Αφαίρεση</translation>
     </message>
     <message>
       <source>Clear</source>
@@ -5516,26 +5516,26 @@ Are you sure you want to continue?</source>
     <name>RadioParadiseService</name>
     <message>
       <source>Getting %1 channels</source>
-      <translation type="unfinished">Getting %1 channels</translation>
+      <translation>Λήψη %1 καναλιών</translation>
     </message>
   </context>
   <context>
     <name>RadioView</name>
     <message>
       <source>Append to current playlist</source>
-      <translation type="unfinished">Append to current playlist</translation>
+      <translation>Προσάρτηση στην τρέχουσα λίστα</translation>
     </message>
     <message>
       <source>Replace current playlist</source>
-      <translation type="unfinished">Replace current playlist</translation>
+      <translation>Αντικατάσταση της τρέχουσας λίστας</translation>
     </message>
     <message>
       <source>Open in new playlist</source>
-      <translation type="unfinished">Open in new playlist</translation>
+      <translation>Άνοιγμα σε νέα λίστα</translation>
     </message>
     <message>
       <source>Open homepage</source>
-      <translation type="unfinished">Open homepage</translation>
+      <translation>Άνοιγμα αρχικής σελίδας</translation>
     </message>
     <message>
       <source>Donate</source>
@@ -5557,7 +5557,7 @@ Are you sure you want to continue?</source>
     <name>SavePlaylistsDialog</name>
     <message>
       <source>Select directory for saving playlists</source>
-      <translation type="unfinished">Select directory for saving playlists</translation>
+      <translation>Επιλέξτε φάκελο για τις λίστες αναπαραγωγής</translation>
     </message>
     <message>
       <source>Type</source>
@@ -5711,11 +5711,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Show love button</source>
-      <translation type="unfinished">Show love button</translation>
+      <translation>Εμφάνιση πλήκτρου αγάπης</translation>
     </message>
     <message>
       <source>Submit scrobbles every</source>
-      <translation type="unfinished">Submit scrobbles every</translation>
+      <translation>Υποβολή scrobbles κάθε</translation>
     </message>
     <message>
       <source> seconds</source>
@@ -5811,7 +5811,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Offline mode (Only cache scrobbles)</source>
-      <translation type="unfinished">Offline mode (Only cache scrobbles)</translation>
+      <translation>Λειτουργία εκτός σύνδεσης (Μόνο cache scrobbles)</translation>
     </message>
     <message>
       <source>This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately.</source>
@@ -5830,11 +5830,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Open URL in web browser?</source>
-      <translation type="unfinished">Open URL in web browser?</translation>
+      <translation>Άνοιγμα διεύθυνσης URL στο πρόγραμμα περιήγησης;</translation>
     </message>
     <message>
       <source>Press &quot;Save&quot; to copy the URL to clipboard and manually open it in a web browser.</source>
-      <translation type="unfinished">Press &quot;Save&quot; to copy the URL to clipboard and manually open it in a web browser.</translation>
+      <translation>Πατήστε &quot;Save&quot; για να αντιγράψετε το URL στο πρόχειρο και να το ανοίξετε χειροκίνητα σε ένα πρόγραμμα περιήγησης.</translation>
     </message>
     <message>
       <source>Could not open URL. Please open this URL in your browser</source>
@@ -5842,19 +5842,19 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Invalid reply from web browser. Missing token.</source>
-      <translation type="unfinished">Invalid reply from web browser. Missing token.</translation>
+      <translation>Μη έγκυρη απάντηση από το πρόγραμμα περιήγησης. Λείπει token.</translation>
     </message>
     <message>
       <source>Received invalid reply from web browser. Try another browser.</source>
-      <translation type="unfinished">Received invalid reply from web browser. Try another browser.</translation>
+      <translation>Λήφθηκε μη έγκυρη απάντηση από το πρόγραμμα περιήγησης. Δοκιμάστε ένα άλλο πρόγραμμα περιήγησης.</translation>
     </message>
     <message>
       <source>Scrobbler %1 is not authenticated!</source>
-      <translation type="unfinished">Scrobbler %1 is not authenticated!</translation>
+      <translation>Το Scrobbler %1 δεν είναι πιστοποιημένο!</translation>
     </message>
     <message>
       <source>Scrobbler %1 error: %2</source>
-      <translation type="unfinished">Scrobbler %1 error: %2</translation>
+      <translation>Scrobbler %1 σφάλμα: %2</translation>
     </message>
   </context>
   <context>
@@ -5873,7 +5873,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Streaming</source>
-      <translation type="unfinished">Streaming</translation>
+      <translation>Streaming</translation>
     </message>
   </context>
   <context>
@@ -6034,14 +6034,14 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Choose a name for your smart playlist</source>
-      <translation type="unfinished">Choose a name for your smart playlist</translation>
+      <translation>Επιλέξτε ένα όνομα για την έξυπνη λίστα αναπαραγωγής σας</translation>
     </message>
   </context>
   <context>
     <name>SmartPlaylistWizardFinishPage</name>
     <message>
       <source>Form</source>
-      <translation type="unfinished">Form</translation>
+      <translation>Φόρμα</translation>
     </message>
     <message>
       <source>Name</source>
@@ -6049,7 +6049,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Use dynamic mode</source>
-      <translation type="unfinished">Use dynamic mode</translation>
+      <translation>Χρήση δυναμικής λειτουργίας</translation>
     </message>
     <message>
       <source>In dynamic mode new tracks will be chosen and added to the playlist every time a song finishes.</source>
