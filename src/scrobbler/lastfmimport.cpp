@@ -55,6 +55,9 @@ namespace {
 constexpr int kRequestsDelay = 2000;
 constexpr int kMaxRetries = 5;
 constexpr int kInitialBackoffMs = 5000;
+constexpr int kMaxBackoffShift = 10;  // Maximum shift value to prevent overflow
+constexpr int kRetryHttpStatusCode1 = 500;  // Internal Server Error
+constexpr int kRetryHttpStatusCode2 = 503;  // Service Unavailable
 }
 
 LastFMImport::LastFMImport(const SharedPtr<NetworkAccessManager> network, QObject *parent)
@@ -546,11 +549,14 @@ void LastFMImport::GetTopTracksRequestFinished(QNetworkReply *reply, GetTopTrack
 }
 
 bool LastFMImport::ShouldRetryRequest(const JsonObjectResult &result) const {
-  return result.http_status_code == 500 || result.http_status_code == 503 || result.network_error == QNetworkReply::TemporaryNetworkFailureError;
+  return result.http_status_code == kRetryHttpStatusCode1 || 
+         result.http_status_code == kRetryHttpStatusCode2 || 
+         result.network_error == QNetworkReply::TemporaryNetworkFailureError;
 }
 
 int LastFMImport::CalculateBackoffDelay(const int retry_count) const {
-  return kInitialBackoffMs * (1 << retry_count);
+  const int safe_shift = std::min(retry_count, kMaxBackoffShift);
+  return kInitialBackoffMs * (1 << safe_shift);
 }
 
 void LastFMImport::UpdateTotalCheck() {
