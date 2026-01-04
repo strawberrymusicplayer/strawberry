@@ -1352,6 +1352,20 @@ void CollectionWatcher::PerformScan(const bool incremental, const bool ignore_mt
       subdirs << subdir;
     }
 
+    // Check if root directory is in the subdirs list
+    bool has_root = std::any_of(subdirs.begin(), subdirs.end(), [&dir](const CollectionSubdirectory &subdir) { return subdir.path == dir.path; });
+
+    // For full rescan (ignore_mtimes=true), ensure root directory is always scanned to discover new subdirectories
+    // This is especially important for udisks2 mounted disks where subdirs may be deleted when unmounted
+    if (ignore_mtimes && !has_root) {
+      qLog(Debug) << "Full rescan: adding root directory" << dir.path << "to scan list";
+      CollectionSubdirectory root_subdir;
+      root_subdir.path = dir.path;
+      root_subdir.directory_id = dir.id;
+      root_subdir.mtime = 0;
+      subdirs.prepend(root_subdir);
+    }
+
     QMap<QString, quint64> subdir_files_count;
     quint64 files_count = FilesCountForSubdirs(&transaction, subdirs, subdir_files_count);
     transaction.AddToProgressMax(files_count);
