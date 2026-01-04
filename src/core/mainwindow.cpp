@@ -2225,9 +2225,13 @@ void MainWindow::FetchStreamingMetadata() {
 
 #ifdef HAVE_QOBUZ
     if (source == Song::Source::Qobuz) {
-      track_id = song.url().path();
+      // song_id() may be empty if not persisted, fall back to URL path
+      track_id = song.song_id();
       if (track_id.isEmpty()) {
-        qLog(Error) << "Failed to fetch Qobuz metadata: No track ID in URL";
+        track_id = song.url().path();
+      }
+      if (track_id.isEmpty()) {
+        qLog(Error) << "Failed to fetch Qobuz metadata: No track ID";
         continue;
       }
       metadata_queue_.append({source, track_id, persistent_index});
@@ -2236,12 +2240,16 @@ void MainWindow::FetchStreamingMetadata() {
 
 #ifdef HAVE_SPOTIFY
     if (source == Song::Source::Spotify) {
-      QString url_str = song.url().toString();
-      if (url_str.startsWith(u"spotify:track:"_s)) {
-        track_id = url_str.mid(14);  // Length of "spotify:track:"
+      // song_id() may be empty if not persisted, fall back to parsing URL
+      track_id = song.song_id();
+      if (track_id.isEmpty()) {
+        const QString url_str = song.url().toString();
+        if (url_str.startsWith(u"spotify:track:"_s)) {
+          track_id = url_str.mid(14);
+        }
       }
       if (track_id.isEmpty()) {
-        qLog(Error) << "Failed to fetch Spotify metadata: No track ID in URL";
+        qLog(Error) << "Failed to fetch Spotify metadata: No track ID";
         continue;
       }
       metadata_queue_.append({source, track_id, persistent_index});
