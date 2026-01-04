@@ -26,6 +26,7 @@
 #include <QString>
 
 #include "includes/shared_ptr.h"
+#include "core/song.h"
 #include "qobuzbaserequest.h"
 
 class QNetworkReply;
@@ -41,7 +42,7 @@ class QobuzMetadataRequest : public QobuzBaseRequest {
   void FetchTrackMetadata(const QString &track_id);
 
  Q_SIGNALS:
-  void MetadataReceived(QString track_id, QString genre);
+  void MetadataReceived(QString track_id, Song song);
   void MetadataFailure(QString track_id, QString error);
 
  private Q_SLOTS:

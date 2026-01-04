@@ -24,8 +24,10 @@
 
 #include <QObject>
 #include <QString>
+#include <QMap>
 
 #include "includes/shared_ptr.h"
+#include "core/song.h"
 #include "spotifybaserequest.h"
 
 class QNetworkReply;
@@ -41,7 +43,7 @@ class SpotifyMetadataRequest : public SpotifyBaseRequest {
   void FetchTrackMetadata(const QString &track_id);
 
  Q_SIGNALS:
-  void MetadataReceived(QString track_id, QString genre);
+  void MetadataReceived(QString track_id, Song song);
   void MetadataFailure(QString track_id, QString error);
 
  private Q_SLOTS:
@@ -50,6 +52,7 @@ class SpotifyMetadataRequest : public SpotifyBaseRequest {
 
  private:
   void Error(const QString &error_message, const QVariant &debug_output = QVariant()) override;
+  QMap<QString, Song> pending_songs_;  // track_id -> partial Song (waiting for artist genre)
 };
 
 #endif  // SPOTIFYMETADATAREQUEST_H

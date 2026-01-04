@@ -2268,14 +2268,27 @@ void MainWindow::ProcessMetadataQueue() {
   if (entry.source == Song::Source::Qobuz) {
     if (QobuzServicePtr qobuz_service = app_->streaming_services()->Service<QobuzService>()) {
       QobuzMetadataRequest *request = new QobuzMetadataRequest(qobuz_service.get(), qobuz_service->network(), this);
-      QObject::connect(request, &QobuzMetadataRequest::MetadataReceived, this, [this, entry, request](const QString &received_track_id, const QString &genre) {
+      QObject::connect(request, &QobuzMetadataRequest::MetadataReceived, this, [this, entry, request](const QString &received_track_id, const Song &fetched_song) {
         Q_UNUSED(received_track_id);
-        if (entry.persistent_index.isValid()) {
+        if (entry.persistent_index.isValid() && fetched_song.is_valid()) {
           PlaylistItemPtr playlist_item = app_->playlist_manager()->current()->item_at(entry.persistent_index.row());
-          if (playlist_item && !genre.isEmpty()) {
+          if (playlist_item) {
             Song old_song = playlist_item->OriginalMetadata();
             Song updated_song = old_song;
-            updated_song.set_genre(genre);
+            // Update all metadata fields from the fetched song
+            if (!fetched_song.title().isEmpty()) updated_song.set_title(fetched_song.title());
+            if (!fetched_song.artist().isEmpty()) updated_song.set_artist(fetched_song.artist());
+            if (!fetched_song.album().isEmpty()) updated_song.set_album(fetched_song.album());
+            if (!fetched_song.albumartist().isEmpty()) updated_song.set_albumartist(fetched_song.albumartist());
+            if (!fetched_song.genre().isEmpty()) updated_song.set_genre(fetched_song.genre());
+            if (!fetched_song.composer().isEmpty()) updated_song.set_composer(fetched_song.composer());
+            if (!fetched_song.performer().isEmpty()) updated_song.set_performer(fetched_song.performer());
+            if (!fetched_song.comment().isEmpty()) updated_song.set_comment(fetched_song.comment());
+            if (fetched_song.track() > 0) updated_song.set_track(fetched_song.track());
+            if (fetched_song.disc() > 0) updated_song.set_disc(fetched_song.disc());
+            if (fetched_song.year() > 0) updated_song.set_year(fetched_song.year());
+            if (fetched_song.length_nanosec() > 0) updated_song.set_length_nanosec(fetched_song.length_nanosec());
+            if (fetched_song.art_automatic().isValid()) updated_song.set_art_automatic(fetched_song.art_automatic());
             playlist_item->SetOriginalMetadata(updated_song);
             app_->playlist_manager()->current()->ItemReload(entry.persistent_index, old_song, false);
           }
@@ -2305,14 +2318,27 @@ void MainWindow::ProcessMetadataQueue() {
   if (entry.source == Song::Source::Spotify) {
     if (SpotifyServicePtr spotify_service = app_->streaming_services()->Service<SpotifyService>()) {
       SpotifyMetadataRequest *request = new SpotifyMetadataRequest(spotify_service.get(), app_->network(), this);
-      QObject::connect(request, &SpotifyMetadataRequest::MetadataReceived, this, [this, entry, request](const QString &received_track_id, const QString &genre) {
+      QObject::connect(request, &SpotifyMetadataRequest::MetadataReceived, this, [this, entry, request](const QString &received_track_id, const Song &fetched_song) {
         Q_UNUSED(received_track_id);
-        if (entry.persistent_index.isValid()) {
+        if (entry.persistent_index.isValid() && fetched_song.is_valid()) {
           PlaylistItemPtr playlist_item = app_->playlist_manager()->current()->item_at(entry.persistent_index.row());
-          if (playlist_item && !genre.isEmpty()) {
+          if (playlist_item) {
             Song old_song = playlist_item->OriginalMetadata();
             Song updated_song = old_song;
-            updated_song.set_genre(genre);
+            // Update all metadata fields from the fetched song
+            if (!fetched_song.title().isEmpty()) updated_song.set_title(fetched_song.title());
+            if (!fetched_song.artist().isEmpty()) updated_song.set_artist(fetched_song.artist());
+            if (!fetched_song.album().isEmpty()) updated_song.set_album(fetched_song.album());
+            if (!fetched_song.albumartist().isEmpty()) updated_song.set_albumartist(fetched_song.albumartist());
+            if (!fetched_song.genre().isEmpty()) updated_song.set_genre(fetched_song.genre());
+            if (!fetched_song.composer().isEmpty()) updated_song.set_composer(fetched_song.composer());
+            if (!fetched_song.performer().isEmpty()) updated_song.set_performer(fetched_song.performer());
+            if (!fetched_song.comment().isEmpty()) updated_song.set_comment(fetched_song.comment());
+            if (fetched_song.track() > 0) updated_song.set_track(fetched_song.track());
+            if (fetched_song.disc() > 0) updated_song.set_disc(fetched_song.disc());
+            if (fetched_song.year() > 0) updated_song.set_year(fetched_song.year());
+            if (fetched_song.length_nanosec() > 0) updated_song.set_length_nanosec(fetched_song.length_nanosec());
+            if (fetched_song.art_automatic().isValid()) updated_song.set_art_automatic(fetched_song.art_automatic());
             playlist_item->SetOriginalMetadata(updated_song);
             app_->playlist_manager()->current()->ItemReload(entry.persistent_index, old_song, false);
           }
