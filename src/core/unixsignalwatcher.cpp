@@ -140,7 +140,14 @@ void UnixSignalWatcher::SignalHandler(const int signal) {
   // Write the signal number to the socket pair (async-signal-safe)
   // This is the only operation we perform in the signal handler
   // Ignore errors as there's nothing we can safely do about them in a signal handler
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-result"
+#endif
   (void)::write(sInstance->signal_fd_[1], &signal, sizeof(signal));
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
 
 }
 
