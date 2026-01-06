@@ -84,8 +84,6 @@ if(MSVC)
   list(APPEND COMPILE_OPTIONS -MP -W4 -wd4702)
 else()
   list(APPEND COMPILE_OPTIONS
-    $<$<COMPILE_LANGUAGE:C>:-std=c11>
-    $<$<COMPILE_LANGUAGE:CXX>:-std=c++17>
     -Wall
     -Wextra
     -Wpedantic
