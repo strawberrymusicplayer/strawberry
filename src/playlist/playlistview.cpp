@@ -57,7 +57,7 @@
 #include <QLinearGradient>
 #include <QScrollBar>
 #include <QtEvents>
-#include <QSettings>
+#include <QDrag>
 
 #include "includes/qt_blurimage.h"
 #include "core/song.h"
@@ -1370,8 +1370,9 @@ void PlaylistView::rowsInserted(const QModelIndex &parent, const int start, cons
 
   QTreeView::rowsInserted(parent, start, end);
 
-  if (at_end) {
+  if (at_end && playlist_ && !playlist_->is_dynamic()) {
     // If the rows were inserted at the end of the playlist then let's scroll the view so the user can see.
+    // However, don't do this for dynamic playlists as they continuously add items at the end, and we want to keep the current playing track visible instead.
     scrollTo(model()->index(start, 0, parent), QAbstractItemView::PositionAtTop);
   }
 
@@ -1445,9 +1446,9 @@ void PlaylistView::SongChanged(const Song &song) {
   song_playing_ = song;
 
   if (select_track_ && playlist_) {
-    clearSelection();
-    QItemSelection selection(playlist_->index(playlist_->current_row(), 0), playlist_->index(playlist_->current_row(), Playlist::ColumnCount - 1));
-    selectionModel()->select(selection, QItemSelectionModel::Select);
+    const QModelIndex current_index = playlist_->filter()->mapFromSource(playlist_->index(playlist_->current_row(), 0));
+    if (!current_index.isValid()) return;
+    selectionModel()->setCurrentIndex(current_index, QItemSelectionModel::ClearAndSelect|QItemSelectionModel::Rows);
   }
 
 }
@@ -1618,5 +1619,13 @@ void PlaylistView::RatingHoverOut() {
   if (old_index.data(Playlist::Role_IsCurrent).toBool()) {
     InvalidateCachedCurrentPixmap();
   }
+
+}
+
+void PlaylistView::startDrag(const Qt::DropActions drop_actions) {
+
+  QDrag *drag = new QDrag(this);
+  drag->setMimeData(model()->mimeData(selectedIndexes()));
+  drag->exec(drop_actions, Qt::CopyAction);
 
 }

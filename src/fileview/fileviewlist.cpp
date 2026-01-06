@@ -99,7 +99,7 @@ MimeData *FileViewList::MimeDataFromSelection() const {
 
   const QStringList filenames = FilenamesFromSelection();
 
-  // if just one folder selected - use its path as the new playlist's name
+  // If just one folder selected - use its path as the new playlist's name
   if (filenames.size() == 1 && QFileInfo(filenames.first()).isDir()) {
     if (filenames.first().length() > 20) {
       mimedata->name_for_new_playlist_ = QDir(filenames.first()).dirName();
@@ -108,7 +108,7 @@ MimeData *FileViewList::MimeDataFromSelection() const {
       mimedata->name_for_new_playlist_ = filenames.first();
     }
   }
-  // otherwise, use the current root path
+  // Otherwise, use the current root path
   else {
     QString path = qobject_cast<QFileSystemModel*>(model())->rootPath();
     if (path.length() > 20) {
@@ -196,11 +196,11 @@ void FileViewList::mousePressEvent(QMouseEvent *e) {
     case Qt::XButton2:
       Q_EMIT Forward();
       break;
-    // enqueue to playlist with middleClick
+    // Enqueue to playlist with middleClick
     case Qt::MiddleButton:{
       QListView::mousePressEvent(e);
 
-      // we need to update the menu selection
+      // We need to update the menu selection
       menu_selection_ = selectionModel()->selection();
 
       MimeData *mimedata = new MimeData;

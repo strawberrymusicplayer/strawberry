@@ -80,12 +80,13 @@ void SongLoaderInserter::Load(Playlist *destination, const int row, const bool p
       songs_ << loader->songs();
       playlist_name_ = loader->playlist_name();
     }
-    else {
-      const QStringList errors = loader->errors();
-      for (const QString &error : errors) {
-        Q_EMIT Error(error);
-      }
+    
+    // Always check for errors, even on success (e.g., playlist parsed but some songs failed to load)
+    const QStringList errors = loader->errors();
+    for (const QString &error : errors) {
+      Q_EMIT Error(error);
     }
+    
     delete loader;
   }
 
@@ -192,11 +193,13 @@ void SongLoaderInserter::AsyncLoad() {
     const SongLoader::Result result = loader->LoadFilenamesBlocking();
     task_manager_->SetTaskProgress(async_load_id, static_cast<quint64>(++async_progress));
 
+    // Always check for errors, even on success (e.g., playlist parsed but some songs failed to load)
+    const QStringList errors = loader->errors();
+    for (const QString &error : errors) {
+      Q_EMIT Error(error);
+    }
+
     if (result == SongLoader::Result::Error) {
-      const QStringList errors = loader->errors();
-      for (const QString &error : errors) {
-        Q_EMIT Error(error);
-      }
       continue;
     }
 

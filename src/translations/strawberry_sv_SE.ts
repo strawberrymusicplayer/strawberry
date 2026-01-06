@@ -4343,7 +4343,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>CUE</source>
-      <translation type="unfinished">CUE</translation>
+      <translation>CUE</translation>
     </message>
     <message>
       <source>Integrated Loudness</source>
@@ -4956,11 +4956,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>LUFS</source>
-      <translation type="unfinished">LUFS</translation>
+      <translation>LUFS</translation>
     </message>
     <message>
       <source>LU</source>
-      <translation type="unfinished">LU</translation>
+      <translation>LU</translation>
     </message>
     <message>
       <source>File %1 is not recognized as a valid audio file.</source>

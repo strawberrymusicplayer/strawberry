@@ -43,9 +43,7 @@
 #include <QString>
 #include <QUrl>
 #include <QImage>
-#include <QPixmap>
 #include <QTimer>
-#include <QSettings>
 #include <QtEvents>
 
 #include "includes/scoped_ptr.h"
@@ -53,7 +51,6 @@
 #include "includes/lazy.h"
 #include "core/platforminterface.h"
 #include "core/song.h"
-#include "core/settings.h"
 #include "core/commandlineoptions.h"
 #include "tagreader/tagreaderclient.h"
 #include "osd/osdbase.h"
@@ -248,7 +245,6 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void ToggleSearchCoverAuto(const bool checked);
   void SaveGeometry();
 
-  void Exit();
   void DoExit();
 
   void HandleNotificationPreview(const OSDSettings::Type type, const QString &line1, const QString &line2);
@@ -283,6 +279,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
  public Q_SLOTS:
   void CommandlineOptionsReceived(const QByteArray &string_options);
   void Raise();
+  void Exit();
 
  private:
   void SaveSettings();
@@ -291,9 +288,6 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void ApplyPlayBehaviour(const BehaviourSettings::PlayBehaviour b, MimeData *mimedata) const;
 
   void CheckFullRescanRevisions();
-
-  // creates the icon by painting the full one depending on the current position
-  QPixmap CreateOverlayedIcon(const int position, const int scrobble_point);
 
   void GetCoverAutomatically();
 
@@ -390,7 +384,6 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 
   QTimer *track_position_timer_;
   QTimer *track_slider_timer_;
-  Settings settings_;
 
   bool keep_running_;
   bool playing_widget_;

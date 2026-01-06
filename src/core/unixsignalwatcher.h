@@ -1,8 +1,6 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
- * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2017-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,40 +17,37 @@
  *
  */
 
-#ifndef ERRORDIALOG_H
-#define ERRORDIALOG_H
+#ifndef UNIXSIGNALWATCHER_H
+#define UNIXSIGNALWATCHER_H
 
-#include "config.h"
+#include <csignal>
 
 #include <QObject>
-#include <QDialog>
-#include <QWidget>
-#include <QString>
-#include <QStringList>
+#include <QList>
 
-class QCloseEvent;
-class Ui_ErrorDialog;
+class QSocketNotifier;
 
-class ErrorDialog : public QDialog {
+class UnixSignalWatcher : public QObject {
   Q_OBJECT
 
  public:
-  explicit ErrorDialog(QWidget *parent = nullptr);
-  ~ErrorDialog() override;
+  explicit UnixSignalWatcher(QObject *parent = nullptr);
+  ~UnixSignalWatcher() override;
 
- public Q_SLOTS:
-  void ShowDialog();
-  void ShowMessage(const QString &message);
+  void WatchForSignal(const int signal);
 
- protected:
-  void closeEvent(QCloseEvent *e) override;
+ Q_SIGNALS:
+  void UnixSignal(const int signal);
 
  private:
-  void UpdateContent();
+  static void SignalHandler(const int signal);
+  void HandleSignalNotification();
 
-  Ui_ErrorDialog *ui_;
-
-  QStringList current_messages_;
+  static UnixSignalWatcher *sInstance;
+  int signal_fd_[2];
+  QSocketNotifier *socket_notifier_;
+  QList<int> watched_signals_;
+  QList<struct sigaction> original_signal_actions_;
 };
 
-#endif  // ERRORDIALOG_H
+#endif  // UNIXSIGNALWATCHER_H

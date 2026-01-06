@@ -202,7 +202,7 @@ class CollectionWatcher : public QObject {
   // Updates the sections of a cue associated and altered (according to mtime) media file during a scan.
   void UpdateCueAssociatedSongs(const QString &file, const QString &path, const QString &fingerprint, const QString &matching_cue, const QUrl &art_automatic, const SongList &old_cue_songs, ScanTransaction *t) const;
   // Updates a single non-cue associated and altered (according to mtime) song during a scan.
-  void UpdateNonCueAssociatedSong(const QString &file, const QString &fingerprint, const SongList &matching_songs, const QUrl &art_automatic, const bool cue_deleted, ScanTransaction *t);
+  bool UpdateNonCueAssociatedSong(const QString &file, const QString &fingerprint, const SongList &matching_songs, const QUrl &art_automatic, const bool cue_deleted, ScanTransaction *t);
   // Scans a single media file that's present on the disk but not yet in the collection.
   // It may result in a multiple files added to the collection when the media file has many sections (like a CUE related media file).
   SongList ScanNewFile(const QString &file, const QString &path, const QString &fingerprint, const QString &matching_cue, QSet<QString> *cues_processed) const;

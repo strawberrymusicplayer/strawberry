@@ -41,6 +41,7 @@
 
 #include "includes/shared_ptr.h"
 #include "enginebase.h"
+#include "gsturl.h"
 #include "gstenginepipeline.h"
 #include "gstbufferconsumer.h"
 
@@ -123,7 +124,7 @@ class GstEngine : public EngineBase, public GstBufferConsumer {
   void PipelineFinished(const int pipeline_id);
 
  private:
-  QByteArray FixupUrl(const QUrl &url);
+  GstUrl FixupUrl(const QUrl &url);
 
   void StartFadeout(GstEnginePipelinePtr pipeline);
   void StartFadeoutPause();

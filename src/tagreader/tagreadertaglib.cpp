@@ -46,6 +46,7 @@
 #include <taglib/apeproperties.h>
 #include <taglib/id3v2tag.h>
 #include <taglib/id3v2frame.h>
+#include <taglib/id3v2header.h>
 #include <taglib/attachedpictureframe.h>
 #include <taglib/textidentificationframe.h>
 #include <taglib/unsynchronizedlyricsframe.h>
@@ -104,6 +105,7 @@
 #include "constants/timeconstants.h"
 
 #include "albumcovertagdata.h"
+#include "tagid3v2version.h"
 
 using std::make_unique;
 using namespace Qt::Literals::StringLiterals;
@@ -604,7 +606,13 @@ TagReaderResult TagReaderTagLib::ReadStream(const QUrl &url,
 
 void TagReaderTagLib::ParseID3v2Tags(TagLib::ID3v2::Tag *tag, QString *disc, QString *compilation, Song *song) const {
 
+  if (!tag) return;
+
   TagLib::ID3v2::FrameListMap map = tag->frameListMap();
+
+  if (tag->header()) {
+    song->set_id3v2_version(tag->header()->majorVersion());
+  }
 
   if (map.contains(kID3v2_Disc)) *disc = TagLibStringToQString(map[kID3v2_Disc].front()->toString()).trimmed();
   if (map.contains(kID3v2_Composer)) song->set_composer(map[kID3v2_Composer].front()->toString());
@@ -1042,7 +1050,7 @@ void TagReaderTagLib::ParseASFAttribute(const TagLib::ASF::AttributeListMap &att
 
 }
 
-TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &song, const SaveTagsOptions save_tags_options, const SaveTagCoverData &save_tag_cover_data) const {
+TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &song, const SaveTagsOptions save_tags_options, const SaveTagCoverData &save_tag_cover_data, const TagID3v2Version tag_id3v2_version) const {
 
   if (filename.isEmpty()) {
     return TagReaderResult::ErrorCode::FilenameMissing;
@@ -1265,7 +1273,34 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
     }
   }
 
-  const bool success = fileref->save();
+  // Determine ID3v2 version to use and convert to TagLib type
+  TagLib::ID3v2::Version taglib_id3v2_version = TagLib::ID3v2::v4;
+  if (tag_id3v2_version == TagID3v2Version::V3) {
+    taglib_id3v2_version = TagLib::ID3v2::v3;
+  }
+  else if (tag_id3v2_version == TagID3v2Version::V4) {
+    taglib_id3v2_version = TagLib::ID3v2::v4;
+  }
+
+  bool success = false;
+
+  // For MPEG files, use save with ID3v2 version parameter
+  if (TagLib::MPEG::File *file_mpeg = dynamic_cast<TagLib::MPEG::File*>(fileref->file())) {
+    success = file_mpeg->save(TagLib::MPEG::File::AllTags, TagLib::File::StripOthers, taglib_id3v2_version);
+  }
+  // For WAV files with ID3v2 tags
+  else if (TagLib::RIFF::WAV::File *file_wav = dynamic_cast<TagLib::RIFF::WAV::File*>(fileref->file())) {
+    success = file_wav->save(TagLib::RIFF::WAV::File::AllTags, TagLib::File::StripOthers, taglib_id3v2_version);
+  }
+  // For AIFF files with ID3v2 tags
+  else if (TagLib::RIFF::AIFF::File *file_aiff = dynamic_cast<TagLib::RIFF::AIFF::File*>(fileref->file())) {
+    success = file_aiff->save(taglib_id3v2_version);
+  }
+  // For all other file types, use default save
+  else {
+    success = fileref->save();
+  }
+
 #ifdef Q_OS_LINUX
   if (success) {
     // Linux: inotify doesn't seem to notice the change to the file unless we change the timestamps as well. (this is what touch does)

@@ -131,6 +131,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
                 show_various_artists(true),
                 sort_skip_articles_for_artists(false),
                 sort_skip_articles_for_albums(false),
+                use_sort_tags(true),
                 separate_albums_by_grouping(false) {}
 
     Grouping group_by;
@@ -139,6 +140,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
     bool show_various_artists;
     bool sort_skip_articles_for_artists;
     bool sort_skip_articles_for_albums;
+    bool use_sort_tags;
     bool separate_albums_by_grouping;
     CollectionFilterOptions filter_options;
   };
@@ -178,14 +180,14 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   QMimeData *mimeData(const QModelIndexList &indexes) const override;
 
   // Utility functions for manipulating text
-  QString DisplayText(const GroupBy group_by, const Song &song);
+  static QString DisplayText(const GroupBy group_by, const Song &song);
   static QString TextOrUnknown(const QString &text);
   static QString PrettyYearAlbum(const int year, const QString &album);
   static QString PrettyAlbumDisc(const QString &album, const int disc);
   static QString PrettyYearAlbumDisc(const int year, const QString &album, const int disc);
   static QString PrettyDisc(const int disc);
   static QString PrettyFormat(const Song &song);
-  static QString SortText(const GroupBy group_by, const Song &song, const bool sort_skip_articles_for_artists, const bool sort_skip_articles_for_albums);
+  static QString SortText(const GroupBy group_by, const Song &song, const bool sort_skip_articles_for_artists, const bool sort_skip_articles_for_albums, const bool use_sort_tags);
   static QString SortText(QString text);
   static QString SortTextForName(const QString &name, const bool sort_skip_articles);
   static QString SortTextForNumber(const int number);

@@ -37,7 +37,7 @@ QString TagReaderResult::error_string() const {
     case ErrorCode::FileParseError:
       return QObject::tr("Could not parse file");
     case ErrorCode::FileSaveError:
-      return QObject::tr("Could save file");
+      return QObject::tr("Could not save file");
     case ErrorCode::CustomError:
       return error_text;
   }

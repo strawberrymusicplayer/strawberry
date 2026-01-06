@@ -83,11 +83,13 @@ class SmartPlaylistsViewContainer : public QWidget {
 
   void EditSmartPlaylist(const QModelIndex &idx);
   void DeleteSmartPlaylist(const QModelIndex &idx);
+  void RestoreDefaults();
 
   void EditSmartPlaylistFromButton();
   void DeleteSmartPlaylistFromButton();
   void EditSmartPlaylistFromContext();
   void DeleteSmartPlaylistFromContext();
+  void RestoreDefaultsFromContext();
 
   void NewSmartPlaylistFinished();
   void EditSmartPlaylistFinished();
@@ -113,6 +115,7 @@ class SmartPlaylistsViewContainer : public QWidget {
   QAction *action_new_smart_playlist_;
   QAction *action_edit_smart_playlist_;
   QAction *action_delete_smart_playlist_;
+  QAction *action_restore_defaults_;
   QAction *action_append_to_playlist_;
   QAction *action_replace_current_playlist_;
   QAction *action_open_in_new_playlist_;

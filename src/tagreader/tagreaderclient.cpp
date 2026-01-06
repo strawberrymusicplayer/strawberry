@@ -50,6 +50,7 @@
 #include "tagreaderreadstreamreply.h"
 #include "tagreaderloadcoverdatareply.h"
 #include "tagreaderloadcoverimagereply.h"
+#include "tagid3v2version.h"
 
 using std::dynamic_pointer_cast;
 using namespace Qt::Literals::StringLiterals;
@@ -189,7 +190,7 @@ void TagReaderClient::ProcessRequest(TagReaderRequestPtr request) {
   }
 #endif  // HAVE_STREAMTAGREADER
   else if (TagReaderWriteFileRequestPtr write_file_request = dynamic_pointer_cast<TagReaderWriteFileRequest>(request)) {
-    result = WriteFileBlocking(write_file_request->filename, write_file_request->song, write_file_request->save_tags_options, write_file_request->save_tag_cover_data);
+    result = WriteFileBlocking(write_file_request->filename, write_file_request->song, write_file_request->save_tags_options, write_file_request->save_tag_cover_data, write_file_request->tag_id3v2_version);
   }
   else if (TagReaderLoadCoverDataRequestPtr load_cover_data_request = dynamic_pointer_cast<TagReaderLoadCoverDataRequest>(request)) {
     QByteArray cover_data;
@@ -303,13 +304,13 @@ TagReaderReadStreamReplyPtr TagReaderClient::ReadStreamAsync(const QUrl &url, co
 }
 #endif  // HAVE_STREAMTAGREADER
 
-TagReaderResult TagReaderClient::WriteFileBlocking(const QString &filename, const Song &song, const SaveTagsOptions save_tags_options, const SaveTagCoverData &save_tag_cover_data) {
+TagReaderResult TagReaderClient::WriteFileBlocking(const QString &filename, const Song &song, const SaveTagsOptions save_tags_options, const SaveTagCoverData &save_tag_cover_data, const TagID3v2Version tag_id3v2_version) {
 
-  return tagreader_.WriteFile(filename, song, save_tags_options, save_tag_cover_data);
+  return tagreader_.WriteFile(filename, song, save_tags_options, save_tag_cover_data, tag_id3v2_version);
 
 }
 
-TagReaderReplyPtr TagReaderClient::WriteFileAsync(const QString &filename, const Song &song, const SaveTagsOptions save_tags_options, const SaveTagCoverData &save_tag_cover_data) {
+TagReaderReplyPtr TagReaderClient::WriteFileAsync(const QString &filename, const Song &song, const SaveTagsOptions save_tags_options, const SaveTagCoverData &save_tag_cover_data, const TagID3v2Version tag_id3v2_version) {
 
   Q_ASSERT(QThread::currentThread() != thread());
 
@@ -321,6 +322,7 @@ TagReaderReplyPtr TagReaderClient::WriteFileAsync(const QString &filename, const
   request->song = song;
   request->save_tags_options = save_tags_options;
   request->save_tag_cover_data = save_tag_cover_data;
+  request->tag_id3v2_version = tag_id3v2_version;
 
   EnqueueRequest(request);
 

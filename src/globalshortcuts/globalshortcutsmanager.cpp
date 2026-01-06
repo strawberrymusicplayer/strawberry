@@ -32,6 +32,7 @@
 #include <QKeySequence>
 
 #include "core/logging.h"
+#include "core/settings.h"
 
 #include "globalshortcutsmanager.h"
 #include "globalshortcutsbackend.h"
@@ -58,29 +59,32 @@ using namespace Qt::Literals::StringLiterals;
 
 GlobalShortcutsManager::GlobalShortcutsManager(QWidget *parent) : QWidget(parent) {
 
-  settings_.beginGroup(GlobalShortcutsSettings::kSettingsGroup);
+  Settings s;
+  s.beginGroup(GlobalShortcutsSettings::kSettingsGroup);
 
   // Create actions
-  AddShortcut(u"play"_s, tr("Play"), std::bind(&GlobalShortcutsManager::Play, this));
-  AddShortcut(u"pause"_s, tr("Pause"), std::bind(&GlobalShortcutsManager::Pause, this));
-  AddShortcut(u"play_pause"_s, tr("Play/Pause"), std::bind(&GlobalShortcutsManager::PlayPause, this), QKeySequence(Qt::Key_MediaPlay));
-  AddShortcut(u"stop"_s, tr("Stop"), std::bind(&GlobalShortcutsManager::Stop, this), QKeySequence(Qt::Key_MediaStop));
-  AddShortcut(u"stop_after"_s, tr("Stop playing after current track"), std::bind(&GlobalShortcutsManager::StopAfter, this));
-  AddShortcut(u"next_track"_s, tr("Next track"), std::bind(&GlobalShortcutsManager::Next, this), QKeySequence(Qt::Key_MediaNext));
-  AddShortcut(u"prev_track"_s, tr("Previous track"), std::bind(&GlobalShortcutsManager::Previous, this), QKeySequence(Qt::Key_MediaPrevious));
-  AddShortcut(u"restart_or_prev_track"_s, tr("Restart or previous track"), std::bind(&GlobalShortcutsManager::RestartOrPrevious, this));
-  AddShortcut(u"inc_volume"_s, tr("Increase volume"), std::bind(&GlobalShortcutsManager::IncVolume, this));
-  AddShortcut(u"dec_volume"_s, tr("Decrease volume"), std::bind(&GlobalShortcutsManager::DecVolume, this));
-  AddShortcut(u"mute"_s, tr("Mute"), std::bind(&GlobalShortcutsManager::Mute, this));
-  AddShortcut(u"seek_forward"_s, tr("Seek forward"), std::bind(&GlobalShortcutsManager::SeekForward, this));
-  AddShortcut(u"seek_backward"_s, tr("Seek backward"), std::bind(&GlobalShortcutsManager::SeekBackward, this));
-  AddShortcut(u"show_hide"_s, tr("Show/Hide"), std::bind(&GlobalShortcutsManager::ShowHide, this));
-  AddShortcut(u"show_osd"_s, tr("Show OSD"), std::bind(&GlobalShortcutsManager::ShowOSD, this));
-  AddShortcut(u"toggle_pretty_osd"_s, tr("Toggle Pretty OSD"), std::bind(&GlobalShortcutsManager::TogglePrettyOSD, this));  // Toggling possible only for pretty OSD
-  AddShortcut(u"shuffle_mode"_s, tr("Change shuffle mode"), std::bind(&GlobalShortcutsManager::CycleShuffleMode, this));
-  AddShortcut(u"repeat_mode"_s, tr("Change repeat mode"), std::bind(&GlobalShortcutsManager::CycleRepeatMode, this));
-  AddShortcut(u"toggle_scrobbling"_s, tr("Enable/disable scrobbling"), std::bind(&GlobalShortcutsManager::ToggleScrobbling, this));
-  AddShortcut(u"love"_s, tr("Love"), std::bind(&GlobalShortcutsManager::Love, this));
+  AddShortcut(s, u"play"_s, tr("Play"), std::bind(&GlobalShortcutsManager::Play, this));
+  AddShortcut(s, u"pause"_s, tr("Pause"), std::bind(&GlobalShortcutsManager::Pause, this));
+  AddShortcut(s, u"play_pause"_s, tr("Play/Pause"), std::bind(&GlobalShortcutsManager::PlayPause, this), QKeySequence(Qt::Key_MediaPlay));
+  AddShortcut(s, u"stop"_s, tr("Stop"), std::bind(&GlobalShortcutsManager::Stop, this), QKeySequence(Qt::Key_MediaStop));
+  AddShortcut(s, u"stop_after"_s, tr("Stop playing after current track"), std::bind(&GlobalShortcutsManager::StopAfter, this));
+  AddShortcut(s, u"next_track"_s, tr("Next track"), std::bind(&GlobalShortcutsManager::Next, this), QKeySequence(Qt::Key_MediaNext));
+  AddShortcut(s, u"prev_track"_s, tr("Previous track"), std::bind(&GlobalShortcutsManager::Previous, this), QKeySequence(Qt::Key_MediaPrevious));
+  AddShortcut(s, u"restart_or_prev_track"_s, tr("Restart or previous track"), std::bind(&GlobalShortcutsManager::RestartOrPrevious, this));
+  AddShortcut(s, u"inc_volume"_s, tr("Increase volume"), std::bind(&GlobalShortcutsManager::IncVolume, this));
+  AddShortcut(s, u"dec_volume"_s, tr("Decrease volume"), std::bind(&GlobalShortcutsManager::DecVolume, this));
+  AddShortcut(s, u"mute"_s, tr("Mute"), std::bind(&GlobalShortcutsManager::Mute, this));
+  AddShortcut(s, u"seek_forward"_s, tr("Seek forward"), std::bind(&GlobalShortcutsManager::SeekForward, this));
+  AddShortcut(s, u"seek_backward"_s, tr("Seek backward"), std::bind(&GlobalShortcutsManager::SeekBackward, this));
+  AddShortcut(s, u"show_hide"_s, tr("Show/Hide"), std::bind(&GlobalShortcutsManager::ShowHide, this));
+  AddShortcut(s, u"show_osd"_s, tr("Show OSD"), std::bind(&GlobalShortcutsManager::ShowOSD, this));
+  AddShortcut(s, u"toggle_pretty_osd"_s, tr("Toggle Pretty OSD"), std::bind(&GlobalShortcutsManager::TogglePrettyOSD, this));  // Toggling possible only for pretty OSD
+  AddShortcut(s, u"shuffle_mode"_s, tr("Change shuffle mode"), std::bind(&GlobalShortcutsManager::CycleShuffleMode, this));
+  AddShortcut(s, u"repeat_mode"_s, tr("Change repeat mode"), std::bind(&GlobalShortcutsManager::CycleRepeatMode, this));
+  AddShortcut(s, u"toggle_scrobbling"_s, tr("Enable/disable scrobbling"), std::bind(&GlobalShortcutsManager::ToggleScrobbling, this));
+  AddShortcut(s, u"love"_s, tr("Love"), std::bind(&GlobalShortcutsManager::Love, this));
+
+  s.endGroup();
 
   // Create backends - these do the actual shortcut registration
 
@@ -116,35 +120,39 @@ void GlobalShortcutsManager::ReloadSettings() {
   backends_enabled_ << GlobalShortcutsBackend::Type::Win;
 #endif
 
+  {
+    Settings s;
+    s.beginGroup(GlobalShortcutsSettings::kSettingsGroup);
 #ifdef HAVE_KGLOBALACCEL_GLOBALSHORTCUTS
-  if (settings_.value(GlobalShortcutsSettings::kUseKGlobalAccel, true).toBool()) {
-    backends_enabled_ << GlobalShortcutsBackend::Type::KGlobalAccel;
-  }
+    if (s.value(GlobalShortcutsSettings::kUseKGlobalAccel, true).toBool()) {
+      backends_enabled_ << GlobalShortcutsBackend::Type::KGlobalAccel;
+    }
 #endif
-
 #ifdef HAVE_X11_GLOBALSHORTCUTS
-  if (settings_.value(GlobalShortcutsSettings::kUseX11, false).toBool()) {
-    backends_enabled_ << GlobalShortcutsBackend::Type::X11;
-  }
+    if (s.value(GlobalShortcutsSettings::kUseX11, false).toBool()) {
+      backends_enabled_ << GlobalShortcutsBackend::Type::X11;
+    }
 #endif
+    s.endGroup();
+  }
 
   Unregister();
   Register();
 
 }
 
-void GlobalShortcutsManager::AddShortcut(const QString &id, const QString &name, std::function<void()> signal, const QKeySequence &default_key) {  // clazy:exclude=function-args-by-ref
+void GlobalShortcutsManager::AddShortcut(Settings &s, const QString &id, const QString &name, std::function<void()> signal, const QKeySequence &default_key) {  // clazy:exclude=function-args-by-ref
 
-  Shortcut shortcut = AddShortcut(id, name, default_key);
+  Shortcut shortcut = AddShortcut(s, id, name, default_key);
   QObject::connect(shortcut.action, &QAction::triggered, this, signal);
 
 }
 
-GlobalShortcutsManager::Shortcut GlobalShortcutsManager::AddShortcut(const QString &id, const QString &name, const QKeySequence &default_key) {
+GlobalShortcutsManager::Shortcut GlobalShortcutsManager::AddShortcut(Settings &s, const QString &id, const QString &name, const QKeySequence &default_key) {
 
   Shortcut shortcut;
   shortcut.action = new QAction(name, this);
-  QKeySequence key_sequence = QKeySequence::fromString(settings_.value(id, default_key.toString()).toString());
+  QKeySequence key_sequence = QKeySequence::fromString(s.value(id, default_key.toString()).toString());
   shortcut.action->setShortcut(key_sequence);
   shortcut.id = id;
   shortcut.default_key = default_key;

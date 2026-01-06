@@ -134,13 +134,10 @@ void SmartPlaylistsModel::Init() {
 
     // Append the new ones
     s.beginWriteArray(collection_backend_->songs_table(), playlist_index + unwritten_defaults);
-    for (; version < default_smart_playlists_.count(); ++version) {
-      const GeneratorList generators = default_smart_playlists_.value(version);
-      for (PlaylistGeneratorPtr gen : generators) {
-        SaveGenerator(&s, playlist_index++, gen);
-      }
-    }
+    WriteDefaultsToSettings(&s, version, playlist_index);
     s.endArray();
+
+    version = default_smart_playlists_.count();
   }
 
   s.setValue(collection_backend_->songs_table() + u"_version"_s, version);
@@ -266,6 +263,46 @@ PlaylistGeneratorPtr SmartPlaylistsModel::CreateGenerator(const QModelIndex &idx
   ret->Load(item->smart_playlist_data);
 
   return ret;
+
+}
+
+void SmartPlaylistsModel::WriteDefaultsToSettings(Settings *s, const int start_version, const int start_index) {
+
+  int playlist_index = start_index;
+  for (int version = start_version; version < default_smart_playlists_.count(); ++version) {
+    const GeneratorList generators = default_smart_playlists_.value(version);
+    for (PlaylistGeneratorPtr gen : generators) {
+      SaveGenerator(s, playlist_index++, gen);
+    }
+  }
+
+}
+
+void SmartPlaylistsModel::RestoreDefaults() {
+
+  root_->ClearNotify();
+
+  Settings s;
+  s.beginGroup(kSettingsGroup);
+
+  int total_defaults = 0;
+  for (const GeneratorList &generators : default_smart_playlists_) {
+    total_defaults += static_cast<int>(generators.count());
+  }
+
+  s.beginWriteArray(collection_backend_->songs_table(), total_defaults);
+  WriteDefaultsToSettings(&s, 0, 0);
+  s.endArray();
+
+  s.setValue(collection_backend_->songs_table() + u"_version"_s, default_smart_playlists_.count());
+
+  const int count = s.beginReadArray(collection_backend_->songs_table());
+  for (int i = 0; i < count; ++i) {
+    s.setArrayIndex(i);
+    ItemFromSmartPlaylist(s, true);
+  }
+  s.endArray();
+  s.endGroup();
 
 }
 

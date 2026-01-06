@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -55,6 +55,7 @@ class AutoExpandingTreeView : public QTreeView {
  protected:
   // QAbstractItemView
   void reset() override;
+  void currentChanged(const QModelIndex &current_index, const QModelIndex &previous_index) override;
 
   // QWidget
   void mousePressEvent(QMouseEvent *event) override;

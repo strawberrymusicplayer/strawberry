@@ -353,6 +353,8 @@ struct Song::Private : public QSharedData {
   std::optional<double> ebur128_integrated_loudness_lufs_;
   std::optional<double> ebur128_loudness_range_lu_;
 
+  int id3v2_version_;  // ID3v2 tag version (3 or 4), 0 if not applicable or unknown
+
   bool init_from_file_;         // Whether this song was loaded from a file using taglib.
   bool suspicious_tags_;        // Whether our encoding guesser thinks these tags might be incorrectly encoded.
 
@@ -399,6 +401,8 @@ Song::Private::Private(const Source source)
 
       rating_(-1),
       bpm_(-1),
+
+      id3v2_version_(0),
 
       init_from_file_(false),
       suspicious_tags_(false)
@@ -509,6 +513,8 @@ const QString &Song::musicbrainz_work_id() const { return d->musicbrainz_work_id
 
 std::optional<double> Song::ebur128_integrated_loudness_lufs() const { return d->ebur128_integrated_loudness_lufs_; }
 std::optional<double> Song::ebur128_loudness_range_lu() const { return d->ebur128_loudness_range_lu_; }
+
+int Song::id3v2_version() const { return d->id3v2_version_; }
 
 QString *Song::mutable_title() { return &d->title_; }
 QString *Song::mutable_album() { return &d->album_; }
@@ -623,6 +629,8 @@ void Song::set_musicbrainz_work_id(const QString &v) { d->musicbrainz_work_id_ =
 
 void Song::set_ebur128_integrated_loudness_lufs(const std::optional<double> v) { d->ebur128_integrated_loudness_lufs_ = v; }
 void Song::set_ebur128_loudness_range_lu(const std::optional<double> v) { d->ebur128_loudness_range_lu_ = v; }
+
+void Song::set_id3v2_version(const int v) { d->id3v2_version_ = v; }
 
 void Song::set_init_from_file(const bool v) { d->init_from_file_ = v; }
 
@@ -797,19 +805,19 @@ bool Song::lyrics_supported() const {
 }
 
 bool Song::albumartistsort_supported() const {
-  return d->filetype_ == FileType::FLAC || d->filetype_ == FileType::OggFlac || d->filetype_ == FileType::OggVorbis || d->filetype_ == FileType::MPEG;
+  return d->filetype_ == FileType::FLAC || d->filetype_ == FileType::OggFlac || d->filetype_ == FileType::OggVorbis || d->filetype_ == FileType::OggOpus || d->filetype_ == FileType::MPEG;
 }
 
 bool Song::albumsort_supported() const {
-  return d->filetype_ == FileType::FLAC || d->filetype_ == FileType::OggFlac || d->filetype_ == FileType::OggVorbis || d->filetype_ == FileType::MPEG;
+  return d->filetype_ == FileType::FLAC || d->filetype_ == FileType::OggFlac || d->filetype_ == FileType::OggVorbis || d->filetype_ == FileType::OggOpus || d->filetype_ == FileType::MPEG;
 }
 
 bool Song::artistsort_supported() const {
-  return d->filetype_ == FileType::FLAC || d->filetype_ == FileType::OggFlac || d->filetype_ == FileType::OggVorbis || d->filetype_ == FileType::MPEG;
+  return d->filetype_ == FileType::FLAC || d->filetype_ == FileType::OggFlac || d->filetype_ == FileType::OggVorbis || d->filetype_ == FileType::OggOpus || d->filetype_ == FileType::MPEG;
 }
 
 bool Song::composersort_supported() const {
-  return d->filetype_ == FileType::FLAC || d->filetype_ == FileType::OggFlac || d->filetype_ == FileType::OggVorbis || d->filetype_ == FileType::MPEG;
+  return d->filetype_ == FileType::FLAC || d->filetype_ == FileType::OggFlac || d->filetype_ == FileType::OggVorbis || d->filetype_ == FileType::OggOpus || d->filetype_ == FileType::MPEG;
 }
 
 bool Song::performersort_supported() const {
@@ -818,7 +826,7 @@ bool Song::performersort_supported() const {
 }
 
 bool Song::titlesort_supported() const {
-  return d->filetype_ == FileType::FLAC || d->filetype_ == FileType::OggFlac || d->filetype_ == FileType::OggVorbis || d->filetype_ == FileType::MPEG;
+  return d->filetype_ == FileType::FLAC || d->filetype_ == FileType::OggFlac || d->filetype_ == FileType::OggVorbis || d->filetype_ == FileType::OggOpus || d->filetype_ == FileType::MPEG;
 }
 
 bool Song::save_embedded_cover_supported(const FileType filetype) {
@@ -831,6 +839,10 @@ bool Song::save_embedded_cover_supported(const FileType filetype) {
          filetype == FileType::WAV ||
          filetype == FileType::AIFF;
 
+}
+
+bool Song::id3v2_tags_supported() const {
+  return d->filetype_ == FileType::MPEG || d->filetype_ == FileType::WAV || d->filetype_ == FileType::AIFF;
 }
 
 int Song::ColumnIndex(const QString &field) {
@@ -1656,12 +1668,24 @@ void Song::InitArtManual() {
 void Song::InitArtAutomatic() {
 
   if (d->art_automatic_.isEmpty() && d->source_ == Source::LocalFile && d->url_.isLocalFile()) {
-    // Pick the first image file in the album directory.
-    QFileInfo file(d->url_.toLocalFile());
-    QDir dir(file.path());
-    QStringList files = dir.entryList(QStringList() << u"*.jpg"_s << u"*.png"_s << u"*.gif"_s << u"*.jpeg"_s, QDir::Files|QDir::Readable, QDir::Name);
-    if (files.count() > 0) {
-      d->art_automatic_ = QUrl::fromLocalFile(file.path() + QDir::separator() + files.first());
+    const QFileInfo fileinfo(d->url_.toLocalFile());
+    const QDir dir(fileinfo.path());
+    const QStringList cover_files = dir.entryList(QStringList() << u"*.jpg"_s << u"*.png"_s << u"*.gif"_s << u"*.jpeg"_s, QDir::Files|QDir::Readable, QDir::Name);
+    QString best_cover_file;
+    for (const QString &cover_file : cover_files) {
+      if (cover_file.contains("back"_L1, Qt::CaseInsensitive)) {
+        continue;
+      }
+      if (cover_file.contains("front"_L1, Qt::CaseInsensitive) || cover_file.startsWith("cover"_L1, Qt::CaseInsensitive)) {
+        best_cover_file = cover_file;
+        break;
+      }
+      if (best_cover_file.isEmpty()) {
+        best_cover_file = cover_file;
+      }
+    }
+    if (!best_cover_file.isEmpty()) {
+      d->art_automatic_ = QUrl::fromLocalFile(fileinfo.path() + QDir::separator() + best_cover_file);
     }
   }
 

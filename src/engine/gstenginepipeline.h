@@ -215,7 +215,8 @@ class GstEnginePipeline : public QObject {
   static int sId;
   mutex_protected<int> id_;
 
-  QThreadPool set_state_threadpool_;
+  // Shared thread pool for all pipeline state changes to prevent thread/FD exhaustion
+  static QThreadPool *shared_state_threadpool();
 
   bool playbin3_support_;
   bool volume_full_range_support_;
@@ -354,7 +355,6 @@ class GstEnginePipeline : public QObject {
   GstElement *audiobin_;
   GstElement *audiosink_;
   GstElement *audioqueue_;
-  GstElement *audioqueueconverter_;
   GstElement *volume_;
   GstElement *volume_sw_;
   GstElement *volume_fading_;
@@ -363,6 +363,7 @@ class GstEnginePipeline : public QObject {
   GstElement *equalizer_;
   GstElement *equalizer_preamp_;
   GstElement *eventprobe_;
+  GstElement *bufferprobe_;
 
   std::optional<gulong> upstream_events_probe_cb_id_;
   std::optional<gulong> buffer_probe_cb_id_;
@@ -384,6 +385,10 @@ class GstEnginePipeline : public QObject {
 
   mutex_protected<GstState> last_set_state_in_progress_;
   mutex_protected<GstState> last_set_state_async_in_progress_;
+
+  // Track futures for this pipeline's state changes to allow waiting for them in destructor
+  QList<QFuture<GstStateChangeReturn>> pending_state_changes_;
+  QMutex mutex_pending_state_changes_;
 };
 
 using GstEnginePipelinePtr = QSharedPointer<GstEnginePipeline>;

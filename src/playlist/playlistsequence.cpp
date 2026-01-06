@@ -60,6 +60,9 @@ PlaylistSequence::PlaylistSequence(QWidget *parent, SettingsProvider *settings)
   // Icons
   ui_->repeat->setIcon(AddDesaturatedIcon(IconLoader::Load(u"media-playlist-repeat"_s)));
   ui_->shuffle->setIcon(AddDesaturatedIcon(IconLoader::Load(u"media-playlist-shuffle"_s)));
+  const int base_icon_size = static_cast<int>(fontMetrics().height() * 1.2);
+  ui_->repeat->setIconSize(QSize(base_icon_size, base_icon_size));
+  ui_->shuffle->setIconSize(QSize(base_icon_size, base_icon_size));
 
   // Remove arrow indicators
   ui_->repeat->setStyleSheet(u"QToolButton::menu-indicator { image: none; }"_s);

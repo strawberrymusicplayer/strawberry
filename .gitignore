@@ -14,3 +14,4 @@
 /dist/scripts/maketarball.sh
 /debian/changelog
 .qtcreator/
+_codeql_detected_source_root

@@ -23,6 +23,7 @@
 #include <QMenu>
 #include <QSettings>
 #include <QShowEvent>
+#include <QMessageBox>
 
 #include "core/iconloader.h"
 #include "core/mimedata.h"
@@ -60,6 +61,7 @@ SmartPlaylistsViewContainer::SmartPlaylistsViewContainer(const SharedPtr<Player>
       action_new_smart_playlist_(nullptr),
       action_edit_smart_playlist_(nullptr),
       action_delete_smart_playlist_(nullptr),
+      action_restore_defaults_(nullptr),
       action_append_to_playlist_(nullptr),
       action_replace_current_playlist_(nullptr),
       action_open_in_new_playlist_(nullptr),
@@ -74,6 +76,7 @@ SmartPlaylistsViewContainer::SmartPlaylistsViewContainer(const SharedPtr<Player>
   model_->Init();
 
   action_new_smart_playlist_ = context_menu_->addAction(IconLoader::Load(u"document-new"_s), tr("New smart playlist..."), this, &SmartPlaylistsViewContainer::NewSmartPlaylist);
+  action_restore_defaults_ = context_menu_->addAction(IconLoader::Load(u"view-refresh"_s), tr("Restore defaults"), this, &SmartPlaylistsViewContainer::RestoreDefaultsFromContext);
 
   action_append_to_playlist_ = context_menu_selected_->addAction(IconLoader::Load(u"media-playback-start"_s), tr("Append to current playlist"), this, &SmartPlaylistsViewContainer::AppendToPlaylist);
   action_replace_current_playlist_ = context_menu_selected_->addAction(IconLoader::Load(u"media-playback-start"_s), tr("Replace current playlist"), this, &SmartPlaylistsViewContainer::ReplaceCurrentPlaylist);
@@ -90,13 +93,16 @@ SmartPlaylistsViewContainer::SmartPlaylistsViewContainer(const SharedPtr<Player>
   action_delete_smart_playlist_ = context_menu_selected_->addAction(IconLoader::Load(u"edit-delete"_s), tr("Delete smart playlist"), this, &SmartPlaylistsViewContainer::DeleteSmartPlaylistFromContext);
 
   context_menu_selected_->addSeparator();
+  context_menu_selected_->addAction(action_restore_defaults_);
 
   ui_->new_->setDefaultAction(action_new_smart_playlist_);
   ui_->edit_->setIcon(IconLoader::Load(u"edit-rename"_s));
   ui_->delete_->setIcon(IconLoader::Load(u"edit-delete"_s));
+  ui_->restore_->setIcon(IconLoader::Load(u"view-refresh"_s));
 
   QObject::connect(ui_->edit_, &QToolButton::clicked, this, &SmartPlaylistsViewContainer::EditSmartPlaylistFromButton);
   QObject::connect(ui_->delete_, &QToolButton::clicked, this, &SmartPlaylistsViewContainer::DeleteSmartPlaylistFromButton);
+  QObject::connect(ui_->restore_, &QToolButton::clicked, this, &SmartPlaylistsViewContainer::RestoreDefaults);
 
   QObject::connect(ui_->view, &SmartPlaylistsView::ItemsSelectedChanged, this, &SmartPlaylistsViewContainer::ItemsSelectedChanged);
   QObject::connect(ui_->view, &SmartPlaylistsView::doubleClicked, this, &SmartPlaylistsViewContainer::ItemDoubleClicked);
@@ -130,6 +136,7 @@ void SmartPlaylistsViewContainer::ReloadSettings() {
   ui_->new_->setIconSize(QSize(iconsize, iconsize));
   ui_->delete_->setIconSize(QSize(iconsize, iconsize));
   ui_->edit_->setIconSize(QSize(iconsize, iconsize));
+  ui_->restore_->setIconSize(QSize(iconsize, iconsize));
 
 }
 
@@ -302,5 +309,20 @@ void SmartPlaylistsViewContainer::ItemDoubleClicked(const QModelIndex &idx) {
     mimedata->from_doubleclick_ = true;
   }
   Q_EMIT AddToPlaylist(q_mimedata);
+
+}
+
+void SmartPlaylistsViewContainer::RestoreDefaultsFromContext() {
+
+  RestoreDefaults();
+
+}
+
+void SmartPlaylistsViewContainer::RestoreDefaults() {
+
+  const QMessageBox::StandardButton messagebox_answer = QMessageBox::question(this, tr("Restore defaults"), tr("Are you sure you want to restore the default smart playlists? This will remove all custom smart playlists"), QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
+  if (messagebox_answer == QMessageBox::Yes) {
+    model_->RestoreDefaults();
+  }
 
 }

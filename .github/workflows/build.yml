@@ -134,14 +134,14 @@ jobs:
         run: echo "subdir=$(echo ${{matrix.opensuse_version}} | sed 's/leap:/lp/g' | sed 's/\.//g')" > $GITHUB_OUTPUT
       - name: Upload source
         if: matrix.opensuse_version == 'tumbleweed'
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: source
           path: |
             /usr/src/packages/SOURCES/*.xz
       - name: Upload rpm
         if: matrix.opensuse_version != 'tumbleweed'
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: opensuse-${{steps.set-subdir.outputs.subdir}}
           path: |
@@ -234,7 +234,7 @@ jobs:
         working-directory: build
         run: rpmbuild -ba strawberry.spec
       - name: Upload artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: fedora-${{matrix.fedora_version}}
           path: |
@@ -333,7 +333,7 @@ jobs:
         run: rpmbuild -ba strawberry.spec
       - name: Upload artifacts
         if: matrix.openmandriva_version != 'cooker'
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: openmandriva-${{matrix.openmandriva_version}}
           path: |
@@ -434,7 +434,7 @@ jobs:
         working-directory: build
         run: rpmbuild -ba strawberry.spec
       - name: Upload artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: mageia-${{matrix.mageia_version}}
           path: |
@@ -528,7 +528,7 @@ jobs:
       - name: Copy deb
         run: cp ../*.deb .
       - name: Upload artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: debian-${{matrix.debian_version}}
           path: |
@@ -624,7 +624,7 @@ jobs:
       - name: Copy deb
         run: cp ../*.deb ../*.ddeb .
       - name: Upload artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: ubuntu-${{matrix.ubuntu_version}}
           path: |
@@ -739,12 +739,18 @@ jobs:
       with:
         fetch-depth: 0
         submodules: recursive
+    - name: Free disk space
+      run: |
+        df -h
+        sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc
+        sudo apt-get clean
+        df -h
     - name: Build FreeBSD
       id: build-freebsd
-      uses: vmactions/freebsd-vm@v1.3.0
+      uses: vmactions/freebsd-vm@v1.3.6
       with:
         usesh: true
-        mem: 4096
+        mem: 8192
         prepare: pkg install -y git cmake pkgconf boost-libs alsa-lib glib qt6-base qt6-tools sqlite gstreamer1 gstreamer1-plugins chromaprint libebur128 taglib libcdio libmtp gdk-pixbuf2 libgpod fftw3 icu kdsingleapplication googletest pulseaudio sparsehash rapidjson
         run: |
           set -e
@@ -766,7 +772,7 @@ jobs:
         submodules: recursive
     - name: Build OpenBSD
       id: build-openbsd
-      uses: vmactions/openbsd-vm@v1.2.5
+      uses: vmactions/openbsd-vm@v1.3.1
       with:
         usesh: true
         mem: 4096
@@ -839,7 +845,7 @@ jobs:
           p12-password: ${{ secrets.APPLE_DEVELOPER_ID_CERTIFICATE_PASSWORD }}
 
       - name: Download macOS dependencies
-        run: curl -f -O -L https://github.com/strawberrymusicplayer/strawberry-macos-dependencies$(test "${{env.arch}}" = "x86_64" && echo "-intel" || echo "")/releases/latest/download/strawberry-macos-${{env.arch}}-${{env.buildtype}}.tar.xz
+        run: curl -f -O -L https://github.com/strawberrymusicplayer/strawberry-macos-dependencies/releases/latest/download/strawberry-macos-${{env.arch}}-${{env.buildtype}}.tar.xz
 
       - name: Extract macOS dependencies
         run: sudo tar -C / -xf strawberry-macos-${{env.arch}}-${{env.buildtype}}.tar.xz
@@ -892,7 +898,7 @@ jobs:
       - name: Manually Codesign
         if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && matrix.runner == 'macos-15-intel'
         working-directory: build
-        run: codesign -s 383J84DVB6 -f strawberry.app/Contents/Frameworks/{libpcre2-8.0.dylib,libpcre2-16.0.dylib,libpng16.16.dylib,libfreetype.6.dylib,libzstd.1.dylib,libbrotlicommon.1.dylib,libbrotlienc.1.dylib} strawberry.app/Contents/Frameworks/png.framework/png strawberry.app
+        run: codesign -s 383J84DVB6 -f strawberry.app/Contents/Frameworks/{libpcre2-8.0.dylib,libpcre2-16.0.dylib,libpng16.16.dylib,libfreetype.6.dylib,libzstd.1.dylib,libbrotlicommon.1.dylib,libbrotlienc.1.dylib,libbrotlidec.1.dylib,libsoup-3.0.0.dylib,libnghttp2.14.dylib,libpsl.5.dylib} strawberry.app/Contents/Frameworks/png.framework/png strawberry.app
 
       - name: Manually Codesign
         if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false && matrix.runner == 'macos-15'
@@ -1642,7 +1648,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Download artifacts
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           path: artifacts
       - name: SSH Setup
@@ -1694,7 +1700,7 @@ jobs:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: gh release view "${{github.event.release.tag_name}}" --json assets | jq -r '.assets[].name'
       - name: Download artifacts
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           path: artifacts
       - name: Add artifacts to release

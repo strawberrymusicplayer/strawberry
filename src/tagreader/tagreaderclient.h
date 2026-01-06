@@ -43,6 +43,7 @@
 #include "tagreaderloadcoverimagereply.h"
 #include "savetagsoptions.h"
 #include "savetagcoverdata.h"
+#include "tagid3v2version.h"
 
 class QThread;
 class Song;
@@ -72,8 +73,8 @@ class TagReaderClient : public QObject {
   [[nodiscard]] TagReaderReadStreamReplyPtr ReadStreamAsync(const QUrl &url, const QString &filename, const quint64 size, const quint64 mtime, const QString &token_type, const QString &access_token);
 #endif
 
-  TagReaderResult WriteFileBlocking(const QString &filename, const Song &song, const SaveTagsOptions save_tags_options = SaveTagsOption::Tags, const SaveTagCoverData &save_tag_cover_data = SaveTagCoverData());
-  [[nodiscard]] TagReaderReplyPtr WriteFileAsync(const QString &filename, const Song &song, const SaveTagsOptions save_tags_options = SaveTagsOption::Tags, const SaveTagCoverData &save_tag_cover_data = SaveTagCoverData());
+  TagReaderResult WriteFileBlocking(const QString &filename, const Song &song, const SaveTagsOptions save_tags_options = SaveTagsOption::Tags, const SaveTagCoverData &save_tag_cover_data = SaveTagCoverData(), const TagID3v2Version tag_id3v2_version = TagID3v2Version::Default);
+  [[nodiscard]] TagReaderReplyPtr WriteFileAsync(const QString &filename, const Song &song, const SaveTagsOptions save_tags_options = SaveTagsOption::Tags, const SaveTagCoverData &save_tag_cover_data = SaveTagCoverData(), const TagID3v2Version tag_id3v2_version = TagID3v2Version::Default);
 
   TagReaderResult LoadCoverDataBlocking(const QString &filename, QByteArray &data);
   TagReaderResult LoadCoverImageBlocking(const QString &filename, QImage &image);

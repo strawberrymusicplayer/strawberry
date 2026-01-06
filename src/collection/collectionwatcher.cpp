@@ -620,11 +620,8 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const CollectionSu
         album_art[dir_part] << child_filepath;
         t->AddToProgress(1);
       }
-      else if (tagreader_client_->IsMediaFileBlocking(child_filepath)) {
-        files_on_disk << child_filepath;
-      }
       else {
-        t->AddToProgress(1);
+        files_on_disk << child_filepath;
       }
     }
   }
@@ -706,8 +703,14 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const CollectionSu
         qLog(Debug) << file << "is missing EBU R 128 loudness characteristics.";
       }
 
+      // If the song is unavailable and nothing has changed, just mark it as available without re-scanning
+      // For CUE files with multiple sections, all sections share the same file and would have the same availability status
+      if (matching_song.unavailable() && !changed && !missing_fingerprint && !missing_loudness_characteristics) {
+        qLog(Debug) << "Unavailable song" << file << "restored without re-scanning.";
+        t->readded_songs << matching_songs;
+      }
       // The song's changed or missing fingerprint - create fingerprint and reread the metadata from file.
-      if (t->ignores_mtime() || changed || missing_fingerprint || missing_loudness_characteristics) {
+      else if (t->ignores_mtime() || changed || missing_fingerprint || missing_loudness_characteristics) {
 
         QString fingerprint;
 #ifdef HAVE_SONGFINGERPRINTING
@@ -721,17 +724,13 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const CollectionSu
 #endif
 
         if (new_cue.isEmpty() || new_cue_mtime == 0) {  // If no CUE or it's about to lose it.
-          UpdateNonCueAssociatedSong(file, fingerprint, matching_songs, art_automatic, cue_deleted, t);
+          if (!UpdateNonCueAssociatedSong(file, fingerprint, matching_songs, art_automatic, cue_deleted, t)) {
+            files_on_disk.removeAll(file);
+          }
         }
         else {  // If CUE associated.
           UpdateCueAssociatedSongs(file, path, fingerprint, new_cue, art_automatic, matching_songs, t);
         }
-      }
-
-      // Nothing has changed - mark the song available without re-scanning
-      else if (matching_song.unavailable()) {
-        qLog(Debug) << "Unavailable song" << file << "restored.";
-        t->readded_songs << matching_songs;
       }
 
     }
@@ -784,7 +783,9 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const CollectionSu
         const QUrl art_automatic = ArtForSong(file, album_art);
 
         if (new_cue.isEmpty() || new_cue_mtime == 0) {  // If no CUE or it's about to lose it.
-          UpdateNonCueAssociatedSong(file, fingerprint, matching_songs, art_automatic, matching_songs_has_cue && new_cue_mtime == 0, t);
+          if (!UpdateNonCueAssociatedSong(file, fingerprint, matching_songs, art_automatic, matching_songs_has_cue && new_cue_mtime == 0, t)) {
+            files_on_disk.removeAll(file);
+          }
         }
         else {  // If CUE associated.
           UpdateCueAssociatedSongs(file, path, fingerprint, new_cue, art_automatic, matching_songs, t);
@@ -795,6 +796,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const CollectionSu
 
         const SongList songs = ScanNewFile(file, path, fingerprint, new_cue, &cues_processed);
         if (songs.isEmpty()) {
+          files_on_disk.removeAll(file);
           t->AddToProgress(1);
           continue;
         }
@@ -901,7 +903,7 @@ void CollectionWatcher::UpdateCueAssociatedSongs(const QString &file,
 
 }
 
-void CollectionWatcher::UpdateNonCueAssociatedSong(const QString &file,
+bool CollectionWatcher::UpdateNonCueAssociatedSong(const QString &file,
                                                    const QString &fingerprint,
                                                    const SongList &matching_songs,
                                                    const QUrl &art_automatic,
@@ -930,6 +932,8 @@ void CollectionWatcher::UpdateNonCueAssociatedSong(const QString &file,
     song_on_disk.MergeUserSetData(matching_song, !overwrite_playcount_, !overwrite_rating_);
     AddChangedSong(file, matching_song, song_on_disk, t);
   }
+
+  return result.success() && song_on_disk.is_valid();
 
 }
 

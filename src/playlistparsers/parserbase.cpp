@@ -112,10 +112,18 @@ void ParserBase::LoadSong(const QString &filename_or_url, const qint64 beginning
     }
   }
 
+  // Check if the file exists before trying to read it
+  if (!QFile::exists(filename)) {
+    qLog(Error) << "File does not exist:" << filename;
+    Q_EMIT Error(tr("File %1 does not exist").arg(filename));
+    return;
+  }
+
   if (tagreader_client_) {
     const TagReaderResult result = tagreader_client_->ReadFileBlocking(filename, song);
     if (!result.success()) {
       qLog(Error) << "Could not read file" << filename << result.error_string();
+      Q_EMIT Error(tr("Could not read file %1: %2").arg(filename, result.error_string()));
     }
   }
 

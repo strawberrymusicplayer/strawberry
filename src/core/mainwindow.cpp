@@ -58,7 +58,6 @@
 #include <QShortcut>
 #include <QMessageBox>
 #include <QErrorMessage>
-#include <QSettings>
 #include <QColor>
 #include <QFrame>
 #include <QItemSelectionModel>
@@ -296,9 +295,6 @@ MainWindow::MainWindow(Application *app,
 #ifdef HAVE_DISCORD_RPC
       discord_rich_presence_(discord_rich_presence),
 #endif
-      error_dialog_([this]() {
-        return new ErrorDialog(this);
-      }),
       console_([app, this]() {
         Console *console = new Console(app->database());
         QObject::connect(console, &Console::Error, this, &MainWindow::ShowErrorDialog);
@@ -700,6 +696,9 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(&*app_->task_manager(), &TaskManager::PauseCollectionWatchers, &*app_->collection(), &CollectionLibrary::PauseWatcher);
   QObject::connect(&*app_->task_manager(), &TaskManager::ResumeCollectionWatchers, &*app_->collection(), &CollectionLibrary::ResumeWatcher);
 
+  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, &*app_->collection(), &CollectionLibrary::CurrentSongChanged);
+  QObject::connect(&*app_->player(), &Player::Stopped, &*app_->collection(), &CollectionLibrary::Stopped);
+
   QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, &*app_->current_albumcover_loader(), &CurrentAlbumCoverLoader::LoadAlbumCover);
   QObject::connect(&*app_->current_albumcover_loader(), &CurrentAlbumCoverLoader::AlbumCoverLoaded, this, &MainWindow::AlbumCoverLoaded);
   QObject::connect(album_cover_choice_controller_, &AlbumCoverChoiceController::Error, this, &MainWindow::ShowErrorDialog);
@@ -980,27 +979,28 @@ MainWindow::MainWindow(Application *app,
 
   // Load settings
   qLog(Debug) << "Loading settings";
-  settings_.beginGroup(MainWindowSettings::kSettingsGroup);
+  Settings settings;
+  settings.beginGroup(MainWindowSettings::kSettingsGroup);
 
   // Set last used geometry to position window on the correct monitor
   // Set window state only if the window was last maximized
-  if (settings_.contains("geometry")) {
-    restoreGeometry(settings_.value("geometry").toByteArray());
+  if (settings.contains("geometry")) {
+    restoreGeometry(settings.value("geometry").toByteArray());
   }
 
-  if (!settings_.contains(MainWindowSettings::kSplitterState) || !ui_->splitter->restoreState(settings_.value(MainWindowSettings::kSplitterState).toByteArray())) {
+  if (!settings.contains(MainWindowSettings::kSplitterState) || !ui_->splitter->restoreState(settings.value(MainWindowSettings::kSplitterState).toByteArray())) {
     ui_->splitter->setSizes(QList<int>() << 20 << (width() - 20));
   }
 
-  ui_->tabs->setCurrentIndex(settings_.value("current_tab", 1).toInt());
+  ui_->tabs->setCurrentIndex(settings.value("current_tab", 1).toInt());
   FancyTabWidget::Mode default_mode = FancyTabWidget::Mode::LargeSidebar;
-  FancyTabWidget::Mode tab_mode = static_cast<FancyTabWidget::Mode>(settings_.value("tab_mode", static_cast<int>(default_mode)).toInt());
+  FancyTabWidget::Mode tab_mode = static_cast<FancyTabWidget::Mode>(settings.value("tab_mode", static_cast<int>(default_mode)).toInt());
   if (tab_mode == FancyTabWidget::Mode::None) tab_mode = default_mode;
   ui_->tabs->SetMode(tab_mode);
 
   TabSwitched();
 
-  file_view_->SetPath(settings_.value("file_path", QDir::homePath()).toString());
+  file_view_->SetPath(settings.value("file_path", QDir::homePath()).toString());
 
   // Users often collapse one side of the splitter by mistake and don't know how to restore it. This must be set after the state is restored above.
   ui_->splitter->setChildrenCollapsible(false);
@@ -1043,13 +1043,13 @@ MainWindow::MainWindow(Application *app,
     case BehaviourSettings::StartupBehaviour::Remember:
     default:{
 
-      was_maximized_ = settings_.value(MainWindowSettings::kMaximized, true).toBool();
+      was_maximized_ = settings.value(MainWindowSettings::kMaximized, true).toBool();
       if (was_maximized_) setWindowState(windowState() | Qt::WindowMaximized);
 
-      was_minimized_ = settings_.value(MainWindowSettings::kMinimized, false).toBool();
+      was_minimized_ = settings.value(MainWindowSettings::kMinimized, false).toBool();
       if (was_minimized_) setWindowState(windowState() | Qt::WindowMinimized);
 
-      if (!systemtrayicon_->IsSystemTrayAvailable() || !systemtrayicon_->isVisible() || !settings_.value(MainWindowSettings::kHidden, false).toBool()) {
+      if (!systemtrayicon_->IsSystemTrayAvailable() || !systemtrayicon_->isVisible() || !settings.value(MainWindowSettings::kHidden, false).toBool()) {
         show();
       }
       break;
@@ -1057,7 +1057,7 @@ MainWindow::MainWindow(Application *app,
   }
 #endif
 
-  bool show_sidebar = settings_.value(MainWindowSettings::kShowSidebar, true).toBool();
+  bool show_sidebar = settings.value(MainWindowSettings::kShowSidebar, true).toBool();
   ui_->sidebar_layout->setVisible(show_sidebar);
   ui_->action_toggle_show_sidebar->setChecked(show_sidebar);
 
@@ -1228,7 +1228,9 @@ void MainWindow::ReloadSettings() {
 
   osd_->ReloadSettings();
 
-  album_cover_choice_controller_->search_cover_auto_action()->setChecked(settings_.value(MainWindowSettings::kSearchForCoverAuto, true).toBool());
+  s.beginGroup(MainWindowSettings::kSettingsGroup);
+  album_cover_choice_controller_->search_cover_auto_action()->setChecked(s.value(MainWindowSettings::kSearchForCoverAuto, true).toBool());
+  s.endGroup();
 
 #ifdef HAVE_SUBSONIC
   s.beginGroup(SubsonicSettings::kSettingsGroup);
@@ -1345,8 +1347,11 @@ void MainWindow::SaveSettings() {
   ui_->playlist->view()->SaveSettings();
   app_->scrobbler()->WriteCache();
 
-  settings_.setValue(MainWindowSettings::kShowSidebar, ui_->action_toggle_show_sidebar->isChecked());
-  settings_.setValue(MainWindowSettings::kSearchForCoverAuto, album_cover_choice_controller_->search_cover_auto_action()->isChecked());
+  Settings s;
+  s.beginGroup(MainWindowSettings::kSettingsGroup);
+  s.setValue(MainWindowSettings::kShowSidebar, ui_->action_toggle_show_sidebar->isChecked());
+  s.setValue(MainWindowSettings::kSearchForCoverAuto, album_cover_choice_controller_->search_cover_auto_action()->isChecked());
+  s.endGroup();
 
 }
 
@@ -1587,23 +1592,35 @@ void MainWindow::ToggleSidebar(const bool checked) {
 
   ui_->sidebar_layout->setVisible(checked);
   TabSwitched();
-  settings_.setValue(MainWindowSettings::kShowSidebar, checked);
+
+  Settings s;
+  s.beginGroup(MainWindowSettings::kSettingsGroup);
+  s.setValue(MainWindowSettings::kShowSidebar, checked);
+  s.endGroup();
 
 }
 
 void MainWindow::ToggleSearchCoverAuto(const bool checked) {
-  settings_.setValue(MainWindowSettings::kSearchForCoverAuto, checked);
+
+  Settings s;
+  s.beginGroup(MainWindowSettings::kSettingsGroup);
+  s.setValue(MainWindowSettings::kSearchForCoverAuto, checked);
+  s.endGroup();
+
 }
 
 void MainWindow::SaveGeometry() {
 
   if (!initialized_) return;
 
-  settings_.setValue(MainWindowSettings::kMaximized, isMaximized());
-  settings_.setValue(MainWindowSettings::kMinimized, isMinimized());
-  settings_.setValue(MainWindowSettings::kHidden, isHidden());
-  settings_.setValue(MainWindowSettings::kGeometry, saveGeometry());
-  settings_.setValue(MainWindowSettings::kSplitterState, ui_->splitter->saveState());
+  Settings s;
+  s.beginGroup(MainWindowSettings::kSettingsGroup);
+  s.setValue(MainWindowSettings::kMaximized, isMaximized());
+  s.setValue(MainWindowSettings::kMinimized, isMinimized());
+  s.setValue(MainWindowSettings::kHidden, isHidden());
+  s.setValue(MainWindowSettings::kGeometry, saveGeometry());
+  s.setValue(MainWindowSettings::kSplitterState, ui_->splitter->saveState());
+  s.endGroup();
 
 }
 
@@ -1745,7 +1762,12 @@ void MainWindow::SetHiddenInTray(const bool hidden) {
 }
 
 void MainWindow::FilePathChanged(const QString &path) {
-  settings_.setValue("file_path", path);
+
+  Settings s;
+  s.beginGroup(MainWindowSettings::kSettingsGroup);
+  s.setValue("file_path", path);
+  s.endGroup();
+
 }
 
 void MainWindow::Seeked(const qint64 microseconds) {
@@ -2327,7 +2349,9 @@ void MainWindow::EditValue() {
 void MainWindow::AddFile() {
 
   // Last used directory
-  QString directory = settings_.value("add_media_path", QDir::currentPath()).toString();
+  Settings s;
+  s.beginGroup(MainWindowSettings::kSettingsGroup);
+  QString directory = s.value("add_media_path", QDir::currentPath()).toString();
 
   PlaylistParser parser(app_->tagreader_client(), app_->collection_backend());
 
@@ -2337,7 +2361,7 @@ void MainWindow::AddFile() {
   if (filenames.isEmpty()) return;
 
   // Save last used directory
-  settings_.setValue("add_media_path", filenames[0]);
+  s.setValue("add_media_path", filenames[0]);
 
   // Convert to URLs
   QList<QUrl> urls;
@@ -2355,14 +2379,16 @@ void MainWindow::AddFile() {
 void MainWindow::AddFolder() {
 
   // Last used directory
-  QString directory = settings_.value("add_folder_path", QDir::currentPath()).toString();
+  Settings s;
+  s.beginGroup(MainWindowSettings::kSettingsGroup);
+  QString directory = s.value("add_folder_path", QDir::currentPath()).toString();
 
   // Show dialog
   directory = QFileDialog::getExistingDirectory(this, tr("Add folder"), directory);
   if (directory.isEmpty()) return;
 
   // Save last used directory
-  settings_.setValue("add_folder_path", directory);
+  s.setValue("add_folder_path", directory);
 
   // Add media
   MimeData *mimedata = new MimeData;
@@ -3321,7 +3347,7 @@ void MainWindow::PlaylistDelete() {
 
   if (DeleteConfirmationDialog::warning(files) != QDialogButtonBox::Yes) return;
 
-  if (app_->player()->GetState() == EngineBase::State::Playing && app_->playlist_manager()->current()->rowCount() == selected_songs.count()) {
+  if (app_->player()->GetState() == EngineBase::State::Playing && app_->playlist_manager()->current() == app_->playlist_manager()->active() && app_->playlist_manager()->current()->rowCount() == selected_songs.count()) {
     app_->player()->Stop();
   }
 

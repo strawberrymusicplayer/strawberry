@@ -110,21 +110,32 @@ bool FilesystemMusicStorage::CopyToStorage(const CopyJob &job, QString &error_te
 
 bool FilesystemMusicStorage::DeleteFromStorage(const DeleteJob &job) {
 
-  QString path = job.metadata_.url().toLocalFile();
-  QFileInfo fileInfo(path);
+  const QString path = job.metadata_.url().toLocalFile();
+  const QFileInfo fileInfo(path);
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 9, 0)
   if (job.use_trash_ && QFile::supportsMoveToTrash()) {
 #else
   if (job.use_trash_) {
 #endif
-    return QFile::moveToTrash(path);
+    if (QFile::moveToTrash(path)) {
+      return true;
+    }
+    qLog(Warning) << "Moving file to trash failed for" << path << ", falling back to direct deletion";
   }
 
+  bool success = false;
   if (fileInfo.isDir()) {
-    return Utilities::RemoveRecursive(path);
+    success = Utilities::RemoveRecursive(path);
+  }
+  else {
+    success = QFile::remove(path);
   }
 
-  return QFile::remove(path);
+  if (!success) {
+    qLog(Error) << "Failed to delete file" << path;
+  }
+
+  return success;
 
 }

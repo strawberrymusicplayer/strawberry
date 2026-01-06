@@ -164,6 +164,7 @@ void CollectionSettingsPage::Load() {
   ui_->various_artists->setChecked(s.value(kVariousArtists, true).toBool());
   ui_->checkbox_skip_articles_for_artists->setChecked(s.value(kSkipArticlesForArtists, true).toBool());
   ui_->checkbox_skip_articles_for_albums->setChecked(s.value(kSkipArticlesForAlbums, false).toBool());
+  ui_->checkbox_use_sort_tags->setChecked(s.value(kUseSortTags, true).toBool());
 
   ui_->spinbox_cache_size->setValue(s.value(kSettingsCacheSize, kSettingsCacheSizeDefault).toInt());
   ui_->combobox_cache_size->setCurrentIndex(ui_->combobox_cache_size->findData(s.value(kSettingsCacheSizeUnit, static_cast<int>(CacheSizeUnit::MB)).toInt()));
@@ -211,6 +212,7 @@ void CollectionSettingsPage::Save() {
   s.setValue(kVariousArtists, ui_->various_artists->isChecked());
   s.setValue(kSkipArticlesForArtists, ui_->checkbox_skip_articles_for_artists->isChecked());
   s.setValue(kSkipArticlesForAlbums, ui_->checkbox_skip_articles_for_albums->isChecked());
+  s.setValue(kUseSortTags, ui_->checkbox_use_sort_tags->isChecked());
 
   s.setValue(kSettingsCacheSize, ui_->spinbox_cache_size->value());
   s.setValue(kSettingsCacheSizeUnit, ui_->combobox_cache_size->currentData().toInt());

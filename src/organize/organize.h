@@ -94,6 +94,7 @@ class Organize : public QObject {
   void SetSongProgress(const float progress, const bool transcoded = false);
   void UpdateProgress();
   Song::FileType CheckTranscode(const Song::FileType original_type) const;
+  bool ShouldSkipFile(const QString &filename) const;
 
  private:
   struct Task {

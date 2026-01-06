@@ -96,6 +96,19 @@
        </widget>
       </item>
       <item>
+       <widget class="QToolButton" name="restore_">
+        <property name="toolTip">
+         <string>Restore defaults</string>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>22</width>
+          <height>22</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item>
        <spacer name="spacer_buttons">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>

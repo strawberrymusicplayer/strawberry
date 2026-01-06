@@ -32,6 +32,7 @@
 #include "savetagsoptions.h"
 #include "savetagcoverdata.h"
 #include "albumcovertagdata.h"
+#include "tagid3v2version.h"
 
 class TagReaderBase {
  public:
@@ -45,7 +46,7 @@ class TagReaderBase {
   virtual TagReaderResult ReadStream(const QUrl &url, const QString &filename, const quint64 size, const quint64 mtime, const QString &token_type, const QString &access_token, Song *song) const = 0;
 #endif
 
-  virtual TagReaderResult WriteFile(const QString &filename, const Song &song, const SaveTagsOptions save_tags_options, const SaveTagCoverData &save_tag_cover_data) const = 0;
+  virtual TagReaderResult WriteFile(const QString &filename, const Song &song, const SaveTagsOptions save_tags_options, const SaveTagCoverData &save_tag_cover_data, const TagID3v2Version id3v2_version) const = 0;
 
   virtual TagReaderResult LoadEmbeddedCover(const QString &filename, QByteArray &data) const = 0;
   virtual TagReaderResult SaveEmbeddedCover(const QString &filename, const SaveTagCoverData &save_tag_cover_data) const = 0;

@@ -383,7 +383,7 @@ void CollectionView::keyPressEvent(QKeyEvent *e) {
     case Qt::Key_Enter:
     case Qt::Key_Return:
       if (currentIndex().isValid()) {
-        AddToPlaylist();
+        Q_EMIT doubleClicked(currentIndex());
       }
       e->accept();
       break;

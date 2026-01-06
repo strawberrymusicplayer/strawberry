@@ -651,6 +651,47 @@
                  </widget>
                 </item>
                 <item>
+                 <layout class="QHBoxLayout" name="layout_id3v2_version">
+                  <item>
+                   <widget class="QLabel" name="label_id3v2_version">
+                    <property name="text">
+                     <string>ID3v2 version:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QComboBox" name="combobox_id3v2_version">
+                    <property name="enabled">
+                     <bool>true</bool>
+                    </property>
+                    <item>
+                     <property name="text">
+                      <string>2.3</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>2.4</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                  <item>
+                   <spacer name="spacer_id3v2_version">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>0</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                 </layout>
+                </item>
+                <item>
                  <spacer name="spacer_albumart_bottom">
                   <property name="orientation">
                    <enum>Qt::Vertical</enum>

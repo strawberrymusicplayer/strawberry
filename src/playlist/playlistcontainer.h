@@ -28,7 +28,6 @@
 #include <QWidget>
 #include <QString>
 #include <QIcon>
-#include <QSettings>
 
 class QTimer;
 class QTimeLine;
@@ -45,7 +44,6 @@ class PlaylistView;
 class Ui_PlaylistContainer;
 
 #include "includes/shared_ptr.h"
-#include "core/settings.h"
 
 class PlaylistContainer : public QWidget {
   Q_OBJECT
@@ -118,7 +116,6 @@ class PlaylistContainer : public QWidget {
   QAction *redo_;
   Playlist *playlist_;
 
-  Settings settings_;
   bool starting_up_;
 
   bool tab_bar_visible_;

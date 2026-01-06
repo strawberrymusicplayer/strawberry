@@ -81,6 +81,7 @@
 #include "utilities/coverutils.h"
 #include "utilities/coveroptions.h"
 #include "tagreader/tagreaderclient.h"
+#include "tagreader/tagid3v2version.h"
 #include "widgets/busyindicator.h"
 #include "widgets/lineedit.h"
 #include "collection/collectionbackend.h"
@@ -104,13 +105,28 @@
 using std::make_shared;
 using namespace Qt::Literals::StringLiterals;
 
+#ifdef __clang__
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wunused-const-variable"
+#endif
+
 namespace {
 constexpr char kSettingsGroup[] = "EditTagDialog";
 constexpr int kSmallImageSize = 128;
+
+// ID3v2 version constants
+constexpr int kID3v2_Version_3 = 3;
+constexpr int kID3v2_Version_4 = 4;
+constexpr int kComboBoxIndex_ID3v2_3 = 0;
+constexpr int kComboBoxIndex_ID3v2_4 = 1;
 }  // namespace
 
 const char EditTagDialog::kTagsDifferentHintText[] = QT_TR_NOOP("(different across multiple songs)");
 const char EditTagDialog::kArtDifferentHintText[] = QT_TR_NOOP("Different art across multiple songs.");
+
+#ifdef __clang_
+#  pragma clang diagnostic pop
+#endif
 
 EditTagDialog::EditTagDialog(const SharedPtr<NetworkAccessManager> network,
                              const SharedPtr<TagReaderClient> tagreader_client,
@@ -708,6 +724,9 @@ void EditTagDialog::SelectionChanged() {
   bool titlesort_enabled = false;
   bool artistsort_enabled = false;
   bool albumsort_enabled = false;
+  bool has_id3v2_support = false;
+  int id3v2_version = 0;
+  bool id3v2_version_different = false;
   for (const QModelIndex &idx : indexes) {
     if (data_.value(idx.row()).cover_action_ == UpdateCoverAction::None) {
       data_[idx.row()].cover_result_ = AlbumCoverImageResult();
@@ -768,6 +787,15 @@ void EditTagDialog::SelectionChanged() {
     }
     if (song.albumsort_supported()) {
       albumsort_enabled = true;
+    }
+    if (song.id3v2_tags_supported()) {
+      has_id3v2_support = true;
+      if (id3v2_version == 0) {
+        id3v2_version = song.id3v2_version();
+      }
+      else if (id3v2_version != song.id3v2_version()) {
+        id3v2_version_different = true;
+      }
     }
   }
 
@@ -839,6 +867,23 @@ void EditTagDialog::SelectionChanged() {
   ui_->titlesort->setEnabled(titlesort_enabled);
   ui_->artistsort->setEnabled(artistsort_enabled);
   ui_->albumsort->setEnabled(albumsort_enabled);
+
+  ui_->label_id3v2_version->setVisible(has_id3v2_support);
+  ui_->combobox_id3v2_version->setVisible(has_id3v2_support);
+
+  if (has_id3v2_support) {
+    // Set default based on existing version(s)
+    if (id3v2_version_different || id3v2_version == 0) {
+      // Mixed versions or unknown - default to ID3v2.4
+      ui_->combobox_id3v2_version->setCurrentIndex(kComboBoxIndex_ID3v2_4);
+    }
+    else if (id3v2_version == kID3v2_Version_3) {
+      ui_->combobox_id3v2_version->setCurrentIndex(kComboBoxIndex_ID3v2_3);
+    }
+    else {
+      ui_->combobox_id3v2_version->setCurrentIndex(kComboBoxIndex_ID3v2_4);
+    }
+  }
 
 }
 
@@ -1371,6 +1416,13 @@ void EditTagDialog::SaveData() {
         }
         save_tag_cover_data.cover_data = ref.cover_result_.image_data;
       }
+
+      // Determine ID3v2 version based on user selection
+      TagID3v2Version tag_id3v2_version = TagID3v2Version::Default;
+      if (ref.current_.filetype() == Song::FileType::MPEG || ref.current_.filetype() == Song::FileType::WAV || ref.current_.filetype() == Song::FileType::AIFF) {
+        tag_id3v2_version = ui_->combobox_id3v2_version->currentIndex() == kComboBoxIndex_ID3v2_3 ? TagID3v2Version::V3 : TagID3v2Version::V4;
+      }
+
       TagReaderClient::SaveOptions save_tags_options;
       if (save_tags) {
         save_tags_options |= TagReaderClient::SaveOption::Tags;
@@ -1384,7 +1436,7 @@ void EditTagDialog::SaveData() {
       if (save_embedded_cover) {
         save_tags_options |= TagReaderClient::SaveOption::Cover;
       }
-      TagReaderReplyPtr reply = tagreader_client_->WriteFileAsync(ref.current_.url().toLocalFile(), ref.current_, save_tags_options, save_tag_cover_data);
+      TagReaderReplyPtr reply = tagreader_client_->WriteFileAsync(ref.current_.url().toLocalFile(), ref.current_, save_tags_options, save_tag_cover_data, tag_id3v2_version);
       SharedPtr<QMetaObject::Connection> connection = make_shared<QMetaObject::Connection>();
       *connection = QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, ref, connection]() {
         SongSaveTagsComplete(reply, ref.current_.url().toLocalFile(), ref.current_, ref.cover_action_);

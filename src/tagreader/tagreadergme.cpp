@@ -32,6 +32,7 @@
 #include "core/logging.h"
 #include "tagreaderbase.h"
 #include "tagreadertaglib.h"
+#include "tagid3v2version.h"
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -317,12 +318,13 @@ TagReaderResult TagReaderGME::ReadStream(const QUrl &url, const QString &filenam
 }
 #endif
 
-TagReaderResult TagReaderGME::WriteFile(const QString &filename, const Song &song, const SaveTagsOptions save_tags_options, const SaveTagCoverData &save_tag_cover_data) const {
+TagReaderResult TagReaderGME::WriteFile(const QString &filename, const Song &song, const SaveTagsOptions save_tags_options, const SaveTagCoverData &save_tag_cover_data, const TagID3v2Version id3v2_version) const {
 
   Q_UNUSED(filename);
   Q_UNUSED(song);
   Q_UNUSED(save_tags_options);
   Q_UNUSED(save_tag_cover_data);
+  Q_UNUSED(id3v2_version);
 
   return TagReaderResult::ErrorCode::Unsupported;
 

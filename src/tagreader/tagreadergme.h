@@ -25,6 +25,7 @@
 #include <QFileInfo>
 
 #include "tagreaderbase.h"
+#include "tagid3v2version.h"
 
 namespace GME {
 bool IsSupportedFormat(const QFileInfo &fileinfo);
@@ -107,7 +108,7 @@ class TagReaderGME : public TagReaderBase {
   TagReaderResult ReadStream(const QUrl &url, const QString &filename, const quint64 size, const quint64 mtime, const QString &token_type, const QString &access_token, Song *song) const override;
 #endif
 
-  TagReaderResult WriteFile(const QString &filename, const Song &song, const SaveTagsOptions save_tags_options, const SaveTagCoverData &save_tag_cover_data) const override;
+  TagReaderResult WriteFile(const QString &filename, const Song &song, const SaveTagsOptions save_tags_options, const SaveTagCoverData &save_tag_cover_data, const TagID3v2Version id3v2_version) const override;
 
   TagReaderResult LoadEmbeddedCover(const QString &filename, QByteArray &data) const override;
   TagReaderResult SaveEmbeddedCover(const QString &filename, const SaveTagCoverData &save_tag_cover_data) const override;
