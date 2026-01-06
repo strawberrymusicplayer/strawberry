@@ -33,14 +33,17 @@
 #include "core/taskmanager.h"
 #include "core/database.h"
 #include "core/networkaccessmanager.h"
+#include "core/urlhandlers.h"
 #include "core/oauthenticator.h"
 #include "streaming/streamingsearchview.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
 #include "spotifyservice.h"
+#include "spotifyurlhandler.h"
 #include "spotifybaserequest.h"
 #include "spotifyrequest.h"
 #include "spotifyfavoriterequest.h"
+#include "spotifystreamurlrequest.h"
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -67,10 +70,12 @@ using namespace std::chrono_literals;
 SpotifyService::SpotifyService(const SharedPtr<TaskManager> task_manager,
                                const SharedPtr<Database> database,
                                const SharedPtr<NetworkAccessManager> network,
+                               const SharedPtr<UrlHandlers> url_handlers,
                                const SharedPtr<AlbumCoverLoader> albumcover_loader,
                                QObject *parent)
     : StreamingService(Song::Source::Spotify, u"Spotify"_s, u"spotify"_s, QLatin1String(SpotifySettings::kSettingsGroup), parent),
       network_(network),
+      url_handler_(new SpotifyUrlHandler(task_manager, this)),
       oauth_(new OAuthenticator(network, this)),
       artists_collection_backend_(nullptr),
       albums_collection_backend_(nullptr),
@@ -90,7 +95,10 @@ SpotifyService::SpotifyService(const SharedPtr<TaskManager> task_manager,
       pending_search_id_(0),
       next_pending_search_id_(1),
       pending_search_type_(SearchType::Artists),
-      search_id_(0) {
+      search_id_(0),
+      next_stream_url_request_id_(0) {
+
+  url_handlers->Register(url_handler_);
 
   oauth_->set_settings_group(QLatin1String(SpotifySettings::kSettingsGroup));
   oauth_->set_type(OAuthenticator::Type::Authorization_Code);
@@ -449,5 +457,42 @@ void SpotifyService::SearchResultsReceived(const int id, const SongMap &songs, c
 
   Q_EMIT SearchResults(id, songs, error);
   search_request_.reset();
+
+}
+
+uint SpotifyService::GetStreamURL(const QUrl &url, QString &error) {
+
+  if (!authenticated()) {
+    error = tr("Not authenticated with Spotify.");
+    return 0;
+  }
+
+  uint id = 0;
+  while (id == 0) id = ++next_stream_url_request_id_;
+  SpotifyStreamURLRequestPtr stream_url_request = SpotifyStreamURLRequestPtr(new SpotifyStreamURLRequest(this, url, id), &QObject::deleteLater);
+  stream_url_requests_.insert(id, stream_url_request);
+  QObject::connect(&*stream_url_request, &SpotifyStreamURLRequest::StreamURLFailure, this, &SpotifyService::HandleStreamURLFailure);
+  QObject::connect(&*stream_url_request, &SpotifyStreamURLRequest::StreamURLSuccess, this, &SpotifyService::HandleStreamURLSuccess);
+  stream_url_request->Process();
+
+  return id;
+
+}
+
+void SpotifyService::HandleStreamURLFailure(const uint id, const QUrl &media_url, const QString &error) {
+
+  if (!stream_url_requests_.contains(id)) return;
+  stream_url_requests_.remove(id);
+
+  Q_EMIT StreamURLFailure(id, media_url, error);
+
+}
+
+void SpotifyService::HandleStreamURLSuccess(const uint id, const QUrl &media_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration) {
+
+  if (!stream_url_requests_.contains(id)) return;
+  stream_url_requests_.remove(id);
+
+  Q_EMIT StreamURLSuccess(id, media_url, stream_url, filetype, samplerate, bit_depth, duration);
 
 }

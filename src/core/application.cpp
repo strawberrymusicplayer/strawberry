@@ -196,7 +196,7 @@ class ApplicationImpl {
           streaming_services->AddService(make_shared<TidalService>(app->task_manager(), app->database(), app->network(), app->url_handlers(), app->albumcover_loader()));
 #endif
 #ifdef HAVE_SPOTIFY
-          streaming_services->AddService(make_shared<SpotifyService>(app->task_manager(), app->database(), app->network(), app->albumcover_loader()));
+          streaming_services->AddService(make_shared<SpotifyService>(app->task_manager(), app->database(), app->network(), app->url_handlers(), app->albumcover_loader()));
 #endif
 #ifdef HAVE_QOBUZ
           streaming_services->AddService(make_shared<QobuzService>(app->task_manager(), app->database(), app->network(), app->url_handlers(), app->albumcover_loader()));

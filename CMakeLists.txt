@@ -1444,6 +1444,8 @@ optional_source(HAVE_TIDAL
 optional_source(HAVE_SPOTIFY
   SOURCES
     src/spotify/spotifyservice.cpp
+    src/spotify/spotifyurlhandler.cpp
+    src/spotify/spotifystreamurlrequest.cpp
     src/spotify/spotifybaserequest.cpp
     src/spotify/spotifyrequest.cpp
     src/spotify/spotifyfavoriterequest.cpp
@@ -1451,6 +1453,8 @@ optional_source(HAVE_SPOTIFY
     src/covermanager/spotifycoverprovider.cpp
   HEADERS
     src/spotify/spotifyservice.h
+    src/spotify/spotifyurlhandler.h
+    src/spotify/spotifystreamurlrequest.h
     src/spotify/spotifybaserequest.h
     src/spotify/spotifyrequest.h
     src/spotify/spotifyfavoriterequest.h
