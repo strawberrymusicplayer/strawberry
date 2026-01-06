@@ -253,7 +253,6 @@ find_package(KDSingleApplication-qt${QT_VERSION_MAJOR} 1.1.0 REQUIRED)
 
 if(APPLE)
   find_library(SPARKLE Sparkle)
-  #find_package(SPMediaKeyTap REQUIRED)
 endif()
 
 if(WIN32)
