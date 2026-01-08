@@ -1227,7 +1227,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Don&apos;t show in various artists</source>
-      <translation type="unfinished">Don&apos;t show in various artists</translation>
+      <translation>Όχι εμφάνιση σε διάφορους καλλιτέχνες</translation>
     </message>
     <message>
       <source>There are other songs in this album</source>
@@ -1726,7 +1726,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Set through album cover search (%1)</source>
-      <translation type="unfinished">Set through album cover search (%1)</translation>
+      <translation>Ορισμός μέσω αναζήτησης εξωφύλλου άλμπουμ (%1)</translation>
     </message>
     <message>
       <source>Automatically picked up from album directory (%1)</source>
@@ -1741,7 +1741,7 @@ If there are no matches then it will use the largest image in the directory.</so
     <name>CueParser</name>
     <message>
       <source>Saving CUE files is not supported.</source>
-      <translation type="unfinished">Saving CUE files is not supported.</translation>
+      <translation>Η αποθήκευση αρχείων CUE δεν υποστηρίζεται.</translation>
     </message>
   </context>
   <context>
@@ -2180,7 +2180,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Different art across multiple songs.</source>
-      <translation type="unfinished">Different art across multiple songs.</translation>
+      <translation>Διαφορετική τέχνη σε πολλαπλά τραγούδια.</translation>
     </message>
     <message>
       <source>Previous</source>
@@ -3416,7 +3416,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Toggle skip status</source>
-      <translation type="unfinished">Toggle skip status</translation>
+      <translation>Εναλλαγή κατάστασης παράκαμψης</translation>
     </message>
     <message>
       <source>Rescan song(s)...</source>
@@ -3464,7 +3464,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>You are running Strawberry under Rosetta. Running Strawberry under Rosetta is unsupported and known to have issues. You should download Strawberry for the correct CPU architecture from %1</source>
-      <translation type="unfinished">You are running Strawberry under Rosetta. Running Strawberry under Rosetta is unsupported and known to have issues. You should download Strawberry for the correct CPU architecture from %1</translation>
+      <translation>Τρέχετε το Strawberry κάτω από Rosetta. Η χρήση του Strawberry κάτω από Rosetta δεν υποστηρίζεται και είναι γνωστό ότι παρουσιάζει προβλήματα. Θα πρέπει να λάβετε το Strawberry για τη σωστή αρχιτεκτονική CPU από %1</translation>
     </message>
     <message>
       <source>Sponsoring Strawberry</source>
@@ -4351,7 +4351,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Loudness Range</source>
-      <translation type="unfinished">Loudness Range</translation>
+      <translation>Loudness Range</translation>
     </message>
   </context>
   <context>
@@ -4501,7 +4501,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Couldn&apos;t create playlist</source>
-      <translation type="unfinished">Couldn&apos;t create playlist</translation>
+      <translation>Αδυναμία δημιουργίας λίστας αναπαραγωγής</translation>
     </message>
     <message>
       <source>Save playlist</source>
@@ -4888,7 +4888,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Loads files/URLs, replacing current playlist</source>
-      <translation type="unfinished">Loads files/URLs, replacing current playlist</translation>
+      <translation>Φόρτωση αρχείων/URL, αντικατάσταση της τρέχουσας λίστας αναπαραγωγής</translation>
     </message>
     <message>
       <source>Play the &lt;n&gt;th track in the playlist</source>
@@ -4940,11 +4940,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Destination file %1 exists, but not allowed to overwrite.</source>
-      <translation type="unfinished">Destination file %1 exists, but not allowed to overwrite.</translation>
+      <translation>Το αρχείο προορισμού %1 υπάρχει, αλλά δεν επιτρέπεται να αντικατασταθεί.</translation>
     </message>
     <message>
       <source>Destination file %1 exists, but not allowed to overwrite</source>
-      <translation type="unfinished">Destination file %1 exists, but not allowed to overwrite</translation>
+      <translation>Το αρχείο προορισμού %1 υπάρχει, αλλά δεν επιτρέπεται να αντικατασταθεί</translation>
     </message>
     <message>
       <source>Could not copy file %1 to %2.</source>
@@ -5012,7 +5012,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>%1 songs in %2 different directories selected, are you sure you want to open them all?</source>
-      <translation type="unfinished">%1 songs in %2 different directories selected, are you sure you want to open them all?</translation>
+      <translation>%1 τραγούδια σε διαφορετικούς καταλόγους %2 επιλέχθηκαν, είστε σίγουροι ότι θέλετε να τα ανοίξετε όλα;</translation>
     </message>
     <message>
       <source>Failed to load image from data for %1</source>
@@ -5315,11 +5315,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Receiving album cover for %1 album...</source>
-      <translation type="unfinished">Receiving album cover for %1 album...</translation>
+      <translation>Λήψη εξωφύλλου για το άλμπουμ %1...</translation>
     </message>
     <message>
       <source>Receiving album covers for %1 albums...</source>
-      <translation type="unfinished">Receiving album covers for %1 albums...</translation>
+      <translation>Λήψη εξώφυλλων για άλμπουμ %1...</translation>
     </message>
     <message>
       <source>No match.</source>
@@ -5472,7 +5472,7 @@ Are you sure you want to continue?</source>
     <message numerus="yes">
       <source>%n track(s)</source>
       <translation type="unfinished">
-        <numerusform>%n track(s)</numerusform>
+        <numerusform>%n κομμάτι(α)</numerusform>
         <numerusform>%n track(s)</numerusform>
       </translation>
     </message>
@@ -5493,15 +5493,15 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Move up</source>
-      <translation type="unfinished">Move up</translation>
+      <translation>Μετακίνηση πάνω</translation>
     </message>
     <message>
       <source>Ctrl+Down</source>
-      <translation type="unfinished">Ctrl+Down</translation>
+      <translation>Ctrl+Down</translation>
     </message>
     <message>
       <source>Remove</source>
-      <translation type="unfinished">Remove</translation>
+      <translation>Αφαίρεση</translation>
     </message>
     <message>
       <source>Clear</source>
@@ -5516,7 +5516,7 @@ Are you sure you want to continue?</source>
     <name>RadioParadiseService</name>
     <message>
       <source>Getting %1 channels</source>
-      <translation type="unfinished">Getting %1 channels</translation>
+      <translation>Λήψη %1 καναλιών</translation>
     </message>
   </context>
   <context>
