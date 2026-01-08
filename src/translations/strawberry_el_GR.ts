@@ -5523,19 +5523,19 @@ Are you sure you want to continue?</source>
     <name>RadioView</name>
     <message>
       <source>Append to current playlist</source>
-      <translation type="unfinished">Append to current playlist</translation>
+      <translation>Προσάρτηση στην τρέχουσα λίστα</translation>
     </message>
     <message>
       <source>Replace current playlist</source>
-      <translation type="unfinished">Replace current playlist</translation>
+      <translation>Αντικατάσταση της τρέχουσας λίστας</translation>
     </message>
     <message>
       <source>Open in new playlist</source>
-      <translation type="unfinished">Open in new playlist</translation>
+      <translation>Άνοιγμα σε νέα λίστα</translation>
     </message>
     <message>
       <source>Open homepage</source>
-      <translation type="unfinished">Open homepage</translation>
+      <translation>Άνοιγμα αρχικής σελίδας</translation>
     </message>
     <message>
       <source>Donate</source>
@@ -5557,7 +5557,7 @@ Are you sure you want to continue?</source>
     <name>SavePlaylistsDialog</name>
     <message>
       <source>Select directory for saving playlists</source>
-      <translation type="unfinished">Select directory for saving playlists</translation>
+      <translation>Επιλέξτε φάκελο για τις λίστες αναπαραγωγής</translation>
     </message>
     <message>
       <source>Type</source>
@@ -5711,11 +5711,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Show love button</source>
-      <translation type="unfinished">Show love button</translation>
+      <translation>Εμφάνιση πλήκτρου αγάπης</translation>
     </message>
     <message>
       <source>Submit scrobbles every</source>
-      <translation type="unfinished">Submit scrobbles every</translation>
+      <translation>Υποβολή scrobbles κάθε</translation>
     </message>
     <message>
       <source> seconds</source>
@@ -5811,7 +5811,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Offline mode (Only cache scrobbles)</source>
-      <translation type="unfinished">Offline mode (Only cache scrobbles)</translation>
+      <translation>Λειτουργία εκτός σύνδεσης (Μόνο cache scrobbles)</translation>
     </message>
     <message>
       <source>This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately.</source>
@@ -5830,11 +5830,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Open URL in web browser?</source>
-      <translation type="unfinished">Open URL in web browser?</translation>
+      <translation>Άνοιγμα διεύθυνσης URL στο πρόγραμμα περιήγησης;</translation>
     </message>
     <message>
       <source>Press &quot;Save&quot; to copy the URL to clipboard and manually open it in a web browser.</source>
-      <translation type="unfinished">Press &quot;Save&quot; to copy the URL to clipboard and manually open it in a web browser.</translation>
+      <translation>Πατήστε &quot;Save&quot; για να αντιγράψετε το URL στο πρόχειρο και να το ανοίξετε χειροκίνητα σε ένα πρόγραμμα περιήγησης.</translation>
     </message>
     <message>
       <source>Could not open URL. Please open this URL in your browser</source>
@@ -5842,19 +5842,19 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Invalid reply from web browser. Missing token.</source>
-      <translation type="unfinished">Invalid reply from web browser. Missing token.</translation>
+      <translation>Μη έγκυρη απάντηση από το πρόγραμμα περιήγησης. Λείπει token.</translation>
     </message>
     <message>
       <source>Received invalid reply from web browser. Try another browser.</source>
-      <translation type="unfinished">Received invalid reply from web browser. Try another browser.</translation>
+      <translation>Λήφθηκε μη έγκυρη απάντηση από το πρόγραμμα περιήγησης. Δοκιμάστε ένα άλλο πρόγραμμα περιήγησης.</translation>
     </message>
     <message>
       <source>Scrobbler %1 is not authenticated!</source>
-      <translation type="unfinished">Scrobbler %1 is not authenticated!</translation>
+      <translation>Το Scrobbler %1 δεν είναι πιστοποιημένο!</translation>
     </message>
     <message>
       <source>Scrobbler %1 error: %2</source>
-      <translation type="unfinished">Scrobbler %1 error: %2</translation>
+      <translation>Scrobbler %1 σφάλμα: %2</translation>
     </message>
   </context>
   <context>
@@ -5873,7 +5873,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Streaming</source>
-      <translation type="unfinished">Streaming</translation>
+      <translation>Streaming</translation>
     </message>
   </context>
   <context>
@@ -6034,14 +6034,14 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Choose a name for your smart playlist</source>
-      <translation type="unfinished">Choose a name for your smart playlist</translation>
+      <translation>Επιλέξτε ένα όνομα για την έξυπνη λίστα αναπαραγωγής σας</translation>
     </message>
   </context>
   <context>
     <name>SmartPlaylistWizardFinishPage</name>
     <message>
       <source>Form</source>
-      <translation type="unfinished">Form</translation>
+      <translation>Φόρμα</translation>
     </message>
     <message>
       <source>Name</source>
@@ -6049,7 +6049,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Use dynamic mode</source>
-      <translation type="unfinished">Use dynamic mode</translation>
+      <translation>Χρήση δυναμικής λειτουργίας</translation>
     </message>
     <message>
       <source>In dynamic mode new tracks will be chosen and added to the playlist every time a song finishes.</source>
