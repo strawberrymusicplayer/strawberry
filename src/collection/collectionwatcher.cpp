@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -261,7 +261,7 @@ void CollectionWatcher::ReloadSettings() {
 CollectionWatcher::ScanTransaction::ScanTransaction(CollectionWatcher *watcher, const int dir, const bool incremental, const bool ignores_mtime, const bool mark_songs_unavailable)
     : progress_(0),
       progress_max_(0),
-      dir_(dir),
+      dir_id_(dir),
       incremental_(incremental),
       ignores_mtime_(ignores_mtime),
       mark_songs_unavailable_(mark_songs_unavailable),
@@ -313,6 +313,19 @@ void CollectionWatcher::ScanTransaction::AddToProgressMax(const quint64 n) {
 
 void CollectionWatcher::ScanTransaction::CommitNewOrUpdatedSongs() {
 
+  if (!deleted_subdirs.isEmpty()) {
+    Q_EMIT watcher_->SubdirsDeleted(deleted_subdirs);
+  }
+
+  if (!new_subdirs.isEmpty()) {
+    Q_EMIT watcher_->SubdirsDiscovered(new_subdirs);
+  }
+
+  if (!touched_subdirs.isEmpty()) {
+    Q_EMIT watcher_->SubdirsMTimeUpdated(touched_subdirs);
+    touched_subdirs.clear();
+  }
+
   if (!deleted_songs.isEmpty()) {
     if (mark_songs_unavailable_ && watcher_->source() == Song::Source::Collection) {
       Q_EMIT watcher_->SongsUnavailable(deleted_songs);
@@ -338,34 +351,24 @@ void CollectionWatcher::ScanTransaction::CommitNewOrUpdatedSongs() {
     readded_songs.clear();
   }
 
-  if (!new_subdirs.isEmpty()) {
-    Q_EMIT watcher_->SubdirsDiscovered(new_subdirs);
-  }
-
-  if (!touched_subdirs.isEmpty()) {
-    Q_EMIT watcher_->SubdirsMTimeUpdated(touched_subdirs);
-    touched_subdirs.clear();
-  }
-
   for (const CollectionSubdirectory &subdir : std::as_const(deleted_subdirs)) {
-    if (watcher_->watched_dirs_.contains(dir_)) {
-      watcher_->RemoveWatch(watcher_->watched_dirs_[dir_], subdir);
+    if (watcher_->watched_dirs_.contains(dir_id_)) {
+      watcher_->RemoveWatch(watcher_->watched_dirs_[dir_id_], subdir);
     }
   }
   deleted_subdirs.clear();
 
   if (watcher_->monitor_) {
-    // Watch the new subdirectories
     for (const CollectionSubdirectory &subdir : std::as_const(new_subdirs)) {
-      if (watcher_->watched_dirs_.contains(dir_)) {
-        watcher_->AddWatch(watcher_->watched_dirs_[dir_], subdir.path);
+      if (watcher_->watched_dirs_.contains(dir_id_)) {
+        watcher_->AddWatch(watcher_->watched_dirs_[dir_id_], subdir.path);
       }
     }
   }
   new_subdirs.clear();
 
   if (incremental_ || ignores_mtime_) {
-    Q_EMIT watcher_->UpdateLastSeen(dir_, expire_unavailable_songs_days_);
+    Q_EMIT watcher_->UpdateLastSeen(dir_id_, expire_unavailable_songs_days_);
   }
 
 }
@@ -374,7 +377,7 @@ void CollectionWatcher::ScanTransaction::CommitNewOrUpdatedSongs() {
 SongList CollectionWatcher::ScanTransaction::FindSongsInSubdirectory(const QString &path) {
 
   if (cached_songs_dirty_) {
-    const SongList songs = watcher_->backend_->FindSongsInDirectory(dir_);
+    const SongList songs = watcher_->backend_->FindSongsInDirectory(dir_id_);
     for (const Song &song : songs) {
       const QString p = song.url().toLocalFile().section(u'/', 0, -2);
       cached_songs_.insert(p, song);
@@ -393,7 +396,7 @@ SongList CollectionWatcher::ScanTransaction::FindSongsInSubdirectory(const QStri
 bool CollectionWatcher::ScanTransaction::HasSongsWithMissingFingerprint(const QString &path) {
 
   if (cached_songs_missing_fingerprint_dirty_) {
-    const SongList songs = watcher_->backend_->SongsWithMissingFingerprint(dir_);
+    const SongList songs = watcher_->backend_->SongsWithMissingFingerprint(dir_id_);
     for (const Song &song : songs) {
       const QString p = song.url().toLocalFile().section(u'/', 0, -2);
       cached_songs_missing_fingerprint_.insert(p, song);
@@ -408,7 +411,7 @@ bool CollectionWatcher::ScanTransaction::HasSongsWithMissingFingerprint(const QS
 bool CollectionWatcher::ScanTransaction::HasSongsWithMissingLoudnessCharacteristics(const QString &path) {
 
   if (cached_songs_missing_loudness_characteristics_dirty_) {
-    const SongList songs = watcher_->backend_->SongsWithMissingLoudnessCharacteristics(dir_);
+    const SongList songs = watcher_->backend_->SongsWithMissingLoudnessCharacteristics(dir_id_);
     for (const Song &song : songs) {
       const QString p = song.url().toLocalFile().section(u'/', 0, -2);
       cached_songs_missing_loudness_characteristics_.insert(p, song);
@@ -430,7 +433,7 @@ void CollectionWatcher::ScanTransaction::SetKnownSubdirs(const CollectionSubdire
 bool CollectionWatcher::ScanTransaction::HasSeenSubdir(const QString &path) {
 
   if (known_subdirs_dirty_) {
-    SetKnownSubdirs(watcher_->backend_->SubdirsInDirectory(dir_));
+    SetKnownSubdirs(watcher_->backend_->SubdirsInDirectory(dir_id_));
   }
 
   return std::any_of(known_subdirs_.begin(), known_subdirs_.end(), [path](const CollectionSubdirectory &subdir) { return subdir.path == path && subdir.mtime != 0; });
@@ -440,7 +443,7 @@ bool CollectionWatcher::ScanTransaction::HasSeenSubdir(const QString &path) {
 CollectionSubdirectoryList CollectionWatcher::ScanTransaction::GetImmediateSubdirs(const QString &path) {
 
   if (known_subdirs_dirty_) {
-    SetKnownSubdirs(watcher_->backend_->SubdirsInDirectory(dir_));
+    SetKnownSubdirs(watcher_->backend_->SubdirsInDirectory(dir_id_));
   }
 
   CollectionSubdirectoryList ret;
@@ -457,7 +460,7 @@ CollectionSubdirectoryList CollectionWatcher::ScanTransaction::GetImmediateSubdi
 CollectionSubdirectoryList CollectionWatcher::ScanTransaction::GetAllSubdirs() {
 
   if (known_subdirs_dirty_) {
-    SetKnownSubdirs(watcher_->backend_->SubdirsInDirectory(dir_));
+    SetKnownSubdirs(watcher_->backend_->SubdirsInDirectory(dir_id_));
   }
 
   return known_subdirs_;
@@ -494,7 +497,7 @@ void CollectionWatcher::AddDirectory(const CollectionDirectory &dir, const Colle
     const quint64 files_count = FilesCountForPath(&transaction, dir.path);
     transaction.SetKnownSubdirs(subdirs);
     transaction.AddToProgressMax(files_count);
-    ScanSubdirectory(dir.path, CollectionSubdirectory(), files_count, &transaction);
+    ScanSubdirectory(dir, dir.path, CollectionSubdirectory(), files_count, &transaction);
     last_scan_time_ = QDateTime::currentSecsSinceEpoch();
   }
   else {
@@ -512,7 +515,7 @@ void CollectionWatcher::AddDirectory(const CollectionDirectory &dir, const Colle
       transaction.AddToProgressMax(files_count);
       for (const CollectionSubdirectory &subdir : subdirs) {
         if (stop_or_abort_requested()) break;
-        ScanSubdirectory(subdir.path, subdir, subdir_files_count[subdir.path], &transaction);
+        ScanSubdirectory(dir, subdir.path, subdir, subdir_files_count[subdir.path], &transaction);
       }
       if (!stop_or_abort_requested()) {
         last_scan_time_ = QDateTime::currentSecsSinceEpoch();
@@ -524,7 +527,7 @@ void CollectionWatcher::AddDirectory(const CollectionDirectory &dir, const Colle
 
 }
 
-void CollectionWatcher::ScanSubdirectory(const QString &path, const CollectionSubdirectory &subdir, const quint64 files_count, ScanTransaction *t, const bool force_noincremental) {
+void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const QString &path, const CollectionSubdirectory &subdir, const quint64 files_count, ScanTransaction *t, const bool force_noincremental) {
 
   const QFileInfo path_info(path);
 
@@ -536,8 +539,8 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const CollectionSu
       return;
     }
     // Do not scan symlinked dirs that are already in collection
-    for (const CollectionDirectory &dir : std::as_const(watched_dirs_)) {
-      if (real_path.startsWith(dir.path)) {
+    for (const CollectionDirectory &i : std::as_const(watched_dirs_)) {
+      if (real_path.startsWith(i.path)) {
         return;
       }
     }
@@ -578,7 +581,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const CollectionSu
   const CollectionSubdirectoryList previous_subdirs = t->GetImmediateSubdirs(path);
   for (const CollectionSubdirectory &prev_subdir : previous_subdirs) {
     if (!QFile::exists(prev_subdir.path) && prev_subdir.path != path) {
-      ScanSubdirectory(prev_subdir.path, prev_subdir, 0, t, true);
+      ScanSubdirectory(dir, prev_subdir.path, prev_subdir, 0, t, true);
     }
   }
 
@@ -807,7 +810,7 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const CollectionSu
         const QUrl art_automatic = ArtForSong(file, album_art);
 
         for (Song song : songs) {
-          song.set_directory_id(t->dir());
+          song.set_directory_id(t->dir_id());
           if (song.art_automatic().isEmpty()) song.set_art_automatic(art_automatic);
           t->new_songs << song;
         }
@@ -825,27 +828,26 @@ void CollectionWatcher::ScanSubdirectory(const QString &path, const CollectionSu
     }
   }
 
-  // Add this subdir to the new or touched list
+  // Add, update or delete subdir
   CollectionSubdirectory updated_subdir;
-  updated_subdir.directory_id = t->dir();
+  updated_subdir.directory_id = t->dir_id();
   updated_subdir.mtime = path_info.exists() ? path_info.lastModified().toSecsSinceEpoch() : 0;
   updated_subdir.path = path;
 
-  if (subdir.directory_id == -1) {
+  if (updated_subdir.mtime == 0 && updated_subdir.path != dir.path) {
+    t->deleted_subdirs << updated_subdir;
+  }
+  else if (subdir.directory_id == -1) {
     t->new_subdirs << updated_subdir;
   }
-  else {
+  else if (subdir.mtime != updated_subdir.mtime) {
     t->touched_subdirs << updated_subdir;
-  }
-
-  if (updated_subdir.mtime == 0) {  // CollectionSubdirectory deleted, mark it for removal from the watcher.
-    t->deleted_subdirs << updated_subdir;
   }
 
   // Recurse into the new subdirs that we found
   for (const CollectionSubdirectory &my_new_subdir : std::as_const(my_new_subdirs)) {
     if (stop_or_abort_requested()) return;
-    ScanSubdirectory(my_new_subdir.path, my_new_subdir, 0, t, true);
+    ScanSubdirectory(dir, my_new_subdir.path, my_new_subdir, 0, t, true);
   }
 
 }
@@ -877,7 +879,7 @@ void CollectionWatcher::UpdateCueAssociatedSongs(const QString &file,
   QSet<int> used_ids;
   for (Song new_cue_song : songs) {
     new_cue_song.set_source(source_);
-    new_cue_song.set_directory_id(t->dir());
+    new_cue_song.set_directory_id(t->dir_id());
     PerformEBUR128Analysis(new_cue_song);
     new_cue_song.set_fingerprint(fingerprint);
 
@@ -924,7 +926,7 @@ bool CollectionWatcher::UpdateNonCueAssociatedSong(const QString &file,
   const TagReaderResult result = tagreader_client_->ReadFileBlocking(file, &song_on_disk);
   if (result.success() && song_on_disk.is_valid()) {
     song_on_disk.set_source(source_);
-    song_on_disk.set_directory_id(t->dir());
+    song_on_disk.set_directory_id(t->dir_id());
     song_on_disk.set_id(matching_song.id());
     PerformEBUR128Analysis(song_on_disk);
     song_on_disk.set_fingerprint(fingerprint);
@@ -1203,12 +1205,13 @@ void CollectionWatcher::DirectoryChanged(const QString &subdir) {
 
 void CollectionWatcher::RescanPathsNow() {
 
-  const QList<int> dirs = rescan_queue_.keys();
-  for (const int dir : dirs) {
-    if (stop_or_abort_requested()) break;
-    ScanTransaction transaction(this, dir, false, false, mark_songs_unavailable_);
+  const QList<int> dir_ids = rescan_queue_.keys();
+  for (const int dir_id : dir_ids) {
 
-    const QStringList paths = rescan_queue_.value(dir);
+    if (stop_or_abort_requested()) break;
+    ScanTransaction transaction(this, dir_id, false, false, mark_songs_unavailable_);
+
+    const QStringList paths = rescan_queue_.value(dir_id);
 
     QMap<QString, quint64> subdir_files_count;
     for (const QString &path : paths) {
@@ -1219,11 +1222,14 @@ void CollectionWatcher::RescanPathsNow() {
 
     for (const QString &path : paths) {
       if (stop_or_abort_requested()) break;
+      if (!subdir_mapping_.contains(path)) {
+        continue;
+      }
       CollectionSubdirectory subdir;
-      subdir.directory_id = dir;
+      subdir.directory_id = dir_id;
       subdir.mtime = 0;
       subdir.path = path;
-      ScanSubdirectory(path, subdir, subdir_files_count[path], &transaction);
+      ScanSubdirectory(subdir_mapping_[path], path, subdir, subdir_files_count[path], &transaction);
     }
   }
 
@@ -1348,11 +1354,13 @@ void CollectionWatcher::PerformScan(const bool incremental, const bool ignore_mt
     ScanTransaction transaction(this, dir.id, incremental, ignore_mtimes, mark_songs_unavailable_);
     CollectionSubdirectoryList subdirs = transaction.GetAllSubdirs();
 
-    if (subdirs.isEmpty()) {
-      qLog(Debug) << "Collection directory wasn't in subdir list.";
+    const bool has_collection_root_dir = std::any_of(subdirs.begin(), subdirs.end(), [&dir](const CollectionSubdirectory &subdir) { return subdir.path == dir.path; });
+    if (!has_collection_root_dir) {
+      qLog(Debug) << "Collection directory wasn't in subdir list, re-adding";
       CollectionSubdirectory subdir;
-      subdir.path = dir.path;
       subdir.directory_id = dir.id;
+      subdir.path = dir.path;
+      subdir.mtime = 0;
       subdirs << subdir;
     }
 
@@ -1362,7 +1370,7 @@ void CollectionWatcher::PerformScan(const bool incremental, const bool ignore_mt
 
     for (const CollectionSubdirectory &subdir : std::as_const(subdirs)) {
       if (stop_or_abort_requested()) break;
-      ScanSubdirectory(subdir.path, subdir, subdir_files_count[subdir.path], &transaction);
+      ScanSubdirectory(dir, subdir.path, subdir, subdir_files_count[subdir.path], &transaction);
     }
 
   }
@@ -1463,6 +1471,8 @@ void CollectionWatcher::RescanSongs(const SongList &songs) {
   QStringList scanned_paths;
   for (const Song &song : songs) {
     if (stop_or_abort_requested()) break;
+    if (!watched_dirs_.contains(song.directory_id())) continue;
+    const CollectionDirectory dir = watched_dirs_[song.directory_id()];
     const QString song_path = song.url().toLocalFile().section(u'/', 0, -2);
     if (scanned_paths.contains(song_path)) continue;
     ScanTransaction transaction(this, song.directory_id(), false, true, mark_songs_unavailable_);
@@ -1472,7 +1482,7 @@ void CollectionWatcher::RescanSongs(const SongList &songs) {
       if (subdir.path != song_path) continue;
       qLog(Debug) << "Rescan for directory ID" << song.directory_id() << "directory" << subdir.path;
       const quint64 files_count = FilesCountForPath(&transaction, subdir.path);
-      ScanSubdirectory(song_path, subdir, files_count, &transaction);
+      ScanSubdirectory(dir, song_path, subdir, files_count, &transaction);
       scanned_paths << subdir.path;
     }
   }
