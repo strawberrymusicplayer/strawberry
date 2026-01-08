@@ -23,10 +23,8 @@
 #include "config.h"
 
 #include <QList>
-#include <QMap>
 #include <QString>
 #include <QScopedPointer>
-#include <QSharedPointer>
 
 #include "includes/shared_ptr.h"
 #include "core/song.h"
@@ -37,10 +35,8 @@ class QTimer;
 
 class TaskManager;
 class Database;
-class UrlHandlers;
 class NetworkAccessManager;
 class AlbumCoverLoader;
-class SpotifyUrlHandler;
 class SpotifyRequest;
 class SpotifyFavoriteRequest;
 class SpotifyStreamURLRequest;
@@ -50,7 +46,6 @@ class CollectionFilter;
 class OAuthenticator;
 
 using SpotifyRequestPtr = QScopedPointer<SpotifyRequest, QScopedPointerDeleteLater>;
-using SpotifyStreamURLRequestPtr = QSharedPointer<SpotifyStreamURLRequest>;
 
 class SpotifyService : public StreamingService {
   Q_OBJECT
@@ -59,7 +54,6 @@ class SpotifyService : public StreamingService {
   explicit SpotifyService(const SharedPtr<TaskManager> task_manager,
                           const SharedPtr<Database> database,
                           const SharedPtr<NetworkAccessManager> network,
-                          const SharedPtr<UrlHandlers> url_handlers,
                           const SharedPtr<AlbumCoverLoader> albumcover_Loader,
                           QObject *parent = nullptr);
 
@@ -84,8 +78,6 @@ class SpotifyService : public StreamingService {
   bool authenticated() const override;
   QByteArray authorization_header() const;
 
-  uint GetStreamURL(const QUrl &url, QString &error);
-
   SharedPtr<CollectionBackend> artists_collection_backend() override { return artists_collection_backend_; }
   SharedPtr<CollectionBackend> albums_collection_backend() override { return albums_collection_backend_; }
   SharedPtr<CollectionBackend> songs_collection_backend() override { return songs_collection_backend_; }
@@ -100,8 +92,6 @@ class SpotifyService : public StreamingService {
 
  Q_SIGNALS:
   void UpdateSpotifyAccessToken(const QString &access_token);
-  void StreamURLFailure(const uint id, const QUrl &media_url, const QString &error);
-  void StreamURLSuccess(const uint id, const QUrl &media_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate = -1, const int bit_depth = -1, const qint64 duration = -1);
 
  public Q_SLOTS:
   void Authenticate();
@@ -130,15 +120,12 @@ class SpotifyService : public StreamingService {
   void ArtistsUpdateProgressReceived(const int id, const int progress);
   void AlbumsUpdateProgressReceived(const int id, const int progress);
   void SongsUpdateProgressReceived(const int id, const int progress);
-  void HandleStreamURLFailure(const uint id, const QUrl &media_url, const QString &error);
-  void HandleStreamURLSuccess(const uint id, const QUrl &media_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration);
 
  private:
   void SendSearch();
 
  private:
   const SharedPtr<NetworkAccessManager> network_;
-  SpotifyUrlHandler *url_handler_;
 
   OAuthenticator *oauth_;
 
@@ -173,9 +160,6 @@ class SpotifyService : public StreamingService {
 
   int search_id_;
   QString search_text_;
-
-  uint next_stream_url_request_id_;
-  QMap<uint, SpotifyStreamURLRequestPtr> stream_url_requests_;
 
   QList<QObject*> wait_for_exit_;
 };
