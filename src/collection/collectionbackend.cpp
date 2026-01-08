@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -537,10 +537,24 @@ void CollectionBackend::AddOrUpdateSubdirs(const CollectionSubdirectoryList &sub
 
   ScopedTransaction transaction(&db);
   for (const CollectionSubdirectory &subdir : subdirs) {
-    if (subdir.mtime == 0) {
-      // Delete the subdirectory
+    // See if this subdirectory already exists in the database
+    bool exists = false;
+    {
       SqlQuery q(db);
-      q.prepare(QStringLiteral("DELETE FROM %1 WHERE directory_id = :id AND path = :path").arg(subdirs_table_));
+      q.prepare(QStringLiteral("SELECT ROWID FROM %1 WHERE directory_id = :id AND path = :path").arg(subdirs_table_));
+      q.BindValue(u":id"_s, subdir.directory_id);
+      q.BindValue(u":path"_s, subdir.path);
+      if (!q.Exec()) {
+        db_->ReportErrors(q);
+        return;
+      }
+      exists = q.next();
+    }
+
+    if (exists) {
+      SqlQuery q(db);
+      q.prepare(QStringLiteral("UPDATE %1 SET mtime = :mtime WHERE directory_id = :id AND path = :path").arg(subdirs_table_));
+      q.BindValue(u":mtime"_s, subdir.mtime);
       q.BindValue(u":id"_s, subdir.directory_id);
       q.BindValue(u":path"_s, subdir.path);
       if (!q.Exec()) {
@@ -549,42 +563,36 @@ void CollectionBackend::AddOrUpdateSubdirs(const CollectionSubdirectoryList &sub
       }
     }
     else {
-      // See if this subdirectory already exists in the database
-      bool exists = false;
-      {
-        SqlQuery q(db);
-        q.prepare(QStringLiteral("SELECT ROWID FROM %1 WHERE directory_id = :id AND path = :path").arg(subdirs_table_));
-        q.BindValue(u":id"_s, subdir.directory_id);
-        q.BindValue(u":path"_s, subdir.path);
-        if (!q.Exec()) {
-          db_->ReportErrors(q);
-          return;
-        }
-        exists = q.next();
+      SqlQuery q(db);
+      q.prepare(QStringLiteral("INSERT INTO %1 (directory_id, path, mtime) VALUES (:id, :path, :mtime)").arg(subdirs_table_));
+      q.BindValue(u":id"_s, subdir.directory_id);
+      q.BindValue(u":path"_s, subdir.path);
+      q.BindValue(u":mtime"_s, subdir.mtime);
+      if (!q.Exec()) {
+        db_->ReportErrors(q);
+        return;
       }
+    }
+  }
 
-      if (exists) {
-        SqlQuery q(db);
-        q.prepare(QStringLiteral("UPDATE %1 SET mtime = :mtime WHERE directory_id = :id AND path = :path").arg(subdirs_table_));
-        q.BindValue(u":mtime"_s, subdir.mtime);
-        q.BindValue(u":id"_s, subdir.directory_id);
-        q.BindValue(u":path"_s, subdir.path);
-        if (!q.Exec()) {
-          db_->ReportErrors(q);
-          return;
-        }
-      }
-      else {
-        SqlQuery q(db);
-        q.prepare(QStringLiteral("INSERT INTO %1 (directory_id, path, mtime) VALUES (:id, :path, :mtime)").arg(subdirs_table_));
-        q.BindValue(u":id"_s, subdir.directory_id);
-        q.BindValue(u":path"_s, subdir.path);
-        q.BindValue(u":mtime"_s, subdir.mtime);
-        if (!q.Exec()) {
-          db_->ReportErrors(q);
-          return;
-        }
-      }
+  transaction.Commit();
+
+}
+
+void CollectionBackend::DeleteSubdirs(const CollectionSubdirectoryList &subdirs) {
+
+  QMutexLocker l(db_->Mutex());
+  QSqlDatabase db(db_->Connect());
+
+  ScopedTransaction transaction(&db);
+  for (const CollectionSubdirectory &subdir : subdirs) {
+    SqlQuery q(db);
+    q.prepare(QStringLiteral("DELETE FROM %1 WHERE directory_id = :id AND path = :path").arg(subdirs_table_));
+    q.BindValue(u":id"_s, subdir.directory_id);
+    q.BindValue(u":path"_s, subdir.path);
+    if (!q.Exec()) {
+      db_->ReportErrors(q);
+      return;
     }
   }
 

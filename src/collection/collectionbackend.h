@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -252,6 +252,7 @@ class CollectionBackend : public CollectionBackendInterface {
   void DeleteSongsByUrls(const QList<QUrl> &url);
   void MarkSongsUnavailable(const SongList &songs, const bool unavailable = true);
   void AddOrUpdateSubdirs(const CollectionSubdirectoryList &subdirs);
+  void DeleteSubdirs(const CollectionSubdirectoryList &subdirs);
   void CompilationsNeedUpdating();
   void UpdateEmbeddedAlbumArt(const QString &effective_albumartist, const QString &album, const bool art_embedded);
   void UpdateManualAlbumArt(const QString &effective_albumartist, const QString &album, const QUrl &art_manual);
