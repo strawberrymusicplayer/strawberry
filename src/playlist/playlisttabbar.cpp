@@ -288,6 +288,17 @@ void PlaylistTabBar::CloseFromTabIndex(int index) {
 
 }
 
+void PlaylistTabBar::CloseCurrentTab() {
+
+  menu_index_ = this->index_of(this->current_id());
+  // Don't attempt to close if there is only one tab
+  if (this->count() == 1) return;
+
+  CloseSlot();
+
+}
+
+
 void PlaylistTabBar::SaveSlot() {
 
   if (menu_index_ == -1) return;
