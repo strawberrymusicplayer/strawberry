@@ -60,12 +60,14 @@ class LastFMImport : public JsonBaseRequest {
   using ParamList = QList<Param>;
 
   struct GetRecentTracksRequest {
-    explicit GetRecentTracksRequest(const int _page) : page(_page) {}
+    explicit GetRecentTracksRequest(const int _page, const int _retry_count = 0) : page(_page), retry_count(_retry_count) {}
     int page;
+    int retry_count;
   };
   struct GetTopTracksRequest {
-    explicit GetTopTracksRequest(const int _page) : page(_page) {}
+    explicit GetTopTracksRequest(const int _page, const int _retry_count = 0) : page(_page), retry_count(_retry_count) {}
     int page;
+    int retry_count;
   };
 
  private:
@@ -77,6 +79,10 @@ class LastFMImport : public JsonBaseRequest {
 
   void SendGetRecentTracksRequest(GetRecentTracksRequest request);
   void SendGetTopTracksRequest(GetTopTracksRequest request);
+
+  bool ShouldRetryRequest(const JsonObjectResult &result) const;
+  int CalculateBackoffDelay(const int retry_count) const;
+  void LogRetryAttempt(const int http_status_code, const int retry_count, const int delay_ms) const;
 
   void Error(const QString &error, const QVariant &debug = QVariant()) override;
 
@@ -95,14 +101,15 @@ class LastFMImport : public JsonBaseRequest {
 
  private Q_SLOTS:
   void FlushRequests();
-  void GetRecentTracksRequestFinished(QNetworkReply *reply, const int page);
-  void GetTopTracksRequestFinished(QNetworkReply *reply, const int page);
+  void GetRecentTracksRequestFinished(QNetworkReply *reply, GetRecentTracksRequest request);
+  void GetTopTracksRequestFinished(QNetworkReply *reply, GetTopTracksRequest request);
 
  private:
   SharedPtr<NetworkAccessManager> network_;
   QTimer *timer_flush_requests_;
 
   QString username_;
+  QString api_key_;
   bool lastplayed_;
   bool playcount_;
   int playcount_total_;
