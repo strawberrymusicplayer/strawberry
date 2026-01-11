@@ -657,7 +657,7 @@
     </message>
     <message>
       <source>Perform track loudness normalization</source>
-      <translation>Выполнять нормализацию громкости дорожки</translation>
+      <translation>Нормализовать громкость дорожки</translation>
     </message>
     <message>
       <source>Target Level</source>
@@ -6078,7 +6078,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Ever played</source>
-      <translation>Любые прослушанные</translation>
+      <translation>Когда-либо прослушивались</translation>
     </message>
     <message>
       <source>Never played</source>
