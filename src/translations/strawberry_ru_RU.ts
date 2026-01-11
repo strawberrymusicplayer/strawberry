@@ -9,7 +9,7 @@
     </message>
     <message>
       <source>About Strawberry</source>
-      <translation>О Strawberry</translation>
+      <translation>О программе Strawberry</translation>
     </message>
     <message>
       <source>Version %1</source>
@@ -95,7 +95,7 @@
     </message>
     <message>
       <source>Unset cover</source>
-      <translation>Удалить обложку</translation>
+      <translation>Сбросить обложку</translation>
     </message>
     <message>
       <source>Delete cover</source>
@@ -621,11 +621,11 @@
     </message>
     <message>
       <source>Replay Gain</source>
-      <translation>Нормализация громкости</translation>
+      <translation>Нормализация громкости (Replay Gain)</translation>
     </message>
     <message>
       <source>Use Replay Gain metadata if it is available</source>
-      <translation>Использовать метаданные нормализации по возможности</translation>
+      <translation>Использовать метаданные нормализации (Replay Gain) по возможности</translation>
     </message>
     <message>
       <source>Replay Gain mode</source>
@@ -776,7 +776,7 @@
     </message>
     <message>
       <source>Pressing &quot;Previous&quot; in player will...</source>
-      <translation>Нажатие кнопки «Предыдущий» осуществит…</translation>
+      <translation>Нажатие кнопки «Предыдущий» выполнит…</translation>
     </message>
     <message>
       <source>Jump to previous song right away</source>
