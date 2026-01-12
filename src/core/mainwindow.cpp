@@ -622,7 +622,8 @@ MainWindow::MainWindow(Application *app,
   ui_->button_scrobble->setDefaultAction(ui_->action_toggle_scrobbling);
   ui_->button_love->setDefaultAction(ui_->action_love);
 
-  ui_->playlist->SetActions(ui_->action_new_playlist, ui_->action_load_playlist, ui_->action_save_playlist, ui_->action_clear_playlist, ui_->action_next_playlist, /* These two actions aren't associated */ ui_->action_previous_playlist /* to a button but to the main window */, ui_->action_last_playlist, ui_->action_active_playlist, ui_->action_close_playlist, ui_->action_save_all_playlists);
+  /* Some of these actions aren't associated to a button but to the main window */
+  ui_->playlist->SetActions(ui_->action_new_playlist, ui_->action_load_playlist, ui_->action_save_playlist, ui_->action_clear_playlist, ui_->action_next_playlist, ui_->action_previous_playlist, ui_->action_last_playlist, ui_->action_active_playlist, ui_->action_close_playlist, ui_->action_save_all_playlists);
   // Add the shuffle and repeat action groups to the menu
   ui_->action_shuffle_mode->setMenu(ui_->playlist_sequence->shuffle_menu());
   ui_->action_repeat_mode->setMenu(ui_->playlist_sequence->repeat_menu());
