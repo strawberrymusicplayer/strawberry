@@ -599,10 +599,16 @@ MainWindow::MainWindow(Application *app,
   // Playlist view actions
   ui_->action_next_playlist->setShortcuts(QList<QKeySequence>() << QKeySequence::fromString(u"Ctrl+Tab"_s) << QKeySequence::fromString(u"Ctrl+PgDown"_s));
   ui_->action_previous_playlist->setShortcuts(QList<QKeySequence>() << QKeySequence::fromString(u"Ctrl+Shift+Tab"_s) << QKeySequence::fromString(u"Ctrl+PgUp"_s));
+  ui_->action_last_playlist->setShortcut(QKeySequence::fromString(u"Ctrl+Shift+End"_s));
+  ui_->action_active_playlist->setShortcut(QKeySequence::fromString(u"Ctrl+Shift+Home"_s));
+  ui_->action_close_playlist->setShortcut(QKeySequence::fromString(u"Ctrl+W"_s));
 
   // Actions for switching tabs will be global to the entire window, so adding them here
   addAction(ui_->action_next_playlist);
   addAction(ui_->action_previous_playlist);
+  addAction(ui_->action_last_playlist);
+  addAction(ui_->action_active_playlist);
+  addAction(ui_->action_close_playlist);
 
   // Give actions to buttons
   ui_->forward_button->setDefaultAction(ui_->action_next_track);
@@ -612,7 +618,8 @@ MainWindow::MainWindow(Application *app,
   ui_->button_scrobble->setDefaultAction(ui_->action_toggle_scrobbling);
   ui_->button_love->setDefaultAction(ui_->action_love);
 
-  ui_->playlist->SetActions(ui_->action_new_playlist, ui_->action_load_playlist, ui_->action_save_playlist, ui_->action_clear_playlist, ui_->action_next_playlist, /* These two actions aren't associated */ ui_->action_previous_playlist /* to a button but to the main window */, ui_->action_save_all_playlists);
+  /* Some of these actions aren't associated to a button but to the main window */
+  ui_->playlist->SetActions(ui_->action_new_playlist, ui_->action_load_playlist, ui_->action_save_playlist, ui_->action_clear_playlist, ui_->action_next_playlist, ui_->action_previous_playlist, ui_->action_last_playlist, ui_->action_active_playlist, ui_->action_close_playlist, ui_->action_save_all_playlists);
   // Add the shuffle and repeat action groups to the menu
   ui_->action_shuffle_mode->setMenu(ui_->playlist_sequence->shuffle_menu());
   ui_->action_repeat_mode->setMenu(ui_->playlist_sequence->repeat_menu());
@@ -1062,7 +1069,7 @@ MainWindow::MainWindow(Application *app,
   ui_->action_toggle_show_sidebar->setChecked(show_sidebar);
 
   QShortcut *close_window_shortcut = new QShortcut(this);
-  close_window_shortcut->setKey(Qt::CTRL | Qt::Key_W);
+  close_window_shortcut->setKey(Qt::CTRL | Qt::Key_H);
   QObject::connect(close_window_shortcut, &QShortcut::activated, this, &MainWindow::ToggleHide);
 
   QAction *action_focus_search = new QAction(this);

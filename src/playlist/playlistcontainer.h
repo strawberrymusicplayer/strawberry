@@ -52,7 +52,7 @@ class PlaylistContainer : public QWidget {
   explicit PlaylistContainer(QWidget *parent = nullptr);
   ~PlaylistContainer() override;
 
-  void SetActions(QAction *new_playlist, QAction *load_playlist, QAction *save_playlist, QAction *clear_playlist, QAction *next_playlist, QAction *previous_playlist, QAction *save_all_playlists);
+  void SetActions(QAction *new_playlist, QAction *load_playlist, QAction *save_playlist, QAction *clear_playlist, QAction *next_playlist, QAction *previous_playlist, QAction *last_playlist, QAction *active_playlist, QAction *close_playlist, QAction *save_all_playlists);
   void SetManager(SharedPtr<PlaylistManager> manager);
   void ReloadSettings();
 
@@ -79,6 +79,8 @@ class PlaylistContainer : public QWidget {
   void ClearPlaylist();
   void GoToNextPlaylistTab();
   void GoToPreviousPlaylistTab();
+  void GoToLastPlaylistTab();
+  void GoToActivePlaylistTab();
 
   void SetViewModel(Playlist *playlist, const int scroll_position);
   void PlaylistAdded(const int id, const QString &name, bool favorite);
