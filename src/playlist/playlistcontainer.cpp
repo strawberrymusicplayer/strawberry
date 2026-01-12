@@ -152,7 +152,6 @@ void PlaylistContainer::SetActions(QAction *new_playlist, QAction *load_playlist
   QObject::connect(clear_playlist, &QAction::triggered, this, &PlaylistContainer::ClearPlaylist);
   QObject::connect(next_playlist, &QAction::triggered, this, &PlaylistContainer::GoToNextPlaylistTab);
   QObject::connect(previous_playlist, &QAction::triggered, this, &PlaylistContainer::GoToPreviousPlaylistTab);
-  QObject::connect(clear_playlist, &QAction::triggered, this, &PlaylistContainer::ClearPlaylist);
   QObject::connect(save_all_playlists, &QAction::triggered, &*manager_, &PlaylistManager::SaveAllPlaylists);
 
 }
