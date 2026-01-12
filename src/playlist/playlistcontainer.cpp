@@ -399,7 +399,16 @@ void PlaylistContainer::GoToLastPlaylistTab() {
 void PlaylistContainer::GoToActivePlaylistTab() {
 
   int id_current = manager_->active_id();
-  manager_->SetCurrentPlaylist(id_current);
+
+  if (id_current == -1) {
+      // If there is no active playlist, fall back to the first tab (if any)
+      if (ui_->tab_bar->count() > 0) {
+          int first_id = ui_->tab_bar->id_of(0);
+          manager_->SetCurrentPlaylist(first_id);
+      }
+  } else {
+      manager_->SetCurrentPlaylist(id_current);
+  }
 
 }
 
