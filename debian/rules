@@ -12,3 +12,8 @@ override_dh_installchangelogs:
 
 %:
 	dh $@
+
+override_dh_auto_configure:
+	PATH=/usr/lib/qt6/libexec:$$PATH \
+	dh_auto_configure -- \
+		-DBUILD_WERROR=OFF
