@@ -2,6 +2,38 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+    * Avoid re-scan of restored songs unless mtime is changed (#1819)
+    * Skip existing files when organizing if not overwriting (#1484)
+    * Fixed cursor highlight disappearing off-screen when using down cursor (#1489)
+    * Fixed CD playback only working for the first optical drive (#1852)
+    * Fixed possible race-condition when switching tracks (#1863)
+    * Fixed possible file descriptor exhaustion by using shared thread pool (#1687)
+    * Don't automatically sort playlist with the auto sort option before it's fully loaded (#1690)
+    * Fixed network features stop working after computer suspends and resumes (#1521)
+    * Fixed crash on exit after logging in with Qobuz.
+    * Added option to select ID3v2 version (#1861).
+    * Fixed Qobuz authentication and added automatic credential fetching (#1898)
+    * Fixed playback stoping after deleting a song from disk via context menu (#1783)
+    * Added option to restore smart playlists to the defaults (#1848)
+    * Fixed possible race condition in pipeline destructor (#1875)
+    * Fixed buffering issue near track end during gapless playback (#1725)
+    * Fixed duplicate collection entries for the same artist in the collection if they have different sort tags (#1899)
+    * Defer playcount and rating tag writes for currently playing Ogg songs to prevent playback shutter (#1816)
+    * Fixed tag editing not working for Opus sort tags (#1929)
+    * Show playlist load errors (#1470)
+    * Fallback to delete if moving to trash fails (#1679)
+    * Prefer filenames with "front" or "cover" in the filename for album cover art for songs outside of the collection (#1745)
+    * Fixed collection enter/return behavior to respect double-click settings (#1691)
+    * Added tree view mode to files tab (#1922)
+    * Include .webp in allowed extensions for album covers (#1941)
+    * Exit gracefully on SIGTERM signal for Unix systems (#1942)
+    * Optimize the collection scanning process by deferring media file validation from the initial directory scan (#1954)
+    * Fixed collection scan not finding new directories in the top level collection directory when the mountpoint is restored (#1914)
+    * Added genre metadata parsing for Tidal, Qobuz and Spotify (#1913)
+    * Allow editing metadata for stream songs (#1913)
+
 Version 1.2.16 (2025.12.16):
 
     * Make Discord Rich presence use filename if song title is missing
