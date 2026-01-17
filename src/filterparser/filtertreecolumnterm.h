@@ -26,20 +26,20 @@
 #include <QScopedPointer>
 
 #include "filtertree.h"
-
+#include "filtercolumn.h"
 #include "core/song.h"
 
 class FilterParserSearchTermComparator;
 
 class FilterTreeColumnTerm : public FilterTree {
  public:
-  explicit FilterTreeColumnTerm(const QString &column, FilterParserSearchTermComparator *comparator);
+  explicit FilterTreeColumnTerm(const FilterColumn filter_column, FilterParserSearchTermComparator *comparator);
 
   FilterType type() const override { return FilterType::Column; }
   bool accept(const Song &song) const override;
 
  private:
-  const QString column_;
+  const FilterColumn filter_column_;
   QScopedPointer<FilterParserSearchTermComparator> cmp_;
 
   Q_DISABLE_COPY(FilterTreeColumnTerm)

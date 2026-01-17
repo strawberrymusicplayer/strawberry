@@ -1,8 +1,6 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
- * Copyright 2012, David Sansome <me@davidsansome.com>
- * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,7 +20,7 @@
 #include <QString>
 
 #include "filtertree.h"
-
+#include "filtercolumn.h"
 #include "core/song.h"
 
 using namespace Qt::Literals::StringLiterals;
@@ -30,28 +28,64 @@ using namespace Qt::Literals::StringLiterals;
 FilterTree::FilterTree() = default;
 FilterTree::~FilterTree() = default;
 
-QVariant FilterTree::DataFromColumn(const QString &column, const Song &metadata) {
+QVariant FilterTree::DataFromColumn(const FilterColumn filter_column, const Song &song) {
 
-  if (column == "albumartist"_L1) return metadata.effective_albumartist();
-  if (column == "artist"_L1)      return metadata.artist();
-  if (column == "album"_L1)       return metadata.album();
-  if (column == "title"_L1)       return metadata.PrettyTitle();
-  if (column == "composer"_L1)    return metadata.composer();
-  if (column == "performer"_L1)   return metadata.performer();
-  if (column == "grouping"_L1)    return metadata.grouping();
-  if (column == "genre"_L1)       return metadata.genre();
-  if (column == "comment"_L1)     return metadata.comment();
-  if (column == "track"_L1)       return metadata.track();
-  if (column == "year"_L1)        return metadata.year();
-  if (column == "length"_L1)      return metadata.length_nanosec();
-  if (column == "samplerate"_L1)  return metadata.samplerate();
-  if (column == "bitdepth"_L1)    return metadata.bitdepth();
-  if (column == "bitrate"_L1)     return metadata.bitrate();
-  if (column == "rating"_L1)      return metadata.rating();
-  if (column == "playcount"_L1)   return metadata.playcount();
-  if (column == "skipcount"_L1)   return metadata.skipcount();
-  if (column == "filename"_L1)    return metadata.basefilename();
-  if (column == "url"_L1)         return metadata.effective_url().toString();
+  switch (filter_column) {
+    case FilterColumn::AlbumArtist:
+      return song.effective_albumartist();
+    case FilterColumn::AlbumArtistSort:
+      return song.effective_albumartistsort();
+    case FilterColumn::Artist:
+      return song.artist();
+    case FilterColumn::ArtistSort:
+      return song.effective_artistsort();
+    case FilterColumn::Album:
+      return song.album();
+    case FilterColumn::AlbumSort:
+      return song.effective_albumsort();
+    case FilterColumn::Title:
+      return song.PrettyTitle();
+    case FilterColumn::TitleSort:
+      return song.effective_titlesort();
+    case FilterColumn::Composer:
+      return song.composer();
+    case FilterColumn::ComposerSort:
+      return song.effective_composersort();
+    case FilterColumn::Performer:
+      return song.performer();
+    case FilterColumn::PerformerSort:
+      return song.effective_performersort();
+    case FilterColumn::Grouping:
+      return song.grouping();
+    case FilterColumn::Genre:
+      return song.genre();
+    case FilterColumn::Comment:
+      return song.comment();
+    case FilterColumn::Track:
+      return song.track();
+    case FilterColumn::Year:
+      return song.year();
+    case FilterColumn::Length:
+      return song.length_nanosec();
+    case FilterColumn::Samplerate:
+      return song.samplerate();
+    case FilterColumn::Bitdepth:
+      return song.bitdepth();
+    case FilterColumn::Bitrate:
+      return song.bitrate();
+    case FilterColumn::Rating:
+      return song.rating();
+    case FilterColumn::Playcount:
+      return song.playcount();
+    case FilterColumn::Skipcount:
+      return song.skipcount();
+    case FilterColumn::Filename:
+      return song.basefilename();
+    case FilterColumn::URL:
+      return song.effective_url().toString();
+    case FilterColumn::Unknown:
+      break;
+  }
 
   return QVariant();
 
