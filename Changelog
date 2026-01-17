@@ -34,6 +34,7 @@ Unreleased:
     * Added genre metadata parsing for Tidal, Qobuz and Spotify (#1913)
     * Allow editing metadata for stream songs (#1913)
     * Optimized collection/playlist filtering
+    * Added sort tags to collection/playlist filtering (#1966)
 
 Version 1.2.16 (2025.12.16):
 
