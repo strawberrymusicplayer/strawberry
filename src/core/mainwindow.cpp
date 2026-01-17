@@ -3505,7 +3505,7 @@ void MainWindow::ProcessMetadataQueue() {
 #ifdef HAVE_QOBUZ
   if (metadata_queue_entry.source == Song::Source::Qobuz) {
     if (QobuzServicePtr qobuz_service = app_->streaming_services()->Service<QobuzService>()) {
-      QobuzMetadataRequest *request = new QobuzMetadataRequest(qobuz_service.get(), qobuz_service->network(), this);
+      QobuzMetadataRequest *request = new QobuzMetadataRequest(&*qobuz_service, qobuz_service->network());
       QObject::connect(request, &QobuzMetadataRequest::MetadataReceived, this, [this, metadata_queue_entry, request](const QString &received_track_id, const Song &fetched_song) {
         Q_UNUSED(received_track_id);
         if (metadata_queue_entry.persistent_index.isValid() && fetched_song.is_valid()) {
@@ -3555,7 +3555,7 @@ void MainWindow::ProcessMetadataQueue() {
 #ifdef HAVE_SPOTIFY
   if (metadata_queue_entry.source == Song::Source::Spotify) {
     if (SpotifyServicePtr spotify_service = app_->streaming_services()->Service<SpotifyService>()) {
-      SpotifyMetadataRequest *request = new SpotifyMetadataRequest(spotify_service.get(), app_->network(), this);
+      SpotifyMetadataRequest *request = new SpotifyMetadataRequest(&*spotify_service, app_->network());
       QObject::connect(request, &SpotifyMetadataRequest::MetadataReceived, this, [this, metadata_queue_entry, request](const QString &received_track_id, const Song &fetched_song) {
         Q_UNUSED(received_track_id);
         if (metadata_queue_entry.persistent_index.isValid() && fetched_song.is_valid()) {
