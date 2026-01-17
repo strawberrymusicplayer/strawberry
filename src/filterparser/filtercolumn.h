@@ -1,8 +1,6 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
- * Copyright 2012, David Sansome <me@davidsansome.com>
- * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,13 +17,37 @@
  *
  */
 
-#include <QString>
+#ifndef FILTERCOLUMN_H
+#define FILTERCOLUMN_H
 
-#include "filtertreecolumnterm.h"
-#include "filterparsersearchtermcomparator.h"
+enum class FilterColumn {
+  Unknown,
+  Title,
+  TitleSort,
+  Album,
+  AlbumSort,
+  Artist,
+  ArtistSort,
+  AlbumArtist,
+  AlbumArtistSort,
+  Composer,
+  ComposerSort,
+  Performer,
+  PerformerSort,
+  Grouping,
+  Genre,
+  Comment,
+  Filename,
+  URL,
+  Track,
+  Year,
+  Samplerate,
+  Bitdepth,
+  Bitrate,
+  Playcount,
+  Skipcount,
+  Length,
+  Rating,
+};
 
-FilterTreeColumnTerm::FilterTreeColumnTerm(const FilterColumn filter_column, FilterParserSearchTermComparator *comparator) : filter_column_(filter_column), cmp_(comparator) {}
-
-bool FilterTreeColumnTerm::accept(const Song &song) const {
-  return cmp_->Matches(DataFromColumn(filter_column_, song));
-}
+#endif // FILTERCOLUMN_H
