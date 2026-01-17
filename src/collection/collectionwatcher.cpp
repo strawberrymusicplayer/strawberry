@@ -595,7 +595,7 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
     const QFileInfo child_fileinfo(child_filepath);
 
     if (child_fileinfo.isSymLink()) {
-      QStorageInfo storage_info(child_fileinfo.symLinkTarget());
+      const QStorageInfo storage_info(child_fileinfo.symLinkTarget());
       if (kRejectedFileSystems.contains(storage_info.fileSystemType())) {
         qLog(Warning) << "Ignoring symbolic link" << child_filepath << "which links to" << child_fileinfo.symLinkTarget() << "with rejected filesystem type" << storage_info.fileSystemType();
         continue;
@@ -614,8 +614,8 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
       t->AddToProgress(1);
     }
     else {
-      QString ext_part(ExtensionPart(child_filepath));
-      QString dir_part(DirectoryPart(child_filepath));
+      const QString ext_part = ExtensionPart(child_filepath);
+      const QString dir_part = DirectoryPart(child_filepath);
       if (Song::kRejectedExtensions.contains(child_fileinfo.suffix(), Qt::CaseInsensitive) || child_fileinfo.baseName() == "qt_temp"_L1) {
         t->AddToProgress(1);
       }
@@ -632,27 +632,27 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
   if (stop_or_abort_requested()) return;
 
   // Ask the database for a list of files in this directory
-  SongList songs_in_db = t->FindSongsInSubdirectory(path);
+  const SongList songs_in_db = t->FindSongsInSubdirectory(path);
 
   QSet<QString> cues_processed;
 
   // Now compare the list from the database with the list of files on disk
-  QStringList files_on_disk_copy = files_on_disk;
+  const QStringList files_on_disk_copy = files_on_disk;
   for (const QString &file : files_on_disk_copy) {
 
     if (stop_or_abort_requested()) return;
 
     // Associated CUE
-    QString new_cue = CueParser::FindCueFilename(file);
+    const QString new_cue = CueParser::FindCueFilename(file);
 
     SongList matching_songs;
     if (FindSongsByPath(songs_in_db, file, &matching_songs)) {  // Found matching song in DB by path.
 
-      Song matching_song = matching_songs.first();
+      const Song matching_song = matching_songs.first();
 
       // The song is in the database and still on disk.
       // Check the mtime to see if it's been changed since it was added.
-      QFileInfo fileinfo(file);
+      const QFileInfo fileinfo(file);
 
       if (!fileinfo.exists()) {
         // Partially fixes race condition - if file was removed between being added to the list and now.
@@ -752,7 +752,7 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
 
         // The song is in the database and still on disk.
         // Check the mtime to see if it's been changed since it was added.
-        QFileInfo fileinfo(file);
+        const QFileInfo fileinfo(file);
         if (!fileinfo.exists()) {
           // Partially fixes race condition - if file was removed between being added to the list and now.
           files_on_disk.removeAll(file);
@@ -763,7 +763,7 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
         // Make sure the songs aren't deleted, as they still exist elsewhere with a different file path.
         bool matching_songs_has_cue = false;
         for (const Song &matching_song : std::as_const(matching_songs)) {
-          QString matching_filename = matching_song.url().toLocalFile();
+          const QString matching_filename = matching_song.url().toLocalFile();
           if (!t->files_changed_path_.contains(matching_filename)) {
             t->files_changed_path_ << matching_filename;
             qLog(Debug) << matching_filename << "has changed path to" << file;
