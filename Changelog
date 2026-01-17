@@ -33,6 +33,7 @@ Unreleased:
     * Fixed collection scan not finding new directories in the top level collection directory when the mountpoint is restored (#1914)
     * Added genre metadata parsing for Tidal, Qobuz and Spotify (#1913)
     * Allow editing metadata for stream songs (#1913)
+    * Optimized collection/playlist filtering
 
 Version 1.2.16 (2025.12.16):
 
