@@ -34,6 +34,13 @@
 
 #include "mergedproxymodel.h"
 
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#if __GNUC__ >= 16
+#pragma GCC diagnostic ignored "-Wstringop-overflow"
+#endif
+#endif
+
 #include <boost/multi_index/detail/bidir_node_iterator.hpp>
 #include <boost/multi_index/detail/hash_index_iterator.hpp>
 #include <boost/multi_index/hashed_index.hpp>
@@ -44,6 +51,10 @@
 #include <boost/multi_index/tag.hpp>
 #include <boost/multi_index_container.hpp>
 #include <boost/operators.hpp>
+
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
 
 using boost::multi_index::hashed_unique;
 using boost::multi_index::identity;
