@@ -530,6 +530,7 @@ void CollectionWatcher::AddDirectory(const CollectionDirectory &dir, const Colle
 void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const QString &path, const CollectionSubdirectory &subdir, const quint64 files_count, ScanTransaction *t, const bool force_noincremental) {
 
   const QFileInfo path_info(path);
+  const qint64 path_mtime = path_info.exists() && path_info.lastModified().isValid() ? path_info.lastModified().toSecsSinceEpoch() : 0;
 
   if (path_info.isSymLink()) {
     const QString real_path = path_info.symLinkTarget();
@@ -566,7 +567,7 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
   }
 #endif
 
-  if (!t->ignores_mtime() && !force_noincremental && t->is_incremental() && subdir.mtime == path_info.lastModified().toSecsSinceEpoch() && !songs_missing_fingerprint && !songs_missing_loudness_characteristics) {
+  if (!t->ignores_mtime() && !force_noincremental && t->is_incremental() && path_mtime != 0 && subdir.mtime == path_mtime && !songs_missing_fingerprint && !songs_missing_loudness_characteristics) {
     // The directory hasn't changed since last time
     t->AddToProgress(files_count);
     return;
@@ -586,45 +587,47 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
   }
 
   // First we "quickly" get a list of the files in the directory that we think might be music.  While we're here, we also look for new subdirectories and possible album artwork.
-  QDirIterator it(path, QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot);
-  while (it.hasNext()) {
+  if (path_info.exists()) {
+    QDirIterator it(path, QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot);
+    while (it.hasNext()) {
 
-    if (stop_or_abort_requested()) return;
+      if (stop_or_abort_requested()) return;
 
-    const QString child_filepath = it.next();
-    const QFileInfo child_fileinfo(child_filepath);
+      const QString child_filepath = it.next();
+      const QFileInfo child_fileinfo(child_filepath);
 
-    if (child_fileinfo.isSymLink()) {
-      const QStorageInfo storage_info(child_fileinfo.symLinkTarget());
-      if (kRejectedFileSystems.contains(storage_info.fileSystemType())) {
-        qLog(Warning) << "Ignoring symbolic link" << child_filepath << "which links to" << child_fileinfo.symLinkTarget() << "with rejected filesystem type" << storage_info.fileSystemType();
-        continue;
+      if (child_fileinfo.isSymLink()) {
+        const QStorageInfo storage_info(child_fileinfo.symLinkTarget());
+        if (kRejectedFileSystems.contains(storage_info.fileSystemType())) {
+          qLog(Warning) << "Ignoring symbolic link" << child_filepath << "which links to" << child_fileinfo.symLinkTarget() << "with rejected filesystem type" << storage_info.fileSystemType();
+          continue;
+        }
       }
-    }
 
-    if (child_fileinfo.isDir()) {
-      if (!t->HasSeenSubdir(child_filepath)) {
-        // We haven't seen this subdirectory before - add it to a list, and later we'll tell the backend about it and scan it.
-        CollectionSubdirectory new_subdir;
-        new_subdir.directory_id = -1;
-        new_subdir.path = child_filepath;
-        new_subdir.mtime = child_fileinfo.lastModified().toSecsSinceEpoch();
-        my_new_subdirs << new_subdir;
-      }
-      t->AddToProgress(1);
-    }
-    else {
-      const QString ext_part = ExtensionPart(child_filepath);
-      const QString dir_part = DirectoryPart(child_filepath);
-      if (Song::kRejectedExtensions.contains(child_fileinfo.suffix(), Qt::CaseInsensitive) || child_fileinfo.baseName() == "qt_temp"_L1) {
-        t->AddToProgress(1);
-      }
-      else if (sValidImages.contains(ext_part)) {
-        album_art[dir_part] << child_filepath;
+      if (child_fileinfo.isDir()) {
+        if (!t->HasSeenSubdir(child_filepath)) {
+          // We haven't seen this subdirectory before - add it to a list, and later we'll tell the backend about it and scan it.
+          CollectionSubdirectory new_subdir;
+          new_subdir.directory_id = -1;
+          new_subdir.path = child_filepath;
+          new_subdir.mtime = child_fileinfo.exists() && child_fileinfo.lastModified().isValid() ? child_fileinfo.lastModified().toSecsSinceEpoch() : 0;
+          my_new_subdirs << new_subdir;
+        }
         t->AddToProgress(1);
       }
       else {
-        files_on_disk << child_filepath;
+        const QString ext_part = ExtensionPart(child_filepath);
+        const QString dir_part = DirectoryPart(child_filepath);
+        if (Song::kRejectedExtensions.contains(child_fileinfo.suffix(), Qt::CaseInsensitive) || child_fileinfo.baseName() == "qt_temp"_L1) {
+          t->AddToProgress(1);
+        }
+        else if (sValidImages.contains(ext_part)) {
+          album_art[dir_part] << child_filepath;
+          t->AddToProgress(1);
+        }
+        else {
+          files_on_disk << child_filepath;
+        }
       }
     }
   }
@@ -831,10 +834,10 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
   // Add, update or delete subdir
   CollectionSubdirectory updated_subdir;
   updated_subdir.directory_id = t->dir_id();
-  updated_subdir.mtime = path_info.exists() ? path_info.lastModified().toSecsSinceEpoch() : 0;
+  updated_subdir.mtime = path_mtime;
   updated_subdir.path = path;
 
-  if (updated_subdir.mtime == 0 && updated_subdir.path != dir.path) {
+  if (!path_info.exists() && updated_subdir.path != dir.path) {
     t->deleted_subdirs << updated_subdir;
   }
   else if (subdir.directory_id == -1) {
