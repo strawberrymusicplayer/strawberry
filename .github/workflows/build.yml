@@ -156,7 +156,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        fedora_version: [ '41', '42', '43' ]
+        fedora_version: [ '42', '43', '44' ]
     container:
       image: fedora:${{matrix.fedora_version}}
     steps:
@@ -542,7 +542,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ubuntu_version: [ 'noble', 'plucky', 'questing' ]
+        ubuntu_version: [ 'noble', 'questing', 'resolute' ]
     container:
       image: ubuntu:${{matrix.ubuntu_version}}
     steps:
@@ -596,10 +596,10 @@ jobs:
             qt6-l10n-tools
             rapidjson-dev
       - name: Install KDSingleApplication
-        if: matrix.ubuntu_version != 'noble' && matrix.ubuntu_version != 'plucky'
+        if: matrix.ubuntu_version != 'noble'
         run: apt install -y libkdsingleapplication-qt6-dev
       - name: Build and install KDSingleApplication
-        if: matrix.ubuntu_version == 'noble' || matrix.ubuntu_version == 'plucky'
+        if: matrix.ubuntu_version == 'noble'
         run: |
           git clone --depth 1 --recurse-submodules https://github.com/KDAB/KDSingleApplication
           cd KDSingleApplication
@@ -639,7 +639,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ubuntu_version: [ 'noble', 'plucky', 'questing' ]
+        ubuntu_version: [ 'noble', 'questing', 'resolute' ]
     container:
       image: ubuntu:${{matrix.ubuntu_version}}
     steps:
