@@ -27,11 +27,17 @@ FilterTreeTerm::FilterTreeTerm(FilterParserSearchTermComparator *comparator) : c
 bool FilterTreeTerm::accept(const Song &song) const {
 
   if (cmp_->Matches(song.PrettyTitle())) return true;
+  if (cmp_->Matches(song.titlesort())) return true;
   if (cmp_->Matches(song.album())) return true;
+  if (cmp_->Matches(song.albumsort())) return true;
   if (cmp_->Matches(song.artist())) return true;
+  if (cmp_->Matches(song.artistsort())) return true;
   if (cmp_->Matches(song.albumartist())) return true;
+  if (cmp_->Matches(song.albumartistsort())) return true;
   if (cmp_->Matches(song.composer())) return true;
+  if (cmp_->Matches(song.composersort())) return true;
   if (cmp_->Matches(song.performer())) return true;
+  if (cmp_->Matches(song.performersort())) return true;
   if (cmp_->Matches(song.grouping())) return true;
   if (cmp_->Matches(song.genre())) return true;
   if (cmp_->Matches(song.comment())) return true;
