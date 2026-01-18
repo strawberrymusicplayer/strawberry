@@ -12,14 +12,14 @@ Unreleased:
     * Fixed possible file descriptor exhaustion by using shared thread pool (#1687)
     * Don't automatically sort playlist with the auto sort option before it's fully loaded (#1690)
     * Fixed network features stop working after computer suspends and resumes (#1521)
-    * Fixed crash on exit after logging in with Qobuz.
-    * Added option to select ID3v2 version (#1861).
+    * Fixed crash on exit after Qobuz login
+    * Added tag editor option to select ID3v2 version (#1861)
     * Fixed Qobuz authentication and added automatic credential fetching (#1898)
-    * Fixed playback stoping after deleting a song from disk via context menu (#1783)
+    * Fixed playback stopping after deleting a song from disk via context menu (#1783)
     * Added option to restore smart playlists to the defaults (#1848)
     * Fixed possible race condition in pipeline destructor (#1875)
     * Fixed buffering issue near track end during gapless playback (#1725)
-    * Fixed duplicate collection entries for the same artist in the collection if they have different sort tags (#1899)
+    * Fixed duplicate collection entries for the same artist if they have different sort tags (#1899)
     * Defer playcount and rating tag writes for currently playing Ogg songs to prevent playback shutter (#1816)
     * Fixed tag editing not working for Opus sort tags (#1929)
     * Show playlist load errors (#1470)
