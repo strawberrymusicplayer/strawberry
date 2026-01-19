@@ -75,7 +75,7 @@
 using namespace std::chrono_literals;
 using namespace Qt::Literals::StringLiterals;
 
-QStringList CollectionWatcher::sValidImages = QStringList() << u"jpg"_s << u"png"_s << u"gif"_s << u"jpeg"_s;
+QStringList CollectionWatcher::sValidImages = QStringList() << u"jpg"_s << u"jpeg"_s << u"jp2"_s << u"png"_s << u"gif"_s << u"tiff"_s << u"tif"_s << u"webp"_s;
 
 CollectionWatcher::CollectionWatcher(const Song::Source source,
                                      const SharedPtr<TaskManager> task_manager,
