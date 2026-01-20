@@ -46,7 +46,11 @@ using namespace Qt::Literals::StringLiterals;
 
 EngineBase::EngineBase(QObject *parent)
     : QObject(parent),
+#ifdef Q_OS_MACOS
+      playbin3_enabled_(false),
+#else
       playbin3_enabled_(true),
+#endif
       exclusive_mode_(false),
       volume_control_(true),
       volume_(100),
@@ -157,7 +161,11 @@ void EngineBase::ReloadSettings() {
     device_ = s.value(BackendSettings::kDevice);
   }
 
+#ifdef Q_OS_MACOS
+  playbin3_enabled_ = s.value(BackendSettings::kPlaybin3, false).toBool();
+#else
   playbin3_enabled_ = s.value(BackendSettings::kPlaybin3, true).toBool();
+#endif
 
   exclusive_mode_ = s.value(BackendSettings::kExclusiveMode, false).toBool();
 
