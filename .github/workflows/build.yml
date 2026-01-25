@@ -1148,7 +1148,7 @@ jobs:
 
       - name: Copy Qt imageformats
         working-directory: build
-        run: cp /strawberry-mxe/usr/${{matrix.arch}}-w64-mingw32.shared/qt6/plugins/imageformats/{qgif.dll,qico.dll,qjpeg.dll} ${GITHUB_WORKSPACE}/build/imageformats/
+        run: cp /strawberry-mxe/usr/${{matrix.arch}}-w64-mingw32.shared/qt6/plugins/imageformats/{qgif.dll,qico.dll,qjpeg.dll,qtiff.dll,qjp2.dll,qwebp.dll} ${GITHUB_WORKSPACE}/build/imageformats/
 
       - name: Copy gstreamer plugins
         working-directory: build
