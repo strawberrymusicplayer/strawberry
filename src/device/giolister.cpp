@@ -342,6 +342,7 @@ void GioLister::VolumeRemoved(GVolume *volume) {
   }
 
   Q_EMIT DeviceRemoved(id);
+
 }
 
 void GioLister::MountAdded(GMount *mount) {
@@ -535,6 +536,7 @@ void GioLister::DeviceInfo::ReadMountInfo(GMount *mount) {
       g_object_unref(info);
     }
   }
+
 }
 
 void GioLister::DeviceInfo::ReadVolumeInfo(GVolume *volume) {
@@ -561,6 +563,7 @@ void GioLister::DeviceInfo::ReadDriveInfo(GDrive *drive) {
 
   drive_name = ConvertAndFree(g_drive_get_name(drive));
   drive_removable = g_drive_is_media_removable(drive);
+
 }
 
 QString GioLister::FindUniqueIdByMount(GMount *mount) const {
