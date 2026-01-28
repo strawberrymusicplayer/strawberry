@@ -177,7 +177,6 @@ SongLoader::Result SongLoader::LoadLocalPartial(const QString &filename) {
     }
   }
 
-  errors_ << QObject::tr("File %1 is not recognized as a valid audio file.").arg(filename);
   return Result::Error;
 
 }
@@ -331,7 +330,6 @@ SongLoader::Result SongLoader::LoadLocalAsync(const QString &filename) {
     }
   }
 
-  errors_ << QObject::tr("File %1 is not recognized as a valid audio file.").arg(filename);
   return Result::Error;
 
 }
