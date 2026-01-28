@@ -562,7 +562,7 @@ void GioLister::DeviceInfo::ReadDriveInfo(GDrive *drive) {
   if (!drive) return;
 
   drive_name = ConvertAndFree(g_drive_get_name(drive));
-  drive_removable = g_drive_is_media_removable(drive);
+  drive_removable = g_drive_is_media_removable(drive) || g_drive_is_removable(drive);
 
 }
 
