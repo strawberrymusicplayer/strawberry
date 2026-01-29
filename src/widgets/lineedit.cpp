@@ -77,18 +77,8 @@ ExtendedEditor::ExtendedEditor(QWidget *widget, const int extra_right_padding, c
   reset_button_->setFocusPolicy(Qt::NoFocus);
   reset_button_->hide();
 
-  if (LineEdit *lineedit = qobject_cast<LineEdit*>(widget)) {
-    QObject::connect(clear_button_, &QToolButton::clicked, lineedit, &LineEdit::set_focus);
-    QObject::connect(clear_button_, &QToolButton::clicked, lineedit, &LineEdit::clear);
-  }
-  else if (TextEdit *textedit = qobject_cast<TextEdit*>(widget)) {
-    QObject::connect(clear_button_, &QToolButton::clicked, textedit, &TextEdit::set_focus);
-    QObject::connect(clear_button_, &QToolButton::clicked, textedit, &TextEdit::clear);
-  }
-  else if (SpinBox *spinbox = qobject_cast<SpinBox*>(widget)) {
-    QObject::connect(clear_button_, &QToolButton::clicked, spinbox, &SpinBox::set_focus);
-    QObject::connect(clear_button_, &QToolButton::clicked, spinbox, &SpinBox::clear);
-  }
+  QObject::connect(clear_button_, &QToolButton::clicked, widget, [this]() { set_focus(); });
+  QObject::connect(clear_button_, &QToolButton::clicked, widget, [this]() { clear(); });
 
   UpdateButtonGeometry();
 
