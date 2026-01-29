@@ -111,12 +111,12 @@ void ExtendedEditor::UpdateButtonGeometry() {
   const int right = frame_width + 1 + (has_reset_button() ? reset_button_->sizeHint().width() : 0);
   const char *const class_name = widget_->metaObject()->className();
 
-  if (strcmp(class_name, "LineEdit") == 0) {
+  if (strcasecmp(class_name, "QLineEdit") == 0 || strcasecmp(class_name, "LineEdit") == 0) {
     // Seems Qt inverts left/right padding for QLineEdit if layout direction RTL
     const bool rtl = QGuiApplication::isRightToLeft();
     widget_->setStyleSheet(QStringLiteral("QLineEdit { padding-left: %1px; padding-right: %2px; }").arg(rtl ? right : left).arg(rtl ? left : right));
   }
-  else if (strcmp(class_name, "TextEdit") == 0) {
+  else if (strcasecmp(class_name, "QPlainTextEdit") == 0 || strcasecmp(class_name, "TextEdit") == 0) {
     // But not for QPlainTextEdit
     widget_->setStyleSheet(QStringLiteral("QPlainTextEdit { padding-left: %1px; padding-right: %2px; }").arg(left).arg(right));
   }
