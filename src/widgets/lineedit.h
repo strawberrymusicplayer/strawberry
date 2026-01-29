@@ -71,7 +71,7 @@ class LineEditInterface {
 class ExtendedEditor : public LineEditInterface {
 
  public:
-  explicit ExtendedEditor(QWidget *widget, int extra_right_padding = 0, bool draw_hint = true);
+  explicit ExtendedEditor(QWidget *widget, const int extra_right_padding = 0, const bool draw_hint = true);
   ~ExtendedEditor() override {}
 
   virtual bool is_empty() const { return value().toString().isEmpty(); }

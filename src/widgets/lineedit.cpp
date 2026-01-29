@@ -49,7 +49,7 @@ constexpr int kClearIconSize = 16;
 constexpr int kResetIconSize = 16;
 }  // namespace
 
-ExtendedEditor::ExtendedEditor(QWidget *widget, int extra_right_padding, bool draw_hint)
+ExtendedEditor::ExtendedEditor(QWidget *widget, const int extra_right_padding, const bool draw_hint)
     : LineEditInterface(widget),
       has_clear_button_(true),
       clear_button_(new QToolButton(widget)),
