@@ -19,6 +19,13 @@
  *
  */
 
+#include <cstdio>
+#include <cstring>
+
+#ifdef __GNUC__
+#  include <strings.h>
+#endif
+
 #include <QWidget>
 #include <QString>
 #include <QFont>
@@ -41,6 +48,10 @@
 
 #include "core/iconloader.h"
 #include "lineedit.h"
+
+#ifdef _MSC_VER
+#  define strcasecmp _stricmp
+#endif
 
 using namespace Qt::Literals::StringLiterals;
 
