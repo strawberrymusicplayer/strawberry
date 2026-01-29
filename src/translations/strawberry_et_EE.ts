@@ -3472,7 +3472,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Strawberry is free and open source software. If you like Strawberry, please consider sponsoring the project. For more information about sponsorship see our website %1</source>
-      <translation>Strawberry on tasuta ja avatud lähtekoodiga tarkvara. Kui sulle meeldib Strawberry, kaalu projekti toetamist. Lisateavet sponsorluse kohta leiad meie veebisaidist %1</translation>
+      <translation>Strawberry on tasuta ja avatud lähtekoodiga tarkvara. Kui sulle meeldib Strawberry, kaalu projekti toetamist. Lisateavet sponsorluse kohta leiad meie veebisaidilt %1</translation>
     </message>
     <message>
       <source>Pause</source>
