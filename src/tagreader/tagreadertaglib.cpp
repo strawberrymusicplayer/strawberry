@@ -188,6 +188,7 @@ constexpr char kVorbisComment_MusicBrainz_ReleaseTrackId[] = "MUSICBRAINZ_RELEAS
 constexpr char kVorbisComment_MusicBrainz_DiscId[] = "MUSICBRAINZ_DISCID";
 constexpr char kVorbisComment_MusicBrainz_ReleaseGroupId[] = "MUSICBRAINZ_RELEASEGROUPID";
 constexpr char kVorbisComment_MusicBrainz_WorkId[] = "MUSICBRAINZ_WORKID";
+constexpr char kVorbisComment_R128_Track_Gain[] = "R128_TRACK_GAIN";
 
 constexpr char kMP4_AlbumArtist[] = "aART";
 constexpr char kMP4_Composer[] = "\251wrt";
@@ -790,6 +791,8 @@ void TagReaderTagLib::ParseVorbisComments(const TagLib::Ogg::FieldListMap &map, 
   if (map.contains(kVorbisComment_MusicBrainz_DiscId)) song->set_musicbrainz_disc_id(map[kVorbisComment_MusicBrainz_DiscId].front());
   if (map.contains(kVorbisComment_MusicBrainz_ReleaseGroupId)) song->set_musicbrainz_release_group_id(map[kVorbisComment_MusicBrainz_ReleaseGroupId].front());
   if (map.contains(kVorbisComment_MusicBrainz_WorkId)) song->set_musicbrainz_work_id(map[kVorbisComment_MusicBrainz_WorkId].front());
+
+  if (map.contains(kVorbisComment_R128_Track_Gain)) song ->set_ebur128_integrated_loudness_lufs(-23.0 - (TagLibStringToQString(map[kVorbisComment_R128_Track_Gain].front()).toDouble() / 256.0));
 
 }
 
