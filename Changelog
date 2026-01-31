@@ -2,6 +2,12 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Unreleased:
+
+    * Fixed devices no longer detected with newer GIO versions (#1974)
+    * Fixed error message appearing when dragging folders with non-audio files to the playlist from files (#1977)
+    * Fixed clear button for device textfield in Backend settings
+
 Version 1.2.17 (2026.01.18):
 
     * Avoid re-scan of restored songs unless mtime is changed (#1819)
