@@ -34,6 +34,7 @@ constexpr char kShowErrorDialog[] = "show_error_dialog";
 constexpr char kStripRemastered[] = "strip_remastered";
 constexpr char kSources[] = "sources";
 constexpr char kUserToken[] = "user_token";
+constexpr char kApiKey[] = "api_key";
 
 }  // namespace ScrobblerSettings
 
