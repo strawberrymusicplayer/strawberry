@@ -34,6 +34,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QSet>
+#include <QtEndian>
 
 #include "discordrpc.h"
 #include "discordpresence.h"
