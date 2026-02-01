@@ -109,7 +109,6 @@ To build Strawberry from source, you’ll need:
 - MTP devices: [libmtp](http://libmtp.sourceforge.net/)
 - iPod Classic: [libgpod](http://www.gtkpod.org/libgpod/)
 - EBU R128 normalization: [libebur128](https://github.com/jiixyj/libebur128)
-- Discord presence: [RapidJSON](https://rapidjson.org/)
 
 Also install GStreamer plugins **base**, **good**, and optionally **bad**, **ugly** and **libav** for full codec support.
 
