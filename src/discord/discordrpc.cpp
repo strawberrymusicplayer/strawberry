@@ -51,7 +51,9 @@ DiscordRPC::DiscordRPC(const QString &application_id, QObject *parent)
       reconnect_timer_(new QTimer(this)),
       state_(State::Disconnected),
       nonce_(1),
-      reconnect_delay_(kReconnectMinDelayMs) {
+      reconnect_delay_(kReconnectMinDelayMs),
+      current_connection_index_(0),
+      shutting_down_(false) {
 
   QObject::connect(socket_, &QLocalSocket::connected, this, &DiscordRPC::OnConnected);
   QObject::connect(socket_, &QLocalSocket::disconnected, this, &DiscordRPC::OnDisconnected);
@@ -73,12 +75,14 @@ void DiscordRPC::Initialize() {
     return;
   }
 
+  shutting_down_ = false;
   ConnectToDiscord();
 
 }
 
 void DiscordRPC::Shutdown() {
 
+  shutting_down_ = true;
   reconnect_timer_->stop();
   if (socket_->state() != QLocalSocket::UnconnectedState) {
     socket_->disconnectFromServer();
@@ -94,22 +98,15 @@ void DiscordRPC::ConnectToDiscord() {
   }
 
   state_ = State::Connecting;
+  connection_paths_.clear();
+  current_connection_index_ = 0;
 
-  // Try connecting to Discord IPC pipes/sockets
+  // Build list of all possible Discord IPC endpoints
   // Discord creates up to 10 IPC endpoints (0-9)
-#ifdef Q_OS_WIN
+#ifdef Q_OS_WIN32
   // On Windows, Discord uses named pipes
   for (int i = 0; i < 10; ++i) {
-    const QString pipe_name = QString("\\\\.\\pipe\\discord-ipc-%1").arg(i);
-    socket_->connectToServer(pipe_name);
-    if (socket_->waitForConnected(100)) {
-      // Connection successful, OnConnected signal will be emitted or already was
-      // Call OnConnected manually to ensure proper state transition
-      if (state_ == State::Connecting) {
-        OnConnected();
-      }
-      return;
-    }
+    connection_paths_ << QString("\\\\.\\pipe\\discord-ipc-%1").arg(i);
   }
 #else
   // On Unix-like systems, Discord uses Unix domain sockets in temp directory
@@ -132,30 +129,40 @@ void DiscordRPC::ConnectToDiscord() {
 
   for (const QString &temp_path : std::as_const(temp_paths)) {
     for (int i = 0; i < 10; ++i) {
-      const QString socket_path = "%1/discord-ipc-%2"_L1.arg(temp_path).arg(i);
-      socket_->connectToServer(socket_path);
-      if (socket_->waitForConnected(100)) {
-        // Connection successful, OnConnected signal will be emitted or already was
-        // Call OnConnected manually to ensure proper state transition
-        if (state_ == State::Connecting) {
-          OnConnected();
-        }
-        return;
-      }
+      connection_paths_ << QString("%1/discord-ipc-%2").arg(temp_path).arg(i);
     }
   }
 #endif
 
-  // Connection failed, schedule reconnect
-  state_ = State::Disconnected;
-  ScheduleReconnect();
+  // Start trying connections asynchronously
+  TryNextConnection();
+
+}
+
+void DiscordRPC::TryNextConnection() {
+
+  // If we've exhausted all paths, connection failed
+  if (current_connection_index_ >= connection_paths_.size()) {
+    state_ = State::Disconnected;
+    ScheduleReconnect();
+    return;
+  }
+
+  // Abort any previous connection attempt to reset socket state
+  if (socket_->state() != QLocalSocket::UnconnectedState) {
+    socket_->abort();
+  }
+
+  // Try connecting to the next path
+  const QString &path = connection_paths_[current_connection_index_];
+  ++current_connection_index_;
+  socket_->connectToServer(path);
 
 }
 
 void DiscordRPC::OnConnected() {
 
   // Only process if we're in the connecting state
-  // This protects against double-calls (e.g., from both signal and manual call)
   if (state_ != State::Connecting) {
     return;
   }
@@ -170,14 +177,23 @@ void DiscordRPC::OnDisconnected() {
 
   state_ = State::Disconnected;
   read_buffer_.clear();
-  ScheduleReconnect();
+  
+  // Only schedule reconnect if we're not intentionally shutting down
+  if (!shutting_down_) {
+    ScheduleReconnect();
+  }
 
 }
 
 void DiscordRPC::OnError(QLocalSocket::LocalSocketError error) {
 
   Q_UNUSED(error);
-  // Error handling is done in OnDisconnected
+  
+  // During connection phase, try the next path on error
+  if (state_ == State::Connecting) {
+    TryNextConnection();
+  }
+  // For other states, error handling is done in OnDisconnected
 
 }
 

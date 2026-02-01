@@ -69,6 +69,7 @@ class DiscordRPC : public QObject {
   };
 
   void ConnectToDiscord();
+  void TryNextConnection();
   void SendHandshake();
   void SendFrame(const QByteArray &data);
   void ProcessIncomingData();
@@ -84,6 +85,9 @@ class DiscordRPC : public QObject {
   int nonce_;
   int reconnect_delay_;
   QByteArray read_buffer_;
+  QStringList connection_paths_;
+  int current_connection_index_;
+  bool shutting_down_;
 };
 
 #endif  // DISCORDRPC_H

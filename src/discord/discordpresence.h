@@ -47,4 +47,4 @@ class DiscordPresence {
   bool instance;
 };
 
-#endif // DISCORDPRESENCE_H
+#endif  // DISCORDPRESENCE_H
