@@ -210,8 +210,6 @@ find_package(GTest)
 
 pkg_check_modules(LIBSPARSEHASH IMPORTED_TARGET libsparsehash)
 
-find_package(RapidJSON)
-
 set(QT_VERSION_MAJOR 6)
 set(QT_MIN_VERSION 6.4.0)
 set(QT_DEFAULT_MAJOR_VERSION ${QT_VERSION_MAJOR})
@@ -374,9 +372,7 @@ optional_component(STREAMTAGREADER ON "Stream tagreader"
   DEPENDS "sparsehash" LIBSPARSEHASH_FOUND
 )
 
-optional_component(DISCORD_RPC ON "Discord Rich Presence"
-  DEPENDS "RapidJSON" RapidJSON_FOUND
-)
+optional_component(DISCORD_RPC ON "Discord Rich Presence")
 
 if(HAVE_SONGFINGERPRINTING OR HAVE_MUSICBRAINZ)
   set(HAVE_CHROMAPRINT ON)
@@ -1258,8 +1254,8 @@ optional_source(HAVE_STREAMTAGREADER
 )
 
 optional_source(HAVE_DISCORD_RPC
-  SOURCES src/discord/richpresence.cpp
-  HEADERS src/discord/richpresence.h
+  SOURCES src/discord/discordrpc.cpp src/discord/discordrichpresence.cpp src/discord/discordpresence.cpp
+  HEADERS src/discord/discordrpc.h src/discord/discordrichpresence.h
 )
 
 if(HAVE_GLOBALSHORTCUTS)
@@ -1512,11 +1508,6 @@ if(LINUX AND LSB_RELEASE_EXEC AND DPKG_BUILDPACKAGE)
   add_subdirectory(debian)
 endif()
 
-if(HAVE_DISCORD_RPC)
-  add_subdirectory(3rdparty/discord-rpc)
-  target_include_directories(strawberry_lib PUBLIC 3rdparty/discord-rpc)
-endif()
-
 if(HAVE_TRANSLATIONS)
   qt_add_lupdate(strawberry_lib TS_FILES "${CMAKE_SOURCE_DIR}/src/translations/strawberry_en_US.ts" OPTIONS -locations none -no-ui-lines -no-obsolete)
   file(GLOB_RECURSE ts_files ${CMAKE_SOURCE_DIR}/src/translations/*.ts)
@@ -1577,7 +1568,6 @@ target_link_libraries(strawberry_lib PUBLIC
   $<$<BOOL:${WIN32}>:dsound dwmapi ${GETOPT_LIBRARIES}>
   $<$<BOOL:${MSVC}>:WindowsApp>
   KDAB::kdsingleapplication
-  $<$<BOOL:${HAVE_DISCORD_RPC}>:discord-rpc>
 )
 
 if(APPLE)
