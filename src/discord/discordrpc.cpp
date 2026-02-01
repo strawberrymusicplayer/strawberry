@@ -187,7 +187,7 @@ void DiscordRPC::OnConnected() {
   }
 
   state_ = State::SentHandshake;
-  reconnect_delay_ = kReconnectMinDelayMs;  // Reset reconnect delay on successful connection
+  reconnect_delay_ = kReconnectMinDelayMs;  // Reset reconnect delay after socket connection
   SendHandshake();
 
 }
