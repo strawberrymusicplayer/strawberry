@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2025-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@
  *
  */
 
-#ifndef RICHPRESENCE_H
-#define RICHPRESENCE_H
+#ifndef DISCORDRICHPRESENCE_H
+#define DISCORDRICHPRESENCE_H
 
 #include "config.h"
 
@@ -33,16 +33,16 @@ class Song;
 class Player;
 class PlaylistManager;
 
-namespace discord {
+class DiscordRPC;
 
-class RichPresence : public QObject {
+class DiscordRichPresence : public QObject {
   Q_OBJECT
 
  public:
-  explicit RichPresence(const SharedPtr<Player> player,
+  explicit DiscordRichPresence(const SharedPtr<Player> player,
                         const SharedPtr<PlaylistManager> playlist_manager,
                         QObject *parent = nullptr);
-  ~RichPresence();
+  ~DiscordRichPresence() override;
 
   void ReloadSettings();
   void Stop();
@@ -70,10 +70,8 @@ class RichPresence : public QObject {
     qint64 seek_secs;
   };
   Activity activity_;
-  bool initialized_;
+  DiscordRPC *discord_rpc_;
   int status_display_type_;
 };
 
-}  // namespace discord
-
-#endif  // RICHPRESENCE_H
+#endif  // DISCORDRICHPRESENCE_H
