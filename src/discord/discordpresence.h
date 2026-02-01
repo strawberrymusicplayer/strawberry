@@ -24,7 +24,7 @@
 
 class DiscordPresence {
  public:
-  explicit DiscordPresence();
+  DiscordPresence();
 
   int type;
   int status_display_type;

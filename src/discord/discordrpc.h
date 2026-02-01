@@ -22,6 +22,8 @@
 
 #include "config.h"
 
+#include <atomic>
+
 #include <QObject>
 #include <QString>
 #include <QByteArray>
@@ -82,7 +84,7 @@ class DiscordRPC : public QObject {
   QLocalSocket *socket_;
   QTimer *reconnect_timer_;
   State state_;
-  int nonce_;
+  std::atomic<int> nonce_;
   int reconnect_delay_;
   QByteArray read_buffer_;
   QStringList connection_paths_;

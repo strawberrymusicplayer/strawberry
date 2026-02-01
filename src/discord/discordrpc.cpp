@@ -33,6 +33,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QSet>
 
 #include "discordrpc.h"
 #include "discordpresence.h"
@@ -112,24 +113,24 @@ void DiscordRPC::ConnectToDiscord() {
   }
 #else
   // On Unix-like systems, Discord uses Unix domain sockets in temp directory
-  QStringList temp_paths;
+  QSet<QString> unique_temp_paths;
 
   // Check various temp directories in order of preference
   const QString xdg_runtime = qEnvironmentVariable("XDG_RUNTIME_DIR");
-  if (!xdg_runtime.isEmpty()) temp_paths << xdg_runtime;
+  if (!xdg_runtime.isEmpty()) unique_temp_paths.insert(xdg_runtime);
 
   const QString tmpdir = qEnvironmentVariable("TMPDIR");
-  if (!tmpdir.isEmpty()) temp_paths << tmpdir;
+  if (!tmpdir.isEmpty()) unique_temp_paths.insert(tmpdir);
 
   const QString tmp = qEnvironmentVariable("TMP");
-  if (!tmp.isEmpty()) temp_paths << tmp;
+  if (!tmp.isEmpty()) unique_temp_paths.insert(tmp);
 
   const QString temp = qEnvironmentVariable("TEMP");
-  if (!temp.isEmpty()) temp_paths << temp;
+  if (!temp.isEmpty()) unique_temp_paths.insert(temp);
 
-  temp_paths << "/tmp"_L1;
+  unique_temp_paths.insert("/tmp"_L1);
 
-  for (const QString &temp_path : std::as_const(temp_paths)) {
+  for (const QString &temp_path : std::as_const(unique_temp_paths)) {
     for (int i = 0; i < 10; ++i) {
       connection_paths_ << "%1/discord-ipc-%2"_L1.arg(temp_path).arg(i);
     }
@@ -170,6 +171,7 @@ void DiscordRPC::OnConnected() {
   }
 
   state_ = State::SentHandshake;
+  // Reset reconnect delay on successful connection
   reconnect_delay_ = kReconnectMinDelayMs;
   SendHandshake();
 
@@ -228,14 +230,17 @@ void DiscordRPC::SendHandshake() {
   frame.append(reinterpret_cast<const char*>(&length), sizeof(length));
   frame.append(handshake_data);
 
-  socket_->write(frame);
+  if (socket_->write(frame) == -1) {
+    socket_->disconnectFromServer();
+    return;
+  }
   socket_->flush();
 
 }
 
 void DiscordRPC::SendFrame(const QByteArray &data) {
 
-  if (state_ != State::Connected) {
+  if (state_ != State::Connected || socket_->state() != QLocalSocket::ConnectedState) {
     return;
   }
 
@@ -247,7 +252,10 @@ void DiscordRPC::SendFrame(const QByteArray &data) {
   frame.append(reinterpret_cast<const char*>(&length), sizeof(length));
   frame.append(data);
 
-  socket_->write(frame);
+  if (socket_->write(frame) == -1) {
+    socket_->disconnectFromServer();
+    return;
+  }
   socket_->flush();
 
 }
@@ -274,6 +282,8 @@ void DiscordRPC::ProcessIncomingData() {
 
     // Validate frame length to prevent excessively large frames
     if (length > kMaxFrameSize) {
+      // Clear any buffered data to avoid leaving read_buffer_ in an inconsistent state
+      read_buffer_.clear();
       socket_->disconnectFromServer();
       return;
     }
@@ -305,7 +315,10 @@ void DiscordRPC::ProcessIncomingData() {
         pong_frame.append(reinterpret_cast<const char*>(&pong_opcode), sizeof(pong_opcode));
         pong_frame.append(reinterpret_cast<const char*>(&little_length), sizeof(little_length));
         pong_frame.append(message_data);
-        socket_->write(pong_frame);
+        if (socket_->write(pong_frame) == -1) {
+          socket_->disconnectFromServer();
+          return;
+        }
         socket_->flush();
         break;
       }

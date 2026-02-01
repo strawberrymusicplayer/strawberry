@@ -1255,7 +1255,7 @@ optional_source(HAVE_STREAMTAGREADER
 
 optional_source(HAVE_DISCORD_RPC
   SOURCES src/discord/discordrpc.cpp src/discord/discordrichpresence.cpp src/discord/discordpresence.cpp
-  HEADERS src/discord/discordrpc.h src/discord/discordrichpresence.h
+  HEADERS src/discord/discordrpc.h src/discord/discordrichpresence.h src/discord/discordpresence.h
 )
 
 if(HAVE_GLOBALSHORTCUTS)
