@@ -2967,11 +2967,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Unable to scrobble %1 - %2 because of error: %3</source>
-      <translation type="unfinished">Unable to scrobble %1 - %2 because of error: %3</translation>
+      <translation>Αδυναμία scrobble %1 - %2 λόγω σφάλματος: %3</translation>
     </message>
     <message>
       <source>Missing MusicBrainz recording ID for %1 %2 %3</source>
-      <translation type="unfinished">Missing MusicBrainz recording ID for %1 %2 %3</translation>
+      <translation>Απουσία αναγνωριστικού εγγραφής MusicBrainz για %1 %2 %3</translation>
     </message>
     <message>
       <source>ListenBrainz error: %1</source>
@@ -4689,7 +4689,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Automatically sort playlist when inserting songs</source>
-      <translation type="unfinished">Automatically sort playlist when inserting songs</translation>
+      <translation>Αυτόματη ταξινόμηση λίστας αναπαραγωγής κατά την εισαγωγή τραγουδιών</translation>
     </message>
     <message>
       <source>When saving a playlist, file paths should be</source>
@@ -4884,7 +4884,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Append files/URLs to the playlist</source>
-      <translation type="unfinished">Append files/URLs to the playlist</translation>
+      <translation>Προσάρτηση αρχείων/URL στη λίστα αναπαραγωγής</translation>
     </message>
     <message>
       <source>Loads files/URLs, replacing current playlist</source>
@@ -5481,7 +5481,7 @@ Are you sure you want to continue?</source>
     <name>QueueView</name>
     <message>
       <source>QueueView</source>
-      <translation type="unfinished">QueueView</translation>
+      <translation>Προβολή Ουράς</translation>
     </message>
     <message>
       <source>Move down</source>
@@ -5703,11 +5703,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Songs are scrobbled if they have valid metadata and are longer than 30 seconds, have been playing for at least half its duration or for 4 minutes (whichever occurs earlier).</source>
-      <translation type="unfinished">Songs are scrobbled if they have valid metadata and are longer than 30 seconds, have been playing for at least half its duration or for 4 minutes (whichever occurs earlier).</translation>
+      <translation>Τα τραγούδια γίνονται scrobble αν έχουν έγκυρα μεταδεδομένα και είναι μεγαλύτερα από 30 δευτερόλεπτα, παίζουν για τουλάχιστον το ήμισυ της διάρκειας τους ή για 4 λεπτά (όποιο συμβεί νωρίτερα).</translation>
     </message>
     <message>
       <source>Show scrobble button</source>
-      <translation type="unfinished">Show scrobble button</translation>
+      <translation>Εμφάνιση πλήκτρου scrobble</translation>
     </message>
     <message>
       <source>Show love button</source>
@@ -5723,7 +5723,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Prefer album artist when sending scrobbles</source>
-      <translation type="unfinished">Prefer album artist when sending scrobbles</translation>
+      <translation>Προτίμηση καλλιτέχνη άλμπουμ κατά την αποστολή scrobbles</translation>
     </message>
     <message>
       <source>Show dialog for errors</source>
@@ -5807,7 +5807,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>With this option enabled, scrobbles will be cached to disk but not sent to the server. This option can be enabled in cases where the server or the internet connection is unstable, the scrobbles will be sent when the option is disabled.</source>
-      <translation type="unfinished">With this option enabled, scrobbles will be cached to disk but not sent to the server. This option can be enabled in cases where the server or the internet connection is unstable, the scrobbles will be sent when the option is disabled.</translation>
+      <translation>Με αυτήν την επιλογή ενεργοποιημένη, τα scrobbles θα αποθηκεύονται προσωρινά στο δίσκο αλλά δεν θα αποστέλλονται στο διακομιστή. Αυτή η επιλογή μπορεί να ενεργοποιηθεί σε περιπτώσεις όπου ο διακομιστής ή η σύνδεση στο διαδίκτυο είναι ασταθής, τα scrobbles θα αποσταλούν όταν η επιλογή είναι απενεργοποιημένη.</translation>
     </message>
     <message>
       <source>Offline mode (Only cache scrobbles)</source>
@@ -5815,7 +5815,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately.</source>
-      <translation type="unfinished">This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately.</translation>
+      <translation>Αυτή είναι η καθυστέρηση μεταξύ του όταν ένα τραγούδι γίνεται scrobbled και όταν scrobbles υποβάλλονται στο διακομιστή. Ρύθμιση του χρόνου σε 0 δευτερόλεπτα θα υποβάλει τα scrobbles αμέσως.</translation>
     </message>
     <message>
       <source>Spotify</source>
@@ -5826,7 +5826,7 @@ Are you sure you want to continue?</source>
     <name>ScrobblingAPI20</name>
     <message>
       <source>%1 Scrobbler Authentication</source>
-      <translation type="unfinished">%1 Scrobbler Authentication</translation>
+      <translation>Ταυτοποίηση %1 Scrobbler</translation>
     </message>
     <message>
       <source>Open URL in web browser?</source>
@@ -6053,18 +6053,18 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>In dynamic mode new tracks will be chosen and added to the playlist every time a song finishes.</source>
-      <translation type="unfinished">In dynamic mode new tracks will be chosen and added to the playlist every time a song finishes.</translation>
+      <translation>Σε δυναμική λειτουργία νέα κομμάτια θα επιλέγονται και θα προστίθενται στη λίστα αναπαραγωγής κάθε φορά που ένα τραγούδι τελειώνει.</translation>
     </message>
   </context>
   <context>
     <name>SmartPlaylists</name>
     <message>
       <source>Newest tracks</source>
-      <translation type="unfinished">Newest tracks</translation>
+      <translation>Νεότερα τραγούδια</translation>
     </message>
     <message>
       <source>50 random tracks</source>
-      <translation type="unfinished">50 random tracks</translation>
+      <translation>50 τυχαία κομμάτια</translation>
     </message>
     <message>
       <source>Ever played</source>
@@ -6072,11 +6072,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Never played</source>
-      <translation type="unfinished">Never played</translation>
+      <translation>Δεν παίχτηκε ποτέ</translation>
     </message>
     <message>
       <source>Last played</source>
-      <translation type="unfinished">Last played</translation>
+      <translation>Τελευταία αναπαραγωγή</translation>
     </message>
     <message>
       <source>Most played</source>
@@ -6084,11 +6084,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Favourite tracks</source>
-      <translation type="unfinished">Favourite tracks</translation>
+      <translation>Αγαπημένα κομμάτια</translation>
     </message>
     <message>
       <source>All tracks</source>
-      <translation type="unfinished">All tracks</translation>
+      <translation>Όλα τα κομμάτια</translation>
     </message>
     <message>
       <source>Dynamic random mix</source>
@@ -6099,11 +6099,11 @@ Are you sure you want to continue?</source>
     <name>SmartPlaylistsViewContainer</name>
     <message>
       <source>New smart playlist</source>
-      <translation type="unfinished">New smart playlist</translation>
+      <translation>Νέα έξυπνη λίστα αναπαραγωγής</translation>
     </message>
     <message>
       <source>Edit smart playlist</source>
-      <translation type="unfinished">Edit smart playlist</translation>
+      <translation>Επεξεργασία έξυπνης λίστας αναπαραγωγής</translation>
     </message>
     <message>
       <source>Delete smart playlist</source>
@@ -6111,11 +6111,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>New smart playlist...</source>
-      <translation type="unfinished">New smart playlist...</translation>
+      <translation>Νέα έξυπνη λίστα αναπαραγωγής...</translation>
     </message>
     <message>
       <source>Append to current playlist</source>
-      <translation type="unfinished">Append to current playlist</translation>
+      <translation>Προσάρτηση στην τρέχουσα λίστα</translation>
     </message>
     <message>
       <source>Replace current playlist</source>
@@ -6127,7 +6127,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Queue track</source>
-      <translation type="unfinished">Queue track</translation>
+      <translation>Εισαγωγή στην ουρά</translation>
     </message>
     <message>
       <source>Play next</source>
@@ -6154,7 +6154,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>For Ubuntu there is an official PPA repository available at %1.</source>
-      <translation type="unfinished">For Ubuntu there is an official PPA repository available at %1.</translation>
+      <translation>Για το Ubuntu υπάρχει ένα επίσημο αποθετήριο του PPA στο %1.</translation>
     </message>
     <message>
       <source>Official releases are available for Debian and Ubuntu which also work on most of their derivatives. See %1 for more information.</source>
@@ -6162,7 +6162,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>For a better experience please consider the other options above.</source>
-      <translation type="unfinished">For a better experience please consider the other options above.</translation>
+      <translation>Για μια καλύτερη εμπειρία, παρακαλούμε να εξετάσετε τις άλλες επιλογές παραπάνω.</translation>
     </message>
     <message>
       <source>Copy your strawberry.conf and strawberry.db from your ~/snap directory to avoid losing configuration before you uninstall the snap:</source>
@@ -6170,18 +6170,18 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Uninstall the snap with:</source>
-      <translation type="unfinished">Uninstall the snap with:</translation>
+      <translation>Απεγκαταστήστε το snap με:</translation>
     </message>
     <message>
       <source>Install strawberry through PPA:</source>
-      <translation type="unfinished">Install strawberry through PPA:</translation>
+      <translation>Εγκαταστήστε Strawberry μέσω PPA:</translation>
     </message>
   </context>
   <context>
     <name>SomaFMService</name>
     <message>
       <source>Getting %1 channels</source>
-      <translation type="unfinished">Getting %1 channels</translation>
+      <translation>Λήψη %1 καναλιών</translation>
     </message>
   </context>
   <context>
@@ -6452,23 +6452,23 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>artists</source>
-      <translation type="unfinished">artists</translation>
+      <translation>καλλιτέχνες</translation>
     </message>
     <message>
       <source>albums</source>
-      <translation type="unfinished">albums</translation>
+      <translation>άλμπουμ</translation>
     </message>
     <message>
       <source>songs</source>
-      <translation type="unfinished">songs</translation>
+      <translation>τραγούδια</translation>
     </message>
     <message>
       <source>Enter search terms above to find music</source>
-      <translation type="unfinished">Enter search terms above to find music</translation>
+      <translation>Εισάγετε τους όρους αναζήτησης παραπάνω για να βρείτε μουσική</translation>
     </message>
     <message>
       <source>Configure %1...</source>
-      <translation type="unfinished">Configure %1...</translation>
+      <translation>Ρύθμιση %1...</translation>
     </message>
     <message>
       <source>Append to current playlist</source>
@@ -6492,11 +6492,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Add to albums</source>
-      <translation type="unfinished">Add to albums</translation>
+      <translation>Προσθήκη στα άλμπουμ</translation>
     </message>
     <message>
       <source>Add to songs</source>
-      <translation type="unfinished">Add to songs</translation>
+      <translation>Προσθήκη στα τραγούδια</translation>
     </message>
     <message>
       <source>Search for this</source>
@@ -6865,11 +6865,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Download album covers</source>
-      <translation type="unfinished">Download album covers</translation>
+      <translation>Λήψη εξώφυλλων άλμπουμ</translation>
     </message>
     <message>
       <source>Fetch entire albums when searching songs</source>
-      <translation type="unfinished">Fetch entire albums when searching songs</translation>
+      <translation>Λήψη ολόκληρων άλμπουμ κατά την αναζήτηση τραγουδιών</translation>
     </message>
     <message>
       <source>Album cover size</source>
@@ -6885,7 +6885,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Configuration incomplete</source>
-      <translation type="unfinished">Configuration incomplete</translation>
+      <translation>Μη ολοκληρωμένη διαμόρφωση</translation>
     </message>
     <message>
       <source>Missing Tidal client ID.</source>
@@ -7013,7 +7013,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Files to transcode</source>
-      <translation type="unfinished">Files to transcode</translation>
+      <translation>Αρχεία για μετακωδικοποίηση</translation>
     </message>
     <message>
       <source>Filename</source>
