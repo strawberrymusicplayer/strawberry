@@ -22,9 +22,8 @@
 
 #include <QString>
 
-class DiscordPresence {
- public:
-  explicit DiscordPresence();
+struct DiscordPresence {
+  DiscordPresence();
 
   int type;
   int status_display_type;

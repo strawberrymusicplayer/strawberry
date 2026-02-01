@@ -220,8 +220,8 @@ void DiscordRPC::SendHandshake() {
 
   const QByteArray handshake_data = CreateHandshakeMessage();
 
-  const quint32 opcode = static_cast<quint32>(Opcode::Handshake);
-  const quint32 length = static_cast<quint32>(handshake_data.size());
+  const quint32 opcode = qToLittleEndian(static_cast<quint32>(Opcode::Handshake));
+  const quint32 length = qToLittleEndian(static_cast<quint32>(handshake_data.size()));
 
   QByteArray frame;
   frame.append(reinterpret_cast<const char*>(&opcode), sizeof(opcode));
@@ -239,8 +239,8 @@ void DiscordRPC::SendFrame(const QByteArray &data) {
     return;
   }
 
-  const quint32 opcode = static_cast<quint32>(Opcode::Frame);
-  const quint32 length = static_cast<quint32>(data.size());
+  const quint32 opcode = qToLittleEndian(static_cast<quint32>(Opcode::Frame));
+  const quint32 length = qToLittleEndian(static_cast<quint32>(data.size()));
 
   QByteArray frame;
   frame.append(reinterpret_cast<const char*>(&opcode), sizeof(opcode));
@@ -263,11 +263,14 @@ void DiscordRPC::ProcessIncomingData() {
 
   while (read_buffer_.size() >= static_cast<int>(sizeof(quint32) * 2)) {
     // Read frame header
-    quint32 opcode = 0;
-    quint32 length = 0;
+    quint32 opcode_le = 0;
+    quint32 length_le = 0;
 
-    memcpy(&opcode, read_buffer_.constData(), sizeof(opcode));
-    memcpy(&length, read_buffer_.constData() + sizeof(opcode), sizeof(length));
+    memcpy(&opcode_le, read_buffer_.constData(), sizeof(opcode_le));
+    memcpy(&length_le, read_buffer_.constData() + sizeof(opcode_le), sizeof(length_le));
+
+    quint32 opcode = qFromLittleEndian(opcode_le);
+    quint32 length = qFromLittleEndian(length_le);
 
     // Validate frame length to prevent excessively large frames
     if (length > kMaxFrameSize) {
@@ -297,9 +300,10 @@ void DiscordRPC::ProcessIncomingData() {
       case Opcode::Ping: {
         // Respond with Pong
         QByteArray pong_frame;
-        quint32 pong_opcode = static_cast<quint32>(Opcode::Pong);
+        quint32 pong_opcode = qToLittleEndian(static_cast<quint32>(Opcode::Pong));
+        quint32 little_length = qToLittleEndian(length);
         pong_frame.append(reinterpret_cast<const char*>(&pong_opcode), sizeof(pong_opcode));
-        pong_frame.append(reinterpret_cast<const char*>(&length), sizeof(length));
+        pong_frame.append(reinterpret_cast<const char*>(&little_length), sizeof(little_length));
         pong_frame.append(message_data);
         socket_->write(pong_frame);
         socket_->flush();
