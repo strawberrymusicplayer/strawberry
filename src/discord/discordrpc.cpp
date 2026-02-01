@@ -113,24 +113,40 @@ void DiscordRPC::ConnectToDiscord() {
   }
 #else
   // On Unix-like systems, Discord uses Unix domain sockets in temp directory
-  QSet<QString> unique_temp_paths;
+  QStringList temp_paths;
+  QSet<QString> seen_paths;
 
   // Check various temp directories in order of preference
   const QString xdg_runtime = qEnvironmentVariable("XDG_RUNTIME_DIR");
-  if (!xdg_runtime.isEmpty()) unique_temp_paths.insert(xdg_runtime);
+  if (!xdg_runtime.isEmpty() && !seen_paths.contains(xdg_runtime)) {
+    temp_paths << xdg_runtime;
+    seen_paths.insert(xdg_runtime);
+  }
 
   const QString tmpdir = qEnvironmentVariable("TMPDIR");
-  if (!tmpdir.isEmpty()) unique_temp_paths.insert(tmpdir);
+  if (!tmpdir.isEmpty() && !seen_paths.contains(tmpdir)) {
+    temp_paths << tmpdir;
+    seen_paths.insert(tmpdir);
+  }
 
   const QString tmp = qEnvironmentVariable("TMP");
-  if (!tmp.isEmpty()) unique_temp_paths.insert(tmp);
+  if (!tmp.isEmpty() && !seen_paths.contains(tmp)) {
+    temp_paths << tmp;
+    seen_paths.insert(tmp);
+  }
 
   const QString temp = qEnvironmentVariable("TEMP");
-  if (!temp.isEmpty()) unique_temp_paths.insert(temp);
+  if (!temp.isEmpty() && !seen_paths.contains(temp)) {
+    temp_paths << temp;
+    seen_paths.insert(temp);
+  }
 
-  unique_temp_paths.insert("/tmp"_L1);
+  const QString default_tmp = "/tmp"_L1;
+  if (!seen_paths.contains(default_tmp)) {
+    temp_paths << default_tmp;
+  }
 
-  for (const QString &temp_path : std::as_const(unique_temp_paths)) {
+  for (const QString &temp_path : std::as_const(temp_paths)) {
     for (int i = 0; i < 10; ++i) {
       connection_paths_ << "%1/discord-ipc-%2"_L1.arg(temp_path).arg(i);
     }
@@ -171,8 +187,7 @@ void DiscordRPC::OnConnected() {
   }
 
   state_ = State::SentHandshake;
-  // Reset reconnect delay on successful connection
-  reconnect_delay_ = kReconnectMinDelayMs;
+  reconnect_delay_ = kReconnectMinDelayMs;  // Reset reconnect delay on successful connection
   SendHandshake();
 
 }
