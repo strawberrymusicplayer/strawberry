@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+Version 1.2.18 (2026.02.01):
 
     * Fixed devices no longer detected with newer GIO versions (#1974)
     * Fixed error message appearing when dragging folders with non-audio files to the playlist from files (#1977)
