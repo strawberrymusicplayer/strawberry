@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2013-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2013-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -98,9 +98,7 @@ class LastFMImportDialog;
 class RadioViewContainer;
 
 #ifdef HAVE_DISCORD_RPC
-namespace discord {
-class RichPresence;
-}
+class DiscordRichPresence;
 #endif
 
 class MainWindow : public QMainWindow, public PlatformInterface {
@@ -111,7 +109,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
                       SharedPtr<SystemTrayIcon> systemtrayicon,
                       OSDBase *osd,
 #ifdef HAVE_DISCORD_RPC
-                      discord::RichPresence *discord_rich_presence,
+                      DiscordRichPresence *discord_rich_presence,
 #endif
                       const CommandlineOptions &options,
                       QWidget *parent = nullptr);
@@ -310,7 +308,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   SharedPtr<SystemTrayIcon> systemtrayicon_;
   OSDBase *osd_;
 #ifdef HAVE_DISCORD_RPC
-  discord::RichPresence *discord_rich_presence_;
+  DiscordRichPresence *discord_rich_presence_;
 #endif
   Lazy<ErrorDialog> error_dialog_;
   Lazy<About> about_dialog_;
