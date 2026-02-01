@@ -177,7 +177,7 @@ void DiscordRPC::OnDisconnected() {
 
   state_ = State::Disconnected;
   read_buffer_.clear();
-  
+
   // Only schedule reconnect if we're not intentionally shutting down
   if (!shutting_down_) {
     ScheduleReconnect();
@@ -188,7 +188,7 @@ void DiscordRPC::OnDisconnected() {
 void DiscordRPC::OnError(QLocalSocket::LocalSocketError error) {
 
   Q_UNUSED(error);
-  
+
   // During connection phase, try the next path on error
   if (state_ == State::Connecting) {
     TryNextConnection();
