@@ -230,7 +230,7 @@ void DiscordRPC::SendHandshake() {
   frame.append(reinterpret_cast<const char*>(&length), sizeof(length));
   frame.append(handshake_data);
 
-  if (socket_->write(frame) == -1) {
+  if (socket_->write(frame) < 0) {
     socket_->disconnectFromServer();
     return;
   }
@@ -252,7 +252,7 @@ void DiscordRPC::SendFrame(const QByteArray &data) {
   frame.append(reinterpret_cast<const char*>(&length), sizeof(length));
   frame.append(data);
 
-  if (socket_->write(frame) == -1) {
+  if (socket_->write(frame) < 0) {
     socket_->disconnectFromServer();
     return;
   }
@@ -315,7 +315,7 @@ void DiscordRPC::ProcessIncomingData() {
         pong_frame.append(reinterpret_cast<const char*>(&pong_opcode), sizeof(pong_opcode));
         pong_frame.append(reinterpret_cast<const char*>(&little_length), sizeof(little_length));
         pong_frame.append(message_data);
-        if (socket_->write(pong_frame) == -1) {
+        if (socket_->write(pong_frame) < 0) {
           socket_->disconnectFromServer();
           return;
         }
