@@ -1591,7 +1591,7 @@ jobs:
       - name: Download MSVC runtime
         shell: bash
         working-directory: build
-        run: curl -f -O -L https://aka.ms/vs/17/release/vc_redist.$(test "${{matrix.arch}}" = "x86_64" && echo "x64" || echo "${{matrix.arch}}").exe
+        run: curl -f -O -L https://aka.ms/vc14/vc_redist.$(test "${{matrix.arch}}" = "x86_64" && echo "x64" || echo "${{matrix.arch}}").exe
 
       - name: Create nsis installer
         shell: cmd
