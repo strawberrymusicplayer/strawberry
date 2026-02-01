@@ -1357,7 +1357,7 @@ jobs:
 
       - name: Delete conflicting files
         shell: bash
-        run: rm -rf /c/{msys64,mingw32,mingw64} /c/strawberry/c "/c/program files/OpenSSL"
+        run: rm -rf /c/{msys64,mingw32,mingw64,clangarm64} /c/strawberry/c "/c/program files/OpenSSL"
 
       - name: Delete conflicting icu
         shell: bash
