@@ -193,6 +193,10 @@ void DiscordRPC::OnError(QLocalSocket::LocalSocketError error) {
 
   // During connection phase, try the next path on error
   if (state_ == State::Connecting) {
+    // Abort any previous connection attempt to ensure clean socket state
+    if (socket_->state() != QLocalSocket::UnconnectedState) {
+      socket_->abort();
+    }
     TryNextConnection();
   }
   // For other states, error handling is done in OnDisconnected
