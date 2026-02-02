@@ -106,6 +106,7 @@ void ScrobblerSettingsPage::Load() {
   ui_->checkbox_source_unknown->setChecked(scrobbler_->sources().contains(Song::Source::Unknown));
 
   ui_->checkbox_lastfm_enable->setChecked(lastfmscrobbler_->enabled());
+  ui_->lineedit_lastfm_api_key->setText(lastfmscrobbler_->api_key());
   LastFM_RefreshControls(lastfmscrobbler_->authenticated());
 
   ui_->checkbox_listenbrainz_enable->setChecked(listenbrainzscrobbler_->enabled());
@@ -152,6 +153,7 @@ void ScrobblerSettingsPage::Save() {
 
   s.beginGroup(LastFMScrobbler::kSettingsGroup);
   s.setValue(kEnabled, ui_->checkbox_lastfm_enable->isChecked());
+  s.setValue(kApiKey, ui_->lineedit_lastfm_api_key->text());
   s.endGroup();
 
   s.beginGroup(ListenBrainzScrobbler::kSettingsGroup);
