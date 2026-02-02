@@ -1121,6 +1121,7 @@ Section "Uninstall"
   Delete "$INSTDIR\imageformats\qjpegd.dll"
   Delete "$INSTDIR\imageformats\qtiffd.dll"
   Delete "$INSTDIR\imageformats\qjp2d.dll"
+  Delete "$INSTDIR\imageformats\qwebpd.dll"
 !else
   Delete "$INSTDIR\platforms\qwindows.dll"
   Delete "$INSTDIR\styles\qmodernwindowsstyle.dll"
@@ -1132,6 +1133,7 @@ Section "Uninstall"
   Delete "$INSTDIR\imageformats\qjpeg.dll"
   Delete "$INSTDIR\imageformats\qtiff.dll"
   Delete "$INSTDIR\imageformats\qjp2.dll"
+  Delete "$INSTDIR\imageformats\qwebp.dll"
 !endif
 
   ; MinGW GStreamer plugins
