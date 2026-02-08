@@ -2569,7 +2569,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Redirect missing token code!</source>
-      <translation type="unfinished">Redirect missing token code!</translation>
+      <translation>Ανακατεύθυνση ελλείποντος token!</translation>
     </message>
     <message>
       <source>Received invalid reply from web browser.</source>
@@ -2577,7 +2577,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Redirect from Genius is missing query items code or state.</source>
-      <translation type="unfinished">Redirect from Genius is missing query items code or state.</translation>
+      <translation>Στην ανακατεύθυνση από το Genius λείπει ο κώδικας ή η κατάσταση των αντικειμένων ερωτήματος.</translation>
     </message>
   </context>
   <context>
@@ -2705,7 +2705,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>You need to launch System Preferences and allow Strawberry to &quot;&lt;span style=&quot;font-style:italic&quot;&gt;control your computer&lt;/span&gt;&quot; to use global shortcuts in Strawberry.</source>
-      <translation type="unfinished">You need to launch System Preferences and allow Strawberry to &quot;&lt;span style=&quot;font-style:italic&quot;&gt;control your computer&lt;/span&gt;&quot; to use global shortcuts in Strawberry.</translation>
+      <translation>Θα πρέπει να εκκινήσετε τις Προτιμήσεις συστήματος και να επιτρέψετε στο Straberry να &quot;&lt;span style=&quot;font-style:italic&quot;&gt;να ελέγχει τον υπολογιστή σας&lt;/span&gt;&quot; να χρησιμοποιεί καθολικές συντομεύσεις στo Strawberry.</translation>
     </message>
     <message>
       <source>Action</source>
