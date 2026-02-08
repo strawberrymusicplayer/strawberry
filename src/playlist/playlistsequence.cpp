@@ -22,6 +22,7 @@
 #include "config.h"
 
 #include <utility>
+#include <algorithm>
 
 #include <QWidget>
 #include <QVariant>
@@ -33,9 +34,12 @@
 #include <QAction>
 #include <QActionGroup>
 #include <QToolButton>
+#include <QScreen>
+#include <QGuiApplication>
 
 #include "core/iconloader.h"
 #include "core/settingsprovider.h"
+#include "utilities/screenutils.h"
 #include "playlistsequence.h"
 #include "ui_playlistsequence.h"
 
@@ -43,7 +47,14 @@ using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr char kSettingsGroup[] = "PlaylistSequence";
-}
+
+// Base icon size for reference resolution (1920x1080 at 1.0 scale)
+constexpr int kBaseIconSize = 20;
+constexpr int kReferenceWidth = 1920;
+constexpr int kReferenceHeight = 1080;
+constexpr qreal kReferenceDevicePixelRatio = 1.0;
+
+}  // namespace
 
 PlaylistSequence::PlaylistSequence(QWidget *parent, SettingsProvider *settings)
     : QWidget(parent),
@@ -60,9 +71,11 @@ PlaylistSequence::PlaylistSequence(QWidget *parent, SettingsProvider *settings)
   // Icons
   ui_->repeat->setIcon(AddDesaturatedIcon(IconLoader::Load(u"media-playlist-repeat"_s)));
   ui_->shuffle->setIcon(AddDesaturatedIcon(IconLoader::Load(u"media-playlist-shuffle"_s)));
-  const int base_icon_size = static_cast<int>(fontMetrics().height() * 1.2);
-  ui_->repeat->setIconSize(QSize(base_icon_size, base_icon_size));
-  ui_->shuffle->setIconSize(QSize(base_icon_size, base_icon_size));
+  
+  // Calculate icon size dynamically based on screen resolution, aspect ratio, and scaling
+  const int icon_size = CalculateIconSize();
+  ui_->repeat->setIconSize(QSize(icon_size, icon_size));
+  ui_->shuffle->setIconSize(QSize(icon_size, icon_size));
 
   // Remove arrow indicators
   ui_->repeat->setStyleSheet(u"QToolButton::menu-indicator { image: none; }"_s);
@@ -97,6 +110,48 @@ PlaylistSequence::PlaylistSequence(QWidget *parent, SettingsProvider *settings)
 
 PlaylistSequence::~PlaylistSequence() {
   delete ui_;
+}
+
+int PlaylistSequence::CalculateIconSize() {
+
+  // Get screen information for the widget
+  QScreen *screen = Utilities::GetScreen(this);
+  if (!screen) {
+    screen = QGuiApplication::primaryScreen();
+  }
+  
+  if (!screen) {
+    // Fallback to a reasonable default if no screen is available
+    return kBaseIconSize;
+  }
+
+  // Get screen properties
+  const QSize screen_size = screen->size();
+  const qreal device_pixel_ratio = screen->devicePixelRatio();
+  const int screen_width = screen_size.width();
+  const int screen_height = screen_size.height();
+  
+  // Calculate scaling factors based on resolution
+  // Use the smaller dimension to handle both landscape and portrait orientations
+  const int min_dimension = std::min(screen_width, screen_height);
+  const int ref_min_dimension = std::min(kReferenceWidth, kReferenceHeight);
+  const qreal resolution_factor = static_cast<qreal>(min_dimension) / static_cast<qreal>(ref_min_dimension);
+  
+  // Apply device pixel ratio (for high-DPI displays)
+  const qreal dpi_factor = device_pixel_ratio / kReferenceDevicePixelRatio;
+  
+  // Calculate final icon size with combined scaling
+  // Formula: 50% from resolution scaling + 50% from DPI scaling + 50% base multiplier
+  // The 0.5 base ensures icons scale up appropriately across different displays
+  // Without it, icons would be too small on average displays
+  const qreal combined_factor = (resolution_factor * 0.5) + (dpi_factor * 0.5) + 0.5;
+  int calculated_size = static_cast<int>(kBaseIconSize * combined_factor);
+  
+  // Clamp to reasonable bounds (minimum 16px, maximum 48px)
+  calculated_size = std::max(16, std::min(48, calculated_size));
+  
+  return calculated_size;
+
 }
 
 void PlaylistSequence::Load() {
