@@ -563,7 +563,7 @@ void Mpris2::Stop() { player_->Stop(); }
 
 void Mpris2::Play() {
 
-  if (CanPlay()) {
+  if (CanPlay() && player_->GetState() != EngineBase::State::Playing) {
     player_->Play();
   }
 
