@@ -36,8 +36,8 @@
 
 #include "includes/shared_ptr.h"
 #include "core/song.h"
-#ifdef HAVE_MUSICBRAINZ
-#  include "musicbrainz/musicbrainzclient.h"
+#ifdef HAVE_TAGFETCHER
+#  include "tagfetcher/musicbrainzclient.h"
 #endif
 
 class NetworkAccessManager;
@@ -66,20 +66,20 @@ class CDDASongLoader : public QObject {
   void LoadTagsFromMusicBrainz(const QString &musicbrainz_discid, const QMap<int, Song> &songs);
 
  private Q_SLOTS:
-#ifdef HAVE_MUSICBRAINZ
+#ifdef HAVE_TAGFETCHER
   void LoadTagsFromMusicBrainzSlot(const QString &musicbrainz_discid, const QMap<int, Song> &songs);
   void LoadTagsFromMusicBrainzFinished(const QString &musicbrainz_discid, const MusicBrainzClient::ResultList &results, const QString &error);
 #endif
 
  private:
   const QUrl url_;
+#ifdef HAVE_TAGFETCHER
   SharedPtr<NetworkAccessManager> network_;
-#ifdef HAVE_MUSICBRAINZ
   MusicBrainzClient *musicbrainz_client_;
 #endif
   QMutex mutex_load_;
   QFuture<void> loading_future_;
-#ifdef HAVE_MUSICBRAINZ
+#ifdef HAVE_TAGFETCHER
   QString musicbrainz_discid_;
   QMap<int, Song> musicbrainz_songs_;
 #endif

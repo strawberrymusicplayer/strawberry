@@ -96,7 +96,7 @@ CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog,
   QObject::connect(ui_->add_directory, &QPushButton::clicked, this, &CollectionSettingsPage::AddDirectory);
   QObject::connect(ui_->remove_directory, &QPushButton::clicked, this, &CollectionSettingsPage::RemoveDirectory);
 
-#ifdef HAVE_SONGFINGERPRINTING
+#ifdef HAVE_SONGTRACKING
   QObject::connect(ui_->song_tracking, &QCheckBox::toggled, this, &CollectionSettingsPage::SongTrackingToggled);
 #endif
 
@@ -113,7 +113,7 @@ CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog,
 
   QObject::connect(ui_->button_save_stats, &QPushButton::clicked, this, &CollectionSettingsPage::WriteAllSongsStatisticsToFiles);
 
-#ifndef HAVE_SONGFINGERPRINTING
+#ifndef HAVE_SONGTRACKING
   ui_->song_tracking->hide();
 #endif
 

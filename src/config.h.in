@@ -23,8 +23,8 @@
 #cmakedefine HAVE_SPARKLE
 #cmakedefine HAVE_QTSPARKLE
 #cmakedefine HAVE_CHROMAPRINT
-#cmakedefine HAVE_SONGFINGERPRINTING
-#cmakedefine HAVE_MUSICBRAINZ
+#cmakedefine HAVE_SONGTRACKING
+#cmakedefine HAVE_TAGFETCHER
 #cmakedefine HAVE_MOODBAR
 #cmakedefine HAVE_GSTFASTSPECTRUM
 #cmakedefine HAVE_WAVEFORM

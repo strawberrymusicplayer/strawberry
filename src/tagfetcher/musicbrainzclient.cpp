@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -96,6 +96,14 @@ void MusicBrainzClient::CancelAll() {
   qDeleteAll(discid_requests_);
   discid_requests_.clear();
 
+  pending_mbid_requests_.clear();
+  pending_discid_requests_.clear();
+  pending_results_.clear();
+
+  if (timer_flush_requests_->isActive()) {
+    timer_flush_requests_->stop();
+  }
+
 }
 
 JsonBaseRequest::JsonObjectResult MusicBrainzClient::ParseJsonObject(QNetworkReply *reply) {
@@ -170,6 +178,13 @@ void MusicBrainzClient::CancelMbIdRequest(const int id) {
     QObject::disconnect(reply, nullptr, this, nullptr);
     if (reply->isRunning()) reply->abort();
     reply->deleteLater();
+  }
+
+  if (pending_mbid_requests_.contains(id)) {
+    pending_mbid_requests_.remove(id);
+  }
+  if (pending_results_.contains(id)) {
+    pending_results_.remove(id);
   }
 
 }
@@ -263,6 +278,10 @@ void MusicBrainzClient::CancelDiscIdRequest(const QString &disc_id) {
     QObject::disconnect(reply, nullptr, this, nullptr);
     if (reply->isRunning()) reply->abort();
     reply->deleteLater();
+  }
+
+  if (pending_discid_requests_.contains(disc_id)) {
+    pending_discid_requests_.removeAll(disc_id);
   }
 
 }

@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,10 +36,9 @@
 class NetworkAccessManager;
 class AcoustidClient;
 
+// High level interface to Fingerprinter, AcoustidClient and MusicBrainzClient
 class TagFetcher : public QObject {
   Q_OBJECT
-
-  // High level interface to Fingerprinter, AcoustidClient and MusicBrainzClient.
 
  public:
   explicit TagFetcher(SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
@@ -59,9 +58,18 @@ class TagFetcher : public QObject {
   void TagsFetched(const int index, const MusicBrainzClient::ResultList &results, const QString &error = QString());
 
  private:
-  static QString GetFingerprint(const Song &song);
+  class FingerprintResult {
+   public:
+    explicit FingerprintResult(const QString &_fingerprint = QString(), const QString &_error = QString()) : fingerprint(_fingerprint), error(_error) {}
+    QString fingerprint;
+    QString error;
+  };
 
-  QFutureWatcher<QString> *fingerprint_watcher_;
+  static bool IsValidFingerprint(const QString &fingerprint);
+  static FingerprintResult GetFingerprint(const Song &song);
+  QString BuildUiErrorDetails(const QString &stage, const QString &reason, const QStringList &extra = QStringList());
+
+  QFutureWatcher<FingerprintResult> *fingerprint_watcher_;
   AcoustidClient *acoustid_client_;
   MusicBrainzClient *musicbrainz_client_;
 

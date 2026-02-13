@@ -53,16 +53,16 @@ using namespace Qt::Literals::StringLiterals;
 CDDASongLoader::CDDASongLoader(const QUrl &url, QObject *parent)
     : QObject(parent),
       url_(url),
+#ifdef HAVE_TAGFETCHER
       network_(make_shared<NetworkAccessManager>()),
-#ifdef HAVE_MUSICBRAINZ
       musicbrainz_client_(new MusicBrainzClient(network_, this)),
 #endif
       whatever_(false) {
 
-#ifdef HAVE_MUSICBRAINZ
+#ifdef HAVE_TAGFETCHER
   QObject::connect(this, &CDDASongLoader::LoadTagsFromMusicBrainz, this, &CDDASongLoader::LoadTagsFromMusicBrainzSlot);
   QObject::connect(musicbrainz_client_, &MusicBrainzClient::DiscIdFinished, this, &CDDASongLoader::LoadTagsFromMusicBrainzFinished);
-#endif  // HAVE_MUSICBRAINZ
+#endif  // HAVE_TAGFETCHER
 
 }
 
@@ -166,9 +166,9 @@ void CDDASongLoader::LoadSongsFromCDDA() {
 
   Q_EMIT SongsLoaded(songs.values());
 
-#ifdef HAVE_MUSICBRAINZ
+#ifdef HAVE_TAGFETCHER
   gst_tag_register_musicbrainz_tags();
-#endif  // HAVE_MUSICBRAINZ
+#endif  // HAVE_TAGFETCHER
 
   GstElement *pipeline = gst_pipeline_new("pipeline");
   GstElement *sink = gst_element_factory_make("fakesink", nullptr);
@@ -181,9 +181,9 @@ void CDDASongLoader::LoadSongsFromCDDA() {
   int track_artist_tags = 0;
   int track_album_tags = 0;
   int track_title_tags = 0;
-#ifdef HAVE_MUSICBRAINZ
+#ifdef HAVE_TAGFETCHER
   QString musicbrainz_discid;
-#endif  // HAVE_MUSICBRAINZ
+#endif  // HAVE_TAGFETCHER
   GstMessageType msg_filter = static_cast<GstMessageType>(GST_MESSAGE_TOC|GST_MESSAGE_TAG);
   while (msg_filter != 0 && (msg = gst_bus_timed_pop_filtered(GST_ELEMENT_BUS(pipeline), GST_SECOND * 5, msg_filter))) {
 
@@ -226,7 +226,7 @@ void CDDASongLoader::LoadSongsFromCDDA() {
 
       char *tag = nullptr;
 
-#ifdef HAVE_MUSICBRAINZ
+#ifdef HAVE_TAGFETCHER
       if (musicbrainz_discid.isEmpty()) {
         if (gst_tag_list_get_string(tags, GST_TAG_CDDA_MUSICBRAINZ_DISCID, &tag)) {
           musicbrainz_discid = QString::fromUtf8(tag);
@@ -351,7 +351,7 @@ void CDDASongLoader::LoadSongsFromCDDA() {
     Q_EMIT LoadingFinished();
   }
   else {
-#ifdef HAVE_MUSICBRAINZ
+#ifdef HAVE_TAGFETCHER
     if (musicbrainz_discid.isEmpty()) {
       qLog(Info) << "CD is missing tags";
       Q_EMIT LoadingFinished();
@@ -362,12 +362,12 @@ void CDDASongLoader::LoadSongsFromCDDA() {
     }
 #else
     Q_EMIT LoadingFinished();
-#endif  // HAVE_MUSICBRAINZ
+#endif  // HAVE_TAGFETCHER
   }
 
 }
 
-#ifdef HAVE_MUSICBRAINZ
+#ifdef HAVE_TAGFETCHER
 
 void CDDASongLoader::LoadTagsFromMusicBrainzSlot(const QString &musicbrainz_discid, const QMap<int, Song> &songs) {
 
@@ -427,7 +427,7 @@ void CDDASongLoader::LoadTagsFromMusicBrainzFinished(const QString &musicbrainz_
 
 }
 
-#endif  // HAVE_MUSICBRAINZ
+#endif  // HAVE_TAGFETCHER
 
 void CDDASongLoader::Error(const QString &error) {
 

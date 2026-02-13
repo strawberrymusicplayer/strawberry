@@ -68,7 +68,7 @@
 #  include "core/filesystemwatcherqt.h"
 #endif
 
-#ifdef HAVE_SONGFINGERPRINTING
+#ifdef HAVE_SONGTRACKING
 #  include "engine/chromaprinter.h"
 #endif
 #ifdef HAVE_EBUR128
@@ -591,7 +591,7 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
 
   bool songs_missing_fingerprint = false;
   bool songs_missing_loudness_characteristics = false;
-#ifdef HAVE_SONGFINGERPRINTING
+#ifdef HAVE_SONGTRACKING
   if (song_tracking_) {
     songs_missing_fingerprint = t->HasSongsWithMissingFingerprint(path);
   }
@@ -723,7 +723,7 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
 
       bool missing_fingerprint = false;
       bool missing_loudness_characteristics = false;
-#ifdef HAVE_SONGFINGERPRINTING
+#ifdef HAVE_SONGTRACKING
       if (song_tracking_ && matching_song.fingerprint().isEmpty()) {
         missing_fingerprint = true;
       }
@@ -754,7 +754,7 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
       else if (t->ignores_mtime() || changed || missing_fingerprint || missing_loudness_characteristics) {
 
         QString fingerprint;
-#ifdef HAVE_SONGFINGERPRINTING
+#ifdef HAVE_SONGTRACKING
         if (song_tracking_) {
           Chromaprinter chromaprinter(file);
           fingerprint = chromaprinter.CreateFingerprint();
@@ -777,7 +777,7 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
     }
     else {  // Search the DB by fingerprint.
       QString fingerprint;
-#ifdef HAVE_SONGFINGERPRINTING
+#ifdef HAVE_SONGTRACKING
       if (song_tracking_) {
         Chromaprinter chromaprinter(file);
         fingerprint = chromaprinter.CreateFingerprint();
