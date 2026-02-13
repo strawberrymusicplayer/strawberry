@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -59,7 +59,6 @@ TrackSelectionDialog::TrackSelectionDialog(const SharedPtr<TagReaderClient> tagr
       tagreader_client_(tagreader_client),
       save_on_close_(false) {
 
-  // Setup dialog window
   ui_->setupUi(this);
 
   QObject::connect(ui_->song_list, &QListWidget::currentRowChanged, this, &TrackSelectionDialog::UpdateStack);
@@ -100,7 +99,7 @@ TrackSelectionDialog::~TrackSelectionDialog() {
 void TrackSelectionDialog::Init(const SongList &songs) {
 
   ui_->song_list->clear();
-  ui_->stack->setCurrentWidget(ui_->loading_page);
+  ui_->stacked_widget->setCurrentWidget(ui_->loading_page);
   data_.clear();
 
   for (const Song &song : songs) {
@@ -144,7 +143,7 @@ void TrackSelectionDialog::FetchTagProgress(const Song &original_song, const QSt
 
 }
 
-void TrackSelectionDialog::FetchTagFinished(const Song &original_song, const SongList &songs_guessed) {
+void TrackSelectionDialog::FetchTagFinished(const Song &original_song, const SongList &songs_guessed, const QString &error) {
 
   // Find the item with this filename
   int row = -1;
@@ -162,6 +161,7 @@ void TrackSelectionDialog::FetchTagFinished(const Song &original_song, const Son
 
   // Add the results to the list
   data_[row].pending_ = false;
+  data_[row].error_string_ = error;
   data_[row].results_ = songs_guessed;
 
   // If it's the current item, update the display
@@ -179,15 +179,23 @@ void TrackSelectionDialog::UpdateStack() {
   const Data tag_data = data_.value(row);
 
   if (tag_data.pending_) {
-    ui_->stack->setCurrentWidget(ui_->loading_page);
+    ui_->stacked_widget->setCurrentWidget(ui_->loading_page);
     ui_->progress->set_text(tag_data.progress_string_ + QStringLiteral("..."));
     return;
   }
   if (tag_data.results_.isEmpty()) {
-    ui_->stack->setCurrentWidget(ui_->error_page);
+    ui_->stacked_widget->setCurrentWidget(ui_->error_page);
+    if (tag_data.error_string_.isEmpty()) {
+      ui_->label_error_title->setText(tr("No results"));
+      ui_->label_error_text->setText(tr("Strawberry was unable to find results for this file"));
+    }
+    else {
+      ui_->label_error_title->setText(tr("Error"));
+      ui_->label_error_text->setText(tag_data.error_string_);
+    }
     return;
   }
-  ui_->stack->setCurrentWidget(ui_->results_page);
+  ui_->stacked_widget->setCurrentWidget(ui_->results_page);
 
   // Clear tree widget
   ui_->results->clear();
@@ -263,8 +271,8 @@ void TrackSelectionDialog::SetLoading(const QString &message) {
 
   ui_->button_box->setEnabled(!loading);
   ui_->splitter->setEnabled(!loading);
-  ui_->loading_label->setVisible(loading);
-  ui_->loading_label->set_text(message);
+  ui_->loading->setVisible(loading);
+  ui_->loading->set_text(message);
 
 }
 

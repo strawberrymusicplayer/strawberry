@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -51,7 +51,7 @@ class TrackSelectionDialog : public QDialog {
 
  public Q_SLOTS:
   void FetchTagProgress(const Song &original_song, const QString &progress);
-  void FetchTagFinished(const Song &original_song, const SongList &songs_guessed);
+  void FetchTagFinished(const Song &original_song, const SongList &songs_guessed, const QString &error = QString());
 
   // QDialog
   void accept() override;
@@ -78,6 +78,7 @@ class TrackSelectionDialog : public QDialog {
     Song original_song_;
     bool pending_;
     QString progress_string_;
+    QString error_string_;
     SongList results_;
     int selected_result_;
   };
