@@ -143,6 +143,41 @@
          </widget>
         </item>
         <item>
+         <widget class="QLabel" name="error_details_title">
+          <property name="text">
+           <string>Technical details</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="visible">
+           <bool>false</bool>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QLabel { font-weight: bold; }</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="error_details">
+          <property name="text">
+           <string></string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
+          <property name="textInteractionFlags">
+           <set>Qt::TextSelectableByMouse</set>
+          </property>
+          <property name="visible">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
          <spacer name="verticalSpacer_4">
           <property name="orientation">
            <enum>Qt::Vertical</enum>

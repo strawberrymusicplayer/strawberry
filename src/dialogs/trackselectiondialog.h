@@ -51,7 +51,7 @@ class TrackSelectionDialog : public QDialog {
 
  public Q_SLOTS:
   void FetchTagProgress(const Song &original_song, const QString &progress);
-  void FetchTagFinished(const Song &original_song, const SongList &songs_guessed);
+  void FetchTagFinished(const Song &original_song, const SongList &songs_guessed, const QString &error = QString());
 
   // QDialog
   void accept() override;
@@ -78,6 +78,8 @@ class TrackSelectionDialog : public QDialog {
     Song original_song_;
     bool pending_;
     QString progress_string_;
+    // Carries technical diagnostics returned by TagFetcher for the error page.
+    QString error_string_;
     SongList results_;
     int selected_result_;
   };
