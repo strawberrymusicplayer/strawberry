@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -52,7 +52,7 @@ class AcoustidClient : public QObject {
   void SetTimeout(const int msec);
 
   // Starts a request and returns immediately.  Finished() will be emitted later with the same ID.
-  void Start(const int id, const QString &fingerprint, int duration_msec);
+  void Start(const int id, const QString &fingerprint, const int duration_msec);
 
   // Cancels the request with the given ID.  Finished() will never be emitted for that ID.  Does nothing if there is no request with the given ID.
   void Cancel(const int id);

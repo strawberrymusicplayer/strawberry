@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2019-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,14 +29,22 @@
 #include <QFuture>
 #include <QFutureWatcher>
 #include <QString>
+#include <QStringList>
 
 #include "includes/shared_ptr.h"
+#include "core/logging.h"
 #include "core/networkaccessmanager.h"
 #include "constants/timeconstants.h"
 #include "engine/chromaprinter.h"
 #include "acoustidclient.h"
 #include "musicbrainzclient.h"
 #include "tagfetcher.h"
+
+namespace {
+constexpr int kMinimumAcoustidFingerprintLength = 16;
+}  // namespace
+
+using namespace Qt::StringLiterals;
 
 TagFetcher::TagFetcher(SharedPtr<NetworkAccessManager> network, QObject *parent)
     : QObject(parent),
@@ -49,8 +57,39 @@ TagFetcher::TagFetcher(SharedPtr<NetworkAccessManager> network, QObject *parent)
 
 }
 
-QString TagFetcher::GetFingerprint(const Song &song) {
-  return Chromaprinter(song.url().toLocalFile()).CreateFingerprint();
+bool TagFetcher::IsValidFingerprint(const QString &fingerprint) {
+  return !fingerprint.isEmpty() && fingerprint.compare("NONE"_L1, Qt::CaseInsensitive) != 0 && fingerprint.size() >= kMinimumAcoustidFingerprintLength;
+}
+
+TagFetcher::FingerprintResult TagFetcher::GetFingerprint(const Song &song) {
+
+  Chromaprinter chromaprinter(song.url());
+  const QString fingerprint = chromaprinter.CreateFullFingerprint();
+  const QString error = chromaprinter.LastError();
+  if (fingerprint.isEmpty()) {
+    qLog(Warning) << "Tag fetch fingerprint generation failed for" << song.url() << ":" << error;
+  }
+  else {
+    qLog(Debug) << "Tag fetch fingerprint generated for" << song.url() << "length" << fingerprint.size();
+  }
+
+  return FingerprintResult(fingerprint, error);
+
+}
+
+QString TagFetcher::BuildUiErrorDetails(const QString &stage, const QString &reason, const QStringList &extra) {
+
+  QStringList lines;
+  lines << tr("Stage: %1").arg(stage);
+  lines << tr("Reason: %1").arg(reason);
+  for (const QString &line : extra) {
+    if (!line.isEmpty()) {
+      lines << line;
+    }
+  }
+
+  return lines.join(QLatin1Char('\n'));
+
 }
 
 void TagFetcher::StartFetch(const SongList &songs) {
@@ -59,22 +98,20 @@ void TagFetcher::StartFetch(const SongList &songs) {
 
   songs_ = songs;
 
-  bool have_fingerprints = true;
-  if (std::any_of(songs.begin(), songs.end(), [](const Song &song) { return song.fingerprint().isEmpty(); })) {
-    have_fingerprints = false;
-  }
-
+  const bool have_fingerprints = !std::any_of(songs.begin(), songs.end(), [](const Song &song) { return !IsValidFingerprint(song.fingerprint()); });
   if (have_fingerprints) {
     for (int i = 0; i < songs_.count(); ++i) {
       const Song song = songs_.value(i);
       Q_EMIT Progress(song, tr("Identifying song"));
-      acoustid_client_->Start(i, song.fingerprint(), static_cast<int>(song.length_nanosec() / kNsecPerMsec));
+      const QString fingerprint = song.fingerprint();
+      qLog(Debug) << "Tag fetch using cached fingerprint for" << song.url() << "length" << fingerprint.size();
+      acoustid_client_->Start(i, fingerprint, static_cast<int>(song.length_nanosec() / kNsecPerMsec));
     }
   }
   else {
-    QFuture<QString> future = QtConcurrent::mapped(songs_, GetFingerprint);
-    fingerprint_watcher_ = new QFutureWatcher<QString>(this);
-    QObject::connect(fingerprint_watcher_, &QFutureWatcher<QString>::resultReadyAt, this, &TagFetcher::FingerprintFound);
+    QFuture<FingerprintResult> future = QtConcurrent::mapped(songs_, GetFingerprint);
+    fingerprint_watcher_ = new QFutureWatcher<FingerprintResult>(this);
+    QObject::connect(fingerprint_watcher_, &QFutureWatcher<FingerprintResult>::resultReadyAt, this, &TagFetcher::FingerprintFound);
     fingerprint_watcher_->setFuture(future);
     for (const Song &song : std::as_const(songs_)) {
       Q_EMIT Progress(song, tr("Fingerprinting song"));
@@ -87,7 +124,6 @@ void TagFetcher::Cancel() {
 
   if (fingerprint_watcher_) {
     fingerprint_watcher_->cancel();
-
     fingerprint_watcher_->deleteLater();
     fingerprint_watcher_ = nullptr;
   }
@@ -100,25 +136,34 @@ void TagFetcher::Cancel() {
 
 void TagFetcher::FingerprintFound(const int index) {
 
-  QFutureWatcher<QString> *watcher = static_cast<QFutureWatcher<QString>*>(sender());
-  if (!watcher || index >= songs_.count()) return;
+  QFutureWatcher<FingerprintResult> *watcher = static_cast<QFutureWatcher<FingerprintResult>*>(sender());
+  if (!watcher || index < 0 || index >= songs_.count()) return;
 
-  const QString fingerprint = watcher->resultAt(index);
+  const FingerprintResult fingerprint_result = watcher->resultAt(index);
+  const QString &fingerprint = fingerprint_result.fingerprint;
+  const QString &fingerprint_error = fingerprint_result.error;
   const Song song = songs_.value(index);
 
-  if (fingerprint.isEmpty()) {
-    Q_EMIT ResultAvailable(song, SongList());
+  if (!IsValidFingerprint(fingerprint)) {
+    QString reason = fingerprint_error;
+    if (reason.isEmpty()) {
+      reason = tr("Generated fingerprint is empty or invalid");
+    }
+    const QString result_error = BuildUiErrorDetails(tr("Fingerprinting"), reason, QStringList() << tr("Fingerprint length: %1").arg(fingerprint.size()) << tr("Minimum required length: %1").arg(kMinimumAcoustidFingerprintLength));
+    qLog(Error) << "Tag fetch fingerprint invalid for" << song.url() << ":" << result_error;
+    Q_EMIT ResultAvailable(song, SongList(), result_error);
     return;
   }
 
   Q_EMIT Progress(song, tr("Identifying song"));
+  qLog(Debug) << "Tag fetch sending generated fingerprint for" << song.url() << "length" << fingerprint.size();
   acoustid_client_->Start(index, fingerprint, static_cast<int>(song.length_nanosec() / kNsecPerMsec));
 
 }
 
 void TagFetcher::PuidsFound(const int index, const QStringList &puid_list, const QString &error) {
 
-  if (index >= songs_.count()) {
+  if (index < 0 || index >= songs_.count()) {
     return;
   }
 
@@ -136,7 +181,7 @@ void TagFetcher::PuidsFound(const int index, const QStringList &puid_list, const
 
 void TagFetcher::TagsFetched(const int index, const MusicBrainzClient::ResultList &results, const QString &error) {
 
-  if (index >= songs_.count()) {
+  if (index < 0 || index >= songs_.count()) {
     return;
   }
 
@@ -159,6 +204,21 @@ void TagFetcher::TagsFetched(const int index, const MusicBrainzClient::ResultLis
     songs_guessed << song;
   }
 
-  Q_EMIT ResultAvailable(original_song, songs_guessed, error);
+  QString result_error = error;
+  if (songs_guessed.isEmpty()) {
+    QString reason = result_error;
+    if (reason.isEmpty()) {
+      reason = tr("No MusicBrainz metadata was found for this track");
+    }
+    result_error = BuildUiErrorDetails(tr("MusicBrainz metadata"), reason, QStringList() << tr("Candidate metadata rows: 0"));
+  }
+  if (!songs_guessed.isEmpty()) {
+    qLog(Debug) << "Tag fetch resolved" << songs_guessed.count() << "candidate(s) for" << original_song.url();
+  }
+  else {
+    qLog(Warning) << "Tag fetch no MusicBrainz candidates for" << original_song.url() << ":" << result_error;
+  }
+
+  Q_EMIT ResultAvailable(original_song, songs_guessed, result_error);
 
 }

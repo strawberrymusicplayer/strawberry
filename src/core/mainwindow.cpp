@@ -199,8 +199,8 @@
 
 #include "scrobbler/audioscrobbler.h"
 
-#ifdef HAVE_MUSICBRAINZ
-#  include "musicbrainz/tagfetcher.h"
+#ifdef HAVE_TAGFETCHER
+#  include "tagfetcher/tagfetcher.h"
 #endif
 
 #ifdef HAVE_MOODBAR
@@ -605,7 +605,7 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(ui_->action_renumber_tracks, &QAction::triggered, this, &MainWindow::RenumberTracks);
   QObject::connect(ui_->action_selection_set_value, &QAction::triggered, this, &MainWindow::SelectionSetValue);
   QObject::connect(ui_->action_edit_value, &QAction::triggered, this, &MainWindow::EditValue);
-#ifdef HAVE_MUSICBRAINZ
+#ifdef HAVE_TAGFETCHER
   QObject::connect(ui_->action_auto_complete_tags, &QAction::triggered, this, &MainWindow::AutoCompleteTags);
 #endif
   QObject::connect(ui_->action_settings, &QAction::triggered, this, &MainWindow::OpenSettingsDialog);
@@ -871,7 +871,7 @@ MainWindow::MainWindow(Application *app,
   playlist_menu_->addAction(ui_->action_edit_value);
   playlist_menu_->addAction(ui_->action_renumber_tracks);
   playlist_menu_->addAction(ui_->action_selection_set_value);
-#ifdef HAVE_MUSICBRAINZ
+#ifdef HAVE_TAGFETCHER
   playlist_menu_->addAction(ui_->action_auto_complete_tags);
 #endif
   playlist_rescan_songs_ = playlist_menu_->addAction(IconLoader::Load(u"view-refresh"_s), tr("Rescan song(s)..."), this, &MainWindow::RescanSongs);
@@ -2106,7 +2106,7 @@ void MainWindow::ShowPlaylistContextMenu(const QPoint global_pos, const QModelIn
   // this is available when we have one or many files and at least one of those is not CUE related
   ui_->action_edit_track->setEnabled(local_songs > 0 && editable > 0);
   ui_->action_edit_track->setVisible(local_songs > 0 && editable > 0);
-#ifdef HAVE_MUSICBRAINZ
+#ifdef HAVE_TAGFETCHER
   ui_->action_auto_complete_tags->setEnabled(local_songs > 0 && editable > 0);
   ui_->action_auto_complete_tags->setVisible(local_songs > 0 && editable > 0);
 #endif
@@ -3201,7 +3201,7 @@ bool MainWindow::nativeEvent(const QByteArray &eventType, void *message, qintptr
 
 void MainWindow::AutoCompleteTags() {
 
-#ifdef HAVE_MUSICBRAINZ
+#ifdef HAVE_TAGFETCHER
 
   autocomplete_tag_items_.clear();
 

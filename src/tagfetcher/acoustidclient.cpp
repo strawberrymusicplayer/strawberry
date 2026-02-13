@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -69,14 +69,16 @@ AcoustidClient::~AcoustidClient() {
 
 void AcoustidClient::SetTimeout(const int msec) { timeouts_->SetTimeout(msec); }
 
-void AcoustidClient::Start(const int id, const QString &fingerprint, int duration_msec) {
+void AcoustidClient::Start(const int id, const QString &fingerprint, const int duration_msec) {
 
   using Param = QPair<QString, QString>;
   using ParamList = QList<Param>;
 
+  const qint64 duration_secs = qMax(1LL, duration_msec / kMsecPerSec);
+
   const ParamList params = ParamList() << Param(u"format"_s, u"json"_s)
                                        << Param(u"client"_s, QLatin1String(kClientId))
-                                       << Param(u"duration"_s, QString::number(std::max(1LL, duration_msec / kMsecPerSec)))
+                                       << Param(u"duration"_s, QString::number(duration_secs))
                                        << Param(u"meta"_s, u"recordingids+sources"_s)
                                        << Param(u"fingerprint"_s, fingerprint);
 
@@ -86,6 +88,7 @@ void AcoustidClient::Start(const int id, const QString &fingerprint, int duratio
   QNetworkRequest network_request(QUrl(QString::fromLatin1(kUrl)));
   network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
   network_request.setHeader(QNetworkRequest::ContentTypeHeader, u"application/x-www-form-urlencoded"_s);
+  qLog(Debug) << "AcoustID request ID" << id << "duration(s)" << duration_secs << "fingerprint length" << fingerprint.size();
   QNetworkReply *reply = network_->post(network_request, data);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, id]() { RequestFinished(reply, id); });
   requests_[id] = reply;
@@ -139,30 +142,73 @@ void AcoustidClient::RequestFinished(QNetworkReply *reply, const int request_id)
   reply->deleteLater();
   requests_.remove(request_id);
 
-  if (reply->error() != QNetworkReply::NoError || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
-    if (reply->error() != QNetworkReply::NoError) {
-      qLog(Error) << QStringLiteral("Acoustid: %1 (%2)").arg(reply->errorString()).arg(reply->error());
+  const int http_status_code = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+  const QByteArray data = reply->readAll();
+
+  QString api_error_message;
+  QJsonObject json_object;
+  // Keep only a short snippet for diagnostics to avoid dumping full responses in logs
+  const QString response_preview = QString::fromUtf8(data.left(512)).trimmed();
+  if (!data.isEmpty()) {
+    QJsonParseError parse_error;
+    const QJsonDocument json_document = QJsonDocument::fromJson(data, &parse_error);
+    if (parse_error.error == QJsonParseError::NoError) {
+      json_object = json_document.object();
+      const QString status = json_object["status"_L1].toString();
+      if (status != "ok"_L1) {
+        if (json_object["error"_L1].isObject()) {
+          const QJsonObject error_object = json_object["error"_L1].toObject();
+          const int api_error_code = error_object["code"_L1].toInt();
+          const QString api_error_text = error_object["message"_L1].toString();
+          if (!api_error_text.isEmpty()) {
+            api_error_message = QStringLiteral("%1 (%2)").arg(api_error_text).arg(api_error_code);
+          }
+        }
+        else if (json_object["error"_L1].isString()) {
+          api_error_message = json_object["error"_L1].toString();
+        }
+        if (api_error_message.isEmpty()) {
+          api_error_message = status;
+        }
+      }
     }
-    else {
-      qLog(Error) << QStringLiteral("Acoustid: Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
+    else if (reply->error() == QNetworkReply::NoError && http_status_code == 200) {
+      Q_EMIT Finished(request_id, QStringList(), parse_error.errorString());
+      return;
     }
-    Q_EMIT Finished(request_id, QStringList());
+  }
+
+  if (reply->error() != QNetworkReply::NoError || http_status_code != 200) {
+    QString error_message = api_error_message;
+    if (error_message.isEmpty()) {
+      if (reply->error() == QNetworkReply::NoError) {
+        error_message = QStringLiteral("Received HTTP code %1").arg(http_status_code);
+      }
+      else {
+        error_message = QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error());
+      }
+    }
+    qLog(Error) << QStringLiteral("Acoustid: %1").arg(error_message);
+    if (!response_preview.isEmpty()) {
+      qLog(Debug) << "AcoustID non-200 response body preview:" << response_preview;
+    }
+    Q_EMIT Finished(request_id, QStringList(), error_message);
     return;
   }
 
-  QJsonParseError error;
-  const QJsonDocument json_document = QJsonDocument::fromJson(reply->readAll(), &error);
-
-  if (error.error != QJsonParseError::NoError) {
-    Q_EMIT Finished(request_id, QStringList(), error.errorString());
+  if (json_object.isEmpty()) {
+    Q_EMIT Finished(request_id, QStringList(), u"Empty response from AcoustID"_s);
     return;
   }
-
-  const QJsonObject json_object = json_document.object();
 
   const QString status = json_object["status"_L1].toString();
   if (status != "ok"_L1) {
-    Q_EMIT Finished(request_id, QStringList(), status);
+    const QString status_error = api_error_message.isEmpty() ? status : api_error_message;
+    qLog(Warning) << "AcoustID request ID" << request_id << "status not ok:" << status_error;
+    if (!response_preview.isEmpty()) {
+      qLog(Debug) << "AcoustID status!=ok body preview:" << response_preview;
+    }
+    Q_EMIT Finished(request_id, QStringList(), status_error);
     return;
   }
 
@@ -196,6 +242,8 @@ void AcoustidClient::RequestFinished(QNetworkReply *reply, const int request_id)
   for (const IdSource &is : std::as_const(id_source_list)) {
     id_list << is.id_;
   }
+
+  qLog(Debug) << "AcoustID request ID" << request_id << "returned" << id_list.count() << "recording id(s)";
 
   Q_EMIT Finished(request_id, id_list);
 

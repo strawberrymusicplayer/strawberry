@@ -304,12 +304,14 @@ if(UNIX AND NOT APPLE)
   )
 endif()
 
-optional_component(SONGFINGERPRINTING ON "Song fingerprinting and tracking"
+optional_component(CHROMAPRINT ON "Chromaprint"
   DEPENDS "chromaprint" CHROMAPRINT_FOUND
 )
-
-optional_component(MUSICBRAINZ ON "MusicBrainz integration"
-  DEPENDS "chromaprint" CHROMAPRINT_FOUND
+optional_component(SONGTRACKING ON "Song tracking"
+  DEPENDS "chromaprint" HAVE_CHROMAPRINT
+)
+optional_component(TAGFETCHER ON "Tag fetcher"
+  DEPENDS "chromaprint" HAVE_CHROMAPRINT
 )
 
 if(UNIX AND NOT APPLE)
@@ -392,10 +394,6 @@ optional_component(STREAMTAGREADER ON "Stream tagreader"
 )
 
 optional_component(DISCORD_RPC ON "Discord Rich Presence")
-
-if(HAVE_SONGFINGERPRINTING OR HAVE_MUSICBRAINZ)
-  set(HAVE_CHROMAPRINT ON)
-endif()
 
 if(HAVE_X11_GLOBALSHORTCUTS OR HAVE_KGLOBALACCEL_GLOBALSHORTCUTS OR APPLE OR WIN32)
   set(HAVE_GLOBALSHORTCUTS ON)
@@ -1329,15 +1327,15 @@ optional_source(MSVC SOURCES src/engine/uwpdevicefinder.cpp src/engine/asiodevic
 optional_source(MSVC SOURCES src/core/winsystemmediatransportcontrols.cpp HEADERS src/core/winsystemmediatransportcontrols.h)
 optional_source(HAVE_CHROMAPRINT SOURCES src/engine/chromaprinter.cpp)
 
-optional_source(HAVE_MUSICBRAINZ
+optional_source(HAVE_TAGFETCHER
   SOURCES
-    src/musicbrainz/acoustidclient.cpp
-    src/musicbrainz/musicbrainzclient.cpp
-    src/musicbrainz/tagfetcher.cpp
+    src/tagfetcher/acoustidclient.cpp
+    src/tagfetcher/musicbrainzclient.cpp
+    src/tagfetcher/tagfetcher.cpp
   HEADERS
-    src/musicbrainz/acoustidclient.h
-    src/musicbrainz/musicbrainzclient.h
-    src/musicbrainz/tagfetcher.h
+    src/tagfetcher/acoustidclient.h
+    src/tagfetcher/musicbrainzclient.h
+    src/tagfetcher/tagfetcher.h
 )
 
 optional_source(HAVE_EBUR128 SOURCES src/engine/ebur128analysis.cpp)
