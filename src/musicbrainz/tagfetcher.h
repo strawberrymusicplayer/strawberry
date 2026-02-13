@@ -26,6 +26,7 @@
 
 #include <QObject>
 #include <QFutureWatcher>
+#include <QPair>
 #include <QString>
 #include <QStringList>
 
@@ -51,6 +52,7 @@ class TagFetcher : public QObject {
 
  Q_SIGNALS:
   void Progress(const Song &original_song, const QString &stage);
+  // The optional error string contains user-facing technical diagnostics.
   void ResultAvailable(const Song &original_song, const SongList &songs_guessed, const QString &error = QString());
 
  private Q_SLOTS:
@@ -59,9 +61,9 @@ class TagFetcher : public QObject {
   void TagsFetched(const int index, const MusicBrainzClient::ResultList &results, const QString &error = QString());
 
  private:
-  static QString GetFingerprint(const Song &song);
+  static QPair<QString, QString> GetFingerprint(const Song &song);
 
-  QFutureWatcher<QString> *fingerprint_watcher_;
+  QFutureWatcher<QPair<QString, QString>> *fingerprint_watcher_;
   AcoustidClient *acoustid_client_;
   MusicBrainzClient *musicbrainz_client_;
 

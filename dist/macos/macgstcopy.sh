@@ -45,6 +45,7 @@ fi
 
 mkdir -p "${bundledir}/Contents/PlugIns/gio-modules" || exit 1
 mkdir -p "${bundledir}/Contents/PlugIns/gstreamer" || exit 1
+mkdir -p "${bundledir}/Contents/Frameworks" || exit 1
 
 if [ -e "${GIO_EXTRA_MODULES}/libgiognutls.so" ]; then
   cp -v -f "${GIO_EXTRA_MODULES}/libgiognutls.so" "${bundledir}/Contents/PlugIns/gio-modules/" || exit 1
@@ -91,6 +92,8 @@ libgstid3demux
 libgstid3tag
 libgstisomp4
 libgstlame
+# Needed for WebM/Matroska containers that often wrap Opus streams.
+libgstmatroska
 libgstmpegpsdemux
 libgstmpegpsmux
 libgstmpegtsdemux
@@ -138,12 +141,20 @@ for gst_plugin in $gst_plugins; do
   fi
 done
 
+# libgstmatroska depends on libgstriff, which is not always pulled automatically.
+gst_library_path=$(dirname "${GST_PLUGIN_PATH}")
+if [ -e "${gst_library_path}/libgstriff-1.0.0.dylib" ]; then
+  cp -v -f "${gst_library_path}/libgstriff-1.0.0.dylib" "${bundledir}/Contents/Frameworks/" || exit 1
+  install_name_tool -id "@rpath/libgstriff-1.0.0.dylib" "${bundledir}/Contents/Frameworks/libgstriff-1.0.0.dylib"
+else
+  echo "Warning: Missing ${gst_library_path}/libgstriff-1.0.0.dylib."
+fi
+
 # libsoup is dynamically loaded by gstreamer, so it needs to be copied.
 if [ "${LIBSOUP_LIBRARY_PATH}" = "" ]; then
   echo "Warning: Set the LIBSOUP_LIBRARY_PATH environment variable for copying libsoup."
 else
   if [ -e "${LIBSOUP_LIBRARY_PATH}" ]; then
-    mkdir -p "${bundledir}/Contents/Frameworks" || exit 1
     cp -v -f "${LIBSOUP_LIBRARY_PATH}" "${bundledir}/Contents/Frameworks/" || exit 1
     install_name_tool -id "@rpath/$(basename ${LIBSOUP_LIBRARY_PATH})" "${bundledir}/Contents/Frameworks/$(basename ${LIBSOUP_LIBRARY_PATH})"
   else
