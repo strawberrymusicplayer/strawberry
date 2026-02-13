@@ -34,14 +34,14 @@
        <bool>true</bool>
       </property>
      </widget>
-     <widget class="QStackedWidget" name="stack">
+     <widget class="QStackedWidget" name="stacked_widget">
       <property name="currentIndex">
        <number>1</number>
       </property>
       <widget class="QWidget" name="loading_page">
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
-         <spacer name="verticalSpacer_2">
+         <spacer name="spacer_loading_page_top">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
@@ -54,9 +54,9 @@
          </spacer>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout">
+         <layout class="QHBoxLayout" name="layout_loading_page">
           <item>
-           <spacer name="horizontalSpacer">
+           <spacer name="spacer_loading_left">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -72,7 +72,7 @@
            <widget class="BusyIndicator" name="progress" native="true"/>
           </item>
           <item>
-           <spacer name="horizontalSpacer_2">
+           <spacer name="spacer_loading_right">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -87,7 +87,7 @@
          </layout>
         </item>
         <item>
-         <spacer name="verticalSpacer">
+         <spacer name="spacer_loading_page_bottom">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
@@ -104,7 +104,7 @@
       <widget class="QWidget" name="error_page">
        <layout class="QVBoxLayout" name="verticalLayout_4">
         <item>
-         <spacer name="verticalSpacer_3">
+         <spacer name="spacer_error_page_top">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
@@ -117,12 +117,15 @@
          </spacer>
         </item>
         <item>
-         <widget class="QLabel" name="label_5">
+         <widget class="QLabel" name="label_error_title">
           <property name="styleSheet">
            <string notr="true">QLabel { font-weight: bold; }</string>
           </property>
           <property name="text">
-           <string>Sorry</string>
+           <string>No results</string>
+          </property>
+          <property name="textFormat">
+           <enum>Qt::PlainText</enum>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -130,9 +133,12 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_4">
+         <widget class="QLabel" name="label_error_text">
           <property name="text">
            <string>Strawberry was unable to find results for this file</string>
+          </property>
+          <property name="textFormat">
+           <enum>Qt::PlainText</enum>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -140,10 +146,13 @@
           <property name="wordWrap">
            <bool>true</bool>
           </property>
+          <property name="textInteractionFlags">
+           <set>Qt::TextSelectableByMouse</set>
+          </property>
          </widget>
         </item>
         <item>
-         <spacer name="verticalSpacer_4">
+         <spacer name="spacer_error_page_bottom">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
@@ -172,7 +181,7 @@
          <number>0</number>
         </property>
         <item>
-         <widget class="QLabel" name="label">
+         <widget class="QLabel" name="label_result_title">
           <property name="styleSheet">
            <string notr="true">QLabel { font-weight: bold; }</string>
           </property>
@@ -233,9 +242,9 @@
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <layout class="QHBoxLayout" name="layout_trackselectiondialog">
      <item>
-      <widget class="BusyIndicator" name="loading_label" native="true"/>
+      <widget class="BusyIndicator" name="loading" native="true"/>
      </item>
      <item>
       <widget class="QDialogButtonBox" name="button_box">
