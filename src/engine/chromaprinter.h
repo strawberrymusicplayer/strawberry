@@ -28,6 +28,7 @@
 #include <gst/gst.h>
 #include <gst/app/gstappsink.h>
 
+#include <QtGlobal>
 #include <QBuffer>
 #include <QString>
 
@@ -45,6 +46,7 @@ class Chromaprinter {
   // This method is blocking, so you want to call it in another thread.
   // Returns an empty string if no fingerprint could be created.
   QString CreateFingerprint();
+  QString LastError() const { return last_error_; }
 
  private:
   static GstElement *CreateElement(const QString &factory_name, GstElement *bin = nullptr);
@@ -54,6 +56,12 @@ class Chromaprinter {
 
  private:
   QString filename_;
+  QString last_error_;
+  int sample_rate_;
+  int channels_;
+  // Hard cap for decoded PCM retained in memory to avoid unbounded growth.
+  qint64 max_pcm_bytes_;
+  bool pcm_limit_reached_;
 
   GstElement *convert_element_;
 
