@@ -2029,19 +2029,6 @@ bool AlbumShuffleComparator(const QMap<QString, int> &album_key_positions, const
 
 }
 
-bool GroupingShuffleComparator(const QMap<QString, int> &grouping_key_positions,
-                               const QMap<int, QString> &grouping_keys,
-                               const int left,
-                               const int right) {
-
-  const int left_pos = grouping_key_positions[grouping_keys[left]];
-  const int right_pos = grouping_key_positions[grouping_keys[right]];
-
-  if (left_pos == right_pos) return left < right;
-  return left_pos < right_pos;
-
-}
-
 }  // namespace
 
 void Playlist::ReshuffleIndices() {
@@ -2140,10 +2127,10 @@ void Playlist::ReshuffleIndices() {
         grouping_key_positions[shuffled_grouping_keys[i]] = i;
       }
 
-      // Sort the virtual items
+      // Sort the virtual items : I can use the AlbumShuffleComparator as it has the right interface and the right algo
       std::stable_sort(virtual_items_.begin(),
                        virtual_items_.end(),
-                       std::bind(GroupingShuffleComparator,
+                       std::bind(AlbumShuffleComparator,
                                  grouping_key_positions,
                                  grouping_keys,
                                  std::placeholders::_1,
