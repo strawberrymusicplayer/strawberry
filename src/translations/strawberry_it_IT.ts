@@ -3988,6 +3988,10 @@ Prima di iniziare ti suggeriamo di eseguire il backup del database.</translation
       <translation>Mescola album</translation>
     </message>
     <message>
+      <source>Shuffle grouping</source>
+      <translation type="unfinished">Mescola raggruppando</translation>
+    </message>
+    <message>
       <source>Don&apos;t repeat</source>
       <translation>Non ripetere</translation>
     </message>
@@ -4642,6 +4646,10 @@ Non è stato possibile eliminare i seguenti file:</translation>
     <message>
       <source>Shuffle albums</source>
       <translation>Mescola album</translation>
+    </message>
+    <message>
+      <source>Shuffle grouping</source>
+      <translation type="unfinished">Mescola raggruppando</translation>
     </message>
   </context>
   <context>

@@ -3983,6 +3983,10 @@ Nếu không có kết quả trùng khớp thì nó sẽ sử dụng hình ảnh
       <translation>Trộn ngẫu nhiên album</translation>
     </message>
     <message>
+      <source>Shuffle grouping</source>
+      <translation type="unfinished">Trộn ngẫu nhiên nâng cao</translation>
+    </message>
+    <message>
       <source>Don&apos;t repeat</source>
       <translation>Không lặp lại</translation>
     </message>
@@ -4634,6 +4638,10 @@ Nếu không có kết quả trùng khớp thì nó sẽ sử dụng hình ảnh
     <message>
       <source>Shuffle albums</source>
       <translation>Trộn ngẫu nhiên album</translation>
+    </message>
+    <message>
+      <source>Shuffle grouping</source>
+      <translation type="unfinished">Trộn ngẫu nhiên nâng cao</translation>
     </message>
   </context>
   <context>

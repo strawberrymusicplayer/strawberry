@@ -3983,6 +3983,10 @@ If there are no matches then it will use the largest image in the directory.</tr
       <translation>Albümleri karıştır</translation>
     </message>
     <message>
+      <source>Shuffle grouping</source>
+      <translation type="unfinished">Gruplama karıştır</translation>
+    </message>
+    <message>
       <source>Don&apos;t repeat</source>
       <translation>Tekrarlama</translation>
     </message>
@@ -4635,6 +4639,10 @@ If there are no matches then it will use the largest image in the directory.</tr
     <message>
       <source>Shuffle albums</source>
       <translation>Albümleri karıştır</translation>
+    </message>
+    <message>
+      <source>Shuffle grouping</source>
+      <translation type="unfinished">Gruplama karıştır</translation>
     </message>
   </context>
   <context>

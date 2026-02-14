@@ -753,7 +753,7 @@ void Playlist::set_current_row(const int i, const AutoScroll autoscroll, const b
     ReshuffleIndices();
 
     // For shuffle modes that need to preserve track order within albums, don't move the track
-    if (ShuffleMode() == PlaylistSequence::ShuffleMode::Albums || ShuffleMode() == PlaylistSequence::ShuffleMode::InsideAlbum) {
+    if (ShuffleMode() == PlaylistSequence::ShuffleMode::Albums || ShuffleMode() == PlaylistSequence::ShuffleMode::InsideAlbum || ShuffleMode() == PlaylistSequence::ShuffleMode::Grouping) {
       // Just find where the track ended up after ReshuffleIndices
       const int idx = static_cast<int>(virtual_items_.indexOf(i));
       current_virtual_index_ = idx == -1 ? 0 : idx;
@@ -2019,7 +2019,7 @@ void Playlist::Shuffle() {
 
 namespace {
 
-bool AlbumShuffleComparator(const QMap<QString, int> &album_key_positions, const QMap<int, QString> &album_keys, const int left, const int right) {
+bool AlbumShuffleComparator(const QHash<QString, int> &album_key_positions, const QHash<int, QString> &album_keys, const int left, const int right) {
 
   const int left_pos = album_key_positions[album_keys[left]];
   const int right_pos = album_key_positions[album_keys[right]];
@@ -2049,8 +2049,8 @@ void Playlist::ReshuffleIndices() {
     }
 
     case PlaylistSequence::ShuffleMode::Albums:{
-      QMap<int, QString> album_keys;  // real index -> key
-      QSet<QString> album_key_set;    // unique keys
+      QHash<int, QString> album_keys;  // real index -> key
+      QSet<QString> album_key_set;     // unique keys
 
       // Find all the unique albums in the playlist
       for (QList<int>::const_iterator it = virtual_items_.constBegin(); it != virtual_items_.constEnd(); ++it) {
@@ -2061,9 +2061,9 @@ void Playlist::ReshuffleIndices() {
       }
 
       // Shuffle them
+      static std::mt19937 rng{std::random_device{}()};
       QStringList shuffled_album_keys = album_key_set.values();
-      std::random_device rd;
-      std::shuffle(shuffled_album_keys.begin(), shuffled_album_keys.end(), std::mt19937(rd()));
+      std::shuffle(shuffled_album_keys.begin(), shuffled_album_keys.end(), rng);
 
       // If the user is currently playing a song, force its album to be first
       // Also check last_played_row() for cases where current_row() hasn't been set yet (e.g., on app startup)
@@ -2080,14 +2080,59 @@ void Playlist::ReshuffleIndices() {
       }
 
       // Create album key -> position mapping for fast lookup
-      QMap<QString, int> album_key_positions;
+      QHash<QString, int> album_key_positions;
       for (int i = 0; i < shuffled_album_keys.count(); ++i) {
         album_key_positions[shuffled_album_keys[i]] = i;
       }
 
-      // Sort the virtual items
-      std::stable_sort(virtual_items_.begin(), virtual_items_.end(), std::bind(AlbumShuffleComparator, album_key_positions, album_keys, std::placeholders::_1, std::placeholders::_2));
+      // Sort the virtual items : use AlbumShuffleComparator with a cheap-to-copy lambda comparator
+      std::stable_sort(virtual_items_.begin(), virtual_items_.end(), [&album_key_positions, &album_keys](const int lhs, const int rhs) {
+        return AlbumShuffleComparator(album_key_positions, album_keys, lhs, rhs);
+      });
 
+      break;
+    }
+    case PlaylistSequence::ShuffleMode::Grouping:{
+      QHash<int, QString> grouping_keys;  // real index -> key
+      QSet<QString> grouping_key_set;    // unique keys
+
+      // Find all the unique grouping keys in the playlist
+      for (QList<int>::const_iterator it = virtual_items_.constBegin(); it != virtual_items_.constEnd(); ++it) {
+        const int index = *it;
+        const QString key = items_[index]->EffectiveMetadata().GroupingKey();
+        grouping_keys[index] = key;
+        grouping_key_set << key;
+      }
+
+      // Shuffle them
+      static std::mt19937 rng{std::random_device{}()};
+      QStringList shuffled_grouping_keys = grouping_key_set.values();
+      std::shuffle(shuffled_grouping_keys.begin(), shuffled_grouping_keys.end(), rng);
+
+      // If the user is currently playing a song, force its grouping list to be first
+      // Also check last_played_row() for cases where current_row() hasn't been set yet (e.g., on app startup)
+      int reference_row = current_row();
+      if (reference_row == -1 && last_played_row() != -1) {
+        reference_row = last_played_row();
+      }
+      if (reference_row != -1) {
+        const QString key = items_[reference_row]->EffectiveMetadata().GroupingKey();
+        const qint64 pos = shuffled_grouping_keys.indexOf(key);
+        if (pos >= 1) {
+          std::swap(shuffled_grouping_keys[0], shuffled_grouping_keys[pos]);
+        }
+      }
+
+      // Create grouping key -> position mapping for fast lookup
+      QHash<QString, int> grouping_key_positions;
+      for (int i = 0; i < shuffled_grouping_keys.count(); ++i) {
+        grouping_key_positions[shuffled_grouping_keys[i]] = i;
+      }
+
+      // Sort the virtual items: use AlbumShuffleComparator as a grouping-key comparator with a cheap-to-copy lambda
+      std::stable_sort(virtual_items_.begin(), virtual_items_.end(), [&grouping_key_positions, &grouping_keys](const int lhs, const int rhs) {
+        return AlbumShuffleComparator(grouping_key_positions, grouping_keys, lhs, rhs);
+      });
       break;
     }
   }

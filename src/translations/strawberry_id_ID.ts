@@ -3983,6 +3983,10 @@ Jika tidak ada yang cocok maka akan menggunakan gambar terbesar dalam direktori.
       <translation>Karau album</translation>
     </message>
     <message>
+      <source>Shuffle grouping</source>
+      <translation type="unfinished">Karau grouping</translation>
+    </message>
+    <message>
       <source>Don&apos;t repeat</source>
       <translation>Jangan ulang</translation>
     </message>
@@ -4634,6 +4638,10 @@ Jika tidak ada yang cocok maka akan menggunakan gambar terbesar dalam direktori.
     <message>
       <source>Shuffle albums</source>
       <translation>Karau album</translation>
+    </message>
+    <message>
+      <source>Shuffle grouping</source>
+      <translation type="unfinished">Karau grouping</translation>
     </message>
   </context>
   <context>
