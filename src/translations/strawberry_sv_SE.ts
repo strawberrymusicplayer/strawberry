@@ -2252,7 +2252,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Cover changed: Will be deleted when saved.</source>
-      <translation>Omslaget har ändrats: kommer att raderas när det sparas.</translation>
+      <translation>Omslaget har ändrats: kommer att tas bort när det sparas.</translation>
     </message>
     <message>
       <source>Cover changed: Will set new when saved.</source>
