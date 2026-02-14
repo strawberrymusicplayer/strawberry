@@ -3983,6 +3983,10 @@ If there are no matches then it will use the largest image in the directory.</tr
       <translation type="unfinished">Shuffle albums</translation>
     </message>
     <message>
+      <source>Shuffle grouping</source>
+      <translation type="unfinished">Shuffle grouping</translation>
+    </message>
+    <message>
       <source>Don&apos;t repeat</source>
       <translation type="unfinished">Don&apos;t repeat</translation>
     </message>
@@ -4635,6 +4639,10 @@ If there are no matches then it will use the largest image in the directory.</tr
     <message>
       <source>Shuffle albums</source>
       <translation type="unfinished">Shuffle albums</translation>
+    </message>
+    <message>
+      <source>Shuffle grouping</source>
+      <translation type="unfinished">Shuffle grouping</translation>
     </message>
   </context>
   <context>

@@ -2090,6 +2090,53 @@ void Playlist::ReshuffleIndices() {
 
       break;
     }
+    case PlaylistSequence::ShuffleMode::Grouping:{
+      QMap<int, QString> grouping_keys;  // real index -> key
+      QSet<QString> grouping_key_set;    // unique keys
+
+      // Find all the unique albums in the playlist
+      for (QList<int>::const_iterator it = virtual_items_.constBegin(); it != virtual_items_.constEnd(); ++it) {
+        const int index = *it;
+        const QString key = items_[index]->EffectiveMetadata().GroupingKey();
+        grouping_keys[index] = key;
+        grouping_key_set << key;
+      }
+
+      // Shuffle them
+      QStringList shuffled_grouping_keys = grouping_key_set.values();
+      std::random_device rd;
+      std::shuffle(shuffled_grouping_keys.begin(), shuffled_grouping_keys.end(), std::mt19937(rd()));
+
+      // If the user is currently playing a song, force its album to be first
+      // Also check last_played_row() for cases where current_row() hasn't been set yet (e.g., on app startup)
+      int reference_row = current_row();
+      if (reference_row == -1 && last_played_row() != -1) {
+        reference_row = last_played_row();
+      }
+      if (reference_row != -1) {
+        const QString key = items_[reference_row]->EffectiveMetadata().GroupingKey();
+        const qint64 pos = shuffled_grouping_keys.indexOf(key);
+        if (pos >= 1) {
+          std::swap(shuffled_grouping_keys[0], shuffled_grouping_keys[pos]);
+        }
+      }
+
+      // Create album key -> position mapping for fast lookup
+      QMap<QString, int> grouping_key_positions;
+      for (int i = 0; i < shuffled_grouping_keys.count(); ++i) {
+        grouping_key_positions[shuffled_grouping_keys[i]] = i;
+      }
+
+      // Sort the virtual items : I can use the AlbumShuffleComparator as it has the right interface and the right algo
+      std::stable_sort(virtual_items_.begin(),
+                       virtual_items_.end(),
+                       std::bind(AlbumShuffleComparator,
+                                 grouping_key_positions,
+                                 grouping_keys,
+                                 std::placeholders::_1,
+                                 std::placeholders::_2));
+      break;
+    }
   }
 
   // Update current virtual index

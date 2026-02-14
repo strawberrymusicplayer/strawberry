@@ -3983,6 +3983,10 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
       <translation>Stokka hljómplötur</translation>
     </message>
     <message>
+      <source>Shuffle grouping</source>
+      <translation type="unfinished">Shuffle grouping</translation>
+    </message>
+    <message>
       <source>Don&apos;t repeat</source>
       <translation>Ekki endurtaka</translation>
     </message>
@@ -4635,6 +4639,10 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
     <message>
       <source>Shuffle albums</source>
       <translation>Stokka hljómplötur</translation>
+    </message>
+    <message>
+      <source>Shuffle grouping</source>
+      <translation type="unfinished">Shuffle grouping</translation>
     </message>
   </context>
   <context>

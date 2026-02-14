@@ -3983,6 +3983,10 @@ Falls es keine Treffer gibt, wird das größte Bild aus dem Verzeichnis ausgewä
       <translation>Zufällige Albenreihenfolge</translation>
     </message>
     <message>
+      <source>Shuffle grouping</source>
+      <translation type="unfinished">Zufällige Titelsortierung</translation>
+    </message>
+    <message>
       <source>Don&apos;t repeat</source>
       <translation>Wiederholung aus</translation>
     </message>
@@ -4635,6 +4639,10 @@ Falls es keine Treffer gibt, wird das größte Bild aus dem Verzeichnis ausgewä
     <message>
       <source>Shuffle albums</source>
       <translation>Zufällige Albenreihenfolge</translation>
+    </message>
+    <message>
+      <source>Shuffle grouping</source>
+      <translation type="unfinished">Zufällige Titelsortierung</translation>
     </message>
   </context>
   <context>

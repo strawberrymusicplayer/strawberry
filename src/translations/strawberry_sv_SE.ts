@@ -3983,6 +3983,10 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
       <translation>Blanda album</translation>
     </message>
     <message>
+      <source>Shuffle grouping</source>
+      <translation type="unfinished">Blanda gruppering</translation>
+    </message>
+    <message>
       <source>Don&apos;t repeat</source>
       <translation>Upprepa inte</translation>
     </message>
@@ -4635,6 +4639,10 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     <message>
       <source>Shuffle albums</source>
       <translation>Blanda album</translation>
+    </message>
+    <message>
+      <source>Shuffle grouping</source>
+      <translation type="unfinished">Blanda gruppering</translation>
     </message>
   </context>
   <context>

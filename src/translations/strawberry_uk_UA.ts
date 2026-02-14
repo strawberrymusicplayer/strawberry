@@ -3983,6 +3983,10 @@ If there are no matches then it will use the largest image in the directory.</so
       <translation>Перемішати альбоми</translation>
     </message>
     <message>
+      <source>Shuffle grouping</source>
+      <translation type="unfinished">Перемішати групування</translation>
+    </message>
+    <message>
       <source>Don&apos;t repeat</source>
       <translation>Не повторювати</translation>
     </message>
@@ -4637,6 +4641,10 @@ If there are no matches then it will use the largest image in the directory.</so
     <message>
       <source>Shuffle albums</source>
       <translation>Перемішати альбоми</translation>
+    </message>
+    <message>
+      <source>Shuffle grouping</source>
+      <translation type="unfinished">Перемішати групування</translation>
     </message>
   </context>
   <context>

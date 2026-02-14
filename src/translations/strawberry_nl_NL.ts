@@ -3983,6 +3983,10 @@ Als er geen match is wordt de grootste afbeelding uit de map gebruikt.</translat
       <translation>Albums willekeurig afspelen</translation>
     </message>
     <message>
+      <source>Shuffle grouping</source>
+      <translation type="unfinished">Groeperen willekeurig afspelen</translation>
+    </message>
+    <message>
       <source>Don&apos;t repeat</source>
       <translation>Niet herhalen</translation>
     </message>
@@ -4635,6 +4639,10 @@ Als er geen match is wordt de grootste afbeelding uit de map gebruikt.</translat
     <message>
       <source>Shuffle albums</source>
       <translation>Albums willekeurig afspelen</translation>
+    </message>
+    <message>
+      <source>Shuffle grouping</source>
+      <translation type="unfinished">Groeperen willekeurig afspelen</translation>
     </message>
   </context>
   <context>

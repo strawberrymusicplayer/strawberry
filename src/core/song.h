@@ -553,6 +553,7 @@ class Song {
   // Two songs that are on the same album will have the same AlbumKey.
   // It is more efficient to use IsOnSameAlbum, but this function can be used when you need to hash the key to do fast lookups.
   QString AlbumKey() const;
+  QString GroupingKey() const;
 
   static bool ContainsRegexList(const QString &str, const RegularExpressionList &regex_list);
   static QString StripRegexList(QString str, const RegularExpressionList &regex_list);

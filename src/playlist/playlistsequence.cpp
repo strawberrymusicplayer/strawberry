@@ -85,6 +85,7 @@ PlaylistSequence::PlaylistSequence(QWidget *parent, SettingsProvider *settings)
   shuffle_group->addAction(ui_->action_shuffle_all);
   shuffle_group->addAction(ui_->action_shuffle_inside_album);
   shuffle_group->addAction(ui_->action_shuffle_albums);
+  shuffle_group->addAction(ui_->action_shuffle_grouping);
   shuffle_menu_->addActions(shuffle_group->actions());
   ui_->shuffle->setMenu(shuffle_menu_);
 
@@ -165,6 +166,7 @@ void PlaylistSequence::ShuffleActionTriggered(QAction *action) {
   if (action == ui_->action_shuffle_all) mode = ShuffleMode::All;
   if (action == ui_->action_shuffle_inside_album) mode = ShuffleMode::InsideAlbum;
   if (action == ui_->action_shuffle_albums) mode = ShuffleMode::Albums;
+  if (action == ui_->action_shuffle_grouping) mode = ShuffleMode::Grouping;
 
   SetShuffleMode(mode);
 
@@ -202,6 +204,7 @@ void PlaylistSequence::SetShuffleMode(const ShuffleMode mode) {
     case ShuffleMode::All:         ui_->action_shuffle_all->setChecked(true);          break;
     case ShuffleMode::InsideAlbum: ui_->action_shuffle_inside_album->setChecked(true); break;
     case ShuffleMode::Albums:      ui_->action_shuffle_albums->setChecked(true);       break;
+    case ShuffleMode::Grouping:    ui_->action_shuffle_grouping->setChecked(true);     break;
   }
 
   if (mode != shuffle_mode_) {
@@ -230,7 +233,8 @@ void PlaylistSequence::CycleShuffleMode() {
     case ShuffleMode::Off:         mode = ShuffleMode::All;           break;
     case ShuffleMode::All:         mode = ShuffleMode::InsideAlbum;   break;
     case ShuffleMode::InsideAlbum: mode = ShuffleMode::Albums;        break;
-    case ShuffleMode::Albums: break;
+    case ShuffleMode::Albums:      mode = ShuffleMode::Grouping;      break;
+    case ShuffleMode::Grouping: break;
   }
 
   SetShuffleMode(mode);

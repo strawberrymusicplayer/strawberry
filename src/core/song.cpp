@@ -2077,6 +2077,13 @@ QString Song::AlbumKey() const {
   return QStringLiteral("%1|%2|%3").arg(is_compilation() ? u"_compilation"_s : effective_albumartist(), has_cue() ? cue_path() : ""_L1, effective_album());
 }
 
+QString Song::GroupingKey() const {
+  if (d->grouping_.isEmpty()) {
+    return QStringLiteral("%1|%2|%3").arg(d->album_.isEmpty() ? d->artist_ : d->album_, d->title_, QString::number(d->id_));
+  }
+  return QStringLiteral("%1|%2|%3").arg(d->album_.isEmpty() ? d->artist_ : d->album_, d->grouping_, QString::number(static_cast<int>(d->filetype_)));
+}
+
 size_t qHash(const Song &song) {
   // Should compare the same fields as operator==
   return qHash(song.url().toString()) ^ qHash(song.beginning_nanosec());

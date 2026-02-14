@@ -158,6 +158,14 @@
     <string>Shuffle albums</string>
    </property>
   </action>
+  <action name="action_shuffle_grouping">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Shuffle grouping</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>
