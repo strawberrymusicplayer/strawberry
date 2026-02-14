@@ -339,15 +339,15 @@
     </message>
     <message>
       <source>Turbine</source>
-      <translation type="unfinished">Turbine</translation>
+      <translation>Turbin</translation>
     </message>
     <message>
       <source>Sonogram</source>
-      <translation type="unfinished">Sonogram</translation>
+      <translation>Sonogram</translation>
     </message>
     <message>
       <source>WaveRubber</source>
-      <translation type="unfinished">WaveRubber</translation>
+      <translation>WaveRubber</translation>
     </message>
   </context>
   <context>
@@ -502,7 +502,7 @@
     </message>
     <message>
       <source>Playlist playing song color</source>
-      <translation>Låtfärg för uppspelning av spellista </translation>
+      <translation>Färg på spelad låt i spellistan</translation>
     </message>
     <message>
       <source>System highlight color</source>
@@ -514,7 +514,7 @@
     </message>
     <message>
       <source>Select playlist playing song color:</source>
-      <translation>Välj låtfärg för uppspelning av spellista:</translation>
+      <translation>Välj färg för spelad låt i spellistan:</translation>
     </message>
     <message>
       <source>Select background image</source>
@@ -545,15 +545,15 @@
     </message>
     <message>
       <source>hw</source>
-      <translation type="unfinished">hw</translation>
+      <translation>hw</translation>
     </message>
     <message>
       <source>p&amp;lughw</source>
-      <translation type="unfinished">p&amp;lughw</translation>
+      <translation>p&amp;lughw</translation>
     </message>
     <message>
       <source>pcm</source>
-      <translation type="unfinished">pcm</translation>
+      <translation>pcm</translation>
     </message>
     <message>
       <source>Exclusive mode (Experimental)</source>
@@ -649,7 +649,7 @@
     </message>
     <message>
       <source>Fallback-gain</source>
-      <translation type="unfinished">Fallback-gain</translation>
+      <translation>Reservförstärkning</translation>
     </message>
     <message>
       <source>EBU R 128 Loudness Normalization</source>
@@ -873,7 +873,7 @@
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>Entire collection</source>
@@ -1124,7 +1124,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Save playcounts to song tags when possible</source>
-      <translation>Spara antal spelningar till låttaggar när det är möjligt </translation>
+      <translation>Spara antal uppspelningar i låttaggar när det är möjligt</translation>
     </message>
     <message>
       <source>Save ratings to song tags when possible</source>
@@ -1219,7 +1219,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Rescan song(s)</source>
-      <translation>Skanna om av låt(ar)...</translation>
+      <translation>Skanna om låt(ar)</translation>
     </message>
     <message>
       <source>Show in various artists</source>
@@ -1287,7 +1287,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>Title</source>
@@ -1552,7 +1552,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>View</source>
@@ -2096,7 +2096,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>Change art</source>
@@ -2240,23 +2240,23 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Album cover editing is only available for collection songs.</source>
-      <translation>Redigering av albumomslag är endast tillgänglig för samlingslåtar.</translation>
+      <translation>Redigering av albumomslag är endast tillgänglig för låtar i samlingen.</translation>
     </message>
     <message>
       <source>Cover changed: Will be cleared when saved.</source>
-      <translation>Omslaget bytt: kommer att rensas när det sparas. </translation>
+      <translation>Omslaget har ändrats: kommer att rensas när det sparas.</translation>
     </message>
     <message>
       <source>Cover changed: Will be unset when saved.</source>
-      <translation>Omslaget bytt: återställs när det sparas. </translation>
+      <translation>Omslaget har ändrats: kommer inte att vara inställt när det sparas.</translation>
     </message>
     <message>
       <source>Cover changed: Will be deleted when saved.</source>
-      <translation>Omslaget bytt: kommer att tas bort när det sparas. </translation>
+      <translation>Omslaget har ändrats: kommer att tas bort när det sparas.</translation>
     </message>
     <message>
       <source>Cover changed: Will set new when saved.</source>
-      <translation>Omslaget bytt: ställer in nytt när det sparas. </translation>
+      <translation>Omslaget har ändrats: kommer att ställa in ett nytt omslag när det sparas.</translation>
     </message>
     <message>
       <source>Never</source>
@@ -2440,7 +2440,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Icons sidebar</source>
-      <translation type="unfinished">Icons sidebar</translation>
+      <translation>Sidofält med ikoner</translation>
     </message>
     <message>
       <source>Small sidebar</source>
@@ -2749,7 +2749,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     <name>GroupByDialog</name>
     <message>
       <source>Collection advanced grouping</source>
-      <translation>Samling avancerad gruppering</translation>
+      <translation>Avancerad gruppering av samling</translation>
     </message>
     <message>
       <source>You can change the way the songs in the collection are organized.</source>
@@ -2757,7 +2757,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Group Collection by...</source>
-      <translation>Gruppera samling av...</translation>
+      <translation>Gruppera samling efter...</translation>
     </message>
     <message>
       <source>First level</source>
@@ -2882,7 +2882,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Last played</source>
-      <translation type="unfinished">Last played</translation>
+      <translation>Senast spelad</translation>
     </message>
     <message>
       <source>Play counts</source>
@@ -3650,7 +3650,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Error connecting MTP device %1: %2</source>
-      <translation type="unfinished">Error connecting MTP device %1: %2</translation>
+      <translation>Fel vid anslutning till MTP-enheten %1: %2</translation>
     </message>
   </context>
   <context>
@@ -3781,7 +3781,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>Summary</source>
@@ -6076,7 +6076,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Last played</source>
-      <translation type="unfinished">Last played</translation>
+      <translation>Senast spelad</translation>
     </message>
     <message>
       <source>Most played</source>
@@ -6448,7 +6448,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>MenuPopupToolButton</source>
-      <translation type="unfinished">MenuPopupToolButton</translation>
+      <translation>MenuPopupToolButton</translation>
     </message>
     <message>
       <source>artists</source>
@@ -6704,7 +6704,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Fingerprinting song</source>
-      <translation type="unfinished">Fingerprinting song</translation>
+      <translation>Skapar fingeravtryck för låt</translation>
     </message>
     <message>
       <source>Downloading metadata</source>
@@ -7281,7 +7281,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Opti&amp;mize for bitrate</source>
-      <translation>Optimera för bitfrekvens</translation>
+      <translation>Opti&amp;mera för bitfrekvens</translation>
     </message>
     <message>
       <source>Bitrate</source>
