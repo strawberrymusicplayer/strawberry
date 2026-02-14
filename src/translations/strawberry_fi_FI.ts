@@ -3983,6 +3983,10 @@ Jos vastaavia tiedostoja ei löydy, Strawberry käyttää suurinta kansiossa ole
       <translation>Sekoita albumit</translation>
     </message>
     <message>
+      <source>Shuffle grouping</source>
+      <translation type="unfinished">Sekoita ryhmittely</translation>
+    </message>
+    <message>
       <source>Don&apos;t repeat</source>
       <translation>Älä kertaa</translation>
     </message>
@@ -4635,6 +4639,10 @@ Jos vastaavia tiedostoja ei löydy, Strawberry käyttää suurinta kansiossa ole
     <message>
       <source>Shuffle albums</source>
       <translation>Sekoita albumit</translation>
+    </message>
+    <message>
+      <source>Shuffle grouping</source>
+      <translation type="unfinished">Sekoita ryhmittely</translation>
     </message>
   </context>
   <context>

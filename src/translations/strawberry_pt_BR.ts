@@ -3983,6 +3983,10 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
       <translation>Embaralhar albuns</translation>
     </message>
     <message>
+      <source>Shuffle grouping</source>
+      <translation type="unfinished">Embaralhar agrupamento</translation>
+    </message>
+    <message>
       <source>Don&apos;t repeat</source>
       <translation>Não repetir</translation>
     </message>
@@ -4635,6 +4639,10 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     <message>
       <source>Shuffle albums</source>
       <translation>Embaralhar albuns</translation>
+    </message>
+    <message>
+      <source>Shuffle grouping</source>
+      <translation type="unfinished">Embaralhar agrupamento</translation>
     </message>
   </context>
   <context>

@@ -57,7 +57,8 @@ class PlaylistSequence : public QWidget {
     Off = 0,
     All = 1,
     InsideAlbum = 2,
-    Albums = 3
+    Albums = 3,
+    Grouping = 4
   };
 
   RepeatMode repeat_mode() const;

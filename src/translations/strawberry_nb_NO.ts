@@ -3983,6 +3983,10 @@ Hvis ingen ord passer, blir det største bildet i mappen brukt.</translation>
       <translation>Stokk om album</translation>
     </message>
     <message>
+      <source>Shuffle grouping</source>
+      <translation type="unfinished">Stokk om gruppering</translation>
+    </message>
+    <message>
       <source>Don&apos;t repeat</source>
       <translation>Ikke gjenta</translation>
     </message>
@@ -4635,6 +4639,10 @@ Hvis ingen ord passer, blir det største bildet i mappen brukt.</translation>
     <message>
       <source>Shuffle albums</source>
       <translation>Stokk om album</translation>
+    </message>
+    <message>
+      <source>Shuffle grouping</source>
+      <translation type="unfinished">Stokk om gruppering</translation>
     </message>
   </context>
   <context>

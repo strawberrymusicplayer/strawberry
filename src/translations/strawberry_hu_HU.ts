@@ -3983,6 +3983,10 @@ Ha nincs egyezés, akkor a legnagyobb képet veszi a könyvtárból.</translatio
       <translation>Albumok összekeverése</translation>
     </message>
     <message>
+      <source>Shuffle grouping</source>
+      <translation type="unfinished">Gyűjtemény összekeverése</translation>
+    </message>
+    <message>
       <source>Don&apos;t repeat</source>
       <translation>Nincs ismétlés</translation>
     </message>
@@ -4635,6 +4639,10 @@ Ha nincs egyezés, akkor a legnagyobb képet veszi a könyvtárból.</translatio
     <message>
       <source>Shuffle albums</source>
       <translation>Albumok összekeverése</translation>
+    </message>
+    <message>
+      <source>Shuffle grouping</source>
+      <translation type="unfinished">Gyűjtemény összekeverése</translation>
     </message>
   </context>
   <context>

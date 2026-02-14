@@ -3983,6 +3983,10 @@ If there are no matches then it will use the largest image in the directory.</so
       <translation>乱序专辑</translation>
     </message>
     <message>
+      <source>Shuffle grouping</source>
+      <translation type="unfinished">Shuffle grouping</translation>
+    </message>
+    <message>
       <source>Don&apos;t repeat</source>
       <translation>不循环播放</translation>
     </message>
@@ -4634,6 +4638,10 @@ If there are no matches then it will use the largest image in the directory.</so
     <message>
       <source>Shuffle albums</source>
       <translation>乱序专辑</translation>
+    </message>
+    <message>
+      <source>Shuffle grouping</source>
+      <translation type="unfinished">Shuffle grouping</translation>
     </message>
   </context>
   <context>

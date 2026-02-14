@@ -3983,6 +3983,10 @@ Si no hi ha resultats, s’usarà la imatge més gran en el directori.</translat
       <translation>Mescla els àlbums</translation>
     </message>
     <message>
+      <source>Shuffle grouping</source>
+      <translation type="unfinished">Mescla els d’agrupació</translation>
+    </message>
+    <message>
       <source>Don&apos;t repeat</source>
       <translation>Sense repetició</translation>
     </message>
@@ -4635,6 +4639,10 @@ Si no hi ha resultats, s’usarà la imatge més gran en el directori.</translat
     <message>
       <source>Shuffle albums</source>
       <translation>Mescla els àlbums</translation>
+    </message>
+    <message>
+      <source>Shuffle grouping</source>
+      <translation type="unfinished">Mescla els d’agrupació</translation>
     </message>
   </context>
   <context>
