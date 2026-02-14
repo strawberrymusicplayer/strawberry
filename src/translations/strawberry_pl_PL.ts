@@ -3983,6 +3983,10 @@ W przypadku braku takich plików użyty zostanie największy obraz z danego kata
       <translation>Losuj albumy</translation>
     </message>
     <message>
+      <source>Shuffle grouping</source>
+      <translation type="unfinished">Losuj grupowanie</translation>
+    </message>
+    <message>
       <source>Don&apos;t repeat</source>
       <translation>Nie powtarzaj</translation>
     </message>
@@ -4639,6 +4643,10 @@ tekstu zostanie ukryty.&lt;/p&gt;</translation>
     <message>
       <source>Shuffle albums</source>
       <translation>Losuj albumy</translation>
+    </message>
+    <message>
+      <source>Shuffle grouping</source>
+      <translation type="unfinished">Losuj grupowanie</translation>
     </message>
   </context>
   <context>

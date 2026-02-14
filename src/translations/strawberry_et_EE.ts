@@ -3983,6 +3983,10 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
       <translation>Albumite juhuesitus</translation>
     </message>
     <message>
+      <source>Shuffle grouping</source>
+      <translation type="unfinished">Rühmitamine juhuesitus</translation>
+    </message>
+    <message>
       <source>Don&apos;t repeat</source>
       <translation>Ära korda</translation>
     </message>
@@ -4635,6 +4639,10 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     <message>
       <source>Shuffle albums</source>
       <translation>Albumite juhuesitus</translation>
+    </message>
+    <message>
+      <source>Shuffle grouping</source>
+      <translation type="unfinished">Rühmitamine juhuesitus</translation>
     </message>
   </context>
   <context>

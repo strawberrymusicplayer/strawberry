@@ -2077,6 +2077,20 @@ QString Song::AlbumKey() const {
   return QStringLiteral("%1|%2|%3").arg(is_compilation() ? u"_compilation"_s : effective_albumartist(), has_cue() ? cue_path() : ""_L1, effective_album());
 }
 
+QString Song::GroupingKey() const {
+  if (d->grouping_.isEmpty()) {
+    // We don't have grouping data, when we want to shuffle individual tracks
+    // The goal with grouping shuffle is to keep the introduction and the song (that may be on two distinct tracks)
+    // as if they were on the same track, and play the shuffle on individual track
+    return QStringLiteral("%1|%2|%3").arg(d->album_.isEmpty() ? d->artist_ : d->album_, d->title_, QString::number(d->id_));
+  }
+  // We have some grouping data, we want to regroup this track with the tracks that belongs :
+  // to the same album (as defined by AlbumKey, including compilation/album-artist and cue identity)
+  // to the same grouping value
+  // to the same file type
+  return QStringLiteral("%1|%2|%3").arg(AlbumKey(), d->grouping_, QString::number(static_cast<int>(d->filetype_)));
+}
+
 size_t qHash(const Song &song) {
   // Should compare the same fields as operator==
   return qHash(song.url().toString()) ^ qHash(song.beginning_nanosec());

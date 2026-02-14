@@ -3983,6 +3983,10 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
       <translation>Aléatoire : albums</translation>
     </message>
     <message>
+      <source>Shuffle grouping</source>
+      <translation>Aléatoire : groupement</translation>
+    </message>
+    <message>
       <source>Don&apos;t repeat</source>
       <translation>Ne pas répéter</translation>
     </message>
@@ -4635,6 +4639,10 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     <message>
       <source>Shuffle albums</source>
       <translation>Aléatoire : albums</translation>
+    </message>
+    <message>
+      <source>Shuffle grouping</source>
+      <translation>Aléatoire : groupement</translation>
     </message>
   </context>
   <context>

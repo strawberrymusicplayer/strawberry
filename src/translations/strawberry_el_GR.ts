@@ -3983,6 +3983,10 @@ If there are no matches then it will use the largest image in the directory.</so
       <translation>Τυχαίο άλμπουμ</translation>
     </message>
     <message>
+      <source>Shuffle grouping</source>
+      <translation type="unfinished">Τυχαίο ομαδοποίηση</translation>
+    </message>
+    <message>
       <source>Don&apos;t repeat</source>
       <translation>Μη επανάληψη</translation>
     </message>
@@ -4635,6 +4639,10 @@ If there are no matches then it will use the largest image in the directory.</so
     <message>
       <source>Shuffle albums</source>
       <translation>Τυχαία αναπαραγωγή άλμπουμ</translation>
+    </message>
+    <message>
+      <source>Shuffle grouping</source>
+      <translation type="unfinished">Τυχαίο ομαδοποίηση</translation>
     </message>
   </context>
   <context>

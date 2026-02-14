@@ -3983,6 +3983,10 @@ Pokud nenajde žádné, které by se shodovaly, potom použije největší obrá
       <translation>Zamíchat alba</translation>
     </message>
     <message>
+      <source>Shuffle grouping</source>
+      <translation type="unfinished">Zamíchat seskupování</translation>
+    </message>
+    <message>
       <source>Don&apos;t repeat</source>
       <translation>Neopakovat</translation>
     </message>
@@ -4637,6 +4641,10 @@ Pokud nenajde žádné, které by se shodovaly, potom použije největší obrá
     <message>
       <source>Shuffle albums</source>
       <translation>Zamíchat alba</translation>
+    </message>
+    <message>
+      <source>Shuffle grouping</source>
+      <translation type="unfinished">Zamíchat seskupování</translation>
     </message>
   </context>
   <context>
