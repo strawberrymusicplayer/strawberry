@@ -148,6 +148,7 @@ SettingsDialog::SettingsDialog(const SharedPtr<Player> player,
   QTreeWidgetItem *streaming = AddCategory(tr("Streaming"));
 #endif
 
+  (void)streaming_services;
 #ifdef HAVE_SUBSONIC
   AddPage(Page::Subsonic, new SubsonicSettingsPage(this, streaming_services->Service<SubsonicService>(), this), streaming);
 #endif
