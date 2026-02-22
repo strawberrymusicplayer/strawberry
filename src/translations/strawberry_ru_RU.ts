@@ -21,7 +21,7 @@
     </message>
     <message>
       <source>It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles.</source>
-      <translation>Это форк Clementine, выпущенный в 2018 году, специально для коллекционеров музыки и меломанов.</translation>
+      <translation>Это ответвление плеера Clementine, созданное в 2018 году специально для коллекционеров музыки и ценителей качественного звука.</translation>
     </message>
     <message>
       <source>Strawberry is free software released under GPL. The source code is available on %1</source>
@@ -581,7 +581,7 @@
     </message>
     <message>
       <source>Enable HTTP/2 for streaming</source>
-      <translation>Включить HTTP/2 для потокового вещания</translation>
+      <translation>Включить HTTP/2 для проигрывания потоков</translation>
     </message>
     <message>
       <source>Use strict SSL mode</source>
@@ -3697,7 +3697,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Use proxy settings for streaming</source>
-      <translation>Использовать настройки прокси для потокового прослушивания</translation>
+      <translation>Использовать настройки прокси для проигрывания потоков</translation>
     </message>
   </context>
   <context>
