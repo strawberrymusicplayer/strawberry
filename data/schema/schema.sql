@@ -1075,7 +1075,7 @@ CREATE TABLE IF NOT EXISTS playlist_items (
 
   source INTEGER,
   directory_id INTEGER,
-  url TEXT NOT NULL,
+  url TEXT,
   filetype INTEGER,
   filesize INTEGER,
   mtime INTEGER,
