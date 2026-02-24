@@ -83,6 +83,7 @@ class PlaylistSequence : public QWidget {
  private:
   void Load();
   void Save();
+  int CalculateIconSize();
   static QIcon AddDesaturatedIcon(const QIcon &icon);
   static QPixmap DesaturatedPixmap(const QPixmap &pixmap);
 
