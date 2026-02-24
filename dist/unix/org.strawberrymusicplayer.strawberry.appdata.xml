@@ -10,7 +10,8 @@
   <name>Strawberry Music Player</name>
   <summary>A music player and collection organizer</summary>
   <url type="homepage">https://www.strawberrymusicplayer.org/</url>
-  <url type="bugtracker">https://github.com/strawberrymusicplayer/strawberry/</url>
+  <url type="bugtracker">https://github.com/strawberrymusicplayer/strawberry/issues</url>
+  <url type="vcs-browser">https://github.com/strawberrymusicplayer/strawberry</url>
   <developer id="net.jkvinge.jonas">
     <name>Jonas Kvinge</name>
   </developer>
