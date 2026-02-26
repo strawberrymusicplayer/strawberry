@@ -4,6 +4,7 @@
  * Copyright 2012, David Sansome <me@davidsansome.com>
  * Copyright 2012, 2014, John Maguire <john.maguire@gmail.com>
  * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2025, Leopold List <leo@zudiewiener.com>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -63,6 +64,9 @@ class RadioServices;
 class MoodbarController;
 class MoodbarLoader;
 #endif
+#ifdef HAVE_NETWORKREMOTE
+class NetworkRemote;
+#endif
 
 class Application : public QObject {
   Q_OBJECT
@@ -103,6 +107,9 @@ class Application : public QObject {
   SharedPtr<MoodbarLoader> moodbar_loader() const;
 #endif
 
+#ifdef HAVE_NETWORKREMOTE
+  SharedPtr<NetworkRemote> network_remote() const;
+#endif
   SharedPtr<LastFMImport> lastfm_import() const;
 
   void Exit();

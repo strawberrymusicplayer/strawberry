@@ -4,6 +4,7 @@
  * Copyright 2012, David Sansome <me@davidsansome.com>
  * Copyright 2012, 2014, John Maguire <john.maguire@gmail.com>
  * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2025, Leopold List <leo@zudiewiener.com>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -108,6 +109,10 @@
 #ifdef HAVE_MOODBAR
 #  include "moodbar/moodbarcontroller.h"
 #  include "moodbar/moodbarloader.h"
+#endif
+
+#ifdef HAVE_NETWORKREMOTE
+#   include "networkremote/networkremote.h"
 #endif
 
 #include "radios/radioservices.h"
@@ -217,6 +222,13 @@ class ApplicationImpl {
         moodbar_loader_([app]() { return new MoodbarLoader(app); }),
         moodbar_controller_([app]() { return new MoodbarController(app->player(), app->moodbar_loader()); }),
 #endif
+#ifdef HAVE_NETWORKREMOTE
+         network_remote_([app]() {
+             qLog(Debug) << "Moving to new thread";
+             NetworkRemote *remote = new NetworkRemote(app->player(), app);
+             app->MoveToNewThread(remote);
+             return remote;}),
+#endif
         lastfm_import_([app]() { return new LastFMImport(app->network()); })
   {}
 
@@ -242,6 +254,9 @@ class ApplicationImpl {
   Lazy<MoodbarLoader> moodbar_loader_;
   Lazy<MoodbarController> moodbar_controller_;
 #endif
+#ifdef HAVE_NETWORKREMOTE
+  Lazy<NetworkRemote> network_remote_;
+#endif
   Lazy<LastFMImport> lastfm_import_;
 
 };
@@ -261,7 +276,7 @@ Application::Application(QObject *parent)
   device_finders()->Init();
   collection()->Init();
   tagreader_client();
-
+  network_remote()->Init();
 }
 
 Application::~Application() {
@@ -324,6 +339,9 @@ void Application::Exit() {
                  << &*albumcover_loader()
                  << &*device_manager()
                  << &*streaming_services()
+#ifdef HAVE_NETWORKREMOTE
+                 << &*network_remote()
+#endif
                  << &*radio_services()->radio_backend();
 
   QObject::connect(&*tagreader_client(), &TagReaderClient::ExitFinished, this, &Application::ExitReceived);
@@ -389,4 +407,7 @@ SharedPtr<LastFMImport> Application::lastfm_import() const { return p_->lastfm_i
 #ifdef HAVE_MOODBAR
 SharedPtr<MoodbarController> Application::moodbar_controller() const { return p_->moodbar_controller_.ptr(); }
 SharedPtr<MoodbarLoader> Application::moodbar_loader() const { return p_->moodbar_loader_.ptr(); }
+#endif
+#ifdef HAVE_NETWORKREMOTE
+SharedPtr<NetworkRemote> Application::network_remote() const { return p_->network_remote_.ptr();}
 #endif

@@ -13,4 +13,13 @@
 /CMakeSettings.json
 /dist/scripts/maketarball.sh
 /debian/changelog
+.qtcreator/
 _codeql_detected_source_root
+build.log
+debian/.debhelper/
+debian/debhelper-build-stamp
+debian/files
+debian/strawberry.debhelper.log
+debian/strawberry.substvars
+debian/strawberry/
+obj-x86_64-linux-gnu/
