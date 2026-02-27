@@ -133,14 +133,14 @@ jobs:
         run: echo "subdir=$(echo ${{matrix.opensuse_version}} | sed 's/leap:/lp/g' | sed 's/\.//g')" > $GITHUB_OUTPUT
       - name: Upload source
         if: matrix.opensuse_version == 'tumbleweed'
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: source
           path: |
             /usr/src/packages/SOURCES/*.xz
       - name: Upload rpm
         if: matrix.opensuse_version != 'tumbleweed'
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: opensuse-${{steps.set-subdir.outputs.subdir}}
           path: |
@@ -232,7 +232,7 @@ jobs:
         working-directory: build
         run: rpmbuild -ba strawberry.spec
       - name: Upload artifacts
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: fedora-${{matrix.fedora_version}}
           path: |
@@ -330,7 +330,7 @@ jobs:
         run: rpmbuild -ba strawberry.spec
       - name: Upload artifacts
         if: matrix.openmandriva_version != 'cooker'
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: openmandriva-${{matrix.openmandriva_version}}
           path: |
@@ -430,7 +430,7 @@ jobs:
         working-directory: build
         run: rpmbuild -ba strawberry.spec
       - name: Upload artifacts
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: mageia-${{matrix.mageia_version}}
           path: |
@@ -523,7 +523,7 @@ jobs:
       - name: Copy deb
         run: cp ../*.deb .
       - name: Upload artifacts
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: debian-${{matrix.debian_version}}
           path: |
@@ -618,7 +618,7 @@ jobs:
       - name: Copy deb
         run: cp ../*.deb ../*.ddeb .
       - name: Upload artifacts
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: ubuntu-${{matrix.ubuntu_version}}
           path: |
