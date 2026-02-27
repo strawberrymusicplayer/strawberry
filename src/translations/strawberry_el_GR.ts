@@ -2922,7 +2922,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Playcounts for %1 songs and last played for %2 songs received.</source>
-      <translation type="unfinished">Playcounts for %1 songs and last played for %2 songs received.</translation>
+      <translation>Λήφθηκαν ο αριθμός αναπαραγωγών για %1 τραγούδια και τελευταία αναπαραγωγή για %2 τραγούδια.</translation>
     </message>
     <message>
       <source>Last played for %1 songs received.</source>
@@ -2959,7 +2959,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Redirect missing token code!</source>
-      <translation type="unfinished">Redirect missing token code!</translation>
+      <translation>Λείπει ο κωδικός token της ανακατεύθυνσης!</translation>
     </message>
     <message>
       <source>Received invalid reply from web browser.</source>
@@ -3412,7 +3412,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Queue selected tracks to play next</source>
-      <translation type="unfinished">Queue selected tracks to play next</translation>
+      <translation>Ουρά επιλεγμένων κομματιών για επόμενη αναπαραγωγή</translation>
     </message>
     <message>
       <source>Toggle skip status</source>
