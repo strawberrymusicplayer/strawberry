@@ -45,6 +45,7 @@ constexpr char kShowToolbar[] = "show_toolbar";
 constexpr char kPlaylistClear[] = "playlist_clear";
 constexpr char kAutoSort[] = "auto_sort";
 
+constexpr char kGroupingBeforeQueue[] = "grouping_queue";
 constexpr char kPathType[] = "path_type";
 
 constexpr char kEditMetadataInline[] = "editmetadatainline";

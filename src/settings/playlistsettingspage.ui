@@ -99,6 +99,39 @@
     </widget>
    </item>
    <item>
+    <widget class="QGroupBox" name="groupbox_grouping_play">
+     <property name="title">
+      <string>Grouping Play</string>
+     </property>
+     <layout class="QVBoxLayout" name="layout_grouping_play">
+      <item>
+       <layout class="QHBoxLayout" name="layout_grouping_play_before_queue">
+        <item>
+         <widget class="QLabel" name="label_grouping_play_before_queue_1">
+          <property name="text">
+           <string>Number of grouped track played before play queued track</string>
+          </property>
+          <property name="indent">
+           <number>22</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="spinbox_grouping_before_queue">
+          <property name="minimum">
+           <number>0</number>
+          </property>
+          <property name="value">
+           <number>1</number>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
     <widget class="QGroupBox" name="groupbox_paths">
      <property name="title">
       <string>When saving a playlist, file paths should be</string>

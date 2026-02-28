@@ -132,6 +132,7 @@ Playlist::Playlist(const SharedPtr<TaskManager> task_manager,
                    const int id,
                    const QString &special_type,
                    const bool favorite,
+                   const int grouped_before_queue,
                    QObject *parent)
     : QAbstractListModel(parent),
       is_loading_(false),
@@ -156,7 +157,10 @@ Playlist::Playlist(const SharedPtr<TaskManager> task_manager,
       scrobble_point_(-1),
       auto_sort_(false),
       sort_column_(Column::Title),
-      sort_order_(Qt::AscendingOrder) {
+      sort_order_(Qt::AscendingOrder),
+      left_grouped_song_before_queue_(grouped_before_queue),
+      init_grouped_song_before_queue_(grouped_before_queue),
+      next_song_after_queued_(-1) {
 
   undo_stack_->setUndoLimit(kUndoStackSize);
 
@@ -641,14 +645,72 @@ int Playlist::PreviousVirtualIndex(int i, const bool ignore_repeat_track) const 
 
 }
 
-int Playlist::next_row(const bool ignore_repeat_track) {
+int Playlist::next_row(const bool ignore_repeat_track, const bool no_grouping_track_count) {
 
-  // Any queued items take priority
-  if (!queue_->is_empty()) {
+  int next_virtual_index = next_song_after_queued_;
+
+  if (next_virtual_index < 0) {
+    next_virtual_index = NextVirtualIndex(current_virtual_index_, ignore_repeat_track);
+    switch (RepeatMode()) {
+      default:
+
+        // Compare with unsigned int to avoid to check if it is less than the count but positive
+        if (   static_cast<unsigned int>(current_virtual_index_) < static_cast<unsigned int>(virtual_items_.count())
+            && static_cast<unsigned int>(next_virtual_index) < static_cast<unsigned int>(virtual_items_.count())   ) {
+           // The two indexes are in the virtual items array
+           Song this_song = item_at(virtual_items_[current_virtual_index_])->EffectiveMetadata();
+           Song next_song = item_at(virtual_items_[next_virtual_index])->EffectiveMetadata();
+
+           if (   this_song.IsOnSameGrouping(next_song)
+               && (   left_grouped_song_before_queue_ == 0
+                   || no_grouping_track_count
+                   || --left_grouped_song_before_queue_ > 0   )   ) {
+              // We have two choices here :
+              // either resetting left_grouped_song_before_queue_ as soon as there is no queued song,
+              // that is too say, when a song will be queued, you will have to wait the setted number of grouped song before playing it
+              // either resetting left_grouped_song_before_queue_ when it reaches 0,
+              // that is too say, when a song will be queued, you will have to wait every n th grouped song before playing it
+              if (queue_->is_empty())
+              // if (left_grouped_song_before_queue_ == 0)
+              {
+                left_grouped_song_before_queue_ = init_grouped_song_before_queue_;
+              }
+              // The next song is on the same grouping than the current one,
+              // it cannot be interrupt by the queued items
+              break;
+           }
+        }
+
+        [[fallthrough]];
+
+      case PlaylistSequence::RepeatMode::Intro:
+      case PlaylistSequence::RepeatMode::Track:
+
+        // Reset the grouping values
+        left_grouped_song_before_queue_ = init_grouped_song_before_queue_;
+
+        // Any queued items take priority
+        if (!queue_->is_empty()) {
+          // Remember the location in the current playlist to go back right there after the queued play
+          next_song_after_queued_ = next_virtual_index;
+
+          // Play the queued song
+          return queue_->PeekNext();
+        }
+
+        break;
+    }
+  }
+  else if (!queue_->is_empty()) {
+    // We already remember the location where we want to go back after the queued play
+    // we just have to return the next queued song
     return queue_->PeekNext();
   }
+  else if (next_song_after_queued_ >= 0 && !no_grouping_track_count) {
+     // No more queued song, go back to the list to play
+     next_song_after_queued_ = -1;
+  }
 
-  int next_virtual_index = NextVirtualIndex(current_virtual_index_, ignore_repeat_track);
   if (next_virtual_index >= virtual_items_.count()) {
     // We've gone off the end of the playlist.
 
@@ -2058,6 +2120,10 @@ bool AlbumShuffleComparator(const QHash<QString, int> &album_key_positions, cons
 void Playlist::ReshuffleIndices() {
 
   const PlaylistSequence::ShuffleMode shuffle_mode = ShuffleMode();
+
+  // First, cancel the replay position
+  next_song_after_queued_ = -1;
+
   switch (shuffle_mode) {
     case PlaylistSequence::ShuffleMode::Off:{
       // No shuffling - sort the virtual item list normally.
