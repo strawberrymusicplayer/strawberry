@@ -45,10 +45,34 @@ PlaylistSettingsPage::PlaylistSettingsPage(SettingsDialog *dialog, QWidget *pare
   ui_->setupUi(this);
   setWindowIcon(IconLoader::Load(u"document-new"_s, true, 0, 32));
 
+  ui_->spinbox_grouping_before_queue->setToolTip(GroupingBeforeQueueToolTip());
+
+
 }
 
 PlaylistSettingsPage::~PlaylistSettingsPage() {
   delete ui_;
+}
+
+QString PlaylistSettingsPage::GroupingBeforeQueueToolTip() {
+
+  return "<html><head/><body><p>"_L1 +
+         QObject::tr("This field is used to tell how many tracks of the same group will be played before the queued track will be played.") +
+         u' ' +
+         "</p><p>"_L1 +
+
+         "<span style=\"font-weight:600;\">0:</span> "_L1 +
+         QObject::tr(" is used to say that the queued track will wait for the end of the current track group before being played.") +
+         "</p><p>"_L1 +
+
+         "<span style=\"font-weight:600;\">1:</span> "_L1 +
+         QObject::tr(" is used to say that the queued track will be played after the end of the current track, whatever it belongs to a group or not.") +
+         "</p><p>"_L1 +
+
+         QObject::tr("Any other value to give the number of grouped tracks played before playing the queued one(s). ") +
+         QObject::tr("Obviously, if there are less grouped tracks to play than the given number, the queued tracks will be played as soon as the last grouped track is played.") +
+         "</p></body></html>"_L1;
+
 }
 
 void PlaylistSettingsPage::Load() {
@@ -93,6 +117,8 @@ void PlaylistSettingsPage::Load() {
       ui_->radiobutton_askpath->setChecked(true);
   }
 
+  ui_->spinbox_grouping_before_queue->setValue(s.value(kGroupingBeforeQueue, 1).toInt());
+
   ui_->checkbox_editmetadatainline->setChecked(s.value(kEditMetadataInline, false).toBool());
   ui_->checkbox_writemetadata->setChecked(s.value(kWriteMetadata, false).toBool());
 
@@ -135,6 +161,7 @@ void PlaylistSettingsPage::Save() {
   s.setValue(kShowToolbar, ui_->checkbox_show_toolbar->isChecked());
   s.setValue(kPlaylistClear, ui_->checkbox_playlist_clear->isChecked());
   s.setValue(kPathType, static_cast<int>(path_type));
+  s.setValue(kGroupingBeforeQueue, ui_->spinbox_grouping_before_queue->value());
   s.setValue(kEditMetadataInline, ui_->checkbox_editmetadatainline->isChecked());
   s.setValue(kWriteMetadata, ui_->checkbox_writemetadata->isChecked());
   s.setValue(kDeleteFiles, ui_->checkbox_delete_files->isChecked());
