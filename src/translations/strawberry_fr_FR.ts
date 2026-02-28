@@ -1183,11 +1183,11 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Queue track</source>
-      <translation>Mettre cette piste en liste d&apos;attente</translation>
+      <translation>Mettre cette piste en fin de liste d&apos;attente</translation>
     </message>
     <message>
       <source>Queue to play next</source>
-      <translation>Mettre en liste d&apos;attente pour une lecture ultérieure</translation>
+      <translation>Mettre cette piste au début de la liste d&apos;attente</translation>
     </message>
     <message>
       <source>Search for this</source>
@@ -3412,7 +3412,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Queue selected tracks to play next</source>
-      <translation>Mettre les pistes sélectionnées en liste d&apos;attente pour une lecture ultérieure</translation>
+      <translation>Mettre les pistes sélectionnées au début de liste d&apos;attente</translation>
     </message>
     <message>
       <source>Toggle skip status</source>
@@ -3488,15 +3488,15 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Queue track</source>
-      <translation>Mettre cette piste en liste d&apos;attente</translation>
+      <translation>Mettre cette piste en fin de liste d&apos;attente</translation>
     </message>
     <message>
       <source>Queue selected tracks</source>
-      <translation>Mettre les pistes sélectionnées en liste d&apos;attente</translation>
+      <translation>Mettre les pistes sélectionnées en fin de liste d&apos;attente</translation>
     </message>
     <message>
       <source>Queue to play next</source>
-      <translation>Mettre en liste d&apos;attente pour une lecture ultérieure</translation>
+      <translation>Mettre cette piste au début de la liste d&apos;attente</translation>
     </message>
     <message>
       <source>Unskip track</source>
@@ -6135,7 +6135,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Queue track</source>
-      <translation>Mettre cette piste en liste d&apos;attente</translation>
+      <translation>Mettre cette piste en fin de liste d&apos;attente</translation>
     </message>
     <message>
       <source>Play next</source>
@@ -6411,11 +6411,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Queue track</source>
-      <translation>Mettre cette piste en liste d&apos;attente</translation>
+      <translation>Mettre cette piste en fin de liste d&apos;attente</translation>
     </message>
     <message>
       <source>Queue to play next</source>
-      <translation>Mettre en liste d&apos;attente pour une lecture ultérieure</translation>
+      <translation>Mettre cette piste au début de la liste d&apos;attente</translation>
     </message>
     <message>
       <source>Remove from favorites</source>
@@ -6492,7 +6492,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Queue track</source>
-      <translation>Mettre cette piste en liste d&apos;attente</translation>
+      <translation>Mettre cette piste en fin de liste d&apos;attente</translation>
     </message>
     <message>
       <source>Add to artists</source>
