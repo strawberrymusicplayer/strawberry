@@ -205,6 +205,9 @@ class Mpris2 : public QObject {
   void ActivatePlaylist(const QDBusObjectPath &playlist_id);
   MprisPlaylistList GetPlaylists(quint32 index, quint32 max_count, const QString &order, bool reverse_order);
 
+  // To emit the track list changed signal
+  void EmitTrackListReplaced();
+
  Q_SIGNALS:
   // Player
   void Seeked(const qint64 position);
@@ -232,6 +235,8 @@ class Mpris2 : public QObject {
   void RepeatModeChanged();
   void PlaylistChangedSlot(Playlist *playlist);
   void PlaylistCollectionChanged(Playlist *playlist);
+  void PlaylistItemsAdded(const int playlist_id, const QList<QUuid> &tracks_id, const QUuid after_track_id);
+  void PlaylistItemsRemoved(const int playlist_id, const QList<QUuid> &tracks_id);
 
  private:
   void EmitNotification(const QString &name);
@@ -241,7 +246,7 @@ class Mpris2 : public QObject {
   QString PlaybackStatus(EngineBase::State state) const;
 
   int current_playlist_row() const;
-  QDBusObjectPath current_track_id(const int current_row) const;
+  QDBusObjectPath current_track_id(const QUuid &current_row) const;
 
   bool CanSeek(EngineBase::State state) const;
 
