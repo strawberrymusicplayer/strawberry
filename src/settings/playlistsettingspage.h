@@ -42,6 +42,8 @@ class PlaylistSettingsPage : public SettingsPage {
   void Load() override;
   void Save() override;
 
+  static QString GroupingBeforeQueueToolTip();
+
  private:
   Ui_PlaylistSettingsPage *ui_;
 };
