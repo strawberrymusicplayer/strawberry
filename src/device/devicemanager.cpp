@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -167,7 +167,8 @@ void DeviceManager::Exit() {
 
 void DeviceManager::CloseDevices() {
 
-  for (DeviceInfo *device_info : std::as_const(devices_)) {
+  const QList<DeviceInfo*> devices = root_->children;
+  for (DeviceInfo *device_info : devices) {
     if (!device_info->device_) continue;
     if (wait_for_exit_.contains(&*device_info->device_)) continue;
     wait_for_exit_ << &*device_info->device_;
@@ -262,10 +263,9 @@ void DeviceManager::AddDevicesFromDB(const DeviceDatabaseBackend::DeviceList &de
     }
     else {
       qLog(Info) << "Database device:" << device.friendly_name_;
+      beginInsertRows(ItemToIndex(root_), static_cast<int>(root_->children.count()), static_cast<int>(root_->children.count()));
       device_info = new DeviceInfo(DeviceInfo::Type::Device, root_);
       device_info->InitFromDb(device);
-      beginInsertRows(ItemToIndex(root_), static_cast<int>(devices_.count()), static_cast<int>(devices_.count()));
-      devices_ << device_info;
       endInsertRows();
     }
   }
@@ -403,10 +403,10 @@ void DeviceManager::AddLister(DeviceLister *lister) {
 
 DeviceInfo *DeviceManager::FindDeviceById(const QString &id) const {
 
-  for (int i = 0; i < devices_.count(); ++i) {
-    for (const DeviceInfo::Backend &backend : std::as_const(devices_[i]->backends_)) {
+  for (DeviceInfo *device_info : std::as_const(root_->children)) {
+    for (const DeviceInfo::Backend &backend : std::as_const(device_info->backends_)) {
       if (backend.unique_id_ == id) {
-        return devices_[i];
+        return device_info;
       }
     }
   }
@@ -419,13 +419,13 @@ DeviceInfo *DeviceManager::FindDeviceByUrl(const QList<QUrl> &urls) const {
 
   if (urls.isEmpty()) return nullptr;
 
-  for (int i = 0; i < devices_.count(); ++i) {
-    for (const DeviceInfo::Backend &backend : std::as_const(devices_[i]->backends_)) {
+  for (DeviceInfo *device_info : std::as_const(root_->children)) {
+    for (const DeviceInfo::Backend &backend : std::as_const(device_info->backends_)) {
       if (!backend.lister_) continue;
       const QList<QUrl> device_urls = backend.lister_->MakeDeviceUrls(backend.unique_id_);
       for (const QUrl &url : device_urls) {
         if (urls.contains(url)) {
-          return devices_[i];
+          return device_info;
         }
       }
     }
@@ -485,13 +485,12 @@ void DeviceManager::PhysicalDeviceAdded(const QString &id) {
     }
     else {
       // It's a completely new device
+      beginInsertRows(ItemToIndex(root_), static_cast<int>(root_->children.count()), static_cast<int>(root_->children.count()));
       device_info = new DeviceInfo(DeviceInfo::Type::Device, root_);
       device_info->backends_ << DeviceInfo::Backend(lister, id);
       device_info->friendly_name_ = lister->MakeFriendlyName(id);
       device_info->size_ = lister->DeviceCapacity(id);
       device_info->LoadIcon(lister->DeviceIcons(id), device_info->friendly_name_);
-      beginInsertRows(ItemToIndex(root_), static_cast<int>(devices_.count()), static_cast<int>(devices_.count()));
-      devices_ << device_info;
       endInsertRows();
     }
   }
@@ -538,7 +537,6 @@ void DeviceManager::PhysicalDeviceRemoved(const QString &id) {
 
     if (device_info->backends_.isEmpty()) {
       beginRemoveRows(ItemToIndex(root_), idx.row(), idx.row());
-      devices_.removeAll(device_info);
       root_->Delete(device_info->row);
       endRemoveRows();
     }
@@ -802,7 +800,6 @@ void DeviceManager::RemoveFromDB(DeviceInfo *device_info, const QModelIndex &idx
 
   if (!device_info->BestBackend() || !device_info->BestBackend()->lister_) {  // It's not attached any more so remove it from the list
     beginRemoveRows(ItemToIndex(root_), idx.row(), idx.row());
-    devices_.removeAll(device_info);
     root_->Delete(device_info->row);
     endRemoveRows();
   }
@@ -841,8 +838,7 @@ void DeviceManager::DeviceTaskStarted(const int id) {
   ConnectedDevice *device = qobject_cast<ConnectedDevice*>(sender());
   if (!device) return;
 
-  for (int i = 0; i < devices_.count(); ++i) {
-    DeviceInfo *device_info = devices_.value(i);
+  for (DeviceInfo *device_info : std::as_const(root_->children)) {
     if (device_info->device_ && &*device_info->device_ == device) {
       QModelIndex index = ItemToIndex(device_info);
       if (!index.isValid()) continue;
