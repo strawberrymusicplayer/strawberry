@@ -3480,11 +3480,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Dequeue track</source>
-      <translation type="unfinished">Dequeue track</translation>
+      <translation>Αφαίρεση από την ουρά</translation>
     </message>
     <message>
       <source>Dequeue selected tracks</source>
-      <translation type="unfinished">Dequeue selected tracks</translation>
+      <translation>Αφαίρεση από την ουρά των επιλεγμένων κομματιών</translation>
     </message>
     <message>
       <source>Queue track</source>
@@ -3500,11 +3500,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Unskip track</source>
-      <translation type="unfinished">Unskip track</translation>
+      <translation>Μη παράκαμψη του κομματιού</translation>
     </message>
     <message>
       <source>Unskip selected tracks</source>
-      <translation type="unfinished">Unskip selected tracks</translation>
+      <translation>Μη παράκαμψη των επιλεγμένων κομματιών</translation>
     </message>
     <message>
       <source>Skip track</source>
@@ -3697,7 +3697,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Use proxy settings for streaming</source>
-      <translation type="unfinished">Use proxy settings for streaming</translation>
+      <translation>Χρήση ρυθμίσεων διακομιστή μεσολάβησης για τη ροή</translation>
     </message>
   </context>
   <context>
@@ -4008,7 +4008,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Intro tracks</source>
-      <translation type="unfinished">Intro tracks</translation>
+      <translation>Εισαγωγικά κομμάτια</translation>
     </message>
   </context>
   <context>
@@ -7144,7 +7144,7 @@ Are you sure you want to continue?</source>
     <name>Transcoder</name>
     <message>
       <source>Could not create the GStreamer element &quot;%1&quot; - make sure you have all the required GStreamer plugins installed</source>
-      <translation type="unfinished">Could not create the GStreamer element &quot;%1&quot; - make sure you have all the required GStreamer plugins installed</translation>
+      <translation>Δεν ήταν δυνατή η δημιουργία του στοιχείου GStreamer &quot;%1&quot; - βεβαιωθείτε ότι έχετε εγκατεστημένα όλα τα απαιτούμενα πρόσθετα του GStreamer</translation>
     </message>
     <message>
       <source>Successfully written %1</source>
@@ -7164,7 +7164,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Couldn&apos;t find an encoder for %1, check you have the correct GStreamer plugins installed</source>
-      <translation type="unfinished">Couldn&apos;t find an encoder for %1, check you have the correct GStreamer plugins installed</translation>
+      <translation>Δεν βρέθηκε κωδικοποιητής για %1, ελέγξτε ότι έχετε εγκατεστημένα τα σωστά plugins του GStreamer</translation>
     </message>
     <message>
       <source>Couldn&apos;t find a muxer for %1, check you have the correct GStreamer plugins installed</source>
@@ -7203,7 +7203,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Long term prediction profile (LTP)</source>
-      <translation type="unfinished">Long term prediction profile (LTP)</translation>
+      <translation>Μακροπρόθεσμο προφίλ πρόβλεψης (LTP)</translation>
     </message>
     <message>
       <source>Use temporal noise shaping</source>
