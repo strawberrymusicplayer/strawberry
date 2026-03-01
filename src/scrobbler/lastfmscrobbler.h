@@ -64,6 +64,7 @@ class LastFMScrobbler : public ScrobblerService {
   bool subscriber() const { return subscriber_; }
   bool submitted() const override { return submitted_; }
   QString username() const { return username_; }
+  QString api_key() const { return api_key_; }
 
   void Authenticate();
   void UpdateNowPlaying(const Song &song) override;
@@ -139,6 +140,7 @@ class LastFMScrobbler : public ScrobblerService {
   bool subscriber_;
   QString username_;
   QString session_key_;
+  QString api_key_;
 
   bool submitted_;
   Song song_playing_;

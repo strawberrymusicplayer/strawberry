@@ -113,6 +113,7 @@ void LastFMScrobbler::ReloadSettings() {
 
   s.beginGroup(kSettingsGroup);
   enabled_ = s.value(ScrobblerSettings::kEnabled, false).toBool();
+  api_key_ = s.value(ScrobblerSettings::kApiKey).toString();
   s.endGroup();
 
   s.beginGroup(ScrobblerSettings::kSettingsGroup);
