@@ -709,7 +709,7 @@ jobs:
       - name: Delete build directory
         run: rm -rf build
       - name: Import Ubuntu PPA GPG private key
-        uses: crazy-max/ghaction-import-gpg@v6
+        uses: crazy-max/ghaction-import-gpg@v7
         with:
           gpg_private_key: ${{secrets.UBUNTU_PPA_GPG_PRIVATE_KEY}}
       - name: dpkg-buildpackage
