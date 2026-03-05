@@ -327,6 +327,7 @@ jobs:
       - name: Build RPM
         env:
           RPM_BUILD_NCPUS: 4
+          CXXFLAGS: "-Wno-error=c2y-extensions"
         working-directory: build
         run: rpmbuild -ba strawberry.spec
       - name: Upload artifacts
