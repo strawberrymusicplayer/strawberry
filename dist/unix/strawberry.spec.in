@@ -11,47 +11,21 @@ License:        GPL-3.0+
 URL:            https://www.strawberrymusicplayer.org/
 Source0:        %{name}-@STRAWBERRY_VERSION_PACKAGE@.tar.xz
 
-%if 0%{?suse_version}
-BuildRequires:  libboost_headers-devel
-%else
-BuildRequires:  boost-devel
-%endif
-BuildRequires:  cmake
 BuildRequires:  gcc-c++
-BuildRequires:  hicolor-icon-theme
 BuildRequires:  make
+BuildRequires:  cmake
 BuildRequires:  git
-BuildRequires:  desktop-file-utils
-%if 0%{?suse_version}
-BuildRequires:  update-desktop-files
-BuildRequires:  appstream-glib
-%endif
-%if 0%{?fedora} || 0%{?rhel_version} || 0%{?centos}
-BuildRequires:  libappstream-glib
-%endif
-%if 0%{?mageia} || "%{?_vendor}" == "openmandriva"
-BuildRequires:  appstream-util
-%endif
 BuildRequires:  pkgconfig
 BuildRequires:  pkgconfig(glib-2.0)
 BuildRequires:  pkgconfig(gio-2.0)
 BuildRequires:  pkgconfig(gio-unix-2.0)
 BuildRequires:  pkgconfig(gthread-2.0)
 BuildRequires:  pkgconfig(alsa)
+BuildRequires:  pkgconfig(icu-uc)
+BuildRequires:  pkgconfig(icu-i18n)
 BuildRequires:  pkgconfig(sqlite3) >= 3.9
 BuildRequires:  pkgconfig(taglib)
 BuildRequires:  pkgconfig(fftw3)
-BuildRequires:  pkgconfig(icu-uc)
-BuildRequires:  pkgconfig(icu-i18n)
-BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@Core)
-BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@Concurrent)
-BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@Network)
-BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@Sql)
-BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@DBus)
-BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@Gui)
-BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@Widgets)
-BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@Test)
-BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@LinguistTools)
 BuildRequires:  pkgconfig(gstreamer-1.0)
 BuildRequires:  pkgconfig(gstreamer-app-1.0)
 BuildRequires:  pkgconfig(gstreamer-audio-1.0)
@@ -64,11 +38,43 @@ BuildRequires:  pkgconfig(libebur128)
 BuildRequires:  pkgconfig(libgpod-1.0)
 BuildRequires:  pkgconfig(libmtp)
 BuildRequires:  pkgconfig(libsparsehash)
-BuildRequires:  cmake(GTest)
 BuildRequires:  pkgconfig(gmock)
+BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@Core)
+BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@Concurrent)
+BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@Network)
+BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@Sql)
+BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@DBus)
+BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@Gui)
+BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@Widgets)
+BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@Test)
+BuildRequires:  cmake(Qt@QT_VERSION_MAJOR@LinguistTools)
+BuildRequires:  cmake(GTest)
+BuildRequires:  desktop-file-utils
+BuildRequires:  hicolor-icon-theme
 
-%if 0%{?fedora} || (0%{?suse_version} && 0%{?suse_version} > 1600) || "%{?_vendor}" == "openmandriva"
+%if 0%{?suse_version}
+BuildRequires:  libboost_headers-devel
+%else
+BuildRequires:  boost-devel
+%endif
+
+%if (!0%{?suse_version} && !0%{?mageia}) || (0%{?suse_version} && 0%{?suse_version} > 1600)
 BuildRequires:  cmake(KDSingleApplication-qt6)
+%endif
+
+%if 0%{?suse_version}
+BuildRequires:  update-desktop-files
+BuildRequires:  appstream-glib
+%endif
+%if 0%{?fedora} || 0%{?rhel_version} || 0%{?centos}
+BuildRequires:  libappstream-glib
+%endif
+%if 0%{?mageia} || "%{?_vendor}" == "openmandriva"
+BuildRequires:  appstream-util
+%endif
+
+%if "%{?_vendor}" == "openmandriva"
+BuildRequires:  qt6-qtbase-theme-gtk3
 %endif
 
 %if 0%{?suse_version}
@@ -104,18 +110,18 @@ Features:
 %debug_package
 %endif
 
+%if "%{?_vendor}" == "openmandriva"
+%define debug_package %{nil}
+%endif
+
 %prep
 %setup -qn %{name}-@STRAWBERRY_VERSION_PACKAGE@
 
 %build
-%if 0%{?fedora} || 0%{?rhel_version} || 0%{?centos}
-  export CXXFLAGS="-fPIC -Wno-maybe-uninitialized $RPM_OPT_FLAGS"
-%endif
+%cmake --log-level=DEBUG -DBUILD_WERROR=ON
 %if "%{?_vendor}" == "openmandriva"
-%{cmake} -DBUILD_WERROR=ON
 %make_build
 %else
-%{cmake} -DBUILD_WERROR=ON
 %cmake_build
 %endif
 
@@ -129,9 +135,9 @@ Features:
 %check
 export QT_QPA_PLATFORM="offscreen"
 %if 0%{?fedora} || 0%{?rhel_version} || 0%{?centos}
-%{cmake_build} -t strawberry_tests
+%cmake_build -t strawberry_tests
 %else
-%{make_build} -j $(nproc) -C build strawberry_tests
+%make_build -j $(nproc) -C build strawberry_tests
 %endif
 desktop-file-validate %{buildroot}%{_datadir}/applications/org.strawberrymusicplayer.strawberry.desktop
 %if 0%{?suse_version}
