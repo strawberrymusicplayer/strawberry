@@ -36,8 +36,8 @@
       <translation>Ha tetszik a Strawberry, és ki tudja használni, fontolja meg a szponzorálást vagy az adományozást.</translation>
     </message>
     <message>
-      <source>You can sponsor the author on %1. You can also make a one-time payment through %2.</source>
-      <translation>A szerzőt itt szponzorálhatja: %1. Egyszeri összeggel ezen az oldalon támogathat: %2.</translation>
+      <source>You can sponsor the author on %1 or %2. You can also make a one-time payment through %3.</source>
+      <translation>A szerzőt itt szponzorálhatja: %1 vagy %2. Egyszeri összeggel ezen az oldalon támogathat: %3.</translation>
     </message>
     <message>
       <source>Author and maintainer</source>
@@ -5067,20 +5067,24 @@ Biztos, hogy folytatja?</translation>
       <translation>előadó</translation>
     </message>
     <message>
-      <source>searches for all artists containing the word %1. </source>
-      <translation type="unfinished">searches for all artists containing the word %1. </translation>
+      <source>searches for all artists containing the word %1.</source>
+      <translation type="unfinished">searches for all artists containing the word %1.</translation>
     </message>
     <message>
       <source>Search terms for numerical fields can be prefixed with %1 or %2 to refine the search, e.g.: </source>
       <translation type="unfinished">Search terms for numerical fields can be prefixed with %1 or %2 to refine the search, e.g.: </translation>
     </message>
     <message>
+      <source>A word can be excluded with a preceding &quot;%1&quot;, if you need to search for a word including &quot;%1&quot;, place quotes around the word.</source>
+      <translation type="unfinished">A word can be excluded with a preceding &quot;%1&quot;, if you need to search for a word including &quot;%1&quot;, place quotes around the word.</translation>
+    </message>
+    <message>
       <source>rating</source>
       <translation type="unfinished">rating</translation>
     </message>
     <message>
-      <source>Multiple search terms can also be combined with &quot;%1&quot; (default) and &quot;%2&quot;, as well as grouped with parentheses. </source>
-      <translation type="unfinished">Multiple search terms can also be combined with &quot;%1&quot; (default) and &quot;%2&quot;, as well as grouped with parentheses. </translation>
+      <source>Multiple search terms can also be combined with &quot;%1&quot; (default) and &quot;%2&quot;, as well as grouped with parentheses.</source>
+      <translation type="unfinished">Multiple search terms can also be combined with &quot;%1&quot; (default) and &quot;%2&quot;, as well as grouped with parentheses.</translation>
     </message>
     <message>
       <source>Available fields</source>

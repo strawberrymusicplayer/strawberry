@@ -36,8 +36,8 @@
       <translation>Если вам приглянулся Strawberry, пожалуйста, рассмотрите возможность спонсорства или пожертвования.</translation>
     </message>
     <message>
-      <source>You can sponsor the author on %1. You can also make a one-time payment through %2.</source>
-      <translation>Вы можете материально поддержать автора на %1. Также можно произвести единовременный платёж на %2.</translation>
+      <source>You can sponsor the author on %1 or %2. You can also make a one-time payment through %3.</source>
+      <translation type="unfinished">Вы можете материально поддержать автора на %1 или %2. Также можно произвести единовременный платёж на %3.</translation>
     </message>
     <message>
       <source>Author and maintainer</source>
@@ -5069,19 +5069,23 @@ Are you sure you want to continue?</source>
       <translation>артист</translation>
     </message>
     <message>
-      <source>searches for all artists containing the word %1. </source>
-      <translation>выполняет поиск всех артистов со словом %1. </translation>
+      <source>searches for all artists containing the word %1.</source>
+      <translation>выполняет поиск всех артистов со словом %1.</translation>
     </message>
     <message>
       <source>Search terms for numerical fields can be prefixed with %1 or %2 to refine the search, e.g.: </source>
       <translation>Для уточнения поиска в числовых полях можно использовать приставки %1 или %2, например:</translation>
     </message>
     <message>
+      <source>A word can be excluded with a preceding &quot;%1&quot;, if you need to search for a word including &quot;%1&quot;, place quotes around the word.</source>
+      <translation type="unfinished">A word can be excluded with a preceding &quot;%1&quot;, if you need to search for a word including &quot;%1&quot;, place quotes around the word.</translation>
+    </message>
+    <message>
       <source>rating</source>
       <translation>оценка</translation>
     </message>
     <message>
-      <source>Multiple search terms can also be combined with &quot;%1&quot; (default) and &quot;%2&quot;, as well as grouped with parentheses. </source>
+      <source>Multiple search terms can also be combined with &quot;%1&quot; (default) and &quot;%2&quot;, as well as grouped with parentheses.</source>
       <translation>Несколько поисковых терминов можно объединить с помощью символов «%1» (по умолчанию) и «%2», а сгруппировать с помощью круглых скобок.</translation>
     </message>
     <message>

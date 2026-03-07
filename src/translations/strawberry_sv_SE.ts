@@ -36,8 +36,8 @@
       <translation>Om du gillar Strawberry och har nytta av det, överväg att sponsra eller donera.</translation>
     </message>
     <message>
-      <source>You can sponsor the author on %1. You can also make a one-time payment through %2.</source>
-      <translation>Du kan sponsra upphovsmannen på %1. Du kan också göra en engångsbetalning genom %2.</translation>
+      <source>You can sponsor the author on %1 or %2. You can also make a one-time payment through %3.</source>
+      <translation type="unfinished">Du kan sponsra upphovsmannen på %1 eller %2. Du kan också göra en engångsbetalning genom %3.</translation>
     </message>
     <message>
       <source>Author and maintainer</source>
@@ -5067,19 +5067,23 @@ Are you sure you want to continue?</source>
       <translation>artist</translation>
     </message>
     <message>
-      <source>searches for all artists containing the word %1. </source>
-      <translation>söker efter alla artister som innehåller ordet %1. </translation>
+      <source>searches for all artists containing the word %1.</source>
+      <translation>söker efter alla artister som innehåller ordet %1.</translation>
     </message>
     <message>
       <source>Search terms for numerical fields can be prefixed with %1 or %2 to refine the search, e.g.: </source>
       <translation>Söktermer för numeriska fält kan prefixas med %1 eller %2 för att förfina sökningen, t.ex.:</translation>
     </message>
     <message>
+      <source>A word can be excluded with a preceding &quot;%1&quot;, if you need to search for a word including &quot;%1&quot;, place quotes around the word.</source>
+      <translation type="unfinished">A word can be excluded with a preceding &quot;%1&quot;, if you need to search for a word including &quot;%1&quot;, place quotes around the word.</translation>
+    </message>
+    <message>
       <source>rating</source>
       <translation>betyg</translation>
     </message>
     <message>
-      <source>Multiple search terms can also be combined with &quot;%1&quot; (default) and &quot;%2&quot;, as well as grouped with parentheses. </source>
+      <source>Multiple search terms can also be combined with &quot;%1&quot; (default) and &quot;%2&quot;, as well as grouped with parentheses.</source>
       <translation>Flera söktermer kan också kombineras med &quot;%1&quot; (standard) och &quot;%2&quot;, samt grupperas med parenteser.</translation>
     </message>
     <message>

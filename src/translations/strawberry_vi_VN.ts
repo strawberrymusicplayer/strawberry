@@ -36,8 +36,8 @@
       <translation>Nếu bạn thích Strawberry và có thể sử dụng được thì hãy cân nhắc tài trợ hoặc quyên góp.</translation>
     </message>
     <message>
-      <source>You can sponsor the author on %1. You can also make a one-time payment through %2.</source>
-      <translation>Bạn có thể tài trợ cho tác giả trên %1. Bạn cũng có thể thực hiện thanh toán một lần thông qua %2.</translation>
+      <source>You can sponsor the author on %1 or %2. You can also make a one-time payment through %3.</source>
+      <translation type="unfinished">Bạn có thể tài trợ cho tác giả trên %1 hoặc %2. Bạn cũng có thể thực hiện thanh toán một lần thông qua %3.</translation>
     </message>
     <message>
       <source>Author and maintainer</source>
@@ -5066,20 +5066,24 @@ Bạn có chắc chắn muốn tiếp tục không?</translation>
       <translation>nghệ sĩ</translation>
     </message>
     <message>
-      <source>searches for all artists containing the word %1. </source>
-      <translation>tìm tất cả nghệ sĩ chứa từ %1. </translation>
+      <source>searches for all artists containing the word %1.</source>
+      <translation>tìm tất cả nghệ sĩ chứa từ %1.</translation>
     </message>
     <message>
       <source>Search terms for numerical fields can be prefixed with %1 or %2 to refine the search, e.g.: </source>
       <translation>Các từ khóa cho trường số có thể thêm tiền tố %1 hoặc %2 để lọc tìm kiếm, ví dụ: </translation>
     </message>
     <message>
+      <source>A word can be excluded with a preceding &quot;%1&quot;, if you need to search for a word including &quot;%1&quot;, place quotes around the word.</source>
+      <translation type="unfinished">A word can be excluded with a preceding &quot;%1&quot;, if you need to search for a word including &quot;%1&quot;, place quotes around the word.</translation>
+    </message>
+    <message>
       <source>rating</source>
       <translation>đánh giá</translation>
     </message>
     <message>
-      <source>Multiple search terms can also be combined with &quot;%1&quot; (default) and &quot;%2&quot;, as well as grouped with parentheses. </source>
-      <translation>Nhiều từ khóa cũng có thể kết hợp với &quot;%1&quot; (mặc định) và &quot;%2&quot;, cũng như nhóm bằng dấu ngoặc. </translation>
+      <source>Multiple search terms can also be combined with &quot;%1&quot; (default) and &quot;%2&quot;, as well as grouped with parentheses.</source>
+      <translation>Nhiều từ khóa cũng có thể kết hợp với &quot;%1&quot; (mặc định) và &quot;%2&quot;, cũng như nhóm bằng dấu ngoặc.</translation>
     </message>
     <message>
       <source>Available fields</source>
