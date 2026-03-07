@@ -36,8 +36,8 @@
       <translation>Якщо вам подобається Strawberry і ви часто ним користуєтесь, подумайте про спонсорство або пожертвування.</translation>
     </message>
     <message>
-      <source>You can sponsor the author on %1. You can also make a one-time payment through %2.</source>
-      <translation>Ви можете підтримати автора на %1. Ви також можете зробити одноразовий платіж через %2.</translation>
+      <source>You can sponsor the author on %1 or %2. You can also make a one-time payment through %3.</source>
+      <translation type="unfinished">Ви можете підтримати автора на %1 або %2. Ви також можете зробити одноразовий платіж через %3.</translation>
     </message>
     <message>
       <source>Author and maintainer</source>
@@ -5069,20 +5069,24 @@ Are you sure you want to continue?</source>
       <translation>виконавець</translation>
     </message>
     <message>
-      <source>searches for all artists containing the word %1. </source>
-      <translation>шукати всіх виконавців, що містять слово %1. </translation>
+      <source>searches for all artists containing the word %1.</source>
+      <translation>шукати всіх виконавців, що містять слово %1.</translation>
     </message>
     <message>
       <source>Search terms for numerical fields can be prefixed with %1 or %2 to refine the search, e.g.: </source>
       <translation>Для уточнення пошуку перед пошуковими термінами для числових полів можна додати %1 або %2, наприклад: </translation>
     </message>
     <message>
+      <source>A word can be excluded with a preceding &quot;%1&quot;, if you need to search for a word including &quot;%1&quot;, place quotes around the word.</source>
+      <translation type="unfinished">A word can be excluded with a preceding &quot;%1&quot;, if you need to search for a word including &quot;%1&quot;, place quotes around the word.</translation>
+    </message>
+    <message>
       <source>rating</source>
       <translation>рейтинг</translation>
     </message>
     <message>
-      <source>Multiple search terms can also be combined with &quot;%1&quot; (default) and &quot;%2&quot;, as well as grouped with parentheses. </source>
-      <translation>Кілька пошукових термінів також можна об'єднати за допомогою &quot;%1&quot; (за замовчуванням) та &quot;%2&quot;, а також згрупувати за допомогою дужок. </translation>
+      <source>Multiple search terms can also be combined with &quot;%1&quot; (default) and &quot;%2&quot;, as well as grouped with parentheses.</source>
+      <translation>Кілька пошукових термінів також можна об'єднати за допомогою &quot;%1&quot; (за замовчуванням) та &quot;%2&quot;, а також згрупувати за допомогою дужок.</translation>
     </message>
     <message>
       <source>Available fields</source>

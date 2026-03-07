@@ -36,8 +36,8 @@
       <translation>Si vous aimez ce logiciel Strawberry et que vous pouvez en faire usage, envisagez de sponsoriser ou de faire un don.</translation>
     </message>
     <message>
-      <source>You can sponsor the author on %1. You can also make a one-time payment through %2.</source>
-      <translation>Vous pouvez sponsoriser l&apos;auteur sur %1. Vous pouvez également effectuer un paiement unique via %2.</translation>
+      <source>You can sponsor the author on %1 or %2. You can also make a one-time payment through %3.</source>
+      <translation>Vous pouvez sponsoriser l&apos;auteur sur %1 ou sur %2. Vous pouvez également effectuer un paiement unique via %3.</translation>
     </message>
     <message>
       <source>Author and maintainer</source>
@@ -5067,20 +5067,24 @@ Are you sure you want to continue?</source>
       <translation>artiste</translation>
     </message>
     <message>
-      <source>searches for all artists containing the word %1. </source>
-      <translation>recherche tous les artistes contenant le mot %1. </translation>
+      <source>searches for all artists containing the word %1.</source>
+      <translation>recherche tous les artistes contenant le mot %1.</translation>
     </message>
     <message>
       <source>Search terms for numerical fields can be prefixed with %1 or %2 to refine the search, e.g.: </source>
       <translation>Les termes de recherche pour les champs numériques peuvent être préfixés par %1 ou %2 pour affiner la recherche, par exemple : </translation>
     </message>
     <message>
+      <source>A word can be excluded with a preceding &quot;%1&quot;, if you need to search for a word including &quot;%1&quot;, place quotes around the word.</source>
+      <translation>Un mot peut être utilisé pour exclure les titres correspondants en le précédant de &quot;%1&quot;, en cas de besoin de recherche utilisant un mot contenant &quot;%1&quot;, encadrez le mot par des guillemets.</translation>
+    </message>
+    <message>
       <source>rating</source>
       <translation>notation</translation>
     </message>
     <message>
-      <source>Multiple search terms can also be combined with &quot;%1&quot; (default) and &quot;%2&quot;, as well as grouped with parentheses. </source>
-      <translation>Plusieurs termes de recherche peuvent également être combinés avec &quot;%1&quot; (par défaut) et &quot;%2&quot;, ainsi que regroupés entre parenthèses. </translation>
+      <source>Multiple search terms can also be combined with &quot;%1&quot; (default) and &quot;%2&quot;, as well as grouped with parentheses.</source>
+      <translation>Plusieurs termes de recherche peuvent également être combinés avec &quot;%1&quot; (par défaut) et &quot;%2&quot;, ainsi que regroupés entre parenthèses.</translation>
     </message>
     <message>
       <source>Available fields</source>

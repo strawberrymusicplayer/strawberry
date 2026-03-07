@@ -36,8 +36,8 @@
       <translation>Si le gusta Strawberry y le da uso, plantéese patrocinarlo o realizar una donación.</translation>
     </message>
     <message>
-      <source>You can sponsor the author on %1. You can also make a one-time payment through %2.</source>
-      <translation>Puede patrocinar al autor en %1. También puede realizar una aportación económica a través de %2.</translation>
+      <source>You can sponsor the author on %1 or %2. You can also make a one-time payment through %3.</source>
+      <translation type="unfinished">Puede patrocinar al autor en %1 o %2. También puede realizar una aportación económica a través de %3.</translation>
     </message>
     <message>
       <source>Author and maintainer</source>
@@ -5066,20 +5066,24 @@ Are you sure you want to continue?</source>
       <translation>artista</translation>
     </message>
     <message>
-      <source>searches for all artists containing the word %1. </source>
-      <translation>busca todos los artistas que contienen la palabra %1. </translation>
+      <source>searches for all artists containing the word %1.</source>
+      <translation>busca todos los artistas que contienen la palabra %1.</translation>
     </message>
     <message>
       <source>Search terms for numerical fields can be prefixed with %1 or %2 to refine the search, e.g.: </source>
       <translation>Los términos de búsqueda para campos numéricos pueden llevar %1 o %2 como prefijos para refinar la búsqueda, p. ej.: </translation>
     </message>
     <message>
+      <source>A word can be excluded with a preceding &quot;%1&quot;, if you need to search for a word including &quot;%1&quot;, place quotes around the word.</source>
+      <translation type="unfinished">A word can be excluded with a preceding &quot;%1&quot;, if you need to search for a word including &quot;%1&quot;, place quotes around the word.</translation>
+    </message>
+    <message>
       <source>rating</source>
       <translation>valoración</translation>
     </message>
     <message>
-      <source>Multiple search terms can also be combined with &quot;%1&quot; (default) and &quot;%2&quot;, as well as grouped with parentheses. </source>
-      <translation>También pueden combinarse múltiples términos de búsqueda con &quot;%1&quot; (por defecto) y &quot;%2&quot;, así como agrupados con paréntesis. </translation>
+      <source>Multiple search terms can also be combined with &quot;%1&quot; (default) and &quot;%2&quot;, as well as grouped with parentheses.</source>
+      <translation>También pueden combinarse múltiples términos de búsqueda con &quot;%1&quot; (por defecto) y &quot;%2&quot;, así como agrupados con paréntesis.</translation>
     </message>
     <message>
       <source>Available fields</source>

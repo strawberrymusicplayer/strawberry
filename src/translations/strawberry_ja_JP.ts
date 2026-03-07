@@ -36,8 +36,8 @@
       <translation>もし Strawberry が気に入って利用する場合は、後援または寄付を検討してください</translation>
     </message>
     <message>
-      <source>You can sponsor the author on %1. You can also make a one-time payment through %2.</source>
-      <translation>%1 の著者をスポンサーにすることができます。 %2 を通じて 1回限りの支払いを行うこともできます。</translation>
+      <source>You can sponsor the author on %1 or %2. You can also make a one-time payment through %3.</source>
+      <translation type="unfinished">%1, %2 の著者をスポンサーにすることができます。 %3 を通じて 1回限りの支払いを行うこともできます。</translation>
     </message>
     <message>
       <source>Author and maintainer</source>
@@ -5066,19 +5066,23 @@ Are you sure you want to continue?</source>
       <translation>アーティスト</translation>
     </message>
     <message>
-      <source>searches for all artists containing the word %1. </source>
-      <translation>%1 という単語を含むすべてのアーティストを検索します。 </translation>
+      <source>searches for all artists containing the word %1.</source>
+      <translation>%1 という単語を含むすべてのアーティストを検索します。</translation>
     </message>
     <message>
       <source>Search terms for numerical fields can be prefixed with %1 or %2 to refine the search, e.g.: </source>
       <translation>数値フィールドの検索語には、先頭に %1 または %2 を付けると、検索を絞り込むことができます。例: </translation>
     </message>
     <message>
+      <source>A word can be excluded with a preceding &quot;%1&quot;, if you need to search for a word including &quot;%1&quot;, place quotes around the word.</source>
+      <translation type="unfinished">A word can be excluded with a preceding &quot;%1&quot;, if you need to search for a word including &quot;%1&quot;, place quotes around the word.</translation>
+    </message>
+    <message>
       <source>rating</source>
       <translation>評価</translation>
     </message>
     <message>
-      <source>Multiple search terms can also be combined with &quot;%1&quot; (default) and &quot;%2&quot;, as well as grouped with parentheses. </source>
+      <source>Multiple search terms can also be combined with &quot;%1&quot; (default) and &quot;%2&quot;, as well as grouped with parentheses.</source>
       <translation>複数の検索語を「%1」(デフォルト) および「%2」と組み合わせたり、括弧でグループ化したりすることもできます。</translation>
     </message>
     <message>
