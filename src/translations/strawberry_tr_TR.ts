@@ -37,7 +37,7 @@
     </message>
     <message>
       <source>You can sponsor the author on %1 or %2. You can also make a one-time payment through %3.</source>
-      <translation type="unfinished">Geliştiriciye %1 veya %2 üzerinden sponsor olabilirsiniz. Ayrıca %3 üzerinden tek seferlik ödeme yapabilirsiniz.</translation>
+      <translation>Geliştiriciye %1 veya %2 üzerinden sponsor olabilirsiniz. Ayrıca %3 üzerinden tek seferlik ödeme yapabilirsiniz.</translation>
     </message>
     <message>
       <source>Author and maintainer</source>
@@ -3996,7 +3996,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Shuffle grouping</source>
-      <translation type="unfinished">Gruplama karıştır</translation>
+      <translation>Gruplama karıştır</translation>
     </message>
     <message>
       <source>Don&apos;t repeat</source>
@@ -4654,7 +4654,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Shuffle grouping</source>
-      <translation type="unfinished">Gruplama karıştır</translation>
+      <translation>Gruplama karıştır</translation>
     </message>
   </context>
   <context>

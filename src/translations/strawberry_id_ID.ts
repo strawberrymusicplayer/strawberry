@@ -3996,7 +3996,7 @@ Jika tidak ada yang cocok maka akan menggunakan gambar terbesar dalam direktori.
     </message>
     <message>
       <source>Shuffle grouping</source>
-      <translation type="unfinished">Karau grouping</translation>
+      <translation>Karau grouping</translation>
     </message>
     <message>
       <source>Don&apos;t repeat</source>
@@ -4653,7 +4653,7 @@ Jika tidak ada yang cocok maka akan menggunakan gambar terbesar dalam direktori.
     </message>
     <message>
       <source>Shuffle grouping</source>
-      <translation type="unfinished">Karau grouping</translation>
+      <translation>Karau grouping</translation>
     </message>
   </context>
   <context>

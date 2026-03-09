@@ -37,7 +37,7 @@
     </message>
     <message>
       <source>You can sponsor the author on %1 or %2. You can also make a one-time payment through %3.</source>
-      <translation type="unfinished">Sie können den Autor auf %1 oder %2 sponsern. Sie können auch eine einmalige Zahlung über %3 vornehmen.</translation>
+      <translation>Sie können den Autor auf %1 oder %2 sponsern. Sie können auch eine einmalige Zahlung über %3 vornehmen.</translation>
     </message>
     <message>
       <source>Author and maintainer</source>
@@ -3996,7 +3996,7 @@ Falls es keine Treffer gibt, wird das größte Bild aus dem Verzeichnis ausgewä
     </message>
     <message>
       <source>Shuffle grouping</source>
-      <translation type="unfinished">Zufällige Titelsortierung</translation>
+      <translation>Zufällige Titelsortierung</translation>
     </message>
     <message>
       <source>Don&apos;t repeat</source>
@@ -4654,7 +4654,7 @@ Falls es keine Treffer gibt, wird das größte Bild aus dem Verzeichnis ausgewä
     </message>
     <message>
       <source>Shuffle grouping</source>
-      <translation type="unfinished">Zufällige Titelsortierung</translation>
+      <translation>Zufällige Titelsortierung</translation>
     </message>
   </context>
   <context>

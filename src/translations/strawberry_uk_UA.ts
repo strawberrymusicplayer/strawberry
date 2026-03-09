@@ -37,7 +37,7 @@
     </message>
     <message>
       <source>You can sponsor the author on %1 or %2. You can also make a one-time payment through %3.</source>
-      <translation type="unfinished">Ви можете підтримати автора на %1 або %2. Ви також можете зробити одноразовий платіж через %3.</translation>
+      <translation>Ви можете підтримати автора на %1 або %2. Ви також можете зробити одноразовий платіж через %3.</translation>
     </message>
     <message>
       <source>Author and maintainer</source>
@@ -3996,7 +3996,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Shuffle grouping</source>
-      <translation type="unfinished">Перемішати групування</translation>
+      <translation>Перемішати групування</translation>
     </message>
     <message>
       <source>Don&apos;t repeat</source>
@@ -4656,7 +4656,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Shuffle grouping</source>
-      <translation type="unfinished">Перемішати групування</translation>
+      <translation>Перемішати групування</translation>
     </message>
   </context>
   <context>

@@ -37,7 +37,7 @@
     </message>
     <message>
       <source>You can sponsor the author on %1 or %2. You can also make a one-time payment through %3.</source>
-      <translation type="unfinished">Μπορείτε να επιχορηγήσετε τον συγγραφέα στο %1 ή %2. Μπορείτε επίσης να κάνετε μια εφάπαξ πληρωμή μέσω του %3.</translation>
+      <translation>Μπορείτε να επιχορηγήσετε τον συγγραφέα στο %1 ή %2. Μπορείτε επίσης να κάνετε μια εφάπαξ πληρωμή μέσω του %3.</translation>
     </message>
     <message>
       <source>Author and maintainer</source>

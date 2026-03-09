@@ -37,7 +37,7 @@
     </message>
     <message>
       <source>You can sponsor the author on %1 or %2. You can also make a one-time payment through %3.</source>
-      <translation type="unfinished">Podeu patrocinar l'autor a %1 o %2. També podeu fer un pagament únic a través de %3.</translation>
+      <translation>Podeu patrocinar l'autor a %1 o %2. També podeu fer un pagament únic a través de %3.</translation>
     </message>
     <message>
       <source>Author and maintainer</source>
@@ -3996,7 +3996,7 @@ Si no hi ha resultats, s’usarà la imatge més gran en el directori.</translat
     </message>
     <message>
       <source>Shuffle grouping</source>
-      <translation type="unfinished">Mescla els d’agrupació</translation>
+      <translation>Mescla els d’agrupació</translation>
     </message>
     <message>
       <source>Don&apos;t repeat</source>
@@ -4654,7 +4654,7 @@ Si no hi ha resultats, s’usarà la imatge més gran en el directori.</translat
     </message>
     <message>
       <source>Shuffle grouping</source>
-      <translation type="unfinished">Mescla els d’agrupació</translation>
+      <translation>Mescla els d’agrupació</translation>
     </message>
   </context>
   <context>

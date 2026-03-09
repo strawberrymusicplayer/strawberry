@@ -37,7 +37,7 @@
     </message>
     <message>
       <source>You can sponsor the author on %1 or %2. You can also make a one-time payment through %3.</source>
-      <translation type="unfinished">Du kan sponsra upphovsmannen på %1 eller %2. Du kan också göra en engångsbetalning genom %3.</translation>
+      <translation>Du kan sponsra upphovsmannen på %1 eller %2. Du kan också göra en engångsbetalning genom %3.</translation>
     </message>
     <message>
       <source>Author and maintainer</source>
@@ -3996,7 +3996,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Shuffle grouping</source>
-      <translation type="unfinished">Blanda gruppering</translation>
+      <translation>Blanda gruppering</translation>
     </message>
     <message>
       <source>Don&apos;t repeat</source>
@@ -4654,7 +4654,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Shuffle grouping</source>
-      <translation type="unfinished">Blanda gruppering</translation>
+      <translation>Blanda gruppering</translation>
     </message>
   </context>
   <context>

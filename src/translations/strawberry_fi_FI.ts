@@ -37,7 +37,7 @@
     </message>
     <message>
       <source>You can sponsor the author on %1 or %2. You can also make a one-time payment through %3.</source>
-      <translation type="unfinished">Voit sponsoroida tekijää %1 tai %2:ssa. Voit myös tehdä kertalahjoituksen osoiteessa %3.</translation>
+      <translation>Voit sponsoroida tekijää %1 tai %2:ssa. Voit myös tehdä kertalahjoituksen osoiteessa %3.</translation>
     </message>
     <message>
       <source>Author and maintainer</source>
@@ -3996,7 +3996,7 @@ Jos vastaavia tiedostoja ei löydy, Strawberry käyttää suurinta kansiossa ole
     </message>
     <message>
       <source>Shuffle grouping</source>
-      <translation type="unfinished">Sekoita ryhmittely</translation>
+      <translation>Sekoita ryhmittely</translation>
     </message>
     <message>
       <source>Don&apos;t repeat</source>
@@ -4654,7 +4654,7 @@ Jos vastaavia tiedostoja ei löydy, Strawberry käyttää suurinta kansiossa ole
     </message>
     <message>
       <source>Shuffle grouping</source>
-      <translation type="unfinished">Sekoita ryhmittely</translation>
+      <translation>Sekoita ryhmittely</translation>
     </message>
   </context>
   <context>

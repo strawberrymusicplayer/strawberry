@@ -37,7 +37,7 @@
     </message>
     <message>
       <source>You can sponsor the author on %1 or %2. You can also make a one-time payment through %3.</source>
-      <translation type="unfinished">Du kan sponse Strawberry på %1 eller %2. Du kan også gi en engangsbetaling gjennom %3.</translation>
+      <translation>Du kan sponse Strawberry på %1 eller %2. Du kan også gi en engangsbetaling gjennom %3.</translation>
     </message>
     <message>
       <source>Author and maintainer</source>
@@ -3996,7 +3996,7 @@ Hvis ingen ord passer, blir det største bildet i mappen brukt.</translation>
     </message>
     <message>
       <source>Shuffle grouping</source>
-      <translation type="unfinished">Stokk om gruppering</translation>
+      <translation>Stokk om gruppering</translation>
     </message>
     <message>
       <source>Don&apos;t repeat</source>
@@ -4654,7 +4654,7 @@ Hvis ingen ord passer, blir det største bildet i mappen brukt.</translation>
     </message>
     <message>
       <source>Shuffle grouping</source>
-      <translation type="unfinished">Stokk om gruppering</translation>
+      <translation>Stokk om gruppering</translation>
     </message>
   </context>
   <context>
