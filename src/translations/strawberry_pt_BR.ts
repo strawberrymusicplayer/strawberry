@@ -37,7 +37,7 @@
     </message>
     <message>
       <source>You can sponsor the author on %1 or %2. You can also make a one-time payment through %3.</source>
-      <translation type="unfinished">Você pode patrocinar o autor em %1 ou %2. Você também pode fazer um pagamento único em %3.</translation>
+      <translation>Você pode patrocinar o autor em %1 ou %2. Você também pode fazer um pagamento único em %3.</translation>
     </message>
     <message>
       <source>Author and maintainer</source>
@@ -3996,7 +3996,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Shuffle grouping</source>
-      <translation type="unfinished">Embaralhar agrupamento</translation>
+      <translation>Embaralhar agrupamento</translation>
     </message>
     <message>
       <source>Don&apos;t repeat</source>
@@ -4654,7 +4654,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Shuffle grouping</source>
-      <translation type="unfinished">Embaralhar agrupamento</translation>
+      <translation>Embaralhar agrupamento</translation>
     </message>
   </context>
   <context>

@@ -37,7 +37,7 @@
     </message>
     <message>
       <source>You can sponsor the author on %1 or %2. You can also make a one-time payment through %3.</source>
-      <translation type="unfinished">Je kan de schrijvers hier sponseren %1 of %2. U kunt ook een eenmalige betaling doen via %3</translation>
+      <translation>Je kan de schrijvers hier sponseren %1 of %2. U kunt ook een eenmalige betaling doen via %3</translation>
     </message>
     <message>
       <source>Author and maintainer</source>
@@ -3996,7 +3996,7 @@ Als er geen match is wordt de grootste afbeelding uit de map gebruikt.</translat
     </message>
     <message>
       <source>Shuffle grouping</source>
-      <translation type="unfinished">Groeperen willekeurig afspelen</translation>
+      <translation>Groeperen willekeurig afspelen</translation>
     </message>
     <message>
       <source>Don&apos;t repeat</source>
@@ -4654,7 +4654,7 @@ Als er geen match is wordt de grootste afbeelding uit de map gebruikt.</translat
     </message>
     <message>
       <source>Shuffle grouping</source>
-      <translation type="unfinished">Groeperen willekeurig afspelen</translation>
+      <translation>Groeperen willekeurig afspelen</translation>
     </message>
   </context>
   <context>

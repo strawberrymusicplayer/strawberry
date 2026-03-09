@@ -3996,7 +3996,7 @@ Ha nincs egyezés, akkor a legnagyobb képet veszi a könyvtárból.</translatio
     </message>
     <message>
       <source>Shuffle grouping</source>
-      <translation type="unfinished">Gyűjtemény összekeverése</translation>
+      <translation>Gyűjtemény összekeverése</translation>
     </message>
     <message>
       <source>Don&apos;t repeat</source>
@@ -4654,7 +4654,7 @@ Ha nincs egyezés, akkor a legnagyobb képet veszi a könyvtárból.</translatio
     </message>
     <message>
       <source>Shuffle grouping</source>
-      <translation type="unfinished">Gyűjtemény összekeverése</translation>
+      <translation>Gyűjtemény összekeverése</translation>
     </message>
   </context>
   <context>

@@ -37,7 +37,7 @@
     </message>
     <message>
       <source>You can sponsor the author on %1 or %2. You can also make a one-time payment through %3.</source>
-      <translation type="unfinished">Võid toetada autorit saidis %1 või %2. Samuti on võimalik ühekordne makse %3 kaudu.</translation>
+      <translation>Võid toetada autorit saidis %1 või %2. Samuti on võimalik ühekordne makse %3 kaudu.</translation>
     </message>
     <message>
       <source>Author and maintainer</source>
@@ -3996,7 +3996,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Shuffle grouping</source>
-      <translation type="unfinished">Rühmitamine juhuesitus</translation>
+      <translation>Rühmitamine juhuesitus</translation>
     </message>
     <message>
       <source>Don&apos;t repeat</source>
@@ -4654,7 +4654,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Shuffle grouping</source>
-      <translation type="unfinished">Rühmitamine juhuesitus</translation>
+      <translation>Rühmitamine juhuesitus</translation>
     </message>
   </context>
   <context>

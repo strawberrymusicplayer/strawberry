@@ -37,7 +37,7 @@
     </message>
     <message>
       <source>You can sponsor the author on %1 or %2. You can also make a one-time payment through %3.</source>
-      <translation type="unfinished">Możesz sponsorować autora na %1 lub %2. Możesz także dokonać jednorazowej wpłaty poprzez %3.</translation>
+      <translation>Możesz sponsorować autora na %1 lub %2. Możesz także dokonać jednorazowej wpłaty poprzez %3.</translation>
     </message>
     <message>
       <source>Author and maintainer</source>
@@ -3996,7 +3996,7 @@ W przypadku braku takich plików użyty zostanie największy obraz z danego kata
     </message>
     <message>
       <source>Shuffle grouping</source>
-      <translation type="unfinished">Losuj grupowanie</translation>
+      <translation>Losuj grupowanie</translation>
     </message>
     <message>
       <source>Don&apos;t repeat</source>
@@ -4658,7 +4658,7 @@ tekstu zostanie ukryty.&lt;/p&gt;</translation>
     </message>
     <message>
       <source>Shuffle grouping</source>
-      <translation type="unfinished">Losuj grupowanie</translation>
+      <translation>Losuj grupowanie</translation>
     </message>
   </context>
   <context>

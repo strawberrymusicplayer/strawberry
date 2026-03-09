@@ -37,7 +37,7 @@
     </message>
     <message>
       <source>You can sponsor the author on %1 or %2. You can also make a one-time payment through %3.</source>
-      <translation type="unfinished">Puede patrocinar al autor en %1 o %2. También puede realizar una aportación económica a través de %3.</translation>
+      <translation>Puede patrocinar al autor en %1 o %2. También puede realizar una aportación económica a través de %3.</translation>
     </message>
     <message>
       <source>Author and maintainer</source>
@@ -3995,7 +3995,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Shuffle grouping</source>
-      <translation type="unfinished">Mezclar agrupamiento</translation>
+      <translation>Mezclar agrupamiento</translation>
     </message>
     <message>
       <source>Don&apos;t repeat</source>
@@ -4653,7 +4653,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Shuffle grouping</source>
-      <translation type="unfinished">Mezclar agrupamiento</translation>
+      <translation>Mezclar agrupamiento</translation>
     </message>
   </context>
   <context>

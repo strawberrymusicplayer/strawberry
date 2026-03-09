@@ -37,7 +37,7 @@
     </message>
     <message>
       <source>You can sponsor the author on %1 or %2. You can also make a one-time payment through %3.</source>
-      <translation type="unfinished">Můžete podpořit autora na %1 nebo %2. Také můžete jednorázově přispět pomocí %3.</translation>
+      <translation>Můžete podpořit autora na %1 nebo %2. Také můžete jednorázově přispět pomocí %3.</translation>
     </message>
     <message>
       <source>Author and maintainer</source>
@@ -3996,7 +3996,7 @@ Pokud nenajde žádné, které by se shodovaly, potom použije největší obrá
     </message>
     <message>
       <source>Shuffle grouping</source>
-      <translation type="unfinished">Zamíchat seskupování</translation>
+      <translation>Zamíchat seskupování</translation>
     </message>
     <message>
       <source>Don&apos;t repeat</source>
@@ -4656,7 +4656,7 @@ Pokud nenajde žádné, které by se shodovaly, potom použije největší obrá
     </message>
     <message>
       <source>Shuffle grouping</source>
-      <translation type="unfinished">Zamíchat seskupování</translation>
+      <translation>Zamíchat seskupování</translation>
     </message>
   </context>
   <context>

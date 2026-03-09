@@ -38,7 +38,7 @@ Il codice sorgente è disponibile su &apos;%1&apos;</translation>
     </message>
     <message>
       <source>You can sponsor the author on %1 or %2. You can also make a one-time payment through %3.</source>
-      <translation type="unfinished">Puoi sponsorizzare l&apos;autore su &apos;%1&apos; o &apos;%2&apos;. 
+      <translation>Puoi sponsorizzare l&apos;autore su &apos;%1&apos; o &apos;%2&apos;. 
 Puoi anche effettuare un pagamento una tantum tramite &apos;%3&apos;.</translation>
     </message>
     <message>
@@ -4001,7 +4001,7 @@ Prima di iniziare ti suggeriamo di eseguire il backup del database.</translation
     </message>
     <message>
       <source>Shuffle grouping</source>
-      <translation type="unfinished">Mescola raggruppando</translation>
+      <translation>Mescola raggruppando</translation>
     </message>
     <message>
       <source>Don&apos;t repeat</source>
@@ -4661,7 +4661,7 @@ Non è stato possibile eliminare i seguenti file:</translation>
     </message>
     <message>
       <source>Shuffle grouping</source>
-      <translation type="unfinished">Mescola raggruppando</translation>
+      <translation>Mescola raggruppando</translation>
     </message>
   </context>
   <context>

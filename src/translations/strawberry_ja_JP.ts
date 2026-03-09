@@ -37,7 +37,7 @@
     </message>
     <message>
       <source>You can sponsor the author on %1 or %2. You can also make a one-time payment through %3.</source>
-      <translation type="unfinished">%1, %2 の著者をスポンサーにすることができます。 %3 を通じて 1回限りの支払いを行うこともできます。</translation>
+      <translation>%1, %2 の著者をスポンサーにすることができます。 %3 を通じて 1回限りの支払いを行うこともできます。</translation>
     </message>
     <message>
       <source>Author and maintainer</source>

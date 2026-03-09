@@ -37,7 +37,7 @@
     </message>
     <message>
       <source>You can sponsor the author on %1 or %2. You can also make a one-time payment through %3.</source>
-      <translation type="unfinished">Þú getur styrkt höfundinn á %1 eða %2. Þú getur líka lagt fram eins-skiptis greiðslu í gegnum %3.</translation>
+      <translation>Þú getur styrkt höfundinn á %1 eða %2. Þú getur líka lagt fram eins-skiptis greiðslu í gegnum %3.</translation>
     </message>
     <message>
       <source>Author and maintainer</source>
