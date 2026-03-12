@@ -123,6 +123,7 @@ libgstwavenc
 libgstwavpack
 libgstwavparse
 libgstxingmux
+libgstmatroska
 "
 
 gst_plugins=$(echo "$gst_plugins" | tr '\n' ' ' | sed -e 's/^ //g' | sed -e 's/  / /g')
