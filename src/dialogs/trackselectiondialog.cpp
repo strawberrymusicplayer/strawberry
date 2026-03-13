@@ -61,6 +61,8 @@ TrackSelectionDialog::TrackSelectionDialog(const SharedPtr<TagReaderClient> tagr
 
   // Setup dialog window
   ui_->setupUi(this);
+  // Preserve line breaks from backend diagnostics.
+  ui_->error_details->setTextFormat(Qt::PlainText);
 
   QObject::connect(ui_->song_list, &QListWidget::currentRowChanged, this, &TrackSelectionDialog::UpdateStack);
   QObject::connect(ui_->results, &QTreeWidget::currentItemChanged, this, &TrackSelectionDialog::ResultSelected);
@@ -144,7 +146,7 @@ void TrackSelectionDialog::FetchTagProgress(const Song &original_song, const QSt
 
 }
 
-void TrackSelectionDialog::FetchTagFinished(const Song &original_song, const SongList &songs_guessed) {
+void TrackSelectionDialog::FetchTagFinished(const Song &original_song, const SongList &songs_guessed, const QString &error) {
 
   // Find the item with this filename
   int row = -1;
@@ -162,6 +164,7 @@ void TrackSelectionDialog::FetchTagFinished(const Song &original_song, const Son
 
   // Add the results to the list
   data_[row].pending_ = false;
+  data_[row].error_string_ = error.trimmed();
   data_[row].results_ = songs_guessed;
 
   // If it's the current item, update the display
@@ -185,8 +188,19 @@ void TrackSelectionDialog::UpdateStack() {
   }
   if (tag_data.results_.isEmpty()) {
     ui_->stack->setCurrentWidget(ui_->error_page);
+    // Show backend diagnostics to make tag fetch failures actionable for users.
+    QString error_details = tag_data.error_string_;
+    if (error_details.isEmpty()) {
+      error_details = tr("No additional diagnostic information is available.");
+    }
+    ui_->error_details_title->setVisible(true);
+    ui_->error_details->setVisible(true);
+    ui_->error_details->setText(error_details);
     return;
   }
+  ui_->error_details_title->setVisible(false);
+  ui_->error_details->setVisible(false);
+  ui_->error_details->clear();
   ui_->stack->setCurrentWidget(ui_->results_page);
 
   // Clear tree widget

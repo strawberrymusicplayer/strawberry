@@ -91,6 +91,8 @@ class MusicBrainzClient : public JsonBaseRequest {
   using ResultList = QList<Result>;
 
   void StartMbIdRequest(const int id, const QStringList &mbid);
+  // Metadata search fallback used when no MBID was resolved from AcoustID.
+  void StartSearchRequest(const int id, const QString &title, const QString &artist, const QString &album, const int duration_msec);
   void CancelMbIdRequest(const int id);
 
   void StartDiscIdRequest(const QString &discid);
@@ -106,6 +108,7 @@ class MusicBrainzClient : public JsonBaseRequest {
   void FlushRequests();
   // ID identifies the track, and request_number means it's the 'request_number'th request for this track
   void MbIdRequestFinished(QNetworkReply *reply, const int id, const int request_number);
+  void SearchRequestFinished(QNetworkReply *reply, const int id, const QString &query, const QString &title, const QString &artist, const QString &album, const int duration_msec);
   void DiscIdRequestFinished(const QString &discid, QNetworkReply *reply);
 
  private:
@@ -116,6 +119,21 @@ class MusicBrainzClient : public JsonBaseRequest {
     int id;
     QString mbid;
     int number;
+  };
+
+  class SearchRequest {
+   public:
+    SearchRequest() : id(0), duration_msec(0) {}
+    SearchRequest(const int _id, const QString &_query, const QString &_title, const QString &_artist, const QString &_album, const int _duration_msec)
+        : id(_id), query(_query), title(_title), artist(_artist), album(_album), duration_msec(_duration_msec) {}
+    // Track id in TagFetcher request context.
+    int id;
+    // Pre-normalized MusicBrainz Lucene query.
+    QString query;
+    QString title;
+    QString artist;
+    QString album;
+    int duration_msec;
   };
 
   enum class UniqueResultsSortOption {
@@ -171,8 +189,10 @@ class MusicBrainzClient : public JsonBaseRequest {
 
   JsonObjectResult ParseJsonObject(QNetworkReply *reply);
   void FlushMbIdRequests();
+  void FlushSearchRequests();
   void FlushDiscIdRequests();
   void SendMbIdRequest(const MbIdRequest &request);
+  void SendSearchRequest(const SearchRequest &request);
   void SendDiscIdRequest(const QString &disc_id);
 
   static ReleaseList ParseReleases(const QJsonArray &array_releases);
@@ -192,9 +212,11 @@ class MusicBrainzClient : public JsonBaseRequest {
   NetworkTimeouts *timeouts_;
 
   QMultiMap<int, MbIdRequest> pending_mbid_requests_;
+  QList<SearchRequest> pending_search_requests_;
   QList<QString> pending_discid_requests_;
 
   QMultiMap<int, QNetworkReply*> mbid_requests_;
+  QMultiMap<int, QNetworkReply*> search_requests_;
   QMultiMap<QString, QNetworkReply*> discid_requests_;
 
   QMap<int, QList<PendingResults>> pending_results_;
