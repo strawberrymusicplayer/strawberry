@@ -580,6 +580,10 @@
       <translation>Βελτίωση ακρόασης με ακουστικά για στερεοφωνικεγγραφές (bs2b)</translation>
     </message>
     <message>
+      <source>Use playbin3 when available</source>
+      <translation type="unfinished">Use playbin3 when available</translation>
+    </message>
+    <message>
       <source>Enable HTTP/2 for streaming</source>
       <translation>Ενεργοποίηση ροής HTTP/2</translation>
     </message>
@@ -1091,8 +1095,16 @@ If there are no matches then it will use the largest image in the directory.</so
       <translation>Χρήση διαφόρων καλλιτεχνών σε μεταγλώττιση άλμπουμ</translation>
     </message>
     <message>
-      <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artist names</source>
-      <translation>Παράκαμψη άρθρων (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) κατά τη διαλογή ονομάτων καλλιτέχνη</translation>
+      <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artists, composers and performers</source>
+      <translation type="unfinished">Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artists, composers and performers</translation>
+    </message>
+    <message>
+      <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting albums</source>
+      <translation type="unfinished">Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting albums</translation>
+    </message>
+    <message>
+      <source>Use sort tags for sorting when available</source>
+      <translation type="unfinished">Use sort tags for sorting when available</translation>
     </message>
     <message>
       <source>Album cover pixmap cache</source>

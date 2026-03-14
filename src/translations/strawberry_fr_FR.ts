@@ -580,6 +580,10 @@
       <translation>Amélioration de l&apos;écoute sur casque des enregistrements stéréo (bs2b)</translation>
     </message>
     <message>
+      <source>Use playbin3 when available</source>
+      <translation>Utilise playbin3 quand il est disponible</translation>
+    </message>
+    <message>
       <source>Enable HTTP/2 for streaming</source>
       <translation>Activer HTTP/2 pour le streaming</translation>
     </message>
@@ -1091,8 +1095,16 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
       <translation>Utiliser divers artistes pour les albums de compilation</translation>
     </message>
     <message>
-      <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artist names</source>
-      <translation>Ignorer les déterminants (&quot;Les&quot;, &quot;Le/La&quot;, &quot;un/une&quot;…) lors du tri des noms d&apos;artistes</translation>
+      <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artists, composers and performers</source>
+      <translation>Ignorer les déterminants (&quot;Les&quot;, &quot;Le/La&quot;, &quot;un/une&quot;…) lors du tri des noms d&apos;artistes, de compositeurs, d&apos;interprètes</translation>
+    </message>
+    <message>
+      <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting albums</source>
+      <translation>Ignorer les déterminants (&quot;Les&quot;, &quot;Le/La&quot;, &quot;un/une&quot;…) lors du tri des noms d&apos;album</translation>
+    </message>
+    <message>
+      <source>Use sort tags for sorting when available</source>
+      <translation>Utilise les tags de tri lorsqu'ils sont disponibles pour effectuer le tri</translation>
     </message>
     <message>
       <source>Album cover pixmap cache</source>

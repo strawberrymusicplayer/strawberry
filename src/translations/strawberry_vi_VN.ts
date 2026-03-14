@@ -580,6 +580,10 @@
       <translation>Cải thiện khả năng nghe bản ghi âm thanh nổi bằng tai nghe (bs2b)</translation>
     </message>
     <message>
+      <source>Use playbin3 when available</source>
+      <translation type="unfinished">Use playbin3 when available</translation>
+    </message>
+    <message>
       <source>Enable HTTP/2 for streaming</source>
       <translation>Kích hoạt HTTP/2 để phát trực tuyến</translation>
     </message>
@@ -1091,8 +1095,16 @@ Nếu không có kết quả trùng khớp thì nó sẽ sử dụng hình ảnh
       <translation>Dùng nhiều nghệ sĩ khác nhau cho album tổng hợp</translation>
     </message>
     <message>
-      <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artist names</source>
-      <translation>Bỏ qua các bài viết hàng đầu (&quot; &quot;, &quot; &quot;, &quot; &quot;) khi sắp xếp tên nghệ sĩ</translation>
+      <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artists, composers and performers</source>
+      <translation type="unfinished">Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artists, composers and performers</translation>
+    </message>
+    <message>
+      <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting albums</source>
+      <translation type="unfinished">Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting albums</translation>
+    </message>
+    <message>
+      <source>Use sort tags for sorting when available</source>
+      <translation type="unfinished">Use sort tags for sorting when available</translation>
     </message>
     <message>
       <source>Album cover pixmap cache</source>
