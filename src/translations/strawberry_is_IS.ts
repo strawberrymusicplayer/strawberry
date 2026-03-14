@@ -580,6 +580,10 @@
       <translation>Bættu hlustun með heyrnartólum á víðóma hljómplötur (bs2b)</translation>
     </message>
     <message>
+      <source>Use playbin3 when available</source>
+      <translation type="unfinished">Use playbin3 when available</translation>
+    </message>
+    <message>
       <source>Enable HTTP/2 for streaming</source>
       <translation>Virkja HTTP/2 fyrir streymi</translation>
     </message>
@@ -1091,8 +1095,16 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
       <translation>Nota ýmsa flytjendur fyrir safnplötur</translation>
     </message>
     <message>
-      <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artist names</source>
-      <translation>Sleppa greinum á undan (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) þegar nöfnum flytjenda er raðað</translation>
+      <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artists, composers and performers</source>
+      <translation type="unfinished">Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artists, composers and performers</translation>
+    </message>
+    <message>
+      <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting albums</source>
+      <translation type="unfinished">Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting albums</translation>
+    </message>
+    <message>
+      <source>Use sort tags for sorting when available</source>
+      <translation type="unfinished">Use sort tags for sorting when available</translation>
     </message>
     <message>
       <source>Album cover pixmap cache</source>

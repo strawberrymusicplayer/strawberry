@@ -580,6 +580,10 @@
       <translation>Mejora la escucha por auriculares de grabaciones de audio estéreo (bs2b)</translation>
     </message>
     <message>
+      <source>Use playbin3 when available</source>
+      <translation type="unfinished">Usar playbin3 si estan disponibles</translation>
+    </message>
+    <message>
       <source>Enable HTTP/2 for streaming</source>
       <translation>Habilitar HTTP/2 para streaming</translation>
     </message>
@@ -1090,8 +1094,16 @@ If there are no matches then it will use the largest image in the directory.</so
       <translation>Usar varios artistas para los álbumes de compilación</translation>
     </message>
     <message>
-      <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artist names</source>
-      <translation>Omitir artículos principales (&quot;él&quot;, &quot;ella&quot;, &quot;un&quot;, &quot;una&quot;) al ordenar los nombres de los artistas</translation>
+      <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artists, composers and performers</source>
+      <translation type="unfinished">Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artists, composers and performers</translation>
+    </message>
+    <message>
+      <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting albums</source>
+      <translation type="unfinished">Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting albums</translation>
+    </message>
+    <message>
+      <source>Use sort tags for sorting when available</source>
+      <translation type="unfinished">Use sort tags for sorting when available</translation>
     </message>
     <message>
       <source>Album cover pixmap cache</source>

@@ -580,6 +580,10 @@
       <translation>Kopfhörer-Wiedergabe von Stereo-Aufnahmen verbessern (bs2b)</translation>
     </message>
     <message>
+      <source>Use playbin3 when available</source>
+      <translation type="unfinished">playbin3 benutzen, wenn verfügbar</translation>
+    </message>
+    <message>
       <source>Enable HTTP/2 for streaming</source>
       <translation>HTTP/2 für Streaming aktivieren</translation>
     </message>
@@ -1091,8 +1095,16 @@ Falls es keine Treffer gibt, wird das größte Bild aus dem Verzeichnis ausgewä
       <translation type="unfinished">Use various artists for compilation albums</translation>
     </message>
     <message>
-      <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artist names</source>
-      <translation>Führende Artikel (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) beim Sortieren von Interpreten überspringen</translation>
+      <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artists, composers and performers</source>
+      <translation type="unfinished">Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artists, composers and performers</translation>
+    </message>
+    <message>
+      <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting albums</source>
+      <translation type="unfinished">Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting albums</translation>
+    </message>
+    <message>
+      <source>Use sort tags for sorting when available</source>
+      <translation type="unfinished">Use sort tags for sorting when available</translation>
     </message>
     <message>
       <source>Album cover pixmap cache</source>

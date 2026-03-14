@@ -580,6 +580,10 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+      <source>Use playbin3 when available</source>
+      <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Enable HTTP/2 for streaming</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1090,8 +1094,16 @@ If there are no matches then it will use the largest image in the directory.</so
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artist names</source>
-        <translation type="unfinished"></translation>
+      <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artists, composers and performers</source>
+      <translation type="unfinished"></translation>
+    </message>
+    <message>
+      <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting albums</source>
+      <translation type="unfinished"></translation>
+    </message>
+    <message>
+      <source>Use sort tags for sorting when available</source>
+      <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Album cover pixmap cache</source>
