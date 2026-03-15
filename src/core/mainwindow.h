@@ -277,6 +277,8 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void FetchStreamingMetadata();
   void ProcessMetadataQueue();
 
+  void ShufflePlaylistActionTriggered(QAction *action);
+
  public Q_SLOTS:
   void CommandlineOptionsReceived(const QByteArray &string_options);
   void Raise();
@@ -362,6 +364,7 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   QAction *collection_show_untagged_;
 
   QMenu *playlist_menu_;
+  QMenu *shuffle_playlist_menu_;
   QAction *playlist_play_pause_;
   QAction *playlist_stop_after_;
   QAction *playlist_undoredo_;

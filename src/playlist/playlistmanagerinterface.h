@@ -76,6 +76,8 @@ class PlaylistManagerInterface : public QObject {
 
   virtual void PlaySmartPlaylist(PlaylistGeneratorPtr generator, const bool as_new, const bool clear) = 0;
 
+  virtual void ShuffleCurrent(const PlaylistSequence::ShuffleMode shuffle_mode) = 0;
+
  public Q_SLOTS:
   virtual void New(const QString &name, const SongList &songs = SongList(), const QString &special_type = QString()) = 0;
   virtual void Load(const QString &filename) = 0;
@@ -96,6 +98,7 @@ class PlaylistManagerInterface : public QObject {
 
   // Convenience slots that defer to either current() or active()
   virtual void ClearCurrent() = 0;
+  // TODO : this method is only used for external unit tests : the version with parameter is the one that is used.
   virtual void ShuffleCurrent() = 0;
   virtual void RemoveDuplicatesCurrent() = 0;
   virtual void RemoveUnavailableCurrent() = 0;
