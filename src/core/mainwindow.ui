@@ -662,9 +662,6 @@
    <property name="text">
     <string>S&amp;huffle playlist</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+H</string>
-   </property>
   </action>
   <action name="action_add_file">
    <property name="text">
@@ -861,6 +858,33 @@
   <action name="action_import_data_from_last_fm">
    <property name="text">
     <string>Import data from last.fm...</string>
+   </property>
+  </action>
+  <action name="action_shuffle_playlist_all">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Single track as random element</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+H</string>
+   </property>
+  </action>
+  <action name="action_shuffle_playlist_albums">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Album as random element</string>
+   </property>
+  </action>
+  <action name="action_shuffle_playlist_grouping">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Grouped tracks as random element</string>
    </property>
   </action>
  </widget>

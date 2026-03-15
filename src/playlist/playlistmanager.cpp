@@ -409,6 +409,10 @@ void PlaylistManager::ShuffleCurrent() {
   current()->Shuffle();
 }
 
+void PlaylistManager::ShuffleCurrent(const PlaylistSequence::ShuffleMode shuffle_mode) {
+  current()->Shuffle(shuffle_mode);
+}
+
 void PlaylistManager::RemoveDuplicatesCurrent() {
   current()->RemoveDuplicateSongs();
 }
