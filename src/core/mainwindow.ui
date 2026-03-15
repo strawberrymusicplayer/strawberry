@@ -661,9 +661,6 @@
    <property name="text">
     <string>S&amp;huffle playlist</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+Shift+H</string>
-   </property>
   </action>
   <action name="action_add_file">
    <property name="text">
@@ -870,6 +867,33 @@
    </property>
    <property name="text">
     <string>Show sidebar</string>
+   </property>
+  </action>
+  <action name="action_shuffle_playlist_all">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Single track as random element</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+H</string>
+   </property>
+  </action>
+  <action name="action_shuffle_playlist_albums">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Album as random element</string>
+   </property>
+  </action>
+  <action name="action_shuffle_playlist_grouping">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Grouped tracks as random element</string>
    </property>
   </action>
  </widget>
