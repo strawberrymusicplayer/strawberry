@@ -95,6 +95,8 @@ class PlaylistManager : public PlaylistManagerInterface {
   PlaylistParser *parser() const override { return parser_; }
   PlaylistContainer *playlist_container() const override { return playlist_container_; }
 
+  void ShuffleCurrent(const PlaylistSequence::ShuffleMode shuffle_mode) override;
+
   // Saves the changes of the playlists waiting to be saved, before the playlist backend exits.
   // Playlists still being restored are saved when they are restored, PendingPlaylistsSaved() is emitted when all playlists are saved.
   void SavePendingPlaylistsAsync();
@@ -123,6 +125,7 @@ class PlaylistManager : public PlaylistManagerInterface {
 
   // Convenience slots that defer to either current() or active()
   void ClearCurrent() override;
+  // TODO : this method is only used for external unit tests : the version with parameter is the one that is used.
   void ShuffleCurrent() override;
   void RemoveDuplicatesCurrent() override;
   void RemoveUnavailableCurrent() override;
