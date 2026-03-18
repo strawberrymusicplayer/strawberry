@@ -583,7 +583,7 @@ Puoi anche effettuare un pagamento una tantum tramite &apos;%3&apos;.</translati
     </message>
     <message>
       <source>Use playbin3 when available</source>
-      <translation type="unfinished">Usa playbin3 quando disponibile</translation>
+      <translation>Usa playbin3 quando disponibile</translation>
     </message>
     <message>
       <source>Enable HTTP/2 for streaming</source>

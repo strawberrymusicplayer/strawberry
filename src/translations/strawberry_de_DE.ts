@@ -581,7 +581,7 @@
     </message>
     <message>
       <source>Use playbin3 when available</source>
-      <translation type="unfinished">playbin3 benutzen, wenn verfügbar</translation>
+      <translation>playbin3 benutzen, wenn verfügbar</translation>
     </message>
     <message>
       <source>Enable HTTP/2 for streaming</source>
