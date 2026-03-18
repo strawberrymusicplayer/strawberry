@@ -449,7 +449,7 @@ Section "Strawberry" Strawberry
 
 !ifndef arch_arm64
   File "gnutls.dll"
-  File "libfaac_dll.dll"
+  File "faac-0.dll"
 !endif
 
 !ifdef release
@@ -1019,7 +1019,7 @@ Section "Uninstall"
 
 !ifndef arch_arm64
   Delete "$INSTDIR\gnutls.dll"
-  Delete "$INSTDIR\libfaac_dll.dll"
+  Delete "$INSTDIR\faac-0.dll"
 !endif
 
 !ifdef release
