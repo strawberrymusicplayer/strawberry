@@ -7184,7 +7184,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Couldn&apos;t find a muxer for %1, check you have the correct GStreamer plugins installed</source>
-      <translation type="unfinished">Couldn&apos;t find a muxer for %1, check you have the correct GStreamer plugins installed</translation>
+      <translation>Δεν βρέθηκε muxer για %1, ελέγξτε ότι έχετε εγκατεστημένα τα σωστά plugins του GStreamer</translation>
     </message>
   </context>
   <context>
@@ -7215,7 +7215,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Scalable sampling rate profile (SSR)</source>
-      <translation type="unfinished">Scalable sampling rate profile (SSR)</translation>
+      <translation>Προφίλ κλιμακωτού ρυθμού δειγματοληψίας (SSR)</translation>
     </message>
     <message>
       <source>Long term prediction profile (LTP)</source>

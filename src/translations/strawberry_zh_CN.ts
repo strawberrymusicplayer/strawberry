@@ -327,19 +327,19 @@
     </message>
     <message>
       <source>No analyzer</source>
-      <translation>无均衡器</translation>
+      <translation>无频谱显示</translation>
     </message>
     <message>
       <source>Block analyzer</source>
-      <translation>块状分析器</translation>
+      <translation>块状频谱</translation>
     </message>
     <message>
       <source>Boom analyzer</source>
-      <translation>轰鸣音分析器</translation>
+      <translation>律动频谱</translation>
     </message>
     <message>
       <source>Turbine</source>
-      <translation>涡轮</translation>
+      <translation>涡轮频谱</translation>
     </message>
     <message>
       <source>Sonogram</source>
@@ -347,7 +347,7 @@
     </message>
     <message>
       <source>WaveRubber</source>
-      <translation>WaveRubber</translation>
+      <translation>胶拉波形</translation>
     </message>
   </context>
   <context>
@@ -581,7 +581,7 @@
     </message>
     <message>
       <source>Use playbin3 when available</source>
-      <translation type="unfinished">Use playbin3 when available</translation>
+      <translation>可用时使用 playbin3</translation>
     </message>
     <message>
       <source>Enable HTTP/2 for streaming</source>
@@ -605,11 +605,11 @@
     </message>
     <message>
       <source>High watermark</source>
-      <translation>高水位</translation>
+      <translation>缓冲上限</translation>
     </message>
     <message>
       <source>Low watermark</source>
-      <translation>低水位</translation>
+      <translation>缓冲下限</translation>
     </message>
     <message>
       <source>Defaults</source>
@@ -617,11 +617,11 @@
     </message>
     <message>
       <source>Audio normalization</source>
-      <translation>音频归一化</translation>
+      <translation>响度标准化</translation>
     </message>
     <message>
       <source>No audio normalization</source>
-      <translation>无音频归一化</translation>
+      <translation>无响度处理</translation>
     </message>
     <message>
       <source>Replay Gain</source>
@@ -657,15 +657,15 @@
     </message>
     <message>
       <source>EBU R 128 Loudness Normalization</source>
-      <translation>EBU R 128 响度归一化</translation>
+      <translation>EBU R 128 响度标准</translation>
     </message>
     <message>
       <source>Perform track loudness normalization</source>
-      <translation>执行曲目响度归一化</translation>
+      <translation>按单曲应用响度校准</translation>
     </message>
     <message>
       <source>Target Level</source>
-      <translation>目标级别</translation>
+      <translation>目标响度</translation>
     </message>
     <message>
       <source>Fading</source>
@@ -685,7 +685,7 @@
     </message>
     <message>
       <source>Except between tracks on the same album or in the same CUE sheet</source>
-      <translation>同一专辑歌曲或者同一 CUE sheet 不淡出</translation>
+      <translation>同一专辑歌曲或者同一 CUE不淡出</translation>
     </message>
     <message>
       <source>Fading duration</source>
@@ -700,7 +700,7 @@
     <name>BehaviourSettingsPage</name>
     <message>
       <source>Behavior</source>
-      <translation>行为</translation>
+      <translation>常规</translation>
     </message>
     <message>
       <source>Show system tray icon</source>
@@ -728,7 +728,7 @@
     </message>
     <message>
       <source>On startup</source>
-      <translation>在启动时</translation>
+      <translation>初始窗口状态</translation>
     </message>
     <message>
       <source>Remember from &amp;last time</source>
@@ -744,11 +744,11 @@
     </message>
     <message>
       <source>Show the main window maximized</source>
-      <translation>显示最大化主窗口</translation>
+      <translation>最大化显示</translation>
     </message>
     <message>
       <source>Show the main window minimized</source>
-      <translation>显示最小化主窗口</translation>
+      <translation>最小化显示</translation>
     </message>
     <message>
       <source>Language</source>
@@ -839,15 +839,15 @@
     <name>CddaSongLoader</name>
     <message>
       <source>Error while setting CDDA device to ready state.</source>
-      <translation>设置 CDDA 设备为就绪状态时出错。</translation>
+      <translation>光驱就绪失败</translation>
     </message>
     <message>
       <source>Error while setting CDDA device to pause state.</source>
-      <translation>设置 CDDA 设备为暂停状态时出错。</translation>
+      <translation>光驱暂停失败</translation>
     </message>
     <message>
       <source>Error while querying CDDA tracks.</source>
-      <translation>查询 CDDA 曲目时出错。</translation>
+      <translation>CD 曲目查询失败</translation>
     </message>
   </context>
   <context>
@@ -1054,7 +1054,7 @@
     </message>
     <message>
       <source>Perform song EBU R 128 analysis (required for EBU R 128 loudness normalization)</source>
-      <translation>执行歌曲 EBU R 128 分析（EBU R 128 响度归一化所需）</translation>
+      <translation>执行单曲 EBU R 128 响度分析 (开启响度标准化功能必选)</translation>
     </message>
     <message>
       <source>Expire unavailable songs after</source>
@@ -1080,11 +1080,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Automatically open single categories in the collection tree</source>
-      <translation>自动打开媒体库树重的单个分类</translation>
+      <translation>自动展开媒体库中的单一分类</translation>
     </message>
     <message>
       <source>Show dividers</source>
-      <translation>显示分频器</translation>
+      <translation>显示分隔线</translation>
     </message>
     <message>
       <source>Show album cover art in collection</source>
@@ -1092,19 +1092,19 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Use various artists for compilation albums</source>
-      <translation>合辑使用各种艺术家</translation>
+      <translation>合辑艺术家显示为“群星”</translation>
     </message>
     <message>
       <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artists, composers and performers</source>
-      <translation type="unfinished">Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artists, composers and performers</translation>
+      <translation>排序艺术家、作曲家及演奏者时跳过前导冠词（&quot;the&quot;, &quot;a&quot;, &quot;an&quot;）</translation>
     </message>
     <message>
       <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting albums</source>
-      <translation type="unfinished">Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting albums</translation>
+      <translation>排序专辑时跳过前导冠词（&quot;the&quot;, &quot;a&quot;, &quot;an&quot;）</translation>
     </message>
     <message>
       <source>Use sort tags for sorting when available</source>
-      <translation type="unfinished">Use sort tags for sorting when available</translation>
+      <translation>可用时使用排序标签进行排序</translation>
     </message>
     <message>
       <source>Album cover pixmap cache</source>
@@ -1235,11 +1235,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Show in various artists</source>
-      <translation>在群星中显示</translation>
+      <translation>显示在“群星”下</translation>
     </message>
     <message>
       <source>Don&apos;t show in various artists</source>
-      <translation>不在群星中显示</translation>
+      <translation>不显示在“群星”下</translation>
     </message>
     <message>
       <source>There are other songs in this album</source>
@@ -1247,7 +1247,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Would you like to move the other songs on this album to Various Artists as well?</source>
-      <translation>您是否也想将此专辑中的其他歌曲移动到“各种艺术家”中？</translation>
+      <translation>是否将此专辑的其他单曲也归入“群星”？</translation>
     </message>
     <message>
       <source>Error</source>
@@ -1291,7 +1291,7 @@ If there are no matches then it will use the largest image in the directory.</so
     <name>ContextSettingsPage</name>
     <message>
       <source>Context</source>
-      <translation>上下文</translation>
+      <translation>正在播放</translation>
     </message>
     <message>
       <source>Custom text settings</source>
@@ -1319,7 +1319,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Technical Data</source>
-      <translation>技术规格</translation>
+      <translation>音频参数</translation>
     </message>
     <message>
       <source>Song Lyrics</source>
@@ -1454,7 +1454,7 @@ If there are no matches then it will use the largest image in the directory.</so
     <name>ContextView</name>
     <message>
       <source>Filetype</source>
-      <translation>文件类型</translation>
+      <translation>编码格式</translation>
     </message>
     <message>
       <source>Length</source>
@@ -1486,7 +1486,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Show song technical data</source>
-      <translation>显示歌曲技术规格</translation>
+      <translation>显示音频参数</translation>
     </message>
     <message>
       <source>Show song lyrics</source>
@@ -1915,7 +1915,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>This device must be connected and opened before Strawberry can see what file formats it supports.</source>
-      <translation>此设备必须在连接并打开之前，Strawberry 可以检测它支持什么文件格式。</translation>
+      <translation>必须连接并开启设备，Strawberry 才能查询其支持的格式。</translation>
     </message>
     <message>
       <source>Open device</source>
@@ -1942,7 +1942,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Forget device</source>
-      <translation>忘记设备</translation>
+      <translation>解除关联</translation>
     </message>
     <message>
       <source>Device properties...</source>
@@ -1954,7 +1954,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Replace current playlist</source>
-      <translation>移除当前播放列表</translation>
+      <translation>替换当前播放列表</translation>
     </message>
     <message>
       <source>Open in new playlist</source>
@@ -1970,7 +1970,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Forgetting a device will remove it from this list and Strawberry will have to rescan all the songs again next time you connect it.</source>
-      <translation>忘记设备将从列表删除该设备。如果下次您再次插入该设备，Strawberry 将重新扫描所有歌曲。</translation>
+      <translation>解除关联将从列表中移除此设备。下次连接时，Strawberry 需重新扫描所有曲目。</translation>
     </message>
     <message>
       <source>Delete files</source>
@@ -2415,7 +2415,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Zero</source>
-      <translation>00</translation>
+      <translation>归零</translation>
     </message>
     <message>
       <source>Name</source>
@@ -2686,7 +2686,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Change shuffle mode</source>
-      <translation>更改乱序模式</translation>
+      <translation>更改随机播放模式</translation>
     </message>
     <message>
       <source>Change repeat mode</source>
@@ -3352,7 +3352,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Context</source>
-      <translation>上下文</translation>
+      <translation>歌词与详情</translation>
     </message>
     <message>
       <source>Collection</source>
@@ -3984,19 +3984,19 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Shuffle all</source>
-      <translation>乱序全部</translation>
+      <translation>全部随机播放</translation>
     </message>
     <message>
       <source>Shuffle tracks in this album</source>
-      <translation>此专辑的曲目乱序播放</translation>
+      <translation>随机播放此专辑中的曲目</translation>
     </message>
     <message>
       <source>Shuffle albums</source>
-      <translation>乱序专辑</translation>
+      <translation>随机播放专辑</translation>
     </message>
     <message>
       <source>Shuffle grouping</source>
-      <translation type="unfinished">Shuffle grouping</translation>
+      <translation>随机播放分组</translation>
     </message>
     <message>
       <source>Don&apos;t repeat</source>
@@ -4609,7 +4609,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Shuffle</source>
-      <translation>乱序</translation>
+      <translation>随机播放</translation>
     </message>
     <message>
       <source>Don&apos;t repeat</source>
@@ -4641,19 +4641,19 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Shuffle tracks in this album</source>
-      <translation>此专辑的曲目乱序播放</translation>
+      <translation>随机播放此专辑中的曲目</translation>
     </message>
     <message>
       <source>Shuffle all</source>
-      <translation>乱序全部</translation>
+      <translation>全部随机播放</translation>
     </message>
     <message>
       <source>Shuffle albums</source>
-      <translation>乱序专辑</translation>
+      <translation>随机播放专辑</translation>
     </message>
     <message>
       <source>Shuffle grouping</source>
-      <translation type="unfinished">Shuffle grouping</translation>
+      <translation>随机播放分组</translation>
     </message>
   </context>
   <context>
@@ -5087,7 +5087,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>A word can be excluded with a preceding &quot;%1&quot;, if you need to search for a word including &quot;%1&quot;, place quotes around the word.</source>
-      <translation type="unfinished">A word can be excluded with a preceding &quot;%1&quot;, if you need to search for a word including &quot;%1&quot;, place quotes around the word.</translation>
+      <translation>在单词前添加“%1”可排除某个词。如果需要搜索包含“%1”的词，请将该词加上英文引号。</translation>
     </message>
     <message>
       <source>rating</source>
