@@ -391,6 +391,7 @@ Section "Strawberry" Strawberry
   File "brotlidec.dll"
   File "chromaprint.dll"
   File "ebur128.dll"
+  File "faac-0.dll"
   File "faad-2.dll"
   File "fdk-aac.dll"
   File "ffi-7.dll"
@@ -449,7 +450,6 @@ Section "Strawberry" Strawberry
 
 !ifndef arch_arm64
   File "gnutls.dll"
-  File "faac-0.dll"
 !endif
 
 !ifdef release
@@ -726,6 +726,7 @@ Section "Gstreamer plugins" gstreamer-plugins
   File "/oname=gstdirectsound.dll" "gstreamer-plugins\gstdirectsound.dll"
   File "/oname=gstdsd.dll" "gstreamer-plugins\gstdsd.dll"
   File "/oname=gstequalizer.dll" "gstreamer-plugins\gstequalizer.dll"
+  File "/oname=gstfaac.dll" "gstreamer-plugins\gstfaac.dll"
   File "/oname=gstfaad.dll" "gstreamer-plugins\gstfaad.dll"
   File "/oname=gstfdkaac.dll" "gstreamer-plugins\gstfdkaac.dll"
   File "/oname=gstflac.dll" "gstreamer-plugins\gstflac.dll"
@@ -771,7 +772,6 @@ Section "Gstreamer plugins" gstreamer-plugins
   File "/oname=gstwavparse.dll" "gstreamer-plugins\gstwavparse.dll"
   File "/oname=gstxingmux.dll" "gstreamer-plugins\gstxingmux.dll"
 !ifndef arch_arm64
-  File "/oname=gstfaac.dll" "gstreamer-plugins\gstfaac.dll"
   File "/oname=gsttwolame.dll" "gstreamer-plugins\gsttwolame.dll"
 !endif
 !ifdef arch_x64
@@ -961,6 +961,7 @@ Section "Uninstall"
   Delete "$INSTDIR\brotlidec.dll"
   Delete "$INSTDIR\chromaprint.dll"
   Delete "$INSTDIR\ebur128.dll"
+  Delete "$INSTDIR\faac-0.dll"
   Delete "$INSTDIR\faad-2.dll"
   Delete "$INSTDIR\fdk-aac.dll"
   Delete "$INSTDIR\ffi-7.dll"
@@ -1019,7 +1020,6 @@ Section "Uninstall"
 
 !ifndef arch_arm64
   Delete "$INSTDIR\gnutls.dll"
-  Delete "$INSTDIR\faac-0.dll"
 !endif
 
 !ifdef release
@@ -1230,6 +1230,7 @@ Section "Uninstall"
   Delete "$INSTDIR\gstreamer-plugins\gstdirectsound.dll"
   Delete "$INSTDIR\gstreamer-plugins\gstdsd.dll"
   Delete "$INSTDIR\gstreamer-plugins\gstequalizer.dll"
+  Delete "$INSTDIR\gstreamer-plugins\gstfaac.dll"
   Delete "$INSTDIR\gstreamer-plugins\gstfaad.dll"
   Delete "$INSTDIR\gstreamer-plugins\gstfdkaac.dll"
   Delete "$INSTDIR\gstreamer-plugins\gstflac.dll"
@@ -1275,7 +1276,6 @@ Section "Uninstall"
   Delete "$INSTDIR\gstreamer-plugins\gstwavparse.dll"
   Delete "$INSTDIR\gstreamer-plugins\gstxingmux.dll"
 !ifndef arch_arm64
-  Delete "$INSTDIR\gstreamer-plugins\gstfaac.dll"
   Delete "$INSTDIR\gstreamer-plugins\gsttwolame.dll"
 !endif
   !ifdef arch_x64
