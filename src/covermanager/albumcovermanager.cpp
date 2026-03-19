@@ -756,14 +756,17 @@ void AlbumCoverManager::LoadCoverFromFile() {
 void AlbumCoverManager::SaveCoverToFile() {
 
   Song song = GetSingleSelectionAsSong();
-  if (!song.is_valid() || song.art_unset()) return;
+  if (!song.is_valid()) return;
 
   // Load the image from disk
   AlbumCoverImageResult result;
   for (const AlbumCoverLoaderOptions::Type cover_type : std::as_const(cover_types_)) {
     switch (cover_type) {
       case AlbumCoverLoaderOptions::Type::Unset:
-        return;
+        if (song.art_unset()) {
+          return;
+        }
+        break;
       case AlbumCoverLoaderOptions::Type::Embedded:
         if (song.art_embedded()) {
           const TagReaderResult tagreaderclient_result = tagreader_client_->LoadCoverDataBlocking(song.url().toLocalFile(), result.image_data);
