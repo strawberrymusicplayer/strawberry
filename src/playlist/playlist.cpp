@@ -700,7 +700,7 @@ int Playlist::next_row(const bool ignore_repeat_track) {
 
     switch (RepeatMode()) {
       case PlaylistSequence::RepeatMode::Off:
-      case PlaylistSequence::RepeatMode::Intro:
+      case PlaylistSequence::RepeatMode::Scan:
         return -1;
       case PlaylistSequence::RepeatMode::Track:
         next_virtual_index = current_virtual_index_;

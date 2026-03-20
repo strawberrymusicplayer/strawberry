@@ -35,7 +35,9 @@
 #include <QToolButton>
 
 #include "core/iconloader.h"
+#include "core/settings.h"
 #include "core/settingsprovider.h"
+#include "constants/playlistsettings.h"
 #include "playlistsequence.h"
 #include "ui_playlistsequence.h"
 
@@ -53,7 +55,9 @@ PlaylistSequence::PlaylistSequence(QWidget *parent, SettingsProvider *settings)
       shuffle_menu_(new QMenu(this)),
       loading_(false),
       repeat_mode_(RepeatMode::Off),
-      shuffle_mode_(ShuffleMode::Off) {
+      shuffle_mode_(ShuffleMode::Off),
+      half_playing_time_s_(0),
+      percent_interest_song_(0) {
 
   ui_->setupUi(this);
 
@@ -76,7 +80,7 @@ PlaylistSequence::PlaylistSequence(QWidget *parent, SettingsProvider *settings)
   repeat_group->addAction(ui_->action_repeat_album);
   repeat_group->addAction(ui_->action_repeat_playlist);
   repeat_group->addAction(ui_->action_repeat_onebyone);
-  repeat_group->addAction(ui_->action_repeat_intro);
+  repeat_group->addAction(ui_->action_repeat_scan);
   repeat_menu_->addActions(repeat_group->actions());
   ui_->repeat->setMenu(repeat_menu_);
 
@@ -91,6 +95,8 @@ PlaylistSequence::PlaylistSequence(QWidget *parent, SettingsProvider *settings)
 
   QObject::connect(repeat_group, &QActionGroup::triggered, this, &PlaylistSequence::RepeatActionTriggered);
   QObject::connect(shuffle_group, &QActionGroup::triggered, this, &PlaylistSequence::ShuffleActionTriggered);
+
+  ReloadSettings();
 
   Load();
 
@@ -115,6 +121,16 @@ void PlaylistSequence::Save() {
 
   settings_->setValue(u"shuffle_mode"_s, static_cast<int>(shuffle_mode_));
   settings_->setValue(u"repeat_mode"_s, static_cast<int>(repeat_mode_));
+
+}
+
+void PlaylistSequence::ReloadSettings() {
+
+  Settings s;
+  s.beginGroup(PlaylistSettings::kSettingsGroup);
+  half_playing_time_s_ = s.value(PlaylistSettings::kScanHalfPlayingTimeS, PlaylistSettings::kDefaultScanHalfPlayingTimeS).toInt();
+  percent_interest_song_ = s.value(PlaylistSettings::kScanPercentInterestSong, PlaylistSettings::kDefaultScanPercentInterestSong).toInt();
+  s.endGroup();
 
 }
 
@@ -159,7 +175,7 @@ void PlaylistSequence::RepeatActionTriggered(QAction *action) {
   if (action == ui_->action_repeat_album) mode = RepeatMode::Album;
   if (action == ui_->action_repeat_playlist) mode = RepeatMode::Playlist;
   if (action == ui_->action_repeat_onebyone) mode = RepeatMode::OneByOne;
-  if (action == ui_->action_repeat_intro) mode = RepeatMode::Intro;
+  if (action == ui_->action_repeat_scan) mode = RepeatMode::Scan;
 
   SetRepeatMode(mode);
 
@@ -187,7 +203,7 @@ void PlaylistSequence::SetRepeatMode(const RepeatMode mode) {
     case RepeatMode::Album:    ui_->action_repeat_album->setChecked(true);    break;
     case RepeatMode::Playlist: ui_->action_repeat_playlist->setChecked(true); break;
     case RepeatMode::OneByOne: ui_->action_repeat_onebyone->setChecked(true); break;
-    case RepeatMode::Intro: ui_->action_repeat_intro->setChecked(true);       break;
+    case RepeatMode::Scan:     ui_->action_repeat_scan->setChecked(true);     break;
 
   }
 
@@ -256,8 +272,8 @@ void PlaylistSequence::CycleRepeatMode() {
     case RepeatMode::Track:     mode = RepeatMode::Album;     break;
     case RepeatMode::Album:     mode = RepeatMode::Playlist;  break;
     case RepeatMode::Playlist:  mode = RepeatMode::OneByOne;  break;
-    case RepeatMode::OneByOne:  mode = RepeatMode::Intro;     break;
-    case RepeatMode::Intro:
+    case RepeatMode::OneByOne:  mode = RepeatMode::Scan;   break;
+    case RepeatMode::Scan:
       break;
   }
 

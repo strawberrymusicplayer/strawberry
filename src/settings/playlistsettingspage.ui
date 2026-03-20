@@ -168,6 +168,55 @@
     </widget>
    </item>
    <item>
+    <widget class="QGroupBox" name="groupbox_scan">
+     <property name="title">
+      <string>Scan mode</string>
+     </property>
+     <layout class="QFormLayout" name="layout_scan">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_scan_half_playing_time_s">
+        <property name="text">
+         <string>Playing time (seconds)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QSpinBox" name="spinbox_scan_half_playing_time_s">
+        <property name="toolTip">
+         <string>The time played before and after the position time selected in seconds (0 for playing the complete track)</string>
+        </property>
+        <property name="minimum">
+         <number>0</number>
+        </property>
+        <property name="maximum">
+         <number>3600</number>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_scan_percent_interest_song">
+        <property name="text">
+         <string>Interest position (percent of track length)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QSpinBox" name="spinbox_scan_percent_interest_song">
+        <property name="toolTip">
+         <string>The position time reference selected in percent of the track length</string>
+        </property>
+        <property name="minimum">
+         <number>0</number>
+        </property>
+        <property name="maximum">
+         <number>100</number>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
     <spacer name="spacer_bottom">
      <property name="orientation">
       <enum>Qt::Vertical</enum>

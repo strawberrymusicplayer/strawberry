@@ -236,6 +236,9 @@ class Playlist : public QAbstractListModel {
   PlaylistSequence::ShuffleMode ShuffleMode() const { return playlist_sequence_ && !is_dynamic() ? playlist_sequence_->shuffle_mode() : PlaylistSequence::ShuffleMode::Off; }
   PlaylistSequence::RepeatMode RepeatMode() const { return playlist_sequence_ && !is_dynamic() ? playlist_sequence_->repeat_mode() : PlaylistSequence::RepeatMode::Off; }
 
+  int HalfPlayingTimeS() const { return !is_dynamic() && playlist_sequence_ ? playlist_sequence_->half_playing_time_s() : 20; }
+  int PercentInterestSong() const { return !is_dynamic() && playlist_sequence_ ? playlist_sequence_->percent_interest_song() : 0; }
+
   QUndoStack *undo_stack() const { return undo_stack_; }
 
   bool scrobbled() const { return scrobbled_; }

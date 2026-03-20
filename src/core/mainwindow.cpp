@@ -1353,6 +1353,7 @@ void MainWindow::ReloadAllSettings() {
   collection_view_->ReloadSettings();
   ui_->playlist->view()->ReloadSettings();
   app_->playlist_manager()->playlist_container()->ReloadSettings();
+  app_->playlist_manager()->sequence()->ReloadSettings();
   app_->current_albumcover_loader()->ReloadSettingsAsync();
   album_cover_choice_controller_->ReloadSettings();
   context_view_->ReloadSettings();
@@ -1905,6 +1906,11 @@ void MainWindow::UpdateTrackPosition() {
         playlist->set_scrobbled(true);
       }
     }
+  }
+
+  // At the end of the time of the track, move to the next track
+  if (app_->player()->GetState() == EngineBase::State::Playing) {
+    app_->player()->EndPositionNext(position);
   }
 
 }

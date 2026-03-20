@@ -97,7 +97,8 @@ Player::Player(const SharedPtr<TaskManager> task_manager, const SharedPtr<UrlHan
       menu_previousmode_(BehaviourSettings::PreviousBehaviour::DontRestart),
       seek_step_sec_(10),
       volume_increment_(5),
-      play_offset_nanosec_(0) {
+      play_offset_nanosec_(0),
+      play_end_sec_(0) {
 
   setObjectName(QLatin1String(QObject::metaObject()->className()));
 
@@ -395,6 +396,20 @@ void Player::HandleLoadResult(const UrlHandler::LoadResult &result) {
 }
 
 void Player::Next() { NextInternal(EngineBase::TrackChangeType::Manual, Playlist::AutoScroll::Always); }
+
+void Player::EndPositionNext(const int position) {
+
+  if (play_end_sec_ <= 0 || play_end_sec_ > position) return;
+
+  // Re-check the live repeat mode rather than trusting the value latched when the scan window was computed in PlayAt(): the user may have switched away from Scan mode while this track was playing.
+  if (playlist_manager_->active()->RepeatMode() != PlaylistSequence::RepeatMode::Scan) {
+    play_end_sec_ = 0;
+    return;
+  }
+
+  NextInternal(EngineBase::TrackChangeType::Scan, Playlist::AutoScroll::Always);
+
+}
 
 void Player::NextInternal(const EngineBase::TrackChangeFlags change, const Playlist::AutoScroll autoscroll) {
 
@@ -756,7 +771,25 @@ void Player::PlayAt(const int index, const bool pause, const quint64 offset_nano
     return;
   }
 
-  current_item_ = playlist_manager_->active()->current_item();
+  Playlist *active_playlist = playlist_manager_->active();
+  current_item_ = active_playlist->current_item();
+
+  // play_offset_nanosec_ was already set to offset_nanosec above, and is only raised here if it's too low for the scan requirements.
+  play_end_sec_ = 0;
+
+  if (active_playlist->RepeatMode() == PlaylistSequence::RepeatMode::Scan && active_playlist->HalfPlayingTimeS() > 0) {
+    const Song &current_song = current_item_->EffectiveMetadata();
+    const qint64 middle_time_ns = (current_song.length_nanosec() * active_playlist->PercentInterestSong()) / 100;
+    const qint64 start_time_ns = middle_time_ns - (static_cast<qint64>(active_playlist->HalfPlayingTimeS()) * 1'000'000'000L);
+    const qint64 end_time_s = (middle_time_ns + (static_cast<qint64>(active_playlist->HalfPlayingTimeS()) * 1'000'000'000L)) / 1'000'000'000L;
+    if (start_time_ns > static_cast<qint64>(play_offset_nanosec_)) {
+      play_offset_nanosec_ = static_cast<quint64>(start_time_ns);
+    }
+    if (end_time_s < (current_song.length_nanosec() / 1'000'000'000L)) {
+      play_end_sec_ = end_time_s;
+    }
+  }
+
   const QUrl url = current_item_->EffectiveUrl();
 
   if (url_handlers_->CanHandle(url)) {
@@ -772,8 +805,8 @@ void Player::PlayAt(const int index, const bool pause, const quint64 offset_nano
     HandleLoadResult(url_handler->StartLoading(url));
   }
   else {
-    qLog(Debug) << "Playing song" << current_item_->EffectiveMetadata().title() << url << "position" << offset_nanosec;
-    engine_->Play(current_item_->OriginalUrl(), url, pause, change, current_item_->EffectiveMetadata().has_cue(), static_cast<quint64>(current_item_->effective_beginning_nanosec()), current_item_->effective_end_nanosec(), offset_nanosec, current_item_->EffectiveMetadata().ebur128_integrated_loudness_lufs());
+    qLog(Debug) << "Playing song" << current_item_->EffectiveMetadata().title() << url << "position" << play_offset_nanosec_;
+    engine_->Play(current_item_->OriginalUrl(), url, pause, change, current_item_->EffectiveMetadata().has_cue(), static_cast<quint64>(current_item_->effective_beginning_nanosec()), current_item_->effective_end_nanosec(), play_offset_nanosec_, current_item_->EffectiveMetadata().ebur128_integrated_loudness_lufs());
   }
 
 }

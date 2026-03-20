@@ -63,6 +63,9 @@ constexpr char kLastSaveExtension[] = "last_save_extension";
 constexpr char kLastSaveAllPath[] = "last_save_all_path";
 constexpr char kLastSaveAllExtension[] = "last_save_all_extension";
 
+constexpr char kScanHalfPlayingTimeS[] = "scan_half_playing_time_s";
+constexpr char kScanPercentInterestSong[] = "scan_percent_interest_song";
+
 constexpr bool kDefaultAlternatingRowColors = true;
 constexpr bool kDefaultShowBars = true;
 #ifdef Q_OS_MACOS
@@ -84,6 +87,8 @@ constexpr bool kDefaultWriteMetadata = true;
 constexpr bool kDefaultDeleteFiles = false;
 constexpr int kDefaultStateVersion = 0;
 constexpr bool kDefaultRatingLocked = false;
+constexpr int kDefaultScanHalfPlayingTimeS = 20;
+constexpr int kDefaultScanPercentInterestSong = 0;
 
 }  // namespace PlaylistSettings
 
