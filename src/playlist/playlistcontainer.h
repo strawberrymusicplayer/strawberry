@@ -76,6 +76,9 @@ class PlaylistContainer : public QWidget {
 
   bool eventFilter(QObject *objectWatched, QEvent *event) override;
 
+  static QString ToolTipPlayingTime();
+  static QString ToolTipPositionTime();
+
  Q_SIGNALS:
   void UndoRedoActionsChanged(QAction *undo, QAction *redo);
   void ViewSelectionModelChanged();
@@ -100,6 +103,8 @@ class PlaylistContainer : public QWidget {
   void PlaylistAdded(const int id, const QString &name, bool favorite);
   void PlaylistClosed(const int id);
   void PlaylistRenamed(const int id, const QString &new_name);
+
+  void DisplayPlayingOption();
 
   void Started();
 
