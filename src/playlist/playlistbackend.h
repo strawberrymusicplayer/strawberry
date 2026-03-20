@@ -62,6 +62,9 @@ class PlaylistBackend : public QObject {
     PlaylistGenerator::Type dynamic_type;
     QString dynamic_backend;
     QByteArray dynamic_data;
+
+    int half_playing_time_s_;
+    int percent_interest_song_;
   };
   using PlaylistList = QList<Playlist>;
 
@@ -80,14 +83,14 @@ class PlaylistBackend : public QObject {
   void SetPlaylistUiPath(const int id, const QString &path);
 
   int CreatePlaylist(const QString &name, const QString &special_type);
-  void SavePlaylistAsync(const int playlist, const PlaylistItemPtrList &items, const int last_played, PlaylistGeneratorPtr dynamic);
+  void SavePlaylistAsync(const int playlist, const PlaylistItemPtrList &items, const int last_played, const int half_playing_s, const int position_playing, PlaylistGeneratorPtr dynamic);
   void RenamePlaylist(const int id, const QString &new_name);
   void FavoritePlaylist(const int id, bool is_favorite);
   void RemovePlaylist(const int id);
 
  public Q_SLOTS:
   void Exit();
-  void SavePlaylist(const int playlist, const PlaylistItemPtrList &items, const int last_played, PlaylistGeneratorPtr dynamic);
+  void SavePlaylist(const int playlist, const PlaylistItemPtrList &items, const int last_played, const int half_playing_s, const int position_playing, PlaylistGeneratorPtr dynamic);
 
  Q_SIGNALS:
   void ExitFinished();
