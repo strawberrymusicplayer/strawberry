@@ -51,7 +51,7 @@ class PlaylistSequence : public QWidget {
     Album = 2,
     Playlist = 3,
     OneByOne = 4,
-    Intro = 5
+    Scan = 5
   };
   enum class ShuffleMode {
     Off = 0,
@@ -67,11 +67,15 @@ class PlaylistSequence : public QWidget {
   QMenu *repeat_menu() const { return repeat_menu_; }
   QMenu *shuffle_menu() const { return shuffle_menu_; }
 
+  int half_playing_time_s() const { return half_playing_time_s_; }
+  int percent_interest_song() const { return percent_interest_song_; }
+
  public Q_SLOTS:
   void SetRepeatMode(const PlaylistSequence::RepeatMode mode);
   void SetShuffleMode(const PlaylistSequence::ShuffleMode mode);
   void CycleShuffleMode();
   void CycleRepeatMode();
+  void ReloadSettings();
 
  Q_SIGNALS:
   void RepeatModeChanged(const PlaylistSequence::RepeatMode mode);
@@ -97,6 +101,10 @@ class PlaylistSequence : public QWidget {
   bool loading_;
   RepeatMode repeat_mode_;
   ShuffleMode shuffle_mode_;
+
+  // Variables to maintain the time to play the song
+  int half_playing_time_s_;
+  int percent_interest_song_;
 };
 
 #endif  // PLAYLISTSEQUENCE_H

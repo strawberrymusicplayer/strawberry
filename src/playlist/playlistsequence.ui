@@ -115,12 +115,12 @@
     <string>Stop after each track</string>
    </property>
   </action>
-  <action name="action_repeat_intro">
+  <action name="action_repeat_scan">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Intro tracks</string>
+    <string>Scan tracks</string>
    </property>
   </action>
   <action name="action_shuffle_off">

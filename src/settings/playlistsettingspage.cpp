@@ -25,6 +25,7 @@
 #include <QSettings>
 #include <QCheckBox>
 #include <QRadioButton>
+#include <QSpinBox>
 
 #include "core/iconloader.h"
 #include "core/settings.h"
@@ -93,6 +94,9 @@ void PlaylistSettingsPage::Load() {
 
   ui_->checkbox_delete_files->setChecked(s.value(kDeleteFiles, kDefaultDeleteFiles).toBool());
 
+  ui_->spinbox_scan_half_playing_time_s->setValue(s.value(kScanHalfPlayingTimeS, kDefaultScanHalfPlayingTimeS).toInt());
+  ui_->spinbox_scan_percent_interest_song->setValue(s.value(kScanPercentInterestSong, kDefaultScanPercentInterestSong).toInt());
+
   s.endGroup();
 
   Init(ui_->layout_playlistsettingspage->parentWidget());
@@ -134,6 +138,8 @@ void PlaylistSettingsPage::Save() {
   s.setValue(kWriteMetadata, ui_->checkbox_writemetadata->isChecked());
   s.setValue(kDeleteFiles, ui_->checkbox_delete_files->isChecked());
   s.setValue(kAutoSort, ui_->checkbox_auto_sort->isChecked());
+  s.setValue(kScanHalfPlayingTimeS, ui_->spinbox_scan_half_playing_time_s->value());
+  s.setValue(kScanPercentInterestSong, ui_->spinbox_scan_percent_interest_song->value());
   s.endGroup();
 
 }
