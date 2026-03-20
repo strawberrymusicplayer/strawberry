@@ -145,6 +145,51 @@
       <item>
        <widget class="SearchField" name="search_field" native="true"/>
       </item>
+      <item>
+       <widget class="QToolButton" name="display_option">
+        <property name="iconSize">
+         <size>
+          <width>20</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QSpinBox" name="playing_time_before_or_after">
+        <property name="minimum">
+         <number>0</number>
+        </property>
+        <property name="value">
+         <number>0</number>
+        </property>
+        <property name="visible">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QSpinBox" name="playing_center_time">
+        <property name="minimum">
+         <number>0</number>
+        </property>
+        <property name="maximum">
+         <number>100</number>
+        </property>
+        <property name="value">
+         <number>0</number>
+        </property>
+        <property name="visible">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
@@ -183,6 +228,11 @@
     </widget>
    </item>
   </layout>
+  <action name="show_collection_option">
+   <property name="text">
+    <string>Show the collection option</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>

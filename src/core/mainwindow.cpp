@@ -1825,6 +1825,9 @@ void MainWindow::UpdateTrackPosition() {
     }
   }
 
+  // At the end of the time of the track, move to the next track
+  app_->player()->EndPositionNext(position);
+
 }
 
 void MainWindow::UpdateTrackSliderPosition() {

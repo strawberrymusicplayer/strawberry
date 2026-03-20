@@ -130,7 +130,7 @@ PlaylistBackend::PlaylistList PlaylistBackend::GetPlaylists(const GetPlaylistsFl
   }
 
   SqlQuery q(db);
-  q.prepare(u"SELECT ROWID, name, last_played, special_type, ui_path, is_favorite, dynamic_playlist_type, dynamic_playlist_data, dynamic_playlist_backend FROM playlists "_s + condition + u" ORDER BY ui_order"_s);
+  q.prepare(u"SELECT ROWID, name, last_played, special_type, ui_path, is_favorite, dynamic_playlist_type, dynamic_playlist_data, dynamic_playlist_backend, half_playing_time_s, position_playing_time FROM playlists "_s + condition + u" ORDER BY ui_order"_s);
   if (!q.Exec()) {
     database_->ReportErrors(q);
     return ret;
@@ -147,6 +147,8 @@ PlaylistBackend::PlaylistList PlaylistBackend::GetPlaylists(const GetPlaylistsFl
     p.dynamic_type = static_cast<PlaylistGenerator::Type>(q.value(6).toInt());
     p.dynamic_data = q.value(7).toByteArray();
     p.dynamic_backend = q.value(8).toString();
+    p.half_playing_time_s_ = q.value(9).toInt();
+    p.percent_interest_song_ = q.value(10).toInt();
     ret << p;
   }
 
@@ -160,7 +162,7 @@ PlaylistBackend::Playlist PlaylistBackend::GetPlaylist(const int id) {
   QSqlDatabase db(database_->Connect());
 
   SqlQuery q(db);
-  q.prepare(u"SELECT ROWID, name, last_played, special_type, ui_path, is_favorite, dynamic_playlist_type, dynamic_playlist_data, dynamic_playlist_backend FROM playlists WHERE ROWID=:id"_s);
+  q.prepare(u"SELECT ROWID, name, last_played, special_type, ui_path, is_favorite, dynamic_playlist_type, dynamic_playlist_data, dynamic_playlist_backend, half_playing_time_s, position_playing_time FROM playlists WHERE ROWID=:id"_s);
 
   q.BindValue(u":id"_s, id);
   if (!q.Exec()) {
@@ -180,6 +182,8 @@ PlaylistBackend::Playlist PlaylistBackend::GetPlaylist(const int id) {
   p.dynamic_type = static_cast<PlaylistGenerator::Type>(q.value(6).toInt());
   p.dynamic_data = q.value(7).toByteArray();
   p.dynamic_backend = q.value(8).toString();
+  p.half_playing_time_s_ = q.value(9).toInt();
+  p.percent_interest_song_ = q.value(10).toInt();
 
   return p;
 
@@ -338,13 +342,13 @@ PlaylistItemPtr PlaylistBackend::RestoreCueData(PlaylistItemPtr item, SharedPtr<
 
 }
 
-void PlaylistBackend::SavePlaylistAsync(int playlist, const PlaylistItemPtrList &items, int last_played, PlaylistGeneratorPtr dynamic) {
+void PlaylistBackend::SavePlaylistAsync(const int playlist, const PlaylistItemPtrList &items, const int last_played, const int half_playing_s, const int position_playing, PlaylistGeneratorPtr dynamic) {
 
-  QMetaObject::invokeMethod(this, "SavePlaylist", Qt::QueuedConnection, Q_ARG(int, playlist), Q_ARG(PlaylistItemPtrList, items), Q_ARG(int, last_played), Q_ARG(PlaylistGeneratorPtr, dynamic));
+  QMetaObject::invokeMethod(this, "SavePlaylist", Qt::QueuedConnection, Q_ARG(int, playlist), Q_ARG(PlaylistItemPtrList, items), Q_ARG(int, last_played), Q_ARG(int, half_playing_s), Q_ARG(int, position_playing), Q_ARG(PlaylistGeneratorPtr, dynamic));
 
 }
 
-void PlaylistBackend::SavePlaylist(int playlist, const PlaylistItemPtrList &items, int last_played, PlaylistGeneratorPtr dynamic) {
+void PlaylistBackend::SavePlaylist(const int playlist, const PlaylistItemPtrList &items, const int last_played, const int half_playing_s, const int position_playing, PlaylistGeneratorPtr dynamic) {
 
   QMutexLocker l(database_->Mutex());
   QSqlDatabase db(database_->Connect());
@@ -381,7 +385,7 @@ void PlaylistBackend::SavePlaylist(int playlist, const PlaylistItemPtrList &item
   // Update the last played track number
   {
     SqlQuery q(db);
-    q.prepare(u"UPDATE playlists SET last_played=:last_played, dynamic_playlist_type=:dynamic_type, dynamic_playlist_data=:dynamic_data, dynamic_playlist_backend=:dynamic_backend WHERE ROWID=:playlist"_s);
+    q.prepare(u"UPDATE playlists SET last_played=:last_played, dynamic_playlist_type=:dynamic_type, dynamic_playlist_data=:dynamic_data, dynamic_playlist_backend=:dynamic_backend, half_playing_time_s=:half_playing_s, position_playing_time=:position_playing WHERE ROWID=:playlist"_s);
     q.BindValue(u":last_played"_s, last_played);
     if (dynamic) {
       q.BindValue(u":dynamic_type"_s, static_cast<int>(dynamic->type()));
@@ -393,6 +397,8 @@ void PlaylistBackend::SavePlaylist(int playlist, const PlaylistItemPtrList &item
       q.BindValue(u":dynamic_data"_s, QByteArray());
       q.BindValue(u":dynamic_backend"_s, QString());
     }
+    q.BindValue(u":half_playing_s"_s, half_playing_s);
+    q.BindValue(u":position_playing"_s, position_playing);
     q.BindValue(u":playlist"_s, playlist);
     if (!q.Exec()) {
       database_->ReportErrors(q);
