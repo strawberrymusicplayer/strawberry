@@ -68,6 +68,11 @@ class Player : public PlayerInterface {
   void SetAnalyzer(AnalyzerContainer *analyzer) { analyzer_ = analyzer; }
   void SetEqualizer(SharedPtr<Equalizer> equalizer) { equalizer_ = equalizer; }
 
+  void EndPositionNext(const int position) {
+    if (play_end_sec_ > 0 && play_end_sec_ <= position)
+      Next();
+  }
+
  public Q_SLOTS:
   void ReloadSettings() override;
 
@@ -167,6 +172,7 @@ class Player : public PlayerInterface {
 
   QDateTime pause_time_;
   quint64 play_offset_nanosec_;
+  int play_end_sec_;
 };
 
 #endif  // PLAYER_H

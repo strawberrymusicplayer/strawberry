@@ -216,6 +216,7 @@ class Playlist : public QAbstractListModel {
   int row_of(const PlaylistItemPtr &item) const { return static_cast<int>(items_.indexOf(item)); }
 
   PlaylistItemPtr current_item() const;
+  PlaylistItemPtr current_item(quint64& start_offset_ns, int& end_offset_s) const;
   QUuid current_uuid() const;
 
   PlaylistItem::Options current_item_options() const;
@@ -235,6 +236,8 @@ class Playlist : public QAbstractListModel {
 
   PlaylistSequence::ShuffleMode ShuffleMode() const { return playlist_sequence_ && !is_dynamic() ? playlist_sequence_->shuffle_mode() : PlaylistSequence::ShuffleMode::Off; }
   PlaylistSequence::RepeatMode RepeatMode() const { return playlist_sequence_ && !is_dynamic() ? playlist_sequence_->repeat_mode() : PlaylistSequence::RepeatMode::Off; }
+  int HalfPlayingTimeS() const { return playlist_sequence_ ? playlist_sequence_->half_playing_time_s() : 20; }
+  int PercentInterestSong() const { return playlist_sequence_ ? playlist_sequence_->percent_interest_song() : 0; }
 
   QUndoStack *undo_stack() const { return undo_stack_; }
 

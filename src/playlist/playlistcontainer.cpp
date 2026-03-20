@@ -160,7 +160,6 @@ void PlaylistContainer::SetActions(const Actions &actions) {
   QObject::connect(actions.close_playlist, &QAction::triggered, &*ui_->tab_bar, &PlaylistTabBar::CloseCurrentTab);
   QObject::connect(&*ui_->tab_bar, &PlaylistTabBar::LastTabCloseRequested, this, &PlaylistContainer::LastTabCloseRequested);
   QObject::connect(actions.save_all_playlists, &QAction::triggered, &*manager_, &PlaylistManager::SaveAllPlaylists);
-
 }
 
 void PlaylistContainer::SetManager(SharedPtr<PlaylistManager> manager) {

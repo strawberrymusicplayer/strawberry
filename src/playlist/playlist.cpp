@@ -700,7 +700,7 @@ int Playlist::next_row(const bool ignore_repeat_track) {
 
     switch (RepeatMode()) {
       case PlaylistSequence::RepeatMode::Off:
-      case PlaylistSequence::RepeatMode::Intro:
+      case PlaylistSequence::RepeatMode::Zapping:
         return -1;
       case PlaylistSequence::RepeatMode::Track:
         next_virtual_index = current_virtual_index_;
@@ -2071,6 +2071,34 @@ PlaylistItemPtr Playlist::current_item() const {
   }
 
   return PlaylistItemPtr();
+
+}
+
+PlaylistItemPtr Playlist::current_item(quint64& start_offset_ns, int& end_offset_s) const {
+
+  PlaylistItemPtr ret_value = current_item();
+
+  // We are not initializing end_offset_s as the caller (Player::PlayAt) already initialize start_offset_ns
+  // this value start_offset_ns will be updated only if it's value is too low for the zapping requierments
+  end_offset_s = 0;
+
+  if (RepeatMode() == PlaylistSequence::RepeatMode::Zapping && ret_value && HalfPlayingTimeS() > 0) {
+    auto &&current_song = ret_value->EffectiveMetadata();
+    auto &&middle_time_ns = (current_song.length_nanosec() * PercentInterestSong()) / 100;
+    qint64 start_time_ns = middle_time_ns - (static_cast<qint64>(HalfPlayingTimeS()) * 1'000'000'000L);
+    qint64 end_time_s = (middle_time_ns + (static_cast<qint64>(HalfPlayingTimeS()) * 1'000'000'000L)) / 1'000'000'000L;
+
+    if (start_time_ns > static_cast<qint64>(start_offset_ns)) {
+      start_offset_ns = start_time_ns;
+    }
+    if (end_time_s >= (current_song.length_nanosec() / 1'000'000'000L)) {
+      // in the case of I am waiting for the end of the track to move to the next
+      // I am not doing anything to signal that we must wait the end
+      return ret_value;
+    }
+    end_offset_s = static_cast<int>(end_time_s);
+  }
+  return ret_value;
 
 }
 
