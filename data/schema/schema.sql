@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS schema_version (
 
 DELETE FROM schema_version;
 
-INSERT INTO schema_version (version) VALUES (23);
+INSERT INTO schema_version (version) VALUES (24);
 
 CREATE TABLE IF NOT EXISTS directories (
   path TEXT NOT NULL,
@@ -1026,6 +1026,9 @@ CREATE TABLE IF NOT EXISTS playlists (
   special_type TEXT,
   ui_path TEXT,
   is_favorite INTEGER NOT NULL DEFAULT 0,
+
+  half_playing_time_s INTEGER NOT NULL DEFAULT 0,
+  position_playing_time INTEGER NOT NULL DEFAULT 50,
 
   dynamic_playlist_type INTEGER,
   dynamic_playlist_backend TEXT,
