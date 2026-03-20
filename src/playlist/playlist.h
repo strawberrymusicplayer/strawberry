@@ -92,6 +92,8 @@ class Playlist : public QAbstractListModel {
                     const int id,
                     const QString &special_type = QString(),
                     const bool favorite = false,
+                    const int half_playing_time_s = 0,
+                    const int percent_interest_song = 50,
                     QObject *parent = nullptr);
 
   ~Playlist() override;
@@ -209,6 +211,7 @@ class Playlist : public QAbstractListModel {
   bool has_item_at(const int index) const { return index >= 0 && index < rowCount(); }
 
   PlaylistItemPtr current_item() const;
+  PlaylistItemPtr current_item(quint64& start_offset_ns, int& end_offset_s) const;
 
   PlaylistItem::Options current_item_options() const;
   Song current_item_metadata() const;
@@ -226,6 +229,12 @@ class Playlist : public QAbstractListModel {
   PlaylistSequence::RepeatMode RepeatMode() const { return playlist_sequence_ && !is_dynamic() ? playlist_sequence_->repeat_mode() : PlaylistSequence::RepeatMode::Off; }
 
   QUndoStack *undo_stack() const { return undo_stack_; }
+
+  int half_playing_time_s() const { return half_playing_time_s_; }
+  void UpdatePlayingTime(const int time_s) { half_playing_time_s_ = time_s; Save(); }
+
+  int percent_interest_song() const { return percent_interest_song_; }
+  void UpdatePlayingPosition(const int percent_time) { percent_interest_song_ = percent_time; Save(); }
 
   bool scrobbled() const { return scrobbled_; }
   void set_scrobbled(const bool state) { scrobbled_ = state; }
@@ -436,6 +445,10 @@ class Playlist : public QAbstractListModel {
   bool auto_sort_;
   Column sort_column_;
   Qt::SortOrder sort_order_;
+
+  // Variables to maintain the time to play the song
+  int half_playing_time_s_;
+  int percent_interest_song_;
 };
 
 #endif  // PLAYLIST_H

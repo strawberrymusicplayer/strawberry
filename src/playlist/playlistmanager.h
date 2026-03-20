@@ -140,6 +140,11 @@ class PlaylistManager : public PlaylistManagerInterface {
 
   void SaveAllPlaylists();
 
+  int half_playing_time_s() const { return current()->half_playing_time_s(); }
+  void UpdatePlayingTime(int playing_time_s) { current()->UpdatePlayingTime(playing_time_s); }
+  int percent_interest_song() const { return current()->percent_interest_song(); }
+  void UpdatePlayingPosition(int playing_position_percent) { current()->UpdatePlayingPosition(playing_position_percent); }
+
   void SetActivePlaying() override;
   void SetActivePaused() override;
   void SetActiveStopped() override;
@@ -152,7 +157,7 @@ class PlaylistManager : public PlaylistManagerInterface {
   void PlaylistLoaded();
 
  private:
-  Playlist *AddPlaylist(const int id, const QString &name, const QString &special_type, const QString &ui_path, const bool favorite);
+  Playlist *AddPlaylist(const int id, const QString &name, const QString &special_type, const QString &ui_path, const int half_playing_time_s, const int percent_interest_song, const bool favorite);
 
  private:
   struct Data {
