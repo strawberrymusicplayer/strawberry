@@ -384,7 +384,7 @@ void OSDBase::RepeatModeChanged(const PlaylistSequence::RepeatMode mode) {
       case PlaylistSequence::RepeatMode::Album:    current_mode = tr("Repeat album"); break;
       case PlaylistSequence::RepeatMode::Playlist: current_mode = tr("Repeat playlist"); break;
       case PlaylistSequence::RepeatMode::OneByOne: current_mode = tr("Stop after every track"); break;
-      case PlaylistSequence::RepeatMode::Intro:    current_mode = tr("Intro tracks"); break;
+      case PlaylistSequence::RepeatMode::Zapping:  current_mode = tr("Zapping tracks"); break;
     }
     ShowMessage(QCoreApplication::applicationName(), current_mode);
   }
