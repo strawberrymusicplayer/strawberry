@@ -36,6 +36,7 @@
 
 #include "playlist/playlist.h"
 #include "playlistquerygenerator.h"
+#include "playlist/playlistmanager.h"
 
 using std::make_shared;
 
@@ -72,7 +73,7 @@ void SmartPlaylistSearchPreview::Init(const SharedPtr<Player> player,
 
   collection_backend_ = collection_backend;
 
-  model_ = new Playlist(nullptr, nullptr, nullptr, collection_backend_, nullptr, -1, QString(), false, this);
+  model_ = new Playlist(nullptr, nullptr, nullptr, collection_backend_, nullptr, -1, QString(), false, playlist_manager->remove_duplicates(), this);
   ui_->tree->setModel(model_);
   ui_->tree->SetPlaylist(model_);
 
