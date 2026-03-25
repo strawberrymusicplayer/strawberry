@@ -92,6 +92,13 @@
     </widget>
    </item>
    <item>
+    <widget class="QCheckBox" name="checkbox_remove_duplicates">
+     <property name="text">
+      <string>Remove duplicates when adding tracks to the playlist</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QCheckBox" name="checkbox_auto_sort">
      <property name="text">
       <string>Automatically sort playlist when inserting songs</string>
