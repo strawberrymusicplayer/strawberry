@@ -55,6 +55,7 @@ constexpr char kStateVersion[] = "state_version";
 constexpr char kState[] = "state";
 constexpr char kColumnAlignments[] = "column_alignments";
 constexpr char kRatingLocked[] = "rating_locked";
+constexpr char kRemoveDuplicates[] = "remove_duplicates";
 
 constexpr char kLastSaveFilter[] = "last_save_filter";
 constexpr char kLastSavePath[] = "last_save_path";
@@ -85,6 +86,7 @@ constexpr PathType kDefaultPathType = PathType::Automatic;
 constexpr bool kDefaultEditMetadataInline = false;
 constexpr bool kDefaultWriteMetadata = true;
 constexpr bool kDefaultDeleteFiles = false;
+constexpr bool kDefaultRemoveDuplicates = false;
 constexpr int kDefaultStateVersion = 0;
 constexpr bool kDefaultRatingLocked = false;
 constexpr int kDefaultScanHalfPlayingTimeS = 20;
