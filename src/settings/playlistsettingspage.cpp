@@ -97,6 +97,7 @@ void PlaylistSettingsPage::Load() {
   ui_->checkbox_writemetadata->setChecked(s.value(kWriteMetadata, false).toBool());
 
   ui_->checkbox_delete_files->setChecked(s.value(kDeleteFiles, false).toBool());
+  ui_->checkbox_remove_duplicates->setChecked(s.value(kRemoveDuplicates, false).toBool());
 
   s.endGroup();
 
@@ -138,6 +139,7 @@ void PlaylistSettingsPage::Save() {
   s.setValue(kEditMetadataInline, ui_->checkbox_editmetadatainline->isChecked());
   s.setValue(kWriteMetadata, ui_->checkbox_writemetadata->isChecked());
   s.setValue(kDeleteFiles, ui_->checkbox_delete_files->isChecked());
+  s.setValue(kRemoveDuplicates, ui_->checkbox_remove_duplicates->isChecked());
   s.setValue(kAutoSort, ui_->checkbox_auto_sort->isChecked());
   s.endGroup();
 
