@@ -75,6 +75,9 @@ using ColumnAlignmentMap = QMap<int, Qt::Alignment>;
 Q_DECLARE_METATYPE(Qt::Alignment)
 Q_DECLARE_METATYPE(ColumnAlignmentMap)
 
+// This default value keep the current behavior : the duplicates are ignored
+static constexpr bool REMOVE_DUPLICATES_DEFAULT = false;
+
 class Playlist : public QAbstractListModel {
   Q_OBJECT
 
@@ -92,6 +95,7 @@ class Playlist : public QAbstractListModel {
                     const int id,
                     const QString &special_type = QString(),
                     const bool favorite = false,
+                    const bool remove_duplicates = false,
                     QObject *parent = nullptr);
 
   ~Playlist() override;
@@ -196,6 +200,10 @@ class Playlist : public QAbstractListModel {
   int previous_row(const bool ignore_repeat_track = false) const;
   int take_previous_row(const bool ignore_repeat_track = false);
 
+  void update_setting(const bool remove_duplicates) {
+    remove_duplicates_ = remove_duplicates;
+  }
+
   QModelIndex current_index() const;
 
   bool stop_after_current() const;
@@ -250,6 +258,12 @@ class Playlist : public QAbstractListModel {
   // This returns true if this playlist had current item when the method was invoked.
   bool ApplyValidityOnCurrentSong(const QUrl &url, bool valid);
 
+  // Get the real position for skipping the grouped tracks
+  int get_real_pos(int pos, const int origin);
+
+  // Update the list of the tracks moved
+  void update_list_to_move(QList<int> &list);
+
   // Removes from the playlist all local files that don't exist anymore.
   void RemoveDeletedSongs();
 
@@ -290,6 +304,8 @@ class Playlist : public QAbstractListModel {
 
   void ItemReload(const QPersistentModelIndex &idx, const bool metadata_edit);
 
+  void RemoveDuplicateSongs(PlaylistItemPtrList &items);
+
  public Q_SLOTS:
   void set_current_row(const int i, const Playlist::AutoScroll autoscroll = Playlist::AutoScroll::Maybe, const bool is_stopping = false, const bool force_inform = false);
   void Paused();
@@ -301,7 +317,9 @@ class Playlist : public QAbstractListModel {
   void UpdateItems(SongList songs);
 
   void Clear();
-  void RemoveDuplicateSongs();
+  void RemoveDuplicateSongs() {
+    RemoveDuplicateSongs(items_);
+  }
   void RemoveUnavailableSongs();
   void Shuffle();
 
@@ -359,7 +377,10 @@ class Playlist : public QAbstractListModel {
   void RemoveItemsNotInQueue();
 
   // Removes rows with given indices from this playlist.
-  bool removeRows(QList<int> &rows);
+  bool removeRows(QList<int> &rows, PlaylistItemPtrList &items);
+  bool removeRows(QList<int> &rows) {
+    return removeRows(rows, items_);
+  }
 
   void TurnOnDynamicPlaylist(PlaylistGeneratorPtr gen);
   void InsertDynamicItems(const int count);
@@ -436,6 +457,9 @@ class Playlist : public QAbstractListModel {
   bool auto_sort_;
   Column sort_column_;
   Qt::SortOrder sort_order_;
+
+  // Variables to insert tracks
+  bool remove_duplicates_;
 };
 
 #endif  // PLAYLIST_H
