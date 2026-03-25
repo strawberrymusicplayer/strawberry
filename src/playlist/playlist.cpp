@@ -176,6 +176,7 @@ Playlist::Playlist(const SharedPtr<TaskManager> task_manager,
                    const int id,
                    const QString &special_type,
                    const bool favorite,
+                   const bool remove_duplicates,
                    QObject *parent)
     : QAbstractListModel(parent),
       is_loading_(false),
@@ -209,6 +210,7 @@ Playlist::Playlist(const SharedPtr<TaskManager> task_manager,
       is_sorted_(false),
       sort_column_(Column::Title),
       sort_order_(Qt::AscendingOrder),
+      remove_duplicates_(remove_duplicates),
       closed_(false),
       save_generation_(0) {
 
@@ -1416,6 +1418,10 @@ void Playlist::InsertItems(const PlaylistItemPtrList &itemsIn, const int pos, co
 
   PlaylistItemPtrList items = itemsIn;
 
+  if (remove_duplicates_) {
+    RemoveDuplicateSongs(items);
+  }
+
   InsertItemsWithUndo(items, pos, enqueue, enqueue_next);
 
   // Look up the row after inserting, since the playlist might have been sorted.
@@ -2276,7 +2282,7 @@ bool Playlist::removeRows(const int row, const int count, const QModelIndex &par
 
 }
 
-bool Playlist::removeRows(QList<int> &rows) {
+bool Playlist::removeRows(QList<int> &rows, PlaylistItemPtrList &items) {
 
   if (rows.isEmpty()) {
     return false;
@@ -2294,7 +2300,11 @@ bool Playlist::removeRows(QList<int> &rows) {
     }
 
     // And now we're removing the current sequence
-    if (!removeRows(part.last(), static_cast<int>(part.size()))) {
+    if (std::addressof(items) != std::addressof(items_)) {
+      // I want to clean a list to be added to the current playlist, I call a specific function for that
+      items.remove(part.last(), part.size());
+    }
+    else if (!removeRows(part.last(), static_cast<int>(part.size()))) {
       return false;
     }
 
@@ -3132,14 +3142,21 @@ struct SongSimilarEqual {
 
 }  // namespace
 
-void Playlist::RemoveDuplicateSongs() {
+void Playlist::RemoveDuplicateSongs(PlaylistItemPtrList &items) {
 
   QList<int> rows_to_remove;
   std::unordered_map<Song, int, SongSimilarHash, SongSimilarEqual> unique_songs;
 
-  for (int row = 0; row < items_.count(); ++row) {
-    const PlaylistItemPtr item = items_.value(row);
+  for (int row = 0; row < items.count(); ++row) {
+    const PlaylistItemPtr item = items.value(row);
     const Song &song = item->EffectiveMetadata();
+
+    // Keep tracks with no identifying metadata. They cannot be matched reliably.
+    // Having just artist / album tags is not a sufficient criteria to decide if a song is a duplicate
+    // the title or the fingerprint or the accoutid_fingerprint are required at least
+    if (song.title().isEmpty() && song.fingerprint().isEmpty() && song.acoustid_fingerprint().isEmpty()) {
+      continue;
+    }
 
     bool found_duplicate = false;
 
@@ -3163,7 +3180,7 @@ void Playlist::RemoveDuplicateSongs() {
     }
   }
 
-  removeRows(rows_to_remove);
+  removeRows(rows_to_remove, items);
 
 }
 
