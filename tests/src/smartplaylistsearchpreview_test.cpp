@@ -61,7 +61,7 @@ class SmartPlaylistSearchPreviewTest : public ::testing::Test {
     preview_ = std::make_unique<SmartPlaylistSearchPreview>();
     // Like Init(), without initializing the playlist view, which needs the player.
     preview_->collection_backend_ = backend_;
-    preview_->model_ = new Playlist(nullptr, nullptr, nullptr, backend_, nullptr, -1, QString(), false, &*preview_);
+    preview_->model_ = new Playlist(nullptr, nullptr, nullptr, backend_, nullptr, -1, QString(), false, false, &*preview_);
     // The playlist view is not initialized, so it's hidden, the results are checked in the model.
     PlaylistView *tree = preview_->findChild<PlaylistView*>(u"tree"_s);
     ASSERT_NE(nullptr, tree);
