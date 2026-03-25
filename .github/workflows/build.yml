@@ -1090,7 +1090,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        arch: [ 'i686', 'x86_64' ]
+        arch: [ 'x86_64' ]
         buildtype: [ 'debug', 'release' ]
     container:
       image: jonaski/strawberry-mxe-${{matrix.arch}}-${{matrix.buildtype}}
@@ -1289,16 +1289,6 @@ jobs:
          - name: "x86_64 release"
            runner: windows-2022
            arch: x86_64
-           buildtype: release
-
-         - name: "x86 debug"
-           runner: windows-2022
-           arch: x86
-           buildtype: debug
-
-         - name: "x86 release"
-           runner: windows-2022
-           arch: x86
            buildtype: release
 
          - name: "arm64 debug"
