@@ -1164,6 +1164,10 @@ QString Song::TextForSource(const Source source) {
     case Source::Qobuz:         return u"qobuz"_s;
     case Source::SomaFM:        return u"somafm"_s;
     case Source::RadioParadise: return u"radioparadise"_s;
+    case Source::RadioBrowser:  return u"radiobrowser"_s;
+    case Source::RadioFrance:   return u"radiofrance"_s;
+    case Source::BBC:           return u"bbc"_s;
+    case Source::CBC:           return u"cbc"_s;
     case Source::Unknown:       return u"unknown"_s;
   }
   return u"unknown"_s;
@@ -1184,6 +1188,10 @@ QString Song::DescriptionForSource(const Source source) {
     case Source::Qobuz:         return u"Qobuz"_s;
     case Source::SomaFM:        return u"SomaFM"_s;
     case Source::RadioParadise: return u"Radio Paradise"_s;
+    case Source::RadioBrowser:  return u"Radio Browser"_s;
+    case Source::RadioFrance:   return u"Radio France"_s;
+    case Source::BBC:           return u"BBC Radio"_s;
+    case Source::CBC:           return u"CBC Radio"_s;
     case Source::Unknown:       return u"Unknown"_s;
   }
   return u"unknown"_s;
@@ -1203,6 +1211,10 @@ Song::Source Song::SourceFromText(const QString &source) {
   if (source.compare("qobuz"_L1, Qt::CaseInsensitive) == 0) return Source::Qobuz;
   if (source.compare("somafm"_L1, Qt::CaseInsensitive) == 0) return Source::SomaFM;
   if (source.compare("radioparadise"_L1, Qt::CaseInsensitive) == 0) return Source::RadioParadise;
+  if (source.compare("radiobrowser"_L1, Qt::CaseInsensitive) == 0) return Source::RadioBrowser;
+  if (source.compare("radiofrance"_L1, Qt::CaseInsensitive) == 0) return Source::RadioFrance;
+  if (source.compare("bbc"_L1, Qt::CaseInsensitive) == 0) return Source::BBC;
+  if (source.compare("cbc"_L1, Qt::CaseInsensitive) == 0) return Source::CBC;
 
   return Source::Unknown;
 
@@ -1222,6 +1234,10 @@ QIcon Song::IconForSource(const Source source) {
     case Source::Qobuz:         return IconLoader::Load(u"qobuz"_s);
     case Source::SomaFM:        return IconLoader::Load(u"somafm"_s);
     case Source::RadioParadise: return IconLoader::Load(u"radioparadise"_s);
+    case Source::RadioBrowser:  return IconLoader::Load(u"radiobrowser"_s);
+    case Source::RadioFrance:   return IconLoader::Load(u"radiofrance"_s);
+    case Source::BBC:           return IconLoader::Load(u"bbc"_s);
+    case Source::CBC:           return IconLoader::Load(u"cbc"_s);
     case Source::Unknown:       return IconLoader::Load(u"edit-delete"_s);
   }
   return IconLoader::Load(u"edit-delete"_s);
@@ -1238,6 +1254,10 @@ QString Song::DomainForSource(const Source source) {
     case Song::Source::Qobuz:         return u"qobuz.com"_s;
     case Song::Source::SomaFM:        return u"somafm.com"_s;
     case Song::Source::RadioParadise: return u"radioparadise.com"_s;
+    case Song::Source::RadioBrowser:  return u"radio-browser.info"_s;
+    case Song::Source::RadioFrance:   return u"radiofrance.fr"_s;
+    case Song::Source::BBC:           return u"bbc.co.uk"_s;
+    case Song::Source::CBC:           return u"cbc.ca"_s;
     case Song::Source::Spotify:       return u"spotify.com"_s;
     default: return QString();
   }
@@ -1352,7 +1372,11 @@ QString Song::ShareURL() const {
 
   switch (source()) {
     case Song::Source::Stream:
-    case Song::Source::SomaFM:  return url().toString();
+    case Song::Source::SomaFM:
+    case Song::Source::RadioBrowser:
+    case Song::Source::RadioFrance:
+    case Song::Source::BBC:
+    case Song::Source::CBC:          return url().toString();
     case Song::Source::Tidal:   return "https://tidal.com/track/%1"_L1.arg(song_id());
     case Song::Source::Qobuz:   return "https://open.qobuz.com/track/%1"_L1.arg(song_id());
     case Song::Source::Spotify: return "https://open.spotify.com/track/%1"_L1.arg(song_id());

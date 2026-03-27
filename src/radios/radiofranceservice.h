@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2026, Malte Zilinski <malte@zilinski.eu>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,33 +17,28 @@
  *
  */
 
-#ifndef RADIOVIEWCONTAINER_H
-#define RADIOVIEWCONTAINER_H
+#ifndef RADIOFRANCESERVICE_H
+#define RADIOFRANCESERVICE_H
 
-#include <QWidget>
+#include <QObject>
+#include <QUrl>
 
-#include "ui_radioviewcontainer.h"
+#include "radioservice.h"
 
-class RadioView;
-class RadioBrowserSearchView;
+class TaskManager;
+class NetworkAccessManager;
 
-class RadioViewContainer : public QWidget {
+class RadioFranceService : public RadioService {
   Q_OBJECT
 
  public:
-  explicit RadioViewContainer(QWidget *parent = nullptr);
-  ~RadioViewContainer();
+  explicit RadioFranceService(const SharedPtr<TaskManager> task_manager, const SharedPtr<NetworkAccessManager> network, QObject *parent = nullptr);
 
-  void ReloadSettings();
+  QUrl Homepage() override;
+  QUrl Donate() override;
 
-  RadioView *view() const { return ui_->view; }
-  RadioBrowserSearchView *search_view() const { return ui_->search_view; }
-
- Q_SIGNALS:
-  void Refresh();
-
- private:
-  Ui_RadioViewContainer *ui_;
+ public Q_SLOTS:
+  void GetChannels() override;
 };
 
-#endif  // RADIOVIEWCONTAINER_H
+#endif  // RADIOFRANCESERVICE_H

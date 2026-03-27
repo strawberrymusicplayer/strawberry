@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2026, Malte Zilinski <malte@zilinski.eu>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,33 +17,15 @@
  *
  */
 
-#ifndef RADIOVIEWCONTAINER_H
-#define RADIOVIEWCONTAINER_H
+#ifndef SOMAFMSETTINGS_H
+#define SOMAFMSETTINGS_H
 
-#include <QWidget>
+namespace SomaFMSettings {
 
-#include "ui_radioviewcontainer.h"
+constexpr char kSettingsGroup[] = "SomaFM";
+constexpr char kQuality[] = "quality";
+constexpr char kQualityDefault[] = "highest";
 
-class RadioView;
-class RadioBrowserSearchView;
+}  // namespace SomaFMSettings
 
-class RadioViewContainer : public QWidget {
-  Q_OBJECT
-
- public:
-  explicit RadioViewContainer(QWidget *parent = nullptr);
-  ~RadioViewContainer();
-
-  void ReloadSettings();
-
-  RadioView *view() const { return ui_->view; }
-  RadioBrowserSearchView *search_view() const { return ui_->search_view; }
-
- Q_SIGNALS:
-  void Refresh();
-
- private:
-  Ui_RadioViewContainer *ui_;
-};
-
-#endif  // RADIOVIEWCONTAINER_H
+#endif  // SOMAFMSETTINGS_H

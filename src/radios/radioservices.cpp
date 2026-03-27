@@ -33,6 +33,10 @@
 #include "radiochannel.h"
 #include "somafmservice.h"
 #include "radioparadiseservice.h"
+#include "radiobrowserservice.h"
+#include "radiofranceservice.h"
+#include "bbcservice.h"
+#include "cbcservice.h"
 
 using std::make_shared;
 
@@ -61,6 +65,10 @@ RadioServices::RadioServices(const SharedPtr<TaskManager> task_manager,
 
   AddService(new SomaFMService(task_manager, network_, this));
   AddService(new RadioParadiseService(task_manager, network_, this));
+  AddService(new RadioBrowserService(task_manager, network_, this));
+  AddService(new RadioFranceService(task_manager, network_, this));
+  AddService(new BBCService(task_manager, network_, this));
+  AddService(new CBCService(task_manager, network_, this));
 
 }
 
@@ -135,6 +143,23 @@ void RadioServices::GotChannelsFromBackend(const RadioChannelList &channels) {
   }
   else {
     model_->AddChannels(channels);
+
+    // Check if any registered service has no channels in the database yet
+    // (e.g. a newly added service). If so, trigger a refresh.
+    if (!channels_refresh_) {
+      QSet<Song::Source> sources_in_db;
+      for (const RadioChannel &channel : channels) {
+        sources_in_db.insert(channel.source);
+      }
+      for (const Song::Source source : services_.keys()) {
+        if (!sources_in_db.contains(source)) {
+          RefreshChannels();
+          return;
+        }
+      }
+    }
+
+    channels_refresh_ = false;
   }
 
 }
