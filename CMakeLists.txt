@@ -784,7 +784,6 @@ set(SOURCES
   src/radios/radiobrowserservice.cpp
   src/radios/radiobrowsersearchview.cpp
   src/radios/radiofranceservice.cpp
-  src/radios/bbcservice.cpp
   src/radios/cbcservice.cpp
   src/radios/radiomimedata.cpp
 
@@ -1087,7 +1086,6 @@ set(HEADERS
   src/radios/radiobrowserservice.h
   src/radios/radiobrowsersearchview.h
   src/radios/radiofranceservice.h
-  src/radios/bbcservice.h
   src/radios/cbcservice.h
 
   src/scrobbler/audioscrobbler.h

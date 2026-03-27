@@ -35,7 +35,6 @@
 #include "radioparadiseservice.h"
 #include "radiobrowserservice.h"
 #include "radiofranceservice.h"
-#include "bbcservice.h"
 #include "cbcservice.h"
 
 using std::make_shared;
@@ -67,7 +66,6 @@ RadioServices::RadioServices(const SharedPtr<TaskManager> task_manager,
   AddService(new RadioParadiseService(task_manager, network_, this));
   AddService(new RadioBrowserService(task_manager, network_, this));
   AddService(new RadioFranceService(task_manager, network_, this));
-  AddService(new BBCService(task_manager, network_, this));
   AddService(new CBCService(task_manager, network_, this));
 
 }
@@ -144,22 +142,31 @@ void RadioServices::GotChannelsFromBackend(const RadioChannelList &channels) {
   else {
     model_->AddChannels(channels);
 
-    // Check if any registered service has no channels in the database yet
-    // (e.g. a newly added service). If so, trigger a refresh.
-    if (!channels_refresh_) {
-      QSet<Song::Source> sources_in_db;
-      for (const RadioChannel &channel : channels) {
-        sources_in_db.insert(channel.source);
-      }
+    if (channels_refresh_) {
+      // During a refresh, only clear the flag once all registered services
+      // have channels in the model, to avoid retriggering the refresh.
+      const QList<Song::Source> sources_in_model = model_->sources();
+      bool all_present = true;
       for (const Song::Source source : services_.keys()) {
-        if (!sources_in_db.contains(source)) {
+        if (!sources_in_model.contains(source)) {
+          all_present = false;
+          break;
+        }
+      }
+      if (all_present) {
+        channels_refresh_ = false;
+      }
+    }
+    else {
+      // Not refreshing: check if a newly added service has no channels yet.
+      const QList<Song::Source> sources_in_model = model_->sources();
+      for (const Song::Source source : services_.keys()) {
+        if (!sources_in_model.contains(source)) {
           RefreshChannels();
           return;
         }
       }
     }
-
-    channels_refresh_ = false;
   }
 
 }

@@ -79,10 +79,9 @@ class Song {
     Spotify = 11,
     RadioBrowser = 12,
     RadioFrance = 13,
-    BBC = 14,
-    CBC = 15
+    CBC = 14
   };
-  static const int kSourceCount = 16;
+  static const int kSourceCount = 15;
 
   enum class FileType {
     Unknown = 0,
