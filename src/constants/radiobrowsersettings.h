@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2026, Malte Zilinski <malte@zilinski.eu>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,33 +17,18 @@
  *
  */
 
-#ifndef RADIOVIEWCONTAINER_H
-#define RADIOVIEWCONTAINER_H
+#ifndef RADIOBROWSERSETTINGS_H
+#define RADIOBROWSERSETTINGS_H
 
-#include <QWidget>
+namespace RadioBrowserSettings {
 
-#include "ui_radioviewcontainer.h"
+constexpr char kSettingsGroup[] = "RadioBrowser";
+constexpr char kServerUrl[] = "server_url";
+constexpr char kSearchLimit[] = "search_limit";
+constexpr int kSearchLimitDefault = 100;
+constexpr char kHideBroken[] = "hide_broken";
+constexpr bool kHideBrokenDefault = true;
 
-class RadioView;
-class RadioBrowserSearchView;
+}  // namespace RadioBrowserSettings
 
-class RadioViewContainer : public QWidget {
-  Q_OBJECT
-
- public:
-  explicit RadioViewContainer(QWidget *parent = nullptr);
-  ~RadioViewContainer();
-
-  void ReloadSettings();
-
-  RadioView *view() const { return ui_->view; }
-  RadioBrowserSearchView *search_view() const { return ui_->search_view; }
-
- Q_SIGNALS:
-  void Refresh();
-
- private:
-  Ui_RadioViewContainer *ui_;
-};
-
-#endif  // RADIOVIEWCONTAINER_H
+#endif  // RADIOBROWSERSETTINGS_H

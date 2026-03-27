@@ -91,6 +91,8 @@
 #  include "qobuzsettingspage.h"
 #endif
 
+#include "radiosettingspage.h"
+
 #include "ui_settingsdialog.h"
 
 using namespace Qt::Literals::StringLiterals;
@@ -161,6 +163,8 @@ SettingsDialog::SettingsDialog(const SharedPtr<Player> player,
 #ifdef HAVE_QOBUZ
   AddPage(Page::Qobuz, new QobuzSettingsPage(this, streaming_services->Service<QobuzService>(), this), streaming);
 #endif
+
+  AddPage(Page::Radio, new RadioSettingsPage(this, this), streaming);
 
   // List box
   QObject::connect(ui_->list, &QTreeWidget::currentItemChanged, this, &SettingsDialog::CurrentItemChanged);

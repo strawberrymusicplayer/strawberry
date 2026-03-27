@@ -708,6 +708,7 @@ set(SOURCES
   src/settings/coverssettingspage.cpp
   src/settings/lyricssettingspage.cpp
   src/settings/networkproxysettingspage.cpp
+  src/settings/radiosettingspage.cpp
   src/settings/appearancesettingspage.cpp
   src/settings/contextsettingspage.cpp
   src/settings/notificationssettingspage.cpp
@@ -780,6 +781,9 @@ set(SOURCES
   src/radios/radiochannel.cpp
   src/radios/somafmservice.cpp
   src/radios/radioparadiseservice.cpp
+  src/radios/radiobrowserservice.cpp
+  src/radios/radiobrowsersearchview.cpp
+  src/radios/radiobrowsersearchmodel.cpp
   src/radios/radiomimedata.cpp
 
   src/scrobbler/audioscrobbler.cpp
@@ -1007,6 +1011,7 @@ set(HEADERS
   src/settings/coverssettingspage.h
   src/settings/lyricssettingspage.h
   src/settings/networkproxysettingspage.h
+  src/settings/radiosettingspage.h
   src/settings/appearancesettingspage.h
   src/settings/contextsettingspage.h
   src/settings/notificationssettingspage.h
@@ -1077,6 +1082,9 @@ set(HEADERS
   src/radios/radiomimedata.h
   src/radios/somafmservice.h
   src/radios/radioparadiseservice.h
+  src/radios/radiobrowserservice.h
+  src/radios/radiobrowsersearchview.h
+  src/radios/radiobrowsersearchmodel.h
 
   src/scrobbler/audioscrobbler.h
   src/scrobbler/scrobblersettingsservice.h
@@ -1161,6 +1169,7 @@ set(UI
   src/settings/coverssettingspage.ui
   src/settings/lyricssettingspage.ui
   src/settings/networkproxysettingspage.ui
+  src/settings/radiosettingspage.ui
   src/settings/appearancesettingspage.ui
   src/settings/notificationssettingspage.ui
   src/settings/transcodersettingspage.ui
@@ -1189,6 +1198,7 @@ set(UI
   src/streaming/streamingsearchview.ui
 
   src/radios/radioviewcontainer.ui
+  src/radios/radiobrowsersearchview.ui
 
   src/organize/organizedialog.ui
   src/organize/organizeerrordialog.ui

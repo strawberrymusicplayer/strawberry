@@ -191,6 +191,8 @@
 
 #include "radios/radioservices.h"
 #include "radios/radioviewcontainer.h"
+#include "radios/radiobrowserservice.h"
+#include "radios/radiobrowsersearchview.h"
 
 #include "scrobbler/audioscrobbler.h"
 #include "scrobbler/lastfmimport.h"
@@ -491,6 +493,11 @@ MainWindow::MainWindow(Application *app,
   organize_dialog_->SetDestinationModel(app_->collection()->model()->directory_model());
 
   radio_view_->view()->setModel(app_->radio_services()->sort_model());
+
+  RadioBrowserService *radio_browser_service = qobject_cast<RadioBrowserService*>(app_->radio_services()->ServiceBySource(Song::Source::RadioBrowser));
+  if (radio_browser_service) {
+    radio_view_->search_view()->Init(radio_browser_service);
+  }
 
   // Icons
   qLog(Debug) << "Creating UI";
@@ -794,6 +801,7 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(radio_view_, &RadioViewContainer::Refresh, &*app_->radio_services(), &RadioServices::RefreshChannels);
   QObject::connect(radio_view_->view(), &RadioView::GetChannels, &*app_->radio_services(), &RadioServices::GetChannels);
   QObject::connect(radio_view_->view(), &RadioView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
+  QObject::connect(radio_view_->search_view(), &RadioBrowserSearchView::AddToPlaylist, this, &MainWindow::AddToPlaylist);
 
   // Playlist menu
   QObject::connect(playlist_menu_, &QMenu::aboutToHide, this, &MainWindow::PlaylistMenuHidden);

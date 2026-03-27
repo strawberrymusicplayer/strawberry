@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>RadioSettingsPage</class>
+ <widget class="QWidget" name="RadioSettingsPage">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>450</width>
+    <height>500</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Radios</string>
+  </property>
+  <layout class="QVBoxLayout" name="layout_radiosettingspage">
+   <item>
+    <widget class="QGroupBox" name="group_somafm">
+     <property name="title">
+      <string>SomaFM</string>
+     </property>
+     <layout class="QFormLayout" name="layout_somafm">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_somafm_quality">
+        <property name="text">
+         <string>Stream quality:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QComboBox" name="combo_somafm_quality"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="group_radiobrowser">
+     <property name="title">
+      <string>Radio Browser</string>
+     </property>
+     <layout class="QFormLayout" name="layout_radiobrowser">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_search_limit">
+        <property name="text">
+         <string>Search results limit:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QSpinBox" name="spin_search_limit">
+        <property name="minimum">
+         <number>10</number>
+        </property>
+        <property name="maximum">
+         <number>500</number>
+        </property>
+        <property name="singleStep">
+         <number>10</number>
+        </property>
+        <property name="value">
+         <number>100</number>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="2">
+       <widget class="QCheckBox" name="check_hide_broken">
+        <property name="text">
+         <string>Hide broken stations</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_default_sort">
+        <property name="text">
+         <string>Default sort order:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QComboBox" name="combo_default_sort"/>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_default_country">
+        <property name="text">
+         <string>Default country:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QComboBox" name="combo_default_country"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <spacer name="spacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
