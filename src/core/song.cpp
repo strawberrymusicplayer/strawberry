@@ -1519,6 +1519,10 @@ QString Song::ImageCacheDir(const Source source) {
     case Source::Stream:
     case Source::SomaFM:
     case Source::RadioParadise:
+    case Source::RadioBrowser:
+    case Source::RadioFrance:
+    case Source::BBC:
+    case Source::CBC:
     case Source::Unknown:
       return StandardPaths::WritableLocation(StandardPaths::StandardLocation::AppLocalDataLocation) + u"/albumcovers"_s;
   }
