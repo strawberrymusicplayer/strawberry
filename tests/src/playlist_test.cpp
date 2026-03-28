@@ -544,4 +544,44 @@ TEST_F(PlaylistTest, CollectionIdMapMulti) {
 }
 
 
+TEST_F(PlaylistTest, PreviousRowIsNonMutating) {
+
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"One"_s) << MakeMockItemP(u"Two"_s) << MakeMockItemP(u"Three"_s));
+  ASSERT_EQ(3, playlist_.rowCount(QModelIndex()));
+
+  playlist_.set_current_row(0);
+  playlist_.set_current_row(1);
+  playlist_.set_current_row(2);
+
+  // previous_row() should return the same row each time without consuming history
+  EXPECT_EQ(1, playlist_.previous_row());
+  EXPECT_EQ(1, playlist_.previous_row());
+  EXPECT_EQ(1, playlist_.previous_row());
+
+}
+
+TEST_F(PlaylistTest, TakePreviousRowConsumesHistory) {
+
+  playlist_.InsertItems(PlaylistItemPtrList() << MakeMockItemP(u"One"_s) << MakeMockItemP(u"Two"_s) << MakeMockItemP(u"Three"_s));
+  ASSERT_EQ(3, playlist_.rowCount(QModelIndex()));
+
+  playlist_.set_current_row(0);
+  playlist_.set_current_row(1);
+  playlist_.set_current_row(2);
+
+  // take_previous_row() should return the same row as previous_row() before consuming
+  EXPECT_EQ(playlist_.previous_row(), playlist_.take_previous_row(false));
+
+  // After consuming row 1, previous_row() and take_previous_row() should now see row 0 as the previous
+  EXPECT_EQ(0, playlist_.previous_row());
+  EXPECT_EQ(0, playlist_.take_previous_row(false));
+
+  // History is now empty; should fall back to sequence-based previous (row 1, the item before row 2)
+  EXPECT_EQ(1, playlist_.take_previous_row(false));
+
+  // Verify fallback is stable: repeated calls without new history still return the sequence-based previous
+  EXPECT_EQ(1, playlist_.take_previous_row(false));
+
+}
+
 }  // namespace

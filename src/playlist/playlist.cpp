@@ -680,10 +680,10 @@ int Playlist::next_row(const bool ignore_repeat_track) {
 
 }
 
-int Playlist::previous_row(const bool ignore_repeat_track) {
+int Playlist::previous_row(const bool ignore_repeat_track) const {
 
-  while (!played_indexes_.isEmpty()) {
-    const QPersistentModelIndex idx = played_indexes_.takeLast();
+  for (qint64 i = played_indexes_.count() - 1; i >= 0; --i) {
+    const QPersistentModelIndex &idx = played_indexes_.at(i);
     if (idx.isValid() && idx != current_item_index_) return idx.row();
   }
 
@@ -708,6 +708,17 @@ int Playlist::previous_row(const bool ignore_repeat_track) {
   if (prev_virtual_index < 0) return -1;
 
   return virtual_items_.value(prev_virtual_index);
+
+}
+
+int Playlist::take_previous_row(const bool ignore_repeat_track) {
+
+  while (!played_indexes_.isEmpty()) {
+    const QPersistentModelIndex idx = played_indexes_.takeLast();
+    if (idx.isValid() && idx != current_item_index_) return idx.row();
+  }
+
+  return previous_row(ignore_repeat_track);
 
 }
 

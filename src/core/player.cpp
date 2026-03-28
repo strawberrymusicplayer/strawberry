@@ -630,7 +630,7 @@ void Player::PreviousItem(const EngineBase::TrackChangeFlags change) {
     last_pressed_previous_ = now;
   }
 
-  int i = playlist_manager_->active()->previous_row(ignore_repeat_track);
+  const int i = playlist_manager_->active()->take_previous_row(ignore_repeat_track);
   playlist_manager_->active()->set_current_row(i, Playlist::AutoScroll::Always, false);
   if (i == -1) {
     Stop();

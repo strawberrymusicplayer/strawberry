@@ -193,7 +193,8 @@ class Playlist : public QAbstractListModel {
   void reset_last_played() { last_played_item_index_ = QPersistentModelIndex(); }
   void reset_played_indexes() { played_indexes_.clear(); }
   int next_row(const bool ignore_repeat_track = false);
-  int previous_row(const bool ignore_repeat_track = false);
+  int previous_row(const bool ignore_repeat_track = false) const;
+  int take_previous_row(const bool ignore_repeat_track = false);
 
   QModelIndex current_index() const;
 
