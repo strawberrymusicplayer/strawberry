@@ -570,7 +570,9 @@ TEST_F(PlaylistTest, TakePreviousRowConsumesHistory) {
   playlist_.set_current_row(2);
 
   // take_previous_row() should return the same row as previous_row() before consuming
-  EXPECT_EQ(playlist_.previous_row(), playlist_.take_previous_row(false));
+  const int previous_row = playlist_.previous_row();
+  const int take_previous_row = playlist_.take_previous_row(false);
+  EXPECT_EQ(previous_row, take_previous_row);
 
   // After consuming row 1, previous_row() and take_previous_row() should now see row 0 as the previous
   EXPECT_EQ(0, playlist_.previous_row());
