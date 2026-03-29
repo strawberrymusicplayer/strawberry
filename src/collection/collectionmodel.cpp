@@ -1179,7 +1179,7 @@ QString CollectionModel::SortTextForBitrate(const int bitrate) {
 
 QString CollectionModel::SkipArticles(QString name) {
 
-  for (const auto &i : Song::kArticles) {
+  for (const QString &i : Song::kArticles) {
     if (name.startsWith(i)) {
       qint64 ilen = i.length();
       name = name.right(name.length() - ilen) + ", "_L1 + i.left(ilen - 1);

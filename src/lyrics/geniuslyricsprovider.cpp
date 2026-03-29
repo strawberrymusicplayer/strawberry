@@ -170,7 +170,7 @@ GeniusLyricsProvider::JsonObjectResult GeniusLyricsProvider::ParseJsonObject(QNe
       const QJsonObject json_object = json_document.object();
       if (json_object.contains("errors"_L1) && json_object["errors"_L1].isArray()) {
         const QJsonArray array_errors = json_object["errors"_L1].toArray();
-        for (const auto &value : array_errors) {
+        for (const QJsonValueConstRef &value : array_errors) {
           if (!value.isObject()) continue;
           const QJsonObject object_error = value.toObject();
           if (!object_error.contains("category"_L1) || !object_error.contains("code"_L1) || !object_error.contains("detail"_L1)) {

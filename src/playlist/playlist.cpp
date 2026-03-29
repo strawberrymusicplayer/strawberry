@@ -1391,8 +1391,8 @@ bool Playlist::CompareItems(const Column column, const Qt::SortOrder order, Play
   PlaylistItemPtr a = (order == Qt::AscendingOrder) ? _a : _b;
   PlaylistItemPtr b = (order == Qt::AscendingOrder) ? _b : _a;
 
-  const auto &ma = a->EffectiveMetadata();
-  const auto &mb = b->EffectiveMetadata();
+  const Song &ma = a->EffectiveMetadata();
+  const Song &mb = b->EffectiveMetadata();
 
   switch (column) {
     case Column::Title:                     return CompareStr(ma.effective_titlesort(), mb.effective_titlesort());

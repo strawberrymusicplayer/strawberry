@@ -294,7 +294,7 @@ void EBUR128State::AddFrames(const char *data, size_t size) {
 
   int bytes_per_frame = dsc.channels * bytes_per_sample;
   Q_ASSERT(size % bytes_per_frame == 0);
-  auto num_frames = size / bytes_per_frame;
+  size_t num_frames = size / bytes_per_frame;
 
   int ebur_error = 0;
   switch (dsc.format) {

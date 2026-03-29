@@ -37,8 +37,8 @@ GST_DEBUG_CATEGORY_STATIC(gst_strawberry_fastspectrum_debug);
 namespace {
 
 // Spectrum properties
-constexpr auto DEFAULT_INTERVAL = (GST_SECOND / 10);
-constexpr auto DEFAULT_BANDS = 128;
+constexpr GstClockTimeDiff DEFAULT_INTERVAL = (GST_SECOND / 10);
+constexpr int DEFAULT_BANDS = 128;
 
 enum {
   PROP_0,

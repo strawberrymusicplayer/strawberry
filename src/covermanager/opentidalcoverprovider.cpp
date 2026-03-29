@@ -187,7 +187,7 @@ JsonBaseRequest::JsonObjectResult OpenTidalCoverProvider::ParseJsonObject(QNetwo
       const QJsonObject json_object = json_document.object();
       if (json_object.contains("errors"_L1) && json_object["errors"_L1].isArray()) {
         const QJsonArray array_errors = json_object["errors"_L1].toArray();
-        for (const auto &value : array_errors) {
+        for (const QJsonValueConstRef &value : array_errors) {
           if (!value.isObject()) continue;
           const QJsonObject object_error = value.toObject();
           if (!object_error.contains("category"_L1) || !object_error.contains("code"_L1) || !object_error.contains("detail"_L1)) {
@@ -293,7 +293,7 @@ void OpenTidalCoverProvider::HandleSearchReply(QNetworkReply *reply, SearchReque
   if (array_included.isEmpty()) {
     return;
   }
-  for (const auto &value : array_included) {
+  for (const QJsonValueConstRef &value : array_included) {
     if (!value.isObject()) {
       continue;
     }
@@ -378,7 +378,7 @@ void OpenTidalCoverProvider::HandleAlbumCoverReply(QNetworkReply *reply, SearchR
   if (array_data.isEmpty()) {
     return;
   }
-  for (const auto &value : array_data) {
+  for (const QJsonValueConstRef &value : array_data) {
     if (!value.isObject()) {
       continue;
     }
@@ -466,7 +466,7 @@ void OpenTidalCoverProvider::HandleArtworkReply(QNetworkReply *reply, SearchRequ
   }
   const QJsonArray array_files = object_attributes["files"_L1].toArray();
   int i = 0;
-  for (const auto &value_file : array_files) {
+  for (const QJsonValueConstRef &value_file : array_files) {
     if (!value_file.isObject()) {
       continue;
     }
