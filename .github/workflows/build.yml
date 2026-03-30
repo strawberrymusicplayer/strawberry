@@ -757,7 +757,7 @@ jobs:
         df -h
     - name: Build FreeBSD
       id: build-freebsd
-      uses: vmactions/freebsd-vm@v1.4.3
+      uses: vmactions/freebsd-vm@v1.4.4
       with:
         usesh: true
         mem: 8192
