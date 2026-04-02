@@ -949,9 +949,14 @@ bool CollectionWatcher::UpdateNonCueAssociatedSong(const QString &file,
       const bool fingerprint_was_missing_from_file = song_on_disk.acoustid_fingerprint().isEmpty();
       song_on_disk.set_acoustid_fingerprint(fingerprint);
       if (write_fingerprint_to_file_tags_ && fingerprint_was_missing_from_file) {
-        tagreader_client_->WriteFileBlocking(file, song_on_disk, SaveTagsOption::Tags);
-        // Refresh mtime so the next scan does not treat this file as changed due to our write.
-        song_on_disk.set_mtime(QFileInfo(file).lastModified().toSecsSinceEpoch());
+        const TagReaderResult write_result = tagreader_client_->WriteFileBlocking(file, song_on_disk, SaveTagsOption::Tags);
+        if (write_result.success()) {
+          // Refresh mtime so the next scan does not treat this file as changed due to our write.
+          song_on_disk.set_mtime(QFileInfo(file).lastModified().toSecsSinceEpoch());
+        }
+        else {
+          qLog(Warning) << "Failed to write ACOUSTID_FINGERPRINT to" << file << ":" << write_result.error_string();
+        }
       }
     }
 #endif
@@ -1013,9 +1018,14 @@ SongList CollectionWatcher::ScanNewFile(const QString &file, const QString &path
         const bool fingerprint_was_missing_from_file = song.acoustid_fingerprint().isEmpty();
         song.set_acoustid_fingerprint(fingerprint);
         if (write_fingerprint_to_file_tags_ && fingerprint_was_missing_from_file) {
-          tagreader_client_->WriteFileBlocking(file, song, SaveTagsOption::Tags);
-          // Refresh mtime so the next scan does not treat this file as changed due to our write.
-          song.set_mtime(QFileInfo(file).lastModified().toSecsSinceEpoch());
+          const TagReaderResult write_result = tagreader_client_->WriteFileBlocking(file, song, SaveTagsOption::Tags);
+          if (write_result.success()) {
+            // Refresh mtime so the next scan does not treat this file as changed due to our write.
+            song.set_mtime(QFileInfo(file).lastModified().toSecsSinceEpoch());
+          }
+          else {
+            qLog(Warning) << "Failed to write ACOUSTID_FINGERPRINT to" << file << ":" << write_result.error_string();
+          }
         }
       }
 #endif

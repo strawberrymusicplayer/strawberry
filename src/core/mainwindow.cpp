@@ -3164,6 +3164,18 @@ void MainWindow::AutoCompleteTags() {
 
   if (songs.isEmpty()) return;
 
+  // Refresh fingerprint fields from the collection DB for any song where the
+  // in-memory playlist item was populated before the fingerprint was computed.
+  for (Song &song : songs) {
+    if (song.fingerprint().isEmpty() && song.acoustid_fingerprint().isEmpty() && song.url().isLocalFile()) {
+      const Song db_song = app_->collection_backend()->GetSongByUrl(song.url());
+      if (db_song.is_valid()) {
+        if (!db_song.fingerprint().isEmpty()) song.set_fingerprint(db_song.fingerprint());
+        if (!db_song.acoustid_fingerprint().isEmpty()) song.set_acoustid_fingerprint(db_song.acoustid_fingerprint());
+      }
+    }
+  }
+
   track_selection_dialog_->Init(songs);
   tag_fetcher_->StartFetch(songs);
   track_selection_dialog_->show();
