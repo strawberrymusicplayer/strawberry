@@ -115,6 +115,7 @@ CollectionSettingsPage::CollectionSettingsPage(SettingsDialog *dialog,
 
 #ifndef HAVE_SONGFINGERPRINTING
   ui_->song_tracking->hide();
+  ui_->write_fingerprint_to_file_tags->hide();
 #endif
 
 #ifndef HAVE_EBUR128
@@ -151,6 +152,8 @@ void CollectionSettingsPage::Load() {
   ui_->startup_scan->setChecked(s.value(kStartupScan, true).toBool());
   ui_->monitor->setChecked(s.value(kMonitor, true).toBool());
   ui_->song_tracking->setChecked(s.value(kSongTracking, false).toBool());
+  ui_->write_fingerprint_to_file_tags->setChecked(s.value(kWriteFingerprintToFileTags, false).toBool());
+  ui_->write_fingerprint_to_file_tags->setEnabled(ui_->song_tracking->isChecked());
   ui_->mark_songs_unavailable->setChecked(ui_->song_tracking->isChecked() ? true : s.value(kMarkSongsUnavailable, true).toBool());
   ui_->song_ebur128_loudness_analysis->setChecked(s.value(kSongENUR128LoudnessAnalysis, false).toBool());
   ui_->expire_unavailable_songs_days->setValue(s.value(kExpireUnavailableSongs, 60).toInt());
@@ -199,6 +202,7 @@ void CollectionSettingsPage::Save() {
   s.setValue(kStartupScan, ui_->startup_scan->isChecked());
   s.setValue(kMonitor, ui_->monitor->isChecked());
   s.setValue(kSongTracking, ui_->song_tracking->isChecked());
+  s.setValue(kWriteFingerprintToFileTags, ui_->write_fingerprint_to_file_tags->isChecked());
   s.setValue(kMarkSongsUnavailable, ui_->song_tracking->isChecked() ? true : ui_->mark_songs_unavailable->isChecked());
   s.setValue(kSongENUR128LoudnessAnalysis, ui_->song_ebur128_loudness_analysis->isChecked());
   s.setValue(kExpireUnavailableSongs, ui_->expire_unavailable_songs_days->value());
@@ -283,6 +287,10 @@ void CollectionSettingsPage::CurrentRowChanged(const QModelIndex &idx) {
 
 void CollectionSettingsPage::SongTrackingToggled() {
 
+  ui_->write_fingerprint_to_file_tags->setEnabled(ui_->song_tracking->isChecked());
+  if (!ui_->song_tracking->isChecked()) {
+    ui_->write_fingerprint_to_file_tags->setChecked(false);
+  }
   ui_->mark_songs_unavailable->setEnabled(!ui_->song_tracking->isChecked());
   if (ui_->song_tracking->isChecked()) {
     ui_->mark_songs_unavailable->setChecked(true);

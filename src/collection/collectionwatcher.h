@@ -237,6 +237,7 @@ class CollectionWatcher : public QObject {
   bool scan_on_startup_;
   bool monitor_;
   bool song_tracking_;
+  bool write_fingerprint_to_file_tags_ = false;
   bool song_ebur128_loudness_analysis_;
   bool mark_songs_unavailable_;
   int expire_unavailable_songs_days_;

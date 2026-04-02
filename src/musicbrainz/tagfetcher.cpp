@@ -50,6 +50,8 @@ TagFetcher::TagFetcher(SharedPtr<NetworkAccessManager> network, QObject *parent)
 }
 
 QString TagFetcher::GetFingerprint(const Song &song) {
+  if (!song.fingerprint().isEmpty()) return song.fingerprint();
+  if (!song.acoustid_fingerprint().isEmpty()) return song.acoustid_fingerprint();
   return Chromaprinter(song.url().toLocalFile()).CreateFingerprint();
 }
 
@@ -60,15 +62,19 @@ void TagFetcher::StartFetch(const SongList &songs) {
   songs_ = songs;
 
   bool have_fingerprints = true;
-  if (std::any_of(songs.begin(), songs.end(), [](const Song &song) { return song.fingerprint().isEmpty(); })) {
+  if (std::any_of(songs.begin(), songs.end(), [](const Song &song) { return song.fingerprint().isEmpty() && song.acoustid_fingerprint().isEmpty(); })) {
     have_fingerprints = false;
   }
 
   if (have_fingerprints) {
     for (int i = 0; i < songs_.count(); ++i) {
-      const Song song = songs_.value(i);
-      Q_EMIT Progress(song, tr("Identifying song"));
-      acoustid_client_->Start(i, song.fingerprint(), static_cast<int>(song.length_nanosec() / kNsecPerMsec));
+      // Prefer internal fingerprint; fall back to file-tag fingerprint
+      const QString fp = songs_[i].fingerprint().isEmpty() ? songs_[i].acoustid_fingerprint() : songs_[i].fingerprint();
+      if (songs_[i].acoustid_fingerprint().isEmpty()) {
+        songs_[i].set_acoustid_fingerprint(fp);
+      }
+      Q_EMIT Progress(songs_[i], tr("Identifying song"));
+      acoustid_client_->Start(i, fp, static_cast<int>(songs_[i].length_nanosec() / kNsecPerMsec));
     }
   }
   else {
@@ -104,15 +110,18 @@ void TagFetcher::FingerprintFound(const int index) {
   if (!watcher || index >= songs_.count()) return;
 
   const QString fingerprint = watcher->resultAt(index);
-  const Song song = songs_.value(index);
 
   if (fingerprint.isEmpty()) {
-    Q_EMIT ResultAvailable(song, SongList());
+    Q_EMIT ResultAvailable(songs_.value(index), SongList());
     return;
   }
 
-  Q_EMIT Progress(song, tr("Identifying song"));
-  acoustid_client_->Start(index, fingerprint, static_cast<int>(song.length_nanosec() / kNsecPerMsec));
+  // Store the computed fingerprint so it is available when ResultAvailable is emitted.
+  // This allows the "Complete tags automatically" write path to include it in the file write.
+  songs_[index].set_acoustid_fingerprint(fingerprint);
+
+  Q_EMIT Progress(songs_[index], tr("Identifying song"));
+  acoustid_client_->Start(index, fingerprint, static_cast<int>(songs_[index].length_nanosec() / kNsecPerMsec));
 
 }
 

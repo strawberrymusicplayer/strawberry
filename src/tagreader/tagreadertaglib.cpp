@@ -1199,6 +1199,9 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
         tag->setItem(kMP4_Lyrics, TagLib::StringList(QStringToTagLibString(song.lyrics())));
         tag->setItem(kMP4_AlbumArtist, TagLib::StringList(QStringToTagLibString(song.albumartist())));
         tag->setItem(kMP4_Compilation, TagLib::MP4::Item(song.compilation()));
+        if (!song.acoustid_fingerprint().isEmpty()) {
+          tag->setItem(kMP4_AcoustId_Fingerprint, TagLib::StringList(QStringToTagLibString(song.acoustid_fingerprint())));
+        }
       }
       if (save_playcount) {
         SetPlaycount(tag, song.playcount());
@@ -1330,6 +1333,9 @@ void TagReaderTagLib::SetID3v2Tag(TagLib::ID3v2::Tag *tag, const Song &song) con
   SetTextFrame(kID3v2_TitleSort, song.titlesort().isEmpty() ? QString() : song.titlesort(), tag);
   SetTextFrame(kID3v2_Compilation, song.compilation() ? QString::number(1) : QString(), tag);
   SetUnsyncLyricsFrame(song.lyrics().isEmpty() ? QString() : song.lyrics(), tag);
+  if (!song.acoustid_fingerprint().isEmpty()) {
+    SetUserTextFrame(QLatin1String(kID3v2_AcoustId_Fingerprint), song.acoustid_fingerprint(), tag);
+  }
 
 }
 
@@ -1433,6 +1439,9 @@ void TagReaderTagLib::SetVorbisComments(TagLib::Ogg::XiphComment *vorbis_comment
 
   vorbis_comment->addField(kVorbisComment_Lyrics, QStringToTagLibString(song.lyrics()), true);
   vorbis_comment->removeFields(kVorbisComment_UnsyncedLyrics);
+  if (!song.acoustid_fingerprint().isEmpty()) {
+    vorbis_comment->addField(kVorbisComment_AcoustId_Fingerprint, QStringToTagLibString(song.acoustid_fingerprint()), true);
+  }
 
 }
 
@@ -1445,6 +1454,9 @@ void TagReaderTagLib::SetAPETag(TagLib::APE::Tag *tag, const Song &song) const {
   tag->setItem(kAPE_Performer, TagLib::APE::Item(kAPE_Performer, TagLib::StringList(QStringToTagLibString(song.performer()))));
   tag->setItem(kAPE_Lyrics, TagLib::APE::Item(kAPE_Lyrics, QStringToTagLibString(song.lyrics())));
   tag->addValue(kAPE_Compilation, QStringToTagLibString(song.compilation() ? QString::number(1) : QString()), true);
+  if (!song.acoustid_fingerprint().isEmpty()) {
+    tag->setItem(kAPE_AcoustId_Fingerprint, TagLib::APE::Item(kAPE_AcoustId_Fingerprint, TagLib::StringList(QStringToTagLibString(song.acoustid_fingerprint()))));
+  }
 
 }
 
@@ -1456,6 +1468,9 @@ void TagReaderTagLib::SetASFTag(TagLib::ASF::Tag *tag, const Song &song) const {
   SetAsfAttribute(tag, kASF_Disc, song.disc());
   SetAsfAttribute(tag, kASF_OriginalDate, song.originalyear());
   SetAsfAttribute(tag, kASF_OriginalYear, song.originalyear());
+  if (!song.acoustid_fingerprint().isEmpty()) {
+    SetAsfAttribute(tag, kASF_AcoustId_Fingerprint, song.acoustid_fingerprint());
+  }
 
 }
 

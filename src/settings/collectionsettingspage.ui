@@ -103,6 +103,16 @@
        </widget>
       </item>
       <item>
+       <widget class="QCheckBox" name="write_fingerprint_to_file_tags">
+        <property name="text">
+         <string>Write fingerprint to file tags (ACOUSTID_FINGERPRINT)</string>
+        </property>
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QCheckBox" name="mark_songs_unavailable">
         <property name="text">
          <string>Mark disappeared songs unavailable</string>
@@ -531,6 +541,7 @@ If there are no matches then it will use the largest image in the directory.</st
   <tabstop>startup_scan</tabstop>
   <tabstop>monitor</tabstop>
   <tabstop>song_tracking</tabstop>
+  <tabstop>write_fingerprint_to_file_tags</tabstop>
   <tabstop>mark_songs_unavailable</tabstop>
   <tabstop>song_ebur128_loudness_analysis</tabstop>
   <tabstop>expire_unavailable_songs_days</tabstop>
