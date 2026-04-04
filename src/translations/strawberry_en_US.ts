@@ -1453,15 +1453,7 @@ If there are no matches then it will use the largest image in the directory.</so
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>%originalyear%</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Add song original year tag</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%artistsort%</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1469,15 +1461,7 @@ If there are no matches then it will use the largest image in the directory.</so
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>%albumartistsort%</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Add song albumartistsort tag</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%titlesort%</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1485,23 +1469,11 @@ If there are no matches then it will use the largest image in the directory.</so
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>%composersort%</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Add song composersort tag</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>%performersort%</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Add song performersort tag</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%albumsort%</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

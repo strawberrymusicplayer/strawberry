@@ -23,10 +23,10 @@
       <item>
        <widget class="QFrame" name="frame_custom_context1">
         <property name="frameShape">
-         <enum>QFrame::Shape::NoFrame</enum>
+         <enum>QFrame::NoFrame</enum>
         </property>
         <property name="frameShadow">
-         <enum>QFrame::Shadow::Plain</enum>
+         <enum>QFrame::Plain</enum>
         </property>
         <property name="lineWidth">
          <number>0</number>
@@ -50,10 +50,10 @@
       <item>
        <widget class="QFrame" name="frame1">
         <property name="frameShape">
-         <enum>QFrame::Shape::NoFrame</enum>
+         <enum>QFrame::NoFrame</enum>
         </property>
         <property name="frameShadow">
-         <enum>QFrame::Shadow::Plain</enum>
+         <enum>QFrame::Plain</enum>
         </property>
         <property name="lineWidth">
          <number>0</number>
@@ -67,6 +67,9 @@
          </property>
          <item row="0" column="1">
           <widget class="QLineEdit" name="context_custom_text1">
+           <property name="accessibleName">
+            <string notr="true"/>
+           </property>
            <property name="text">
             <string notr="true">%title - %artist%</string>
            </property>
@@ -98,6 +101,9 @@
          </item>
          <item row="1" column="1">
           <widget class="QLineEdit" name="context_custom_text2">
+           <property name="accessibleName">
+            <string notr="true"/>
+           </property>
            <property name="text">
             <string notr="true">%album%</string>
            </property>
@@ -128,10 +134,10 @@
       <item>
        <widget class="QFrame" name="frame_custom_context2">
         <property name="frameShape">
-         <enum>QFrame::Shape::NoFrame</enum>
+         <enum>QFrame::NoFrame</enum>
         </property>
         <property name="frameShadow">
-         <enum>QFrame::Shadow::Plain</enum>
+         <enum>QFrame::Plain</enum>
         </property>
         <property name="lineWidth">
          <number>0</number>
@@ -254,7 +260,7 @@
       <item row="2" column="1">
        <widget class="QTextEdit" name="preview_headline">
         <property name="textInteractionFlags">
-         <set>Qt::TextInteractionFlag::TextSelectableByKeyboard|Qt::TextInteractionFlag::TextSelectableByMouse</set>
+         <set>Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
         </property>
        </widget>
       </item>
@@ -313,7 +319,7 @@
       <item row="2" column="1">
        <widget class="QTextEdit" name="preview_normal">
         <property name="textInteractionFlags">
-         <set>Qt::TextInteractionFlag::TextSelectableByKeyboard|Qt::TextInteractionFlag::TextSelectableByMouse</set>
+         <set>Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
         </property>
        </widget>
       </item>
@@ -323,7 +329,7 @@
    <item>
     <spacer name="spacer_bottom">
      <property name="orientation">
-      <enum>Qt::Orientation::Vertical</enum>
+      <enum>Qt::Vertical</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
@@ -338,12 +344,18 @@
    <property name="text">
     <string notr="true">%artist%</string>
    </property>
+   <property name="iconText">
+    <string notr="true">%artist%</string>
+   </property>
    <property name="toolTip">
     <string>Add song artist tag</string>
    </property>
   </action>
   <action name="action_album">
    <property name="text">
+    <string notr="true">%album%</string>
+   </property>
+   <property name="iconText">
     <string notr="true">%album%</string>
    </property>
    <property name="toolTip">
@@ -354,12 +366,18 @@
    <property name="text">
     <string notr="true">%title%</string>
    </property>
+   <property name="iconText">
+    <string notr="true">%title%</string>
+   </property>
    <property name="toolTip">
     <string>Add song title tag</string>
    </property>
   </action>
   <action name="action_albumartist">
    <property name="text">
+    <string notr="true">%albumartist%</string>
+   </property>
+   <property name="iconText">
     <string notr="true">%albumartist%</string>
    </property>
    <property name="toolTip">
@@ -370,12 +388,18 @@
    <property name="text">
     <string notr="true">%year%</string>
    </property>
+   <property name="iconText">
+    <string notr="true">%year%</string>
+   </property>
    <property name="toolTip">
     <string>Add song year tag</string>
    </property>
   </action>
   <action name="action_composer">
    <property name="text">
+    <string notr="true">%composer%</string>
+   </property>
+   <property name="iconText">
     <string notr="true">%composer%</string>
    </property>
    <property name="toolTip">
@@ -386,12 +410,18 @@
    <property name="text">
     <string notr="true">%performer%</string>
    </property>
+   <property name="iconText">
+    <string notr="true">%performer%</string>
+   </property>
    <property name="toolTip">
     <string>Add song performer tag</string>
    </property>
   </action>
   <action name="action_grouping">
    <property name="text">
+    <string notr="true">%grouping%</string>
+   </property>
+   <property name="iconText">
     <string notr="true">%grouping%</string>
    </property>
    <property name="toolTip">
@@ -402,12 +432,18 @@
    <property name="text">
     <string notr="true">%disc%</string>
    </property>
+   <property name="iconText">
+    <string notr="true">%disc%</string>
+   </property>
    <property name="toolTip">
     <string>Add song disc tag</string>
    </property>
   </action>
   <action name="action_track">
    <property name="text">
+    <string notr="true">%track%</string>
+   </property>
+   <property name="iconText">
     <string notr="true">%track%</string>
    </property>
    <property name="toolTip">
@@ -418,12 +454,18 @@
    <property name="text">
     <string notr="true">%genre%</string>
    </property>
+   <property name="iconText">
+    <string notr="true">%genre%</string>
+   </property>
    <property name="toolTip">
     <string>Add song genre tag</string>
    </property>
   </action>
   <action name="action_length">
    <property name="text">
+    <string notr="true">%length%</string>
+   </property>
+   <property name="iconText">
     <string notr="true">%length%</string>
    </property>
    <property name="toolTip">
@@ -434,12 +476,18 @@
    <property name="text">
     <string notr="true">%playcount%</string>
    </property>
+   <property name="iconText">
+    <string notr="true">%playcount%</string>
+   </property>
    <property name="toolTip">
     <string>Add song play count</string>
    </property>
   </action>
   <action name="action_skipcount">
    <property name="text">
+    <string notr="true">%skipcount%</string>
+   </property>
+   <property name="iconText">
     <string notr="true">%skipcount%</string>
    </property>
    <property name="toolTip">
@@ -450,6 +498,9 @@
    <property name="text">
     <string notr="true">%newline%</string>
    </property>
+   <property name="iconText">
+    <string notr="true">%newline%</string>
+   </property>
    <property name="toolTip">
     <string>Add a new line if supported by the notification type</string>
    </property>
@@ -457,6 +508,9 @@
   <action name="action_filename">
    <property name="text">
     <string>%filename%</string>
+   </property>
+   <property name="iconText">
+    <string notr="true">%filename%</string>
    </property>
    <property name="toolTip">
     <string>Add song filename</string>
@@ -466,6 +520,9 @@
    <property name="text">
     <string>%url%</string>
    </property>
+   <property name="iconText">
+    <string notr="true">%url%</string>
+   </property>
    <property name="toolTip">
     <string>Add song URL</string>
    </property>
@@ -474,13 +531,19 @@
    <property name="text">
     <string>%rating%</string>
    </property>
+   <property name="iconText">
+    <string notr="true">%rating%</string>
+   </property>
    <property name="toolTip">
     <string>Add song rating</string>
    </property>
   </action>
   <action name="action_originalyear">
    <property name="text">
-    <string>%originalyear%</string>
+    <string notr="true">%originalyear%</string>
+   </property>
+   <property name="iconText">
+    <string notr="true">%originalyear%</string>
    </property>
    <property name="toolTip">
     <string>Add song original year tag</string>
@@ -488,7 +551,10 @@
   </action>
   <action name="action_artistsort">
    <property name="text">
-    <string>%artistsort%</string>
+    <string notr="true">%artistsort%</string>
+   </property>
+   <property name="iconText">
+    <string notr="true">%artistsort%</string>
    </property>
    <property name="toolTip">
     <string>Add song artistsort tag</string>
@@ -496,7 +562,10 @@
   </action>
   <action name="action_albumartistsort">
    <property name="text">
-    <string>%albumartistsort%</string>
+    <string notr="true">%albumartistsort%</string>
+   </property>
+   <property name="iconText">
+    <string notr="true">%albumartistsort%</string>
    </property>
    <property name="toolTip">
     <string>Add song albumartistsort tag</string>
@@ -504,7 +573,10 @@
   </action>
   <action name="action_titlesort">
    <property name="text">
-    <string>%titlesort%</string>
+    <string notr="true">%titlesort%</string>
+   </property>
+   <property name="iconText">
+    <string notr="true">%titlesort%</string>
    </property>
    <property name="toolTip">
     <string>Add song titlesort tag</string>
@@ -512,7 +584,10 @@
   </action>
   <action name="action_composersort">
    <property name="text">
-    <string>%composersort%</string>
+    <string notr="true">%composersort%</string>
+   </property>
+   <property name="iconText">
+    <string notr="true">%composersort%</string>
    </property>
    <property name="toolTip">
     <string>Add song composersort tag</string>
@@ -520,7 +595,10 @@
   </action>
   <action name="action_performersort">
    <property name="text">
-    <string>%performersort%</string>
+    <string notr="true">%performersort%</string>
+   </property>
+   <property name="iconText">
+    <string notr="true">%performersort%</string>
    </property>
    <property name="toolTip">
     <string>Add song performersort tag</string>
@@ -528,7 +606,10 @@
   </action>
   <action name="action_albumsort">
    <property name="text">
-    <string>%albumsort%</string>
+    <string notr="true">%albumsort%</string>
+   </property>
+   <property name="iconText">
+    <string notr="true">%albumsort%</string>
    </property>
    <property name="toolTip">
     <string>Add song albumsort tag</string>
