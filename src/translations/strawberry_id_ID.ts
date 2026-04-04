@@ -365,10 +365,6 @@
       <translation>Gunakan ikon tema sistem</translation>
     </message>
     <message>
-      <source>Settings require restart.</source>
-      <translation type="unfinished">Settings require restart.</translation>
-    </message>
-    <message>
       <source>Tabbar colors</source>
       <translation>Warna tabbar</translation>
     </message>
@@ -519,6 +515,10 @@
     <message>
       <source>Select background image</source>
       <translation>Pilih gambar latar belakang</translation>
+    </message>
+    <message>
+      <source>You need to restart Strawberry for this setting to take affect.</source>
+      <translation type="unfinished">You need to restart Strawberry for this setting to take affect.</translation>
     </message>
   </context>
   <context>
@@ -695,6 +695,10 @@
       <source>Fade out on pause / fade in on resume</source>
       <translation>Lesap senyap saat jeda / lesap jelma saat melanjutkan</translation>
     </message>
+    <message>
+      <source>You need to restart Strawberry for this setting to take affect</source>
+      <translation type="unfinished">You need to restart Strawberry for this setting to take affect</translation>
+    </message>
   </context>
   <context>
     <name>BehaviourSettingsPage</name>
@@ -836,7 +840,11 @@
     </message>
   </context>
   <context>
-    <name>CddaSongLoader</name>
+    <name>CDDASongLoader</name>
+    <message>
+      <source>Could not create cdiocddasrc</source>
+      <translation type="unfinished">Could not create cdiocddasrc</translation>
+    </message>
     <message>
       <source>Error while setting CDDA device to ready state.</source>
       <translation type="unfinished">Error while setting CDDA device to ready state.</translation>
@@ -994,6 +1002,10 @@
   </context>
   <context>
     <name>CollectionLibrary</name>
+    <message>
+      <source>Support for sort tags artist, album, album artist, title, composer, and performer</source>
+      <translation type="unfinished">Support for sort tags artist, album, album artist, title, composer, and performer</translation>
+    </message>
     <message>
       <source>Saving playcounts and ratings</source>
       <translation type="unfinished">Saving playcounts and ratings</translation>
@@ -1442,12 +1454,32 @@ Jika tidak ada yang cocok maka akan menggunakan gambar terbesar dalam direktori.
       <translation>Tambahkan peringkat</translation>
     </message>
     <message>
-      <source>%originalyear%</source>
-      <translation type="unfinished">%originalyear%</translation>
-    </message>
-    <message>
       <source>Add song original year tag</source>
       <translation type="unfinished">Add song original year tag</translation>
+    </message>
+    <message>
+      <source>Add song artistsort tag</source>
+      <translation type="unfinished">Add song artistsort tag</translation>
+    </message>
+    <message>
+      <source>Add song albumartistsort tag</source>
+      <translation type="unfinished">Add song albumartistsort tag</translation>
+    </message>
+    <message>
+      <source>Add song titlesort tag</source>
+      <translation type="unfinished">Add song titlesort tag</translation>
+    </message>
+    <message>
+      <source>Add song composersort tag</source>
+      <translation type="unfinished">Add song composersort tag</translation>
+    </message>
+    <message>
+      <source>Add song performersort tag</source>
+      <translation type="unfinished">Add song performersort tag</translation>
+    </message>
+    <message>
+      <source>Add song albumsort tag</source>
+      <translation type="unfinished">Add song albumsort tag</translation>
     </message>
   </context>
   <context>
@@ -1471,14 +1503,6 @@ Jika tidak ada yang cocok maka akan menggunakan gambar terbesar dalam direktori.
     <message>
       <source>Bitrate</source>
       <translation>Lajubit</translation>
-    </message>
-    <message>
-      <source>EBU R 128 Integrated Loudness</source>
-      <translation type="unfinished">EBU R 128 Integrated Loudness</translation>
-    </message>
-    <message>
-      <source>EBU R 128 Loudness Range</source>
-      <translation type="unfinished">EBU R 128 Loudness Range</translation>
     </message>
     <message>
       <source>Show album cover</source>
@@ -1989,6 +2013,13 @@ Jika tidak ada yang cocok maka akan menggunakan gambar terbesar dalam direktori.
     </message>
   </context>
   <context>
+    <name>DiscordRichPresence</name>
+    <message>
+      <source>on </source>
+      <translation type="unfinished">on </translation>
+    </message>
+  </context>
+  <context>
     <name>DynamicPlaylistControls</name>
     <message>
       <source>Dynamic mode is on</source>
@@ -2298,6 +2329,42 @@ Jika tidak ada yang cocok maka akan menggunakan gambar terbesar dalam direktori.
       <source>Could not write metadata to %1: %2</source>
       <translation type="unfinished">Could not write metadata to %1: %2</translation>
     </message>
+    <message>
+      <source>ID3v2 version:</source>
+      <translation type="unfinished">ID3v2 version:</translation>
+    </message>
+    <message>
+      <source>2.3</source>
+      <translation type="unfinished">2.3</translation>
+    </message>
+    <message>
+      <source>2.4</source>
+      <translation type="unfinished">2.4</translation>
+    </message>
+    <message>
+      <source>Performer sort</source>
+      <translation type="unfinished">Performer sort</translation>
+    </message>
+    <message>
+      <source>Title sort</source>
+      <translation type="unfinished">Title sort</translation>
+    </message>
+    <message>
+      <source>Album artist sort</source>
+      <translation type="unfinished">Album artist sort</translation>
+    </message>
+    <message>
+      <source>Artist sort</source>
+      <translation type="unfinished">Artist sort</translation>
+    </message>
+    <message>
+      <source>Album sort</source>
+      <translation type="unfinished">Album sort</translation>
+    </message>
+    <message>
+      <source>Composer sort</source>
+      <translation type="unfinished">Composer sort</translation>
+    </message>
   </context>
   <context>
     <name>Equalizer</name>
@@ -2425,6 +2492,10 @@ Jika tidak ada yang cocok maka akan menggunakan gambar terbesar dalam direktori.
       <source>Are you sure you want to delete the &quot;%1&quot; preset?</source>
       <translation>Apakah Anda yakin ingin menghapus prasetel &quot;%1&quot;?</translation>
     </message>
+    <message>
+      <source>You need to restart playback for this setting to take affect.</source>
+      <translation type="unfinished">You need to restart playback for this setting to take affect.</translation>
+    </message>
   </context>
   <context>
     <name>EqualizerSlider</name>
@@ -2484,6 +2555,22 @@ Jika tidak ada yang cocok maka akan menggunakan gambar terbesar dalam direktori.
       <source>Form</source>
       <translation type="unfinished">Form</translation>
     </message>
+    <message>
+      <source>Add root directory</source>
+      <translation type="unfinished">Add root directory</translation>
+    </message>
+    <message>
+      <source>Remove selected root directory</source>
+      <translation type="unfinished">Remove selected root directory</translation>
+    </message>
+    <message>
+      <source>Toggle between list and tree view</source>
+      <translation type="unfinished">Toggle between list and tree view</translation>
+    </message>
+    <message>
+      <source>Select folder to add as tree root</source>
+      <translation type="unfinished">Select folder to add as tree root</translation>
+    </message>
   </context>
   <context>
     <name>FileViewList</name>
@@ -2522,6 +2609,49 @@ Jika tidak ada yang cocok maka akan menggunakan gambar terbesar dalam direktori.
     <message>
       <source>Show in file browser...</source>
       <translation>Tampilkan di peramban berkas...</translation>
+    </message>
+  </context>
+  <context>
+    <name>FileViewTree</name>
+    <message>
+      <source>Append to current playlist</source>
+      <translation type="unfinished">Append to current playlist</translation>
+    </message>
+    <message>
+      <source>Replace current playlist</source>
+      <translation type="unfinished">Replace current playlist</translation>
+    </message>
+    <message>
+      <source>Open in new playlist</source>
+      <translation type="unfinished">Open in new playlist</translation>
+    </message>
+    <message>
+      <source>Copy to collection...</source>
+      <translation type="unfinished">Copy to collection...</translation>
+    </message>
+    <message>
+      <source>Move to collection...</source>
+      <translation type="unfinished">Move to collection...</translation>
+    </message>
+    <message>
+      <source>Copy to device...</source>
+      <translation type="unfinished">Copy to device...</translation>
+    </message>
+    <message>
+      <source>Delete from disk...</source>
+      <translation type="unfinished">Delete from disk...</translation>
+    </message>
+    <message>
+      <source>Edit track information...</source>
+      <translation type="unfinished">Edit track information...</translation>
+    </message>
+    <message>
+      <source>Show in file browser...</source>
+      <translation type="unfinished">Show in file browser...</translation>
+    </message>
+    <message>
+      <source>Files</source>
+      <translation type="unfinished">Files</translation>
     </message>
   </context>
   <context>
@@ -2567,29 +2697,6 @@ Jika tidak ada yang cocok maka akan menggunakan gambar terbesar dalam direktori.
     <message>
       <source>An error occurred loading the iTunes database</source>
       <translation>Sebuah galat terjadi saat memuat basis data iTunes</translation>
-    </message>
-  </context>
-  <context>
-    <name>GeniusLyricsProvider</name>
-    <message>
-      <source>Genius Authentication</source>
-      <translation type="unfinished">Genius Authentication</translation>
-    </message>
-    <message>
-      <source>Please open this URL in your browser</source>
-      <translation type="unfinished">Please open this URL in your browser</translation>
-    </message>
-    <message>
-      <source>Redirect missing token code!</source>
-      <translation>Alihkan kode token yang tidak tersedia!</translation>
-    </message>
-    <message>
-      <source>Received invalid reply from web browser.</source>
-      <translation>Balasan yang tidak benar diterima dari peramban web.</translation>
-    </message>
-    <message>
-      <source>Redirect from Genius is missing query items code or state.</source>
-      <translation type="unfinished">Redirect from Genius is missing query items code or state.</translation>
     </message>
   </context>
   <context>
@@ -2946,6 +3053,41 @@ Jika tidak ada yang cocok maka akan menggunakan gambar terbesar dalam direktori.
     </message>
   </context>
   <context>
+    <name>LastFMScrobbler</name>
+    <message>
+      <source>%1 Scrobbler Authentication</source>
+      <translation type="unfinished">%1 Scrobbler Authentication</translation>
+    </message>
+    <message>
+      <source>Open URL in web browser?</source>
+      <translation type="unfinished">Open URL in web browser?</translation>
+    </message>
+    <message>
+      <source>Press &quot;Save&quot; to copy the URL to clipboard and manually open it in a web browser.</source>
+      <translation type="unfinished">Press &quot;Save&quot; to copy the URL to clipboard and manually open it in a web browser.</translation>
+    </message>
+    <message>
+      <source>Could not open URL. Please open this URL in your browser</source>
+      <translation type="unfinished">Could not open URL. Please open this URL in your browser</translation>
+    </message>
+    <message>
+      <source>Invalid reply from web browser. Missing token.</source>
+      <translation type="unfinished">Invalid reply from web browser. Missing token.</translation>
+    </message>
+    <message>
+      <source>Received invalid reply from web browser. Try another browser.</source>
+      <translation type="unfinished">Received invalid reply from web browser. Try another browser.</translation>
+    </message>
+    <message>
+      <source>Scrobbler %1 is not authenticated!</source>
+      <translation type="unfinished">Scrobbler %1 is not authenticated!</translation>
+    </message>
+    <message>
+      <source>Scrobbler %1 error: %2</source>
+      <translation type="unfinished">Scrobbler %1 error: %2</translation>
+    </message>
+  </context>
+  <context>
     <name>LastPlayedItemDelegate</name>
     <message>
       <source>Never</source>
@@ -2961,22 +3103,6 @@ Jika tidak ada yang cocok maka akan menggunakan gambar terbesar dalam direktori.
   </context>
   <context>
     <name>ListenBrainzScrobbler</name>
-    <message>
-      <source>ListenBrainz Authentication</source>
-      <translation>Otentikasi ListenBrainz</translation>
-    </message>
-    <message>
-      <source>Please open this URL in your browser</source>
-      <translation type="unfinished">Please open this URL in your browser</translation>
-    </message>
-    <message>
-      <source>Redirect missing token code!</source>
-      <translation>Alihkan kode token yang tidak tersedia!</translation>
-    </message>
-    <message>
-      <source>Received invalid reply from web browser.</source>
-      <translation>Balasan yang tidak benar diterima dari peramban web.</translation>
-    </message>
     <message>
       <source>Unable to scrobble %1 - %2 because of error: %3</source>
       <translation type="unfinished">Unable to scrobble %1 - %2 because of error: %3</translation>
@@ -3433,6 +3559,10 @@ Jika tidak ada yang cocok maka akan menggunakan gambar terbesar dalam direktori.
     <message>
       <source>Rescan song(s)...</source>
       <translation type="unfinished">Rescan song(s)...</translation>
+    </message>
+    <message>
+      <source>Fetch metadata from service</source>
+      <translation type="unfinished">Fetch metadata from service</translation>
     </message>
     <message>
       <source>Copy URL(s)...</source>
@@ -3939,6 +4069,61 @@ Jika tidak ada yang cocok maka akan menggunakan gambar terbesar dalam direktori.
       <source>Drag to reposition</source>
       <translation>Seret untuk reposisi</translation>
     </message>
+    <message>
+      <source>Discord</source>
+      <translation type="unfinished">Discord</translation>
+    </message>
+    <message>
+      <source>Enable Rich Presence</source>
+      <translation type="unfinished">Enable Rich Presence</translation>
+    </message>
+    <message>
+      <source>&quot;Listening to...&quot;</source>
+      <translation type="unfinished">&quot;Listening to...&quot;</translation>
+    </message>
+    <message>
+      <source>Strawberry</source>
+      <translation type="unfinished">Strawberry</translation>
+    </message>
+    <message>
+      <source>Artist name</source>
+      <translation type="unfinished">Artist name</translation>
+    </message>
+    <message>
+      <source>Song title</source>
+      <translation type="unfinished">Song title</translation>
+    </message>
+  </context>
+  <context>
+    <name>OAuthenticator</name>
+    <message>
+      <source>Authentication</source>
+      <translation type="unfinished">Authentication</translation>
+    </message>
+    <message>
+      <source>Please open this URL in your browser</source>
+      <translation type="unfinished">Please open this URL in your browser</translation>
+    </message>
+    <message>
+      <source>Received invalid reply from web browser.</source>
+      <translation type="unfinished">Received invalid reply from web browser.</translation>
+    </message>
+    <message>
+      <source>Redirect URL is missing query.</source>
+      <translation type="unfinished">Redirect URL is missing query.</translation>
+    </message>
+    <message>
+      <source>Request URL is missing code!</source>
+      <translation type="unfinished">Request URL is missing code!</translation>
+    </message>
+    <message>
+      <source>Request URL is missing state!</source>
+      <translation type="unfinished">Request URL is missing state!</translation>
+    </message>
+    <message>
+      <source>Request URL has wrong state %1 != %2</source>
+      <translation type="unfinished">Request URL has wrong state %1 != %2</translation>
+    </message>
   </context>
   <context>
     <name>OSDBase</name>
@@ -4211,6 +4396,14 @@ Jika tidak ada yang cocok maka akan menggunakan gambar terbesar dalam direktori.
       <source>Don&apos;t know how to handle %1</source>
       <translation type="unfinished">Don&apos;t know how to handle %1</translation>
     </message>
+    <message>
+      <source>File %1 does not exist</source>
+      <translation type="unfinished">File %1 does not exist</translation>
+    </message>
+    <message>
+      <source>Could not read file %1: %2</source>
+      <translation type="unfinished">Could not read file %1: %2</translation>
+    </message>
   </context>
   <context>
     <name>PlayingWidget</name>
@@ -4246,12 +4439,24 @@ Jika tidak ada yang cocok maka akan menggunakan gambar terbesar dalam direktori.
       <translation>Judul</translation>
     </message>
     <message>
+      <source>Title Sort</source>
+      <translation type="unfinished">Title Sort</translation>
+    </message>
+    <message>
       <source>Artist</source>
       <translation>Artis</translation>
     </message>
     <message>
+      <source>Artist Sort</source>
+      <translation type="unfinished">Artist Sort</translation>
+    </message>
+    <message>
       <source>Album</source>
       <translation type="unfinished">Album</translation>
+    </message>
+    <message>
+      <source>Album Sort</source>
+      <translation type="unfinished">Album Sort</translation>
     </message>
     <message>
       <source>Track</source>
@@ -4282,12 +4487,24 @@ Jika tidak ada yang cocok maka akan menggunakan gambar terbesar dalam direktori.
       <translation type="unfinished">Album Artist</translation>
     </message>
     <message>
+      <source>Album Artist Sort</source>
+      <translation type="unfinished">Album Artist Sort</translation>
+    </message>
+    <message>
       <source>Composer</source>
       <translation>Komposer</translation>
     </message>
     <message>
+      <source>Composer Sort</source>
+      <translation type="unfinished">Composer Sort</translation>
+    </message>
+    <message>
       <source>Performer</source>
       <translation>Penampil</translation>
+    </message>
+    <message>
+      <source>Performer Sort</source>
+      <translation type="unfinished">Performer Sort</translation>
     </message>
     <message>
       <source>Grouping</source>
@@ -4318,8 +4535,8 @@ Jika tidak ada yang cocok maka akan menggunakan gambar terbesar dalam direktori.
       <translation>Lajubit</translation>
     </message>
     <message>
-      <source>File Name</source>
-      <translation type="unfinished">File Name</translation>
+      <source>Initial key</source>
+      <translation type="unfinished">Initial key</translation>
     </message>
     <message>
       <source>File Name (without path)</source>
@@ -4350,12 +4567,24 @@ Jika tidak ada yang cocok maka akan menggunakan gambar terbesar dalam direktori.
       <translation>Sumber</translation>
     </message>
     <message>
+      <source>Moodbar</source>
+      <translation type="unfinished">Moodbar</translation>
+    </message>
+    <message>
+      <source>BPM</source>
+      <translation type="unfinished">BPM</translation>
+    </message>
+    <message>
       <source>Mood</source>
       <translation type="unfinished">Mood</translation>
     </message>
     <message>
       <source>Rating</source>
       <translation type="unfinished">Rating</translation>
+    </message>
+    <message>
+      <source>URL</source>
+      <translation type="unfinished">URL</translation>
     </message>
     <message>
       <source>CUE</source>
@@ -4480,6 +4709,10 @@ Jika tidak ada yang cocok maka akan menggunakan gambar terbesar dalam direktori.
     <message>
       <source>Playlist</source>
       <translation>Daftar putar</translation>
+    </message>
+    <message>
+      <source>Copy songs to playlist</source>
+      <translation type="unfinished">Copy songs to playlist</translation>
     </message>
     <message>
       <source>Copy to device</source>
@@ -4982,10 +5215,6 @@ Apakah Anda yakin ingin melanjutkan?</translation>
       <translation type="unfinished">LU</translation>
     </message>
     <message>
-      <source>File %1 is not recognized as a valid audio file.</source>
-      <translation>Berkas %1 bukanlah berkas audio yang benar.</translation>
-    </message>
-    <message>
       <source>1 day</source>
       <translation>1 hari</translation>
     </message>
@@ -5062,8 +5291,8 @@ Apakah Anda yakin ingin melanjutkan?</translation>
       <translation type="unfinished">Could not parse file</translation>
     </message>
     <message>
-      <source>Could save file</source>
-      <translation type="unfinished">Could save file</translation>
+      <source>Could not save file</source>
+      <translation type="unfinished">Could not save file</translation>
     </message>
     <message>
       <source>Unknown error</source>
@@ -5300,6 +5529,17 @@ Apakah Anda yakin ingin melanjutkan?</translation>
     </message>
   </context>
   <context>
+    <name>QobuzMetadataRequest</name>
+    <message>
+      <source>Not authenticated</source>
+      <translation type="unfinished">Not authenticated</translation>
+    </message>
+    <message>
+      <source>No track ID</source>
+      <translation type="unfinished">No track ID</translation>
+    </message>
+  </context>
+  <context>
     <name>QobuzRequest</name>
     <message>
       <source>Receiving artists...</source>
@@ -5474,6 +5714,34 @@ Apakah Anda yakin ingin melanjutkan?</translation>
     <message>
       <source>Authentication failed</source>
       <translation>Otentikasi gagal</translation>
+    </message>
+    <message>
+      <source>Fetching...</source>
+      <translation type="unfinished">Fetching...</translation>
+    </message>
+    <message>
+      <source>Credentials fetched</source>
+      <translation type="unfinished">Credentials fetched</translation>
+    </message>
+    <message>
+      <source>App ID and secret have been successfully fetched from the Qobuz web player.</source>
+      <translation type="unfinished">App ID and secret have been successfully fetched from the Qobuz web player.</translation>
+    </message>
+    <message>
+      <source>Credential fetch failed</source>
+      <translation type="unfinished">Credential fetch failed</translation>
+    </message>
+    <message>
+      <source>Fetch Credentials</source>
+      <translation type="unfinished">Fetch Credentials</translation>
+    </message>
+    <message>
+      <source>Automatically fetch app ID and secret from Qobuz web player</source>
+      <translation type="unfinished">Automatically fetch app ID and secret from Qobuz web player</translation>
+    </message>
+    <message>
+      <source>Remove (Remastered), etc from song titles</source>
+      <translation type="unfinished">Remove (Remastered), etc from song titles</translation>
     </message>
   </context>
   <context>
@@ -5809,10 +6077,6 @@ Apakah Anda yakin ingin melanjutkan?</translation>
       <translation>Masuk</translation>
     </message>
     <message>
-      <source>Libre.fm</source>
-      <translation type="unfinished">Libre.fm</translation>
-    </message>
-    <message>
       <source>Listenbrainz</source>
       <translation type="unfinished">Listenbrainz</translation>
     </message>
@@ -5839,41 +6103,6 @@ Apakah Anda yakin ingin melanjutkan?</translation>
     <message>
       <source>Spotify</source>
       <translation type="unfinished">Spotify</translation>
-    </message>
-  </context>
-  <context>
-    <name>ScrobblingAPI20</name>
-    <message>
-      <source>%1 Scrobbler Authentication</source>
-      <translation>%1 Autentikasi Scrobbler</translation>
-    </message>
-    <message>
-      <source>Open URL in web browser?</source>
-      <translation type="unfinished">Open URL in web browser?</translation>
-    </message>
-    <message>
-      <source>Press &quot;Save&quot; to copy the URL to clipboard and manually open it in a web browser.</source>
-      <translation type="unfinished">Press &quot;Save&quot; to copy the URL to clipboard and manually open it in a web browser.</translation>
-    </message>
-    <message>
-      <source>Could not open URL. Please open this URL in your browser</source>
-      <translation type="unfinished">Could not open URL. Please open this URL in your browser</translation>
-    </message>
-    <message>
-      <source>Invalid reply from web browser. Missing token.</source>
-      <translation>Balasan tidak benar dari peramban web. Token tidak tersedia.</translation>
-    </message>
-    <message>
-      <source>Received invalid reply from web browser. Try another browser.</source>
-      <translation type="unfinished">Received invalid reply from web browser. Try another browser.</translation>
-    </message>
-    <message>
-      <source>Scrobbler %1 is not authenticated!</source>
-      <translation>Scrobbler %1 tidak terautentikasi!</translation>
-    </message>
-    <message>
-      <source>Scrobbler %1 error: %2</source>
-      <translation type="unfinished">Scrobbler %1 error: %2</translation>
     </message>
   </context>
   <context>
@@ -6156,6 +6385,14 @@ Apakah Anda yakin ingin melanjutkan?</translation>
       <source>Edit smart playlist...</source>
       <translation type="unfinished">Edit smart playlist...</translation>
     </message>
+    <message>
+      <source>Are you sure you want to restore the default smart playlists? This will remove all custom smart playlists</source>
+      <translation type="unfinished">Are you sure you want to restore the default smart playlists? This will remove all custom smart playlists</translation>
+    </message>
+    <message>
+      <source>Restore defaults</source>
+      <translation type="unfinished">Restore defaults</translation>
+    </message>
   </context>
   <context>
     <name>SnapDialog</name>
@@ -6262,6 +6499,21 @@ Apakah Anda yakin ingin melanjutkan?</translation>
     </message>
   </context>
   <context>
+    <name>SpotifyMetadataRequest</name>
+    <message>
+      <source>Not authenticated</source>
+      <translation type="unfinished">Not authenticated</translation>
+    </message>
+    <message>
+      <source>No track ID</source>
+      <translation type="unfinished">No track ID</translation>
+    </message>
+    <message>
+      <source>No pending song for track ID</source>
+      <translation type="unfinished">No pending song for track ID</translation>
+    </message>
+  </context>
+  <context>
     <name>SpotifyRequest</name>
     <message>
       <source>Authenticating...</source>
@@ -6318,22 +6570,6 @@ Apakah Anda yakin ingin melanjutkan?</translation>
   </context>
   <context>
     <name>SpotifyService</name>
-    <message>
-      <source>Spotify Authentication</source>
-      <translation type="unfinished">Spotify Authentication</translation>
-    </message>
-    <message>
-      <source>Please open this URL in your browser</source>
-      <translation type="unfinished">Please open this URL in your browser</translation>
-    </message>
-    <message>
-      <source>Redirect missing token code or state!</source>
-      <translation type="unfinished">Redirect missing token code or state!</translation>
-    </message>
-    <message>
-      <source>Received invalid reply from web browser.</source>
-      <translation>Balasan yang tidak benar diterima dari peramban web.</translation>
-    </message>
     <message>
       <source>Not authenticated with Spotify.</source>
       <translation type="unfinished">Not authenticated with Spotify.</translation>
@@ -6396,6 +6632,10 @@ Apakah Anda yakin ingin melanjutkan?</translation>
     <message>
       <source>Authentication failed</source>
       <translation>Otentikasi gagal</translation>
+    </message>
+    <message>
+      <source>Remove (Remastered), etc from song titles</source>
+      <translation type="unfinished">Remove (Remastered), etc from song titles</translation>
     </message>
   </context>
   <context>
@@ -6733,10 +6973,6 @@ Apakah Anda yakin ingin melanjutkan?</translation>
   <context>
     <name>TidalRequest</name>
     <message>
-      <source>Authenticating...</source>
-      <translation>Mengautentikasi...</translation>
-    </message>
-    <message>
       <source>Receiving artists...</source>
       <translation type="unfinished">Receiving artists...</translation>
     </message>
@@ -6784,32 +7020,8 @@ Apakah Anda yakin ingin melanjutkan?</translation>
   <context>
     <name>TidalService</name>
     <message>
-      <source>Reply from Tidal is missing query items.</source>
-      <translation>Balasan dari Tidal tidak memiliki artikel yang diminta.</translation>
-    </message>
-    <message>
-      <source>Missing Tidal API token.</source>
-      <translation>Token API Tidal tidak tersedia.</translation>
-    </message>
-    <message>
-      <source>Missing Tidal username.</source>
-      <translation>Nama pengguna Tidal tidak tersedia.</translation>
-    </message>
-    <message>
-      <source>Missing Tidal password.</source>
-      <translation>Kata sandi Tidal tidak tersedia.</translation>
-    </message>
-    <message>
-      <source>Not authenticated with Tidal and reached maximum number of login attempts.</source>
-      <translation>Tidak terautentikasi dengan Tidal dan jumlah maksimum upaya masuk tercapai.</translation>
-    </message>
-    <message>
       <source>Not authenticated with Tidal.</source>
       <translation>Tidak terautentikasi dengan Tidal.</translation>
-    </message>
-    <message>
-      <source>Missing Tidal API token, username or password.</source>
-      <translation type="unfinished">Missing Tidal API token, username or password.</translation>
     </message>
   </context>
   <context>
@@ -6831,24 +7043,8 @@ Apakah Anda yakin ingin melanjutkan?</translation>
       <translation>Otentikasi</translation>
     </message>
     <message>
-      <source>Use OAuth</source>
-      <translation>Gunakan OAuth</translation>
-    </message>
-    <message>
       <source>Client ID</source>
       <translation type="unfinished">Client ID</translation>
-    </message>
-    <message>
-      <source>API Token</source>
-      <translation>Token API</translation>
-    </message>
-    <message>
-      <source>Username</source>
-      <translation>Nama pengguna</translation>
-    </message>
-    <message>
-      <source>Password</source>
-      <translation>Sandi</translation>
     </message>
     <message>
       <source>Login</source>
@@ -6911,20 +7107,12 @@ Apakah Anda yakin ingin melanjutkan?</translation>
       <translation>Client ID Tidal tidak tersedia.</translation>
     </message>
     <message>
-      <source>Missing API token.</source>
-      <translation type="unfinished">Missing API token.</translation>
-    </message>
-    <message>
-      <source>Missing username.</source>
-      <translation type="unfinished">Missing username.</translation>
-    </message>
-    <message>
-      <source>Missing password.</source>
-      <translation type="unfinished">Missing password.</translation>
-    </message>
-    <message>
       <source>Authentication failed</source>
       <translation>Otentikasi gagal</translation>
+    </message>
+    <message>
+      <source>Remove (Remastered), etc from song titles</source>
+      <translation type="unfinished">Remove (Remastered), etc from song titles</translation>
     </message>
   </context>
   <context>
@@ -6932,10 +7120,6 @@ Apakah Anda yakin ingin melanjutkan?</translation>
     <message>
       <source>Not authenticated with Tidal.</source>
       <translation>Tidak terautentikasi dengan Tidal.</translation>
-    </message>
-    <message>
-      <source>Missing Tidal API token, username or password.</source>
-      <translation type="unfinished">Missing Tidal API token, username or password.</translation>
     </message>
     <message>
       <source>Cancelled.</source>
@@ -7007,6 +7191,10 @@ Apakah Anda yakin ingin melanjutkan?</translation>
     <message>
       <source>Saving tracks</source>
       <translation>Menyimpan trek</translation>
+    </message>
+    <message>
+      <source>Album artist</source>
+      <translation type="unfinished">Album artist</translation>
     </message>
   </context>
   <context>

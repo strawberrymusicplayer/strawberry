@@ -365,10 +365,6 @@
       <translation>Nota þematáknmyndir kerfisins</translation>
     </message>
     <message>
-      <source>Settings require restart.</source>
-      <translation>Breytingar á stillingum krefjast endurræsingar.</translation>
-    </message>
-    <message>
       <source>Tabbar colors</source>
       <translation>Litir flipastiku</translation>
     </message>
@@ -519,6 +515,10 @@
     <message>
       <source>Select background image</source>
       <translation>Veldu bakgrunnsmynd</translation>
+    </message>
+    <message>
+      <source>You need to restart Strawberry for this setting to take affect.</source>
+      <translation type="unfinished">You need to restart Strawberry for this setting to take affect.</translation>
     </message>
   </context>
   <context>
@@ -695,6 +695,10 @@
       <source>Fade out on pause / fade in on resume</source>
       <translation>Deyfa út þegar sett er í bið / Afdeyfa þegar haldið er áfram</translation>
     </message>
+    <message>
+      <source>You need to restart Strawberry for this setting to take affect</source>
+      <translation type="unfinished">You need to restart Strawberry for this setting to take affect</translation>
+    </message>
   </context>
   <context>
     <name>BehaviourSettingsPage</name>
@@ -836,18 +840,22 @@
     </message>
   </context>
   <context>
-    <name>CddaSongLoader</name>
+    <name>CDDASongLoader</name>
+    <message>
+      <source>Could not create cdiocddasrc</source>
+      <translation type="unfinished">Could not create cdiocddasrc</translation>
+    </message>
     <message>
       <source>Error while setting CDDA device to ready state.</source>
-      <translation>Villa við að setja CDDA-tæki í tilbúið-stöðu.</translation>
+      <translation type="unfinished">Error while setting CDDA device to ready state.</translation>
     </message>
     <message>
       <source>Error while setting CDDA device to pause state.</source>
-      <translation>Villa við að setja CDDA-tæki í biðstöðu.</translation>
+      <translation type="unfinished">Error while setting CDDA device to pause state.</translation>
     </message>
     <message>
       <source>Error while querying CDDA tracks.</source>
-      <translation>Villa við að lesa CDDA-spor.</translation>
+      <translation type="unfinished">Error while querying CDDA tracks.</translation>
     </message>
   </context>
   <context>
@@ -994,6 +1002,10 @@
   </context>
   <context>
     <name>CollectionLibrary</name>
+    <message>
+      <source>Support for sort tags artist, album, album artist, title, composer, and performer</source>
+      <translation type="unfinished">Support for sort tags artist, album, album artist, title, composer, and performer</translation>
+    </message>
     <message>
       <source>Saving playcounts and ratings</source>
       <translation>Vista fjölda spilana og einkunnir</translation>
@@ -1442,12 +1454,32 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
       <translation>Bæta við einkunn lags</translation>
     </message>
     <message>
-      <source>%originalyear%</source>
-      <translation>%upprunaár%</translation>
-    </message>
-    <message>
       <source>Add song original year tag</source>
       <translation>Bæta við merki með upprunaári lags</translation>
+    </message>
+    <message>
+      <source>Add song artistsort tag</source>
+      <translation type="unfinished">Add song artistsort tag</translation>
+    </message>
+    <message>
+      <source>Add song albumartistsort tag</source>
+      <translation type="unfinished">Add song albumartistsort tag</translation>
+    </message>
+    <message>
+      <source>Add song titlesort tag</source>
+      <translation type="unfinished">Add song titlesort tag</translation>
+    </message>
+    <message>
+      <source>Add song composersort tag</source>
+      <translation type="unfinished">Add song composersort tag</translation>
+    </message>
+    <message>
+      <source>Add song performersort tag</source>
+      <translation type="unfinished">Add song performersort tag</translation>
+    </message>
+    <message>
+      <source>Add song albumsort tag</source>
+      <translation type="unfinished">Add song albumsort tag</translation>
     </message>
   </context>
   <context>
@@ -1471,14 +1503,6 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
     <message>
       <source>Bitrate</source>
       <translation>Bitahraði</translation>
-    </message>
-    <message>
-      <source>EBU R 128 Integrated Loudness</source>
-      <translation>EBU R 128 innbyggður hljóðstyrkur</translation>
-    </message>
-    <message>
-      <source>EBU R 128 Loudness Range</source>
-      <translation>EBU R 128 hljóðstyrkssvið</translation>
     </message>
     <message>
       <source>Show album cover</source>
@@ -1989,6 +2013,13 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
     </message>
   </context>
   <context>
+    <name>DiscordRichPresence</name>
+    <message>
+      <source>on </source>
+      <translation type="unfinished">on </translation>
+    </message>
+  </context>
+  <context>
     <name>DynamicPlaylistControls</name>
     <message>
       <source>Dynamic mode is on</source>
@@ -2298,6 +2329,42 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
       <source>Could not write metadata to %1: %2</source>
       <translation>Ekki tókst að skrifa lýsigögn í %1: %2</translation>
     </message>
+    <message>
+      <source>ID3v2 version:</source>
+      <translation type="unfinished">ID3v2 version:</translation>
+    </message>
+    <message>
+      <source>2.3</source>
+      <translation type="unfinished">2.3</translation>
+    </message>
+    <message>
+      <source>2.4</source>
+      <translation type="unfinished">2.4</translation>
+    </message>
+    <message>
+      <source>Performer sort</source>
+      <translation type="unfinished">Performer sort</translation>
+    </message>
+    <message>
+      <source>Title sort</source>
+      <translation type="unfinished">Title sort</translation>
+    </message>
+    <message>
+      <source>Album artist sort</source>
+      <translation type="unfinished">Album artist sort</translation>
+    </message>
+    <message>
+      <source>Artist sort</source>
+      <translation type="unfinished">Artist sort</translation>
+    </message>
+    <message>
+      <source>Album sort</source>
+      <translation type="unfinished">Album sort</translation>
+    </message>
+    <message>
+      <source>Composer sort</source>
+      <translation type="unfinished">Composer sort</translation>
+    </message>
   </context>
   <context>
     <name>Equalizer</name>
@@ -2425,6 +2492,10 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
       <source>Are you sure you want to delete the &quot;%1&quot; preset?</source>
       <translation>Ertu viss um að þú viljir eyða &quot;%1&quot; forstillingunni?</translation>
     </message>
+    <message>
+      <source>You need to restart playback for this setting to take affect.</source>
+      <translation type="unfinished">You need to restart playback for this setting to take affect.</translation>
+    </message>
   </context>
   <context>
     <name>EqualizerSlider</name>
@@ -2484,6 +2555,22 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
       <source>Form</source>
       <translation>Innfylliform</translation>
     </message>
+    <message>
+      <source>Add root directory</source>
+      <translation type="unfinished">Add root directory</translation>
+    </message>
+    <message>
+      <source>Remove selected root directory</source>
+      <translation type="unfinished">Remove selected root directory</translation>
+    </message>
+    <message>
+      <source>Toggle between list and tree view</source>
+      <translation type="unfinished">Toggle between list and tree view</translation>
+    </message>
+    <message>
+      <source>Select folder to add as tree root</source>
+      <translation type="unfinished">Select folder to add as tree root</translation>
+    </message>
   </context>
   <context>
     <name>FileViewList</name>
@@ -2522,6 +2609,49 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
     <message>
       <source>Show in file browser...</source>
       <translation>Sýna í skráavafra...</translation>
+    </message>
+  </context>
+  <context>
+    <name>FileViewTree</name>
+    <message>
+      <source>Append to current playlist</source>
+      <translation type="unfinished">Append to current playlist</translation>
+    </message>
+    <message>
+      <source>Replace current playlist</source>
+      <translation type="unfinished">Replace current playlist</translation>
+    </message>
+    <message>
+      <source>Open in new playlist</source>
+      <translation type="unfinished">Open in new playlist</translation>
+    </message>
+    <message>
+      <source>Copy to collection...</source>
+      <translation type="unfinished">Copy to collection...</translation>
+    </message>
+    <message>
+      <source>Move to collection...</source>
+      <translation type="unfinished">Move to collection...</translation>
+    </message>
+    <message>
+      <source>Copy to device...</source>
+      <translation type="unfinished">Copy to device...</translation>
+    </message>
+    <message>
+      <source>Delete from disk...</source>
+      <translation type="unfinished">Delete from disk...</translation>
+    </message>
+    <message>
+      <source>Edit track information...</source>
+      <translation type="unfinished">Edit track information...</translation>
+    </message>
+    <message>
+      <source>Show in file browser...</source>
+      <translation type="unfinished">Show in file browser...</translation>
+    </message>
+    <message>
+      <source>Files</source>
+      <translation type="unfinished">Files</translation>
     </message>
   </context>
   <context>
@@ -2567,29 +2697,6 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
     <message>
       <source>An error occurred loading the iTunes database</source>
       <translation>Villa kom upp við hleðslu iTunes gagnagrunns</translation>
-    </message>
-  </context>
-  <context>
-    <name>GeniusLyricsProvider</name>
-    <message>
-      <source>Genius Authentication</source>
-      <translation>Auðkenning á Genius</translation>
-    </message>
-    <message>
-      <source>Please open this URL in your browser</source>
-      <translation>Opnaðu þessa slóð í vafranum þínum</translation>
-    </message>
-    <message>
-      <source>Redirect missing token code!</source>
-      <translation>Endurbeiningu vantar kóðateikn!</translation>
-    </message>
-    <message>
-      <source>Received invalid reply from web browser.</source>
-      <translation>Fékk ógilt svar frá vafra.</translation>
-    </message>
-    <message>
-      <source>Redirect from Genius is missing query items code or state.</source>
-      <translation>Endurbeiningu frá Genius vantar atriði í beiðni eða stöðu.</translation>
     </message>
   </context>
   <context>
@@ -2946,6 +3053,41 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
     </message>
   </context>
   <context>
+    <name>LastFMScrobbler</name>
+    <message>
+      <source>%1 Scrobbler Authentication</source>
+      <translation type="unfinished">%1 Scrobbler Authentication</translation>
+    </message>
+    <message>
+      <source>Open URL in web browser?</source>
+      <translation type="unfinished">Open URL in web browser?</translation>
+    </message>
+    <message>
+      <source>Press &quot;Save&quot; to copy the URL to clipboard and manually open it in a web browser.</source>
+      <translation type="unfinished">Press &quot;Save&quot; to copy the URL to clipboard and manually open it in a web browser.</translation>
+    </message>
+    <message>
+      <source>Could not open URL. Please open this URL in your browser</source>
+      <translation type="unfinished">Could not open URL. Please open this URL in your browser</translation>
+    </message>
+    <message>
+      <source>Invalid reply from web browser. Missing token.</source>
+      <translation type="unfinished">Invalid reply from web browser. Missing token.</translation>
+    </message>
+    <message>
+      <source>Received invalid reply from web browser. Try another browser.</source>
+      <translation type="unfinished">Received invalid reply from web browser. Try another browser.</translation>
+    </message>
+    <message>
+      <source>Scrobbler %1 is not authenticated!</source>
+      <translation type="unfinished">Scrobbler %1 is not authenticated!</translation>
+    </message>
+    <message>
+      <source>Scrobbler %1 error: %2</source>
+      <translation type="unfinished">Scrobbler %1 error: %2</translation>
+    </message>
+  </context>
+  <context>
     <name>LastPlayedItemDelegate</name>
     <message>
       <source>Never</source>
@@ -2961,22 +3103,6 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
   </context>
   <context>
     <name>ListenBrainzScrobbler</name>
-    <message>
-      <source>ListenBrainz Authentication</source>
-      <translation>Auðkenning á ListenBrainz</translation>
-    </message>
-    <message>
-      <source>Please open this URL in your browser</source>
-      <translation>Opnaðu þessa slóð í vafranum þínum</translation>
-    </message>
-    <message>
-      <source>Redirect missing token code!</source>
-      <translation>Endurbeiningu vantar kóðateikn!</translation>
-    </message>
-    <message>
-      <source>Received invalid reply from web browser.</source>
-      <translation>Fékk ógilt svar frá vafra.</translation>
-    </message>
     <message>
       <source>Unable to scrobble %1 - %2 because of error: %3</source>
       <translation>Tekst ekki að skrá hlustunarvenjur %1 - %2 vegna villu: %3</translation>
@@ -3433,6 +3559,10 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
     <message>
       <source>Rescan song(s)...</source>
       <translation>Endurskanna lag/lög...</translation>
+    </message>
+    <message>
+      <source>Fetch metadata from service</source>
+      <translation type="unfinished">Fetch metadata from service</translation>
     </message>
     <message>
       <source>Copy URL(s)...</source>
@@ -3939,6 +4069,61 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
       <source>Drag to reposition</source>
       <translation>Dragðu til að endurstaðsetja</translation>
     </message>
+    <message>
+      <source>Discord</source>
+      <translation type="unfinished">Discord</translation>
+    </message>
+    <message>
+      <source>Enable Rich Presence</source>
+      <translation type="unfinished">Enable Rich Presence</translation>
+    </message>
+    <message>
+      <source>&quot;Listening to...&quot;</source>
+      <translation type="unfinished">&quot;Listening to...&quot;</translation>
+    </message>
+    <message>
+      <source>Strawberry</source>
+      <translation type="unfinished">Strawberry</translation>
+    </message>
+    <message>
+      <source>Artist name</source>
+      <translation type="unfinished">Artist name</translation>
+    </message>
+    <message>
+      <source>Song title</source>
+      <translation type="unfinished">Song title</translation>
+    </message>
+  </context>
+  <context>
+    <name>OAuthenticator</name>
+    <message>
+      <source>Authentication</source>
+      <translation type="unfinished">Authentication</translation>
+    </message>
+    <message>
+      <source>Please open this URL in your browser</source>
+      <translation type="unfinished">Please open this URL in your browser</translation>
+    </message>
+    <message>
+      <source>Received invalid reply from web browser.</source>
+      <translation type="unfinished">Received invalid reply from web browser.</translation>
+    </message>
+    <message>
+      <source>Redirect URL is missing query.</source>
+      <translation type="unfinished">Redirect URL is missing query.</translation>
+    </message>
+    <message>
+      <source>Request URL is missing code!</source>
+      <translation type="unfinished">Request URL is missing code!</translation>
+    </message>
+    <message>
+      <source>Request URL is missing state!</source>
+      <translation type="unfinished">Request URL is missing state!</translation>
+    </message>
+    <message>
+      <source>Request URL has wrong state %1 != %2</source>
+      <translation type="unfinished">Request URL has wrong state %1 != %2</translation>
+    </message>
   </context>
   <context>
     <name>OSDBase</name>
@@ -4211,6 +4396,14 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
       <source>Don&apos;t know how to handle %1</source>
       <translation>Veit ekki hvernig á að meðhöndla %1</translation>
     </message>
+    <message>
+      <source>File %1 does not exist</source>
+      <translation type="unfinished">File %1 does not exist</translation>
+    </message>
+    <message>
+      <source>Could not read file %1: %2</source>
+      <translation type="unfinished">Could not read file %1: %2</translation>
+    </message>
   </context>
   <context>
     <name>PlayingWidget</name>
@@ -4246,12 +4439,24 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
       <translation>Titill</translation>
     </message>
     <message>
+      <source>Title Sort</source>
+      <translation type="unfinished">Title Sort</translation>
+    </message>
+    <message>
       <source>Artist</source>
       <translation>Flytjandi</translation>
     </message>
     <message>
+      <source>Artist Sort</source>
+      <translation type="unfinished">Artist Sort</translation>
+    </message>
+    <message>
       <source>Album</source>
       <translation>Hljómplata</translation>
+    </message>
+    <message>
+      <source>Album Sort</source>
+      <translation type="unfinished">Album Sort</translation>
     </message>
     <message>
       <source>Track</source>
@@ -4282,12 +4487,24 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
       <translation>Flytjandi hljómplötu</translation>
     </message>
     <message>
+      <source>Album Artist Sort</source>
+      <translation type="unfinished">Album Artist Sort</translation>
+    </message>
+    <message>
       <source>Composer</source>
       <translation>Tónskáld</translation>
     </message>
     <message>
+      <source>Composer Sort</source>
+      <translation type="unfinished">Composer Sort</translation>
+    </message>
+    <message>
       <source>Performer</source>
       <translation>Flytjandi</translation>
+    </message>
+    <message>
+      <source>Performer Sort</source>
+      <translation type="unfinished">Performer Sort</translation>
     </message>
     <message>
       <source>Grouping</source>
@@ -4318,8 +4535,8 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
       <translation>Bitahraði</translation>
     </message>
     <message>
-      <source>File Name</source>
-      <translation>Skráarheiti</translation>
+      <source>Initial key</source>
+      <translation type="unfinished">Initial key</translation>
     </message>
     <message>
       <source>File Name (without path)</source>
@@ -4350,12 +4567,24 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
       <translation>Upptök</translation>
     </message>
     <message>
+      <source>Moodbar</source>
+      <translation type="unfinished">Moodbar</translation>
+    </message>
+    <message>
+      <source>BPM</source>
+      <translation type="unfinished">BPM</translation>
+    </message>
+    <message>
       <source>Mood</source>
       <translation>Skapbrigði</translation>
     </message>
     <message>
       <source>Rating</source>
       <translation>Einkunn</translation>
+    </message>
+    <message>
+      <source>URL</source>
+      <translation type="unfinished">URL</translation>
     </message>
     <message>
       <source>CUE</source>
@@ -4480,6 +4709,10 @@ Ef engar samsvaranir finnast, verður notast víð stærstu myndina í möppunni
     <message>
       <source>Playlist</source>
       <translation>Spilunarlisti</translation>
+    </message>
+    <message>
+      <source>Copy songs to playlist</source>
+      <translation type="unfinished">Copy songs to playlist</translation>
     </message>
     <message>
       <source>Copy to device</source>
@@ -4983,10 +5216,6 @@ Ertu viss um að þú viljir halda áfram?</translation>
       <translation>LU</translation>
     </message>
     <message>
-      <source>File %1 is not recognized as a valid audio file.</source>
-      <translation>Skráin %1 er ekki gild hljóðskrá.</translation>
-    </message>
-    <message>
       <source>1 day</source>
       <translation>1 dagur</translation>
     </message>
@@ -5063,8 +5292,8 @@ Ertu viss um að þú viljir halda áfram?</translation>
       <translation>Gat ekki þáttað skrá</translation>
     </message>
     <message>
-      <source>Could save file</source>
-      <translation>Tókst að vista skrána</translation>
+      <source>Could not save file</source>
+      <translation type="unfinished">Could not save file</translation>
     </message>
     <message>
       <source>Unknown error</source>
@@ -5304,6 +5533,17 @@ Ertu viss um að þú viljir halda áfram?</translation>
     </message>
   </context>
   <context>
+    <name>QobuzMetadataRequest</name>
+    <message>
+      <source>Not authenticated</source>
+      <translation type="unfinished">Not authenticated</translation>
+    </message>
+    <message>
+      <source>No track ID</source>
+      <translation type="unfinished">No track ID</translation>
+    </message>
+  </context>
+  <context>
     <name>QobuzRequest</name>
     <message>
       <source>Receiving artists...</source>
@@ -5478,6 +5718,34 @@ Ertu viss um að þú viljir halda áfram?</translation>
     <message>
       <source>Authentication failed</source>
       <translation>Auðkenning mistókst</translation>
+    </message>
+    <message>
+      <source>Fetching...</source>
+      <translation type="unfinished">Fetching...</translation>
+    </message>
+    <message>
+      <source>Credentials fetched</source>
+      <translation type="unfinished">Credentials fetched</translation>
+    </message>
+    <message>
+      <source>App ID and secret have been successfully fetched from the Qobuz web player.</source>
+      <translation type="unfinished">App ID and secret have been successfully fetched from the Qobuz web player.</translation>
+    </message>
+    <message>
+      <source>Credential fetch failed</source>
+      <translation type="unfinished">Credential fetch failed</translation>
+    </message>
+    <message>
+      <source>Fetch Credentials</source>
+      <translation type="unfinished">Fetch Credentials</translation>
+    </message>
+    <message>
+      <source>Automatically fetch app ID and secret from Qobuz web player</source>
+      <translation type="unfinished">Automatically fetch app ID and secret from Qobuz web player</translation>
+    </message>
+    <message>
+      <source>Remove (Remastered), etc from song titles</source>
+      <translation type="unfinished">Remove (Remastered), etc from song titles</translation>
     </message>
   </context>
   <context>
@@ -5814,10 +6082,6 @@ Ertu viss um að þú viljir halda áfram?</translation>
       <translation>Innskráning</translation>
     </message>
     <message>
-      <source>Libre.fm</source>
-      <translation>Libre.fm</translation>
-    </message>
-    <message>
       <source>Listenbrainz</source>
       <translation>Listenbrainz</translation>
     </message>
@@ -5844,41 +6108,6 @@ Ertu viss um að þú viljir halda áfram?</translation>
     <message>
       <source>Spotify</source>
       <translation>Spotify</translation>
-    </message>
-  </context>
-  <context>
-    <name>ScrobblingAPI20</name>
-    <message>
-      <source>%1 Scrobbler Authentication</source>
-      <translation>Auðkenning fyrir %1 Scrobbler-hlustunarvenjur</translation>
-    </message>
-    <message>
-      <source>Open URL in web browser?</source>
-      <translation>Opna slóð í vafra?</translation>
-    </message>
-    <message>
-      <source>Press &quot;Save&quot; to copy the URL to clipboard and manually open it in a web browser.</source>
-      <translation>Ýttu á &quot;Vista&quot; til að afrita slóðina á klippispjald og opnaðu hana handvirkt í vafra.</translation>
-    </message>
-    <message>
-      <source>Could not open URL. Please open this URL in your browser</source>
-      <translation>Gat ekki opnað slóð. Opnaðu þessa slóð í vafranum þínum</translation>
-    </message>
-    <message>
-      <source>Invalid reply from web browser. Missing token.</source>
-      <translation>Fékk ógilt svar frá vafra. Vantar teikn.</translation>
-    </message>
-    <message>
-      <source>Received invalid reply from web browser. Try another browser.</source>
-      <translation>Fékk ógilt svar frá vafra. Prófaðu annan vafra.</translation>
-    </message>
-    <message>
-      <source>Scrobbler %1 is not authenticated!</source>
-      <translation>Ekki er auðkennt á %1 scrobbler-hlustunarvenjur!</translation>
-    </message>
-    <message>
-      <source>Scrobbler %1 error: %2</source>
-      <translation>Villa í Scrobbler-hlustunarvenjum %1: %2</translation>
     </message>
   </context>
   <context>
@@ -6161,6 +6390,14 @@ Ertu viss um að þú viljir halda áfram?</translation>
       <source>Edit smart playlist...</source>
       <translation>Sýsla með snjallan spilunarlista...</translation>
     </message>
+    <message>
+      <source>Are you sure you want to restore the default smart playlists? This will remove all custom smart playlists</source>
+      <translation type="unfinished">Are you sure you want to restore the default smart playlists? This will remove all custom smart playlists</translation>
+    </message>
+    <message>
+      <source>Restore defaults</source>
+      <translation type="unfinished">Restore defaults</translation>
+    </message>
   </context>
   <context>
     <name>SnapDialog</name>
@@ -6267,6 +6504,21 @@ Ertu viss um að þú viljir halda áfram?</translation>
     </message>
   </context>
   <context>
+    <name>SpotifyMetadataRequest</name>
+    <message>
+      <source>Not authenticated</source>
+      <translation type="unfinished">Not authenticated</translation>
+    </message>
+    <message>
+      <source>No track ID</source>
+      <translation type="unfinished">No track ID</translation>
+    </message>
+    <message>
+      <source>No pending song for track ID</source>
+      <translation type="unfinished">No pending song for track ID</translation>
+    </message>
+  </context>
+  <context>
     <name>SpotifyRequest</name>
     <message>
       <source>Authenticating...</source>
@@ -6323,22 +6575,6 @@ Ertu viss um að þú viljir halda áfram?</translation>
   </context>
   <context>
     <name>SpotifyService</name>
-    <message>
-      <source>Spotify Authentication</source>
-      <translation>Spotify auðkenning</translation>
-    </message>
-    <message>
-      <source>Please open this URL in your browser</source>
-      <translation>Opnaðu þessa slóð í vafranum þínum</translation>
-    </message>
-    <message>
-      <source>Redirect missing token code or state!</source>
-      <translation>Endurbeiningu vantar kóðateikn eða stöðu!</translation>
-    </message>
-    <message>
-      <source>Received invalid reply from web browser.</source>
-      <translation>Fékk ógilt svar frá vafra.</translation>
-    </message>
     <message>
       <source>Not authenticated with Spotify.</source>
       <translation>Ekki auðkennt á Spotify.</translation>
@@ -6401,6 +6637,10 @@ Ertu viss um að þú viljir halda áfram?</translation>
     <message>
       <source>Authentication failed</source>
       <translation>Auðkenning mistókst</translation>
+    </message>
+    <message>
+      <source>Remove (Remastered), etc from song titles</source>
+      <translation type="unfinished">Remove (Remastered), etc from song titles</translation>
     </message>
   </context>
   <context>
@@ -6738,10 +6978,6 @@ Ertu viss um að þú viljir halda áfram?</translation>
   <context>
     <name>TidalRequest</name>
     <message>
-      <source>Authenticating...</source>
-      <translation>Auðkenni...</translation>
-    </message>
-    <message>
       <source>Receiving artists...</source>
       <translation>Næ í flytjendur...</translation>
     </message>
@@ -6789,32 +7025,8 @@ Ertu viss um að þú viljir halda áfram?</translation>
   <context>
     <name>TidalService</name>
     <message>
-      <source>Reply from Tidal is missing query items.</source>
-      <translation>Svar frá Tidal vantar atriði í beiðni.</translation>
-    </message>
-    <message>
-      <source>Missing Tidal API token.</source>
-      <translation>Vantar API-teikn á Tidal.</translation>
-    </message>
-    <message>
-      <source>Missing Tidal username.</source>
-      <translation>Vantar Tidal-notandanafn.</translation>
-    </message>
-    <message>
-      <source>Missing Tidal password.</source>
-      <translation>Vantar Tidal-lykilorð.</translation>
-    </message>
-    <message>
-      <source>Not authenticated with Tidal and reached maximum number of login attempts.</source>
-      <translation>Ekki auðkennt á Tidal og hámarksfjölda innskráningartilrauna náð.</translation>
-    </message>
-    <message>
       <source>Not authenticated with Tidal.</source>
       <translation>Ekki auðkennt á Tidal.</translation>
-    </message>
-    <message>
-      <source>Missing Tidal API token, username or password.</source>
-      <translation>Vantar API-teikn á Tidal, notandanafn eða lykilorð.</translation>
     </message>
   </context>
   <context>
@@ -6836,24 +7048,8 @@ Ertu viss um að þú viljir halda áfram?</translation>
       <translation>Auðkenning</translation>
     </message>
     <message>
-      <source>Use OAuth</source>
-      <translation>Nota OAuth</translation>
-    </message>
-    <message>
       <source>Client ID</source>
       <translation>Auðkenni biðlara</translation>
-    </message>
-    <message>
-      <source>API Token</source>
-      <translation>API-teikn</translation>
-    </message>
-    <message>
-      <source>Username</source>
-      <translation>Notandanafn</translation>
-    </message>
-    <message>
-      <source>Password</source>
-      <translation>Lykilorð</translation>
     </message>
     <message>
       <source>Login</source>
@@ -6916,20 +7112,12 @@ Ertu viss um að þú viljir halda áfram?</translation>
       <translation>Vantar Tidal-auðkenni biðlara</translation>
     </message>
     <message>
-      <source>Missing API token.</source>
-      <translation>API-teikn vantar.</translation>
-    </message>
-    <message>
-      <source>Missing username.</source>
-      <translation>Vantar notandanafn.</translation>
-    </message>
-    <message>
-      <source>Missing password.</source>
-      <translation>Lykilorð vantar.</translation>
-    </message>
-    <message>
       <source>Authentication failed</source>
       <translation>Auðkenning mistókst</translation>
+    </message>
+    <message>
+      <source>Remove (Remastered), etc from song titles</source>
+      <translation type="unfinished">Remove (Remastered), etc from song titles</translation>
     </message>
   </context>
   <context>
@@ -6937,10 +7125,6 @@ Ertu viss um að þú viljir halda áfram?</translation>
     <message>
       <source>Not authenticated with Tidal.</source>
       <translation>Ekki auðkennt á Tidal.</translation>
-    </message>
-    <message>
-      <source>Missing Tidal API token, username or password.</source>
-      <translation>Vantar API-teikn á Tidal, notandanafn eða lykilorð.</translation>
     </message>
     <message>
       <source>Cancelled.</source>
@@ -7012,6 +7196,10 @@ Ertu viss um að þú viljir halda áfram?</translation>
     <message>
       <source>Saving tracks</source>
       <translation>Vista lög</translation>
+    </message>
+    <message>
+      <source>Album artist</source>
+      <translation type="unfinished">Album artist</translation>
     </message>
   </context>
   <context>
