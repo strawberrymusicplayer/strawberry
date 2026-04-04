@@ -119,10 +119,12 @@ class CollectionFilterWidget : public QWidget {
   SavedGroupingManager *groupings_manager_;
 
   QMenu *filter_age_menu_;
+  QMenu *filter_rating_menu_;
   QMenu *group_by_menu_;
   QMenu *collection_menu_;
   QActionGroup *group_by_group_;
   QHash<QAction*, int> filter_max_ages_;
+  QHash<QAction*, float> filter_min_rating_;
 
   QTimer *timer_filter_delay_;
 

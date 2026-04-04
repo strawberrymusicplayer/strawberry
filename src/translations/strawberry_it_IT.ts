@@ -926,6 +926,34 @@ Puoi anche effettuare un pagamento una tantum tramite &apos;%3&apos;.</translati
       <translation>Visualizza</translation>
     </message>
     <message>
+      <source>Any rating</source>
+      <translation type="unfinished">Any rating</translation>
+    </message>
+    <message>
+      <source>Rating non null</source>
+      <translation type="unfinished">Rating non null</translation>
+    </message>
+    <message>
+      <source>Rating greater than 1 star</source>
+      <translation type="unfinished">Rating greater than 1 star</translation>
+    </message>
+    <message>
+      <source>Rating greater than 2 stars</source>
+      <translation type="unfinished">Rating greater than 2 stars</translation>
+    </message>
+    <message>
+      <source>Rating greater than 3 stars</source>
+      <translation type="unfinished">Rating greater than 3 stars</translation>
+    </message>
+    <message>
+      <source>Rating greater than 4 stars</source>
+      <translation type="unfinished">Rating greater than 4 stars</translation>
+    </message>
+    <message>
+      <source>Rating</source>
+      <translation type="unfinished">Rating</translation>
+    </message>
+    <message>
       <source>Group by</source>
       <translation>Raggruppa per</translation>
     </message>

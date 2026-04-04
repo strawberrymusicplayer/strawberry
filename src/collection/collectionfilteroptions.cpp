@@ -24,13 +24,17 @@
 
 #include "collectionfilteroptions.h"
 
-CollectionFilterOptions::CollectionFilterOptions() : filter_mode_(FilterMode::All), max_age_(-1) {}
+CollectionFilterOptions::CollectionFilterOptions() : filter_mode_(FilterMode::All), max_age_(-1), min_rating_(-1.0F) {}
 
 bool CollectionFilterOptions::Matches(const Song &song) const {
 
   if (max_age_ != -1) {
     const qint64 cutoff = QDateTime::currentSecsSinceEpoch() - max_age_;
     if (song.ctime() <= cutoff) return false;
+  }
+
+  if (min_rating_ >= 0.0F) {
+    if (song.rating() <= min_rating_) return false;
   }
 
   if (!filter_text_.isNull()) {

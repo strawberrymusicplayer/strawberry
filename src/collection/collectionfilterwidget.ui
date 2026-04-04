@@ -110,6 +110,57 @@
     <string>Added this month</string>
    </property>
   </action>
+  <action name="filter_min_rating_all">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Any rating</string>
+   </property>
+  </action>
+  <action name="filter_min_rating_non_null">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Rating non null</string>
+   </property>
+  </action>
+  <action name="filter_min_rating_20p">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Rating greater than 1 star</string>
+   </property>
+  </action>
+  <action name="filter_min_rating_40p">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Rating greater than 2 stars</string>
+   </property>
+  </action>
+  <action name="filter_min_rating_60p">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Rating greater than 3 stars</string>
+   </property>
+  </action>
+  <action name="filter_min_rating_80p">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Rating greater than 4 stars</string>
+   </property>
+  </action>
   <action name="save_grouping">
    <property name="text">
     <string>Save current grouping</string>
