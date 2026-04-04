@@ -73,6 +73,7 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
       group_by_dialog_(new GroupByDialog(this)),
       groupings_manager_(nullptr),
       filter_age_menu_(nullptr),
+      filter_rating_menu_(nullptr),
       group_by_menu_(nullptr),
       collection_menu_(nullptr),
       group_by_group_(nullptr),
@@ -93,6 +94,8 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
   // Icons
   ui_->options->setIcon(IconLoader::Load(u"configure"_s));
 
+  group_by_menu_ = new QMenu(tr("Group by"), this);
+
   // Filter by age
   QActionGroup *filter_age_group = new QActionGroup(this);
   filter_age_group->addAction(ui_->filter_age_all);
@@ -102,7 +105,7 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
   filter_age_group->addAction(ui_->filter_age_three_months);
   filter_age_group->addAction(ui_->filter_age_year);
 
-  filter_age_menu_ = new QMenu(tr("Show"), this);
+  filter_age_menu_ = new QMenu(tr("Filter by age"), this);
   filter_age_menu_->addActions(filter_age_group->actions());
 
   filter_max_ages_[ui_->filter_age_all] = -1;
@@ -112,7 +115,24 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
   filter_max_ages_[ui_->filter_age_three_months] = 60 * 60 * 24 * 30 * 3;
   filter_max_ages_[ui_->filter_age_year] = 60 * 60 * 24 * 365;
 
-  group_by_menu_ = new QMenu(tr("Group by"), this);
+  // Filter by rating
+  QActionGroup *filter_rating_group = new QActionGroup(this);
+  filter_rating_group->addAction(ui_->filter_min_rating_all);
+  filter_rating_group->addAction(ui_->filter_min_rating_non_null);
+  filter_rating_group->addAction(ui_->filter_min_rating_20p);
+  filter_rating_group->addAction(ui_->filter_min_rating_40p);
+  filter_rating_group->addAction(ui_->filter_min_rating_60p);
+  filter_rating_group->addAction(ui_->filter_min_rating_80p);
+
+  filter_rating_menu_ = new QMenu(tr("Filter by rating"), this);
+  filter_rating_menu_->addActions(filter_rating_group->actions());
+
+  filter_min_rating_[ui_->filter_min_rating_all] = -1.0F;
+  filter_min_rating_[ui_->filter_min_rating_non_null] = 0.0F;
+  filter_min_rating_[ui_->filter_min_rating_20p] = 0.2F;
+  filter_min_rating_[ui_->filter_min_rating_40p] = 0.4F;
+  filter_min_rating_[ui_->filter_min_rating_60p] = 0.6F;
+  filter_min_rating_[ui_->filter_min_rating_80p] = 0.8F;
 
   QObject::connect(ui_->save_grouping, &QAction::triggered, this, &CollectionFilterWidget::SaveGroupBy);
   QObject::connect(ui_->manage_groupings, &QAction::triggered, this, &CollectionFilterWidget::ShowGroupingManager);
@@ -120,10 +140,12 @@ CollectionFilterWidget::CollectionFilterWidget(QWidget *parent)
   // Collection config menu
   collection_menu_ = new QMenu(tr("Display options"), this);
   collection_menu_->setIcon(ui_->options->icon());
-  collection_menu_->addMenu(filter_age_menu_);
   collection_menu_->addMenu(group_by_menu_);
   collection_menu_->addAction(ui_->save_grouping);
   collection_menu_->addAction(ui_->manage_groupings);
+  collection_menu_->addSeparator();
+  collection_menu_->addMenu(filter_age_menu_);
+  collection_menu_->addMenu(filter_rating_menu_);
   collection_menu_->addSeparator();
   ui_->options->setMenu(collection_menu_);
 
@@ -146,6 +168,10 @@ void CollectionFilterWidget::Init(CollectionModel *model, CollectionFilter *filt
     for (QAction *action : actions) {
       QObject::disconnect(action, &QAction::triggered, model_, nullptr);
     }
+    const QList<QAction*> filter_actions = filter_min_rating_.keys();
+    for (QAction *action : filter_actions) {
+      QObject::disconnect(action, &QAction::triggered, model_, nullptr);
+    }
   }
 
   model_ = model;
@@ -160,6 +186,12 @@ void CollectionFilterWidget::Init(CollectionModel *model, CollectionFilter *filt
   for (QAction *action : actions) {
     const int filter_max_age = filter_max_ages_.value(action);
     QObject::connect(action, &QAction::triggered, this, [this, filter_max_age]() { model_->SetFilterMaxAge(filter_max_age); } );
+  }
+
+  const QList<QAction*> filter_actions = filter_min_rating_.keys();
+  for (QAction *action : filter_actions) {
+    const float filter_min_rate = filter_min_rating_.value(action);
+    QObject::connect(action, &QAction::triggered, this, [this, filter_min_rate]() { model_->SetFilterMinRating(filter_min_rate); } );
   }
 
   // Load settings

@@ -41,6 +41,7 @@ class CollectionFilterOptions {
 
   FilterMode filter_mode() const { return filter_mode_; }
   int max_age() const { return max_age_; }
+  float min_rating() const { return min_rating_; }
   QString filter_text() const { return filter_text_; }
 
   void set_filter_mode(const FilterMode filter_mode) {
@@ -48,6 +49,7 @@ class CollectionFilterOptions {
     filter_text_.clear();
   }
   void set_max_age(const int max_age) { max_age_ = max_age; }
+  void set_min_rating(const float min_rating) { min_rating_ = min_rating; }
   void set_filter_text(const QString &filter_text) {
     filter_mode_ = FilterMode::All;
     filter_text_ = filter_text;
@@ -58,6 +60,7 @@ class CollectionFilterOptions {
  private:
   FilterMode filter_mode_;
   int max_age_;
+  float min_rating_;
   QString filter_text_;
 };
 

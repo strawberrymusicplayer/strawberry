@@ -220,6 +220,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
  public Q_SLOTS:
   void SetFilterMode(const CollectionFilterOptions::FilterMode filter_mode);
   void SetFilterMaxAge(const int filter_max_age);
+  void SetFilterMinRating(const float filter_min_rating);
 
   void AddReAddOrUpdate(const SongList &songs);
   void RemoveSongs(const SongList &songs);

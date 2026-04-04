@@ -924,6 +924,34 @@
       <translation>Afficher</translation>
     </message>
     <message>
+      <source>Any rating</source>
+      <translation>Toute notation</translation>
+    </message>
+    <message>
+      <source>Rating non null</source>
+      <translation>Notation non nulle</translation>
+    </message>
+    <message>
+      <source>Rating greater than 1 star</source>
+      <translation>Notation de plus d'une étoile</translation>
+    </message>
+    <message>
+      <source>Rating greater than 2 stars</source>
+      <translation>Notation de plus de deux étoiles</translation>
+    </message>
+    <message>
+      <source>Rating greater than 3 stars</source>
+      <translation>Notation de plus de trois étoiles</translation>
+    </message>
+    <message>
+      <source>Rating greater than 4 stars</source>
+      <translation>Notation de plus de quatre étoiles</translation>
+    </message>
+    <message>
+      <source>Rating</source>
+      <translation>Notation</translation>
+    </message>
+    <message>
       <source>Group by</source>
       <translation>Grouper par</translation>
     </message>
