@@ -267,29 +267,34 @@ void RadioBrowserSearchView::ItemDoubleClicked(const QModelIndex &index) {
 
 }
 
+void RadioBrowserSearchView::AddSelectedToPlaylist() {
+
+  const QModelIndexList selected = ui_->results->selectionModel()->selectedRows(Column_Name);
+  if (selected.isEmpty()) return;
+
+  RadioMimeData *mimedata = new RadioMimeData;
+  for (const QModelIndex &idx : selected) {
+    const RadioChannel channel = idx.data(Qt::UserRole).value<RadioChannel>();
+    if (!channel.url.isEmpty()) {
+      mimedata->songs << channel.ToSong();
+    }
+  }
+  if (!mimedata->songs.isEmpty()) {
+    Q_EMIT AddToPlaylist(mimedata);
+  }
+  else {
+    delete mimedata;
+  }
+
+}
+
 void RadioBrowserSearchView::ShowContextMenu(const QPoint &pos) {
 
   if (!context_menu_) {
     context_menu_ = new QMenu(this);
 
     action_add_to_playlist_ = new QAction(IconLoader::Load(u"media-playback-start"_s), tr("Append to current playlist"), this);
-    QObject::connect(action_add_to_playlist_, &QAction::triggered, this, [this]() {
-      const QModelIndexList selected = ui_->results->selectionModel()->selectedRows(Column_Name);
-      if (selected.isEmpty()) return;
-      RadioMimeData *mimedata = new RadioMimeData;
-      for (const QModelIndex &idx : selected) {
-        const RadioChannel channel = idx.data(Qt::UserRole).value<RadioChannel>();
-        if (!channel.url.isEmpty()) {
-          mimedata->songs << channel.ToSong();
-        }
-      }
-      if (!mimedata->songs.isEmpty()) {
-        Q_EMIT AddToPlaylist(mimedata);
-      }
-      else {
-        delete mimedata;
-      }
-    });
+    QObject::connect(action_add_to_playlist_, &QAction::triggered, this, &RadioBrowserSearchView::AddSelectedToPlaylist);
     context_menu_->addAction(action_add_to_playlist_);
   }
 
