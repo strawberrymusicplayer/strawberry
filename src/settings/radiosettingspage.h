@@ -24,6 +24,7 @@
 
 #include "settings/settingspage.h"
 
+class QComboBox;
 class SettingsDialog;
 class Ui_RadioSettingsPage;
 
@@ -33,6 +34,8 @@ class RadioSettingsPage : public SettingsPage {
  public:
   explicit RadioSettingsPage(SettingsDialog *dialog, QWidget *parent = nullptr);
   ~RadioSettingsPage() override;
+
+  static void PopulateCountries(QComboBox *combo);
 
   void Load() override;
   void Save() override;

@@ -17,8 +17,14 @@
  *
  */
 
+#include <algorithm>
+
 #include <QObject>
-#include <QSettings>
+#include <QCoreApplication>
+#include <QList>
+#include <QSet>
+#include <QLocale>
+#include <QString>
 #include <QComboBox>
 #include <QSpinBox>
 #include <QCheckBox>
@@ -32,6 +38,38 @@
 #include "constants/radiobrowsersettings.h"
 
 using namespace Qt::Literals::StringLiterals;
+
+void RadioSettingsPage::PopulateCountries(QComboBox *combo) {
+
+  combo->addItem(QCoreApplication::translate("RadioSettingsPage", "All countries"), QString());
+
+  QSet<QLocale::Territory> seen;
+  QList<QPair<QString, QString>> countries;
+
+  const QList<QLocale> locales = QLocale::matchingLocales(QLocale::AnyLanguage, QLocale::AnyScript, QLocale::AnyTerritory);
+  for (const QLocale &locale : locales) {
+    const QLocale::Territory territory = locale.territory();
+    if (territory == QLocale::AnyTerritory || seen.contains(territory)) continue;
+    seen.insert(territory);
+
+    const QString locale_name = locale.name();
+    const int underscore = locale_name.lastIndexOf(u'_');
+    if (underscore < 0) continue;
+    const QString code = locale_name.mid(underscore + 1);
+    if (code.length() != 2) continue;
+
+    countries << qMakePair(QLocale::territoryToString(territory), code);
+  }
+
+  std::sort(countries.begin(), countries.end(), [](const QPair<QString, QString> &a, const QPair<QString, QString> &b) {
+    return a.first.compare(b.first, Qt::CaseInsensitive) < 0;
+  });
+
+  for (const QPair<QString, QString> &entry : std::as_const(countries)) {
+    combo->addItem(entry.first, entry.second);
+  }
+
+}
 
 RadioSettingsPage::RadioSettingsPage(SettingsDialog *dialog, QWidget *parent)
     : SettingsPage(dialog, parent),
@@ -52,18 +90,7 @@ RadioSettingsPage::RadioSettingsPage(SettingsDialog *dialog, QWidget *parent)
   ui_->combo_default_sort->addItem(tr("By bitrate"), u"bitrate"_s);
 
   // Radio Browser country options
-  ui_->combo_default_country->addItem(tr("All countries"), QString());
-  ui_->combo_default_country->addItem(u"Germany"_s, u"Germany"_s);
-  ui_->combo_default_country->addItem(u"Austria"_s, u"Austria"_s);
-  ui_->combo_default_country->addItem(u"Switzerland"_s, u"Switzerland"_s);
-  ui_->combo_default_country->addItem(u"United Kingdom"_s, u"The United Kingdom Of Great Britain And Northern Ireland"_s);
-  ui_->combo_default_country->addItem(u"United States"_s, u"The United States Of America"_s);
-  ui_->combo_default_country->addItem(u"France"_s, u"France"_s);
-  ui_->combo_default_country->addItem(u"Spain"_s, u"Spain"_s);
-  ui_->combo_default_country->addItem(u"Italy"_s, u"Italy"_s);
-  ui_->combo_default_country->addItem(u"Netherlands"_s, u"The Netherlands"_s);
-  ui_->combo_default_country->addItem(u"Japan"_s, u"Japan"_s);
-  ui_->combo_default_country->addItem(u"Brazil"_s, u"Brazil"_s);
+  PopulateCountries(ui_->combo_default_country);
 
 }
 

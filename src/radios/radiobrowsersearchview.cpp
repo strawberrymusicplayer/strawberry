@@ -35,6 +35,7 @@
 #include "radiobrowsersearchview.h"
 #include "radiochannel.h"
 #include "radiomimedata.h"
+#include "settings/radiosettingspage.h"
 #include "ui_radiobrowsersearchview.h"
 
 using namespace Qt::Literals::StringLiterals;
@@ -99,19 +100,8 @@ RadioBrowserSearchView::RadioBrowserSearchView(QWidget *parent)
 
   ui_->search->setPlaceholderText(tr("Search radio stations..."));
 
-  // Country filter (ISO 3166-1 alpha-2 codes)
-  ui_->combo_country->addItem(tr("All countries"), QString());
-  ui_->combo_country->addItem(u"Germany"_s, u"DE"_s);
-  ui_->combo_country->addItem(u"Austria"_s, u"AT"_s);
-  ui_->combo_country->addItem(u"Switzerland"_s, u"CH"_s);
-  ui_->combo_country->addItem(u"United Kingdom"_s, u"GB"_s);
-  ui_->combo_country->addItem(u"United States"_s, u"US"_s);
-  ui_->combo_country->addItem(u"France"_s, u"FR"_s);
-  ui_->combo_country->addItem(u"Spain"_s, u"ES"_s);
-  ui_->combo_country->addItem(u"Italy"_s, u"IT"_s);
-  ui_->combo_country->addItem(u"Netherlands"_s, u"NL"_s);
-  ui_->combo_country->addItem(u"Japan"_s, u"JP"_s);
-  ui_->combo_country->addItem(u"Brazil"_s, u"BR"_s);
+  // Country filter
+  RadioSettingsPage::PopulateCountries(ui_->combo_country);
 
   // Sort order
   ui_->combo_sort->addItem(tr("By votes"), u"votes"_s);
