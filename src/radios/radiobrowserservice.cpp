@@ -199,7 +199,7 @@ void RadioBrowserService::Search(const QString &query,
 
   QUrlQuery url_query;
   if (!query.isEmpty()) url_query.addQueryItem(u"name"_s, query);
-  if (!country.isEmpty()) url_query.addQueryItem(u"country"_s, country);
+  if (!country.isEmpty()) url_query.addQueryItem(u"countrycode"_s, country);
   if (!tag.isEmpty()) url_query.addQueryItem(u"tag"_s, tag);
   if (!language.isEmpty()) url_query.addQueryItem(u"language"_s, language);
   url_query.addQueryItem(u"limit"_s, QString::number(limit));
