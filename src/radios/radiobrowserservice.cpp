@@ -171,9 +171,7 @@ void RadioBrowserService::ServerTestReply(QNetworkReply *reply) {
   // Execute pending search if any
   if (has_pending_search_) {
     has_pending_search_ = false;
-    Search(pending_search_.query, pending_search_.country, pending_search_.tag,
-           pending_search_.language, pending_search_.order,
-           pending_search_.limit, pending_search_.offset);
+    Search(pending_search_.query, pending_search_.country, pending_search_.tag, pending_search_.language, pending_search_.order, pending_search_.limit, pending_search_.offset);
   }
 
 }
