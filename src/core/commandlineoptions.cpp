@@ -229,22 +229,24 @@ bool CommandlineOptions::Parse() {
 
     switch (c) {
       case 'h':{
-        QString translated_help_text =
-            QString::fromUtf8(kHelpText)
-                .arg(QObject::tr("Usage"), QObject::tr("options"), QObject::tr("URL(s)"),
+        QString translated_help_text = QString::fromUtf8(kHelpText)
+                .arg(QObject::tr("Usage"),
+                     QObject::tr("options"),
+                     QObject::tr("URL(s)"),
                      QObject::tr("Player options"),
                      QObject::tr("Start the playlist currently playing"),
                      QObject::tr("Play if stopped, pause if playing"),
-                     QObject::tr("Pause playback"), QObject::tr("Stop playback"),
-                     QObject::tr("Stop playback after current track"))
-                .arg(QObject::tr("Skip backwards in playlist"),
+                     QObject::tr("Pause playback"),
+                     QObject::tr("Stop playback"),
+                     QObject::tr("Stop playback after current track"),
+                     QObject::tr("Skip backwards in playlist"),
                      QObject::tr("Skip forwards in playlist"),
                      QObject::tr("Set the volume to <value> percent"),
                      QObject::tr("Increase the volume by 4 percent"),
                      QObject::tr("Decrease the volume by 4 percent"),
                      QObject::tr("Increase the volume by <value> percent"),
-                     QObject::tr("Decrease the volume by <value> percent"))
-                .arg(QObject::tr("Seek the currently playing track to an absolute position"),
+                     QObject::tr("Decrease the volume by <value> percent"),
+                     QObject::tr("Seek the currently playing track to an absolute position"),
                      QObject::tr("Seek the currently playing track by a relative amount"),
                      QObject::tr("Restart the track, or play the previous track if within 8 seconds of start."),
                      QObject::tr("Playlist options"),
@@ -252,16 +254,18 @@ bool CommandlineOptions::Parse() {
                      QObject::tr("Append files/URLs to the playlist"),
                      QObject::tr("Loads files/URLs, replacing current playlist"),
                      QObject::tr("Play the <n>th track in the playlist"),
-                     QObject::tr("Play given playlist"))
-                .arg(QObject::tr("Other options"), QObject::tr("Display the on-screen-display"),
+                     QObject::tr("Play given playlist"),
+                     QObject::tr("Other options"),
+                     QObject::tr("Display the on-screen-display"),
                      QObject::tr("Toggle visibility for the pretty on-screen-display"),
                      QObject::tr("Change the language"),
                      QObject::tr("Resize the window"),
                      QObject::tr("Equivalent to --log-levels *:1"),
                      QObject::tr("Equivalent to --log-levels *:3"),
-                     QObject::tr("Comma separated list of class:level, level is 0-3"))
-                .arg(QObject::tr("Print out version information"),
-                     QObject::tr("Create fingerprint"));
+                     QObject::tr("Comma separated list of class:level, level is 0-3"),
+                     QObject::tr("Print out version information"),
+                     QObject::tr("Create fingerprint")
+                     );
 
         std::cout << translated_help_text.toLocal8Bit().constData();
         return false;
