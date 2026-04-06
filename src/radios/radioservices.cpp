@@ -34,8 +34,6 @@
 #include "somafmservice.h"
 #include "radioparadiseservice.h"
 #include "radiobrowserservice.h"
-#include "radiofranceservice.h"
-#include "cbcservice.h"
 
 using std::make_shared;
 
@@ -65,8 +63,6 @@ RadioServices::RadioServices(const SharedPtr<TaskManager> task_manager,
   AddService(new SomaFMService(task_manager, network_, this));
   AddService(new RadioParadiseService(task_manager, network_, this));
   AddService(new RadioBrowserService(task_manager, network_, this));
-  AddService(new RadioFranceService(task_manager, network_, this));
-  AddService(new CBCService(task_manager, network_, this));
 
 }
 
