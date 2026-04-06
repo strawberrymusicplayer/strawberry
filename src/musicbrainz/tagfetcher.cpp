@@ -149,6 +149,7 @@ void TagFetcher::TagsFetched(const int index, const MusicBrainzClient::ResultLis
     song.set_artistsort(result.sort_artist_);
     song.set_track(result.track_);
     song.set_year(result.year_);
+    song.set_musicbrainz_recording_id(result.musicbrainz_recording_id_);
     if (!result.album_artist_.isEmpty() && result.album_artist_ != result.artist_) {
       song.set_albumartist(result.album_artist_);
     }

@@ -287,6 +287,7 @@ void TrackSelectionDialog::SaveData(const QList<Data> &_data) const {
     copy.set_album(new_metadata.album());
     copy.set_track(new_metadata.track());
     copy.set_year(new_metadata.year());
+    copy.set_musicbrainz_recording_id(new_metadata.musicbrainz_recording_id());
 
     const TagReaderResult result = tagreader_client_->WriteFileBlocking(copy.url().toLocalFile(), copy, TagReaderClient::SaveOption::Tags, SaveTagCoverData());
     if (!result.success()) {

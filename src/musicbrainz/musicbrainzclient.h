@@ -87,6 +87,7 @@ class MusicBrainzClient : public JsonBaseRequest {
     int duration_msec_;
     int track_;
     int year_;
+    QString musicbrainz_recording_id_;
   };
   using ResultList = QList<Result>;
 
@@ -105,7 +106,7 @@ class MusicBrainzClient : public JsonBaseRequest {
  private Q_SLOTS:
   void FlushRequests();
   // ID identifies the track, and request_number means it's the 'request_number'th request for this track
-  void MbIdRequestFinished(QNetworkReply *reply, const int id, const int request_number);
+  void MbIdRequestFinished(QNetworkReply *reply, const int id, const int request_number, const QString &mbid);
   void DiscIdRequestFinished(const QString &discid, QNetworkReply *reply);
 
  private:

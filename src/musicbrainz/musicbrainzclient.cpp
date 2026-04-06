@@ -190,14 +190,14 @@ void MusicBrainzClient::SendMbIdRequest(const MbIdRequest &request) {
   url_query.addQueryItem(u"fmt"_s, u"json"_s);
 
   QNetworkReply *reply = CreateGetRequest(QUrl(QString::fromLatin1(kTrackUrl) + request.mbid), url_query);
-  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { MbIdRequestFinished(reply, request.id, request.number); });
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { MbIdRequestFinished(reply, request.id, request.number, request.mbid); });
   mbid_requests_.insert(request.id, reply);
 
   timeouts_->AddReply(reply);
 
 }
 
-void MusicBrainzClient::MbIdRequestFinished(QNetworkReply *reply, const int id, const int request_number) {
+void MusicBrainzClient::MbIdRequestFinished(QNetworkReply *reply, const int id, const int request_number, const QString &mbid) {
 
   if (replies_.contains(reply)) {
     replies_.removeAll(reply);
@@ -223,7 +223,11 @@ void MusicBrainzClient::MbIdRequestFinished(QNetworkReply *reply, const int id, 
   if (object_root.contains("releases"_L1) && object_root.value("releases"_L1).isArray()) {
     const ReleaseList releases = ParseReleases(object_root.value("releases"_L1).toArray());
     if (!releases.isEmpty()) {
-      pending_results_[id] << PendingResults(request_number, ResultListFromReleases(releases));
+      ResultList results = ResultListFromReleases(releases);
+      for (Result &result : results) {
+        result.musicbrainz_recording_id_ = mbid;
+      }
+      pending_results_[id] << PendingResults(request_number, results);
     }
   }
 
