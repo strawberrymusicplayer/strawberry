@@ -29,6 +29,7 @@
 
 #include <QtGlobal>
 #include <QCoreApplication>
+#include <QApplication>
 #include <QThread>
 #include <QIODevice>
 #include <QByteArray>
@@ -72,7 +73,7 @@ GstElement *Chromaprinter::CreateElement(const QString &factory_name, GstElement
 
 QString Chromaprinter::CreateFingerprint() {
 
-  Q_ASSERT(QThread::currentThread() != qApp->thread());
+  Q_ASSERT(qobject_cast<QApplication*>(QCoreApplication::instance()) == nullptr || QThread::currentThread() != qApp->thread());
 
   if (!buffer_.open(QIODevice::WriteOnly)) return QString();
 
