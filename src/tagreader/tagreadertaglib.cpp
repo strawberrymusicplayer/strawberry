@@ -708,6 +708,9 @@ void TagReaderTagLib::ParseID3v2Tags(TagLib::ID3v2::Tag *tag, QString *disc, QSt
         if (frame->description() == kID3v2_AcoustId_Fingerprint) {
           song->set_acoustid_fingerprint(frame_field_list.back());
         }
+        if (frame->description() == kID3v2_MusicBrainz_RecordingId) {
+          song->set_musicbrainz_recording_id(frame_field_list.back());
+        }
         if (frame->description() == kID3v2_MusicBrainz_AlbumArtistId) {
           song->set_musicbrainz_album_artist_id(TagLibStringListToSlashSeparatedString(frame_field_list, 1));
         }
@@ -1199,6 +1202,9 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
         tag->setItem(kMP4_Lyrics, TagLib::StringList(QStringToTagLibString(song.lyrics())));
         tag->setItem(kMP4_AlbumArtist, TagLib::StringList(QStringToTagLibString(song.albumartist())));
         tag->setItem(kMP4_Compilation, TagLib::MP4::Item(song.compilation()));
+        if (!song.musicbrainz_recording_id().isEmpty()) {
+          tag->setItem(kMP4_MusicBrainz_RecordingId, TagLib::StringList(QStringToTagLibString(song.musicbrainz_recording_id())));
+        }
       }
       if (save_playcount) {
         SetPlaycount(tag, song.playcount());
@@ -1330,6 +1336,9 @@ void TagReaderTagLib::SetID3v2Tag(TagLib::ID3v2::Tag *tag, const Song &song) con
   SetTextFrame(kID3v2_TitleSort, song.titlesort().isEmpty() ? QString() : song.titlesort(), tag);
   SetTextFrame(kID3v2_Compilation, song.compilation() ? QString::number(1) : QString(), tag);
   SetUnsyncLyricsFrame(song.lyrics().isEmpty() ? QString() : song.lyrics(), tag);
+  if (!song.musicbrainz_recording_id().isEmpty()) {
+    SetUserTextFrame(QLatin1String(kID3v2_MusicBrainz_RecordingId), song.musicbrainz_recording_id(), tag);
+  }
 
 }
 
@@ -1433,6 +1442,9 @@ void TagReaderTagLib::SetVorbisComments(TagLib::Ogg::XiphComment *vorbis_comment
 
   vorbis_comment->addField(kVorbisComment_Lyrics, QStringToTagLibString(song.lyrics()), true);
   vorbis_comment->removeFields(kVorbisComment_UnsyncedLyrics);
+  if (!song.musicbrainz_recording_id().isEmpty()) {
+    vorbis_comment->addField(kVorbisComment_MusicBrainz_TackId, QStringToTagLibString(song.musicbrainz_recording_id()), true);
+  }
 
 }
 
@@ -1445,6 +1457,9 @@ void TagReaderTagLib::SetAPETag(TagLib::APE::Tag *tag, const Song &song) const {
   tag->setItem(kAPE_Performer, TagLib::APE::Item(kAPE_Performer, TagLib::StringList(QStringToTagLibString(song.performer()))));
   tag->setItem(kAPE_Lyrics, TagLib::APE::Item(kAPE_Lyrics, QStringToTagLibString(song.lyrics())));
   tag->addValue(kAPE_Compilation, QStringToTagLibString(song.compilation() ? QString::number(1) : QString()), true);
+  if (!song.musicbrainz_recording_id().isEmpty()) {
+    tag->setItem(kAPE_MusicBrainz_TackId, TagLib::APE::Item(kAPE_MusicBrainz_TackId, TagLib::StringList(QStringToTagLibString(song.musicbrainz_recording_id()))));
+  }
 
 }
 
@@ -1456,6 +1471,7 @@ void TagReaderTagLib::SetASFTag(TagLib::ASF::Tag *tag, const Song &song) const {
   SetAsfAttribute(tag, kASF_Disc, song.disc());
   SetAsfAttribute(tag, kASF_OriginalDate, song.originalyear());
   SetAsfAttribute(tag, kASF_OriginalYear, song.originalyear());
+  SetAsfAttribute(tag, kASF_MusicBrainz_RecordingId, song.musicbrainz_recording_id());
 
 }
 
