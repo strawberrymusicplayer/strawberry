@@ -164,8 +164,7 @@ SettingsDialog::SettingsDialog(const SharedPtr<Player> player,
   AddPage(Page::Qobuz, new QobuzSettingsPage(this, streaming_services->Service<QobuzService>(), this), streaming);
 #endif
 
-  QTreeWidgetItem *radio = AddCategory(tr("Radio"));
-  AddPage(Page::Radio, new RadioSettingsPage(this, this), radio);
+  AddPage(Page::Radio, new RadioSettingsPage(this, this), streaming);
 
   // List box
   QObject::connect(ui_->list, &QTreeWidget::currentItemChanged, this, &SettingsDialog::CurrentItemChanged);
