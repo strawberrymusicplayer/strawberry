@@ -25,6 +25,7 @@
 #include <QAction>
 #include <QStandardItemModel>
 #include <QHeaderView>
+#include "widgets/stretchheaderview.h"
 
 #include "core/iconloader.h"
 #include "core/mimedata.h"
@@ -87,11 +88,14 @@ RadioBrowserSearchView::RadioBrowserSearchView(QWidget *parent)
 
   model_->setHorizontalHeaderLabels({tr("Name"), tr("Country"), tr("Tags"), tr("Codec")});
   ui_->results->setModel(model_);
-  ui_->results->header()->setStretchLastSection(false);
-  ui_->results->header()->setSectionResizeMode(Column_Name, QHeaderView::Stretch);
-  ui_->results->header()->setSectionResizeMode(Column_Country, QHeaderView::ResizeToContents);
-  ui_->results->header()->setSectionResizeMode(Column_Tags, QHeaderView::ResizeToContents);
-  ui_->results->header()->setSectionResizeMode(Column_Codec, QHeaderView::ResizeToContents);
+
+  StretchHeaderView *header = new StretchHeaderView(Qt::Horizontal, ui_->results);
+  ui_->results->setHeader(header);
+  header->SetStretchEnabled(true);
+  header->SetColumnWidth(Column_Name, 0.5);
+  header->SetColumnWidth(Column_Country, 0.2);
+  header->SetColumnWidth(Column_Tags, 0.2);
+  header->SetColumnWidth(Column_Codec, 0.1);
 
   ui_->search->setPlaceholderText(tr("Search radio stations..."));
 
@@ -215,6 +219,7 @@ void RadioBrowserSearchView::SearchFinished(const RadioChannelList &channels, bo
 
     QStandardItem *item_name = new QStandardItem(channel.name);
     item_name->setData(QVariant::fromValue(channel), Qt::UserRole);
+    item_name->setToolTip(channel.name);
     items << item_name;
     items << new QStandardItem();  // Country - populated from JSON metadata
     items << new QStandardItem();  // Tags
