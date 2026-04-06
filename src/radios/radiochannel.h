@@ -21,6 +21,7 @@
 #define RADIOCHANNEL_H
 
 #include <QMetaType>
+#include <QDataStream>
 #include <QList>
 #include <QString>
 #include <QUrl>
@@ -38,6 +39,18 @@ struct RadioChannel {
   Song ToSong() const;
 };
 using RadioChannelList = QList<RadioChannel>;
+
+inline QDataStream &operator<<(QDataStream &stream, const RadioChannel &channel) {
+  stream << static_cast<int>(channel.source) << channel.name << channel.url << channel.thumbnail_url;
+  return stream;
+}
+
+inline QDataStream &operator>>(QDataStream &stream, RadioChannel &channel) {
+  int source = 0;
+  stream >> source >> channel.name >> channel.url >> channel.thumbnail_url;
+  channel.source = static_cast<Song::Source>(source);
+  return stream;
+}
 
 Q_DECLARE_METATYPE(RadioChannel)
 Q_DECLARE_METATYPE(RadioChannelList)

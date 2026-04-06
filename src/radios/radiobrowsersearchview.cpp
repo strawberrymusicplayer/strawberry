@@ -19,6 +19,7 @@
 
 #include <QWidget>
 #include <QString>
+#include <QUrl>
 #include <QTimer>
 #include <QMenu>
 #include <QAction>
@@ -31,16 +32,50 @@
 #include "constants/radiobrowsersettings.h"
 #include "radiobrowserservice.h"
 #include "radiobrowsersearchview.h"
+#include "radiochannel.h"
 #include "radiomimedata.h"
 #include "ui_radiobrowsersearchview.h"
 
 using namespace Qt::Literals::StringLiterals;
 
+namespace {
+
+class RadioBrowserSearchModel : public QStandardItemModel {
+ public:
+  explicit RadioBrowserSearchModel(QObject *parent = nullptr) : QStandardItemModel(parent) {}
+
+  QMimeData *mimeData(const QModelIndexList &indexes) const override {
+    RadioMimeData *mimedata = new RadioMimeData;
+    QList<QUrl> urls;
+    for (const QModelIndex &idx : indexes) {
+      if (idx.column() != 0) continue;
+      const RadioChannel channel = idx.data(Qt::UserRole).value<RadioChannel>();
+      if (!channel.url.isEmpty()) {
+        Song song = channel.ToSong();
+        urls << song.url();
+        mimedata->songs << song;
+      }
+    }
+    if (mimedata->songs.isEmpty()) {
+      delete mimedata;
+      return nullptr;
+    }
+    mimedata->setUrls(urls);
+    return mimedata;
+  }
+
+  QStringList mimeTypes() const override {
+    return QStringList() << u"text/uri-list"_s;
+  }
+};
+
+}  // namespace
+
 RadioBrowserSearchView::RadioBrowserSearchView(QWidget *parent)
     : QWidget(parent),
       ui_(new Ui_RadioBrowserSearchView),
       service_(nullptr),
-      model_(new QStandardItemModel(this)),
+      model_(new RadioBrowserSearchModel(this)),
       search_timer_(new QTimer(this)),
       context_menu_(nullptr),
       action_add_to_playlist_(nullptr),
