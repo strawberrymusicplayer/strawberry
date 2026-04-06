@@ -27,6 +27,7 @@ constexpr char kSettingsGroup[] = "Collection";
 constexpr char kStartupScan[] = "startup_scan";
 constexpr char kMonitor[] = "monitor";
 constexpr char kSongTracking[] = "song_tracking";
+constexpr char kWriteFingerprintToFileTags[] = "write_fingerprint_to_file_tags";
 constexpr char kMarkSongsUnavailable[] = "mark_songs_unavailable";
 constexpr char kSongENUR128LoudnessAnalysis[] = "song_ebur128_loudness_analysis";
 constexpr char kExpireUnavailableSongs[] = "expire_unavailable_songs";

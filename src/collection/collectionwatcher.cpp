@@ -215,11 +215,13 @@ void CollectionWatcher::ReloadSettings() {
   const QStringList filters = s.value(CollectionSettings::kCoverArtPatterns, QStringList() << u"front"_s << u"cover"_s).toStringList();
   if (source_ == Song::Source::Collection) {
     song_tracking_ = s.value(CollectionSettings::kSongTracking, false).toBool();
+    write_fingerprint_to_file_tags_ = s.value(CollectionSettings::kWriteFingerprintToFileTags, false).toBool();
     song_ebur128_loudness_analysis_ = s.value(CollectionSettings::kSongENUR128LoudnessAnalysis, false).toBool();
     mark_songs_unavailable_ = song_tracking_ ? true : s.value(CollectionSettings::kMarkSongsUnavailable, true).toBool();
   }
   else {
     song_tracking_ = false;
+    write_fingerprint_to_file_tags_ = false;
     song_ebur128_loudness_analysis_ = false;
     mark_songs_unavailable_ = false;
   }
@@ -721,10 +723,16 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
         QString fingerprint;
 #ifdef HAVE_SONGFINGERPRINTING
         if (song_tracking_) {
-          Chromaprinter chromaprinter(file);
-          fingerprint = chromaprinter.CreateFingerprint();
-          if (fingerprint.isEmpty()) {
-            fingerprint = "NONE"_L1;
+          if (!changed && !matching_song.acoustid_fingerprint().isEmpty()) {
+            // File unchanged; cross-populate fingerprint from existing file-tag value to avoid recomputing Chromaprint.
+            fingerprint = matching_song.acoustid_fingerprint();
+          }
+          else {
+            Chromaprinter chromaprinter(file);
+            fingerprint = chromaprinter.CreateFingerprint();
+            if (fingerprint.isEmpty()) {
+              fingerprint = "NONE"_L1;
+            }
           }
         }
 #endif
@@ -885,6 +893,9 @@ void CollectionWatcher::UpdateCueAssociatedSongs(const QString &file,
     new_cue_song.set_directory_id(t->dir_id());
     PerformEBUR128Analysis(new_cue_song);
     new_cue_song.set_fingerprint(fingerprint);
+    if (!fingerprint.isEmpty() && fingerprint != "NONE"_L1) {
+      new_cue_song.set_acoustid_fingerprint(fingerprint);
+    }
 
     if (sections_map.contains(static_cast<quint64>(new_cue_song.beginning_nanosec()))) {  // Changed section
       const Song matching_cue_song = sections_map[static_cast<quint64>(new_cue_song.beginning_nanosec())];
@@ -933,6 +944,22 @@ bool CollectionWatcher::UpdateNonCueAssociatedSong(const QString &file,
     song_on_disk.set_id(matching_song.id());
     PerformEBUR128Analysis(song_on_disk);
     song_on_disk.set_fingerprint(fingerprint);
+#ifdef HAVE_SONGFINGERPRINTING
+    if (!fingerprint.isEmpty() && fingerprint != "NONE"_L1) {
+      const bool fingerprint_was_missing_from_file = song_on_disk.acoustid_fingerprint().isEmpty();
+      song_on_disk.set_acoustid_fingerprint(fingerprint);
+      if (write_fingerprint_to_file_tags_ && fingerprint_was_missing_from_file) {
+        const TagReaderResult write_result = tagreader_client_->WriteFileBlocking(file, song_on_disk, SaveTagsOption::Tags);
+        if (write_result.success()) {
+          // Refresh mtime so the next scan does not treat this file as changed due to our write.
+          song_on_disk.set_mtime(QFileInfo(file).lastModified().toSecsSinceEpoch());
+        }
+        else {
+          qLog(Warning) << "Failed to write ACOUSTID_FINGERPRINT to" << file << ":" << write_result.error_string();
+        }
+      }
+    }
+#endif
     song_on_disk.set_art_automatic(art_automatic);
     song_on_disk.MergeUserSetData(matching_song, !overwrite_playcount_, !overwrite_rating_);
     AddChangedSong(file, matching_song, song_on_disk, t);
@@ -986,6 +1013,22 @@ SongList CollectionWatcher::ScanNewFile(const QString &file, const QString &path
       song.set_source(source_);
       PerformEBUR128Analysis(song);
       song.set_fingerprint(fingerprint);
+#ifdef HAVE_SONGFINGERPRINTING
+      if (!fingerprint.isEmpty() && fingerprint != "NONE"_L1) {
+        const bool fingerprint_was_missing_from_file = song.acoustid_fingerprint().isEmpty();
+        song.set_acoustid_fingerprint(fingerprint);
+        if (write_fingerprint_to_file_tags_ && fingerprint_was_missing_from_file) {
+          const TagReaderResult write_result = tagreader_client_->WriteFileBlocking(file, song, SaveTagsOption::Tags);
+          if (write_result.success()) {
+            // Refresh mtime so the next scan does not treat this file as changed due to our write.
+            song.set_mtime(QFileInfo(file).lastModified().toSecsSinceEpoch());
+          }
+          else {
+            qLog(Warning) << "Failed to write ACOUSTID_FINGERPRINT to" << file << ":" << write_result.error_string();
+          }
+        }
+      }
+#endif
       songs << song;
     }
   }

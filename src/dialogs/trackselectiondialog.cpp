@@ -164,6 +164,11 @@ void TrackSelectionDialog::FetchTagFinished(const Song &original_song, const Son
   data_[row].pending_ = false;
   data_[row].results_ = songs_guessed;
 
+  // Propagate any newly computed data (e.g. acoustid_fingerprint) so it is included in the file write on accept.
+  if (!original_song.acoustid_fingerprint().isEmpty() && data_[row].original_song_.acoustid_fingerprint().isEmpty()) {
+    data_[row].original_song_.set_acoustid_fingerprint(original_song.acoustid_fingerprint());
+  }
+
   // If it's the current item, update the display
   if (ui_->song_list->currentIndex().row() == row) {
     UpdateStack();
