@@ -26,6 +26,8 @@
 
 #include <QtGlobal>
 
+#include <gst/gst.h>
+
 #ifdef Q_OS_WIN32
 #  include <windows.h>
 #endif
@@ -43,6 +45,10 @@
 
 #include "commandlineoptions.h"
 #include "core/logging.h"
+
+#ifdef HAVE_CHROMAPRINT
+#  include "engine/chromaprinter.h"
+#endif
 
 #include <getopt.h>
 
@@ -85,7 +91,8 @@ constexpr char kHelpText[] =
     "      --quiet                %31\n"
     "      --verbose              %32\n"
     "      --log-levels <levels>  %33\n"
-    "      --version              %34\n";
+    "      --version              %34\n"
+    "      --create-fingerprint <filename>  %35\n";
 
 constexpr char kVersionText[] = "Strawberry %1";
 
@@ -171,6 +178,7 @@ bool CommandlineOptions::Parse() {
       {L"verbose", no_argument, nullptr, LongOptions::Verbose},
       {L"log-levels", required_argument, nullptr, LongOptions::LogLevels},
       {L"version", no_argument, nullptr, LongOptions::Version},
+      {L"create-fingerprint", required_argument, nullptr, LongOptions::CreateFingerPrint},
       {nullptr, 0, nullptr, 0}
 #else
     { "help", no_argument, nullptr, 'h' },
@@ -202,6 +210,7 @@ bool CommandlineOptions::Parse() {
     { "verbose", no_argument, nullptr, LongOptions::Verbose },
     { "log-levels", required_argument, nullptr, LongOptions::LogLevels },
     { "version", no_argument, nullptr, LongOptions::Version },
+    { "create-fingerprint", required_argument, nullptr, LongOptions::CreateFingerPrint },
     { nullptr, 0, nullptr, 0 }
 #endif
   };
@@ -251,7 +260,8 @@ bool CommandlineOptions::Parse() {
                      QObject::tr("Equivalent to --log-levels *:1"),
                      QObject::tr("Equivalent to --log-levels *:3"),
                      QObject::tr("Comma separated list of class:level, level is 0-3"))
-                .arg(QObject::tr("Print out version information"));
+                .arg(QObject::tr("Print out version information"),
+                     QObject::tr("Create fingerprint"));
 
         std::cout << translated_help_text.toLocal8Bit().constData();
         return false;
@@ -359,6 +369,18 @@ bool CommandlineOptions::Parse() {
         window_size_ = OptArgToString(optarg);
         player_action_ = PlayerAction::ResizeWindow;
         break;
+
+      case LongOptions::CreateFingerPrint:{
+#ifdef HAVE_CHROMAPRINT
+        gst_init(nullptr, nullptr);
+        Chromaprinter chromaprinter(OptArgToString(optarg));
+        const QString fingerprint = chromaprinter.CreateFingerprint();
+        if (!fingerprint.isEmpty()) {
+          std::cout << fingerprint.toLocal8Bit().toStdString() << std::endl;
+        }
+#endif
+        exit(0);
+      }
 
       case '?':
       default:

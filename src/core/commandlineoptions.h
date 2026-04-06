@@ -99,7 +99,8 @@ class CommandlineOptions {
     Version,
     VolumeIncreaseBy,
     VolumeDecreaseBy,
-    RestartOrPrevious
+    RestartOrPrevious,
+    CreateFingerPrint,
   };
 
   void RemoveArg(const QString &starts_with, int count);
