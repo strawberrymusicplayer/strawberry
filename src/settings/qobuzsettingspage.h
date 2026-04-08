@@ -48,16 +48,13 @@ class QobuzSettingsPage : public SettingsPage {
  protected:
   void showEvent(QShowEvent *e) override;
 
- Q_SIGNALS:
-  void Login(const QString &username, const QString &password, const QString &token);
-
  private Q_SLOTS:
   void LoginClicked();
   void LogoutClicked();
   void LoginSuccess();
   void LoginFailure(const QString &failure_reason);
   void FetchCredentialsClicked();
-  void CredentialsFetched(const QString &app_id, const QString &app_secret);
+  void CredentialsFetched(const QString &app_id, const QString &app_secret, const QString &login_app_id, const QString &private_key);
   void CredentialsFetchError(const QString &error);
 
  private:

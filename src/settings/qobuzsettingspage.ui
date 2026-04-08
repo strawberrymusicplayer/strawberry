@@ -22,19 +22,6 @@
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="label_warning">
-     <property name="text">
-      <string>Qobuz support is not official and requires an API app ID and secret from a registered application to work. We can't help you getting these.</string>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
-     </property>
-     <property name="margin">
-      <number>10</number>
-     </property>
-    </widget>
-   </item>
-   <item>
     <widget class="QGroupBox" name="credential_group">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
@@ -66,41 +53,6 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="label_username">
-        <property name="text">
-         <string>Username</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <widget class="QLineEdit" name="username">
-          <property name="text">
-           <string notr="true"/>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="5" column="0">
-       <widget class="QLabel" name="label_password">
-        <property name="text">
-         <string>Password</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="1">
-       <widget class="QLineEdit" name="password">
-        <property name="text">
-         <string notr="true"/>
-        </property>
-        <property name="echoMode">
-         <enum>QLineEdit::EchoMode::Password</enum>
-        </property>
-       </widget>
-      </item>
       <item row="2" column="0">
        <widget class="QLabel" name="label_app_secret">
         <property name="text">
@@ -115,17 +67,27 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="1">
-       <widget class="QPushButton" name="button_fetch_credentials">
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_private_key">
         <property name="text">
-         <string>Fetch Credentials</string>
-        </property>
-        <property name="toolTip">
-         <string>Automatically fetch app ID and secret from Qobuz web player</string>
+         <string>Private key</string>
         </property>
        </widget>
       </item>
+      <item row="3" column="1">
+       <widget class="QLineEdit" name="private_key"/>
+      </item>
      </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="button_fetch_credentials">
+     <property name="toolTip">
+      <string>Automatically fetch app ID, app secret and private key from Qobuz web player</string>
+     </property>
+     <property name="text">
+      <string>Fetch Credentials</string>
+     </property>
     </widget>
    </item>
    <item>
@@ -144,28 +106,28 @@
       <string>Preferences</string>
      </property>
      <layout class="QFormLayout" name="layout_preferences">
-      <item row="2" column="0">
+      <item row="1" column="0">
        <widget class="QLabel" name="label_format">
         <property name="text">
          <string>Audio format</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="1">
+      <item row="1" column="1">
        <widget class="QComboBox" name="format">
         <property name="currentText">
          <string notr="true"/>
         </property>
        </widget>
       </item>
-      <item row="3" column="0">
+      <item row="2" column="0">
        <widget class="QLabel" name="label_searchdelay">
         <property name="text">
          <string>Search delay</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="1">
+      <item row="2" column="1">
        <widget class="QSpinBox" name="searchdelay">
         <property name="suffix">
          <string>ms</string>
@@ -184,14 +146,14 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="0">
+      <item row="3" column="0">
        <widget class="QLabel" name="label_artistssearchlimit">
         <property name="text">
          <string>Artists search limit</string>
         </property>
        </widget>
       </item>
-      <item row="4" column="1">
+      <item row="3" column="1">
        <widget class="QSpinBox" name="artistssearchlimit">
         <property name="minimum">
          <number>1</number>
@@ -204,14 +166,14 @@
         </property>
        </widget>
       </item>
-      <item row="5" column="0">
+      <item row="4" column="0">
        <widget class="QLabel" name="label_albumssearchlimit">
         <property name="text">
          <string>Albums search limit</string>
         </property>
        </widget>
       </item>
-      <item row="5" column="1">
+      <item row="4" column="1">
        <widget class="QSpinBox" name="albumssearchlimit">
         <property name="minimum">
          <number>1</number>
@@ -224,14 +186,14 @@
         </property>
        </widget>
       </item>
-      <item row="6" column="0">
+      <item row="5" column="0">
        <widget class="QLabel" name="label_songssearchlimit">
         <property name="text">
          <string>Songs search limit</string>
         </property>
        </widget>
       </item>
-      <item row="6" column="1">
+      <item row="5" column="1">
        <widget class="QSpinBox" name="songssearchlimit">
         <property name="minimum">
          <number>1</number>
@@ -244,21 +206,14 @@
         </property>
        </widget>
       </item>
-      <item row="8" column="0">
+      <item row="7" column="0">
        <widget class="QCheckBox" name="checkbox_download_album_covers">
         <property name="text">
          <string>Download album covers</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
-       <widget class="QCheckBox" name="checkbox_base64_secret">
-        <property name="text">
-         <string>Base64 encoded secret</string>
-        </property>
-       </widget>
-      </item>
-      <item row="9" column="0">
+      <item row="8" column="0">
        <widget class="QCheckBox" name="checkbox_remove_remastered">
         <property name="text">
          <string>Remove (Remastered), etc from song titles</string>
@@ -271,7 +226,7 @@
    <item>
     <spacer name="spacer_middle">
      <property name="orientation">
-      <enum>Qt::Orientation::Vertical</enum>
+      <enum>Qt::Vertical</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
@@ -286,7 +241,7 @@
      <item>
       <spacer name="spacer_bottom">
        <property name="orientation">
-        <enum>Qt::Orientation::Horizontal</enum>
+        <enum>Qt::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
@@ -331,8 +286,8 @@
   <tabstop>enable</tabstop>
   <tabstop>app_id</tabstop>
   <tabstop>app_secret</tabstop>
-  <tabstop>username</tabstop>
-  <tabstop>password</tabstop>
+  <tabstop>private_key</tabstop>
+  <tabstop>button_fetch_credentials</tabstop>
   <tabstop>button_login</tabstop>
   <tabstop>format</tabstop>
   <tabstop>searchdelay</tabstop>
@@ -340,6 +295,7 @@
   <tabstop>albumssearchlimit</tabstop>
   <tabstop>songssearchlimit</tabstop>
   <tabstop>checkbox_download_album_covers</tabstop>
+  <tabstop>checkbox_remove_remastered</tabstop>
  </tabstops>
  <resources>
   <include location="../../data/icons.qrc"/>

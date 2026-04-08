@@ -44,23 +44,17 @@ class QobuzStreamURLRequest : public QobuzBaseRequest {
 
   void GetStreamURL();
   void Process();
-  void NeedLogin() { need_login_ = true; }
   void Cancel();
 
   QUrl media_url() const { return media_url_; }
   int song_id() const { return song_id_; }
-  bool need_login() const { return need_login_; }
 
  Q_SIGNALS:
-  void TryLogin();
   void StreamURLFailure(const uint id, const QUrl &media_url, const QString &error);
   void StreamURLSuccess(const uint id, const QUrl &media_url, const QUrl &stream_url, const Song::FileType filetype, const int samplerate, const int bit_depth, const qint64 duration);
 
  private Q_SLOTS:
   void StreamURLReceived();
-
- public Q_SLOTS:
-  void LoginComplete(const bool success, const QString &error = QString());
 
  private:
   QNetworkReply *reply_;
@@ -68,7 +62,6 @@ class QobuzStreamURLRequest : public QobuzBaseRequest {
   uint id_;
   int song_id_;
   int tries_;
-  bool need_login_;
 };
 
 using QobuzStreamURLRequestPtr = QSharedPointer<QobuzStreamURLRequest>;

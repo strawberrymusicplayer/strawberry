@@ -33,6 +33,7 @@
 #include <QString>
 #include <QStringList>
 #include <QUrl>
+#include <QJsonObject>
 #include <QSslError>
 #include <QScopedPointer>
 #include <QSharedPointer>
@@ -44,6 +45,7 @@
 
 class QTimer;
 class QNetworkReply;
+class LocalRedirectServer;
 class TaskManager;
 class Database;
 class UrlHandlers;
@@ -74,7 +76,6 @@ class QobuzService : public StreamingService {
 
   static const Song::Source kSource;
   static const char kApiUrl[];
-  static const int kLoginAttempts;
 
   void Exit() override;
   void ReloadSettings() override;
@@ -83,12 +84,9 @@ class QobuzService : public StreamingService {
   int Search(const QString &text, const SearchType type) override;
   void CancelSearch() override;
 
-  int max_login_attempts() const { return kLoginAttempts; }
-
   QString app_id() const { return app_id_; }
   QString app_secret() const { return app_secret_; }
-  QString username() const { return username_; }
-  QString password() const { return password_; }
+  QString private_key() const { return private_key_; }
   int format() const { return format_; }
   int search_delay() const { return search_delay_; }
   int artistssearchlimit() const { return artistssearchlimit_; }
@@ -99,12 +97,8 @@ class QobuzService : public StreamingService {
 
   QString user_auth_token() const { return user_auth_token_; }
   qint64 user_id() const { return user_id_; }
-  QString device_id() const { return device_id_; }
-  qint64 credential_id() const { return credential_id_; }
 
   bool authenticated() const override { return (!app_id_.isEmpty() && !app_secret_.isEmpty() && !user_auth_token_.isEmpty()); }
-  bool login_sent() const { return login_sent_; }
-  bool login_attempts() const { return login_attempts_; }
 
   SharedPtr<NetworkAccessManager> network() const { return network_; }
 
@@ -123,9 +117,8 @@ class QobuzService : public StreamingService {
   CollectionFilter *songs_collection_filter_model() override { return songs_collection_model_->filter(); }
 
  public Q_SLOTS:
-  void TryLogin();
-  void SendLogin();
-  void SendLoginWithCredentials(const QString &app_id, const QString &username, const QString &password);
+  void Authenticate();
+  void Authenticate(const QString &app_id, const QString &app_secret, const QString &private_key);
   void GetArtists() override;
   void GetAlbums() override;
   void GetSongs() override;
@@ -136,8 +129,8 @@ class QobuzService : public StreamingService {
  private Q_SLOTS:
   void ExitReceived();
   void HandleLoginSSLErrors(const QList<QSslError> &ssl_errors);
-  void HandleAuthReply(QNetworkReply *reply);
-  void ResetLoginAttempts();
+  void OAuthRedirectReceived();
+  void HandleOAuthCallbackReply(QNetworkReply *reply);
   void StartSearch();
   void ArtistsResultsReceived(const int id, const SongMap &songs, const QString &error);
   void AlbumsResultsReceived(const int id, const SongMap &songs, const QString &error);
@@ -156,7 +149,7 @@ class QobuzService : public StreamingService {
   using Param = QPair<QString, QString>;
   using ParamList = QList<Param>;
 
-  QString DecodeAppSecret(const QString &app_secret_base64) const;
+  QJsonObject ParseLoginReply(QNetworkReply *reply, const QString &request_name);
   void SendSearch();
   void LoginError(const QString &error = QString(), const QVariant &debug = QVariant());
 
@@ -172,7 +165,6 @@ class QobuzService : public StreamingService {
   CollectionModel *songs_collection_model_;
 
   QTimer *timer_search_delay_;
-  QTimer *timer_login_attempt_;
 
   QobuzRequestPtr artists_request_;
   QobuzRequestPtr albums_request_;
@@ -180,10 +172,11 @@ class QobuzService : public StreamingService {
   QobuzRequestPtr search_request_;
   QobuzFavoriteRequest *favorite_request_;
 
+  LocalRedirectServer *local_redirect_server_;
+
   QString app_id_;
   QString app_secret_;
-  QString username_;
-  QString password_;
+  QString private_key_;
   int format_;
   int search_delay_;
   int artistssearchlimit_;
@@ -194,8 +187,6 @@ class QobuzService : public StreamingService {
 
   qint64 user_id_;
   QString user_auth_token_;
-  QString device_id_;
-  qint64 credential_id_;
 
   int pending_search_id_;
   int next_pending_search_id_;
@@ -204,8 +195,6 @@ class QobuzService : public StreamingService {
 
   int search_id_;
   QString search_text_;
-  bool login_sent_;
-  int login_attempts_;
 
   uint next_stream_url_request_id_;
   QMap<uint, QSharedPointer<QobuzStreamURLRequest>> stream_url_requests_;

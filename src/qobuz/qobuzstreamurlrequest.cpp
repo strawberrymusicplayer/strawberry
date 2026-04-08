@@ -48,8 +48,7 @@ QobuzStreamURLRequest::QobuzStreamURLRequest(QobuzService *service, const Shared
       media_url_(media_url),
       id_(id),
       song_id_(media_url.path().toInt()),
-      tries_(0),
-      need_login_(false) {}
+      tries_(0) {}
 
 QobuzStreamURLRequest::~QobuzStreamURLRequest() {
 
@@ -61,20 +60,6 @@ QobuzStreamURLRequest::~QobuzStreamURLRequest() {
 
 }
 
-void QobuzStreamURLRequest::LoginComplete(const bool success, const QString &error) {
-
-  if (!need_login_) return;
-  need_login_ = false;
-
-  if (!success) {
-    Q_EMIT StreamURLFailure(id_, media_url_, error);
-    return;
-  }
-
-  Process();
-
-}
-
 void QobuzStreamURLRequest::Process() {
 
   if (service_->app_id().isEmpty() || service_->app_secret().isEmpty()) {
@@ -83,8 +68,7 @@ void QobuzStreamURLRequest::Process() {
   }
 
   if (!authenticated()) {
-    need_login_ = true;
-    Q_EMIT TryLogin();
+    Q_EMIT StreamURLFailure(id_, media_url_, tr("Not authenticated. Please log in on the Qobuz settings page."));
     return;
   }
   GetStreamURL();
@@ -157,10 +141,6 @@ void QobuzStreamURLRequest::StreamURLReceived() {
   reply_ = nullptr;
 
   if (!json_object_result.success()) {
-    if (!authenticated() && service_->login_sent() && tries_ <= 1) {
-      need_login_ = true;
-      return;
-    }
     Q_EMIT StreamURLFailure(id_, media_url_, json_object_result.error_message);
     return;
   }

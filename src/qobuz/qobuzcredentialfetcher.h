@@ -39,7 +39,7 @@ class QobuzCredentialFetcher : public QObject {
   void FetchCredentials();
 
  Q_SIGNALS:
-  void CredentialsFetched(const QString &app_id, const QString &app_secret);
+  void CredentialsFetched(const QString &app_id, const QString &app_secret, const QString &login_app_id, const QString &private_key);
   void CredentialsFetchError(const QString &error);
 
  private Q_SLOTS:
@@ -47,8 +47,10 @@ class QobuzCredentialFetcher : public QObject {
   void BundleReceived();
 
  private:
-  QString ExtractAppId(const QString &bundle);
-  QString ExtractAppSecret(const QString &bundle);
+  static QString ExtractAppId(const QString &bundle);
+  static QString ExtractLoginAppId(const QString &bundle);
+  static QString ExtractAppSecret(const QString &bundle);
+  static QString ExtractPrivateKey(const QString &bundle);
 
   const SharedPtr<NetworkAccessManager> network_;
   QNetworkReply *login_page_reply_;

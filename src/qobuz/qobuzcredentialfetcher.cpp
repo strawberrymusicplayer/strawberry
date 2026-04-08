@@ -140,19 +140,36 @@ void QobuzCredentialFetcher::BundleReceived() {
     return;
   }
 
-  qLog(Debug) << "Qobuz: Successfully extracted credentials - app_id:" << app_id;
-  Q_EMIT CredentialsFetched(app_id, app_secret);
+  const QString login_app_id = ExtractLoginAppId(bundle);
+  const QString private_key = ExtractPrivateKey(bundle);
+  qLog(Debug) << "Qobuz: Successfully extracted credentials - app_id:" << app_id << "login_app_id:" << login_app_id << "private_key:" << !private_key.isEmpty();
+  Q_EMIT CredentialsFetched(app_id, app_secret, login_app_id, private_key);
 
 }
 
 QString QobuzCredentialFetcher::ExtractAppId(const QString &bundle) {
 
-  // Pattern: production:{api:{appId:"(\d+)"
+  // Extract the production app_id used for API request signing.
   static const QRegularExpression app_id_regex(u"production:\\{api:\\{appId:\"(\\d+)\""_s);
   const QRegularExpressionMatch app_id_match = app_id_regex.match(bundle);
 
   if (app_id_match.hasMatch()) {
     return app_id_match.captured(1);
+  }
+
+  return QString();
+
+}
+
+QString QobuzCredentialFetcher::ExtractLoginAppId(const QString &bundle) {
+
+  // The production app_id is blocked at the Qobuz API gateway for /user/login.
+  // A standalone {appId:"<id>"} object (8-10 digits, no appSecret alongside) is used exclusively for login authentication.
+  static const QRegularExpression login_app_id_regex(u"\\{appId:\"(\\d{8,10})\"\\}"_s);
+  const QRegularExpressionMatch login_app_id_match = login_app_id_regex.match(bundle);
+
+  if (login_app_id_match.hasMatch()) {
+    return login_app_id_match.captured(1);
   }
 
   return QString();
@@ -272,6 +289,23 @@ QString QobuzCredentialFetcher::ExtractAppSecret(const QString &bundle) {
   }
 
   qLog(Error) << "Qobuz: Failed to decode any valid app_secret from bundle";
+  return QString();
+
+}
+
+QString QobuzCredentialFetcher::ExtractPrivateKey(const QString &bundle) {
+
+  // Extract the private key used for OAuth callback token exchange.
+  // In the bundle it appears as: privateKey:"6lz8C03UDIC7"
+  static const QRegularExpression private_key_regex(u"privateKey:\"([A-Za-z0-9]+)\""_s);
+  const QRegularExpressionMatch match = private_key_regex.match(bundle);
+
+  if (match.hasMatch()) {
+    qLog(Debug) << "Qobuz: Found private_key in bundle";
+    return match.captured(1);
+  }
+
+  qLog(Debug) << "Qobuz: private_key not found in bundle";
   return QString();
 
 }
