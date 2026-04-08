@@ -920,8 +920,28 @@
       <translation>Gérer les regroupement enregistrés</translation>
     </message>
     <message>
-      <source>Show</source>
-      <translation>Afficher</translation>
+      <source>Any rating</source>
+      <translation>Toute notation</translation>
+    </message>
+    <message>
+      <source>Rating non null</source>
+      <translation>Notation non nulle</translation>
+    </message>
+    <message>
+      <source>Rating greater than 1 star</source>
+      <translation>Notation de plus d'une étoile</translation>
+    </message>
+    <message>
+      <source>Rating greater than 2 stars</source>
+      <translation>Notation de plus de deux étoiles</translation>
+    </message>
+    <message>
+      <source>Rating greater than 3 stars</source>
+      <translation>Notation de plus de trois étoiles</translation>
+    </message>
+    <message>
+      <source>Rating greater than 4 stars</source>
+      <translation>Notation de plus de quatre étoiles</translation>
     </message>
     <message>
       <source>Any rating</source>
@@ -954,6 +974,14 @@
     <message>
       <source>Group by</source>
       <translation>Grouper par</translation>
+    </message>
+    <message>
+      <source>Filter by age</source>
+      <translation type="unfinished">Filter by age</translation>
+    </message>
+    <message>
+      <source>Filter by rating</source>
+      <translation type="unfinished">Filter by rating</translation>
     </message>
     <message>
       <source>Display options</source>
@@ -5214,6 +5242,10 @@ Are you sure you want to continue?</source>
     <message>
       <source>Print out version information</source>
       <translation>Afficher la version</translation>
+    </message>
+    <message>
+      <source>Create fingerprint</source>
+      <translation type="unfinished">Create fingerprint</translation>
     </message>
     <message>
       <source>Failed to create directory %1.</source>

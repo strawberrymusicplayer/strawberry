@@ -922,8 +922,28 @@ Puoi anche effettuare un pagamento una tantum tramite &apos;%3&apos;.</translati
       <translation>Gestisci raggruppamenti salvati</translation>
     </message>
     <message>
-      <source>Show</source>
-      <translation>Visualizza</translation>
+      <source>Any rating</source>
+      <translation type="unfinished">Any rating</translation>
+    </message>
+    <message>
+      <source>Rating non null</source>
+      <translation type="unfinished">Rating non null</translation>
+    </message>
+    <message>
+      <source>Rating greater than 1 star</source>
+      <translation type="unfinished">Rating greater than 1 star</translation>
+    </message>
+    <message>
+      <source>Rating greater than 2 stars</source>
+      <translation type="unfinished">Rating greater than 2 stars</translation>
+    </message>
+    <message>
+      <source>Rating greater than 3 stars</source>
+      <translation type="unfinished">Rating greater than 3 stars</translation>
+    </message>
+    <message>
+      <source>Rating greater than 4 stars</source>
+      <translation type="unfinished">Rating greater than 4 stars</translation>
     </message>
     <message>
       <source>Any rating</source>
@@ -956,6 +976,14 @@ Puoi anche effettuare un pagamento una tantum tramite &apos;%3&apos;.</translati
     <message>
       <source>Group by</source>
       <translation>Raggruppa per</translation>
+    </message>
+    <message>
+      <source>Filter by age</source>
+      <translation type="unfinished">Filter by age</translation>
+    </message>
+    <message>
+      <source>Filter by rating</source>
+      <translation type="unfinished">Filter by rating</translation>
     </message>
     <message>
       <source>Display options</source>
@@ -5221,6 +5249,10 @@ Sei sicuro di voler continuare?</translation>
     <message>
       <source>Print out version information</source>
       <translation>Visualizza informazioni versione</translation>
+    </message>
+    <message>
+      <source>Create fingerprint</source>
+      <translation type="unfinished">Create fingerprint</translation>
     </message>
     <message>
       <source>Failed to create directory %1.</source>
