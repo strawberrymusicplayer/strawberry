@@ -518,7 +518,7 @@
     </message>
     <message>
       <source>You need to restart Strawberry for this setting to take affect.</source>
-      <translation type="unfinished">You need to restart Strawberry for this setting to take affect.</translation>
+      <translation>您需要重启 Strawberry 才能使此设置生效。</translation>
     </message>
   </context>
   <context>
@@ -697,7 +697,7 @@
     </message>
     <message>
       <source>You need to restart Strawberry for this setting to take affect</source>
-      <translation type="unfinished">You need to restart Strawberry for this setting to take affect</translation>
+      <translation>您需要重启 Strawberry 才能使此设置生效</translation>
     </message>
   </context>
   <context>
@@ -843,7 +843,7 @@
     <name>CDDASongLoader</name>
     <message>
       <source>Could not create cdiocddasrc</source>
-      <translation type="unfinished">Could not create cdiocddasrc</translation>
+      <translation>无法创建 cdiocddasrc</translation>
     </message>
     <message>
       <source>Error while setting CDDA device to ready state.</source>
@@ -920,8 +920,28 @@
       <translation>管理已保存的分组</translation>
     </message>
     <message>
-      <source>Show</source>
-      <translation>显示</translation>
+      <source>Any rating</source>
+      <translation type="unfinished">Any rating</translation>
+    </message>
+    <message>
+      <source>Rating non null</source>
+      <translation type="unfinished">Rating non null</translation>
+    </message>
+    <message>
+      <source>Rating greater than 1 star</source>
+      <translation type="unfinished">Rating greater than 1 star</translation>
+    </message>
+    <message>
+      <source>Rating greater than 2 stars</source>
+      <translation type="unfinished">Rating greater than 2 stars</translation>
+    </message>
+    <message>
+      <source>Rating greater than 3 stars</source>
+      <translation type="unfinished">Rating greater than 3 stars</translation>
+    </message>
+    <message>
+      <source>Rating greater than 4 stars</source>
+      <translation type="unfinished">Rating greater than 4 stars</translation>
     </message>
     <message>
       <source>Any rating</source>
@@ -954,6 +974,14 @@
     <message>
       <source>Group by</source>
       <translation>分组</translation>
+    </message>
+    <message>
+      <source>Filter by age</source>
+      <translation type="unfinished">Filter by age</translation>
+    </message>
+    <message>
+      <source>Filter by rating</source>
+      <translation type="unfinished">Filter by rating</translation>
     </message>
     <message>
       <source>Display options</source>
@@ -2359,15 +2387,15 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>ID3v2 version:</source>
-      <translation type="unfinished">ID3v2 version:</translation>
+      <translation>ID3v2 版本：</translation>
     </message>
     <message>
       <source>2.3</source>
-      <translation type="unfinished">2.3</translation>
+      <translation>2.3</translation>
     </message>
     <message>
       <source>2.4</source>
-      <translation type="unfinished">2.4</translation>
+      <translation>2.4</translation>
     </message>
     <message>
       <source>Performer sort</source>
@@ -2679,7 +2707,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Files</source>
-      <translation type="unfinished">Files</translation>
+      <translation>文件</translation>
     </message>
   </context>
   <context>
@@ -4099,19 +4127,19 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Discord</source>
-      <translation type="unfinished">Discord</translation>
+      <translation>Discord</translation>
     </message>
     <message>
       <source>Enable Rich Presence</source>
-      <translation type="unfinished">Enable Rich Presence</translation>
+      <translation>启用 Rich Presence</translation>
     </message>
     <message>
       <source>&quot;Listening to...&quot;</source>
-      <translation type="unfinished">&quot;Listening to...&quot;</translation>
+      <translation>&quot;正在听…&quot;</translation>
     </message>
     <message>
       <source>Strawberry</source>
-      <translation type="unfinished">Strawberry</translation>
+      <translation>Strawberry</translation>
     </message>
     <message>
       <source>Artist name</source>
@@ -4600,7 +4628,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>BPM</source>
-      <translation type="unfinished">BPM</translation>
+      <translation>BPM</translation>
     </message>
     <message>
       <source>Mood</source>
@@ -4612,7 +4640,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>URL</source>
-      <translation type="unfinished">URL</translation>
+      <translation>URL</translation>
     </message>
     <message>
       <source>CUE</source>
@@ -5215,6 +5243,10 @@ Are you sure you want to continue?</source>
       <translation>输出版本信息</translation>
     </message>
     <message>
+      <source>Create fingerprint</source>
+      <translation type="unfinished">Create fingerprint</translation>
+    </message>
+    <message>
       <source>Failed to create directory %1.</source>
       <translation>创建目录 %1 失败。</translation>
     </message>
@@ -5745,11 +5777,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Fetching...</source>
-      <translation type="unfinished">Fetching...</translation>
+      <translation>正在获取…</translation>
     </message>
     <message>
       <source>Credentials fetched</source>
-      <translation type="unfinished">Credentials fetched</translation>
+      <translation>凭据已获取</translation>
     </message>
     <message>
       <source>App ID and secret have been successfully fetched from the Qobuz web player.</source>
@@ -5757,11 +5789,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Credential fetch failed</source>
-      <translation type="unfinished">Credential fetch failed</translation>
+      <translation>凭据获取失败</translation>
     </message>
     <message>
       <source>Fetch Credentials</source>
-      <translation type="unfinished">Fetch Credentials</translation>
+      <translation>获取凭据</translation>
     </message>
     <message>
       <source>Automatically fetch app ID and secret from Qobuz web player</source>

@@ -518,7 +518,7 @@
     </message>
     <message>
       <source>You need to restart Strawberry for this setting to take affect.</source>
-      <translation type="unfinished">You need to restart Strawberry for this setting to take affect.</translation>
+      <translation>Вам необходимо перезапустить Strawberry, чтобы применить эту настройку.</translation>
     </message>
   </context>
   <context>
@@ -581,7 +581,7 @@
     </message>
     <message>
       <source>Use playbin3 when available</source>
-      <translation type="unfinished">Use playbin3 when available</translation>
+      <translation>Использовать playbin3 при наличии</translation>
     </message>
     <message>
       <source>Enable HTTP/2 for streaming</source>
@@ -697,7 +697,7 @@
     </message>
     <message>
       <source>You need to restart Strawberry for this setting to take affect</source>
-      <translation type="unfinished">You need to restart Strawberry for this setting to take affect</translation>
+      <translation>Вам необходимо перезапустить Strawberry, чтобы применить эту настройку</translation>
     </message>
   </context>
   <context>
@@ -843,19 +843,19 @@
     <name>CDDASongLoader</name>
     <message>
       <source>Could not create cdiocddasrc</source>
-      <translation type="unfinished">Could not create cdiocddasrc</translation>
+      <translation>Не удалось создать Cdiocddasrc</translation>
     </message>
     <message>
       <source>Error while setting CDDA device to ready state.</source>
-      <translation type="unfinished">Error while setting CDDA device to ready state.</translation>
+      <translation>Ошибка при установке устройства CDDA в состояние готовности.</translation>
     </message>
     <message>
       <source>Error while setting CDDA device to pause state.</source>
-      <translation type="unfinished">Error while setting CDDA device to pause state.</translation>
+      <translation>Ошибка при установке устройства CDDA в состояние паузы.</translation>
     </message>
     <message>
       <source>Error while querying CDDA tracks.</source>
-      <translation type="unfinished">Error while querying CDDA tracks.</translation>
+      <translation>Ошибка при запросе дорожек CDDA.</translation>
     </message>
   </context>
   <context>
@@ -920,8 +920,28 @@
       <translation>Менеджер сохранённых групп</translation>
     </message>
     <message>
-      <source>Show</source>
-      <translation>Показать</translation>
+      <source>Any rating</source>
+      <translation>Любая оценка</translation>
+    </message>
+    <message>
+      <source>Rating non null</source>
+      <translation>Оценка не нулевая</translation>
+    </message>
+    <message>
+      <source>Rating greater than 1 star</source>
+      <translation>Оценка выше 1 звезды</translation>
+    </message>
+    <message>
+      <source>Rating greater than 2 stars</source>
+      <translation>Оценка выше 2 звёзд</translation>
+    </message>
+    <message>
+      <source>Rating greater than 3 stars</source>
+      <translation>Оценка выше 3 звёзд</translation>
+    </message>
+    <message>
+      <source>Rating greater than 4 stars</source>
+      <translation>Оценка выше 4 звёзд</translation>
     </message>
     <message>
       <source>Any rating</source>
@@ -954,6 +974,14 @@
     <message>
       <source>Group by</source>
       <translation>Группировать по</translation>
+    </message>
+    <message>
+      <source>Filter by age</source>
+      <translation>Фильтр по возрасту</translation>
+    </message>
+    <message>
+      <source>Filter by rating</source>
+      <translation>Фильтр по оценке</translation>
     </message>
     <message>
       <source>Display options</source>
@@ -1032,7 +1060,7 @@
     <name>CollectionLibrary</name>
     <message>
       <source>Support for sort tags artist, album, album artist, title, composer, and performer</source>
-      <translation type="unfinished">Support for sort tags artist, album, album artist, title, composer, and performer</translation>
+      <translation>Поддержка сортировки тегов артиста, альбома, исполнителя альбома, названия, композитора и исполнителя</translation>
     </message>
     <message>
       <source>Saving playcounts and ratings</source>
@@ -1136,15 +1164,15 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artists, composers and performers</source>
-      <translation type="unfinished">Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artists, composers and performers</translation>
+      <translation>Пропускать начальные артикли («the», «a», «an») при сортировке имён артистов, композиторов и исполнителей</translation>
     </message>
     <message>
       <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting albums</source>
-      <translation type="unfinished">Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting albums</translation>
+      <translation>Пропускать начальные артикли («the», «a», «an») при сортировке альбомов</translation>
     </message>
     <message>
       <source>Use sort tags for sorting when available</source>
-      <translation type="unfinished">Use sort tags for sorting when available</translation>
+      <translation>Использовать теги сортировки при наличии</translation>
     </message>
     <message>
       <source>Album cover pixmap cache</source>
@@ -1487,27 +1515,27 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Add song artistsort tag</source>
-      <translation type="unfinished">Add song artistsort tag</translation>
+      <translation>Добавить тег песни artistsort</translation>
     </message>
     <message>
       <source>Add song albumartistsort tag</source>
-      <translation type="unfinished">Add song albumartistsort tag</translation>
+      <translation>Добавить тег песни albumartistsort</translation>
     </message>
     <message>
       <source>Add song titlesort tag</source>
-      <translation type="unfinished">Add song titlesort tag</translation>
+      <translation>Добавить тег песни titlesort</translation>
     </message>
     <message>
       <source>Add song composersort tag</source>
-      <translation type="unfinished">Add song composersort tag</translation>
+      <translation>Добавить тег песни composersort</translation>
     </message>
     <message>
       <source>Add song performersort tag</source>
-      <translation type="unfinished">Add song performersort tag</translation>
+      <translation>Добавить тег песни performersort</translation>
     </message>
     <message>
       <source>Add song albumsort tag</source>
-      <translation type="unfinished">Add song albumsort tag</translation>
+      <translation>Добавить тег песни albumsort</translation>
     </message>
   </context>
   <context>
@@ -2044,7 +2072,7 @@ If there are no matches then it will use the largest image in the directory.</so
     <name>DiscordRichPresence</name>
     <message>
       <source>on </source>
-      <translation type="unfinished">on </translation>
+      <translation>в </translation>
     </message>
   </context>
   <context>
@@ -2359,39 +2387,39 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>ID3v2 version:</source>
-      <translation type="unfinished">ID3v2 version:</translation>
+      <translation>Версия ID3v2:</translation>
     </message>
     <message>
       <source>2.3</source>
-      <translation type="unfinished">2.3</translation>
+      <translation>2.3</translation>
     </message>
     <message>
       <source>2.4</source>
-      <translation type="unfinished">2.4</translation>
+      <translation>2.4</translation>
     </message>
     <message>
       <source>Performer sort</source>
-      <translation type="unfinished">Performer sort</translation>
+      <translation>Сортировка исполнителя</translation>
     </message>
     <message>
       <source>Title sort</source>
-      <translation type="unfinished">Title sort</translation>
+      <translation>Сортировка заголовка</translation>
     </message>
     <message>
       <source>Album artist sort</source>
-      <translation type="unfinished">Album artist sort</translation>
+      <translation>Сортировка артиста альбома</translation>
     </message>
     <message>
       <source>Artist sort</source>
-      <translation type="unfinished">Artist sort</translation>
+      <translation>Сортировка артиста</translation>
     </message>
     <message>
       <source>Album sort</source>
-      <translation type="unfinished">Album sort</translation>
+      <translation>Сортировка альбома</translation>
     </message>
     <message>
       <source>Composer sort</source>
-      <translation type="unfinished">Composer sort</translation>
+      <translation>Сортировка композитора</translation>
     </message>
   </context>
   <context>
@@ -2522,7 +2550,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>You need to restart playback for this setting to take affect.</source>
-      <translation type="unfinished">You need to restart playback for this setting to take affect.</translation>
+      <translation>Вам необходимо перезапустить воспроизведение, чтобы применить эту настройку.</translation>
     </message>
   </context>
   <context>
@@ -2585,19 +2613,19 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Add root directory</source>
-      <translation type="unfinished">Add root directory</translation>
+      <translation>Добавить корневой каталог</translation>
     </message>
     <message>
       <source>Remove selected root directory</source>
-      <translation type="unfinished">Remove selected root directory</translation>
+      <translation>Удалить выбранный корневой каталог</translation>
     </message>
     <message>
       <source>Toggle between list and tree view</source>
-      <translation type="unfinished">Toggle between list and tree view</translation>
+      <translation>Переключение между списком и деревом</translation>
     </message>
     <message>
       <source>Select folder to add as tree root</source>
-      <translation type="unfinished">Select folder to add as tree root</translation>
+      <translation>Выберите папку для добавления в корень дерева</translation>
     </message>
   </context>
   <context>
@@ -2643,43 +2671,43 @@ If there are no matches then it will use the largest image in the directory.</so
     <name>FileViewTree</name>
     <message>
       <source>Append to current playlist</source>
-      <translation type="unfinished">Append to current playlist</translation>
+      <translation>Добавить в текущий плейлист</translation>
     </message>
     <message>
       <source>Replace current playlist</source>
-      <translation type="unfinished">Replace current playlist</translation>
+      <translation>Заменить текущий плейлист</translation>
     </message>
     <message>
       <source>Open in new playlist</source>
-      <translation type="unfinished">Open in new playlist</translation>
+      <translation>Открыть в новом плейлисте</translation>
     </message>
     <message>
       <source>Copy to collection...</source>
-      <translation type="unfinished">Copy to collection...</translation>
+      <translation>Копировать в фонотеку…</translation>
     </message>
     <message>
       <source>Move to collection...</source>
-      <translation type="unfinished">Move to collection...</translation>
+      <translation>Перенести в фонотеку…</translation>
     </message>
     <message>
       <source>Copy to device...</source>
-      <translation type="unfinished">Copy to device...</translation>
+      <translation>Копировать на устройство…</translation>
     </message>
     <message>
       <source>Delete from disk...</source>
-      <translation type="unfinished">Delete from disk...</translation>
+      <translation>Удалить с диска…</translation>
     </message>
     <message>
       <source>Edit track information...</source>
-      <translation type="unfinished">Edit track information...</translation>
+      <translation>Править сведения дорожки…</translation>
     </message>
     <message>
       <source>Show in file browser...</source>
-      <translation type="unfinished">Show in file browser...</translation>
+      <translation>Показать в проводнике…</translation>
     </message>
     <message>
       <source>Files</source>
-      <translation type="unfinished">Files</translation>
+      <translation>Файлы</translation>
     </message>
   </context>
   <context>
@@ -3084,35 +3112,35 @@ If there are no matches then it will use the largest image in the directory.</so
     <name>LastFMScrobbler</name>
     <message>
       <source>%1 Scrobbler Authentication</source>
-      <translation type="unfinished">%1 Scrobbler Authentication</translation>
+      <translation>Аутентификация скробблера %1</translation>
     </message>
     <message>
       <source>Open URL in web browser?</source>
-      <translation type="unfinished">Open URL in web browser?</translation>
+      <translation>Открыть адрес в веб-браузере?</translation>
     </message>
     <message>
       <source>Press &quot;Save&quot; to copy the URL to clipboard and manually open it in a web browser.</source>
-      <translation type="unfinished">Press &quot;Save&quot; to copy the URL to clipboard and manually open it in a web browser.</translation>
+      <translation>Нажмите «Сохранить», чтобы скопировать адрес в буфер обмена и вручную открыть его в веб-браузере.</translation>
     </message>
     <message>
       <source>Could not open URL. Please open this URL in your browser</source>
-      <translation type="unfinished">Could not open URL. Please open this URL in your browser</translation>
+      <translation>Не удалось открыть адрес. Пожалуйста, откройте эту ссылку в вашем браузере</translation>
     </message>
     <message>
       <source>Invalid reply from web browser. Missing token.</source>
-      <translation type="unfinished">Invalid reply from web browser. Missing token.</translation>
+      <translation>Неверный ответ от веб-браузера. Отсутствует токен.</translation>
     </message>
     <message>
       <source>Received invalid reply from web browser. Try another browser.</source>
-      <translation type="unfinished">Received invalid reply from web browser. Try another browser.</translation>
+      <translation>Получен неверный ответ от веб-браузера. Попробуйте другой браузер.</translation>
     </message>
     <message>
       <source>Scrobbler %1 is not authenticated!</source>
-      <translation type="unfinished">Scrobbler %1 is not authenticated!</translation>
+      <translation>Скробблер %1 не аутентифицирован!</translation>
     </message>
     <message>
       <source>Scrobbler %1 error: %2</source>
-      <translation type="unfinished">Scrobbler %1 error: %2</translation>
+      <translation>Ошибка %1 скробблера: %2</translation>
     </message>
   </context>
   <context>
@@ -3590,7 +3618,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Fetch metadata from service</source>
-      <translation type="unfinished">Fetch metadata from service</translation>
+      <translation>Получить метаданные из службы</translation>
     </message>
     <message>
       <source>Copy URL(s)...</source>
@@ -4099,58 +4127,58 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Discord</source>
-      <translation type="unfinished">Discord</translation>
+      <translation>Дискорд</translation>
     </message>
     <message>
       <source>Enable Rich Presence</source>
-      <translation type="unfinished">Enable Rich Presence</translation>
+      <translation>Включить режим Rich Presence</translation>
     </message>
     <message>
       <source>&quot;Listening to...&quot;</source>
-      <translation type="unfinished">&quot;Listening to...&quot;</translation>
+      <translation>«Слушает…»</translation>
     </message>
     <message>
       <source>Strawberry</source>
-      <translation type="unfinished">Strawberry</translation>
+      <translation>Strawberry</translation>
     </message>
     <message>
       <source>Artist name</source>
-      <translation type="unfinished">Artist name</translation>
+      <translation>Имя артиста</translation>
     </message>
     <message>
       <source>Song title</source>
-      <translation type="unfinished">Song title</translation>
+      <translation>Название песни</translation>
     </message>
   </context>
   <context>
     <name>OAuthenticator</name>
     <message>
       <source>Authentication</source>
-      <translation type="unfinished">Authentication</translation>
+      <translation>Аутентификация</translation>
     </message>
     <message>
       <source>Please open this URL in your browser</source>
-      <translation type="unfinished">Please open this URL in your browser</translation>
+      <translation>Пожалуйста, откройте эту ссылку в вашем браузере</translation>
     </message>
     <message>
       <source>Received invalid reply from web browser.</source>
-      <translation type="unfinished">Received invalid reply from web browser.</translation>
+      <translation>Получен неверный ответ от веб-браузера.</translation>
     </message>
     <message>
       <source>Redirect URL is missing query.</source>
-      <translation type="unfinished">Redirect URL is missing query.</translation>
+      <translation>В адресе перенаправления отсутствует запрос.</translation>
     </message>
     <message>
       <source>Request URL is missing code!</source>
-      <translation type="unfinished">Request URL is missing code!</translation>
+      <translation>В адресе перенаправления отсутствует код!</translation>
     </message>
     <message>
       <source>Request URL is missing state!</source>
-      <translation type="unfinished">Request URL is missing state!</translation>
+      <translation>В адресе запроса отсутствует состояние!</translation>
     </message>
     <message>
       <source>Request URL has wrong state %1 != %2</source>
-      <translation type="unfinished">Request URL has wrong state %1 != %2</translation>
+      <translation>Адрес запроса имеет неверное состояние %1 != %2</translation>
     </message>
   </context>
   <context>
@@ -4426,11 +4454,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>File %1 does not exist</source>
-      <translation type="unfinished">File %1 does not exist</translation>
+      <translation>Файл %1 не существует</translation>
     </message>
     <message>
       <source>Could not read file %1: %2</source>
-      <translation type="unfinished">Could not read file %1: %2</translation>
+      <translation>Не удалось прочитать файл %1: %2</translation>
     </message>
   </context>
   <context>
@@ -4468,7 +4496,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Title Sort</source>
-      <translation type="unfinished">Title Sort</translation>
+      <translation>Сортировка заголовка</translation>
     </message>
     <message>
       <source>Artist</source>
@@ -4476,7 +4504,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Artist Sort</source>
-      <translation type="unfinished">Artist Sort</translation>
+      <translation>Сортировка артиста</translation>
     </message>
     <message>
       <source>Album</source>
@@ -4484,7 +4512,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Album Sort</source>
-      <translation type="unfinished">Album Sort</translation>
+      <translation>Сортировка альбома</translation>
     </message>
     <message>
       <source>Track</source>
@@ -4516,7 +4544,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Album Artist Sort</source>
-      <translation type="unfinished">Album Artist Sort</translation>
+      <translation>Сортировка артиста альбома</translation>
     </message>
     <message>
       <source>Composer</source>
@@ -4524,7 +4552,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Composer Sort</source>
-      <translation type="unfinished">Composer Sort</translation>
+      <translation>Сортировка композитора</translation>
     </message>
     <message>
       <source>Performer</source>
@@ -4532,7 +4560,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Performer Sort</source>
-      <translation type="unfinished">Performer Sort</translation>
+      <translation>Сортировка исполнителя</translation>
     </message>
     <message>
       <source>Grouping</source>
@@ -4564,7 +4592,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Initial key</source>
-      <translation type="unfinished">Initial key</translation>
+      <translation>Первичный ключ</translation>
     </message>
     <message>
       <source>File Name (without path)</source>
@@ -4596,11 +4624,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Moodbar</source>
-      <translation type="unfinished">Moodbar</translation>
+      <translation>Индикатор тона</translation>
     </message>
     <message>
       <source>BPM</source>
-      <translation type="unfinished">BPM</translation>
+      <translation>BPM</translation>
     </message>
     <message>
       <source>Mood</source>
@@ -4612,7 +4640,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>URL</source>
-      <translation type="unfinished">URL</translation>
+      <translation>Адрес</translation>
     </message>
     <message>
       <source>CUE</source>
@@ -4740,7 +4768,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Copy songs to playlist</source>
-      <translation type="unfinished">Copy songs to playlist</translation>
+      <translation>Копировать песни в плейлист</translation>
     </message>
     <message>
       <source>Copy to device</source>
@@ -5218,6 +5246,10 @@ Are you sure you want to continue?</source>
       <translation>Вывести информацию о версии</translation>
     </message>
     <message>
+      <source>Create fingerprint</source>
+      <translation>Создать отпечаток пальца</translation>
+    </message>
+    <message>
       <source>Failed to create directory %1.</source>
       <translation>Не удалось создать каталог %1.</translation>
     </message>
@@ -5323,7 +5355,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Could not save file</source>
-      <translation type="unfinished">Could not save file</translation>
+      <translation>Не удалось сохранить файл</translation>
     </message>
     <message>
       <source>Unknown error</source>
@@ -5347,7 +5379,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>A word can be excluded with a preceding &quot;%1&quot;, if you need to search for a word including &quot;%1&quot;, place quotes around the word.</source>
-      <translation type="unfinished">A word can be excluded with a preceding &quot;%1&quot;, if you need to search for a word including &quot;%1&quot;, place quotes around the word.</translation>
+      <translation>Можно исключить слово с предыдущим «%1», если вам нужно искать слово, включая «%1», поместите кавычки вокруг слова.</translation>
     </message>
     <message>
       <source>rating</source>
@@ -5572,11 +5604,11 @@ Are you sure you want to continue?</source>
     <name>QobuzMetadataRequest</name>
     <message>
       <source>Not authenticated</source>
-      <translation type="unfinished">Not authenticated</translation>
+      <translation>Не аутентифицирован</translation>
     </message>
     <message>
       <source>No track ID</source>
-      <translation type="unfinished">No track ID</translation>
+      <translation>Нет ИД дорожки</translation>
     </message>
   </context>
   <context>
@@ -5757,31 +5789,31 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Fetching...</source>
-      <translation type="unfinished">Fetching...</translation>
+      <translation>Получение…</translation>
     </message>
     <message>
       <source>Credentials fetched</source>
-      <translation type="unfinished">Credentials fetched</translation>
+      <translation>Учётные данные получены</translation>
     </message>
     <message>
       <source>App ID and secret have been successfully fetched from the Qobuz web player.</source>
-      <translation type="unfinished">App ID and secret have been successfully fetched from the Qobuz web player.</translation>
+      <translation>ИД приложения и секрет были успешно загружены из веб-плеера Qobuz.</translation>
     </message>
     <message>
       <source>Credential fetch failed</source>
-      <translation type="unfinished">Credential fetch failed</translation>
+      <translation>Не удалось получить учётные данные</translation>
     </message>
     <message>
       <source>Fetch Credentials</source>
-      <translation type="unfinished">Fetch Credentials</translation>
+      <translation>Получить учётные данные</translation>
     </message>
     <message>
       <source>Automatically fetch app ID and secret from Qobuz web player</source>
-      <translation type="unfinished">Automatically fetch app ID and secret from Qobuz web player</translation>
+      <translation>Автоматически получать идентификатор приложения и секрет от веб-плеера Qobuz</translation>
     </message>
     <message>
       <source>Remove (Remastered), etc from song titles</source>
-      <translation type="unfinished">Remove (Remastered), etc from song titles</translation>
+      <translation>Удалять (Remastered) и прочее из названий песен</translation>
     </message>
   </context>
   <context>
@@ -6430,11 +6462,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Are you sure you want to restore the default smart playlists? This will remove all custom smart playlists</source>
-      <translation type="unfinished">Are you sure you want to restore the default smart playlists? This will remove all custom smart playlists</translation>
+      <translation>Вы уверены, что хотите восстановить умные плейлисты по умолчанию? Это удалит все пользовательские умные списки</translation>
     </message>
     <message>
       <source>Restore defaults</source>
-      <translation type="unfinished">Restore defaults</translation>
+      <translation>Восстановить настройки по умолчанию</translation>
     </message>
   </context>
   <context>
@@ -6545,15 +6577,15 @@ Are you sure you want to continue?</source>
     <name>SpotifyMetadataRequest</name>
     <message>
       <source>Not authenticated</source>
-      <translation type="unfinished">Not authenticated</translation>
+      <translation>Не аутентифицирован</translation>
     </message>
     <message>
       <source>No track ID</source>
-      <translation type="unfinished">No track ID</translation>
+      <translation>Нет ИД дорожки</translation>
     </message>
     <message>
       <source>No pending song for track ID</source>
-      <translation type="unfinished">No pending song for track ID</translation>
+      <translation>Нет ожидающей песни для ИД дорожки</translation>
     </message>
   </context>
   <context>
@@ -6678,7 +6710,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Remove (Remastered), etc from song titles</source>
-      <translation type="unfinished">Remove (Remastered), etc from song titles</translation>
+      <translation>Удалять (Remastered) и прочее из названий песен</translation>
     </message>
   </context>
   <context>
@@ -7155,7 +7187,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Remove (Remastered), etc from song titles</source>
-      <translation type="unfinished">Remove (Remastered), etc from song titles</translation>
+      <translation>Удалять (Remastered) и прочее из названий песен</translation>
     </message>
   </context>
   <context>
@@ -7237,7 +7269,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Album artist</source>
-      <translation type="unfinished">Album artist</translation>
+      <translation>Артист альбома</translation>
     </message>
   </context>
   <context>

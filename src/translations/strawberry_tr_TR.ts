@@ -273,7 +273,7 @@
     </message>
     <message>
       <source>Could not save cover to file %1.</source>
-      <translation type="unfinished">Could not save cover to file %1.</translation>
+      <translation>%1 dosyasına albüm kapağı kaydedilemedi.</translation>
     </message>
   </context>
   <context>
@@ -474,7 +474,7 @@
     </message>
     <message>
       <source>Playlist buttons</source>
-      <translation>Oynatma listesi seçenekleri</translation>
+      <translation>Çalma listesi seçenekleri</translation>
     </message>
     <message>
       <source>Tabbar large mode</source>
@@ -482,7 +482,7 @@
     </message>
     <message>
       <source>Play control buttons</source>
-      <translation>Oynatma kontrolü seçenekleri</translation>
+      <translation>Çalma kontrolü seçenekleri</translation>
     </message>
     <message>
       <source>Configure buttons</source>
@@ -498,7 +498,7 @@
     </message>
     <message>
       <source>Playlist playing song color</source>
-      <translation>Oynatma listesi oynatılan şarkı rengi</translation>
+      <translation>Çalma listesi oynatılan şarkı rengi</translation>
     </message>
     <message>
       <source>System highlight color</source>
@@ -816,7 +816,7 @@
     </message>
     <message>
       <source>Double clicking a song in the playlist will...</source>
-      <translation>Oynatma listesindeki bir şarkıya çift tıklamak...</translation>
+      <translation>Çalma listesindeki bir şarkıya çift tıklamak...</translation>
     </message>
     <message>
       <source>Change the currently playing song</source>
@@ -920,8 +920,28 @@
       <translation>Kayıtlı gruplamaları yönet</translation>
     </message>
     <message>
-      <source>Show</source>
-      <translation>Göster</translation>
+      <source>Any rating</source>
+      <translation type="unfinished">Any rating</translation>
+    </message>
+    <message>
+      <source>Rating non null</source>
+      <translation type="unfinished">Rating non null</translation>
+    </message>
+    <message>
+      <source>Rating greater than 1 star</source>
+      <translation type="unfinished">Rating greater than 1 star</translation>
+    </message>
+    <message>
+      <source>Rating greater than 2 stars</source>
+      <translation type="unfinished">Rating greater than 2 stars</translation>
+    </message>
+    <message>
+      <source>Rating greater than 3 stars</source>
+      <translation type="unfinished">Rating greater than 3 stars</translation>
+    </message>
+    <message>
+      <source>Rating greater than 4 stars</source>
+      <translation type="unfinished">Rating greater than 4 stars</translation>
     </message>
     <message>
       <source>Any rating</source>
@@ -954,6 +974,14 @@
     <message>
       <source>Group by</source>
       <translation>Grupla</translation>
+    </message>
+    <message>
+      <source>Filter by age</source>
+      <translation type="unfinished">Filter by age</translation>
+    </message>
+    <message>
+      <source>Filter by rating</source>
+      <translation>Derecelendirmeye göre süz</translation>
     </message>
     <message>
       <source>Display options</source>
@@ -1036,7 +1064,7 @@
     </message>
     <message>
       <source>Saving playcounts and ratings</source>
-      <translation>Oynatma sayısı ve derecelendirmeler kaydediliyor</translation>
+      <translation>Çalma sayısı ve derecelendirmeler kaydediliyor</translation>
     </message>
   </context>
   <context>
@@ -1111,8 +1139,7 @@
     <message>
       <source>When looking for album art Strawberry will first look for picture files that contain one of these words.
 If there are no matches then it will use the largest image in the directory.</source>
-      <translation type="unfinished">When looking for album art Strawberry will first look for picture files that contain one of these words.
-If there are no matches then it will use the largest image in the directory.</translation>
+      <translation>Albüm kapağı ararken Strawberry ilk olarak o kelimelerden birini içeren görselleri arar. Eğer eşleşme bulunamazsa klasördeki en büyük görseli kullanır.</translation>
     </message>
     <message>
       <source>Display options</source>
@@ -1888,7 +1915,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>This device will not work properly</source>
-      <translation type="unfinished">This device will not work properly</translation>
+      <translation>Bu cihaz düzgün çalışmaz</translation>
     </message>
     <message>
       <source>This is an MTP device, but you compiled Strawberry without libmtp support.</source>
@@ -1900,11 +1927,11 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>This is an iPod, but you compiled Strawberry without libgpod support.</source>
-      <translation type="unfinished">This is an iPod, but you compiled Strawberry without libgpod support.</translation>
+      <translation>Bu bir iPod, fakat Strawberry libgpod desteği olmadan derlenmiş.</translation>
     </message>
     <message>
       <source>This type of device is not supported: %1</source>
-      <translation type="unfinished">This type of device is not supported: %1</translation>
+      <translation>Cihaz türü desteklenmiyor: %1</translation>
     </message>
   </context>
   <context>
@@ -1947,7 +1974,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Strawberry can automatically convert the music you copy to this device into a format that it can play.</source>
-      <translation type="unfinished">Strawberry can automatically convert the music you copy to this device into a format that it can play.</translation>
+      <translation>Strawberry bu cihaza kopyaladığınız müziği otomatik olarak oynatabileceği bir biçime dönüştürebilir.</translation>
     </message>
     <message>
       <source>Do not convert any music</source>
@@ -2074,7 +2101,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     <name>EditTagDialog</name>
     <message>
       <source>Edit track information</source>
-      <translation type="unfinished">Edit track information</translation>
+      <translation>Parça bilgisini düzenle</translation>
     </message>
     <message>
       <source>Summary</source>
@@ -2363,11 +2390,11 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>2.3</source>
-      <translation type="unfinished">2.3</translation>
+      <translation>2.3</translation>
     </message>
     <message>
       <source>2.4</source>
-      <translation type="unfinished">2.4</translation>
+      <translation>2.4</translation>
     </message>
     <message>
       <source>Performer sort</source>
@@ -2375,23 +2402,23 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Title sort</source>
-      <translation type="unfinished">Title sort</translation>
+      <translation>Başlık sıra</translation>
     </message>
     <message>
       <source>Album artist sort</source>
-      <translation type="unfinished">Album artist sort</translation>
+      <translation>Albüm sanatçısı sıra</translation>
     </message>
     <message>
       <source>Artist sort</source>
-      <translation type="unfinished">Artist sort</translation>
+      <translation>Sanatçı sıra</translation>
     </message>
     <message>
       <source>Album sort</source>
-      <translation type="unfinished">Album sort</translation>
+      <translation>Albüm sıra</translation>
     </message>
     <message>
       <source>Composer sort</source>
-      <translation type="unfinished">Composer sort</translation>
+      <translation>Besteci sıra</translation>
     </message>
   </context>
   <context>
@@ -2522,7 +2549,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>You need to restart playback for this setting to take affect.</source>
-      <translation type="unfinished">You need to restart playback for this setting to take affect.</translation>
+      <translation>Bu ayarın etki etmesi için şarkının oynatılmasını yeniden başlatmanız gerekir.</translation>
     </message>
   </context>
   <context>
@@ -2585,19 +2612,19 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Add root directory</source>
-      <translation type="unfinished">Add root directory</translation>
+      <translation>Kök klasör ekle</translation>
     </message>
     <message>
       <source>Remove selected root directory</source>
-      <translation type="unfinished">Remove selected root directory</translation>
+      <translation>Seçili kök klasörü kaldır</translation>
     </message>
     <message>
       <source>Toggle between list and tree view</source>
-      <translation type="unfinished">Toggle between list and tree view</translation>
+      <translation>Liste/ağaç görünümüne geç</translation>
     </message>
     <message>
       <source>Select folder to add as tree root</source>
-      <translation type="unfinished">Select folder to add as tree root</translation>
+      <translation>Ağaç kökü olarak eklemek için klasör seç</translation>
     </message>
   </context>
   <context>
@@ -2643,43 +2670,43 @@ If there are no matches then it will use the largest image in the directory.</tr
     <name>FileViewTree</name>
     <message>
       <source>Append to current playlist</source>
-      <translation type="unfinished">Append to current playlist</translation>
+      <translation>Geçerli çalma listesine ekle</translation>
     </message>
     <message>
       <source>Replace current playlist</source>
-      <translation type="unfinished">Replace current playlist</translation>
+      <translation>Geçerli çalma listesinin yerine koy</translation>
     </message>
     <message>
       <source>Open in new playlist</source>
-      <translation type="unfinished">Open in new playlist</translation>
+      <translation>Yeni çalma listesinde aç</translation>
     </message>
     <message>
       <source>Copy to collection...</source>
-      <translation type="unfinished">Copy to collection...</translation>
+      <translation>Koleksiyona kopyala...</translation>
     </message>
     <message>
       <source>Move to collection...</source>
-      <translation type="unfinished">Move to collection...</translation>
+      <translation>Koleksiyona taşı...</translation>
     </message>
     <message>
       <source>Copy to device...</source>
-      <translation type="unfinished">Copy to device...</translation>
+      <translation>Cihaza kopyala...</translation>
     </message>
     <message>
       <source>Delete from disk...</source>
-      <translation type="unfinished">Delete from disk...</translation>
+      <translation>Diskten sil...</translation>
     </message>
     <message>
       <source>Edit track information...</source>
-      <translation type="unfinished">Edit track information...</translation>
+      <translation>Parça bilgisini düzenle...</translation>
     </message>
     <message>
       <source>Show in file browser...</source>
-      <translation type="unfinished">Show in file browser...</translation>
+      <translation>Dosya yöneticisinde göster...</translation>
     </message>
     <message>
       <source>Files</source>
-      <translation type="unfinished">Files</translation>
+      <translation>Dosyalar</translation>
     </message>
   </context>
   <context>
@@ -3927,11 +3954,11 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>Show a notification when I pause playback</source>
-      <translation>Oynatmayı durdurduğumda bir bildirim göster</translation>
+      <translation>Çalmayı durdurduğumda bir bildirim göster</translation>
     </message>
     <message>
       <source>Show a notification when I resume playback</source>
-      <translation>Oynatmayı devam ettirdiğimde bir bildirim göster</translation>
+      <translation>Çalmayı devam ettirdiğimde bir bildirim göster</translation>
     </message>
     <message>
       <source>Include album art in the notification</source>
@@ -4651,7 +4678,7 @@ If there are no matches then it will use the largest image in the directory.</tr
     </message>
     <message>
       <source>No matches found.  Clear the search box to show the whole playlist again.</source>
-      <translation type="unfinished">No matches found.  Clear the search box to show the whole playlist again.</translation>
+      <translation>Eşleşme bulunamadı. Çalma listesinin tamamını görüntülemek için arama kutusunu temizleyin.</translation>
     </message>
   </context>
   <context>
@@ -5214,6 +5241,10 @@ Devam etmek istediğinizden emin misiniz?</translation>
     <message>
       <source>Print out version information</source>
       <translation>Sürüm bilgisini yazdır</translation>
+    </message>
+    <message>
+      <source>Create fingerprint</source>
+      <translation type="unfinished">Create fingerprint</translation>
     </message>
     <message>
       <source>Failed to create directory %1.</source>

@@ -920,8 +920,28 @@
       <translation>Zarządzaj zapisanymi grupowaniami</translation>
     </message>
     <message>
-      <source>Show</source>
-      <translation>Pokaż</translation>
+      <source>Any rating</source>
+      <translation type="unfinished">Any rating</translation>
+    </message>
+    <message>
+      <source>Rating non null</source>
+      <translation type="unfinished">Rating non null</translation>
+    </message>
+    <message>
+      <source>Rating greater than 1 star</source>
+      <translation type="unfinished">Rating greater than 1 star</translation>
+    </message>
+    <message>
+      <source>Rating greater than 2 stars</source>
+      <translation type="unfinished">Rating greater than 2 stars</translation>
+    </message>
+    <message>
+      <source>Rating greater than 3 stars</source>
+      <translation type="unfinished">Rating greater than 3 stars</translation>
+    </message>
+    <message>
+      <source>Rating greater than 4 stars</source>
+      <translation type="unfinished">Rating greater than 4 stars</translation>
     </message>
     <message>
       <source>Any rating</source>
@@ -954,6 +974,14 @@
     <message>
       <source>Group by</source>
       <translation>Grupuj według</translation>
+    </message>
+    <message>
+      <source>Filter by age</source>
+      <translation type="unfinished">Filter by age</translation>
+    </message>
+    <message>
+      <source>Filter by rating</source>
+      <translation type="unfinished">Filter by rating</translation>
     </message>
     <message>
       <source>Display options</source>
@@ -5218,6 +5246,10 @@ Na pewno chcesz usunąć?</translation>
     <message>
       <source>Print out version information</source>
       <translation>Wypisz informacje o wersji</translation>
+    </message>
+    <message>
+      <source>Create fingerprint</source>
+      <translation type="unfinished">Create fingerprint</translation>
     </message>
     <message>
       <source>Failed to create directory %1.</source>
