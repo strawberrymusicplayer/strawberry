@@ -57,8 +57,6 @@ QobuzSettingsPage::QobuzSettingsPage(SettingsDialog *dialog, const SharedPtr<Qob
   QObject::connect(ui_->login_state, &LoginStateWidget::LogoutClicked, this, &QobuzSettingsPage::LogoutClicked);
   QObject::connect(ui_->button_fetch_credentials, &QPushButton::clicked, this, &QobuzSettingsPage::FetchCredentialsClicked);
 
-  QObject::connect(this, &QobuzSettingsPage::Login, &*service_, &StreamingService::LoginWithCredentials);
-
   QObject::connect(&*service_, &StreamingService::LoginFailure, this, &QobuzSettingsPage::LoginFailure);
   QObject::connect(&*service_, &StreamingService::LoginSuccess, this, &QobuzSettingsPage::LoginSuccess);
 
@@ -89,18 +87,13 @@ void QobuzSettingsPage::Load() {
   ui_->enable->setChecked(s.value(kEnabled, false).toBool());
   ui_->app_id->setText(s.value(kAppId).toString());
   ui_->app_secret->setText(s.value(kAppSecret).toString());
-
-  ui_->username->setText(s.value(kUsername).toString());
-  QByteArray password = s.value(kPassword).toByteArray();
-  if (password.isEmpty()) ui_->password->clear();
-  else ui_->password->setText(QString::fromUtf8(QByteArray::fromBase64(password)));
+  ui_->private_key->setText(s.value(kPrivateKey).toString());
 
   ComboBoxLoadFromSettings(s, ui_->format, QLatin1String(kFormat), 27);
   ui_->searchdelay->setValue(s.value(kSearchDelay, 1500).toInt());
   ui_->artistssearchlimit->setValue(s.value(kArtistsSearchLimit, 4).toInt());
   ui_->albumssearchlimit->setValue(s.value(kAlbumsSearchLimit, 10).toInt());
   ui_->songssearchlimit->setValue(s.value(kSongsSearchLimit, 10).toInt());
-  ui_->checkbox_base64_secret->setChecked(s.value(kBase64Secret, false).toBool());
   ui_->checkbox_download_album_covers->setChecked(s.value(kDownloadAlbumCovers, true).toBool());
   ui_->checkbox_remove_remastered->setChecked(s.value(kRemoveRemastered, true).toBool());
 
@@ -118,19 +111,16 @@ void QobuzSettingsPage::Save() {
 
   Settings s;
   s.beginGroup(kSettingsGroup);
-  s.setValue("enabled", ui_->enable->isChecked());
+  s.setValue(kEnabled, ui_->enable->isChecked());
   s.setValue(kAppId, ui_->app_id->text());
   s.setValue(kAppSecret, ui_->app_secret->text());
-
-  s.setValue(kUsername, ui_->username->text());
-  s.setValue(kPassword, QString::fromUtf8(ui_->password->text().toUtf8().toBase64()));
+  s.setValue(kPrivateKey, ui_->private_key->text());
 
   s.setValue(kFormat, ui_->format->itemData(ui_->format->currentIndex()));
   s.setValue(kSearchDelay, ui_->searchdelay->value());
   s.setValue(kArtistsSearchLimit, ui_->artistssearchlimit->value());
   s.setValue(kAlbumsSearchLimit, ui_->albumssearchlimit->value());
   s.setValue(kSongsSearchLimit, ui_->songssearchlimit->value());
-  s.setValue(kBase64Secret, ui_->checkbox_base64_secret->isChecked());
   s.setValue(kDownloadAlbumCovers, ui_->checkbox_download_album_covers->isChecked());
   s.setValue(kRemoveRemastered, ui_->checkbox_remove_remastered->isChecked());
   s.endGroup();
@@ -140,19 +130,19 @@ void QobuzSettingsPage::Save() {
 void QobuzSettingsPage::LoginClicked() {
 
   if (ui_->app_id->text().isEmpty()) {
-    QMessageBox::critical(this, tr("Configuration incomplete"), tr("Missing app id."));
+    QMessageBox::critical(this, tr("Configuration incomplete"), tr("Missing app id. Please fetch credentials first."));
     return;
   }
-  if (ui_->username->text().isEmpty()) {
-    QMessageBox::critical(this, tr("Configuration incomplete"), tr("Missing username."));
+  if (ui_->app_secret->text().isEmpty()) {
+    QMessageBox::critical(this, tr("Configuration incomplete"), tr("Missing app secret. Please fetch credentials first."));
     return;
   }
-  if (ui_->password->text().isEmpty()) {
-    QMessageBox::critical(this, tr("Configuration incomplete"), tr("Missing password."));
+  if (ui_->private_key->text().isEmpty()) {
+    QMessageBox::critical(this, tr("Configuration incomplete"), tr("Missing private key. Please fetch credentials first."));
     return;
   }
 
-  Q_EMIT Login(ui_->app_id->text(), ui_->username->text(), ui_->password->text());
+  service_->Authenticate(ui_->app_id->text(), ui_->app_secret->text(), ui_->private_key->text());
   ui_->button_login->setEnabled(false);
 
 }
@@ -187,6 +177,7 @@ void QobuzSettingsPage::LoginFailure(const QString &failure_reason) {
 
   if (!isVisible()) return;
   QMessageBox::warning(this, tr("Authentication failed"), failure_reason);
+  ui_->button_login->setEnabled(true);
 
 }
 
@@ -205,16 +196,18 @@ void QobuzSettingsPage::FetchCredentialsClicked() {
 
 }
 
-void QobuzSettingsPage::CredentialsFetched(const QString &app_id, const QString &app_secret) {
+void QobuzSettingsPage::CredentialsFetched(const QString &app_id, const QString &app_secret, const QString &login_app_id, const QString &private_key) {
+
+  Q_UNUSED(login_app_id)
 
   ui_->app_id->setText(app_id);
   ui_->app_secret->setText(app_secret);
-  ui_->checkbox_base64_secret->setChecked(false);
+  ui_->private_key->setText(private_key);
 
   ui_->button_fetch_credentials->setEnabled(true);
   ui_->button_fetch_credentials->setText(tr("Fetch Credentials"));
 
-  QMessageBox::information(this, tr("Credentials fetched"), tr("App ID and secret have been successfully fetched from the Qobuz web player."));
+  QMessageBox::information(this, tr("Credentials fetched"), tr("Credentials have been successfully fetched. Click Login to authenticate via your browser."));
 
 }
 

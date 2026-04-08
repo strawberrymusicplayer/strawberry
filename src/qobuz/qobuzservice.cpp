@@ -36,15 +36,16 @@
 #include <QSettings>
 #include <QSslError>
 #include <QScopedPointer>
+#include <QDesktopServices>
 
 #include "includes/shared_ptr.h"
 #include "core/logging.h"
 #include "core/networkaccessmanager.h"
+#include "core/localredirectserver.h"
 #include "core/database.h"
 #include "core/song.h"
 #include "core/settings.h"
 #include "core/urlhandlers.h"
-#include "utilities/macaddrutils.h"
 #include "streaming/streamingsearchview.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
@@ -61,13 +62,11 @@ using std::make_shared;
 
 const Song::Source QobuzService::kSource = Song::Source::Qobuz;
 const char QobuzService::kApiUrl[] = "https://www.qobuz.com/api.json/0.2";
-const int QobuzService::kLoginAttempts = 2;
 
 namespace {
 
-constexpr char kAuthUrl[] = "https://www.qobuz.com/api.json/0.2/user/login";
-
-constexpr int kTimeResetLoginAttempts = 60000;
+constexpr char kOAuthSigninUrl[] = "https://www.qobuz.com/signin/oauth";
+constexpr char kOAuthCallbackUrl[] = "https://www.qobuz.com/api.json/0.2/oauth/callback";
 
 constexpr char kArtistsSongsTable[] = "qobuz_artists_songs";
 constexpr char kAlbumsSongsTable[] = "qobuz_albums_songs";
@@ -91,8 +90,8 @@ QobuzService::QobuzService(const SharedPtr<TaskManager> task_manager,
       albums_collection_model_(nullptr),
       songs_collection_model_(nullptr),
       timer_search_delay_(new QTimer(this)),
-      timer_login_attempt_(new QTimer(this)),
       favorite_request_(new QobuzFavoriteRequest(this, network_, this)),
+      local_redirect_server_(nullptr),
       format_(0),
       search_delay_(1500),
       artistssearchlimit_(1),
@@ -101,13 +100,10 @@ QobuzService::QobuzService(const SharedPtr<TaskManager> task_manager,
       download_album_covers_(true),
       remove_remastered_(true),
       user_id_(-1),
-      credential_id_(-1),
       pending_search_id_(0),
       next_pending_search_id_(1),
       pending_search_type_(SearchType::Artists),
       search_id_(0),
-      login_sent_(false),
-      login_attempts_(0),
       next_stream_url_request_id_(0) {
 
   url_handlers->Register(url_handler_);
@@ -135,12 +131,6 @@ QobuzService::QobuzService(const SharedPtr<TaskManager> task_manager,
 
   timer_search_delay_->setSingleShot(true);
   QObject::connect(timer_search_delay_, &QTimer::timeout, this, &QobuzService::StartSearch);
-
-  timer_login_attempt_->setSingleShot(true);
-  QObject::connect(timer_login_attempt_, &QTimer::timeout, this, &QobuzService::ResetLoginAttempts);
-
-  QObject::connect(this, &QobuzService::RequestLogin, this, &QobuzService::SendLogin);
-  QObject::connect(this, &QobuzService::LoginWithCredentials, this, &QobuzService::SendLoginWithCredentials);
 
   QObject::connect(this, &QobuzService::AddArtists, favorite_request_, &QobuzFavoriteRequest::AddArtists);
   QObject::connect(this, &QobuzService::AddAlbums, favorite_request_, &QobuzFavoriteRequest::AddAlbums);
@@ -214,13 +204,7 @@ void QobuzService::ReloadSettings() {
 
   app_id_ = s.value(QobuzSettings::kAppId).toString();
   app_secret_ = s.value(QobuzSettings::kAppSecret).toString();
-
-  const bool base64_secret = s.value(QobuzSettings::kBase64Secret, false).toBool();;
-
-  username_ = s.value(QobuzSettings::kUsername).toString();
-  const QByteArray password = s.value(QobuzSettings::kPassword).toByteArray();
-  if (password.isEmpty()) password_.clear();
-  else password_ = QString::fromUtf8(QByteArray::fromBase64(password));
+  private_key_ = s.value(QobuzSettings::kPrivateKey).toString();
 
   format_ = s.value(QobuzSettings::kFormat, 27).toInt();
   search_delay_ = s.value(QobuzSettings::kSearchDelay, 1500).toInt();
@@ -230,99 +214,141 @@ void QobuzService::ReloadSettings() {
   download_album_covers_ = s.value(QobuzSettings::kDownloadAlbumCovers, true).toBool();
   remove_remastered_ = s.value(QobuzSettings::kRemoveRemastered, true).toBool();
 
-  user_id_ = s.value(QobuzSettings::kUserId).toInt();
-  device_id_ = s.value(QobuzSettings::kDeviceId).toString();
+  user_id_ = s.value(QobuzSettings::kUserId).toLongLong();
   user_auth_token_ = s.value(QobuzSettings::kUserAuthToken).toString();
+
+  if (s.contains(QobuzSettings::kUsername)) {
+    s.remove(QobuzSettings::kUsername);
+  }
+  if (s.contains(QobuzSettings::kPassword)) {
+    s.remove(QobuzSettings::kPassword);
+  }
 
   s.endGroup();
 
-  if (base64_secret) {
-    app_secret_ = DecodeAppSecret(app_secret_);
+}
+
+void QobuzService::Authenticate(const QString &app_id, const QString &app_secret, const QString &private_key) {
+
+  app_id_ = app_id;
+  app_secret_ = app_secret;
+  private_key_ = private_key;
+
+  Authenticate();
+
+}
+
+void QobuzService::Authenticate() {
+
+  if (app_id_.isEmpty()) {
+    LoginError(tr("Missing app ID. Please fetch credentials first."));
+    return;
+  }
+  if (app_secret_.isEmpty()) {
+    LoginError(tr("Missing app secret. Please fetch credentials first."));
+    return;
+  }
+  if (private_key_.isEmpty()) {
+    LoginError(tr("Missing private key. Please fetch credentials first."));
+    return;
   }
 
-}
-
-QString QobuzService::DecodeAppSecret(const QString &app_secret_base64) const {
-
-  const QByteArray appid = app_id().toUtf8();
-  const QByteArray app_secret_binary = QByteArray::fromBase64(app_secret_base64.toUtf8());
-  QString app_secret_decoded;
-
-  for (int x = 0, y = 0; x < app_secret_binary.length(); ++x, ++y) {
-    if (y == appid.length()) y = 0;
-    const uint rc = static_cast<uint>(app_secret_binary[x] ^ appid[y]);
-    if (rc > 0xFFFF) {
-      return app_secret_base64;
-    }
-    app_secret_decoded.append(QChar(rc));
+  if (local_redirect_server_) {
+    local_redirect_server_->close();
+    local_redirect_server_->deleteLater();
+    local_redirect_server_ = nullptr;
   }
 
-  return app_secret_decoded;
+  local_redirect_server_ = new LocalRedirectServer(this);
+  if (!local_redirect_server_->Listen()) {
+    LoginError(tr("Failed to start local server for OAuth redirect: %1").arg(local_redirect_server_->error()));
+    local_redirect_server_->deleteLater();
+    local_redirect_server_ = nullptr;
+    return;
+  }
+  QObject::connect(local_redirect_server_, &LocalRedirectServer::Finished, this, &QobuzService::OAuthRedirectReceived);
 
-}
-
-void QobuzService::SendLogin() {
-  SendLoginWithCredentials(app_id_, username_, password_);
-}
-
-void QobuzService::SendLoginWithCredentials(const QString &app_id, const QString &username, const QString &password) {
-
-  Q_EMIT UpdateStatus(tr("Authenticating..."));
-
-  login_sent_ = true;
-  ++login_attempts_;
-  if (timer_login_attempt_->isActive()) timer_login_attempt_->stop();
-  timer_login_attempt_->setInterval(kTimeResetLoginAttempts);
-  timer_login_attempt_->start();
-
-  const ParamList params = ParamList() << Param(u"app_id"_s, app_id)
-                                       << Param(u"username"_s, username)
-                                       << Param(u"password"_s, password)
-                                       << Param(u"device_manufacturer_id"_s, Utilities::MacAddress());
-
+  QUrl url(QString::fromLatin1(kOAuthSigninUrl));
   QUrlQuery url_query;
-  for (const Param &param : params) {
-    url_query.addQueryItem(QString::fromLatin1(QUrl::toPercentEncoding(param.first)), QString::fromLatin1(QUrl::toPercentEncoding(param.second)));
+  url_query.addQueryItem(u"ext_app_id"_s, app_id_);
+  url_query.addQueryItem(u"redirect_url"_s, QStringLiteral("http://127.0.0.1:%1").arg(local_redirect_server_->port()));
+  url.setQuery(url_query);
+
+  const bool success = QDesktopServices::openUrl(url);
+  if (!success) {
+    qLog(Error) << "Qobuz: Failed to open URL" << url.toString();
+    LoginError(tr("Failed to open the web browser. Please open this URL manually: %1").arg(url.toString()));
+    local_redirect_server_->close();
+    local_redirect_server_->deleteLater();
+    local_redirect_server_ = nullptr;
+    return;
   }
 
-  const QUrl url(QString::fromLatin1(kAuthUrl));
-  QNetworkRequest network_request(url);
-  network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  network_request.setHeader(QNetworkRequest::ContentTypeHeader, u"application/x-www-form-urlencoded"_s);
+  Q_EMIT UpdateStatus(tr("Waiting for browser authentication..."));
 
-  const QByteArray query = url_query.toString(QUrl::FullyEncoded).toUtf8();
-  QNetworkReply *reply = network_->post(network_request, query);
+}
+
+void QobuzService::OAuthRedirectReceived() {
+
+  if (!local_redirect_server_) return;
+
+  LocalRedirectServer *server = local_redirect_server_;
+  local_redirect_server_ = nullptr;
+
+  const QUrl request_url = server->request_url();
+  server->close();
+  server->deleteLater();
+
+  if (!server->success()) {
+    LoginError(tr("OAuth redirect failed: %1").arg(server->error()));
+    return;
+  }
+
+  const QUrlQuery url_query(request_url);
+
+  QString code;
+  if (url_query.hasQueryItem(u"code_autorisation"_s)) {
+    code = url_query.queryItemValue(u"code_autorisation"_s);
+  }
+  else if (url_query.hasQueryItem(u"code"_s)) {
+    code = url_query.queryItemValue(u"code"_s);
+  }
+
+  if (code.isEmpty()) {
+    LoginError(tr("OAuth redirect is missing authorization code."));
+    return;
+  }
+  qLog(Debug) << "Qobuz: Received OAuth code, exchanging for token";
+
+  Q_EMIT UpdateStatus(tr("Exchanging authorization code..."));
+
+  QUrl callback_url(QString::fromLatin1(kOAuthCallbackUrl));
+  QUrlQuery callback_query;
+  callback_query.addQueryItem(u"code"_s, code);
+  callback_query.addQueryItem(u"private_key"_s, private_key_);
+  callback_url.setQuery(callback_query);
+
+  QNetworkRequest network_request(callback_url);
+  network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+  network_request.setRawHeader("X-App-Id", app_id_.toUtf8());
+
+  QNetworkReply *reply = network_->get(network_request);
   replies_ << reply;
   QObject::connect(reply, &QNetworkReply::sslErrors, this, &QobuzService::HandleLoginSSLErrors);
-  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() { HandleAuthReply(reply); });
-
-  // qLog(Debug) << "Qobuz: Sending request" << url << query;
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() { HandleOAuthCallbackReply(reply); });
 
 }
 
-void QobuzService::HandleLoginSSLErrors(const QList<QSslError> &ssl_errors) {
+QJsonObject QobuzService::ParseLoginReply(QNetworkReply *reply, const QString &request_name) {
 
-  for (const QSslError &ssl_error : ssl_errors) {
-    qLog(Debug) << "Qobuz" << ssl_error.errorString();
-  }
-
-}
-
-void QobuzService::HandleAuthReply(QNetworkReply *reply) {
-
-  if (replies_.contains(reply)) {
-     replies_.removeAll(reply);
-  }
+  replies_.removeAll(reply);
   QObject::disconnect(reply, nullptr, this, nullptr);
   reply->deleteLater();
 
-  login_sent_ = false;
-
   if (reply->error() != QNetworkReply::NoError || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
     if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
-      // This is a network error, there is nothing more to do.
       LoginError(QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
-      return;
+      return QJsonObject();
     }
     // See if there is Json data containing "status", "code" and "message" - then use that instead.
     const QByteArray data = reply->readAll();
@@ -346,151 +372,87 @@ void QobuzService::HandleAuthReply(QNetworkReply *reply) {
       }
     }
     LoginError(error_message);
-    return;
+    return QJsonObject();
   }
 
   const QByteArray data = reply->readAll();
   QJsonParseError json_error;
   const QJsonDocument json_document = QJsonDocument::fromJson(data, &json_error);
   if (json_error.error != QJsonParseError::NoError) {
-    LoginError(u"Authentication reply from server missing Json data."_s);
-    return;
+    LoginError(QStringLiteral("%1 reply from server missing Json data.").arg(request_name));
+    return QJsonObject();
   }
 
-  if (json_document.isEmpty()) {
-    LoginError(u"Authentication reply from server has empty Json document."_s);
-    return;
-  }
-
-  if (!json_document.isObject()) {
-    LoginError(u"Authentication reply from server has Json document that is not an object."_s, json_document);
-    return;
+  if (json_document.isEmpty() || !json_document.isObject()) {
+    LoginError(QStringLiteral("%1 reply from server has invalid Json.").arg(request_name));
+    return QJsonObject();
   }
 
   const QJsonObject json_object = json_document.object();
   if (json_object.isEmpty()) {
-    LoginError(u"Authentication reply from server has empty Json object."_s, json_document);
+    LoginError(QStringLiteral("%1 reply from server has empty Json object.").arg(request_name), json_document);
+    return QJsonObject();
+  }
+
+  return json_object;
+
+}
+
+void QobuzService::HandleOAuthCallbackReply(QNetworkReply *reply) {
+
+  const QJsonObject json_object = ParseLoginReply(reply, u"OAuth callback"_s);
+  if (json_object.isEmpty()) return;
+
+  // The OAuth callback returns {token, userId} instead of the {user_auth_token, user: {id, device, credential}} format from /user/login.
+  if (json_object.contains("token"_L1)) {
+    user_auth_token_ = json_object["token"_L1].toString();
+  }
+  else if (json_object.contains("user_auth_token"_L1)) {
+    user_auth_token_ = json_object["user_auth_token"_L1].toString();
+  }
+
+  if (user_auth_token_.isEmpty()) {
+    LoginError(u"OAuth callback reply is missing token"_s, json_object);
     return;
   }
 
-  if (!json_object.contains("user_auth_token"_L1)) {
-    LoginError(u"Authentication reply from server is missing user_auth_token"_s, json_object);
-    return;
+  if (json_object.contains("userId"_L1)) {
+    user_id_ = json_object["userId"_L1].toVariant().toLongLong();
   }
-  user_auth_token_ = json_object["user_auth_token"_L1].toString();
-
-  if (!json_object.contains("user"_L1)) {
-    LoginError(u"Authentication reply from server is missing user"_s, json_object);
-    return;
-  }
-  const QJsonValue value_user = json_object["user"_L1];
-  if (!value_user.isObject()) {
-    LoginError(u"Authentication reply user is not a object"_s, json_object);
-    return;
-  }
-  const QJsonObject object_user = value_user.toObject();
-
-  if (!object_user.contains("id"_L1)) {
-    LoginError(u"Authentication reply from server is missing user id"_s, object_user);
-    return;
-  }
-  user_id_ = object_user["id"_L1].toInt();
-
-  if (!object_user.contains("device"_L1)) {
-    LoginError(u"Authentication reply from server is missing user device"_s, object_user);
-    return;
-  }
-  const QJsonValue value_device = object_user["device"_L1];
-  if (!value_device.isObject()) {
-    LoginError(u"Authentication reply from server user device is not a object"_s, value_device);
-    return;
-  }
-  const QJsonObject object_device = value_device.toObject();
-
-  if (!object_device.contains("device_manufacturer_id"_L1)) {
-    LoginError(u"Authentication reply from server device is missing device_manufacturer_id"_s, object_device);
-    return;
-  }
-  device_id_ = object_device["device_manufacturer_id"_L1].toString();
-
-  if (!object_user.contains("credential"_L1)) {
-    LoginError(u"Authentication reply from server is missing user credential"_s, object_user);
-    return;
-  }
-  const QJsonValue value_credential = object_user["credential"_L1];
-  if (!value_credential.isObject()) {
-    LoginError(u"Authentication reply from serve userr credential is not a object"_s, value_device);
-    return;
-  }
-  const QJsonObject object_credential = value_credential.toObject();
-
-  if (!object_credential.contains("id"_L1)) {
-    LoginError(u"Authentication reply user credential from server is missing user credential id"_s, object_credential);
-    return;
-  }
-  credential_id_ = object_credential["id"_L1].toInt();
 
   Settings s;
   s.beginGroup(QobuzSettings::kSettingsGroup);
   s.setValue(QobuzSettings::kUserAuthToken, user_auth_token_);
   s.setValue(QobuzSettings::kUserId, user_id_);
-  s.setValue(QobuzSettings::kCredentialsId, credential_id_);
-  s.setValue(QobuzSettings::kDeviceId, device_id_);
   s.endGroup();
 
-  qLog(Debug) << "Qobuz: Login successful" << "user id" << user_id_ << "device id" << device_id_;
-
-  login_attempts_ = 0;
-  if (timer_login_attempt_->isActive()) timer_login_attempt_->stop();
+  qLog(Debug) << "Qobuz: OAuth login successful" << "user id" << user_id_;
 
   Q_EMIT LoginFinished(true);
   Q_EMIT LoginSuccess();
 
 }
 
+void QobuzService::HandleLoginSSLErrors(const QList<QSslError> &ssl_errors) {
+
+  for (const QSslError &ssl_error : ssl_errors) {
+    qLog(Debug) << "Qobuz" << ssl_error.errorString();
+  }
+
+}
+
 void QobuzService::ClearSession() {
 
   user_auth_token_.clear();
-  device_id_.clear();
   user_id_ = -1;
-  credential_id_ = -1;
 
   Settings s;
   s.beginGroup(QobuzSettings::kSettingsGroup);
-  s.remove("user_id");
-  s.remove("credential_id");
-  s.remove("device_id");
-  s.remove("user_auth_token");
+  s.remove(QobuzSettings::kUserId);
+  s.remove(QobuzSettings::kCredentialsId);
+  s.remove(QobuzSettings::kDeviceId);
+  s.remove(QobuzSettings::kUserAuthToken);
   s.endGroup();
-
-}
-
-void QobuzService::ResetLoginAttempts() {
-  login_attempts_ = 0;
-}
-
-void QobuzService::TryLogin() {
-
-  if (authenticated() || login_sent_) return;
-
-  if (login_attempts_ >= kLoginAttempts) {
-    Q_EMIT LoginFinished(false, tr("Maximum number of login attempts reached."));
-    return;
-  }
-  if (app_id_.isEmpty()) {
-    Q_EMIT LoginFinished(false, tr("Missing Qobuz app ID."));
-    return;
-  }
-  if (username_.isEmpty()) {
-    Q_EMIT LoginFinished(false, tr("Missing Qobuz username."));
-    return;
-  }
-  if (password_.isEmpty()) {
-    Q_EMIT LoginFinished(false, tr("Missing Qobuz password."));
-    return;
-  }
-
-  Q_EMIT RequestLogin();
 
 }
 
@@ -710,8 +672,13 @@ void QobuzService::SearchResultsReceived(const int id, const SongMap &songs, con
 
 uint QobuzService::GetStreamURL(const QUrl &url, QString &error) {
 
-  if (app_id().isEmpty() || app_secret().isEmpty()) {  // Don't check for login here, because we allow automatic login.
+  if (app_id().isEmpty() || app_secret().isEmpty()) {
     error = tr("Missing Qobuz app ID or secret.");
+    return 0;
+  }
+
+  if (!authenticated()) {
+    error = tr("Not authenticated. Please login to Qobuz in the settings.");
     return 0;
   }
 
@@ -720,10 +687,8 @@ uint QobuzService::GetStreamURL(const QUrl &url, QString &error) {
   QobuzStreamURLRequestPtr stream_url_request = QobuzStreamURLRequestPtr(new QobuzStreamURLRequest(this, network_, url, id), &QObject::deleteLater);
   stream_url_requests_.insert(id, stream_url_request);
 
-  QObject::connect(&*stream_url_request, &QobuzStreamURLRequest::TryLogin, this, &QobuzService::TryLogin);
   QObject::connect(&*stream_url_request, &QobuzStreamURLRequest::StreamURLFailure, this, &QobuzService::HandleStreamURLFailure);
   QObject::connect(&*stream_url_request, &QobuzStreamURLRequest::StreamURLSuccess, this, &QobuzService::HandleStreamURLSuccess);
-  QObject::connect(this, &QobuzService::LoginFinished, &*stream_url_request, &QobuzStreamURLRequest::LoginComplete);
 
   stream_url_request->Process();
 

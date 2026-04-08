@@ -27,6 +27,7 @@ constexpr char kSettingsGroup[] = "Qobuz";
 constexpr char kEnabled[] = "enabled";
 constexpr char kAppId[] = "app_id";
 constexpr char kAppSecret[] = "app_secret";
+constexpr char kPrivateKey[] = "private_key";
 constexpr char kUsername[] = "username";
 constexpr char kPassword[] = "password";
 constexpr char kFormat[] = "format";
@@ -34,7 +35,6 @@ constexpr char kSearchDelay[] = "searchdelay";
 constexpr char kArtistsSearchLimit[] = "artistssearchlimit";
 constexpr char kAlbumsSearchLimit[] = "albumssearchlimit";
 constexpr char kSongsSearchLimit[] = "songssearchlimit";
-constexpr char kBase64Secret[] = "base64secret";
 constexpr char kDownloadAlbumCovers[] = "downloadalbumcovers";
 constexpr char kRemoveRemastered[] = "remove_remastered";
 
