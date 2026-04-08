@@ -920,39 +920,39 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Show</source>
+        <source>Any rating</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-      <source>Any rating</source>
-      <translation type="unfinished"></translation>
+        <source>Rating non null</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-      <source>Rating non null</source>
-      <translation type="unfinished"></translation>
+        <source>Rating greater than 1 star</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-      <source>Rating greater than 1 star</source>
-      <translation type="unfinished"></translation>
+        <source>Rating greater than 2 stars</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-      <source>Rating greater than 2 stars</source>
-      <translation type="unfinished"></translation>
+        <source>Rating greater than 3 stars</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-      <source>Rating greater than 3 stars</source>
-      <translation type="unfinished"></translation>
-    </message>
-    <message>
-      <source>Rating greater than 4 stars</source>
-      <translation type="unfinished"></translation>
-    </message>
-    <message>
-      <source>Rating</source>
-      <translation type="unfinished"></translation>
+        <source>Rating greater than 4 stars</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Group by</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Filter by age</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Filter by rating</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5209,6 +5209,10 @@ Are you sure you want to continue?</source>
     </message>
     <message>
         <source>Print out version information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create fingerprint</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
