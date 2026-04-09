@@ -21,6 +21,7 @@
 #define RADIOBROWSERSEARCHVIEW_H
 
 #include <QWidget>
+#include <QPair>
 #include <QString>
 #include <QMimeData>
 
@@ -56,6 +57,7 @@ class RadioBrowserSearchView : public QWidget {
   void LoadMore();
   void CountryChanged(int index);
   void SortChanged(int index);
+  void CountriesLoaded(const QList<QPair<QString, QString>> &countries);
   void AddSelectedToPlaylist();
   void ItemDoubleClicked(const QModelIndex &index);
   void ShowContextMenu(const QPoint &pos);
@@ -71,6 +73,7 @@ class RadioBrowserSearchView : public QWidget {
   QMenu *context_menu_;
   QAction *action_add_to_playlist_;
 
+  QString default_country_;
   int current_offset_;
   int search_limit_;
   bool has_more_;

@@ -22,6 +22,7 @@
 
 #include <QObject>
 #include <QList>
+#include <QPair>
 #include <QString>
 #include <QUrl>
 
@@ -54,9 +55,12 @@ class RadioBrowserService : public RadioService {
               int limit = 100,
               int offset = 0);
 
+  void FetchCountries();
+
  Q_SIGNALS:
   void SearchFinished(const RadioChannelList &channels, bool has_more);
   void SearchError(const QString &error);
+  void CountriesLoaded(const QList<QPair<QString, QString>> &countries);
 
  public Q_SLOTS:
   void GetChannels() override;
@@ -65,6 +69,7 @@ class RadioBrowserService : public RadioService {
   void DnsLookupFinished();
   void ServerTestReply(QNetworkReply *reply);
   void SearchReply(QNetworkReply *reply, const int task_id, const int limit);
+  void CountriesReply(QNetworkReply *reply);
 
  private:
   void DiscoverServer();
@@ -87,6 +92,7 @@ class RadioBrowserService : public RadioService {
   };
   PendingSearch pending_search_;
   bool has_pending_search_;
+  bool has_pending_countries_;
 
   static const QStringList kFallbackServers;
   int fallback_index_;

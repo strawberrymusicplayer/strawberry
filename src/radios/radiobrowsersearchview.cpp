@@ -35,7 +35,6 @@
 #include "radiobrowsersearchview.h"
 #include "radiochannel.h"
 #include "radiomimedata.h"
-#include "settings/radiosettingspage.h"
 #include "ui_radiobrowsersearchview.h"
 
 using namespace Qt::Literals::StringLiterals;
@@ -100,8 +99,8 @@ RadioBrowserSearchView::RadioBrowserSearchView(QWidget *parent)
 
   ui_->search->setPlaceholderText(tr("Search radio stations..."));
 
-  // Country filter
-  RadioSettingsPage::PopulateCountries(ui_->combo_country);
+  // Country filter - starts with "All countries", populated dynamically after API fetch
+  ui_->combo_country->addItem(tr("All countries"), QString());
 
   // Sort order
   ui_->combo_sort->addItem(tr("By votes"), u"votes"_s);
@@ -137,6 +136,7 @@ void RadioBrowserSearchView::Init(RadioBrowserService *service) {
   service_ = service;
   QObject::connect(service_, &RadioBrowserService::SearchFinished, this, &RadioBrowserSearchView::SearchFinished);
   QObject::connect(service_, &RadioBrowserService::SearchError, this, &RadioBrowserSearchView::SearchError);
+  QObject::connect(service_, &RadioBrowserService::CountriesLoaded, this, &RadioBrowserSearchView::CountriesLoaded);
 
   // Load defaults from settings
   Settings s;
@@ -151,14 +151,10 @@ void RadioBrowserSearchView::Init(RadioBrowserService *service) {
     }
   }
 
-  const QString default_country = s.value(u"default_country"_s).toString();
-  for (int i = 0; i < ui_->combo_country->count(); ++i) {
-    if (ui_->combo_country->itemData(i).toString() == default_country) {
-      ui_->combo_country->setCurrentIndex(i);
-      break;
-    }
-  }
+  default_country_ = s.value(u"default_country"_s).toString();
   s.endGroup();
+
+  service_->FetchCountries();
 
 }
 
@@ -223,6 +219,27 @@ void RadioBrowserSearchView::SearchFinished(const RadioChannelList &channels, bo
 void RadioBrowserSearchView::SearchError(const QString &error) {
 
   ui_->label_status->setText(error);
+
+}
+
+void RadioBrowserSearchView::CountriesLoaded(const QList<QPair<QString, QString>> &countries) {
+
+  ui_->combo_country->clear();
+  ui_->combo_country->addItem(tr("All countries"), QString());
+
+  for (const QPair<QString, QString> &entry : countries) {
+    ui_->combo_country->addItem(entry.first, entry.second);
+  }
+
+  // Restore saved default country
+  if (!default_country_.isEmpty()) {
+    for (int i = 0; i < ui_->combo_country->count(); ++i) {
+      if (ui_->combo_country->itemData(i).toString() == default_country_) {
+        ui_->combo_country->setCurrentIndex(i);
+        break;
+      }
+    }
+  }
 
 }
 

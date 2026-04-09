@@ -17,7 +17,13 @@
  *
  */
 
+#include <algorithm>
+
 #include <QObject>
+#include <QList>
+#include <QPair>
+#include <QSet>
+#include <QLocale>
 #include <QString>
 #include <QUrl>
 #include <QUrlQuery>
@@ -48,6 +54,7 @@ RadioBrowserService::RadioBrowserService(const SharedPtr<TaskManager> task_manag
       dns_lookup_(nullptr),
       server_discovered_(false),
       has_pending_search_(false),
+      has_pending_countries_(false),
       fallback_index_(0) {}
 
 RadioBrowserService::~RadioBrowserService() {
@@ -73,6 +80,7 @@ void RadioBrowserService::Abort() {
   }
 
   has_pending_search_ = false;
+  has_pending_countries_ = false;
 
 }
 
@@ -174,6 +182,12 @@ void RadioBrowserService::ServerTestReply(QNetworkReply *reply) {
     Search(pending_search_.query, pending_search_.country, pending_search_.tag, pending_search_.language, pending_search_.order, pending_search_.limit, pending_search_.offset);
   }
 
+  // Execute pending countries fetch if any
+  if (has_pending_countries_) {
+    has_pending_countries_ = false;
+    FetchCountries();
+  }
+
 }
 
 void RadioBrowserService::Search(const QString &query,
@@ -265,5 +279,74 @@ void RadioBrowserService::SearchReply(QNetworkReply *reply, const int task_id, c
 
   const bool has_more = (array.size() == limit);
   Q_EMIT SearchFinished(channels, has_more);
+
+}
+
+void RadioBrowserService::FetchCountries() {
+
+  if (!server_discovered_) {
+    has_pending_countries_ = true;
+    if (!has_pending_search_) {
+      DiscoverServer();
+    }
+    return;
+  }
+
+  QUrl url(server_url_);
+  url.setPath(u"/json/countrycodes"_s);
+
+  QNetworkRequest request(url);
+  request.setHeader(QNetworkRequest::ContentTypeHeader, u"application/json"_s);
+  QNetworkReply *reply = network_->get(request);
+  replies_ << reply;
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() { CountriesReply(reply); });
+
+}
+
+void RadioBrowserService::CountriesReply(QNetworkReply *reply) {
+
+  if (replies_.contains(reply)) replies_.removeAll(reply);
+  reply->deleteLater();
+
+  const QJsonArray array = ExtractJsonArray(reply);
+
+  // Collect country codes that have stations
+  QSet<QString> codes_with_stations;
+  for (const QJsonValue &value : array) {
+    if (!value.isObject()) continue;
+    const QJsonObject obj = value.toObject();
+    const QString code = obj["name"_L1].toString().toUpper();
+    const int count = obj["stationcount"_L1].toInt();
+    if (!code.isEmpty() && count > 0) {
+      codes_with_stations.insert(code);
+    }
+  }
+
+  // Map codes to display names via QLocale
+  QList<QPair<QString, QString>> countries;
+  QSet<QLocale::Territory> seen;
+
+  const QList<QLocale> locales = QLocale::matchingLocales(QLocale::AnyLanguage, QLocale::AnyScript, QLocale::AnyTerritory);
+  for (const QLocale &locale : locales) {
+    const QLocale::Territory territory = locale.territory();
+    if (territory == QLocale::AnyTerritory || seen.contains(territory)) continue;
+    seen.insert(territory);
+
+    const QString locale_name = locale.name();
+    const int underscore = locale_name.lastIndexOf(u'_');
+    if (underscore < 0) continue;
+    const QString code = locale_name.mid(underscore + 1);
+    if (code.length() != 2) continue;
+
+    if (codes_with_stations.contains(code)) {
+      countries << qMakePair(QLocale::territoryToString(territory), code);
+    }
+  }
+
+  std::sort(countries.begin(), countries.end(), [](const QPair<QString, QString> &a, const QPair<QString, QString> &b) {
+    return a.first.compare(b.first, Qt::CaseInsensitive) < 0;
+  });
+
+  Q_EMIT CountriesLoaded(countries);
 
 }
