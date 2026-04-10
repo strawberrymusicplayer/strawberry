@@ -161,6 +161,8 @@ Playlist *PlaylistManager::AddPlaylist(const int id, const QString &name, const 
 
   QObject::connect(ret, &Playlist::CurrentSongChanged, this, &PlaylistManager::CurrentSongChanged);
   QObject::connect(ret, &Playlist::CurrentSongMetadataChanged, this, &PlaylistManager::CurrentSongMetadataChanged);
+  QObject::connect(ret, &Playlist::PlaylistItemsAdded, this, &PlaylistManager::PlaylistItemsAdded);
+  QObject::connect(ret, &Playlist::PlaylistItemsRemoved, this, &PlaylistManager::PlaylistItemsRemoved);
   QObject::connect(ret, &Playlist::PlaylistChanged, this, &PlaylistManager::OneOfPlaylistsChanged);
   QObject::connect(ret, &Playlist::PlaylistChanged, this, &PlaylistManager::UpdateSummaryText);
   QObject::connect(ret, &Playlist::EditingFinished, this, &PlaylistManager::EditingFinished);
@@ -499,11 +501,11 @@ void PlaylistManager::SongChangeRequestProcessed(const QUrl &url, const bool val
 
 }
 
-void PlaylistManager::InsertUrls(const int id, const QList<QUrl> &urls, const int pos, const bool play_now, const bool enqueue) {
+void PlaylistManager::InsertUrls(const int id, const QList<QUrl> &urls, const int pos, const bool play_now, const bool enqueue, const bool emit_signal) {
 
   Q_ASSERT(playlists_.contains(id));
 
-  playlists_[id].p->InsertUrls(urls, pos, play_now, enqueue);
+  playlists_[id].p->InsertUrls(urls, pos, play_now, enqueue, emit_signal);
 
 }
 
