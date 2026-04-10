@@ -33,7 +33,7 @@ CollectionPlaylistItem::CollectionPlaylistItem(const Song::Source source, const 
   song_.set_source(source);
 }
 
-CollectionPlaylistItem::CollectionPlaylistItem(const Song &song) : PlaylistItem(song.source()), song_(song) {}
+CollectionPlaylistItem::CollectionPlaylistItem(const Song &song, const bool signal) : PlaylistItem(song.source(), QUuid(), signal), song_(song) {}
 
 bool CollectionPlaylistItem::InitFromQuery(const SqlRow &query) {
 

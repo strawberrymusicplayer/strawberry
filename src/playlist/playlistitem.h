@@ -36,6 +36,7 @@
 #include <QString>
 #include <QUrl>
 #include <QColor>
+#include <QUuid>
 
 #include "includes/shared_ptr.h"
 #include "core/song.h"
@@ -49,11 +50,11 @@ using std::enable_shared_from_this;
 
 class PlaylistItem : public enable_shared_from_this<PlaylistItem> {
  public:
-  explicit PlaylistItem(const Song::Source source, const QUuid &uuid = QUuid());
+  explicit PlaylistItem(const Song::Source source, const QUuid &uuid = QUuid(), const bool signal = false);
   virtual ~PlaylistItem();
 
   static SharedPtr<PlaylistItem> NewFromSource(const Song::Source source, const QUuid &uuid = QUuid());
-  static SharedPtr<PlaylistItem> NewFromSong(const Song &song);
+  static SharedPtr<PlaylistItem> NewFromSong(const Song &song, bool signal = false);
 
   enum class Option {
     Default = 0x00,
@@ -69,6 +70,8 @@ class PlaylistItem : public enable_shared_from_this<PlaylistItem> {
   QUuid uuid() const { return uuid_; }
   void set_uuid(const QUuid &uuid) { uuid_ = uuid; }
   bool uuid_generated() const { return uuid_generated_; }
+  bool signal() const { return signal_; }
+  void set_signal(const bool signal) { signal_ = signal; }
 
   virtual Song::Source source() const { return source_; }
   virtual Options options() const { return Option::Default; }
@@ -120,6 +123,7 @@ class PlaylistItem : public enable_shared_from_this<PlaylistItem> {
   Song::Source source_;
   QUuid uuid_;
   bool uuid_generated_;
+  bool signal_;
   bool should_skip_;
 
   enum class DatabaseColumn {

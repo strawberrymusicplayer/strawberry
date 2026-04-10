@@ -25,8 +25,8 @@
 StreamServicePlaylistItem::StreamServicePlaylistItem(const Song::Source source, const QUuid &uuid)
     : StreamPlaylistItem(source, uuid) {}
 
-StreamServicePlaylistItem::StreamServicePlaylistItem(const Song &song)
-    : StreamPlaylistItem(song) {}
+StreamServicePlaylistItem::StreamServicePlaylistItem(const Song &song, const bool signal)
+    : StreamPlaylistItem(song, signal) {}
 
-StreamServicePlaylistItem::StreamServicePlaylistItem(const StreamingServicePtr service, const Song &song)
-    : StreamPlaylistItem(song), service_(service) {}
+StreamServicePlaylistItem::StreamServicePlaylistItem(const StreamingServicePtr service, const Song &song, const bool signal)
+    : StreamPlaylistItem(song, signal), service_(service) {}

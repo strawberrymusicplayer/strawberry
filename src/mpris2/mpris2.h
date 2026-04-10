@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,6 +33,7 @@
 #include <QVariant>
 #include <QString>
 #include <QStringList>
+#include <QUuid>
 #include <QDBusObjectPath>
 #include <QDBusArgument>
 #include <QJsonObject>
@@ -46,6 +47,7 @@ class PlaylistManager;
 class CurrentAlbumCoverLoader;
 class Song;
 class Playlist;
+class PlaylistItem;
 
 using TrackMetadata = QList<QVariantMap>;
 using Track_Ids = QList<QDBusObjectPath>;
@@ -199,11 +201,15 @@ class Mpris2 : public QObject {
   // Playlist Properties
   quint32 PlaylistCount() const;
   QStringList Orderings() const;
+  QDBusObjectPath MakePlaylistPath(const int id) const;
   MaybePlaylist ActivePlaylist() const;
 
   // Methods
-  void ActivatePlaylist(const QDBusObjectPath &playlist_id);
+  void ActivatePlaylist(const QDBusObjectPath &mpris2_playlist_id);
   MprisPlaylistList GetPlaylists(quint32 index, quint32 max_count, const QString &order, bool reverse_order);
+
+  // To emit the track list changed signal
+  void EmitTrackListReplaced();
 
  Q_SIGNALS:
   // Player
@@ -232,6 +238,8 @@ class Mpris2 : public QObject {
   void RepeatModeChanged();
   void PlaylistChangedSlot(Playlist *playlist);
   void PlaylistCollectionChanged(Playlist *playlist);
+  void PlaylistItemsAdded(const int playlist_id, const QList<QUuid> &track_ids, const QUuid &after_track_id);
+  void PlaylistItemsRemoved(const int playlist_id, const QList<QUuid> &track_ids);
 
  private:
   void EmitNotification(const QString &name);
@@ -240,12 +248,15 @@ class Mpris2 : public QObject {
 
   QString PlaybackStatus(EngineBase::State state) const;
 
-  int current_playlist_row() const;
-  QDBusObjectPath current_track_id(const int current_row) const;
+  SharedPtr<PlaylistItem> current_playlist_item() const;
+  QUuid current_playlist_item_uuid() const;
+  QDBusObjectPath current_track_id(const QUuid &current_row) const;
 
   bool CanSeek(EngineBase::State state) const;
 
   QString DesktopEntryAbsolutePath() const;
+
+  static QUuid GetTrackObjectPathUuid(const QDBusObjectPath &track_object_path);
 
  private:
   const SharedPtr<Player> player_;

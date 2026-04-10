@@ -24,8 +24,8 @@
 RadioStreamPlaylistItem::RadioStreamPlaylistItem(const Song::Source source, const QUuid &uuid)
     : StreamPlaylistItem(source, uuid) {}
 
-RadioStreamPlaylistItem::RadioStreamPlaylistItem(const Song &song)
-    : StreamPlaylistItem(song) {}
+RadioStreamPlaylistItem::RadioStreamPlaylistItem(const Song &song, const bool signal)
+    : StreamPlaylistItem(song, signal) {}
 
-RadioStreamPlaylistItem::RadioStreamPlaylistItem(const SharedPtr<RadioService> service, const Song &song)
-    : StreamPlaylistItem(song), service_(service) {}
+RadioStreamPlaylistItem::RadioStreamPlaylistItem(const SharedPtr<RadioService> service, const Song &song, const bool signal)
+    : StreamPlaylistItem(song, signal), service_(service) {}

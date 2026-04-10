@@ -40,7 +40,7 @@
 using std::make_shared;
 using namespace Qt::Literals::StringLiterals;
 
-PlaylistItem::PlaylistItem(const Song::Source source, const QUuid &uuid) : source_(source), uuid_(uuid.isNull() ? QUuid::createUuid() : uuid), uuid_generated_(uuid.isNull()), should_skip_(false) {}
+PlaylistItem::PlaylistItem(const Song::Source source, const QUuid &uuid, const bool signal) : source_(source), uuid_(uuid.isNull() ? QUuid::createUuid() : uuid), uuid_generated_(uuid.isNull()), signal_(signal), should_skip_(false) {}
 
 PlaylistItem::~PlaylistItem() = default;
 
@@ -70,21 +70,21 @@ PlaylistItemPtr PlaylistItem::NewFromSource(const Song::Source source, const QUu
 
 }
 
-PlaylistItemPtr PlaylistItem::NewFromSong(const Song &song) {
+PlaylistItemPtr PlaylistItem::NewFromSong(const Song &song, const bool signal) {
 
   switch (song.source()) {
     case Song::Source::Collection:
-      return make_shared<CollectionPlaylistItem>(song);
+      return make_shared<CollectionPlaylistItem>(song, signal);
     case Song::Source::Subsonic:
     case Song::Source::Tidal:
     case Song::Source::Spotify:
     case Song::Source::Qobuz:
-      return make_shared<StreamServicePlaylistItem>(song);
+      return make_shared<StreamServicePlaylistItem>(song, signal);
     case Song::Source::Stream:
     case Song::Source::RadioParadise:
     case Song::Source::SomaFM:
     case Song::Source::RadioBrowser:
-      return make_shared<RadioStreamPlaylistItem>(song);
+      return make_shared<RadioStreamPlaylistItem>(song, signal);
     case Song::Source::LocalFile:
     case Song::Source::CDDA:
     case Song::Source::Device:
@@ -92,7 +92,7 @@ PlaylistItemPtr PlaylistItem::NewFromSong(const Song &song) {
       break;
   }
 
-  return make_shared<SongPlaylistItem>(song);
+  return make_shared<SongPlaylistItem>(song, signal);
 
 }
 
