@@ -52,7 +52,7 @@ class SongLoaderInserter : public QObject {
 
   ~SongLoaderInserter() override;
 
-  void Load(Playlist *destination, const int row, const bool play_now, const bool enqueue, const bool enqueue_next, const QList<QUrl> &urls);
+  void Load(Playlist *destination, const int row, const bool play_now, const bool enqueue, const bool enqueue_next, const bool emit_signal, const QList<QUrl> &urls);
   void LoadAudioCD(Playlist *destination, const int row, const bool play_now, const bool enqueue, const bool enqueue_next);
 
  Q_SIGNALS:
@@ -81,6 +81,7 @@ class SongLoaderInserter : public QObject {
   bool play_now_;
   bool enqueue_;
   bool enqueue_next_;
+  bool emit_signal_;
 
   SongList songs_;
   QString playlist_name_;

@@ -22,19 +22,20 @@
 #include "playlistundocommandinsertitems.h"
 #include "playlist.h"
 
-PlaylistUndoCommandInsertItems::PlaylistUndoCommandInsertItems(Playlist *playlist, const PlaylistItemPtrList &items, const int pos, const bool enqueue, const bool enqueue_next)
+PlaylistUndoCommandInsertItems::PlaylistUndoCommandInsertItems(Playlist *playlist, const PlaylistItemPtrList &items, const int pos, const bool enqueue, const bool enqueue_next, const bool emit_signal)
     : PlaylistUndoCommandBase(playlist),
       items_(items),
       pos_(pos),
       enqueue_(enqueue),
-      enqueue_next_(enqueue_next) {
+      enqueue_next_(enqueue_next),
+      emit_signal_(emit_signal) {
 
   setText(QObject::tr("add %n songs", "", static_cast<int>(items_.count())));
 
 }
 
 void PlaylistUndoCommandInsertItems::redo() {
-  playlist_->InsertItemsWithoutUndo(items_, pos_, enqueue_, enqueue_next_);
+  playlist_->InsertItemsWithoutUndo(items_, pos_, enqueue_, enqueue_next_, emit_signal_);
 }
 
 void PlaylistUndoCommandInsertItems::undo() {
