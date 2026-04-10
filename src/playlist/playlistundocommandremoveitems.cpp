@@ -22,7 +22,7 @@
 #include "playlist.h"
 #include "playlistundocommandremoveitems.h"
 
-PlaylistUndoCommandRemoveItems::PlaylistUndoCommandRemoveItems(Playlist *playlist, const int pos, const int count) : PlaylistUndoCommandBase(playlist) {
+PlaylistUndoCommandRemoveItems::PlaylistUndoCommandRemoveItems(Playlist *playlist, const int pos, const int count, const bool emit_signal) : PlaylistUndoCommandBase(playlist), emit_signal_(emit_signal) {
   setText(QObject::tr("remove %n songs", "", count));
 
   ranges_ << Range(pos, count);
@@ -31,7 +31,7 @@ PlaylistUndoCommandRemoveItems::PlaylistUndoCommandRemoveItems(Playlist *playlis
 void PlaylistUndoCommandRemoveItems::redo() {
 
   for (int i = 0; i < ranges_.count(); ++i) {
-    ranges_[i].items_ = playlist_->RemoveItemsWithoutUndo(ranges_[i].pos_, ranges_[i].count_);
+    ranges_[i].items_ = playlist_->RemoveItemsWithoutUndo(ranges_[i].pos_, ranges_[i].count_, emit_signal_);
   }
 
 }

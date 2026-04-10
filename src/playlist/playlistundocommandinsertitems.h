@@ -25,7 +25,7 @@
 
 class PlaylistUndoCommandInsertItems : public PlaylistUndoCommandBase {
  public:
-  explicit PlaylistUndoCommandInsertItems(Playlist *playlist, const PlaylistItemPtrList &items, const int pos, const bool enqueue = false, const bool enqueue_next = false);
+  explicit PlaylistUndoCommandInsertItems(Playlist *playlist, const PlaylistItemPtrList &items, const int pos, const bool enqueue = false, const bool enqueue_next = false, const bool emit_signal = false);
 
   void undo() override;
   void redo() override;
@@ -39,6 +39,7 @@ class PlaylistUndoCommandInsertItems : public PlaylistUndoCommandBase {
   int pos_;
   bool enqueue_;
   bool enqueue_next_;
+  bool emit_signal_;
 };
 
 #endif  // PLAYLISTUNDOCOMMANDINSERTITEMS_H
