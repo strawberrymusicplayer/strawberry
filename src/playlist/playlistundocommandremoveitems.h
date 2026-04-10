@@ -27,7 +27,7 @@
 
 class PlaylistUndoCommandRemoveItems : public PlaylistUndoCommandBase {
  public:
-  explicit PlaylistUndoCommandRemoveItems(Playlist *playlist, const int pos, const int count);
+  explicit PlaylistUndoCommandRemoveItems(Playlist *playlist, const int pos, const int count, const bool emit_signal = false);
 
   int id() const override { return static_cast<int>(PlaylistUndoCommandBase::Type::RemoveItems); }
 
@@ -44,6 +44,7 @@ class PlaylistUndoCommandRemoveItems : public PlaylistUndoCommandBase {
   };
 
   QList<Range> ranges_;
+  bool emit_signal_;
 };
 
 #endif  // PLAYLISTUNDOCOMMANDREMOVEITEMS_H
