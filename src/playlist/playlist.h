@@ -38,6 +38,7 @@
 #include <QString>
 #include <QStringList>
 #include <QUrl>
+#include <QUuid>
 #include <QColor>
 #include <QRgb>
 
@@ -209,11 +210,15 @@ class Playlist : public QAbstractListModel {
   bool has_item_at(const int index) const { return index >= 0 && index < rowCount(); }
 
   PlaylistItemPtr current_item() const;
+  QUuid current_uuid() const;
 
   PlaylistItem::Options current_item_options() const;
   Song current_item_metadata() const;
 
   PlaylistItemPtrList collection_items(const Song::Source source, const int song_id) const;
+
+  const PlaylistItemPtr ItemByUuId(const QUuid &uuid) const;
+  int IndexByUuId(const QUuid &uuid) const;
 
   SongList GetAllSongs() const;
   PlaylistItemPtrList GetAllItems() const;
@@ -234,12 +239,12 @@ class Playlist : public QAbstractListModel {
 
   // Changing the playlist
   void InsertItems(const PlaylistItemPtrList &itemsIn, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false);
-  void InsertCollectionItems(const SongList &songs, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false);
-  void InsertSongs(const SongList &songs, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false);
-  void InsertSongsOrCollectionItems(const SongList &songs, const QString &playlist_name = QString(), const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false);
-  void InsertSmartPlaylist(PlaylistGeneratorPtr gen, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false);
-  void InsertStreamingItems(StreamingServicePtr service, const SongList &songs, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false);
-  void InsertRadioItems(const SongList &songs, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false);
+  void InsertCollectionItems(const SongList &songs, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false, const bool signal = false);
+  void InsertSongs(const SongList &songs, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false, const bool signal = false);
+  void InsertSongsOrCollectionItems(const SongList &songs, const QString &playlist_name = QString(), const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false, const bool signal = false);
+  void InsertSmartPlaylist(PlaylistGeneratorPtr gen, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false, const bool signal = false);
+  void InsertStreamingItems(StreamingServicePtr service, const SongList &songs, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false, const bool signal = false);
+  void InsertRadioItems(const SongList &songs, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false, const bool signal = false);
 
   void ReshuffleIndices();
 
@@ -275,6 +280,7 @@ class Playlist : public QAbstractListModel {
   bool dropMimeData(const QMimeData *data, Qt::DropAction action, const int row, const int column, const QModelIndex &parent_index) override;
   void sort(const int column_number, const Qt::SortOrder order) override;
   bool removeRows(const int row, const int count, const QModelIndex &parent = QModelIndex()) override;
+  bool RemoveItemWithSignal(PlaylistItemPtr item);
 
   static Columns ChangedColumns(const Song &metadata1, const Song &metadata2);
   static bool MinorMetadataChange(const Song &old_metadata, const Song &new_metadata);
@@ -309,7 +315,7 @@ class Playlist : public QAbstractListModel {
 
   void SetColumnAlignment(const ColumnAlignmentMap &alignment);
 
-  void InsertUrls(const QList<QUrl> &urls, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false);
+  void InsertUrls(const QList<QUrl> &urls, const int pos = -1, const bool play_now = false, const bool enqueue = false, const bool enqueue_next = false, const bool signal = false);
   // Removes items with given indices from the playlist. This operation is not undoable.
   void RemoveItemsWithoutUndo(const QList<int> &indicesIn);
 
@@ -337,6 +343,9 @@ class Playlist : public QAbstractListModel {
   // Signals that the queue has changed, meaning that the remaining queued items should update their position.
   void QueueChanged();
 
+  void PlaylistItemsAdded(const int playlist_id, const QList<QUuid> &track_ids, const QUuid after_track_id);
+  void PlaylistItemsRemoved(const int playlist_id, const QList<QUuid> &track_ids);
+
   void Rename(const int id, const QString &name);
 
  private:
@@ -346,7 +355,7 @@ class Playlist : public QAbstractListModel {
   bool FilterContainsVirtualIndex(const int i) const;
 
   template<typename T>
-  void InsertSongItems(const SongList &songs, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next = false);
+  void InsertSongItems(const SongList &songs, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next = false, const bool signal = false);
 
   // Modify the playlist without changing the undo stack.  These are used by our friends in PlaylistUndoCommands
   void InsertItemsWithoutUndo(const PlaylistItemPtrList &items, const int pos, const bool enqueue = false, const bool enqueue_next = false);
@@ -400,6 +409,10 @@ class Playlist : public QAbstractListModel {
   bool favorite_;
 
   PlaylistItemPtrList items_;
+
+  // Maps each item's UUID to the item, for fast lookups by UUID.
+  // Only updated when items are added or removed; moves and reorders leave it untouched.
+  QMap<QUuid, PlaylistItemPtr> items_by_uuid_;
 
   // Contains the indices into items_ in the order that they will be played.
   QList<int> virtual_items_;

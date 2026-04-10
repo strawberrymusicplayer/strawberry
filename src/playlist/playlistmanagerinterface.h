@@ -28,6 +28,7 @@
 #include <QList>
 #include <QString>
 #include <QUrl>
+#include <QUuid>
 
 #include "includes/shared_ptr.h"
 #include "constants/playlistsettings.h"
@@ -131,6 +132,9 @@ class PlaylistManagerInterface : public QObject {
   void PlaylistChanged(Playlist *playlist);
   void EditingFinished(const int playlist_id, const QModelIndex idx);
   void PlayRequested(const QModelIndex idx, const Playlist::AutoScroll autoscroll);
+
+  void PlaylistItemsAdded(const int playlist_id, const QList<QUuid> &track_ids, const QUuid after_track_id);
+  void PlaylistItemsRemoved(const int playlist_id, const QList<QUuid> &track_ids);
 };
 
 #endif  // PLAYLISTMANAGERINTERFACE_H

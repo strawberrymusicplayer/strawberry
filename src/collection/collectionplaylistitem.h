@@ -34,7 +34,7 @@ class SqlRow;
 class CollectionPlaylistItem : public PlaylistItem {
  public:
   explicit CollectionPlaylistItem(const Song::Source source, const QUuid &uuid = QUuid());
-  explicit CollectionPlaylistItem(const Song &song);
+  explicit CollectionPlaylistItem(const Song &song, const bool signal = false);
 
   Song OriginalMetadata() const override { return song_; }
   void SetOriginalMetadata(const Song &song) override { song_ = song; }

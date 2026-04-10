@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -107,6 +107,9 @@ namespace mpris {
 constexpr char kMprisObjectPath[] = "/org/mpris/MediaPlayer2";
 constexpr char kServiceName[] = "org.mpris.MediaPlayer2.strawberry";
 constexpr char kFreedesktopPath[] = "org.freedesktop.DBus.Properties";
+constexpr char kTrackPrefix[] = "/org/strawberrymusicplayer/strawberry/Track/";
+constexpr char kNoTrack[] = "/org/mpris/MediaPlayer2/TrackList/NoTrack";
+constexpr int kTracksSubsetCount = 20;
 
 Mpris2::Mpris2(const SharedPtr<Player> player,
                const SharedPtr<PlaylistManager> playlist_manager,
@@ -143,6 +146,8 @@ Mpris2::Mpris2(const SharedPtr<Player> player,
   QObject::connect(&*playlist_manager_, &PlaylistManager::CurrentSongChanged, this, &Mpris2::CurrentSongChanged);
   QObject::connect(&*playlist_manager_, &PlaylistManager::PlaylistChanged, this, &Mpris2::PlaylistChangedSlot);
   QObject::connect(&*playlist_manager_, &PlaylistManager::CurrentChanged, this, &Mpris2::PlaylistCollectionChanged);
+  QObject::connect(&*playlist_manager_, &PlaylistManager::PlaylistItemsAdded, this, &Mpris2::PlaylistItemsAdded);
+  QObject::connect(&*playlist_manager_, &PlaylistManager::PlaylistItemsRemoved, this, &Mpris2::PlaylistItemsRemoved);
 
   QStringList data_dirs = QString::fromUtf8(qgetenv("XDG_DATA_DIRS")).split(u':');
 
@@ -340,6 +345,7 @@ QString Mpris2::LoopStatus() const {
   }
 
   switch (playlist_manager_->active() ? playlist_manager_->active()->RepeatMode() : playlist_manager_->sequence()->repeat_mode()) {
+    case PlaylistSequence::RepeatMode::Off: return u"None"_s;
     case PlaylistSequence::RepeatMode::Album:
     case PlaylistSequence::RepeatMode::Playlist: return u"Playlist"_s;
     case PlaylistSequence::RepeatMode::Track: return u"Track"_s;
@@ -350,8 +356,11 @@ QString Mpris2::LoopStatus() const {
 
 void Mpris2::SetLoopStatus(const QString &value) {
 
-  PlaylistSequence::RepeatMode mode = PlaylistSequence::RepeatMode::Off;
+  if (!playlist_manager_->sequence()) {
+    return;
+  }
 
+  PlaylistSequence::RepeatMode mode = PlaylistSequence::RepeatMode::Off;
   if (value == "None"_L1) {
     mode = PlaylistSequence::RepeatMode::Off;
   }
@@ -361,8 +370,17 @@ void Mpris2::SetLoopStatus(const QString &value) {
   else if (value == "Playlist"_L1) {
     mode = PlaylistSequence::RepeatMode::Playlist;
   }
+  else {
+    // Ignore unrecognized values rather than silently resetting the loop status.
+    return;
+  }
 
-  playlist_manager_->active()->sequence()->SetRepeatMode(mode);
+  if (playlist_manager_->active()) {
+    playlist_manager_->active()->sequence()->SetRepeatMode(mode);
+  }
+  else {
+    playlist_manager_->sequence()->SetRepeatMode(mode);
+  }
 
 }
 
@@ -378,20 +396,38 @@ void Mpris2::SetRate(double rate) {
 
 bool Mpris2::Shuffle() const {
 
+  if (!playlist_manager_->active() && !playlist_manager_->sequence()) {
+    return false;
+  }
+
   const PlaylistSequence::ShuffleMode shuffle_mode = playlist_manager_->active() ? playlist_manager_->active()->ShuffleMode() : playlist_manager_->sequence()->shuffle_mode();
   return shuffle_mode != PlaylistSequence::ShuffleMode::Off;
 
 }
 
 void Mpris2::SetShuffle(bool enable) {
-  playlist_manager_->active()->sequence()->SetShuffleMode(enable ? PlaylistSequence::ShuffleMode::All : PlaylistSequence::ShuffleMode::Off);
+
+  if (!playlist_manager_->sequence()) {
+    return;
+  }
+
+  const PlaylistSequence::ShuffleMode mode = enable ? PlaylistSequence::ShuffleMode::All : PlaylistSequence::ShuffleMode::Off;
+  if (playlist_manager_->active()) {
+    playlist_manager_->active()->sequence()->SetShuffleMode(mode);
+  }
+  else {
+    playlist_manager_->sequence()->SetShuffleMode(mode);
+  }
+
 }
 
 QVariantMap Mpris2::Metadata() const { return last_metadata_; }
 
 double Mpris2::Rating() const {
-  float rating = playlist_manager_->active()->current_item_metadata().rating();
+
+  const float rating = playlist_manager_->active() ? playlist_manager_->active()->current_item_metadata().rating() : .0F;
   return (rating <= 0) ? 0 : rating;
+
 }
 
 void Mpris2::SetRating(double rating) {
@@ -407,12 +443,16 @@ void Mpris2::SetRating(double rating) {
 
 }
 
-int Mpris2::current_playlist_row() const {
-  return playlist_manager_->active()->current_row();
+PlaylistItemPtr Mpris2::current_playlist_item() const {
+  return playlist_manager_->active() ? playlist_manager_->active()->current_item() : PlaylistItemPtr();
 }
 
-QDBusObjectPath Mpris2::current_track_id(const int current_row) const {
-  return QDBusObjectPath(QStringLiteral("/org/strawberrymusicplayer/strawberry/Track/%1").arg(current_row));
+QUuid Mpris2::current_playlist_item_uuid() const {
+  return playlist_manager_->active() ? playlist_manager_->active()->current_uuid() : QUuid();
+}
+
+QDBusObjectPath Mpris2::current_track_id(const QUuid &current_row) const {
+  return QDBusObjectPath(QLatin1String(kTrackPrefix) + current_row.toString(QUuid::WithoutBraces).replace(u'-', u'_'));
 }
 
 // We send Metadata change notification as soon as the process of changing song starts...
@@ -427,17 +467,59 @@ void Mpris2::CurrentSongChanged(const Song &song) {
 
 }
 
+void Mpris2::PlaylistItemsAdded(const int playlist_id, const QList<QUuid> &track_ids, const QUuid &after_track_id) {
+
+  if (track_ids.isEmpty() || !playlist_manager_->active() || playlist_manager_->active_id() != playlist_id) {
+    return;
+  }
+
+  // The items were inserted contiguously after after_track_id, so chain the AfterTrack:
+  // the first track follows after_track_id, and each subsequent track follows the previous one.
+  QDBusObjectPath after_track_path = after_track_id.isNull() ? QDBusObjectPath(kNoTrack) : current_track_id(after_track_id);
+  for (const QUuid &track_id : track_ids) {
+    const QDBusObjectPath track_path = current_track_id(track_id);
+    Q_EMIT TrackAdded(GetTracksMetadata(Track_Ids() << track_path), after_track_path);
+    after_track_path = track_path;
+  }
+
+}
+
+void Mpris2::PlaylistItemsRemoved(const int playlist_id, const QList<QUuid> &track_ids) {
+
+  if (track_ids.isEmpty() || !playlist_manager_->active() || playlist_manager_->active_id() != playlist_id) {
+    return;
+  }
+
+  for (const QUuid &track_id : track_ids) {
+    Q_EMIT TrackRemoved(current_track_id(track_id));
+  }
+
+}
+
+void Mpris2::EmitTrackListReplaced() {
+
+  const Track_Ids track_ids = Tracks();
+  const QUuid playlist_item_uuid = current_playlist_item_uuid();
+  QDBusObjectPath current_track_path(kNoTrack);
+  if (!playlist_item_uuid.isNull()) {
+    current_track_path = current_track_id(playlist_item_uuid);
+  }
+
+  Q_EMIT TrackListReplaced(track_ids, current_track_path);
+
+}
+
 // ... and we add the cover information later, when it's available.
 void Mpris2::AlbumCoverLoaded(const Song &song, const AlbumCoverLoaderResult &result) {
 
-  const int current_row = current_playlist_row();
-  if (current_row == -1) return;
+  const QUuid playlist_item_uuid = current_playlist_item_uuid();
+  if (playlist_item_uuid.isNull()) return;
 
   last_metadata_ = QVariantMap();
   song.ToXesam(&last_metadata_);
 
   using mpris::AddMetadata;
-  AddMetadata(u"mpris:trackid"_s, current_track_id(current_row), &last_metadata_);
+  AddMetadata(u"mpris:trackid"_s, current_track_id(playlist_item_uuid), &last_metadata_);
 
   QUrl cover_url;
   if (result.album_cover.cover_url.isValid() && result.album_cover.cover_url.isLocalFile() && QFile(result.album_cover.cover_url.toLocalFile()).exists()) {
@@ -579,13 +661,11 @@ void Mpris2::Seek(qint64 offset) {
 
 void Mpris2::SetPosition(const QDBusObjectPath &trackId, qint64 offset) {
 
-  const int current_row = current_playlist_row();
+  const QUuid playlist_item_uuid = current_playlist_item_uuid();
+  if (playlist_item_uuid.isNull()) return;
 
-  if (current_row == -1) return;
-
-  if (CanSeek() && trackId == current_track_id(current_row) && offset >= 0) {
+  if (CanSeek() && trackId == current_track_id(playlist_item_uuid) && offset >= 0) {
     offset *= kNsecPerUsec;
-
     if (offset < player_->GetCurrentItem()->EffectiveMetadata().length_nanosec()) {
       player_->SeekTo(offset / kNsecPerSec);
     }
@@ -594,110 +674,203 @@ void Mpris2::SetPosition(const QDBusObjectPath &trackId, qint64 offset) {
 }
 
 void Mpris2::OpenUri(const QString &uri) {
-  playlist_manager_->active()->InsertUrls(QList<QUrl>() << QUrl(uri), -1, true);
+
+  if (playlist_manager_->active()) {
+    playlist_manager_->active()->InsertUrls(QList<QUrl>() << QUrl(uri), -1, true);
+  }
+
 }
 
 Track_Ids Mpris2::Tracks() const {
-  // TODO
-  return Track_Ids();
+
+  if (!playlist_manager_->active() || playlist_manager_->active()->rowCount() == 0) {
+    return Track_Ids();
+  }
+
+  Track_Ids track_ids;
+  int current_row = playlist_manager_->active()->current_row() - kTracksSubsetCount;
+  int last_row = playlist_manager_->active()->current_row() + kTracksSubsetCount;
+
+  if (current_row < 0) {
+    current_row = 0;
+  }
+  if (last_row >= playlist_manager_->active()->rowCount()) {
+    last_row = playlist_manager_->active()->rowCount();
+  }
+  for (; current_row < last_row; ++current_row) {
+    const PlaylistItemPtr playlist_item = playlist_manager_->active()->item_at(current_row);
+    track_ids << current_track_id(playlist_item->uuid());
+  }
+
+  return track_ids;
+
 }
 
-bool Mpris2::CanEditTracks() const { return false; }
+bool Mpris2::CanEditTracks() const { return playlist_manager_->active() != nullptr; }
+
+QUuid Mpris2::GetTrackObjectPathUuid(const QDBusObjectPath &track_object_path) {
+
+  const QString path = track_object_path.path();
+  static const QString track_prefix = QLatin1String(kTrackPrefix);
+  if (!path.startsWith(track_prefix)) {
+    return QUuid();
+  }
+  QString id_part = path.mid(track_prefix.length());
+  if (id_part.isEmpty()) {
+    return QUuid();
+  }
+  return QUuid::fromString(id_part.replace(u'_', u'-'));
+
+}
 
 TrackMetadata Mpris2::GetTracksMetadata(const Track_Ids &tracks) const {
 
-  Q_UNUSED(tracks);
+  if (!playlist_manager_->active()) {
+    return TrackMetadata();
+  }
 
-  // TODO
-  return TrackMetadata();
+  TrackMetadata track_metadata;
+  for (const QDBusObjectPath &track_object_path : tracks) {
+    const QUuid playlist_item_uuid = GetTrackObjectPathUuid(track_object_path);
+    if (playlist_item_uuid.isNull()) {
+      track_metadata << QVariantMap();
+      continue;
+    }
+    PlaylistItemPtr playlist_item = playlist_manager_->active()->ItemByUuId(playlist_item_uuid);
+    if (!playlist_item) {
+      track_metadata << QVariantMap();
+      continue;
+    }
+    QVariantMap track_map;
+    playlist_item->EffectiveMetadata().ToXesam(&track_map);
+    track_map.insert(u"mpris:trackid"_s, QVariant::fromValue(track_object_path));
+    track_metadata << track_map;
+  }
+
+  return track_metadata;
 
 }
 
 void Mpris2::AddTrack(const QString &uri, const QDBusObjectPath &afterTrack, bool setAsCurrent) {
 
-  Q_UNUSED(uri);
-  Q_UNUSED(afterTrack);
-  Q_UNUSED(setAsCurrent);
-
-  // TODO
+  if (!playlist_manager_->active() || playlist_manager_->active_id() < 0) {
+    return;
+  }
+  int after_track_pos = playlist_manager_->active()->rowCount() - 1;
+  const QString path = afterTrack.path();
+  if (path == u"/"_s || path == QLatin1String(kNoTrack)) {
+    after_track_pos = -1;
+  }
+  else {
+    const QUuid playlist_item_uuid = GetTrackObjectPathUuid(afterTrack);
+    if (!playlist_item_uuid.isNull()) {
+      after_track_pos = playlist_manager_->active()->IndexByUuId(playlist_item_uuid);
+    }
+  }
+  const int insert_row = after_track_pos + 1;
+  playlist_manager_->InsertUrls(playlist_manager_->active_id(), QList<QUrl>() << QUrl(uri), insert_row, setAsCurrent, false, true);
 
 }
 
 void Mpris2::RemoveTrack(const QDBusObjectPath &trackId) {
-  Q_UNUSED(trackId);
-  // TODO
+
+  if (!playlist_manager_->active()) {
+    return;
+  }
+  const QUuid playlist_item_uuid = GetTrackObjectPathUuid(trackId);
+  const PlaylistItemPtr playlist_item = playlist_manager_->active()->ItemByUuId(playlist_item_uuid);
+  if (playlist_item) {
+    playlist_manager_->active()->RemoveItemWithSignal(playlist_item);
+  }
+
 }
 
 void Mpris2::GoTo(const QDBusObjectPath &trackId) {
-  Q_UNUSED(trackId);
-  // TODO
+
+  if (!playlist_manager_->active()) {
+    return;
+  }
+  const QUuid playlist_item_uuid = GetTrackObjectPathUuid(trackId);
+  const int playlist_item_index = playlist_manager_->active()->IndexByUuId(playlist_item_uuid);
+  if (playlist_item_index >= 0) {
+    // GoTo on the root object only changes the current track; it does not replace the track list.
+    // Clients learn of the new current track via the Player Metadata mpris:trackid change.
+    player_->PlayAt(playlist_item_index, false, 0, EngineBase::TrackChangeType::Auto, Playlist::AutoScroll::Always, false);
+  }
+
 }
 
 quint32 Mpris2::PlaylistCount() const {
   return playlist_manager_->GetAllPlaylists().size();
 }
 
-QStringList Mpris2::Orderings() const { return QStringList() << u"User"_s; }
+QStringList Mpris2::Orderings() const { return QStringList() << u"UserDefined"_s << u"Alphabetical"_s; }
 
-namespace {
-
-QDBusObjectPath MakePlaylistPath(int id) {
+QDBusObjectPath Mpris2::MakePlaylistPath(const int id) const {
   return QDBusObjectPath(QStringLiteral("/org/strawberrymusicplayer/strawberry/PlaylistId/%1").arg(id));
 }
-
-}  // namespace
 
 MaybePlaylist Mpris2::ActivePlaylist() const {
 
   MaybePlaylist maybe_playlist;
   Playlist *current_playlist = playlist_manager_->current();
-  maybe_playlist.valid = current_playlist;
+  maybe_playlist.valid = current_playlist != nullptr;
   if (!current_playlist) {
     return maybe_playlist;
   }
 
   maybe_playlist.playlist.id = MakePlaylistPath(current_playlist->id());
   maybe_playlist.playlist.name = playlist_manager_->GetPlaylistName(current_playlist->id());
+
   return maybe_playlist;
 
 }
 
-void Mpris2::ActivatePlaylist(const QDBusObjectPath &playlist_id) {
+void Mpris2::ActivatePlaylist(const QDBusObjectPath &mpris2_playlist_id) {
 
-  QStringList split_path = playlist_id.path().split(u'/');
-  qLog(Debug) << Q_FUNC_INFO << playlist_id.path() << split_path;
+  const QStringList split_path = mpris2_playlist_id.path().split(u'/');
   if (split_path.isEmpty()) {
     return;
   }
   bool ok = false;
-  int p = split_path.last().toInt(&ok);
+  const int playlist_id = split_path.last().toInt(&ok);
   if (!ok) {
     return;
   }
-  if (!playlist_manager_->IsPlaylistOpen(p)) {
+  if (!playlist_manager_->IsPlaylistOpen(playlist_id)) {
     qLog(Error) << "Playlist isn't opened!";
     return;
   }
-  playlist_manager_->SetActivePlaylist(p);
+  playlist_manager_->SetActivePlaylist(playlist_id);
   player_->Next();
+
+  EmitTrackListReplaced();
 
 }
 
-// TODO: Support sort orders.
 MprisPlaylistList Mpris2::GetPlaylists(quint32 index, quint32 max_count, const QString &order, bool reverse_order) {
-
-  Q_UNUSED(order);
 
   const QList<Playlist*> playlists = playlist_manager_->GetAllPlaylists();
   MprisPlaylistList ret;
   ret.reserve(playlists.count());
-  for (Playlist *p : playlists) {
+  for (Playlist *playlist : playlists) {
     MprisPlaylist mpris_playlist;
-    mpris_playlist.id = MakePlaylistPath(p->id());
-    mpris_playlist.name = playlist_manager_->GetPlaylistName(p->id());
+    mpris_playlist.id = MakePlaylistPath(playlist->id());
+    mpris_playlist.name = playlist_manager_->GetPlaylistName(playlist->id());
     ret << mpris_playlist;
   }
 
+  if (!order.isEmpty()) {
+    // Only the orderings advertised by Orderings() are handled here.
+    // CreationDate, ModifiedDate and LastPlayDate are not supported as we don't track such values.
+    if (order == "Alphabetical"_L1) {
+      std::sort(ret.begin(), ret.end(), [](const MprisPlaylist &a, const MprisPlaylist &b) { return a.name < b.name; });
+    }
+    // Let's say user defined will sort by the ID
+    else if (order == "UserDefined"_L1) {
+      std::sort(ret.begin(), ret.end(), [](const MprisPlaylist &a, const MprisPlaylist &b) { return a.id < b.id; });
+    }
+  }
   if (reverse_order) {
     std::reverse(ret.begin(), ret.end());
   }

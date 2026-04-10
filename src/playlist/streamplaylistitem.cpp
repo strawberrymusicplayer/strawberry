@@ -30,8 +30,8 @@ StreamPlaylistItem::StreamPlaylistItem(const Song::Source source, const QUuid &u
     : PlaylistItem(source, uuid),
       source_(source) {}
 
-StreamPlaylistItem::StreamPlaylistItem(const Song &song)
-    : PlaylistItem(song.source()),
+StreamPlaylistItem::StreamPlaylistItem(const Song &song, const bool signal)
+    : PlaylistItem(song.source(), QUuid(), signal),
       source_(song.source()),
       song_(song) {
   InitMetadata();
