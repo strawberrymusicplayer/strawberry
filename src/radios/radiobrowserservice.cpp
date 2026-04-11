@@ -220,7 +220,9 @@ void RadioBrowserService::Search(const QString &query,
 
   if (!order.isEmpty()) {
     url_query.addQueryItem(u"order"_s, order);
-    url_query.addQueryItem(u"reverse"_s, u"true"_s);
+    if (order != u"name"_s) {
+      url_query.addQueryItem(u"reverse"_s, u"true"_s);
+    }
   }
   else {
     url_query.addQueryItem(u"order"_s, u"votes"_s);
@@ -268,6 +270,9 @@ void RadioBrowserService::SearchReply(QNetworkReply *reply, const int task_id, c
     channel.source = source_;
     channel.name = name;
     channel.url.setUrl(stream_url);
+    channel.country = obj["country"_L1].toString().trimmed();
+    channel.tags = obj["tags"_L1].toString().trimmed();
+    channel.codec = obj["codec"_L1].toString().trimmed();
 
     const QString favicon = obj["favicon"_L1].toString();
     if (!favicon.isEmpty()) {

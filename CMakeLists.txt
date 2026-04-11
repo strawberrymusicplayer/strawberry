@@ -783,6 +783,7 @@ set(SOURCES
   src/radios/radioparadiseservice.cpp
   src/radios/radiobrowserservice.cpp
   src/radios/radiobrowsersearchview.cpp
+  src/radios/radiobrowsersearchmodel.cpp
   src/radios/radiomimedata.cpp
 
   src/scrobbler/audioscrobbler.cpp
@@ -1083,6 +1084,7 @@ set(HEADERS
   src/radios/radioparadiseservice.h
   src/radios/radiobrowserservice.h
   src/radios/radiobrowsersearchview.h
+  src/radios/radiobrowsersearchmodel.h
   src/scrobbler/audioscrobbler.h
   src/scrobbler/scrobblersettingsservice.h
   src/scrobbler/scrobblerservice.h

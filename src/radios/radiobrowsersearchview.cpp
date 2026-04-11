@@ -23,7 +23,6 @@
 #include <QTimer>
 #include <QMenu>
 #include <QAction>
-#include <QStandardItemModel>
 #include <QHeaderView>
 #include "widgets/stretchheaderview.h"
 
@@ -33,44 +32,12 @@
 #include "constants/radiobrowsersettings.h"
 #include "radiobrowserservice.h"
 #include "radiobrowsersearchview.h"
+#include "radiobrowsersearchmodel.h"
 #include "radiochannel.h"
 #include "radiomimedata.h"
 #include "ui_radiobrowsersearchview.h"
 
 using namespace Qt::Literals::StringLiterals;
-
-namespace {
-
-class RadioBrowserSearchModel : public QStandardItemModel {
- public:
-  explicit RadioBrowserSearchModel(QObject *parent = nullptr) : QStandardItemModel(parent) {}
-
-  QMimeData *mimeData(const QModelIndexList &indexes) const override {
-    RadioMimeData *mimedata = new RadioMimeData;
-    QList<QUrl> urls;
-    for (const QModelIndex &idx : indexes) {
-      if (idx.column() != 0) continue;
-      const RadioChannel channel = idx.data(Qt::UserRole).value<RadioChannel>();
-      if (!channel.url.isEmpty()) {
-        Song song = channel.ToSong();
-        urls << song.url();
-        mimedata->songs << song;
-      }
-    }
-    if (mimedata->songs.isEmpty()) {
-      delete mimedata;
-      return nullptr;
-    }
-    mimedata->setUrls(urls);
-    return mimedata;
-  }
-
-  QStringList mimeTypes() const override {
-    return QStringList() << u"text/uri-list"_s;
-  }
-};
-
-}  // namespace
 
 RadioBrowserSearchView::RadioBrowserSearchView(QWidget *parent)
     : QWidget(parent),
@@ -89,7 +56,7 @@ RadioBrowserSearchView::RadioBrowserSearchView(QWidget *parent)
   model_->setHorizontalHeaderLabels({tr("Name"), tr("Country"), tr("Tags"), tr("Codec")});
   ui_->results->setModel(model_);
 
-  StretchHeaderView *header = new StretchHeaderView(Qt::Horizontal, ui_->results);
+  StretchHeaderView *header = new StretchHeaderView(Qt::Horizontal, this);
   ui_->results->setHeader(header);
   header->SetStretchEnabled(true);
   header->SetColumnWidth(Column_Name, 0.5);
@@ -169,6 +136,7 @@ void RadioBrowserSearchView::SearchTriggered() {
 
   current_offset_ = 0;
   model_->removeRows(0, model_->rowCount());
+  model_->ClearChannels();
   DoSearch();
 
 }
@@ -201,17 +169,18 @@ void RadioBrowserSearchView::SearchFinished(const RadioChannelList &channels, bo
   ui_->label_status->setText(tr("%1 stations found").arg(model_->rowCount() + channels.size()));
 
   for (const RadioChannel &channel : channels) {
-    QList<QStandardItem*> items;
+    const int row = model_->rowCount();
 
+    QList<QStandardItem*> items;
     QStandardItem *item_name = new QStandardItem(channel.name);
-    item_name->setData(QVariant::fromValue(channel), Qt::UserRole);
     item_name->setToolTip(channel.name);
     items << item_name;
-    items << new QStandardItem();  // Country - populated from JSON metadata
-    items << new QStandardItem();  // Tags
-    items << new QStandardItem();  // Codec
+    items << new QStandardItem(channel.country);
+    items << new QStandardItem(channel.tags);
+    items << new QStandardItem(channel.codec);
 
     model_->appendRow(items);
+    model_->AddChannel(row, channel);
   }
 
 }
@@ -268,9 +237,7 @@ void RadioBrowserSearchView::ItemDoubleClicked(const QModelIndex &index) {
 
   if (!index.isValid()) return;
 
-  // Get channel from first column
-  QModelIndex name_index = index.sibling(index.row(), Column_Name);
-  const RadioChannel channel = name_index.data(Qt::UserRole).value<RadioChannel>();
+  const RadioChannel channel = model_->ChannelForRow(index.row());
   if (channel.url.isEmpty()) return;
 
   RadioMimeData *mimedata = new RadioMimeData;
@@ -286,7 +253,7 @@ void RadioBrowserSearchView::AddSelectedToPlaylist() {
 
   RadioMimeData *mimedata = new RadioMimeData;
   for (const QModelIndex &idx : selected) {
-    const RadioChannel channel = idx.data(Qt::UserRole).value<RadioChannel>();
+    const RadioChannel channel = model_->ChannelForRow(idx.row());
     if (!channel.url.isEmpty()) {
       mimedata->songs << channel.ToSong();
     }
@@ -317,6 +284,3 @@ void RadioBrowserSearchView::ShowContextMenu(const QPoint &pos) {
 
 }
 
-Song RadioBrowserSearchView::SongFromChannel(const RadioChannel &channel) const {
-  return channel.ToSong();
-}

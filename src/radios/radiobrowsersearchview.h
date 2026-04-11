@@ -27,7 +27,7 @@
 
 #include "radiochannel.h"
 
-class QStandardItemModel;
+class RadioBrowserSearchModel;
 class QTimer;
 class QMenu;
 class QAction;
@@ -64,11 +64,10 @@ class RadioBrowserSearchView : public QWidget {
 
  private:
   void DoSearch();
-  Song SongFromChannel(const RadioChannel &channel) const;
 
   Ui_RadioBrowserSearchView *ui_;
   RadioBrowserService *service_;
-  QStandardItemModel *model_;
+  RadioBrowserSearchModel *model_;
   QTimer *search_timer_;
   QMenu *context_menu_;
   QAction *action_add_to_playlist_;
