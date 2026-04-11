@@ -20,26 +20,42 @@
 #ifndef RADIOBROWSERSEARCHMODEL_H
 #define RADIOBROWSERSEARCHMODEL_H
 
-#include <QStandardItemModel>
+#include <QAbstractTableModel>
 #include <QMimeData>
 #include <QStringList>
-#include <QMap>
+#include <QVariant>
 
 #include "radiochannel.h"
 
-class RadioBrowserSearchModel : public QStandardItemModel {
+class RadioBrowserSearchModel : public QAbstractTableModel {
+  Q_OBJECT
+
  public:
   explicit RadioBrowserSearchModel(QObject *parent = nullptr);
+
+  enum Column {
+    Column_Name = 0,
+    Column_Country,
+    Column_Tags,
+    Column_Codec,
+    ColumnCount
+  };
+
+  int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+  int columnCount(const QModelIndex &parent = QModelIndex()) const override;
+  QVariant data(const QModelIndex &idx, int role = Qt::DisplayRole) const override;
+  QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
+  Qt::ItemFlags flags(const QModelIndex &idx) const override;
 
   QMimeData *mimeData(const QModelIndexList &indexes) const override;
   QStringList mimeTypes() const override;
 
-  void AddChannel(int row, const RadioChannel &channel);
+  void AddChannels(const RadioChannelList &channels);
   RadioChannel ChannelForRow(int row) const;
-  void ClearChannels();
+  void Clear();
 
  private:
-  QMap<int, RadioChannel> channels_;
+  RadioChannelList channels_;
 };
 
 #endif  // RADIOBROWSERSEARCHMODEL_H

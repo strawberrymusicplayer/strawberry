@@ -23,17 +23,16 @@
 #include <QTimer>
 #include <QMenu>
 #include <QAction>
+#include <QShowEvent>
 #include <QHeaderView>
 #include "widgets/stretchheaderview.h"
 
 #include "core/iconloader.h"
-#include "core/mimedata.h"
 #include "core/settings.h"
 #include "constants/radiobrowsersettings.h"
 #include "radiobrowserservice.h"
 #include "radiobrowsersearchview.h"
 #include "radiobrowsersearchmodel.h"
-#include "radiochannel.h"
 #include "radiomimedata.h"
 #include "ui_radiobrowsersearchview.h"
 
@@ -49,20 +48,20 @@ RadioBrowserSearchView::RadioBrowserSearchView(QWidget *parent)
       action_add_to_playlist_(nullptr),
       current_offset_(0),
       search_limit_(100),
-      has_more_(false) {
+      has_more_(false),
+      initialized_(false) {
 
   ui_->setupUi(this);
 
-  model_->setHorizontalHeaderLabels({tr("Name"), tr("Country"), tr("Tags"), tr("Codec")});
   ui_->results->setModel(model_);
 
   StretchHeaderView *header = new StretchHeaderView(Qt::Horizontal, this);
   ui_->results->setHeader(header);
   header->SetStretchEnabled(true);
-  header->SetColumnWidth(Column_Name, 0.5);
-  header->SetColumnWidth(Column_Country, 0.2);
-  header->SetColumnWidth(Column_Tags, 0.2);
-  header->SetColumnWidth(Column_Codec, 0.1);
+  header->SetColumnWidth(RadioBrowserSearchModel::Column_Name, 0.5);
+  header->SetColumnWidth(RadioBrowserSearchModel::Column_Country, 0.2);
+  header->SetColumnWidth(RadioBrowserSearchModel::Column_Tags, 0.2);
+  header->SetColumnWidth(RadioBrowserSearchModel::Column_Codec, 0.1);
 
   ui_->search->setPlaceholderText(tr("Search radio stations..."));
 
@@ -98,6 +97,17 @@ RadioBrowserSearchView::~RadioBrowserSearchView() {
 
 }
 
+void RadioBrowserSearchView::showEvent(QShowEvent *e) {
+
+  Q_UNUSED(e)
+
+  if (!initialized_ && service_) {
+    service_->FetchCountries();
+    initialized_ = true;
+  }
+
+}
+
 void RadioBrowserSearchView::Init(RadioBrowserService *service) {
 
   service_ = service;
@@ -121,8 +131,6 @@ void RadioBrowserSearchView::Init(RadioBrowserService *service) {
   default_country_ = s.value(u"default_country"_s).toString();
   s.endGroup();
 
-  service_->FetchCountries();
-
 }
 
 void RadioBrowserSearchView::TextChanged(const QString &text) {
@@ -135,8 +143,7 @@ void RadioBrowserSearchView::TextChanged(const QString &text) {
 void RadioBrowserSearchView::SearchTriggered() {
 
   current_offset_ = 0;
-  model_->removeRows(0, model_->rowCount());
-  model_->ClearChannels();
+  model_->Clear();
   DoSearch();
 
 }
@@ -168,20 +175,7 @@ void RadioBrowserSearchView::SearchFinished(const RadioChannelList &channels, bo
 
   ui_->label_status->setText(tr("%1 stations found").arg(model_->rowCount() + channels.size()));
 
-  for (const RadioChannel &channel : channels) {
-    const int row = model_->rowCount();
-
-    QList<QStandardItem*> items;
-    QStandardItem *item_name = new QStandardItem(channel.name);
-    item_name->setToolTip(channel.name);
-    items << item_name;
-    items << new QStandardItem(channel.country);
-    items << new QStandardItem(channel.tags);
-    items << new QStandardItem(channel.codec);
-
-    model_->appendRow(items);
-    model_->AddChannel(row, channel);
-  }
+  model_->AddChannels(channels);
 
 }
 
@@ -248,7 +242,7 @@ void RadioBrowserSearchView::ItemDoubleClicked(const QModelIndex &index) {
 
 void RadioBrowserSearchView::AddSelectedToPlaylist() {
 
-  const QModelIndexList selected = ui_->results->selectionModel()->selectedRows(Column_Name);
+  const QModelIndexList selected = ui_->results->selectionModel()->selectedRows(RadioBrowserSearchModel::Column_Name);
   if (selected.isEmpty()) return;
 
   RadioMimeData *mimedata = new RadioMimeData;

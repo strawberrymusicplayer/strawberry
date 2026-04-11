@@ -39,9 +39,7 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-void RadioSettingsPage::PopulateCountries(QComboBox *combo) {
-
-  combo->addItem(QCoreApplication::translate("RadioSettingsPage", "All countries"), QString());
+QList<QPair<QString, QString>> RadioSettingsPage::CountryList() {
 
   QSet<QLocale::Territory> seen;
   QList<QPair<QString, QString>> countries;
@@ -65,7 +63,16 @@ void RadioSettingsPage::PopulateCountries(QComboBox *combo) {
     return a.first.compare(b.first, Qt::CaseInsensitive) < 0;
   });
 
-  for (const QPair<QString, QString> &entry : std::as_const(countries)) {
+  return countries;
+
+}
+
+void RadioSettingsPage::PopulateCountries(QComboBox *combo) {
+
+  combo->addItem(QCoreApplication::translate("RadioSettingsPage", "All countries"), QString());
+
+  const QList<QPair<QString, QString>> countries = CountryList();
+  for (const QPair<QString, QString> &entry : countries) {
     combo->addItem(entry.first, entry.second);
   }
 

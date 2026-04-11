@@ -46,6 +46,9 @@ class RadioBrowserSearchView : public QWidget {
 
   void Init(RadioBrowserService *service);
 
+ protected:
+  void showEvent(QShowEvent *e) override;
+
  Q_SIGNALS:
   void AddToPlaylist(QMimeData *mimedata);
 
@@ -76,14 +79,7 @@ class RadioBrowserSearchView : public QWidget {
   int current_offset_;
   int search_limit_;
   bool has_more_;
-
-  enum Column {
-    Column_Name = 0,
-    Column_Country,
-    Column_Tags,
-    Column_Codec,
-    ColumnCount
-  };
+  bool initialized_;
 };
 
 #endif  // RADIOBROWSERSEARCHVIEW_H

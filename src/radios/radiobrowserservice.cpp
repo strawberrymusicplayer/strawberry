@@ -17,13 +17,10 @@
  *
  */
 
-#include <algorithm>
-
 #include <QObject>
 #include <QList>
 #include <QPair>
 #include <QSet>
-#include <QLocale>
 #include <QString>
 #include <QUrl>
 #include <QUrlQuery>
@@ -37,6 +34,7 @@
 #include "core/networkaccessmanager.h"
 #include "core/taskmanager.h"
 #include "core/iconloader.h"
+#include "settings/radiosettingspage.h"
 #include "radiobrowserservice.h"
 #include "radiochannel.h"
 
@@ -327,30 +325,14 @@ void RadioBrowserService::CountriesReply(QNetworkReply *reply) {
     }
   }
 
-  // Map codes to display names via QLocale
+  // Filter the full country list to only include countries with stations
+  const QList<QPair<QString, QString>> all_countries = RadioSettingsPage::CountryList();
   QList<QPair<QString, QString>> countries;
-  QSet<QLocale::Territory> seen;
-
-  const QList<QLocale> locales = QLocale::matchingLocales(QLocale::AnyLanguage, QLocale::AnyScript, QLocale::AnyTerritory);
-  for (const QLocale &locale : locales) {
-    const QLocale::Territory territory = locale.territory();
-    if (territory == QLocale::AnyTerritory || seen.contains(territory)) continue;
-    seen.insert(territory);
-
-    const QString locale_name = locale.name();
-    const int underscore = locale_name.lastIndexOf(u'_');
-    if (underscore < 0) continue;
-    const QString code = locale_name.mid(underscore + 1);
-    if (code.length() != 2) continue;
-
-    if (codes_with_stations.contains(code)) {
-      countries << qMakePair(QLocale::territoryToString(territory), code);
+  for (const QPair<QString, QString> &entry : all_countries) {
+    if (codes_with_stations.contains(entry.second)) {
+      countries << entry;
     }
   }
-
-  std::sort(countries.begin(), countries.end(), [](const QPair<QString, QString> &a, const QPair<QString, QString> &b) {
-    return a.first.compare(b.first, Qt::CaseInsensitive) < 0;
-  });
 
   Q_EMIT CountriesLoaded(countries);
 

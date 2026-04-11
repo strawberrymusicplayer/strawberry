@@ -21,6 +21,9 @@
 #define RADIOSETTINGSPAGE_H
 
 #include <QObject>
+#include <QList>
+#include <QPair>
+#include <QString>
 
 #include "settings/settingspage.h"
 
@@ -35,6 +38,7 @@ class RadioSettingsPage : public SettingsPage {
   explicit RadioSettingsPage(SettingsDialog *dialog, QWidget *parent = nullptr);
   ~RadioSettingsPage() override;
 
+  static QList<QPair<QString, QString>> CountryList();
   static void PopulateCountries(QComboBox *combo);
 
   void Load() override;

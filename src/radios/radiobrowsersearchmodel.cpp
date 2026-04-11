@@ -27,7 +27,60 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-RadioBrowserSearchModel::RadioBrowserSearchModel(QObject *parent) : QStandardItemModel(parent) {}
+RadioBrowserSearchModel::RadioBrowserSearchModel(QObject *parent) : QAbstractTableModel(parent) {}
+
+int RadioBrowserSearchModel::rowCount(const QModelIndex &parent) const {
+  return parent.isValid() ? 0 : static_cast<int>(channels_.size());
+}
+
+int RadioBrowserSearchModel::columnCount(const QModelIndex &parent) const {
+  return parent.isValid() ? 0 : ColumnCount;
+}
+
+QVariant RadioBrowserSearchModel::data(const QModelIndex &idx, int role) const {
+
+  if (!idx.isValid() || idx.row() >= channels_.size()) return QVariant();
+
+  const RadioChannel &channel = channels_.at(idx.row());
+
+  if (role == Qt::DisplayRole) {
+    switch (idx.column()) {
+      case Column_Name: return channel.name;
+      case Column_Country: return channel.country;
+      case Column_Tags: return channel.tags;
+      case Column_Codec: return channel.codec;
+      default: return QVariant();
+    }
+  }
+
+  if (role == Qt::ToolTipRole && idx.column() == Column_Name) {
+    return channel.name;
+  }
+
+  return QVariant();
+
+}
+
+QVariant RadioBrowserSearchModel::headerData(int section, Qt::Orientation orientation, int role) const {
+
+  if (orientation != Qt::Horizontal || role != Qt::DisplayRole) return QVariant();
+
+  switch (section) {
+    case Column_Name: return tr("Name");
+    case Column_Country: return tr("Country");
+    case Column_Tags: return tr("Tags");
+    case Column_Codec: return tr("Codec");
+    default: return QVariant();
+  }
+
+}
+
+Qt::ItemFlags RadioBrowserSearchModel::flags(const QModelIndex &idx) const {
+
+  if (!idx.isValid()) return Qt::NoItemFlags;
+  return Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDragEnabled;
+
+}
 
 QMimeData *RadioBrowserSearchModel::mimeData(const QModelIndexList &indexes) const {
 
@@ -35,7 +88,7 @@ QMimeData *RadioBrowserSearchModel::mimeData(const QModelIndexList &indexes) con
   QList<QUrl> urls;
   for (const QModelIndex &idx : indexes) {
     if (idx.column() != 0) continue;
-    const RadioChannel channel = ChannelForRow(idx.row());
+    const RadioChannel &channel = channels_.at(idx.row());
     if (!channel.url.isEmpty()) {
       Song song = channel.ToSong();
       urls << song.url();
@@ -55,14 +108,29 @@ QStringList RadioBrowserSearchModel::mimeTypes() const {
   return QStringList() << u"text/uri-list"_s;
 }
 
-void RadioBrowserSearchModel::AddChannel(int row, const RadioChannel &channel) {
-  channels_.insert(row, channel);
+void RadioBrowserSearchModel::AddChannels(const RadioChannelList &channels) {
+
+  if (channels.isEmpty()) return;
+
+  const int first = static_cast<int>(channels_.size());
+  const int last = first + static_cast<int>(channels.size()) - 1;
+  beginInsertRows(QModelIndex(), first, last);
+  channels_.append(channels);
+  endInsertRows();
+
 }
 
 RadioChannel RadioBrowserSearchModel::ChannelForRow(int row) const {
-  return channels_.value(row);
+  if (row < 0 || row >= channels_.size()) return RadioChannel();
+  return channels_.at(row);
 }
 
-void RadioBrowserSearchModel::ClearChannels() {
+void RadioBrowserSearchModel::Clear() {
+
+  if (channels_.isEmpty()) return;
+
+  beginResetModel();
   channels_.clear();
+  endResetModel();
+
 }
