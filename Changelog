@@ -10,10 +10,14 @@ Unreleased:
     * Fixed album cover manager save cover to file not working (#2039)
     * Fixed repeat and shuffle button sizes (#1838)
     * Fixed MPRIS2 resetting previous played track history
+    * Fixed Qobuz authentication (#2058)
 
   Enhancements:
-    * Rewrote Discord RPC with Qt and removed RapidJSON dependency.
-    * New grouping shuffle mode.
+    * Rewrote Discord RPC with Qt and removed RapidJSON dependency
+    * New grouping shuffle mode
+    * Use HTTP POST for AcoustID lookup
+    * Write MusicBrainz Track Id when completing tags using MusicBrainz
+    * Added rating filter to the collection (#2054)
 
 Version 1.2.18 (2026.02.01):
 
