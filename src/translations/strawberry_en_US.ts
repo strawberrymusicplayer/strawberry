@@ -5625,23 +5625,43 @@ Are you sure you want to continue?</source>
 <context>
     <name>QobuzService</name>
     <message>
-        <source>Authenticating...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Maximum number of login attempts reached.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Missing Qobuz app ID.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Missing Qobuz username.</source>
+        <source>Missing app ID. Please fetch credentials first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Missing Qobuz password.</source>
+        <source>Missing app secret. Please fetch credentials first.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Missing private key. Please fetch credentials first.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to start local server for OAuth redirect: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to open the web browser. Please open this URL manually: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Waiting for browser authentication...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OAuth redirect failed: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OAuth redirect is missing authorization code.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Exchanging authorization code...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5650,6 +5670,10 @@ Are you sure you want to continue?</source>
     </message>
     <message>
         <source>Missing Qobuz app ID or secret.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Not authenticated. Please login to Qobuz in the settings.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5664,23 +5688,11 @@ Are you sure you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Qobuz support is not official and requires an API app ID and secret from a registered application to work. We can&apos;t help you getting these.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Authentication</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>App ID</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Username</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Password</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5724,23 +5736,19 @@ Are you sure you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Base64 encoded secret</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Configuration incomplete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Missing app id.</source>
+        <source>Missing app id. Please fetch credentials first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Missing username.</source>
+        <source>Missing app secret. Please fetch credentials first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Missing password.</source>
+        <source>Missing private key. Please fetch credentials first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5756,7 +5764,7 @@ Are you sure you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>App ID and secret have been successfully fetched from the Qobuz web player.</source>
+        <source>Credentials have been successfully fetched. Click Login to authenticate via your browser.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5768,11 +5776,15 @@ Are you sure you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Automatically fetch app ID and secret from Qobuz web player</source>
+        <source>Remove (Remastered), etc from song titles</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Remove (Remastered), etc from song titles</source>
+        <source>Private key</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Automatically fetch app ID, app secret and private key from Qobuz web player</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5780,6 +5792,10 @@ Are you sure you want to continue?</source>
     <name>QobuzStreamURLRequest</name>
     <message>
         <source>Missing Qobuz app ID or secret.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Not authenticated. Please log in on the Qobuz settings page.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
