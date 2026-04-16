@@ -82,12 +82,11 @@ void AcoustidClient::Start(const int id, const QString &fingerprint, int duratio
 
   QUrlQuery url_query;
   url_query.setQueryItems(params);
-  QUrl url(QString::fromLatin1(kUrl));
-  url.setQuery(url_query);
-
-  QNetworkRequest network_request(url);
+  const QByteArray data = url_query.toString(QUrl::FullyEncoded).toUtf8();
+  QNetworkRequest network_request(QUrl(QString::fromLatin1(kUrl)));
   network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
-  QNetworkReply *reply = network_->get(network_request);
+  network_request.setHeader(QNetworkRequest::ContentTypeHeader, u"application/x-www-form-urlencoded"_s);
+  QNetworkReply *reply = network_->post(network_request, data);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, id]() { RequestFinished(reply, id); });
   requests_[id] = reply;
 
