@@ -76,7 +76,7 @@ void AcoustidClient::Start(const int id, const QString &fingerprint, int duratio
 
   const ParamList params = ParamList() << Param(u"format"_s, u"json"_s)
                                        << Param(u"client"_s, QLatin1String(kClientId))
-                                       << Param(u"duration"_s, QString::number(duration_msec / kMsecPerSec))
+                                       << Param(u"duration"_s, QString::number(std::max(1LL, duration_msec / kMsecPerSec)))
                                        << Param(u"meta"_s, u"recordingids+sources"_s)
                                        << Param(u"fingerprint"_s, fingerprint);
 
