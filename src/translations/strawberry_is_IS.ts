@@ -944,34 +944,6 @@
       <translation type="unfinished">Rating greater than 4 stars</translation>
     </message>
     <message>
-      <source>Any rating</source>
-      <translation type="unfinished">Any rating</translation>
-    </message>
-    <message>
-      <source>Rating non null</source>
-      <translation type="unfinished">Rating non null</translation>
-    </message>
-    <message>
-      <source>Rating greater than 1 star</source>
-      <translation type="unfinished">Rating greater than 1 star</translation>
-    </message>
-    <message>
-      <source>Rating greater than 2 stars</source>
-      <translation type="unfinished">Rating greater than 2 stars</translation>
-    </message>
-    <message>
-      <source>Rating greater than 3 stars</source>
-      <translation type="unfinished">Rating greater than 3 stars</translation>
-    </message>
-    <message>
-      <source>Rating greater than 4 stars</source>
-      <translation type="unfinished">Rating greater than 4 stars</translation>
-    </message>
-    <message>
-      <source>Rating</source>
-      <translation type="unfinished">Rating</translation>
-    </message>
-    <message>
       <source>Group by</source>
       <translation>Hópa eftir</translation>
     </message>
@@ -5657,24 +5629,44 @@ Ertu viss um að þú viljir halda áfram?</translation>
   <context>
     <name>QobuzService</name>
     <message>
-      <source>Authenticating...</source>
-      <translation>Auðkenni...</translation>
-    </message>
-    <message>
-      <source>Maximum number of login attempts reached.</source>
-      <translation>Hámarksfjölda innskráningartilrauna náð.</translation>
-    </message>
-    <message>
       <source>Missing Qobuz app ID.</source>
       <translation>Vantar Qobuz-auðkenni forrits.</translation>
     </message>
     <message>
-      <source>Missing Qobuz username.</source>
-      <translation>Vantar Qobuz-notandanafn.</translation>
+      <source>Missing app ID. Please fetch credentials first.</source>
+      <translation type="unfinished">Missing app ID. Please fetch credentials first.</translation>
     </message>
     <message>
-      <source>Missing Qobuz password.</source>
-      <translation>Vantar Qobuz-lykilorð.</translation>
+      <source>Missing app secret. Please fetch credentials first.</source>
+      <translation type="unfinished">Missing app secret. Please fetch credentials first.</translation>
+    </message>
+    <message>
+      <source>Missing private key. Please fetch credentials first.</source>
+      <translation type="unfinished">Missing private key. Please fetch credentials first.</translation>
+    </message>
+    <message>
+      <source>Failed to start local server for OAuth redirect: %1</source>
+      <translation type="unfinished">Failed to start local server for OAuth redirect: %1</translation>
+    </message>
+    <message>
+      <source>Failed to open the web browser. Please open this URL manually: %1</source>
+      <translation type="unfinished">Failed to open the web browser. Please open this URL manually: %1</translation>
+    </message>
+    <message>
+      <source>Waiting for browser authentication...</source>
+      <translation type="unfinished">Waiting for browser authentication...</translation>
+    </message>
+    <message>
+      <source>OAuth redirect failed: %1</source>
+      <translation type="unfinished">OAuth redirect failed: %1</translation>
+    </message>
+    <message>
+      <source>OAuth redirect is missing authorization code.</source>
+      <translation type="unfinished">OAuth redirect is missing authorization code.</translation>
+    </message>
+    <message>
+      <source>Exchanging authorization code...</source>
+      <translation type="unfinished">Exchanging authorization code...</translation>
     </message>
     <message>
       <source>Not authenticated with Qobuz.</source>
@@ -5683,6 +5675,10 @@ Ertu viss um að þú viljir halda áfram?</translation>
     <message>
       <source>Missing Qobuz app ID or secret.</source>
       <translation>Vantar Qobuz-auðkenni forrits eða leynilykil.</translation>
+    </message>
+    <message>
+      <source>Not authenticated. Please login to Qobuz in the settings.</source>
+      <translation type="unfinished">Not authenticated. Please login to Qobuz in the settings.</translation>
     </message>
   </context>
   <context>
@@ -5696,24 +5692,12 @@ Ertu viss um að þú viljir halda áfram?</translation>
       <translation>Virkja</translation>
     </message>
     <message>
-      <source>Qobuz support is not official and requires an API app ID and secret from a registered application to work. We can&apos;t help you getting these.</source>
-      <translation>Stuðningur við Qobuz er ekki opinber og krefst API-auðkennis forrits og leynikóða frá skráðu forriti til að virka. Við erum ekki í aðstöðu til að hjálpa þér með þetta.</translation>
-    </message>
-    <message>
       <source>Authentication</source>
       <translation>Auðkenning</translation>
     </message>
     <message>
       <source>App ID</source>
       <translation>Auðkenni forrits</translation>
-    </message>
-    <message>
-      <source>Username</source>
-      <translation>Notandanafn</translation>
-    </message>
-    <message>
-      <source>Password</source>
-      <translation>Lykilorð</translation>
     </message>
     <message>
       <source>App Secret</source>
@@ -5756,24 +5740,20 @@ Ertu viss um að þú viljir halda áfram?</translation>
       <translation>Sækja plötuumslög</translation>
     </message>
     <message>
-      <source>Base64 encoded secret</source>
-      <translation>Base64-kóðaður leynilykill</translation>
-    </message>
-    <message>
       <source>Configuration incomplete</source>
       <translation>Ófullgerð uppsetning</translation>
     </message>
     <message>
-      <source>Missing app id.</source>
-      <translation>Vantar auðkenni forrits.</translation>
+      <source>Missing app id. Please fetch credentials first.</source>
+      <translation type="unfinished">Missing app id. Please fetch credentials first.</translation>
     </message>
     <message>
-      <source>Missing username.</source>
-      <translation>Vantar notandanafn.</translation>
+      <source>Missing app secret. Please fetch credentials first.</source>
+      <translation type="unfinished">Missing app secret. Please fetch credentials first.</translation>
     </message>
     <message>
-      <source>Missing password.</source>
-      <translation>Lykilorð vantar.</translation>
+      <source>Missing private key. Please fetch credentials first.</source>
+      <translation type="unfinished">Missing private key. Please fetch credentials first.</translation>
     </message>
     <message>
       <source>Authentication failed</source>
@@ -5788,8 +5768,8 @@ Ertu viss um að þú viljir halda áfram?</translation>
       <translation type="unfinished">Credentials fetched</translation>
     </message>
     <message>
-      <source>App ID and secret have been successfully fetched from the Qobuz web player.</source>
-      <translation type="unfinished">App ID and secret have been successfully fetched from the Qobuz web player.</translation>
+      <source>Credentials have been successfully fetched. Click Login to authenticate via your browser.</source>
+      <translation type="unfinished">Credentials have been successfully fetched. Click Login to authenticate via your browser.</translation>
     </message>
     <message>
       <source>Credential fetch failed</source>
@@ -5800,12 +5780,16 @@ Ertu viss um að þú viljir halda áfram?</translation>
       <translation type="unfinished">Fetch Credentials</translation>
     </message>
     <message>
-      <source>Automatically fetch app ID and secret from Qobuz web player</source>
-      <translation type="unfinished">Automatically fetch app ID and secret from Qobuz web player</translation>
-    </message>
-    <message>
       <source>Remove (Remastered), etc from song titles</source>
       <translation type="unfinished">Remove (Remastered), etc from song titles</translation>
+    </message>
+    <message>
+      <source>Private key</source>
+      <translation type="unfinished">Private key</translation>
+    </message>
+    <message>
+      <source>Automatically fetch app ID, app secret and private key from Qobuz web player</source>
+      <translation type="unfinished">Automatically fetch app ID, app secret and private key from Qobuz web player</translation>
     </message>
   </context>
   <context>
@@ -5813,6 +5797,10 @@ Ertu viss um að þú viljir halda áfram?</translation>
     <message>
       <source>Missing Qobuz app ID or secret.</source>
       <translation>Vantar Qobuz-auðkenni forrits eða leynilykil.</translation>
+    </message>
+    <message>
+      <source>Not authenticated. Please log in on the Qobuz settings page.</source>
+      <translation type="unfinished">Not authenticated. Please log in on the Qobuz settings page.</translation>
     </message>
     <message>
       <source>Cancelled.</source>
