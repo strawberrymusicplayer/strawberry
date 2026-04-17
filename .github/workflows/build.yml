@@ -586,7 +586,6 @@ jobs:
             libicu-dev
             libgstreamer1.0-dev
             libgstreamer-plugins-base1.0-dev
-            libgstreamer-plugins-good1.0-dev
             gstreamer1.0-alsa
             gstreamer1.0-pulseaudio
             libchromaprint-dev
@@ -684,7 +683,6 @@ jobs:
             libicu-dev
             libgstreamer1.0-dev
             libgstreamer-plugins-base1.0-dev
-            libgstreamer-plugins-good1.0-dev
             libchromaprint-dev
             libebur128-dev
             libfftw3-dev
