@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+Version 1.2.19 (2026.04.17):
 
   Bugfixes:
     * Fixed MPRIS2 Play causing playback to restart if already playing (#1995)
