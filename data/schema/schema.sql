@@ -1037,6 +1037,7 @@ CREATE TABLE IF NOT EXISTS playlist_items (
 
   playlist INTEGER NOT NULL,
   type INTEGER NOT NULL DEFAULT 0,
+  uuid TEXT,
   collection_id INTEGER,
   playlist_url TEXT,
 

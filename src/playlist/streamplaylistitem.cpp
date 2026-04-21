@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,12 +21,13 @@
 
 #include <QApplication>
 #include <QVariant>
+#include <QUuid>
 
 #include "streamplaylistitem.h"
 #include "core/sqlrow.h"
 
-StreamPlaylistItem::StreamPlaylistItem(const Song::Source source)
-    : PlaylistItem(source),
+StreamPlaylistItem::StreamPlaylistItem(const Song::Source source, const QUuid &uuid)
+    : PlaylistItem(source, uuid),
       source_(source) {}
 
 StreamPlaylistItem::StreamPlaylistItem(const Song &song)

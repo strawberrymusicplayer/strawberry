@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2021-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2021-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,7 +17,12 @@
  *
  */
 
+#include <QUuid>
+
 #include "radiostreamplaylistitem.h"
+
+RadioStreamPlaylistItem::RadioStreamPlaylistItem(const Song::Source source, const QUuid &uuid)
+    : StreamPlaylistItem(source, uuid) {}
 
 RadioStreamPlaylistItem::RadioStreamPlaylistItem(const Song &song)
     : StreamPlaylistItem(song) {}

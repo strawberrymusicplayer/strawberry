@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,6 +24,7 @@
 
 #include <QVariant>
 #include <QUrl>
+#include <QUuid>
 
 #include "core/song.h"
 #include "playlist/playlistitem.h"
@@ -32,7 +33,7 @@ class SqlRow;
 
 class CollectionPlaylistItem : public PlaylistItem {
  public:
-  explicit CollectionPlaylistItem(const Song::Source source);
+  explicit CollectionPlaylistItem(const Song::Source source, const QUuid &uuid = QUuid());
   explicit CollectionPlaylistItem(const Song &song);
 
   Song OriginalMetadata() const override { return song_; }

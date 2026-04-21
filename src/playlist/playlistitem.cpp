@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,6 +25,7 @@
 
 #include <QtConcurrentRun>
 #include <QFuture>
+#include <QUuid>
 #include <QColor>
 
 #include "core/sqlquery.h"
@@ -39,24 +40,24 @@
 using std::make_shared;
 using namespace Qt::Literals::StringLiterals;
 
-PlaylistItem::PlaylistItem(const Song::Source source) : should_skip_(false), source_(source) {}
+PlaylistItem::PlaylistItem(const Song::Source source, const QUuid &uuid) : source_(source), uuid_(uuid.isNull() ? QUuid::createUuid() : uuid), uuid_generated_(uuid.isNull()), should_skip_(false) {}
 
 PlaylistItem::~PlaylistItem() = default;
 
-PlaylistItemPtr PlaylistItem::NewFromSource(const Song::Source source) {
+PlaylistItemPtr PlaylistItem::NewFromSource(const Song::Source source, const QUuid &uuid) {
 
   switch (source) {
     case Song::Source::Collection:
-      return make_shared<CollectionPlaylistItem>(source);
+      return make_shared<CollectionPlaylistItem>(source, uuid);
     case Song::Source::Subsonic:
     case Song::Source::Tidal:
     case Song::Source::Spotify:
     case Song::Source::Qobuz:
-      return make_shared<StreamServicePlaylistItem>(source);
+      return make_shared<StreamServicePlaylistItem>(source, uuid);
     case Song::Source::Stream:
     case Song::Source::RadioParadise:
     case Song::Source::SomaFM:
-      return make_shared<RadioStreamPlaylistItem>(source);
+      return make_shared<RadioStreamPlaylistItem>(source, uuid);
     case Song::Source::LocalFile:
     case Song::Source::CDDA:
     case Song::Source::Device:
@@ -64,7 +65,7 @@ PlaylistItemPtr PlaylistItem::NewFromSource(const Song::Source source) {
       break;
   }
 
-  return make_shared<SongPlaylistItem>(source);
+  return make_shared<SongPlaylistItem>(source, uuid);
 
 }
 
@@ -118,6 +119,7 @@ void PlaylistItem::ClearStreamMetadata() {
 void PlaylistItem::BindToQuery(SqlQuery *query) const {
 
   query->BindValue(u":type"_s, static_cast<int>(source_));
+  query->BindValue(u":uuid"_s, uuid_.toString(QUuid::WithoutBraces));
   query->BindValue(u":collection_id"_s, DatabaseValue(DatabaseColumn::CollectionId));
 
   DatabaseSongMetadata().BindToQuery(query);
