@@ -260,13 +260,13 @@ Section "Strawberry" Strawberry
 
 !ifdef arch_x86
   File "libgcc_s_sjlj-1.dll"
-  File "libcrypto-3.dll"
-  File "libssl-3.dll"
+  File "libcrypto-4.dll"
+  File "libssl-4.dll"
 !endif
 !ifdef arch_x64
   File "libgcc_s_seh-1.dll"
-  File "libcrypto-3-x64.dll"
-  File "libssl-3-x64.dll"
+  File "libcrypto-4-x64.dll"
+  File "libssl-4-x64.dll"
 !endif
 
   File "libFLAC-14.dll"
@@ -374,16 +374,16 @@ Section "Strawberry" Strawberry
 !ifdef msvc
 
 !ifdef arch_x86
-  File "libcrypto-3.dll"
-  File "libssl-3.dll"
+  File "libcrypto-4.dll"
+  File "libssl-4.dll"
 !endif
 !ifdef arch_x64
-  File "libcrypto-3-x64.dll"
-  File "libssl-3-x64.dll"
+  File "libcrypto-4-x64.dll"
+  File "libssl-4-x64.dll"
 !endif
 !ifdef arch_arm64
-  File "libcrypto-3-arm64.dll"
-  File "libssl-3-arm64.dll"
+  File "libcrypto-4-arm64.dll"
+  File "libssl-4-arm64.dll"
 !endif
 
   File "FLAC.dll"
@@ -829,14 +829,14 @@ Section "Uninstall"
 
 !ifdef arch_x86
   Delete "$INSTDIR\libgcc_s_sjlj-1.dll"
-  Delete "$INSTDIR\libcrypto-3.dll"
-  Delete "$INSTDIR\libssl-3.dll"
+  Delete "$INSTDIR\libcrypto-4.dll"
+  Delete "$INSTDIR\libssl-4.dll"
 !endif
 
 !ifdef arch_x64
   Delete "$INSTDIR\libgcc_s_seh-1.dll"
-  Delete "$INSTDIR\libcrypto-3-x64.dll"
-  Delete "$INSTDIR\libssl-3-x64.dll"
+  Delete "$INSTDIR\libcrypto-4-x64.dll"
+  Delete "$INSTDIR\libssl-4-x64.dll"
 !endif
 
   Delete "$INSTDIR\libFLAC-14.dll"
@@ -944,16 +944,16 @@ Section "Uninstall"
 !ifdef msvc
 
 !ifdef arch_x86
-  Delete "$INSTDIR\libcrypto-3.dll"
-  Delete "$INSTDIR\libssl-3.dll"
+  Delete "$INSTDIR\libcrypto-4.dll"
+  Delete "$INSTDIR\libssl-4.dll"
 !endif
 !ifdef arch_x64
-  Delete "$INSTDIR\libcrypto-3-x64.dll"
-  Delete "$INSTDIR\libssl-3-x64.dll"
+  Delete "$INSTDIR\libcrypto-4-x64.dll"
+  Delete "$INSTDIR\libssl-4-x64.dll"
 !endif
 !ifdef arch_arm64
-  Delete "$INSTDIR\libcrypto-3-arm64.dll"
-  Delete "$INSTDIR\libssl-3-arm64.dll"
+  Delete "$INSTDIR\libcrypto-4-arm64.dll"
+  Delete "$INSTDIR\libssl-4-arm64.dll"
 !endif
 
   Delete "$INSTDIR\FLAC.dll"
