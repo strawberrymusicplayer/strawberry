@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,6 +24,7 @@
 
 #include "config.h"
 
+#include <QUuid>
 #include <QUrl>
 
 #include "core/song.h"
@@ -32,7 +33,7 @@
 
 class SongPlaylistItem : public PlaylistItem {
  public:
-  explicit SongPlaylistItem(const Song::Source source);
+  explicit SongPlaylistItem(const Song::Source source, const QUuid &uuid = QUuid());
   explicit SongPlaylistItem(const Song &song);
 
   // Restores a stream- or file-related playlist item using query row.

@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -1181,6 +1181,7 @@ void Playlist::InsertItemsWithoutUndo(const PlaylistItemPtrList &items, const in
   const int start = pos == -1 ? static_cast<int>(items_.count()) : pos;
   const int end = start + static_cast<int>(items.count()) - 1;
 
+  bool has_generated_uuids = false;
   beginInsertRows(QModelIndex(), start, end);
   for (int i = start; i <= end; ++i) {
     const PlaylistItemPtr item = items[i - start];
@@ -1199,6 +1200,11 @@ void Playlist::InsertItemsWithoutUndo(const PlaylistItemPtrList &items, const in
       current_item_index_ = index(i, 0);
       last_played_item_index_ = current_item_index_;
     }
+
+    if (item->uuid_generated()) {
+      has_generated_uuids = true;
+    }
+
   }
   endInsertRows();
 
@@ -1224,7 +1230,12 @@ void Playlist::InsertItemsWithoutUndo(const PlaylistItemPtrList &items, const in
 
   ReshuffleIndices();
 
-  ScheduleSave();
+  if (has_generated_uuids) {
+    ForceScheduleSave();
+  }
+  else {
+    ScheduleSave();
+  }
 
 }
 
@@ -1628,7 +1639,15 @@ void Playlist::ScheduleSaveAsync() {
 
 void Playlist::ScheduleSave() {
 
-  if (!playlist_backend_ || is_loading_) return;
+  if (is_loading_) return;
+
+  ForceScheduleSave();
+
+}
+
+void Playlist::ForceScheduleSave() {
+
+  if (!playlist_backend_) return;
 
   timer_save_->start();
 

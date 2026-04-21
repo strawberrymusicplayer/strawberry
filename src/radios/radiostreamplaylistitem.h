@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2021-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2021-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,6 +20,8 @@
 #ifndef RADIOSTREAMPLAYLISTITEM_H
 #define RADIOSTREAMPLAYLISTITEM_H
 
+#include <QUuid>
+
 #include "includes/shared_ptr.h"
 #include "core/song.h"
 #include "playlist/streamplaylistitem.h"
@@ -28,12 +30,14 @@ class RadioService;
 
 class RadioStreamPlaylistItem : public StreamPlaylistItem {
  public:
+  explicit RadioStreamPlaylistItem(const Song::Source source, const QUuid &uuid);
   explicit RadioStreamPlaylistItem(const Song &song);
   explicit RadioStreamPlaylistItem(const SharedPtr<RadioService> service, const Song &song);
-  Q_DISABLE_COPY(RadioStreamPlaylistItem)
 
  private:
   const SharedPtr<RadioService> service_;
+
+  Q_DISABLE_COPY(RadioStreamPlaylistItem)
 };
 
 #endif  // RADIOSTREAMPLAYLISTITEM_H
