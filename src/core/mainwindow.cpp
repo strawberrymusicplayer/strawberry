@@ -3074,7 +3074,7 @@ void MainWindow::CheckFullRescanRevisions() {
 
   // Collect all reasons
   QSet<QString> reasons;
-  for (int i = from; i <= to; ++i) {
+  for (int i = from + 1; i <= to; ++i) {
     QString reason = app_->collection()->full_rescan_reason(i);
     if (!reason.isEmpty()) {
       reasons.insert(reason);
