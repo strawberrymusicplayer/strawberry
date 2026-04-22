@@ -3092,6 +3092,7 @@ void MainWindow::CheckFullRescanRevisions() {
       app_->collection()->FullScan();
     }
   }
+
 }
 
 void MainWindow::PlaylistViewSelectionModelChanged() {
