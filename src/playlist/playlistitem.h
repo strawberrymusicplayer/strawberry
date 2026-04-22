@@ -93,8 +93,8 @@ class PlaylistItem : public enable_shared_from_this<PlaylistItem> {
 
   virtual bool InitFromQuery(const SqlRow &query) = 0;
   void BindToQuery(SqlQuery *query) const;
-  virtual void Reload() {}
-  QFuture<void> BackgroundReload();
+  virtual Song Reload() { return Song(); }
+  QFuture<Song> BackgroundReload();
 
   // Background colors.
   void SetBackgroundColor(const short priority, const QColor &color);

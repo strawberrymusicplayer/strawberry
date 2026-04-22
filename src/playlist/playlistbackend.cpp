@@ -297,7 +297,10 @@ PlaylistItemPtr PlaylistBackend::RestoreCueData(PlaylistItemPtr item, SharedPtr<
   QString cue_path = song.cue_path();
   // If .cue was deleted - reload the song
   if (!QFile::exists(cue_path)) {
-    item->Reload();
+    const Song reloaded_song = item->Reload();
+    if (reloaded_song.is_valid()) {
+      item->SetOriginalMetadata(reloaded_song);
+    }
     return item;
   }
 
@@ -326,7 +329,10 @@ PlaylistItemPtr PlaylistBackend::RestoreCueData(PlaylistItemPtr item, SharedPtr<
   }
 
   // There's no such section in the related .cue -> reload the song
-  item->Reload();
+  const Song reloaded_song = item->Reload();
+  if (reloaded_song.is_valid()) {
+    item->SetOriginalMetadata(reloaded_song);
+  }
 
   return item;
 

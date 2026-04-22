@@ -288,7 +288,7 @@ class Playlist : public QAbstractListModel {
 
   void set_auto_sort(const bool auto_sort) { auto_sort_ = auto_sort; }
 
-  void ItemReload(const QPersistentModelIndex &idx, const Song &old_metadata, const bool metadata_edit);
+  void ItemReload(const QPersistentModelIndex &idx, const bool metadata_edit);
 
  public Q_SLOTS:
   void set_current_row(const int i, const Playlist::AutoScroll autoscroll = Playlist::AutoScroll::Maybe, const bool is_stopping = false, const bool force_inform = false);
@@ -374,8 +374,8 @@ class Playlist : public QAbstractListModel {
   void TracksDequeued();
   void TracksEnqueued(const QModelIndex &parent_idx, const int begin, const int end);
   void QueueLayoutChanged();
-  void SongSaveComplete(TagReaderReplyPtr reply, const QPersistentModelIndex &idx, const Song &old_metadata);
-  void ItemReloadComplete(const QPersistentModelIndex &idx, const Song &old_metadata, const bool metadata_edit);
+  void SongSaveComplete(TagReaderReplyPtr reply, const QPersistentModelIndex &idx);
+  void ItemReloadComplete(const QPersistentModelIndex &idx, const Song &new_metadata, const bool metadata_edit);
   void ItemsLoaded();
   void ScheduleSave();
   void ForceScheduleSave();

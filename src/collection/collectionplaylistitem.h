@@ -43,7 +43,7 @@ class CollectionPlaylistItem : public PlaylistItem {
   bool IsLocalCollectionItem() const override { return song_.source() == Song::Source::Collection; }
 
   bool InitFromQuery(const SqlRow &query) override;
-  void Reload() override;
+  Song Reload() override;
 
   void SetArtManual(const QUrl &cover_url) override;
 

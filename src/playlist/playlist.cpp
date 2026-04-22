@@ -470,7 +470,7 @@ bool Playlist::setData(const QModelIndex &idx, const QVariant &value, const int 
     QPersistentModelIndex persistent_index = QPersistentModelIndex(idx);
     SharedPtr<QMetaObject::Connection> connection = make_shared<QMetaObject::Connection>();
     *connection = QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, persistent_index, item, connection]() {
-      SongSaveComplete(reply, persistent_index, item->OriginalMetadata());
+      SongSaveComplete(reply, persistent_index);
       QObject::disconnect(*connection);
     }, Qt::QueuedConnection);
   }
@@ -485,11 +485,11 @@ bool Playlist::setData(const QModelIndex &idx, const QVariant &value, const int 
 
 }
 
-void Playlist::SongSaveComplete(TagReaderReplyPtr reply, const QPersistentModelIndex &idx, const Song &old_metadata) {
+void Playlist::SongSaveComplete(TagReaderReplyPtr reply, const QPersistentModelIndex &idx) {
 
   if (reply->success() && idx.isValid()) {
     if (reply->success()) {
-      ItemReload(idx, old_metadata, true);
+      ItemReload(idx, true);
     }
     else {
       if (reply->error().isEmpty()) {
@@ -503,15 +503,15 @@ void Playlist::SongSaveComplete(TagReaderReplyPtr reply, const QPersistentModelI
 
 }
 
-void Playlist::ItemReload(const QPersistentModelIndex &idx, const Song &old_metadata, const bool metadata_edit) {
+void Playlist::ItemReload(const QPersistentModelIndex &idx, const bool metadata_edit) {
 
   if (idx.isValid()) {
     PlaylistItemPtr item = item_at(idx.row());
     if (item) {
-      QFuture<void> future = item->BackgroundReload();
-      QFutureWatcher<void> *watcher = new QFutureWatcher<void>();
-      QObject::connect(watcher, &QFutureWatcher<void>::finished, this, [this, watcher, idx, old_metadata, metadata_edit]() {
-        ItemReloadComplete(idx, old_metadata, metadata_edit);
+      QFuture<Song> future = item->BackgroundReload();
+      QFutureWatcher<Song> *watcher = new QFutureWatcher<Song>();
+      QObject::connect(watcher, &QFutureWatcher<Song>::finished, this, [this, watcher, idx, metadata_edit]() {
+        ItemReloadComplete(idx, watcher->result(), metadata_edit);
         watcher->deleteLater();
       });
       watcher->setFuture(future);
@@ -520,19 +520,13 @@ void Playlist::ItemReload(const QPersistentModelIndex &idx, const Song &old_meta
 
 }
 
-void Playlist::ItemReloadComplete(const QPersistentModelIndex &idx, const Song &old_metadata, const bool metadata_edit) {
+void Playlist::ItemReloadComplete(const QPersistentModelIndex &idx, const Song &new_metadata, const bool metadata_edit) {
 
   if (idx.isValid()) {
     const PlaylistItemPtr item = item_at(idx.row());
     if (item) {
-      RowDataChanged(idx.row(), ChangedColumns(old_metadata, item->EffectiveMetadata()));
-      if (idx.row() == current_row()) {
-        if (MinorMetadataChange(old_metadata, item->EffectiveMetadata())) {
-          Q_EMIT CurrentSongMetadataChanged(item->EffectiveMetadata());
-        }
-        else {
-          Q_EMIT CurrentSongChanged(item->EffectiveMetadata());
-        }
+      if (new_metadata.is_valid()) {
+        UpdateItemMetadata(idx.row(), item, new_metadata, false);
       }
       if (metadata_edit) {
         Q_EMIT EditingFinished(id_, idx);
@@ -2014,7 +2008,7 @@ void Playlist::ReloadItems(const QList<int> &rows) {
     const PlaylistItemPtr item = item_at(row);
     const QPersistentModelIndex idx = index(row, 0);
     if (idx.isValid()) {
-      ItemReload(idx, item->EffectiveMetadata(), false);
+      ItemReload(idx, false);
     }
   }
 

@@ -2225,7 +2225,7 @@ void MainWindow::RescanSongs() {
     }
     else if (item->EffectiveMetadata().source() == Song::Source::LocalFile) {
       QPersistentModelIndex persistent_index = QPersistentModelIndex(source_index);
-      app_->playlist_manager()->current()->ItemReload(persistent_index, item->OriginalMetadata(), false);
+      app_->playlist_manager()->current()->ItemReload(persistent_index, false);
     }
   }
 
@@ -3529,7 +3529,7 @@ void MainWindow::ProcessMetadataQueue() {
             if (fetched_song.length_nanosec() > 0) updated_song.set_length_nanosec(fetched_song.length_nanosec());
             if (fetched_song.art_automatic().isValid()) updated_song.set_art_automatic(fetched_song.art_automatic());
             playlist_item->SetOriginalMetadata(updated_song);
-            app_->playlist_manager()->current()->ItemReload(metadata_queue_entry.persistent_index, old_song, false);
+            app_->playlist_manager()->current()->ItemReload(metadata_queue_entry.persistent_index, false);
           }
         }
         request->deleteLater();
@@ -3579,7 +3579,7 @@ void MainWindow::ProcessMetadataQueue() {
             if (fetched_song.length_nanosec() > 0) updated_song.set_length_nanosec(fetched_song.length_nanosec());
             if (fetched_song.art_automatic().isValid()) updated_song.set_art_automatic(fetched_song.art_automatic());
             playlist_item->SetOriginalMetadata(updated_song);
-            app_->playlist_manager()->current()->ItemReload(metadata_queue_entry.persistent_index, old_song, false);
+            app_->playlist_manager()->current()->ItemReload(metadata_queue_entry.persistent_index, false);
           }
         }
         request->deleteLater();

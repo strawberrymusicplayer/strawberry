@@ -126,11 +126,11 @@ void PlaylistItem::BindToQuery(SqlQuery *query) const {
 
 }
 
-static void ReloadPlaylistItem(PlaylistItemPtr item) {
-  item->Reload();
+static Song ReloadPlaylistItem(PlaylistItemPtr item) {
+  return item->Reload();
 }
 
-QFuture<void> PlaylistItem::BackgroundReload() {
+QFuture<Song> PlaylistItem::BackgroundReload() {
   return QtConcurrent::run(ReloadPlaylistItem, shared_from_this());
 }
 

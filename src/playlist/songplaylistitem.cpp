@@ -39,16 +39,18 @@ bool SongPlaylistItem::InitFromQuery(const SqlRow &query) {
   return true;
 }
 
-void SongPlaylistItem::Reload() {
+Song SongPlaylistItem::Reload() {
 
-  if (!song_.url().isLocalFile()) return;
+  if (!song_.url().isLocalFile()) return Song();
 
-  const TagReaderResult result = TagReaderClient::Instance()->ReadFileBlocking(song_.url().toLocalFile(), &song_);
-  if (!result.success()) {
-    qLog(Error) << "Could not reload file" << song_.url() << result.error_string();
+  Song result = song_;
+  const TagReaderResult tag_result = TagReaderClient::Instance()->ReadFileBlocking(result.url().toLocalFile(), &result);
+  if (!tag_result.success()) {
+    qLog(Error) << "Could not reload file" << result.url() << tag_result.error_string();
+    return Song();
   }
 
-  UpdateStreamMetadata(song_);
+  return result;
 
 }
 
