@@ -62,13 +62,11 @@ CollectionLibrary::CollectionLibrary(const SharedPtr<Database> database,
       model_(nullptr),
       watcher_(nullptr),
       watcher_thread_(nullptr),
-      original_thread_(nullptr),
+      original_thread_(thread()),
       save_playcounts_to_files_(false),
       save_ratings_to_files_(false) {
 
   setObjectName(QLatin1String(QObject::metaObject()->className()));
-
-  original_thread_ = thread();
 
   backend_ = make_shared<CollectionBackend>();
   backend()->moveToThread(database->thread());
