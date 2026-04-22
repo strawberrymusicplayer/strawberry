@@ -295,7 +295,7 @@ void CollectionLibrary::SongsRatingChanged(const SongList &songs, const bool sav
 
 void CollectionLibrary::SavePendingPlaycountsAndRatings() {
 
-  for (auto it = pending_song_saves_.constBegin(); it != pending_song_saves_.constEnd();) {
+  for (QMap<QUrl, SharedPtr<PendingSongSave>>::iterator it = pending_song_saves_.begin(); it != pending_song_saves_.end();) {
     const QUrl url = it.key();
     SharedPtr<PendingSongSave> pending_song_save = it.value();
     if (url == current_song_url_) {
