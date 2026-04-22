@@ -448,7 +448,7 @@ void FileView::SaveTreeRootPaths() {
 
 void FileView::AddRootButtonClicked() {
 
-  const QString dir = QFileDialog::getExistingDirectory(this, tr("Select folder to add as tree root"), tree_root_paths_.isEmpty() ? QDir::homePath() : tree_root_paths_.first(), QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+  const QString dir = QFileDialog::getExistingDirectory(this, tr("Select folder to add as tree root"), tree_root_paths_.isEmpty() ? QDir::homePath() : tree_root_paths_.constFirst(), QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
   if (!dir.isEmpty()) {
     AddTreeRootPath(dir);
   }

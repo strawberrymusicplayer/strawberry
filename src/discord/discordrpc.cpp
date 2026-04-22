@@ -174,7 +174,7 @@ void DiscordRPC::TryNextConnection() {
   }
 
   // Try connecting to the next path
-  const QString &path = connection_paths_[current_connection_index_];
+  const QString &path = connection_paths_.at(current_connection_index_);
   ++current_connection_index_;
   socket_->connectToServer(path);
 

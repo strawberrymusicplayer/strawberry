@@ -82,7 +82,7 @@ UnixSignalWatcher::~UnixSignalWatcher() {
 
   // Restore original signal handlers
   for (int i = 0; i < watched_signals_.size(); ++i) {
-    if (::sigaction(watched_signals_[i], &original_signal_actions_[i], nullptr) != 0) {
+    if (::sigaction(watched_signals_.at(i), &original_signal_actions_[i], nullptr) != 0) {
       qLog(Error) << "Failed to restore signal handler for signal" << watched_signals_[i] << ":" << ::strerror(errno);
     }
   }

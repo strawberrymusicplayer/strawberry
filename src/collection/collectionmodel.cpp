@@ -439,7 +439,7 @@ void CollectionModel::ScheduleUpdate(const CollectionModelUpdate::Type type, con
 
 void CollectionModel::ScheduleReset() {
 
-  if (!updates_.isEmpty() && updates_.first().type == CollectionModelUpdate::Type::Reset) return;
+  if (!updates_.isEmpty() && updates_.constFirst().type == CollectionModelUpdate::Type::Reset) return;
 
   ScheduleUpdate(CollectionModelUpdate::Type::Reset);
 

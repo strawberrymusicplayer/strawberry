@@ -3194,7 +3194,7 @@ void MainWindow::HandleNotificationPreview(const OSDSettings::Type type, const Q
 
   if (!app_->playlist_manager()->current()->GetAllSongs().isEmpty()) {
     // Show a preview notification for the first song in the current playlist
-    osd_->ShowPreview(type, line1, line2, app_->playlist_manager()->current()->GetAllSongs().first());
+    osd_->ShowPreview(type, line1, line2, app_->playlist_manager()->current()->GetAllSongs().constFirst());
   }
   else {
     qLog(Debug) << "The current playlist is empty, showing a fake song";

@@ -144,7 +144,7 @@ QList<QUrl> Udisks2Lister::MakeDeviceUrls(const QString &id) {
   QReadLocker locker(&device_data_lock_);
   QList<QUrl> ret;
   if (!device_data_.contains(id)) return ret;
-  ret << MakeUrlFromLocalPath(device_data_[id].mount_paths.at(0));
+  ret << MakeUrlFromLocalPath(device_data_.value(id).mount_paths.at(0));
   return ret;
 
 }
