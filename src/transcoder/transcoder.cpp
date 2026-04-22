@@ -482,11 +482,11 @@ bool Transcoder::event(QEvent *e) {
     JobFinishedEvent *finished_event = static_cast<JobFinishedEvent*>(e);
 
     // Find this job in the list
-    JobStateList::iterator it = current_jobs_.begin();
-    for (; it != current_jobs_.end(); ++it) {
+    JobStateList::const_iterator it = current_jobs_.cbegin();
+    for (; it != current_jobs_.cend(); ++it) {
       if (it->get() == finished_event->state_) break;
     }
-    if (it == current_jobs_.end()) {
+    if (it == current_jobs_.cend()) {
       // Couldn't find it, maybe GStreamer gave us an event after we'd destroyed the pipeline?
       return true;
     }

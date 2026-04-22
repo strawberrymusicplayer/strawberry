@@ -302,7 +302,8 @@ QStringList CueParser::SplitCueLine(const QString &line) {
   // Let's remove the empty entries while we're at it
   static const QRegularExpression regex_entry(u".+"_s);
   static const QRegularExpression regex_exclude(u"^\"\"$"_s);
-  return re_match.capturedTexts().filter(regex_entry).mid(1, -1).replaceInStrings(regex_exclude, ""_L1);
+  QStringList str = re_match.capturedTexts().filter(regex_entry).mid(1, -1);
+  return str.replaceInStrings(regex_exclude, ""_L1);
 
 }
 

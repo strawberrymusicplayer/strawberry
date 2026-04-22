@@ -271,7 +271,8 @@ void SmartPlaylistsModel::WriteDefaultsToSettings(Settings *s, const int start_v
   int playlist_index = start_index;
   for (int version = start_version; version < default_smart_playlists_.count(); ++version) {
     const GeneratorList generators = default_smart_playlists_.value(version);
-    for (PlaylistGeneratorPtr gen : generators) {
+    for (int i = 0; i < generators.count(); i++) {
+      PlaylistGeneratorPtr gen = generators.at(i);
       SaveGenerator(s, playlist_index++, gen);
     }
   }
@@ -286,7 +287,7 @@ void SmartPlaylistsModel::RestoreDefaults() {
   s.beginGroup(kSettingsGroup);
 
   int total_defaults = 0;
-  for (const GeneratorList &generators : default_smart_playlists_) {
+  for (const GeneratorList &generators : std::as_const(default_smart_playlists_)) {
     total_defaults += static_cast<int>(generators.count());
   }
 

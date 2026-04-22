@@ -421,7 +421,8 @@ void ListenBrainzScrobbler::Submit() {
   QJsonArray array;
   ScrobblerCacheItemPtrList cache_items_sent;
   const ScrobblerCacheItemPtrList all_cache_items = cache_->List();
-  for (ScrobblerCacheItemPtr cache_item : all_cache_items) {
+  for (int i = 0; i < all_cache_items.count(); i++) {
+    ScrobblerCacheItemPtr cache_item = all_cache_items.at(i);
     if (cache_item->sent) continue;
     if (cache_item->error && cache_items_sent.count() > 0) break;
     cache_item->sent = true;

@@ -493,7 +493,8 @@ void LastFMScrobbler::Submit() {
   int i = 0;
   const ScrobblerCacheItemPtrList all_cache_items = cache_->List();
   ScrobblerCacheItemPtrList cache_items_sent;
-  for (ScrobblerCacheItemPtr cache_item : all_cache_items) {
+  for (int ii = 0; ii < all_cache_items.count(); ii++) {
+    ScrobblerCacheItemPtr cache_item = all_cache_items.at(ii);
     if (cache_item->sent) continue;
     cache_item->sent = true;
     cache_items_sent << cache_item;
