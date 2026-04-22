@@ -3064,8 +3064,8 @@ void MainWindow::CheckShowErrorDialog() {
 
 void MainWindow::CheckFullRescanRevisions() {
 
-  int from = app_->database()->startup_schema_version();
-  int to = app_->database()->current_schema_version();
+  const int from = app_->database()->startup_schema_version();
+  const int to = app_->database()->current_schema_version();
 
   // If we're restoring DB from scratch or nothing has changed, do nothing
   if (from == 0 || from == to) {
