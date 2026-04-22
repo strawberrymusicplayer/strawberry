@@ -365,7 +365,8 @@ void PlaylistBackend::SavePlaylist(int playlist, const PlaylistItemPtrList &item
   }
 
   // Save the new ones
-  for (PlaylistItemPtr item : items) {  // clazy:exclude=range-loop-reference
+  for (int i = 0; i < items.count(); ++i) {
+    const PlaylistItemPtr item = items.at(i);
     SqlQuery q(db);
     q.prepare(u"INSERT INTO playlist_items (playlist, type, uuid, collection_id, "_s + Song::kColumnSpec + u") VALUES (:playlist, :type, :uuid, :collection_id, "_s + Song::kBindSpec + u")"_s);
     q.BindValue(u":playlist"_s, playlist);

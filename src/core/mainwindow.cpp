@@ -3176,8 +3176,12 @@ void MainWindow::AutoCompleteTags() {
 
 void MainWindow::AutoCompleteTagsAccepted() {
 
-  for (PlaylistItemPtr item : std::as_const(autocomplete_tag_items_)) {
-    item->Reload();
+  for (int i = 0; i < autocomplete_tag_items_.count(); ++i) {
+    PlaylistItemPtr item = autocomplete_tag_items_.at(i);
+    const Song reloaded_song = item->Reload();
+    if (reloaded_song.is_valid()) {
+      item->SetOriginalMetadata(reloaded_song);
+    }
   }
   autocomplete_tag_items_.clear();
 

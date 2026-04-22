@@ -2186,7 +2186,8 @@ SongList Playlist::GetAllSongs() const {
 
   SongList songs;
   songs.reserve(items_.count());
-  for (PlaylistItemPtr item : items_) {  // clazy:exclude=range-loop-reference
+  for (int i = 0; i < items_.count(); ++i) {
+    const PlaylistItemPtr item = items_.at(i);
     songs << item->EffectiveMetadata();
   }
   return songs;
@@ -2198,8 +2199,9 @@ PlaylistItemPtrList Playlist::GetAllItems() const { return items_; }
 quint64 Playlist::GetTotalLength() const {
 
   quint64 total_length = 0;
-  for (PlaylistItemPtr item : items_) {  // clazy:exclude=range-loop-reference
-    qint64 length = item->EffectiveMetadata().length_nanosec();
+  for (int i = 0; i < items_.count(); ++i) {
+    const PlaylistItemPtr item = items_.at(i);
+    const qint64 length = item->EffectiveMetadata().length_nanosec();
     if (length > 0) total_length += length;
   }
 

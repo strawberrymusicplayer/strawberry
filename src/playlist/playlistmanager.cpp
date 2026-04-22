@@ -477,7 +477,8 @@ void PlaylistManager::UpdateCollectionSongs(const SongList &songs) {
   for (const Song &song : songs) {
     for (const Data &data : std::as_const(playlists_)) {
       const PlaylistItemPtrList items = data.p->collection_items(song.source(), song.id());
-      for (PlaylistItemPtr item : items) {
+      for (int i = 0; i < items.count(); ++i) {
+        PlaylistItemPtr item = items.at(i);
         if (item->EffectiveMetadata().directory_id() != song.directory_id()) continue;
         data.p->UpdateItemMetadata(item, song, false);
       }
