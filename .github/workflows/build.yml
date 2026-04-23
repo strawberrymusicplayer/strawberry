@@ -1421,10 +1421,6 @@ jobs:
           fetch-depth: 0
           submodules: recursive
 
-      - name: Add safe git directory
-        shell: bash
-        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
-
       - name: Create Build Environment
         shell: cmd
         run: cmake -E make_directory build
