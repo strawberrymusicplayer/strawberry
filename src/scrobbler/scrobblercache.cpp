@@ -279,7 +279,8 @@ void ScrobblerCache::Remove(ScrobblerCacheItemPtr cache_item) {
 
 void ScrobblerCache::ClearSent(ScrobblerCacheItemPtrList cache_items) {
 
-  for (ScrobblerCacheItemPtr cache_item : cache_items) {
+  for (int i = 0; i < cache_items.count(); i++) {
+    ScrobblerCacheItemPtr cache_item = cache_items.at(i);
     cache_item->sent = false;
   }
 
