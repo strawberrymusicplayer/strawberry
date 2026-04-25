@@ -347,7 +347,7 @@
     </message>
     <message>
       <source>WaveRubber</source>
-      <translation type="unfinished">WaveRubber</translation>
+      <translation/>
     </message>
   </context>
   <context>
@@ -518,7 +518,7 @@
     </message>
     <message>
       <source>You need to restart Strawberry for this setting to take affect.</source>
-      <translation type="unfinished">Strawberry doit être redémarré pour que la modification de cette option soit prise en compte.</translation>
+      <translation>Strawberry doit être redémarré pour que la modification de cette option soit prise en compte.</translation>
     </message>
   </context>
   <context>
@@ -697,7 +697,7 @@
     </message>
     <message>
       <source>You need to restart Strawberry for this setting to take affect</source>
-      <translation type="unfinished">Strawberry doit être redémarré pour que la modification de cette option soit prise en compte.</translation>
+      <translation>Strawberry doit être redémarré pour que la modification de cette option soit prise en compte.</translation>
     </message>
   </context>
   <context>
@@ -843,19 +843,19 @@
     <name>CDDASongLoader</name>
     <message>
       <source>Could not create cdiocddasrc</source>
-      <translation type="unfinished">Impossible de créer cdiocddasrc</translation>
+      <translation>Impossible de créer cdiocddasrc</translation>
     </message>
     <message>
       <source>Error while setting CDDA device to ready state.</source>
-      <translation type="unfinished">Erreur lors de la mise en attente du lecteur CDDA.</translation>
+      <translation>Erreur lors de la mise en attente du lecteur CDDA.</translation>
     </message>
     <message>
       <source>Error while setting CDDA device to pause state.</source>
-      <translation type="unfinished">Erreur lors de la mise en pause du lecteur CDDA.</translation>
+      <translation>Erreur lors de la mise en pause du lecteur CDDA.</translation>
     </message>
     <message>
       <source>Error while querying CDDA tracks.</source>
-      <translation type="unfinished">Erreur lors de l'interrogation du lecteur CDDA pour obtenir la liste des pistes.</translation>
+      <translation>Erreur lors de l'interrogation du lecteur CDDA pour obtenir la liste des pistes.</translation>
     </message>
   </context>
   <context>
@@ -949,11 +949,11 @@
     </message>
     <message>
       <source>Filter by age</source>
-      <translation type="unfinished">Filtrer par date d'ajout</translation>
+      <translation>Filtrer par date d'ajout</translation>
     </message>
     <message>
       <source>Filter by rating</source>
-      <translation type="unfinished">Filtrer par notation</translation>
+      <translation>Filtrer par notation</translation>
     </message>
     <message>
       <source>Display options</source>
@@ -1032,7 +1032,7 @@
     <name>CollectionLibrary</name>
     <message>
       <source>Support for sort tags artist, album, album artist, title, composer, and performer</source>
-      <translation type="unfinished">Support pour le tri par les tags artist, album, album artist, title, composer et performer</translation>
+      <translation>Support pour le tri par les tags artist, album, album artist, title, composer et performer</translation>
     </message>
     <message>
       <source>Saving playcounts and ratings</source>
@@ -1487,27 +1487,27 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Add song artistsort tag</source>
-      <translation type="unfinished">Ajouter le tag artiste de tri du morceau</translation>
+      <translation>Ajouter le tag artiste de tri du morceau</translation>
     </message>
     <message>
       <source>Add song albumartistsort tag</source>
-      <translation type="unfinished">Ajouter le tag artiste de l'album du morceau</translation>
+      <translation>Ajouter le tag artiste de l'album du morceau</translation>
     </message>
     <message>
       <source>Add song titlesort tag</source>
-      <translation type="unfinished">Ajouter le tag titre de tri du morceau</translation>
+      <translation>Ajouter le tag titre de tri du morceau</translation>
     </message>
     <message>
       <source>Add song composersort tag</source>
-      <translation type="unfinished">Ajouter le tag compositeur de tri du morceau</translation>
+      <translation>Ajouter le tag compositeur de tri du morceau</translation>
     </message>
     <message>
       <source>Add song performersort tag</source>
-      <translation type="unfinished">Ajouter le tag interprète de tri du morceau</translation>
+      <translation>Ajouter le tag interprète de tri du morceau</translation>
     </message>
     <message>
       <source>Add song albumsort tag</source>
-      <translation type="unfinished">Ajouter le tag album de tri du morceau</translation>
+      <translation>Ajouter le tag album de tri du morceau</translation>
     </message>
   </context>
   <context>
@@ -2044,7 +2044,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     <name>DiscordRichPresence</name>
     <message>
       <source>on </source>
-      <translation type="unfinished">actif </translation>
+      <translation>actif </translation>
     </message>
   </context>
   <context>
@@ -2371,27 +2371,27 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Performer sort</source>
-      <translation type="unfinished">Interprète pour le tri</translation>
+      <translation>Interprète pour le tri</translation>
     </message>
     <message>
       <source>Title sort</source>
-      <translation type="unfinished">Titre pour le tri</translation>
+      <translation>Titre pour le tri</translation>
     </message>
     <message>
       <source>Album artist sort</source>
-      <translation type="unfinished">Artiste d'album pour le tri</translation>
+      <translation>Artiste d'album pour le tri</translation>
     </message>
     <message>
       <source>Artist sort</source>
-      <translation type="unfinished">Artiste pour le tri</translation>
+      <translation>Artiste pour le tri</translation>
     </message>
     <message>
       <source>Album sort</source>
-      <translation type="unfinished">Album pour le tri</translation>
+      <translation>Album pour le tri</translation>
     </message>
     <message>
       <source>Composer sort</source>
-      <translation type="unfinished">Compositeur pour le tri</translation>
+      <translation>Compositeur pour le tri</translation>
     </message>
   </context>
   <context>
@@ -2522,7 +2522,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>You need to restart playback for this setting to take affect.</source>
-      <translation type="unfinished">La lecture doit être redémarrée pour que cette option soit prise en compte.</translation>
+      <translation>La lecture doit être redémarrée pour que cette option soit prise en compte.</translation>
     </message>
   </context>
   <context>
@@ -2585,19 +2585,19 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Add root directory</source>
-      <translation type="unfinished">Ajout d'un répertoire de base</translation>
+      <translation>Ajout d'un répertoire de base</translation>
     </message>
     <message>
       <source>Remove selected root directory</source>
-      <translation type="unfinished">Retirer le répertoire de base sélectionné</translation>
+      <translation>Retirer le répertoire de base sélectionné</translation>
     </message>
     <message>
       <source>Toggle between list and tree view</source>
-      <translation type="unfinished">Alterner entre la vue liste et la vue arborescente</translation>
+      <translation>Alterner entre la vue liste et la vue arborescente</translation>
     </message>
     <message>
       <source>Select folder to add as tree root</source>
-      <translation type="unfinished">Sélectionner le répertoire comme base de l'arborescence</translation>
+      <translation>Sélectionner le répertoire comme base de l'arborescence</translation>
     </message>
   </context>
   <context>
@@ -2643,43 +2643,43 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     <name>FileViewTree</name>
     <message>
       <source>Append to current playlist</source>
-      <translation type="unfinished">Ajouter à la liste de lecture courante</translation>
+      <translation>Ajouter à la liste de lecture courante</translation>
     </message>
     <message>
       <source>Replace current playlist</source>
-      <translation type="unfinished">Remplace la liste de lecture courante</translation>
+      <translation>Remplace la liste de lecture courante</translation>
     </message>
     <message>
       <source>Open in new playlist</source>
-      <translation type="unfinished">Ouvre dans une nouvelle liste de lecture</translation>
+      <translation>Ouvre dans une nouvelle liste de lecture</translation>
     </message>
     <message>
       <source>Copy to collection...</source>
-      <translation type="unfinished">Copier dans la bibliothèque...</translation>
+      <translation>Copier dans la bibliothèque...</translation>
     </message>
     <message>
       <source>Move to collection...</source>
-      <translation type="unfinished">Déplacer dans la bibliothèque...</translation>
+      <translation>Déplacer dans la bibliothèque...</translation>
     </message>
     <message>
       <source>Copy to device...</source>
-      <translation type="unfinished">Copier sur le device...</translation>
+      <translation>Copier sur le device...</translation>
     </message>
     <message>
       <source>Delete from disk...</source>
-      <translation type="unfinished">Supprimer du disque...</translation>
+      <translation>Supprimer du disque...</translation>
     </message>
     <message>
       <source>Edit track information...</source>
-      <translation type="unfinished">Éditer les informations de la piste...</translation>
+      <translation>Éditer les informations de la piste...</translation>
     </message>
     <message>
       <source>Show in file browser...</source>
-      <translation type="unfinished">Afficher dans l'explorateur de fichiers...</translation>
+      <translation>Afficher dans l'explorateur de fichiers...</translation>
     </message>
     <message>
       <source>Files</source>
-      <translation type="unfinished">Fichiers</translation>
+      <translation>Fichiers</translation>
     </message>
   </context>
   <context>
@@ -3590,7 +3590,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Fetch metadata from service</source>
-      <translation type="unfinished">Récupérrer les métadata depuis le service</translation>
+      <translation>Récupérrer les métadata depuis le service</translation>
     </message>
     <message>
       <source>Copy URL(s)...</source>
