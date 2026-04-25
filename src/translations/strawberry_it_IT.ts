@@ -1038,7 +1038,7 @@ Puoi anche effettuare un pagamento una tantum tramite &apos;%3&apos;.</translati
     </message>
     <message>
       <source>Saving playcounts and ratings</source>
-      <translation type="unfinished">Saving playcounts and ratings</translation>
+      <translation>Salvataggio del numero di riproduzioni e delle valutazioni</translation>
     </message>
   </context>
   <context>

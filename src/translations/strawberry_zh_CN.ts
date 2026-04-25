@@ -847,15 +847,15 @@
     </message>
     <message>
       <source>Error while setting CDDA device to ready state.</source>
-      <translation type="unfinished">Error while setting CDDA device to ready state.</translation>
+      <translation>将 CDDA 设备设置为就绪状态时出错。</translation>
     </message>
     <message>
       <source>Error while setting CDDA device to pause state.</source>
-      <translation type="unfinished">Error while setting CDDA device to pause state.</translation>
+      <translation>将 CDDA 设备设置为暂停状态时出错。</translation>
     </message>
     <message>
       <source>Error while querying CDDA tracks.</source>
-      <translation type="unfinished">Error while querying CDDA tracks.</translation>
+      <translation>查询 CDDA 音轨时出错。</translation>
     </message>
   </context>
   <context>
@@ -921,27 +921,27 @@
     </message>
     <message>
       <source>Any rating</source>
-      <translation type="unfinished">Any rating</translation>
+      <translation>任意评分</translation>
     </message>
     <message>
       <source>Rating non null</source>
-      <translation type="unfinished">Rating non null</translation>
+      <translation>评分不为空</translation>
     </message>
     <message>
       <source>Rating greater than 1 star</source>
-      <translation type="unfinished">Rating greater than 1 star</translation>
+      <translation>评分高于 1 星</translation>
     </message>
     <message>
       <source>Rating greater than 2 stars</source>
-      <translation type="unfinished">Rating greater than 2 stars</translation>
+      <translation>评分高于 2 星</translation>
     </message>
     <message>
       <source>Rating greater than 3 stars</source>
-      <translation type="unfinished">Rating greater than 3 stars</translation>
+      <translation>评分高于 3 星</translation>
     </message>
     <message>
       <source>Rating greater than 4 stars</source>
-      <translation type="unfinished">Rating greater than 4 stars</translation>
+      <translation>评分高于 4 星</translation>
     </message>
     <message>
       <source>Group by</source>
@@ -949,11 +949,11 @@
     </message>
     <message>
       <source>Filter by age</source>
-      <translation type="unfinished">Filter by age</translation>
+      <translation>按时长筛选</translation>
     </message>
     <message>
       <source>Filter by rating</source>
-      <translation type="unfinished">Filter by rating</translation>
+      <translation>按评分筛选</translation>
     </message>
     <message>
       <source>Display options</source>
@@ -1032,7 +1032,7 @@
     <name>CollectionLibrary</name>
     <message>
       <source>Support for sort tags artist, album, album artist, title, composer, and performer</source>
-      <translation type="unfinished">Support for sort tags artist, album, album artist, title, composer, and performer</translation>
+      <translation>支持排序标签：艺术家、专辑、专辑艺术家、标题、作曲家和演奏者</translation>
     </message>
     <message>
       <source>Saving playcounts and ratings</source>
@@ -1487,27 +1487,27 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Add song artistsort tag</source>
-      <translation type="unfinished">Add song artistsort tag</translation>
+      <translation>添加歌曲艺术家排序标签</translation>
     </message>
     <message>
       <source>Add song albumartistsort tag</source>
-      <translation type="unfinished">Add song albumartistsort tag</translation>
+      <translation>添加歌曲专辑艺术家排序标签</translation>
     </message>
     <message>
       <source>Add song titlesort tag</source>
-      <translation type="unfinished">Add song titlesort tag</translation>
+      <translation>添加歌曲标题排序标签</translation>
     </message>
     <message>
       <source>Add song composersort tag</source>
-      <translation type="unfinished">Add song composersort tag</translation>
+      <translation>添加歌曲作曲家排序标签</translation>
     </message>
     <message>
       <source>Add song performersort tag</source>
-      <translation type="unfinished">Add song performersort tag</translation>
+      <translation>添加歌曲演奏者排序标签</translation>
     </message>
     <message>
       <source>Add song albumsort tag</source>
-      <translation type="unfinished">Add song albumsort tag</translation>
+      <translation>添加歌曲专辑排序标签</translation>
     </message>
   </context>
   <context>
@@ -2044,7 +2044,7 @@ If there are no matches then it will use the largest image in the directory.</so
     <name>DiscordRichPresence</name>
     <message>
       <source>on </source>
-      <translation type="unfinished">on </translation>
+      <translation>开</translation>
     </message>
   </context>
   <context>
@@ -2371,27 +2371,27 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Performer sort</source>
-      <translation type="unfinished">Performer sort</translation>
+      <translation>演奏者排序</translation>
     </message>
     <message>
       <source>Title sort</source>
-      <translation type="unfinished">Title sort</translation>
+      <translation>标题排序</translation>
     </message>
     <message>
       <source>Album artist sort</source>
-      <translation type="unfinished">Album artist sort</translation>
+      <translation>专辑艺术家排序</translation>
     </message>
     <message>
       <source>Artist sort</source>
-      <translation type="unfinished">Artist sort</translation>
+      <translation>艺术家排序</translation>
     </message>
     <message>
       <source>Album sort</source>
-      <translation type="unfinished">Album sort</translation>
+      <translation>专辑排序</translation>
     </message>
     <message>
       <source>Composer sort</source>
-      <translation type="unfinished">Composer sort</translation>
+      <translation>作曲家排序</translation>
     </message>
   </context>
   <context>
@@ -2522,7 +2522,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>You need to restart playback for this setting to take affect.</source>
-      <translation type="unfinished">You need to restart playback for this setting to take affect.</translation>
+      <translation>您需要重新启动播放才能使此设置生效。</translation>
     </message>
   </context>
   <context>
@@ -2585,19 +2585,19 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Add root directory</source>
-      <translation type="unfinished">Add root directory</translation>
+      <translation>添加根目录</translation>
     </message>
     <message>
       <source>Remove selected root directory</source>
-      <translation type="unfinished">Remove selected root directory</translation>
+      <translation>移除选定的根目录</translation>
     </message>
     <message>
       <source>Toggle between list and tree view</source>
-      <translation type="unfinished">Toggle between list and tree view</translation>
+      <translation>在列表视图和树形视图之间切换</translation>
     </message>
     <message>
       <source>Select folder to add as tree root</source>
-      <translation type="unfinished">Select folder to add as tree root</translation>
+      <translation>选择要添加为树根的文件夹</translation>
     </message>
   </context>
   <context>
@@ -2643,39 +2643,39 @@ If there are no matches then it will use the largest image in the directory.</so
     <name>FileViewTree</name>
     <message>
       <source>Append to current playlist</source>
-      <translation type="unfinished">Append to current playlist</translation>
+      <translation>追加到当前播放列表</translation>
     </message>
     <message>
       <source>Replace current playlist</source>
-      <translation type="unfinished">Replace current playlist</translation>
+      <translation>替换当前播放列表</translation>
     </message>
     <message>
       <source>Open in new playlist</source>
-      <translation type="unfinished">Open in new playlist</translation>
+      <translation>在新播放列表中打开</translation>
     </message>
     <message>
       <source>Copy to collection...</source>
-      <translation type="unfinished">Copy to collection...</translation>
+      <translation>复制到收藏集...</translation>
     </message>
     <message>
       <source>Move to collection...</source>
-      <translation type="unfinished">Move to collection...</translation>
+      <translation>移动到收藏集...</translation>
     </message>
     <message>
       <source>Copy to device...</source>
-      <translation type="unfinished">Copy to device...</translation>
+      <translation>复制到设备...</translation>
     </message>
     <message>
       <source>Delete from disk...</source>
-      <translation type="unfinished">Delete from disk...</translation>
+      <translation>从磁盘删除...</translation>
     </message>
     <message>
       <source>Edit track information...</source>
-      <translation type="unfinished">Edit track information...</translation>
+      <translation>编辑音轨信息...</translation>
     </message>
     <message>
       <source>Show in file browser...</source>
-      <translation type="unfinished">Show in file browser...</translation>
+      <translation>在文件浏览器中显示...</translation>
     </message>
     <message>
       <source>Files</source>
@@ -3084,35 +3084,35 @@ If there are no matches then it will use the largest image in the directory.</so
     <name>LastFMScrobbler</name>
     <message>
       <source>%1 Scrobbler Authentication</source>
-      <translation type="unfinished">%1 Scrobbler Authentication</translation>
+      <translation>%1 记录认证</translation>
     </message>
     <message>
       <source>Open URL in web browser?</source>
-      <translation type="unfinished">Open URL in web browser?</translation>
+      <translation>在网页浏览器中打开 URL？</translation>
     </message>
     <message>
       <source>Press &quot;Save&quot; to copy the URL to clipboard and manually open it in a web browser.</source>
-      <translation type="unfinished">Press &quot;Save&quot; to copy the URL to clipboard and manually open it in a web browser.</translation>
+      <translation>按“保存”将 URL 复制到剪贴板，然后手动在网页浏览器中打开。</translation>
     </message>
     <message>
       <source>Could not open URL. Please open this URL in your browser</source>
-      <translation type="unfinished">Could not open URL. Please open this URL in your browser</translation>
+      <translation>无法打开 URL。请在浏览器中打开此 URL</translation>
     </message>
     <message>
       <source>Invalid reply from web browser. Missing token.</source>
-      <translation type="unfinished">Invalid reply from web browser. Missing token.</translation>
+      <translation>来自网页浏览器的回复无效。缺少令牌。</translation>
     </message>
     <message>
       <source>Received invalid reply from web browser. Try another browser.</source>
-      <translation type="unfinished">Received invalid reply from web browser. Try another browser.</translation>
+      <translation>收到来自网页浏览器的无效回复。请尝试其他浏览器。</translation>
     </message>
     <message>
       <source>Scrobbler %1 is not authenticated!</source>
-      <translation type="unfinished">Scrobbler %1 is not authenticated!</translation>
+      <translation>记录器 %1 未通过认证！</translation>
     </message>
     <message>
       <source>Scrobbler %1 error: %2</source>
-      <translation type="unfinished">Scrobbler %1 error: %2</translation>
+      <translation>记录器 %1 错误：%2</translation>
     </message>
   </context>
   <context>
@@ -3590,7 +3590,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Fetch metadata from service</source>
-      <translation type="unfinished">Fetch metadata from service</translation>
+      <translation>从服务获取元数据</translation>
     </message>
     <message>
       <source>Copy URL(s)...</source>
@@ -3991,7 +3991,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Strawberry Red</source>
-      <translation>Strawberry Red</translation>
+      <translation>草莓红</translation>
     </message>
     <message>
       <source>Custom...</source>
@@ -4115,42 +4115,42 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Artist name</source>
-      <translation type="unfinished">Artist name</translation>
+      <translation>艺术家名称</translation>
     </message>
     <message>
       <source>Song title</source>
-      <translation type="unfinished">Song title</translation>
+      <translation>歌曲标题</translation>
     </message>
   </context>
   <context>
     <name>OAuthenticator</name>
     <message>
       <source>Authentication</source>
-      <translation type="unfinished">Authentication</translation>
+      <translation>认证</translation>
     </message>
     <message>
       <source>Please open this URL in your browser</source>
-      <translation type="unfinished">Please open this URL in your browser</translation>
+      <translation>请在浏览器中打开此 URL</translation>
     </message>
     <message>
       <source>Received invalid reply from web browser.</source>
-      <translation type="unfinished">Received invalid reply from web browser.</translation>
+      <translation>收到来自网页浏览器的无效回复。</translation>
     </message>
     <message>
       <source>Redirect URL is missing query.</source>
-      <translation type="unfinished">Redirect URL is missing query.</translation>
+      <translation>重定向 URL 缺少查询参数。</translation>
     </message>
     <message>
       <source>Request URL is missing code!</source>
-      <translation type="unfinished">Request URL is missing code!</translation>
+      <translation>请求 URL 缺少代码！</translation>
     </message>
     <message>
       <source>Request URL is missing state!</source>
-      <translation type="unfinished">Request URL is missing state!</translation>
+      <translation>请求 URL 缺少状态！</translation>
     </message>
     <message>
       <source>Request URL has wrong state %1 != %2</source>
-      <translation type="unfinished">Request URL has wrong state %1 != %2</translation>
+      <translation>请求 URL 状态错误 %1 != %2</translation>
     </message>
   </context>
   <context>
@@ -4384,7 +4384,7 @@ If there are no matches then it will use the largest image in the directory.</so
     <message>
       <source>Bitrate</source>
       <comment>Refers to bitrate in file organize dialog.</comment>
-      <translation>Bitrate</translation>
+      <translation>比特率</translation>
     </message>
     <message>
       <source>Sample rate</source>
@@ -4426,11 +4426,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>File %1 does not exist</source>
-      <translation type="unfinished">File %1 does not exist</translation>
+      <translation>文件 %1 不存在</translation>
     </message>
     <message>
       <source>Could not read file %1: %2</source>
-      <translation type="unfinished">Could not read file %1: %2</translation>
+      <translation>无法读取文件 %1：%2</translation>
     </message>
   </context>
   <context>
@@ -4468,7 +4468,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Title Sort</source>
-      <translation type="unfinished">Title Sort</translation>
+      <translation>标题排序</translation>
     </message>
     <message>
       <source>Artist</source>
@@ -4476,7 +4476,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Artist Sort</source>
-      <translation type="unfinished">Artist Sort</translation>
+      <translation>艺术家排序</translation>
     </message>
     <message>
       <source>Album</source>
@@ -4484,7 +4484,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Album Sort</source>
-      <translation type="unfinished">Album Sort</translation>
+      <translation>专辑排序</translation>
     </message>
     <message>
       <source>Track</source>
@@ -4516,7 +4516,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Album Artist Sort</source>
-      <translation type="unfinished">Album Artist Sort</translation>
+      <translation>专辑艺术家排序</translation>
     </message>
     <message>
       <source>Composer</source>
@@ -4524,7 +4524,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Composer Sort</source>
-      <translation type="unfinished">Composer Sort</translation>
+      <translation>作曲家排序</translation>
     </message>
     <message>
       <source>Performer</source>
@@ -4532,7 +4532,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Performer Sort</source>
-      <translation type="unfinished">Performer Sort</translation>
+      <translation>演奏者排序</translation>
     </message>
     <message>
       <source>Grouping</source>
@@ -4564,7 +4564,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Initial key</source>
-      <translation type="unfinished">Initial key</translation>
+      <translation>初始调号</translation>
     </message>
     <message>
       <source>File Name (without path)</source>
@@ -4596,7 +4596,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Moodbar</source>
-      <translation type="unfinished">Moodbar</translation>
+      <translation>Moodbar</translation>
     </message>
     <message>
       <source>BPM</source>
@@ -4740,7 +4740,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Copy songs to playlist</source>
-      <translation type="unfinished">Copy songs to playlist</translation>
+      <translation>将歌曲复制到播放列表</translation>
     </message>
     <message>
       <source>Copy to device</source>
@@ -4800,7 +4800,7 @@ If there are no matches then it will use the largest image in the directory.</so
     <message numerus="yes">
       <source>%n track(s)</source>
       <translation>
-        <numerusform>%n track(s)</numerusform>
+        <numerusform>%n 个音轨</numerusform>
       </translation>
     </message>
   </context>
@@ -5216,7 +5216,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Create fingerprint</source>
-      <translation type="unfinished">Create fingerprint</translation>
+      <translation>创建指纹</translation>
     </message>
     <message>
       <source>Failed to create directory %1.</source>
@@ -5324,7 +5324,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Could not save file</source>
-      <translation type="unfinished">Could not save file</translation>
+      <translation>无法保存文件</translation>
     </message>
     <message>
       <source>Unknown error</source>
@@ -5517,19 +5517,19 @@ Are you sure you want to continue?</source>
     <message numerus="yes">
       <source>add %n songs</source>
       <translation>
-        <numerusform>add %n songs</numerusform>
+        <numerusform>添加 %n 首歌曲</numerusform>
       </translation>
     </message>
     <message numerus="yes">
       <source>remove %n songs</source>
       <translation>
-        <numerusform>remove %n songs</numerusform>
+        <numerusform>移除 %n 首歌曲</numerusform>
       </translation>
     </message>
     <message numerus="yes">
       <source>move %n songs</source>
       <translation>
-        <numerusform>move %n songs</numerusform>
+        <numerusform>移动 %n 首歌曲</numerusform>
       </translation>
     </message>
     <message>
@@ -5564,11 +5564,11 @@ Are you sure you want to continue?</source>
     <name>QobuzMetadataRequest</name>
     <message>
       <source>Not authenticated</source>
-      <translation type="unfinished">Not authenticated</translation>
+      <translation>未认证</translation>
     </message>
     <message>
       <source>No track ID</source>
-      <translation type="unfinished">No track ID</translation>
+      <translation>无音轨 ID</translation>
     </message>
   </context>
   <context>
@@ -5630,39 +5630,39 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Missing app ID. Please fetch credentials first.</source>
-      <translation type="unfinished">Missing app ID. Please fetch credentials first.</translation>
+      <translation>缺少应用 ID。请先获取凭据。</translation>
     </message>
     <message>
       <source>Missing app secret. Please fetch credentials first.</source>
-      <translation type="unfinished">Missing app secret. Please fetch credentials first.</translation>
+      <translation>缺少应用密钥。请先获取凭据。</translation>
     </message>
     <message>
       <source>Missing private key. Please fetch credentials first.</source>
-      <translation type="unfinished">Missing private key. Please fetch credentials first.</translation>
+      <translation>缺少私钥。请先获取凭据。</translation>
     </message>
     <message>
       <source>Failed to start local server for OAuth redirect: %1</source>
-      <translation type="unfinished">Failed to start local server for OAuth redirect: %1</translation>
+      <translation>启动 OAuth 重定向的本地服务器失败：%1</translation>
     </message>
     <message>
       <source>Failed to open the web browser. Please open this URL manually: %1</source>
-      <translation type="unfinished">Failed to open the web browser. Please open this URL manually: %1</translation>
+      <translation>无法打开网页浏览器。请手动打开此 URL：%1</translation>
     </message>
     <message>
       <source>Waiting for browser authentication...</source>
-      <translation type="unfinished">Waiting for browser authentication...</translation>
+      <translation>正在等待浏览器认证...</translation>
     </message>
     <message>
       <source>OAuth redirect failed: %1</source>
-      <translation type="unfinished">OAuth redirect failed: %1</translation>
+      <translation>OAuth 重定向失败：%1</translation>
     </message>
     <message>
       <source>OAuth redirect is missing authorization code.</source>
-      <translation type="unfinished">OAuth redirect is missing authorization code.</translation>
+      <translation>OAuth 重定向缺少授权代码。</translation>
     </message>
     <message>
       <source>Exchanging authorization code...</source>
-      <translation type="unfinished">Exchanging authorization code...</translation>
+      <translation>正在交换授权代码...</translation>
     </message>
     <message>
       <source>Not authenticated with Qobuz.</source>
@@ -5674,7 +5674,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Not authenticated. Please login to Qobuz in the settings.</source>
-      <translation type="unfinished">Not authenticated. Please login to Qobuz in the settings.</translation>
+      <translation>未认证。请在设置中登录 Qobuz。</translation>
     </message>
   </context>
   <context>
@@ -5741,15 +5741,15 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Missing app id. Please fetch credentials first.</source>
-      <translation type="unfinished">Missing app id. Please fetch credentials first.</translation>
+      <translation>缺少应用 ID。请先获取凭据。</translation>
     </message>
     <message>
       <source>Missing app secret. Please fetch credentials first.</source>
-      <translation type="unfinished">Missing app secret. Please fetch credentials first.</translation>
+      <translation>缺少应用密钥。请先获取凭据。</translation>
     </message>
     <message>
       <source>Missing private key. Please fetch credentials first.</source>
-      <translation type="unfinished">Missing private key. Please fetch credentials first.</translation>
+      <translation>缺少私钥。请先获取凭据。</translation>
     </message>
     <message>
       <source>Authentication failed</source>
@@ -5765,7 +5765,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Credentials have been successfully fetched. Click Login to authenticate via your browser.</source>
-      <translation type="unfinished">Credentials have been successfully fetched. Click Login to authenticate via your browser.</translation>
+      <translation>凭据已成功获取。点击登录以通过浏览器进行认证。</translation>
     </message>
     <message>
       <source>Credential fetch failed</source>
@@ -5777,15 +5777,15 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Remove (Remastered), etc from song titles</source>
-      <translation type="unfinished">Remove (Remastered), etc from song titles</translation>
+      <translation>从歌曲标题中移除 (Remastered) 等字样</translation>
     </message>
     <message>
       <source>Private key</source>
-      <translation type="unfinished">Private key</translation>
+      <translation>私钥</translation>
     </message>
     <message>
       <source>Automatically fetch app ID, app secret and private key from Qobuz web player</source>
-      <translation type="unfinished">Automatically fetch app ID, app secret and private key from Qobuz web player</translation>
+      <translation>从 Qobuz 网页播放器自动获取应用 ID、应用密钥和私钥</translation>
     </message>
   </context>
   <context>
@@ -5796,7 +5796,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Not authenticated. Please log in on the Qobuz settings page.</source>
-      <translation type="unfinished">Not authenticated. Please log in on the Qobuz settings page.</translation>
+      <translation>未认证。请在 Qobuz 设置页面登录。</translation>
     </message>
     <message>
       <source>Cancelled.</source>
@@ -5808,7 +5808,7 @@ Are you sure you want to continue?</source>
     <message numerus="yes">
       <source>%n track(s)</source>
       <translation>
-        <numerusform>%n track(s)</numerusform>
+        <numerusform>%n 个音轨</numerusform>
       </translation>
     </message>
   </context>
@@ -6030,7 +6030,7 @@ Are you sure you want to continue?</source>
     <name>ScrobblerSettingsPage</name>
     <message>
       <source>Scrobbler</source>
-      <translation>Scrobbler</translation>
+      <translation>记录器</translation>
     </message>
     <message>
       <source>Enable</source>
@@ -6435,11 +6435,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Are you sure you want to restore the default smart playlists? This will remove all custom smart playlists</source>
-      <translation type="unfinished">Are you sure you want to restore the default smart playlists? This will remove all custom smart playlists</translation>
+      <translation>您确定要恢复默认智能播放列表吗？这将移除所有自定义智能播放列表</translation>
     </message>
     <message>
       <source>Restore defaults</source>
-      <translation type="unfinished">Restore defaults</translation>
+      <translation>恢复默认值</translation>
     </message>
   </context>
   <context>
@@ -6550,15 +6550,15 @@ Are you sure you want to continue?</source>
     <name>SpotifyMetadataRequest</name>
     <message>
       <source>Not authenticated</source>
-      <translation type="unfinished">Not authenticated</translation>
+      <translation>未认证</translation>
     </message>
     <message>
       <source>No track ID</source>
-      <translation type="unfinished">No track ID</translation>
+      <translation>无音轨 ID</translation>
     </message>
     <message>
       <source>No pending song for track ID</source>
-      <translation type="unfinished">No pending song for track ID</translation>
+      <translation>音轨 ID 没有待处理的歌曲</translation>
     </message>
   </context>
   <context>
@@ -6683,7 +6683,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Remove (Remastered), etc from song titles</source>
-      <translation type="unfinished">Remove (Remastered), etc from song titles</translation>
+      <translation>从歌曲标题中移除 (Remastered) 等字样</translation>
     </message>
   </context>
   <context>
@@ -7160,7 +7160,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Remove (Remastered), etc from song titles</source>
-      <translation type="unfinished">Remove (Remastered), etc from song titles</translation>
+      <translation>从歌曲标题中移除 (Remastered) 等字样</translation>
     </message>
   </context>
   <context>
@@ -7242,7 +7242,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Album artist</source>
-      <translation type="unfinished">Album artist</translation>
+      <translation>专辑艺术家</translation>
     </message>
   </context>
   <context>
