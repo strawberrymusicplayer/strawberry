@@ -36,6 +36,7 @@
 #include <QString>
 #include <QUrl>
 #include <QColor>
+#include <QUuid>
 
 #include "includes/shared_ptr.h"
 #include "core/song.h"
@@ -115,6 +116,7 @@ class PlaylistItem : public enable_shared_from_this<PlaylistItem> {
   virtual bool IsLocalCollectionItem() const { return false; }
   void SetShouldSkip(const bool should_skip);
   bool GetShouldSkip() const;
+  const QUuid &GetId() const;
 
  protected:
   Song::Source source_;

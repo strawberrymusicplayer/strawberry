@@ -54,13 +54,14 @@ SongLoaderInserter::SongLoaderInserter(const SharedPtr<TaskManager> task_manager
 
 SongLoaderInserter::~SongLoaderInserter() { qDeleteAll(pending_); }
 
-void SongLoaderInserter::Load(Playlist *destination, const int row, const bool play_now, const bool enqueue, const bool enqueue_next, const QList<QUrl> &urls) {
+void SongLoaderInserter::Load(Playlist *destination, const int row, const bool play_now, const bool enqueue, const bool enqueue_next, const bool emit_signal, const QList<QUrl> &urls) {
 
   destination_ = destination;
   row_ = row;
   play_now_ = play_now;
   enqueue_ = enqueue;
   enqueue_next_ = enqueue_next;
+  emit_signal_ = emit_signal;
 
   QObject::connect(destination, &Playlist::destroyed, this, &SongLoaderInserter::DestinationDestroyed);
   QObject::connect(this, &SongLoaderInserter::PreloadFinished, this, &SongLoaderInserter::InsertSongs);
@@ -176,7 +177,7 @@ void SongLoaderInserter::InsertSongs() {
 
   // Insert songs (that haven't been completely loaded) to allow user to see and play them while not loaded completely
   if (destination_) {
-    destination_->InsertSongsOrCollectionItems(songs_, playlist_name_, row_, play_now_, enqueue_, enqueue_next_);
+    destination_->InsertSongsOrCollectionItems(songs_, playlist_name_, row_, play_now_, enqueue_, enqueue_next_, emit_signal_);
   }
 
 }
