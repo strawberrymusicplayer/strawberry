@@ -2014,27 +2014,26 @@ void Playlist::ReloadItems(const QList<int> &rows) {
 
 }
 
-void Playlist::Shuffle() {
-
-  PlaylistItemPtrList new_items(items_);
+void Playlist::Shuffle(const PlaylistSequence::ShuffleMode shuffle_mode) {
 
   int begin = 0;
-  if (current_item_index_.isValid()) {
-    if (new_items[0] != new_items[current_item_index_.row()]) {
-      std::swap(new_items[0], new_items[current_item_index_.row()]);
-    }
-    begin = 1;
-  }
 
   if (dynamic_playlist_ && current_item_index_.isValid()) {
-    begin += current_item_index_.row() + 1;
+    begin += current_item_index_.row();
   }
 
+  QList<int> index_items;
   const int count = static_cast<int>(items_.count());
   for (int i = begin; i < count; ++i) {
-    const int new_pos = i + (rand() % (count - i));
+    index_items.push_back(i);
+  }
 
-    std::swap(new_items[i], new_items[new_pos]);
+  ReshuffleIndices(index_items, shuffle_mode, begin, true);
+
+  PlaylistItemPtrList new_items;
+
+  for (int idx_shuffle : std::as_const(index_items)) {
+    new_items.push_back(items_[idx_shuffle]);
   }
 
   undo_stack_->push(new PlaylistUndoCommandShuffleItems(this, new_items));
@@ -2048,7 +2047,29 @@ bool AlbumShuffleComparator(const QHash<QString, int> &album_key_positions, cons
   const int left_pos = album_key_positions[album_keys[left]];
   const int right_pos = album_key_positions[album_keys[right]];
 
+  // With this return, I keep the tracks in the order they have in the playlist
   if (left_pos == right_pos) return left < right;
+
+  // Sort the albums by their position in the playlist
+  return left_pos < right_pos;
+
+}
+
+// to the contrary of the function upper, I will keep the tracks in the order of their position in the album
+// not with the position they have in the playlist
+bool AlbumShuffleComparatorTrackOrder(const QHash<QString, int> &album_key_positions, const QHash<int, QString> &album_keys, const PlaylistItemPtrList &items, const int left, const int right) {
+
+  const int left_pos = album_key_positions[album_keys[left]];
+  const int right_pos = album_key_positions[album_keys[right]];
+
+  if (left_pos == right_pos) {
+    auto &&left_song = items[left]->EffectiveMetadata();
+    auto &&right_song = items[right]->EffectiveMetadata();
+
+    if (left_song.disc() == right_song.disc()) return left_song.track() < right_song.track();
+
+    return left_song.disc() < right_song.disc();
+  }
   return left_pos < right_pos;
 
 }
@@ -2057,18 +2078,38 @@ bool AlbumShuffleComparator(const QHash<QString, int> &album_key_positions, cons
 
 void Playlist::ReshuffleIndices() {
 
-  const PlaylistSequence::ShuffleMode shuffle_mode = ShuffleMode();
+  // First, cancel the replay position
+  // TODO : uncomment the code below when the branch «Grouped tracks are considered as single track» will be merged
+  // next_song_after_queued_ = -1;
+
+  current_virtual_index_ = ReshuffleIndices(virtual_items_, ShuffleMode(), 0, false);
+
+}
+
+int Playlist::ReshuffleIndices(QList<int>& virtual_items, const PlaylistSequence::ShuffleMode shuffle_mode, const int base_reference, const bool album_keep_track_order) {
+
+  static std::mt19937 rng{std::random_device{}()};
+
   switch (shuffle_mode) {
     case PlaylistSequence::ShuffleMode::Off:{
       // No shuffling - sort the virtual item list normally.
-      std::sort(virtual_items_.begin(), virtual_items_.end());
+      std::sort(virtual_items.begin(), virtual_items.end());
       break;
     }
 
     case PlaylistSequence::ShuffleMode::All:
     case PlaylistSequence::ShuffleMode::InsideAlbum:{
-      std::random_device rd;
-      std::shuffle(virtual_items_.begin(), virtual_items_.end(), std::mt19937(rd()));
+      std::shuffle(virtual_items.begin(), virtual_items.end(), rng);
+
+      // If the user is currently playing a song, force its track to be first
+      // Also check last_played_row() for cases where current_row() hasn't been set yet (e.g., on app startup)
+      int reference_row = current_row();
+      if (reference_row == -1 && last_played_row() != -1) {
+        reference_row = last_played_row();
+      }
+      if (reference_row > base_reference) {
+        std::swap(virtual_items[0], virtual_items[reference_row - base_reference]);
+      }
       break;
     }
 
@@ -2077,7 +2118,7 @@ void Playlist::ReshuffleIndices() {
       QSet<QString> album_key_set;     // unique keys
 
       // Find all the unique albums in the playlist
-      for (QList<int>::const_iterator it = virtual_items_.constBegin(); it != virtual_items_.constEnd(); ++it) {
+      for (QList<int>::const_iterator it = virtual_items.constBegin(); it != virtual_items.constEnd(); ++it) {
         const int index = *it;
         const QString key = items_[index]->EffectiveMetadata().AlbumKey();
         album_keys[index] = key;
@@ -2085,7 +2126,6 @@ void Playlist::ReshuffleIndices() {
       }
 
       // Shuffle them
-      static std::mt19937 rng{std::random_device{}()};
       QStringList shuffled_album_keys = album_key_set.values();
       std::shuffle(shuffled_album_keys.begin(), shuffled_album_keys.end(), rng);
 
@@ -2098,8 +2138,8 @@ void Playlist::ReshuffleIndices() {
       if (reference_row != -1) {
         const QString key = items_[reference_row]->EffectiveMetadata().AlbumKey();
         const qint64 pos = shuffled_album_keys.indexOf(key);
-        if (pos >= 1) {
-          std::swap(shuffled_album_keys[0], shuffled_album_keys[pos]);
+        if (pos > base_reference) {
+          std::swap(shuffled_album_keys[0], shuffled_album_keys[pos - base_reference]);
         }
       }
 
@@ -2109,8 +2149,18 @@ void Playlist::ReshuffleIndices() {
         album_key_positions[shuffled_album_keys[i]] = i;
       }
 
+      if (album_keep_track_order) {
+        // Sort the virtual items : use AlbumShuffleComparator with a cheap-to-copy lambda comparator
+        // force the track order to be the album one
+        std::stable_sort(virtual_items.begin(), virtual_items.end(), [&album_key_positions, &album_keys, this](const int lhs, const int rhs) {
+          return AlbumShuffleComparatorTrackOrder(album_key_positions, album_keys, items_, lhs, rhs);
+        });
+
+        break;
+      }
       // Sort the virtual items : use AlbumShuffleComparator with a cheap-to-copy lambda comparator
-      std::stable_sort(virtual_items_.begin(), virtual_items_.end(), [&album_key_positions, &album_keys](const int lhs, const int rhs) {
+      // keep the track order they have in the playlist
+      std::stable_sort(virtual_items.begin(), virtual_items.end(), [&album_key_positions, &album_keys](const int lhs, const int rhs) {
         return AlbumShuffleComparator(album_key_positions, album_keys, lhs, rhs);
       });
 
@@ -2121,7 +2171,7 @@ void Playlist::ReshuffleIndices() {
       QSet<QString> grouping_key_set;    // unique keys
 
       // Find all the unique grouping keys in the playlist
-      for (QList<int>::const_iterator it = virtual_items_.constBegin(); it != virtual_items_.constEnd(); ++it) {
+      for (QList<int>::const_iterator it = virtual_items.constBegin(); it != virtual_items.constEnd(); ++it) {
         const int index = *it;
         const QString key = items_[index]->EffectiveMetadata().GroupingKey();
         grouping_keys[index] = key;
@@ -2129,7 +2179,6 @@ void Playlist::ReshuffleIndices() {
       }
 
       // Shuffle them
-      static std::mt19937 rng{std::random_device{}()};
       QStringList shuffled_grouping_keys = grouping_key_set.values();
       std::shuffle(shuffled_grouping_keys.begin(), shuffled_grouping_keys.end(), rng);
 
@@ -2142,8 +2191,8 @@ void Playlist::ReshuffleIndices() {
       if (reference_row != -1) {
         const QString key = items_[reference_row]->EffectiveMetadata().GroupingKey();
         const qint64 pos = shuffled_grouping_keys.indexOf(key);
-        if (pos >= 1) {
-          std::swap(shuffled_grouping_keys[0], shuffled_grouping_keys[pos]);
+        if (pos > base_reference) {
+          std::swap(shuffled_grouping_keys[0], shuffled_grouping_keys[pos - base_reference]);
         }
       }
 
@@ -2153,21 +2202,22 @@ void Playlist::ReshuffleIndices() {
         grouping_key_positions[shuffled_grouping_keys[i]] = i;
       }
 
-      // Sort the virtual items: use AlbumShuffleComparator as a grouping-key comparator with a cheap-to-copy lambda
-      std::stable_sort(virtual_items_.begin(), virtual_items_.end(), [&grouping_key_positions, &grouping_keys](const int lhs, const int rhs) {
-        return AlbumShuffleComparator(grouping_key_positions, grouping_keys, lhs, rhs);
+      // Sort the virtual items: use AlbumShuffleComparatorTrackOrder as a grouping-key comparator with a cheap-to-copy lambda
+      // This sort method will keep the track number order so important in the grouped read
+      std::stable_sort(virtual_items.begin(), virtual_items.end(), [&grouping_key_positions, &grouping_keys, this](const int lhs, const int rhs) {
+        return AlbumShuffleComparatorTrackOrder(grouping_key_positions, grouping_keys, items_, lhs, rhs);
       });
       break;
     }
   }
 
-  // Update current virtual index
+  // I keep the computation of the virtual index because it is only return, if you want to ignore it, you can
+  // besides, it will be usefull in the cases I want to use the updated method
   if (current_item_index_.isValid()) {
-    current_virtual_index_ = static_cast<int>(virtual_items_.indexOf(current_item_index_.row()));
+    return static_cast<int>(virtual_items.indexOf(current_item_index_.row()));
   }
-  else {
-    current_virtual_index_ = -1;
-  }
+
+  return -1;
 
 }
 

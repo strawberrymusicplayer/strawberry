@@ -365,6 +365,7 @@ MainWindow::MainWindow(Application *app,
       collection_show_duplicates_(nullptr),
       collection_show_untagged_(nullptr),
       playlist_menu_(new QMenu(this)),
+      shuffle_playlist_menu_(new QMenu(this)),
       playlist_play_pause_(nullptr),
       playlist_stop_after_(nullptr),
       playlist_undoredo_(nullptr),
@@ -585,7 +586,6 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(ui_->action_toggle_show_sidebar, &QAction::toggled, this, &MainWindow::ToggleSidebar);
   QObject::connect(ui_->action_about_strawberry, &QAction::triggered, this, &MainWindow::ShowAboutDialog);
   QObject::connect(ui_->action_about_qt, &QAction::triggered, qApp, &QApplication::aboutQt);
-  QObject::connect(ui_->action_shuffle, &QAction::triggered, &*app_->playlist_manager(), &PlaylistManager::ShuffleCurrent);
   QObject::connect(ui_->action_open_file, &QAction::triggered, this, &MainWindow::AddFile);
   QObject::connect(ui_->action_open_cd, &QAction::triggered, this, &MainWindow::AddCDTracks);
   QObject::connect(ui_->action_add_file, &QAction::triggered, this, &MainWindow::AddFile);
@@ -621,10 +621,20 @@ MainWindow::MainWindow(Application *app,
   ui_->button_scrobble->setDefaultAction(ui_->action_toggle_scrobbling);
   ui_->button_love->setDefaultAction(ui_->action_love);
 
+  // Shuffle playlist sub-menu
+  QActionGroup *shuffle_playlist_group = new QActionGroup(this);
+  shuffle_playlist_group->addAction(ui_->action_shuffle_playlist_all);
+  shuffle_playlist_group->addAction(ui_->action_shuffle_playlist_albums);
+  shuffle_playlist_group->addAction(ui_->action_shuffle_playlist_grouping);
+  shuffle_playlist_menu_->addActions(shuffle_playlist_group->actions());
+
+  QObject::connect(shuffle_playlist_group, &QActionGroup::triggered, this, &MainWindow::ShufflePlaylistActionTriggered);
+
   ui_->playlist->SetActions(ui_->action_new_playlist, ui_->action_load_playlist, ui_->action_save_playlist, ui_->action_clear_playlist, ui_->action_next_playlist, /* These two actions aren't associated */ ui_->action_previous_playlist /* to a button but to the main window */, ui_->action_save_all_playlists);
   // Add the shuffle and repeat action groups to the menu
   ui_->action_shuffle_mode->setMenu(ui_->playlist_sequence->shuffle_menu());
   ui_->action_repeat_mode->setMenu(ui_->playlist_sequence->repeat_menu());
+  ui_->action_shuffle->setMenu(shuffle_playlist_menu_);
 
   // Stop actions
   QMenu *stop_menu = new QMenu(this);
@@ -3611,5 +3621,15 @@ void MainWindow::ProcessMetadataQueue() {
   if (!metadata_queue_.isEmpty()) {
     metadata_queue_timer_->start();
   }
+
+}
+
+void MainWindow::ShufflePlaylistActionTriggered(QAction *action) {
+
+  PlaylistSequence::ShuffleMode mode = PlaylistSequence::ShuffleMode::All;
+  if (action == ui_->action_shuffle_playlist_albums) mode = PlaylistSequence::ShuffleMode::Albums;
+  if (action == ui_->action_shuffle_playlist_grouping) mode = PlaylistSequence::ShuffleMode::Grouping;
+
+  app_->playlist_manager()->ShuffleCurrent(mode);
 
 }
