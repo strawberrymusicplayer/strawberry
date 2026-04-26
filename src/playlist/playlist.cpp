@@ -122,6 +122,8 @@ constexpr qint64 kMaxScrobblePointNsecs = 240LL * kNsecPerSec;
 
 constexpr int kMaxPlayedIndexes = 100;
 
+const PlaylistItemPtr empty_item;
+
 }  // namespace
 
 Playlist::Playlist(const SharedPtr<TaskManager> task_manager,
@@ -961,12 +963,12 @@ bool Playlist::dropMimeData(const QMimeData *data, Qt::DropAction action, const 
 
 }
 
-void Playlist::InsertUrls(const QList<QUrl> &urls, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next) {
+void Playlist::InsertUrls(const QList<QUrl> &urls, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next, const bool emit_signal) {
 
   SongLoaderInserter *inserter = new SongLoaderInserter(task_manager_, tagreader_client_, url_handlers_, collection_backend_);
   QObject::connect(inserter, &SongLoaderInserter::Error, this, &Playlist::Error);
 
-  inserter->Load(this, pos, play_now, enqueue, enqueue_next, urls);
+  inserter->Load(this, pos, play_now, enqueue, enqueue_next, emit_signal, urls);
 
 }
 
@@ -1145,7 +1147,7 @@ void Playlist::MoveItemsWithoutUndo(int start, const QList<int> &dest_rows) {
 
 }
 
-void Playlist::InsertItems(const PlaylistItemPtrList &itemsIn, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next) {
+void Playlist::InsertItems(const PlaylistItemPtrList &itemsIn, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next, const bool emit_signal) {
 
   if (itemsIn.isEmpty()) {
     return;
@@ -1157,23 +1159,34 @@ void Playlist::InsertItems(const PlaylistItemPtrList &itemsIn, const int pos, co
 
   if (items.count() > kUndoItemLimit) {
     // Too big to keep in the undo stack. Also clear the stack because it might have been invalidated.
-    InsertItemsWithoutUndo(items, pos, enqueue, enqueue_next);
+    InsertItemsWithoutUndo(items, pos, enqueue, enqueue_next, emit_signal);
     undo_stack_->clear();
   }
   else {
-    undo_stack_->push(new PlaylistUndoCommandInsertItems(this, items, pos, enqueue, enqueue_next));
+    undo_stack_->push(new PlaylistUndoCommandInsertItems(this, items, pos, enqueue, enqueue_next, emit_signal));
   }
 
   if (play_now) Q_EMIT PlayRequested(index(start, 0), AutoScroll::Maybe);
 
 }
 
-void Playlist::InsertItemsWithoutUndo(const PlaylistItemPtrList &items, const int pos, const bool enqueue, const bool enqueue_next) {
+void Playlist::InsertItemsWithoutUndo(const PlaylistItemPtrList &items, const int pos, const bool enqueue, const bool enqueue_next, const bool emit_signal) {
 
   if (items.isEmpty()) return;
 
+  QUuid after_track_id;
   const int start = pos == -1 ? static_cast<int>(items_.count()) : pos;
   const int end = start + static_cast<int>(items.count()) - 1;
+  QList<QUuid> tracks_id_added;
+
+  if (items_.length() > 0) {
+    if (static_cast<unsigned int>(pos) < items_.length()) {
+      after_track_id = items_[pos]->uuid();
+    }
+    else {
+      after_track_id = items_[items_.length() - 1]->uuid();
+    }
+  }
 
   bool has_generated_uuids = false;
   beginInsertRows(QModelIndex(), start, end);
@@ -1181,6 +1194,8 @@ void Playlist::InsertItemsWithoutUndo(const PlaylistItemPtrList &items, const in
     const PlaylistItemPtr item = items[i - start];
     items_.insert(i, item);
     virtual_items_ << static_cast<int>(virtual_items_.count());
+
+    tracks_id_added << item->uuid();
 
     if (Song::IsLinkedCollectionSource(item->source())) {
       const int id = item->EffectiveMetadata().id();
@@ -1201,6 +1216,8 @@ void Playlist::InsertItemsWithoutUndo(const PlaylistItemPtrList &items, const in
 
   }
   endInsertRows();
+
+  if (emit_signal) Q_EMIT PlaylistItemsAdded(id_, tracks_id_added, after_track_id);
 
   if (enqueue) {
     QModelIndexList indexes;
@@ -1241,7 +1258,7 @@ void Playlist::InsertSongs(const SongList &songs, const int pos, const bool play
   InsertSongItems<SongPlaylistItem>(songs, pos, play_now, enqueue, enqueue_next);
 }
 
-void Playlist::InsertSongsOrCollectionItems(const SongList &songs, const QString &playlist_name, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next) {
+void Playlist::InsertSongsOrCollectionItems(const SongList &songs, const QString &playlist_name, const int pos, const bool play_now, const bool enqueue, const bool enqueue_next, const bool emit_signal) {
 
   if (!playlist_name.isEmpty()) {
     Q_EMIT Rename(id_, playlist_name);
@@ -1253,7 +1270,7 @@ void Playlist::InsertSongsOrCollectionItems(const SongList &songs, const QString
     items << PlaylistItem::NewFromSong(song);
   }
 
-  InsertItems(items, pos, play_now, enqueue, enqueue_next);
+  InsertItems(items, pos, play_now, enqueue, enqueue_next, emit_signal);
 
 }
 
@@ -1783,6 +1800,18 @@ bool Playlist::removeRows(const int row, const int count, const QModelIndex &par
 
 }
 
+bool Playlist::removeRowSignal(const int row) {
+
+  if (row < 0 || row >= items_.size()) {
+    return false;
+  }
+
+  undo_stack_->push(new PlaylistUndoCommandRemoveItems(this, row, 1, true));
+
+  return true;
+
+}
+
 bool Playlist::removeRows(QList<int> &rows) {
 
   if (rows.isEmpty()) {
@@ -1812,7 +1841,7 @@ bool Playlist::removeRows(QList<int> &rows) {
 
 }
 
-PlaylistItemPtrList Playlist::RemoveItemsWithoutUndo(const int row, const int count) {
+PlaylistItemPtrList Playlist::RemoveItemsWithoutUndo(const int row, const int count, const bool emit_signal) {
 
   if (row < 0 || row >= items_.size() || row + count > items_.size()) {
     return PlaylistItemPtrList();
@@ -1821,16 +1850,20 @@ PlaylistItemPtrList Playlist::RemoveItemsWithoutUndo(const int row, const int co
   // Remove items
   beginRemoveRows(QModelIndex(), row, row + count - 1);
   PlaylistItemPtrList items;
+  QList<QUuid> tracks_id_removed;
   items.reserve(count);
   for (int i = 0; i < count; ++i) {
     PlaylistItemPtr item(items_.takeAt(row));
     items << item;
+    tracks_id_removed << item->uuid();
     const int id = item->EffectiveMetadata().id();
     const int source_id = item->EffectiveMetadata().source_id();
     if (id != -1 && collection_items_[source_id].contains(id, item)) {
       collection_items_[source_id].remove(id, item);
     }
   }
+
+  if (emit_signal) Q_EMIT PlaylistItemsRemoved(id_, tracks_id_removed);
 
   // Update virtual items
   for (int i = row; i < items_.count() + count; ++i) {
@@ -1909,6 +1942,30 @@ bool Playlist::stop_after_current() const {
   }
 
   return stop_after_.isValid() && current_item_index_.isValid() && stop_after_.row() == current_item_index_.row();
+
+}
+
+const PlaylistItemPtr &Playlist::find_item_id(const QUuid &id) const {
+
+  for (const PlaylistItemPtr &item : items_) {
+    if (item->uuid() == id) {
+      return item;
+    }
+  }
+  return empty_item;
+
+}
+
+int Playlist::find_pos_id(const QUuid &id) const {
+
+  int pos_found = 0;
+  for (const PlaylistItemPtr &item : items_) {
+    if (item->uuid() == id) {
+      return pos_found;
+    }
+    ++pos_found;
+  }
+  return -1;
 
 }
 
