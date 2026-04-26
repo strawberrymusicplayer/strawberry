@@ -1670,23 +1670,36 @@ void Song::InitArtAutomatic() {
 
   if (d->art_automatic_.isEmpty() && d->source_ == Source::LocalFile && d->url_.isLocalFile()) {
     const QFileInfo fileinfo(d->url_.toLocalFile());
-    const QDir dir(fileinfo.path());
+    const QString path = fileinfo.path();
+    const QDir dir(path);
+
+    // Check if it's a generic location where we should avoid grabbing any image
+    const QStringList generic_locations = QStandardPaths::standardLocations(QStandardPaths::DownloadLocation) <<
+                                          QStandardPaths::standardLocations(QStandardPaths::DesktopLocation) <<
+                                          QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation) <<
+                                          QStandardPaths::standardLocations(QStandardPaths::HomeLocation);
+    const bool is_generic_location = generic_locations.contains(path);
+
     const QStringList cover_files = dir.entryList(QStringList() << u"*.jpg"_s << u"*.png"_s << u"*.gif"_s << u"*.jpeg"_s, QDir::Files|QDir::Readable, QDir::Name);
     QString best_cover_file;
     for (const QString &cover_file : cover_files) {
       if (cover_file.contains("back"_L1, Qt::CaseInsensitive)) {
         continue;
       }
-      if (cover_file.contains("front"_L1, Qt::CaseInsensitive) || cover_file.startsWith("cover"_L1, Qt::CaseInsensitive)) {
+      if (cover_file.contains("front"_L1, Qt::CaseInsensitive) ||
+          cover_file.contains("cover"_L1, Qt::CaseInsensitive) ||
+          cover_file.contains("folder"_L1, Qt::CaseInsensitive) ||
+          cover_file.contains("albumart"_L1, Qt::CaseInsensitive) ||
+          cover_file.contains("album"_L1, Qt::CaseInsensitive)) {
         best_cover_file = cover_file;
         break;
       }
-      if (best_cover_file.isEmpty()) {
+      if (!is_generic_location && best_cover_file.isEmpty()) {
         best_cover_file = cover_file;
       }
     }
     if (!best_cover_file.isEmpty()) {
-      d->art_automatic_ = QUrl::fromLocalFile(fileinfo.path() + QDir::separator() + best_cover_file);
+      d->art_automatic_ = QUrl::fromLocalFile(path + QDir::separator() + best_cover_file);
     }
   }
 
