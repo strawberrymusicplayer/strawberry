@@ -28,6 +28,7 @@
 #include <QString>
 
 #include "includes/shared_ptr.h"
+#include "lyricline.h"
 #include "lyricssearchrequest.h"
 #include "lyricssearchresult.h"
 
@@ -46,7 +47,7 @@ class LyricsFetcherSearch : public QObject {
 
  Q_SIGNALS:
   void SearchFinished(const quint64 id, const LyricsSearchResults &results);
-  void LyricsFetched(const quint64 id, const QString &provider = QString(), const QString &lyrics = QString());
+  void LyricsFetched(const quint64 id, const QString &provider = QString(), const QString &lyrics = QString(), const SyncedLyrics &synced_lyrics = SyncedLyrics());
 
  private Q_SLOTS:
   void ProviderSearchFinished(const int id, const LyricsSearchResults &results);

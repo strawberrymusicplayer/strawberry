@@ -31,10 +31,12 @@
 #include <QAction>
 
 #include "core/song.h"
+#include "lyrics/lyricline.h"
 #include "contextalbum.h"
 
 class QMenu;
 class QLabel;
+class QHBoxLayout;
 class QStackedWidget;
 class QVBoxLayout;
 class QGridLayout;
@@ -45,9 +47,12 @@ class QContextMenuEvent;
 class QDragEnterEvent;
 class QDropEvent;
 
+class QTimer;
 class ResizableTextEdit;
+class SyncedLyricsWidget;
 class CollectionView;
 class AlbumCoverChoiceController;
+class Player;
 class LyricsProviders;
 class LyricsFetcher;
 
@@ -57,7 +62,7 @@ class ContextView : public QWidget {
  public:
   explicit ContextView(QWidget *parent = nullptr);
 
-  void Init(CollectionView *collectionview, AlbumCoverChoiceController *album_cover_choice_controller, SharedPtr<LyricsProviders> lyrics_providers);
+  void Init(CollectionView *collectionview, AlbumCoverChoiceController *album_cover_choice_controller, SharedPtr<LyricsProviders> lyrics_providers, SharedPtr<Player> player);
 
   ContextAlbum *album_widget() const { return widget_album_; }
   bool album_enabled() const { return action_show_album_->isChecked(); }
@@ -79,6 +84,7 @@ class ContextView : public QWidget {
   void GetCoverAutomatically();
   void SearchLyrics();
   void UpdateFonts();
+  void UpdateAlbumLayout();
 
  Q_SIGNALS:
   void AlbumEnabledChanged();
@@ -90,20 +96,26 @@ class ContextView : public QWidget {
   void ActionSearchLyrics();
   void UpdateNoSong();
   void FadeStopFinished();
-  void UpdateLyrics(const quint64 id, const QString &provider, const QString &lyrics);
+  void UpdateLyrics(const quint64 id, const QString &provider, const QString &lyrics, const SyncedLyrics &synced_lyrics);
+  void UpdateLyricsPosition();
+  void HandleLyricsSeek(const qint64 msec);
 
  public Q_SLOTS:
   void ReloadSettings();
   void Playing();
+  void Paused();
   void Stopped();
   void Error();
+  void LyricsSeeked(const qint64 microseconds);
   void SongChanged(const Song &song);
   void AlbumCoverLoaded(const Song &song, const QImage &image);
 
  private:
   CollectionView *collectionview_;
   AlbumCoverChoiceController *album_cover_choice_controller_;
+  SharedPtr<Player> player_;
   LyricsFetcher *lyrics_fetcher_;
+  QTimer *lyrics_sync_timer_;
 
   QMenu *menu_options_;
   QAction *action_show_album_;
@@ -115,7 +127,10 @@ class ContextView : public QWidget {
   QWidget *widget_scrollarea_;
   QVBoxLayout *layout_scrollarea_;
   QScrollArea *scrollarea_;
+  QWidget *widget_header_;
+  QHBoxLayout *layout_header_;
   ResizableTextEdit *textedit_top_;
+  QLabel *label_mini_album_;
   ContextAlbum *widget_album_;
   QStackedWidget *widget_stacked_;
   QWidget *widget_stop_;
@@ -126,6 +141,7 @@ class ContextView : public QWidget {
   QWidget *widget_play_data_;
   QGridLayout *layout_play_data_;
   ResizableTextEdit *textedit_play_lyrics_;
+  SyncedLyricsWidget *synced_lyrics_widget_;
 
   QSpacerItem *spacer_play_data_;
 
@@ -147,6 +163,7 @@ class ContextView : public QWidget {
   bool lyrics_tried_;
   qint64 lyrics_id_;
   QString lyrics_;
+  SyncedLyrics synced_lyrics_;
   QString title_fmt_;
   QString summary_fmt_;
   QFont font_headline_;
