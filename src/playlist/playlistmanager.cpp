@@ -111,7 +111,7 @@ void PlaylistManager::Init(PlaylistSequence *sequence, PlaylistContainer *playli
   const PlaylistBackend::PlaylistList playlists = playlist_backend_->GetAllOpenPlaylists();
   for (const PlaylistBackend::Playlist &p : playlists) {
     ++playlists_loading_;
-    Playlist *ret = AddPlaylist(p.id, p.name, p.special_type, p.ui_path, p.favorite);
+    Playlist *ret = AddPlaylist(p.id, p.name, p.special_type, p.ui_path, p.half_playing_time_s_, p.percent_interest_song_, p.favorite);
     QObject::connect(ret, &Playlist::PlaylistLoaded, this, &PlaylistManager::PlaylistLoaded);
   }
 
@@ -153,9 +153,9 @@ QItemSelection PlaylistManager::selection(const int id) const {
   return it->selection;
 }
 
-Playlist *PlaylistManager::AddPlaylist(const int id, const QString &name, const QString &special_type, const QString &ui_path, const bool favorite) {
+Playlist *PlaylistManager::AddPlaylist(const int id, const QString &name, const QString &special_type, const QString &ui_path, const int half_playing_time_s, const int percent_interest_song, const bool favorite) {
 
-  Playlist *ret = new Playlist(task_manager_, url_handlers_, playlist_backend_, collection_backend_, tagreader_client_, id, special_type, favorite);
+  Playlist *ret = new Playlist(task_manager_, url_handlers_, playlist_backend_, collection_backend_, tagreader_client_, id, special_type, favorite, half_playing_time_s, percent_interest_song);
   ret->set_sequence(sequence_);
   ret->set_ui_path(ui_path);
 
@@ -193,7 +193,7 @@ void PlaylistManager::New(const QString &name, const SongList &songs, const QStr
 
   if (id == -1) qFatal("Couldn't create playlist");
 
-  Playlist *playlist = AddPlaylist(id, name, special_type, QString(), false);
+  Playlist *playlist = AddPlaylist(id, name, special_type, QString(), 0, 50, false);
   playlist->InsertSongsOrCollectionItems(songs);
 
   SetCurrentPlaylist(id);
@@ -216,7 +216,7 @@ void PlaylistManager::Load(const QString &filename) {
     return;
   }
 
-  Playlist *playlist = AddPlaylist(id, fileinfo.completeBaseName(), QString(), QString(), false);
+  Playlist *playlist = AddPlaylist(id, fileinfo.completeBaseName(), QString(), QString(), 0, 50, false);
 
   playlist->InsertUrls(QList<QUrl>() << QUrl::fromLocalFile(filename));
 
@@ -547,7 +547,7 @@ void PlaylistManager::Open(const int id) {
     return;
   }
 
-  AddPlaylist(p.id, p.name, p.special_type, p.ui_path, p.favorite);
+  AddPlaylist(p.id, p.name, p.special_type, p.ui_path, p.half_playing_time_s_, p.percent_interest_song_, p.favorite);
 
 }
 
