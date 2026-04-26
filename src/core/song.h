@@ -486,6 +486,7 @@ class Song {
   bool IsEqual(const Song &other) const;
 
   bool IsOnSameAlbum(const Song &other) const;
+  bool IsOnSameGrouping(const Song &other) const;
   bool IsSimilar(const Song &other) const;
 
   static Source SourceFromURL(const QUrl &url);

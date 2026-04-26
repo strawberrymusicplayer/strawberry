@@ -1122,6 +1122,16 @@ bool Song::IsOnSameAlbum(const Song &other) const {
 
 }
 
+bool Song::IsOnSameGrouping(const Song &other) const {
+
+  return (   !grouping().isEmpty()
+          && !other.grouping().isEmpty()
+          && AlbumKey() == other.AlbumKey()
+          && grouping() == other.grouping()
+          && filetype() == other.filetype()   );
+
+}
+
 bool Song::IsSimilar(const Song &other) const {
   return title().compare(other.title(), Qt::CaseInsensitive) == 0 &&
          artist().compare(other.artist(), Qt::CaseInsensitive) == 0 &&
