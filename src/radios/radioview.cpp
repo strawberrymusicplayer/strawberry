@@ -25,11 +25,13 @@
 #include <QMenu>
 #include <QAction>
 #include <QShowEvent>
+#include <QMouseEvent>
 #include <QContextMenuEvent>
 
 #include "core/mimedata.h"
 #include "core/iconloader.h"
 #include "radiomodel.h"
+#include "radioitem.h"
 #include "radioview.h"
 #include "radioservice.h"
 #include "radiomimedata.h"
@@ -104,6 +106,23 @@ void RadioView::contextMenuEvent(QContextMenuEvent *e) {
   action_donate_->setVisible(channels_selected);
 
   menu_->popup(e->globalPos());
+
+}
+
+void RadioView::mouseDoubleClickEvent(QMouseEvent *event) {
+
+  const QModelIndex idx = indexAt(event->pos());
+  if (idx.isValid()) {
+    const RadioItem::Type type = idx.data(RadioModel::Role_Type).value<RadioItem::Type>();
+    if (type == RadioItem::Type::Service) {
+      // Service node: only expand/collapse, don't add all channels to playlist
+      setExpanded(idx, !isExpanded(idx));
+      event->accept();
+      return;
+    }
+  }
+
+  AutoExpandingTreeView::mouseDoubleClickEvent(event);
 
 }
 
