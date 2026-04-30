@@ -51,7 +51,6 @@ StreamTagReader::StreamTagReader(const QUrl &url,
       access_token_(access_token),
       network_(new NetworkAccessManager),
       cursor_(0),
-      cache_(length),
       num_requests_(0) {
 
   network_->setAutoDeleteReplies(true);
@@ -164,7 +163,7 @@ void StreamTagReader::truncate(const TagLibOffsetType length) {
 bool StreamTagReader::CheckCache(const uint start, const uint end) {
 
   for (uint i = start; i <= end; ++i) {
-    if (!cache_.test(i)) {
+    if (cache_.count(i) == 0) {
       return false;
     }
   }
@@ -176,7 +175,7 @@ bool StreamTagReader::CheckCache(const uint start, const uint end) {
 void StreamTagReader::FillCache(const uint start, const TagLib::ByteVector &data) {
 
   for (uint i = 0; i < data.size(); ++i) {
-    cache_.set(start + i, data[static_cast<int>(i)]);
+    cache_[start + i] = data[static_cast<int>(i)];
   }
 
 }
@@ -186,7 +185,7 @@ TagLib::ByteVector StreamTagReader::GetCache(const uint start, const uint end) {
   const uint size = end - start + 1U;
   TagLib::ByteVector data(size);
   for (uint i = 0; i < size; ++i) {
-    data[static_cast<int>(i)] = cache_.get(start + i);
+    data[static_cast<int>(i)] = cache_.at(start + i);
   }
 
   return data;

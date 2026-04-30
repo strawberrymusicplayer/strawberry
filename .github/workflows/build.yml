@@ -82,7 +82,6 @@ jobs:
             qt6-linguist-devel
             gtest
             gmock
-            sparsehash-devel
       - name: Install kdsingleapplication-qt6-devel
         if: matrix.opensuse_version != 'leap:15.6'
         run: zypper -n --gpg-auto-import-keys in kdsingleapplication-qt6-devel
@@ -209,7 +208,6 @@ jobs:
             kdsingleapplication-qt6-devel
             gtest-devel
             gmock-devel
-            sparsehash-devel
       - name: Checkout
         uses: actions/checkout@v6
         with:
@@ -299,7 +297,6 @@ jobs:
           lib64xkbcommon-devel
           lib64gtest-devel
           lib64gmock-devel
-          sparsehash-devel
           qt6-cmake
           qt6-qtbase-tools
           qt6-qttools-linguist
@@ -400,7 +397,6 @@ jobs:
           lib64qt6dbus-devel
           lib64qt6help-devel
           lib64qt6test-devel
-          lib64sparsehash-devel
           lib64kdsingleapplication-devel
           desktop-file-utils
           appstream-util
@@ -499,7 +495,6 @@ jobs:
             libmtp-dev
             libgpod-dev
             libxkbcommon-dev
-            libsparsehash-dev
             qt6-base-dev
             qt6-base-private-dev
             qt6-base-dev-tools
@@ -595,7 +590,6 @@ jobs:
             libmtp-dev
             libgpod-dev
             libxkbcommon-dev
-            libsparsehash-dev
             qt6-base-dev
             qt6-base-private-dev
             qt6-base-dev-tools
@@ -690,7 +684,6 @@ jobs:
             libmtp-dev
             libgpod-dev
             libxkbcommon-dev
-            libsparsehash-dev
             qt6-base-dev
             qt6-base-private-dev
             qt6-base-dev-tools
@@ -759,7 +752,7 @@ jobs:
       with:
         usesh: true
         mem: 8192
-        prepare: pkg install -y git cmake pkgconf boost-libs alsa-lib glib qt6-base qt6-tools sqlite gstreamer1 gstreamer1-plugins chromaprint libebur128 taglib libcdio libmtp gdk-pixbuf2 libgpod fftw3 icu kdsingleapplication googletest pulseaudio sparsehash
+        prepare: pkg install -y git cmake pkgconf boost-libs alsa-lib glib qt6-base qt6-tools sqlite gstreamer1 gstreamer1-plugins chromaprint libebur128 taglib libcdio libmtp gdk-pixbuf2 libgpod fftw3 icu kdsingleapplication googletest pulseaudio
         run: |
           set -e
           git config --global --add safe.directory ${GITHUB_WORKSPACE}
@@ -785,7 +778,7 @@ jobs:
       with:
         usesh: true
         mem: 4096
-        prepare: pkg_add git cmake pkgconf boost glib2 qt6-qtbase qt6-qttools sqlite gstreamer1 gstreamer1-plugins-base chromaprint libebur128 taglib libcdio libmtp gdk-pixbuf libgpod fftw3 icu4c kdsingleapplication pulseaudio sparsehash
+        prepare: pkg_add git cmake pkgconf boost glib2 qt6-qtbase qt6-qttools sqlite gstreamer1 gstreamer1-plugins-base chromaprint libebur128 taglib libcdio libmtp gdk-pixbuf libgpod fftw3 icu4c kdsingleapplication pulseaudio
         run: |
           set -e
           export LDFLAGS="-L/usr/local/lib"

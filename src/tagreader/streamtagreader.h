@@ -21,8 +21,9 @@
 #ifndef STREAMTAGREADER_H
 #define STREAMTAGREADER_H
 
+#include <cstddef>
+#include <unordered_map>
 #include <taglib/tiostream.h>
-#include <google/sparsetable>
 
 #include <QByteArray>
 #include <QString>
@@ -63,8 +64,8 @@ class StreamTagReader : public TagLib::IOStream {
   virtual TagLibOffsetType length() override;
   virtual void truncate(const TagLibOffsetType length) override;
 
-  google::sparsetable<char>::size_type cached_bytes() const {
-    return cache_.num_nonempty();
+  std::size_t cached_bytes() const {
+    return cache_.size();
   }
 
   int num_requests() const { return num_requests_; }
@@ -87,7 +88,7 @@ class StreamTagReader : public TagLib::IOStream {
   ScopedPtr<NetworkAccessManager> network_;
 
   TagLibLengthType cursor_;
-  google::sparsetable<char> cache_;
+  std::unordered_map<uint, char> cache_;
   int num_requests_;
 };
 
