@@ -219,6 +219,9 @@ QJsonObject ListenBrainzScrobbler::JsonTrackMetadata(const ScrobbleMetadata &met
   else if (!metadata.musicbrainz_original_album_id.isEmpty()) {
     object_additional_info.insert("release_mbid"_L1, metadata.musicbrainz_original_album_id);
   }
+  if (!metadata.musicbrainz_release_group_id.isEmpty()) {
+    object_additional_info.insert("release_group_mbid"_L1, metadata.musicbrainz_release_group_id);
+  }
 
   if (!metadata.musicbrainz_recording_id.isEmpty()) {
     object_additional_info.insert("recording_mbid"_L1, metadata.musicbrainz_recording_id);
