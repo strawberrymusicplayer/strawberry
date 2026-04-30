@@ -1,7 +1,7 @@
 /*
  * Strawberry Music Player
  * Copyright 2012, David Sansome <me@davidsansome.com>
- * Copyright 2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2025-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,8 +22,8 @@
 #define STREAMTAGREADER_H
 
 #include <taglib/tiostream.h>
-#include <google/sparsetable>
 
+#include <QHash>
 #include <QByteArray>
 #include <QString>
 #include <QUrl>
@@ -63,8 +63,8 @@ class StreamTagReader : public TagLib::IOStream {
   virtual TagLibOffsetType length() override;
   virtual void truncate(const TagLibOffsetType length) override;
 
-  google::sparsetable<char>::size_type cached_bytes() const {
-    return cache_.num_nonempty();
+  qint64 cached_bytes() const {
+    return cache_.size();
   }
 
   int num_requests() const { return num_requests_; }
@@ -87,7 +87,7 @@ class StreamTagReader : public TagLib::IOStream {
   ScopedPtr<NetworkAccessManager> network_;
 
   TagLibLengthType cursor_;
-  google::sparsetable<char> cache_;
+  QHash<uint, char> cache_;
   int num_requests_;
 };
 
