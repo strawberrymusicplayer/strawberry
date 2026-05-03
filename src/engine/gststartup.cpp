@@ -34,7 +34,7 @@
 #include "core/standardpaths.h"
 #include "utilities/envutils.h"
 
-#ifdef HAVE_MOODBAR
+#ifdef HAVE_GSTFASTSPECTRUM
 #  include "gstfastspectrumplugin.h"
 #endif
 
@@ -51,7 +51,7 @@ void Initialize() {
   gst_init(nullptr, nullptr);
   gst_pb_utils_init();
 
-#ifdef HAVE_MOODBAR
+#ifdef HAVE_GSTFASTSPECTRUM
   gst_strawberry_fastspectrum_register_static();
 #endif
 

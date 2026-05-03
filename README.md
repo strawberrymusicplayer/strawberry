@@ -103,7 +103,7 @@ To build Strawberry from source, you’ll need:
 
 **Dependencies for optional features:**
 - Fingerprinting & tagging: [Chromaprint](https://acoustid.org/chromaprint)
-- Moodbar: [FFTW3](http://www.fftw.org/)
+- Fast Spectrum Moodbar: [FFTW3](http://www.fftw.org/)
 - PulseAudio integration: [PulseAudio](https://www.freedesktop.org/wiki/Software/PulseAudio/)
 - Audio CD support: [libcdio](https://www.gnu.org/software/libcdio/)
 - MTP devices: [libmtp](http://libmtp.sourceforge.net/)

@@ -22,6 +22,7 @@
 #include "moodbarpipeline.h"
 
 #include <cstdlib>
+#include <cmath>
 
 #include <memory>
 
@@ -39,7 +40,9 @@
 #include "core/signalchecker.h"
 #include "utilities/threadutils.h"
 #include "moodbar/moodbarbuilder.h"
-#include "engine/gstfastspectrum.h"
+#ifdef HAVE_GSTFASTSPECTRUM
+#  include "engine/gstfastspectrum.h"
+#endif
 
 using namespace Qt::Literals::StringLiterals;
 using std::make_unique;
@@ -103,7 +106,11 @@ void MoodbarPipeline::Start() {
 
   GstElement *decodebin = CreateElement("uridecodebin");
   convert_element_ = CreateElement("audioconvert");
+#ifdef HAVE_GSTFASTSPECTRUM
   GstElement *spectrum = CreateElement("strawberry-fastspectrum");
+#else
+  GstElement *spectrum = CreateElement("spectrum");
+#endif
   GstElement *fakesink = CreateElement("fakesink");
 
   if (!decodebin || !convert_element_ || !spectrum || !fakesink) {
@@ -130,8 +137,18 @@ void MoodbarPipeline::Start() {
   g_object_set(decodebin, "uri", gst_url.constData(), nullptr);
   g_object_set(spectrum, "bands", kBands, nullptr);
 
+#ifdef HAVE_GSTFASTSPECTRUM
   GstStrawberryFastSpectrum *fastspectrum = reinterpret_cast<GstStrawberryFastSpectrum*>(spectrum);
   fastspectrum->output_callback = [this](double *magnitudes, const int size) { builder_->AddFrame(magnitudes, size); };
+#else
+  GObjectClass *spectrum_class = G_OBJECT_GET_CLASS(spectrum);
+  if (g_object_class_find_property(spectrum_class, "message")) {
+    g_object_set(spectrum, "message", TRUE, nullptr);
+  }
+  else if (g_object_class_find_property(spectrum_class, "post-messages")) {
+    g_object_set(spectrum, "post-messages", TRUE, nullptr);
+  }
+#endif
 
   // Connect signals
   CHECKED_GCONNECT(decodebin, "pad-added", &NewPadCallback, this);
@@ -220,6 +237,26 @@ GstBusSyncReply MoodbarPipeline::BusCallbackSync(GstBus *bus, GstMessage *messag
       instance->ReportError(message);
       instance->Stop(false);
       break;
+
+#ifndef HAVE_GSTFASTSPECTRUM
+    case GST_MESSAGE_ELEMENT:{
+      const GstStructure *s = gst_message_get_structure(message);
+      if (s && gst_structure_has_name(s, "spectrum") && instance->builder_) {
+        const GValue *magnitudes_val = gst_structure_get_value(s, "magnitude");
+        if (magnitudes_val) {
+          const guint n = gst_value_list_get_size(magnitudes_val);
+          double mags[kBands]{};
+          const guint count = n <= static_cast<guint>(kBands) ? n : static_cast<guint>(kBands);
+          for (guint i = 0; i < count; ++i) {
+            const GValue *v = gst_value_list_get_value(magnitudes_val, i);
+            mags[i] = std::pow(10.0, static_cast<double>(g_value_get_float(v)) / 10.0);
+          }
+          instance->builder_->AddFrame(mags, static_cast<int>(count));
+        }
+      }
+      return GST_BUS_DROP;
+    }
+#endif
 
     default:
       break;
