@@ -143,11 +143,12 @@ void PlaylistTabBar::contextMenuEvent(QContextMenuEvent *e) {
 
 void PlaylistTabBar::mouseReleaseEvent(QMouseEvent *e) {
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 11, 0)
   if (e->button() == Qt::MiddleButton) {
-    // Update menu index
     menu_index_ = tabAt(e->pos());
     CloseSlot();
   }
+#endif
 
   QTabBar::mouseReleaseEvent(e);
 
