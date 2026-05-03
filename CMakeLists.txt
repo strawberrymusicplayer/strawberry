@@ -344,7 +344,10 @@ optional_component(TIDAL ON "Streaming: Tidal")
 optional_component(SPOTIFY ON "Streaming: Spotify")
 optional_component(QOBUZ ON "Streaming: Qobuz")
 
-optional_component(MOODBAR ON "Moodbar"
+optional_component(MOODBAR ON "Moodbar")
+
+optional_component(GSTFASTSPECTRUM ON "Moodbar: Fast spectrum with FFTW3"
+  DEPENDS "moodbar" HAVE_MOODBAR
   DEPENDS "fftw3" FFTW3_FOUND
 )
 
@@ -1342,8 +1345,6 @@ optional_source(HAVE_MOODBAR
     src/moodbar/moodbarpipeline.cpp
     src/moodbar/moodbarproxystyle.cpp
     src/moodbar/moodbarrenderer.cpp
-    src/engine/gstfastspectrumplugin.cpp
-    src/engine/gstfastspectrum.cpp
     src/settings/moodbarsettingspage.cpp
   HEADERS
     src/moodbar/moodbarcontroller.h
@@ -1355,6 +1356,8 @@ optional_source(HAVE_MOODBAR
   UI
     src/settings/moodbarsettingspage.ui
 )
+
+optional_source(HAVE_GSTFASTSPECTRUM SOURCES src/engine/gstfastspectrumplugin.cpp src/engine/gstfastspectrum.cpp)
 
 optional_source(HAVE_GIO SOURCES src/device/giolister.cpp HEADERS src/device/giolister.h)
 
@@ -1566,7 +1569,7 @@ target_link_libraries(strawberry_lib PUBLIC
   $<$<BOOL:${HAVE_ALSA}>:ALSA::ALSA>
   $<$<BOOL:${HAVE_PULSE}>:PkgConfig::LIBPULSE>
   $<$<BOOL:${HAVE_CHROMAPRINT}>:PkgConfig::CHROMAPRINT>
-  $<$<BOOL:${HAVE_MOODBAR}>:PkgConfig::FFTW3>
+  $<$<BOOL:${HAVE_GSTFASTSPECTRUM}>:PkgConfig::FFTW3>
   $<$<BOOL:${HAVE_EBUR128}>:PkgConfig::LIBEBUR128>
   $<$<BOOL:${HAVE_X11_GLOBALSHORTCUTS}>:X11::X11_xcb>
   $<$<BOOL:${HAVE_GIO}>:PkgConfig::GIO>
