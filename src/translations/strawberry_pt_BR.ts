@@ -450,7 +450,7 @@
     </message>
     <message>
       <source>Do not cut image</source>
-      <translation type="unfinished">Do not cut image</translation>
+      <translation>Não recorte a imagem</translation>
     </message>
     <message>
       <source>Blur amount</source>
@@ -458,7 +458,7 @@
     </message>
     <message>
       <source>0px</source>
-      <translation type="unfinished">0px</translation>
+      <translation>0px</translation>
     </message>
     <message>
       <source>Opacity</source>
@@ -466,11 +466,11 @@
     </message>
     <message>
       <source>40%</source>
-      <translation type="unfinished">40%</translation>
+      <translation>40%</translation>
     </message>
     <message>
       <source>Icon sizes</source>
-      <translation type="unfinished">Icon sizes</translation>
+      <translation>Tamanho dos ícones</translation>
     </message>
     <message>
       <source>Playlist buttons</source>
@@ -545,7 +545,7 @@
     </message>
     <message>
       <source>hw</source>
-      <translation type="unfinished">hw</translation>
+      <translation>hw</translation>
     </message>
     <message>
       <source>p&amp;lughw</source>
@@ -553,7 +553,7 @@
     </message>
     <message>
       <source>pcm</source>
-      <translation type="unfinished">pcm</translation>
+      <translation>pcm</translation>
     </message>
     <message>
       <source>Exclusive mode (Experimental)</source>
@@ -921,11 +921,11 @@
     </message>
     <message>
       <source>Any rating</source>
-      <translation type="unfinished">Any rating</translation>
+      <translation>Qualquer classificação</translation>
     </message>
     <message>
       <source>Rating non null</source>
-      <translation type="unfinished">Rating non null</translation>
+      <translation>Classificação não nula</translation>
     </message>
     <message>
       <source>Rating greater than 1 star</source>
@@ -949,7 +949,7 @@
     </message>
     <message>
       <source>Filter by age</source>
-      <translation type="unfinished">Filter by age</translation>
+      <translation>Filtrar por idade</translation>
     </message>
     <message>
       <source>Filter by rating</source>
@@ -981,7 +981,7 @@
     </message>
     <message>
       <source>Group by Artist/Album - Disc</source>
-      <translation type="unfinished">Group by Artist/Album - Disc</translation>
+      <translation>Organizar por Artista/Álbum - Disco</translation>
     </message>
     <message>
       <source>Group by Artist/Year - Album</source>
@@ -1196,7 +1196,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Enable delete files in the right click context menu</source>
-      <translation type="unfinished">Enable delete files in the right click context menu</translation>
+      <translation>Habilitar exclusão de arquivos no menu de contexto do clique direito</translation>
     </message>
     <message>
       <source>Add directory...</source>
@@ -1375,7 +1375,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Font for headline</source>
-      <translation type="unfinished">Font for headline</translation>
+      <translation>Fonte para título</translation>
     </message>
     <message>
       <source>Font</source>
@@ -1554,11 +1554,11 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>%1 song</source>
-      <translation type="unfinished">%1 song</translation>
+      <translation>%1 música</translation>
     </message>
     <message>
       <source>%1 songs</source>
-      <translation type="unfinished">%1 songs</translation>
+      <translation>%1 músicas</translation>
     </message>
     <message>
       <source>%1 artist</source>
@@ -1632,7 +1632,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>0</source>
-      <translation type="unfinished">0</translation>
+      <translation>0</translation>
     </message>
     <message>
       <source>Fetch Missing Covers</source>
@@ -1694,7 +1694,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Choose the providers you want to use when searching for covers.</source>
-      <translation type="unfinished">Choose the providers you want to use when searching for covers.</translation>
+      <translation>Escolha os provedores que você deseja usar ao procurar por capas.</translation>
     </message>
     <message>
       <source>Move up</source>
@@ -1718,7 +1718,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Saving album covers</source>
-      <translation type="unfinished">Saving album covers</translation>
+      <translation>Salvando capas de álbuns</translation>
     </message>
     <message>
       <source>Save album covers in album directory</source>
@@ -1730,7 +1730,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Save album covers as embedded cover</source>
-      <translation type="unfinished">Save album covers as embedded cover</translation>
+      <translation>Salvar capas de álbuns como capa incorporada</translation>
     </message>
     <message>
       <source>Filename:</source>
@@ -1738,15 +1738,15 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Pattern</source>
-      <translation type="unfinished">Pattern</translation>
+      <translation>Padrão</translation>
     </message>
     <message>
       <source>Random</source>
-      <translation type="unfinished">Random</translation>
+      <translation>Aleatório</translation>
     </message>
     <message>
       <source>Overwrite existing file</source>
-      <translation type="unfinished">Overwrite existing file</translation>
+      <translation>Sobrescrever arquivos existentes</translation>
     </message>
     <message>
       <source>Lowercase filename</source>
@@ -1774,11 +1774,11 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>%1 does not need authentication.</source>
-      <translation type="unfinished">%1 does not need authentication.</translation>
+      <translation>%1 não precisa de autenticação.</translation>
     </message>
     <message>
       <source>No provider selected.</source>
-      <translation type="unfinished">No provider selected.</translation>
+      <translation>Nenhum provedor selecionado.</translation>
     </message>
     <message>
       <source>Authentication failed</source>
@@ -1794,29 +1794,29 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Automatically picked up from album directory (%1)</source>
-      <translation type="unfinished">Automatically picked up from album directory (%1)</translation>
+      <translation>Automaticamente detectado do diretório do álbum (%1)</translation>
     </message>
     <message>
       <source>Embedded album cover art (%1)</source>
-      <translation type="unfinished">Embedded album cover art (%1)</translation>
+      <translation>Capa de álbum embutida (%1)</translation>
     </message>
   </context>
   <context>
     <name>CueParser</name>
     <message>
       <source>Saving CUE files is not supported.</source>
-      <translation type="unfinished">Saving CUE files is not supported.</translation>
+      <translation>Salvar arquivos CUE não é suportado.</translation>
     </message>
   </context>
   <context>
     <name>Database</name>
     <message>
       <source>Unable to execute SQL query: %1</source>
-      <translation type="unfinished">Unable to execute SQL query: %1</translation>
+      <translation>Não é possível executar a consulta SQL: %1</translation>
     </message>
     <message>
       <source>Failed SQL query: %1</source>
-      <translation type="unfinished">Failed SQL query: %1</translation>
+      <translation>Falha na consulta SQL: %1</translation>
     </message>
     <message>
       <source>Integrity check</source>
@@ -1824,7 +1824,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Database corruption detected.</source>
-      <translation type="unfinished">Database corruption detected.</translation>
+      <translation>Corrupção do banco de dados detectada.</translation>
     </message>
     <message>
       <source>Backing up database</source>
@@ -1839,11 +1839,11 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>The following files will be deleted from disk:</source>
-      <translation type="unfinished">The following files will be deleted from disk:</translation>
+      <translation>Os seguintes arquivos serão apagados do disco:</translation>
     </message>
     <message>
       <source>Are you sure you want to continue?</source>
-      <translation type="unfinished">Are you sure you want to continue?</translation>
+      <translation>Você tem certeza que deseja continuar?</translation>
     </message>
   </context>
   <context>
@@ -2044,22 +2044,22 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     <name>DiscordRichPresence</name>
     <message>
       <source>on </source>
-      <translation type="unfinished">on </translation>
+      <translation>ligado </translation>
     </message>
   </context>
   <context>
     <name>DynamicPlaylistControls</name>
     <message>
       <source>Dynamic mode is on</source>
-      <translation type="unfinished">Dynamic mode is on</translation>
+      <translation>Modo dinâmico ativado</translation>
     </message>
     <message>
       <source>New tracks will be added automatically.</source>
-      <translation type="unfinished">New tracks will be added automatically.</translation>
+      <translation>Novas faixas serão adicionadas automaticamente.</translation>
     </message>
     <message>
       <source>Expand</source>
-      <translation type="unfinished">Expand</translation>
+      <translation>Expandir</translation>
     </message>
     <message>
       <source>Repopulate</source>
@@ -2067,7 +2067,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Turn off</source>
-      <translation type="unfinished">Turn off</translation>
+      <translation>Desativar</translation>
     </message>
   </context>
   <context>
@@ -2086,7 +2086,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Art Automatic</source>
-      <translation type="unfinished">Art Automatic</translation>
+      <translation>Arte Automática</translation>
     </message>
     <message>
       <source>Date modified</source>
@@ -2094,12 +2094,12 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Art Embedded</source>
-      <translation type="unfinished">Art Embedded</translation>
+      <translation>Arte incorporada</translation>
     </message>
     <message>
       <source>Last played</source>
       <comment>A playlist&apos;s tag.</comment>
-      <translation type="unfinished">Last played</translation>
+      <translation>Reproduzida por último</translation>
     </message>
     <message>
       <source>File type</source>
@@ -2119,7 +2119,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>EBU R 128 integrated loudness</source>
-      <translation type="unfinished">EBU R 128 integrated loudness</translation>
+      <translation>EBU R 128 integrated loudness</translation>
     </message>
     <message>
       <source>Bit rate</source>
@@ -2135,7 +2135,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Path</source>
-      <translation type="unfinished">Path</translation>
+      <translation>Caminho</translation>
     </message>
     <message>
       <source>Filename</source>
@@ -2155,7 +2155,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>EBU R 128 loudness range</source>
-      <translation type="unfinished">EBU R 128 loudness range</translation>
+      <translation>EBU R 128 loudness range</translation>
     </message>
     <message>
       <source>Reset play counts</source>
@@ -2171,11 +2171,11 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Change art</source>
-      <translation type="unfinished">Change art</translation>
+      <translation>Alterar arte</translation>
     </message>
     <message>
       <source>Embedded cover</source>
-      <translation type="unfinished">Embedded cover</translation>
+      <translation>Capa incorporada</translation>
     </message>
     <message>
       <source>Disc</source>
@@ -2227,7 +2227,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Compilation</source>
-      <translation type="unfinished">Compilation</translation>
+      <translation>Compilação</translation>
     </message>
     <message>
       <source>Track</source>
@@ -2235,7 +2235,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Rating</source>
-      <translation type="unfinished">Rating</translation>
+      <translation>Classificação</translation>
     </message>
     <message>
       <source>Lyrics</source>
@@ -2275,7 +2275,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>kbps</source>
-      <translation type="unfinished">kbps</translation>
+      <translation>kbps</translation>
     </message>
     <message>
       <source>Unknown</source>
@@ -2283,11 +2283,11 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Yes</source>
-      <translation type="unfinished">Yes</translation>
+      <translation>Sim</translation>
     </message>
     <message>
       <source>No</source>
-      <translation type="unfinished">No</translation>
+      <translation>Não</translation>
     </message>
     <message>
       <source>None</source>
@@ -2295,15 +2295,15 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Cover is unset.</source>
-      <translation type="unfinished">Cover is unset.</translation>
+      <translation>A capa não está definida.</translation>
     </message>
     <message>
       <source>Cover from embedded image.</source>
-      <translation type="unfinished">Cover from embedded image.</translation>
+      <translation>Capa da imagem incorporada.</translation>
     </message>
     <message>
       <source>Cover from %1</source>
-      <translation type="unfinished">Cover from %1</translation>
+      <translation>Capas do %1</translation>
     </message>
     <message>
       <source>Cover art not set</source>
@@ -2335,7 +2335,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Reset song play statistics</source>
-      <translation type="unfinished">Reset song play statistics</translation>
+      <translation>Redefinir estatísticas de reprodução de música</translation>
     </message>
     <message>
       <source>Are you sure you want to reset this song&apos;s play statistics?</source>
@@ -2343,23 +2343,23 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>loading...</source>
-      <translation type="unfinished">loading...</translation>
+      <translation>carregando...</translation>
     </message>
     <message>
       <source>Not found.</source>
-      <translation type="unfinished">Not found.</translation>
+      <translation>Não encontrado</translation>
     </message>
     <message>
       <source>Could not write metadata to %1</source>
-      <translation type="unfinished">Could not write metadata to %1</translation>
+      <translation>Não foi possível escrever metadados para %1</translation>
     </message>
     <message>
       <source>Could not write metadata to %1: %2</source>
-      <translation type="unfinished">Could not write metadata to %1: %2</translation>
+      <translation>Não foi possível escrever metadados para %1: %2</translation>
     </message>
     <message>
       <source>ID3v2 version:</source>
-      <translation type="unfinished">ID3v2 version:</translation>
+      <translation>Versão do ID3v2:</translation>
     </message>
     <message>
       <source>2.3</source>
@@ -2450,7 +2450,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Dance</source>
-      <translation type="unfinished">Dance</translation>
+      <translation>Dance</translation>
     </message>
     <message>
       <source>Full Bass</source>
@@ -2482,15 +2482,15 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Pop</source>
-      <translation type="unfinished">Pop</translation>
+      <translation>Pop</translation>
     </message>
     <message>
       <source>Reggae</source>
-      <translation type="unfinished">Reggae</translation>
+      <translation>Reggae</translation>
     </message>
     <message>
       <source>Rock</source>
-      <translation type="unfinished">Rock</translation>
+      <translation>Rock</translation>
     </message>
     <message>
       <source>Soft</source>
@@ -2498,19 +2498,19 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Ska</source>
-      <translation type="unfinished">Ska</translation>
+      <translation>Ska</translation>
     </message>
     <message>
       <source>Soft Rock</source>
-      <translation type="unfinished">Soft Rock</translation>
+      <translation>Soft Rock</translation>
     </message>
     <message>
       <source>Techno</source>
-      <translation type="unfinished">Techno</translation>
+      <translation>Techno</translation>
     </message>
     <message>
       <source>Zero</source>
-      <translation type="unfinished">Zero</translation>
+      <translation>Zero</translation>
     </message>
     <message>
       <source>Name</source>
@@ -2522,7 +2522,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>You need to restart playback for this setting to take affect.</source>
-      <translation type="unfinished">You need to restart playback for this setting to take affect.</translation>
+      <translation>Você precisa reiniciar a reprodução para que as configurações tenham efeito.</translation>
     </message>
   </context>
   <context>
@@ -2533,7 +2533,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>%1 dB</source>
-      <translation type="unfinished">%1 dB</translation>
+      <translation>%1 dB</translation>
     </message>
   </context>
   <context>
@@ -2551,7 +2551,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Icons sidebar</source>
-      <translation type="unfinished">Icons sidebar</translation>
+      <translation>Barra lateral de ícones</translation>
     </message>
     <message>
       <source>Small sidebar</source>
@@ -2585,15 +2585,15 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Add root directory</source>
-      <translation type="unfinished">Add root directory</translation>
+      <translation>Adicionar diretório raiz</translation>
     </message>
     <message>
       <source>Remove selected root directory</source>
-      <translation type="unfinished">Remove selected root directory</translation>
+      <translation>Remover diretório raiz selecionado</translation>
     </message>
     <message>
       <source>Toggle between list and tree view</source>
-      <translation type="unfinished">Toggle between list and tree view</translation>
+      <translation>Alternar entre lista e exibição de árvore</translation>
     </message>
     <message>
       <source>Select folder to add as tree root</source>
@@ -2647,11 +2647,11 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Replace current playlist</source>
-      <translation type="unfinished">Replace current playlist</translation>
+      <translation>Substituir lista de reprodução atual</translation>
     </message>
     <message>
       <source>Open in new playlist</source>
-      <translation type="unfinished">Open in new playlist</translation>
+      <translation>Abrir em nova playlist</translation>
     </message>
     <message>
       <source>Copy to collection...</source>
@@ -2663,23 +2663,23 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Copy to device...</source>
-      <translation type="unfinished">Copy to device...</translation>
+      <translation>Copiar para dispositivo...</translation>
     </message>
     <message>
       <source>Delete from disk...</source>
-      <translation type="unfinished">Delete from disk...</translation>
+      <translation>Apagar do disco...</translation>
     </message>
     <message>
       <source>Edit track information...</source>
-      <translation type="unfinished">Edit track information...</translation>
+      <translation>Editar informações da faixa...</translation>
     </message>
     <message>
       <source>Show in file browser...</source>
-      <translation type="unfinished">Show in file browser...</translation>
+      <translation>Mostrar no navegador de arquivos...</translation>
     </message>
     <message>
       <source>Files</source>
-      <translation type="unfinished">Files</translation>
+      <translation>Arquivos</translation>
     </message>
   </context>
   <context>
@@ -2694,7 +2694,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Exceeded by</source>
-      <translation type="unfinished">Exceeded by</translation>
+      <translation>Excedido por</translation>
     </message>
     <message>
       <source>Used</source>
@@ -2705,7 +2705,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     <name>GPodDevice</name>
     <message>
       <source>Could not copy %1 to %2: %3</source>
-      <translation type="unfinished">Could not copy %1 to %2: %3</translation>
+      <translation>Não foi possível copiar %1 para %2: %3</translation>
     </message>
     <message>
       <source>Writing database failed: %1</source>
@@ -2713,7 +2713,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Writing database failed.</source>
-      <translation type="unfinished">Writing database failed.</translation>
+      <translation>Erro ao gravar banco de dados.</translation>
     </message>
   </context>
   <context>
@@ -2739,7 +2739,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>URI</source>
-      <translation type="unfinished">URI</translation>
+      <translation>URI</translation>
     </message>
   </context>
   <context>
@@ -2765,35 +2765,35 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Play/Pause</source>
-      <translation type="unfinished">Play/Pause</translation>
+      <translation>Reproduzir/Pausar</translation>
     </message>
     <message>
       <source>Stop</source>
-      <translation type="unfinished">Stop</translation>
+      <translation>Parar</translation>
     </message>
     <message>
       <source>Stop playing after current track</source>
-      <translation type="unfinished">Stop playing after current track</translation>
+      <translation>Parar reprodução depois da música atual</translation>
     </message>
     <message>
       <source>Next track</source>
-      <translation type="unfinished">Next track</translation>
+      <translation>Próxima faixa</translation>
     </message>
     <message>
       <source>Previous track</source>
-      <translation type="unfinished">Previous track</translation>
+      <translation>Faixa anterior</translation>
     </message>
     <message>
       <source>Restart or previous track</source>
-      <translation type="unfinished">Restart or previous track</translation>
+      <translation>Reiniciar ou faixa anterior</translation>
     </message>
     <message>
       <source>Increase volume</source>
-      <translation type="unfinished">Increase volume</translation>
+      <translation>Aumentar volume</translation>
     </message>
     <message>
       <source>Decrease volume</source>
-      <translation type="unfinished">Decrease volume</translation>
+      <translation>Diminuir volume</translation>
     </message>
     <message>
       <source>Mute</source>
@@ -2809,38 +2809,38 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Show/Hide</source>
-      <translation type="unfinished">Show/Hide</translation>
+      <translation>Exibir/Ocultar</translation>
     </message>
     <message>
       <source>Show OSD</source>
-      <translation type="unfinished">Show OSD</translation>
+      <translation>Mostrar OSD</translation>
     </message>
     <message>
       <source>Toggle Pretty OSD</source>
-      <translation type="unfinished">Toggle Pretty OSD</translation>
+      <translation>Alternar OSD Bonito</translation>
     </message>
     <message>
       <source>Change shuffle mode</source>
-      <translation type="unfinished">Change shuffle mode</translation>
+      <translation>Mudar modo aleatório</translation>
     </message>
     <message>
       <source>Change repeat mode</source>
-      <translation type="unfinished">Change repeat mode</translation>
+      <translation>Mudar Modo de Repetição</translation>
     </message>
     <message>
       <source>Enable/disable scrobbling</source>
-      <translation type="unfinished">Enable/disable scrobbling</translation>
+      <translation>Ativar/desativar scrobbling</translation>
     </message>
     <message>
       <source>Love</source>
-      <translation type="unfinished">Love</translation>
+      <translation>Amei</translation>
     </message>
   </context>
   <context>
     <name>GlobalShortcutsSettingsPage</name>
     <message>
       <source>Global Shortcuts</source>
-      <translation type="unfinished">Global Shortcuts</translation>
+      <translation>Atalhos Globais</translation>
     </message>
     <message>
       <source>Open...</source>
@@ -2952,7 +2952,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Year - Album - Disc</source>
-      <translation type="unfinished">Year - Album - Disc</translation>
+      <translation>Ano - Álbum - Disco</translation>
     </message>
     <message>
       <source>Original year</source>
@@ -3126,7 +3126,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     <name>Library</name>
     <message>
       <source>Least favourite tracks</source>
-      <translation type="unfinished">Least favourite tracks</translation>
+      <translation>Faixas menos favoritas</translation>
     </message>
   </context>
   <context>
@@ -3207,7 +3207,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>No provider selected.</source>
-      <translation type="unfinished">No provider selected.</translation>
+      <translation>Nenhum provedor selecionado.</translation>
     </message>
     <message>
       <source>Authentication failed</source>
@@ -3218,7 +3218,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     <name>MainWindow</name>
     <message>
       <source>Strawberry Music Player</source>
-      <translation type="unfinished">Strawberry Music Player</translation>
+      <translation>Reprodutor de Música Strawberry</translation>
     </message>
     <message>
       <source>MenuPopupToolButton</source>
@@ -3242,11 +3242,11 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Previous track</source>
-      <translation type="unfinished">Previous track</translation>
+      <translation>Faixa anterior</translation>
     </message>
     <message>
       <source>F5</source>
-      <translation type="unfinished">F5</translation>
+      <translation>F5</translation>
     </message>
     <message>
       <source>&amp;Play</source>
@@ -3254,7 +3254,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>F6</source>
-      <translation type="unfinished">F6</translation>
+      <translation>F6</translation>
     </message>
     <message>
       <source>&amp;Stop</source>
@@ -3262,7 +3262,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>F7</source>
-      <translation type="unfinished">F7</translation>
+      <translation>F7</translation>
     </message>
     <message>
       <source>&amp;Next track</source>
@@ -3270,7 +3270,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>F8</source>
-      <translation type="unfinished">F8</translation>
+      <translation>F8</translation>
     </message>
     <message>
       <source>&amp;Quit</source>
@@ -3278,7 +3278,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Ctrl+Q</source>
-      <translation type="unfinished">Ctrl+Q</translation>
+      <translation>Ctrl+Q</translation>
     </message>
     <message>
       <source>Stop after this track</source>
@@ -3286,11 +3286,11 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Ctrl+Alt+V</source>
-      <translation type="unfinished">Ctrl+Alt+V</translation>
+      <translation>Ctrl+Alt+V</translation>
     </message>
     <message>
       <source>Love</source>
-      <translation type="unfinished">Love</translation>
+      <translation>Amei</translation>
     </message>
     <message>
       <source>&amp;Clear playlist</source>
@@ -3302,7 +3302,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Ctrl+K</source>
-      <translation type="unfinished">Ctrl+K</translation>
+      <translation>Ctrl+K</translation>
     </message>
     <message>
       <source>Edit track information...</source>
@@ -3310,7 +3310,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Ctrl+E</source>
-      <translation type="unfinished">Ctrl+E</translation>
+      <translation>Ctrl+E</translation>
     </message>
     <message>
       <source>Renumber tracks in this order...</source>
@@ -3330,7 +3330,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Ctrl+P</source>
-      <translation type="unfinished">Ctrl+P</translation>
+      <translation>Ctrl+P</translation>
     </message>
     <message>
       <source>&amp;About Strawberry</source>
@@ -3338,15 +3338,15 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>F1</source>
-      <translation type="unfinished">F1</translation>
+      <translation>F1</translation>
     </message>
     <message>
       <source>S&amp;huffle playlist</source>
-      <translation type="unfinished">S&amp;huffle playlist</translation>
+      <translation>Misturar playlist</translation>
     </message>
     <message>
       <source>Ctrl+H</source>
-      <translation type="unfinished">Ctrl+H</translation>
+      <translation>Ctrl+H</translation>
     </message>
     <message>
       <source>&amp;Add file...</source>
@@ -3354,7 +3354,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Ctrl+Shift+A</source>
-      <translation type="unfinished">Ctrl+Shift+A</translation>
+      <translation>Ctrl+Shift+A</translation>
     </message>
     <message>
       <source>&amp;Open file...</source>
@@ -3402,7 +3402,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Ctrl+J</source>
-      <translation type="unfinished">Ctrl+J</translation>
+      <translation>Ctrl+J</translation>
     </message>
     <message>
       <source>&amp;New playlist</source>
@@ -3410,7 +3410,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Ctrl+N</source>
-      <translation type="unfinished">Ctrl+N</translation>
+      <translation>Ctrl+N</translation>
     </message>
     <message>
       <source>Save &amp;playlist...</source>
@@ -3418,7 +3418,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Ctrl+S</source>
-      <translation type="unfinished">Ctrl+S</translation>
+      <translation>Ctrl+S</translation>
     </message>
     <message>
       <source>&amp;Load playlist...</source>
@@ -3426,7 +3426,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Ctrl+Shift+O</source>
-      <translation type="unfinished">Ctrl+Shift+O</translation>
+      <translation>Ctrl+Shift+O</translation>
     </message>
     <message>
       <source>&amp;Save all playlists...</source>
@@ -3454,7 +3454,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Ctrl+M</source>
-      <translation type="unfinished">Ctrl+M</translation>
+      <translation>Ctrl+M</translation>
     </message>
     <message>
       <source>&amp;Do a full collection rescan</source>
@@ -3470,7 +3470,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Ctrl+T</source>
-      <translation type="unfinished">Ctrl+T</translation>
+      <translation>Ctrl+T</translation>
     </message>
     <message>
       <source>Toggle scrobbling</source>
@@ -3494,15 +3494,15 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Add stream...</source>
-      <translation type="unfinished">Add stream...</translation>
+      <translation>Adicionar transmissão...</translation>
     </message>
     <message>
       <source>Show sidebar</source>
-      <translation type="unfinished">Show sidebar</translation>
+      <translation>Exibir a barra lateral</translation>
     </message>
     <message>
       <source>Import data from last.fm...</source>
-      <translation type="unfinished">Import data from last.fm...</translation>
+      <translation>Importar dados do last.fm...</translation>
     </message>
     <message>
       <source>Context</source>
@@ -3514,15 +3514,15 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Queue</source>
-      <translation type="unfinished">Queue</translation>
+      <translation>Fila</translation>
     </message>
     <message>
       <source>Playlists</source>
-      <translation type="unfinished">Playlists</translation>
+      <translation>Listas de reprodução</translation>
     </message>
     <message>
       <source>Smart playlists</source>
-      <translation type="unfinished">Smart playlists</translation>
+      <translation>Playlists inteligentes</translation>
     </message>
     <message>
       <source>Files</source>
@@ -3530,7 +3530,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Radios</source>
-      <translation type="unfinished">Radios</translation>
+      <translation>Rádios</translation>
     </message>
     <message>
       <source>Devices</source>
@@ -3538,19 +3538,19 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Subsonic</source>
-      <translation type="unfinished">Subsonic</translation>
+      <translation>Subsonic</translation>
     </message>
     <message>
       <source>Tidal</source>
-      <translation type="unfinished">Tidal</translation>
+      <translation>Tidal</translation>
     </message>
     <message>
       <source>Spotify</source>
-      <translation type="unfinished">Spotify</translation>
+      <translation>Spotify</translation>
     </message>
     <message>
       <source>Qobuz</source>
-      <translation type="unfinished">Qobuz</translation>
+      <translation>Qobuz</translation>
     </message>
     <message>
       <source>Show all songs</source>
@@ -3586,7 +3586,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Rescan song(s)...</source>
-      <translation type="unfinished">Rescan song(s)...</translation>
+      <translation>Reescanear música(s)...</translation>
     </message>
     <message>
       <source>Fetch metadata from service</source>
@@ -3594,7 +3594,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Copy URL(s)...</source>
-      <translation type="unfinished">Copy URL(s)...</translation>
+      <translation>Copiar URL(s)...</translation>
     </message>
     <message>
       <source>Show in collection...</source>
@@ -3931,7 +3931,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Show a notification when I resume playback</source>
-      <translation type="unfinished">Show a notification when I resume playback</translation>
+      <translation>Mostrar uma notificação quando eu retomar a reprodução</translation>
     </message>
     <message>
       <source>Include album art in the notification</source>
@@ -3999,7 +3999,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Enable fading</source>
-      <translation type="unfinished">Enable fading</translation>
+      <translation>Ativar fading</translation>
     </message>
     <message>
       <source>Add song artist tag</source>
@@ -4079,7 +4079,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Add song URL</source>
-      <translation type="unfinished">Add song URL</translation>
+      <translation>Adicionar URL da música</translation>
     </message>
     <message>
       <source>%originalyear%</source>
@@ -4107,34 +4107,34 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>&quot;Listening to...&quot;</source>
-      <translation type="unfinished">&quot;Listening to...&quot;</translation>
+      <translation>&quot;Ouvindo...&quot;</translation>
     </message>
     <message>
       <source>Strawberry</source>
-      <translation type="unfinished">Strawberry</translation>
+      <translation>Strawberry</translation>
     </message>
     <message>
       <source>Artist name</source>
-      <translation type="unfinished">Artist name</translation>
+      <translation>Nome do Artista</translation>
     </message>
     <message>
       <source>Song title</source>
-      <translation type="unfinished">Song title</translation>
+      <translation>Título da Música</translation>
     </message>
   </context>
   <context>
     <name>OAuthenticator</name>
     <message>
       <source>Authentication</source>
-      <translation type="unfinished">Authentication</translation>
+      <translation>Autenticação</translation>
     </message>
     <message>
       <source>Please open this URL in your browser</source>
-      <translation type="unfinished">Please open this URL in your browser</translation>
+      <translation>Por favor, abra esta URL no seu navegador</translation>
     </message>
     <message>
       <source>Received invalid reply from web browser.</source>
-      <translation type="unfinished">Received invalid reply from web browser.</translation>
+      <translation>Resposta inválida recebida do navegador da web.</translation>
     </message>
     <message>
       <source>Redirect URL is missing query.</source>
@@ -4189,7 +4189,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Volume %1%</source>
-      <translation type="unfinished">Volume %1%</translation>
+      <translation>Volume %1%</translation>
     </message>
     <message>
       <source>Don&apos;t shuffle</source>
@@ -4283,7 +4283,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Remove problematic characters from filenames</source>
-      <translation type="unfinished">Remove problematic characters from filenames</translation>
+      <translation>Remover caracteres problemáticos dos nomes de arquivos</translation>
     </message>
     <message>
       <source>Restrict to characters allowed on FAT filesystems</source>
@@ -4291,7 +4291,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Restrict characters to ASCII</source>
-      <translation type="unfinished">Restrict characters to ASCII</translation>
+      <translation>Restringir caracteres ao ASCII</translation>
     </message>
     <message>
       <source>Allow extended ASCII characters</source>
@@ -4299,7 +4299,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Replace spaces with underscores</source>
-      <translation type="unfinished">Replace spaces with underscores</translation>
+      <translation>Substituir espaços por sublinhados</translation>
     </message>
     <message>
       <source>Overwrite existing files</source>
@@ -4426,11 +4426,11 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>File %1 does not exist</source>
-      <translation type="unfinished">File %1 does not exist</translation>
+      <translation>O arquivo %1 não existe</translation>
     </message>
     <message>
       <source>Could not read file %1: %2</source>
-      <translation type="unfinished">Could not read file %1: %2</translation>
+      <translation>Não foi possível ler o arquivo %1: %2</translation>
     </message>
   </context>
   <context>
@@ -4572,19 +4572,19 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>File Size</source>
-      <translation type="unfinished">File Size</translation>
+      <translation>Tamanho do arquivo</translation>
     </message>
     <message>
       <source>File Type</source>
-      <translation type="unfinished">File Type</translation>
+      <translation>Tipo de Arquivo</translation>
     </message>
     <message>
       <source>Date Modified</source>
-      <translation type="unfinished">Date Modified</translation>
+      <translation>Data de Modificação</translation>
     </message>
     <message>
       <source>Date Created</source>
-      <translation type="unfinished">Date Created</translation>
+      <translation>Data de Criação</translation>
     </message>
     <message>
       <source>Comment</source>
@@ -4596,11 +4596,11 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Moodbar</source>
-      <translation type="unfinished">Moodbar</translation>
+      <translation>Moodbar</translation>
     </message>
     <message>
       <source>BPM</source>
-      <translation type="unfinished">BPM</translation>
+      <translation>BPM</translation>
     </message>
     <message>
       <source>Mood</source>
@@ -4608,15 +4608,15 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Rating</source>
-      <translation type="unfinished">Rating</translation>
+      <translation>Classificação</translation>
     </message>
     <message>
       <source>URL</source>
-      <translation type="unfinished">URL</translation>
+      <translation>URL</translation>
     </message>
     <message>
       <source>CUE</source>
-      <translation type="unfinished">CUE</translation>
+      <translation>CUE</translation>
     </message>
     <message>
       <source>Integrated Loudness</source>
@@ -5066,15 +5066,15 @@ Deseja continuar?</translation>
     <name>PlaylistView</name>
     <message>
       <source>Hz</source>
-      <translation type="unfinished">Hz</translation>
+      <translation>Hz</translation>
     </message>
     <message>
       <source>Bit</source>
-      <translation type="unfinished">Bit</translation>
+      <translation>Bit</translation>
     </message>
     <message>
       <source>kbps</source>
-      <translation type="unfinished">kbps</translation>
+      <translation>kbps</translation>
     </message>
   </context>
   <context>
@@ -5197,7 +5197,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Resize the window</source>
-      <translation type="unfinished">Resize the window</translation>
+      <translation>Redimensionar janela</translation>
     </message>
     <message>
       <source>Equivalent to --log-levels *:1</source>
@@ -5221,7 +5221,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Failed to create directory %1.</source>
-      <translation type="unfinished">Failed to create directory %1.</translation>
+      <translation>Falha ao criar diretório: %1.</translation>
     </message>
     <message>
       <source>Destination file %1 exists, but not allowed to overwrite.</source>
@@ -5241,11 +5241,11 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>LUFS</source>
-      <translation type="unfinished">LUFS</translation>
+      <translation>LUFS</translation>
     </message>
     <message>
       <source>LU</source>
-      <translation type="unfinished">LU</translation>
+      <translation>LU</translation>
     </message>
     <message>
       <source>1 day</source>
@@ -5285,7 +5285,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Show in file browser</source>
-      <translation type="unfinished">Show in file browser</translation>
+      <translation>Mostrar no navegador de arquivos</translation>
     </message>
     <message>
       <source>Too many songs selected.</source>
@@ -5301,11 +5301,11 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Success</source>
-      <translation type="unfinished">Success</translation>
+      <translation>Sucesso</translation>
     </message>
     <message>
       <source>File is unsupported</source>
-      <translation type="unfinished">File is unsupported</translation>
+      <translation>Arquivo não suportado</translation>
     </message>
     <message>
       <source>Filename is missing</source>
@@ -5317,7 +5317,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>File could not be opened</source>
-      <translation type="unfinished">File could not be opened</translation>
+      <translation>Arquivo não pôde ser aberto</translation>
     </message>
     <message>
       <source>Could not parse file</source>
@@ -5325,11 +5325,11 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Could not save file</source>
-      <translation type="unfinished">Could not save file</translation>
+      <translation>Não foi possível salvar o arquivo</translation>
     </message>
     <message>
       <source>Unknown error</source>
-      <translation type="unfinished">Unknown error</translation>
+      <translation>Erro desconhecido</translation>
     </message>
     <message>
       <source>Prefix a search term with a field name to limit the search to that field, e.g.:</source>
@@ -5337,11 +5337,11 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>artist</source>
-      <translation type="unfinished">artist</translation>
+      <translation>artista</translation>
     </message>
     <message>
       <source>searches for all artists containing the word %1.</source>
-      <translation type="unfinished">searches for all artists containing the word %1.</translation>
+      <translation>pesquisa todos os artistas que contêm a palavra %1.</translation>
     </message>
     <message>
       <source>Search terms for numerical fields can be prefixed with %1 or %2 to refine the search, e.g.: </source>
@@ -5361,23 +5361,23 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Available fields</source>
-      <translation type="unfinished">Available fields</translation>
+      <translation>Campos disponíveis</translation>
     </message>
     <message>
       <source>after</source>
-      <translation type="unfinished">after</translation>
+      <translation>depois</translation>
     </message>
     <message>
       <source>before</source>
-      <translation type="unfinished">before</translation>
+      <translation>antes</translation>
     </message>
     <message>
       <source>on</source>
-      <translation type="unfinished">on</translation>
+      <translation>ativado</translation>
     </message>
     <message>
       <source>not on</source>
-      <translation type="unfinished">not on</translation>
+      <translation>não ativado</translation>
     </message>
     <message>
       <source>in the last</source>
@@ -5389,11 +5389,11 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>between</source>
-      <translation type="unfinished">between</translation>
+      <translation>entre</translation>
     </message>
     <message>
       <source>contains</source>
-      <translation type="unfinished">contains</translation>
+      <translation>contém</translation>
     </message>
     <message>
       <source>does not contain</source>
@@ -5489,7 +5489,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Normal</source>
-      <translation type="unfinished">Normal</translation>
+      <translation>Normal</translation>
     </message>
     <message>
       <source>Angry</source>
@@ -5568,11 +5568,11 @@ Deseja continuar?</translation>
     <name>QobuzMetadataRequest</name>
     <message>
       <source>Not authenticated</source>
-      <translation type="unfinished">Not authenticated</translation>
+      <translation>Não autenticado</translation>
     </message>
     <message>
       <source>No track ID</source>
-      <translation type="unfinished">No track ID</translation>
+      <translation>Nenhum ID da faixa</translation>
     </message>
   </context>
   <context>
@@ -5591,7 +5591,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Searching...</source>
-      <translation type="unfinished">Searching...</translation>
+      <translation>Buscando...</translation>
     </message>
     <message>
       <source>Receiving albums for %1 artist...</source>
@@ -5623,14 +5623,14 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Unknown error</source>
-      <translation type="unfinished">Unknown error</translation>
+      <translation>Erro desconhecido</translation>
     </message>
   </context>
   <context>
     <name>QobuzService</name>
     <message>
       <source>Missing Qobuz app ID.</source>
-      <translation type="unfinished">Missing Qobuz app ID.</translation>
+      <translation>ID do aplicativo Qobuz ausente.</translation>
     </message>
     <message>
       <source>Missing app ID. Please fetch credentials first.</source>
@@ -5658,7 +5658,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>OAuth redirect failed: %1</source>
-      <translation type="unfinished">OAuth redirect failed: %1</translation>
+      <translation>O redirecionamento do OAuth falhou: %1</translation>
     </message>
     <message>
       <source>OAuth redirect is missing authorization code.</source>
@@ -5666,7 +5666,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Exchanging authorization code...</source>
-      <translation type="unfinished">Exchanging authorization code...</translation>
+      <translation>Trocando código de autorização...</translation>
     </message>
     <message>
       <source>Not authenticated with Qobuz.</source>
@@ -5678,14 +5678,14 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Not authenticated. Please login to Qobuz in the settings.</source>
-      <translation type="unfinished">Not authenticated. Please login to Qobuz in the settings.</translation>
+      <translation>Não autenticado. Por favor, faça login no Qobuz nas configurações.</translation>
     </message>
   </context>
   <context>
     <name>QobuzSettingsPage</name>
     <message>
       <source>Qobuz</source>
-      <translation type="unfinished">Qobuz</translation>
+      <translation>Qobuz</translation>
     </message>
     <message>
       <source>Enable</source>
@@ -5697,7 +5697,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>App ID</source>
-      <translation type="unfinished">App ID</translation>
+      <translation>ID do aplicativo</translation>
     </message>
     <message>
       <source>App Secret</source>
@@ -5705,7 +5705,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Login</source>
-      <translation type="unfinished">Login</translation>
+      <translation>Efetuar Login</translation>
     </message>
     <message>
       <source>Preferences</source>
@@ -5721,7 +5721,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>ms</source>
-      <translation type="unfinished">ms</translation>
+      <translation>ms</translation>
     </message>
     <message>
       <source>Artists search limit</source>
@@ -5829,7 +5829,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Ctrl+Up</source>
-      <translation type="unfinished">Ctrl+Up</translation>
+      <translation>Ctrl + Para cima</translation>
     </message>
     <message>
       <source>Move up</source>
@@ -5837,7 +5837,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Ctrl+Down</source>
-      <translation type="unfinished">Ctrl+Down</translation>
+      <translation>Ctrl + Para baixo</translation>
     </message>
     <message>
       <source>Remove</source>
@@ -5849,7 +5849,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Ctrl+K</source>
-      <translation type="unfinished">Ctrl+K</translation>
+      <translation>Ctrl+K</translation>
     </message>
   </context>
   <context>
@@ -5875,15 +5875,15 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Open homepage</source>
-      <translation type="unfinished">Open homepage</translation>
+      <translation>Abrir Homepage</translation>
     </message>
     <message>
       <source>Donate</source>
-      <translation type="unfinished">Donate</translation>
+      <translation>Faça uma doação</translation>
     </message>
     <message>
       <source>Refresh channels</source>
-      <translation type="unfinished">Refresh channels</translation>
+      <translation>Atualizar canais</translation>
     </message>
   </context>
   <context>
@@ -5897,19 +5897,19 @@ Deseja continuar?</translation>
     <name>SavePlaylistsDialog</name>
     <message>
       <source>Select directory for saving playlists</source>
-      <translation type="unfinished">Select directory for saving playlists</translation>
+      <translation>Selecionar diretório para salvar playlists</translation>
     </message>
     <message>
       <source>Type</source>
-      <translation type="unfinished">Type</translation>
+      <translation>Tipo</translation>
     </message>
     <message>
       <source>Select directory for the playlists</source>
-      <translation type="unfinished">Select directory for the playlists</translation>
+      <translation>Selecione o diretório para as playlists</translation>
     </message>
     <message>
       <source>Directory does not exist.</source>
-      <translation type="unfinished">Directory does not exist.</translation>
+      <translation>O diretório não existe.</translation>
     </message>
   </context>
   <context>
@@ -5924,7 +5924,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Ctrl+Up</source>
-      <translation type="unfinished">Ctrl+Up</translation>
+      <translation>Ctrl + Para cima</translation>
     </message>
     <message>
       <source>Name</source>
@@ -5968,7 +5968,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Year - Album - Disc</source>
-      <translation type="unfinished">Year - Album - Disc</translation>
+      <translation>Ano - Álbum - Disco</translation>
     </message>
     <message>
       <source>Original year - Album</source>
@@ -5976,7 +5976,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Original year - Album - Disc</source>
-      <translation type="unfinished">Original year - Album - Disc</translation>
+      <translation>Ano original - Álbum - Disco</translation>
     </message>
     <message>
       <source>Disc</source>
@@ -6067,7 +6067,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Show dialog for errors</source>
-      <translation type="unfinished">Show dialog for errors</translation>
+      <translation>Mostrar caixa de diálogo para erros</translation>
     </message>
     <message>
       <source>Strip &quot;remastered&quot; and similar from album and title</source>
@@ -6083,15 +6083,15 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Subsonic</source>
-      <translation type="unfinished">Subsonic</translation>
+      <translation>Subsonic</translation>
     </message>
     <message>
       <source>Local file</source>
-      <translation type="unfinished">Local file</translation>
+      <translation>Arquivo local</translation>
     </message>
     <message>
       <source>Tidal</source>
-      <translation type="unfinished">Tidal</translation>
+      <translation>Tidal</translation>
     </message>
     <message>
       <source>Device</source>
@@ -6099,15 +6099,15 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Qobuz</source>
-      <translation type="unfinished">Qobuz</translation>
+      <translation>Qobuz</translation>
     </message>
     <message>
       <source>CDDA</source>
-      <translation type="unfinished">CDDA</translation>
+      <translation>CDDA</translation>
     </message>
     <message>
       <source>SomaFM</source>
-      <translation type="unfinished">SomaFM</translation>
+      <translation>SomaFM</translation>
     </message>
     <message>
       <source>Stream</source>
@@ -6115,7 +6115,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Radio Paradise</source>
-      <translation type="unfinished">Radio Paradise</translation>
+      <translation>Radio Paradise</translation>
     </message>
     <message>
       <source>Unknown</source>
@@ -6123,23 +6123,23 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Last.fm</source>
-      <translation type="unfinished">Last.fm</translation>
+      <translation>Last.fm</translation>
     </message>
     <message>
       <source>Login</source>
-      <translation type="unfinished">Login</translation>
+      <translation>Efetuar Login</translation>
     </message>
     <message>
       <source>Listenbrainz</source>
-      <translation type="unfinished">Listenbrainz</translation>
+      <translation>Listenbrainz</translation>
     </message>
     <message>
       <source>User token:</source>
-      <translation type="unfinished">User token:</translation>
+      <translation>Token de usuário:</translation>
     </message>
     <message>
       <source>Enter your user token from</source>
-      <translation type="unfinished">Enter your user token from</translation>
+      <translation>Digite seu token de usuário de</translation>
     </message>
     <message>
       <source>With this option enabled, scrobbles will be cached to disk but not sent to the server. This option can be enabled in cases where the server or the internet connection is unstable, the scrobbles will be sent when the option is disabled.</source>
@@ -6147,7 +6147,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Offline mode (Only cache scrobbles)</source>
-      <translation type="unfinished">Offline mode (Only cache scrobbles)</translation>
+      <translation>Modo offline (Somente armazenar scrobbles)</translation>
     </message>
     <message>
       <source>This is the delay between when a song is scrobbled and when scrobbles are submitted to the server. Setting the time to 0 seconds will submit scrobbles immediately.</source>
@@ -6155,7 +6155,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Spotify</source>
-      <translation type="unfinished">Spotify</translation>
+      <translation>Spotify</translation>
     </message>
   </context>
   <context>
@@ -6185,7 +6185,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Search mode</source>
-      <translation type="unfinished">Search mode</translation>
+      <translation>Modo de Pesquisa</translation>
     </message>
     <message>
       <source>Match every search term (AND)</source>
@@ -6197,11 +6197,11 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Include all songs</source>
-      <translation type="unfinished">Include all songs</translation>
+      <translation>Incluir todas as músicas</translation>
     </message>
     <message>
       <source>Search terms</source>
-      <translation type="unfinished">Search terms</translation>
+      <translation>Termos de busca</translation>
     </message>
   </context>
   <context>
@@ -6220,7 +6220,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Sort songs by</source>
-      <translation type="unfinished">Sort songs by</translation>
+      <translation>Organizar músicas por</translation>
     </message>
     <message>
       <source>Limits</source>
@@ -6228,7 +6228,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Show all the songs</source>
-      <translation type="unfinished">Show all the songs</translation>
+      <translation>Mostrar todas as músicas</translation>
     </message>
     <message>
       <source>Only show the first</source>
@@ -6297,7 +6297,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>and</source>
-      <translation type="unfinished">and</translation>
+      <translation>e</translation>
     </message>
     <message>
       <source>ago</source>
@@ -6312,18 +6312,18 @@ Deseja continuar?</translation>
     <name>SmartPlaylistSearchTermWidgetOverlay</name>
     <message>
       <source>Add search term</source>
-      <translation type="unfinished">Add search term</translation>
+      <translation>Adicionar termo de pesquisa</translation>
     </message>
   </context>
   <context>
     <name>SmartPlaylistWizard</name>
     <message>
       <source>Smart playlist</source>
-      <translation type="unfinished">Smart playlist</translation>
+      <translation>Playlist inteligente</translation>
     </message>
     <message>
       <source>Playlist type</source>
-      <translation type="unfinished">Playlist type</translation>
+      <translation>Tipo de playlist</translation>
     </message>
     <message>
       <source>A smart playlist is a dynamic list of songs that come from your collection.  There are different types of smart playlist that offer different ways of selecting songs.</source>
@@ -6331,11 +6331,11 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Finish</source>
-      <translation type="unfinished">Finish</translation>
+      <translation>Concluir</translation>
     </message>
     <message>
       <source>Choose a name for your smart playlist</source>
-      <translation type="unfinished">Choose a name for your smart playlist</translation>
+      <translation>Escolha um nome para sua playlist inteligente</translation>
     </message>
   </context>
   <context>
@@ -6350,7 +6350,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Use dynamic mode</source>
-      <translation type="unfinished">Use dynamic mode</translation>
+      <translation>Usar modo dinâmico</translation>
     </message>
     <message>
       <source>In dynamic mode new tracks will be chosen and added to the playlist every time a song finishes.</source>
@@ -6361,35 +6361,35 @@ Deseja continuar?</translation>
     <name>SmartPlaylists</name>
     <message>
       <source>Newest tracks</source>
-      <translation type="unfinished">Newest tracks</translation>
+      <translation>Últimas faixas</translation>
     </message>
     <message>
       <source>50 random tracks</source>
-      <translation type="unfinished">50 random tracks</translation>
+      <translation>50 faixas aleatórias</translation>
     </message>
     <message>
       <source>Ever played</source>
-      <translation type="unfinished">Ever played</translation>
+      <translation>Já reproduzido</translation>
     </message>
     <message>
       <source>Never played</source>
-      <translation type="unfinished">Never played</translation>
+      <translation>Nunca reproduzido</translation>
     </message>
     <message>
       <source>Last played</source>
-      <translation type="unfinished">Last played</translation>
+      <translation>Reproduzida por último</translation>
     </message>
     <message>
       <source>Most played</source>
-      <translation type="unfinished">Most played</translation>
+      <translation>Mais reproduzidas</translation>
     </message>
     <message>
       <source>Favourite tracks</source>
-      <translation type="unfinished">Favourite tracks</translation>
+      <translation>Faixas favoritas</translation>
     </message>
     <message>
       <source>All tracks</source>
-      <translation type="unfinished">All tracks</translation>
+      <translation>Todas as faixas</translation>
     </message>
     <message>
       <source>Dynamic random mix</source>
@@ -6400,15 +6400,15 @@ Deseja continuar?</translation>
     <name>SmartPlaylistsViewContainer</name>
     <message>
       <source>New smart playlist</source>
-      <translation type="unfinished">New smart playlist</translation>
+      <translation>Nova playlist inteligente</translation>
     </message>
     <message>
       <source>Edit smart playlist</source>
-      <translation type="unfinished">Edit smart playlist</translation>
+      <translation>Editar playlist inteligente</translation>
     </message>
     <message>
       <source>Delete smart playlist</source>
-      <translation type="unfinished">Delete smart playlist</translation>
+      <translation>Excluir playlist inteligente</translation>
     </message>
     <message>
       <source>New smart playlist...</source>
@@ -6555,11 +6555,11 @@ Deseja continuar?</translation>
     <name>SpotifyMetadataRequest</name>
     <message>
       <source>Not authenticated</source>
-      <translation type="unfinished">Not authenticated</translation>
+      <translation>Não autenticado</translation>
     </message>
     <message>
       <source>No track ID</source>
-      <translation type="unfinished">No track ID</translation>
+      <translation>Nenhum ID da faixa</translation>
     </message>
     <message>
       <source>No pending song for track ID</source>
@@ -6586,7 +6586,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Searching...</source>
-      <translation type="unfinished">Searching...</translation>
+      <translation>Buscando...</translation>
     </message>
     <message>
       <source>Receiving albums for %1 artist...</source>
@@ -6625,14 +6625,14 @@ Deseja continuar?</translation>
     <name>SpotifyService</name>
     <message>
       <source>Not authenticated with Spotify.</source>
-      <translation type="unfinished">Not authenticated with Spotify.</translation>
+      <translation>Não autenticado no Spotify.</translation>
     </message>
   </context>
   <context>
     <name>SpotifySettingsPage</name>
     <message>
       <source>Spotify</source>
-      <translation type="unfinished">Spotify</translation>
+      <translation>Spotify</translation>
     </message>
     <message>
       <source>Enable</source>
@@ -6640,7 +6640,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Basic authentication</source>
-      <translation type="unfinished">Basic authentication</translation>
+      <translation>Autenticação básica</translation>
     </message>
     <message>
       <source>Authenticate</source>
@@ -6656,11 +6656,11 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Search delay</source>
-      <translation type="unfinished">Search delay</translation>
+      <translation>Atraso da pesquisa</translation>
     </message>
     <message>
       <source>ms</source>
-      <translation type="unfinished">ms</translation>
+      <translation>ms</translation>
     </message>
     <message>
       <source>Artists search limit</source>
@@ -6723,7 +6723,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Remove from favorites</source>
-      <translation type="unfinished">Remove from favorites</translation>
+      <translation>Remover dos favoritos</translation>
     </message>
   </context>
   <context>
@@ -6742,7 +6742,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Refresh catalogue</source>
-      <translation type="unfinished">Refresh catalogue</translation>
+      <translation>Atualizar catálogo</translation>
     </message>
   </context>
   <context>
@@ -6764,15 +6764,15 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>artists</source>
-      <translation type="unfinished">artists</translation>
+      <translation>artistas</translation>
     </message>
     <message>
       <source>albums</source>
-      <translation type="unfinished">albums</translation>
+      <translation>álbuns</translation>
     </message>
     <message>
       <source>songs</source>
-      <translation type="unfinished">songs</translation>
+      <translation>músicas</translation>
     </message>
     <message>
       <source>Enter search terms above to find music</source>
@@ -6842,7 +6842,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Songs</source>
-      <translation type="unfinished">Songs</translation>
+      <translation>Músicas</translation>
     </message>
     <message>
       <source>Search</source>
@@ -6857,7 +6857,7 @@ Deseja continuar?</translation>
     <name>SubsonicRequest</name>
     <message>
       <source>Retrieving albums...</source>
-      <translation type="unfinished">Retrieving albums...</translation>
+      <translation>Recuperando álbuns...</translation>
     </message>
     <message>
       <source>Retrieving songs for %1 album...</source>
@@ -6877,14 +6877,14 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Unknown error</source>
-      <translation type="unfinished">Unknown error</translation>
+      <translation>Erro desconhecido</translation>
     </message>
   </context>
   <context>
     <name>SubsonicService</name>
     <message>
       <source>Server URL is invalid.</source>
-      <translation type="unfinished">Server URL is invalid.</translation>
+      <translation>URL do servidor é inválida.</translation>
     </message>
     <message>
       <source>Missing username or password.</source>
@@ -6895,7 +6895,7 @@ Deseja continuar?</translation>
     <name>SubsonicSettingsPage</name>
     <message>
       <source>Subsonic</source>
-      <translation type="unfinished">Subsonic</translation>
+      <translation>Subsonic</translation>
     </message>
     <message>
       <source>Enable</source>
@@ -6903,7 +6903,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Server URL</source>
-      <translation type="unfinished">Server URL</translation>
+      <translation>URL do servidor</translation>
     </message>
     <message>
       <source>Authentication</source>
@@ -6919,15 +6919,15 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Authentication method:</source>
-      <translation type="unfinished">Authentication method:</translation>
+      <translation>Método de autenticação</translation>
     </message>
     <message>
       <source>Hex</source>
-      <translation type="unfinished">Hex</translation>
+      <translation>Hex</translation>
     </message>
     <message>
       <source>MD5 token (Recommended)</source>
-      <translation type="unfinished">MD5 token (Recommended)</translation>
+      <translation>Token MD5 (recomendado)</translation>
     </message>
     <message>
       <source>Preferences</source>
@@ -6935,11 +6935,11 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Use HTTP/2 when possible</source>
-      <translation type="unfinished">Use HTTP/2 when possible</translation>
+      <translation>Usar HTTP/2 quando possível</translation>
     </message>
     <message>
       <source>Verify server certificate</source>
-      <translation type="unfinished">Verify server certificate</translation>
+      <translation>Verificar certificado do servidor</translation>
     </message>
     <message>
       <source>Download album covers</source>
@@ -6955,11 +6955,11 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Test</source>
-      <translation type="unfinished">Test</translation>
+      <translation>Testar</translation>
     </message>
     <message>
       <source>Delete songs</source>
-      <translation type="unfinished">Delete songs</translation>
+      <translation>Excluir Músicas</translation>
     </message>
     <message>
       <source>Configuration incomplete</source>
@@ -6975,22 +6975,22 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Server URL is invalid.</source>
-      <translation type="unfinished">Server URL is invalid.</translation>
+      <translation>URL do servidor é inválida.</translation>
     </message>
     <message>
       <source>Test successful!</source>
-      <translation type="unfinished">Test successful!</translation>
+      <translation>Teste bem sucedido!</translation>
     </message>
     <message>
       <source>Test failed!</source>
-      <translation type="unfinished">Test failed!</translation>
+      <translation>O teste falhou!</translation>
     </message>
   </context>
   <context>
     <name>SubsonicUrlHandler</name>
     <message>
       <source>Subsonic server URL is invalid.</source>
-      <translation type="unfinished">Subsonic server URL is invalid.</translation>
+      <translation>URL do servidor Subsonic é inválida.</translation>
     </message>
     <message>
       <source>Missing Subsonic username or password.</source>
@@ -7012,7 +7012,7 @@ Deseja continuar?</translation>
     <name>TagFetcher</name>
     <message>
       <source>Identifying song</source>
-      <translation type="unfinished">Identifying song</translation>
+      <translation>Identificando música</translation>
     </message>
     <message>
       <source>Fingerprinting song</source>
@@ -7020,7 +7020,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Downloading metadata</source>
-      <translation type="unfinished">Downloading metadata</translation>
+      <translation>Baixando metadados</translation>
     </message>
   </context>
   <context>
@@ -7039,7 +7039,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Searching...</source>
-      <translation type="unfinished">Searching...</translation>
+      <translation>Buscando...</translation>
     </message>
     <message>
       <source>Receiving albums for %1 artist...</source>
@@ -7117,7 +7117,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>ms</source>
-      <translation type="unfinished">ms</translation>
+      <translation>ms</translation>
     </message>
     <message>
       <source>Artists search limit</source>
@@ -7247,7 +7247,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Album artist</source>
-      <translation type="unfinished">Album artist</translation>
+      <translation>Artista do álbum</translation>
     </message>
   </context>
   <context>
@@ -7258,7 +7258,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>0:00:00</source>
-      <translation type="unfinished">0:00:00</translation>
+      <translation>0:00:00</translation>
     </message>
     <message>
       <source>Click to toggle between remaining time and total time</source>
@@ -7435,7 +7435,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source> kbps</source>
-      <translation type="unfinished"> kbps</translation>
+      <translation> kbps</translation>
     </message>
     <message>
       <source>Profile</source>
@@ -7494,7 +7494,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source> kbps</source>
-      <translation type="unfinished"> kbps</translation>
+      <translation> kbps</translation>
     </message>
   </context>
   <context>
@@ -7549,7 +7549,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source> kbps</source>
-      <translation type="unfinished"> kbps</translation>
+      <translation> kbps</translation>
     </message>
     <message>
       <source>Constant bitrate</source>
