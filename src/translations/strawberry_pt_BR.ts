@@ -569,7 +569,7 @@
     </message>
     <message>
       <source>Upmix / downmix to</source>
-      <translation type="unfinished">Upmix / downmix to</translation>
+      <translation>Upmix / downmix para</translation>
     </message>
     <message>
       <source>channels</source>
@@ -1164,7 +1164,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Current disk cache in use:</source>
-      <translation type="unfinished">Current disk cache in use:</translation>
+      <translation>Cache de disco em uso:</translation>
     </message>
     <message>
       <source>Clear Disk Cache</source>
@@ -1467,7 +1467,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>%url%</source>
-      <translation type="unfinished">%url%</translation>
+      <translation>%url%</translation>
     </message>
     <message>
       <source>Add song URL</source>
@@ -1562,19 +1562,19 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>%1 artist</source>
-      <translation type="unfinished">%1 artist</translation>
+      <translation>%1 artista</translation>
     </message>
     <message>
       <source>%1 artists</source>
-      <translation type="unfinished">%1 artists</translation>
+      <translation>%1 artistas</translation>
     </message>
     <message>
       <source>%1 album</source>
-      <translation type="unfinished">%1 album</translation>
+      <translation>%1 álbum</translation>
     </message>
     <message>
       <source>%1 albums</source>
-      <translation type="unfinished">%1 albums</translation>
+      <translation>%1 albums</translation>
     </message>
     <message>
       <source>kbps</source>
@@ -2163,7 +2163,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Tags</source>
-      <translation type="unfinished">Tags</translation>
+      <translation>Etiquetas</translation>
     </message>
     <message>
       <source>MenuPopupToolButton</source>
@@ -2271,7 +2271,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>%1 songs selected.</source>
-      <translation type="unfinished">%1 songs selected.</translation>
+      <translation>%1 músicas selecionadas.</translation>
     </message>
     <message>
       <source>kbps</source>
@@ -3049,7 +3049,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Cancel</source>
-      <translation type="unfinished">Cancel</translation>
+      <translation>Cancelar</translation>
     </message>
     <message>
       <source>Receiving initial data from last.fm...</source>
@@ -3183,11 +3183,11 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Lyrics providers</source>
-      <translation type="unfinished">Lyrics providers</translation>
+      <translation>Provedores de letras</translation>
     </message>
     <message>
       <source>Choose the providers you want to use when searching for lyrics.</source>
-      <translation type="unfinished">Choose the providers you want to use when searching for lyrics.</translation>
+      <translation>Escolha os provedores que você deseja usar ao procurar por capas.</translation>
     </message>
     <message>
       <source>Move up</source>
@@ -3203,7 +3203,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Login</source>
-      <translation type="unfinished">Login</translation>
+      <translation>Iníciar Sessão</translation>
     </message>
     <message>
       <source>No provider selected.</source>
@@ -3991,7 +3991,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Strawberry Red</source>
-      <translation type="unfinished">Strawberry Red</translation>
+      <translation>Strawberry Red</translation>
     </message>
     <message>
       <source>Custom...</source>
@@ -4099,7 +4099,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Discord</source>
-      <translation type="unfinished">Discord</translation>
+      <translation>Discord</translation>
     </message>
     <message>
       <source>Enable Rich Presence</source>
@@ -4240,14 +4240,14 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     <name>Organize</name>
     <message>
       <source>Organizing files</source>
-      <translation type="unfinished">Organizing files</translation>
+      <translation>Organizando arquivos</translation>
     </message>
   </context>
   <context>
     <name>OrganizeDialog</name>
     <message>
       <source>Organize Files</source>
-      <translation type="unfinished">Organize Files</translation>
+      <translation>Organizar arquivos</translation>
     </message>
     <message>
       <source>Destination</source>
@@ -4504,7 +4504,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Original Year</source>
-      <translation type="unfinished">Original Year</translation>
+      <translation>Ano Original</translation>
     </message>
     <message>
       <source>Genre</source>
@@ -4512,7 +4512,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Album Artist</source>
-      <translation type="unfinished">Album Artist</translation>
+      <translation>Artista do Álbum</translation>
     </message>
     <message>
       <source>Album Artist Sort</source>
@@ -4540,7 +4540,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Play Count</source>
-      <translation type="unfinished">Play Count</translation>
+      <translation>Número de Reproduções</translation>
     </message>
     <message>
       <source>Skip Count</source>
