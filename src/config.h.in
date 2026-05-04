@@ -24,6 +24,7 @@
 #cmakedefine HAVE_SONGFINGERPRINTING
 #cmakedefine HAVE_MUSICBRAINZ
 #cmakedefine HAVE_MOODBAR
+#cmakedefine HAVE_GSTFASTSPECTRUM
 #cmakedefine HAVE_EBUR128
 #cmakedefine HAVE_GLOBALSHORTCUTS
 #cmakedefine HAVE_X11_GLOBALSHORTCUTS
