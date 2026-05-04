@@ -2597,7 +2597,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Select folder to add as tree root</source>
-      <translation type="unfinished">Select folder to add as tree root</translation>
+      <translation>Selecione a pasta para adicionar como raiz de árvore</translation>
     </message>
   </context>
   <context>
@@ -2655,11 +2655,11 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Copy to collection...</source>
-      <translation type="unfinished">Copy to collection...</translation>
+      <translation>Copiar para biblioteca...</translation>
     </message>
     <message>
       <source>Move to collection...</source>
-      <translation type="unfinished">Move to collection...</translation>
+      <translation>Mover para biblioteca...</translation>
     </message>
     <message>
       <source>Copy to device...</source>
@@ -2848,7 +2848,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Use X11 shortcuts when available</source>
-      <translation type="unfinished">Use X11 shortcuts when available</translation>
+      <translation>Usar atalhos X11 quando disponível</translation>
     </message>
     <message>
       <source>You need to launch System Preferences and allow Strawberry to &quot;&lt;span style=&quot;font-style:italic&quot;&gt;control your computer&lt;/span&gt;&quot; to use global shortcuts in Strawberry.</source>
@@ -2885,11 +2885,11 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Use KGlobalAccel shortcuts when available</source>
-      <translation type="unfinished">Use KGlobalAccel shortcuts when available</translation>
+      <translation>Usar atalhos do KGlobalAccel quando disponível</translation>
     </message>
     <message>
       <source>Using X11 shortcuts is not recommended and can cause keyboard to become unresponsive! Shortcuts on should usually be used through MPRIS2 / KGlobalAccel.</source>
-      <translation type="unfinished">Using X11 shortcuts is not recommended and can cause keyboard to become unresponsive! Shortcuts on should usually be used through MPRIS2 / KGlobalAccel.</translation>
+      <translation>Usar os atalhos do X11 não é recomendado e pode fazer com que o teclado fique sem resposta! Os atalhos geralmente devem ser usados através do MPRIS2 / KGlobalAccel.</translation>
     </message>
   </context>
   <context>
@@ -3033,7 +3033,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Play counts</source>
-      <translation type="unfinished">Play counts</translation>
+      <translation>Número de reproduções</translation>
     </message>
     <message>
       <source>Warning: Play counts and last played from last.fm will completely replace the same data for the matched songs. Play counts will replace the data based on artist and song title for the same albums! Please backup your database before you start.</source>
@@ -3141,7 +3141,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>ListenBrainz error: %1</source>
-      <translation type="unfinished">ListenBrainz error: %1</translation>
+      <translation>Erro do ListenBrainz: %1</translation>
     </message>
   </context>
   <context>
@@ -3797,7 +3797,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Could not open MTP device.</source>
-      <translation type="unfinished">Could not open MTP device.</translation>
+      <translation>Não foi possível abrir o dispositivo MTP.</translation>
     </message>
     <message>
       <source>MTP error: %1</source>
@@ -3805,7 +3805,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>MTP device not found.</source>
-      <translation type="unfinished">MTP device not found.</translation>
+      <translation>Dispositivo MTP não localizado.</translation>
     </message>
   </context>
   <context>
@@ -4075,7 +4075,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>%url%</source>
-      <translation type="unfinished">%url%</translation>
+      <translation>%url%</translation>
     </message>
     <message>
       <source>Add song URL</source>
@@ -4556,7 +4556,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Bit Depth</source>
-      <translation type="unfinished">Bit Depth</translation>
+      <translation>Profundidade de bits</translation>
     </message>
     <message>
       <source>Bitrate</source>
@@ -4635,11 +4635,11 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Undo</source>
-      <translation type="unfinished">Undo</translation>
+      <translation>Desfazer</translation>
     </message>
     <message>
       <source>Redo</source>
-      <translation type="unfinished">Redo</translation>
+      <translation>Refazer</translation>
     </message>
     <message>
       <source>Playlist</source>
@@ -4665,7 +4665,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     <name>PlaylistGeneratorInserter</name>
     <message>
       <source>Loading smart playlist</source>
-      <translation type="unfinished">Loading smart playlist</translation>
+      <translation>Carregando playlist inteligente</translation>
     </message>
   </context>
   <context>
@@ -4744,11 +4744,11 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Copy to device</source>
-      <translation type="unfinished">Copy to device</translation>
+      <translation>Copiar para dispositivo</translation>
     </message>
     <message>
       <source>Playlist must be open first.</source>
-      <translation type="unfinished">Playlist must be open first.</translation>
+      <translation>A playlist deve ser aberta primeiro.</translation>
     </message>
     <message>
       <source>Remove playlists</source>
@@ -4787,11 +4787,11 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Unknown playlist extension</source>
-      <translation type="unfinished">Unknown playlist extension</translation>
+      <translation>Extensão de playlist desconhecida</translation>
     </message>
     <message>
       <source>Unknown file extension for playlist.</source>
-      <translation type="unfinished">Unknown file extension for playlist.</translation>
+      <translation>Extensão de arquivo desconhecida para lista de reprodução.</translation>
     </message>
     <message>
       <source>%1 selected of</source>
@@ -4958,15 +4958,15 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Enable playlist toolbar</source>
-      <translation type="unfinished">Enable playlist toolbar</translation>
+      <translation>Habilitar barra de playlist</translation>
     </message>
     <message>
       <source>Enable playlist clear button</source>
-      <translation type="unfinished">Enable playlist clear button</translation>
+      <translation>Habilitar botão limpar playlist</translation>
     </message>
     <message>
       <source>Enable delete files in the right click context menu</source>
-      <translation type="unfinished">Enable delete files in the right click context menu</translation>
+      <translation>Habilitar exclusão de arquivos no menu de contexto do clique direito</translation>
     </message>
     <message>
       <source>Automatically sort playlist when inserting songs</source>
@@ -5225,7 +5225,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Destination file %1 exists, but not allowed to overwrite.</source>
-      <translation type="unfinished">Destination file %1 exists, but not allowed to overwrite.</translation>
+      <translation>O arquivo de destino %1 existe, mas não é permitido sobrescrever.</translation>
     </message>
     <message>
       <source>Destination file %1 exists, but not allowed to overwrite</source>
@@ -5437,55 +5437,55 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>A-Z</source>
-      <translation type="unfinished">A-Z</translation>
+      <translation>A-Z</translation>
     </message>
     <message>
       <source>Z-A</source>
-      <translation type="unfinished">Z-A</translation>
+      <translation>Z-A</translation>
     </message>
     <message>
       <source>oldest first</source>
-      <translation type="unfinished">oldest first</translation>
+      <translation>mais antigos primeiro</translation>
     </message>
     <message>
       <source>newest first</source>
-      <translation type="unfinished">newest first</translation>
+      <translation>mais novos primeiro</translation>
     </message>
     <message>
       <source>shortest first</source>
-      <translation type="unfinished">shortest first</translation>
+      <translation>mais curto primeiro</translation>
     </message>
     <message>
       <source>longest first</source>
-      <translation type="unfinished">longest first</translation>
+      <translation>mais longo primeiro</translation>
     </message>
     <message>
       <source>smallest first</source>
-      <translation type="unfinished">smallest first</translation>
+      <translation>menor primeiro</translation>
     </message>
     <message>
       <source>biggest first</source>
-      <translation type="unfinished">biggest first</translation>
+      <translation>maiores primeiro</translation>
     </message>
     <message>
       <source>Hours</source>
-      <translation type="unfinished">Hours</translation>
+      <translation>Horas</translation>
     </message>
     <message>
       <source>Days</source>
-      <translation type="unfinished">Days</translation>
+      <translation>Dias</translation>
     </message>
     <message>
       <source>Weeks</source>
-      <translation type="unfinished">Weeks</translation>
+      <translation>Semanas</translation>
     </message>
     <message>
       <source>Months</source>
-      <translation type="unfinished">Months</translation>
+      <translation>Meses</translation>
     </message>
     <message>
       <source>Years</source>
-      <translation type="unfinished">Years</translation>
+      <translation>Anos</translation>
     </message>
     <message>
       <source>Normal</source>
@@ -5505,7 +5505,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>System colors</source>
-      <translation type="unfinished">System colors</translation>
+      <translation>Cores do sistema</translation>
     </message>
     <message>
       <source>Playlist</source>
@@ -5513,7 +5513,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Various artists</source>
-      <translation type="unfinished">Various artists</translation>
+      <translation>Vários artistas</translation>
     </message>
     <message numerus="yes">
       <source>add %n songs</source>
@@ -5717,7 +5717,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Search delay</source>
-      <translation type="unfinished">Search delay</translation>
+      <translation>Atraso na busca</translation>
     </message>
     <message>
       <source>ms</source>
@@ -5785,7 +5785,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Private key</source>
-      <translation type="unfinished">Private key</translation>
+      <translation>Chave privada</translation>
     </message>
     <message>
       <source>Automatically fetch app ID, app secret and private key from Qobuz web player</source>
@@ -6174,7 +6174,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Streaming</source>
-      <translation type="unfinished">Streaming</translation>
+      <translation>Transmitindo</translation>
     </message>
   </context>
   <context>
@@ -6412,7 +6412,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>New smart playlist...</source>
-      <translation type="unfinished">New smart playlist...</translation>
+      <translation>Nova playlist inteligente...</translation>
     </message>
     <message>
       <source>Append to current playlist</source>
@@ -6444,18 +6444,18 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Restore defaults</source>
-      <translation type="unfinished">Restore defaults</translation>
+      <translation>Redefinir para o Padrão</translation>
     </message>
   </context>
   <context>
     <name>SnapDialog</name>
     <message>
       <source>Strawberry is running as a Snap</source>
-      <translation type="unfinished">Strawberry is running as a Snap</translation>
+      <translation>Strawberry está rodando como um Snap</translation>
     </message>
     <message>
       <source>It is detected that Strawberry is running as a Snap</source>
-      <translation type="unfinished">It is detected that Strawberry is running as a Snap</translation>
+      <translation>Foi detectado que o Strawberry está rodando como um Snap</translation>
     </message>
     <message>
       <source>Strawberry is slower, and has restrictions when running as a Snap. Accessing the root filesystem (/) will not work. There also might be other restrictions such as accessing certain devices or network shares.</source>
@@ -6463,15 +6463,15 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>For Ubuntu there is an official PPA repository available at %1.</source>
-      <translation type="unfinished">For Ubuntu there is an official PPA repository available at %1.</translation>
+      <translation>Para o Ubuntu, há um repositório PPA oficial disponível no %1.</translation>
     </message>
     <message>
       <source>Official releases are available for Debian and Ubuntu which also work on most of their derivatives. See %1 for more information.</source>
-      <translation type="unfinished">Official releases are available for Debian and Ubuntu which also work on most of their derivatives. See %1 for more information.</translation>
+      <translation>Versões oficiais estão disponíveis para Debian e Ubuntu, que também funcionam na maioria de seus derivados. Veja %1 para mais informações.</translation>
     </message>
     <message>
       <source>For a better experience please consider the other options above.</source>
-      <translation type="unfinished">For a better experience please consider the other options above.</translation>
+      <translation>Para uma melhor experiência, considere as outras opções acima.</translation>
     </message>
     <message>
       <source>Copy your strawberry.conf and strawberry.db from your ~/snap directory to avoid losing configuration before you uninstall the snap:</source>
@@ -6479,11 +6479,11 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Uninstall the snap with:</source>
-      <translation type="unfinished">Uninstall the snap with:</translation>
+      <translation>Desinstalar o snap com:</translation>
     </message>
     <message>
       <source>Install strawberry through PPA:</source>
-      <translation type="unfinished">Install strawberry through PPA:</translation>
+      <translation>Instalar o Strawberry através do PPA:</translation>
     </message>
   </context>
   <context>
@@ -6644,7 +6644,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Authenticate</source>
-      <translation type="unfinished">Authenticate</translation>
+      <translation>Autenticar</translation>
     </message>
     <message>
       <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The GStreamer Spotify plugin is not detected, you will not be able to stream songs from Spotify without it. See &lt;a href=&quot;https://wiki.strawberrymusicplayer.org/wiki/Installing_GStreamer_Spotify_plugin&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;Wiki&lt;/span&gt;&lt;/a&gt; for instructions on how to install the plugin.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
@@ -6676,7 +6676,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Download album covers</source>
-      <translation type="unfinished">Download album covers</translation>
+      <translation>Baixar capas de álbum</translation>
     </message>
     <message>
       <source>Fetch entire albums when searching songs</source>
@@ -6688,7 +6688,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Remove (Remastered), etc from song titles</source>
-      <translation type="unfinished">Remove (Remastered), etc from song titles</translation>
+      <translation>Remover (Remastered), etc de títulos de música</translation>
     </message>
   </context>
   <context>
@@ -6943,7 +6943,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Download album covers</source>
-      <translation type="unfinished">Download album covers</translation>
+      <translation>Baixar capas de álbum</translation>
     </message>
     <message>
       <source>Use album ID for album covers</source>
@@ -7081,7 +7081,7 @@ Deseja continuar?</translation>
     <name>TidalSettingsPage</name>
     <message>
       <source>Tidal</source>
-      <translation type="unfinished">Tidal</translation>
+      <translation>Tidal</translation>
     </message>
     <message>
       <source>Enable</source>
@@ -7101,7 +7101,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Login</source>
-      <translation type="unfinished">Login</translation>
+      <translation>Login</translation>
     </message>
     <message>
       <source>Preferences</source>
@@ -7588,7 +7588,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source> kbps</source>
-      <translation type="unfinished"> kbps</translation>
+      <translation> kbps</translation>
     </message>
   </context>
   <context>
@@ -7612,7 +7612,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source> kbps</source>
-      <translation type="unfinished"> kbps</translation>
+      <translation> kbps</translation>
     </message>
     <message>
       <source>Average bitrate</source>
@@ -7684,7 +7684,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source> kbps</source>
-      <translation type="unfinished"> kbps</translation>
+      <translation> kbps</translation>
     </message>
     <message>
       <source>Minimum bitrate</source>
@@ -7718,35 +7718,35 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>FLAC</source>
-      <translation type="unfinished">FLAC</translation>
+      <translation>FLAC</translation>
     </message>
     <message>
       <source>WavPack</source>
-      <translation type="unfinished">WavPack</translation>
+      <translation>WavPack</translation>
     </message>
     <message>
       <source>Vorbis</source>
-      <translation type="unfinished">Vorbis</translation>
+      <translation>Vorbis</translation>
     </message>
     <message>
       <source>Opus</source>
-      <translation type="unfinished">Opus</translation>
+      <translation>Opus</translation>
     </message>
     <message>
       <source>Speex</source>
-      <translation type="unfinished">Speex</translation>
+      <translation>Speex</translation>
     </message>
     <message>
       <source>AAC</source>
-      <translation type="unfinished">AAC</translation>
+      <translation>AAC</translation>
     </message>
     <message>
       <source>ASF (WMA)</source>
-      <translation type="unfinished">ASF (WMA)</translation>
+      <translation>ASF (WMA)</translation>
     </message>
     <message>
       <source>MP3</source>
-      <translation type="unfinished">MP3</translation>
+      <translation>MP3</translation>
     </message>
   </context>
   <context>
@@ -7769,14 +7769,14 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>UUID</source>
-      <translation type="unfinished">UUID</translation>
+      <translation>UUID</translation>
     </message>
   </context>
   <context>
     <name>UserPassDialog</name>
     <message>
       <source>Enter username and password</source>
-      <translation type="unfinished">Enter username and password</translation>
+      <translation>Inserir o usuário e senha</translation>
     </message>
     <message>
       <source>Username</source>
