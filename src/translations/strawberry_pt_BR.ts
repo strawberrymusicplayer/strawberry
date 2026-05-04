@@ -486,7 +486,7 @@
     </message>
     <message>
       <source>Configure buttons</source>
-      <translation type="unfinished">Configure buttons</translation>
+      <translation>Configurar botões</translation>
     </message>
     <message>
       <source>Files, playlists and queue buttons</source>
@@ -557,7 +557,7 @@
     </message>
     <message>
       <source>Exclusive mode (Experimental)</source>
-      <translation type="unfinished">Exclusive mode (Experimental)</translation>
+      <translation>Modo Exclusivo (Experimental)</translation>
     </message>
     <message>
       <source>Options</source>
@@ -581,7 +581,7 @@
     </message>
     <message>
       <source>Use playbin3 when available</source>
-      <translation type="unfinished">Use playbin3 when available</translation>
+      <translation>Usar playbin3 quando disponível</translation>
     </message>
     <message>
       <source>Enable HTTP/2 for streaming</source>
@@ -597,7 +597,7 @@
     </message>
     <message>
       <source> ms</source>
-      <translation type="unfinished"> ms</translation>
+      <translation>ms</translation>
     </message>
     <message>
       <source>Buffer duration</source>
@@ -621,7 +621,7 @@
     </message>
     <message>
       <source>No audio normalization</source>
-      <translation type="unfinished">No audio normalization</translation>
+      <translation>Sem normalização de áudio</translation>
     </message>
     <message>
       <source>Replay Gain</source>
@@ -989,11 +989,11 @@
     </message>
     <message>
       <source>Group by Artist/Year - Album - Disc</source>
-      <translation type="unfinished">Group by Artist/Year - Album - Disc</translation>
+      <translation>Agrupar por Artista/Album - Disco</translation>
     </message>
     <message>
       <source>Group by Genre/Album artist/Album</source>
-      <translation type="unfinished">Group by Genre/Album artist/Album</translation>
+      <translation>Agrupar por Gênero/Artista do Álbum/Álbum</translation>
     </message>
     <message>
       <source>Group by Genre/Artist/Album</source>
@@ -1001,7 +1001,7 @@
     </message>
     <message>
       <source>Group by Album Artist</source>
-      <translation type="unfinished">Group by Album Artist</translation>
+      <translation>Agrupar por Artista do Álbum</translation>
     </message>
     <message>
       <source>Group by Artist</source>
@@ -1102,7 +1102,7 @@
     </message>
     <message>
       <source>days</source>
-      <translation type="unfinished">days</translation>
+      <translation>dias</translation>
     </message>
     <message>
       <source>Preferred album art filenames (comma separated)</source>
@@ -1128,7 +1128,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Show album cover art in collection</source>
-      <translation type="unfinished">Show album cover art in collection</translation>
+      <translation>Mostrar capa do álbum na coleção</translation>
     </message>
     <message>
       <source>Use various artists for compilation albums</source>
@@ -1156,11 +1156,11 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Enable Disk Cache</source>
-      <translation type="unfinished">Enable Disk Cache</translation>
+      <translation>Habilitar cache de disco</translation>
     </message>
     <message>
       <source>Disk Cache Size</source>
-      <translation type="unfinished">Disk Cache Size</translation>
+      <translation>Tamanho de Cache de Disco</translation>
     </message>
     <message>
       <source>Current disk cache in use:</source>
@@ -1168,19 +1168,19 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Clear Disk Cache</source>
-      <translation type="unfinished">Clear Disk Cache</translation>
+      <translation>Limpar cache do disco</translation>
     </message>
     <message>
       <source>Song playcounts and ratings</source>
-      <translation type="unfinished">Song playcounts and ratings</translation>
+      <translation>Contagem de reprodução e avaliações de músicas</translation>
     </message>
     <message>
       <source>Save playcounts to song tags when possible</source>
-      <translation type="unfinished">Save playcounts to song tags when possible</translation>
+      <translation>Salvar contagem de reprodução nas tags de música quando possível</translation>
     </message>
     <message>
       <source>Save ratings to song tags when possible</source>
-      <translation type="unfinished">Save ratings to song tags when possible</translation>
+      <translation>Salvar a avaliação nas tags de música quando possível</translation>
     </message>
     <message>
       <source>Overwrite database playcount when songs are re-read from disk</source>
@@ -1188,11 +1188,11 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Overwrite database rating when songs are re-read from disk</source>
-      <translation type="unfinished">Overwrite database rating when songs are re-read from disk</translation>
+      <translation>Sobrescrever a classificação do banco de dados quando músicas forem re-lidas do disco</translation>
     </message>
     <message>
       <source>Save playcounts and ratings to files now</source>
-      <translation type="unfinished">Save playcounts and ratings to files now</translation>
+      <translation>Salvar contagens de reprodução e avaliações em arquivos agora</translation>
     </message>
     <message>
       <source>Enable delete files in the right click context menu</source>
@@ -1204,7 +1204,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Write all playcounts and ratings to files</source>
-      <translation type="unfinished">Write all playcounts and ratings to files</translation>
+      <translation>Escrever todas as contagens de reprodução e avaliações para arquivos</translation>
     </message>
     <message>
       <source>Are you sure you want to write song playcounts and ratings to file for all songs in your collection?</source>
@@ -1247,7 +1247,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Organize files...</source>
-      <translation type="unfinished">Organize files...</translation>
+      <translation>Organizar arquivos...</translation>
     </message>
     <message>
       <source>Copy to device...</source>
@@ -1271,7 +1271,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Rescan song(s)</source>
-      <translation type="unfinished">Rescan song(s)</translation>
+      <translation>Reescanear música(s)</translation>
     </message>
     <message>
       <source>Show in various artists</source>
@@ -1287,7 +1287,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Would you like to move the other songs on this album to Various Artists as well?</source>
-      <translation type="unfinished">Would you like to move the other songs on this album to Various Artists as well?</translation>
+      <translation>Você gostaria de mover outras músicas deste álbum para Vários Artistas também?</translation>
     </message>
     <message>
       <source>Error</source>
@@ -1335,7 +1335,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Custom text settings</source>
-      <translation type="unfinished">Custom text settings</translation>
+      <translation>Configurações de mensagem personalizada</translation>
     </message>
     <message>
       <source>MenuPopupToolButton</source>
@@ -1351,7 +1351,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Enable Items</source>
-      <translation type="unfinished">Enable Items</translation>
+      <translation>Habilitar itens</translation>
     </message>
     <message>
       <source>Album</source>
@@ -1359,19 +1359,19 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Technical Data</source>
-      <translation type="unfinished">Technical Data</translation>
+      <translation>Dados técnicos</translation>
     </message>
     <message>
       <source>Song Lyrics</source>
-      <translation type="unfinished">Song Lyrics</translation>
+      <translation>Letra da música</translation>
     </message>
     <message>
       <source>Automatically search for album cover</source>
-      <translation type="unfinished">Automatically search for album cover</translation>
+      <translation>Buscar automaticamente a capa do álbum</translation>
     </message>
     <message>
       <source>Automatically search for song lyrics</source>
-      <translation type="unfinished">Automatically search for song lyrics</translation>
+      <translation>Buscar automaticamente por letras de músicas</translation>
     </message>
     <message>
       <source>Font for headline</source>
@@ -1379,15 +1379,15 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Font</source>
-      <translation type="unfinished">Font</translation>
+      <translation>Fonte</translation>
     </message>
     <message>
       <source>Font size</source>
-      <translation type="unfinished">Font size</translation>
+      <translation>Tamanho da Fonte</translation>
     </message>
     <message>
       <source> pt</source>
-      <translation type="unfinished"> pt</translation>
+      <translation>pt</translation>
     </message>
     <message>
       <source>Preview</source>
@@ -1395,7 +1395,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Font for data and lyrics</source>
-      <translation type="unfinished">Font for data and lyrics</translation>
+      <translation>Fonte para dados e letras</translation>
     </message>
     <message>
       <source>Add song artist tag</source>
@@ -1471,7 +1471,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Add song URL</source>
-      <translation type="unfinished">Add song URL</translation>
+      <translation>Adicionar URL da música</translation>
     </message>
     <message>
       <source>%rating%</source>
@@ -1483,7 +1483,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Add song original year tag</source>
-      <translation type="unfinished">Add song original year tag</translation>
+      <translation/>
     </message>
     <message>
       <source>Add song artistsort tag</source>
@@ -1534,19 +1534,19 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Show album cover</source>
-      <translation type="unfinished">Show album cover</translation>
+      <translation>Visualizar capa do álbum</translation>
     </message>
     <message>
       <source>Show song technical data</source>
-      <translation type="unfinished">Show song technical data</translation>
+      <translation>Mostrar dados técnicos da música</translation>
     </message>
     <message>
       <source>Show song lyrics</source>
-      <translation type="unfinished">Show song lyrics</translation>
+      <translation>Mostrar letra da música</translation>
     </message>
     <message>
       <source>Automatically search for song lyrics</source>
-      <translation type="unfinished">Automatically search for song lyrics</translation>
+      <translation>Buscar automaticamente por letras de música</translation>
     </message>
     <message>
       <source>No song playing</source>
@@ -1578,7 +1578,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>kbps</source>
-      <translation type="unfinished">kbps</translation>
+      <translation>kbps</translation>
     </message>
   </context>
   <context>
@@ -1686,7 +1686,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     <name>CoversSettingsPage</name>
     <message>
       <source>Covers</source>
-      <translation type="unfinished">Covers</translation>
+      <translation>Capas</translation>
     </message>
     <message>
       <source>Cover providers</source>
@@ -1710,11 +1710,11 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Login</source>
-      <translation type="unfinished">Login</translation>
+      <translation>Efetuar Login</translation>
     </message>
     <message>
       <source>Album cover types</source>
-      <translation type="unfinished">Album cover types</translation>
+      <translation>Tipos de capas de álbum</translation>
     </message>
     <message>
       <source>Saving album covers</source>
@@ -1722,11 +1722,11 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Save album covers in album directory</source>
-      <translation type="unfinished">Save album covers in album directory</translation>
+      <translation>Salvar capas de álbuns na pasta do álbum</translation>
     </message>
     <message>
       <source>Save album covers in cache directory</source>
-      <translation type="unfinished">Save album covers in cache directory</translation>
+      <translation>Salvar capas de álbuns na pasta de cache</translation>
     </message>
     <message>
       <source>Save album covers as embedded cover</source>
@@ -1754,19 +1754,19 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Replace spaces with dashes</source>
-      <translation type="unfinished">Replace spaces with dashes</translation>
+      <translation>Substitua espaços por traços</translation>
     </message>
     <message>
       <source>Use Tidal settings to authenticate.</source>
-      <translation type="unfinished">Use Tidal settings to authenticate.</translation>
+      <translation>Use as configurações do Tidal para autenticar.</translation>
     </message>
     <message>
       <source>Use Spotify settings to authenticate.</source>
-      <translation type="unfinished">Use Spotify settings to authenticate.</translation>
+      <translation>Use as configurações do Spotify para autenticar.</translation>
     </message>
     <message>
       <source>Use Qobuz settings to authenticate.</source>
-      <translation type="unfinished">Use Qobuz settings to authenticate.</translation>
+      <translation>Use as configurações do Qobuz para autenticar.</translation>
     </message>
     <message>
       <source>%1 needs authentication.</source>
