@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2021, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2026, guitaripod <guitaripod@users.noreply.github.com>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,29 +17,16 @@
  *
  */
 
-#ifndef LYRICSSEARCHRESULT_H
-#define LYRICSSEARCHRESULT_H
+#ifndef LRCPARSER_H
+#define LRCPARSER_H
 
-#include <QMetaType>
-#include <QList>
 #include <QString>
 
 #include "lyricline.h"
 
-class LyricsSearchResult {
+class LrcParser {
  public:
-  explicit LyricsSearchResult(const QString &_lyrics = QString()) : lyrics(_lyrics), score(0.0) {}
-  QString provider;
-  QString artist;
-  QString album;
-  QString title;
-  QString lyrics;
-  SyncedLyrics synced_lyrics;
-  float score;
+  static SyncedLyrics Parse(const QString &lrc_text);
 };
-using LyricsSearchResults = QList<LyricsSearchResult>;
 
-Q_DECLARE_METATYPE(LyricsSearchResult)
-Q_DECLARE_METATYPE(LyricsSearchResults)
-
-#endif  // LYRICSSEARCHRESULT_H
+#endif  // LRCPARSER_H

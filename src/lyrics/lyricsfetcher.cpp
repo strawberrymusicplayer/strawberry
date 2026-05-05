@@ -122,12 +122,12 @@ void LyricsFetcher::SingleSearchFinished(const quint64 request_id, const LyricsS
 
 }
 
-void LyricsFetcher::SingleLyricsFetched(const quint64 request_id, const QString &provider, const QString &lyrics) {
+void LyricsFetcher::SingleLyricsFetched(const quint64 request_id, const QString &provider, const QString &lyrics, const SyncedLyrics &synced_lyrics) {
 
   if (!active_requests_.contains(request_id)) return;
 
   LyricsFetcherSearch *search = active_requests_.take(request_id);
   search->deleteLater();
-  Q_EMIT LyricsFetched(request_id, provider, lyrics);
+  Q_EMIT LyricsFetched(request_id, provider, lyrics, synced_lyrics);
 
 }

@@ -421,7 +421,7 @@ MainWindow::MainWindow(Application *app,
   album_cover_choice_controller_->Init(app->network(), app->tagreader_client(), app->collection()->backend(), app->albumcover_loader(), app->current_albumcover_loader(), app->cover_providers(), app->streaming_services());
 
   ui_->multi_loading_indicator->SetTaskManager(app_->task_manager());
-  context_view_->Init(collection_view_->view(), album_cover_choice_controller_, app_->lyrics_providers());
+  context_view_->Init(collection_view_->view(), album_cover_choice_controller_, app_->lyrics_providers(), app_->player());
   ui_->widget_playing->Init(album_cover_choice_controller_);
 
   // Initialize the search widget
@@ -918,7 +918,10 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongMetadataChanged, context_view_, &ContextView::SongChanged);
   QObject::connect(&*app_->player(), &Player::PlaylistFinished, context_view_, &ContextView::Stopped);
   QObject::connect(&*app_->player(), &Player::Playing, context_view_, &ContextView::Playing);
+  QObject::connect(&*app_->player(), &Player::Paused, context_view_, &ContextView::Paused);
+  QObject::connect(&*app_->player(), &Player::Resumed, context_view_, &ContextView::Playing);
   QObject::connect(&*app_->player(), &Player::Stopped, context_view_, &ContextView::Stopped);
+  QObject::connect(&*app_->player(), &Player::Seeked, context_view_, &ContextView::LyricsSeeked);
   QObject::connect(&*app_->player(), &Player::Error, context_view_, &ContextView::Error);
   QObject::connect(this, &MainWindow::AlbumCoverReady, context_view_, &ContextView::AlbumCoverLoaded);
   QObject::connect(this, &MainWindow::SearchCoverInProgress, context_view_->album_widget(), &ContextAlbum::SearchCoverInProgress);
