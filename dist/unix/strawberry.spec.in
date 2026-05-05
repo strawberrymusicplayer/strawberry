@@ -52,12 +52,6 @@ BuildRequires:  cmake(GTest)
 BuildRequires:  desktop-file-utils
 BuildRequires:  hicolor-icon-theme
 
-%if 0%{?suse_version}
-BuildRequires:  libboost_headers-devel
-%else
-BuildRequires:  boost-devel
-%endif
-
 %if (!0%{?suse_version} && !0%{?mageia}) || (0%{?suse_version} && 0%{?suse_version} > 1600)
 BuildRequires:  cmake(KDSingleApplication-qt6)
 %endif

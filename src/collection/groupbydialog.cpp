@@ -24,6 +24,8 @@
 #include <memory>
 
 #include <QDialog>
+#include <QList>
+#include <QHash>
 #include <QWidget>
 #include <QComboBox>
 #include <QDialogButtonBox>
@@ -33,42 +35,12 @@
 #include "groupbydialog.h"
 #include "ui_groupbydialog.h"
 
-#include <boost/multi_index/indexed_by.hpp>
-#include <boost/multi_index/member.hpp>
-#include <boost/multi_index/ordered_index.hpp>
-#include <boost/multi_index/tag.hpp>
-#include <boost/multi_index_container.hpp>
-#include <boost/multi_index_container_fwd.hpp>
-#include <boost/operators.hpp>
-
 using std::make_unique;
 
-using boost::multi_index_container;
-using boost::multi_index::indexed_by;
-using boost::multi_index::ordered_unique;
-using boost::multi_index::tag;
-using boost::multi_index::member;
-
-namespace {
-
-struct Mapping {
-  Mapping(CollectionModel::GroupBy g, int i) : group_by(g), combo_box_index(i) {}
-
-  CollectionModel::GroupBy group_by;
-  int combo_box_index;
-};
-
-struct tag_index {};
-struct tag_group_by {};
-
-}  // namespace
-
 class GroupByDialogPrivate {
- private:
-  using MappingContainer = multi_index_container<Mapping, indexed_by<ordered_unique<tag<tag_index>, member<Mapping, int, &Mapping::combo_box_index>>, ordered_unique<tag<tag_group_by>, member<Mapping, CollectionModel::GroupBy, &Mapping::group_by>>>>;
-
  public:
-  MappingContainer mapping_;
+  QList<CollectionModel::GroupBy> index_to_group_by_;
+  QHash<CollectionModel::GroupBy, int> group_by_to_index_;
 };
 
 GroupByDialog::GroupByDialog(QWidget *parent) : QDialog(parent), ui_(make_unique<Ui_GroupByDialog>()), p_(make_unique<GroupByDialogPrivate>()) {
@@ -76,26 +48,31 @@ GroupByDialog::GroupByDialog(QWidget *parent) : QDialog(parent), ui_(make_unique
   ui_->setupUi(this);
   Reset();
 
-  p_->mapping_.insert(Mapping(CollectionModel::GroupBy::None, 0));
-  p_->mapping_.insert(Mapping(CollectionModel::GroupBy::Artist, 1));
-  p_->mapping_.insert(Mapping(CollectionModel::GroupBy::AlbumArtist, 2));
-  p_->mapping_.insert(Mapping(CollectionModel::GroupBy::Album, 3));
-  p_->mapping_.insert(Mapping(CollectionModel::GroupBy::AlbumDisc, 4));
-  p_->mapping_.insert(Mapping(CollectionModel::GroupBy::Disc, 5));
-  p_->mapping_.insert(Mapping(CollectionModel::GroupBy::Format, 6));
-  p_->mapping_.insert(Mapping(CollectionModel::GroupBy::Genre, 7));
-  p_->mapping_.insert(Mapping(CollectionModel::GroupBy::Year, 8));
-  p_->mapping_.insert(Mapping(CollectionModel::GroupBy::YearAlbum, 9));
-  p_->mapping_.insert(Mapping(CollectionModel::GroupBy::YearAlbumDisc, 10));
-  p_->mapping_.insert(Mapping(CollectionModel::GroupBy::OriginalYear, 11));
-  p_->mapping_.insert(Mapping(CollectionModel::GroupBy::OriginalYearAlbum, 12));
-  p_->mapping_.insert(Mapping(CollectionModel::GroupBy::Composer, 13));
-  p_->mapping_.insert(Mapping(CollectionModel::GroupBy::Performer, 14));
-  p_->mapping_.insert(Mapping(CollectionModel::GroupBy::Grouping, 15));
-  p_->mapping_.insert(Mapping(CollectionModel::GroupBy::FileType, 16));
-  p_->mapping_.insert(Mapping(CollectionModel::GroupBy::Samplerate, 17));
-  p_->mapping_.insert(Mapping(CollectionModel::GroupBy::Bitdepth, 18));
-  p_->mapping_.insert(Mapping(CollectionModel::GroupBy::Bitrate, 19));
+  p_->index_to_group_by_ = {
+    CollectionModel::GroupBy::None,
+    CollectionModel::GroupBy::Artist,
+    CollectionModel::GroupBy::AlbumArtist,
+    CollectionModel::GroupBy::Album,
+    CollectionModel::GroupBy::AlbumDisc,
+    CollectionModel::GroupBy::Disc,
+    CollectionModel::GroupBy::Format,
+    CollectionModel::GroupBy::Genre,
+    CollectionModel::GroupBy::Year,
+    CollectionModel::GroupBy::YearAlbum,
+    CollectionModel::GroupBy::YearAlbumDisc,
+    CollectionModel::GroupBy::OriginalYear,
+    CollectionModel::GroupBy::OriginalYearAlbum,
+    CollectionModel::GroupBy::Composer,
+    CollectionModel::GroupBy::Performer,
+    CollectionModel::GroupBy::Grouping,
+    CollectionModel::GroupBy::FileType,
+    CollectionModel::GroupBy::Samplerate,
+    CollectionModel::GroupBy::Bitdepth,
+    CollectionModel::GroupBy::Bitrate,
+  };
+  for (int i = 0; i < p_->index_to_group_by_.size(); ++i) {
+    p_->group_by_to_index_.insert(p_->index_to_group_by_[i], i);
+  }
 
   QObject::connect(ui_->buttonbox->button(QDialogButtonBox::Reset), &QPushButton::clicked, this, &GroupByDialog::Reset);
 
@@ -117,9 +94,9 @@ void GroupByDialog::Reset() {
 void GroupByDialog::accept() {
 
   Q_EMIT Accepted(CollectionModel::Grouping(
-      p_->mapping_.get<tag_index>().find(ui_->combobox_first->currentIndex())->group_by,
-      p_->mapping_.get<tag_index>().find(ui_->combobox_second->currentIndex())->group_by,
-      p_->mapping_.get<tag_index>().find(ui_->combobox_third->currentIndex())->group_by),
+      p_->index_to_group_by_[ui_->combobox_first->currentIndex()],
+      p_->index_to_group_by_[ui_->combobox_second->currentIndex()],
+      p_->index_to_group_by_[ui_->combobox_third->currentIndex()]),
     ui_->checkbox_separate_albums_by_grouping->isChecked()
    );
   QDialog::accept();
@@ -128,9 +105,9 @@ void GroupByDialog::accept() {
 
 void GroupByDialog::CollectionGroupingChanged(const CollectionModel::Grouping g, const bool separate_albums_by_grouping) {
 
-  ui_->combobox_first->setCurrentIndex(p_->mapping_.get<tag_group_by>().find(g[0])->combo_box_index);
-  ui_->combobox_second->setCurrentIndex(p_->mapping_.get<tag_group_by>().find(g[1])->combo_box_index);
-  ui_->combobox_third->setCurrentIndex(p_->mapping_.get<tag_group_by>().find(g[2])->combo_box_index);
+  ui_->combobox_first->setCurrentIndex(p_->group_by_to_index_.value(g[0]));
+  ui_->combobox_second->setCurrentIndex(p_->group_by_to_index_.value(g[1]));
+  ui_->combobox_third->setCurrentIndex(p_->group_by_to_index_.value(g[2]));
   ui_->checkbox_separate_albums_by_grouping->setChecked(separate_albums_by_grouping);
 
 }

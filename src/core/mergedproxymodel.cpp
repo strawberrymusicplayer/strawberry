@@ -21,50 +21,18 @@
 
 #include "config.h"
 
-#include <functional>
-
 #include <QObject>
 #include <QMimeData>
 #include <QList>
 #include <QStringList>
 #include <QMap>
+#include <QHash>
+#include <QSet>
 #include <QtAlgorithms>
 #include <QAbstractItemModel>
 #include <QAbstractProxyModel>
 
 #include "mergedproxymodel.h"
-
-#ifdef __GNUC__
-#pragma GCC diagnostic push
-#if __GNUC__ >= 16
-#pragma GCC diagnostic ignored "-Wstringop-overflow"
-#endif
-#endif
-
-#include <boost/multi_index/detail/bidir_node_iterator.hpp>
-#include <boost/multi_index/detail/hash_index_iterator.hpp>
-#include <boost/multi_index/hashed_index.hpp>
-#include <boost/multi_index/identity.hpp>
-#include <boost/multi_index/indexed_by.hpp>
-#include <boost/multi_index/member.hpp>
-#include <boost/multi_index/ordered_index.hpp>
-#include <boost/multi_index/tag.hpp>
-#include <boost/multi_index_container.hpp>
-#include <boost/operators.hpp>
-
-#ifdef __GNUC__
-#pragma GCC diagnostic pop
-#endif
-
-using boost::multi_index::hashed_unique;
-using boost::multi_index::identity;
-using boost::multi_index::indexed_by;
-using boost::multi_index::member;
-using boost::multi_index::multi_index_container;
-using boost::multi_index::ordered_unique;
-using boost::multi_index::tag;
-
-size_t hash_value(const QModelIndex &idx) { return qHash(idx); }
 
 namespace {
 
@@ -74,17 +42,12 @@ struct Mapping {
   QModelIndex source_index;
 };
 
-struct tag_by_source {};
-struct tag_by_pointer {};
-
 }  // namespace
 
 class MergedProxyModelPrivate {
- private:
-  using MappingContainer = multi_index_container<Mapping*, indexed_by<hashed_unique<tag<tag_by_source>, member<Mapping, QModelIndex, &Mapping::source_index>>, ordered_unique<tag<tag_by_pointer>, identity<Mapping*>>>>;
-
  public:
-  MappingContainer mappings_;
+  QHash<QModelIndex, Mapping*> by_source_;
+  QSet<Mapping*> by_pointer_;
 };
 
 MergedProxyModel::MergedProxyModel(QObject *parent)
@@ -95,9 +58,7 @@ MergedProxyModel::MergedProxyModel(QObject *parent)
 MergedProxyModel::~MergedProxyModel() { DeleteAllMappings(); }
 
 void MergedProxyModel::DeleteAllMappings() {
-  const auto &begin = p_->mappings_.get<tag_by_pointer>().begin();
-  const auto &end = p_->mappings_.get<tag_by_pointer>().end();
-  qDeleteAll(begin, end);
+  qDeleteAll(p_->by_pointer_);
 }
 
 void MergedProxyModel::AddSubModel(const QModelIndex &source_parent, QAbstractItemModel *submodel) {
@@ -141,16 +102,14 @@ void MergedProxyModel::RemoveSubModel(const QModelIndex &source_parent) {
   }
 
   // Delete all the mappings that reference the submodel
-  auto it = p_->mappings_.get<tag_by_pointer>().begin();
-  auto end = p_->mappings_.get<tag_by_pointer>().end();
-  while (it != end) {
-    if ((*it)->source_index.model() == submodel) {
-      delete *it;
-      it = p_->mappings_.get<tag_by_pointer>().erase(it);
-    }
-    else {
-      ++it;
-    }
+  QList<Mapping*> to_remove;
+  for (Mapping *m : std::as_const(p_->by_pointer_)) {
+    if (m->source_index.model() == submodel) to_remove << m;
+  }
+  for (Mapping *m : to_remove) {
+    p_->by_source_.remove(m->source_index);
+    p_->by_pointer_.remove(m);
+    delete m;
   }
 
 }
@@ -190,7 +149,8 @@ void MergedProxyModel::SourceModelReset() {
   beginResetModel();
 
   // Clear the containers
-  p_->mappings_.clear();
+  p_->by_source_.clear();
+  p_->by_pointer_.clear();
   merge_points_.clear();
 
   endResetModel();
@@ -215,16 +175,14 @@ void MergedProxyModel::SubModelAboutToBeReset() {
   }
 
   // Delete all the mappings that reference the submodel
-  auto it = p_->mappings_.get<tag_by_pointer>().begin();
-  auto end = p_->mappings_.get<tag_by_pointer>().end();
-  while (it != end) {
-    if ((*it)->source_index.model() == submodel) {
-      delete *it;
-      it = p_->mappings_.get<tag_by_pointer>().erase(it);
-    }
-    else {
-      ++it;
-    }
+  QList<Mapping*> to_remove;
+  for (Mapping *m : std::as_const(p_->by_pointer_)) {
+    if (m->source_index.model() == submodel) to_remove << m;
+  }
+  for (Mapping *m : to_remove) {
+    p_->by_source_.remove(m->source_index);
+    p_->by_pointer_.remove(m);
+    delete m;
   }
 
 }
@@ -289,7 +247,7 @@ QModelIndex MergedProxyModel::mapToSource(const QModelIndex &proxy_index) const 
   if (!proxy_index.isValid()) return QModelIndex();
 
   Mapping *mapping = static_cast<Mapping*>(proxy_index.internalPointer());
-  if (p_->mappings_.get<tag_by_pointer>().find(mapping) == p_->mappings_.get<tag_by_pointer>().end())
+  if (!p_->by_pointer_.contains(mapping))
     return QModelIndex();
   if (mapping->source_index.model() == resetting_model_) return QModelIndex();
 
@@ -303,14 +261,11 @@ QModelIndex MergedProxyModel::mapFromSource(const QModelIndex &source_index) con
   if (source_index.model() == resetting_model_) return QModelIndex();
 
   // Add a mapping if we don't have one already
-  const auto &it = p_->mappings_.get<tag_by_source>().find(source_index);
-  Mapping *mapping = nullptr;
-  if (it != p_->mappings_.get<tag_by_source>().end()) {
-    mapping = *it;
-  }
-  else {
+  Mapping *mapping = p_->by_source_.value(source_index, nullptr);
+  if (!mapping) {
     mapping = new Mapping(source_index);
-    const_cast<MergedProxyModel*>(this)->p_->mappings_.insert(mapping);
+    const_cast<MergedProxyModel*>(this)->p_->by_source_.insert(source_index, mapping);
+    const_cast<MergedProxyModel*>(this)->p_->by_pointer_.insert(mapping);
   }
 
   return createIndex(source_index.row(), source_index.column(), mapping);

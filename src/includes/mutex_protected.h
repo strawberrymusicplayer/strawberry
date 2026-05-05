@@ -20,13 +20,11 @@
 #ifndef MUTEX_PROTECTED_H
 #define MUTEX_PROTECTED_H
 
-#include <boost/noncopyable.hpp>
-
 #include <QMutex>
 #include <QMutexLocker>
 
 template<typename T>
-class mutex_protected : public boost::noncopyable {
+class mutex_protected {
  public:
   mutex_protected(const mutex_protected &value) : value_(value.value()) {}
   mutex_protected(const T value) : value_(value) {}

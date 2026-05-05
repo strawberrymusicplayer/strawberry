@@ -26,13 +26,16 @@
 #include <glib.h>
 #include <glib-object.h>
 
-#include <boost/function_types/function_arity.hpp>
-#include <boost/typeof/typeof.hpp>
+template<typename T> struct function_arity;
+template<typename R, typename... Args>
+struct function_arity<R(*)(Args...)> {
+  static constexpr int value = static_cast<int>(sizeof...(Args));
+};
 
 // Do not call this directly, use CHECKED_GCONNECT instead.
 gulong CheckedGConnect(gpointer source, const char *signal, GCallback callback, gpointer data, const int callback_param_count);
 
-#define FUNCTION_ARITY(callback) boost::function_types::function_arity<BOOST_TYPEOF(callback)>::value
+#define FUNCTION_ARITY(callback) function_arity<decltype(callback)>::value
 
 #define CHECKED_GCONNECT(source, signal, callback, data) CheckedGConnect(source, signal, G_CALLBACK(callback), data, FUNCTION_ARITY(callback))
 

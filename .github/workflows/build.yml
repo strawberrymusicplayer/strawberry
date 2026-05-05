@@ -46,8 +46,6 @@ jobs:
             cmake
             openssh-clients
             glibc-devel
-            libboost_headers-devel
-            boost-devel
             glib2-devel
             glib2-tools
             alsa-devel
@@ -185,7 +183,6 @@ jobs:
             tar
             openssh
             rsync
-            boost-devel
             sqlite-devel
             alsa-lib-devel
             pulseaudio-libs-devel
@@ -272,7 +269,6 @@ jobs:
           rpmdevtools
           rpm-build
           glibc-devel
-          boost-devel
           lib64glib2.0-devel
           lib64asound-devel
           lib64pulseaudio-devel
@@ -375,7 +371,6 @@ jobs:
           man
           tar
           rpmdevtools
-          lib64boost-devel
           lib64sqlite3-devel
           lib64alsa2-devel
           lib64pulseaudio-devel
@@ -482,7 +477,6 @@ jobs:
             lsb-release
             dpkg-dev
             libglib2.0-dev
-            libboost-dev
             libsqlite3-dev
             libasound2-dev
             libpulse-dev
@@ -578,7 +572,6 @@ jobs:
             lsb-release
             dpkg-dev
             libglib2.0-dev
-            libboost-dev
             libsqlite3-dev
             libasound2-dev
             libpulse-dev
@@ -675,7 +668,6 @@ jobs:
             dput
             dpkg-dev
             libglib2.0-dev
-            libboost-dev
             libsqlite3-dev
             libasound2-dev
             libpulse-dev
@@ -759,7 +751,7 @@ jobs:
       with:
         usesh: true
         mem: 8192
-        prepare: pkg install -y git cmake pkgconf boost-libs alsa-lib glib qt6-base qt6-tools sqlite gstreamer1 gstreamer1-plugins chromaprint libebur128 taglib libcdio libmtp gdk-pixbuf2 libgpod fftw3 icu kdsingleapplication googletest pulseaudio sparsehash
+        prepare: pkg install -y git cmake pkgconf alsa-lib glib qt6-base qt6-tools sqlite gstreamer1 gstreamer1-plugins chromaprint libebur128 taglib libcdio libmtp gdk-pixbuf2 libgpod fftw3 icu kdsingleapplication googletest pulseaudio sparsehash
         run: |
           set -e
           git config --global --add safe.directory ${GITHUB_WORKSPACE}
@@ -785,7 +777,7 @@ jobs:
       with:
         usesh: true
         mem: 4096
-        prepare: pkg_add git cmake pkgconf boost glib2 qt6-qtbase qt6-qttools sqlite gstreamer1 gstreamer1-plugins-base chromaprint libebur128 taglib libcdio libmtp gdk-pixbuf libgpod fftw3 icu4c kdsingleapplication pulseaudio sparsehash
+        prepare: pkg_add git cmake pkgconf glib2 qt6-qtbase qt6-qttools sqlite gstreamer1 gstreamer1-plugins-base chromaprint libebur128 taglib libcdio libmtp gdk-pixbuf libgpod fftw3 icu4c kdsingleapplication pulseaudio sparsehash
         run: |
           set -e
           export LDFLAGS="-L/usr/local/lib"
