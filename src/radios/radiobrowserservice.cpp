@@ -108,30 +108,20 @@ void RadioBrowserService::DnsLookupFinished() {
 
   if (!dns_lookup_) return;
 
-  if (dns_lookup_->error() != QDnsLookup::NoError || dns_lookup_->hostAddressRecords().isEmpty()) {
-    // DNS failed, try fallback servers
-    dns_lookup_->deleteLater();
-    dns_lookup_ = nullptr;
-
-    if (fallback_index_ < kFallbackServers.size()) {
-      TestServer(kFallbackServers.at(fallback_index_));
-      ++fallback_index_;
-    }
-    else {
-      Q_EMIT SearchError(tr("Failed to discover Radio Browser server."));
-    }
-    return;
-  }
-
-  // Use first resolved hostname
-  const auto records = dns_lookup_->hostAddressRecords();
+  const bool dns_failed = dns_lookup_->error() != QDnsLookup::NoError || dns_lookup_->hostAddressRecords().isEmpty();
   dns_lookup_->deleteLater();
   dns_lookup_ = nullptr;
 
-  // Try fallback servers since we can't easily do reverse DNS in Qt
-  // The DNS lookup confirms the service exists, now use a known hostname
-  fallback_index_ = 0;
-  TestServer(kFallbackServers.at(fallback_index_));
+  // Qt has no easy reverse DNS, so we use known hostnames either way; the DNS lookup just confirms the service exists
+  // ServerTestReply advances the index on failure, so we only set the starting point here.
+  if (!dns_failed) fallback_index_ = 0;
+
+  if (fallback_index_ < kFallbackServers.size()) {
+    TestServer(kFallbackServers.at(fallback_index_));
+  }
+  else {
+    Q_EMIT SearchError(tr("Failed to discover Radio Browser server."));
+  }
 
 }
 
