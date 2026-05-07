@@ -24,9 +24,12 @@
 
 #include "config.h"
 
+#include <functional>
+
 #include <QtGlobal>
 #include <QObject>
 #include <QMap>
+#include <QSet>
 #include <QDateTime>
 #include <QString>
 #include <QUrl>
@@ -35,6 +38,9 @@
 #include "core/urlhandler.h"
 #include "core/enginemetadata.h"
 #include "engine/enginebase.h"
+#ifdef HAVE_EBUR128
+#  include "engine/ebur128measures.h"
+#endif
 #include "playlist/playlist.h"
 #include "playlist/playlistitem.h"
 #include "constants/behavioursettings.h"
@@ -129,6 +135,12 @@ class Player : public PlayerInterface {
  private:
   void ResumePlayback();
 
+#ifdef HAVE_EBUR128
+  bool AnalyzeMissingLoudnessBeforePlayback(PlaylistItemPtr item, const Song &song, const bool stream_metadata_update, const std::function<void(const Song&)> &play);
+  void UpdateSongLoudness(PlaylistItemPtr item, Song &song, const EBUR128Measures &measures, const bool stream_metadata_update);
+  QString EBUR128AnalysisKey(const Song &song) const;
+#endif
+
   // Returns true if we were supposed to stop after this track.
   bool HandleStopAfter(const Playlist::AutoScroll autoscroll);
 
@@ -164,6 +176,12 @@ class Player : public PlayerInterface {
   BehaviourSettings::PreviousBehaviour menu_previousmode_;
   int seek_step_sec_;
   uint volume_increment_;
+
+#ifdef HAVE_EBUR128
+  bool ebur128_analyze_missing_loudness_before_playback_;
+  QSet<QString> ebur128_analysis_in_progress_;
+  QSet<QString> ebur128_analysis_failed_;
+#endif
 
   QDateTime pause_time_;
   quint64 play_offset_nanosec_;
