@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,6 +24,7 @@
 
 #include "config.h"
 
+#include <atomic>
 #include <optional>
 
 #include <glib.h>
@@ -46,7 +47,6 @@
 #include <QSharedPointer>
 
 #include "includes/shared_ptr.h"
-#include "includes/mutex_protected.h"
 #include "core/enginemetadata.h"
 
 class QTimer;
@@ -61,7 +61,7 @@ class GstEnginePipeline : public QObject {
   ~GstEnginePipeline() override;
 
   // Globally unique across all pipelines.
-  int id() const { return id_.value(); }
+  int id() const { return id_.load(); }
 
   // Call these setters before Init
   void set_output_device(const QString &output, const QVariant &device);
@@ -110,7 +110,6 @@ class GstEnginePipeline : public QObject {
   bool HasNextUrl() const;
   bool HasMatchingNextUrl() const;
   void PrepareNextUrl(const QUrl &media_url, const QUrl &stream_url, const QByteArray &gst_url, const qint64 beginning_offset_nanosec, const qint64 end_offset_nanosec);
-  void SetNextUrl();
 
   void SetSourceDevice(const QString &device);
 
@@ -133,10 +132,10 @@ class GstEnginePipeline : public QObject {
   qint64 length() const;
   // Please note that this method (unlike GstEngine's.position()) is multiple-section media unaware.
   qint64 position() const;
-  qint64 segment_start() const { return segment_start_.value(); }
+  qint64 segment_start() const { return segment_start_.load(); }
 
   // Don't allow the user to change the playback state (playing/paused) while the pipeline is buffering.
-  bool is_buffering() const { return buffering_.value(); }
+  bool is_buffering() const { return buffering_.load(); }
 
   bool exclusive_mode() const { return exclusive_mode_; }
 
@@ -165,6 +164,7 @@ class GstEnginePipeline : public QObject {
   bool InitAudioBin(QString &error);
   void SetupVolume(GstElement *element);
   void SetStateAsync(const GstState state);
+  void SetNextUrl();
 
   // Static callbacks.  The GstEnginePipeline instance is passed in the last argument.
   static GstPadProbeReturn UpstreamEventsProbeCallback(GstPad *pad, GstPadProbeInfo *info, gpointer self);
@@ -211,9 +211,8 @@ class GstEnginePipeline : public QObject {
 
  private:
   // Using == to compare two pipelines is a bad idea, because new ones often get created in the same address as old ones.  This ID will be unique for each pipeline.
-  // Threading warning: access to the static ID field isn't protected by a mutex because all pipeline creation is currently done in the main thread.
-  static int sId;
-  mutex_protected<int> id_;
+  static std::atomic<int> sId;
+  std::atomic<int> id_;
 
   // Shared thread pool for all pipeline state changes to prevent thread/FD exhaustion
   static QThreadPool *shared_state_threadpool();
@@ -229,7 +228,7 @@ class GstEnginePipeline : public QObject {
   bool exclusive_mode_;
   bool volume_enabled_;
   bool fading_enabled_;
-  mutex_protected<bool> strict_ssl_enabled_;
+  std::atomic<bool> strict_ssl_enabled_;
 
   // Buffering
   quint64 buffer_duration_nanosec_;
@@ -294,23 +293,23 @@ class GstEnginePipeline : public QObject {
   QList<GstBufferConsumer*> buffer_consumers_;
   QMutex mutex_buffer_consumers_;
 
-  mutex_protected<qint64> segment_start_;
-  mutex_protected<bool> segment_start_received_;
+  std::atomic<qint64> segment_start_;
+  std::atomic<bool> segment_start_received_;
   GstSegment last_playbin_segment_{};
 
-  mutex_protected<qint64> beginning_offset_nanosec_;
+  std::atomic<qint64> beginning_offset_nanosec_;
   // If this is > 0 then the pipeline will be forced to stop when playback goes past this position.
-  mutex_protected<qint64> end_offset_nanosec_;
+  std::atomic<qint64> end_offset_nanosec_;
 
   // We store the beginning and end for the preloading song too, so we can just carry on without reloading the file if the sections carry on from each other.
-  mutex_protected<qint64> next_beginning_offset_nanosec_;
-  mutex_protected<qint64> next_end_offset_nanosec_;
+  std::atomic<qint64> next_beginning_offset_nanosec_;
+  std::atomic<qint64> next_end_offset_nanosec_;
 
   // Set temporarily when moving to the next contiguous section in a multipart file.
-  mutex_protected<bool> ignore_next_seek_;
+  std::atomic<bool> ignore_next_seek_;
 
   // Set temporarily when switching out the decode bin, so metadata doesn't get sent while the Player still thinks it's playing the last song
-  mutex_protected<bool> ignore_tags_;
+  std::atomic<bool> ignore_tags_;
 
   // When the gstreamer source requests a redirect we store the URL here and callers can pick it up after the state change to PLAYING fails.
   mutable QMutex mutex_redirect_url_;
@@ -322,30 +321,31 @@ class GstEnginePipeline : public QObject {
 
   // Seeking while the pipeline is in the READY state doesn't work, so we have to wait until it goes to PAUSED or PLAYING.
   // Also, we have to wait for the playbin to be connected.
-  mutex_protected<bool> pipeline_connected_;
-  mutex_protected<bool> pipeline_active_;
-  mutex_protected<bool> buffering_;
+  std::atomic<bool> pipeline_connected_;
+  std::atomic<bool> pipeline_active_;
+  std::atomic<bool> buffering_;
 
-  mutex_protected<GstState> pending_state_;
-  mutex_protected<qint64> pending_seek_nanosec_;
-  mutex_protected<GstState> pending_seek_ready_previous_state_;
+  std::atomic<GstState> pending_state_;
+  std::atomic<qint64> pending_seek_nanosec_;
+  std::atomic<GstState> pending_seek_ready_previous_state_;
 
-  // We can only use gst_element_query_position() when the pipeline is in
-  // PAUSED nor PLAYING state. Whenever we get a new position (e.g. after a correct call to gst_element_query_position() or after a seek), we store
-  // it here so that we can use it when using gst_element_query_position() is not possible.
-  mutable gint64 last_known_position_ns_;
+  // We can only use gst_element_query_position() when the pipeline is in PAUSED nor PLAYING state.
+  // Whenever we get a new position (e.g. after a correct call to gst_element_query_position() or after a seek), we store it here so that we can use it when using gst_element_query_position() is not possible.
+  mutable std::atomic<gint64> last_known_position_ns_;
 
   // Complete the transition to the next song when it starts playing
-  mutex_protected<bool> next_uri_set_;
-  mutex_protected<bool> next_uri_need_reset_;
-  mutex_protected<bool> next_uri_reset_;
+  std::atomic<bool> next_uri_set_;
+  std::atomic<bool> next_uri_need_reset_;
+  std::atomic<bool> next_uri_reset_;
 
-  mutex_protected<bool> volume_set_;
-  mutex_protected<gdouble> volume_internal_;
-  mutex_protected<uint> volume_percent_;
+  // volume_set_, volume_internal_ and volume_percent_ are read independently in many places, but updates that mutate two or more together must hold mutex_volume_.
+  mutable QMutex mutex_volume_;
+  std::atomic<bool> volume_set_;
+  std::atomic<gdouble> volume_internal_;
+  std::atomic<uint> volume_percent_;
 
-  mutex_protected<bool> fader_active_;
-  mutex_protected<bool> fader_running_;
+  std::atomic<bool> fader_active_;
+  std::atomic<bool> fader_running_;
   bool fader_use_fudge_timer_;
   SharedPtr<QTimeLine> fader_;
   QTimer *timer_fader_fudge_;
@@ -376,15 +376,17 @@ class GstEnginePipeline : public QObject {
   std::optional<gulong> notify_volume_cb_id_;
 
   bool logged_unsupported_analyzer_format_;
-  mutex_protected<bool> about_to_finish_;
-  mutex_protected<bool> finish_requested_;
-  mutex_protected<bool> finished_;
+  std::atomic<bool> about_to_finish_;
+  std::atomic<bool> finish_requested_;
+  std::atomic<bool> finished_;
 
-  mutex_protected<int> set_state_in_progress_;
-  mutex_protected<int> set_state_async_in_progress_;
+  // The state-progress counters (*_in_progress_) and their paired last_set_state_*_in_progress_ values must be updated together under mutex_state_progress_ to avoid observers seeing torn state.
+  mutable QMutex mutex_state_progress_;
+  std::atomic<int> set_state_in_progress_;
+  std::atomic<int> set_state_async_in_progress_;
 
-  mutex_protected<GstState> last_set_state_in_progress_;
-  mutex_protected<GstState> last_set_state_async_in_progress_;
+  std::atomic<GstState> last_set_state_in_progress_;
+  std::atomic<GstState> last_set_state_async_in_progress_;
 
   // Track futures for this pipeline's state changes to allow waiting for them in destructor
   QList<QFuture<GstStateChangeReturn>> pending_state_changes_;

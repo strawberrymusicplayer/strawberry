@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -101,7 +101,7 @@ constexpr int kIgnoreBufferingNearEndSeconds = 5;
 #  pragma clang diagnostic pop
 #endif
 
-int GstEnginePipeline::sId = 1;
+std::atomic<int> GstEnginePipeline::sId{1};
 
 QThreadPool *GstEnginePipeline::shared_state_threadpool() {
 
@@ -424,9 +424,13 @@ void GstEnginePipeline::Disconnect() {
       about_to_finish_cb_id_.reset();
     }
 
-    if (notify_volume_cb_id_.has_value()) {
-      g_signal_handler_disconnect(G_OBJECT(volume_), notify_volume_cb_id_.value());
-      notify_volume_cb_id_.reset();
+    {
+      // volume_ and notify_volume_cb_id_ are mutated together under mutex_volume_.
+      QMutexLocker locker(&mutex_volume_);
+      if (notify_volume_cb_id_.has_value() && volume_) {
+        g_signal_handler_disconnect(G_OBJECT(volume_), notify_volume_cb_id_.value());
+        notify_volume_cb_id_.reset();
+      }
     }
 
     if (upstream_events_probe_cb_id_.has_value()) {
@@ -471,19 +475,31 @@ bool GstEnginePipeline::Finish() {
 
   Disconnect();
 
-  if (IsStateNull() && set_state_async_in_progress_ == 0 && set_state_in_progress_ == 0) {
-    finished_ = true;
-  }
-  else {
-    if (set_state_async_in_progress_ > 0 && last_set_state_async_in_progress_ != GST_STATE_NULL) {
-      SetStateAsync(GST_STATE_NULL);
-    }
-    else if ((!IsStateNull() || set_state_in_progress_ > 0) && last_set_state_in_progress_ != GST_STATE_NULL) {
-      SetState(GST_STATE_NULL);
-    }
+  // Snapshot the state-progress group consistently so the branches below all act on the same view.
+  int async_in_progress = 0;
+  int sync_in_progress = 0;
+  GstState last_async = GST_STATE_VOID_PENDING;
+  GstState last_sync = GST_STATE_VOID_PENDING;
+  {
+    QMutexLocker locker(&mutex_state_progress_);
+    async_in_progress = set_state_async_in_progress_.load();
+    sync_in_progress = set_state_in_progress_.load();
+    last_async = last_set_state_async_in_progress_.load();
+    last_sync = last_set_state_in_progress_.load();
   }
 
-  return finished_.value();
+  const bool is_null = IsStateNull();
+  if (is_null && async_in_progress == 0 && sync_in_progress == 0) {
+    finished_ = true;
+  }
+  else if (async_in_progress > 0 && last_async != GST_STATE_NULL) {
+    SetStateAsync(GST_STATE_NULL);
+  }
+  else if ((!is_null || sync_in_progress > 0) && last_sync != GST_STATE_NULL) {
+    SetState(GST_STATE_NULL);
+  }
+
+  return finished_.load();
 
 }
 
@@ -496,8 +512,9 @@ bool GstEnginePipeline::InitFromUrl(const QUrl &media_url, const QUrl &stream_ur
     gst_url_ = gst_url;
   }
 
-  beginning_offset_nanosec_ = beginning_offset_nanosec;
-  end_offset_nanosec_ = end_offset_nanosec;
+  beginning_offset_nanosec_.store(beginning_offset_nanosec);
+  end_offset_nanosec_.store(end_offset_nanosec);
+
   ebur128_loudness_normalizing_gain_db_ = ebur128_loudness_normalizing_gain_db;
 
   const QString playbin_name = playbin3_support_ && playbin3_enabled_ ? u"playbin3"_s : u"playbin"_s;
@@ -998,20 +1015,31 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
 
 void GstEnginePipeline::SetupVolume(GstElement *element) {
 
-  if (volume_) {
-    qLog(Debug) << "Disonnecting volume notify on" << volume_;
-    g_signal_handler_disconnect(G_OBJECT(volume_), notify_volume_cb_id_.value());
+  GstElement *previous_volume = nullptr;
+  std::optional<gulong> previous_cb_id;
+  {
+    QMutexLocker locker(&mutex_volume_);
+    previous_volume = volume_;
+    previous_cb_id = notify_volume_cb_id_;
     notify_volume_cb_id_.reset();
     volume_ = nullptr;
   }
+  if (previous_volume && previous_cb_id.has_value()) {
+    qLog(Debug) << "Disconnecting volume notify on" << previous_volume;
+    g_signal_handler_disconnect(G_OBJECT(previous_volume), previous_cb_id.value());
+  }
 
   qLog(Debug) << "Connecting volume notify on" << element;
-  notify_volume_cb_id_ = static_cast<glong>(CHECKED_GCONNECT(G_OBJECT(element), "notify::volume", &NotifyVolumeCallback, this));
-  volume_ = element;
-  volume_set_ = false;
+  const gulong new_cb_id = CHECKED_GCONNECT(G_OBJECT(element), "notify::volume", &NotifyVolumeCallback, this);
+  {
+    QMutexLocker locker(&mutex_volume_);
+    notify_volume_cb_id_ = new_cb_id;
+    volume_ = element;
+    volume_set_ = false;
+  }
 
   // Make sure the unused volume element is set to 1.0.
-  if (volume_sw_ && volume_sw_ != volume_) {
+  if (volume_sw_ && volume_sw_ != element) {
     double volume_internal = 1.0;
     g_object_get(G_OBJECT(volume_sw_), "volume", &volume_internal, nullptr);
     if (volume_internal != 1.0) {
@@ -1034,7 +1062,7 @@ GstPadProbeReturn GstEnginePipeline::UpstreamEventsProbeCallback(GstPad *pad, Gs
 
   switch (GST_EVENT_TYPE(e)) {
     case GST_EVENT_SEGMENT:
-      if (!instance->segment_start_received_.value()) {
+      if (!instance->segment_start_received_.load()) {
         // The segment start time is used to calculate the proper offset of data buffers from the start of the stream
         const GstSegment *segment = nullptr;
         gst_event_parse_segment(e, &segment);
@@ -1074,7 +1102,7 @@ void GstEnginePipeline::ElementAddedCallback(GstBin *bin, GstBin *sub_bin, GstEl
   }
 
   instance->SetupVolume(volume);
-  instance->SetVolume(instance->volume_percent_.value());
+  instance->SetVolume(instance->volume_percent_.load());
 
 }
 
@@ -1086,12 +1114,21 @@ void GstEnginePipeline::ElementRemovedCallback(GstBin *bin, GstBin *sub_bin, Gst
 
   if (bin != GST_BIN(instance->audiobin_)) return;
 
-  if (instance->notify_volume_cb_id_.has_value() && element == instance->volume_) {
-    qLog(Debug) << "Disconnecting volume notify on" << instance->volume_;
-    g_signal_handler_disconnect(G_OBJECT(instance->volume_), instance->notify_volume_cb_id_.value());
-    instance->notify_volume_cb_id_.reset();
-    instance->volume_ = nullptr;
-    instance->volume_set_ = false;
+  GstElement *to_disconnect = nullptr;
+  std::optional<gulong> cb_id;
+  {
+    QMutexLocker locker(&instance->mutex_volume_);
+    if (instance->notify_volume_cb_id_.has_value() && element == instance->volume_) {
+      to_disconnect = instance->volume_;
+      cb_id = instance->notify_volume_cb_id_;
+      instance->notify_volume_cb_id_.reset();
+      instance->volume_ = nullptr;
+      instance->volume_set_ = false;
+    }
+  }
+  if (to_disconnect && cb_id.has_value()) {
+    qLog(Debug) << "Disconnecting volume notify on" << to_disconnect;
+    g_signal_handler_disconnect(G_OBJECT(to_disconnect), cb_id.value());
   }
 
 }
@@ -1119,8 +1156,8 @@ void GstEnginePipeline::SourceSetupCallback(GstElement *playbin, GstElement *sou
   }
 
   if (g_object_class_find_property(G_OBJECT_GET_CLASS(source), "ssl-strict")) {
-    qLog(Debug) << "Turning" << (instance->strict_ssl_enabled_.value() ? "on" : "off") << "strict SSL";
-    g_object_set(source, "ssl-strict", instance->strict_ssl_enabled_.value() ? TRUE : FALSE, nullptr);
+    qLog(Debug) << "Turning" << (instance->strict_ssl_enabled_.load() ? "on" : "off") << "strict SSL";
+    g_object_set(source, "ssl-strict", instance->strict_ssl_enabled_.load() ? TRUE : FALSE, nullptr);
   }
 
   {
@@ -1156,7 +1193,7 @@ void GstEnginePipeline::SourceSetupCallback(GstElement *playbin, GstElement *sou
 #endif
 
   // If the pipeline was buffering we stop that now.
-  if (instance->buffering_.value()) {
+  if (instance->buffering_.load()) {
     qLog(Debug) << "Buffering finished";
     instance->buffering_ = false;
     Q_EMIT instance->BufferingFinished();
@@ -1167,20 +1204,31 @@ void GstEnginePipeline::SourceSetupCallback(GstElement *playbin, GstElement *sou
 
 void GstEnginePipeline::NotifyVolumeCallback(GstElement *element, GParamSpec *param_spec, gpointer self) {
 
-  Q_UNUSED(element)
   Q_UNUSED(param_spec)
 
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
 
-  if (!instance->volume_set_.value()) return;
-
+  // Read the property from the element that actually fired the signal, not from instance->volume_
+  // SetupVolume may have swapped volume_ between the signal being queued and this callback running,
+  // in which case we'd otherwise read from the wrong element.
   double volume_internal = 0.0;
-  g_object_get(G_OBJECT(instance->volume_), "volume", &volume_internal, nullptr);
+  g_object_get(G_OBJECT(element), "volume", &volume_internal, nullptr);
 
   const uint volume_percent = static_cast<uint>(qBound(0L, lround(volume_internal / 0.01), 100L));
-  if (volume_percent != instance->volume_percent_.value()) {
-    instance->volume_internal_ = volume_internal;
-    instance->volume_percent_ = volume_percent;
+  bool changed = false;
+  {
+    // Only publish the new value if `element` is still the active volume source.
+    // If SetupVolume swapped to a different element, this notify is stale and must not overwrite the new element's published state.
+    QMutexLocker locker(&instance->mutex_volume_);
+    if (!instance->volume_set_.load() || instance->volume_ != element) return;
+    if (volume_percent != instance->volume_percent_.load()) {
+      instance->volume_internal_.store(volume_internal);
+      instance->volume_percent_.store(volume_percent);
+      changed = true;
+    }
+  }
+
+  if (changed) {
     Q_EMIT instance->VolumeChanged(volume_percent);
   }
 
@@ -1212,9 +1260,11 @@ void GstEnginePipeline::PadAddedCallback(GstElement *element, GstPad *pad, gpoin
   instance->pad_probe_cb_id_ = gst_pad_add_probe(pad, static_cast<GstPadProbeType>(GST_PAD_PROBE_TYPE_BUFFER | GST_PAD_PROBE_TYPE_EVENT_DOWNSTREAM | GST_PAD_PROBE_TYPE_EVENT_FLUSH), PadProbeCallback, instance, nullptr);
 
   instance->pipeline_connected_ = true;
-  if (instance->pending_seek_nanosec_.value() != -1 && instance->pipeline_active_.value()) {
-    QMetaObject::invokeMethod(instance, "Seek", Qt::QueuedConnection, Q_ARG(qint64, instance->pending_seek_nanosec_.value()));
-    instance->pending_seek_nanosec_ = -1;
+  if (instance->pipeline_active_.load()) {
+    const qint64 pending_seek = instance->pending_seek_nanosec_.exchange(-1);
+    if (pending_seek != -1) {
+      QMetaObject::invokeMethod(instance, "Seek", Qt::QueuedConnection, Q_ARG(qint64, pending_seek));
+    }
   }
 
 }
@@ -1281,7 +1331,7 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
   GstBuffer *buf = gst_pad_probe_info_get_buffer(info);
   GstBuffer *buf16 = nullptr;
 
-  quint64 start_time = GST_BUFFER_TIMESTAMP(buf) - instance->segment_start_.value();
+  quint64 start_time = GST_BUFFER_TIMESTAMP(buf) - instance->segment_start_.load();
   quint64 duration = GST_BUFFER_DURATION(buf);
   qint64 end_time = static_cast<qint64>(start_time + duration);
 
@@ -1399,16 +1449,22 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
   }
 
   // Calculate the end time of this buffer so we can stop playback if it's after the end time of this song.
-  if (instance->end_offset_nanosec_.value() > 0 && end_time > instance->end_offset_nanosec_.value()) {
-    if (instance->HasMatchingNextUrl() && instance->next_beginning_offset_nanosec_.value() == instance->end_offset_nanosec_.value()) {
+  const qint64 end_offset = instance->end_offset_nanosec_.load();
+  if (end_offset > 0 && end_time > end_offset) {
+    if (instance->HasMatchingNextUrl() && instance->next_beginning_offset_nanosec_.load() == end_offset) {
       // The "next" song is actually the next segment of this file - so cheat and keep on playing, but just tell the Engine we've moved on.
-      instance->beginning_offset_nanosec_ = instance->next_beginning_offset_nanosec_;
-      instance->end_offset_nanosec_ = instance->next_end_offset_nanosec_;
-      instance->next_media_url_.clear();
-      instance->next_stream_url_.clear();
-      instance->next_gst_url_.clear();
-      instance->next_beginning_offset_nanosec_ = 0;
-      instance->next_end_offset_nanosec_ = 0;
+      // Promote next URL+offset to current under both locks so observers see a consistent (URL, offset) pair.
+      {
+        QMutexLocker lock_url(&instance->mutex_url_);
+        QMutexLocker lock_next_url(&instance->mutex_next_url_);
+        instance->beginning_offset_nanosec_.store(instance->next_beginning_offset_nanosec_.load());
+        instance->end_offset_nanosec_.store(instance->next_end_offset_nanosec_.load());
+        instance->next_media_url_.clear();
+        instance->next_stream_url_.clear();
+        instance->next_gst_url_.clear();
+        instance->next_beginning_offset_nanosec_.store(0);
+        instance->next_end_offset_nanosec_.store(0);
+      }
 
       // GstEngine will try to seek to the start of the new section, but we're already there so ignore it.
       instance->ignore_next_seek_ = true;
@@ -1433,7 +1489,7 @@ void GstEnginePipeline::AboutToFinishCallback(GstPlayBin *playbin, gpointer self
   // Ignore about-to-finish if we're in the process of tearing down the pipeline
   // This prevents race conditions in GStreamer's decodebin3 when rapidly switching tracks
   // See: https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/4626
-  if (instance->finish_requested_.value()) {
+  if (instance->finish_requested_.load()) {
     return;
   }
 
@@ -1450,15 +1506,15 @@ void GstEnginePipeline::AboutToFinishCallback(GstPlayBin *playbin, gpointer self
 
   instance->about_to_finish_ = true;
 
-  if (instance->HasNextUrl() && !instance->next_uri_set_.value()) {
-    instance->SetNextUrl();
-  }
+  // SetNextUrl is self-guarding: it CASes next_uri_set_ false→true so only one of any concurrent about-to-finish / PrepareNextUrl callers wins.
+  instance->SetNextUrl();
 
   Q_EMIT instance->AboutToFinish();
 
 }
 
-GstBusSyncReply GstEnginePipeline::BusSyncCallback(GstBus *bus, GstMessage *msg, gpointer self) {
+// Watch callback runs on the main thread and is the single dispatch point for all message-driven state mutation in this class.
+gboolean GstEnginePipeline::BusWatchCallback(GstBus *bus, GstMessage *msg, gpointer self) {
 
   Q_UNUSED(bus)
 
@@ -1489,10 +1545,6 @@ GstBusSyncReply GstEnginePipeline::BusSyncCallback(GstBus *bus, GstMessage *msg,
       instance->BufferingMessageReceived(msg);
       break;
 
-    case GST_MESSAGE_STREAM_STATUS:
-      instance->StreamStatusMessageReceived(msg);
-      break;
-
     case GST_MESSAGE_STREAM_START:
       instance->StreamStartMessageReceived();
       break;
@@ -1501,34 +1553,24 @@ GstBusSyncReply GstEnginePipeline::BusSyncCallback(GstBus *bus, GstMessage *msg,
       break;
   }
 
-  return GST_BUS_PASS;
+  return TRUE;
 
 }
 
-gboolean GstEnginePipeline::BusWatchCallback(GstBus *bus, GstMessage *msg, gpointer self) {
+// Sync handler runs on the GStreamer streaming thread.
+// Only do work here that genuinely needs streaming-thread context. Everything else is delivered to BusWatchCallback on the main thread via GST_BUS_PASS.
+GstBusSyncReply GstEnginePipeline::BusSyncCallback(GstBus *bus, GstMessage *msg, gpointer self) {
 
   Q_UNUSED(bus)
 
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
 
-  switch (GST_MESSAGE_TYPE(msg)) {
-    case GST_MESSAGE_ERROR:
-      instance->ErrorMessageReceived(msg);
-      break;
-
-    case GST_MESSAGE_TAG:
-      instance->TagMessageReceived(msg);
-      break;
-
-    case GST_MESSAGE_STATE_CHANGED:
-      instance->StateChangedMessageReceived(msg);
-      break;
-
-    default:
-      break;
+  // STREAM_STATUS install of the task enter callback must happen on the streaming thread, so handle it here and let it propagate too.
+  if (GST_MESSAGE_TYPE(msg) == GST_MESSAGE_STREAM_STATUS) {
+    instance->StreamStatusMessageReceived(msg);
   }
 
-  return TRUE;
+  return GST_BUS_PASS;
 
 }
 
@@ -1550,28 +1592,31 @@ void GstEnginePipeline::StreamStatusMessageReceived(GstMessage *msg) {
 
 void GstEnginePipeline::StreamStartMessageReceived() {
 
-  if (next_uri_set_.value()) {
-    next_uri_set_ = false;
-    next_uri_reset_ = false;
-    about_to_finish_ = false;
-    {
-      QMutexLocker lock_url(&mutex_url_);
-      QMutexLocker lock_next_url(&mutex_next_url_);
-      qLog(Debug) << "Stream changed from URL" << gst_url_ << "to" << next_gst_url_;
-      media_url_ = next_media_url_;
-      stream_url_ = next_stream_url_;
-      gst_url_ = next_gst_url_;
-      next_stream_url_.clear();
-      next_media_url_.clear();
-      next_gst_url_.clear();
-    }
-    beginning_offset_nanosec_ = next_beginning_offset_nanosec_;
-    end_offset_nanosec_ = next_end_offset_nanosec_;
-    next_beginning_offset_nanosec_ = 0;
-    next_end_offset_nanosec_ = 0;
-
-    Q_EMIT EndOfStreamReached(id(), true);
+  // Atomically claim the "next URL has started" transition. If two streaming threads observe the same start they'd otherwise both promote next→current.
+  bool expected = true;
+  if (!next_uri_set_.compare_exchange_strong(expected, false)) {
+    return;
   }
+
+  next_uri_reset_ = false;
+  about_to_finish_ = false;
+  {
+    QMutexLocker lock_url(&mutex_url_);
+    QMutexLocker lock_next_url(&mutex_next_url_);
+    qLog(Debug) << "Stream changed from URL" << gst_url_ << "to" << next_gst_url_;
+    media_url_ = next_media_url_;
+    stream_url_ = next_stream_url_;
+    gst_url_ = next_gst_url_;
+    next_stream_url_.clear();
+    next_media_url_.clear();
+    next_gst_url_.clear();
+    beginning_offset_nanosec_.store(next_beginning_offset_nanosec_.load());
+    end_offset_nanosec_.store(next_end_offset_nanosec_.load());
+    next_beginning_offset_nanosec_.store(0);
+    next_end_offset_nanosec_.store(0);
+  }
+
+  Q_EMIT EndOfStreamReached(id(), true);
 
 }
 
@@ -1634,7 +1679,7 @@ void GstEnginePipeline::ErrorMessageReceived(GstMessage *msg) {
   QString debugstr = QString::fromLocal8Bit(debugs);
   g_free(debugs);
 
-  if (pipeline_active_.value() && next_uri_set_.value() && (domain == GST_CORE_ERROR || domain == GST_RESOURCE_ERROR || domain == GST_STREAM_ERROR)) {
+  if (pipeline_active_.load() && next_uri_set_.load() && (domain == GST_CORE_ERROR || domain == GST_RESOURCE_ERROR || domain == GST_STREAM_ERROR)) {
     // A track is still playing and the next uri is not playable. We ignore the error here so it can play until the end.
     // But there is no message send to the bus when the current track finishes, we have to add an EOS ourself.
     qLog(Info) << "Ignoring error" << domain << code << message << debugstr << "when loading next track";
@@ -1669,7 +1714,7 @@ void GstEnginePipeline::ErrorMessageReceived(GstMessage *msg) {
 
 void GstEnginePipeline::TagMessageReceived(GstMessage *msg) {
 
-  if (ignore_tags_.value()) return;
+  if (ignore_tags_.load()) return;
 
   GstTagList *taglist = nullptr;
   gst_message_parse_tag(msg, &taglist);
@@ -1761,22 +1806,25 @@ void GstEnginePipeline::StateChangedMessageReceived(GstMessage *msg) {
   qLog(Debug) << "Pipeline state changed from" << GstStateText(old_state) << "to" << GstStateText(new_state);
 
   const bool pipeline_active = new_state == GST_STATE_PAUSED || new_state == GST_STATE_PLAYING;
-  if (pipeline_active != pipeline_active_.value()) {
+  if (pipeline_active != pipeline_active_.load()) {
     pipeline_active_ = pipeline_active;
     qLog(Debug) << "Pipeline is" << (pipeline_active ? "active" : "inactive");
   }
 
-  if (new_state == GST_STATE_NULL && !finished_.value() && finish_requested_.value()) {
-    finished_ = true;
-    Q_EMIT Finished();
+  if (new_state == GST_STATE_NULL && finish_requested_.load()) {
+    bool expected = false;
+    if (finished_.compare_exchange_strong(expected, true)) {
+      Q_EMIT Finished();
+    }
     return;
   }
 
-  if (pipeline_connected_.value() && pipeline_active_.value() && !volume_set_.value()) {
-    SetVolume(volume_percent_.value());
+  // SetVolume is idempotent (it checks volume_set_ under mutex_volume_) so it is safe to call here even if a concurrent path also calls it.
+  if (pipeline_connected_.load() && pipeline_active_.load() && !volume_set_.load()) {
+    SetVolume(volume_percent_.load());
   }
 
-  if (next_uri_set_.value() && next_uri_need_reset_.value() && new_state == GST_STATE_READY && pending_seek_nanosec_.value() != -1) {
+  if (next_uri_set_.load() && next_uri_need_reset_.load() && new_state == GST_STATE_READY && pending_seek_nanosec_.load() != -1) {
     qLog(Debug) << "Reverting next uri and going to pause state.";
     next_uri_set_ = false;
     {
@@ -1789,15 +1837,17 @@ void GstEnginePipeline::StateChangedMessageReceived(GstMessage *msg) {
     return;
   }
 
-  if (pipeline_active_.value() && !buffering_.value() && !next_uri_need_reset_.value()) {
-    if (pending_seek_nanosec_.value() != -1) {
+  if (pipeline_active_.load() && !buffering_.load() && !next_uri_need_reset_.load()) {
+    if (pending_seek_nanosec_.load() != -1) {
       ProcessPendingSeek(new_state);
     }
-    else if (pending_state_.value() != GST_STATE_NULL) {
-      SetStateAsync(pending_state_.value());
-      pending_state_ = GST_STATE_NULL;
+    else {
+      const GstState requested_state = pending_state_.exchange(GST_STATE_NULL);
+      if (requested_state != GST_STATE_NULL) {
+        SetStateAsync(requested_state);
+      }
     }
-    if (fader_ && fader_active_.value() && !fader_running_.value() && new_state == GST_STATE_PLAYING) {
+    if (fader_ && fader_active_.load() && !fader_running_.load() && new_state == GST_STATE_PLAYING) {
       qLog(Debug) << "Resuming fader";
       ResumeFaderAsync();
     }
@@ -1817,10 +1867,10 @@ void GstEnginePipeline::BufferingMessageReceived(GstMessage *msg) {
 
   const GstState current_state = state();
 
-  if (percent < 100 && !buffering_.value()) {
+  if (percent < 100 && !buffering_.load()) {
     // If we're near the end of the track and about-to-finish has been signaled, ignore buffering messages to prevent getting stuck in buffering state.
     // This can happen with local files where spurious buffering messages appear near the end while the next track is being prepared for gapless playback.
-    if (about_to_finish_.value()) {
+    if (about_to_finish_.load()) {
       const qint64 current_position = position();
       const qint64 track_length = length();
       // Ignore buffering if we're within kIgnoreBufferingNearEndSeconds of the end
@@ -1835,24 +1885,26 @@ void GstEnginePipeline::BufferingMessageReceived(GstMessage *msg) {
     Q_EMIT BufferingStarted();
     if (current_state == GST_STATE_PLAYING) {
       SetStateAsync(GST_STATE_PAUSED);
-      if (pending_state_.value() == GST_STATE_NULL) {
+      if (pending_state_.load() == GST_STATE_NULL) {
         pending_state_ = current_state;
       }
     }
   }
-  else if (percent == 100 && buffering_.value()) {
+  else if (percent == 100 && buffering_.load()) {
     qLog(Debug) << "Buffering finished";
     buffering_ = false;
     Q_EMIT BufferingFinished();
-    if (pending_seek_nanosec_.value() != -1 && !next_uri_need_reset_.value()) {
+    if (pending_seek_nanosec_.load() != -1 && !next_uri_need_reset_.load()) {
       ProcessPendingSeek(state());
     }
-    else if (pending_state_.value() != GST_STATE_NULL) {
-      SetStateAsync(pending_state_.value());
-      pending_state_ = GST_STATE_NULL;
+    else {
+      const GstState pending = pending_state_.exchange(GST_STATE_NULL);
+      if (pending != GST_STATE_NULL) {
+        SetStateAsync(pending);
+      }
     }
   }
-  else if (buffering_.value()) {
+  else if (buffering_.load()) {
     Q_EMIT BufferingProgress(percent);
   }
 
@@ -1880,14 +1932,14 @@ qint64 GstEnginePipeline::length() const {
 
 qint64 GstEnginePipeline::position() const {
 
-  if (pipeline_active_.value()) {
+  if (pipeline_active_.load()) {
     gint64 current_position = 0;
     if (gst_element_query_position(pipeline_, GST_FORMAT_TIME, &current_position)) {
-      last_known_position_ns_ = current_position;
+      last_known_position_ns_.store(current_position);
     }
   }
 
-  return last_known_position_ns_;
+  return last_known_position_ns_.load();
 
 }
 
@@ -1902,8 +1954,11 @@ bool GstEnginePipeline::IsStateNull() const {
 
 void GstEnginePipeline::SetStateAsync(const GstState state) {
 
-  last_set_state_async_in_progress_ = state;
-  ++set_state_async_in_progress_;
+  {
+    QMutexLocker locker(&mutex_state_progress_);
+    last_set_state_async_in_progress_ = state;
+    ++set_state_async_in_progress_;
+  }
 
   QMetaObject::invokeMethod(this, "SetStateAsyncSlot", Qt::QueuedConnection, Q_ARG(GstState, state));
 
@@ -1911,8 +1966,11 @@ void GstEnginePipeline::SetStateAsync(const GstState state) {
 
 void GstEnginePipeline::SetStateAsyncSlot(const GstState state) {
 
-  last_set_state_async_in_progress_ = GST_STATE_VOID_PENDING;
-  --set_state_async_in_progress_;
+  {
+    QMutexLocker locker(&mutex_state_progress_);
+    last_set_state_async_in_progress_ = GST_STATE_VOID_PENDING;
+    --set_state_async_in_progress_;
+  }
 
   SetState(state);
 
@@ -1922,8 +1980,11 @@ QFuture<GstStateChangeReturn> GstEnginePipeline::SetState(const GstState state) 
 
   qLog(Debug) << "Setting pipeline" << id() << "state to" << GstStateText(state);
 
-  last_set_state_in_progress_ = state;
-  ++set_state_in_progress_;
+  {
+    QMutexLocker locker(&mutex_state_progress_);
+    last_set_state_in_progress_ = state;
+    ++set_state_in_progress_;
+  }
 
   QFutureWatcher<GstStateChangeReturn> *watcher = new QFutureWatcher<GstStateChangeReturn>();
   QObject::connect(watcher, &QFutureWatcher<GstStateChangeReturn>::finished, this, [this, watcher, state]() {
@@ -1946,8 +2007,13 @@ QFuture<GstStateChangeReturn> GstEnginePipeline::SetState(const GstState state) 
 
 void GstEnginePipeline::SetStateFinishedSlot(const GstState state, const GstStateChangeReturn state_change_return) {
 
-  last_set_state_in_progress_ = GST_STATE_VOID_PENDING;
-  --set_state_in_progress_;
+  bool quiescent = false;
+  {
+    QMutexLocker locker(&mutex_state_progress_);
+    last_set_state_in_progress_ = GST_STATE_VOID_PENDING;
+    --set_state_in_progress_;
+    quiescent = (set_state_async_in_progress_.load() == 0 && set_state_in_progress_.load() == 0);
+  }
 
   // Remove finished futures from tracking list to prevent unbounded growth
   {
@@ -1961,9 +2027,11 @@ void GstEnginePipeline::SetStateFinishedSlot(const GstState state, const GstStat
     case GST_STATE_CHANGE_NO_PREROLL:
       qLog(Debug) << "Pipeline" << id() << "state successfully set to" << GstStateText(state);
       Q_EMIT SetStateFinished(state_change_return);
-      if (!finished_.value() && finish_requested_.value() && set_state_async_in_progress_ == 0 && set_state_in_progress_ == 0) {
-        finished_ = true;
-        Q_EMIT Finished();
+      if (quiescent && finish_requested_.load()) {
+        bool expected = false;
+        if (finished_.compare_exchange_strong(expected, true)) {
+          Q_EMIT Finished();
+        }
       }
       break;
     case GST_STATE_CHANGE_FAILURE:
@@ -1989,15 +2057,15 @@ QFuture<GstStateChangeReturn> GstEnginePipeline::Play(const bool pause, const qu
 
 bool GstEnginePipeline::Seek(const qint64 nanosec) {
 
-  if (ignore_next_seek_.value()) {
+  if (ignore_next_seek_.load()) {
     ignore_next_seek_ = false;
     return true;
   }
 
-  if (next_uri_set_.value() || next_uri_reset_.value()) {
+  if (next_uri_set_.load() || next_uri_reset_.load()) {
     qLog(Debug) << "Seek to" << nanosec << "requested, but next uri is set, adding to pending seek to revert next uri.";
     pending_seek_nanosec_ = nanosec;
-    if (!next_uri_need_reset_.value() && !next_uri_reset_.value()) {
+    if (!next_uri_need_reset_.load() && !next_uri_reset_.load()) {
       next_uri_need_reset_ = true;
       pending_seek_ready_previous_state_ = state();
       SetState(GST_STATE_READY);
@@ -2005,14 +2073,14 @@ bool GstEnginePipeline::Seek(const qint64 nanosec) {
     return true;
   }
 
-  if (!pipeline_connected_.value() || !pipeline_active_.value()) {
+  if (!pipeline_connected_.load() || !pipeline_active_.load()) {
     qLog(Debug) << "Seek to" << nanosec << "requested, but pipeline is not active, adding to pending seek.";
     pending_seek_nanosec_ = nanosec;
     return true;
   }
 
   pending_seek_nanosec_ = -1;
-  last_known_position_ns_ = nanosec;
+  last_known_position_ns_.store(nanosec);
 
   qLog(Debug) << "Seeking to" << nanosec;
 
@@ -2020,9 +2088,9 @@ bool GstEnginePipeline::Seek(const qint64 nanosec) {
 
   if (success) {
     qLog(Debug) << "Seek succeeded";
-    if (pending_state_.value() != GST_STATE_NULL) {
-      qLog(Debug) << "Setting state from pending state" << GstStateText(pending_state_.value());
-      SetState(pending_state_.value());
+    if (pending_state_.load() != GST_STATE_NULL) {
+      qLog(Debug) << "Setting state from pending state" << GstStateText(pending_state_.load());
+      SetState(pending_state_.load());
       pending_state_ = GST_STATE_NULL;
     }
   }
@@ -2047,25 +2115,25 @@ void GstEnginePipeline::SeekDelayed(const qint64 nanosec) {
 
 void GstEnginePipeline::ProcessPendingSeek(const GstState state) {
 
-  if (pending_seek_nanosec_.value() == -1) return;
+  if (pending_seek_nanosec_.load() == -1) return;
 
-  if (next_uri_reset_.value()) {
+  if (next_uri_reset_.load()) {
     if (state != GST_STATE_PAUSED) {
       return;
     }
-    if (pending_seek_ready_previous_state_.value() == GST_STATE_NULL) {
+    if (pending_seek_ready_previous_state_.load() == GST_STATE_NULL) {
       pending_seek_ready_previous_state_ = GST_STATE_PLAYING;
     }
-    qLog(Debug) << "Next uri is reset, seeking and going back to" << GstStateText(pending_seek_ready_previous_state_.value());
-    if (pending_seek_ready_previous_state_.value() != GST_STATE_PAUSED) {
-      pending_state_ = pending_seek_ready_previous_state_.value();
+    qLog(Debug) << "Next uri is reset, seeking and going back to" << GstStateText(pending_seek_ready_previous_state_.load());
+    if (pending_seek_ready_previous_state_.load() != GST_STATE_PAUSED) {
+      pending_state_ = pending_seek_ready_previous_state_.load();
     }
     pending_seek_ready_previous_state_ = GST_STATE_NULL;
     next_uri_reset_ = false;
-    SeekDelayed(pending_seek_nanosec_.value());
+    SeekDelayed(pending_seek_nanosec_.load());
   }
   else {
-    SeekAsync(pending_seek_nanosec_.value());
+    SeekAsync(pending_seek_nanosec_.load());
   }
 
   pending_seek_nanosec_ = -1;
@@ -2074,18 +2142,29 @@ void GstEnginePipeline::ProcessPendingSeek(const GstState state) {
 
 void GstEnginePipeline::SetVolume(const uint volume_percent) {
 
-  if (volume_) {
-    const double volume_internal = static_cast<double>(volume_percent) * 0.01;
-    if (!volume_set_.value() || volume_internal != volume_internal_.value()) {
-      volume_internal_ = volume_internal;
-      g_object_set(G_OBJECT(volume_), "volume", volume_internal, nullptr);
-      if (pipeline_active_.value()) {
-        volume_set_ = true;
+  const double volume_internal = static_cast<double>(volume_percent) * 0.01;
+  bool apply_to_element = false;
+  GstElement *volume = nullptr;
+  {
+    QMutexLocker locker(&mutex_volume_);
+    if (volume_) {
+      if (!volume_set_.load() || volume_internal != volume_internal_.load()) {
+        volume_internal_.store(volume_internal);
+        apply_to_element = true;
+        volume = volume_;
+        if (pipeline_active_.load()) {
+          volume_set_ = true;
+        }
       }
     }
+    volume_percent_.store(volume_percent);
   }
 
-  volume_percent_ = volume_percent;
+  // Push to GStreamer outside the lock - g_object_set fires the notify::volume signal synchronously, which runs NotifyVolumeCallback, which itself takes mutex_volume_.
+  // Holding the lock here would deadlock when the notify is delivered on this thread.
+  if (apply_to_element && volume) {
+    g_object_set(G_OBJECT(volume), "volume", volume_internal, nullptr);
+  }
 
 }
 
@@ -2200,7 +2279,7 @@ void GstEnginePipeline::StartFader(const qint64 duration_nanosec, const QTimeLin
 
   qLog(Debug) << "Pipeline" << id() << "with state" << GstStateText(state()) << "set to fade from" << fader_->currentValue() << "time" << start_time << "direction" << (direction == QTimeLine::Direction::Forward ? "forward" : "backward");
 
-  if (pipeline_active_.value()) {
+  if (pipeline_active_.load()) {
     fader_->resume();
   }
 
@@ -2216,7 +2295,7 @@ void GstEnginePipeline::SetFaderVolume(const qreal volume) {
 
 void GstEnginePipeline::ResumeFaderAsync() {
 
-  if (fader_active_.value() && !fader_running_.value()) {
+  if (fader_active_.load() && !fader_running_.load()) {
     QMetaObject::invokeMethod(&*fader_, &QTimeLine::resume, Qt::QueuedConnection);
   }
 
@@ -2293,25 +2372,26 @@ void GstEnginePipeline::PrepareNextUrl(const QUrl &media_url, const QUrl &stream
   next_beginning_offset_nanosec_ = beginning_offset_nanosec;
   next_end_offset_nanosec_ = end_offset_nanosec;
 
-  if (about_to_finish_.value()) {
-    SetNextUrl();
-  }
+  SetNextUrl();
 
 }
 
+// Self-guarding: returns immediately unless we're inside an about-to-finish window with a valid next URL queued, and atomically claims the next-URI slot via compare_exchange so concurrent callers can't double-set.
 void GstEnginePipeline::SetNextUrl() {
 
-  if (about_to_finish_.value() && HasNextUrl() && !next_uri_set_.value()) {
-    // Set the next uri. When the current song ends it will be played automatically and a STREAM_START message is send to the bus.
-    // When the next uri is not playable an error message is send when the pipeline goes to PLAY (or PAUSE) state or immediately if it is currently in PLAY state.
-    next_uri_set_ = true;
-    {
-      QMutexLocker l(&mutex_next_url_);
-      qLog(Debug) << "Setting next URL to" << next_gst_url_;
-      g_object_set(G_OBJECT(pipeline_), "uri", next_gst_url_.constData(), nullptr);
-    }
-    about_to_finish_ = false;
+  if (!about_to_finish_.load() || !HasNextUrl()) return;
+
+  bool expected = false;
+  if (!next_uri_set_.compare_exchange_strong(expected, true)) return;
+
+  // Set the next uri. When the current song ends it will be played automatically and a STREAM_START message is send to the bus.
+  // When the next uri is not playable an error message is send when the pipeline goes to PLAY (or PAUSE) state or immediately if it is currently in PLAY state.
+  {
+    QMutexLocker l(&mutex_next_url_);
+    qLog(Debug) << "Setting next URL to" << next_gst_url_;
+    g_object_set(G_OBJECT(pipeline_), "uri", next_gst_url_.constData(), nullptr);
   }
+  about_to_finish_ = false;
 
 }
 
