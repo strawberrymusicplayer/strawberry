@@ -51,6 +51,7 @@ constexpr char kRgFallbackGain[] = "rgfallbackgain";
 constexpr char kRgCompression[] = "rgcompression";
 constexpr char kEBUR128LoudnessNormalization[] = "ebur128_loudness_normalization";
 constexpr char kEBUR128TargetLevelLUFS[] = "ebur128_target_level_lufs";
+constexpr char kEBUR128AnalyzeMissingLoudnessBeforePlayback[] = "ebur128_analyze_missing_loudness_before_playback";
 constexpr char kFadeoutEnabled[] = "FadeoutEnabled";
 constexpr char kCrossfadeEnabled[] = "CrossfadeEnabled";
 constexpr char kAutoCrossfadeEnabled[] = "AutoCrossfadeEnabled";
