@@ -717,11 +717,7 @@ void Player::UpdateSongLoudness(PlaylistItemPtr item, Song &song, const EBUR128M
   song.set_ebur128_integrated_loudness_lufs(measures.loudness_lufs);
   song.set_ebur128_loudness_range_lu(measures.range_lu);
 
-  Playlist *playlist = playlist_manager_->active();
-  const int current_row = playlist->current_row();
-  if (current_row != -1 && playlist->current_item() == item) {
-    playlist->UpdateItemMetadata(current_row, item, song, stream_metadata_update);
-  }
+  playlist_manager_->active()->UpdateItemMetadata(item, song, stream_metadata_update);
 
   if (song.is_local_collection_song() && song.id() != -1) {
     SongList songs;
@@ -880,7 +876,7 @@ void Player::PlayAt(const int index, const bool pause, const quint64 offset_nano
       engine_->Play(original_url, url, pause, change, song_to_play.has_cue(), static_cast<quint64>(beginning_nanosec), end_nanosec, offset_nanosec, song_to_play.ebur128_integrated_loudness_lufs());
     };
 #ifdef HAVE_EBUR128
-    if (AnalyzeMissingLoudnessBeforePlayback(current_item_, song, false, play)) {
+    if (AnalyzeMissingLoudnessBeforePlayback(current_item_, song, true, play)) {
       return;
     }
 #endif
