@@ -422,7 +422,7 @@ void AlbumCoverLoader::LoadRemoteImageFinished(QNetworkReply *reply, TaskPtr tas
     network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
     network_request.setUrl(redirect_url);
     QNetworkReply *redirected_reply = network_->get(network_request);
-    QObject::connect(redirected_reply, &QNetworkReply::finished, this, [this, reply, task, result_type, redirect_url]() { LoadRemoteImageFinished(reply, task, result_type, redirect_url); });
+    QObject::connect(redirected_reply, &QNetworkReply::finished, this, [this, redirected_reply, task, result_type, redirect_url]() { LoadRemoteImageFinished(redirected_reply, task, result_type, redirect_url); });
     return;
   }
 

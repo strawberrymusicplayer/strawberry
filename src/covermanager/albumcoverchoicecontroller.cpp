@@ -83,7 +83,6 @@
 using std::make_shared;
 using namespace Qt::Literals::StringLiterals;
 
-QSet<QString> *AlbumCoverChoiceController::sImageExtensions = nullptr;
 
 AlbumCoverChoiceController::AlbumCoverChoiceController(QWidget *parent)
     : QWidget(parent),
@@ -583,6 +582,7 @@ void AlbumCoverChoiceController::SaveArtManualToSong(Song *song, const QUrl &art
     case Song::Source::Stream:
     case Song::Source::RadioParadise:
     case Song::Source::SomaFM:
+    case Song::Source::RadioBrowser:
     case Song::Source::Unknown:
       break;
     case Song::Source::Subsonic:
@@ -755,12 +755,9 @@ void AlbumCoverChoiceController::SaveCoverEmbeddedToSong(const Song &song, const
 
 bool AlbumCoverChoiceController::IsKnownImageExtension(const QString &suffix) {
 
-  if (!sImageExtensions) {
-    sImageExtensions = new QSet<QString>();
-    (*sImageExtensions) << u"png"_s << u"jpg"_s << u"jpeg"_s << u"bmp"_s << u"gif"_s << u"xpm"_s << u"pbm"_s << u"pgm"_s << u"ppm"_s << u"xbm"_s;
-  }
+  static const QSet<QString> extensions = {u"png"_s, u"jpg"_s, u"jpeg"_s, u"bmp"_s, u"gif"_s, u"xpm"_s, u"pbm"_s, u"pgm"_s, u"ppm"_s, u"xbm"_s};
 
-  return sImageExtensions->contains(suffix);
+  return extensions.contains(suffix);
 
 }
 

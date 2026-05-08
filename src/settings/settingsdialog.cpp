@@ -91,6 +91,8 @@
 #  include "qobuzsettingspage.h"
 #endif
 
+#include "radiosettingspage.h"
+
 #include "ui_settingsdialog.h"
 
 using namespace Qt::Literals::StringLiterals;
@@ -144,9 +146,7 @@ SettingsDialog::SettingsDialog(const SharedPtr<Player> player,
   AddPage(Page::Moodbar, new MoodbarSettingsPage(this, this), iface);
 #endif
 
-#if defined(HAVE_SUBSONIC) || defined(HAVE_TIDAL) || defined(HAVE_SPOTIFY) || defined(HAVE_QOBUZ)
   QTreeWidgetItem *streaming = AddCategory(tr("Streaming"));
-#endif
 
   (void)streaming_services;
 #ifdef HAVE_SUBSONIC
@@ -162,9 +162,11 @@ SettingsDialog::SettingsDialog(const SharedPtr<Player> player,
   AddPage(Page::Qobuz, new QobuzSettingsPage(this, streaming_services->Service<QobuzService>(), this), streaming);
 #endif
 
+  AddPage(Page::Radio, new RadioSettingsPage(this, this), streaming);
+
   // List box
   QObject::connect(ui_->list, &QTreeWidget::currentItemChanged, this, &SettingsDialog::CurrentItemChanged);
-  ui_->list->setCurrentItem(pages_[Page::Behaviour].item_);
+  ui_->list->setCurrentItem(pages_.value(Page::Behaviour).item_);
 
   // Make sure the list is big enough to show all the items
   ui_->list->setMinimumWidth(qobject_cast<QAbstractItemView*>(ui_->list)->sizeHintForColumn(0));  // clazy:exclude=unneeded-cast
@@ -337,7 +339,7 @@ void SettingsDialog::OpenAtPage(const Page page) {
     return;
   }
 
-  ui_->list->setCurrentItem(pages_[page].item_);
+  ui_->list->setCurrentItem(pages_.value(page).item_);
   show();
 
 }

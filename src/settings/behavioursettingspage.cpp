@@ -243,7 +243,7 @@ void BehaviourSettingsPage::Save() {
   if (ui_->radiobutton_show_minimized->isChecked()) startup_behaviour = StartupBehaviour::ShowMinimized;
   s.setValue(kStartupBehaviour, static_cast<int>(startup_behaviour));
 
-  s.setValue(kLanguage, language_map_.contains(ui_->combobox_language->currentText()) ? language_map_[ui_->combobox_language->currentText()] : QString());
+  s.setValue(kLanguage, language_map_.value(ui_->combobox_language->currentText()));
 
   const PlayBehaviour menu_playmode = static_cast<PlayBehaviour>(ui_->combobox_menuplaymode->currentData().toInt());
 

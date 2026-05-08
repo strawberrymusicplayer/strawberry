@@ -31,6 +31,8 @@
 #include "core/networkaccessmanager.h"
 #include "core/taskmanager.h"
 #include "core/iconloader.h"
+#include "core/settings.h"
+#include "constants/somafmsettings.h"
 #include "playlistparsers/playlistparser.h"
 #include "somafmservice.h"
 #include "radiochannel.h"
@@ -97,6 +99,11 @@ void SomaFMService::GetChannelsReply(QNetworkReply *reply, const int task_id) {
   }
   const QJsonArray array_channels = object["channels"_L1].toArray();
 
+  Settings s;
+  s.beginGroup(QLatin1String(SomaFMSettings::kSettingsGroup));
+  const QString preferred_quality = s.value(QLatin1String(SomaFMSettings::kQuality), QLatin1String(SomaFMSettings::kQualityDefault)).toString();
+  s.endGroup();
+
   RadioChannelList channels;
   for (const QJsonValue &value_channel : array_channels) {
     if (!value_channel.isObject()) continue;
@@ -115,7 +122,7 @@ void SomaFMService::GetChannelsReply(QNetworkReply *reply, const int task_id) {
       }
       RadioChannel channel;
       QString quality = obj_playlist["quality"_L1].toString();
-      if (quality != "highest"_L1) continue;
+      if (quality != preferred_quality) continue;
       channel.source = source_;
       channel.name = name;
       channel.url.setUrl(obj_playlist["url"_L1].toString());

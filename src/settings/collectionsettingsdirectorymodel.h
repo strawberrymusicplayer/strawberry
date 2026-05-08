@@ -38,7 +38,7 @@ class CollectionSettingsDirectoryModel : public QStandardItemModel {
   void AddDirectories(const QStringList &paths);
   void RemoveDirectory(const QModelIndex &idx);
 
-  QStringList paths() const { return paths_; }
+  const QStringList &paths() const { return paths_; }
 
  private:
   QIcon dir_icon_;

@@ -81,6 +81,7 @@ MtpDevice::~MtpDevice() {
 
   if (loader_) {
     loader_thread_->exit();
+    loader_thread_->wait();
     loader_->deleteLater();
     loader_ = nullptr;
     db_busy_.unlock();

@@ -1302,10 +1302,10 @@ void SpotifyRequest::AlbumCoverReceived(QNetworkReply *reply, const QString &alb
     return;
   }
 
-  QList<QByteArray> format_list = QImageReader::imageFormatsForMimeType(mimetype.toUtf8());
-  char *format = nullptr;
+  const QList<QByteArray> format_list = QImageReader::imageFormatsForMimeType(mimetype.toUtf8());
+  const char *format = nullptr;
   if (!format_list.isEmpty()) {
-    format = format_list[0].data();
+    format = format_list.constFirst().constData();
   }
 
   QImage image;

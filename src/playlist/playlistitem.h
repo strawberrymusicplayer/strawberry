@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,6 +32,7 @@
 #include <QMap>
 #include <QSet>
 #include <QVariant>
+#include <QUuid>
 #include <QString>
 #include <QUrl>
 #include <QColor>
@@ -48,10 +49,10 @@ using std::enable_shared_from_this;
 
 class PlaylistItem : public enable_shared_from_this<PlaylistItem> {
  public:
-  explicit PlaylistItem(const Song::Source source);
+  explicit PlaylistItem(const Song::Source source, const QUuid &uuid = QUuid());
   virtual ~PlaylistItem();
 
-  static SharedPtr<PlaylistItem> NewFromSource(const Song::Source source);
+  static SharedPtr<PlaylistItem> NewFromSource(const Song::Source source, const QUuid &uuid = QUuid());
   static SharedPtr<PlaylistItem> NewFromSong(const Song &song);
 
   enum class Option {
@@ -64,6 +65,10 @@ class PlaylistItem : public enable_shared_from_this<PlaylistItem> {
     SeekDisabled = 0x04,
   };
   Q_DECLARE_FLAGS(Options, Option)
+
+  QUuid uuid() const { return uuid_; }
+  void set_uuid(const QUuid &uuid) { uuid_ = uuid; }
+  bool uuid_generated() const { return uuid_generated_; }
 
   virtual Song::Source source() const { return source_; }
   virtual Options options() const { return Option::Default; }
@@ -88,8 +93,8 @@ class PlaylistItem : public enable_shared_from_this<PlaylistItem> {
 
   virtual bool InitFromQuery(const SqlRow &query) = 0;
   void BindToQuery(SqlQuery *query) const;
-  virtual void Reload() {}
-  QFuture<void> BackgroundReload();
+  virtual Song Reload() { return Song(); }
+  QFuture<Song> BackgroundReload();
 
   // Background colors.
   void SetBackgroundColor(const short priority, const QColor &color);
@@ -112,6 +117,9 @@ class PlaylistItem : public enable_shared_from_this<PlaylistItem> {
   bool GetShouldSkip() const;
 
  protected:
+  Song::Source source_;
+  QUuid uuid_;
+  bool uuid_generated_;
   bool should_skip_;
 
   enum class DatabaseColumn {
@@ -121,7 +129,6 @@ class PlaylistItem : public enable_shared_from_this<PlaylistItem> {
   virtual QVariant DatabaseValue(const DatabaseColumn database_column) const { Q_UNUSED(database_column); return QVariant(QString()); }
   virtual Song DatabaseSongMetadata() const { return Song(); }
 
-  Song::Source source_;
   Song stream_song_;
 
   QMap<short, QColor> background_colors_;

@@ -25,6 +25,7 @@
 #include <QNetworkReply>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QJsonArray>
 
 #include "includes/shared_ptr.h"
 #include "core/logging.h"
@@ -96,6 +97,40 @@ QJsonObject RadioService::ExtractJsonObj(const QByteArray &data) {
 QJsonObject RadioService::ExtractJsonObj(QNetworkReply *reply) {
 
   return ExtractJsonObj(ExtractData(reply));
+
+}
+
+QJsonArray RadioService::ExtractJsonArray(const QByteArray &data) {
+
+  if (data.isEmpty()) {
+    return QJsonArray();
+  }
+
+  QJsonParseError json_error;
+  const QJsonDocument json_document = QJsonDocument::fromJson(data, &json_error);
+
+  if (json_error.error != QJsonParseError::NoError) {
+    Error(QStringLiteral("Failed to parse Json data from %1: %2").arg(name_, json_error.errorString()));
+    return QJsonArray();
+  }
+
+  if (json_document.isEmpty()) {
+    Error(QStringLiteral("%1: Received empty Json document.").arg(name_), data);
+    return QJsonArray();
+  }
+
+  if (!json_document.isArray()) {
+    Error(QStringLiteral("%1: Json document is not an array.").arg(name_), json_document);
+    return QJsonArray();
+  }
+
+  return json_document.array();
+
+}
+
+QJsonArray RadioService::ExtractJsonArray(QNetworkReply *reply) {
+
+  return ExtractJsonArray(ExtractData(reply));
 
 }
 

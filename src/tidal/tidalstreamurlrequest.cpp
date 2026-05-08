@@ -246,7 +246,7 @@ void TidalStreamURLRequest::StreamURLReceived() {
         urls << ParseUrls(object_manifest);
       }
 
-      if (object_manifest.contains("mimeType_"_L1)) {
+      if (object_manifest.contains("mimeType"_L1)) {
         const QString mimetype = object_manifest["mimeType"_L1].toString();
         QMimeDatabase mimedb;
         const QStringList suffixes = mimedb.mimeTypeForName(mimetype).suffixes();

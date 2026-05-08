@@ -229,15 +229,13 @@ void CollectionSettingsPage::Save() {
 
   s.endGroup();
 
-  const QMap<int, CollectionDirectory> dirs = collection_directory_model_->directories();
-  for (const CollectionDirectory &dir : dirs) {
+  for (const CollectionDirectory &dir : collection_directory_model_->directories()) {
     if (!collectionsettings_directory_model_->paths().contains(dir.path)) {
       collection_backend_->RemoveDirectoryAsync(dir);
     }
   }
 
-  const QStringList paths = collectionsettings_directory_model_->paths();
-  for (const QString &path : paths) {
+  for (const QString &path : collectionsettings_directory_model_->paths()) {
     if (!collection_directory_model_->paths().contains(path)) {
       collection_backend_->AddDirectoryAsync(path);
     }

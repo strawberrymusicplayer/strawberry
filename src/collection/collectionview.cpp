@@ -510,9 +510,8 @@ void CollectionView::SetShowInVarious(const bool on) {
 
   // If we have only one album and we are putting it into Various Artists, check to see
   // if there are other Artists in this album and prompt the user if they'd like them moved, too
-  if (on && albums.keys().count() == 1) {
-    const QStringList albums_list = albums.keys();
-    const QString album = albums_list.first();
+  if (on && albums.size() == 1) {
+    const QString album = albums.cbegin().key();
     const SongList all_of_album = backend_->GetSongsByAlbum(album);
     QSet<QString> other_artists;
     for (const Song &s : all_of_album) {
@@ -835,7 +834,7 @@ void CollectionView::DeleteFilesFinished(const SongList &songs_with_errors) {
   if (songs_with_errors.isEmpty()) return;
 
   OrganizeErrorDialog *dialog = new OrganizeErrorDialog(this);
+  dialog->setAttribute(Qt::WA_DeleteOnClose);
   dialog->Show(OrganizeErrorDialog::OperationType::Delete, songs_with_errors);
-  // It deletes itself when the user closes it
 
 }

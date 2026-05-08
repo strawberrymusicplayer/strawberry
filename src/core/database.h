@@ -52,7 +52,7 @@ class Database : public QObject {
   static const int kSchemaVersion;
 
   struct AttachedDatabase {
-    AttachedDatabase() {}
+    AttachedDatabase() : is_temporary_(false) {}
     AttachedDatabase(const QString &filename, const QString &schema, bool is_temporary)
         : filename_(filename), schema_(schema), is_temporary_(is_temporary) {}
 
@@ -69,7 +69,7 @@ class Database : public QObject {
   QRecursiveMutex *Mutex() { return &mutex_; }
 
   void RecreateAttachedDb(const QString &database_name);
-  void ExecSchemaCommands(QSqlDatabase &db, const QString &schema, int schema_version, bool in_transaction = false);
+  void ExecSchemaCommands(QSqlDatabase &db, const QString &schema, const int schema_version, const bool in_transaction = false);
 
   int startup_schema_version() const { return startup_schema_version_; }
   int current_schema_version() const { return kSchemaVersion; }
@@ -93,10 +93,10 @@ class Database : public QObject {
   static int SchemaVersion(QSqlDatabase *db);
   void UpdateMainSchema(QSqlDatabase *db);
 
-  void ExecSchemaCommandsFromFile(QSqlDatabase &db, const QString &filename, int schema_version, bool in_transaction = false);
+  void ExecSchemaCommandsFromFile(QSqlDatabase &db, const QString &filename, const int schema_version, const bool in_transaction = false);
   void ExecSongTablesCommands(QSqlDatabase &db, const QStringList &song_tables, const QStringList &commands);
 
-  void UpdateDatabaseSchema(int version, QSqlDatabase &db);
+  void UpdateDatabaseSchema(const int version, QSqlDatabase &db);
   void UrlEncodeFilenameColumn(const QString &table, QSqlDatabase &db);
   QStringList SongsTables(QSqlDatabase &db, const int schema_version);
   bool IntegrityCheck(const QSqlDatabase &db);

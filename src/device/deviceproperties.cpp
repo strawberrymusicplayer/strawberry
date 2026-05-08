@@ -161,7 +161,8 @@ void DeviceProperties::UpdateHardwareInfo() {
     // Remove empty items
     QStringList keys = info.keys();
     for (const QString &key : std::as_const(keys)) {
-      if (info[key].isNull() || info[key].toString().isEmpty())
+      const QVariant v = info.value(key);
+      if (v.isNull() || v.toString().isEmpty())
         info.remove(key);
     }
 
@@ -174,7 +175,7 @@ void DeviceProperties::UpdateHardwareInfo() {
     AddHardwareInfo(row++, tr("Manufacturer"), lister->DeviceManufacturer(id));
     keys = info.keys();
     for (const QString &key : std::as_const(keys)) {
-      AddHardwareInfo(row++, key, info[key].toString());
+      AddHardwareInfo(row++, key, info.value(key).toString());
     }
 
     ui_->hardware_info->sortItems(0);

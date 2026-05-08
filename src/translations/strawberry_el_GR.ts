@@ -921,27 +921,27 @@
     </message>
     <message>
       <source>Any rating</source>
-      <translation type="unfinished">Any rating</translation>
+      <translation>Οποιαδήποτε αξιολόγηση</translation>
     </message>
     <message>
       <source>Rating non null</source>
-      <translation type="unfinished">Rating non null</translation>
+      <translation>Μη μηδενική αξιολόγηση</translation>
     </message>
     <message>
       <source>Rating greater than 1 star</source>
-      <translation type="unfinished">Rating greater than 1 star</translation>
+      <translation>Αξιολόγηση μεγαλύτερη από 1 αστέρι</translation>
     </message>
     <message>
       <source>Rating greater than 2 stars</source>
-      <translation type="unfinished">Rating greater than 2 stars</translation>
+      <translation>Αξιολόγηση μεγαλύτερη από 2 αστέρια</translation>
     </message>
     <message>
       <source>Rating greater than 3 stars</source>
-      <translation type="unfinished">Rating greater than 3 stars</translation>
+      <translation>Αξιολόγηση μεγαλύτερη από 3 αστέρια</translation>
     </message>
     <message>
       <source>Rating greater than 4 stars</source>
-      <translation type="unfinished">Rating greater than 4 stars</translation>
+      <translation>Αξιολόγηση μεγαλύτερη από 4 αστέρια</translation>
     </message>
     <message>
       <source>Group by</source>
@@ -949,11 +949,11 @@
     </message>
     <message>
       <source>Filter by age</source>
-      <translation type="unfinished">Filter by age</translation>
+      <translation>Φίλτρο κατά ηλικία</translation>
     </message>
     <message>
       <source>Filter by rating</source>
-      <translation type="unfinished">Filter by rating</translation>
+      <translation>Φίλτρο κατά αξιολόγηση</translation>
     </message>
     <message>
       <source>Display options</source>
@@ -2589,11 +2589,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Remove selected root directory</source>
-      <translation type="unfinished">Remove selected root directory</translation>
+      <translation>Αφαίρεση επιλεγμένου καταλόγου ρίζας</translation>
     </message>
     <message>
       <source>Toggle between list and tree view</source>
-      <translation type="unfinished">Toggle between list and tree view</translation>
+      <translation>Εναλλαγή μεταξύ λίστας και προβολής δέντρου</translation>
     </message>
     <message>
       <source>Select folder to add as tree root</source>
@@ -2643,43 +2643,43 @@ If there are no matches then it will use the largest image in the directory.</so
     <name>FileViewTree</name>
     <message>
       <source>Append to current playlist</source>
-      <translation type="unfinished">Append to current playlist</translation>
+      <translation>Προσάρτηση στην τρέχουσα λίστα</translation>
     </message>
     <message>
       <source>Replace current playlist</source>
-      <translation type="unfinished">Replace current playlist</translation>
+      <translation>Αντικατάσταση της τρέχουσας λίστας</translation>
     </message>
     <message>
       <source>Open in new playlist</source>
-      <translation type="unfinished">Open in new playlist</translation>
+      <translation>Άνοιγμα σε νέα λίστα</translation>
     </message>
     <message>
       <source>Copy to collection...</source>
-      <translation type="unfinished">Copy to collection...</translation>
+      <translation>Αντιγραφή στη συλλογή...</translation>
     </message>
     <message>
       <source>Move to collection...</source>
-      <translation type="unfinished">Move to collection...</translation>
+      <translation>Μετακίνηση στη συλλογή...</translation>
     </message>
     <message>
       <source>Copy to device...</source>
-      <translation type="unfinished">Copy to device...</translation>
+      <translation>Αντιγραφή στη συσκευή...</translation>
     </message>
     <message>
       <source>Delete from disk...</source>
-      <translation type="unfinished">Delete from disk...</translation>
+      <translation>Διαγραφή από το δίσκο...</translation>
     </message>
     <message>
       <source>Edit track information...</source>
-      <translation type="unfinished">Edit track information...</translation>
+      <translation>Επεξεργασία πληροφοριών τραγουδιού...</translation>
     </message>
     <message>
       <source>Show in file browser...</source>
-      <translation type="unfinished">Show in file browser...</translation>
+      <translation>Εμφάνιση στον περιηγητή αρχείων...</translation>
     </message>
     <message>
       <source>Files</source>
-      <translation type="unfinished">Files</translation>
+      <translation>Αρχεία</translation>
     </message>
   </context>
   <context>
@@ -3084,7 +3084,7 @@ If there are no matches then it will use the largest image in the directory.</so
     <name>LastFMScrobbler</name>
     <message>
       <source>%1 Scrobbler Authentication</source>
-      <translation type="unfinished">%1 Scrobbler Authentication</translation>
+      <translation>Ταυτοποίηση %1 Scrobbler</translation>
     </message>
     <message>
       <source>Open URL in web browser?</source>
@@ -4119,22 +4119,22 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Song title</source>
-      <translation type="unfinished">Song title</translation>
+      <translation>Τίτλος Τραγουδιού</translation>
     </message>
   </context>
   <context>
     <name>OAuthenticator</name>
     <message>
       <source>Authentication</source>
-      <translation type="unfinished">Authentication</translation>
+      <translation>Ταυτοποίηση</translation>
     </message>
     <message>
       <source>Please open this URL in your browser</source>
-      <translation type="unfinished">Please open this URL in your browser</translation>
+      <translation>Παρακαλώ ανοίξτε αυτό το URL στο πρόγραμμα περιήγησης</translation>
     </message>
     <message>
       <source>Received invalid reply from web browser.</source>
-      <translation type="unfinished">Received invalid reply from web browser.</translation>
+      <translation>Λήφθηκε μη έγκυρη απάντηση από το πρόγραμμα περιήγησης.</translation>
     </message>
     <message>
       <source>Redirect URL is missing query.</source>
@@ -4612,7 +4612,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>URL</source>
-      <translation type="unfinished">URL</translation>
+      <translation>URL</translation>
     </message>
     <message>
       <source>CUE</source>
@@ -5217,7 +5217,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Create fingerprint</source>
-      <translation type="unfinished">Create fingerprint</translation>
+      <translation>Δημιουργία μοναδικού αποτυπώματος</translation>
     </message>
     <message>
       <source>Failed to create directory %1.</source>
@@ -5325,7 +5325,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Could not save file</source>
-      <translation type="unfinished">Could not save file</translation>
+      <translation>Αδυναμία αποθήκευσης αρχείου</translation>
     </message>
     <message>
       <source>Unknown error</source>
@@ -5568,7 +5568,7 @@ Are you sure you want to continue?</source>
     <name>QobuzMetadataRequest</name>
     <message>
       <source>Not authenticated</source>
-      <translation type="unfinished">Not authenticated</translation>
+      <translation>Μη ταυτοποιημένο</translation>
     </message>
     <message>
       <source>No track ID</source>
@@ -5785,7 +5785,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Private key</source>
-      <translation type="unfinished">Private key</translation>
+      <translation>Ιδιωτικό Κλειδί</translation>
     </message>
     <message>
       <source>Automatically fetch app ID, app secret and private key from Qobuz web player</source>
@@ -6444,7 +6444,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Restore defaults</source>
-      <translation type="unfinished">Restore defaults</translation>
+      <translation>Επαναφορά προεπιλογών</translation>
     </message>
   </context>
   <context>

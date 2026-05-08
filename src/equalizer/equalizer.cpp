@@ -340,11 +340,10 @@ void Equalizer::Save() {
   // Presets
   s.beginWriteArray("presets", static_cast<int>(presets_.count()));
   int i = 0;
-  const QStringList presets = presets_.keys();
-  for (const QString &name : presets) {
+  for (auto it = presets_.cbegin(); it != presets_.cend(); ++it) {
     s.setArrayIndex(i++);
-    s.setValue("name", name);
-    s.setValue("params", QVariant::fromValue(presets_[name]));
+    s.setValue("name", it.key());
+    s.setValue("params", QVariant::fromValue(it.value()));
   }
   s.endArray();
 

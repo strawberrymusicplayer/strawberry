@@ -344,7 +344,10 @@ optional_component(TIDAL ON "Streaming: Tidal")
 optional_component(SPOTIFY ON "Streaming: Spotify")
 optional_component(QOBUZ ON "Streaming: Qobuz")
 
-optional_component(MOODBAR ON "Moodbar"
+optional_component(MOODBAR ON "Moodbar")
+
+optional_component(GSTFASTSPECTRUM ON "Moodbar: Fast spectrum with FFTW3"
+  DEPENDS "moodbar" HAVE_MOODBAR
   DEPENDS "fftw3" FFTW3_FOUND
 )
 
@@ -708,6 +711,7 @@ set(SOURCES
   src/settings/coverssettingspage.cpp
   src/settings/lyricssettingspage.cpp
   src/settings/networkproxysettingspage.cpp
+  src/settings/radiosettingspage.cpp
   src/settings/appearancesettingspage.cpp
   src/settings/contextsettingspage.cpp
   src/settings/notificationssettingspage.cpp
@@ -780,6 +784,9 @@ set(SOURCES
   src/radios/radiochannel.cpp
   src/radios/somafmservice.cpp
   src/radios/radioparadiseservice.cpp
+  src/radios/radiobrowserservice.cpp
+  src/radios/radiobrowsersearchview.cpp
+  src/radios/radiobrowsersearchmodel.cpp
   src/radios/radiomimedata.cpp
 
   src/scrobbler/audioscrobbler.cpp
@@ -1007,6 +1014,7 @@ set(HEADERS
   src/settings/coverssettingspage.h
   src/settings/lyricssettingspage.h
   src/settings/networkproxysettingspage.h
+  src/settings/radiosettingspage.h
   src/settings/appearancesettingspage.h
   src/settings/contextsettingspage.h
   src/settings/notificationssettingspage.h
@@ -1077,6 +1085,9 @@ set(HEADERS
   src/radios/radiomimedata.h
   src/radios/somafmservice.h
   src/radios/radioparadiseservice.h
+  src/radios/radiobrowserservice.h
+  src/radios/radiobrowsersearchview.h
+  src/radios/radiobrowsersearchmodel.h
 
   src/scrobbler/audioscrobbler.h
   src/scrobbler/scrobblersettingsservice.h
@@ -1161,6 +1172,7 @@ set(UI
   src/settings/coverssettingspage.ui
   src/settings/lyricssettingspage.ui
   src/settings/networkproxysettingspage.ui
+  src/settings/radiosettingspage.ui
   src/settings/appearancesettingspage.ui
   src/settings/notificationssettingspage.ui
   src/settings/transcodersettingspage.ui
@@ -1189,6 +1201,7 @@ set(UI
   src/streaming/streamingsearchview.ui
 
   src/radios/radioviewcontainer.ui
+  src/radios/radiobrowsersearchview.ui
 
   src/organize/organizedialog.ui
   src/organize/organizeerrordialog.ui
@@ -1332,8 +1345,6 @@ optional_source(HAVE_MOODBAR
     src/moodbar/moodbarpipeline.cpp
     src/moodbar/moodbarproxystyle.cpp
     src/moodbar/moodbarrenderer.cpp
-    src/engine/gstfastspectrumplugin.cpp
-    src/engine/gstfastspectrum.cpp
     src/settings/moodbarsettingspage.cpp
   HEADERS
     src/moodbar/moodbarcontroller.h
@@ -1345,6 +1356,8 @@ optional_source(HAVE_MOODBAR
   UI
     src/settings/moodbarsettingspage.ui
 )
+
+optional_source(HAVE_GSTFASTSPECTRUM SOURCES src/engine/gstfastspectrumplugin.cpp src/engine/gstfastspectrum.cpp)
 
 optional_source(HAVE_GIO SOURCES src/device/giolister.cpp HEADERS src/device/giolister.h)
 
@@ -1556,7 +1569,7 @@ target_link_libraries(strawberry_lib PUBLIC
   $<$<BOOL:${HAVE_ALSA}>:ALSA::ALSA>
   $<$<BOOL:${HAVE_PULSE}>:PkgConfig::LIBPULSE>
   $<$<BOOL:${HAVE_CHROMAPRINT}>:PkgConfig::CHROMAPRINT>
-  $<$<BOOL:${HAVE_MOODBAR}>:PkgConfig::FFTW3>
+  $<$<BOOL:${HAVE_GSTFASTSPECTRUM}>:PkgConfig::FFTW3>
   $<$<BOOL:${HAVE_EBUR128}>:PkgConfig::LIBEBUR128>
   $<$<BOOL:${HAVE_X11_GLOBALSHORTCUTS}>:X11::X11_xcb>
   $<$<BOOL:${HAVE_GIO}>:PkgConfig::GIO>

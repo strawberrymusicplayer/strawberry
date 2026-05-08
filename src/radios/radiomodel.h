@@ -70,6 +70,7 @@ class RadioModel : public SimpleTreeModel<RadioItem> {
 
   void Reset();
   void AddChannels(const RadioChannelList &channels);
+  QList<Song::Source> sources() const { return container_nodes_.keys(); }
 
  private:
   bool IsPlayable(const QModelIndex &idx) const;

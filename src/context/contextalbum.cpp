@@ -207,7 +207,8 @@ void ContextAlbum::DrawSpinner(QPainter *p) {
 
 void ContextAlbum::DrawPreviousCovers(QPainter *p) {
 
-  for (SharedPtr<PreviousCover> previous_cover : std::as_const(previous_covers_)) {
+  for (int i = 0; i < previous_covers_.count(); i++) {
+    SharedPtr<PreviousCover> previous_cover = previous_covers_.at(i);
     DrawImage(p, previous_cover->pixmap, previous_cover->opacity);
   }
 
@@ -259,7 +260,8 @@ void ContextAlbum::ScaleCover() {
 
 void ContextAlbum::ScalePreviousCovers() {
 
-  for (SharedPtr<PreviousCover> previous_cover : std::as_const(previous_covers_)) {
+  for (int i = 0; i < previous_covers_.count(); i++) {
+    SharedPtr<PreviousCover> previous_cover = previous_covers_.at(i);
     QImage image = ImageUtils::ScaleImage(previous_cover->image, QSize(desired_height_, desired_height_), devicePixelRatioF(), true);
     if (image.isNull()) {
       previous_cover->pixmap = QPixmap();

@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,6 +36,7 @@
 #include <QString>
 #include <QStringList>
 #include <QUrl>
+#include <QUuid>
 #include <QSqlDatabase>
 
 #include "includes/shared_ptr.h"
@@ -186,7 +187,7 @@ PlaylistBackend::Playlist PlaylistBackend::GetPlaylist(const int id) {
 
 QString PlaylistBackend::PlaylistItemsQuery() {
 
-  return QStringLiteral("SELECT %1, %2, p.type FROM playlist_items AS p "
+  return QStringLiteral("SELECT %1, %2, p.type, p.uuid FROM playlist_items AS p "
                         "LEFT JOIN songs ON p.type = songs.source AND p.collection_id = songs.ROWID "
                         "WHERE p.playlist = :playlist"
                         ).arg(Song::JoinSpec(u"songs"_s),
@@ -265,8 +266,11 @@ PlaylistItemPtr PlaylistBackend::NewPlaylistItemFromQuery(const SqlRow &row, Sha
 
   // The song tables get joined first
   const int playlist_row = static_cast<int>(Song::kRowIdColumns.count()) * kSongTableJoins;
-  PlaylistItemPtr item = PlaylistItem::NewFromSource(static_cast<Song::Source>(row.value(playlist_row).toInt()));
+  const Song::Source source = static_cast<Song::Source>(row.value(playlist_row).toInt());
+  const QUuid uuid = QUuid::fromString(row.value(playlist_row + 1).toString());
+  PlaylistItemPtr item = PlaylistItem::NewFromSource(source, uuid);
   item->InitFromQuery(row);
+
   return RestoreCueData(item, state);
 
 }
@@ -293,7 +297,10 @@ PlaylistItemPtr PlaylistBackend::RestoreCueData(PlaylistItemPtr item, SharedPtr<
   QString cue_path = song.cue_path();
   // If .cue was deleted - reload the song
   if (!QFile::exists(cue_path)) {
-    item->Reload();
+    const Song reloaded_song = item->Reload();
+    if (reloaded_song.is_valid()) {
+      item->SetOriginalMetadata(reloaded_song);
+    }
     return item;
   }
 
@@ -322,7 +329,10 @@ PlaylistItemPtr PlaylistBackend::RestoreCueData(PlaylistItemPtr item, SharedPtr<
   }
 
   // There's no such section in the related .cue -> reload the song
-  item->Reload();
+  const Song reloaded_song = item->Reload();
+  if (reloaded_song.is_valid()) {
+    item->SetOriginalMetadata(reloaded_song);
+  }
 
   return item;
 
@@ -355,9 +365,10 @@ void PlaylistBackend::SavePlaylist(int playlist, const PlaylistItemPtrList &item
   }
 
   // Save the new ones
-  for (PlaylistItemPtr item : items) {  // clazy:exclude=range-loop-reference
+  for (int i = 0; i < items.count(); ++i) {
+    const PlaylistItemPtr item = items.at(i);
     SqlQuery q(db);
-    q.prepare(u"INSERT INTO playlist_items (playlist, type, collection_id, "_s + Song::kColumnSpec + u") VALUES (:playlist, :type, :collection_id, "_s + Song::kBindSpec + u")"_s);
+    q.prepare(u"INSERT INTO playlist_items (playlist, type, uuid, collection_id, "_s + Song::kColumnSpec + u") VALUES (:playlist, :type, :uuid, :collection_id, "_s + Song::kBindSpec + u")"_s);
     q.BindValue(u":playlist"_s, playlist);
     item->BindToQuery(&q);
 

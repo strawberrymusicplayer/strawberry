@@ -439,7 +439,7 @@ void CollectionModel::ScheduleUpdate(const CollectionModelUpdate::Type type, con
 
 void CollectionModel::ScheduleReset() {
 
-  if (!updates_.isEmpty() && updates_.first().type == CollectionModelUpdate::Type::Reset) return;
+  if (!updates_.isEmpty() && updates_.constFirst().type == CollectionModelUpdate::Type::Reset) return;
 
   ScheduleUpdate(CollectionModelUpdate::Type::Reset);
 
@@ -581,7 +581,7 @@ void CollectionModel::AddSongsInternal(const SongList &songs) {
         if (!container_key.isEmpty()) container_key.append(u'-');
         container_key.append(ContainerKey(group_by, song, has_unique_album_identifier));
         if (container_nodes_[i].contains(container_key)) {
-          container = container_nodes_[i][container_key];
+          container = container_nodes_[i].value(container_key);
         }
         else {
           container = CreateContainerItem(group_by, i, container_key, song, container);
@@ -698,8 +698,7 @@ void CollectionModel::RemoveSongsInternal(const SongList &songs) {
     if (!divider_nodes_.contains(divider_key)) continue;
 
     // Look to see if there are any other items still under this divider
-    QList<CollectionItem *> container_nodes = container_nodes_[0].values();
-    if (std::any_of(container_nodes.begin(), container_nodes.end(), [this, divider_key](CollectionItem *node) { return DividerKey(options_active_.group_by[0], node->metadata, node->sort_text) == divider_key; })) {
+    if (std::any_of(container_nodes_[0].cbegin(), container_nodes_[0].cend(), [this, divider_key](CollectionItem *node) { return DividerKey(options_active_.group_by[0], node->metadata, node->sort_text) == divider_key; })) {
       continue;
     }
 

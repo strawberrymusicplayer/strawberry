@@ -219,6 +219,9 @@ QJsonObject ListenBrainzScrobbler::JsonTrackMetadata(const ScrobbleMetadata &met
   else if (!metadata.musicbrainz_original_album_id.isEmpty()) {
     object_additional_info.insert("release_mbid"_L1, metadata.musicbrainz_original_album_id);
   }
+  if (!metadata.musicbrainz_release_group_id.isEmpty()) {
+    object_additional_info.insert("release_group_mbid"_L1, metadata.musicbrainz_release_group_id);
+  }
 
   if (!metadata.musicbrainz_recording_id.isEmpty()) {
     object_additional_info.insert("recording_mbid"_L1, metadata.musicbrainz_recording_id);
@@ -421,7 +424,8 @@ void ListenBrainzScrobbler::Submit() {
   QJsonArray array;
   ScrobblerCacheItemPtrList cache_items_sent;
   const ScrobblerCacheItemPtrList all_cache_items = cache_->List();
-  for (ScrobblerCacheItemPtr cache_item : all_cache_items) {
+  for (int i = 0; i < all_cache_items.count(); i++) {
+    ScrobblerCacheItemPtr cache_item = all_cache_items.at(i);
     if (cache_item->sent) continue;
     if (cache_item->error && cache_items_sent.count() > 0) break;
     cache_item->sent = true;

@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@
 
 #include <QVariant>
 #include <QUrl>
+#include <QUuid>
 
 #include "core/logging.h"
 #include "collectionplaylistitem.h"
@@ -28,7 +29,7 @@
 
 class SqlRow;
 
-CollectionPlaylistItem::CollectionPlaylistItem(const Song::Source source) : PlaylistItem(source) {
+CollectionPlaylistItem::CollectionPlaylistItem(const Song::Source source, const QUuid &uuid) : PlaylistItem(source, uuid) {
   song_.set_source(source);
 }
 
@@ -52,16 +53,18 @@ bool CollectionPlaylistItem::InitFromQuery(const SqlRow &query) {
 
 }
 
-void CollectionPlaylistItem::Reload() {
+Song CollectionPlaylistItem::Reload() {
 
-  if (song_.url().isLocalFile()) {
-    const TagReaderResult result = TagReaderClient::Instance()->ReadFileBlocking(song_.url().toLocalFile(), &song_);
-    if (!result.success()) {
-      qLog(Error) << "Could not reload file" << song_.url() << result.error_string();
-      return;
-    }
-    UpdateStreamMetadata(song_);
+  if (!song_.url().isLocalFile()) return Song();
+
+  Song result = song_;
+  const TagReaderResult tag_result = TagReaderClient::Instance()->ReadFileBlocking(result.url().toLocalFile(), &result);
+  if (!tag_result.success()) {
+    qLog(Error) << "Could not reload file" << result.url() << tag_result.error_string();
+    return Song();
   }
+
+  return result;
 
 }
 

@@ -62,13 +62,11 @@ CollectionLibrary::CollectionLibrary(const SharedPtr<Database> database,
       model_(nullptr),
       watcher_(nullptr),
       watcher_thread_(nullptr),
-      original_thread_(nullptr),
+      original_thread_(thread()),
       save_playcounts_to_files_(false),
       save_ratings_to_files_(false) {
 
   setObjectName(QLatin1String(QObject::metaObject()->className()));
-
-  original_thread_ = thread();
 
   backend_ = make_shared<CollectionBackend>();
   backend()->moveToThread(database->thread());
@@ -78,7 +76,7 @@ CollectionLibrary::CollectionLibrary(const SharedPtr<Database> database,
 
   model_ = new CollectionModel(backend_, albumcover_loader, this);
 
-  full_rescan_revisions_[21] = tr("Support for sort tags artist, album, album artist, title, composer, and performer");
+  full_rescan_revisions_[21] = tr("Support for sort tags artist, album, album artist, title, composer and performer");
 
   ReloadSettings();
 
@@ -242,7 +240,7 @@ void CollectionLibrary::SongsPlaycountChanged(const SongList &songs, const bool 
           (song.filetype() == Song::FileType::OggFlac || song.filetype() == Song::FileType::OggVorbis || song.filetype() == Song::FileType::OggOpus)) {
         qLog(Debug) << "Deferring playcount save for currently playing file" << song.url().toLocalFile();
         if (pending_song_saves_.contains(song.url())) {
-          SharedPtr<PendingSongSave> pending_song_save = pending_song_saves_[song.url()];
+          SharedPtr<PendingSongSave> pending_song_save = pending_song_saves_.value(song.url());
           pending_song_save->save_playcount = true;
           pending_song_save->song.set_playcount(song.playcount());
         }
@@ -273,7 +271,7 @@ void CollectionLibrary::SongsRatingChanged(const SongList &songs, const bool sav
           (song.filetype() == Song::FileType::OggFlac || song.filetype() == Song::FileType::OggVorbis || song.filetype() == Song::FileType::OggOpus)) {
         qLog(Debug) << "Deferring rating save for currently playing file" << song.url().toLocalFile();
         if (pending_song_saves_.contains(song.url())) {
-          SharedPtr<PendingSongSave> pending_song_save = pending_song_saves_[song.url()];
+          SharedPtr<PendingSongSave> pending_song_save = pending_song_saves_.value(song.url());
           pending_song_save->save_rating = true;
           pending_song_save->song.set_rating(song.rating());
         }
@@ -297,7 +295,7 @@ void CollectionLibrary::SongsRatingChanged(const SongList &songs, const bool sav
 
 void CollectionLibrary::SavePendingPlaycountsAndRatings() {
 
-  for (auto it = pending_song_saves_.constBegin(); it != pending_song_saves_.constEnd();) {
+  for (QMap<QUrl, SharedPtr<PendingSongSave>>::iterator it = pending_song_saves_.begin(); it != pending_song_saves_.end();) {
     const QUrl url = it.key();
     SharedPtr<PendingSongSave> pending_song_save = it.value();
     if (url == current_song_url_) {

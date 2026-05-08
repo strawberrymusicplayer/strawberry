@@ -51,6 +51,7 @@ ParserBase::LoadResult PLSParser::Load(QIODevice *device, const QString &playlis
   while (!device->atEnd()) {
     QString line = QString::fromUtf8(device->readLine()).trimmed();
     qint64 equals = line.indexOf(u'=');
+    if (equals < 0) continue;
     QString key = line.left(equals).toLower();
     QString value = line.mid(equals + 1);
 

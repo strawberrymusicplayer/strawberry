@@ -417,7 +417,11 @@ std::optional<EBUR128Measures> EBUR128AnalysisImpl::Compute(const Song &song) {
   impl.convert_element_ = convert;
 
   // Connect the elements
-  gst_element_link_many(src, decode, nullptr);
+  if (!gst_element_link_many(src, decode, nullptr)) {
+    qLog(Error) << "Failed to link filesrc to decodebin.";
+    gst_object_unref(pipeline);
+    return std::nullopt;
+  }
 
   GstStaticCaps static_caps = GST_STATIC_CAPS("audio/x-raw,"
                                               "format = (string) { S16LE, S32LE, F32LE, F64LE },"
@@ -425,9 +429,18 @@ std::optional<EBUR128Measures> EBUR128AnalysisImpl::Compute(const Song &song) {
 
   GstCaps *caps = gst_static_caps_get(&static_caps);
   // Place a queue before the sink. It really does matter for performance.
-  gst_element_link_filtered(convert, queue, caps);
-  gst_element_link_many(queue, sink, nullptr);
+  const bool convert_to_queue_linked = gst_element_link_filtered(convert, queue, caps);
   gst_caps_unref(caps);
+  if (!convert_to_queue_linked) {
+    qLog(Error) << "Failed to link audioconvert to queue2 with filter.";
+    gst_object_unref(pipeline);
+    return std::nullopt;
+  }
+  if (!gst_element_link_many(queue, sink, nullptr)) {
+    qLog(Error) << "Failed to link queue2 to appsink.";
+    gst_object_unref(pipeline);
+    return std::nullopt;
+  }
 
   // Allow the queue to contain up to 60s of audio. It is a magical number,
   // going higher does not appear to be beneficial for performance,
@@ -482,7 +495,7 @@ std::optional<EBUR128Measures> EBUR128AnalysisImpl::Compute(const Song &song) {
         g_error_free(error);
         qLog(Debug) << "Error processing " << song.url() << ":" << message;
       }
-      if (debugs) free(debugs);
+      g_free(debugs);
     }
     gst_message_unref(msg);
   }

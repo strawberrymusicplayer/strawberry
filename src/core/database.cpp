@@ -50,7 +50,7 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-const int Database::kSchemaVersion = 21;
+const int Database::kSchemaVersion = 22;
 
 namespace {
 constexpr char kDatabaseFilename[] = "strawberry.db";
@@ -190,7 +190,7 @@ QSqlDatabase Database::Connect() {
     q.prepare(QStringLiteral("SELECT ROWID FROM %1.sqlite_master WHERE type='table'").arg(key));
     if (!q.Exec() || !q.next()) {
       q.finish();
-      ExecSchemaCommandsFromFile(db, attached_databases_[key].schema_, 0);
+      ExecSchemaCommandsFromFile(db, attached_databases_.value(key).schema_, 0);
     }
   }
 
@@ -324,7 +324,7 @@ void Database::DetachDatabase(const QString &database_name) {
 
 }
 
-void Database::UpdateDatabaseSchema(int version, QSqlDatabase &db) {
+void Database::UpdateDatabaseSchema(const int version, QSqlDatabase &db) {
 
   QString filename;
   if (version == 0) {
@@ -368,7 +368,7 @@ void Database::UrlEncodeFilenameColumn(const QString &table, QSqlDatabase &db) {
 
 }
 
-void Database::ExecSchemaCommandsFromFile(QSqlDatabase &db, const QString &filename, int schema_version, bool in_transaction) {
+void Database::ExecSchemaCommandsFromFile(QSqlDatabase &db, const QString &filename, const int schema_version, const bool in_transaction) {
 
   // Open and read the database schema
   QFile schema_file(filename);
@@ -385,7 +385,7 @@ void Database::ExecSchemaCommandsFromFile(QSqlDatabase &db, const QString &filen
 
 }
 
-void Database::ExecSchemaCommands(QSqlDatabase &db, const QString &schema, int schema_version, bool in_transaction) {
+void Database::ExecSchemaCommands(QSqlDatabase &db, const QString &schema, const int schema_version, const bool in_transaction) {
 
   // Run each command
   static const QRegularExpression regex_split_commands(u"; *\n\n"_s);

@@ -2,7 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -470,7 +470,7 @@ bool Playlist::setData(const QModelIndex &idx, const QVariant &value, const int 
     QPersistentModelIndex persistent_index = QPersistentModelIndex(idx);
     SharedPtr<QMetaObject::Connection> connection = make_shared<QMetaObject::Connection>();
     *connection = QObject::connect(&*reply, &TagReaderReply::Finished, this, [this, reply, persistent_index, item, connection]() {
-      SongSaveComplete(reply, persistent_index, item->OriginalMetadata());
+      SongSaveComplete(reply, persistent_index);
       QObject::disconnect(*connection);
     }, Qt::QueuedConnection);
   }
@@ -485,11 +485,11 @@ bool Playlist::setData(const QModelIndex &idx, const QVariant &value, const int 
 
 }
 
-void Playlist::SongSaveComplete(TagReaderReplyPtr reply, const QPersistentModelIndex &idx, const Song &old_metadata) {
+void Playlist::SongSaveComplete(TagReaderReplyPtr reply, const QPersistentModelIndex &idx) {
 
   if (reply->success() && idx.isValid()) {
     if (reply->success()) {
-      ItemReload(idx, old_metadata, true);
+      ItemReload(idx, true);
     }
     else {
       if (reply->error().isEmpty()) {
@@ -503,15 +503,15 @@ void Playlist::SongSaveComplete(TagReaderReplyPtr reply, const QPersistentModelI
 
 }
 
-void Playlist::ItemReload(const QPersistentModelIndex &idx, const Song &old_metadata, const bool metadata_edit) {
+void Playlist::ItemReload(const QPersistentModelIndex &idx, const bool metadata_edit) {
 
   if (idx.isValid()) {
     PlaylistItemPtr item = item_at(idx.row());
     if (item) {
-      QFuture<void> future = item->BackgroundReload();
-      QFutureWatcher<void> *watcher = new QFutureWatcher<void>();
-      QObject::connect(watcher, &QFutureWatcher<void>::finished, this, [this, watcher, idx, old_metadata, metadata_edit]() {
-        ItemReloadComplete(idx, old_metadata, metadata_edit);
+      QFuture<Song> future = item->BackgroundReload();
+      QFutureWatcher<Song> *watcher = new QFutureWatcher<Song>();
+      QObject::connect(watcher, &QFutureWatcher<Song>::finished, this, [this, watcher, idx, metadata_edit]() {
+        ItemReloadComplete(idx, watcher->result(), metadata_edit);
         watcher->deleteLater();
       });
       watcher->setFuture(future);
@@ -520,19 +520,13 @@ void Playlist::ItemReload(const QPersistentModelIndex &idx, const Song &old_meta
 
 }
 
-void Playlist::ItemReloadComplete(const QPersistentModelIndex &idx, const Song &old_metadata, const bool metadata_edit) {
+void Playlist::ItemReloadComplete(const QPersistentModelIndex &idx, const Song &new_metadata, const bool metadata_edit) {
 
   if (idx.isValid()) {
     const PlaylistItemPtr item = item_at(idx.row());
     if (item) {
-      RowDataChanged(idx.row(), ChangedColumns(old_metadata, item->EffectiveMetadata()));
-      if (idx.row() == current_row()) {
-        if (MinorMetadataChange(old_metadata, item->EffectiveMetadata())) {
-          Q_EMIT CurrentSongMetadataChanged(item->EffectiveMetadata());
-        }
-        else {
-          Q_EMIT CurrentSongChanged(item->EffectiveMetadata());
-        }
+      if (new_metadata.is_valid()) {
+        UpdateItemMetadata(idx.row(), item, new_metadata, false);
       }
       if (metadata_edit) {
         Q_EMIT EditingFinished(id_, idx);
@@ -1181,6 +1175,7 @@ void Playlist::InsertItemsWithoutUndo(const PlaylistItemPtrList &items, const in
   const int start = pos == -1 ? static_cast<int>(items_.count()) : pos;
   const int end = start + static_cast<int>(items.count()) - 1;
 
+  bool has_generated_uuids = false;
   beginInsertRows(QModelIndex(), start, end);
   for (int i = start; i <= end; ++i) {
     const PlaylistItemPtr item = items[i - start];
@@ -1199,6 +1194,11 @@ void Playlist::InsertItemsWithoutUndo(const PlaylistItemPtrList &items, const in
       current_item_index_ = index(i, 0);
       last_played_item_index_ = current_item_index_;
     }
+
+    if (item->uuid_generated()) {
+      has_generated_uuids = true;
+    }
+
   }
   endInsertRows();
 
@@ -1224,7 +1224,12 @@ void Playlist::InsertItemsWithoutUndo(const PlaylistItemPtrList &items, const in
 
   ReshuffleIndices();
 
-  ScheduleSave();
+  if (has_generated_uuids) {
+    ForceScheduleSave();
+  }
+  else {
+    ScheduleSave();
+  }
 
 }
 
@@ -1316,7 +1321,7 @@ void Playlist::UpdateItems(SongList songs) {
         Q_EMIT dataChanged(index(i, 0), index(i, ColumnCount - 1));
         // Also update undo actions
         for (int y = 0; y < undo_stack_->count(); y++) {
-          QUndoCommand *undo_action = const_cast<QUndoCommand*>(undo_stack_->command(i));
+          QUndoCommand *undo_action = const_cast<QUndoCommand*>(undo_stack_->command(y));
           PlaylistUndoCommandInsertItems *undo_action_insert = dynamic_cast<PlaylistUndoCommandInsertItems*>(undo_action);
           if (undo_action_insert) {
             bool found_and_updated = undo_action_insert->UpdateItem(new_item);
@@ -1628,7 +1633,15 @@ void Playlist::ScheduleSaveAsync() {
 
 void Playlist::ScheduleSave() {
 
-  if (!playlist_backend_ || is_loading_) return;
+  if (is_loading_) return;
+
+  ForceScheduleSave();
+
+}
+
+void Playlist::ForceScheduleSave() {
+
+  if (!playlist_backend_) return;
 
   timer_save_->start();
 
@@ -1995,7 +2008,7 @@ void Playlist::ReloadItems(const QList<int> &rows) {
     const PlaylistItemPtr item = item_at(row);
     const QPersistentModelIndex idx = index(row, 0);
     if (idx.isValid()) {
-      ItemReload(idx, item->EffectiveMetadata(), false);
+      ItemReload(idx, false);
     }
   }
 
@@ -2173,7 +2186,8 @@ SongList Playlist::GetAllSongs() const {
 
   SongList songs;
   songs.reserve(items_.count());
-  for (PlaylistItemPtr item : items_) {  // clazy:exclude=range-loop-reference
+  for (int i = 0; i < items_.count(); ++i) {
+    const PlaylistItemPtr item = items_.at(i);
     songs << item->EffectiveMetadata();
   }
   return songs;
@@ -2185,8 +2199,9 @@ PlaylistItemPtrList Playlist::GetAllItems() const { return items_; }
 quint64 Playlist::GetTotalLength() const {
 
   quint64 total_length = 0;
-  for (PlaylistItemPtr item : items_) {  // clazy:exclude=range-loop-reference
-    qint64 length = item->EffectiveMetadata().length_nanosec();
+  for (int i = 0; i < items_.count(); ++i) {
+    const PlaylistItemPtr item = items_.at(i);
+    const qint64 length = item->EffectiveMetadata().length_nanosec();
     if (length > 0) total_length += length;
   }
 

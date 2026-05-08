@@ -77,7 +77,7 @@ class CommandlineOptions {
   int play_track_at() const { return play_track_at_; }
   bool show_osd() const { return show_osd_; }
   bool toggle_pretty_osd() const { return toggle_pretty_osd_; }
-  QList<QUrl> urls() const { return urls_; }
+  const QList<QUrl> &urls() const { return urls_; }
   QString language() const { return language_; }
   QString log_levels() const { return log_levels_; }
   QString playlist_name() const { return playlist_name_; }

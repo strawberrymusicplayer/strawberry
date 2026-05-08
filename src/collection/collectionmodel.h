@@ -169,7 +169,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   }
   static bool IsAlbumGroupBy(const GroupBy group_by) { return group_by == GroupBy::Album || group_by == GroupBy::YearAlbum || group_by == GroupBy::AlbumDisc || group_by == GroupBy::YearAlbumDisc || group_by == GroupBy::OriginalYearAlbum || group_by == GroupBy::OriginalYearAlbumDisc; }
 
-  QMap<QString, CollectionItem*> container_nodes(const int i) { return container_nodes_[i]; }
+  const QMap<QString, CollectionItem*> &container_nodes(const int i) const { return container_nodes_[i]; }
   QList<CollectionItem*> song_nodes() const { return song_nodes_.values(); }
   int divider_nodes_count() const { return divider_nodes_.count(); }
 

@@ -33,6 +33,7 @@
 #include "radiochannel.h"
 #include "somafmservice.h"
 #include "radioparadiseservice.h"
+#include "radiobrowserservice.h"
 
 using std::make_shared;
 
@@ -61,6 +62,7 @@ RadioServices::RadioServices(const SharedPtr<TaskManager> task_manager,
 
   AddService(new SomaFMService(task_manager, network_, this));
   AddService(new RadioParadiseService(task_manager, network_, this));
+  AddService(new RadioBrowserService(task_manager, network_, this));
 
 }
 
@@ -99,8 +101,7 @@ RadioService *RadioServices::ServiceBySource(const Song::Source source) const {
 
 void RadioServices::ReloadSettings() {
 
-  const QList<RadioService*> services = services_.values();
-  for (RadioService *service : services) {
+  for (RadioService *service : std::as_const(services_)) {
     service->ReloadSettings();
   }
 
@@ -119,8 +120,7 @@ void RadioServices::RefreshChannels() {
   model_->Reset();
   backend_->DeleteChannelsAsync();
 
-  const QList<RadioService*> services = services_.values();
-  for (RadioService *service : services) {
+  for (RadioService *service : std::as_const(services_)) {
     service->GetChannels();
   }
 
@@ -135,6 +135,7 @@ void RadioServices::GotChannelsFromBackend(const RadioChannelList &channels) {
   }
   else {
     model_->AddChannels(channels);
+    channels_refresh_ = false;
   }
 
 }

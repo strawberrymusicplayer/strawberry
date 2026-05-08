@@ -47,7 +47,7 @@ class ScrobblerSettingsService : public QObject {
   bool prefer_albumartist() const { return prefer_albumartist_; }
   bool show_error_dialog() const { return show_error_dialog_; }
   bool strip_remastered() const { return strip_remastered_; }
-  QList<Song::Source> sources() const { return sources_; }
+  const QList<Song::Source> &sources() const { return sources_; }
 
  public Q_SLOTS:
   void ToggleScrobbling();

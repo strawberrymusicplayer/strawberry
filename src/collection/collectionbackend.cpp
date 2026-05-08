@@ -1142,7 +1142,7 @@ SongList CollectionBackend::GetSongsByForeignId(const QStringList &ids, const QS
   QString in = ids.join(u',');
 
   SqlQuery q(db);
-  q.prepare(QStringLiteral("SELECT %3.ROWID, %2, %3.%4 FROM %3, %1 WHERE %3.%4 IN (in) AND %1.ROWID = %3.ROWID AND unavailable = 0").arg(songs_table_, Song::kColumnSpec, table, column, in));
+  q.prepare(QStringLiteral("SELECT %3.ROWID, %2, %3.%4 FROM %3, %1 WHERE %3.%4 IN (%5) AND %1.ROWID = %3.ROWID AND unavailable = 0").arg(songs_table_, Song::kColumnSpec, table, column, in));
   if (!q.Exec()) {
     db_->ReportErrors(q);
     return SongList();

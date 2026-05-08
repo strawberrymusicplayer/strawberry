@@ -178,7 +178,6 @@ class AlbumCoverChoiceController : public QWidget {
   static QString GetInitialPathForFileDialog(const Song &song, const QString &filename);
 
   static bool IsKnownImageExtension(const QString &suffix);
-  static QSet<QString> *sImageExtensions;
 
   SharedPtr<CurrentAlbumCoverLoader> current_albumcover_loader_;
   SharedPtr<NetworkAccessManager> network_;

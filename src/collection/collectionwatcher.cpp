@@ -1475,7 +1475,7 @@ void CollectionWatcher::RescanSongs(const SongList &songs) {
   for (const Song &song : songs) {
     if (stop_or_abort_requested()) break;
     if (!watched_dirs_.contains(song.directory_id())) continue;
-    const CollectionDirectory dir = watched_dirs_[song.directory_id()];
+    const CollectionDirectory dir = watched_dirs_.value(song.directory_id());
     const QString song_path = song.url().toLocalFile().section(u'/', 0, -2);
     if (scanned_paths.contains(song_path)) continue;
     ScanTransaction transaction(this, song.directory_id(), false, true, mark_songs_unavailable_);

@@ -211,7 +211,8 @@ void ScrobblerCache::WriteCache() {
   }
 
   QJsonArray array;
-  for (ScrobblerCacheItemPtr cache_item : std::as_const(scrobbler_cache_)) {
+  for (int i = 0; i < scrobbler_cache_.count(); i++) {
+    ScrobblerCacheItemPtr cache_item = scrobbler_cache_.at(i);
     QJsonObject object;
     object.insert("timestamp"_L1, QJsonValue::fromVariant(cache_item->timestamp));
     object.insert("artist"_L1, QJsonValue::fromVariant(cache_item->metadata.artist));
@@ -278,7 +279,8 @@ void ScrobblerCache::Remove(ScrobblerCacheItemPtr cache_item) {
 
 void ScrobblerCache::ClearSent(ScrobblerCacheItemPtrList cache_items) {
 
-  for (ScrobblerCacheItemPtr cache_item : cache_items) {
+  for (int i = 0; i < cache_items.count(); i++) {
+    ScrobblerCacheItemPtr cache_item = cache_items.at(i);
     cache_item->sent = false;
   }
 
@@ -286,15 +288,17 @@ void ScrobblerCache::ClearSent(ScrobblerCacheItemPtrList cache_items) {
 
 void ScrobblerCache::SetError(ScrobblerCacheItemPtrList cache_items) {
 
-  for (ScrobblerCacheItemPtr item : cache_items) {
-    item->error = true;
+  for (int i = 0; i < cache_items.count(); i++) {
+    ScrobblerCacheItemPtr cache_item = cache_items.at(i);
+    cache_item->error = true;
   }
 
 }
 
 void ScrobblerCache::Flush(ScrobblerCacheItemPtrList cache_items) {
 
-  for (ScrobblerCacheItemPtr cache_item : cache_items) {
+  for (int i = 0; i < cache_items.count(); i++) {
+    ScrobblerCacheItemPtr cache_item = cache_items.at(i);
     if (scrobbler_cache_.contains(cache_item)) {
       scrobbler_cache_.removeAll(cache_item);
     }

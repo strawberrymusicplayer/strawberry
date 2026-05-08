@@ -850,13 +850,13 @@ jobs:
 
       - name: Import certificate file
         if: github.repository == 'strawberrymusicplayer/strawberry' && github.event.pull_request.head.repo.fork == false
-        uses: apple-actions/import-codesign-certs@v6
+        uses: apple-actions/import-codesign-certs@v7
         with:
           p12-file-base64: ${{ secrets.APPLE_DEVELOPER_ID_CERTIFICATE }}
           p12-password: ${{ secrets.APPLE_DEVELOPER_ID_CERTIFICATE_PASSWORD }}
 
       - name: Download macOS dependencies
-        run: curl -f -O -L https://github.com/strawberrymusicplayer/strawberry-macos-dependencies/releases/latest/download/strawberry-macos-${{env.arch}}-${{env.buildtype}}.tar.xz
+        run: curl -f -O -L "https://github.com/strawberrymusicplayer/strawberry-macos-dependencies$(test "${{env.arch}}" = "x86_64" && echo -n "-legacy" || echo -n "")/releases/latest/download/strawberry-macos-${{env.arch}}-${{env.buildtype}}.tar.xz"
 
       - name: Extract macOS dependencies
         run: sudo tar -C / -xf strawberry-macos-${{env.arch}}-${{env.buildtype}}.tar.xz
@@ -1420,10 +1420,6 @@ jobs:
         with:
           fetch-depth: 0
           submodules: recursive
-
-      - name: Add safe git directory
-        shell: bash
-        run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
 
       - name: Create Build Environment
         shell: cmd

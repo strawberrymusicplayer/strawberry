@@ -98,13 +98,29 @@ QString Chromaprinter::CreateFingerprint() {
   convert_element_ = convert;
 
   // Connect the elements
-  gst_element_link_many(src, decode, nullptr);
-  gst_element_link_many(convert, resample, nullptr);
+  if (!gst_element_link_many(src, decode, nullptr)) {
+    qLog(Error) << "Failed to link filesrc to decodebin.";
+    gst_object_unref(pipeline);
+    buffer_.close();
+    return QString();
+  }
+  if (!gst_element_link_many(convert, resample, nullptr)) {
+    qLog(Error) << "Failed to link audioconvert to audioresample.";
+    gst_object_unref(pipeline);
+    buffer_.close();
+    return QString();
+  }
 
   // Chromaprint expects mono 16-bit ints at a sample rate of 11025Hz.
   GstCaps *caps = gst_caps_new_simple("audio/x-raw", "format", G_TYPE_STRING, "S16LE", "channels", G_TYPE_INT, kDecodeChannels, "rate", G_TYPE_INT, kDecodeRate, nullptr);
-  gst_element_link_filtered(resample, sink, caps);
+  const bool resample_to_sink_linked = gst_element_link_filtered(resample, sink, caps);
   gst_caps_unref(caps);
+  if (!resample_to_sink_linked) {
+    qLog(Error) << "Failed to link audioresample to appsink with filter.";
+    gst_object_unref(pipeline);
+    buffer_.close();
+    return QString();
+  }
 
   GstAppSinkCallbacks callbacks;
   memset(&callbacks, 0, sizeof(callbacks));
@@ -145,7 +161,7 @@ QString Chromaprinter::CreateFingerprint() {
         g_error_free(error);
         qLog(Debug) << "Error processing" << filename_ << ":" << message;
       }
-      if (debugs) free(debugs);
+      g_free(debugs);
     }
     gst_message_unref(msg);
   }

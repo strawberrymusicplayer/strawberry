@@ -125,9 +125,7 @@ void TaskManager::SetTaskFinished(const int id) {
 
     if (tasks_.value(id).blocks_collection_scans) {
       resume_collection_watchers = true;
-      QList<Task> tasks = tasks_.values();
-
-      if (std::any_of(tasks.begin(), tasks.end(), [id](const Task &task) { return task.id != id && task.blocks_collection_scans; })) {
+      if (std::any_of(tasks_.cbegin(), tasks_.cend(), [id](const Task &task) { return task.id != id && task.blocks_collection_scans; })) {
         resume_collection_watchers = false;
       }
 

@@ -34,7 +34,7 @@ class DeviceFinder {
   virtual ~DeviceFinder() {}
 
   QString name() const { return name_; }
-  QStringList outputs() const { return outputs_; }
+  const QStringList &outputs() const { return outputs_; }
   void add_output(const QString &output) { outputs_.append(output); }
 
   // Does any necessary setup, returning false if this DeviceFinder cannot be used.

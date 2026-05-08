@@ -85,8 +85,7 @@ bool GlobalShortcutsBackendKGlobalAccel::DoRegister() {
     interface_ = new OrgKdeKGlobalAccelInterface(QLatin1String(kKGlobalAccelService), QLatin1String(kKGlobalAccelPath), QDBusConnection::sessionBus(), this);
   }
 
-  const QList<GlobalShortcutsManager::Shortcut> shortcuts = manager_->shortcuts().values();
-  for (const GlobalShortcutsManager::Shortcut &shortcut : shortcuts) {
+  for (const GlobalShortcutsManager::Shortcut &shortcut : manager_->shortcuts()) {
     RegisterShortcut(shortcut);
   }
 

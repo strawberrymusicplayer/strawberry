@@ -712,8 +712,8 @@ void EditTagDialog::SelectionChanged() {
     UpdateStatisticsTab(Song());
   }
   else {
-    UpdateSummaryTab(data_[indexes.first().row()].original_);
-    UpdateStatisticsTab(data_[indexes.first().row()].original_);
+    UpdateSummaryTab(data_.value(indexes.first().row()).original_);
+    UpdateStatisticsTab(data_.value(indexes.first().row()).original_);
   }
 
   const Song first_song = data_.value(indexes.first().row()).original_;

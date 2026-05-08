@@ -51,7 +51,7 @@ class CollectionDirectoryModel : public QStandardItemModel {
 
   SharedPtr<CollectionBackend> backend() const { return backend_; }
 
-  QMap<int, CollectionDirectory> directories() const { return directories_; }
+  const QMap<int, CollectionDirectory> &directories() const { return directories_; }
   QStringList paths() const { return paths_; }
 
  private Q_SLOTS:

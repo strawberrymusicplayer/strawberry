@@ -17,7 +17,7 @@
     </message>
     <message>
       <source>Strawberry is a music player and music collection organizer.</source>
-      <translation>Strawberry on muusikamängija ja muusikakogu haldur.</translation>
+      <translation>Strawberry on muusikapleier ja muusikakogu haldur.</translation>
     </message>
     <message>
       <source>It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles.</source>
@@ -68,7 +68,7 @@
     <name>AddStreamDialog</name>
     <message>
       <source>Add Stream</source>
-      <translation>Lisa voog</translation>
+      <translation>Lisa voogedastus</translation>
     </message>
     <message>
       <source>Enter the URL of a stream:</source>
@@ -87,7 +87,7 @@
     </message>
     <message>
       <source>Load cover from URL...</source>
-      <translation>Laadi kaanepilt võrguaadressilt...</translation>
+      <translation>Laadi kaaanepilt võrguaadressilt...</translation>
     </message>
     <message>
       <source>Search for album covers...</source>
@@ -119,7 +119,7 @@
     </message>
     <message>
       <source>Failed to open cover file %1 for reading: %2</source>
-      <translation>Kaanepildi faili %1 avamine lugemiseks nurjus: %2</translation>
+      <translation>Kaanepildi faili %1 avamine lugemiseks ei õnnestunud: %2</translation>
     </message>
     <message>
       <source>Cover file %1 is empty.</source>
@@ -135,15 +135,15 @@
     </message>
     <message>
       <source>Failed to open cover file %1 for writing: %2</source>
-      <translation>Kaanepildi faili %1 avamine salvestamiseks nurjus: %2</translation>
+      <translation>Kaanepildi faili %1 avamine salvestamiseks ei õnnestunud: %2</translation>
     </message>
     <message>
       <source>Failed writing cover to file %1: %2</source>
-      <translation>Kaanepildi salvestamine faili %1 nurjus: %2</translation>
+      <translation>Kaanepildi salvestamine %1 faili ei õnnestunud: %2</translation>
     </message>
     <message>
       <source>Failed writing cover to file %1.</source>
-      <translation>Kaanepildi salvestamine faili %1 nurjus.</translation>
+      <translation>Kaanepildi salvestamine %1 faili ei õnnestunud.</translation>
     </message>
     <message>
       <source>Failed to delete cover file %1: %2</source>
@@ -151,11 +151,11 @@
     </message>
     <message>
       <source>Failed to write cover to file %1: %2</source>
-      <translation>Kaanepildi salvestamine faili %1 nurjus: %2</translation>
+      <translation>Kaanepildi salvestamine %1 faili ei õnnestunud: %2</translation>
     </message>
     <message>
       <source>Could not save cover to file %1.</source>
-      <translation>Ei õnnestunud salvestada kaanepilti faili %1.</translation>
+      <translation>Ei õnnestunud salvestada kaanepilti %1 faili.</translation>
     </message>
   </context>
   <context>
@@ -174,7 +174,7 @@
     </message>
     <message>
       <source>Export downloaded covers</source>
-      <translation>Ekspordi allalaetud kaanepildid</translation>
+      <translation>Ekspordi allalaaditud kaanepildid</translation>
     </message>
     <message>
       <source>Export embedded covers</source>
@@ -190,11 +190,11 @@
     </message>
     <message>
       <source>O&amp;verwrite all</source>
-      <translation>Kirjuta kõik üle</translation>
+      <translation>Kirjuta &amp;kõik üle</translation>
     </message>
     <message>
       <source>Overwrite s&amp;maller ones only</source>
-      <translation>Kirjuta üle ainult väiksemad</translation>
+      <translation>Kirjuta üle ainult väik&amp;semad</translation>
     </message>
     <message>
       <source>Size</source>
@@ -253,7 +253,7 @@
     </message>
     <message>
       <source>Got %1 covers out of %2 (%3 failed)</source>
-      <translation>%2-st kaanepildist saadi %1 (%3 nurjus)</translation>
+      <translation>%2-st kaanepildist saadi %1 (%3 ei õnnestunud)</translation>
     </message>
     <message>
       <source>%1 transferred</source>
@@ -261,11 +261,11 @@
     </message>
     <message>
       <source>Export finished</source>
-      <translation>Eksport on lõpetatud</translation>
+      <translation>Eksportimine on lõpetatud</translation>
     </message>
     <message>
       <source>No covers to export.</source>
-      <translation>Kaanepilte ekspordiks pole.</translation>
+      <translation>Eksporditavaid kaanepilte pole.</translation>
     </message>
     <message>
       <source>Exported %1 covers out of %2 (%3 skipped)</source>
@@ -273,14 +273,14 @@
     </message>
     <message>
       <source>Could not save cover to file %1.</source>
-      <translation>Ei õnnestunud salvestada kaanepilti faili %1.</translation>
+      <translation>Ei õnnestunud salvestada kaanepilti %1 faili.</translation>
     </message>
   </context>
   <context>
     <name>AlbumCoverSearcher</name>
     <message>
       <source>Cover Manager</source>
-      <translation>Kaanepildi haldur</translation>
+      <translation>Kaanepiltide haldur</translation>
     </message>
     <message>
       <source>Artist</source>
@@ -296,7 +296,7 @@
     </message>
     <message>
       <source>Covers from %1</source>
-      <translation>Kaanepildid teenuselt %1</translation>
+      <translation>Kaanepildid teenusest %1</translation>
     </message>
     <message>
       <source>Abort</source>
@@ -446,7 +446,7 @@
     </message>
     <message>
       <source>Keep aspect ratio</source>
-      <translation>Hoia kuvasuhet</translation>
+      <translation>Säilita kuvasuhe</translation>
     </message>
     <message>
       <source>Do not cut image</source>
@@ -518,7 +518,7 @@
     </message>
     <message>
       <source>You need to restart Strawberry for this setting to take affect.</source>
-      <translation>Selle sätte jõustumiseks peab Strawberry taaskäivitama.</translation>
+      <translation>Selle seadistuse jõustumiseks pead Strawberry uuesti käivitama.</translation>
     </message>
   </context>
   <context>
@@ -565,7 +565,7 @@
     </message>
     <message>
       <source>Enable volume control</source>
-      <translation>Luba helitugevuse juhtimine</translation>
+      <translation>Luba helivaljuse juhtimine</translation>
     </message>
     <message>
       <source>Upmix / downmix to</source>
@@ -589,7 +589,7 @@
     </message>
     <message>
       <source>Use strict SSL mode</source>
-      <translation>Kasuta ranget SSL režiimi</translation>
+      <translation>Kasuta ranget SSL-režiimi</translation>
     </message>
     <message>
       <source>Buffer</source>
@@ -843,7 +843,7 @@
     <name>CDDASongLoader</name>
     <message>
       <source>Could not create cdiocddasrc</source>
-      <translation type="unfinished">Could not create cdiocddasrc</translation>
+      <translation>cdiocddasrc meetodi loomine ei õnnestunud</translation>
     </message>
     <message>
       <source>Error while setting CDDA device to ready state.</source>
@@ -866,7 +866,7 @@
     </message>
     <message>
       <source>Failed SQL query: %1</source>
-      <translation>Nurjunud SQL päring: %1</translation>
+      <translation>SQL päring ei õnnestunud: %1</translation>
     </message>
     <message>
       <source>Updating %1 database.</source>
@@ -921,27 +921,27 @@
     </message>
     <message>
       <source>Any rating</source>
-      <translation>Mis tahes hinne</translation>
+      <translation>Mis tahes hinnang</translation>
     </message>
     <message>
       <source>Rating non null</source>
-      <translation>Hinne, mis pole null</translation>
+      <translation>Hinnang, mis pole null</translation>
     </message>
     <message>
       <source>Rating greater than 1 star</source>
-      <translation>Hinne suurem kui 1 tärn</translation>
+      <translation>Hinnang suurem kui 1 tärn</translation>
     </message>
     <message>
       <source>Rating greater than 2 stars</source>
-      <translation>Hinne suurem kui 2 tärni</translation>
+      <translation>Hinnang suurem kui 2 tärni</translation>
     </message>
     <message>
       <source>Rating greater than 3 stars</source>
-      <translation>Hinne suurem kui 3 tärni</translation>
+      <translation>Hinnang suurem kui 3 tärni</translation>
     </message>
     <message>
       <source>Rating greater than 4 stars</source>
-      <translation>Hinne suurem kui 4 tärni</translation>
+      <translation>Hinnang suurem kui 4 tärni</translation>
     </message>
     <message>
       <source>Group by</source>
@@ -1032,7 +1032,7 @@
     <name>CollectionLibrary</name>
     <message>
       <source>Support for sort tags artist, album, album artist, title, composer, and performer</source>
-      <translation type="unfinished">Support for sort tags artist, album, album artist, title, composer, and performer</translation>
+      <translation>Esitaja, albumi, albumi esitaja, pealkirja, helilooja ja esineja sortimise siltide tugi</translation>
     </message>
     <message>
       <source>Saving playcounts and ratings</source>
@@ -1204,7 +1204,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Write all playcounts and ratings to files</source>
-      <translation>Kirjuta kõik esituskorrad ja reitingud failidesse</translation>
+      <translation>Kirjuta kõik esituskorrad ja hinnangud failidesse</translation>
     </message>
     <message>
       <source>Are you sure you want to write song playcounts and ratings to file for all songs in your collection?</source>
@@ -1487,27 +1487,27 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Add song artistsort tag</source>
-      <translation type="unfinished">Add song artistsort tag</translation>
+      <translation>Lisa loole esitaja sortimise silt</translation>
     </message>
     <message>
       <source>Add song albumartistsort tag</source>
-      <translation type="unfinished">Add song albumartistsort tag</translation>
+      <translation>Lisa loole albumi esitaja sortimise silt</translation>
     </message>
     <message>
       <source>Add song titlesort tag</source>
-      <translation type="unfinished">Add song titlesort tag</translation>
+      <translation>Lisa loole pealkirja sortimise silt</translation>
     </message>
     <message>
       <source>Add song composersort tag</source>
-      <translation type="unfinished">Add song composersort tag</translation>
+      <translation>Lisa loole helilooja sortimise silt</translation>
     </message>
     <message>
       <source>Add song performersort tag</source>
-      <translation type="unfinished">Add song performersort tag</translation>
+      <translation>Lisa loole esineja sortimise silt</translation>
     </message>
     <message>
       <source>Add song albumsort tag</source>
-      <translation type="unfinished">Add song albumsort tag</translation>
+      <translation>Lisa loole albumi sortimise silt</translation>
     </message>
   </context>
   <context>
@@ -1663,7 +1663,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Got %1 covers out of %2 (%3 failed)</source>
-      <translation>%2-st kaanepildist saadi %1 (%3 nurjus)</translation>
+      <translation>%2-st kaanepildist saadi %1 (%3 ei õnnestunud)</translation>
     </message>
     <message>
       <source>Covers from %1</source>
@@ -1812,11 +1812,11 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     <name>Database</name>
     <message>
       <source>Unable to execute SQL query: %1</source>
-      <translation>SQL päring nurjus: %1</translation>
+      <translation>SQL päring ei õnnestunud: %1</translation>
     </message>
     <message>
       <source>Failed SQL query: %1</source>
-      <translation>Nurjunud SQL päring: %1</translation>
+      <translation>Ebaõnnestunud SQL päring: %1</translation>
     </message>
     <message>
       <source>Integrity check</source>
@@ -2371,27 +2371,27 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Performer sort</source>
-      <translation type="unfinished">Performer sort</translation>
+      <translation>Esineja järjestus</translation>
     </message>
     <message>
       <source>Title sort</source>
-      <translation type="unfinished">Title sort</translation>
+      <translation>Pealkirja järjestus</translation>
     </message>
     <message>
       <source>Album artist sort</source>
-      <translation type="unfinished">Album artist sort</translation>
+      <translation>Albumi esitaja järjestus</translation>
     </message>
     <message>
       <source>Artist sort</source>
-      <translation type="unfinished">Artist sort</translation>
+      <translation>Esitaja järjestus</translation>
     </message>
     <message>
       <source>Album sort</source>
-      <translation type="unfinished">Album sort</translation>
+      <translation>Albumi järjestus</translation>
     </message>
     <message>
       <source>Composer sort</source>
-      <translation type="unfinished">Composer sort</translation>
+      <translation>Helilooja järjestus</translation>
     </message>
   </context>
   <context>
@@ -2522,7 +2522,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>You need to restart playback for this setting to take affect.</source>
-      <translation>Selle sätte jõustumiseks peab taasesituse taaskäivitama.</translation>
+      <translation>Selle seadistuse jõustumiseks pead taasesituse uuesti käivitama.</translation>
     </message>
   </context>
   <context>
@@ -2585,19 +2585,19 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Add root directory</source>
-      <translation>Lisa juurkataloog</translation>
+      <translation>Lisa juurkaust</translation>
     </message>
     <message>
       <source>Remove selected root directory</source>
-      <translation>Eemalda valitud juurkataloog</translation>
+      <translation>Eemalda valitud juurkaust</translation>
     </message>
     <message>
       <source>Toggle between list and tree view</source>
-      <translation type="unfinished">Toggle between list and tree view</translation>
+      <translation>Vaheta omavahel loendi- ja puuvaadet</translation>
     </message>
     <message>
       <source>Select folder to add as tree root</source>
-      <translation type="unfinished">Select folder to add as tree root</translation>
+      <translation>Vali kaust puuvaate alguseks</translation>
     </message>
   </context>
   <context>
@@ -3092,7 +3092,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Press &quot;Save&quot; to copy the URL to clipboard and manually open it in a web browser.</source>
-      <translation type="unfinished">Press &quot;Save&quot; to copy the URL to clipboard and manually open it in a web browser.</translation>
+      <translation>Võrguaadressi lõikepuhvrisse kopeerimiseks ja veebibrauseris käsitsi avamiseks vajuta nuppu „Salvesta“.</translation>
     </message>
     <message>
       <source>Could not open URL. Please open this URL in your browser</source>
@@ -3100,11 +3100,11 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Invalid reply from web browser. Missing token.</source>
-      <translation type="unfinished">Invalid reply from web browser. Missing token.</translation>
+      <translation>Vigane vastus veebibrauserist. Tunnusluba on puudu.</translation>
     </message>
     <message>
       <source>Received invalid reply from web browser. Try another browser.</source>
-      <translation type="unfinished">Received invalid reply from web browser. Try another browser.</translation>
+      <translation>Sain veebibrauserist vigase vastuse. Proovi mõnda muud brauserit.</translation>
     </message>
     <message>
       <source>Scrobbler %1 is not authenticated!</source>
@@ -3133,7 +3133,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     <name>ListenBrainzScrobbler</name>
     <message>
       <source>Unable to scrobble %1 - %2 because of error: %3</source>
-      <translation>%1 kraasimine nurjus - %2 põhjuseks: %3</translation>
+      <translation>%1 kraasimine ei õnnestunud - %2 põhjuseks: %3</translation>
     </message>
     <message>
       <source>Missing MusicBrainz recording ID for %1 %2 %3</source>
@@ -3478,7 +3478,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Remove &amp;duplicates from playlist</source>
-      <translation>Eemalda esitusloendist duplikaadid</translation>
+      <translation>Eemalda esitusloendist topeltkirjed</translation>
     </message>
     <message>
       <source>Remove &amp;unavailable tracks from playlist</source>
@@ -3891,7 +3891,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Show a &amp;native desktop notification</source>
-      <translation>Kuva &amp;töölaua märguandena</translation>
+      <translation>Kuva &amp;töölaua teavitusena</translation>
     </message>
     <message>
       <source>Show a pretty OSD</source>
@@ -3899,7 +3899,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Show a popup fro&amp;m the system tray</source>
-      <translation>Kuva süsteemisalves hüpikaken</translation>
+      <translation>Kuva hüpikaken süsteemisalves</translation>
     </message>
     <message>
       <source>General settings</source>
@@ -3907,7 +3907,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Popup duration</source>
-      <translation>Hüpikakna kestus</translation>
+      <translation>Hüpikakna kuvamise kestus</translation>
     </message>
     <message>
       <source> seconds</source>
@@ -3915,23 +3915,23 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Disable duration</source>
-      <translation>Näita kestust</translation>
+      <translation>Lülita kestus välja</translation>
     </message>
     <message>
       <source>Show a notification when I change the volume</source>
-      <translation>Kuva helitugevuse muutmisel märguanne</translation>
+      <translation>Kuva teavitus helivaljuse muutmisel</translation>
     </message>
     <message>
       <source>Show a notification when I change the repeat/shuffle mode</source>
-      <translation>Kuva märguanne kordus-/juhuesitusrežiimi muutmisel</translation>
+      <translation>Kuva teavitus kordus-/juhuesitusrežiimi muutmisel</translation>
     </message>
     <message>
       <source>Show a notification when I pause playback</source>
-      <translation>Kuva taasesituse pausimisel märguanne</translation>
+      <translation>Kuva teavitus taasesituse peatamisel</translation>
     </message>
     <message>
       <source>Show a notification when I resume playback</source>
-      <translation>Kuva taasesituse jätkamisel märguanne</translation>
+      <translation>Kuva teavitus taasesituse jätkamisel</translation>
     </message>
     <message>
       <source>Include album art in the notification</source>
@@ -4103,15 +4103,15 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Enable Rich Presence</source>
-      <translation type="unfinished">Enable Rich Presence</translation>
+      <translation>Kasuta olekuteates kujundust</translation>
     </message>
     <message>
       <source>&quot;Listening to...&quot;</source>
-      <translation type="unfinished">&quot;Listening to...&quot;</translation>
+      <translation>&quot;Kuulamas...&quot;</translation>
     </message>
     <message>
       <source>Strawberry</source>
-      <translation type="unfinished">Strawberry</translation>
+      <translation>Strawberry</translation>
     </message>
     <message>
       <source>Artist name</source>
@@ -4134,23 +4134,23 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Received invalid reply from web browser.</source>
-      <translation>Veebilehitsejast saadi vigane vastus.</translation>
+      <translation>Vigane vastus veebibrauserist.</translation>
     </message>
     <message>
       <source>Redirect URL is missing query.</source>
-      <translation type="unfinished">Redirect URL is missing query.</translation>
+      <translation>Edasisuunamise võrguaadressist on puudu päring.</translation>
     </message>
     <message>
       <source>Request URL is missing code!</source>
-      <translation type="unfinished">Request URL is missing code!</translation>
+      <translation>Edasisuunamise võrguaadressist on puudu kood!</translation>
     </message>
     <message>
       <source>Request URL is missing state!</source>
-      <translation type="unfinished">Request URL is missing state!</translation>
+      <translation>Edasisuunamise võrguaadressist on puudu olek!</translation>
     </message>
     <message>
       <source>Request URL has wrong state %1 != %2</source>
-      <translation type="unfinished">Request URL has wrong state %1 != %2</translation>
+      <translation>Edasisuunamise võrguaadressi olek on vale: %1 !=%2.</translation>
     </message>
   </context>
   <context>
@@ -4169,11 +4169,11 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Stopped</source>
-      <translation>Peatatud</translation>
+      <translation>Lõpetatud</translation>
     </message>
     <message>
       <source>Stop playing after track: %1</source>
-      <translation>Peata taasesitus pärast lugu: %1</translation>
+      <translation>Lõpeta taasesitus pärast lugu: %1</translation>
     </message>
     <message>
       <source>On</source>
@@ -4185,11 +4185,11 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Playlist finished</source>
-      <translation>Esitusnimekiri läbi</translation>
+      <translation>Esitusnimekiri on läbi</translation>
     </message>
     <message>
       <source>Volume %1%</source>
-      <translation>Helitugevus %1%</translation>
+      <translation>Helivaljus %1%</translation>
     </message>
     <message>
       <source>Don&apos;t shuffle</source>
@@ -4209,7 +4209,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Shuffle grouping</source>
-      <translation>Rühmitamine juhuesitus</translation>
+      <translation>Rühmitamise juhuesitus</translation>
     </message>
     <message>
       <source>Don&apos;t repeat</source>
@@ -4229,7 +4229,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Stop after every track</source>
-      <translation>Peata pärast iga lugu</translation>
+      <translation>Lõpeta pärast iga lugu</translation>
     </message>
     <message>
       <source>Intro tracks</source>
@@ -4426,11 +4426,11 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>File %1 does not exist</source>
-      <translation>Faili %1 pole olemas</translation>
+      <translation>%1 faili pole olemas</translation>
     </message>
     <message>
       <source>Could not read file %1: %2</source>
-      <translation>Faili %1 lugemine nurjus: %2</translation>
+      <translation>%1 faili lugemine ei õnnestunud: %2</translation>
     </message>
   </context>
   <context>
@@ -4468,7 +4468,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Title Sort</source>
-      <translation type="unfinished">Title Sort</translation>
+      <translation>Pealkirja järjestus</translation>
     </message>
     <message>
       <source>Artist</source>
@@ -4476,7 +4476,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Artist Sort</source>
-      <translation type="unfinished">Artist Sort</translation>
+      <translation>Esitaja järjestus</translation>
     </message>
     <message>
       <source>Album</source>
@@ -4484,7 +4484,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Album Sort</source>
-      <translation type="unfinished">Album Sort</translation>
+      <translation>Albumi järjestus</translation>
     </message>
     <message>
       <source>Track</source>
@@ -4516,7 +4516,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Album Artist Sort</source>
-      <translation type="unfinished">Album Artist Sort</translation>
+      <translation>Albumi esitaja järjestus</translation>
     </message>
     <message>
       <source>Composer</source>
@@ -4524,7 +4524,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Composer Sort</source>
-      <translation type="unfinished">Composer Sort</translation>
+      <translation>Helilooja järjestus</translation>
     </message>
     <message>
       <source>Performer</source>
@@ -4532,7 +4532,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Performer Sort</source>
-      <translation type="unfinished">Performer Sort</translation>
+      <translation>Esineja järjestus</translation>
     </message>
     <message>
       <source>Grouping</source>
@@ -4600,7 +4600,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>BPM</source>
-      <translation type="unfinished">BPM</translation>
+      <translation>BPM</translation>
     </message>
     <message>
       <source>Mood</source>
@@ -4612,7 +4612,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>URL</source>
-      <translation>URL</translation>
+      <translation>Võrguaadress</translation>
     </message>
     <message>
       <source>CUE</source>
@@ -4684,7 +4684,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>&amp;Lock rating</source>
-      <translation>&amp;Lukusta hinne</translation>
+      <translation>&amp;Lukusta hinnang</translation>
     </message>
     <message>
       <source>&amp;Align text</source>
@@ -4740,7 +4740,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>Copy songs to playlist</source>
-      <translation>Kopeeri laulud esitusloendisse</translation>
+      <translation>Kopeeri lood esitusloendisse</translation>
     </message>
     <message>
       <source>Copy to device</source>
@@ -5093,7 +5093,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Player options</source>
-      <translation>Meediamängija valikud</translation>
+      <translation>Meediapleieri valikud</translation>
     </message>
     <message>
       <source>Start the playlist currently playing</source>
@@ -5101,19 +5101,19 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Play if stopped, pause if playing</source>
-      <translation>Peatamise korral esita, esitamise korral peata</translation>
+      <translation>Lõpetamise korral esita, esitamise korral peata</translation>
     </message>
     <message>
       <source>Pause playback</source>
-      <translation>Peata esitus</translation>
-    </message>
-    <message>
-      <source>Stop playback</source>
       <translation>Peata taasesitus</translation>
     </message>
     <message>
+      <source>Stop playback</source>
+      <translation>Lõpeta taasesitus</translation>
+    </message>
+    <message>
       <source>Stop playback after current track</source>
-      <translation>Peata taasesitus pärast praegust lugu</translation>
+      <translation>Lõpeta taasesitus pärast praegust lugu</translation>
     </message>
     <message>
       <source>Skip backwards in playlist</source>
@@ -5125,7 +5125,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Set the volume to &lt;value&gt; percent</source>
-      <translation>Määra helitugevuseks &lt;value&gt; protsenti</translation>
+      <translation>Määra helivaljuseks &lt;value&gt; protsenti</translation>
     </message>
     <message>
       <source>Increase the volume by 4 percent</source>
@@ -5217,7 +5217,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Create fingerprint</source>
-      <translation type="unfinished">Create fingerprint</translation>
+      <translation>Loo sõrmejälg</translation>
     </message>
     <message>
       <source>Failed to create directory %1.</source>
@@ -5325,7 +5325,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Could not save file</source>
-      <translation>Faili salvestamine nurjus</translation>
+      <translation>Faili salvestamine ei õnnestunud</translation>
     </message>
     <message>
       <source>Unknown error</source>
@@ -5349,7 +5349,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>A word can be excluded with a preceding &quot;%1&quot;, if you need to search for a word including &quot;%1&quot;, place quotes around the word.</source>
-      <translation type="unfinished">A word can be excluded with a preceding &quot;%1&quot;, if you need to search for a word including &quot;%1&quot;, place quotes around the word.</translation>
+      <translation>&quot;%1&quot; lisamisel sõna ette saad ta välistada. Kui tahad otsida sõna, kus on &quot;%1&quot;, siis lisa jutumärgid sõna ümber.</translation>
     </message>
     <message>
       <source>rating</source>
@@ -5572,7 +5572,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>No track ID</source>
-      <translation type="unfinished">No track ID</translation>
+      <translation>Loo tunnus puudub</translation>
     </message>
   </context>
   <context>
@@ -5630,43 +5630,43 @@ Kas soovid jätkata?</translation>
     <name>QobuzService</name>
     <message>
       <source>Missing Qobuz app ID.</source>
-      <translation>Qobuzi rakenduse ID puudub.</translation>
+      <translation>Qobuzi rakenduse tunnus puudub.</translation>
     </message>
     <message>
       <source>Missing app ID. Please fetch credentials first.</source>
-      <translation type="unfinished">Missing app ID. Please fetch credentials first.</translation>
+      <translation>Rakenduse tunnus on puudu. Palun laadi esmalt autentimistunnused.</translation>
     </message>
     <message>
       <source>Missing app secret. Please fetch credentials first.</source>
-      <translation type="unfinished">Missing app secret. Please fetch credentials first.</translation>
+      <translation>Rakenduse saladus on puudu. Palun laadi esmalt autentimistunnused.</translation>
     </message>
     <message>
       <source>Missing private key. Please fetch credentials first.</source>
-      <translation type="unfinished">Missing private key. Please fetch credentials first.</translation>
+      <translation>Privaatvõti on puudu. Palun esmalt laadi kasutajanimi/salasõna.</translation>
     </message>
     <message>
       <source>Failed to start local server for OAuth redirect: %1</source>
-      <translation type="unfinished">Failed to start local server for OAuth redirect: %1</translation>
+      <translation>OAuthi edasisuunamiseks vajaliku kohaliku serveri käivitamine ei õnnestunud: %1</translation>
     </message>
     <message>
       <source>Failed to open the web browser. Please open this URL manually: %1</source>
-      <translation type="unfinished">Failed to open the web browser. Please open this URL manually: %1</translation>
+      <translation>Veebibrauseri avamine ei õnnestunud. Palun ava see võrguaadress käsitsi: %1</translation>
     </message>
     <message>
       <source>Waiting for browser authentication...</source>
-      <translation type="unfinished">Waiting for browser authentication...</translation>
+      <translation>Ootan autentimist veebibrauseris...</translation>
     </message>
     <message>
       <source>OAuth redirect failed: %1</source>
-      <translation type="unfinished">OAuth redirect failed: %1</translation>
+      <translation>OAuthi edasisuunamine ei õnnestunud: %1</translation>
     </message>
     <message>
       <source>OAuth redirect is missing authorization code.</source>
-      <translation type="unfinished">OAuth redirect is missing authorization code.</translation>
+      <translation>OAuthi edasisuunamises on autentimiskood puudu.</translation>
     </message>
     <message>
       <source>Exchanging authorization code...</source>
-      <translation type="unfinished">Exchanging authorization code...</translation>
+      <translation>Vahetan autentimiskoodi...</translation>
     </message>
     <message>
       <source>Not authenticated with Qobuz.</source>
@@ -5678,7 +5678,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Not authenticated. Please login to Qobuz in the settings.</source>
-      <translation type="unfinished">Not authenticated. Please login to Qobuz in the settings.</translation>
+      <translation>Autentimata. Palun ava seadistused ja logi Qobuzi sisse.</translation>
     </message>
   </context>
   <context>
@@ -5697,11 +5697,11 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>App ID</source>
-      <translation>Rakenduse ID</translation>
+      <translation>Rakenduse tunnus</translation>
     </message>
     <message>
       <source>App Secret</source>
-      <translation>Rakenduse võti</translation>
+      <translation>Rakenduse saladus</translation>
     </message>
     <message>
       <source>Login</source>
@@ -5709,7 +5709,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Preferences</source>
-      <translation>Seadistused</translation>
+      <translation>Eelistused</translation>
     </message>
     <message>
       <source>Audio format</source>
@@ -5733,7 +5733,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Songs search limit</source>
-      <translation>Lugude otsingu limiit</translation>
+      <translation>Lugude otsingu piirang</translation>
     </message>
     <message>
       <source>Download album covers</source>
@@ -5745,39 +5745,39 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Missing app id. Please fetch credentials first.</source>
-      <translation type="unfinished">Missing app id. Please fetch credentials first.</translation>
+      <translation>Rakenduse tunnus on puudu. Palun laadi esmalt autentimistunnused.</translation>
     </message>
     <message>
       <source>Missing app secret. Please fetch credentials first.</source>
-      <translation type="unfinished">Missing app secret. Please fetch credentials first.</translation>
+      <translation>Rakenduse saladus on puudu. Palun laadi esmalt autentimistunnused.</translation>
     </message>
     <message>
       <source>Missing private key. Please fetch credentials first.</source>
-      <translation type="unfinished">Missing private key. Please fetch credentials first.</translation>
+      <translation>Privaatvõti on puudu. Palun esmalt laadi kasutajanimi/salasõna.</translation>
     </message>
     <message>
       <source>Authentication failed</source>
-      <translation>Autentimine ebaõnnestus</translation>
+      <translation>Autentimine ei õnnestunud</translation>
     </message>
     <message>
       <source>Fetching...</source>
-      <translation type="unfinished">Fetching...</translation>
+      <translation>Laadin...</translation>
     </message>
     <message>
       <source>Credentials fetched</source>
-      <translation type="unfinished">Credentials fetched</translation>
+      <translation>Autentimistunnuste laadimine õnnestus</translation>
     </message>
     <message>
       <source>Credentials have been successfully fetched. Click Login to authenticate via your browser.</source>
-      <translation type="unfinished">Credentials have been successfully fetched. Click Login to authenticate via your browser.</translation>
+      <translation>Autentimistunnuste laadimine õnnestus. Autentimiseks veebibrauserist klõpsa nuppu „Logi sisse“.</translation>
     </message>
     <message>
       <source>Credential fetch failed</source>
-      <translation type="unfinished">Credential fetch failed</translation>
+      <translation>Autentimistunnuste laadimine ei õnnestunud</translation>
     </message>
     <message>
       <source>Fetch Credentials</source>
-      <translation type="unfinished">Fetch Credentials</translation>
+      <translation>Laadi autentimistunnused</translation>
     </message>
     <message>
       <source>Remove (Remastered), etc from song titles</source>
@@ -5785,22 +5785,22 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Private key</source>
-      <translation type="unfinished">Private key</translation>
+      <translation>Privaatvõti</translation>
     </message>
     <message>
       <source>Automatically fetch app ID, app secret and private key from Qobuz web player</source>
-      <translation type="unfinished">Automatically fetch app ID, app secret and private key from Qobuz web player</translation>
+      <translation>Laadi rakenduse tunnus, saladus ja privaatvõti Qobuzi veebipõhisest pleierist automaatselt</translation>
     </message>
   </context>
   <context>
     <name>QobuzStreamURLRequest</name>
     <message>
       <source>Missing Qobuz app ID or secret.</source>
-      <translation>Qobuzi teenuse ID või võti puudub.</translation>
+      <translation>Qobuzi teenuse tunnus või võti puudub.</translation>
     </message>
     <message>
       <source>Not authenticated. Please log in on the Qobuz settings page.</source>
-      <translation type="unfinished">Not authenticated. Please log in on the Qobuz settings page.</translation>
+      <translation>Autentimata. Palun ava seadistused ja logi Qobuzi sisse.</translation>
     </message>
     <message>
       <source>Cancelled.</source>
@@ -6517,19 +6517,19 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Couldn&apos;t create GStreamer source element for %1</source>
-      <translation>GStreameri lähteelemendi loomine %1 jaoks ebaõnnestus</translation>
+      <translation>GStreameri lähteelemendi loomine %1 jaoks ei õnnestunud</translation>
     </message>
     <message>
       <source>Couldn&apos;t create GStreamer typefind element for %1</source>
-      <translation>GStreameri typefind elemendi loomine %1 jaoks nurjus</translation>
+      <translation>GStreameri typefind elemendi loomine %1 jaoks ei õnnestunud</translation>
     </message>
     <message>
       <source>Couldn&apos;t create GStreamer fakesink element for %1</source>
-      <translation>GStreameri fakesink elemendi loomine %1 jaoks ebaõnnestus</translation>
+      <translation>GStreameri fakesink elemendi loomine %1 jaoks ei õnnestunud</translation>
     </message>
     <message>
       <source>Couldn&apos;t link GStreamer source, typefind and fakesink elements for %1</source>
-      <translation>GStreameri fakesink, typefind ja lähteelementide linkimine %1 jaoks ebaõnnestus</translation>
+      <translation>GStreameri fakesink, typefind ja lähteelementide linkimine %1 jaoks ei õnnestunud</translation>
     </message>
     <message>
       <source>Missing CDDA playback.</source>
@@ -6555,15 +6555,15 @@ Kas soovid jätkata?</translation>
     <name>SpotifyMetadataRequest</name>
     <message>
       <source>Not authenticated</source>
-      <translation>Pole autentitud</translation>
+      <translation>Pole autenditud</translation>
     </message>
     <message>
       <source>No track ID</source>
-      <translation>Loo ID puudub</translation>
+      <translation>Loo tunnus puudub</translation>
     </message>
     <message>
       <source>No pending song for track ID</source>
-      <translation type="unfinished">No pending song for track ID</translation>
+      <translation>Selle loo tunnuse jaoks pole ühtegi ootel lugu</translation>
     </message>
   </context>
   <context>
@@ -6688,7 +6688,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Remove (Remastered), etc from song titles</source>
-      <translation>Eemalda laulude pealkirjadest (Remaster) jne</translation>
+      <translation>Eemalda lugude pealkirjadest (Remaster) jne</translation>
     </message>
   </context>
   <context>
@@ -7012,7 +7012,7 @@ Kas soovid jätkata?</translation>
     <name>TagFetcher</name>
     <message>
       <source>Identifying song</source>
-      <translation>Tuvastame laulu</translation>
+      <translation>Lugu on tuvastamisel</translation>
     </message>
     <message>
       <source>Fingerprinting song</source>
@@ -7165,7 +7165,7 @@ Kas soovid jätkata?</translation>
     </message>
     <message>
       <source>Remove (Remastered), etc from song titles</source>
-      <translation>Eemalda laulude pealkirjadest (Remaster) jne</translation>
+      <translation>Eemalda lugude pealkirjadest (Remaster) jne</translation>
     </message>
   </context>
   <context>

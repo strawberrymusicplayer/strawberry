@@ -66,7 +66,7 @@ class CollectionLibrary : public QObject {
   SharedPtr<CollectionBackend> backend() const { return backend_; }
   CollectionModel *model() const { return model_; }
 
-  QString full_rescan_reason(int schema_version) const { return full_rescan_revisions_.value(schema_version, QString()); }
+  QString full_rescan_reason(const int schema_version) const { return full_rescan_revisions_.value(schema_version, QString()); }
 
   void SyncPlaycountAndRatingToFilesAsync();
 

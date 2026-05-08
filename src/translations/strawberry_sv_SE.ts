@@ -21,7 +21,7 @@
     </message>
     <message>
       <source>It is a fork of Clementine released in 2018 aimed at music collectors and audiophiles.</source>
-      <translation>Det är en förgrening av Clementine som släpptes 2018 riktad till musiksamlare och audiofiler.</translation>
+      <translation>Det är en förgrening av Clementine som släpptes 2018 riktad till musiksamlare och audioentusiaster.</translation>
     </message>
     <message>
       <source>Strawberry is free software released under GPL. The source code is available on %1</source>
@@ -166,7 +166,7 @@
     </message>
     <message>
       <source>Output</source>
-      <translation>Utgång</translation>
+      <translation>Utmatning</translation>
     </message>
     <message>
       <source>Enter a filename for exported covers (no extension):</source>
@@ -237,7 +237,7 @@
     </message>
     <message>
       <source>Closing this window will stop searching for album covers.</source>
-      <translation>Stängning av det här fönstret kommer att stoppa sökningen efter albumomslag.</translation>
+      <translation>Om du stänger det här fönstret stoppas sökningen efter albumomslag.</translation>
     </message>
     <message>
       <source>Don&apos;t stop!</source>
@@ -253,7 +253,7 @@
     </message>
     <message>
       <source>Got %1 covers out of %2 (%3 failed)</source>
-      <translation>Erhöll %1 omslag av %2 (%3 misslyckades)</translation>
+      <translation>Hämtade %1 omslag av %2 (%3 misslyckades)</translation>
     </message>
     <message>
       <source>%1 transferred</source>
@@ -269,7 +269,7 @@
     </message>
     <message>
       <source>Exported %1 covers out of %2 (%3 skipped)</source>
-      <translation>Exporterat %1 omslag av %2 (%3 överhoppade)</translation>
+      <translation>Exporterat %1 omslag av %2 (%3 hoppades över)</translation>
     </message>
     <message>
       <source>Could not save cover to file %1.</source>
@@ -358,7 +358,7 @@
     </message>
     <message>
       <source>Style</source>
-      <translation>Format</translation>
+      <translation>Stil</translation>
     </message>
     <message>
       <source>Use system theme icons</source>
@@ -518,7 +518,7 @@
     </message>
     <message>
       <source>You need to restart Strawberry for this setting to take affect.</source>
-      <translation type="unfinished">You need to restart Strawberry for this setting to take affect.</translation>
+      <translation>Du måste starta om Strawberry för att den här inställningen ska börja gälla.</translation>
     </message>
   </context>
   <context>
@@ -529,7 +529,7 @@
     </message>
     <message>
       <source>Audio output</source>
-      <translation>Ljudutgång</translation>
+      <translation>Ljudutmatning</translation>
     </message>
     <message>
       <source>Device</source>
@@ -537,7 +537,7 @@
     </message>
     <message>
       <source>Output</source>
-      <translation>Utgång</translation>
+      <translation>Utmatning</translation>
     </message>
     <message>
       <source>ALSA plugin:</source>
@@ -585,7 +585,7 @@
     </message>
     <message>
       <source>Enable HTTP/2 for streaming</source>
-      <translation>Aktivera HTTP/2 för att flöda</translation>
+      <translation>Aktivera HTTP/2 för strömning</translation>
     </message>
     <message>
       <source>Use strict SSL mode</source>
@@ -601,15 +601,15 @@
     </message>
     <message>
       <source>Buffer duration</source>
-      <translation>Buffert varaktighet</translation>
+      <translation>Buffertlängd</translation>
     </message>
     <message>
       <source>High watermark</source>
-      <translation>Hög vattenstämpel</translation>
+      <translation>Övre buffertgräns</translation>
     </message>
     <message>
       <source>Low watermark</source>
-      <translation>Låg vattenstämpel</translation>
+      <translation>Nedre buffertgräns</translation>
     </message>
     <message>
       <source>Defaults</source>
@@ -716,7 +716,7 @@
     </message>
     <message>
       <source>Show song progress on system tray icon</source>
-      <translation>Visa sångförlopp på systemfältikonen</translation>
+      <translation>Visa låtförlopp på systemfältikonen</translation>
     </message>
     <message>
       <source>Show song progress on taskbar</source>
@@ -728,7 +728,7 @@
     </message>
     <message>
       <source>Show playing widget</source>
-      <translation>Visa spelande gränssnittskomponent</translation>
+      <translation>Visa uppspelningsgränssnittskomponenten</translation>
     </message>
     <message>
       <source>On startup</source>
@@ -768,7 +768,7 @@
     </message>
     <message>
       <source>Using the menu to add a song will...</source>
-      <translation>Använda menyn för att lägga till en låt kommer att...</translation>
+      <translation>Om du lägger till en låt via menyn kommer det att...</translation>
     </message>
     <message>
       <source>Never start playing</source>
@@ -792,7 +792,7 @@
     </message>
     <message>
       <source>Restart song, then jump to previous if pressed again</source>
-      <translation>Starta om låten, hoppa till föregående låt vid dubbelklickning</translation>
+      <translation>Starta om låten, hoppa sedan till föregående om du trycker igen</translation>
     </message>
     <message>
       <source>Double clicking a song will...</source>
@@ -800,11 +800,11 @@
     </message>
     <message>
       <source>Append to the playlist</source>
-      <translation>Lägga till i spellistan</translation>
+      <translation>Lägg till i spellistan</translation>
     </message>
     <message>
       <source>Replace the playlist</source>
-      <translation>Ersätta spellistan</translation>
+      <translation>Ersätt spellistan</translation>
     </message>
     <message>
       <source>Open in new playlist</source>
@@ -812,7 +812,7 @@
     </message>
     <message>
       <source>Add to the queue</source>
-      <translation>Lägga till i kön</translation>
+      <translation>Lägg till i kön</translation>
     </message>
     <message>
       <source>Double clicking a song in the playlist will...</source>
@@ -1032,7 +1032,7 @@
     <name>CollectionLibrary</name>
     <message>
       <source>Support for sort tags artist, album, album artist, title, composer, and performer</source>
-      <translation type="unfinished">Support for sort tags artist, album, album artist, title, composer, and performer</translation>
+      <translation>Stöd för sorteringstaggar artist, album, albumartist, titel, kompositör och framförare</translation>
     </message>
     <message>
       <source>Saving playcounts and ratings</source>
@@ -1136,7 +1136,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artists, composers and performers</source>
-      <translation type="unfinished">Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artists, composers and performers</translation>
+      <translation>Hoppa över inledande artiklar ("den", "en", "ett") när du sorterar artister, kompositörer och framförare</translation>
     </message>
     <message>
       <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting albums</source>
@@ -1423,7 +1423,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Add song performer tag</source>
-      <translation>Lägg till tagg för aktör</translation>
+      <translation>Lägg till tagg för framförare</translation>
     </message>
     <message>
       <source>Add song grouping tag</source>
@@ -1451,7 +1451,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Add song skip count</source>
-      <translation>Lägg till antal överhoppningar</translation>
+      <translation>Lägg till överhoppningsantal</translation>
     </message>
     <message>
       <source>Add a new line if supported by the notification type</source>
@@ -1503,7 +1503,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Add song performersort tag</source>
-      <translation type="unfinished">Add song performersort tag</translation>
+      <translation>Lägg till sorteringstagg för låtframförare</translation>
     </message>
     <message>
       <source>Add song albumsort tag</source>
@@ -1530,7 +1530,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Bitrate</source>
-      <translation>Bitfrekvens</translation>
+      <translation>Bithastighet</translation>
     </message>
     <message>
       <source>Show album cover</source>
@@ -1663,7 +1663,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Got %1 covers out of %2 (%3 failed)</source>
-      <translation>Erhöll %1 omslag av %2 (%3 misslyckades)</translation>
+      <translation>Hämtade %1 omslag av %2 (%3 misslyckades)</translation>
     </message>
     <message>
       <source>Covers from %1</source>
@@ -2127,7 +2127,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Skip count</source>
-      <translation>Antal överhoppningar</translation>
+      <translation>Överhoppningsantal</translation>
     </message>
     <message>
       <source>Sample rate</source>
@@ -2223,7 +2223,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Performer</source>
-      <translation>Aktör</translation>
+      <translation>Framförare</translation>
     </message>
     <message>
       <source>Compilation</source>
@@ -2371,7 +2371,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Performer sort</source>
-      <translation type="unfinished">Performer sort</translation>
+      <translation>Sortera framförare</translation>
     </message>
     <message>
       <source>Title sort</source>
@@ -2643,7 +2643,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     <name>FileViewTree</name>
     <message>
       <source>Append to current playlist</source>
-      <translation type="unfinished">Append to current playlist</translation>
+      <translation>Lägg till i aktuell spellista</translation>
     </message>
     <message>
       <source>Replace current playlist</source>
@@ -2968,7 +2968,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Performer</source>
-      <translation>Aktör</translation>
+      <translation>Framförare</translation>
     </message>
     <message>
       <source>Grouping</source>
@@ -2988,7 +2988,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Bitrate</source>
-      <translation>Bitfrekvens</translation>
+      <translation>Bithastighet</translation>
     </message>
     <message>
       <source>Second level</source>
@@ -3763,7 +3763,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Moodbar style</source>
-      <translation>Format på stämningsdiagrammet</translation>
+      <translation>Stil på stämningsdiagrammet</translation>
     </message>
   </context>
   <context>
@@ -3778,7 +3778,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Moodbar style</source>
-      <translation>Format på stämningsdiagrammet</translation>
+      <translation>Stil på stämningsdiagrammet</translation>
     </message>
     <message>
       <source>Save the .mood files directly in the songs folders</source>
@@ -4027,7 +4027,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Add song performer tag</source>
-      <translation>Lägg till tagg för aktör</translation>
+      <translation>Lägg till tagg för låtframförare</translation>
     </message>
     <message>
       <source>Add song grouping tag</source>
@@ -4055,7 +4055,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Add song skip count</source>
-      <translation>Lägg till antal överhoppningar</translation>
+      <translation>Lägg till överhoppningsantal</translation>
     </message>
     <message>
       <source>Add song rating</source>
@@ -4347,7 +4347,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Performer</source>
-      <translation>Aktör</translation>
+      <translation>Framförare</translation>
     </message>
     <message>
       <source>Grouping</source>
@@ -4384,7 +4384,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     <message>
       <source>Bitrate</source>
       <comment>Refers to bitrate in file organize dialog.</comment>
-      <translation>Bitfrekvens</translation>
+      <translation>Bithastighet</translation>
     </message>
     <message>
       <source>Sample rate</source>
@@ -4528,11 +4528,11 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Performer</source>
-      <translation>Aktör</translation>
+      <translation>Framförare</translation>
     </message>
     <message>
       <source>Performer Sort</source>
-      <translation type="unfinished">Performer Sort</translation>
+      <translation>Sortera framförare</translation>
     </message>
     <message>
       <source>Grouping</source>
@@ -4544,7 +4544,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Skip Count</source>
-      <translation>Hoppa över räkning</translation>
+      <translation>Överhoppningsantal</translation>
     </message>
     <message>
       <source>Last Played</source>
@@ -4560,7 +4560,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Bitrate</source>
-      <translation>Bitfrekvens</translation>
+      <translation>Bithastighet</translation>
     </message>
     <message>
       <source>Initial key</source>
@@ -6000,7 +6000,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Performer</source>
-      <translation>Aktör</translation>
+      <translation>Framförare</translation>
     </message>
     <message>
       <source>Grouping</source>
@@ -6024,7 +6024,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Bitrate</source>
-      <translation>Bitfrekvens</translation>
+      <translation>Bithastighet</translation>
     </message>
     <message>
       <source>Unknown</source>
@@ -7301,7 +7301,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Output options</source>
-      <translation>Alternativ för utgång</translation>
+      <translation>Alternativ för utmatning</translation>
     </message>
     <message>
       <source>Audio format</source>
@@ -7431,7 +7431,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Bitrate</source>
-      <translation>Bitfrekvens</translation>
+      <translation>Bithastighet</translation>
     </message>
     <message>
       <source> kbps</source>
@@ -7490,7 +7490,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Bitrate</source>
-      <translation>Bitfrekvens</translation>
+      <translation>Bithastighet</translation>
     </message>
     <message>
       <source> kbps</source>
@@ -7541,11 +7541,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Opti&amp;mize for bitrate</source>
-      <translation>Opti&amp;mera för bitfrekvens</translation>
+      <translation>Opti&amp;mera för bithastighet</translation>
     </message>
     <message>
       <source>Bitrate</source>
-      <translation>Bitfrekvens</translation>
+      <translation>Bithastighet</translation>
     </message>
     <message>
       <source> kbps</source>
@@ -7553,7 +7553,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Constant bitrate</source>
-      <translation>Konstant bitfrekvens</translation>
+      <translation>Konstant bithastighet</translation>
     </message>
     <message>
       <source>Encoding engine quality</source>
@@ -7584,7 +7584,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Bitrate</source>
-      <translation>Bitfrekvens</translation>
+      <translation>Bithastighet</translation>
     </message>
     <message>
       <source> kbps</source>
@@ -7604,7 +7604,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Bitrate</source>
-      <translation>Bitfrekvens</translation>
+      <translation>Bithastighet</translation>
     </message>
     <message>
       <source>automatic</source>
@@ -7616,7 +7616,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Average bitrate</source>
-      <translation>Genomsnittlig bitfrekvens</translation>
+      <translation>Genomsnittlig bithastighet</translation>
     </message>
     <message>
       <source>disabled</source>
@@ -7676,11 +7676,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Use bitrate management engine</source>
-      <translation>Använd motor för hantering av bitfrekvens</translation>
+      <translation>Använd motor för hantering av bithastighet</translation>
     </message>
     <message>
       <source>Target bitrate</source>
-      <translation>Önskad bitfrekvens</translation>
+      <translation>Önskad bithastighet</translation>
     </message>
     <message>
       <source> kbps</source>
@@ -7688,7 +7688,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Minimum bitrate</source>
-      <translation>Lägsta bitfrekvensen</translation>
+      <translation>Lägsta bithastigheten</translation>
     </message>
     <message>
       <source>disabled</source>
@@ -7696,7 +7696,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Maximum bitrate</source>
-      <translation>Högsta bitfrekvensen</translation>
+      <translation>Högsta bithastigheten</translation>
     </message>
   </context>
   <context>

@@ -1719,7 +1719,7 @@ void TagReaderTagLib::SetEmbeddedCover(TagLib::ID3v2::Tag *tag, const QByteArray
   TagLib::ID3v2::FrameList apiclist = tag->frameListMap()[kID3v2_CoverArt];
   for (TagLib::ID3v2::FrameList::ConstIterator it = apiclist.begin(); it != apiclist.end(); ++it) {
     TagLib::ID3v2::AttachedPictureFrame *frame = dynamic_cast<TagLib::ID3v2::AttachedPictureFrame*>(*it);
-    tag->removeFrame(frame, false);
+    tag->removeFrame(frame, true);
   }
 
   if (!data.isEmpty()) {

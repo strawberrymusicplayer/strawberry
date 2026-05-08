@@ -29,6 +29,7 @@
 #include <QUrl>
 #include <QIcon>
 #include <QJsonObject>
+#include <QJsonArray>
 
 #include "includes/shared_ptr.h"
 #include "core/song.h"
@@ -68,6 +69,8 @@ class RadioService : public QObject {
   QByteArray ExtractData(QNetworkReply *reply);
   QJsonObject ExtractJsonObj(const QByteArray &data);
   QJsonObject ExtractJsonObj(QNetworkReply *reply);
+  QJsonArray ExtractJsonArray(const QByteArray &data);
+  QJsonArray ExtractJsonArray(QNetworkReply *reply);
   void Error(const QString &error, const QVariant &debug = QVariant());
 
  protected:

@@ -107,38 +107,38 @@ void SettingsPage::Apply() {
     changed_ = true;
   }
 
-  for (QPair<QCheckBox*, Qt::CheckState> &checkbox : checkboxes_) {
+  for (const QPair<QCheckBox*, Qt::CheckState> &checkbox : std::as_const(checkboxes_)) {
     if (checkbox.first->checkState() == checkbox.second) continue;
     changed_ = true;
     qLog(Info) << checkbox.first->objectName() << "is changed for" << windowTitle() << "settings.";
   }
-  for (QPair<QRadioButton*, bool> &radiobutton : radiobuttons_) {
+  for (const QPair<QRadioButton*, bool> &radiobutton : std::as_const(radiobuttons_)) {
     if (radiobutton.first->isChecked() == radiobutton.second) continue;
     changed_ = true;
     qLog(Info) << radiobutton.first->objectName() << "is changed for" << windowTitle() << "settings.";
   }
-  for (QPair<QComboBox*, QString> &combobox : comboboxes_) {
+  for (const QPair<QComboBox*, QString> &combobox : std::as_const(comboboxes_)) {
     if (combobox.first->currentText() == combobox.second) continue;
     changed_ = true;
     qLog(Info) << combobox.first->objectName() << "is changed for" << windowTitle() << "settings.";
   }
-  for (QPair<QSpinBox*, int> &spinbox : spinboxes_) {
+  for (const QPair<QSpinBox*, int> &spinbox : std::as_const(spinboxes_)) {
     if (spinbox.first->value() == spinbox.second) continue;
     changed_ = true;
     qLog(Info) << spinbox.first->objectName() << "is changed for" << windowTitle() << "settings.";
   }
-  for (QPair<QDoubleSpinBox*, double> &double_spinbox : double_spinboxes_) {
+  for (const QPair<QDoubleSpinBox*, double> &double_spinbox : std::as_const(double_spinboxes_)) {
     if (double_spinbox.first->value() == double_spinbox.second) continue;
     changed_ = true;
     qLog(Info) << double_spinbox.first->objectName() << "is changed for" << windowTitle() << "settings.";
   }
-  for (QPair<QLineEdit*, QString> &lineedit : lineedits_) {
+  for (const QPair<QLineEdit*, QString> &lineedit : std::as_const(lineedits_)) {
     if (lineedit.first->text() == lineedit.second) continue;
     changed_ = true;
     if (lineedit.first->objectName().isEmpty()) continue;
     qLog(Info) << lineedit.first->objectName() << "is changed for" << windowTitle() << "settings.";
   }
-  for (QPair<QSlider*, int> &slider : sliders_) {
+  for (const QPair<QSlider*, int> &slider : std::as_const(sliders_)) {
     if (slider.first->value() == slider.second) continue;
     changed_ = true;
     qLog(Info) << slider.first->objectName() << "is changed for" << windowTitle() << "settings.";

@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,6 +22,8 @@
 
 #include "config.h"
 
+#include <atomic>
+
 #include <QObject>
 #include <QList>
 #include <QQueue>
@@ -29,7 +31,6 @@
 #include <QImage>
 #include <QMutex>
 
-#include "includes/mutex_protected.h"
 #include "core/song.h"
 
 #include "tagreadertaglib.h"
@@ -116,8 +117,8 @@ class TagReaderClient : public QObject {
   mutable QMutex mutex_requests_;
   TagReaderTagLib tagreader_;
   TagReaderGME gmereader_;
-  mutex_protected<bool> abort_;
-  mutex_protected<bool> processing_;
+  std::atomic<bool> abort_;
+  std::atomic<bool> processing_;
 };
 
 #endif  // TAGREADERCLIENT_H

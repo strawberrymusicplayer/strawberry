@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,6 +20,8 @@
 #ifndef STREAMSERVICEPLAYLISTITEM_H
 #define STREAMSERVICEPLAYLISTITEM_H
 
+#include <QUuid>
+
 #include "includes/shared_ptr.h"
 #include "core/song.h"
 #include "playlist/streamplaylistitem.h"
@@ -28,11 +30,14 @@ class StreamingService;
 
 class StreamServicePlaylistItem : public StreamPlaylistItem {
  public:
+  explicit StreamServicePlaylistItem(const Song::Source source, const QUuid &uuid);
   explicit StreamServicePlaylistItem(const Song &song);
   explicit StreamServicePlaylistItem(const SharedPtr<StreamingService> service, const Song &song);
-  Q_DISABLE_COPY(StreamServicePlaylistItem)
+
  private:
   SharedPtr<StreamingService> service_;
+
+  Q_DISABLE_COPY(StreamServicePlaylistItem)
 };
 
 #endif  // STREAMPLAYLISTITEM_H

@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2019-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2019-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -109,7 +109,10 @@ void TagReaderClient::EnqueueRequest(TagReaderRequestPtr request) {
     requests_.enqueue(request);
   }
 
-  if (!processing_.value()) {
+  // Atomically claim the "processing" flag false → true.
+  // The thread that wins the transition is responsible for kicking off ProcessRequests; the others can rely on the in-flight processor draining the queue.
+  bool expected = false;
+  if (processing_.compare_exchange_strong(expected, true)) {
     ProcessRequestsAsync();
   }
 
@@ -139,15 +142,25 @@ void TagReaderClient::ProcessRequests() {
 
   Q_ASSERT(QThread::currentThread() == thread());
 
-  processing_ = true;
+  // processing_ was already set to true by the EnqueueRequest CAS that scheduled this invocation, so we own the flag here.
 
-  const QScopeGuard scopeguard_processing = qScopeGuard([this]() {
+  for (;;) {
+    while (HaveRequests()) {
+      if (abort_.load()) {
+        processing_ = false;
+        return;
+      }
+      ProcessRequest(DequeueRequest());
+    }
+
+    // Drop the flag, then re-check the queue to close the race where a producer enqueues *after* HaveRequests() returned false
+    // but *before* we released the flag — without this, that producer's CAS would fail (it'd see processing_=true) and the request would never be drained.
     processing_ = false;
-  });
+    if (!HaveRequests()) return;
 
-  while (HaveRequests()) {
-    if (abort_.value()) return;
-    ProcessRequest(DequeueRequest());
+    // Something arrived. Try to reclaim the flag; if a producer beat us to it, they will drive the next ProcessRequests invocation themselves.
+    bool expected = false;
+    if (!processing_.compare_exchange_strong(expected, true)) return;
   }
 
 }

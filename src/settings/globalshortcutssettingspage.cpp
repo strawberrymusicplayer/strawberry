@@ -127,8 +127,7 @@ void GlobalShortcutsSettingsPage::Load() {
     }
 #endif
 
-    const QList<GlobalShortcutsManager::Shortcut> shortcuts = global_shortcuts_manager_->shortcuts().values();
-    for (const GlobalShortcutsManager::Shortcut &i : shortcuts) {
+    for (const GlobalShortcutsManager::Shortcut &i : global_shortcuts_manager_->shortcuts()) {
       Shortcut shortcut;
       shortcut.s = i;
       shortcut.key = i.action->shortcut();
@@ -259,7 +258,7 @@ void GlobalShortcutsSettingsPage::NoneClicked() {
 
 void GlobalShortcutsSettingsPage::DefaultClicked() {
 
-  SetShortcut(current_id_, shortcuts_[current_id_].s.default_key);
+  SetShortcut(current_id_, shortcuts_.value(current_id_).s.default_key);
   set_changed();
 
 }

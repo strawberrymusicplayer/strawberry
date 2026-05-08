@@ -191,6 +191,8 @@
 
 #include "radios/radioservices.h"
 #include "radios/radioviewcontainer.h"
+#include "radios/radiobrowserservice.h"
+#include "radios/radiobrowsersearchview.h"
 
 #include "scrobbler/audioscrobbler.h"
 #include "scrobbler/lastfmimport.h"
@@ -491,6 +493,11 @@ MainWindow::MainWindow(Application *app,
   organize_dialog_->SetDestinationModel(app_->collection()->model()->directory_model());
 
   radio_view_->view()->setModel(app_->radio_services()->sort_model());
+
+  RadioBrowserService *radio_browser_service = qobject_cast<RadioBrowserService*>(app_->radio_services()->ServiceBySource(Song::Source::RadioBrowser));
+  if (radio_browser_service) {
+    radio_view_->search_view()->Init(radio_browser_service);
+  }
 
   // Icons
   qLog(Debug) << "Creating UI";
@@ -794,6 +801,7 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(radio_view_, &RadioViewContainer::Refresh, &*app_->radio_services(), &RadioServices::RefreshChannels);
   QObject::connect(radio_view_->view(), &RadioView::GetChannels, &*app_->radio_services(), &RadioServices::GetChannels);
   QObject::connect(radio_view_->view(), &RadioView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
+  QObject::connect(radio_view_->search_view(), &RadioBrowserSearchView::AddToPlaylist, this, &MainWindow::AddToPlaylist);
 
   // Playlist menu
   QObject::connect(playlist_menu_, &QMenu::aboutToHide, this, &MainWindow::PlaylistMenuHidden);
@@ -2225,7 +2233,7 @@ void MainWindow::RescanSongs() {
     }
     else if (item->EffectiveMetadata().source() == Song::Source::LocalFile) {
       QPersistentModelIndex persistent_index = QPersistentModelIndex(source_index);
-      app_->playlist_manager()->current()->ItemReload(persistent_index, item->OriginalMetadata(), false);
+      app_->playlist_manager()->current()->ItemReload(persistent_index, false);
     }
   }
 
@@ -2609,8 +2617,7 @@ void MainWindow::CommandlineOptionsReceived(const CommandlineOptions &options) {
   if (!options.urls().empty()) {
 
 #ifdef HAVE_TIDAL
-    const QList<QUrl> urls = options.urls();
-    for (const QUrl &url : urls) {
+    for (const QUrl &url : options.urls()) {
       if (url.scheme() == "tidal"_L1 && url.host() == "login"_L1) {
         Q_EMIT AuthorizationUrlReceived(url);
         return;
@@ -3064,8 +3071,8 @@ void MainWindow::CheckShowErrorDialog() {
 
 void MainWindow::CheckFullRescanRevisions() {
 
-  int from = app_->database()->startup_schema_version();
-  int to = app_->database()->current_schema_version();
+  const int from = app_->database()->startup_schema_version();
+  const int to = app_->database()->current_schema_version();
 
   // If we're restoring DB from scratch or nothing has changed, do nothing
   if (from == 0 || from == to) {
@@ -3074,7 +3081,7 @@ void MainWindow::CheckFullRescanRevisions() {
 
   // Collect all reasons
   QSet<QString> reasons;
-  for (int i = from; i <= to; ++i) {
+  for (int i = from + 1; i <= to; ++i) {
     QString reason = app_->collection()->full_rescan_reason(i);
     if (!reason.isEmpty()) {
       reasons.insert(reason);
@@ -3092,6 +3099,7 @@ void MainWindow::CheckFullRescanRevisions() {
       app_->collection()->FullScan();
     }
   }
+
 }
 
 void MainWindow::PlaylistViewSelectionModelChanged() {
@@ -3175,8 +3183,12 @@ void MainWindow::AutoCompleteTags() {
 
 void MainWindow::AutoCompleteTagsAccepted() {
 
-  for (PlaylistItemPtr item : std::as_const(autocomplete_tag_items_)) {
-    item->Reload();
+  for (int i = 0; i < autocomplete_tag_items_.count(); ++i) {
+    PlaylistItemPtr item = autocomplete_tag_items_.at(i);
+    const Song reloaded_song = item->Reload();
+    if (reloaded_song.is_valid()) {
+      item->SetOriginalMetadata(reloaded_song);
+    }
   }
   autocomplete_tag_items_.clear();
 
@@ -3189,7 +3201,7 @@ void MainWindow::HandleNotificationPreview(const OSDSettings::Type type, const Q
 
   if (!app_->playlist_manager()->current()->GetAllSongs().isEmpty()) {
     // Show a preview notification for the first song in the current playlist
-    osd_->ShowPreview(type, line1, line2, app_->playlist_manager()->current()->GetAllSongs().first());
+    osd_->ShowPreview(type, line1, line2, app_->playlist_manager()->current()->GetAllSongs().constFirst());
   }
   else {
     qLog(Debug) << "The current playlist is empty, showing a fake song";
@@ -3404,8 +3416,8 @@ void MainWindow::DeleteFilesFinished(const SongList &songs_with_errors) {
   if (songs_with_errors.isEmpty()) return;
 
   OrganizeErrorDialog *dialog = new OrganizeErrorDialog(this);
+  dialog->setAttribute(Qt::WA_DeleteOnClose);
   dialog->Show(OrganizeErrorDialog::OperationType::Delete, songs_with_errors);
-  // It deletes itself when the user closes it
 
 }
 
@@ -3505,7 +3517,7 @@ void MainWindow::ProcessMetadataQueue() {
 #ifdef HAVE_QOBUZ
   if (metadata_queue_entry.source == Song::Source::Qobuz) {
     if (QobuzServicePtr qobuz_service = app_->streaming_services()->Service<QobuzService>()) {
-      QobuzMetadataRequest *request = new QobuzMetadataRequest(&*qobuz_service, qobuz_service->network());
+      QobuzMetadataRequest *request = new QobuzMetadataRequest(&*qobuz_service, qobuz_service->network(), this);
       QObject::connect(request, &QobuzMetadataRequest::MetadataReceived, this, [this, metadata_queue_entry, request](const QString &received_track_id, const Song &fetched_song) {
         Q_UNUSED(received_track_id);
         if (metadata_queue_entry.persistent_index.isValid() && fetched_song.is_valid()) {
@@ -3528,7 +3540,7 @@ void MainWindow::ProcessMetadataQueue() {
             if (fetched_song.length_nanosec() > 0) updated_song.set_length_nanosec(fetched_song.length_nanosec());
             if (fetched_song.art_automatic().isValid()) updated_song.set_art_automatic(fetched_song.art_automatic());
             playlist_item->SetOriginalMetadata(updated_song);
-            app_->playlist_manager()->current()->ItemReload(metadata_queue_entry.persistent_index, old_song, false);
+            app_->playlist_manager()->current()->ItemReload(metadata_queue_entry.persistent_index, false);
           }
         }
         request->deleteLater();
@@ -3555,7 +3567,7 @@ void MainWindow::ProcessMetadataQueue() {
 #ifdef HAVE_SPOTIFY
   if (metadata_queue_entry.source == Song::Source::Spotify) {
     if (SpotifyServicePtr spotify_service = app_->streaming_services()->Service<SpotifyService>()) {
-      SpotifyMetadataRequest *request = new SpotifyMetadataRequest(&*spotify_service, app_->network());
+      SpotifyMetadataRequest *request = new SpotifyMetadataRequest(&*spotify_service, app_->network(), this);
       QObject::connect(request, &SpotifyMetadataRequest::MetadataReceived, this, [this, metadata_queue_entry, request](const QString &received_track_id, const Song &fetched_song) {
         Q_UNUSED(received_track_id);
         if (metadata_queue_entry.persistent_index.isValid() && fetched_song.is_valid()) {
@@ -3578,7 +3590,7 @@ void MainWindow::ProcessMetadataQueue() {
             if (fetched_song.length_nanosec() > 0) updated_song.set_length_nanosec(fetched_song.length_nanosec());
             if (fetched_song.art_automatic().isValid()) updated_song.set_art_automatic(fetched_song.art_automatic());
             playlist_item->SetOriginalMetadata(updated_song);
-            app_->playlist_manager()->current()->ItemReload(metadata_queue_entry.persistent_index, old_song, false);
+            app_->playlist_manager()->current()->ItemReload(metadata_queue_entry.persistent_index, false);
           }
         }
         request->deleteLater();

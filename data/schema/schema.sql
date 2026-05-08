@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS schema_version (
 
 DELETE FROM schema_version;
 
-INSERT INTO schema_version (version) VALUES (21);
+INSERT INTO schema_version (version) VALUES (22);
 
 CREATE TABLE IF NOT EXISTS directories (
   path TEXT NOT NULL,
@@ -1037,6 +1037,7 @@ CREATE TABLE IF NOT EXISTS playlist_items (
 
   playlist INTEGER NOT NULL,
   type INTEGER NOT NULL DEFAULT 0,
+  uuid TEXT,
   collection_id INTEGER,
   playlist_url TEXT,
 
