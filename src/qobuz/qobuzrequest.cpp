@@ -223,7 +223,6 @@ void QobuzRequest::FlushArtistsRequests() {
       reply = CreateRequest(u"artist/search"_s, params);
     }
     if (!reply) continue;
-    replies_ << reply;
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { ArtistsReplyReceived(reply, request.limit, request.offset); });
 
     ++artists_requests_active_;
@@ -275,7 +274,6 @@ void QobuzRequest::FlushAlbumsRequests() {
       reply = CreateRequest(u"album/search"_s, params);
     }
     if (!reply) continue;
-    replies_ << reply;
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { AlbumsReplyReceived(reply, request.limit, request.offset); });
 
     ++albums_requests_active_;
@@ -327,7 +325,6 @@ void QobuzRequest::FlushSongsRequests() {
       reply = CreateRequest(u"track/search"_s, params);
     }
     if (!reply) continue;
-    replies_ << reply;
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { SongsReplyReceived(reply, request.limit, request.offset); });
 
     ++songs_requests_active_;
@@ -569,7 +566,6 @@ void QobuzRequest::FlushArtistAlbumsRequests() {
     if (request.offset > 0) params << Param(u"offset"_s, QString::number(request.offset));
     QNetworkReply *reply = CreateRequest(u"artist/get"_s, params);
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { ArtistAlbumsReplyReceived(reply, request.artist, request.offset); });
-    replies_ << reply;
 
     ++artist_albums_requests_active_;
 
@@ -829,7 +825,6 @@ void QobuzRequest::FlushAlbumSongsRequests() {
     ParamList params = ParamList() << Param(u"album_id"_s, request.album.album_id);
     if (request.offset > 0) params << Param(u"offset"_s, QString::number(request.offset));
     QNetworkReply *reply = CreateRequest(u"album/get"_s, params);
-    replies_ << reply;
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { AlbumSongsReplyReceived(reply, request.artist, request.album, request.offset); });
 
     ++album_songs_requests_active_;
