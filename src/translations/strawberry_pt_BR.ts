@@ -577,7 +577,7 @@
     </message>
     <message>
       <source>Improve headphone listening of stereo audio records (bs2b)</source>
-      <translation type="unfinished">Improve headphone listening of stereo audio records (bs2b)</translation>
+      <translation>Aprimorar a escuta de gravações estéreo ao usar fones de ouvido (bs2b)</translation>
     </message>
     <message>
       <source>Use playbin3 when available</source>
@@ -866,7 +866,7 @@
     </message>
     <message>
       <source>Failed SQL query: %1</source>
-      <translation type="unfinished">Failed SQL query: %1</translation>
+      <translation>Falha na consulta SQL: %1</translation>
     </message>
     <message>
       <source>Updating %1 database.</source>
@@ -877,7 +877,7 @@
     <name>CollectionFilterWidget</name>
     <message>
       <source>Collection Filter</source>
-      <translation type="unfinished">Collection Filter</translation>
+      <translation>Filtro de Coleção</translation>
     </message>
     <message>
       <source>Enter search terms here</source>
