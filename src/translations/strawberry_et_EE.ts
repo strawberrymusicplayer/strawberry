@@ -1086,7 +1086,7 @@
     </message>
     <message>
       <source>Song fingerprinting and tracking</source>
-      <translation>Sõrmejäljesta ja jälgi lugusi</translation>
+      <translation>Sõrmejäljesta ja jälgi lugusid</translation>
     </message>
     <message>
       <source>Mark disappeared songs unavailable</source>
