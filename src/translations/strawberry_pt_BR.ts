@@ -953,7 +953,7 @@
     </message>
     <message>
       <source>Filter by rating</source>
-      <translation type="unfinished">Filter by rating</translation>
+      <translation>Filtrar por avaliação</translation>
     </message>
     <message>
       <source>Display options</source>
@@ -965,7 +965,7 @@
     </message>
     <message>
       <source>Group by Album artist/Album - Disc</source>
-      <translation type="unfinished">Group by Album artist/Album - Disc</translation>
+      <translation>Organizar por Artista do álbum/Álbum - Disco</translation>
     </message>
     <message>
       <source>Group by Album artist/Year - Album</source>
@@ -1690,7 +1690,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Cover providers</source>
-      <translation type="unfinished">Cover providers</translation>
+      <translation>Provedores de capas</translation>
     </message>
     <message>
       <source>Choose the providers you want to use when searching for covers.</source>
@@ -1770,7 +1770,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>%1 needs authentication.</source>
-      <translation type="unfinished">%1 needs authentication.</translation>
+      <translation>%1 precisa de autenticação.</translation>
     </message>
     <message>
       <source>%1 does not need authentication.</source>
@@ -2243,11 +2243,11 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Complete lyrics automatically</source>
-      <translation type="unfinished">Complete lyrics automatically</translation>
+      <translation>Preencher letras de música automaticamente</translation>
     </message>
     <message>
       <source>(different across multiple songs)</source>
-      <translation type="unfinished">(different across multiple songs)</translation>
+      <translation>(diferentes entre várias músicas)</translation>
     </message>
     <message>
       <source>Different art across multiple songs.</source>
@@ -2900,7 +2900,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>You can change the way the songs in the collection are organized.</source>
-      <translation type="unfinished">You can change the way the songs in the collection are organized.</translation>
+      <translation>Você pode alterar o modo como as músicas na biblioteca são organizadas.</translation>
     </message>
     <message>
       <source>Group Collection by...</source>
@@ -3025,11 +3025,11 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Choose data to import from last.fm</source>
-      <translation type="unfinished">Choose data to import from last.fm</translation>
+      <translation>Escolher dados a serem importados do last.fm</translation>
     </message>
     <message>
       <source>Last played</source>
-      <translation type="unfinished">Last played</translation>
+      <translation>Reproduzidas por último</translation>
     </message>
     <message>
       <source>Play counts</source>
@@ -3088,7 +3088,7 @@ Se não houver resultados, ele usará a maior imagem no diretório.</translation
     </message>
     <message>
       <source>Open URL in web browser?</source>
-      <translation type="unfinished">Open URL in web browser?</translation>
+      <translation>Abrir URL no navegador web?</translation>
     </message>
     <message>
       <source>Press &quot;Save&quot; to copy the URL to clipboard and manually open it in a web browser.</source>
@@ -6490,7 +6490,7 @@ Deseja continuar?</translation>
     <name>SomaFMService</name>
     <message>
       <source>Getting %1 channels</source>
-      <translation type="unfinished">Getting %1 channels</translation>
+      <translation>Obtendo %1 canais</translation>
     </message>
   </context>
   <context>
@@ -7031,7 +7031,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Receiving albums...</source>
-      <translation type="unfinished">Receiving albums...</translation>
+      <translation>Recuperando álbuns...</translation>
     </message>
     <message>
       <source>Receiving songs...</source>
@@ -7184,7 +7184,7 @@ Deseja continuar?</translation>
     </message>
     <message>
       <source>Received URL with encrypted stream from Tidal. Strawberry does not currently support encrypted streams.</source>
-      <translation type="unfinished">Received URL with encrypted stream from Tidal. Strawberry does not currently support encrypted streams.</translation>
+      <translation>A URL recebida do Tidal contém um fluxo encriptado. No momento, o Strawberry não suporta fluxos encriptados.</translation>
     </message>
   </context>
   <context>
