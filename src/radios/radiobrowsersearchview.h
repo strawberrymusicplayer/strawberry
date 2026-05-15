@@ -79,6 +79,7 @@ class RadioBrowserSearchView : public QWidget {
   QString default_country_;
   int current_offset_;
   int search_limit_;
+  bool hide_broken_;
   bool has_more_;
   bool initialized_;
 };
