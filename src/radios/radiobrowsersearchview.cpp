@@ -47,6 +47,7 @@ RadioBrowserSearchView::RadioBrowserSearchView(QWidget *parent)
       action_add_to_playlist_(nullptr),
       current_offset_(0),
       search_limit_(100),
+      hide_broken_(true),
       has_more_(false),
       initialized_(false) {
 
@@ -118,6 +119,7 @@ void RadioBrowserSearchView::Init(RadioBrowserService *service) {
   Settings s;
   s.beginGroup(QLatin1String(RadioBrowserSettings::kSettingsGroup));
   search_limit_ = s.value(QLatin1String(RadioBrowserSettings::kSearchLimit), RadioBrowserSettings::kSearchLimitDefault).toInt();
+  hide_broken_ = s.value(QLatin1String(RadioBrowserSettings::kHideBroken), RadioBrowserSettings::kHideBrokenDefault).toBool();
 
   const QString default_sort = s.value(u"default_sort"_s, u"votes"_s).toString();
   for (int i = 0; i < ui_->combo_sort->count(); ++i) {
@@ -158,7 +160,7 @@ void RadioBrowserSearchView::DoSearch() {
   ui_->label_status->setText(tr("Searching..."));
   ui_->stacked->setCurrentWidget(ui_->page_results);
 
-  service_->Search(query, country, QString(), QString(), order, search_limit_, current_offset_);
+  service_->Search(query, country, QString(), QString(), order, search_limit_, current_offset_, hide_broken_);
 
 }
 
