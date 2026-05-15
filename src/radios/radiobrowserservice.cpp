@@ -168,7 +168,7 @@ void RadioBrowserService::ServerTestReply(QNetworkReply *reply) {
   // Execute pending search if any
   if (has_pending_search_) {
     has_pending_search_ = false;
-    Search(pending_search_.query, pending_search_.country, pending_search_.tag, pending_search_.language, pending_search_.order, pending_search_.limit, pending_search_.offset);
+    Search(pending_search_.query, pending_search_.country, pending_search_.tag, pending_search_.language, pending_search_.order, pending_search_.limit, pending_search_.offset, pending_search_.hide_broken);
   }
 
   // Execute pending countries fetch if any
@@ -185,11 +185,12 @@ void RadioBrowserService::Search(const QString &query,
                                   const QString &language,
                                   const QString &order,
                                   const int limit,
-                                  const int offset) {
+                                  const int offset,
+                                  const bool hide_broken) {
 
   if (!server_discovered_) {
     // Save search and discover server first
-    pending_search_ = {query, country, tag, language, order, limit, offset};
+    pending_search_ = {query, country, tag, language, order, limit, offset, hide_broken};
     has_pending_search_ = true;
     DiscoverServer();
     return;
@@ -205,7 +206,7 @@ void RadioBrowserService::Search(const QString &query,
   if (!language.isEmpty()) url_query.addQueryItem(u"language"_s, language);
   url_query.addQueryItem(u"limit"_s, QString::number(limit));
   url_query.addQueryItem(u"offset"_s, QString::number(offset));
-  url_query.addQueryItem(u"hidebroken"_s, u"true"_s);
+  if (hide_broken) url_query.addQueryItem(u"hidebroken"_s, u"true"_s);
 
   if (!order.isEmpty()) {
     url_query.addQueryItem(u"order"_s, order);
@@ -233,9 +234,14 @@ void RadioBrowserService::SearchReply(QNetworkReply *reply, const int task_id, c
 
   if (replies_.contains(reply)) replies_.removeAll(reply);
   reply->deleteLater();
+  task_manager_->SetTaskFinished(task_id);
+
+  if (reply->error() != QNetworkReply::NoError) {
+    Q_EMIT SearchError(tr("Radio Browser search failed: %1").arg(reply->errorString()));
+    return;
+  }
 
   const QJsonArray array = ExtractJsonArray(reply);
-  task_manager_->SetTaskFinished(task_id);
 
   if (array.isEmpty()) {
     Q_EMIT SearchFinished(RadioChannelList(), false);
