@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2024-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,6 +28,8 @@
 #include "htmllyricsprovider.h"
 #include "lyricssearchrequest.h"
 
+class QNetworkReply;
+
 class LetrasLyricsProvider : public HtmlLyricsProvider {
   Q_OBJECT
 
@@ -36,6 +38,10 @@ class LetrasLyricsProvider : public HtmlLyricsProvider {
 
  protected:
   QUrl Url(const LyricsSearchRequest &request) override;
+
+ protected Q_SLOTS:
+  void StartSearch(const int id, const LyricsSearchRequest &request) override;
+  void HandleLyricsReply(QNetworkReply *reply, const int id, const LyricsSearchRequest &request) override;
 
  private:
   static QString StringFixup(const QString &text);
