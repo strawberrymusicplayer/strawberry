@@ -36,42 +36,72 @@ SmartPlaylistSearchTerm::SmartPlaylistSearchTerm() : field_(Field::Title), opera
 SmartPlaylistSearchTerm::SmartPlaylistSearchTerm(Field field, Operator op, const QVariant &value)
     : field_(field), operator_(op), value_(value), datetype_(DateType::Hour) {}
 
-QString SmartPlaylistSearchTerm::ToSql() const {
+QString SmartPlaylistSearchTerm::ToSql(QVariantList &bound_values) const {
+
+  // SQL fragments returned from this function use `?` placeholders.
+  // Concrete values are appended to bound_values in the same order they appear in the fragment;
+  // SmartPlaylistSearch::ToSql() collects the bindings across terms and the backend binds them positionally with addBindValue().
 
   QString col = FieldColumnName(field_);
   QString date = DateName(datetype_, true);
-  QString value = value_.toString();
-  value.replace(u'\'', "''"_L1);
+  const Type type = TypeOf(field_);
 
+  // Compute the concrete value to bind, with field-specific preprocessing.
+  QVariant value;
   if (field_ == Field::Filetype) {
-    Song::FileType filetype = Song::FiletypeByExtension(value);
+    Song::FileType filetype = Song::FiletypeByExtension(value_.toString());
     if (filetype == Song::FileType::Unknown) {
-      filetype = Song::FiletypeByDescription(value);
+      filetype = Song::FiletypeByDescription(value_.toString());
     }
-    value = QString::number(static_cast<int>(filetype));
+    value = static_cast<int>(filetype);
+  }
+  else if (field_ == Field::Filepath) {
+    // File paths are stored as encoded URLs in the database.
+    if (operator_ == Operator::StartsWith || operator_ == Operator::Equals) {
+      value = QString::fromUtf8(QUrl::fromLocalFile(value_.toString()).toEncoded());
+    }
+    else {
+      value = QString::fromUtf8(QUrl(value_.toString()).toEncoded());
+    }
+  }
+  else if (type == Type::Number) {
+    value = value_.toLongLong();
+  }
+  else if (type == Type::Rating) {
+    value = value_.toFloat();
+  }
+  else if (type == Type::Date || type == Type::Time) {
+    value = value_.toLongLong();
+  }
+  else {
+    value = value_.toString();
   }
 
-  QString second_value;
+  const bool special_date_query = (operator_ == Operator::NumericDate || operator_ == Operator::NumericDateNot || operator_ == Operator::RelativeDate);
 
-  bool special_date_query = (operator_ == Operator::NumericDate ||
-                             operator_ == Operator::NumericDateNot ||
-                             operator_ == Operator::RelativeDate);
-
+  // Wrap col and value placeholder based on the field type. Placeholders themselves remain plain `?`; only the surrounding SQL functions vary.
   // Floating point problems...
-  // Theoretically 0.0 == 0 stars, 0.1 == 0.5 star, 0.2 == 1 star etc.
-  // but in reality we need to consider anything from [0.05, 0.15) range to be 0.5 star etc.
+  // Theoretically 0.0 == 0 stars, 0.1 == 0.5 star, 0.2 == 1 star etc. But in reality we need to consider anything from [0.05, 0.15) range to be 0.5 star etc.
   // To make this simple, I transform the ranges to integeres and then operate on ints: [0.0, 0.05) -> 0, [0.05, 0.15) -> 1 etc.
-  if (TypeOf(field_) == Type::Date) {
+  QString value_expr = u"?"_s;
+  if (type == Type::Date) {
     if (special_date_query) {
       // We have a numeric date, consider also the time for more precision
       col = "DATETIME("_L1 + col + ", 'unixepoch', 'localtime')"_L1;
-      second_value = second_value_.toString();
-      second_value.replace(u'\'', "''"_L1);
+      qint64 v = value_.toLongLong();
+      qint64 sv = second_value_.toLongLong();
       if (date == "weeks"_L1) {
         // Sqlite doesn't know weeks, transform them to days
         date = "days"_L1;
-        value = QString::number(value_.toInt() * 7);
-        second_value = QString::number(second_value_.toInt() * 7);
+        v *= 7;
+        sv *= 7;
+      }
+      // Bind the whole modifier string ('-N units').
+      // The `date` keyword comes from a fixed enum (DateName), but keeping it inside the bound string is harmless and keeps the SQL template free of any value-derived text.
+      value = QStringLiteral("-%1 %2").arg(v).arg(date);
+      bound_values.append(value);
+      if (operator_ == Operator::RelativeDate) {
+        bound_values.append(QStringLiteral("-%1 %2").arg(sv).arg(date));
       }
     }
     else {
@@ -79,75 +109,56 @@ QString SmartPlaylistSearchTerm::ToSql() const {
       // The calendar widget specifies no time so ditch the possible time part
       // from integers representing the dates.
       col = "DATE("_L1 + col + ", 'unixepoch', 'localtime')"_L1;
-      value = "DATE("_L1 + value + ", 'unixepoch', 'localtime')"_L1;
+      value_expr = u"DATE(?, 'unixepoch', 'localtime')"_s;
     }
   }
-  else if (TypeOf(field_) == Type::Time) {
+  else if (type == Type::Time) {
     // Convert seconds to nanoseconds
-    value = "CAST ("_L1 + value + " *1000000000 AS INTEGER)"_L1;
+    value_expr = u"CAST (? *1000000000 AS INTEGER)"_s;
   }
-
-  // File paths need some extra processing since they are stored as encoded urls in the database.
-  if (field_ == Field::Filepath) {
-    if (operator_ == Operator::StartsWith || operator_ == Operator::Equals) {
-      value = QString::fromUtf8(QUrl::fromLocalFile(value).toEncoded());
-    }
-    else {
-      value = QString::fromUtf8(QUrl(value).toEncoded());
-    }
-  }
-  else if (TypeOf(field_) == Type::Rating) {
+  else if (type == Type::Rating) {
     col = "CAST ((replace("_L1 + col + ", -1, 0) + 0.05) * 10 AS INTEGER)"_L1;
-    value = "CAST (("_L1 + value + " + 0.05) * 10 AS INTEGER)"_L1;
+    value_expr = u"CAST ((? + 0.05) * 10 AS INTEGER)"_s;
   }
 
   switch (operator_) {
     case Operator::Contains:
-      return col + " LIKE '%"_L1 + value + "%'"_L1;
+      bound_values.append(QString(u"%"_s + value.toString() + u"%"_s));
+      return col + " LIKE "_L1 + value_expr;
     case Operator::NotContains:
-      return col + " NOT LIKE '%"_L1 + value + "%'"_L1;
+      bound_values.append(QString(u"%"_s + value.toString() + u"%"_s));
+      return col + " NOT LIKE "_L1 + value_expr;
     case Operator::StartsWith:
-      return col + " LIKE '"_L1 + value + "%'"_L1;
+      bound_values.append(QString(value.toString() + u"%"_s));
+      return col + " LIKE "_L1 + value_expr;
     case Operator::EndsWith:
-      return col + " LIKE '%"_L1 + value + u'\'';
+      bound_values.append(QString(u"%"_s + value.toString()));
+      return col + " LIKE "_L1 + value_expr;
     case Operator::Equals:
-      if (TypeOf(field_) == Type::Text) {
-        return col + " LIKE '"_L1 + value + u'\'';
+      bound_values.append(value);
+      if (type == Type::Text) {
+        return col + " LIKE "_L1 + value_expr;
       }
-      else if (TypeOf(field_) == Type::Date || TypeOf(field_) == Type::Time || TypeOf(field_) == Type::Rating) {
-        return col + " = "_L1 + value;
-      }
-      else {
-        return col + " = '"_L1 + value + u'\'';
-      }
+      return col + " = "_L1 + value_expr;
     case Operator::GreaterThan:
-      if (TypeOf(field_) == Type::Date || TypeOf(field_) == Type::Time || TypeOf(field_) == Type::Rating) {
-        return col + " > "_L1 + value;
-      }
-      else {
-        return col + " > '"_L1 + value + u'\'';
-      }
+      bound_values.append(value);
+      return col + " > "_L1 + value_expr;
     case Operator::LessThan:
-      if (TypeOf(field_) == Type::Date || TypeOf(field_) == Type::Time || TypeOf(field_) == Type::Rating) {
-        return col + " < "_L1 + value;
-      }
-      else {
-        return col + " < '"_L1 + value + u'\'';
-      }
+      bound_values.append(value);
+      return col + " < "_L1 + value_expr;
     case Operator::NumericDate:
-      return col + " > "_L1 + "DATETIME('now', '-"_L1 + value + u' ' + date + "', 'localtime')"_L1;
+      // value already appended above in the special_date_query branch.
+      return col + " > DATETIME('now', ?, 'localtime')"_L1;
     case Operator::NumericDateNot:
-      return col + " < "_L1 + "DATETIME('now', '-"_L1 + value + u' ' + date + "', 'localtime')"_L1;
+      // value already appended above in the special_date_query branch.
+      return col + " < DATETIME('now', ?, 'localtime')"_L1;
     case Operator::RelativeDate:
+      // value/second_value already appended above in the special_date_query branch.
       // Consider the time range before the first date but after the second one
-      return "("_L1 + col + " < "_L1 + "DATETIME('now', '-"_L1 + value + u' ' + date + "', 'localtime') AND "_L1 + col + " > "_L1 + "DATETIME('now', '-"_L1 + second_value + u' ' + date + "', 'localtime'))"_L1;
+      return "("_L1 + col + " < DATETIME('now', ?, 'localtime') AND "_L1 + col + " > DATETIME('now', ?, 'localtime'))"_L1;
     case Operator::NotEquals:
-      if (TypeOf(field_) == Type::Text) {
-        return col + " <> '"_L1 + value + u'\'';
-      }
-      else {
-        return col + " <> "_L1 + value;
-      }
+      bound_values.append(value);
+      return col + " <> "_L1 + value_expr;
     case Operator::Empty:
       return col + " = ''"_L1;
     case Operator::NotEmpty:

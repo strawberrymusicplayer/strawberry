@@ -1961,13 +1961,16 @@ void CollectionBackend::DeleteAll() {
 
 }
 
-SongList CollectionBackend::ExecuteQuery(const QString &sql) {
+SongList CollectionBackend::ExecuteQuery(const QString &sql, const QVariantList &bound_values) {
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
 
   SqlQuery query(db);
   query.prepare(sql);
+  for (const QVariant &v : bound_values) {
+    query.addBindValue(v);
+  }
   if (!query.Exec()) {
     db_->ReportErrors(query);
     return SongList();
