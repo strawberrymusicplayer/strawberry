@@ -28,6 +28,7 @@
 #include <QFileInfo>
 #include <QDir>
 #include <QSettings>
+#include <QStandardPaths>
 #include <QProcess>
 #include <QDesktopServices>
 #include <QMessageBox>
@@ -48,11 +49,8 @@ void OpenInFileManager(const QString &path, const QUrl &url) {
   proc.startCommand(u"xdg-mime query default inode/directory"_s);
   proc.waitForFinished();
   QString desktop_file = QString::fromUtf8(proc.readLine()).simplified();
-  QString xdg_data_dirs = QString::fromUtf8(qgetenv("XDG_DATA_DIRS"));
-  if (xdg_data_dirs.isEmpty()) {
-    xdg_data_dirs = "/usr/local/share/:/usr/share/"_L1;
-  }
-  const QStringList data_dirs = xdg_data_dirs.split(u':');
+
+  const QStringList data_dirs = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
 
   QString command;
   QStringList command_params;
