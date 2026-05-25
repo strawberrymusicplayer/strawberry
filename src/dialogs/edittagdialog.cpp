@@ -29,6 +29,7 @@
 #include <memory>
 
 #include <QtGlobal>
+#include <QCoreApplication>
 #include <QtConcurrentRun>
 #include <QFuture>
 #include <QFutureWatcher>
@@ -67,6 +68,8 @@
 #include <QDialogButtonBox>
 #include <QPushButton>
 #include <QAbstractButton>
+#include <QAbstractSpinBox>
+#include <QScrollArea>
 #include <QtEvents>
 #include <QSettings>
 #include <QMimeData>
@@ -205,6 +208,8 @@ EditTagDialog::EditTagDialog(const SharedPtr<NetworkAccessManager> network,
       else if (SpinBox *spinbox = qobject_cast<SpinBox*>(widget)) {
         QObject::connect(spinbox, QOverload<int>::of(&SpinBox::valueChanged), this, &EditTagDialog::FieldValueEdited);
         QObject::connect(spinbox, &SpinBox::Reset, this, &EditTagDialog::ResetField);
+        spinbox->setFocusPolicy(Qt::StrongFocus);
+        spinbox->installEventFilter(this);
       }
       else if (CheckBox *checkbox = qobject_cast<CheckBox*>(widget)) {
 #if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
@@ -359,6 +364,15 @@ void EditTagDialog::accept() {
 }
 
 bool EditTagDialog::eventFilter(QObject *o, QEvent *e) {
+
+  if (e->type() == QEvent::Wheel) {
+    if (QAbstractSpinBox *spinbox = qobject_cast<QAbstractSpinBox*>(o)) {
+      if (!spinbox->hasFocus()) {
+        QCoreApplication::sendEvent(ui_->scrollarea->viewport(), e);
+        return true;
+      }
+    }
+  }
 
   if (o == ui_->tags_art) {
     switch (e->type()) {
