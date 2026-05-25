@@ -23,11 +23,11 @@
 
 #include "config.h"
 
-#include <QObject>
-#include <QFileSystemWatcher>
 #include <QString>
 
 #include "filesystemwatcherinterface.h"
+
+class QFileSystemWatcher;
 
 class QtFSListener : public FileSystemWatcherInterface {
   Q_OBJECT
@@ -39,7 +39,7 @@ class QtFSListener : public FileSystemWatcherInterface {
   void Clear() override;
 
  private:
-  QFileSystemWatcher watcher_;
+  QFileSystemWatcher *watcher_;
 };
 
 #endif  // QTFSLISTENER_H
