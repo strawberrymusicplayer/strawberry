@@ -260,7 +260,8 @@ const QStringList Song::kRejectedExtensions = QStringList() << u"tmp"_s
                                                             << u"zip"_s
                                                             << u"rar"_s
                                                             << u"wvc"_s
-                                                            << u"zst"_s;
+                                                            << u"zst"_s
+                                                            << u"lrc"_s;
 
 struct Song::Private : public QSharedData {
 
