@@ -1392,7 +1392,8 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
     int16_t *s16 = static_cast<int16_t*>(g_malloc(static_cast<gsize>(buf16_size)));
     memset(s16, 0, static_cast<size_t>(buf16_size));
     for (int i = 0; i < (samples * channels); ++i) {
-      s16[i] = *(reinterpret_cast<int16_t*>(s24 + 1));
+      const uint16_t sample = static_cast<uint16_t>(static_cast<uint8_t>(s24[1])) | (static_cast<uint16_t>(static_cast<uint8_t>(s24[2])) << 8);
+      s16[i] = static_cast<int16_t>(sample);
       s24 += 3;
       if (s24 >= s24e) break;
     }
@@ -1417,7 +1418,8 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
     memset(s16, 0, static_cast<size_t>(buf16_size));
     for (int i = 0; i < (samples * channels); ++i) {
       int8_t *s24 = reinterpret_cast<int8_t*>(s32p);
-      s16[i] = *(reinterpret_cast<int16_t*>(s24 + 1));
+      const uint16_t sample = static_cast<uint16_t>(static_cast<uint8_t>(s24[1])) | (static_cast<uint16_t>(static_cast<uint8_t>(s24[2])) << 8);
+      s16[i] = static_cast<int16_t>(sample);
       ++s32p;
       if (s32p > s32e) break;
     }
