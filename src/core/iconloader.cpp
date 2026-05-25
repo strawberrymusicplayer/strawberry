@@ -125,10 +125,16 @@ QIcon IconLoader::Load(const QString &name, const bool system_icon, const int fi
   }
 
   if (custom_icons_) {
-    QString custom_icon_path = StandardPaths::WritableLocation(StandardPaths::StandardLocation::AppLocalDataLocation) + u"/icons/%1x%2/%3.png"_s;
+    const QString custom_icon_path = StandardPaths::WritableLocation(StandardPaths::StandardLocation::AppLocalDataLocation) + u"/icons/%1x%1/%2.%3"_s;
     for (int s : std::as_const(sizes)) {
-      QString filename(custom_icon_path.arg(s).arg(s).arg(name));
-      if (QFile::exists(filename)) ret.addFile(filename, QSize(s, s));
+      const QString png_filename = custom_icon_path.arg(s).arg(name, u"png"_s);
+      if (QFile::exists(png_filename)) {
+        ret.addFile(png_filename, QSize(s, s));
+      }
+      const QString svg_filename = custom_icon_path.arg(s).arg(name, u"svg"_s);
+      if (QFile::exists(svg_filename)) {
+        ret.addFile(svg_filename, QSize(s, s));
+      }
     }
     if (!ret.isNull()) return ret;
     qLog(Warning) << "Couldn't load icon" << name << "from custom icons.";
