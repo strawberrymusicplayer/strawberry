@@ -550,6 +550,12 @@ void CollectionModel::AddSongsInternal(const SongList &songs) {
 
   if (loading_) return;
 
+  // First pass: resolve the final container for every song, creating any
+  // intermediate container/compilation-artist nodes as needed. Container
+  // creation still uses its own beginInsertRows pair, but those fire only
+  // when a new artist/album appears (rare), so the cost is bounded.
+  QHash<CollectionItem*, SongList> songs_by_container;
+  QList<CollectionItem*> insertion_order;
   for (const Song &song : songs) {
 
     // Sanity check to make sure we don't add songs that are outside the user's filter
@@ -589,7 +595,27 @@ void CollectionModel::AddSongsInternal(const SongList &songs) {
         }
       }
     }
-    CreateSongItem(song, container);
+    if (!songs_by_container.contains(container)) insertion_order << container;
+    songs_by_container[container] << song;
+  }
+
+  // Second pass: bulk-insert all songs belonging to the same container in a
+  // single beginInsertRows/endInsertRows pair. Each pair triggers
+  // CollectionFilter::filterAcceptsRow re-evaluation across the proxy, so
+  // collapsing thousands of per-song inserts into a per-container handful
+  // is what keeps the UI responsive on large metadata batches.
+  for (CollectionItem *container : std::as_const(insertion_order)) {
+    const SongList &container_songs = songs_by_container.value(container);
+    const int first = static_cast<int>(container->children.count());
+    const int last = first + static_cast<int>(container_songs.count()) - 1;
+
+    beginInsertRows(ItemToIndex(container), first, last);
+    for (const Song &song : container_songs) {
+      CollectionItem *item = new CollectionItem(CollectionItem::Type::Song, container);
+      SetSongItemData(item, song);
+      song_nodes_.insert(song.id(), item);
+    }
+    endInsertRows();
   }
 
 }
