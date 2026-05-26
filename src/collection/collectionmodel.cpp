@@ -38,6 +38,7 @@
 #include <QIODevice>
 #include <QList>
 #include <QSet>
+#include <QHash>
 #include <QMap>
 #include <QMetaType>
 #include <QVariant>
@@ -641,26 +642,34 @@ void CollectionModel::RemoveSongsInternal(const SongList &songs) {
 
   if (loading_) return;
 
-  // Delete the actual song nodes first, keeping track of each parent so we might check to see if they're empty later.
+  // Group song nodes to remove by their parent. Removing siblings one row
+  // at a time forces QSortFilterProxyModel to re-evaluate filterAcceptsRow
+  // on every endRemoveRows, which dominates the cost when a collection
+  // filter is active and a streaming service emits a large metadata batch.
+  // RemoveSiblingNodes() collapses contiguous rows under each parent into a
+  // single beginRemoveRows/endRemoveRows pair so the proxy refreshes once.
+  QHash<CollectionItem*, QList<CollectionItem*>> nodes_by_parent;
   QSet<CollectionItem*> parents;
   for (const Song &song : songs) {
+    if (!song_nodes_.contains(song.id())) continue;
+    CollectionItem *node = song_nodes_.value(song.id());
+    nodes_by_parent[node->parent] << node;
+    if (node->parent != root_) parents << node->parent;
+  }
 
-    if (song_nodes_.contains(song.id())) {
-      CollectionItem *node = song_nodes_.value(song.id());
-
-      if (node->parent != root_) parents << node->parent;
-
-      beginRemoveRows(ItemToIndex(node->parent), node->row, node->row);
-      node->parent->Delete(node->row);
-      song_nodes_.remove(song.id());
-      endRemoveRows();
-
+  for (auto it = nodes_by_parent.cbegin(); it != nodes_by_parent.cend(); ++it) {
+    for (CollectionItem *node : it.value()) {
+      song_nodes_.remove(node->metadata.id());
     }
+    RemoveSiblingNodes(it.key(), it.value());
   }
 
   // Now delete empty parents
   QSet<QString> divider_keys;
   while (!parents.isEmpty()) {
+    // Same grouping trick as above: collect empty parents by their parent so
+    // we can drop them in contiguous-row batches per grandparent.
+    QHash<CollectionItem*, QList<CollectionItem*>> empty_by_grandparent;
     // Since we are going to remove elements from the container, we need a copy to iterate over.
     // If we iterate over the original, the behavior will be undefined.
     QSet<CollectionItem*> parents_copy = parents;
@@ -686,14 +695,17 @@ void CollectionModel::RemoveSongsInternal(const SongList &songs) {
 
       ClearItemPixmapCache(node);
 
-      // It was empty - delete it
-      beginRemoveRows(ItemToIndex(node->parent), node->row, node->row);
-      node->parent->Delete(node->row);
-      endRemoveRows();
+      empty_by_grandparent[node->parent] << node;
+    }
+
+    for (auto it = empty_by_grandparent.cbegin(); it != empty_by_grandparent.cend(); ++it) {
+      RemoveSiblingNodes(it.key(), it.value());
     }
   }
 
-  // Delete empty dividers
+  // Delete empty dividers. Group contiguous rows so we still benefit when many
+  // dividers vanish at once (e.g. removing every "A"-prefix artist).
+  QList<CollectionItem*> dead_dividers;
   for (const QString &divider_key : std::as_const(divider_keys)) {
     if (!divider_nodes_.contains(divider_key)) continue;
 
@@ -702,12 +714,44 @@ void CollectionModel::RemoveSongsInternal(const SongList &songs) {
       continue;
     }
 
-    // Remove the divider
-    const int row = divider_nodes_.value(divider_key)->row;
-    beginRemoveRows(ItemToIndex(root_), row, row);
-    root_->Delete(row);
-    endRemoveRows();
+    dead_dividers << divider_nodes_.value(divider_key);
     divider_nodes_.remove(divider_key);
+  }
+  if (!dead_dividers.isEmpty()) {
+    RemoveSiblingNodes(root_, dead_dividers);
+  }
+
+}
+
+void CollectionModel::RemoveSiblingNodes(CollectionItem *parent, QList<CollectionItem*> nodes) {
+
+  // Sort by row descending so each contiguous-range removal doesn't shift
+  // later ranges.
+  std::sort(nodes.begin(), nodes.end(), [](CollectionItem *a, CollectionItem *b) {
+    return a->row > b->row;
+  });
+
+  const QModelIndex parent_index = ItemToIndex(parent);
+
+  int i = 0;
+  while (i < nodes.count()) {
+    const int top_row = nodes[i]->row;
+    int run_count = 1;
+    while (i + run_count < nodes.count() && nodes[i + run_count]->row == top_row - run_count) {
+      ++run_count;
+    }
+    const int bottom_row = top_row - run_count + 1;
+
+    beginRemoveRows(parent_index, bottom_row, top_row);
+    for (int r = top_row; r >= bottom_row; --r) {
+      delete parent->children.takeAt(r);
+    }
+    for (int r = bottom_row; r < parent->children.count(); ++r) {
+      parent->children[r]->row = r;
+    }
+    endRemoveRows();
+
+    i += run_count;
   }
 
 }

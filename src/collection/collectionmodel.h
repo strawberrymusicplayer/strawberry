@@ -243,6 +243,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   void AddSongsInternal(const SongList &songs);
   void UpdateSongsInternal(const SongList &songs);
   void RemoveSongsInternal(const SongList &songs);
+  void RemoveSiblingNodes(CollectionItem *parent, QList<CollectionItem*> nodes);
 
   void CreateDividerItem(const QString &divider_key, const QString &display_text, CollectionItem *parent);
   CollectionItem *CreateContainerItem(const GroupBy group_by, const int container_level, const QString &container_key, const Song &song, CollectionItem *parent);
