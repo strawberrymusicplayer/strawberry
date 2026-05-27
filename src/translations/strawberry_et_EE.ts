@@ -257,7 +257,7 @@
     </message>
     <message>
       <source>%1 transferred</source>
-      <translation>%1 üle kantud</translation>
+      <translation>%1 on üle tõstetud</translation>
     </message>
     <message>
       <source>Export finished</source>
@@ -339,11 +339,11 @@
     </message>
     <message>
       <source>Turbine</source>
-      <translation>Turbine</translation>
+      <translation>Turbiin</translation>
     </message>
     <message>
       <source>Sonogram</source>
-      <translation>Sonogram</translation>
+      <translation>Sonogramm</translation>
     </message>
     <message>
       <source>WaveRubber</source>
@@ -362,7 +362,7 @@
     </message>
     <message>
       <source>Use system theme icons</source>
-      <translation>Kasuta süsteemi teema ikoone</translation>
+      <translation>Kasuta süsteemi kujunduse ikoone</translation>
     </message>
     <message>
       <source>Tabbar colors</source>
@@ -1086,7 +1086,7 @@
     </message>
     <message>
       <source>Song fingerprinting and tracking</source>
-      <translation>Sõrmejäljesta ja jälgi lugusi</translation>
+      <translation>Sõrmejäljesta ja jälgi lugusid</translation>
     </message>
     <message>
       <source>Mark disappeared songs unavailable</source>
@@ -2044,7 +2044,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     <name>DiscordRichPresence</name>
     <message>
       <source>on </source>
-      <translation type="unfinished">on </translation>
+      <translation>teenuses </translation>
     </message>
   </context>
   <context>
@@ -3326,7 +3326,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>&amp;Settings...</source>
-      <translation>&amp;Seadistused...</translation>
+      <translation>&amp;Seaded...</translation>
     </message>
     <message>
       <source>Ctrl+P</source>
@@ -3831,7 +3831,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     </message>
     <message>
       <source>&amp;Use the system proxy settings</source>
-      <translation>&amp;Kasuta süsteemi puhverserveri seadistusi</translation>
+      <translation>&amp;Kasuta süsteemi puhverserveri seadeid</translation>
     </message>
     <message>
       <source>Direct internet connection</source>
@@ -7776,7 +7776,7 @@ Kas soovid jätkata?</translation>
     <name>UserPassDialog</name>
     <message>
       <source>Enter username and password</source>
-      <translation>Sisesta kasutajanimi ja salasõna</translation>
+      <translation>Sisesta kasutajanimi ja parool</translation>
     </message>
     <message>
       <source>Username</source>
