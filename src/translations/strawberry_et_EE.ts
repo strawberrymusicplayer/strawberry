@@ -2044,7 +2044,7 @@ Kui vasteid pole, kasutab ta kaustas asuvat suurimat pilti.</translation>
     <name>DiscordRichPresence</name>
     <message>
       <source>on </source>
-      <translation type="unfinished">on </translation>
+      <translation>teenuses </translation>
     </message>
   </context>
   <context>
