@@ -91,7 +91,7 @@ constexpr qint64 kPreloadGapNanosec = 8000 * kNsecPerMsec;     // 8s
 constexpr qint64 kSeekDelayNanosec = 100 * kNsecPerMsec;       // 100msec
 }  // namespace
 
-#ifdef __clang_
+#ifdef __clang__
 #  pragma clang diagnostic pop
 #endif
 

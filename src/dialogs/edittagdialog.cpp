@@ -127,7 +127,7 @@ constexpr int kComboBoxIndex_ID3v2_4 = 1;
 const char EditTagDialog::kTagsDifferentHintText[] = QT_TR_NOOP("(different across multiple songs)");
 const char EditTagDialog::kArtDifferentHintText[] = QT_TR_NOOP("Different art across multiple songs.");
 
-#ifdef __clang_
+#ifdef __clang__
 #  pragma clang diagnostic pop
 #endif
 

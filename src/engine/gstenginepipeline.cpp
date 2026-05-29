@@ -97,7 +97,7 @@ constexpr int kIgnoreBufferingNearEndSeconds = 5;
 
 }  // namespace
 
-#ifdef __clang_
+#ifdef __clang__
 #  pragma clang diagnostic pop
 #endif
 
