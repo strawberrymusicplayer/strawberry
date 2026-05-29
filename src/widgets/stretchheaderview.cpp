@@ -356,7 +356,7 @@ void StretchHeaderView::SectionResized(const int logical_index, const int old_si
     const int visual_index = visualIndex(logical_index);
     int right_section_logical_index = -1;
     int right_section_visual_index = -1;
-    for (int i = 0; i <= count(); ++i) {
+    for (int i = 0; i < count(); ++i) {
       if (!isSectionHidden(i) &&
           visualIndex(i) > visual_index &&
           (right_section_visual_index == -1 || visualIndex(i) < right_section_visual_index)) {
