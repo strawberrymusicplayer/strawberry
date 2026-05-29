@@ -149,7 +149,7 @@ void BoomAnalyzer::analyze(QPainter &p, const Scope &scope, const bool new_frame
         peak_height_[i] -= peak_speed_[i];
         peak_speed_[i] *= F_peakSpeed_;  // 1.12
 
-        peak_height_[i] = std::max(bar_height_[i], bar_height_[i]);
+        peak_height_[i] = std::max(bar_height_[i], peak_height_[i]);
         peak_height_[i] = std::max(0.0, peak_height_[i]);
       }
     }
