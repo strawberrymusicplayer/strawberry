@@ -1334,9 +1334,16 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
   }
   GstBuffer *buf16 = nullptr;
 
-  quint64 start_time = GST_BUFFER_TIMESTAMP(buf) - instance->segment_start_.load();
-  quint64 duration = GST_BUFFER_DURATION(buf);
-  qint64 end_time = static_cast<qint64>(start_time + duration);
+  qint64 end_time = -1;
+  const GstClockTime timestamp = GST_BUFFER_TIMESTAMP(buf);
+  if (GST_CLOCK_TIME_IS_VALID(timestamp)) {
+    const quint64 segment_start = static_cast<quint64>(instance->segment_start_.load());
+    if (timestamp >= segment_start) {
+      const quint64 start_time = timestamp - segment_start;
+      const quint64 duration = GST_CLOCK_TIME_IS_VALID(GST_BUFFER_DURATION(buf)) ? GST_BUFFER_DURATION(buf) : 0;
+      end_time = static_cast<qint64>(start_time + duration);
+    }
+  }
 
   if (format.startsWith("S16LE"_L1)) {
     instance->logged_unsupported_analyzer_format_ = false;
