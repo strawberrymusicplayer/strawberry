@@ -1361,7 +1361,7 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
       }
       gst_buffer_unmap(buf, &map_info);
       buf16 = gst_buffer_new_wrapped(d, static_cast<gsize>(buf16_size));
-      GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(static_cast<guint64>(samples * sizeof(int16_t) / channels), static_cast<guint64>(rate));
+      GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(static_cast<guint64>(samples), static_cast<guint64>(rate));
       buf = buf16;
     }
     instance->logged_unsupported_analyzer_format_ = false;
@@ -1381,7 +1381,7 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
       }
       gst_buffer_unmap(buf, &map_info);
       buf16 = gst_buffer_new_wrapped(d, static_cast<gsize>(buf16_size));
-      GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(static_cast<guint64>(samples * sizeof(int16_t) / channels), static_cast<guint64>(rate));
+      GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(static_cast<guint64>(samples), static_cast<guint64>(rate));
       buf = buf16;
     }
     instance->logged_unsupported_analyzer_format_ = false;
@@ -1402,7 +1402,7 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
       }
       gst_buffer_unmap(buf, &map_info);
       buf16 = gst_buffer_new_wrapped(s16, static_cast<gsize>(buf16_size));
-      GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(static_cast<guint64>(samples * sizeof(int16_t) / channels), static_cast<guint64>(rate));
+      GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(static_cast<guint64>(samples), static_cast<guint64>(rate));
       buf = buf16;
     }
     instance->logged_unsupported_analyzer_format_ = false;
@@ -1425,7 +1425,7 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
       }
       gst_buffer_unmap(buf, &map_info);
       buf16 = gst_buffer_new_wrapped(s16, static_cast<gsize>(buf16_size));
-      GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(static_cast<guint64>(samples * sizeof(int16_t) / channels), static_cast<guint64>(rate));
+      GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(static_cast<guint64>(samples), static_cast<guint64>(rate));
       buf = buf16;
     }
     instance->logged_unsupported_analyzer_format_ = false;
