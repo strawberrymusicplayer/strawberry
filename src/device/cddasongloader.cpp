@@ -105,7 +105,7 @@ void CDDASongLoader::LoadSongsFromCDDA() {
   }
 
   if (!url_.isEmpty()) {
-    g_object_set(cdda, "device", g_strdup(url_.path().toLocal8Bit().constData()), nullptr);
+    g_object_set(cdda, "device", url_.path().toLocal8Bit().constData(), nullptr);
   }
   if (g_object_class_find_property(G_OBJECT_GET_CLASS(cdda), "paranoia-mode")) {
     g_object_set(cdda, "paranoia-mode", 0, nullptr);
