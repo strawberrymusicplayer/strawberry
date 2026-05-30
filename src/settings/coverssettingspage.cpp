@@ -496,7 +496,7 @@ void CoversSettingsPage::TypesItemSelectionChanged() {
     ui_->types_down->setEnabled(false);
   }
   else {
-    if (ui_->providers->currentItem() && !types_selected_) {
+    if (ui_->types->currentItem() && !types_selected_) {
       TypesCurrentItemChanged(ui_->types->currentItem(), nullptr);
     }
   }
