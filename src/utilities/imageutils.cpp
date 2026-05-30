@@ -112,7 +112,7 @@ QImage ImageUtils::ScaleImage(const QImage &image, const QSize desired_size, con
   // Pad the image
   if (pad && image_scaled.width() != image_scaled.height()) {
     QImage image_padded(scale_size, QImage::Format_ARGB32);
-    image_padded.fill(0);
+    image_padded.fill(Qt::transparent);
 
     QPainter p(&image_padded);
     p.drawImage((image_padded.width() - image_scaled.width()) / 2, (image_padded.height() - image_scaled.height()) / 2, image_scaled);
