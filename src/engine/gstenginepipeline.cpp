@@ -1329,6 +1329,9 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
   }
 
   GstBuffer *buf = gst_pad_probe_info_get_buffer(info);
+  if (!buf) {
+    return GST_PAD_PROBE_OK;
+  }
   GstBuffer *buf16 = nullptr;
 
   quint64 start_time = GST_BUFFER_TIMESTAMP(buf) - instance->segment_start_.load();
