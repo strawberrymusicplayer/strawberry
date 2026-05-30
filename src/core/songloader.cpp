@@ -577,12 +577,12 @@ GstPadProbeReturn SongLoader::DataReady(GstPad *pad, GstPadProbeInfo *info, gpoi
 
   GstBuffer *buffer = gst_pad_probe_info_get_buffer(info);
   GstMapInfo map;
-  gst_buffer_map(buffer, &map, GST_MAP_READ);
-
-  // Append the data to the buffer
-  instance->buffer_.append(reinterpret_cast<const char*>(map.data), static_cast<qint64>(map.size));
-  qLog(Debug) << "Received total" << instance->buffer_.size() << "bytes";
-  gst_buffer_unmap(buffer, &map);
+  if (gst_buffer_map(buffer, &map, GST_MAP_READ)) {
+    // Append the data to the buffer
+    instance->buffer_.append(reinterpret_cast<const char*>(map.data), static_cast<qint64>(map.size));
+    qLog(Debug) << "Received total" << instance->buffer_.size() << "bytes";
+    gst_buffer_unmap(buffer, &map);
+  }
 
   if (instance->state_ == State::WaitingForMagic && (instance->buffer_.size() >= PlaylistParser::kMagicSize || !instance->IsPipelinePlaying())) {
     // Got enough that we can test the magic
