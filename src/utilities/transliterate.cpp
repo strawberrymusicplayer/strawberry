@@ -41,7 +41,7 @@ QString Transliterate(const QString &accented_str) {
   if (!transliterator) return accented_str;
 
   QByteArray accented_data = accented_str.toUtf8();
-  icu::UnicodeString ustring = icu::UnicodeString(accented_data.constData());
+  icu::UnicodeString ustring = icu::UnicodeString::fromUTF8(icu::StringPiece(accented_data.constData(), static_cast<int>(accented_data.size())));
   transliterator->transliterate(ustring);
 
   std::string unaccented_str;
