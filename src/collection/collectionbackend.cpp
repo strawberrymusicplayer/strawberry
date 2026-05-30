@@ -1717,7 +1717,7 @@ void CollectionBackend::UnsetAlbumArt(const QString &effective_albumartist, cons
 
   {
     SqlQuery q(db);
-    q.prepare(QStringLiteral("UPDATE %1 SET art_unset = 1, art_manual = '', art_automatic = '', art_embedded = '' WHERE effective_albumartist = :effective_albumartist AND album = :album AND unavailable = 0").arg(songs_table_));
+    q.prepare(QStringLiteral("UPDATE %1 SET art_unset = 1, art_manual = '', art_automatic = '', art_embedded = 0 WHERE effective_albumartist = :effective_albumartist AND album = :album AND unavailable = 0").arg(songs_table_));
     q.BindValue(u":effective_albumartist"_s, effective_albumartist);
     q.BindValue(u":album"_s, album);
     if (!q.Exec()) {
