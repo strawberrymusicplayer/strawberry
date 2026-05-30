@@ -1391,7 +1391,7 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
     if (gst_buffer_map(buf, &map_info, GST_MAP_READ)) {
       int8_t *s24 = reinterpret_cast<int8_t*>(map_info.data);
       int8_t *s24e = s24 + map_info.size;
-      int samples = static_cast<int>((map_info.size / sizeof(int8_t)) / channels);
+      int samples = static_cast<int>((map_info.size / 3) / channels);  // S24LE packs each sample into 3 bytes.
       int buf16_size = samples * static_cast<int>(sizeof(int16_t)) * channels;
       int16_t *s16 = static_cast<int16_t*>(g_malloc(static_cast<gsize>(buf16_size)));
       memset(s16, 0, static_cast<size_t>(buf16_size));
