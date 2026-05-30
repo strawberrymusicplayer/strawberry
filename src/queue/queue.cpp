@@ -199,6 +199,8 @@ void Queue::ToggleTracks(const QModelIndexList &source_indexes) {
 
 void Queue::InsertFirst(const QModelIndexList &source_indexes) {
 
+  if (source_indexes.isEmpty()) return;
+
   for (const QModelIndex &source_index : source_indexes) {
     QModelIndex proxy_index = mapFromSource(source_index);
     if (proxy_index.isValid()) {
