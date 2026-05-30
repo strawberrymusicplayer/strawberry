@@ -330,7 +330,7 @@ void OpenTidalCoverProvider::SendAlbumCoverRequest(SearchRequestPtr search_reque
 
   QUrlQuery url_query;
   url_query.addQueryItem(u"countryCode"_s, u"US"_s);
-  QUrl url(QLatin1String(kApiUrl) + QLatin1String("/albums/%1/relationships/coverArt"_L1).arg(albumcover_request->album_id));
+  QUrl url(QLatin1String(kApiUrl) + QStringLiteral("/albums/%1/relationships/coverArt").arg(albumcover_request->album_id));
   url.setQuery(url_query);
   QNetworkRequest network_request(url);
   network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
