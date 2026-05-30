@@ -1411,7 +1411,7 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
     GstMapInfo map_info;
     if (gst_buffer_map(buf, &map_info, GST_MAP_READ)) {
       int32_t *s32 = reinterpret_cast<int32_t*>(map_info.data);
-      int32_t *s32e = s32 + map_info.size;
+      int32_t *s32e = s32 + (map_info.size / sizeof(int32_t));
       int32_t *s32p = s32;
       int samples = static_cast<int>((map_info.size / sizeof(int32_t)) / channels);
       int buf16_size = samples * static_cast<int>(sizeof(int16_t)) * channels;
@@ -1421,7 +1421,7 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
         int8_t *s24 = reinterpret_cast<int8_t*>(s32p);
         s16[i] = *(reinterpret_cast<int16_t*>(s24 + 1));
         ++s32p;
-        if (s32p > s32e) break;
+        if (s32p >= s32e) break;
       }
       gst_buffer_unmap(buf, &map_info);
       buf16 = gst_buffer_new_wrapped(s16, static_cast<gsize>(buf16_size));
