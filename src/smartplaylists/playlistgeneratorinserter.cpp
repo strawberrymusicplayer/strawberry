@@ -71,7 +71,7 @@ void PlaylistGeneratorInserter::Load(Playlist *destination, const int row, const
   QObject::connect(&*generator, &PlaylistGenerator::Error, this, &PlaylistGeneratorInserter::Error);
 
   QFuture<PlaylistItemPtrList> future = QtConcurrent::run(PlaylistGeneratorInserter::Generate, generator, dynamic_count);
-  QFutureWatcher<PlaylistItemPtrList> *watcher = new QFutureWatcher<PlaylistItemPtrList>();
+  QFutureWatcher<PlaylistItemPtrList> *watcher = new QFutureWatcher<PlaylistItemPtrList>(this);
   QObject::connect(watcher, &QFutureWatcher<PlaylistItemPtrList>::finished, this, &PlaylistGeneratorInserter::Finished);
   watcher->setFuture(future);
 
