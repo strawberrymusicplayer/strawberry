@@ -300,7 +300,7 @@ QString Transcoder::GetFile(const QString &input, const TranscoderPreset &preset
     QString path = fileinfo_output.path();
     QString filename = fileinfo_output.completeBaseName();
     QString suffix = fileinfo_output.suffix();
-    for (int i = 0;; ++i) {
+    for (int i = 0; i < 1000000; ++i) {
       QString new_filename = QStringLiteral("%1/%2-%3.%4").arg(path, filename).arg(i).arg(suffix);
       fileinfo_output.setFile(new_filename);
       if (!fileinfo_output.exists()) {
