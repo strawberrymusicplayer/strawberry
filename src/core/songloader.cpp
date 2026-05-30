@@ -771,7 +771,7 @@ void SongLoader::CleanupPipeline() {
     gst_element_set_state(&*pipeline_, GST_STATE_NULL);
 
     if (fakesink_ && buffer_probe_cb_id_ != 0) {
-      GstPad *pad = gst_element_get_static_pad(fakesink_, "src");
+      GstPad *pad = gst_element_get_static_pad(fakesink_, "sink");
       if (pad) {
         gst_pad_remove_probe(pad, buffer_probe_cb_id_);
         gst_object_unref(pad);
