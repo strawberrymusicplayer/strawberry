@@ -170,7 +170,6 @@ void RainbowAnalyzer::analyze(QPainter &p, const Scope &s, const bool new_frame)
       for (int band = kRainbowBands - 1; band >= 0; --band) {
         buffer_painter.setPen(colors_[band]);
         buffer_painter.drawPolyline(&polyline[band * kHistorySize], kHistorySize);
-        buffer_painter.drawPolyline(&polyline[band * kHistorySize], kHistorySize);
       }
     }
     else {
