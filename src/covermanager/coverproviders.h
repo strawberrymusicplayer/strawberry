@@ -45,17 +45,14 @@ class CoverProviders : public QObject {
 
   void ReloadSettings();
 
+  bool HasAnyProviders() const;
+  QList<CoverProvider*> List() const;
+
   CoverProvider *ProviderByName(const QString &name) const;
 
   // Lets a cover provider register itself in the repository.
   void AddProvider(CoverProvider *provider);
   void RemoveProvider(CoverProvider *provider);
-
-  // Returns a list of cover providers
-  QList<CoverProvider*> List() const { return cover_providers_.keys(); }
-
-  // Returns true if this repository has at least one registered provider.
-  bool HasAnyProviders() const { return !cover_providers_.isEmpty(); }
 
   int NextId();
 
@@ -68,7 +65,7 @@ class CoverProviders : public QObject {
   static int NextOrderId;
 
   QMap<CoverProvider*, QString> cover_providers_;
-  QMutex mutex_;
+  mutable QMutex mutex_;
 
   QAtomicInt next_id_;
 };
