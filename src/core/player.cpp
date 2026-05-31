@@ -97,7 +97,8 @@ Player::Player(const SharedPtr<TaskManager> task_manager, const SharedPtr<UrlHan
       menu_previousmode_(BehaviourSettings::PreviousBehaviour::DontRestart),
       seek_step_sec_(10),
       volume_increment_(5),
-      play_offset_nanosec_(0) {
+      play_offset_nanosec_(0),
+      play_end_sec_(0) {
 
   setObjectName(QLatin1String(QObject::metaObject()->className()));
 
@@ -757,7 +758,8 @@ void Player::PlayAt(const int index, const bool pause, const quint64 offset_nano
     return;
   }
 
-  current_item_ = playlist_manager_->active()->current_item();
+  current_item_ = playlist_manager_->active()->current_item(play_offset_nanosec_, play_end_sec_);
+
   const QUrl url = current_item_->EffectiveUrl();
 
   if (url_handlers_->CanHandle(url)) {
@@ -773,8 +775,8 @@ void Player::PlayAt(const int index, const bool pause, const quint64 offset_nano
     HandleLoadResult(url_handler->StartLoading(url));
   }
   else {
-    qLog(Debug) << "Playing song" << current_item_->EffectiveMetadata().title() << url << "position" << offset_nanosec;
-    engine_->Play(current_item_->OriginalUrl(), url, pause, change, current_item_->EffectiveMetadata().has_cue(), static_cast<quint64>(current_item_->effective_beginning_nanosec()), current_item_->effective_end_nanosec(), offset_nanosec, current_item_->EffectiveMetadata().ebur128_integrated_loudness_lufs());
+    qLog(Debug) << "Playing song" << current_item_->EffectiveMetadata().title() << url << "position" << play_offset_nanosec_;
+    engine_->Play(current_item_->OriginalUrl(), url, pause, change, current_item_->EffectiveMetadata().has_cue(), static_cast<quint64>(current_item_->effective_beginning_nanosec()), current_item_->effective_end_nanosec(), play_offset_nanosec_, current_item_->EffectiveMetadata().ebur128_integrated_loudness_lufs());
   }
 
 }

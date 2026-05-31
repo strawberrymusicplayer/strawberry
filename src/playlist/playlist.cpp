@@ -132,6 +132,8 @@ Playlist::Playlist(const SharedPtr<TaskManager> task_manager,
                    const int id,
                    const QString &special_type,
                    const bool favorite,
+                   const int half_playing_time_s,
+                   const int percent_interest_song,
                    QObject *parent)
     : QAbstractListModel(parent),
       is_loading_(false),
@@ -156,7 +158,9 @@ Playlist::Playlist(const SharedPtr<TaskManager> task_manager,
       scrobble_point_(-1),
       auto_sort_(false),
       sort_column_(Column::Title),
-      sort_order_(Qt::AscendingOrder) {
+      sort_order_(Qt::AscendingOrder),
+      half_playing_time_s_(half_playing_time_s),
+      percent_interest_song_(percent_interest_song) {
 
   undo_stack_->setUndoLimit(kUndoStackSize);
 
@@ -1651,7 +1655,7 @@ void Playlist::Save() {
 
   if (!playlist_backend_ || is_loading_) return;
 
-  playlist_backend_->SavePlaylistAsync(id_, items_, last_played_row(), dynamic_playlist_);
+  playlist_backend_->SavePlaylistAsync(id_, items_, last_played_row(), half_playing_time_s_, percent_interest_song_, dynamic_playlist_);
 
 }
 
@@ -1920,6 +1924,32 @@ PlaylistItemPtr Playlist::current_item() const {
   }
 
   return PlaylistItemPtr();
+
+}
+
+PlaylistItemPtr Playlist::current_item(quint64& start_offset_ns, int& end_offset_s) const {
+
+  PlaylistItemPtr ret_value = current_item();
+
+  end_offset_s = 0;
+
+  if (ret_value && half_playing_time_s_ > 0) {
+    auto &&current_song = ret_value->EffectiveMetadata();
+    auto &&middle_time_ns = (current_song.length_nanosec() * percent_interest_song_) / 100;
+    qint64 start_time_ns = middle_time_ns - (static_cast<qint64>(half_playing_time_s_) * 1'000'000'000L);
+    qint64 end_time_s = (middle_time_ns + (static_cast<qint64>(half_playing_time_s_) * 1'000'000'000L)) / 1'000'000'000L;
+
+    if (start_time_ns > static_cast<qint64>(start_offset_ns)) {
+      start_offset_ns = start_time_ns;
+    }
+    if (end_time_s >= (current_song.length_nanosec() / 1'000'000'000L)) {
+      // in the case of I am waiting for the end of the track to move to the next
+      // I am not doing anything to signal that we must wait the end
+      return ret_value;
+    }
+    end_offset_s = static_cast<int>(end_time_s);
+  }
+  return ret_value;
 
 }
 
