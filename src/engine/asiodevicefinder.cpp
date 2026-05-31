@@ -41,7 +41,8 @@ EngineDeviceList AsioDeviceFinder::ListDevices() {
 
   for (DWORD i = 0; status == ERROR_SUCCESS; i++) {
     WCHAR key_name[256];
-    status = RegEnumKeyW(reg_key, i, key_name, sizeof(key_name));
+    // RegEnumKeyW expects the buffer size in characters, not bytes.
+    status = RegEnumKeyW(reg_key, i, key_name, sizeof(key_name) / sizeof(key_name[0]));
     EngineDevice device = GetDevice(reg_key, key_name);
     if (device.value.isValid()) {
       devices.append(device);
