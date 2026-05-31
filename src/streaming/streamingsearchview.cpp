@@ -362,6 +362,7 @@ void StreamingSearchView::timerEvent(QTimerEvent *e) {
 
   QMap<int, DelayedSearch>::const_iterator it = delayed_searches_.constFind(e->timerId());
   if (it != delayed_searches_.constEnd()) {
+    killTimer(e->timerId());  // startTimer() creates a repeating timer; stop it so it doesn't keep firing.
     SearchAsync(it.value().id_, it.value().query_, it.value().type_);
     delayed_searches_.erase(it);
     return;
