@@ -138,8 +138,9 @@ bool CDDALister::Init() {
     qLog(Debug) << "No CD devices found";
     return false;
   }
-  for (; *devices != nullptr; ++devices) {
-    QString device = QString::fromUtf8(*devices);
+
+  for (char **device_ptr = devices; *device_ptr != nullptr; ++device_ptr) {
+    QString device = QString::fromUtf8(*device_ptr);
     QFileInfo device_info(device);
     if (device_info.isSymLink()) {
       device = device_info.symLinkTarget();
@@ -155,6 +156,8 @@ bool CDDALister::Init() {
       Q_EMIT DeviceAdded(device);
     }
   }
+
+  cdio_free_device_list(devices);
 
   return true;
 
