@@ -1915,7 +1915,7 @@ bool Playlist::stop_after_current() const {
 PlaylistItemPtr Playlist::current_item() const {
 
   // QList[] runs in constant time, so no need to cache current_item
-  if (current_item_index_.isValid() && current_item_index_.row() <= items_.length()) {
+  if (current_item_index_.isValid() && current_item_index_.row() < items_.length()) {
     return items_[current_item_index_.row()];
   }
 
