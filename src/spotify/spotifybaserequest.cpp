@@ -95,6 +95,10 @@ JsonBaseRequest::JsonObjectResult SpotifyBaseRequest::ParseJsonObject(QNetworkRe
           result.error_code = ErrorCode::APIError;
           result.error_message = QStringLiteral("%1 (%2)").arg(message).arg(status);
         }
+        else {
+          // Error object without the expected status/message keys - surface the object rather than treating it as a success.
+          result.json_object = json_document.object();
+        }
       }
       else {
         result.json_object = json_document.object();
