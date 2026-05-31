@@ -171,8 +171,11 @@ void LocalRedirectServer::WriteTemplate() const {
 QUrl LocalRedirectServer::ParseUrlFromRequest(const QByteArray &request) const {
 
   const QByteArrayList lines = request.split('\r');
+  if (lines.isEmpty()) return QUrl();
   const QByteArray &request_line = lines[0];
-  const QByteArray path = request_line.split(' ')[1];
+  const QByteArrayList request_line_parts = request_line.split(' ');
+  if (request_line_parts.size() < 2) return QUrl();
+  const QByteArray path = request_line_parts[1];
   const QUrl base_url = url_;
   const QUrl request_url(base_url.toString() + QString::fromLatin1(path.mid(1)), QUrl::StrictMode);
 
