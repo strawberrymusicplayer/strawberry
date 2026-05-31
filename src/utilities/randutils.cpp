@@ -40,14 +40,17 @@ QString GetRandomStringWithCharsAndNumbers(const int len) {
 
 QString CryptographicRandomString(const int len) {
   const QString UseCharacters(u"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~"_s);
-  return GetRandomString(len, UseCharacters);
+  // Use the cryptographically secure system generator, not the predictable global() PRNG, since this is used for OAuth PKCE verifiers/state and Subsonic auth salts.
+  return GetRandomString(len, UseCharacters, QRandomGenerator::system());
 }
 
-QString GetRandomString(const int len, const QString &UseCharacters) {
+QString GetRandomString(const int len, const QString &UseCharacters, QRandomGenerator *generator) {
+
+  if (!generator) generator = QRandomGenerator::global();
 
   QString randstr;
   for (int i = 0; i < len; ++i) {
-    const qint64 index = QRandomGenerator::global()->bounded(0, UseCharacters.length());
+    const qint64 index = generator->bounded(0, UseCharacters.length());
     QChar nextchar = UseCharacters.at(index);
     randstr.append(nextchar);
   }

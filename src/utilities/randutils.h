@@ -22,12 +22,14 @@
 
 #include <QString>
 
+class QRandomGenerator;
+
 namespace Utilities {
 
 QString GetRandomStringWithChars(const int len);
 QString GetRandomStringWithCharsAndNumbers(const int len);
 QString CryptographicRandomString(const int len);
-QString GetRandomString(const int len, const QString &UseCharacters);
+QString GetRandomString(const int len, const QString &UseCharacters, QRandomGenerator *generator = nullptr);
 
 }  // namespace Utilities
 
