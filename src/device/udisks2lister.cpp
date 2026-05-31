@@ -319,6 +319,7 @@ void Udisks2Lister::JobCompleted(const bool success, const QString &message) {
   Q_UNUSED(message);
 
   OrgFreedesktopUDisks2JobInterface *job = qobject_cast<OrgFreedesktopUDisks2JobInterface*>(sender());
+  if (!job) return;
   QDBusObjectPath jobPath(job->path());
 
   if (!job->isValid() || !success || !mounting_jobs_.contains(jobPath)) {
