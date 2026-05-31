@@ -1100,13 +1100,16 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
   }
 
   if (save_tags) {
-    fileref->tag()->setTitle(song.title().isEmpty() ? TagLib::String() : QStringToTagLibString(song.title()));
-    fileref->tag()->setArtist(song.artist().isEmpty() ? TagLib::String() : QStringToTagLibString(song.artist()));
-    fileref->tag()->setAlbum(song.album().isEmpty() ? TagLib::String() : QStringToTagLibString(song.album()));
-    fileref->tag()->setGenre(song.genre().isEmpty() ? TagLib::String() : QStringToTagLibString(song.genre()));
-    fileref->tag()->setComment(song.comment().isEmpty() ? TagLib::String() : QStringToTagLibString(song.comment()));
-    fileref->tag()->setYear(song.year() <= 0 ? 0 : static_cast<uint>(song.year()));
-    fileref->tag()->setTrack(song.track() <= 0 ? 0 : static_cast<uint>(song.track()));
+    // FileRef::tag() can return nullptr for files that open but have no tag container.
+    if (TagLib::Tag *tag = fileref->tag()) {
+      tag->setTitle(song.title().isEmpty() ? TagLib::String() : QStringToTagLibString(song.title()));
+      tag->setArtist(song.artist().isEmpty() ? TagLib::String() : QStringToTagLibString(song.artist()));
+      tag->setAlbum(song.album().isEmpty() ? TagLib::String() : QStringToTagLibString(song.album()));
+      tag->setGenre(song.genre().isEmpty() ? TagLib::String() : QStringToTagLibString(song.genre()));
+      tag->setComment(song.comment().isEmpty() ? TagLib::String() : QStringToTagLibString(song.comment()));
+      tag->setYear(song.year() <= 0 ? 0 : static_cast<uint>(song.year()));
+      tag->setTrack(song.track() <= 0 ? 0 : static_cast<uint>(song.track()));
+    }
   }
 
   bool is_flac = false;
