@@ -44,7 +44,7 @@ namespace {
 constexpr int kTreeIconSize = 22;
 }
 
-RadioModel::RadioModel(const SharedPtr<AlbumCoverLoader> albumcover_loader, const SharedPtr<RadioServices> radio_services, QObject *parent)
+RadioModel::RadioModel(const SharedPtr<AlbumCoverLoader> albumcover_loader, RadioServices *radio_services, QObject *parent)
     : SimpleTreeModel<RadioItem>(new RadioItem(this), parent),
       albumcover_loader_(albumcover_loader),
       radio_services_(radio_services) {

@@ -45,7 +45,7 @@ RadioServices::RadioServices(const SharedPtr<TaskManager> task_manager,
     : QObject(parent),
       network_(network),
       backend_(nullptr),
-      model_(new RadioModel(albumcover_loader, SharedPtr<RadioServices>(this))),
+      model_(new RadioModel(albumcover_loader, this)),
       sort_model_(new QSortFilterProxyModel(this)),
       channels_refresh_(false) {
 
