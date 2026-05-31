@@ -80,7 +80,7 @@ bool Queue::ContainsSourceRow(const int source_row) const {
 
 QModelIndex Queue::mapToSource(const QModelIndex &proxy_index) const {
 
-  if (!proxy_index.isValid()) return QModelIndex();
+  if (!proxy_index.isValid() || proxy_index.row() < 0 || proxy_index.row() >= source_indexes_.count()) return QModelIndex();
 
   return source_indexes_[proxy_index.row()];
 
@@ -154,6 +154,8 @@ int Queue::columnCount(const QModelIndex &parent) const {
 }
 
 QVariant Queue::data(const QModelIndex &proxy_index, int role) const {
+
+  if (!proxy_index.isValid() || proxy_index.row() < 0 || proxy_index.row() >= source_indexes_.count()) return QVariant();
 
   QModelIndex source_index = source_indexes_[proxy_index.row()];
 
