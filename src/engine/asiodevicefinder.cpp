@@ -60,7 +60,7 @@ EngineDeviceList AsioDeviceFinder::ListDevices() {
 EngineDevice AsioDeviceFinder::GetDevice(HKEY reg_key, LPWSTR key_name) {
 
   HKEY sub_key = nullptr;
-  const QScopeGuard scopeguard_sub_key = qScopeGuard([sub_key]() {
+  const QScopeGuard scopeguard_sub_key = qScopeGuard([&sub_key]() {
     if (sub_key) {
       RegCloseKey(sub_key);
     }
