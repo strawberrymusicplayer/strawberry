@@ -151,6 +151,7 @@ void Player::ReloadSettings() {
   s.beginGroup(PlaylistSettings::kSettingsGroup);
   continue_on_error_ = s.value("continue_on_error", false).toBool();
   greyout_ = s.value("greyout_songs_play", true).toBool();
+  playlist_manager_->update_setting(s.value(PlaylistSettings::kRemoveDuplicates, false).toBool());
   s.endGroup();
 
   s.beginGroup(BehaviourSettings::kSettingsGroup);
