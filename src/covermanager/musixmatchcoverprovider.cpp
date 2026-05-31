@@ -124,7 +124,6 @@ void MusixmatchCoverProvider::HandleSearchReply(QNetworkReply *reply, const int 
 
   if (!json_object.contains("pageProps"_L1) || !json_object["pageProps"_L1].isObject()) {
     Error(u"Json props is missing pageProps."_s, json_object);
-    Q_EMIT SearchFinished(id, results);
     return;
   }
   json_object = json_object["pageProps"_L1].toObject();
