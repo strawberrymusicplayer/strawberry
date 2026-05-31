@@ -25,6 +25,7 @@
 #include <cstdint>
 
 #include <QList>
+#include <QByteArray>
 #include <QString>
 #include <QUrl>
 #include <QUrlQuery>
@@ -63,8 +64,15 @@ MtpConnection::MtpConnection(const QUrl &url, QObject *parent) : QObject(parent)
 
   if (url_query.hasQueryItem(u"vendor"_s)) {
     LIBMTP_raw_device_t *raw_device = static_cast<LIBMTP_raw_device_t*>(malloc(sizeof(LIBMTP_raw_device_t)));
-    raw_device->device_entry.vendor = url_query.queryItemValue(u"vendor"_s).toLatin1().data();
-    raw_device->device_entry.product = url_query.queryItemValue(u"product"_s).toLatin1().data();
+    if (!raw_device) {
+      error_text_ = tr("Could not open MTP device.");
+      qLog(Error) << error_text_;
+      return;
+    }
+    const QByteArray vendor = url_query.queryItemValue(u"vendor"_s).toLatin1();
+    const QByteArray product = url_query.queryItemValue(u"product"_s).toLatin1();
+    raw_device->device_entry.vendor = const_cast<char*>(vendor.constData());
+    raw_device->device_entry.product = const_cast<char*>(product.constData());
     raw_device->device_entry.vendor_id = url_query.queryItemValue(u"vendor_id"_s).toUShort();
     raw_device->device_entry.product_id = url_query.queryItemValue(u"product_id"_s).toUShort();
     raw_device->device_entry.device_flags = url_query.queryItemValue(u"quirks"_s).toUInt();
