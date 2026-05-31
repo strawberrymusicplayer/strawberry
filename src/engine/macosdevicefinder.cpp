@@ -94,10 +94,10 @@ EngineDeviceList MacOsDeviceFinder::ListDevices() {
     // Query device name
     address.mSelector = kAudioDevicePropertyDeviceNameCFString;
     std::unique_ptr<CFStringRef> device_name = GetProperty<CFStringRef>(id, address);
-    ScopedCFTypeRef<CFStringRef> scoped_device_name(*device_name.get());
     if (!device_name) {
       continue;
     }
+    ScopedCFTypeRef<CFStringRef> scoped_device_name(*device_name.get());
 
     // Determine if the device is an output device (it is an output device if it has output channels)
     address.mSelector = kAudioDevicePropertyStreamConfiguration;
