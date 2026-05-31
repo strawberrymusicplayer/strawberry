@@ -523,7 +523,7 @@ void Player::PlayPause(const quint64 offset_nanosec, const Playlist::AutoScroll 
       break;
 
     case EngineBase::State::Playing:{
-      if (current_item_->options() & PlaylistItem::Option::PauseDisabled) {
+      if (current_item_ && current_item_->options() & PlaylistItem::Option::PauseDisabled) {
         Stop();
       }
       else {
