@@ -470,6 +470,7 @@ void OAuthenticator::AccessTokenRequestFinished(QNetworkReply *reply, const bool
   if (reply->error() != QNetworkReply::NoError && reply->error() < 200) {
     const QString error_message = QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error());
     Q_EMIT AuthenticationFinished(false, error_message);
+    return;
   }
 
   if (reply->error() != QNetworkReply::NoError || reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
