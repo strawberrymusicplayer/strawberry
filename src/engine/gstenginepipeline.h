@@ -325,6 +325,10 @@ class GstEnginePipeline : public QObject {
   std::atomic<bool> pipeline_active_;
   std::atomic<bool> buffering_;
 
+  // Last pipeline state observed from GST_MESSAGE_STATE_CHANGED,
+  // so state() can be answered without a blocking gst_element_get_state() call (which would stall the GUI thread when called from e.g. AnalyzerBase::paintEvent during a pipeline state change).
+  std::atomic<GstState> current_state_;
+
   std::atomic<GstState> pending_state_;
   std::atomic<qint64> pending_seek_nanosec_;
   std::atomic<GstState> pending_seek_ready_previous_state_;
