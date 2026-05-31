@@ -189,7 +189,6 @@ void StreamingSearchView::Init(const StreamingServicePtr service, const SharedPt
   QObject::connect(ui_->radiobutton_search_albums, &QRadioButton::clicked, this, &StreamingSearchView::SearchAlbumsClicked);
   QObject::connect(ui_->radiobutton_search_songs, &QRadioButton::clicked, this, &StreamingSearchView::SearchSongsClicked);
   QObject::connect(group_by_actions_, &QActionGroup::triggered, this, &StreamingSearchView::GroupByClicked);
-  QObject::connect(group_by_actions_, &QActionGroup::triggered, this, &StreamingSearchView::GroupByClicked);
 
   QObject::connect(ui_->search, &SearchField::textChanged, this, &StreamingSearchView::TextEdited);
   QObject::connect(ui_->results, &AutoExpandingTreeView::AddToPlaylistSignal, this, &StreamingSearchView::AddToPlaylist);
