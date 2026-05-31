@@ -229,26 +229,19 @@ void SpotifyFavoriteRequest::RemoveFavoritesRequest(const FavoriteType type, con
   Q_UNUSED(json_data)
 
   QUrl url(QLatin1String(SpotifyService::kApiUrl) + (type == FavoriteType_Artists ? u"/me/following"_s : u"/me/"_s + FavoriteText(type)));
+  QUrlQuery url_query;
   if (type == FavoriteType_Artists) {
-    QUrlQuery url_query;
     url_query.addQueryItem(u"type"_s, u"artist"_s);
-    url_query.addQueryItem(u"ids"_s, ids_list);
-    url.setQuery(url_query);
   }
+  url_query.addQueryItem(u"ids"_s, ids_list);
+  url.setQuery(url_query);
   QNetworkRequest network_request(url);
   network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
   network_request.setHeader(QNetworkRequest::ContentTypeHeader, u"application/x-www-form-urlencoded"_s);
   if (service_->authenticated()) {
     network_request.setRawHeader("Authorization", service_->authorization_header());
   }
-  QNetworkReply *reply = nullptr;
-  if (type == FavoriteType_Artists) {
-    reply = network_->deleteResource(network_request);
-  }
-  else {
-    // FIXME
-    reply = network_->deleteResource(network_request);
-  }
+  QNetworkReply *reply = network_->deleteResource(network_request);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, type, songs]() { RemoveFavoritesReply(reply, type, songs); });
   replies_ << reply;
 
