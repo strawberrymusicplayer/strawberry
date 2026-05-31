@@ -1920,9 +1920,10 @@ bool CollectionBackend::ResetPlayStatistics(const QStringList &id_str_list) {
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
 
+  // The IDs are integers (QString::number of a QList<int>), so they can be inlined safely.
+  // A bound ":ids" parameter would be treated as a single scalar string ("1,2,3") and match no rows.
   SqlQuery q(db);
-  q.prepare(QStringLiteral("UPDATE %1 SET playcount = 0, skipcount = 0, lastplayed = -1 WHERE ROWID IN (:ids)").arg(songs_table_));
-  q.BindValue(u":ids"_s, id_str_list.join(u','));
+  q.prepare(QStringLiteral("UPDATE %1 SET playcount = 0, skipcount = 0, lastplayed = -1 WHERE ROWID IN (%2)").arg(songs_table_, id_str_list.join(u',')));
   if (!q.Exec()) {
     db_->ReportErrors(q);
     return false;
