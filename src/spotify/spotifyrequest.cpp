@@ -515,7 +515,7 @@ void SpotifyRequest::ArtistsReplyReceived(QNetworkReply *reply, const int limit_
   }
   artists_received_ += artists_received;
 
-  if (offset_requested != 0) Q_EMIT UpdateProgress(query_id_, GetProgress(artists_total_, artists_received_));
+  if (offset_requested != 0) Q_EMIT UpdateProgress(query_id_, GetProgress(artists_received_, artists_total_));
 
 }
 
