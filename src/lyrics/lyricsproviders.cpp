@@ -53,12 +53,13 @@ LyricsProviders::LyricsProviders(QObject *parent) : QObject(parent), thread_(new
 
 LyricsProviders::~LyricsProviders() {
 
+  // Stop the worker thread first - the providers were moved to it, and deleting a QObject while its owning thread is still running is undefined behaviour.
+  thread_->quit();
+  thread_->wait(1000);
+
   while (!lyrics_providers_.isEmpty()) {
     delete lyrics_providers_.firstKey();
   }
-
-  thread_->quit();
-  thread_->wait(1000);
 
 }
 
