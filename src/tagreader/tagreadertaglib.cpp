@@ -1663,7 +1663,7 @@ QByteArray TagReaderTagLib::LoadEmbeddedCover(TagLib::ID3v2::Tag *tag) const {
   if (apic_frames.isEmpty()) {
     return QByteArray();
   }
-  TagLib::ID3v2::AttachedPictureFrame *picture = static_cast<TagLib::ID3v2::AttachedPictureFrame*>(apic_frames.front());
+  TagLib::ID3v2::AttachedPictureFrame *picture = dynamic_cast<TagLib::ID3v2::AttachedPictureFrame*>(apic_frames.front());
   if (!picture) {
     return QByteArray();
   }
