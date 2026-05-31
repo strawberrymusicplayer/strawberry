@@ -75,7 +75,7 @@ void MusixmatchCoverProvider::HandleSearchReply(QNetworkReply *reply, const int 
   reply->deleteLater();
 
   CoverProviderSearchResults results;
-  const QScopeGuard search_finished = qScopeGuard([this, id, &results]() { Q_EMIT SearchFinished(id, results);; });
+  const QScopeGuard search_finished = qScopeGuard([this, id, &results]() { Q_EMIT SearchFinished(id, results); });
 
   const ReplyDataResult reply_data_result = GetReplyData(reply);
   if (!reply_data_result.success()) {
