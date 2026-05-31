@@ -154,7 +154,7 @@ JsonBaseRequest::JsonObjectResult SubsonicBaseRequest::ParseJsonObject(QNetworkR
           const int code = object_error["code"_L1].toInt();
           const QString message = object_error["message"_L1].toString();
           result.error_code = ErrorCode::APIError;
-          result.error_message = QStringLiteral("%s (%s)").arg(message, code);
+          result.error_message = QStringLiteral("%1 (%2)").arg(message).arg(code);
         }
       }
       else {
