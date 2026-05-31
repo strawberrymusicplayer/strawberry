@@ -150,6 +150,7 @@ QList<Playlist*> PlaylistManager::GetAllPlaylists() const {
 
 QItemSelection PlaylistManager::selection(const int id) const {
   QMap<int, Data>::const_iterator it = playlists_.find(id);
+  if (it == playlists_.constEnd()) return QItemSelection();
   return it->selection;
 }
 
