@@ -285,7 +285,9 @@ void SmartPlaylistsViewContainer::NewSmartPlaylistFinished() {
   SmartPlaylistWizard *wizard = qobject_cast<SmartPlaylistWizard*>(sender());
   if (!wizard) return;
   QObject::disconnect(wizard, &SmartPlaylistWizard::accepted, this, &SmartPlaylistsViewContainer::NewSmartPlaylistFinished);
-  model_->AddGenerator(wizard->CreateGenerator());
+  PlaylistGeneratorPtr generator = wizard->CreateGenerator();
+  if (!generator) return;
+  model_->AddGenerator(generator);
 
 }
 
@@ -298,7 +300,9 @@ void SmartPlaylistsViewContainer::EditSmartPlaylistFinished() {
 
   QObject::disconnect(wizard, &SmartPlaylistWizard::accepted, this, &SmartPlaylistsViewContainer::EditSmartPlaylistFinished);
 
-  model_->UpdateGenerator(context_menu_index_, wizard->CreateGenerator());
+  PlaylistGeneratorPtr generator = wizard->CreateGenerator();
+  if (!generator) return;
+  model_->UpdateGenerator(context_menu_index_, generator);
 
 }
 
