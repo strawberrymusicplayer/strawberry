@@ -337,11 +337,13 @@ void TrackSelectionDialog::AcceptFinished() {
 }
 
 void TrackSelectionDialog::NextSong() {
+  if (ui_->song_list->count() == 0) return;
   int row = (ui_->song_list->currentRow() + 1) % ui_->song_list->count();
   ui_->song_list->setCurrentRow(row);
 }
 
 void TrackSelectionDialog::PreviousSong() {
+  if (ui_->song_list->count() == 0) return;
   int row = (ui_->song_list->currentRow() - 1 + ui_->song_list->count()) % ui_->song_list->count();
   ui_->song_list->setCurrentRow(row);
 }
