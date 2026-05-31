@@ -126,6 +126,8 @@ class PlaylistManagerInterface : public QObject {
   // Forwarded from individual playlists
   void CurrentSongChanged(const Song &song);
   void CurrentSongMetadataChanged(const Song &song);
+  void PlaylistItemsAdded(const int playlist_id, const QList<QUuid> &tracks_id, const QUuid after_track_id);
+  void PlaylistItemsRemoved(const int playlist_id, const QList<QUuid> &tracks_id);
 
   // Signals that one of manager's playlists has changed (new items, new ordering etc.) - the argument shows which.
   void PlaylistChanged(Playlist *playlist);
