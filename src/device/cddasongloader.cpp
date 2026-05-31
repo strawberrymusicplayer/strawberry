@@ -206,8 +206,8 @@ void CDDASongLoader::LoadSongsFromCDDA() {
             song.set_length_nanosec(static_cast<qint64>(stop - start));
           }
         }
-        msg_filter = static_cast<GstMessageType>(static_cast<int>(msg_filter) ^ GST_MESSAGE_TOC);
       }
+      msg_filter = static_cast<GstMessageType>(static_cast<int>(msg_filter) ^ GST_MESSAGE_TOC);
     }
 
     else if (GST_MESSAGE_TYPE(msg) == GST_MESSAGE_TAG) {
