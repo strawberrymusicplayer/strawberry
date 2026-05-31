@@ -196,6 +196,7 @@ void SubsonicRequest::AlbumsReplyReceived(QNetworkReply *reply, const int offset
 
   if (!value_albumlist.isObject()) {
     Error(u"Json album list is not an object."_s, value_albumlist);
+    return;
   }
   json_object = value_albumlist.toObject();
   if (json_object.isEmpty()) {
@@ -205,6 +206,7 @@ void SubsonicRequest::AlbumsReplyReceived(QNetworkReply *reply, const int offset
 
   if (!json_object.contains("album"_L1)) {
     Error(u"Json album list does not contain album array."_s, json_object);
+    return;
   }
   const QJsonValue json_album = json_object["album"_L1];
   if (json_album.isNull()) {
@@ -213,6 +215,7 @@ void SubsonicRequest::AlbumsReplyReceived(QNetworkReply *reply, const int offset
   }
   if (!json_album.isArray()) {
     Error(u"Json album is not an array."_s, json_album);
+    return;
   }
   const QJsonArray array_albums = json_album.toArray();
 
@@ -557,7 +560,7 @@ QString SubsonicRequest::ParseSong(Song &song, const QJsonObject &json_object, c
   if (use_album_id_for_album_covers() && !album_cover_id.isEmpty()) {
     cover_id = album_cover_id;
   }
-  else {
+  else if (json_object.contains("coverArt"_L1)) {
     if (json_object["coverArt"_L1].type() == QJsonValue::String) {
       cover_id = json_object["coverArt"_L1].toString();
     }
