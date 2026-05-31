@@ -2303,7 +2303,7 @@ void GstEnginePipeline::SetFaderVolume(const qreal volume) {
 
 void GstEnginePipeline::ResumeFaderAsync() {
 
-  if (fader_active_.load() && !fader_running_.load()) {
+  if (fader_ && fader_active_.load() && !fader_running_.load()) {
     QMetaObject::invokeMethod(&*fader_, &QTimeLine::resume, Qt::QueuedConnection);
   }
 
@@ -2336,7 +2336,7 @@ void GstEnginePipeline::FaderTimelineTimeout() {
 
   qLog(Debug) << "Pipeline" << id() << "fading timed out";
 
-  if (volume_fading_) {
+  if (volume_fading_ && fader_) {
     qLog(Debug) << "Pipeline" << id() << "setting volume" << (fader_->direction() == QTimeLine::Direction::Forward ? 1.0 : 0.0);
     g_object_set(G_OBJECT(volume_fading_), "volume", fader_->direction() == QTimeLine::Direction::Forward ? 1.0 : 0.0, nullptr);
   }
