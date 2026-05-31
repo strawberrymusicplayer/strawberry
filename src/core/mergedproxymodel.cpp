@@ -22,9 +22,12 @@
 #include "config.h"
 
 #include <functional>
+#include <utility>
 
 #include <QObject>
 #include <QMimeData>
+#include <QHash>
+#include <QSet>
 #include <QList>
 #include <QStringList>
 #include <QMap>
@@ -34,38 +37,6 @@
 
 #include "mergedproxymodel.h"
 
-#ifdef __GNUC__
-#pragma GCC diagnostic push
-#if __GNUC__ >= 16
-#pragma GCC diagnostic ignored "-Wstringop-overflow"
-#endif
-#endif
-
-#include <boost/multi_index/detail/bidir_node_iterator.hpp>
-#include <boost/multi_index/detail/hash_index_iterator.hpp>
-#include <boost/multi_index/hashed_index.hpp>
-#include <boost/multi_index/identity.hpp>
-#include <boost/multi_index/indexed_by.hpp>
-#include <boost/multi_index/member.hpp>
-#include <boost/multi_index/ordered_index.hpp>
-#include <boost/multi_index/tag.hpp>
-#include <boost/multi_index_container.hpp>
-#include <boost/operators.hpp>
-
-#ifdef __GNUC__
-#pragma GCC diagnostic pop
-#endif
-
-using boost::multi_index::hashed_unique;
-using boost::multi_index::identity;
-using boost::multi_index::indexed_by;
-using boost::multi_index::member;
-using boost::multi_index::multi_index_container;
-using boost::multi_index::ordered_unique;
-using boost::multi_index::tag;
-
-size_t hash_value(const QModelIndex &idx) { return qHash(idx); }
-
 namespace {
 
 struct Mapping {
@@ -74,17 +45,48 @@ struct Mapping {
   QModelIndex source_index;
 };
 
-struct tag_by_source {};
-struct tag_by_pointer {};
-
 }  // namespace
 
+// Two parallel containers replace the boost::multi_index_container that used to back this.
+// by_source_ provides O(1) lookup by QModelIndex (the hashed_unique index); all_mappings_ provides O(1) existence-check by pointer plus easy iteration when we need to delete in bulk.
+// All mutations must go through Insert/Erase/Clear so the two stay in sync.
 class MergedProxyModelPrivate {
- private:
-  using MappingContainer = multi_index_container<Mapping*, indexed_by<hashed_unique<tag<tag_by_source>, member<Mapping, QModelIndex, &Mapping::source_index>>, ordered_unique<tag<tag_by_pointer>, identity<Mapping*>>>>;
-
  public:
-  MappingContainer mappings_;
+  // Returns false if a mapping for m->source_index already exists.
+  // In that case neither container is modified and the caller must handle m itself (typically: delete it and use FindBySource to retrieve the existing one).
+  // This prevents by_source_ from silently overwriting an entry while all_mappings_ still holds the old pointer.
+  bool Insert(Mapping *m) {
+    if (by_source_.contains(m->source_index)) return false;
+    by_source_.insert(m->source_index, m);
+    all_mappings_.insert(m);
+    return true;
+  }
+
+  // Only removes the by_source_ entry if it currently maps to m.
+  // Without this identity check, removing by key could clobber a different Mapping* that happens to share the same source_index, desynchronising the two containers.
+  void Erase(Mapping *m) {
+    auto it = by_source_.find(m->source_index);
+    if (it != by_source_.end() && it.value() == m) {
+      by_source_.erase(it);
+    }
+    all_mappings_.remove(m);
+  }
+
+  void Clear() {
+    by_source_.clear();
+    all_mappings_.clear();
+  }
+
+  Mapping *FindBySource(const QModelIndex &idx) const {
+    return by_source_.value(idx, nullptr);
+  }
+
+  bool Contains(Mapping *m) const {
+    return all_mappings_.contains(m);
+  }
+
+  QHash<QModelIndex, Mapping*> by_source_;
+  QSet<Mapping*> all_mappings_;
 };
 
 MergedProxyModel::MergedProxyModel(QObject *parent)
@@ -95,9 +97,12 @@ MergedProxyModel::MergedProxyModel(QObject *parent)
 MergedProxyModel::~MergedProxyModel() { DeleteAllMappings(); }
 
 void MergedProxyModel::DeleteAllMappings() {
-  const auto &begin = p_->mappings_.get<tag_by_pointer>().begin();
-  const auto &end = p_->mappings_.get<tag_by_pointer>().end();
-  qDeleteAll(begin, end);
+  // Snapshot the pointers, empty the containers, and only then delete the pointed-to objects.
+  // This guarantees the containers never hold dangling pointers,
+  // any code that queries the model during a reset (e.g. between beginResetModel and endResetModel) sees a consistent empty state instead of pointers to freed Mapping objects.
+  const QList<Mapping*> mappings = p_->all_mappings_.values();
+  p_->Clear();
+  qDeleteAll(mappings);
 }
 
 void MergedProxyModel::AddSubModel(const QModelIndex &source_parent, QAbstractItemModel *submodel) {
@@ -140,17 +145,17 @@ void MergedProxyModel::RemoveSubModel(const QModelIndex &source_parent) {
     }
   }
 
-  // Delete all the mappings that reference the submodel
-  auto it = p_->mappings_.get<tag_by_pointer>().begin();
-  auto end = p_->mappings_.get<tag_by_pointer>().end();
-  while (it != end) {
-    if ((*it)->source_index.model() == submodel) {
-      delete *it;
-      it = p_->mappings_.get<tag_by_pointer>().erase(it);
+  // Delete all the mappings that reference the submodel.
+  // Collect targets first so we don't mutate the container while iterating it.
+  QList<Mapping*> to_remove;
+  for (Mapping *mapping : std::as_const(p_->all_mappings_)) {
+    if (mapping->source_index.model() == submodel) {
+      to_remove.append(mapping);
     }
-    else {
-      ++it;
-    }
+  }
+  for (Mapping *mapping : std::as_const(to_remove)) {
+    p_->Erase(mapping);
+    delete mapping;
   }
 
 }
@@ -183,14 +188,10 @@ void MergedProxyModel::setSourceModel(QAbstractItemModel *source_model) {
 
 void MergedProxyModel::SourceModelReset() {
 
-  // Delete all mappings
-  DeleteAllMappings();
-
-  // Reset the proxy
+  // Bracket all mutations with begin/endResetModel so views know to drop their references before we destroy the underlying mappings.
   beginResetModel();
 
-  // Clear the containers
-  p_->mappings_.clear();
+  DeleteAllMappings();
   merge_points_.clear();
 
   endResetModel();
@@ -214,17 +215,16 @@ void MergedProxyModel::SubModelAboutToBeReset() {
     }
   }
 
-  // Delete all the mappings that reference the submodel
-  auto it = p_->mappings_.get<tag_by_pointer>().begin();
-  auto end = p_->mappings_.get<tag_by_pointer>().end();
-  while (it != end) {
-    if ((*it)->source_index.model() == submodel) {
-      delete *it;
-      it = p_->mappings_.get<tag_by_pointer>().erase(it);
+  // Delete all the mappings that reference the submodel.
+  QList<Mapping*> to_remove;
+  for (Mapping *mapping : std::as_const(p_->all_mappings_)) {
+    if (mapping->source_index.model() == submodel) {
+      to_remove.append(mapping);
     }
-    else {
-      ++it;
-    }
+  }
+  for (Mapping *mapping : std::as_const(to_remove)) {
+    p_->Erase(mapping);
+    delete mapping;
   }
 
 }
@@ -289,8 +289,7 @@ QModelIndex MergedProxyModel::mapToSource(const QModelIndex &proxy_index) const 
   if (!proxy_index.isValid()) return QModelIndex();
 
   Mapping *mapping = static_cast<Mapping*>(proxy_index.internalPointer());
-  if (p_->mappings_.get<tag_by_pointer>().find(mapping) == p_->mappings_.get<tag_by_pointer>().end())
-    return QModelIndex();
+  if (!p_->Contains(mapping)) return QModelIndex();
   if (mapping->source_index.model() == resetting_model_) return QModelIndex();
 
   return mapping->source_index;
@@ -303,14 +302,16 @@ QModelIndex MergedProxyModel::mapFromSource(const QModelIndex &source_index) con
   if (source_index.model() == resetting_model_) return QModelIndex();
 
   // Add a mapping if we don't have one already
-  const auto &it = p_->mappings_.get<tag_by_source>().find(source_index);
-  Mapping *mapping = nullptr;
-  if (it != p_->mappings_.get<tag_by_source>().end()) {
-    mapping = *it;
-  }
-  else {
+  Mapping *mapping = p_->FindBySource(source_index);
+  if (!mapping) {
     mapping = new Mapping(source_index);
-    const_cast<MergedProxyModel*>(this)->p_->mappings_.insert(mapping);
+    if (!const_cast<MergedProxyModel*>(this)->p_->Insert(mapping)) {
+      // A mapping for this source_index appeared between the FindBySource call above and the Insert.
+      // Discard our just-created one and use the existing entry instead so the two containers stay consistent.
+      delete mapping;
+      mapping = p_->FindBySource(source_index);
+      if (!mapping) return QModelIndex();
+    }
   }
 
   return createIndex(source_index.row(), source_index.column(), mapping);
