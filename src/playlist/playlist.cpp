@@ -487,7 +487,7 @@ bool Playlist::setData(const QModelIndex &idx, const QVariant &value, const int 
 
 void Playlist::SongSaveComplete(TagReaderReplyPtr reply, const QPersistentModelIndex &idx) {
 
-  if (reply->success() && idx.isValid()) {
+  if (idx.isValid()) {
     if (reply->success()) {
       ItemReload(idx, true);
     }
