@@ -1425,11 +1425,15 @@ quint64 CollectionWatcher::FilesCountForPath(ScanTransaction *t, const QString &
           continue;
         }
 
+        bool points_into_watched_dir = false;
         for (const CollectionDirectory &dir : std::as_const(watched_dirs_)) {
           if (real_path.startsWith(dir.path)) {
-            continue;
+            points_into_watched_dir = true;
+            break;
           }
         }
+        // A symlink into an already-watched directory would recurse/double-count; skip it.
+        if (points_into_watched_dir) continue;
       }
 
       if (!t->HasSeenSubdir(child_filepath) && !child_fileinfo.isHidden()) {
