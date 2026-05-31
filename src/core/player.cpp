@@ -634,7 +634,6 @@ void Player::PreviousItem(const EngineBase::TrackChangeFlags change) {
   playlist_manager_->active()->set_current_row(i, Playlist::AutoScroll::Always, false);
   if (i == -1) {
     Stop();
-    PlayAt(i, false, 0, change, Playlist::AutoScroll::Always, true);
     return;
   }
 
