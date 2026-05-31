@@ -891,7 +891,11 @@ void DeviceManager::TasksChanged() {
 }
 
 void DeviceManager::UnmountAsync(const QModelIndex &idx) {
-  Q_ASSERT(QMetaObject::invokeMethod(this, "Unmount", Q_ARG(QModelIndex, idx)));
+
+  if (!QMetaObject::invokeMethod(this, "Unmount", Q_ARG(QModelIndex, idx))) {
+    qLog(Error) << "Failed to invoke Unmount.";
+  }
+
 }
 
 void DeviceManager::Unmount(const QModelIndex &idx) {
