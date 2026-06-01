@@ -1242,6 +1242,10 @@ void GstEnginePipeline::PadAddedCallback(GstElement *element, GstPad *pad, gpoin
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
 
   GstPad *const audiopad = gst_element_get_static_pad(instance->audiobin_, "sink");
+  if (!audiopad) {
+    qLog(Warning) << instance->id() << "could not get audiobin sink pad";
+    return;
+  }
 
   // Link playbin's sink pad to audiobin's src pad.
   if (GST_PAD_IS_LINKED(audiopad)) {
