@@ -1854,7 +1854,7 @@ PlaylistItemPtrList Playlist::RemoveItemsWithoutUndo(const int row, const int co
     current_virtual_index_ = static_cast<int>(virtual_items_.indexOf(current_item_index_.row()));
   }
   else {
-    if (row - 1 >= 0 && row - 1 < items_.size()) {
+    if (row - 1 > 0 && row - 1 < items_.size()) {
       current_virtual_index_ = static_cast<int>(virtual_items_.indexOf(row - 1));
     }
     else {
