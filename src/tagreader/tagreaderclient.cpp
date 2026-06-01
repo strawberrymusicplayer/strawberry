@@ -232,6 +232,10 @@ void TagReaderClient::ProcessRequest(TagReaderRequestPtr request) {
   else if (TagReaderSaveRatingRequestPtr save_rating_request = dynamic_pointer_cast<TagReaderSaveRatingRequest>(request)) {
     result = SaveSongRatingBlocking(save_rating_request->filename, save_rating_request->rating);
   }
+  else {
+    result = TagReaderResult::ErrorCode::Unsupported;
+    qLog(Error) << "Unknown tagreader request type";
+  }
 
   reply->set_result(result);
 
