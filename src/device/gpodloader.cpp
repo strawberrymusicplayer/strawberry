@@ -106,13 +106,18 @@ Itdb_iTunesDB *GPodLoader::TryLoad() {
     songs << song;
   }
 
+  // If the load was aborted, don't touch the collection (deleting here without re-adding would wipe it), and don't hand a half-populated database back to the caller.
+  if (abort_) {
+    itdb_free(db);
+    backend_->Close();
+    return nullptr;
+  }
+
   // Need to remove all the existing songs in the database first
   backend_->DeleteSongs(backend_->FindSongsInDirectory(1));
 
-  if (!abort_) {
-    // Add the songs we've just loaded
-    backend_->AddOrUpdateSongs(songs);
-  }
+  // Add the songs we've just loaded
+  backend_->AddOrUpdateSongs(songs);
 
   // This is done in the loader thread so close the unique DB connection.
   backend_->Close();
