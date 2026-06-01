@@ -412,7 +412,10 @@ static GstFlowReturn gst_strawberry_fastspectrum_transform_ip(GstBaseTransform *
   g_mutex_lock(&fastspectrum->lock);
 
   GstMapInfo map;
-  gst_buffer_map(buffer, &map, GST_MAP_READ);
+  if (!gst_buffer_map(buffer, &map, GST_MAP_READ)) {
+    g_mutex_unlock(&fastspectrum->lock);
+    return GST_FLOW_ERROR;
+  }
   const guint8 *data = map.data;
   gsize size = map.size;
 
