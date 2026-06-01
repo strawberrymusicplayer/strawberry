@@ -185,7 +185,9 @@ StreamingTabsView::~StreamingTabsView() {
 
   Settings s;
   s.beginGroup(settings_group_);
-  s.setValue("tab", ui_->tabs->currentWidget()->objectName().toLower());
+  if (QWidget *current = ui_->tabs->currentWidget()) {
+    s.setValue("tab", current->objectName().toLower());
+  }
   s.endGroup();
 
   delete ui_;
