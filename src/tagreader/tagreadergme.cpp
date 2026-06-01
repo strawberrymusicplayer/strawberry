@@ -107,9 +107,9 @@ TagReaderResult GME::SPC::Read(const QFileInfo &fileinfo, Song *song) {
   if (length_bytes.size() >= INTRO_LENGTH_SIZE) {
     quint64 length_in_sec = ConvertSPCStringToNum(length_bytes);
 
-    if (length_in_sec <= 0 || length_in_sec >= 0x1FFF) {
+    if (length_in_sec == 0 || length_in_sec >= 0x1FFF) {
       // This means that parsing the length as a string failed, so get value LE.
-      length_in_sec = static_cast<quint64>(length_bytes[0] | (length_bytes[1] << 8) | (length_bytes[2] << 16));
+      length_in_sec = static_cast<quint64>(static_cast<quint8>(length_bytes[0])) | (static_cast<quint64>(static_cast<quint8>(length_bytes[1])) << 8) | (static_cast<quint64>(static_cast<quint8>(length_bytes[2])) << 16);
     }
 
     if (length_in_sec < 0x1FFF) {
