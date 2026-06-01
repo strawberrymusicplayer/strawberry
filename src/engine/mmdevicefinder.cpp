@@ -83,11 +83,12 @@ EngineDeviceList MMDeviceFinder::ListDevices() {
                   device.iconname = device.GuessIconName();
                   device.value = QString::fromStdWString(pwszid);
                   devices.append(device);
-                  PropVariantClear(&var_name);
                 }
                 else {
                   qLog(Error) << "IPropertyStore::GetValue failed." << Qt::hex << DWORD(hr);
                 }
+                // Always clear - safe on an inited-but-empty variant, and avoids leaking on the error path.
+                PropVariantClear(&var_name);
                 props->Release();
               }
               else {
