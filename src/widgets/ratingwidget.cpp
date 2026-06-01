@@ -194,6 +194,7 @@ void RatingWidget::keyPressEvent(QKeyEvent *e) {
   if (rating != -1.0f) {
     if (rating != rating_) {
       rating_ = rating;
+      update();
       Q_EMIT RatingChanged(rating_);
     }
   }
