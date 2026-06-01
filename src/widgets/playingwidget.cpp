@@ -219,7 +219,7 @@ void PlayingWidget::CreateModeAction(const Mode mode, const QString &text, QActi
 
 void PlayingWidget::SetMode(const Mode mode) {
 
-  mode_ = static_cast<Mode>(mode);
+  mode_ = mode;
 
   fit_cover_width_action_->setEnabled(mode_ != Mode::SmallSongDetails);
 
