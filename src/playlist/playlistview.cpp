@@ -767,7 +767,8 @@ void PlaylistView::RemoveSelected() {
   if (new_idx.isValid()) {
     // Workaround to update keyboard selected row, if it's not the first row (this also triggers selection)
     if (new_row != 0) {
-      keyPressEvent(new QKeyEvent(QEvent::KeyPress, Qt::Key_Down, Qt::NoModifier));
+      QKeyEvent key_event(QEvent::KeyPress, Qt::Key_Down, Qt::NoModifier);
+      keyPressEvent(&key_event);
     }
     // Update visual selection with the entire row
     selectionModel()->select(new_idx, QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
