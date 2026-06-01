@@ -126,6 +126,13 @@ void CDDASongLoader::LoadSongsFromCDDA() {
 
   // Get number of tracks
   GstFormat format_track = gst_format_get_by_nick("track");
+  if (format_track == GST_FORMAT_UNDEFINED) {
+    gst_element_set_state(cdda, GST_STATE_NULL);
+    gst_object_unref(GST_OBJECT(cdda));
+    cdda = nullptr;
+    Error(tr("The 'track' format is not supported by GStreamer."));
+    return;
+  }
   GstFormat format_duration = format_track;
   gint64 total_tracks = 0;
   if (!gst_element_query_duration(cdda, format_duration, &total_tracks)) {
