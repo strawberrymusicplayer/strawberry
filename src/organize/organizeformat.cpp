@@ -114,7 +114,7 @@ OrganizeFormat::GetFilenameForSongResult OrganizeFormat::GetFilenameForSong(cons
     }
   }
 
-  if (filepath.isEmpty() || (filepath.contains(u'/') && (filepath.section(u'/', 0, -2).isEmpty() || filepath.section(u'/', 0, -2).isEmpty()))) {
+  if (filepath.isEmpty() || (filepath.contains(u'/') && (filepath.section(u'/', 0, -2).isEmpty() || filepath.section(u'/', -1, -1).isEmpty()))) {
     return GetFilenameForSongResult();
   }
 
