@@ -220,5 +220,6 @@ void TrackSlider::ToggleTimeDisplay() {
   Settings s;
   s.beginGroup(kSettingsGroup);
   s.setValue("show_remaining_time", show_remaining_time_);
+  s.endGroup();
 
 }
