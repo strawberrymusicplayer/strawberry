@@ -117,6 +117,7 @@ QSqlDatabase Database::Connect() {
   if (!QFile::exists(directory_)) {
     QDir dir;
     if (!dir.mkpath(directory_)) {
+      qLog(Error) << "Failed to create database directory" << directory_;
     }
   }
 
