@@ -55,6 +55,7 @@ QVariantList CDDALister::DeviceIcons(const QString &id) {
 QString CDDALister::DeviceManufacturer(const QString &id) {
 
   CdIo_t *cdio = cdio_open(id.toLocal8Bit().constData(), DRIVER_DEVICE);
+  if (!cdio) return QString();
   cdio_hwinfo_t cd_info;
   if (cdio_get_hwinfo(cdio, &cd_info)) {
     cdio_destroy(cdio);
@@ -68,6 +69,7 @@ QString CDDALister::DeviceManufacturer(const QString &id) {
 QString CDDALister::DeviceModel(const QString &id) {
 
   CdIo_t *cdio = cdio_open(id.toLocal8Bit().constData(), DRIVER_DEVICE);
+  if (!cdio) return QString();
   cdio_hwinfo_t cd_info;
   if (cdio_get_hwinfo(cdio, &cd_info)) {
     cdio_destroy(cdio);
@@ -102,6 +104,7 @@ QVariantMap CDDALister::DeviceHardwareInfo(const QString &id) {
 QString CDDALister::MakeFriendlyName(const QString &id) {
 
   CdIo_t *cdio = cdio_open(id.toLocal8Bit().constData(), DRIVER_DEVICE);
+  if (!cdio) return QString();
   cdio_hwinfo_t cd_info;
   if (cdio_get_hwinfo(cdio, &cd_info)) {
     const QString friendly_name = QString::fromUtf8(cd_info.psz_model).trimmed();
