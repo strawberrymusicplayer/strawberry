@@ -2307,8 +2307,14 @@ void MainWindow::RenumberTracks() {
 
   // If first selected song has a track number set, start from that offset
   if (!indexes.isEmpty()) {
-    const Song first_song = app_->playlist_manager()->current()->item_at(indexes[0].row())->OriginalMetadata();
-    if (first_song.track() > 0) track = first_song.track();
+    const QModelIndex first_source_index = app_->playlist_manager()->current()->filter()->mapToSource(indexes[0]);
+    if (first_source_index.isValid()) {
+      PlaylistItemPtr first_item = app_->playlist_manager()->current()->item_at(first_source_index.row());
+      if (first_item) {
+        const Song first_song = first_item->OriginalMetadata();
+        if (first_song.track() > 0) track = first_song.track();
+      }
+    }
   }
 
   for (const QModelIndex &proxy_index : std::as_const(indexes)) {
