@@ -156,7 +156,9 @@ void LastFMImportDialog::UpdateProgress(const int lastplayed_received, const int
 
   if (ui_->stackedWidget->currentWidget() != ui_->page_progress) return;
 
-  ui_->progressbar->setValue(static_cast<int>(static_cast<float>(playcount_received + lastplayed_received) / static_cast<float>(playcount_total_ + lastplayed_total_) * 100.0));
+  const int total = playcount_total_ + lastplayed_total_;
+  if (total <= 0) return;
+  ui_->progressbar->setValue(static_cast<int>(static_cast<float>(playcount_received + lastplayed_received) / static_cast<float>(total) * 100.0));
 
   if (lastplayed_received > 0 && playcount_received > 0) {
     ui_->label_progress_bottom->setText(tr("Playcounts for %1 songs and last played for %2 songs received.").arg(playcount_received).arg(lastplayed_received));
