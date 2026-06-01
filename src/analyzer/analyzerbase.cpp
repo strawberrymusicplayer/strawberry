@@ -153,6 +153,7 @@ int AnalyzerBase::resizeExponent(int exp) {
 
   if (exp != fht_->sizeExp()) {
     delete fht_;
+    fht_ = nullptr;
     fht_ = new FHT(static_cast<uint>(exp));
   }
   return exp;
