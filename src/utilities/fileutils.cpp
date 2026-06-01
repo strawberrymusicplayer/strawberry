@@ -59,6 +59,8 @@ bool Copy(QIODevice *source, QIODevice *destination) {
   if (!destination->open(QIODevice::WriteOnly)) return false;
 
   const qint64 bytes = source->size();
+  // size() returns -1 for sequential devices (sockets, processes); casting that to size_t would attempt a SIZE_MAX allocation.
+  if (bytes < 0) return false;
   unique_ptr<char[]> data(new char[static_cast<size_t>(bytes)]);
   qint64 pos = 0;
 
