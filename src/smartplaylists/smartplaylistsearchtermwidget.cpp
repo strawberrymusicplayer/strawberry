@@ -338,7 +338,7 @@ void SmartPlaylistSearchTermWidget::SetTerm(const SmartPlaylistSearchTerm &term)
         ui_->date_type_relative->setCurrentIndex(ui_->date_type_relative->findData(QVariant::fromValue(term.datetype_)));
       }
       else if (ui_->value_stack->currentWidget() == ui_->page_date) {
-        ui_->value_date->setDateTime(QDateTime::fromSecsSinceEpoch(term.value_.toInt()));
+        ui_->value_date->setDateTime(QDateTime::fromSecsSinceEpoch(term.value_.toLongLong()));
       }
       break;
 
