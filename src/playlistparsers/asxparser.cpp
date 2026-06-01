@@ -88,7 +88,7 @@ ParserBase::LoadResult ASXParser::Load(QIODevice *device, const QString &playlis
 
 Song ASXParser::ParseTrack(QXmlStreamReader *reader, const QDir &dir, const bool collection_lookup) const {
 
-  QString title, artist, album, ref;
+  QString title, artist, ref;
 
   while (!reader->atEnd()) {
     QXmlStreamReader::TokenType type = reader->readNext();
@@ -126,7 +126,6 @@ return_song:
   if (song.source() != Song::Source::Collection) {
     if (!title.isEmpty()) song.set_title(title);
     if (!artist.isEmpty()) song.set_artist(artist);
-    if (!album.isEmpty()) song.set_album(album);
   }
 
   return song;
