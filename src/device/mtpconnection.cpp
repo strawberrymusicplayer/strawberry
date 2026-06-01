@@ -80,7 +80,9 @@ MtpConnection::MtpConnection(const QUrl &url, QObject *parent) : QObject(parent)
     raw_device->bus_location = bus_location;
     raw_device->devnum = device_num;
 
-    device_ = LIBMTP_Open_Raw_Device(raw_device);  // NOLINT(clang-analyzer-unix.Malloc)
+    device_ = LIBMTP_Open_Raw_Device(raw_device);
+    // LIBMTP_Open_Raw_Device copies what it needs, so the wrapper allocation can be freed here.
+    free(raw_device);
     if (!device_) {
       error_text_ = tr("Could not open MTP device.");
       qLog(Error) << error_text_;
