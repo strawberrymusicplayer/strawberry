@@ -87,12 +87,14 @@ void SystemTrayIcon::InitPixmaps() {
   }
 
   if (pixmap_playing_.isNull() || pixmap_playing_.devicePixelRatioF() != device_pixel_ratio_) {
-    pixmap_playing_ = icon_playing_.pixmap(icon_playing_.availableSizes().at(0));
+    const QList<QSize> sizes = icon_playing_.availableSizes();
+    pixmap_playing_ = icon_playing_.pixmap(sizes.isEmpty() ? QSize(16, 16) : sizes.at(0));
     pixmap_playing_.setDevicePixelRatio(device_pixel_ratio_);
   }
 
   if (pixmap_paused_.isNull() || pixmap_paused_.devicePixelRatioF() != device_pixel_ratio_) {
-    pixmap_paused_ = icon_paused_.pixmap(icon_paused_.availableSizes().at(0));
+    const QList<QSize> sizes = icon_paused_.availableSizes();
+    pixmap_paused_ = icon_paused_.pixmap(sizes.isEmpty() ? QSize(16, 16) : sizes.at(0));
     pixmap_paused_.setDevicePixelRatio(device_pixel_ratio_);
   }
 
