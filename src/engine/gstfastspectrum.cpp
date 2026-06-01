@@ -405,7 +405,7 @@ static GstFlowReturn gst_strawberry_fastspectrum_transform_ip(GstBaseTransform *
   const guint rate = static_cast<guint>(GST_AUDIO_FILTER_RATE(fastspectrum));
   const guint bps = static_cast<guint>(GST_AUDIO_FILTER_BPS(fastspectrum));
   const guint64 bpf = static_cast<guint64>(GST_AUDIO_FILTER_BPF(fastspectrum));
-  const double max_value = static_cast<double>((1UL << ((bps << 3) - 1)) - 1);
+  const double max_value = static_cast<double>((static_cast<guint64>(1) << ((bps << 3) - 1)) - 1);
   const guint bands = fastspectrum->bands;
   const guint nfft = 2 * bands - 2;
 
