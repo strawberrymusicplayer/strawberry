@@ -259,11 +259,11 @@ void CollectionSettingsPage::AddDirectory() {
       return;
     }
     collectionsettings_directory_model_->AddDirectory(path);
+
+    s.setValue(kLastPath, path);
+
+    set_changed();
   }
-
-  s.setValue(kLastPath, path);
-
-  set_changed();
 
 }
 
