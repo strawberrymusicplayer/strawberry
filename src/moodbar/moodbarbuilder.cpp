@@ -124,8 +124,9 @@ void MoodbarBuilder::Normalize(QList<Rgb> *vals, double Rgb::*member) {
       }
     }
   }
-  avgu /= tu;
-  avgb /= tb;
+  // Guard against flat input where no frames fall into a bucket (division by zero -> NaN).
+  if (tu > 0) avgu /= tu; else avgu = avg;
+  if (tb > 0) avgb /= tb; else avgb = avg;
 
   tu = 0;
   tb = 0;
@@ -144,8 +145,8 @@ void MoodbarBuilder::Normalize(QList<Rgb> *vals, double Rgb::*member) {
       }
     }
   }
-  avguu /= tu;
-  avgbb /= tb;
+  if (tu > 0) avguu /= tu; else avguu = avg;
+  if (tb > 0) avgbb /= tb; else avgbb = avg;
 
   mini = std::max(avg + (avgb - avg) * 2, avgbb);
   maxi = std::min(avg + (avgu - avg) * 2, avguu);
