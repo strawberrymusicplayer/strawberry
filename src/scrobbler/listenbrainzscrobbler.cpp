@@ -466,6 +466,7 @@ void ListenBrainzScrobbler::ScrobbleRequestFinished(QNetworkReply *reply, Scrobb
     JsonBaseRequest::Error(QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
     cache_->ClearSent(cache_items);
     submit_error_ = true;
+    StartSubmit();
     return;
   }
 
