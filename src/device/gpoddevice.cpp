@@ -102,6 +102,11 @@ GPodDevice::~GPodDevice() {
     loader_thread_ = nullptr;
   }
 
+  if (db_) {
+    itdb_free(db_);
+    db_ = nullptr;
+  }
+
 }
 
 void GPodDevice::ConnectAsync() {
