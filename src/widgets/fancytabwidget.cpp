@@ -110,7 +110,9 @@ void FancyTabWidget::SaveSettings(const QString &settings_group) {
   Settings s;
   s.beginGroup(settings_group);
 
-  s.setValue("tab_mode", static_cast<int>(mode_));
+  if (mode_ != Mode::None) {
+    s.setValue("tab_mode", static_cast<int>(mode_));
+  }
   s.setValue("current_tab", currentIndex());
 
   for (FancyTabData *tab : std::as_const(tabs_)) {
