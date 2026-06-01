@@ -230,6 +230,7 @@ void GlobalShortcutsSettingsPage::SetShortcut(const QString &id, const QKeySeque
 
 void GlobalShortcutsSettingsPage::ItemClicked(QTreeWidgetItem *item) {
 
+  if (!item) return;
   current_id_ = item->data(0, Qt::UserRole).toString();
   const Shortcut shortcut = shortcuts_.value(current_id_);
 
