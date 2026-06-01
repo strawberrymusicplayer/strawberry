@@ -127,7 +127,7 @@ QDataStream &operator<<(QDataStream &s, const SmartPlaylistSearch &search) {
   s << search.terms_;
   s << static_cast<quint8>(search.sort_type_);
   s << static_cast<quint8>(search.sort_field_);
-  s << static_cast<quint32>(search.limit_);
+  s << static_cast<qint32>(search.limit_);
   s << static_cast<quint8>(search.search_type_);
   return s;
 
