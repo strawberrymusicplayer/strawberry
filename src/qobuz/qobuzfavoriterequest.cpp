@@ -46,9 +46,10 @@ QString QobuzFavoriteRequest::FavoriteText(const FavoriteType type) {
     case FavoriteType::Albums:
       return u"albums"_s;
     case FavoriteType::Songs:
-    default:
       return u"tracks"_s;
   }
+
+  return QString();
 
 }
 
