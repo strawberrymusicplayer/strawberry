@@ -118,13 +118,17 @@ void Queue::SourceLayoutChanged() {
 
   QObject::disconnect(signal_item_count_changed_);
 
+  // Collect the invalid rows first, then remove them in descending order.
+  // This keeps the indexes valid across the begin/endRemoveRows signal emissions instead of mutating the list mid-iteration.
+  QList<int> invalid_rows;
   for (int i = 0; i < source_indexes_.count(); ++i) {
-    if (!source_indexes_[i].isValid()) {
-      beginRemoveRows(QModelIndex(), i, i);
-      source_indexes_.removeAt(i);
-      endRemoveRows();
-      --i;
-    }
+    if (!source_indexes_[i].isValid()) invalid_rows << i;
+  }
+  for (int j = invalid_rows.count() - 1; j >= 0; --j) {
+    const int row = invalid_rows[j];
+    beginRemoveRows(QModelIndex(), row, row);
+    source_indexes_.removeAt(row);
+    endRemoveRows();
   }
 
   signal_item_count_changed_ = QObject::connect(this, &Queue::ItemCountChanged, this, &Queue::UpdateTotalLength);
