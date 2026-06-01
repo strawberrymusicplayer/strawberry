@@ -346,6 +346,8 @@ void SettingsDialog::OpenAtPage(const Page page) {
 
 void SettingsDialog::CurrentItemChanged(QTreeWidgetItem *item) {
 
+  if (!item) return;
+
   if (!(item->flags() & Qt::ItemIsSelectable)) {
     return;
   }
