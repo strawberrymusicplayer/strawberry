@@ -100,7 +100,7 @@ void TagFetcher::Cancel() {
 
 void TagFetcher::FingerprintFound(const int index) {
 
-  QFutureWatcher<QString> *watcher = reinterpret_cast<QFutureWatcher<QString>*>(sender());
+  QFutureWatcher<QString> *watcher = static_cast<QFutureWatcher<QString>*>(sender());
   if (!watcher || index >= songs_.count()) return;
 
   const QString fingerprint = watcher->resultAt(index);
