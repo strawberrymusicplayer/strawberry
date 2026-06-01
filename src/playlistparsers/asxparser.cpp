@@ -55,8 +55,8 @@ ParserBase::LoadResult ASXParser::Load(QIODevice *device, const QString &playlis
   for (QRegularExpressionMatch re_match = ex.match(QString::fromUtf8(data), index); re_match.hasMatch(); re_match = ex.match(QString::fromUtf8(data), index)) {
     index = re_match.capturedStart();
     QString url = re_match.captured(2);
-    static const QRegularExpression regex_html_enities(u"&(?!amp;|quot;|apos;|lt;|gt;)"_s);
-    url.replace(regex_html_enities, u"&amp;"_s);
+    static const QRegularExpression regex_html_entities(u"&(?!amp;|quot;|apos;|lt;|gt;)"_s);
+    url.replace(regex_html_entities, u"&amp;"_s);
 
     QByteArray replacement = QStringLiteral("%1%2\"").arg(re_match.captured(1), url).toLocal8Bit();
     data.replace(re_match.captured(0).toLocal8Bit(), replacement);
