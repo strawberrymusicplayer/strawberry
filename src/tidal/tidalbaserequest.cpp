@@ -123,6 +123,11 @@ JsonBaseRequest::JsonObjectResult TidalBaseRequest::ParseJsonObject(QNetworkRepl
     }
   }
 
+  // Clear the session on auth failure so the user is prompted to log in again (matches Qobuz/Spotify).
+  if (reply->error() == QNetworkReply::AuthenticationRequiredError) {
+    service_->ClearSession();
+  }
+
   return result;
 
 }
