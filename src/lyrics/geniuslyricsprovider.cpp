@@ -351,11 +351,13 @@ void GeniusLyricsProvider::HandleLyricReply(QNetworkReply *reply, const int sear
 
   if (reply->error() != QNetworkReply::NoError) {
     Error(QStringLiteral("%1 (%2)").arg(reply->errorString()).arg(reply->error()));
+    reply->readAll();  // QTBUG-135641
     EndSearch(search, lyric);
     return;
   }
   if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
     Error(QStringLiteral("Received HTTP code %1").arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()));
+    reply->readAll();  // QTBUG-135641
     EndSearch(search, lyric);
     return;
   }
