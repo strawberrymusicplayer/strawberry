@@ -352,6 +352,7 @@ class GstEnginePipeline : public QObject {
   std::atomic<bool> fader_running_;
   bool fader_use_fudge_timer_;
   SharedPtr<QTimeLine> fader_;
+  mutable QMutex mutex_fader_;
   QTimer *timer_fader_fudge_;
   QTimer *timer_fader_timeout_;
 
