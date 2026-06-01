@@ -49,7 +49,6 @@
 #include "includes/shared_ptr.h"
 #include "core/enginemetadata.h"
 
-class QTimer;
 class GstBufferConsumer;
 struct GstPlayBin;
 
@@ -207,6 +206,14 @@ class GstEnginePipeline : public QObject {
 
   void DisconnectCallbacks();
   void ResumeFaderAsync();
+  // Clears the fading state on behalf of the fade identified by fader_generation, and does nothing if that fade has since been replaced.
+  void ClearFaderState(const quint64 fader_generation);
+  // Arms the timeout for the fade identified by fader_generation. Both are taken from the same critical section by the caller, so the interval always belongs to the fade the generation names.
+  void StartFaderTimeout(const quint64 fader_generation, const qint64 interval_msec);
+  // Runs when a fade takes longer than expected. Not a slot: it is scheduled as a functor so each timeout carries the generation of the fade it was armed for (see StartFaderTimeout()).
+  void FaderTimelineTimeout(const quint64 fader_generation);
+  // Runs once the fudge delay after a fade has elapsed, and emits FaderFinished() unless the fade it was armed for has since been replaced or torn down. Scheduled as a functor for the same reason as FaderTimelineTimeout().
+  void FaderFudgeFinished(const quint64 fader_generation);
 
   void ProcessPendingSeek(const GstState state);
   // Handles a request queued by SetStateAsync(). Not a slot: SetStateAsync() posts it as a functor, so the call is checked at compile time instead of resolved by name at runtime.
@@ -217,8 +224,6 @@ class GstEnginePipeline : public QObject {
   void SetFaderVolume(const qreal volume);
   void FaderTimelineStateChanged(const QTimeLine::State state);
   void FaderTimelineFinished();
-  void FaderTimelineTimeout();
-  void FaderFudgeFinished();
 
  private:
   // Using == to compare two pipelines is a bad idea, because new ones often get created in the same address as old ones.  This ID will be unique for each pipeline.
@@ -371,8 +376,11 @@ class GstEnginePipeline : public QObject {
   std::atomic<bool> fader_running_;
   bool fader_use_fudge_timer_;
   SharedPtr<QTimeLine> fader_;
-  QTimer *timer_fader_fudge_;
-  QTimer *timer_fader_timeout_;
+  // Identifies the current fade. Bumped whenever a fade is started, re-armed or cleared, and captured by the timeout scheduled for that fade, so a timeout belonging to a fade that has since been replaced or cleared can be told apart from the one belonging to the fade that is running now.
+  quint64 fader_generation_;
+  // Interval the current fade's timeout is armed with, kept so ResumeFaderAsync() can re-arm the same timeout without recomputing it from the fade duration.
+  qint64 fader_timeout_interval_msec_;
+  mutable QMutex mutex_fader_;
 
   GstElement *pipeline_;
   GstElement *audiobin_;

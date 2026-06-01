@@ -182,8 +182,8 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       fader_active_(false),
       fader_running_(false),
       fader_use_fudge_timer_(false),
-      timer_fader_fudge_(new QTimer(this)),
-      timer_fader_timeout_(new QTimer(this)),
+      fader_generation_(0),
+      fader_timeout_interval_msec_(0),
       pipeline_(nullptr),
       audiobin_(nullptr),
       audiosink_(nullptr),
@@ -218,13 +218,6 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
 
   eq_band_gains_.reserve(kEqBandCount);
   for (int i = 0; i < kEqBandCount; ++i) eq_band_gains_ << 0;
-
-  timer_fader_fudge_->setSingleShot(true);
-  timer_fader_fudge_->setInterval(kFaderFudgeMsec);
-  QObject::connect(timer_fader_fudge_, &QTimer::timeout, this, &GstEnginePipeline::FaderFudgeFinished);
-
-  timer_fader_timeout_->setSingleShot(true);
-  QObject::connect(timer_fader_timeout_, &QTimer::timeout, this, &GstEnginePipeline::FaderTimelineTimeout);
 
 }
 
@@ -431,13 +424,30 @@ void GstEnginePipeline::DisconnectCallbacks() {
 
   if (pipeline_) {
 
-    if (fader_) {
+    SharedPtr<QTimeLine> fader;
+    {
+      QMutexLocker l(&mutex_fader_);
+      fader = fader_;
+    }
+    if (fader) {
+      QMetaObject::invokeMethod(&*fader, [fader]() { fader->stop(); }, Qt::AutoConnection);
+    }
+
+    // Clear whatever fader_ holds now rather than only the fade that was current when it was read above: another thread may have published a replacement while that one was being stopped, and tearing the pipeline down ends all fading, that replacement included.
+    // Leaving it live would be worse than clearing it, because the bump here strips it of both its fade timeout and its fudge delay, so nothing would be left to finish it.
+    // Bump unconditionally: a fade timeout or a fudge delay may already be pending in the event queue even if there is no live fader_ (e.g. it fired concurrently and is about to run FaderTimelineTimeout()/ClearFaderState()), and either would otherwise emit FaderFinished for a pipeline that is being torn down.
+    // Both carry the generation they were armed with, so bumping is what discards them, and it takes effect immediately and from any thread rather than only once the pipeline's thread gets back to its event loop.
+    SharedPtr<QTimeLine> replacement_fader;
+    {
+      QMutexLocker l(&mutex_fader_);
+      replacement_fader = fader_;
+      fader_.reset();
       fader_active_ = false;
       fader_running_ = false;
-      if (fader_->state() != QTimeLine::State::NotRunning) {
-        fader_->stop();
-      }
-      fader_.reset();
+      ++fader_generation_;
+    }
+    if (replacement_fader && replacement_fader != fader) {
+      QMetaObject::invokeMethod(&*replacement_fader, [replacement_fader]() { replacement_fader->stop(); }, Qt::AutoConnection);
     }
 
     if (element_added_cb_id_.has_value()) {
@@ -762,8 +772,13 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
     if (!volume_fading_) {
       return false;
     }
-    if (fader_) {
-      SetFaderVolume(fader_->currentValue());
+    SharedPtr<QTimeLine> fader;
+    {
+      QMutexLocker l(&mutex_fader_);
+      fader = fader_;
+    }
+    if (fader) {
+      SetFaderVolume(fader->currentValue());
     }
   }
 
@@ -2009,7 +2024,12 @@ void GstEnginePipeline::StateChangedMessageReceived(GstMessage *msg) {
     }
   }
 
-  if (pipeline_active_.load() && fader_ && fader_active_.load() && !fader_running_.load() && new_state == GST_STATE_PLAYING) {
+  SharedPtr<QTimeLine> fader;
+  {
+    QMutexLocker l(&mutex_fader_);
+    fader = fader_;
+  }
+  if (pipeline_active_.load() && fader && fader_active_.load() && !fader_running_.load() && new_state == GST_STATE_PLAYING) {
     qLog(Debug) <<  "Pipeline" << id() << "Resuming fader";
     ResumeFaderAsync();
   }
@@ -2136,6 +2156,7 @@ void GstEnginePipeline::SetStateAsync(const GstState state) {
   ++set_state_async_in_progress_;
   const quint64 state_request_generation = set_state_request_generation_;
 
+  // Safe against destruction: ~QObject calls removePostedEvents(this), so this queued call is discarded if the pipeline is destroyed on its own thread before the slot runs.
   QMetaObject::invokeMethod(this, [this, state, state_request_generation]() { SetStateAsyncSlot(state, state_request_generation); }, Qt::QueuedConnection);
 
 }
@@ -2547,48 +2568,79 @@ void GstEnginePipeline::UpdateEBUR128LoudnessNormalizingGaindB() {
 
 void GstEnginePipeline::StartFader(const qint64 duration_nanosec, const QTimeLine::Direction direction, const QEasingCurve::Type shape, const bool use_fudge_timer) {
 
-  fader_active_ = true;
-
   const qint64 duration_msec = duration_nanosec / kNsecPerMsec;
 
   // If there's already another fader running then start from the same time that one was already at.
   qint64 start_time = direction == QTimeLine::Direction::Forward ? 0 : duration_msec;
-  if (fader_ && fader_->state() == QTimeLine::State::Running) {
-    if (duration_msec == fader_->duration()) {
-      start_time = fader_->currentTime();
+  SharedPtr<QTimeLine> old_fader;
+  {
+    QMutexLocker l(&mutex_fader_);
+    old_fader = fader_;
+  }
+  if (old_fader && old_fader->state() == QTimeLine::State::Running) {
+    if (duration_msec == old_fader->duration()) {
+      start_time = old_fader->currentTime();
     }
     else {
       // Calculate the position in the new fader with the same value from the old fader, so no volume jumps appear
-      qreal time = static_cast<qreal>(duration_msec) * (static_cast<qreal>(fader_->currentTime()) / static_cast<qreal>(fader_->duration()));
+      qreal time = static_cast<qreal>(duration_msec) * (static_cast<qreal>(old_fader->currentTime()) / static_cast<qreal>(old_fader->duration()));
       start_time = qRound(time);
     }
   }
 
-  fader_.reset(new QTimeLine(static_cast<int>(duration_msec)), [](QTimeLine *timeline) {
-    if (timeline->state() != QTimeLine::State::NotRunning) {
-      timeline->stop();
-    }
-    timeline->deleteLater();
+  // Build and configure the new timeline as a local first, then publish it to fader_ under the lock.
+  // The QTimeLine is only operated via the local copy, so we never call its methods while holding mutex_fader_.
+  SharedPtr<QTimeLine> fader(new QTimeLine(static_cast<int>(duration_msec)), [](QTimeLine *timeline) {
+    if (!timeline) return;
+    QMetaObject::invokeMethod(timeline, [timeline]() {
+      if (timeline->state() != QTimeLine::State::NotRunning) {
+        timeline->stop();
+      }
+      timeline->deleteLater();
+    }, Qt::AutoConnection);
   });
-  QObject::connect(&*fader_, &QTimeLine::valueChanged, this, &GstEnginePipeline::SetFaderVolume);
-  QObject::connect(&*fader_, &QTimeLine::stateChanged, this, &GstEnginePipeline::FaderTimelineStateChanged);
-  QObject::connect(&*fader_, &QTimeLine::finished, this, &GstEnginePipeline::FaderTimelineFinished);
-  fader_->setDirection(direction);
-  fader_->setEasingCurve(shape);
-  fader_->setCurrentTime(static_cast<int>(start_time));
+  QObject::connect(&*fader, &QTimeLine::valueChanged, this, [this, fader_ptr = &*fader](const qreal volume) {
+    {
+      QMutexLocker l(&mutex_fader_);
+      if (!fader_ || &*fader_ != fader_ptr) {
+        return;
+      }
+    }
+    SetFaderVolume(volume);
+  });
+  QObject::connect(&*fader, &QTimeLine::stateChanged, this, &GstEnginePipeline::FaderTimelineStateChanged);
+  QObject::connect(&*fader, &QTimeLine::finished, this, &GstEnginePipeline::FaderTimelineFinished);
+  fader->setDirection(direction);
+  fader->setEasingCurve(shape);
+  fader->setCurrentTime(static_cast<int>(start_time));
 
-  timer_fader_timeout_->setInterval(std::chrono::milliseconds(duration_msec) + kFaderTimeoutMsec);
-  timer_fader_timeout_->start();
+  const qint64 interval_msec = (std::chrono::milliseconds(duration_msec) + kFaderTimeoutMsec).count();
 
-  timer_fader_fudge_->stop();
-  fader_use_fudge_timer_ = use_fudge_timer;
+  quint64 fader_generation = 0;
+  SharedPtr<QTimeLine> previous_fader;
+  {
+    // Publish the new timeline, the fading flags and the generation together, so a callback that validated against the timeline being replaced cannot apply its own update in between and leave this fade describing the outgoing one.
+    // fader_running_ starts out false: the new timeline is only resumed below, and its own stateChanged() sets the flag once it actually starts.
+    QMutexLocker l(&mutex_fader_);
+    // Keep a reference to the outgoing timeline so publishing cannot drop the last one while this mutex is held: the deleter runs inline when it is dropped on this thread, and stopping a still-running timeline emits stateChanged(), which re-enters this mutex in FaderTimelineStateChanged() and would deadlock.
+    // previous_fader goes out of scope at the end of this function, by which time the lock is long released.
+    previous_fader = fader_;
+    fader_ = fader;
+    fader_active_ = true;
+    fader_running_ = false;
+    fader_use_fudge_timer_ = use_fudge_timer;
+    fader_timeout_interval_msec_ = interval_msec;
+    fader_generation = ++fader_generation_;
+  }
 
-  SetFaderVolume(fader_->currentValue());
+  StartFaderTimeout(fader_generation, interval_msec);
 
-  qLog(Debug) << "Pipeline" << id() << "with state" << GstStateText(state()) << "set to fade from" << fader_->currentValue() << "time" << start_time << "direction" << (direction == QTimeLine::Direction::Forward ? "forward" : "backward");
+  SetFaderVolume(fader->currentValue());
+
+  qLog(Debug) << "Pipeline" << id() << "with state" << GstStateText(state()) << "set to fade from" << fader->currentValue() << "time" << start_time << "direction" << (direction == QTimeLine::Direction::Forward ? "forward" : "backward");
 
   if (pipeline_active_.load()) {
-    fader_->resume();
+    fader->resume();
   }
 
 }
@@ -2603,52 +2655,144 @@ void GstEnginePipeline::SetFaderVolume(const qreal volume) {
 
 void GstEnginePipeline::ResumeFaderAsync() {
 
-  if (fader_ && fader_active_.load() && !fader_running_.load()) {
-    QMetaObject::invokeMethod(timer_fader_timeout_, qOverload<>(&QTimer::start), Qt::QueuedConnection);
-    QMetaObject::invokeMethod(&*fader_, &QTimeLine::resume, Qt::QueuedConnection);
+  SharedPtr<QTimeLine> fader;
+  quint64 fader_generation = 0;
+  qint64 interval_msec = 0;
+  {
+    // Take the fade to resume, its timeout interval and the generation for its new schedule in one critical section: checking here and bumping under a second lock would let the fade be replaced or cleared in between, leaving this call to arm a timeout and resume a timeline on behalf of a fade that is already gone.
+    QMutexLocker l(&mutex_fader_);
+    if (!fader_ || !fader_active_.load() || fader_running_.load()) {
+      return;
+    }
+    fader = fader_;
+    interval_msec = fader_timeout_interval_msec_;
+    // Re-arming counts as a new schedule: bump the generation so the timeout armed when the fade was started is ignored if it is already pending, and arm a fresh one for the fade as it resumes now.
+    fader_generation = ++fader_generation_;
   }
+
+  StartFaderTimeout(fader_generation, interval_msec);
+
+  // Capture the SharedPtr in the functor rather than passing the bare QTimeLine, so a reference is held until the queued resume has run on the timeline's own thread.
+  // The local copy alone does not do that: it goes out of scope when this function returns, which can be well before the queued call is delivered, leaving StartFader() or DisconnectCallbacks() free to drop the last reference and have the deleter run stop()/deleteLater() on a timeline this call is about to touch.
+  QMetaObject::invokeMethod(&*fader, [fader]() { fader->resume(); }, Qt::QueuedConnection);
 
 }
 
 void GstEnginePipeline::FaderTimelineStateChanged(const QTimeLine::State state) {
 
-  qLog(Debug) << "Pipeline" << id() << "fader state changed to" << (state == QTimeLine::State::Running ? "running" : state == QTimeLine::State::Paused ? "paused" : "not running");
+  {
+    QMutexLocker l(&mutex_fader_);
+    // ResumeFaderAsync() keeps a superseded QTimeLine alive with a SharedPtr until its queued resume() runs, so it can still emit stateChanged after StartFader() replaced fader_ with a new one; ignore it in that case.
+    if (!fader_ || sender() != &*fader_) {
+      return;
+    }
+    // Update inside the same critical section as the check above: releasing the lock first would let StartFader() publish a replacement in between, and this timeline's state would then be recorded as the replacement's.
+    fader_running_ = state == QTimeLine::State::Running;
+  }
 
-  fader_running_ = state == QTimeLine::State::Running;
+  qLog(Debug) << "Pipeline" << id() << "fader state changed to" << (state == QTimeLine::State::Running ? "running" : state == QTimeLine::State::Paused ? "paused" : "not running");
 
 }
 
 void GstEnginePipeline::FaderTimelineFinished() {
 
+  quint64 fader_generation = 0;
+  {
+    QMutexLocker l(&mutex_fader_);
+    // Same rationale as FaderTimelineStateChanged(): a stale, already-superseded timeline can still emit finished; only the currently active one may clear fader_/reset the fading state.
+    if (!fader_ || sender() != &*fader_) {
+      return;
+    }
+    fader_.reset();
+    fader_generation = fader_generation_;
+  }
+
   qLog(Debug) << "Pipeline" << id() << "finished fading";
 
-  fader_active_ = false;
-  fader_running_ = false;
-
-  fader_.reset();
-
-  timer_fader_timeout_->stop();
-
-  // Wait a little while longer before emitting the finished signal (and probably destroying the pipeline) to account for delays in the audio server/driver.
-  timer_fader_fudge_->setInterval(fader_use_fudge_timer_ ? kFaderFudgeMsec : 250ms);
-  timer_fader_fudge_->start();
+  ClearFaderState(fader_generation);
 
 }
 
-void GstEnginePipeline::FaderTimelineTimeout() {
+void GstEnginePipeline::StartFaderTimeout(const quint64 fader_generation, const qint64 interval_msec) {
+
+  // A single-shot timer per schedule rather than one shared timer that is restarted, so the generation this timeout was armed for travels with the timeout itself.
+  // A shared timer could not do that: a timeout that had already fired for an earlier fade would be handled by whatever generation the timer was last restarted with, which is exactly the stale case this guards against.
+  // The timer is owned by this pipeline, so it is cancelled outright if the pipeline is destroyed before it fires.
+  // Call this on the pipeline's own thread (both callers do): arming a timer needs a Qt event dispatcher, which a GStreamer streaming thread does not have.
+  QTimer::singleShot(std::chrono::milliseconds(interval_msec), this, [this, fader_generation]() { FaderTimelineTimeout(fader_generation); });
+
+}
+
+void GstEnginePipeline::FaderTimelineTimeout(const quint64 fader_generation) {
+
+  SharedPtr<QTimeLine> fader;
+  {
+    QMutexLocker l(&mutex_fader_);
+    // Return early if the generation has advanced since this timeout was armed, meaning the fade it belongs to is gone: StartFader() replaced it, ResumeFaderAsync() re-armed it, or it was already cleared.
+    // Applying the final volume or clearing state on behalf of that fade would corrupt whichever fade took its place.
+    if (fader_generation != fader_generation_) {
+      qLog(Debug) << "Pipeline" << id() << "ignoring timeout for superseded fade";
+      return;
+    }
+    // Defensive: every path that clears fader_ also bumps the generation in the same critical section, so a matching generation should mean there is still a fade here.
+    // Keep the check rather than relying on that, since it is the difference between doing nothing and clearing the state of whatever fade comes next.
+    if (!fader_) {
+      qLog(Debug) << "Pipeline" << id() << "ignoring timeout: fader already cleared";
+      return;
+    }
+    fader = fader_;
+    fader_.reset();
+  }
 
   qLog(Debug) << "Pipeline" << id() << "fading timed out";
 
-  if (volume_fading_ && fader_) {
-    qLog(Debug) << "Pipeline" << id() << "setting volume" << (fader_->direction() == QTimeLine::Direction::Forward ? 1.0 : 0.0);
-    g_object_set(G_OBJECT(volume_fading_), "volume", fader_->direction() == QTimeLine::Direction::Forward ? 1.0 : 0.0, nullptr);
+  if (volume_fading_ && fader) {
+    qLog(Debug) << "Pipeline" << id() << "setting volume" << (fader->direction() == QTimeLine::Direction::Forward ? 1.0 : 0.0);
+    g_object_set(G_OBJECT(volume_fading_), "volume", fader->direction() == QTimeLine::Direction::Forward ? 1.0 : 0.0, nullptr);
   }
 
-  FaderTimelineFinished();
+  qLog(Debug) << "Pipeline" << id() << "finished fading";
+
+  ClearFaderState(fader_generation);
 
 }
 
-void GstEnginePipeline::FaderFudgeFinished() {
+void GstEnginePipeline::ClearFaderState(const quint64 fader_generation) {
+
+  bool use_fudge_timer = false;
+  quint64 fudge_generation = 0;
+  {
+    QMutexLocker l(&mutex_fader_);
+    // Only the fade this was called for may clear the fading state.
+    // A mismatch means StartFader() has published a replacement in the meantime (it bumps the generation in the same critical section as it publishes fader_, so an unchanged generation is proof that it has not), or that the state was cleared already.
+    if (fader_generation != fader_generation_) {
+      qLog(Debug) << "Pipeline" << id() << "not clearing fader state for superseded fade";
+      return;
+    }
+    use_fudge_timer = fader_use_fudge_timer_;
+    // Clear the flags and invalidate the timeout armed for this fade here, while the generation is still known to be the current one: doing it after releasing the lock would let a fade started in between be marked as inactive.
+    fader_active_ = false;
+    fader_running_ = false;
+    // The fudge delay below belongs to the state this leaves behind, so arm it for the generation the bump moves to: anything that supersedes it (StartFader() publishing a new fade, DisconnectCallbacks() tearing the pipeline down, or a later fade being cleared) bumps again and the pending fudge is discarded.
+    fudge_generation = ++fader_generation_;
+  }
+
+  // Wait a little while longer before emitting the finished signal (and probably destroying the pipeline) to account for delays in the audio server/driver.
+  // A single-shot timer per fudge delay, for the same reason as StartFaderTimeout(): a shared timer that is restarted cannot be cancelled reliably, because stopping it does not un-post a timeout that has already fired, and the pending timeout would then be handled as though it belonged to the schedule that replaced it.
+  QTimer::singleShot(use_fudge_timer ? kFaderFudgeMsec : 250ms, this, [this, fudge_generation]() { FaderFudgeFinished(fudge_generation); });
+
+}
+
+void GstEnginePipeline::FaderFudgeFinished(const quint64 fader_generation) {
+
+  {
+    QMutexLocker l(&mutex_fader_);
+    // The fade this delay was armed for has been superseded, so emitting FaderFinished() now would announce the end of a fade that something else has already taken over, and callers act on it by tearing the pipeline down.
+    if (fader_generation != fader_generation_) {
+      qLog(Debug) << "Pipeline" << id() << "ignoring fudge for superseded fade";
+      return;
+    }
+  }
 
   qLog(Debug) << "Pipeline" << id() << "fading fudge finished";
 
