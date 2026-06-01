@@ -34,9 +34,11 @@ StreamingSearchSortModel::StreamingSearchSortModel(QObject *parent) : QSortFilte
 
 bool StreamingSearchSortModel::lessThan(const QModelIndex &left, const QModelIndex &right) const {
 
-  // Dividers always go first
-  if (left.data(CollectionModel::Role_IsDivider).toBool()) return true;
-  if (right.data(CollectionModel::Role_IsDivider).toBool()) return false;
+  // Dividers always go first. Handle the both-dividers case explicitly so the comparator stays a strict weak ordering (otherwise lessThan(a,b) and lessThan(b,a) would both be true).
+  const bool left_is_divider = left.data(CollectionModel::Role_IsDivider).toBool();
+  const bool right_is_divider = right.data(CollectionModel::Role_IsDivider).toBool();
+  if (left_is_divider && !right_is_divider) return true;
+  if (!left_is_divider && right_is_divider) return false;
 
   // Containers go before songs if they're at the same level
   const bool left_is_container = left.data(CollectionModel::Role_ContainerType).isValid();
