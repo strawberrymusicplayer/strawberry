@@ -143,10 +143,14 @@ void StreamTagReader::seek(const TagLibOffsetType offset, const TagLib::IOStream
       cursor_ = std::min(cursor_ + static_cast<TagLibLengthType>(offset), length_);
       break;
 
-    case TagLib::IOStream::End:
-      // This should really not have qAbs(), but OGG reading needs it.
-      cursor_ = std::max(static_cast<TagLibLengthType>(0), length_ - qAbs(static_cast<TagLibLengthType>(offset)));
+    case TagLib::IOStream::End: {
+      // This should really not take the absolute value, but OGG reading needs it.
+      // Compute |offset| on the signed type first - casting a negative offset to the unsigned
+      // TagLibLengthType would wrap to a huge value before qAbs (a no-op on unsigned) ran.
+      const TagLibLengthType abs_offset = offset < 0 ? static_cast<TagLibLengthType>(-offset) : static_cast<TagLibLengthType>(offset);
+      cursor_ = abs_offset >= length_ ? 0 : length_ - abs_offset;
       break;
+    }
   }
 
 }
