@@ -82,6 +82,7 @@ QMimeData *CollectionFilter::mimeData(const QModelIndexList &indexes) const {
   if (indexes.isEmpty()) return nullptr;
 
   CollectionModel *collection_model = qobject_cast<CollectionModel*>(sourceModel());
+  if (!collection_model) return nullptr;
   SongMimeData *data = new SongMimeData;
   data->backend = collection_model->backend();
 
@@ -103,6 +104,7 @@ QMimeData *CollectionFilter::mimeData(const QModelIndexList &indexes) const {
 void CollectionFilter::GetChildSongs(CollectionItem *item, QSet<int> &song_ids, QList<QUrl> &urls, SongList &songs) const {
 
   CollectionModel *collection_model = qobject_cast<CollectionModel*>(sourceModel());
+  if (!collection_model || !item) return;
 
   switch (item->type) {
     case CollectionItem::Type::Container:{
