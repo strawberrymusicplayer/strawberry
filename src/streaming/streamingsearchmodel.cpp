@@ -52,7 +52,8 @@ StreamingSearchModel::StreamingSearchModel(StreamingServicePtr service, QObject 
   group_by_[2] = CollectionModel::GroupBy::None;
 
   QList<QSize> nocover_sizes = album_icon_.availableSizes();
-  no_cover_icon_ = album_icon_.pixmap(nocover_sizes.last()).scaled(CollectionModel::kPrettyCoverSize, CollectionModel::kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+  const QPixmap nocover_pixmap = nocover_sizes.isEmpty() ? album_icon_.pixmap(CollectionModel::kPrettyCoverSize, CollectionModel::kPrettyCoverSize) : album_icon_.pixmap(nocover_sizes.last());
+  no_cover_icon_ = nocover_pixmap.scaled(CollectionModel::kPrettyCoverSize, CollectionModel::kPrettyCoverSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
 }
 
