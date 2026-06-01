@@ -144,7 +144,9 @@ QList<QUrl> Udisks2Lister::MakeDeviceUrls(const QString &id) {
   QReadLocker locker(&device_data_lock_);
   QList<QUrl> ret;
   if (!device_data_.contains(id)) return ret;
-  ret << MakeUrlFromLocalPath(device_data_.value(id).mount_paths.at(0));
+  const QStringList mount_paths = device_data_.value(id).mount_paths;
+  if (mount_paths.isEmpty()) return ret;
+  ret << MakeUrlFromLocalPath(mount_paths.at(0));
   return ret;
 
 }
@@ -322,18 +324,27 @@ void Udisks2Lister::JobCompleted(const bool success, const QString &message) {
   if (!job) return;
   QDBusObjectPath jobPath(job->path());
 
-  if (!job->isValid() || !success || !mounting_jobs_.contains(jobPath)) {
+  if (!job->isValid() || !success) {
     return;
   }
 
-  qLog(Debug) << "Pending Job Completed | Path = " << job->path() << " | Mount? = " << mounting_jobs_[jobPath].is_mount << " | Success = " << success;
+  // Snapshot the job entry under the lock, then release it before doing DBus I/O below.
+  bool is_mount = false;
+  QList<QDBusObjectPath> mounted_partitions;
+  {
+    QMutexLocker locker(&jobs_lock_);
+    if (!mounting_jobs_.contains(jobPath)) return;
+    is_mount = mounting_jobs_.value(jobPath).is_mount;
+    mounted_partitions = mounting_jobs_.value(jobPath).mounted_partitions;
+  }
 
-  const QList<QDBusObjectPath> mounted_partitions = mounting_jobs_.value(jobPath).mounted_partitions;
+  qLog(Debug) << "Pending Job Completed | Path = " << job->path() << " | Mount? = " << is_mount << " | Success = " << success;
+
   for (const QDBusObjectPath &mounted_object : mounted_partitions) {
     auto partition_data = ReadPartitionData(mounted_object);
     if (partition_data.dbus_path.isEmpty()) continue;
 
-    mounting_jobs_.value(jobPath).is_mount ? HandleFinishedMountJob(partition_data) : HandleFinishedUnmountJob(partition_data, mounted_object);
+    is_mount ? HandleFinishedMountJob(partition_data) : HandleFinishedUnmountJob(partition_data, mounted_object);
   }
 
 }
