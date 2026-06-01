@@ -94,11 +94,7 @@ void CDDASongLoader::LoadSongsFromCDDA() {
 
   QMutexLocker l(&mutex_load_);
 
-  GError *error = nullptr;
   GstElement *cdda = gst_element_factory_make("cdiocddasrc", nullptr);
-  if (error) {
-    Error(QStringLiteral("%1: %2").arg(error->code).arg(QString::fromUtf8(error->message)));
-  }
   if (!cdda) {
     Error(tr("Could not create cdiocddasrc"));
     return;
