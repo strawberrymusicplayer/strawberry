@@ -70,11 +70,14 @@ void FileViewList::contextMenuEvent(QContextMenuEvent *e) {
 
 QList<QUrl> FileViewList::UrlListFromSelection() const {
 
+  QFileSystemModel *fs_model = qobject_cast<QFileSystemModel*>(model());
+  if (!fs_model) return QList<QUrl>();
+
   QStringList filenames;
   const QModelIndexList indexes = menu_selection_.indexes();
   for (const QModelIndex &index : indexes) {
     if (index.column() == 0) {
-      filenames << QDir::cleanPath(qobject_cast<QFileSystemModel*>(model())->fileInfo(index).filePath());
+      filenames << QDir::cleanPath(fs_model->fileInfo(index).filePath());
     }
   }
 
@@ -110,7 +113,8 @@ MimeData *FileViewList::MimeDataFromSelection() const {
   }
   // Otherwise, use the current root path
   else {
-    QString path = qobject_cast<QFileSystemModel*>(model())->rootPath();
+    QFileSystemModel *fs_model = qobject_cast<QFileSystemModel*>(model());
+    QString path = fs_model ? fs_model->rootPath() : QString();
     if (path.length() > 20) {
       QFileInfo info(path);
       if (info.isDir()) {
@@ -131,11 +135,14 @@ MimeData *FileViewList::MimeDataFromSelection() const {
 
 QStringList FileViewList::FilenamesFromSelection() const {
 
+  QFileSystemModel *fs_model = qobject_cast<QFileSystemModel*>(model());
+  if (!fs_model) return QStringList();
+
   QStringList filenames;
   const QModelIndexList indexes = menu_selection_.indexes();
   for (const QModelIndex &index : indexes) {
     if (index.column() == 0) {
-      filenames << qobject_cast<QFileSystemModel*>(model())->filePath(index);
+      filenames << fs_model->filePath(index);
     }
   }
 
