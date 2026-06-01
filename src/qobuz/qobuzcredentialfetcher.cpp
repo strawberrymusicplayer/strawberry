@@ -255,7 +255,7 @@ QString QobuzCredentialFetcher::ExtractAppSecret(const QString &bundle) {
   // Try any remaining timezones not in preferred order
   for (auto it = seeds.constBegin(); it != seeds.constEnd(); ++it) {
     const QString &tz = it.key();
-    if (preferred_order.contains(tz)) {
+    if (tz.isEmpty() || preferred_order.contains(tz)) {
       continue;  // Already tried
     }
 
