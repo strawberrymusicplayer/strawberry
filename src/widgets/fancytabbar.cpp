@@ -58,7 +58,7 @@ QString FancyTabBar::TabText(const int index) const {
 QSize FancyTabBar::sizeHint() const {
 
   FancyTabWidget *tabWidget = qobject_cast<FancyTabWidget*>(parentWidget());
-  if (tabWidget->mode() == FancyTabWidget::Mode::Tabs || tabWidget->mode() == FancyTabWidget::Mode::IconOnlyTabs) {
+  if (!tabWidget || tabWidget->mode() == FancyTabWidget::Mode::Tabs || tabWidget->mode() == FancyTabWidget::Mode::IconOnlyTabs) {
     return QTabBar::sizeHint();
   }
 
@@ -77,7 +77,7 @@ QSize FancyTabBar::sizeHint() const {
 int FancyTabBar::width() const {
 
   FancyTabWidget *tabWidget = qobject_cast<FancyTabWidget*>(parentWidget());
-  if (tabWidget->mode() == FancyTabWidget::Mode::LargeSidebar || tabWidget->mode() == FancyTabWidget::Mode::SmallSidebar) {
+  if (tabWidget && (tabWidget->mode() == FancyTabWidget::Mode::LargeSidebar || tabWidget->mode() == FancyTabWidget::Mode::SmallSidebar)) {
     int w = 0;
     for (int i = 0; i < count(); ++i) {
       if (tabSizeHint(i).width() > w) w = tabSizeHint(i).width();
@@ -93,6 +93,7 @@ int FancyTabBar::width() const {
 QSize FancyTabBar::tabSizeHint(const int index) const {
 
   FancyTabWidget *tabWidget = qobject_cast<FancyTabWidget*>(parentWidget());
+  if (!tabWidget) return QTabBar::tabSizeHint(index);
 
   QSize size;
   if (tabWidget->mode() == FancyTabWidget::Mode::LargeSidebar) {
@@ -159,9 +160,10 @@ void FancyTabBar::paintEvent(QPaintEvent *pe) {
 
   FancyTabWidget *tabWidget = qobject_cast<FancyTabWidget*>(parentWidget());
 
-  if (tabWidget->mode() != FancyTabWidget::Mode::LargeSidebar &&
+  if (!tabWidget ||
+      (tabWidget->mode() != FancyTabWidget::Mode::LargeSidebar &&
       tabWidget->mode() != FancyTabWidget::Mode::SmallSidebar &&
-      tabWidget->mode() != FancyTabWidget::Mode::IconsSidebar) {
+      tabWidget->mode() != FancyTabWidget::Mode::IconsSidebar)) {
     QTabBar::paintEvent(pe);
     return;
   }
