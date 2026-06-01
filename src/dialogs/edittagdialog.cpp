@@ -487,7 +487,7 @@ void EditTagDialog::SetSongs(const SongList &s, const PlaylistItemPtrList &items
 
   // Reload tags in the background
   QFuture<QList<Data>> future = QtConcurrent::run(&EditTagDialog::LoadData, this, s);
-  QFutureWatcher<QList<Data>> *watcher = new QFutureWatcher<QList<Data>>();
+  QFutureWatcher<QList<Data>> *watcher = new QFutureWatcher<QList<Data>>(this);
   QObject::connect(watcher, &QFutureWatcher<QList<Data>>::finished, this, &EditTagDialog::SetSongsFinished);
   watcher->setFuture(future);
 
