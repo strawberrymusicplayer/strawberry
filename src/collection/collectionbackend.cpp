@@ -1139,10 +1139,19 @@ SongList CollectionBackend::GetSongsByForeignId(const QStringList &ids, const QS
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
 
-  QString in = ids.join(u',');
+  // Bind each id as a positional parameter so the (possibly untrusted) foreign ids can't break out of the SQL.
+  QStringList placeholders;
+  placeholders.reserve(ids.count());
+  for (int i = 0; i < ids.count(); ++i) {
+    placeholders << u"?"_s;
+  }
+  const QString in = placeholders.join(u',');
 
   SqlQuery q(db);
   q.prepare(QStringLiteral("SELECT %3.ROWID, %2, %3.%4 FROM %3, %1 WHERE %3.%4 IN (%5) AND %1.ROWID = %3.ROWID AND unavailable = 0").arg(songs_table_, Song::kColumnSpec, table, column, in));
+  for (const QString &id : ids) {
+    q.addBindValue(id);
+  }
   if (!q.Exec()) {
     db_->ReportErrors(q);
     return SongList();
@@ -1303,15 +1312,19 @@ Song CollectionBackend::GetSongBySongId(const QString &song_id, QSqlDatabase &db
 
 SongList CollectionBackend::GetSongsBySongId(const QStringList &song_ids, QSqlDatabase &db) {
 
-  QStringList song_ids2;
-  song_ids2.reserve(song_ids.count());
-  for (const QString &song_id : song_ids) {
-    song_ids2 << QLatin1Char('\'') + song_id + QLatin1Char('\'');
+  // Bind each id as a positional parameter so the (possibly untrusted) song ids can't break out of the SQL.
+  QStringList placeholders;
+  placeholders.reserve(song_ids.count());
+  for (int i = 0; i < song_ids.count(); ++i) {
+    placeholders << u"?"_s;
   }
-  QString in = song_ids2.join(u',');
+  const QString in = placeholders.join(u',');
 
   SqlQuery q(db);
   q.prepare(QStringLiteral("SELECT %1 FROM %2 WHERE SONG_ID IN (%3)").arg(Song::kRowIdColumnSpec, songs_table_, in));
+  for (const QString &song_id : song_ids) {
+    q.addBindValue(song_id);
+  }
   if (!q.Exec()) {
     db_->ReportErrors(q);
     return SongList();
