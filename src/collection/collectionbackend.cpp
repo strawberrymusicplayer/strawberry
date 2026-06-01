@@ -220,13 +220,15 @@ void CollectionBackend::ChangeDirPath(const int id, const QString &old_path, con
   const QByteArray new_url = QUrl::fromLocalFile(new_path).toEncoded();
 
   // SQLite substr() is 1-indexed, so start one character past the old prefix to drop it.
-  const qint64 substr_start = old_url.length() + 1;
+  // The subdirectories table stores plain filesystem paths, while the songs table stores file:// URLs, so each needs its own prefix and offset.
+  const qint64 subdir_substr_start = old_path.length() + 1;
+  const qint64 song_substr_start = old_url.length() + 1;
 
-  // Do the subdirs table
+  // Do the subdirs table (paths are plain filesystem paths)
   {
     SqlQuery q(db);
-    q.prepare(QStringLiteral("UPDATE %1 SET path=:path || substr(path, %2) WHERE directory_id=:id").arg(subdirs_table_).arg(substr_start));
-    q.BindValue(u":path"_s, new_url);
+    q.prepare(QStringLiteral("UPDATE %1 SET path=:path || substr(path, %2) WHERE directory_id=:id").arg(subdirs_table_).arg(subdir_substr_start));
+    q.BindValue(u":path"_s, new_path);
     q.BindValue(u":id"_s, id);
     if (!q.Exec()) {
       db_->ReportErrors(q);
@@ -234,10 +236,10 @@ void CollectionBackend::ChangeDirPath(const int id, const QString &old_path, con
     }
   }
 
-  // Do the songs table
+  // Do the songs table (urls are file:// URLs)
   {
     SqlQuery q(db);
-    q.prepare(QStringLiteral("UPDATE %1 SET url=:path || substr(url, %2) WHERE directory_id=:id").arg(songs_table_).arg(substr_start));
+    q.prepare(QStringLiteral("UPDATE %1 SET url=:path || substr(url, %2) WHERE directory_id=:id").arg(songs_table_).arg(song_substr_start));
     q.BindValue(u":path"_s, new_url);
     q.BindValue(u":id"_s, id);
     if (!q.Exec()) {
