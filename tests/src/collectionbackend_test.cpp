@@ -651,4 +651,29 @@ TEST_F(ChangeDirPath, RewritesSongPaths) {
 
 }
 
+TEST_F(ChangeDirPath, RewritesSubdirectoryPaths) {
+
+  // Subdirectory paths are stored as plain filesystem paths (not file:// URLs).
+  CollectionSubdirectory subdir;
+  subdir.directory_id = 1;
+  subdir.path = u"/mnt/music/album"_s;
+  subdir.mtime = 1;
+  backend_->AddOrUpdateSubdirs(CollectionSubdirectoryList() << subdir);
+
+  {
+    CollectionSubdirectoryList subdirs = backend_->SubdirsInDirectory(1);
+    ASSERT_EQ(1, subdirs.count());
+    EXPECT_EQ(u"/mnt/music/album"_s, subdirs[0].path);
+  }
+
+  backend_->ChangeDirPath(1, u"/mnt/music"_s, u"/mnt/newmusic"_s);
+
+  {
+    CollectionSubdirectoryList subdirs = backend_->SubdirsInDirectory(1);
+    ASSERT_EQ(1, subdirs.count());
+    EXPECT_EQ(u"/mnt/newmusic/album"_s, subdirs[0].path);
+  }
+
+}
+
 } // namespace
