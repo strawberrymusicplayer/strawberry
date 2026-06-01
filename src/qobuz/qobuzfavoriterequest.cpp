@@ -132,6 +132,7 @@ void QobuzFavoriteRequest::AddFavoritesReply(QNetworkReply *reply, const Favorit
 
   if (replies_.contains(reply)) {
     replies_.removeAll(reply);
+    QObject::disconnect(reply, nullptr, this, nullptr);
     reply->deleteLater();
   }
   else {
@@ -222,6 +223,7 @@ void QobuzFavoriteRequest::RemoveFavoritesReply(QNetworkReply *reply, const Favo
 
   if (replies_.contains(reply)) {
     replies_.removeAll(reply);
+    QObject::disconnect(reply, nullptr, this, nullptr);
     reply->deleteLater();
   }
   else {
