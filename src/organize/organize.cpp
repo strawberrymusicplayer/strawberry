@@ -183,7 +183,10 @@ void Organize::ProcessSomeFiles() {
 
     // Use a Song instead of a tag reader
     Song song = task.song_info_.song_;
-    if (!song.is_valid()) continue;
+    if (!song.is_valid()) {
+      tasks_complete_++;  // Otherwise progress never reaches 100%.
+      continue;
+    }
 
     // Maybe this file is one that's been transcoded already?
     if (!task.transcoded_filename_.isEmpty()) {
