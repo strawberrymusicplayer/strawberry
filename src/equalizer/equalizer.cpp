@@ -362,7 +362,7 @@ void Equalizer::closeEvent(QCloseEvent *e) {
 
   Q_UNUSED(e)
 
-  QString name = ui_->preset->currentText();
+  QString name = ui_->preset->itemData(ui_->preset->currentIndex()).toString();
   if (!presets_.contains(name)) return;
 
   if (presets_[name] == current_params()) return;
