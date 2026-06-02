@@ -125,9 +125,6 @@ void LocalRedirectServer::ReadyRead() {
     close();
     Q_EMIT Finished();
   }
-  else {
-    QObject::connect(socket_, &QAbstractSocket::readyRead, this, &LocalRedirectServer::ReadyRead);
-  }
 
 }
 
