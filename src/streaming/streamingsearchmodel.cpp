@@ -253,8 +253,11 @@ QStandardItem *StreamingSearchModel::BuildContainers(const Song &s, QStandardIte
       return parent;
   }
 
-  if (display_text.isEmpty() || sort_text.isEmpty()) {
+  if (display_text.isEmpty()) {
     display_text = "Unknown"_L1;
+  }
+  if (sort_text.isEmpty()) {
+    sort_text = display_text;
   }
 
   // Find a container for this level
