@@ -425,7 +425,6 @@ void StyleHelper::tintImage(QImage &img, const QColor &tintColor) {
       QColor c = QColor(rgbColor);
 
       if (alpha > 0) {
-        c.toHsl();
         float l = c.lightnessF();
         QColor newColor = QColor::fromHslF(tintColor.hslHueF(), tintColor.hslSaturationF(), l);
         newColor.setAlpha(alpha);
