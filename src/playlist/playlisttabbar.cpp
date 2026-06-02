@@ -272,7 +272,7 @@ void PlaylistTabBar::CloseSlot() {
   Q_EMIT Close(playlist_id);
 
   // Select the nearest tab.
-  if (menu_index_ > 1) {
+  if (menu_index_ > 0) {
     setCurrentIndex(menu_index_ - 1);
   }
 
