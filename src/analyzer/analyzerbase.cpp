@@ -109,6 +109,8 @@ void AnalyzerBase::paintEvent(QPaintEvent *e) {
   QPainter p(this);
   p.fillRect(e->rect(), palette().color(QPalette::Window));
 
+  if (!engine_) return;
+
   switch (engine_->state()) {
     case EngineBase::State::Playing:{
       const EngineBase::Scope &thescope = engine_->scope(timeout_);
