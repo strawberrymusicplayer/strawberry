@@ -46,6 +46,7 @@ void StandardItemIconLoader::SetModel(QAbstractItemModel *model) {
 
   if (model_) {
     QObject::disconnect(model_, &QAbstractItemModel::rowsAboutToBeRemoved, this, &StandardItemIconLoader::RowsAboutToBeRemoved);
+    QObject::disconnect(model_, &QAbstractItemModel::modelAboutToBeReset, this, &StandardItemIconLoader::ModelReset);
   }
 
   model_ = model;
