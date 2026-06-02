@@ -89,7 +89,7 @@ void PlaylistGeneratorInserter::Finished() {
     }
   }
   else {
-    destination_->InsertItems(items, row_, play_now_, enqueue_);
+    destination_->InsertItems(items, row_, play_now_, enqueue_, enqueue_next_);
   }
 
   task_manager_->SetTaskFinished(task_id_);
