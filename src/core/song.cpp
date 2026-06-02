@@ -1435,7 +1435,7 @@ Song::FileType Song::FiletypeByDescription(const QString &text) {
   if (text.compare("audio/x-dsd"_L1, Qt::CaseInsensitive) == 0) return FileType::DSDIFF;
   if (text.compare("audio/x-ffmpeg-parsed-ape"_L1, Qt::CaseInsensitive) == 0) return FileType::APE;
   if (text.compare("Module Music Format (MOD)"_L1, Qt::CaseInsensitive) == 0) return FileType::MOD;
-  if (text.compare("Module Music Format (MOD)"_L1, Qt::CaseInsensitive) == 0) return FileType::S3M;
+  if (text.compare("Module Music Format (S3M)"_L1, Qt::CaseInsensitive) == 0) return FileType::S3M;
   if (text.compare("SNES SPC700"_L1, Qt::CaseInsensitive) == 0) return FileType::SPC;
   if (text.compare("VGM"_L1, Qt::CaseInsensitive) == 0) return FileType::VGM;
   if (text.compare("Apple Lossless Audio Codec (ALAC)"_L1, Qt::CaseInsensitive) == 0) return FileType::ALAC;
