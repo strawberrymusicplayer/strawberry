@@ -710,6 +710,7 @@ void SongLoader::MagicReady() {
     parser_ = nullptr;
     url_.setScheme(u"mms"_s);
     StopTypefindAsync(true);
+    return;
   }
 
   if (parser_) {
