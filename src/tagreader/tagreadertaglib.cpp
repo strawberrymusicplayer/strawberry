@@ -364,7 +364,6 @@ TagReaderResult TagReaderTagLib::Read(SharedPtr<TagLib::FileRef> fileref, Song *
 
   QString disc;
   QString compilation;
-  QString lyrics;
 
   // Handle all the files which have VorbisComments (Ogg, OPUS, ...) in the same way;
   // apart, so we keep specific behavior for some formats by adding another "else if" block below.
@@ -493,7 +492,6 @@ TagReaderResult TagReaderTagLib::Read(SharedPtr<TagLib::FileRef> fileref, Song *
     song->set_compilation(compilation.toInt() == 1);
   }
 
-  if (!lyrics.isEmpty()) song->set_lyrics(lyrics);
 
   // Set integer fields to -1 if they're not valid
 
