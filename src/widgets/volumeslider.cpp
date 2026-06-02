@@ -103,7 +103,7 @@ void VolumeSlider::paintEvent(QPaintEvent *e) {
   QPainter p(this);
 
   const int padding = 7;
-  const int offset = static_cast<int>(static_cast<double>((width() - 2 * padding) * value()) / maximum());
+  const int offset = static_cast<int>(static_cast<double>((width() - 2 * padding) * value()) / qMax(1, maximum()));
 
   // If theme changed since last paintEvent, redraw the volume pixmap with new theme colors
   if (previous_theme_text_color_ != palette().color(QPalette::WindowText)) {
