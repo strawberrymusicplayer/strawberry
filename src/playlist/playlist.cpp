@@ -2022,14 +2022,16 @@ void Playlist::Shuffle() {
 
   int begin = 0;
   if (current_item_index_.isValid()) {
-    if (new_items[0] != new_items[current_item_index_.row()]) {
-      std::swap(new_items[0], new_items[current_item_index_.row()]);
+    if (dynamic_playlist_) {
+      // Keep the history and the current track fixed; only shuffle the future region (mirrors sort()).
+      begin = current_item_index_.row() + 1;
     }
-    begin = 1;
-  }
-
-  if (dynamic_playlist_ && current_item_index_.isValid()) {
-    begin += current_item_index_.row() + 1;
+    else {
+      if (new_items[0] != new_items[current_item_index_.row()]) {
+        std::swap(new_items[0], new_items[current_item_index_.row()]);
+      }
+      begin = 1;
+    }
   }
 
   const int count = static_cast<int>(items_.count());
