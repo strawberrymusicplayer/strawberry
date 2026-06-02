@@ -314,7 +314,7 @@ void CollectionSettingsPage::ClearPixmapDiskCache() {
 
 void CollectionSettingsPage::CacheSizeUnitChanged(int index) {
 
-  const CacheSizeUnit cache_size_unit = static_cast<CacheSizeUnit>(ui_->combobox_cache_size->currentData(index).toInt());
+  const CacheSizeUnit cache_size_unit = static_cast<CacheSizeUnit>(ui_->combobox_cache_size->itemData(index).toInt());
 
   switch (cache_size_unit) {
     case CacheSizeUnit::MB:
@@ -329,7 +329,7 @@ void CollectionSettingsPage::CacheSizeUnitChanged(int index) {
 
 void CollectionSettingsPage::DiskCacheSizeUnitChanged(int index) {
 
-  const CacheSizeUnit cache_size_unit = static_cast<CacheSizeUnit>(ui_->combobox_disk_cache_size->currentData(index).toInt());
+  const CacheSizeUnit cache_size_unit = static_cast<CacheSizeUnit>(ui_->combobox_disk_cache_size->itemData(index).toInt());
 
   switch (cache_size_unit) {
     case CacheSizeUnit::GB:
