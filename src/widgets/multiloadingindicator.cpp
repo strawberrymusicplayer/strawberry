@@ -78,7 +78,7 @@ void MultiLoadingIndicator::UpdateText() {
   strings.reserve(tasks.count());
   for (const TaskManager::Task &task : tasks) {
     QString task_text = task.name;
-    task_text[0] = task_text[0].toLower();
+    if (!task_text.isEmpty()) task_text[0] = task_text[0].toLower();
 
     if (task.progress_max > 0) {
       int percentage = static_cast<int>(static_cast<float>(task.progress) / static_cast<float>(task.progress_max) * 100.0F);
