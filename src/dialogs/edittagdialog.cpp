@@ -833,6 +833,8 @@ void EditTagDialog::SelectionChanged() {
     summary += tr("%1 songs selected.").arg(indexes.count());
     summary += "</b></p>"_L1;
   }
+  // Keep the base HTML so the art summary can be appended later without losing the rich-text formatting (toPlainText() would strip the bold markup).
+  tags_summary_text_ = summary;
   ui_->tags_summary->setText(summary);
 
   const bool enable_change_art = first_song.is_local_collection_song();
@@ -945,7 +947,8 @@ void EditTagDialog::UpdateSummaryTab(const Song &song) {
   cover_options.device_pixel_ratio = devicePixelRatioF();
   summary_cover_art_id_ = albumcover_loader_->LoadImageAsync(cover_options, song);
 
-  ui_->summary->setText(u"<p><b>"_s + song.PrettyTitleWithArtist().toHtmlEscaped() + u"</b></p>"_s);
+  summary_text_ = u"<p><b>"_s + song.PrettyTitleWithArtist().toHtmlEscaped() + u"</b></p>"_s;
+  ui_->summary->setText(summary_text_);
 
   ui_->length->setText(Utilities::PrettyTimeNanosec(song.length_nanosec()));
 
@@ -1067,7 +1070,7 @@ void EditTagDialog::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderRes
     }
     if (ui_->song_list->selectionModel()->selectedIndexes().count() > 0) {
       const QModelIndex idx = ui_->song_list->selectionModel()->selectedIndexes().first();
-      QString summary = ui_->summary->toPlainText();
+      QString summary = summary_text_;
       summary += "<br />"_L1;
       summary += "<br />"_L1;
       summary += GetArtSummary(data_[idx.row()].current_, result.type);
@@ -1094,7 +1097,7 @@ void EditTagDialog::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderRes
     }
     bool enable_change_art = false;
     if (first_song.is_valid()) {
-      QString summary = ui_->tags_summary->toPlainText();
+      QString summary = tags_summary_text_;
       summary += "<br />"_L1;
       summary += "<br />"_L1;
       if (cover_action == UpdateCoverAction::None) {
