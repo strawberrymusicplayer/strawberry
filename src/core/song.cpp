@@ -969,7 +969,6 @@ bool Song::IsFileInfoEqual(const Song &other) const {
          d->basefilename_ == other.d->basefilename_ &&
          d->filetype_ == other.d->filetype_ &&
          d->filesize_ == other.d->filesize_ &&
-         d->mtime_ == other.d->mtime_ &&
          d->ctime_ == other.d->ctime_ &&
          d->mtime_ == other.d->mtime_ &&
          d->stream_url_ == other.d->stream_url_;
