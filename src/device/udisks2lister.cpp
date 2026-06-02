@@ -185,9 +185,12 @@ void Udisks2Lister::UnmountDevice(const QString &id) {
 }
 
 void Udisks2Lister::UpdateDeviceFreeSpace(const QString &id) {
+
   QWriteLocker locker(&device_data_lock_);
+  if (!device_data_.contains(id)) return;
   device_data_[id].free_space = Utilities::FileSystemFreeSpace(device_data_.value(id).mount_paths.value(0));
   Q_EMIT DeviceChanged(id);
+
 }
 
 bool Udisks2Lister::Init() {
