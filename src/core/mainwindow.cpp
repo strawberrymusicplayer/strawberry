@@ -1840,8 +1840,6 @@ void MainWindow::UpdateTrackPosition() {
 
 void MainWindow::UpdateTrackSliderPosition() {
 
-  PlaylistItemPtr item(app_->player()->GetCurrentItem());
-
   const int slider_position = std::floor(static_cast<float>(app_->player()->engine()->position_nanosec()) / kNsecPerMsec);
   const int slider_length = static_cast<int>(app_->player()->engine()->length_nanosec() / kNsecPerMsec);
 
