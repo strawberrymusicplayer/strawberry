@@ -1796,6 +1796,7 @@ void MainWindow::Seeked(const qint64 microseconds) {
 
   const qint64 position = microseconds / kUsecPerSec;
   const qint64 length = item->EffectiveMetadata().length_nanosec() / kNsecPerSec;
+  if (length <= 0) return;
   systemtrayicon_->SetProgress(static_cast<int>(static_cast<double>(position) / static_cast<double>(length) * 100.0));
 
 #ifdef HAVE_DBUS
