@@ -46,7 +46,6 @@ using namespace Qt::Literals::StringLiterals;
 const char *NyanCatAnalyzer::kName = "Nyanalyzer Cat";
 const char *RainbowDashAnalyzer::kName = "Rainbow Dash";
 
-RainbowAnalyzer::RainbowType RainbowAnalyzer::rainbowtype;
 const int RainbowAnalyzer::kHeight[] = { 21, 33 };
 const int RainbowAnalyzer::kWidth[] = { 34, 53 };
 const int RainbowAnalyzer::kFrameCount[] = { 6, 16 };
@@ -69,13 +68,13 @@ RainbowAnalyzer::RainbowAnalyzer(const RainbowType rbtype, QWidget *parent)
       x_offset_(0),
       background_brush_(QColor(0x0f, 0x43, 0x73)) {
 
-  rainbowtype = rbtype;
+  rainbowtype_ = rbtype;
   cat_dash_[0] = QPixmap(u":/pictures/nyancat.png"_s);
   cat_dash_[1] = QPixmap(u":/pictures/rainbowdash.png"_s);
   memset(history_, 0, sizeof(history_));
 
   for (int i = 0; i < kRainbowBands; ++i) {
-    colors_[i] = QPen(QColor::fromHsv(i * 255 / kRainbowBands, 255, 255), kRainbowHeight[rainbowtype] / kRainbowBands, Qt::SolidLine, Qt::FlatCap, Qt::RoundJoin);  // NOLINT(bugprone-integer-division)
+    colors_[i] = QPen(QColor::fromHsv(i * 255 / kRainbowBands, 255, 255), kRainbowHeight[rainbowtype_] / kRainbowBands, Qt::SolidLine, Qt::FlatCap, Qt::RoundJoin);  // NOLINT(bugprone-integer-division)
 
     // pow constants computed so that
     // | band_scale(0) | ~= .5 and | band_scale(5) | ~= 32
@@ -89,7 +88,7 @@ void RainbowAnalyzer::transform(Scope &s) { fht_->spectrum(s.data()); }
 void RainbowAnalyzer::timerEvent(QTimerEvent *e) {
 
   if (e->timerId() == timer_id_) {
-    frame_ = (frame_ + 1) % kFrameCount[rainbowtype];
+    frame_ = (frame_ + 1) % kFrameCount[rainbowtype_];
   }
   else {
     AnalyzerBase::timerEvent(e);
@@ -105,7 +104,7 @@ void RainbowAnalyzer::resizeEvent(QResizeEvent *e) {
   buffer_[0] = QPixmap();
   buffer_[1] = QPixmap();
 
-  available_rainbow_width_ = width() - kWidth[rainbowtype] + kRainbowOverlap[rainbowtype];
+  available_rainbow_width_ = width() - kWidth[rainbowtype_] + kRainbowOverlap[rainbowtype_];
   px_per_frame_ = available_rainbow_width_ / (kHistorySize - 1) + 1;
   x_offset_ = px_per_frame_ * (kHistorySize - 1) - available_rainbow_width_;
 
@@ -144,10 +143,10 @@ void RainbowAnalyzer::analyze(QPainter &p, const Scope &s, const bool new_frame)
     QPointF *dest = polyline;
     float *source = history_;
 
-    const float top_of = static_cast<float>(height()) / 2 - static_cast<float>(kRainbowHeight[rainbowtype]) / 2;
+    const float top_of = static_cast<float>(height()) / 2 - static_cast<float>(kRainbowHeight[rainbowtype_]) / 2;
     for (int band = 0; band < kRainbowBands; ++band) {
       // Calculate the Y position of this band.
-      const float y = static_cast<float>(kRainbowHeight[rainbowtype]) / static_cast<float>(kRainbowBands + 1) * (static_cast<float>(band) + 0.5F) + top_of;
+      const float y = static_cast<float>(kRainbowHeight[rainbowtype_]) / static_cast<float>(kRainbowBands + 1) * (static_cast<float>(band) + 0.5F) + top_of;
 
       // Add each point in the line.
       for (int x = 0; x < kHistorySize; ++x) {
@@ -181,7 +180,7 @@ void RainbowAnalyzer::analyze(QPainter &p, const Scope &s, const bool new_frame)
       buffer_painter.setRenderHint(QPainter::Antialiasing);
 
       buffer_painter.drawPixmap(0, 0, buffer_[last_buffer], px_per_frame_, 0, x_offset_ + available_rainbow_width_ - px_per_frame_, 0);
-      buffer_painter.fillRect(x_offset_ + available_rainbow_width_ - px_per_frame_, 0, kWidth[rainbowtype] - kRainbowOverlap[rainbowtype] + px_per_frame_, height(), background_brush_);
+      buffer_painter.fillRect(x_offset_ + available_rainbow_width_ - px_per_frame_, 0, kWidth[rainbowtype_] - kRainbowOverlap[rainbowtype_] + px_per_frame_, height(), background_brush_);
 
       for (int band = kRainbowBands - 1; band >= 0; --band) {
         buffer_painter.setPen(colors_[band]);
@@ -197,10 +196,10 @@ void RainbowAnalyzer::analyze(QPainter &p, const Scope &s, const bool new_frame)
   // Nyan nyan nyan nyan dash dash dash dash.
   if (!is_playing_) {
     // Ssshhh!
-    p.drawPixmap(SleepingDestRect(rainbowtype), cat_dash_[rainbowtype], SleepingSourceRect(rainbowtype));
+    p.drawPixmap(SleepingDestRect(rainbowtype_), cat_dash_[rainbowtype_], SleepingSourceRect(rainbowtype_));
   }
   else {
-    p.drawPixmap(DestRect(rainbowtype), cat_dash_[rainbowtype], SourceRect(rainbowtype));
+    p.drawPixmap(DestRect(rainbowtype_), cat_dash_[rainbowtype_], SourceRect(rainbowtype_));
   }
 
 }
