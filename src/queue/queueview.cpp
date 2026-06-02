@@ -112,6 +112,11 @@ void QueueView::CurrentPlaylistChanged(Playlist *playlist) {
     QObject::disconnect(current_playlist_, &Playlist::destroyed, this, &QueueView::PlaylistDestroyed);
   }
 
+  if (!playlist) {
+    current_playlist_ = nullptr;
+    return;
+  }
+
   current_playlist_ = playlist;
 
   QObject::connect(current_playlist_->queue(), &Queue::rowsInserted, this, &QueueView::UpdateButtonState);
