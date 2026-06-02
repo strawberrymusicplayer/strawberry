@@ -61,7 +61,7 @@ class RainbowAnalyzer : public AnalyzerBase {
  private:
   static const int kRainbowBands = 6;
   static const int kHistorySize = 128;
-  static RainbowType rainbowtype;
+  RainbowType rainbowtype_;
   static const int kHeight[];
   static const int kWidth[];
   static const int kFrameCount[];
