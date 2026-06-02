@@ -243,6 +243,12 @@ QVariantList DeviceLister::GuessIconForPath(const QString &path) {
     itdb_device_set_mountpoint(device, path.toLocal8Bit().constData());
     const Itdb_IpodInfo *info = itdb_device_get_ipod_info(device);
 
+    if (!info) {
+      ret << u"device-ipod"_s;
+      itdb_device_free(device);
+      return ret;
+    }
+
     if (info->ipod_model == ITDB_IPOD_MODEL_INVALID) {
       ret << u"device-ipod"_s;
     }
