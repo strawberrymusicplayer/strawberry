@@ -62,7 +62,7 @@ quint32 GME::UnpackBytes32(const char *const bytes, size_t length) {
 
   quint32 value = 0;
   for (size_t i = 0; i < length; i++) {
-    value |= static_cast<unsigned char>(bytes[i]) << (8 * i);
+    value |= static_cast<quint32>(static_cast<unsigned char>(bytes[i])) << (8 * i);
   }
 
   return value;
