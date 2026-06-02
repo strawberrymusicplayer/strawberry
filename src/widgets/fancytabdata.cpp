@@ -30,7 +30,7 @@ FancyTabData::FancyTabData(QWidget *widget_view, const QString &name, const QIco
       name_(name), icon_(icon),
       label_(label),
       index_(idx),
-      page_(new QWidget()) {
+      page_(new QWidget(parent)) {
 
   // In order to achieve the same effect as the "Bottom Widget" of the old Nokia based FancyTabWidget a VBoxLayout is used on each page
 
