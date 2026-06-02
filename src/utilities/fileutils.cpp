@@ -72,6 +72,9 @@ bool Copy(QIODevice *source, QIODevice *destination) {
     pos += bytes_read;
   } while (bytes_read > 0 && pos != bytes);
 
+  // A short read (read() returning 0 before all bytes were read) leaves the buffer partially filled - don't go on to write a truncated/garbage copy and report success.
+  if (pos != bytes) return false;
+
   pos = 0;
   qint64 bytes_written = 0;
   do {
@@ -80,6 +83,9 @@ bool Copy(QIODevice *source, QIODevice *destination) {
 
     pos += bytes_written;
   } while (bytes_written > 0 && pos != bytes);
+
+  // Likewise a short write means the copy is incomplete despite no -1 error.
+  if (pos != bytes) return false;
 
   return true;
 
