@@ -222,6 +222,8 @@ class EditTagDialog : public QDialog {
 
   quint64 summary_cover_art_id_;
   quint64 tags_cover_art_id_;
+  QString summary_text_;
+  QString tags_summary_text_;
   bool cover_art_is_set_;
 
   QPushButton *previous_button_;
