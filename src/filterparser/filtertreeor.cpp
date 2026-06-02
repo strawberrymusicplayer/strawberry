@@ -34,5 +34,5 @@ void FilterTreeOr::add(FilterTree *child) {
 }
 
 bool FilterTreeOr::accept(const Song &song) const {
-  return std::any_of(children_.begin(), children_.end(), [song](FilterTree *child) { return child->accept(song); });
+  return std::any_of(children_.begin(), children_.end(), [&song](FilterTree *child) { return child->accept(song); });
 }
