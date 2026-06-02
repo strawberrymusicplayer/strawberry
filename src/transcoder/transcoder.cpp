@@ -362,6 +362,7 @@ void Transcoder::NewPadCallback(GstElement *element, GstPad *pad, gpointer data)
 
   JobState *state = reinterpret_cast<JobState*>(data);
   GstPad *const audiopad = gst_element_get_static_pad(state->convert_element_, "sink");
+  if (!audiopad) return;
 
   if (GST_PAD_IS_LINKED(audiopad)) {
     qLog(Debug) << "Audiopad is already linked, unlinking old pad";
