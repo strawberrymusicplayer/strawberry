@@ -1055,17 +1055,29 @@ void GstEngine::UpdateScope(const int chunk_length) {
 
   const sample_type *source = reinterpret_cast<sample_type*>(map.data);
   sample_type *dest = scope_.data();
-  source += (chunk_size / sizeof(sample_type)) * scope_chunk_;
+
+  // scope_chunks_ is derived from the buffer duration via ceil() while chunk_size is derived independently, so chunk_size * scope_chunk_ can exceed map.size.
+  // Guard the offset so source never points past the mapped buffer (which would make the memcpy below read out of bounds).
+  const size_t byte_offset = (chunk_size / sizeof(sample_type)) * static_cast<size_t>(scope_chunk_) * sizeof(sample_type);
+  if (byte_offset >= map.size) {
+    scope_chunk_ = 0;
+    gst_buffer_unmap(latest_buffer_, &map);
+    return;
+  }
+  source += byte_offset / sizeof(sample_type);
 
   size_t bytes = 0;
 
   // Make sure we don't go beyond the end of the buffer
   if (scope_chunk_ == scope_chunks_ - 1) {
-    bytes = qMin(static_cast<EngineBase::Scope::size_type>(map.size - (chunk_size * scope_chunk_)), scope_.size() * sizeof(sample_type));
+    bytes = qMin(static_cast<EngineBase::Scope::size_type>(map.size - byte_offset), scope_.size() * sizeof(sample_type));
   }
   else {
     bytes = qMin(static_cast<EngineBase::Scope::size_type>(chunk_size), scope_.size() * sizeof(sample_type));
   }
+
+  // Never read past the remaining mapped bytes regardless of the chunk arithmetic above.
+  bytes = qMin(bytes, static_cast<size_t>(map.size - byte_offset));
 
   scope_chunk_++;
 
@@ -1138,32 +1150,35 @@ void GstEngine::StreamDiscovered(GstDiscoverer *discoverer, GstDiscovererInfo *i
 
     GstCaps *caps = gst_discoverer_stream_info_get_caps(stream_info);
 
-    const guint caps_size = gst_caps_get_size(caps);
-    for (guint i = 0; i < caps_size; ++i) {
-      GstStructure *gst_structure = gst_caps_get_structure(caps, i);
-      if (!gst_structure) continue;
-      QString mimetype = QString::fromUtf8(gst_structure_get_name(gst_structure));
-      if (!mimetype.isEmpty() && mimetype != "audio/mpeg"_L1) {
-        engine_metadata.filetype = Song::FiletypeByMimetype(mimetype);
-        if (engine_metadata.filetype == Song::FileType::Unknown) {
-          qLog(Error) << "Unknown mimetype" << mimetype;
+    if (caps) {
+      const guint caps_size = gst_caps_get_size(caps);
+      for (guint i = 0; i < caps_size; ++i) {
+        GstStructure *gst_structure = gst_caps_get_structure(caps, i);
+        if (!gst_structure) continue;
+        QString mimetype = QString::fromUtf8(gst_structure_get_name(gst_structure));
+        if (!mimetype.isEmpty() && mimetype != "audio/mpeg"_L1) {
+          engine_metadata.filetype = Song::FiletypeByMimetype(mimetype);
+          if (engine_metadata.filetype == Song::FileType::Unknown) {
+            qLog(Error) << "Unknown mimetype" << mimetype;
+          }
         }
       }
-    }
 
-    if (engine_metadata.filetype == Song::FileType::Unknown) {
-      gchar *codec_description = gst_pb_utils_get_codec_description(caps);
-      QString filetype_description = (codec_description ? QString::fromUtf8(codec_description) : QString());
-      g_free(codec_description);
-      if (!filetype_description.isEmpty()) {
-        engine_metadata.filetype = Song::FiletypeByDescription(filetype_description);
-        if (engine_metadata.filetype == Song::FileType::Unknown) {
-          qLog(Error) << "Unknown filetype" << filetype_description;
+      if (engine_metadata.filetype == Song::FileType::Unknown) {
+        gchar *codec_description = gst_pb_utils_get_codec_description(caps);
+        QString filetype_description = (codec_description ? QString::fromUtf8(codec_description) : QString());
+        g_free(codec_description);
+        if (!filetype_description.isEmpty()) {
+          engine_metadata.filetype = Song::FiletypeByDescription(filetype_description);
+          if (engine_metadata.filetype == Song::FileType::Unknown) {
+            qLog(Error) << "Unknown filetype" << filetype_description;
+          }
         }
       }
+
+      gst_caps_unref(caps);
     }
 
-    gst_caps_unref(caps);
     gst_discoverer_stream_info_list_free(audio_streams);
 
     qLog(Debug) << "Got stream info for" << discovered_url + ":" << Song::TextForFiletype(engine_metadata.filetype);
