@@ -83,7 +83,7 @@ void MusicbrainzCoverProvider::SendSearchRequest(const SearchRequest &request) {
   url_query.addQueryItem(u"limit"_s, QString::number(kLimit));
   url_query.addQueryItem(u"fmt"_s, u"json"_s);
   QNetworkReply *reply = CreateGetRequest(QUrl(QLatin1String(kReleaseSearchUrl)), url_query);
-  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { HandleSearchReply(reply, request.id); });
+  QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, request]() { HandleSearchReply(reply, request.id, request.artist); });
 
 }
 
@@ -147,7 +147,7 @@ JsonBaseRequest::JsonObjectResult MusicbrainzCoverProvider::ParseJsonObject(QNet
 
 }
 
-void MusicbrainzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int search_id) {
+void MusicbrainzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int search_id, const QString &search_artist) {
 
   if (!replies_.contains(reply)) return;
   replies_.removeAll(reply);
@@ -205,6 +205,7 @@ void MusicbrainzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int
     const QJsonArray array_artists = value_artists.toArray();
     int i = 0;
     QString artist;
+    bool artist_matched_search = false;
     for (const QJsonValue &value_artist : array_artists) {
       if (!value_artist.isObject()) {
         Error(u"Invalid Json reply, artist is not a object."_s);
@@ -229,8 +230,13 @@ void MusicbrainzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int
       }
       artist = obj_artist2["name"_L1].toString();
       ++i;
+      if (artist.compare(search_artist, Qt::CaseInsensitive) == 0) {
+        artist_matched_search = true;
+        break;
+      }
     }
-    if (i > 1) artist = "Various artists"_L1;
+    // Only collapse to "Various artists" for multi-credit releases where none of the credited artists matched the searched artist; otherwise keep the matching name for better scoring.
+    if (i > 1 && !artist_matched_search) artist = "Various artists"_L1;
 
     const QString id = object_release["id"_L1].toString();
     const QString album = object_release["title"_L1].toString();
