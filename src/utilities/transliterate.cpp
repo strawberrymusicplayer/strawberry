@@ -34,9 +34,11 @@ namespace Utilities {
 
 QString Transliterate(const QString &accented_str) {
 
-  UErrorCode errorcode = U_ZERO_ERROR;
-  ScopedPtr<icu::Transliterator> transliterator;
-  transliterator.reset(icu::Transliterator::createInstance("Any-Latin; Latin-ASCII;", UTRANS_FORWARD, errorcode));
+  static thread_local ScopedPtr<icu::Transliterator> transliterator;
+  if (!transliterator) {
+    UErrorCode errorcode = U_ZERO_ERROR;
+    transliterator.reset(icu::Transliterator::createInstance("Any-Latin; Latin-ASCII;", UTRANS_FORWARD, errorcode));
+  }
 
   if (!transliterator) return accented_str;
 
