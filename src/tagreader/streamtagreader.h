@@ -72,9 +72,9 @@ class StreamTagReader : public TagLib::IOStream {
   void PreCache();
 
  private:
-  bool CheckCache(const uint start, const uint end);
-  void FillCache(const uint start, const TagLib::ByteVector &data);
-  TagLib::ByteVector GetCache(const uint start, const uint end);
+  bool CheckCache(const TagLibLengthType start, const TagLibLengthType end);
+  void FillCache(const TagLibLengthType start, const TagLib::ByteVector &data);
+  TagLib::ByteVector GetCache(const TagLibLengthType start, const TagLibLengthType end);
 
  private:
   const QUrl url_;
