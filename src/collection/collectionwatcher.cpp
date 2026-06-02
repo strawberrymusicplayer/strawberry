@@ -258,15 +258,15 @@ void CollectionWatcher::ReloadSettings() {
 
 }
 
-CollectionWatcher::ScanTransaction::ScanTransaction(CollectionWatcher *watcher, const int dir, const bool incremental, const bool ignores_mtime, const bool mark_songs_unavailable)
-    : progress_(0),
-      progress_max_(0),
-      dir_id_(dir),
+CollectionWatcher::ScanTransaction::ScanTransaction(CollectionWatcher *watcher, const int dir_id, const bool incremental, const bool ignores_mtime)
+    : watcher_(watcher),
+      dir_id_(dir_id),
       incremental_(incremental),
       ignores_mtime_(ignores_mtime),
-      mark_songs_unavailable_(mark_songs_unavailable),
-      expire_unavailable_songs_days_(60),
-      watcher_(watcher),
+      mark_songs_unavailable_(watcher->mark_songs_unavailable_),
+      expire_unavailable_songs_days_(watcher->expire_unavailable_songs_days_),
+      progress_max_(0),
+      progress_(0),
       cached_songs_dirty_(true),
       cached_songs_missing_fingerprint_dirty_(true),
       cached_songs_missing_loudness_characteristics_dirty_(true),
@@ -493,7 +493,7 @@ void CollectionWatcher::AddDirectory(const CollectionDirectory &dir, const Colle
 
   if (subdirs.isEmpty()) {
     // This is a new directory that we've never seen before. Scan it fully.
-    ScanTransaction transaction(this, dir.id, false, false, mark_songs_unavailable_);
+    ScanTransaction transaction(this, dir.id, false, false);
     const quint64 files_count = FilesCountForPath(&transaction, dir.path);
     transaction.SetKnownSubdirs(subdirs);
     transaction.AddToProgressMax(files_count);
@@ -508,7 +508,7 @@ void CollectionWatcher::AddDirectory(const CollectionDirectory &dir, const Colle
     }
     if (scan_on_startup_) {
       // We can do an incremental scan - looking at the mtimes of each subdirectory and only rescan if the directory has changed.
-      ScanTransaction transaction(this, dir.id, true, false, mark_songs_unavailable_);
+      ScanTransaction transaction(this, dir.id, true, false);
       QMap<QString, quint64> subdir_files_count;
       const quint64 files_count = FilesCountForSubdirs(&transaction, subdirs, subdir_files_count);
       transaction.SetKnownSubdirs(subdirs);
@@ -1212,7 +1212,7 @@ void CollectionWatcher::RescanPathsNow() {
   for (const int dir_id : dir_ids) {
 
     if (stop_or_abort_requested()) break;
-    ScanTransaction transaction(this, dir_id, false, false, mark_songs_unavailable_);
+    ScanTransaction transaction(this, dir_id, false, false);
 
     const QStringList paths = rescan_queue_.value(dir_id);
 
@@ -1354,7 +1354,7 @@ void CollectionWatcher::PerformScan(const bool incremental, const bool ignore_mt
 
     if (stop_or_abort_requested()) break;
 
-    ScanTransaction transaction(this, dir.id, incremental, ignore_mtimes, mark_songs_unavailable_);
+    ScanTransaction transaction(this, dir.id, incremental, ignore_mtimes);
     CollectionSubdirectoryList subdirs = transaction.GetAllSubdirs();
 
     const bool has_collection_root_dir = std::any_of(subdirs.begin(), subdirs.end(), [&dir](const CollectionSubdirectory &subdir) { return subdir.path == dir.path; });
@@ -1482,7 +1482,7 @@ void CollectionWatcher::RescanSongs(const SongList &songs) {
     const CollectionDirectory dir = watched_dirs_.value(song.directory_id());
     const QString song_path = song.url().toLocalFile().section(u'/', 0, -2);
     if (scanned_paths.contains(song_path)) continue;
-    ScanTransaction transaction(this, song.directory_id(), false, true, mark_songs_unavailable_);
+    ScanTransaction transaction(this, song.directory_id(), false, true);
     const CollectionSubdirectoryList subdirs = transaction.GetAllSubdirs();
     for (const CollectionSubdirectory &subdir : subdirs) {
       if (stop_or_abort_requested()) break;

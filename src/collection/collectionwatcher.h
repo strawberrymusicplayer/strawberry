@@ -106,7 +106,7 @@ class CollectionWatcher : public QObject {
   // Multiple calls to FindSongsInSubdirectory during one transaction will only result in one call to CollectionBackend::FindSongsInDirectory.
   class ScanTransaction {
    public:
-    ScanTransaction(CollectionWatcher *watcher, const int dir, const bool incremental, const bool ignores_mtime, const bool mark_songs_unavailable);
+    ScanTransaction(CollectionWatcher *watcher, const int dir_id, const bool incremental, const bool ignores_mtime);
     ~ScanTransaction();
 
     SongList FindSongsInSubdirectory(const QString &path);
@@ -140,11 +140,10 @@ class CollectionWatcher : public QObject {
    private:
     ScanTransaction &operator=(const ScanTransaction &transaction) { Q_UNUSED(transaction); return *this; }
 
-    int task_id_;
-    quint64 progress_;
-    quint64 progress_max_;
+    CollectionWatcher *watcher_;
 
     int dir_id_;
+
     // Incremental scan enters a directory only if it has changed since the last scan.
     bool incremental_;
     // This type of scan updates every file in a folder that's being scanned.
@@ -157,7 +156,10 @@ class CollectionWatcher : public QObject {
     bool mark_songs_unavailable_;
     int expire_unavailable_songs_days_;
 
-    CollectionWatcher *watcher_;
+    int task_id_;
+
+    quint64 progress_max_;
+    quint64 progress_;
 
     QMultiMap<QString, Song> cached_songs_;
     bool cached_songs_dirty_;
