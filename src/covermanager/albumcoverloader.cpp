@@ -243,9 +243,11 @@ void AlbumCoverLoader::ProcessTask(TaskPtr task) {
 void AlbumCoverLoader::FinishTask(TaskPtr task, const AlbumCoverLoaderResult::Type result_type) {
 
   QImage image_scaled;
-  if (!task->album_cover.image_data.isEmpty() && !task->album_cover.image.isNull()) {
+  if (!task->album_cover.image.isNull()) {
     task->result_type = result_type;
-    task->album_cover.mime_type = Utilities::MimeTypeFromData(task->album_cover.image_data);
+    if (!task->album_cover.image_data.isEmpty()) {
+      task->album_cover.mime_type = Utilities::MimeTypeFromData(task->album_cover.image_data);
+    }
     if (task->scaled_image()) {
       image_scaled = ImageUtils::ScaleImage(task->album_cover.image, task->options.desired_scaled_size, task->options.device_pixel_ratio, task->pad_scaled_image());
     }
