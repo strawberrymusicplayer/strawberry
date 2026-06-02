@@ -226,6 +226,9 @@ void SmartPlaylistsViewContainer::EditSmartPlaylist(const QModelIndex &idx) {
 
   if (!idx.isValid()) return;
 
+  // Remember the index actually being edited - it can come from either the context menu or the toolbar button (the selected row), which are not necessarily the same.
+  edit_index_ = idx;
+
   SmartPlaylistWizard *wizard = new SmartPlaylistWizard(player_,
                                                         playlist_manager_,
                                                         collection_backend_,
@@ -293,7 +296,7 @@ void SmartPlaylistsViewContainer::NewSmartPlaylistFinished() {
 
 void SmartPlaylistsViewContainer::EditSmartPlaylistFinished() {
 
-  if (!context_menu_index_.isValid()) return;
+  if (!edit_index_.isValid()) return;
 
   const SmartPlaylistWizard *wizard = qobject_cast<SmartPlaylistWizard*>(sender());
   if (!wizard) return;
@@ -302,7 +305,7 @@ void SmartPlaylistsViewContainer::EditSmartPlaylistFinished() {
 
   PlaylistGeneratorPtr generator = wizard->CreateGenerator();
   if (!generator) return;
-  model_->UpdateGenerator(context_menu_index_, generator);
+  model_->UpdateGenerator(edit_index_, generator);
 
 }
 
