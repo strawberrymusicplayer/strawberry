@@ -201,8 +201,10 @@ void FreeSpaceBar::DrawText(QPainter *p, const QRect r) {
   p->setFont(small_font);
 
   // Work out the geometry for the text
+  // Guard against free_ > total_ (e.g. some FUSE/MTP filesystems) - unsigned subtraction would wrap.
+  const quint64 used = (total_ > free_) ? (total_ - free_) : 0;
   QList<Label> labels;
-  labels << Label(TextForSize(used_text_, total_ - free_), kColorBar1);
+  labels << Label(TextForSize(used_text_, used), kColorBar1);
   if (additional_ > 0) {
     labels << Label(TextForSize(additional_text_, additional_), kColorAdd1);
   }
