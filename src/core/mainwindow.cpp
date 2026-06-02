@@ -1203,7 +1203,7 @@ void MainWindow::ReloadSettings() {
   if (playing_widget_ != ui_->widget_playing->IsEnabled()) TabSwitched();
   doubleclick_addmode_ = static_cast<BehaviourSettings::AddBehaviour>(s.value(BehaviourSettings::kDoubleClickAddMode, static_cast<int>(BehaviourSettings::AddBehaviour::Append)).toInt());
   doubleclick_playmode_ = static_cast<BehaviourSettings::PlayBehaviour>(s.value(BehaviourSettings::kDoubleClickPlayMode, static_cast<int>(BehaviourSettings::PlayBehaviour::Never)).toInt());
-  doubleclick_playlist_addmode_ = static_cast<BehaviourSettings::PlaylistAddBehaviour>(s.value(BehaviourSettings::kDoubleClickPlaylistAddMode, static_cast<int>(BehaviourSettings::PlayBehaviour::Never)).toInt());
+  doubleclick_playlist_addmode_ = static_cast<BehaviourSettings::PlaylistAddBehaviour>(s.value(BehaviourSettings::kDoubleClickPlaylistAddMode, static_cast<int>(BehaviourSettings::PlaylistAddBehaviour::Play)).toInt());
   menu_playmode_ = static_cast<BehaviourSettings::PlayBehaviour>(s.value(BehaviourSettings::kMenuPlayMode, static_cast<int>(BehaviourSettings::PlayBehaviour::Never)).toInt());
   s.endGroup();
 
