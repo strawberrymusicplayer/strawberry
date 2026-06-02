@@ -631,7 +631,7 @@ int Playlist::PreviousVirtualIndex(int i, const bool ignore_repeat_track) const 
       continue;
     }
     Song this_song = item_at(virtual_items_[j])->EffectiveMetadata();
-    if (((last_song.is_compilation() && this_song.is_compilation()) || last_song.artist() == this_song.artist()) && last_song.album() == this_song.album() && FilterContainsVirtualIndex(j)) {
+    if (((last_song.is_compilation() && this_song.is_compilation()) || last_song.effective_albumartist() == this_song.effective_albumartist()) && last_song.album() == this_song.album() && FilterContainsVirtualIndex(j)) {
       return j;  // Found one
     }
   }
