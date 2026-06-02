@@ -1509,7 +1509,7 @@ QString Song::ImageCacheDir(const Source source) {
 
 }
 
-int Song::CompareSongsName(const Song &song1, const Song &song2) {
+bool Song::CompareSongsName(const Song &song1, const Song &song2) {
   return song1.PrettyTitleWithArtist().localeAwareCompare(song2.PrettyTitleWithArtist()) < 0;
 }
 
