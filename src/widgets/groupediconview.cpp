@@ -400,6 +400,8 @@ QModelIndex GroupedIconView::moveCursor(CursorAction action, const Qt::KeyboardM
 
 int GroupedIconView::IndexAboveOrBelow(int index, const int d) const {
 
+  if (index < 0 || index >= visual_rects_.count()) return index;
+
   const QRect orig_rect(visual_rects_[index]);
 
   while (index >= 0 && index < visual_rects_.count()) {
