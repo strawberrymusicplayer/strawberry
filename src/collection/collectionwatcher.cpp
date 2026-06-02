@@ -541,7 +541,7 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
     }
     // Do not scan symlinked dirs that are already in collection
     for (const CollectionDirectory &i : std::as_const(watched_dirs_)) {
-      if (real_path.startsWith(i.path)) {
+      if (real_path == i.path || real_path.startsWith(i.path + u'/')) {
         return;
       }
     }
@@ -1394,7 +1394,7 @@ quint64 CollectionWatcher::FilesCountForPath(ScanTransaction *t, const QString &
       return 0;
     }
     for (const CollectionDirectory &dir : std::as_const(watched_dirs_)) {
-      if (real_path.startsWith(dir.path)) {
+      if (real_path == dir.path || real_path.startsWith(dir.path + u'/')) {
         return 0;
       }
     }
@@ -1427,7 +1427,7 @@ quint64 CollectionWatcher::FilesCountForPath(ScanTransaction *t, const QString &
 
         bool points_into_watched_dir = false;
         for (const CollectionDirectory &dir : std::as_const(watched_dirs_)) {
-          if (real_path.startsWith(dir.path)) {
+          if (real_path == dir.path || real_path.startsWith(dir.path + u'/')) {
             points_into_watched_dir = true;
             break;
           }
