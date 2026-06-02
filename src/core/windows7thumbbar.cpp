@@ -100,9 +100,10 @@ void Windows7ThumbBar::SetupButton(const QAction *action, THUMBBUTTON *button) {
   if (action) {
     button->hIcon = qt_pixmapToWinHICON(action->icon().pixmap(kIconSize));
     button->dwFlags = action->isEnabled() ? THBF_ENABLED : THBF_DISABLED;
-    // This is unsafe - doesn't obey 260-char restriction
-    action->text().toWCharArray(button->szTip);
-    button->szTip[action->text().length()] = L'\0';
+    // szTip holds 260 wchar_t - clamp so a long action text can't overflow the fixed buffer.
+    const int n = qMin(action->text().length(), 259);
+    action->text().left(n).toWCharArray(button->szTip);
+    button->szTip[n] = L'\0';
 
     if (!action->isVisible()) {
       button->dwFlags = THUMBBUTTONFLAGS(button->dwFlags | THBF_HIDDEN);
