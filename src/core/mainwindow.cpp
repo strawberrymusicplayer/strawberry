@@ -1791,8 +1791,11 @@ void MainWindow::FilePathChanged(const QString &path) {
 
 void MainWindow::Seeked(const qint64 microseconds) {
 
+  PlaylistItemPtr item = app_->player()->GetCurrentItem();
+  if (!item) return;
+
   const qint64 position = microseconds / kUsecPerSec;
-  const qint64 length = app_->player()->GetCurrentItem()->EffectiveMetadata().length_nanosec() / kNsecPerSec;
+  const qint64 length = item->EffectiveMetadata().length_nanosec() / kNsecPerSec;
   systemtrayicon_->SetProgress(static_cast<int>(static_cast<double>(position) / static_cast<double>(length) * 100.0));
 
 #ifdef HAVE_DBUS
