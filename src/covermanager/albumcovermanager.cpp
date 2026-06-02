@@ -1108,9 +1108,10 @@ bool AlbumCoverManager::ItemHasCover(const AlbumItem &album_item) const {
 
 void AlbumCoverManager::SaveEmbeddedCoverFinished(TagReaderReplyPtr reply, AlbumItem *album_item, const QUrl &url, const bool art_embedded) {
 
-  if (cover_save_tasks_.contains(album_item, url)) {
-    cover_save_tasks_.remove(album_item, url);
+  if (!cover_save_tasks_.contains(album_item, url)) {
+    return;
   }
+  cover_save_tasks_.remove(album_item, url);
 
   if (!reply->success()) {
     Q_EMIT Error(tr("Could not save cover to file %1.").arg(url.toLocalFile()));
