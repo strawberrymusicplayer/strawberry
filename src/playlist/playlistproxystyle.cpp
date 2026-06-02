@@ -37,18 +37,19 @@ PlaylistProxyStyle::PlaylistProxyStyle(const QString &style) : QProxyStyle(style
 void PlaylistProxyStyle::drawControl(ControlElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const {
 
   if (element == CE_HeaderLabel) {
-    const QStyleOptionHeader *header_option = qstyleoption_cast<const QStyleOptionHeader*>(option);
-    const QRect &rect = header_option->rect;
-    const QString &text = header_option->text;
-    const QFontMetrics &font_metrics = header_option->fontMetrics;
+    if (const QStyleOptionHeader *header_option = qstyleoption_cast<const QStyleOptionHeader*>(option)) {
+      const QRect &rect = header_option->rect;
+      const QString &text = header_option->text;
+      const QFontMetrics &font_metrics = header_option->fontMetrics;
 
-    // Spaces added to make transition less abrupt
-    if (rect.width() < font_metrics.horizontalAdvance(text + u"  "_s)) {
-      const Playlist::Column column = static_cast<Playlist::Column>(header_option->section);
-      QStyleOptionHeader new_option(*header_option);
-      new_option.text = Playlist::abbreviated_column_name(column);
-      QProxyStyle::drawControl(element, &new_option, painter, widget);
-      return;
+      // Spaces added to make transition less abrupt
+      if (rect.width() < font_metrics.horizontalAdvance(text + u"  "_s)) {
+        const Playlist::Column column = static_cast<Playlist::Column>(header_option->section);
+        QStyleOptionHeader new_option(*header_option);
+        new_option.text = Playlist::abbreviated_column_name(column);
+        QProxyStyle::drawControl(element, &new_option, painter, widget);
+        return;
+      }
     }
   }
 
