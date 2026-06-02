@@ -1694,8 +1694,10 @@ void GstEnginePipeline::ErrorMessageReceived(GstMessage *msg) {
     // But there is no message send to the bus when the current track finishes, we have to add an EOS ourself.
     qLog(Info) << "Ignoring error" << domain << code << message << debugstr << "when loading next track";
     GstPad *pad = gst_element_get_static_pad(audiobin_, "sink");
-    gst_pad_send_event(pad, gst_event_new_eos());
-    gst_object_unref(pad);
+    if (pad) {
+      gst_pad_send_event(pad, gst_event_new_eos());
+      gst_object_unref(pad);
+    }
     return;
   }
 
