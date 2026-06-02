@@ -133,6 +133,9 @@ void MtpDevice::LoadFinished(const bool success, MtpConnection *connection) {
   connection_.reset(connection);
 
   loader_thread_->exit();
+  loader_thread_->wait();
+  loader_thread_->deleteLater();
+  loader_thread_ = nullptr;
   loader_->deleteLater();
   loader_ = nullptr;
   db_busy_.unlock();
