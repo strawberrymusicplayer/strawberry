@@ -43,7 +43,7 @@ class MusicbrainzCoverProvider : public JsonCoverProvider {
 
  private Q_SLOTS:
   void FlushRequests();
-  void HandleSearchReply(QNetworkReply *reply, const int search_id);
+  void HandleSearchReply(QNetworkReply *reply, const int search_id, const QString &search_artist);
 
  private:
   struct SearchRequest {
