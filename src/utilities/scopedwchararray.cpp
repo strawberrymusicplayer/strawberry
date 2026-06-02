@@ -23,7 +23,8 @@
 #include "scopedwchararray.h"
 
 ScopedWCharArray::ScopedWCharArray(const QString &str)
-    : chars_(str.length()), data_(new wchar_t[static_cast<size_t>(chars_ + 1)]) {
+    // Allocate from str.length() rather than chars_ so the allocation size does not depend on member-initialization order (data_ must not read chars_ before it is set).
+    : chars_(str.length()), data_(new wchar_t[static_cast<size_t>(str.length()) + 1]) {
   str.toWCharArray(data_.get());
   data_[static_cast<size_t>(chars_)] = '\0';
 }
