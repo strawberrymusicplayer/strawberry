@@ -183,7 +183,6 @@ QByteArray MoodbarBuilder::Finish(const int width) {
       rgb.r += frame.r * 255;
       rgb.g += frame.g * 255;
       rgb.b += frame.b * 255;
-      frames_[j] = rgb;
     }
 
     const int n = end - start;
