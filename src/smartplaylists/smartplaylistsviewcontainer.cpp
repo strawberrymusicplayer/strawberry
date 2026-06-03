@@ -226,9 +226,6 @@ void SmartPlaylistsViewContainer::EditSmartPlaylist(const QModelIndex &idx) {
 
   if (!idx.isValid()) return;
 
-  // Remember the index actually being edited - it can come from either the context menu or the toolbar button (the selected row), which are not necessarily the same.
-  edit_index_ = idx;
-
   SmartPlaylistWizard *wizard = new SmartPlaylistWizard(player_,
                                                         playlist_manager_,
                                                         collection_backend_,
@@ -238,7 +235,14 @@ void SmartPlaylistsViewContainer::EditSmartPlaylist(const QModelIndex &idx) {
                                                         current_albumcover_loader_,
                                                         this);
   wizard->setAttribute(Qt::WA_DeleteOnClose);
-  QObject::connect(wizard, &SmartPlaylistWizard::accepted, this, &SmartPlaylistsViewContainer::EditSmartPlaylistFinished);
+
+  const QPersistentModelIndex edit_index(idx);
+  QObject::connect(wizard, &SmartPlaylistWizard::accepted, this, [this, wizard, edit_index]() {
+    if (!edit_index.isValid()) return;
+    PlaylistGeneratorPtr generator = wizard->CreateGenerator();
+    if (!generator) return;
+    model_->UpdateGenerator(edit_index, generator);
+  });
 
   wizard->show();
   wizard->SetGenerator(model_->CreateGenerator(idx));
@@ -291,21 +295,6 @@ void SmartPlaylistsViewContainer::NewSmartPlaylistFinished() {
   PlaylistGeneratorPtr generator = wizard->CreateGenerator();
   if (!generator) return;
   model_->AddGenerator(generator);
-
-}
-
-void SmartPlaylistsViewContainer::EditSmartPlaylistFinished() {
-
-  if (!edit_index_.isValid()) return;
-
-  const SmartPlaylistWizard *wizard = qobject_cast<SmartPlaylistWizard*>(sender());
-  if (!wizard) return;
-
-  QObject::disconnect(wizard, &SmartPlaylistWizard::accepted, this, &SmartPlaylistsViewContainer::EditSmartPlaylistFinished);
-
-  PlaylistGeneratorPtr generator = wizard->CreateGenerator();
-  if (!generator) return;
-  model_->UpdateGenerator(edit_index_, generator);
 
 }
 
