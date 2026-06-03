@@ -1165,10 +1165,17 @@ SongList CollectionBackend::GetSongsByForeignId(const QStringList &ids, const QS
     const QString foreign_id = q.value(static_cast<int>(Song::kColumns.count()) + 1).toString();
     const qint64 index = ids.indexOf(foreign_id);
     if (index == -1) continue;
-
     ret[index].InitFromQuery(q, true);
   }
-  return ret.toList();
+
+  // Drop any placeholder entries for ids that had no match, returning only valid songs.
+  SongList songs;
+  songs.reserve(ret.count());
+  for (const Song &song : std::as_const(ret)) {
+    if (song.is_valid()) songs << song;
+  }
+
+  return songs;
 
 }
 
