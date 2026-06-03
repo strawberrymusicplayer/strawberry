@@ -92,7 +92,6 @@ class SmartPlaylistsViewContainer : public QWidget {
   void RestoreDefaultsFromContext();
 
   void NewSmartPlaylistFinished();
-  void EditSmartPlaylistFinished();
 
  Q_SIGNALS:
   void AddToPlaylist(QMimeData *data);
@@ -122,7 +121,6 @@ class SmartPlaylistsViewContainer : public QWidget {
   QAction *action_add_to_playlist_enqueue_;
   QAction *action_add_to_playlist_enqueue_next_;
   QModelIndex context_menu_index_;
-  QModelIndex edit_index_;
 };
 
 #endif  // SMARTPLAYLISTSVIEWCONTAINER_H
