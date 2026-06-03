@@ -77,6 +77,7 @@ class RadioBrowserService : public RadioService {
   void TestServer(const QString &hostname);
 
   QList<QNetworkReply*> replies_;
+  QList<int> pending_search_tasks_;
   QDnsLookup *dns_lookup_;
   QUrl server_url_;
   bool server_discovered_;

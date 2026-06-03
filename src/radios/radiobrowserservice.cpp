@@ -71,6 +71,11 @@ void RadioBrowserService::Abort() {
     reply->deleteLater();
   }
 
+  for (const int task_id : std::as_const(pending_search_tasks_)) {
+    task_manager_->SetTaskFinished(task_id);
+  }
+  pending_search_tasks_.clear();
+
   if (dns_lookup_) {
     dns_lookup_->abort();
     dns_lookup_->deleteLater();
@@ -225,6 +230,7 @@ void RadioBrowserService::Search(const QString &query,
   QNetworkReply *reply = network_->get(request);
   replies_ << reply;
   const int task_id = task_manager_->StartTask(tr("Searching Radio Browser"));
+  pending_search_tasks_ << task_id;
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, task_id, limit]() { SearchReply(reply, task_id, limit); });
 
 }
@@ -234,6 +240,7 @@ void RadioBrowserService::SearchReply(QNetworkReply *reply, const int task_id, c
   if (replies_.contains(reply)) replies_.removeAll(reply);
   reply->deleteLater();
   task_manager_->SetTaskFinished(task_id);
+  pending_search_tasks_.removeAll(task_id);
 
   if (reply->error() != QNetworkReply::NoError) {
     Q_EMIT SearchError(tr("Radio Browser search failed: %1").arg(reply->errorString()));
