@@ -236,7 +236,6 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
 
   void ScheduleUpdate(const CollectionModelUpdate::Type type, const SongList &songs = SongList());
   void ScheduleAddSongs(const SongList &songs);
-  void ScheduleUpdateSongs(const SongList &songs);
   void ScheduleRemoveSongs(const SongList &songs);
 
   void AddReAddOrUpdateSongsInternal(const SongList &songs);
@@ -244,6 +243,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   void UpdateSongsInternal(const SongList &songs);
   void RemoveSongsInternal(const SongList &songs);
   void RemoveSiblingNodes(CollectionItem *parent, QList<CollectionItem*> nodes);
+  void DispatchUpdate(const CollectionModelUpdate &update);
 
   void CreateDividerItem(const QString &divider_key, const QString &display_text, CollectionItem *parent);
   CollectionItem *CreateContainerItem(const GroupBy group_by, const int container_level, const QString &container_key, const Song &song, CollectionItem *parent);
@@ -301,6 +301,7 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   int total_album_count_;
 
   bool loading_;
+  bool bulk_mode_;
 
   QQueue<CollectionModelUpdate> updates_;
 

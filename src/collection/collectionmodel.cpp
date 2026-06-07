@@ -82,6 +82,19 @@ const int CollectionModel::kPrettyCoverSize = 32;
 namespace {
 constexpr char kPixmapDiskCacheDir[] = "pixmapcache";
 constexpr char kVariousArtists[] = QT_TR_NOOP("Various artists");
+
+// Sets a bool for the duration of a scope and clears it on the way out, even on
+// early return. Used to keep bulk_mode_ from getting stuck on if a dispatch ever
+// returns early between begin/endResetModel.
+class ScopedFlag {
+ public:
+  explicit ScopedFlag(bool &flag) : flag_(flag) { flag_ = true; }
+  ~ScopedFlag() { flag_ = false; }
+  ScopedFlag(const ScopedFlag&) = delete;
+  ScopedFlag &operator=(const ScopedFlag&) = delete;
+ private:
+  bool &flag_;
+};
 }  // namespace
 
 CollectionModel::CollectionModel(const SharedPtr<CollectionBackend> backend, const SharedPtr<AlbumCoverLoader> albumcover_loader, QObject *parent)
@@ -97,6 +110,7 @@ CollectionModel::CollectionModel(const SharedPtr<CollectionBackend> backend, con
       total_artist_count_(0),
       total_album_count_(0),
       loading_(false),
+      bulk_mode_(false),
       icon_disk_cache_(new QNetworkDiskCache(this)) {
 
   setObjectName(backend_->source() == Song::Source::Collection ? QLatin1String(QObject::metaObject()->className()) : QStringLiteral("%1%2").arg(Song::DescriptionForSource(backend_->source()), QLatin1String(QObject::metaObject()->className())));
@@ -452,12 +466,6 @@ void CollectionModel::ScheduleAddSongs(const SongList &songs) {
 
 }
 
-void CollectionModel::ScheduleUpdateSongs(const SongList &songs) {
-
-  ScheduleUpdate(CollectionModelUpdate::Type::Update, songs);
-
-}
-
 void CollectionModel::ScheduleRemoveSongs(const SongList &songs) {
 
   ScheduleUpdate(CollectionModelUpdate::Type::Remove, songs);
@@ -471,11 +479,57 @@ void CollectionModel::ProcessUpdate() {
     return;
   }
 
-  const CollectionModelUpdate update = updates_.dequeue();
+  // Bulk-update threshold, measured in PENDING SONGS (not queue entries: the
+  // queue is just an artifact of 400-song chunking, so a queue-length test
+  // would trip on a handful of tiny updates yet miss one large one). Above this
+  // many pending songs we drain the queued run in one model-reset transaction,
+  // suppressing the per-row begin/end{Insert,Remove}Rows (and dataChanged)
+  // signals. Without this, every per-row signal makes an attached QTreeView
+  // rebuild its internal item bookkeeping (and a QSortFilterProxyModel
+  // re-evaluate filterAcceptsRow); when a large streaming-service metadata
+  // batch fans out into thousands of remove/add pairs the cost is O(rows) per
+  // signal and the UI freezes. beginResetModel/endResetModel collapses it into
+  // a single relayout. The hang is view-driven, not filter-driven, so this is
+  // deliberately NOT gated on an active filter. Trade-off: views lose their
+  // selection and scroll position, but that beats a multi-second freeze. The
+  // value is a tunable heuristic.
+  constexpr int kBulkUpdateSongThreshold = 1000;
+
+  int pending_songs = 0;
+  for (const CollectionModelUpdate &update : updates_) {
+    pending_songs += static_cast<int>(update.songs.count());
+  }
+
+  // A Reset carries its own begin/endResetModel transaction (asynchronously,
+  // via the SQL reload) and raises loading_, after which the *Internal
+  // handlers early-return. It must therefore never be folded into a bulk
+  // transaction: the unconditional dequeue below would otherwise drop every
+  // update queued behind it. Dispatch a leading Reset on its own, and stop a
+  // bulk drain as soon as one surfaces so it is handled on the next tick.
+  if (updates_.constFirst().type == CollectionModelUpdate::Type::Reset) {
+    DispatchUpdate(updates_.dequeue());
+  }
+  else if (pending_songs >= kBulkUpdateSongThreshold) {
+    beginResetModel();
+    {
+      ScopedFlag bulk(bulk_mode_);
+      while (!updates_.isEmpty() && updates_.constFirst().type != CollectionModelUpdate::Type::Reset) {
+        DispatchUpdate(updates_.dequeue());
+      }
+    }
+    endResetModel();
+  }
+  else {
+    DispatchUpdate(updates_.dequeue());
+  }
 
   if (updates_.isEmpty()) {
     timer_update_->stop();
   }
+
+}
+
+void CollectionModel::DispatchUpdate(const CollectionModelUpdate &update) {
 
   switch (update.type) {
     case CollectionModelUpdate::Type::Reset:
@@ -540,9 +594,16 @@ void CollectionModel::AddReAddOrUpdateSongsInternal(const SongList &songs) {
     }
   }
 
-  ScheduleRemoveSongs(songs_removed);
-  ScheduleUpdateSongs(songs_updated);
-  ScheduleAddSongs(songs_added);
+  // Apply the derived changes now instead of re-queuing them. Re-queuing
+  // appended them to the back of updates_, so when this ran inside a bulk
+  // transaction the surrounding beginResetModel/endResetModel wrapped no tree
+  // mutation at all (an empty reset) and the real work landed in a *second*
+  // reset one tick later — wasting a relayout and discarding view state twice.
+  // It also let those changes fall behind a queued Reset and be lost. Removing
+  // first keeps re-added songs (same id, new container) from being skipped.
+  RemoveSongsInternal(songs_removed);
+  UpdateSongsInternal(songs_updated);
+  AddSongsInternal(songs_added);
 
 }
 
@@ -551,9 +612,10 @@ void CollectionModel::AddSongsInternal(const SongList &songs) {
   if (loading_) return;
 
   // First pass: resolve the final container for every song, creating any
-  // intermediate container/compilation-artist nodes as needed. Container
-  // creation still uses its own beginInsertRows pair, but those fire only
-  // when a new artist/album appears (rare), so the cost is bounded.
+  // intermediate container/compilation-artist nodes as needed. Outside a bulk
+  // transaction those container creations emit their own beginInsertRows pair,
+  // but only when a new artist/album first appears (rare); in bulk_mode_ they
+  // are suppressed and collapse into the surrounding model reset.
   QHash<CollectionItem*, SongList> songs_by_container;
   QList<CollectionItem*> insertion_order;
   for (const Song &song : songs) {
@@ -609,13 +671,13 @@ void CollectionModel::AddSongsInternal(const SongList &songs) {
     const int first = static_cast<int>(container->children.count());
     const int last = first + static_cast<int>(container_songs.count()) - 1;
 
-    beginInsertRows(ItemToIndex(container), first, last);
+    if (!bulk_mode_) beginInsertRows(ItemToIndex(container), first, last);
     for (const Song &song : container_songs) {
       CollectionItem *item = new CollectionItem(CollectionItem::Type::Song, container);
       SetSongItemData(item, song);
       song_nodes_.insert(song.id(), item);
     }
-    endInsertRows();
+    if (!bulk_mode_) endInsertRows();
   }
 
 }
@@ -647,7 +709,7 @@ void CollectionModel::UpdateSongsInternal(const SongList &songs) {
       qLog(Debug) << "Song metadata and title for" << new_song.id() << new_song.PrettyTitleWithArtist() << "changed, informing model";
       const QModelIndex idx = ItemToIndex(item);
       if (!idx.isValid()) continue;
-      Q_EMIT dataChanged(idx, idx);
+      if (!bulk_mode_) Q_EMIT dataChanged(idx, idx);
     }
     else {
       qLog(Debug) << "Song metadata for" << new_song.id() << new_song.PrettyTitleWithArtist() << "changed";
@@ -657,7 +719,7 @@ void CollectionModel::UpdateSongsInternal(const SongList &songs) {
   for (CollectionItem *item : std::as_const(album_parents)) {
     ClearItemPixmapCache(item);
     const QModelIndex idx = ItemToIndex(item);
-    if (idx.isValid()) {
+    if (idx.isValid() && !bulk_mode_) {
       Q_EMIT dataChanged(idx, idx);
     }
   }
@@ -768,14 +830,14 @@ void CollectionModel::RemoveSiblingNodes(CollectionItem *parent, QList<Collectio
     }
     const int bottom_row = top_row - run_count + 1;
 
-    beginRemoveRows(parent_index, bottom_row, top_row);
+    if (!bulk_mode_) beginRemoveRows(parent_index, bottom_row, top_row);
     for (int r = top_row; r >= bottom_row; --r) {
       delete parent->children.takeAt(r);
     }
     for (int r = bottom_row; r < parent->children.count(); ++r) {
       parent->children[r]->row = r;
     }
-    endRemoveRows();
+    if (!bulk_mode_) endRemoveRows();
 
     i += run_count;
   }
@@ -794,7 +856,7 @@ CollectionItem *CollectionModel::CreateContainerItem(const GroupBy group_by, con
     }
   }
 
-  beginInsertRows(ItemToIndex(parent), static_cast<int>(parent->children.count()), static_cast<int>(parent->children.count()));
+  if (!bulk_mode_) beginInsertRows(ItemToIndex(parent), static_cast<int>(parent->children.count()), static_cast<int>(parent->children.count()));
 
   CollectionItem *item = new CollectionItem(CollectionItem::Type::Container, parent);
   item->container_level = container_level;
@@ -807,7 +869,7 @@ CollectionItem *CollectionModel::CreateContainerItem(const GroupBy group_by, con
 
   container_nodes_[container_level].insert(item->container_key, item);
 
-  endInsertRows();
+  if (!bulk_mode_) endInsertRows();
 
   return item;
 
@@ -815,7 +877,7 @@ CollectionItem *CollectionModel::CreateContainerItem(const GroupBy group_by, con
 
 void CollectionModel::CreateDividerItem(const QString &divider_key, const QString &display_text, CollectionItem *parent) {
 
-  beginInsertRows(ItemToIndex(parent), static_cast<int>(parent->children.count()), static_cast<int>(parent->children.count()));
+  if (!bulk_mode_) beginInsertRows(ItemToIndex(parent), static_cast<int>(parent->children.count()), static_cast<int>(parent->children.count()));
 
   CollectionItem *divider = new CollectionItem(CollectionItem::Type::Divider, root_);
   divider->container_key = divider_key;
@@ -823,19 +885,19 @@ void CollectionModel::CreateDividerItem(const QString &divider_key, const QStrin
   divider->sort_text = divider_key + "  "_L1;
   divider_nodes_[divider_key] = divider;
 
-  endInsertRows();
+  if (!bulk_mode_) endInsertRows();
 
 }
 
 void CollectionModel::CreateSongItem(const Song &song, CollectionItem *parent) {
 
-  beginInsertRows(ItemToIndex(parent), static_cast<int>(parent->children.count()), static_cast<int>(parent->children.count()));
+  if (!bulk_mode_) beginInsertRows(ItemToIndex(parent), static_cast<int>(parent->children.count()), static_cast<int>(parent->children.count()));
 
   CollectionItem *item = new CollectionItem(CollectionItem::Type::Song, parent);
   SetSongItemData(item, song);
   song_nodes_.insert(song.id(), item);
 
-  endInsertRows();
+  if (!bulk_mode_) endInsertRows();
 
 }
 
@@ -851,7 +913,7 @@ CollectionItem *CollectionModel::CreateCompilationArtistNode(CollectionItem *par
 
   Q_ASSERT(parent->compilation_artist_node_ == nullptr);
 
-  beginInsertRows(ItemToIndex(parent), static_cast<int>(parent->children.count()), static_cast<int>(parent->children.count()));
+  if (!bulk_mode_) beginInsertRows(ItemToIndex(parent), static_cast<int>(parent->children.count()), static_cast<int>(parent->children.count()));
 
   parent->compilation_artist_node_ = new CollectionItem(CollectionItem::Type::Container, parent);
   parent->compilation_artist_node_->compilation_artist_node_ = nullptr;
@@ -861,7 +923,7 @@ CollectionItem *CollectionModel::CreateCompilationArtistNode(CollectionItem *par
   parent->compilation_artist_node_->sort_text = " various"_L1;
   parent->compilation_artist_node_->container_level = parent->container_level + 1;
 
-  endInsertRows();
+  if (!bulk_mode_) endInsertRows();
 
   return parent->compilation_artist_node_;
 
