@@ -28,6 +28,10 @@
 #include <QUrl>
 #include <QThread>
 #include <QSignalSpy>
+#include <QTimer>
+#include <QEventLoop>
+#include <QElapsedTimer>
+#include <QCoreApplication>
 #include <QtDebug>
 
 #include "includes/scoped_ptr.h"
@@ -89,6 +93,46 @@ class CollectionModelTest : public ::testing::Test {
     song.set_mtime(0);
     song.set_ctime(0);
     return AddSong(song);
+  }
+
+  // Build n distinct songs spread over a few artists/albums, all tagged so
+  // different batches don't collide.
+  SongList MakeSongs(const int n, const QString &tag) {
+    SongList songs;
+    songs.reserve(n);
+    for (int i = 0; i < n; ++i) {
+      const QString num = QString::number(i);
+      const QString artist = tag + u"_artist_"_s + QString::number(i % 50);
+      Song song;
+      song.Init(tag + u"_title_"_s + num, artist, tag + u"_album_"_s + QString::number(i % 200), 123);
+      song.set_albumartist(artist);
+      song.set_directory_id(1);
+      song.set_mtime(1);
+      song.set_ctime(1);
+      song.set_url(QUrl(u"file:///tmp/"_s + tag + u'_' + num + u".flac"_s));
+      song.set_filesize(1);
+      songs << song;  // clazy:exclude=reserve-candidates
+    }
+    return songs;
+  }
+
+  // Pump the event loop until the model's update timer has been continuously
+  // idle for a stretch. The idle window must outlast the gap a Reset's async
+  // SQL reload leaves before it re-arms the timer, or we'd stop mid-reload.
+  void Drain(const int max_ms = 60000) {
+    QTimer *timer = model_->findChild<QTimer*>(QString(), Qt::FindDirectChildrenOnly);
+    QElapsedTimer total;
+    total.start();
+    QElapsedTimer idle;
+    idle.start();
+    while (total.elapsed() < max_ms) {
+      QCoreApplication::processEvents(QEventLoop::AllEvents, 5);
+      if (timer && timer->isActive()) {
+        idle.restart();
+        continue;
+      }
+      if (idle.elapsed() >= 250) break;
+    }
   }
 
   SharedPtr<Database> database_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
@@ -256,8 +300,10 @@ TEST_F(CollectionModelTest, RemoveSongs) {
   backend_->DeleteSongs(SongList() << one << two);
   loop.exec();
 
-  ASSERT_EQ(2, spy_preremove.count());
-  ASSERT_EQ(2, spy_remove.count());
+  // Title 1 and Title 2 occupy contiguous rows 0 and 1, so RemoveSiblingNodes
+  // collapses them into a single beginRemoveRows/endRemoveRows pair.
+  ASSERT_EQ(1, spy_preremove.count());
+  ASSERT_EQ(1, spy_remove.count());
   ASSERT_EQ(0, spy_reset.count());
 
   artist_index = model_->index(1, 0, QModelIndex());
@@ -316,6 +362,94 @@ TEST_F(CollectionModelTest, RemoveEmptyArtists) {
 
   // Everything should be gone - even the artist header
   ASSERT_EQ(0, model_->rowCount(QModelIndex()));
+
+}
+
+// A batch at/above the bulk threshold collapses into a model reset and emits no
+// per-row insert signals, while still producing the correct tree.
+TEST_F(CollectionModelTest, BulkUpdateSuppressesPerRowSignals) {
+
+  AddSong(u"seed"_s, u"seed"_s, u"seed"_s, 1);  // drains the ctor reset, adds the dir
+
+  const int n = 2000;  // >= kBulkUpdateSongThreshold
+  const SongList songs = MakeSongs(n, u"bulk"_s);
+
+  QSignalSpy spy_insert(&*model_, &CollectionModel::rowsInserted);
+  QSignalSpy spy_reset(&*model_, &CollectionModel::modelReset);
+
+  backend_->AddOrUpdateSongs(songs);
+  Drain();
+
+  EXPECT_EQ(0, spy_insert.count());
+  EXPECT_GE(spy_reset.count(), 1);
+  EXPECT_EQ(n + 1, static_cast<int>(model_->song_nodes().count()));
+
+}
+
+// A batch below the threshold keeps the lightweight per-row path (no reset).
+TEST_F(CollectionModelTest, SmallUpdateEmitsPerRowSignals) {
+
+  AddSong(u"seed"_s, u"seed"_s, u"seed"_s, 1);
+
+  const int n = 10;  // < kBulkUpdateSongThreshold
+  const SongList songs = MakeSongs(n, u"small"_s);
+
+  QSignalSpy spy_insert(&*model_, &CollectionModel::rowsInserted);
+  QSignalSpy spy_reset(&*model_, &CollectionModel::modelReset);
+
+  backend_->AddOrUpdateSongs(songs);
+  Drain();
+
+  EXPECT_GT(spy_insert.count(), 0);
+  EXPECT_EQ(0, spy_reset.count());
+  EXPECT_EQ(n + 1, static_cast<int>(model_->song_nodes().count()));
+
+}
+
+// Regression for the empty/double reset: a bulk batch must apply its changes
+// inside a single reset transaction, not re-queue them into a second one.
+TEST_F(CollectionModelTest, LargeBatchProducesSingleReset) {
+
+  AddSong(u"seed"_s, u"seed"_s, u"seed"_s, 1);
+
+  const SongList songs = MakeSongs(2000, u"once"_s);
+
+  QSignalSpy spy_reset(&*model_, &CollectionModel::modelReset);
+
+  backend_->AddOrUpdateSongs(songs);
+  Drain();
+
+  EXPECT_EQ(1, spy_reset.count());
+  EXPECT_EQ(2001, static_cast<int>(model_->song_nodes().count()));
+
+}
+
+// A Reset queued behind a bulk-sized batch must be handled outside the bulk
+// transaction, so begin/endResetModel never nest. A nested beginResetModel
+// (the Reset folded into the bulk reset) would emit an unmatched
+// modelAboutToBeReset. NOTE: data preservation across the Reset cannot be
+// checked here - the reload runs on a worker thread, which opens its own
+// connection to the :memory: test DB and so sees it empty; against a real file
+// DB that reload restores the full collection, which is why a dropped trailing
+// update is not actually lost in production.
+TEST_F(CollectionModelTest, ResetMixedIntoBulkBatchDoesNotNestResets) {
+
+  AddSong(u"seed"_s, u"seed"_s, u"seed"_s, 1);
+
+  QSignalSpy spy_about(&*model_, &CollectionModel::modelAboutToBeReset);
+  QSignalSpy spy_done(&*model_, &CollectionModel::modelReset);
+
+  // Backend signals are emitted synchronously, so these stack up in the update
+  // queue as [AddReAddOrUpdate(a)..., Reset, AddReAddOrUpdate(b)] before the
+  // timer-driven ProcessUpdate ever runs.
+  backend_->AddOrUpdateSongs(MakeSongs(1600, u"aaa"_s));
+  model_->SetGroupBy(model_->GetGroupBy());  // enqueues a Reset behind the batch
+  backend_->AddOrUpdateSongs(MakeSongs(50, u"bbb"_s));
+
+  Drain();
+
+  EXPECT_EQ(spy_about.count(), spy_done.count());
+  EXPECT_GE(spy_done.count(), 1);
 
 }
 
