@@ -668,6 +668,10 @@
       <translation>目标响度</translation>
     </message>
     <message>
+      <source>Perform song EBU R 128 analysis before playback when loudness metadata is missing</source>
+      <translation>响度元数据缺失时，在播放前执行歌曲 EBU R 128 分析</translation>
+    </message>
+    <message>
       <source>Fading</source>
       <translation>淡入淡出</translation>
     </message>
