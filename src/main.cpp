@@ -59,6 +59,7 @@
 #include <QSettings>
 #include <QLoggingCategory>
 #include <QStyle>
+#include <QMessageBox>
 #ifdef HAVE_TRANSLATIONS
 #  include <QTranslator>
 #endif
@@ -197,6 +198,16 @@ int main(int argc, char *argv[]) {
   QGuiApplication::setQuitOnLastWindowClosed(false);
 
   QApplication a(argc, argv);
+
+#ifdef Q_OS_LINUX
+  if (Utilities::IsWSL()) {
+    const QString message = u"Strawberry is not supported when running under the Windows Subsystem for Linux (WSL). Please use the native Windows version instead."_s;
+    qLog(Error) << message;
+    QMessageBox::critical(nullptr, u"Unsupported environment"_s, message);
+    return 1;
+  }
+#endif
+
   KDSingleApplication single_app(QCoreApplication::applicationName().toLower(), KDSingleApplication::Option::IncludeUsernameInSocketName);
   if (!single_app.isPrimaryInstance()) {
     if (options.is_empty()) {
