@@ -110,7 +110,7 @@
 #include "dialogs/addstreamdialog.h"
 #include "dialogs/deleteconfirmationdialog.h"
 #include "dialogs/lastfmimportdialog.h"
-#include "dialogs/snapdialog.h"
+#include "dialogs/messagedialog.h"
 #include "dialogs/edittagdialog.h"
 #include "dialogs/trackselectiondialog.h"
 #include "organize/organizedialog.h"
@@ -1109,20 +1109,6 @@ MainWindow::MainWindow(Application *app,
     qtsparkle::Updater *updater = new qtsparkle::Updater(sparkle_url, this);
     updater->SetVersion(QStringLiteral(STRAWBERRY_VERSION_PACKAGE));
     QObject::connect(action_check_updates, &QAction::triggered, updater, &qtsparkle::Updater::CheckNow);
-  }
-#endif
-
-#ifdef Q_OS_LINUX
-  if (!Utilities::GetEnv(u"SNAP"_s).isEmpty() && !Utilities::GetEnv(u"SNAP_NAME"_s).isEmpty()) {
-    Settings s;
-    s.beginGroup(MainWindowSettings::kSettingsGroup);
-    const bool ignore_snap = s.value("ignore_snap", false).toBool();
-    s.endGroup();
-    if (!ignore_snap) {
-      SnapDialog *snap_dialog = new SnapDialog(this);
-      snap_dialog->setAttribute(Qt::WA_DeleteOnClose);
-      snap_dialog->show();
-    }
   }
 #endif
 
