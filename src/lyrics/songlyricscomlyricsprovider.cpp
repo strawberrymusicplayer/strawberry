@@ -32,9 +32,9 @@ using namespace Qt::Literals::StringLiterals;
 
 namespace {
 constexpr char kUrl[] = "https://www.songlyrics.com/";
-constexpr char kStartTag[] = "<p[^>]*>";
-constexpr char kEndTag[] = "<\\/p>";
-constexpr char kLyricsStart[] = "<p id=\"songLyricsDiv\"[^>]+>";
+constexpr char kStartTag[] = "<div[^>]*>";
+constexpr char kEndTag[] = "<\\/div>";
+constexpr char kLyricsStart[] = "<div id=\"songLyricsDiv\"[^>]+>";
 }  // namespace
 
 SongLyricsComLyricsProvider::SongLyricsComLyricsProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent)
