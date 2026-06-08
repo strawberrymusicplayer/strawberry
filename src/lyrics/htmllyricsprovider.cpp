@@ -159,7 +159,7 @@ QString HtmlLyricsProvider::ParseLyricsFromHTML(const QString &content, const QR
       if (!lyrics.isEmpty()) {
         lyrics.append(u'\n');
       }
-      lyrics.append(content.mid(start_lyrics_idx, end_lyrics_idx - start_lyrics_idx).remove(u'\r').remove(u'\n'));
+      lyrics.append(content.mid(start_lyrics_idx, end_lyrics_idx - start_lyrics_idx).remove(u'\r').remove(u'\n').remove(u'\t'));
     }
 
   } while (start_idx > 0 && multiple);
