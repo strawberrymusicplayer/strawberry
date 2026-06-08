@@ -259,12 +259,12 @@ void QobuzCoverProvider::HandleSearchReply(QNetworkReply *reply, const int id) {
     const QString artist = object_artist["name"_L1].toString();
 
     // Image
-    const QJsonValue _timer_ = object_album["image"_L1];
-    if (!_timer_.isObject()) {
-      Error(u"Invalid Json reply, items (album) image is not a object."_s, _timer_);
+    const QJsonValue image = object_album["image"_L1];
+    if (!image.isObject()) {
+      Error(u"Invalid Json reply, items (album) image is not a object."_s, image);
       continue;
     }
-    const QJsonObject object_image = _timer_.toObject();
+    const QJsonObject object_image = image.toObject();
     if (!object_image.contains("large"_L1)) {
       Error(u"Invalid Json reply, items (album) image is missing large."_s, object_image);
       continue;

@@ -63,6 +63,8 @@ bool PulseDeviceFinder::Reconnect() {
 
   if (pa_context_connect(context_, nullptr, PA_CONTEXT_NOFLAGS, nullptr) < 0) {
     qLog(Warning) << "Failed to connect pulseaudio context";
+    pa_context_unref(context_);
+    context_ = nullptr;
     return false;
   }
 
@@ -71,6 +73,9 @@ bool PulseDeviceFinder::Reconnect() {
     const pa_context_state state = pa_context_get_state(context_);
     if (state == PA_CONTEXT_FAILED || state == PA_CONTEXT_TERMINATED) {
       qLog(Warning) << "Connection to pulseaudio failed";
+      pa_context_disconnect(context_);
+      pa_context_unref(context_);
+      context_ = nullptr;
       return false;
     }
 

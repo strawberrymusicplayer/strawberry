@@ -109,13 +109,17 @@ void AnalyzerBase::paintEvent(QPaintEvent *e) {
   QPainter p(this);
   p.fillRect(e->rect(), palette().color(QPalette::Window));
 
+  if (!engine_) return;
+
   switch (engine_->state()) {
     case EngineBase::State::Playing:{
       const EngineBase::Scope &thescope = engine_->scope(timeout_);
       size_t i = 0;
 
       // convert to mono here - our built in analyzers need mono, but the engines provide interleaved pcm
-      for (uint x = 0; static_cast<int>(x) < fht_->size(); ++x) {
+      // Clamp to the samples actually available so a short scope buffer can't be read past its end.
+      const size_t scope_frames = thescope.size() / 2;
+      for (uint x = 0; static_cast<int>(x) < fht_->size() && x < scope_frames; ++x) {
         lastscope_[x] = static_cast<float>(thescope[i] + thescope[i + 1]) / (2 * (1U << 15U));
         i += 2;
       }
@@ -153,6 +157,7 @@ int AnalyzerBase::resizeExponent(int exp) {
 
   if (exp != fht_->sizeExp()) {
     delete fht_;
+    fht_ = nullptr;
     fht_ = new FHT(static_cast<uint>(exp));
   }
   return exp;

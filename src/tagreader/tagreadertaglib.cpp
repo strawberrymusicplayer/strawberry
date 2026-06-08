@@ -364,7 +364,6 @@ TagReaderResult TagReaderTagLib::Read(SharedPtr<TagLib::FileRef> fileref, Song *
 
   QString disc;
   QString compilation;
-  QString lyrics;
 
   // Handle all the files which have VorbisComments (Ogg, OPUS, ...) in the same way;
   // apart, so we keep specific behavior for some formats by adding another "else if" block below.
@@ -493,7 +492,6 @@ TagReaderResult TagReaderTagLib::Read(SharedPtr<TagLib::FileRef> fileref, Song *
     song->set_compilation(compilation.toInt() == 1);
   }
 
-  if (!lyrics.isEmpty()) song->set_lyrics(lyrics);
 
   // Set integer fields to -1 if they're not valid
 
@@ -1100,13 +1098,16 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
   }
 
   if (save_tags) {
-    fileref->tag()->setTitle(song.title().isEmpty() ? TagLib::String() : QStringToTagLibString(song.title()));
-    fileref->tag()->setArtist(song.artist().isEmpty() ? TagLib::String() : QStringToTagLibString(song.artist()));
-    fileref->tag()->setAlbum(song.album().isEmpty() ? TagLib::String() : QStringToTagLibString(song.album()));
-    fileref->tag()->setGenre(song.genre().isEmpty() ? TagLib::String() : QStringToTagLibString(song.genre()));
-    fileref->tag()->setComment(song.comment().isEmpty() ? TagLib::String() : QStringToTagLibString(song.comment()));
-    fileref->tag()->setYear(song.year() <= 0 ? 0 : static_cast<uint>(song.year()));
-    fileref->tag()->setTrack(song.track() <= 0 ? 0 : static_cast<uint>(song.track()));
+    // FileRef::tag() can return nullptr for files that open but have no tag container.
+    if (TagLib::Tag *tag = fileref->tag()) {
+      tag->setTitle(song.title().isEmpty() ? TagLib::String() : QStringToTagLibString(song.title()));
+      tag->setArtist(song.artist().isEmpty() ? TagLib::String() : QStringToTagLibString(song.artist()));
+      tag->setAlbum(song.album().isEmpty() ? TagLib::String() : QStringToTagLibString(song.album()));
+      tag->setGenre(song.genre().isEmpty() ? TagLib::String() : QStringToTagLibString(song.genre()));
+      tag->setComment(song.comment().isEmpty() ? TagLib::String() : QStringToTagLibString(song.comment()));
+      tag->setYear(song.year() <= 0 ? 0 : static_cast<uint>(song.year()));
+      tag->setTrack(song.track() <= 0 ? 0 : static_cast<uint>(song.track()));
+    }
   }
 
   bool is_flac = false;
@@ -1196,7 +1197,7 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
     TagLib::MP4::Tag *tag = file_mp4->tag();
     if (tag) {
       if (save_tags) {
-        tag->setItem(kMP4_Disc, TagLib::MP4::Item(song.disc() <= 0 - 1 ? 0 : song.disc(), 0));
+        tag->setItem(kMP4_Disc, TagLib::MP4::Item(song.disc() <= 0 ? 0 : song.disc(), 0));
         tag->setItem(kMP4_Composer, TagLib::StringList(QStringToTagLibString(song.composer())));
         tag->setItem(kMP4_Grouping, TagLib::StringList(QStringToTagLibString(song.grouping())));
         tag->setItem(kMP4_Lyrics, TagLib::StringList(QStringToTagLibString(song.lyrics())));
@@ -1663,7 +1664,10 @@ QByteArray TagReaderTagLib::LoadEmbeddedCover(TagLib::ID3v2::Tag *tag) const {
   if (apic_frames.isEmpty()) {
     return QByteArray();
   }
-  TagLib::ID3v2::AttachedPictureFrame *picture = static_cast<TagLib::ID3v2::AttachedPictureFrame*>(apic_frames.front());
+  TagLib::ID3v2::AttachedPictureFrame *picture = dynamic_cast<TagLib::ID3v2::AttachedPictureFrame*>(apic_frames.front());
+  if (!picture) {
+    return QByteArray();
+  }
   return QByteArray(reinterpret_cast<const char*>(picture->picture().data()), picture->picture().size());
 
 }

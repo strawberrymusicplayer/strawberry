@@ -110,7 +110,9 @@ void FancyTabWidget::SaveSettings(const QString &settings_group) {
   Settings s;
   s.beginGroup(settings_group);
 
-  s.setValue("tab_mode", static_cast<int>(mode_));
+  if (mode_ != Mode::None) {
+    s.setValue("tab_mode", static_cast<int>(mode_));
+  }
   s.setValue("current_tab", currentIndex());
 
   for (FancyTabData *tab : std::as_const(tabs_)) {
@@ -276,8 +278,8 @@ void FancyTabWidget::SetCurrentIndex(int idx) {
   if (idx >= count() || idx < 0) idx = 0;
 
   QWidget *currentPage = widget(idx);
-  QLayout *layout = currentPage->layout();
-  if (bottom_widget_) layout->addWidget(bottom_widget_);
+  QLayout *layout = currentPage ? currentPage->layout() : nullptr;
+  if (bottom_widget_ && layout) layout->addWidget(bottom_widget_);
   QTabWidget::setCurrentIndex(idx);
 
 }
@@ -285,8 +287,8 @@ void FancyTabWidget::SetCurrentIndex(int idx) {
 void FancyTabWidget::CurrentTabChangedSlot(const int idx) {
 
   QWidget *currentPage = currentWidget();
-  QLayout *layout = currentPage->layout();
-  if (bottom_widget_) layout->addWidget(bottom_widget_);
+  QLayout *layout = currentPage ? currentPage->layout() : nullptr;
+  if (bottom_widget_ && layout) layout->addWidget(bottom_widget_);
 
   Q_EMIT CurrentTabChanged(idx);
 

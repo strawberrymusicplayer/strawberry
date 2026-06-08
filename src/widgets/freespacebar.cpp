@@ -133,8 +133,12 @@ void FreeSpaceBar::DrawBar(QPainter *p, const QRect r) {
 
   p->setRenderHint(QPainter::Antialiasing, true);
 
+  if (total_ == 0) return;
+  // Guard against free_ > total_ (e.g. some FUSE/MTP filesystems) - unsigned subtraction would wrap.
+  const quint64 used = (total_ > free_) ? (total_ - free_) : 0;
+
   QRect bar_rect(r);
-  bar_rect.setWidth(std::max(0, static_cast<int>(static_cast<float>(bar_rect.width()) * (static_cast<float>(total_ - free_) / static_cast<float>(total_)))));
+  bar_rect.setWidth(std::max(0, static_cast<int>(static_cast<float>(bar_rect.width()) * (static_cast<float>(used) / static_cast<float>(total_)))));
 
   QLinearGradient background_gradient(r.topLeft(), r.bottomLeft());
   background_gradient.setColorAt(0, kColorBg1);
@@ -197,8 +201,10 @@ void FreeSpaceBar::DrawText(QPainter *p, const QRect r) {
   p->setFont(small_font);
 
   // Work out the geometry for the text
+  // Guard against free_ > total_ (e.g. some FUSE/MTP filesystems) - unsigned subtraction would wrap.
+  const quint64 used = (total_ > free_) ? (total_ - free_) : 0;
   QList<Label> labels;
-  labels << Label(TextForSize(used_text_, total_ - free_), kColorBar1);
+  labels << Label(TextForSize(used_text_, used), kColorBar1);
   if (additional_ > 0) {
     labels << Label(TextForSize(additional_text_, additional_), kColorAdd1);
   }

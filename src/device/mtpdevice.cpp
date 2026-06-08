@@ -133,6 +133,9 @@ void MtpDevice::LoadFinished(const bool success, MtpConnection *connection) {
   connection_.reset(connection);
 
   loader_thread_->exit();
+  loader_thread_->wait();
+  loader_thread_->deleteLater();
+  loader_thread_ = nullptr;
   loader_->deleteLater();
   loader_ = nullptr;
   db_busy_.unlock();
@@ -172,7 +175,7 @@ bool MtpDevice::StartCopy(QList<Song::FileType> *supported_types) {
 static int ProgressCallback(uint64_t const sent, uint64_t const total, void const *const data) {
 
   const MusicStorage::CopyJob *job = reinterpret_cast<const MusicStorage::CopyJob*>(data);
-  job->progress_(static_cast<float>(sent) / static_cast<float>(total));
+  job->progress_(total > 0 ? static_cast<float>(sent) / static_cast<float>(total) : 0.0F);
 
   return 0;
 

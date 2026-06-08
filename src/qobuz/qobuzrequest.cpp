@@ -1431,6 +1431,7 @@ void QobuzRequest::FinishCheck() {
 
 int QobuzRequest::GetProgress(const int count, const int total) {
 
+  if (total <= 0) return 0;
   return static_cast<int>((static_cast<float>(count) / static_cast<float>(total)) * 100.0F);
 
 }

@@ -87,7 +87,7 @@ QNetworkReply *HttpBaseRequest::CreateGetRequest(const QUrl &url, const QUrlQuer
     network_request.setRawHeader("Authorization", authorization_header());
   }
   if (fake_user_agent_header) {
-    network_request.setHeader(QNetworkRequest::UserAgentHeader, u"Mozilla/5.0 (X11; Linux x86_64; rv:122.0) Gecko/20100101 Firefox/122.0"_s);
+    network_request.setHeader(QNetworkRequest::UserAgentHeader, u"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36"_s);
   }
   QNetworkReply *reply = network_->get(network_request);
   QObject::connect(reply, &QNetworkReply::sslErrors, this, &HttpBaseRequest::HandleSSLErrors);

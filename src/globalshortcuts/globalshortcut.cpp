@@ -127,7 +127,7 @@ bool GlobalShortcut::unsetShortcut() {
     if (native_key2_ > 0) {
       QPair<quint32, quint32> hash2 = qMakePair(native_key2_, native_mods_);
       if (internal_shortcuts_.contains(hash2)) {
-        GlobalShortcut *gshortcut2 = internal_shortcuts_.value(hash);
+        GlobalShortcut *gshortcut2 = internal_shortcuts_.value(hash2);
         if (gshortcut2 == this) {
           unregisterShortcut(native_key2_, native_mods_);
           internal_shortcuts_.remove(hash2);

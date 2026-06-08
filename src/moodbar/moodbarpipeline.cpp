@@ -105,7 +105,7 @@ void MoodbarPipeline::Start() {
   pipeline_ = gst_pipeline_new("moodbar-pipeline");
 
   GstElement *decodebin = CreateElement("uridecodebin");
-  convert_element_ = CreateElement("audioconvert");
+  GstElement *convert_element = CreateElement("audioconvert");
 #ifdef HAVE_GSTFASTSPECTRUM
   GstElement *spectrum = CreateElement("strawberry-fastspectrum");
 #else
@@ -113,7 +113,7 @@ void MoodbarPipeline::Start() {
 #endif
   GstElement *fakesink = CreateElement("fakesink");
 
-  if (!decodebin || !convert_element_ || !spectrum || !fakesink) {
+  if (!decodebin || !convert_element || !spectrum || !fakesink) {
     gst_object_unref(GST_OBJECT(pipeline_));
     pipeline_ = nullptr;
     Q_EMIT Finished(false);
@@ -121,13 +121,15 @@ void MoodbarPipeline::Start() {
   }
 
   // Join them together
-  if (!gst_element_link_many(convert_element_, spectrum, fakesink, nullptr)) {
+  if (!gst_element_link_many(convert_element, spectrum, fakesink, nullptr)) {
     qLog(Error) << "Failed to link elements";
     gst_object_unref(GST_OBJECT(pipeline_));
     pipeline_ = nullptr;
     Q_EMIT Finished(false);
     return;
   }
+
+  convert_element_ = convert_element;
 
   builder_ = make_unique<MoodbarBuilder>();
 

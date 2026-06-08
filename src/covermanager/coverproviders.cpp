@@ -85,8 +85,25 @@ void CoverProviders::ReloadSettings() {
 
 }
 
+bool CoverProviders::HasAnyProviders() const {
+
+  QMutexLocker locker(&mutex_);
+
+  return !cover_providers_.isEmpty();
+
+}
+
+QList<CoverProvider*> CoverProviders::List() const {
+
+  QMutexLocker locker(&mutex_);
+
+  return cover_providers_.keys();
+
+}
+
 CoverProvider *CoverProviders::ProviderByName(const QString &name) const {
 
+  QMutexLocker locker(&mutex_);
   const QList<CoverProvider*> cover_providers = cover_providers_.keys();
   for (CoverProvider *provider : cover_providers) {
     if (provider->name() == name) return provider;
@@ -101,9 +118,9 @@ void CoverProviders::AddProvider(CoverProvider *provider) {
     QMutexLocker locker(&mutex_);
     cover_providers_.insert(provider, provider->name());
     QObject::connect(provider, &CoverProvider::destroyed, this, &CoverProviders::ProviderDestroyed);
+    // Increment under the mutex - NextOrderId is a plain static int shared by all registrations.
+    provider->set_order(++NextOrderId);
   }
-
-  provider->set_order(++NextOrderId);
 
   qLog(Debug) << "Registered cover provider" << provider->name();
 

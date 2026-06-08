@@ -54,7 +54,7 @@ constexpr char kApiUrl[] = "https://api.musixmatch.com/ws/1.1";
 constexpr char kApiKey[] = "Y2FhMDRlN2Y4OWE5OTIxYmZlOGMzOWQzOGI3ZGU4MjE=";
 }  // namespace
 
-MusixmatchLyricsProvider::MusixmatchLyricsProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent) : JsonLyricsProvider(u"Musixmatch"_s, true, false, network, parent), use_api_(true) {}
+MusixmatchLyricsProvider::MusixmatchLyricsProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent) : JsonLyricsProvider(u"Musixmatch"_s, false, false, network, parent), use_api_(true) {}
 
 void MusixmatchLyricsProvider::StartSearch(const int id, const LyricsSearchRequest &request) {
 

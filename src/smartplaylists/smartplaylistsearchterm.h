@@ -27,6 +27,7 @@
 #include <QList>
 #include <QDataStream>
 #include <QVariant>
+#include <QVariantList>
 #include <QString>
 
 class SmartPlaylistSearchTerm {
@@ -130,7 +131,7 @@ class SmartPlaylistSearchTerm {
   // For relative dates, we need a second parameter, might be useful somewhere else
   QVariant second_value_;
 
-  QString ToSql() const;
+  QString ToSql(QVariantList &bound_values) const;
   bool is_valid() const;
   bool operator==(const SmartPlaylistSearchTerm &other) const;
   bool operator!=(const SmartPlaylistSearchTerm &other) const { return !(*this == other); }

@@ -30,5 +30,5 @@ FilterTreeAnd::~FilterTreeAnd() {
 void FilterTreeAnd::add(FilterTree *child) { children_.append(child); }
 
 bool FilterTreeAnd::accept(const Song &song) const {
-  return !std::any_of(children_.begin(), children_.end(), [song](FilterTree *child) { return !child->accept(song); });
+  return !std::any_of(children_.begin(), children_.end(), [&song](FilterTree *child) { return !child->accept(song); });
 }

@@ -96,15 +96,24 @@ void AcoustidClient::Start(const int id, const QString &fingerprint, int duratio
 
 void AcoustidClient::Cancel(const int id) {
 
-  if (requests_.contains(id)) delete requests_.take(id);
+  if (requests_.contains(id)) {
+    QNetworkReply *reply = requests_.take(id);
+    QObject::disconnect(reply, nullptr, this, nullptr);
+    reply->abort();
+    reply->deleteLater();
+  }
 
 }
 
 void AcoustidClient::CancelAll() {
 
-  QList<QNetworkReply*> replies = requests_.values();
-  qDeleteAll(replies);
+  const QList<QNetworkReply*> replies = requests_.values();
   requests_.clear();
+  for (QNetworkReply *reply : replies) {
+    QObject::disconnect(reply, nullptr, this, nullptr);
+    reply->abort();
+    reply->deleteLater();
+  }
 
 }
 

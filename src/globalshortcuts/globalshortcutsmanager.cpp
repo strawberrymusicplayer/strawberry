@@ -191,7 +191,8 @@ bool GlobalShortcutsManager::Register() {
 
   for (GlobalShortcutsBackend *backend : std::as_const(backends_)) {
     if (backend->IsAvailable() && backends_enabled_.contains(backend->type())) {
-      return backend->Register();
+      // Use the first backend that registers successfully; fall back to the next one if it fails.
+      if (backend->Register()) return true;
     }
   }
 

@@ -688,15 +688,12 @@ set(SOURCES
   src/lyrics/jsonlyricsprovider.cpp
   src/lyrics/htmllyricsprovider.cpp
   src/lyrics/ovhlyricsprovider.cpp
-  src/lyrics/lololyricsprovider.cpp
   src/lyrics/geniuslyricsprovider.cpp
   src/lyrics/musixmatchlyricsprovider.cpp
-  src/lyrics/chartlyricsprovider.cpp
   src/lyrics/songlyricscomlyricsprovider.cpp
   src/lyrics/azlyricscomlyricsprovider.cpp
   src/lyrics/elyricsnetlyricsprovider.cpp
   src/lyrics/letraslyricsprovider.cpp
-  src/lyrics/lyricfindlyricsprovider.cpp
   src/lyrics/lrcliblyricsprovider.cpp
 
   src/settings/settingsdialog.cpp
@@ -991,15 +988,12 @@ set(HEADERS
   src/lyrics/jsonlyricsprovider.h
   src/lyrics/htmllyricsprovider.h
   src/lyrics/ovhlyricsprovider.h
-  src/lyrics/lololyricsprovider.h
   src/lyrics/geniuslyricsprovider.h
   src/lyrics/musixmatchlyricsprovider.h
-  src/lyrics/chartlyricsprovider.h
   src/lyrics/songlyricscomlyricsprovider.h
   src/lyrics/azlyricscomlyricsprovider.h
   src/lyrics/elyricsnetlyricsprovider.h
   src/lyrics/letraslyricsprovider.h
-  src/lyrics/lyricfindlyricsprovider.h
   src/lyrics/lrcliblyricsprovider.h
 
   src/settings/settingsdialog.h

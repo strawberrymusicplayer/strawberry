@@ -197,6 +197,12 @@ void FileView::ChangeFilePath(const QString &new_path_native) {
     return;
   }
 
+  // model_ is created lazily in showEvent; this slot can fire before that.
+  if (!model_) {
+    lazy_set_path_ = new_path;
+    return;
+  }
+
   QString old_path(model_->rootPath());
   if (old_path == new_path) {
     return;

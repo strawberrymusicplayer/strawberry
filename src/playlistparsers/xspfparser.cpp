@@ -130,6 +130,7 @@ Song XSPFParser::ParseTrack(QXmlStreamReader *reader, const QDir &dir, const boo
         if (name == "track"_L1) {
           goto return_song;
         }
+        break;
       }
       default:
         break;

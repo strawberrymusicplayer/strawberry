@@ -96,7 +96,7 @@ void TidalSettingsPage::Load() {
   ui_->client_id->setText(s.value(kClientId).toString());
   ComboBoxLoadFromSettings(s, ui_->quality, QLatin1String(kQuality), u"LOSSLESS"_s);
   ui_->searchdelay->setValue(s.value(kSearchDelay, 1500).toInt());
-  ui_->artistssearchlimit->setValue(s.value("kArtistsSearchLimit", 4).toInt());
+  ui_->artistssearchlimit->setValue(s.value(kArtistsSearchLimit, 4).toInt());
   ui_->albumssearchlimit->setValue(s.value(kAlbumsSearchLimit, 10).toInt());
   ui_->songssearchlimit->setValue(s.value(kSongsSearchLimit, 10).toInt());
   ui_->checkbox_fetchalbums->setChecked(s.value(kFetchAlbums, false).toBool());

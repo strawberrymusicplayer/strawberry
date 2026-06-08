@@ -168,7 +168,8 @@ void BlockAnalyzer::analyze(QPainter &p, const Scope &s, const bool new_frame) {
 
   for (qint64 x = 0, y = 0; x < static_cast<qint64>(scope_.size()); ++x) {
     // determine y
-    for (y = 0; scope_[static_cast<quint64>(x)] < yscale_.at(y); ++y);
+    // Cap at rows_: a negative or NaN scope value would otherwise walk past the yscale_ sentinel and read out of bounds.
+    for (y = 0; y < rows_ && scope_[static_cast<quint64>(x)] < yscale_.at(y); ++y);
 
     // This is opposite to what you'd think, higher than y means the bar is lower than y (physically)
     if (static_cast<double>(y) > store_.at(x)) {

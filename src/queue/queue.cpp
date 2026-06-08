@@ -80,7 +80,7 @@ bool Queue::ContainsSourceRow(const int source_row) const {
 
 QModelIndex Queue::mapToSource(const QModelIndex &proxy_index) const {
 
-  if (!proxy_index.isValid()) return QModelIndex();
+  if (!proxy_index.isValid() || proxy_index.row() < 0 || proxy_index.row() >= source_indexes_.count()) return QModelIndex();
 
   return source_indexes_[proxy_index.row()];
 
@@ -118,13 +118,17 @@ void Queue::SourceLayoutChanged() {
 
   QObject::disconnect(signal_item_count_changed_);
 
+  // Collect the invalid rows first, then remove them in descending order.
+  // This keeps the indexes valid across the begin/endRemoveRows signal emissions instead of mutating the list mid-iteration.
+  QList<int> invalid_rows;
   for (int i = 0; i < source_indexes_.count(); ++i) {
-    if (!source_indexes_[i].isValid()) {
-      beginRemoveRows(QModelIndex(), i, i);
-      source_indexes_.removeAt(i);
-      endRemoveRows();
-      --i;
-    }
+    if (!source_indexes_[i].isValid()) invalid_rows << i;
+  }
+  for (int j = invalid_rows.count() - 1; j >= 0; --j) {
+    const int row = invalid_rows[j];
+    beginRemoveRows(QModelIndex(), row, row);
+    source_indexes_.removeAt(row);
+    endRemoveRows();
   }
 
   signal_item_count_changed_ = QObject::connect(this, &Queue::ItemCountChanged, this, &Queue::UpdateTotalLength);
@@ -154,6 +158,8 @@ int Queue::columnCount(const QModelIndex &parent) const {
 }
 
 QVariant Queue::data(const QModelIndex &proxy_index, int role) const {
+
+  if (!proxy_index.isValid() || proxy_index.row() < 0 || proxy_index.row() >= source_indexes_.count()) return QVariant();
 
   QModelIndex source_index = source_indexes_[proxy_index.row()];
 
@@ -198,6 +204,8 @@ void Queue::ToggleTracks(const QModelIndexList &source_indexes) {
 }
 
 void Queue::InsertFirst(const QModelIndexList &source_indexes) {
+
+  if (source_indexes.isEmpty()) return;
 
   for (const QModelIndex &source_index : source_indexes) {
     QModelIndex proxy_index = mapFromSource(source_index);

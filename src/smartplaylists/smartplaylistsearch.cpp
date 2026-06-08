@@ -51,19 +51,19 @@ void SmartPlaylistSearch::Reset() {
 
 }
 
-QString SmartPlaylistSearch::ToSql(const QString &songs_table) const {
+QString SmartPlaylistSearch::ToSql(const QString &songs_table, QVariantList &bound_values) const {
 
   QString sql = QStringLiteral("SELECT %1 FROM %2").arg(Song::kRowIdColumnSpec, songs_table);
 
   // Add search terms
   QStringList where_clauses;
-  QStringList term_where_clauses;
-  term_where_clauses.reserve(terms_.count());
-  for (const SmartPlaylistSearchTerm &term : terms_) {
-    term_where_clauses << term.ToSql();
-  }
 
   if (!terms_.isEmpty() && search_type_ != SearchType::All) {
+    QStringList term_where_clauses;
+    term_where_clauses.reserve(terms_.count());
+    for (const SmartPlaylistSearchTerm &term : terms_) {
+      term_where_clauses << term.ToSql(bound_values);
+    }
     QString boolean_op = search_type_ == SearchType::And ? " AND "_L1 : " OR "_L1;
     where_clauses << u"("_s + term_where_clauses.join(boolean_op) + u")"_s;
   }
@@ -127,7 +127,7 @@ QDataStream &operator<<(QDataStream &s, const SmartPlaylistSearch &search) {
   s << search.terms_;
   s << static_cast<quint8>(search.sort_type_);
   s << static_cast<quint8>(search.sort_field_);
-  s << static_cast<quint32>(search.limit_);
+  s << static_cast<qint32>(search.limit_);
   s << static_cast<quint8>(search.search_type_);
   return s;
 

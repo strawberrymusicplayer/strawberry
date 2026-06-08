@@ -62,8 +62,12 @@ TagLib::FileName StreamTagReader::name() const { return encoded_filename_.data()
 
 TagLib::ByteVector StreamTagReader::readBlock(const TagLibLengthType length) {
 
-  const uint start = static_cast<uint>(cursor_);
-  const uint end = static_cast<uint>(std::min(cursor_ + length - 1, length_ - 1));
+  if (length == 0 || cursor_ >= length_) {
+    return TagLib::ByteVector();
+  }
+
+  const TagLibLengthType start = cursor_;
+  const TagLibLengthType end = std::min(cursor_ + length - 1, length_ - 1);
 
   if (end < start) {
     return TagLib::ByteVector();
@@ -143,10 +147,14 @@ void StreamTagReader::seek(const TagLibOffsetType offset, const TagLib::IOStream
       cursor_ = std::min(cursor_ + static_cast<TagLibLengthType>(offset), length_);
       break;
 
-    case TagLib::IOStream::End:
-      // This should really not have qAbs(), but OGG reading needs it.
-      cursor_ = std::max(static_cast<TagLibLengthType>(0), length_ - qAbs(static_cast<TagLibLengthType>(offset)));
+    case TagLib::IOStream::End: {
+      // This should really not take the absolute value, but OGG reading needs it.
+      // Compute |offset| on the signed type first - casting a negative offset to the unsigned
+      // TagLibLengthType would wrap to a huge value before qAbs (a no-op on unsigned) ran.
+      const TagLibLengthType abs_offset = offset < 0 ? static_cast<TagLibLengthType>(-offset) : static_cast<TagLibLengthType>(offset);
+      cursor_ = abs_offset >= length_ ? 0 : length_ - abs_offset;
       break;
+    }
   }
 
 }
@@ -161,9 +169,9 @@ void StreamTagReader::truncate(const TagLibOffsetType length) {
   Q_UNUSED(length)
 }
 
-bool StreamTagReader::CheckCache(const uint start, const uint end) {
+bool StreamTagReader::CheckCache(const TagLibLengthType start, const TagLibLengthType end) {
 
-  for (uint i = start; i <= end; ++i) {
+  for (TagLibLengthType i = start; i <= end; ++i) {
     if (!cache_.test(i)) {
       return false;
     }
@@ -173,19 +181,19 @@ bool StreamTagReader::CheckCache(const uint start, const uint end) {
 
 }
 
-void StreamTagReader::FillCache(const uint start, const TagLib::ByteVector &data) {
+void StreamTagReader::FillCache(const TagLibLengthType start, const TagLib::ByteVector &data) {
 
-  for (uint i = 0; i < data.size(); ++i) {
+  for (TagLibLengthType i = 0; i < data.size(); ++i) {
     cache_.set(start + i, data[static_cast<int>(i)]);
   }
 
 }
 
-TagLib::ByteVector StreamTagReader::GetCache(const uint start, const uint end) {
+TagLib::ByteVector StreamTagReader::GetCache(const TagLibLengthType start, const TagLibLengthType end) {
 
-  const uint size = end - start + 1U;
-  TagLib::ByteVector data(size);
-  for (uint i = 0; i < size; ++i) {
+  const TagLibLengthType size = end - start + 1U;
+  TagLib::ByteVector data(static_cast<uint>(size));
+  for (TagLibLengthType i = 0; i < size; ++i) {
     data[static_cast<int>(i)] = cache_.get(start + i);
   }
 

@@ -25,6 +25,7 @@
 
 #include <QList>
 #include <QString>
+#include <QVariantList>
 #include <QDataStream>
 
 #include "playlistgenerator.h"
@@ -67,7 +68,7 @@ class SmartPlaylistSearch {
   int first_item_;
 
   void Reset();
-  QString ToSql(const QString &songs_table) const;
+  QString ToSql(const QString &songs_table, QVariantList &bound_values) const;
 };
 
 QDataStream &operator<<(QDataStream &s, const SmartPlaylistSearch &search);

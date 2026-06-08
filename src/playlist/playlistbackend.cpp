@@ -168,7 +168,7 @@ PlaylistBackend::Playlist PlaylistBackend::GetPlaylist(const int id) {
     return Playlist();
   }
 
-  q.next();
+  if (!q.next()) return Playlist();
 
   Playlist p;
   p.id = q.value(0).toInt();

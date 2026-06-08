@@ -97,7 +97,7 @@ constexpr int kIgnoreBufferingNearEndSeconds = 5;
 
 }  // namespace
 
-#ifdef __clang_
+#ifdef __clang__
 #  pragma clang diagnostic pop
 #endif
 
@@ -159,6 +159,7 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       pipeline_connected_(false),
       pipeline_active_(false),
       buffering_(false),
+      current_state_(GST_STATE_NULL),
       pending_state_(GST_STATE_NULL),
       pending_seek_nanosec_(-1),
       pending_seek_ready_previous_state_(GST_STATE_NULL),
@@ -1241,6 +1242,10 @@ void GstEnginePipeline::PadAddedCallback(GstElement *element, GstPad *pad, gpoin
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
 
   GstPad *const audiopad = gst_element_get_static_pad(instance->audiobin_, "sink");
+  if (!audiopad) {
+    qLog(Warning) << instance->id() << "could not get audiobin sink pad";
+    return;
+  }
 
   // Link playbin's sink pad to audiobin's src pad.
   if (GST_PAD_IS_LINKED(audiopad)) {
@@ -1329,103 +1334,108 @@ GstPadProbeReturn GstEnginePipeline::BufferProbeCallback(GstPad *pad, GstPadProb
   }
 
   GstBuffer *buf = gst_pad_probe_info_get_buffer(info);
+  if (!buf) {
+    return GST_PAD_PROBE_OK;
+  }
   GstBuffer *buf16 = nullptr;
 
-  quint64 start_time = GST_BUFFER_TIMESTAMP(buf) - instance->segment_start_.load();
-  quint64 duration = GST_BUFFER_DURATION(buf);
-  qint64 end_time = static_cast<qint64>(start_time + duration);
+  qint64 end_time = -1;
+  const GstClockTime timestamp = GST_BUFFER_TIMESTAMP(buf);
+  if (GST_CLOCK_TIME_IS_VALID(timestamp)) {
+    const quint64 segment_start = static_cast<quint64>(instance->segment_start_.load());
+    if (timestamp >= segment_start) {
+      const quint64 start_time = timestamp - segment_start;
+      const quint64 duration = GST_CLOCK_TIME_IS_VALID(GST_BUFFER_DURATION(buf)) ? GST_BUFFER_DURATION(buf) : 0;
+      end_time = static_cast<qint64>(start_time + duration);
+    }
+  }
 
   if (format.startsWith("S16LE"_L1)) {
     instance->logged_unsupported_analyzer_format_ = false;
   }
   else if (format.startsWith("S32LE"_L1)) {
-
     GstMapInfo map_info;
-    gst_buffer_map(buf, &map_info, GST_MAP_READ);
-
-    int32_t *s = reinterpret_cast<int32_t*>(map_info.data);
-    int samples = static_cast<int>((map_info.size / sizeof(int32_t)) / channels);
-    int buf16_size = samples * static_cast<int>(sizeof(int16_t)) * channels;
-    int16_t *d = static_cast<int16_t*>(g_malloc(static_cast<gsize>(buf16_size)));
-    memset(d, 0, static_cast<size_t>(buf16_size));
-    for (int i = 0; i < (samples * channels); ++i) {
-      d[i] = static_cast<int16_t>((s[i] >> 16));
+    if (gst_buffer_map(buf, &map_info, GST_MAP_READ)) {
+      int32_t *s = reinterpret_cast<int32_t*>(map_info.data);
+      int samples = static_cast<int>((map_info.size / sizeof(int32_t)) / channels);
+      int buf16_size = samples * static_cast<int>(sizeof(int16_t)) * channels;
+      int16_t *d = static_cast<int16_t*>(g_malloc(static_cast<gsize>(buf16_size)));
+      memset(d, 0, static_cast<size_t>(buf16_size));
+      for (int i = 0; i < (samples * channels); ++i) {
+        d[i] = static_cast<int16_t>((s[i] >> 16));
+      }
+      gst_buffer_unmap(buf, &map_info);
+      buf16 = gst_buffer_new_wrapped(d, static_cast<gsize>(buf16_size));
+      GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(static_cast<guint64>(samples), static_cast<guint64>(rate));
+      buf = buf16;
     }
-    gst_buffer_unmap(buf, &map_info);
-    buf16 = gst_buffer_new_wrapped(d, static_cast<gsize>(buf16_size));
-    GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(static_cast<guint64>(samples * sizeof(int16_t) / channels), static_cast<guint64>(rate));
-    buf = buf16;
-
     instance->logged_unsupported_analyzer_format_ = false;
   }
 
   else if (format.startsWith("F32LE"_L1)) {
-
     GstMapInfo map_info;
-    gst_buffer_map(buf, &map_info, GST_MAP_READ);
-
-    float *s = reinterpret_cast<float*>(map_info.data);
-    int samples = static_cast<int>((map_info.size / sizeof(float)) / channels);
-    int buf16_size = samples * static_cast<int>(sizeof(int16_t)) * channels;
-    int16_t *d = static_cast<int16_t*>(g_malloc(static_cast<gsize>(buf16_size)));
-    memset(d, 0, static_cast<size_t>(buf16_size));
-    for (int i = 0; i < (samples * channels); ++i) {
-      float sample_float = (s[i] * static_cast<float>(32768.0));
-      d[i] = static_cast<int16_t>(sample_float);
+    if (gst_buffer_map(buf, &map_info, GST_MAP_READ)) {
+      float *s = reinterpret_cast<float*>(map_info.data);
+      int samples = static_cast<int>((map_info.size / sizeof(float)) / channels);
+      int buf16_size = samples * static_cast<int>(sizeof(int16_t)) * channels;
+      int16_t *d = static_cast<int16_t*>(g_malloc(static_cast<gsize>(buf16_size)));
+      memset(d, 0, static_cast<size_t>(buf16_size));
+      for (int i = 0; i < (samples * channels); ++i) {
+        // Clamp before casting - samples can exceed [-1.0, 1.0) (ReplayGain/intersample peaks, and this probe is pre-volume/pre-EQ), which would otherwise wrap on the int16 cast.
+        const float sample_float = qBound(-32768.0F, s[i] * 32768.0F, 32767.0F);
+        d[i] = static_cast<int16_t>(sample_float);
+      }
+      gst_buffer_unmap(buf, &map_info);
+      buf16 = gst_buffer_new_wrapped(d, static_cast<gsize>(buf16_size));
+      GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(static_cast<guint64>(samples), static_cast<guint64>(rate));
+      buf = buf16;
     }
-    gst_buffer_unmap(buf, &map_info);
-    buf16 = gst_buffer_new_wrapped(d, static_cast<gsize>(buf16_size));
-    GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(static_cast<guint64>(samples * sizeof(int16_t) / channels), static_cast<guint64>(rate));
-    buf = buf16;
-
     instance->logged_unsupported_analyzer_format_ = false;
   }
   else if (format.startsWith("S24LE"_L1)) {
-
     GstMapInfo map_info;
-    gst_buffer_map(buf, &map_info, GST_MAP_READ);
-
-    int8_t *s24 = reinterpret_cast<int8_t*>(map_info.data);
-    int8_t *s24e = s24 + map_info.size;
-    int samples = static_cast<int>((map_info.size / sizeof(int8_t)) / channels);
-    int buf16_size = samples * static_cast<int>(sizeof(int16_t)) * channels;
-    int16_t *s16 = static_cast<int16_t*>(g_malloc(static_cast<gsize>(buf16_size)));
-    memset(s16, 0, static_cast<size_t>(buf16_size));
-    for (int i = 0; i < (samples * channels); ++i) {
-      s16[i] = *(reinterpret_cast<int16_t*>(s24 + 1));
-      s24 += 3;
-      if (s24 >= s24e) break;
+    if (gst_buffer_map(buf, &map_info, GST_MAP_READ)) {
+      int8_t *s24 = reinterpret_cast<int8_t*>(map_info.data);
+      int8_t *s24e = s24 + map_info.size;
+      int samples = static_cast<int>((map_info.size / 3) / channels);  // S24LE packs each sample into 3 bytes.
+      int buf16_size = samples * static_cast<int>(sizeof(int16_t)) * channels;
+      int16_t *s16 = static_cast<int16_t*>(g_malloc(static_cast<gsize>(buf16_size)));
+      memset(s16, 0, static_cast<size_t>(buf16_size));
+      for (int i = 0; i < (samples * channels); ++i) {
+        // Read the upper 16 bits of the little-endian 24-bit sample byte-wise to avoid an unaligned int16_t load.
+        s16[i] = static_cast<int16_t>(static_cast<uint16_t>(static_cast<uint8_t>(s24[1])) | (static_cast<uint16_t>(static_cast<uint8_t>(s24[2])) << 8));
+        s24 += 3;
+        if (s24 >= s24e) break;
+      }
+      gst_buffer_unmap(buf, &map_info);
+      buf16 = gst_buffer_new_wrapped(s16, static_cast<gsize>(buf16_size));
+      GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(static_cast<guint64>(samples), static_cast<guint64>(rate));
+      buf = buf16;
     }
-    gst_buffer_unmap(buf, &map_info);
-    buf16 = gst_buffer_new_wrapped(s16, static_cast<gsize>(buf16_size));
-    GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(static_cast<guint64>(samples * sizeof(int16_t) / channels), static_cast<guint64>(rate));
-    buf = buf16;
-
     instance->logged_unsupported_analyzer_format_ = false;
   }
   else if (format.startsWith("S24_32LE"_L1)) {
-
     GstMapInfo map_info;
-    gst_buffer_map(buf, &map_info, GST_MAP_READ);
-
-    int32_t *s32 = reinterpret_cast<int32_t*>(map_info.data);
-    int32_t *s32e = s32 + map_info.size;
-    int32_t *s32p = s32;
-    int samples = static_cast<int>((map_info.size / sizeof(int32_t)) / channels);
-    int buf16_size = samples * static_cast<int>(sizeof(int16_t)) * channels;
-    int16_t *s16 = static_cast<int16_t*>(g_malloc(static_cast<gsize>(buf16_size)));
-    memset(s16, 0, static_cast<size_t>(buf16_size));
-    for (int i = 0; i < (samples * channels); ++i) {
-      int8_t *s24 = reinterpret_cast<int8_t*>(s32p);
-      s16[i] = *(reinterpret_cast<int16_t*>(s24 + 1));
-      ++s32p;
-      if (s32p > s32e) break;
+    if (gst_buffer_map(buf, &map_info, GST_MAP_READ)) {
+      int32_t *s32 = reinterpret_cast<int32_t*>(map_info.data);
+      int32_t *s32e = s32 + (map_info.size / sizeof(int32_t));
+      int32_t *s32p = s32;
+      int samples = static_cast<int>((map_info.size / sizeof(int32_t)) / channels);
+      int buf16_size = samples * static_cast<int>(sizeof(int16_t)) * channels;
+      int16_t *s16 = static_cast<int16_t*>(g_malloc(static_cast<gsize>(buf16_size)));
+      memset(s16, 0, static_cast<size_t>(buf16_size));
+      for (int i = 0; i < (samples * channels); ++i) {
+        int8_t *s24 = reinterpret_cast<int8_t*>(s32p);
+        // Read the upper 16 bits of the little-endian 24-bit sample byte-wise to avoid an unaligned int16_t load.
+        s16[i] = static_cast<int16_t>(static_cast<uint16_t>(static_cast<uint8_t>(s24[1])) | (static_cast<uint16_t>(static_cast<uint8_t>(s24[2])) << 8));
+        ++s32p;
+        if (s32p >= s32e) break;
+      }
+      gst_buffer_unmap(buf, &map_info);
+      buf16 = gst_buffer_new_wrapped(s16, static_cast<gsize>(buf16_size));
+      GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(static_cast<guint64>(samples), static_cast<guint64>(rate));
+      buf = buf16;
     }
-    gst_buffer_unmap(buf, &map_info);
-    buf16 = gst_buffer_new_wrapped(s16, static_cast<gsize>(buf16_size));
-    GST_BUFFER_DURATION(buf16) = GST_FRAMES_TO_CLOCK_TIME(static_cast<guint64>(samples * sizeof(int16_t) / channels), static_cast<guint64>(rate));
-    buf = buf16;
-
     instance->logged_unsupported_analyzer_format_ = false;
   }
   else if (!instance->logged_unsupported_analyzer_format_) {
@@ -1684,8 +1694,10 @@ void GstEnginePipeline::ErrorMessageReceived(GstMessage *msg) {
     // But there is no message send to the bus when the current track finishes, we have to add an EOS ourself.
     qLog(Info) << "Ignoring error" << domain << code << message << debugstr << "when loading next track";
     GstPad *pad = gst_element_get_static_pad(audiobin_, "sink");
-    gst_pad_send_event(pad, gst_event_new_eos());
-    gst_object_unref(pad);
+    if (pad) {
+      gst_pad_send_event(pad, gst_event_new_eos());
+      gst_object_unref(pad);
+    }
     return;
   }
 
@@ -1805,6 +1817,9 @@ void GstEnginePipeline::StateChangedMessageReceived(GstMessage *msg) {
 
   qLog(Debug) << "Pipeline state changed from" << GstStateText(old_state) << "to" << GstStateText(new_state);
 
+  // Cache the pipeline's state so state() can answer without a blocking gst_element_get_state() call.
+  current_state_ = new_state;
+
   const bool pipeline_active = new_state == GST_STATE_PAUSED || new_state == GST_STATE_PLAYING;
   if (pipeline_active != pipeline_active_.load()) {
     pipeline_active_ = pipeline_active;
@@ -1912,12 +1927,12 @@ void GstEnginePipeline::BufferingMessageReceived(GstMessage *msg) {
 
 GstState GstEnginePipeline::state() const {
 
-  GstState s = GST_STATE_NULL, sp = GST_STATE_NULL;
-  if (!pipeline_ || gst_element_get_state(pipeline_, &s, &sp, kGstStateTimeoutNanosecs) == GST_STATE_CHANGE_FAILURE) {
-    return GST_STATE_NULL;
-  }
+  // Return the cached state observed from GST_MESSAGE_STATE_CHANGED instead of calling the blocking gst_element_get_state(),
+  // which would stall the calling thread (e.g. the GUI thread via AnalyzerBase::paintEvent) for up to kGstStateTimeoutNanosecs while the pipeline is mid state-change.
+  // Callers already tolerate a momentarily stale value (see EngineBase).
+  if (!pipeline_) return GST_STATE_NULL;
 
-  return s;
+  return current_state_.load();
 
 }
 
@@ -2295,7 +2310,7 @@ void GstEnginePipeline::SetFaderVolume(const qreal volume) {
 
 void GstEnginePipeline::ResumeFaderAsync() {
 
-  if (fader_active_.load() && !fader_running_.load()) {
+  if (fader_ && fader_active_.load() && !fader_running_.load()) {
     QMetaObject::invokeMethod(&*fader_, &QTimeLine::resume, Qt::QueuedConnection);
   }
 
@@ -2328,7 +2343,7 @@ void GstEnginePipeline::FaderTimelineTimeout() {
 
   qLog(Debug) << "Pipeline" << id() << "fading timed out";
 
-  if (volume_fading_) {
+  if (volume_fading_ && fader_) {
     qLog(Debug) << "Pipeline" << id() << "setting volume" << (fader_->direction() == QTimeLine::Direction::Forward ? 1.0 : 0.0);
     g_object_set(G_OBJECT(volume_fading_), "volume", fader_->direction() == QTimeLine::Direction::Forward ? 1.0 : 0.0, nullptr);
   }

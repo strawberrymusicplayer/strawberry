@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        opensuse_version: [ 'tumbleweed', 'leap:15.6', 'leap:16.0' ]
+        opensuse_version: [ 'tumbleweed', 'leap:16.0' ]
     container:
       image: opensuse/${{matrix.opensuse_version}}
     steps:
@@ -29,12 +29,6 @@ jobs:
       - name: Upgrade packages (Leap)
         if: matrix.opensuse_version != 'tumbleweed'
         run: zypper -n --gpg-auto-import-keys up
-      - name: Install gcc
-        if: matrix.opensuse_version != 'leap:15.6'
-        run: zypper -n --gpg-auto-import-keys in gcc gcc-c++
-      - name: Install gcc (leap:15.6)
-        if: matrix.opensuse_version == 'leap:15.6'
-        run: zypper -n --gpg-auto-import-keys in gcc14 gcc14-c++
       - name: Install packages
         run: >
             zypper -n --gpg-auto-import-keys in
@@ -44,6 +38,8 @@ jobs:
             tar
             make
             cmake
+            gcc
+            gcc-c++
             openssh-clients
             glibc-devel
             libboost_headers-devel
@@ -83,20 +79,7 @@ jobs:
             gtest
             gmock
             sparsehash-devel
-      - name: Install kdsingleapplication-qt6-devel
-        if: matrix.opensuse_version != 'leap:15.6'
-        run: zypper -n --gpg-auto-import-keys in kdsingleapplication-qt6-devel
-      - name: Build and install KDSingleApplication
-        if: matrix.opensuse_version == 'leap:15.6'
-        env:
-          CC: gcc-14
-          CXX: g++-14
-        run: |
-          git clone --depth 1 --recurse-submodules https://github.com/KDAB/KDSingleApplication
-          cd KDSingleApplication
-          cmake -S . -B build -DCMAKE_BUILD_TYPE="Release" -DBUILD_SHARED_LIBS=OFF -DBUILD_STATIC_LIBS=ON -DKDSingleApplication_STATIC=ON
-          cmake --build build --config Release --parallel 4
-          cmake --install build
+            kdsingleapplication-qt6-devel
       - name: Checkout
         uses: actions/checkout@v6
         with:
@@ -117,17 +100,8 @@ jobs:
         working-directory: build
         run: cp strawberry-*.tar.xz /usr/src/packages/SOURCES/
       - name: Build RPM
-        if: matrix.opensuse_version != 'leap:15.6'
         env:
           RPM_BUILD_NCPUS: 4
-        working-directory: build
-        run: rpmbuild -ba strawberry.spec
-      - name: Build RPM (leap:15.6)
-        if: matrix.opensuse_version == 'leap:15.6'
-        env:
-          RPM_BUILD_NCPUS: 4
-          CC: gcc-14
-          CXX: g++-14
         working-directory: build
         run: rpmbuild -ba strawberry.spec
       - name: Set subdir
@@ -159,7 +133,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        fedora_version: [ '42', '43', '44' ]
+        fedora_version: [ '43', '44', '45' ]
     container:
       image: fedora:${{matrix.fedora_version}}
     steps:
@@ -755,7 +729,7 @@ jobs:
         df -h
     - name: Build FreeBSD
       id: build-freebsd
-      uses: vmactions/freebsd-vm@v1.4.5
+      uses: vmactions/freebsd-vm@v1.4.6
       with:
         usesh: true
         mem: 8192
@@ -781,7 +755,7 @@ jobs:
         submodules: recursive
     - name: Build OpenBSD
       id: build-openbsd
-      uses: vmactions/openbsd-vm@v1.4.0
+      uses: vmactions/openbsd-vm@v1.4.3
       with:
         usesh: true
         mem: 4096

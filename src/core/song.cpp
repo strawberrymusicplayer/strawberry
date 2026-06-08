@@ -260,7 +260,8 @@ const QStringList Song::kRejectedExtensions = QStringList() << u"tmp"_s
                                                             << u"zip"_s
                                                             << u"rar"_s
                                                             << u"wvc"_s
-                                                            << u"zst"_s;
+                                                            << u"zst"_s
+                                                            << u"lrc"_s;
 
 struct Song::Private : public QSharedData {
 
@@ -968,7 +969,6 @@ bool Song::IsFileInfoEqual(const Song &other) const {
          d->basefilename_ == other.d->basefilename_ &&
          d->filetype_ == other.d->filetype_ &&
          d->filesize_ == other.d->filesize_ &&
-         d->mtime_ == other.d->mtime_ &&
          d->ctime_ == other.d->ctime_ &&
          d->mtime_ == other.d->mtime_ &&
          d->stream_url_ == other.d->stream_url_;
@@ -1435,7 +1435,7 @@ Song::FileType Song::FiletypeByDescription(const QString &text) {
   if (text.compare("audio/x-dsd"_L1, Qt::CaseInsensitive) == 0) return FileType::DSDIFF;
   if (text.compare("audio/x-ffmpeg-parsed-ape"_L1, Qt::CaseInsensitive) == 0) return FileType::APE;
   if (text.compare("Module Music Format (MOD)"_L1, Qt::CaseInsensitive) == 0) return FileType::MOD;
-  if (text.compare("Module Music Format (MOD)"_L1, Qt::CaseInsensitive) == 0) return FileType::S3M;
+  if (text.compare("Module Music Format (S3M)"_L1, Qt::CaseInsensitive) == 0) return FileType::S3M;
   if (text.compare("SNES SPC700"_L1, Qt::CaseInsensitive) == 0) return FileType::SPC;
   if (text.compare("VGM"_L1, Qt::CaseInsensitive) == 0) return FileType::VGM;
   if (text.compare("Apple Lossless Audio Codec (ALAC)"_L1, Qt::CaseInsensitive) == 0) return FileType::ALAC;
@@ -1509,7 +1509,7 @@ QString Song::ImageCacheDir(const Source source) {
 
 }
 
-int Song::CompareSongsName(const Song &song1, const Song &song2) {
+bool Song::CompareSongsName(const Song &song1, const Song &song2) {
   return song1.PrettyTitleWithArtist().localeAwareCompare(song2.PrettyTitleWithArtist()) < 0;
 }
 

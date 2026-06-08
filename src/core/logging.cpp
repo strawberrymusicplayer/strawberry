@@ -337,6 +337,7 @@ QString DarwinDemangle(const QString &symbol);
 QString DarwinDemangle(const QString &symbol) {
 
   const QStringList split = symbol.split(QLatin1Char(' '), Qt::SkipEmptyParts);
+  if (split.size() < 4) return symbol;
   QString mangled_function = split[3];
   return CXXDemangle(mangled_function);
 

@@ -47,7 +47,7 @@ class RadioModel : public SimpleTreeModel<RadioItem> {
   Q_OBJECT
 
  public:
-  explicit RadioModel(const SharedPtr<AlbumCoverLoader> albumcover_loader, const SharedPtr<RadioServices> radio_services, QObject *parent = nullptr);
+  explicit RadioModel(const SharedPtr<AlbumCoverLoader> albumcover_loader, RadioServices *radio_services, QObject *parent = nullptr);
   ~RadioModel() override;
 
   enum Role {
@@ -91,7 +91,7 @@ class RadioModel : public SimpleTreeModel<RadioItem> {
   using ItemAndCacheKey = QPair<RadioItem*, QString>;
 
   const SharedPtr<AlbumCoverLoader> albumcover_loader_;
-  const SharedPtr<RadioServices> radio_services_;
+  RadioServices *const radio_services_;
 
   QMap<Song::Source, RadioItem*> container_nodes_;
   QList<RadioItem*> items_;

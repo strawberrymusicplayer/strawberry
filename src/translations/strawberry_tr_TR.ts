@@ -2768,7 +2768,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Stop</source>
-      <translation>Duraklat</translation>
+      <translation>Durdur</translation>
     </message>
     <message>
       <source>Stop playing after current track</source>
@@ -3257,7 +3257,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>&amp;Stop</source>
-      <translation>Duraklat</translation>
+      <translation>&amp;Durdur</translation>
     </message>
     <message>
       <source>F7</source>
@@ -4168,7 +4168,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Stopped</source>
-      <translation>Duraklatıldı</translation>
+      <translation>Durduruldu</translation>
     </message>
     <message>
       <source>Stop playing after track: %1</source>

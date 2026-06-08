@@ -30,6 +30,7 @@
 
 #include "includes/scoped_ptr.h"
 #include "includes/shared_ptr.h"
+#include "core/logging.h"
 #include "core/song.h"
 #include "core/memorydatabase.h"
 #include "constants/timeconstants.h"
@@ -605,6 +606,72 @@ TEST_F(UpdateSongsBySongID, UpdateSongsBySongID) {
     EXPECT_EQ(changed_songs[0].song_id(), u"song1"_s);
     EXPECT_EQ(changed_songs[1].song_id(), u"song6"_s);
 
+  }
+
+}
+
+class ChangeDirPath : public CollectionBackendTest {
+ protected:
+  void SetUp() override {
+    CollectionBackendTest::SetUp();
+    backend_->AddDirectory(u"/mnt/music"_s);  // Gets directory ID 1.
+  }
+};
+
+TEST_F(ChangeDirPath, RewritesSongPaths) {
+
+  Song song(Song::Source::Collection);
+  song.set_directory_id(1);
+  song.set_title(u"Title"_s);
+  song.set_album(u"Album"_s);
+  song.set_artist(u"Artist"_s);
+  song.set_url(QUrl::fromLocalFile(u"/mnt/music/album/song.flac"_s));
+  song.set_length_nanosec(kNsecPerSec);
+  song.set_mtime(1);
+  song.set_ctime(1);
+  song.set_filesize(1);
+  song.set_valid(true);
+  backend_->AddOrUpdateSongs(SongList() << song);
+
+  {
+    SongList songs = backend_->FindSongsInDirectory(1);
+    ASSERT_EQ(1, songs.count());
+    EXPECT_EQ(QUrl::fromLocalFile(u"/mnt/music/album/song.flac"_s), songs[0].url());
+  }
+
+  // Move the directory to a new mount point.
+  backend_->ChangeDirPath(1, u"/mnt/music"_s, u"/mnt/newmusic"_s);
+
+  // The song's url must be rewritten to the new path. If ChangeDirPath's UPDATE fails the transaction rolls back and the url stays unchanged - which is what this test guards against.
+  {
+    SongList songs = backend_->FindSongsInDirectory(1);
+    ASSERT_EQ(1, songs.count());
+    EXPECT_EQ(QUrl::fromLocalFile(u"/mnt/newmusic/album/song.flac"_s), songs[0].url());
+  }
+
+}
+
+TEST_F(ChangeDirPath, RewritesSubdirectoryPaths) {
+
+  // Subdirectory paths are stored as plain filesystem paths (not file:// URLs).
+  CollectionSubdirectory subdir;
+  subdir.directory_id = 1;
+  subdir.path = u"/mnt/music/album"_s;
+  subdir.mtime = 1;
+  backend_->AddOrUpdateSubdirs(CollectionSubdirectoryList() << subdir);
+
+  {
+    CollectionSubdirectoryList subdirs = backend_->SubdirsInDirectory(1);
+    ASSERT_EQ(1, subdirs.count());
+    EXPECT_EQ(u"/mnt/music/album"_s, subdirs[0].path);
+  }
+
+  backend_->ChangeDirPath(1, u"/mnt/music"_s, u"/mnt/newmusic"_s);
+
+  {
+    CollectionSubdirectoryList subdirs = backend_->SubdirsInDirectory(1);
+    ASSERT_EQ(1, subdirs.count());
+    EXPECT_EQ(u"/mnt/newmusic/album"_s, subdirs[0].path);
   }
 
 }

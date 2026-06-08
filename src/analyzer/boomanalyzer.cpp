@@ -47,8 +47,8 @@ BoomAnalyzer::BoomAnalyzer(QWidget *parent)
       bands_(0),
       scope_(kMinBandCount),
       fg_(palette().color(QPalette::Highlight)),
-      K_barHeight_(1.271),  // 1.471
-      F_peakSpeed_(1.103),  // 1.122
+      K_barHeight_(1.271),
+      F_peakSpeed_(1.103),
       F_(1.0),
       bar_height_(kMaxBandCount, 0),
       peak_height_(kMaxBandCount, 0),
@@ -149,7 +149,7 @@ void BoomAnalyzer::analyze(QPainter &p, const Scope &scope, const bool new_frame
         peak_height_[i] -= peak_speed_[i];
         peak_speed_[i] *= F_peakSpeed_;  // 1.12
 
-        peak_height_[i] = std::max(bar_height_[i], bar_height_[i]);
+        peak_height_[i] = std::max(bar_height_[i], peak_height_[i]);
         peak_height_[i] = std::max(0.0, peak_height_[i]);
       }
     }

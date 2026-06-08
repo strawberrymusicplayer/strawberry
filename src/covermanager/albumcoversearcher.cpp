@@ -217,7 +217,8 @@ void AlbumCoverSearcher::SearchFinished(const quint64 id, const CoverProviderSea
     if (result.image_url.isEmpty()) continue;
 
     AlbumCoverLoaderOptions cover_options(AlbumCoverLoaderOptions::Option::RawImageData | AlbumCoverLoaderOptions::Option::OriginalImage | AlbumCoverLoaderOptions::Option::ScaledImage | AlbumCoverLoaderOptions::Option::PadScaledImage);
-    cover_options.desired_scaled_size = ui_->covers->iconSize(), ui_->covers->iconSize();
+    cover_options.desired_scaled_size = ui_->covers->iconSize();
+    cover_options.device_pixel_ratio = devicePixelRatioF();
     quint64 new_id = albumcover_loader_->LoadImageAsync(cover_options, false, result.image_url, QUrl(), false);
 
     QStandardItem *item = new QStandardItem;

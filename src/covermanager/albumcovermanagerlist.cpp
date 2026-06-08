@@ -66,7 +66,10 @@ QMimeData *AlbumCoverManagerList::mimeData(const QList<QListWidgetItem*> &items)
   mime_data->backend = manager_->collection_backend();
   mime_data->songs = songs;
   mime_data->setUrls(urls);
-  mime_data->setData(orig_data->formats()[0], orig_data->data(orig_data->formats()[0]));
+  const QStringList orig_formats = orig_data->formats();
+  if (!orig_formats.isEmpty()) {
+    mime_data->setData(orig_formats.constFirst(), orig_data->data(orig_formats.constFirst()));
+  }
 
   return mime_data;
 

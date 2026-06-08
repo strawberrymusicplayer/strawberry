@@ -94,18 +94,14 @@ void CDDASongLoader::LoadSongsFromCDDA() {
 
   QMutexLocker l(&mutex_load_);
 
-  GError *error = nullptr;
   GstElement *cdda = gst_element_factory_make("cdiocddasrc", nullptr);
-  if (error) {
-    Error(QStringLiteral("%1: %2").arg(error->code).arg(QString::fromUtf8(error->message)));
-  }
   if (!cdda) {
     Error(tr("Could not create cdiocddasrc"));
     return;
   }
 
   if (!url_.isEmpty()) {
-    g_object_set(cdda, "device", g_strdup(url_.path().toLocal8Bit().constData()), nullptr);
+    g_object_set(cdda, "device", url_.path().toLocal8Bit().constData(), nullptr);
   }
   if (g_object_class_find_property(G_OBJECT_GET_CLASS(cdda), "paranoia-mode")) {
     g_object_set(cdda, "paranoia-mode", 0, nullptr);
@@ -130,6 +126,13 @@ void CDDASongLoader::LoadSongsFromCDDA() {
 
   // Get number of tracks
   GstFormat format_track = gst_format_get_by_nick("track");
+  if (format_track == GST_FORMAT_UNDEFINED) {
+    gst_element_set_state(cdda, GST_STATE_NULL);
+    gst_object_unref(GST_OBJECT(cdda));
+    cdda = nullptr;
+    Error(tr("The 'track' format is not supported by GStreamer."));
+    return;
+  }
   GstFormat format_duration = format_track;
   gint64 total_tracks = 0;
   if (!gst_element_query_duration(cdda, format_duration, &total_tracks)) {
@@ -206,8 +209,8 @@ void CDDASongLoader::LoadSongsFromCDDA() {
             song.set_length_nanosec(static_cast<qint64>(stop - start));
           }
         }
-        msg_filter = static_cast<GstMessageType>(static_cast<int>(msg_filter) ^ GST_MESSAGE_TOC);
       }
+      msg_filter = static_cast<GstMessageType>(static_cast<int>(msg_filter) ^ GST_MESSAGE_TOC);
     }
 
     else if (GST_MESSAGE_TYPE(msg) == GST_MESSAGE_TAG) {

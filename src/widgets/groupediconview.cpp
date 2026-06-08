@@ -346,7 +346,8 @@ QList<QModelIndex> GroupedIconView::IntersectingItems(const QRect rect) const {
   const int count = static_cast<int>(visual_rects_.count());
   for (int i = 0; i < count; ++i) {
     if (rect.intersects(visual_rects_[i])) {
-      ret.append(model()->index(i, 0));
+      const QModelIndex index = model()->index(i, 0);
+      if (index.isValid()) ret.append(index);
     }
   }
 
@@ -359,7 +360,9 @@ QRegion GroupedIconView::visualRegionForSelection(const QItemSelection &selectio
   QRegion ret;
   const QModelIndexList indexes = selection.indexes();
   for (const QModelIndex &idx : indexes) {
-    ret += visual_rects_[idx.row()];
+    if (idx.row() >= 0 && idx.row() < visual_rects_.count()) {
+      ret += visual_rects_[idx.row()];
+    }
   }
   return ret;
 
@@ -391,11 +394,13 @@ QModelIndex GroupedIconView::moveCursor(CursorAction action, const Qt::KeyboardM
     case MoveEnd:   ret = model()->rowCount() - 1; break;
   }
 
-  return model()->index(qBound(0, ret, model()->rowCount()), 0);
+  return model()->index(qBound(0, ret, model()->rowCount() - 1), 0);
 
 }
 
 int GroupedIconView::IndexAboveOrBelow(int index, const int d) const {
+
+  if (index < 0 || index >= visual_rects_.count()) return index;
 
   const QRect orig_rect(visual_rects_[index]);
 

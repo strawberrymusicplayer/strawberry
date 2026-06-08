@@ -551,7 +551,7 @@ void Player::PlayPause(const quint64 offset_nanosec, const Playlist::AutoScroll 
       break;
 
     case EngineBase::State::Playing:{
-      if (current_item_->options() & PlaylistItem::Option::PauseDisabled) {
+      if (current_item_ && current_item_->options() & PlaylistItem::Option::PauseDisabled) {
         Stop();
       }
       else {
@@ -662,7 +662,6 @@ void Player::PreviousItem(const EngineBase::TrackChangeFlags change) {
   playlist_manager_->active()->set_current_row(i, Playlist::AutoScroll::Always, false);
   if (i == -1) {
     Stop();
-    PlayAt(i, false, 0, change, Playlist::AutoScroll::Always, true);
     return;
   }
 

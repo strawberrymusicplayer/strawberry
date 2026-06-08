@@ -235,7 +235,14 @@ void SmartPlaylistsViewContainer::EditSmartPlaylist(const QModelIndex &idx) {
                                                         current_albumcover_loader_,
                                                         this);
   wizard->setAttribute(Qt::WA_DeleteOnClose);
-  QObject::connect(wizard, &SmartPlaylistWizard::accepted, this, &SmartPlaylistsViewContainer::EditSmartPlaylistFinished);
+
+  const QPersistentModelIndex edit_index(idx);
+  QObject::connect(wizard, &SmartPlaylistWizard::accepted, this, [this, wizard, edit_index]() {
+    if (!edit_index.isValid()) return;
+    PlaylistGeneratorPtr generator = wizard->CreateGenerator();
+    if (!generator) return;
+    model_->UpdateGenerator(edit_index, generator);
+  });
 
   wizard->show();
   wizard->SetGenerator(model_->CreateGenerator(idx));
@@ -285,20 +292,9 @@ void SmartPlaylistsViewContainer::NewSmartPlaylistFinished() {
   SmartPlaylistWizard *wizard = qobject_cast<SmartPlaylistWizard*>(sender());
   if (!wizard) return;
   QObject::disconnect(wizard, &SmartPlaylistWizard::accepted, this, &SmartPlaylistsViewContainer::NewSmartPlaylistFinished);
-  model_->AddGenerator(wizard->CreateGenerator());
-
-}
-
-void SmartPlaylistsViewContainer::EditSmartPlaylistFinished() {
-
-  if (!context_menu_index_.isValid()) return;
-
-  const SmartPlaylistWizard *wizard = qobject_cast<SmartPlaylistWizard*>(sender());
-  if (!wizard) return;
-
-  QObject::disconnect(wizard, &SmartPlaylistWizard::accepted, this, &SmartPlaylistsViewContainer::EditSmartPlaylistFinished);
-
-  model_->UpdateGenerator(context_menu_index_, wizard->CreateGenerator());
+  PlaylistGeneratorPtr generator = wizard->CreateGenerator();
+  if (!generator) return;
+  model_->AddGenerator(generator);
 
 }
 

@@ -59,6 +59,8 @@ bool Copy(QIODevice *source, QIODevice *destination) {
   if (!destination->open(QIODevice::WriteOnly)) return false;
 
   const qint64 bytes = source->size();
+  // size() returns -1 for sequential devices (sockets, processes); casting that to size_t would attempt a SIZE_MAX allocation.
+  if (bytes < 0) return false;
   unique_ptr<char[]> data(new char[static_cast<size_t>(bytes)]);
   qint64 pos = 0;
 
@@ -70,6 +72,9 @@ bool Copy(QIODevice *source, QIODevice *destination) {
     pos += bytes_read;
   } while (bytes_read > 0 && pos != bytes);
 
+  // A short read (read() returning 0 before all bytes were read) leaves the buffer partially filled - don't go on to write a truncated/garbage copy and report success.
+  if (pos != bytes) return false;
+
   pos = 0;
   qint64 bytes_written = 0;
   do {
@@ -78,6 +83,9 @@ bool Copy(QIODevice *source, QIODevice *destination) {
 
     pos += bytes_written;
   } while (bytes_written > 0 && pos != bytes);
+
+  // Likewise a short write means the copy is incomplete despite no -1 error.
+  if (pos != bytes) return false;
 
   return true;
 

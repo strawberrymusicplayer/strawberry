@@ -35,7 +35,7 @@ namespace {
 constexpr char kUrl[] = "https://www.elyrics.net/read/";
 constexpr char kStartTag[] = "<div[^>]*>";
 constexpr char kEndTag[] = "<\\/div>";
-constexpr char kLyricsStart[] = "<div id='inlyr'>";
+constexpr char kLyricsStart[] = "<div id='inlyr'[^>]*>";
 }  // namespace
 
 ElyricsNetLyricsProvider::ElyricsNetLyricsProvider(const SharedPtr<NetworkAccessManager> network, QObject *parent)

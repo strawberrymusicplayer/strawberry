@@ -62,7 +62,7 @@ quint32 GME::UnpackBytes32(const char *const bytes, size_t length) {
 
   quint32 value = 0;
   for (size_t i = 0; i < length; i++) {
-    value |= static_cast<unsigned char>(bytes[i]) << (8 * i);
+    value |= static_cast<quint32>(static_cast<unsigned char>(bytes[i])) << (8 * i);
   }
 
   return value;
@@ -107,9 +107,9 @@ TagReaderResult GME::SPC::Read(const QFileInfo &fileinfo, Song *song) {
   if (length_bytes.size() >= INTRO_LENGTH_SIZE) {
     quint64 length_in_sec = ConvertSPCStringToNum(length_bytes);
 
-    if (length_in_sec <= 0 || length_in_sec >= 0x1FFF) {
+    if (length_in_sec == 0 || length_in_sec >= 0x1FFF) {
       // This means that parsing the length as a string failed, so get value LE.
-      length_in_sec = static_cast<quint64>(length_bytes[0] | (length_bytes[1] << 8) | (length_bytes[2] << 16));
+      length_in_sec = static_cast<quint64>(static_cast<quint8>(length_bytes[0])) | (static_cast<quint64>(static_cast<quint8>(length_bytes[1])) << 8) | (static_cast<quint64>(static_cast<quint8>(length_bytes[2])) << 16);
     }
 
     if (length_in_sec < 0x1FFF) {
@@ -134,7 +134,11 @@ TagReaderResult GME::SPC::Read(const QFileInfo &fileinfo, Song *song) {
   if (has_id6 && file.read(4) == "xid6") {
     QByteArray xid6_head_data = file.read(4);
     if (xid6_head_data.size() >= 4) {
-      qint64 xid6_size = xid6_head_data[0] | (xid6_head_data[1] << 8) | (xid6_head_data[2] << 16) | xid6_head_data[3];
+      // Little-endian 32-bit size. Cast each byte through quint8 to avoid signed-char sign-extension, and shift byte 3 by 24.
+      const qint64 xid6_size = static_cast<quint32>(static_cast<quint8>(xid6_head_data[0]))
+                             | (static_cast<quint32>(static_cast<quint8>(xid6_head_data[1])) << 8)
+                             | (static_cast<quint32>(static_cast<quint8>(xid6_head_data[2])) << 16)
+                             | (static_cast<quint32>(static_cast<quint8>(xid6_head_data[3])) << 24);
       // This should be the size remaining for entire ID6 block, but it seems that most files treat this as the size of the remaining header space...
 
       qLog(Debug) << fileinfo.fileName() << "has ID6 tag.";
@@ -147,7 +151,7 @@ TagReaderResult GME::SPC::Read(const QFileInfo &fileinfo, Song *song) {
         qint8 type = arr[1];
         Q_UNUSED(id);
         Q_UNUSED(type);
-        qint16 length = static_cast<qint16>(arr[2] | (arr[3] << 8));
+        qint16 length = static_cast<qint16>(static_cast<quint8>(arr[2]) | (static_cast<quint8>(arr[3]) << 8));
 
         file.read(GetNextMemAddressAlign32bit(length));
       }
@@ -237,7 +241,8 @@ TagReaderResult GME::VGM::Read(const QFileInfo &fileinfo, Song *song) {
   QByteArray gd3_length_bytes = file.read(4);
   quint32 gd3_length = GME::UnpackBytes32(gd3_length_bytes.constData(), static_cast<size_t>(gd3_length_bytes.size()));
 
-  QByteArray gd3Data = file.read(gd3_length);
+  // Cap to the bytes actually remaining in the file so a crafted length can't trigger a huge allocation.
+  QByteArray gd3Data = file.read(qMin(static_cast<qint64>(gd3_length), file.size() - file.pos()));
   QTextStream fileTagStream(gd3Data, QIODevice::ReadOnly);
   // Stored as 16 bit UTF string, two bytes per letter.
   fileTagStream.setEncoding(QStringConverter::Utf16);

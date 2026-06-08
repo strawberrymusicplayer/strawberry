@@ -29,6 +29,7 @@
 #include <memory>
 
 #include <QtGlobal>
+#include <QCoreApplication>
 #include <QtConcurrentRun>
 #include <QFuture>
 #include <QFutureWatcher>
@@ -67,6 +68,8 @@
 #include <QDialogButtonBox>
 #include <QPushButton>
 #include <QAbstractButton>
+#include <QAbstractSpinBox>
+#include <QScrollArea>
 #include <QtEvents>
 #include <QSettings>
 #include <QMimeData>
@@ -124,7 +127,7 @@ constexpr int kComboBoxIndex_ID3v2_4 = 1;
 const char EditTagDialog::kTagsDifferentHintText[] = QT_TR_NOOP("(different across multiple songs)");
 const char EditTagDialog::kArtDifferentHintText[] = QT_TR_NOOP("Different art across multiple songs.");
 
-#ifdef __clang_
+#ifdef __clang__
 #  pragma clang diagnostic pop
 #endif
 
@@ -205,6 +208,8 @@ EditTagDialog::EditTagDialog(const SharedPtr<NetworkAccessManager> network,
       else if (SpinBox *spinbox = qobject_cast<SpinBox*>(widget)) {
         QObject::connect(spinbox, QOverload<int>::of(&SpinBox::valueChanged), this, &EditTagDialog::FieldValueEdited);
         QObject::connect(spinbox, &SpinBox::Reset, this, &EditTagDialog::ResetField);
+        spinbox->setFocusPolicy(Qt::StrongFocus);
+        spinbox->installEventFilter(this);
       }
       else if (CheckBox *checkbox = qobject_cast<CheckBox*>(widget)) {
 #if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
@@ -360,6 +365,15 @@ void EditTagDialog::accept() {
 
 bool EditTagDialog::eventFilter(QObject *o, QEvent *e) {
 
+  if (e->type() == QEvent::Wheel) {
+    if (QAbstractSpinBox *spinbox = qobject_cast<QAbstractSpinBox*>(o)) {
+      if (!spinbox->hasFocus()) {
+        QCoreApplication::sendEvent(ui_->scrollarea->viewport(), e);
+        return true;
+      }
+    }
+  }
+
   if (o == ui_->tags_art) {
     switch (e->type()) {
       case QEvent::MouseButtonRelease:{
@@ -473,7 +487,7 @@ void EditTagDialog::SetSongs(const SongList &s, const PlaylistItemPtrList &items
 
   // Reload tags in the background
   QFuture<QList<Data>> future = QtConcurrent::run(&EditTagDialog::LoadData, this, s);
-  QFutureWatcher<QList<Data>> *watcher = new QFutureWatcher<QList<Data>>();
+  QFutureWatcher<QList<Data>> *watcher = new QFutureWatcher<QList<Data>>(this);
   QObject::connect(watcher, &QFutureWatcher<QList<Data>>::finished, this, &EditTagDialog::SetSongsFinished);
   watcher->setFuture(future);
 
@@ -819,6 +833,8 @@ void EditTagDialog::SelectionChanged() {
     summary += tr("%1 songs selected.").arg(indexes.count());
     summary += "</b></p>"_L1;
   }
+  // Keep the base HTML so the art summary can be appended later without losing the rich-text formatting (toPlainText() would strip the bold markup).
+  tags_summary_text_ = summary;
   ui_->tags_summary->setText(summary);
 
   const bool enable_change_art = first_song.is_local_collection_song();
@@ -931,7 +947,8 @@ void EditTagDialog::UpdateSummaryTab(const Song &song) {
   cover_options.device_pixel_ratio = devicePixelRatioF();
   summary_cover_art_id_ = albumcover_loader_->LoadImageAsync(cover_options, song);
 
-  ui_->summary->setText(u"<p><b>"_s + song.PrettyTitleWithArtist().toHtmlEscaped() + u"</b></p>"_s);
+  summary_text_ = u"<p><b>"_s + song.PrettyTitleWithArtist().toHtmlEscaped() + u"</b></p>"_s;
+  ui_->summary->setText(summary_text_);
 
   ui_->length->setText(Utilities::PrettyTimeNanosec(song.length_nanosec()));
 
@@ -1053,7 +1070,7 @@ void EditTagDialog::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderRes
     }
     if (ui_->song_list->selectionModel()->selectedIndexes().count() > 0) {
       const QModelIndex idx = ui_->song_list->selectionModel()->selectedIndexes().first();
-      QString summary = ui_->summary->toPlainText();
+      QString summary = summary_text_;
       summary += "<br />"_L1;
       summary += "<br />"_L1;
       summary += GetArtSummary(data_[idx.row()].current_, result.type);
@@ -1080,7 +1097,7 @@ void EditTagDialog::AlbumCoverLoaded(const quint64 id, const AlbumCoverLoaderRes
     }
     bool enable_change_art = false;
     if (first_song.is_valid()) {
-      QString summary = ui_->tags_summary->toPlainText();
+      QString summary = tags_summary_text_;
       summary += "<br />"_L1;
       summary += "<br />"_L1;
       if (cover_action == UpdateCoverAction::None) {
@@ -1254,7 +1271,7 @@ void EditTagDialog::UpdateCover(const UpdateCoverAction cover_action, const Albu
       data_[idx.row()].current_.clear_art_automatic();
       data_[idx.row()].current_.set_art_unset(false);
     }
-    if (artist != data_[idx.row()].current_.effective_albumartist() || album != data_[idx.row()].current_.effective_albumartist()) {
+    if (artist != data_[idx.row()].current_.effective_albumartist() || album != data_[idx.row()].current_.album()) {
       artist.clear();
       album.clear();
     }

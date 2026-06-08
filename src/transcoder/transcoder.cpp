@@ -300,7 +300,7 @@ QString Transcoder::GetFile(const QString &input, const TranscoderPreset &preset
     QString path = fileinfo_output.path();
     QString filename = fileinfo_output.completeBaseName();
     QString suffix = fileinfo_output.suffix();
-    for (int i = 0;; ++i) {
+    for (int i = 0; i < 1000000; ++i) {
       QString new_filename = QStringLiteral("%1/%2-%3.%4").arg(path, filename).arg(i).arg(suffix);
       fileinfo_output.setFile(new_filename);
       if (!fileinfo_output.exists()) {
@@ -362,6 +362,7 @@ void Transcoder::NewPadCallback(GstElement *element, GstPad *pad, gpointer data)
 
   JobState *state = reinterpret_cast<JobState*>(data);
   GstPad *const audiopad = gst_element_get_static_pad(state->convert_element_, "sink");
+  if (!audiopad) return;
 
   if (GST_PAD_IS_LINKED(audiopad)) {
     qLog(Debug) << "Audiopad is already linked, unlinking old pad";
@@ -582,7 +583,7 @@ QMap<QString, float> Transcoder::GetProgress() const {
     gst_element_query_position(state->pipeline_, GST_FORMAT_TIME, &position);
     gst_element_query_duration(state->pipeline_, GST_FORMAT_TIME, &duration);
 
-    ret[state->job_.input] = static_cast<float>(position) / static_cast<float>(duration);
+    ret[state->job_.input] = duration > 0 ? static_cast<float>(position) / static_cast<float>(duration) : 0.0F;
   }
 
   return ret;

@@ -86,6 +86,7 @@ void CoverFromURLDialog::LoadCoverFromURLFinished() {
   ui_->busy->hide();
 
   QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
+  if (!reply) return;
   reply->deleteLater();
 
   if (reply->error() != QNetworkReply::NoError) {

@@ -27,15 +27,15 @@
 #include "filesystemwatcherinterface.h"
 #include "qtfslistener.h"
 
-QtFSListener::QtFSListener(QObject *parent) : FileSystemWatcherInterface(parent), watcher_(this) {
+QtFSListener::QtFSListener(QObject *parent) : FileSystemWatcherInterface(parent), watcher_(new QFileSystemWatcher(this)) {
 
-  QObject::connect(&watcher_, &QFileSystemWatcher::directoryChanged, this, &QtFSListener::PathChanged);
+  QObject::connect(watcher_, &QFileSystemWatcher::directoryChanged, this, &QtFSListener::PathChanged);
 
 }
 
 void QtFSListener::AddPath(const QString &path) {
 
-  if (!watcher_.addPath(path)) {
+  if (!watcher_->addPath(path)) {
     qLog(Error) << "Failed to add watch for path" << path;
   }
 
@@ -43,7 +43,7 @@ void QtFSListener::AddPath(const QString &path) {
 
 void QtFSListener::RemovePath(const QString &path) {
 
-  if (!watcher_.removePath(path)) {
+  if (!watcher_->removePath(path)) {
     qLog(Error) << "Failed to remove watch for path" << path;
   }
 
@@ -51,7 +51,7 @@ void QtFSListener::RemovePath(const QString &path) {
 
 void QtFSListener::Clear() {
 
-  watcher_.removePaths(watcher_.directories());
-  watcher_.removePaths(watcher_.files());
+  watcher_->removePaths(watcher_->directories());
+  watcher_->removePaths(watcher_->files());
 
 }

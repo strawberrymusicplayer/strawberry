@@ -66,14 +66,11 @@
 #include "lyrics/lyricsproviders.h"
 #include "lyrics/geniuslyricsprovider.h"
 #include "lyrics/ovhlyricsprovider.h"
-#include "lyrics/lololyricsprovider.h"
 #include "lyrics/musixmatchlyricsprovider.h"
-#include "lyrics/chartlyricsprovider.h"
 #include "lyrics/songlyricscomlyricsprovider.h"
 #include "lyrics/azlyricscomlyricsprovider.h"
 #include "lyrics/elyricsnetlyricsprovider.h"
 #include "lyrics/letraslyricsprovider.h"
-#include "lyrics/lyricfindlyricsprovider.h"
 #include "lyrics/lrcliblyricsprovider.h"
 
 #include "scrobbler/audioscrobbler.h"
@@ -175,14 +172,11 @@ class ApplicationImpl {
           // Initialize the repository of lyrics providers.
           lyrics_providers->AddProvider(new GeniusLyricsProvider(lyrics_providers->network()));
           lyrics_providers->AddProvider(new OVHLyricsProvider(lyrics_providers->network()));
-          lyrics_providers->AddProvider(new LoloLyricsProvider(lyrics_providers->network()));
           lyrics_providers->AddProvider(new MusixmatchLyricsProvider(lyrics_providers->network()));
-          lyrics_providers->AddProvider(new ChartLyricsProvider(lyrics_providers->network()));
           lyrics_providers->AddProvider(new SongLyricsComLyricsProvider(lyrics_providers->network()));
           lyrics_providers->AddProvider(new AzLyricsComLyricsProvider(lyrics_providers->network()));
           lyrics_providers->AddProvider(new ElyricsNetLyricsProvider(lyrics_providers->network()));
           lyrics_providers->AddProvider(new LetrasLyricsProvider(lyrics_providers->network()));
-          lyrics_providers->AddProvider(new LyricFindLyricsProvider(lyrics_providers->network()));
           lyrics_providers->AddProvider(new LrcLibLyricsProvider(lyrics_providers->network()));
           lyrics_providers->ReloadSettings();
           return lyrics_providers;

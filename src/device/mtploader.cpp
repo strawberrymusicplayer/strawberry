@@ -97,6 +97,12 @@ bool MtpLoader::TryLoad() {
     LIBMTP_destroy_track_t(track);
   }
 
+  while (tracks) {
+    LIBMTP_track_t *track = tracks;
+    tracks = tracks->next;
+    LIBMTP_destroy_track_t(track);
+  }
+
   if (!abort_) {
     // Need to remove all the existing songs in the database first
     backend_->DeleteSongs(backend_->FindSongsInDirectory(1));

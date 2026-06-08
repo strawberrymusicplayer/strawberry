@@ -46,9 +46,10 @@ QString QobuzFavoriteRequest::FavoriteText(const FavoriteType type) {
     case FavoriteType::Albums:
       return u"albums"_s;
     case FavoriteType::Songs:
-    default:
       return u"tracks"_s;
   }
+
+  return QString();
 
 }
 
@@ -124,7 +125,6 @@ void QobuzFavoriteRequest::AddFavoritesRequest(const FavoriteType type, const QS
 
   QNetworkReply *reply = CreateRequest(u"favorite/create"_s, params);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, type, songs]() { AddFavoritesReply(reply, type, songs); });
-  replies_ << reply;
 
 }
 
@@ -132,6 +132,7 @@ void QobuzFavoriteRequest::AddFavoritesReply(QNetworkReply *reply, const Favorit
 
   if (replies_.contains(reply)) {
     replies_.removeAll(reply);
+    QObject::disconnect(reply, nullptr, this, nullptr);
     reply->deleteLater();
   }
   else {
@@ -214,7 +215,6 @@ void QobuzFavoriteRequest::RemoveFavoritesRequest(const FavoriteType type, const
 
   QNetworkReply *reply = CreateRequest(u"favorite/delete"_s, params);
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, type, songs]() { RemoveFavoritesReply(reply, type, songs); });
-  replies_ << reply;
 
 }
 
@@ -222,6 +222,7 @@ void QobuzFavoriteRequest::RemoveFavoritesReply(QNetworkReply *reply, const Favo
 
   if (replies_.contains(reply)) {
     replies_.removeAll(reply);
+    QObject::disconnect(reply, nullptr, this, nullptr);
     reply->deleteLater();
   }
   else {

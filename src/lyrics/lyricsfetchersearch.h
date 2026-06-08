@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2018-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -50,6 +50,7 @@ class LyricsFetcherSearch : public QObject {
 
  private Q_SLOTS:
   void ProviderSearchFinished(const int id, const LyricsSearchResults &results);
+  void EarlyTimeout();
   void SearchTimeout();
 
  private:
@@ -61,6 +62,7 @@ class LyricsFetcherSearch : public QObject {
  private:
   quint64 id_;
   const LyricsSearchRequest request_;
+  QTimer *timer_search_early_timeout_;
   QTimer *timer_search_timeout_;
   LyricsSearchResults results_;
   QMap<int, LyricsProvider*> pending_requests_;

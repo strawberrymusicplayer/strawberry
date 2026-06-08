@@ -54,7 +54,7 @@ EngineDeviceList AlsaDeviceFinder::ListDevices() {
     if (card < 0) break;
 
     char str[32];
-    snprintf(str, sizeof(str) - 1, "hw:%d", card);
+    snprintf(str, sizeof(str), "hw:%d", card);
 
     snd_ctl_t *handle = nullptr;
     result = snd_ctl_open(&handle, str, 0);
@@ -78,7 +78,7 @@ EngineDeviceList AlsaDeviceFinder::ListDevices() {
       result = snd_ctl_pcm_next_device(handle, &dev);
       if (result < 0) {
         qLog(Error) << "Unable to get PCM for card" << card << ":" << snd_strerror(result);
-        continue;
+        break;
       }
       if (dev < 0) break;
 

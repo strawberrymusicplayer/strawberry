@@ -25,6 +25,7 @@
 
 #include "includes/shared_ptr.h"
 #include "core/database.h"
+#include "core/scopedtransaction.h"
 #include "core/sqlquery.h"
 #include "core/song.h"
 #include "radiobackend.h"
@@ -67,6 +68,7 @@ void RadioBackend::AddChannels(const RadioChannelList &channels) {
 
   QMutexLocker l(db_->Mutex());
   QSqlDatabase db(db_->Connect());
+  ScopedTransaction t(&db);
 
   SqlQuery q(db);
   q.prepare(u"INSERT INTO radio_channels (source, name, url, thumbnail_url) VALUES (:source, :name, :url, :thumbnail_url)"_s);
@@ -81,6 +83,8 @@ void RadioBackend::AddChannels(const RadioChannelList &channels) {
       return;
     }
   }
+
+  t.Commit();
 
   Q_EMIT NewChannels(channels);
 

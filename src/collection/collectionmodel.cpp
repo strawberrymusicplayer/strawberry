@@ -534,7 +534,7 @@ void CollectionModel::AddReAddOrUpdateSongsInternal(const SongList &songs) {
       songs_added << new_song;
     }
     else {
-      qLog(Debug) << "Container key for" << new_song.id() << new_song.PrettyTitleWithArtist() << "is uchanged, only updating song metadata.";
+      qLog(Debug) << "Container key for" << new_song.id() << new_song.PrettyTitleWithArtist() << "is unchanged, only updating song metadata.";
       songs_updated << new_song;
     }
   }

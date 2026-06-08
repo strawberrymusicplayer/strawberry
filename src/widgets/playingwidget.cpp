@@ -219,7 +219,7 @@ void PlayingWidget::CreateModeAction(const Mode mode, const QString &text, QActi
 
 void PlayingWidget::SetMode(const Mode mode) {
 
-  mode_ = static_cast<Mode>(mode);
+  mode_ = mode;
 
   fit_cover_width_action_->setEnabled(mode_ != Mode::SmallSongDetails);
 
@@ -448,7 +448,7 @@ void PlayingWidget::DrawContents(QPainter *p) {
     case Mode::SmallSongDetails:
       // Draw the cover
       p->drawPixmap(0, 0, small_ideal_height_, small_ideal_height_, pixmap_cover_);
-      if (downloading_covers_) {
+      if (downloading_covers_ && spinner_animation_) {
         p->drawPixmap(small_ideal_height_ - 18, 6, 16, 16, spinner_animation_->currentPixmap());
       }
 
@@ -466,7 +466,7 @@ void PlayingWidget::DrawContents(QPainter *p) {
 
       // Draw the cover
       p->drawPixmap(x_offset, kTopBorder, cover_size, cover_size, pixmap_cover_);
-      if (downloading_covers_) {
+      if (downloading_covers_ && spinner_animation_) {
         p->drawPixmap(x_offset + 45, 35, 16, 16, spinner_animation_->currentPixmap());
       }
 

@@ -101,8 +101,8 @@ StreamingSearchView::StreamingSearchView(QWidget *parent)
       front_model_(nullptr),
       back_model_(nullptr),
       current_model_(nullptr),
-      front_proxy_(new StreamingSearchSortModel(this)),
-      back_proxy_(new StreamingSearchSortModel(this)),
+      front_proxy_(nullptr),
+      back_proxy_(nullptr),
       current_proxy_(front_proxy_),
       swap_models_timer_(new QTimer(this)),
       use_pretty_covers_(true),
@@ -188,7 +188,6 @@ void StreamingSearchView::Init(const StreamingServicePtr service, const SharedPt
   QObject::connect(ui_->radiobutton_search_artists, &QRadioButton::clicked, this, &StreamingSearchView::SearchArtistsClicked);
   QObject::connect(ui_->radiobutton_search_albums, &QRadioButton::clicked, this, &StreamingSearchView::SearchAlbumsClicked);
   QObject::connect(ui_->radiobutton_search_songs, &QRadioButton::clicked, this, &StreamingSearchView::SearchSongsClicked);
-  QObject::connect(group_by_actions_, &QActionGroup::triggered, this, &StreamingSearchView::GroupByClicked);
   QObject::connect(group_by_actions_, &QActionGroup::triggered, this, &StreamingSearchView::GroupByClicked);
 
   QObject::connect(ui_->search, &SearchField::textChanged, this, &StreamingSearchView::TextEdited);
@@ -363,6 +362,7 @@ void StreamingSearchView::timerEvent(QTimerEvent *e) {
 
   QMap<int, DelayedSearch>::const_iterator it = delayed_searches_.constFind(e->timerId());
   if (it != delayed_searches_.constEnd()) {
+    killTimer(e->timerId());  // startTimer() creates a repeating timer; stop it so it doesn't keep firing.
     SearchAsync(it.value().id_, it.value().query_, it.value().type_);
     delayed_searches_.erase(it);
     return;

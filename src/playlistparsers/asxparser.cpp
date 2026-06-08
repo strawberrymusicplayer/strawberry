@@ -55,8 +55,8 @@ ParserBase::LoadResult ASXParser::Load(QIODevice *device, const QString &playlis
   for (QRegularExpressionMatch re_match = ex.match(QString::fromUtf8(data), index); re_match.hasMatch(); re_match = ex.match(QString::fromUtf8(data), index)) {
     index = re_match.capturedStart();
     QString url = re_match.captured(2);
-    static const QRegularExpression regex_html_enities(u"&(?!amp;|quot;|apos;|lt;|gt;)"_s);
-    url.replace(regex_html_enities, u"&amp;"_s);
+    static const QRegularExpression regex_html_entities(u"&(?!amp;|quot;|apos;|lt;|gt;)"_s);
+    url.replace(regex_html_entities, u"&amp;"_s);
 
     QByteArray replacement = QStringLiteral("%1%2\"").arg(re_match.captured(1), url).toLocal8Bit();
     data.replace(re_match.captured(0).toLocal8Bit(), replacement);
@@ -88,7 +88,7 @@ ParserBase::LoadResult ASXParser::Load(QIODevice *device, const QString &playlis
 
 Song ASXParser::ParseTrack(QXmlStreamReader *reader, const QDir &dir, const bool collection_lookup) const {
 
-  QString title, artist, album, ref;
+  QString title, artist, ref;
 
   while (!reader->atEnd()) {
     QXmlStreamReader::TokenType type = reader->readNext();
@@ -126,7 +126,6 @@ return_song:
   if (song.source() != Song::Source::Collection) {
     if (!title.isEmpty()) song.set_title(title);
     if (!artist.isEmpty()) song.set_artist(artist);
-    if (!album.isEmpty()) song.set_album(album);
   }
 
   return song;

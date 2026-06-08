@@ -430,7 +430,7 @@ std::optional<EBUR128Measures> EBUR128AnalysisImpl::Compute(const Song &song) {
   GstCaps *caps = gst_static_caps_get(&static_caps);
   // Place a queue before the sink. It really does matter for performance.
   const bool convert_to_queue_linked = gst_element_link_filtered(convert, queue, caps);
-  gst_caps_unref(caps);
+  if (caps) gst_caps_unref(caps);
   if (!convert_to_queue_linked) {
     qLog(Error) << "Failed to link audioconvert to queue2 with filter.";
     gst_object_unref(pipeline);

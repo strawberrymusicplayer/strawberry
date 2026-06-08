@@ -487,7 +487,7 @@ bool Playlist::setData(const QModelIndex &idx, const QVariant &value, const int 
 
 void Playlist::SongSaveComplete(TagReaderReplyPtr reply, const QPersistentModelIndex &idx) {
 
-  if (reply->success() && idx.isValid()) {
+  if (idx.isValid()) {
     if (reply->success()) {
       ItemReload(idx, true);
     }
@@ -631,7 +631,7 @@ int Playlist::PreviousVirtualIndex(int i, const bool ignore_repeat_track) const 
       continue;
     }
     Song this_song = item_at(virtual_items_[j])->EffectiveMetadata();
-    if (((last_song.is_compilation() && this_song.is_compilation()) || last_song.artist() == this_song.artist()) && last_song.album() == this_song.album() && FilterContainsVirtualIndex(j)) {
+    if (((last_song.is_compilation() && this_song.is_compilation()) || last_song.effective_albumartist() == this_song.effective_albumartist()) && last_song.album() == this_song.album() && FilterContainsVirtualIndex(j)) {
       return j;  // Found one
     }
   }
@@ -1835,11 +1835,13 @@ PlaylistItemPtrList Playlist::RemoveItemsWithoutUndo(const int row, const int co
   // Update virtual items
   for (int i = row; i < items_.count() + count; ++i) {
     Q_ASSERT(virtual_items_.count(i) == 1);
+    const int virtual_index = static_cast<int>(virtual_items_.indexOf(i));
+    if (virtual_index < 0) continue;
     if (i >= row + count) {
-      virtual_items_[virtual_items_.indexOf(i)] = i - count;
+      virtual_items_[virtual_index] = i - count;
     }
     else {
-      virtual_items_.removeAt(virtual_items_.indexOf(i));
+      virtual_items_.removeAt(virtual_index);
     }
   }
 
@@ -1915,7 +1917,7 @@ bool Playlist::stop_after_current() const {
 PlaylistItemPtr Playlist::current_item() const {
 
   // QList[] runs in constant time, so no need to cache current_item
-  if (current_item_index_.isValid() && current_item_index_.row() <= items_.length()) {
+  if (current_item_index_.isValid() && current_item_index_.row() < items_.length()) {
     return items_[current_item_index_.row()];
   }
 
@@ -2020,14 +2022,16 @@ void Playlist::Shuffle() {
 
   int begin = 0;
   if (current_item_index_.isValid()) {
-    if (new_items[0] != new_items[current_item_index_.row()]) {
-      std::swap(new_items[0], new_items[current_item_index_.row()]);
+    if (dynamic_playlist_) {
+      // Keep the history and the current track fixed; only shuffle the future region (mirrors sort()).
+      begin = current_item_index_.row() + 1;
     }
-    begin = 1;
-  }
-
-  if (dynamic_playlist_ && current_item_index_.isValid()) {
-    begin += current_item_index_.row() + 1;
+    else {
+      if (new_items[0] != new_items[current_item_index_.row()]) {
+        std::swap(new_items[0], new_items[current_item_index_.row()]);
+      }
+      begin = 1;
+    }
   }
 
   const int count = static_cast<int>(items_.count());

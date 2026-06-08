@@ -77,7 +77,7 @@ int GlobalShortcut::nativeModifiers(const Qt::KeyboardModifiers qt_mods) {
 int GlobalShortcut::nativeKeycode(const Qt::Key qt_keycode) {
 
   Display *disp = X11Display();
-  if (!disp) return false;
+  if (!disp) return 0;
 
   quint32 keysym = 0;
   if (KeyMapperX11::keymapper_x11_.contains(qt_keycode)) {
@@ -99,7 +99,7 @@ int GlobalShortcut::nativeKeycode2(const Qt::Key qt_keycode) {
 bool GlobalShortcut::registerShortcut(const int native_key, const int native_mods) {
 
   Display *disp = X11Display();
-  if (!disp) return false;
+  if (!disp) return 0;
 
   for (const quint32 mask_mods : mask_modifiers_) {
     XGrabKey(disp, native_key, (native_mods | mask_mods), AppRootWindow(), True, GrabModeAsync, GrabModeAsync);
@@ -111,7 +111,7 @@ bool GlobalShortcut::registerShortcut(const int native_key, const int native_mod
 bool GlobalShortcut::unregisterShortcut(const int native_key, const int native_mods) {
 
   Display *disp = X11Display();
-  if (!disp) return false;
+  if (!disp) return 0;
 
   for (const quint32 mask_mods : mask_modifiers_) {
     XUngrabKey(disp, native_key, native_mods | mask_mods, AppRootWindow());

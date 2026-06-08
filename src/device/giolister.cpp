@@ -54,6 +54,10 @@ QString GioLister::DeviceInfo::unique_id() const {
   if (!volume_root_uri.isEmpty()) return volume_root_uri;
 
   if (mount_ptr) {
+    // Prefer the volume UUID (e.g. the FAT volume serial) when available
+    if (!volume_uuid.isEmpty()) {
+      return QStringLiteral("Gio/%1/%2/%3").arg(mount_uuid, filesystem_type, volume_uuid);
+    }
     return QStringLiteral("Gio/%1/%2/%3").arg(mount_uuid, filesystem_type).arg(filesystem_size);
   }
 

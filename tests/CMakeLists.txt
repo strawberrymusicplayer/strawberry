@@ -109,3 +109,27 @@ add_test_file(src/organizeformat_test.cpp false)
 add_test_file(src/playlist_test.cpp true)
 
 add_custom_target(run_strawberry_tests COMMAND ${CMAKE_CTEST_COMMAND} -V DEPENDS strawberry_tests)
+
+# Live integration tests against real lyrics provider endpoints.
+# NOT part of the default test run -- they hit the network and may fail when a provider's API changes or has an outage.
+add_executable(lyrics_live_tests EXCLUDE_FROM_ALL src/lyricsproviders_live_test.cpp)
+target_include_directories(lyrics_live_tests PRIVATE
+  ${CMAKE_BINARY_DIR}/src
+  ${CMAKE_SOURCE_DIR}/src
+)
+target_link_libraries(lyrics_live_tests PRIVATE
+  ${CMAKE_THREAD_LIBS_INIT}
+  PkgConfig::GLIB
+  PkgConfig::GOBJECT
+  PkgConfig::GSTREAMER_BASE
+  GTest::gtest
+  GTest::gmock
+  Qt${QT_VERSION_MAJOR}::Core
+  Qt${QT_VERSION_MAJOR}::Concurrent
+  Qt${QT_VERSION_MAJOR}::Network
+  Qt${QT_VERSION_MAJOR}::Sql
+  Qt${QT_VERSION_MAJOR}::Test
+  Qt${QT_VERSION_MAJOR}::Widgets
+  test_utils
+  test_main
+)

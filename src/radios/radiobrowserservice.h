@@ -53,7 +53,8 @@ class RadioBrowserService : public RadioService {
               const QString &language = QString(),
               const QString &order = QString(),
               const int limit = 100,
-              const int offset = 0);
+              const int offset = 0,
+              const bool hide_broken = true);
 
   void FetchCountries();
 
@@ -76,6 +77,7 @@ class RadioBrowserService : public RadioService {
   void TestServer(const QString &hostname);
 
   QList<QNetworkReply*> replies_;
+  QList<int> pending_search_tasks_;
   QDnsLookup *dns_lookup_;
   QUrl server_url_;
   bool server_discovered_;
@@ -89,6 +91,7 @@ class RadioBrowserService : public RadioService {
     QString order;
     int limit;
     int offset;
+    bool hide_broken;
   };
   PendingSearch pending_search_;
   bool has_pending_search_;

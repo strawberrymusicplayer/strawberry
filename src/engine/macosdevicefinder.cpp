@@ -20,6 +20,7 @@
 
 #include "config.h"
 
+#include <cstdlib>
 #include <memory>
 
 #include <AvailabilityMacros.h>
@@ -37,22 +38,26 @@ using namespace Qt::Literals::StringLiterals;
 
 namespace {
 
+// The buffer is allocated with malloc() (the property data can be a variable-length struct), so it must be freed with free() - a default-deleter unique_ptr would call delete and invoke UB.
 template<typename T>
-std::unique_ptr<T> GetProperty(const AudioDeviceID &device_id, const AudioObjectPropertyAddress &address, UInt32 *size_bytes_out = nullptr) {
+using PropertyPtr = std::unique_ptr<T, decltype(&std::free)>;
+
+template<typename T>
+PropertyPtr<T> GetProperty(const AudioDeviceID &device_id, const AudioObjectPropertyAddress &address, UInt32 *size_bytes_out = nullptr) {
 
   UInt32 size_bytes = 0;
   OSStatus status = AudioObjectGetPropertyDataSize(device_id, &address, 0, NULL, &size_bytes);
   if (status != kAudioHardwareNoError) {
     qLog(Warning) << "AudioObjectGetPropertyDataSize failed:" << status;
-    return std::unique_ptr<T>();
+    return PropertyPtr<T>(nullptr, &std::free);
   }
 
-  std::unique_ptr<T> ret(reinterpret_cast<T*>(malloc(size_bytes)));
+  PropertyPtr<T> ret(reinterpret_cast<T*>(std::malloc(size_bytes)), &std::free);
 
   status = AudioObjectGetPropertyData(device_id, &address, 0, NULL, &size_bytes, ret.get());
   if (status != kAudioHardwareNoError) {
     qLog(Warning) << "AudioObjectGetPropertyData failed:" << status;
-    return std::unique_ptr<T>();
+    return PropertyPtr<T>(nullptr, &std::free);
   }
 
   if (size_bytes_out) {
@@ -80,7 +85,7 @@ EngineDeviceList MacOsDeviceFinder::ListDevices() {
   };
 
   UInt32 device_size_bytes = 0;
-  std::unique_ptr<AudioDeviceID> devices = GetProperty<AudioDeviceID>(kAudioObjectSystemObject, address, &device_size_bytes);
+  auto devices = GetProperty<AudioDeviceID>(kAudioObjectSystemObject, address, &device_size_bytes);
   if (!devices) {
     return EngineDeviceList();
   }
@@ -93,15 +98,15 @@ EngineDeviceList MacOsDeviceFinder::ListDevices() {
 
     // Query device name
     address.mSelector = kAudioDevicePropertyDeviceNameCFString;
-    std::unique_ptr<CFStringRef> device_name = GetProperty<CFStringRef>(id, address);
-    ScopedCFTypeRef<CFStringRef> scoped_device_name(*device_name.get());
+    auto device_name = GetProperty<CFStringRef>(id, address);
     if (!device_name) {
       continue;
     }
+    ScopedCFTypeRef<CFStringRef> scoped_device_name(*device_name.get());
 
     // Determine if the device is an output device (it is an output device if it has output channels)
     address.mSelector = kAudioDevicePropertyStreamConfiguration;
-    std::unique_ptr<AudioBufferList> buffer_list = GetProperty<AudioBufferList>(id, address);
+    auto buffer_list = GetProperty<AudioBufferList>(id, address);
     if (!buffer_list.get() || buffer_list->mNumberBuffers == 0) {
       continue;
     }

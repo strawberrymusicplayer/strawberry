@@ -92,7 +92,6 @@ class SmartPlaylistsViewContainer : public QWidget {
   void RestoreDefaultsFromContext();
 
   void NewSmartPlaylistFinished();
-  void EditSmartPlaylistFinished();
 
  Q_SIGNALS:
   void AddToPlaylist(QMimeData *data);

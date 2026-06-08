@@ -52,7 +52,7 @@ LocalRedirectServer::~LocalRedirectServer() {
 
 bool LocalRedirectServer::Listen() {
 
-  if (!listen(QHostAddress::LocalHost, static_cast<quint64>(port_))) {
+  if (!listen(QHostAddress::LocalHost, static_cast<quint16>(port_))) {
     success_ = false;
     error_ = errorString();
     return false;
@@ -125,9 +125,6 @@ void LocalRedirectServer::ReadyRead() {
     close();
     Q_EMIT Finished();
   }
-  else {
-    QObject::connect(socket_, &QAbstractSocket::readyRead, this, &LocalRedirectServer::ReadyRead);
-  }
 
 }
 
@@ -171,8 +168,11 @@ void LocalRedirectServer::WriteTemplate() const {
 QUrl LocalRedirectServer::ParseUrlFromRequest(const QByteArray &request) const {
 
   const QByteArrayList lines = request.split('\r');
+  if (lines.isEmpty()) return QUrl();
   const QByteArray &request_line = lines[0];
-  const QByteArray path = request_line.split(' ')[1];
+  const QByteArrayList request_line_parts = request_line.split(' ');
+  if (request_line_parts.size() < 2) return QUrl();
+  const QByteArray path = request_line_parts[1];
   const QUrl base_url = url_;
   const QUrl request_url(base_url.toString() + QString::fromLatin1(path.mid(1)), QUrl::StrictMode);
 

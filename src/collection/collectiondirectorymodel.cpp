@@ -84,6 +84,7 @@ QVariant CollectionDirectoryModel::data(const QModelIndex &idx, int role) const 
   switch (role) {
     case MusicStorage::Role_Storage:
     case MusicStorage::Role_StorageForceConnect:
+      if (idx.row() < 0 || idx.row() >= storage_.count()) return QVariant();
       return QVariant::fromValue(storage_[idx.row()]);
     case MusicStorage::Role_FreeSpace:
       return Utilities::FileSystemFreeSpace(data(idx, Qt::DisplayRole).toString());

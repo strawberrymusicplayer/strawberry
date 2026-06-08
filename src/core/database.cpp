@@ -117,6 +117,7 @@ QSqlDatabase Database::Connect() {
   if (!QFile::exists(directory_)) {
     QDir dir;
     if (!dir.mkpath(directory_)) {
+      qLog(Error) << "Failed to create database directory" << directory_;
     }
   }
 
@@ -453,7 +454,7 @@ QStringList Database::SongsTables(QSqlDatabase &db, const int schema_version) {
   const QStringList keys = attached_databases_.keys();
   for (const QString &key : keys) {
     SqlQuery q(db);
-    q.prepare(QStringLiteral("SELECT NAME FROM %1.sqlite_master WHERE type='table' AND name='songs' OR name LIKE '%songs'").arg(key));
+    q.prepare(QStringLiteral("SELECT NAME FROM %1.sqlite_master WHERE type='table' AND (name='songs' OR name LIKE '%songs')").arg(key));
     if (q.Exec()) {
       while (q.next()) {
         QString tab_name = key + QLatin1Char('.') + q.value(0).toString();

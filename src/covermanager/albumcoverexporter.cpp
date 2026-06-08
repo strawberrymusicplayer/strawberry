@@ -58,7 +58,11 @@ void AlbumCoverExporter::AddExportRequest(const Song &song) {
 
 }
 
-void AlbumCoverExporter::Cancel() { requests_.clear(); }
+void AlbumCoverExporter::Cancel() {
+  // The queued runnables haven't been handed to the thread pool yet, so delete them ourselves.
+  qDeleteAll(requests_);
+  requests_.clear();
+}
 
 void AlbumCoverExporter::StartExporting() {
 

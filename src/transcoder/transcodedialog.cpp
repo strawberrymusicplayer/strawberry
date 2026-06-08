@@ -489,7 +489,7 @@ QString TranscodeDialog::GetOutputFileName(const QString &input_filepath, const 
   if (QFileInfo::exists(output_filepath)) {
     QFileInfo fileinfo(output_filepath);
     const QString original_filename = fileinfo.completeBaseName();
-    for (int i = 1; fileinfo.exists(); ++i) {
+    for (int i = 1; fileinfo.exists() && i < 1000000; ++i) {
       fileinfo.setFile(QStringLiteral("%1/%2-%3.%4").arg(fileinfo.path(), original_filename).arg(i).arg(fileinfo.suffix()));
     }
     output_filepath = fileinfo.filePath();
