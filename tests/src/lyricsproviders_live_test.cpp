@@ -50,6 +50,7 @@
 #include "lyrics/lrcliblyricsprovider.h"
 #include "lyrics/ovhlyricsprovider.h"
 #include "lyrics/songlyricscomlyricsprovider.h"
+#include "lyrics/musixmatchlyricsprovider.h"
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -157,3 +158,4 @@ TEST(LyricsLive, AzLyrics)     { RunProviderLiveTest<AzLyricsComLyricsProvider>(
 TEST(LyricsLive, ElyricsNet)   { RunProviderLiveTest<ElyricsNetLyricsProvider>(); }
 TEST(LyricsLive, Letras)       { RunProviderLiveTest<LetrasLyricsProvider>(); }
 TEST(LyricsLive, SongLyrics)   { RunProviderLiveTest<SongLyricsComLyricsProvider>(); }
+TEST(LyricsLive, Musixmatch)   { RunProviderLiveTest<MusixmatchLyricsProvider>(); }
