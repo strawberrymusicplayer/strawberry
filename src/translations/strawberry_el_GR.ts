@@ -2044,7 +2044,7 @@ If there are no matches then it will use the largest image in the directory.</so
     <name>DiscordRichPresence</name>
     <message>
       <source>on </source>
-      <translation type="unfinished">on </translation>
+      <translation>on </translation>
     </message>
   </context>
   <context>
@@ -3096,23 +3096,23 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Could not open URL. Please open this URL in your browser</source>
-      <translation type="unfinished">Could not open URL. Please open this URL in your browser</translation>
+      <translation>Αδυναμία ανοίγματος του URL. Παρακαλώ ανοίξτε αυτό το URL στο πρόγραμμα περιήγησης</translation>
     </message>
     <message>
       <source>Invalid reply from web browser. Missing token.</source>
-      <translation type="unfinished">Invalid reply from web browser. Missing token.</translation>
+      <translation>Μη έγκυρη απάντηση από το πρόγραμμα περιήγησης. Λείπει token.</translation>
     </message>
     <message>
       <source>Received invalid reply from web browser. Try another browser.</source>
-      <translation type="unfinished">Received invalid reply from web browser. Try another browser.</translation>
+      <translation>Λήφθηκε μη έγκυρη απάντηση από το πρόγραμμα περιήγησης. Δοκιμάστε ένα άλλο πρόγραμμα περιήγησης.</translation>
     </message>
     <message>
       <source>Scrobbler %1 is not authenticated!</source>
-      <translation type="unfinished">Scrobbler %1 is not authenticated!</translation>
+      <translation>Το Scrobbler %1 δεν έχει ταυτοποιηθεί!</translation>
     </message>
     <message>
       <source>Scrobbler %1 error: %2</source>
-      <translation type="unfinished">Scrobbler %1 error: %2</translation>
+      <translation>Scrobbler %1 σφάλμα: %2</translation>
     </message>
   </context>
   <context>
@@ -3590,7 +3590,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Fetch metadata from service</source>
-      <translation type="unfinished">Fetch metadata from service</translation>
+      <translation>Λήψη μεταδεδομένων από την υπηρεσία</translation>
     </message>
     <message>
       <source>Copy URL(s)...</source>
@@ -3891,7 +3891,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Show a &amp;native desktop notification</source>
-      <translation type="unfinished">Show a &amp;native desktop notification</translation>
+      <translation>Εμφάνιση μιας ειδοποίησης &amp;εγγενούς επιφάνειας εργασίας</translation>
     </message>
     <message>
       <source>Show a pretty OSD</source>
@@ -3899,7 +3899,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Show a popup fro&amp;m the system tray</source>
-      <translation type="unfinished">Show a popup fro&amp;m the system tray</translation>
+      <translation>Εμφάνιση αναδυόμενου παράθυρου από το πλαίσιο συστήματος</translation>
     </message>
     <message>
       <source>General settings</source>
@@ -4099,11 +4099,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Discord</source>
-      <translation type="unfinished">Discord</translation>
+      <translation>Discord</translation>
     </message>
     <message>
       <source>Enable Rich Presence</source>
-      <translation type="unfinished">Enable Rich Presence</translation>
+      <translation>Ενεργοποίηση Rich Presence</translation>
     </message>
     <message>
       <source>&quot;Listening to...&quot;</source>
@@ -4111,11 +4111,11 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Strawberry</source>
-      <translation type="unfinished">Strawberry</translation>
+      <translation>Srawberry</translation>
     </message>
     <message>
       <source>Artist name</source>
-      <translation type="unfinished">Artist name</translation>
+      <translation>Όνομα καλλιτέχνη</translation>
     </message>
     <message>
       <source>Song title</source>

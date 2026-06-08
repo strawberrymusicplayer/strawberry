@@ -697,7 +697,7 @@
     </message>
     <message>
       <source>You need to restart Strawberry for this setting to take affect</source>
-      <translation type="unfinished">You need to restart Strawberry for this setting to take affect</translation>
+      <translation>Du måste starta om Strawberry för att den här inställningen ska träda i kraft</translation>
     </message>
   </context>
   <context>
@@ -843,19 +843,19 @@
     <name>CDDASongLoader</name>
     <message>
       <source>Could not create cdiocddasrc</source>
-      <translation type="unfinished">Could not create cdiocddasrc</translation>
+      <translation>Det gick inte att skapa cdiocddasrc</translation>
     </message>
     <message>
       <source>Error while setting CDDA device to ready state.</source>
-      <translation type="unfinished">Error while setting CDDA device to ready state.</translation>
+      <translation>Fel när CDDA-enheten sattes till redoläge.</translation>
     </message>
     <message>
       <source>Error while setting CDDA device to pause state.</source>
-      <translation type="unfinished">Error while setting CDDA device to pause state.</translation>
+      <translation>Fel vid pausläge för CDDA-enheten.</translation>
     </message>
     <message>
       <source>Error while querying CDDA tracks.</source>
-      <translation type="unfinished">Error while querying CDDA tracks.</translation>
+      <translation>Fel vid fråga efter CDDA-spår.</translation>
     </message>
   </context>
   <context>
@@ -921,27 +921,27 @@
     </message>
     <message>
       <source>Any rating</source>
-      <translation type="unfinished">Any rating</translation>
+      <translation>Vilket betyg som helst</translation>
     </message>
     <message>
       <source>Rating non null</source>
-      <translation type="unfinished">Rating non null</translation>
+      <translation>Betyg inte null</translation>
     </message>
     <message>
       <source>Rating greater than 1 star</source>
-      <translation type="unfinished">Rating greater than 1 star</translation>
+      <translation>Betyg större än 1 stjärna</translation>
     </message>
     <message>
       <source>Rating greater than 2 stars</source>
-      <translation type="unfinished">Rating greater than 2 stars</translation>
+      <translation>Betyg högre än 2 stjärnor</translation>
     </message>
     <message>
       <source>Rating greater than 3 stars</source>
-      <translation type="unfinished">Rating greater than 3 stars</translation>
+      <translation>Betyg högre än 3 stjärnor</translation>
     </message>
     <message>
       <source>Rating greater than 4 stars</source>
-      <translation type="unfinished">Rating greater than 4 stars</translation>
+      <translation>Betyg högre än 4 stjärnor</translation>
     </message>
     <message>
       <source>Group by</source>
@@ -949,11 +949,11 @@
     </message>
     <message>
       <source>Filter by age</source>
-      <translation type="unfinished">Filter by age</translation>
+      <translation>Filtrera efter ålder</translation>
     </message>
     <message>
       <source>Filter by rating</source>
-      <translation type="unfinished">Filter by rating</translation>
+      <translation>Filtrera efter betyg</translation>
     </message>
     <message>
       <source>Display options</source>
@@ -1140,11 +1140,11 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting albums</source>
-      <translation type="unfinished">Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting albums</translation>
+      <translation>Hoppa över inledande artiklar (&quot;den&quot;, &quot;en&quot;, &quot;ett&quot;) när du sorterar album</translation>
     </message>
     <message>
       <source>Use sort tags for sorting when available</source>
-      <translation type="unfinished">Use sort tags for sorting when available</translation>
+      <translation>Använd sorteringstaggar för sortering när det är möjligt</translation>
     </message>
     <message>
       <source>Album cover pixmap cache</source>
@@ -1387,7 +1387,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source> pt</source>
-      <translation type="unfinished"> pt</translation>
+      <translation> pt</translation>
     </message>
     <message>
       <source>Preview</source>
@@ -1487,11 +1487,11 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Add song artistsort tag</source>
-      <translation type="unfinished">Add song artistsort tag</translation>
+      <translation>Lägg till tagg för artistsortering av låten</translation>
     </message>
     <message>
       <source>Add song albumartistsort tag</source>
-      <translation type="unfinished">Add song albumartistsort tag</translation>
+      <translation>Lägg till låt albumartistsort tagg</translation>
     </message>
     <message>
       <source>Add song titlesort tag</source>
@@ -2359,7 +2359,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>ID3v2 version:</source>
-      <translation type="unfinished">ID3v2 version:</translation>
+      <translation>ID3v2-version:</translation>
     </message>
     <message>
       <source>2.3</source>
@@ -2367,7 +2367,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>2.4</source>
-      <translation type="unfinished">2.4</translation>
+      <translation>2.4</translation>
     </message>
     <message>
       <source>Performer sort</source>
@@ -2375,7 +2375,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Title sort</source>
-      <translation type="unfinished">Title sort</translation>
+      <translation>Titelsortering</translation>
     </message>
     <message>
       <source>Album artist sort</source>
@@ -2679,7 +2679,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Files</source>
-      <translation type="unfinished">Files</translation>
+      <translation>Filer</translation>
     </message>
   </context>
   <context>
@@ -3088,7 +3088,7 @@ Om det inte finns några matchningar så kommer den största bilden i mappen att
     </message>
     <message>
       <source>Open URL in web browser?</source>
-      <translation type="unfinished">Open URL in web browser?</translation>
+      <translation>Öppna URL:en i webbläsaren?</translation>
     </message>
     <message>
       <source>Press &quot;Save&quot; to copy the URL to clipboard and manually open it in a web browser.</source>
@@ -5785,11 +5785,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Private key</source>
-      <translation type="unfinished">Private key</translation>
+      <translation>Privat nyckel</translation>
     </message>
     <message>
       <source>Automatically fetch app ID, app secret and private key from Qobuz web player</source>
-      <translation type="unfinished">Automatically fetch app ID, app secret and private key from Qobuz web player</translation>
+      <translation>Hämta automatiskt app-ID, appens hemlighet och privata nyckel från Qobuz webbspelare</translation>
     </message>
   </context>
   <context>
