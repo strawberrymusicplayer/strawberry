@@ -58,7 +58,6 @@ MoodbarItemDelegate::MoodbarItemDelegate(const SharedPtr<MoodbarLoader> moodbar_
     : QItemDelegate(parent),
       moodbar_loader_(moodbar_loader),
       playlist_view_(playlist_view),
-      enabled_(false),
       style_(MoodbarSettings::Style::Normal) {
 
   QObject::connect(&*moodbar_loader, &MoodbarLoader::SettingsReloaded, this, &MoodbarItemDelegate::ReloadSettings);
@@ -72,13 +71,8 @@ void MoodbarItemDelegate::ReloadSettings() {
 
   Settings s;
   s.beginGroup(MoodbarSettings::kSettingsGroup);
-  enabled_ = s.value(MoodbarSettings::kEnabled, false).toBool();
   const MoodbarSettings::Style new_style = static_cast<MoodbarSettings::Style>(s.value(MoodbarSettings::kStyle, static_cast<int>(MoodbarSettings::Style::Normal)).toInt());
   s.endGroup();
-
-  if (!enabled_) {
-    data_.clear();
-  }
 
   if (new_style != style_) {
     style_ = new_style;
@@ -89,11 +83,8 @@ void MoodbarItemDelegate::ReloadSettings() {
 
 void MoodbarItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &idx) const {
 
-  QPixmap pixmap;
-
-  if (enabled_) {
-    pixmap = const_cast<MoodbarItemDelegate*>(this)->PixmapForIndex(idx, option.rect.size());
-  }
+  // The moodbar is generated on demand whenever the (optional) Moodbar column is painted, i.e. when the user has made the column visible.
+  QPixmap pixmap = const_cast<MoodbarItemDelegate*>(this)->PixmapForIndex(idx, option.rect.size());
 
   drawBackground(painter, option, idx);
 

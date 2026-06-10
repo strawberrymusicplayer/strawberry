@@ -207,6 +207,12 @@
 #  include "moodbar/moodbarproxystyle.h"
 #endif
 
+#ifdef HAVE_WAVEFORM
+#  include "waveform/waveformcontroller.h"
+#  include "waveform/waveformloader.h"
+#  include "waveform/waveformproxystyle.h"
+#endif
+
 #include "smartplaylists/smartplaylistsviewcontainer.h"
 
 #include "organize/organizeerrordialog.h"
@@ -935,11 +941,18 @@ MainWindow::MainWindow(Application *app,
   ui_->track_slider->Init();
 
 #ifdef HAVE_MOODBAR
-  // Moodbar connections
   QObject::connect(&*app_->moodbar_controller(), &MoodbarController::CurrentMoodbarDataChanged, ui_->track_slider->moodbar_proxy_style(), &MoodbarProxyStyle::SetMoodbarData);
   QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, &*app_->moodbar_controller(), &MoodbarController::CurrentSongChanged);
   QObject::connect(&*app_->player(), &Player::Stopped, &*app_->moodbar_controller(), &MoodbarController::PlaybackStopped);
   QObject::connect(ui_->track_slider->moodbar_proxy_style(), &MoodbarProxyStyle::StyleChanged, &*app_->moodbar_loader(), &MoodbarLoader::StyleChanged);
+  QObject::connect(ui_->track_slider->moodbar_proxy_style(), &MoodbarProxyStyle::MoodbarShow, &*app_->moodbar_controller(), &MoodbarController::SetEnabled);
+#endif
+
+#ifdef HAVE_WAVEFORM
+  QObject::connect(&*app_->waveform_controller(), &WaveformController::CurrentWaveformDataChanged, ui_->track_slider->waveform_proxy_style(), &WaveformProxyStyle::SetWaveformData);
+  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, &*app_->waveform_controller(), &WaveformController::CurrentSongChanged);
+  QObject::connect(&*app_->player(), &Player::Stopped, &*app_->waveform_controller(), &WaveformController::PlaybackStopped);
+  QObject::connect(ui_->track_slider->waveform_proxy_style(), &WaveformProxyStyle::WaveformShow, &*app_->waveform_controller(), &WaveformController::SetEnabled);
 #endif
 
   // Playing widget
@@ -1315,6 +1328,15 @@ void MainWindow::ReloadAllSettings() {
   app_->moodbar_controller()->ReloadSettings();
   app_->moodbar_loader()->ReloadSettings();
   ui_->track_slider->moodbar_proxy_style()->ReloadSettings();
+#endif
+#ifdef HAVE_WAVEFORM
+  app_->waveform_controller()->ReloadSettings();
+  app_->waveform_loader()->ReloadSettings();
+  ui_->track_slider->waveform_proxy_style()->ReloadSettings();
+#endif
+#if defined(HAVE_MOODBAR) || defined(HAVE_WAVEFORM)
+  // Reconcile the seekbar mode after both proxy styles have reloaded, so a moodbar/waveform change made from either Preferences page keeps the two mutually exclusive and the active style consistent.
+  ui_->track_slider->ReloadSettings();
 #endif
 #ifdef HAVE_SUBSONIC
   subsonic_view_->ReloadSettings();

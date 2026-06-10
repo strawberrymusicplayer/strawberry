@@ -20,42 +20,28 @@
       <string>Moodbar</string>
      </property>
      <layout class="QFormLayout" name="layout_moodbar">
-      <item row="1" column="0" colspan="2">
-       <widget class="QCheckBox" name="moodbar_show">
-        <property name="text">
-         <string>Show a moodbar in the track progress bar</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
+      <item row="0" column="0">
        <widget class="QLabel" name="label_moodbar_style">
         <property name="text">
          <string>Moodbar style</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="1">
+      <item row="0" column="1">
        <widget class="QComboBox" name="moodbar_style">
         <property name="currentText">
          <string notr="true"/>
         </property>
        </widget>
       </item>
-      <item row="3" column="0" colspan="2">
+      <item row="1" column="0" colspan="2">
        <widget class="QCheckBox" name="moodbar_save">
         <property name="text">
          <string>Save the .mood files directly in the songs folders</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="0">
-       <widget class="QCheckBox" name="moodbar_enabled">
-        <property name="text">
-         <string>Enabled</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
+      <item row="2" column="0">
        <spacer name="spacer_bottom">
         <property name="orientation">
          <enum>Qt::Orientation::Vertical</enum>
@@ -74,8 +60,6 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>moodbar_enabled</tabstop>
-  <tabstop>moodbar_show</tabstop>
   <tabstop>moodbar_style</tabstop>
   <tabstop>moodbar_save</tabstop>
  </tabstops>

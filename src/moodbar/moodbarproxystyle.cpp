@@ -34,11 +34,7 @@
 #include <QStyleOptionSlider>
 #include <QTimeLine>
 #include <QStyle>
-#include <QMenu>
-#include <QAction>
-#include <QActionGroup>
 #include <QEvent>
-#include <QContextMenuEvent>
 
 #include "core/settings.h"
 
@@ -61,10 +57,7 @@ MoodbarProxyStyle::MoodbarProxyStyle(QSlider *slider, QObject *parent)
       state_(State::MoodbarOff),
       fade_timeline_(new QTimeLine(1000, this)),
       moodbar_colors_dirty_(true),
-      moodbar_pixmap_dirty_(true),
-      context_menu_(nullptr),
-      show_moodbar_action_(nullptr),
-      style_action_group_(nullptr) {
+      moodbar_pixmap_dirty_(true) {
 
   Q_UNUSED(parent)
 
@@ -79,11 +72,10 @@ MoodbarProxyStyle::MoodbarProxyStyle(QSlider *slider, QObject *parent)
 
 void MoodbarProxyStyle::ReloadSettings() {
 
+  // Whether the moodbar is shown on the seekbar is controlled by TrackSlider via
+  // SetShowMoodbar (driven by the persisted SeekbarSettings::Mode), not read here.
   Settings s;
   s.beginGroup(MoodbarSettings::kSettingsGroup);
-  show_ = s.value(MoodbarSettings::kEnabled, false).toBool() && s.value(MoodbarSettings::kShow, false).toBool();
-
-  NextState();
 
   // Get the style, and redraw if there's a change.
   const MoodbarSettings::Style new_style = static_cast<MoodbarSettings::Style>(s.value(MoodbarSettings::kStyle, static_cast<int>(MoodbarSettings::Style::Normal)).toInt());
@@ -108,17 +100,14 @@ void MoodbarProxyStyle::SetMoodbarData(const QByteArray &data) {
 
 void MoodbarProxyStyle::SetShowMoodbar(const bool show) {
 
-  if (show != show_) {
+  if (show == show_) return;
 
-    show_ = show;
+  show_ = show;
 
-    Settings s;
-    s.beginGroup(MoodbarSettings::kSettingsGroup);
-    s.setValue(MoodbarSettings::kShow, show);
-    s.endGroup();
+  NextState();
 
-    ReloadSettings();
-  }
+  // Notify the controller so it starts or stops generating the current song's moodbar for the seekbar.
+  Q_EMIT MoodbarShow(show);
 
 }
 
@@ -130,10 +119,6 @@ void MoodbarProxyStyle::NextState() {
   // moodbars should use all available space (MinimumExpanding).
   slider_->setSizePolicy(QSizePolicy::Expanding, visible ? QSizePolicy::MinimumExpanding : QSizePolicy::Fixed);
   slider_->updateGeometry();
-
-  if (show_moodbar_action_) {
-    show_moodbar_action_->setChecked(show_);
-  }
 
   if ((visible && (state_ == State::MoodbarOn || state_ == State::FadingToOn)) || (!visible && (state_ == State::MoodbarOff || state_ == State::FadingToOff))) {
     return;
@@ -176,10 +161,6 @@ bool MoodbarProxyStyle::eventFilter(QObject *object, QEvent *event) {
         // The widget was resized, we've got to render a new pixmap.
         moodbar_pixmap_dirty_ = true;
         break;
-
-      case QEvent::ContextMenu:
-        ShowContextMenu(static_cast<QContextMenuEvent*>(event)->globalPos());
-        return true;
 
       default:
         break;
@@ -372,52 +353,16 @@ QPixmap MoodbarProxyStyle::MoodbarPixmap(const ColorVector &colors, const QSize 
 
 }
 
-void MoodbarProxyStyle::ShowContextMenu(const QPoint pos) {
-
-  if (!context_menu_) {
-    context_menu_ = new QMenu(slider_);
-    show_moodbar_action_ = context_menu_->addAction(tr("Show moodbar"), this, &MoodbarProxyStyle::SetShowMoodbar);
-
-    show_moodbar_action_->setCheckable(true);
-    show_moodbar_action_->setChecked(show_);
-
-    QMenu *styles_menu = context_menu_->addMenu(tr("Moodbar style"));
-    style_action_group_ = new QActionGroup(styles_menu);
-
-    for (int i = 0; i < static_cast<int>(MoodbarSettings::Style::StyleCount); ++i) {
-      const MoodbarSettings::Style style = static_cast<MoodbarSettings::Style>(i);
-
-      QAction *action = style_action_group_->addAction(MoodbarRenderer::StyleName(style));
-      action->setCheckable(true);
-      action->setData(i);
-    }
-
-    styles_menu->addActions(style_action_group_->actions());
-
-    QObject::connect(styles_menu, &QMenu::triggered, this, &MoodbarProxyStyle::SetStyle);
-  }
-
-  // Update the currently selected style
-  const QList<QAction*> actions = style_action_group_->actions();
-  for (QAction *action : actions) {
-    if (static_cast<MoodbarSettings::Style>(action->data().toInt()) == moodbar_style_) {
-      action->setChecked(true);
-      break;
-    }
-  }
-
-  context_menu_->popup(pos);
-
-}
-
-void MoodbarProxyStyle::SetStyle(QAction *action) {
+void MoodbarProxyStyle::SetStyle(const MoodbarSettings::Style style) {
 
   Settings s;
   s.beginGroup(MoodbarSettings::kSettingsGroup);
-  s.setValue(MoodbarSettings::kStyle, action->data().toInt());
+  s.setValue(MoodbarSettings::kStyle, static_cast<int>(style));
   s.endGroup();
 
-  ReloadSettings();
+  moodbar_style_ = style;
+  moodbar_colors_dirty_ = true;
+  slider_->update();
 
   Q_EMIT StyleChanged();
 
