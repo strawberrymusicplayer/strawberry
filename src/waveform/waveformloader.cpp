@@ -118,6 +118,26 @@ WaveformLoader::LoadResult WaveformLoader::Load(const QUrl &url, const bool has_
 
   const QString filename(url.toLocalFile());
 
+  // Check if a waveform sidecar file exists for this file already.
+  const QStringList possible_waveform_files = WaveformFilenames(filename);
+  for (const QString &possible_waveform_file : possible_waveform_files) {
+    QFile file(possible_waveform_file);
+    if (file.exists()) {
+      if (file.open(QIODevice::ReadOnly)) {
+        qLog(Info) << "Loading waveform data from" << possible_waveform_file;
+        const QByteArray data = file.readAll();
+        file.close();
+        if (WaveformBuilder::IsValidBlob(data)) {
+          return LoadResult(LoadStatus::Loaded, data);
+        }
+        qLog(Warning) << "Discarding invalid sidecar waveform data for" << possible_waveform_file;
+      }
+      else {
+        qLog(Error) << "Failed to load waveform data from" << possible_waveform_file << file.errorString();
+      }
+    }
+  }
+
   // Maybe it exists in the cache?
 
   QNetworkCacheMetaData disk_cache_metadata = cache_->metaData(CacheUrlEntry(filename));
@@ -196,6 +216,27 @@ void WaveformLoader::RequestFinished(WaveformPipelinePtr pipeline, const QUrl &u
       const qint64 data_written = device_cache_file->write(pipeline->data());
       if (data_written > 0) {
         cache_->insert(device_cache_file);
+      }
+    }
+
+    // Save the data alongside the original as well if we're configured to.
+    if (save_) {
+      QStringList waveform_filenames = WaveformFilenames(url.toLocalFile());
+      const QString waveform_filename(waveform_filenames[0]);  // hidden variant first
+      QFile waveform_file(waveform_filename);
+      if (waveform_file.open(QIODevice::WriteOnly)) {
+        if (waveform_file.write(pipeline->data()) <= 0) {
+          qLog(Error) << "Error writing to waveform file" << waveform_filename << waveform_file.errorString();
+        }
+        waveform_file.close();
+#ifdef Q_OS_WIN32
+        if (!SetFileAttributes(reinterpret_cast<LPCTSTR>(waveform_filename.utf16()), FILE_ATTRIBUTE_HIDDEN)) {
+          qLog(Warning) << "Error setting hidden attribute for file" << waveform_filename;
+        }
+#endif
+      }
+      else {
+        qLog(Error) << "Error opening waveform file" << waveform_filename << "for writing:" << waveform_file.errorString();
       }
     }
   }
