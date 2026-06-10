@@ -1338,12 +1338,17 @@ list(APPEND SOURCES
   src/waveform/waveformcontroller.cpp
   src/waveform/waveformrenderer.cpp
   src/waveform/waveformproxystyle.cpp
+  src/settings/waveformsettingspage.cpp
 )
 list(APPEND HEADERS
   src/waveform/waveformpipeline.h
   src/waveform/waveformloader.h
   src/waveform/waveformcontroller.h
   src/waveform/waveformproxystyle.h
+  src/settings/waveformsettingspage.h
+)
+list(APPEND UI
+  src/settings/waveformsettingspage.ui
 )
 
 optional_source(HAVE_MOODBAR

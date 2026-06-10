@@ -89,6 +89,7 @@ class SettingsDialog : public QDialog {
     Notifications,
     GlobalShortcuts,
     Moodbar,
+    Waveform,
     Subsonic,
     Tidal,
     Qobuz,
