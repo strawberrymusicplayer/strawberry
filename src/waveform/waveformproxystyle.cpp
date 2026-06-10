@@ -39,6 +39,8 @@
 #include <QEvent>
 #include <QContextMenuEvent>
 
+#include "core/settings.h"
+#include "constants/waveformsettings.h"
 #include "waveform/waveformrenderer.h"
 #include "waveformproxystyle.h"
 
@@ -66,8 +68,19 @@ WaveformProxyStyle::WaveformProxyStyle(QSlider *slider, QObject *parent)
 
   QObject::connect(fade_timeline_, &QTimeLine::valueChanged, this, &WaveformProxyStyle::FaderValueChanged);
 
-  // Establish the initial size policy for the default (off) state, matching how
-  // the moodbar proxy normalizes the slider through ReloadSettings on creation.
+  // Seed show_ from QSettings and establish the initial size policy, mirroring
+  // how MoodbarProxyStyle normalizes the slider through ReloadSettings on creation.
+  ReloadSettings();
+
+}
+
+void WaveformProxyStyle::ReloadSettings() {
+
+  Settings s;
+  s.beginGroup(WaveformSettings::kSettingsGroup);
+  show_ = s.value(WaveformSettings::kEnabled, false).toBool() && s.value(WaveformSettings::kShow, false).toBool();
+  s.endGroup();
+
   NextState();
 
 }
@@ -85,9 +98,16 @@ void WaveformProxyStyle::SetShowWaveform(const bool show) {
 
   if (show == show_) return;
 
-  show_ = show;
-  NextState();
-  slider_->update();
+  Settings s;
+  s.beginGroup(WaveformSettings::kSettingsGroup);
+  s.setValue(WaveformSettings::kShow, show);
+  // D-03: toggling on from the seekbar also enables the master toggle.
+  if (show) {
+    s.setValue(WaveformSettings::kEnabled, true);
+  }
+  s.endGroup();
+
+  ReloadSettings();  // reads back kEnabled && kShow, calls NextState()
 
 }
 

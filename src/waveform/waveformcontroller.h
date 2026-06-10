@@ -45,6 +45,8 @@ class WaveformController : public QObject {
  public:
   explicit WaveformController(const SharedPtr<PlayerInterface> player, const SharedPtr<WaveformLoader> waveform_loader, QObject *parent = nullptr);
 
+  void ReloadSettings();
+
  Q_SIGNALS:
   // An empty byte array means there's no waveform, so the seekbar reverts to a normal slider.
   void CurrentWaveformDataChanged(const QByteArray &data = QByteArray());

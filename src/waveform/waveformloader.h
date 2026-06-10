@@ -25,6 +25,7 @@
 #include <QMap>
 #include <QSet>
 #include <QString>
+#include <QStringList>
 #include <QUrl>
 
 #include "waveformpipeline.h"
@@ -70,6 +71,13 @@ class WaveformLoader : public QObject {
 
   LoadResult Load(const QUrl &url, const bool has_cue);
 
+  void ReloadSettings();
+
+  static QStringList WaveformFilenames(const QString &song_filename);
+
+ Q_SIGNALS:
+  void SettingsReloaded();
+
  private:
   static QUrl CacheUrlEntry(const QString &filename);
   void RequestFinished(WaveformPipelinePtr pipeline, const QUrl &url);
@@ -80,6 +88,8 @@ class WaveformLoader : public QObject {
   QThread *thread_;
 
   const int kMaxActiveRequests;
+
+  bool save_;
 
   QMap<QUrl, WaveformPipelinePtr> requests_;
   QList<QUrl> queued_requests_;

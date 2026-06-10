@@ -25,7 +25,11 @@
 #include <QObject>
 #include <QThread>
 #include <QCoreApplication>
+#include <QDir>
+#include <QFile>
+#include <QFileInfo>
 #include <QIODevice>
+#include <QStringList>
 #include <QAbstractNetworkCache>
 #include <QNetworkDiskCache>
 #include <QByteArray>
@@ -35,10 +39,16 @@
 #include "includes/scoped_ptr.h"
 #include "includes/shared_ptr.h"
 #include "core/logging.h"
+#include "core/settings.h"
 #include "core/standardpaths.h"
+#include "constants/waveformsettings.h"
 
 #include "waveformbuilder.h"
 #include "waveformpipeline.h"
+
+#ifdef Q_OS_WIN32
+#  include <windows.h>
+#endif
 
 using namespace Qt::Literals::StringLiterals;
 using std::make_shared;
@@ -47,7 +57,8 @@ WaveformLoader::WaveformLoader(QObject *parent)
     : QObject(parent),
       cache_(new QNetworkDiskCache(this)),
       thread_(new QThread(this)),
-      kMaxActiveRequests(qMax(1, QThread::idealThreadCount() / 2)) {
+      kMaxActiveRequests(qMax(1, QThread::idealThreadCount() / 2)),
+      save_(false) {
 
   setObjectName(QLatin1String(QObject::metaObject()->className()));
   thread_->setObjectName(objectName());
@@ -55,11 +66,37 @@ WaveformLoader::WaveformLoader(QObject *parent)
   cache_->setCacheDirectory(StandardPaths::WritableLocation(StandardPaths::StandardLocation::CacheLocation) + u"/waveform"_s);
   cache_->setMaximumCacheSize(60LL * 1024LL * 1024LL);  // 60MB
 
+  ReloadSettings();
+
 }
 
 WaveformLoader::~WaveformLoader() {
   thread_->quit();
   thread_->wait(1000);
+}
+
+void WaveformLoader::ReloadSettings() {
+
+  Settings s;
+  s.beginGroup(WaveformSettings::kSettingsGroup);
+  save_ = s.value(WaveformSettings::kSave, false).toBool();
+  s.endGroup();
+
+  MaybeTakeNextRequest();
+
+  Q_EMIT SettingsReloaded();
+
+}
+
+QStringList WaveformLoader::WaveformFilenames(const QString &song_filename) {
+
+  const QFileInfo file_info(song_filename);
+  const QString dir_path(file_info.dir().path());
+  const QString waveform_filename = file_info.completeBaseName() + u".waveform"_s;
+
+  return QStringList() << dir_path + u"/."_s + waveform_filename
+                       << dir_path + QLatin1Char('/') + waveform_filename;
+
 }
 
 QUrl WaveformLoader::CacheUrlEntry(const QString &filename) {

@@ -23,6 +23,7 @@
 #include "gmock_include.h"
 
 #include <QByteArray>
+#include <QCoreApplication>
 #include <QString>
 #include <QUrl>
 #include <QDir>
@@ -35,12 +36,14 @@
 #include "engine/enginebase.h"
 #include "core/song.h"
 #include "core/playerinterface.h"
+#include "core/settings.h"
 #include "core/standardpaths.h"
 #include "playlist/playlist.h"
 #include "playlist/playlistitem.h"
 #include "waveform/waveformcontroller.h"
 #include "waveform/waveformloader.h"
 #include "waveform/waveformpipeline.h"
+#include "constants/waveformsettings.h"
 
 #include "mock_playlistitem.h"
 #include "test_utils.h"
@@ -258,5 +261,152 @@ TEST(WaveformControllerTest, StaleUrlAsyncLoadCompleteDoesNotEmit) {
 
   // No data-changed emission: the stale-URL guard suppressed it.
   EXPECT_EQ(spy.count(), 0);
+
+}
+
+TEST(WaveformControllerTest, ConstructorReadsKEnabledFromSettings) {
+
+  ResetWaveformCache();
+  QStandardPaths::setTestModeEnabled(true);
+
+  // Write kEnabled=true before constructing the controller.
+  {
+    Settings s;
+    s.beginGroup(WaveformSettings::kSettingsGroup);
+    s.setValue(WaveformSettings::kEnabled, true);
+    s.endGroup();
+  }
+
+  SharedPtr<StubPlayer> player = make_shared<StubPlayer>();
+  SharedPtr<WaveformLoader> loader = make_shared<WaveformLoader>();
+  WaveformController controller(player, loader);
+
+  // enabled_ must be true because the constructor called ReloadSettings().
+  // Verify indirectly: CurrentSongChanged on a non-local URL with enabled_=true
+  // emits an empty payload (CannotLoad path), whereas disabled would emit nothing.
+  QSignalSpy spy(&controller, &WaveformController::CurrentWaveformDataChanged);
+  controller.CurrentSongChanged(MakeSong(QUrl(u"http://example.com/track.mp3"_s)));
+
+  ASSERT_EQ(spy.count(), 1);
+  EXPECT_TRUE(spy.at(0).at(0).value<QByteArray>().isEmpty());
+
+  // Cleanup: reset kEnabled so other tests start from a clean slate.
+  {
+    Settings s;
+    s.beginGroup(WaveformSettings::kSettingsGroup);
+    s.setValue(WaveformSettings::kEnabled, false);
+    s.endGroup();
+  }
+
+}
+
+TEST(WaveformControllerTest, ReloadSettingsUpdatesEnabledFlag) {
+
+  ResetWaveformCache();
+  QStandardPaths::setTestModeEnabled(true);
+
+  // Start disabled.
+  {
+    Settings s;
+    s.beginGroup(WaveformSettings::kSettingsGroup);
+    s.setValue(WaveformSettings::kEnabled, false);
+    s.endGroup();
+  }
+
+  SharedPtr<StubPlayer> player = make_shared<StubPlayer>();
+  SharedPtr<WaveformLoader> loader = make_shared<WaveformLoader>();
+  WaveformController controller(player, loader);
+
+  // Disable path: no emission on song change.
+  QSignalSpy spy(&controller, &WaveformController::CurrentWaveformDataChanged);
+  controller.CurrentSongChanged(MakeSong(QUrl(u"http://example.com/track.mp3"_s)));
+  EXPECT_EQ(spy.count(), 0);
+
+  // Now flip kEnabled in settings and call ReloadSettings().
+  {
+    Settings s;
+    s.beginGroup(WaveformSettings::kSettingsGroup);
+    s.setValue(WaveformSettings::kEnabled, true);
+    s.endGroup();
+  }
+  controller.ReloadSettings();
+
+  // After reload, enabled_=true; song change on non-local URL should emit empty.
+  controller.CurrentSongChanged(MakeSong(QUrl(u"http://example.com/track2.mp3"_s)));
+  ASSERT_EQ(spy.count(), 1);
+  EXPECT_TRUE(spy.at(0).at(0).value<QByteArray>().isEmpty());
+
+  // Cleanup.
+  {
+    Settings s;
+    s.beginGroup(WaveformSettings::kSettingsGroup);
+    s.setValue(WaveformSettings::kEnabled, false);
+    s.endGroup();
+  }
+
+}
+
+TEST(WaveformControllerTest, ReloadSettingsDisabledMidAsyncDoesNotEmitData) {
+
+  GstStartup::Initialize();
+  ResetWaveformCache();
+  QStandardPaths::setTestModeEnabled(true);
+
+  // Set kEnabled=true before constructing so ReloadSettings() in ctor gives enabled_=true.
+  {
+    Settings s;
+    s.beginGroup(WaveformSettings::kSettingsGroup);
+    s.setValue(WaveformSettings::kEnabled, true);
+    s.endGroup();
+  }
+
+  TemporaryResource res(u":/audio/strawberry.wav"_s);
+  ASSERT_TRUE(res.open());
+  const QUrl url = QUrl::fromLocalFile(res.fileName());
+
+  SharedPtr<MockPlaylistItem> current_item = make_shared<MockPlaylistItem>();
+  EXPECT_CALL(*current_item, OriginalUrl()).WillRepeatedly(Return(url));
+
+  SharedPtr<StubPlayer> player = make_shared<StubPlayer>();
+  player->SetState(EngineBase::State::Playing);
+  player->SetCurrentItem(current_item);
+
+  SharedPtr<WaveformLoader> loader = make_shared<WaveformLoader>();
+  WaveformController controller(player, loader);
+
+  // Drive CurrentSongChanged so the controller starts the async load and wires
+  // its completion slot — enabled_=true so GenerateWaveform is called.
+  controller.CurrentSongChanged(MakeSong(url));
+
+  // Disable via ReloadSettings (simulates settings dialog save with kEnabled=false).
+  {
+    Settings s;
+    s.beginGroup(WaveformSettings::kSettingsGroup);
+    s.setValue(WaveformSettings::kEnabled, false);
+    s.endGroup();
+  }
+  controller.ReloadSettings();
+
+  // Attach data-change spy AFTER disabling so we only observe post-disable emissions.
+  QSignalSpy spy(&controller, &WaveformController::CurrentWaveformDataChanged);
+
+  // Pump the event loop long enough for the GStreamer pipeline to finish the
+  // short WAV file and for any queued AsyncLoadComplete delivery to reach the
+  // controller. 2 s is ample; the pipeline typically completes in < 50 ms.
+  spy.wait(2000);
+
+  // Regardless of whether the pipeline was still in-flight: AsyncLoadComplete
+  // must have returned early (enabled_=false), so no data payload is emitted.
+  for (int i = 0; i < spy.count(); ++i) {
+    EXPECT_TRUE(spy.at(i).at(0).value<QByteArray>().isEmpty());
+  }
+
+  // Cleanup.
+  {
+    Settings s;
+    s.beginGroup(WaveformSettings::kSettingsGroup);
+    s.setValue(WaveformSettings::kEnabled, false);
+    s.endGroup();
+  }
 
 }

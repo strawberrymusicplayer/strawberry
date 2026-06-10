@@ -24,9 +24,9 @@ namespace WaveformSettings {
 
 constexpr char kSettingsGroup[] = "Waveform";
 
-// The waveform on/off toggle is a runtime-only choice (slider context menu) and
-// is not persisted yet. The settings work will add kEnabled / kShow keys here
-// and hook them to a settings dialog.
+constexpr char kEnabled[] = "enabled";
+constexpr char kShow[] = "show";
+constexpr char kSave[] = "save";
 
 }  // namespace WaveformSettings
 

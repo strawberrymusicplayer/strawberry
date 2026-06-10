@@ -24,7 +24,9 @@
 #include "includes/shared_ptr.h"
 #include "core/song.h"
 #include "core/playerinterface.h"
+#include "core/settings.h"
 #include "engine/enginebase.h"
+#include "constants/waveformsettings.h"
 
 #include "waveformcontroller.h"
 #include "waveform/waveformloader.h"
@@ -36,7 +38,20 @@ WaveformController::WaveformController(const SharedPtr<PlayerInterface> player, 
     : QObject(parent),
       player_(player),
       waveform_loader_(waveform_loader),
-      enabled_(false) {}
+      enabled_(false) {
+
+  ReloadSettings();
+
+}
+
+void WaveformController::ReloadSettings() {
+
+  Settings s;
+  s.beginGroup(WaveformSettings::kSettingsGroup);
+  enabled_ = s.value(WaveformSettings::kEnabled, false).toBool();
+  s.endGroup();
+
+}
 
 void WaveformController::CurrentSongChanged(const Song &song) {
 
@@ -109,6 +124,10 @@ void WaveformController::PlaybackStopped() {
 }
 
 void WaveformController::AsyncLoadComplete(WaveformPipelinePtr pipeline, const QUrl &url) {
+
+  // If settings were changed while the pipeline was in flight, suppress the
+  // emission — the user disabled the waveform and the seekbar should stay plain.
+  if (!enabled_) return;
 
   // Is this song still playing?
   PlaylistItemPtr current_item = player_->GetCurrentItem();
