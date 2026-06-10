@@ -23,18 +23,22 @@
 #include "gmock_include.h"
 
 #include <QByteArray>
+#include <QDataStream>
+#include <QDir>
+#include <QFile>
+#include <QIODevice>
+#include <QSignalSpy>
+#include <QStandardPaths>
 #include <QString>
 #include <QUrl>
-#include <QDir>
-#include <QStandardPaths>
-#include <QSignalSpy>
-#include <QIODevice>
-#include <QDataStream>
 #include <QNetworkDiskCache>
 #include <QNetworkCacheMetaData>
 
 #include "engine/gststartup.h"
+#include "core/settings.h"
 #include "core/standardpaths.h"
+#include "constants/waveformsettings.h"
+#include "waveform/waveformbuilder.h"
 #include "waveform/waveformloader.h"
 #include "waveform/waveformpipeline.h"
 
@@ -172,6 +176,116 @@ TEST_F(WaveformLoaderTest, RegeneratesOnWrongVersionCacheBlob) {
   WaveformLoader loader;
   WaveformLoader::LoadResult result = loader.Load(url, false);
   EXPECT_EQ(result.status, WaveformLoader::LoadStatus::WillLoadAsync);
+
+}
+
+// Builds a minimal valid sidecar blob that can be distinguished from a
+// pipeline-generated blob or a different cache blob by its content.
+static QByteArray MakeMinimalValidBlob(qint8 sentinel_min = -10, qint8 sentinel_max = 10) {
+  QByteArray blob;
+  QDataStream stream(&blob, QIODevice::WriteOnly);
+  stream.setByteOrder(QDataStream::LittleEndian);
+  stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
+  stream.writeRawData(kWaveformMagic, 4);
+  stream << kWaveformVersion;
+  stream << static_cast<quint32>(1);  // 1 bucket
+  stream << static_cast<float>(1.0f);
+  stream << sentinel_min << sentinel_max;
+  return blob;
+}
+
+TEST_F(WaveformLoaderTest, SidecarPreferredOverCache) {
+
+  TemporaryResource res(u":/audio/strawberry.wav"_s);
+  ASSERT_TRUE(res.open());
+  const QUrl url = QUrl::fromLocalFile(res.fileName());
+
+  // Build two distinguishable valid blobs.
+  const QByteArray sidecar_blob = MakeMinimalValidBlob(-10, 10);
+  const QByteArray cache_blob = MakeMinimalValidBlob(-20, 20);
+  ASSERT_NE(sidecar_blob, cache_blob);
+
+  // Write the sidecar alongside the audio file (hidden variant, index 0).
+  const QString sidecar_path = WaveformLoader::WaveformFilenames(res.fileName()).at(0);
+  {
+    QFile sf(sidecar_path);
+    ASSERT_TRUE(sf.open(QIODevice::WriteOnly));
+    sf.write(sidecar_blob);
+    sf.close();
+  }
+
+  // Also seed the cache with different valid content.
+  SeedCache(res.fileName(), cache_blob);
+
+  WaveformLoader loader;
+  WaveformLoader::LoadResult result = loader.Load(url, false);
+
+  // Sidecar read must win over the cache.
+  ASSERT_EQ(result.status, WaveformLoader::LoadStatus::Loaded);
+  EXPECT_EQ(result.data, sidecar_blob);
+
+  // Clean up sidecar file.
+  QFile::remove(sidecar_path);
+
+}
+
+TEST_F(WaveformLoaderTest, ReloadSettingsReadsSave) {
+
+  TemporaryResource res(u":/audio/strawberry.wav"_s);
+  ASSERT_TRUE(res.open());
+  const QUrl url = QUrl::fromLocalFile(res.fileName());
+
+  // WaveformFilenames() is public static — derive the hidden sidecar path directly.
+  const QString hidden_path = WaveformLoader::WaveformFilenames(res.fileName()).at(0);
+
+  // NEGATIVE HALF: kSave=false (default) — no sidecar must be written after analysis.
+  {
+    Settings s;
+    s.beginGroup(WaveformSettings::kSettingsGroup);
+    s.setValue(WaveformSettings::kSave, false);
+    s.endGroup();
+  }
+
+  {
+    WaveformLoader loader;  // constructor calls ReloadSettings() → save_=false
+    WaveformLoader::LoadResult result = loader.Load(url, false);
+    ASSERT_EQ(result.status, WaveformLoader::LoadStatus::WillLoadAsync);
+    QSignalSpy spy(&*result.pipeline, &WaveformPipeline::Finished);
+    ASSERT_TRUE(spy.wait(10000));
+  }
+
+  EXPECT_FALSE(QFile::exists(hidden_path));
+
+  // POSITIVE HALF: set kSave=true, reload settings, clear cache, then re-analyze.
+  // Clear the cache directory so Load() cannot return from the cache hit.
+  const QString waveform_cache_dir = StandardPaths::WritableLocation(StandardPaths::StandardLocation::CacheLocation) + u"/waveform"_s;
+  QDir(waveform_cache_dir).removeRecursively();
+
+  {
+    Settings s;
+    s.beginGroup(WaveformSettings::kSettingsGroup);
+    s.setValue(WaveformSettings::kSave, true);
+    s.endGroup();
+  }
+
+  {
+    WaveformLoader loader;  // ReloadSettings() in ctor sets save_=true
+    WaveformLoader::LoadResult result2 = loader.Load(url, false);
+    ASSERT_EQ(result2.status, WaveformLoader::LoadStatus::WillLoadAsync);
+    QSignalSpy spy2(&*result2.pipeline, &WaveformPipeline::Finished);
+    ASSERT_TRUE(spy2.wait(10000));
+  }
+
+  EXPECT_TRUE(QFile::exists(hidden_path));
+
+  // Cleanup.
+  QFile::remove(hidden_path);
+  {
+    Settings s;
+    s.beginGroup(WaveformSettings::kSettingsGroup);
+    s.setValue(WaveformSettings::kSave, false);
+    s.endGroup();
+  }
 
 }
 
