@@ -30,6 +30,13 @@
 // the actual pixel width without re-decoding (resolution-independent).
 constexpr int kWaveformBaseCount = 2000;
 
+// Serialization header constants shared by the writer, the cache reader and the
+// tests so the magic, version and header size cannot drift between them.
+constexpr char kWaveformMagic[] = "SWVF";
+constexpr quint8 kWaveformVersion = 1;
+// magic (4) + version (1) + count (4) + peak (4).
+constexpr int kWaveformHeaderBytes = 13;
+
 // Pure transform that buffers decoded mono int16 PCM and reduces it to a fixed
 // kWaveformBaseCount per-bucket min/max peak envelope, serialized as a versioned
 // little-endian blob.
@@ -45,11 +52,17 @@ class WaveformBuilder {
   WaveformBuilder() = default;
 
   // Appends count int16 samples and updates the running per-track peak.
-  void AddSamples(const qint16 *samples, const int count);
+  void AddSamples(const qint16 *samples, const qsizetype count);
 
   // Reduces the buffered samples into count min/max pairs and returns the
-  // versioned blob. Returns an empty QByteArray when no samples were buffered.
+  // versioned blob. Returns an empty QByteArray when no samples were buffered
+  // or when count is not positive.
   QByteArray Finish(const int count);
+
+  // Validates a serialized blob: checks the magic, a known version and that the
+  // declared count matches the actual body length. Returns true only for a blob
+  // that can be safely deserialized by the consumer.
+  static bool IsValidBlob(const QByteArray &data);
 
  private:
   std::vector<qint16> samples_;

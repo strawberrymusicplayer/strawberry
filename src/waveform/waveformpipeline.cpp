@@ -210,7 +210,7 @@ GstFlowReturn WaveformPipeline::NewBufferCallback(GstAppSink *app_sink, gpointer
   if (buffer && instance->builder_) {
     GstMapInfo map;
     if (gst_buffer_map(buffer, &map, GST_MAP_READ)) {
-      instance->builder_->AddSamples(reinterpret_cast<const qint16*>(map.data), static_cast<int>(map.size / sizeof(qint16)));
+      instance->builder_->AddSamples(reinterpret_cast<const qint16*>(map.data), static_cast<qsizetype>(map.size / sizeof(qint16)));
       gst_buffer_unmap(buffer, &map);
     }
   }
