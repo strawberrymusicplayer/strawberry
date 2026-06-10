@@ -23,21 +23,28 @@
       <item row="0" column="0" colspan="2">
        <widget class="QCheckBox" name="waveform_enabled">
         <property name="text">
-         <string>Enabled</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0" colspan="2">
-       <widget class="QCheckBox" name="waveform_show">
-        <property name="text">
          <string>Show a waveform in the track progress bar</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="0" colspan="2">
+      <item row="1" column="0" colspan="2">
        <widget class="QCheckBox" name="waveform_save">
         <property name="text">
          <string>Save the .waveform files directly in the songs folders</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_color">
+        <property name="text">
+         <string>Color</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QPushButton" name="select_waveform_color">
+        <property name="text">
+         <string/>
         </property>
        </widget>
       </item>
@@ -61,8 +68,8 @@
  </widget>
  <tabstops>
   <tabstop>waveform_enabled</tabstop>
-  <tabstop>waveform_show</tabstop>
   <tabstop>waveform_save</tabstop>
+  <tabstop>select_waveform_color</tabstop>
  </tabstops>
  <resources/>
  <connections/>

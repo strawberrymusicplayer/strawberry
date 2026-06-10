@@ -102,6 +102,7 @@ class WaveformProxyStyle : public QProxyStyle {
   QSlider *slider_;
 
   bool show_;
+  QColor color_;
   QByteArray data_;
 
   State state_;

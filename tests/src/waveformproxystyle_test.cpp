@@ -35,8 +35,11 @@
 #include <QCoreApplication>
 #include <QEventLoop>
 #include <QElapsedTimer>
+#include <QStandardPaths>
 
 #include "test_utils.h"
+#include "core/settings.h"
+#include "constants/waveformsettings.h"
 
 #include "waveform/waveformbuilder.h"
 #include "waveform/waveformproxystyle.h"
@@ -252,5 +255,91 @@ TEST(WaveformProxyStyleTest, OverRangeSliderValueClampsSplit) {
   EXPECT_LE(handle.left(), size.width());
 
   delete style;
+
+}
+
+TEST(WaveformProxyStyleTest, CustomColorChangesRenderedPixmap) {
+
+  QStandardPaths::setTestModeEnabled(true);
+
+  QSlider slider;
+  slider.resize(200, 40);
+
+  // Render with default (no kColor in settings — theme Highlight fallback).
+  {
+    Settings s;
+    s.beginGroup(WaveformSettings::kSettingsGroup);
+    s.remove(WaveformSettings::kColor);
+    s.setValue(WaveformSettings::kEnabled, true);
+    s.endGroup();
+  }
+
+  WaveformProxyStyle *style_default = new WaveformProxyStyle(&slider);
+  style_default->SetWaveformData(MakeTestBlob(200, -80, 80, 127.0f));
+  style_default->SetShowWaveform(true);
+
+  QElapsedTimer timer;
+  timer.start();
+  while (timer.elapsed() < 1500) {
+    QCoreApplication::processEvents(QEventLoop::AllEvents, 20);
+  }
+
+  auto paint_image = [&](WaveformProxyStyle *s_ptr) {
+    const QSize size(200, 40);
+    QStyleOptionSlider opt;
+    opt.initFrom(&slider);
+    opt.rect = QRect(0, 0, size.width(), size.height());
+    opt.minimum = 0;
+    opt.maximum = 200;
+    opt.sliderValue = 0;
+
+    QImage image(size, QImage::Format_ARGB32);
+    image.fill(Qt::transparent);
+    QPainter painter(&image);
+    s_ptr->drawComplexControl(QStyle::CC_Slider, &opt, &painter, &slider);
+    painter.end();
+    return image;
+  };
+
+  const QImage default_image = paint_image(style_default);
+  EXPECT_FALSE(default_image.isNull());
+
+  delete style_default;
+
+  // Now render with a distinctive custom color (pure red — very unlikely to match
+  // the theme Highlight color used in the default render).
+  {
+    Settings s;
+    s.beginGroup(WaveformSettings::kSettingsGroup);
+    s.setValue(WaveformSettings::kColor, QColor(Qt::red));
+    s.setValue(WaveformSettings::kEnabled, true);
+    s.endGroup();
+  }
+
+  WaveformProxyStyle *style_custom = new WaveformProxyStyle(&slider);
+  style_custom->SetWaveformData(MakeTestBlob(200, -80, 80, 127.0f));
+  style_custom->SetShowWaveform(true);
+
+  timer.restart();
+  while (timer.elapsed() < 1500) {
+    QCoreApplication::processEvents(QEventLoop::AllEvents, 20);
+  }
+
+  const QImage custom_image = paint_image(style_custom);
+  EXPECT_FALSE(custom_image.isNull());
+
+  // The rendered images must differ: the custom red color vs the theme Highlight.
+  EXPECT_NE(default_image, custom_image);
+
+  delete style_custom;
+
+  // Cleanup settings.
+  {
+    Settings s;
+    s.beginGroup(WaveformSettings::kSettingsGroup);
+    s.remove(WaveformSettings::kColor);
+    s.setValue(WaveformSettings::kEnabled, false);
+    s.endGroup();
+  }
 
 }

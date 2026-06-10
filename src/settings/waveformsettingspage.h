@@ -23,6 +23,7 @@
 #include "settingspage.h"
 
 #include <QObject>
+#include <QColor>
 
 class SettingsDialog;
 class Ui_WaveformSettingsPage;
@@ -39,8 +40,16 @@ class WaveformSettingsPage : public SettingsPage {
   void Save() override;
   void Cancel() override;
 
+ private Q_SLOTS:
+  void WaveformSelectColor();
+
  private:
+  static void UpdateColorButtonStyle(QWidget *button, const QColor &color);
+
   Ui_WaveformSettingsPage *ui_;
+
+  QColor current_waveform_color_;
+  bool color_is_custom_;
 };
 
 #endif  // WAVEFORMSETTINGSPAGE_H

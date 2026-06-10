@@ -55,6 +55,7 @@ WaveformProxyStyle::WaveformProxyStyle(QSlider *slider, QObject *parent)
     : QProxyStyle(nullptr),
       slider_(slider),
       show_(false),
+      color_(),
       state_(State::WaveformOff),
       fade_timeline_(new QTimeLine(1000, this)),
       waveform_pixmap_dirty_(true),
@@ -78,8 +79,12 @@ void WaveformProxyStyle::ReloadSettings() {
 
   Settings s;
   s.beginGroup(WaveformSettings::kSettingsGroup);
-  show_ = s.value(WaveformSettings::kEnabled, false).toBool() && s.value(WaveformSettings::kShow, false).toBool();
+  show_ = s.value(WaveformSettings::kEnabled, false).toBool();
+  color_ = s.value(WaveformSettings::kColor).value<QColor>();
   s.endGroup();
+
+  // A color change requires a fresh render of the bar pixmaps.
+  waveform_pixmap_dirty_ = true;
 
   NextState();
 
@@ -100,14 +105,12 @@ void WaveformProxyStyle::SetShowWaveform(const bool show) {
 
   Settings s;
   s.beginGroup(WaveformSettings::kSettingsGroup);
-  s.setValue(WaveformSettings::kShow, show);
-  // D-03: toggling on from the seekbar also enables the master toggle.
-  if (show) {
-    s.setValue(WaveformSettings::kEnabled, true);
-  }
+  // kEnabled is the single source of truth: the Preferences checkbox and the
+  // context-menu toggle both read/write this one key.
+  s.setValue(WaveformSettings::kEnabled, show);
   s.endGroup();
 
-  ReloadSettings();  // reads back kEnabled && kShow, calls NextState()
+  ReloadSettings();  // reads back kEnabled, calls NextState()
 
 }
 
@@ -305,7 +308,9 @@ void WaveformProxyStyle::EnsureWaveformRendered() {
   const QSize dpr_size = slider_->size() * dpr;
   const QPalette palette = slider_->palette();
 
-  const QColor unplayed_color = palette.color(QPalette::Active, QPalette::Highlight);
+  // Use the user's custom color when set; fall back to the theme Highlight so
+  // the default look follows the current theme without any explicit preference.
+  const QColor unplayed_color = color_.isValid() ? color_ : palette.color(QPalette::Active, QPalette::Highlight);
   QColor played_color = unplayed_color;
   played_color.setAlphaF(kPlayedAlpha);
 
