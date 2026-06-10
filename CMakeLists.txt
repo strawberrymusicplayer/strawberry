@@ -1335,12 +1335,14 @@ list(APPEND SOURCES
   src/waveform/waveformbuilder.cpp
   src/waveform/waveformpipeline.cpp
   src/waveform/waveformloader.cpp
+  src/waveform/waveformcontroller.cpp
   src/waveform/waveformrenderer.cpp
   src/waveform/waveformproxystyle.cpp
 )
 list(APPEND HEADERS
   src/waveform/waveformpipeline.h
   src/waveform/waveformloader.h
+  src/waveform/waveformcontroller.h
   src/waveform/waveformproxystyle.h
 )
 
