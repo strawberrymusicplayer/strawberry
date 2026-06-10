@@ -29,7 +29,7 @@
 
 class WaveformLoader;
 class Song;
-class Player;
+class PlayerInterface;
 
 // Orchestrates waveform data delivery for the currently playing track. Connects
 // Player::CurrentSongChanged to WaveformLoader::Load and emits
@@ -38,7 +38,7 @@ class WaveformController : public QObject {
   Q_OBJECT
 
  public:
-  explicit WaveformController(const SharedPtr<Player> player, const SharedPtr<WaveformLoader> waveform_loader, QObject *parent = nullptr);
+  explicit WaveformController(const SharedPtr<PlayerInterface> player, const SharedPtr<WaveformLoader> waveform_loader, QObject *parent = nullptr);
 
  Q_SIGNALS:
   // An empty byte array means there's no waveform, so the seekbar reverts to a normal slider.
@@ -52,7 +52,7 @@ class WaveformController : public QObject {
   void AsyncLoadComplete(WaveformPipelinePtr pipeline, const QUrl &url);
 
  private:
-  const SharedPtr<Player> player_;
+  const SharedPtr<PlayerInterface> player_;
   const SharedPtr<WaveformLoader> waveform_loader_;
 };
 

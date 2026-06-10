@@ -110,6 +110,7 @@ add_test_file(src/playlist_test.cpp true)
 add_test_file(src/waveformbuilder_test.cpp false)
 add_test_file(src/waveformpipeline_test.cpp false)
 add_test_file(src/waveformloader_test.cpp false)
+add_test_file(src/waveformcontroller_test.cpp false)
 add_test_file(src/waveformrenderer_test.cpp true)
 add_test_file(src/waveformproxystyle_test.cpp true)
 

@@ -23,7 +23,7 @@
 
 #include "includes/shared_ptr.h"
 #include "core/song.h"
-#include "core/player.h"
+#include "core/playerinterface.h"
 #include "engine/enginebase.h"
 
 #include "waveformcontroller.h"
@@ -32,7 +32,7 @@
 
 using std::make_shared;
 
-WaveformController::WaveformController(const SharedPtr<Player> player, const SharedPtr<WaveformLoader> waveform_loader, QObject *parent)
+WaveformController::WaveformController(const SharedPtr<PlayerInterface> player, const SharedPtr<WaveformLoader> waveform_loader, QObject *parent)
     : QObject(parent),
       player_(player),
       waveform_loader_(waveform_loader) {}
