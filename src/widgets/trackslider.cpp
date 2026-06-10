@@ -93,7 +93,15 @@ TrackSlider::~TrackSlider() {
 void TrackSlider::Init() {
 
 #ifdef HAVE_MOODBAR
-  if (!moodbar_proxy_style_) moodbar_proxy_style_ = new MoodbarProxyStyle(ui_->slider);
+  if (!moodbar_proxy_style_) {
+    moodbar_proxy_style_ = new MoodbarProxyStyle(ui_->slider);
+    // The moodbar's context-menu toggle drives SetSeekbarMode so enabling the
+    // moodbar turns the waveform off (and vice versa), enforcing mutual
+    // exclusivity in one place.
+    QObject::connect(moodbar_proxy_style_, &MoodbarProxyStyle::MoodbarShow, this, [this](const bool show) {
+      SetSeekbarMode(show ? SeekbarMode::Moodbar : SeekbarMode::Normal);
+    });
+  }
 #endif
 
   // The waveform proxy is built unconditionally (no FFTW3 dependency); its

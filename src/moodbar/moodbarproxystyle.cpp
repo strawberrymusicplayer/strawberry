@@ -381,6 +381,10 @@ void MoodbarProxyStyle::ShowContextMenu(const QPoint pos) {
     show_moodbar_action_->setCheckable(true);
     show_moodbar_action_->setChecked(show_);
 
+    // Notify listeners (TrackSlider) of the toggle so seekbar mutual exclusivity
+    // against the waveform can be enforced in one place.
+    QObject::connect(show_moodbar_action_, &QAction::triggered, this, &MoodbarProxyStyle::MoodbarShow);
+
     QMenu *styles_menu = context_menu_->addMenu(tr("Moodbar style"));
     style_action_group_ = new QActionGroup(styles_menu);
 

@@ -949,6 +949,8 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(&*app_->waveform_controller(), &WaveformController::CurrentWaveformDataChanged, ui_->track_slider->waveform_proxy_style(), &WaveformProxyStyle::SetWaveformData);
   QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, &*app_->waveform_controller(), &WaveformController::CurrentSongChanged);
   QObject::connect(&*app_->player(), &Player::Stopped, &*app_->waveform_controller(), &WaveformController::PlaybackStopped);
+  // Gate decode on the show toggle so a track is only analyzed when the waveform can be shown.
+  QObject::connect(ui_->track_slider->waveform_proxy_style(), &WaveformProxyStyle::WaveformShow, &*app_->waveform_controller(), &WaveformController::SetEnabled);
 
   // Playing widget
   qLog(Debug) << "Creating playing widget";
