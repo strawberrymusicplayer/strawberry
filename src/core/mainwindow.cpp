@@ -207,6 +207,9 @@
 #  include "moodbar/moodbarproxystyle.h"
 #endif
 
+#include "waveform/waveformcontroller.h"
+#include "waveform/waveformproxystyle.h"
+
 #include "smartplaylists/smartplaylistsviewcontainer.h"
 
 #include "organize/organizeerrordialog.h"
@@ -941,6 +944,11 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(&*app_->player(), &Player::Stopped, &*app_->moodbar_controller(), &MoodbarController::PlaybackStopped);
   QObject::connect(ui_->track_slider->moodbar_proxy_style(), &MoodbarProxyStyle::StyleChanged, &*app_->moodbar_loader(), &MoodbarLoader::StyleChanged);
 #endif
+
+  // Waveform connections - unconditional: the waveform has no FFTW3 dependency and is built on every platform.
+  QObject::connect(&*app_->waveform_controller(), &WaveformController::CurrentWaveformDataChanged, ui_->track_slider->waveform_proxy_style(), &WaveformProxyStyle::SetWaveformData);
+  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, &*app_->waveform_controller(), &WaveformController::CurrentSongChanged);
+  QObject::connect(&*app_->player(), &Player::Stopped, &*app_->waveform_controller(), &WaveformController::PlaybackStopped);
 
   // Playing widget
   qLog(Debug) << "Creating playing widget";

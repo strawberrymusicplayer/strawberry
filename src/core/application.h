@@ -63,6 +63,8 @@ class RadioServices;
 class MoodbarController;
 class MoodbarLoader;
 #endif
+class WaveformController;
+class WaveformLoader;
 
 class Application : public QObject {
   Q_OBJECT
@@ -102,6 +104,9 @@ class Application : public QObject {
   SharedPtr<MoodbarController> moodbar_controller() const;
   SharedPtr<MoodbarLoader> moodbar_loader() const;
 #endif
+
+  SharedPtr<WaveformController> waveform_controller() const;
+  SharedPtr<WaveformLoader> waveform_loader() const;
 
   SharedPtr<LastFMImport> lastfm_import() const;
 
