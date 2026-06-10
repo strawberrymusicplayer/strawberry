@@ -17,6 +17,8 @@
  *
  */
 
+#include <algorithm>
+
 #include <QtGlobal>
 #include <QProxyStyle>
 #include <QPixmap>
@@ -80,6 +82,8 @@ void WaveformProxyStyle::SetWaveformData(const QByteArray &data) {
 }
 
 void WaveformProxyStyle::SetShowWaveform(const bool show) {
+
+  if (show == show_) return;
 
   show_ = show;
   NextState();
@@ -158,14 +162,16 @@ bool WaveformProxyStyle::eventFilter(QObject *object, QEvent *event) {
 
 void WaveformProxyStyle::drawComplexControl(ComplexControl control, const QStyleOptionComplex *option, QPainter *painter, const QWidget *widget) const {
 
-  if (control != CC_Slider || widget != slider_) {
+  const QStyleOptionSlider *slider_option = qstyleoption_cast<const QStyleOptionSlider*>(option);
+
+  if (control != CC_Slider || widget != slider_ || !slider_option) {
     QProxyStyle::drawComplexControl(control, option, painter, widget);
     return;
   }
 
   // const_cast is required because Render must update mutable state (the dirty
   // flag, the pixmap cache and the fade state machine).
-  const_cast<WaveformProxyStyle*>(this)->Render(control, qstyleoption_cast<const QStyleOptionSlider*>(option), painter, widget);
+  const_cast<WaveformProxyStyle*>(this)->Render(control, slider_option, painter, widget);
 
 }
 
@@ -185,13 +191,21 @@ void WaveformProxyStyle::Render(const ComplexControl control, const QStyleOption
   // color boundary and the cursor overdraw. Recomputed every repaint so it
   // tracks playback while the cached bar pixmaps stay position-independent.
   int x_split = 0;
-  if (option && option->maximum > option->minimum) {
+  if (option->maximum > option->minimum) {
     const qint64 delta = static_cast<qint64>(option->sliderValue) - static_cast<qint64>(option->minimum);
     const qint64 range = static_cast<qint64>(option->maximum) - static_cast<qint64>(option->minimum);
     x_split = static_cast<int>(delta * static_cast<qint64>(option->rect.width()) / range);
+    // sliderValue is not guaranteed to be within [minimum, maximum] (TrackSlider::SetValue
+    // sets the maximum then the value, briefly leaving sliderValue > maximum), which would
+    // otherwise yield a negative-width unplayed clip rect and a cursor past the groove edge.
+    x_split = std::clamp(x_split, 0, option->rect.width());
   }
 
-  const QColor cursor_color = slider_->palette().color(QPalette::Active, QPalette::WindowText);
+  // Use the slider's palette consistently for every paint path so the fade
+  // source, the rendered bars and the cursor all share the same colors and no
+  // seam appears during the crossfade.
+  const QPalette palette = slider_->palette();
+  const QColor cursor_color = palette.color(QPalette::Active, QPalette::WindowText);
 
   switch (state_) {
     case State::FadingToOn:
@@ -200,7 +214,7 @@ void WaveformProxyStyle::Render(const ComplexControl control, const QStyleOption
       if (fade_source_.isNull()) {
         // Draw the normal slider into the fade source pixmap.
         fade_source_ = QPixmap(option->rect.size());
-        fade_source_.fill(option->palette.color(QPalette::Active, QPalette::Window));
+        fade_source_.fill(palette.color(QPalette::Active, QPalette::Window));
 
         QPainter p(&fade_source_);
         QStyleOptionSlider opt_copy(*option);
@@ -306,6 +320,8 @@ QRect WaveformProxyStyle::subControlRect(ComplexControl cc, const QStyleOptionCo
 
         case SC_SliderHandle:{
           const QStyleOptionSlider *slider_opt = qstyleoption_cast<const QStyleOptionSlider*>(opt);
+          if (!slider_opt) break;
+
           int x_offset = 0;
 
           // slider_opt->{maximum,minimum} can have the value 0 (their default values), so this check avoids a division by 0.
@@ -314,7 +330,9 @@ QRect WaveformProxyStyle::subControlRect(ComplexControl cc, const QStyleOptionCo
             const qint64 slider_range = static_cast<qint64>(slider_opt->maximum) - static_cast<qint64>(slider_opt->minimum);
             // No arrow width subtracted: the waveform uses a thin line cursor (D-06).
             const qint64 x = slider_delta * static_cast<qint64>(opt->rect.width()) / slider_range;
-            x_offset = static_cast<int>(x);
+            // Clamp to the groove width so a transient sliderValue > maximum cannot
+            // place the cursor handle outside the groove (see CR-02 in the Render path).
+            x_offset = std::clamp(static_cast<int>(x), 0, opt->rect.width());
           }
 
           return QRect(QPoint(opt->rect.left() + x_offset, opt->rect.top()), QSize(kCursorWidth, opt->rect.height()));

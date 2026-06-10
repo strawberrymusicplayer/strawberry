@@ -197,3 +197,60 @@ TEST(WaveformProxyStyleTest, PlayedUnplayedBoundaryTracksSliderValue) {
   delete style;
 
 }
+
+TEST(WaveformProxyStyleTest, OverRangeSliderValueClampsSplit) {
+
+  QSlider slider;
+  slider.resize(200, 40);
+  WaveformProxyStyle *style = new WaveformProxyStyle(&slider);
+
+  style->SetWaveformData(MakeTestBlob(200, -80, 80, 127.0f));
+  style->SetShowWaveform(true);
+
+  const QSize size(200, 40);
+
+  // Let the fade settle into the live WaveformOn composite.
+  QElapsedTimer timer;
+  timer.start();
+  while (timer.elapsed() < 1500) {
+    QCoreApplication::processEvents(QEventLoop::AllEvents, 20);
+  }
+
+  auto paint_at = [&](const int value, const int maximum) {
+    QStyleOptionSlider opt;
+    opt.initFrom(&slider);
+    opt.rect = QRect(0, 0, size.width(), size.height());
+    opt.minimum = 0;
+    opt.maximum = maximum;
+    opt.sliderValue = value;
+
+    QImage image(size, QImage::Format_ARGB32);
+    image.fill(Qt::transparent);
+    QPainter painter(&image);
+    style->drawComplexControl(QStyle::CC_Slider, &opt, &painter, &slider);
+    painter.end();
+    return image;
+  };
+
+  // sliderValue > maximum (TrackSlider sets max then value) must clamp x_split to
+  // the groove width: the result equals painting fully played (value == maximum),
+  // not an undefined negative-width clip rect. This also exercises the cursor
+  // clamp so it never paints outside the groove.
+  const QImage over_range = paint_at(250, 200);
+  const QImage at_max = paint_at(200, 200);
+
+  EXPECT_EQ(over_range, at_max);
+
+  // subControlRect's handle must also clamp: the cursor rect stays inside the groove.
+  QStyleOptionSlider handle_opt;
+  handle_opt.initFrom(&slider);
+  handle_opt.rect = QRect(0, 0, size.width(), size.height());
+  handle_opt.minimum = 0;
+  handle_opt.maximum = 200;
+  handle_opt.sliderValue = 250;
+  const QRect handle = style->subControlRect(QStyle::CC_Slider, &handle_opt, QStyle::SC_SliderHandle, &slider);
+  EXPECT_LE(handle.left(), size.width());
+
+  delete style;
+
+}
