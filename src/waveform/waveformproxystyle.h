@@ -43,7 +43,7 @@ class QEvent;
 // A QProxyStyle that intercepts QSlider groove painting to draw a whole-track
 // amplitude waveform, a played/unplayed color split and a playhead cursor line.
 //
-// Built unconditionally (no HAVE_MOODBAR gate): the waveform has no FFTW3
+// Built unconditionally (no compile gate): the waveform has no FFTW3
 // dependency. All rendering is driven by WaveformRenderer::RenderToPixmap; this
 // class owns the lazy pixmap cache, the fade state machine and the right-click
 // "Show waveform" toggle. Mutual exclusivity with the moodbar is coordinated by

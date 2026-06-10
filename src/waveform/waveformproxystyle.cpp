@@ -64,6 +64,10 @@ WaveformProxyStyle::WaveformProxyStyle(QSlider *slider, QObject *parent)
 
   QObject::connect(fade_timeline_, &QTimeLine::valueChanged, this, &WaveformProxyStyle::FaderValueChanged);
 
+  // Establish the initial size policy for the default (off) state, matching how
+  // the moodbar proxy normalizes the slider through ReloadSettings on creation.
+  NextState();
+
 }
 
 void WaveformProxyStyle::SetWaveformData(const QByteArray &data) {
