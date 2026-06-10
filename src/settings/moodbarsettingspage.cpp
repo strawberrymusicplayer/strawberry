@@ -72,8 +72,6 @@ void MoodbarSettingsPage::Load() {
 
   Settings s;
   s.beginGroup(kSettingsGroup);
-  ui_->moodbar_enabled->setChecked(s.value(kEnabled, false).toBool());
-  ui_->moodbar_show->setChecked(s.value(kShow, false).toBool());
   ui_->moodbar_style->setCurrentIndex(s.value(kStyle, 0).toInt());
   ui_->moodbar_save->setChecked(s.value(kSave, false).toBool());
   s.endGroup();
@@ -90,11 +88,10 @@ void MoodbarSettingsPage::Save() {
 
   Settings s;
   s.beginGroup(kSettingsGroup);
-  s.setValue(kEnabled, ui_->moodbar_enabled->isChecked());
-  s.setValue(kShow, ui_->moodbar_show->isChecked());
   s.setValue(kStyle, ui_->moodbar_style->currentIndex());
   s.setValue(kSave, ui_->moodbar_save->isChecked());
   s.endGroup();
+
 }
 
 void MoodbarSettingsPage::Cancel() {}

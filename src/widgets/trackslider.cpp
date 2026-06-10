@@ -2,6 +2,7 @@
  * Strawberry Music Player
  * This file was part of Clementine.
  * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2018-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,6 +29,12 @@
 #include <QLabel>
 #include <QSettings>
 #include <QEvent>
+#include <QContextMenuEvent>
+#include <QMenu>
+#include <QAction>
+#include <QActionGroup>
+#include <QPoint>
+#include <QStyle>
 
 #include "core/settings.h"
 #include "utilities/timeutils.h"
@@ -37,14 +44,20 @@
 #include "clickablelabel.h"
 #include "tracksliderslider.h"
 
+#ifdef HAVE_WAVEFORM
+#  include "waveform/waveformproxystyle.h"
+#endif
+
 #ifdef HAVE_MOODBAR
 #  include "moodbar/moodbarproxystyle.h"
+#  include "moodbar/moodbarrenderer.h"
+#  include "constants/moodbarsettings.h"
 #endif
 
 using namespace Qt::Literals::StringLiterals;
 
 namespace {
-constexpr char kSettingsGroup[] = "MainWindow";
+constexpr char kMainWindowSettingsGroup[] = "MainWindow";
 }
 
 TrackSlider::TrackSlider(QWidget *parent)
@@ -52,6 +65,23 @@ TrackSlider::TrackSlider(QWidget *parent)
       ui_(new Ui_TrackSlider),
 #ifdef HAVE_MOODBAR
       moodbar_proxy_style_(nullptr),
+#endif
+#ifdef HAVE_WAVEFORM
+      waveform_proxy_style_(nullptr),
+#endif
+#if defined(HAVE_MOODBAR) || defined(HAVE_WAVEFORM)
+      seekbar_mode_(SeekbarMode::Normal),
+      seekbar_menu_(new QMenu(this)),
+      seekbar_mode_group_(new QActionGroup(seekbar_menu_)),
+      normal_action_(seekbar_mode_group_->addAction(tr("Normal"))),
+#endif
+#ifdef HAVE_MOODBAR
+      moodbar_action_(seekbar_mode_group_->addAction(tr("Moodbar"))),
+      moodbar_style_menu_(new QMenu(tr("Moodbar style"), seekbar_menu_)),
+      moodbar_style_group_(new QActionGroup(moodbar_style_menu_)),
+#endif
+#ifdef HAVE_WAVEFORM
+      waveform_action_(seekbar_mode_group_->addAction(tr("Waveform"))),
 #endif
       setting_value_(false),
       show_remaining_time_(true),
@@ -61,9 +91,8 @@ TrackSlider::TrackSlider(QWidget *parent)
 
   UpdateLabelWidth();
 
-  // Load settings
   Settings s;
-  s.beginGroup(kSettingsGroup);
+  s.beginGroup(kMainWindowSettingsGroup);
   show_remaining_time_ = s.value("show_remaining_time").toBool();
   s.endGroup();
 
@@ -75,24 +104,211 @@ TrackSlider::TrackSlider(QWidget *parent)
   QObject::connect(ui_->slider, &TrackSliderSlider::Previous, this, &TrackSlider::Previous);
   QObject::connect(ui_->slider, &TrackSliderSlider::Next, this, &TrackSlider::Next);
 
+#if defined(HAVE_MOODBAR) || defined(HAVE_WAVEFORM)
+  // Configure the unified seekbar context menu (the menu, action group and actions are allocated in the initializer list).
+  seekbar_mode_group_->setExclusive(true);
+  normal_action_->setCheckable(true);
+#ifdef HAVE_MOODBAR
+  moodbar_action_->setCheckable(true);
+#endif
+#ifdef HAVE_WAVEFORM
+  waveform_action_->setCheckable(true);
+#endif
+  seekbar_menu_->addActions(seekbar_mode_group_->actions());
+
+  QObject::connect(normal_action_, &QAction::triggered, this, [this]() {
+    SetSeekbarMode(SeekbarMode::Normal);
+  });
+
+#ifdef HAVE_MOODBAR
+  QObject::connect(moodbar_action_, &QAction::triggered, this, [this]() {
+    SetSeekbarMode(SeekbarMode::Moodbar);
+  });
+
+  seekbar_menu_->addMenu(moodbar_style_menu_);
+  moodbar_style_group_->setExclusive(true);
+
+  for (int i = 0; i < static_cast<int>(MoodbarSettings::Style::StyleCount); ++i) {
+    const MoodbarSettings::Style style = static_cast<MoodbarSettings::Style>(i);
+    QAction *action = moodbar_style_group_->addAction(MoodbarRenderer::StyleName(style));
+    action->setCheckable(true);
+    action->setData(i);
+  }
+
+  moodbar_style_menu_->addActions(moodbar_style_group_->actions());
+
+  QObject::connect(moodbar_style_group_, &QActionGroup::triggered, this, [this](QAction *action) {
+    if (moodbar_proxy_style_) {
+      moodbar_proxy_style_->SetStyle(static_cast<MoodbarSettings::Style>(action->data().toInt()));
+    }
+  });
+#endif
+
+#ifdef HAVE_WAVEFORM
+  QObject::connect(waveform_action_, &QAction::triggered, this, [this]() {
+    SetSeekbarMode(SeekbarMode::Waveform);
+  });
+#endif
+#endif
+
 }
 
 TrackSlider::~TrackSlider() {
 
-  delete ui_;
+  // Destroy the proxy styles before ui_ (which owns the slider).
+  // Their fade timelines can have a queued valueChanged; deleteLater() would let that fire FaderValueChanged -> slider_->update() after the slider is already gone.
+  // A synchronous delete stops the timelines first, avoiding a shutdown crash.
 #ifdef HAVE_MOODBAR
-  if (moodbar_proxy_style_) moodbar_proxy_style_->deleteLater();
+  if (moodbar_proxy_style_) {
+    delete moodbar_proxy_style_;
+    moodbar_proxy_style_ = nullptr;
+  }
 #endif
+#ifdef HAVE_WAVEFORM
+  if (waveform_proxy_style_) {
+    delete waveform_proxy_style_;
+    waveform_proxy_style_ = nullptr;
+  }
+#endif
+
+  delete ui_;
 
 }
 
 void TrackSlider::Init() {
 
 #ifdef HAVE_MOODBAR
-  if (!moodbar_proxy_style_) moodbar_proxy_style_ = new MoodbarProxyStyle(ui_->slider);
+  if (!moodbar_proxy_style_) {
+    moodbar_proxy_style_ = new MoodbarProxyStyle(ui_->slider);
+  }
+#endif
+
+#ifdef HAVE_WAVEFORM
+  // The waveform proxy's constructor attaches itself as the slider's style.
+  // show_ defaults to false, so the slider renders normally until the user enables the waveform.
+  if (!waveform_proxy_style_) {
+    waveform_proxy_style_ = new WaveformProxyStyle(ui_->slider);
+  }
+#endif
+
+#if defined(HAVE_MOODBAR) || defined(HAVE_WAVEFORM)
+  // The unified context menu is owned here; install this widget as an event filter after both proxies so the LIFO delivery gives us first refusal on ContextMenu events — the proxies never see them.
+  ui_->slider->installEventFilter(this);
+
+  // Both proxies installed themselves as the slider's style in their constructors, but only one QStyle can be active at a time.
+  // Apply the persisted mode so the renderer that should be visible owns the slider from startup.
+  SetSeekbarMode(LoadSeekbarMode());
 #endif
 
 }
+
+TrackSlider::SeekbarMode TrackSlider::LoadSeekbarMode() {
+
+#if defined(HAVE_MOODBAR) || defined(HAVE_WAVEFORM)
+
+  Settings s;
+  s.beginGroup(SeekbarSettings::kSettingsGroup);
+  const SeekbarMode seekbar_mode = static_cast<SeekbarMode>(s.value(QLatin1String(SeekbarSettings::kMode), static_cast<int>(SeekbarMode::Normal)).toInt());
+  s.endGroup();
+
+  switch (seekbar_mode) {
+    case SeekbarMode::Normal:
+    case SeekbarMode::Moodbar:
+    case SeekbarMode::Waveform:
+      return seekbar_mode;
+  }
+
+#endif  // defined(HAVE_MOODBAR) || defined(HAVE_WAVEFORM)
+
+  return SeekbarMode::Normal;
+
+}
+
+void TrackSlider::SetSeekbarMode(const SeekbarMode seekbar_mode) {
+
+  seekbar_mode_ = seekbar_mode;
+
+  // The seekbar mode is the single source of truth, persisted here so the controllers (which gate generation on it) and the next startup agree on what to show.
+  Settings s;
+  s.beginGroup(SeekbarSettings::kSettingsGroup);
+  s.setValue(QLatin1String(SeekbarSettings::kMode), static_cast<int>(seekbar_mode));
+  s.endGroup();
+
+  // Both proxy styles drive the slider's vertical size policy in NextState() (MinimumExpanding when shown, Fixed when hidden), and the last writer wins.
+  // So disable the inactive proxy first and enable the active one last — otherwise switching to a mode would leave the just-disabled proxy's Fixed policy in force and the visualization would render too small.
+#ifdef HAVE_MOODBAR
+  if (moodbar_proxy_style_ && seekbar_mode != SeekbarMode::Moodbar) moodbar_proxy_style_->SetShowMoodbar(false);
+#endif
+#ifdef HAVE_WAVEFORM
+  if (waveform_proxy_style_ && seekbar_mode != SeekbarMode::Waveform) waveform_proxy_style_->SetShowWaveform(false);
+#endif
+#ifdef HAVE_MOODBAR
+  if (moodbar_proxy_style_ && seekbar_mode == SeekbarMode::Moodbar) moodbar_proxy_style_->SetShowMoodbar(true);
+#endif
+#ifdef HAVE_WAVEFORM
+  if (waveform_proxy_style_ && seekbar_mode == SeekbarMode::Waveform) waveform_proxy_style_->SetShowWaveform(true);
+#endif
+
+  // Only one QProxyStyle can be the slider's active style at a time, so point the slider at the renderer for the active mode — otherwise the proxy that happened to call setStyle() last would always win.
+  // Both proxies fall back to a normal slider when their show flag is off, so Normal can use either.
+  QStyle *active_style = nullptr;
+#ifdef HAVE_WAVEFORM
+  active_style = waveform_proxy_style_;
+#endif
+#ifdef HAVE_MOODBAR
+  if (seekbar_mode == SeekbarMode::Moodbar || !active_style) active_style = moodbar_proxy_style_;
+#endif
+
+  if (active_style) ui_->slider->setStyle(active_style);
+
+}
+
+void TrackSlider::ReloadSettings() {
+
+  // The seekbar mode is changed through the right-click menu (which persists it live), so re-applying the persisted value here keeps the slider consistent after a settings change elsewhere.
+  SetSeekbarMode(LoadSeekbarMode());
+
+}
+
+bool TrackSlider::eventFilter(QObject *object, QEvent *event) {
+
+#if defined(HAVE_MOODBAR) || defined(HAVE_WAVEFORM)
+  if (object == ui_->slider && event->type() == QEvent::ContextMenu) {
+    ShowSeekbarContextMenu(static_cast<QContextMenuEvent *>(event)->globalPos());
+    return true;
+  }
+#endif
+
+  return QWidget::eventFilter(object, event);
+
+}
+
+#if defined(HAVE_MOODBAR) || defined(HAVE_WAVEFORM)
+void TrackSlider::ShowSeekbarContextMenu(const QPoint pos) {
+
+  // The menu and its actions are built in the constructor.
+  // Update radio checks and submenu state before showing.
+  normal_action_->setChecked(seekbar_mode_ == SeekbarMode::Normal);
+#ifdef HAVE_MOODBAR
+  moodbar_action_->setChecked(seekbar_mode_ == SeekbarMode::Moodbar);
+  moodbar_style_menu_->setEnabled(seekbar_mode_ == SeekbarMode::Moodbar);
+
+  if (moodbar_proxy_style_) {
+    const MoodbarSettings::Style current_style = moodbar_proxy_style_->moodbar_style();
+    const QList<QAction *> style_actions = moodbar_style_group_->actions();
+    for (QAction *action : style_actions) {
+      action->setChecked(static_cast<MoodbarSettings::Style>(action->data().toInt()) == current_style);
+    }
+  }
+#endif
+#ifdef HAVE_WAVEFORM
+  waveform_action_->setChecked(seekbar_mode_ == SeekbarMode::Waveform);
+#endif
+
+  seekbar_menu_->popup(pos);
+
+}
+#endif  // defined(HAVE_MOODBAR) || defined(HAVE_WAVEFORM)
 
 void TrackSlider::UpdateLabelWidth() {
 
@@ -216,9 +432,8 @@ void TrackSlider::ToggleTimeDisplay() {
   }
   UpdateTimes(static_cast<int>(ui_->slider->value() / kMsecPerSec));
 
-  // Save this setting
   Settings s;
-  s.beginGroup(kSettingsGroup);
+  s.beginGroup(kMainWindowSettingsGroup);
   s.setValue("show_remaining_time", show_remaining_time_);
   s.endGroup();
 

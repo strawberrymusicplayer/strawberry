@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2024, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,25 +17,21 @@
  *
  */
 
-#ifndef MOODBARSETTINGS_H
-#define MOODBARSETTINGS_H
+#ifndef SEEKBARSETTINGS_H
+#define SEEKBARSETTINGS_H
 
-namespace MoodbarSettings {
+namespace SeekbarSettings {
 
-constexpr char kSettingsGroup[] = "Moodbar";
+constexpr char kSettingsGroup[] = "Seekbar";
 
-enum class Style {
+enum class Mode {
   Normal = 0,
-  Angry,
-  Frozen,
-  Happy,
-  SystemPalette,
-  StyleCount
+  Moodbar = 1,
+  Waveform = 2
 };
 
-constexpr char kStyle[] = "style";
-constexpr char kSave[] = "save";
+constexpr char kMode[] = "mode";
 
-}  // namespace MoodbarSettings
+}  // namespace SeekbarSettings
 
-#endif  // MOODBARSETTINGS_H
+#endif  // SEEKBARSETTINGS_H

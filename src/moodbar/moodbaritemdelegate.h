@@ -99,7 +99,6 @@ class MoodbarItemDelegate : public QItemDelegate {
   PlaylistView *playlist_view_;
   QCache<QUrl, Data> data_;
 
-  bool enabled_;
   MoodbarSettings::Style style_;
 };
 
