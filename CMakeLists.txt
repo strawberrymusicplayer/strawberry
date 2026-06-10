@@ -1338,6 +1338,11 @@ optional_source(HAVE_MOODBAR
     src/moodbar/moodbarproxystyle.cpp
     src/moodbar/moodbarrenderer.cpp
     src/settings/moodbarsettingspage.cpp
+    # Waveform module (Phase 1). Gated under HAVE_MOODBAR for now; a dedicated
+    # HAVE_WAVEFORM flag is deferred to the settings work (PR-time confirm).
+    src/waveform/waveformbuilder.cpp
+    src/waveform/waveformpipeline.cpp
+    src/waveform/waveformloader.cpp
   HEADERS
     src/moodbar/moodbarcontroller.h
     src/moodbar/moodbaritemdelegate.h
@@ -1345,6 +1350,8 @@ optional_source(HAVE_MOODBAR
     src/moodbar/moodbarpipeline.h
     src/moodbar/moodbarproxystyle.h
     src/settings/moodbarsettingspage.h
+    src/waveform/waveformpipeline.h
+    src/waveform/waveformloader.h
   UI
     src/settings/moodbarsettingspage.ui
 )
