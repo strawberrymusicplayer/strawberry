@@ -76,7 +76,8 @@ void WaveformSettingsPage::Load() {
     color_is_custom_ = false;
     // Show the theme Highlight as a preview so the button is not a blank grey box;
     // this is display-only — kColor is not written until the user explicitly picks.
-    UpdateColorButtonStyle(ui_->select_waveform_color, palette().color(QPalette::Highlight));
+    // Use Active+Highlight to match the renderer's palette lookup for visual parity.
+    UpdateColorButtonStyle(ui_->select_waveform_color, palette().color(QPalette::Active, QPalette::Highlight));
   }
 
   Init(ui_->layout_waveformsettingspage->parentWidget());

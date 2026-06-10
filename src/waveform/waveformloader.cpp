@@ -54,6 +54,11 @@
 using namespace Qt::Literals::StringLiterals;
 using std::make_shared;
 
+namespace {
+// Maximum on-disk size of the waveform QNetworkDiskCache.
+constexpr qint64 kMaxCacheSizeBytes = 60LL * 1024LL * 1024LL;
+}  // namespace
+
 WaveformLoader::WaveformLoader(QObject *parent)
     : QObject(parent),
       cache_(new QNetworkDiskCache(this)),
@@ -65,13 +70,16 @@ WaveformLoader::WaveformLoader(QObject *parent)
   thread_->setObjectName(objectName());
 
   cache_->setCacheDirectory(StandardPaths::WritableLocation(StandardPaths::StandardLocation::CacheLocation) + u"/waveform"_s);
-  cache_->setMaximumCacheSize(60LL * 1024LL * 1024LL);  // 60MB
+  cache_->setMaximumCacheSize(kMaxCacheSizeBytes);
 
   ReloadSettings();
 
 }
 
 WaveformLoader::~WaveformLoader() {
+  // Teardown pattern inherited deliberately from MoodbarLoader for upstream
+  // parity. A long-running GStreamer decode can exceed the 1 s wait; this
+  // trade-off should be raised with maintainers in the PR review.
   thread_->quit();
   thread_->wait(1000);
 }

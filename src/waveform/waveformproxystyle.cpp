@@ -49,6 +49,8 @@ namespace {
 constexpr int kCursorWidth = 1;
 // Alpha applied to the Highlight color for the played region: same hue, dimmed.
 constexpr float kPlayedAlpha = 0.55f;
+// Duration of the waveform fade-in / fade-out transition in milliseconds.
+constexpr int kFadeDurationMs = 1000;
 }  // namespace
 
 WaveformProxyStyle::WaveformProxyStyle(QSlider *slider, QObject *parent)
@@ -57,7 +59,7 @@ WaveformProxyStyle::WaveformProxyStyle(QSlider *slider, QObject *parent)
       show_(false),
       color_(),
       state_(State::WaveformOff),
-      fade_timeline_(new QTimeLine(1000, this)),
+      fade_timeline_(new QTimeLine(kFadeDurationMs, this)),
       waveform_pixmap_dirty_(true),
       context_menu_(nullptr),
       show_waveform_action_(nullptr) {
@@ -105,8 +107,12 @@ void WaveformProxyStyle::SetShowWaveform(const bool show) {
 
   Settings s;
   s.beginGroup(WaveformSettings::kSettingsGroup);
-  // kEnabled is the single source of truth: the Preferences checkbox and the
-  // context-menu toggle both read/write this one key.
+  // kEnabled is the single source of truth shared by the context-menu toggle
+  // here and the Preferences checkbox (WaveformSettingsPage::Save). Both
+  // writers use last-writer-wins semantics on the same key; consistent state
+  // is guaranteed because every reader re-reads the key. Concurrent writes
+  // (e.g. context-menu toggle while the Preferences dialog is open) are an
+  // accepted edge case, consistent with the same pattern in MoodbarProxyStyle.
   s.setValue(WaveformSettings::kEnabled, show);
   s.endGroup();
 
