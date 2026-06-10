@@ -119,13 +119,74 @@ void ResetWaveformCache() {
 
 }  // namespace
 
-TEST(WaveformControllerTest, CannotLoadEmitsEmptyData) {
+TEST(WaveformControllerTest, DisabledDoesNotLoadOnSongChange) {
 
   ResetWaveformCache();
 
   SharedPtr<StubPlayer> player = make_shared<StubPlayer>();
   SharedPtr<WaveformLoader> loader = make_shared<WaveformLoader>();
   WaveformController controller(player, loader);
+
+  QSignalSpy spy(&controller, &WaveformController::CurrentWaveformDataChanged);
+
+  // Disabled by default: a song change must not trigger any load or emission,
+  // so no decode runs in the background while the waveform is hidden.
+  controller.CurrentSongChanged(MakeSong(QUrl(u"http://example.com/track.mp3"_s)));
+
+  EXPECT_EQ(spy.count(), 0);
+
+}
+
+TEST(WaveformControllerTest, EnableMidTrackLoadsCurrentSong) {
+
+  ResetWaveformCache();
+
+  SharedPtr<StubPlayer> player = make_shared<StubPlayer>();
+  SharedPtr<WaveformLoader> loader = make_shared<WaveformLoader>();
+  WaveformController controller(player, loader);
+
+  // A non-local song is the current track but the waveform is still disabled.
+  controller.CurrentSongChanged(MakeSong(QUrl(u"http://example.com/track.mp3"_s)));
+
+  QSignalSpy spy(&controller, &WaveformController::CurrentWaveformDataChanged);
+
+  // Enabling mid-track must generate for the song that is already playing; the
+  // non-local URL is CannotLoad, so the controller emits an empty payload.
+  controller.SetEnabled(true);
+
+  ASSERT_EQ(spy.count(), 1);
+  EXPECT_TRUE(spy.at(0).at(0).value<QByteArray>().isEmpty());
+
+}
+
+TEST(WaveformControllerTest, DisableEmitsEmptyData) {
+
+  ResetWaveformCache();
+
+  SharedPtr<StubPlayer> player = make_shared<StubPlayer>();
+  SharedPtr<WaveformLoader> loader = make_shared<WaveformLoader>();
+  WaveformController controller(player, loader);
+
+  controller.SetEnabled(true);
+
+  QSignalSpy spy(&controller, &WaveformController::CurrentWaveformDataChanged);
+
+  // Disabling reverts the seekbar to a plain slider.
+  controller.SetEnabled(false);
+
+  ASSERT_EQ(spy.count(), 1);
+  EXPECT_TRUE(spy.at(0).at(0).value<QByteArray>().isEmpty());
+
+}
+
+TEST(WaveformControllerTest, EnabledCannotLoadEmitsEmptyData) {
+
+  ResetWaveformCache();
+
+  SharedPtr<StubPlayer> player = make_shared<StubPlayer>();
+  SharedPtr<WaveformLoader> loader = make_shared<WaveformLoader>();
+  WaveformController controller(player, loader);
+  controller.SetEnabled(true);
 
   QSignalSpy spy(&controller, &WaveformController::CurrentWaveformDataChanged);
 
@@ -145,6 +206,7 @@ TEST(WaveformControllerTest, PlaybackStoppedEmitsEmptyData) {
   SharedPtr<StubPlayer> player = make_shared<StubPlayer>();
   SharedPtr<WaveformLoader> loader = make_shared<WaveformLoader>();
   WaveformController controller(player, loader);
+  controller.SetEnabled(true);
 
   QSignalSpy spy(&controller, &WaveformController::CurrentWaveformDataChanged);
 
@@ -176,6 +238,7 @@ TEST(WaveformControllerTest, StaleUrlAsyncLoadCompleteDoesNotEmit) {
 
   SharedPtr<WaveformLoader> loader = make_shared<WaveformLoader>();
   WaveformController controller(player, loader);
+  controller.SetEnabled(true);
 
   // First Load on the local file takes the async path: this connects the
   // pipeline Finished signal to the controller's AsyncLoadComplete guard.

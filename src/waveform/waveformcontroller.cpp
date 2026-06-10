@@ -35,12 +35,42 @@ using std::make_shared;
 WaveformController::WaveformController(const SharedPtr<PlayerInterface> player, const SharedPtr<WaveformLoader> waveform_loader, QObject *parent)
     : QObject(parent),
       player_(player),
-      waveform_loader_(waveform_loader) {}
+      waveform_loader_(waveform_loader),
+      enabled_(false) {}
 
 void WaveformController::CurrentSongChanged(const Song &song) {
 
-  // No enabled_ guard: the controller always loads, and the runtime show toggle
-  // in WaveformProxyStyle gates rendering without blocking data generation.
+  // Track the playing song even while disabled so enabling mid-track can
+  // generate the waveform for it without waiting for the next song change.
+  current_song_ = song;
+
+  if (!enabled_) return;
+
+  GenerateWaveform(song);
+
+}
+
+void WaveformController::SetEnabled(const bool enabled) {
+
+  if (enabled == enabled_) return;
+
+  enabled_ = enabled;
+
+  if (enabled_) {
+    // Enabling mid-track: generate for whatever song is currently playing.
+    if (!current_song_.url().isEmpty()) {
+      GenerateWaveform(current_song_);
+    }
+  }
+  else {
+    // Disabling reverts the seekbar to a normal slider and stops generation.
+    Q_EMIT CurrentWaveformDataChanged();
+  }
+
+}
+
+void WaveformController::GenerateWaveform(const Song &song) {
+
   const WaveformLoader::LoadResult load_result = waveform_loader_->Load(song.url(), song.has_cue());
   switch (load_result.status) {
     case WaveformLoader::LoadStatus::CannotLoad:
@@ -57,9 +87,10 @@ void WaveformController::CurrentSongChanged(const Song &song) {
 
       WaveformPipelinePtr pipeline = load_result.pipeline;
       Q_ASSERT(pipeline);
+      const QUrl url = song.url();
       SharedPtr<QMetaObject::Connection> connection = make_shared<QMetaObject::Connection>();
-      *connection = QObject::connect(&*pipeline, &WaveformPipeline::Finished, this, [this, connection, pipeline, song]() {
-        AsyncLoadComplete(pipeline, song.url());
+      *connection = QObject::connect(&*pipeline, &WaveformPipeline::Finished, this, [this, connection, pipeline, url]() {
+        AsyncLoadComplete(pipeline, url);
         QObject::disconnect(*connection);
       });
       break;
@@ -69,7 +100,11 @@ void WaveformController::CurrentSongChanged(const Song &song) {
 
 void WaveformController::PlaybackStopped() {
 
-  Q_EMIT CurrentWaveformDataChanged();
+  current_song_ = Song();
+
+  if (enabled_) {
+    Q_EMIT CurrentWaveformDataChanged();
+  }
 
 }
 

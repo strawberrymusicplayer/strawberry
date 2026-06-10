@@ -25,15 +25,20 @@
 #include <QUrl>
 
 #include "includes/shared_ptr.h"
+#include "core/song.h"
 #include "waveform/waveformpipeline.h"
 
 class WaveformLoader;
-class Song;
 class PlayerInterface;
 
 // Orchestrates waveform data delivery for the currently playing track. Connects
 // Player::CurrentSongChanged to WaveformLoader::Load and emits
 // CurrentWaveformDataChanged so WaveformProxyStyle can repaint the seekbar.
+//
+// Generation is gated on the enabled state (mirroring MoodbarController): a track
+// is only decoded when the waveform can actually be shown, so disabling the
+// waveform avoids the background per-track decode cost. Enabling it mid-track
+// re-generates for the song that is currently playing.
 class WaveformController : public QObject {
   Q_OBJECT
 
@@ -48,12 +53,20 @@ class WaveformController : public QObject {
   void CurrentSongChanged(const Song &song);
   void PlaybackStopped();
 
+  // Driven by the seekbar toggle (WaveformProxyStyle::WaveformShow). Enabling
+  // while a local song is playing triggers a load for that song; disabling
+  // clears the seekbar and stops further generation.
+  void SetEnabled(const bool enabled);
+
  private:
+  void GenerateWaveform(const Song &song);
   void AsyncLoadComplete(WaveformPipelinePtr pipeline, const QUrl &url);
 
  private:
   const SharedPtr<PlayerInterface> player_;
   const SharedPtr<WaveformLoader> waveform_loader_;
+  bool enabled_;
+  Song current_song_;
 };
 
 #endif  // WAVEFORMCONTROLLER_H
