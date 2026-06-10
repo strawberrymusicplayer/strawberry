@@ -1336,10 +1336,12 @@ list(APPEND SOURCES
   src/waveform/waveformpipeline.cpp
   src/waveform/waveformloader.cpp
   src/waveform/waveformrenderer.cpp
+  src/waveform/waveformproxystyle.cpp
 )
 list(APPEND HEADERS
   src/waveform/waveformpipeline.h
   src/waveform/waveformloader.h
+  src/waveform/waveformproxystyle.h
 )
 
 optional_source(HAVE_MOODBAR
