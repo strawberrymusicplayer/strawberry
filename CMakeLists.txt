@@ -1335,6 +1335,7 @@ list(APPEND SOURCES
   src/waveform/waveformbuilder.cpp
   src/waveform/waveformpipeline.cpp
   src/waveform/waveformloader.cpp
+  src/waveform/waveformrenderer.cpp
 )
 list(APPEND HEADERS
   src/waveform/waveformpipeline.h
