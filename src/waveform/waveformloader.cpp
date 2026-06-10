@@ -29,6 +29,7 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QIODevice>
+#include <QSaveFile>
 #include <QStringList>
 #include <QAbstractNetworkCache>
 #include <QNetworkDiskCache>
@@ -81,8 +82,6 @@ void WaveformLoader::ReloadSettings() {
   s.beginGroup(WaveformSettings::kSettingsGroup);
   save_ = s.value(WaveformSettings::kSave, false).toBool();
   s.endGroup();
-
-  MaybeTakeNextRequest();
 
   Q_EMIT SettingsReloaded();
 
@@ -213,27 +212,37 @@ void WaveformLoader::RequestFinished(WaveformPipelinePtr pipeline, const QUrl &u
 
     QIODevice *device_cache_file = cache_->prepare(disk_cache_metadata);
     if (device_cache_file) {
+      const qint64 expected = pipeline->data().size();
       const qint64 data_written = device_cache_file->write(pipeline->data());
-      if (data_written > 0) {
+      if (data_written == expected) {
         cache_->insert(device_cache_file);
+      }
+      else {
+        qLog(Warning) << "Short write to waveform cache for" << filename;
       }
     }
 
     // Save the data alongside the original as well if we're configured to.
+    // QSaveFile writes to a temporary file in the same directory and commits it
+    // atomically on success, so a crash or short write cannot leave a corrupt
+    // sidecar next to the user's music file.
     if (save_) {
       QStringList waveform_filenames = WaveformFilenames(url.toLocalFile());
       const QString waveform_filename(waveform_filenames[0]);  // hidden variant first
-      QFile waveform_file(waveform_filename);
+      QSaveFile waveform_file(waveform_filename);
       if (waveform_file.open(QIODevice::WriteOnly)) {
-        if (waveform_file.write(pipeline->data()) <= 0) {
-          qLog(Error) << "Error writing to waveform file" << waveform_filename << waveform_file.errorString();
-        }
-        waveform_file.close();
+        const qint64 data_written = waveform_file.write(pipeline->data());
+        if (data_written == pipeline->data().size() && waveform_file.commit()) {
 #ifdef Q_OS_WIN32
-        if (!SetFileAttributes(reinterpret_cast<LPCTSTR>(waveform_filename.utf16()), FILE_ATTRIBUTE_HIDDEN)) {
-          qLog(Warning) << "Error setting hidden attribute for file" << waveform_filename;
-        }
+          if (!SetFileAttributes(reinterpret_cast<LPCTSTR>(waveform_filename.utf16()), FILE_ATTRIBUTE_HIDDEN)) {
+            qLog(Warning) << "Error setting hidden attribute for file" << waveform_filename;
+          }
 #endif
+        }
+        else {
+          qLog(Error) << "Error writing waveform sidecar" << waveform_filename << waveform_file.errorString();
+          // QSaveFile::commit() failure or cancelWriting() leaves no partial file.
+        }
       }
       else {
         qLog(Error) << "Error opening waveform file" << waveform_filename << "for writing:" << waveform_file.errorString();
