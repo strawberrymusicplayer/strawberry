@@ -36,6 +36,7 @@
 #include "ui_trackslider.h"
 #include "clickablelabel.h"
 #include "tracksliderslider.h"
+#include "waveform/waveformproxystyle.h"
 
 #ifdef HAVE_MOODBAR
 #  include "moodbar/moodbarproxystyle.h"
@@ -53,6 +54,8 @@ TrackSlider::TrackSlider(QWidget *parent)
 #ifdef HAVE_MOODBAR
       moodbar_proxy_style_(nullptr),
 #endif
+      waveform_proxy_style_(nullptr),
+      seekbar_mode_(SeekbarMode::Normal),
       setting_value_(false),
       show_remaining_time_(true),
       slider_maximum_value_(0) {
@@ -83,6 +86,7 @@ TrackSlider::~TrackSlider() {
 #ifdef HAVE_MOODBAR
   if (moodbar_proxy_style_) moodbar_proxy_style_->deleteLater();
 #endif
+  if (waveform_proxy_style_) waveform_proxy_style_->deleteLater();
 
 }
 
@@ -91,6 +95,30 @@ void TrackSlider::Init() {
 #ifdef HAVE_MOODBAR
   if (!moodbar_proxy_style_) moodbar_proxy_style_ = new MoodbarProxyStyle(ui_->slider);
 #endif
+
+  // The waveform proxy is built unconditionally (no FFTW3 dependency); its
+  // constructor attaches itself as the slider's style. show_ defaults to false,
+  // so the slider renders normally until the user enables the waveform.
+  if (!waveform_proxy_style_) {
+    waveform_proxy_style_ = new WaveformProxyStyle(ui_->slider);
+    // The context-menu toggle drives SetSeekbarMode so mutual exclusivity with
+    // the moodbar is enforced in one place, keeping the proxy decoupled.
+    QObject::connect(waveform_proxy_style_, &WaveformProxyStyle::WaveformShow, this, [this](const bool show) {
+      SetSeekbarMode(show ? SeekbarMode::Waveform : SeekbarMode::Normal);
+    });
+  }
+
+}
+
+void TrackSlider::SetSeekbarMode(const SeekbarMode mode) {
+
+  seekbar_mode_ = mode;
+
+#ifdef HAVE_MOODBAR
+  if (moodbar_proxy_style_) moodbar_proxy_style_->SetShowMoodbar(mode == SeekbarMode::Moodbar);
+#endif
+
+  if (waveform_proxy_style_) waveform_proxy_style_->SetShowWaveform(mode == SeekbarMode::Waveform);
 
 }
 
