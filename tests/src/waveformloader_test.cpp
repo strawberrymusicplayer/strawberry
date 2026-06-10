@@ -28,6 +28,10 @@
 #include <QDir>
 #include <QStandardPaths>
 #include <QSignalSpy>
+#include <QIODevice>
+#include <QDataStream>
+#include <QNetworkDiskCache>
+#include <QNetworkCacheMetaData>
 
 #include "engine/gststartup.h"
 #include "core/standardpaths.h"
@@ -55,6 +59,22 @@ class WaveformLoaderTest : public ::testing::Test {
     // Guarantee a miss on the first Load even across repeated test runs.
     const QString waveform_cache_dir = StandardPaths::WritableLocation(StandardPaths::StandardLocation::CacheLocation) + u"/waveform"_s;
     QDir(waveform_cache_dir).removeRecursively();
+  }
+
+  // Writes a raw blob into the same on-disk cache the loader reads from, keyed
+  // exactly as WaveformLoader does, so Load() will find it as a cache "hit".
+  static void SeedCache(const QString &filename, const QByteArray &blob) {
+    const QString waveform_cache_dir = StandardPaths::WritableLocation(StandardPaths::StandardLocation::CacheLocation) + u"/waveform"_s;
+    QNetworkDiskCache cache;
+    cache.setCacheDirectory(waveform_cache_dir);
+    QNetworkCacheMetaData metadata;
+    metadata.setSaveToDisk(true);
+    metadata.setUrl(QUrl(QString::fromLatin1(QUrl::toPercentEncoding(filename))));
+    metadata.setRawHeaders(QNetworkCacheMetaData::RawHeaderList() << qMakePair(QByteArray("waveform"), QByteArray("waveform")));
+    QIODevice *device = cache.prepare(metadata);
+    ASSERT_TRUE(device);
+    device->write(blob);
+    cache.insert(device);
   }
 };
 
@@ -88,6 +108,70 @@ TEST_F(WaveformLoaderTest, DedupesInFlightAndReusesCacheOnReplay) {
   EXPECT_EQ(replay.status, WaveformLoader::LoadStatus::Loaded);
   EXPECT_GT(replay.data.size(), 16);
   EXPECT_EQ(replay.data.left(4), QByteArray("SWVF"));
+
+}
+
+TEST_F(WaveformLoaderTest, RegeneratesOnMalformedCacheBlob) {
+
+  TemporaryResource res(u":/audio/strawberry.wav"_s);
+  ASSERT_TRUE(res.open());
+  const QUrl url = QUrl::fromLocalFile(res.fileName());
+
+  // Seed the cache with a bad-magic blob. The loader must reject it and take the
+  // async regeneration path instead of returning the garbage as Loaded.
+  SeedCache(res.fileName(), QByteArrayLiteral("XXXX\x01____________"));
+
+  WaveformLoader loader;
+  WaveformLoader::LoadResult result = loader.Load(url, false);
+  EXPECT_EQ(result.status, WaveformLoader::LoadStatus::WillLoadAsync);
+
+}
+
+TEST_F(WaveformLoaderTest, RegeneratesOnTruncatedCacheBlob) {
+
+  TemporaryResource res(u":/audio/strawberry.wav"_s);
+  ASSERT_TRUE(res.open());
+  const QUrl url = QUrl::fromLocalFile(res.fileName());
+
+  // Valid header declaring a full count but with a truncated body.
+  QByteArray blob;
+  QDataStream stream(&blob, QIODevice::WriteOnly);
+  stream.setByteOrder(QDataStream::LittleEndian);
+  stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
+  stream.writeRawData("SWVF", 4);
+  stream << static_cast<quint8>(1);
+  stream << static_cast<quint32>(2000);  // declares 2000 buckets...
+  stream << static_cast<float>(1.0f);
+  stream << static_cast<qint8>(10) << static_cast<qint8>(20);  // ...but only one pair.
+  SeedCache(res.fileName(), blob);
+
+  WaveformLoader loader;
+  WaveformLoader::LoadResult result = loader.Load(url, false);
+  EXPECT_EQ(result.status, WaveformLoader::LoadStatus::WillLoadAsync);
+
+}
+
+TEST_F(WaveformLoaderTest, RegeneratesOnWrongVersionCacheBlob) {
+
+  TemporaryResource res(u":/audio/strawberry.wav"_s);
+  ASSERT_TRUE(res.open());
+  const QUrl url = QUrl::fromLocalFile(res.fileName());
+
+  // Valid magic and consistent length but an unknown (future) version byte.
+  QByteArray blob;
+  QDataStream stream(&blob, QIODevice::WriteOnly);
+  stream.setByteOrder(QDataStream::LittleEndian);
+  stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
+  stream.writeRawData("SWVF", 4);
+  stream << static_cast<quint8>(99);  // unsupported version
+  stream << static_cast<quint32>(1);
+  stream << static_cast<float>(1.0f);
+  stream << static_cast<qint8>(10) << static_cast<qint8>(20);
+  SeedCache(res.fileName(), blob);
+
+  WaveformLoader loader;
+  WaveformLoader::LoadResult result = loader.Load(url, false);
+  EXPECT_EQ(result.status, WaveformLoader::LoadStatus::WillLoadAsync);
 
 }
 

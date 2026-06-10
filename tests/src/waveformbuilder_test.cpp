@@ -119,3 +119,130 @@ TEST(WaveformBuilderTest, NeverAveragesPreservingExtremes) {
   EXPECT_GT(mx, 0);
 
 }
+
+TEST(WaveformBuilderTest, NonPositiveCountProducesEmptyBlob) {
+
+  // A non-positive count would divide by zero in the bucketing loop; Finish must
+  // short-circuit to an empty blob instead.
+  WaveformBuilder builder;
+  std::vector<qint16> samples(128, 1000);
+  builder.AddSamples(samples.data(), static_cast<qsizetype>(samples.size()));
+
+  EXPECT_TRUE(builder.Finish(0).isEmpty());
+  EXPECT_TRUE(builder.Finish(-5).isEmpty());
+
+}
+
+TEST(WaveformBuilderTest, SparseInputDoesNotReadOutOfBounds) {
+
+  // Fewer samples than buckets: many buckets map to no samples and must emit a
+  // neutral (0, 0) pair rather than reading past the buffer or emitting the
+  // inverted min > max sentinels. The blob length must still match the header.
+  WaveformBuilder builder;
+  std::vector<qint16> samples(50);
+  for (std::size_t i = 0; i < samples.size(); ++i) {
+    samples[i] = static_cast<qint16>((i % 2 == 0) ? 20000 : -20000);
+  }
+  builder.AddSamples(samples.data(), static_cast<qsizetype>(samples.size()));
+
+  const QByteArray data = builder.Finish(kWaveformBaseCount);
+
+  EXPECT_TRUE(WaveformBuilder::IsValidBlob(data));
+  EXPECT_EQ(data.size(), kWaveformHeaderBytes + kWaveformBaseCount * 2);
+
+  QDataStream stream(data);
+  stream.setByteOrder(QDataStream::LittleEndian);
+  stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
+
+  QByteArray magic;
+  quint8 version = 0;
+  quint32 count = 0;
+  float peak = 0.0f;
+  ReadHeader(stream, magic, version, count, peak);
+
+  // Every emitted pair must satisfy min <= max (no inverted sentinels).
+  for (quint32 i = 0; i < count; ++i) {
+    qint8 mn = 0;
+    qint8 mx = 0;
+    stream >> mn >> mx;
+    EXPECT_LE(mn, mx);
+  }
+
+}
+
+TEST(WaveformBuilderTest, SilentTrackEncodesNonZeroPeak) {
+
+  // An all-zero (silent) track has peak 0, which would divide by zero at render
+  // time. Finish must encode a non-zero peak and a flat (0, 0) envelope.
+  WaveformBuilder builder;
+  std::vector<qint16> samples(8192, 0);
+  builder.AddSamples(samples.data(), static_cast<qsizetype>(samples.size()));
+
+  const QByteArray data = builder.Finish(kWaveformBaseCount);
+
+  EXPECT_TRUE(WaveformBuilder::IsValidBlob(data));
+
+  QDataStream stream(data);
+  stream.setByteOrder(QDataStream::LittleEndian);
+  stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
+
+  QByteArray magic;
+  quint8 version = 0;
+  quint32 count = 0;
+  float peak = 0.0f;
+  ReadHeader(stream, magic, version, count, peak);
+
+  EXPECT_GT(peak, 0.0f);
+
+  qint8 mn = 0;
+  qint8 mx = 0;
+  stream >> mn >> mx;
+  EXPECT_EQ(mn, 0);
+  EXPECT_EQ(mx, 0);
+
+}
+
+TEST(WaveformBuilderTest, OddSampleCountProducesValidBlob) {
+
+  // An odd, small buffer (not a clean multiple of the bucket count) must still
+  // produce a structurally valid blob.
+  WaveformBuilder builder;
+  std::vector<qint16> samples(2001);
+  for (std::size_t i = 0; i < samples.size(); ++i) {
+    samples[i] = static_cast<qint16>((i % 3 == 0) ? 15000 : -5000);
+  }
+  builder.AddSamples(samples.data(), static_cast<qsizetype>(samples.size()));
+
+  const QByteArray data = builder.Finish(kWaveformBaseCount);
+
+  EXPECT_TRUE(WaveformBuilder::IsValidBlob(data));
+  EXPECT_EQ(data.size(), kWaveformHeaderBytes + kWaveformBaseCount * 2);
+
+}
+
+TEST(WaveformBuilderTest, IsValidBlobRejectsMalformedBlobs) {
+
+  WaveformBuilder builder;
+  std::vector<qint16> samples(8192, 10000);
+  builder.AddSamples(samples.data(), static_cast<qsizetype>(samples.size()));
+  const QByteArray good = builder.Finish(kWaveformBaseCount);
+  ASSERT_TRUE(WaveformBuilder::IsValidBlob(good));
+
+  // Empty and too-short blobs.
+  EXPECT_FALSE(WaveformBuilder::IsValidBlob(QByteArray()));
+  EXPECT_FALSE(WaveformBuilder::IsValidBlob(good.left(8)));
+
+  // Bad magic.
+  QByteArray bad_magic = good;
+  bad_magic[0] = 'X';
+  EXPECT_FALSE(WaveformBuilder::IsValidBlob(bad_magic));
+
+  // Unknown (future) version.
+  QByteArray bad_version = good;
+  bad_version[4] = static_cast<char>(kWaveformVersion + 1);
+  EXPECT_FALSE(WaveformBuilder::IsValidBlob(bad_version));
+
+  // Truncated body (declared count no longer matches the actual length).
+  EXPECT_FALSE(WaveformBuilder::IsValidBlob(good.left(good.size() - 10)));
+
+}
