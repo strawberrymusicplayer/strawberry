@@ -37,6 +37,7 @@
 #include "core/logging.h"
 #include "core/standardpaths.h"
 
+#include "waveformbuilder.h"
 #include "waveformpipeline.h"
 
 using namespace Qt::Literals::StringLiterals;
@@ -88,9 +89,13 @@ WaveformLoader::LoadResult WaveformLoader::Load(const QUrl &url, const bool has_
     if (device_cache_file) {
       qLog(Debug) << "Loading cached waveform data for" << filename;
       const QByteArray data = device_cache_file->readAll();
-      if (!data.isEmpty()) {
+      // Validate the blob (magic, version, declared length) before handing it to
+      // the consumer. A truncated, corrupt or future-version entry is treated as
+      // a cache miss and regenerated rather than deserialized into garbage.
+      if (WaveformBuilder::IsValidBlob(data)) {
         return LoadResult(LoadStatus::Loaded, data);
       }
+      qLog(Warning) << "Discarding invalid cached waveform data for" << filename;
     }
   }
 
