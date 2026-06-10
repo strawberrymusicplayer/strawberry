@@ -391,12 +391,18 @@ void GstEnginePipeline::Disconnect() {
 
   if (pipeline_) {
 
-    if (fader_) {
+    SharedPtr<QTimeLine> fader;
+    {
+      QMutexLocker l(&mutex_fader_);
+      fader = fader_;
+    }
+    if (fader) {
       fader_active_ = false;
       fader_running_ = false;
-      if (fader_->state() != QTimeLine::State::NotRunning) {
-        fader_->stop();
+      if (fader->state() != QTimeLine::State::NotRunning) {
+        fader->stop();
       }
+      QMutexLocker l(&mutex_fader_);
       fader_.reset();
     }
 
@@ -731,8 +737,13 @@ bool GstEnginePipeline::InitAudioBin(QString &error) {
     if (!volume_fading_) {
       return false;
     }
-    if (fader_) {
-      SetFaderVolume(fader_->currentValue());
+    SharedPtr<QTimeLine> fader;
+    {
+      QMutexLocker l(&mutex_fader_);
+      fader = fader_;
+    }
+    if (fader) {
+      SetFaderVolume(fader->currentValue());
     }
   }
 
@@ -1862,7 +1873,12 @@ void GstEnginePipeline::StateChangedMessageReceived(GstMessage *msg) {
         SetStateAsync(requested_state);
       }
     }
-    if (fader_ && fader_active_.load() && !fader_running_.load() && new_state == GST_STATE_PLAYING) {
+    SharedPtr<QTimeLine> fader;
+    {
+      QMutexLocker l(&mutex_fader_);
+      fader = fader_;
+    }
+    if (fader && fader_active_.load() && !fader_running_.load() && new_state == GST_STATE_PLAYING) {
       qLog(Debug) << "Resuming fader";
       ResumeFaderAsync();
     }
@@ -1975,6 +1991,7 @@ void GstEnginePipeline::SetStateAsync(const GstState state) {
     ++set_state_async_in_progress_;
   }
 
+  // Safe against destruction: ~QObject calls removePostedEvents(this), so this queued call is discarded if the pipeline is destroyed on its own thread before the slot runs.
   QMetaObject::invokeMethod(this, "SetStateAsyncSlot", Qt::QueuedConnection, Q_ARG(GstState, state));
 
 }
@@ -2260,29 +2277,41 @@ void GstEnginePipeline::StartFader(const qint64 duration_nanosec, const QTimeLin
 
   // If there's already another fader running then start from the same time that one was already at.
   qint64 start_time = direction == QTimeLine::Direction::Forward ? 0 : duration_msec;
-  if (fader_ && fader_->state() == QTimeLine::State::Running) {
-    if (duration_msec == fader_->duration()) {
-      start_time = fader_->currentTime();
+  SharedPtr<QTimeLine> old_fader;
+  {
+    QMutexLocker l(&mutex_fader_);
+    old_fader = fader_;
+  }
+  if (old_fader && old_fader->state() == QTimeLine::State::Running) {
+    if (duration_msec == old_fader->duration()) {
+      start_time = old_fader->currentTime();
     }
     else {
       // Calculate the position in the new fader with the same value from the old fader, so no volume jumps appear
-      qreal time = static_cast<qreal>(duration_msec) * (static_cast<qreal>(fader_->currentTime()) / static_cast<qreal>(fader_->duration()));
+      qreal time = static_cast<qreal>(duration_msec) * (static_cast<qreal>(old_fader->currentTime()) / static_cast<qreal>(old_fader->duration()));
       start_time = qRound(time);
     }
   }
 
-  fader_.reset(new QTimeLine(static_cast<int>(duration_msec)), [](QTimeLine *timeline) {
+  // Build and configure the new timeline as a local first, then publish it to fader_ under the lock.
+  // The QTimeLine is only operated via the local copy, so we never call its methods while holding mutex_fader_.
+  SharedPtr<QTimeLine> fader(new QTimeLine(static_cast<int>(duration_msec)), [](QTimeLine *timeline) {
     if (timeline->state() != QTimeLine::State::NotRunning) {
       timeline->stop();
     }
     timeline->deleteLater();
   });
-  QObject::connect(&*fader_, &QTimeLine::valueChanged, this, &GstEnginePipeline::SetFaderVolume);
-  QObject::connect(&*fader_, &QTimeLine::stateChanged, this, &GstEnginePipeline::FaderTimelineStateChanged);
-  QObject::connect(&*fader_, &QTimeLine::finished, this, &GstEnginePipeline::FaderTimelineFinished);
-  fader_->setDirection(direction);
-  fader_->setEasingCurve(shape);
-  fader_->setCurrentTime(static_cast<int>(start_time));
+  QObject::connect(&*fader, &QTimeLine::valueChanged, this, &GstEnginePipeline::SetFaderVolume);
+  QObject::connect(&*fader, &QTimeLine::stateChanged, this, &GstEnginePipeline::FaderTimelineStateChanged);
+  QObject::connect(&*fader, &QTimeLine::finished, this, &GstEnginePipeline::FaderTimelineFinished);
+  fader->setDirection(direction);
+  fader->setEasingCurve(shape);
+  fader->setCurrentTime(static_cast<int>(start_time));
+
+  {
+    QMutexLocker l(&mutex_fader_);
+    fader_ = fader;
+  }
 
   timer_fader_timeout_->setInterval(std::chrono::milliseconds(duration_msec) + kFaderTimeoutMsec);
   timer_fader_timeout_->start();
@@ -2290,12 +2319,12 @@ void GstEnginePipeline::StartFader(const qint64 duration_nanosec, const QTimeLin
   timer_fader_fudge_->stop();
   fader_use_fudge_timer_ = use_fudge_timer;
 
-  SetFaderVolume(fader_->currentValue());
+  SetFaderVolume(fader->currentValue());
 
-  qLog(Debug) << "Pipeline" << id() << "with state" << GstStateText(state()) << "set to fade from" << fader_->currentValue() << "time" << start_time << "direction" << (direction == QTimeLine::Direction::Forward ? "forward" : "backward");
+  qLog(Debug) << "Pipeline" << id() << "with state" << GstStateText(state()) << "set to fade from" << fader->currentValue() << "time" << start_time << "direction" << (direction == QTimeLine::Direction::Forward ? "forward" : "backward");
 
   if (pipeline_active_.load()) {
-    fader_->resume();
+    fader->resume();
   }
 
 }
@@ -2310,8 +2339,14 @@ void GstEnginePipeline::SetFaderVolume(const qreal volume) {
 
 void GstEnginePipeline::ResumeFaderAsync() {
 
-  if (fader_ && fader_active_.load() && !fader_running_.load()) {
-    QMetaObject::invokeMethod(&*fader_, &QTimeLine::resume, Qt::QueuedConnection);
+  SharedPtr<QTimeLine> fader;
+  {
+    QMutexLocker l(&mutex_fader_);
+    fader = fader_;
+  }
+  if (fader && fader_active_.load() && !fader_running_.load()) {
+    // The local copy keeps the QTimeLine alive until the queued resume runs on its owning thread.
+    QMetaObject::invokeMethod(fader.get(), &QTimeLine::resume, Qt::QueuedConnection);
   }
 
 }
@@ -2329,7 +2364,10 @@ void GstEnginePipeline::FaderTimelineFinished() {
   fader_active_ = false;
   fader_running_ = false;
 
-  fader_.reset();
+  {
+    QMutexLocker l(&mutex_fader_);
+    fader_.reset();
+  }
 
   timer_fader_timeout_->stop();
 
@@ -2343,9 +2381,14 @@ void GstEnginePipeline::FaderTimelineTimeout() {
 
   qLog(Debug) << "Pipeline" << id() << "fading timed out";
 
-  if (volume_fading_ && fader_) {
-    qLog(Debug) << "Pipeline" << id() << "setting volume" << (fader_->direction() == QTimeLine::Direction::Forward ? 1.0 : 0.0);
-    g_object_set(G_OBJECT(volume_fading_), "volume", fader_->direction() == QTimeLine::Direction::Forward ? 1.0 : 0.0, nullptr);
+  SharedPtr<QTimeLine> fader;
+  {
+    QMutexLocker l(&mutex_fader_);
+    fader = fader_;
+  }
+  if (volume_fading_ && fader) {
+    qLog(Debug) << "Pipeline" << id() << "setting volume" << (fader->direction() == QTimeLine::Direction::Forward ? 1.0 : 0.0);
+    g_object_set(G_OBJECT(volume_fading_), "volume", fader->direction() == QTimeLine::Direction::Forward ? 1.0 : 0.0, nullptr);
   }
 
   FaderTimelineFinished();
