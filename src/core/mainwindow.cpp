@@ -208,6 +208,7 @@
 #endif
 
 #include "waveform/waveformcontroller.h"
+#include "waveform/waveformloader.h"
 #include "waveform/waveformproxystyle.h"
 
 #include "smartplaylists/smartplaylistsviewcontainer.h"
@@ -1326,6 +1327,9 @@ void MainWindow::ReloadAllSettings() {
   app_->moodbar_loader()->ReloadSettings();
   ui_->track_slider->moodbar_proxy_style()->ReloadSettings();
 #endif
+  app_->waveform_controller()->ReloadSettings();
+  app_->waveform_loader()->ReloadSettings();
+  ui_->track_slider->waveform_proxy_style()->ReloadSettings();
 #ifdef HAVE_SUBSONIC
   subsonic_view_->ReloadSettings();
 #endif
