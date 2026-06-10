@@ -61,6 +61,10 @@ class WaveformController : public QObject {
   void SetEnabled(const bool enabled);
 
  private:
+  // Reconciles an enabled-state transition with the currently playing song.
+  // Called by both SetEnabled() and ReloadSettings() so the "generate vs clear
+  // vs no-op" decision lives in exactly one place (WR-06).
+  void ApplyEnabledTransition(const bool was_enabled);
   void GenerateWaveform(const Song &song);
   void AsyncLoadComplete(WaveformPipelinePtr pipeline, const QUrl &url);
 

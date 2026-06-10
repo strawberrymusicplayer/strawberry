@@ -331,10 +331,15 @@ TEST(WaveformControllerTest, ReloadSettingsUpdatesEnabledFlag) {
   }
   controller.ReloadSettings();
 
-  // After reload, enabled_=true; song change on non-local URL should emit empty.
-  controller.CurrentSongChanged(MakeSong(QUrl(u"http://example.com/track2.mp3"_s)));
+  // ReloadSettings with a stored current song emits immediately (CR-01 fix):
+  // the non-local URL is CannotLoad, so an empty payload is emitted.
   ASSERT_EQ(spy.count(), 1);
   EXPECT_TRUE(spy.at(0).at(0).value<QByteArray>().isEmpty());
+
+  // After reload, enabled_=true; a subsequent song change also emits empty.
+  controller.CurrentSongChanged(MakeSong(QUrl(u"http://example.com/track2.mp3"_s)));
+  ASSERT_EQ(spy.count(), 2);
+  EXPECT_TRUE(spy.at(1).at(0).value<QByteArray>().isEmpty());
 
   // Cleanup.
   {
@@ -400,6 +405,96 @@ TEST(WaveformControllerTest, ReloadSettingsDisabledMidAsyncDoesNotEmitData) {
   for (int i = 0; i < spy.count(); ++i) {
     EXPECT_TRUE(spy.at(i).at(0).value<QByteArray>().isEmpty());
   }
+
+  // Cleanup.
+  {
+    Settings s;
+    s.beginGroup(WaveformSettings::kSettingsGroup);
+    s.setValue(WaveformSettings::kEnabled, false);
+    s.endGroup();
+  }
+
+}
+
+TEST(WaveformControllerTest, ReloadSettingsEnableMidTrackEmits) {
+
+  ResetWaveformCache();
+  QStandardPaths::setTestModeEnabled(true);
+
+  // Start disabled.
+  {
+    Settings s;
+    s.beginGroup(WaveformSettings::kSettingsGroup);
+    s.setValue(WaveformSettings::kEnabled, false);
+    s.endGroup();
+  }
+
+  SharedPtr<StubPlayer> player = make_shared<StubPlayer>();
+  SharedPtr<WaveformLoader> loader = make_shared<WaveformLoader>();
+  WaveformController controller(player, loader);
+
+  // Set a current song while disabled; the controller stores it but does not load.
+  controller.CurrentSongChanged(MakeSong(QUrl(u"http://example.com/track.mp3"_s)));
+
+  // Flip kEnabled=true in QSettings and reload (simulates Preferences dialog Save).
+  {
+    Settings s;
+    s.beginGroup(WaveformSettings::kSettingsGroup);
+    s.setValue(WaveformSettings::kEnabled, true);
+    s.endGroup();
+  }
+
+  QSignalSpy spy(&controller, &WaveformController::CurrentWaveformDataChanged);
+
+  controller.ReloadSettings();
+
+  // The non-local URL cannot be loaded, so the controller emits an empty payload —
+  // same as the SetEnabled mid-track path.
+  ASSERT_EQ(spy.count(), 1);
+  EXPECT_TRUE(spy.at(0).at(0).value<QByteArray>().isEmpty());
+
+  // Cleanup.
+  {
+    Settings s;
+    s.beginGroup(WaveformSettings::kSettingsGroup);
+    s.setValue(WaveformSettings::kEnabled, false);
+    s.endGroup();
+  }
+
+}
+
+TEST(WaveformControllerTest, ReloadSettingsDisableEmitsEmptyData) {
+
+  ResetWaveformCache();
+  QStandardPaths::setTestModeEnabled(true);
+
+  // Start enabled.
+  {
+    Settings s;
+    s.beginGroup(WaveformSettings::kSettingsGroup);
+    s.setValue(WaveformSettings::kEnabled, true);
+    s.endGroup();
+  }
+
+  SharedPtr<StubPlayer> player = make_shared<StubPlayer>();
+  SharedPtr<WaveformLoader> loader = make_shared<WaveformLoader>();
+  WaveformController controller(player, loader);
+
+  // Flip kEnabled=false in QSettings and reload (simulates Preferences dialog Save).
+  {
+    Settings s;
+    s.beginGroup(WaveformSettings::kSettingsGroup);
+    s.setValue(WaveformSettings::kEnabled, false);
+    s.endGroup();
+  }
+
+  QSignalSpy spy(&controller, &WaveformController::CurrentWaveformDataChanged);
+
+  controller.ReloadSettings();
+
+  // Disabling via ReloadSettings must revert the seekbar to a plain slider.
+  ASSERT_EQ(spy.count(), 1);
+  EXPECT_TRUE(spy.at(0).at(0).value<QByteArray>().isEmpty());
 
   // Cleanup.
   {

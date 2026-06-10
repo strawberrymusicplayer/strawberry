@@ -48,8 +48,13 @@ void WaveformController::ReloadSettings() {
 
   Settings s;
   s.beginGroup(WaveformSettings::kSettingsGroup);
-  enabled_ = s.value(WaveformSettings::kEnabled, false).toBool();
+  const bool enabled = s.value(WaveformSettings::kEnabled, false).toBool();
   s.endGroup();
+
+  const bool was_enabled = enabled_;
+  enabled_ = enabled;
+
+  ApplyEnabledTransition(was_enabled);
 
 }
 
@@ -69,15 +74,22 @@ void WaveformController::SetEnabled(const bool enabled) {
 
   if (enabled == enabled_) return;
 
+  const bool was_enabled = enabled_;
   enabled_ = enabled;
 
-  if (enabled_) {
+  ApplyEnabledTransition(was_enabled);
+
+}
+
+void WaveformController::ApplyEnabledTransition(const bool was_enabled) {
+
+  if (enabled_ && !was_enabled) {
     // Enabling mid-track: generate for whatever song is currently playing.
     if (!current_song_.url().isEmpty()) {
       GenerateWaveform(current_song_);
     }
   }
-  else {
+  else if (!enabled_ && was_enabled) {
     // Disabling reverts the seekbar to a normal slider and stops generation.
     Q_EMIT CurrentWaveformDataChanged();
   }
