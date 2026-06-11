@@ -19,6 +19,7 @@
  *
  */
 
+#include <algorithm>
 #include <memory>
 
 #include "gtest_include.h"
@@ -32,6 +33,7 @@
 #include <QEventLoop>
 #include <QElapsedTimer>
 #include <QCoreApplication>
+#include <QPersistentModelIndex>
 #include <QtDebug>
 
 #include "includes/scoped_ptr.h"
@@ -114,6 +116,14 @@ class CollectionModelTest : public ::testing::Test {
       songs << song;  // clazy:exclude=reserve-candidates
     }
     return songs;
+  }
+
+  CollectionItem *ItemForSongId(const int id) {
+    const QList<CollectionItem*> nodes = model_->song_nodes();
+    for (CollectionItem *node : nodes) {
+      if (node->metadata.id() == id) return node;
+    }
+    return nullptr;
   }
 
   // Pump the event loop until the model's update timer has been continuously
@@ -365,8 +375,9 @@ TEST_F(CollectionModelTest, RemoveEmptyArtists) {
 
 }
 
-// A batch at/above the bulk threshold collapses into a model reset and emits no
-// per-row insert signals, while still producing the correct tree.
+// A batch at/above the bulk threshold collapses into a layout change and emits
+// neither per-row insert signals nor a model reset, while still producing the
+// correct tree.
 TEST_F(CollectionModelTest, BulkUpdateSuppressesPerRowSignals) {
 
   AddSong(u"seed"_s, u"seed"_s, u"seed"_s, 1);  // drains the ctor reset, adds the dir
@@ -375,18 +386,21 @@ TEST_F(CollectionModelTest, BulkUpdateSuppressesPerRowSignals) {
   const SongList songs = MakeSongs(n, u"bulk"_s);
 
   QSignalSpy spy_insert(&*model_, &CollectionModel::rowsInserted);
+  QSignalSpy spy_layout(&*model_, &CollectionModel::layoutChanged);
   QSignalSpy spy_reset(&*model_, &CollectionModel::modelReset);
 
   backend_->AddOrUpdateSongs(songs);
   Drain();
 
   EXPECT_EQ(0, spy_insert.count());
-  EXPECT_GE(spy_reset.count(), 1);
+  EXPECT_GE(spy_layout.count(), 1);
+  EXPECT_EQ(0, spy_reset.count());
   EXPECT_EQ(n + 1, static_cast<int>(model_->song_nodes().count()));
 
 }
 
-// A batch below the threshold keeps the lightweight per-row path (no reset).
+// A batch below the threshold keeps the lightweight per-row path (no layout
+// change, no reset).
 TEST_F(CollectionModelTest, SmallUpdateEmitsPerRowSignals) {
 
   AddSong(u"seed"_s, u"seed"_s, u"seed"_s, 1);
@@ -395,49 +409,56 @@ TEST_F(CollectionModelTest, SmallUpdateEmitsPerRowSignals) {
   const SongList songs = MakeSongs(n, u"small"_s);
 
   QSignalSpy spy_insert(&*model_, &CollectionModel::rowsInserted);
+  QSignalSpy spy_layout(&*model_, &CollectionModel::layoutChanged);
   QSignalSpy spy_reset(&*model_, &CollectionModel::modelReset);
 
   backend_->AddOrUpdateSongs(songs);
   Drain();
 
   EXPECT_GT(spy_insert.count(), 0);
+  EXPECT_EQ(0, spy_layout.count());
   EXPECT_EQ(0, spy_reset.count());
   EXPECT_EQ(n + 1, static_cast<int>(model_->song_nodes().count()));
 
 }
 
-// Regression for the empty/double reset: a bulk batch must apply its changes
-// inside a single reset transaction, not re-queue them into a second one.
-TEST_F(CollectionModelTest, LargeBatchProducesSingleReset) {
+// Regression for the empty/double transaction: a bulk batch must apply its
+// changes inside a single layout-change transaction, not re-queue them into a
+// second one.
+TEST_F(CollectionModelTest, LargeBatchProducesSingleLayoutChange) {
 
   AddSong(u"seed"_s, u"seed"_s, u"seed"_s, 1);
 
   const SongList songs = MakeSongs(2000, u"once"_s);
 
+  QSignalSpy spy_layout(&*model_, &CollectionModel::layoutChanged);
   QSignalSpy spy_reset(&*model_, &CollectionModel::modelReset);
 
   backend_->AddOrUpdateSongs(songs);
   Drain();
 
-  EXPECT_EQ(1, spy_reset.count());
+  EXPECT_EQ(1, spy_layout.count());
+  EXPECT_EQ(0, spy_reset.count());
   EXPECT_EQ(2001, static_cast<int>(model_->song_nodes().count()));
 
 }
 
 // A Reset queued behind a bulk-sized batch must be handled outside the bulk
-// transaction, so begin/endResetModel never nest. A nested beginResetModel
-// (the Reset folded into the bulk reset) would emit an unmatched
-// modelAboutToBeReset. NOTE: data preservation across the Reset cannot be
-// checked here - the reload runs on a worker thread, which opens its own
-// connection to the :memory: test DB and so sees it empty; against a real file
-// DB that reload restores the full collection, which is why a dropped trailing
-// update is not actually lost in production.
+// transaction: folding it in would tear the model down mid-layout-change and
+// leave the begin/end signals of either transaction unbalanced. NOTE: data
+// preservation across the Reset cannot be checked here - the reload runs on a
+// worker thread, which opens its own connection to the :memory: test DB and so
+// sees it empty; against a real file DB that reload restores the full
+// collection, which is why a dropped trailing update is not actually lost in
+// production.
 TEST_F(CollectionModelTest, ResetMixedIntoBulkBatchDoesNotNestResets) {
 
   AddSong(u"seed"_s, u"seed"_s, u"seed"_s, 1);
 
   QSignalSpy spy_about(&*model_, &CollectionModel::modelAboutToBeReset);
   QSignalSpy spy_done(&*model_, &CollectionModel::modelReset);
+  QSignalSpy spy_layout_about(&*model_, &CollectionModel::layoutAboutToBeChanged);
+  QSignalSpy spy_layout_done(&*model_, &CollectionModel::layoutChanged);
 
   // Backend signals are emitted synchronously, so these stack up in the update
   // queue as [AddReAddOrUpdate(a)..., Reset, AddReAddOrUpdate(b)] before the
@@ -450,6 +471,87 @@ TEST_F(CollectionModelTest, ResetMixedIntoBulkBatchDoesNotNestResets) {
 
   EXPECT_EQ(spy_about.count(), spy_done.count());
   EXPECT_GE(spy_done.count(), 1);
+  EXPECT_EQ(spy_layout_about.count(), spy_layout_done.count());
+
+}
+
+// The bulk path must not discard view state: persistent indexes (what a view
+// uses for selection, scroll position and expanded containers) survive the
+// layout change. Remapping is identity-based, so a song that is removed and
+// re-added under a new container - the streaming-metadata case - keeps its
+// persistent index too; only genuinely removed items go invalid.
+TEST_F(CollectionModelTest, BulkUpdatePreservesPersistentIndexes) {
+
+  AddSong(u"seed"_s, u"seed"_s, u"seed"_s, 1);
+
+  backend_->AddOrUpdateSongs(MakeSongs(2000, u"keep"_s));
+  Drain();
+
+  // Pull the stored songs (now carrying their database ids) back out of the
+  // model, in a stable order.
+  SongList stored;
+  const QList<CollectionItem*> nodes = model_->song_nodes();
+  for (CollectionItem *node : nodes) {
+    if (node->metadata.title().startsWith(u"keep_"_s)) stored << node->metadata;  // clazy:exclude=reserve-candidates
+  }
+  ASSERT_EQ(2000, stored.count());
+  std::sort(stored.begin(), stored.end(), [](const Song &a, const Song &b) { return a.id() < b.id(); });
+
+  const int updated_id = stored[10].id();  // metadata-only change, node mutated in place
+  const int readded_id = stored[11].id();  // album change moves it to a new container
+  const int removed_id = stored[12].id();  // deleted entirely
+
+  CollectionItem *updated_item = ItemForSongId(updated_id);
+  CollectionItem *readded_item = ItemForSongId(readded_id);
+  CollectionItem *removed_item = ItemForSongId(removed_id);
+  ASSERT_TRUE(updated_item && readded_item && removed_item);
+
+  const QPersistentModelIndex p_updated(model_->ItemToIndex(updated_item));
+  const QPersistentModelIndex p_readded(model_->ItemToIndex(readded_item));
+  const QPersistentModelIndex p_removed(model_->ItemToIndex(removed_item));
+  const QPersistentModelIndex p_container(model_->ItemToIndex(updated_item).parent());  // the album node
+  ASSERT_TRUE(p_updated.isValid() && p_readded.isValid() && p_removed.isValid() && p_container.isValid());
+
+  // Touch every song's title so the whole batch goes through the bulk path,
+  // and queue one removal behind it; both drain in the same transaction.
+  SongList changed = stored;
+  changed.removeAt(12);
+  for (int i = 0; i < changed.count(); ++i) {
+    changed[i].set_title(changed[i].title() + u"_v2"_s);
+  }
+  changed[11].set_album(u"keep_album_moved"_s);
+
+  QSignalSpy spy_layout(&*model_, &CollectionModel::layoutChanged);
+  QSignalSpy spy_reset(&*model_, &CollectionModel::modelReset);
+
+  backend_->AddOrUpdateSongs(changed);
+  backend_->DeleteSongs(SongList() << stored[12]);
+  Drain();
+
+  EXPECT_GE(spy_layout.count(), 1);
+  EXPECT_EQ(0, spy_reset.count());
+  EXPECT_EQ(2000, static_cast<int>(model_->song_nodes().count()));  // 2000 keep + seed - 1 removed
+
+  // Updated in place: still valid and pointing at the same song.
+  CollectionItem *updated_item_after = ItemForSongId(updated_id);
+  ASSERT_TRUE(updated_item_after);
+  EXPECT_TRUE(p_updated.isValid());
+  EXPECT_EQ(model_->ItemToIndex(updated_item_after), QModelIndex(p_updated));
+  EXPECT_EQ(stored[10].title() + u"_v2"_s, updated_item_after->metadata.title());
+
+  // Removed and re-added under a new container: the remap follows the new node.
+  CollectionItem *readded_item_after = ItemForSongId(readded_id);
+  ASSERT_TRUE(readded_item_after);
+  EXPECT_TRUE(p_readded.isValid());
+  EXPECT_EQ(model_->ItemToIndex(readded_item_after), QModelIndex(p_readded));
+  EXPECT_EQ(u"keep_album_moved"_s, p_readded.parent().data().toString());
+
+  // Genuinely removed: invalidated instead of left dangling.
+  EXPECT_FALSE(p_removed.isValid());
+
+  // The surviving album container keeps its persistent index too.
+  EXPECT_TRUE(p_container.isValid());
+  EXPECT_EQ(p_container, p_updated.parent());
 
 }
 

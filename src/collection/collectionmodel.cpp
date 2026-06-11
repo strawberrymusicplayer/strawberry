@@ -85,7 +85,7 @@ constexpr char kVariousArtists[] = QT_TR_NOOP("Various artists");
 
 // Sets a bool for the duration of a scope and clears it on the way out, even on
 // early return. Used to keep bulk_mode_ from getting stuck on if a dispatch ever
-// returns early between begin/endResetModel.
+// returns early inside a bulk layout-change transaction.
 class ScopedFlag {
  public:
   explicit ScopedFlag(bool &flag) : flag_(flag) { flag_ = true; }
@@ -482,17 +482,19 @@ void CollectionModel::ProcessUpdate() {
   // Bulk-update threshold, measured in PENDING SONGS (not queue entries: the
   // queue is just an artifact of 400-song chunking, so a queue-length test
   // would trip on a handful of tiny updates yet miss one large one). Above this
-  // many pending songs we drain the queued run in one model-reset transaction,
-  // suppressing the per-row begin/end{Insert,Remove}Rows (and dataChanged)
-  // signals. Without this, every per-row signal makes an attached QTreeView
-  // rebuild its internal item bookkeeping (and a QSortFilterProxyModel
-  // re-evaluate filterAcceptsRow); when a large streaming-service metadata
-  // batch fans out into thousands of remove/add pairs the cost is O(rows) per
-  // signal and the UI freezes. beginResetModel/endResetModel collapses it into
-  // a single relayout. The hang is view-driven, not filter-driven, so this is
-  // deliberately NOT gated on an active filter. Trade-off: views lose their
-  // selection and scroll position, but that beats a multi-second freeze. The
-  // value is a tunable heuristic.
+  // many pending songs we drain the queued run in one layout-change
+  // transaction, suppressing the per-row begin/end{Insert,Remove}Rows (and
+  // dataChanged) signals. Without this, every per-row signal makes an attached
+  // QTreeView rebuild its internal item bookkeeping (and a
+  // QSortFilterProxyModel re-evaluate filterAcceptsRow); when a large
+  // streaming-service metadata batch fans out into thousands of remove/add
+  // pairs the cost is O(rows) per signal and the UI freezes. A single
+  // layoutAboutToBeChanged/layoutChanged pair collapses it into one relayout,
+  // and unlike a model reset it keeps view state alive: persistent indexes are
+  // remapped by item identity below, so selection, scroll position and
+  // expanded containers survive. The hang is view-driven, not filter-driven,
+  // so this is deliberately NOT gated on an active filter. The value is a
+  // tunable heuristic.
   constexpr int kBulkUpdateSongThreshold = 1000;
 
   int pending_songs = 0;
@@ -510,14 +512,29 @@ void CollectionModel::ProcessUpdate() {
     DispatchUpdate(updates_.dequeue());
   }
   else if (pending_songs >= kBulkUpdateSongThreshold) {
-    beginResetModel();
+    // Identities must be captured after layoutAboutToBeChanged: attached views
+    // and proxies create their own persistent indexes in their slots, and
+    // those have to be in persistentIndexList() so they get remapped too.
+    Q_EMIT layoutAboutToBeChanged();
+    const QModelIndexList old_persistent_indexes = persistentIndexList();
+    QList<ItemIdentity> identities;
+    identities.reserve(old_persistent_indexes.count());
+    for (const QModelIndex &old_idx : old_persistent_indexes) {
+      identities << CaptureItemIdentity(old_idx);
+    }
     {
       ScopedFlag bulk(bulk_mode_);
       while (!updates_.isEmpty() && updates_.constFirst().type != CollectionModelUpdate::Type::Reset) {
         DispatchUpdate(updates_.dequeue());
       }
     }
-    endResetModel();
+    QModelIndexList new_persistent_indexes;
+    new_persistent_indexes.reserve(old_persistent_indexes.count());
+    for (const ItemIdentity &identity : std::as_const(identities)) {
+      new_persistent_indexes << ResolveItemIdentity(identity);
+    }
+    changePersistentIndexList(old_persistent_indexes, new_persistent_indexes);
+    Q_EMIT layoutChanged();
   }
   else {
     DispatchUpdate(updates_.dequeue());
@@ -525,6 +542,66 @@ void CollectionModel::ProcessUpdate() {
 
   if (updates_.isEmpty()) {
     timer_update_->stop();
+  }
+
+}
+
+CollectionModel::ItemIdentity CollectionModel::CaptureItemIdentity(const QModelIndex &idx) const {
+
+  ItemIdentity identity;
+
+  CollectionItem *item = IndexToItem(idx);
+  if (!item || !item->parent) return identity;
+
+  identity.type = item->type;
+
+  switch (item->type) {
+    case CollectionItem::Type::Song:
+      identity.song_id = item->metadata.id();
+      break;
+    case CollectionItem::Type::Container:
+      if (IsCompilationArtistNode(item)) {
+        identity.compilation_artist = true;
+        identity.compilation_artist_parent_is_root = item->parent == root_;
+        if (!identity.compilation_artist_parent_is_root) {
+          identity.container_level = item->parent->container_level;
+          identity.container_key = item->parent->container_key;
+        }
+      }
+      else {
+        identity.container_level = item->container_level;
+        identity.container_key = item->container_key;
+      }
+      break;
+    case CollectionItem::Type::Divider:
+      identity.container_key = item->container_key;
+      break;
+    default:
+      break;
+  }
+
+  return identity;
+
+}
+
+QModelIndex CollectionModel::ResolveItemIdentity(const ItemIdentity &identity) const {
+
+  switch (identity.type) {
+    case CollectionItem::Type::Song:
+      return ItemToIndex(song_nodes_.value(identity.song_id));
+    case CollectionItem::Type::Container:
+      if (identity.compilation_artist) {
+        // A compilation-artist node nested under another compilation-artist
+        // node has no entry in container_nodes_ and resolves to invalid.
+        CollectionItem *new_parent = identity.compilation_artist_parent_is_root ? root_ : (identity.container_level >= 0 && identity.container_level <= 2 ? container_nodes_[identity.container_level].value(identity.container_key) : nullptr);
+        return new_parent ? ItemToIndex(new_parent->compilation_artist_node_) : QModelIndex();
+      }
+      if (identity.container_level < 0 || identity.container_level > 2) return QModelIndex();
+      return ItemToIndex(container_nodes_[identity.container_level].value(identity.container_key));
+    case CollectionItem::Type::Divider:
+      return ItemToIndex(divider_nodes_.value(identity.container_key));
+    default:
+      return QModelIndex();
   }
 
 }
@@ -596,11 +673,11 @@ void CollectionModel::AddReAddOrUpdateSongsInternal(const SongList &songs) {
 
   // Apply the derived changes now instead of re-queuing them. Re-queuing
   // appended them to the back of updates_, so when this ran inside a bulk
-  // transaction the surrounding beginResetModel/endResetModel wrapped no tree
-  // mutation at all (an empty reset) and the real work landed in a *second*
-  // reset one tick later — wasting a relayout and discarding view state twice.
-  // It also let those changes fall behind a queued Reset and be lost. Removing
-  // first keeps re-added songs (same id, new container) from being skipped.
+  // transaction the surrounding layout-change transaction wrapped no tree
+  // mutation at all (an empty relayout) and the real work landed in a *second*
+  // transaction one tick later — wasting a relayout. It also let those changes
+  // fall behind a queued Reset and be lost. Removing first keeps re-added
+  // songs (same id, new container) from being skipped.
   RemoveSongsInternal(songs_removed);
   UpdateSongsInternal(songs_updated);
   AddSongsInternal(songs_added);
@@ -615,7 +692,7 @@ void CollectionModel::AddSongsInternal(const SongList &songs) {
   // intermediate container/compilation-artist nodes as needed. Outside a bulk
   // transaction those container creations emit their own beginInsertRows pair,
   // but only when a new artist/album first appears (rare); in bulk_mode_ they
-  // are suppressed and collapse into the surrounding model reset.
+  // are suppressed and collapse into the surrounding layout change.
   QHash<CollectionItem*, SongList> songs_by_container;
   QList<CollectionItem*> insertion_order;
   for (const Song &song : songs) {
