@@ -34,12 +34,18 @@
 #include <QElapsedTimer>
 #include <QCoreApplication>
 #include <QPersistentModelIndex>
+#include <QItemSelectionModel>
+#include <QScrollBar>
+#include <QTreeView>
+#include <QVariant>
 #include <QtDebug>
 
 #include "includes/scoped_ptr.h"
 #include "includes/shared_ptr.h"
 #include "core/logging.h"
 #include "core/memorydatabase.h"
+#include "core/settings.h"
+#include "constants/collectionsettings.h"
 #include "collection/collectionlibrary.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
@@ -52,6 +58,34 @@ using std::make_shared;
 // clazy:excludeall=non-pod-global-static,returning-void-expression
 
 namespace {
+
+// The test fixture passes a null AlbumCoverLoader, so a view querying
+// DecorationRole on an album container would crash. Forces pretty covers off
+// for the duration of a test and restores the previous setting on the way
+// out, even on early ASSERT returns.
+class ScopedPrettyCoversOff {
+ public:
+  ScopedPrettyCoversOff() {
+    Settings s;
+    s.beginGroup(CollectionSettings::kSettingsGroup);
+    had_value_ = s.contains(CollectionSettings::kPrettyCovers);
+    old_value_ = s.value(CollectionSettings::kPrettyCovers);
+    s.setValue(CollectionSettings::kPrettyCovers, false);
+    s.endGroup();
+  }
+  ~ScopedPrettyCoversOff() {
+    Settings s;
+    s.beginGroup(CollectionSettings::kSettingsGroup);
+    if (had_value_) s.setValue(CollectionSettings::kPrettyCovers, old_value_);
+    else s.remove(CollectionSettings::kPrettyCovers);
+    s.endGroup();
+  }
+  ScopedPrettyCoversOff(const ScopedPrettyCoversOff&) = delete;
+  ScopedPrettyCoversOff &operator=(const ScopedPrettyCoversOff&) = delete;
+ private:
+  bool had_value_;
+  QVariant old_value_;
+};
 
 class CollectionModelTest : public ::testing::Test {
  public:
@@ -552,6 +586,100 @@ TEST_F(CollectionModelTest, BulkUpdatePreservesPersistentIndexes) {
   // The surviving album container keeps its persistent index too.
   EXPECT_TRUE(p_container.isValid());
   EXPECT_EQ(p_container, p_updated.parent());
+
+}
+
+// End-to-end check of what the bulk path actually promises: a real QTreeView
+// attached through the CollectionFilter proxy keeps its expanded containers,
+// its selection and its scroll position across a bulk update - including a
+// selected song that is removed and re-added under a new container. With the
+// old model-reset transaction all three were discarded.
+TEST_F(CollectionModelTest, BulkUpdatePreservesViewState) {
+
+  ScopedPrettyCoversOff covers_off;
+  model_->ReloadSettings();  // picks up the override; schedules a Reset, drained by the seed AddSong
+
+  AddSong(u"seed"_s, u"seed"_s, u"seed"_s, 1);
+  backend_->AddOrUpdateSongs(MakeSongs(2000, u"keep"_s));
+  Drain();
+
+  QTreeView view;
+  view.setSelectionMode(QAbstractItemView::ExtendedSelection);
+  view.setModel(collection_filter_);
+  view.resize(400, 300);
+  view.show();
+  QCoreApplication::processEvents();
+
+  SongList stored;
+  const QList<CollectionItem*> nodes = model_->song_nodes();
+  for (CollectionItem *node : nodes) {
+    if (node->metadata.title().startsWith(u"keep_"_s)) stored << node->metadata;  // clazy:exclude=reserve-candidates
+  }
+  ASSERT_EQ(2000, stored.count());
+  std::sort(stored.begin(), stored.end(), [](const Song &a, const Song &b) { return a.id() < b.id(); });
+
+  const int updated_id = stored[10].id();  // metadata-only change
+  const int readded_id = stored[11].id();  // album change moves it to a new container
+
+  const auto proxy_index_for_id = [this](const int id) {
+    CollectionItem *item = ItemForSongId(id);
+    return item ? collection_filter_->mapFromSource(model_->ItemToIndex(item)) : QModelIndex();
+  };
+
+  const QModelIndex updated_proxy = proxy_index_for_id(updated_id);
+  const QModelIndex readded_proxy = proxy_index_for_id(readded_id);
+  ASSERT_TRUE(updated_proxy.isValid());
+  ASSERT_TRUE(readded_proxy.isValid());
+
+  // Expand the artist and album above the updated song, select both songs,
+  // and scroll away from the top.
+  view.expand(updated_proxy.parent().parent());
+  view.expand(updated_proxy.parent());
+  ASSERT_TRUE(view.isExpanded(updated_proxy.parent()));
+  view.selectionModel()->select(updated_proxy, QItemSelectionModel::Select);
+  view.selectionModel()->select(readded_proxy, QItemSelectionModel::Select);
+  ASSERT_EQ(2, view.selectionModel()->selectedIndexes().count());
+  view.scrollToBottom();
+  QCoreApplication::processEvents();
+  ASSERT_GT(view.verticalScrollBar()->value(), 0);
+
+  // Bulk update: every title changes (in place), one selected song moves to a
+  // new album (remove + re-add).
+  SongList changed = stored;
+  for (int i = 0; i < changed.count(); ++i) {
+    changed[i].set_title(changed[i].title() + u"_v2"_s);
+  }
+  changed[11].set_album(u"keep_album_moved"_s);
+
+  QSignalSpy spy_reset(&*model_, &CollectionModel::modelReset);
+
+  backend_->AddOrUpdateSongs(changed);
+  Drain();
+
+  ASSERT_EQ(0, spy_reset.count());  // went through the bulk layout-change path
+
+  // Expansion survived.
+  CollectionItem *updated_item = ItemForSongId(updated_id);
+  ASSERT_TRUE(updated_item);
+  const QModelIndex album_proxy = collection_filter_->mapFromSource(model_->ItemToIndex(updated_item->parent));
+  const QModelIndex artist_proxy = album_proxy.parent();
+  ASSERT_TRUE(album_proxy.isValid());
+  EXPECT_TRUE(view.isExpanded(album_proxy));
+  EXPECT_TRUE(view.isExpanded(artist_proxy));
+
+  // Selection survived and still points at the right songs, including the one
+  // that now lives under a different album.
+  const QModelIndexList selected = view.selectionModel()->selectedIndexes();
+  ASSERT_EQ(2, selected.count());
+  QSet<int> selected_ids;
+  for (const QModelIndex &idx : selected) {
+    selected_ids << model_->IndexToItem(collection_filter_->mapToSource(idx))->metadata.id();
+  }
+  EXPECT_TRUE(selected_ids.contains(updated_id));
+  EXPECT_TRUE(selected_ids.contains(readded_id));
+
+  // The view was not thrown back to the top (a model reset would do that).
+  EXPECT_GT(view.verticalScrollBar()->value(), 0);
 
 }
 
