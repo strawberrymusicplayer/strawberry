@@ -105,7 +105,6 @@ void RadioBrowserService::TestServer(const QString &hostname) {
   url.setPath(u"/json/stats"_s);
 
   QNetworkRequest request(url);
-  request.setHeader(QNetworkRequest::ContentTypeHeader, u"application/json"_s);
   QNetworkReply *reply = network_->get(request);
   replies_ << reply;
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() { ServerTestReply(reply); });
@@ -193,7 +192,6 @@ void RadioBrowserService::Search(const QString &query,
   url.setQuery(url_query);
 
   QNetworkRequest request(url);
-  request.setHeader(QNetworkRequest::ContentTypeHeader, u"application/json"_s);
   QNetworkReply *reply = network_->get(request);
   replies_ << reply;
   const int task_id = task_manager_->StartTask(tr("Searching Radio Browser"));
@@ -271,7 +269,6 @@ void RadioBrowserService::FetchCountries() {
   url.setPath(u"/json/countrycodes"_s);
 
   QNetworkRequest request(url);
-  request.setHeader(QNetworkRequest::ContentTypeHeader, u"application/json"_s);
   QNetworkReply *reply = network_->get(request);
   replies_ << reply;
   QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() { CountriesReply(reply); });
