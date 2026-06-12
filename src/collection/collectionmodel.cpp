@@ -467,22 +467,13 @@ void CollectionModel::ProcessUpdate() {
     return;
   }
 
-  // Bulk-update threshold, measured in PENDING SONGS (not queue entries: the
-  // queue is just an artifact of 400-song chunking, so a queue-length test
-  // would trip on a handful of tiny updates yet miss one large one). Above this
-  // many pending songs we drain the queued run in one layout-change
-  // transaction, suppressing the per-row begin/end{Insert,Remove}Rows (and
-  // dataChanged) signals. Without this, every per-row signal makes an attached
-  // QTreeView rebuild its internal item bookkeeping (and a
-  // QSortFilterProxyModel re-evaluate filterAcceptsRow); when a large
-  // streaming-service metadata batch fans out into thousands of remove/add
-  // pairs the cost is O(rows) per signal and the UI freezes. A single
-  // layoutAboutToBeChanged/layoutChanged pair collapses it into one relayout,
-  // and unlike a model reset it keeps view state alive: persistent indexes are
-  // remapped by item identity below, so selection, scroll position and
-  // expanded containers survive. The hang is view-driven, not filter-driven,
-  // so this is deliberately NOT gated on an active filter. The value is a
-  // tunable heuristic.
+  // Bulk-update threshold, measured in PENDING SONGS (not queue entries: the queue is just an artifact of 400-song chunking, so a queue-length test would trip on a handful of tiny updates yet miss one large one).
+  // Above this many pending songs we drain the queued run in one layout-change transaction, suppressing the per-row begin/end{Insert,Remove}Rows (and dataChanged) signals.
+  // Without this, every per-row signal makes an attached QTreeView rebuild its internal item bookkeeping (and a QSortFilterProxyModel re-evaluate filterAcceptsRow);
+  // when a large streaming-service metadata batch fans out into thousands of remove/add pairs the cost is O(rows) per signal and the UI freezes.
+  // A single layoutAboutToBeChanged/layoutChanged pair collapses it into one relayout, and unlike a model reset it keeps view state alive:
+  // persistent indexes are remapped by item identity below, so selection, scroll position and expanded containers survive.
+  // The hang is view-driven, not filter-driven, so this is deliberately NOT gated on an active filter. The value is a tunable heuristic.
   constexpr int kBulkUpdateSongThreshold = 1000;
 
   int pending_songs = 0;
@@ -490,19 +481,15 @@ void CollectionModel::ProcessUpdate() {
     pending_songs += static_cast<int>(update.songs.count());
   }
 
-  // A Reset carries its own begin/endResetModel transaction (asynchronously,
-  // via the SQL reload) and raises loading_, after which the *Internal
-  // handlers early-return. It must therefore never be folded into a bulk
-  // transaction: the unconditional dequeue below would otherwise drop every
-  // update queued behind it. Dispatch a leading Reset on its own, and stop a
-  // bulk drain as soon as one surfaces so it is handled on the next tick.
+  // A Reset carries its own begin/endResetModel transaction (asynchronously, via the SQL reload) and raises loading_, after which the *Internal handlers early-return.
+  // It must therefore never be folded into a bulk transaction: the unconditional dequeue below would otherwise drop every update queued behind it.
+  // Dispatch a leading Reset on its own, and stop a bulk drain as soon as one surfaces so it is handled on the next tick.
   if (updates_.constFirst().type == CollectionModelUpdate::Type::Reset) {
     DispatchUpdate(updates_.dequeue());
   }
   else if (pending_songs >= kBulkUpdateSongThreshold) {
-    // Identities must be captured after layoutAboutToBeChanged: attached views
-    // and proxies create their own persistent indexes in their slots, and
-    // those have to be in persistentIndexList() so they get remapped too.
+    // Identities must be captured after layoutAboutToBeChanged: attached views and proxies create their own persistent indexes in their slots,
+    // and those have to be in persistentIndexList() so they get remapped too.
     Q_EMIT layoutAboutToBeChanged();
     const QModelIndexList old_persistent_indexes = persistentIndexList();
     QList<ItemIdentity> identities;
@@ -580,8 +567,7 @@ QModelIndex CollectionModel::ResolveItemIdentity(const ItemIdentity &identity) c
       return ItemToIndex(song_nodes_.value(identity.song_id));
     case CollectionItem::Type::Container:
       if (identity.compilation_artist) {
-        // A compilation-artist node nested under another compilation-artist
-        // node has no entry in container_nodes_ and resolves to invalid.
+        // A compilation-artist node nested under another compilation-artist node has no entry in container_nodes_ and resolves to invalid.
         CollectionItem *new_parent = identity.compilation_artist_parent_is_root ? root_ : (identity.container_level >= 0 && identity.container_level <= 2 ? container_nodes_[identity.container_level].value(identity.container_key) : nullptr);
         return new_parent ? ItemToIndex(new_parent->compilation_artist_node_) : QModelIndex();
       }
@@ -660,13 +646,9 @@ void CollectionModel::AddReAddOrUpdateSongsInternal(const SongList &songs) {
     }
   }
 
-  // Apply the derived changes now instead of re-queuing them. Re-queuing
-  // appended them to the back of updates_, so when this ran inside a bulk
-  // transaction the surrounding layout-change transaction wrapped no tree
-  // mutation at all (an empty relayout) and the real work landed in a *second*
-  // transaction one tick later — wasting a relayout. It also let those changes
-  // fall behind a queued Reset and be lost. Removing first keeps re-added
-  // songs (same id, new container) from being skipped.
+  // Apply the derived changes now instead of re-queuing them.
+  // Re-queuing appended them to the back of updates_, so when this ran inside a bulk transaction the surrounding layout-change transaction wrapped no tree mutation at all (an empty relayout) and the real work landed in a *second* transaction one tick later — wasting a relayout.
+  // It also let those changes fall behind a queued Reset and be lost. Removing first keeps re-added songs (same id, new container) from being skipped.
   RemoveSongsInternal(songs_removed);
   UpdateSongsInternal(songs_updated);
   AddSongsInternal(songs_added);
@@ -677,11 +659,9 @@ void CollectionModel::AddSongsInternal(const SongList &songs) {
 
   if (loading_) return;
 
-  // First pass: resolve the final container for every song, creating any
-  // intermediate container/compilation-artist nodes as needed. Outside a bulk
-  // transaction those container creations emit their own beginInsertRows pair,
-  // but only when a new artist/album first appears (rare); in bulk_mode_ they
-  // are suppressed and collapse into the surrounding layout change.
+  // First pass: resolve the final container for every song, creating any intermediate container/compilation-artist nodes as needed.
+  // Outside a bulk transaction those container creations emit their own beginInsertRows pair, but only when a new artist/album first appears (rare);
+  // in bulk_mode_ they are suppressed and collapse into the surrounding layout change.
   QHash<CollectionItem*, SongList> songs_by_container;
   QList<CollectionItem*> insertion_order;
   for (const Song &song : songs) {
@@ -727,11 +707,9 @@ void CollectionModel::AddSongsInternal(const SongList &songs) {
     songs_by_container[container] << song;
   }
 
-  // Second pass: bulk-insert all songs belonging to the same container in a
-  // single beginInsertRows/endInsertRows pair. Each pair triggers
-  // CollectionFilter::filterAcceptsRow re-evaluation across the proxy, so
-  // collapsing thousands of per-song inserts into a per-container handful
-  // is what keeps the UI responsive on large metadata batches.
+  // Second pass: bulk-insert all songs belonging to the same container in a single beginInsertRows/endInsertRows pair.
+  // Each pair triggers CollectionFilter::filterAcceptsRow re-evaluation across the proxy,
+  // so collapsing thousands of per-song inserts into a per-container handful is what keeps the UI responsive on large metadata batches.
   for (CollectionItem *container : std::as_const(insertion_order)) {
     const SongList &container_songs = songs_by_container.value(container);
     const int first = static_cast<int>(container->children.count());
@@ -796,12 +774,10 @@ void CollectionModel::RemoveSongsInternal(const SongList &songs) {
 
   if (loading_) return;
 
-  // Group song nodes to remove by their parent. Removing siblings one row
-  // at a time forces QSortFilterProxyModel to re-evaluate filterAcceptsRow
-  // on every endRemoveRows, which dominates the cost when a collection
-  // filter is active and a streaming service emits a large metadata batch.
-  // RemoveSiblingNodes() collapses contiguous rows under each parent into a
-  // single beginRemoveRows/endRemoveRows pair so the proxy refreshes once.
+  // Group song nodes to remove by their parent.
+  // Removing siblings one row at a time forces QSortFilterProxyModel to re-evaluate filterAcceptsRow on every endRemoveRows,
+  // which dominates the cost when a collection filter is active and a streaming service emits a large metadata batch.
+  // RemoveSiblingNodes() collapses contiguous rows under each parent into a single beginRemoveRows/endRemoveRows pair so the proxy refreshes once.
   QHash<CollectionItem*, QList<CollectionItem*>> nodes_by_parent;
   QSet<CollectionItem*> parents;
   for (const Song &song : songs) {
@@ -821,8 +797,7 @@ void CollectionModel::RemoveSongsInternal(const SongList &songs) {
   // Now delete empty parents
   QSet<QString> divider_keys;
   while (!parents.isEmpty()) {
-    // Same grouping trick as above: collect empty parents by their parent so
-    // we can drop them in contiguous-row batches per grandparent.
+    // Same grouping trick as above: collect empty parents by their parent so we can drop them in contiguous-row batches per grandparent.
     QHash<CollectionItem*, QList<CollectionItem*>> empty_by_grandparent;
     // Since we are going to remove elements from the container, we need a copy to iterate over.
     // If we iterate over the original, the behavior will be undefined.
@@ -857,8 +832,7 @@ void CollectionModel::RemoveSongsInternal(const SongList &songs) {
     }
   }
 
-  // Delete empty dividers. Group contiguous rows so we still benefit when many
-  // dividers vanish at once (e.g. removing every "A"-prefix artist).
+  // Delete empty dividers. Group contiguous rows so we still benefit when many dividers vanish at once (e.g. removing every "A"-prefix artist).
   QList<CollectionItem*> dead_dividers;
   for (const QString &divider_key : std::as_const(divider_keys)) {
     if (!divider_nodes_.contains(divider_key)) continue;
@@ -879,8 +853,7 @@ void CollectionModel::RemoveSongsInternal(const SongList &songs) {
 
 void CollectionModel::RemoveSiblingNodes(CollectionItem *parent, QList<CollectionItem*> nodes) {
 
-  // Sort by row descending so each contiguous-range removal doesn't shift
-  // later ranges.
+  // Sort by row descending so each contiguous-range removal doesn't shift later ranges.
   std::sort(nodes.begin(), nodes.end(), [](CollectionItem *a, CollectionItem *b) {
     return a->row > b->row;
   });

@@ -245,14 +245,10 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
   void RemoveSiblingNodes(CollectionItem *parent, QList<CollectionItem*> nodes);
   void DispatchUpdate(const CollectionModelUpdate &update);
 
-  // Identity of the item behind a persistent index, captured before a bulk
-  // update mutates the tree and resolved against the rebuilt node maps
-  // afterwards. Identity- rather than pointer-based on purpose: a node that is
-  // deleted and re-created within the same drain (a re-added song, a rebuilt
-  // container) still resolves to its successor, and a recycled heap address
-  // cannot alias an unrelated new item. For compilation-artist nodes, which
-  // live on their parent instead of in container_nodes_, container_level and
-  // container_key identify the parent.
+  // Identity of the item behind a persistent index, captured before a bulk update mutates the tree and resolved against the rebuilt node maps afterwards.
+  // Identity- rather than pointer-based on purpose: a node that is deleted and re-created within the same drain (a re-added song, a rebuilt container) still resolves to its successor,
+  // and a recycled heap address cannot alias an unrelated new item.
+  // For compilation-artist nodes, which live on their parent instead of in container_nodes_, container_level and container_key identify the parent.
   struct ItemIdentity {
     CollectionItem::Type type = CollectionItem::Type::Root;
     int song_id = -1;                 // Type::Song

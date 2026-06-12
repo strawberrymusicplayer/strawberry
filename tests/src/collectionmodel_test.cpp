@@ -131,8 +131,7 @@ class CollectionModelTest : public ::testing::Test {
     return AddSong(song);
   }
 
-  // Build n distinct songs spread over a few artists/albums, all tagged so
-  // different batches don't collide.
+  // Build n distinct songs spread over a few artists/albums, all tagged so different batches don't collide.
   SongList MakeSongs(const int n, const QString &tag) {
     SongList songs;
     songs.reserve(n);
@@ -160,9 +159,8 @@ class CollectionModelTest : public ::testing::Test {
     return nullptr;
   }
 
-  // Pump the event loop until the model's update timer has been continuously
-  // idle for a stretch. The idle window must outlast the gap a Reset's async
-  // SQL reload leaves before it re-arms the timer, or we'd stop mid-reload.
+  // Pump the event loop until the model's update timer has been continuously idle for a stretch.
+  // The idle window must outlast the gap a Reset's async SQL reload leaves before it re-arms the timer, or we'd stop mid-reload.
   void Drain(const int max_ms = 60000) {
     QTimer *timer = model_->findChild<QTimer*>(QString(), Qt::FindDirectChildrenOnly);
     QElapsedTimer total;
@@ -344,8 +342,7 @@ TEST_F(CollectionModelTest, RemoveSongs) {
   backend_->DeleteSongs(SongList() << one << two);
   loop.exec();
 
-  // Title 1 and Title 2 occupy contiguous rows 0 and 1, so RemoveSiblingNodes
-  // collapses them into a single beginRemoveRows/endRemoveRows pair.
+  // Title 1 and Title 2 occupy contiguous rows 0 and 1, so RemoveSiblingNodes collapses them into a single beginRemoveRows/endRemoveRows pair.
   ASSERT_EQ(1, spy_preremove.count());
   ASSERT_EQ(1, spy_remove.count());
   ASSERT_EQ(0, spy_reset.count());
@@ -409,9 +406,7 @@ TEST_F(CollectionModelTest, RemoveEmptyArtists) {
 
 }
 
-// A batch at/above the bulk threshold collapses into a layout change and emits
-// neither per-row insert signals nor a model reset, while still producing the
-// correct tree.
+// A batch at/above the bulk threshold collapses into a layout change and emits neither per-row insert signals nor a model reset, while still producing the correct tree.
 TEST_F(CollectionModelTest, BulkUpdateSuppressesPerRowSignals) {
 
   AddSong(u"seed"_s, u"seed"_s, u"seed"_s, 1);  // drains the ctor reset, adds the dir
@@ -433,8 +428,7 @@ TEST_F(CollectionModelTest, BulkUpdateSuppressesPerRowSignals) {
 
 }
 
-// A batch below the threshold keeps the lightweight per-row path (no layout
-// change, no reset).
+// A batch below the threshold keeps the lightweight per-row path (no layout change, no reset).
 TEST_F(CollectionModelTest, SmallUpdateEmitsPerRowSignals) {
 
   AddSong(u"seed"_s, u"seed"_s, u"seed"_s, 1);
@@ -456,9 +450,7 @@ TEST_F(CollectionModelTest, SmallUpdateEmitsPerRowSignals) {
 
 }
 
-// Regression for the empty/double transaction: a bulk batch must apply its
-// changes inside a single layout-change transaction, not re-queue them into a
-// second one.
+// Regression for the empty/double transaction: a bulk batch must apply its changes inside a single layout-change transaction, not re-queue them into a second one.
 TEST_F(CollectionModelTest, LargeBatchProducesSingleLayoutChange) {
 
   AddSong(u"seed"_s, u"seed"_s, u"seed"_s, 1);
@@ -477,14 +469,10 @@ TEST_F(CollectionModelTest, LargeBatchProducesSingleLayoutChange) {
 
 }
 
-// A Reset queued behind a bulk-sized batch must be handled outside the bulk
-// transaction: folding it in would tear the model down mid-layout-change and
-// leave the begin/end signals of either transaction unbalanced. NOTE: data
-// preservation across the Reset cannot be checked here - the reload runs on a
-// worker thread, which opens its own connection to the :memory: test DB and so
-// sees it empty; against a real file DB that reload restores the full
-// collection, which is why a dropped trailing update is not actually lost in
-// production.
+// A Reset queued behind a bulk-sized batch must be handled outside the bulk transaction:
+// folding it in would tear the model down mid-layout-change and leave the begin/end signals of either transaction unbalanced.
+// NOTE: data preservation across the Reset cannot be checked here - the reload runs on a worker thread, which opens its own connection to the :memory: test DB and so sees it empty;
+// against a real file DB that reload restores the full collection, which is why a dropped trailing update is not actually lost in production.
 TEST_F(CollectionModelTest, ResetMixedIntoBulkBatchDoesNotNestResets) {
 
   AddSong(u"seed"_s, u"seed"_s, u"seed"_s, 1);
@@ -494,9 +482,7 @@ TEST_F(CollectionModelTest, ResetMixedIntoBulkBatchDoesNotNestResets) {
   QSignalSpy spy_layout_about(&*model_, &CollectionModel::layoutAboutToBeChanged);
   QSignalSpy spy_layout_done(&*model_, &CollectionModel::layoutChanged);
 
-  // Backend signals are emitted synchronously, so these stack up in the update
-  // queue as [AddReAddOrUpdate(a)..., Reset, AddReAddOrUpdate(b)] before the
-  // timer-driven ProcessUpdate ever runs.
+  // Backend signals are emitted synchronously, so these stack up in the update queue as [AddReAddOrUpdate(a)..., Reset, AddReAddOrUpdate(b)] before the timer-driven ProcessUpdate ever runs.
   backend_->AddOrUpdateSongs(MakeSongs(1600, u"aaa"_s));
   model_->SetGroupBy(model_->GetGroupBy());  // enqueues a Reset behind the batch
   backend_->AddOrUpdateSongs(MakeSongs(50, u"bbb"_s));
@@ -509,11 +495,9 @@ TEST_F(CollectionModelTest, ResetMixedIntoBulkBatchDoesNotNestResets) {
 
 }
 
-// The bulk path must not discard view state: persistent indexes (what a view
-// uses for selection, scroll position and expanded containers) survive the
-// layout change. Remapping is identity-based, so a song that is removed and
-// re-added under a new container - the streaming-metadata case - keeps its
-// persistent index too; only genuinely removed items go invalid.
+// The bulk path must not discard view state: persistent indexes (what a view uses for selection, scroll position and expanded containers) survive the layout change.
+// Remapping is identity-based, so a song that is removed and re-added under a new container - the streaming-metadata case - keeps its persistent index too;
+// only genuinely removed items go invalid.
 TEST_F(CollectionModelTest, BulkUpdatePreservesPersistentIndexes) {
 
   AddSong(u"seed"_s, u"seed"_s, u"seed"_s, 1);
@@ -521,8 +505,7 @@ TEST_F(CollectionModelTest, BulkUpdatePreservesPersistentIndexes) {
   backend_->AddOrUpdateSongs(MakeSongs(2000, u"keep"_s));
   Drain();
 
-  // Pull the stored songs (now carrying their database ids) back out of the
-  // model, in a stable order.
+  // Pull the stored songs (now carrying their database ids) back out of the model, in a stable order.
   SongList stored;
   const QList<CollectionItem*> nodes = model_->song_nodes();
   for (CollectionItem *node : nodes) {
@@ -546,8 +529,7 @@ TEST_F(CollectionModelTest, BulkUpdatePreservesPersistentIndexes) {
   const QPersistentModelIndex p_container(model_->ItemToIndex(updated_item).parent());  // the album node
   ASSERT_TRUE(p_updated.isValid() && p_readded.isValid() && p_removed.isValid() && p_container.isValid());
 
-  // Touch every song's title so the whole batch goes through the bulk path,
-  // and queue one removal behind it; both drain in the same transaction.
+  // Touch every song's title so the whole batch goes through the bulk path, and queue one removal behind it; both drain in the same transaction.
   SongList changed = stored;
   changed.removeAt(12);
   for (int i = 0; i < changed.count(); ++i) {
@@ -589,11 +571,9 @@ TEST_F(CollectionModelTest, BulkUpdatePreservesPersistentIndexes) {
 
 }
 
-// End-to-end check of what the bulk path actually promises: a real QTreeView
-// attached through the CollectionFilter proxy keeps its expanded containers,
-// its selection and its scroll position across a bulk update - including a
-// selected song that is removed and re-added under a new container. With the
-// old model-reset transaction all three were discarded.
+// End-to-end check of what the bulk path actually promises:
+// a real QTreeView attached through the CollectionFilter proxy keeps its expanded containers, its selection and its scroll position across a bulk update -
+// including a selected song that is removed and re-added under a new container. With the old model-reset transaction all three were discarded.
 TEST_F(CollectionModelTest, BulkUpdatePreservesViewState) {
 
   ScopedPrettyCoversOff covers_off;
@@ -631,8 +611,7 @@ TEST_F(CollectionModelTest, BulkUpdatePreservesViewState) {
   ASSERT_TRUE(updated_proxy.isValid());
   ASSERT_TRUE(readded_proxy.isValid());
 
-  // Expand the artist and album above the updated song, select both songs,
-  // and scroll away from the top.
+  // Expand the artist and album above the updated song, select both songs, and scroll away from the top.
   view.expand(updated_proxy.parent().parent());
   view.expand(updated_proxy.parent());
   ASSERT_TRUE(view.isExpanded(updated_proxy.parent()));
@@ -643,8 +622,7 @@ TEST_F(CollectionModelTest, BulkUpdatePreservesViewState) {
   QCoreApplication::processEvents();
   ASSERT_GT(view.verticalScrollBar()->value(), 0);
 
-  // Bulk update: every title changes (in place), one selected song moves to a
-  // new album (remove + re-add).
+  // Bulk update: every title changes (in place), one selected song moves to a new album (remove + re-add).
   SongList changed = stored;
   for (int i = 0; i < changed.count(); ++i) {
     changed[i].set_title(changed[i].title() + u"_v2"_s);
@@ -667,8 +645,7 @@ TEST_F(CollectionModelTest, BulkUpdatePreservesViewState) {
   EXPECT_TRUE(view.isExpanded(album_proxy));
   EXPECT_TRUE(view.isExpanded(artist_proxy));
 
-  // Selection survived and still points at the right songs, including the one
-  // that now lives under a different album.
+  // Selection survived and still points at the right songs, including the one that now lives under a different album.
   const QModelIndexList selected = view.selectionModel()->selectedIndexes();
   ASSERT_EQ(2, selected.count());
   QSet<int> selected_ids;
