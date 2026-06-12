@@ -49,7 +49,7 @@ RadioBrowserSearchView::RadioBrowserSearchView(QWidget *parent)
       search_limit_(100),
       hide_broken_(true),
       has_more_(false),
-      initialized_(false) {
+      countries_loaded_(false) {
 
   ui_->setupUi(this);
 
@@ -101,9 +101,9 @@ void RadioBrowserSearchView::showEvent(QShowEvent *e) {
 
   Q_UNUSED(e)
 
-  if (!initialized_ && service_) {
+  // Retried on every show until the fetch succeeds, so a failed fetch doesn't leave the country filter empty until restart.
+  if (!countries_loaded_ && service_) {
     service_->FetchCountries();
-    initialized_ = true;
   }
 
 }
@@ -187,6 +187,8 @@ void RadioBrowserSearchView::SearchError(const QString &error) {
 }
 
 void RadioBrowserSearchView::CountriesLoaded(const QList<QPair<QString, QString>> &countries) {
+
+  countries_loaded_ = true;
 
   ui_->combo_country->clear();
   ui_->combo_country->addItem(tr("All countries"), QString());

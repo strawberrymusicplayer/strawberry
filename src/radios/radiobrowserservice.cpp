@@ -283,6 +283,13 @@ void RadioBrowserService::CountriesReply(QNetworkReply *reply) {
   if (replies_.contains(reply)) replies_.removeAll(reply);
   reply->deleteLater();
 
+  if (reply->error() != QNetworkReply::NoError) {
+    // The server may have gone down since discovery; rediscover on the next request.
+    server_discovered_ = false;
+    Error(QStringLiteral("Fetching countries failed: %1").arg(reply->errorString()));
+    return;
+  }
+
   const QJsonArray array = ExtractJsonArray(reply);
 
   // Collect country codes that have stations
