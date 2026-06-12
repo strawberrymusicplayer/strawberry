@@ -210,6 +210,8 @@ void RadioBrowserService::SearchReply(QNetworkReply *reply, const int task_id, c
   pending_search_tasks_.removeAll(task_id);
 
   if (reply->error() != QNetworkReply::NoError) {
+    // The server may have gone down since discovery; rediscover on the next search.
+    server_discovered_ = false;
     Q_EMIT SearchError(tr("Radio Browser search failed: %1").arg(reply->errorString()));
     return;
   }
