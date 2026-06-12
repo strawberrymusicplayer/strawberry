@@ -37,15 +37,12 @@
 #include <QItemSelectionModel>
 #include <QScrollBar>
 #include <QTreeView>
-#include <QVariant>
 #include <QtDebug>
 
 #include "includes/scoped_ptr.h"
 #include "includes/shared_ptr.h"
 #include "core/logging.h"
 #include "core/memorydatabase.h"
-#include "core/settings.h"
-#include "constants/collectionsettings.h"
 #include "collection/collectionlibrary.h"
 #include "collection/collectionbackend.h"
 #include "collection/collectionmodel.h"
@@ -58,34 +55,6 @@ using std::make_shared;
 // clazy:excludeall=non-pod-global-static,returning-void-expression
 
 namespace {
-
-// The test fixture passes a null AlbumCoverLoader, so a view querying
-// DecorationRole on an album container would crash. Forces pretty covers off
-// for the duration of a test and restores the previous setting on the way
-// out, even on early ASSERT returns.
-class ScopedPrettyCoversOff {
- public:
-  ScopedPrettyCoversOff() {
-    Settings s;
-    s.beginGroup(CollectionSettings::kSettingsGroup);
-    had_value_ = s.contains(CollectionSettings::kPrettyCovers);
-    old_value_ = s.value(CollectionSettings::kPrettyCovers);
-    s.setValue(CollectionSettings::kPrettyCovers, false);
-    s.endGroup();
-  }
-  ~ScopedPrettyCoversOff() {
-    Settings s;
-    s.beginGroup(CollectionSettings::kSettingsGroup);
-    if (had_value_) s.setValue(CollectionSettings::kPrettyCovers, old_value_);
-    else s.remove(CollectionSettings::kPrettyCovers);
-    s.endGroup();
-  }
-  ScopedPrettyCoversOff(const ScopedPrettyCoversOff&) = delete;
-  ScopedPrettyCoversOff &operator=(const ScopedPrettyCoversOff&) = delete;
- private:
-  bool had_value_;
-  QVariant old_value_;
-};
 
 class CollectionModelTest : public ::testing::Test {
  public:
@@ -575,9 +544,6 @@ TEST_F(CollectionModelTest, BulkUpdatePreservesPersistentIndexes) {
 // a real QTreeView attached through the CollectionFilter proxy keeps its expanded containers, its selection and its scroll position across a bulk update -
 // including a selected song that is removed and re-added under a new container. With the old model-reset transaction all three were discarded.
 TEST_F(CollectionModelTest, BulkUpdatePreservesViewState) {
-
-  ScopedPrettyCoversOff covers_off;
-  model_->ReloadSettings();  // picks up the override; schedules a Reset, drained by the seed AddSong
 
   AddSong(u"seed"_s, u"seed"_s, u"seed"_s, 1);
   backend_->AddOrUpdateSongs(MakeSongs(2000, u"keep"_s));

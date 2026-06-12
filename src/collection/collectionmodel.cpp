@@ -1060,7 +1060,7 @@ void CollectionModel::ClearItemPixmapCache(CollectionItem *item) {
 
 QVariant CollectionModel::AlbumIcon(CollectionItem *item) {
 
-  if (!item) return pixmap_no_cover_;
+  if (!albumcover_loader_ || !item) return pixmap_no_cover_;
 
   // Check the cache for a pixmap we already loaded.
   const QString cache_key = AlbumIconPixmapCacheKey(item);
