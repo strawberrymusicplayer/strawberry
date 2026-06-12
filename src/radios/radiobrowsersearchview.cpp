@@ -121,7 +121,7 @@ void RadioBrowserSearchView::Init(RadioBrowserService *service) {
   search_limit_ = s.value(QLatin1String(RadioBrowserSettings::kSearchLimit), RadioBrowserSettings::kSearchLimitDefault).toInt();
   hide_broken_ = s.value(QLatin1String(RadioBrowserSettings::kHideBroken), RadioBrowserSettings::kHideBrokenDefault).toBool();
 
-  const QString default_sort = s.value(u"default_sort"_s, u"votes"_s).toString();
+  const QString default_sort = s.value(QLatin1String(RadioBrowserSettings::kDefaultSort), QLatin1String(RadioBrowserSettings::kDefaultSortDefault)).toString();
   for (int i = 0; i < ui_->combo_sort->count(); ++i) {
     if (ui_->combo_sort->itemData(i).toString() == default_sort) {
       ui_->combo_sort->setCurrentIndex(i);
@@ -129,7 +129,7 @@ void RadioBrowserSearchView::Init(RadioBrowserService *service) {
     }
   }
 
-  default_country_ = s.value(u"default_country"_s).toString();
+  default_country_ = s.value(QLatin1String(RadioBrowserSettings::kDefaultCountry)).toString();
   s.endGroup();
 
 }
