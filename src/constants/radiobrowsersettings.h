@@ -23,11 +23,13 @@
 namespace RadioBrowserSettings {
 
 constexpr char kSettingsGroup[] = "RadioBrowser";
-constexpr char kServerUrl[] = "server_url";
 constexpr char kSearchLimit[] = "search_limit";
 constexpr int kSearchLimitDefault = 100;
 constexpr char kHideBroken[] = "hide_broken";
 constexpr bool kHideBrokenDefault = true;
+constexpr char kDefaultSort[] = "default_sort";
+constexpr char kDefaultSortDefault[] = "votes";
+constexpr char kDefaultCountry[] = "default_country";
 
 }  // namespace RadioBrowserSettings
 
