@@ -30,7 +30,6 @@
 #include "radiochannel.h"
 
 class QNetworkReply;
-class QDnsLookup;
 
 class TaskManager;
 class NetworkAccessManager;
@@ -67,7 +66,6 @@ class RadioBrowserService : public RadioService {
   void GetChannels() override;
 
  private Q_SLOTS:
-  void DnsLookupFinished();
   void ServerTestReply(QNetworkReply *reply);
   void SearchReply(QNetworkReply *reply, const int task_id, const int limit);
   void CountriesReply(QNetworkReply *reply);
@@ -78,7 +76,6 @@ class RadioBrowserService : public RadioService {
 
   QList<QNetworkReply*> replies_;
   QList<int> pending_search_tasks_;
-  QDnsLookup *dns_lookup_;
   QUrl server_url_;
   bool server_discovered_;
 
@@ -97,8 +94,9 @@ class RadioBrowserService : public RadioService {
   bool has_pending_search_;
   bool has_pending_countries_;
 
-  static const QStringList kFallbackServers;
-  int fallback_index_;
+  static const QStringList kServers;
+  int server_index_;
+  int servers_tried_;
 };
 
 #endif  // RADIOBROWSERSERVICE_H

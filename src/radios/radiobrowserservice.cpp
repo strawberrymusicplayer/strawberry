@@ -29,7 +29,7 @@
 #include <QJsonValue>
 #include <QJsonObject>
 #include <QJsonArray>
-#include <QDnsLookup>
+#include <QRandomGenerator>
 
 #include "core/networkaccessmanager.h"
 #include "core/taskmanager.h"
@@ -40,7 +40,7 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-const QStringList RadioBrowserService::kFallbackServers = {
+const QStringList RadioBrowserService::kServers = {
     u"de1.api.radio-browser.info"_s,
     u"de2.api.radio-browser.info"_s,
     u"nl1.api.radio-browser.info"_s,
@@ -49,11 +49,11 @@ const QStringList RadioBrowserService::kFallbackServers = {
 
 RadioBrowserService::RadioBrowserService(const SharedPtr<TaskManager> task_manager, const SharedPtr<NetworkAccessManager> network, QObject *parent)
     : RadioService(Song::Source::RadioBrowser, u"Radio Browser"_s, IconLoader::Load(u"radiobrowser"_s), task_manager, network, parent),
-      dns_lookup_(nullptr),
       server_discovered_(false),
       has_pending_search_(false),
       has_pending_countries_(false),
-      fallback_index_(0) {}
+      server_index_(0),
+      servers_tried_(0) {}
 
 RadioBrowserService::~RadioBrowserService() {
   Abort();
@@ -76,12 +76,6 @@ void RadioBrowserService::Abort() {
   }
   pending_search_tasks_.clear();
 
-  if (dns_lookup_) {
-    dns_lookup_->abort();
-    dns_lookup_->deleteLater();
-    dns_lookup_ = nullptr;
-  }
-
   has_pending_search_ = false;
   has_pending_countries_ = false;
 
@@ -95,38 +89,11 @@ void RadioBrowserService::GetChannels() {
 
 void RadioBrowserService::DiscoverServer() {
 
-  if (dns_lookup_) {
-    dns_lookup_->abort();
-    dns_lookup_->deleteLater();
-    dns_lookup_ = nullptr;
-  }
+  // The API guidelines ask clients to spread load across the mirrors, so start at a random server and advance round-robin on failure.
+  server_index_ = QRandomGenerator::global()->bounded(static_cast<int>(kServers.size()));
+  servers_tried_ = 0;
 
-  fallback_index_ = 0;
-
-  dns_lookup_ = new QDnsLookup(QDnsLookup::A, u"all.api.radio-browser.info"_s, this);
-  QObject::connect(dns_lookup_, &QDnsLookup::finished, this, &RadioBrowserService::DnsLookupFinished);
-  dns_lookup_->lookup();
-
-}
-
-void RadioBrowserService::DnsLookupFinished() {
-
-  if (!dns_lookup_) return;
-
-  const bool dns_failed = dns_lookup_->error() != QDnsLookup::NoError || dns_lookup_->hostAddressRecords().isEmpty();
-  dns_lookup_->deleteLater();
-  dns_lookup_ = nullptr;
-
-  // Qt has no easy reverse DNS, so we use known hostnames either way; the DNS lookup just confirms the service exists
-  // ServerTestReply advances the index on failure, so we only set the starting point here.
-  if (!dns_failed) fallback_index_ = 0;
-
-  if (fallback_index_ < kFallbackServers.size()) {
-    TestServer(kFallbackServers.at(fallback_index_));
-  }
-  else {
-    Q_EMIT SearchError(tr("Failed to discover Radio Browser server."));
-  }
+  TestServer(kServers.at(server_index_));
 
 }
 
@@ -151,10 +118,10 @@ void RadioBrowserService::ServerTestReply(QNetworkReply *reply) {
   reply->deleteLater();
 
   if (reply->error() != QNetworkReply::NoError) {
-    // Try next fallback
-    ++fallback_index_;
-    if (fallback_index_ < kFallbackServers.size()) {
-      TestServer(kFallbackServers.at(fallback_index_));
+    ++servers_tried_;
+    if (servers_tried_ < kServers.size()) {
+      server_index_ = (server_index_ + 1) % kServers.size();
+      TestServer(kServers.at(server_index_));
     }
     else {
       Q_EMIT SearchError(tr("No Radio Browser server available."));
