@@ -62,6 +62,7 @@
 #include "core/iconloader.h"
 #include "core/settings.h"
 #include "core/songmimedata.h"
+#include "core/scopedflag.h"
 #include "collectionfilteroptions.h"
 #include "collectionquery.h"
 #include "collectionbackend.h"
@@ -82,19 +83,6 @@ const int CollectionModel::kPrettyCoverSize = 32;
 namespace {
 constexpr char kPixmapDiskCacheDir[] = "pixmapcache";
 constexpr char kVariousArtists[] = QT_TR_NOOP("Various artists");
-
-// Sets a bool for the duration of a scope and clears it on the way out, even on
-// early return. Used to keep bulk_mode_ from getting stuck on if a dispatch ever
-// returns early inside a bulk layout-change transaction.
-class ScopedFlag {
- public:
-  explicit ScopedFlag(bool &flag) : flag_(flag) { flag_ = true; }
-  ~ScopedFlag() { flag_ = false; }
-  ScopedFlag(const ScopedFlag&) = delete;
-  ScopedFlag &operator=(const ScopedFlag&) = delete;
- private:
-  bool &flag_;
-};
 }  // namespace
 
 CollectionModel::CollectionModel(const SharedPtr<CollectionBackend> backend, const SharedPtr<AlbumCoverLoader> albumcover_loader, QObject *parent)
@@ -523,6 +511,7 @@ void CollectionModel::ProcessUpdate() {
       identities << CaptureItemIdentity(old_idx);
     }
     {
+      // Scoped so bulk_mode_ cannot get stuck on if a dispatch returns early inside the transaction.
       ScopedFlag bulk(bulk_mode_);
       while (!updates_.isEmpty() && updates_.constFirst().type != CollectionModelUpdate::Type::Reset) {
         DispatchUpdate(updates_.dequeue());
