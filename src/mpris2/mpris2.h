@@ -217,7 +217,7 @@ class Mpris2 : public QObject {
 
   // TrackList
   void TrackListReplaced(const Track_Ids &tracks, const QDBusObjectPath &current_track);
-  void TrackAdded(const TrackMetadata &metadata, const QDBusObjectPath &after_track);
+  void TrackAdded(const QVariantMap &metadata, const QDBusObjectPath &after_track);
   void TrackRemoved(const QDBusObjectPath &track_id);
   void TrackMetadataChanged(const QDBusObjectPath &track_id, const QVariantMap &metadata);
 
