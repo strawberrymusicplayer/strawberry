@@ -148,6 +148,7 @@ Mpris2::Mpris2(const SharedPtr<Player> player,
   QObject::connect(&*playlist_manager_, &PlaylistManager::CurrentChanged, this, &Mpris2::PlaylistCollectionChanged);
   QObject::connect(&*playlist_manager_, &PlaylistManager::PlaylistItemsAdded, this, &Mpris2::PlaylistItemsAdded);
   QObject::connect(&*playlist_manager_, &PlaylistManager::PlaylistItemsRemoved, this, &Mpris2::PlaylistItemsRemoved);
+  QObject::connect(&*playlist_manager_, &PlaylistManager::PlaylistItemMetadataChanged, this, &Mpris2::PlaylistItemMetadataChanged);
 
   QStringList data_dirs = QString::fromUtf8(qgetenv("XDG_DATA_DIRS")).split(u':');
 
@@ -493,6 +494,22 @@ void Mpris2::PlaylistItemsRemoved(const int playlist_id, const QList<QUuid> &tra
   for (const QUuid &track_id : track_ids) {
     Q_EMIT TrackRemoved(current_track_id(track_id));
   }
+
+}
+
+void Mpris2::PlaylistItemMetadataChanged(const int playlist_id, const QUuid &track_id) {
+
+  if (track_id.isNull() || !playlist_manager_->active() || playlist_manager_->active_id() != playlist_id) {
+    return;
+  }
+
+  const QDBusObjectPath track_path = current_track_id(track_id);
+  const TrackMetadata metadata = GetTracksMetadata(Track_Ids() << track_path);
+  if (metadata.isEmpty() || metadata.first().isEmpty()) {
+    return;
+  }
+
+  Q_EMIT TrackMetadataChanged(track_path, metadata.first());
 
 }
 

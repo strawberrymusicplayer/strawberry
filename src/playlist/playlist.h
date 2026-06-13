@@ -345,6 +345,7 @@ class Playlist : public QAbstractListModel {
 
   void PlaylistItemsAdded(const int playlist_id, const QList<QUuid> &track_ids, const QUuid after_track_id);
   void PlaylistItemsRemoved(const int playlist_id, const QList<QUuid> &track_ids);
+  void PlaylistItemMetadataChanged(const int playlist_id, const QUuid track_id);
 
   void Rename(const int id, const QString &name);
 

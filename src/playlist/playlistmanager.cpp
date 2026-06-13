@@ -170,6 +170,7 @@ Playlist *PlaylistManager::AddPlaylist(const int id, const QString &name, const 
   QObject::connect(ret, &Playlist::Rename, this, &PlaylistManager::Rename);
   QObject::connect(ret, &Playlist::PlaylistItemsAdded, this, &PlaylistManager::PlaylistItemsAdded);
   QObject::connect(ret, &Playlist::PlaylistItemsRemoved, this, &PlaylistManager::PlaylistItemsRemoved);
+  QObject::connect(ret, &Playlist::PlaylistItemMetadataChanged, this, &PlaylistManager::PlaylistItemMetadataChanged);
   QObject::connect(playlist_container_->view(), &PlaylistView::ColumnAlignmentChanged, ret, &Playlist::SetColumnAlignment);
   QObject::connect(&*current_albumcover_loader_, &CurrentAlbumCoverLoader::AlbumCoverLoaded, ret, &Playlist::AlbumCoverLoaded);
 

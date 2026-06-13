@@ -2494,6 +2494,8 @@ void Playlist::UpdateItemMetadata(const int row, PlaylistItemPtr item, const Son
     }
   }
 
+  Q_EMIT PlaylistItemMetadataChanged(id_, item->uuid());
+
 }
 
 void Playlist::RowDataChanged(const int row, const Columns &columns) {
