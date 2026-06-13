@@ -479,7 +479,10 @@ void Mpris2::PlaylistItemsAdded(const int playlist_id, const QList<QUuid> &track
   QDBusObjectPath after_track_path = after_track_id.isNull() ? QDBusObjectPath(kNoTrack) : current_track_id(after_track_id);
   for (const QUuid &track_id : track_ids) {
     const QDBusObjectPath track_path = current_track_id(track_id);
-    Q_EMIT TrackAdded(GetTracksMetadata(Track_Ids() << track_path), after_track_path);
+    const TrackMetadata metadata = GetTracksMetadata(Track_Ids() << track_path);
+    if (!metadata.isEmpty() && !metadata.first().isEmpty()) {
+      Q_EMIT TrackAdded(metadata.first(), after_track_path);
+    }
     after_track_path = track_path;
   }
 
