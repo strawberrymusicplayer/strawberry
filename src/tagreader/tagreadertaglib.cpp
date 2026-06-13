@@ -1311,13 +1311,6 @@ TagReaderResult TagReaderTagLib::WriteFile(const QString &filename, const Song &
     success = fileref->save();
   }
 
-#ifdef Q_OS_LINUX
-  if (success) {
-    // Linux: inotify doesn't seem to notice the change to the file unless we change the timestamps as well. (this is what touch does)
-    utimensat(0, QFile::encodeName(filename).constData(), nullptr, 0);
-  }
-#endif  // Q_OS_LINUX
-
   return success ? TagReaderResult(TagReaderResult::ErrorCode::Success) : TagReaderResult(TagReaderResult::ErrorCode::FileSaveError);
 
 }
@@ -1834,12 +1827,6 @@ TagReaderResult TagReaderTagLib::SaveEmbeddedCover(const QString &filename, cons
   }
 
   const bool success = fileref->file()->save();
-#ifdef Q_OS_LINUX
-  if (success) {
-    // Linux: inotify doesn't seem to notice the change to the file unless we change the timestamps as well. (this is what touch does)
-    utimensat(0, QFile::encodeName(filename).constData(), nullptr, 0);
-  }
-#endif  // Q_OS_LINUX
 
   return success ? TagReaderResult::ErrorCode::Success : TagReaderResult::ErrorCode::FileSaveError;
 
@@ -1988,12 +1975,6 @@ TagReaderResult TagReaderTagLib::SaveSongPlaycount(const QString &filename, cons
   }
 
   const bool success = fileref->save();
-#ifdef Q_OS_LINUX
-  if (success) {
-    // Linux: inotify doesn't seem to notice the change to the file unless we change the timestamps as well. (this is what touch does)
-    utimensat(0, QFile::encodeName(filename).constData(), nullptr, 0);
-  }
-#endif  // Q_OS_LINUX
 
   return success ? TagReaderResult::ErrorCode::Success : TagReaderResult::ErrorCode::FileSaveError;
 
@@ -2117,13 +2098,6 @@ TagReaderResult TagReaderTagLib::SaveSongRating(const QString &filename, const f
   }
 
   const bool success = fileref->save();
-#ifdef Q_OS_LINUX
-  if (success) {
-    // Linux: inotify doesn't seem to notice the change to the file unless we change the timestamps as well. (this is what touch does)
-    utimensat(0, QFile::encodeName(filename).constData(), nullptr, 0);
-  }
-#endif  // Q_OS_LINUX
-
   if (!success) {
     qLog(Error) << "TagLib hasn't been able to save file" << filename;
   }

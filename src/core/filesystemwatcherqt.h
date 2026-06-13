@@ -17,27 +17,29 @@
  *
  */
 
-#ifndef FILESYSTEMWATCHERINTERFACE_H
-#define FILESYSTEMWATCHERINTERFACE_H
+#ifndef FILESYSTEMWATCHERQT_H
+#define FILESYSTEMWATCHERQT_H
 
-#include <QObject>
 #include <QString>
-#include <QStringList>
 
-class FileSystemWatcherInterface : public QObject {
+#include "filesystemwatcherinterface.h"
+
+class QFileSystemWatcher;
+
+class FileSystemWatcherQt : public FileSystemWatcherInterface {
   Q_OBJECT
 
  public:
-  explicit FileSystemWatcherInterface(QObject *parent = nullptr);
+  explicit FileSystemWatcherQt(QObject *parent = nullptr);
 
-  virtual void AddPaths(const QStringList &paths) = 0;
-  virtual void RemovePaths(const QStringList &paths) = 0;
-  virtual void AddPath(const QString &path) = 0;
-  virtual void RemovePath(const QString &path) = 0;
-  virtual void Clear() = 0;
+  void AddPaths(const QStringList &paths) override;
+  void RemovePaths(const QStringList &paths) override;
+  void AddPath(const QString &path) override;
+  void RemovePath(const QString &path) override;
+  void Clear() override;
 
- Q_SIGNALS:
-  void PathChanged(const QString &path);
+ private:
+  QFileSystemWatcher *watcher_;
 };
 
-#endif  // FILESYSTEMWATCHERINTERFACE_H
+#endif  // FILESYSTEMWATCHERQT_H

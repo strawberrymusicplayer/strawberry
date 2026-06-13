@@ -1,7 +1,6 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
- * Copyright 2010, David Sansome <me@davidsansome.com>
+ * Copyright 2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,16 +23,24 @@
 #include <QString>
 
 #include "core/logging.h"
-#include "filesystemwatcherinterface.h"
-#include "qtfslistener.h"
+#include "filesystemwatcherqt.h"
 
-QtFSListener::QtFSListener(QObject *parent) : FileSystemWatcherInterface(parent), watcher_(new QFileSystemWatcher(this)) {
+FileSystemWatcherQt::FileSystemWatcherQt(QObject *parent) : FileSystemWatcherInterface(parent), watcher_(new QFileSystemWatcher(this)) {
 
-  QObject::connect(watcher_, &QFileSystemWatcher::directoryChanged, this, &QtFSListener::PathChanged);
+  QObject::connect(watcher_, &QFileSystemWatcher::directoryChanged, this, &FileSystemWatcherQt::PathChanged);
 
 }
 
-void QtFSListener::AddPath(const QString &path) {
+void FileSystemWatcherQt::AddPaths(const QStringList &paths) {
+
+  const QStringList paths_added = watcher_->addPaths(paths);
+  if (paths_added.isEmpty()) {
+    qLog(Error) << "Failed to add watch for paths" << paths;
+  }
+
+}
+
+void FileSystemWatcherQt::AddPath(const QString &path) {
 
   if (!watcher_->addPath(path)) {
     qLog(Error) << "Failed to add watch for path" << path;
@@ -41,7 +48,7 @@ void QtFSListener::AddPath(const QString &path) {
 
 }
 
-void QtFSListener::RemovePath(const QString &path) {
+void FileSystemWatcherQt::RemovePath(const QString &path) {
 
   if (!watcher_->removePath(path)) {
     qLog(Error) << "Failed to remove watch for path" << path;
@@ -49,7 +56,16 @@ void QtFSListener::RemovePath(const QString &path) {
 
 }
 
-void QtFSListener::Clear() {
+void FileSystemWatcherQt::RemovePaths(const QStringList &paths) {
+
+  const QStringList paths_removed = watcher_->removePaths(paths);
+  if (paths_removed.isEmpty()) {
+    qLog(Error) << "Failed to remove watch for paths" << paths;
+  }
+
+}
+
+void FileSystemWatcherQt::Clear() {
 
   watcher_->removePaths(watcher_->directories());
   watcher_->removePaths(watcher_->files());
