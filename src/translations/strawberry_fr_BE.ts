@@ -4468,7 +4468,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Title Sort</source>
-      <translation type="unfinished">Titre pour le tri</translation>
+      <translation>Titre pour le tri</translation>
     </message>
     <message>
       <source>Artist</source>
@@ -4476,7 +4476,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Artist Sort</source>
-      <translation type="unfinished">Artiste pour le tri</translation>
+      <translation>Artiste pour le tri</translation>
     </message>
     <message>
       <source>Album</source>
@@ -4484,7 +4484,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Album Sort</source>
-      <translation type="unfinished">Album pour le tri</translation>
+      <translation>Album pour le tri</translation>
     </message>
     <message>
       <source>Track</source>
@@ -4516,7 +4516,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Album Artist Sort</source>
-      <translation type="unfinished">Artiste de l&apos;album pour le tri</translation>
+      <translation>Artiste de l&apos;album pour le tri</translation>
     </message>
     <message>
       <source>Composer</source>
@@ -4524,7 +4524,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Composer Sort</source>
-      <translation type="unfinished">Compositeur pour le tri</translation>
+      <translation>Compositeur pour le tri</translation>
     </message>
     <message>
       <source>Performer</source>
@@ -4532,7 +4532,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Performer Sort</source>
-      <translation type="unfinished">Interprète pour le tri</translation>
+      <translation>Interprète pour le tri</translation>
     </message>
     <message>
       <source>Grouping</source>
@@ -4596,7 +4596,7 @@ S&apos;il n&apos;en existe pas alors Strawberry utilisera la plus grande image d
     </message>
     <message>
       <source>Moodbar</source>
-      <translation type="unfinished">Barre d&apos;humeur</translation>
+      <translation>Barre d&apos;humeur</translation>
     </message>
     <message>
       <source>BPM</source>
