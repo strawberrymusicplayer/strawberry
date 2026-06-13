@@ -219,7 +219,7 @@ class Mpris2 : public QObject {
   void TrackListReplaced(const Track_Ids &tracks, const QDBusObjectPath &current_track);
   void TrackAdded(const TrackMetadata &metadata, const QDBusObjectPath &after_track);
   void TrackRemoved(const QDBusObjectPath &track_id);
-  void TrackMetadataChanged(const QDBusObjectPath &track_id, const TrackMetadata &metadata);
+  void TrackMetadataChanged(const QDBusObjectPath &track_id, const QVariantMap &metadata);
 
   void RaiseMainWindow();
 
@@ -240,6 +240,7 @@ class Mpris2 : public QObject {
   void PlaylistCollectionChanged(Playlist *playlist);
   void PlaylistItemsAdded(const int playlist_id, const QList<QUuid> &track_ids, const QUuid &after_track_id);
   void PlaylistItemsRemoved(const int playlist_id, const QList<QUuid> &track_ids);
+  void PlaylistItemMetadataChanged(const int playlist_id, const QUuid &track_id);
 
  private:
   void EmitNotification(const QString &name);
