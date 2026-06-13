@@ -46,7 +46,6 @@
 #include <QMutexLocker>
 #include <QSettings>
 
-#include "core/filesystemwatcherinterface.h"
 #include "core/logging.h"
 #include "core/taskmanager.h"
 #include "core/settings.h"
@@ -60,6 +59,13 @@
 #include "playlistparsers/cueparser.h"
 #include "constants/collectionsettings.h"
 #include "engine/ebur128measures.h"
+
+#ifdef Q_OS_LINUX
+#  include "core/filesystemwatcherinotify.h"
+#else
+#  include "core/filesystemwatcherqt.h"
+#endif
+
 #ifdef HAVE_SONGFINGERPRINTING
 #  include "engine/chromaprinter.h"
 #endif
@@ -87,7 +93,11 @@ CollectionWatcher::CollectionWatcher(const Song::Source source,
       task_manager_(task_manager),
       tagreader_client_(tagreader_client),
       backend_(backend),
-      fs_watcher_(FileSystemWatcherInterface::Create(this)),
+#ifdef Q_OS_LINUX
+      fs_watcher_(new FileSystemWatcherInotify(this)),
+#else
+      fs_watcher_(new FileSystemWatcherQt(this)),
+#endif
       original_thread_(nullptr),
       scan_on_startup_(true),
       monitor_(true),
@@ -1190,7 +1200,6 @@ bool CollectionWatcher::FindSongsByFingerprint(const QString &file, const SongLi
 
 void CollectionWatcher::DirectoryChanged(const QString &subdir) {
 
-  // Find what dir it was in
   QHash<QString, CollectionDirectory>::const_iterator it = subdir_mapping_.constFind(subdir);
   if (it == subdir_mapping_.constEnd()) {
     return;

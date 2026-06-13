@@ -1,7 +1,6 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
- * Copyright 2012, David Sansome <me@davidsansome.com>
+ * Copyright 2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,28 +17,37 @@
  *
  */
 
-#ifndef QTFSLISTENER_H
-#define QTFSLISTENER_H
+#ifndef FILESYSTEMWATCHERINOTIFY_H
+#define FILESYSTEMWATCHERINOTIFY_H
 
-#include "config.h"
-
+#include <QMap>
 #include <QString>
+#include <QStringList>
+#include <QSocketNotifier>
 
 #include "filesystemwatcherinterface.h"
 
-class QFileSystemWatcher;
-
-class QtFSListener : public FileSystemWatcherInterface {
+class FileSystemWatcherInotify : public FileSystemWatcherInterface {
   Q_OBJECT
 
  public:
-  explicit QtFSListener(QObject *parent);
+  explicit FileSystemWatcherInotify(QObject *parent = nullptr);
+  ~FileSystemWatcherInotify();
+
+  void AddPaths(const QStringList &paths) override;
+  void RemovePaths(const QStringList &paths) override;
   void AddPath(const QString &path) override;
   void RemovePath(const QString &path) override;
   void Clear() override;
 
+ private Q_SLOTS:
+  void InotifyRead();
+
  private:
-  QFileSystemWatcher *watcher_;
+  int inotify_fd_;
+  QSocketNotifier *socket_notifier_;
+  QMap<QString, int> wd_from_path_;
+  QMap<int, QString> path_from_wd_;
 };
 
-#endif  // QTFSLISTENER_H
+#endif  // FILESYSTEMWATCHERINOTIFY_H
