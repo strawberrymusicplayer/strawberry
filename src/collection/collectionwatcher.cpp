@@ -60,8 +60,10 @@
 #include "constants/collectionsettings.h"
 #include "engine/ebur128measures.h"
 
-#ifdef Q_OS_LINUX
+#if defined(Q_OS_LINUX)
 #  include "core/filesystemwatcherinotify.h"
+#elif defined(Q_OS_WIN32)
+#  include "core/filesystemwatcherwin.h"
 #else
 #  include "core/filesystemwatcherqt.h"
 #endif
@@ -93,8 +95,10 @@ CollectionWatcher::CollectionWatcher(const Song::Source source,
       task_manager_(task_manager),
       tagreader_client_(tagreader_client),
       backend_(backend),
-#ifdef Q_OS_LINUX
+#if defined(Q_OS_LINUX)
       fs_watcher_(new FileSystemWatcherInotify(this)),
+#elif defined(Q_OS_WIN32)
+      fs_watcher_(new FileSystemWatcherWin(this)),
 #else
       fs_watcher_(new FileSystemWatcherQt(this)),
 #endif
