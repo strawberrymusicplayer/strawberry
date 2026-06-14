@@ -72,7 +72,7 @@ void SmartPlaylistSearchPreview::Init(const SharedPtr<Player> player,
 
   collection_backend_ = collection_backend;
 
-  model_ = new Playlist(nullptr, nullptr, nullptr, collection_backend_, nullptr, -1, QString(), false, this);
+  model_ = new Playlist(nullptr, nullptr, nullptr, collection_backend_, nullptr, -1, QString(), false, GROUPED_BEFORE_QUEUE_DEFAULT, this);
   ui_->tree->setModel(model_);
   ui_->tree->SetPlaylist(model_);
 
