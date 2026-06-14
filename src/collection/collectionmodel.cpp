@@ -38,6 +38,7 @@
 #include <QIODevice>
 #include <QList>
 #include <QSet>
+#include <QHash>
 #include <QMap>
 #include <QMetaType>
 #include <QVariant>
@@ -61,6 +62,7 @@
 #include "core/iconloader.h"
 #include "core/settings.h"
 #include "core/songmimedata.h"
+#include "core/scopedflag.h"
 #include "collectionfilteroptions.h"
 #include "collectionquery.h"
 #include "collectionbackend.h"
@@ -96,6 +98,7 @@ CollectionModel::CollectionModel(const SharedPtr<CollectionBackend> backend, con
       total_artist_count_(0),
       total_album_count_(0),
       loading_(false),
+      bulk_mode_(false),
       icon_disk_cache_(new QNetworkDiskCache(this)) {
 
   setObjectName(backend_->source() == Song::Source::Collection ? QLatin1String(QObject::metaObject()->className()) : QStringLiteral("%1%2").arg(Song::DescriptionForSource(backend_->source()), QLatin1String(QObject::metaObject()->className())));
@@ -451,12 +454,6 @@ void CollectionModel::ScheduleAddSongs(const SongList &songs) {
 
 }
 
-void CollectionModel::ScheduleUpdateSongs(const SongList &songs) {
-
-  ScheduleUpdate(CollectionModelUpdate::Type::Update, songs);
-
-}
-
 void CollectionModel::ScheduleRemoveSongs(const SongList &songs) {
 
   ScheduleUpdate(CollectionModelUpdate::Type::Remove, songs);
@@ -470,11 +467,121 @@ void CollectionModel::ProcessUpdate() {
     return;
   }
 
-  const CollectionModelUpdate update = updates_.dequeue();
+  // Bulk-update threshold, measured in PENDING SONGS (not queue entries: the queue is just an artifact of 400-song chunking, so a queue-length test would trip on a handful of tiny updates yet miss one large one).
+  // Above this many pending songs we drain the queued run in one layout-change transaction, suppressing the per-row begin/end{Insert,Remove}Rows (and dataChanged) signals.
+  // Without this, every per-row signal makes an attached QTreeView rebuild its internal item bookkeeping (and a QSortFilterProxyModel re-evaluate filterAcceptsRow);
+  // when a large streaming-service metadata batch fans out into thousands of remove/add pairs the cost is O(rows) per signal and the UI freezes.
+  // A single layoutAboutToBeChanged/layoutChanged pair collapses it into one relayout, and unlike a model reset it keeps view state alive:
+  // persistent indexes are remapped by item identity below, so selection, scroll position and expanded containers survive.
+  // The hang is view-driven, not filter-driven, so this is deliberately NOT gated on an active filter. The value is a tunable heuristic.
+  constexpr int kBulkUpdateSongThreshold = 1000;
+
+  int pending_songs = 0;
+  for (const CollectionModelUpdate &update : updates_) {
+    pending_songs += static_cast<int>(update.songs.count());
+  }
+
+  // A Reset carries its own begin/endResetModel transaction (asynchronously, via the SQL reload) and raises loading_, after which the *Internal handlers early-return.
+  // It must therefore never be folded into a bulk transaction: the unconditional dequeue below would otherwise drop every update queued behind it.
+  // Dispatch a leading Reset on its own, and stop a bulk drain as soon as one surfaces so it is handled on the next tick.
+  if (updates_.constFirst().type == CollectionModelUpdate::Type::Reset) {
+    DispatchUpdate(updates_.dequeue());
+  }
+  else if (pending_songs >= kBulkUpdateSongThreshold) {
+    // Identities must be captured after layoutAboutToBeChanged: attached views and proxies create their own persistent indexes in their slots,
+    // and those have to be in persistentIndexList() so they get remapped too.
+    Q_EMIT layoutAboutToBeChanged();
+    const QModelIndexList old_persistent_indexes = persistentIndexList();
+    QList<ItemIdentity> identities;
+    identities.reserve(old_persistent_indexes.count());
+    for (const QModelIndex &old_idx : old_persistent_indexes) {
+      identities << CaptureItemIdentity(old_idx);
+    }
+    {
+      // Scoped so bulk_mode_ cannot get stuck on if a dispatch returns early inside the transaction.
+      ScopedFlag bulk(bulk_mode_);
+      while (!updates_.isEmpty() && updates_.constFirst().type != CollectionModelUpdate::Type::Reset) {
+        DispatchUpdate(updates_.dequeue());
+      }
+    }
+    QModelIndexList new_persistent_indexes;
+    new_persistent_indexes.reserve(old_persistent_indexes.count());
+    for (const ItemIdentity &identity : std::as_const(identities)) {
+      new_persistent_indexes << ResolveItemIdentity(identity);
+    }
+    changePersistentIndexList(old_persistent_indexes, new_persistent_indexes);
+    Q_EMIT layoutChanged();
+  }
+  else {
+    DispatchUpdate(updates_.dequeue());
+  }
 
   if (updates_.isEmpty()) {
     timer_update_->stop();
   }
+
+}
+
+CollectionModel::ItemIdentity CollectionModel::CaptureItemIdentity(const QModelIndex &idx) const {
+
+  ItemIdentity identity;
+
+  CollectionItem *item = IndexToItem(idx);
+  if (!item || !item->parent) return identity;
+
+  identity.type = item->type;
+
+  switch (item->type) {
+    case CollectionItem::Type::Song:
+      identity.song_id = item->metadata.id();
+      break;
+    case CollectionItem::Type::Container:
+      if (IsCompilationArtistNode(item)) {
+        identity.compilation_artist = true;
+        identity.compilation_artist_parent_is_root = item->parent == root_;
+        if (!identity.compilation_artist_parent_is_root) {
+          identity.container_level = item->parent->container_level;
+          identity.container_key = item->parent->container_key;
+        }
+      }
+      else {
+        identity.container_level = item->container_level;
+        identity.container_key = item->container_key;
+      }
+      break;
+    case CollectionItem::Type::Divider:
+      identity.container_key = item->container_key;
+      break;
+    default:
+      break;
+  }
+
+  return identity;
+
+}
+
+QModelIndex CollectionModel::ResolveItemIdentity(const ItemIdentity &identity) const {
+
+  switch (identity.type) {
+    case CollectionItem::Type::Song:
+      return ItemToIndex(song_nodes_.value(identity.song_id));
+    case CollectionItem::Type::Container:
+      if (identity.compilation_artist) {
+        // A compilation-artist node nested under another compilation-artist node has no entry in container_nodes_ and resolves to invalid.
+        CollectionItem *new_parent = identity.compilation_artist_parent_is_root ? root_ : (identity.container_level >= 0 && identity.container_level <= 2 ? container_nodes_[identity.container_level].value(identity.container_key) : nullptr);
+        return new_parent ? ItemToIndex(new_parent->compilation_artist_node_) : QModelIndex();
+      }
+      if (identity.container_level < 0 || identity.container_level > 2) return QModelIndex();
+      return ItemToIndex(container_nodes_[identity.container_level].value(identity.container_key));
+    case CollectionItem::Type::Divider:
+      return ItemToIndex(divider_nodes_.value(identity.container_key));
+    default:
+      return QModelIndex();
+  }
+
+}
+
+void CollectionModel::DispatchUpdate(const CollectionModelUpdate &update) {
 
   switch (update.type) {
     case CollectionModelUpdate::Type::Reset:
@@ -539,9 +646,12 @@ void CollectionModel::AddReAddOrUpdateSongsInternal(const SongList &songs) {
     }
   }
 
-  ScheduleRemoveSongs(songs_removed);
-  ScheduleUpdateSongs(songs_updated);
-  ScheduleAddSongs(songs_added);
+  // Apply the derived changes now instead of re-queuing them.
+  // Re-queuing appended them to the back of updates_, so when this ran inside a bulk transaction the surrounding layout-change transaction wrapped no tree mutation at all (an empty relayout) and the real work landed in a *second* transaction one tick later — wasting a relayout.
+  // It also let those changes fall behind a queued Reset and be lost. Removing first keeps re-added songs (same id, new container) from being skipped.
+  RemoveSongsInternal(songs_removed);
+  UpdateSongsInternal(songs_updated);
+  AddSongsInternal(songs_added);
 
 }
 
@@ -549,6 +659,11 @@ void CollectionModel::AddSongsInternal(const SongList &songs) {
 
   if (loading_) return;
 
+  // First pass: resolve the final container for every song, creating any intermediate container/compilation-artist nodes as needed.
+  // Outside a bulk transaction those container creations emit their own beginInsertRows pair, but only when a new artist/album first appears (rare);
+  // in bulk_mode_ they are suppressed and collapse into the surrounding layout change.
+  QHash<CollectionItem*, SongList> songs_by_container;
+  QList<CollectionItem*> insertion_order;
   for (const Song &song : songs) {
 
     // Sanity check to make sure we don't add songs that are outside the user's filter
@@ -588,7 +703,25 @@ void CollectionModel::AddSongsInternal(const SongList &songs) {
         }
       }
     }
-    CreateSongItem(song, container);
+    if (!songs_by_container.contains(container)) insertion_order << container;
+    songs_by_container[container] << song;
+  }
+
+  // Second pass: bulk-insert all songs belonging to the same container in a single beginInsertRows/endInsertRows pair.
+  // Each pair triggers CollectionFilter::filterAcceptsRow re-evaluation across the proxy,
+  // so collapsing thousands of per-song inserts into a per-container handful is what keeps the UI responsive on large metadata batches.
+  for (CollectionItem *container : std::as_const(insertion_order)) {
+    const SongList &container_songs = songs_by_container.value(container);
+    const int first = static_cast<int>(container->children.count());
+    const int last = first + static_cast<int>(container_songs.count()) - 1;
+
+    if (!bulk_mode_) beginInsertRows(ItemToIndex(container), first, last);
+    for (const Song &song : container_songs) {
+      CollectionItem *item = new CollectionItem(CollectionItem::Type::Song, container);
+      SetSongItemData(item, song);
+      song_nodes_.insert(song.id(), item);
+    }
+    if (!bulk_mode_) endInsertRows();
   }
 
 }
@@ -620,7 +753,7 @@ void CollectionModel::UpdateSongsInternal(const SongList &songs) {
       qLog(Debug) << "Song metadata and title for" << new_song.id() << new_song.PrettyTitleWithArtist() << "changed, informing model";
       const QModelIndex idx = ItemToIndex(item);
       if (!idx.isValid()) continue;
-      Q_EMIT dataChanged(idx, idx);
+      if (!bulk_mode_) Q_EMIT dataChanged(idx, idx);
     }
     else {
       qLog(Debug) << "Song metadata for" << new_song.id() << new_song.PrettyTitleWithArtist() << "changed";
@@ -630,7 +763,7 @@ void CollectionModel::UpdateSongsInternal(const SongList &songs) {
   for (CollectionItem *item : std::as_const(album_parents)) {
     ClearItemPixmapCache(item);
     const QModelIndex idx = ItemToIndex(item);
-    if (idx.isValid()) {
+    if (idx.isValid() && !bulk_mode_) {
       Q_EMIT dataChanged(idx, idx);
     }
   }
@@ -641,26 +774,31 @@ void CollectionModel::RemoveSongsInternal(const SongList &songs) {
 
   if (loading_) return;
 
-  // Delete the actual song nodes first, keeping track of each parent so we might check to see if they're empty later.
+  // Group song nodes to remove by their parent.
+  // Removing siblings one row at a time forces QSortFilterProxyModel to re-evaluate filterAcceptsRow on every endRemoveRows,
+  // which dominates the cost when a collection filter is active and a streaming service emits a large metadata batch.
+  // RemoveSiblingNodes() collapses contiguous rows under each parent into a single beginRemoveRows/endRemoveRows pair so the proxy refreshes once.
+  QHash<CollectionItem*, QList<CollectionItem*>> nodes_by_parent;
   QSet<CollectionItem*> parents;
   for (const Song &song : songs) {
+    if (!song_nodes_.contains(song.id())) continue;
+    CollectionItem *node = song_nodes_.value(song.id());
+    nodes_by_parent[node->parent] << node;
+    if (node->parent != root_) parents << node->parent;
+  }
 
-    if (song_nodes_.contains(song.id())) {
-      CollectionItem *node = song_nodes_.value(song.id());
-
-      if (node->parent != root_) parents << node->parent;
-
-      beginRemoveRows(ItemToIndex(node->parent), node->row, node->row);
-      node->parent->Delete(node->row);
-      song_nodes_.remove(song.id());
-      endRemoveRows();
-
+  for (auto it = nodes_by_parent.cbegin(); it != nodes_by_parent.cend(); ++it) {
+    for (CollectionItem *node : it.value()) {
+      song_nodes_.remove(node->metadata.id());
     }
+    RemoveSiblingNodes(it.key(), it.value());
   }
 
   // Now delete empty parents
   QSet<QString> divider_keys;
   while (!parents.isEmpty()) {
+    // Same grouping trick as above: collect empty parents by their parent so we can drop them in contiguous-row batches per grandparent.
+    QHash<CollectionItem*, QList<CollectionItem*>> empty_by_grandparent;
     // Since we are going to remove elements from the container, we need a copy to iterate over.
     // If we iterate over the original, the behavior will be undefined.
     QSet<CollectionItem*> parents_copy = parents;
@@ -686,14 +824,16 @@ void CollectionModel::RemoveSongsInternal(const SongList &songs) {
 
       ClearItemPixmapCache(node);
 
-      // It was empty - delete it
-      beginRemoveRows(ItemToIndex(node->parent), node->row, node->row);
-      node->parent->Delete(node->row);
-      endRemoveRows();
+      empty_by_grandparent[node->parent] << node;
+    }
+
+    for (auto it = empty_by_grandparent.cbegin(); it != empty_by_grandparent.cend(); ++it) {
+      RemoveSiblingNodes(it.key(), it.value());
     }
   }
 
-  // Delete empty dividers
+  // Delete empty dividers. Group contiguous rows so we still benefit when many dividers vanish at once (e.g. removing every "A"-prefix artist).
+  QList<CollectionItem*> dead_dividers;
   for (const QString &divider_key : std::as_const(divider_keys)) {
     if (!divider_nodes_.contains(divider_key)) continue;
 
@@ -702,12 +842,43 @@ void CollectionModel::RemoveSongsInternal(const SongList &songs) {
       continue;
     }
 
-    // Remove the divider
-    const int row = divider_nodes_.value(divider_key)->row;
-    beginRemoveRows(ItemToIndex(root_), row, row);
-    root_->Delete(row);
-    endRemoveRows();
+    dead_dividers << divider_nodes_.value(divider_key);
     divider_nodes_.remove(divider_key);
+  }
+  if (!dead_dividers.isEmpty()) {
+    RemoveSiblingNodes(root_, dead_dividers);
+  }
+
+}
+
+void CollectionModel::RemoveSiblingNodes(CollectionItem *parent, QList<CollectionItem*> nodes) {
+
+  // Sort by row descending so each contiguous-range removal doesn't shift later ranges.
+  std::sort(nodes.begin(), nodes.end(), [](CollectionItem *a, CollectionItem *b) {
+    return a->row > b->row;
+  });
+
+  const QModelIndex parent_index = ItemToIndex(parent);
+
+  int i = 0;
+  while (i < nodes.count()) {
+    const int top_row = nodes[i]->row;
+    int run_count = 1;
+    while (i + run_count < nodes.count() && nodes[i + run_count]->row == top_row - run_count) {
+      ++run_count;
+    }
+    const int bottom_row = top_row - run_count + 1;
+
+    if (!bulk_mode_) beginRemoveRows(parent_index, bottom_row, top_row);
+    for (int r = top_row; r >= bottom_row; --r) {
+      delete parent->children.takeAt(r);
+    }
+    for (int r = bottom_row; r < parent->children.count(); ++r) {
+      parent->children[r]->row = r;
+    }
+    if (!bulk_mode_) endRemoveRows();
+
+    i += run_count;
   }
 
 }
@@ -724,7 +895,7 @@ CollectionItem *CollectionModel::CreateContainerItem(const GroupBy group_by, con
     }
   }
 
-  beginInsertRows(ItemToIndex(parent), static_cast<int>(parent->children.count()), static_cast<int>(parent->children.count()));
+  if (!bulk_mode_) beginInsertRows(ItemToIndex(parent), static_cast<int>(parent->children.count()), static_cast<int>(parent->children.count()));
 
   CollectionItem *item = new CollectionItem(CollectionItem::Type::Container, parent);
   item->container_level = container_level;
@@ -737,7 +908,7 @@ CollectionItem *CollectionModel::CreateContainerItem(const GroupBy group_by, con
 
   container_nodes_[container_level].insert(item->container_key, item);
 
-  endInsertRows();
+  if (!bulk_mode_) endInsertRows();
 
   return item;
 
@@ -745,7 +916,7 @@ CollectionItem *CollectionModel::CreateContainerItem(const GroupBy group_by, con
 
 void CollectionModel::CreateDividerItem(const QString &divider_key, const QString &display_text, CollectionItem *parent) {
 
-  beginInsertRows(ItemToIndex(parent), static_cast<int>(parent->children.count()), static_cast<int>(parent->children.count()));
+  if (!bulk_mode_) beginInsertRows(ItemToIndex(parent), static_cast<int>(parent->children.count()), static_cast<int>(parent->children.count()));
 
   CollectionItem *divider = new CollectionItem(CollectionItem::Type::Divider, root_);
   divider->container_key = divider_key;
@@ -753,19 +924,19 @@ void CollectionModel::CreateDividerItem(const QString &divider_key, const QStrin
   divider->sort_text = divider_key + "  "_L1;
   divider_nodes_[divider_key] = divider;
 
-  endInsertRows();
+  if (!bulk_mode_) endInsertRows();
 
 }
 
 void CollectionModel::CreateSongItem(const Song &song, CollectionItem *parent) {
 
-  beginInsertRows(ItemToIndex(parent), static_cast<int>(parent->children.count()), static_cast<int>(parent->children.count()));
+  if (!bulk_mode_) beginInsertRows(ItemToIndex(parent), static_cast<int>(parent->children.count()), static_cast<int>(parent->children.count()));
 
   CollectionItem *item = new CollectionItem(CollectionItem::Type::Song, parent);
   SetSongItemData(item, song);
   song_nodes_.insert(song.id(), item);
 
-  endInsertRows();
+  if (!bulk_mode_) endInsertRows();
 
 }
 
@@ -781,7 +952,7 @@ CollectionItem *CollectionModel::CreateCompilationArtistNode(CollectionItem *par
 
   Q_ASSERT(parent->compilation_artist_node_ == nullptr);
 
-  beginInsertRows(ItemToIndex(parent), static_cast<int>(parent->children.count()), static_cast<int>(parent->children.count()));
+  if (!bulk_mode_) beginInsertRows(ItemToIndex(parent), static_cast<int>(parent->children.count()), static_cast<int>(parent->children.count()));
 
   parent->compilation_artist_node_ = new CollectionItem(CollectionItem::Type::Container, parent);
   parent->compilation_artist_node_->compilation_artist_node_ = nullptr;
@@ -791,7 +962,7 @@ CollectionItem *CollectionModel::CreateCompilationArtistNode(CollectionItem *par
   parent->compilation_artist_node_->sort_text = " various"_L1;
   parent->compilation_artist_node_->container_level = parent->container_level + 1;
 
-  endInsertRows();
+  if (!bulk_mode_) endInsertRows();
 
   return parent->compilation_artist_node_;
 
@@ -889,7 +1060,7 @@ void CollectionModel::ClearItemPixmapCache(CollectionItem *item) {
 
 QVariant CollectionModel::AlbumIcon(CollectionItem *item) {
 
-  if (!item) return pixmap_no_cover_;
+  if (!albumcover_loader_ || !item) return pixmap_no_cover_;
 
   // Check the cache for a pixmap we already loaded.
   const QString cache_key = AlbumIconPixmapCacheKey(item);
