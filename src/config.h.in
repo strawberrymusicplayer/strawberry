@@ -7,6 +7,8 @@
 
 #cmakedefine USE_INSTALL_PREFIX
 
+#cmakedefine HAVE_WINPTHREADS
+
 #cmakedefine HAVE_BACKTRACE
 #cmakedefine HAVE_ALSA
 #cmakedefine HAVE_PULSE
