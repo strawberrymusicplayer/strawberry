@@ -397,8 +397,8 @@ int main(int argc, char *argv[]) {
 
   int ret = QCoreApplication::exec();
 
-#ifdef __MINGW32__
-  // Workaround crash on exit with win32 threads
+#if defined(__MINGW32__) && !defined(HAVE_WINPTHREADS)
+  // Workaround crash on exit with the GCC win32 threading model (not needed with winpthreads).
   TerminateProcess(GetCurrentProcess(), 0);
 #endif
 
