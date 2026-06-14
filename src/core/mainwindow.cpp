@@ -207,6 +207,10 @@
 #  include "moodbar/moodbarproxystyle.h"
 #endif
 
+#include "waveform/waveformcontroller.h"
+#include "waveform/waveformloader.h"
+#include "waveform/waveformproxystyle.h"
+
 #include "smartplaylists/smartplaylistsviewcontainer.h"
 
 #include "organize/organizeerrordialog.h"
@@ -942,6 +946,13 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(ui_->track_slider->moodbar_proxy_style(), &MoodbarProxyStyle::StyleChanged, &*app_->moodbar_loader(), &MoodbarLoader::StyleChanged);
 #endif
 
+  // Waveform connections - unconditional: the waveform has no FFTW3 dependency and is built on every platform.
+  QObject::connect(&*app_->waveform_controller(), &WaveformController::CurrentWaveformDataChanged, ui_->track_slider->waveform_proxy_style(), &WaveformProxyStyle::SetWaveformData);
+  QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, &*app_->waveform_controller(), &WaveformController::CurrentSongChanged);
+  QObject::connect(&*app_->player(), &Player::Stopped, &*app_->waveform_controller(), &WaveformController::PlaybackStopped);
+  // Gate decode on the show toggle so a track is only analyzed when the waveform can be shown.
+  QObject::connect(ui_->track_slider->waveform_proxy_style(), &WaveformProxyStyle::WaveformShow, &*app_->waveform_controller(), &WaveformController::SetEnabled);
+
   // Playing widget
   qLog(Debug) << "Creating playing widget";
   ui_->widget_playing->set_ideal_height(ui_->status_bar->sizeHint().height() + ui_->player_controls->sizeHint().height());
@@ -1316,6 +1327,9 @@ void MainWindow::ReloadAllSettings() {
   app_->moodbar_loader()->ReloadSettings();
   ui_->track_slider->moodbar_proxy_style()->ReloadSettings();
 #endif
+  app_->waveform_controller()->ReloadSettings();
+  app_->waveform_loader()->ReloadSettings();
+  ui_->track_slider->waveform_proxy_style()->ReloadSettings();
 #ifdef HAVE_SUBSONIC
   subsonic_view_->ReloadSettings();
 #endif

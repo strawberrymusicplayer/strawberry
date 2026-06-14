@@ -1334,6 +1334,29 @@ if(HAVE_MPRIS2)
   qt_add_dbus_adaptor(SOURCES src/mpris2/org.mpris.MediaPlayer2.Playlists.xml src/mpris2/mpris2.h mpris::Mpris2 mpris2_playlists Mpris2Playlists)
 endif()
 
+# Waveform module. Built unconditionally: it has no FFTW3 dependency and the
+# only audio dependency (gstreamer-app-1.0) is already REQUIRED, so the feature
+# compiles on every platform regardless of HAVE_MOODBAR.
+list(APPEND SOURCES
+  src/waveform/waveformbuilder.cpp
+  src/waveform/waveformpipeline.cpp
+  src/waveform/waveformloader.cpp
+  src/waveform/waveformcontroller.cpp
+  src/waveform/waveformrenderer.cpp
+  src/waveform/waveformproxystyle.cpp
+  src/settings/waveformsettingspage.cpp
+)
+list(APPEND HEADERS
+  src/waveform/waveformpipeline.h
+  src/waveform/waveformloader.h
+  src/waveform/waveformcontroller.h
+  src/waveform/waveformproxystyle.h
+  src/settings/waveformsettingspage.h
+)
+list(APPEND UI
+  src/settings/waveformsettingspage.ui
+)
+
 optional_source(HAVE_MOODBAR
   SOURCES
     src/moodbar/moodbarbuilder.cpp

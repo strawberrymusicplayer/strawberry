@@ -34,6 +34,7 @@ class QEvent;
 #ifdef HAVE_MOODBAR
 class MoodbarProxyStyle;
 #endif
+class WaveformProxyStyle;
 class Ui_TrackSlider;
 
 class TrackSlider : public QWidget {
@@ -45,6 +46,9 @@ class TrackSlider : public QWidget {
 
   void Init();
 
+  // Which renderer (if any) paints the seekbar groove. Mutually exclusive.
+  enum class SeekbarMode { Normal, Moodbar, Waveform };
+
   // QWidget
   QSize sizeHint() const override;
 
@@ -54,6 +58,13 @@ class TrackSlider : public QWidget {
 #ifdef HAVE_MOODBAR
   MoodbarProxyStyle *moodbar_proxy_style() const { return moodbar_proxy_style_; }
 #endif
+
+  WaveformProxyStyle *waveform_proxy_style() const { return waveform_proxy_style_; }
+
+  // Switches the seekbar between off / moodbar / waveform, enforcing that only
+  // one renderer is active at a time.
+  void SetSeekbarMode(const SeekbarMode mode);
+  SeekbarMode seekbar_mode() const { return seekbar_mode_; }
 
  public Q_SLOTS:
   void SetValue(const int elapsed, const int total);
@@ -85,6 +96,9 @@ class TrackSlider : public QWidget {
 #ifdef HAVE_MOODBAR
   MoodbarProxyStyle *moodbar_proxy_style_;
 #endif
+
+  WaveformProxyStyle *waveform_proxy_style_;
+  SeekbarMode seekbar_mode_;
 
   bool setting_value_;
   bool show_remaining_time_;
