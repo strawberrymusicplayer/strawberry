@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS schema_version (
 
 DELETE FROM schema_version;
 
-INSERT INTO schema_version (version) VALUES (22);
+INSERT INTO schema_version (version) VALUES (23);
 
 CREATE TABLE IF NOT EXISTS directories (
   path TEXT NOT NULL,
@@ -1148,6 +1148,8 @@ CREATE TABLE IF NOT EXISTS radio_channels (
 );
 
 CREATE INDEX IF NOT EXISTS idx_url ON songs (url);
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_songs_url_beginning ON songs (url, beginning);
 
 CREATE INDEX IF NOT EXISTS idx_comp_artist ON songs (compilation_effective, artist);
 

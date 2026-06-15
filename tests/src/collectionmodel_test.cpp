@@ -58,7 +58,7 @@ namespace {
 
 class CollectionModelTest : public ::testing::Test {
  public:
-  CollectionModelTest() : collection_filter_(nullptr), added_dir_(false) {}
+  CollectionModelTest() : collection_filter_(nullptr), added_dir_(false), song_number_(0) {}
 
  protected:
   void SetUp() override {
@@ -76,7 +76,7 @@ class CollectionModelTest : public ::testing::Test {
     song.set_directory_id(1);
     if (song.mtime() == 0) song.set_mtime(1);
     if (song.ctime() == 0) song.set_ctime(1);
-    if (song.url().isEmpty()) song.set_url(QUrl(u"file:///tmp/foo"_s));
+    if (song.url().isEmpty()) song.set_url(QUrl(QStringLiteral("file:///tmp/foo%1").arg(++song_number_)));
     if (song.filesize() == -1) song.set_filesize(1);
 
     if (!added_dir_) {
@@ -146,12 +146,13 @@ class CollectionModelTest : public ::testing::Test {
     }
   }
 
-  SharedPtr<Database> database_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
-  SharedPtr<CollectionBackend> backend_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
-  ScopedPtr<CollectionModel> model_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
-  CollectionFilter *collection_filter_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+  SharedPtr<Database> database_;
+  SharedPtr<CollectionBackend> backend_;
+  ScopedPtr<CollectionModel> model_;
+  CollectionFilter *collection_filter_;
 
-  bool added_dir_;  // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+  bool added_dir_;
+  int song_number_;
 };
 
 TEST_F(CollectionModelTest, Initialization) {
