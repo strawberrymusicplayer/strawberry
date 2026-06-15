@@ -393,14 +393,16 @@ SongList CollectionWatcher::ScanTransaction::FindSongsInSubdirectory(const QStri
   if (cached_songs_dirty_) {
     const SongList songs = watcher_->backend_->FindSongsInDirectory(dir_id_);
     for (const Song &song : songs) {
-      const QString p = song.url().toLocalFile().section(u'/', 0, -2);
+      // Key by the NFC-normalized parent directory so a file that differs only in Unicode normalization (NFC vs NFD) between disk and database still matches
+      const QString p = song.url().toLocalFile().normalized(QString::NormalizationForm_C).section(u'/', 0, -2);
       cached_songs_.insert(p, song);
     }
     cached_songs_dirty_ = false;
   }
 
-  if (cached_songs_.contains(path)) {
-    return cached_songs_.values(path);
+  const QString nfc_path = path.normalized(QString::NormalizationForm_C);
+  if (cached_songs_.contains(nfc_path)) {
+    return cached_songs_.values(nfc_path);
   }
 
   return SongList();
@@ -836,10 +838,17 @@ void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const Q
     t->AddToProgress(1);
   }
 
-  // Look for deleted songs
+  // Look for deleted songs.
+  // files_on_disk holds the on-disk path spelling while the database stores its own; the two can differ purely by Unicode normalization form (NFC vs NFD).
+  // Compare in NFC so a song that was just matched (FindSongsByPath normalizes too) is not also treated as deleted within the same scan.
+  QSet<QString> files_on_disk_nfc;
+  files_on_disk_nfc.reserve(files_on_disk.count());
+  for (const QString &file : std::as_const(files_on_disk)) {
+    files_on_disk_nfc.insert(file.normalized(QString::NormalizationForm_C));
+  }
   for (const Song &song : std::as_const(songs_in_db)) {
-    QString file = song.url().toLocalFile();
-    if (!song.unavailable() && !files_on_disk.contains(file) && !t->files_changed_path_.contains(file)) {
+    const QString file = song.url().toLocalFile();
+    if (!song.unavailable() && !files_on_disk_nfc.contains(file.normalized(QString::NormalizationForm_C)) && !t->files_changed_path_.contains(file)) {
       qLog(Debug) << "Song deleted from disk:" << file;
       t->deleted_songs << song;
     }
@@ -1161,8 +1170,10 @@ void CollectionWatcher::RemoveDirectory(const CollectionDirectory &dir) {
 
 bool CollectionWatcher::FindSongsByPath(const SongList &songs, const QString &path, SongList *out) {
 
+  // Compare on the NFC-normalized path so a file that differs only in Unicode normalization (NFC vs NFD) between disk and database still matches, instead of being treated as a new file and duplicated.
+  const QString nfc_path = path.normalized(QString::NormalizationForm_C);
   for (const Song &song : songs) {
-    if (song.url().toLocalFile() == path) {
+    if (song.url().toLocalFile().normalized(QString::NormalizationForm_C) == nfc_path) {
       *out << song;
     }
   }

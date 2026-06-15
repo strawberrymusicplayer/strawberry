@@ -707,6 +707,46 @@ void CollectionBackend::AddOrUpdateSongs(const SongList &songs) {
         continue;
       }
     }
+    else {
+      // Local/device song without a unique song ID: guard against inserting a duplicate URL.
+      // The callers (collection watcher / organize) are responsible for setting the id when a song already exists,
+      // but a missed match (different directory_id, Unicode NFC/NFD normalization, or a scan racing a not-yet-committed insert) would otherwise insert a second row for a URL that is already present,
+      // and there is no UNIQUE(url) constraint to catch it.
+      // Match by url and beginning (so distinct CUE tracks sharing one file are kept apart) and include unavailable rows, so a returning file restores its existing row instead of being duplicated.
+      Song existing_song(source_);
+      {
+        SqlQuery q(db);
+        q.prepare(QStringLiteral("SELECT %1 FROM %2 WHERE (url = :url1 OR url = :url2 OR url = :url3 OR url = :url4) AND beginning = :beginning ORDER BY unavailable ASC LIMIT 1").arg(Song::kRowIdColumnSpec, songs_table_));
+        q.BindValue(u":url1"_s, song.url().toString());
+        q.BindValue(u":url2"_s, song.url().toString(QUrl::FullyEncoded));
+        q.BindValue(u":url3"_s, song.url().toEncoded(QUrl::FullyDecoded));
+        q.BindValue(u":url4"_s, song.url().toEncoded(QUrl::FullyEncoded));
+        q.BindValue(u":beginning"_s, song.beginning_nanosec());
+        if (!q.Exec()) {
+          db_->ReportErrors(q);
+          return;
+        }
+        if (q.next()) {
+          existing_song.InitFromQuery(q, true);
+        }
+      }
+      if (existing_song.is_valid() && existing_song.id() != -1) {
+        Song new_song = song;
+        new_song.set_id(existing_song.id());
+        // Don't lose user data: a missed match means the incoming song carries freshly-read (zeroed) statistics.
+        new_song.MergeUserSetData(existing_song, true, true);
+        SqlQuery q(db);
+        q.prepare(QStringLiteral("UPDATE %1 SET %2 WHERE ROWID = :id").arg(songs_table_, Song::kUpdateSpec));
+        new_song.BindToQuery(&q);
+        q.BindValue(u":id"_s, new_song.id());
+        if (!q.Exec()) {
+          db_->ReportErrors(q);
+          return;
+        }
+        changed_songs << new_song;
+        continue;
+      }
+    }
 
     // Create new song
 
