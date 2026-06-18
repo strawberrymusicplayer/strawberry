@@ -52,6 +52,8 @@ jobs:
             libpulse-devel
             gstreamer-devel
             gstreamer-plugins-base-devel
+            gstreamer-plugins-base
+            gstreamer-plugins-good
             taglib-devel
             libicu-devel
             libcdio-devel
@@ -170,6 +172,8 @@ jobs:
             qt6-qttools-devel
             gstreamer1-devel
             gstreamer1-plugins-base-devel
+            gstreamer1-plugins-base
+            gstreamer1-plugins-good
             taglib-devel
             libcdio-devel
             libgpod-devel
@@ -282,6 +286,8 @@ jobs:
           appstream
           appstream-util
           hicolor-icon-theme
+          gstreamer1.0-plugins-base
+          gstreamer1.0-plugins-good
       - name: Remove files
         run: rm -rf /usr/lib64/qt6/lib/cmake/Qt6Sql/{Qt6QMYSQL*,Qt6QODBCD*,Qt6QPSQL*,Qt6QIBase*}
       - name: Checkout
@@ -380,6 +386,8 @@ jobs:
           appstream-util
           hicolor-icon-theme
           gtest
+          gstreamer1.0-plugins-base
+          gstreamer1.0-plugins-good
       - name: Build and install KDSingleApplication
         if: matrix.mageia_version == '9'
         run: |
