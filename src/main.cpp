@@ -386,6 +386,10 @@ int main(int argc, char *argv[]) {
   QObject::connect(&unix_signal_watcher, &UnixSignalWatcher::UnixSignal, &w, &MainWindow::Exit);
 #endif
 
+#if QT_CONFIG(sessionmanager)
+  QObject::connect(&a, &QApplication::commitDataRequest, &w, &MainWindow::CommitData, Qt::DirectConnection);
+#endif
+
 #ifdef Q_OS_MACOS
   mac::EnableFullScreen(w);
 #endif  // Q_OS_MACOS

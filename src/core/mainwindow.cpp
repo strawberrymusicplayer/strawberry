@@ -72,6 +72,9 @@
 #include <QClipboard>
 #include <QShowEvent>
 #include <QCloseEvent>
+#if QT_CONFIG(sessionmanager)
+#  include <QSessionManager>
+#endif
 #include <QKeyEvent>
 #ifdef HAVE_DBUS
 #  include <QDBusConnection>
@@ -1426,6 +1429,15 @@ void MainWindow::DoExit() {
   app_->Exit();
 
 }
+
+#if QT_CONFIG(sessionmanager)
+void MainWindow::CommitData(QSessionManager &session_manager) {
+
+  session_manager.setRestartHint(QSessionManager::RestartIfRunning);
+  SaveSettings();
+
+}
+#endif
 
 void MainWindow::ExitFinished() {
 

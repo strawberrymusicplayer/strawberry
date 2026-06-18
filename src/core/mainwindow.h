@@ -96,6 +96,9 @@ class Windows7ThumbBar;
 class AddStreamDialog;
 class LastFMImportDialog;
 class RadioViewContainer;
+#if QT_CONFIG(sessionmanager)
+class QSessionManager;
+#endif
 
 #ifdef HAVE_DISCORD_RPC
 class DiscordRichPresence;
@@ -281,6 +284,9 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   void CommandlineOptionsReceived(const QByteArray &string_options);
   void Raise();
   void Exit();
+#if QT_CONFIG(sessionmanager)
+  void CommitData(QSessionManager &manager);
+#endif
 
  private:
   void SaveSettings();
