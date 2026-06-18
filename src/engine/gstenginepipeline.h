@@ -163,6 +163,7 @@ class GstEnginePipeline : public QObject {
   bool IsStateNull() const;
   bool InitAudioBin(QString &error);
   void SetupVolume(GstElement *element);
+  void ReapplyVolume();
   void SetStateAsync(const GstState state);
   void SetNextUrl();
 
