@@ -143,7 +143,7 @@ void MoodbarController::AsyncLoadComplete(MoodbarPipelinePtr pipeline, const QUr
 
   // Is this song still playing?
   PlaylistItemPtr current_item = player_->GetCurrentItem();
-  if (current_item && current_item->OriginalUrl() != url) {
+  if (!current_item || current_item->OriginalUrl() != url) {
     return;
   }
   // Did we stop the song?
