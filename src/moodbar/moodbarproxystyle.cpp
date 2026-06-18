@@ -277,6 +277,8 @@ QRect MoodbarProxyStyle::subControlRect(ComplexControl cc, const QStyleOptionCom
 
         case SC_SliderHandle:{
           const QStyleOptionSlider *slider_opt = qstyleoption_cast<const QStyleOptionSlider*>(opt);
+          if (!slider_opt) break;
+
           int x_offset = 0;
 
           // slider_opt->{maximum,minimum} can have the value 0 (their default values), so this check avoids a division by 0.
