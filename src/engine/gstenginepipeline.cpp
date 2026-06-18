@@ -1209,6 +1209,11 @@ void GstEnginePipeline::NotifyVolumeCallback(GstElement *element, GParamSpec *pa
 
   GstEnginePipeline *instance = reinterpret_cast<GstEnginePipeline*>(self);
 
+  // Ignore device-originated volume changes during a gapless transition.
+  // When the next track has a different sample rate the sink renegotiates in place and can reset the (device) stream volume; that is not a user action, so adopting it here would clobber the slider (and the stored volume).
+  // StreamStartMessageReceived re-asserts the correct volume once the new stream has started.
+  if (instance->about_to_finish_.load()) return;
+
   // Read the property from the element that actually fired the signal, not from instance->volume_
   // SetupVolume may have swapped volume_ between the signal being queued and this callback running,
   // in which case we'd otherwise read from the wrong element.
@@ -1609,7 +1614,6 @@ void GstEnginePipeline::StreamStartMessageReceived() {
   }
 
   next_uri_reset_ = false;
-  about_to_finish_ = false;
   {
     QMutexLocker lock_url(&mutex_url_);
     QMutexLocker lock_next_url(&mutex_next_url_);
@@ -1625,6 +1629,13 @@ void GstEnginePipeline::StreamStartMessageReceived() {
     next_beginning_offset_nanosec_.store(0);
     next_end_offset_nanosec_.store(0);
   }
+
+  // The new track may have a different sample rate, which makes the sink renegotiate in place and can reset the device stream volume (the audio goes silent while playback continues).
+  // ElementAddedCallback re-applies the volume only when the sink element is re-added (the new-pipeline / crossfade path), which does not happen during gapless playback, so re-assert it here on the new stream.
+  ReapplyVolume();
+
+  // Clear the transition flag only after re-asserting, so NotifyVolumeCallback keeps ignoring the renegotiation's volume reset for the whole transition.
+  about_to_finish_ = false;
 
   Q_EMIT EndOfStreamReached(id(), true);
 
@@ -2180,6 +2191,24 @@ void GstEnginePipeline::SetVolume(const uint volume_percent) {
   if (apply_to_element && volume) {
     g_object_set(G_OBJECT(volume), "volume", volume_internal, nullptr);
   }
+
+}
+
+void GstEnginePipeline::ReapplyVolume() {
+
+  GstElement *volume = nullptr;
+  double volume_internal = 0.0;
+  {
+    QMutexLocker locker(&mutex_volume_);
+    // Nothing to re-assert if we never set a volume on this pipeline yet.
+    if (!volume_ || !volume_set_.load()) return;
+    volume = volume_;
+    volume_internal = volume_internal_.load();
+  }
+
+  // Unconditionally push the stored volume to the element (SetVolume would skip this when it considers the value unchanged, but the element itself may have been reset by an in-place sink renegotiation).
+  // g_object_set is called outside the lock - it fires notify::volume synchronously, which runs NotifyVolumeCallback (which takes mutex_volume_).
+  g_object_set(G_OBJECT(volume), "volume", volume_internal, nullptr);
 
 }
 
