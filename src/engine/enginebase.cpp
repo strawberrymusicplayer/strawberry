@@ -29,6 +29,7 @@
 #include <QVariant>
 #include <QUrl>
 #include <QSettings>
+#include <QNetworkProxy>
 
 #include "utilities/envutils.h"
 #include "constants/timeconstants.h"
@@ -204,7 +205,9 @@ void EngineBase::ReloadSettings() {
 
   s.beginGroup(NetworkProxySettings::kSettingsGroup);
   const NetworkProxyFactory::Mode proxy_mode = static_cast<NetworkProxyFactory::Mode>(s.value("mode", static_cast<int>(NetworkProxyFactory::Mode::System)).toInt());
-  if (proxy_mode == NetworkProxyFactory::Mode::Manual && s.contains(NetworkProxySettings::kEngine) && s.value(NetworkProxySettings::kEngine).toBool()) {
+  const QNetworkProxy::ProxyType proxy_type = static_cast<QNetworkProxy::ProxyType>(s.value(NetworkProxySettings::kType, QNetworkProxy::HttpProxy).toInt());
+  // GStreamer (souphttpsrc) only supports HTTP proxies, so a SOCKS proxy must not be applied to the engine.
+  if (proxy_mode == NetworkProxyFactory::Mode::Manual && proxy_type == QNetworkProxy::HttpProxy && s.contains(NetworkProxySettings::kEngine) && s.value(NetworkProxySettings::kEngine).toBool()) {
     QString proxy_host = s.value(NetworkProxySettings::kHostname).toString();
     int proxy_port = s.value(NetworkProxySettings::kPort).toInt();
     if (proxy_host.isEmpty() || proxy_port <= 0) {
