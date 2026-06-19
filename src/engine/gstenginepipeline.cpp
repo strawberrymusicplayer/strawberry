@@ -81,6 +81,7 @@ namespace {
 
 constexpr int GST_PLAY_FLAG_VIDEO = 0x00000001;
 constexpr int GST_PLAY_FLAG_AUDIO = 0x00000002;
+constexpr int GST_PLAY_FLAG_TEXT = 0x00000004;
 constexpr int GST_PLAY_FLAG_DOWNLOAD = 0x00000080;
 constexpr int GST_PLAY_FLAG_BUFFERING = 0x00000100;
 constexpr int GST_PLAY_FLAG_SOFT_VOLUME = 0x00000010;
@@ -553,6 +554,7 @@ bool GstEnginePipeline::InitFromUrl(const QUrl &media_url, const QUrl &stream_ur
   g_object_get(G_OBJECT(pipeline_), "flags", &flags, nullptr);
   flags |= GST_PLAY_FLAG_AUDIO;
   flags &= ~GST_PLAY_FLAG_VIDEO;
+  flags &= ~GST_PLAY_FLAG_TEXT;
   flags &= ~GST_PLAY_FLAG_SOFT_VOLUME;
   g_object_set(G_OBJECT(pipeline_), "flags", flags, nullptr);
 
