@@ -587,6 +587,7 @@ void AlbumCoverChoiceController::SaveArtManualToSong(Song *song, const QUrl &art
       break;
     case Song::Source::Subsonic:
     case Song::Source::Tidal:
+    case Song::Source::OpenTidal:
     case Song::Source::Spotify:
     case Song::Source::Qobuz:
       StreamingServicePtr service = streaming_services_->ServiceBySource(song->source());

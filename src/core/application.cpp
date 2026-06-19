@@ -90,6 +90,10 @@
 #  include "covermanager/tidalcoverprovider.h"
 #endif
 
+#ifdef HAVE_OPENTIDAL
+#  include "opentidal/opentidalservice.h"
+#endif
+
 #ifdef HAVE_SPOTIFY
 #  include "spotify/spotifyservice.h"
 #  include "covermanager/spotifycoverprovider.h"
@@ -191,6 +195,9 @@ class ApplicationImpl {
 #endif
 #ifdef HAVE_TIDAL
           streaming_services->AddService(make_shared<TidalService>(app->task_manager(), app->database(), app->network(), app->url_handlers(), app->albumcover_loader()));
+#endif
+#ifdef HAVE_OPENTIDAL
+          streaming_services->AddService(make_shared<OpenTidalService>(app->task_manager(), app->database(), app->network(), app->url_handlers(), app->albumcover_loader()));
 #endif
 #ifdef HAVE_SPOTIFY
           streaming_services->AddService(make_shared<SpotifyService>(app->task_manager(), app->database(), app->network(), app->albumcover_loader()));

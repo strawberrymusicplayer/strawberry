@@ -77,7 +77,8 @@ class Song {
     SomaFM = 9,
     RadioParadise = 10,
     Spotify = 11,
-    RadioBrowser = 12
+    RadioBrowser = 12,
+    OpenTidal = 13
   };
   static const int kSourceCount = 16;
   static_assert(static_cast<int>(Source::RadioBrowser) < kSourceCount, "kSourceCount must exceed the largest Song::Source value");

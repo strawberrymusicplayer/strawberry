@@ -174,6 +174,10 @@
 #  include "tidal/tidalservice.h"
 #  include "constants/tidalsettings.h"
 #endif
+#ifdef HAVE_OPENTIDAL
+#  include "opentidal/opentidalservice.h"
+#  include "constants/opentidalsettings.h"
+#endif
 #ifdef HAVE_SPOTIFY
 #  include "spotify/spotifyservice.h"
 #  include "spotify/spotifymetadatarequest.h"
@@ -370,6 +374,9 @@ MainWindow::MainWindow(Application *app,
 #ifdef HAVE_TIDAL
       tidal_view_(new StreamingTabsView(app->streaming_services()->ServiceBySource(Song::Source::Tidal), app->albumcover_loader(), QLatin1String(TidalSettings::kSettingsGroup), this)),
 #endif
+#ifdef HAVE_OPENTIDAL
+      opentidal_view_(new StreamingTabsView(app->streaming_services()->ServiceBySource(Song::Source::OpenTidal), app->albumcover_loader(), QLatin1String(OpenTidalSettings::kSettingsGroup), this)),
+#endif
 #ifdef HAVE_SPOTIFY
       spotify_view_(new StreamingTabsView(app->streaming_services()->ServiceBySource(Song::Source::Spotify), app->albumcover_loader(), QLatin1String(SpotifySettings::kSettingsGroup), this)),
 #endif
@@ -462,6 +469,9 @@ MainWindow::MainWindow(Application *app,
 #endif
 #ifdef HAVE_TIDAL
   ui_->tabs->AddTab(tidal_view_, u"tidal"_s, IconLoader::Load(u"tidal"_s, true, 0, 32), tr("Tidal"));
+#endif
+#ifdef HAVE_OPENTIDAL
+  ui_->tabs->AddTab(opentidal_view_, u"opentidal"_s, IconLoader::Load(u"tidal"_s, true, 0, 32), tr("Open Tidal"));
 #endif
 #ifdef HAVE_SPOTIFY
   ui_->tabs->AddTab(spotify_view_, u"spotify"_s, IconLoader::Load(u"spotify"_s, true, 0, 32), tr("Spotify"));
@@ -802,6 +812,18 @@ MainWindow::MainWindow(Application *app,
   QObject::connect(tidal_view_->search_view(), &StreamingSearchView::AddToPlaylist, this, &MainWindow::AddToPlaylist);
   if (TidalServicePtr tidalservice = app_->streaming_services()->Service<TidalService>()) {
     QObject::connect(this, &MainWindow::AuthorizationUrlReceived, &*tidalservice, &TidalService::AuthorizationUrlReceived);
+  }
+#endif
+
+#ifdef HAVE_OPENTIDAL
+  QObject::connect(opentidal_view_, &StreamingTabsView::OpenSettingsDialog, this, &MainWindow::OpenServiceSettingsDialog);
+  QObject::connect(opentidal_view_->artists_collection_view(), &StreamingCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
+  QObject::connect(opentidal_view_->albums_collection_view(), &StreamingCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
+  QObject::connect(opentidal_view_->songs_collection_view(), &StreamingCollectionView::AddToPlaylistSignal, this, &MainWindow::AddToPlaylist);
+  QObject::connect(opentidal_view_->search_view(), &StreamingSearchView::OpenSettingsDialog, this, &MainWindow::OpenServiceSettingsDialog);
+  QObject::connect(opentidal_view_->search_view(), &StreamingSearchView::AddToPlaylist, this, &MainWindow::AddToPlaylist);
+  if (OpenTidalServicePtr opentidalservice = app_->streaming_services()->Service<OpenTidalService>()) {
+    QObject::connect(this, &MainWindow::AuthorizationUrlReceived, &*opentidalservice, &OpenTidalService::AuthorizationUrlReceived);
   }
 #endif
 
@@ -1292,6 +1314,18 @@ void MainWindow::ReloadSettings() {
   }
 #endif
 
+#ifdef HAVE_OPENTIDAL
+  s.beginGroup(OpenTidalSettings::kSettingsGroup);
+  bool enable_opentidal = s.value(OpenTidalSettings::kEnabled, false).toBool();
+  s.endGroup();
+  if (enable_opentidal) {
+    ui_->tabs->EnableTab(opentidal_view_);
+  }
+  else {
+    ui_->tabs->DisableTab(opentidal_view_);
+  }
+#endif
+
 #ifdef HAVE_SPOTIFY
   s.beginGroup(SpotifySettings::kSettingsGroup);
   bool enable_spotify = s.value(SpotifySettings::kEnabled, false).toBool();
@@ -1362,6 +1396,10 @@ void MainWindow::ReloadAllSettings() {
 #ifdef HAVE_TIDAL
   tidal_view_->ReloadSettings();
   tidal_view_->search_view()->ReloadSettings();
+#endif
+#ifdef HAVE_OPENTIDAL
+  opentidal_view_->ReloadSettings();
+  opentidal_view_->search_view()->ReloadSettings();
 #endif
 #ifdef HAVE_SPOTIFY
   spotify_view_->ReloadSettings();
@@ -2667,6 +2705,14 @@ void MainWindow::CommandlineOptionsReceived(const CommandlineOptions &options) {
       }
     }
 #endif
+#ifdef HAVE_OPENTIDAL
+    for (const QUrl &url : options.urls()) {
+      if (url.scheme() == "opentidal"_L1 && url.host() == "login"_L1) {
+        Q_EMIT AuthorizationUrlReceived(url);
+        return;
+      }
+    }
+#endif
     MimeData *mimedata = new MimeData;
     mimedata->setUrls(options.urls());
     // Behaviour depends on command line options, so set it here
@@ -2744,6 +2790,12 @@ bool MainWindow::LoadUrl(const QString &url) {
     return true;
   }
 #endif
+#ifdef HAVE_OPENTIDAL
+  if (url.startsWith("opentidal://login"_L1)) {
+    Q_EMIT AuthorizationUrlReceived(QUrl(url));
+    return true;
+  }
+#endif
 
   qLog(Error) << "Can't open" << url;
 
@@ -2795,6 +2847,9 @@ void MainWindow::OpenServiceSettingsDialog(const Song::Source source) {
       break;
     case Song::Source::Tidal:
       settings_dialog_->OpenAtPage(SettingsDialog::Page::Tidal);
+      break;
+    case Song::Source::OpenTidal:
+      settings_dialog_->OpenAtPage(SettingsDialog::Page::OpenTidal);
       break;
     case Song::Source::Qobuz:
       settings_dialog_->OpenAtPage(SettingsDialog::Page::Qobuz);
@@ -3478,6 +3533,11 @@ void MainWindow::FocusSearchField() {
 #ifdef HAVE_TIDAL
   else if (ui_->tabs->currentIndex() == ui_->tabs->IndexOfTab(tidal_view_) && !tidal_view_->SearchFieldHasFocus()) {
     tidal_view_->FocusSearchField();
+  }
+#endif
+#ifdef HAVE_OPENTIDAL
+  else if (ui_->tabs->currentIndex() == ui_->tabs->IndexOfTab(opentidal_view_) && !opentidal_view_->SearchFieldHasFocus()) {
+    opentidal_view_->FocusSearchField();
   }
 #endif
 #ifdef HAVE_SPOTIFY
