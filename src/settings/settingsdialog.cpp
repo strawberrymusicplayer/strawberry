@@ -85,6 +85,10 @@
 #  include "tidal/tidalservice.h"
 #  include "tidalsettingspage.h"
 #endif
+#ifdef HAVE_OPENTIDAL
+#  include "opentidal/opentidalservice.h"
+#  include "opentidalsettingspage.h"
+#endif
 #ifdef HAVE_SPOTIFY
 #  include "spotify/spotifyservice.h"
 #  include "spotifysettingspage.h"
@@ -160,6 +164,9 @@ SettingsDialog::SettingsDialog(const SharedPtr<Player> player,
 #endif
 #ifdef HAVE_TIDAL
   AddPage(Page::Tidal, new TidalSettingsPage(this, streaming_services->Service<TidalService>(), this), streaming);
+#endif
+#ifdef HAVE_OPENTIDAL
+  AddPage(Page::OpenTidal, new OpenTidalSettingsPage(this, streaming_services->Service<OpenTidalService>(), this), streaming);
 #endif
 #ifdef HAVE_SPOTIFY
   AddPage(Page::Spotify, new SpotifySettingsPage(this, streaming_services->Service<SpotifyService>(), this), streaming);

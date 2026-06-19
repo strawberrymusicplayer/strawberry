@@ -98,6 +98,7 @@ void ScrobblerSettingsPage::Load() {
   ui_->checkbox_source_device->setChecked(scrobbler_->sources().contains(Song::Source::Device));
   ui_->checkbox_source_subsonic->setChecked(scrobbler_->sources().contains(Song::Source::Subsonic));
   ui_->checkbox_source_tidal->setChecked(scrobbler_->sources().contains(Song::Source::Tidal));
+  ui_->checkbox_source_opentidal->setChecked(scrobbler_->sources().contains(Song::Source::OpenTidal));
   ui_->checkbox_source_qobuz->setChecked(scrobbler_->sources().contains(Song::Source::Qobuz));
   ui_->checkbox_source_spotify->setChecked(scrobbler_->sources().contains(Song::Source::Spotify));
   ui_->checkbox_source_stream->setChecked(scrobbler_->sources().contains(Song::Source::Stream));
@@ -139,6 +140,7 @@ void ScrobblerSettingsPage::Save() {
   if (ui_->checkbox_source_device->isChecked()) sources << Song::TextForSource(Song::Source::Device);
   if (ui_->checkbox_source_subsonic->isChecked()) sources << Song::TextForSource(Song::Source::Subsonic);
   if (ui_->checkbox_source_tidal->isChecked()) sources << Song::TextForSource(Song::Source::Tidal);
+  if (ui_->checkbox_source_opentidal->isChecked()) sources << Song::TextForSource(Song::Source::OpenTidal);
   if (ui_->checkbox_source_qobuz->isChecked()) sources << Song::TextForSource(Song::Source::Qobuz);
   if (ui_->checkbox_source_spotify->isChecked()) sources << Song::TextForSource(Song::Source::Spotify);
   if (ui_->checkbox_source_stream->isChecked()) sources << Song::TextForSource(Song::Source::Stream);

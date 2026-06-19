@@ -122,6 +122,7 @@ QString CoverUtils::CoverFilenameFromSource(const Song::Source source, const QUr
 
   switch (source) {
     case Song::Source::Tidal:
+    case Song::Source::OpenTidal:
       if (!album_id.isEmpty()) {
         filename = album_id + QLatin1Char('-') + cover_url.fileName();
         break;

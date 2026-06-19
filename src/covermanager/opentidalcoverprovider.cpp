@@ -44,7 +44,7 @@
 using namespace Qt::Literals::StringLiterals;
 
 namespace {
-constexpr char kSettingsGroup[] = "OpenTidal";
+constexpr char kSettingsGroup[] = "OpenTidalCoverProvider";
 constexpr char kOAuthAccessTokenUrl[] = "https://auth.tidal.com/v1/oauth2/token";
 constexpr char kApiUrl[] = "https://openapi.tidal.com/v2";
 constexpr char kApiClientIdB64[] = "RHBwV3FpTEM4ZFJSV1RJaQ==";

@@ -77,7 +77,8 @@ class Song {
     SomaFM = 9,
     RadioParadise = 10,
     Spotify = 11,
-    RadioBrowser = 12
+    RadioBrowser = 12,
+    OpenTidal = 13
   };
   static const int kSourceCount = 16;
 

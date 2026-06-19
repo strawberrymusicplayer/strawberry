@@ -92,6 +92,7 @@ class SettingsDialog : public QDialog {
     Waveform,
     Subsonic,
     Tidal,
+    OpenTidal,
     Qobuz,
     Spotify,
     Radio,

@@ -351,6 +351,7 @@ optional_component(TRANSLATIONS ON "Translations"
 
 optional_component(SUBSONIC ON "Streaming: Subsonic")
 optional_component(TIDAL ON "Streaming: Tidal")
+optional_component(OPENTIDAL ON "Streaming: Open Tidal")
 optional_component(SPOTIFY ON "Streaming: Spotify")
 optional_component(QOBUZ ON "Streaming: Qobuz")
 
@@ -1480,6 +1481,27 @@ optional_source(HAVE_TIDAL
     src/covermanager/tidalcoverprovider.h
   UI
     src/settings/tidalsettingspage.ui
+)
+
+optional_source(HAVE_OPENTIDAL
+  SOURCES
+    src/opentidal/opentidalservice.cpp
+    src/opentidal/opentidalurlhandler.cpp
+    src/opentidal/opentidalbaserequest.cpp
+    src/opentidal/opentidalrequest.cpp
+    src/opentidal/opentidalstreamurlrequest.cpp
+    src/opentidal/opentidalfavoriterequest.cpp
+    src/settings/opentidalsettingspage.cpp
+  HEADERS
+    src/opentidal/opentidalservice.h
+    src/opentidal/opentidalurlhandler.h
+    src/opentidal/opentidalbaserequest.h
+    src/opentidal/opentidalrequest.h
+    src/opentidal/opentidalstreamurlrequest.h
+    src/opentidal/opentidalfavoriterequest.h
+    src/settings/opentidalsettingspage.h
+  UI
+    src/settings/opentidalsettingspage.ui
 )
 
 optional_source(HAVE_SPOTIFY

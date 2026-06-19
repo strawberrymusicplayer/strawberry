@@ -68,6 +68,7 @@ void ScrobblerSettingsService::ReloadSettings() {
              << Song::Source::Device
              << Song::Source::Stream
              << Song::Source::Tidal
+             << Song::Source::OpenTidal
              << Song::Source::Subsonic
              << Song::Source::Qobuz
              << Song::Source::Spotify

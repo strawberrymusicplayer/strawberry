@@ -352,6 +352,9 @@ class MainWindow : public QMainWindow, public PlatformInterface {
 #ifdef HAVE_TIDAL
   StreamingTabsView *tidal_view_;
 #endif
+#ifdef HAVE_OPENTIDAL
+  StreamingTabsView *opentidal_view_;
+#endif
 #ifdef HAVE_SPOTIFY
   StreamingTabsView *spotify_view_;
 #endif

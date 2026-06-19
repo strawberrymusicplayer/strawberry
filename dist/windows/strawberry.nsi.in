@@ -797,6 +797,12 @@ Section "Tidal URL Scheme"
   WriteRegStr HKCR 'tidal\shell\open\command' '' '"${PRODUCT_INSTALL_DIR}\strawberry.exe" "%1"'
 SectionEnd
 
+Section "Open Tidal URL Scheme"
+  WriteRegStr HKCR "opentidal" "URL Protocol" ""
+  WriteRegStr HKCR "opentidal" "" "URL:opentidal"
+  WriteRegStr HKCR 'opentidal\shell\open\command' '' '"${PRODUCT_INSTALL_DIR}\strawberry.exe" "%1"'
+SectionEnd
+
 Section "Uninstaller"
   ; Create uninstaller
   WriteUninstaller "$INSTDIR\Uninstall.exe"

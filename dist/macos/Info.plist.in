@@ -48,6 +48,7 @@
       <key>CFBundleURLSchemes</key>
       <array>
         <string>tidal</string>
+        <string>opentidal</string>
       </array>
     </dict>
   </array>

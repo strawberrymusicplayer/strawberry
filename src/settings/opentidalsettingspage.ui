@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>OpenTidalSettingsPage</class>
+ <widget class="QWidget" name="OpenTidalSettingsPage">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>472</width>
+    <height>853</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Open Tidal</string>
+  </property>
+  <layout class="QVBoxLayout" name="layout_opentidalsettingspage">
+   <item>
+    <widget class="QCheckBox" name="enable">
+     <property name="text">
+      <string>Enable</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_warning">
+     <property name="text">
+      <string>Open Tidal uses the official TIDAL Open API and requires a client ID from an application you register at developer.tidal.com.</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+     <property name="margin">
+      <number>10</number>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="credential_group">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="title">
+      <string>Authentication</string>
+     </property>
+     <layout class="QFormLayout" name="layout_credential_group">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_client_id">
+        <property name="minimumSize">
+         <size>
+          <width>150</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Client ID</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="client_id">
+        <property name="text">
+         <string notr="true"/>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="button_login">
+     <property name="text">
+      <string>Login</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="LoginStateWidget" name="login_state" native="true"/>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupbox_preferences">
+     <property name="title">
+      <string>Preferences</string>
+     </property>
+     <layout class="QFormLayout" name="layout_preferences">
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_format">
+        <property name="text">
+         <string>Format</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QComboBox" name="format">
+        <property name="currentText">
+         <string notr="true"/>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="label_searchdelay">
+        <property name="text">
+         <string>Search delay</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QSpinBox" name="searchdelay">
+        <property name="suffix">
+         <string>ms</string>
+        </property>
+        <property name="minimum">
+         <number>0</number>
+        </property>
+        <property name="maximum">
+         <number>10000</number>
+        </property>
+        <property name="singleStep">
+         <number>50</number>
+        </property>
+        <property name="value">
+         <number>1500</number>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="label_artistssearchlimit">
+        <property name="text">
+         <string>Artists search limit</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="QSpinBox" name="artistssearchlimit">
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>100</number>
+        </property>
+        <property name="value">
+         <number>50</number>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="0">
+       <widget class="QLabel" name="label_albumssearchlimit">
+        <property name="text">
+         <string>Albums search limit</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="1">
+       <widget class="QSpinBox" name="albumssearchlimit">
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>1000</number>
+        </property>
+        <property name="value">
+         <number>50</number>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="0">
+       <widget class="QLabel" name="label_songssearchlimit">
+        <property name="text">
+         <string>Songs search limit</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="1">
+       <widget class="QSpinBox" name="songssearchlimit">
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>1000</number>
+        </property>
+        <property name="value">
+         <number>50</number>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="0">
+       <widget class="QCheckBox" name="checkbox_download_album_covers">
+        <property name="text">
+         <string>Download album covers</string>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="0">
+       <widget class="QCheckBox" name="checkbox_fetchalbums">
+        <property name="text">
+         <string>Fetch entire albums when searching songs</string>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="0">
+       <widget class="QLabel" name="label_coversize">
+        <property name="text">
+         <string>Album cover size</string>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="1">
+       <widget class="QComboBox" name="coversize">
+        <property name="currentText">
+         <string notr="true"/>
+        </property>
+       </widget>
+      </item>
+      <item row="13" column="0">
+       <widget class="QCheckBox" name="checkbox_album_explicit">
+        <property name="text">
+         <string>Append explicit to album title for explicit albums</string>
+        </property>
+       </widget>
+      </item>
+      <item row="14" column="0">
+       <widget class="QCheckBox" name="checkbox_remove_remastered">
+        <property name="text">
+         <string>Remove (Remastered), etc from song titles</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_manifesttype">
+        <property name="text">
+         <string>Manifest type</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QComboBox" name="manifesttype">
+        <property name="currentText">
+         <string notr="true"/>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_urischeme">
+        <property name="text">
+         <string>URL scheme</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QComboBox" name="urischeme">
+        <property name="currentText">
+         <string notr="true"/>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <spacer name="spacer_middle">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>30</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="layout_bottom">
+     <item>
+      <spacer name="spacer_bottom">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_opentidal">
+       <property name="minimumSize">
+        <size>
+         <width>64</width>
+         <height>64</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>64</width>
+         <height>64</height>
+        </size>
+       </property>
+       <property name="pixmap">
+        <pixmap resource="../../data/icons.qrc">:/icons/64x64/tidal.png</pixmap>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>LoginStateWidget</class>
+   <extends>QWidget</extends>
+   <header>widgets/loginstatewidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>enable</tabstop>
+  <tabstop>client_id</tabstop>
+  <tabstop>button_login</tabstop>
+  <tabstop>format</tabstop>
+  <tabstop>searchdelay</tabstop>
+  <tabstop>artistssearchlimit</tabstop>
+  <tabstop>albumssearchlimit</tabstop>
+  <tabstop>songssearchlimit</tabstop>
+  <tabstop>checkbox_download_album_covers</tabstop>
+  <tabstop>checkbox_fetchalbums</tabstop>
+  <tabstop>coversize</tabstop>
+ </tabstops>
+ <resources>
+  <include location="../../data/icons.qrc"/>
+  <include location="../../data/icons.qrc"/>
+  <include location="../../data/icons.qrc"/>
+ </resources>
+ <connections/>
+</ui>
