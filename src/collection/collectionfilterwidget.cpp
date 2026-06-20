@@ -281,6 +281,7 @@ void CollectionFilterWidget::UpdateGroupByActions() {
 
   if (group_by_group_) {
     QObject::disconnect(group_by_group_, nullptr, this, nullptr);
+    qDeleteAll(group_by_group_->actions());
     delete group_by_group_;
   }
 
