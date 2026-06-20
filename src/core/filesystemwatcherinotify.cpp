@@ -102,7 +102,6 @@ void FileSystemWatcherInotify::RemovePaths(const QStringList &paths) {
 
   for (const QString &path : paths) {
     if (!wd_from_path_.contains(path)) {
-      qLog(Warning) << "Not watching path" << path;
       continue;
     }
     const int wd = wd_from_path_.value(path);
