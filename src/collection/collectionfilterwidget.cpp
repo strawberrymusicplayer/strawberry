@@ -166,11 +166,11 @@ void CollectionFilterWidget::Init(CollectionModel *model, CollectionFilter *filt
     QObject::disconnect(group_by_dialog_, nullptr, model_, nullptr);
     const QList<QAction*> actions = filter_max_ages_.keys();
     for (QAction *action : actions) {
-      QObject::disconnect(action, &QAction::triggered, model_, nullptr);
+      QObject::disconnect(action, &QAction::triggered, this, nullptr);
     }
     const QList<QAction*> filter_actions = filter_min_rating_.keys();
     for (QAction *action : filter_actions) {
-      QObject::disconnect(action, &QAction::triggered, model_, nullptr);
+      QObject::disconnect(action, &QAction::triggered, this, nullptr);
     }
   }
 
