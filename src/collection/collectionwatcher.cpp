@@ -456,6 +456,18 @@ bool CollectionWatcher::ScanTransaction::HasSeenSubdir(const QString &path) {
 
 }
 
+bool CollectionWatcher::ScanTransaction::HasScannedPath(const QString &path) {
+
+  return scanned_paths_.contains(path);
+
+}
+
+void CollectionWatcher::ScanTransaction::MarkPathScanned(const QString &path) {
+
+  scanned_paths_.insert(path);
+
+}
+
 CollectionSubdirectoryList CollectionWatcher::ScanTransaction::GetImmediateSubdirs(const QString &path) {
 
   if (known_subdirs_dirty_) {
@@ -544,6 +556,13 @@ void CollectionWatcher::AddDirectory(const CollectionDirectory &dir, const Colle
 }
 
 void CollectionWatcher::ScanSubdirectory(const CollectionDirectory &dir, const QString &path, const CollectionSubdirectory &subdir, const quint64 files_count, ScanTransaction *t, const bool force_noincremental) {
+
+  // A renamed directory can be reached both from its own queued change notification and from its parent's vanished-child check below, so skip it if it was already scanned in this transaction to avoid deleting/adding its songs twice.
+  if (t->HasScannedPath(path)) {
+    t->AddToProgress(files_count);
+    return;
+  }
+  t->MarkPathScanned(path);
 
   const QFileInfo path_info(path);
   const qint64 path_mtime = path_info.exists() && path_info.lastModified().isValid() ? path_info.lastModified().toSecsSinceEpoch() : 0;
