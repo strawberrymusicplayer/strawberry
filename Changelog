@@ -2,7 +2,7 @@ Strawberry Music Player
 =======================
 ChangeLog
 
-Unreleased:
+Version 1.2.20 (2026.06.21):
 
   Bugfixes:
     * Defer writing playcount and rating tags for the currently playing MP3 file to prevent playback issues (#1916)
