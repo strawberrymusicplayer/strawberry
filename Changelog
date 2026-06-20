@@ -27,9 +27,9 @@ Unreleased:
     * Numerous stability, crash-safety, memory-safety and detach fixes throughout the application
 
   Enhancements:
-    * New waveform seekbar
+    * New waveform for seekbar
     * New filesystem watcher on Linux and Windows which also detects file changes within directories
-    * Improved RadioBrowser reliability (random API server selection, retries, and server rediscovery on failure) and added a configurable option to hide broken stations
+    * Added radio browser
     * Improved MPRIS2 support (TrackMetadataChanged and TrackAdded signals and upgraded playlist track definitions)
     * Include release group MBID in ListenBrainz scrobble submission
     * FFTW3 fast spectrum plugin for moodbar is now optional
