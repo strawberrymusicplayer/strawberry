@@ -166,7 +166,7 @@ class CollectionView : public AutoExpandingTreeView {
   QPixmap nomusic_;
 
   QMenu *context_menu_;
-  QModelIndex context_menu_index_;
+  QPersistentModelIndex context_menu_index_;
   QAction *action_load_;
   QAction *action_add_to_playlist_;
   QAction *action_add_to_playlist_enqueue_;
