@@ -40,6 +40,7 @@ class CollectionItem : public SimpleTreeItem<CollectionItem> {
   int container_level;
   Song metadata;
   CollectionItem *compilation_artist_node_;
+  QString divider_key;
 
  private:
   Q_DISABLE_COPY(CollectionItem)
