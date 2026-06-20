@@ -526,13 +526,13 @@ void CollectionModel::ProcessUpdate() {
 
 CollectionModel::ItemIdentity CollectionModel::CaptureItemIdentity(const QModelIndex &idx) const {
 
-  ItemIdentity identity;
+  if (!idx.isValid()) return ItemIdentity();
 
   CollectionItem *item = IndexToItem(idx);
-  if (!item || !item->parent) return identity;
+  if (!item || !item->parent) return ItemIdentity();
 
+  ItemIdentity identity;
   identity.type = item->type;
-
   switch (item->type) {
     case CollectionItem::Type::Song:
       identity.song_id = item->metadata.id();
@@ -566,6 +566,7 @@ QModelIndex CollectionModel::ResolveItemIdentity(const ItemIdentity &identity) c
 
   switch (identity.type) {
     case CollectionItem::Type::Song:
+      if (!song_nodes_.contains(identity.song_id)) return QModelIndex();
       return ItemToIndex(song_nodes_.value(identity.song_id));
     case CollectionItem::Type::Container:
       if (identity.compilation_artist) {
@@ -573,9 +574,10 @@ QModelIndex CollectionModel::ResolveItemIdentity(const ItemIdentity &identity) c
         CollectionItem *new_parent = identity.compilation_artist_parent_is_root ? root_ : (identity.container_level >= 0 && identity.container_level <= 2 ? container_nodes_[identity.container_level].value(identity.container_key) : nullptr);
         return new_parent ? ItemToIndex(new_parent->compilation_artist_node_) : QModelIndex();
       }
-      if (identity.container_level < 0 || identity.container_level > 2) return QModelIndex();
+      if (identity.container_level < 0 || identity.container_level > 2 || !container_nodes_[identity.container_level].contains(identity.container_key)) return QModelIndex();
       return ItemToIndex(container_nodes_[identity.container_level].value(identity.container_key));
     case CollectionItem::Type::Divider:
+      if (!divider_nodes_.contains(identity.container_key)) return QModelIndex();
       return ItemToIndex(divider_nodes_.value(identity.container_key));
     default:
       return QModelIndex();
