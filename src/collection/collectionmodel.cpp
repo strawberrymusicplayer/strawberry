@@ -338,9 +338,6 @@ QVariant CollectionModel::data(CollectionItem *item, const int role) const {
     case Role_ContainerKey:
       return item->container_key;
 
-    case Role_Artist:
-      return item->metadata.artist();
-
     case Role_Editable:{
       if (item->type == CollectionItem::Type::Container) {
         // If we have even one non editable item as a child, we ourselves are not available for edit

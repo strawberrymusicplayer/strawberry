@@ -75,7 +75,6 @@ class CollectionModel : public SimpleTreeModel<CollectionItem> {
     Role_ContainerType,
     Role_SortText,
     Role_ContainerKey,
-    Role_Artist,
     Role_IsDivider,
     Role_Editable,
     LastRole
