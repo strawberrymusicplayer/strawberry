@@ -31,7 +31,7 @@ jobs:
         run: zypper -n --gpg-auto-import-keys up
       - name: Install packages
         run: >
-            zypper -n --gpg-auto-import-keys in
+            zypper -n --gpg-auto-import-keys in --allow-downgrade --force-resolution
             lsb-release
             rpm-build
             git
