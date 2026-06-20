@@ -810,9 +810,10 @@ void CollectionModel::RemoveSongsInternal(const SongList &songs) {
       // Consider its parent for the next round
       if (node->parent != root_) parents << node->parent;
 
-      // Maybe consider its divider node
-      if (node->container_level == 0) {
-        divider_keys << DividerKey(options_active_.group_by[0], node->metadata, node->sort_text);
+      // Maybe consider its divider node.
+      // Use the key captured at creation: a container's own metadata is never populated, so recomputing DividerKey here would be wrong for group-bys that derive the key from song fields (e.g. year/samplerate), leaving the divider orphaned.
+      if (node->container_level == 0 && !node->divider_key.isEmpty()) {
+        divider_keys << node->divider_key;
       }
 
       // Special case the Various Artists node
@@ -839,7 +840,7 @@ void CollectionModel::RemoveSongsInternal(const SongList &songs) {
     if (!divider_nodes_.contains(divider_key)) continue;
 
     // Look to see if there are any other items still under this divider
-    if (std::any_of(container_nodes_[0].cbegin(), container_nodes_[0].cend(), [this, divider_key](CollectionItem *node) { return DividerKey(options_active_.group_by[0], node->metadata, node->sort_text) == divider_key; })) {
+    if (std::any_of(container_nodes_[0].cbegin(), container_nodes_[0].cend(), [divider_key](CollectionItem *node) { return node->divider_key == divider_key; })) {
       continue;
     }
 
@@ -906,6 +907,7 @@ CollectionItem *CollectionModel::CreateContainerItem(const GroupBy group_by, con
   if (!divider_key.isEmpty()) {
     item->sort_text.prepend(divider_key + QLatin1Char(' '));
   }
+  item->divider_key = divider_key;
 
   container_nodes_[container_level].insert(item->container_key, item);
 
