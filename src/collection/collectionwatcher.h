@@ -113,6 +113,8 @@ class CollectionWatcher : public QObject {
     bool HasSongsWithMissingFingerprint(const QString &path);
     bool HasSongsWithMissingLoudnessCharacteristics(const QString &path);
     bool HasSeenSubdir(const QString &path);
+    bool HasScannedPath(const QString &path);
+    void MarkPathScanned(const QString &path);
     void SetKnownSubdirs(const CollectionSubdirectoryList &subdirs);
     CollectionSubdirectoryList GetImmediateSubdirs(const QString &path);
     CollectionSubdirectoryList GetAllSubdirs();
@@ -172,6 +174,8 @@ class CollectionWatcher : public QObject {
 
     CollectionSubdirectoryList known_subdirs_;
     bool known_subdirs_dirty_;
+
+    QSet<QString> scanned_paths_;
   };
 
  private Q_SLOTS:
