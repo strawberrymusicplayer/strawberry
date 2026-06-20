@@ -38,6 +38,7 @@ class QActionGroup;
 class QLabel;
 class QMenu;
 class QEvent;
+class QContextMenuEvent;
 class QPoint;
 
 #ifdef HAVE_MOODBAR
@@ -65,6 +66,7 @@ class TrackSlider : public QWidget {
   // QObject
   bool event(QEvent *e) override;
   bool eventFilter(QObject *object, QEvent *event) override;
+  void contextMenuEvent(QContextMenuEvent *e) override;
 
 #ifdef HAVE_MOODBAR
   MoodbarProxyStyle *moodbar_proxy_style() const { return moodbar_proxy_style_; }
@@ -104,14 +106,8 @@ class TrackSlider : public QWidget {
   void UpdateTimes(const int elapsed);
   void UpdateLabelWidth();
   static void UpdateLabelWidth(QLabel *label, const QString &text);
-
-#if defined(HAVE_MOODBAR) || defined(HAVE_WAVEFORM)
-  // Reads the persisted (and validated) seekbar mode from QSettings.
   static SeekbarMode LoadSeekbarMode();
-
-  // Builds (once) and pops up the unified seekbar right-click context menu.
   void ShowSeekbarContextMenu(const QPoint pos);
-#endif
 
  private:
   Ui_TrackSlider *ui_;

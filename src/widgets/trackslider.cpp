@@ -283,8 +283,23 @@ bool TrackSlider::eventFilter(QObject *object, QEvent *event) {
 
 }
 
+void TrackSlider::contextMenuEvent(QContextMenuEvent *e) {
+
+  Q_UNUSED(e)
+
+  // When the slider child is enabled the eventFilter above handles the menu, but while nothing is playing the slider is disabled and the event propagates up to this container instead, so show the menu here too.
 #if defined(HAVE_MOODBAR) || defined(HAVE_WAVEFORM)
+  ShowSeekbarContextMenu(e->globalPos());
+  e->accept();
+#endif
+
+}
+
 void TrackSlider::ShowSeekbarContextMenu(const QPoint pos) {
+
+  Q_UNUSED(pos)
+
+#if defined(HAVE_MOODBAR) || defined(HAVE_WAVEFORM)
 
   // The menu and its actions are built in the constructor.
   // Update radio checks and submenu state before showing.
@@ -307,8 +322,9 @@ void TrackSlider::ShowSeekbarContextMenu(const QPoint pos) {
 
   seekbar_menu_->popup(pos);
 
-}
 #endif  // defined(HAVE_MOODBAR) || defined(HAVE_WAVEFORM)
+
+}
 
 void TrackSlider::UpdateLabelWidth() {
 
@@ -370,13 +386,19 @@ void TrackSlider::UpdateTimes(const int elapsed) {
       ui_->remaining->setText(Utilities::PrettyTime(static_cast<int>(ui_->slider->maximum() / kMsecPerSec)));
     }
   }
-  setEnabled(true);
+  // Re-enable the time labels (the slider's enabled state is governed separately by SetCanSeek()).
+  ui_->elapsed->setEnabled(true);
+  ui_->remaining->setEnabled(true);
 
 }
 
 void TrackSlider::SetStopped() {
 
-  setEnabled(false);
+  // Disable seeking and grey out the slider and time labels, but keep this container widget enabled
+  // so the right-click context menu (seekbar display mode) still works when nothing is playing.
+  ui_->slider->setEnabled(false);
+  ui_->elapsed->setEnabled(false);
+  ui_->remaining->setEnabled(false);
   ui_->elapsed->setText(u"0:00:00"_s);
   ui_->remaining->setText(u"0:00:00"_s);
 
