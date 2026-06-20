@@ -784,15 +784,12 @@ void CollectionModel::RemoveSongsInternal(const SongList &songs) {
   QSet<CollectionItem*> parents;
   for (const Song &song : songs) {
     if (!song_nodes_.contains(song.id())) continue;
-    CollectionItem *node = song_nodes_.value(song.id());
+    CollectionItem *node = song_nodes_.take(song.id());
     nodes_by_parent[node->parent] << node;
     if (node->parent != root_) parents << node->parent;
   }
 
   for (auto it = nodes_by_parent.cbegin(); it != nodes_by_parent.cend(); ++it) {
-    for (CollectionItem *node : it.value()) {
-      song_nodes_.remove(node->metadata.id());
-    }
     RemoveSiblingNodes(it.key(), it.value());
   }
 
