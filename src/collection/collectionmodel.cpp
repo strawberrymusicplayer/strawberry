@@ -1743,38 +1743,6 @@ void CollectionModel::ClearIconDiskCache() {
 
 }
 
-void CollectionModel::RowsInserted(const QModelIndex &parent, const int first, const int last) {
-
-  SongList songs;
-  for (int i = first; i <= last; i++) {
-    const QModelIndex idx = index(i, 0, parent);
-    if (!idx.isValid()) continue;
-    CollectionItem *item = IndexToItem(idx);
-    if (!item || item->type != CollectionItem::Type::Song) continue;
-    songs << item->metadata;
-  }
-
-  if (!songs.isEmpty()) {
-    Q_EMIT SongsAdded(songs);
-  }
-
-}
-
-void CollectionModel::RowsRemoved(const QModelIndex &parent, const int first, const int last) {
-
-  SongList songs;
-  for (int i = first; i <= last; i++) {
-    const QModelIndex idx = index(i, 0, parent);
-    if (!idx.isValid()) continue;
-    CollectionItem *item = IndexToItem(idx);
-    if (!item || item->type != CollectionItem::Type::Song) continue;
-    songs << item->metadata;
-  }
-
-  Q_EMIT SongsRemoved(songs);
-
-}
-
 QDataStream &operator<<(QDataStream &s, const CollectionModel::Grouping g) {
   s << static_cast<quint32>(g.first) << static_cast<quint32>(g.second) << static_cast<quint32>(g.third);
   return s;
