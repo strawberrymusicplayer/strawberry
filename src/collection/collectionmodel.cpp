@@ -800,7 +800,7 @@ void CollectionModel::RemoveSongsInternal(const SongList &songs) {
     QHash<CollectionItem*, QList<CollectionItem*>> empty_by_grandparent;
     // Since we are going to remove elements from the container, we need a copy to iterate over.
     // If we iterate over the original, the behavior will be undefined.
-    QSet<CollectionItem*> parents_copy = parents;
+    const QSet<CollectionItem*> parents_copy = parents;
     for (CollectionItem *node : parents_copy) {
       parents.remove(node);
       if (node->children.count() != 0) continue;
