@@ -22,6 +22,8 @@
 #include <sys/ioctl.h>
 #include <sys/inotify.h>
 
+#include <cerrno>
+#include <cstring>
 #include <vector>
 
 #include <QFile>
@@ -105,7 +107,8 @@ void FileSystemWatcherInotify::RemovePaths(const QStringList &paths) {
     }
     const int wd = wd_from_path_.value(path);
     const int result = ::inotify_rm_watch(inotify_fd_, wd);
-    if (result == -1) {
+    // EINVAL means the kernel already removed the watch (e.g. the directory was deleted or moved); that is not an error and we must still drop our mapping. Only skip the cleanup for genuine failures.
+    if (result == -1 && errno != EINVAL) {
       qLog(Error) << "Failed to remove inotify watch for watch descriptor" << wd << "path" << path << strerror(errno);
       continue;
     }
@@ -168,21 +171,32 @@ void FileSystemWatcherInotify::InotifyRead() {
     const inotify_event &event = **it;
     const int wd = event.wd;
     if (!path_from_wd_.contains(wd)) {
-      qLog(Warning) << "Received event for watch descriptor" << wd << "but no path is associated with that";
+      // No path is associated with this descriptor.
+      // This is expected for IN_IGNORED, which the kernel delivers when a watch is removed either by our own inotify_rm_watch() below (in response to IN_MOVE_SELF / IN_DELETE_SELF),
+      // or automatically when the watched directory is deleted or moved away by which point we have already dropped the mapping.
       continue;
     }
     const QString path = path_from_wd_.value(wd);
-    if ((event.mask & (IN_DELETE_SELF | IN_MOVE_SELF | IN_UNMOUNT)) != 0) {
-      const int result = ::inotify_rm_watch(inotify_fd_, wd);
-      if (result == -1) {
-        qLog(Error) << "Failed to remove inotify watch for watch descriptor" << wd << "path" << path << strerror(errno);
+
+    const bool ignored = (event.mask & IN_IGNORED) != 0;
+    const bool self_gone = (event.mask & (IN_DELETE_SELF | IN_MOVE_SELF | IN_UNMOUNT)) != 0;
+    if (ignored || self_gone) {
+      // The watch is going away. IN_IGNORED means the kernel has already removed the descriptor, so calling inotify_rm_watch() for it would just fail with EINVAL; only remove it ourselves for move/delete/unmount.
+      if (!ignored) {
+        const int result = ::inotify_rm_watch(inotify_fd_, wd);
+        // EINVAL is expected when the kernel already removed the watch automatically (e.g. the directory was deleted).
+        if (result == -1 && errno != EINVAL) {
+          qLog(Error) << "Failed to remove inotify watch for watch descriptor" << wd << "path" << path << strerror(errno);
+        }
       }
-      else {
-        path_from_wd_.remove(wd);
-        wd_from_path_.remove(path);
-      }
+      path_from_wd_.remove(wd);
+      wd_from_path_.remove(path);
     }
-    Q_EMIT PathChanged(path);
+
+    // Report the change, except for a bare IN_IGNORED which only signals that the watch went away.
+    if (!ignored || self_gone) {
+      Q_EMIT PathChanged(path);
+    }
   }
 
 }
