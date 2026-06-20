@@ -50,8 +50,7 @@ class CollectionFilter : public QSortFilterProxyModel {
   void GetChildSongs(CollectionItem *item, QSet<int> &song_ids, QList<QUrl> &urls, SongList &songs) const;
 
  private:
-  mutable QScopedPointer<FilterTree> filter_tree_;
-  mutable size_t query_hash_;
+  QScopedPointer<FilterTree> filter_tree_;
   QString filter_string_;
 };
 
