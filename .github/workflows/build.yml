@@ -763,7 +763,7 @@ jobs:
         submodules: recursive
     - name: Build OpenBSD
       id: build-openbsd
-      uses: vmactions/openbsd-vm@v1.4.3
+      uses: vmactions/openbsd-vm@v1.4.4
       with:
         usesh: true
         mem: 4096
