@@ -203,6 +203,16 @@
        </widget>
       </item>
       <item>
+       <widget class="QCheckBox" name="checkbox_volume_exponential">
+        <property name="toolTip">
+         <string>Map the volume slider to a decibel scale so that perceived loudness changes evenly. Each 1% step equals 0.5 dB, 100% is 0 dB and 0% is silence.</string>
+        </property>
+        <property name="text">
+         <string>Exponential volume scaling</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QWidget" name="widget_channels_enabled" native="true">
         <layout class="QHBoxLayout" name="horizontalLayout">
          <property name="leftMargin">
@@ -877,6 +887,7 @@
   <tabstop>radiobutton_alsa_pcm</tabstop>
   <tabstop>checkbox_exclusive_mode</tabstop>
   <tabstop>checkbox_volume_control</tabstop>
+  <tabstop>checkbox_volume_exponential</tabstop>
   <tabstop>checkbox_channels</tabstop>
   <tabstop>spinbox_channels</tabstop>
   <tabstop>checkbox_bs2b</tabstop>
