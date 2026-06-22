@@ -129,6 +129,7 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       playbin3_enabled_(true),
       exclusive_mode_(false),
       volume_enabled_(true),
+      volume_exponential_(false),
       fading_enabled_(false),
       strict_ssl_enabled_(false),
       buffer_duration_nanosec_(BackendSettings::kDefaultBufferDuration * kNsecPerMsec),
@@ -276,6 +277,10 @@ void GstEnginePipeline::set_exclusive_mode(const bool exclusive_mode) {
 
 void GstEnginePipeline::set_volume_enabled(const bool enabled) {
   volume_enabled_ = enabled;
+}
+
+void GstEnginePipeline::set_volume_exponential(const bool enabled) {
+  volume_exponential_ = enabled;
 }
 
 void GstEnginePipeline::set_stereo_balancer_enabled(const bool enabled) {
@@ -1222,7 +1227,7 @@ void GstEnginePipeline::NotifyVolumeCallback(GstElement *element, GParamSpec *pa
   double volume_internal = 0.0;
   g_object_get(G_OBJECT(element), "volume", &volume_internal, nullptr);
 
-  const uint volume_percent = static_cast<uint>(qBound(0L, lround(volume_internal / 0.01), 100L));
+  const uint volume_percent = instance->InternalVolumeToPercent(volume_internal);
   bool changed = false;
   {
     // Only publish the new value if `element` is still the active volume source.
@@ -2168,9 +2173,34 @@ void GstEnginePipeline::ProcessPendingSeek(const GstState state) {
 
 }
 
+double GstEnginePipeline::PercentToInternalVolume(const uint volume_percent) const {
+
+  if (!volume_exponential_) {
+    return static_cast<double>(volume_percent) * 0.01;
+  }
+
+  // Map the percentage onto a decibel scale where each 1% step equals 0.5 dB, so 100% is 0 dB (unity gain) and 0% is silence.
+  if (volume_percent == 0) return 0.0;
+  if (volume_percent >= 100) return 1.0;
+  return std::pow(10.0, (static_cast<double>(volume_percent) - 100.0) / 40.0);
+
+}
+
+uint GstEnginePipeline::InternalVolumeToPercent(const double volume_internal) const {
+
+  if (!volume_exponential_) {
+    return static_cast<uint>(qBound(0L, lround(volume_internal / 0.01), 100L));
+  }
+
+  // Inverse of PercentToInternalVolume: dB = 20*log10(gain), percent = 100 + dB/0.5.
+  if (volume_internal <= 0.0) return 0;
+  return static_cast<uint>(qBound(0L, lround(100.0 + 40.0 * std::log10(volume_internal)), 100L));
+
+}
+
 void GstEnginePipeline::SetVolume(const uint volume_percent) {
 
-  const double volume_internal = static_cast<double>(volume_percent) * 0.01;
+  const double volume_internal = PercentToInternalVolume(volume_percent);
   bool apply_to_element = false;
   GstElement *volume = nullptr;
   {

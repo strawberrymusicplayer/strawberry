@@ -924,6 +924,7 @@ GstEnginePipelinePtr GstEngine::CreatePipeline() {
   pipeline->set_playbin3_enabled(playbin3_enabled_);
   pipeline->set_exclusive_mode(exclusive_mode_);
   pipeline->set_volume_enabled(volume_control_);
+  pipeline->set_volume_exponential(volume_exponential_);
   pipeline->set_stereo_balancer_enabled(stereo_balancer_enabled_);
   pipeline->set_equalizer_enabled(equalizer_enabled_);
   pipeline->set_replaygain(rg_enabled_, rg_mode_, rg_preamp_, rg_fallbackgain_, rg_compression_);

@@ -171,6 +171,7 @@ void BackendSettingsPage::Load() {
   Load_Output(output_current_, device_current_);
 
   ui_->checkbox_volume_control->setChecked(s.value(kVolumeControl, true).toBool());
+  ui_->checkbox_volume_exponential->setChecked(s.value(kVolumeExponential, false).toBool());
 
   ui_->checkbox_channels->setChecked(s.value(kChannelsEnabled, false).toBool());
   ui_->spinbox_channels->setValue(s.value(kChannels, 2).toInt());
@@ -436,6 +437,7 @@ void BackendSettingsPage::Save() {
 #endif
 
   s.setValue(kVolumeControl, ui_->checkbox_volume_control->isChecked());
+  s.setValue(kVolumeExponential, ui_->checkbox_volume_exponential->isChecked());
 
   s.setValue(kChannelsEnabled, ui_->checkbox_channels->isChecked());
   s.setValue(kChannels, ui_->spinbox_channels->value());

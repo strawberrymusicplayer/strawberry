@@ -68,6 +68,7 @@ class GstEnginePipeline : public QObject {
   void set_playbin3_enabled(const bool playbin3_enabled);
   void set_exclusive_mode(const bool exclusive_mode);
   void set_volume_enabled(const bool enabled);
+  void set_volume_exponential(const bool enabled);
   void set_stereo_balancer_enabled(const bool enabled);
   void set_equalizer_enabled(const bool enabled);
   void set_replaygain(const bool enabled, const int mode, const double preamp, const double fallbackgain, const bool compression);
@@ -164,6 +165,8 @@ class GstEnginePipeline : public QObject {
   bool InitAudioBin(QString &error);
   void SetupVolume(GstElement *element);
   void ReapplyVolume();
+  double PercentToInternalVolume(const uint volume_percent) const;
+  uint InternalVolumeToPercent(const double volume_internal) const;
   void SetStateAsync(const GstState state);
   void SetNextUrl();
 
@@ -228,6 +231,7 @@ class GstEnginePipeline : public QObject {
   QVariant device_;
   bool exclusive_mode_;
   bool volume_enabled_;
+  bool volume_exponential_;
   bool fading_enabled_;
   std::atomic<bool> strict_ssl_enabled_;
 

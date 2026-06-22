@@ -50,6 +50,7 @@ EngineBase::EngineBase(QObject *parent)
       playbin3_enabled_(true),
       exclusive_mode_(false),
       volume_control_(true),
+      volume_exponential_(false),
       volume_(100),
       beginning_offset_nanosec_(0),
       end_offset_nanosec_(0),
@@ -163,6 +164,7 @@ void EngineBase::ReloadSettings() {
   exclusive_mode_ = s.value(BackendSettings::kExclusiveMode, false).toBool();
 
   volume_control_ = s.value(BackendSettings::kVolumeControl, true).toBool();
+  volume_exponential_ = s.value(BackendSettings::kVolumeExponential, false).toBool();
 
   channels_enabled_ = s.value(BackendSettings::kChannelsEnabled, false).toBool();
   channels_ = s.value(BackendSettings::kChannels, 0).toInt();
