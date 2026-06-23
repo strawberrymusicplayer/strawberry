@@ -29,9 +29,7 @@
 #include <QString>
 #include <QSize>
 
-#if defined(HAVE_MOODBAR) || defined(HAVE_WAVEFORM)
-#  include "constants/seekbarsettings.h"
-#endif
+#include "constants/seekbarsettings.h"
 
 class QAction;
 class QActionGroup;
@@ -120,9 +118,8 @@ class TrackSlider : public QWidget {
   WaveformProxyStyle *waveform_proxy_style_;
 #endif
 
-#if defined(HAVE_MOODBAR) || defined(HAVE_WAVEFORM)
   SeekbarMode seekbar_mode_;
-
+#if defined(HAVE_MOODBAR) || defined(HAVE_WAVEFORM)
   // Unified seekbar right-click menu, built in the constructor.
   QMenu *seekbar_menu_;
   QActionGroup *seekbar_mode_group_;
