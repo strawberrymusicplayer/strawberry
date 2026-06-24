@@ -135,6 +135,7 @@ GstEnginePipeline::GstEnginePipeline(QObject *parent)
       buffer_duration_nanosec_(BackendSettings::kDefaultBufferDuration * kNsecPerMsec),
       buffer_low_watermark_(BackendSettings::kDefaultBufferLowWatermark),
       buffer_high_watermark_(BackendSettings::kDefaultBufferHighWatermark),
+      buffer_entire_song_(false),
       proxy_authentication_(false),
       channels_enabled_(false),
       channels_(0),
@@ -322,6 +323,10 @@ void GstEnginePipeline::set_buffer_low_watermark(const double value) {
 
 void GstEnginePipeline::set_buffer_high_watermark(const double value) {
   buffer_high_watermark_ = value;
+}
+
+void GstEnginePipeline::set_buffer_entire_song(const bool enabled) {
+  buffer_entire_song_ = enabled;
 }
 
 void GstEnginePipeline::set_proxy_settings(const QString &address, const bool authentication, const QString &user, const QString &pass) {
@@ -561,6 +566,14 @@ bool GstEnginePipeline::InitFromUrl(const QUrl &media_url, const QUrl &stream_ur
   flags &= ~GST_PLAY_FLAG_VIDEO;
   flags &= ~GST_PLAY_FLAG_TEXT;
   flags &= ~GST_PLAY_FLAG_SOFT_VOLUME;
+  // When buffering the entire song is enabled, use download buffering so playbin downloads the whole media to a temporary file on disk and plays from there.
+  // This only affects downloadable (non-live) network streams; for local files it has no effect since they are already on disk.
+  if (buffer_entire_song_) {
+    flags |= GST_PLAY_FLAG_DOWNLOAD;
+  }
+  else {
+    flags &= ~GST_PLAY_FLAG_DOWNLOAD;
+  }
   g_object_set(G_OBJECT(pipeline_), "flags", flags, nullptr);
 
   {

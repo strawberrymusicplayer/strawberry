@@ -216,6 +216,7 @@ class EngineBase : public QObject {
   quint64 buffer_duration_nanosec_;
   double buffer_low_watermark_;
   double buffer_high_watermark_;
+  bool buffer_entire_song_;
 
   // Fadeout
   bool fadeout_enabled_;

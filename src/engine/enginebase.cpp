@@ -68,6 +68,7 @@ EngineBase::EngineBase(QObject *parent)
       buffer_duration_nanosec_(BackendSettings::kDefaultBufferDuration * kNsecPerMsec),
       buffer_low_watermark_(BackendSettings::kDefaultBufferLowWatermark),
       buffer_high_watermark_(BackendSettings::kDefaultBufferHighWatermark),
+      buffer_entire_song_(false),
       fadeout_enabled_(true),
       crossfade_enabled_(true),
       autocrossfade_enabled_(false),
@@ -172,6 +173,7 @@ void EngineBase::ReloadSettings() {
   buffer_duration_nanosec_ = s.value(BackendSettings::kBufferDuration, BackendSettings::kDefaultBufferDuration).toULongLong() * kNsecPerMsec;
   buffer_low_watermark_ = s.value(BackendSettings::kBufferLowWatermark, BackendSettings::kDefaultBufferLowWatermark).toDouble();
   buffer_high_watermark_ = s.value(BackendSettings::kBufferHighWatermark, BackendSettings::kDefaultBufferHighWatermark).toDouble();
+  buffer_entire_song_ = s.value(BackendSettings::kBufferEntireSong, false).toBool();
 
   rg_enabled_ = s.value(BackendSettings::kRgEnabled, false).toBool();
   rg_mode_ = s.value(BackendSettings::kRgMode, 0).toInt();

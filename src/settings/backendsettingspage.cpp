@@ -184,6 +184,7 @@ void BackendSettingsPage::Load() {
   ui_->checkbox_http2->setChecked(s.value(kHTTP2, false).toBool());
   ui_->checkbox_strict_ssl->setChecked(s.value(kStrictSSL, false).toBool());
 
+  ui_->checkbox_buffer_entire_song->setChecked(s.value(kBufferEntireSong, false).toBool());
   ui_->spinbox_bufferduration->setValue(s.value(kBufferDuration, kDefaultBufferDuration).toInt());
   ui_->spinbox_low_watermark->setValue(s.value(kBufferLowWatermark, kDefaultBufferLowWatermark).toDouble());
   ui_->spinbox_high_watermark->setValue(s.value(kBufferHighWatermark, kDefaultBufferHighWatermark).toDouble());
@@ -449,6 +450,7 @@ void BackendSettingsPage::Save() {
   s.setValue(kHTTP2, ui_->checkbox_http2->isChecked());
   s.setValue(kStrictSSL, ui_->checkbox_strict_ssl->isChecked());
 
+  s.setValue(kBufferEntireSong, ui_->checkbox_buffer_entire_song->isChecked());
   s.setValue(kBufferDuration, ui_->spinbox_bufferduration->value());
   s.setValue(kBufferLowWatermark, ui_->spinbox_low_watermark->value());
   s.setValue(kBufferHighWatermark, ui_->spinbox_high_watermark->value());

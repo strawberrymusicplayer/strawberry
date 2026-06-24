@@ -76,6 +76,7 @@ class GstEnginePipeline : public QObject {
   void set_buffer_duration_nanosec(const quint64 duration_nanosec);
   void set_buffer_low_watermark(const double value);
   void set_buffer_high_watermark(const double value);
+  void set_buffer_entire_song(const bool enabled);
   void set_proxy_settings(const QString &address, const bool authentication, const QString &user, const QString &pass);
   void set_channels(const bool enabled, const int channels);
   void set_bs2b_enabled(const bool enabled);
@@ -239,6 +240,7 @@ class GstEnginePipeline : public QObject {
   quint64 buffer_duration_nanosec_;
   double buffer_low_watermark_;
   double buffer_high_watermark_;
+  bool buffer_entire_song_;
 
   // Proxy
   QString proxy_address_;

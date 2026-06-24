@@ -329,6 +329,16 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
+       <widget class="QCheckBox" name="checkbox_buffer_entire_song">
+        <property name="toolTip">
+         <string>Download the entire song to a temporary file before and during playback. Only affects network streams; local files are unaffected.</string>
+        </property>
+        <property name="text">
+         <string>Buffer the entire song</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <layout class="QGridLayout" name="layout_buffer">
         <item row="0" column="1">
          <widget class="QSpinBox" name="spinbox_bufferduration">
@@ -894,6 +904,7 @@
   <tabstop>checkbox_playbin3</tabstop>
   <tabstop>checkbox_http2</tabstop>
   <tabstop>checkbox_strict_ssl</tabstop>
+  <tabstop>checkbox_buffer_entire_song</tabstop>
   <tabstop>spinbox_bufferduration</tabstop>
   <tabstop>spinbox_low_watermark</tabstop>
   <tabstop>spinbox_high_watermark</tabstop>

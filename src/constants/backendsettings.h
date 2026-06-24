@@ -43,6 +43,7 @@ constexpr char kBS2B[] = "bs2b";
 constexpr char kHTTP2[] = "http2";
 constexpr char kStrictSSL[] = "strict_ssl";
 constexpr char kBufferDuration[] = "bufferduration";
+constexpr char kBufferEntireSong[] = "bufferentiresong";
 constexpr char kBufferLowWatermark[] = "bufferlowwatermark";
 constexpr char kBufferHighWatermark[] = "bufferhighwatermark";
 constexpr char kRgEnabled[] = "rgenabled";
