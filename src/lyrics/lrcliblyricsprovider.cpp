@@ -35,6 +35,7 @@
 #include "core/logging.h"
 #include "core/networkaccessmanager.h"
 #include "jsonlyricsprovider.h"
+#include "lrcparser.h"
 #include "lyricssearchrequest.h"
 #include "lyricssearchresult.h"
 #include "lrcliblyricsprovider.h"
@@ -150,6 +151,14 @@ void LrcLibLyricsProvider::HandleSearchReply(QNetworkReply *reply, const int id,
   result.album = json_object["albumName"_L1].toString();
   result.title = json_object["trackName"_L1].toString();
   result.lyrics = json_object["plainLyrics"_L1].toString();
+
+  if (json_object.contains("syncedLyrics"_L1) && json_object["syncedLyrics"_L1].isString()) {
+    const QString synced_lyrics_raw = json_object["syncedLyrics"_L1].toString();
+    if (!synced_lyrics_raw.isEmpty()) {
+      result.synced_lyrics = LrcParser::Parse(synced_lyrics_raw);
+    }
+  }
+
   results << result;
 
 }

@@ -580,6 +580,7 @@ set(SOURCES
 
   src/context/contextview.cpp
   src/context/contextalbum.cpp
+  src/context/syncedlyricswidget.cpp
 
   src/collection/collectionlibrary.cpp
   src/collection/collectionmodel.cpp
@@ -706,6 +707,7 @@ set(SOURCES
   src/lyrics/elyricsnetlyricsprovider.cpp
   src/lyrics/letraslyricsprovider.cpp
   src/lyrics/lrcliblyricsprovider.cpp
+  src/lyrics/lrcparser.cpp
 
   src/settings/settingsdialog.cpp
   src/settings/settingspage.cpp
@@ -900,6 +902,7 @@ set(HEADERS
 
   src/context/contextview.h
   src/context/contextalbum.h
+  src/context/syncedlyricswidget.h
 
   src/collection/collectionlibrary.h
   src/collection/collectionmodel.h
@@ -1004,6 +1007,8 @@ set(HEADERS
   src/lyrics/elyricsnetlyricsprovider.h
   src/lyrics/letraslyricsprovider.h
   src/lyrics/lrcliblyricsprovider.h
+  src/lyrics/lrcparser.h
+  src/lyrics/lyricline.h
 
   src/settings/settingsdialog.h
   src/settings/settingspage.h

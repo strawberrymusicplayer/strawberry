@@ -40,7 +40,7 @@ namespace {
 constexpr int kSearchEarlyTimeoutMs = 6000;
 constexpr int kSearchTimeoutMs = 15000;
 constexpr int kGoodLyricsLength = 60;
-constexpr float kHighScore = 2.5;
+constexpr float kHighScore = 3.0;
 }  // namespace
 
 LyricsFetcherSearch::LyricsFetcherSearch(const quint64 id, const LyricsSearchRequest &request, QObject *parent)
@@ -126,6 +126,7 @@ void LyricsFetcherSearch::ProviderSearchFinished(const int id, const LyricsSearc
       results_copy[i].score -= 1.5;
     }
     if (results_copy[i].lyrics.length() > kGoodLyricsLength) results_copy[i].score += 1.0;
+    if (!results_copy[i].synced_lyrics.isEmpty()) results_copy[i].score += 0.5;
     if (results_copy[i].score > higest_score) higest_score = results_copy[i].score;
   }
 
@@ -188,7 +189,7 @@ void LyricsFetcherSearch::FinishSearch() {
   }
   else {
     qLog(Debug) << "Using lyrics from" << results_.last().provider << "for" << request_.artist << request_.title << "with score" << results_.last().score;
-    Q_EMIT LyricsFetched(id_, results_.constLast().provider, results_.constLast().lyrics);
+    Q_EMIT LyricsFetched(id_, results_.constLast().provider, results_.constLast().lyrics, results_.constLast().synced_lyrics);
   }
 
   Q_EMIT SearchFinished(id_, results_);
