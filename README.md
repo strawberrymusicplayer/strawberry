@@ -92,18 +92,18 @@ Supporting open-source developers helps ensure continued maintenance and improve
 To build Strawberry from source, you’ll need:
 
 **Dependencies:**
-- [CMake ≥= 3.13](https://cmake.org/)
+- [CMake 3.13 or higher](https://cmake.org/)
 - C/C++ compiler ([GCC](https://gcc.gnu.org/), [Clang](https://clang.llvm.org/), or [MSVC](https://visualstudio.microsoft.com/vs/features/cplusplus/))
 - [pkg-config](https://www.freedesktop.org/wiki/Software/pkg-config/) or [pkgconf](https://github.com/pkgconf/pkgconf)
 - [Boost](https://www.boost.org/)
 - [GLib](https://developer.gnome.org/glib/)
-- [Qt ≥= 6.4](https://www.qt.io/) (Core, Concurrent, Gui, Widgets, Network, SQL, D-Bus)
-- [SQLite ≥= 3.9](https://www.sqlite.org)
+- [Qt 6.4 or higher](https://www.qt.io/) (Core, Concurrent, Gui, Widgets, Network, SQL, D-Bus)
+- [SQLite 3.9 or higher](https://www.sqlite.org)
 - [ALSA (Linux only)](https://www.alsa-project.org/)
 - [GStreamer](https://gstreamer.freedesktop.org/)
-- [TagLib ≥= 1.12](https://www.taglib.org/)
+- [TagLib 1.12 or higher](https://www.taglib.org/)
 - [ICU](https://unicode-org.github.io/icu/)
-- [KDSingleApplication ≥= 1.1.0](https://github.com/KDAB/KDSingleApplication)
+- [KDSingleApplication 1.1.0 or higher](https://github.com/KDAB/KDSingleApplication)
 
 **Dependencies for optional features:**
 - Fingerprinting & tagging: [Chromaprint](https://acoustid.org/chromaprint)
