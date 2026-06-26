@@ -247,7 +247,8 @@ const QStringList Song::kAcceptedExtensions = QStringList() << u"wav"_s
                                                             << u"ac3"_s
                                                             << u"dts"_s
                                                             << u"spc"_s
-                                                            << u"vgm"_s;
+                                                            << u"vgm"_s
+                                                            << u"tak"_s;
 
 const QStringList Song::kRejectedExtensions = QStringList() << u"tmp"_s
                                                             << u"tar"_s
