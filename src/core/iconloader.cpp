@@ -79,6 +79,26 @@ QIcon IconLoader::Load(const QString &name, const bool system_icon, const int fi
     sizes << fixed_size;
   }
 
+  // Custom icons take precedence over system theme icons: a user-provided icon set is an explicit choice and should be honored everywhere, with the system theme only used as a fallback for icons the user did not provide.
+  if (custom_icons_) {
+    const QString custom_icon_path = StandardPaths::WritableLocation(StandardPaths::StandardLocation::AppLocalDataLocation) + u"/icons/%1x%1/%2.%3"_s;
+    for (int s : std::as_const(sizes)) {
+      const QString png_filename = custom_icon_path.arg(s).arg(name, u"png"_s);
+      if (QFile::exists(png_filename)) {
+        ret.addFile(png_filename, QSize(s, s));
+        continue;
+      }
+      if (svg_supported_) {
+        const QString svg_filename = custom_icon_path.arg(s).arg(name, u"svg"_s);
+        if (QFile::exists(svg_filename)) {
+          ret.addFile(svg_filename, QSize(s, s));
+        }
+      }
+    }
+    if (!ret.isNull()) return ret;
+    qLog(Warning) << "Couldn't load icon" << name << "from custom icons.";
+  }
+
   if (system_icon && system_icons_) {
     IconMapper::IconProperties icon_prop;
     if (IconMapper::iconmapper_.contains(name)) {
@@ -127,25 +147,6 @@ QIcon IconLoader::Load(const QString &name, const bool system_icon, const int fi
       }
     }
     if (!ret.isNull()) return ret;
-  }
-
-  if (custom_icons_) {
-    const QString custom_icon_path = StandardPaths::WritableLocation(StandardPaths::StandardLocation::AppLocalDataLocation) + u"/icons/%1x%1/%2.%3"_s;
-    for (int s : std::as_const(sizes)) {
-      const QString png_filename = custom_icon_path.arg(s).arg(name, u"png"_s);
-      if (QFile::exists(png_filename)) {
-        ret.addFile(png_filename, QSize(s, s));
-        continue;
-      }
-      if (svg_supported_) {
-        const QString svg_filename = custom_icon_path.arg(s).arg(name, u"svg"_s);
-        if (QFile::exists(svg_filename)) {
-          ret.addFile(svg_filename, QSize(s, s));
-        }
-      }
-    }
-    if (!ret.isNull()) return ret;
-    qLog(Warning) << "Couldn't load icon" << name << "from custom icons.";
   }
 
   const QString path(u":/icons/%1x%2/%3.png"_s);
