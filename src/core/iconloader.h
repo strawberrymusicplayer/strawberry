@@ -32,6 +32,7 @@ class IconLoader {
   explicit IconLoader() {}
   static bool system_icons_;
   static bool custom_icons_;
+  static bool svg_supported_;
 };
 
 #endif  // ICONLOADER_H

@@ -24,8 +24,10 @@
 #include <QDir>
 #include <QFile>
 #include <QList>
+#include <QByteArray>
 #include <QString>
 #include <QIcon>
+#include <QImageReader>
 #include <QSize>
 #include <QSettings>
 
@@ -40,6 +42,7 @@ using namespace Qt::Literals::StringLiterals;
 
 bool IconLoader::system_icons_ = false;
 bool IconLoader::custom_icons_ = false;
+bool IconLoader::svg_supported_ = false;
 
 void IconLoader::Init() {
 
@@ -54,6 +57,8 @@ void IconLoader::Init() {
   if (dir.exists(StandardPaths::WritableLocation(StandardPaths::StandardLocation::AppLocalDataLocation) + u"/icons"_s)) {
     custom_icons_ = true;
   }
+
+  svg_supported_ = QImageReader::supportedImageFormats().contains("svg");
 
 }
 
@@ -130,10 +135,13 @@ QIcon IconLoader::Load(const QString &name, const bool system_icon, const int fi
       const QString png_filename = custom_icon_path.arg(s).arg(name, u"png"_s);
       if (QFile::exists(png_filename)) {
         ret.addFile(png_filename, QSize(s, s));
+        continue;
       }
-      const QString svg_filename = custom_icon_path.arg(s).arg(name, u"svg"_s);
-      if (QFile::exists(svg_filename)) {
-        ret.addFile(svg_filename, QSize(s, s));
+      if (svg_supported_) {
+        const QString svg_filename = custom_icon_path.arg(s).arg(name, u"svg"_s);
+        if (QFile::exists(svg_filename)) {
+          ret.addFile(svg_filename, QSize(s, s));
+        }
       }
     }
     if (!ret.isNull()) return ret;
