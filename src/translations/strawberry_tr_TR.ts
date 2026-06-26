@@ -699,6 +699,14 @@
       <source>You need to restart Strawberry for this setting to take affect</source>
       <translation type="unfinished">You need to restart Strawberry for this setting to take affect</translation>
     </message>
+    <message>
+      <source>Map the volume slider to a decibel scale so that perceived loudness changes evenly. Each 1% step equals 0.5 dB, 100% is 0 dB and 0% is silence.</source>
+      <translation type="unfinished">Map the volume slider to a decibel scale so that perceived loudness changes evenly. Each 1% step equals 0.5 dB, 100% is 0 dB and 0% is silence.</translation>
+    </message>
+    <message>
+      <source>Exponential volume scaling</source>
+      <translation type="unfinished">Exponential volume scaling</translation>
+    </message>
   </context>
   <context>
     <name>BehaviourSettingsPage</name>
