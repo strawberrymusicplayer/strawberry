@@ -2,6 +2,15 @@ Strawberry Music Player
 =======================
 ChangeLog
 
+Version 1.2.21 (2026.06.27):
+
+    * Re-point playlist items that references duplicated songs before removal (#2168)
+    * Preserve user data before deleting duplicate songs (#2168)
+    * Check for svg support (#2171)
+    * Support custom icons from scalable dir (#2171)
+    * Custom icons take precedence over system theme icons (#2171)
+    * Add .tak to valid file extensions
+
 Version 1.2.20 (2026.06.21):
 
   Bugfixes:
