@@ -10,6 +10,8 @@ Version 1.2.21 (2026.06.27):
     * Support custom icons from scalable dir (#2171)
     * Custom icons take precedence over system theme icons (#2171)
     * Add .tak to valid file extensions
+    * Optional exponential volume
+    * Fixed build without moodbar and waveform
 
 Version 1.2.20 (2026.06.21):
 
