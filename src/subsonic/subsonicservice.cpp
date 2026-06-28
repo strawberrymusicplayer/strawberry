@@ -80,7 +80,7 @@ SubsonicService::SubsonicService(const SharedPtr<TaskManager> task_manager,
       collection_backend_(nullptr),
       collection_model_(nullptr),
       http2_(false),
-      verify_certificate_(false),
+      verify_certificate_(true),
       download_album_covers_(true),
       use_album_id_for_album_covers_(false),
       auth_method_(SubsonicSettings::AuthMethod::MD5),
@@ -127,7 +127,7 @@ void SubsonicService::ReloadSettings() {
   else password_ = QString::fromUtf8(QByteArray::fromBase64(password));
 
   http2_ = s.value(SubsonicSettings::kHTTP2, false).toBool();
-  verify_certificate_ = s.value(SubsonicSettings::kVerifyCertificate, false).toBool();
+  verify_certificate_ = s.value(SubsonicSettings::kVerifyCertificate, true).toBool();
   download_album_covers_ = s.value(SubsonicSettings::kDownloadAlbumCovers, true).toBool();
   use_album_id_for_album_covers_ = s.value(SubsonicSettings::kUseAlbumIdForAlbumCovers, false).toBool();
   auth_method_ = static_cast<SubsonicSettings::AuthMethod>(s.value(SubsonicSettings::kAuthMethod, static_cast<int>(SubsonicSettings::AuthMethod::MD5)).toInt());
