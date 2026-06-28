@@ -1535,7 +1535,10 @@ void GstEnginePipeline::AboutToFinishCallback(GstPlayBin *playbin, gpointer self
 
 }
 
-// Watch callback runs on the main thread and is the single dispatch point for all message-driven state mutation in this class.
+// Watch callback and the single dispatch point for all message-driven state mutation in this class.
+// IMPORTANT: this only runs on the main thread when Qt drives the GLib default main context (i.e. the QEventDispatcherGlib build on Linux/Unix).
+// On Windows and macOS Qt uses a non-GLib event dispatcher, so Application starts a dedicated GLib thread (see Application::GLibMainLoopThreadFunc) that drives the default context instead, and this callback - and every handler it calls below - then runs on THAT thread, concurrently with the main thread.
+// Consequently every member touched here must stay safe against concurrent main-thread access (the state is mostly atomics/mutex-guarded), and the pipeline teardown in Disconnect() can race an in-flight dispatch on that thread.
 gboolean GstEnginePipeline::BusWatchCallback(GstBus *bus, GstMessage *msg, gpointer self) {
 
   Q_UNUSED(bus)
@@ -1580,7 +1583,7 @@ gboolean GstEnginePipeline::BusWatchCallback(GstBus *bus, GstMessage *msg, gpoin
 }
 
 // Sync handler runs on the GStreamer streaming thread.
-// Only do work here that genuinely needs streaming-thread context. Everything else is delivered to BusWatchCallback on the main thread via GST_BUS_PASS.
+// Only do work here that genuinely needs streaming-thread context. Everything else is passed through with GST_BUS_PASS so it is delivered to BusWatchCallback (which runs on the main thread on Linux, but on the dedicated GLib thread on Windows/macOS - see the note there).
 GstBusSyncReply GstEnginePipeline::BusSyncCallback(GstBus *bus, GstMessage *msg, gpointer self) {
 
   Q_UNUSED(bus)
