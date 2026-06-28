@@ -80,6 +80,7 @@ class Song {
     RadioBrowser = 12
   };
   static const int kSourceCount = 16;
+  static_assert(static_cast<int>(Source::RadioBrowser) < kSourceCount, "kSourceCount must exceed the largest Song::Source value");
 
   enum class FileType {
     Unknown = 0,
