@@ -2015,15 +2015,15 @@ bool Song::MergeFromEngineMetadata(const EngineMetadata &engine_metadata) {
 
   if (d->init_from_file_ || is_local_collection_song() || d->url_.isLocalFile()) {
     // This Song was already loaded using TagLib. Our tags are probably better than the engine's.
-    if (title() != engine_metadata.title && title().isEmpty() && !engine_metadata.title.isEmpty()) {
+    if (title().isEmpty() && !engine_metadata.title.isEmpty()) {
       set_title(engine_metadata.title);
       minor = false;
     }
-    if (artist() != engine_metadata.artist && artist().isEmpty() && !engine_metadata.artist.isEmpty()) {
+    if (artist().isEmpty() && !engine_metadata.artist.isEmpty()) {
       set_artist(engine_metadata.artist);
       minor = false;
     }
-    if (album() != engine_metadata.album && album().isEmpty() && !engine_metadata.album.isEmpty()) {
+    if (album().isEmpty() && !engine_metadata.album.isEmpty()) {
       set_album(engine_metadata.album);
       minor = false;
     }
