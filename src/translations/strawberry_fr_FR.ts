@@ -701,7 +701,7 @@
     </message>
     <message>
       <source>Map the volume slider to a decibel scale so that perceived loudness changes evenly. Each 1% step equals 0.5 dB, 100% is 0 dB and 0% is silence.</source>
-      <translation type="unfinished">Map the volume slider to a decibel scale so that perceived loudness changes evenly. Each 1% step equals 0.5 dB, 100% is 0 dB and 0% is silence.</translation>
+      <translation>Configurez le curseur de volume sur une échelle de décibels afin que le niveau sonore perçu varie de manière uniforme. Chaque incrément de 1 % correspond à 0,5 dB, 100 % correspond à 0 dB et 0 % correspond au silence.</translation>
     </message>
     <message>
       <source>Exponential volume scaling</source>
@@ -5679,7 +5679,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Not authenticated. Please login to Qobuz in the settings.</source>
-      <translation type="unfinished">Not authenticated. Please login to Qobuz in the settings.</translation>
+      <translation>Authentification impossible. Veuillez vous connecter à Qobuz dans les paramètres.</translation>
     </message>
   </context>
   <context>
@@ -5770,11 +5770,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Credentials have been successfully fetched. Click Login to authenticate via your browser.</source>
-      <translation type="unfinished">Credentials have been successfully fetched. Click Login to authenticate via your browser.</translation>
+      <translation>Vos identifiants ont été récupérés avec succès. Cliquez sur « Se connecter » pour vous authentifier via votre navigateur.</translation>
     </message>
     <message>
       <source>Credential fetch failed</source>
-      <translation type="unfinished">Credential fetch failed</translation>
+      <translation>Échec de la récupération des identifiants</translation>
     </message>
     <message>
       <source>Fetch Credentials</source>
@@ -5782,7 +5782,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Remove (Remastered), etc from song titles</source>
-      <translation type="unfinished">Remove (Remastered), etc from song titles</translation>
+      <translation>Supprimer (Remasterisé), etc des titres du morceau</translation>
     </message>
     <message>
       <source>Private key</source>
@@ -5790,7 +5790,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Automatically fetch app ID, app secret and private key from Qobuz web player</source>
-      <translation type="unfinished">Automatically fetch app ID, app secret and private key from Qobuz web player</translation>
+      <translation>Récupération automatique de l'identifiant, du secret et de la clé privée de l'application depuis le lecteur web Qobuz</translation>
     </message>
   </context>
   <context>
@@ -5801,7 +5801,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Not authenticated. Please log in on the Qobuz settings page.</source>
-      <translation type="unfinished">Not authenticated. Please log in on the Qobuz settings page.</translation>
+      <translation>Authentification impossible. Veuillez vous connecter sur la page des paramètres Qobuz.</translation>
     </message>
     <message>
       <source>Cancelled.</source>
@@ -5865,26 +5865,26 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Tags</source>
-      <translation type="unfinished">Tags</translation>
+      <translation>Étiquettes</translation>
     </message>
     <message>
       <source>Codec</source>
-      <translation type="unfinished">Codec</translation>
+      <translation>Codec</translation>
     </message>
   </context>
   <context>
     <name>RadioBrowserSearchView</name>
     <message>
       <source>Load more...</source>
-      <translation type="unfinished">Load more...</translation>
+      <translation>Charger plus...</translation>
     </message>
     <message>
       <source>Search for radio stations using radio-browser.info</source>
-      <translation type="unfinished">Search for radio stations using radio-browser.info</translation>
+      <translation>Recherchez des stations de radio à l'aide de radio-browser.info</translation>
     </message>
     <message>
       <source>Search radio stations...</source>
-      <translation type="unfinished">Search radio stations...</translation>
+      <translation>Rechercher des stations de radio...</translation>
     </message>
     <message>
       <source>All countries</source>
@@ -5908,34 +5908,34 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Searching...</source>
-      <translation type="unfinished">Searching...</translation>
+      <translation>Recherche en cours...</translation>
     </message>
     <message>
       <source>No stations found.</source>
-      <translation type="unfinished">No stations found.</translation>
+      <translation>Aucune station trouvée.</translation>
     </message>
     <message>
       <source>%1 stations found</source>
-      <translation type="unfinished">%1 stations found</translation>
+      <translation>%1 stations trouvées</translation>
     </message>
     <message>
       <source>Append to current playlist</source>
-      <translation type="unfinished">Append to current playlist</translation>
+      <translation>Ajouter à la liste de lecture actuelle</translation>
     </message>
   </context>
   <context>
     <name>RadioBrowserService</name>
     <message>
       <source>No Radio Browser server available.</source>
-      <translation type="unfinished">No Radio Browser server available.</translation>
+      <translation>Aucun serveur Radio Browser disponible.</translation>
     </message>
     <message>
       <source>Searching Radio Browser</source>
-      <translation type="unfinished">Searching Radio Browser</translation>
+      <translation>Recherche dans le navigateur radio</translation>
     </message>
     <message>
       <source>Radio Browser search failed: %1</source>
-      <translation type="unfinished">Radio Browser search failed: %1</translation>
+      <translation>Échec de la recherche dans le navigateur radio : %1</translation>
     </message>
   </context>
   <context>
@@ -5949,7 +5949,7 @@ Are you sure you want to continue?</source>
     <name>RadioSettingsPage</name>
     <message>
       <source>Radios</source>
-      <translation type="unfinished">Radios</translation>
+      <translation>Radios</translation>
     </message>
     <message>
       <source>SomaFM</source>
@@ -5977,11 +5977,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Default country:</source>
-      <translation type="unfinished">Default country:</translation>
+      <translation>Pays par Défaut :</translation>
     </message>
     <message>
       <source>All countries</source>
-      <translation type="unfinished">All countries</translation>
+      <translation>Tous les pays</translation>
     </message>
     <message>
       <source>Highest</source>
@@ -5997,19 +5997,19 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>By votes</source>
-      <translation type="unfinished">By votes</translation>
+      <translation>Par votes</translation>
     </message>
     <message>
       <source>By clicks</source>
-      <translation type="unfinished">By clicks</translation>
+      <translation>Par clics</translation>
     </message>
     <message>
       <source>By name</source>
-      <translation type="unfinished">By name</translation>
+      <translation>Par nom</translation>
     </message>
     <message>
       <source>By bitrate</source>
-      <translation type="unfinished">By bitrate</translation>
+      <translation>Par débit</translation>
     </message>
   </context>
   <context>
@@ -6047,11 +6047,11 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Channels</source>
-      <translation type="unfinished">Channels</translation>
+      <translation>Chaînes</translation>
     </message>
     <message>
       <source>Radio Browser</source>
-      <translation type="unfinished">Radio Browser</translation>
+      <translation>Navigateur radio</translation>
     </message>
   </context>
   <context>
@@ -6605,7 +6605,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Restore defaults</source>
-      <translation type="unfinished">Restore defaults</translation>
+      <translation>Rétablir les paramètres par défaut</translation>
     </message>
   </context>
   <context>
@@ -6677,7 +6677,7 @@ Are you sure you want to continue?</source>
     <name>SpotifyMetadataRequest</name>
     <message>
       <source>Not authenticated</source>
-      <translation type="unfinished">Not authenticated</translation>
+      <translation>Non authentifié</translation>
     </message>
     <message>
       <source>No track ID</source>
@@ -7287,7 +7287,7 @@ Are you sure you want to continue?</source>
     </message>
     <message>
       <source>Remove (Remastered), etc from song titles</source>
-      <translation type="unfinished">Remove (Remastered), etc from song titles</translation>
+      <translation>Supprimer (Remasterisé), etc des titres du morceau</translation>
     </message>
   </context>
   <context>
