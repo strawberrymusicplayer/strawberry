@@ -564,6 +564,7 @@ set(SOURCES
   src/engine/gststartup.cpp
   src/engine/gstengine.cpp
   src/engine/gstenginepipeline.cpp
+  src/engine/gstbusmessageevent.cpp
 
   src/analyzer/fht.cpp
   src/analyzer/analyzerbase.cpp
