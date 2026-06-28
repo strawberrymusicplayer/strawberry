@@ -408,7 +408,7 @@ QVariant Playlist::data(const QModelIndex &idx, const int role) const {
       return QVariant(column_alignments_.value(idx.column(), (Qt::AlignLeft | Qt::AlignVCenter)));
 
     case Qt::ForegroundRole:
-      if (data(idx, Role_IsCurrent).toBool()) {
+      if (current_item_index_.isValid() && idx.row() == current_item_index_.row()) {
         // Ignore any custom colours for the currently playing item - they might clash with the glowing current track indicator.
         return QVariant();
       }
@@ -423,7 +423,7 @@ QVariant Playlist::data(const QModelIndex &idx, const int role) const {
       return QVariant();
 
     case Qt::BackgroundRole:
-      if (data(idx, Role_IsCurrent).toBool()) {
+      if (current_item_index_.isValid() && idx.row() == current_item_index_.row()) {
         // Ignore any custom colours for the currently playing item - they might clash with the glowing current track indicator.
         return QVariant();
       }
