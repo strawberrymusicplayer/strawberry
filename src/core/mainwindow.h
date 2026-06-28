@@ -93,6 +93,9 @@ class SmartPlaylistsViewContainer;
 #ifdef Q_OS_WIN32
 class Windows7ThumbBar;
 #endif
+#ifdef _MSC_VER
+class WinSystemMediaTransportControls;
+#endif
 class AddStreamDialog;
 class LastFMImportDialog;
 class RadioViewContainer;
@@ -308,6 +311,9 @@ class MainWindow : public QMainWindow, public PlatformInterface {
   Ui_MainWindow *ui_;
 #ifdef Q_OS_WIN32
   Windows7ThumbBar *thumbbar_;
+#endif
+#ifdef _MSC_VER
+  WinSystemMediaTransportControls *smtc_;
 #endif
 
   Application *app_;

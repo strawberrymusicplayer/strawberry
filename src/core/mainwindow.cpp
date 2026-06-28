@@ -223,6 +223,9 @@
 #ifdef Q_OS_WIN32
 #  include "core/windows7thumbbar.h"
 #endif
+#ifdef _MSC_VER
+#  include "core/winsystemmediatransportcontrols.h"
+#endif
 
 #ifdef Q_OS_MACOS
 #  include "core/mac_startup.h"
@@ -302,6 +305,9 @@ MainWindow::MainWindow(Application *app,
       ui_(new Ui_MainWindow),
 #ifdef Q_OS_WIN32
       thumbbar_(new Windows7ThumbBar(this)),
+#endif
+#ifdef _MSC_VER
+      smtc_(new WinSystemMediaTransportControls(app->player(), this)),
 #endif
       app_(app),
       systemtrayicon_(systemtrayicon),
@@ -418,6 +424,13 @@ MainWindow::MainWindow(Application *app,
 
   // Initialize the UI
   ui_->setupUi(this);
+
+#ifdef _MSC_VER
+  if (!smtc_->Initialize(reinterpret_cast<HWND>(winId()))) {
+    smtc_->deleteLater();
+    smtc_ = nullptr;
+  }
+#endif
 
   if (QGuiApplication::platformName() != "wayland"_L1) {
     setWindowIcon(IconLoader::Load(u"strawberry"_s));
@@ -726,6 +739,15 @@ MainWindow::MainWindow(Application *app,
 
   QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, &*app_->current_albumcover_loader(), &CurrentAlbumCoverLoader::LoadAlbumCover);
   QObject::connect(&*app_->current_albumcover_loader(), &CurrentAlbumCoverLoader::AlbumCoverLoaded, this, &MainWindow::AlbumCoverLoaded);
+
+#ifdef _MSC_VER
+  if (smtc_) {
+    QObject::connect(&*app_->player()->engine(), &EngineBase::StateChanged, smtc_, &WinSystemMediaTransportControls::EngineStateChanged);
+    QObject::connect(&*app_->playlist_manager(), &PlaylistManager::CurrentSongChanged, smtc_, &WinSystemMediaTransportControls::CurrentSongChanged);
+    QObject::connect(&*app_->current_albumcover_loader(), &CurrentAlbumCoverLoader::AlbumCoverLoaded, smtc_, &WinSystemMediaTransportControls::AlbumCoverLoaded);
+  }
+#endif
+
   QObject::connect(album_cover_choice_controller_, &AlbumCoverChoiceController::Error, this, &MainWindow::ShowErrorDialog);
   QObject::connect(album_cover_choice_controller_->cover_from_file_action(), &QAction::triggered, this, &MainWindow::LoadCoverFromFile);
   QObject::connect(album_cover_choice_controller_->cover_to_file_action(), &QAction::triggered, this, &MainWindow::SaveCoverToFile);
