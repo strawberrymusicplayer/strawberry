@@ -32,8 +32,7 @@
 
 PlaylistFilter::PlaylistFilter(QObject *parent)
     : QSortFilterProxyModel(parent),
-      filter_tree_(new FilterTreeNop),
-      query_hash_(0) {
+      filter_tree_(new FilterTreeNop) {
 
   setDynamicSortFilter(true);
 
@@ -57,13 +56,6 @@ bool PlaylistFilter::filterAcceptsRow(const int source_row, const QModelIndex &s
 
   if (filter_string_.isEmpty()) return true;
 
-  size_t hash = qHash(filter_string_);
-  if (hash != query_hash_) {
-    FilterParser p(filter_string_);
-    filter_tree_.reset(p.parse());
-    query_hash_ = hash;
-  }
-
   return filter_tree_->accept(item->EffectiveMetadata());
 
 }
@@ -71,6 +63,10 @@ bool PlaylistFilter::filterAcceptsRow(const int source_row, const QModelIndex &s
 void PlaylistFilter::SetFilterString(const QString &filter_string) {
 
   filter_string_ = filter_string;
+
+  FilterParser p(filter_string_);
+  filter_tree_.reset(p.parse());
+
   setFilterFixedString(filter_string);
 
 }
