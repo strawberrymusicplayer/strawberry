@@ -157,6 +157,8 @@ FilterParser::FilterParser(const QString &filter_string) : filter_string_(filter
 
 FilterTree *FilterParser::parse() {
 
+  // Reset all parse state so the parser produces the same result if parse() is called more than once on the same instance.
+  buf_.clear();
   iter_ = filter_string_.constBegin();
   end_ = filter_string_.constEnd();
 
