@@ -546,6 +546,8 @@ class Song {
   void ToXesam(QVariantMap *map) const;
 #endif
 
+  // Returns true if only minor fields changed, and false if a major field (title, artist or album) was updated from the engine metadata.
+  // Note the inverted polarity: true does NOT mean "merged successfully".
   bool MergeFromEngineMetadata(const EngineMetadata &engine_metadata);
 
   // Copies important statistics from the other song to this one, overwriting any data that already exists.
