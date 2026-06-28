@@ -48,9 +48,7 @@ class PlaylistFilter : public QSortFilterProxyModel {
   QString filter_string() const { return filter_string_; }
 
  private:
-  // Mutable because they're modified from filterAcceptsRow() const
-  mutable QScopedPointer<FilterTree> filter_tree_;
-  mutable size_t query_hash_;
+  QScopedPointer<FilterTree> filter_tree_;
   QString filter_string_;
 };
 
