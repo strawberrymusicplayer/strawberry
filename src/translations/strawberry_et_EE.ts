@@ -701,11 +701,11 @@
     </message>
     <message>
       <source>Map the volume slider to a decibel scale so that perceived loudness changes evenly. Each 1% step equals 0.5 dB, 100% is 0 dB and 0% is silence.</source>
-      <translation type="unfinished">Map the volume slider to a decibel scale so that perceived loudness changes evenly. Each 1% step equals 0.5 dB, 100% is 0 dB and 0% is silence.</translation>
+      <translation>Seosta helitugevuse liugurnupp detsibellipõhise skaalaga nii, et tajutav helitugevus muutuks ühtlaselt. Iga 1% samm vastab 0,5 dB-le, 100% on 0 dB ja 0% on vaikus.</translation>
     </message>
     <message>
       <source>Exponential volume scaling</source>
-      <translation type="unfinished">Exponential volume scaling</translation>
+      <translation>Helivaljuse skaleerimine eksponentsiaalselt</translation>
     </message>
   </context>
   <context>
