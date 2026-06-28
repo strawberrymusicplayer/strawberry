@@ -354,6 +354,7 @@ void GioLister::MountAdded(GMount *mount) {
   g_object_ref(mount);
 
   DeviceInfo info;
+  info.ReadMountInfo(mount);
   info.ReadVolumeInfo(g_mount_get_volume(mount));
   if (info.volume_root_uri.startsWith("afc://"_L1) || info.volume_root_uri.startsWith("gphoto2://"_L1)) {
     // Handled by iLister.
@@ -365,7 +366,6 @@ void GioLister::MountAdded(GMount *mount) {
     return;
   }
 #endif
-  info.ReadMountInfo(mount);
   info.ReadDriveInfo(g_mount_get_drive(mount));
   if (!info.is_suitable()) return;
 
