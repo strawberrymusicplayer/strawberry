@@ -1786,6 +1786,10 @@ bool Playlist::removeRows(const int row, const int count, const QModelIndex &par
 
   Q_UNUSED(parent);
 
+  if (count <= 0) {
+    return true;
+  }
+
   if (row < 0 || row >= items_.size() || row + count > items_.size()) {
     return false;
   }
@@ -1834,7 +1838,7 @@ bool Playlist::removeRows(QList<int> &rows) {
 
 PlaylistItemPtrList Playlist::RemoveItemsWithoutUndo(const int row, const int count) {
 
-  if (row < 0 || row >= items_.size() || row + count > items_.size()) {
+  if (count <= 0 || row < 0 || row >= items_.size() || row + count > items_.size()) {
     return PlaylistItemPtrList();
   }
 
