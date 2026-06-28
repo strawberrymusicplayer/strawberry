@@ -701,11 +701,11 @@
     </message>
     <message>
       <source>Map the volume slider to a decibel scale so that perceived loudness changes evenly. Each 1% step equals 0.5 dB, 100% is 0 dB and 0% is silence.</source>
-      <translation type="unfinished">Map the volume slider to a decibel scale so that perceived loudness changes evenly. Each 1% step equals 0.5 dB, 100% is 0 dB and 0% is silence.</translation>
+      <translation>Привязать ползунок громкости к шкале в децибелах, чтобы изменение воспринимаемой громкости было равномерным. Каждый шаг в 1% соответствует 0,5 дБ, 100% — это 0 дБ, а 0% — это тишина.</translation>
     </message>
     <message>
       <source>Exponential volume scaling</source>
-      <translation type="unfinished">Exponential volume scaling</translation>
+      <translation>Экспоненциальная шкала громкости</translation>
     </message>
   </context>
   <context>
@@ -863,7 +863,7 @@
     </message>
     <message>
       <source>The &apos;track&apos; format is not supported by GStreamer.</source>
-      <translation type="unfinished">The &apos;track&apos; format is not supported by GStreamer.</translation>
+      <translation>Формат &apos;track&apos; не поддерживается GStreamer.</translation>
     </message>
     <message>
       <source>Error while querying CDDA tracks.</source>
@@ -1044,7 +1044,7 @@
     <name>CollectionLibrary</name>
     <message>
       <source>Support for sort tags artist, album, album artist, title, composer and performer</source>
-      <translation type="unfinished">Support for sort tags artist, album, album artist, title, composer and performer</translation>
+      <translation>Поддержка сортировки тегов артиста, альбома, исполнителя альбома, названия, композитора и исполнителя</translation>
     </message>
     <message>
       <source>Saving playcounts and ratings</source>
@@ -1148,9 +1148,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting artists, composers and performers</source>
-      <translation>Опускать начальные артикли («the», «a», «an») при сортировке артистов, композиторов и исполнителей
-
-Не учитывать</translation>
+      <translation>Опускать начальные артикли («the», «a», «an») при сортировке артистов, композиторов и исполнителей</translation>
     </message>
     <message>
       <source>Skip leading articles (&quot;the&quot;, &quot;a&quot;, &quot;an&quot;) when sorting albums</source>
@@ -3018,7 +3016,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Original year - Album - Disc</source>
-      <translation type="unfinished">Original year - Album - Disc</translation>
+      <translation>Год оригинала - Альбом - Диск</translation>
     </message>
   </context>
   <context>
@@ -3870,7 +3868,7 @@ If there are no matches then it will use the largest image in the directory.</so
     </message>
     <message>
       <source>Only HTTP proxy is supported for streaming.</source>
-      <translation type="unfinished">Only HTTP proxy is supported for streaming.</translation>
+      <translation>Для потоковой передачи поддерживается только HTTP-прокси.</translation>
     </message>
   </context>
   <context>
@@ -5869,30 +5867,30 @@ Are you sure you want to continue?</source>
     <name>RadioBrowserSearchModel</name>
     <message>
       <source>Name</source>
-      <translation type="unfinished">Name</translation>
+      <translation>Имя</translation>
     </message>
     <message>
       <source>Country</source>
-      <translation type="unfinished">Country</translation>
+      <translation>Страна</translation>
     </message>
     <message>
       <source>Tags</source>
-      <translation type="unfinished">Tags</translation>
+      <translation>Теги</translation>
     </message>
     <message>
       <source>Codec</source>
-      <translation type="unfinished">Codec</translation>
+      <translation>Кодек</translation>
     </message>
   </context>
   <context>
     <name>RadioBrowserSearchView</name>
     <message>
       <source>Load more...</source>
-      <translation type="unfinished">Load more...</translation>
+      <translation>Загрузить больше…</translation>
     </message>
     <message>
       <source>Search for radio stations using radio-browser.info</source>
-      <translation type="unfinished">Search for radio stations using radio-browser.info</translation>
+      <translation>Поиск радиостанций с помощью radio-browser.info</translation>
     </message>
     <message>
       <source>Search radio stations...</source>
