@@ -96,6 +96,7 @@ QNetworkReply *QobuzBaseRequest::CreateRequest(const QString &ressource_name, co
   QNetworkRequest network_request(url);
   network_request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
   network_request.setHeader(QNetworkRequest::ContentTypeHeader, u"application/x-www-form-urlencoded"_s);
+  network_request.setTransferTimeout(QNetworkRequest::DefaultTransferTimeoutConstant);
   network_request.setRawHeader("X-App-Id", service_->app_id().toUtf8());
   if (authenticated()) {
     network_request.setRawHeader("X-User-Auth-Token", service_->user_auth_token().toUtf8());
