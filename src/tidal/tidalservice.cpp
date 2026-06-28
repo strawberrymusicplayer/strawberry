@@ -265,8 +265,6 @@ void TidalService::OAuthFinished(const bool success, const QString &error) {
 
 void TidalService::AuthorizationUrlReceived(const QUrl &url) {
 
-  qLog(Debug) << "Tidal: Authorization URL Received" << url;
-
   oauth_->ExternalAuthorizationUrlReceived(url);
 
 }

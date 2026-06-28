@@ -339,8 +339,6 @@ void OAuthenticator::AuthorizationUrlReceived(const QUrl &request_url, const QUr
     return;
   }
 
-  qLog(Debug) << settings_group_ << "Authorization URL Received" << request_url.toDisplayString();
-
   QUrlQuery url_query(request_url);
 
   if (url_query.hasQueryItem(u"error_description"_s)) {
