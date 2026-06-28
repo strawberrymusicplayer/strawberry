@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2023, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2023-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,8 +17,6 @@
  *
  */
 
-#include <QApplication>
-#include <QThread>
 #include <QString>
 #include <QUrl>
 #include <QRegularExpression>
@@ -48,8 +46,6 @@ QUrl AzLyricsComLyricsProvider::Url(const LyricsSearchRequest &request) {
 }
 
 QString AzLyricsComLyricsProvider::StringFixup(const QString &text) {
-
-  Q_ASSERT(QThread::currentThread() != qApp->thread());
 
   static const QRegularExpression regex_words_numbers_and_dash(u"[^\\w0-9\\-]"_s);
   return Utilities::Transliterate(text).remove(regex_words_numbers_and_dash).toLower();

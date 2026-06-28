@@ -1,6 +1,6 @@
 /*
  * Strawberry Music Player
- * Copyright 2020-2025, Jonas Kvinge <jonas@jkvinge.net>
+ * Copyright 2020-2026, Jonas Kvinge <jonas@jkvinge.net>
  *
  * Strawberry is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,10 +22,11 @@
 
 #include "config.h"
 
+#include <QFutureWatcher>
+#include <QMutex>
 #include <QMap>
 #include <QString>
 #include <QUrl>
-#include <QMutex>
 
 #include "includes/shared_ptr.h"
 #include "jsonlyricsprovider.h"
@@ -71,6 +72,7 @@ class GeniusLyricsProvider : public JsonLyricsProvider {
 
  private:
   JsonObjectResult ParseJsonObject(QNetworkReply *reply);
+  void ParseLyricsFromHTMLFinished(QFutureWatcher<QString> *watcher, GeniusLyricsSearchContextPtr search, const GeniusLyricsLyricContext &lyric);
   void EndSearch(GeniusLyricsSearchContextPtr search, const GeniusLyricsLyricContext &lyric = GeniusLyricsLyricContext());
   void EndSearch(const int id, const LyricsSearchRequest &request, const LyricsSearchResults &results = LyricsSearchResults());
 
